@@ -60,6 +60,8 @@ class GstEnginePipeline : public QObject {
   explicit GstEnginePipeline(QObject *parent = nullptr);
   ~GstEnginePipeline() override;
 
+  bool event(QEvent *e) override;
+
   // Globally unique across all pipelines.
   int id() const { return id_.load(); }
 
@@ -184,6 +186,7 @@ class GstEnginePipeline : public QObject {
   static gboolean BusWatchCallback(GstBus *bus, GstMessage *msg, gpointer self);
   static void TaskEnterCallback(GstTask *task, GThread *thread, gpointer self);
 
+  void HandleBusMessage(GstMessage *msg);
   void TagMessageReceived(GstMessage *msg);
   void ErrorMessageReceived(GstMessage *msg);
   void ElementMessageReceived(GstMessage *msg);
@@ -388,6 +391,9 @@ class GstEnginePipeline : public QObject {
   std::atomic<bool> about_to_finish_;
   std::atomic<bool> finish_requested_;
   std::atomic<bool> finished_;
+
+  // Identifies the current bus-watch session. Bumped by Disconnect() so that GstBusMessageEvents posted from the GLib thread before teardown (Windows/macOS) are dropped instead of handled after the watch is gone or replaced.
+  std::atomic<quint64> bus_message_generation_;
 
   // The state-progress counters (*_in_progress_) and their paired last_set_state_*_in_progress_ values must be updated together under mutex_state_progress_ to avoid observers seeing torn state.
   mutable QMutex mutex_state_progress_;

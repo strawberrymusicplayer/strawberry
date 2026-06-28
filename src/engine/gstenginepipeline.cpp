@@ -42,6 +42,8 @@
 
 #include <QObject>
 #include <QCoreApplication>
+#include <QThread>
+#include <QEvent>
 #include <QtConcurrentRun>
 #include <QThreadPool>
 #include <QFuture>
@@ -67,6 +69,7 @@
 #include "constants/backendsettings.h"
 #include "gstengine.h"
 #include "gstenginepipeline.h"
+#include "gstbusmessageevent.h"
 #include "gstbufferconsumer.h"
 
 using namespace std::chrono_literals;
@@ -194,6 +197,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       about_to_finish_(false),
       finish_requested_(false),
       finished_(false),
+      bus_message_generation_(0),
       set_state_in_progress_(0),
       set_state_async_in_progress_(0),
       last_set_state_in_progress_(GST_STATE_VOID_PENDING),
@@ -469,6 +473,10 @@ void GstEnginePipeline::Disconnect() {
         gst_object_unref(bus);
       }
     }
+
+    // End this bus-watch session: bump the generation so any GstBusMessageEvent already posted from the GLib thread (Windows/macOS) is dropped on delivery instead of handled after teardown, and remove any such events still sitting in this object's event queue.
+    bus_message_generation_.fetch_add(1);
+    QCoreApplication::removePostedEvents(this, GstBusMessageEvent::EventType());
 
   }
 
@@ -1545,40 +1553,72 @@ gboolean GstEnginePipeline::BusWatchCallback(GstBus *bus, GstMessage *msg, gpoin
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
+  if (instance->thread() == QThread::currentThread()) {
+    // We are already on the pipeline's own thread (the GLib default context is driven by Qt's main loop, i.e. the QEventDispatcherGlib build on Linux/Unix); handle synchronously, exactly as before.
+    instance->HandleBusMessage(msg);
+  }
+  else {
+    // We are on the dedicated GLib thread (Windows/macOS); marshal the message to the pipeline's own thread so the handlers run with the pipeline's affinity and cannot race main-thread access or teardown.
+    // postEvent is thread-safe; the event refs the message and unrefs it in its destructor, so the message is released even if the event is discarded when the pipeline is destroyed.
+    // The event is stamped with the current generation so it is dropped if the watch is disconnected (or replaced) before it is delivered.
+    QCoreApplication::postEvent(instance, new GstBusMessageEvent(msg, instance->bus_message_generation_.load()));
+  }
+
+  return TRUE;
+
+}
+
+// Receives the bus messages marshalled from BusWatchCallback when it runs off the pipeline's own thread (Windows/macOS).
+bool GstEnginePipeline::event(QEvent *e) {
+
+  if (e->type() == GstBusMessageEvent::EventType()) {
+    GstBusMessageEvent *bus_message_event = static_cast<GstBusMessageEvent*>(e);
+    // Drop messages left over from a bus-watch session that has since been disconnected or replaced; handling them now would emit stale EOS/error/tag events for a torn-down pipeline.
+    if (bus_message_event->generation() == bus_message_generation_.load()) {
+      HandleBusMessage(bus_message_event->message());
+    }
+    return true;
+  }
+
+  return QObject::event(e);
+
+}
+
+// Dispatches a single bus message to the handlers below; always runs on the pipeline's own thread (called directly from BusWatchCallback on Linux, via a posted event on Windows/macOS).
+void GstEnginePipeline::HandleBusMessage(GstMessage *msg) {
+
   switch (GST_MESSAGE_TYPE(msg)) {
     case GST_MESSAGE_EOS:
-      Q_EMIT instance->EndOfStreamReached(instance->id(), false);
+      Q_EMIT EndOfStreamReached(id(), false);
       break;
 
     case GST_MESSAGE_TAG:
-      instance->TagMessageReceived(msg);
+      TagMessageReceived(msg);
       break;
 
     case GST_MESSAGE_ERROR:
-      instance->ErrorMessageReceived(msg);
+      ErrorMessageReceived(msg);
       break;
 
     case GST_MESSAGE_ELEMENT:
-      instance->ElementMessageReceived(msg);
+      ElementMessageReceived(msg);
       break;
 
     case GST_MESSAGE_STATE_CHANGED:
-      instance->StateChangedMessageReceived(msg);
+      StateChangedMessageReceived(msg);
       break;
 
     case GST_MESSAGE_BUFFERING:
-      instance->BufferingMessageReceived(msg);
+      BufferingMessageReceived(msg);
       break;
 
     case GST_MESSAGE_STREAM_START:
-      instance->StreamStartMessageReceived();
+      StreamStartMessageReceived();
       break;
 
     default:
       break;
   }
-
-  return TRUE;
 
 }
 
