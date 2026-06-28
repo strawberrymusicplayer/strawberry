@@ -83,6 +83,10 @@ QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkR
     new_network_request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
   }
 
+  if (new_network_request.transferTimeout() == 0) {
+    new_network_request.setTransferTimeout(QNetworkRequest::DefaultTransferTimeoutConstant);
+  }
+
   return QNetworkAccessManager::createRequest(op, new_network_request, outgoing_data);
 
 }
