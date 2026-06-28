@@ -3104,7 +3104,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Open URL in web browser?</source>
-      <translation type="unfinished">Open URL in web browser?</translation>
+      <translation>Ouvrir le lien dans le navigateur web ?</translation>
     </message>
     <message>
       <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
@@ -5663,7 +5663,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>OAuth redirect is missing authorization code.</source>
-      <translation type="unfinished">OAuth redirect is missing authorization code.</translation>
+      <translation>Le code d'autorisation de redirection OAuth est manquant.</translation>
     </message>
     <message>
       <source>Exchanging authorization code...</source>
@@ -5750,11 +5750,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Missing app secret. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing app secret. Please fetch credentials first.</translation>
+      <translation>Secret d'application manquant. Veuillez d'abord récupérer vos identifiants.</translation>
     </message>
     <message>
       <source>Missing private key. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing private key. Please fetch credentials first.</translation>
+      <translation>Clé privée manquante. Veuillez d'abord récupérer vos identifiants.</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -5762,7 +5762,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Fetching...</source>
-      <translation type="unfinished">Fetching...</translation>
+      <translation>Récupération en cours...</translation>
     </message>
     <message>
       <source>Credentials fetched</source>
@@ -6685,7 +6685,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>No pending song for track ID</source>
-      <translation type="unfinished">No pending song for track ID</translation>
+      <translation>Aucun morceau en attente pour l'identifiant de la piste</translation>
     </message>
   </context>
   <context>
@@ -7369,7 +7369,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Album artist</source>
-      <translation type="unfinished">Album artist</translation>
+      <translation>Artiste de l'album</translation>
     </message>
   </context>
   <context>
@@ -7937,7 +7937,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Select waveform color</source>
-      <translation type="unfinished">Select waveform color</translation>
+      <translation>Sélectionner la couleur de waveform</translation>
     </message>
     <message>
       <source>Save the .waveform files directly in the songs folders</source>
