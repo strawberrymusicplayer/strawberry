@@ -30,12 +30,18 @@
 #include <QXmlStreamWriter>
 
 #include "includes/shared_ptr.h"
+#include "core/logging.h"
 #include "utilities/xmlutils.h"
 #include "constants/playlistsettings.h"
 #include "xmlparser.h"
 #include "asxparser.h"
 
 using namespace Qt::Literals::StringLiterals;
+
+namespace {
+// A real ASX playlist is tiny; we load the whole file into memory and run regex rewrites over it, so cap the size to avoid a memory-exhaustion DoS from a hostile file.
+constexpr qint64 kMaxFileSize = 50 * 1024 * 1024;
+}  // namespace
 
 class CollectionBackendInterface;
 
@@ -46,8 +52,15 @@ ParserBase::LoadResult ASXParser::Load(QIODevice *device, const QString &playlis
 
   Q_UNUSED(playlist_path);
 
-  // We have to load everything first, so we can munge the "XML".
-  QByteArray data = device->readAll();
+  // QIODevice::size() is unreliable for sequential devices, so bound the actual read instead of trusting it: request one byte past the limit and treat any overflow as too large.
+  // This caps memory use even when size() under-reports, and the failure is reported via Error() so it is not mistaken for a valid empty playlist.
+  // We have to load everything first anyway, so we can munge the "XML".
+  QByteArray data = device->read(kMaxFileSize + 1);
+  if (data.size() > kMaxFileSize) {
+    qLog(Error) << "ASX playlist is too large; refusing to load more than" << kMaxFileSize << "bytes";
+    Q_EMIT Error(tr("ASX playlist is too large"));
+    return SongList();
+  }
 
   // Some playlists have unescaped & characters in URLs :(
   static const QRegularExpression ex(u"(href\\s*=\\s*\")([^\"]+)\""_s, QRegularExpression::CaseInsensitiveOption);
@@ -158,6 +171,11 @@ void ASXParser::Save(const QString &playlist_name, const SongList &songs, QIODev
     }
   }
   writer.writeEndDocument();
+
+  if (writer.hasError()) {
+    qLog(Error) << "Error writing ASX playlist to device";
+    Q_EMIT Error(tr("Failed to write ASX playlist"));
+  }
 
 }
 
