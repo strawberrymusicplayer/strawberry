@@ -75,8 +75,26 @@ MoodbarLoader::MoodbarLoader(QObject *parent)
 }
 
 MoodbarLoader::~MoodbarLoader() {
+
+  // Stop queuing new work, then tear down any in-flight pipeline on the worker thread (where its GStreamer objects live) before stopping that thread.
+  // quit() alone only ends the event loop and does not interrupt a running decode, and releasing the pipeline shared pointers here (on the GUI thread) would run the GStreamer teardown on the wrong thread.
+  // A BlockingQueued call to Shutdown() drains each decode on its own thread; the worker event loop is free between Start() returning and Finish() being posted, so this does not deadlock.
+  queued_requests_.clear();
+  if (thread_->isRunning()) {
+    const QList<MoodbarPipelinePtr> pipelines = requests_.values();
+    for (const MoodbarPipelinePtr &pipeline : pipelines) {
+      QMetaObject::invokeMethod(&*pipeline, "Shutdown", Qt::BlockingQueuedConnection);
+    }
+  }
+
   thread_->quit();
-  thread_->wait(1000);
+  thread_->wait();
+
+  // The thread is stopped; the pipelines are torn down.
+  // Drop the remaining references now that no events can target them.
+  requests_.clear();
+  active_requests_.clear();
+
 }
 
 void MoodbarLoader::ReloadSettings() {
