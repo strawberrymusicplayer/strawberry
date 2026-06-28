@@ -50,6 +50,7 @@ class MoodbarPipeline : public QObject {
   const QByteArray &data() const { return data_; }
 
   Q_INVOKABLE void Start();
+  Q_INVOKABLE void Shutdown();
 
  Q_SIGNALS:
   void Finished(const bool success);
