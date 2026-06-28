@@ -46,14 +46,14 @@ CollectionFilter::CollectionFilter(QObject *parent) : QSortFilterProxyModel(pare
 
 bool CollectionFilter::filterAcceptsRow(const int source_row, const QModelIndex &source_parent) const {
 
+  if (filter_string_.isEmpty()) return true;
+
   CollectionModel *model = qobject_cast<CollectionModel*>(sourceModel());
   if (!model) return false;
   const QModelIndex idx = sourceModel()->index(source_row, 0, source_parent);
   if (!idx.isValid()) return false;
   CollectionItem *item = model->IndexToItem(idx);
   if (!item) return false;
-
-  if (filter_string_.isEmpty()) return true;
 
   if (item->type != CollectionItem::Type::Song) {
     return item->type == CollectionItem::Type::LoadingIndicator;
