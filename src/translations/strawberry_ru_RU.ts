@@ -5894,58 +5894,58 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Search radio stations...</source>
-      <translation type="unfinished">Search radio stations...</translation>
+      <translation>Поиск радиостанций…</translation>
     </message>
     <message>
       <source>All countries</source>
-      <translation type="unfinished">All countries</translation>
+      <translation>Все страны</translation>
     </message>
     <message>
       <source>By votes</source>
-      <translation type="unfinished">By votes</translation>
+      <translation>По голосам</translation>
     </message>
     <message>
       <source>By clicks</source>
-      <translation type="unfinished">By clicks</translation>
+      <translation>По щелчкам</translation>
     </message>
     <message>
       <source>By name</source>
-      <translation type="unfinished">By name</translation>
+      <translation>По имени</translation>
     </message>
     <message>
       <source>By bitrate</source>
-      <translation type="unfinished">By bitrate</translation>
+      <translation>По битрейту</translation>
     </message>
     <message>
       <source>Searching...</source>
-      <translation type="unfinished">Searching...</translation>
+      <translation>Поиск…</translation>
     </message>
     <message>
       <source>No stations found.</source>
-      <translation type="unfinished">No stations found.</translation>
+      <translation>Станции не найдены.</translation>
     </message>
     <message>
       <source>%1 stations found</source>
-      <translation type="unfinished">%1 stations found</translation>
+      <translation>Найдено станций: %1</translation>
     </message>
     <message>
       <source>Append to current playlist</source>
-      <translation type="unfinished">Append to current playlist</translation>
+      <translation>Добавить в текущий плейлист</translation>
     </message>
   </context>
   <context>
     <name>RadioBrowserService</name>
     <message>
       <source>No Radio Browser server available.</source>
-      <translation type="unfinished">No Radio Browser server available.</translation>
+      <translation>Сервер Radio Browser не доступен.</translation>
     </message>
     <message>
       <source>Searching Radio Browser</source>
-      <translation type="unfinished">Searching Radio Browser</translation>
+      <translation>Поиск в Radio Browser</translation>
     </message>
     <message>
       <source>Radio Browser search failed: %1</source>
-      <translation type="unfinished">Radio Browser search failed: %1</translation>
+      <translation>Не удалось выполнить поиск в Radio Browser: %1</translation>
     </message>
   </context>
   <context>
@@ -5959,67 +5959,67 @@ Are you sure you want to continue?</source>
     <name>RadioSettingsPage</name>
     <message>
       <source>Radios</source>
-      <translation type="unfinished">Radios</translation>
+      <translation>Радио</translation>
     </message>
     <message>
       <source>SomaFM</source>
-      <translation type="unfinished">SomaFM</translation>
+      <translation>SomaFM</translation>
     </message>
     <message>
       <source>Stream quality:</source>
-      <translation type="unfinished">Stream quality:</translation>
+      <translation>Качество потока:</translation>
     </message>
     <message>
       <source>Radio Browser</source>
-      <translation type="unfinished">Radio Browser</translation>
+      <translation>Radio Browser</translation>
     </message>
     <message>
       <source>Search results limit:</source>
-      <translation type="unfinished">Search results limit:</translation>
+      <translation>Предел результатов поиска:</translation>
     </message>
     <message>
       <source>Hide broken stations</source>
-      <translation type="unfinished">Hide broken stations</translation>
+      <translation>Скрывать нерабочие станции</translation>
     </message>
     <message>
       <source>Default sort order:</source>
-      <translation type="unfinished">Default sort order:</translation>
+      <translation>Сортировка по умолчанию:</translation>
     </message>
     <message>
       <source>Default country:</source>
-      <translation type="unfinished">Default country:</translation>
+      <translation>Страна по умолчанию:</translation>
     </message>
     <message>
       <source>All countries</source>
-      <translation type="unfinished">All countries</translation>
+      <translation>Все страны</translation>
     </message>
     <message>
       <source>Highest</source>
-      <translation type="unfinished">Highest</translation>
+      <translation>Самое высокое</translation>
     </message>
     <message>
       <source>High</source>
-      <translation type="unfinished">High</translation>
+      <translation>Высокое</translation>
     </message>
     <message>
       <source>Low</source>
-      <translation type="unfinished">Low</translation>
+      <translation>Низкое</translation>
     </message>
     <message>
       <source>By votes</source>
-      <translation type="unfinished">By votes</translation>
+      <translation>По голосам</translation>
     </message>
     <message>
       <source>By clicks</source>
-      <translation type="unfinished">By clicks</translation>
+      <translation>По щелчкам</translation>
     </message>
     <message>
       <source>By name</source>
-      <translation type="unfinished">By name</translation>
+      <translation>По имени</translation>
     </message>
     <message>
       <source>By bitrate</source>
-      <translation type="unfinished">By bitrate</translation>
+      <translation>По битрейту</translation>
     </message>
   </context>
   <context>
@@ -6057,11 +6057,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Channels</source>
-      <translation type="unfinished">Channels</translation>
+      <translation>Каналы</translation>
     </message>
     <message>
       <source>Radio Browser</source>
-      <translation type="unfinished">Radio Browser</translation>
+      <translation>Radio Browser</translation>
     </message>
   </context>
   <context>
@@ -6453,11 +6453,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>%1 songs found (showing %2)</source>
-      <translation>Найдено %1 песен (отображается %2)</translation>
+      <translation>Найдено песен: %1 (отображается %2)</translation>
     </message>
     <message>
       <source>%1 songs found</source>
-      <translation>Найдено %1 песен</translation>
+      <translation>Найдено песен: %1</translation>
     </message>
   </context>
   <context>
@@ -7398,19 +7398,19 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Normal</source>
-      <translation type="unfinished">Normal</translation>
+      <translation>Спокойный</translation>
     </message>
     <message>
       <source>Moodbar</source>
-      <translation type="unfinished">Moodbar</translation>
+      <translation>Индикатор тона</translation>
     </message>
     <message>
       <source>Moodbar style</source>
-      <translation type="unfinished">Moodbar style</translation>
+      <translation>Стиль индикатора тона</translation>
     </message>
     <message>
       <source>Waveform</source>
-      <translation type="unfinished">Waveform</translation>
+      <translation>Форма волны</translation>
     </message>
   </context>
   <context>
@@ -7945,19 +7945,19 @@ Are you sure you want to continue?</source>
     <name>WaveformSettingsPage</name>
     <message>
       <source>Waveform</source>
-      <translation type="unfinished">Waveform</translation>
+      <translation>Форма волны</translation>
     </message>
     <message>
       <source>Color</source>
-      <translation type="unfinished">Color</translation>
+      <translation>Цвет</translation>
     </message>
     <message>
       <source>Select waveform color</source>
-      <translation type="unfinished">Select waveform color</translation>
+      <translation>Выбрать цвет формы волны</translation>
     </message>
     <message>
       <source>Save the .waveform files directly in the songs folders</source>
-      <translation type="unfinished">Save the .waveform files directly in the songs folders</translation>
+      <translation>Сохранять файлы .waveform непосредственно в папках песен</translation>
     </message>
   </context>
 </TS>
