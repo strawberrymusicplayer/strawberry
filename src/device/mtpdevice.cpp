@@ -68,7 +68,8 @@ MtpDevice::MtpDevice(const QUrl &url,
       task_manager_(task_manager),
       loader_(nullptr),
       loader_thread_(nullptr),
-      closing_(false) {
+      closing_(false),
+      db_busy_locked_(false) {
 
   if (!sInitializedLibMTP) {
     LIBMTP_Init();
@@ -84,7 +85,10 @@ MtpDevice::~MtpDevice() {
     loader_thread_->wait();
     loader_->deleteLater();
     loader_ = nullptr;
-    db_busy_.unlock();
+    if (db_busy_locked_) {
+      db_busy_.unlock();
+      db_busy_locked_ = false;
+    }
     loader_thread_->deleteLater();
   }
 
@@ -111,6 +115,7 @@ bool MtpDevice::Init() {
 void MtpDevice::ConnectAsync() {
 
   db_busy_.lock();
+  db_busy_locked_ = true;
   loader_thread_->start();
 
 }
@@ -139,6 +144,7 @@ void MtpDevice::LoadFinished(const bool success, MtpConnection *connection) {
   loader_->deleteLater();
   loader_ = nullptr;
   db_busy_.unlock();
+  db_busy_locked_ = false;
   if (closing_) {
     ConnectedDevice::Close();
   }

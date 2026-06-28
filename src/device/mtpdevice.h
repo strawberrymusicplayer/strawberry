@@ -103,6 +103,7 @@ class MtpDevice : public ConnectedDevice {
   bool closing_;
 
   QMutex db_busy_;
+  bool db_busy_locked_;
   SongList songs_to_add_;
   SongList songs_to_remove_;
 
