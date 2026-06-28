@@ -105,8 +105,6 @@ QNetworkReply *QobuzBaseRequest::CreateRequest(const QString &ressource_name, co
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &QobuzBaseRequest::HandleSSLErrors);
 
-  qLog(Debug) << "Qobuz: Sending request" << url;
-
   return reply;
 
 }
