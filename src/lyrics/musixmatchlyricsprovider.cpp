@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,8 +22,6 @@
 #include <utility>
 #include <memory>
 
-#include <QApplication>
-#include <QThread>
 #include <QByteArray>
 #include <QVariant>
 #include <QString>
@@ -57,8 +55,6 @@ constexpr char kApiKey[] = "Y2FhMDRlN2Y4OWE5OTIxYmZlOGMzOWQzOGI3ZGU4MjE=";
 MusixmatchLyricsProvider::MusixmatchLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"Musixmatch"_s, false, false, network, parent), use_api_(true) {}
 
 void MusixmatchLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
-
-  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   LyricsSearchContextPtr search = make_shared<LyricsSearchContext>();
   search->id = id;
@@ -150,8 +146,6 @@ MusixmatchLyricsProvider::JsonObjectResult MusixmatchLyricsProvider::ParseJsonOb
 }
 
 void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, LyricsSearchContextPtr search) {
-
-  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   const QScopeGuard end_search = qScopeGuard([this, search]() { EndSearch(search); });
 
@@ -306,8 +300,6 @@ bool MusixmatchLyricsProvider::SendLyricsRequest(LyricsSearchContextPtr search, 
 }
 
 void MusixmatchLyricsProvider::HandleLyricsReply(QNetworkReply *reply, LyricsSearchContextPtr search, const QUrl &url) {
-
-  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   const QScopeGuard end_search = qScopeGuard([this, search, url]() { EndSearch(search, url); });
 

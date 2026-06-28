@@ -42,27 +42,13 @@ int LyricsProviders::NextOrderId = 0;
 
 using std::make_shared;
 
-LyricsProviders::LyricsProviders(QObject *parent) : QObject(parent), thread_(new QThread(this)), network_(make_shared<NetworkAccessManager>()) {
+LyricsProviders::LyricsProviders(QObject *parent) : QObject(parent), network_(make_shared<NetworkAccessManager>()) {
 
   setObjectName(QLatin1String(QObject::metaObject()->className()));
-  thread_->setObjectName(objectName());
-  network_->moveToThread(thread_);
-  thread_->start();
 
 }
 
 LyricsProviders::~LyricsProviders() {
-
-  // Abort pending network replies from the worker thread while its event loop is still running.
-  // Aborting from the main thread after the worker stops triggers Qt's cross-thread sendEvent assert.
-  const QList<LyricsProvider*> providers = lyrics_providers_.keys();
-  for (LyricsProvider *provider : providers) {
-    QMetaObject::invokeMethod(provider, &HttpBaseRequest::AbortNetworkReplies, Qt::BlockingQueuedConnection);
-  }
-
-  // Stop the worker thread - the providers were moved to it, and deleting a QObject while its owning thread is still running is undefined behaviour.
-  thread_->quit();
-  thread_->wait(1000);
 
   while (!lyrics_providers_.isEmpty()) {
     delete lyrics_providers_.firstKey();
@@ -116,8 +102,6 @@ LyricsProvider *LyricsProviders::ProviderByName(const QString &name) const {
 }
 
 void LyricsProviders::AddProvider(LyricsProvider *provider) {
-
-  provider->moveToThread(thread_);
 
   {
     QMutexLocker locker(&mutex_);

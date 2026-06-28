@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,9 +22,11 @@
 
 #include "config.h"
 
+#include <QFutureWatcher>
 #include <QVariant>
 #include <QString>
 #include <QUrl>
+#include <QRegularExpression>
 
 #include "includes/shared_ptr.h"
 #include "core/networkaccessmanager.h"
@@ -39,12 +41,11 @@ class HtmlLyricsProvider : public LyricsProvider {
  public:
   explicit HtmlLyricsProvider(const QString &name, const bool enabled, const QString &start_tag, const QString &end_tag, const QString &lyrics_start, const bool multiple, const SharedPtr<NetworkAccessManager> network, QObject *parent);
 
-  virtual bool StartSearchAsync(const int id, const LyricsSearchRequest &request) override;
-
   static QString ParseLyricsFromHTML(const QString &content, const QRegularExpression &start_tag, const QRegularExpression &end_tag, const QRegularExpression &lyrics_start, const bool multiple, const QList<QRegularExpression> &regex_removes = {});
 
  protected:
   virtual QUrl Url(const LyricsSearchRequest &request) = 0;
+  void ParseLyricsFromHTMLFinished(QFutureWatcher<QString> *watcher, const int id, const LyricsSearchRequest &request);
 
  protected Q_SLOTS:
   virtual void StartSearch(const int id, const LyricsSearchRequest &request) override;
@@ -55,6 +56,9 @@ class HtmlLyricsProvider : public LyricsProvider {
   const QString end_tag_;
   const QString lyrics_start_;
   const bool multiple_;
+  const QRegularExpression start_tag_re_;
+  const QRegularExpression end_tag_re_;
+  const QRegularExpression lyrics_start_re_;
 };
 
 #endif  // HTMLLYRICSPROVIDER_H

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,6 @@
 
 #include "config.h"
 
-#include <QApplication>
-#include <QThread>
 #include <QVariant>
 #include <QString>
 #include <QUrl>
@@ -46,8 +44,6 @@ constexpr char kUrlSearch[] = "https://api.lyrics.ovh/v1/";
 OVHLyricsProvider::OVHLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"Lyrics.ovh"_s, true, false, network, parent) {}
 
 void OVHLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
-
-  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   const QUrl url(QLatin1String(kUrlSearch) + QString::fromLatin1(QUrl::toPercentEncoding(request.artist)) + '/'_L1 + QString::fromLatin1(QUrl::toPercentEncoding(request.title)));
   QNetworkReply *reply = CreateGetRequest(url);

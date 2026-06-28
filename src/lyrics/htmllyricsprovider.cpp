@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,9 @@
 
 #include "config.h"
 
-#include <QApplication>
-#include <QThread>
+#include <QtConcurrent>
+#include <QFuture>
+#include <QFutureWatcher>
 #include <QByteArray>
 #include <QVariant>
 #include <QString>
@@ -39,21 +40,21 @@
 using namespace Qt::Literals::StringLiterals;
 
 HtmlLyricsProvider::HtmlLyricsProvider(const QString &name, const bool enabled, const QString &start_tag, const QString &end_tag, const QString &lyrics_start, const bool multiple, const SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : LyricsProvider(name, enabled, false, network, parent), start_tag_(start_tag), end_tag_(end_tag), lyrics_start_(lyrics_start), multiple_(multiple) {}
-
-bool HtmlLyricsProvider::StartSearchAsync(const int id, const LyricsSearchRequest &request) {
-
-  if (request.artist.isEmpty() || request.title.isEmpty()) return false;
-
-  QMetaObject::invokeMethod(this, "StartSearch", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(LyricsSearchRequest, request));
-
-  return true;
-
-}
+    : LyricsProvider(name, enabled, false, network, parent),
+      start_tag_(start_tag),
+      end_tag_(end_tag),
+      lyrics_start_(lyrics_start),
+      multiple_(multiple),
+      start_tag_re_(start_tag),
+      end_tag_re_(end_tag),
+      lyrics_start_re_(lyrics_start) {}
 
 void HtmlLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
-  Q_ASSERT(QThread::currentThread() != qApp->thread());
+  if (request.artist.isEmpty() || request.title.isEmpty()) {
+    Q_EMIT SearchFinished(id);
+    return;
+  }
 
   const QUrl url = Url(request);
   QNetworkReply *reply = CreateGetRequest(url, true);
@@ -65,16 +66,10 @@ void HtmlLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &re
 
 void HtmlLyricsProvider::HandleLyricsReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request) {
 
-  Q_ASSERT(QThread::currentThread() != qApp->thread());
-
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
-
-  LyricsSearchResults results;
-
-  const QScopeGuard search_finished = qScopeGuard([this, id, &results]() { Q_EMIT SearchFinished(id, results); });
 
   if (reply->error() != QNetworkReply::NoError) {
     if (reply->error() >= 200) {
@@ -86,14 +81,16 @@ void HtmlLyricsProvider::HandleLyricsReply(QNetworkReply *reply, const int id, c
     else {
       qLog(Error) << name_ << reply->errorString() << reply->error();
     }
+    Q_EMIT SearchFinished(id);
     return;
   }
 
   if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).isValid()) {
     const int http_status_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (http_status_code < 200 || http_status_code > 207) {
-      qLog(Error) << name_ << "Received HTTP code" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+      qLog(Error) << name_ << "Received HTTP code" << http_status_code;
       reply->readAll(); // QTBUG-135641
+      Q_EMIT SearchFinished(id);
       return;
     }
   }
@@ -101,24 +98,21 @@ void HtmlLyricsProvider::HandleLyricsReply(QNetworkReply *reply, const int id, c
   const QByteArray data = reply->readAll();
   if (data.isEmpty()) {
     qLog(Error) << name_ << "Empty reply received from server.";
+    Q_EMIT SearchFinished(id);
     return;
   }
 
-  const QString lyrics = ParseLyricsFromHTML(QString::fromUtf8(data), QRegularExpression(start_tag_), QRegularExpression(end_tag_), QRegularExpression(lyrics_start_), multiple_);
-  if (lyrics.isEmpty() || lyrics.contains("we do not have the lyrics for"_L1, Qt::CaseInsensitive)) {
-    qLog(Debug) << name_ << "No lyrics for" << request.artist << request.album << request.title;
-    return;
-  }
-
-  qLog(Debug) << name_ << "Got lyrics for" << request.artist << request.album << request.title;
-
-  results << LyricsSearchResult(lyrics);
+  QFutureWatcher<QString> *watcher = new QFutureWatcher<QString>(this);
+  QObject::connect(watcher, &QFutureWatcher<QString>::finished, this, [this, watcher, id, request]() {
+    ParseLyricsFromHTMLFinished(watcher, id, request);
+  });
+  watcher->setFuture(QtConcurrent::run([content = QString::fromUtf8(data), start_re = start_tag_re_, end_re = end_tag_re_, lyrics_re = lyrics_start_re_, multiple = multiple_]() {
+    return ParseLyricsFromHTML(content, start_re, end_re, lyrics_re, multiple);
+  }));
 
 }
 
 QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QRegularExpression &start_tag, const QRegularExpression &end_tag, const QRegularExpression &lyrics_start, const bool multiple, const QList<QRegularExpression> &regex_removes) {
-
-  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   QString lyrics;
   qint64 start_idx = 0;
@@ -188,5 +182,21 @@ QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QR
   }
 
   return Utilities::DecodeHtmlEntities(lyrics);
+
+}
+
+void HtmlLyricsProvider::ParseLyricsFromHTMLFinished(QFutureWatcher<QString> *watcher, const int id, const LyricsSearchRequest &request) {
+
+  watcher->deleteLater();
+  const QString lyrics = watcher->result();
+  LyricsSearchResults results;
+  if (lyrics.isEmpty() || lyrics.contains("we do not have the lyrics for"_L1, Qt::CaseInsensitive)) {
+    qLog(Debug) << name_ << "No lyrics for" << request.artist << request.album << request.title;
+  }
+  else {
+    qLog(Debug) << name_ << "Got lyrics for" << request.artist << request.album << request.title;
+    results << LyricsSearchResult(lyrics);
+  }
+  Q_EMIT SearchFinished(id, results);
 
 }
