@@ -459,7 +459,7 @@ QString Song::song_id() const { return d->song_id_.isNull() ? ""_L1 : d->song_id
 
 qint64 Song::beginning_nanosec() const { return d->beginning_; }
 qint64 Song::end_nanosec() const { return d->end_; }
-qint64 Song::length_nanosec() const { return d->end_ - d->beginning_; }
+qint64 Song::length_nanosec() const { return d->end_ < 0 ? -1 : d->end_ - d->beginning_; }
 
 int Song::bitrate() const { return d->bitrate_; }
 int Song::samplerate() const { return d->samplerate_; }
@@ -576,7 +576,7 @@ void Song::set_song_id(const QString &v) { d->song_id_ = v; }
 
 void Song::set_beginning_nanosec(const qint64 v) { d->beginning_ = qMax(0LL, v); }
 void Song::set_end_nanosec(const qint64 v) { d->end_ = v; }
-void Song::set_length_nanosec(const qint64 v) { d->end_ = d->beginning_ + v; }
+void Song::set_length_nanosec(const qint64 v) { d->end_ = v < 0 ? -1 : d->beginning_ + v; }
 
 void Song::set_bitrate(const int v) { d->bitrate_ = v; }
 void Song::set_samplerate(const int v) { d->samplerate_ = v; }
