@@ -810,9 +810,10 @@ void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
   // Add or update songs.
   const QList new_songs_list = new_songs.values();
   for (const Song &new_song : new_songs_list) {
-    if (old_songs.contains(new_song.song_id())) {
+    const SongMap::const_iterator old_song_it = old_songs.constFind(new_song.song_id());
+    if (old_song_it != old_songs.constEnd()) {
 
-      Song old_song = old_songs[new_song.song_id()];
+      const Song &old_song = old_song_it.value();
 
       if (!new_song.IsAllMetadataEqual(old_song) || !new_song.IsFingerprintEqual(old_song)) {  // Update existing song.
 
