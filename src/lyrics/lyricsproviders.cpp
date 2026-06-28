@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,7 +53,14 @@ LyricsProviders::LyricsProviders(QObject *parent) : QObject(parent), thread_(new
 
 LyricsProviders::~LyricsProviders() {
 
-  // Stop the worker thread first - the providers were moved to it, and deleting a QObject while its owning thread is still running is undefined behaviour.
+  // Abort pending network replies from the worker thread while its event loop is still running.
+  // Aborting from the main thread after the worker stops triggers Qt's cross-thread sendEvent assert.
+  const QList<LyricsProvider*> providers = lyrics_providers_.keys();
+  for (LyricsProvider *provider : providers) {
+    QMetaObject::invokeMethod(provider, &HttpBaseRequest::AbortNetworkReplies, Qt::BlockingQueuedConnection);
+  }
+
+  // Stop the worker thread - the providers were moved to it, and deleting a QObject while its owning thread is still running is undefined behaviour.
   thread_->quit();
   thread_->wait(1000);
 
