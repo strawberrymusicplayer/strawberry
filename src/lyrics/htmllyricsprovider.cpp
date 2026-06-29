@@ -177,7 +177,7 @@ QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QR
         .replace(regex_newlines_squash, u"\n\n"_s);
   lyrics = lyrics.trimmed();
 
-  if (lyrics.length() > 6000 || lyrics.contains("there are no lyrics to"_L1, Qt::CaseInsensitive)) {
+  if (lyrics.size() > 6000 || lyrics.contains("there are no lyrics to"_L1, Qt::CaseInsensitive)) {
     return QString();
   }
 
