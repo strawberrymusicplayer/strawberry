@@ -59,6 +59,8 @@ class HtmlLyricsProvider : public LyricsProvider {
   const QRegularExpression start_tag_re_;
   const QRegularExpression end_tag_re_;
   const QRegularExpression lyrics_start_re_;
+
+  Q_DISABLE_COPY_MOVE(HtmlLyricsProvider)
 };
 
 #endif  // HTMLLYRICSPROVIDER_H
