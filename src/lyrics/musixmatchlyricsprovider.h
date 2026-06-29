@@ -68,6 +68,8 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
  private:
   QList<LyricsSearchContextPtr> requests_search_;
   bool use_api_;
+
+  Q_DISABLE_COPY_MOVE(MusixmatchLyricsProvider)
 };
 
 #endif  // MUSIXMATCHLYRICSPROVIDER_H

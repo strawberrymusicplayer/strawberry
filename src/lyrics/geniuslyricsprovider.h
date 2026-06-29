@@ -88,6 +88,8 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   OAuthenticator *oauth_;
   mutable QMutex mutex_access_token_;
   QMap<int, SharedPtr<GeniusLyricsSearchContext>> requests_search_;
+
+  Q_DISABLE_COPY_MOVE(GeniusLyricsProvider)
 };
 
 #endif  // GENIUSLYRICSPROVIDER_H
