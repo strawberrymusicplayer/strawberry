@@ -28,6 +28,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QRegularExpression>
+#include <QScopeGuard>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonObject>
@@ -147,23 +148,17 @@ MusixmatchLyricsProvider::JsonObjectResult MusixmatchLyricsProvider::ParseJsonOb
 
 void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, LyricsSearchContextPtr search) {
 
-  const QScopeGuard end_search = qScopeGuard([this, search]() { EndSearch(search); });
+  QScopeGuard end_search = qScopeGuard([this, search]() { EndSearch(search); });
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  if (reply->error() == 401 || reply->error() == 402) {
-    Error(QStringLiteral("Error %1 (%2) using API, switching to URL based lookup.").arg(reply->errorString()).arg(reply->error()));
-    use_api_ = false;
-    CreateLyricsRequest(search);
-    return;
-  }
-
   if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).isValid() && (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 401 || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 402)) {
     Error(QStringLiteral("Received HTTP code %1 using API, switching to URL based lookup.").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
     use_api_ = false;
+    end_search.dismiss();
     CreateLyricsRequest(search);
     return;
   }
@@ -203,6 +198,7 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, LyricsSea
   if (status_code != 200) {
     Error(QStringLiteral("Received status code %1, switching to URL based lookup.").arg(status_code));
     use_api_ = false;
+    end_search.dismiss();
     CreateLyricsRequest(search);
     return;
   }
