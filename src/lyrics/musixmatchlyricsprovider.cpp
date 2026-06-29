@@ -425,7 +425,7 @@ void MusixmatchLyricsProvider::EndSearch(LyricsSearchContextPtr search, const QU
     search->requests_lyrics_.removeAll(url);
   }
 
-  if (search->requests_lyrics_.count() == 0) {
+  if (search->requests_lyrics_.size() == 0) {
     requests_search_.removeAll(search);
     if (search->results.isEmpty()) {
       qLog(Debug) << "MusixmatchLyrics: No lyrics for" << search->request.artist << search->request.title;

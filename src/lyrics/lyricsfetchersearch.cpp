@@ -110,7 +110,7 @@ void LyricsFetcherSearch::ProviderSearchFinished(const int id, const LyricsSearc
 
   LyricsSearchResults results_copy(results);
   float higest_score = 0.0;
-  for (int i = 0; i < results_copy.count(); ++i) {
+  for (int i = 0; i < results_copy.size(); ++i) {
     results_copy[i].provider = provider->name();
     results_copy[i].score = 0.0;
     if (results_copy[i].artist.compare(request_.albumartist, Qt::CaseInsensitive) == 0 || results_copy[i].artist.compare(request_.artist, Qt::CaseInsensitive) == 0) {
@@ -125,7 +125,7 @@ void LyricsFetcherSearch::ProviderSearchFinished(const int id, const LyricsSearc
     if (results_copy[i].artist.compare(request_.artist, Qt::CaseInsensitive) != 0 && results_copy[i].title.compare(request_.title, Qt::CaseInsensitive) != 0) {
       results_copy[i].score -= 1.5;
     }
-    if (results_copy[i].lyrics.length() > kGoodLyricsLength) results_copy[i].score += 1.0;
+    if (results_copy[i].lyrics.size() > kGoodLyricsLength) results_copy[i].score += 1.0;
     if (results_copy[i].score > higest_score) higest_score = results_copy[i].score;
   }
 
@@ -151,7 +151,7 @@ void LyricsFetcherSearch::EarlyTimeout() {
   // Wait for the hard timeout if no provider has produced results yet.
   if (results_.isEmpty()) return;
 
-  qLog(Debug) << "Lyrics search for" << request_.artist << request_.album << request_.title << "finishing at early timeout with" << results_.count() << "result(s) from" << pending_requests_.count() << "still-pending provider(s)";
+  qLog(Debug) << "Lyrics search for" << request_.artist << request_.album << request_.title << "finishing at early timeout with" << results_.size() << "result(s) from" << pending_requests_.size() << "still-pending provider(s)";
 
   FinishSearch();
 
@@ -161,7 +161,7 @@ void LyricsFetcherSearch::SearchTimeout() {
 
   if (finished_) return;
 
-  qLog(Debug) << "Lyrics search for" << request_.artist << request_.album << request_.title << "timed out for remaining" << pending_requests_.count() << "providers";
+  qLog(Debug) << "Lyrics search for" << request_.artist << request_.album << request_.title << "timed out for remaining" << pending_requests_.size() << "providers";
 
   FinishSearch();
 

@@ -400,7 +400,7 @@ void GeniusLyricsProvider::EndSearch(GeniusLyricsSearchContextPtr search, const 
   if (search->requests_lyric_.contains(lyric.url)) {
     search->requests_lyric_.remove(lyric.url);
   }
-  if (search->requests_lyric_.count() == 0) {
+  if (search->requests_lyric_.size() == 0) {
     requests_search_.remove(search->id);
     EndSearch(search->id, search->request, search->results);
   }
