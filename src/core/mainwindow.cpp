@@ -1857,6 +1857,11 @@ void MainWindow::UpdateTrackPosition() {
     }
   }
 
+  // At the end of the time of the track, move to the next track
+  if (app_->player()->GetState() == EngineBase::State::Playing) {
+    app_->player()->EndPositionNext(position);
+  }
+
 }
 
 void MainWindow::UpdateTrackSliderPosition() {
