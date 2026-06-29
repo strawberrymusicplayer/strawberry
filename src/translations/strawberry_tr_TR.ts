@@ -1514,7 +1514,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Add song performersort tag</source>
-      <translation type="unfinished">Add song performersort tag</translation>
+      <translation>Yapımcı sıralama etiketi ekle</translation>
     </message>
     <message>
       <source>Add song albumsort tag</source>
@@ -2234,7 +2234,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Performer</source>
-      <translation>Sanatçı</translation>
+      <translation>Yapımcı</translation>
     </message>
     <message>
       <source>Compilation</source>
@@ -2382,7 +2382,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Performer sort</source>
-      <translation type="unfinished">Performer sort</translation>
+      <translation>Yapımcı sıralama</translation>
     </message>
     <message>
       <source>Title sort</source>
@@ -2979,7 +2979,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Performer</source>
-      <translation>Sanatçı</translation>
+      <translation>Yapımcı</translation>
     </message>
     <message>
       <source>Grouping</source>
@@ -4027,7 +4027,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Add song performer tag</source>
-      <translation>Sanatçı etiketi ekle</translation>
+      <translation>Yapımcı etiketi ekle</translation>
     </message>
     <message>
       <source>Add song grouping tag</source>
@@ -4347,7 +4347,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Performer</source>
-      <translation>Sanatçı</translation>
+      <translation>Yapımcı</translation>
     </message>
     <message>
       <source>Grouping</source>
@@ -4468,7 +4468,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Title Sort</source>
-      <translation type="unfinished">Title Sort</translation>
+      <translation>Başlık Sıralama</translation>
     </message>
     <message>
       <source>Artist</source>
@@ -4476,7 +4476,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Artist Sort</source>
-      <translation type="unfinished">Artist Sort</translation>
+      <translation>Sanatçı Sıralama</translation>
     </message>
     <message>
       <source>Album</source>
@@ -4484,7 +4484,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Album Sort</source>
-      <translation type="unfinished">Album Sort</translation>
+      <translation>Albüm Sıralama</translation>
     </message>
     <message>
       <source>Track</source>
@@ -4516,7 +4516,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Album Artist Sort</source>
-      <translation type="unfinished">Album Artist Sort</translation>
+      <translation>Albüm Sanatçısı Sıralama</translation>
     </message>
     <message>
       <source>Composer</source>
@@ -4524,15 +4524,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Composer Sort</source>
-      <translation type="unfinished">Composer Sort</translation>
+      <translation>Besteci Sıralama</translation>
     </message>
     <message>
       <source>Performer</source>
-      <translation>Sanatçı</translation>
+      <translation>Yapımcı</translation>
     </message>
     <message>
       <source>Performer Sort</source>
-      <translation type="unfinished">Performer Sort</translation>
+      <translation>Yapımcı Sıralama</translation>
     </message>
     <message>
       <source>Grouping</source>
@@ -4596,11 +4596,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Moodbar</source>
-      <translation type="unfinished">Moodbar</translation>
+      <translation>Moodbar</translation>
     </message>
     <message>
       <source>BPM</source>
-      <translation type="unfinished">BPM</translation>
+      <translation>BPM</translation>
     </message>
     <message>
       <source>Mood</source>
@@ -4612,11 +4612,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>URL</source>
-      <translation type="unfinished">URL</translation>
+      <translation>URL</translation>
     </message>
     <message>
       <source>CUE</source>
-      <translation type="unfinished">CUE</translation>
+      <translation>CUE</translation>
     </message>
     <message>
       <source>Integrated Loudness</source>
@@ -4740,7 +4740,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Copy songs to playlist</source>
-      <translation type="unfinished">Copy songs to playlist</translation>
+      <translation>Şarkıları çalma listesine kopyala</translation>
     </message>
     <message>
       <source>Copy to device</source>
@@ -4844,7 +4844,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>This can be changed later through the preferences</source>
-      <translation type="unfinished">This can be changed later through the preferences</translation>
+      <translation>Bu sonradan tercihler sekmesinden değiştirilebilir</translation>
     </message>
     <message>
       <source>Remember my choice</source>
@@ -4962,7 +4962,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Enable playlist clear button</source>
-      <translation type="unfinished">Enable playlist clear button</translation>
+      <translation>Çalma listesini temizleme seçeneğini etkinleştir</translation>
     </message>
     <message>
       <source>Enable delete files in the right click context menu</source>
@@ -4974,7 +4974,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>When saving a playlist, file paths should be</source>
-      <translation type="unfinished">When saving a playlist, file paths should be</translation>
+      <translation>Bir çalma listesini kaydedirken, dosya yolu şöyle olmalı</translation>
     </message>
     <message>
       <source>A&amp;utomatic</source>
@@ -6160,7 +6160,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Performer</source>
-      <translation>Sanatçı</translation>
+      <translation>Yapımcı</translation>
     </message>
     <message>
       <source>Grouping</source>
