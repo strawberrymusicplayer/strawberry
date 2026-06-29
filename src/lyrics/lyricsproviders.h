@@ -22,13 +22,14 @@
 
 #include "config.h"
 
+#include <atomic>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QMutex>
 #include <QList>
-#include <QMap>
+#include <QHash>
 #include <QString>
-#include <QAtomicInt>
 
 #include "includes/shared_ptr.h"
 
@@ -57,16 +58,16 @@ class LyricsProviders : public QObject {
   void ProviderDestroyed();
 
  private:
-  Q_DISABLE_COPY(LyricsProviders)
-
   static int NextOrderId;
 
   const SharedPtr<NetworkAccessManager> network_;
 
-  QMap<LyricsProvider*, QString> lyrics_providers_;
+  QHash<LyricsProvider*, QString> lyrics_providers_;
   QMutex mutex_;
 
-  QAtomicInt next_id_;
+  std::atomic<int> next_id_;
+
+  Q_DISABLE_COPY_MOVE(LyricsProviders)
 };
 
 #endif  // LYRICSPROVIDERS_H

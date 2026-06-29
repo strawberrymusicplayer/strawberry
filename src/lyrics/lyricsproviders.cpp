@@ -42,7 +42,7 @@ int LyricsProviders::NextOrderId = 0;
 
 using std::make_shared;
 
-LyricsProviders::LyricsProviders(QObject *parent) : QObject(parent), network_(make_shared<NetworkAccessManager>()) {
+LyricsProviders::LyricsProviders(QObject *parent) : QObject(parent), network_(make_shared<NetworkAccessManager>()), next_id_(0) {
 
   setObjectName(QLatin1String(QObject::metaObject()->className()));
 
@@ -51,7 +51,7 @@ LyricsProviders::LyricsProviders(QObject *parent) : QObject(parent), network_(ma
 LyricsProviders::~LyricsProviders() {
 
   while (!lyrics_providers_.isEmpty()) {
-    delete lyrics_providers_.firstKey();
+    delete lyrics_providers_.constBegin().key();
   }
 
 }
@@ -144,4 +144,4 @@ void LyricsProviders::ProviderDestroyed() {
 
 }
 
-int LyricsProviders::NextId() { return next_id_.fetchAndAddRelaxed(1); }
+int LyricsProviders::NextId() { return next_id_.fetch_add(1, std::memory_order_relaxed); }
