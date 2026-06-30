@@ -19,45 +19,29 @@
  *
  */
 
-#ifndef RATINGWIDGET_H
-#define RATINGWIDGET_H
+#ifndef RATINGPAINTER_H
+#define RATINGPAINTER_H
 
-#include <QWidget>
+#include <QPixmap>
+#include <QRect>
+#include <QPoint>
 
-class QPaintEvent;
-class QMouseEvent;
-class QKeyEvent;
-class QEvent;
+class QPainter;
 
-#include "ratingpainter.h"
-
-class RatingWidget : public QWidget {
-  Q_OBJECT
-
-  Q_PROPERTY(float rating READ rating WRITE set_rating)
-
+class RatingPainter {
  public:
-  RatingWidget(QWidget *parent = nullptr);
+  RatingPainter();
 
-  QSize sizeHint() const override;
+  static constexpr int kStarCount = 5;
+  static constexpr int kStarSize = 16;
 
-  float rating() const { return rating_; }
-  void set_rating(const float rating);
+  static QRect Contents(const QRect rect);
+  static float RatingForPos(const QPoint pos, const QRect rect);
 
- Q_SIGNALS:
-  void RatingChanged(const float rating);
-
- protected:
-  void paintEvent(QPaintEvent *e) override;
-  void mousePressEvent(QMouseEvent *e) override;
-  void mouseMoveEvent(QMouseEvent *e) override;
-  void leaveEvent(QEvent *e) override;
-  void keyPressEvent(QKeyEvent *e) override;
+  void Paint(QPainter *painter, const QRect rect, float rating) const;
 
  private:
-  RatingPainter painter_;
-  float rating_;
-  float hover_rating_;
+  QPixmap stars_[kStarCount * 2 + 1];
 };
 
-#endif  // RATINGWIDGET_H
+#endif  // RATINGPAINTER_H
