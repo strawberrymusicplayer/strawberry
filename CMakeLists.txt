@@ -763,6 +763,7 @@ set(SOURCES
   src/widgets/tracksliderslider.cpp
   src/widgets/loginstatewidget.cpp
   src/widgets/ratingwidget.cpp
+  src/widgets/ratingpainter.cpp
   src/widgets/resizabletextedit.cpp
 
   src/osd/osdbase.cpp
