@@ -223,7 +223,7 @@
 #  include "core/windows7thumbbar.h"
 #endif
 #ifdef _MSC_VER
-#  include "core/winsystemmediatransportcontrols.h"
+#  include "core/windowsmediacontroller.h"
 #endif
 
 #ifdef Q_OS_MACOS
@@ -306,7 +306,7 @@ MainWindow::MainWindow(Application *app,
       thumbbar_(new Windows7ThumbBar(this)),
 #endif
 #ifdef _MSC_VER
-      smtc_(new WinSystemMediaTransportControls(app->player(), this)),
+      smtc_(new WindowsMediaController(reinterpret_cast<HWND>(winId()), app->player(), app->current_albumcover_loader(), this)),
 #endif
       app_(app),
       appearance_(make_shared<Appearance>()),
@@ -423,13 +423,6 @@ MainWindow::MainWindow(Application *app,
 
   // Initialize the UI
   ui_->setupUi(this);
-
-#ifdef _MSC_VER
-  if (!smtc_->Initialize(reinterpret_cast<HWND>(winId()))) {
-    smtc_->deleteLater();
-    smtc_ = nullptr;
-  }
-#endif
 
   if (QGuiApplication::platformName() != "wayland"_L1) {
     setWindowIcon(IconLoader::Load(u"strawberry"_s));
@@ -739,9 +732,9 @@ MainWindow::MainWindow(Application *app,
 
 #ifdef _MSC_VER
   if (smtc_) {
-    QObject::connect(&*app_->player()->engine(), &EngineBase::StateChanged, smtc_, &WinSystemMediaTransportControls::EngineStateChanged);
-    QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, smtc_, &WinSystemMediaTransportControls::CurrentSongChanged);
-    QObject::connect(&*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, smtc_, &WinSystemMediaTransportControls::AlbumCoverLoaded);
+    QObject::connect(&*app_->player()->engine(), &EngineBase::StateChanged, smtc_, &WindowsMediaController::EngineStateChanged);
+    QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, smtc_, &WindowsMediaController::CurrentSongChanged);
+    QObject::connect(&*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, smtc_, &WindowsMediaController::AlbumCoverLoaded);
   }
 #endif
 
