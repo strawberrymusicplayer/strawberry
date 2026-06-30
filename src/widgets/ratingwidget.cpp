@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,13 +34,13 @@ using namespace Qt::Literals::StringLiterals;
 
 RatingPainter::RatingPainter() {
 
-  // Load the base pixmaps
-  QIcon star_on(u":/pictures/star-on.png"_s);
-  QList<QSize> star_on_sizes = star_on.availableSizes();
-  QPixmap on(star_on.pixmap(star_on_sizes.last()));
-  QIcon star_off(u":/pictures/star-off.png"_s);
-  QList<QSize> star_off_sizes = star_off.availableSizes();
-  QPixmap off(star_off.pixmap(star_off_sizes.last()));
+  const QIcon star_on_icon(u":/pictures/star-on.png"_s);
+  const QList<QSize> star_on_icon_sizes = star_on_icon.availableSizes();
+  const QPixmap star_on_pixmap = star_on_icon_sizes.isEmpty() ? star_on_icon.pixmap(kStarSize, kStarSize) : star_on_icon.pixmap(star_on_icon_sizes.last());
+
+  const QIcon star_off_icon(u":/pictures/star-off.png"_s);
+  const QList<QSize> star_off_icon_sizes = star_off_icon.availableSizes();
+  const QPixmap star_off_pixmap = star_off_icon_sizes.isEmpty() ? star_off_icon.pixmap(kStarSize, kStarSize) : star_off_icon.pixmap(star_off_icon_sizes.last());
 
   // Generate the 10 states, better to do it now than on the fly
   for (int i = 0; i < kStarCount * 2 + 1; ++i) {
@@ -56,21 +57,22 @@ RatingPainter::RatingPainter() {
       const QRect rect(x, 0, kStarSize, kStarSize);
 
       if (rating - 0.25 <= y) {  // Totally empty
-        p.drawPixmap(rect, off);
+        p.drawPixmap(rect, star_off_pixmap);
       }
       else if (rating - 0.75 <= y) {  // Half full
         const QRect target_left(rect.x(), rect.y(), kStarSize / 2, kStarSize);
         const QRect target_right(rect.x() + kStarSize / 2, rect.y(), kStarSize / 2, kStarSize);
         const QRect source_left(0, 0, kStarSize / 2, kStarSize);
         const QRect source_right(kStarSize / 2, 0, kStarSize / 2, kStarSize);
-        p.drawPixmap(target_left, on, source_left);
-        p.drawPixmap(target_right, off, source_right);
+        p.drawPixmap(target_left, star_on_pixmap, source_left);
+        p.drawPixmap(target_right, star_off_pixmap, source_right);
       }
       else {  // Totally full
-        p.drawPixmap(rect, on);
+        p.drawPixmap(rect, star_on_pixmap);
       }
     }
   }
+
 }
 
 QRect RatingPainter::Contents(const QRect rect) {
