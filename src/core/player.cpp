@@ -26,17 +26,24 @@
 #include <algorithm>
 #include <memory>
 #include <chrono>
+#include <optional>
 
 #include <QtGlobal>
 #include <QObject>
+#include <QFuture>
+#include <QFutureWatcher>
 #include <QMap>
+#include <QSet>
 #include <QVariant>
 #include <QString>
 #include <QUrl>
+#include <QFile>
 #include <QDateTime>
 #include <QTimer>
 #include <QSettings>
+#include <QtConcurrentRun>
 
+#include "constants/backendsettings.h"
 #include "constants/behavioursettings.h"
 #include "constants/playlistsettings.h"
 #include "constants/timeconstants.h"
@@ -52,6 +59,10 @@
 
 #include "engine/enginebase.h"
 #include "engine/gstengine.h"
+#ifdef HAVE_EBUR128
+#  include "engine/ebur128analysis.h"
+#  include "engine/ebur128measures.h"
+#endif
 
 #include "collection/collectionbackend.h"
 #include "playlist/playlist.h"
@@ -97,6 +108,9 @@ Player::Player(const SharedPtr<TaskManager> task_manager, const SharedPtr<UrlHan
       menu_previousmode_(BehaviourSettings::PreviousBehaviour::DontRestart),
       seek_step_sec_(10),
       volume_increment_(5),
+#ifdef HAVE_EBUR128
+      ebur128_analyze_missing_loudness_before_playback_(false),
+#endif
       play_offset_nanosec_(0) {
 
   setObjectName(QLatin1String(QObject::metaObject()->className()));
@@ -158,6 +172,12 @@ void Player::ReloadSettings() {
   seek_step_sec_ = s.value(BehaviourSettings::kSeekStepSec, 10).toInt();
   volume_increment_ = s.value(BehaviourSettings::kVolumeIncrement, 5).toUInt();
   s.endGroup();
+
+#ifdef HAVE_EBUR128
+  s.beginGroup(BackendSettings::kSettingsGroup);
+  ebur128_analyze_missing_loudness_before_playback_ = s.value(BackendSettings::kEBUR128AnalyzeMissingLoudnessBeforePlayback, false).toBool();
+  s.endGroup();
+#endif
 
   engine_->ReloadSettings();
 
@@ -371,10 +391,18 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
       }
 
       if (is_current) {
-        qLog(Debug) << "Playing song" << current_item->EffectiveMetadata().title() << result.stream_url_ << "position" << play_offset_nanosec_;
-        engine_->Play(result.media_url_, result.stream_url_, pause_, stream_change_type_, song.has_cue(), static_cast<quint64>(song.beginning_nanosec()), song.end_nanosec(), play_offset_nanosec_, song.ebur128_integrated_loudness_lufs());
-        current_item_ = current_item;
-        play_offset_nanosec_ = 0;
+        const auto play = [this, current_item, result, song, offset_nanosec = play_offset_nanosec_](const Song &song_to_play) {
+          qLog(Debug) << "Playing song" << current_item->EffectiveMetadata().title() << result.stream_url_ << "position" << offset_nanosec;
+          engine_->Play(result.media_url_, result.stream_url_, pause_, stream_change_type_, song_to_play.has_cue(), static_cast<quint64>(song_to_play.beginning_nanosec()), song_to_play.end_nanosec(), offset_nanosec, song_to_play.ebur128_integrated_loudness_lufs());
+          current_item_ = current_item;
+          play_offset_nanosec_ = 0;
+        };
+#ifdef HAVE_EBUR128
+        if (AnalyzeMissingLoudnessBeforePlayback(current_item, song, true, play)) {
+          return;
+        }
+#endif
+        play(song);
       }
       else if (is_next && !current_item->EffectiveMetadata().is_module_music()) {
         qLog(Debug) << "Preloading next song" << next_item->EffectiveMetadata().title() << result.stream_url_;
@@ -676,6 +704,72 @@ void Player::EngineStateChanged(const EngineBase::State state) {
 
 }
 
+#ifdef HAVE_EBUR128
+QString Player::EBUR128AnalysisKey(const Song &song) const {
+
+  return QStringLiteral("%1:%2:%3").arg(song.url().toString(QUrl::FullyEncoded), QString::number(song.beginning_nanosec()), QString::number(song.end_nanosec()));
+
+}
+
+void Player::UpdateSongLoudness(PlaylistItemPtr item, Song &song, const EBUR128Measures &measures, const bool stream_metadata_update) {
+
+  song.set_ebur128_integrated_loudness_lufs(measures.loudness_lufs);
+  song.set_ebur128_loudness_range_lu(measures.range_lu);
+
+  playlist_manager_->active()->UpdateItemMetadata(item, song, stream_metadata_update);
+
+  if (song.is_local_collection_song() && song.id() != -1) {
+    SongList songs;
+    songs << song;
+    playlist_manager_->collection_backend()->AddOrUpdateSongsAsync(songs);
+  }
+
+}
+
+bool Player::AnalyzeMissingLoudnessBeforePlayback(PlaylistItemPtr item, const Song &song, const bool stream_metadata_update, const std::function<void(const Song&)> &play) {
+
+  if (!ebur128_analyze_missing_loudness_before_playback_) return false;
+  if (!item || !song.is_valid() || song.ebur128_integrated_loudness_lufs() || !song.url().isLocalFile() || !QFile::exists(song.url().toLocalFile())) return false;
+
+  const QString key = EBUR128AnalysisKey(song);
+  if (ebur128_analysis_failed_.contains(key)) return false;
+  if (ebur128_analysis_in_progress_.contains(key)) return true;
+
+  ebur128_analysis_in_progress_.insert(key);
+
+  QFutureWatcher<std::optional<EBUR128Measures>> *watcher = new QFutureWatcher<std::optional<EBUR128Measures>>(this);
+  QObject::connect(watcher, &QFutureWatcher<std::optional<EBUR128Measures>>::finished, this, [this, watcher, item, song, key, stream_metadata_update, play]() {
+    ebur128_analysis_in_progress_.remove(key);
+
+    const std::optional<EBUR128Measures> result = watcher->result();
+    watcher->deleteLater();
+
+    if (!result || !result->loudness_lufs) {
+      ebur128_analysis_failed_.insert(key);
+      if (current_item_ == item && EBUR128AnalysisKey(item->EffectiveMetadata()) == key) {
+        play(song);
+      }
+      return;
+    }
+
+    if (!current_item_ || current_item_ != item) return;
+
+    Song current_song = item->EffectiveMetadata();
+    if (EBUR128AnalysisKey(current_song) != key) return;
+
+    if (!current_song.ebur128_integrated_loudness_lufs()) {
+      UpdateSongLoudness(item, current_song, *result, stream_metadata_update);
+    }
+
+    play(current_song);
+  });
+  watcher->setFuture(QtConcurrent::run(&EBUR128Analysis::Compute, song));
+
+  return true;
+
+}
+#endif
+
 uint Player::GetVolume() const {
 
   return engine_->volume();
@@ -772,8 +866,20 @@ void Player::PlayAt(const int index, const bool pause, const quint64 offset_nano
     HandleLoadResult(url_handler->StartLoading(url));
   }
   else {
-    qLog(Debug) << "Playing song" << current_item_->EffectiveMetadata().title() << url << "position" << offset_nanosec;
-    engine_->Play(current_item_->OriginalUrl(), url, pause, change, current_item_->EffectiveMetadata().has_cue(), static_cast<quint64>(current_item_->effective_beginning_nanosec()), current_item_->effective_end_nanosec(), offset_nanosec, current_item_->EffectiveMetadata().ebur128_integrated_loudness_lufs());
+    const Song song = current_item_->EffectiveMetadata();
+    const QUrl original_url = current_item_->OriginalUrl();
+    const qint64 beginning_nanosec = current_item_->effective_beginning_nanosec();
+    const qint64 end_nanosec = current_item_->effective_end_nanosec();
+    const auto play = [this, item = current_item_, original_url, url, pause, change, beginning_nanosec, end_nanosec, offset_nanosec](const Song &song_to_play) {
+      qLog(Debug) << "Playing song" << item->EffectiveMetadata().title() << url << "position" << offset_nanosec;
+      engine_->Play(original_url, url, pause, change, song_to_play.has_cue(), static_cast<quint64>(beginning_nanosec), end_nanosec, offset_nanosec, song_to_play.ebur128_integrated_loudness_lufs());
+    };
+#ifdef HAVE_EBUR128
+    if (AnalyzeMissingLoudnessBeforePlayback(current_item_, song, true, play)) {
+      return;
+    }
+#endif
+    play(song);
   }
 
 }

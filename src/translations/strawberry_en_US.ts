@@ -668,6 +668,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Perform song EBU R 128 analysis before playback when loudness metadata is missing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Fading</source>
         <translation type="unfinished"></translation>
     </message>

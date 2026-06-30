@@ -669,6 +669,10 @@
       <translation type="unfinished">Target Level</translation>
     </message>
     <message>
+      <source>Perform song EBU R 128 analysis before playback when loudness metadata is missing</source>
+      <translation>響度元資料缺失時，在播放前執行歌曲 EBU R 128 分析</translation>
+    </message>
+    <message>
       <source>Fading</source>
       <translation type="unfinished">Fading</translation>
     </message>

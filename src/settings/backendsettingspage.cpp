@@ -115,6 +115,10 @@ BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, const SharedPtr
   ui_->widget_exclusive_mode->hide();
 #endif
 
+#ifndef HAVE_EBUR128
+  ui_->checkbox_ebur128_analyze_missing_loudness_before_playback->hide();
+#endif
+
 }
 
 BackendSettingsPage::~BackendSettingsPage() {
@@ -196,6 +200,7 @@ void BackendSettingsPage::Load() {
 
   ui_->radiobutton_ebur128_loudness_normalization->setChecked(s.value(kEBUR128LoudnessNormalization, false).toBool());
   ui_->stickyslider_ebur128_target_level->setValue(static_cast<int>(s.value(kEBUR128TargetLevelLUFS, -23.0).toDouble() * 10));
+  ui_->checkbox_ebur128_analyze_missing_loudness_before_playback->setChecked(s.value(kEBUR128AnalyzeMissingLoudnessBeforePlayback, false).toBool());
 
 #ifdef HAVE_ALSA
   bool fade_default = false;
@@ -461,6 +466,7 @@ void BackendSettingsPage::Save() {
 
   s.setValue(kEBUR128LoudnessNormalization, ui_->radiobutton_ebur128_loudness_normalization->isChecked());
   s.setValue(kEBUR128TargetLevelLUFS, static_cast<double>(ui_->stickyslider_ebur128_target_level->value()) / 10);
+  s.setValue(kEBUR128AnalyzeMissingLoudnessBeforePlayback, ui_->checkbox_ebur128_analyze_missing_loudness_before_playback->isChecked());
 
   s.setValue(kFadeoutEnabled, ui_->checkbox_fadeout_stop->isChecked());
   s.setValue(kCrossfadeEnabled, ui_->checkbox_fadeout_cross->isChecked());

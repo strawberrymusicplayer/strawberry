@@ -664,8 +664,8 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="1">
-             <layout class="QHBoxLayout" name="layout_ebur128_target_level">
+             <item row="0" column="1">
+              <layout class="QHBoxLayout" name="layout_ebur128_target_level">
               <item>
                <widget class="QLabel" name="label_ebur128_target_level"/>
               </item>
@@ -688,11 +688,18 @@
                 </property>
                </widget>
               </item>
-             </layout>
-            </item>
-           </layout>
-          </widget>
-         </item>
+              </layout>
+             </item>
+             <item row="1" column="0" colspan="2">
+              <widget class="QCheckBox" name="checkbox_ebur128_analyze_missing_loudness_before_playback">
+               <property name="text">
+                <string>Perform song EBU R 128 analysis before playback when loudness metadata is missing</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
         </layout>
        </widget>
       </item>
@@ -903,10 +910,11 @@
   <tabstop>combobox_replaygainmode</tabstop>
   <tabstop>stickyslider_replaygainpreamp</tabstop>
   <tabstop>stickyslider_replaygainfallbackgain</tabstop>
-  <tabstop>checkbox_replaygaincompression</tabstop>
-  <tabstop>radiobutton_ebur128_loudness_normalization</tabstop>
-  <tabstop>stickyslider_ebur128_target_level</tabstop>
-  <tabstop>checkbox_fadeout_stop</tabstop>
+   <tabstop>checkbox_replaygaincompression</tabstop>
+   <tabstop>radiobutton_ebur128_loudness_normalization</tabstop>
+   <tabstop>stickyslider_ebur128_target_level</tabstop>
+   <tabstop>checkbox_ebur128_analyze_missing_loudness_before_playback</tabstop>
+   <tabstop>checkbox_fadeout_stop</tabstop>
   <tabstop>checkbox_fadeout_cross</tabstop>
   <tabstop>checkbox_fadeout_auto</tabstop>
   <tabstop>checkbox_fadeout_samealbum</tabstop>
