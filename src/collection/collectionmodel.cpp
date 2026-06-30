@@ -111,10 +111,10 @@ CollectionModel::CollectionModel(const SharedPtr<CollectionBackend> backend, con
     QObject::connect(&*albumcover_loader_, &AlbumCoverLoader::AlbumCoverLoaded, this, &CollectionModel::AlbumCoverLoaded);
   }
 
-  QIcon nocover = IconLoader::Load(u"cdcase"_s);
+  const QIcon nocover = IconLoader::Load(u"cdcase"_s);
   if (!nocover.isNull()) {
-    QList<QSize> nocover_sizes = nocover.availableSizes();
-    pixmap_no_cover_ = nocover.pixmap(nocover_sizes.last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    const QList<QSize> nocover_sizes = nocover.availableSizes();
+    pixmap_no_cover_ = nocover_sizes.isEmpty() ? nocover.pixmap(kPrettyCoverSize, kPrettyCoverSize) : nocover.pixmap(nocover_sizes.last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   }
 
   icon_disk_cache_->setCacheDirectory(StandardPaths::WritableLocation(StandardPaths::StandardLocation::CacheLocation) + u'/' + QLatin1String(kPixmapDiskCacheDir) + u'-' + Song::TextForSource(backend_->source()));
