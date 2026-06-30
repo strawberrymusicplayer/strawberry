@@ -62,8 +62,8 @@ RatingPainter::RatingPainter() {
       else if (rating - 0.75 <= y) {  // Half full
         const QRect target_left(rect.x(), rect.y(), kStarSize / 2, kStarSize);
         const QRect target_right(rect.x() + kStarSize / 2, rect.y(), kStarSize / 2, kStarSize);
-        const QRect source_left(0, 0, kStarSize / 2, kStarSize);
-        const QRect source_right(kStarSize / 2, 0, kStarSize / 2, kStarSize);
+        const QRect source_left(0, 0, star_on_pixmap.width() / 2, star_on_pixmap.height());
+        const QRect source_right(star_off_pixmap.width() / 2, 0, star_off_pixmap.width() / 2, star_off_pixmap.height());
         p.drawPixmap(target_left, star_on_pixmap, source_left);
         p.drawPixmap(target_right, star_off_pixmap, source_right);
       }
