@@ -625,7 +625,7 @@
     </message>
     <message>
       <source>Replay Gain</source>
-      <translation type="unfinished">Replay Gain</translation>
+      <translation>ReplayGain</translation>
     </message>
     <message>
       <source>Use Replay Gain metadata if it is available</source>
@@ -698,6 +698,14 @@
     <message>
       <source>You need to restart Strawberry for this setting to take affect</source>
       <translation>Du måste starta om Strawberry för att den här inställningen ska träda i kraft</translation>
+    </message>
+    <message>
+      <source>Map the volume slider to a decibel scale so that perceived loudness changes evenly. Each 1% step equals 0.5 dB, 100% is 0 dB and 0% is silence.</source>
+      <translation type="unfinished">Map the volume slider to a decibel scale so that perceived loudness changes evenly. Each 1% step equals 0.5 dB, 100% is 0 dB and 0% is silence.</translation>
+    </message>
+    <message>
+      <source>Exponential volume scaling</source>
+      <translation type="unfinished">Exponential volume scaling</translation>
     </message>
   </context>
   <context>
@@ -2402,7 +2410,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     <name>Equalizer</name>
     <message>
       <source>Equalizer</source>
-      <translation>Frekvenskorrigerare</translation>
+      <translation>Frekvenskorrigering</translation>
     </message>
     <message>
       <source>Preset:</source>
@@ -2418,7 +2426,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Enable equalizer</source>
-      <translation>Aktivera frekvenskorrigerare</translation>
+      <translation>Aktivera frekvenskorrigering</translation>
     </message>
     <message>
       <source>Enable stereo balancer</source>
@@ -2533,7 +2541,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     <name>EqualizerSlider</name>
     <message>
       <source>Equalizer</source>
-      <translation>Frekvenskorrigerare</translation>
+      <translation>Frekvenskorrigering</translation>
     </message>
     <message>
       <source>%1 dB</source>
@@ -3394,7 +3402,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>&amp;Equalizer</source>
-      <translation>&amp;Frekvenskorrigerare</translation>
+      <translation>&amp;Frekvenskorrigering</translation>
     </message>
     <message>
       <source>&amp;Transcode Music</source>
