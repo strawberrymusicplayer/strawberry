@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2025-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -97,6 +97,7 @@ class HttpBaseRequest : public QObject {
   virtual void Error(const QString &error_message, const QVariant &debug_output = QVariant());
 
  public Q_SLOTS:
+  void AbortNetworkReplies();
   void HandleSSLErrors(const QList<QSslError> &ssl_errors);
 
  Q_SIGNALS:

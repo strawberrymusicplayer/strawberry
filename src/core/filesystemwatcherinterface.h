@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2012, David Sansome <me@davidsansome.com>
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,10 +20,9 @@
 #ifndef FILESYSTEMWATCHERINTERFACE_H
 #define FILESYSTEMWATCHERINTERFACE_H
 
-#include "config.h"
-
 #include <QObject>
 #include <QString>
+#include <QStringList>
 
 class FileSystemWatcherInterface : public QObject {
   Q_OBJECT
@@ -32,15 +30,14 @@ class FileSystemWatcherInterface : public QObject {
  public:
   explicit FileSystemWatcherInterface(QObject *parent = nullptr);
 
-  virtual void Init() {}
+  virtual void AddPaths(const QStringList &paths) = 0;
+  virtual void RemovePaths(const QStringList &paths) = 0;
   virtual void AddPath(const QString &path) = 0;
   virtual void RemovePath(const QString &path) = 0;
   virtual void Clear() = 0;
-
-  static FileSystemWatcherInterface *Create(QObject *parent = nullptr);
 
  Q_SIGNALS:
   void PathChanged(const QString &path);
 };
 
-#endif
+#endif  // FILESYSTEMWATCHERINTERFACE_H

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2025-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,12 +41,18 @@ HttpBaseRequest::~HttpBaseRequest() {
 
   if (!replies_.isEmpty()) {
     qLog(Debug) << "Aborting" << replies_.count() << "network replies";
-    while (!replies_.isEmpty()) {
-      QNetworkReply *reply = replies_.takeFirst();
-      QObject::disconnect(reply, nullptr, this, nullptr);
-      reply->abort();
-      reply->deleteLater();
-    }
+    AbortNetworkReplies();
+  }
+
+}
+
+void HttpBaseRequest::AbortNetworkReplies() {
+
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    QObject::disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
   }
 
 }

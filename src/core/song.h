@@ -80,6 +80,7 @@ class Song {
     RadioBrowser = 12
   };
   static const int kSourceCount = 16;
+  static_assert(static_cast<int>(Source::RadioBrowser) < kSourceCount, "kSourceCount must exceed the largest Song::Source value");
 
   enum class FileType {
     Unknown = 0,
@@ -545,6 +546,8 @@ class Song {
   void ToXesam(QVariantMap *map) const;
 #endif
 
+  // Returns true if only minor fields changed, and false if a major field (title, artist or album) was updated from the engine metadata.
+  // Note the inverted polarity: true does NOT mean "merged successfully".
   bool MergeFromEngineMetadata(const EngineMetadata &engine_metadata);
 
   // Copies important statistics from the other song to this one, overwriting any data that already exists.

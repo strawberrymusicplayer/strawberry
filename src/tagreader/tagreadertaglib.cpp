@@ -1,7 +1,7 @@
 /*
  * Strawberry Music Player
  * Copyright 2013, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@
 #include <taglib/fileref.h>
 #include <taglib/tbytevector.h>
 #include <taglib/tfile.h>
+#include <taglib/tfilestream.h>
 #include <taglib/tlist.h>
 #include <taglib/tstring.h>
 #include <taglib/tstringlist.h>
@@ -265,7 +266,8 @@ class FileRefFactory {
  public:
   FileRefFactory() = default;
   virtual ~FileRefFactory() = default;
-  virtual TagLib::FileRef *GetFileRef(const QString &filename) = 0;
+  virtual TagLib::IOStream *GetReadOnlyStream(const QString &filename) = 0;
+  virtual TagLib::IOStream *GetReadWriteStream(const QString &filename) = 0;
   virtual TagLib::FileRef *GetFileRef(TagLib::IOStream *iostream) = 0;
 
  private:
@@ -275,11 +277,20 @@ class FileRefFactory {
 class TagLibFileRefFactory : public FileRefFactory {
  public:
   TagLibFileRefFactory() = default;
-  TagLib::FileRef *GetFileRef(const QString &filename) override {
+
+  TagLib::IOStream *GetReadOnlyStream(const QString &filename) override {
 #ifdef Q_OS_WIN32
-    return new TagLib::FileRef(filename.toStdWString().c_str());
+    return new TagLib::FileStream(filename.toStdWString().c_str(), true);
 #else
-    return new TagLib::FileRef(QFile::encodeName(filename).constData());
+    return new TagLib::FileStream(QFile::encodeName(filename).constData(), true);
+#endif
+  }
+
+  TagLib::IOStream *GetReadWriteStream(const QString &filename) override {
+#ifdef Q_OS_WIN32
+    return new TagLib::FileStream(filename.toStdWString().c_str(), false);
+#else
+    return new TagLib::FileStream(QFile::encodeName(filename).constData(), false);
 #endif
   }
 
@@ -301,7 +312,8 @@ TagReaderResult TagReaderTagLib::IsMediaFile(const QString &filename) const {
 
   qLog(Debug) << "Checking for valid file" << filename;
 
-  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
+  ScopedPtr<TagLib::IOStream> stream(factory_->GetReadOnlyStream(filename));
+  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(&*stream));
   return fileref &&
          !fileref->isNull() &&
          fileref->file() &&
@@ -540,7 +552,8 @@ TagReaderResult TagReaderTagLib::ReadFile(const QString &filename, Song *song) c
   song->set_lastseen(QDateTime::currentSecsSinceEpoch());
   song->set_init_from_file(true);
 
-  SharedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
+  ScopedPtr<TagLib::IOStream> stream(factory_->GetReadOnlyStream(filename));
+  SharedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(&*stream));
   if (!fileref || fileref->isNull()) {
     qLog(Error) << "TagLib could not open file" << filename;
     return TagReaderResult::ErrorCode::FileOpenError;
@@ -1091,7 +1104,8 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     cover = LoadAlbumCoverTagData(filename, save_tag_cover_data);
   }
 
-  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
+  ScopedPtr<TagLib::IOStream> stream(factory_->GetReadWriteStream(filename));
+  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(&*stream));
   if (!fileref || fileref->isNull()) {
     qLog(Error) << "TagLib could not open file" << filename;
     return TagReaderResult::ErrorCode::FileOpenError;
@@ -1311,13 +1325,6 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     success = fileref->save();
   }
 
-#ifdef Q_OS_LINUX
-  if (success) {
-    // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
-    utimensat(0, QFile::encodeName(filename).constData(), nullptr, 0);
-  }
-#endif  // Q_OS_LINUX
-
   return success ? TagReaderResult(TagReaderResult::ErrorCode::Success) : TagReaderResult(TagReaderResult::ErrorCode::FileSaveError);
 
 }
@@ -1515,7 +1522,8 @@ TagReaderResult TagReaderTagLib::LoadEmbeddedCover(const QString &filename, QByt
 
   qLog(Debug) << "Loading cover from" << filename;
 
-  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
+  ScopedPtr<TagLib::IOStream> stream(factory_->GetReadOnlyStream(filename));
+  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(&*stream));
   if (!fileref || fileref->isNull()) {
     qLog(Error) << "TagLib could not open file" << filename;
     return TagReaderResult::ErrorCode::FileOpenError;
@@ -1776,7 +1784,8 @@ TagReaderResult TagReaderTagLib::SaveEmbeddedCover(const QString &filename, cons
     return TagReaderResult::ErrorCode::FileDoesNotExist;
   }
 
-  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
+  ScopedPtr<TagLib::IOStream> stream(factory_->GetReadWriteStream(filename));
+  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(&*stream));
   if (!fileref || fileref->isNull()) {
     qLog(Error) << "TagLib could not open file" << filename;
     return TagReaderResult::ErrorCode::FileOpenError;
@@ -1834,12 +1843,6 @@ TagReaderResult TagReaderTagLib::SaveEmbeddedCover(const QString &filename, cons
   }
 
   const bool success = fileref->file()->save();
-#ifdef Q_OS_LINUX
-  if (success) {
-    // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
-    utimensat(0, QFile::encodeName(filename).constData(), nullptr, 0);
-  }
-#endif  // Q_OS_LINUX
 
   return success ? TagReaderResult::ErrorCode::Success : TagReaderResult::ErrorCode::FileSaveError;
 
@@ -1930,7 +1933,8 @@ TagReaderResult TagReaderTagLib::SaveSongPlaycount(const QString &filename, cons
     return TagReaderResult::ErrorCode::FileDoesNotExist;
   }
 
-  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
+  ScopedPtr<TagLib::IOStream> stream(factory_->GetReadWriteStream(filename));
+  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(&*stream));
   if (!fileref || fileref->isNull()) {
     qLog(Error) << "TagLib could not open file" << filename;
     return TagReaderResult::ErrorCode::FileOpenError;
@@ -1988,12 +1992,6 @@ TagReaderResult TagReaderTagLib::SaveSongPlaycount(const QString &filename, cons
   }
 
   const bool success = fileref->save();
-#ifdef Q_OS_LINUX
-  if (success) {
-    // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
-    utimensat(0, QFile::encodeName(filename).constData(), nullptr, 0);
-  }
-#endif  // Q_OS_LINUX
 
   return success ? TagReaderResult::ErrorCode::Success : TagReaderResult::ErrorCode::FileSaveError;
 
@@ -2060,7 +2058,8 @@ TagReaderResult TagReaderTagLib::SaveSongRating(const QString &filename, const f
     return TagReaderResult::ErrorCode::Success;
   }
 
-  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
+  ScopedPtr<TagLib::IOStream> stream(factory_->GetReadWriteStream(filename));
+  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(&*stream));
   if (!fileref || fileref->isNull()) {
     qLog(Error) << "TagLib could not open file" << filename;
     return TagReaderResult::ErrorCode::FileOpenError;
@@ -2117,13 +2116,6 @@ TagReaderResult TagReaderTagLib::SaveSongRating(const QString &filename, const f
   }
 
   const bool success = fileref->save();
-#ifdef Q_OS_LINUX
-  if (success) {
-    // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
-    utimensat(0, QFile::encodeName(filename).constData(), nullptr, 0);
-  }
-#endif  // Q_OS_LINUX
-
   if (!success) {
     qLog(Error) << "TagLib hasn't been able to save file" << filename;
   }

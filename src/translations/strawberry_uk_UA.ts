@@ -854,6 +854,10 @@
       <translation type="unfinished">Error while setting CDDA device to pause state.</translation>
     </message>
     <message>
+      <source>The &apos;track&apos; format is not supported by GStreamer.</source>
+      <translation type="unfinished">The &apos;track&apos; format is not supported by GStreamer.</translation>
+    </message>
+    <message>
       <source>Error while querying CDDA tracks.</source>
       <translation type="unfinished">Error while querying CDDA tracks.</translation>
     </message>
@@ -1031,8 +1035,8 @@
   <context>
     <name>CollectionLibrary</name>
     <message>
-      <source>Support for sort tags artist, album, album artist, title, composer, and performer</source>
-      <translation type="unfinished">Support for sort tags artist, album, album artist, title, composer, and performer</translation>
+      <source>Support for sort tags artist, album, album artist, title, composer and performer</source>
+      <translation type="unfinished">Support for sort tags artist, album, album artist, title, composer and performer</translation>
     </message>
     <message>
       <source>Saving playcounts and ratings</source>
@@ -3002,6 +3006,10 @@ If there are no matches then it will use the largest image in the directory.</so
       <source>Separate albums by grouping tag</source>
       <translation>Розділяти альбоми за тегом групування</translation>
     </message>
+    <message>
+      <source>Original year - Album - Disc</source>
+      <translation type="unfinished">Original year - Album - Disc</translation>
+    </message>
   </context>
   <context>
     <name>GstEngine</name>
@@ -3756,25 +3764,10 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
   </context>
   <context>
-    <name>MoodbarProxyStyle</name>
-    <message>
-      <source>Show moodbar</source>
-      <translation>Показувати панель настрою</translation>
-    </message>
-    <message>
-      <source>Moodbar style</source>
-      <translation>Стиль панелі настрою</translation>
-    </message>
-  </context>
-  <context>
     <name>MoodbarSettingsPage</name>
     <message>
       <source>Moodbar</source>
       <translation>Панель настрою</translation>
-    </message>
-    <message>
-      <source>Show a moodbar in the track progress bar</source>
-      <translation>Показувати панель настрою на панелі перебігу композиції</translation>
     </message>
     <message>
       <source>Moodbar style</source>
@@ -3783,10 +3776,6 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Save the .mood files directly in the songs folders</source>
       <translation>Зберігати MOOD-файли в каталогах композицій</translation>
-    </message>
-    <message>
-      <source>Enabled</source>
-      <translation>Увімкнено</translation>
     </message>
   </context>
   <context>
@@ -3868,6 +3857,10 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Use proxy settings for streaming</source>
       <translation>Використовувати налаштування проксі для потокового передавання</translation>
+    </message>
+    <message>
+      <source>Only HTTP proxy is supported for streaming.</source>
+      <translation type="unfinished">Only HTTP proxy is supported for streaming.</translation>
     </message>
   </context>
   <context>
@@ -5863,10 +5856,162 @@ Are you sure you want to continue?</source>
     </message>
   </context>
   <context>
+    <name>RadioBrowserSearchModel</name>
+    <message>
+      <source>Name</source>
+      <translation type="unfinished">Name</translation>
+    </message>
+    <message>
+      <source>Country</source>
+      <translation type="unfinished">Country</translation>
+    </message>
+    <message>
+      <source>Tags</source>
+      <translation type="unfinished">Tags</translation>
+    </message>
+    <message>
+      <source>Codec</source>
+      <translation type="unfinished">Codec</translation>
+    </message>
+  </context>
+  <context>
+    <name>RadioBrowserSearchView</name>
+    <message>
+      <source>Load more...</source>
+      <translation type="unfinished">Load more...</translation>
+    </message>
+    <message>
+      <source>Search for radio stations using radio-browser.info</source>
+      <translation type="unfinished">Search for radio stations using radio-browser.info</translation>
+    </message>
+    <message>
+      <source>Search radio stations...</source>
+      <translation type="unfinished">Search radio stations...</translation>
+    </message>
+    <message>
+      <source>All countries</source>
+      <translation type="unfinished">All countries</translation>
+    </message>
+    <message>
+      <source>By votes</source>
+      <translation type="unfinished">By votes</translation>
+    </message>
+    <message>
+      <source>By clicks</source>
+      <translation type="unfinished">By clicks</translation>
+    </message>
+    <message>
+      <source>By name</source>
+      <translation type="unfinished">By name</translation>
+    </message>
+    <message>
+      <source>By bitrate</source>
+      <translation type="unfinished">By bitrate</translation>
+    </message>
+    <message>
+      <source>Searching...</source>
+      <translation type="unfinished">Searching...</translation>
+    </message>
+    <message>
+      <source>No stations found.</source>
+      <translation type="unfinished">No stations found.</translation>
+    </message>
+    <message>
+      <source>%1 stations found</source>
+      <translation type="unfinished">%1 stations found</translation>
+    </message>
+    <message>
+      <source>Append to current playlist</source>
+      <translation type="unfinished">Append to current playlist</translation>
+    </message>
+  </context>
+  <context>
+    <name>RadioBrowserService</name>
+    <message>
+      <source>No Radio Browser server available.</source>
+      <translation type="unfinished">No Radio Browser server available.</translation>
+    </message>
+    <message>
+      <source>Searching Radio Browser</source>
+      <translation type="unfinished">Searching Radio Browser</translation>
+    </message>
+    <message>
+      <source>Radio Browser search failed: %1</source>
+      <translation type="unfinished">Radio Browser search failed: %1</translation>
+    </message>
+  </context>
+  <context>
     <name>RadioParadiseService</name>
     <message>
       <source>Getting %1 channels</source>
       <translation>Отримання %1 каналів</translation>
+    </message>
+  </context>
+  <context>
+    <name>RadioSettingsPage</name>
+    <message>
+      <source>Radios</source>
+      <translation type="unfinished">Radios</translation>
+    </message>
+    <message>
+      <source>SomaFM</source>
+      <translation type="unfinished">SomaFM</translation>
+    </message>
+    <message>
+      <source>Stream quality:</source>
+      <translation type="unfinished">Stream quality:</translation>
+    </message>
+    <message>
+      <source>Radio Browser</source>
+      <translation type="unfinished">Radio Browser</translation>
+    </message>
+    <message>
+      <source>Search results limit:</source>
+      <translation type="unfinished">Search results limit:</translation>
+    </message>
+    <message>
+      <source>Hide broken stations</source>
+      <translation type="unfinished">Hide broken stations</translation>
+    </message>
+    <message>
+      <source>Default sort order:</source>
+      <translation type="unfinished">Default sort order:</translation>
+    </message>
+    <message>
+      <source>Default country:</source>
+      <translation type="unfinished">Default country:</translation>
+    </message>
+    <message>
+      <source>All countries</source>
+      <translation type="unfinished">All countries</translation>
+    </message>
+    <message>
+      <source>Highest</source>
+      <translation type="unfinished">Highest</translation>
+    </message>
+    <message>
+      <source>High</source>
+      <translation type="unfinished">High</translation>
+    </message>
+    <message>
+      <source>Low</source>
+      <translation type="unfinished">Low</translation>
+    </message>
+    <message>
+      <source>By votes</source>
+      <translation type="unfinished">By votes</translation>
+    </message>
+    <message>
+      <source>By clicks</source>
+      <translation type="unfinished">By clicks</translation>
+    </message>
+    <message>
+      <source>By name</source>
+      <translation type="unfinished">By name</translation>
+    </message>
+    <message>
+      <source>By bitrate</source>
+      <translation type="unfinished">By bitrate</translation>
     </message>
   </context>
   <context>
@@ -5901,6 +6046,14 @@ Are you sure you want to continue?</source>
     <message>
       <source>Form</source>
       <translation>Форма</translation>
+    </message>
+    <message>
+      <source>Channels</source>
+      <translation type="unfinished">Channels</translation>
+    </message>
+    <message>
+      <source>Radio Browser</source>
+      <translation type="unfinished">Radio Browser</translation>
     </message>
   </context>
   <context>
@@ -6455,45 +6608,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Restore defaults</source>
       <translation type="unfinished">Restore defaults</translation>
-    </message>
-  </context>
-  <context>
-    <name>SnapDialog</name>
-    <message>
-      <source>Strawberry is running as a Snap</source>
-      <translation>Strawberry працює як Snap</translation>
-    </message>
-    <message>
-      <source>It is detected that Strawberry is running as a Snap</source>
-      <translation>Було виявлено, що Strawberry працює як Snap</translation>
-    </message>
-    <message>
-      <source>Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares.</source>
-      <translation>Strawberry під час роботи як Snap буде повільнішим та більш обмеженим. Доступу до кореневої файлової системи (/) немає. Також можуть існувати інші обмеження, наприклад доступ до певних пристроїв або спільних мережевих ресурсів.</translation>
-    </message>
-    <message>
-      <source>For Ubuntu there is an official PPA repository available at %1.</source>
-      <translation>Для Ubuntu існує офіційне PPA-сховище на %1.</translation>
-    </message>
-    <message>
-      <source>Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information.</source>
-      <translation>Доступні офіційні пакети для Debian та Ubuntu, які також працюють на більшості їхніх похідних. Додаткові відомості див. у %1.</translation>
-    </message>
-    <message>
-      <source>For a better experience please consider the other options above.</source>
-      <translation>Також вам можливо стануть у нагоді інші варіанти вище.</translation>
-    </message>
-    <message>
-      <source>Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:</source>
-      <translation>Перш ніж видаляти snap, скопіюйте файли strawberry.conf і strawberry.db з каталогу ~/snap, щоб не втратити свою конфігурацію:</translation>
-    </message>
-    <message>
-      <source>Uninstall the snap with:</source>
-      <translation>Видалити snap з:</translation>
-    </message>
-    <message>
-      <source>Install strawberry through PPA:</source>
-      <translation>Встановити Strawberry із PPA:</translation>
     </message>
   </context>
   <context>
@@ -7274,6 +7388,22 @@ Are you sure you want to continue?</source>
       <source>Click to toggle between remaining time and total time</source>
       <translation>Клацніть аби перемкнутися між часом, що залишився, та загальним</translation>
     </message>
+    <message>
+      <source>Normal</source>
+      <translation type="unfinished">Normal</translation>
+    </message>
+    <message>
+      <source>Moodbar</source>
+      <translation type="unfinished">Moodbar</translation>
+    </message>
+    <message>
+      <source>Moodbar style</source>
+      <translation type="unfinished">Moodbar style</translation>
+    </message>
+    <message>
+      <source>Waveform</source>
+      <translation type="unfinished">Waveform</translation>
+    </message>
   </context>
   <context>
     <name>TranscodeDialog</name>
@@ -7801,6 +7931,25 @@ Are you sure you want to continue?</source>
     <message>
       <source>Password</source>
       <translation>Пароль</translation>
+    </message>
+  </context>
+  <context>
+    <name>WaveformSettingsPage</name>
+    <message>
+      <source>Waveform</source>
+      <translation type="unfinished">Waveform</translation>
+    </message>
+    <message>
+      <source>Color</source>
+      <translation type="unfinished">Color</translation>
+    </message>
+    <message>
+      <source>Select waveform color</source>
+      <translation type="unfinished">Select waveform color</translation>
+    </message>
+    <message>
+      <source>Save the .waveform files directly in the songs folders</source>
+      <translation type="unfinished">Save the .waveform files directly in the songs folders</translation>
     </message>
   </context>
 </TS>

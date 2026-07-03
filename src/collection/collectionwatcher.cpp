@@ -46,7 +46,6 @@
 #include <QMutexLocker>
 #include <QSettings>
 
-#include "core/filesystemwatcherinterface.h"
 #include "core/logging.h"
 #include "core/taskmanager.h"
 #include "core/settings.h"
@@ -60,6 +59,15 @@
 #include "playlistparsers/cueparser.h"
 #include "constants/collectionsettings.h"
 #include "engine/ebur128measures.h"
+
+#if defined(Q_OS_LINUX)
+#  include "core/filesystemwatcherinotify.h"
+#elif defined(Q_OS_WIN32)
+#  include "core/filesystemwatcherwin.h"
+#else
+#  include "core/filesystemwatcherqt.h"
+#endif
+
 #ifdef HAVE_SONGFINGERPRINTING
 #  include "engine/chromaprinter.h"
 #endif
@@ -87,7 +95,13 @@ CollectionWatcher::CollectionWatcher(const Song::Source source,
       task_manager_(task_manager),
       tagreader_client_(tagreader_client),
       backend_(backend),
-      fs_watcher_(FileSystemWatcherInterface::Create(this)),
+#if defined(Q_OS_LINUX)
+      fs_watcher_(new FileSystemWatcherInotify(this)),
+#elif defined(Q_OS_WIN32)
+      fs_watcher_(new FileSystemWatcherWin(this)),
+#else
+      fs_watcher_(new FileSystemWatcherQt(this)),
+#endif
       original_thread_(nullptr),
       scan_on_startup_(true),
       monitor_(true),
@@ -379,14 +393,16 @@ SongList CollectionWatcher::ScanTransaction::FindSongsInSubdirectory(const QStri
   if (cached_songs_dirty_) {
     const SongList songs = watcher_->backend_->FindSongsInDirectory(dir_id_);
     for (const Song &song : songs) {
-      const QString p = song.url().toLocalFile().section(u'/', 0, -2);
+      // Key by the NFC-normalized parent directory so a file that differs only in Unicode normalization (NFC vs NFD) between disk and database still matches
+      const QString p = song.url().toLocalFile().normalized(QString::NormalizationForm_C).section(u'/', 0, -2);
       cached_songs_.insert(p, song);
     }
     cached_songs_dirty_ = false;
   }
 
-  if (cached_songs_.contains(path)) {
-    return cached_songs_.values(path);
+  const QString nfc_path = path.normalized(QString::NormalizationForm_C);
+  if (cached_songs_.contains(nfc_path)) {
+    return cached_songs_.values(nfc_path);
   }
 
   return SongList();
@@ -437,6 +453,18 @@ bool CollectionWatcher::ScanTransaction::HasSeenSubdir(const QString &path) {
   }
 
   return std::any_of(known_subdirs_.begin(), known_subdirs_.end(), [path](const CollectionSubdirectory &subdir) { return subdir.path == path && subdir.mtime != 0; });
+
+}
+
+bool CollectionWatcher::ScanTransaction::HasScannedPath(const QString &path) {
+
+  return scanned_paths_.contains(path);
+
+}
+
+void CollectionWatcher::ScanTransaction::MarkPathScanned(const QString &path) {
+
+  scanned_paths_.insert(path);
 
 }
 
@@ -528,6 +556,13 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
 }
 
 void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const QString &path, const CollectionSubdirectory &subdir, const quint64 files_count, ScanTransaction *t, const bool force_noincremental) {
+
+  // A renamed directory can be reached both from its own queued change notification and from its parent's vanished-child check below, so skip it if it was already scanned in this transaction to avoid deleting/adding its songs twice.
+  if (t->HasScannedPath(path)) {
+    t->AddToProgress(files_count);
+    return;
+  }
+  t->MarkPathScanned(path);
 
   const QFileInfo path_info(path);
   const qint64 path_mtime = path_info.exists() && path_info.lastModified().isValid() ? path_info.lastModified().toSecsSinceEpoch() : 0;
@@ -822,10 +857,17 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
     t->AddToProgress(1);
   }
 
-  // Look for deleted songs
+  // Look for deleted songs.
+  // files_on_disk holds the on-disk path spelling while the database stores its own; the two can differ purely by Unicode normalization form (NFC vs NFD).
+  // Compare in NFC so a song that was just matched (FindSongsByPath normalizes too) is not also treated as deleted within the same scan.
+  QSet<QString> files_on_disk_nfc;
+  files_on_disk_nfc.reserve(files_on_disk.count());
+  for (const QString &file : std::as_const(files_on_disk)) {
+    files_on_disk_nfc.insert(file.normalized(QString::NormalizationForm_C));
+  }
   for (const Song &song : std::as_const(songs_in_db)) {
-    QString file = song.url().toLocalFile();
-    if (!song.unavailable() && !files_on_disk.contains(file) && !t->files_changed_path_.contains(file)) {
+    const QString file = song.url().toLocalFile();
+    if (!song.unavailable() && !files_on_disk_nfc.contains(file.normalized(QString::NormalizationForm_C)) && !t->files_changed_path_.contains(file)) {
       qLog(Debug) << "Song deleted from disk:" << file;
       t->deleted_songs << song;
     }
@@ -1147,8 +1189,10 @@ void CollectionWatcher::RemoveDirectory(const CollectionDirectory &dir) {
 
 bool CollectionWatcher::FindSongsByPath(const SongList &songs, const QString &path, SongList *out) {
 
+  // Compare on the NFC-normalized path so a file that differs only in Unicode normalization (NFC vs NFD) between disk and database still matches, instead of being treated as a new file and duplicated.
+  const QString nfc_path = path.normalized(QString::NormalizationForm_C);
   for (const Song &song : songs) {
-    if (song.url().toLocalFile() == path) {
+    if (song.url().toLocalFile().normalized(QString::NormalizationForm_C) == nfc_path) {
       *out << song;
     }
   }
@@ -1190,7 +1234,6 @@ bool CollectionWatcher::FindSongsByFingerprint(const QString &file, const SongLi
 
 void CollectionWatcher::DirectoryChanged(const QString &subdir) {
 
-  // Find what dir it was in
   QHash<QString, CollectionDirectory>::const_iterator it = subdir_mapping_.constFind(subdir);
   if (it == subdir_mapping_.constEnd()) {
     return;

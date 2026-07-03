@@ -59,12 +59,13 @@ FilesystemDevice::FilesystemDevice(const QUrl &url,
       collection_watcher_(new CollectionWatcher(Song::Source::Device, task_manager, tagreader_client, collection_backend_)),
       watcher_thread_(new QThread(this)) {
 
+  // Set the device name before moving the watcher to its own thread, so this write to device_name_ happens while the watcher still has affinity here and cannot race a scan on the watcher thread.
+  collection_watcher_->set_device_name(device_manager->DeviceNameByID(unique_id));
+
   collection_watcher_->moveToThread(watcher_thread_);
   watcher_thread_->start(QThread::IdlePriority);
 
   qLog(Debug) << collection_watcher_ << "for device" << unique_id << "moved to thread" << watcher_thread_;
-
-  collection_watcher_->set_device_name(device_manager->DeviceNameByID(unique_id));
 
   QObject::connect(&*collection_backend_, &CollectionBackend::DirectoryAdded, collection_watcher_, &CollectionWatcher::AddDirectory);
   QObject::connect(&*collection_backend_, &CollectionBackend::DirectoryDeleted, collection_watcher_, &CollectionWatcher::RemoveDirectory);

@@ -693,7 +693,7 @@
     </message>
     <message>
       <source>Fade out on pause / fade in on resume</source>
-      <translation>Kasuta pausimisel ja jätkamisel hajumist</translation>
+      <translation>Kasuta peatamisel ja jätkamisel hajumist</translation>
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect</source>
@@ -852,6 +852,10 @@
     <message>
       <source>Error while setting CDDA device to pause state.</source>
       <translation>Viga CDDA seadme peatatud olekusse seadmisel.</translation>
+    </message>
+    <message>
+      <source>The &apos;track&apos; format is not supported by GStreamer.</source>
+      <translation>GStreamer ei toeta &apos;loo&apos; vormingut.</translation>
     </message>
     <message>
       <source>Error while querying CDDA tracks.</source>
@@ -1031,8 +1035,8 @@
   <context>
     <name>CollectionLibrary</name>
     <message>
-      <source>Support for sort tags artist, album, album artist, title, composer, and performer</source>
-      <translation>Esitaja, albumi, albumi esitaja, pealkirja, helilooja ja esineja sortimise siltide tugi</translation>
+      <source>Support for sort tags artist, album, album artist, title, composer and performer</source>
+      <translation>Esitaja, albumi, albumi esitaja, pealkirja, helilooja ja esineja järjestuse siltide tugi</translation>
     </message>
     <message>
       <source>Saving playcounts and ratings</source>
@@ -3002,6 +3006,10 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
       <source>Separate albums by grouping tag</source>
       <translation>Eralda albumid rühmitamise sildi järgi</translation>
     </message>
+    <message>
+      <source>Original year - Album - Disc</source>
+      <translation>Algne aasta - album - plaat</translation>
+    </message>
   </context>
   <context>
     <name>GstEngine</name>
@@ -3756,25 +3764,10 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
   </context>
   <context>
-    <name>MoodbarProxyStyle</name>
-    <message>
-      <source>Show moodbar</source>
-      <translation>Kuva tujuriba</translation>
-    </message>
-    <message>
-      <source>Moodbar style</source>
-      <translation>Meeleoluriba stiil</translation>
-    </message>
-  </context>
-  <context>
     <name>MoodbarSettingsPage</name>
     <message>
       <source>Moodbar</source>
       <translation>Meeleoluriba</translation>
-    </message>
-    <message>
-      <source>Show a moodbar in the track progress bar</source>
-      <translation>Kuva loo edenemisribal meeleoluriba</translation>
     </message>
     <message>
       <source>Moodbar style</source>
@@ -3783,10 +3776,6 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <message>
       <source>Save the .mood files directly in the songs folders</source>
       <translation>Salvesta .mood failid lugude kaustadesse</translation>
-    </message>
-    <message>
-      <source>Enabled</source>
-      <translation>Lubatud</translation>
     </message>
   </context>
   <context>
@@ -3868,6 +3857,10 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <message>
       <source>Use proxy settings for streaming</source>
       <translation>Kasuta voogesituseks puhverserveri seadistusi</translation>
+    </message>
+    <message>
+      <source>Only HTTP proxy is supported for streaming.</source>
+      <translation>Voogedastuse kontekstis on toetatud vaid HTTP-proksi.</translation>
     </message>
   </context>
   <context>
@@ -5591,7 +5584,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Searching...</source>
-      <translation>Otsimine...</translation>
+      <translation>Otsin...</translation>
     </message>
     <message>
       <source>Receiving albums for %1 artist...</source>
@@ -5853,10 +5846,162 @@ Kas soovid jätkata?</translation>
     </message>
   </context>
   <context>
+    <name>RadioBrowserSearchModel</name>
+    <message>
+      <source>Name</source>
+      <translation>Nimi</translation>
+    </message>
+    <message>
+      <source>Country</source>
+      <translation>Riik</translation>
+    </message>
+    <message>
+      <source>Tags</source>
+      <translation>Sildid</translation>
+    </message>
+    <message>
+      <source>Codec</source>
+      <translation>Koodek</translation>
+    </message>
+  </context>
+  <context>
+    <name>RadioBrowserSearchView</name>
+    <message>
+      <source>Load more...</source>
+      <translation>Laadi veel...</translation>
+    </message>
+    <message>
+      <source>Search for radio stations using radio-browser.info</source>
+      <translation>Otsi veebiraadiojaamu radio-browser.info saidist</translation>
+    </message>
+    <message>
+      <source>Search radio stations...</source>
+      <translation>Otsi raadiojaamu...</translation>
+    </message>
+    <message>
+      <source>All countries</source>
+      <translation>Kõik riigid</translation>
+    </message>
+    <message>
+      <source>By votes</source>
+      <translation>Meeldimiste alusel</translation>
+    </message>
+    <message>
+      <source>By clicks</source>
+      <translation>Klikkide alusel</translation>
+    </message>
+    <message>
+      <source>By name</source>
+      <translation>Nime alusel</translation>
+    </message>
+    <message>
+      <source>By bitrate</source>
+      <translation>Bitikiiruse alusel</translation>
+    </message>
+    <message>
+      <source>Searching...</source>
+      <translation>Otsin...</translation>
+    </message>
+    <message>
+      <source>No stations found.</source>
+      <translation>Ühtegi veebiraadiojaama ei leidunud.</translation>
+    </message>
+    <message>
+      <source>%1 stations found</source>
+      <translation>Leidus %1 veebiraadiojaama</translation>
+    </message>
+    <message>
+      <source>Append to current playlist</source>
+      <translation>Lisa praegusesse esitusloendisse</translation>
+    </message>
+  </context>
+  <context>
+    <name>RadioBrowserService</name>
+    <message>
+      <source>No Radio Browser server available.</source>
+      <translation>Ühtegi raadiojaamade otsinguserverit pole saadaval.</translation>
+    </message>
+    <message>
+      <source>Searching Radio Browser</source>
+      <translation>Otsin raadiojaamade otsinguserverist</translation>
+    </message>
+    <message>
+      <source>Radio Browser search failed: %1</source>
+      <translation>Otsing raadiojaamade otsinguserverist ei õnnestunud: %1</translation>
+    </message>
+  </context>
+  <context>
     <name>RadioParadiseService</name>
     <message>
       <source>Getting %1 channels</source>
       <translation>%1 kanali hankimine</translation>
+    </message>
+  </context>
+  <context>
+    <name>RadioSettingsPage</name>
+    <message>
+      <source>Radios</source>
+      <translation>Raadiod</translation>
+    </message>
+    <message>
+      <source>SomaFM</source>
+      <translation>SomaFM</translation>
+    </message>
+    <message>
+      <source>Stream quality:</source>
+      <translation>Voogedastuse kvaliteet:</translation>
+    </message>
+    <message>
+      <source>Radio Browser</source>
+      <translation>Raadiojaamade otsinguserver</translation>
+    </message>
+    <message>
+      <source>Search results limit:</source>
+      <translation>Otsingutulemuste piirang:</translation>
+    </message>
+    <message>
+      <source>Hide broken stations</source>
+      <translation>Peida vigased raadiojaamad</translation>
+    </message>
+    <message>
+      <source>Default sort order:</source>
+      <translation>Vaikimisi järjestus:</translation>
+    </message>
+    <message>
+      <source>Default country:</source>
+      <translation>Vaikimisi riik:</translation>
+    </message>
+    <message>
+      <source>All countries</source>
+      <translation>Kõik riigid</translation>
+    </message>
+    <message>
+      <source>Highest</source>
+      <translation>Kõrgeim</translation>
+    </message>
+    <message>
+      <source>High</source>
+      <translation>Kõrge</translation>
+    </message>
+    <message>
+      <source>Low</source>
+      <translation>Madal</translation>
+    </message>
+    <message>
+      <source>By votes</source>
+      <translation>Meeldimiste alusel</translation>
+    </message>
+    <message>
+      <source>By clicks</source>
+      <translation>Klikkide alusel</translation>
+    </message>
+    <message>
+      <source>By name</source>
+      <translation>Nime alusel</translation>
+    </message>
+    <message>
+      <source>By bitrate</source>
+      <translation>Bitikiiruse alusel</translation>
     </message>
   </context>
   <context>
@@ -5891,6 +6036,14 @@ Kas soovid jätkata?</translation>
     <message>
       <source>Form</source>
       <translation>Vorm</translation>
+    </message>
+    <message>
+      <source>Channels</source>
+      <translation>Kanalid</translation>
+    </message>
+    <message>
+      <source>Radio Browser</source>
+      <translation>Raadiojaamade otsinguserver</translation>
     </message>
   </context>
   <context>
@@ -6448,45 +6601,6 @@ Kas soovid jätkata?</translation>
     </message>
   </context>
   <context>
-    <name>SnapDialog</name>
-    <message>
-      <source>Strawberry is running as a Snap</source>
-      <translation>Strawberry töötab Snapi paketina</translation>
-    </message>
-    <message>
-      <source>It is detected that Strawberry is running as a Snap</source>
-      <translation>Tuvastasin, et Strawberry töötab Snapi paketinana</translation>
-    </message>
-    <message>
-      <source>Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares.</source>
-      <translation>Strawberry on aeglasem ja omab Snapina käitamisel piiranguid. Juurfailisüsteemile (/) ligipääs puudub. Samuti võivad kehtida muud piirangud, näiteks juurdepääs teatud seadmetele või võrgukestastele.</translation>
-    </message>
-    <message>
-      <source>For Ubuntu there is an official PPA repository available at %1.</source>
-      <translation>Ubuntu jaoks on ametlik PPA hoidla, mis on saadaval aadressil %1.</translation>
-    </message>
-    <message>
-      <source>Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information.</source>
-      <translation>Ametlikud versioonid on saadaval Debiani ja Ubuntu jaoks, mis töötavad ka enamiku nende derivaatidega. Lisateabe saamiseks vaata %1.</translation>
-    </message>
-    <message>
-      <source>For a better experience please consider the other options above.</source>
-      <translation>Parema kasutuskogemuse saamiseks kaalu teisi ülaltoodud valikuid.</translation>
-    </message>
-    <message>
-      <source>Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:</source>
-      <translation>Varunda strawberry.conf ja strawberry.db kaustast ~/snap, et vältida seadistuse kaotamist enne snapi paketi eemaldamist:</translation>
-    </message>
-    <message>
-      <source>Uninstall the snap with:</source>
-      <translation>Eemalda snap kasutades:</translation>
-    </message>
-    <message>
-      <source>Install strawberry through PPA:</source>
-      <translation>Paigalda Strawberry PPA kaudu:</translation>
-    </message>
-  </context>
-  <context>
     <name>SomaFMService</name>
     <message>
       <source>Getting %1 channels</source>
@@ -6586,7 +6700,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Searching...</source>
-      <translation>Otsimine...</translation>
+      <translation>Otsin...</translation>
     </message>
     <message>
       <source>Receiving albums for %1 artist...</source>
@@ -7039,7 +7153,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Searching...</source>
-      <translation>Otsimine...</translation>
+      <translation>Otsin...</translation>
     </message>
     <message>
       <source>Receiving albums for %1 artist...</source>
@@ -7263,6 +7377,22 @@ Kas soovid jätkata?</translation>
     <message>
       <source>Click to toggle between remaining time and total time</source>
       <translation>Klõpsa järelejäänud aja ja kestuse vahel vahetamiseks</translation>
+    </message>
+    <message>
+      <source>Normal</source>
+      <translation>Tavaline</translation>
+    </message>
+    <message>
+      <source>Moodbar</source>
+      <translation>Meeleoluriba</translation>
+    </message>
+    <message>
+      <source>Moodbar style</source>
+      <translation>Meeleoluriba stiil</translation>
+    </message>
+    <message>
+      <source>Waveform</source>
+      <translation>Signaalikuju</translation>
     </message>
   </context>
   <context>
@@ -7785,6 +7915,25 @@ Kas soovid jätkata?</translation>
     <message>
       <source>Password</source>
       <translation>Salasõna</translation>
+    </message>
+  </context>
+  <context>
+    <name>WaveformSettingsPage</name>
+    <message>
+      <source>Waveform</source>
+      <translation>Signaalikuju</translation>
+    </message>
+    <message>
+      <source>Color</source>
+      <translation>Värv</translation>
+    </message>
+    <message>
+      <source>Select waveform color</source>
+      <translation>Vali signaalikujude värv</translation>
+    </message>
+    <message>
+      <source>Save the .waveform files directly in the songs folders</source>
+      <translation>Salvesta .waveform failid lugude kaustadesse</translation>
     </message>
   </context>
 </TS>

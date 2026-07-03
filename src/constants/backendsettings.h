@@ -36,6 +36,7 @@ constexpr char kALSAPlugin[] = "alsaplugin";
 constexpr char kPlaybin3[] = "playbin3";
 constexpr char kExclusiveMode[] = "exclusive_mode";
 constexpr char kVolumeControl[] = "volume_control";
+constexpr char kVolumeExponential[] = "volume_exponential";
 constexpr char kChannelsEnabled[] = "channels_enabled";
 constexpr char kChannels[] = "channels";
 constexpr char kBS2B[] = "bs2b";

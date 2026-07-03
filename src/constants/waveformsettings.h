@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2012, David Sansome <me@davidsansome.com>
+ * Copyright 2026, Strawberry contributors
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,28 +17,16 @@
  *
  */
 
-#ifndef QTFSLISTENER_H
-#define QTFSLISTENER_H
+#ifndef WAVEFORMSETTINGS_H
+#define WAVEFORMSETTINGS_H
 
-#include "config.h"
+namespace WaveformSettings {
 
-#include <QString>
+constexpr char kSettingsGroup[] = "Waveform";
 
-#include "filesystemwatcherinterface.h"
+constexpr char kSave[] = "save";
+constexpr char kColor[] = "color";
 
-class QFileSystemWatcher;
+}  // namespace WaveformSettings
 
-class QtFSListener : public FileSystemWatcherInterface {
-  Q_OBJECT
-
- public:
-  explicit QtFSListener(QObject *parent);
-  void AddPath(const QString &path) override;
-  void RemovePath(const QString &path) override;
-  void Clear() override;
-
- private:
-  QFileSystemWatcher *watcher_;
-};
-
-#endif  // QTFSLISTENER_H
+#endif  // WAVEFORMSETTINGS_H

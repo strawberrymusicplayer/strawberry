@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,25 +23,13 @@
 #define RATINGWIDGET_H
 
 #include <QWidget>
-#include <QFrame>
-#include <QPixmap>
-#include <QRect>
 
-class RatingPainter {
- public:
-  RatingPainter();
+class QPaintEvent;
+class QMouseEvent;
+class QKeyEvent;
+class QEvent;
 
-  static constexpr int kStarCount = 5;
-  static constexpr int kStarSize = 16;
-
-  static QRect Contents(const QRect rect);
-  static float RatingForPos(const QPoint pos, const QRect rect);
-
-  void Paint(QPainter *painter, const QRect rect, float rating) const;
-
- private:
-  QPixmap stars_[kStarCount * 2 + 1];
-};
+#include "ratingpainter.h"
 
 class RatingWidget : public QWidget {
   Q_OBJECT

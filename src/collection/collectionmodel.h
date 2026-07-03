@@ -75,7 +75,6 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
     Role_ContainerType,
     Role_SortText,
     Role_ContainerKey,
-    Role_Artist,
     Role_IsDivider,
     Role_Editable,
     LastRole
@@ -214,8 +213,6 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void TotalArtistCountUpdated(const int count);
   void TotalAlbumCountUpdated(const int count);
   void GroupingChanged(const CollectionModel::Grouping g, const bool separate_albums_by_grouping);
-  void SongsAdded(const SongList &songs);
-  void SongsRemoved(const SongList &songs);
 
  public Q_SLOTS:
   void SetFilterMode(const CollectionFilterOptions::FilterMode filter_mode);
@@ -236,13 +233,29 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   void ScheduleUpdate(const CollectionModelUpdate::Type type, const SongList &songs = SongList());
   void ScheduleAddSongs(const SongList &songs);
-  void ScheduleUpdateSongs(const SongList &songs);
   void ScheduleRemoveSongs(const SongList &songs);
 
   void AddReAddOrUpdateSongsInternal(const SongList &songs);
   void AddSongsInternal(const SongList &songs);
   void UpdateSongsInternal(const SongList &songs);
   void RemoveSongsInternal(const SongList &songs);
+  void RemoveSiblingNodes(CollectionItem *parent, QList<CollectionItem*> nodes);
+  void DispatchUpdate(const CollectionModelUpdate &update);
+
+  // Identity of the item behind a persistent index, captured before a bulk update mutates the tree and resolved against the rebuilt node maps afterwards.
+  // Identity- rather than pointer-based on purpose: a node that is deleted and re-created within the same drain (a re-added song, a rebuilt container) still resolves to its successor,
+  // and a recycled heap address cannot alias an unrelated new item.
+  // For compilation-artist nodes, which live on their parent instead of in container_nodes_, container_level and container_key identify the parent.
+  struct ItemIdentity {
+    CollectionItem::Type type = CollectionItem::Type::Root;
+    int song_id = -1;                 // Type::Song
+    int container_level = -1;         // Type::Container
+    QString container_key;            // Type::Container and Type::Divider
+    bool compilation_artist = false;
+    bool compilation_artist_parent_is_root = false;
+  };
+  ItemIdentity CaptureItemIdentity(const QModelIndex &idx) const;
+  QModelIndex ResolveItemIdentity(const ItemIdentity &identity) const;
 
   void CreateDividerItem(const QString &divider_key, const QString &display_text, CollectionItem *parent);
   CollectionItem *CreateContainerItem(const GroupBy group_by, const int container_level, const QString &container_key, const Song &song, CollectionItem *parent);
@@ -276,9 +289,6 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void TotalArtistCountUpdatedSlot(const int count);
   void TotalAlbumCountUpdatedSlot(const int count);
 
-  void RowsInserted(const QModelIndex &parent, const int first, const int last);
-  void RowsRemoved(const QModelIndex &parent, const int first, const int last);
-
  private:
   const SharedPtr<CollectionBackend> backend_;
   const SharedPtr<AlbumCoverLoader> albumcover_loader_;
@@ -300,6 +310,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   int total_album_count_;
 
   bool loading_;
+  bool bulk_mode_;
 
   QQueue<CollectionModelUpdate> updates_;
 

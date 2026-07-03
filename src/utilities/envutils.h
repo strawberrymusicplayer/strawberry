@@ -27,6 +27,7 @@ namespace Utilities {
 QString GetEnv(const QString &key);
 void SetEnv(const char *key, const QString &value);
 QString DesktopEnvironment();
+bool IsWSL();
 
 }  // namespace Utilities
 

@@ -60,6 +60,8 @@ class GstEnginePipeline : public QObject {
   explicit GstEnginePipeline(QObject *parent = nullptr);
   ~GstEnginePipeline() override;
 
+  bool event(QEvent *e) override;
+
   // Globally unique across all pipelines.
   int id() const { return id_.load(); }
 
@@ -68,6 +70,7 @@ class GstEnginePipeline : public QObject {
   void set_playbin3_enabled(const bool playbin3_enabled);
   void set_exclusive_mode(const bool exclusive_mode);
   void set_volume_enabled(const bool enabled);
+  void set_volume_exponential(const bool enabled);
   void set_stereo_balancer_enabled(const bool enabled);
   void set_equalizer_enabled(const bool enabled);
   void set_replaygain(const bool enabled, const int mode, const double preamp, const double fallbackgain, const bool compression);
@@ -163,6 +166,9 @@ class GstEnginePipeline : public QObject {
   bool IsStateNull() const;
   bool InitAudioBin(QString &error);
   void SetupVolume(GstElement *element);
+  void ReapplyVolume();
+  double PercentToInternalVolume(const uint volume_percent) const;
+  uint InternalVolumeToPercent(const double volume_internal) const;
   void SetStateAsync(const GstState state);
   void SetNextUrl();
 
@@ -180,6 +186,7 @@ class GstEnginePipeline : public QObject {
   static gboolean BusWatchCallback(GstBus *bus, GstMessage *msg, gpointer self);
   static void TaskEnterCallback(GstTask *task, GThread *thread, gpointer self);
 
+  void HandleBusMessage(GstMessage *msg);
   void TagMessageReceived(GstMessage *msg);
   void ErrorMessageReceived(GstMessage *msg);
   void ElementMessageReceived(GstMessage *msg);
@@ -227,6 +234,7 @@ class GstEnginePipeline : public QObject {
   QVariant device_;
   bool exclusive_mode_;
   bool volume_enabled_;
+  bool volume_exponential_;
   bool fading_enabled_;
   std::atomic<bool> strict_ssl_enabled_;
 
@@ -383,6 +391,9 @@ class GstEnginePipeline : public QObject {
   std::atomic<bool> about_to_finish_;
   std::atomic<bool> finish_requested_;
   std::atomic<bool> finished_;
+
+  // Identifies the current bus-watch session. Bumped by Disconnect() so that GstBusMessageEvents posted from the GLib thread before teardown (Windows/macOS) are dropped instead of handled after the watch is gone or replaced.
+  std::atomic<quint64> bus_message_generation_;
 
   // The state-progress counters (*_in_progress_) and their paired last_set_state_*_in_progress_ values must be updated together under mutex_state_progress_ to avoid observers seeing torn state.
   mutable QMutex mutex_state_progress_;

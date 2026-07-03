@@ -22,5 +22,6 @@
 FilterParserFloatEqComparator::FilterParserFloatEqComparator(const float search_term) : search_term_(search_term) {}
 
 bool FilterParserFloatEqComparator::Matches(const QVariant &value) const {
-  return value.toFloat() == search_term_;
+  // Quantize both sides (CAST((x + 0.05) * 10 AS INTEGER)) so the in-memory and database rating filters agree, instead of relying on fragile exact float equality.
+  return static_cast<int>((value.toFloat() + 0.05F) * 10.0F) == static_cast<int>((search_term_ + 0.05F) * 10.0F);
 }

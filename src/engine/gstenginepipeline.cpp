@@ -42,6 +42,8 @@
 
 #include <QObject>
 #include <QCoreApplication>
+#include <QThread>
+#include <QEvent>
 #include <QtConcurrentRun>
 #include <QThreadPool>
 #include <QFuture>
@@ -67,6 +69,7 @@
 #include "constants/backendsettings.h"
 #include "gstengine.h"
 #include "gstenginepipeline.h"
+#include "gstbusmessageevent.h"
 #include "gstbufferconsumer.h"
 
 using namespace std::chrono_literals;
@@ -81,6 +84,7 @@ namespace {
 
 constexpr int GST_PLAY_FLAG_VIDEO = 0x00000001;
 constexpr int GST_PLAY_FLAG_AUDIO = 0x00000002;
+constexpr int GST_PLAY_FLAG_TEXT = 0x00000004;
 constexpr int GST_PLAY_FLAG_DOWNLOAD = 0x00000080;
 constexpr int GST_PLAY_FLAG_BUFFERING = 0x00000100;
 constexpr int GST_PLAY_FLAG_SOFT_VOLUME = 0x00000010;
@@ -128,6 +132,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       playbin3_enabled_(true),
       exclusive_mode_(false),
       volume_enabled_(true),
+      volume_exponential_(false),
       fading_enabled_(false),
       strict_ssl_enabled_(false),
       buffer_duration_nanosec_(BackendSettings::kDefaultBufferDuration * kNsecPerMsec),
@@ -192,6 +197,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       about_to_finish_(false),
       finish_requested_(false),
       finished_(false),
+      bus_message_generation_(0),
       set_state_in_progress_(0),
       set_state_async_in_progress_(0),
       last_set_state_in_progress_(GST_STATE_VOID_PENDING),
@@ -275,6 +281,10 @@ void GstEnginePipeline::set_exclusive_mode(const bool exclusive_mode) {
 
 void GstEnginePipeline::set_volume_enabled(const bool enabled) {
   volume_enabled_ = enabled;
+}
+
+void GstEnginePipeline::set_volume_exponential(const bool enabled) {
+  volume_exponential_ = enabled;
 }
 
 void GstEnginePipeline::set_stereo_balancer_enabled(const bool enabled) {
@@ -464,6 +474,10 @@ void GstEnginePipeline::Disconnect() {
       }
     }
 
+    // End this bus-watch session: bump the generation so any GstBusMessageEvent already posted from the GLib thread (Windows/macOS) is dropped on delivery instead of handled after teardown, and remove any such events still sitting in this object's event queue.
+    bus_message_generation_.fetch_add(1);
+    QCoreApplication::removePostedEvents(this, GstBusMessageEvent::EventType());
+
   }
 
 }
@@ -553,6 +567,7 @@ bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_ur
   g_object_get(G_OBJECT(pipeline_), "flags", &flags, nullptr);
   flags |= GST_PLAY_FLAG_AUDIO;
   flags &= ~GST_PLAY_FLAG_VIDEO;
+  flags &= ~GST_PLAY_FLAG_TEXT;
   flags &= ~GST_PLAY_FLAG_SOFT_VOLUME;
   g_object_set(G_OBJECT(pipeline_), "flags", flags, nullptr);
 
@@ -1209,13 +1224,18 @@ void GstEnginePipeline::NotifyVolumeCallback(GstElement *element, GParamSpec *pa
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
+  // Ignore device-originated volume changes during a gapless transition.
+  // When the next track has a different sample rate the sink renegotiates in place and can reset the (device) stream volume; that is not a user action, so adopting it here would clobber the slider (and the stored volume).
+  // StreamStartMessageReceived re-asserts the correct volume once the new stream has started.
+  if (instance->about_to_finish_.load()) return;
+
   // Read the property from the element that actually fired the signal, not from instance->volume_
   // SetupVolume may have swapped volume_ between the signal being queued and this callback running,
   // in which case we'd otherwise read from the wrong element.
   double volume_internal = 0.0;
   g_object_get(G_OBJECT(element), "volume", &volume_internal, nullptr);
 
-  const uint volume_percent = static_cast<uint>(qBound(0L, lround(volume_internal / 0.01), 100L));
+  const uint volume_percent = instance->InternalVolumeToPercent(volume_internal);
   bool changed = false;
   {
     // Only publish the new value if `element` is still the active volume source.
@@ -1523,52 +1543,87 @@ void GstEnginePipeline::AboutToFinishCallback(GstPlayBin *playbin, gpointer self
 
 }
 
-// Watch callback runs on the main thread and is the single dispatch point for all message-driven state mutation in this class.
+// Watch callback and the single dispatch point for all message-driven state mutation in this class.
+// IMPORTANT: this only runs on the main thread when Qt drives the GLib default main context (i.e. the QEventDispatcherGlib build on Linux/Unix).
+// On Windows and macOS Qt uses a non-GLib event dispatcher, so Application starts a dedicated GLib thread (see Application::GLibMainLoopThreadFunc) that drives the default context instead, and this callback - and every handler it calls below - then runs on THAT thread, concurrently with the main thread.
+// Consequently every member touched here must stay safe against concurrent main-thread access (the state is mostly atomics/mutex-guarded), and the pipeline teardown in Disconnect() can race an in-flight dispatch on that thread.
 gboolean GstEnginePipeline::BusWatchCallback(GstBus *bus, GstMessage *msg, gpointer self) {
 
   Q_UNUSED(bus)
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
-  switch (GST_MESSAGE_TYPE(msg)) {
-    case GST_MESSAGE_EOS:
-      Q_EMIT instance->EndOfStreamReached(instance->id(), false);
-      break;
-
-    case GST_MESSAGE_TAG:
-      instance->TagMessageReceived(msg);
-      break;
-
-    case GST_MESSAGE_ERROR:
-      instance->ErrorMessageReceived(msg);
-      break;
-
-    case GST_MESSAGE_ELEMENT:
-      instance->ElementMessageReceived(msg);
-      break;
-
-    case GST_MESSAGE_STATE_CHANGED:
-      instance->StateChangedMessageReceived(msg);
-      break;
-
-    case GST_MESSAGE_BUFFERING:
-      instance->BufferingMessageReceived(msg);
-      break;
-
-    case GST_MESSAGE_STREAM_START:
-      instance->StreamStartMessageReceived();
-      break;
-
-    default:
-      break;
+  if (instance->thread() == QThread::currentThread()) {
+    // We are already on the pipeline's own thread (the GLib default context is driven by Qt's main loop, i.e. the QEventDispatcherGlib build on Linux/Unix); handle synchronously, exactly as before.
+    instance->HandleBusMessage(msg);
+  }
+  else {
+    // We are on the dedicated GLib thread (Windows/macOS); marshal the message to the pipeline's own thread so the handlers run with the pipeline's affinity and cannot race main-thread access or teardown.
+    // postEvent is thread-safe; the event refs the message and unrefs it in its destructor, so the message is released even if the event is discarded when the pipeline is destroyed.
+    // The event is stamped with the current generation so it is dropped if the watch is disconnected (or replaced) before it is delivered.
+    QCoreApplication::postEvent(instance, new GstBusMessageEvent(msg, instance->bus_message_generation_.load()));
   }
 
   return TRUE;
 
 }
 
+// Receives the bus messages marshalled from BusWatchCallback when it runs off the pipeline's own thread (Windows/macOS).
+bool GstEnginePipeline::event(QEvent *e) {
+
+  if (e->type() == GstBusMessageEvent::EventType()) {
+    GstBusMessageEvent *bus_message_event = static_cast<GstBusMessageEvent*>(e);
+    // Drop messages left over from a bus-watch session that has since been disconnected or replaced; handling them now would emit stale EOS/error/tag events for a torn-down pipeline.
+    if (bus_message_event->generation() == bus_message_generation_.load()) {
+      HandleBusMessage(bus_message_event->message());
+    }
+    return true;
+  }
+
+  return QObject::event(e);
+
+}
+
+// Dispatches a single bus message to the handlers below; always runs on the pipeline's own thread (called directly from BusWatchCallback on Linux, via a posted event on Windows/macOS).
+void GstEnginePipeline::HandleBusMessage(GstMessage *msg) {
+
+  switch (GST_MESSAGE_TYPE(msg)) {
+    case GST_MESSAGE_EOS:
+      Q_EMIT EndOfStreamReached(id(), false);
+      break;
+
+    case GST_MESSAGE_TAG:
+      TagMessageReceived(msg);
+      break;
+
+    case GST_MESSAGE_ERROR:
+      ErrorMessageReceived(msg);
+      break;
+
+    case GST_MESSAGE_ELEMENT:
+      ElementMessageReceived(msg);
+      break;
+
+    case GST_MESSAGE_STATE_CHANGED:
+      StateChangedMessageReceived(msg);
+      break;
+
+    case GST_MESSAGE_BUFFERING:
+      BufferingMessageReceived(msg);
+      break;
+
+    case GST_MESSAGE_STREAM_START:
+      StreamStartMessageReceived();
+      break;
+
+    default:
+      break;
+  }
+
+}
+
 // Sync handler runs on the GStreamer streaming thread.
-// Only do work here that genuinely needs streaming-thread context. Everything else is delivered to BusWatchCallback on the main thread via GST_BUS_PASS.
+// Only do work here that genuinely needs streaming-thread context. Everything else is passed through with GST_BUS_PASS so it is delivered to BusWatchCallback (which runs on the main thread on Linux, but on the dedicated GLib thread on Windows/macOS - see the note there).
 GstBusSyncReply GstEnginePipeline::BusSyncCallback(GstBus *bus, GstMessage *msg, gpointer self) {
 
   Q_UNUSED(bus)
@@ -1609,7 +1664,6 @@ void GstEnginePipeline::StreamStartMessageReceived() {
   }
 
   next_uri_reset_ = false;
-  about_to_finish_ = false;
   {
     QMutexLocker lock_url(&mutex_url_);
     QMutexLocker lock_next_url(&mutex_next_url_);
@@ -1625,6 +1679,13 @@ void GstEnginePipeline::StreamStartMessageReceived() {
     next_beginning_offset_nanosec_.store(0);
     next_end_offset_nanosec_.store(0);
   }
+
+  // The new track may have a different sample rate, which makes the sink renegotiate in place and can reset the device stream volume (the audio goes silent while playback continues).
+  // ElementAddedCallback re-applies the volume only when the sink element is re-added (the new-pipeline / crossfade path), which does not happen during gapless playback, so re-assert it here on the new stream.
+  ReapplyVolume();
+
+  // Clear the transition flag only after re-asserting, so NotifyVolumeCallback keeps ignoring the renegotiation's volume reset for the whole transition.
+  about_to_finish_ = false;
 
   Q_EMIT EndOfStreamReached(id(), true);
 
@@ -2155,9 +2216,34 @@ void GstEnginePipeline::ProcessPendingSeek(const GstState state) {
 
 }
 
+double GstEnginePipeline::PercentToInternalVolume(const uint volume_percent) const {
+
+  if (!volume_exponential_) {
+    return static_cast<double>(volume_percent) * 0.01;
+  }
+
+  // Map the percentage onto a decibel scale where each 1% step equals 0.5 dB, so 100% is 0 dB (unity gain) and 0% is silence.
+  if (volume_percent == 0) return 0.0;
+  if (volume_percent >= 100) return 1.0;
+  return std::pow(10.0, (static_cast<double>(volume_percent) - 100.0) / 40.0);
+
+}
+
+uint GstEnginePipeline::InternalVolumeToPercent(const double volume_internal) const {
+
+  if (!volume_exponential_) {
+    return static_cast<uint>(qBound(0L, lround(volume_internal / 0.01), 100L));
+  }
+
+  // Inverse of PercentToInternalVolume: dB = 20*log10(gain), percent = 100 + dB/0.5.
+  if (volume_internal <= 0.0) return 0;
+  return static_cast<uint>(qBound(0L, lround(100.0 + 40.0 * std::log10(volume_internal)), 100L));
+
+}
+
 void GstEnginePipeline::SetVolume(const uint volume_percent) {
 
-  const double volume_internal = static_cast<double>(volume_percent) * 0.01;
+  const double volume_internal = PercentToInternalVolume(volume_percent);
   bool apply_to_element = false;
   GstElement *volume = nullptr;
   {
@@ -2180,6 +2266,24 @@ void GstEnginePipeline::SetVolume(const uint volume_percent) {
   if (apply_to_element && volume) {
     g_object_set(G_OBJECT(volume), "volume", volume_internal, nullptr);
   }
+
+}
+
+void GstEnginePipeline::ReapplyVolume() {
+
+  GstElement *volume = nullptr;
+  double volume_internal = 0.0;
+  {
+    QMutexLocker locker(&mutex_volume_);
+    // Nothing to re-assert if we never set a volume on this pipeline yet.
+    if (!volume_ || !volume_set_.load()) return;
+    volume = volume_;
+    volume_internal = volume_internal_.load();
+  }
+
+  // Unconditionally push the stored volume to the element (SetVolume would skip this when it considers the value unchanged, but the element itself may have been reset by an in-place sink renegotiation).
+  // g_object_set is called outside the lock - it fires notify::volume synchronously, which runs NotifyVolumeCallback (which takes mutex_volume_).
+  g_object_set(G_OBJECT(volume), "volume", volume_internal, nullptr);
 
 }
 

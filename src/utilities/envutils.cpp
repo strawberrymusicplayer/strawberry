@@ -22,6 +22,8 @@
 #include <QtGlobal>
 #include <QByteArray>
 #include <QString>
+#include <QIODevice>
+#include <QFile>
 #include <QSettings>
 
 #include "envutils.h"
@@ -69,6 +71,28 @@ QString DesktopEnvironment() {
   else if (session == "xfce"_L1)     return u"XFCE"_s;
 
   return u"Unknown"_s;
+
+}
+
+bool IsWSL() {
+
+#ifdef Q_OS_LINUX
+  // The Windows Subsystem for Linux exposes the Windows kernel version, which contains "microsoft" / "WSL".
+  QFile osrelease(u"/proc/sys/kernel/osrelease"_s);
+  if (osrelease.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    const QString contents = QString::fromLatin1(osrelease.readAll()).toLower();
+    osrelease.close();
+    if (contents.contains("microsoft"_L1, Qt::CaseInsensitive) || contents.contains("wsl"_L1, Qt::CaseInsensitive)) {
+      return true;
+    }
+  }
+
+  if (!qEnvironmentVariableIsEmpty("WSL_DISTRO_NAME") || !qEnvironmentVariableIsEmpty("WSL_INTEROP")) {
+    return true;
+  }
+#endif
+
+  return false;
 
 }
 

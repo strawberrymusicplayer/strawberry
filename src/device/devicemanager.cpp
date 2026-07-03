@@ -652,10 +652,10 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
       Q_ARG(bool, first_time));
 
   SharedPtr<ConnectedDevice> connected_device = SharedPtr<ConnectedDevice>(qobject_cast<ConnectedDevice*>(instance));
-
   if (!connected_device) {
     qLog(Warning) << "Could not create device for" << device_url.toString();
-    return connected_device;
+    delete instance;
+    return nullptr;
   }
 
   bool result = connected_device->Init();

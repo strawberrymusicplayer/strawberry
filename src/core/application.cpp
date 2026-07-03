@@ -107,6 +107,11 @@
 #  include "moodbar/moodbarloader.h"
 #endif
 
+#ifdef HAVE_WAVEFORM
+#  include "waveform/waveformcontroller.h"
+#  include "waveform/waveformloader.h"
+#endif
+
 #include "radios/radioservices.h"
 #include "radios/radiobackend.h"
 
@@ -211,6 +216,10 @@ class ApplicationImpl {
         moodbar_loader_([app]() { return new MoodbarLoader(app); }),
         moodbar_controller_([app]() { return new MoodbarController(app->player(), app->moodbar_loader()); }),
 #endif
+#ifdef HAVE_WAVEFORM
+        waveform_loader_([app]() { return new WaveformLoader(app); }),
+        waveform_controller_([app]() { return new WaveformController(app->player(), app->waveform_loader()); }),
+#endif
         lastfm_import_([app]() { return new LastFMImport(app->network()); })
   {}
 
@@ -235,6 +244,10 @@ class ApplicationImpl {
 #ifdef HAVE_MOODBAR
   Lazy<MoodbarLoader> moodbar_loader_;
   Lazy<MoodbarController> moodbar_controller_;
+#endif
+#ifdef HAVE_WAVEFORM
+  Lazy<WaveformLoader> waveform_loader_;
+  Lazy<WaveformController> waveform_controller_;
 #endif
   Lazy<LastFMImport> lastfm_import_;
 
@@ -383,4 +396,8 @@ SharedPtr<LastFMImport> Application::lastfm_import() const { return p_->lastfm_i
 #ifdef HAVE_MOODBAR
 SharedPtr<MoodbarController> Application::moodbar_controller() const { return p_->moodbar_controller_.ptr(); }
 SharedPtr<MoodbarLoader> Application::moodbar_loader() const { return p_->moodbar_loader_.ptr(); }
+#endif
+#ifdef HAVE_WAVEFORM
+SharedPtr<WaveformController> Application::waveform_controller() const { return p_->waveform_controller_.ptr(); }
+SharedPtr<WaveformLoader> Application::waveform_loader() const { return p_->waveform_loader_.ptr(); }
 #endif

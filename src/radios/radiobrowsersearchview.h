@@ -81,7 +81,7 @@ class RadioBrowserSearchView : public QWidget {
   int search_limit_;
   bool hide_broken_;
   bool has_more_;
-  bool initialized_;
+  bool countries_loaded_;
 };
 
 #endif  // RADIOBROWSERSEARCHVIEW_H

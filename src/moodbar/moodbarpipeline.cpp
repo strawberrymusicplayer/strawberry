@@ -141,7 +141,11 @@ void MoodbarPipeline::Start() {
 
 #ifdef HAVE_GSTFASTSPECTRUM
   GstStrawberryFastSpectrum *fastspectrum = reinterpret_cast<GstStrawberryFastSpectrum*>(spectrum);
-  fastspectrum->output_callback = [this](double *magnitudes, const int size) { builder_->AddFrame(magnitudes, size); };
+  // This callback runs on a GStreamer streaming thread.
+  // Skip processing once the pipeline has been stopped: the worker thread may already be tearing down builder_ in Finish(), and touching it here would be a data race / use-after-free.
+  fastspectrum->output_callback = [this](double *magnitudes, const int size) {
+    if (running_ && builder_) builder_->AddFrame(magnitudes, size);
+  };
 #else
   GObjectClass *spectrum_class = G_OBJECT_GET_CLASS(spectrum);
   if (g_object_class_find_property(spectrum_class, "message")) {
@@ -285,14 +289,24 @@ void MoodbarPipeline::Finish(const bool success) {
 
   success_ = success;
 
+  // Drive the pipeline to GST_STATE_NULL first so the streaming threads (which may still be invoking the spectrum output callback) are joined before we read and reset builder_.
+  // Doing this the other way around races the callback against builder_.reset() and is a use-after-free.
+  Cleanup();
+
   if (builder_) {
     data_ = builder_->Finish(1000);
     builder_.reset();
   }
 
-  Cleanup();
-
   Q_EMIT Finished(success);
+
+}
+
+void MoodbarPipeline::Shutdown() {
+
+  Q_ASSERT(QThread::currentThread() == thread());
+
+  Cleanup();
 
 }
 

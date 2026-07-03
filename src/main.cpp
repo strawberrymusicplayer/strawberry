@@ -59,6 +59,7 @@
 #include <QSettings>
 #include <QLoggingCategory>
 #include <QStyle>
+#include <QMessageBox>
 #ifdef HAVE_TRANSLATIONS
 #  include <QTranslator>
 #endif
@@ -197,6 +198,16 @@ int main(int argc, char *argv[]) {
   QGuiApplication::setQuitOnLastWindowClosed(false);
 
   QApplication a(argc, argv);
+
+#ifdef Q_OS_LINUX
+  if (Utilities::IsWSL()) {
+    const QString message = u"Strawberry is not supported when running under the Windows Subsystem for Linux (WSL). Please use the native Windows version instead."_s;
+    qLog(Error) << message;
+    QMessageBox::critical(nullptr, u"Unsupported environment"_s, message);
+    return 1;
+  }
+#endif
+
   KDSingleApplication single_app(QCoreApplication::applicationName().toLower(), KDSingleApplication::Option::IncludeUsernameInSocketName);
   if (!single_app.isPrimaryInstance()) {
     if (options.is_empty()) {
@@ -375,6 +386,10 @@ int main(int argc, char *argv[]) {
   QObject::connect(&unix_signal_watcher, &UnixSignalWatcher::UnixSignal, &w, &MainWindow::Exit);
 #endif
 
+#if QT_CONFIG(sessionmanager)
+  QObject::connect(&a, &QApplication::commitDataRequest, &w, &MainWindow::CommitData, Qt::DirectConnection);
+#endif
+
 #ifdef Q_OS_MACOS
   mac::EnableFullScreen(w);
 #endif  // Q_OS_MACOS
@@ -386,8 +401,8 @@ int main(int argc, char *argv[]) {
 
   int ret = QCoreApplication::exec();
 
-#ifdef __MINGW32__
-  // Workaround crash on exit with win32 threads
+#if defined(__MINGW32__) && !defined(HAVE_WINPTHREADS)
+  // Workaround crash on exit with the GCC win32 threading model (not needed with winpthreads).
   TerminateProcess(GetCurrentProcess(), 0);
 #endif
 

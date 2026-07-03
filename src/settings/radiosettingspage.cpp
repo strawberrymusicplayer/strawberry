@@ -119,8 +119,8 @@ void RadioSettingsPage::Load() {
     s.beginGroup(QLatin1String(RadioBrowserSettings::kSettingsGroup));
     ui_->spin_search_limit->setValue(s.value(QLatin1String(RadioBrowserSettings::kSearchLimit), RadioBrowserSettings::kSearchLimitDefault).toInt());
     ui_->check_hide_broken->setChecked(s.value(QLatin1String(RadioBrowserSettings::kHideBroken), RadioBrowserSettings::kHideBrokenDefault).toBool());
-    ComboBoxLoadFromSettings(s, ui_->combo_default_sort, u"default_sort"_s, u"votes"_s);
-    ComboBoxLoadFromSettings(s, ui_->combo_default_country, u"default_country"_s, QString());
+    ComboBoxLoadFromSettings(s, ui_->combo_default_sort, QLatin1String(RadioBrowserSettings::kDefaultSort), QLatin1String(RadioBrowserSettings::kDefaultSortDefault));
+    ComboBoxLoadFromSettings(s, ui_->combo_default_country, QLatin1String(RadioBrowserSettings::kDefaultCountry), QString());
     s.endGroup();
   }
 
@@ -144,8 +144,8 @@ void RadioSettingsPage::Save() {
     s.beginGroup(QLatin1String(RadioBrowserSettings::kSettingsGroup));
     s.setValue(QLatin1String(RadioBrowserSettings::kSearchLimit), ui_->spin_search_limit->value());
     s.setValue(QLatin1String(RadioBrowserSettings::kHideBroken), ui_->check_hide_broken->isChecked());
-    s.setValue(u"default_sort"_s, ui_->combo_default_sort->currentData().toString());
-    s.setValue(u"default_country"_s, ui_->combo_default_country->currentData().toString());
+    s.setValue(QLatin1String(RadioBrowserSettings::kDefaultSort), ui_->combo_default_sort->currentData().toString());
+    s.setValue(QLatin1String(RadioBrowserSettings::kDefaultCountry), ui_->combo_default_country->currentData().toString());
     s.endGroup();
   }
 

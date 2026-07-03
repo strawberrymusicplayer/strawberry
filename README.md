@@ -57,22 +57,26 @@ Supporting open-source developers helps ensure continued maintenance and improve
 ## :white_check_mark: Features
 
 - Play and organize your music collection
-- Supports formats: WAV, FLAC, WavPack, Ogg Vorbis, Opus, MPC, TrueAudio, AIFF, MP4, MP3, ASF, and Monkey’s Audio
-- Audio CD playback
+- Support for WAV, FLAC, Ogg FLAC, WavPack, Ogg Vorbis, Opus, Ogg Speex, MPC, TrueAudio, AIFF, MP4/AAC, ALAC, MP3, ASF, Monkey’s Audio, and DSD (DSF/DSDIFF)
 - Bit-perfect playback on Linux
+- MPRIS2 / D-Bus remote control on Linux
 - Native desktop notifications
 - Advanced playlist management
 - Smart and dynamic playlists
-- Loudness analysis and EBU R128 normalization
-- Editing tags and fetching missing tags via [MusicBrainz](https://musicbrainz.org/)
-- Album art from: [Last.fm](https://www.last.fm/), [MusicBrainz](https://musicbrainz.org/), [Discogs](https://www.discogs.com/), [Musixmatch](https://www.musixmatch.com/), [Deezer](https://www.deezer.com/), [Tidal](https://www.tidal.com/), [Qobuz](https://www.qobuz.com/), [Spotify](https://www.spotify.com/)
+- Audio analyzer, equalizer, moodbar, and waveform seek bar
+- Volume normalization with ReplayGain and EBU R128 loudness analysis
+- Editing tags, and fetching missing tags via acoustic fingerprinting using [AcoustID](https://acoustid.org/) and [MusicBrainz](https://musicbrainz.org/)
+- Album cover art from: [Last.fm](https://www.last.fm/), [MusicBrainz](https://musicbrainz.org/), [Discogs](https://www.discogs.com/), [Musixmatch](https://www.musixmatch.com/), [Deezer](https://www.deezer.com/), [Tidal](https://www.tidal.com/), [Qobuz](https://www.qobuz.com/), [Spotify](https://www.spotify.com/)
 - Lyrics from: [Genius](https://genius.com/), [Musixmatch](https://www.musixmatch.com/), [lyrics.ovh](https://lyrics.ovh/), [songlyrics](https://www.songlyrics.com/), [azlyrics](https://www.azlyrics.com/), [elyrics](https://www.elyrics.net/), [letras](https://www.letras.mus.br) and [lrclib.net](https://lrclib.net/)
-- Audio analyzer and equalizer
-- Transfer music to USB, MTP and iPod devices
-- Scrobbling to [Last.fm](https://www.last.fm/) and [ListenBrainz](https://listenbrainz.org/)
-- Streaming from Subsonic-compatible servers
-- Unofficial integrations: Tidal, Spotify, and Qobuz
+- Audio format conversion (transcoding) to MP3, AAC, FLAC, Ogg Vorbis, Opus, Speex, WavPack, and ASF
+- Music transfer to USB, MTP and iPod devices
+- Scrobbling to [Last.fm](https://www.last.fm/), [ListenBrainz](https://listenbrainz.org/), and Subsonic
+- Global keyboard shortcuts (Linux, macOS, and Windows)
 - Discord Rich Presence
+- Audio CD playback
+- Internet radio from [Radio Paradise](https://radioparadise.com/), [SomaFM](https://somafm.com/), [Radio Browser](https://www.radio-browser.info/), and custom streams
+- Streaming from Subsonic-compatible servers
+- Unofficial Tidal, Spotify, and Qobuz integration
 
 ---
 
@@ -88,18 +92,18 @@ Supporting open-source developers helps ensure continued maintenance and improve
 To build Strawberry from source, you’ll need:
 
 **Dependencies:**
-- [CMake ≥= 3.13](https://cmake.org/)
+- [CMake 3.13 or higher](https://cmake.org/)
 - C/C++ compiler ([GCC](https://gcc.gnu.org/), [Clang](https://clang.llvm.org/), or [MSVC](https://visualstudio.microsoft.com/vs/features/cplusplus/))
 - [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/) or [pkgconf](https://github.com/pkgconf/pkgconf)
 - [Boost](https://www.boost.org/)
 - [GLib](https://developer.gnome.org/glib/)
-- [Qt ≥= 6.4](https://www.qt.io/) (Core, Concurrent, Gui, Widgets, Network, SQL, D-Bus)
-- [SQLite ≥= 3.9](https://www.sqlite.org)
+- [Qt 6.4 or higher](https://www.qt.io/) (Core, Concurrent, Gui, Widgets, Network, SQL, D-Bus)
+- [SQLite 3.9 or higher](https://www.sqlite.org)
 - [ALSA (Linux only)](https://www.alsa-project.org/)
 - [GStreamer](https://gstreamer.freedesktop.org/)
-- [TagLib ≥= 1.12](https://www.taglib.org/)
+- [TagLib 1.12 or higher](https://www.taglib.org/)
 - [ICU](https://unicode-org.github.io/icu/)
-- [KDSingleApplication ≥= 1.1.0](https://github.com/KDAB/KDSingleApplication)
+- [KDSingleApplication 1.1.0 or higher](https://github.com/KDAB/KDSingleApplication)
 
 **Dependencies for optional features:**
 - Fingerprinting & tagging: [Chromaprint](https://acoustid.org/chromaprint)

@@ -432,13 +432,18 @@ Qt::ItemFlags MergedProxyModel::flags(const QModelIndex &idx) const {
 
 bool MergedProxyModel::setData(const QModelIndex &idx, const QVariant &value, const int role) {
 
-  QModelIndex source_index = mapToSource(idx);
-
+  const QModelIndex source_index = mapToSource(idx);
   if (!source_index.isValid()) {
-    return sourceModel()->setData(idx, value, role);
+    if (sourceModel()) {
+      return sourceModel()->setData(QModelIndex(), value, role);
+    }
+    return false;
   }
 
-  return GetModel(idx)->setData(idx, value, role);
+  QAbstractItemModel *model = GetModel(source_index);
+  if (!model) return false;
+
+  return model->setData(source_index, value, role);
 
 }
 

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -68,6 +68,8 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
  private:
   QList<LyricsSearchContextPtr> requests_search_;
   bool use_api_;
+
+  Q_DISABLE_COPY_MOVE(MusixmatchLyricsProvider)
 };
 
 #endif  // MUSIXMATCHLYRICSPROVIDER_H

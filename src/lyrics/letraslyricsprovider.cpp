@@ -19,13 +19,14 @@
 
 #include "config.h"
 
-#include <QApplication>
-#include <QThread>
+#include <QFuture>
+#include <QFutureWatcher>
+#include <QtConcurrent>
+#include <QCoreApplication>
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
 #include <QRegularExpression>
-#include <QScopeGuard>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
@@ -56,8 +57,6 @@ QUrl LetrasLyricsProvider::Url(const LyricsSearchRequest &request) {
 
 void LetrasLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
-  Q_ASSERT(QThread::currentThread() != qApp->thread());
-
   // letras.mus.br's Akamai edge blocks generic browser User-Agents (Mozilla/Firefox/Chrome strings all return 403)
   // but lets through identifiable HTTP-client UAs in the `name/version (+url)` form.
   // Send a Strawberry-identifying UA instead of the default fake browser UA used by other HTML providers.
@@ -76,16 +75,10 @@ void LetrasLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &
 
 void LetrasLyricsProvider::HandleLyricsReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request) {
 
-  Q_ASSERT(QThread::currentThread() != qApp->thread());
-
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
-
-  LyricsSearchResults results;
-
-  const QScopeGuard search_finished = qScopeGuard([this, id, &results]() { Q_EMIT SearchFinished(id, results); });
 
   if (reply->error() != QNetworkReply::NoError) {
     if (reply->error() >= 200) {
@@ -97,6 +90,7 @@ void LetrasLyricsProvider::HandleLyricsReply(QNetworkReply *reply, const int id,
     else {
       qLog(Error) << name_ << reply->errorString() << reply->error();
     }
+    Q_EMIT SearchFinished(id);
     return;
   }
 
@@ -105,6 +99,7 @@ void LetrasLyricsProvider::HandleLyricsReply(QNetworkReply *reply, const int id,
     if (http_status_code < 200 || http_status_code > 207) {
       qLog(Error) << name_ << "Received HTTP code" << http_status_code;
       reply->readAll();  // QTBUG-135641
+      Q_EMIT SearchFinished(id);
       return;
     }
   }
@@ -112,6 +107,7 @@ void LetrasLyricsProvider::HandleLyricsReply(QNetworkReply *reply, const int id,
   const QByteArray data = reply->readAll();
   if (data.isEmpty()) {
     qLog(Error) << name_ << "Empty reply received from server.";
+    Q_EMIT SearchFinished(id);
     return;
   }
 
@@ -128,25 +124,22 @@ void LetrasLyricsProvider::HandleLyricsReply(QNetworkReply *reply, const int id,
     // (e.g. " (feat. Stéphane Grappelli)", " (Live)") don't cause a false reject.
     if (!resolved_title.startsWith(request.title, Qt::CaseInsensitive)) {
       qLog(Debug) << name_ << "Slug resolved to a different track" << resolved_title << "for requested" << request.title;
+      Q_EMIT SearchFinished(id);
       return;
     }
   }
 
-  const QString lyrics = ParseLyricsFromHTML(content, QRegularExpression(start_tag_), QRegularExpression(end_tag_), QRegularExpression(lyrics_start_), multiple_);
-  if (lyrics.isEmpty() || lyrics.contains("we do not have the lyrics for"_L1, Qt::CaseInsensitive)) {
-    qLog(Debug) << name_ << "No lyrics for" << request.artist << request.album << request.title;
-    return;
-  }
-
-  qLog(Debug) << name_ << "Got lyrics for" << request.artist << request.album << request.title;
-
-  results << LyricsSearchResult(lyrics);
+  auto *watcher = new QFutureWatcher<QString>(this);
+  QObject::connect(watcher, &QFutureWatcher<QString>::finished, this, [this, watcher, id, request]() {
+    ParseLyricsFromHTMLFinished(watcher, id, request);
+  });
+  watcher->setFuture(QtConcurrent::run([content, start_re = start_tag_re_, end_re = end_tag_re_, lyrics_re = lyrics_start_re_, multiple = multiple_]() {
+    return ParseLyricsFromHTML(content, start_re, end_re, lyrics_re, multiple);
+  }));
 
 }
 
 QString LetrasLyricsProvider::StringFixup(const QString &text) {
-
-  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   // letras.mus.br slugs are strictly lowercase ASCII alpha-num with hyphens for word breaks; punctuation in the title is dropped.
   static const QRegularExpression regex_illegal_characters(u"[^A-Za-z0-9 -]"_s);

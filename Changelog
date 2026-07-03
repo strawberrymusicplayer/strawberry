@@ -2,6 +2,51 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Version 1.2.21 (2026.06.27):
+
+    * Re-point playlist items that references duplicated songs before removal (#2168)
+    * Preserve user data before deleting duplicate songs (#2168)
+    * Check for svg support (#2171)
+    * Support custom icons from scalable dir (#2171)
+    * Custom icons take precedence over system theme icons (#2171)
+    * Add .tak to valid file extensions
+    * Optional exponential volume
+    * Fixed build without moodbar and waveform
+
+Version 1.2.20 (2026.06.21):
+
+  Bugfixes:
+    * Defer writing playcount and rating tags for the currently playing MP3 file to prevent playback issues (#1916)
+    * Fixed volume being reset during gapless playback when the sample rate changes between tracks (#2149)
+    * Prevent duplicate songs with identical URL (#1341)
+    * Fixed album shuffle to use the effective album artist
+    * Fixed collection watcher skipping symlinked directories
+    * Fixed collection subdirectory path handling when renaming directories
+    * Fixed songlyrics.com, elyrics.net and letras lyrics parsing
+    * Fixed SPC (GME) file parsing
+    * Fixed Tidal session not being cleared on authentication errors
+    * Fixed global shortcuts to use the first backend that registers successfully
+    * Prefer the volume UUID when identifying removable devices (#2125)
+    * Save settings when the session manager requests a commit (#1818)
+    * Set StartupWMClass in the desktop file to org.strawberrymusicplayer.strawberry (#1996)
+    * Fixed two tabs closed when middle clicking on a playlist tab (#2084)
+    * Allow longer timeout waiting for lyrics
+    * Fixed scroll wheel changes numeric values (number, disc, year) instead of scrolling the window content in tag editor (#2104)
+    * Fixed playback stopping on files with embedded subtitle/text streams such as S_TEXT/WEBVTT (#2128)
+    * Only apply HTTP proxies to streaming, since SOCKS proxies are not supported by GStreamer (#2086)
+    * Fixed updating device collection path (#2125)
+    * Numerous stability, crash-safety, memory-safety and detach fixes throughout the application
+
+  Enhancements:
+    * New waveform for seekbar
+    * New filesystem watcher on Linux and Windows which also detects file changes within directories
+    * Added radio browser
+    * Improved MPRIS2 support (TrackMetadataChanged and TrackAdded signals and upgraded playlist track definitions)
+    * Include release group MBID in ListenBrainz scrobble submission
+    * FFTW3 fast spectrum plugin for moodbar is now optional
+    * Removed broken ChartLyrics, lyricfind.com and lololyrics.com lyrics provider
+    * (Windows|MinGW-W64) Switch back to winpthreads
+
 Version 1.2.19 (2026.04.17):
 
   Bugfixes:

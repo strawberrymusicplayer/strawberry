@@ -237,7 +237,7 @@ void CollectionLibrary::SongsPlaycountChanged(const SongList &songs, const bool 
     SongList songs_to_save_now;
     for (const Song &song : songs) {
       if (song.url().isLocalFile() && song.url() == current_song_url_ &&
-          (song.filetype() == Song::FileType::OggFlac || song.filetype() == Song::FileType::OggVorbis || song.filetype() == Song::FileType::OggOpus)) {
+          (song.filetype() == Song::FileType::OggFlac || song.filetype() == Song::FileType::OggVorbis || song.filetype() == Song::FileType::OggOpus || song.filetype() == Song::FileType::MPEG)) {
         qLog(Debug) << "Deferring playcount save for currently playing file" << song.url().toLocalFile();
         if (pending_song_saves_.contains(song.url())) {
           SharedPtr<PendingSongSave> pending_song_save = pending_song_saves_.value(song.url());
@@ -268,7 +268,7 @@ void CollectionLibrary::SongsRatingChanged(const SongList &songs, const bool sav
     SongList songs_to_save_now;
     for (const Song &song : songs) {
       if (song.url().isLocalFile() && song.url() == current_song_url_ &&
-          (song.filetype() == Song::FileType::OggFlac || song.filetype() == Song::FileType::OggVorbis || song.filetype() == Song::FileType::OggOpus)) {
+          (song.filetype() == Song::FileType::OggFlac || song.filetype() == Song::FileType::OggVorbis || song.filetype() == Song::FileType::OggOpus || song.filetype() == Song::FileType::MPEG)) {
         qLog(Debug) << "Deferring rating save for currently playing file" << song.url().toLocalFile();
         if (pending_song_saves_.contains(song.url())) {
           SharedPtr<PendingSongSave> pending_song_save = pending_song_saves_.value(song.url());

@@ -32,7 +32,7 @@
 #include "songplaylistitem.h"
 
 SongPlaylistItem::SongPlaylistItem(const Song::Source source, const QUuid &uuid) : PlaylistItem(source, uuid) {}
-SongPlaylistItem::SongPlaylistItem(const Song &song) : PlaylistItem(song.source()), song_(song) {}
+SongPlaylistItem::SongPlaylistItem(const Song &song, const bool signal) : PlaylistItem(song.source(), QUuid(), signal), song_(song) {}
 
 bool SongPlaylistItem::InitFromQuery(const SqlRow &query) {
   song_.InitFromQuery(query, false, static_cast<int>(Song::kRowIdColumns.count()));

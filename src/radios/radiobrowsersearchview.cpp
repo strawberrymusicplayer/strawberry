@@ -49,7 +49,7 @@ RadioBrowserSearchView::RadioBrowserSearchView(QWidget *parent)
       search_limit_(100),
       hide_broken_(true),
       has_more_(false),
-      initialized_(false) {
+      countries_loaded_(false) {
 
   ui_->setupUi(this);
 
@@ -101,9 +101,9 @@ void RadioBrowserSearchView::showEvent(QShowEvent *e) {
 
   Q_UNUSED(e)
 
-  if (!initialized_ && service_) {
+  // Retried on every show until the fetch succeeds, so a failed fetch doesn't leave the country filter empty until restart.
+  if (!countries_loaded_ && service_) {
     service_->FetchCountries();
-    initialized_ = true;
   }
 
 }
@@ -121,7 +121,7 @@ void RadioBrowserSearchView::Init(RadioBrowserService *service) {
   search_limit_ = s.value(QLatin1String(RadioBrowserSettings::kSearchLimit), RadioBrowserSettings::kSearchLimitDefault).toInt();
   hide_broken_ = s.value(QLatin1String(RadioBrowserSettings::kHideBroken), RadioBrowserSettings::kHideBrokenDefault).toBool();
 
-  const QString default_sort = s.value(u"default_sort"_s, u"votes"_s).toString();
+  const QString default_sort = s.value(QLatin1String(RadioBrowserSettings::kDefaultSort), QLatin1String(RadioBrowserSettings::kDefaultSortDefault)).toString();
   for (int i = 0; i < ui_->combo_sort->count(); ++i) {
     if (ui_->combo_sort->itemData(i).toString() == default_sort) {
       ui_->combo_sort->setCurrentIndex(i);
@@ -129,7 +129,7 @@ void RadioBrowserSearchView::Init(RadioBrowserService *service) {
     }
   }
 
-  default_country_ = s.value(u"default_country"_s).toString();
+  default_country_ = s.value(QLatin1String(RadioBrowserSettings::kDefaultCountry)).toString();
   s.endGroup();
 
 }
@@ -187,6 +187,8 @@ void RadioBrowserSearchView::SearchError(const QString &error) {
 }
 
 void RadioBrowserSearchView::CountriesLoaded(const QList<QPair<QString, QString>> &countries) {
+
+  countries_loaded_ = true;
 
   ui_->combo_country->clear();
   ui_->combo_country->addItem(tr("All countries"), QString());

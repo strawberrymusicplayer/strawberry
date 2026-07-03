@@ -166,11 +166,11 @@ void CollectionFilterWidget::Init(CollectionModel *model, CollectionFilter *filt
     QObject::disconnect(group_by_dialog_, nullptr, model_, nullptr);
     const QList<QAction*> actions = filter_max_ages_.keys();
     for (QAction *action : actions) {
-      QObject::disconnect(action, &QAction::triggered, model_, nullptr);
+      QObject::disconnect(action, &QAction::triggered, this, nullptr);
     }
     const QList<QAction*> filter_actions = filter_min_rating_.keys();
     for (QAction *action : filter_actions) {
-      QObject::disconnect(action, &QAction::triggered, model_, nullptr);
+      QObject::disconnect(action, &QAction::triggered, this, nullptr);
     }
   }
 
@@ -281,6 +281,7 @@ void CollectionFilterWidget::UpdateGroupByActions() {
 
   if (group_by_group_) {
     QObject::disconnect(group_by_group_, nullptr, this, nullptr);
+    qDeleteAll(group_by_group_->actions());
     delete group_by_group_;
   }
 
@@ -435,6 +436,8 @@ void CollectionFilterWidget::GroupByClicked(QAction *action) {
     return;
   }
 
+  if (!model_) return;
+
   CollectionModel::Grouping g = action->property("group_by").value<CollectionModel::Grouping>();
   model_->SetGroupBy(g);
 
@@ -489,6 +492,8 @@ void CollectionFilterWidget::SetFilterMode(CollectionFilterOptions::FilterMode f
   ui_->search_field->clear();
   ui_->search_field->setEnabled(filter_mode == CollectionFilterOptions::FilterMode::All);
 
+  if (!model_) return;
+
   model_->SetFilterMode(filter_mode);
 
 }
@@ -537,6 +542,8 @@ void CollectionFilterWidget::keyReleaseEvent(QKeyEvent *e) {
 
 void CollectionFilterWidget::FilterTextChanged(const QString &text) {
 
+  if (!model_) return;
+
   const bool delay = (delay_behaviour_ == DelayBehaviour::AlwaysDelayed) || (delay_behaviour_ == DelayBehaviour::DelayedOnLargeLibraries && !text.isEmpty() && text.length() < 3 && model_->total_song_count() >= 100000);
 
   if (delay) {
@@ -551,7 +558,7 @@ void CollectionFilterWidget::FilterTextChanged(const QString &text) {
 
 void CollectionFilterWidget::FilterDelayTimeout() {
 
-  if (filter_applies_to_model_) {
+  if (filter_applies_to_model_ && filter_) {
     filter_->SetFilterString(ui_->search_field->text());
   }
 

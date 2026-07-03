@@ -19,8 +19,6 @@
 
 #include "config.h"
 
-#include <QApplication>
-#include <QThread>
 #include <QByteArray>
 #include <QVariant>
 #include <QString>
@@ -49,8 +47,6 @@ constexpr char kApiUrl[] = "https://lrclib.net/api/get";
 LrcLibLyricsProvider::LrcLibLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"LrcLib"_s, true, false, network, parent) {}
 
 void LrcLibLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
-
-  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   const QUrl url(QString::fromUtf8(kApiUrl));
   QUrlQuery url_query;
@@ -117,8 +113,6 @@ LrcLibLyricsProvider::JsonObjectResult LrcLibLyricsProvider::ParseJsonObject(QNe
 }
 
 void LrcLibLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request) {
-
-  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   LyricsSearchResults results;
   const QScopeGuard end_search = qScopeGuard([this, id, request, &results]() { EndSearch(id, request, results); });

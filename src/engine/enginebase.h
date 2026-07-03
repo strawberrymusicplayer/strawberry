@@ -132,6 +132,7 @@ class EngineBase : public QObject {
  public:
   // Simple accessors
   bool volume_control() const { return volume_control_; }
+  bool volume_exponential() const { return volume_exponential_; }
   inline uint volume() const { return volume_; }
 
   bool is_fadeout_enabled() const { return fadeout_enabled_; }
@@ -185,6 +186,7 @@ class EngineBase : public QObject {
   bool playbin3_enabled_;
   bool exclusive_mode_;
   bool volume_control_;
+  bool volume_exponential_;
   uint volume_;
   quint64 beginning_offset_nanosec_;
   qint64 end_offset_nanosec_;

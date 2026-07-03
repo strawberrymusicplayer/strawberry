@@ -168,6 +168,9 @@ Playlist *PlaylistManager::AddPlaylist(const int id, const QString &name, const 
   QObject::connect(ret, &Playlist::Error, this, &PlaylistManager::Error);
   QObject::connect(ret, &Playlist::PlayRequested, this, &PlaylistManager::PlayRequested);
   QObject::connect(ret, &Playlist::Rename, this, &PlaylistManager::Rename);
+  QObject::connect(ret, &Playlist::PlaylistItemsAdded, this, &PlaylistManager::PlaylistItemsAdded);
+  QObject::connect(ret, &Playlist::PlaylistItemsRemoved, this, &PlaylistManager::PlaylistItemsRemoved);
+  QObject::connect(ret, &Playlist::PlaylistItemMetadataChanged, this, &PlaylistManager::PlaylistItemMetadataChanged);
   QObject::connect(playlist_container_->view(), &PlaylistView::ColumnAlignmentChanged, ret, &Playlist::SetColumnAlignment);
   QObject::connect(&*current_albumcover_loader_, &CurrentAlbumCoverLoader::AlbumCoverLoaded, ret, &Playlist::AlbumCoverLoaded);
 
@@ -500,19 +503,19 @@ void PlaylistManager::SongChangeRequestProcessed(const QUrl &url, const bool val
 
 }
 
-void PlaylistManager::InsertUrls(const int id, const QList<QUrl> &urls, const int pos, const bool play_now, const bool enqueue) {
+void PlaylistManager::InsertUrls(const int id, const QList<QUrl> &urls, const int pos, const bool play_now, const bool enqueue, const bool signal) {
 
   Q_ASSERT(playlists_.contains(id));
 
-  playlists_.constFind(id)->p->InsertUrls(urls, pos, play_now, enqueue);
+  playlists_.constFind(id)->p->InsertUrls(urls, pos, play_now, enqueue, /*enqueue_next=*/false, signal);
 
 }
 
-void PlaylistManager::InsertSongs(const int id, const SongList &songs, const int pos, const bool play_now, const bool enqueue) {
+void PlaylistManager::InsertSongs(const int id, const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool signal) {
 
   Q_ASSERT(playlists_.contains(id));
 
-  playlists_.constFind(id)->p->InsertSongs(songs, pos, play_now, enqueue);
+  playlists_.constFind(id)->p->InsertSongs(songs, pos, play_now, enqueue, /*enqueue_next=*/false, signal);
 
 }
 

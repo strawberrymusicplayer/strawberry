@@ -33,8 +33,6 @@ enum class Style {
   StyleCount
 };
 
-constexpr char kEnabled[] = "enabled";
-constexpr char kShow[] = "show";
 constexpr char kStyle[] = "style";
 constexpr char kSave[] = "save";
 

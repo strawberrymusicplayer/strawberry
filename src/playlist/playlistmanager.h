@@ -124,8 +124,8 @@ class PlaylistManager : public PlaylistManagerInterface {
 
   void SongChangeRequestProcessed(const QUrl &url, const bool valid) override;
 
-  void InsertUrls(const int id, const QList<QUrl> &urls, const int pos = -1, const bool play_now = false, const bool enqueue = false);
-  void InsertSongs(const int id, const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false);
+  void InsertUrls(const int id, const QList<QUrl> &urls, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool signal = false);
+  void InsertSongs(const int id, const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool signal = false);
   // Removes items with given indices from the playlist. This operation is not undoable.
   void RemoveItemsWithoutUndo(const int id, const QList<int> &indices);
   // Remove the current playing song

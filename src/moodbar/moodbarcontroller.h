@@ -28,10 +28,10 @@
 #include <QUrl>
 
 #include "includes/shared_ptr.h"
+#include "core/song.h"
 #include "moodbarpipeline.h"
 
 class MoodbarLoader;
-class Song;
 class Player;
 
 class MoodbarController : public QObject {
@@ -50,13 +50,21 @@ class MoodbarController : public QObject {
   void CurrentSongChanged(const Song &song);
   void PlaybackStopped();
 
+  // Starts or stops generating the current song's moodbar for the seekbar.
+  // Driven by MoodbarProxyStyle::MoodbarShow when the seekbar mode changes.
+  void SetEnabled(const bool enabled);
+
  private:
+  // Called by both SetEnabled() and ReloadSettings() so the "generate vs clear vs no-op" decision lives in one place.
+  void ApplyEnabledTransition(const bool was_enabled);
+  void GenerateMoodbar(const Song &song);
   void AsyncLoadComplete(MoodbarPipelinePtr pipeline, const QUrl &url);
 
  private:
   const SharedPtr<Player> player_;
   const SharedPtr<MoodbarLoader> moodbar_loader_;
   bool enabled_;
+  Song current_song_;
 };
 
 #endif  // MOODBARCONTROLLER_H

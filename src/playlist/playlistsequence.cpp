@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2020-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -120,16 +120,20 @@ void PlaylistSequence::Save() {
 
 QIcon PlaylistSequence::AddDesaturatedIcon(const QIcon &icon) {
 
-  QIcon ret;
-  const QList<QSize> sizes = icon.availableSizes();
-  for (const QSize &size : sizes) {
-    QPixmap on(icon.pixmap(size));
-    QPixmap off(DesaturatedPixmap(on));
-
-    ret.addPixmap(off, QIcon::Normal, QIcon::Off);
-    ret.addPixmap(on, QIcon::Normal, QIcon::On);
+  const QList<QSize> icon_sizes = icon.availableSizes();
+  if (icon_sizes.isEmpty()) {
+    return icon;
   }
-  return ret;
+
+  QIcon new_icon;
+  for (const QSize &icon_size : icon_sizes) {
+    QPixmap on_pixmap(icon.pixmap(icon_size));
+    QPixmap off_pixmap(DesaturatedPixmap(on_pixmap));
+    new_icon.addPixmap(off_pixmap, QIcon::Normal, QIcon::Off);
+    new_icon.addPixmap(on_pixmap, QIcon::Normal, QIcon::On);
+  }
+
+  return new_icon;
 
 }
 

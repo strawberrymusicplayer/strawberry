@@ -72,6 +72,9 @@
 #include <QClipboard>
 #include <QShowEvent>
 #include <QCloseEvent>
+#if QT_CONFIG(sessionmanager)
+#  include <QSessionManager>
+#endif
 #include <QKeyEvent>
 #ifdef HAVE_DBUS
 #  include <QDBusConnection>
@@ -110,7 +113,7 @@
 #include "dialogs/addstreamdialog.h"
 #include "dialogs/deleteconfirmationdialog.h"
 #include "dialogs/lastfmimportdialog.h"
-#include "dialogs/snapdialog.h"
+#include "dialogs/messagedialog.h"
 #include "dialogs/edittagdialog.h"
 #include "dialogs/trackselectiondialog.h"
 #include "organize/organizedialog.h"
@@ -207,12 +210,21 @@
 #  include "moodbar/moodbarproxystyle.h"
 #endif
 
+#ifdef HAVE_WAVEFORM
+#  include "waveform/waveformcontroller.h"
+#  include "waveform/waveformloader.h"
+#  include "waveform/waveformproxystyle.h"
+#endif
+
 #include "smartplaylists/smartplaylistsviewcontainer.h"
 
 #include "organize/organizeerrordialog.h"
 
 #ifdef Q_OS_WIN32
 #  include "core/windows7thumbbar.h"
+#endif
+#ifdef _MSC_VER
+#  include "core/winsystemmediatransportcontrols.h"
 #endif
 
 #ifdef Q_OS_MACOS
@@ -293,6 +305,9 @@ MainWindow::MainWindow(Application *app,
       ui_(new Ui_MainWindow),
 #ifdef Q_OS_WIN32
       thumbbar_(new Windows7ThumbBar(this)),
+#endif
+#ifdef _MSC_VER
+      smtc_(new WinSystemMediaTransportControls(app->player(), this)),
 #endif
       app_(app),
       systemtrayicon_(systemtrayicon),
@@ -409,6 +424,13 @@ MainWindow::MainWindow(Application *app,
 
   // Initialize the UI
   ui_->setupUi(this);
+
+#ifdef _MSC_VER
+  if (!smtc_->Initialize(reinterpret_cast<HWND>(winId()))) {
+    smtc_->deleteLater();
+    smtc_ = nullptr;
+  }
+#endif
 
   if (QGuiApplication::platformName() != "wayland"_L1) {
     setWindowIcon(IconLoader::Load(u"strawberry"_s));
@@ -717,6 +739,15 @@ MainWindow::MainWindow(Application *app,
 
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::LoadAlbumCover);
   QObject::connect(&*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, this, &MainWindow::AlbumCoverLoaded);
+
+#ifdef _MSC_VER
+  if (smtc_) {
+    QObject::connect(&*app_->player()->engine(), &EngineBase::StateChanged, smtc_, &WinSystemMediaTransportControls::EngineStateChanged);
+    QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, smtc_, &WinSystemMediaTransportControls::CurrentSongChanged);
+    QObject::connect(&*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, smtc_, &WinSystemMediaTransportControls::AlbumCoverLoaded);
+  }
+#endif
+
   QObject::connect(album_cover_choice_controller_, &AlbumCoverChoiceController::Error, this, &MainWindow::ShowErrorDialog);
   QObject::connect(album_cover_choice_controller_->cover_from_file_action(), &QAction::triggered, this, &MainWindow::LoadCoverFromFile);
   QObject::connect(album_cover_choice_controller_->cover_to_file_action(), &QAction::triggered, this, &MainWindow::SaveCoverToFile);
@@ -935,11 +966,18 @@ MainWindow::MainWindow(Application *app,
   ui_->track_slider->Init();
 
 #ifdef HAVE_MOODBAR
-  // Moodbar connections
   QObject::connect(&*app_->moodbar_controller(), &MoodbarController::CurrentMoodbarDataChanged, ui_->track_slider->moodbar_proxy_style(), &MoodbarProxyStyle::SetMoodbarData);
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->moodbar_controller(), &MoodbarController::CurrentSongChanged);
   QObject::connect(&*app_->player(), &Player::Stopped, &*app_->moodbar_controller(), &MoodbarController::PlaybackStopped);
   QObject::connect(ui_->track_slider->moodbar_proxy_style(), &MoodbarProxyStyle::StyleChanged, &*app_->moodbar_loader(), &MoodbarLoader::StyleChanged);
+  QObject::connect(ui_->track_slider->moodbar_proxy_style(), &MoodbarProxyStyle::MoodbarShow, &*app_->moodbar_controller(), &MoodbarController::SetEnabled);
+#endif
+
+#ifdef HAVE_WAVEFORM
+  QObject::connect(&*app_->waveform_controller(), &WaveformController::CurrentWaveformDataChanged, ui_->track_slider->waveform_proxy_style(), &WaveformProxyStyle::SetWaveformData);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->waveform_controller(), &WaveformController::CurrentSongChanged);
+  QObject::connect(&*app_->player(), &Player::Stopped, &*app_->waveform_controller(), &WaveformController::PlaybackStopped);
+  QObject::connect(ui_->track_slider->waveform_proxy_style(), &WaveformProxyStyle::WaveformShow, &*app_->waveform_controller(), &WaveformController::SetEnabled);
 #endif
 
   // Playing widget
@@ -1109,20 +1147,6 @@ MainWindow::MainWindow(Application *app,
     qtsparkle::Updater *updater = new qtsparkle::Updater(sparkle_url, this);
     updater->SetVersion(QStringLiteral(STRAWBERRY_VERSION_PACKAGE));
     QObject::connect(action_check_updates, &QAction::triggered, updater, &qtsparkle::Updater::CheckNow);
-  }
-#endif
-
-#ifdef Q_OS_LINUX
-  if (!Utilities::GetEnv(u"SNAP"_s).isEmpty() && !Utilities::GetEnv(u"SNAP_NAME"_s).isEmpty()) {
-    Settings s;
-    s.beginGroup(MainWindowSettings::kSettingsGroup);
-    const bool ignore_snap = s.value("ignore_snap", false).toBool();
-    s.endGroup();
-    if (!ignore_snap) {
-      SnapDialog *snap_dialog = new SnapDialog(this);
-      snap_dialog->setAttribute(Qt::WA_DeleteOnClose);
-      snap_dialog->show();
-    }
   }
 #endif
 
@@ -1330,6 +1354,15 @@ void MainWindow::ReloadAllSettings() {
   app_->moodbar_loader()->ReloadSettings();
   ui_->track_slider->moodbar_proxy_style()->ReloadSettings();
 #endif
+#ifdef HAVE_WAVEFORM
+  app_->waveform_controller()->ReloadSettings();
+  app_->waveform_loader()->ReloadSettings();
+  ui_->track_slider->waveform_proxy_style()->ReloadSettings();
+#endif
+#if defined(HAVE_MOODBAR) || defined(HAVE_WAVEFORM)
+  // Reconcile the seekbar mode after both proxy styles have reloaded, so a moodbar/waveform change made from either Preferences page keeps the two mutually exclusive and the active style consistent.
+  ui_->track_slider->ReloadSettings();
+#endif
 #ifdef HAVE_SUBSONIC
   subsonic_view_->ReloadSettings();
 #endif
@@ -1418,6 +1451,15 @@ void MainWindow::DoExit() {
   app_->Exit();
 
 }
+
+#if QT_CONFIG(sessionmanager)
+void MainWindow::CommitData(QSessionManager &session_manager) {
+
+  session_manager.setRestartHint(QSessionManager::RestartIfRunning);
+  SaveSettings();
+
+}
+#endif
 
 void MainWindow::ExitFinished() {
 

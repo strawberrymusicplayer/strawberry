@@ -74,6 +74,8 @@ class LyricsProvider : public HttpBaseRequest {
   bool enabled_;
   int order_;
   const bool authentication_required_;
+
+  Q_DISABLE_COPY_MOVE(LyricsProvider)
 };
 
 #endif  // LYRICSPROVIDER_H

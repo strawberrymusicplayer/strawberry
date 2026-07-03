@@ -153,6 +153,16 @@ endif()
 
 find_package(PkgConfig REQUIRED)
 find_package(Threads REQUIRED)
+
+# Detect whether the MinGW GCC toolchain uses the posix (winpthreads) threading model.
+# This is reported by "gcc -v" as "Thread model: posix" (as opposed to "win32").
+if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  execute_process(COMMAND ${CMAKE_CXX_COMPILER} -v OUTPUT_QUIET ERROR_VARIABLE GCC_VERBOSE_OUTPUT)
+  if(GCC_VERBOSE_OUTPUT MATCHES "Thread model: posix")
+    set(HAVE_WINPTHREADS ON)
+  endif()
+endif()
+
 find_package(Backtrace)
 if(Backtrace_FOUND)
   set(HAVE_BACKTRACE ON)
@@ -351,6 +361,8 @@ optional_component(GSTFASTSPECTRUM ON "Moodbar: Fast spectrum with FFTW3"
   DEPENDS "fftw3" FFTW3_FOUND
 )
 
+optional_component(WAVEFORM ON "Waveform")
+
 optional_component(EBUR128 ON "EBU R 128 loudness normalization"
   DEPENDS "libebur128" LIBEBUR128_FOUND
 )
@@ -440,7 +452,6 @@ set(SOURCES
   src/core/threadsafenetworkdiskcache.cpp
   src/core/networktimeouts.cpp
   src/core/networkproxyfactory.cpp
-  src/core/qtfslistener.cpp
   src/core/settings.cpp
   src/core/settingsprovider.cpp
   src/core/signalchecker.cpp
@@ -553,6 +564,7 @@ set(SOURCES
   src/engine/gststartup.cpp
   src/engine/gstengine.cpp
   src/engine/gstenginepipeline.cpp
+  src/engine/gstbusmessageevent.cpp
 
   src/analyzer/fht.cpp
   src/analyzer/analyzerbase.cpp
@@ -724,7 +736,6 @@ set(SOURCES
   src/dialogs/deleteconfirmationdialog.cpp
   src/dialogs/lastfmimportdialog.cpp
   src/dialogs/messagedialog.cpp
-  src/dialogs/snapdialog.cpp
   src/dialogs/saveplaylistsdialog.cpp
 
   src/widgets/autoexpandingtreeview.cpp
@@ -752,6 +763,7 @@ set(SOURCES
   src/widgets/tracksliderslider.cpp
   src/widgets/loginstatewidget.cpp
   src/widgets/ratingwidget.cpp
+  src/widgets/ratingpainter.cpp
   src/widgets/resizabletextedit.cpp
 
   src/osd/osdbase.cpp
@@ -850,7 +862,6 @@ set(HEADERS
   src/core/networkaccessmanager.h
   src/core/threadsafenetworkdiskcache.h
   src/core/networktimeouts.h
-  src/core/qtfslistener.h
   src/core/settings.h
   src/core/songloader.h
   src/core/taskmanager.h
@@ -1024,7 +1035,6 @@ set(HEADERS
   src/dialogs/deleteconfirmationdialog.h
   src/dialogs/lastfmimportdialog.h
   src/dialogs/messagedialog.h
-  src/dialogs/snapdialog.h
   src/dialogs/saveplaylistsdialog.h
 
   src/widgets/autoexpandingtreeview.h
@@ -1222,6 +1232,17 @@ if(UNIX)
   optional_source(UNIX SOURCES src/core/unixsignalwatcher.cpp HEADERS src/core/unixsignalwatcher.h)
 endif()
 
+if(LINUX)
+  list(APPEND SOURCES src/core/filesystemwatcherinotify.cpp)
+  list(APPEND HEADERS src/core/filesystemwatcherinotify.h)
+elseif(WIN32)
+  list(APPEND SOURCES src/core/filesystemwatcherwin.cpp src/core/filesystemwatcherwinthread.cpp)
+  list(APPEND HEADERS src/core/filesystemwatcherwin.h src/core/filesystemwatcherwinthread.h)
+else()
+  list(APPEND SOURCES src/core/filesystemwatcherqt.cpp)
+  list(APPEND HEADERS src/core/filesystemwatcherqt.h)
+endif()
+
 if(APPLE)
   optional_source(APPLE
     SOURCES
@@ -1302,6 +1323,7 @@ endif()
 optional_source(HAVE_ALSA SOURCES src/engine/alsadevicefinder.cpp src/engine/alsapcmdevicefinder.cpp)
 optional_source(HAVE_PULSE SOURCES src/engine/pulsedevicefinder.cpp)
 optional_source(MSVC SOURCES src/engine/uwpdevicefinder.cpp src/engine/asiodevicefinder.cpp)
+optional_source(MSVC SOURCES src/core/winsystemmediatransportcontrols.cpp HEADERS src/core/winsystemmediatransportcontrols.h)
 optional_source(HAVE_CHROMAPRINT SOURCES src/engine/chromaprinter.cpp)
 
 optional_source(HAVE_MUSICBRAINZ
@@ -1329,6 +1351,25 @@ if(HAVE_MPRIS2)
   qt_add_dbus_adaptor(SOURCES src/mpris2/org.mpris.MediaPlayer2.TrackList.xml src/mpris2/mpris2.h mpris::Mpris2 mpris2_tracklist Mpris2TrackList)
   qt_add_dbus_adaptor(SOURCES src/mpris2/org.mpris.MediaPlayer2.Playlists.xml src/mpris2/mpris2.h mpris::Mpris2 mpris2_playlists Mpris2Playlists)
 endif()
+
+optional_source(HAVE_WAVEFORM
+  SOURCES
+    src/waveform/waveformbuilder.cpp
+    src/waveform/waveformpipeline.cpp
+    src/waveform/waveformloader.cpp
+    src/waveform/waveformcontroller.cpp
+    src/waveform/waveformrenderer.cpp
+    src/waveform/waveformproxystyle.cpp
+    src/settings/waveformsettingspage.cpp
+  HEADERS
+    src/waveform/waveformpipeline.h
+    src/waveform/waveformloader.h
+    src/waveform/waveformcontroller.h
+    src/waveform/waveformproxystyle.h
+    src/settings/waveformsettingspage.h
+  UI
+    src/settings/waveformsettingspage.ui
+)
 
 optional_source(HAVE_MOODBAR
   SOURCES

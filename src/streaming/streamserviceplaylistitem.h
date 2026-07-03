@@ -31,8 +31,8 @@ class StreamingService;
 class StreamServicePlaylistItem : public StreamPlaylistItem {
  public:
   explicit StreamServicePlaylistItem(const Song::Source source, const QUuid &uuid);
-  explicit StreamServicePlaylistItem(const Song &song);
-  explicit StreamServicePlaylistItem(const SharedPtr<StreamingService> service, const Song &song);
+  explicit StreamServicePlaylistItem(const Song &song, const bool signal = false);
+  explicit StreamServicePlaylistItem(const SharedPtr<StreamingService> service, const Song &song, const bool signal = false);
 
  private:
   SharedPtr<StreamingService> service_;

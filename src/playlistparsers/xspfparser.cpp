@@ -30,6 +30,7 @@
 #include <QXmlStreamWriter>
 
 #include "includes/shared_ptr.h"
+#include "core/logging.h"
 #include "core/settings.h"
 #include "utilities/xmlutils.h"
 #include "constants/timeconstants.h"
@@ -206,6 +207,11 @@ void XSPFParser::Save(const QString &playlist_name, const SongList &songs, QIODe
   }
 
   writer.writeEndDocument();
+
+  if (writer.hasError()) {
+    qLog(Error) << "Error writing XSPF playlist to device";
+    Q_EMIT Error(tr("Failed to write XSPF playlist"));
+  }
 
 }
 

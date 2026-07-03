@@ -140,6 +140,9 @@
       </item>
       <item>
        <widget class="QCheckBox" name="proxy_engine">
+        <property name="toolTip">
+         <string>Only HTTP proxy is supported for streaming.</string>
+        </property>
         <property name="text">
          <string>Use proxy settings for streaming</string>
         </property>

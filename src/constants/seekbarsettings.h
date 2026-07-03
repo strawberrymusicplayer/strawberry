@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,16 +17,21 @@
  *
  */
 
-#ifndef SNAPDIALOG_H
-#define SNAPDIALOG_H
+#ifndef SEEKBARSETTINGS_H
+#define SEEKBARSETTINGS_H
 
-#include "messagedialog.h"
+namespace SeekbarSettings {
 
-class SnapDialog : public MessageDialog {
-  Q_OBJECT
+constexpr char kSettingsGroup[] = "Seekbar";
 
- public:
-  explicit SnapDialog(QWidget *parent = nullptr);
+enum class Mode {
+  Normal = 0,
+  Moodbar = 1,
+  Waveform = 2
 };
 
-#endif  // SNAPDIALOG_H
+constexpr char kMode[] = "mode";
+
+}  // namespace SeekbarSettings
+
+#endif  // SEEKBARSETTINGS_H

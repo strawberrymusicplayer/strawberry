@@ -247,7 +247,8 @@ const QStringList Song::kAcceptedExtensions = QStringList() << u"wav"_s
                                                             << u"ac3"_s
                                                             << u"dts"_s
                                                             << u"spc"_s
-                                                            << u"vgm"_s;
+                                                            << u"vgm"_s
+                                                            << u"tak"_s;
 
 const QStringList Song::kRejectedExtensions = QStringList() << u"tmp"_s
                                                             << u"tar"_s
@@ -458,7 +459,7 @@ QString Song::song_id() const { return d->song_id_.isNull() ? ""_L1 : d->song_id
 
 qint64 Song::beginning_nanosec() const { return d->beginning_; }
 qint64 Song::end_nanosec() const { return d->end_; }
-qint64 Song::length_nanosec() const { return d->end_ - d->beginning_; }
+qint64 Song::length_nanosec() const { return d->end_ < 0 ? -1 : d->end_ - d->beginning_; }
 
 int Song::bitrate() const { return d->bitrate_; }
 int Song::samplerate() const { return d->samplerate_; }
@@ -575,7 +576,7 @@ void Song::set_song_id(const QString &v) { d->song_id_ = v; }
 
 void Song::set_beginning_nanosec(const qint64 v) { d->beginning_ = qMax(0LL, v); }
 void Song::set_end_nanosec(const qint64 v) { d->end_ = v; }
-void Song::set_length_nanosec(const qint64 v) { d->end_ = d->beginning_ + v; }
+void Song::set_length_nanosec(const qint64 v) { d->end_ = v < 0 ? -1 : d->beginning_ + v; }
 
 void Song::set_bitrate(const int v) { d->bitrate_ = v; }
 void Song::set_samplerate(const int v) { d->samplerate_ = v; }
@@ -2014,15 +2015,15 @@ bool Song::MergeFromEngineMetadata(const EngineMetadata &engine_metadata) {
 
   if (d->init_from_file_ || is_local_collection_song() || d->url_.isLocalFile()) {
     // This Song was already loaded using TagLib. Our tags are probably better than the engine's.
-    if (title() != engine_metadata.title && title().isEmpty() && !engine_metadata.title.isEmpty()) {
+    if (title().isEmpty() && !engine_metadata.title.isEmpty()) {
       set_title(engine_metadata.title);
       minor = false;
     }
-    if (artist() != engine_metadata.artist && artist().isEmpty() && !engine_metadata.artist.isEmpty()) {
+    if (artist().isEmpty() && !engine_metadata.artist.isEmpty()) {
       set_artist(engine_metadata.artist);
       minor = false;
     }
-    if (album() != engine_metadata.album && album().isEmpty() && !engine_metadata.album.isEmpty()) {
+    if (album().isEmpty() && !engine_metadata.album.isEmpty()) {
       set_album(engine_metadata.album);
       minor = false;
     }

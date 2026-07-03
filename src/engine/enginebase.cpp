@@ -29,6 +29,7 @@
 #include <QVariant>
 #include <QUrl>
 #include <QSettings>
+#include <QNetworkProxy>
 
 #include "utilities/envutils.h"
 #include "constants/timeconstants.h"
@@ -49,6 +50,7 @@ EngineBase::EngineBase(QObject *parent)
       playbin3_enabled_(true),
       exclusive_mode_(false),
       volume_control_(true),
+      volume_exponential_(false),
       volume_(100),
       beginning_offset_nanosec_(0),
       end_offset_nanosec_(0),
@@ -162,6 +164,7 @@ void EngineBase::ReloadSettings() {
   exclusive_mode_ = s.value(BackendSettings::kExclusiveMode, false).toBool();
 
   volume_control_ = s.value(BackendSettings::kVolumeControl, true).toBool();
+  volume_exponential_ = s.value(BackendSettings::kVolumeExponential, false).toBool();
 
   channels_enabled_ = s.value(BackendSettings::kChannelsEnabled, false).toBool();
   channels_ = s.value(BackendSettings::kChannels, 0).toInt();
@@ -204,7 +207,9 @@ void EngineBase::ReloadSettings() {
 
   s.beginGroup(NetworkProxySettings::kSettingsGroup);
   const NetworkProxyFactory::Mode proxy_mode = static_cast<NetworkProxyFactory::Mode>(s.value("mode", static_cast<int>(NetworkProxyFactory::Mode::System)).toInt());
-  if (proxy_mode == NetworkProxyFactory::Mode::Manual && s.contains(NetworkProxySettings::kEngine) && s.value(NetworkProxySettings::kEngine).toBool()) {
+  const QNetworkProxy::ProxyType proxy_type = static_cast<QNetworkProxy::ProxyType>(s.value(NetworkProxySettings::kType, QNetworkProxy::HttpProxy).toInt());
+  // GStreamer (souphttpsrc) only supports HTTP proxies, so a SOCKS proxy must not be applied to the engine.
+  if (proxy_mode == NetworkProxyFactory::Mode::Manual && proxy_type == QNetworkProxy::HttpProxy && s.contains(NetworkProxySettings::kEngine) && s.value(NetworkProxySettings::kEngine).toBool()) {
     QString proxy_host = s.value(NetworkProxySettings::kHostname).toString();
     int proxy_port = s.value(NetworkProxySettings::kPort).toInt();
     if (proxy_host.isEmpty() || proxy_port <= 0) {

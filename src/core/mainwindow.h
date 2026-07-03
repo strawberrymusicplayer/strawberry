@@ -93,9 +93,15 @@ class SmartPlaylistsViewContainer;
 #ifdef Q_OS_WIN32
 class Windows7ThumbBar;
 #endif
+#ifdef _MSC_VER
+class WinSystemMediaTransportControls;
+#endif
 class AddStreamDialog;
 class LastFMImportDialog;
 class RadioViewContainer;
+#if QT_CONFIG(sessionmanager)
+class QSessionManager;
+#endif
 
 #ifdef HAVE_DISCORD_RPC
 class DiscordRichPresence;
@@ -281,6 +287,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void CommandlineOptionsReceived(const QByteArray &string_options);
   void Raise();
   void Exit();
+#if QT_CONFIG(sessionmanager)
+  void CommitData(QSessionManager &manager);
+#endif
 
  private:
   void SaveSettings();
@@ -302,6 +311,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   Ui_MainWindow *ui_;
 #ifdef Q_OS_WIN32
   Windows7ThumbBar *thumbbar_;
+#endif
+#ifdef _MSC_VER
+  WinSystemMediaTransportControls *smtc_;
 #endif
 
   Application *app_;

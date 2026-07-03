@@ -36,7 +36,7 @@
 #include "collectionmodel.h"
 #include "collectionitem.h"
 
-CollectionFilter::CollectionFilter(QObject *parent) : QSortFilterProxyModel(parent), query_hash_(0) {
+CollectionFilter::CollectionFilter(QObject *parent) : QSortFilterProxyModel(parent) {
 
   setSortLocaleAware(true);
   setDynamicSortFilter(true);
@@ -46,6 +46,8 @@ CollectionFilter::CollectionFilter(QObject *parent) : QSortFilterProxyModel(pare
 
 bool CollectionFilter::filterAcceptsRow(const int source_row, const QModelIndex &source_parent) const {
 
+  if (filter_string_.isEmpty()) return true;
+
   CollectionModel *model = qobject_cast<CollectionModel*>(sourceModel());
   if (!model) return false;
   const QModelIndex idx = sourceModel()->index(source_row, 0, source_parent);
@@ -53,26 +55,26 @@ bool CollectionFilter::filterAcceptsRow(const int source_row, const QModelIndex 
   CollectionItem *item = model->IndexToItem(idx);
   if (!item) return false;
 
-  if (filter_string_.isEmpty()) return true;
-
   if (item->type != CollectionItem::Type::Song) {
     return item->type == CollectionItem::Type::LoadingIndicator;
   }
 
-  size_t hash = qHash(filter_string_);
-  if (hash != query_hash_) {
-    FilterParser p(filter_string_);
-    filter_tree_.reset(p.parse());
-    query_hash_ = hash;
-  }
-
-  return item->metadata.is_valid() && filter_tree_->accept(item->metadata);
+  return item->metadata.is_valid() && filter_tree_ && filter_tree_->accept(item->metadata);
 
 }
 
 void CollectionFilter::SetFilterString(const QString &filter_string) {
 
   filter_string_ = filter_string;
+
+  if (filter_string.isEmpty()) {
+    filter_tree_.reset();
+  }
+  else {
+    FilterParser p(filter_string);
+    filter_tree_.reset(p.parse());
+  }
+
   setFilterFixedString(filter_string);
 
 }

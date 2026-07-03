@@ -31,8 +31,8 @@ class RadioService;
 class RadioStreamPlaylistItem : public StreamPlaylistItem {
  public:
   explicit RadioStreamPlaylistItem(const Song::Source source, const QUuid &uuid);
-  explicit RadioStreamPlaylistItem(const Song &song);
-  explicit RadioStreamPlaylistItem(const SharedPtr<RadioService> service, const Song &song);
+  explicit RadioStreamPlaylistItem(const Song &song, const bool signal = false);
+  explicit RadioStreamPlaylistItem(const SharedPtr<RadioService> service, const Song &song, const bool signal = false);
 
  private:
   const SharedPtr<RadioService> service_;

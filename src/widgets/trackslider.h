@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,11 +29,21 @@
 #include <QString>
 #include <QSize>
 
+#include "constants/seekbarsettings.h"
+
+class QAction;
+class QActionGroup;
 class QLabel;
+class QMenu;
 class QEvent;
+class QContextMenuEvent;
+class QPoint;
 
 #ifdef HAVE_MOODBAR
 class MoodbarProxyStyle;
+#endif
+#ifdef HAVE_WAVEFORM
+class WaveformProxyStyle;
 #endif
 class Ui_TrackSlider;
 
@@ -45,15 +56,30 @@ class TrackSlider : public QWidget {
 
   void Init();
 
+  using SeekbarMode = SeekbarSettings::Mode;
+
   // QWidget
   QSize sizeHint() const override;
 
   // QObject
   bool event(QEvent *e) override;
+  bool eventFilter(QObject *object, QEvent *event) override;
+  void contextMenuEvent(QContextMenuEvent *e) override;
 
 #ifdef HAVE_MOODBAR
   MoodbarProxyStyle *moodbar_proxy_style() const { return moodbar_proxy_style_; }
 #endif
+
+#ifdef HAVE_WAVEFORM
+  WaveformProxyStyle *waveform_proxy_style() const { return waveform_proxy_style_; }
+#endif
+
+  void SetSeekbarMode(const SeekbarMode seekbar_mode);
+  SeekbarMode seekbar_mode() const { return seekbar_mode_; }
+
+  // Re-resolves the active seekbar mode from the proxy styles' (already refreshed) show state.
+  // Call after the moodbar/waveform proxy styles reload their settings so a change made from either Preferences page — not just the context menu — keeps the two visualizations mutually exclusive and the active QStyle / seekbar_mode_ consistent.
+  void ReloadSettings();
 
  public Q_SLOTS:
   void SetValue(const int elapsed, const int total);
@@ -78,12 +104,34 @@ class TrackSlider : public QWidget {
   void UpdateTimes(const int elapsed);
   void UpdateLabelWidth();
   static void UpdateLabelWidth(QLabel *label, const QString &text);
+  static SeekbarMode LoadSeekbarMode();
+  void ShowSeekbarContextMenu(const QPoint pos);
 
  private:
   Ui_TrackSlider *ui_;
 
 #ifdef HAVE_MOODBAR
   MoodbarProxyStyle *moodbar_proxy_style_;
+#endif
+
+#ifdef HAVE_WAVEFORM
+  WaveformProxyStyle *waveform_proxy_style_;
+#endif
+
+  SeekbarMode seekbar_mode_;
+#if defined(HAVE_MOODBAR) || defined(HAVE_WAVEFORM)
+  // Unified seekbar right-click menu, built in the constructor.
+  QMenu *seekbar_menu_;
+  QActionGroup *seekbar_mode_group_;
+  QAction *normal_action_;
+#endif
+#ifdef HAVE_MOODBAR
+  QAction *moodbar_action_;
+  QMenu *moodbar_style_menu_;
+  QActionGroup *moodbar_style_group_;
+#endif
+#ifdef HAVE_WAVEFORM
+  QAction *waveform_action_;
 #endif
 
   bool setting_value_;

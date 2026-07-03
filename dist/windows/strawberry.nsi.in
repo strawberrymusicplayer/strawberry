@@ -448,9 +448,7 @@ Section "Strawberry" Strawberry
   File "vorbisfile.dll"
   File "wavpackdll.dll"
 
-!ifndef arch_arm64
-  File "gnutls.dll"
-!endif
+  File /nonfatal "gnutls.dll"
 
 !ifdef release
   File "freetype.dll"
@@ -570,11 +568,8 @@ Section "GIO modules" gio-modules
   File "/oname=libgiognutls.dll" "gio-modules\libgiognutls.dll"
 !endif
 !ifdef msvc
-!ifdef arch_arm64
   File "/oname=gioopenssl.dll" "gio-modules\gioopenssl.dll"
-!else
-  File "/oname=giognutls.dll" "gio-modules\giognutls.dll"
-!endif
+  File /nonfatal "/oname=giognutls.dll" "gio-modules\giognutls.dll"
 !endif
 SectionEnd
 
@@ -1018,9 +1013,7 @@ Section "Uninstall"
   Delete "$INSTDIR\vorbisfile.dll"
   Delete "$INSTDIR\wavpackdll.dll"
 
-!ifndef arch_arm64
   Delete "$INSTDIR\gnutls.dll"
-!endif
 
 !ifdef release
   Delete "$INSTDIR\freetype.dll"
@@ -1105,11 +1098,8 @@ Section "Uninstall"
   Delete "$INSTDIR\gio-modules\libgiognutls.dll"
 !endif
 !ifdef msvc
-!ifdef arch_arm64
   Delete "$INSTDIR\gio-modules\gioopenssl.dll"
-!else
   Delete "$INSTDIR\gio-modules\giognutls.dll"
-!endif
 !endif
 
 !ifdef msvc && debug

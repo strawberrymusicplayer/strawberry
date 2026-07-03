@@ -30,15 +30,11 @@
 #include <QPixmap>
 #include <QPalette>
 #include <QRect>
-#include <QPoint>
 #include <QStyle>
 
 #include "constants/moodbarsettings.h"
 #include "moodbarrenderer.h"
 
-class QAction;
-class QActionGroup;
-class QMenu;
 class QPainter;
 class QSlider;
 class QStyleOptionComplex;
@@ -55,6 +51,16 @@ class MoodbarProxyStyle : public QProxyStyle {
 
   void ReloadSettings();
 
+  MoodbarSettings::Style moodbar_style() const { return moodbar_style_; }
+
+  // Whether the moodbar would paint (enabled and shown).
+  // Lets TrackSlider pick the active seekbar renderer and reflect the current mode.
+  bool is_showing() const { return show_; }
+
+  // Sets the active moodbar color scheme and persists the choice to QSettings.
+  // Called by TrackSlider's seekbar context menu.
+  void SetStyle(const MoodbarSettings::Style style);
+
   // QProxyStyle
   void drawComplexControl(ComplexControl control, const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const override;
   QRect subControlRect(ComplexControl cc, const QStyleOptionComplex *opt, SubControl sc, const QWidget *widget) const override;
@@ -70,8 +76,10 @@ class MoodbarProxyStyle : public QProxyStyle {
   void SetShowMoodbar(const bool show);
 
  Q_SIGNALS:
-  void MoodbarShow(const bool show);
   void StyleChanged();
+
+  // Emitted by SetShowMoodbar when the show state changes, so the controller can start or stop generating the current song's moodbar for the seekbar.
+  void MoodbarShow(const bool show);
 
  private:
   enum class State {
@@ -87,16 +95,11 @@ class MoodbarProxyStyle : public QProxyStyle {
   void Render(const ComplexControl control, const QStyleOptionSlider *option, QPainter *painter, const QWidget *widget);
   void EnsureMoodbarRendered(const QStyleOptionSlider *opt);
   void DrawArrow(const QStyleOptionSlider *option, QPainter *painter) const;
-  void ShowContextMenu(const QPoint pos);
 
   static QPixmap MoodbarPixmap(const ColorVector &colors, const QSize size, const QPalette &palette, const QStyleOptionSlider *opt);
 
  private Q_SLOTS:
   void FaderValueChanged(const qreal value);
-  void SetStyle(QAction *action);
-
- Q_SIGNALS:
-  void SettingsChanged();
 
  private:
   QSlider *slider_;
@@ -115,10 +118,6 @@ class MoodbarProxyStyle : public QProxyStyle {
   bool moodbar_pixmap_dirty_;
   ColorVector moodbar_colors_;
   QPixmap moodbar_pixmap_;
-
-  QMenu *context_menu_;
-  QAction *show_moodbar_action_;
-  QActionGroup *style_action_group_;
 };
 
 #endif  // MOODBARPROXYSTYLE_H
