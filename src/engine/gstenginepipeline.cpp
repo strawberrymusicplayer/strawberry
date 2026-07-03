@@ -198,10 +198,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       finish_requested_(false),
       finished_(false),
       bus_message_generation_(0),
-      set_state_in_progress_(0),
-      set_state_async_in_progress_(0),
-      last_set_state_in_progress_(GST_STATE_VOID_PENDING),
-      last_set_state_async_in_progress_(GST_STATE_VOID_PENDING) {
+      set_state_async_in_progress_(0) {
 
   guint version_major = 0, version_minor = 0;
   gst_plugins_base_version(&version_major, &version_minor, nullptr, nullptr);
@@ -222,7 +219,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
 
 GstEnginePipeline::~GstEnginePipeline() {
 
-  Disconnect();
+  DisconnectCallbacks();
 
   if (pipeline_) {
 
@@ -397,7 +394,7 @@ GstElement *GstEnginePipeline::CreateElement(const QString &factory_name, const 
 
 }
 
-void GstEnginePipeline::Disconnect() {
+void GstEnginePipeline::DisconnectCallbacks() {
 
   if (pipeline_) {
 
@@ -488,30 +485,16 @@ bool GstEnginePipeline::Finish() {
 
   finish_requested_ = true;
 
-  Disconnect();
+  DisconnectCallbacks();
 
-  // Snapshot the state-progress group consistently so the branches below all act on the same view.
-  int async_in_progress = 0;
-  int sync_in_progress = 0;
-  GstState last_async = GST_STATE_VOID_PENDING;
-  GstState last_sync = GST_STATE_VOID_PENDING;
-  {
-    QMutexLocker locker(&mutex_state_progress_);
-    async_in_progress = set_state_async_in_progress_.load();
-    sync_in_progress = set_state_in_progress_.load();
-    last_async = last_set_state_async_in_progress_.load();
-    last_sync = last_set_state_in_progress_.load();
-  }
-
-  const bool is_null = IsStateNull();
-  if (is_null && async_in_progress == 0 && sync_in_progress == 0) {
+  if (IsStateNull() && !StateChangeInProgress()) {
+    // Already stopped and nothing in flight, so we are done immediately.
     finished_ = true;
   }
-  else if (async_in_progress > 0 && last_async != GST_STATE_NULL) {
+  else {
+    // Drive the pipeline to NULL without blocking; SetStateFinishedSlot() emits Finished() once it settles.
+    // Routing through the async queue orders this NULL request after any state change already queued, and SetStateAsyncSlot() drops those queued non-NULL requests now that finishing has been requested.
     SetStateAsync(GST_STATE_NULL);
-  }
-  else if ((!is_null || sync_in_progress > 0) && last_sync != GST_STATE_NULL) {
-    SetState(GST_STATE_NULL);
   }
 
   return finished_.load();
@@ -1546,7 +1529,7 @@ void GstEnginePipeline::AboutToFinishCallback(GstPlayBin *playbin, gpointer self
 // Watch callback and the single dispatch point for all message-driven state mutation in this class.
 // IMPORTANT: this only runs on the main thread when Qt drives the GLib default main context (i.e. the QEventDispatcherGlib build on Linux/Unix).
 // On Windows and macOS Qt uses a non-GLib event dispatcher, so Application starts a dedicated GLib thread (see Application::GLibMainLoopThreadFunc) that drives the default context instead, and this callback - and every handler it calls below - then runs on THAT thread, concurrently with the main thread.
-// Consequently every member touched here must stay safe against concurrent main-thread access (the state is mostly atomics/mutex-guarded), and the pipeline teardown in Disconnect() can race an in-flight dispatch on that thread.
+// Consequently every member touched here must stay safe against concurrent main-thread access (the state is mostly atomics/mutex-guarded), and the pipeline teardown in DisconnectCallbacks() can race an in-flight dispatch on that thread.
 gboolean GstEnginePipeline::BusWatchCallback(GstBus *bus, GstMessage *msg, gpointer self) {
 
   Q_UNUSED(bus)
@@ -2028,13 +2011,23 @@ bool GstEnginePipeline::IsStateNull() const {
 
 }
 
+bool GstEnginePipeline::StateChangeInProgress() {
+
+  // A request queued via SetStateAsync() but not yet running still counts as in progress.
+  if (set_state_async_in_progress_.load() > 0) return true;
+
+  QMutexLocker locker(&mutex_pending_state_changes_);
+  for (const QFuture<GstStateChangeReturn> &future : std::as_const(pending_state_changes_)) {
+    if (!future.isFinished()) return true;
+  }
+  return false;
+
+}
+
 void GstEnginePipeline::SetStateAsync(const GstState state) {
 
-  {
-    QMutexLocker locker(&mutex_state_progress_);
-    last_set_state_async_in_progress_ = state;
-    ++set_state_async_in_progress_;
-  }
+  // Count the request as in progress before it is queued (this may run on a GStreamer streaming thread) so it stays visible until SetStateAsyncSlot() hands it off to a pending future.
+  ++set_state_async_in_progress_;
 
   QMetaObject::invokeMethod(this, "SetStateAsyncSlot", Qt::QueuedConnection, Q_ARG(GstState, state));
 
@@ -2042,10 +2035,13 @@ void GstEnginePipeline::SetStateAsync(const GstState state) {
 
 void GstEnginePipeline::SetStateAsyncSlot(const GstState state) {
 
-  {
-    QMutexLocker locker(&mutex_state_progress_);
-    last_set_state_async_in_progress_ = GST_STATE_VOID_PENDING;
-    --set_state_async_in_progress_;
+  --set_state_async_in_progress_;
+
+  // Once finishing has been requested, drop any queued request that would move the pipeline away from NULL (e.g. a PLAYING queued from about-to-finish just before shutdown), otherwise it could be resurrected after Finish() asked it to stop.
+  if (finish_requested_.load() && state != GST_STATE_NULL) {
+    // Dropping this request may have removed the last thing keeping the pipeline non-quiescent (the NULL transition may already have completed earlier), so release any Finish() waiters here as well.
+    EmitFinishedIfQuiescent();
+    return;
   }
 
   SetState(state);
@@ -2056,13 +2052,7 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) 
 
   qLog(Debug) << "Setting pipeline" << id() << "state to" << GstStateText(state);
 
-  {
-    QMutexLocker locker(&mutex_state_progress_);
-    last_set_state_in_progress_ = state;
-    ++set_state_in_progress_;
-  }
-
-  QFutureWatcher<GstStateChangeReturn> *watcher = new QFutureWatcher<GstStateChangeReturn>();
+  QFutureWatcher<GstStateChangeReturn> *watcher = new QFutureWatcher<GstStateChangeReturn>(this);
   QObject::connect(watcher, &QFutureWatcher<GstStateChangeReturn>::finished, this, [this, watcher, state]() {
     const GstStateChangeReturn state_change_return = watcher->result();
     watcher->deleteLater();
@@ -2071,7 +2061,7 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) 
   QFuture<GstStateChangeReturn> future = QtConcurrent::run(shared_state_threadpool(), &gst_element_set_state, pipeline_, state);
   watcher->setFuture(future);
 
-  // Track this future so destructor can wait for it
+  // Track this future so the destructor can wait for it and so it counts as a state change in progress.
   {
     QMutexLocker locker(&mutex_pending_state_changes_);
     pending_state_changes_.append(future);
@@ -2083,16 +2073,8 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) 
 
 void GstEnginePipeline::SetStateFinishedSlot(const GstState state, const GstStateChangeReturn state_change_return) {
 
-  bool quiescent = false;
   {
-    QMutexLocker locker(&mutex_state_progress_);
-    last_set_state_in_progress_ = GST_STATE_VOID_PENDING;
-    --set_state_in_progress_;
-    quiescent = (set_state_async_in_progress_.load() == 0 && set_state_in_progress_.load() == 0);
-  }
-
-  // Remove finished futures from tracking list to prevent unbounded growth
-  {
+    // Drop finished futures (including this one) to keep the list bounded.
     QMutexLocker locker(&mutex_pending_state_changes_);
     pending_state_changes_.erase(std::remove_if(pending_state_changes_.begin(), pending_state_changes_.end(), [](const QFuture<GstStateChangeReturn> &f) { return f.isFinished(); }), pending_state_changes_.end());
   }
@@ -2103,16 +2085,30 @@ void GstEnginePipeline::SetStateFinishedSlot(const GstState state, const GstStat
     case GST_STATE_CHANGE_NO_PREROLL:
       qLog(Debug) << "Pipeline" << id() << "state successfully set to" << GstStateText(state);
       Q_EMIT SetStateFinished(state_change_return);
-      if (quiescent && finish_requested_.load()) {
-        bool expected = false;
-        if (finished_.compare_exchange_strong(expected, true)) {
-          Q_EMIT Finished();
-        }
-      }
+      EmitFinishedIfQuiescent();
       break;
     case GST_STATE_CHANGE_FAILURE:
       qLog(Error) << "Failed to set pipeline to state" << GstStateText(state);
       break;
+  }
+
+}
+
+void GstEnginePipeline::EmitFinishedIfQuiescent() {
+
+  // Emit Finished() exactly once, when finishing has been requested and there is nothing left in flight (no queued async requests and no running state changes), so Finish() waiters are always released regardless of whether the final step was a completed NULL transition or a dropped resurrecting request.
+  if (!finish_requested_.load()) return;
+
+  bool quiescent = false;
+  {
+    QMutexLocker locker(&mutex_pending_state_changes_);
+    quiescent = pending_state_changes_.isEmpty() && set_state_async_in_progress_.load() == 0;
+  }
+  if (!quiescent) return;
+
+  bool expected = false;
+  if (finished_.compare_exchange_strong(expected, true)) {
+    Q_EMIT Finished();
   }
 
 }
