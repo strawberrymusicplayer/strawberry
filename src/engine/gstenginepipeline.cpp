@@ -2085,12 +2085,14 @@ void GstEnginePipeline::SetStateFinishedSlot(const GstState state, const GstStat
     case GST_STATE_CHANGE_NO_PREROLL:
       qLog(Debug) << "Pipeline" << id() << "state successfully set to" << GstStateText(state);
       Q_EMIT SetStateFinished(state_change_return);
-      EmitFinishedIfQuiescent();
       break;
     case GST_STATE_CHANGE_FAILURE:
       qLog(Error) << "Failed to set pipeline to state" << GstStateText(state);
       break;
   }
+
+  // Release Finish() waiters once nothing is left in flight, whether the transition succeeded or failed, otherwise the pipeline would never be reclaimed during shutdown.
+  EmitFinishedIfQuiescent();
 
 }
 
