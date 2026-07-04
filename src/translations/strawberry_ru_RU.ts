@@ -2,6 +2,17 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru_RU" sourcelanguage="en-US">
   <context>
+    <name>ASXParser</name>
+    <message>
+      <source>ASX playlist is too large</source>
+      <translation>Плейлист ASX слишком велик</translation>
+    </message>
+    <message>
+      <source>Failed to write ASX playlist</source>
+      <translation>Не удалось записать плейлист ASX</translation>
+    </message>
+  </context>
+  <context>
     <name>About</name>
     <message>
       <source>About</source>
@@ -706,6 +717,14 @@
     <message>
       <source>Exponential volume scaling</source>
       <translation>Экспоненциальная шкала громкости</translation>
+    </message>
+    <message>
+      <source>Device warm-up</source>
+      <translation>Прогрев устройства</translation>
+    </message>
+    <message>
+      <source>Delay between opening the audio device and starting playback, to avoid the start of the track being cut off while the device (DAC) is still becoming ready.  Set to 0 to disable.</source>
+      <translation>Задержка перед воспроизведением после открытия аудиоустройства. Предотвращает обрезание начала трека, пока устройство (ЦАП) подготавливается к работе. Установите 0 для отключения.</translation>
     </message>
   </context>
   <context>
@@ -7958,6 +7977,13 @@ Are you sure you want to continue?</source>
     <message>
       <source>Save the .waveform files directly in the songs folders</source>
       <translation>Сохранять файлы .waveform непосредственно в папках песен</translation>
+    </message>
+  </context>
+  <context>
+    <name>XSPFParser</name>
+    <message>
+      <source>Failed to write XSPF playlist</source>
+      <translation>Не удалось записать плейлист XSPF</translation>
     </message>
   </context>
 </TS>
