@@ -31,6 +31,8 @@ QByteArray ReadDataFromFile(const QString &filename);
 bool Copy(QIODevice *source, QIODevice *destination);
 bool CopyRecursive(const QString &source, const QString &destination);
 bool RemoveRecursive(const QString &path);
+bool FilenameOnGVFS(const QString &filename);
+bool CopyFileContents(const QString &source, const QString &destination);
 
 }  // namespace Utilities
 
