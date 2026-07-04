@@ -187,6 +187,7 @@ void BackendSettingsPage::Load() {
   ui_->spinbox_bufferduration->setValue(s.value(kBufferDuration, kDefaultBufferDuration).toInt());
   ui_->spinbox_low_watermark->setValue(s.value(kBufferLowWatermark, kDefaultBufferLowWatermark).toDouble());
   ui_->spinbox_high_watermark->setValue(s.value(kBufferHighWatermark, kDefaultBufferHighWatermark).toDouble());
+  ui_->spinbox_device_warmup->setValue(s.value(kDeviceWarmupDuration, kDefaultDeviceWarmupDuration).toInt());
 
   ui_->radiobutton_replaygain->setChecked(s.value(kRgEnabled, false).toBool());
   ui_->combobox_replaygainmode->setCurrentIndex(s.value(kRgMode, 0).toInt());
@@ -452,6 +453,7 @@ void BackendSettingsPage::Save() {
   s.setValue(kBufferDuration, ui_->spinbox_bufferduration->value());
   s.setValue(kBufferLowWatermark, ui_->spinbox_low_watermark->value());
   s.setValue(kBufferHighWatermark, ui_->spinbox_high_watermark->value());
+  s.setValue(kDeviceWarmupDuration, ui_->spinbox_device_warmup->value());
 
   s.setValue(kRgEnabled, ui_->radiobutton_replaygain->isChecked());
   s.setValue(kRgMode, ui_->combobox_replaygainmode->currentIndex());
@@ -766,6 +768,7 @@ void BackendSettingsPage::BufferDefaults() {
   ui_->spinbox_bufferduration->setValue(kDefaultBufferDuration);
   ui_->spinbox_low_watermark->setValue(kDefaultBufferLowWatermark);
   ui_->spinbox_high_watermark->setValue(kDefaultBufferHighWatermark);
+  ui_->spinbox_device_warmup->setValue(kDefaultDeviceWarmupDuration);
 
 }
 

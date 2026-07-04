@@ -45,6 +45,7 @@ constexpr char kStrictSSL[] = "strict_ssl";
 constexpr char kBufferDuration[] = "bufferduration";
 constexpr char kBufferLowWatermark[] = "bufferlowwatermark";
 constexpr char kBufferHighWatermark[] = "bufferhighwatermark";
+constexpr char kDeviceWarmupDuration[] = "devicewarmupduration";
 constexpr char kRgEnabled[] = "rgenabled";
 constexpr char kRgMode[] = "rgmode";
 constexpr char kRgPreamp[] = "rgpreamp";
@@ -63,6 +64,7 @@ constexpr char kFadeoutPauseDuration[] = "FadeoutPauseDuration";
 constexpr qint64 kDefaultBufferDuration = 4000;
 constexpr double kDefaultBufferLowWatermark = 0.33;
 constexpr double kDefaultBufferHighWatermark = 0.99;
+constexpr int kDefaultDeviceWarmupDuration = 500;
 
 }  // namespace BackendSettings
 

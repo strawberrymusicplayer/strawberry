@@ -78,6 +78,7 @@ class GstEnginePipeline : public QObject {
   void set_buffer_duration_nanosec(const quint64 duration_nanosec);
   void set_buffer_low_watermark(const double value);
   void set_buffer_high_watermark(const double value);
+  void set_device_warmup_duration_ms(const int duration_ms);
   void set_proxy_settings(const QString &address, const bool authentication, const QString &user, const QString &pass);
   void set_channels(const bool enabled, const int channels);
   void set_bs2b_enabled(const bool enabled);
@@ -171,6 +172,7 @@ class GstEnginePipeline : public QObject {
   double PercentToInternalVolume(const uint volume_percent) const;
   uint InternalVolumeToPercent(const double volume_internal) const;
   void SetStateAsync(const GstState state);
+  void StartPlaybackAfterWarmup();
   void EmitFinishedIfQuiescent();
   void SetNextUrl();
 
@@ -244,6 +246,13 @@ class GstEnginePipeline : public QObject {
   quint64 buffer_duration_nanosec_;
   double buffer_low_watermark_;
   double buffer_high_watermark_;
+
+  // Audio device (DAC) warm-up delay in milliseconds inserted between preroll (PAUSED) and playback (PLAYING); 0 disables it.
+  int device_warmup_duration_ms_;
+  // Set for a fresh non-paused start with a warm-up delay configured, so the first time the pipeline reaches PAUSED we wait before going to PLAYING.  One-shot per Play().
+  std::atomic<bool> device_warmup_pending_;
+  // Bumped by every SetState() call so a scheduled warm-up timer can detect that a newer transition (e.g. the user paused/stopped, or a newer start) superseded it and skip resuming playback.
+  std::atomic<quint64> device_warmup_generation_;
 
   // Proxy
   QString proxy_address_;
