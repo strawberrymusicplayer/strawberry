@@ -291,7 +291,7 @@ jobs:
       - name: Remove files
         run: rm -rf /usr/lib64/qt6/lib/cmake/Qt6Sql/{Qt6QMYSQL*,Qt6QODBCD*,Qt6QPSQL*,Qt6QIBase*}
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: recursive
