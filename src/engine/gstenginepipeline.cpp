@@ -2118,14 +2118,17 @@ void GstEnginePipeline::EmitFinishedIfQuiescent() {
 QFuture<GstStateChangeReturn> GstEnginePipeline::Play(const bool pause, const quint64 offset_nanosec) {
 
   if (offset_nanosec != 0) {
+    // Preroll paused so we can seek to the offset while the pipeline is prerolling, then transition to the requested state once the seek completes (pending_state_ carries it).
     pending_seek_nanosec_ = static_cast<qint64>(offset_nanosec);
+    if (!pause) {
+      pending_state_ = GST_STATE_PLAYING;
+    }
+    return SetState(GST_STATE_PAUSED);
   }
 
-  if (!pause) {
-    pending_state_ = GST_STATE_PLAYING;
-  }
-
-  return SetState(GST_STATE_PAUSED);
+  // No offset: go straight to the requested state.
+  // playbin prerolls (opens the audio device and fills buffers) during READY->PAUSED regardless of whether PAUSED or PLAYING is requested, so an explicit PAUSED->PLAYING hop here changes nothing - it does not give the audio device (DAC) any additional time to become ready.
+  return SetState(pause ? GST_STATE_PAUSED : GST_STATE_PLAYING);
 
 }
 
