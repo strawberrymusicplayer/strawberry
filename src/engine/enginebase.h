@@ -217,6 +217,9 @@ class EngineBase : public QObject {
   double buffer_low_watermark_;
   double buffer_high_watermark_;
 
+  // Audio device (DAC) warm-up delay in milliseconds inserted between preroll (PAUSED) and playback (PLAYING) to give the device time to become ready, avoiding the start of the track being cut off.
+  int device_warmup_duration_ms_;
+
   // Fadeout
   bool fadeout_enabled_;
   bool crossfade_enabled_;

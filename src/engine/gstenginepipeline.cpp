@@ -138,6 +138,9 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       buffer_duration_nanosec_(BackendSettings::kDefaultBufferDuration * kNsecPerMsec),
       buffer_low_watermark_(BackendSettings::kDefaultBufferLowWatermark),
       buffer_high_watermark_(BackendSettings::kDefaultBufferHighWatermark),
+      device_warmup_duration_ms_(BackendSettings::kDefaultDeviceWarmupDuration),
+      device_warmup_pending_(false),
+      device_warmup_generation_(0),
       proxy_authentication_(false),
       channels_enabled_(false),
       channels_(0),
@@ -323,6 +326,10 @@ void GstEnginePipeline::set_buffer_low_watermark(const double value) {
 
 void GstEnginePipeline::set_buffer_high_watermark(const double value) {
   buffer_high_watermark_ = value;
+}
+
+void GstEnginePipeline::set_device_warmup_duration_ms(const int duration_ms) {
+  device_warmup_duration_ms_ = duration_ms;
 }
 
 void GstEnginePipeline::set_proxy_settings(const QString &address, const bool authentication, const QString &user, const QString &pass) {
@@ -1883,6 +1890,13 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
     SetVolume(volume_percent_.load());
   }
 
+  // Warm-up delay for a fresh start without an offset: the pipeline has prerolled (the audio device is now open), so wait before starting playback to let the device (DAC) become ready, then go to PLAYING.
+  // (The offset/seek start applies the same delay from Seek() once the seek completes.)
+  if (new_state == GST_STATE_PAUSED && device_warmup_pending_.exchange(false)) {
+    StartPlaybackAfterWarmup();
+    return;
+  }
+
   if (next_uri_set_.load() && next_uri_need_reset_.load() && new_state == GST_STATE_READY && pending_seek_nanosec_.load() != -1) {
     qLog(Debug) << "Reverting next uri and going to pause state.";
     next_uri_set_ = false;
@@ -2052,6 +2066,9 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) 
 
   qLog(Debug) << "Setting pipeline" << id() << "state to" << GstStateText(state);
 
+  // Every explicit transition invalidates any warm-up timer waiting to resume playback, so a stale timer cannot override a newer pause/stop/start.
+  ++device_warmup_generation_;
+
   QFutureWatcher<GstStateChangeReturn> *watcher = new QFutureWatcher<GstStateChangeReturn>(this);
   QObject::connect(watcher, &QFutureWatcher<GstStateChangeReturn>::finished, this, [this, watcher, state]() {
     const GstStateChangeReturn state_change_return = watcher->result();
@@ -2126,9 +2143,45 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::Play(const bool pause, const qu
     return SetState(GST_STATE_PAUSED);
   }
 
-  // No offset: go straight to the requested state.
-  // playbin prerolls (opens the audio device and fills buffers) during READY->PAUSED regardless of whether PAUSED or PLAYING is requested, so an explicit PAUSED->PLAYING hop here changes nothing - it does not give the audio device (DAC) any additional time to become ready.
+  if (!pause && device_warmup_duration_ms_ > 0) {
+    // Preroll to PAUSED first, then wait device_warmup_duration_ms_ before going to PLAYING (handled in StateChangedMessageReceived once PAUSED is reached).
+    // This gives the audio device (DAC) time to become ready after it is opened during preroll, so the start of the track is not cut off while the hardware is still warming up.
+    device_warmup_pending_ = true;
+    return SetState(GST_STATE_PAUSED);
+  }
+
+  // No offset and no warm-up: go straight to the requested state.
+  // playbin prerolls (opens the audio device and fills buffers) during READY->PAUSED regardless of whether PAUSED or PLAYING is requested, so an explicit PAUSED->PLAYING hop on its own changes nothing.
   return SetState(pause ? GST_STATE_PAUSED : GST_STATE_PLAYING);
+
+}
+
+void GstEnginePipeline::StartPlaybackAfterWarmup() {
+
+  // Nothing to do if the pipeline is already playing.
+  if (state() == GST_STATE_PLAYING) return;
+
+  // The pipeline has prerolled and the audio device is open; wait for the configured warm-up delay (if any) so the device (DAC) has time to become ready before playback starts, then transition to PLAYING.
+  if (device_warmup_duration_ms_ > 0) {
+    qLog(Debug) << "Waiting" << device_warmup_duration_ms_ << "ms for the audio device to warm up before playing";
+    const quint64 device_warmup_generation = device_warmup_generation_.load();
+    QTimer::singleShot(device_warmup_duration_ms_, this, [this, device_warmup_generation]() {
+      // Only resume if no newer transition happened while we were waiting (e.g. the user paused/stopped or a newer start superseded this one)...
+      if (device_warmup_generation != device_warmup_generation_.load()) {
+        qLog(Debug) << "Warm-up delay elapsed but a newer state change superseded it, not starting playback";
+        return;
+      }
+      // ...and the pipeline is still paused (it was not stopped and did not otherwise leave the prerolled state).
+      if (state() != GST_STATE_PAUSED) {
+        qLog(Debug) << "Warm-up delay elapsed but pipeline is" << GstStateText(state()) << "not paused, not starting playback";
+        return;
+      }
+      SetStateAsync(GST_STATE_PLAYING);
+    });
+  }
+  else {
+    SetStateAsync(GST_STATE_PLAYING);
+  }
 
 }
 
@@ -2165,10 +2218,14 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
 
   if (success) {
     qLog(Debug) << "Seek succeeded";
-    if (pending_state_.load() != GST_STATE_NULL) {
-      qLog(Debug) << "Setting state from pending state" << GstStateText(pending_state_.load());
-      SetState(pending_state_.load());
-      pending_state_ = GST_STATE_NULL;
+    const GstState state = pending_state_.exchange(GST_STATE_NULL);
+    if (state == GST_STATE_PLAYING) {
+      // Starting playback from an offset (saved position or CUE-sheet start): the device was opened during preroll, so honour the warm-up delay here too before going to PLAYING.
+      StartPlaybackAfterWarmup();
+    }
+    else if (state != GST_STATE_NULL) {
+      qLog(Debug) << "Setting state from pending state" << GstStateText(state);
+      SetState(state);
     }
   }
 
