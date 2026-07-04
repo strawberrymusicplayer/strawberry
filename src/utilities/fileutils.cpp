@@ -22,6 +22,15 @@
 
 #include <memory>
 
+#ifdef Q_OS_UNIX
+#  include <unistd.h>
+#  include <string.h>
+#endif
+
+#ifdef Q_OS_WIN32
+#  include <io.h>
+#endif
+
 #include <QByteArray>
 #include <QString>
 #include <QIODevice>
@@ -137,6 +146,77 @@ bool RemoveRecursive(const QString &path) {
   }
 
   return dir.rmdir(path);
+
+}
+
+// Whether the path is on a GVFS FUSE mount (GNOME's virtual filesystem, e.g. /run/user/<uid>/gvfs/... or the older ~/.gvfs/...).
+// Those mounts expose backends such as sftp, smb and mtp that do not support random, in-place writes; the whole file has to be rewritten instead.  Ordinary FUSE filesystems like sshfs do support in-place writes.
+bool FilenameOnGVFS(const QString &filename) {
+
+#ifdef Q_OS_UNIX
+  return filename.contains(QLatin1String("/gvfs/")) || filename.contains(QLatin1String("/.gvfs/"));
+#else
+  Q_UNUSED(filename)
+  return false;
+#endif  // Q_OS_UNIX
+
+}
+
+// Copies the contents of source over destination (truncating it), streaming in chunks so large files are not held in memory.
+// Unlike QFile::copy() this overwrites an existing destination, and it only writes sequentially from the start.
+bool CopyFileContents(const QString &source, const QString &destination) {
+
+  QFile source_file(source);
+  if (!source_file.open(QIODevice::ReadOnly)) {
+    qLog(Error) << "Failed to open" << source << "for reading:" << source_file.errorString();
+    return false;
+  }
+
+  QFile destination_file(destination);
+  if (!destination_file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+    qLog(Error) << "Failed to open" << destination << "for writing:" << destination_file.errorString();
+    return false;
+  }
+
+  constexpr qint64 kChunkSize = 64 * 1024;
+  for (;;) {
+    const QByteArray chunk = source_file.read(kChunkSize);
+    if (chunk.isEmpty()) break;
+    if (destination_file.write(chunk) != chunk.size()) {
+      qLog(Error) << "Failed to write to" << destination << ":" << destination_file.errorString();
+      return false;
+    }
+  }
+
+  if (source_file.error() != QFileDevice::NoError) {
+    qLog(Error) << "Failed to read from" << source << ":" << source_file.errorString();
+    return false;
+  }
+
+  // Flush and surface any error from closing (e.g. the remote write failing on commit).
+  if (!destination_file.flush()) {
+    qLog(Error) << "Failed to flush" << destination << ":" << destination_file.errorString();
+    return false;
+  }
+
+  // flush() only pushes the data into the OS; force it out to the underlying storage so that deferred write-back failures (common on network/FUSE-backed filesystems such as GVFS) are reported here rather than being silently lost when the file is closed.
+  const int handle = destination_file.handle();
+  if (handle != -1) {
+#ifdef Q_OS_UNIX
+    if (fsync(handle) != 0) {
+      qLog(Error) << "Failed to fsync" << destination << "to storage:" << strerror(errno);
+      return false;
+    }
+#endif
+#ifdef Q_OS_WIN32
+    if (_commit(handle) != 0) {
+      qLog(Error) << "Failed to commit" << destination << "to storage";
+      return false;
+    }
+#endif
+  }
+
+  return true;
 
 }
 

@@ -103,6 +103,7 @@
 #include "includes/scoped_ptr.h"
 #include "core/logging.h"
 #include "core/song.h"
+#include "core/filewriteguard.h"
 #include "constants/timeconstants.h"
 
 #include "albumcovertagdata.h"
@@ -1104,10 +1105,15 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     cover = LoadAlbumCoverTagData(filename, save_tag_cover_data);
   }
 
-  ScopedPtr<TagLib::IOStream> stream(factory_->GetReadWriteStream(filename));
+  FileWriteGuard write_guard(filename);
+  if (!write_guard.Init()) {
+    return TagReaderResult::ErrorCode::FileOpenError;
+  }
+
+  ScopedPtr<TagLib::IOStream> stream(factory_->GetReadWriteStream(write_guard.working_filename()));
   ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(&*stream));
   if (!fileref || fileref->isNull()) {
-    qLog(Error) << "TagLib could not open file" << filename;
+    qLog(Error) << "TagLib could not open file" << write_guard.working_filename();
     return TagReaderResult::ErrorCode::FileOpenError;
   }
 
@@ -1323,6 +1329,14 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
   // For all other file types, use default save
   else {
     success = fileref->save();
+  }
+
+  // Tear down the TagLib stream first so all writes are flushed and the temporary file is closed before it is copied back.
+  fileref.reset();
+  stream.reset();
+  if (success && !write_guard.Commit()) {
+    qLog(Error) << "Failed to write edited file back to" << filename;
+    return TagReaderResult::ErrorCode::FileSaveError;
   }
 
   return success ? TagReaderResult(TagReaderResult::ErrorCode::Success) : TagReaderResult(TagReaderResult::ErrorCode::FileSaveError);
@@ -1784,10 +1798,15 @@ TagReaderResult TagReaderTagLib::SaveEmbeddedCover(const QString &filename, cons
     return TagReaderResult::ErrorCode::FileDoesNotExist;
   }
 
-  ScopedPtr<TagLib::IOStream> stream(factory_->GetReadWriteStream(filename));
+  FileWriteGuard write_guard(filename);
+  if (!write_guard.Init()) {
+    return TagReaderResult::ErrorCode::FileOpenError;
+  }
+
+  ScopedPtr<TagLib::IOStream> stream(factory_->GetReadWriteStream(write_guard.working_filename()));
   ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(&*stream));
   if (!fileref || fileref->isNull()) {
-    qLog(Error) << "TagLib could not open file" << filename;
+    qLog(Error) << "TagLib could not open file" << write_guard.working_filename();
     return TagReaderResult::ErrorCode::FileOpenError;
   }
 
@@ -1843,6 +1862,13 @@ TagReaderResult TagReaderTagLib::SaveEmbeddedCover(const QString &filename, cons
   }
 
   const bool success = fileref->file()->save();
+
+  fileref.reset();
+  stream.reset();
+  if (success && !write_guard.Commit()) {
+    qLog(Error) << "Failed to write edited file back to" << filename;
+    return TagReaderResult::ErrorCode::FileSaveError;
+  }
 
   return success ? TagReaderResult::ErrorCode::Success : TagReaderResult::ErrorCode::FileSaveError;
 
@@ -1933,10 +1959,15 @@ TagReaderResult TagReaderTagLib::SaveSongPlaycount(const QString &filename, cons
     return TagReaderResult::ErrorCode::FileDoesNotExist;
   }
 
-  ScopedPtr<TagLib::IOStream> stream(factory_->GetReadWriteStream(filename));
+  FileWriteGuard write_guard(filename);
+  if (!write_guard.Init()) {
+    return TagReaderResult::ErrorCode::FileOpenError;
+  }
+
+  ScopedPtr<TagLib::IOStream> stream(factory_->GetReadWriteStream(write_guard.working_filename()));
   ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(&*stream));
   if (!fileref || fileref->isNull()) {
-    qLog(Error) << "TagLib could not open file" << filename;
+    qLog(Error) << "TagLib could not open file" << write_guard.working_filename();
     return TagReaderResult::ErrorCode::FileOpenError;
   }
 
@@ -1992,6 +2023,13 @@ TagReaderResult TagReaderTagLib::SaveSongPlaycount(const QString &filename, cons
   }
 
   const bool success = fileref->save();
+
+  fileref.reset();
+  stream.reset();
+  if (success && !write_guard.Commit()) {
+    qLog(Error) << "Failed to write edited file back to" << filename;
+    return TagReaderResult::ErrorCode::FileSaveError;
+  }
 
   return success ? TagReaderResult::ErrorCode::Success : TagReaderResult::ErrorCode::FileSaveError;
 
@@ -2058,10 +2096,15 @@ TagReaderResult TagReaderTagLib::SaveSongRating(const QString &filename, const f
     return TagReaderResult::ErrorCode::Success;
   }
 
-  ScopedPtr<TagLib::IOStream> stream(factory_->GetReadWriteStream(filename));
+  FileWriteGuard write_guard(filename);
+  if (!write_guard.Init()) {
+    return TagReaderResult::ErrorCode::FileOpenError;
+  }
+
+  ScopedPtr<TagLib::IOStream> stream(factory_->GetReadWriteStream(write_guard.working_filename()));
   ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(&*stream));
   if (!fileref || fileref->isNull()) {
-    qLog(Error) << "TagLib could not open file" << filename;
+    qLog(Error) << "TagLib could not open file" << write_guard.working_filename();
     return TagReaderResult::ErrorCode::FileOpenError;
   }
 
@@ -2117,7 +2160,14 @@ TagReaderResult TagReaderTagLib::SaveSongRating(const QString &filename, const f
 
   const bool success = fileref->save();
   if (!success) {
-    qLog(Error) << "TagLib hasn't been able to save file" << filename;
+    qLog(Error) << "TagLib hasn't been able to save file" << write_guard.working_filename();
+  }
+
+  fileref.reset();
+  stream.reset();
+  if (success && !write_guard.Commit()) {
+    qLog(Error) << "Failed to write edited file back to" << filename;
+    return TagReaderResult::ErrorCode::FileSaveError;
   }
 
   return success ? TagReaderResult::ErrorCode::Success : TagReaderResult::ErrorCode::FileSaveError;

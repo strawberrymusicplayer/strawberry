@@ -443,6 +443,7 @@ set(SOURCES
   src/core/sqlrow.cpp
   src/core/metatypes.cpp
   src/core/deletefiles.cpp
+  src/core/filewriteguard.cpp
   src/core/filesystemmusicstorage.cpp
   src/core/filesystemwatcherinterface.cpp
   src/core/mergedproxymodel.cpp
