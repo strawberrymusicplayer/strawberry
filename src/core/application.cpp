@@ -76,7 +76,6 @@
 #include "scrobbler/audioscrobbler.h"
 #include "scrobbler/lastfmscrobbler.h"
 #include "scrobbler/listenbrainzscrobbler.h"
-#include "scrobbler/lastfmimport.h"
 #ifdef HAVE_SUBSONIC
 #  include "scrobbler/subsonicscrobbler.h"
 #endif
@@ -203,15 +202,6 @@ class ApplicationImpl {
           return streaming_services;
         }),
         radio_services_([app]() { return new RadioServices(app->task_manager(), app->network(), app->database(), app->albumcover_loader()); }),
-        scrobbler_([app]() {
-          AudioScrobbler *scrobbler = new AudioScrobbler(app);
-          scrobbler->AddService(make_shared<LastFMScrobbler>(scrobbler->settings(), app->network()));
-          scrobbler->AddService(make_shared<ListenBrainzScrobbler>(scrobbler->settings(), app->network()));
-#ifdef HAVE_SUBSONIC
-          scrobbler->AddService(make_shared<SubsonicScrobbler>(scrobbler->settings(), app->network(), app->streaming_services()->Service<SubsonicService>(), app));
-#endif
-          return scrobbler;
-        }),
 #ifdef HAVE_MOODBAR
         moodbar_loader_([app]() { return new MoodbarLoader(app); }),
         moodbar_controller_([app]() { return new MoodbarController(app->player(), app->moodbar_loader()); }),
@@ -220,7 +210,15 @@ class ApplicationImpl {
         waveform_loader_([app]() { return new WaveformLoader(app); }),
         waveform_controller_([app]() { return new WaveformController(app->player(), app->waveform_loader()); }),
 #endif
-        lastfm_import_([app]() { return new LastFMImport(app->network()); })
+        scrobbler_([app]() {
+          AudioScrobbler *scrobbler = new AudioScrobbler(app);
+          scrobbler->AddService(make_shared<LastFMScrobbler>(scrobbler->settings(), app->network()));
+          scrobbler->AddService(make_shared<ListenBrainzScrobbler>(scrobbler->settings(), app->network()));
+#ifdef HAVE_SUBSONIC
+          scrobbler->AddService(make_shared<SubsonicScrobbler>(scrobbler->settings(), app->network(), app->streaming_services()->Service<SubsonicService>(), app));
+#endif
+          return scrobbler;
+        })
   {}
 
   Lazy<TagReaderClient> tagreader_client_;
@@ -240,7 +238,6 @@ class ApplicationImpl {
   Lazy<LyricsProviders> lyrics_providers_;
   Lazy<StreamingServices> streaming_services_;
   Lazy<RadioServices> radio_services_;
-  Lazy<AudioScrobbler> scrobbler_;
 #ifdef HAVE_MOODBAR
   Lazy<MoodbarLoader> moodbar_loader_;
   Lazy<MoodbarController> moodbar_controller_;
@@ -249,7 +246,7 @@ class ApplicationImpl {
   Lazy<WaveformLoader> waveform_loader_;
   Lazy<WaveformController> waveform_controller_;
 #endif
-  Lazy<LastFMImport> lastfm_import_;
+  Lazy<AudioScrobbler> scrobbler_;
 
 };
 
@@ -391,8 +388,6 @@ SharedPtr<PlaylistBackend> Application::playlist_backend() const { return p_->pl
 SharedPtr<PlaylistManager> Application::playlist_manager() const { return p_->playlist_manager_.ptr(); }
 SharedPtr<StreamingServices> Application::streaming_services() const { return p_->streaming_services_.ptr(); }
 SharedPtr<RadioServices> Application::radio_services() const { return p_->radio_services_.ptr(); }
-SharedPtr<AudioScrobbler> Application::scrobbler() const { return p_->scrobbler_.ptr(); }
-SharedPtr<LastFMImport> Application::lastfm_import() const { return p_->lastfm_import_.ptr(); }
 #ifdef HAVE_MOODBAR
 SharedPtr<MoodbarController> Application::moodbar_controller() const { return p_->moodbar_controller_.ptr(); }
 SharedPtr<MoodbarLoader> Application::moodbar_loader() const { return p_->moodbar_loader_.ptr(); }
@@ -401,3 +396,4 @@ SharedPtr<MoodbarLoader> Application::moodbar_loader() const { return p_->moodba
 SharedPtr<WaveformController> Application::waveform_controller() const { return p_->waveform_controller_.ptr(); }
 SharedPtr<WaveformLoader> Application::waveform_loader() const { return p_->waveform_loader_.ptr(); }
 #endif
+SharedPtr<AudioScrobbler> Application::scrobbler() const { return p_->scrobbler_.ptr(); }

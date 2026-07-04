@@ -734,7 +734,6 @@ set(SOURCES
   src/dialogs/addstreamdialog.cpp
   src/dialogs/userpassdialog.cpp
   src/dialogs/deleteconfirmationdialog.cpp
-  src/dialogs/lastfmimportdialog.cpp
   src/dialogs/messagedialog.cpp
   src/dialogs/saveplaylistsdialog.cpp
 
@@ -806,7 +805,6 @@ set(SOURCES
   src/scrobbler/scrobblemetadata.cpp
   src/scrobbler/lastfmscrobbler.cpp
   src/scrobbler/listenbrainzscrobbler.cpp
-  src/scrobbler/lastfmimport.cpp
 
   src/organize/organize.cpp
   src/organize/organizeformat.cpp
@@ -1033,7 +1031,6 @@ set(HEADERS
   src/dialogs/addstreamdialog.h
   src/dialogs/userpassdialog.h
   src/dialogs/deleteconfirmationdialog.h
-  src/dialogs/lastfmimportdialog.h
   src/dialogs/messagedialog.h
   src/dialogs/saveplaylistsdialog.h
 
@@ -1099,7 +1096,6 @@ set(HEADERS
   src/scrobbler/scrobblercache.h
   src/scrobbler/lastfmscrobbler.h
   src/scrobbler/listenbrainzscrobbler.h
-  src/scrobbler/lastfmimport.h
 
   src/organize/organize.h
   src/organize/organizeformatvalidator.h
@@ -1191,7 +1187,6 @@ set(UI
   src/dialogs/trackselectiondialog.ui
   src/dialogs/addstreamdialog.ui
   src/dialogs/userpassdialog.ui
-  src/dialogs/lastfmimportdialog.ui
   src/dialogs/messagedialog.ui
   src/dialogs/saveplaylistsdialog.ui
 

@@ -55,8 +55,6 @@ class AlbumCoverLoader;
 class CurrentAlbumCoverLoader;
 class CoverProviders;
 class LyricsProviders;
-class AudioScrobbler;
-class LastFMImport;
 class StreamingServices;
 class RadioServices;
 #ifdef HAVE_MOODBAR
@@ -67,6 +65,7 @@ class MoodbarLoader;
 class WaveformController;
 class WaveformLoader;
 #endif
+class AudioScrobbler;
 
 class Application : public QObject {
   Q_OBJECT
@@ -97,8 +96,6 @@ class Application : public QObject {
 
   SharedPtr<LyricsProviders> lyrics_providers() const;
 
-  SharedPtr<AudioScrobbler> scrobbler() const;
-
   SharedPtr<StreamingServices> streaming_services() const;
   SharedPtr<RadioServices> radio_services() const;
 
@@ -112,7 +109,7 @@ class Application : public QObject {
   SharedPtr<WaveformLoader> waveform_loader() const;
 #endif
 
-  SharedPtr<LastFMImport> lastfm_import() const;
+  SharedPtr<AudioScrobbler> scrobbler() const;
 
   void Exit();
 
