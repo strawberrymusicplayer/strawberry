@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,21 @@ constexpr char kSettingsGroup[] = "Appearance";
 
 constexpr char kStyle[] = "style";
 constexpr char kSystemThemeIcons[] = "system_icons";
+
+constexpr char kUseCustomColorSet[] = "use-custom-color-set";
+
+// Per-QPalette-role custom colors (the "central roles" from https://doc.qt.io/qt-6/qpalette.html).
+constexpr char kColorWindow[] = "color-window";
+constexpr char kColorWindowText[] = "color-window-text";
+constexpr char kColorBase[] = "color-base";
+constexpr char kColorAlternateBase[] = "color-alternate-base";
+constexpr char kColorToolTipBase[] = "color-tooltip-base";
+constexpr char kColorToolTipText[] = "color-tooltip-text";
+constexpr char kColorText[] = "color-text";
+constexpr char kColorButton[] = "color-button";
+constexpr char kColorButtonText[] = "color-button-text";
+constexpr char kColorBrightText[] = "color-bright-text";
+constexpr char kColorPlaceholderText[] = "color-placeholder-text";
 
 constexpr char kBackgroundImageType[] = "background_image_type";
 constexpr char kBackgroundImageFilename[] = "background_image_file";

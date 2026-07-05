@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,9 @@
 #include <QWidget>
 #include <QStyleFactory>
 #include <QVariant>
+#include <QMap>
 #include <QString>
+#include <QColor>
 #include <QPalette>
 #include <QColorDialog>
 #include <QFileDialog>
@@ -37,6 +39,7 @@
 #include <QRadioButton>
 #include <QSlider>
 #include <QBoxLayout>
+#include <QFormLayout>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QSpinBox>
@@ -48,6 +51,7 @@
 #include "core/iconloader.h"
 #include "core/stylehelper.h"
 #include "core/settings.h"
+#include "core/appearance.h"
 #include "widgets/fancytabwidget.h"
 #include "settingspage.h"
 #include "settingsdialog.h"
@@ -56,9 +60,11 @@
 using namespace Qt::Literals::StringLiterals;
 using namespace AppearanceSettings;
 
-AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog, QWidget *parent)
+AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog, SharedPtr<Appearance> appearance, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui_AppearanceSettingsPage),
+      appearance_(appearance),
+      original_use_custom_color_set_(false),
       background_image_type_(BackgroundImageType::Default) {
 
   ui_->setupUi(this);
@@ -78,6 +84,13 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog, QWidget *
 
   QObject::connect(ui_->blur_slider, &QSlider::valueChanged, this, &AppearanceSettingsPage::BlurLevelChanged);
   QObject::connect(ui_->opacity_slider, &QSlider::valueChanged, this, &AppearanceSettingsPage::OpacityLevelChanged);
+
+  QObject::connect(ui_->use_custom_color_set, &QRadioButton::toggled, this, &AppearanceSettingsPage::UseCustomColorSetOptionChanged);
+  QObject::connect(ui_->use_custom_color_set, &QRadioButton::toggled, ui_->widget_custom_colors, &QWidget::setEnabled);
+  QObject::connect(ui_->button_dark_colors, &QPushButton::pressed, this, &AppearanceSettingsPage::SetDarkColors);
+  QObject::connect(ui_->button_reset_colors, &QPushButton::pressed, this, &AppearanceSettingsPage::ResetToDefaultColors);
+
+  CreateColorSelectors();
 
   QObject::connect(ui_->use_default_background, &QRadioButton::toggled, ui_->widget_custom_background_image_options, &AppearanceSettingsPage::setDisabled);
   QObject::connect(ui_->use_no_background, &QRadioButton::toggled, ui_->widget_custom_background_image_options, &AppearanceSettingsPage::setDisabled);
@@ -124,6 +137,25 @@ void AppearanceSettingsPage::Load() {
   ui_->checkbox_system_icons->setChecked(s.value(kSystemThemeIcons, false).toBool());
 #endif
 
+  const QPalette p = QApplication::palette();
+
+  // Keep in mind originals colors, in case the user clicks on Cancel, to be able to restore colors
+  original_use_custom_color_set_ = s.value(kUseCustomColorSet, false).toBool();
+
+  current_colors_.clear();
+  for (const Appearance::ColorRole &color_role : Appearance::ColorRoles()) {
+    const QVariant value = s.value(color_role.settings_key);
+    QColor color = value.isValid() ? value.value<QColor>() : QColor();
+    if (!color.isValid()) {
+      color = p.color(color_role.role);
+    }
+    current_colors_.insert(color_role.role, color);
+  }
+
+  original_colors_ = current_colors_;
+
+  UpdateColorSelectorsColors();
+
   // Tab widget BG color settings.
   bool tabbar_system_color = s.value(kTabBarSystemColor, true).toBool();
   ui_->tabbar_gradient->setChecked(s.value(kTabBarGradient, true).toBool());
@@ -138,6 +170,10 @@ void AppearanceSettingsPage::Load() {
   // Playlist settings
   background_image_type_ = static_cast<BackgroundImageType>(s.value(kBackgroundImageType, static_cast<int>(BackgroundImageType::Default)).toInt());
   background_image_filename_ = s.value(kBackgroundImageFilename).toString();
+
+  ui_->use_system_color_set->setChecked(!original_use_custom_color_set_);
+  ui_->use_custom_color_set->setChecked(original_use_custom_color_set_);
+  ui_->widget_custom_colors->setEnabled(original_use_custom_color_set_);
 
   switch (background_image_type_) {
     case BackgroundImageType::Default:
@@ -208,6 +244,20 @@ void AppearanceSettingsPage::Save() {
   s.setValue(kSystemThemeIcons, ui_->checkbox_system_icons->isChecked());
 #endif
 
+  bool use_custom_color_set = ui_->use_custom_color_set->isChecked();
+  s.setValue(kUseCustomColorSet, use_custom_color_set);
+  if (use_custom_color_set) {
+    for (const Appearance::ColorRole &color_role : Appearance::ColorRoles()) {
+      s.setValue(color_role.settings_key, current_colors_.value(color_role.role));
+    }
+  }
+  else {
+    appearance_->ResetToSystemDefaultTheme();
+    for (const Appearance::ColorRole &color_role : Appearance::ColorRoles()) {
+      s.remove(color_role.settings_key);
+    }
+  }
+
   background_image_filename_ = ui_->background_image_filename->text();
   if (ui_->use_default_background->isChecked()) {
     background_image_type_ = BackgroundImageType::Default;
@@ -261,6 +311,129 @@ void AppearanceSettingsPage::Save() {
   }
 
   s.endGroup();
+
+}
+
+void AppearanceSettingsPage::Cancel() {
+
+  if (original_use_custom_color_set_) {
+    Appearance::ChangeColors(original_colors_);
+  }
+  else {
+    appearance_->ResetToSystemDefaultTheme();
+  }
+
+}
+
+QString AppearanceSettingsPage::ColorRoleLabel(const QPalette::ColorRole role) {
+
+  switch (role) {
+    case QPalette::Window:          return tr("Window");
+    case QPalette::WindowText:      return tr("Window text");
+    case QPalette::Base:            return tr("Base");
+    case QPalette::AlternateBase:   return tr("Alternate base");
+    case QPalette::ToolTipBase:     return tr("Tooltip base");
+    case QPalette::ToolTipText:     return tr("Tooltip text");
+    case QPalette::PlaceholderText: return tr("Placeholder text");
+    case QPalette::Text:            return tr("Text");
+    case QPalette::Button:          return tr("Button");
+    case QPalette::ButtonText:      return tr("Button text");
+    case QPalette::BrightText:      return tr("Bright text");
+    default:                        return QString();
+  }
+
+}
+
+void AppearanceSettingsPage::CreateColorSelectors() {
+
+  QFormLayout *layout = ui_->layout_custom_colors;
+
+  for (const Appearance::ColorRole &color_role : Appearance::ColorRoles()) {
+    QPushButton *button = new QPushButton(ui_->widget_custom_colors);
+    button->setToolTip(tr("Select color"));
+    const QPalette::ColorRole role = color_role.role;
+    QObject::connect(button, &QPushButton::pressed, this, [this, role]() { SelectColor(role); });
+    layout->addRow(ColorRoleLabel(role) + u':', button);
+    color_selectors_.insert(role, button);
+  }
+
+}
+
+void AppearanceSettingsPage::SelectColor(const QPalette::ColorRole role) {
+
+  const QColor color_selected = QColorDialog::getColor(current_colors_.value(role));
+  if (!color_selected.isValid()) return;
+
+  current_colors_[role] = color_selected;
+
+  if (color_selectors_.contains(role)) {
+    UpdateColorSelectorColor(color_selectors_.value(role), color_selected);
+  }
+
+  ApplyCustomColors();
+
+  set_changed();
+
+}
+
+void AppearanceSettingsPage::ApplyCustomColors() {
+  Appearance::ChangeColors(current_colors_);
+}
+
+void AppearanceSettingsPage::SetDarkColors() {
+
+  // Switch to a custom color set and fill it with colors suitable for a dark theme.
+  ui_->use_custom_color_set->setChecked(true);
+
+  const QMap<QPalette::ColorRole, QColor> dark_colors = Appearance::DarkColors();
+  for (const Appearance::ColorRole &color_role : Appearance::ColorRoles()) {
+    if (dark_colors.contains(color_role.role)) {
+      current_colors_[color_role.role] = dark_colors.value(color_role.role);
+    }
+  }
+
+  UpdateColorSelectorsColors();
+  ApplyCustomColors();
+
+  set_changed();
+
+}
+
+void AppearanceSettingsPage::UseCustomColorSetOptionChanged(bool checked) {
+
+  if (checked) {
+    ApplyCustomColors();
+  }
+  else {
+    // Only restore the system palette for the preview; keep the user's custom picks in current_colors_ so they are not lost when switching back to a custom color set.
+    appearance_->ResetToSystemDefaultTheme();
+  }
+
+}
+
+void AppearanceSettingsPage::ResetToDefaultColors() {
+
+  // Reset the custom color set back to the system default colors.
+  const QPalette p = appearance_->system_palette();
+  for (const Appearance::ColorRole &color_role : Appearance::ColorRoles()) {
+    current_colors_[color_role.role] = p.color(color_role.role);
+  }
+
+  UpdateColorSelectorsColors();
+
+  if (ui_->use_custom_color_set->isChecked()) {
+    ApplyCustomColors();
+  }
+
+  set_changed();
+
+}
+
+void AppearanceSettingsPage::UpdateColorSelectorsColors() {
+
+  for (QMap<QPalette::ColorRole, QPushButton*>::const_iterator it = color_selectors_.constBegin(); it != color_selectors_.constEnd(); ++it) {
+    UpdateColorSelectorColor(it.value(), current_colors_.value(it.key()));
+  }
 
 }
 
