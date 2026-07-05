@@ -145,11 +145,16 @@ void ProjectMVisualization::Init() {
 #ifdef HAVE_PROJECTM4
   Q_ASSERT(projectm_instance_ == nullptr);
   Q_ASSERT(projectm_playlist_instance_ == nullptr);
+  size_t w = static_cast<size_t>(sceneRect().width());
+  size_t h = static_cast<size_t>(sceneRect().height());
+  if (w == 0) w = 512;
+  if (h == 0) h = 512;
   projectm_instance_ = projectm_create();
   projectm_set_preset_duration(projectm_instance_, duration_);
   projectm_set_mesh_size(projectm_instance_, 32, 24);
   projectm_set_fps(projectm_instance_, 35);
-  projectm_set_window_size(projectm_instance_, 512, 512);
+  projectm_set_window_size(projectm_instance_, w, h);
+  projectm_set_hard_cut_enabled(projectm_instance_, false);
   projectm_playlist_instance_ = projectm_playlist_create(projectm_instance_);
 #else
   projectM::Settings s;
