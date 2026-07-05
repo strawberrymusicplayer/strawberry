@@ -524,12 +524,88 @@
       <translation>Sélectionner la couleur du morceau en lecture dans la playlist :</translation>
     </message>
     <message>
+      <source>Window</source>
+      <translation type="unfinished">Window</translation>
+    </message>
+    <message>
+      <source>Window text</source>
+      <translation type="unfinished">Window text</translation>
+    </message>
+    <message>
+      <source>Base</source>
+      <translation type="unfinished">Base</translation>
+    </message>
+    <message>
+      <source>Alternate base</source>
+      <translation type="unfinished">Alternate base</translation>
+    </message>
+    <message>
+      <source>Tooltip base</source>
+      <translation type="unfinished">Tooltip base</translation>
+    </message>
+    <message>
+      <source>Tooltip text</source>
+      <translation type="unfinished">Tooltip text</translation>
+    </message>
+    <message>
+      <source>Placeholder text</source>
+      <translation type="unfinished">Placeholder text</translation>
+    </message>
+    <message>
+      <source>Text</source>
+      <translation type="unfinished">Text</translation>
+    </message>
+    <message>
+      <source>Button</source>
+      <translation type="unfinished">Button</translation>
+    </message>
+    <message>
+      <source>Button text</source>
+      <translation type="unfinished">Button text</translation>
+    </message>
+    <message>
+      <source>Bright text</source>
+      <translation type="unfinished">Bright text</translation>
+    </message>
+    <message>
+      <source>Select color</source>
+      <translation type="unfinished">Select color</translation>
+    </message>
+    <message>
       <source>Select background image</source>
       <translation>Sélectionner une image d&apos;arrière-plan</translation>
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect.</source>
       <translation>Strawberry doit être redémarré pour que la modification de cette option soit prise en compte.</translation>
+    </message>
+    <message>
+      <source>Colors</source>
+      <translation type="unfinished">Colors</translation>
+    </message>
+    <message>
+      <source>&amp;Use the system default color set</source>
+      <translation type="unfinished">&amp;Use the system default color set</translation>
+    </message>
+    <message>
+      <source>Use a custom color set</source>
+      <translation type="unfinished">Use a custom color set</translation>
+    </message>
+    <message>
+      <source>Set a custom color set suitable for a dark theme</source>
+      <translation type="unfinished">Set a custom color set suitable for a dark theme</translation>
+    </message>
+    <message>
+      <source>Dark mode</source>
+      <translation type="unfinished">Dark mode</translation>
+    </message>
+    <message>
+      <source>Reset the custom color set to the system default colors</source>
+      <translation type="unfinished">Reset the custom color set to the system default colors</translation>
+    </message>
+    <message>
+      <source>Reset to default</source>
+      <translation type="unfinished">Reset to default</translation>
     </message>
   </context>
   <context>
@@ -3046,76 +3122,6 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
   </context>
   <context>
-    <name>LastFMImport</name>
-    <message>
-      <source>Missing username, please login to last.fm first!</source>
-      <translation>Nom d&apos;utilisateur manquant, veuillez d&apos;abord vous connecter à last.fm !</translation>
-    </message>
-  </context>
-  <context>
-    <name>LastFMImportDialog</name>
-    <message>
-      <source>Import data from last.fm</source>
-      <translation>Importer les données de last.fm</translation>
-    </message>
-    <message>
-      <source>Choose data to import from last.fm</source>
-      <translation>Choisissez les données à importer de last.fm</translation>
-    </message>
-    <message>
-      <source>Last played</source>
-      <translation>Dernière écoute</translation>
-    </message>
-    <message>
-      <source>Play counts</source>
-      <translation>Compteur d&apos;écoutes</translation>
-    </message>
-    <message>
-      <source>Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start.</source>
-      <translation>Attention : Le compteur d&apos;écoutes et la dernière lecture de last.fm remplaceront complètement les mêmes données pour les morceaux correspondants. Le compteur d&apos;écoutes remplacera les données basées sur l&apos;artiste et le titre du morceau pour les mêmes albums ! Veuillez sauvegarder votre base de données avant de commencer.</translation>
-    </message>
-    <message>
-      <source>Go!</source>
-      <translation>Aller !</translation>
-    </message>
-    <message>
-      <source>Close</source>
-      <translation>Fermer</translation>
-    </message>
-    <message>
-      <source>Cancel</source>
-      <translation>Annuler</translation>
-    </message>
-    <message>
-      <source>Receiving initial data from last.fm...</source>
-      <translation>Réception des données initiales de last.fm...</translation>
-    </message>
-    <message>
-      <source>Receiving playcount for %1 songs and last played for %2 songs.</source>
-      <translation>Réception du compteur d&apos;écoute pour %1 morceaux et de la dernière lecture pour %2 morceaux.</translation>
-    </message>
-    <message>
-      <source>Receiving last played for %1 songs.</source>
-      <translation>Réception de la dernière lecture de %1 morceaux.</translation>
-    </message>
-    <message>
-      <source>Receiving playcounts for %1 songs.</source>
-      <translation>Réception du compteur d&apos;écoutes pour %1 morceaux.</translation>
-    </message>
-    <message>
-      <source>Playcounts for %1 songs and last played for %2 songs received.</source>
-      <translation>Compteur d&apos;écoutes pour %1 morceaux et dernière lecture pour %2 morceaux reçus.</translation>
-    </message>
-    <message>
-      <source>Last played for %1 songs received.</source>
-      <translation>Dernière lecture pour %1 morceaux reçus.</translation>
-    </message>
-    <message>
-      <source>Playcounts for %1 songs received.</source>
-      <translation>Compteur d&apos;écoutes pour %1 morceaux reçus.</translation>
-    </message>
-  </context>
-  <context>
     <name>LastFMScrobbler</name>
     <message>
       <source>%1 Scrobbler Authentication</source>
@@ -3534,10 +3540,6 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     <message>
       <source>Show sidebar</source>
       <translation>Afficher la barre latérale</translation>
-    </message>
-    <message>
-      <source>Import data from last.fm...</source>
-      <translation>Importer les données de last.fm...</translation>
     </message>
     <message>
       <source>Context</source>

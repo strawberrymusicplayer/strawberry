@@ -524,12 +524,88 @@
       <translation>Επιλογή χρώματος τραγουδιού αναπαραγωγής:</translation>
     </message>
     <message>
+      <source>Window</source>
+      <translation type="unfinished">Window</translation>
+    </message>
+    <message>
+      <source>Window text</source>
+      <translation type="unfinished">Window text</translation>
+    </message>
+    <message>
+      <source>Base</source>
+      <translation type="unfinished">Base</translation>
+    </message>
+    <message>
+      <source>Alternate base</source>
+      <translation type="unfinished">Alternate base</translation>
+    </message>
+    <message>
+      <source>Tooltip base</source>
+      <translation type="unfinished">Tooltip base</translation>
+    </message>
+    <message>
+      <source>Tooltip text</source>
+      <translation type="unfinished">Tooltip text</translation>
+    </message>
+    <message>
+      <source>Placeholder text</source>
+      <translation type="unfinished">Placeholder text</translation>
+    </message>
+    <message>
+      <source>Text</source>
+      <translation type="unfinished">Text</translation>
+    </message>
+    <message>
+      <source>Button</source>
+      <translation type="unfinished">Button</translation>
+    </message>
+    <message>
+      <source>Button text</source>
+      <translation type="unfinished">Button text</translation>
+    </message>
+    <message>
+      <source>Bright text</source>
+      <translation type="unfinished">Bright text</translation>
+    </message>
+    <message>
+      <source>Select color</source>
+      <translation type="unfinished">Select color</translation>
+    </message>
+    <message>
       <source>Select background image</source>
       <translation>Προεπιλεγμένη εικόνα φόντου</translation>
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect.</source>
       <translation>Θα πρέπει να επανεκκινήσετε το Srawberry για να ενεργοποιηθεί αυτή η ρύθμιση.</translation>
+    </message>
+    <message>
+      <source>Colors</source>
+      <translation type="unfinished">Colors</translation>
+    </message>
+    <message>
+      <source>&amp;Use the system default color set</source>
+      <translation type="unfinished">&amp;Use the system default color set</translation>
+    </message>
+    <message>
+      <source>Use a custom color set</source>
+      <translation type="unfinished">Use a custom color set</translation>
+    </message>
+    <message>
+      <source>Set a custom color set suitable for a dark theme</source>
+      <translation type="unfinished">Set a custom color set suitable for a dark theme</translation>
+    </message>
+    <message>
+      <source>Dark mode</source>
+      <translation type="unfinished">Dark mode</translation>
+    </message>
+    <message>
+      <source>Reset the custom color set to the system default colors</source>
+      <translation type="unfinished">Reset the custom color set to the system default colors</translation>
+    </message>
+    <message>
+      <source>Reset to default</source>
+      <translation type="unfinished">Reset to default</translation>
     </message>
   </context>
   <context>
@@ -3046,76 +3122,6 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
   </context>
   <context>
-    <name>LastFMImport</name>
-    <message>
-      <source>Missing username, please login to last.fm first!</source>
-      <translation>Λείπει όνομα χρήστη, παρακαλούμε συνδεθείτε πρώτα στο last.fm!</translation>
-    </message>
-  </context>
-  <context>
-    <name>LastFMImportDialog</name>
-    <message>
-      <source>Import data from last.fm</source>
-      <translation>Εισαγωγή δεδομένων από last.fm</translation>
-    </message>
-    <message>
-      <source>Choose data to import from last.fm</source>
-      <translation>Επιλέξτε δεδομένα για εισαγωγή από το last.fm</translation>
-    </message>
-    <message>
-      <source>Last played</source>
-      <translation>Τελευταία αναπαραγωγή</translation>
-    </message>
-    <message>
-      <source>Play counts</source>
-      <translation>Φορές αναπαραγωγής</translation>
-    </message>
-    <message>
-      <source>Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start.</source>
-      <translation>Προειδοποίηση: Οι μετρήσεις παιχνιδιού και η τελευταία αναπαραγωγή από last.fm θα αντικαταστήσουν πλήρως τα ίδια δεδομένα για τα τραγούδια που ταιριάζουν. Οι μετρήσεις αναπαραγωγής θα αντικαταστήσουν τα δεδομένα που βασίζονται στον τίτλο του καλλιτέχνη και του τραγουδιού για τα ίδια άλμπουμ! Παρακαλώ δημιουργήστε αντίγραφα ασφαλείας της βάσης δεδομένων σας πριν ξεκινήσετε.</translation>
-    </message>
-    <message>
-      <source>Go!</source>
-      <translation>Go!</translation>
-    </message>
-    <message>
-      <source>Close</source>
-      <translation>Κλείσιμο</translation>
-    </message>
-    <message>
-      <source>Cancel</source>
-      <translation>Ακύρωση</translation>
-    </message>
-    <message>
-      <source>Receiving initial data from last.fm...</source>
-      <translation>Λήψη αρχικών δεδομένων από last.fm...</translation>
-    </message>
-    <message>
-      <source>Receiving playcount for %1 songs and last played for %2 songs.</source>
-      <translation>Λήψη αριθμού αναπαραγωγής για τραγούδια %1 και τελευταία αναπαραγωγή για τραγούδια %2.</translation>
-    </message>
-    <message>
-      <source>Receiving last played for %1 songs.</source>
-      <translation>Λήψη τελευταίας αναπαραγωγής για τραγούδια %1.</translation>
-    </message>
-    <message>
-      <source>Receiving playcounts for %1 songs.</source>
-      <translation>Λήψη μετρήσεων αναπαραγωγής για τραγούδια %1.</translation>
-    </message>
-    <message>
-      <source>Playcounts for %1 songs and last played for %2 songs received.</source>
-      <translation>Λήφθηκαν ο αριθμός αναπαραγωγών για %1 τραγούδια και τελευταία αναπαραγωγή για %2 τραγούδια.</translation>
-    </message>
-    <message>
-      <source>Last played for %1 songs received.</source>
-      <translation>Λήφθηκε τελευταία αναπαραγωγή για %1 τραγούδια.</translation>
-    </message>
-    <message>
-      <source>Playcounts for %1 songs received.</source>
-      <translation>Οι μετρήσεις για τα τραγούδια %1 λήφθηκαν.</translation>
-    </message>
-  </context>
-  <context>
     <name>LastFMScrobbler</name>
     <message>
       <source>%1 Scrobbler Authentication</source>
@@ -3534,10 +3540,6 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Show sidebar</source>
       <translation>Εμφ´νιση sidebar</translation>
-    </message>
-    <message>
-      <source>Import data from last.fm...</source>
-      <translation>Εισαγωγή δεδομένων από last.fm...</translation>
     </message>
     <message>
       <source>Context</source>
