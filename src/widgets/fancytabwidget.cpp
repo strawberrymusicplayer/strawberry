@@ -57,8 +57,8 @@ constexpr int IconSize_LargeSidebar = 40;
 constexpr int IconSize_SmallSidebar = 32;
 }  // namespace
 
-const char FancyTabWidget::kTabMode[] = "tab_mode";
-const char FancyTabWidget::kCurrentTab[] = "current_tab";
+const char *FancyTabWidget::kTabMode = "tab_mode";
+const char *FancyTabWidget::kCurrentTab = "current_tab";
 
 FancyTabWidget::FancyTabWidget(QWidget *parent)
     : QTabWidget(parent),
