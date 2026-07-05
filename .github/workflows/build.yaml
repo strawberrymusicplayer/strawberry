@@ -224,9 +224,10 @@ jobs:
 
   build-openmandriva:
     name: Build OpenMandriva
-    if: (github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.ref_name != 'l10n_master') ||
-        (github.event_name == 'pull_request' && github.head_ref != 'l10n_master') ||
-        (github.event_name == 'release')
+    if: false
+    #if: (github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.ref_name != 'l10n_master') ||
+    #    (github.event_name == 'pull_request' && github.head_ref != 'l10n_master') ||
+    #    (github.event_name == 'release')
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
