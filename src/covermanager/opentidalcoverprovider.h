@@ -115,7 +115,7 @@ class OpenTidalCoverProvider : public JsonCoverProvider {
   void FlushRequests();
   void HandleSearchReply(QNetworkReply *reply, OpenTidalCoverProvider::SearchRequestPtr search_request);
   void HandleAlbumCoverReply(QNetworkReply *reply, OpenTidalCoverProvider::SearchRequestPtr search_request, OpenTidalCoverProvider::AlbumCoverRequestPtr albumcover_request);
-  void HandleArtworkReply(QNetworkReply *reply, OpenTidalCoverProvider::SearchRequestPtr search_request, OpenTidalCoverProvider::AlbumCoverRequestPtr albumcover_request, ArtworkRequestPtr artwork_request);
+  void HandleArtworkReply(QNetworkReply *reply, OpenTidalCoverProvider::SearchRequestPtr search_request, OpenTidalCoverProvider::AlbumCoverRequestPtr albumcover_request, OpenTidalCoverProvider::ArtworkRequestPtr artwork_request);
 
  private:
   OAuthenticator *oauth_;
