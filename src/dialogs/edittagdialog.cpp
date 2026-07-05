@@ -430,6 +430,7 @@ bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
 SongList EditTagDialog::songs() const {
 
   SongList result;
+  result.reserve(data_.count());
   for (const Data &d : data_) {
     result << d.current_;
   }

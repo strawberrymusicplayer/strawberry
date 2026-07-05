@@ -750,6 +750,7 @@ TrackMetadata Mpris2::GetTracksMetadata(const Track_Ids &tracks) const {
   }
 
   TrackMetadata track_metadata;
+  track_metadata.reserve(tracks.count());
   for (const QDBusObjectPath &track_object_path : tracks) {
     const QUuid playlist_item_uuid = GetTrackObjectPathUuid(track_object_path);
     if (playlist_item_uuid.isNull()) {
