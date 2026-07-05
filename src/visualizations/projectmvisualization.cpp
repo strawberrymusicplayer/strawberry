@@ -42,6 +42,7 @@
 
 #include <QCoreApplication>
 #include <QGraphicsScene>
+#include <QGraphicsView>
 #include <QString>
 #include <QStringList>
 #include <QDir>
@@ -51,15 +52,37 @@
 #include <QRandomGenerator>
 #include <QMessageBox>
 #include <QTimerEvent>
-#ifdef HAVE_PROJECTM4
-#  include <QOpenGLContext>
-#endif
+#include <QOpenGLContext>
+#include <QOpenGLWidget>
 
 #include "core/logging.h"
 #include "core/settings.h"
 #include "projectmvisualization.h"
 #include "projectmpresetmodel.h"
 #include "visualizationcontainer.h"
+
+namespace {
+
+// projectM loads presets synchronously and creates OpenGL resources (shaders, textures, buffers) while doing so.
+// Any call that can trigger a preset switch therefore needs the viewport's GL context to be current.
+// Preset switches initiated from UI signal handlers (e.g. selecting a preset in the selector) run without a current context, and the half-created GL objects crash the driver on the next rendered frame.
+class ScopedMakeCurrent {
+ public:
+  explicit ScopedMakeCurrent(QWidget *viewport)
+      : gl_widget_(qobject_cast<QOpenGLWidget*>(viewport)),
+        was_current_(gl_widget_ && QOpenGLContext::currentContext() == gl_widget_->context()) {
+    if (gl_widget_ && !was_current_) gl_widget_->makeCurrent();
+  }
+  ~ScopedMakeCurrent() {
+    if (gl_widget_ && !was_current_) gl_widget_->doneCurrent();
+  }
+ private:
+  QOpenGLWidget *gl_widget_;
+  bool was_current_;
+  Q_DISABLE_COPY(ScopedMakeCurrent)
+};
+
+}  // namespace
 
 ProjectMVisualization::ProjectMVisualization(VisualizationContainer *container)
     : QGraphicsScene(container),
@@ -304,6 +327,9 @@ void ProjectMVisualization::ConsumeBuffer(GstBuffer *buffer, const int pipeline_
 }
 
 void ProjectMVisualization::SetSelected(const QStringList &paths, const bool selected) {
+  // Loading a preset creates OpenGL resources, so the viewport's GL context must be current (see ScopedMakeCurrent).
+  ScopedMakeCurrent make_current(container_->viewport());
+
 
   for (const QString &path : paths) {
     const int index = IndexOfPreset(path);
@@ -328,6 +354,9 @@ void ProjectMVisualization::SetSelected(const QStringList &paths, const bool sel
 }
 
 void ProjectMVisualization::ClearSelected() {
+  // Loading a preset creates OpenGL resources, so the viewport's GL context must be current (see ScopedMakeCurrent).
+  ScopedMakeCurrent make_current(container_->viewport());
+
 
 #ifdef HAVE_PROJECTM4
   projectm_playlist_clear(projectm_playlist_instance_);
@@ -365,6 +394,9 @@ int ProjectMVisualization::IndexOfPreset(const QString &preset_path) const {
 }
 
 void ProjectMVisualization::Load() {
+  // Loading a preset creates OpenGL resources, so the viewport's GL context must be current (see ScopedMakeCurrent).
+  ScopedMakeCurrent make_current(container_->viewport());
+
 
   Settings s;
   s.beginGroup(QLatin1String(VisualizationContainer::kSettingsGroup));
@@ -447,6 +479,9 @@ QString ProjectMVisualization::preset_path() const {
 }
 
 void ProjectMVisualization::SetImmediatePreset(const int index) {
+  // Loading a preset creates OpenGL resources, so the viewport's GL context must be current (see ScopedMakeCurrent).
+  ScopedMakeCurrent make_current(container_->viewport());
+
 
 #ifdef HAVE_PROJECTM4
   if (projectm_playlist_instance_) {
