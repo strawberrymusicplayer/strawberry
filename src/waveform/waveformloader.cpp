@@ -103,7 +103,7 @@ void WaveformLoader::ReloadSettings() {
 
   Settings s;
   s.beginGroup(WaveformSettings::kSettingsGroup);
-  save_ = s.value(WaveformSettings::kSave, false).toBool();
+  save_ = s.value(WaveformSettings::kSave, WaveformSettings::kDefaultSave).toBool();
   s.endGroup();
 
   Q_EMIT SettingsReloaded();

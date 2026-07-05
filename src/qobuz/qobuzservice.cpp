@@ -206,13 +206,13 @@ void QobuzService::ReloadSettings() {
   app_secret_ = s.value(QobuzSettings::kAppSecret).toString();
   private_key_ = s.value(QobuzSettings::kPrivateKey).toString();
 
-  format_ = s.value(QobuzSettings::kFormat, 27).toInt();
-  search_delay_ = s.value(QobuzSettings::kSearchDelay, 1500).toInt();
-  artistssearchlimit_ = s.value(QobuzSettings::kArtistsSearchLimit, 4).toInt();
-  albumssearchlimit_ = s.value(QobuzSettings::kAlbumsSearchLimit, 10).toInt();
-  songssearchlimit_ = s.value(QobuzSettings::kSongsSearchLimit, 10).toInt();
-  download_album_covers_ = s.value(QobuzSettings::kDownloadAlbumCovers, true).toBool();
-  remove_remastered_ = s.value(QobuzSettings::kRemoveRemastered, true).toBool();
+  format_ = s.value(QobuzSettings::kFormat, QobuzSettings::kDefaultFormat).toInt();
+  search_delay_ = s.value(QobuzSettings::kSearchDelay, QobuzSettings::kDefaultSearchDelay).toInt();
+  artistssearchlimit_ = s.value(QobuzSettings::kArtistsSearchLimit, QobuzSettings::kDefaultArtistsSearchLimit).toInt();
+  albumssearchlimit_ = s.value(QobuzSettings::kAlbumsSearchLimit, QobuzSettings::kDefaultAlbumsSearchLimit).toInt();
+  songssearchlimit_ = s.value(QobuzSettings::kSongsSearchLimit, QobuzSettings::kDefaultSongsSearchLimit).toInt();
+  download_album_covers_ = s.value(QobuzSettings::kDownloadAlbumCovers, QobuzSettings::kDefaultDownloadAlbumCovers).toBool();
+  remove_remastered_ = s.value(QobuzSettings::kRemoveRemastered, QobuzSettings::kDefaultRemoveRemastered).toBool();
 
   user_id_ = s.value(QobuzSettings::kUserId).toLongLong();
   user_auth_token_ = s.value(QobuzSettings::kUserAuthToken).toString();

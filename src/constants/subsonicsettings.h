@@ -41,6 +41,14 @@ constexpr char kUseAlbumIdForAlbumCovers[] = "usealbumidforalbumcovers";
 constexpr char kServerSideScrobbling[] = "serversidescrobbling";
 constexpr char kAuthMethod[] = "authmethod";
 
+constexpr bool kDefaultEnabled = false;
+constexpr bool kDefaultHTTP2 = false;
+constexpr bool kDefaultVerifyCertificate = true;
+constexpr bool kDefaultDownloadAlbumCovers = true;
+constexpr bool kDefaultUseAlbumIdForAlbumCovers = false;
+constexpr bool kDefaultServerSideScrobbling = false;
+constexpr AuthMethod kDefaultAuthMethod = AuthMethod::MD5;
+
 }  // namespace SubsonicSettings
 
 #endif  // SUBSONICETTINGS_H

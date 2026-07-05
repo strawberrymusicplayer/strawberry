@@ -238,7 +238,7 @@ void CollectionFilterWidget::ReloadSettings() {
 
   Settings s;
   s.beginGroup(AppearanceSettings::kSettingsGroup);
-  int iconsize = s.value(AppearanceSettings::kIconSizeConfigureButtons, 20).toInt();
+  int iconsize = s.value(AppearanceSettings::kIconSizeConfigureButtons, AppearanceSettings::kDefaultIconSizeConfigureButtons).toInt();
   s.endGroup();
   ui_->options->setIconSize(QSize(iconsize, iconsize));
   ui_->search_field->setIconSize(iconsize);
@@ -325,12 +325,12 @@ QActionGroup *CollectionFilterWidget::CreateGroupByActions(const QString &saved_
   // Read saved groupings
   Settings s;
   s.beginGroup(saved_groupings_settings_group);
-  int version = s.value("version").toInt();
+  int version = s.value(SavedGroupingManager::kVersion).toInt();
   if (version == 1) {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
       const QString &name = saved.at(i);
-      if (name == "version"_L1) continue;
+      if (name == QLatin1String(SavedGroupingManager::kVersion)) continue;
       QByteArray bytes = s.value(name).toByteArray();
       QDataStream ds(&bytes, QIODevice::ReadOnly);
       CollectionModel::Grouping g;
@@ -342,7 +342,7 @@ QActionGroup *CollectionFilterWidget::CreateGroupByActions(const QString &saved_
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
       const QString &name = saved.at(i);
-      if (name == "version"_L1) continue;
+      if (name == QLatin1String(SavedGroupingManager::kVersion)) continue;
       s.remove(name);
     }
   }
@@ -390,7 +390,7 @@ void CollectionFilterWidget::SaveGroupBy() {
   QByteArray buffer;
   QDataStream datastream(&buffer, QIODevice::WriteOnly);
   datastream << model_->GetGroupBy();
-  s.setValue("version", u"1"_s);
+  s.setValue(SavedGroupingManager::kVersion, u"1"_s);
   s.setValue(QUrl::toPercentEncoding(name), buffer);
   s.endGroup();
 

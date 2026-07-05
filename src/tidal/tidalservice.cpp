@@ -222,19 +222,19 @@ void TidalService::ReloadSettings() {
 
   Settings s;
   s.beginGroup(TidalSettings::kSettingsGroup);
-  enabled_ = s.value(TidalSettings::kEnabled, false).toBool();
+  enabled_ = s.value(TidalSettings::kEnabled, TidalSettings::kDefaultEnabled).toBool();
   client_id_ = s.value(TidalSettings::kClientId).toString();
-  quality_ = s.value(TidalSettings::kQuality, u"LOSSLESS"_s).toString();
-  quint64 search_delay = s.value(TidalSettings::kSearchDelay, 1500).toULongLong();
-  artistssearchlimit_ = s.value(TidalSettings::kArtistsSearchLimit, 4).toInt();
-  albumssearchlimit_ = s.value(TidalSettings::kAlbumsSearchLimit, 10).toInt();
-  songssearchlimit_ = s.value(TidalSettings::kSongsSearchLimit, 10).toInt();
-  fetchalbums_ = s.value(TidalSettings::kFetchAlbums, false).toBool();
-  coversize_ = s.value(TidalSettings::kCoverSize, u"640x640"_s).toString();
-  download_album_covers_ = s.value(TidalSettings::kDownloadAlbumCovers, true).toBool();
-  stream_url_method_ = static_cast<TidalSettings::StreamUrlMethod>(s.value(TidalSettings::kStreamUrl, static_cast<int>(TidalSettings::StreamUrlMethod::StreamUrl)).toInt());
-  album_explicit_ = s.value(TidalSettings::kAlbumExplicit, false).toBool();
-  remove_remastered_ = s.value(TidalSettings::kRemoveRemastered, true).toBool();
+  quality_ = s.value(TidalSettings::kQuality, QLatin1String(TidalSettings::kDefaultQuality)).toString();
+  quint64 search_delay = s.value(TidalSettings::kSearchDelay, TidalSettings::kDefaultSearchDelay).toULongLong();
+  artistssearchlimit_ = s.value(TidalSettings::kArtistsSearchLimit, TidalSettings::kDefaultArtistsSearchLimit).toInt();
+  albumssearchlimit_ = s.value(TidalSettings::kAlbumsSearchLimit, TidalSettings::kDefaultAlbumsSearchLimit).toInt();
+  songssearchlimit_ = s.value(TidalSettings::kSongsSearchLimit, TidalSettings::kDefaultSongsSearchLimit).toInt();
+  fetchalbums_ = s.value(TidalSettings::kFetchAlbums, TidalSettings::kDefaultFetchAlbums).toBool();
+  coversize_ = s.value(TidalSettings::kCoverSize, QLatin1String(TidalSettings::kDefaultCoverSize)).toString();
+  download_album_covers_ = s.value(TidalSettings::kDownloadAlbumCovers, TidalSettings::kDefaultDownloadAlbumCovers).toBool();
+  stream_url_method_ = static_cast<TidalSettings::StreamUrlMethod>(s.value(TidalSettings::kStreamUrl, static_cast<int>(TidalSettings::kDefaultStreamUrl)).toInt());
+  album_explicit_ = s.value(TidalSettings::kAlbumExplicit, TidalSettings::kDefaultAlbumExplicit).toBool();
+  remove_remastered_ = s.value(TidalSettings::kRemoveRemastered, TidalSettings::kDefaultRemoveRemastered).toBool();
   s.endGroup();
 
   oauth_->set_client_id(client_id_);

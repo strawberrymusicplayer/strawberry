@@ -22,7 +22,19 @@
 #define TRANSCODERSETTINGS_H
 
 namespace TranscoderSettings {
+
 constexpr char kSettingsGroup[] = "Transcoder";
-}
+constexpr char kDefaultLastOutputFormat[] = "audio/x-vorbis";
+
+namespace LameMP3Settings {
+constexpr char kTarget[] = "target";
+constexpr char kQuality[] = "quality";
+constexpr char kBitrate[] = "bitrate";
+constexpr char kCbr[] = "cbr";
+constexpr char kEncodingEngineQuality[] = "encoding-engine-quality";
+constexpr char kMono[] = "mono";
+}  // namespace LameMP3Settings
+
+}  // namespace TranscoderSettings
 
 #endif  // TRANSCODERSETTINGS_H

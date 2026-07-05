@@ -45,6 +45,12 @@
 
 using namespace Qt::Literals::StringLiterals;
 
+namespace {
+constexpr char kName[] = "name";
+constexpr char kType[] = "type";
+constexpr char kData[] = "data";
+}  // namespace
+
 const char *SmartPlaylistsModel::kSettingsGroup = "SerializedSmartPlaylists";
 const char *SmartPlaylistsModel::kSmartPlaylistsMimeType = "application/x-strawberry-smart-playlist-generator";
 const int SmartPlaylistsModel::kSmartPlaylistsVersion = 1;
@@ -155,10 +161,10 @@ void SmartPlaylistsModel::Init() {
 void SmartPlaylistsModel::ItemFromSmartPlaylist(const Settings &s, const bool notify) {
 
   SmartPlaylistsItem *item = new SmartPlaylistsItem(SmartPlaylistsItem::Type::SmartPlaylist, notify ? nullptr : root_);
-  item->display_text = tr(qUtf8Printable(s.value("name").toString()));
+  item->display_text = tr(qUtf8Printable(s.value(kName).toString()));
   item->sort_text = item->display_text;
-  item->smart_playlist_type = PlaylistGenerator::Type(s.value("type").toInt());
-  item->smart_playlist_data = s.value("data").toByteArray();
+  item->smart_playlist_type = PlaylistGenerator::Type(s.value(kType).toInt());
+  item->smart_playlist_data = s.value(kData).toByteArray();
 
   if (notify) item->InsertNotify(root_);
 
@@ -230,9 +236,9 @@ void SmartPlaylistsModel::DeleteGenerator(const QModelIndex &idx) {
   const QList<SmartPlaylistsItem*> children = root_->children;
   for (SmartPlaylistsItem *item : children) {
     s.setArrayIndex(i++);
-    s.setValue("name", item->display_text);
-    s.setValue("type", static_cast<int>(item->smart_playlist_type));
-    s.setValue("data", item->smart_playlist_data);
+    s.setValue(kName, item->display_text);
+    s.setValue(kType, static_cast<int>(item->smart_playlist_type));
+    s.setValue(kData, item->smart_playlist_data);
   }
   s.endArray();
   s.endGroup();
@@ -242,9 +248,9 @@ void SmartPlaylistsModel::DeleteGenerator(const QModelIndex &idx) {
 void SmartPlaylistsModel::SaveGenerator(Settings *s, const int i, PlaylistGeneratorPtr generator) {
 
   s->setArrayIndex(i);
-  s->setValue("name", generator->name());
-  s->setValue("type", static_cast<int>(generator->type()));
-  s->setValue("data", generator->Save());
+  s->setValue(kName, generator->name());
+  s->setValue(kType, static_cast<int>(generator->type()));
+  s->setValue(kData, generator->Save());
 
 }
 

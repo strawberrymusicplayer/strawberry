@@ -22,14 +22,16 @@
 
 namespace TidalSettings {
 
+enum class StreamUrlMethod {
+  StreamUrl,
+  UrlPostPaywall,
+  PlaybackInfoPostPaywall
+};
+
 constexpr char kSettingsGroup[] = "Tidal";
 
 constexpr char kEnabled[] = "enabled";
-constexpr char kOAuth[] = "oauth";
 constexpr char kClientId[] = "client_id";
-constexpr char kApiToken[] = "api_token";
-constexpr char kUsername[] = "username";
-constexpr char kPassword[] = "password";
 constexpr char kQuality[] = "quality";
 constexpr char kSearchDelay[] = "searchdelay";
 constexpr char kArtistsSearchLimit[] = "artistssearchlimit";
@@ -42,11 +44,23 @@ constexpr char kStreamUrl[] = "streamurl";
 constexpr char kAlbumExplicit[] = "album_explicit";
 constexpr char kRemoveRemastered[] = "remove_remastered";
 
-enum class StreamUrlMethod {
-  StreamUrl,
-  UrlPostPaywall,
-  PlaybackInfoPostPaywall
-};
+constexpr char kOAuth[] = "oauth";
+constexpr char kApiToken[] = "api_token";
+constexpr char kUsername[] = "username";
+constexpr char kPassword[] = "password";
+
+constexpr bool kDefaultEnabled = false;
+constexpr char kDefaultQuality[] = "LOSSLESS";
+constexpr int kDefaultSearchDelay = 1500;
+constexpr int kDefaultArtistsSearchLimit = 4;
+constexpr int kDefaultAlbumsSearchLimit = 10;
+constexpr int kDefaultSongsSearchLimit = 10;
+constexpr bool kDefaultFetchAlbums = false;
+constexpr bool kDefaultDownloadAlbumCovers = true;
+constexpr char kDefaultCoverSize[] = "640x640";
+constexpr StreamUrlMethod kDefaultStreamUrl = StreamUrlMethod::StreamUrl;
+constexpr bool kDefaultAlbumExplicit = false;
+constexpr bool kDefaultRemoveRemastered = true;
 
 }  // namespace TidalSettings
 

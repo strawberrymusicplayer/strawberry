@@ -72,6 +72,10 @@ using namespace Qt::Literals::StringLiterals;
 namespace {
 constexpr int kProgressInterval = 500;
 constexpr int kMaxDestinationItems = 10;
+constexpr char kLastAddDir[] = "last_add_dir";
+constexpr char kLastImportDir[] = "last_import_dir";
+constexpr char kLastOutputFormat[] = "last_output_format";
+constexpr char kGeometry[] = "geometry";
 }  // namespace
 
 #ifdef __GNUC__
@@ -114,9 +118,9 @@ TranscodeDialog::TranscodeDialog(QMainWindow *mainwindow, QWidget *parent)
   // Load settings
   Settings s;
   s.beginGroup(TranscoderSettings::kSettingsGroup);
-  last_add_dir_ = s.value("last_add_dir", QDir::homePath()).toString();
-  last_import_dir_ = s.value("last_import_dir", QDir::homePath()).toString();
-  QString last_output_format = s.value("last_output_format", u"audio/x-vorbis"_s).toString();
+  last_add_dir_ = s.value(kLastAddDir, QDir::homePath()).toString();
+  last_import_dir_ = s.value(kLastImportDir, QDir::homePath()).toString();
+  QString last_output_format = s.value(kLastOutputFormat, QLatin1String(TranscoderSettings::kDefaultLastOutputFormat)).toString();
   s.endGroup();
 
   for (int i = 0; i < ui_->format->count(); ++i) {
@@ -193,8 +197,8 @@ void TranscodeDialog::LoadGeometry() {
 
   Settings s;
   s.beginGroup(TranscoderSettings::kSettingsGroup);
-  if (s.contains("geometry")) {
-    restoreGeometry(s.value("geometry").toByteArray());
+  if (s.contains(kGeometry)) {
+    restoreGeometry(s.value(kGeometry).toByteArray());
   }
   s.endGroup();
 
@@ -207,7 +211,7 @@ void TranscodeDialog::SaveGeometry() {
 
   Settings s;
   s.beginGroup(TranscoderSettings::kSettingsGroup);
-  s.setValue("geometry", saveGeometry());
+  s.setValue(kGeometry, saveGeometry());
   s.endGroup();
 
 }
@@ -263,7 +267,7 @@ void TranscodeDialog::Start() {
   // Save the last output format
   Settings s;
   s.beginGroup(TranscoderSettings::kSettingsGroup);
-  s.setValue("last_output_format", preset.codec_mimetype_);
+  s.setValue(kLastOutputFormat, preset.codec_mimetype_);
   s.endGroup();
 
 }
@@ -339,7 +343,7 @@ void TranscodeDialog::Add() {
   last_add_dir_ = filenames[0];
   Settings s;
   s.beginGroup(TranscoderSettings::kSettingsGroup);
-  s.setValue("last_add_dir", last_add_dir_);
+  s.setValue(kLastAddDir, last_add_dir_);
   s.endGroup();
 
 }
@@ -364,7 +368,7 @@ void TranscodeDialog::Import() {
   last_import_dir_ = path;
   Settings s;
   s.beginGroup(TranscoderSettings::kSettingsGroup);
-  s.setValue("last_import_dir", last_import_dir_);
+  s.setValue(kLastImportDir, last_import_dir_);
   s.endGroup();
 
 }

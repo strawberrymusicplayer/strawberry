@@ -147,13 +147,13 @@ void GlobalShortcutsSettingsPage::Load() {
 
 #ifdef HAVE_KGLOBALACCEL_GLOBALSHORTCUTS
   if (ui_->widget_kglobalaccel->isVisibleTo(this)) {
-    ui_->checkbox_kglobalaccel->setChecked(s.value(kUseKGlobalAccel, true).toBool());
+    ui_->checkbox_kglobalaccel->setChecked(s.value(kUseKGlobalAccel, kDefaultUseKGlobalAccel).toBool());
   }
 #endif
 
 #ifdef HAVE_X11_GLOBALSHORTCUTS
   if (ui_->widget_x11->isVisibleTo(this)) {
-    ui_->checkbox_x11->setChecked(s.value(kUseX11, false).toBool());
+    ui_->checkbox_x11->setChecked(s.value(kUseX11, kDefaultUseX11).toBool());
   }
 #endif
 

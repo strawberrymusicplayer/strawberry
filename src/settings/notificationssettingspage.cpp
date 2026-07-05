@@ -153,7 +153,7 @@ void NotificationsSettingsPage::Load() {
   Settings s;
 
   s.beginGroup(OSDSettings::kSettingsGroup);
-  OSDSettings::Type osd_type = static_cast<OSDSettings::Type>(s.value(OSDSettings::kType, static_cast<int>(OSDSettings::Type::Native)).toInt());
+  OSDSettings::Type osd_type = static_cast<OSDSettings::Type>(s.value(OSDSettings::kType, static_cast<int>(OSDSettings::kDefaultType)).toInt());
   if (!osd_->IsTypeSupported(osd_type)) {
     osd_type = osd_->GetSupportedType();
   }
@@ -172,13 +172,13 @@ void NotificationsSettingsPage::Load() {
       ui_->notifications_none->setChecked(true);
       break;
   }
-  ui_->notifications_duration->setValue(s.value(OSDSettings::kTimeout, 5000).toInt() / 1000);
-  ui_->notifications_volume->setChecked(s.value(OSDSettings::kShowOnVolumeChange, false).toBool());
-  ui_->notifications_play_mode->setChecked(s.value(OSDSettings::kShowOnPlayModeChange, true).toBool());
-  ui_->notifications_pause->setChecked(s.value(OSDSettings::kShowOnPausePlayback, true).toBool());
-  ui_->notifications_resume->setChecked(s.value(OSDSettings::kShowOnResumePlayback, false).toBool());
-  ui_->notifications_art->setChecked(s.value(OSDSettings::kShowArt, true).toBool());
-  ui_->notifications_custom_text_enabled->setChecked(s.value(OSDSettings::kCustomTextEnabled, false).toBool());
+  ui_->notifications_duration->setValue(s.value(OSDSettings::kTimeout, OSDSettings::kDefaultTimeout).toInt() / 1000);
+  ui_->notifications_volume->setChecked(s.value(OSDSettings::kShowOnVolumeChange, OSDSettings::kDefaultShowOnVolumeChange).toBool());
+  ui_->notifications_play_mode->setChecked(s.value(OSDSettings::kShowOnPlayModeChange, OSDSettings::kDefaultShowOnPlayModeChange).toBool());
+  ui_->notifications_pause->setChecked(s.value(OSDSettings::kShowOnPausePlayback, OSDSettings::kDefaultShowOnPausePlayback).toBool());
+  ui_->notifications_resume->setChecked(s.value(OSDSettings::kShowOnResumePlayback, OSDSettings::kDefaultShowOnResumePlayback).toBool());
+  ui_->notifications_art->setChecked(s.value(OSDSettings::kShowArt, OSDSettings::kDefaultShowArt).toBool());
+  ui_->notifications_custom_text_enabled->setChecked(s.value(OSDSettings::kCustomTextEnabled, OSDSettings::kDefaultCustomTextEnabled).toBool());
   ui_->notifications_custom_text1->setText(s.value(OSDSettings::kCustomText1).toString());
   ui_->notifications_custom_text2->setText(s.value(OSDSettings::kCustomText2).toString());
   s.endGroup();
@@ -208,9 +208,9 @@ void NotificationsSettingsPage::Load() {
 
   // Discord
   s.beginGroup(DiscordRPCSettings::kSettingsGroup);
-  ui_->richpresence_enabled->setChecked(s.value(DiscordRPCSettings::kEnabled, false).toBool());
+  ui_->richpresence_enabled->setChecked(s.value(DiscordRPCSettings::kEnabled, DiscordRPCSettings::kDefaultEnabled).toBool());
 
-  const DiscordRPCSettings::StatusDisplayType discord_status_display_type = static_cast<DiscordRPCSettings::StatusDisplayType>(s.value(DiscordRPCSettings::kStatusDisplayType, static_cast<int>(DiscordRPCSettings::StatusDisplayType::App)).toInt());
+  const DiscordRPCSettings::StatusDisplayType discord_status_display_type = static_cast<DiscordRPCSettings::StatusDisplayType>(s.value(DiscordRPCSettings::kStatusDisplayType, static_cast<int>(DiscordRPCSettings::kDefaultStatusDisplayType)).toInt());
   switch (discord_status_display_type) {
     case DiscordRPCSettings::StatusDisplayType::App:
       ui_->richpresence_listening_to_app->setChecked(true);

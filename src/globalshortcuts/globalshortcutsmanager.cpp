@@ -124,12 +124,12 @@ void GlobalShortcutsManager::ReloadSettings() {
     Settings s;
     s.beginGroup(GlobalShortcutsSettings::kSettingsGroup);
 #ifdef HAVE_KGLOBALACCEL_GLOBALSHORTCUTS
-    if (s.value(GlobalShortcutsSettings::kUseKGlobalAccel, true).toBool()) {
+    if (s.value(GlobalShortcutsSettings::kUseKGlobalAccel, GlobalShortcutsSettings::kDefaultUseKGlobalAccel).toBool()) {
       backends_enabled_ << GlobalShortcutsBackend::Type::KGlobalAccel;
     }
 #endif
 #ifdef HAVE_X11_GLOBALSHORTCUTS
-    if (s.value(GlobalShortcutsSettings::kUseX11, false).toBool()) {
+    if (s.value(GlobalShortcutsSettings::kUseX11, GlobalShortcutsSettings::kDefaultUseX11).toBool()) {
       backends_enabled_ << GlobalShortcutsBackend::Type::X11;
     }
 #endif

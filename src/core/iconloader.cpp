@@ -49,7 +49,7 @@ void IconLoader::Init() {
 #if !defined(Q_OS_MACOS) && !defined(Q_OS_WIN32)
   Settings s;
   s.beginGroup(AppearanceSettings::kSettingsGroup);
-  system_icons_ = s.value("system_icons", false).toBool();
+  system_icons_ = s.value(AppearanceSettings::kSystemThemeIcons, AppearanceSettings::kDefaultSystemThemeIcons).toBool();
   s.endGroup();
 #endif
 

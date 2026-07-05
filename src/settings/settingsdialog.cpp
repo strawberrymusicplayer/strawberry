@@ -103,6 +103,7 @@ using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kSettingsGroup[] = "SettingsDialog";
+constexpr char kGeometry[] = "geometry";
 }
 
 SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
@@ -245,8 +246,8 @@ void SettingsDialog::LoadGeometry() {
 
   Settings s;
   s.beginGroup(QLatin1String(kSettingsGroup));
-  if (s.contains("geometry")) {
-    restoreGeometry(s.value("geometry").toByteArray());
+  if (s.contains(kGeometry)) {
+    restoreGeometry(s.value(kGeometry).toByteArray());
   }
   s.endGroup();
 
@@ -259,7 +260,7 @@ void SettingsDialog::SaveGeometry() {
 
   Settings s;
   s.beginGroup(QLatin1String(kSettingsGroup));
-  s.setValue("geometry", saveGeometry());
+  s.setValue(kGeometry, saveGeometry());
   s.endGroup();
 
 }

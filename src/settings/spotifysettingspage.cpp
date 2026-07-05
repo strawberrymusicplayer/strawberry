@@ -92,15 +92,15 @@ void SpotifySettingsPage::Load() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  ui_->enable->setChecked(s.value(kEnabled, false).toBool());
+  ui_->enable->setChecked(s.value(kEnabled, kDefaultEnabled).toBool());
 
-  ui_->searchdelay->setValue(s.value(kSearchDelay, 1500).toInt());
-  ui_->artistssearchlimit->setValue(s.value(kArtistsSearchLimit, 4).toInt());
-  ui_->albumssearchlimit->setValue(s.value(kAlbumsSearchLimit, 10).toInt());
-  ui_->songssearchlimit->setValue(s.value(kSongsSearchLimit, 10).toInt());
-  ui_->checkbox_fetchalbums->setChecked(s.value(kFetchAlbums, false).toBool());
-  ui_->checkbox_download_album_covers->setChecked(s.value(kDownloadAlbumCovers, true).toBool());
-  ui_->checkbox_remove_remastered->setChecked(s.value(kRemoveRemastered, true).toBool());
+  ui_->searchdelay->setValue(s.value(kSearchDelay, kDefaultSearchDelay).toInt());
+  ui_->artistssearchlimit->setValue(s.value(kArtistsSearchLimit, kDefaultArtistsSearchLimit).toInt());
+  ui_->albumssearchlimit->setValue(s.value(kAlbumsSearchLimit, kDefaultAlbumsSearchLimit).toInt());
+  ui_->songssearchlimit->setValue(s.value(kSongsSearchLimit, kDefaultSongsSearchLimit).toInt());
+  ui_->checkbox_fetchalbums->setChecked(s.value(kFetchAlbums, kDefaultFetchAlbums).toBool());
+  ui_->checkbox_download_album_covers->setChecked(s.value(kDownloadAlbumCovers, kDefaultDownloadAlbumCovers).toBool());
+  ui_->checkbox_remove_remastered->setChecked(s.value(kRemoveRemastered, kDefaultRemoveRemastered).toBool());
 
   s.endGroup();
 

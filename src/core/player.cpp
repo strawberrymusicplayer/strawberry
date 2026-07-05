@@ -149,14 +149,14 @@ void Player::ReloadSettings() {
   Settings s;
 
   s.beginGroup(PlaylistSettings::kSettingsGroup);
-  continue_on_error_ = s.value("continue_on_error", false).toBool();
-  greyout_ = s.value("greyout_songs_play", true).toBool();
+  continue_on_error_ = s.value(PlaylistSettings::kContinueOnError, PlaylistSettings::kDefaultContinueOnError).toBool();
+  greyout_ = s.value(PlaylistSettings::kGreyoutSongsPlay, PlaylistSettings::kDefaultGreyoutSongsPlay).toBool();
   s.endGroup();
 
   s.beginGroup(BehaviourSettings::kSettingsGroup);
-  menu_previousmode_ = static_cast<BehaviourSettings::PreviousBehaviour>(s.value(BehaviourSettings::kMenuPreviousMode, static_cast<int>(BehaviourSettings::PreviousBehaviour::DontRestart)).toInt());
-  seek_step_sec_ = s.value(BehaviourSettings::kSeekStepSec, 10).toInt();
-  volume_increment_ = s.value(BehaviourSettings::kVolumeIncrement, 5).toUInt();
+  menu_previousmode_ = static_cast<BehaviourSettings::PreviousBehaviour>(s.value(BehaviourSettings::kMenuPreviousMode, static_cast<int>(BehaviourSettings::kDefaultMenuPreviousMode)).toInt());
+  seek_step_sec_ = s.value(BehaviourSettings::kSeekStepSec, BehaviourSettings::kDefaultSeekStepSec).toInt();
+  volume_increment_ = s.value(BehaviourSettings::kVolumeIncrement, BehaviourSettings::kDefaultVolumeIncrement).toUInt();
   s.endGroup();
 
   engine_->ReloadSettings();
@@ -214,7 +214,7 @@ void Player::PlaylistsLoaded() {
   Settings s;
 
   s.beginGroup(BehaviourSettings::kSettingsGroup);
-  const bool resume_playback = s.value("resumeplayback", false).toBool();
+  const bool resume_playback = s.value(BehaviourSettings::kResumePlayback, BehaviourSettings::kDefaultResumePlayback).toBool();
   s.endGroup();
 
   s.beginGroup(kSettingsGroup);

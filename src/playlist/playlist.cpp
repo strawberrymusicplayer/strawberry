@@ -1747,7 +1747,7 @@ void Playlist::ItemsLoaded() {
 
   Settings s;
   s.beginGroup(PlaylistSettings::kSettingsGroup);
-  bool greyout = s.value(PlaylistSettings::kGreyoutSongsStartup, false).toBool();
+  bool greyout = s.value(PlaylistSettings::kGreyoutSongsStartup, PlaylistSettings::kDefaultGreyoutSongsStartup).toBool();
   s.endGroup();
 
   // Should we gray out deleted songs asynchronously on startup?

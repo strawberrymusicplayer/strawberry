@@ -24,51 +24,6 @@ namespace AppearanceSettings {
 
 constexpr char kSettingsGroup[] = "Appearance";
 
-constexpr char kStyle[] = "style";
-constexpr char kSystemThemeIcons[] = "system_icons";
-
-constexpr char kUseCustomColorSet[] = "use-custom-color-set";
-
-// Per-QPalette-role custom colors (the "central roles" from https://doc.qt.io/qt-6/qpalette.html).
-constexpr char kColorWindow[] = "color-window";
-constexpr char kColorWindowText[] = "color-window-text";
-constexpr char kColorBase[] = "color-base";
-constexpr char kColorAlternateBase[] = "color-alternate-base";
-constexpr char kColorToolTipBase[] = "color-tooltip-base";
-constexpr char kColorToolTipText[] = "color-tooltip-text";
-constexpr char kColorText[] = "color-text";
-constexpr char kColorButton[] = "color-button";
-constexpr char kColorButtonText[] = "color-button-text";
-constexpr char kColorBrightText[] = "color-bright-text";
-constexpr char kColorPlaceholderText[] = "color-placeholder-text";
-
-constexpr char kBackgroundImageType[] = "background_image_type";
-constexpr char kBackgroundImageFilename[] = "background_image_file";
-constexpr char kBackgroundImagePosition[] = "background_image_position";
-constexpr char kBackgroundImageStretch[] = "background_image_stretch";
-constexpr char kBackgroundImageDoNotCut[] = "background_image_do_not_cut";
-constexpr char kBackgroundImageKeepAspectRatio[] = "background_image_keep_aspect_ratio";
-constexpr char kBackgroundImageMaxSize[] = "background_image_max_size";
-
-constexpr char kBlurRadius[] = "blur_radius";
-constexpr char kOpacityLevel[] = "opacity_level";
-
-constexpr int kDefaultBlurRadius = 0;
-constexpr int kDefaultOpacityLevel = 40;
-
-constexpr char kTabBarSystemColor[] = "tab_system_color";
-constexpr char kTabBarGradient[] = "tab_gradient";
-constexpr char kTabBarColor[] = "tab_color";
-
-constexpr char kIconSizeTabbarSmallMode[] = "icon_size_tabbar_small_mode";
-constexpr char kIconSizeTabbarLargeMode[] = "icon_size_tabbar_large_mode";
-constexpr char kIconSizePlayControlButtons[] = "icon_size_play_control_buttons";
-constexpr char kIconSizePlaylistButtons[] = "icon_size_playlist_buttons";
-constexpr char kIconSizeLeftPanelButtons[] = "icon_size_left_panel_buttons";
-constexpr char kIconSizeConfigureButtons[] = "icon_size_configure_buttons";
-
-constexpr char kPlaylistPlayingSongColor[] = "playlist_playing_song_color";
-
 enum class BackgroundImageType {
   Default,
   None,
@@ -84,6 +39,67 @@ enum class BackgroundImagePosition {
   BottomLeft = 4,
   BottomRight = 5
 };
+
+constexpr char kStyle[] = "style";
+constexpr char kSystemThemeIcons[] = "system_icons";
+constexpr char kUseCustomColorSet[] = "use-custom-color-set";
+
+// Per-QPalette-role custom colors (the "central roles" from https://doc.qt.io/qt-6/qpalette.html).
+constexpr char kColorWindow[] = "color-window";
+constexpr char kColorWindowText[] = "color-window-text";
+constexpr char kColorBase[] = "color-base";
+constexpr char kColorAlternateBase[] = "color-alternate-base";
+constexpr char kColorToolTipBase[] = "color-tooltip-base";
+constexpr char kColorToolTipText[] = "color-tooltip-text";
+constexpr char kColorText[] = "color-text";
+constexpr char kColorButton[] = "color-button";
+constexpr char kColorButtonText[] = "color-button-text";
+constexpr char kColorBrightText[] = "color-bright-text";
+constexpr char kColorPlaceholderText[] = "color-placeholder-text";
+
+constexpr char kTabBarSystemColor[] = "tab_system_color";
+constexpr char kTabBarGradient[] = "tab_gradient";
+constexpr char kTabBarColor[] = "tab_color";
+
+constexpr char kBackgroundImageType[] = "background_image_type";
+constexpr char kBackgroundImageFilename[] = "background_image_file";
+constexpr char kBackgroundImagePosition[] = "background_image_position";
+constexpr char kBackgroundImageMaxSize[] = "background_image_max_size";
+constexpr char kBackgroundImageStretch[] = "background_image_stretch";
+constexpr char kBackgroundImageDoNotCut[] = "background_image_do_not_cut";
+constexpr char kBackgroundImageKeepAspectRatio[] = "background_image_keep_aspect_ratio";
+
+constexpr char kBlurRadius[] = "blur_radius";
+constexpr char kOpacityLevel[] = "opacity_level";
+
+constexpr char kIconSizeTabbarSmallMode[] = "icon_size_tabbar_small_mode";
+constexpr char kIconSizeTabbarLargeMode[] = "icon_size_tabbar_large_mode";
+constexpr char kIconSizePlayControlButtons[] = "icon_size_play_control_buttons";
+constexpr char kIconSizePlaylistButtons[] = "icon_size_playlist_buttons";
+constexpr char kIconSizeLeftPanelButtons[] = "icon_size_left_panel_buttons";
+constexpr char kIconSizeConfigureButtons[] = "icon_size_configure_buttons";
+
+constexpr char kPlaylistPlayingSongColor[] = "playlist_playing_song_color";
+
+constexpr bool kDefaultSystemThemeIcons = false;
+constexpr bool kDefaultUseCustomColorSet = false;
+constexpr bool kDefaultTabBarSystemColor = false;
+constexpr bool kDefaultTabBarGradient = true;
+constexpr BackgroundImageType kDefaultBackgroundImageType = BackgroundImageType::Default;
+constexpr BackgroundImagePosition kDefaultBackgroundImagePosition = BackgroundImagePosition::BottomRight;
+constexpr int kDefaultBackgroundImageMaxSize = 0;
+constexpr bool kDefaultBackgroundImageStretch = false;
+constexpr bool kDefaultBackgroundImageDoNotCut = true;
+constexpr bool kDefaultBackgroundImageKeepAspectRatio = true;
+constexpr int kDefaultBlurRadius = 0;
+constexpr int kDefaultOpacityLevel = 40;
+
+constexpr int kDefaultIconSizeTabbarSmallMode = 32;
+constexpr int kDefaultIconSizeTabbarLargeMode = 40;
+constexpr int kDefaultIconSizePlayControlButtons = 32;
+constexpr int kDefaultIconSizePlaylistButtons = 20;
+constexpr int kDefaultIconSizeLeftPanelButtons = 22;
+constexpr int kDefaultIconSizeConfigureButtons = 20;
 
 }  // namespace AppearanceSettings
 

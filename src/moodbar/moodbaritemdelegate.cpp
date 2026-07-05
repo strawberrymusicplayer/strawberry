@@ -71,7 +71,7 @@ void MoodbarItemDelegate::ReloadSettings() {
 
   Settings s;
   s.beginGroup(MoodbarSettings::kSettingsGroup);
-  const MoodbarSettings::Style new_style = static_cast<MoodbarSettings::Style>(s.value(MoodbarSettings::kStyle, static_cast<int>(MoodbarSettings::Style::Normal)).toInt());
+  const MoodbarSettings::Style new_style = static_cast<MoodbarSettings::Style>(s.value(MoodbarSettings::kStyle, static_cast<int>(MoodbarSettings::kDefaultStyle)).toInt());
   s.endGroup();
 
   if (new_style != style_) {

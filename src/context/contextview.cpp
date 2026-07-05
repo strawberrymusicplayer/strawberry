@@ -282,12 +282,12 @@ void ContextView::ReloadSettings() {
 
   Settings s;
   s.beginGroup(ContextSettings::kSettingsGroup);
-  title_fmt_ = s.value(ContextSettings::kSettingsTitleFmt, u"%title% - %artist%"_s).toString();
-  summary_fmt_ = s.value(ContextSettings::kSettingsSummaryFmt, u"%album%"_s).toString();
-  action_show_album_->setChecked(s.value(ContextSettings::kAlbum, true).toBool());
-  action_show_data_->setChecked(s.value(ContextSettings::kTechnicalData, false).toBool());
-  action_show_lyrics_->setChecked(s.value(ContextSettings::kSongLyrics, true).toBool());
-  action_search_lyrics_->setChecked(s.value(ContextSettings::kSearchLyrics, true).toBool());
+  title_fmt_ = s.value(ContextSettings::kSettingsTitleFmt, QLatin1String(ContextSettings::kDefaultTitleFmt)).toString();
+  summary_fmt_ = s.value(ContextSettings::kSettingsSummaryFmt, QLatin1String(ContextSettings::kDefaultSummaryFmt)).toString();
+  action_show_album_->setChecked(s.value(ContextSettings::kAlbum, ContextSettings::kDefaultAlbum).toBool());
+  action_show_data_->setChecked(s.value(ContextSettings::kTechnicalData, ContextSettings::kDefaultTechnicalData).toBool());
+  action_show_lyrics_->setChecked(s.value(ContextSettings::kSongLyrics, ContextSettings::kDefaultSongLyrics).toBool());
+  action_search_lyrics_->setChecked(s.value(ContextSettings::kSearchLyrics, ContextSettings::kDefaultSearchLyrics).toBool());
   font_headline_.setFamily(s.value(ContextSettings::kFontHeadline, default_font).toString());
   font_headline_.setPointSizeF(s.value(ContextSettings::kFontSizeHeadline, ContextSettings::kDefaultFontSizeHeadline).toReal());
   font_nosong_.setFamily(font_headline_.family());

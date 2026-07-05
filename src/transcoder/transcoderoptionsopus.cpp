@@ -35,6 +35,7 @@
 
 namespace {
 constexpr char kSettingsGroup[] = "Transcoder/opusenc";
+constexpr char kBitrate[] = "bitrate";
 }
 
 TranscoderOptionsOpus::TranscoderOptionsOpus(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsOpus) {
@@ -49,7 +50,7 @@ void TranscoderOptionsOpus::Load() {
 
   Settings s;
   s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
-  ui_->bitrate_slider->setValue(s.value("bitrate", 320000).toInt() / 1000);
+  ui_->bitrate_slider->setValue(s.value(kBitrate, 320000).toInt() / 1000);
   s.endGroup();
 
 }
@@ -58,7 +59,7 @@ void TranscoderOptionsOpus::Save() {
 
   Settings s;
   s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
-  s.setValue("bitrate", ui_->bitrate_slider->value() * 1000);
+  s.setValue(kBitrate, ui_->bitrate_slider->value() * 1000);
   s.endGroup();
 
 }

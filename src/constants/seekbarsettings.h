@@ -32,6 +32,8 @@ enum class Mode {
 
 constexpr char kMode[] = "mode";
 
+constexpr Mode kDefaultMode = Mode::Normal;
+
 }  // namespace SeekbarSettings
 
 #endif  // SEEKBARSETTINGS_H

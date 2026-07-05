@@ -197,15 +197,15 @@ void SpotifyService::ReloadSettings() {
   Settings s;
   s.beginGroup(SpotifySettings::kSettingsGroup);
 
-  enabled_ = s.value(SpotifySettings::kEnabled, false).toBool();
+  enabled_ = s.value(SpotifySettings::kEnabled, SpotifySettings::kDefaultEnabled).toBool();
 
-  quint64 search_delay = std::max(s.value(SpotifySettings::kSearchDelay, 1500).toULongLong(), 500ULL);
-  artistssearchlimit_ = s.value(SpotifySettings::kArtistsSearchLimit, 4).toInt();
-  albumssearchlimit_ = s.value(SpotifySettings::kAlbumsSearchLimit, 10).toInt();
-  songssearchlimit_ = s.value(SpotifySettings::kSongsSearchLimit, 10).toInt();
-  fetchalbums_ = s.value(SpotifySettings::kFetchAlbums, false).toBool();
-  download_album_covers_ = s.value(SpotifySettings::kDownloadAlbumCovers, true).toBool();
-  remove_remastered_ = s.value(SpotifySettings::kRemoveRemastered, true).toBool();
+  quint64 search_delay = std::max(s.value(SpotifySettings::kSearchDelay, SpotifySettings::kDefaultSearchDelay).toULongLong(), 500ULL);
+  artistssearchlimit_ = s.value(SpotifySettings::kArtistsSearchLimit, SpotifySettings::kDefaultArtistsSearchLimit).toInt();
+  albumssearchlimit_ = s.value(SpotifySettings::kAlbumsSearchLimit, SpotifySettings::kDefaultAlbumsSearchLimit).toInt();
+  songssearchlimit_ = s.value(SpotifySettings::kSongsSearchLimit, SpotifySettings::kDefaultSongsSearchLimit).toInt();
+  fetchalbums_ = s.value(SpotifySettings::kFetchAlbums, SpotifySettings::kDefaultFetchAlbums).toBool();
+  download_album_covers_ = s.value(SpotifySettings::kDownloadAlbumCovers, SpotifySettings::kDefaultDownloadAlbumCovers).toBool();
+  remove_remastered_ = s.value(SpotifySettings::kRemoveRemastered, SpotifySettings::kDefaultRemoveRemastered).toBool();
 
   s.endGroup();
 

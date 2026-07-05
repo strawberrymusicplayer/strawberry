@@ -34,6 +34,11 @@
 
 namespace {
 constexpr char kSettingsGroup[] = "Transcoder/vorbisenc";
+constexpr char kBitrate[] = "bitrate";
+constexpr char kMinBitrate[] = "min-bitrate";
+constexpr char kMaxBitrate[] = "max-bitrate";
+constexpr char kQuality[] = "quality";
+constexpr char kManaged[] = "managed";
 }
 
 TranscoderOptionsVorbis::TranscoderOptionsVorbis(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsVorbis) {
@@ -49,17 +54,17 @@ void TranscoderOptionsVorbis::Load() {
   Settings s;
   s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
 
-  int bitrate = s.value("bitrate", -1).toInt();
+  int bitrate = s.value(kBitrate, -1).toInt();
   bitrate = bitrate == -1 ? 0 : bitrate / 1000;
 
-  int min_bitrate = s.value("min-bitrate", -1).toInt();
+  int min_bitrate = s.value(kMinBitrate, -1).toInt();
   min_bitrate = min_bitrate == -1 ? 0 : min_bitrate / 1000;
 
-  int max_bitrate = s.value("max-bitrate", -1).toInt();
+  int max_bitrate = s.value(kMaxBitrate, -1).toInt();
   max_bitrate = max_bitrate == -1 ? 0 : max_bitrate / 1000;
 
-  ui_->quality_slider->setValue(static_cast<int>(s.value("quality", 1.0).toDouble() * 10));
-  ui_->managed->setChecked(s.value("managed", false).toBool());
+  ui_->quality_slider->setValue(static_cast<int>(s.value(kQuality, 1.0).toDouble() * 10));
+  ui_->managed->setChecked(s.value(kManaged, false).toBool());
   ui_->max_bitrate_slider->setValue(max_bitrate);
   ui_->min_bitrate_slider->setValue(min_bitrate);
   ui_->bitrate_slider->setValue(bitrate);
@@ -82,11 +87,11 @@ void TranscoderOptionsVorbis::Save() {
   int max_bitrate = ui_->max_bitrate_slider->value();
   max_bitrate = max_bitrate == 0 ? -1 : max_bitrate * 1000;
 
-  s.setValue("quality", static_cast<double>(ui_->quality_slider->value()) / 10);
-  s.setValue("managed", ui_->managed->isChecked());
-  s.setValue("bitrate", bitrate);
-  s.setValue("min-bitrate", min_bitrate);
-  s.setValue("max-bitrate", max_bitrate);
+  s.setValue(kQuality, static_cast<double>(ui_->quality_slider->value()) / 10);
+  s.setValue(kManaged, ui_->managed->isChecked());
+  s.setValue(kBitrate, bitrate);
+  s.setValue(kMinBitrate, min_bitrate);
+  s.setValue(kMaxBitrate, max_bitrate);
 
   s.endGroup();
 

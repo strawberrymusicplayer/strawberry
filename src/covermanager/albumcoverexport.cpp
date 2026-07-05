@@ -39,6 +39,13 @@ using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kSettingsGroup[] = "AlbumCoverExport";
+constexpr char kFileName[] = "fileName";
+constexpr char kOverwrite[] = "overwrite";
+constexpr char kForceSize[] = "forceSize";
+constexpr char kWidth[] = "width";
+constexpr char kHeight[] = "height";
+constexpr char kExportDownloaded[] = "export_downloaded";
+constexpr char kExportEmbedded[] = "export_embedded";
 }
 
 AlbumCoverExport::AlbumCoverExport(QWidget *parent) : QDialog(parent), ui_(new Ui_AlbumCoverExport) {
@@ -61,15 +68,15 @@ AlbumCoverExport::DialogResult AlbumCoverExport::Exec() {
   s.beginGroup(kSettingsGroup);
 
   // Restore last accepted settings
-  ui_->fileName->setText(s.value("fileName", u"cover"_s).toString());
-  ui_->doNotOverwrite->setChecked(static_cast<OverwriteMode>(s.value("overwrite", static_cast<int>(OverwriteMode::None)).toInt()) == OverwriteMode::None);
-  ui_->overwriteAll->setChecked(static_cast<OverwriteMode>(s.value("overwrite", static_cast<int>(OverwriteMode::All)).toInt()) == OverwriteMode::All);
-  ui_->overwriteSmaller->setChecked(static_cast<OverwriteMode>(s.value("overwrite", static_cast<int>(OverwriteMode::Smaller)).toInt()) == OverwriteMode::Smaller);
-  ui_->forceSize->setChecked(s.value("forceSize", false).toBool());
-  ui_->width->setText(s.value("width", ""_L1).toString());
-  ui_->height->setText(s.value("height", ""_L1).toString());
-  ui_->export_downloaded->setChecked(s.value("export_downloaded", true).toBool());
-  ui_->export_embedded->setChecked(s.value("export_embedded", false).toBool());
+  ui_->fileName->setText(s.value(kFileName, u"cover"_s).toString());
+  ui_->doNotOverwrite->setChecked(static_cast<OverwriteMode>(s.value(kOverwrite, static_cast<int>(OverwriteMode::None)).toInt()) == OverwriteMode::None);
+  ui_->overwriteAll->setChecked(static_cast<OverwriteMode>(s.value(kOverwrite, static_cast<int>(OverwriteMode::All)).toInt()) == OverwriteMode::All);
+  ui_->overwriteSmaller->setChecked(static_cast<OverwriteMode>(s.value(kOverwrite, static_cast<int>(OverwriteMode::Smaller)).toInt()) == OverwriteMode::Smaller);
+  ui_->forceSize->setChecked(s.value(kForceSize, false).toBool());
+  ui_->width->setText(s.value(kWidth, ""_L1).toString());
+  ui_->height->setText(s.value(kHeight, ""_L1).toString());
+  ui_->export_downloaded->setChecked(s.value(kExportDownloaded, true).toBool());
+  ui_->export_embedded->setChecked(s.value(kExportEmbedded, false).toBool());
 
   ForceSizeToggled(ui_->forceSize->checkState());
 
@@ -86,13 +93,13 @@ AlbumCoverExport::DialogResult AlbumCoverExport::Exec() {
     QString width = ui_->width->text();
     QString height = ui_->height->text();
 
-    s.setValue("fileName", fileName);
-    s.setValue("overwrite", static_cast<int>(overwrite_mode));
-    s.setValue("forceSize", forceSize);
-    s.setValue("width", width);
-    s.setValue("height", height);
-    s.setValue("export_downloaded", ui_->export_downloaded->isChecked());
-    s.setValue("export_embedded", ui_->export_embedded->isChecked());
+    s.setValue(kFileName, fileName);
+    s.setValue(kOverwrite, static_cast<int>(overwrite_mode));
+    s.setValue(kForceSize, forceSize);
+    s.setValue(kWidth, width);
+    s.setValue(kHeight, height);
+    s.setValue(kExportDownloaded, ui_->export_downloaded->isChecked());
+    s.setValue(kExportEmbedded, ui_->export_embedded->isChecked());
 
     result.filename_ = fileName;
     result.overwrite_ = overwrite_mode;

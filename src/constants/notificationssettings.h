@@ -45,6 +45,15 @@ constexpr char kCustomTextEnabled[] = "CustomTextEnabled";
 constexpr char kCustomText1[] = "CustomText1";
 constexpr char kCustomText2[] = "CustomText2";
 
+constexpr Type kDefaultType = Type::Native;
+constexpr int kDefaultTimeout = 5000;
+constexpr bool kDefaultShowOnVolumeChange = false;
+constexpr bool kDefaultShowOnPlayModeChange = true;
+constexpr bool kDefaultShowOnPausePlayback = true;
+constexpr bool kDefaultShowOnResumePlayback = false;
+constexpr bool kDefaultShowArt = true;
+constexpr bool kDefaultCustomTextEnabled = false;
+
 }  // namespace OSDSettings
 
 namespace OSDPrettySettings {
@@ -63,21 +72,27 @@ constexpr char kFading[] = "fading";
 constexpr QRgb kPresetBlue = qRgb(102, 150, 227);
 constexpr QRgb kPresetRed = qRgb(202, 22, 16);
 
+constexpr QRgb kDefaultForegroundColor = 0;
+constexpr double kDefaultBackgroundOpacity = 0.85;
+constexpr char kDefaultFont[] = "Verdana,9,-1,5,50,0,0,0,0,0";
+constexpr bool kDefaultDisableDuration = false;
+
 }  // namespace OSDPrettySettings
 
 namespace DiscordRPCSettings {
-
-constexpr char kSettingsGroup[] = "DiscordRPC";
-
-constexpr char kEnabled[] = "enabled";
-
-constexpr char kStatusDisplayType[] = "StatusDisplayType";
 
 enum class StatusDisplayType {
   App = 0,
   Artist,
   Song
 };
+
+constexpr char kSettingsGroup[] = "DiscordRPC";
+constexpr char kEnabled[] = "enabled";
+constexpr char kStatusDisplayType[] = "StatusDisplayType";
+
+constexpr bool kDefaultEnabled = false;
+constexpr StatusDisplayType kDefaultStatusDisplayType = StatusDisplayType::App;
 
 }  // namespace DiscordRPCSettings
 

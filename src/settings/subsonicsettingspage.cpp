@@ -70,19 +70,19 @@ void SubsonicSettingsPage::Load() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  ui_->enable->setChecked(s.value(kEnabled, false).toBool());
+  ui_->enable->setChecked(s.value(kEnabled, kDefaultEnabled).toBool());
   ui_->server_url->setText(s.value(kUrl).toString());
   ui_->username->setText(s.value(kUsername).toString());
   QByteArray password = s.value(kPassword).toByteArray();
   if (password.isEmpty()) ui_->password->clear();
   else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
-  ui_->checkbox_http2->setChecked(s.value(kHTTP2, false).toBool());
-  ui_->checkbox_verify_certificate->setChecked(s.value(kVerifyCertificate, true).toBool());
-  ui_->checkbox_download_album_covers->setChecked(s.value(kDownloadAlbumCovers, true).toBool());
-  ui_->checkbox_use_album_id_for_album_covers->setChecked(s.value(kUseAlbumIdForAlbumCovers, false).toBool());
-  ui_->checkbox_server_scrobbling->setChecked(s.value(kServerSideScrobbling, false).toBool());
+  ui_->checkbox_http2->setChecked(s.value(kHTTP2, kDefaultHTTP2).toBool());
+  ui_->checkbox_verify_certificate->setChecked(s.value(kVerifyCertificate, kDefaultVerifyCertificate).toBool());
+  ui_->checkbox_download_album_covers->setChecked(s.value(kDownloadAlbumCovers, kDefaultDownloadAlbumCovers).toBool());
+  ui_->checkbox_use_album_id_for_album_covers->setChecked(s.value(kUseAlbumIdForAlbumCovers, kDefaultUseAlbumIdForAlbumCovers).toBool());
+  ui_->checkbox_server_scrobbling->setChecked(s.value(kServerSideScrobbling, kDefaultServerSideScrobbling).toBool());
 
-  const AuthMethod auth_method = static_cast<AuthMethod>(s.value(kAuthMethod, static_cast<int>(AuthMethod::MD5)).toInt());
+  const AuthMethod auth_method = static_cast<AuthMethod>(s.value(kAuthMethod, static_cast<int>(kDefaultAuthMethod)).toInt());
   switch (auth_method) {
     case AuthMethod::Hex:
       ui_->auth_method_hex->setChecked(true);

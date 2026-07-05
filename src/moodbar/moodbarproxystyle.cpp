@@ -78,7 +78,7 @@ void MoodbarProxyStyle::ReloadSettings() {
   s.beginGroup(MoodbarSettings::kSettingsGroup);
 
   // Get the style, and redraw if there's a change.
-  const MoodbarSettings::Style new_style = static_cast<MoodbarSettings::Style>(s.value(MoodbarSettings::kStyle, static_cast<int>(MoodbarSettings::Style::Normal)).toInt());
+  const MoodbarSettings::Style new_style = static_cast<MoodbarSettings::Style>(s.value(MoodbarSettings::kStyle, static_cast<int>(MoodbarSettings::kDefaultStyle)).toInt());
 
   s.endGroup();
 

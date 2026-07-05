@@ -63,6 +63,28 @@ constexpr char kLastSaveExtension[] = "last_save_extension";
 constexpr char kLastSaveAllPath[] = "last_save_all_path";
 constexpr char kLastSaveAllExtension[] = "last_save_all_extension";
 
+constexpr bool kDefaultAlternatingRowColors = true;
+constexpr bool kDefaultShowBars = true;
+#ifdef Q_OS_MACOS
+constexpr bool kDefaultGlowEffect = false;
+#else
+constexpr bool kDefaultGlowEffect = true;
+#endif
+constexpr bool kDefaultWarnClosePlaylist = true;
+constexpr bool kDefaultContinueOnError = false;
+constexpr bool kDefaultGreyoutSongsStartup = false;
+constexpr bool kDefaultGreyoutSongsPlay = true;
+constexpr bool kDefaultSelectTrack = false;
+constexpr bool kDefaultShowToolbar = true;
+constexpr bool kDefaultPlaylistClear = true;
+constexpr bool kDefaultAutoSort = false;
+constexpr PathType kDefaultPathType = PathType::Automatic;
+constexpr bool kDefaultEditMetadataInline = false;
+constexpr bool kDefaultWriteMetadata = true;
+constexpr bool kDefaultDeleteFiles = false;
+constexpr int kDefaultStateVersion = 0;
+constexpr bool kDefaultRatingLocked = false;
+
 }  // namespace PlaylistSettings
 
 Q_DECLARE_METATYPE(PlaylistSettings::PathType)

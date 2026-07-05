@@ -20,6 +20,8 @@
 #ifndef BEHAVIOURSETTINGS_H
 #define BEHAVIOURSETTINGS_H
 
+#include <QtGlobal>
+
 namespace BehaviourSettings {
 
 constexpr char kSettingsGroup[] = "Behaviour";
@@ -70,6 +72,21 @@ constexpr char kDoubleClickPlayMode[] = "doubleclick_playmode";
 constexpr char kDoubleClickPlaylistAddMode[] = "doubleclick_playlist_addmode";
 constexpr char kSeekStepSec[] = "seek_step_sec";
 constexpr char kVolumeIncrement[] = "volume_increment";
+
+constexpr bool kDefaultKeepRunning = false;
+constexpr bool kDefaultShowTrayIcon = true;
+constexpr bool kDefaultTrayIconProgress = false;
+constexpr bool kDefaultTaskbarProgress = true;
+constexpr bool kDefaultResumePlayback = false;
+constexpr bool kDefaultPlayingWidget = true;
+constexpr StartupBehaviour kDefaultStartupBehaviour = StartupBehaviour::Remember;
+constexpr PlayBehaviour kDefaultMenuPlayMode = PlayBehaviour::Never;
+constexpr PreviousBehaviour kDefaultMenuPreviousMode = PreviousBehaviour::DontRestart;
+constexpr AddBehaviour kDefaultDoubleClickAddMode = AddBehaviour::Append;
+constexpr PlayBehaviour kDefaultDoubleClickPlayMode = PlayBehaviour::Never;
+constexpr PlaylistAddBehaviour kDefaultDoubleClickPlaylistAddMode = PlaylistAddBehaviour::Play;
+constexpr int kDefaultSeekStepSec = 10;
+constexpr uint kDefaultVolumeIncrement = 5;
 
 }  // namespace BehaviourSettings
 

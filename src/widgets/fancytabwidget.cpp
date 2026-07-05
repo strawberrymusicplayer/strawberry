@@ -111,9 +111,9 @@ void FancyTabWidget::SaveSettings(const QString &settings_group) {
   s.beginGroup(settings_group);
 
   if (mode_ != Mode::None) {
-    s.setValue("tab_mode", static_cast<int>(mode_));
+    s.setValue(kTabMode, static_cast<int>(mode_));
   }
-  s.setValue("current_tab", currentIndex());
+  s.setValue(kCurrentTab, currentIndex());
 
   for (FancyTabData *tab : std::as_const(tabs_)) {
     QString k = u"tab_"_s + tab->name();
@@ -134,8 +134,8 @@ void FancyTabWidget::ReloadSettings() {
 
   Settings s;
   s.beginGroup(AppearanceSettings::kSettingsGroup);
-  bg_color_system_ = s.value(AppearanceSettings::kTabBarSystemColor, false).toBool();
-  bg_gradient_ = s.value(AppearanceSettings::kTabBarGradient, true).toBool();
+  bg_color_system_ = s.value(AppearanceSettings::kTabBarSystemColor, AppearanceSettings::kDefaultTabBarSystemColor).toBool();
+  bg_gradient_ = s.value(AppearanceSettings::kTabBarGradient, AppearanceSettings::kDefaultTabBarGradient).toBool();
   bg_color_ = DefaultTabbarBgColor();
   if (!bg_color_system_) {
     bg_color_ = s.value(AppearanceSettings::kTabBarColor, bg_color_).value<QColor>();

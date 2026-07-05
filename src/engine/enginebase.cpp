@@ -160,15 +160,15 @@ void EngineBase::ReloadSettings() {
     device_ = s.value(BackendSettings::kDevice);
   }
 
-  playbin3_enabled_ = s.value(BackendSettings::kPlaybin3, true).toBool();
+  playbin3_enabled_ = s.value(BackendSettings::kPlaybin3, BackendSettings::kDefaultPlaybin3).toBool();
 
-  exclusive_mode_ = s.value(BackendSettings::kExclusiveMode, false).toBool();
+  exclusive_mode_ = s.value(BackendSettings::kExclusiveMode, BackendSettings::kDefaultExclusiveMode).toBool();
 
-  volume_control_ = s.value(BackendSettings::kVolumeControl, true).toBool();
-  volume_exponential_ = s.value(BackendSettings::kVolumeExponential, false).toBool();
+  volume_control_ = s.value(BackendSettings::kVolumeControl, BackendSettings::kDefaultVolumeControl).toBool();
+  volume_exponential_ = s.value(BackendSettings::kVolumeExponential, BackendSettings::kDefaultVolumeExponential).toBool();
 
-  channels_enabled_ = s.value(BackendSettings::kChannelsEnabled, false).toBool();
-  channels_ = s.value(BackendSettings::kChannels, 0).toInt();
+  channels_enabled_ = s.value(BackendSettings::kChannelsEnabled, BackendSettings::kDefaultChannelsEnabled).toBool();
+  channels_ = s.value(BackendSettings::kChannels, BackendSettings::kDefaultChannels).toInt();
 
   buffer_duration_nanosec_ = s.value(BackendSettings::kBufferDuration, BackendSettings::kDefaultBufferDuration).toULongLong() * kNsecPerMsec;
   buffer_low_watermark_ = s.value(BackendSettings::kBufferLowWatermark, BackendSettings::kDefaultBufferLowWatermark).toDouble();
@@ -176,45 +176,45 @@ void EngineBase::ReloadSettings() {
 
   device_warmup_duration_ms_ = s.value(BackendSettings::kDeviceWarmupDuration, BackendSettings::kDefaultDeviceWarmupDuration).toInt();
 
-  rg_enabled_ = s.value(BackendSettings::kRgEnabled, false).toBool();
-  rg_mode_ = s.value(BackendSettings::kRgMode, 0).toInt();
-  rg_preamp_ = s.value(BackendSettings::kRgPreamp, 0.0).toDouble();
-  rg_fallbackgain_ = s.value(BackendSettings::kRgFallbackGain, 0.0).toDouble();
-  rg_compression_ = s.value(BackendSettings::kRgCompression, true).toBool();
+  rg_enabled_ = s.value(BackendSettings::kRgEnabled, BackendSettings::kDefaultRgEnabled).toBool();
+  rg_mode_ = s.value(BackendSettings::kRgMode, BackendSettings::kDefaultRgMode).toInt();
+  rg_preamp_ = s.value(BackendSettings::kRgPreamp, BackendSettings::kDefaultRgPreamp).toDouble();
+  rg_fallbackgain_ = s.value(BackendSettings::kRgFallbackGain, BackendSettings::kDefaultRgFallbackGain).toDouble();
+  rg_compression_ = s.value(BackendSettings::kRgCompression, BackendSettings::kDefaultRgCompression).toBool();
 
-  ebur128_loudness_normalization_ = s.value(BackendSettings::kEBUR128LoudnessNormalization, false).toBool();
-  ebur128_target_level_lufs_ = s.value(BackendSettings::kEBUR128TargetLevelLUFS, -23.0).toDouble();
+  ebur128_loudness_normalization_ = s.value(BackendSettings::kEBUR128LoudnessNormalization, BackendSettings::kDefaultEBUR128LoudnessNormalization).toBool();
+  ebur128_target_level_lufs_ = s.value(BackendSettings::kEBUR128TargetLevelLUFS, BackendSettings::kDefaultEBUR128TargetLevelLUFS).toDouble();
 
-  fadeout_enabled_ = s.value(BackendSettings::kFadeoutEnabled, false).toBool();
-  crossfade_enabled_ = s.value(BackendSettings::kCrossfadeEnabled, false).toBool();
-  autocrossfade_enabled_ = s.value(BackendSettings::kAutoCrossfadeEnabled, false).toBool();
-  crossfade_same_album_ = !s.value(BackendSettings::kNoCrossfadeSameAlbum, true).toBool();
-  fadeout_pause_enabled_ = s.value(BackendSettings::kFadeoutPauseEnabled, false).toBool();
-  fadeout_duration_ = s.value(BackendSettings::kFadeoutDuration, 2000).toLongLong();
+  fadeout_enabled_ = s.value(BackendSettings::kFadeoutEnabled, BackendSettings::kDefaultFadeoutEnabled).toBool();
+  crossfade_enabled_ = s.value(BackendSettings::kCrossfadeEnabled, BackendSettings::kDefaultCrossfadeEnabled).toBool();
+  autocrossfade_enabled_ = s.value(BackendSettings::kAutoCrossfadeEnabled, BackendSettings::kDefaultAutoCrossfadeEnabled).toBool();
+  crossfade_same_album_ = !s.value(BackendSettings::kNoCrossfadeSameAlbum, BackendSettings::kDefaultNoCrossfadeSameAlbum).toBool();
+  fadeout_pause_enabled_ = s.value(BackendSettings::kFadeoutPauseEnabled, BackendSettings::kDefaultFadeoutPauseEnabled).toBool();
+  fadeout_duration_ = s.value(BackendSettings::kFadeoutDuration, BackendSettings::kDefaultFadeoutDuration).toLongLong();
   fadeout_duration_nanosec_ = (fadeout_duration_ * kNsecPerMsec);
-  fadeout_pause_duration_ = s.value(BackendSettings::kFadeoutPauseDuration, 250).toLongLong();
+  fadeout_pause_duration_ = s.value(BackendSettings::kFadeoutPauseDuration, BackendSettings::kDefaultFadeoutPauseDuration).toLongLong();
   fadeout_pause_duration_nanosec_ = (fadeout_pause_duration_ * kNsecPerMsec);
 
-  bs2b_enabled_ = s.value(BackendSettings::kBS2B, false).toBool();
+  bs2b_enabled_ = s.value(BackendSettings::kBS2B, BackendSettings::kDefaultBS2B).toBool();
 
-  bool http2_enabled = s.value(BackendSettings::kHTTP2, false).toBool();
+  bool http2_enabled = s.value(BackendSettings::kHTTP2, BackendSettings::kDefaultHTTP2).toBool();
   if (http2_enabled != http2_enabled_) {
     http2_enabled_ = http2_enabled;
     Utilities::SetEnv("SOUP_FORCE_HTTP1", http2_enabled_ ? ""_L1 : u"1"_s);
     qLog(Debug) << "SOUP_FORCE_HTTP1:" << (http2_enabled_ ? "OFF" : "ON");
   }
 
-  strict_ssl_enabled_ = s.value(BackendSettings::kStrictSSL, false).toBool();
+  strict_ssl_enabled_ = s.value(BackendSettings::kStrictSSL, BackendSettings::kDefaultStrictSSL).toBool();
 
   s.endGroup();
 
   s.beginGroup(NetworkProxySettings::kSettingsGroup);
-  const NetworkProxyFactory::Mode proxy_mode = static_cast<NetworkProxyFactory::Mode>(s.value("mode", static_cast<int>(NetworkProxyFactory::Mode::System)).toInt());
-  const QNetworkProxy::ProxyType proxy_type = static_cast<QNetworkProxy::ProxyType>(s.value(NetworkProxySettings::kType, QNetworkProxy::HttpProxy).toInt());
+  const NetworkProxySettings::Mode proxy_mode = static_cast<NetworkProxySettings::Mode>(s.value(NetworkProxySettings::kMode, static_cast<int>(NetworkProxySettings::kDefaultMode)).toInt());
+  const QNetworkProxy::ProxyType proxy_type = static_cast<QNetworkProxy::ProxyType>(s.value(NetworkProxySettings::kType, NetworkProxySettings::kDefaultType).toInt());
   // GStreamer (souphttpsrc) only supports HTTP proxies, so a SOCKS proxy must not be applied to the engine.
-  if (proxy_mode == NetworkProxyFactory::Mode::Manual && proxy_type == QNetworkProxy::HttpProxy && s.contains(NetworkProxySettings::kEngine) && s.value(NetworkProxySettings::kEngine).toBool()) {
-    QString proxy_host = s.value(NetworkProxySettings::kHostname).toString();
-    int proxy_port = s.value(NetworkProxySettings::kPort).toInt();
+  if (proxy_mode == NetworkProxySettings::Mode::Manual && proxy_type == QNetworkProxy::HttpProxy && s.contains(NetworkProxySettings::kEngine) && s.value(NetworkProxySettings::kEngine).toBool()) {
+    const QString proxy_host = s.value(NetworkProxySettings::kHostname).toString();
+    const int proxy_port = s.value(NetworkProxySettings::kPort).toInt();
     if (proxy_host.isEmpty() || proxy_port <= 0) {
       proxy_address_.clear();
       proxy_authentication_ = false;

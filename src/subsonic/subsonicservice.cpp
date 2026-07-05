@@ -126,11 +126,11 @@ void SubsonicService::ReloadSettings() {
   if (password.isEmpty()) password_.clear();
   else password_ = QString::fromUtf8(QByteArray::fromBase64(password));
 
-  http2_ = s.value(SubsonicSettings::kHTTP2, false).toBool();
-  verify_certificate_ = s.value(SubsonicSettings::kVerifyCertificate, true).toBool();
-  download_album_covers_ = s.value(SubsonicSettings::kDownloadAlbumCovers, true).toBool();
-  use_album_id_for_album_covers_ = s.value(SubsonicSettings::kUseAlbumIdForAlbumCovers, false).toBool();
-  auth_method_ = static_cast<SubsonicSettings::AuthMethod>(s.value(SubsonicSettings::kAuthMethod, static_cast<int>(SubsonicSettings::AuthMethod::MD5)).toInt());
+  http2_ = s.value(SubsonicSettings::kHTTP2, SubsonicSettings::kDefaultHTTP2).toBool();
+  verify_certificate_ = s.value(SubsonicSettings::kVerifyCertificate, SubsonicSettings::kDefaultVerifyCertificate).toBool();
+  download_album_covers_ = s.value(SubsonicSettings::kDownloadAlbumCovers, SubsonicSettings::kDefaultDownloadAlbumCovers).toBool();
+  use_album_id_for_album_covers_ = s.value(SubsonicSettings::kUseAlbumIdForAlbumCovers, SubsonicSettings::kDefaultUseAlbumIdForAlbumCovers).toBool();
+  auth_method_ = static_cast<SubsonicSettings::AuthMethod>(s.value(SubsonicSettings::kAuthMethod, static_cast<int>(SubsonicSettings::kDefaultAuthMethod)).toInt());
 
   s.endGroup();
 

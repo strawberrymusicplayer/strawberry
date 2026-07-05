@@ -36,6 +36,15 @@
 
 namespace {
 constexpr char kSettingsGroup[] = "Transcoder/speexenc";
+constexpr char kQuality[] = "quality";
+constexpr char kBitrate[] = "bitrate";
+constexpr char kMode[] = "mode";
+constexpr char kVbr[] = "vbr";
+constexpr char kAbr[] = "abr";
+constexpr char kVad[] = "vad";
+constexpr char kDtx[] = "dtx";
+constexpr char kComplexity[] = "complexity";
+constexpr char kNframes[] = "nframes";
 }
 
 TranscoderOptionsSpeex::TranscoderOptionsSpeex(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsSpeex) {
@@ -51,15 +60,15 @@ void TranscoderOptionsSpeex::Load() {
   Settings s;
   s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
 
-  ui_->quality_slider->setValue(s.value("quality", 10).toInt());
-  ui_->bitrate_slider->setValue(s.value("bitrate", 0).toInt() / 1000);
-  ui_->mode->setCurrentIndex(s.value("mode", 0).toInt());
-  ui_->vbr->setChecked(s.value("vbr", false).toBool());
-  ui_->abr_slider->setValue(s.value("abr", 0).toInt() / 1000);
-  ui_->vad->setChecked(s.value("vad", false).toBool());
-  ui_->dtx->setChecked(s.value("dtx", false).toBool());
-  ui_->complexity->setValue(s.value("complexity", 3).toInt());
-  ui_->nframes->setValue(s.value("nframes", 1).toInt());
+  ui_->quality_slider->setValue(s.value(kQuality, 10).toInt());
+  ui_->bitrate_slider->setValue(s.value(kBitrate, 0).toInt() / 1000);
+  ui_->mode->setCurrentIndex(s.value(kMode, 0).toInt());
+  ui_->vbr->setChecked(s.value(kVbr, false).toBool());
+  ui_->abr_slider->setValue(s.value(kAbr, 0).toInt() / 1000);
+  ui_->vad->setChecked(s.value(kVad, false).toBool());
+  ui_->dtx->setChecked(s.value(kDtx, false).toBool());
+  ui_->complexity->setValue(s.value(kComplexity, 3).toInt());
+  ui_->nframes->setValue(s.value(kNframes, 1).toInt());
 
   s.endGroup();
 
@@ -70,15 +79,15 @@ void TranscoderOptionsSpeex::Save() {
   Settings s;
   s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
 
-  s.setValue("quality", ui_->quality_slider->value());
-  s.setValue("bitrate", ui_->bitrate_slider->value() * 1000);
-  s.setValue("mode", ui_->mode->currentIndex());
-  s.setValue("vbr", ui_->vbr->isChecked());
-  s.setValue("abr", ui_->abr_slider->value() * 1000);
-  s.setValue("vad", ui_->vad->isChecked());
-  s.setValue("dtx", ui_->dtx->isChecked());
-  s.setValue("complexity", ui_->complexity->value());
-  s.setValue("nframes", ui_->nframes->value());
+  s.setValue(kQuality, ui_->quality_slider->value());
+  s.setValue(kBitrate, ui_->bitrate_slider->value() * 1000);
+  s.setValue(kMode, ui_->mode->currentIndex());
+  s.setValue(kVbr, ui_->vbr->isChecked());
+  s.setValue(kAbr, ui_->abr_slider->value() * 1000);
+  s.setValue(kVad, ui_->vad->isChecked());
+  s.setValue(kDtx, ui_->dtx->isChecked());
+  s.setValue(kComplexity, ui_->complexity->value());
+  s.setValue(kNframes, ui_->nframes->value());
 
   s.endGroup();
 
