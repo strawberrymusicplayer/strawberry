@@ -2,6 +2,25 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed editing tags for files on GVFS mounts (SMB, SFTP, MTP) by editing a local temporary copy (#1696)
+    * Fixed the seekbar treating the mouse as still pressed when playback is stopped while seeking (#2075)
+    * Fixed the beginning of songs being cut off while the audio device (DAC) is warming up with a new configurable device warm-up delay (default 500 ms)
+    * Fixed empty available icon size handling for scalable (SVG) icons (#2171)
+    * Fixed Musixmatch lyrics search
+    * Removed logging of access tokens
+    * Numerous stability, crash-safety and thread-safety fixes throughout the application
+
+  Enhancements:
+    * All central palette color roles are now configurable under appearance settings, with a dark mode preset (#2063)
+    * Added System Media Transport Controls support on Windows (#1923)
+    * Simplified GStreamer pipeline state handling and teardown, playback now starts directly without an intermediate pause
+    * Turned on Subsonic certificate verification by default
+    * Apply a default transfer timeout to network requests
+    * Removed Last.fm import (#1936)
+
 Version 1.2.21 (2026.06.27):
 
     * Re-point playlist items that references duplicated songs before removal (#2168)
