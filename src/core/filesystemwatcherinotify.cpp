@@ -74,7 +74,6 @@ void FileSystemWatcherInotify::AddPaths(const QStringList &paths) {
       qLog(Warning) << "Already watching path" << path;
       continue;
     }
-    const QFileInfo fileinfo(path);
     const QByteArray encoded_path = QFile::encodeName(path);
     const int result = ::inotify_add_watch(inotify_fd_, encoded_path.constData(), (IN_CREATE | IN_ATTRIB | IN_MODIFY | IN_CLOSE_WRITE | IN_MOVE | IN_MOVE_SELF | IN_DELETE | IN_DELETE_SELF));
     if (result == -1) {
