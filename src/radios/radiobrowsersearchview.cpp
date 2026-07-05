@@ -17,6 +17,8 @@
  *
  */
 
+#include <chrono>
+
 #include <QWidget>
 #include <QString>
 #include <QUrl>
@@ -35,6 +37,7 @@
 #include "radiomimedata.h"
 #include "ui_radiobrowsersearchview.h"
 
+using namespace std::chrono_literals;
 using namespace Qt::Literals::StringLiterals;
 
 RadioBrowserSearchView::RadioBrowserSearchView(QWidget *parent)
@@ -75,7 +78,7 @@ RadioBrowserSearchView::RadioBrowserSearchView(QWidget *parent)
   ui_->combo_sort->addItem(tr("By bitrate"), u"bitrate"_s);
 
   search_timer_->setSingleShot(true);
-  search_timer_->setInterval(300);
+  search_timer_->setInterval(300ms);
 
   QObject::connect(ui_->search, &SearchField::textChanged, this, &RadioBrowserSearchView::TextChanged);
   QObject::connect(search_timer_, &QTimer::timeout, this, &RadioBrowserSearchView::SearchTriggered);
