@@ -52,8 +52,8 @@ class FancyTabWidget : public QTabWidget {
     IconsSidebar,
   };
 
-  static inline constexpr char kTabMode[] = "tab_mode";
-  static inline constexpr char kCurrentTab[] = "current_tab";
+  static const char kTabMode[];
+  static const char kCurrentTab[];
 
   Mode mode() const { return mode_; }
   int iconsize_smallsidebar() const { return iconsize_smallsidebar_; }
