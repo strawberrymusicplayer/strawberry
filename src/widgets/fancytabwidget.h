@@ -79,7 +79,7 @@ class FancyTabWidget : public QTabWidget {
   static QColor DefaultTabbarBgColor();
 
  public Q_SLOTS:
-  void SetMode(const Mode mode);
+  void SetMode(const FancyTabWidget::Mode mode);
   void SetCurrentIndex(int idx);
 
  private Q_SLOTS:

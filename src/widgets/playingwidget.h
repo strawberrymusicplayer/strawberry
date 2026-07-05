@@ -91,7 +91,7 @@ class PlayingWidget : public QWidget {
 
  private Q_SLOTS:
   void Update() { update(); }
-  void SetMode(const Mode mode);
+  void SetMode(const PlayingWidget::Mode mode);
   void ShowAboveStatusBar(const bool above);
   void FitCoverWidth(const bool fit);
 

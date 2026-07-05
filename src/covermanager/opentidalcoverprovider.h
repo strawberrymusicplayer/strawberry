@@ -114,8 +114,8 @@ class OpenTidalCoverProvider : public JsonCoverProvider {
   void OAuthFinished(const bool success, const QString &error = QString());
   void FlushRequests();
   void HandleSearchReply(QNetworkReply *reply, OpenTidalCoverProvider::SearchRequestPtr search_request);
-  void HandleAlbumCoverReply(QNetworkReply *reply, SearchRequestPtr search_request, AlbumCoverRequestPtr albumcover_request);
-  void HandleArtworkReply(QNetworkReply *reply, SearchRequestPtr search_request, AlbumCoverRequestPtr albumcover_request, ArtworkRequestPtr artwork_request);
+  void HandleAlbumCoverReply(QNetworkReply *reply, OpenTidalCoverProvider::SearchRequestPtr search_request, OpenTidalCoverProvider::AlbumCoverRequestPtr albumcover_request);
+  void HandleArtworkReply(QNetworkReply *reply, OpenTidalCoverProvider::SearchRequestPtr search_request, OpenTidalCoverProvider::AlbumCoverRequestPtr albumcover_request, ArtworkRequestPtr artwork_request);
 
  private:
   OAuthenticator *oauth_;
