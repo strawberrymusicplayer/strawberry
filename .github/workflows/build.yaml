@@ -336,7 +336,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        mageia_version: [ '9' ]
+        mageia_version: [ '9', '10' ]
     container:
       image: mageia:${{matrix.mageia_version}}
     steps:
