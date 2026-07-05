@@ -51,6 +51,9 @@
 #include <QRandomGenerator>
 #include <QMessageBox>
 #include <QTimerEvent>
+#ifdef HAVE_PROJECTM4
+#  include <QOpenGLContext>
+#endif
 
 #include "core/logging.h"
 #include "core/settings.h"
@@ -201,7 +204,15 @@ void ProjectMVisualization::drawBackground(QPainter *p, const QRectF &rect) {
   p->beginNativePainting();
 
 #ifdef HAVE_PROJECTM4
+#  ifdef HAVE_PROJECTM4_RENDER_FBO
+  // We are rendering into a QOpenGLWidget viewport, which draws into its own backing framebuffer object, never into the window-system default framebuffer.
+  // projectm_opengl_render_frame() explicitly binds framebuffer 0 for its final pass (unlike projectM 3, which drew into whatever was bound), so its output would end up invisible and the widget stays blank.
+  // Render into Qt's framebuffer instead.
+  projectm_opengl_render_frame_fbo(projectm_instance_, QOpenGLContext::currentContext()->defaultFramebufferObject());
+#  else
+  // projectM older than 4.2 lacks the FBO render call, rendering is likely to stay blank inside the QOpenGLWidget viewport.
   projectm_opengl_render_frame(projectm_instance_);
+#  endif
 #else
   projectm_->renderFrame();
 #endif
@@ -331,7 +342,8 @@ int ProjectMVisualization::IndexOfPreset(const QString &preset_path) const {
     char *projectm_preset_path = projectm_playlist_item(projectm_playlist_instance_, i);
     if (projectm_preset_path) {
       const QScopeGuard projectm_preset_path_deleter = qScopeGuard([projectm_preset_path](){ projectm_playlist_free_string(projectm_preset_path); });
-      if (QLatin1String(projectm_preset_path) == preset_path) {
+      // The playlist paths were added as UTF-8, so decode them as UTF-8 here, otherwise presets with non-ASCII characters in the path never match.
+      if (QString::fromUtf8(projectm_preset_path) == preset_path) {
         return static_cast<int>(i);
       }
     }

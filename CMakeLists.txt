@@ -221,6 +221,20 @@ if(projectM4_FOUND)
   set(LIBPROJECTM_FOUND ON)
   set(HAVE_PROJECTM4 ON)
   set(LIBPROJECTM_LIBRARIES libprojectM::projectM libprojectM::playlist)
+  # projectm_opengl_render_frame_fbo() was added in projectM 4.2, which is needed to render into the QOpenGLWidget viewport framebuffer.
+  # Check for the symbol instead of the version, since some builds carry it with older version metadata.
+  set(CMAKE_REQUIRED_LIBRARIES libprojectM::projectM)
+  check_cxx_source_compiles("
+    #include <projectM-4/types.h>
+    #include <projectM-4/render_opengl.h>
+    int main() {
+      projectm_opengl_render_frame_fbo(nullptr, 0);
+      return 0;
+    }
+    "
+    HAVE_PROJECTM4_RENDER_FBO
+  )
+  unset(CMAKE_REQUIRED_LIBRARIES)
 else()
   pkg_check_modules(LIBPROJECTM libprojectM)
 endif()

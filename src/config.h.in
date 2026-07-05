@@ -55,5 +55,6 @@
 
 #cmakedefine HAVE_VISUALIZATIONS
 #cmakedefine HAVE_PROJECTM4
+#cmakedefine HAVE_PROJECTM4_RENDER_FBO
 
 #endif // CONFIG_H_IN
