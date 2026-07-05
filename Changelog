@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.2.22 (2026.07.05):
 
   Bugfixes:
     * Fixed editing tags for files on GVFS mounts (SMB, SFTP, MTP) by editing a local temporary copy (#1696)
