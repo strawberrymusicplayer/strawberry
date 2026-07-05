@@ -21,6 +21,7 @@
 #include <QWidget>
 #include <QSlider>
 #include <QPoint>
+#include <QCursor>
 #include <QRect>
 #include <QStyle>
 #include <QStyleOption>
@@ -50,6 +51,21 @@ TrackSliderSlider::TrackSliderSlider(QWidget *parent)
   popup_->hide();
   QObject::connect(this, &TrackSliderSlider::valueChanged, this, &TrackSliderSlider::UpdateDeltaTime);
 #endif
+
+}
+
+void TrackSliderSlider::changeEvent(QEvent *e) {
+
+  // When the slider is disabled mid-drag (stopping playback while seeking disables it via TrackSlider::SetStopped()), the mouse release is never delivered to it.
+  // QAbstractSlider::changeEvent() clears the sliderDown state on disable, but not QSliderPrivate::pressedControl, which is what QSlider::mouseMoveEvent() drags by, so merely hovering would resume dragging once the slider is re-enabled.
+  // Synthesize the release so the pressed state is fully cleared. This must happen before handing the event to QSlider, while sliderDown still reflects the drag.
+  if (e->type() == QEvent::EnabledChange && !isEnabled() && isSliderDown()) {
+    const QPoint global_pos = QCursor::pos();
+    QMouseEvent mouse_event(QEvent::MouseButtonRelease, mapFromGlobal(global_pos), global_pos, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+    QSlider::mouseReleaseEvent(&mouse_event);
+  }
+
+  QSlider::changeEvent(e);
 
 }
 
@@ -94,6 +110,14 @@ void TrackSliderSlider::mouseReleaseEvent(QMouseEvent *e) {
 }
 
 void TrackSliderSlider::mouseMoveEvent(QMouseEvent *e) {
+
+  // Backstop against a stale pressed state from any path where the mouse release was lost (e.g. the slider was disabled or grabbed away mid-drag):
+  // if no button is held, feed QSlider a release before the move, so a leftover pressedControl cannot turn hovering into dragging.
+  // This is a no-op (early return in QSlider::mouseReleaseEvent()) when the state is clean.
+  if (e->buttons() == Qt::NoButton) {
+    QMouseEvent mouse_event(QEvent::MouseButtonRelease, e->position(), e->globalPosition(), Qt::LeftButton, Qt::NoButton, e->modifiers());
+    QSlider::mouseReleaseEvent(&mouse_event);
+  }
 
   QSlider::mouseMoveEvent(e);
 

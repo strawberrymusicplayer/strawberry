@@ -50,6 +50,7 @@ class TrackSliderSlider : public QSlider {
   void Next();
 
  protected:
+  void changeEvent(QEvent *e) override;
   void mousePressEvent(QMouseEvent *e) override;
   void mouseReleaseEvent(QMouseEvent *e) override;
   void mouseMoveEvent(QMouseEvent *e) override;
