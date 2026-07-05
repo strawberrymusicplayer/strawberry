@@ -24,8 +24,10 @@ namespace WaveformSettings {
 
 constexpr char kSettingsGroup[] = "Waveform";
 
-constexpr char kSave[] = "save";
 constexpr char kColor[] = "color";
+constexpr char kSave[] = "save";
+
+constexpr bool kDefaultSave = false;
 
 }  // namespace WaveformSettings
 

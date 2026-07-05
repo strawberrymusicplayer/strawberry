@@ -127,8 +127,8 @@ void ContextSettingsPage::Load() {
   Settings s;
   s.beginGroup(kSettingsGroup);
 
-  ui_->context_custom_text1->setText(s.value(kSettingsTitleFmt, u"%title% - %artist%"_s).toString());
-  ui_->context_custom_text2->setText(s.value(kSettingsSummaryFmt, u"%album%"_s).toString());
+  ui_->context_custom_text1->setText(s.value(kSettingsTitleFmt, QLatin1String(kDefaultTitleFmt)).toString());
+  ui_->context_custom_text2->setText(s.value(kSettingsSummaryFmt, QLatin1String(kDefaultSummaryFmt)).toString());
 
   const QStringList checkbox_keys = checkboxes_.keys();
   for (const QString &i : checkbox_keys) {
@@ -152,7 +152,7 @@ void ContextSettingsPage::Load() {
   s.endGroup();
 
   s.beginGroup(MainWindowSettings::kSettingsGroup);
-  ui_->checkbox_search_cover->setChecked(s.value(MainWindowSettings::kSearchForCoverAuto, true).toBool());
+  ui_->checkbox_search_cover->setChecked(s.value(MainWindowSettings::kSearchForCoverAuto, MainWindowSettings::kDefaultSearchForCoverAuto).toBool());
   s.endGroup();
 
   Init(ui_->layout_contextsettingspage->parentWidget());

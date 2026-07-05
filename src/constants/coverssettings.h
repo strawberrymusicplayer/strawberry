@@ -32,6 +32,11 @@ constexpr char kSaveOverwrite[] = "save_overwrite";
 constexpr char kSaveLowercase[] = "save_lowercase";
 constexpr char kSaveReplaceSpaces[] = "save_replace_spaces";
 
+constexpr char kDefaultSavePattern[] = "%albumartist-%album";
+constexpr bool kDefaultSaveOverwrite = false;
+constexpr bool kDefaultSaveLowercase = false;
+constexpr bool kDefaultSaveReplaceSpaces = false;
+
 }  // namespace CoversSettings
 
 #endif  // COVERSSETTINGS_H

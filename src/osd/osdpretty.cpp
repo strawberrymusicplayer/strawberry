@@ -251,11 +251,11 @@ void OSDPretty::Load() {
 
   Settings s;
   s.beginGroup(OSDPrettySettings::kSettingsGroup);
-  foreground_color_ = QColor(static_cast<QRgb>(s.value(OSDPrettySettings::kForegroundColor, 0).toInt()));
+  foreground_color_ = QColor(static_cast<QRgb>(s.value(OSDPrettySettings::kForegroundColor, OSDPrettySettings::kDefaultForegroundColor).toInt()));
   background_color_ = QColor(static_cast<QRgb>(s.value(OSDPrettySettings::kBackgroundColor, OSDPrettySettings::kPresetBlue).toInt()));
-  background_opacity_ = s.value(OSDPrettySettings::kBackgroundOpacity, 0.85).toFloat();
-  font_.fromString(s.value(OSDPrettySettings::kFont, u"Verdana,9,-1,5,50,0,0,0,0,0"_s).toString());
-  disable_duration_ = s.value(OSDPrettySettings::kDisableDuration, false).toBool();
+  background_opacity_ = s.value(OSDPrettySettings::kBackgroundOpacity, OSDPrettySettings::kDefaultBackgroundOpacity).toFloat();
+  font_.fromString(s.value(OSDPrettySettings::kFont, QLatin1String(OSDPrettySettings::kDefaultFont)).toString());
+  disable_duration_ = s.value(OSDPrettySettings::kDisableDuration, OSDPrettySettings::kDefaultDisableDuration).toBool();
 #ifdef Q_OS_WIN32
   fading_enabled_ = s.value(OSDPrettySettings::kFading, true).toBool();
 #else

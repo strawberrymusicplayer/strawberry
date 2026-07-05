@@ -182,8 +182,8 @@ void CollectionLibrary::ReloadSettings() {
 
   Settings s;
   s.beginGroup(CollectionSettings::kSettingsGroup);
-  save_playcounts_to_files_ = s.value(CollectionSettings::kSavePlayCounts, false).toBool();
-  save_ratings_to_files_ = s.value(CollectionSettings::kSaveRatings, false).toBool();
+  save_playcounts_to_files_ = s.value(CollectionSettings::kSavePlayCounts, CollectionSettings::kDefaultSavePlayCounts).toBool();
+  save_ratings_to_files_ = s.value(CollectionSettings::kSaveRatings, CollectionSettings::kDefaultSaveRatings).toBool();
   s.endGroup();
 
 }

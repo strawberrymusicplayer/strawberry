@@ -73,6 +73,9 @@ constexpr char kAuthUrl[] = "https://www.last.fm/api/auth/";
 constexpr char kSecret[] = "80fd738f49596e9709b1bf9319c444a8";
 constexpr int kScrobblesPerRequest = 50;
 constexpr char kCacheFile[] = "lastfmscrobbler.cache";
+constexpr char kSubscriber[] = "subscriber";
+constexpr char kUsername[] = "username";
+constexpr char kSessionKey[] = "session_key";
 }  // namespace
 
 LastFMScrobbler::LastFMScrobbler(const SharedPtr<ScrobblerSettingsService> settings, const SharedPtr<NetworkAccessManager> network, QObject *parent)
@@ -112,11 +115,11 @@ void LastFMScrobbler::ReloadSettings() {
   Settings s;
 
   s.beginGroup(kSettingsGroup);
-  enabled_ = s.value(ScrobblerSettings::kEnabled, false).toBool();
+  enabled_ = s.value(ScrobblerSettings::kEnabled, ScrobblerSettings::kDefaultEnabled).toBool();
   s.endGroup();
 
   s.beginGroup(ScrobblerSettings::kSettingsGroup);
-  prefer_albumartist_ = s.value(ScrobblerSettings::kAlbumArtist, false).toBool();
+  prefer_albumartist_ = s.value(ScrobblerSettings::kAlbumArtist, ScrobblerSettings::kDefaultAlbumArtist).toBool();
   s.endGroup();
 
 }
@@ -125,9 +128,9 @@ void LastFMScrobbler::LoadSession() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  subscriber_ = s.value("subscriber", false).toBool();
-  username_ = s.value("username").toString();
-  session_key_ = s.value("session_key").toString();
+  subscriber_ = s.value(kSubscriber, false).toBool();
+  username_ = s.value(kUsername).toString();
+  session_key_ = s.value(kSessionKey).toString();
   s.endGroup();
 
 }
@@ -140,9 +143,9 @@ void LastFMScrobbler::ClearSession() {
 
   Settings settings;
   settings.beginGroup(kSettingsGroup);
-  settings.remove("subscriber");
-  settings.remove("username");
-  settings.remove("session_key");
+  settings.remove(kSubscriber);
+  settings.remove(kUsername);
+  settings.remove(kSessionKey);
   settings.endGroup();
 
 }
@@ -291,9 +294,9 @@ void LastFMScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  s.setValue("subscriber", subscriber_);
-  s.setValue("username", username_);
-  s.setValue("session_key", session_key_);
+  s.setValue(kSubscriber, subscriber_);
+  s.setValue(kUsername, username_);
+  s.setValue(kSessionKey, session_key_);
   s.endGroup();
 
   Q_EMIT AuthenticationComplete(true);

@@ -101,6 +101,9 @@ using std::make_shared;
 
 namespace {
 constexpr char kSettingsGroup[] = "CoverManager";
+constexpr char kGeometry[] = "geometry";
+constexpr char kSplitterState[] = "splitter_state";
+constexpr char kSaveCoverType[] = "save_cover_type";
 constexpr int kThumbnailSize = 120;
 }  // namespace
 
@@ -242,11 +245,11 @@ void AlbumCoverManager::Init() {
   Settings s;
   s.beginGroup(kSettingsGroup);
 
-  if (s.contains("geometry")) {
-    restoreGeometry(s.value("geometry").toByteArray());
+  if (s.contains(kGeometry)) {
+    restoreGeometry(s.value(kGeometry).toByteArray());
   }
 
-  if (!s.contains("splitter_state") || !ui_->splitter->restoreState(s.value("splitter_state").toByteArray())) {
+  if (!s.contains(kSplitterState) || !ui_->splitter->restoreState(s.value(kSplitterState).toByteArray())) {
     // Sensible default size for the artists view
     ui_->splitter->setSizes(QList<int>() << 200 << width() - 200);
   }
@@ -302,11 +305,11 @@ void AlbumCoverManager::LoadGeometry() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  if (s.contains("geometry"_L1)) {
-    restoreGeometry(s.value("geometry").toByteArray());
+  if (s.contains(kGeometry)) {
+    restoreGeometry(s.value(kGeometry).toByteArray());
   }
-  if (s.contains("splitter_state"_L1)) {
-    ui_->splitter->restoreState(s.value("splitter_state").toByteArray());
+  if (s.contains(kSplitterState)) {
+    ui_->splitter->restoreState(s.value(kSplitterState).toByteArray());
   }
   else {
     // Sensible default size for the artists view
@@ -323,9 +326,9 @@ void AlbumCoverManager::SaveSettings() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  s.setValue("geometry", saveGeometry());
-  s.setValue("splitter_state", ui_->splitter->saveState());
-  s.setValue("save_cover_type", static_cast<int>(album_cover_choice_controller_->get_save_album_cover_type()));
+  s.setValue(kGeometry, saveGeometry());
+  s.setValue(kSplitterState, ui_->splitter->saveState());
+  s.setValue(kSaveCoverType, static_cast<int>(album_cover_choice_controller_->get_save_album_cover_type()));
   s.endGroup();
 
 }

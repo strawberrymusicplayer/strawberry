@@ -156,9 +156,9 @@ void CoversSettingsPage::Load() {
   }
   QString cover_pattern = s.value(kSavePattern).toString();
   if (!cover_pattern.isEmpty()) ui_->lineedit_cover_pattern->setText(cover_pattern);
-  ui_->checkbox_cover_overwrite->setChecked(s.value(kSaveOverwrite, false).toBool());
-  ui_->checkbox_cover_lowercase->setChecked(s.value(kSaveLowercase, true).toBool());
-  ui_->checkbox_cover_replace_spaces->setChecked(s.value(kSaveReplaceSpaces, true).toBool());
+  ui_->checkbox_cover_overwrite->setChecked(s.value(kSaveOverwrite, kDefaultSaveOverwrite).toBool());
+  ui_->checkbox_cover_lowercase->setChecked(s.value(kSaveLowercase, kDefaultSaveLowercase).toBool());
+  ui_->checkbox_cover_replace_spaces->setChecked(s.value(kSaveReplaceSpaces, kDefaultSaveReplaceSpaces).toBool());
 
   s.endGroup();
 

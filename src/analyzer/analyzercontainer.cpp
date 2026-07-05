@@ -57,6 +57,7 @@ const char *AnalyzerContainer::kSettingsFramerate = "framerate";
 
 // Framerates
 namespace {
+constexpr char kSettingsType[] = "type";
 constexpr int kLowFramerate = 20;
 constexpr int kMediumFramerate = 25;
 constexpr int kHighFramerate = 30;
@@ -182,7 +183,7 @@ void AnalyzerContainer::Load() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  QString type = s.value("type", u"BlockAnalyzer"_s).toString();
+  QString type = s.value(kSettingsType, u"BlockAnalyzer"_s).toString();
   current_framerate_ = s.value(kSettingsFramerate, kMediumFramerate).toInt();
   s.endGroup();
 
@@ -235,7 +236,7 @@ void AnalyzerContainer::Save() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  s.setValue("type", current_analyzer_ ? QString::fromLatin1(current_analyzer_->metaObject()->className()) : QVariant());
+  s.setValue(kSettingsType, current_analyzer_ ? QString::fromLatin1(current_analyzer_->metaObject()->className()) : QVariant());
   s.endGroup();
 
 }

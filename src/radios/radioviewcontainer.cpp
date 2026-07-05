@@ -49,7 +49,7 @@ void RadioViewContainer::ReloadSettings() {
 
   Settings s;
   s.beginGroup(AppearanceSettings::kSettingsGroup);
-  int iconsize = s.value(AppearanceSettings::kIconSizeLeftPanelButtons, 22).toInt();
+  int iconsize = s.value(AppearanceSettings::kIconSizeLeftPanelButtons, AppearanceSettings::kDefaultIconSizeLeftPanelButtons).toInt();
   s.endGroup();
 
   ui_->refresh->setIconSize(QSize(iconsize, iconsize));

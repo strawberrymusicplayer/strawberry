@@ -56,29 +56,24 @@ void PlaylistSettingsPage::Load() {
   Settings s;
   s.beginGroup(kSettingsGroup);
 
-  ui_->checkbox_alternating_row_colors->setChecked(s.value(kAlternatingRowColors, true).toBool());
-  ui_->checkbox_barscurrenttrack->setChecked(s.value(kShowBars, true).toBool());
+  ui_->checkbox_alternating_row_colors->setChecked(s.value(kAlternatingRowColors, kDefaultAlternatingRowColors).toBool());
+  ui_->checkbox_barscurrenttrack->setChecked(s.value(kShowBars, kDefaultShowBars).toBool());
 
   ui_->checkbox_glowcurrenttrack->setEnabled(ui_->checkbox_barscurrenttrack->isChecked());
   if (ui_->checkbox_barscurrenttrack->isChecked()) {
-#ifdef Q_OS_MACOS
-    bool glow_effect = false;
-#else
-    bool glow_effect = true;
-#endif
-    ui_->checkbox_glowcurrenttrack->setChecked(s.value(kGlowEffect, glow_effect).toBool());
+    ui_->checkbox_glowcurrenttrack->setChecked(s.value(kGlowEffect, kDefaultGlowEffect).toBool());
   }
 
-  ui_->checkbox_warncloseplaylist->setChecked(s.value(kWarnClosePlaylist, true).toBool());
-  ui_->checkbox_continueonerror->setChecked(s.value(kContinueOnError, false).toBool());
-  ui_->checkbox_greyout_songs_startup->setChecked(s.value(kGreyoutSongsStartup, false).toBool());
-  ui_->checkbox_greyout_songs_play->setChecked(s.value(kGreyoutSongsPlay, true).toBool());
-  ui_->checkbox_select_track->setChecked(s.value(kSelectTrack, false).toBool());
-  ui_->checkbox_show_toolbar->setChecked(s.value(kShowToolbar, true).toBool());
-  ui_->checkbox_playlist_clear->setChecked(s.value(kPlaylistClear, true).toBool());
-  ui_->checkbox_auto_sort->setChecked(s.value(kAutoSort, false).toBool());
+  ui_->checkbox_warncloseplaylist->setChecked(s.value(kWarnClosePlaylist, kDefaultWarnClosePlaylist).toBool());
+  ui_->checkbox_continueonerror->setChecked(s.value(kContinueOnError, kDefaultContinueOnError).toBool());
+  ui_->checkbox_greyout_songs_startup->setChecked(s.value(kGreyoutSongsStartup, kDefaultGreyoutSongsStartup).toBool());
+  ui_->checkbox_greyout_songs_play->setChecked(s.value(kGreyoutSongsPlay, kDefaultGreyoutSongsPlay).toBool());
+  ui_->checkbox_select_track->setChecked(s.value(kSelectTrack, kDefaultSelectTrack).toBool());
+  ui_->checkbox_show_toolbar->setChecked(s.value(kShowToolbar, kDefaultShowToolbar).toBool());
+  ui_->checkbox_playlist_clear->setChecked(s.value(kPlaylistClear, kDefaultPlaylistClear).toBool());
+  ui_->checkbox_auto_sort->setChecked(s.value(kAutoSort, kDefaultAutoSort).toBool());
 
-  const PathType path_type = static_cast<PathType>(s.value(kPathType, static_cast<int>(PathType::Automatic)).toInt());
+  const PathType path_type = static_cast<PathType>(s.value(kPathType, static_cast<int>(kDefaultPathType)).toInt());
   switch (path_type) {
     case PathType::Automatic:
       ui_->radiobutton_automaticpath->setChecked(true);
@@ -93,10 +88,10 @@ void PlaylistSettingsPage::Load() {
       ui_->radiobutton_askpath->setChecked(true);
   }
 
-  ui_->checkbox_editmetadatainline->setChecked(s.value(kEditMetadataInline, false).toBool());
-  ui_->checkbox_writemetadata->setChecked(s.value(kWriteMetadata, false).toBool());
+  ui_->checkbox_editmetadatainline->setChecked(s.value(kEditMetadataInline, kDefaultEditMetadataInline).toBool());
+  ui_->checkbox_writemetadata->setChecked(s.value(kWriteMetadata, kDefaultWriteMetadata).toBool());
 
-  ui_->checkbox_delete_files->setChecked(s.value(kDeleteFiles, false).toBool());
+  ui_->checkbox_delete_files->setChecked(s.value(kDeleteFiles, kDefaultDeleteFiles).toBool());
 
   s.endGroup();
 

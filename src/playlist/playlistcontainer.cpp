@@ -60,11 +60,14 @@
 #include "ui_playlistcontainer.h"
 #include "widgets/searchfield.h"
 #include "constants/appearancesettings.h"
+#include "constants/playlistsettings.h"
 
 using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kSettingsGroup[] = "Playlist";
+constexpr char kCurrentPlaylist[] = "current_playlist";
+constexpr char kLastLoadPlaylist[] = "last_load_playlist";
 constexpr int kFilterDelayMs = 100;
 constexpr int kFilterDelayPlaylistSizeThreshold = 5000;
 }  // namespace
@@ -243,7 +246,7 @@ void PlaylistContainer::ReloadSettings() {
 
   Settings s;
   s.beginGroup(AppearanceSettings::kSettingsGroup);
-  int iconsize = s.value(AppearanceSettings::kIconSizePlaylistButtons, 20).toInt();
+  int iconsize = s.value(AppearanceSettings::kIconSizePlaylistButtons, AppearanceSettings::kDefaultIconSizePlaylistButtons).toInt();
   s.endGroup();
 
   ui_->create_new->setIconSize(QSize(iconsize, iconsize));
@@ -254,9 +257,9 @@ void PlaylistContainer::ReloadSettings() {
   ui_->redo->setIconSize(QSize(iconsize, iconsize));
   ui_->search_field->setIconSize(iconsize);
 
-  s.beginGroup(kSettingsGroup);
-  const bool playlist_clear = s.value("playlist_clear", true).toBool();
-  const bool show_toolbar = s.value("show_toolbar", true).toBool();
+  s.beginGroup(PlaylistSettings::kSettingsGroup);
+  const bool playlist_clear = s.value(PlaylistSettings::kPlaylistClear, PlaylistSettings::kDefaultPlaylistClear).toBool();
+  const bool show_toolbar = s.value(PlaylistSettings::kShowToolbar, PlaylistSettings::kDefaultShowToolbar).toBool();
   s.endGroup();
 
   if (playlist_clear) {
@@ -310,7 +313,7 @@ void PlaylistContainer::PlaylistAdded(const int id, const QString &name, const b
   // Are we start up, should we select this tab?
   Settings s;
   s.beginGroup(kSettingsGroup);
-  const int current_playlist = s.value("current_playlist", 1).toInt();
+  const int current_playlist = s.value(kCurrentPlaylist, 1).toInt();
   s.endGroup();
 
   if (starting_up_ && current_playlist == id) {
@@ -354,12 +357,12 @@ void PlaylistContainer::LoadPlaylist() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  QString filename = s.value("last_load_playlist").toString();
+  QString filename = s.value(kLastLoadPlaylist).toString();
   filename = QFileDialog::getOpenFileName(this, tr("Load playlist"), filename, manager_->parser()->filters(PlaylistParser::Type::Load));
 
   if (filename.isNull()) return;
 
-  s.setValue("last_load_playlist", filename);
+  s.setValue(kLastLoadPlaylist, filename);
 
   manager_->Load(filename);
 
@@ -400,7 +403,7 @@ void PlaylistContainer::Save() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  s.setValue("current_playlist", ui_->tab_bar->current_id());
+  s.setValue(kCurrentPlaylist, ui_->tab_bar->current_id());
   s.endGroup();
 
 }

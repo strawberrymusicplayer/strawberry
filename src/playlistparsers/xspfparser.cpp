@@ -169,7 +169,7 @@ void XSPFParser::Save(const QString &playlist_name, const SongList &songs, QIODe
 
   Settings s;
   s.beginGroup(PlaylistSettings::kSettingsGroup);
-  bool write_metadata = s.value(PlaylistSettings::kWriteMetadata, true).toBool();
+  bool write_metadata = s.value(PlaylistSettings::kWriteMetadata, PlaylistSettings::kDefaultWriteMetadata).toBool();
   s.endGroup();
 
   StreamElement tracklist(u"trackList"_s, &writer);

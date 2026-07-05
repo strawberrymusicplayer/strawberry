@@ -60,7 +60,7 @@ void SubsonicScrobbler::ReloadSettings() {
 
   Settings s;
   s.beginGroup(SubsonicSettings::kSettingsGroup);
-  enabled_ = s.value("serversidescrobbling", false).toBool();
+  enabled_ = s.value(SubsonicSettings::kServerSideScrobbling, SubsonicSettings::kDefaultServerSideScrobbling).toBool();
   s.endGroup();
 
 }

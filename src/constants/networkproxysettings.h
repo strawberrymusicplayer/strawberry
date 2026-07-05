@@ -20,10 +20,20 @@
 #ifndef NETWORKPROXYSETTINGS_H
 #define NETWORKPROXYSETTINGS_H
 
+#include <QtGlobal>
+#include <QNetworkProxy>
+
 namespace NetworkProxySettings {
+
+enum class Mode {
+  System = 0,
+  Direct = 1,
+  Manual = 2
+};
 
 constexpr char kSettingsGroup[] = "NetworkProxy";
 
+constexpr char kMode[] = "mode";
 constexpr char kType[] = "type";
 constexpr char kHostname[] = "hostname";
 constexpr char kPort[] = "port";
@@ -31,6 +41,12 @@ constexpr char kUseAuthentication[] = "use_authentication";
 constexpr char kUsername[] = "username";
 constexpr char kPassword[] = "password";
 constexpr char kEngine[] = "engine";
+
+constexpr Mode kDefaultMode = Mode::System;
+constexpr QNetworkProxy::ProxyType kDefaultType = QNetworkProxy::HttpProxy;
+constexpr quint64 kDefaultPort = 8080LL;
+constexpr bool kDefaultUseAuthentication = false;
+constexpr bool kDefaultEngine = true;
 
 }  // namespace NetworkProxySettings
 

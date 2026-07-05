@@ -35,6 +35,15 @@ constexpr char kStripRemastered[] = "strip_remastered";
 constexpr char kSources[] = "sources";
 constexpr char kUserToken[] = "user_token";
 
+constexpr bool kDefaultEnabled = false;
+constexpr bool kDefaultScrobbleButton = false;
+constexpr bool kDefaultLoveButton = false;
+constexpr bool kDefaultOffline = false;
+constexpr int kDefaultSubmit = 0;
+constexpr bool kDefaultAlbumArtist = false;
+constexpr bool kDefaultShowErrorDialog = true;
+constexpr bool kDefaultStripRemastered = true;
+
 }  // namespace ScrobblerSettings
 
 #endif  // SCROBBLERSETTINGS_H

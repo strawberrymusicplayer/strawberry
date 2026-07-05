@@ -44,6 +44,7 @@ class SavedGroupingManager : public QDialog {
   ~SavedGroupingManager() override;
 
   static const char *kSavedGroupingsSettingsGroup;
+  static inline constexpr char kVersion[] = "version";
 
   static QString GetSavedGroupingsSettingsGroup(const QString &settings_group);
 

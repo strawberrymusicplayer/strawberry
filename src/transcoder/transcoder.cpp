@@ -46,6 +46,7 @@
 #include "core/standardpaths.h"
 #include "core/signalchecker.h"
 #include "core/settings.h"
+#include "constants/transcodersettings.h"
 #include "transcoder.h"
 
 using std::make_shared;
@@ -204,11 +205,11 @@ Transcoder::Transcoder(QObject *parent, const QString &settings_postfix)
   Settings s;
   s.beginGroup("Transcoder/lamemp3enc"_L1 + settings_postfix_);
 
-  if (s.value("target").isNull()) {
-    s.setValue("target", 1);  // 1 == bitrate
+  if (s.value(TranscoderSettings::LameMP3Settings::kTarget).isNull()) {
+    s.setValue(TranscoderSettings::LameMP3Settings::kTarget, 1);  // 1 == bitrate
   }
-  if (s.value("cbr").isNull()) {
-    s.setValue("cbr", false);
+  if (s.value(TranscoderSettings::LameMP3Settings::kCbr).isNull()) {
+    s.setValue(TranscoderSettings::LameMP3Settings::kCbr, false);
   }
 
   s.endGroup();

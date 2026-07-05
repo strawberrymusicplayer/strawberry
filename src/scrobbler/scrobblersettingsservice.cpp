@@ -47,15 +47,15 @@ void ScrobblerSettingsService::ReloadSettings() {
 
   Settings s;
   s.beginGroup(ScrobblerSettings::kSettingsGroup);
-  enabled_ = s.value("enabled", false).toBool();
-  offline_ = s.value("offline", false).toBool();
-  scrobble_button_ = s.value("scrobble_button", false).toBool();
-  love_button_ = s.value("love_button", false).toBool();
-  submit_delay_ = s.value("submit", 0).toInt();
-  prefer_albumartist_ = s.value("albumartist", false).toBool();
-  show_error_dialog_ = s.value("show_error_dialog", true).toBool();
-  strip_remastered_ = s.value("strip_remastered", true).toBool();
-  const QStringList sources = s.value("sources").toStringList();
+  enabled_ = s.value(ScrobblerSettings::kEnabled, ScrobblerSettings::kDefaultEnabled).toBool();
+  offline_ = s.value(ScrobblerSettings::kOffline, ScrobblerSettings::kDefaultOffline).toBool();
+  scrobble_button_ = s.value(ScrobblerSettings::kScrobbleButton, ScrobblerSettings::kDefaultScrobbleButton).toBool();
+  love_button_ = s.value(ScrobblerSettings::kLoveButton, ScrobblerSettings::kDefaultLoveButton).toBool();
+  submit_delay_ = s.value(ScrobblerSettings::kSubmit, ScrobblerSettings::kDefaultSubmit).toInt();
+  prefer_albumartist_ = s.value(ScrobblerSettings::kAlbumArtist, ScrobblerSettings::kDefaultAlbumArtist).toBool();
+  show_error_dialog_ = s.value(ScrobblerSettings::kShowErrorDialog, ScrobblerSettings::kDefaultShowErrorDialog).toBool();
+  strip_remastered_ = s.value(ScrobblerSettings::kStripRemastered, ScrobblerSettings::kDefaultStripRemastered).toBool();
+  const QStringList sources = s.value(ScrobblerSettings::kSources).toStringList();
   s.endGroup();
 
   sources_.clear();
@@ -93,7 +93,7 @@ void ScrobblerSettingsService::ToggleScrobbling() {
 
   Settings s;
   s.beginGroup(ScrobblerSettings::kSettingsGroup);
-  s.setValue("enabled", enabled_);
+  s.setValue(ScrobblerSettings::kEnabled, enabled_);
   s.endGroup();
 
   if (enabled_ != enabled_old_) Q_EMIT ScrobblingEnabledChanged(enabled_);
@@ -107,7 +107,7 @@ void ScrobblerSettingsService::ToggleOffline() {
 
   Settings s;
   s.beginGroup(ScrobblerSettings::kSettingsGroup);
-  s.setValue("offline", offline_);
+  s.setValue(ScrobblerSettings::kOffline, offline_);
   s.endGroup();
 
   if (offline_ != offline_old_) { Q_EMIT ScrobblingOfflineChanged(offline_); }

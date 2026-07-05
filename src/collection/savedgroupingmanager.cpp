@@ -164,12 +164,12 @@ void SavedGroupingManager::UpdateModel() {
   model_->setRowCount(0);  // don't use clear, it deletes headers
   Settings s;
   s.beginGroup(saved_groupings_settings_group_);
-  int version = s.value("version").toInt();
+  int version = s.value(kVersion).toInt();
   if (version == 1) {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
       const QString &name = saved.at(i);
-      if (name == "version"_L1) continue;
+      if (name == QLatin1String(kVersion)) continue;
       QByteArray bytes = s.value(name).toByteArray();
       QDataStream ds(&bytes, QIODevice::ReadOnly);
       CollectionModel::Grouping g;
@@ -193,7 +193,7 @@ void SavedGroupingManager::UpdateModel() {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
       const QString &name = saved.at(i);
-      if (name == "version"_L1) continue;
+      if (name == QLatin1String(kVersion)) continue;
       s.remove(name);
     }
   }

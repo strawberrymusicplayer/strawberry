@@ -84,7 +84,7 @@ PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, 
 
   Settings s;
   s.beginGroup(PlaylistSettings::kSettingsGroup);
-  action_rating_lock_->setChecked(s.value(PlaylistSettings::kRatingLocked, false).toBool());
+  action_rating_lock_->setChecked(s.value(PlaylistSettings::kRatingLocked, PlaylistSettings::kDefaultRatingLocked).toBool());
   s.endGroup();
 
 }

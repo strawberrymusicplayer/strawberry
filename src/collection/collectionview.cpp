@@ -276,8 +276,8 @@ void CollectionView::ReloadSettings() {
 
   Settings settings;
   settings.beginGroup(CollectionSettings::kSettingsGroup);
-  SetAutoOpen(settings.value(CollectionSettings::kAutoOpen, false).toBool());
-  delete_files_ = settings.value(CollectionSettings::kDeleteFiles, false).toBool();
+  SetAutoOpen(settings.value(CollectionSettings::kAutoOpen, CollectionSettings::kDefaultAutoOpen).toBool());
+  delete_files_ = settings.value(CollectionSettings::kDeleteFiles, CollectionSettings::kDefaultDeleteFiles).toBool();
   settings.endGroup();
 
 }

@@ -28,6 +28,7 @@
 #include <QNetworkProxy>
 #include <QSettings>
 
+#include "constants/networkproxysettings.h"
 #include "core/logging.h"
 #include "core/settings.h"
 #include "networkproxyfactory.h"
@@ -35,10 +36,9 @@
 using namespace Qt::Literals::StringLiterals;
 
 NetworkProxyFactory *NetworkProxyFactory::sInstance = nullptr;
-const char *NetworkProxyFactory::kSettingsGroup = "NetworkProxy";
 
 NetworkProxyFactory::NetworkProxyFactory()
-    : mode_(Mode::System),
+    : mode_(NetworkProxySettings::Mode::System),
       type_(QNetworkProxy::HttpProxy),
       port_(8080),
       use_authentication_(false) {
@@ -81,15 +81,15 @@ void NetworkProxyFactory::ReloadSettings() {
   QMutexLocker l(&mutex_);
 
   Settings s;
-  s.beginGroup(kSettingsGroup);
+  s.beginGroup(NetworkProxySettings::kSettingsGroup);
 
-  mode_ = static_cast<Mode>(s.value("mode", static_cast<int>(Mode::System)).toInt());
-  type_ = QNetworkProxy::ProxyType(s.value("type", QNetworkProxy::HttpProxy).toInt());
-  hostname_ = s.value("hostname").toString();
-  port_ = s.value("port", 8080).toULongLong();
-  use_authentication_ = s.value("use_authentication", false).toBool();
-  username_ = s.value("username").toString();
-  password_ = s.value("password").toString();
+  mode_ = static_cast<NetworkProxySettings::Mode>(s.value(NetworkProxySettings::kMode, static_cast<int>(NetworkProxySettings::kDefaultMode)).toInt());
+  type_ = QNetworkProxy::ProxyType(s.value(NetworkProxySettings::kType, NetworkProxySettings::kDefaultType).toInt());
+  hostname_ = s.value(NetworkProxySettings::kHostname).toString();
+  port_ = s.value(NetworkProxySettings::kPort, NetworkProxySettings::kDefaultPort).toULongLong();
+  use_authentication_ = s.value(NetworkProxySettings::kUseAuthentication, NetworkProxySettings::kDefaultUseAuthentication).toBool();
+  username_ = s.value(NetworkProxySettings::kUsername).toString();
+  password_ = s.value(NetworkProxySettings::kPassword).toString();
 
   s.endGroup();
 
@@ -102,7 +102,7 @@ QList<QNetworkProxy> NetworkProxyFactory::queryProxy(const QNetworkProxyQuery &q
   QNetworkProxy ret;
 
   switch (mode_) {
-    case Mode::System:
+    case NetworkProxySettings::Mode::System:
 #ifdef Q_OS_LINUX
       Q_UNUSED(query);
 
@@ -127,11 +127,11 @@ QList<QNetworkProxy> NetworkProxyFactory::queryProxy(const QNetworkProxyQuery &q
       return systemProxyForQuery(query);
 #endif
 
-    case Mode::Direct:
+    case NetworkProxySettings::Mode::Direct:
       ret.setType(QNetworkProxy::NoProxy);
       break;
 
-    case Mode::Manual:
+    case NetworkProxySettings::Mode::Manual:
       ret.setType(type_);
       ret.setHostName(hostname_);
       ret.setPort(port_);

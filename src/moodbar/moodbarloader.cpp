@@ -101,7 +101,7 @@ void MoodbarLoader::ReloadSettings() {
 
   Settings s;
   s.beginGroup(MoodbarSettings::kSettingsGroup);
-  save_ = s.value(MoodbarSettings::kSave, false).toBool();
+  save_ = s.value(MoodbarSettings::kSave, MoodbarSettings::kDefaultSave).toBool();
   s.endGroup();
 
   MaybeTakeNextRequest();

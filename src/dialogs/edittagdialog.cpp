@@ -115,6 +115,8 @@ using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kSettingsGroup[] = "EditTagDialog";
+constexpr char kGeometry[] = "geometry";
+constexpr char kCurrentTab[] = "current_tab";
 constexpr int kSmallImageSize = 128;
 
 // ID3v2 version constants
@@ -325,10 +327,10 @@ void EditTagDialog::showEvent(QShowEvent *e) {
     // Restore the tab that was current last time.
     Settings s;
     s.beginGroup(kSettingsGroup);
-    if (s.contains("geometry")) {
-      restoreGeometry(s.value("geometry").toByteArray());
+    if (s.contains(kGeometry)) {
+      restoreGeometry(s.value(kGeometry).toByteArray());
     }
-    ui_->tab_widget->setCurrentIndex(s.value("current_tab").toInt());
+    ui_->tab_widget->setCurrentIndex(s.value(kCurrentTab).toInt());
     s.endGroup();
 
     album_cover_choice_controller_->ReloadSettings();
@@ -346,8 +348,8 @@ void EditTagDialog::hideEvent(QHideEvent *e) {
   // Save the current tab
   Settings s;
   s.beginGroup(kSettingsGroup);
-  s.setValue("geometry", saveGeometry());
-  s.setValue("current_tab", ui_->tab_widget->currentIndex());
+  s.setValue(kGeometry, saveGeometry());
+  s.setValue(kCurrentTab, ui_->tab_widget->currentIndex());
   s.endGroup();
 
   QDialog::hideEvent(e);

@@ -155,10 +155,10 @@ void AlbumCoverChoiceController::ReloadSettings() {
   s.beginGroup(CoversSettings::kSettingsGroup);
   cover_options_.cover_type = static_cast<CoverOptions::CoverType>(s.value(CoversSettings::kSaveType, static_cast<int>(CoverOptions::CoverType::Cache)).toInt());
   cover_options_.cover_filename = static_cast<CoverOptions::CoverFilename>(s.value(CoversSettings::kSaveFilename, static_cast<int>(CoverOptions::CoverFilename::Pattern)).toInt());
-  cover_options_.cover_pattern = s.value(CoversSettings::kSavePattern, u"%albumartist-%album"_s).toString();
-  cover_options_.cover_overwrite = s.value(CoversSettings::kSaveOverwrite, false).toBool();
-  cover_options_.cover_lowercase = s.value(CoversSettings::kSaveLowercase, false).toBool();
-  cover_options_.cover_replace_spaces = s.value(CoversSettings::kSaveReplaceSpaces, false).toBool();
+  cover_options_.cover_pattern = s.value(CoversSettings::kSavePattern, QLatin1String(CoversSettings::kDefaultSavePattern)).toString();
+  cover_options_.cover_overwrite = s.value(CoversSettings::kSaveOverwrite, CoversSettings::kDefaultSaveOverwrite).toBool();
+  cover_options_.cover_lowercase = s.value(CoversSettings::kSaveLowercase, CoversSettings::kDefaultSaveLowercase).toBool();
+  cover_options_.cover_replace_spaces = s.value(CoversSettings::kSaveReplaceSpaces, CoversSettings::kDefaultSaveReplaceSpaces).toBool();
   s.endGroup();
 
   cover_types_ = AlbumCoverLoaderOptions::LoadTypes();

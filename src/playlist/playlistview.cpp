@@ -312,7 +312,7 @@ void PlaylistView::LoadHeaderState() {
   Settings s;
   s.beginGroup(PlaylistSettings::kSettingsGroup);
   // Since we use serialized internal data structures, we cannot read anything but the current version
-  const int header_state_version = s.value(PlaylistSettings::kStateVersion, 0).toInt();
+  const int header_state_version = s.value(PlaylistSettings::kStateVersion, PlaylistSettings::kDefaultStateVersion).toInt();
   if (s.contains(PlaylistSettings::kState)) {
     if (header_state_version == kHeaderStateVersion) {
       header_state_ = s.value(PlaylistSettings::kState).toByteArray();
@@ -1211,17 +1211,17 @@ void PlaylistView::ReloadSettings() {
   Settings s;
 
   s.beginGroup(PlaylistSettings::kSettingsGroup);
-  bars_enabled_ = s.value(PlaylistSettings::kShowBars, true).toBool();
+  bars_enabled_ = s.value(PlaylistSettings::kShowBars, PlaylistSettings::kDefaultShowBars).toBool();
 #ifdef Q_OS_MACOS
   bool glow_effect = false;
 #else
   bool glow_effect = true;
 #endif
   glow_enabled_ = bars_enabled_ && s.value(PlaylistSettings::kGlowEffect, glow_effect).toBool();
-  bool editmetadatainline = s.value(PlaylistSettings::kEditMetadataInline, false).toBool();
-  select_track_ = s.value(PlaylistSettings::kSelectTrack, false).toBool();
-  auto_sort_ = s.value(PlaylistSettings::kAutoSort, false).toBool();
-  setAlternatingRowColors(s.value(PlaylistSettings::kAlternatingRowColors, true).toBool());
+  bool editmetadatainline = s.value(PlaylistSettings::kEditMetadataInline, PlaylistSettings::kDefaultEditMetadataInline).toBool();
+  select_track_ = s.value(PlaylistSettings::kSelectTrack, PlaylistSettings::kDefaultSelectTrack).toBool();
+  auto_sort_ = s.value(PlaylistSettings::kAutoSort, PlaylistSettings::kDefaultAutoSort).toBool();
+  setAlternatingRowColors(s.value(PlaylistSettings::kAlternatingRowColors, PlaylistSettings::kDefaultAlternatingRowColors).toBool());
   s.endGroup();
 
   s.beginGroup(AppearanceSettings::kSettingsGroup);
@@ -1230,9 +1230,9 @@ void PlaylistView::ReloadSettings() {
   int background_image_maxsize = s.value(AppearanceSettings::kBackgroundImageMaxSize).toInt();
   if (background_image_maxsize <= 10) background_image_maxsize = 9000;
   QString background_image_filename = s.value(AppearanceSettings::kBackgroundImageFilename).toString();
-  bool background_image_stretch = s.value(AppearanceSettings::kBackgroundImageStretch, false).toBool();
-  bool background_image_do_not_cut = s.value(AppearanceSettings::kBackgroundImageDoNotCut, true).toBool();
-  bool background_image_keep_aspect_ratio = s.value(AppearanceSettings::kBackgroundImageKeepAspectRatio, true).toBool();
+  bool background_image_stretch = s.value(AppearanceSettings::kBackgroundImageStretch, AppearanceSettings::kDefaultBackgroundImageStretch).toBool();
+  bool background_image_do_not_cut = s.value(AppearanceSettings::kBackgroundImageDoNotCut, AppearanceSettings::kDefaultBackgroundImageDoNotCut).toBool();
+  bool background_image_keep_aspect_ratio = s.value(AppearanceSettings::kBackgroundImageKeepAspectRatio, AppearanceSettings::kDefaultBackgroundImageKeepAspectRatio).toBool();
   int blur_radius = s.value(AppearanceSettings::kBlurRadius, AppearanceSettings::kDefaultBlurRadius).toInt();
   int opacity_level = s.value(AppearanceSettings::kOpacityLevel, AppearanceSettings::kDefaultOpacityLevel).toInt();
   QColor playlist_playing_song_color = s.value(AppearanceSettings::kPlaylistPlayingSongColor).value<QColor>();
@@ -1246,20 +1246,20 @@ void PlaylistView::ReloadSettings() {
   if (!glow_enabled_) StopGlowing();
 
   // Background:
-  AppearanceSettings::BackgroundImageType background_image_type(AppearanceSettings::BackgroundImageType::Default);
+  AppearanceSettings::BackgroundImageType background_image_type(AppearanceSettings::kDefaultBackgroundImageType);
   if (background_image_type_var.isValid()) {
     background_image_type = static_cast<AppearanceSettings::BackgroundImageType>(background_image_type_var.toInt());
   }
   else {
-    background_image_type = AppearanceSettings::BackgroundImageType::Default;
+    background_image_type = AppearanceSettings::kDefaultBackgroundImageType;
   }
 
-  AppearanceSettings::BackgroundImagePosition background_image_position(AppearanceSettings::BackgroundImagePosition::BottomRight);
+  AppearanceSettings::BackgroundImagePosition background_image_position(AppearanceSettings::kDefaultBackgroundImagePosition);
   if (background_image_position_var.isValid()) {
     background_image_position = static_cast<AppearanceSettings::BackgroundImagePosition>(background_image_position_var.toInt());
   }
   else {
-    background_image_position = AppearanceSettings::BackgroundImagePosition::BottomRight;
+    background_image_position = AppearanceSettings::kDefaultBackgroundImagePosition;
   }
 
   // Check if background properties have changed.

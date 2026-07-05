@@ -210,14 +210,14 @@ void CollectionModel::ReloadSettings() {
 
   Settings settings;
   settings.beginGroup(CollectionSettings::kSettingsGroup);
-  const bool show_pretty_covers = settings.value(CollectionSettings::kPrettyCovers, true).toBool();
-  const bool show_dividers = settings.value(CollectionSettings::kShowDividers, true).toBool();
-  const bool show_various_artists = settings.value(CollectionSettings::kVariousArtists, true).toBool();
-  const bool sort_skip_articles_for_artists = settings.value(CollectionSettings::kSkipArticlesForArtists, true).toBool();
-  const bool sort_skip_articles_for_albums = settings.value(CollectionSettings::kSkipArticlesForAlbums, false).toBool();
-  const bool use_sort_tags = settings.value(CollectionSettings::kUseSortTags, true).toBool();
+  const bool show_pretty_covers = settings.value(CollectionSettings::kPrettyCovers, CollectionSettings::kDefaultPrettyCovers).toBool();
+  const bool show_dividers = settings.value(CollectionSettings::kShowDividers, CollectionSettings::kDefaultShowDividers).toBool();
+  const bool show_various_artists = settings.value(CollectionSettings::kVariousArtists, CollectionSettings::kDefaultVariousArtists).toBool();
+  const bool sort_skip_articles_for_artists = settings.value(CollectionSettings::kSkipArticlesForArtists, CollectionSettings::kDefaultSkipArticlesForArtists).toBool();
+  const bool sort_skip_articles_for_albums = settings.value(CollectionSettings::kSkipArticlesForAlbums, CollectionSettings::kDefaultSkipArticlesForAlbums).toBool();
+  const bool use_sort_tags = settings.value(CollectionSettings::kUseSortTags, CollectionSettings::kDefaultUseSortTags).toBool();
 
-  use_disk_cache_ = settings.value(CollectionSettings::kSettingsDiskCacheEnable, false).toBool();
+  use_disk_cache_ = settings.value(CollectionSettings::kSettingsDiskCacheEnable, CollectionSettings::kDefaultSettingsDiskCacheEnable).toBool();
   QPixmapCache::setCacheLimit(static_cast<int>(MaximumCacheSize(&settings, CollectionSettings::kSettingsCacheSize, CollectionSettings::kSettingsCacheSizeUnit, CollectionSettings::kSettingsCacheSizeDefault) / 1024));
   if (icon_disk_cache_) {
     icon_disk_cache_->setMaximumCacheSize(MaximumCacheSize(&settings, CollectionSettings::kSettingsDiskCacheSize, CollectionSettings::kSettingsDiskCacheSizeUnit, CollectionSettings::kSettingsDiskCacheSizeDefault));
@@ -1616,7 +1616,7 @@ bool CollectionModel::HasParentAlbumGroupBy(CollectionItem *item) const {
 qint64 CollectionModel::MaximumCacheSize(Settings *s, const char *size_id, const char *size_unit_id, const qint64 cache_size_default) {
 
   qint64 size = s->value(size_id, cache_size_default).toInt();
-  int unit = s->value(size_unit_id, static_cast<int>(CollectionSettings::CacheSizeUnit::MB)).toInt() + 1;
+  int unit = s->value(size_unit_id, static_cast<int>(CollectionSettings::kDefaultSettingsCacheSizeUnit)).toInt() + 1;
 
   do {
     size *= 1024;

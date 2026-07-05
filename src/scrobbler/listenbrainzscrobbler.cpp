@@ -112,12 +112,12 @@ void ListenBrainzScrobbler::ReloadSettings() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  enabled_ = s.value(ScrobblerSettings::kEnabled, false).toBool();
+  enabled_ = s.value(ScrobblerSettings::kEnabled, ScrobblerSettings::kDefaultEnabled).toBool();
   user_token_ = s.value(ScrobblerSettings::kUserToken).toString();
   s.endGroup();
 
   s.beginGroup(ScrobblerSettings::kSettingsGroup);
-  prefer_albumartist_ = s.value(ScrobblerSettings::kAlbumArtist, false).toBool();
+  prefer_albumartist_ = s.value(ScrobblerSettings::kAlbumArtist, ScrobblerSettings::kDefaultAlbumArtist).toBool();
   s.endGroup();
 
 }

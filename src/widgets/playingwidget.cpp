@@ -50,6 +50,9 @@ using std::make_unique;
 namespace {
 
 constexpr char kSettingsGroup[] = "PlayingWidget";
+constexpr char kMode[] = "mode";
+constexpr char kFitCoverWidth[] = "fit_cover_width";
+constexpr char kAboveStatusBar[] = "above_status_bar";
 
 // Space between the cover and the details in small mode
 constexpr int kPadding = 2;
@@ -89,8 +92,8 @@ PlayingWidget::PlayingWidget(QWidget *parent)
   // Load settings
   Settings s;
   s.beginGroup(kSettingsGroup);
-  mode_ = static_cast<Mode>(s.value("mode", static_cast<int>(Mode::LargeSongDetails)).toInt());
-  fit_width_ = s.value("fit_cover_width", false).toBool();
+  mode_ = static_cast<Mode>(s.value(kMode, static_cast<int>(Mode::LargeSongDetails)).toInt());
+  fit_width_ = s.value(kFitCoverWidth, false).toBool();
   s.endGroup();
 
   // Accept drops for setting album art
@@ -139,7 +142,7 @@ void PlayingWidget::Init(AlbumCoverChoiceController *album_cover_choice_controll
   above_statusbar_action_->setCheckable(true);
   Settings s;
   s.beginGroup(kSettingsGroup);
-  above_statusbar_action_->setChecked(s.value("above_status_bar", false).toBool());
+  above_statusbar_action_->setChecked(s.value(kAboveStatusBar, false).toBool());
   s.endGroup();
   QObject::connect(above_statusbar_action_, &QAction::toggled, this, &PlayingWidget::ShowAboveStatusBar);
 
@@ -229,7 +232,7 @@ void PlayingWidget::SetMode(const Mode mode) {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  s.setValue("mode", static_cast<int>(mode_));
+  s.setValue(kMode, static_cast<int>(mode_));
   s.endGroup();
 
 }
@@ -242,7 +245,7 @@ void PlayingWidget::FitCoverWidth(const bool fit) {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  s.setValue("fit_cover_width", fit_width_);
+  s.setValue(kFitCoverWidth, fit_width_);
   s.endGroup();
 
 }
@@ -251,7 +254,7 @@ void PlayingWidget::ShowAboveStatusBar(const bool above) {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  s.setValue("above_status_bar", above);
+  s.setValue(kAboveStatusBar, above);
   s.endGroup();
 
   Q_EMIT ShowAboveStatusBarChanged(above);

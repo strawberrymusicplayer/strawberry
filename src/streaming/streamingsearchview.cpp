@@ -87,6 +87,12 @@ using std::make_unique;
 using namespace Qt::Literals::StringLiterals;
 
 namespace {
+constexpr char kPrettyCovers[] = "pretty_covers";
+constexpr char kSearchType[] = "type";
+constexpr char kSearchGroupByVersion[] = "search_group_by_version";
+constexpr char kSearchGroupBy1[] = "search_group_by1";
+constexpr char kSearchGroupBy2[] = "search_group_by2";
+constexpr char kSearchGroupBy3[] = "search_group_by3";
 constexpr int kSwapModelsTimeoutMsec = 250;
 constexpr int kDelayedSearchTimeoutMs = 200;
 constexpr int kArtHeight = 32;
@@ -214,13 +220,13 @@ void StreamingSearchView::ReloadSettings() {
   // Collection settings
 
   s.beginGroup(service_->settings_group());
-  use_pretty_covers_ = s.value("pretty_covers", true).toBool();
+  use_pretty_covers_ = s.value(kPrettyCovers, true).toBool();
   front_model_->set_use_pretty_covers(use_pretty_covers_);
   back_model_->set_use_pretty_covers(use_pretty_covers_);
 
   // Streaming search settings
 
-  search_type_ = static_cast<StreamingService::SearchType>(s.value("type", static_cast<int>(StreamingService::SearchType::Artists)).toInt());
+  search_type_ = static_cast<StreamingService::SearchType>(s.value(kSearchType, static_cast<int>(StreamingService::SearchType::Artists)).toInt());
   switch (search_type_) {
     case StreamingService::SearchType::Artists:
       ui_->radiobutton_search_artists->setChecked(true);
@@ -233,12 +239,12 @@ void StreamingSearchView::ReloadSettings() {
       break;
   }
 
-  int group_by_version = s.value("search_group_by_version", 0).toInt();
-  if (group_by_version == 1 && s.contains("search_group_by1") && s.contains("search_group_by2") && s.contains("search_group_by3")) {
+  int group_by_version = s.value(kSearchGroupByVersion, 0).toInt();
+  if (group_by_version == 1 && s.contains(kSearchGroupBy1) && s.contains(kSearchGroupBy2) && s.contains(kSearchGroupBy3)) {
     SetGroupBy(CollectionModel::Grouping(
-        static_cast<CollectionModel::GroupBy>(s.value("search_group_by1", static_cast<int>(CollectionModel::GroupBy::AlbumArtist)).toInt()),
-        static_cast<CollectionModel::GroupBy>(s.value("search_group_by2", static_cast<int>(CollectionModel::GroupBy::AlbumDisc)).toInt()),
-        static_cast<CollectionModel::GroupBy>(s.value("search_group_by3", static_cast<int>(CollectionModel::GroupBy::None)).toInt())));
+        static_cast<CollectionModel::GroupBy>(s.value(kSearchGroupBy1, static_cast<int>(CollectionModel::GroupBy::AlbumArtist)).toInt()),
+        static_cast<CollectionModel::GroupBy>(s.value(kSearchGroupBy2, static_cast<int>(CollectionModel::GroupBy::AlbumDisc)).toInt()),
+        static_cast<CollectionModel::GroupBy>(s.value(kSearchGroupBy3, static_cast<int>(CollectionModel::GroupBy::None)).toInt())));
   }
   else {
     SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy::AlbumArtist, CollectionModel::GroupBy::AlbumDisc, CollectionModel::GroupBy::None));
@@ -246,7 +252,7 @@ void StreamingSearchView::ReloadSettings() {
   s.endGroup();
 
   s.beginGroup(AppearanceSettings::kSettingsGroup);
-  int iconsize = s.value(AppearanceSettings::kIconSizeConfigureButtons, 20).toInt();
+  int iconsize = s.value(AppearanceSettings::kIconSizeConfigureButtons, AppearanceSettings::kDefaultIconSizeConfigureButtons).toInt();
   s.endGroup();
 
   ui_->settings->setIconSize(QSize(iconsize, iconsize));
@@ -708,10 +714,10 @@ void StreamingSearchView::SetGroupBy(const CollectionModel::Grouping g) {
   // Save the setting
   Settings s;
   s.beginGroup(service_->settings_group());
-  s.setValue("search_group_by_version", 1);
-  s.setValue("search_group_by1", static_cast<int>(g.first));
-  s.setValue("search_group_by2", static_cast<int>(g.second));
-  s.setValue("search_group_by3", static_cast<int>(g.third));
+  s.setValue(kSearchGroupByVersion, 1);
+  s.setValue(kSearchGroupBy1, static_cast<int>(g.first));
+  s.setValue(kSearchGroupBy2, static_cast<int>(g.second));
+  s.setValue(kSearchGroupBy3, static_cast<int>(g.third));
   s.endGroup();
 
   // Make sure the correct action is checked.
@@ -751,7 +757,7 @@ void StreamingSearchView::SetSearchType(const StreamingService::SearchType type)
 
   Settings s;
   s.beginGroup(service_->settings_group());
-  s.setValue("type", static_cast<int>(search_type_));
+  s.setValue(kSearchType, static_cast<int>(search_type_));
   s.endGroup();
 
   TextEdited(ui_->search->text());

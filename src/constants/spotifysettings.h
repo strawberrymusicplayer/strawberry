@@ -38,6 +38,15 @@ constexpr char kRefreshToken[] = "refresh_token";
 constexpr char kExpiresIn[] = "expires_in";
 constexpr char kLoginTime[] = "login_time";
 
+constexpr bool kDefaultEnabled = false;
+constexpr int kDefaultSearchDelay = 1500;
+constexpr int kDefaultArtistsSearchLimit = 4;
+constexpr int kDefaultAlbumsSearchLimit = 10;
+constexpr int kDefaultSongsSearchLimit = 10;
+constexpr bool kDefaultFetchAlbums = false;
+constexpr bool kDefaultDownloadAlbumCovers = true;
+constexpr bool kDefaultRemoveRemastered = true;
+
 }  // namespace SpotifySettings
 
 #endif  // SPOTIFYSETTINGS_H

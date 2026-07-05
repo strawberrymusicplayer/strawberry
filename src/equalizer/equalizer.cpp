@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,6 +54,14 @@ using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kSettingsGroup[] = "Equalizer";
+constexpr char kPresets[] = "presets";
+constexpr char kName[] = "name";
+constexpr char kParams[] = "params";
+constexpr char kSelectedPreset[] = "selected_preset";
+constexpr char kEnabled[] = "enabled";
+constexpr char kEnableStereoBalancer[] = "enable_stereo_balancer";
+constexpr char kStereoBalance[] = "stereo_balance";
+constexpr char kCustom[] = "custom";
 const char *kGainText[] = { "60", "170", "310", "600", "1k", "3k", "6k", "12k", "14k", "16k" };
 }  // namespace
 
@@ -105,15 +114,14 @@ void Equalizer::ReloadSettings() {
   presets_.clear();
   ui_->preset->clear();
 
-  // Load presets
-  int count = s.beginReadArray("presets");
+  const int count = s.beginReadArray(kPresets);
   for (int i = 0; i < count; ++i) {
     s.setArrayIndex(i);
 #ifdef __GNUC__
 #  pragma GCC diagnostic push
 #  pragma GCC diagnostic ignored "-Warray-bounds"
 #endif
-    AddPreset(s.value("name").toString(), s.value("params").value<Equalizer::Params>());
+    AddPreset(s.value(kName).toString(), s.value(kParams).value<Equalizer::Params>());
 #ifdef __GNUC__
 #  pragma GCC diagnostic pop
 #endif
@@ -122,21 +130,19 @@ void Equalizer::ReloadSettings() {
 
   if (count == 0) LoadDefaultPresets();
 
-  // Selected preset
-  QString selected_preset = s.value("selected_preset", u"Custom"_s).toString();
-  QString selected_preset_display_name = tr(qUtf8Printable(selected_preset));
-  int selected_index = ui_->preset->findText(selected_preset_display_name);
+  const QString selected_preset = s.value(kSelectedPreset, QLatin1String(kCustom)).toString();
+  const QString selected_preset_display_name = tr(qUtf8Printable(selected_preset));
+  const int selected_index = ui_->preset->findText(selected_preset_display_name);
   if (selected_index != -1) ui_->preset->setCurrentIndex(selected_index);
 
-  // Enabled?
-  ui_->enable_equalizer->setChecked(s.value("enabled", false).toBool());
+  ui_->enable_equalizer->setChecked(s.value(kEnabled, false).toBool());
   ui_->slider_container->setEnabled(ui_->enable_equalizer->isChecked());
 
-  ui_->enable_stereo_balancer->setChecked(s.value("enable_stereo_balancer", false).toBool());
+  ui_->enable_stereo_balancer->setChecked(s.value(kEnableStereoBalancer, false).toBool());
   ui_->slider_label_layout->setEnabled(ui_->enable_stereo_balancer->isChecked());
   ui_->stereo_balance_slider->setEnabled(ui_->enable_stereo_balancer->isChecked());
 
-  int stereo_balance = s.value("stereo_balance", 0).toInt();
+  const int stereo_balance = s.value(kStereoBalance, 0).toInt();
   ui_->stereo_balance_slider->setValue(stereo_balance);
   StereoBalanceSliderChanged(stereo_balance);
 
@@ -174,10 +180,9 @@ void Equalizer::AddPreset(const QString &name, const Params &params) {
   presets_[name] = params;
 
   if (ui_->preset->findText(name_displayed) == -1) {
-    ui_->preset->addItem(name_displayed,  // name to display (translated)
-    QVariant(name)   // original name
-                         );
+    ui_->preset->addItem(name_displayed, QVariant(name));
   }
+
 }
 
 void Equalizer::PresetChanged(const int index) {
@@ -235,11 +240,7 @@ void Equalizer::DelPreset() {
   QString name_displayed = ui_->preset->currentText();
   if (!presets_.contains(name) || name.isEmpty()) return;
 
-  int ret = QMessageBox::question(
-      this, tr("Delete preset"),
-      tr("Are you sure you want to delete the \"%1\" preset?").arg(name_displayed),
-      QMessageBox::Yes, QMessageBox::No);
-
+  const int ret = QMessageBox::question( this, tr("Delete preset"), tr("Are you sure you want to delete the \"%1\" preset?").arg(name_displayed), QMessageBox::Yes, QMessageBox::No);
   if (ret == QMessageBox::No) return;
 
   presets_.remove(name);
@@ -337,24 +338,19 @@ void Equalizer::Save() {
   Settings s;
   s.beginGroup(kSettingsGroup);
 
-  // Presets
-  s.beginWriteArray("presets", static_cast<int>(presets_.count()));
+  s.beginWriteArray(kPresets, static_cast<int>(presets_.count()));
   int i = 0;
   for (auto it = presets_.cbegin(); it != presets_.cend(); ++it) {
     s.setArrayIndex(i++);
-    s.setValue("name", it.key());
-    s.setValue("params", QVariant::fromValue(it.value()));
+    s.setValue(kName, it.key());
+    s.setValue(kParams, QVariant::fromValue(it.value()));
   }
   s.endArray();
 
-  // Selected preset
-  s.setValue("selected_preset", ui_->preset->itemData(ui_->preset->currentIndex()).toString());
-
-  // Enabled?
-  s.setValue("enabled", ui_->enable_equalizer->isChecked());
-
-  s.setValue("enable_stereo_balancer", ui_->enable_stereo_balancer->isChecked());
-  s.setValue("stereo_balance", ui_->stereo_balance_slider->value());
+  s.setValue(kSelectedPreset, ui_->preset->itemData(ui_->preset->currentIndex()).toString());
+  s.setValue(kEnabled, ui_->enable_equalizer->isChecked());
+  s.setValue(kEnableStereoBalancer, ui_->enable_stereo_balancer->isChecked());
+  s.setValue(kStereoBalance, ui_->stereo_balance_slider->value());
 
 }
 
@@ -362,7 +358,7 @@ void Equalizer::closeEvent(QCloseEvent *e) {
 
   Q_UNUSED(e)
 
-  QString name = ui_->preset->itemData(ui_->preset->currentIndex()).toString();
+  const QString name = ui_->preset->itemData(ui_->preset->currentIndex()).toString();
   if (!presets_.contains(name)) return;
 
   if (presets_[name] == current_params()) return;
@@ -397,6 +393,7 @@ bool Equalizer::Params::operator==(const Equalizer::Params &other) const {
     if (gain[i] != other.gain[i]) return false;
   }
   return true;
+
 }
 
 bool Equalizer::Params::operator!=(const Equalizer::Params &other) const {

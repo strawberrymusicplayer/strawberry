@@ -26,6 +26,9 @@ namespace ContextSettings {
 
 constexpr char kSettingsGroup[] = "Context";
 
+constexpr char kSettingsTitleFmt[] = "TitleFmt";
+constexpr char kSettingsSummaryFmt[] = "SummaryFmt";
+
 constexpr char kAlbum[] = "AlbumEnable";
 constexpr char kTechnicalData[] = "TechnicalDataEnable";
 constexpr char kSongLyrics[] = "SongLyricsEnable";
@@ -37,8 +40,13 @@ constexpr char kFontNormal[] = "font_normal";
 constexpr char kFontSizeHeadline[] = "font_size_headline";
 constexpr char kFontSizeNormal[] = "font_size_normal";
 
-constexpr char kSettingsTitleFmt[] = "TitleFmt";
-constexpr char kSettingsSummaryFmt[] = "SummaryFmt";
+constexpr char kDefaultTitleFmt[] = "%title% - %artist%";
+constexpr char kDefaultSummaryFmt[] = "%album%";
+
+constexpr bool kDefaultAlbum = true;
+constexpr bool kDefaultTechnicalData = false;
+constexpr bool kDefaultSongLyrics = true;
+constexpr bool kDefaultSearchLyrics = true;
 
 constexpr char kDefaultFontFamily[] = "Noto Sans";
 constexpr qreal kDefaultFontSizeHeadline = 11;

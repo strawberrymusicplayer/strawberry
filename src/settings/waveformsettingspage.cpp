@@ -59,7 +59,7 @@ void WaveformSettingsPage::Load() {
   Settings s;
   s.beginGroup(kSettingsGroup);
   current_waveform_color_ = s.value(kColor).value<QColor>();
-  ui_->waveform_save->setChecked(s.value(kSave, false).toBool());
+  ui_->waveform_save->setChecked(s.value(kSave, kDefaultSave).toBool());
   s.endGroup();
 
   if (current_waveform_color_.isValid()) {

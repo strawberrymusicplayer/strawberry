@@ -273,7 +273,7 @@ void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
   }
 
   s.beginGroup(PlaylistSettings::kSettingsGroup);
-  PlaylistSettings::PathType path_type = static_cast<PlaylistSettings::PathType>(s.value(PlaylistSettings::kPathType, static_cast<int>(PlaylistSettings::PathType::Automatic)).toInt());
+  PlaylistSettings::PathType path_type = static_cast<PlaylistSettings::PathType>(s.value(PlaylistSettings::kPathType, static_cast<int>(PlaylistSettings::kDefaultPathType)).toInt());
   s.endGroup();
   if (path_type == PlaylistSettings::PathType::Ask_User) {
     PlaylistSaveOptionsDialog optionsdialog;
@@ -603,7 +603,7 @@ void PlaylistManager::SaveAllPlaylists() {
 
   Settings s;
   s.beginGroup(PlaylistSettings::kSettingsGroup);
-  PlaylistSettings::PathType path_type = static_cast<PlaylistSettings::PathType>(s.value(PlaylistSettings::kPathType, static_cast<int>(PlaylistSettings::PathType::Automatic)).toInt());
+  PlaylistSettings::PathType path_type = static_cast<PlaylistSettings::PathType>(s.value(PlaylistSettings::kPathType, static_cast<int>(PlaylistSettings::kDefaultPathType)).toInt());
   s.endGroup();
   if (path_type == PlaylistSettings::PathType::Ask_User) {
     PlaylistSaveOptionsDialog optionsdialog;

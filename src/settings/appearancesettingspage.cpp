@@ -134,13 +134,13 @@ void AppearanceSettingsPage::Load() {
   ComboBoxLoadFromSettings(s, ui_->combobox_style, QLatin1String(kStyle), u"default"_s);
 
 #if !defined(Q_OS_MACOS) && !defined(Q_OS_WIN32)
-  ui_->checkbox_system_icons->setChecked(s.value(kSystemThemeIcons, false).toBool());
+  ui_->checkbox_system_icons->setChecked(s.value(kSystemThemeIcons, kDefaultSystemThemeIcons).toBool());
 #endif
 
   const QPalette p = QApplication::palette();
 
   // Keep in mind originals colors, in case the user clicks on Cancel, to be able to restore colors
-  original_use_custom_color_set_ = s.value(kUseCustomColorSet, false).toBool();
+  original_use_custom_color_set_ = s.value(kUseCustomColorSet, kDefaultUseCustomColorSet).toBool();
 
   current_colors_.clear();
   for (const Appearance::ColorRole &color_role : Appearance::ColorRoles()) {
@@ -157,8 +157,8 @@ void AppearanceSettingsPage::Load() {
   UpdateColorSelectorsColors();
 
   // Tab widget BG color settings.
-  bool tabbar_system_color = s.value(kTabBarSystemColor, true).toBool();
-  ui_->tabbar_gradient->setChecked(s.value(kTabBarGradient, true).toBool());
+  bool tabbar_system_color = s.value(kTabBarSystemColor, kDefaultTabBarSystemColor).toBool();
+  ui_->tabbar_gradient->setChecked(s.value(kTabBarGradient, kDefaultTabBarGradient).toBool());
   ui_->tabbar_system_color->setChecked(tabbar_system_color);
   ui_->tabbar_custom_color->setChecked(!tabbar_system_color);
 
@@ -168,7 +168,7 @@ void AppearanceSettingsPage::Load() {
   TabBarSystemColor(ui_->tabbar_system_color->isChecked());
 
   // Playlist settings
-  background_image_type_ = static_cast<BackgroundImageType>(s.value(kBackgroundImageType, static_cast<int>(BackgroundImageType::Default)).toInt());
+  background_image_type_ = static_cast<BackgroundImageType>(s.value(kBackgroundImageType, static_cast<int>(kDefaultBackgroundImageType)).toInt());
   background_image_filename_ = s.value(kBackgroundImageFilename).toString();
 
   ui_->use_system_color_set->setChecked(!original_use_custom_color_set_);
@@ -194,23 +194,23 @@ void AppearanceSettingsPage::Load() {
   }
   ui_->background_image_filename->setText(background_image_filename_);
 
-  ui_->combobox_backgroundimageposition->setCurrentIndex(ui_->combobox_backgroundimageposition->findData(s.value(kBackgroundImagePosition, static_cast<int>(BackgroundImagePosition::BottomRight)).toInt()));
-  ui_->spinbox_background_image_maxsize->setValue(s.value(kBackgroundImageMaxSize, 0).toInt());
-  ui_->checkbox_background_image_stretch->setChecked(s.value(kBackgroundImageStretch, false).toBool());
-  ui_->checkbox_background_image_do_not_cut->setChecked(s.value(kBackgroundImageDoNotCut, true).toBool());
-  ui_->checkbox_background_image_keep_aspect_ratio->setChecked(s.value(kBackgroundImageKeepAspectRatio, true).toBool());
+  ui_->combobox_backgroundimageposition->setCurrentIndex(ui_->combobox_backgroundimageposition->findData(s.value(kBackgroundImagePosition, static_cast<int>(kDefaultBackgroundImagePosition)).toInt()));
+  ui_->spinbox_background_image_maxsize->setValue(s.value(kBackgroundImageMaxSize, kDefaultBackgroundImageMaxSize).toInt());
+  ui_->checkbox_background_image_stretch->setChecked(s.value(kBackgroundImageStretch, kDefaultBackgroundImageStretch).toBool());
+  ui_->checkbox_background_image_do_not_cut->setChecked(s.value(kBackgroundImageDoNotCut, kDefaultBackgroundImageDoNotCut).toBool());
+  ui_->checkbox_background_image_keep_aspect_ratio->setChecked(s.value(kBackgroundImageKeepAspectRatio, kDefaultBackgroundImageKeepAspectRatio).toBool());
   ui_->blur_slider->setValue(s.value(kBlurRadius, kDefaultBlurRadius).toInt());
   ui_->opacity_slider->setValue(s.value(kOpacityLevel, kDefaultOpacityLevel).toInt());
 
   ui_->checkbox_background_image_keep_aspect_ratio->setEnabled(ui_->checkbox_background_image_stretch->isChecked());
   ui_->checkbox_background_image_do_not_cut->setEnabled(ui_->checkbox_background_image_stretch->isChecked() && ui_->checkbox_background_image_keep_aspect_ratio->isChecked());
 
-  ui_->spinbox_icon_size_tabbar_small_mode->setValue(s.value(kIconSizeTabbarSmallMode, 32).toInt());
-  ui_->spinbox_icon_size_tabbar_large_mode->setValue(s.value(kIconSizeTabbarLargeMode, 40).toInt());
-  ui_->spinbox_icon_size_play_control_buttons->setValue(s.value(kIconSizePlayControlButtons, 32).toInt());
-  ui_->spinbox_icon_size_playlist_buttons->setValue(s.value(kIconSizePlaylistButtons, 20).toInt());
-  ui_->spinbox_icon_size_left_panel_buttons->setValue(s.value(kIconSizeLeftPanelButtons, 22).toInt());
-  ui_->spinbox_icon_size_configure_buttons->setValue(s.value(kIconSizeConfigureButtons, 16).toInt());
+  ui_->spinbox_icon_size_tabbar_small_mode->setValue(s.value(kIconSizeTabbarSmallMode, kDefaultIconSizeTabbarSmallMode).toInt());
+  ui_->spinbox_icon_size_tabbar_large_mode->setValue(s.value(kIconSizeTabbarLargeMode, kDefaultIconSizeTabbarLargeMode).toInt());
+  ui_->spinbox_icon_size_play_control_buttons->setValue(s.value(kIconSizePlayControlButtons, kDefaultIconSizePlayControlButtons).toInt());
+  ui_->spinbox_icon_size_playlist_buttons->setValue(s.value(kIconSizePlaylistButtons, kDefaultIconSizePlaylistButtons).toInt());
+  ui_->spinbox_icon_size_left_panel_buttons->setValue(s.value(kIconSizeLeftPanelButtons, kDefaultIconSizeLeftPanelButtons).toInt());
+  ui_->spinbox_icon_size_configure_buttons->setValue(s.value(kIconSizeConfigureButtons, kDefaultIconSizeConfigureButtons).toInt());
 
   current_playlist_playing_song_color_ = s.value(kPlaylistPlayingSongColor).value<QColor>();
   if (current_playlist_playing_song_color_.isValid()) {
@@ -236,7 +236,7 @@ void AppearanceSettingsPage::Save() {
   Settings s;
   s.beginGroup(kSettingsGroup);
 
-  s.setValue("style", ui_->combobox_style->currentText());
+  s.setValue(kStyle, ui_->combobox_style->currentText());
 
 #if defined(Q_OS_MACOS) || defined(Q_OS_WIN32)
   s.setValue(kSystemThemeIcons, false);

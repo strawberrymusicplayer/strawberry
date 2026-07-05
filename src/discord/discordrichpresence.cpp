@@ -69,8 +69,8 @@ void DiscordRichPresence::ReloadSettings() {
 
   Settings s;
   s.beginGroup(DiscordRPCSettings::kSettingsGroup);
-  const bool enabled = s.value(DiscordRPCSettings::kEnabled, false).toBool();
-  status_display_type_ = s.value(DiscordRPCSettings::kStatusDisplayType, static_cast<int>(DiscordRPCSettings::StatusDisplayType::App)).toInt();
+  const bool enabled = s.value(DiscordRPCSettings::kEnabled, DiscordRPCSettings::kDefaultEnabled).toBool();
+  status_display_type_ = s.value(DiscordRPCSettings::kStatusDisplayType, static_cast<int>(DiscordRPCSettings::kDefaultStatusDisplayType)).toInt();
   s.endGroup();
 
   if (enabled && !discord_rpc_) {

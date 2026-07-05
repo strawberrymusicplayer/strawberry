@@ -44,6 +44,7 @@
 #include <QSettings>
 
 #include "includes/shared_ptr.h"
+#include "constants/playlistsettings.h"
 #include "core/logging.h"
 #include "core/iconloader.h"
 #include "core/mimedata.h"
@@ -57,7 +58,6 @@
 using namespace Qt::Literals::StringLiterals;
 
 namespace {
-constexpr char kSettingsGroup[] = "PlaylistTabBar";
 constexpr int kDragHoverTimeout = 500;
 }  // namespace
 
@@ -223,9 +223,9 @@ void PlaylistTabBar::CloseSlot() {
   const int playlist_id = tabData(menu_index_).toInt();
 
   Settings s;
-  s.beginGroup(kSettingsGroup);
+  s.beginGroup(PlaylistSettings::kSettingsGroup);
 
-  const bool ask_for_delete = s.value("warn_close_playlist", true).toBool();
+  const bool ask_for_delete = s.value(PlaylistSettings::kWarnClosePlaylist, PlaylistSettings::kDefaultWarnClosePlaylist).toBool();
 
   if (ask_for_delete && !manager_->IsPlaylistFavorite(playlist_id) && !manager_->playlist(playlist_id)->GetAllSongs().empty()) {
     QMessageBox confirmation_box;
@@ -263,7 +263,7 @@ void PlaylistTabBar::CloseSlot() {
 
     // If user changed the pref, save the new one
     if (dont_prompt_again.isChecked() != ask_for_delete) {
-      s.setValue("warn_close_playlist", dont_prompt_again.isChecked());
+      s.setValue(PlaylistSettings::kWarnClosePlaylist, dont_prompt_again.isChecked());
     }
   }
 

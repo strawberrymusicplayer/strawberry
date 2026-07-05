@@ -84,18 +84,18 @@ void QobuzSettingsPage::Load() {
   if (!s.contains(kSettingsGroup)) set_changed();
 
   s.beginGroup(kSettingsGroup);
-  ui_->enable->setChecked(s.value(kEnabled, false).toBool());
+  ui_->enable->setChecked(s.value(kEnabled, kDefaultEnabled).toBool());
   ui_->app_id->setText(s.value(kAppId).toString());
   ui_->app_secret->setText(s.value(kAppSecret).toString());
   ui_->private_key->setText(s.value(kPrivateKey).toString());
 
-  ComboBoxLoadFromSettings(s, ui_->format, QLatin1String(kFormat), 27);
-  ui_->searchdelay->setValue(s.value(kSearchDelay, 1500).toInt());
-  ui_->artistssearchlimit->setValue(s.value(kArtistsSearchLimit, 4).toInt());
-  ui_->albumssearchlimit->setValue(s.value(kAlbumsSearchLimit, 10).toInt());
-  ui_->songssearchlimit->setValue(s.value(kSongsSearchLimit, 10).toInt());
-  ui_->checkbox_download_album_covers->setChecked(s.value(kDownloadAlbumCovers, true).toBool());
-  ui_->checkbox_remove_remastered->setChecked(s.value(kRemoveRemastered, true).toBool());
+  ComboBoxLoadFromSettings(s, ui_->format, QLatin1String(kFormat), kDefaultFormat);
+  ui_->searchdelay->setValue(s.value(kSearchDelay, kDefaultSearchDelay).toInt());
+  ui_->artistssearchlimit->setValue(s.value(kArtistsSearchLimit, kDefaultArtistsSearchLimit).toInt());
+  ui_->albumssearchlimit->setValue(s.value(kAlbumsSearchLimit, kDefaultAlbumsSearchLimit).toInt());
+  ui_->songssearchlimit->setValue(s.value(kSongsSearchLimit, kDefaultSongsSearchLimit).toInt());
+  ui_->checkbox_download_album_covers->setChecked(s.value(kDownloadAlbumCovers, kDefaultDownloadAlbumCovers).toBool());
+  ui_->checkbox_remove_remastered->setChecked(s.value(kRemoveRemastered, kDefaultRemoveRemastered).toBool());
 
   s.endGroup();
 

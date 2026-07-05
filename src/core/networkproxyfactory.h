@@ -31,17 +31,11 @@
 #include <QNetworkProxy>
 #include <QNetworkProxyFactory>
 
+#include "constants/networkproxysettings.h"
+
 class NetworkProxyFactory : public QNetworkProxyFactory {
  public:
-  // These values are persisted
-  enum class Mode {
-    System = 0,
-    Direct = 1,
-    Manual = 2
-  };
-
   static NetworkProxyFactory *Instance();
-  static const char *kSettingsGroup;
 
   // These methods are thread-safe
   void ReloadSettings();
@@ -54,7 +48,7 @@ class NetworkProxyFactory : public QNetworkProxyFactory {
 
   QMutex mutex_;
 
-  Mode mode_;
+  NetworkProxySettings::Mode mode_;
   QNetworkProxy::ProxyType type_;
   QString hostname_;
   quint64 port_;

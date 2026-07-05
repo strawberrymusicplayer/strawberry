@@ -147,27 +147,27 @@ void BehaviourSettingsPage::Load() {
 
 #ifdef Q_OS_MACOS
   ui_->checkbox_keeprunning->setEnabled(true);
-  ui_->checkbox_keeprunning->setChecked(s.value(kKeepRunning, false).toBool());
+  ui_->checkbox_keeprunning->setChecked(s.value(kKeepRunning, kDefaultKeepRunning).toBool());
 #else
   const bool systemtray_available = QSystemTrayIcon::isSystemTrayAvailable();
   ui_->checkbox_showtrayicon->setEnabled(systemtray_available);
-  ui_->checkbox_showtrayicon->setChecked(systemtray_available && s.value(kShowTrayIcon, true).toBool());
+  ui_->checkbox_showtrayicon->setChecked(systemtray_available && s.value(kShowTrayIcon, kDefaultShowTrayIcon).toBool());
   ui_->checkbox_keeprunning->setEnabled(systemtray_available && ui_->checkbox_showtrayicon->isChecked());
-  ui_->checkbox_keeprunning->setChecked(s.value(kKeepRunning, false).toBool());
+  ui_->checkbox_keeprunning->setChecked(s.value(kKeepRunning, kDefaultKeepRunning).toBool());
   ui_->checkbox_trayicon_progress->setEnabled(systemtray_available && ui_->checkbox_showtrayicon->isChecked());
-  ui_->checkbox_trayicon_progress->setChecked(systemtray_available && ui_->checkbox_showtrayicon->isChecked() && s.value(kTrayIconProgress, false).toBool());
+  ui_->checkbox_trayicon_progress->setChecked(systemtray_available && ui_->checkbox_showtrayicon->isChecked() && s.value(kTrayIconProgress, kDefaultTrayIconProgress).toBool());
   ui_->radiobutton_hide->setEnabled(systemtray_available && ui_->checkbox_showtrayicon->isChecked());
 #endif
 
 #if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
-  ui_->checkbox_taskbar_progress->setChecked(s.value(kTaskbarProgress, true).toBool());
+  ui_->checkbox_taskbar_progress->setChecked(s.value(kTaskbarProgress, kDefaultTaskbarProgress).toBool());
 #endif
 
-  ui_->checkbox_resumeplayback->setChecked(s.value(kResumePlayback, false).toBool());
-  ui_->checkbox_playingwidget->setChecked(s.value(kPlayingWidget, true).toBool());
+  ui_->checkbox_resumeplayback->setChecked(s.value(kResumePlayback, kDefaultResumePlayback).toBool());
+  ui_->checkbox_playingwidget->setChecked(s.value(kPlayingWidget, kDefaultPlayingWidget).toBool());
 
 #ifndef Q_OS_MACOS
-  const StartupBehaviour startup_behaviour = static_cast<StartupBehaviour>(s.value(kStartupBehaviour, static_cast<int>(StartupBehaviour::Remember)).toInt());
+  const StartupBehaviour startup_behaviour = static_cast<StartupBehaviour>(s.value(kStartupBehaviour, static_cast<int>(kDefaultStartupBehaviour)).toInt());
   switch (startup_behaviour) {
     case StartupBehaviour::Show:
       ui_->radiobutton_show->setChecked(true);
@@ -199,19 +199,19 @@ void BehaviourSettingsPage::Load() {
     ui_->combobox_language->setCurrentIndex(ui_->combobox_language->findText(name));
   }
 
-  ui_->combobox_menuplaymode->setCurrentIndex(ui_->combobox_menuplaymode->findData(s.value(kMenuPlayMode, static_cast<int>(PlayBehaviour::Never)).toInt()));
+  ui_->combobox_menuplaymode->setCurrentIndex(ui_->combobox_menuplaymode->findData(s.value(kMenuPlayMode, static_cast<int>(kDefaultMenuPlayMode)).toInt()));
 
-  ui_->combobox_previousmode->setCurrentIndex(ui_->combobox_previousmode->findData(s.value(kMenuPreviousMode, static_cast<int>(PreviousBehaviour::DontRestart)).toInt()));
+  ui_->combobox_previousmode->setCurrentIndex(ui_->combobox_previousmode->findData(s.value(kMenuPreviousMode, static_cast<int>(kDefaultMenuPreviousMode)).toInt()));
 
-  ui_->combobox_doubleclickaddmode->setCurrentIndex(ui_->combobox_doubleclickaddmode->findData(s.value(kDoubleClickAddMode, static_cast<int>(AddBehaviour::Append)).toInt()));
+  ui_->combobox_doubleclickaddmode->setCurrentIndex(ui_->combobox_doubleclickaddmode->findData(s.value(kDoubleClickAddMode, static_cast<int>(kDefaultDoubleClickAddMode)).toInt()));
 
-  ui_->combobox_doubleclickplaymode->setCurrentIndex(ui_->combobox_doubleclickplaymode->findData(s.value(kDoubleClickPlayMode, static_cast<int>(PlayBehaviour::Never)).toInt()));
+  ui_->combobox_doubleclickplaymode->setCurrentIndex(ui_->combobox_doubleclickplaymode->findData(s.value(kDoubleClickPlayMode, static_cast<int>(kDefaultDoubleClickPlayMode)).toInt()));
 
-  ui_->combobox_doubleclickplaylistaddmode->setCurrentIndex(ui_->combobox_doubleclickplaylistaddmode->findData(s.value(kDoubleClickPlaylistAddMode, static_cast<int>(PlaylistAddBehaviour::Play)).toInt()));
+  ui_->combobox_doubleclickplaylistaddmode->setCurrentIndex(ui_->combobox_doubleclickplaylistaddmode->findData(s.value(kDoubleClickPlaylistAddMode, static_cast<int>(kDefaultDoubleClickPlaylistAddMode)).toInt()));
 
-  ui_->spinbox_seekstepsec->setValue(s.value(kSeekStepSec, 10).toInt());
+  ui_->spinbox_seekstepsec->setValue(s.value(kSeekStepSec, kDefaultSeekStepSec).toInt());
 
-  ui_->spinbox_volumeincrement->setValue(s.value(kVolumeIncrement, 5).toInt());
+  ui_->spinbox_volumeincrement->setValue(s.value(kVolumeIncrement, kDefaultVolumeIncrement).toInt());
 
   s.endGroup();
 

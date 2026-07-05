@@ -72,8 +72,8 @@ void MoodbarSettingsPage::Load() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  ui_->moodbar_style->setCurrentIndex(s.value(kStyle, 0).toInt());
-  ui_->moodbar_save->setChecked(s.value(kSave, false).toBool());
+  ui_->moodbar_style->setCurrentIndex(s.value(kStyle, static_cast<int>(kDefaultStyle)).toInt());
+  ui_->moodbar_save->setChecked(s.value(kSave, kDefaultSave).toBool());
   s.endGroup();
 
   InitMoodbarPreviews();

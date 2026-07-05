@@ -50,7 +50,7 @@ void MoodbarController::ReloadSettings() {
 
   Settings s;
   s.beginGroup(SeekbarSettings::kSettingsGroup);
-  const bool enabled = static_cast<SeekbarSettings::Mode>(s.value(QLatin1String(SeekbarSettings::kMode), static_cast<int>(SeekbarSettings::Mode::Normal)).toInt()) == SeekbarSettings::Mode::Moodbar;
+  const bool enabled = static_cast<SeekbarSettings::Mode>(s.value(QLatin1String(SeekbarSettings::kMode), static_cast<int>(SeekbarSettings::kDefaultMode)).toInt()) == SeekbarSettings::Mode::Moodbar;
   s.endGroup();
 
   const bool was_enabled = enabled_;

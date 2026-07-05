@@ -34,6 +34,11 @@
 
 namespace {
 constexpr char kSettingsGroup[] = "Transcoder/faac";
+constexpr char kBitrate[] = "bitrate";
+constexpr char kProfile[] = "profile";
+constexpr char kTns[] = "tns";
+constexpr char kMidside[] = "midside";
+constexpr char kShortctl[] = "shortctl";
 }
 
 TranscoderOptionsAAC::TranscoderOptionsAAC(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsAAC) {
@@ -48,11 +53,11 @@ void TranscoderOptionsAAC::Load() {
 
   Settings s;
   s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
-  ui_->bitrate_slider->setValue(s.value("bitrate", 320000).toInt() / 1000);
-  ui_->profile->setCurrentIndex(s.value("profile", 2).toInt() - 1);
-  ui_->tns->setChecked(s.value("tns", false).toBool());
-  ui_->midside->setChecked(s.value("midside", true).toBool());
-  ui_->shortctl->setCurrentIndex(s.value("shortctl", 0).toInt());
+  ui_->bitrate_slider->setValue(s.value(kBitrate, 320000).toInt() / 1000);
+  ui_->profile->setCurrentIndex(s.value(kProfile, 2).toInt() - 1);
+  ui_->tns->setChecked(s.value(kTns, false).toBool());
+  ui_->midside->setChecked(s.value(kMidside, true).toBool());
+  ui_->shortctl->setCurrentIndex(s.value(kShortctl, 0).toInt());
   s.endGroup();
 
 }
@@ -61,11 +66,11 @@ void TranscoderOptionsAAC::Save() {
 
   Settings s;
   s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
-  s.setValue("bitrate", ui_->bitrate_slider->value() * 1000);
-  s.setValue("profile", ui_->profile->currentIndex() + 1);
-  s.setValue("tns", ui_->tns->isChecked());
-  s.setValue("midside", ui_->midside->isChecked());
-  s.setValue("shortctl", ui_->shortctl->currentIndex());
+  s.setValue(kBitrate, ui_->bitrate_slider->value() * 1000);
+  s.setValue(kProfile, ui_->profile->currentIndex() + 1);
+  s.setValue(kTns, ui_->tns->isChecked());
+  s.setValue(kMidside, ui_->midside->isChecked());
+  s.setValue(kShortctl, ui_->shortctl->currentIndex());
   s.endGroup();
 
 }

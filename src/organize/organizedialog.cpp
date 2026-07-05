@@ -80,6 +80,17 @@ using namespace Qt::Literals::StringLiterals;
 namespace {
 constexpr char kSettingsGroup[] = "OrganizeDialog";
 constexpr char kDefaultFormat[] = "%albumartist/%album{ (Disc %disc)}/{%track - }{%albumartist - }%album{ (Disc %disc)} - %title.%extension";
+constexpr char kGeometry[] = "geometry";
+constexpr char kFormat[] = "format";
+constexpr char kRemoveProblematic[] = "remove_problematic";
+constexpr char kRemoveNonFat[] = "remove_non_fat";
+constexpr char kRemoveNonAscii[] = "remove_non_ascii";
+constexpr char kAllowAsciiExt[] = "allow_ascii_ext";
+constexpr char kReplaceSpaces[] = "replace_spaces";
+constexpr char kOverwrite[] = "overwrite";
+constexpr char kAlbumCover[] = "albumcover";
+constexpr char kEjectAfter[] = "eject_after";
+constexpr char kDestination[] = "destination";
 }  // namespace
 
 OrganizeDialog::OrganizeDialog(const SharedPtr<TaskManager> task_manager,
@@ -228,8 +239,8 @@ void OrganizeDialog::LoadGeometry() {
   else {
     Settings s;
     s.beginGroup(kSettingsGroup);
-    if (s.contains("geometry")) {
-      restoreGeometry(s.value("geometry").toByteArray());
+    if (s.contains(kGeometry)) {
+      restoreGeometry(s.value(kGeometry).toByteArray());
     }
     s.endGroup();
   }
@@ -246,7 +257,7 @@ void OrganizeDialog::SaveGeometry() {
   if (parentwindow_) {
     Settings s;
     s.beginGroup(kSettingsGroup);
-    s.setValue("geometry", saveGeometry());
+    s.setValue(kGeometry, saveGeometry());
     s.endGroup();
   }
 
@@ -299,17 +310,17 @@ void OrganizeDialog::LoadSettings() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  ui_->naming->setPlainText(s.value("format", QLatin1String(kDefaultFormat)).toString());
-  ui_->remove_problematic->setChecked(s.value("remove_problematic", true).toBool());
-  ui_->remove_non_fat->setChecked(s.value("remove_non_fat", false).toBool());
-  ui_->remove_non_ascii->setChecked(s.value("remove_non_ascii", false).toBool());
-  ui_->allow_ascii_ext->setChecked(s.value("allow_ascii_ext", false).toBool());
-  ui_->replace_spaces->setChecked(s.value("replace_spaces", true).toBool());
-  ui_->overwrite->setChecked(s.value("overwrite", false).toBool());
-  ui_->albumcover->setChecked(s.value("albumcover", true).toBool());
-  ui_->eject_after->setChecked(s.value("eject_after", false).toBool());
+  ui_->naming->setPlainText(s.value(kFormat, QLatin1String(kDefaultFormat)).toString());
+  ui_->remove_problematic->setChecked(s.value(kRemoveProblematic, true).toBool());
+  ui_->remove_non_fat->setChecked(s.value(kRemoveNonFat, false).toBool());
+  ui_->remove_non_ascii->setChecked(s.value(kRemoveNonAscii, false).toBool());
+  ui_->allow_ascii_ext->setChecked(s.value(kAllowAsciiExt, false).toBool());
+  ui_->replace_spaces->setChecked(s.value(kReplaceSpaces, true).toBool());
+  ui_->overwrite->setChecked(s.value(kOverwrite, false).toBool());
+  ui_->albumcover->setChecked(s.value(kAlbumCover, true).toBool());
+  ui_->eject_after->setChecked(s.value(kEjectAfter, false).toBool());
 
-  QString destination = s.value("destination").toString();
+  QString destination = s.value(kDestination).toString();
   int index = ui_->destination->findText(destination);
   if (index != -1 && !destination.isEmpty()) {
     ui_->destination->setCurrentIndex(index);
@@ -325,16 +336,16 @@ void OrganizeDialog::SaveSettings() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  s.setValue("format", ui_->naming->toPlainText());
-  s.setValue("remove_problematic", ui_->remove_problematic->isChecked());
-  s.setValue("remove_non_fat", ui_->remove_non_fat->isChecked());
-  s.setValue("remove_non_ascii", ui_->remove_non_ascii->isChecked());
-  s.setValue("allow_ascii_ext", ui_->allow_ascii_ext->isChecked());
-  s.setValue("replace_spaces", ui_->replace_spaces->isChecked());
-  s.setValue("overwrite", ui_->overwrite->isChecked());
-  s.setValue("albumcover", ui_->albumcover->isChecked());
-  s.setValue("destination", ui_->destination->currentText());
-  s.setValue("eject_after", ui_->eject_after->isChecked());
+  s.setValue(kFormat, ui_->naming->toPlainText());
+  s.setValue(kRemoveProblematic, ui_->remove_problematic->isChecked());
+  s.setValue(kRemoveNonFat, ui_->remove_non_fat->isChecked());
+  s.setValue(kRemoveNonAscii, ui_->remove_non_ascii->isChecked());
+  s.setValue(kAllowAsciiExt, ui_->allow_ascii_ext->isChecked());
+  s.setValue(kReplaceSpaces, ui_->replace_spaces->isChecked());
+  s.setValue(kOverwrite, ui_->overwrite->isChecked());
+  s.setValue(kAlbumCover, ui_->albumcover->isChecked());
+  s.setValue(kDestination, ui_->destination->currentText());
+  s.setValue(kEjectAfter, ui_->eject_after->isChecked());
   s.endGroup();
 
 }

@@ -36,6 +36,9 @@ enum class Style {
 constexpr char kStyle[] = "style";
 constexpr char kSave[] = "save";
 
+constexpr Style kDefaultStyle = Style::Normal;
+constexpr bool kDefaultSave = false;
+
 }  // namespace MoodbarSettings
 
 #endif  // MOODBARSETTINGS_H

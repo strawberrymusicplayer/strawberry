@@ -58,6 +58,7 @@ using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kMainWindowSettingsGroup[] = "MainWindow";
+constexpr char kShowRemainingTime[] = "show_remaining_time";
 }
 
 TrackSlider::TrackSlider(QWidget *parent)
@@ -93,7 +94,7 @@ TrackSlider::TrackSlider(QWidget *parent)
 
   Settings s;
   s.beginGroup(kMainWindowSettingsGroup);
-  show_remaining_time_ = s.value("show_remaining_time").toBool();
+  show_remaining_time_ = s.value(kShowRemainingTime).toBool();
   s.endGroup();
 
   QObject::connect(ui_->slider, &TrackSliderSlider::sliderMoved, this, &TrackSlider::ValueChanged);
@@ -208,7 +209,7 @@ TrackSlider::SeekbarMode TrackSlider::LoadSeekbarMode() {
 
   Settings s;
   s.beginGroup(SeekbarSettings::kSettingsGroup);
-  const SeekbarMode seekbar_mode = static_cast<SeekbarMode>(s.value(QLatin1String(SeekbarSettings::kMode), static_cast<int>(SeekbarMode::Normal)).toInt());
+  const SeekbarMode seekbar_mode = static_cast<SeekbarMode>(s.value(QLatin1String(SeekbarSettings::kMode), static_cast<int>(SeekbarSettings::kDefaultMode)).toInt());
   s.endGroup();
 
   switch (seekbar_mode) {
@@ -456,7 +457,7 @@ void TrackSlider::ToggleTimeDisplay() {
 
   Settings s;
   s.beginGroup(kMainWindowSettingsGroup);
-  s.setValue("show_remaining_time", show_remaining_time_);
+  s.setValue(kShowRemainingTime, show_remaining_time_);
   s.endGroup();
 
 }
