@@ -21,7 +21,7 @@
 
 #include <memory>
 
-#include <QtConcurrent>
+#include <QtConcurrentRun>
 #include <QFuture>
 #include <QFutureWatcher>
 #include <QByteArray>

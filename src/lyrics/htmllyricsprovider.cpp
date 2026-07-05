@@ -19,7 +19,7 @@
 
 #include "config.h"
 
-#include <QtConcurrent>
+#include <QtConcurrentRun>
 #include <QFuture>
 #include <QFutureWatcher>
 #include <QByteArray>
