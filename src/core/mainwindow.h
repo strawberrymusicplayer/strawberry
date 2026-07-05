@@ -62,6 +62,7 @@
 #include "covermanager/albumcoverimageresult.h"
 
 class About;
+class Appearance;
 class Console;
 class AlbumCoverManager;
 class Application;
@@ -316,6 +317,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 #endif
 
   Application *app_;
+  SharedPtr<Appearance> appearance_;
   SharedPtr<SystemTrayIcon> systemtrayicon_;
   OSDBase *osd_;
 #ifdef HAVE_DISCORD_RPC

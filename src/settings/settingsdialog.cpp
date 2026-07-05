@@ -49,6 +49,7 @@
 
 #include "core/settings.h"
 #include "core/player.h"
+#include "core/appearance.h"
 #include "utilities/screenutils.h"
 #include "widgets/groupediconview.h"
 #include "collection/collectionlibrary.h"
@@ -111,6 +112,7 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
                                const SharedPtr<LyricsProviders> lyrics_providers,
                                const SharedPtr<AudioScrobbler> scrobbler,
                                const SharedPtr<StreamingServices> streaming_services,
+                               const SharedPtr<Appearance> appearance,
 #ifdef HAVE_GLOBALSHORTCUTS
                                GlobalShortcutsManager *global_shortcuts_manager,
 #endif
@@ -137,7 +139,7 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
   AddPage(Page::Proxy, new NetworkProxySettingsPage(this, this), general);
 
   QTreeWidgetItem *iface = AddCategory(tr("User interface"));
-  AddPage(Page::Appearance, new AppearanceSettingsPage(this, this), iface);
+  AddPage(Page::Appearance, new AppearanceSettingsPage(this, appearance, this), iface);
   AddPage(Page::Context, new ContextSettingsPage(this, this), iface);
   AddPage(Page::Notifications, new NotificationsSettingsPage(this, osd, this), iface);
 

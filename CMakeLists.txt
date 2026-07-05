@@ -478,6 +478,7 @@ set(SOURCES
   src/core/httpbaserequest.cpp
   src/core/jsonbaserequest.cpp
   src/core/oauthenticator.cpp
+  src/core/appearance.cpp
 
   src/utilities/strutils.cpp
   src/utilities/envutils.cpp
@@ -875,6 +876,7 @@ set(HEADERS
   src/core/httpbaserequest.h
   src/core/jsonbaserequest.h
   src/core/oauthenticator.h
+  src/core/appearance.h
 
   src/tagreader/tagreaderclient.h
   src/tagreader/tagreaderreply.h

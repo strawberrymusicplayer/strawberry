@@ -103,6 +103,7 @@
 #include "core/deletefiles.h"
 #include "core/settings.h"
 #include "core/player.h"
+#include "core/appearance.h"
 #include "utilities/envutils.h"
 #include "utilities/filemanagerutils.h"
 #include "utilities/screenutils.h"
@@ -308,6 +309,7 @@ MainWindow::MainWindow(Application *app,
       smtc_(new WinSystemMediaTransportControls(app->player(), this)),
 #endif
       app_(app),
+      appearance_(make_shared<Appearance>()),
       systemtrayicon_(systemtrayicon),
       osd_(osd),
 #ifdef HAVE_DISCORD_RPC
@@ -990,6 +992,10 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(ui_->action_console, &QAction::triggered, this, &MainWindow::ShowConsole);
   PlayingWidgetPositionChanged(ui_->widget_playing->show_above_status_bar());
 
+  // Load theme
+  // We need to save the default/system palette now, before loading user preferred theme (which will override it), to be able to restore it later
+  appearance_->set_system_palette(QApplication::palette());
+  appearance_->LoadUserTheme();
   StyleSheetLoader *css_loader = new StyleSheetLoader(this);
   css_loader->SetStyleSheet(this, u":/style/strawberry.css"_s);
 
@@ -3044,6 +3050,7 @@ SettingsDialog *MainWindow::CreateSettingsDialog() {
                                                        app_->lyrics_providers(),
                                                        app_->scrobbler(),
                                                        app_->streaming_services(),
+                                                       appearance_,
 #ifdef HAVE_GLOBALSHORTCUTS
                                                        globalshortcuts_manager_,
 #endif
