@@ -30,16 +30,20 @@ class QMouseEvent;
 class StickySlider : public QSlider {
   Q_OBJECT
 
-  Q_PROPERTY(int sticky_center READ sticky_center WRITE set_sticky_center)
-  Q_PROPERTY(int sticky_threshold READ sticky_threshold WRITE set_sticky_threshold)
+  Q_PROPERTY(int sticky_center READ sticky_center WRITE set_sticky_center NOTIFY StickyCenterChanged)
+  Q_PROPERTY(int sticky_threshold READ sticky_threshold WRITE set_sticky_threshold NOTIFY StickyThresholdChanged)
 
  public:
   explicit StickySlider(QWidget *parent = nullptr);
 
   int sticky_center() const { return sticky_center_; }
   int sticky_threshold() const { return sticky_threshold_; }
-  void set_sticky_center(int center) { sticky_center_ = center; }
-  void set_sticky_threshold(int threshold) { sticky_threshold_ = threshold; }
+  void set_sticky_center(const int center);
+  void set_sticky_threshold(const int threshold);
+
+ Q_SIGNALS:
+  void StickyCenterChanged(const int center);
+  void StickyThresholdChanged(const int threshold);
 
  protected:
   void mouseMoveEvent(QMouseEvent *e) override;

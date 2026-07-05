@@ -80,6 +80,46 @@ void GroupedIconView::AddSortSpec(const int role, const Qt::SortOrder order) {
   proxy_model_->AddSortSpec(role, order);
 }
 
+void GroupedIconView::set_header_spacing(const int value) {
+
+  if (header_spacing_ == value) return;
+
+  header_spacing_ = value;
+
+  Q_EMIT HeaderSpacingChanged(header_spacing_);
+
+}
+
+void GroupedIconView::set_header_indent(const int value) {
+
+  if (header_indent_ == value) return;
+
+  header_indent_ = value;
+
+  Q_EMIT HeaderIndentChanged(header_indent_);
+
+}
+
+void GroupedIconView::set_item_indent(const int value) {
+
+  if (item_indent_ == value) return;
+
+  item_indent_ = value;
+
+  Q_EMIT ItemIndentChanged(item_indent_);
+
+}
+
+void GroupedIconView::set_header_text(const QString &value) {
+
+  if (header_text_ == value) return;
+
+  header_text_ = value;
+
+  Q_EMIT HeaderTextChanged(header_text_);
+
+}
+
 void GroupedIconView::setModel(QAbstractItemModel *model) {
 
   proxy_model_->setSourceModel(model);

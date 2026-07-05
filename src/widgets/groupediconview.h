@@ -45,16 +45,16 @@ class GroupedIconView : public QListView {
   Q_OBJECT
 
   // Vertical space separating a header from the items above and below it.
-  Q_PROPERTY(int header_spacing READ header_spacing WRITE set_header_spacing)
+  Q_PROPERTY(int header_spacing READ header_spacing WRITE set_header_spacing NOTIFY HeaderSpacingChanged)
 
   // Horizontal space separating a header from the left and right edges of the widget.
-  Q_PROPERTY(int header_indent READ header_indent WRITE set_header_indent)
+  Q_PROPERTY(int header_indent READ header_indent WRITE set_header_indent NOTIFY HeaderIndentChanged)
 
   // Horizontal space separating an item from the left and right edges of the widget.
-  Q_PROPERTY(int item_indent READ item_indent WRITE set_item_indent)
+  Q_PROPERTY(int item_indent READ item_indent WRITE set_item_indent NOTIFY ItemIndentChanged)
 
   // The text of each group's header.  Must contain "%1".
-  Q_PROPERTY(QString header_text READ header_text WRITE set_header_text)
+  Q_PROPERTY(QString header_text READ header_text WRITE set_header_text NOTIFY HeaderTextChanged)
 
  public:
   explicit GroupedIconView(QWidget *parent = nullptr);
@@ -70,10 +70,10 @@ class GroupedIconView : public QListView {
   int item_indent() const { return item_indent_; }
   const QString &header_text() const { return header_text_; }
 
-  void set_header_spacing(const int value) { header_spacing_ = value; }
-  void set_header_indent(const int value) { header_indent_ = value; }
-  void set_item_indent(const int value) { item_indent_ = value; }
-  void set_header_text(const QString &value) { header_text_ = value; }
+  void set_header_spacing(const int value);
+  void set_header_indent(const int value);
+  void set_item_indent(const int value);
+  void set_header_text(const QString &value);
 
   // QAbstractItemView
   QModelIndex moveCursor(CursorAction action, const Qt::KeyboardModifiers keyboard_modifiers) override;
@@ -95,6 +95,12 @@ class GroupedIconView : public QListView {
   void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command) override;
   QRect visualRect(const QModelIndex &idx) const override;
   QRegion visualRegionForSelection(const QItemSelection &selection) const override;
+
+ Q_SIGNALS:
+  void HeaderSpacingChanged(const int value);
+  void HeaderIndentChanged(const int value);
+  void ItemIndentChanged(const int value);
+  void HeaderTextChanged(const QString &value);
 
  private Q_SLOTS:
   void LayoutItems();

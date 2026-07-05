@@ -300,7 +300,9 @@ void SmartPlaylistSearchTermWidget::showEvent(QShowEvent *e) {
 void SmartPlaylistSearchTermWidget::Grab() { overlay_->Grab(); }
 
 void SmartPlaylistSearchTermWidget::set_overlay_opacity(const float opacity) {
-  if (overlay_) overlay_->SetOpacity(opacity);
+  if (!overlay_ || overlay_->opacity() == opacity) return;
+  overlay_->SetOpacity(opacity);
+  Q_EMIT OverlayOpacityChanged(opacity);
 }
 
 float SmartPlaylistSearchTermWidget::overlay_opacity() const {

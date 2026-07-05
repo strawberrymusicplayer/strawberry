@@ -100,7 +100,9 @@ void SearchField::setPlaceholderText(const QString &text) {
 
   Q_ASSERT(pimpl && pimpl->lineedit_);
   if (!(pimpl && pimpl->lineedit_)) return;
+  if (pimpl->lineedit_->placeholderText() == text) return;
   pimpl->lineedit_->setPlaceholderText(text);
+  Q_EMIT placeholderTextChanged(text);
 
 }
 

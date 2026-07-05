@@ -29,6 +29,26 @@ StickySlider::StickySlider(QWidget *parent)
       sticky_center_(-1),
       sticky_threshold_(10) {}
 
+void StickySlider::set_sticky_center(const int center) {
+
+  if (sticky_center_ == center) return;
+
+  sticky_center_ = center;
+
+  Q_EMIT StickyCenterChanged(sticky_center_);
+
+}
+
+void StickySlider::set_sticky_threshold(const int threshold) {
+
+  if (sticky_threshold_ == threshold) return;
+
+  sticky_threshold_ = threshold;
+
+  Q_EMIT StickyThresholdChanged(sticky_threshold_);
+
+}
+
 void StickySlider::mouseMoveEvent(QMouseEvent *e) {
 
   QSlider::mouseMoveEvent(e);

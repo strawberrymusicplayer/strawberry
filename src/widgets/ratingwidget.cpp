@@ -48,8 +48,12 @@ QSize RatingWidget::sizeHint() const {
 
 void RatingWidget::set_rating(const float rating) {
 
+  if (rating == rating_) return;
+
   rating_ = rating;
   update();
+
+  Q_EMIT RatingValueChanged(rating_);
 
 }
 
@@ -76,7 +80,11 @@ void RatingWidget::paintEvent(QPaintEvent *e) {
 
 void RatingWidget::mousePressEvent(QMouseEvent *e) {
 
-  rating_ = RatingPainter::RatingForPos(e->pos(), rect());
+  const float rating = RatingPainter::RatingForPos(e->pos(), rect());
+  if (rating != rating_) {
+    rating_ = rating;
+    Q_EMIT RatingValueChanged(rating_);
+  }
   Q_EMIT RatingChanged(rating_);
 
 }
@@ -117,6 +125,7 @@ void RatingWidget::keyPressEvent(QKeyEvent *e) {
     if (rating != rating_) {
       rating_ = rating;
       update();
+      Q_EMIT RatingValueChanged(rating_);
       Q_EMIT RatingChanged(rating_);
     }
   }

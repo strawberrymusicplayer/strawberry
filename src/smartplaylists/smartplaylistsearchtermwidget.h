@@ -42,7 +42,7 @@ class SmartPlaylistSearchTermWidgetOverlay;
 class SmartPlaylistSearchTermWidget : public QWidget {
   Q_OBJECT
 
-  Q_PROPERTY(float overlay_opacity READ overlay_opacity WRITE set_overlay_opacity)
+  Q_PROPERTY(float overlay_opacity READ overlay_opacity WRITE set_overlay_opacity NOTIFY OverlayOpacityChanged)
 
  public:
   explicit SmartPlaylistSearchTermWidget(SharedPtr<CollectionBackend> collection_backend, QWidget *parent);
@@ -59,6 +59,7 @@ class SmartPlaylistSearchTermWidget : public QWidget {
  Q_SIGNALS:
   void Clicked();
   void RemoveClicked();
+  void OverlayOpacityChanged(const float opacity);
 
   void Changed();
 

@@ -38,6 +38,7 @@ class QPaintDevice;
 class QPaintEvent;
 class QResizeEvent;
 
+// The hint/clear/reset properties on the editor classes below are Designer and stylesheet setup properties whose setters live in the non-QObject ExtendedEditor base, so they cannot have NOTIFY signals and are excluded from the clazy qproperty-without-notify check.
 class LineEditInterface {
 
  public:
@@ -112,10 +113,10 @@ class ExtendedEditor : public LineEditInterface {
 class LineEdit : public QLineEdit, public ExtendedEditor {
   Q_OBJECT
 
-  Q_PROPERTY(QString hint READ hint WRITE set_hint)
-  Q_PROPERTY(qreal font_point_size READ font_point_size WRITE set_font_point_size)
-  Q_PROPERTY(bool has_clear_button READ has_clear_button WRITE set_clear_button)
-  Q_PROPERTY(bool has_reset_button READ has_reset_button WRITE set_reset_button)
+  Q_PROPERTY(QString hint READ hint WRITE set_hint)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(qreal font_point_size READ font_point_size WRITE set_font_point_size)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(bool has_clear_button READ has_clear_button WRITE set_clear_button)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(bool has_reset_button READ has_reset_button WRITE set_reset_button)  // clazy:exclude=qproperty-without-notify
 
  public:
   explicit LineEdit(QWidget *parent = nullptr);
@@ -148,9 +149,9 @@ class LineEdit : public QLineEdit, public ExtendedEditor {
 
 class TextEdit : public QPlainTextEdit, public ExtendedEditor {
   Q_OBJECT
-  Q_PROPERTY(QString hint READ hint WRITE set_hint)
-  Q_PROPERTY(bool has_clear_button READ has_clear_button WRITE set_clear_button)
-  Q_PROPERTY(bool has_reset_button READ has_reset_button WRITE set_reset_button)
+  Q_PROPERTY(QString hint READ hint WRITE set_hint)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(bool has_clear_button READ has_clear_button WRITE set_clear_button)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(bool has_reset_button READ has_reset_button WRITE set_reset_button)  // clazy:exclude=qproperty-without-notify
 
  public:
   explicit TextEdit(QWidget *parent = nullptr);
@@ -176,9 +177,9 @@ class TextEdit : public QPlainTextEdit, public ExtendedEditor {
 
 class SpinBox : public QSpinBox, public ExtendedEditor {
   Q_OBJECT
-  Q_PROPERTY(QString hint READ hint WRITE set_hint)
-  Q_PROPERTY(bool has_clear_button READ has_clear_button WRITE set_clear_button)
-  Q_PROPERTY(bool has_reset_button READ has_reset_button WRITE set_reset_button)
+  Q_PROPERTY(QString hint READ hint WRITE set_hint)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(bool has_clear_button READ has_clear_button WRITE set_clear_button)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(bool has_reset_button READ has_reset_button WRITE set_reset_button)  // clazy:exclude=qproperty-without-notify
 
  public:
   explicit SpinBox(QWidget *parent = nullptr);
@@ -208,9 +209,9 @@ class SpinBox : public QSpinBox, public ExtendedEditor {
 
 class CheckBox : public QCheckBox, public ExtendedEditor {
   Q_OBJECT
-  Q_PROPERTY(QString hint READ hint WRITE set_hint)
-  Q_PROPERTY(bool has_clear_button READ has_clear_button WRITE set_clear_button)
-  Q_PROPERTY(bool has_reset_button READ has_reset_button WRITE set_reset_button)
+  Q_PROPERTY(QString hint READ hint WRITE set_hint)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(bool has_clear_button READ has_clear_button WRITE set_clear_button)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(bool has_reset_button READ has_reset_button WRITE set_reset_button)  // clazy:exclude=qproperty-without-notify
 
  public:
   explicit CheckBox(QWidget *parent = nullptr);
@@ -242,7 +243,7 @@ class CheckBox : public QCheckBox, public ExtendedEditor {
 class RatingBox : public RatingWidget, public ExtendedEditor {
   Q_OBJECT
 
-  Q_PROPERTY(QString hint READ hint WRITE set_hint)
+  Q_PROPERTY(QString hint READ hint WRITE set_hint)  // clazy:exclude=qproperty-without-notify
 
  public:
   explicit RatingBox(QWidget *parent = nullptr);

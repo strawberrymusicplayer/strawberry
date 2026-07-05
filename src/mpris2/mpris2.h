@@ -94,47 +94,49 @@ class Mpris2 : public QObject {
                   const SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader,
                   QObject *parent = nullptr);
 
+  // These properties are exposed over D-Bus, where change notification is done through the org.freedesktop.DBus.Properties.PropertiesChanged signal emitted by EmitNotification, so the dynamic properties have no Qt NOTIFY signal.
+
   // org.mpris.MediaPlayer2 MPRIS 2.0 Root interface
-  Q_PROPERTY(bool CanQuit READ CanQuit)
-  Q_PROPERTY(bool CanRaise READ CanRaise)
-  Q_PROPERTY(bool HasTrackList READ HasTrackList)
-  Q_PROPERTY(QString Identity READ Identity)
-  Q_PROPERTY(QString DesktopEntry READ DesktopEntry)
-  Q_PROPERTY(QStringList SupportedUriSchemes READ SupportedUriSchemes)
-  Q_PROPERTY(QStringList SupportedMimeTypes READ SupportedMimeTypes)
+  Q_PROPERTY(bool CanQuit READ CanQuit CONSTANT)
+  Q_PROPERTY(bool CanRaise READ CanRaise CONSTANT)
+  Q_PROPERTY(bool HasTrackList READ HasTrackList CONSTANT)
+  Q_PROPERTY(QString Identity READ Identity CONSTANT)
+  Q_PROPERTY(QString DesktopEntry READ DesktopEntry CONSTANT)
+  Q_PROPERTY(QStringList SupportedUriSchemes READ SupportedUriSchemes CONSTANT)
+  Q_PROPERTY(QStringList SupportedMimeTypes READ SupportedMimeTypes CONSTANT)
 
   // org.mpris.MediaPlayer2 MPRIS 2.2 Root interface
-  Q_PROPERTY(bool CanSetFullscreen READ CanSetFullscreen)
-  Q_PROPERTY(bool Fullscreen READ Fullscreen WRITE SetFullscreen)
+  Q_PROPERTY(bool CanSetFullscreen READ CanSetFullscreen CONSTANT)
+  Q_PROPERTY(bool Fullscreen READ Fullscreen WRITE SetFullscreen)  // clazy:exclude=qproperty-without-notify
 
   // org.mpris.MediaPlayer2.Player MPRIS 2.0 Player interface
-  Q_PROPERTY(QString PlaybackStatus READ PlaybackStatus)
-  Q_PROPERTY(QString LoopStatus READ LoopStatus WRITE SetLoopStatus)
-  Q_PROPERTY(double Rate READ Rate WRITE SetRate)
-  Q_PROPERTY(bool Shuffle READ Shuffle WRITE SetShuffle)
-  Q_PROPERTY(QVariantMap Metadata READ Metadata)
-  Q_PROPERTY(double Volume READ Volume WRITE SetVolume)
-  Q_PROPERTY(qint64 Position READ Position)
-  Q_PROPERTY(double MinimumRate READ MinimumRate)
-  Q_PROPERTY(double MaximumRate READ MaximumRate)
-  Q_PROPERTY(bool CanGoNext READ CanGoNext)
-  Q_PROPERTY(bool CanGoPrevious READ CanGoPrevious)
-  Q_PROPERTY(bool CanPlay READ CanPlay)
-  Q_PROPERTY(bool CanPause READ CanPause)
-  Q_PROPERTY(bool CanSeek READ CanSeek)
-  Q_PROPERTY(bool CanControl READ CanControl)
+  Q_PROPERTY(QString PlaybackStatus READ PlaybackStatus)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(QString LoopStatus READ LoopStatus WRITE SetLoopStatus)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(double Rate READ Rate WRITE SetRate)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(bool Shuffle READ Shuffle WRITE SetShuffle)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(QVariantMap Metadata READ Metadata)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(double Volume READ Volume WRITE SetVolume)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(qint64 Position READ Position)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(double MinimumRate READ MinimumRate CONSTANT)
+  Q_PROPERTY(double MaximumRate READ MaximumRate CONSTANT)
+  Q_PROPERTY(bool CanGoNext READ CanGoNext)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(bool CanGoPrevious READ CanGoPrevious)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(bool CanPlay READ CanPlay)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(bool CanPause READ CanPause)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(bool CanSeek READ CanSeek)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(bool CanControl READ CanControl CONSTANT)
 
   // org.mpris.MediaPlayer2.TrackList MPRIS 2.0 Player interface
-  Q_PROPERTY(Track_Ids Tracks READ Tracks)
-  Q_PROPERTY(bool CanEditTracks READ CanEditTracks)
+  Q_PROPERTY(Track_Ids Tracks READ Tracks)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(bool CanEditTracks READ CanEditTracks)  // clazy:exclude=qproperty-without-notify
 
   // org.mpris.MediaPlayer2.Playlists MPRIS 2.1 Playlists interface
-  Q_PROPERTY(quint32 PlaylistCount READ PlaylistCount)
-  Q_PROPERTY(QStringList Orderings READ Orderings)
-  Q_PROPERTY(MaybePlaylist ActivePlaylist READ ActivePlaylist)
+  Q_PROPERTY(quint32 PlaylistCount READ PlaylistCount)  // clazy:exclude=qproperty-without-notify
+  Q_PROPERTY(QStringList Orderings READ Orderings CONSTANT)
+  Q_PROPERTY(MaybePlaylist ActivePlaylist READ ActivePlaylist)  // clazy:exclude=qproperty-without-notify
 
   // strawberry specific additional property to extend MPRIS Player interface
-  Q_PROPERTY(double Rating READ Rating WRITE SetRating)
+  Q_PROPERTY(double Rating READ Rating WRITE SetRating)  // clazy:exclude=qproperty-without-notify
 
   // Root Properties
   bool CanQuit() const;

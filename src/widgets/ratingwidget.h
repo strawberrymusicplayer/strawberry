@@ -34,7 +34,7 @@ class QEvent;
 class RatingWidget : public QWidget {
   Q_OBJECT
 
-  Q_PROPERTY(float rating READ rating WRITE set_rating)
+  Q_PROPERTY(float rating READ rating WRITE set_rating NOTIFY RatingValueChanged)
 
  public:
   RatingWidget(QWidget *parent = nullptr);
@@ -45,7 +45,10 @@ class RatingWidget : public QWidget {
   void set_rating(const float rating);
 
  Q_SIGNALS:
+  // Emitted only when the user changes the rating through the widget, not on programmatic set_rating() calls.
   void RatingChanged(const float rating);
+  // Property NOTIFY signal, emitted on any rating change including set_rating().
+  void RatingValueChanged(const float rating);
 
  protected:
   void paintEvent(QPaintEvent *e) override;

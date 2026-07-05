@@ -229,10 +229,14 @@ void SearchField::setPlaceholderText(const QString &text) {
 
   if (!pimpl) return;
 
+  if (placeholderText() == text) return;
+
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
   [[pimpl->nsSearchField cell] setPlaceholderString:fromQString(text)];
 
   [pool drain];
+
+  Q_EMIT placeholderTextChanged(text);
 
 }
 

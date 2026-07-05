@@ -33,7 +33,7 @@ class QHideEvent;
 class BusyIndicator : public QWidget {
   Q_OBJECT
 
-  Q_PROPERTY(QString text READ text WRITE set_text)
+  Q_PROPERTY(QString text READ text WRITE set_text NOTIFY TextChanged)
 
  public:
   explicit BusyIndicator(const QString &text, QWidget *parent = nullptr);
@@ -42,6 +42,9 @@ class BusyIndicator : public QWidget {
 
   QString text() const;
   void set_text(const QString &text);
+
+ Q_SIGNALS:
+  void TextChanged(const QString &text);
 
  protected:
   void showEvent(QShowEvent *e) override;

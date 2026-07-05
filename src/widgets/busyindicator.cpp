@@ -85,8 +85,10 @@ void BusyIndicator::hideEvent(QHideEvent *e) {
 }
 
 void BusyIndicator::set_text(const QString &text) {
+  if (label_->text() == text) return;
   label_->setText(text);
   label_->setVisible(!text.isEmpty());
+  Q_EMIT TextChanged(text);
 }
 
 QString BusyIndicator::text() const {
