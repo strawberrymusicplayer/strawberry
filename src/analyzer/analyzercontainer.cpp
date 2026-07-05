@@ -52,12 +52,10 @@
 using namespace std::chrono_literals;
 using namespace Qt::Literals::StringLiterals;
 
-const char *AnalyzerContainer::kSettingsGroup = "Analyzer";
-const char *AnalyzerContainer::kSettingsFramerate = "framerate";
-
-// Framerates
 namespace {
+constexpr char kSettingsGroup[] = "Analyzer";
 constexpr char kSettingsType[] = "type";
+constexpr char kSettingsFramerate[] = "framerate";
 constexpr int kLowFramerate = 20;
 constexpr int kMediumFramerate = 25;
 constexpr int kHighFramerate = 30;

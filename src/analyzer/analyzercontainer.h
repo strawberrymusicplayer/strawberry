@@ -47,9 +47,6 @@ class AnalyzerContainer : public QWidget {
 
   void SetEngine(SharedPtr<EngineBase> engine);
 
-  static const char *kSettingsGroup;
-  static const char *kSettingsFramerate;
-
  Q_SIGNALS:
   void WheelEvent(const int delta);
 
