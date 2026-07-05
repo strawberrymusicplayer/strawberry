@@ -21,6 +21,7 @@
 
 #include <QByteArray>
 #include <QMap>
+#include <QPair>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
@@ -202,6 +203,16 @@ QString QobuzCredentialFetcher::ExtractAppSecret(const QString &bundle) {
     return QString();
   }
 
+  // Pattern to find info and extras for each timezone: name:"xxx/Berlin",info:"...",extras:"..."
+  static const QRegularExpression info_regex(u"name:\"\\w+/(\\w+)\",info:\"([\\w=]+)\",extras:\"([\\w=]+)\""_s);
+
+  QMap<QString, QPair<QString, QString>> infos;  // timezone -> info, extras
+  QRegularExpressionMatchIterator info_iter = info_regex.globalMatch(bundle);
+  while (info_iter.hasNext()) {
+    const QRegularExpressionMatch info_match = info_iter.next();
+    infos[info_match.captured(1).toLower()] = qMakePair(info_match.captured(2), info_match.captured(3));
+  }
+
   // Try each timezone - Berlin was confirmed working
   const QStringList preferred_order = {u"berlin"_s, u"london"_s, u"abidjan"_s};
 
@@ -210,21 +221,14 @@ QString QobuzCredentialFetcher::ExtractAppSecret(const QString &bundle) {
       continue;
     }
 
-    // Pattern to find info and extras for this timezone
-    // name:"xxx/Berlin",info:"...",extras:"..."
-    const QString capitalized_tz = tz.at(0).toUpper() + tz.mid(1);
-    const QString info_pattern = QStringLiteral("name:\"\\w+/%1\",info:\"([\\w=]+)\",extras:\"([\\w=]+)\"").arg(capitalized_tz);
-    const QRegularExpression info_regex(info_pattern);
-    const QRegularExpressionMatch info_match = info_regex.match(bundle);
-
-    if (!info_match.hasMatch()) {
+    if (!infos.contains(tz)) {
       qLog(Debug) << "Qobuz: No info/extras found for timezone" << tz;
       continue;
     }
 
     const QString seed = seeds[tz];
-    const QString info = info_match.captured(1);
-    const QString extras = info_match.captured(2);
+    const QString info = infos[tz].first;
+    const QString extras = infos[tz].second;
 
     qLog(Debug) << "Qobuz: Decoding secret for timezone" << tz;
 
@@ -259,18 +263,13 @@ QString QobuzCredentialFetcher::ExtractAppSecret(const QString &bundle) {
       continue;  // Already tried
     }
 
-    const QString capitalized_tz = tz.at(0).toUpper() + tz.mid(1);
-    const QString info_pattern = QStringLiteral("name:\"\\w+/%1\",info:\"([\\w=]+)\",extras:\"([\\w=]+)\"").arg(capitalized_tz);
-    const QRegularExpression info_regex(info_pattern);
-    const QRegularExpressionMatch info_match = info_regex.match(bundle);
-
-    if (!info_match.hasMatch()) {
+    if (!infos.contains(tz)) {
       continue;
     }
 
     const QString seed = it.value();
-    const QString info = info_match.captured(1);
-    const QString extras = info_match.captured(2);
+    const QString info = infos[tz].first;
+    const QString extras = infos[tz].second;
 
     const QString combined = seed + info + extras;
     if (combined.length() <= 44) {
