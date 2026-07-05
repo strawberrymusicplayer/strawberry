@@ -343,8 +343,8 @@ void Udisks2Lister::JobCompleted(const bool success, const QString &message) {
 
   qLog(Debug) << "Pending Job Completed | Path = " << job->path() << " | Mount? = " << is_mount << " | Success = " << success;
 
-  for (const QDBusObjectPath &mounted_object : mounted_partitions) {
-    auto partition_data = ReadPartitionData(mounted_object);
+  for (const QDBusObjectPath &mounted_object : std::as_const(mounted_partitions)) {
+    const PartitionData partition_data = ReadPartitionData(mounted_object);
     if (partition_data.dbus_path.isEmpty()) continue;
 
     is_mount ? HandleFinishedMountJob(partition_data) : HandleFinishedUnmountJob(partition_data, mounted_object);
