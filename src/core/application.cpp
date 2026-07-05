@@ -3,7 +3,7 @@
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
  * Copyright 2012, 2014, John Maguire <john.maguire@gmail.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,21 +38,20 @@
 #include <QAbstractEventDispatcher>
 #include <QTimer>
 
-#include "core/logging.h"
-
 #include "includes/shared_ptr.h"
 #include "includes/lazy.h"
+#include "core/logging.h"
 #include "core/database.h"
 #include "core/taskmanager.h"
 #include "core/networkaccessmanager.h"
 #include "core/player.h"
-#include "tagreader/tagreaderclient.h"
-#include "engine/devicefinders.h"
 #include "core/urlhandlers.h"
-#include "device/devicemanager.h"
+#include "engine/devicefinders.h"
+#include "tagreader/tagreaderclient.h"
 #include "collection/collectionlibrary.h"
 #include "playlist/playlistbackend.h"
 #include "playlist/playlistmanager.h"
+#include "device/devicemanager.h"
 #include "covermanager/albumcoverloader.h"
 #include "covermanager/coverproviders.h"
 #include "covermanager/currentalbumcoverloader.h"
