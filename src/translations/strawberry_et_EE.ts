@@ -5,11 +5,11 @@
     <name>ASXParser</name>
     <message>
       <source>ASX playlist is too large</source>
-      <translation type="unfinished">ASX playlist is too large</translation>
+      <translation>ASX-esitusloend on liiga pikk</translation>
     </message>
     <message>
       <source>Failed to write ASX playlist</source>
-      <translation type="unfinished">Failed to write ASX playlist</translation>
+      <translation>ASX-esitusloendi salvestamine ei õnnestunud</translation>
     </message>
   </context>
   <context>
@@ -381,11 +381,11 @@
     </message>
     <message>
       <source>&amp;Use the system default color</source>
-      <translation>&amp;Kasuta süsteemi vaikevärvi</translation>
+      <translation>&amp;Kasuta süsteemi vaikimisi värvi</translation>
     </message>
     <message>
       <source>Use custom color</source>
-      <translation>Kasuta kohandatud värvi</translation>
+      <translation>Kasuta sinu määratud värvi</translation>
     </message>
     <message>
       <source>Use gradient background</source>
@@ -465,7 +465,7 @@
     </message>
     <message>
       <source>Blur amount</source>
-      <translation>Hägustuse hulk</translation>
+      <translation>Hägustuse määr</translation>
     </message>
     <message>
       <source>0px</source>
@@ -525,51 +525,51 @@
     </message>
     <message>
       <source>Window</source>
-      <translation type="unfinished">Window</translation>
+      <translation>Aken</translation>
     </message>
     <message>
       <source>Window text</source>
-      <translation type="unfinished">Window text</translation>
+      <translation>Akna tekst</translation>
     </message>
     <message>
       <source>Base</source>
-      <translation type="unfinished">Base</translation>
+      <translation>Baasvärv</translation>
     </message>
     <message>
       <source>Alternate base</source>
-      <translation type="unfinished">Alternate base</translation>
+      <translation>Alternatiivne baasvärv</translation>
     </message>
     <message>
       <source>Tooltip base</source>
-      <translation type="unfinished">Tooltip base</translation>
+      <translation>Kohtvihje baasvärv</translation>
     </message>
     <message>
       <source>Tooltip text</source>
-      <translation type="unfinished">Tooltip text</translation>
+      <translation>Kohtvihje tekst</translation>
     </message>
     <message>
       <source>Placeholder text</source>
-      <translation type="unfinished">Placeholder text</translation>
+      <translation>Kohatäitja tekst</translation>
     </message>
     <message>
       <source>Text</source>
-      <translation type="unfinished">Text</translation>
+      <translation>Tekst</translation>
     </message>
     <message>
       <source>Button</source>
-      <translation type="unfinished">Button</translation>
+      <translation>Nupp</translation>
     </message>
     <message>
       <source>Button text</source>
-      <translation type="unfinished">Button text</translation>
+      <translation>Nupu tekst</translation>
     </message>
     <message>
       <source>Bright text</source>
-      <translation type="unfinished">Bright text</translation>
+      <translation>Ere tekst</translation>
     </message>
     <message>
       <source>Select color</source>
-      <translation type="unfinished">Select color</translation>
+      <translation>Vali värv</translation>
     </message>
     <message>
       <source>Select background image</source>
@@ -581,31 +581,31 @@
     </message>
     <message>
       <source>Colors</source>
-      <translation type="unfinished">Colors</translation>
+      <translation>Värvid</translation>
     </message>
     <message>
       <source>&amp;Use the system default color set</source>
-      <translation type="unfinished">&amp;Use the system default color set</translation>
+      <translation>&amp;Kasuta süsteemi vaikimisi värvikomplekti</translation>
     </message>
     <message>
       <source>Use a custom color set</source>
-      <translation type="unfinished">Use a custom color set</translation>
+      <translation>Kasuta enda koostatud värvikomplekti</translation>
     </message>
     <message>
       <source>Set a custom color set suitable for a dark theme</source>
-      <translation type="unfinished">Set a custom color set suitable for a dark theme</translation>
+      <translation>Seadista enda koostatud värvikomplekt, mis sobib tumeda kujunduse jaoks</translation>
     </message>
     <message>
       <source>Dark mode</source>
-      <translation type="unfinished">Dark mode</translation>
+      <translation>Tume kujundus</translation>
     </message>
     <message>
       <source>Reset the custom color set to the system default colors</source>
-      <translation type="unfinished">Reset the custom color set to the system default colors</translation>
+      <translation>Lähtesta enda koostatud värvikomplekt ja kasuta süsteemi vaikimisi valikut</translation>
     </message>
     <message>
       <source>Reset to default</source>
-      <translation type="unfinished">Reset to default</translation>
+      <translation>Lähtesta vaikimisi väärtusteks</translation>
     </message>
   </context>
   <context>
@@ -796,11 +796,11 @@
     </message>
     <message>
       <source>Device warm-up</source>
-      <translation type="unfinished">Device warm-up</translation>
+      <translation>Seadme ettevalmistusaeg</translation>
     </message>
     <message>
       <source>Delay between opening the audio device and starting playback, to avoid the start of the track being cut off while the device (DAC) is still becoming ready.  Set to 0 to disable.</source>
-      <translation type="unfinished">Delay between opening the audio device and starting playback, to avoid the start of the track being cut off while the device (DAC) is still becoming ready.  Set to 0 to disable.</translation>
+      <translation>Aeg heliseadme avamise ja taasesituse alusetamise vahel. Mõeldud vältimaks olukorda, kus loo algus jääb esitamata, sest seade (DAC) on veel valmendumas. 0 lülitab selle seadistuse väja.</translation>
     </message>
   </context>
   <context>
@@ -7969,7 +7969,7 @@ Kas soovid jätkata?</translation>
     <name>XSPFParser</name>
     <message>
       <source>Failed to write XSPF playlist</source>
-      <translation type="unfinished">Failed to write XSPF playlist</translation>
+      <translation>XSPF-esitusloendi salvestamine ei õnnestunud</translation>
     </message>
   </context>
 </TS>
