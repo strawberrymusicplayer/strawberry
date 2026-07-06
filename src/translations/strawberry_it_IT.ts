@@ -5,11 +5,11 @@
     <name>ASXParser</name>
     <message>
       <source>ASX playlist is too large</source>
-      <translation type="unfinished">ASX playlist is too large</translation>
+      <translation>La playlist ASX è troppo grande</translation>
     </message>
     <message>
       <source>Failed to write ASX playlist</source>
-      <translation type="unfinished">Failed to write ASX playlist</translation>
+      <translation>Impossibile scrivere la playlist ASX</translation>
     </message>
   </context>
   <context>
@@ -223,7 +223,7 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     </message>
     <message>
       <source>Pixel</source>
-      <translation type="unfinished">Pixel</translation>
+      <translation>Pixel</translation>
     </message>
   </context>
   <context>
@@ -352,15 +352,15 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     </message>
     <message>
       <source>Turbine</source>
-      <translation type="unfinished">Turbine</translation>
+      <translation>Turbina</translation>
     </message>
     <message>
       <source>Sonogram</source>
-      <translation type="unfinished">Sonogram</translation>
+      <translation>Sonogramma</translation>
     </message>
     <message>
       <source>WaveRubber</source>
-      <translation type="unfinished">WaveRubber</translation>
+      <translation>WaveRubber</translation>
     </message>
   </context>
   <context>
@@ -471,7 +471,7 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     </message>
     <message>
       <source>0px</source>
-      <translation type="unfinished">0px</translation>
+      <translation>0px</translation>
     </message>
     <message>
       <source>Opacity</source>
@@ -479,7 +479,7 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     </message>
     <message>
       <source>40%</source>
-      <translation type="unfinished">40%</translation>
+      <translation>40%</translation>
     </message>
     <message>
       <source>Icon sizes</source>
@@ -527,51 +527,51 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     </message>
     <message>
       <source>Window</source>
-      <translation type="unfinished">Window</translation>
+      <translation>Finestra</translation>
     </message>
     <message>
       <source>Window text</source>
-      <translation type="unfinished">Window text</translation>
+      <translation>Testo finestra</translation>
     </message>
     <message>
       <source>Base</source>
-      <translation type="unfinished">Base</translation>
+      <translation>Base</translation>
     </message>
     <message>
       <source>Alternate base</source>
-      <translation type="unfinished">Alternate base</translation>
+      <translation>Base alternativa</translation>
     </message>
     <message>
       <source>Tooltip base</source>
-      <translation type="unfinished">Tooltip base</translation>
+      <translation>Base dei suggerimenti</translation>
     </message>
     <message>
       <source>Tooltip text</source>
-      <translation type="unfinished">Tooltip text</translation>
+      <translation>Testo del suggerimento</translation>
     </message>
     <message>
       <source>Placeholder text</source>
-      <translation type="unfinished">Placeholder text</translation>
+      <translation>Testo segnaposto</translation>
     </message>
     <message>
       <source>Text</source>
-      <translation type="unfinished">Text</translation>
+      <translation>Testo</translation>
     </message>
     <message>
       <source>Button</source>
-      <translation type="unfinished">Button</translation>
+      <translation>Pulsante</translation>
     </message>
     <message>
       <source>Button text</source>
-      <translation type="unfinished">Button text</translation>
+      <translation>Testo del pulsante</translation>
     </message>
     <message>
       <source>Bright text</source>
-      <translation type="unfinished">Bright text</translation>
+      <translation>Testo luminoso</translation>
     </message>
     <message>
       <source>Select color</source>
-      <translation type="unfinished">Select color</translation>
+      <translation>Seleziona colore</translation>
     </message>
     <message>
       <source>Select background image</source>
@@ -579,35 +579,35 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect.</source>
-      <translation type="unfinished">You need to restart Strawberry for this setting to take affect.</translation>
+      <translation>È necessario riavviare Strawberry perché questa impostazione abbia effetto.</translation>
     </message>
     <message>
       <source>Colors</source>
-      <translation type="unfinished">Colors</translation>
+      <translation>Colori</translation>
     </message>
     <message>
       <source>&amp;Use the system default color set</source>
-      <translation type="unfinished">&amp;Use the system default color set</translation>
+      <translation>&amp;Usa il set di colori predefinito di sistema</translation>
     </message>
     <message>
       <source>Use a custom color set</source>
-      <translation type="unfinished">Use a custom color set</translation>
+      <translation>Usa un set di colori personalizzato</translation>
     </message>
     <message>
       <source>Set a custom color set suitable for a dark theme</source>
-      <translation type="unfinished">Set a custom color set suitable for a dark theme</translation>
+      <translation>Imposta un set di colori personalizzato adatto a un tema scuro</translation>
     </message>
     <message>
       <source>Dark mode</source>
-      <translation type="unfinished">Dark mode</translation>
+      <translation>Modalità scura</translation>
     </message>
     <message>
       <source>Reset the custom color set to the system default colors</source>
-      <translation type="unfinished">Reset the custom color set to the system default colors</translation>
+      <translation>Reimposta il set di colori personalizzato impostato ai colori predefiniti del sistema</translation>
     </message>
     <message>
       <source>Reset to default</source>
-      <translation type="unfinished">Reset to default</translation>
+      <translation>Ripristina predefiniti</translation>
     </message>
   </context>
   <context>
@@ -634,19 +634,19 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     </message>
     <message>
       <source>hw</source>
-      <translation type="unfinished">hw</translation>
+      <translation>hw</translation>
     </message>
     <message>
       <source>p&amp;lughw</source>
-      <translation type="unfinished">p&amp;lughw</translation>
+      <translation>p&amp;lughw</translation>
     </message>
     <message>
       <source>pcm</source>
-      <translation type="unfinished">pcm</translation>
+      <translation>pcm</translation>
     </message>
     <message>
       <source>Exclusive mode (Experimental)</source>
-      <translation type="unfinished">Exclusive mode (Experimental)</translation>
+      <translation>Modalità esclusiva (Sperimentale)</translation>
     </message>
     <message>
       <source>Options</source>
@@ -682,11 +682,11 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     </message>
     <message>
       <source>Buffer</source>
-      <translation type="unfinished">Buffer</translation>
+      <translation>Buffer</translation>
     </message>
     <message>
       <source> ms</source>
-      <translation type="unfinished"> ms</translation>
+      <translation> ms</translation>
     </message>
     <message>
       <source>Buffer duration</source>
@@ -706,11 +706,11 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     </message>
     <message>
       <source>Audio normalization</source>
-      <translation type="unfinished">Audio normalization</translation>
+      <translation>Normalizzazione audio</translation>
     </message>
     <message>
       <source>No audio normalization</source>
-      <translation type="unfinished">No audio normalization</translation>
+      <translation>Nessuna normalizzazione audio</translation>
     </message>
     <message>
       <source>Replay Gain</source>
@@ -746,15 +746,15 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     </message>
     <message>
       <source>EBU R 128 Loudness Normalization</source>
-      <translation type="unfinished">EBU R 128 Loudness Normalization</translation>
+      <translation>Normalizzazione volume EBU R 128</translation>
     </message>
     <message>
       <source>Perform track loudness normalization</source>
-      <translation type="unfinished">Perform track loudness normalization</translation>
+      <translation>Esegui normalizzazione volume traccia</translation>
     </message>
     <message>
       <source>Target Level</source>
-      <translation type="unfinished">Target Level</translation>
+      <translation>Livello target</translation>
     </message>
     <message>
       <source>Fading</source>
@@ -786,7 +786,7 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect</source>
-      <translation type="unfinished">You need to restart Strawberry for this setting to take affect</translation>
+      <translation>È necessario riavviare Strawberry perché questa impostazione abbia effetto</translation>
     </message>
     <message>
       <source>Map the volume slider to a decibel scale so that perceived loudness changes evenly. Each 1% step equals 0.5 dB, 100% is 0 dB and 0% is silence.</source>
@@ -794,11 +794,11 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     </message>
     <message>
       <source>Exponential volume scaling</source>
-      <translation type="unfinished">Exponential volume scaling</translation>
+      <translation>Scala esponenziale del volume</translation>
     </message>
     <message>
       <source>Device warm-up</source>
-      <translation type="unfinished">Device warm-up</translation>
+      <translation>Riscaldamento dispositivo</translation>
     </message>
     <message>
       <source>Delay between opening the audio device and starting playback, to avoid the start of the track being cut off while the device (DAC) is still becoming ready.  Set to 0 to disable.</source>
@@ -825,7 +825,7 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     </message>
     <message>
       <source>Show song progress on taskbar</source>
-      <translation type="unfinished">Show song progress on taskbar</translation>
+      <translation>Mostra l'avanzamento del brano nella barra delle applicazioni</translation>
     </message>
     <message>
       <source>Resume playback on start</source>
@@ -937,18 +937,18 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     </message>
     <message>
       <source> s</source>
-      <translation type="unfinished"> s</translation>
+      <translation> s</translation>
     </message>
     <message>
       <source>Volume Increment</source>
-      <translation type="unfinished">Volume Increment</translation>
+      <translation>Incremento volume</translation>
     </message>
   </context>
   <context>
     <name>CDDASongLoader</name>
     <message>
       <source>Could not create cdiocddasrc</source>
-      <translation type="unfinished">Could not create cdiocddasrc</translation>
+      <translation>Impossibile creare cdiocddasrc</translation>
     </message>
     <message>
       <source>Error while setting CDDA device to ready state.</source>
@@ -960,11 +960,11 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     </message>
     <message>
       <source>The &apos;track&apos; format is not supported by GStreamer.</source>
-      <translation type="unfinished">The &apos;track&apos; format is not supported by GStreamer.</translation>
+      <translation>Il formato &apos;traccia&apos; non è supportato da GStreamer.</translation>
     </message>
     <message>
       <source>Error while querying CDDA tracks.</source>
-      <translation type="unfinished">Error while querying CDDA tracks.</translation>
+      <translation>Errore nell'interrogare le tracce CDDA.</translation>
     </message>
   </context>
   <context>
@@ -994,7 +994,7 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Entire collection</source>
@@ -1034,23 +1034,23 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     </message>
     <message>
       <source>Rating non null</source>
-      <translation type="unfinished">Rating non null</translation>
+      <translation>Valutazione non nulla</translation>
     </message>
     <message>
       <source>Rating greater than 1 star</source>
-      <translation type="unfinished">Rating greater than 1 star</translation>
+      <translation>Valutazione maggiore di 1 stella</translation>
     </message>
     <message>
       <source>Rating greater than 2 stars</source>
-      <translation type="unfinished">Rating greater than 2 stars</translation>
+      <translation>Valutazione maggiore di 2 stelle</translation>
     </message>
     <message>
       <source>Rating greater than 3 stars</source>
-      <translation type="unfinished">Rating greater than 3 stars</translation>
+      <translation>Valutazione maggiore di 3 stelle</translation>
     </message>
     <message>
       <source>Rating greater than 4 stars</source>
-      <translation type="unfinished">Rating greater than 4 stars</translation>
+      <translation>Valutazione maggiore di 4 stelle</translation>
     </message>
     <message>
       <source>Group by</source>
@@ -1058,11 +1058,11 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     </message>
     <message>
       <source>Filter by age</source>
-      <translation type="unfinished">Filter by age</translation>
+      <translation>Filtra per età</translation>
     </message>
     <message>
       <source>Filter by rating</source>
-      <translation type="unfinished">Filter by rating</translation>
+      <translation>Filtra per valutazione</translation>
     </message>
     <message>
       <source>Display options</source>
@@ -1241,7 +1241,7 @@ Se non ci saranno corrispondenze, userà l&apos;immagine più grande che si trov
     </message>
     <message>
       <source>Use various artists for compilation albums</source>
-      <translation type="unfinished">Use various artists for compilation albums</translation>
+      <translation>Usa vari artisti per album compilazione</translation>
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</source>
@@ -1253,7 +1253,7 @@ Se non ci saranno corrispondenze, userà l&apos;immagine più grande che si trov
     </message>
     <message>
       <source>Use sort tags for sorting when available</source>
-      <translation type="unfinished">Use sort tags for sorting when available</translation>
+      <translation>Usa i tag di ordinamento quando disponibili</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>
@@ -1429,7 +1429,7 @@ Se non ci saranno corrispondenze, userà l&apos;immagine più grande che si trov
     <name>Console</name>
     <message>
       <source>Console</source>
-      <translation type="unfinished">Console</translation>
+      <translation>Console</translation>
     </message>
     <message>
       <source>Run</source>
@@ -1448,7 +1448,7 @@ Se non ci saranno corrispondenze, userà l&apos;immagine più grande che si trov
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Title</source>
@@ -1464,7 +1464,7 @@ Se non ci saranno corrispondenze, userà l&apos;immagine più grande che si trov
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Technical Data</source>
@@ -1496,7 +1496,7 @@ Se non ci saranno corrispondenze, userà l&apos;immagine più grande che si trov
     </message>
     <message>
       <source> pt</source>
-      <translation type="unfinished"> pt</translation>
+      <translation> pt</translation>
     </message>
     <message>
       <source>Preview</source>
@@ -1568,7 +1568,7 @@ Se non ci saranno corrispondenze, userà l&apos;immagine più grande che si trov
     </message>
     <message>
       <source>%filename%</source>
-      <translation type="unfinished">%filename%</translation>
+      <translation>%filename%</translation>
     </message>
     <message>
       <source>Add song filename</source>
@@ -1576,7 +1576,7 @@ Se non ci saranno corrispondenze, userà l&apos;immagine più grande che si trov
     </message>
     <message>
       <source>%url%</source>
-      <translation type="unfinished">%url%</translation>
+      <translation>%url%</translation>
     </message>
     <message>
       <source>Add song URL</source>
@@ -1584,7 +1584,7 @@ Se non ci saranno corrispondenze, userà l&apos;immagine più grande che si trov
     </message>
     <message>
       <source>%rating%</source>
-      <translation type="unfinished">%rating%</translation>
+      <translation>%rating%</translation>
     </message>
     <message>
       <source>Add song rating</source>
@@ -1639,7 +1639,7 @@ Se non ci saranno corrispondenze, userà l&apos;immagine più grande che si trov
     </message>
     <message>
       <source>Bitrate</source>
-      <translation type="unfinished">Bitrate</translation>
+      <translation>Bitrate</translation>
     </message>
     <message>
       <source>Show album cover</source>
@@ -1679,7 +1679,7 @@ Se non ci saranno corrispondenze, userà l&apos;immagine più grande che si trov
     </message>
     <message>
       <source>%1 album</source>
-      <translation type="unfinished">%1 album</translation>
+      <translation>%1 album</translation>
     </message>
     <message>
       <source>%1 albums</source>
@@ -1687,7 +1687,7 @@ Se non ci saranno corrispondenze, userà l&apos;immagine più grande che si trov
     </message>
     <message>
       <source>kbps</source>
-      <translation type="unfinished">kbps</translation>
+      <translation>kbps</translation>
     </message>
   </context>
   <context>
@@ -1725,7 +1725,7 @@ Se non ci saranno corrispondenze, userà l&apos;immagine più grande che si trov
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>View</source>
@@ -1741,7 +1741,7 @@ Se non ci saranno corrispondenze, userà l&apos;immagine più grande che si trov
     </message>
     <message>
       <source>0</source>
-      <translation type="unfinished">0</translation>
+      <translation>0</translation>
     </message>
     <message>
       <source>Fetch Missing Covers</source>
@@ -1871,7 +1871,7 @@ Se non ci saranno corrispondenze, userà l&apos;immagine più grande che si trov
     </message>
     <message>
       <source>Use Spotify settings to authenticate.</source>
-      <translation type="unfinished">Use Spotify settings to authenticate.</translation>
+      <translation>Usa le impostazioni di Spotify per l'autenticazione.</translation>
     </message>
     <message>
       <source>Use Qobuz settings to authenticate.</source>
@@ -1914,7 +1914,7 @@ Se non ci saranno corrispondenze, userà l&apos;immagine più grande che si trov
     <name>CueParser</name>
     <message>
       <source>Saving CUE files is not supported.</source>
-      <translation type="unfinished">Saving CUE files is not supported.</translation>
+      <translation>Il salvataggio dei file CUE non è supportato.</translation>
     </message>
   </context>
   <context>
@@ -2632,7 +2632,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>You need to restart playback for this setting to take affect.</source>
-      <translation type="unfinished">You need to restart playback for this setting to take affect.</translation>
+      <translation>È necessario riavviare la riproduzione perché questa impostazione avvia effetto.</translation>
     </message>
   </context>
   <context>
@@ -2643,7 +2643,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>%1 dB</source>
-      <translation type="unfinished">%1 dB</translation>
+      <translation>%1 dB</translation>
     </message>
   </context>
   <context>
@@ -2661,7 +2661,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Icons sidebar</source>
-      <translation type="unfinished">Icons sidebar</translation>
+      <translation>Barra laterale icone</translation>
     </message>
     <message>
       <source>Small sidebar</source>
@@ -2695,15 +2695,15 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Add root directory</source>
-      <translation type="unfinished">Add root directory</translation>
+      <translation>Aggiungi directory principale</translation>
     </message>
     <message>
       <source>Remove selected root directory</source>
-      <translation type="unfinished">Remove selected root directory</translation>
+      <translation>Rimuove la directory principale selezionata</translation>
     </message>
     <message>
       <source>Toggle between list and tree view</source>
-      <translation type="unfinished">Toggle between list and tree view</translation>
+      <translation>Commuta tra elenco e vista ad albero</translation>
     </message>
     <message>
       <source>Select folder to add as tree root</source>
@@ -2753,43 +2753,43 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     <name>FileViewTree</name>
     <message>
       <source>Append to current playlist</source>
-      <translation type="unfinished">Append to current playlist</translation>
+      <translation>Aggiungi alla playlist attuale</translation>
     </message>
     <message>
       <source>Replace current playlist</source>
-      <translation type="unfinished">Replace current playlist</translation>
+      <translation>Sostituisci playlist attuale</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
-      <translation type="unfinished">Open in new playlist</translation>
+      <translation>Apri in nuova playlist</translation>
     </message>
     <message>
       <source>Copy to collection...</source>
-      <translation type="unfinished">Copy to collection...</translation>
+      <translation>Copia a raccolta...</translation>
     </message>
     <message>
       <source>Move to collection...</source>
-      <translation type="unfinished">Move to collection...</translation>
+      <translation>Sposta a raccolta...</translation>
     </message>
     <message>
       <source>Copy to device...</source>
-      <translation type="unfinished">Copy to device...</translation>
+      <translation>Copia a dispositivo...</translation>
     </message>
     <message>
       <source>Delete from disk...</source>
-      <translation type="unfinished">Delete from disk...</translation>
+      <translation>Elimina dal disco...</translation>
     </message>
     <message>
       <source>Edit track information...</source>
-      <translation type="unfinished">Edit track information...</translation>
+      <translation>Modifica informazioni traccia...</translation>
     </message>
     <message>
       <source>Show in file browser...</source>
-      <translation type="unfinished">Show in file browser...</translation>
+      <translation>Mostra nel browser file...</translation>
     </message>
     <message>
       <source>Files</source>
-      <translation type="unfinished">Files</translation>
+      <translation>File</translation>
     </message>
   </context>
   <context>
@@ -2804,7 +2804,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Exceeded by</source>
-      <translation type="unfinished">Exceeded by</translation>
+      <translation>Superato da</translation>
     </message>
     <message>
       <source>Used</source>
@@ -2815,15 +2815,15 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     <name>GPodDevice</name>
     <message>
       <source>Could not copy %1 to %2: %3</source>
-      <translation type="unfinished">Could not copy %1 to %2: %3</translation>
+      <translation>Impossibile copiare %1 a %2: %3</translation>
     </message>
     <message>
       <source>Writing database failed: %1</source>
-      <translation type="unfinished">Writing database failed: %1</translation>
+      <translation>Scrittura del database fallita: %1</translation>
     </message>
     <message>
       <source>Writing database failed.</source>
-      <translation type="unfinished">Writing database failed.</translation>
+      <translation>Scrittura del database fallita.</translation>
     </message>
   </context>
   <context>
@@ -2849,7 +2849,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>URI</source>
-      <translation type="unfinished">URI</translation>
+      <translation>URI</translation>
     </message>
   </context>
   <context>
@@ -2895,7 +2895,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Restart or previous track</source>
-      <translation type="unfinished">Restart or previous track</translation>
+      <translation>Riavvia o traccia precedente</translation>
     </message>
     <message>
       <source>Increase volume</source>
@@ -2995,11 +2995,11 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Use KGlobalAccel shortcuts when available</source>
-      <translation type="unfinished">Use KGlobalAccel shortcuts when available</translation>
+      <translation>Usa le scorciatoie KGlobalAccel quando disponibili</translation>
     </message>
     <message>
       <source>Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</source>
-      <translation type="unfinished">Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</translation>
+      <translation>L'uso delle scorciatoie X11 non è consigliato e può causare che la tastiera smetta di reagire! Le scorciatoie dovrebbero essere usate attraverso MPRIS2 / KGlobalAccel.</translation>
     </message>
   </context>
   <context>
@@ -3034,7 +3034,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Album - Disc</source>
@@ -3098,7 +3098,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Bitrate</source>
-      <translation type="unfinished">Bitrate</translation>
+      <translation>Bitrate</translation>
     </message>
     <message>
       <source>Second level</source>
@@ -3114,7 +3114,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Original year - Album - Disc</source>
-      <translation type="unfinished">Original year - Album - Disc</translation>
+      <translation>Anno originale - Album - Disco</translation>
     </message>
   </context>
   <context>
@@ -3128,11 +3128,11 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     <name>LastFMScrobbler</name>
     <message>
       <source>%1 Scrobbler Authentication</source>
-      <translation type="unfinished">%1 Scrobbler Authentication</translation>
+      <translation>%1 Autenticazione Scrobbler</translation>
     </message>
     <message>
       <source>Open URL in web browser?</source>
-      <translation type="unfinished">Open URL in web browser?</translation>
+      <translation>Vuoi aprire l'URL nel browser web?</translation>
     </message>
     <message>
       <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
@@ -3140,23 +3140,23 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Could not open URL. Please open this URL in your browser</source>
-      <translation type="unfinished">Could not open URL. Please open this URL in your browser</translation>
+      <translation>Impossibile aprire l'URL. Si prega di aprire questo URL nel browser</translation>
     </message>
     <message>
       <source>Invalid reply from web browser. Missing token.</source>
-      <translation type="unfinished">Invalid reply from web browser. Missing token.</translation>
+      <translation>Risposta non valida dal browser web. Token mancante.</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser. Try another browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser. Try another browser.</translation>
+      <translation>Ricevuta risposta invalida dal browser web. Prova un'altro browser.</translation>
     </message>
     <message>
       <source>Scrobbler %1 is not authenticated!</source>
-      <translation type="unfinished">Scrobbler %1 is not authenticated!</translation>
+      <translation>Lo Scrobbler '%1' non è autenticato!</translation>
     </message>
     <message>
       <source>Scrobbler %1 error: %2</source>
-      <translation type="unfinished">Scrobbler %1 error: %2</translation>
+      <translation>Scrobbler '%1' errore: '%2'</translation>
     </message>
   </context>
   <context>
@@ -3266,7 +3266,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>&amp;Music</source>
@@ -3274,7 +3274,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>P&amp;laylist</source>
-      <translation type="unfinished">P&amp;laylist</translation>
+      <translation>P&amp;laylist</translation>
     </message>
     <message>
       <source>Help</source>
@@ -3290,7 +3290,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>F5</source>
-      <translation type="unfinished">F5</translation>
+      <translation>F5</translation>
     </message>
     <message>
       <source>&amp;Play</source>
@@ -3298,7 +3298,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>F6</source>
-      <translation type="unfinished">F6</translation>
+      <translation>F6</translation>
     </message>
     <message>
       <source>&amp;Stop</source>
@@ -3314,7 +3314,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>F8</source>
-      <translation type="unfinished">F8</translation>
+      <translation>F8</translation>
     </message>
     <message>
       <source>&amp;Quit</source>
@@ -3322,7 +3322,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Ctrl+Q</source>
-      <translation type="unfinished">Ctrl+Q</translation>
+      <translation>Ctrl+Q</translation>
     </message>
     <message>
       <source>Stop after this track</source>
@@ -3330,7 +3330,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Ctrl+Alt+V</source>
-      <translation type="unfinished">Ctrl+Alt+V</translation>
+      <translation>Ctrl+Alt+V</translation>
     </message>
     <message>
       <source>Love</source>
@@ -3346,7 +3346,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Ctrl+K</source>
-      <translation type="unfinished">Ctrl+K</translation>
+      <translation>Ctrl+K</translation>
     </message>
     <message>
       <source>Edit track information...</source>
@@ -3354,7 +3354,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Ctrl+E</source>
-      <translation type="unfinished">Ctrl+E</translation>
+      <translation>Ctrl+E</translation>
     </message>
     <message>
       <source>Renumber tracks in this order...</source>
@@ -3374,7 +3374,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Ctrl+P</source>
-      <translation type="unfinished">Ctrl+P</translation>
+      <translation>Ctrl+P</translation>
     </message>
     <message>
       <source>&amp;About Strawberry</source>
@@ -3382,7 +3382,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>F1</source>
-      <translation type="unfinished">F1</translation>
+      <translation>F1</translation>
     </message>
     <message>
       <source>S&amp;huffle playlist</source>
@@ -3390,7 +3390,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Ctrl+H</source>
-      <translation type="unfinished">Ctrl+H</translation>
+      <translation>Ctrl+H</translation>
     </message>
     <message>
       <source>&amp;Add file...</source>
@@ -3398,7 +3398,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Ctrl+Shift+A</source>
-      <translation type="unfinished">Ctrl+Shift+A</translation>
+      <translation>Ctrl+Maiusc+A</translation>
     </message>
     <message>
       <source>&amp;Open file...</source>
@@ -3414,7 +3414,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>C&amp;onsole</source>
-      <translation type="unfinished">C&amp;onsole</translation>
+      <translation>C&amp;onsole</translation>
     </message>
     <message>
       <source>&amp;Shuffle mode</source>
@@ -3446,7 +3446,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Ctrl+J</source>
-      <translation type="unfinished">Ctrl+J</translation>
+      <translation>Ctrl+J</translation>
     </message>
     <message>
       <source>&amp;New playlist</source>
@@ -3454,7 +3454,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Ctrl+N</source>
-      <translation type="unfinished">Ctrl+N</translation>
+      <translation>Ctrl+N</translation>
     </message>
     <message>
       <source>Save &amp;playlist...</source>
@@ -3462,7 +3462,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Ctrl+S</source>
-      <translation type="unfinished">Ctrl+S</translation>
+      <translation>Ctrl+S</translation>
     </message>
     <message>
       <source>&amp;Load playlist...</source>
@@ -3470,7 +3470,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Ctrl+Shift+O</source>
-      <translation type="unfinished">Ctrl+Shift+O</translation>
+      <translation>Ctrl+Maiusc+O</translation>
     </message>
     <message>
       <source>&amp;Save all playlists...</source>
@@ -3498,7 +3498,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Ctrl+M</source>
-      <translation type="unfinished">Ctrl+M</translation>
+      <translation>Ctrl+M</translation>
     </message>
     <message>
       <source>&amp;Do a full collection rescan</source>
@@ -3506,7 +3506,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Stop collection scan</source>
-      <translation type="unfinished">Stop collection scan</translation>
+      <translation>Interrompi scansione raccolta</translation>
     </message>
     <message>
       <source>Complete tags automatically...</source>
@@ -3514,7 +3514,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Ctrl+T</source>
-      <translation type="unfinished">Ctrl+T</translation>
+      <translation>Ctrl+T</translation>
     </message>
     <message>
       <source>Toggle scrobbling</source>
@@ -3578,19 +3578,19 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Subsonic</source>
-      <translation type="unfinished">Subsonic</translation>
+      <translation>Subsonic</translation>
     </message>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>Show all songs</source>
@@ -3630,7 +3630,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Fetch metadata from service</source>
-      <translation type="unfinished">Fetch metadata from service</translation>
+      <translation>Scarica metadati dal servizio</translation>
     </message>
     <message>
       <source>Copy URL(s)...</source>
@@ -3674,15 +3674,15 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1</source>
-      <translation type="unfinished">You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1</translation>
+      <translation>Stai eseguendo Strawberry usando Rosetta. Ciò non è supportato ed è noto per avere problemi. Dovresti scaricare Strawberry per l'architettura CPU corretta da %1</translation>
     </message>
     <message>
       <source>Sponsoring Strawberry</source>
-      <translation type="unfinished">Sponsoring Strawberry</translation>
+      <translation>Sponsorizzazione di Strawberry</translation>
     </message>
     <message>
       <source>Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1</source>
-      <translation type="unfinished">Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1</translation>
+      <translation>Strawberry è un software libero e open source. Se ti piace Strawberry, per favore considera la sponsorizzazione del progetto. Per ulteriori informazioni sulla sponsorizzazione consulta il nostro sito  %1</translation>
     </message>
     <message>
       <source>Pause</source>
@@ -3792,7 +3792,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     <name>MimeData</name>
     <message>
       <source>Playlist</source>
-      <translation type="unfinished">Playlist</translation>
+      <translation>Playlist</translation>
     </message>
   </context>
   <context>
@@ -3814,19 +3814,19 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     <name>MtpConnection</name>
     <message>
       <source>Invalid MTP device: %1</source>
-      <translation type="unfinished">Invalid MTP device: %1</translation>
+      <translation>Dispositivo MTP invalido: %1</translation>
     </message>
     <message>
       <source>Could not open MTP device.</source>
-      <translation type="unfinished">Could not open MTP device.</translation>
+      <translation>Impossibile aprire il dispositivo MTP.</translation>
     </message>
     <message>
       <source>MTP error: %1</source>
-      <translation type="unfinished">MTP error: %1</translation>
+      <translation>Errore MTP: %1</translation>
     </message>
     <message>
       <source>MTP device not found.</source>
-      <translation type="unfinished">MTP device not found.</translation>
+      <translation>Dispositivo MTP non trovato.</translation>
     </message>
   </context>
   <context>
@@ -3841,7 +3841,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Error connecting MTP device %1: %2</source>
-      <translation type="unfinished">Error connecting MTP device %1: %2</translation>
+      <translation>Errore nel connettere il dispositivo MTP %1: %2</translation>
     </message>
   </context>
   <context>
@@ -3884,7 +3884,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Password</source>
-      <translation type="unfinished">Password</translation>
+      <translation>Password</translation>
     </message>
     <message>
       <source>Use proxy settings for streaming</source>
@@ -3892,7 +3892,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Only HTTP proxy is supported for streaming.</source>
-      <translation type="unfinished">Only HTTP proxy is supported for streaming.</translation>
+      <translation>Per lo streaming sono supportati solo i proxy HTTP.</translation>
     </message>
   </context>
   <context>
@@ -3976,7 +3976,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Summary</source>
@@ -4016,7 +4016,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Strawberry Red</source>
-      <translation type="unfinished">Strawberry Red</translation>
+      <translation>Rosso Strawberry</translation>
     </message>
     <message>
       <source>Custom...</source>
@@ -4092,7 +4092,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>%filename%</source>
-      <translation type="unfinished">%filename%</translation>
+      <translation>%filename%</translation>
     </message>
     <message>
       <source>Add song filename</source>
@@ -4100,7 +4100,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>%url%</source>
-      <translation type="unfinished">%url%</translation>
+      <translation>%url%</translation>
     </message>
     <message>
       <source>Add song URL</source>
@@ -4108,7 +4108,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>%originalyear%</source>
-      <translation type="unfinished">%originalyear%</translation>
+      <translation>%originalyear%</translation>
     </message>
     <message>
       <source>Add song original year tag</source>
@@ -4124,42 +4124,42 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Discord</source>
-      <translation type="unfinished">Discord</translation>
+      <translation>Discord</translation>
     </message>
     <message>
       <source>Enable Rich Presence</source>
-      <translation type="unfinished">Enable Rich Presence</translation>
+      <translation>Abilita Rich Presence</translation>
     </message>
     <message>
       <source>&quot;Listening to...&quot;</source>
-      <translation type="unfinished">&quot;Listening to...&quot;</translation>
+      <translation>&quot;In ascolto di...&quot;</translation>
     </message>
     <message>
       <source>Strawberry</source>
-      <translation type="unfinished">Strawberry</translation>
+      <translation>Strawberry</translation>
     </message>
     <message>
       <source>Artist name</source>
-      <translation type="unfinished">Artist name</translation>
+      <translation>Nome artista</translation>
     </message>
     <message>
       <source>Song title</source>
-      <translation type="unfinished">Song title</translation>
+      <translation>Titolo brano</translation>
     </message>
   </context>
   <context>
     <name>OAuthenticator</name>
     <message>
       <source>Authentication</source>
-      <translation type="unfinished">Authentication</translation>
+      <translation>Autenticazione</translation>
     </message>
     <message>
       <source>Please open this URL in your browser</source>
-      <translation type="unfinished">Please open this URL in your browser</translation>
+      <translation>Si prega di aprire questo URL nel browser</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser.</translation>
+      <translation>Ricevuta risposta invalida dal browser web.</translation>
     </message>
     <message>
       <source>Redirect URL is missing query.</source>
@@ -4214,7 +4214,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Volume %1%</source>
-      <translation type="unfinished">Volume %1%</translation>
+      <translation>Volume %1%</translation>
     </message>
     <message>
       <source>Don&apos;t shuffle</source>
@@ -4352,7 +4352,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Artist</source>
@@ -4409,7 +4409,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     <message>
       <source>Bitrate</source>
       <comment>Refers to bitrate in file organize dialog.</comment>
-      <translation type="unfinished">Bitrate</translation>
+      <translation>Bitrate</translation>
     </message>
     <message>
       <source>Sample rate</source>
@@ -4453,11 +4453,11 @@ Non è stato possibile eliminare i seguenti file:</translation>
     </message>
     <message>
       <source>File %1 does not exist</source>
-      <translation type="unfinished">File %1 does not exist</translation>
+      <translation>Il file '%1' non esiste</translation>
     </message>
     <message>
       <source>Could not read file %1: %2</source>
-      <translation type="unfinished">Could not read file %1: %2</translation>
+      <translation>Impossibile leggere il file %1: %2</translation>
     </message>
   </context>
   <context>
@@ -4483,11 +4483,11 @@ Non è stato possibile eliminare i seguenti file:</translation>
     <name>Playlist</name>
     <message>
       <source>Could not write metadata to %1</source>
-      <translation type="unfinished">Could not write metadata to %1</translation>
+      <translation>Impossibile scrivere i metadati a %1</translation>
     </message>
     <message>
       <source>Could not write metadata to %1: %2</source>
-      <translation type="unfinished">Could not write metadata to %1: %2</translation>
+      <translation>Impossibile scrivere i metadati a %1: %2</translation>
     </message>
     <message>
       <source>Title</source>
@@ -4495,7 +4495,7 @@ Non è stato possibile eliminare i seguenti file:</translation>
     </message>
     <message>
       <source>Title Sort</source>
-      <translation type="unfinished">Title Sort</translation>
+      <translation>Ordina per titolo</translation>
     </message>
     <message>
       <source>Artist</source>
@@ -4503,15 +4503,15 @@ Non è stato possibile eliminare i seguenti file:</translation>
     </message>
     <message>
       <source>Artist Sort</source>
-      <translation type="unfinished">Artist Sort</translation>
+      <translation>Ordina per artista</translation>
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Album Sort</source>
-      <translation type="unfinished">Album Sort</translation>
+      <translation>Ordina per album</translation>
     </message>
     <message>
       <source>Track</source>
@@ -4531,7 +4531,7 @@ Non è stato possibile eliminare i seguenti file:</translation>
     </message>
     <message>
       <source>Original Year</source>
-      <translation type="unfinished">Original Year</translation>
+      <translation>Anno originale</translation>
     </message>
     <message>
       <source>Genre</source>
@@ -4539,11 +4539,11 @@ Non è stato possibile eliminare i seguenti file:</translation>
     </message>
     <message>
       <source>Album Artist</source>
-      <translation type="unfinished">Album Artist</translation>
+      <translation>Artista album</translation>
     </message>
     <message>
       <source>Album Artist Sort</source>
-      <translation type="unfinished">Album Artist Sort</translation>
+      <translation>Ordina per artista album</translation>
     </message>
     <message>
       <source>Composer</source>
@@ -4551,7 +4551,7 @@ Non è stato possibile eliminare i seguenti file:</translation>
     </message>
     <message>
       <source>Composer Sort</source>
-      <translation type="unfinished">Composer Sort</translation>
+      <translation>Ordina per compositore</translation>
     </message>
     <message>
       <source>Performer</source>
@@ -4559,7 +4559,7 @@ Non è stato possibile eliminare i seguenti file:</translation>
     </message>
     <message>
       <source>Performer Sort</source>
-      <translation type="unfinished">Performer Sort</translation>
+      <translation>Ordina per esecutore</translation>
     </message>
     <message>
       <source>Grouping</source>
@@ -4567,51 +4567,51 @@ Non è stato possibile eliminare i seguenti file:</translation>
     </message>
     <message>
       <source>Play Count</source>
-      <translation type="unfinished">Play Count</translation>
+      <translation>Conteggio riproduzioni</translation>
     </message>
     <message>
       <source>Skip Count</source>
-      <translation type="unfinished">Skip Count</translation>
+      <translation>Conteggio skip</translation>
     </message>
     <message>
       <source>Last Played</source>
-      <translation type="unfinished">Last Played</translation>
+      <translation>Ultima riproduzione</translation>
     </message>
     <message>
       <source>Sample Rate</source>
-      <translation type="unfinished">Sample Rate</translation>
+      <translation>Frequenza di campionamento</translation>
     </message>
     <message>
       <source>Bit Depth</source>
-      <translation type="unfinished">Bit Depth</translation>
+      <translation>Bit depth</translation>
     </message>
     <message>
       <source>Bitrate</source>
-      <translation type="unfinished">Bitrate</translation>
+      <translation>Bitrate</translation>
     </message>
     <message>
       <source>Initial key</source>
-      <translation type="unfinished">Initial key</translation>
+      <translation>Chiave iniziale</translation>
     </message>
     <message>
       <source>File Name (without path)</source>
-      <translation type="unfinished">File Name (without path)</translation>
+      <translation>Nome del file (senza percorso)</translation>
     </message>
     <message>
       <source>File Size</source>
-      <translation type="unfinished">File Size</translation>
+      <translation>Dimensione file</translation>
     </message>
     <message>
       <source>File Type</source>
-      <translation type="unfinished">File Type</translation>
+      <translation>Tipo file</translation>
     </message>
     <message>
       <source>Date Modified</source>
-      <translation type="unfinished">Date Modified</translation>
+      <translation>Ultima modifica</translation>
     </message>
     <message>
       <source>Date Created</source>
-      <translation type="unfinished">Date Created</translation>
+      <translation>Data creazione</translation>
     </message>
     <message>
       <source>Comment</source>
@@ -5536,11 +5536,11 @@ Sei sicuro di voler continuare?</translation>
     </message>
     <message>
       <source>Playlist</source>
-      <translation type="unfinished">Playlist</translation>
+      <translation>Playlist</translation>
     </message>
     <message>
       <source>Various artists</source>
-      <translation type="unfinished">Various artists</translation>
+      <translation>Artisti vari</translation>
     </message>
     <message numerus="yes">
       <source>add %n songs</source>
@@ -5565,15 +5565,15 @@ Sei sicuro di voler continuare?</translation>
     </message>
     <message>
       <source>sort songs</source>
-      <translation type="unfinished">sort songs</translation>
+      <translation>ordina brani</translation>
     </message>
     <message>
       <source>shuffle songs</source>
-      <translation type="unfinished">shuffle songs</translation>
+      <translation>shuffle brani</translation>
     </message>
     <message>
       <source>Invalid collection directory</source>
-      <translation type="unfinished">Invalid collection directory</translation>
+      <translation>Directory raccolta non valida</translation>
     </message>
     <message>
       <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
@@ -5595,11 +5595,11 @@ Sei sicuro di voler continuare?</translation>
     <name>QobuzMetadataRequest</name>
     <message>
       <source>Not authenticated</source>
-      <translation type="unfinished">Not authenticated</translation>
+      <translation>Non autenticato</translation>
     </message>
     <message>
       <source>No track ID</source>
-      <translation type="unfinished">No track ID</translation>
+      <translation>Nessun ID traccia</translation>
     </message>
   </context>
   <context>
@@ -5661,23 +5661,23 @@ Sei sicuro di voler continuare?</translation>
     </message>
     <message>
       <source>Missing app ID. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing app ID. Please fetch credentials first.</translation>
+      <translation>App ID mancante. Si prega di scaricare prima le credenziali.</translation>
     </message>
     <message>
       <source>Missing app secret. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing app secret. Please fetch credentials first.</translation>
+      <translation>App secret mancante. Si prega di scaricare prima le credenziali.</translation>
     </message>
     <message>
       <source>Missing private key. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing private key. Please fetch credentials first.</translation>
+      <translation>Chiave privata mancante. Si prega di scaricare prima le credenziali.</translation>
     </message>
     <message>
       <source>Failed to start local server for OAuth redirect: %1</source>
-      <translation type="unfinished">Failed to start local server for OAuth redirect: %1</translation>
+      <translation>Avvio del server locale per il reindirizzamento OAuth fallito: %1</translation>
     </message>
     <message>
       <source>Failed to open the web browser. Please open this URL manually: %1</source>
-      <translation type="unfinished">Failed to open the web browser. Please open this URL manually: %1</translation>
+      <translation>Apertura del browser web non riuscita. Si prega di aprire manualmente questo URL: %1</translation>
     </message>
     <message>
       <source>Waiting for browser authentication...</source>
