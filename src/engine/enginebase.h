@@ -139,7 +139,7 @@ class EngineBase : public QObject {
   bool is_crossfade_enabled() const { return crossfade_enabled_; }
   bool is_autocrossfade_enabled() const { return autocrossfade_enabled_; }
   bool crossfade_same_album() const { return crossfade_same_album_; }
-  bool IsEqualizerEnabled() { return equalizer_enabled_; }
+  bool IsEqualizerEnabled() const { return equalizer_enabled_; }
 
   static const int kScopeSize = 1024;
 
