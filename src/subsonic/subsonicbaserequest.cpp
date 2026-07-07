@@ -47,7 +47,6 @@
 #include "constants/subsonicsettings.h"
 
 using namespace Qt::Literals::StringLiterals;
-using std::make_shared;
 
 SubsonicBaseRequest::SubsonicBaseRequest(SubsonicService *service, QObject *parent)
     : QObject(parent),

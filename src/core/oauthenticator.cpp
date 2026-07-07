@@ -46,7 +46,6 @@
 #include "oauthenticator.h"
 
 using namespace Qt::Literals::StringLiterals;
-using std::make_shared;
 using namespace std::chrono_literals;
 
 namespace {
