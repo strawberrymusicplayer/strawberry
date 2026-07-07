@@ -160,7 +160,7 @@ class QobuzRequest : public QobuzBaseRequest {
 
   void FinishCheck();
   static void Warn(const QString &error_message, const QVariant &debug_output = QVariant());
-  void Error(const QString &error_message, const QVariant &debug_output = QVariant());
+  void Error(const QString &error_message, const QVariant &debug_output = QVariant()) override;
 
   QobuzUrlHandler *url_handler_;
   QTimer *timer_flush_requests_;

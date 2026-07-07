@@ -32,7 +32,7 @@ class RadioViewContainer : public QWidget {
 
  public:
   explicit RadioViewContainer(QWidget *parent = nullptr);
-  ~RadioViewContainer();
+  ~RadioViewContainer() override;
 
   void ReloadSettings();
 

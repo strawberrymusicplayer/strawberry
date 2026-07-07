@@ -58,7 +58,7 @@ class CollectionWatcher : public QObject {
                              const SharedPtr<CollectionBackend> backend,
                              QObject *parent = nullptr);
 
-  ~CollectionWatcher();
+  ~CollectionWatcher() override;
 
   Song::Source source() const { return source_; }
 

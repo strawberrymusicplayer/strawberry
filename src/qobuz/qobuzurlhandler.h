@@ -36,8 +36,8 @@ class QobuzUrlHandler : public UrlHandler {
  public:
   explicit QobuzUrlHandler(const SharedPtr<TaskManager> task_manager, QobuzService *service);
 
-  QString scheme() const { return service_->url_scheme(); }
-  LoadResult StartLoading(const QUrl &url);
+  QString scheme() const override { return service_->url_scheme(); }
+  LoadResult StartLoading(const QUrl &url) override;
 
  private:
   void CancelTask(const int task_id);

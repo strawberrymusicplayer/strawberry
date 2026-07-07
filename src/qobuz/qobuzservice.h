@@ -72,7 +72,7 @@ class QobuzService : public StreamingService {
                         const SharedPtr<AlbumCoverLoader> albumcover_loader,
                         QObject *parent = nullptr);
 
-  ~QobuzService();
+  ~QobuzService() override;
 
   static const Song::Source kSource;
   static const char kApiUrl[];

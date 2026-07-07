@@ -32,7 +32,7 @@ class SavePlaylistsDialog : public QDialog {
 
  public:
   explicit SavePlaylistsDialog(const QStringList &types, const QString &default_extension, QWidget *parent = nullptr);
-  ~SavePlaylistsDialog();
+  ~SavePlaylistsDialog() override;
 
   QString path() const { return ui_->lineedit_path->text(); }
   QString extension() const { return ui_->combobox_type->currentText(); };

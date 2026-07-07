@@ -65,7 +65,7 @@ class CDDADevice : public ConnectedDevice {
                                   const bool first_time,
                                   QObject *parent = nullptr);
 
-  ~CDDADevice();
+  ~CDDADevice() override;
 
   bool Init() override;
   bool CopyToStorage(const CopyJob &job, QString &error_text) override { Q_UNUSED(job) Q_UNUSED(error_text) return false; }
