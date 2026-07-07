@@ -63,7 +63,7 @@ class TagReaderTagLib : public TagReaderBase {
   }
 
   static inline QString TagLibStringToQString(const TagLib::String &s) {
-    return QString::fromUtf8((s).toCString(true));
+    return QString::fromUtf8(s.toCString(true));
   }
 
   TagReaderResult IsMediaFile(const QString &filename) const override;
