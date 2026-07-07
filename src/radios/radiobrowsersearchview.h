@@ -32,6 +32,7 @@ class QMenu;
 class QAction;
 class QShowEvent;
 class QContextMenuEvent;
+class QSortFilterProxyModel;
 
 class RadioBrowserSearchModel;
 class RadioBrowserService;
@@ -72,6 +73,7 @@ class RadioBrowserSearchView : public QWidget {
   Ui_RadioBrowserSearchView *ui_;
   RadioBrowserService *service_;
   RadioBrowserSearchModel *model_;
+  QSortFilterProxyModel *sort_model_;
   QTimer *search_timer_;
   QMenu *context_menu_;
   QAction *action_add_to_playlist_;
