@@ -56,7 +56,7 @@ class PlayingWidget : public QWidget {
   explicit PlayingWidget(QWidget *parent = nullptr);
 
   void Init(AlbumCoverChoiceController *album_cover_choice_controller);
-  bool IsEnabled() { return enabled_; }
+  bool IsEnabled() const { return enabled_; }
   void SetEnabled(const bool enabled);
   void SetEnabled();
   void SetDisabled();
