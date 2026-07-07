@@ -2480,6 +2480,8 @@ void GstEnginePipeline::ResumeFaderAsync() {
 
 void GstEnginePipeline::FaderTimelineStateChanged(const QTimeLine::State state) {
 
+  qLog(Debug) << "Pipeline" << id() << "fader state changed to" << (state == QTimeLine::State::Running ? "running" : state == QTimeLine::State::Paused ? "paused" : "not running");
+
   fader_running_ = state == QTimeLine::State::Running;
 
 }
