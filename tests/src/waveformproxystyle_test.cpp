@@ -48,7 +48,7 @@ namespace {
 
 // Builds a well-formed, fixed-resolution SWVF blob (WaveformBuilder::kWaveformBaseCount buckets) mirroring the layout WaveformBuilder writes so the proxy style's renderer accepts it.
 // The format is fixed-resolution, so the body is always WaveformBuilder::kWaveformBaseCount pairs regardless of the count argument (kept for call-site readability) — this is what WaveformBuilder::IsValidBlob now requires.
-QByteArray MakeTestBlob(const int count = WaveformBuilder::kWaveformBaseCount, const qint8 mn = -64, const qint8 mx = 64, const float peak = 127.0f) {
+QByteArray MakeTestBlob(const int count = WaveformBuilder::kWaveformBaseCount, const qint8 mn = -64, const qint8 mx = 64, const float peak = 127.0F) {
 
   Q_UNUSED(count)
 
@@ -158,7 +158,7 @@ TEST(WaveformProxyStyleTest, PlayedUnplayedBoundaryTracksSliderValue) {
   WaveformProxyStyle *style = new WaveformProxyStyle(&slider);
 
   // Strong amplitude so the bars are tall enough to sample at the center line.
-  style->SetWaveformData(MakeTestBlob(200, -80, 80, 127.0f));
+  style->SetWaveformData(MakeTestBlob(200, -80, 80, 127.0F));
   style->SetShowWaveform(true);
 
   const QSize size(200, 40);
@@ -206,7 +206,7 @@ TEST(WaveformProxyStyleTest, OverRangeSliderValueClampsSplit) {
   slider.resize(200, 40);
   WaveformProxyStyle *style = new WaveformProxyStyle(&slider);
 
-  style->SetWaveformData(MakeTestBlob(200, -80, 80, 127.0f));
+  style->SetWaveformData(MakeTestBlob(200, -80, 80, 127.0F));
   style->SetShowWaveform(true);
 
   const QSize size(200, 40);
@@ -271,7 +271,7 @@ TEST(WaveformProxyStyleTest, CustomColorChangesRenderedPixmap) {
   }
 
   WaveformProxyStyle *style_default = new WaveformProxyStyle(&slider);
-  style_default->SetWaveformData(MakeTestBlob(200, -80, 80, 127.0f));
+  style_default->SetWaveformData(MakeTestBlob(200, -80, 80, 127.0F));
   style_default->SetShowWaveform(true);
 
   QElapsedTimer timer;
@@ -311,7 +311,7 @@ TEST(WaveformProxyStyleTest, CustomColorChangesRenderedPixmap) {
   }
 
   WaveformProxyStyle *style_custom = new WaveformProxyStyle(&slider);
-  style_custom->SetWaveformData(MakeTestBlob(200, -80, 80, 127.0f));
+  style_custom->SetWaveformData(MakeTestBlob(200, -80, 80, 127.0F));
   style_custom->SetShowWaveform(true);
 
   timer.restart();

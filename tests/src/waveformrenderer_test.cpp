@@ -38,7 +38,7 @@ namespace {
 
 // Builds a well-formed, fixed-resolution SWVF blob (WaveformBuilder::kWaveformBaseCount buckets), each holding mn/mx, and a caller-supplied header peak.
 // The format is fixed-resolution, so the body is always WaveformBuilder::kWaveformBaseCount pairs regardless of the count argument (kept for call-site readability) — this is what WaveformBuilder::IsValidBlob now requires.
-QByteArray MakeTestBlob(const int count = WaveformBuilder::kWaveformBaseCount, const qint8 mn = -64, const qint8 mx = 64, const float peak = 127.0f) {
+QByteArray MakeTestBlob(const int count = WaveformBuilder::kWaveformBaseCount, const qint8 mn = -64, const qint8 mx = 64, const float peak = 127.0F) {
 
   Q_UNUSED(count)
 
@@ -93,7 +93,7 @@ TEST(WaveformRendererTest, SilentTrackPeakZeroDoesNotCrash) {
 
   // A structurally valid blob with a zero header peak reaches the renderer's peak parse; it must not divide by zero (peak is consumed, never used to normalize).
   // A flat zero envelope simply produces no bars.
-  const QByteArray data = MakeTestBlob(100, 0, 0, 0.0f);
+  const QByteArray data = MakeTestBlob(100, 0, 0, 0.0F);
   ASSERT_TRUE(WaveformBuilder::IsValidBlob(data));
   const QPalette palette;
   const QPixmap pixmap = WaveformRenderer::RenderToPixmap(data, QSize(100, 40), palette, QColor(Qt::blue));
@@ -104,7 +104,7 @@ TEST(WaveformRendererTest, SilentTrackPeakZeroDoesNotCrash) {
 TEST(WaveformRendererTest, DifferentBarColorsProduceDifferentPixmaps) {
 
   // The bar color is caller-supplied; rendering the same blob in two colors must yield two visibly different images (the proxy relies on this to composite a played pixmap and an unplayed pixmap around the live split).
-  const QByteArray data = MakeTestBlob(200, -80, 80, 127.0f);
+  const QByteArray data = MakeTestBlob(200, -80, 80, 127.0F);
   const QPalette palette;
 
   const QPixmap blue = WaveformRenderer::RenderToPixmap(data, QSize(200, 40), palette, QColor(Qt::blue));
@@ -119,8 +119,8 @@ TEST(WaveformRendererTest, DifferentBarColorsProduceDifferentPixmaps) {
 TEST(WaveformRendererTest, GentleCurvePreservesLoudQuietContrast) {
 
   // The 0.65 power-law must keep a loud track's bars taller than a quiet track's (it lifts quiet passages without saturating everything to full height).
-  const QByteArray loud = MakeTestBlob(100, -120, 120, 127.0f);
-  const QByteArray quiet = MakeTestBlob(100, -16, 16, 127.0f);
+  const QByteArray loud = MakeTestBlob(100, -120, 120, 127.0F);
+  const QByteArray quiet = MakeTestBlob(100, -16, 16, 127.0F);
   const QPalette palette;
 
   const QPixmap loud_pixmap = WaveformRenderer::RenderToPixmap(loud, QSize(100, 40), palette, QColor(Qt::blue));
