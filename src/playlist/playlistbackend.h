@@ -51,7 +51,7 @@ class PlaylistBackend : public QObject {
                                        QObject *parent = nullptr);
 
   struct Playlist {
-    Playlist() : id(-1), favorite(false), last_played(0) {}
+    Playlist() : id(-1), favorite(false), last_played(0), dynamic_type(PlaylistGenerator::Type::None) {}
 
     int id;
     QString name;

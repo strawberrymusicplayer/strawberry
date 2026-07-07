@@ -43,7 +43,7 @@ class DeviceDatabaseBackend : public QObject {
   Q_INVOKABLE explicit DeviceDatabaseBackend(QObject *parent = nullptr);
 
   struct Device {
-    Device() : id_(-1) {}
+    Device() : id_(-1), size_(0), transcode_mode_(MusicStorage::TranscodeMode::Transcode_Always), transcode_format_(Song::FileType::FLAC) {}
 
     int id_;
     QString unique_id_;

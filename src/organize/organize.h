@@ -100,7 +100,8 @@ class Organize : public QObject {
   struct Task {
     explicit Task(const NewSongInfo &song_info = NewSongInfo())
         : song_info_(song_info),
-          transcode_progress_(0.0) {}
+          transcode_progress_(0.0),
+          new_filetype_(Song::FileType::Unknown) {}
 
     NewSongInfo song_info_;
     float transcode_progress_;

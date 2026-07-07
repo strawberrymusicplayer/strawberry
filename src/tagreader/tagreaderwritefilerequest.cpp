@@ -21,4 +21,4 @@
 
 #include "tagreaderwritefilerequest.h"
 
-TagReaderWriteFileRequest::TagReaderWriteFileRequest(const QString &_filename) : TagReaderRequest(_filename) {}
+TagReaderWriteFileRequest::TagReaderWriteFileRequest(const QString &_filename) : TagReaderRequest(_filename), tag_id3v2_version(TagID3v2Version::Default) {}
