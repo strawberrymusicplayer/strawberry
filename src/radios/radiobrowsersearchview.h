@@ -43,7 +43,7 @@ class RadioBrowserSearchView : public QWidget {
 
  public:
   explicit RadioBrowserSearchView(QWidget *parent = nullptr);
-  ~RadioBrowserSearchView();
+  ~RadioBrowserSearchView() override;
 
   void Init(RadioBrowserService *service);
 

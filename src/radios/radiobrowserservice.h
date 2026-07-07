@@ -39,7 +39,7 @@ class RadioBrowserService : public RadioService {
 
  public:
   explicit RadioBrowserService(const SharedPtr<TaskManager> task_manager, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
-  ~RadioBrowserService();
+  ~RadioBrowserService() override;
 
   QUrl Homepage() override;
   QUrl Donate() override;

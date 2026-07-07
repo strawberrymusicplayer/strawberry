@@ -37,7 +37,7 @@ class SomaFMService : public RadioService {
 
  public:
   explicit SomaFMService(const SharedPtr<TaskManager> task_manager, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
-  ~SomaFMService();
+  ~SomaFMService() override;
 
   QUrl Homepage() override;
   QUrl Donate() override;

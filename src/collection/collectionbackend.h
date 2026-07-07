@@ -143,7 +143,7 @@ class CollectionBackend : public CollectionBackendInterface {
  public:
   Q_INVOKABLE explicit CollectionBackend(QObject *parent = nullptr);
 
-  ~CollectionBackend();
+  ~CollectionBackend() override;
 
   void Init(SharedPtr<Database> db, SharedPtr<TaskManager> task_manager, const Song::Source source, const QString &songs_table, const QString &dirs_table = QString(), const QString &subdirs_table = QString());
 

@@ -32,7 +32,7 @@ class FileSystemWatcherInotify : public FileSystemWatcherInterface {
 
  public:
   explicit FileSystemWatcherInotify(QObject *parent = nullptr);
-  ~FileSystemWatcherInotify();
+  ~FileSystemWatcherInotify() override;
 
   void AddPaths(const QStringList &paths) override;
   void RemovePaths(const QStringList &paths) override;

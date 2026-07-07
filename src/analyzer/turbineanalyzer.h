@@ -33,7 +33,7 @@ class TurbineAnalyzer : public BoomAnalyzer {
  public:
   Q_INVOKABLE explicit TurbineAnalyzer(QWidget *parent);
 
-  void analyze(QPainter &p, const Scope &scope, const bool new_frame);
+  void analyze(QPainter &p, const Scope &scope, const bool new_frame) override;
 
   static const char *kName;
 };

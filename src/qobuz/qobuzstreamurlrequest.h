@@ -40,7 +40,7 @@ class QobuzStreamURLRequest : public QobuzBaseRequest {
 
  public:
   explicit QobuzStreamURLRequest(QobuzService *service, const SharedPtr<NetworkAccessManager> network, const QUrl &media_url, const uint id, QObject *parent = nullptr);
-  ~QobuzStreamURLRequest();
+  ~QobuzStreamURLRequest() override;
 
   void GetStreamURL();
   void Process();

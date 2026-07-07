@@ -42,7 +42,7 @@ class AudioScrobbler : public QObject {
 
  public:
   explicit AudioScrobbler(QObject *parent = nullptr);
-  ~AudioScrobbler();
+  ~AudioScrobbler() override;
 
   void AddService(SharedPtr<ScrobblerService> service);
   void RemoveService(SharedPtr<ScrobblerService> service);

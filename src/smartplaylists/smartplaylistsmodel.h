@@ -47,7 +47,7 @@ class SmartPlaylistsModel : public SimpleTreeModel<SmartPlaylistsItem> {
 
  public:
   explicit SmartPlaylistsModel(SharedPtr<CollectionBackend> backend, QObject *parent = nullptr);
-  ~SmartPlaylistsModel();
+  ~SmartPlaylistsModel() override;
 
   void Init();
 
