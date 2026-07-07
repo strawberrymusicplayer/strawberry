@@ -107,8 +107,8 @@ class GroupedIconView : public QListView {
 
  private:
   struct Header {
-    int y;
-    int first_row;
+    int y = 0;
+    int first_row = 0;
     QString text;
   };
 

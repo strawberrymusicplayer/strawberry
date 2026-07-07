@@ -60,7 +60,7 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
   struct Shortcut {
     GlobalShortcutsManager::Shortcut s;
     QKeySequence key;
-    QTreeWidgetItem *item;
+    QTreeWidgetItem *item = nullptr;
   };
 
   void SetShortcut(const QString &id, const QKeySequence &key);

@@ -68,7 +68,7 @@ Q_DECLARE_METATYPE(MprisPlaylistList)
 #endif
 
 struct MaybePlaylist {
-  bool valid;
+  bool valid{};
   MprisPlaylist playlist;
 };
 Q_DECLARE_METATYPE(MaybePlaylist)

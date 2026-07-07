@@ -107,7 +107,7 @@ class StreamingSearchView : public QWidget {
 
  private:
   struct DelayedSearch {
-    int id_;
+    int id_{};
     QString query_;
     StreamingService::SearchType type_;
   };

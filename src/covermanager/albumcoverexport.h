@@ -46,7 +46,7 @@ class AlbumCoverExport : public QDialog {
   };
 
   struct DialogResult {
-    DialogResult() : cancelled_(false), export_downloaded_(false), export_embedded_(false), forcesize_(false), width_(0), height_(0) {}
+    DialogResult() : cancelled_(false), export_downloaded_(false), export_embedded_(false), overwrite_(OverwriteMode::None), forcesize_(false), width_(0), height_(0) {}
     bool cancelled_;
 
     bool export_downloaded_;

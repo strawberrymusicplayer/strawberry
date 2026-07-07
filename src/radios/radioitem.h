@@ -36,8 +36,8 @@ class RadioItem : public SimpleTreeItem<RadioItem> {
     Channel
   };
 
-  explicit RadioItem(SimpleTreeModel<RadioItem> *_model) : SimpleTreeItem<RadioItem>(_model), type(Type::Root) {}
-  explicit RadioItem(const Type _type, RadioItem *_parent = nullptr) : SimpleTreeItem<RadioItem>(_parent), type(_type) {}
+  explicit RadioItem(SimpleTreeModel<RadioItem> *_model) : SimpleTreeItem<RadioItem>(_model), type(Type::Root), source(Song::Source::Unknown) {}
+  explicit RadioItem(const Type _type, RadioItem *_parent = nullptr) : SimpleTreeItem<RadioItem>(_parent), type(_type), source(Song::Source::Unknown) {}
 
   Type type;
   Song::Source source;

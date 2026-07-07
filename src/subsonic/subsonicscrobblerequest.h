@@ -51,7 +51,7 @@ class SubsonicScrobbleRequest : public SubsonicBaseRequest {
 
  private:
   struct Request {
-    explicit Request() : submission(false) {}
+    explicit Request() : submission(false), time_ms(0) {}
     // subsonic song id
     QString song_id;
     // submission: true=Submission, false=NowPlaying

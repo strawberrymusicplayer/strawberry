@@ -86,9 +86,9 @@ class RadioBrowserService : public RadioService {
     QString tag;
     QString language;
     QString order;
-    int limit;
-    int offset;
-    bool hide_broken;
+    int limit{};
+    int offset{};
+    bool hide_broken{};
   };
   PendingSearch pending_search_;
   bool has_pending_search_;
