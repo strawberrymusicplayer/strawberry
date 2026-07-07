@@ -28,7 +28,7 @@ class DeleteConfirmationDialog : public QDialog {
   Q_OBJECT
 
  public:
-  DeleteConfirmationDialog(const QStringList &files, QWidget *parent = nullptr);
+  explicit DeleteConfirmationDialog(const QStringList &files, QWidget *parent = nullptr);
 
   static QDialogButtonBox::StandardButton warning(const QStringList &files, QWidget *parent = nullptr);
 

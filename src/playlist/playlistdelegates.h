@@ -200,7 +200,7 @@ class RatingItemDelegate : public PlaylistDelegateBase {
   Q_OBJECT
 
  public:
-  RatingItemDelegate(QObject *parent);
+  explicit RatingItemDelegate(QObject *parent);
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
   QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
   QString displayText(const QVariant &value, const QLocale &locale) const override;

@@ -37,7 +37,7 @@ class RatingWidget : public QWidget {
   Q_PROPERTY(float rating READ rating WRITE set_rating NOTIFY RatingValueChanged)
 
  public:
-  RatingWidget(QWidget *parent = nullptr);
+  explicit RatingWidget(QWidget *parent = nullptr);
 
   QSize sizeHint() const override;
 

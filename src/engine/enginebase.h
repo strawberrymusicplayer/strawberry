@@ -45,7 +45,7 @@ class EngineBase : public QObject {
   Q_OBJECT
 
  protected:
-  EngineBase(QObject *parent = nullptr);
+  explicit EngineBase(QObject *parent = nullptr);
 
  public:
   ~EngineBase() override;
