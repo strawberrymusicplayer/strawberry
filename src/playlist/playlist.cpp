@@ -509,7 +509,7 @@ void Playlist::ItemReload(const QPersistentModelIndex &idx, const bool metadata_
     PlaylistItemPtr item = item_at(idx.row());
     if (item) {
       QFuture<Song> future = item->BackgroundReload();
-      QFutureWatcher<Song> *watcher = new QFutureWatcher<Song>();
+      QFutureWatcher<Song> *watcher = new QFutureWatcher<Song>(this);
       QObject::connect(watcher, &QFutureWatcher<Song>::finished, this, [this, watcher, idx, metadata_edit]() {
         ItemReloadComplete(idx, watcher->result(), metadata_edit);
         watcher->deleteLater();
