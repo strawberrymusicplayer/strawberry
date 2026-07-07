@@ -182,8 +182,11 @@ void FHT::transform8(float *p) {
 
 void FHT::_transform(float *p, int n, int k) {
 
-  if (n == 8) {
-    transform8(p + k);
+  // n <= 8 also covers the degenerate num_ == 0 case (constructed with n < 3), which would otherwise recurse infinitely and divide by zero below.
+  if (n <= 8) {
+    if (n == 8) {
+      transform8(p + k);
+    }
     return;
   }
 
