@@ -312,7 +312,7 @@ int main(int argc, char *argv[]) {
     languages << QLocale::system().name();
   }
 
-  ScopedPtr<Translations> translations(new Translations);
+  ScopedPtr<Translations> translations = std::make_unique<Translations>();
 
   for (const QString &language : std::as_const(languages)) {
     if (translations->LoadTranslation(u"qt"_s, QLibraryInfo::path(QLibraryInfo::TranslationsPath), language)) {
