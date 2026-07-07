@@ -52,7 +52,7 @@ class NullDevice : public QIODevice {
   Q_OBJECT
 
  public:
-  NullDevice(QObject *parent = nullptr) : QIODevice(parent) {}
+  explicit NullDevice(QObject *parent = nullptr) : QIODevice(parent) {}
 
  protected:
   qint64 readData(char *data, qint64 len) override { Q_UNUSED(data) Q_UNUSED(len) return -1; }

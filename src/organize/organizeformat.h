@@ -54,7 +54,7 @@ class OrganizeFormat {
   bool IsValid() const;
 
   struct GetFilenameForSongResult {
-    GetFilenameForSongResult(const QString &_filename = QString(), const bool _unique_filename = false) : filename(_filename), unique_filename(_unique_filename) {}
+    explicit GetFilenameForSongResult(const QString &_filename = QString(), const bool _unique_filename = false) : filename(_filename), unique_filename(_unique_filename) {}
     QString filename;
     bool unique_filename;
   };
