@@ -144,7 +144,7 @@ QByteArray WaveformBuilder::Finish(const int count) {
   stream << static_cast<quint32>(count);
   // Encode a zero-peak (fully silent) track as a peak of 1 so the render-time normalization (amp / peak) can never divide by zero.
   // All amplitudes are 0 in that case, so the normalized envelope stays flat regardless.
-  stream << (peak_ > 0.0f ? peak_ : 1.0f);
+  stream << (peak_ > 0.0F ? peak_ : 1.0F);
 
   // Re-bucket the working envelope into exactly count output buckets.
   const qsizetype bucket_count = static_cast<qsizetype>(bucket_min_.size());

@@ -144,7 +144,7 @@ TEST_F(WaveformLoaderTest, RegeneratesOnTruncatedCacheBlob) {
   stream.writeRawData("SWVF", 4);
   stream << static_cast<quint8>(1);
   stream << static_cast<quint32>(2000);  // declares 2000 buckets...
-  stream << static_cast<float>(1.0f);
+  stream << 1.0F;
   stream << static_cast<qint8>(10) << static_cast<qint8>(20);  // ...but only one pair.
   SeedCache(res.fileName(), blob);
 
@@ -172,7 +172,7 @@ TEST_F(WaveformLoaderTest, RegeneratesOnWrongVersionCacheBlob) {
   stream.writeRawData("SWVF", 4);
   stream << static_cast<quint8>(99);  // unsupported version
   stream << static_cast<quint32>(1);
-  stream << static_cast<float>(1.0f);
+  stream << 1.0F;
   stream << static_cast<qint8>(10) << static_cast<qint8>(20);
   SeedCache(res.fileName(), blob);
 
@@ -196,7 +196,7 @@ static QByteArray MakeMinimalValidBlob(qint8 sentinel_min = -10, qint8 sentinel_
   stream.writeRawData(WaveformBuilder::kWaveformMagic, 4);
   stream << WaveformBuilder::kWaveformVersion;
   stream << static_cast<quint32>(WaveformBuilder::kWaveformBaseCount);
-  stream << static_cast<float>(1.0f);
+  stream << 1.0F;
   for (int i = 0; i < WaveformBuilder::kWaveformBaseCount; ++i) {
     stream << sentinel_min << sentinel_max;
   }
