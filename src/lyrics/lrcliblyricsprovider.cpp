@@ -38,7 +38,6 @@
 #include "lrcliblyricsprovider.h"
 
 using namespace Qt::Literals::StringLiterals;
-using std::make_shared;
 
 namespace {
 constexpr char kApiUrl[] = "https://lrclib.net/api/get";
