@@ -24,7 +24,7 @@
 
 #ifdef Q_OS_UNIX
 #  include <unistd.h>
-#  include <string.h>
+#  include <cstring>
 #endif
 
 #ifdef Q_OS_WIN32
