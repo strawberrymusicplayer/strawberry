@@ -60,12 +60,12 @@ BoomAnalyzer::BoomAnalyzer(QWidget *parent)
 
 }
 
-void BoomAnalyzer::changeK_barHeight(const int newValue) {
-  K_barHeight_ = static_cast<double>(newValue) / 1000;
+void BoomAnalyzer::changeK_barHeight(const int new_value) {
+  K_barHeight_ = static_cast<double>(new_value) / 1000;
 }
 
-void BoomAnalyzer::changeF_peakSpeed(const int newValue) {
-  F_peakSpeed_ = static_cast<double>(newValue) / 1000;
+void BoomAnalyzer::changeF_peakSpeed(const int new_value) {
+  F_peakSpeed_ = static_cast<double>(new_value) / 1000;
 }
 
 void BoomAnalyzer::resizeEvent(QResizeEvent *e) {

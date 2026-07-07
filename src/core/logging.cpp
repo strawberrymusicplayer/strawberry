@@ -78,7 +78,7 @@ static QtMessageHandler sOriginalMessageHandler = nullptr;
 template<class T>
 static T CreateLogger(Level level, const QString &class_name, int line, const char *category);
 
-void GLog(const char *domain, int level, const char *message, void*) {
+void GLog(const char *domain, int level, const char *message, void* /*unused*/) {
 
   switch (level) {
     case G_LOG_FLAG_RECURSION:

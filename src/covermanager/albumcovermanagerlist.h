@@ -46,7 +46,7 @@ class AlbumCoverManagerList : public QListWidget {
  protected:
   QMimeData *mimeData(const QList<QListWidgetItem*> &items) const override;
 
-  void dropEvent(QDropEvent*) override {}
+  void dropEvent(QDropEvent *e) override { Q_UNUSED(e) }
 
  private:
   AlbumCoverManager *manager_;

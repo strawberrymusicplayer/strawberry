@@ -90,7 +90,7 @@ class EngineBase : public QObject {
 
   virtual bool Init() = 0;
   virtual State state() const = 0;
-  virtual void StartPreloading(const QUrl&, const QUrl&, const bool, const qint64, const qint64) {}
+  virtual void StartPreloading(const QUrl &media_url, const QUrl &stream_url, const bool force_stop_at_end, const qint64 beginning_offset_nanosec, const qint64 end_offset_nanosec);
   virtual bool Load(const QUrl &media_url, const QUrl &stream_url, const TrackChangeFlags track_change_flags, const bool force_stop_at_end, const quint64 beginning_offset_nanosec, const qint64 end_offset_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs);
   virtual bool Play(const bool pause, const quint64 offset_nanosec) = 0;
   virtual void Stop(const bool stop_after = false) = 0;
@@ -146,10 +146,10 @@ class EngineBase : public QObject {
   QVariant device() { return device_; }
 
  public Q_SLOTS:
-  virtual void SetStereoBalancerEnabled(const bool) {}
-  virtual void SetStereoBalance(const float) {}
-  virtual void SetEqualizerEnabled(const bool) {}
-  virtual void SetEqualizerParameters(const int, const QList<int>&) {}
+  virtual void SetStereoBalancerEnabled(const bool enabled) { Q_UNUSED(enabled) }
+  virtual void SetStereoBalance(const float value) { Q_UNUSED(value) }
+  virtual void SetEqualizerEnabled(const bool enabled) { Q_UNUSED(enabled) }
+  virtual void SetEqualizerParameters(const int preamp, const QList<int> &band_gains) { Q_UNUSED(preamp) Q_UNUSED(band_gains) }
 
  Q_SIGNALS:
   // Emitted when crossfading is enabled and the track is crossfade_duration_ away from finishing

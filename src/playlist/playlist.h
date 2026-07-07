@@ -268,8 +268,8 @@ class Playlist : public QAbstractListModel {
 #endif
 
   // QAbstractListModel
-  int rowCount(const QModelIndex& = QModelIndex()) const override { return items_.count(); }
-  int columnCount(const QModelIndex& = QModelIndex()) const override { return static_cast<int>(ColumnCount); }
+  int rowCount(const QModelIndex &parent = QModelIndex()) const override { Q_UNUSED(parent) return static_cast<int>(items_.count()); }
+  int columnCount(const QModelIndex &parent = QModelIndex()) const override { Q_UNUSED(parent) return static_cast<int>(ColumnCount); }
   QVariant data(const QModelIndex &idx, const int role = Qt::DisplayRole) const override;
   bool setData(const QModelIndex &idx, const QVariant &value, const int role) override;
   QVariant headerData(const int section, const Qt::Orientation orientation, const int role = Qt::DisplayRole) const override;
@@ -380,7 +380,7 @@ class Playlist : public QAbstractListModel {
   void ClearCollectionItems();
 
  private Q_SLOTS:
-  void TracksAboutToBeDequeued(const QModelIndex&, const int begin, const int end);
+  void TracksAboutToBeDequeued(const QModelIndex &idx, const int begin, const int end);
   void TracksDequeued();
   void TracksEnqueued(const QModelIndex &parent_idx, const int begin, const int end);
   void QueueLayoutChanged();

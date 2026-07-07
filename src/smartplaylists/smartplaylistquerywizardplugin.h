@@ -65,7 +65,7 @@ class SmartPlaylistQueryWizardPlugin : public SmartPlaylistWizardPlugin {
   bool is_dynamic() const override { return true; }
 
   int CreatePages(QWizard *wizard, const int finish_page_id) override;
-  void SetGenerator(PlaylistGeneratorPtr) override;
+  void SetGenerator(PlaylistGeneratorPtr g) override;
   PlaylistGeneratorPtr CreateGenerator() const override;
 
  public Q_SLOTS:

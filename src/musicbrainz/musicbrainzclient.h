@@ -94,7 +94,7 @@ class MusicBrainzClient : public JsonBaseRequest {
   void StartMbIdRequest(const int id, const QStringList &mbid);
   void CancelMbIdRequest(const int id);
 
-  void StartDiscIdRequest(const QString &discid);
+  void StartDiscIdRequest(const QString &disc_id);
   void CancelDiscIdRequest(const QString &disc_id);
 
   void CancelAll();
@@ -107,7 +107,7 @@ class MusicBrainzClient : public JsonBaseRequest {
   void FlushRequests();
   // ID identifies the track, and request_number means it's the 'request_number'th request for this track
   void MbIdRequestFinished(QNetworkReply *reply, const int id, const int request_number, const QString &mbid);
-  void DiscIdRequestFinished(const QString &discid, QNetworkReply *reply);
+  void DiscIdRequestFinished(const QString &disc_id, QNetworkReply *reply);
 
  private:
   class MbIdRequest {

@@ -96,7 +96,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   void SetStereoBalance(const float value) override;
 
   // Set whether equalizer is enabled
-  void SetEqualizerEnabled(const bool) override;
+  void SetEqualizerEnabled(const bool enabled) override;
 
   // Set equalizer preamp and gains, range -100..100. Gains are 10 values.
   void SetEqualizerParameters(const int preamp, const QList<int> &band_gains) override;
