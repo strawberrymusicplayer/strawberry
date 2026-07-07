@@ -45,7 +45,7 @@ constexpr char kVad[] = "vad";
 constexpr char kDtx[] = "dtx";
 constexpr char kComplexity[] = "complexity";
 constexpr char kNframes[] = "nframes";
-}
+}  // namespace
 
 TranscoderOptionsSpeex::TranscoderOptionsSpeex(QWidget *parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsSpeex) {
   ui_->setupUi(this);
