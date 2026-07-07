@@ -66,7 +66,7 @@ QPixmap WaveformRenderer::RenderToPixmap(const QByteArray &data, const QSize siz
   stream >> version;
   quint32 base_count = 0;
   stream >> base_count;
-  float peak = 0.0f;
+  float peak = 0.0F;
   stream >> peak;
   // The header peak is consumed to advance the stream to the column body.
   // It is not used to normalize: bars are scaled against the fixed int8 full scale so genuinely quiet tracks render proportionally short (the contrast Bug 2 wants).
@@ -110,8 +110,8 @@ QPixmap WaveformRenderer::RenderToPixmap(const QByteArray &data, const QSize siz
     }
 
     // Normalize to [0, 1] then apply the perceptual curve.
-    const float amp_above = std::clamp(static_cast<float>(col_mx) / kInt8FullScale, 0.0f, 1.0f);
-    const float amp_below = std::clamp(std::abs(static_cast<float>(col_mn)) / kInt8FullScale, 0.0f, 1.0f);
+    const float amp_above = std::clamp(static_cast<float>(col_mx) / kInt8FullScale, 0.0F, 1.0F);
+    const float amp_below = std::clamp(std::abs(static_cast<float>(col_mn)) / kInt8FullScale, 0.0F, 1.0F);
     const int h_above = static_cast<int>(std::pow(amp_above, kWaveformCurveExponent) * static_cast<float>(cy));
     const int h_below = static_cast<int>(std::pow(amp_below, kWaveformCurveExponent) * static_cast<float>(cy));
 

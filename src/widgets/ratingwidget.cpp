@@ -107,21 +107,21 @@ void RatingWidget::leaveEvent(QEvent *e) {
 
 void RatingWidget::keyPressEvent(QKeyEvent *e) {
 
-  constexpr float arrow_incr = 0.5f / RatingPainter::kStarCount;
+  constexpr float arrow_incr = 0.5F / RatingPainter::kStarCount;
 
-  float rating = -1.0f;
+  float rating = -1.0F;
 
   if (e->key() >= Qt::Key_0 && e->key() <= Qt::Key_9) {
-    rating = qBound(0.0f, static_cast<float>(e->key() - Qt::Key_0) / RatingPainter::kStarCount, 1.0f);
+    rating = qBound(0.0F, static_cast<float>(e->key() - Qt::Key_0) / RatingPainter::kStarCount, 1.0F);
   }
   else if (e->key() == Qt::Key_Left) {
-    rating = qBound(0.0f, rating_ - arrow_incr, 1.0f);
+    rating = qBound(0.0F, rating_ - arrow_incr, 1.0F);
   }
   else if (e->key() == Qt::Key_Right) {
-    rating = qBound(0.0f, rating_ + arrow_incr, 1.0f);
+    rating = qBound(0.0F, rating_ + arrow_incr, 1.0F);
   }
 
-  if (rating != -1.0f) {
+  if (rating != -1.0F) {
     if (rating != rating_) {
       rating_ = rating;
       update();
