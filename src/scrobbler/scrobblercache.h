@@ -45,7 +45,7 @@ class ScrobblerCache : public QObject {
 
   ScrobblerCacheItemPtr Add(const Song &song, const quint64 timestamp);
   void Remove(ScrobblerCacheItemPtr cache_item);
-  int Count() const { return scrobbler_cache_.size(); };
+  int Count() const { return static_cast<int>(scrobbler_cache_.size()); }
   ScrobblerCacheItemPtrList List() const { return scrobbler_cache_; }
   void ClearSent(ScrobblerCacheItemPtrList cache_items);
   void SetError(ScrobblerCacheItemPtrList cache_items);

@@ -243,13 +243,13 @@ void CDDASongLoader::LoadSongsFromCDDA() {
         continue;
       }
 
-      if (!songs.contains(track_number)) {
+      if (!songs.contains(static_cast<int>(track_number))) {
         qLog(Error) << "Got invalid track number" << track_number;
         msg_filter = static_cast<GstMessageType>(static_cast<int>(msg_filter) ^GST_MESSAGE_TAG);
         continue;
       }
 
-      Song &song = songs[track_number];
+      Song &song = songs[static_cast<int>(track_number)];
       guint64 duration = 0;
       if (gst_tag_list_get_uint64(tags, GST_TAG_DURATION, &duration)) {
         song.set_length_nanosec(static_cast<qint64>(duration));

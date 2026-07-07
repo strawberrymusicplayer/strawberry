@@ -624,7 +624,7 @@ void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QSt
   TagLib::ID3v2::FrameListMap map = tag->frameListMap();
 
   if (tag->header()) {
-    song->set_id3v2_version(tag->header()->majorVersion());
+    song->set_id3v2_version(static_cast<int>(tag->header()->majorVersion()));
   }
 
   if (map.contains(kID3v2_Disc)) *disc = TagLibStringToQString(map[kID3v2_Disc].front()->toString()).trimmed();

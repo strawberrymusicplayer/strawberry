@@ -119,7 +119,7 @@ void RadioBrowserService::ServerTestReply(QNetworkReply *reply) {
   if (reply->error() != QNetworkReply::NoError) {
     ++servers_tried_;
     if (servers_tried_ < kServers.size()) {
-      server_index_ = (server_index_ + 1) % kServers.size();
+      server_index_ = (server_index_ + 1) % static_cast<int>(kServers.size());
       TestServer(kServers.at(server_index_));
     }
     else {

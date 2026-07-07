@@ -1904,7 +1904,7 @@ PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int co
 bool Playlist::RemoveItemWithSignal(PlaylistItemPtr item) {
 
   item->set_signal(true);
-  return removeRows(items_.indexOf(item), 1);
+  return removeRows(static_cast<int>(items_.indexOf(item)), 1);
 
 }
 
