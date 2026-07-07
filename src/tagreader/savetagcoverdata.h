@@ -25,8 +25,8 @@
 
 class SaveTagCoverData {
  public:
-  explicit SaveTagCoverData(const QString &_cover_filename = QString(), const QByteArray &_cover_data = QByteArray(), const QString &_cover_mimetype = QString());
-  explicit SaveTagCoverData(const QByteArray &_cover_data, const QString &_cover_mimetype = QString());
+  SaveTagCoverData(const QString &_cover_filename = QString(), const QByteArray &_cover_data = QByteArray(), const QString &_cover_mimetype = QString());
+  SaveTagCoverData(const QByteArray &_cover_data, const QString &_cover_mimetype = QString());
   QString cover_filename;
   QByteArray cover_data;
   QString cover_mimetype;
