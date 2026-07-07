@@ -570,7 +570,7 @@ class Song {
   static QString GetNameForNewPlaylist(const QList<Song> &songs);
 
   static inline QString TagLibStringToQString(const TagLib::String &s) {
-    return QString::fromUtf8((s).toCString(true));
+    return QString::fromUtf8(s.toCString(true));
   }
 
  private:
