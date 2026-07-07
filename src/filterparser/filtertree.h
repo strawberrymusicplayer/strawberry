@@ -44,7 +44,7 @@ class FilterTree {
   virtual bool accept(const Song &song) const = 0;
 
  protected:
-  static QVariant DataFromColumn(const FilterColumn filter_column, const Song &metadata);
+  static QVariant DataFromColumn(const FilterColumn filter_column, const Song &song);
 
  private:
   Q_DISABLE_COPY(FilterTree)

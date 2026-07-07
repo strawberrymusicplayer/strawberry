@@ -88,6 +88,16 @@ EngineBase::EngineBase(QObject *parent)
 
 EngineBase::~EngineBase() = default;
 
+void EngineBase::StartPreloading(const QUrl &media_url, const QUrl &stream_url, const bool force_stop_at_end, const qint64 beginning_offset_nanosec, const qint64 end_offset_nanosec) {
+
+  Q_UNUSED(media_url)
+  Q_UNUSED(stream_url)
+  Q_UNUSED(force_stop_at_end)
+  Q_UNUSED(beginning_offset_nanosec)
+  Q_UNUSED(end_offset_nanosec)
+
+}
+
 bool EngineBase::Load(const QUrl &media_url, const QUrl &stream_url, const TrackChangeFlags track_change_flags, const bool force_stop_at_end, const quint64 beginning_offset_nanosec, const qint64 end_offset_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs) {
 
   Q_UNUSED(track_change_flags)

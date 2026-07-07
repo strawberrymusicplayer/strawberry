@@ -141,9 +141,9 @@ void SystemTrayIcon::SetupMenu(QAction *previous, QAction *play, QAction *stop, 
 
 }
 
-void SystemTrayIcon::Clicked(const QSystemTrayIcon::ActivationReason reason) {
+void SystemTrayIcon::Clicked(const QSystemTrayIcon::ActivationReason activation_reason) {
 
-  switch (reason) {
+  switch (activation_reason) {
     case QSystemTrayIcon::DoubleClick:
     case QSystemTrayIcon::Trigger:
       Q_EMIT ShowHide();

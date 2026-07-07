@@ -51,7 +51,7 @@ class OAuthenticator : public QObject {
 
   void set_settings_group(const QString &settings_group);
   void set_type(const Type type);
-  void set_authorize_url(const QUrl &auth_url);
+  void set_authorize_url(const QUrl &authorize_url);
   void set_redirect_url(const QUrl &redirect_url);
   void set_access_token_url(const QUrl &access_token_url);
   void set_client_id(const QString &client_id);

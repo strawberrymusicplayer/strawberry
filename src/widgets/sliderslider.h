@@ -32,7 +32,7 @@ class SliderSlider : public QSlider {
   Q_OBJECT
 
  public:
-  explicit SliderSlider(const Qt::Orientation, QWidget *parent, const int max = 0);
+  explicit SliderSlider(const Qt::Orientation orientation, QWidget *parent, const int max = 0);
 
   // WARNING non-virtual - and thus only really intended for internal use this is a major flaw in the class presently, however it suits our current needs fine
   int value() const { return adjustValue(QSlider::value()); }

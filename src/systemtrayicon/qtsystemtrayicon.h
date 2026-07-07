@@ -68,7 +68,7 @@ class SystemTrayIcon : public QSystemTrayIcon {
   void SetMuteEnabled(const bool enabled) { action_mute_->setVisible(enabled); }
 
  private:
-  QPixmap CreateIcon(const QPixmap &icon, const QPixmap &grey_icon);
+  QPixmap CreateIcon(const QPixmap &pixmap_icon_normal, const QPixmap &pixmap_icon_grey);
   void UpdateIcon();
 
  Q_SIGNALS:
@@ -81,7 +81,7 @@ class SystemTrayIcon : public QSystemTrayIcon {
   void PlayPause();
 
  private Q_SLOTS:
-  void Clicked(const QSystemTrayIcon::ActivationReason);
+  void Clicked(const QSystemTrayIcon::ActivationReason activation_reason);
 
  private:
   QMenu *menu_;

@@ -36,8 +36,8 @@ class SmartPlaylistsItem : public SimpleTreeItem<SmartPlaylistsItem> {
     SmartPlaylist
   };
 
-  SmartPlaylistsItem(SimpleTreeModel<SmartPlaylistsItem> *_model) : SimpleTreeItem<SmartPlaylistsItem>(_model), type(Type::Root) {}
-  SmartPlaylistsItem(const Type _type, SmartPlaylistsItem *_parent = nullptr) : SimpleTreeItem<SmartPlaylistsItem>(_parent), type(_type) {}
+  explicit SmartPlaylistsItem(SimpleTreeModel<SmartPlaylistsItem> *_model) : SimpleTreeItem<SmartPlaylistsItem>(_model), type(Type::Root), smart_playlist_type(PlaylistGenerator::Type::None) {}
+  explicit SmartPlaylistsItem(const Type _type, SmartPlaylistsItem *_parent = nullptr) : SimpleTreeItem<SmartPlaylistsItem>(_parent), type(_type), smart_playlist_type(PlaylistGenerator::Type::None) {}
 
   Type type;
   PlaylistGenerator::Type smart_playlist_type;

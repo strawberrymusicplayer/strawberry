@@ -150,7 +150,7 @@ class Mpris2 : public QObject {
   // Root Properties added in MPRIS 2.2
   bool CanSetFullscreen() const { return false; }
   bool Fullscreen() const { return false; }
-  void SetFullscreen(bool) {}
+  void SetFullscreen(bool value) { Q_UNUSED(value) }
 
   // Methods
   void Raise();

@@ -71,7 +71,8 @@ QModelIndex SimpleTreeModel<T>::ItemToIndex(T *item) const {
 }
 
 template<typename T>
-int SimpleTreeModel<T>::columnCount(const QModelIndex&) const {
+int SimpleTreeModel<T>::columnCount(const QModelIndex &parent) const {
+  Q_UNUSED(parent)
   return 1;
 }
 

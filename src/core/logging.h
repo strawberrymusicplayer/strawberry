@@ -55,8 +55,8 @@ class NullDevice : public QIODevice {
   NullDevice(QObject *parent = nullptr) : QIODevice(parent) {}
 
  protected:
-  qint64 readData(char*, qint64) override { return -1; }
-  qint64 writeData(const char*, qint64 len) override { return len; }
+  qint64 readData(char *data, qint64 len) override { Q_UNUSED(data) Q_UNUSED(len) return -1; }
+  qint64 writeData(const char *data, qint64 len) override { Q_UNUSED(data) return len; }
 };
 
 enum Level {

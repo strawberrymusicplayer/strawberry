@@ -52,12 +52,12 @@ class AppearanceSettingsPage : public SettingsPage {
   void Save() override;
 
  private Q_SLOTS:
-  void UseCustomColorSetOptionChanged(bool);
+  void UseCustomColorSetOptionChanged(bool checked);
   void SetDarkColors();
   void ResetToDefaultColors();
   void SelectBackgroundImage();
-  void BlurLevelChanged(int);
-  void OpacityLevelChanged(int);
+  void BlurLevelChanged(int value);
+  void OpacityLevelChanged(int percent);
   void TabBarSystemColor(bool checked);
   void TabBarSelectBGColor();
   void PlaylistPlayingSongColorSystem(bool checked);

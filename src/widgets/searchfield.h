@@ -48,7 +48,7 @@ class SearchField : public QWidget {
 #ifndef Q_OS_MACOS
   bool hasFocus() const;
 #endif
-  void setFocus(Qt::FocusReason);
+  void setFocus(Qt::FocusReason reason);
 
  public Q_SLOTS:
   void setText(const QString &new_text);
