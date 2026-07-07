@@ -26,6 +26,7 @@
 #include <QMenu>
 #include <QAction>
 #include <QShowEvent>
+#include <QSortFilterProxyModel>
 
 #include "core/iconloader.h"
 #include "core/settings.h"
@@ -45,6 +46,7 @@ RadioBrowserSearchView::RadioBrowserSearchView(QWidget *parent)
       ui_(new Ui_RadioBrowserSearchView),
       service_(nullptr),
       model_(new RadioBrowserSearchModel(this)),
+      sort_model_(new QSortFilterProxyModel(this)),
       search_timer_(new QTimer(this)),
       context_menu_(nullptr),
       action_add_to_playlist_(nullptr),
@@ -56,7 +58,12 @@ RadioBrowserSearchView::RadioBrowserSearchView(QWidget *parent)
 
   ui_->setupUi(this);
 
-  ui_->results->setModel(model_);
+  // Client-side sorting of the loaded results by clicking a column header.
+  // Locale-aware so names/countries sort naturally, and dynamic so appended pages (Load more) stay sorted.
+  sort_model_->setSourceModel(model_);
+  sort_model_->setSortLocaleAware(true);
+  sort_model_->setDynamicSortFilter(true);
+  ui_->results->setModel(sort_model_);
 
   StretchHeaderView *header = new StretchHeaderView(Qt::Horizontal, this);
   ui_->results->setHeader(header);
@@ -65,6 +72,10 @@ RadioBrowserSearchView::RadioBrowserSearchView(QWidget *parent)
   header->SetColumnWidth(static_cast<int>(RadioBrowserSearchModel::Column::Country), 0.2);
   header->SetColumnWidth(static_cast<int>(RadioBrowserSearchModel::Column::Tags), 0.2);
   header->SetColumnWidth(static_cast<int>(RadioBrowserSearchModel::Column::Codec), 0.1);
+
+  // Start unsorted so the server-provided order (the "Sort" combo box) is what the user sees until they click a column header.
+  header->setSortIndicator(-1, Qt::AscendingOrder);
+  ui_->results->setSortingEnabled(true);
 
   ui_->search->setPlaceholderText(tr("Search radio stations..."));
 
@@ -231,7 +242,11 @@ void RadioBrowserSearchView::SortChanged(const int index) {
 
   Q_UNUSED(index)
 
-  if (service_) SearchTriggered();
+  if (!service_) return;
+
+  // Changing the server-side sort order clears any client-side column sort, otherwise the chosen order would stay hidden behind the column sort and the combo box would appear to do nothing.
+  ui_->results->header()->setSortIndicator(-1, Qt::AscendingOrder);
+  SearchTriggered();
 
 }
 
@@ -239,7 +254,7 @@ void RadioBrowserSearchView::ItemDoubleClicked(const QModelIndex &index) {
 
   if (!index.isValid()) return;
 
-  const RadioChannel channel = model_->ChannelForRow(index.row());
+  const RadioChannel channel = model_->ChannelForRow(sort_model_->mapToSource(index).row());
   if (channel.url.isEmpty()) return;
 
   RadioMimeData *mimedata = new RadioMimeData;
@@ -255,7 +270,7 @@ void RadioBrowserSearchView::AddSelectedToPlaylist() {
 
   RadioMimeData *mimedata = new RadioMimeData;
   for (const QModelIndex &idx : selected) {
-    const RadioChannel channel = model_->ChannelForRow(idx.row());
+    const RadioChannel channel = model_->ChannelForRow(sort_model_->mapToSource(idx).row());
     if (!channel.url.isEmpty()) {
       mimedata->songs << channel.ToSong();
     }
