@@ -483,7 +483,11 @@ void BackendSettingsPage::OutputChanged(const int index) {
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(index).value<EngineBase::OutputDetails>();
 
 #ifdef Q_OS_WIN32
-  ui_->widget_exclusive_mode->setEnabled(player_->engine()->ExclusiveModeSupport(output.name));
+  const bool exclusive_mode_supported = player_->engine()->ExclusiveModeSupport(output.name);
+  ui_->widget_exclusive_mode->setEnabled(exclusive_mode_supported);
+  if (!exclusive_mode_supported && ui_->checkbox_exclusive_mode->isChecked()) {
+    ui_->checkbox_exclusive_mode->setChecked(false);
+  }
 #endif
 
   Load_Device(output.name, QVariant());
