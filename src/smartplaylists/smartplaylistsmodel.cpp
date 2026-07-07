@@ -143,7 +143,7 @@ void SmartPlaylistsModel::Init() {
     WriteDefaultsToSettings(&s, version, playlist_index);
     s.endArray();
 
-    version = default_smart_playlists_.count();
+    version = static_cast<int>(default_smart_playlists_.count());
   }
 
   s.setValue(collection_backend_->songs_table() + u"_version"_s, version);

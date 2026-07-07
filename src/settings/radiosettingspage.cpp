@@ -51,7 +51,7 @@ QList<QPair<QString, QString>> RadioSettingsPage::CountryList() {
     seen.insert(territory);
 
     const QString locale_name = locale.name();
-    const int underscore = locale_name.lastIndexOf(u'_');
+    const int underscore = static_cast<int>(locale_name.lastIndexOf(u'_'));
     if (underscore < 0) continue;
     const QString code = locale_name.mid(underscore + 1);
     if (code.length() != 2) continue;
