@@ -170,7 +170,6 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   const QMap<QString, CollectionItem*> &container_nodes(const int i) const { return container_nodes_[i]; }
   QList<CollectionItem*> song_nodes() const { return song_nodes_.values(); }
-  int divider_nodes_count() const { return divider_nodes_.count(); }
 
   // QAbstractItemModel
   QVariant data(const QModelIndex &idx, const int role = Qt::DisplayRole) const override;
