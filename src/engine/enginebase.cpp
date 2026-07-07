@@ -271,7 +271,7 @@ bool EngineBase::ValidOutput(const QString &output) {
 
   Q_UNUSED(output);
 
-  return (true);
+  return true;
 
 }
 
