@@ -248,15 +248,20 @@ int main(int argc, char *argv[]) {
     if (style != "default"_L1) {
       QApplication::setStyle(style);
     }
-#ifdef Q_OS_WIN32
-    // Native Windows styles (windowsvista, windows11) use Win32/UxTheme for rendering and only produce correct results with a dark palette when Windows itself is in dark mode for the process.
+    (void) dark_mode;
+#if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
     if (dark_mode && QApplication::style()) {
       const QString current_style = QApplication::style()->objectName();
-      if (current_style.compare(u"windowsvista"_s, Qt::CaseInsensitive) == 0 || current_style.compare(u"windows11"_s, Qt::CaseInsensitive) == 0) {
+#if defined(Q_OS_WIN32)
+      const bool is_native = current_style.compare(u"windowsvista"_s, Qt::CaseInsensitive) == 0 || current_style.compare(u"windows11"_s, Qt::CaseInsensitive) == 0;
+#elif defined(Q_OS_MACOS)
+      const bool is_native = current_style.compare(u"macos"_s, Qt::CaseInsensitive) == 0;
+#endif
+      if (is_native) {
         QGuiApplication::styleHints()->setColorScheme(Qt::ColorScheme::Dark);
       }
     }
-#endif  // Q_OS_WIN32
+#endif
     if (QApplication::style()) {
       qLog(Debug) << "Style:" << QApplication::style()->objectName();
     }
