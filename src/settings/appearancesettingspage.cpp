@@ -258,7 +258,7 @@ void AppearanceSettingsPage::Save() {
   s.setValue(kSystemThemeIcons, ui_->checkbox_system_icons->isChecked());
 #endif
 
-  if (IsNativeWindowsStyle(ui_->combobox_style->currentData().toString())) {
+  if (IsNativeStyle(ui_->combobox_style->currentData().toString())) {
     s.setValue(kDarkMode, ui_->checkbox_dark_mode->isChecked());
     s.setValue(kUseCustomColorSet, false);
   }
@@ -337,7 +337,7 @@ void AppearanceSettingsPage::Save() {
 
 void AppearanceSettingsPage::Cancel() {
 
-#ifdef Q_OS_WIN32
+#if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
   QGuiApplication::styleHints()->setColorScheme(original_dark_mode_ ? Qt::ColorScheme::Dark : Qt::ColorScheme::Unknown);
 #endif
 
@@ -353,12 +353,12 @@ void AppearanceSettingsPage::Cancel() {
 void AppearanceSettingsPage::StyleChanged(const int index) {
 
   const QString style_name = ui_->combobox_style->itemData(index).toString();
-  const bool is_native = IsNativeWindowsStyle(style_name);
+  const bool is_native = IsNativeStyle(style_name);
 
   ui_->checkbox_dark_mode->setVisible(is_native);
   ui_->groupbox_colors->setEnabled(!is_native);
 
-#ifdef Q_OS_WIN32
+#if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
   if (is_native) {
     appearance_->ResetToSystemDefaultTheme();
     QGuiApplication::styleHints()->setColorScheme(ui_->checkbox_dark_mode->isChecked() ? Qt::ColorScheme::Dark : Qt::ColorScheme::Unknown);
@@ -372,7 +372,7 @@ void AppearanceSettingsPage::StyleChanged(const int index) {
       appearance_->ResetToSystemDefaultTheme();
     }
   }
-#endif  // Q_OS_WIN32
+#endif
 
   set_changed();
 
@@ -380,7 +380,7 @@ void AppearanceSettingsPage::StyleChanged(const int index) {
 
 void AppearanceSettingsPage::DarkModeToggled(const bool checked) {
 
-#if defined(Q_OS_WIN32)
+#if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
   QGuiApplication::styleHints()->setColorScheme(checked ? Qt::ColorScheme::Dark : Qt::ColorScheme::Unknown);
 #else
   Q_UNUSED(checked)
@@ -579,13 +579,15 @@ void AppearanceSettingsPage::PlaylistPlayingSongSelectColor() {
 
 }
 
-bool AppearanceSettingsPage::IsNativeWindowsStyle(const QString &style_name) {
+bool AppearanceSettingsPage::IsNativeStyle(const QString &style_name) {
 
-#ifdef Q_OS_WIN32
+#if defined(Q_OS_WIN32)
   return style_name.compare(u"default"_s, Qt::CaseInsensitive) == 0 || style_name.compare(u"windowsvista"_s, Qt::CaseInsensitive) == 0 || style_name.compare(u"windows11"_s, Qt::CaseInsensitive) == 0;
+#elif defined(Q_OS_MACOS)
+  return style_name.compare(u"default"_s, Qt::CaseInsensitive) == 0 || style_name.compare(u"macos"_s, Qt::CaseInsensitive) == 0;
 #else
   Q_UNUSED(style_name)
   return false;
-#endif  // Q_OS_WIN32
+#endif
 
 }

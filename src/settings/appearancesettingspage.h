@@ -81,7 +81,7 @@ class AppearanceSettingsPage : public SettingsPage {
   // Human-readable label for a palette color role.
   static QString ColorRoleLabel(const QPalette::ColorRole role);
 
-  static bool IsNativeWindowsStyle(const QString &style_name);
+  static bool IsNativeStyle(const QString &style_name);
 
   Ui_AppearanceSettingsPage *ui_;
   const SharedPtr<Appearance> appearance_;
