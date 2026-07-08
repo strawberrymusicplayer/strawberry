@@ -78,11 +78,6 @@ constexpr char kLastOutputFormat[] = "last_output_format";
 constexpr char kGeometry[] = "geometry";
 }  // namespace
 
-#ifdef __GNUC__
-#  pragma GCC diagnostic push
-#  pragma GCC diagnostic ignored "-Warray-bounds"
-#endif
-
 static bool ComparePresetsByName(const TranscoderPreset &left, const TranscoderPreset &right) {
   return left.name_ < right.name_;
 }
@@ -503,6 +498,3 @@ QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const 
 
 }
 
-#ifdef __GNUC__
-#  pragma GCC diagnostic pop
-#endif

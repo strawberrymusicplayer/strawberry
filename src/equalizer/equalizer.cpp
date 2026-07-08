@@ -117,14 +117,7 @@ void Equalizer::ReloadSettings() {
   const int count = s.beginReadArray(kPresets);
   for (int i = 0; i < count; ++i) {
     s.setArrayIndex(i);
-#ifdef __GNUC__
-#  pragma GCC diagnostic push
-#  pragma GCC diagnostic ignored "-Warray-bounds"
-#endif
     AddPreset(s.value(kName).toString(), s.value(kParams).value<Equalizer::Params>());
-#ifdef __GNUC__
-#  pragma GCC diagnostic pop
-#endif
   }
   s.endArray();
 
