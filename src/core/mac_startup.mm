@@ -41,6 +41,8 @@
 
 #import <QuartzCore/CALayer.h>
 
+#import <UserNotifications/UserNotifications.h>
+
 //#import <SPMediaKeyTap.h>
 
 #include "config.h"
@@ -217,11 +219,16 @@ QDebug operator<<(QDebug dbg, NSObject *object) {
   return NSTerminateNow;
 }
 
-- (BOOL) userNotificationCenter: (id)center shouldPresentNotification: (id)notification {
+- (void) userNotificationCenter: (UNUserNotificationCenter*)center
+    willPresentNotification: (UNNotification*)notification
+    withCompletionHandler: (void (^)(UNNotificationPresentationOptions options))completionHandler {
+
   Q_UNUSED(center);
   Q_UNUSED(notification);
+
   // Always show notifications, even if Strawberry is in the foreground.
-  return YES;
+  completionHandler(UNNotificationPresentationOptionBanner | UNNotificationPresentationOptionList);
+
 }
 
 @end
@@ -257,15 +264,13 @@ QDebug operator<<(QDebug dbg, NSObject *object) {
   [delegate_ setShortcutHandler:shortcut_handler_];
   [self setDelegate:delegate_];
 
-  // FIXME
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-  [[NSUserNotificationCenter defaultUserNotificationCenter]setDelegate:delegate_];
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
+  UNUserNotificationCenter *notification_center = [UNUserNotificationCenter currentNotificationCenter];
+  notification_center.delegate = delegate_;
+  [notification_center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert | UNAuthorizationOptionSound) completionHandler:^(BOOL granted, NSError *error) {
+    if (!granted) {
+      qLog(Warning) << "Notification authorization was not granted:" << (error ? QString::fromNSString(error.localizedDescription) : QStringLiteral("Unknown error"));
+    }
+  }];
 
 }
 

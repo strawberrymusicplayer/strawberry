@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,8 @@
  *
  */
 
+#import <UserNotifications/UserNotifications.h>
+
 #include "config.h"
 
 #include <memory>
@@ -26,28 +28,33 @@
 #include <QBuffer>
 #include <QByteArray>
 #include <QFile>
+#include <QString>
 
 #include "includes/scoped_nsobject.h"
+
+#include "core/logging.h"
 
 #include "osdmac.h"
 
 namespace {
 
 bool NotificationCenterSupported() {
-  return NSClassFromString(@"NSUserNotificationCenter");
+  return [UNUserNotificationCenter currentNotificationCenter] != nil;
 }
 
 void SendNotificationCenterMessage(NSString *title, NSString *subtitle) {
 
-  Class clazz = NSClassFromString(@"NSUserNotificationCenter");
-  id notification_center = [clazz defaultUserNotificationCenter];
+  scoped_nsobject<UNMutableNotificationContent> content([[UNMutableNotificationContent alloc] init]);
+  [content setTitle:title];
+  [content setSubtitle:subtitle];
 
-  Class user_notification_class = NSClassFromString(@"NSUserNotification");
-  id notification = [[user_notification_class alloc] init];
-  [notification setTitle:title];
-  [notification setSubtitle:subtitle];
+  UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:[[NSUUID UUID] UUIDString] content:content.get() trigger:nil];
 
-  [notification_center deliverNotification:notification];
+  [[UNUserNotificationCenter currentNotificationCenter] addNotificationRequest:request withCompletionHandler:^(NSError *error) {
+    if (error) {
+      qLog(Warning) << "Failed to deliver notification:" << QString::fromNSString(error.localizedDescription);
+    }
+  }];
 
 }
 

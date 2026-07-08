@@ -1630,6 +1630,7 @@ if(APPLE)
     "-framework DiskArbitration"
     "-framework IOKit"
     "-framework ScriptingBridge"
+    "-framework UserNotifications"
   )
   if(HAVE_SPARKLE)
     target_include_directories(strawberry_lib SYSTEM PRIVATE ${SPARKLE}/Headers)
