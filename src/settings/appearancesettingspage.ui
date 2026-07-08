@@ -32,7 +32,7 @@
         <item>
          <widget class="QComboBox" name="combobox_style">
           <property name="toolTip">
-           <string>You need to restart Strawberry for this setting to take affect.</string>
+           <string>You might need to restart Strawberry for this setting to fully apply</string>
           </property>
          </widget>
         </item>
@@ -44,9 +44,19 @@
          </widget>
         </item>
         <item>
+         <widget class="QCheckBox" name="checkbox_system_icons">
+          <property name="toolTip">
+           <string>You need to restart Strawberry for this setting to take affect</string>
+          </property>
+          <property name="text">
+           <string>System icons</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="spacer_style">
           <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
+           <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -58,21 +68,14 @@
         </item>
        </layout>
       </item>
-      <item>
-       <widget class="QCheckBox" name="checkbox_system_icons">
-        <property name="toolTip">
-         <string>You need to restart Strawberry for this setting to take affect.</string>
-        </property>
-        <property name="text">
-         <string>Use system theme icons</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
    </item>
    <item>
     <widget class="QGroupBox" name="groupbox_colors">
+     <property name="toolTip">
+      <string>Changing colors is only supported with some styles</string>
+     </property>
      <property name="title">
       <string>Colors</string>
      </property>
@@ -104,7 +107,7 @@
            <string>Set a custom color set suitable for a dark theme</string>
           </property>
           <property name="text">
-           <string>Dark mode</string>
+           <string>Dark colors</string>
           </property>
          </widget>
         </item>
@@ -191,6 +194,47 @@
     </widget>
    </item>
    <item>
+    <widget class="QGroupBox" name="playlist_playing_song_color">
+     <property name="title">
+      <string>Playlist playing song color</string>
+     </property>
+     <layout class="QVBoxLayout" name="layout_playlist_playing_song_color">
+      <item>
+       <widget class="QRadioButton" name="playlist_playing_song_color_system">
+        <property name="text">
+         <string>System highlight color</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="playlist_playing_song_color_custom">
+        <property name="text">
+         <string>Custom color</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="layout_playlist_playing_song_color_custom">
+        <item>
+         <widget class="QLabel" name="label_select_playlist_playing_song_color">
+          <property name="text">
+           <string>Select playlist playing song color:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="select_playlist_playing_song_color">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupbox_background_image">
      <property name="title">
       <string>Background image</string>
@@ -259,7 +303,7 @@
        </layout>
       </item>
       <item>
-       <widget class="QWidget" name="widget_custom_background_image_options" native="true">
+       <widget class="QWidget" name="widget_background_image_options" native="true">
         <layout class="QVBoxLayout" name="layout_custom_background_image_options">
          <property name="leftMargin">
           <number>0</number>
@@ -274,7 +318,7 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QWidget" name="widget_custom_position" native="true">
+          <widget class="QWidget" name="widget_background_image_custom_position" native="true">
            <layout class="QHBoxLayout" name="layout_custom_position">
             <property name="leftMargin">
              <number>0</number>
@@ -289,14 +333,14 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QLabel" name="label_position">
+             <widget class="QLabel" name="label_background_image_position">
               <property name="text">
                <string>Position</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="combobox_backgroundimageposition">
+             <widget class="QComboBox" name="combobox_background_image_position">
               <item>
                <property name="text">
                 <string>Upper Left</string>
@@ -325,7 +369,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label">
+             <widget class="QLabel" name="label_background_image_max_cover_size">
               <property name="text">
                <string>Max cover size</string>
               </property>
@@ -333,15 +377,18 @@
             </item>
             <item>
              <widget class="QSpinBox" name="spinbox_background_image_maxsize">
+              <property name="minimum">
+               <number>0</number>
+              </property>
               <property name="maximum">
                <number>9000</number>
               </property>
              </widget>
             </item>
             <item>
-             <spacer name="spacer_position">
+             <spacer name="spacer_background_image_position">
               <property name="orientation">
-               <enum>Qt::Orientation::Horizontal</enum>
+               <enum>Qt::Horizontal</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
@@ -393,7 +440,7 @@
             <item>
              <spacer name="spacer_background_image_stretch">
               <property name="orientation">
-               <enum>Qt::Orientation::Horizontal</enum>
+               <enum>Qt::Horizontal</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
@@ -407,9 +454,9 @@
           </widget>
          </item>
          <item>
-          <layout class="QGridLayout" name="layout_blur_opacity">
+          <layout class="QGridLayout" name="layout_background_image_blur_opacity">
            <item row="0" column="0">
-            <widget class="QLabel" name="select_background_blur_label">
+            <widget class="QLabel" name="label_background_image_blur">
              <property name="enabled">
               <bool>true</bool>
              </property>
@@ -419,7 +466,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QSlider" name="blur_slider">
+            <widget class="QSlider" name="slider_background_image_blur">
              <property name="minimum">
               <number>0</number>
              </property>
@@ -427,10 +474,10 @@
               <number>100</number>
              </property>
              <property name="orientation">
-              <enum>Qt::Orientation::Horizontal</enum>
+              <enum>Qt::Horizontal</enum>
              </property>
              <property name="tickPosition">
-              <enum>QSlider::TickPosition::TicksBelow</enum>
+              <enum>QSlider::TicksBelow</enum>
              </property>
              <property name="tickInterval">
               <number>10</number>
@@ -438,7 +485,7 @@
             </widget>
            </item>
            <item row="0" column="2">
-            <widget class="QLabel" name="background_blur_radius_label">
+            <widget class="QLabel" name="label_background_image_blur_radius">
              <property name="enabled">
               <bool>true</bool>
              </property>
@@ -448,14 +495,14 @@
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QLabel" name="select_opacity_level_label">
+            <widget class="QLabel" name="label_background_image_opacity">
              <property name="text">
               <string>Opacity</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QSlider" name="opacity_slider">
+            <widget class="QSlider" name="slider_background_image_opacity">
              <property name="maximum">
               <number>100</number>
              </property>
@@ -463,10 +510,10 @@
               <number>10</number>
              </property>
              <property name="orientation">
-              <enum>Qt::Orientation::Horizontal</enum>
+              <enum>Qt::Horizontal</enum>
              </property>
              <property name="tickPosition">
-              <enum>QSlider::TickPosition::TicksBelow</enum>
+              <enum>QSlider::TicksBelow</enum>
              </property>
              <property name="tickInterval">
               <number>10</number>
@@ -474,7 +521,7 @@
             </widget>
            </item>
            <item row="1" column="2">
-            <widget class="QLabel" name="background_opacity_label">
+            <widget class="QLabel" name="label_background_image_opacity_2">
              <property name="text">
               <string>40%</string>
              </property>
@@ -603,7 +650,7 @@
       <item>
        <spacer name="spacer_icon_sizes">
         <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
+         <enum>Qt::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -617,50 +664,9 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="playlist_playing_song_color">
-     <property name="title">
-      <string>Playlist playing song color</string>
-     </property>
-     <layout class="QVBoxLayout" name="layout_playlist_playing_song_color">
-      <item>
-       <widget class="QRadioButton" name="playlist_playing_song_color_system">
-        <property name="text">
-         <string>System highlight color</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="playlist_playing_song_color_custom">
-        <property name="text">
-         <string>Custom color</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="layout_playlist_playing_song_color_custom">
-        <item>
-         <widget class="QLabel" name="label_select_playlist_playing_song_color">
-          <property name="text">
-           <string>Select playlist playing song color:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="select_playlist_playing_song_color">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
     <spacer name="spacer_bottom">
      <property name="orientation">
-      <enum>Qt::Orientation::Vertical</enum>
+      <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -684,6 +690,9 @@
   <tabstop>tabbar_custom_color</tabstop>
   <tabstop>tabbar_gradient</tabstop>
   <tabstop>select_tabbar_color</tabstop>
+  <tabstop>playlist_playing_song_color_system</tabstop>
+  <tabstop>playlist_playing_song_color_custom</tabstop>
+  <tabstop>select_playlist_playing_song_color</tabstop>
   <tabstop>use_default_background</tabstop>
   <tabstop>use_no_background</tabstop>
   <tabstop>use_album_cover_background</tabstop>
@@ -691,22 +700,19 @@
   <tabstop>use_custom_background_image</tabstop>
   <tabstop>background_image_filename</tabstop>
   <tabstop>select_background_image_filename_button</tabstop>
-  <tabstop>combobox_backgroundimageposition</tabstop>
+  <tabstop>combobox_background_image_position</tabstop>
   <tabstop>spinbox_background_image_maxsize</tabstop>
   <tabstop>checkbox_background_image_stretch</tabstop>
   <tabstop>checkbox_background_image_keep_aspect_ratio</tabstop>
   <tabstop>checkbox_background_image_do_not_cut</tabstop>
-  <tabstop>blur_slider</tabstop>
-  <tabstop>opacity_slider</tabstop>
+  <tabstop>slider_background_image_blur</tabstop>
+  <tabstop>slider_background_image_opacity</tabstop>
   <tabstop>spinbox_icon_size_tabbar_small_mode</tabstop>
   <tabstop>spinbox_icon_size_tabbar_large_mode</tabstop>
   <tabstop>spinbox_icon_size_play_control_buttons</tabstop>
   <tabstop>spinbox_icon_size_playlist_buttons</tabstop>
   <tabstop>spinbox_icon_size_left_panel_buttons</tabstop>
   <tabstop>spinbox_icon_size_configure_buttons</tabstop>
-  <tabstop>playlist_playing_song_color_system</tabstop>
-  <tabstop>playlist_playing_song_color_custom</tabstop>
-  <tabstop>select_playlist_playing_song_color</tabstop>
  </tabstops>
  <resources/>
  <connections/>

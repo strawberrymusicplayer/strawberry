@@ -118,6 +118,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
                       DiscordRichPresence *discord_rich_presence,
 #endif
                       const CommandlineOptions &options,
+                      const QString &default_style,
                       QWidget *parent = nullptr);
   ~MainWindow() override;
 

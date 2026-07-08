@@ -31,6 +31,7 @@
 
 class Appearance : public QObject {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(Appearance)
 
  public:
   explicit Appearance(QObject *parent = nullptr);
@@ -45,19 +46,23 @@ class Appearance : public QObject {
   static const QList<ColorRole> &ColorRoles();
 
   // A suitable set of colors for a dark theme, keyed by palette role (covers all of ColorRoles()).
-  static QMap<QPalette::ColorRole, QColor> DarkColors();
+  static const QMap<QPalette::ColorRole, QColor> &DarkColors();
+  
+  // The default style, captured before any user theme is applied so it can be restored later.
+  const QString &default_style() const { return default_style_; }
+  void set_default_style(const QString &style) { default_style_ = style; }
 
   // The system's default palette, captured before any user theme is applied so it can be restored later.
   const QPalette &system_palette() const { return system_palette_; }
   void set_system_palette(const QPalette &palette) { system_palette_ = palette; }
 
-  void LoadUserTheme();
-  void ResetToSystemDefaultTheme();
+  void LoadCustomPaletteColors();
 
   // Applies the given per-role colors on top of the current application palette.
-  static void ChangeColors(const QMap<QPalette::ColorRole, QColor> &colors);
+  static void SetCustomPaletteColors(const QMap<QPalette::ColorRole, QColor> &colors);
 
  private:
+  QString default_style_;
   QPalette system_palette_;
 };
 
