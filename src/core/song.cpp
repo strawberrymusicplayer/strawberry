@@ -2032,15 +2032,16 @@ bool Song::MergeFromEngineMetadata(const EngineMetadata &engine_metadata) {
     if (lyrics().isEmpty() && !engine_metadata.lyrics.isEmpty()) set_lyrics(engine_metadata.lyrics);
   }
   else {
-    if (title() != engine_metadata.title && !engine_metadata.title.isEmpty()) {
+    const bool isradio = is_radio();
+    if ((isradio || !engine_metadata.title.isEmpty()) && title() != engine_metadata.title) {
       set_title(engine_metadata.title);
       minor = false;
     }
-    if (artist() != engine_metadata.artist && !engine_metadata.artist.isEmpty()) {
+    if ((isradio || !engine_metadata.artist.isEmpty()) && artist() != engine_metadata.artist) {
       set_artist(engine_metadata.artist);
       minor = false;
     }
-    if (album() != engine_metadata.album && !engine_metadata.album.isEmpty()) {
+    if ((isradio || !engine_metadata.album.isEmpty()) && album() != engine_metadata.album) {
       set_album(engine_metadata.album);
       minor = false;
     }
