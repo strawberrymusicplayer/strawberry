@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -119,7 +119,11 @@ size_t qHash(const MacOsDeviceLister::MTPDevice &mtp_device) {
 
 MacOsDeviceLister::MacOsDeviceLister(QObject *parent) : DeviceLister(parent) {}
 
-MacOsDeviceLister::~MacOsDeviceLister() { CFRelease(loop_session_); }
+MacOsDeviceLister::~MacOsDeviceLister() {
+  if (loop_session_) {
+    CFRelease(loop_session_);
+  }
+}
 
 bool MacOsDeviceLister::Init() {
 
@@ -214,10 +218,27 @@ bool MacOsDeviceLister::Init() {
 }
 
 void MacOsDeviceLister::ExitAsync() {
+
+  // Init() blocks this object's thread in CFRunLoopRun() before that thread's Qt event loop ever starts, so a queued cross-thread call (like the base class's Exit()) never gets delivered and exit would hang.
+  // Stop the run loop directly instead, which is safe to call from any thread. Once CFRunLoopRun() returns, QThread::run() proceeds to call exec(), so also ask the thread to quit: QThread::quit() marks the thread as should-exit even if called before exec() starts, so exec() returns immediately once it is reached instead of running forever.
+  ShutDown();
+  if (thread_) {
+    thread_->quit();
+    thread_->wait();
+  }
   Q_EMIT ExitFinished();
+
 }
 
-void MacOsDeviceLister::ShutDown() { CFRunLoopStop(run_loop_); }
+void MacOsDeviceLister::ShutDown() {
+
+  // Init() may not have run yet (and set run_loop_) if the thread has only just been started, or hasn't started at all.
+  const CFRunLoopRef run_loop = run_loop_.load();
+  if (run_loop) {
+    CFRunLoopStop(run_loop);
+  }
+
+}
 
 // IOKit helpers.
 namespace {
