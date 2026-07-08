@@ -673,8 +673,13 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>combobox_style</tabstop>
+  <tabstop>checkbox_dark_mode</tabstop>
+  <tabstop>checkbox_system_icons</tabstop>
   <tabstop>use_system_color_set</tabstop>
   <tabstop>use_custom_color_set</tabstop>
+  <tabstop>button_dark_colors</tabstop>
+  <tabstop>button_reset_colors</tabstop>
   <tabstop>tabbar_system_color</tabstop>
   <tabstop>tabbar_custom_color</tabstop>
   <tabstop>tabbar_gradient</tabstop>
@@ -699,6 +704,9 @@
   <tabstop>spinbox_icon_size_playlist_buttons</tabstop>
   <tabstop>spinbox_icon_size_left_panel_buttons</tabstop>
   <tabstop>spinbox_icon_size_configure_buttons</tabstop>
+  <tabstop>playlist_playing_song_color_system</tabstop>
+  <tabstop>playlist_playing_song_color_custom</tabstop>
+  <tabstop>select_playlist_playing_song_color</tabstop>
  </tabstops>
  <resources/>
  <connections/>
