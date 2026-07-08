@@ -58,7 +58,6 @@ class WinSystemMediaTransportControls : public QObject {
   void UpdateMetadata(const Song &song);
   void SetThumbnail(const QImage &image);
   void ClearThumbnail();
-  void SetThumbnailFromFile(const QString &path);
 
   SharedPtr<Player> player_;
 
@@ -70,7 +69,6 @@ class WinSystemMediaTransportControls : public QObject {
 
   EngineBase::State state_;
   QUrl current_song_url_;
-  QString temp_art_path_;
 };
 
 #endif  // WINSYSTEMMEDIATRANSPORTCONTROLS_H

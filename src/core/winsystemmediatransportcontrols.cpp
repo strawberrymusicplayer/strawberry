@@ -20,6 +20,7 @@
 #include "config.h"
 
 #include <windows.h>
+#include <objbase.h>
 #include <winstring.h>
 #include <roapi.h>
 #include <inspectable.h>
@@ -36,13 +37,17 @@
 
 #include <systemmediatransportcontrolsinterop.h>
 
+// robuffer.h may not be present in all SDK installs; declare the shcore.dll function manually.
+typedef enum BSOS_OPTIONS { BSOS_DEFAULT = 0, BSOS_PREFERDESTINATIONSTREAM = 1 } BSOS_OPTIONS;
+extern "C" HRESULT WINAPI CreateRandomAccessStreamOverStream(IStream *stream, BSOS_OPTIONS options, REFIID riid, void **ppv);
+#pragma comment(lib, "shcore.lib")
+
 #include <QObject>
 #include <QMetaObject>
 #include <QString>
 #include <QImage>
+#include <QBuffer>
 #include <QUrl>
-#include <QDir>
-#include <QFile>
 
 #include "core/logging.h"
 #include "core/song.h"
@@ -105,10 +110,6 @@ WinSystemMediaTransportControls::~WinSystemMediaTransportControls() {
 
   if (ro_initialized_) {
     RoUninitialize();
-  }
-
-  if (!temp_art_path_.isEmpty()) {
-    QFile::remove(temp_art_path_);
   }
 
 }
@@ -293,51 +294,53 @@ void WinSystemMediaTransportControls::UpdateMetadata(const Song &song) {
 
 void WinSystemMediaTransportControls::SetThumbnail(const QImage &image) {
 
-  if (temp_art_path_.isEmpty()) {
-    temp_art_path_ = QDir::tempPath() + QStringLiteral("/strawberry_smtc_art.jpg");
-  }
-
-  if (!image.save(temp_art_path_, "JPEG", 90)) {
-    qLog(Warning) << "WinSystemMediaTransportControls: Failed to save thumbnail";
-    ClearThumbnail();
-    return;
-  }
-
-  SetThumbnailFromFile(temp_art_path_);
-
-}
-
-void WinSystemMediaTransportControls::SetThumbnailFromFile(const QString &path) {
-
   if (!updater_) return;
 
   ISystemMediaTransportControlsDisplayUpdater *updater = static_cast<ISystemMediaTransportControlsDisplayUpdater*>(updater_);
 
-  const QString file_uri = QUrl::fromLocalFile(path).toString(QUrl::FullyEncoded);
+  // Encode image to JPEG bytes in memory
+  QByteArray jpeg_data;
+  {
+    QBuffer buf(&jpeg_data);
+    buf.open(QIODevice::WriteOnly);
+    if (!image.save(&buf, "JPEG", 90)) {
+      qLog(Warning) << "WinSystemMediaTransportControls: Failed to encode thumbnail";
+      ClearThumbnail();
+      return;
+    }
+  }
 
-  // Create WinRT Uri object
-  HSTRING h_uri_class = nullptr;
-  static const wchar_t kUriClass[] = L"Windows.Foundation.Uri";
-  WindowsCreateString(kUriClass, static_cast<UINT32>(wcslen(kUriClass)), &h_uri_class);
+  // Create a COM IStream over the JPEG bytes
+  HGLOBAL hg = GlobalAlloc(GMEM_MOVEABLE, static_cast<SIZE_T>(jpeg_data.size()));
+  if (!hg) {
+    ClearThumbnail();
+    return;
+  }
+  void *ptr = GlobalLock(hg);
+  if (!ptr) {
+    GlobalFree(hg);
+    ClearThumbnail(); return;
+  }
+  memcpy(ptr, jpeg_data.constData(), static_cast<size_t>(jpeg_data.size()));
+  GlobalUnlock(hg);
 
-  IUriRuntimeClassFactory *uri_factory = nullptr;
-  HRESULT hr = RoGetActivationFactory(h_uri_class, __uuidof(IUriRuntimeClassFactory), reinterpret_cast<void**>(&uri_factory));
-  WindowsDeleteString(h_uri_class);
+  IStream *stream = nullptr;
+  if (FAILED(CreateStreamOnHGlobal(hg, TRUE, &stream)) || !stream) {
+    GlobalFree(hg);
+    ClearThumbnail();
+    return;
+  }
 
-  if (FAILED(hr) || !uri_factory) return;
+  // Wrap as a WinRT IRandomAccessStream
+  IRandomAccessStream *ra_stream = nullptr;
+  HRESULT hr = CreateRandomAccessStreamOverStream(stream, BSOS_DEFAULT, __uuidof(IRandomAccessStream), reinterpret_cast<void**>(&ra_stream));
+  stream->Release();
+  if (FAILED(hr) || !ra_stream) {
+    ClearThumbnail();
+    return;
+  }
 
-  HSTRING h_uri = nullptr;
-  const std::wstring w_uri = file_uri.toStdWString();
-  WindowsCreateString(w_uri.c_str(), static_cast<UINT32>(w_uri.size()), &h_uri);
-
-  IUriRuntimeClass *uri = nullptr;
-  hr = uri_factory->CreateUri(h_uri, &uri);
-  WindowsDeleteString(h_uri);
-  uri_factory->Release();
-
-  if (FAILED(hr) || !uri) return;
-
-  // Create RandomAccessStreamReference from the file URI
+  // Create a RandomAccessStreamReference from the stream
   HSTRING h_stream_class = nullptr;
   static const wchar_t kStreamRefClass[] = L"Windows.Storage.Streams.RandomAccessStreamReference";
   WindowsCreateString(kStreamRefClass, static_cast<UINT32>(wcslen(kStreamRefClass)), &h_stream_class);
@@ -345,18 +348,20 @@ void WinSystemMediaTransportControls::SetThumbnailFromFile(const QString &path) 
   IRandomAccessStreamReferenceStatics *stream_statics = nullptr;
   hr = RoGetActivationFactory(h_stream_class, __uuidof(IRandomAccessStreamReferenceStatics), reinterpret_cast<void**>(&stream_statics));
   WindowsDeleteString(h_stream_class);
-
   if (FAILED(hr) || !stream_statics) {
-    uri->Release();
+    ra_stream->Release();
+    ClearThumbnail();
     return;
   }
 
   IRandomAccessStreamReference *stream_ref = nullptr;
-  hr = stream_statics->CreateFromUri(uri, &stream_ref);
-  uri->Release();
+  hr = stream_statics->CreateFromStream(ra_stream, &stream_ref);
+  ra_stream->Release();
   stream_statics->Release();
-
-  if (FAILED(hr) || !stream_ref) return;
+  if (FAILED(hr) || !stream_ref) {
+    ClearThumbnail();
+    return;
+  }
 
   updater->put_Thumbnail(stream_ref);
   stream_ref->Release();
