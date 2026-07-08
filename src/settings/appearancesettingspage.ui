@@ -37,6 +37,13 @@
          </widget>
         </item>
         <item>
+         <widget class="QCheckBox" name="checkbox_dark_mode">
+          <property name="text">
+           <string>Dark mode</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="spacer_style">
           <property name="orientation">
            <enum>Qt::Orientation::Horizontal</enum>

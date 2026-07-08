@@ -59,6 +59,7 @@
 #include <QSettings>
 #include <QLoggingCategory>
 #include <QStyle>
+#include <QStyleHints>
 #include <QMessageBox>
 #ifdef HAVE_TRANSLATIONS
 #  include <QTranslator>
@@ -242,11 +243,23 @@ int main(int argc, char *argv[]) {
       style = "default"_L1;
       s.setValue(AppearanceSettings::kStyle, style);
     }
+    const bool dark_mode = s.value(AppearanceSettings::kDarkMode, false).toBool();
     s.endGroup();
     if (style != "default"_L1) {
       QApplication::setStyle(style);
     }
-    if (QApplication::style()) qLog(Debug) << "Style:" << QApplication::style()->objectName();
+#ifdef Q_OS_WIN32
+    // Native Windows styles (windowsvista, windows11) use Win32/UxTheme for rendering and only produce correct results with a dark palette when Windows itself is in dark mode for the process.
+    if (dark_mode && QApplication::style()) {
+      const QString current_style = QApplication::style()->objectName();
+      if (current_style.compare(u"windowsvista"_s, Qt::CaseInsensitive) == 0 || current_style.compare(u"windows11"_s, Qt::CaseInsensitive) == 0) {
+        QGuiApplication::styleHints()->setColorScheme(Qt::ColorScheme::Dark);
+      }
+    }
+#endif  // Q_OS_WIN32
+    if (QApplication::style()) {
+      qLog(Debug) << "Style:" << QApplication::style()->objectName();
+    }
   }
 
   // Set the permissions on the config file on Unix - it can contain passwords for streaming services, so it's important that other users can't read it.

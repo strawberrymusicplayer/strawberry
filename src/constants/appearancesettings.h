@@ -41,6 +41,7 @@ enum class BackgroundImagePosition {
 };
 
 constexpr char kStyle[] = "style";
+constexpr char kDarkMode[] = "dark_mode";
 constexpr char kSystemThemeIcons[] = "system_icons";
 constexpr char kUseCustomColorSet[] = "use-custom-color-set";
 
@@ -81,6 +82,7 @@ constexpr char kIconSizeConfigureButtons[] = "icon_size_configure_buttons";
 
 constexpr char kPlaylistPlayingSongColor[] = "playlist_playing_song_color";
 
+constexpr bool kDefaultDarkMode = false;
 constexpr bool kDefaultSystemThemeIcons = false;
 constexpr bool kDefaultUseCustomColorSet = false;
 constexpr bool kDefaultTabBarSystemColor = false;

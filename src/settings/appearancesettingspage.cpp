@@ -24,8 +24,10 @@
 #include <utility>
 
 #include <QApplication>
+#include <QGuiApplication>
 #include <QWidget>
 #include <QStyleFactory>
+#include <QStyleHints>
 #include <QVariant>
 #include <QMap>
 #include <QString>
@@ -64,6 +66,7 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog, SharedPtr
     : SettingsPage(dialog, parent),
       ui_(new Ui_AppearanceSettingsPage),
       appearance_(appearance),
+      original_dark_mode_(false),
       original_use_custom_color_set_(false),
       background_image_type_(BackgroundImageType::Default) {
 
@@ -81,6 +84,8 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog, SharedPtr
   ui_->combobox_backgroundimageposition->setItemData(2, static_cast<int>(BackgroundImagePosition::Middle));
   ui_->combobox_backgroundimageposition->setItemData(3, static_cast<int>(BackgroundImagePosition::BottomLeft));
   ui_->combobox_backgroundimageposition->setItemData(4, static_cast<int>(BackgroundImagePosition::BottomRight));
+
+  QObject::connect(ui_->checkbox_dark_mode, &QCheckBox::toggled, this, &AppearanceSettingsPage::DarkModeToggled);
 
   QObject::connect(ui_->blur_slider, &QSlider::valueChanged, this, &AppearanceSettingsPage::BlurLevelChanged);
   QObject::connect(ui_->opacity_slider, &QSlider::valueChanged, this, &AppearanceSettingsPage::OpacityLevelChanged);
@@ -127,6 +132,9 @@ AppearanceSettingsPage::~AppearanceSettingsPage() {
 }
 
 void AppearanceSettingsPage::Load() {
+
+  // Disconnect while loading so intermediate combobox signals don't trigger StyleChanged before colors are ready.
+  QObject::disconnect(ui_->combobox_style, &QComboBox::currentIndexChanged, this, &AppearanceSettingsPage::StyleChanged);
 
   Settings s;
   s.beginGroup(kSettingsGroup);
@@ -223,11 +231,17 @@ void AppearanceSettingsPage::Load() {
   UpdateColorSelectorColor(ui_->select_playlist_playing_song_color, current_playlist_playing_song_color_);
   PlaylistPlayingSongColorSystem(ui_->playlist_playing_song_color_system->isChecked());
 
+  original_dark_mode_ = s.value(kDarkMode, kDefaultDarkMode).toBool();
+  ui_->checkbox_dark_mode->setChecked(original_dark_mode_);
+
   s.endGroup();
 
   Init(ui_->layout_appearancesettingspage->parentWidget());
 
   if (!Settings().childGroups().contains(QLatin1String(kSettingsGroup))) set_changed();
+
+  QObject::connect(ui_->combobox_style, &QComboBox::currentIndexChanged, this, &AppearanceSettingsPage::StyleChanged);
+  StyleChanged(ui_->combobox_style->currentIndex());
 
 }
 
@@ -244,17 +258,24 @@ void AppearanceSettingsPage::Save() {
   s.setValue(kSystemThemeIcons, ui_->checkbox_system_icons->isChecked());
 #endif
 
-  bool use_custom_color_set = ui_->use_custom_color_set->isChecked();
-  s.setValue(kUseCustomColorSet, use_custom_color_set);
-  if (use_custom_color_set) {
-    for (const Appearance::ColorRole &color_role : Appearance::ColorRoles()) {
-      s.setValue(color_role.settings_key, current_colors_.value(color_role.role));
-    }
+  if (IsNativeWindowsStyle(ui_->combobox_style->currentData().toString())) {
+    s.setValue(kDarkMode, ui_->checkbox_dark_mode->isChecked());
+    s.setValue(kUseCustomColorSet, false);
   }
   else {
-    appearance_->ResetToSystemDefaultTheme();
-    for (const Appearance::ColorRole &color_role : Appearance::ColorRoles()) {
-      s.remove(color_role.settings_key);
+    s.setValue(kDarkMode, false);
+    const bool use_custom_color_set = ui_->use_custom_color_set->isChecked();
+    s.setValue(kUseCustomColorSet, use_custom_color_set);
+    if (use_custom_color_set) {
+      for (const Appearance::ColorRole &color_role : Appearance::ColorRoles()) {
+        s.setValue(color_role.settings_key, current_colors_.value(color_role.role));
+      }
+    }
+    else {
+      appearance_->ResetToSystemDefaultTheme();
+      for (const Appearance::ColorRole &color_role : Appearance::ColorRoles()) {
+        s.remove(color_role.settings_key);
+      }
     }
   }
 
@@ -316,6 +337,10 @@ void AppearanceSettingsPage::Save() {
 
 void AppearanceSettingsPage::Cancel() {
 
+#ifdef Q_OS_WIN32
+  QGuiApplication::styleHints()->setColorScheme(original_dark_mode_ ? Qt::ColorScheme::Dark : Qt::ColorScheme::Unknown);
+#endif
+
   if (original_use_custom_color_set_) {
     Appearance::ChangeColors(original_colors_);
   }
@@ -325,9 +350,49 @@ void AppearanceSettingsPage::Cancel() {
 
 }
 
-QString AppearanceSettingsPage::ColorRoleLabel(const QPalette::ColorRole role) {
+void AppearanceSettingsPage::StyleChanged(const int index) {
 
-  switch (role) {
+  const QString style_name = ui_->combobox_style->itemData(index).toString();
+  const bool is_native = IsNativeWindowsStyle(style_name);
+
+  ui_->checkbox_dark_mode->setVisible(is_native);
+  ui_->groupbox_colors->setEnabled(!is_native);
+
+#ifdef Q_OS_WIN32
+  if (is_native) {
+    appearance_->ResetToSystemDefaultTheme();
+    QGuiApplication::styleHints()->setColorScheme(ui_->checkbox_dark_mode->isChecked() ? Qt::ColorScheme::Dark : Qt::ColorScheme::Unknown);
+  }
+  else {
+    QGuiApplication::styleHints()->setColorScheme(Qt::ColorScheme::Unknown);
+    if (ui_->use_custom_color_set->isChecked()) {
+      ApplyCustomColors();
+    }
+    else {
+      appearance_->ResetToSystemDefaultTheme();
+    }
+  }
+#endif  // Q_OS_WIN32
+
+  set_changed();
+
+}
+
+void AppearanceSettingsPage::DarkModeToggled(const bool checked) {
+
+#if defined(Q_OS_WIN32)
+  QGuiApplication::styleHints()->setColorScheme(checked ? Qt::ColorScheme::Dark : Qt::ColorScheme::Unknown);
+#else
+  Q_UNUSED(checked)
+#endif
+
+  set_changed();
+
+}
+
+QString AppearanceSettingsPage::ColorRoleLabel(const QPalette::ColorRole color_role) {
+
+  switch (color_role) {
     case QPalette::Window:          return tr("Window");
     case QPalette::WindowText:      return tr("Window text");
     case QPalette::Base:            return tr("Base");
@@ -351,10 +416,10 @@ void AppearanceSettingsPage::CreateColorSelectors() {
   for (const Appearance::ColorRole &color_role : Appearance::ColorRoles()) {
     QPushButton *button = new QPushButton(ui_->widget_custom_colors);
     button->setToolTip(tr("Select color"));
-    const QPalette::ColorRole role = color_role.role;
-    QObject::connect(button, &QPushButton::pressed, this, [this, role]() { SelectColor(role); });
-    layout->addRow(ColorRoleLabel(role) + u':', button);
-    color_selectors_.insert(role, button);
+    const QPalette::ColorRole color_role_role = color_role.role;
+    QObject::connect(button, &QPushButton::pressed, this, [this, color_role_role]() { SelectColor(color_role_role); });
+    layout->addRow(ColorRoleLabel(color_role_role) + u':', button);
+    color_selectors_.insert(color_role_role, button);
   }
 
 }
@@ -387,8 +452,9 @@ void AppearanceSettingsPage::SetDarkColors() {
 
   const QMap<QPalette::ColorRole, QColor> dark_colors = Appearance::DarkColors();
   for (const Appearance::ColorRole &color_role : Appearance::ColorRoles()) {
-    if (dark_colors.contains(color_role.role)) {
-      current_colors_[color_role.role] = dark_colors.value(color_role.role);
+    const QPalette::ColorRole color_role_role = color_role.role;
+    if (dark_colors.contains(color_role_role)) {
+      current_colors_[color_role_role] = dark_colors.value(color_role_role);
     }
   }
 
@@ -453,15 +519,15 @@ void AppearanceSettingsPage::SelectBackgroundImage() {
 
 }
 
-void AppearanceSettingsPage::BlurLevelChanged(int value) {
+void AppearanceSettingsPage::BlurLevelChanged(const int value) {
   ui_->background_blur_radius_label->setText(QStringLiteral("%1px").arg(value));
 }
 
-void AppearanceSettingsPage::OpacityLevelChanged(int percent) {
+void AppearanceSettingsPage::OpacityLevelChanged(const int percent) {
   ui_->background_opacity_label->setText(QStringLiteral("%1%").arg(percent));
 }
 
-void AppearanceSettingsPage::TabBarSystemColor(bool checked) {
+void AppearanceSettingsPage::TabBarSystemColor(const bool checked) {
 
   if (checked) {
     current_tabbar_bg_color_ = FancyTabWidget::DefaultTabbarBgColor();
@@ -487,7 +553,7 @@ void AppearanceSettingsPage::TabBarSelectBGColor() {
 
 }
 
-void AppearanceSettingsPage::PlaylistPlayingSongColorSystem(bool checked) {
+void AppearanceSettingsPage::PlaylistPlayingSongColorSystem(const bool checked) {
 
   if (checked) {
     current_playlist_playing_song_color_ = StyleHelper::highlightColor();
@@ -510,5 +576,16 @@ void AppearanceSettingsPage::PlaylistPlayingSongSelectColor() {
   UpdateColorSelectorColor(ui_->select_playlist_playing_song_color, current_playlist_playing_song_color_);
 
   set_changed();
+
+}
+
+bool AppearanceSettingsPage::IsNativeWindowsStyle(const QString &style_name) {
+
+#ifdef Q_OS_WIN32
+  return style_name.compare(u"default"_s, Qt::CaseInsensitive) == 0 || style_name.compare(u"windowsvista"_s, Qt::CaseInsensitive) == 0 || style_name.compare(u"windows11"_s, Qt::CaseInsensitive) == 0;
+#else
+  Q_UNUSED(style_name)
+  return false;
+#endif  // Q_OS_WIN32
 
 }
