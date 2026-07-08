@@ -52,15 +52,17 @@ class AppearanceSettingsPage : public SettingsPage {
   void Save() override;
 
  private Q_SLOTS:
-  void UseCustomColorSetOptionChanged(bool checked);
+  void StyleChanged(const int index);
+  void DarkModeToggled(const bool checked);
+  void UseCustomColorSetOptionChanged(const bool checked);
   void SetDarkColors();
   void ResetToDefaultColors();
   void SelectBackgroundImage();
-  void BlurLevelChanged(int value);
-  void OpacityLevelChanged(int percent);
-  void TabBarSystemColor(bool checked);
+  void BlurLevelChanged(const int value);
+  void OpacityLevelChanged(const int percent);
+  void TabBarSystemColor(const bool checked);
   void TabBarSelectBGColor();
-  void PlaylistPlayingSongColorSystem(bool checked);
+  void PlaylistPlayingSongColorSystem(const bool checked);
   void PlaylistPlayingSongSelectColor();
 
  private:
@@ -79,9 +81,12 @@ class AppearanceSettingsPage : public SettingsPage {
   // Human-readable label for a palette color role.
   static QString ColorRoleLabel(const QPalette::ColorRole role);
 
+  static bool IsNativeWindowsStyle(const QString &style_name);
+
   Ui_AppearanceSettingsPage *ui_;
   const SharedPtr<Appearance> appearance_;
 
+  bool original_dark_mode_;
   bool original_use_custom_color_set_;
   QMap<QPalette::ColorRole, QColor> original_colors_;
   QMap<QPalette::ColorRole, QColor> current_colors_;
