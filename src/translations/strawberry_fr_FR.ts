@@ -372,10 +372,6 @@
       <translation>Style</translation>
     </message>
     <message>
-      <source>Use system theme icons</source>
-      <translation>Utiliser le thème d&apos;icônes du système</translation>
-    </message>
-    <message>
       <source>Tabbar colors</source>
       <translation>Couleurs de la barre d&apos;onglets</translation>
     </message>
@@ -576,10 +572,6 @@
       <translation>Sélectionner une image d&apos;arrière-plan</translation>
     </message>
     <message>
-      <source>You need to restart Strawberry for this setting to take affect.</source>
-      <translation>Strawberry doit être redémarré pour que la modification de cette option soit prise en compte.</translation>
-    </message>
-    <message>
       <source>Colors</source>
       <translation>Couleurs</translation>
     </message>
@@ -606,6 +598,26 @@
     <message>
       <source>Reset to default</source>
       <translation>Réinitialiser aux valeurs par défaut</translation>
+    </message>
+    <message>
+      <source>You might need to restart Strawberry for this setting to fully apply</source>
+      <translation type="unfinished">You might need to restart Strawberry for this setting to fully apply</translation>
+    </message>
+    <message>
+      <source>You need to restart Strawberry for this setting to take affect</source>
+      <translation type="unfinished">You need to restart Strawberry for this setting to take affect</translation>
+    </message>
+    <message>
+      <source>System icons</source>
+      <translation type="unfinished">System icons</translation>
+    </message>
+    <message>
+      <source>Changing colors is only supported with some styles</source>
+      <translation type="unfinished">Changing colors is only supported with some styles</translation>
+    </message>
+    <message>
+      <source>Dark colors</source>
+      <translation type="unfinished">Dark colors</translation>
     </message>
   </context>
   <context>

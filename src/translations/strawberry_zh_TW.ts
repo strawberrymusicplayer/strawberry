@@ -373,10 +373,6 @@
       <translation>風格</translation>
     </message>
     <message>
-      <source>Use system theme icons</source>
-      <translation>使用系统主題圖標</translation>
-    </message>
-    <message>
       <source>Tabbar colors</source>
       <translation>分頁標籤顏色</translation>
     </message>
@@ -577,10 +573,6 @@
       <translation>選擇背景圖片</translation>
     </message>
     <message>
-      <source>You need to restart Strawberry for this setting to take affect.</source>
-      <translation type="unfinished">You need to restart Strawberry for this setting to take affect.</translation>
-    </message>
-    <message>
       <source>Colors</source>
       <translation type="unfinished">Colors</translation>
     </message>
@@ -607,6 +599,26 @@
     <message>
       <source>Reset to default</source>
       <translation type="unfinished">Reset to default</translation>
+    </message>
+    <message>
+      <source>You might need to restart Strawberry for this setting to fully apply</source>
+      <translation type="unfinished">You might need to restart Strawberry for this setting to fully apply</translation>
+    </message>
+    <message>
+      <source>You need to restart Strawberry for this setting to take affect</source>
+      <translation type="unfinished">You need to restart Strawberry for this setting to take affect</translation>
+    </message>
+    <message>
+      <source>System icons</source>
+      <translation type="unfinished">System icons</translation>
+    </message>
+    <message>
+      <source>Changing colors is only supported with some styles</source>
+      <translation type="unfinished">Changing colors is only supported with some styles</translation>
+    </message>
+    <message>
+      <source>Dark colors</source>
+      <translation type="unfinished">Dark colors</translation>
     </message>
   </context>
   <context>
