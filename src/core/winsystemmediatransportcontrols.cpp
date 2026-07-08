@@ -20,7 +20,6 @@
 #include "config.h"
 
 #include <windows.h>
-#include <objbase.h>
 #include <winstring.h>
 #include <roapi.h>
 #include <inspectable.h>
@@ -36,11 +35,6 @@
 #endif
 
 #include <systemmediatransportcontrolsinterop.h>
-
-// robuffer.h may not be present in all SDK installs; declare the shcore.dll function manually.
-typedef enum BSOS_OPTIONS { BSOS_DEFAULT = 0, BSOS_PREFERDESTINATIONSTREAM = 1 } BSOS_OPTIONS;
-extern "C" HRESULT WINAPI CreateRandomAccessStreamOverStream(IStream *stream, BSOS_OPTIONS options, REFIID riid, void **ppv);
-#pragma comment(lib, "shcore.lib")
 
 #include <QObject>
 #include <QMetaObject>
@@ -382,55 +376,108 @@ void WinSystemMediaTransportControls::SetThumbnail(const QImage &image) {
     }
   }
 
-  // Create a COM IStream over the JPEG bytes
-  HGLOBAL hg = GlobalAlloc(GMEM_MOVEABLE, static_cast<SIZE_T>(jpeg_data.size()));
-  if (!hg) {
-    ClearThumbnail();
-    return;
-  }
-  void *ptr = GlobalLock(hg);
-  if (!ptr) {
-    GlobalFree(hg);
-    ClearThumbnail(); return;
-  }
-  memcpy(ptr, jpeg_data.constData(), static_cast<size_t>(jpeg_data.size()));
-  GlobalUnlock(hg);
-
-  IStream *stream = nullptr;
-  if (FAILED(CreateStreamOnHGlobal(hg, TRUE, &stream)) || !stream) {
-    GlobalFree(hg);
-    ClearThumbnail();
-    return;
-  }
-
-  // Wrap as a WinRT IRandomAccessStream
+  // Create InMemoryRandomAccessStream — an agile (free-threaded) WinRT type.
+  // Unlike CreateRandomAccessStreamOverStream, it has no STA affinity, so the SMTC background MTA thread can call OpenReadAsync without marshaling back to the GUI STA.
   IRandomAccessStream *ra_stream = nullptr;
-  HRESULT hr = CreateRandomAccessStreamOverStream(stream, BSOS_DEFAULT, __uuidof(IRandomAccessStream), reinterpret_cast<void**>(&ra_stream));
-  stream->Release();
-  if (FAILED(hr) || !ra_stream) {
+  {
+    HSTRING h = nullptr;
+    static const wchar_t kImsClass[] = L"Windows.Storage.Streams.InMemoryRandomAccessStream";
+    WindowsCreateString(kImsClass, static_cast<UINT32>(wcslen(kImsClass)), &h);
+    IInspectable *insp = nullptr;
+    const HRESULT hr = RoActivateInstance(h, &insp);
+    WindowsDeleteString(h);
+    if (FAILED(hr) || !insp) {
+      ClearThumbnail();
+      return;
+    }
+    insp->QueryInterface(__uuidof(IRandomAccessStream), reinterpret_cast<void**>(&ra_stream));
+    insp->Release();
+  }
+  if (!ra_stream) {
     ClearThumbnail();
     return;
   }
 
-  // Create a RandomAccessStreamReference from the stream
-  HSTRING h_stream_class = nullptr;
-  static const wchar_t kStreamRefClass[] = L"Windows.Storage.Streams.RandomAccessStreamReference";
-  WindowsCreateString(kStreamRefClass, static_cast<UINT32>(wcslen(kStreamRefClass)), &h_stream_class);
+  // Write JPEG bytes into the stream via DataWriter
+  {
+    IOutputStream *out = nullptr;
+    ra_stream->GetOutputStreamAt(0, &out);
+    if (!out) {
+      ra_stream->Release();
+      ClearThumbnail();
+      return;
+    }
 
-  IRandomAccessStreamReferenceStatics *stream_statics = nullptr;
-  hr = RoGetActivationFactory(h_stream_class, __uuidof(IRandomAccessStreamReferenceStatics), reinterpret_cast<void**>(&stream_statics));
-  WindowsDeleteString(h_stream_class);
-  if (FAILED(hr) || !stream_statics) {
-    ra_stream->Release();
-    ClearThumbnail();
-    return;
+    IDataWriterFactory *dwf = nullptr;
+    {
+      HSTRING h = nullptr;
+      static const wchar_t kDwClass[] = L"Windows.Storage.Streams.DataWriter";
+      WindowsCreateString(kDwClass, static_cast<UINT32>(wcslen(kDwClass)), &h);
+      RoGetActivationFactory(h, __uuidof(IDataWriterFactory), reinterpret_cast<void**>(&dwf));
+      WindowsDeleteString(h);
+    }
+    if (!dwf) {
+      out->Release();
+      ra_stream->Release();
+      ClearThumbnail();
+      return;
+    }
+
+    IDataWriter *dw = nullptr;
+    dwf->CreateDataWriter(out, &dw);
+    dwf->Release();
+    out->Release();
+    if (!dw) {
+      ra_stream->Release();
+      ClearThumbnail();
+      return;
+    }
+
+    // WriteBytes buffers data synchronously into DataWriter's internal buffer
+    dw->WriteBytes(static_cast<UINT32>(jpeg_data.size()), reinterpret_cast<BYTE*>(const_cast<char*>(jpeg_data.constData())));
+
+    // StoreAsync flushes to the InMemoryRandomAccessStream.
+    // The completion callback runs on an MTA thread pool thread — no STA marshal, so WaitForSingleObject from the GUI STA thread cannot deadlock here.
+    using StoreOp = __FIAsyncOperation_1_UINT32_t;
+    using StoreHandler = __FIAsyncOperationCompletedHandler_1_UINT32_t;
+    StoreOp *store_op = nullptr;
+    dw->StoreAsync(&store_op);
+    if (store_op) {
+      HANDLE ev = CreateEventW(nullptr, FALSE, FALSE, nullptr);
+      if (ev) {
+        auto cb = Microsoft::WRL::Callback<StoreHandler>([ev](StoreOp *, AsyncStatus) -> HRESULT {
+          SetEvent(ev);
+          return S_OK;
+        });
+        store_op->put_Completed(cb.Get());
+        WaitForSingleObject(ev, 5000);
+        CloseHandle(ev);
+      }
+      store_op->Release();
+    }
+
+    IOutputStream *detached = nullptr;
+    dw->DetachStream(&detached);
+    if (detached) detached->Release();
+    dw->Release();
   }
 
+  // Create a RandomAccessStreamReference from the agile stream
   IRandomAccessStreamReference *stream_ref = nullptr;
-  hr = stream_statics->CreateFromStream(ra_stream, &stream_ref);
+  {
+    HSTRING h = nullptr;
+    static const wchar_t kSrClass[] = L"Windows.Storage.Streams.RandomAccessStreamReference";
+    WindowsCreateString(kSrClass, static_cast<UINT32>(wcslen(kSrClass)), &h);
+    IRandomAccessStreamReferenceStatics *statics = nullptr;
+    RoGetActivationFactory(h, __uuidof(IRandomAccessStreamReferenceStatics), reinterpret_cast<void**>(&statics));
+    WindowsDeleteString(h);
+    if (statics) {
+      statics->CreateFromStream(ra_stream, &stream_ref);
+      statics->Release();
+    }
+  }
   ra_stream->Release();
-  stream_statics->Release();
-  if (FAILED(hr) || !stream_ref) {
+  if (!stream_ref) {
     ClearThumbnail();
     return;
   }
