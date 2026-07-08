@@ -372,10 +372,6 @@
       <translation>Stiil</translation>
     </message>
     <message>
-      <source>Use system theme icons</source>
-      <translation>Kasuta süsteemi kujunduse ikoone</translation>
-    </message>
-    <message>
       <source>Tabbar colors</source>
       <translation>Kaardiriba värvid</translation>
     </message>
@@ -576,10 +572,6 @@
       <translation>Vali taustpilt</translation>
     </message>
     <message>
-      <source>You need to restart Strawberry for this setting to take affect.</source>
-      <translation>Selle seadistuse jõustumiseks pead Strawberry uuesti käivitama.</translation>
-    </message>
-    <message>
       <source>Colors</source>
       <translation>Värvid</translation>
     </message>
@@ -606,6 +598,26 @@
     <message>
       <source>Reset to default</source>
       <translation>Lähtesta vaikimisi väärtusteks</translation>
+    </message>
+    <message>
+      <source>You might need to restart Strawberry for this setting to fully apply</source>
+      <translation type="unfinished">You might need to restart Strawberry for this setting to fully apply</translation>
+    </message>
+    <message>
+      <source>You need to restart Strawberry for this setting to take affect</source>
+      <translation type="unfinished">You need to restart Strawberry for this setting to take affect</translation>
+    </message>
+    <message>
+      <source>System icons</source>
+      <translation type="unfinished">System icons</translation>
+    </message>
+    <message>
+      <source>Changing colors is only supported with some styles</source>
+      <translation type="unfinished">Changing colors is only supported with some styles</translation>
+    </message>
+    <message>
+      <source>Dark colors</source>
+      <translation type="unfinished">Dark colors</translation>
     </message>
   </context>
   <context>

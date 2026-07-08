@@ -374,10 +374,6 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
       <translation>Stile</translation>
     </message>
     <message>
-      <source>Use system theme icons</source>
-      <translation>Usa icone del tema di sistema</translation>
-    </message>
-    <message>
       <source>Tabbar colors</source>
       <translation>Colori scheda</translation>
     </message>
@@ -578,10 +574,6 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
       <translation>Seleziona immagine di sfondo</translation>
     </message>
     <message>
-      <source>You need to restart Strawberry for this setting to take affect.</source>
-      <translation>È necessario riavviare Strawberry perché questa impostazione abbia effetto.</translation>
-    </message>
-    <message>
       <source>Colors</source>
       <translation>Colori</translation>
     </message>
@@ -608,6 +600,26 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     <message>
       <source>Reset to default</source>
       <translation>Ripristina predefiniti</translation>
+    </message>
+    <message>
+      <source>You might need to restart Strawberry for this setting to fully apply</source>
+      <translation type="unfinished">You might need to restart Strawberry for this setting to fully apply</translation>
+    </message>
+    <message>
+      <source>You need to restart Strawberry for this setting to take affect</source>
+      <translation type="unfinished">You need to restart Strawberry for this setting to take affect</translation>
+    </message>
+    <message>
+      <source>System icons</source>
+      <translation type="unfinished">System icons</translation>
+    </message>
+    <message>
+      <source>Changing colors is only supported with some styles</source>
+      <translation type="unfinished">Changing colors is only supported with some styles</translation>
+    </message>
+    <message>
+      <source>Dark colors</source>
+      <translation type="unfinished">Dark colors</translation>
     </message>
   </context>
   <context>
