@@ -299,6 +299,7 @@ MainWindow::MainWindow(Application *app,
                        DiscordRichPresence *discord_rich_presence,
 #endif
                        const CommandlineOptions &options,
+                       const QString &default_style,
                        QWidget *parent)
     : QMainWindow(parent),
       ui_(new Ui_MainWindow),
@@ -994,8 +995,9 @@ MainWindow::MainWindow(Application *app,
 
   // Load theme
   // We need to save the default/system palette now, before loading user preferred theme (which will override it), to be able to restore it later
+  appearance_->set_default_style(default_style);
   appearance_->set_system_palette(QApplication::palette());
-  appearance_->LoadUserTheme();
+  appearance_->LoadCustomPaletteColors();
   StyleSheetLoader *css_loader = new StyleSheetLoader(this);
   css_loader->SetStyleSheet(this, u":/style/strawberry.css"_s);
 

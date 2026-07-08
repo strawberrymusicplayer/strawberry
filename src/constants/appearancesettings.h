@@ -41,8 +41,8 @@ enum class BackgroundImagePosition {
 };
 
 constexpr char kStyle[] = "style";
-constexpr char kDarkMode[] = "dark_mode";
 constexpr char kSystemThemeIcons[] = "system_icons";
+constexpr char kDarkMode[] = "dark_mode";
 constexpr char kUseCustomColorSet[] = "use-custom-color-set";
 
 // Per-QPalette-role custom colors (the "central roles" from https://doc.qt.io/qt-6/qpalette.html).
@@ -62,6 +62,8 @@ constexpr char kTabBarSystemColor[] = "tab_system_color";
 constexpr char kTabBarGradient[] = "tab_gradient";
 constexpr char kTabBarColor[] = "tab_color";
 
+constexpr char kPlaylistPlayingSongColor[] = "playlist_playing_song_color";
+
 constexpr char kBackgroundImageType[] = "background_image_type";
 constexpr char kBackgroundImageFilename[] = "background_image_file";
 constexpr char kBackgroundImagePosition[] = "background_image_position";
@@ -70,8 +72,8 @@ constexpr char kBackgroundImageStretch[] = "background_image_stretch";
 constexpr char kBackgroundImageDoNotCut[] = "background_image_do_not_cut";
 constexpr char kBackgroundImageKeepAspectRatio[] = "background_image_keep_aspect_ratio";
 
-constexpr char kBlurRadius[] = "blur_radius";
-constexpr char kOpacityLevel[] = "opacity_level";
+constexpr char kBackgroundImageBlurRadius[] = "blur_radius";
+constexpr char kBackgroundImageOpacityLevel[] = "opacity_level";
 
 constexpr char kIconSizeTabbarSmallMode[] = "icon_size_tabbar_small_mode";
 constexpr char kIconSizeTabbarLargeMode[] = "icon_size_tabbar_large_mode";
@@ -80,21 +82,20 @@ constexpr char kIconSizePlaylistButtons[] = "icon_size_playlist_buttons";
 constexpr char kIconSizeLeftPanelButtons[] = "icon_size_left_panel_buttons";
 constexpr char kIconSizeConfigureButtons[] = "icon_size_configure_buttons";
 
-constexpr char kPlaylistPlayingSongColor[] = "playlist_playing_song_color";
-
 constexpr bool kDefaultDarkMode = false;
-constexpr bool kDefaultSystemThemeIcons = false;
+constexpr bool kDefaultSystemIcons = false;
 constexpr bool kDefaultUseCustomColorSet = false;
 constexpr bool kDefaultTabBarSystemColor = false;
 constexpr bool kDefaultTabBarGradient = true;
+
 constexpr BackgroundImageType kDefaultBackgroundImageType = BackgroundImageType::Default;
 constexpr BackgroundImagePosition kDefaultBackgroundImagePosition = BackgroundImagePosition::BottomRight;
 constexpr int kDefaultBackgroundImageMaxSize = 0;
 constexpr bool kDefaultBackgroundImageStretch = false;
 constexpr bool kDefaultBackgroundImageDoNotCut = true;
 constexpr bool kDefaultBackgroundImageKeepAspectRatio = true;
-constexpr int kDefaultBlurRadius = 0;
-constexpr int kDefaultOpacityLevel = 40;
+constexpr int kDefaultBackgroundImageBlurRadius = 0;
+constexpr int kDefaultBackgroundImageOpacityLevel = 40;
 
 constexpr int kDefaultIconSizeTabbarSmallMode = 32;
 constexpr int kDefaultIconSizeTabbarLargeMode = 40;
