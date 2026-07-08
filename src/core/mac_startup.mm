@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,8 +43,6 @@
 
 #import <UserNotifications/UserNotifications.h>
 
-//#import <SPMediaKeyTap.h>
-
 #include "config.h"
 
 #include <QApplication>
@@ -70,9 +68,6 @@ QDebug operator<<(QDebug dbg, NSObject *object) {
   return dbg.space();
 
 }
-
-// Capture global media keys on Mac (Cocoa only!)
-// See: http://www.rogueamoeba.com/utm/2007/09/29/apple-keyboard-media-key-event-handling/
 
 @interface MacApplication : NSApplication {
 
@@ -156,19 +151,6 @@ QDebug operator<<(QDebug dbg, NSObject *object) {
     }
   }];
 
-  // key_tap_ = [[SPMediaKeyTap alloc] initWithDelegate:self];
-  // if ([SPMediaKeyTap usesGlobalMediaKeyTap]) {
-  //   if ([key_tap_ startWatchingMediaKeys]) {
-  //       qLog(Debug) << "Media key monitoring started";
-  //   }
-  //   else {
-  //       qLog(Warning) << "Failed to start media key monitoring";
-  //   }
-  // }
-  // else {
-  //   qLog(Warning) << "Media key monitoring disabled";
-  // }
-
 }
 
 - (BOOL)application:(NSApplication*)app openFile:(NSString*)filename {
@@ -202,11 +184,6 @@ QDebug operator<<(QDebug dbg, NSObject *object) {
   application_handler_->LoadUrl(QString::fromNSString(url));
 
 }
-
-// - (void) mediaKeyTap: (SPMediaKeyTap*)keyTap receivedMediaKeyEvent:(NSEvent*)event {
-//   #pragma unused(keyTap)
-//   [self handleMediaEvent:event];
-// }
 
 - (BOOL) handleMediaEvent:(NSEvent*)event {
   // if it is not a media key event, then ignore
