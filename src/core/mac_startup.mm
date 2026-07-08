@@ -147,6 +147,15 @@ QDebug operator<<(QDebug dbg, NSObject *object) {
 
   [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self andSelector:@selector(handleURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
 
+  // Requesting authorization before the app has finished launching (e.g. from SetApplicationHandler:, which runs before QApplication::exec() starts the run loop) is rejected outright by the notification daemon, regardless of code signing.
+  UNUserNotificationCenter *notification_center = [UNUserNotificationCenter currentNotificationCenter];
+  notification_center.delegate = self;
+  [notification_center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert | UNAuthorizationOptionSound) completionHandler:^(BOOL granted, NSError *error) {
+    if (!granted) {
+      qLog(Warning) << "Notification authorization was not granted:" << (error ? QString::fromNSString(error.localizedDescription) : QStringLiteral("Unknown error"));
+    }
+  }];
+
   // key_tap_ = [[SPMediaKeyTap alloc] initWithDelegate:self];
   // if ([SPMediaKeyTap usesGlobalMediaKeyTap]) {
   //   if ([key_tap_ startWatchingMediaKeys]) {
@@ -263,14 +272,6 @@ QDebug operator<<(QDebug dbg, NSObject *object) {
   // this makes sure the delegate's shortcut_handler is set
   [delegate_ setShortcutHandler:shortcut_handler_];
   [self setDelegate:delegate_];
-
-  UNUserNotificationCenter *notification_center = [UNUserNotificationCenter currentNotificationCenter];
-  notification_center.delegate = delegate_;
-  [notification_center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert | UNAuthorizationOptionSound) completionHandler:^(BOOL granted, NSError *error) {
-    if (!granted) {
-      qLog(Warning) << "Notification authorization was not granted:" << (error ? QString::fromNSString(error.localizedDescription) : QStringLiteral("Unknown error"));
-    }
-  }];
 
 }
 
