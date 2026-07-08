@@ -32,6 +32,8 @@
 #include "includes/shared_ptr.h"
 #include "engine/enginebase.h"
 
+class QTimer;
+
 class Player;
 class Song;
 class AlbumCoverLoaderResult;
@@ -56,6 +58,7 @@ class WinSystemMediaTransportControls : public QObject {
  private:
   void UpdatePlaybackStatus(EngineBase::State state);
   void UpdateMetadata(const Song &song);
+  void UpdateTimeline();
   void SetThumbnail(const QImage &image);
   void ClearThumbnail();
 
@@ -63,12 +66,15 @@ class WinSystemMediaTransportControls : public QObject {
 
   bool ro_initialized_;
   void *smtc_;           // ABI::Windows::Media::ISystemMediaTransportControls*
+  void *smtc2_;          // ABI::Windows::Media::ISystemMediaTransportControls2*
   void *updater_;        // ABI::Windows::Media::ISystemMediaTransportControlsDisplayUpdater*
   void *button_handler_; // IUnknown* (WRL handler, kept alive for unregistration)
   qint64 button_pressed_token_;
 
   EngineBase::State state_;
   QUrl current_song_url_;
+  qint64 current_duration_nanosec_;
+  QTimer *timeline_timer_;
 };
 
 #endif  // WINSYSTEMMEDIATRANSPORTCONTROLS_H

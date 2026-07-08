@@ -48,6 +48,7 @@ extern "C" HRESULT WINAPI CreateRandomAccessStreamOverStream(IStream *stream, BS
 #include <QImage>
 #include <QBuffer>
 #include <QUrl>
+#include <QTimer>
 
 #include "core/logging.h"
 #include "core/song.h"
@@ -77,10 +78,18 @@ WinSystemMediaTransportControls::WinSystemMediaTransportControls(SharedPtr<Playe
       player_(player),
       ro_initialized_(false),
       smtc_(nullptr),
+      smtc2_(nullptr),
       updater_(nullptr),
       button_handler_(nullptr),
       button_pressed_token_(0),
-      state_(EngineBase::State::Empty) {}
+      state_(EngineBase::State::Empty),
+      current_duration_nanosec_(0),
+      timeline_timer_(new QTimer(this)) {
+
+  timeline_timer_->setInterval(1000);
+  QObject::connect(timeline_timer_, &QTimer::timeout, this, &WinSystemMediaTransportControls::UpdateTimeline);
+
+}
 
 WinSystemMediaTransportControls::~WinSystemMediaTransportControls() {
 
@@ -100,6 +109,11 @@ WinSystemMediaTransportControls::~WinSystemMediaTransportControls() {
   if (updater_) {
     static_cast<ISystemMediaTransportControlsDisplayUpdater*>(updater_)->Release();
     updater_ = nullptr;
+  }
+
+  if (smtc2_) {
+    static_cast<ABI::Windows::Media::ISystemMediaTransportControls2*>(smtc2_)->Release();
+    smtc2_ = nullptr;
   }
 
   if (smtc) {
@@ -188,6 +202,14 @@ bool WinSystemMediaTransportControls::Initialize(const HWND hwnd) {
   smtc_ = smtc;
   updater_ = updater;
 
+  ABI::Windows::Media::ISystemMediaTransportControls2 *smtc2 = nullptr;
+  if (SUCCEEDED(smtc->QueryInterface(__uuidof(ABI::Windows::Media::ISystemMediaTransportControls2), reinterpret_cast<void**>(&smtc2)))) {
+    smtc2_ = smtc2;
+  }
+  else {
+    qLog(Warning) << "WinSystemMediaTransportControls: ISystemMediaTransportControls2 unavailable, timeline disabled";
+  }
+
   qLog(Info) << "WinSystemMediaTransportControls: Initialized";
 
   return true;
@@ -199,12 +221,22 @@ void WinSystemMediaTransportControls::EngineStateChanged(const EngineBase::State
   state_ = state;
   UpdatePlaybackStatus(state);
 
+  if (state == EngineBase::State::Playing) {
+    timeline_timer_->start();
+  }
+  else {
+    timeline_timer_->stop();
+    UpdateTimeline();
+  }
+
 }
 
 void WinSystemMediaTransportControls::CurrentSongChanged(const Song &song) {
 
   current_song_url_ = song.url();
+  current_duration_nanosec_ = song.length_nanosec();
   UpdateMetadata(song);
+  UpdateTimeline();
 
 }
 
@@ -218,6 +250,46 @@ void WinSystemMediaTransportControls::AlbumCoverLoaded(const Song &song, const A
   else {
     ClearThumbnail();
   }
+
+}
+
+void WinSystemMediaTransportControls::UpdateTimeline() {
+
+  if (!smtc2_) return;
+
+  ABI::Windows::Media::ISystemMediaTransportControls2 *smtc2 = static_cast<ABI::Windows::Media::ISystemMediaTransportControls2*>(smtc2_);
+
+  HSTRING h_class = nullptr;
+  static const wchar_t kClass[] = L"Windows.Media.SystemMediaTransportControlsTimelineProperties";
+  WindowsCreateString(kClass, static_cast<UINT32>(wcslen(kClass)), &h_class);
+
+  IInspectable *insp = nullptr;
+  const HRESULT hr = RoActivateInstance(h_class, &insp);
+  WindowsDeleteString(h_class);
+  if (FAILED(hr) || !insp) return;
+
+  ABI::Windows::Media::ISystemMediaTransportControlsTimelineProperties *props = nullptr;
+  if (FAILED(insp->QueryInterface(__uuidof(ABI::Windows::Media::ISystemMediaTransportControlsTimelineProperties), reinterpret_cast<void**>(&props))) || !props) {
+    insp->Release();
+    return;
+  }
+  insp->Release();
+
+  const qint64 pos_ns = player_->engine()->position_nanosec();
+  const qint64 dur_ns = current_duration_nanosec_ > 0 ? current_duration_nanosec_ : player_->engine()->length_nanosec();
+
+  ABI::Windows::Foundation::TimeSpan zero_ts = {};
+  ABI::Windows::Foundation::TimeSpan pos_ts = { pos_ns / 100 };
+  ABI::Windows::Foundation::TimeSpan dur_ts = { dur_ns / 100 };
+
+  props->put_StartTime(zero_ts);
+  props->put_EndTime(dur_ts);
+  props->put_MinSeekTime(zero_ts);
+  props->put_MaxSeekTime(dur_ts);
+  props->put_Position(pos_ts);
+
+  smtc2->UpdateTimelineProperties(props);
+  props->Release();
 
 }
 
