@@ -262,6 +262,10 @@ void AppearanceSettingsPage::Save() {
     s.setValue(kDarkMode, ui_->checkbox_dark_mode->isChecked());
     s.setValue(kUseCustomColorSet, false);
   }
+  else if (IsBreezeStyle()) {
+    s.setValue(kDarkMode, false);
+    s.setValue(kUseCustomColorSet, false);
+  }
   else {
     s.setValue(kDarkMode, false);
     const bool use_custom_color_set = ui_->use_custom_color_set->isChecked();
@@ -354,9 +358,11 @@ void AppearanceSettingsPage::StyleChanged(const int index) {
 
   const QString style_name = ui_->combobox_style->itemData(index).toString();
   const bool is_native = IsNativeStyle(style_name);
+  const bool is_breeze = IsBreezeStyle();
 
   ui_->checkbox_dark_mode->setVisible(is_native);
-  ui_->groupbox_colors->setEnabled(!is_native);
+  ui_->groupbox_colors->setEnabled(!is_native && !is_breeze);
+  ui_->groupbox_colors->setToolTip(is_breeze ? tr("Custom colors are not supported with the Breeze style, because Breeze colors the menubar and toolbars from the KDE color scheme instead of the application palette.") : QString());
 
 #if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
   if (is_native) {
@@ -589,5 +595,13 @@ bool AppearanceSettingsPage::IsNativeStyle(const QString &style_name) {
   Q_UNUSED(style_name)
   return false;
 #endif
+
+}
+
+bool AppearanceSettingsPage::IsBreezeStyle() {
+
+  // Breeze colors the menubar and toolbars ("Tools Area") from the Header color set of the KDE color scheme and applies it directly to the widgets, so a custom application palette is never fully in effect with Breeze.
+  // This checks the active style, not the selected style, because style changes take effect on restart while palette colors apply to the running application.
+  return QApplication::style() && QApplication::style()->objectName().startsWith(u"breeze"_s, Qt::CaseInsensitive);
 
 }

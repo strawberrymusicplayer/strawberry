@@ -82,6 +82,7 @@ class AppearanceSettingsPage : public SettingsPage {
   static QString ColorRoleLabel(const QPalette::ColorRole role);
 
   static bool IsNativeStyle(const QString &style_name);
+  static bool IsBreezeStyle();
 
   Ui_AppearanceSettingsPage *ui_;
   const SharedPtr<Appearance> appearance_;
