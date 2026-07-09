@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Version 1.2.23 (unreleased):
+Version 1.2.23 (2026.07.09):
 
   Bugfixes:
     * Fixed disabled widgets not appearing greyed out when a custom color set is in use
