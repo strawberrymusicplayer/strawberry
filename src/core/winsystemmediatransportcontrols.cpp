@@ -334,9 +334,14 @@ void WinSystemMediaTransportControls::UpdateMetadata(const Song &song) {
       h = nullptr;
     }
 
-    const QString artist = song.effective_albumartist().isEmpty() ? song.artist() : song.effective_albumartist();
-    if (SUCCEEDED(CreateHString(artist, &h))) {
+    if (SUCCEEDED(CreateHString(song.artist(), &h))) {
       music_props->put_Artist(h);
+      WindowsDeleteString(h);
+      h = nullptr;
+    }
+
+    if (SUCCEEDED(CreateHString(song.effective_albumartist(), &h))) {
+      music_props->put_AlbumArtist(h);
       WindowsDeleteString(h);
       h = nullptr;
     }
