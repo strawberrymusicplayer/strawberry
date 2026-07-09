@@ -2,6 +2,26 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Version 1.2.23 (unreleased):
+
+  Bugfixes:
+    * Fixed disabled widgets not appearing greyed out when a custom color set is in use
+    * Fixed custom palette colors being selectable with the Breeze style, which doesn't support them
+    * Fixed tab order in appearance settings
+    * Fixed exclusive mode being selectable in backend settings when not supported by the current output
+    * Fixed the fader not resuming after being paused (#2204)
+    * Fixed metadata (title, artist, album) from a radio stream track carrying over to the next track when its own tags are empty
+    * Fixed a possible division by zero in the FHT spectrum analyzer
+    * Fixed notifications not working on macOS by replacing the deprecated NSUserNotification API with UserNotifications
+    * Fixed a possible hang on exit on macOS when a device lister was still running
+    * Fixed Windows System Media Transport Controls image and timeline handling (#2208)
+    * Numerous stability, crash-safety and thread-safety fixes throughout the application
+
+  Enhancements:
+    * Style changes under appearance settings are now applied immediately, without requiring a restart
+    * Added support for native dark mode on macOS and Windows
+    * Added support for sorting radio browser search results by clicking column headers (#2200)
+
 Version 1.2.22 (2026.07.05):
 
   Bugfixes:
