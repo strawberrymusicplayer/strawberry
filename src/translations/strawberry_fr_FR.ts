@@ -601,23 +601,23 @@
     </message>
     <message>
       <source>You might need to restart Strawberry for this setting to fully apply</source>
-      <translation type="unfinished">You might need to restart Strawberry for this setting to fully apply</translation>
+      <translation>Il se peut que Strawberry doit être redémarré pour que la modification de cette option soit pleinement appliquée</translation>
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect</source>
-      <translation type="unfinished">You need to restart Strawberry for this setting to take affect</translation>
+      <translation>Strawberry doit être redémarré pour que la modification de cette option soit prise en compte</translation>
     </message>
     <message>
       <source>System icons</source>
-      <translation type="unfinished">System icons</translation>
+      <translation>Icônes du système</translation>
     </message>
     <message>
       <source>Changing colors is only supported with some styles</source>
-      <translation type="unfinished">Changing colors is only supported with some styles</translation>
+      <translation>Le changement de couleur n'est pris en charge qu'avec certains styles</translation>
     </message>
     <message>
       <source>Dark colors</source>
-      <translation type="unfinished">Dark colors</translation>
+      <translation>Couleurs sombres</translation>
     </message>
   </context>
   <context>

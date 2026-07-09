@@ -3397,10 +3397,6 @@ If there are no matches then it will use the largest image in the directory.</so
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Ctrl+H</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&amp;Add file...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3782,6 +3778,22 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
         <source>Collection rescan notice</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ctrl+Shift+H</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Go to last playlist tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Go to active playlist tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close current playlist tab</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7162,6 +7174,14 @@ Are you sure you want to continue?</source>
 <context>
     <name>TagFetcher</name>
     <message>
+        <source>Stage: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reason: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Identifying song</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7170,7 +7190,35 @@ Are you sure you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Generated fingerprint is empty or invalid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fingerprinting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fingerprint length: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimum required length: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Downloading metadata</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No MusicBrainz metadata was found for this track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MusicBrainz metadata</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Candidate metadata rows: 0</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7345,10 +7393,6 @@ Are you sure you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Sorry</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Strawberry was unable to find results for this file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7385,6 +7429,10 @@ Are you sure you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Original tags</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7398,6 +7446,10 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source>Album artist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No results</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

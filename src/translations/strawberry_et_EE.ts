@@ -601,23 +601,23 @@
     </message>
     <message>
       <source>You might need to restart Strawberry for this setting to fully apply</source>
-      <translation type="unfinished">You might need to restart Strawberry for this setting to fully apply</translation>
+      <translation>Selle seadistuse täismahus jõustumiseks pead ilmselt Strawberry uuesti käivitama</translation>
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect</source>
-      <translation type="unfinished">You need to restart Strawberry for this setting to take affect</translation>
+      <translation>Selle seadistuse jõustumiseks pead Strawberry uuesti käivitama</translation>
     </message>
     <message>
       <source>System icons</source>
-      <translation type="unfinished">System icons</translation>
+      <translation>Süsteemiikoonid</translation>
     </message>
     <message>
       <source>Changing colors is only supported with some styles</source>
-      <translation type="unfinished">Changing colors is only supported with some styles</translation>
+      <translation>Värvide muutmine on toetatud vaid mõnede stiilide puhul</translation>
     </message>
     <message>
       <source>Dark colors</source>
-      <translation type="unfinished">Dark colors</translation>
+      <translation>Tumedad värvid</translation>
     </message>
   </context>
   <context>

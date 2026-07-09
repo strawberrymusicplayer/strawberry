@@ -601,23 +601,23 @@
     </message>
     <message>
       <source>You might need to restart Strawberry for this setting to fully apply</source>
-      <translation type="unfinished">You might need to restart Strawberry for this setting to fully apply</translation>
+      <translation>Возможно, вам потребуется перезапустить Strawberry для применения этой на настройки</translation>
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect</source>
-      <translation type="unfinished">You need to restart Strawberry for this setting to take affect</translation>
+      <translation>Вам необходимо перезапустить Strawberry, чтобы применить эту настройку</translation>
     </message>
     <message>
       <source>System icons</source>
-      <translation type="unfinished">System icons</translation>
+      <translation>Системные значки</translation>
     </message>
     <message>
       <source>Changing colors is only supported with some styles</source>
-      <translation type="unfinished">Changing colors is only supported with some styles</translation>
+      <translation>Изменение цветов поддерживается только в некоторых стилях</translation>
     </message>
     <message>
       <source>Dark colors</source>
-      <translation type="unfinished">Dark colors</translation>
+      <translation>Тёмные цвета</translation>
     </message>
   </context>
   <context>
@@ -3816,7 +3816,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Save the .mood files directly in the songs folders</source>
-      <translation>Сохранять файлы тона .mood в папках песен</translation>
+      <translation>Сохранять файлы тона .mood непосредственно в папках песен</translation>
     </message>
   </context>
   <context>
@@ -7112,7 +7112,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Use album ID for album covers</source>
-      <translation>Используйте ID альбома для обложек альбомов</translation>
+      <translation>Использовать идентификатор альбома для обложки альбома</translation>
     </message>
     <message>
       <source>Server-side scrobbling</source>
@@ -7314,7 +7314,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Append explicit to album title for explicit albums</source>
-      <translation>Добавлять «Explicit» в имена альбомов с нецензурной лексикой</translation>
+      <translation>Добавлять «Explicit» в имена альбомов с матом</translation>
     </message>
     <message>
       <source>Configuration incomplete</source>
