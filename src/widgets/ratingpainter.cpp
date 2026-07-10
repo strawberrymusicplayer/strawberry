@@ -107,6 +107,7 @@ void RatingPainter::Paint(QPainter *painter, const QRect rect, float rating) con
 
   // Draw the stars
   const int star = qBound(0, static_cast<int>(lround(rating * 2.0)), kStarCount * 2);
+  painter->setRenderHint(QPainter::SmoothPixmapTransform);
   painter->drawPixmap(QRect(pos, size), stars_[star], QRect(QPoint(0, 0), size));
 
 }
