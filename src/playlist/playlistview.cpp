@@ -735,8 +735,22 @@ void PlaylistView::keyPressEvent(QKeyEvent *event) {
 }
 
 void PlaylistView::contextMenuEvent(QContextMenuEvent *e) {
-  Q_EMIT RightClicked(e->globalPos(), indexAt(e->pos()));
+
+  QModelIndex index;
+  QPoint global_pos = e->globalPos();
+  if (e->reason() == QContextMenuEvent::Keyboard) {
+    index = currentIndex();
+    if (index.isValid()) {
+      global_pos = viewport()->mapToGlobal(visualRect(index).center());
+    }
+  }
+  else {
+    index = indexAt(e->pos());
+  }
+
+  Q_EMIT RightClicked(global_pos, index);
   e->accept();
+
 }
 
 void PlaylistView::RemoveSelected() {
