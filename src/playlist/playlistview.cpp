@@ -748,7 +748,7 @@ void PlaylistView::contextMenuEvent(QContextMenuEvent *e) {
     index = indexAt(e->pos());
   }
 
-  Q_EMIT RightClicked(global_pos, index);
+  Q_EMIT ShowPlaylistContextMenu(global_pos, index);
   e->accept();
 
 }
