@@ -707,7 +707,7 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(ui_->playlist->view(), &PlaylistView::doubleClicked, this, &MainWindow::PlaylistDoubleClick);
   QObject::connect(ui_->playlist->view(), &PlaylistView::PlayItem, this, &MainWindow::PlayIndex);
   QObject::connect(ui_->playlist->view(), &PlaylistView::PlayPause, &*app_->player(), &Player::PlayPause);
-  QObject::connect(ui_->playlist->view(), &PlaylistView::RightClicked, this, &MainWindow::PlaylistRightClick);
+  QObject::connect(ui_->playlist->view(), &PlaylistView::ShowPlaylistContextMenu, this, &MainWindow::ShowPlaylistContextMenu);
   QObject::connect(ui_->playlist->view(), &PlaylistView::SeekForward, &*app_->player(), &Player::SeekForward);
   QObject::connect(ui_->playlist->view(), &PlaylistView::SeekBackward, &*app_->player(), &Player::SeekBackward);
   QObject::connect(ui_->playlist->view(), &PlaylistView::BackgroundPropertyChanged, this, &MainWindow::RefreshStyleSheet);
@@ -2014,7 +2014,7 @@ void MainWindow::PlaylistMenuHidden() {
 
 }
 
-void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &index) {
+void MainWindow::ShowPlaylistContextMenu(const QPoint global_pos, const QModelIndex &index) {
 
   QModelIndex source_index = index;
   if (index.model() == app_->playlist_manager()->current()->filter()) {

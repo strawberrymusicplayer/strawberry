@@ -106,7 +106,7 @@ SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(const SharedPtr<Player>
 
   QObject::connect(ui_->view, &SmartPlaylistsView::ItemsSelectedChanged, this, &SmartPlaylistsViewContainer::ItemsSelectedChanged);
   QObject::connect(ui_->view, &SmartPlaylistsView::doubleClicked, this, &SmartPlaylistsViewContainer::ItemDoubleClicked);
-  QObject::connect(ui_->view, &SmartPlaylistsView::RightClicked, this, &SmartPlaylistsViewContainer::RightClicked);
+  QObject::connect(ui_->view, &SmartPlaylistsView::ShowSmartPlaylistContextMenu, this, &SmartPlaylistsViewContainer::ShowSmartPlaylistContextMenu);
 
   ReloadSettings();
 
@@ -147,7 +147,7 @@ void SmartPlaylistsViewContainer::ItemsSelectedChanged() {
 
 }
 
-void SmartPlaylistsViewContainer::RightClicked(const QPoint global_pos, const QModelIndex &idx) {
+void SmartPlaylistsViewContainer::ShowSmartPlaylistContextMenu(const QPoint global_pos, const QModelIndex &idx) {
 
   context_menu_index_ = idx;
   if (context_menu_index_.isValid()) {

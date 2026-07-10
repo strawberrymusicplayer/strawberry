@@ -47,7 +47,7 @@ void SmartPlaylistsView::selectionChanged(const QItemSelection &selected, const 
 
 void SmartPlaylistsView::contextMenuEvent(QContextMenuEvent *e) {
 
-  Q_EMIT RightClicked(e->globalPos(), indexAt(e->pos()));
+  Q_EMIT ShowSmartPlaylistContextMenu(e->globalPos(), indexAt(e->pos()));
   e->accept();
 
 }
