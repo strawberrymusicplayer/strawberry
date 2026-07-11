@@ -1083,13 +1083,7 @@ void GstEngine::UpdateScope(const int chunk_length) {
 
   scope_chunk_++;
 
-  if (buffer_format_.startsWith("S16LE"_L1) ||
-      buffer_format_.startsWith("U16LE"_L1) ||
-      buffer_format_.startsWith("S24LE"_L1) ||
-      buffer_format_.startsWith("S24_32LE"_L1) ||
-      buffer_format_.startsWith("S32LE"_L1) ||
-      buffer_format_.startsWith("F32LE"_L1) ||
-      buffer_format_.startsWith("F64LE"_L1)) {
+  if (buffer_format_.startsWith("S16LE"_L1)) {
     memcpy(dest, source, bytes);
   }
   else {
