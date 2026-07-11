@@ -1467,8 +1467,8 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
         double sample = 0;
         memcpy(&sample, map_info.data + (static_cast<size_t>(i) * sizeof(double)), sizeof(double));
         // Clamp before casting - samples can exceed [-1.0, 1.0) (ReplayGain/intersample peaks, and this probe is pre-volume/pre-EQ), which would otherwise wrap on the int16 cast.
-        const float sample_float = qBound(-32768.0F, sample * 32768.0F, 32767.0F);
-        d[i] = static_cast<int16_t>(sample_float);
+        const double sample_clamped = qBound(-32768.0, sample * 32768.0, 32767.0);
+        d[i] = static_cast<int16_t>(sample_clamped);
       }
       gst_buffer_unmap(buf, &map_info);
       buf16 = gst_buffer_new_wrapped(d, static_cast<gsize>(buf16_size));
