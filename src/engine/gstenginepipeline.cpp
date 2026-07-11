@@ -1458,14 +1458,16 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
   else if (format.startsWith("F64LE"_L1)) {
     GstMapInfo map_info;
     if (gst_buffer_map(buf, &map_info, GST_MAP_READ)) {
-      double *s = reinterpret_cast<double*>(map_info.data);
       int samples = static_cast<int>((map_info.size / sizeof(double)) / channels);
       int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
       int16_t *d = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
       memset(d, 0, static_cast<size_t>(buf16_size));
       for (int i = 0; i < (samples * channels); ++i) {
+        // Read via memcpy rather than a double* reinterpret_cast: map_info.data is not guaranteed to be 8-byte aligned (unlike the 4-byte alignment the other branches rely on), and an unaligned double load is undefined behavior on strict-alignment platforms.
+        double sample = 0;
+        memcpy(&sample, map_info.data + (static_cast<size_t>(i) * sizeof(double)), sizeof(double));
         // Clamp before casting - samples can exceed [-1.0, 1.0) (ReplayGain/intersample peaks, and this probe is pre-volume/pre-EQ), which would otherwise wrap on the int16 cast.
-        const float sample_float = qBound(-32768.0F, s[i] * 32768.0F, 32767.0F);
+        const float sample_float = qBound(-32768.0F, sample * 32768.0F, 32767.0F);
         d[i] = static_cast<int16_t>(sample_float);
       }
       gst_buffer_unmap(buf, &map_info);
