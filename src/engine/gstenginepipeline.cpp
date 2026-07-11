@@ -1349,6 +1349,10 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
   }
   GstBuffer *buf16 = nullptr;
 
+  // Format label actually forwarded to consumers below: it starts as the caps format, but is corrected to "S16LE" whenever a conversion branch below actually replaces buf with a genuine int16 buffer.
+  // Consumers (e.g. GstEngine::UpdateScope) rely on this label matching buf's real layout - if a conversion below fails (e.g. gst_buffer_map()), buf stays unconverted, so this must NOT be overwritten in that case.
+  QString analyzer_format = format;
+
   qint64 end_time = -1;
   const GstClockTime timestamp = GST_BUFFER_TIMESTAMP(buf);
   if (GST_CLOCK_TIME_IS_VALID(timestamp)) {
@@ -1378,6 +1382,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
       buf16 = gst_buffer_new_wrapped(d, static_cast<gsize>(buf16_size));
       GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples), static_cast<guint64>(rate));
       buf = buf16;
+      analyzer_format = u"S16LE"_s;
     }
     instance->logged_unsupported_analyzer_format_ = false;
   }
@@ -1400,6 +1405,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
       buf16 = gst_buffer_new_wrapped(s16, static_cast<gsize>(buf16_size));
       GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples), static_cast<guint64>(rate));
       buf = buf16;
+      analyzer_format = u"S16LE"_s;
     }
     instance->logged_unsupported_analyzer_format_ = false;
   }
@@ -1424,6 +1430,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
       buf16 = gst_buffer_new_wrapped(s16, static_cast<gsize>(buf16_size));
       GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples), static_cast<guint64>(rate));
       buf = buf16;
+      analyzer_format = u"S16LE"_s;
     }
     instance->logged_unsupported_analyzer_format_ = false;
   }
@@ -1444,6 +1451,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
       buf16 = gst_buffer_new_wrapped(d, static_cast<gsize>(buf16_size));
       GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples), static_cast<guint64>(rate));
       buf = buf16;
+      analyzer_format = u"S16LE"_s;
     }
     instance->logged_unsupported_analyzer_format_ = false;
   }
@@ -1464,6 +1472,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
       buf16 = gst_buffer_new_wrapped(d, static_cast<gsize>(buf16_size));
       GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples), static_cast<guint64>(rate));
       buf = buf16;
+      analyzer_format = u"S16LE"_s;
     }
     instance->logged_unsupported_analyzer_format_ = false;
   }
@@ -1480,7 +1489,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
 
   for (GstBufferConsumer *consumer : std::as_const(consumers)) {
     gst_buffer_ref(buf);
-    consumer->ConsumeBuffer(buf, instance->id(), format);
+    consumer->ConsumeBuffer(buf, instance->id(), analyzer_format);
   }
 
   if (buf16) {
