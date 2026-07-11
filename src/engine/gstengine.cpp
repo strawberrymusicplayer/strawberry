@@ -1088,7 +1088,8 @@ void GstEngine::UpdateScope(const int chunk_length) {
       buffer_format_.startsWith("S24LE"_L1) ||
       buffer_format_.startsWith("S24_32LE"_L1) ||
       buffer_format_.startsWith("S32LE"_L1) ||
-      buffer_format_.startsWith("F32LE"_L1)) {
+      buffer_format_.startsWith("F32LE"_L1) ||
+      buffer_format_.startsWith("F64LE"_L1)) {
     memcpy(dest, source, bytes);
   }
   else {
