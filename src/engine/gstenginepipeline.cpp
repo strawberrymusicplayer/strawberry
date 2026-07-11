@@ -27,6 +27,7 @@
 #include <cstring>
 #include <cmath>
 #include <algorithm>
+#include <limits>
 
 #include <glib.h>
 #include <glib-object.h>
@@ -1324,6 +1325,54 @@ GstPadProbeReturn GstEnginePipeline::PadProbeCallback(GstPad *pad, GstPadProbeIn
 
 }
 
+namespace {
+
+// Reads uniformly-strided PCM samples from a mapped GstBuffer, converts each to int16_t via convert_sample, and returns a new int16 GstBuffer with matching duration (or nullptr if the buffer could not be mapped, or is too large to represent in the int-based sizes used below and by the GstBuffer/g_malloc APIs).
+// The loop below writes every element of the returned buffer unconditionally, so callers don't need to zero-fill it first.
+// Only suitable for formats where every SourceSampleT-sized slot is directly one sample (S24LE-style packed/sub-word formats need their own bespoke reader with early-exit boundary handling).
+// Callers must ensure channels > 0 (it's used as a divisor and multiplier below).
+template <typename SourceSampleType, typename ConvertFn>
+GstBuffer *ConvertSamplesToInt16(GstBuffer *buf, const int channels, const int rate, ConvertFn convert_sample) {
+
+  if (channels <= 0 || rate <= 0) {
+    return nullptr;
+  }
+
+  GstMapInfo map_info;
+  if (!gst_buffer_map(buf, &map_info, GST_MAP_READ)) {
+    return nullptr;
+  }
+
+  // Compute in gsize (unsigned, at least 64-bit) first: samples/buf16_size are narrowed to int below (required by g_malloc()'s gsize parameter being used as a signed size and by the int-based loop), and an abnormally large or malformed buffer must not be allowed to silently overflow/truncate that signed int arithmetic into an undersized allocation with an out-of-bounds write.
+  const gsize total_samples = (map_info.size / sizeof(SourceSampleType)) / static_cast<gsize>(channels);
+  const gsize buf16_size_unsigned = total_samples * static_cast<gsize>(channels) * sizeof(int16_t);
+  if (total_samples > static_cast<gsize>(std::numeric_limits<int>::max()) || buf16_size_unsigned > static_cast<gsize>(std::numeric_limits<int>::max())) {
+    gst_buffer_unmap(buf, &map_info);
+    return nullptr;
+  }
+
+  const int samples = static_cast<int>(total_samples);
+  const int buf16_size = static_cast<int>(buf16_size_unsigned);
+  int16_t *d = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
+
+  for (int i = 0; i < (samples * channels); ++i) {
+    // Read via memcpy rather than a typed reinterpret_cast: map_info.data is not guaranteed to be aligned to sizeof(SourceSampleType).
+    SourceSampleType sample_value = 0;
+    memcpy(&sample_value, map_info.data + (static_cast<size_t>(i) * sizeof(SourceSampleType)), sizeof(SourceSampleType));
+    d[i] = convert_sample(sample_value);
+  }
+
+  gst_buffer_unmap(buf, &map_info);
+
+  GstBuffer *buf16 = gst_buffer_new_wrapped(d, static_cast<gsize>(buf16_size));
+  GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples), static_cast<guint64>(rate));
+
+  return buf16;
+
+}
+
+}  // namespace
+
 GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self) {
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
@@ -1364,26 +1413,14 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
     }
   }
 
-  if (format.startsWith("S16LE"_L1)) {
-    instance->logged_unsupported_analyzer_format_ = false;
-  }
-  else if (format.startsWith("S32LE"_L1)) {
-    GstMapInfo map_info;
-    if (gst_buffer_map(buf, &map_info, GST_MAP_READ)) {
-      int32_t *s = reinterpret_cast<int32_t*>(map_info.data);
-      int samples = static_cast<int>((map_info.size / sizeof(int32_t)) / channels);
-      int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
-      int16_t *d = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
-      memset(d, 0, static_cast<size_t>(buf16_size));
-      for (int i = 0; i < (samples * channels); ++i) {
-        d[i] = static_cast<int16_t>((s[i] >> 16));
-      }
-      gst_buffer_unmap(buf, &map_info);
-      buf16 = gst_buffer_new_wrapped(d, static_cast<gsize>(buf16_size));
-      GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples), static_cast<guint64>(rate));
-      buf = buf16;
-      analyzer_format = u"S16LE"_s;
+  if (channels <= 0 || rate <= 0) {
+    // Missing/invalid caps (e.g. the pad hasn't negotiated yet, or malformed stream metadata): channels is used as a divisor below in every branch, and rate as a divisor inside GST_FRAMES_TO_CLOCK_TIME, so bail out here rather than risk a division by zero or a nonsense duration in every branch below.
+    if (!instance->logged_unsupported_analyzer_format_) {
+      instance->logged_unsupported_analyzer_format_ = true;
+      qLog(Error) << "Invalid channels or rate for the analyzer:" << channels << rate;
     }
+  }
+  else if (format.startsWith("S16LE"_L1)) {
     instance->logged_unsupported_analyzer_format_ = false;
   }
   else if (format.startsWith("S24LE"_L1)) {
@@ -1434,45 +1471,33 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
     }
     instance->logged_unsupported_analyzer_format_ = false;
   }
+  else if (format.startsWith("S32LE"_L1)) {
+    if (GstBuffer *converted_buffer = ConvertSamplesToInt16<int32_t>(buf, channels, rate, [](const int32_t sample) {
+      return static_cast<int16_t>(sample >> 16);
+    })) {
+      buf16 = converted_buffer;
+      buf = buf16;
+      analyzer_format = u"S16LE"_s;
+    }
+    instance->logged_unsupported_analyzer_format_ = false;
+  }
   else if (format.startsWith("F32LE"_L1)) {
-    GstMapInfo map_info;
-    if (gst_buffer_map(buf, &map_info, GST_MAP_READ)) {
-      float *s = reinterpret_cast<float*>(map_info.data);
-      int samples = static_cast<int>((map_info.size / sizeof(float)) / channels);
-      int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
-      int16_t *d = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
-      memset(d, 0, static_cast<size_t>(buf16_size));
-      for (int i = 0; i < (samples * channels); ++i) {
-        // Clamp before casting - samples can exceed [-1.0, 1.0) (ReplayGain/intersample peaks, and this probe is pre-volume/pre-EQ), which would otherwise wrap on the int16 cast.
-        const float sample_float = qBound(-32768.0F, s[i] * 32768.0F, 32767.0F);
-        d[i] = static_cast<int16_t>(sample_float);
-      }
-      gst_buffer_unmap(buf, &map_info);
-      buf16 = gst_buffer_new_wrapped(d, static_cast<gsize>(buf16_size));
-      GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples), static_cast<guint64>(rate));
+    if (GstBuffer *converted_buffer = ConvertSamplesToInt16<float>(buf, channels, rate, [](const float sample) {
+      // Clamp before casting - samples can exceed [-1.0, 1.0) (ReplayGain/intersample peaks, and this probe is pre-volume/pre-EQ), which would otherwise wrap on the int16 cast.
+      return static_cast<int16_t>(qBound(-32768.0F, sample * 32768.0F, 32767.0F));
+    })) {
+      buf16 = converted_buffer;
       buf = buf16;
       analyzer_format = u"S16LE"_s;
     }
     instance->logged_unsupported_analyzer_format_ = false;
   }
   else if (format.startsWith("F64LE"_L1)) {
-    GstMapInfo map_info;
-    if (gst_buffer_map(buf, &map_info, GST_MAP_READ)) {
-      int samples = static_cast<int>((map_info.size / sizeof(double)) / channels);
-      int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
-      int16_t *d = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
-      memset(d, 0, static_cast<size_t>(buf16_size));
-      for (int i = 0; i < (samples * channels); ++i) {
-        // Read via memcpy rather than a double* reinterpret_cast: map_info.data is not guaranteed to be 8-byte aligned (unlike the 4-byte alignment the other branches rely on), and an unaligned double load is undefined behavior on strict-alignment platforms.
-        double sample = 0;
-        memcpy(&sample, map_info.data + (static_cast<size_t>(i) * sizeof(double)), sizeof(double));
-        // Clamp before casting - samples can exceed [-1.0, 1.0) (ReplayGain/intersample peaks, and this probe is pre-volume/pre-EQ), which would otherwise wrap on the int16 cast.
-        const double sample_clamped = qBound(-32768.0, sample * 32768.0, 32767.0);
-        d[i] = static_cast<int16_t>(sample_clamped);
-      }
-      gst_buffer_unmap(buf, &map_info);
-      buf16 = gst_buffer_new_wrapped(d, static_cast<gsize>(buf16_size));
-      GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples), static_cast<guint64>(rate));
+    if (GstBuffer *converted_buffer = ConvertSamplesToInt16<double>(buf, channels, rate, [](const double sample) {
+      // Clamp before casting - samples can exceed [-1.0, 1.0) (ReplayGain/intersample peaks, and this probe is pre-volume/pre-EQ), which would otherwise wrap on the int16 cast.
+      return static_cast<int16_t>(qBound(-32768.0, sample * 32768.0, 32767.0));
+    })) {
+      buf16 = converted_buffer;
       buf = buf16;
       analyzer_format = u"S16LE"_s;
     }
