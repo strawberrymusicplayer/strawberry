@@ -1381,27 +1381,6 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
     }
     instance->logged_unsupported_analyzer_format_ = false;
   }
-
-  else if (format.startsWith("F32LE"_L1)) {
-    GstMapInfo map_info;
-    if (gst_buffer_map(buf, &map_info, GST_MAP_READ)) {
-      float *s = reinterpret_cast<float*>(map_info.data);
-      int samples = static_cast<int>((map_info.size / sizeof(float)) / channels);
-      int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
-      int16_t *d = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
-      memset(d, 0, static_cast<size_t>(buf16_size));
-      for (int i = 0; i < (samples * channels); ++i) {
-        // Clamp before casting - samples can exceed [-1.0, 1.0) (ReplayGain/intersample peaks, and this probe is pre-volume/pre-EQ), which would otherwise wrap on the int16 cast.
-        const float sample_float = qBound(-32768.0F, s[i] * 32768.0F, 32767.0F);
-        d[i] = static_cast<int16_t>(sample_float);
-      }
-      gst_buffer_unmap(buf, &map_info);
-      buf16 = gst_buffer_new_wrapped(d, static_cast<gsize>(buf16_size));
-      GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples), static_cast<guint64>(rate));
-      buf = buf16;
-    }
-    instance->logged_unsupported_analyzer_format_ = false;
-  }
   else if (format.startsWith("S24LE"_L1)) {
     GstMapInfo map_info;
     if (gst_buffer_map(buf, &map_info, GST_MAP_READ)) {
@@ -1443,6 +1422,26 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
       }
       gst_buffer_unmap(buf, &map_info);
       buf16 = gst_buffer_new_wrapped(s16, static_cast<gsize>(buf16_size));
+      GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples), static_cast<guint64>(rate));
+      buf = buf16;
+    }
+    instance->logged_unsupported_analyzer_format_ = false;
+  }
+  else if (format.startsWith("F32LE"_L1)) {
+    GstMapInfo map_info;
+    if (gst_buffer_map(buf, &map_info, GST_MAP_READ)) {
+      float *s = reinterpret_cast<float*>(map_info.data);
+      int samples = static_cast<int>((map_info.size / sizeof(float)) / channels);
+      int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
+      int16_t *d = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
+      memset(d, 0, static_cast<size_t>(buf16_size));
+      for (int i = 0; i < (samples * channels); ++i) {
+        // Clamp before casting - samples can exceed [-1.0, 1.0) (ReplayGain/intersample peaks, and this probe is pre-volume/pre-EQ), which would otherwise wrap on the int16 cast.
+        const float sample_float = qBound(-32768.0F, s[i] * 32768.0F, 32767.0F);
+        d[i] = static_cast<int16_t>(sample_float);
+      }
+      gst_buffer_unmap(buf, &map_info);
+      buf16 = gst_buffer_new_wrapped(d, static_cast<gsize>(buf16_size));
       GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples), static_cast<guint64>(rate));
       buf = buf16;
     }
