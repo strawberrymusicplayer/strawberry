@@ -451,6 +451,7 @@ Section "Strawberry" Strawberry
   File /nonfatal "gnutls.dll"
 
 !ifdef release
+  File "bz2.dll"
   File "freetype.dll"
   File "libpng16.dll"
   File "libspeex.dll"
@@ -463,6 +464,7 @@ Section "Strawberry" Strawberry
 !endif
 !endif
 !ifdef debug
+  File "bz2d.dll"
   File "freetyped.dll"
   File "libpng16d.dll"
   File "libspeexd.dll"
@@ -1016,6 +1018,7 @@ Section "Uninstall"
   Delete "$INSTDIR\gnutls.dll"
 
 !ifdef release
+  Delete "$INSTDIR\bz2.dll"
   Delete "$INSTDIR\freetype.dll"
   Delete "$INSTDIR\libpng16.dll"
   Delete "$INSTDIR\libspeex.dll"
@@ -1028,6 +1031,7 @@ Section "Uninstall"
 !endif
 !endif
 !ifdef debug
+  Delete "$INSTDIR\bz2d.dll"
   Delete "$INSTDIR\freetyped.dll"
   Delete "$INSTDIR\libpng16d.dll"
   Delete "$INSTDIR\libspeexd.dll"
