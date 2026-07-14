@@ -3398,10 +3398,6 @@ If there are no matches then it will use the largest image in the directory.</tr
       <translation type="unfinished">S&amp;huffle playlist</translation>
     </message>
     <message>
-      <source>Ctrl+H</source>
-      <translation type="unfinished">Ctrl+H</translation>
-    </message>
-    <message>
       <source>&amp;Add file...</source>
       <translation type="unfinished">&amp;Add file...</translation>
     </message>
@@ -3784,6 +3780,22 @@ If there are no matches then it will use the largest image in the directory.</tr
     <message>
       <source>Collection rescan notice</source>
       <translation type="unfinished">Collection rescan notice</translation>
+    </message>
+    <message>
+      <source>Ctrl+Shift+H</source>
+      <translation type="unfinished">Ctrl+Shift+H</translation>
+    </message>
+    <message>
+      <source>Go to last playlist tab</source>
+      <translation type="unfinished">Go to last playlist tab</translation>
+    </message>
+    <message>
+      <source>Go to active playlist tab</source>
+      <translation type="unfinished">Go to active playlist tab</translation>
+    </message>
+    <message>
+      <source>Close current playlist tab</source>
+      <translation type="unfinished">Close current playlist tab</translation>
     </message>
   </context>
   <context>
@@ -7166,6 +7178,14 @@ Are you sure you want to continue?</translation>
   <context>
     <name>TagFetcher</name>
     <message>
+      <source>Stage: %1</source>
+      <translation type="unfinished">Stage: %1</translation>
+    </message>
+    <message>
+      <source>Reason: %1</source>
+      <translation type="unfinished">Reason: %1</translation>
+    </message>
+    <message>
       <source>Identifying song</source>
       <translation type="unfinished">Identifying song</translation>
     </message>
@@ -7174,8 +7194,36 @@ Are you sure you want to continue?</translation>
       <translation type="unfinished">Fingerprinting song</translation>
     </message>
     <message>
+      <source>Generated fingerprint is empty or invalid</source>
+      <translation type="unfinished">Generated fingerprint is empty or invalid</translation>
+    </message>
+    <message>
+      <source>Fingerprinting</source>
+      <translation type="unfinished">Fingerprinting</translation>
+    </message>
+    <message>
+      <source>Fingerprint length: %1</source>
+      <translation type="unfinished">Fingerprint length: %1</translation>
+    </message>
+    <message>
+      <source>Minimum required length: %1</source>
+      <translation type="unfinished">Minimum required length: %1</translation>
+    </message>
+    <message>
       <source>Downloading metadata</source>
       <translation type="unfinished">Downloading metadata</translation>
+    </message>
+    <message>
+      <source>No MusicBrainz metadata was found for this track</source>
+      <translation type="unfinished">No MusicBrainz metadata was found for this track</translation>
+    </message>
+    <message>
+      <source>MusicBrainz metadata</source>
+      <translation type="unfinished">MusicBrainz metadata</translation>
+    </message>
+    <message>
+      <source>Candidate metadata rows: 0</source>
+      <translation type="unfinished">Candidate metadata rows: 0</translation>
     </message>
   </context>
   <context>
@@ -7349,10 +7397,6 @@ Are you sure you want to continue?</translation>
       <translation type="unfinished">Tag fetcher</translation>
     </message>
     <message>
-      <source>Sorry</source>
-      <translation type="unfinished">Sorry</translation>
-    </message>
-    <message>
       <source>Strawberry was unable to find results for this file</source>
       <translation type="unfinished">Strawberry was unable to find results for this file</translation>
     </message>
@@ -7389,6 +7433,10 @@ Are you sure you want to continue?</translation>
       <translation type="unfinished">Next</translation>
     </message>
     <message>
+      <source>Error</source>
+      <translation type="unfinished">Error</translation>
+    </message>
+    <message>
       <source>Original tags</source>
       <translation type="unfinished">Original tags</translation>
     </message>
@@ -7403,6 +7451,10 @@ Are you sure you want to continue?</translation>
     <message>
       <source>Album artist</source>
       <translation type="unfinished">Album artist</translation>
+    </message>
+    <message>
+      <source>No results</source>
+      <translation type="unfinished">No results</translation>
     </message>
   </context>
   <context>

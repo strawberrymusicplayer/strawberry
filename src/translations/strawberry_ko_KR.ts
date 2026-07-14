@@ -3398,10 +3398,6 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>재생 목록 섞기(&amp;H)</translation>
     </message>
     <message>
-      <source>Ctrl+H</source>
-      <translation type="unfinished">Ctrl+H</translation>
-    </message>
-    <message>
       <source>&amp;Add file...</source>
       <translation>파일 추가(&amp;A)...</translation>
     </message>
@@ -3784,6 +3780,22 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Collection rescan notice</source>
       <translation>라이브러리 재탐색 알림</translation>
+    </message>
+    <message>
+      <source>Ctrl+Shift+H</source>
+      <translation type="unfinished">Ctrl+Shift+H</translation>
+    </message>
+    <message>
+      <source>Go to last playlist tab</source>
+      <translation type="unfinished">Go to last playlist tab</translation>
+    </message>
+    <message>
+      <source>Go to active playlist tab</source>
+      <translation type="unfinished">Go to active playlist tab</translation>
+    </message>
+    <message>
+      <source>Close current playlist tab</source>
+      <translation type="unfinished">Close current playlist tab</translation>
     </message>
   </context>
   <context>
@@ -7161,6 +7173,14 @@ Are you sure you want to continue?</source>
   <context>
     <name>TagFetcher</name>
     <message>
+      <source>Stage: %1</source>
+      <translation type="unfinished">Stage: %1</translation>
+    </message>
+    <message>
+      <source>Reason: %1</source>
+      <translation type="unfinished">Reason: %1</translation>
+    </message>
+    <message>
       <source>Identifying song</source>
       <translation type="unfinished">Identifying song</translation>
     </message>
@@ -7169,8 +7189,36 @@ Are you sure you want to continue?</source>
       <translation type="unfinished">Fingerprinting song</translation>
     </message>
     <message>
+      <source>Generated fingerprint is empty or invalid</source>
+      <translation type="unfinished">Generated fingerprint is empty or invalid</translation>
+    </message>
+    <message>
+      <source>Fingerprinting</source>
+      <translation type="unfinished">Fingerprinting</translation>
+    </message>
+    <message>
+      <source>Fingerprint length: %1</source>
+      <translation type="unfinished">Fingerprint length: %1</translation>
+    </message>
+    <message>
+      <source>Minimum required length: %1</source>
+      <translation type="unfinished">Minimum required length: %1</translation>
+    </message>
+    <message>
       <source>Downloading metadata</source>
       <translation type="unfinished">Downloading metadata</translation>
+    </message>
+    <message>
+      <source>No MusicBrainz metadata was found for this track</source>
+      <translation type="unfinished">No MusicBrainz metadata was found for this track</translation>
+    </message>
+    <message>
+      <source>MusicBrainz metadata</source>
+      <translation type="unfinished">MusicBrainz metadata</translation>
+    </message>
+    <message>
+      <source>Candidate metadata rows: 0</source>
+      <translation type="unfinished">Candidate metadata rows: 0</translation>
     </message>
   </context>
   <context>
@@ -7344,10 +7392,6 @@ Are you sure you want to continue?</source>
       <translation>태그 가져오기</translation>
     </message>
     <message>
-      <source>Sorry</source>
-      <translation>죄송합니다</translation>
-    </message>
-    <message>
       <source>Strawberry was unable to find results for this file</source>
       <translation>Strawberry에서 이 파일의 결과를 찾을 수 없습니다</translation>
     </message>
@@ -7384,6 +7428,10 @@ Are you sure you want to continue?</source>
       <translation>다음</translation>
     </message>
     <message>
+      <source>Error</source>
+      <translation type="unfinished">Error</translation>
+    </message>
+    <message>
       <source>Original tags</source>
       <translation>원본 태그</translation>
     </message>
@@ -7398,6 +7446,10 @@ Are you sure you want to continue?</source>
     <message>
       <source>Album artist</source>
       <translation type="unfinished">Album artist</translation>
+    </message>
+    <message>
+      <source>No results</source>
+      <translation type="unfinished">No results</translation>
     </message>
   </context>
   <context>

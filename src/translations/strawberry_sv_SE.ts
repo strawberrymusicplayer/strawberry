@@ -5,11 +5,11 @@
     <name>ASXParser</name>
     <message>
       <source>ASX playlist is too large</source>
-      <translation type="unfinished">ASX playlist is too large</translation>
+      <translation>ASX-spellistan är för stor</translation>
     </message>
     <message>
       <source>Failed to write ASX playlist</source>
-      <translation type="unfinished">Failed to write ASX playlist</translation>
+      <translation>Det gick inte att skriva ASX-spellistan</translation>
     </message>
   </context>
   <context>
@@ -280,7 +280,7 @@
     </message>
     <message>
       <source>Exported %1 covers out of %2 (%3 skipped)</source>
-      <translation>Exporterat %1 omslag av %2 (%3 hoppades över)</translation>
+      <translation>Exporterade %1 omslag av %2 (%3 utelämnades)</translation>
     </message>
     <message>
       <source>Could not save cover to file %1.</source>
@@ -429,7 +429,7 @@
     </message>
     <message>
       <source>Upper Right</source>
-      <translation>Övre högra</translation>
+      <translation>Övre höger</translation>
     </message>
     <message>
       <source>Middle</source>
@@ -437,11 +437,11 @@
     </message>
     <message>
       <source>Bottom Left</source>
-      <translation>Nedre vänstra</translation>
+      <translation>Nedre vänster</translation>
     </message>
     <message>
       <source>Bottom Right</source>
-      <translation>Nedre högra</translation>
+      <translation>Nedre höger</translation>
     </message>
     <message>
       <source>Max cover size</source>
@@ -481,7 +481,7 @@
     </message>
     <message>
       <source>Playlist buttons</source>
-      <translation>Spellistknappar</translation>
+      <translation>Spellisteknappar</translation>
     </message>
     <message>
       <source>Tabbar large mode</source>
@@ -489,7 +489,7 @@
     </message>
     <message>
       <source>Play control buttons</source>
-      <translation>Spela kontrollknappar</translation>
+      <translation>Uppspelningsknappar</translation>
     </message>
     <message>
       <source>Configure buttons</source>
@@ -521,103 +521,103 @@
     </message>
     <message>
       <source>Window</source>
-      <translation type="unfinished">Window</translation>
+      <translation>Fönster</translation>
     </message>
     <message>
       <source>Window text</source>
-      <translation type="unfinished">Window text</translation>
+      <translation>Fönstertext</translation>
     </message>
     <message>
       <source>Base</source>
-      <translation type="unfinished">Base</translation>
+      <translation>Bas</translation>
     </message>
     <message>
       <source>Alternate base</source>
-      <translation type="unfinished">Alternate base</translation>
+      <translation>Alternativ bas</translation>
     </message>
     <message>
       <source>Tooltip base</source>
-      <translation type="unfinished">Tooltip base</translation>
+      <translation>Bakgrund för verktygstips</translation>
     </message>
     <message>
       <source>Tooltip text</source>
-      <translation type="unfinished">Tooltip text</translation>
+      <translation>Text i verktygstips</translation>
     </message>
     <message>
       <source>Placeholder text</source>
-      <translation type="unfinished">Placeholder text</translation>
+      <translation>Platshållartext</translation>
     </message>
     <message>
       <source>Text</source>
-      <translation type="unfinished">Text</translation>
+      <translation>Text</translation>
     </message>
     <message>
       <source>Button</source>
-      <translation type="unfinished">Button</translation>
+      <translation>Knapp</translation>
     </message>
     <message>
       <source>Button text</source>
-      <translation type="unfinished">Button text</translation>
+      <translation>Knapptext</translation>
     </message>
     <message>
       <source>Bright text</source>
-      <translation type="unfinished">Bright text</translation>
+      <translation>Ljus text</translation>
     </message>
     <message>
       <source>Select color</source>
-      <translation type="unfinished">Select color</translation>
+      <translation>Välj färg</translation>
     </message>
     <message>
       <source>Select background image</source>
-      <translation>Väl en bakgrundsbild</translation>
+      <translation>Välj en bakgrundsbild</translation>
     </message>
     <message>
       <source>Colors</source>
-      <translation type="unfinished">Colors</translation>
+      <translation>Färger</translation>
     </message>
     <message>
       <source>&amp;Use the system default color set</source>
-      <translation type="unfinished">&amp;Use the system default color set</translation>
+      <translation>&amp;Använd systemets standardfärger</translation>
     </message>
     <message>
       <source>Use a custom color set</source>
-      <translation type="unfinished">Use a custom color set</translation>
+      <translation>Använd en anpassad färguppsättning</translation>
     </message>
     <message>
       <source>Set a custom color set suitable for a dark theme</source>
-      <translation type="unfinished">Set a custom color set suitable for a dark theme</translation>
+      <translation>Ange en anpassad färguppsättning som passar ett mörkt tema</translation>
     </message>
     <message>
       <source>Dark mode</source>
-      <translation type="unfinished">Dark mode</translation>
+      <translation>Mörkt läge</translation>
     </message>
     <message>
       <source>Reset the custom color set to the system default colors</source>
-      <translation type="unfinished">Reset the custom color set to the system default colors</translation>
+      <translation>Återställ den anpassade färguppsättningen till systemets standardfärger</translation>
     </message>
     <message>
       <source>Reset to default</source>
-      <translation type="unfinished">Reset to default</translation>
+      <translation>Återställ till standard</translation>
     </message>
     <message>
       <source>You might need to restart Strawberry for this setting to fully apply</source>
-      <translation type="unfinished">You might need to restart Strawberry for this setting to fully apply</translation>
+      <translation>Du kan behöva starta om Strawberry för att inställningen ska tillämpas fullt ut</translation>
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect</source>
-      <translation type="unfinished">You need to restart Strawberry for this setting to take affect</translation>
+      <translation>Du måste starta om Strawberry för att den här inställningen ska börja gälla</translation>
     </message>
     <message>
       <source>System icons</source>
-      <translation type="unfinished">System icons</translation>
+      <translation>Systemikoner</translation>
     </message>
     <message>
       <source>Changing colors is only supported with some styles</source>
-      <translation type="unfinished">Changing colors is only supported with some styles</translation>
+      <translation>Färgändringar stöds endast av vissa stilar</translation>
     </message>
     <message>
       <source>Dark colors</source>
-      <translation type="unfinished">Dark colors</translation>
+      <translation>Mörka färger</translation>
     </message>
   </context>
   <context>
@@ -676,7 +676,7 @@
     </message>
     <message>
       <source>Improve headphone listening of stereo audio records (bs2b)</source>
-      <translation>Förbättra hörlurslyssning av stereoljudskivor (bs2b)</translation>
+      <translation>Förbättra lyssning på stereoinspelningar med hörlurar (bs2b)</translation>
     </message>
     <message>
       <source>Use playbin3 when available</source>
@@ -728,11 +728,11 @@
     </message>
     <message>
       <source>Use Replay Gain metadata if it is available</source>
-      <translation>Använd Replay Gain-metadata om det finns tillgängligt</translation>
+      <translation>Använd ReplayGain-metadata när sådana finns</translation>
     </message>
     <message>
       <source>Replay Gain mode</source>
-      <translation>Replay Gain-läge</translation>
+      <translation>ReplayGain-läge</translation>
     </message>
     <message>
       <source>Radio (equal loudness for all tracks)</source>
@@ -788,7 +788,7 @@
     </message>
     <message>
       <source>Fading duration</source>
-      <translation>Toningsvaraktighet</translation>
+      <translation>Toningstid</translation>
     </message>
     <message>
       <source>Fade out on pause / fade in on resume</source>
@@ -808,11 +808,11 @@
     </message>
     <message>
       <source>Device warm-up</source>
-      <translation type="unfinished">Device warm-up</translation>
+      <translation>Startfördröjning för ljudenhet</translation>
     </message>
     <message>
       <source>Delay between opening the audio device and starting playback, to avoid the start of the track being cut off while the device (DAC) is still becoming ready.  Set to 0 to disable.</source>
-      <translation type="unfinished">Delay between opening the audio device and starting playback, to avoid the start of the track being cut off while the device (DAC) is still becoming ready.  Set to 0 to disable.</translation>
+      <translation>Fördröjning mellan att ljudenheten öppnas och uppspelningen startar, så att början av spåret inte klipps bort medan enheten (DAC) fortfarande blir klar. Ange 0 för att inaktivera.</translation>
     </message>
   </context>
   <context>
@@ -835,7 +835,7 @@
     </message>
     <message>
       <source>Show song progress on taskbar</source>
-      <translation>Visa låtens framsteg i aktivitetsfältet</translation>
+      <translation>Visa låtens förlopp i aktivitetsfältet</translation>
     </message>
     <message>
       <source>Resume playback on start</source>
@@ -843,7 +843,7 @@
     </message>
     <message>
       <source>Show playing widget</source>
-      <translation>Visa uppspelningsgränssnittskomponenten</translation>
+      <translation>Visa uppspelningspanelen</translation>
     </message>
     <message>
       <source>On startup</source>
@@ -875,7 +875,7 @@
     </message>
     <message>
       <source>Use the system default</source>
-      <translation>Använd systemets standard</translation>
+      <translation>Använd systemets standardspråk</translation>
     </message>
     <message>
       <source>You will need to restart Strawberry if you change the language.</source>
@@ -891,7 +891,7 @@
     </message>
     <message>
       <source>Play if there is nothing already playing</source>
-      <translation>Spela om ingenting redan spelas</translation>
+      <translation>Starta uppspelningen om inget redan spelas</translation>
     </message>
     <message>
       <source>Always start playing</source>
@@ -939,7 +939,7 @@
     </message>
     <message>
       <source>Seeking using a keyboard shortcut or mouse wheel</source>
-      <translation>Tidshopp vid sökning med tangentbordsgenväg eller mushjul</translation>
+      <translation>Tidshopp med tangentbordsgenväg eller mushjul</translation>
     </message>
     <message>
       <source>Time step</source>
@@ -962,11 +962,11 @@
     </message>
     <message>
       <source>Error while setting CDDA device to ready state.</source>
-      <translation>Fel när CDDA-enheten sattes till redoläge.</translation>
+      <translation>Fel när CDDA-enheten försattes i redo-läge.</translation>
     </message>
     <message>
       <source>Error while setting CDDA device to pause state.</source>
-      <translation>Fel vid pausläge för CDDA-enheten.</translation>
+      <translation>Fel när CDDA-enheten försattes i pausläge.</translation>
     </message>
     <message>
       <source>The &apos;track&apos; format is not supported by GStreamer.</source>
@@ -974,7 +974,7 @@
     </message>
     <message>
       <source>Error while querying CDDA tracks.</source>
-      <translation>Fel vid fråga efter CDDA-spår.</translation>
+      <translation>Fel vid hämtning av CDDA-spår.</translation>
     </message>
   </context>
   <context>
@@ -1044,23 +1044,23 @@
     </message>
     <message>
       <source>Rating non null</source>
-      <translation>Betyg inte null</translation>
+      <translation>Har betyg</translation>
     </message>
     <message>
       <source>Rating greater than 1 star</source>
-      <translation>Betyg större än 1 stjärna</translation>
+      <translation>Betyg över 1 stjärna</translation>
     </message>
     <message>
       <source>Rating greater than 2 stars</source>
-      <translation>Betyg högre än 2 stjärnor</translation>
+      <translation>Betyg över 2 stjärnor</translation>
     </message>
     <message>
       <source>Rating greater than 3 stars</source>
-      <translation>Betyg högre än 3 stjärnor</translation>
+      <translation>Betyg över 3 stjärnor</translation>
     </message>
     <message>
       <source>Rating greater than 4 stars</source>
-      <translation>Betyg högre än 4 stjärnor</translation>
+      <translation>Betyg över 4 stjärnor</translation>
     </message>
     <message>
       <source>Group by</source>
@@ -1080,7 +1080,7 @@
     </message>
     <message>
       <source>Group by Album artist/Album</source>
-      <translation>Gruppera efter artist/album</translation>
+      <translation>Gruppera efter albumartist/album</translation>
     </message>
     <message>
       <source>Group by Album artist/Album - Disc</source>
@@ -1120,7 +1120,7 @@
     </message>
     <message>
       <source>Group by Album Artist</source>
-      <translation>Gruppera efter Albumartist</translation>
+      <translation>Gruppera efter albumartist</translation>
     </message>
     <message>
       <source>Group by Artist</source>
@@ -1217,7 +1217,7 @@
     </message>
     <message>
       <source>Expire unavailable songs after</source>
-      <translation>Utgå otillgängliga låtar efter</translation>
+      <translation>Ta bort otillgängliga låtar efter</translation>
     </message>
     <message>
       <source>days</source>
@@ -1251,15 +1251,15 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Use various artists for compilation albums</source>
-      <translation>Använd olika artister för samlingsalbum</translation>
+      <translation>Använd ”Diverse artister” för samlingsalbum</translation>
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</source>
-      <translation>Hoppa över inledande artiklar (&quot;den&quot;, &quot;en&quot;, &quot;ett&quot;) när du sorterar artister, kompositörer och medverkande</translation>
+      <translation>Hoppa över inledande artiklar (&quot;the&quot;, &quot;a&quot; och &quot;an&quot;) när artister, kompositörer och medverkande sorteras</translation>
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</source>
-      <translation>Hoppa över inledande artiklar (&quot;den&quot;, &quot;en&quot;, &quot;ett&quot;) när du sorterar album</translation>
+      <translation>Hoppa över inledande artiklar (&quot;the&quot;, &quot;a&quot; och &quot;an&quot;) när album sorteras</translation>
     </message>
     <message>
       <source>Use sort tags for sorting when available</source>
@@ -1267,7 +1267,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Album cover pixmap cache</source>
-      <translation>Albumomslag pixmap-cache</translation>
+      <translation>Pixmap-cache för albumomslag</translation>
     </message>
     <message>
       <source>Size</source>
@@ -1303,11 +1303,11 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Overwrite database playcount when songs are re-read from disk</source>
-      <translation>Skriv över databasspelningsantal när låtar läses om från disken</translation>
+      <translation>Skriv över antalet spelningar i databasen när låtar läses om från disken</translation>
     </message>
     <message>
       <source>Overwrite database rating when songs are re-read from disk</source>
-      <translation>Skriv över databasbetyg när låtar läses om från disk</translation>
+      <translation>Skriv över betygen i databasen när låtar läses om från disken</translation>
     </message>
     <message>
       <source>Save playcounts and ratings to files now</source>
@@ -1315,7 +1315,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Enable delete files in the right click context menu</source>
-      <translation>Aktivera att ta bort filer i högerklickssnabbmenyn</translation>
+      <translation>Aktivera filborttagning i snabbmenyn som öppnas med högerklick</translation>
     </message>
     <message>
       <source>Add directory...</source>
@@ -1323,11 +1323,11 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Write all playcounts and ratings to files</source>
-      <translation>Skriv alla antal spelningar och betyg till filer</translation>
+      <translation>Skriv antalet spelningar och betyg för alla låtar till filer</translation>
     </message>
     <message>
       <source>Are you sure you want to write song playcounts and ratings to file for all songs in your collection?</source>
-      <translation>Är du säker på att du vill skriva antal spelningar och betyg för alla låtar i din samling?</translation>
+      <translation>Är du säker på att du vill skriva antalet spelningar och betyg för alla låtar i samlingen till filerna?</translation>
     </message>
   </context>
   <context>
@@ -1466,7 +1466,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Summary</source>
-      <translation>Sammandrag</translation>
+      <translation>Sammanfattning</translation>
     </message>
     <message>
       <source>Enable Items</source>
@@ -1566,11 +1566,11 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Add song play count</source>
-      <translation>Lägg till antal spelningar av låtar</translation>
+      <translation>Lägg till låtens antal spelningar</translation>
     </message>
     <message>
       <source>Add song skip count</source>
-      <translation>Lägg till överhoppningsantal</translation>
+      <translation>Lägg till låtens antal överhoppningar</translation>
     </message>
     <message>
       <source>Add a new line if supported by the notification type</source>
@@ -1602,7 +1602,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Add song original year tag</source>
-      <translation>Lägg till låtens originalårstagg</translation>
+      <translation>Lägg till tagg för låtens originalår</translation>
     </message>
     <message>
       <source>Add song artistsort tag</source>
@@ -1657,7 +1657,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Show song technical data</source>
-      <translation>Visa låttekniska data</translation>
+      <translation>Visa tekniska data för låten</translation>
     </message>
     <message>
       <source>Show song lyrics</source>
@@ -1716,11 +1716,11 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>The site you requested does not exist!</source>
-      <translation>Webbplatsen du söker finns inte!</translation>
+      <translation>Webbplatsen du angav finns inte!</translation>
     </message>
     <message>
       <source>The site you requested is not an image!</source>
-      <translation>Webbplatsen du söker är inte en bild!</translation>
+      <translation>Webbadressen du angav leder inte till en bild!</translation>
     </message>
   </context>
   <context>
@@ -1873,11 +1873,11 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Replace spaces with dashes</source>
-      <translation>Ersätter mellanslag med understreck</translation>
+      <translation>Ersätt mellanslag med bindestreck</translation>
     </message>
     <message>
       <source>Use Tidal settings to authenticate.</source>
-      <translation>Använd Tidal-inställningar för att autentisera.</translation>
+      <translation>Använd Tidal-inställningarna för autentisering.</translation>
     </message>
     <message>
       <source>Use Spotify settings to authenticate.</source>
@@ -1885,7 +1885,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Use Qobuz settings to authenticate.</source>
-      <translation>Använd Qobuz-inställningar för att autentisera.</translation>
+      <translation>Använd Qobuz-inställningarna för autentisering.</translation>
     </message>
     <message>
       <source>%1 needs authentication.</source>
@@ -1905,7 +1905,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Manually unset (%1)</source>
-      <translation>Inaktivera manuellt (%1)</translation>
+      <translation>Borttaget manuellt (%1)</translation>
     </message>
     <message>
       <source>Set through album cover search (%1)</source>
@@ -1924,7 +1924,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     <name>CueParser</name>
     <message>
       <source>Saving CUE files is not supported.</source>
-      <translation>Spara CUE-filer stöds inte.</translation>
+      <translation>Det går inte att spara CUE-filer.</translation>
     </message>
   </context>
   <context>
@@ -2019,7 +2019,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>This is an iPod, but you compiled Strawberry without libgpod support.</source>
-      <translation>Det här är en iPod, men du har kompilerade Strawberry utan stöd av libgpod.</translation>
+      <translation>Det här är en iPod, men du har kompilerat Strawberry utan stöd för libgpod.</translation>
     </message>
     <message>
       <source>This type of device is not supported: %1</source>
@@ -2109,7 +2109,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     <name>DeviceView</name>
     <message>
       <source>Safely remove device</source>
-      <translation>Säker borttagning av enhet</translation>
+      <translation>Mata ut enheten säkert</translation>
     </message>
     <message>
       <source>Forget device</source>
@@ -2182,7 +2182,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Repopulate</source>
-      <translation>Skapa en ny blandning</translation>
+      <translation>Fyll på igen</translation>
     </message>
     <message>
       <source>Turn off</source>
@@ -2197,23 +2197,23 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Summary</source>
-      <translation>Sammandrag</translation>
+      <translation>Sammanfattning</translation>
     </message>
     <message>
       <source>Date created</source>
-      <translation>Datum skapad</translation>
+      <translation>Skapad</translation>
     </message>
     <message>
       <source>Art Automatic</source>
-      <translation>Automatiska omslag</translation>
+      <translation>Automatiskt omslag</translation>
     </message>
     <message>
       <source>Date modified</source>
-      <translation>Datum ändrad</translation>
+      <translation>Ändrad</translation>
     </message>
     <message>
       <source>Art Embedded</source>
-      <translation>Omslaget inbäddat</translation>
+      <translation>Inbäddat omslag</translation>
     </message>
     <message>
       <source>Last played</source>
@@ -2270,7 +2270,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Art Manual</source>
-      <translation>Manuella omslag</translation>
+      <translation>Manuellt omslag</translation>
     </message>
     <message>
       <source>EBU R 128 loudness range</source>
@@ -2346,7 +2346,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Compilation</source>
-      <translation>Sammanställning</translation>
+      <translation>Samlingsalbum</translation>
     </message>
     <message>
       <source>Track</source>
@@ -2366,11 +2366,11 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>(different across multiple songs)</source>
-      <translation>(olika över flera låtar)</translation>
+      <translation>(skiljer sig mellan flera låtar)</translation>
     </message>
     <message>
       <source>Different art across multiple songs.</source>
-      <translation>Olika omslag över flera låtar.</translation>
+      <translation>Omslagen skiljer sig mellan de valda låtarna.</translation>
     </message>
     <message>
       <source>Previous</source>
@@ -2438,11 +2438,11 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Cover changed: Will be unset when saved.</source>
-      <translation>Omslaget har ändrats: det avmarkeras när du sparar.</translation>
+      <translation>Omslaget har ändrats: kopplingen tas bort när du sparar.</translation>
     </message>
     <message>
       <source>Cover changed: Will be deleted when saved.</source>
-      <translation>Omslaget har ändrats: det tas bort när du sparar.</translation>
+      <translation>Omslaget har ändrats: omslagsfilen tas bort när du sparar.</translation>
     </message>
     <message>
       <source>Cover changed: Will set new when saved.</source>
@@ -2466,7 +2466,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Not found.</source>
-      <translation>Hittade inte.</translation>
+      <translation>Hittades inte.</translation>
     </message>
     <message>
       <source>Could not write metadata to %1</source>
@@ -2641,7 +2641,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>You need to restart playback for this setting to take affect.</source>
-      <translation>Du måste starta om Strawberry för att den här inställningen ska börja gälla.</translation>
+      <translation>Du måste starta om uppspelningen för att den här inställningen ska börja gälla.</translation>
     </message>
   </context>
   <context>
@@ -2869,7 +2869,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Press a key combination to use for %1...</source>
-      <translation>Tryck en tangentkombination att använda för %1…</translation>
+      <translation>Tryck på en tangentkombination som ska användas för %1…</translation>
     </message>
   </context>
   <context>
@@ -2959,7 +2959,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     <name>GlobalShortcutsSettingsPage</name>
     <message>
       <source>Global Shortcuts</source>
-      <translation>Globala genvägar</translation>
+      <translation>Globala kortkommandon</translation>
     </message>
     <message>
       <source>Open...</source>
@@ -2967,11 +2967,11 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Use X11 shortcuts when available</source>
-      <translation>Använd X11-genvägar när de är tillgängliga</translation>
+      <translation>Använd X11-kortkommandon när de är tillgängliga</translation>
     </message>
     <message>
       <source>You need to launch System Preferences and allow Strawberry to &quot;&lt;span style=&quot;font-style:italic&quot;&gt;control your computer&lt;/span&gt;&quot; to use global shortcuts in Strawberry.</source>
-      <translation>Du behöver starta Systeminställningar och tillåta Strawberry att &quot;&lt;span style=&quot;font-style:italic&quot;&gt;kontrollera din dator&lt;/span&gt;&quot; för att använda globala genvägar i Strawberry.</translation>
+      <translation>Du måste öppna Systeminställningar och tillåta Strawberry att &quot;&lt;span style=&quot;font-style:italic&quot;&gt;styra datorn&lt;/span&gt;&quot; för att kunna använda globala genvägar.</translation>
     </message>
     <message>
       <source>Action</source>
@@ -2980,11 +2980,11 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Shortcut</source>
-      <translation>Genväg</translation>
+      <translation>Kortkommando</translation>
     </message>
     <message>
       <source>Shortcut for %1</source>
-      <translation>Genväg för %1</translation>
+      <translation>Kortkommando för %1</translation>
     </message>
     <message>
       <source>&amp;None</source>
@@ -3000,15 +3000,15 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Change shortcut...</source>
-      <translation>Byt genväg…</translation>
+      <translation>Ändra genväg…</translation>
     </message>
     <message>
       <source>Use KGlobalAccel shortcuts when available</source>
-      <translation>Använd KGlobalAccel-genvägar när de är tillgängliga</translation>
+      <translation>Använd KGlobalAccel-kortkommandon när de är tillgängliga</translation>
     </message>
     <message>
       <source>Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</source>
-      <translation>Användning av X11-genvägar rekommenderas inte och kan göra att tangentbordet slutar svara! Genvägar på bör vanligtvis användas genom MPRIS2 / KGlobalAccel.</translation>
+      <translation>X11-genvägar rekommenderas inte och kan göra att tangentbordet slutar svara. Genvägar bör vanligtvis användas via MPRIS2/KGlobalAccel.</translation>
     </message>
   </context>
   <context>
@@ -3119,7 +3119,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Separate albums by grouping tag</source>
-      <translation>Separera album genom att gruppera tagg</translation>
+      <translation>Separera album efter grupperingstagg</translation>
     </message>
     <message>
       <source>Original year - Album - Disc</source>
@@ -3396,10 +3396,6 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     <message>
       <source>S&amp;huffle playlist</source>
       <translation>B&amp;landa spellista</translation>
-    </message>
-    <message>
-      <source>Ctrl+H</source>
-      <translation>Ctrl+H</translation>
     </message>
     <message>
       <source>&amp;Add file...</source>
@@ -3785,6 +3781,22 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
       <source>Collection rescan notice</source>
       <translation>Notis om omskanning av samling</translation>
     </message>
+    <message>
+      <source>Ctrl+Shift+H</source>
+      <translation>Ctrl+Skift+H</translation>
+    </message>
+    <message>
+      <source>Go to last playlist tab</source>
+      <translation>Gå till den sista spellistefliken</translation>
+    </message>
+    <message>
+      <source>Go to active playlist tab</source>
+      <translation>Gå till den aktiva spellistefliken</translation>
+    </message>
+    <message>
+      <source>Close current playlist tab</source>
+      <translation>Stäng den aktuella spellistefliken</translation>
+    </message>
   </context>
   <context>
     <name>MessageDialog</name>
@@ -3925,7 +3937,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Show a &amp;native desktop notification</source>
-      <translation>Visa en &amp;naturlig skrivbordsavisering</translation>
+      <translation>Visa en &amp;systemavisering</translation>
     </message>
     <message>
       <source>Show a pretty OSD</source>
@@ -3933,7 +3945,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Show a popup fro&amp;m the system tray</source>
-      <translation>Visa en popup fr&amp;ån systemfältet</translation>
+      <translation>Visa ett popupfönster fr&amp;ån systemfältet</translation>
     </message>
     <message>
       <source>General settings</source>
@@ -3989,7 +4001,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Summary</source>
-      <translation>Sammandrag</translation>
+      <translation>Sammanfattning</translation>
     </message>
     <message>
       <source>Body</source>
@@ -4085,11 +4097,11 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Add song play count</source>
-      <translation>Lägg till antal spelningar av låtar</translation>
+      <translation>Lägg till låtens antal spelningar</translation>
     </message>
     <message>
       <source>Add song skip count</source>
-      <translation>Lägg till överhoppningsantal</translation>
+      <translation>Lägg till låtens antal överhoppningar</translation>
     </message>
     <message>
       <source>Add song rating</source>
@@ -4121,7 +4133,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Add song original year tag</source>
-      <translation>Lägg till låtens originalårstagg</translation>
+      <translation>Lägg till tagg för låtens originalår</translation>
     </message>
     <message>
       <source>OSD Preview</source>
@@ -4219,7 +4231,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Playlist finished</source>
-      <translation>Spellistan är klar</translation>
+      <translation>Spellistan är slut</translation>
     </message>
     <message>
       <source>Volume %1%</source>
@@ -4333,7 +4345,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Replace spaces with underscores</source>
-      <translation>Ersätter mellanslag med understreck</translation>
+      <translation>Ersätt mellanslag med understreck</translation>
     </message>
     <message>
       <source>Overwrite existing files</source>
@@ -4353,7 +4365,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Safely remove the device after copying</source>
-      <translation>Säker borttagning av enheten efter kopiering</translation>
+      <translation>Mata ut enheten säkert efter kopieringen</translation>
     </message>
     <message>
       <source>Title</source>
@@ -4578,11 +4590,11 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Skip Count</source>
-      <translation>Överhoppningsantal</translation>
+      <translation>Antal överhoppningar</translation>
     </message>
     <message>
       <source>Last Played</source>
-      <translation>Senast spelade</translation>
+      <translation>Senast spelad</translation>
     </message>
     <message>
       <source>Sample Rate</source>
@@ -4614,11 +4626,11 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Date Modified</source>
-      <translation>Datum ändrat</translation>
+      <translation>Ändrad</translation>
     </message>
     <message>
       <source>Date Created</source>
-      <translation>Datum skapat</translation>
+      <translation>Skapad</translation>
     </message>
     <message>
       <source>Comment</source>
@@ -4790,7 +4802,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>You are about to remove %1 playlists from your favorites, are you sure?</source>
-      <translation>Du är på väg att ta bort %1 spellistor från dina favoriter, är du säker?</translation>
+      <translation>Du är på väg att ta bort %1 spellistor från dina favoriter. Är du säker?</translation>
     </message>
   </context>
   <context>
@@ -4980,11 +4992,11 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Grey out unavailable songs in playlists on playback</source>
-      <translation>Grå text för saknade låtar i mina spellistor vid uppspelning</translation>
+      <translation>Gråmarkera otillgängliga låtar i spellistor vid uppspelning</translation>
     </message>
     <message>
       <source>Grey out unavailable songs in playlists on startup</source>
-      <translation>Grå text för saknade låtar i mina spellistor vid uppstart</translation>
+      <translation>Gråmarkera otillgängliga låtar i spellistor vid start</translation>
     </message>
     <message>
       <source>Automatically select current playing track</source>
@@ -5000,7 +5012,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Enable delete files in the right click context menu</source>
-      <translation>Aktivera att ta bort filer i högerklickssnabbmenyn</translation>
+      <translation>Aktivera filborttagning i snabbmenyn som öppnas med högerklick</translation>
     </message>
     <message>
       <source>Automatically sort playlist when inserting songs</source>
@@ -5036,7 +5048,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Enable song metadata inline edition with click</source>
-      <translation>Aktivera redigering av låtmetadata genom klick</translation>
+      <translation>Aktivera direktredigering av låtmetadata med ett klick</translation>
     </message>
     <message>
       <source>Write metadata when saving playlists</source>
@@ -5135,7 +5147,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Play if stopped, pause if playing</source>
-      <translation>Spela om stoppad, pausa vid spelning</translation>
+      <translation>Spela om uppspelningen är stoppad, pausa om den pågår</translation>
     </message>
     <message>
       <source>Pause playback</source>
@@ -5151,11 +5163,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Skip backwards in playlist</source>
-      <translation>Hoppa bakåt i spellista</translation>
+      <translation>Gå bakåt i spellistan</translation>
     </message>
     <message>
       <source>Skip forwards in playlist</source>
-      <translation>Hoppa framåt i spellista</translation>
+      <translation>Gå framåt i spellistan</translation>
     </message>
     <message>
       <source>Set the volume to &lt;value&gt; percent</source>
@@ -5179,15 +5191,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Seek the currently playing track to an absolute position</source>
-      <translation>Hoppa till en absolut position i spår som nu spelas</translation>
+      <translation>Flytta uppspelningspositionen i det aktuella spåret till en absolut position</translation>
     </message>
     <message>
       <source>Seek the currently playing track by a relative amount</source>
-      <translation>Hoppa till en relativ position i spår som nu spelas</translation>
+      <translation>Flytta uppspelningspositionen i det aktuella spåret med ett relativt värde</translation>
     </message>
     <message>
       <source>Restart the track, or play the previous track if within 8 seconds of start.</source>
-      <translation>Starta om spåret, eller spela föregående spår om inom 8 sekunder efter start.</translation>
+      <translation>Starta om spåret, eller spela föregående spår om mindre än 8 sekunder har gått sedan starten.</translation>
     </message>
     <message>
       <source>Playlist options</source>
@@ -5199,15 +5211,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Append files/URLs to the playlist</source>
-      <translation>Lägg till filer/URL:er till spellistan</translation>
+      <translation>Lägg till filer/URL:er i spellistan</translation>
     </message>
     <message>
       <source>Loads files/URLs, replacing current playlist</source>
-      <translation>Läser in filer/URL:er, ersätter aktuell spellista</translation>
+      <translation>Läs in filer/URL:er och ersätt den aktuella spellistan</translation>
     </message>
     <message>
       <source>Play the &lt;n&gt;th track in the playlist</source>
-      <translation>Spela det &lt;n&gt; spåret i spellistan</translation>
+      <translation>Spela spår nummer &lt;n&gt; i spellistan</translation>
     </message>
     <message>
       <source>Play given playlist</source>
@@ -5215,7 +5227,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Other options</source>
-      <translation>Övriga flaggor</translation>
+      <translation>Övriga alternativ</translation>
     </message>
     <message>
       <source>Display the on-screen-display</source>
@@ -5367,7 +5379,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Prefix a search term with a field name to limit the search to that field, e.g.:</source>
-      <translation>Prefix en sökterm med ett fältnamn för att begränsa sökningen till det fältet, t.ex.:</translation>
+      <translation>Inled en sökterm med ett fältnamn för att begränsa sökningen till det fältet, t.ex.:</translation>
     </message>
     <message>
       <source>artist</source>
@@ -5411,7 +5423,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>not on</source>
-      <translation>inte den</translation>
+      <translation>inte på</translation>
     </message>
     <message>
       <source>in the last</source>
@@ -5487,7 +5499,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>shortest first</source>
-      <translation>korstaste först</translation>
+      <translation>kortaste först</translation>
     </message>
     <message>
       <source>longest first</source>
@@ -5664,7 +5676,7 @@ Are you sure you want to continue?</source>
     <name>QobuzService</name>
     <message>
       <source>Missing Qobuz app ID.</source>
-      <translation>Qobuz-app-id saknas.</translation>
+      <translation>Qobuz-app-ID saknas.</translation>
     </message>
     <message>
       <source>Missing app ID. Please fetch credentials first.</source>
@@ -5823,7 +5835,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Automatically fetch app ID, app secret and private key from Qobuz web player</source>
-      <translation>Hämta automatiskt app-ID, appens hemlighet och privata nyckel från Qobuz webbspelare</translation>
+      <translation>Hämta automatiskt app-ID, apphemlighet och privat nyckel från Qobuz-webbspelaren</translation>
     </message>
   </context>
   <context>
@@ -5909,7 +5921,7 @@ Are you sure you want to continue?</source>
     <name>RadioBrowserSearchView</name>
     <message>
       <source>Load more...</source>
-      <translation>Visa fler…</translation>
+      <translation>Hämta fler…</translation>
     </message>
     <message>
       <source>Search for radio stations using radio-browser.info</source>
@@ -6110,7 +6122,7 @@ Are you sure you want to continue?</source>
     <name>SavedGroupingManager</name>
     <message>
       <source>Saved Grouping Manager</source>
-      <translation>Sparad grupperingshanterare</translation>
+      <translation>Hanterare för sparade grupperingar</translation>
     </message>
     <message>
       <source>Remove</source>
@@ -6229,7 +6241,7 @@ Are you sure you want to continue?</source>
     <name>ScrobblerSettingsPage</name>
     <message>
       <source>Scrobbler</source>
-      <translation>Skrobbling</translation>
+      <translation>Skrobblare</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -6265,7 +6277,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Strip &quot;remastered&quot; and similar from album and title</source>
-      <translation>Rensa "remastrad" och liknande från album och titel</translation>
+      <translation>Ta bort &quot;remastered&quot; och liknande från album- och låttitlar</translation>
     </message>
     <message>
       <source>Enable scrobbling for the following sources:</source>
@@ -6345,7 +6357,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
-      <translation>Detta är fördröjningen mellan när en låt skrobblas och när skrobblingar skickas till servern. Om tiden ställs in på 0 sekunder skickas skrobbling omedelbart.</translation>
+      <translation>Detta är fördröjningen mellan att en låt skrobblas och att skrobblingarna skickas till servern. Om tiden ställs in på 0 sekunder skickas skrobblingarna omedelbart.</translation>
     </message>
     <message>
       <source>Spotify</source>
@@ -6368,7 +6380,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Streaming</source>
-      <translation>Flöden</translation>
+      <translation>Strömning</translation>
     </message>
   </context>
   <context>
@@ -6410,7 +6422,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Put songs in a random order</source>
-      <translation>Lägg till låtar i slumpmässig ordning</translation>
+      <translation>Lägg låtarna i slumpmässig ordning</translation>
     </message>
     <message>
       <source>Sort songs by</source>
@@ -6563,11 +6575,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Ever played</source>
-      <translation>Någonsin spelade</translation>
+      <translation>Har spelats</translation>
     </message>
     <message>
       <source>Never played</source>
-      <translation>Aldrig spelade</translation>
+      <translation>Har aldrig spelats</translation>
     </message>
     <message>
       <source>Last played</source>
@@ -6587,7 +6599,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Dynamic random mix</source>
-      <translation>Dynamisk slumpmässig mixning</translation>
+      <translation>Dynamisk slumpmix</translation>
     </message>
   </context>
   <context>
@@ -6652,7 +6664,7 @@ Are you sure you want to continue?</source>
     <name>SongLoader</name>
     <message>
       <source>Preload function was not set for blocking operation.</source>
-      <translation>Förinläsningsfunktionen var inte inställd för blockering.</translation>
+      <translation>Förinläsningsfunktionen var inte inställd för en blockerande åtgärd.</translation>
     </message>
     <message>
       <source>File %1 does not exist.</source>
@@ -6676,15 +6688,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Couldn&apos;t create GStreamer typefind element for %1</source>
-      <translation>Det gick inte att skapa GStreamer typfind-element för %1</translation>
+      <translation>Det gick inte att skapa GStreamer-typefind-elementet för %1</translation>
     </message>
     <message>
       <source>Couldn&apos;t create GStreamer fakesink element for %1</source>
-      <translation>Det gick inte att skapa GStreamer fakesink-element för %1</translation>
+      <translation>Det gick inte att skapa GStreamer-fakesink-elementet för %1</translation>
     </message>
     <message>
       <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
-      <translation>Det gick inte att länka GStreamer-källa, typfind och fakesink-element för %1</translation>
+      <translation>Det gick inte att länka GStreamer-elementen source, typefind och fakesink för %1</translation>
     </message>
     <message>
       <source>Missing CDDA playback.</source>
@@ -6725,7 +6737,7 @@ Are you sure you want to continue?</source>
     <name>SpotifyRequest</name>
     <message>
       <source>Authenticating...</source>
-      <translation>Autentisering…</translation>
+      <translation>Autentiserar…</translation>
     </message>
     <message>
       <source>Receiving artists...</source>
@@ -6773,7 +6785,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Data missing error</source>
-      <translation>Data saknas fel</translation>
+      <translation>Fel: data saknas</translation>
     </message>
   </context>
   <context>
@@ -6835,7 +6847,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Fetch entire albums when searching songs</source>
-      <translation>Hämta hela album vid sökning av låtar</translation>
+      <translation>Hämta hela album vid sökning efter låtar</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -6850,7 +6862,7 @@ Are you sure you want to continue?</source>
     <name>StreamingCollectionView</name>
     <message>
       <source>The streaming collection is empty!</source>
-      <translation>Flödessamlingen är tom!</translation>
+      <translation>Strömningssamlingen är tom!</translation>
     </message>
     <message>
       <source>Click here to retrieve music</source>
@@ -6897,7 +6909,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Refresh catalogue</source>
-      <translation>Uppdatera katalog</translation>
+      <translation>Uppdatera katalogen</translation>
     </message>
   </context>
   <context>
@@ -6911,7 +6923,7 @@ Are you sure you want to continue?</source>
     <name>StreamingSearchView</name>
     <message>
       <source>Streaming Search View</source>
-      <translation>Sökvy för flöden</translation>
+      <translation>Sökvy för strömning</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
@@ -6985,7 +6997,7 @@ Are you sure you want to continue?</source>
     <name>StreamingTabsView</name>
     <message>
       <source>Streaming Tabs View</source>
-      <translation>Vy för flödesflikar</translation>
+      <translation>Vy med strömningsflikar</translation>
     </message>
     <message>
       <source>Artists</source>
@@ -7130,7 +7142,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Server URL is invalid.</source>
-      <translation>URL:n är ogiltig.</translation>
+      <translation>Server-URL:n är ogiltig.</translation>
     </message>
     <message>
       <source>Test successful!</source>
@@ -7166,6 +7178,14 @@ Are you sure you want to continue?</source>
   <context>
     <name>TagFetcher</name>
     <message>
+      <source>Stage: %1</source>
+      <translation>Steg: %1</translation>
+    </message>
+    <message>
+      <source>Reason: %1</source>
+      <translation>Orsak: %1</translation>
+    </message>
+    <message>
       <source>Identifying song</source>
       <translation>Identifierar låt</translation>
     </message>
@@ -7174,8 +7194,36 @@ Are you sure you want to continue?</source>
       <translation>Skapar fingeravtryck för låt</translation>
     </message>
     <message>
+      <source>Generated fingerprint is empty or invalid</source>
+      <translation>Det genererade fingeravtrycket är tomt eller ogiltigt</translation>
+    </message>
+    <message>
+      <source>Fingerprinting</source>
+      <translation>Skapar fingeravtryck</translation>
+    </message>
+    <message>
+      <source>Fingerprint length: %1</source>
+      <translation>Fingeravtryckets längd: %1</translation>
+    </message>
+    <message>
+      <source>Minimum required length: %1</source>
+      <translation>Minsta längd som krävs: %1</translation>
+    </message>
+    <message>
       <source>Downloading metadata</source>
       <translation>Hämtar metadata</translation>
+    </message>
+    <message>
+      <source>No MusicBrainz metadata was found for this track</source>
+      <translation>Inga metadata från MusicBrainz hittades för det här spåret</translation>
+    </message>
+    <message>
+      <source>MusicBrainz metadata</source>
+      <translation>MusicBrainz-metadata</translation>
+    </message>
+    <message>
+      <source>Candidate metadata rows: 0</source>
+      <translation>Antal kandidatrader med metadata: 0</translation>
     </message>
   </context>
   <context>
@@ -7292,7 +7340,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Fetch entire albums when searching songs</source>
-      <translation>Hämta hela album vid sökning av låtar</translation>
+      <translation>Hämta hela album vid sökning efter låtar</translation>
     </message>
     <message>
       <source>Album cover size</source>
@@ -7304,7 +7352,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Append explicit to album title for explicit albums</source>
-      <translation>Lägg uttryckligen till albumtitel för explicita album</translation>
+      <translation>Lägg till ”Explicit” i albumtiteln för album med explicit innehåll</translation>
     </message>
     <message>
       <source>Configuration incomplete</source>
@@ -7335,11 +7383,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
-      <translation>Mottagen URL med %1 krypterad ström från Tidal. Strawberry stöder för närvarande inte krypterade flöden.</translation>
+      <translation>En URL med en %1-krypterad ström togs emot från Tidal. Strawberry stöder för närvarande inte krypterade strömmar.</translation>
     </message>
     <message>
       <source>Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
-      <translation>Mottagen URL med krypterad ström från Tidal. Strawberry stöder för närvarande inte krypterade flöden.</translation>
+      <translation>En URL med en krypterad ström togs emot från Tidal. Strawberry stöder för närvarande inte krypterade strömmar.</translation>
     </message>
   </context>
   <context>
@@ -7347,10 +7395,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Tag fetcher</source>
       <translation>Tagghämtare</translation>
-    </message>
-    <message>
-      <source>Sorry</source>
-      <translation>Tyvärr</translation>
     </message>
     <message>
       <source>Strawberry was unable to find results for this file</source>
@@ -7389,6 +7433,10 @@ Are you sure you want to continue?</source>
       <translation>Nästa</translation>
     </message>
     <message>
+      <source>Error</source>
+      <translation>Fel</translation>
+    </message>
+    <message>
       <source>Original tags</source>
       <translation>Ursprungliga taggar</translation>
     </message>
@@ -7403,6 +7451,10 @@ Are you sure you want to continue?</source>
     <message>
       <source>Album artist</source>
       <translation>Albumartist</translation>
+    </message>
+    <message>
+      <source>No results</source>
+      <translation>Inga resultat</translation>
     </message>
   </context>
   <context>
@@ -7488,7 +7540,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Alongside the originals</source>
-      <translation>Vid sidan av originalen</translation>
+      <translation>Tillsammans med originalfilerna</translation>
     </message>
     <message>
       <source>Select...</source>
@@ -7571,7 +7623,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Successfully written %1</source>
-      <translation>Skrev %1 med lyckat resultat</translation>
+      <translation>Skrev %1 utan fel</translation>
     </message>
     <message>
       <source>Transcoding %1 files using %2 threads</source>
@@ -7634,7 +7686,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Allow mid/side encoding</source>
-      <translation>Tillåt mellan-/sidokodning</translation>
+      <translation>Tillåt mid/side-kodning</translation>
     </message>
     <message>
       <source>Block type</source>
@@ -7819,11 +7871,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Voice activity detection</source>
-      <translation>Upptäckt av röstaktivitet</translation>
+      <translation>Detektering av röstaktivitet</translation>
     </message>
     <message>
       <source>Discontinuous transmission</source>
-      <translation>Icke-kontinuerlig sändning</translation>
+      <translation>Diskontinuerlig överföring</translation>
     </message>
     <message>
       <source>Encoding complexity</source>
@@ -7936,7 +7988,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Partition label</source>
-      <translation>Partitionsnamn</translation>
+      <translation>Partitionsetikett</translation>
     </message>
     <message>
       <source>UUID</source>
@@ -7981,7 +8033,7 @@ Are you sure you want to continue?</source>
     <name>XSPFParser</name>
     <message>
       <source>Failed to write XSPF playlist</source>
-      <translation type="unfinished">Failed to write XSPF playlist</translation>
+      <translation>Det gick inte att skriva XSPF-spellistan</translation>
     </message>
   </context>
 </TS>
