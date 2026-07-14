@@ -3398,10 +3398,6 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
       <translation>Sega esitusloend</translation>
     </message>
     <message>
-      <source>Ctrl+H</source>
-      <translation>Ctrl+H</translation>
-    </message>
-    <message>
       <source>&amp;Add file...</source>
       <translation>Lisa fail...</translation>
     </message>
@@ -3784,6 +3780,22 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <message>
       <source>Collection rescan notice</source>
       <translation>Muusikakogu uuesti skaneerimise teade</translation>
+    </message>
+    <message>
+      <source>Ctrl+Shift+H</source>
+      <translation>Ctrl+Shift+H</translation>
+    </message>
+    <message>
+      <source>Go to last playlist tab</source>
+      <translation>Ava viimane esitusloendi vahekaart</translation>
+    </message>
+    <message>
+      <source>Go to active playlist tab</source>
+      <translation>Ava aktiivne esitusloendi vahekaart</translation>
+    </message>
+    <message>
+      <source>Close current playlist tab</source>
+      <translation>Sulge praegune esitusloendi vahekaart</translation>
     </message>
   </context>
   <context>
@@ -7166,6 +7178,14 @@ Kas soovid jätkata?</translation>
   <context>
     <name>TagFetcher</name>
     <message>
+      <source>Stage: %1</source>
+      <translation>Samm: %1</translation>
+    </message>
+    <message>
+      <source>Reason: %1</source>
+      <translation>Põhjus: %1</translation>
+    </message>
+    <message>
       <source>Identifying song</source>
       <translation>Lugu on tuvastamisel</translation>
     </message>
@@ -7174,8 +7194,36 @@ Kas soovid jätkata?</translation>
       <translation>Sõrmejäljestame lugu</translation>
     </message>
     <message>
+      <source>Generated fingerprint is empty or invalid</source>
+      <translation>Loodud sõrmejälg on tühi või vigane</translation>
+    </message>
+    <message>
+      <source>Fingerprinting</source>
+      <translation>Sõrmejäljestamisel</translation>
+    </message>
+    <message>
+      <source>Fingerprint length: %1</source>
+      <translation>Sõrmejälje pikkus: %1</translation>
+    </message>
+    <message>
+      <source>Minimum required length: %1</source>
+      <translation>Minimaalne nõutav pikkus: %1</translation>
+    </message>
+    <message>
       <source>Downloading metadata</source>
       <translation>Laadime alla metaandmeid</translation>
+    </message>
+    <message>
+      <source>No MusicBrainz metadata was found for this track</source>
+      <translation>Selle loo kohta ei leidu MusicBrainzist metaandmeid</translation>
+    </message>
+    <message>
+      <source>MusicBrainz metadata</source>
+      <translation>Metaandmed MusicBrainzist</translation>
+    </message>
+    <message>
+      <source>Candidate metadata rows: 0</source>
+      <translation>Väljapakutud metaandmete ridu: 0</translation>
     </message>
   </context>
   <context>
@@ -7349,10 +7397,6 @@ Kas soovid jätkata?</translation>
       <translation>Siltide laadija</translation>
     </message>
     <message>
-      <source>Sorry</source>
-      <translation>Vabandust</translation>
-    </message>
-    <message>
       <source>Strawberry was unable to find results for this file</source>
       <translation>Strawberry ei leidnud selle faili jaoks tulemusi</translation>
     </message>
@@ -7389,6 +7433,10 @@ Kas soovid jätkata?</translation>
       <translation>Järgmine</translation>
     </message>
     <message>
+      <source>Error</source>
+      <translation>Viga</translation>
+    </message>
+    <message>
       <source>Original tags</source>
       <translation>Algsed sildid</translation>
     </message>
@@ -7403,6 +7451,10 @@ Kas soovid jätkata?</translation>
     <message>
       <source>Album artist</source>
       <translation>Albumi esitaja</translation>
+    </message>
+    <message>
+      <source>No results</source>
+      <translation>Tulemusi pole</translation>
     </message>
   </context>
   <context>

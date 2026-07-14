@@ -3398,10 +3398,6 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Пере&amp;мешать плейлист</translation>
     </message>
     <message>
-      <source>Ctrl+H</source>
-      <translation>Ctrl+H</translation>
-    </message>
-    <message>
       <source>&amp;Add file...</source>
       <translation>&amp;Добавить файл…</translation>
     </message>
@@ -3785,6 +3781,22 @@ If there are no matches then it will use the largest image in the directory.</so
       <source>Collection rescan notice</source>
       <translation>Уведомление о пересканировании фонотеки</translation>
     </message>
+    <message>
+      <source>Ctrl+Shift+H</source>
+      <translation>Ctrl+Shift+H</translation>
+    </message>
+    <message>
+      <source>Go to last playlist tab</source>
+      <translation>Перейти к последней вкладке плейлиста</translation>
+    </message>
+    <message>
+      <source>Go to active playlist tab</source>
+      <translation>Перейти к активной вкладке плейлиста</translation>
+    </message>
+    <message>
+      <source>Close current playlist tab</source>
+      <translation>Закрыть текущую вкладку плейлиста</translation>
+    </message>
   </context>
   <context>
     <name>MessageDialog</name>
@@ -4137,7 +4149,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Enable Rich Presence</source>
-      <translation>Включить режим Rich Presence</translation>
+      <translation>Включить статус активности Rich Presence</translation>
     </message>
     <message>
       <source>&quot;Listening to...&quot;</source>
@@ -7176,6 +7188,14 @@ Are you sure you want to continue?</source>
   <context>
     <name>TagFetcher</name>
     <message>
+      <source>Stage: %1</source>
+      <translation>Этап: %1</translation>
+    </message>
+    <message>
+      <source>Reason: %1</source>
+      <translation>Причина: %1</translation>
+    </message>
+    <message>
       <source>Identifying song</source>
       <translation>Определяется песня</translation>
     </message>
@@ -7184,8 +7204,36 @@ Are you sure you want to continue?</source>
       <translation>Получается отпечаток песни</translation>
     </message>
     <message>
+      <source>Generated fingerprint is empty or invalid</source>
+      <translation>Созданный отпечаток пуст или недействителен</translation>
+    </message>
+    <message>
+      <source>Fingerprinting</source>
+      <translation>Создание отпечатка</translation>
+    </message>
+    <message>
+      <source>Fingerprint length: %1</source>
+      <translation>Длина отпечатка: %1</translation>
+    </message>
+    <message>
+      <source>Minimum required length: %1</source>
+      <translation>Минимальная необходимая длина: %1</translation>
+    </message>
+    <message>
       <source>Downloading metadata</source>
       <translation>Загружаются метаданные</translation>
+    </message>
+    <message>
+      <source>No MusicBrainz metadata was found for this track</source>
+      <translation>Для этого трека не найдены метаданные MusicBrainz</translation>
+    </message>
+    <message>
+      <source>MusicBrainz metadata</source>
+      <translation>Метаданные MusicBrainz</translation>
+    </message>
+    <message>
+      <source>Candidate metadata rows: 0</source>
+      <translation>Строк с подходящими метаданными: 0</translation>
     </message>
   </context>
   <context>
@@ -7359,10 +7407,6 @@ Are you sure you want to continue?</source>
       <translation>Сборщик тегов</translation>
     </message>
     <message>
-      <source>Sorry</source>
-      <translation>Извините</translation>
-    </message>
-    <message>
       <source>Strawberry was unable to find results for this file</source>
       <translation>Strawberry не смог найти результаты по запросу для этого файла</translation>
     </message>
@@ -7399,6 +7443,10 @@ Are you sure you want to continue?</source>
       <translation>Следующий</translation>
     </message>
     <message>
+      <source>Error</source>
+      <translation>Ошибка</translation>
+    </message>
+    <message>
       <source>Original tags</source>
       <translation>Исходные теги</translation>
     </message>
@@ -7413,6 +7461,10 @@ Are you sure you want to continue?</source>
     <message>
       <source>Album artist</source>
       <translation>Артист альбома</translation>
+    </message>
+    <message>
+      <source>No results</source>
+      <translation>Нет результатов</translation>
     </message>
   </context>
   <context>

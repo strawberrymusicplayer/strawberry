@@ -3398,10 +3398,6 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
       <translation>Sto&amp;kka spilunarlista</translation>
     </message>
     <message>
-      <source>Ctrl+H</source>
-      <translation>Ctrl+H</translation>
-    </message>
-    <message>
       <source>&amp;Add file...</source>
       <translation>Bæt&amp;a við skrá...</translation>
     </message>
@@ -3784,6 +3780,22 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     <message>
       <source>Collection rescan notice</source>
       <translation>Tilkynning um skönnun á tónlistarsafni</translation>
+    </message>
+    <message>
+      <source>Ctrl+Shift+H</source>
+      <translation type="unfinished">Ctrl+Shift+H</translation>
+    </message>
+    <message>
+      <source>Go to last playlist tab</source>
+      <translation type="unfinished">Go to last playlist tab</translation>
+    </message>
+    <message>
+      <source>Go to active playlist tab</source>
+      <translation type="unfinished">Go to active playlist tab</translation>
+    </message>
+    <message>
+      <source>Close current playlist tab</source>
+      <translation type="unfinished">Close current playlist tab</translation>
     </message>
   </context>
   <context>
@@ -7166,6 +7178,14 @@ Ertu viss um að þú viljir halda áfram?</translation>
   <context>
     <name>TagFetcher</name>
     <message>
+      <source>Stage: %1</source>
+      <translation type="unfinished">Stage: %1</translation>
+    </message>
+    <message>
+      <source>Reason: %1</source>
+      <translation type="unfinished">Reason: %1</translation>
+    </message>
+    <message>
       <source>Identifying song</source>
       <translation>Greini lag</translation>
     </message>
@@ -7174,8 +7194,36 @@ Ertu viss um að þú viljir halda áfram?</translation>
       <translation>Tek fingrafar af lagi</translation>
     </message>
     <message>
+      <source>Generated fingerprint is empty or invalid</source>
+      <translation type="unfinished">Generated fingerprint is empty or invalid</translation>
+    </message>
+    <message>
+      <source>Fingerprinting</source>
+      <translation type="unfinished">Fingerprinting</translation>
+    </message>
+    <message>
+      <source>Fingerprint length: %1</source>
+      <translation type="unfinished">Fingerprint length: %1</translation>
+    </message>
+    <message>
+      <source>Minimum required length: %1</source>
+      <translation type="unfinished">Minimum required length: %1</translation>
+    </message>
+    <message>
       <source>Downloading metadata</source>
       <translation>Sæki lýsigögn</translation>
+    </message>
+    <message>
+      <source>No MusicBrainz metadata was found for this track</source>
+      <translation type="unfinished">No MusicBrainz metadata was found for this track</translation>
+    </message>
+    <message>
+      <source>MusicBrainz metadata</source>
+      <translation type="unfinished">MusicBrainz metadata</translation>
+    </message>
+    <message>
+      <source>Candidate metadata rows: 0</source>
+      <translation type="unfinished">Candidate metadata rows: 0</translation>
     </message>
   </context>
   <context>
@@ -7349,10 +7397,6 @@ Ertu viss um að þú viljir halda áfram?</translation>
       <translation>Merkjasækir</translation>
     </message>
     <message>
-      <source>Sorry</source>
-      <translation>Því miður</translation>
-    </message>
-    <message>
       <source>Strawberry was unable to find results for this file</source>
       <translation>Strawberry fann engar niðurstöður fyrir þessa skrá</translation>
     </message>
@@ -7389,6 +7433,10 @@ Ertu viss um að þú viljir halda áfram?</translation>
       <translation>Næst</translation>
     </message>
     <message>
+      <source>Error</source>
+      <translation type="unfinished">Error</translation>
+    </message>
+    <message>
       <source>Original tags</source>
       <translation>Upprunaleg merki</translation>
     </message>
@@ -7403,6 +7451,10 @@ Ertu viss um að þú viljir halda áfram?</translation>
     <message>
       <source>Album artist</source>
       <translation type="unfinished">Album artist</translation>
+    </message>
+    <message>
+      <source>No results</source>
+      <translation type="unfinished">No results</translation>
     </message>
   </context>
   <context>

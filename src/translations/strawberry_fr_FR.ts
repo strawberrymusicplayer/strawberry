@@ -3398,10 +3398,6 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
       <translation>Mélan&amp;ger la liste de lecture</translation>
     </message>
     <message>
-      <source>Ctrl+H</source>
-      <translation>Ctrl+H</translation>
-    </message>
-    <message>
       <source>&amp;Add file...</source>
       <translation>&amp;Ajouter un fichier...</translation>
     </message>
@@ -3784,6 +3780,22 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     <message>
       <source>Collection rescan notice</source>
       <translation>Avertissement de réanalyse de la bibliothèque</translation>
+    </message>
+    <message>
+      <source>Ctrl+Shift+H</source>
+      <translation type="unfinished">Ctrl+Shift+H</translation>
+    </message>
+    <message>
+      <source>Go to last playlist tab</source>
+      <translation type="unfinished">Go to last playlist tab</translation>
+    </message>
+    <message>
+      <source>Go to active playlist tab</source>
+      <translation type="unfinished">Go to active playlist tab</translation>
+    </message>
+    <message>
+      <source>Close current playlist tab</source>
+      <translation type="unfinished">Close current playlist tab</translation>
     </message>
   </context>
   <context>
@@ -7166,6 +7178,14 @@ Are you sure you want to continue?</source>
   <context>
     <name>TagFetcher</name>
     <message>
+      <source>Stage: %1</source>
+      <translation type="unfinished">Stage: %1</translation>
+    </message>
+    <message>
+      <source>Reason: %1</source>
+      <translation type="unfinished">Reason: %1</translation>
+    </message>
+    <message>
       <source>Identifying song</source>
       <translation>Identification du morceau</translation>
     </message>
@@ -7174,8 +7194,36 @@ Are you sure you want to continue?</source>
       <translation>Morceau d&apos;empreinte digitale</translation>
     </message>
     <message>
+      <source>Generated fingerprint is empty or invalid</source>
+      <translation type="unfinished">Generated fingerprint is empty or invalid</translation>
+    </message>
+    <message>
+      <source>Fingerprinting</source>
+      <translation type="unfinished">Fingerprinting</translation>
+    </message>
+    <message>
+      <source>Fingerprint length: %1</source>
+      <translation type="unfinished">Fingerprint length: %1</translation>
+    </message>
+    <message>
+      <source>Minimum required length: %1</source>
+      <translation type="unfinished">Minimum required length: %1</translation>
+    </message>
+    <message>
       <source>Downloading metadata</source>
       <translation>Téléchargement des métadonnées</translation>
+    </message>
+    <message>
+      <source>No MusicBrainz metadata was found for this track</source>
+      <translation type="unfinished">No MusicBrainz metadata was found for this track</translation>
+    </message>
+    <message>
+      <source>MusicBrainz metadata</source>
+      <translation type="unfinished">MusicBrainz metadata</translation>
+    </message>
+    <message>
+      <source>Candidate metadata rows: 0</source>
+      <translation type="unfinished">Candidate metadata rows: 0</translation>
     </message>
   </context>
   <context>
@@ -7349,10 +7397,6 @@ Are you sure you want to continue?</source>
       <translation>Compléteur de balises</translation>
     </message>
     <message>
-      <source>Sorry</source>
-      <translation>Désolé</translation>
-    </message>
-    <message>
       <source>Strawberry was unable to find results for this file</source>
       <translation>Strawberry n&apos;a pu trouver aucun résultat pour ce fichier</translation>
     </message>
@@ -7389,6 +7433,10 @@ Are you sure you want to continue?</source>
       <translation>Suivant</translation>
     </message>
     <message>
+      <source>Error</source>
+      <translation type="unfinished">Error</translation>
+    </message>
+    <message>
       <source>Original tags</source>
       <translation>Tags originaux</translation>
     </message>
@@ -7403,6 +7451,10 @@ Are you sure you want to continue?</source>
     <message>
       <source>Album artist</source>
       <translation>Artiste de l'album</translation>
+    </message>
+    <message>
+      <source>No results</source>
+      <translation type="unfinished">No results</translation>
     </message>
   </context>
   <context>

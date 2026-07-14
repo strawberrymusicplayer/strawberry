@@ -3398,10 +3398,6 @@ Nếu không có kết quả trùng khớp thì nó sẽ sử dụng hình ảnh
       <translation>&amp;Trộn ngẫu nhiên danh sách phát</translation>
     </message>
     <message>
-      <source>Ctrl+H</source>
-      <translation>Ctrl+H</translation>
-    </message>
-    <message>
       <source>&amp;Add file...</source>
       <translation>&amp;Thêm tệp...</translation>
     </message>
@@ -3784,6 +3780,22 @@ Nếu không có kết quả trùng khớp thì nó sẽ sử dụng hình ảnh
     <message>
       <source>Collection rescan notice</source>
       <translation>Thông báo quét lại bộ sưu tập</translation>
+    </message>
+    <message>
+      <source>Ctrl+Shift+H</source>
+      <translation type="unfinished">Ctrl+Shift+H</translation>
+    </message>
+    <message>
+      <source>Go to last playlist tab</source>
+      <translation type="unfinished">Go to last playlist tab</translation>
+    </message>
+    <message>
+      <source>Go to active playlist tab</source>
+      <translation type="unfinished">Go to active playlist tab</translation>
+    </message>
+    <message>
+      <source>Close current playlist tab</source>
+      <translation type="unfinished">Close current playlist tab</translation>
     </message>
   </context>
   <context>
@@ -7161,6 +7173,14 @@ Bạn có chắc chắn muốn tiếp tục không?</translation>
   <context>
     <name>TagFetcher</name>
     <message>
+      <source>Stage: %1</source>
+      <translation type="unfinished">Stage: %1</translation>
+    </message>
+    <message>
+      <source>Reason: %1</source>
+      <translation type="unfinished">Reason: %1</translation>
+    </message>
+    <message>
       <source>Identifying song</source>
       <translation>Đang nhận diện bài hát</translation>
     </message>
@@ -7169,8 +7189,36 @@ Bạn có chắc chắn muốn tiếp tục không?</translation>
       <translation>Đang lấy dấu vân tay bài hát</translation>
     </message>
     <message>
+      <source>Generated fingerprint is empty or invalid</source>
+      <translation type="unfinished">Generated fingerprint is empty or invalid</translation>
+    </message>
+    <message>
+      <source>Fingerprinting</source>
+      <translation type="unfinished">Fingerprinting</translation>
+    </message>
+    <message>
+      <source>Fingerprint length: %1</source>
+      <translation type="unfinished">Fingerprint length: %1</translation>
+    </message>
+    <message>
+      <source>Minimum required length: %1</source>
+      <translation type="unfinished">Minimum required length: %1</translation>
+    </message>
+    <message>
       <source>Downloading metadata</source>
       <translation>Đang tải metadata</translation>
+    </message>
+    <message>
+      <source>No MusicBrainz metadata was found for this track</source>
+      <translation type="unfinished">No MusicBrainz metadata was found for this track</translation>
+    </message>
+    <message>
+      <source>MusicBrainz metadata</source>
+      <translation type="unfinished">MusicBrainz metadata</translation>
+    </message>
+    <message>
+      <source>Candidate metadata rows: 0</source>
+      <translation type="unfinished">Candidate metadata rows: 0</translation>
     </message>
   </context>
   <context>
@@ -7344,10 +7392,6 @@ Bạn có chắc chắn muốn tiếp tục không?</translation>
       <translation>Tìm nạp thẻ tag</translation>
     </message>
     <message>
-      <source>Sorry</source>
-      <translation>Xin lỗi</translation>
-    </message>
-    <message>
       <source>Strawberry was unable to find results for this file</source>
       <translation>Strawberry không thể tìm thấy kết quả cho tệp này</translation>
     </message>
@@ -7384,6 +7428,10 @@ Bạn có chắc chắn muốn tiếp tục không?</translation>
       <translation>Tiếp</translation>
     </message>
     <message>
+      <source>Error</source>
+      <translation type="unfinished">Error</translation>
+    </message>
+    <message>
       <source>Original tags</source>
       <translation>Thẻ tag gốc</translation>
     </message>
@@ -7398,6 +7446,10 @@ Bạn có chắc chắn muốn tiếp tục không?</translation>
     <message>
       <source>Album artist</source>
       <translation type="unfinished">Album artist</translation>
+    </message>
+    <message>
+      <source>No results</source>
+      <translation type="unfinished">No results</translation>
     </message>
   </context>
   <context>
