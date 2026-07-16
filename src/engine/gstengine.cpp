@@ -781,10 +781,12 @@ void GstEngine::PlayDone(const GstStateChangeReturn ret, const bool pause, const
       return;
     }
 
-    // Failure - give up
-    qLog(Warning) << "Could not set thread to PLAYING.";
+    qLog(Warning) << "Could not set pipeline to" << (pause ? "Paused" : "Playing");
     FinishPipeline(old_pipeline);
     BufferingFinished();
+    Q_EMIT StateChanged(State::Error);
+    Q_EMIT Error(tr("Could not start playing %1").arg(stream_url_.toString()));
+    Q_EMIT InvalidSongRequested(stream_url_);
     return;
   }
 
