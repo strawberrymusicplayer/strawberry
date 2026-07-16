@@ -416,7 +416,7 @@ static TagCompletionModel *InitCompletionModel(SharedPtr<CollectionBackend> back
 TagCompleter::TagCompleter(SharedPtr<CollectionBackend> backend, const Playlist::Column column, QLineEdit *editor) : QCompleter(editor), editor_(editor) {
 
   QFuture<TagCompletionModel*> future = QtConcurrent::run(&InitCompletionModel, backend, column);
-  QFutureWatcher<TagCompletionModel*> *watcher = new QFutureWatcher<TagCompletionModel*>();
+  QFutureWatcher<TagCompletionModel*> *watcher = new QFutureWatcher<TagCompletionModel*>(this);
   QObject::connect(watcher, &QFutureWatcher<TagCompletionModel*>::finished, this, &TagCompleter::ModelReady);
   watcher->setFuture(future);
 

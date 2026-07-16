@@ -301,7 +301,7 @@ bool GstEngine::Play(const bool pause, const quint64 offset_nanosec) {
   delayed_state_pause_ = false;
   delayed_state_offset_nanosec_ = 0;
 
-  QFutureWatcher<GstStateChangeReturn> *watcher = new QFutureWatcher<GstStateChangeReturn>();
+  QFutureWatcher<GstStateChangeReturn> *watcher = new QFutureWatcher<GstStateChangeReturn>(this);
   const int pipeline_id = current_pipeline_->id();
   QObject::connect(watcher, &QFutureWatcher<GstStateChangeReturn>::finished, this, [this, watcher, pipeline_id, pause]() {
     const GstStateChangeReturn ret = watcher->result();

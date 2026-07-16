@@ -243,7 +243,7 @@ void DeviceProperties::UpdateFormats() {
     supported_formats_.clear();
 
     QFuture<bool> future = QtConcurrent::run(&ConnectedDevice::GetSupportedFiletypes, device, &supported_formats_);
-    QFutureWatcher<bool> *watcher = new QFutureWatcher<bool>();
+    QFutureWatcher<bool> *watcher = new QFutureWatcher<bool>(this);
     QObject::connect(watcher, &QFutureWatcher<bool>::finished, this, &DeviceProperties::UpdateFormatsFinished);
     watcher->setFuture(future);
 
