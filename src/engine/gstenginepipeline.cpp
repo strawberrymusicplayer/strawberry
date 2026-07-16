@@ -1146,6 +1146,8 @@ void GstEnginePipeline::SourceSetupCallback(GstElement *playbin, GstElement *sou
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
+  qLog(Debug) << "Pipeline" << instance->id() << "source-setup, source element is" << G_OBJECT_TYPE_NAME(source);
+
   {
     QMutexLocker l(&instance->mutex_source_device_);
     if (g_object_class_find_property(G_OBJECT_GET_CLASS(source), "device") && !instance->source_device().isEmpty()) {
