@@ -115,7 +115,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   void FadeoutFinished(const int pipeline_id);
   void FadeoutPauseFinished();
   void SeekNow();
-  void PlayDone(const GstStateChangeReturn ret, const bool pause, const quint64 offset_nanosec, const int pipeline_id);
+  void PlayDone(const GstStateChangeReturn ret, const bool pause, const int pipeline_id);
 
   void BufferingStarted();
   void BufferingProgress(int percent);

@@ -143,9 +143,6 @@ class GstEnginePipeline : public QObject {
 
   bool exclusive_mode() const { return exclusive_mode_; }
 
-  QByteArray redirect_url() const { return redirect_url_; }
-  QMutex *mutex_redirect_url() { return &mutex_redirect_url_; }
-
   QString source_device() const { return source_device_; }
 
  Q_SIGNALS:
@@ -329,10 +326,6 @@ class GstEnginePipeline : public QObject {
 
   // Set temporarily when switching out the decode bin, so metadata doesn't get sent while the Player still thinks it's playing the last song
   std::atomic<bool> ignore_tags_;
-
-  // When the gstreamer source requests a redirect we store the URL here and callers can pick it up after the state change to PLAYING fails.
-  mutable QMutex mutex_redirect_url_;
-  QByteArray redirect_url_;
 
   // When we need to specify the device to use as source (for CD device)
   QString source_device_;

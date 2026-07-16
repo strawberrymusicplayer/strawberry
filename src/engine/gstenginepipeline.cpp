@@ -1167,6 +1167,11 @@ void GstEnginePipeline::SourceSetupCallback(GstElement *playbin, GstElement *sou
     g_object_set(source, "ssl-strict", instance->strict_ssl_enabled_.load() ? TRUE : FALSE, nullptr);
   }
 
+  if (g_object_class_find_property(G_OBJECT_GET_CLASS(source), "automatic-redirect")) {
+    qLog(Debug) << "Enabling automatic redirect";
+    g_object_set(source, "automatic-redirect", TRUE, nullptr);
+  }
+
   {
     QMutexLocker l(&instance->mutex_proxy_);
     if (!instance->proxy_address_.isEmpty() && g_object_class_find_property(G_OBJECT_GET_CLASS(source), "proxy")) {
@@ -1766,13 +1771,6 @@ void GstEnginePipeline::ElementMessageReceived(GstMessage *msg) {
     g_free(description);
     g_free(detail);
     Q_EMIT Error(id(), static_cast<int>(GST_LIBRARY_ERROR), GST_CORE_ERROR_MISSING_PLUGIN, message, QString());
-  }
-  else if (gst_structure_has_name(structure, "redirect")) {
-    const char *uri = gst_structure_get_string(structure, "new-location");
-
-    // Set the redirect URL.  In mmssrc redirect messages come during the initial state change to PLAYING, so callers can pick up this URL after the state change has failed.
-    QMutexLocker l(&mutex_redirect_url_);
-    redirect_url_ = uri;
   }
 
 }
