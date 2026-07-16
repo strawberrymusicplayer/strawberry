@@ -749,23 +749,25 @@ void GstEngine::PlayDone(const GstStateChangeReturn ret, const bool pause, const
   }
 
   if (ret == GST_STATE_CHANGE_FAILURE) {
-    // Failure, but we got a redirection URL - try loading that instead
-    GstEnginePipelinePtr old_pipeline = current_pipeline_;
-    current_pipeline_ = GstEnginePipelinePtr();
+
+    // Failure, but we might have gotten a redirection URL - try loading that instead.
+    // Read redirect_url_/gst_url_ off current_pipeline_ directly and don't touch current_pipeline_ itself yet: unless we actually have a redirect to retry, we want to leave it exactly as it is (see the comment below).
     QByteArray redirect_url;
     {
-      QMutexLocker l(old_pipeline->mutex_redirect_url());
-      redirect_url = old_pipeline->redirect_url();
+      QMutexLocker l(current_pipeline_->mutex_redirect_url());
+      redirect_url = current_pipeline_->redirect_url();
       redirect_url.detach();
     }
     QByteArray gst_url;
     {
-      QMutexLocker l(old_pipeline->mutex_url());
-      gst_url = old_pipeline->gst_url();
+      QMutexLocker l(current_pipeline_->mutex_url());
+      gst_url = current_pipeline_->gst_url();
       gst_url.detach();
     }
+
     if (!redirect_url.isEmpty() && redirect_url != gst_url) {
       qLog(Info) << "Redirecting to" << redirect_url;
+      GstEnginePipelinePtr old_pipeline = current_pipeline_;
       QUrl media_url;
       QUrl stream_url;
       {
@@ -781,12 +783,9 @@ void GstEngine::PlayDone(const GstStateChangeReturn ret, const bool pause, const
       return;
     }
 
-    qLog(Warning) << "Could not set pipeline to" << (pause ? "Paused" : "Playing");
-    FinishPipeline(old_pipeline);
-    BufferingFinished();
-    Q_EMIT StateChanged(State::Error);
-    Q_EMIT Error(tr("Could not start playing %1").arg(stream_url_.toString()));
-    Q_EMIT InvalidSongRequested(stream_url_);
+    // No redirect to fall back to. Don't tear the pipeline down or emit anything here: GStreamer guarantees that an element which fails a state change also posts a GST_MESSAGE_ERROR on the bus explaining why, and that message is still on its way to ErrorMessageReceived()/HandlePipelineError() via the normal bus watch.
+    // Leaving current_pipeline_ (and its signal connections) untouched means that when it arrives, HandlePipelineError() finds current_pipeline_->id() == pipeline_id and does the full, correct job - FinishPipeline(), StateChanged(Error), InvalidSongRequested()/FatalError() - using the real GStreamer error text instead of a generic one synthesized here, and without racing FinishPipeline()'s QObject::disconnect() against that still-pending bus message.
+    qLog(Warning) << "Could not set pipeline" << pipeline_id << "to" << (pause ? "Paused" : "Playing") << "- waiting for the GStreamer error message";
     return;
   }
 
