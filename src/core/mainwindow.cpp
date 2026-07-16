@@ -109,7 +109,7 @@
 #include "utilities/screenutils.h"
 #include "engine/enginebase.h"
 #include "dialogs/errordialog.h"
-#include "dialogs/about.h"
+#include "dialogs/aboutdialog.h"
 #include "dialogs/console.h"
 #include "dialogs/addstreamdialog.h"
 #include "dialogs/deleteconfirmationdialog.h"

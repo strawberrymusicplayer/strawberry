@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2013-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2013-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef ABOUT_H
-#define ABOUT_H
+#ifndef ABOUTDIALOG_H
+#define ABOUTDIALOG_H
 
 #include "config.h"
 
@@ -29,15 +29,15 @@
 #include <QList>
 #include <QString>
 
-#include "ui_about.h"
+#include "ui_aboutdialog.h"
 
 class QWidget;
 
-class About : public QDialog {
+class AboutDialog : public QDialog {
   Q_OBJECT
 
  public:
-  explicit About(QWidget *parent = nullptr);
+  explicit AboutDialog(QWidget *parent = nullptr);
 
  private:
   struct Person {
@@ -52,7 +52,7 @@ class About : public QDialog {
   static QString PersonToHtml(const Person &person);
 
  private:
-  Ui::About ui_;
+  Ui::AboutDialog ui_;
 
   QList<Person> strawberry_authors_;
   QList<Person> strawberry_contributors_;
@@ -61,4 +61,4 @@ class About : public QDialog {
   QList<Person> clementine_contributors_;
 };
 
-#endif  // ABOUT_H
+#endif  // ABOUTDIALOG_H

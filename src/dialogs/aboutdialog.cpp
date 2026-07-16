@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2013-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2013-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,12 +33,12 @@
 #include <QKeySequence>
 #include <QTextBrowser>
 
-#include "about.h"
-#include "ui_about.h"
+#include "aboutdialog.h"
+#include "ui_aboutdialog.h"
 
 using namespace Qt::Literals::StringLiterals;
 
-About::About(QWidget *parent) : QDialog(parent), ui_{} {
+AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent), ui_{} {
 
   ui_.setupUi(this);
   setWindowFlags(windowFlags()|Qt::WindowStaysOnTopHint);
@@ -104,7 +104,7 @@ About::About(QWidget *parent) : QDialog(parent), ui_{} {
 
 }
 
-QString About::MainHtml() const {
+QString AboutDialog::MainHtml() const {
 
   QString ret;
 
@@ -139,7 +139,7 @@ QString About::MainHtml() const {
 
 }
 
-QString About::ContributorsHtml() const {
+QString AboutDialog::ContributorsHtml() const {
 
   QString ret;
 
@@ -195,7 +195,7 @@ QString About::ContributorsHtml() const {
 
 }
 
-QString About::PersonToHtml(const Person &person) {
+QString AboutDialog::PersonToHtml(const Person &person) {
 
   if (person.email.isEmpty()) {
     return person.name;
