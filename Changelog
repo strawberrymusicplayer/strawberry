@@ -2,6 +2,20 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Version 1.2.24 (2026.07.16):
+
+  Bugfixes:
+    * Fixed playback hanging with no error shown when trying to play a track whose file no longer exists on disk (#2232)
+    * Fixed the tag fetcher dialog showing a generic message instead of the actual error when a Musicbrainz/AcoustID lookup fails
+    * Hardened Chromaprinter decoding against malformed or oversized files and capped its in-memory PCM usage
+    * Fixed the context menu using the wrong item when invoked via keyboard in the playlist and smart playlists views (#2219)
+    * Fixed blurry star rating icons by enabling smooth pixmap scaling (#2220)
+    * Added F64LE (64-bit float) sample format support for the spectrum analyzer
+    * Numerous stability, crash-safety and thread-safety fixes throughout the application
+
+  Enhancements:
+    * Added more keyboard shortcuts for playlist navigation: jump to last/active playlist and close playlist (#2197)
+
 Version 1.2.23 (2026.07.09):
 
   Bugfixes:
