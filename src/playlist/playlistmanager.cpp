@@ -234,7 +234,7 @@ void PlaylistManager::Save(const int id, const QString &playlist_name, const QSt
   else {
     // Playlist is not in the playlist manager: probably save action was triggered from the left sidebar and the playlist isn't loaded.
     QFuture<SongList> future = QtConcurrent::run(&PlaylistBackend::GetPlaylistSongs, playlist_backend_, id);
-    QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>();
+    QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>(this);
     QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [this, watcher, playlist_name, filename, path_type]() {
       ItemsLoadedForSavePlaylist(playlist_name, watcher->result(), filename, path_type);
       watcher->deleteLater();

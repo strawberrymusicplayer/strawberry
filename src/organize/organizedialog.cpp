@@ -394,7 +394,7 @@ bool OrganizeDialog::SetUrls(const QList<QUrl> &urls) {
 bool OrganizeDialog::SetFilenames(const QStringList &filenames) {
 
   songs_future_ = QtConcurrent::run(&OrganizeDialog::LoadSongsBlocking, this, filenames);
-  QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>();
+  QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>(this);
   QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [this, watcher]() {
     SetSongs(watcher->result());
     watcher->deleteLater();

@@ -971,7 +971,7 @@ CollectionItem *CollectionModel::CreateCompilationArtistNode(CollectionItem *par
 void CollectionModel::LoadSongsFromSqlAsync() {
 
   QFuture<SongList> future = QtConcurrent::run(&CollectionModel::LoadSongsFromSql, this, options_active_.filter_options);
-  QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>();
+  QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>(this);
   QObject::connect(watcher, &QFutureWatcher<void>::finished, this, &CollectionModel::LoadSongsFromSqlAsyncFinished);
   watcher->setFuture(future);
 
