@@ -1810,15 +1810,6 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
   qLog(Error) << __FUNCTION__ << "ID:" << id() << "Domain:" << domain << "Code:" << code << "Error:" << message;
   qLog(Error) << __FUNCTION__ << "ID:" << id() << "Domain:" << domain << "Code:" << code << "Debug:" << debugstr;
 
-  {
-    QMutexLocker l(&mutex_redirect_url_);
-    if (!redirect_url_.isEmpty() && debugstr.contains("A redirect message was posted on the bus and should have been handled by the application."_L1)) {
-      // mmssrc posts a message on the bus *and* makes an error message when it wants to do a redirect.
-      // We handle the message, but now we have to ignore the error too.
-      return;
-    }
-  }
-
 #ifdef Q_OS_WIN32
   // Ignore non-error received for directsoundsink: "IDirectSoundBuffer_GetStatus The operation completed successfully"
   if (code == GST_RESOURCE_ERROR_OPEN_WRITE && message.contains(QLatin1String("IDirectSoundBuffer_GetStatus The operation completed successfully."))) {
