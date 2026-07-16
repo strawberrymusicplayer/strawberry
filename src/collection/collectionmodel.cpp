@@ -972,7 +972,7 @@ void CollectionModel::LoadSongsFromSqlAsync() {
 
   QFuture<SongList> future = QtConcurrent::run(&CollectionModel::LoadSongsFromSql, this, options_active_.filter_options);
   QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>(this);
-  QObject::connect(watcher, &QFutureWatcher<void>::finished, this, &CollectionModel::LoadSongsFromSqlAsyncFinished);
+  QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, &CollectionModel::LoadSongsFromSqlAsyncFinished);
   watcher->setFuture(future);
 
 }
