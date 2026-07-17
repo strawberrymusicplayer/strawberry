@@ -84,10 +84,6 @@ SongLoader::SongLoader(const SharedPtr<UrlHandlers> url_handlers,
 
   if (sRawUriSchemes.isEmpty()) {
     sRawUriSchemes << u"udp"_s
-                   << u"mms"_s
-                   << u"mmsh"_s
-                   << u"mmst"_s
-                   << u"mmsu"_s
                    << u"rtsp"_s
                    << u"rtspu"_s
                    << u"rtspt"_s
@@ -704,14 +700,6 @@ void SongLoader::MagicReady() {
   // We'll get more data and parse the whole thing in EndOfStreamReached
 
   qLog(Debug) << "Magic says" << parser_->name();
-
-  if (parser_->name() == u"ASX/INI"_s && url_.scheme() == u"http"_s) {
-    // This is actually a weird MS-WMSP stream. Changing the protocol to MMS from HTTP makes it playable.
-    parser_ = nullptr;
-    url_.setScheme(u"mms"_s);
-    StopTypefindAsync(true);
-    return;
-  }
 
   if (parser_) {
     QObject::connect(parser_, &ParserBase::Error, this, &SongLoader::ParserError, static_cast<Qt::ConnectionType>(Qt::QueuedConnection | Qt::UniqueConnection));
