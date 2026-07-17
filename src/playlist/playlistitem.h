@@ -99,6 +99,11 @@ class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
   virtual Song Reload() { return Song(); }
   QFuture<Song> BackgroundReload();
 
+  // Identifies the most recent edit made to this item through the playlist (e.g. inline tag editing).
+  // A caller starting an asynchronous write/reload round trip should capture the value returned by BumpSaveGeneration() and compare it against save_generation() once the round trip completes: a mismatch means a newer edit has since superseded it, so the (now stale) result must not be applied.
+  quint64 save_generation() const { return save_generation_; }
+  quint64 BumpSaveGeneration() { return ++save_generation_; }
+
   // Background colors.
   void SetBackgroundColor(const short priority, const QColor &color);
   bool HasBackgroundColor(const short priority) const;
@@ -125,6 +130,7 @@ class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
   bool uuid_generated_;
   bool signal_;
   bool should_skip_;
+  quint64 save_generation_;
 
   enum class DatabaseColumn {
     CollectionId

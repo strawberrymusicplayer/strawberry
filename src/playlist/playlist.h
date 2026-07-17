@@ -83,6 +83,7 @@ class Playlist : public QAbstractListModel {
   friend class PlaylistUndoCommandRemoveItems;
   friend class PlaylistUndoCommandMoveItems;
   friend class PlaylistUndoCommandReOrderItems;
+  friend class PlaylistTest;
 
  public:
   explicit Playlist(const SharedPtr<TaskManager> task_manager,
@@ -384,8 +385,9 @@ class Playlist : public QAbstractListModel {
   void TracksDequeued();
   void TracksEnqueued(const QModelIndex &parent_idx, const int begin, const int end);
   void QueueLayoutChanged();
-  void SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx);
-  void ItemReloadComplete(const QPersistentModelIndex &idx, const Song &new_metadata, const bool metadata_edit);
+  void SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, const PlaylistItemPtr &item, const quint64 save_generation);
+  void ItemReload(const QPersistentModelIndex &idx, const bool metadata_edit, const PlaylistItemPtr &item, const quint64 save_generation);
+  void ItemReloadComplete(const QPersistentModelIndex &idx, const Song &new_metadata, const bool metadata_edit, const PlaylistItemPtr &item, const quint64 save_generation);
   void ItemsLoaded();
   void ScheduleSave();
   void ForceScheduleSave();

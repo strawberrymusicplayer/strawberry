@@ -40,7 +40,7 @@
 using std::make_shared;
 using namespace Qt::Literals::StringLiterals;
 
-PlaylistItem::PlaylistItem(const Song::Source source, const QUuid &uuid, const bool signal) : source_(source), uuid_(uuid.isNull() ? QUuid::createUuid() : uuid), uuid_generated_(uuid.isNull()), signal_(signal), should_skip_(false) {}
+PlaylistItem::PlaylistItem(const Song::Source source, const QUuid &uuid, const bool signal) : source_(source), uuid_(uuid.isNull() ? QUuid::createUuid() : uuid), uuid_generated_(uuid.isNull()), signal_(signal), should_skip_(false), save_generation_(0) {}
 
 PlaylistItem::~PlaylistItem() = default;
 

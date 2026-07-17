@@ -27,6 +27,7 @@
 
 #include "collection/collectionplaylistitem.h"
 #include "playlist/playlist.h"
+#include "playlist/songplaylistitem.h"
 #include "mock_settingsprovider.h"
 #include "mock_playlistitem.h"
 
@@ -39,8 +40,8 @@ using namespace Qt::Literals::StringLiterals;
 
 // clazy:excludeall=non-pod-global-static,returning-void-expression
 
-namespace {
-
+// Declared at file scope (rather than inside the anonymous namespace below, where the TEST_F-generated fixture subclasses live) so that Playlist's "friend class PlaylistTest;" resolves to this exact class.
+// C++ friendship isn't inherited, so tests that need access to Playlist's private members go through the CallXxx() helpers below rather than calling them directly from a TEST_F body.
 class PlaylistTest : public ::testing::Test {
  protected:
   PlaylistTest()
@@ -65,10 +66,17 @@ class PlaylistTest : public ::testing::Test {
     return PlaylistItemPtr(MakeMockItem(title, artist, album, length));
   }
 
+  // Forwards to the private Playlist::ItemReloadComplete(), to let tests exercise the save-generation staleness check directly instead of via a real asynchronous write-then-reread round trip.
+  void CallItemReloadComplete(const QPersistentModelIndex &idx, const Song &new_metadata, const bool metadata_edit, const PlaylistItemPtr &item, const quint64 save_generation) {
+    playlist_.ItemReloadComplete(idx, new_metadata, metadata_edit, item, save_generation);
+  }
+
   Playlist playlist_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
   PlaylistSequence sequence_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 
 };
+
+namespace {
 
 TEST_F(PlaylistTest, Basic) {
   EXPECT_EQ(0, playlist_.rowCount(QModelIndex()));
@@ -583,6 +591,40 @@ TEST_F(PlaylistTest, TakePreviousRowConsumesHistory) {
 
   // Verify fallback is stable: repeated calls without new history still return the sequence-based previous
   EXPECT_EQ(1, playlist_.take_previous_row(false));
+
+}
+
+// Regression test for a race between two consecutive inline edits to the same playlist item: if the first edit's write-then-reread round trip completes after the second edit's, it must not clobber the second (newer) edit with its own stale result.
+TEST_F(PlaylistTest, StaleReloadCompletionDoesNotClobberNewerEdit) {
+
+  Song song;
+  song.Init(u"Title"_s, u"OriginalArtist"_s, u"Album"_s, 123);
+  song.set_url(QUrl::fromLocalFile(u"/tmp/does-not-need-to-exist.mp3"_s));
+
+  PlaylistItemPtr item = std::make_shared<SongPlaylistItem>(song, false);
+  playlist_.InsertItems(PlaylistItemPtrList() << item, -1);
+  const QPersistentModelIndex idx(playlist_.index(0, static_cast<int>(Playlist::Column::Artist)));
+
+  ASSERT_EQ(u"OriginalArtist"_s, item->OriginalMetadata().artist());
+
+  // Simulate the user making two consecutive edits to the same cell before the first edit's async write-then-reread round trip (see Playlist::setData()) has completed: each edit bumps the item's save generation, exactly as setData() does.
+  const quint64 generation_edit_one = item->BumpSaveGeneration();
+  const quint64 generation_edit_two = item->BumpSaveGeneration();
+  ASSERT_NE(generation_edit_one, generation_edit_two);
+
+  Song metadata_edit_one = item->OriginalMetadata();
+  metadata_edit_one.set_artist(u"EditOneArtist"_s);
+
+  Song metadata_edit_two = item->OriginalMetadata();
+  metadata_edit_two.set_artist(u"EditTwoArtist"_s);
+
+  // The second (newer) edit's reload completes first.
+  CallItemReloadComplete(idx, metadata_edit_two, true, item, generation_edit_two);
+  EXPECT_EQ(u"EditTwoArtist"_s, item->OriginalMetadata().artist());
+
+  // The first edit's reload, started earlier but slower, completes afterwards. Its captured generation no longer matches the item's current generation, so this stale completion must be discarded rather than clobbering the newer edit.
+  CallItemReloadComplete(idx, metadata_edit_one, true, item, generation_edit_one);
+  EXPECT_EQ(u"EditTwoArtist"_s, item->OriginalMetadata().artist());
 
 }
 
