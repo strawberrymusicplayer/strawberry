@@ -466,6 +466,10 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
   if (!set_column_value(song, static_cast<Column>(idx.column()), value)) return false;
 
   if (song.url().isLocalFile()) {
+    // Show the edit immediately: otherwise the cell keeps displaying the pre-edit value (the view re-reads it right after the editor closes) until the write-then-reread round trip below completes asynchronously, which can take a perceptible moment and looks like the edit was reverted.
+    UpdateItemMetadata(row, item, song, false);
+    Q_EMIT EditingFinished(id_, idx);
+
     TagReaderReplyPtr reply = tagreader_client_->WriteFileAsync(song.url().toLocalFile(), song);
     QPersistentModelIndex persistent_index = QPersistentModelIndex(idx);
     SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
@@ -488,10 +492,7 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
 void Playlist::SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx) {
 
   if (idx.isValid()) {
-    if (reply->success()) {
-      ItemReload(idx, true);
-    }
-    else {
+    if (!reply->success()) {
       if (reply->error().isEmpty()) {
         Q_EMIT Error(tr("Could not write metadata to %1").arg(reply->filename()));
       }
@@ -499,6 +500,8 @@ void Playlist::SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelI
         Q_EMIT Error(tr("Could not write metadata to %1: %2").arg(reply->filename(), reply->error()));
       }
     }
+    // Resync with the actual file contents unconditionally: on success this just confirms the value already shown optimistically by setData(), while on failure it reverts that optimistic update back to what is genuinely on disk instead of leaving the cell showing an edit that was never actually written.
+    ItemReload(idx, true);
   }
 
 }
