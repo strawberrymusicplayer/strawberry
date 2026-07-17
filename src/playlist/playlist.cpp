@@ -459,7 +459,8 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
 
   const int row = idx.row();
   const PlaylistItemPtr item = item_at(row);
-  Song song = item->OriginalMetadata();
+  const Song pre_edit_metadata = item->OriginalMetadata();
+  Song song = pre_edit_metadata;
 
   if (idx.data() == value) return false;
 
@@ -476,8 +477,8 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
     TagReaderReplyPtr reply = tagreader_client_->WriteFileAsync(song.url().toLocalFile(), song);
     QPersistentModelIndex persistent_index = QPersistentModelIndex(idx);
     SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
-    *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, item, save_generation, connection]() {
-      SongSaveComplete(reply, persistent_index, item, save_generation);
+    *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, item, save_generation, pre_edit_metadata, connection]() {
+      SongSaveComplete(reply, persistent_index, item, save_generation, pre_edit_metadata);
       QObject::disconnect(*connection);
     }, Qt::QueuedConnection);
   }
@@ -492,22 +493,27 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
 
 }
 
-void Playlist::SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, const PlaylistItemPtr &item, const quint64 save_generation) {
+void Playlist::SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, const PlaylistItemPtr &item, const quint64 save_generation, const Song &pre_edit_metadata) {
 
-  if (idx.isValid()) {
-    if (!reply->success()) {
-      if (reply->error().isEmpty()) {
-        Q_EMIT Error(tr("Could not write metadata to %1").arg(reply->filename()));
-      }
-      else {
-        Q_EMIT Error(tr("Could not write metadata to %1: %2").arg(reply->filename(), reply->error()));
-      }
+  if (!idx.isValid()) return;
+
+  // A newer edit has already superseded this write (its own completion, still pending or already applied, is responsible for reconciling the item), so touching the item now would race it and could clobber the newer optimistic value with this stale write's outcome.
+  if (item->save_generation() != save_generation) return;
+
+  if (!reply->success()) {
+    if (reply->error().isEmpty()) {
+      Q_EMIT Error(tr("Could not write metadata to %1").arg(reply->filename()));
     }
-    // A newer edit has already superseded this write (its own completion, still pending or already applied, is responsible for reconciling the item), so reloading now would race it and could clobber the newer optimistic value with this stale write's result.
-    if (item->save_generation() != save_generation) return;
-    // Resync with the actual file contents unconditionally: on success this just confirms the value already shown optimistically by setData(), while on failure it reverts that optimistic update back to what is genuinely on disk instead of leaving the cell showing an edit that was never actually written.
-    ItemReload(idx, true, item, save_generation);
+    else {
+      Q_EMIT Error(tr("Could not write metadata to %1: %2").arg(reply->filename(), reply->error()));
+    }
+    // Restore the pre-edit metadata directly rather than relying on ItemReload()/BackgroundReload() to revert it: if that reload itself fails to read the file (returning an invalid Song), ItemReloadComplete() would leave the never-written optimistic value in place and still schedule a save, persisting/displaying a value that was never actually written to disk.
+    UpdateItemMetadata(idx.row(), item, pre_edit_metadata, false);
+    return;
   }
+
+  // Resync with the actual file contents: this confirms the value already shown optimistically by setData(), picking up any normalization the tag writer applied.
+  ItemReload(idx, true, item, save_generation);
 
 }
 
