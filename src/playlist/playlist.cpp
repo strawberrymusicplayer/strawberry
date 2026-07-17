@@ -507,13 +507,13 @@ void Playlist::SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelI
     else {
       Q_EMIT Error(tr("Could not write metadata to %1: %2").arg(reply->filename(), reply->error()));
     }
-    // Restore the pre-edit metadata directly rather than relying on ItemReload()/BackgroundReload() to revert it: if that reload itself fails to read the file (returning an invalid Song), ItemReloadComplete() would leave the never-written optimistic value in place and still schedule a save, persisting/displaying a value that was never actually written to disk.
-    UpdateItemMetadata(idx.row(), item, pre_edit_metadata, false);
+    // Resync with the actual file contents rather than assuming pre_edit_metadata still matches what's on disk: with consecutive edits to the same item, pre_edit_metadata is whatever the previous (optimistic) edit left in place, which can itself be a value that was never successfully written (e.g. its own write is still in flight, or already failed but was ignored here due to the generation guard above). Reading the file collapses any such chain of unconfirmed edits to the genuine on-disk state. Only if that reload itself fails to read the file do we fall back to pre_edit_metadata as a last resort.
+    ItemReload(idx, true, item, save_generation, pre_edit_metadata);
     return;
   }
 
   // Resync with the actual file contents: this confirms the value already shown optimistically by setData(), picking up any normalization the tag writer applied.
-  ItemReload(idx, true, item, save_generation);
+  ItemReload(idx, true, item, save_generation, Song());
 
 }
 
@@ -522,31 +522,35 @@ void Playlist::ItemReload(const QPersistentModelIndex &idx, const bool metadata_
   if (idx.isValid()) {
     const PlaylistItemPtr item = item_at(idx.row());
     if (item) {
-      ItemReload(idx, metadata_edit, item, item->save_generation());
+      ItemReload(idx, metadata_edit, item, item->save_generation(), Song());
     }
   }
 
 }
 
-void Playlist::ItemReload(const QPersistentModelIndex &idx, const bool metadata_edit, const PlaylistItemPtr &item, const quint64 save_generation) {
+void Playlist::ItemReload(const QPersistentModelIndex &idx, const bool metadata_edit, const PlaylistItemPtr &item, const quint64 save_generation, const Song &fallback_metadata) {
 
   QFuture<Song> future = item->BackgroundReload();
   QFutureWatcher<Song> *watcher = new QFutureWatcher<Song>(this);
-  QObject::connect(watcher, &QFutureWatcher<Song>::finished, this, [this, watcher, idx, metadata_edit, item, save_generation]() {
-    ItemReloadComplete(idx, watcher->result(), metadata_edit, item, save_generation);
+  QObject::connect(watcher, &QFutureWatcher<Song>::finished, this, [this, watcher, idx, metadata_edit, item, save_generation, fallback_metadata]() {
+    ItemReloadComplete(idx, watcher->result(), metadata_edit, item, save_generation, fallback_metadata);
     watcher->deleteLater();
   });
   watcher->setFuture(future);
 
 }
 
-void Playlist::ItemReloadComplete(const QPersistentModelIndex &idx, const Song &new_metadata, const bool metadata_edit, const PlaylistItemPtr &item, const quint64 save_generation) {
+void Playlist::ItemReloadComplete(const QPersistentModelIndex &idx, const Song &new_metadata, const bool metadata_edit, const PlaylistItemPtr &item, const quint64 save_generation, const Song &fallback_metadata) {
 
   if (idx.isValid()) {
     // Another edit superseded this one while the reload was in flight: skip applying this now-stale result so it doesn't clobber the newer edit.
     if (item->save_generation() != save_generation) return;
     if (new_metadata.is_valid()) {
       UpdateItemMetadata(idx.row(), item, new_metadata, false);
+    }
+    else if (fallback_metadata.is_valid()) {
+      // The reload itself failed to read the file (e.g. a transient I/O error): fall back to the best metadata we still have rather than leaving whatever optimistic value was showing beforehand, which in the write-failure path this fallback comes from is known to have never been written to disk.
+      UpdateItemMetadata(idx.row(), item, fallback_metadata, false);
     }
     if (metadata_edit) {
       Q_EMIT EditingFinished(id_, idx);
