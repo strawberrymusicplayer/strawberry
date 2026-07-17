@@ -530,7 +530,7 @@ void Playlist::ItemReload(const QPersistentModelIndex &idx, const bool metadata_
 
 void Playlist::ItemReload(const QPersistentModelIndex &idx, const bool metadata_edit, const PlaylistItemPtr &item, const quint64 save_generation, const Song &fallback_metadata) {
 
-  QFuture<Song> future = item->BackgroundReload();
+  QFuture<Song> future = item->BackgroundReload(tagreader_client_);
   QFutureWatcher<Song> *watcher = new QFutureWatcher<Song>(this);
   QObject::connect(watcher, &QFutureWatcher<Song>::finished, this, [this, watcher, idx, metadata_edit, item, save_generation, fallback_metadata]() {
     ItemReloadComplete(idx, watcher->result(), metadata_edit, item, save_generation, fallback_metadata);

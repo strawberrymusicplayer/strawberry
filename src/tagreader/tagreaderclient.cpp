@@ -55,8 +55,6 @@
 using std::dynamic_pointer_cast;
 using namespace Qt::Literals::StringLiterals;
 
-TagReaderClient *TagReaderClient::sInstance = nullptr;
-
 TagReaderClient::TagReaderClient(QObject *parent)
     : QObject(parent),
       original_thread_(thread()),
@@ -64,10 +62,6 @@ TagReaderClient::TagReaderClient(QObject *parent)
       processing_(false) {
 
   setObjectName(QLatin1String(QObject::metaObject()->className()));
-
-  if (!sInstance) {
-    sInstance = this;
-  }
 
 }
 
