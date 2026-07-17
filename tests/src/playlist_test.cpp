@@ -28,6 +28,8 @@
 #include "collection/collectionplaylistitem.h"
 #include "playlist/playlist.h"
 #include "playlist/songplaylistitem.h"
+#include "tagreader/tagreaderreply.h"
+#include "tagreader/tagreaderresult.h"
 #include "mock_settingsprovider.h"
 #include "mock_playlistitem.h"
 
@@ -69,6 +71,11 @@ class PlaylistTest : public ::testing::Test {
   // Forwards to the private Playlist::ItemReloadComplete(), to let tests exercise the save-generation staleness check directly instead of via a real asynchronous write-then-reread round trip.
   void CallItemReloadComplete(const QPersistentModelIndex &idx, const Song &new_metadata, const bool metadata_edit, const PlaylistItemPtr &item, const quint64 save_generation) {
     playlist_.ItemReloadComplete(idx, new_metadata, metadata_edit, item, save_generation);
+  }
+
+  // Forwards to the private Playlist::SongSaveComplete(), to let tests exercise the write-failure/pre-edit-restore path directly instead of via a real asynchronous tag write.
+  void CallSongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, const PlaylistItemPtr &item, const quint64 save_generation, const Song &pre_edit_metadata) {
+    playlist_.SongSaveComplete(reply, idx, item, save_generation, pre_edit_metadata);
   }
 
   Playlist playlist_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
@@ -625,6 +632,37 @@ TEST_F(PlaylistTest, StaleReloadCompletionDoesNotClobberNewerEdit) {
   // The first edit's reload, started earlier but slower, completes afterwards. Its captured generation no longer matches the item's current generation, so this stale completion must be discarded rather than clobbering the newer edit.
   CallItemReloadComplete(idx, metadata_edit_one, true, item, generation_edit_one);
   EXPECT_EQ(u"EditTwoArtist"_s, item->OriginalMetadata().artist());
+
+}
+
+// Regression test: if the tag write itself fails, the optimistic value shown by setData() must be reverted to what was on disk before the edit, rather than left displayed (and later persisted) despite never having been written.
+TEST_F(PlaylistTest, FailedSaveRestoresPreEditMetadata) {
+
+  Song song;
+  song.Init(u"Title"_s, u"OriginalArtist"_s, u"Album"_s, 123);
+  song.set_url(QUrl::fromLocalFile(u"/tmp/does-not-need-to-exist.mp3"_s));
+
+  PlaylistItemPtr item = std::make_shared<SongPlaylistItem>(song, false);
+  playlist_.InsertItems(PlaylistItemPtrList() << item, -1);
+  const QPersistentModelIndex idx(playlist_.index(0, static_cast<int>(Playlist::Column::Artist)));
+
+  const Song pre_edit_metadata = item->OriginalMetadata();
+
+  // Simulate setData()'s optimistic update: bump the save generation and apply the edited value immediately, exactly as setData() does before the async write starts.
+  const quint64 save_generation = item->BumpSaveGeneration();
+  Song edited_metadata = pre_edit_metadata;
+  edited_metadata.set_artist(u"EditedArtist"_s);
+  playlist_.UpdateItemMetadata(0, item, edited_metadata, false);
+  ASSERT_EQ(u"EditedArtist"_s, item->OriginalMetadata().artist());
+
+  // The write fails.
+  TagReaderReplyPtr reply(new TagReaderReply(song.url().toLocalFile()));
+  reply->set_result(TagReaderResult(TagReaderResult::ErrorCode::FileSaveError));
+
+  CallSongSaveComplete(reply, idx, item, save_generation, pre_edit_metadata);
+
+  // The optimistic edit must be reverted to the pre-edit value instead of being left displayed (and later persisted) despite never having been written to disk.
+  EXPECT_EQ(u"OriginalArtist"_s, item->OriginalMetadata().artist());
 
 }
 
