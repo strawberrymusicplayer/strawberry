@@ -50,7 +50,7 @@ bool Translations::LoadTranslation(const QString &prefix, const QString &path, c
     return false;
   }
 
-  qLog(Debug) << "Tranlations loaded from" << basefilename;
+  qLog(Debug) << "Translations loaded from" << basefilename;
   QCoreApplication::installTranslator(t);
   translations_ << t;
 
