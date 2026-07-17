@@ -128,12 +128,12 @@ void PlaylistItem::BindToQuery(SqlQuery *query) const {
 
 }
 
-static Song ReloadPlaylistItem(PlaylistItemPtr item) {
-  return item->Reload();
+static Song ReloadPlaylistItem(PlaylistItemPtr item, SharedPtr<TagReaderClient> tagreader_client) {
+  return item->Reload(tagreader_client);
 }
 
-QFuture<Song> PlaylistItem::BackgroundReload() {
-  return QtConcurrent::run(ReloadPlaylistItem, shared_from_this());
+QFuture<Song> PlaylistItem::BackgroundReload(const SharedPtr<TagReaderClient> tagreader_client) {
+  return QtConcurrent::run(ReloadPlaylistItem, shared_from_this(), tagreader_client);
 }
 
 void PlaylistItem::SetBackgroundColor(short priority, const QColor &color) {

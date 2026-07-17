@@ -42,7 +42,7 @@ class MockPlaylistItem : public PlaylistItem {
   MOCK_METHOD0(ClearStreamMetadata, void());
   MOCK_METHOD1(SetArtManual, void(const QUrl &cover_url));
   MOCK_METHOD1(InitFromQuery, bool(const SqlRow &settings));
-  MOCK_METHOD0(Reload, Song());
+  MOCK_METHOD1(Reload, Song(const SharedPtr<TagReaderClient> tagreader_client));
   MOCK_CONST_METHOD1(DatabaseValue, QVariant(DatabaseColumn));
 };
 

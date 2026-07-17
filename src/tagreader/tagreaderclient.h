@@ -55,8 +55,6 @@ class TagReaderClient : public QObject {
  public:
   explicit TagReaderClient(QObject *parent = nullptr);
 
-  static TagReaderClient *Instance() { return sInstance; }
-
   void Start();
   void ExitAsync();
 
@@ -110,8 +108,6 @@ class TagReaderClient : public QObject {
   void SaveSongsRatingAsync(const SongList &songs);
 
  private:
-  static TagReaderClient *sInstance;
-
   QThread *original_thread_;
   QQueue<TagReaderRequestPtr> requests_;
   mutable QMutex mutex_requests_;

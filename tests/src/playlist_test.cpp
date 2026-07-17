@@ -50,21 +50,25 @@ using namespace Qt::Literals::StringLiterals;
 // C++ friendship isn't inherited, so tests that need access to Playlist's private members go through the CallXxx() helpers below rather than calling them directly from a TEST_F body.
 class PlaylistTest : public ::testing::Test {
  protected:
+  // tagreader_client_/tagreader_client_thread_ are declared (and so, per C++ member initialization order, constructed) before playlist_ below: Playlist::tagreader_client_ is a const member set once at construction time, from the SharedPtr this fixture passes in here - so the real TagReaderClient must already exist by then.
+  // PlaylistItem::Reload() (invoked by ItemReload()'s background task, via SongPlaylistItem/CollectionPlaylistItem) takes that same SharedPtr through Playlist rather than reaching for a process-wide singleton, so constructing and tearing this down per test (like tagreader_test.cpp does) is safe - there is no shared global state left for one test's teardown to leave dangling for another.
   PlaylistTest()
-      : playlist_(nullptr, nullptr, nullptr, nullptr, nullptr, 1),
-        sequence_(nullptr, new DummySettingsProvider) {}
+      : tagreader_client_(new TagReaderClient()),
+        tagreader_client_thread_(new QThread()),
+        playlist_(nullptr, nullptr, nullptr, nullptr, tagreader_client_, 1),
+        sequence_(nullptr, new DummySettingsProvider) {
+    tagreader_client_->moveToThread(tagreader_client_thread_);
+    tagreader_client_thread_->start();
+  }
+
+  ~PlaylistTest() override {
+    tagreader_client_thread_->exit();
+    tagreader_client_thread_->wait(5000);
+    delete tagreader_client_thread_;
+  }
 
   void SetUp() override {
     playlist_.set_sequence(&sequence_);
-  }
-
-  // TagReaderClient::Instance() is a process-wide singleton: the constructor only ever assigns sInstance the first time one is constructed, and nothing ever resets sInstance back to nullptr on destruction.
-  // SongPlaylistItem::Reload() (invoked by ItemReload()'s background task) reads through that singleton, so tests exercising it need one to exist - but it must be set up once for the whole test suite (via SetUpTestSuite(), run once before any PlaylistTest test) and never torn down here, in a per-test fixture: stopping its thread after an individual test would leave sInstance pointing at an object whose event loop is no longer running, and no later construction attempt would replace it (the "only assign if not already set" check would just see the stale pointer and do nothing), hanging or misbehaving every subsequent test in this binary that touches the singleton.
-  static void SetUpTestSuite() {
-    sTagReaderClientThread = new QThread();
-    sTagReaderClient = new TagReaderClient();
-    sTagReaderClient->moveToThread(sTagReaderClientThread);
-    sTagReaderClientThread->start();
   }
 
   MockPlaylistItem *MakeMockItem(const QString &title, const QString &artist = QString(), const QString &album = QString(), int length = 123) const {
@@ -107,17 +111,14 @@ class PlaylistTest : public ::testing::Test {
     }
   }
 
-  Playlist playlist_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
-  PlaylistSequence sequence_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  // Declaration order matters here: these must precede playlist_ so they are constructed first - see the comment above the constructor.
+  SharedPtr<TagReaderClient> tagreader_client_;
+  QThread *tagreader_client_thread_;
 
-  // Shared for the whole test suite - see the comment on SetUpTestSuite() above.
-  static TagReaderClient *sTagReaderClient;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
-  static QThread *sTagReaderClientThread;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  Playlist playlist_;
+  PlaylistSequence sequence_;
 
 };
-
-TagReaderClient *PlaylistTest::sTagReaderClient = nullptr;
-QThread *PlaylistTest::sTagReaderClientThread = nullptr;
 
 namespace {
 
@@ -717,7 +718,7 @@ TEST_F(PlaylistTest, FailedSaveReloadsActualDiskStateRatherThanStalePreEditChain
   baseline.Init(u"Title"_s, u"RealDiskArtist"_s, u"Album"_s, 123);
   baseline.set_url(QUrl::fromLocalFile(resource.fileName()));
   {
-    TagReaderReplyPtr write_reply = sTagReaderClient->WriteFileAsync(resource.fileName(), baseline);
+    TagReaderReplyPtr write_reply = tagreader_client_->WriteFileAsync(resource.fileName(), baseline);
     QEventLoop loop;
     QObject::connect(&*write_reply, &TagReaderReply::Finished, &loop, &QEventLoop::quit);
     loop.exec();

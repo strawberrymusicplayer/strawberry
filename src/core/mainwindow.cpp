@@ -2342,7 +2342,7 @@ void MainWindow::EditTagDialogAccepted() {
       item->SetOriginalMetadata(updated_song);
     }
     else {
-      item->Reload();
+      item->Reload(app_->tagreader_client());
     }
   }
 
@@ -3248,7 +3248,7 @@ void MainWindow::AutoCompleteTagsAccepted() {
 
   for (int i = 0; i < autocomplete_tag_items_.count(); ++i) {
     PlaylistItemPtr item = autocomplete_tag_items_.at(i);
-    const Song reloaded_song = item->Reload();
+    const Song reloaded_song = item->Reload(app_->tagreader_client());
     if (reloaded_song.is_valid()) {
       item->SetOriginalMetadata(reloaded_song);
     }
