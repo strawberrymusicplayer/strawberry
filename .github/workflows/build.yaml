@@ -719,6 +719,150 @@ jobs:
         run: dput ppa:jonaski/strawberry ../*_source.changes
 
 
+  build-appimage:
+    name: Build AppImage
+    if: (github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.ref_name != 'l10n_master') ||
+        (github.event_name == 'pull_request' && github.head_ref != 'l10n_master') ||
+        (github.event_name == 'release')
+    runs-on: ubuntu-latest
+    container:
+      image: opensuse/tumbleweed
+    steps:
+      - name: Add Packman repository
+        run: zypper -n addrepo -f https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/ packman
+      - name: Refresh repositories
+        run: zypper -n --gpg-auto-import-keys ref
+      - name: Upgrade packages
+        run: zypper -n --gpg-auto-import-keys dup
+      - name: Install packages
+        run: >
+            zypper -n --gpg-auto-import-keys in --allow-downgrade --allow-vendor-change --force-resolution
+            lsb-release
+            rpm-build
+            git
+            tar
+            patchelf
+            squashfs
+            curl
+            jq
+            rsync
+            make
+            cmake
+            gcc
+            gcc-c++
+            openssh-clients
+            glibc-devel
+            libboost_headers-devel
+            boost-devel
+            glib2-devel
+            glib2-tools
+            alsa-devel
+            libnotify-devel
+            sqlite3-devel
+            libpulse-devel
+            gstreamer-devel
+            gstreamer-plugins-base-devel
+            gstreamer-plugins-base
+            gstreamer-plugins-good
+            gstreamer-plugins-bad
+            gstreamer-plugins-bad-codecs
+            gstreamer-plugins-ugly
+            gstreamer-plugins-libav
+            gstreamer-plugins-rs
+            taglib-devel
+            libicu-devel
+            libcdio-devel
+            libgpod-devel
+            libmtp-devel
+            libchromaprint-devel
+            fftw3-devel
+            libebur128-devel
+            desktop-file-utils
+            update-desktop-files
+            appstream-glib
+            hicolor-icon-theme
+            glib-networking
+            qt6-core-devel
+            qt6-gui-devel
+            qt6-gui-private-devel
+            qt6-widgets-devel
+            qt6-concurrent-devel
+            qt6-network-devel
+            qt6-sql-devel
+            qt6-dbus-devel
+            qt6-test-devel
+            qt6-base-common-devel
+            qt6-sql-sqlite
+            qt6-imageformats
+            qt6-linguist-devel
+            gtest
+            gmock
+            sparsehash-devel
+            kdsingleapplication-qt6-devel
+            AppStream
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          submodules: recursive
+      - name: Add safe git directory
+        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_WERROR=ON
+      - name: Build
+        working-directory: build
+        run: make -j$(nproc)
+      - name: Install
+        working-directory: build
+        run: make install DESTDIR="${GITHUB_WORKSPACE}/AppDir"
+      - name: Download appimagetools
+        run: |
+          api_url="https://api.github.com/repos/jonaski/appimagetools/releases/latest"
+          deploy_url=$(curl -s "${api_url}" | jq -r '.assets[] | select(.name | test("^appimagedeploy-.*-Linux-x86_64\\.AppImage$")) | .browser_download_url')
+          builder_url=$(curl -s "${api_url}" | jq -r '.assets[] | select(.name | test("^appimagebuilder-.*-Linux-x86_64\\.AppImage$")) | .browser_download_url')
+          curl -fL -o appimagedeploy.AppImage "${deploy_url}"
+          curl -fL -o appimagebuilder.AppImage "${builder_url}"
+          chmod +x appimagedeploy.AppImage appimagebuilder.AppImage
+      - name: Deploy
+        env:
+          APPIMAGE_EXTRACT_AND_RUN: '1'
+        run: >
+            ./appimagedeploy.AppImage
+            AppDir/usr/share/applications/org.strawberrymusicplayer.strawberry.desktop
+            --qt-sql-plugins=sqlite
+            --gstreamer-plugins=list
+            --gstreamer-plugin-list=adaptivedemux2,aiff,alsa,apetag,app,asf,asfmux,audioconvert,audiofx,audioparsers,audioresample,autodetect,bs2b,cdio,coreelements,dash,dsd,equalizer,faac,faad,fdkaac,flac,gme,icydemux,id3demux,isomp4,lame,libav,matroska,mpg123,musepack,ogg,openmpt,opus,pbtypes,playback,pulseaudio,replaygain,rtp,rtpmanager,rtsp,soup,spectrum,speex,spotify,taglib,typefindfunctions,udp,volume,vorbis,wavenc,wavpack,wavparse,xingmux
+      - name: Package AppImage
+        env:
+          APPIMAGE_EXTRACT_AND_RUN: '1'
+        run: ./appimagebuilder.AppImage AppDir
+
+      - name: Set Upload path
+        id: set-upload-path
+        if: github.repository == 'strawberrymusicplayer/strawberry' && (github.event_name == 'release' || (github.event_name == 'push' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/appimage')))
+        run: |
+          if [ "${{github.event_name}}" = "release" ]; then
+            echo "upload_path=${{secrets.DOWNLOADS_PATH}}/stable_releases/linux/appimage" >> $GITHUB_OUTPUT
+          else
+            echo "upload_path=${{secrets.DOWNLOADS_PATH}}/development_releases/linux/appimage" >> $GITHUB_OUTPUT
+          fi
+
+      - name: SSH Setup
+        if: steps.set-upload-path.outputs.upload_path != ''
+        uses: shimataro/ssh-key-action@v2
+        with:
+          known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
+          key: ${{ secrets.SSH_KEY }}
+
+      - name: Create server path
+        if: steps.set-upload-path.outputs.upload_path != ''
+        run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{steps.set-upload-path.outputs.upload_path}}
+
+      - name: rsync
+        if: steps.set-upload-path.outputs.upload_path != ''
+        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var Strawberry-*.AppImage ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{steps.set-upload-path.outputs.upload_path}}/
+
+
   build-freebsd:
     name: Build FreeBSD
     if: (github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.ref_name != 'l10n_master') ||
