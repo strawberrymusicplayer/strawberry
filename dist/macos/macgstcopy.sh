@@ -63,7 +63,6 @@ install_name_tool -add_rpath "@loader_path/../Frameworks" "${bundledir}/Contents
 
 gst_plugins="
 libgstadaptivedemux2
-libgstaes
 libgstaiff
 libgstapetag
 libgstapp
@@ -88,33 +87,28 @@ libgstgio
 libgsthls
 libgsticydemux
 libgstid3demux
-libgstid3tag
 libgstisomp4
 libgstlame
-libgstmpegpsdemux
-libgstmpegpsmux
-libgstmpegtsdemux
-libgstmpegtsmux
 libgstlibav
+libgstmatroska
+libgstmpegtsdemux
 libgstmpg123
 libgstmusepack
 libgstogg
 libgstopenmpt
 libgstopus
-libgstopusparse
 libgstosxaudio
 libgstpbtypes
 libgstplayback
 libgstreplaygain
 libgstrtp
+libgstrtpmanager
 libgstrtsp
 libgstsoup
 libgstspectrum
 libgstspeex
 libgstspotify
 libgsttaglib
-libgsttcp
-libgsttwolame
 libgsttypefindfunctions
 libgstudp
 libgstvolume
@@ -123,7 +117,6 @@ libgstwavenc
 libgstwavpack
 libgstwavparse
 libgstxingmux
-libgstmatroska
 "
 
 gst_plugins=$(echo "$gst_plugins" | tr '\n' ' ' | sed -e 's/^ //g' | sed -e 's/  / /g')
