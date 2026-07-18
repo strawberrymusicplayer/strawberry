@@ -831,7 +831,7 @@ jobs:
             AppDir/usr/share/applications/org.strawberrymusicplayer.strawberry.desktop
             --qt-sql-plugins=sqlite
             --gstreamer-plugins=list
-            --gstreamer-plugin-list=adaptivedemux2,aiff,alsa,apetag,app,asf,asfmux,audioconvert,audiofx,audioparsers,audioresample,autodetect,bs2b,cdio,coreelements,dash,dsd,equalizer,faac,faad,fdkaac,flac,gme,icydemux,id3demux,isomp4,lame,libav,matroska,mpg123,musepack,ogg,openmpt,opus,pbtypes,playback,pulseaudio,replaygain,rtp,rtpmanager,rtsp,soup,spectrum,speex,spotify,taglib,typefindfunctions,udp,volume,vorbis,wavenc,wavpack,wavparse,xingmux
+            --gstreamer-plugin-list=adaptivedemux2,aiff,alsa,apetag,app,asf,asfmux,audioconvert,audiofx,audioparsers,audioresample,autodetect,bs2b,cdio,coreelements,dash,dsd,equalizer,faac,faad,fdkaac,flac,gme,hls,icydemux,id3demux,isomp4,lame,libav,matroska,mpegtsdemux,mpg123,musepack,ogg,openmpt,opus,pbtypes,playback,pulseaudio,replaygain,rtp,rtpmanager,rtsp,soup,spectrum,speex,spotify,taglib,typefindfunctions,udp,volume,vorbis,wavenc,wavpack,wavparse,xingmux
       - name: Package AppImage
         env:
           APPIMAGE_EXTRACT_AND_RUN: '1'
