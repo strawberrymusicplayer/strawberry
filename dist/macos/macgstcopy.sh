@@ -62,75 +62,81 @@ cp -v -f "${GST_PLUGIN_SCANNER}" "${bundledir}/Contents/PlugIns/" || exit 1
 install_name_tool -add_rpath "@loader_path/../Frameworks" "${bundledir}/Contents/PlugIns/$(basename ${GST_PLUGIN_SCANNER})" || exit 1
 
 gst_plugins="
-libgstadaptivedemux2
-libgstaiff
-libgstapetag
-libgstapp
-libgstasf
-libgstasfmux
-libgstaudioconvert
-libgstaudiofx
-libgstaudioparsers
-libgstaudioresample
-libgstautodetect
-libgstbs2b
-libgstcdio
-libgstcoreelements
-libgstdash
-libgstdsd
-libgstequalizer
-libgstfaac
-libgstfaad
-libgstfdkaac
-libgstflac
-libgstgio
-libgsthls
-libgsticydemux
-libgstid3demux
-libgstisomp4
-libgstlame
-libgstlibav
-libgstmatroska
-libgstmpegtsdemux
-libgstmpg123
-libgstmusepack
-libgstogg
-libgstopenmpt
-libgstopus
-libgstosxaudio
-libgstpbtypes
-libgstplayback
-libgstreplaygain
-libgstrtp
-libgstrtpmanager
-libgstrtsp
-libgstsoup
-libgstspectrum
-libgstspeex
-libgstspotify
-libgsttaglib
-libgsttypefindfunctions
-libgstudp
-libgstvolume
-libgstvorbis
-libgstwavenc
-libgstwavpack
-libgstwavparse
-libgstxingmux
+adaptivedemux2
+aiff
+apetag
+app
+asf
+asfmux
+audioconvert
+audiofx
+audioparsers
+audioresample
+autodetect
+bs2b
+cdio
+coreelements
+dash
+dsd
+equalizer
+faac
+faad
+fdkaac
+flac
+hls
+icydemux
+id3demux
+isomp4
+lame
+libav
+matroska
+mpegtsdemux
+mpg123
+musepack
+ogg
+openmpt
+opus
+osxaudio
+pbtypes
+playback
+replaygain
+rtp
+rtpmanager
+rtsp
+soup
+spectrum
+speex
+spotify
+taglib
+typefindfunctions
+udp
+volume
+vorbis
+wavenc
+wavpack
+wavparse
+xingmux
 "
 
 gst_plugins=$(echo "$gst_plugins" | tr '\n' ' ' | sed -e 's/^ //g' | sed -e 's/  / /g')
+missing_plugins=
 for gst_plugin in $gst_plugins; do
-  if [ -e "${GST_PLUGIN_PATH}/${gst_plugin}.dylib" ]; then
-    cp -v -f "${GST_PLUGIN_PATH}/${gst_plugin}.dylib" "${bundledir}/Contents/PlugIns/gstreamer/" || exit 1
-    install_name_tool -id "@rpath/${gst_plugin}.dylib" "${bundledir}/Contents/PlugIns/gstreamer/${gst_plugin}.dylib"
+  gst_plugin_filename=
+  if [ -e "${GST_PLUGIN_PATH}/libgst${gst_plugin}.dylib" ]; then
+    gst_plugin_filename="libgst${gst_plugin}.dylib"
   elif [ -e "${GST_PLUGIN_PATH}/${gst_plugin}.so" ]; then
-    cp -v -f "${GST_PLUGIN_PATH}/${gst_plugin}.so" "${bundledir}/Contents/PlugIns/gstreamer/" || exit 1
-    install_name_tool -id "@rpath/${gst_plugin}.so" "${bundledir}/Contents/PlugIns/gstreamer/${gst_plugin}.so"
+    gst_plugin_filename="libgst${gst_plugin}.so"
   else
-    echo "Warning: Missing gstreamer plugin ${gst_plugin}."
+    echo "Error: Missing gstreamer plugin ${gst_plugin}."
+    missing_plugins=1
+    continue
   fi
+  cp -v -f "${GST_PLUGIN_PATH}/${gst_plugin_filename}" "${bundledir}/Contents/PlugIns/gstreamer/" || exit 1
+  install_name_tool -id "@rpath/${gst_plugin_filename}" "${bundledir}/Contents/PlugIns/gstreamer/${gst_plugin_filename}"
 done
+if [ "${missing_plugins}" = "1" ]; then
+  exit 1
+fi
 
 # libsoup is dynamically loaded by gstreamer, so it needs to be copied.
 if [ "${LIBSOUP_LIBRARY_PATH}" = "" ]; then
