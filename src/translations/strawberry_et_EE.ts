@@ -1378,7 +1378,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Edit track information...</source>
-      <translation>Muuda loo infot...</translation>
+      <translation>Muuda loo teavet...</translation>
     </message>
     <message>
       <source>Edit tracks information...</source>
@@ -1786,7 +1786,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Covers from %1</source>
-      <translation>Kaanepildid teenuselt %1</translation>
+      <translation>Kaanepildid teenusest %1</translation>
     </message>
     <message>
       <source>Total network requests made</source>
@@ -1853,7 +1853,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Filename:</source>
-      <translation>Faili nimi:</translation>
+      <translation>Failinimi:</translation>
     </message>
     <message>
       <source>Pattern</source>
@@ -1869,7 +1869,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Lowercase filename</source>
-      <translation>Väiketähtedega failinimi</translation>
+      <translation>Väiketähtedes failinimi</translation>
     </message>
     <message>
       <source>Replace spaces with dashes</source>
@@ -2193,7 +2193,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <name>EditTagDialog</name>
     <message>
       <source>Edit track information</source>
-      <translation>Muuda loo infot</translation>
+      <translation>Muuda loo teavet</translation>
     </message>
     <message>
       <source>Summary</source>
@@ -2258,7 +2258,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Filename</source>
-      <translation>Faili nimi</translation>
+      <translation>Failinimi</translation>
     </message>
     <message>
       <source>Art Unset</source>
@@ -2422,7 +2422,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Cover from %1</source>
-      <translation>Kaanepilt teenuselt %1</translation>
+      <translation>Kaanepilt allikast %1</translation>
     </message>
     <message>
       <source>Cover art not set</source>
@@ -2751,7 +2751,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Edit track information...</source>
-      <translation>Muuda loo infot...</translation>
+      <translation>Muuda loo teavet...</translation>
     </message>
     <message>
       <source>Show in file browser...</source>
@@ -2790,7 +2790,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Edit track information...</source>
-      <translation>Muuda loo infot...</translation>
+      <translation>Muuda loo teavet...</translation>
     </message>
     <message>
       <source>Show in file browser...</source>
@@ -3359,7 +3359,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Edit track information...</source>
-      <translation>Muuda loo infot...</translation>
+      <translation>Muuda loo teavet...</translation>
     </message>
     <message>
       <source>Ctrl+E</source>
@@ -4614,7 +4614,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>File Name (without path)</source>
-      <translation>Faili nimi (asukohata)</translation>
+      <translation>Failinimi (asukohata)</translation>
     </message>
     <message>
       <source>File Size</source>
@@ -7500,7 +7500,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Filename</source>
-      <translation>Faili nimi</translation>
+      <translation>Failinimi</translation>
     </message>
     <message>
       <source>Directory</source>
