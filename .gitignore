@@ -16,3 +16,9 @@
 _codeql_detected_source_root
 .qtcreator/
 obj-x86_64-linux-gnu/
+debian/.debhelper/
+debian/debhelper-build-stamp
+debian/files
+debian/*.log
+debian/*.substvars
+debian/strawberry/
