@@ -26,6 +26,8 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QByteArray>
+#include <QSet>
+#include <QHash>
 #include <QString>
 #include <QStringList>
 #include <QDir>
@@ -56,6 +58,8 @@ class M3UParser : public ParserBase {
   LoadResult Load(QIODevice *device, const QString &playlist_path = QLatin1String(""), const QDir &dir = QDir(), const bool collection_lookup = true) const override;
   void Save(const QString &playlist_name, const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettings::PathType path_type = PlaylistSettings::PathType::Automatic) const override;
 
+  static constexpr int kMaxNestingDepth = 5;
+
  private:
   enum class M3UType {
     STANDARD = 0,
@@ -71,6 +75,20 @@ class M3UParser : public ParserBase {
   };
 
   static bool ParseMetadata(const QString &line, Metadata *metadata);
+
+  // Returns true when a playlist entry is a local (non-URL) reference to another .m3u/.m3u8 file, which must be expanded rather than loaded as a track.
+  // Remote or stream URLs (those carrying a URL scheme, such as an HLS http .m3u8) are left for LoadSong to turn into a stream, matching its own URL-scheme detection.
+  static bool IsNestedPlaylistReference(const QString &line);
+
+  // Parses playlist data read from device, appending resolved tracks to ret.
+  // Local nested .m3u/.m3u8 references are expanded via LoadNested while every other entry loads as a track.
+  // Shared by the top-level Load and each nested descent so entry detection lives in one place.
+  void ParsePlaylistData(QIODevice *device, const QDir &dir, QSet<QString> &ancestors, QHash<QString, SongList> &expanded, int depth, bool collection_lookup, SongList &ret) const;
+
+  // Expands a single nested .m3u/.m3u8 reference into ret.
+  // ancestors holds the canonical paths currently on the recursion path and detects true cycles, while expanded memoizes each file's parsed tracks keyed by remaining depth budget so a repeated or diamond reference is not parsed again.
+  // Recursion depth is bounded by kMaxNestingDepth.
+  void LoadNested(const QString &filename, const QDir &dir, QSet<QString> &ancestors, QHash<QString, SongList> &expanded, int depth, bool collection_lookup, SongList &ret) const;
 };
 
 #endif  // M3UPARSER_H
