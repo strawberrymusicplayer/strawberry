@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -94,6 +94,11 @@ class PlaylistTest : public ::testing::Test {
   void CallSaveItemComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, const PlaylistItemPtr &item, const quint64 save_generation, const Song &pre_edit_metadata) {
     playlist_.SaveItemComplete(reply, idx, item, save_generation, pre_edit_metadata);
   }
+
+  // Expose the private sort-state fields, to let tests check that undo/redo of a sort restores them (not just the item order).
+  bool IsSorted() const { return playlist_.is_sorted_; }
+  Playlist::Column SortColumn() const { return playlist_.sort_column_; }
+  Qt::SortOrder SortOrder() const { return playlist_.sort_order_; }
 
   // Blocks until Playlist::EditingFinished fires, i.e. until an in-flight ReloadItem()'s background reload has completed and ReloadItemComplete() has run.
   // Bounded by timeout_ms so a regression that stops EditingFinished from firing (or a reload that never completes) fails the test instead of hanging the whole run indefinitely, which would otherwise take down CI.
@@ -782,6 +787,94 @@ TEST_F(PlaylistTest, FailedSaveReloadsActualDiskStateRatherThanStalePreEditChain
 
   // The item must reflect what is genuinely on disk ("RealDiskArtist"), not edit 1's stale, never-confirmed optimistic value ("EditOneArtist") that pre_edit_metadata_two happened to carry.
   EXPECT_EQ(u"RealDiskArtist"_s, item->OriginalMetadata().artist());
+
+}
+
+// Regression test: clearing the sort indicator (column -1, e.g. from resetting columns to their defaults) stops the playlist from tracking itself as sorted, but must not reorder it - there's no "restore the pre-sort order" behavior.
+TEST_F(PlaylistTest, ClearingSortIndicatorStopsTrackingAsSortedWithoutReordering) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"B"_s) << MakeMockItemP(u"A"_s), -1);
+  playlist_.sort(static_cast<int>(Playlist::Column::Title), Qt::AscendingOrder);
+  ASSERT_TRUE(IsSorted());
+  ASSERT_EQ(u"A"_s, playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Title))));
+  ASSERT_EQ(u"B"_s, playlist_.data(playlist_.index(1, static_cast<int>(Playlist::Column::Title))));
+
+  playlist_.sort(-1, Qt::AscendingOrder);
+  EXPECT_FALSE(IsSorted());
+  // Order is left exactly as it was (A, B), not reverted to the pre-sort B, A order.
+  EXPECT_EQ(u"A"_s, playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(u"B"_s, playlist_.data(playlist_.index(1, static_cast<int>(Playlist::Column::Title))));
+
+}
+
+// Regression test for #1690: "Automatically sort playlist when inserting songs" must not act as if the playlist were sorted by the (arbitrary) default column until the user has actually chosen a sort column by clicking a header.
+TEST_F(PlaylistTest, AutoSortDoesNothingUntilAColumnHasBeenSorted) {
+
+  playlist_.set_auto_sort(true);
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"B"_s) << MakeMockItemP(u"A"_s), -1);
+  // No column has been sorted yet, so auto-sort must leave the insertion order alone.
+  EXPECT_EQ(u"B"_s, playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(u"A"_s, playlist_.data(playlist_.index(1, static_cast<int>(Playlist::Column::Title))));
+
+  playlist_.sort(static_cast<int>(Playlist::Column::Title), Qt::AscendingOrder);
+  ASSERT_EQ(u"A"_s, playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Title))));
+  ASSERT_EQ(u"B"_s, playlist_.data(playlist_.index(1, static_cast<int>(Playlist::Column::Title))));
+
+  // Now that the playlist has an active sort column, auto-sort should kick in and place new insertions in order.
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"AB"_s), -1);
+  ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
+  EXPECT_EQ(u"A"_s, playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(u"AB"_s, playlist_.data(playlist_.index(1, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(u"B"_s, playlist_.data(playlist_.index(2, static_cast<int>(Playlist::Column::Title))));
+
+}
+
+// Regression test: undoing a column sort must also revert the playlist's own idea of what's sorted (is_sorted_/sort_column_/sort_order_), and announce it via SortStateChanged, so the header's sort indicator can be kept in sync rather than being left showing a sort that's since been undone.
+TEST_F(PlaylistTest, UndoingASortAlsoRevertsSortState) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"B"_s) << MakeMockItemP(u"A"_s), -1);
+
+  bool signal_emitted = false;
+  bool signal_is_sorted = true;
+  Playlist::Column signal_column = Playlist::Column::Artist;
+  Qt::SortOrder signal_sort_order = Qt::DescendingOrder;
+  QObject::connect(&playlist_, &Playlist::SortStateChanged, [&](const bool is_sorted, const Playlist::Column column, const Qt::SortOrder sort_order) {
+    signal_emitted = true;
+    signal_is_sorted = is_sorted;
+    signal_column = column;
+    signal_sort_order = sort_order;
+  });
+
+  playlist_.sort(static_cast<int>(Playlist::Column::Title), Qt::AscendingOrder);
+  ASSERT_TRUE(IsSorted());
+  ASSERT_EQ(Playlist::Column::Title, SortColumn());
+  ASSERT_EQ(Qt::AscendingOrder, SortOrder());
+  ASSERT_EQ(u"A"_s, playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Title))));
+  ASSERT_EQ(u"B"_s, playlist_.data(playlist_.index(1, static_cast<int>(Playlist::Column::Title))));
+
+  // Undo: back to unsorted, with the pre-sort B, A order restored.
+  playlist_.undo_stack()->undo();
+
+  EXPECT_TRUE(signal_emitted);
+  EXPECT_FALSE(signal_is_sorted);
+  EXPECT_FALSE(IsSorted());
+  EXPECT_EQ(u"B"_s, playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(u"A"_s, playlist_.data(playlist_.index(1, static_cast<int>(Playlist::Column::Title))));
+
+  // Redo: sorted state (and order) comes back too, not just the item order.
+  signal_emitted = false;
+  playlist_.undo_stack()->redo();
+
+  EXPECT_TRUE(signal_emitted);
+  EXPECT_TRUE(signal_is_sorted);
+  EXPECT_EQ(Playlist::Column::Title, signal_column);
+  EXPECT_EQ(Qt::AscendingOrder, signal_sort_order);
+  EXPECT_TRUE(IsSorted());
+  EXPECT_EQ(Playlist::Column::Title, SortColumn());
+  EXPECT_EQ(Qt::AscendingOrder, SortOrder());
+  EXPECT_EQ(u"A"_s, playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(u"B"_s, playlist_.data(playlist_.index(1, static_cast<int>(Playlist::Column::Title))));
 
 }
 

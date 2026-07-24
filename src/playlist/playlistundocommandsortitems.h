@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,25 @@
 
 class PlaylistUndoCommandSortItems : public PlaylistUndoCommandReOrderItems {
  public:
-  explicit PlaylistUndoCommandSortItems(Playlist *playlist, const Playlist::Column column, const Qt::SortOrder order, const PlaylistItemPtrList &new_items);
+  explicit PlaylistUndoCommandSortItems(Playlist *playlist,
+                                        const bool old_is_sorted,
+                                        const Playlist::Column old_column,
+                                        const Qt::SortOrder old_sort_order,
+                                        const bool new_is_sorted,
+                                        const Playlist::Column new_column,
+                                        const Qt::SortOrder new_sort_order,
+                                        const PlaylistItemPtrList &new_items);
+
+  void undo() override;
+  void redo() override;
+
+ private:
+  bool old_is_sorted_;
+  Playlist::Column old_column_;
+  Qt::SortOrder old_sort_order_;
+  bool new_is_sorted_;
+  Playlist::Column new_column_;
+  Qt::SortOrder new_sort_order_;
 };
 
 #endif  // PLAYLISTUNDOCOMMANDSORTITEMS_H
