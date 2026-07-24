@@ -84,6 +84,7 @@ class Playlist : public QAbstractListModel {
   friend class PlaylistUndoCommandRemoveItems;
   friend class PlaylistUndoCommandMoveItems;
   friend class PlaylistUndoCommandReOrderItems;
+  friend class PlaylistUndoCommandSortItems;
   friend class PlaylistTest;
 
  public:
@@ -169,7 +170,7 @@ class Playlist : public QAbstractListModel {
   static const int kUndoStackSize;
   static const int kUndoItemLimit;
 
-  static bool CompareItems(const Column column, const Qt::SortOrder order, PlaylistItemPtr a, PlaylistItemPtr b);
+  static bool CompareItems(const Column column, const Qt::SortOrder sort_order, PlaylistItemPtr a, PlaylistItemPtr b);
 
   static QString column_name(const Column column);
   static QString abbreviated_column_name(const Column column);
@@ -283,7 +284,7 @@ class Playlist : public QAbstractListModel {
   Qt::DropActions supportedDropActions() const override;
   QMimeData *mimeData(const QModelIndexList &indexes) const override;
   bool dropMimeData(const QMimeData *data, Qt::DropAction action, const int row, const int column, const QModelIndex &parent_index) override;
-  void sort(const int column_number, const Qt::SortOrder order) override;
+  void sort(const int sort_column_number, const Qt::SortOrder sort_order) override;
   bool removeRows(const int row, const int count, const QModelIndex &parent = QModelIndex()) override;
   bool RemoveItemWithSignal(PlaylistItemPtr item);
 
@@ -342,6 +343,9 @@ class Playlist : public QAbstractListModel {
   // Signals that the underlying list of items was changed, meaning that something was added to it, removed from it or the ordering changed.
   void PlaylistChanged();
   void DynamicModeChanged(bool dynamic);
+
+  // Emitted when undoing or redoing a column sort changes which column (if any) is sorted, so the header's sort indicator can be kept in sync without triggering another sort.
+  void SortStateChanged(const bool is_sorted, const Playlist::Column column, const Qt::SortOrder sort_order);
 
   void Error(QString message);
 
@@ -462,6 +466,7 @@ class Playlist : public QAbstractListModel {
   PlaylistGeneratorPtr dynamic_playlist_;
 
   bool auto_sort_;
+  bool is_sorted_;
   Column sort_column_;
   Qt::SortOrder sort_order_;
 };

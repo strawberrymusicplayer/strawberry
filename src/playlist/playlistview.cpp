@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,6 +58,7 @@
 #include <QScrollBar>
 #include <QtEvents>
 #include <QDrag>
+#include <QSignalBlocker>
 
 #include "includes/qt_blurimage.h"
 #include "core/song.h"
@@ -140,7 +141,9 @@ PlaylistView::PlaylistView(QWidget *parent)
   setHeader(header_);
   header_->setSectionsMovable(true);
   header_->setFirstSectionMovable(true);
-  header_->setSortIndicator(static_cast<int>(Playlist::Column::Title), Qt::AscendingOrder);
+  // Lets clicking a sorted column cycle through to "unsorted" (clearing the indicator) instead of only toggling ascending/descending forever. Playlist::sort() doesn't restore the pre-sort order for this - it just stops tracking the playlist as sorted.
+  header_->setSortIndicatorClearable(true);
+  header_->setSortIndicator(-1, Qt::AscendingOrder);
 
   setStyle(style_);
   setMouseTracking(true);
@@ -286,6 +289,7 @@ void PlaylistView::SetPlaylist(Playlist *playlist) {
     QObject::disconnect(dynamic_controls_, &DynamicPlaylistControls::Expand, playlist_, &Playlist::ExpandDynamicPlaylist);
     QObject::disconnect(dynamic_controls_, &DynamicPlaylistControls::Repopulate, playlist_, &Playlist::RepopulateDynamicPlaylist);
     QObject::disconnect(dynamic_controls_, &DynamicPlaylistControls::TurnOff, playlist_, &Playlist::TurnOffDynamicPlaylist);
+    QObject::disconnect(playlist_, &Playlist::SortStateChanged, this, &PlaylistView::SortStateChanged);
   }
 
   playlist_ = playlist;
@@ -304,6 +308,7 @@ void PlaylistView::SetPlaylist(Playlist *playlist) {
   QObject::connect(dynamic_controls_, &DynamicPlaylistControls::Expand, playlist_, &Playlist::ExpandDynamicPlaylist);
   QObject::connect(dynamic_controls_, &DynamicPlaylistControls::Repopulate, playlist_, &Playlist::RepopulateDynamicPlaylist);
   QObject::connect(dynamic_controls_, &DynamicPlaylistControls::TurnOff, playlist_, &Playlist::TurnOffDynamicPlaylist);
+  QObject::connect(playlist_, &Playlist::SortStateChanged, this, &PlaylistView::SortStateChanged);
 
 }
 
@@ -345,6 +350,15 @@ void PlaylistView::SetHeaderState() {
 
   if (!header_state_loaded_) return;
   header_state_ = header_->SaveState();
+
+}
+
+void PlaylistView::SortStateChanged(const bool is_sorted, const Playlist::Column column, const Qt::SortOrder sort_order) {
+
+  // Undoing or redoing a sort restores the playlist's item order directly (it doesn't go through a header click), so update the header's sort indicator to match without letting it trigger another sort of its own.
+  const QSignalBlocker blocker(header_);
+  header_->setSortIndicator(is_sorted ? static_cast<int>(column) : -1, sort_order);
+  SetHeaderState();
 
 }
 

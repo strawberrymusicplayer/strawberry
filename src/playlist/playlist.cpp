@@ -158,6 +158,7 @@ Playlist::Playlist(const SharedPtr<TaskManager> task_manager,
       scrobbled_(false),
       scrobble_point_(-1),
       auto_sort_(false),
+      is_sorted_(false),
       sort_column_(Column::Title),
       sort_order_(Qt::AscendingOrder) {
 
@@ -1280,7 +1281,7 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
     queue_->InsertFirst(indexes);
   }
 
-  if (auto_sort_ && !is_loading_) {
+  if (auto_sort_ && !is_loading_ && is_sorted_) {
     sort(static_cast<int>(sort_column_), sort_order_);
   }
 
@@ -1455,10 +1456,10 @@ inline bool CompareVal(const T &a, const T &b) {
 
 }  // namespace
 
-bool Playlist::CompareItems(const Column column, const Qt::SortOrder order, PlaylistItemPtr _a, PlaylistItemPtr _b) {
+bool Playlist::CompareItems(const Column column, const Qt::SortOrder sort_order, PlaylistItemPtr _a, PlaylistItemPtr _b) {
 
-  PlaylistItemPtr a = (order == Qt::AscendingOrder) ? _a : _b;
-  PlaylistItemPtr b = (order == Qt::AscendingOrder) ? _b : _a;
+  PlaylistItemPtr a = (sort_order == Qt::AscendingOrder) ? _a : _b;
+  PlaylistItemPtr b = (sort_order == Qt::AscendingOrder) ? _b : _a;
 
   const Song &ma = a->EffectiveMetadata();
   const Song &mb = b->EffectiveMetadata();
@@ -1518,6 +1519,7 @@ bool Playlist::CompareItems(const Column column, const Qt::SortOrder order, Play
   }
 
   return false;
+
 }
 
 QString Playlist::column_name(const Column column) {
@@ -1595,32 +1597,44 @@ QString Playlist::abbreviated_column_name(const Column column) {
 
 }
 
-void Playlist::sort(const int column_number, const Qt::SortOrder order) {
+void Playlist::sort(const int sort_column_number, const Qt::SortOrder sort_order) {
 
-  const Column column = static_cast<Column>(column_number);
+  // Remember the state before this operation, so the undo command can restore it (and the header's sort indicator along with it) on undo/redo.
+  const bool old_is_sorted = is_sorted_;
+  const Column old_column = sort_column_;
+  const Qt::SortOrder old_order = sort_order_;
 
-  sort_column_ = static_cast<Column>(column);
-  sort_order_ = order;
+  is_sorted_ = sort_column_number >= 0;
+
+  // sort_column_number is -1 when the header's sort indicator is cleared (e.g. when resetting columns to their defaults): just stop treating the playlist as sorted, without reordering it.
+  if (!is_sorted_) {
+    if (ignore_sorting_ || !old_is_sorted) return;
+    undo_stack_->push(new PlaylistUndoCommandSortItems(this, old_is_sorted, old_column, old_order, is_sorted_, sort_column_, sort_order_, items_));
+    return;
+  }
+
+  sort_column_ = static_cast<Column>(sort_column_number);
+  sort_order_ = sort_order;
 
   if (ignore_sorting_) return;
 
-  PlaylistItemPtrList new_items(items_);
+  PlaylistItemPtrList new_items = items_;
   PlaylistItemPtrList::iterator begin = new_items.begin();
-
-  if (dynamic_playlist_ && current_item_index_.isValid())
+  if (dynamic_playlist_ && current_item_index_.isValid()) {
     begin += current_item_index_.row() + 1;
+  }
 
-  if (column == Column::Album) {
+  if (sort_column_ == Column::Album) {
     // When sorting by album, also take into account discs and tracks.
-    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column::Track, order, std::placeholders::_1, std::placeholders::_2));
-    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column::Disc, order, std::placeholders::_1, std::placeholders::_2));
-    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column::Album, order, std::placeholders::_1, std::placeholders::_2));
+    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column::Track, sort_order_, std::placeholders::_1, std::placeholders::_2));
+    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column::Disc, sort_order_, std::placeholders::_1, std::placeholders::_2));
+    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column::Album, sort_order_, std::placeholders::_1, std::placeholders::_2));
   }
   else {
-    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, column, order, std::placeholders::_1, std::placeholders::_2));
+    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, sort_column_, sort_order_, std::placeholders::_1, std::placeholders::_2));
   }
 
-  undo_stack_->push(new PlaylistUndoCommandSortItems(this, column, order, new_items));
+  undo_stack_->push(new PlaylistUndoCommandSortItems(this, old_is_sorted, old_column, old_order, is_sorted_, sort_column_, sort_order_, new_items));
 
 }
 
