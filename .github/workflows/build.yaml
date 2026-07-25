@@ -730,6 +730,8 @@ jobs:
     steps:
       - name: Add Packman repository
         run: zypper -n addrepo -f https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/ packman
+      - name: Add AppImage gnutls/glib-networking repository
+        run: zypper -n addrepo -f -p 90 https://download.opensuse.org/repositories/home:/jonaski:/appimage/openSUSE_Tumbleweed/ home-jonaski-appimage
       - name: Refresh repositories
         run: zypper -n --gpg-auto-import-keys ref
       - name: Upgrade packages
