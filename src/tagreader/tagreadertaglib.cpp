@@ -1556,7 +1556,7 @@ TagReaderResult TagReaderTagLib::LoadEmbeddedCover(const QString &filename, QByt
             data = QByteArray(picture->data().data(), picture->data().size());
             return TagReaderResult::ErrorCode::Success;
           }
-          else if (picture->type() == TagLib::FLAC::Picture::Other) {
+          else if (picture->type() == TagLib::FLAC::Picture::Other && data.isEmpty()) {
             data = QByteArray(picture->data().data(), picture->data().size());
           }
         }
@@ -1609,7 +1609,7 @@ TagReaderResult TagReaderTagLib::LoadEmbeddedCover(const QString &filename, QByt
           data = QByteArray(picture->data().data(), picture->data().size());
           return TagReaderResult::ErrorCode::Success;
         }
-        else if (picture->type() == TagLib::FLAC::Picture::Other) {
+        else if (picture->type() == TagLib::FLAC::Picture::Other && data.isEmpty()) {
           data = QByteArray(picture->data().data(), picture->data().size());
         }
       }
