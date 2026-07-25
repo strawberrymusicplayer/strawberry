@@ -2,6 +2,19 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed a possible deadlock during gapless track transition when an error occurs loading the next track (#2251)
+    * Fixed the wrong embedded cover being picked for FLAC/Ogg files with multiple untagged ("Other") pictures (#2250)
+    * Fixed tag edits made in the playlist not being reflected immediately, and restored the previous metadata if saving a tag edit fails (#2239)
+    * Fixed the taskbar/dock icon not matching the running window on some desktops (#2242)
+    * Numerous stability, crash-safety and thread-safety fixes throughout the application
+
+  Enhancements:
+    * Added recursive expansion of nested .m3u/.m3u8 playlist references so they load as a fully expanded, flat playlist (#2185)
+    * Added AppImage packaging
+
 Version 1.2.24 (2026.07.16):
 
   Bugfixes:
