@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.2.25 (2026.07.25):
 
   Bugfixes:
     * Fixed a possible deadlock during gapless track transition when an error occurs loading the next track (#2251)
