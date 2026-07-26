@@ -111,33 +111,33 @@ std::atomic<int> GstEnginePipeline::sId{1};
 QThreadPool *GstEnginePipeline::shared_state_threadpool() {
 
   // C++11 guarantees thread-safe initialization of static local variables
-  static QThreadPool pool;
+  static QThreadPool threadpool;
   static const auto init = []() {
     // Limit the number of threads to prevent resource exhaustion
     // Use 2 threads max since state changes are typically sequential per pipeline
-    pool.setMaxThreadCount(2);
+    threadpool.setMaxThreadCount(2);
     return true;
   }();
 
   Q_UNUSED(init);
 
-  return &pool;
+  return &threadpool;
 
 }
 
 QThreadPool *GstEnginePipeline::shared_pad_send_threadpool() {
 
   // C++11 guarantees thread-safe initialization of static local variables
-  static QThreadPool pool;
+  static QThreadPool threadpool;
   static const auto init = []() {
     // Kept separate from shared_state_threadpool(): a pad send here can block for as long as the current track takes to drain, and must never be able to starve that pool's (normally fast) state-change tasks.
-    pool.setMaxThreadCount(2);
+    threadpool.setMaxThreadCount(2);
     return true;
   }();
 
   Q_UNUSED(init);
 
-  return &pool;
+  return &threadpool;
 
 }
 
