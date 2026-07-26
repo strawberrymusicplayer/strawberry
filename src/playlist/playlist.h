@@ -210,6 +210,8 @@ class Playlist : public QAbstractListModel {
   const PlaylistItemPtr &item_at(const int index) const { return items_[index]; }
   bool has_item_at(const int index) const { return index >= 0 && index < rowCount(); }
 
+  int row_of(const PlaylistItemPtr &item) const { return static_cast<int>(items_.indexOf(item)); }
+
   PlaylistItemPtr current_item() const;
   QUuid current_uuid() const;
 
