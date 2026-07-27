@@ -51,7 +51,7 @@ using namespace Qt::Literals::StringLiterals;
 class PlaylistTest : public ::testing::Test {
  protected:
   // tagreader_client_/tagreader_client_thread_ are declared (and so, per C++ member initialization order, constructed) before playlist_ below: Playlist::tagreader_client_ is a const member set once at construction time, from the SharedPtr this fixture passes in here - so the real TagReaderClient must already exist by then.
-  // PlaylistItem::Reload() (invoked by ItemReload()'s background task, via SongPlaylistItem/CollectionPlaylistItem) takes that same SharedPtr through Playlist rather than reaching for a process-wide singleton, so constructing and tearing this down per test (like tagreader_test.cpp does) is safe - there is no shared global state left for one test's teardown to leave dangling for another.
+  // ReloadItem()'s background task takes that same SharedPtr through Playlist rather than reaching for a process-wide singleton, so constructing and tearing this down per test (like tagreader_test.cpp does) is safe - there is no shared global state left for one test's teardown to leave dangling for another.
   PlaylistTest()
       : tagreader_client_(new TagReaderClient()),
         tagreader_client_thread_(new QThread()),
@@ -85,17 +85,17 @@ class PlaylistTest : public ::testing::Test {
     return PlaylistItemPtr(MakeMockItem(title, artist, album, length));
   }
 
-  // Forwards to the private Playlist::ItemReloadComplete(), to let tests exercise the save-generation staleness check directly instead of via a real asynchronous write-then-reread round trip.
-  void CallItemReloadComplete(const QPersistentModelIndex &idx, const Song &new_metadata, const bool metadata_edit, const PlaylistItemPtr &item, const quint64 save_generation, const Song &fallback_metadata = Song()) {
-    playlist_.ItemReloadComplete(idx, new_metadata, metadata_edit, item, save_generation, fallback_metadata);
+  // Forwards to the private Playlist::ReloadItemComplete(), to let tests exercise the save-generation staleness check directly instead of via a real asynchronous write-then-reread round trip.
+  void CallReloadItemComplete(const QPersistentModelIndex &idx, const PlaylistItemPtr &item, const Song &new_metadata, const bool saved, const quint64 save_generation, const Song &fallback_metadata = Song()) {
+    playlist_.ReloadItemComplete(idx, item, new_metadata, saved, save_generation, fallback_metadata);
   }
 
-  // Forwards to the private Playlist::SongSaveComplete(), to let tests exercise the write-failure path directly instead of via a real asynchronous tag write. On failure this now triggers a real (asynchronous) ItemReload(), so callers must pump the event loop (see WaitForEditingFinished()) for the result to apply.
-  void CallSongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, const PlaylistItemPtr &item, const quint64 save_generation, const Song &pre_edit_metadata) {
-    playlist_.SongSaveComplete(reply, idx, item, save_generation, pre_edit_metadata);
+  // Forwards to the private Playlist::SaveItemComplete(), to let tests exercise the write-failure path directly instead of via a real asynchronous tag write. On failure this now triggers a real (asynchronous) ReloadItem(), so callers must pump the event loop (see WaitForEditingFinished()) for the result to apply.
+  void CallSaveItemComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, const PlaylistItemPtr &item, const quint64 save_generation, const Song &pre_edit_metadata) {
+    playlist_.SaveItemComplete(reply, idx, item, save_generation, pre_edit_metadata);
   }
 
-  // Blocks until Playlist::EditingFinished fires, i.e. until an in-flight ItemReload()'s background reload has completed and ItemReloadComplete() has run.
+  // Blocks until Playlist::EditingFinished fires, i.e. until an in-flight ReloadItem()'s background reload has completed and ReloadItemComplete() has run.
   // Bounded by timeout_ms so a regression that stops EditingFinished from firing (or a reload that never completes) fails the test instead of hanging the whole run indefinitely, which would otherwise take down CI.
   void WaitForEditingFinished(const int timeout_ms = 5000) {
     QEventLoop loop;
@@ -663,12 +663,42 @@ TEST_F(PlaylistTest, StaleReloadCompletionDoesNotClobberNewerEdit) {
   metadata_edit_two.set_artist(u"EditTwoArtist"_s);
 
   // The second (newer) edit's reload completes first.
-  CallItemReloadComplete(idx, metadata_edit_two, true, item, generation_edit_two);
+  CallReloadItemComplete(idx, item, metadata_edit_two, true, generation_edit_two);
   EXPECT_EQ(u"EditTwoArtist"_s, item->OriginalMetadata().artist());
 
   // The first edit's reload, started earlier but slower, completes afterwards. Its captured generation no longer matches the item's current generation, so this stale completion must be discarded rather than clobbering the newer edit.
-  CallItemReloadComplete(idx, metadata_edit_one, true, item, generation_edit_one);
+  CallReloadItemComplete(idx, item, metadata_edit_one, true, generation_edit_one);
   EXPECT_EQ(u"EditTwoArtist"_s, item->OriginalMetadata().artist());
+
+}
+
+TEST_F(PlaylistTest, StalePlainReloadCompletionDoesNotClobberInFlightEdit) {
+
+  Song song;
+  song.Init(u"Title"_s, u"OriginalArtist"_s, u"Album"_s, 123);
+  song.set_url(QUrl::fromLocalFile(u"/tmp/does-not-need-to-exist.mp3"_s));
+
+  PlaylistItemPtr item = std::make_shared<SongPlaylistItem>(song, false);
+  playlist_.InsertItems(PlaylistItemPtrList() << item, -1);
+  const QPersistentModelIndex idx(playlist_.index(0, static_cast<int>(Playlist::Column::Artist)));
+
+  ASSERT_EQ(u"OriginalArtist"_s, item->OriginalMetadata().artist());
+
+  // Simulate a plain reload (e.g. ReloadItems()/RescanSongs()) starting - it snapshots the item's generation at kick-off, exactly as Playlist::ReloadItem() does for a non-save-triggered reload.
+  const quint64 generation_at_reload_start = item->save_generation();
+
+  // Before that reload completes, the user edits the same cell, which bumps the item's save generation, exactly as setData() does.
+  item->BumpSaveGeneration();
+  Song edited_metadata = item->OriginalMetadata();
+  edited_metadata.set_artist(u"EditedArtist"_s);
+  playlist_.UpdateItemMetadata(0, item, edited_metadata, false);
+  ASSERT_EQ(u"EditedArtist"_s, item->OriginalMetadata().artist());
+
+  // The plain reload, started before the edit, now completes with saved=false and its stale, pre-edit generation. It must not clobber the newer edit just because it wasn't itself a save-triggered reload.
+  Song stale_reloaded_metadata = song;
+  stale_reloaded_metadata.set_artist(u"ReloadedOriginalArtist"_s);
+  CallReloadItemComplete(idx, item, stale_reloaded_metadata, false, generation_at_reload_start);
+  EXPECT_EQ(u"EditedArtist"_s, item->OriginalMetadata().artist());
 
 }
 
@@ -696,11 +726,11 @@ TEST_F(PlaylistTest, FailedSaveAndFailedReloadFallsBackToPreEditMetadata) {
   playlist_.UpdateItemMetadata(0, item, edited_metadata, false);
   ASSERT_EQ(u"EditedArtist"_s, item->OriginalMetadata().artist());
 
-  // The write fails, and since the file doesn't exist, the reload SongSaveComplete() triggers to resync with disk will fail too.
+  // The write fails, and since the file doesn't exist, the reload SaveItemComplete() triggers to resync with disk will fail too.
   TagReaderReplyPtr reply(new TagReaderReply(song.url().toLocalFile()));
   reply->set_result(TagReaderResult(TagReaderResult::ErrorCode::FileSaveError));
 
-  CallSongSaveComplete(reply, idx, item, save_generation, pre_edit_metadata);
+  CallSaveItemComplete(reply, idx, item, save_generation, pre_edit_metadata);
   WaitForEditingFinished();
 
   // With no genuine disk state to fall back on, the pre-edit value is the best available: the optimistic edit must not be left displayed (and persisted) despite never having been written to disk.
@@ -747,7 +777,7 @@ TEST_F(PlaylistTest, FailedSaveReloadsActualDiskStateRatherThanStalePreEditChain
   TagReaderReplyPtr reply(new TagReaderReply(resource.fileName()));
   reply->set_result(TagReaderResult(TagReaderResult::ErrorCode::FileSaveError));
 
-  CallSongSaveComplete(reply, idx, item, generation_edit_two, pre_edit_metadata_two);
+  CallSaveItemComplete(reply, idx, item, generation_edit_two, pre_edit_metadata_two);
   WaitForEditingFinished();
 
   // The item must reflect what is genuinely on disk ("RealDiskArtist"), not edit 1's stale, never-confirmed optimistic value ("EditOneArtist") that pre_edit_metadata_two happened to carry.

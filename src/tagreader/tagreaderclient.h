@@ -65,7 +65,7 @@ class TagReaderClient : public QObject {
   [[nodiscard]] TagReaderReplyPtr IsMediaFileAsync(const QString &filename);
 
   TagReaderResult ReadFileBlocking(const QString &filename, Song *song);
-  [[nodiscard]] TagReaderReadFileReplyPtr ReadFileAsync(const QString &filename);
+  [[nodiscard]] TagReaderReadFileReplyPtr ReadFileAsync(const QString &filename, const Song &song = Song());
 
 #ifdef HAVE_STREAMTAGREADER
   TagReaderResult ReadStreamBlocking(const QUrl &url, const QString &filename, const quint64 size, const quint64 mtime, const QString &token_type, const QString &access_token, Song *song);
