@@ -36,6 +36,7 @@ class NetworkRemoteClient : public QObject{
   void Init(QTcpSocket *);
   QTcpSocket *GetSocket();
   void ProcessIncoming();
+  void SendEngineState(EngineBase::State state);
 
  Q_SIGNALS:
   void ReceiveMsg();
