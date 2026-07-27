@@ -24,6 +24,7 @@
 #include <QTcpSocket>
 #include <QList>
 #include "includes/shared_ptr.h"
+#include "engine/enginebase.h"
 
 class Player;
 
@@ -36,6 +37,7 @@ class NetworkRemoteClientManager : public QObject{
   ~NetworkRemoteClientManager();
   void AddClient(QTcpSocket *socket);
   void DisconnectAll();
+  void BroadcastEngineState(EngineBase::State state);
 
  private Q_SLOTS:
   void RemoveClient(const QSharedPointer<NetworkRemoteClient>& client);

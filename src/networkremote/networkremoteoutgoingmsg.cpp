@@ -65,38 +65,53 @@ void NetworkRemoteOutgoingMsg::SendCurrentTrackInfo() {
   SendMsg();
 }
 
-void NetworkRemoteOutgoingMsg::SendMsg() {
-  QProtobufSerializer serializer;
-  QByteArray data = serializer.serialize(&msg_);
-
-  if (serializer.lastError() != QAbstractProtobufSerializer::Error::None) {
-    qLog(Warning) << "Failed to serialize message:" << serializer.lastErrorString();
-    return;
-  }
-
-  // Prepend a 4-byte big-endian length header so the receiver can frame messages correctly.
-  QByteArray framed_data;
-  QDataStream len_stream(&framed_data, QIODevice::WriteOnly);
-  len_stream.setByteOrder(QDataStream::BigEndian);
-  len_stream << static_cast<quint32>(data.size());
-  framed_data.append(data);
-  bytes_out_ = framed_data.size();
-  if (socket_ && socket_->isWritable()) {
-    socket_->write(framed_data);
-    qLog(Debug) << bytes_out_ << "bytes written to socket" << socket_->socketDescriptor();
-  }
-  else {
-    qLog(Warning) << "Socket is not writable.";
-  }
-}
-
 nw::remote::PlayerStateGadget::PlayerState NetworkRemoteOutgoingMsg::MapEngineState(EngineBase::State state) {
-    switch (state) {
+  switch (state) {
     case EngineBase::State::Empty:   return nw::remote::PlayerStateGadget::PlayerState::PLAYER_STATUS_EMPTY;
     case EngineBase::State::Idle:    return nw::remote::PlayerStateGadget::PlayerState::PLAYER_STATUS_IDLE;
     case EngineBase::State::Playing: return nw::remote::PlayerStateGadget::PlayerState::PLAYER_STATUS_PLAYING;
     case EngineBase::State::Paused:  return nw::remote::PlayerStateGadget::PlayerState::PLAYER_STATUS_PAUSED;
     case EngineBase::State::Error:   return nw::remote::PlayerStateGadget::PlayerState::PLAYER_STATUS_ERROR;
+  }
+  return nw::remote::PlayerStateGadget::PlayerState::PLAYER_STATUS_UNSPECIFIED;
+}
+
+void NetworkRemoteOutgoingMsg::SendEngineState(EngineBase::State state) {
+  msg_ =  nw::remote::Message();
+  nw::remote::EngineStateChange state_change;
+  switch (state) {
+    case EngineBase::State::Playing: state_change.setState(nw::remote::EngineStateGadget::EngineState::ENGINE_STATE_PLAYING); break;
+    case EngineBase::State::Paused:  state_change.setState(nw::remote::EngineStateGadget::EngineState::ENGINE_STATE_PAUSED);  break;
+    case EngineBase::State::Idle:    state_change.setState(nw::remote::EngineStateGadget::EngineState::ENGINE_STATE_IDLE);    break;
+    default:                         state_change.setState(nw::remote::EngineStateGadget::EngineState::ENGINE_STATE_EMPTY);   break;
+  }
+  msg_.setType(nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_ENGINE_STATE_CHANGE);
+  msg_.setEngineStateChange(state_change);
+
+  SendMsg();
+}
+
+void NetworkRemoteOutgoingMsg::SendMsg() {
+    QProtobufSerializer serializer;
+    QByteArray data = serializer.serialize(&msg_);
+
+    if (serializer.lastError() != QAbstractProtobufSerializer::Error::None) {
+        qLog(Warning) << "Failed to serialize message:" << serializer.lastErrorString();
+        return;
     }
-    return nw::remote::PlayerStateGadget::PlayerState::PLAYER_STATUS_UNSPECIFIED;
+
+    // Prepend a 4-byte big-endian length header so the receiver can frame messages correctly.
+    QByteArray framed_data;
+    QDataStream len_stream(&framed_data, QIODevice::WriteOnly);
+    len_stream.setByteOrder(QDataStream::BigEndian);
+    len_stream << static_cast<quint32>(data.size());
+    framed_data.append(data);
+    bytes_out_ = framed_data.size();
+    if (socket_ && socket_->isWritable()) {
+        socket_->write(framed_data);
+        qLog(Debug) << bytes_out_ << "bytes written to socket" << socket_->socketDescriptor();
+    }
+    else {
+        qLog(Warning) << "Socket is not writable.";
+    }
 }

@@ -80,3 +80,7 @@ void NetworkRemoteClient::ProcessIncoming() {
       break;
     }
 }
+
+void NetworkRemoteClient::SendEngineState(EngineBase::State state) {
+    outgoing_msg_->SendEngineState(state);
+}
