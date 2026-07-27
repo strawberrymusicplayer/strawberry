@@ -113,8 +113,8 @@ udp
 volume
 vorbis
 wavenc
-wavpack
 wavparse
+wavpack
 xingmux
 "
 
@@ -133,6 +133,13 @@ for gst_plugin in $gst_plugins; do
   fi
   cp -v -f "${GST_PLUGIN_PATH}/${gst_plugin_filename}" "${bundledir}/Contents/PlugIns/gstreamer/" || exit 1
   install_name_tool -id "@rpath/${gst_plugin_filename}" "${bundledir}/Contents/PlugIns/gstreamer/${gst_plugin_filename}"
+  # Replace build-machine rpaths with the bundle frameworks directory.
+  # Plugins that load libraries at runtime by soname (soup, adaptivedemux2) resolve the dlopen through the plugin's rpaths, so a leftover rpath pointing into the build environment (e.g. homebrew) makes them load a library linked against a second copy of glib, which breaks them.
+  gst_plugin_rpaths=$(otool -l "${bundledir}/Contents/PlugIns/gstreamer/${gst_plugin_filename}" | grep -A2 LC_RPATH | grep ' path ' | awk '{print $2}')
+  for gst_plugin_rpath in ${gst_plugin_rpaths}; do
+    install_name_tool -delete_rpath "${gst_plugin_rpath}" "${bundledir}/Contents/PlugIns/gstreamer/${gst_plugin_filename}"
+  done
+  install_name_tool -add_rpath "@loader_path/../../Frameworks" "${bundledir}/Contents/PlugIns/gstreamer/${gst_plugin_filename}"
 done
 if [ "${missing_plugins}" = "1" ]; then
   exit 1
