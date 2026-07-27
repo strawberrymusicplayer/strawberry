@@ -21,12 +21,17 @@
 #include "networkremoteclient.h"
 #include "core/application.h"
 #include "core/logging.h"
+#include "core/player.h"
 
 
 NetworkRemoteClientManager::NetworkRemoteClientManager(const SharedPtr<Player> player, QObject *parent)
     : QObject(parent),
       player_(player),
-      clients_() {}
+      clients_() {
+    QObject::connect(&*player_, &Player::Playing, this, [this]() { BroadcastEngineState(EngineBase::State::Playing); });
+    QObject::connect(&*player_, &Player::Paused,  this, [this]() { BroadcastEngineState(EngineBase::State::Paused); });
+    QObject::connect(&*player_, &Player::Stopped, this, [this]() { BroadcastEngineState(EngineBase::State::Idle); });
+}
 
 NetworkRemoteClientManager::~NetworkRemoteClientManager() {}
 
@@ -104,6 +109,13 @@ void NetworkRemoteClientManager::StateChanged() {
     if (client_to_remove) {
       RemoveClient(client_to_remove);
     }
+  }
+}
+
+void NetworkRemoteClientManager::BroadcastEngineState(EngineBase::State state) {
+  qLog(Debug) << "Broadcasting engine state to" << clients_.count() << "clients";
+  for (const QSharedPointer<NetworkRemoteClient> &client : std::as_const(clients_)) {
+    client->SendEngineState(state);
   }
 }
 
