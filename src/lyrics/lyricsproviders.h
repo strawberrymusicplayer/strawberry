@@ -31,9 +31,6 @@
 #include <QHash>
 #include <QString>
 
-#include "includes/shared_ptr.h"
-
-class NetworkAccessManager;
 class LyricsProvider;
 
 class LyricsProviders : public QObject {
@@ -42,8 +39,6 @@ class LyricsProviders : public QObject {
  public:
   explicit LyricsProviders(QObject *parent = nullptr);
   ~LyricsProviders() override;
-
-  SharedPtr<NetworkAccessManager> network() const { return network_; }
 
   void ReloadSettings();
   LyricsProvider *ProviderByName(const QString &name) const;
@@ -59,8 +54,6 @@ class LyricsProviders : public QObject {
 
  private:
   static int NextOrderId;
-
-  const SharedPtr<NetworkAccessManager> network_;
 
   QHash<LyricsProvider*, QString> lyrics_providers_;
   QMutex mutex_;

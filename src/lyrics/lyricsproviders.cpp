@@ -20,7 +20,6 @@
 #include "config.h"
 
 #include <utility>
-#include <memory>
 
 #include <QMutex>
 #include <QList>
@@ -31,7 +30,6 @@
 
 #include "core/logging.h"
 #include "core/settings.h"
-#include "core/networkaccessmanager.h"
 
 #include "lyricsprovider.h"
 #include "lyricsproviders.h"
@@ -40,9 +38,7 @@
 
 int LyricsProviders::NextOrderId = 0;
 
-using std::make_shared;
-
-LyricsProviders::LyricsProviders(QObject *parent) : QObject(parent), network_(make_shared<NetworkAccessManager>()), next_id_(0) {
+LyricsProviders::LyricsProviders(QObject *parent) : QObject(parent), next_id_(0) {
 
   setObjectName(QLatin1String(QObject::metaObject()->className()));
 

@@ -173,14 +173,14 @@ class ApplicationImpl {
         lyrics_providers_([app]() {
           LyricsProviders *lyrics_providers = new LyricsProviders(app);
           // Initialize the repository of lyrics providers.
-          lyrics_providers->AddProvider(new GeniusLyricsProvider(lyrics_providers->network()));
-          lyrics_providers->AddProvider(new OVHLyricsProvider(lyrics_providers->network()));
-          lyrics_providers->AddProvider(new MusixmatchLyricsProvider(lyrics_providers->network()));
-          lyrics_providers->AddProvider(new SongLyricsComLyricsProvider(lyrics_providers->network()));
-          lyrics_providers->AddProvider(new AzLyricsComLyricsProvider(lyrics_providers->network()));
-          lyrics_providers->AddProvider(new ElyricsNetLyricsProvider(lyrics_providers->network()));
-          lyrics_providers->AddProvider(new LetrasLyricsProvider(lyrics_providers->network()));
-          lyrics_providers->AddProvider(new LrcLibLyricsProvider(lyrics_providers->network()));
+          lyrics_providers->AddProvider(new GeniusLyricsProvider(app->network()));
+          lyrics_providers->AddProvider(new OVHLyricsProvider(app->network()));
+          lyrics_providers->AddProvider(new MusixmatchLyricsProvider(app->network()));
+          lyrics_providers->AddProvider(new SongLyricsComLyricsProvider(app->network()));
+          lyrics_providers->AddProvider(new AzLyricsComLyricsProvider(app->network()));
+          lyrics_providers->AddProvider(new ElyricsNetLyricsProvider(app->network()));
+          lyrics_providers->AddProvider(new LetrasLyricsProvider(app->network()));
+          lyrics_providers->AddProvider(new LrcLibLyricsProvider(app->network()));
           lyrics_providers->ReloadSettings();
           return lyrics_providers;
         }),
