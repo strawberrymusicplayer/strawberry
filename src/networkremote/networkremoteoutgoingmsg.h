@@ -37,6 +37,7 @@ class NetworkRemoteOutgoingMsg : public QObject{
   explicit NetworkRemoteOutgoingMsg(const SharedPtr<Player> player, QObject *parent = nullptr);
   void Init(QTcpSocket *);
   void SendCurrentTrackInfo();
+  void SendEngineState(EngineBase::State state);
   void SendMsg();
 
  private:
@@ -50,7 +51,6 @@ class NetworkRemoteOutgoingMsg : public QObject{
   nw::remote::Message msg_;
   nw::remote::SongMetadata song_;
   nw::remote::ResponseSongMetadata response_song_;
-
 };
 
 #endif
