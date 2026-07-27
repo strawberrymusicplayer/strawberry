@@ -23,6 +23,7 @@
 #include <QString>
 
 #include "includes/shared_ptr.h"
+#include "core/song.h"
 #include "tagreaderrequest.h"
 
 using std::make_shared;
@@ -31,6 +32,8 @@ class TagReaderReadFileRequest : public TagReaderRequest {
  public:
   explicit TagReaderReadFileRequest(const QString &_filename);
   static SharedPtr<TagReaderReadFileRequest> Create(const QString &filename) { return make_shared<TagReaderReadFileRequest>(filename); }
+
+  Song song;
 };
 
 using TagReaderReadFileRequestPtr = SharedPtr<TagReaderReadFileRequest>;

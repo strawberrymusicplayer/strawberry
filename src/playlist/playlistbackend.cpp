@@ -47,6 +47,7 @@
 #include "core/sqlquery.h"
 #include "core/sqlrow.h"
 #include "collection/collectionbackend.h"
+#include "tagreader/tagreaderclient.h"
 #include "playlistitem.h"
 #include "songplaylistitem.h"
 #include "playlistbackend.h"
@@ -281,6 +282,22 @@ Song PlaylistBackend::NewSongFromQuery(const SqlRow &row, SharedPtr<NewSongFromQ
 
 }
 
+Song PlaylistBackend::ReloadPlaylistItem(PlaylistItemPtr item) const {
+
+  const Song original_song = item->OriginalMetadata();
+  if (!original_song.url().isLocalFile()) return Song();
+
+  Song result = original_song;
+  const TagReaderResult tag_result = tagreader_client_->ReadFileBlocking(result.url().toLocalFile(), &result);
+  if (!tag_result.success()) {
+    qLog(Error) << "Could not reload file" << result.url() << tag_result.error_string();
+    return Song();
+  }
+
+  return result;
+
+}
+
 // If song had a CUE and the CUE still exists, the metadata from it will be applied here.
 
 PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, SharedPtr<NewSongFromQueryState> state) {
@@ -290,14 +307,14 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, SharedPtr<
 
   CueParser cue_parser(tagreader_client_, collection_backend_);
 
-  Song song = item->EffectiveMetadata();
+  const Song song = item->EffectiveMetadata();
   // We're only interested in .cue songs here
   if (!song.has_cue()) return item;
 
   QString cue_path = song.cue_path();
   // If .cue was deleted - reload the song
   if (!QFile::exists(cue_path)) {
-    const Song reloaded_song = item->Reload(tagreader_client_);
+    const Song reloaded_song = ReloadPlaylistItem(item);
     if (reloaded_song.is_valid()) {
       item->SetOriginalMetadata(reloaded_song);
     }
@@ -329,7 +346,7 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, SharedPtr<
   }
 
   // There's no such section in the related .cue -> reload the song
-  const Song reloaded_song = item->Reload(tagreader_client_);
+  const Song reloaded_song = ReloadPlaylistItem(item);
   if (reloaded_song.is_valid()) {
     item->SetOriginalMetadata(reloaded_song);
   }

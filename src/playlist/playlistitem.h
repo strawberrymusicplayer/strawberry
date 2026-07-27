@@ -24,9 +24,6 @@
 
 #include "config.h"
 
-#include <memory>
-
-#include <QFuture>
 #include <QMetaType>
 #include <QList>
 #include <QMap>
@@ -45,11 +42,8 @@ class QAction;
 
 class SqlQuery;
 class SqlRow;
-class TagReaderClient;
 
-using std::enable_shared_from_this;
-
-class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
+class PlaylistItem {
  public:
   explicit PlaylistItem(const Song::Source source, const QUuid &uuid = QUuid(), const bool signal = false);
   virtual ~PlaylistItem();
@@ -97,8 +91,6 @@ class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
 
   virtual bool InitFromQuery(const SqlRow &query) = 0;
   void BindToQuery(SqlQuery *query) const;
-  virtual Song Reload(const SharedPtr<TagReaderClient> tagreader_client) { Q_UNUSED(tagreader_client); return Song(); }
-  QFuture<Song> BackgroundReload(const SharedPtr<TagReaderClient> tagreader_client);
 
   // Identifies the most recent edit made to this item through the playlist (e.g. inline tag editing).
   // A caller starting an asynchronous write/reload round trip should capture the value returned by BumpSaveGeneration() and compare it against save_generation() once the round trip completes: a mismatch means a newer edit has since superseded it, so the (now stale) result must not be applied.

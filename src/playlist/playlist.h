@@ -287,8 +287,8 @@ class Playlist : public QAbstractListModel {
 
   static Columns ChangedColumns(const Song &metadata1, const Song &metadata2);
   static bool MinorMetadataChange(const Song &old_metadata, const Song &new_metadata);
-  void UpdateItemMetadata(PlaylistItemPtr item, const Song &new_metadata, const bool stream_metadata_update);
-  void UpdateItemMetadata(const int row, PlaylistItemPtr item, const Song &new_metadata, const bool stream_metadata_update);
+  bool UpdateItemMetadata(PlaylistItemPtr item, const Song &new_metadata, const bool stream_metadata_update);
+  bool UpdateItemMetadata(const int row, PlaylistItemPtr item, const Song &new_metadata, const bool stream_metadata_update);
   void RowDataChanged(const int row, const Columns &columns);
 
   // Changes rating of a song to the given value asynchronously
@@ -297,7 +297,7 @@ class Playlist : public QAbstractListModel {
 
   void set_auto_sort(const bool auto_sort) { auto_sort_ = auto_sort; }
 
-  void ItemReload(const QPersistentModelIndex &idx, const bool metadata_edit);
+  void ReloadItem(const QPersistentModelIndex &idx, PlaylistItemPtr item, const bool saved = false, const quint64 save_generation = -1, const Song &fallback_metadata = Song());
 
  public Q_SLOTS:
   void set_current_row(const int i, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll::Maybe, const bool is_stopping = false, const bool force_inform = false);
@@ -382,14 +382,15 @@ class Playlist : public QAbstractListModel {
 
   void ClearCollectionItems();
 
+  void SaveItem(const QModelIndex &idx, PlaylistItemPtr item, const Song &song, const Song &pre_edit_metadata);
+
  private Q_SLOTS:
   void TracksAboutToBeDequeued(const QModelIndex &idx, const int begin, const int end);
   void TracksDequeued();
   void TracksEnqueued(const QModelIndex &parent_idx, const int begin, const int end);
   void QueueLayoutChanged();
-  void SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, const PlaylistItemPtr &item, const quint64 save_generation, const Song &pre_edit_metadata);
-  void ItemReload(const QPersistentModelIndex &idx, const bool metadata_edit, const PlaylistItemPtr &item, const quint64 save_generation, const Song &fallback_metadata);
-  void ItemReloadComplete(const QPersistentModelIndex &idx, const Song &new_metadata, const bool metadata_edit, const PlaylistItemPtr &item, const quint64 save_generation, const Song &fallback_metadata);
+  void SaveItemComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, PlaylistItemPtr item, const quint64 save_generation, const Song &pre_edit_metadata);
+  void ReloadItemComplete(const QPersistentModelIndex &idx, PlaylistItemPtr item, const Song &new_metadata, const bool saved, const quint64 save_generation, const Song &fallback_metadata);
   void ItemsLoaded();
   void ScheduleSave();
   void ForceScheduleSave();

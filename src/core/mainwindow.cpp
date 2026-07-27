@@ -1562,7 +1562,7 @@ void MainWindow::MediaPlaying() {
   bool enable_play_pause(false);
   bool can_seek(false);
 
-  PlaylistItemPtr item(app_->player()->GetCurrentItem());
+  PlaylistItemPtr item = app_->player()->GetCurrentItem();
   if (item) {
     enable_play_pause = !(item->options() & PlaylistItem::Option::PauseDisabled);
     can_seek = !(item->options() & PlaylistItem::Option::SeekDisabled);
@@ -1863,7 +1863,7 @@ void MainWindow::Seeked(const qint64 microseconds) {
 
 void MainWindow::UpdateTrackPosition() {
 
-  PlaylistItemPtr item(app_->player()->GetCurrentItem());
+  PlaylistItemPtr item = app_->player()->GetCurrentItem();
   if (!item) return;
 
   const qint64 length = (item->EffectiveMetadata().length_nanosec() / kNsecPerSec);
@@ -2282,14 +2282,14 @@ void MainWindow::RescanSongs() {
   for (const QModelIndex &proxy_index : proxy_indexes) {
     const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
     if (!source_index.isValid()) continue;
-    PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(source_index.row()));
+    PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (!item) continue;
     if (item->IsLocalCollectionItem()) {
       songs << item->EffectiveMetadata();
     }
     else if (item->EffectiveMetadata().source() == Song::Source::LocalFile) {
       QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
-      app_->playlist_manager()->current()->ItemReload(persistent_index, false);
+      app_->playlist_manager()->current()->ReloadItem(persistent_index, item);
     }
   }
 
@@ -2308,7 +2308,7 @@ void MainWindow::EditTracks() {
   for (const QModelIndex &proxy_index : proxy_indexes) {
     const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
     if (!source_index.isValid()) continue;
-    PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(source_index.row()));
+    PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (!item) continue;
     Song song = item->OriginalMetadata();
     if (song.IsEditable()) {
@@ -2795,7 +2795,7 @@ void MainWindow::AddFilesToTranscoder() {
   for (const QModelIndex &proxy_index : proxy_indexes) {
     const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
     if (!source_index.isValid()) continue;
-    PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(source_index.row()));
+    PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (!item) continue;
     Song song = item->OriginalMetadata();
     if (!song.is_valid() || !song.url().isLocalFile()) continue;
@@ -3537,7 +3537,7 @@ void MainWindow::FetchStreamingMetadata() {
   for (const QModelIndex &proxy_index : proxy_indexes) {
     const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
     if (!source_index.isValid()) continue;
-    PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(source_index.row()));
+    PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (!item) continue;
 
     const Song &song = item->EffectiveMetadata();
@@ -3618,8 +3618,7 @@ void MainWindow::ProcessMetadataQueue() {
             if (fetched_song.year() > 0) updated_song.set_year(fetched_song.year());
             if (fetched_song.length_nanosec() > 0) updated_song.set_length_nanosec(fetched_song.length_nanosec());
             if (fetched_song.art_automatic().isValid()) updated_song.set_art_automatic(fetched_song.art_automatic());
-            playlist_item->SetOriginalMetadata(updated_song);
-            app_->playlist_manager()->current()->ItemReload(metadata_queue_entry.persistent_index, false);
+            app_->playlist_manager()->current()->UpdateItemMetadata(metadata_queue_entry.persistent_index.row(), playlist_item, updated_song, false);
           }
         }
         request->deleteLater();
@@ -3668,8 +3667,7 @@ void MainWindow::ProcessMetadataQueue() {
             if (fetched_song.year() > 0) updated_song.set_year(fetched_song.year());
             if (fetched_song.length_nanosec() > 0) updated_song.set_length_nanosec(fetched_song.length_nanosec());
             if (fetched_song.art_automatic().isValid()) updated_song.set_art_automatic(fetched_song.art_automatic());
-            playlist_item->SetOriginalMetadata(updated_song);
-            app_->playlist_manager()->current()->ItemReload(metadata_queue_entry.persistent_index, false);
+            app_->playlist_manager()->current()->UpdateItemMetadata(metadata_queue_entry.persistent_index.row(), playlist_item, updated_song, false);
           }
         }
         request->deleteLater();

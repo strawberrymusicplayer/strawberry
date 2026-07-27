@@ -24,10 +24,8 @@
 #include <QUuid>
 #include <QUrl>
 
-#include "core/logging.h"
 #include "core/song.h"
 #include "core/sqlrow.h"
-#include "tagreader/tagreaderclient.h"
 #include "playlistitem.h"
 #include "songplaylistitem.h"
 
@@ -37,22 +35,6 @@ SongPlaylistItem::SongPlaylistItem(const Song &song, const bool signal) : Playli
 bool SongPlaylistItem::InitFromQuery(const SqlRow &query) {
   song_.InitFromQuery(query, false, static_cast<int>(Song::kRowIdColumns.count()));
   return true;
-}
-
-Song SongPlaylistItem::Reload(const SharedPtr<TagReaderClient> tagreader_client) {
-
-  if (!song_.url().isLocalFile()) return Song();
-  if (!tagreader_client) return Song();
-
-  Song result = song_;
-  const TagReaderResult tag_result = tagreader_client->ReadFileBlocking(result.url().toLocalFile(), &result);
-  if (!tag_result.success()) {
-    qLog(Error) << "Could not reload file" << result.url() << tag_result.error_string();
-    return Song();
-  }
-
-  return result;
-
 }
 
 void SongPlaylistItem::SetArtManual(const QUrl &cover_url) {
