@@ -26,7 +26,6 @@
 
 #include <cstdlib>
 #include <ctime>
-#include <memory>
 
 #ifdef Q_OS_UNIX
 #  include <unistd.h>
@@ -43,6 +42,9 @@
 #endif  // Q_OS_WIN32
 
 #include <glib.h>
+
+#include <utility>
+#include <memory>
 
 #include <QObject>
 #include <QApplication>
@@ -132,6 +134,8 @@
 #include "engine/gststartup.h"
 
 using namespace Qt::Literals::StringLiterals;
+using std::as_const;
+using std::make_unique;
 using std::make_shared;
 
 int main(int argc, char *argv[]) {
@@ -328,23 +332,36 @@ int main(int argc, char *argv[]) {
     languages << QLocale::system().name();
   }
 
-  ScopedPtr<Translations> translations = std::make_unique<Translations>();
+  ScopedPtr<Translations> translations = make_unique<Translations>();
 
-  for (const QString &language : std::as_const(languages)) {
-    if (translations->LoadTranslation(u"qt"_s, QLibraryInfo::path(QLibraryInfo::TranslationsPath), language)) {
+#  if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+  QStringList qt_translation_paths = QLibraryInfo::paths(QLibraryInfo::TranslationsPath);
+#  else
+  QStringList qt_translation_paths = QStringList() << QLibraryInfo::path(QLibraryInfo::TranslationsPath);
+#  endif
+  qt_translation_paths.removeDuplicates();
+  for (const QString &language : as_const(languages)) {
+    bool translation_loaded = false;
+    for (const QString &translation_path : as_const(qt_translation_paths)) {
+      if (translations->LoadTranslation(u"qt"_s, translation_path, language)) {
+        translation_loaded = true;
+        break;
+      }
+    }
+    if (translation_loaded) {
       break;
     }
   }
 
-  static const QStringList language_paths = QStringList() << u":/i18n"_s
-                                                          << QStringLiteral(TRANSLATIONS_DIR)
-                                                          << QCoreApplication::applicationDirPath()
-                                                          << QDir::currentPath();
-
-  for (const QString &language : std::as_const(languages)) {
+  QStringList translation_paths = QStringList() << u":/i18n"_s
+                                                << QStringLiteral(TRANSLATIONS_DIR)
+                                                << QCoreApplication::applicationDirPath()
+                                                << QDir::currentPath();
+  translation_paths.removeDuplicates();
+  for (const QString &language : as_const(languages)) {
     bool language_loaded = false;
-    for (const QString &language_path : language_paths) {
-      if (translations->LoadTranslation(u"strawberry"_s, language_path, language)) {
+    for (const QString &translation_path : as_const(translation_paths)) {
+      if (translations->LoadTranslation(u"strawberry"_s, translation_path, language)) {
         language_loaded = true;
         break;
       }
@@ -355,7 +372,7 @@ int main(int argc, char *argv[]) {
   }
 
 #  ifdef HAVE_QTSPARKLE
-  for (const QString &language : std::as_const(languages)) {
+  for (const QString &language : as_const(languages)) {
     if (qtsparkle::LoadTranslations(language)) {
       break;
     }
