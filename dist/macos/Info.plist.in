@@ -35,7 +35,7 @@
   <key>LSMinimumSystemVersion</key>
   <string>@LSMinimumSystemVersion@</string>
   <key>SUFeedURL</key>
-  <string>https://www.strawberrymusicplayer.org/sparkle-macos-@ARCH@</string>
+  <string>https://www.strawberrymusicplayer.org/sparkle-macos-@TARGET_ARCH@</string>
   <key>SUPublicEDKey</key>
   <string>/OydhYVfypuO2Mf7G6DUqVZWW9G19eFV74qaDCBTOUk=</string>
   <key>CFBundleURLTypes</key>

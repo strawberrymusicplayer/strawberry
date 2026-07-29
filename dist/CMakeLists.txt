@@ -1,3 +1,26 @@
+if(NOT DEFINED TARGET_ARCH)
+  if(WIN32 AND CMAKE_CROSSCOMPILING)
+    # Cross-compiling with MinGW: CMAKE_SYSTEM_PROCESSOR reflects the build host, not the target, so pull the architecture out of the target compiler's triple prefix instead (e.g. "x86_64-w64-mingw32.shared-gcc" -> "x86_64").
+    get_filename_component(compiler_filename "${CMAKE_C_COMPILER}" NAME)
+    string(REGEX MATCH "^([A-Za-z0-9_]+)-w64-mingw32" _ "${compiler_filename}")
+    set(target_processor "${CMAKE_MATCH_1}")
+  else()
+    set(target_processor "${CMAKE_SYSTEM_PROCESSOR}")
+  endif()
+
+  # Normalize to the spellings strawberry.nsi.in and Info.plist.in expect: native Windows/macOS report things like "AMD64" or "ARM64".
+  string(TOLOWER "${target_processor}" target_processor_lower)
+  if(target_processor_lower MATCHES "^(x86_64|amd64|x64)$")
+    set(TARGET_ARCH "x86_64")
+  elseif(target_processor_lower MATCHES "^(aarch64|arm64)$")
+    set(TARGET_ARCH "arm64")
+  elseif(target_processor_lower MATCHES "^(i[3-6]86|x86)$")
+    set(TARGET_ARCH "i686")
+  else()
+    set(TARGET_ARCH "${target_processor}")
+  endif()
+endif()
+
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/scripts/maketarball.sh.in ${CMAKE_CURRENT_SOURCE_DIR}/scripts/maketarball.sh @ONLY)
 if(RPM_DISTRO AND RPM_DATE)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/unix/strawberry.spec.in ${CMAKE_BINARY_DIR}/strawberry.spec @ONLY)

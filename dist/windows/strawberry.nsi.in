@@ -9,26 +9,14 @@
 !endif
 
 
-!if "@ARCH@" == "x86"
-  !define arch_x86
-!else if "@ARCH@" == "i686"
-  !define arch_x86
-!else if "@ARCH@" == "i686-w64-mingw32.shared"
-  !define arch_x86
-!else if "@ARCH@" == "x64"
+!if "@TARGET_ARCH@" == "x86_64"
   !define arch_x64
-!else if "@ARCH@" == "x86_64"
-  !define arch_x64
-!else if "@ARCH@" == "x86_64-w64-mingw32.shared"
-  !define arch_x64
-!else if "@ARCH@" == "arm64"
+!else if "@TARGET_ARCH@" == "arm64"
   !define arch_arm64
+!else if "@TARGET_ARCH@" == ""
+  !error "Missing TARGET_ARCH"
 !else
-  !error "Missing ARCH"
-!endif
-
-!ifdef arch_x86
-  !define arch "x86"
+  !error "Unsupported TARGET_ARCH: @TARGET_ARCH@"
 !endif
 
 !ifdef arch_x64
