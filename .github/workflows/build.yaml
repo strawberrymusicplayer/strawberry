@@ -1239,8 +1239,8 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory build
 
-      - name: Link MXE directory
-        run: ln -s /strawberry-mxe ~/mxe-shared
+      - name: Add MXE directory to PATH
+        run: echo "/strawberry-mxe/usr/bin" >> $GITHUB_PATH
 
       - name: Run CMake
         env:
@@ -1249,8 +1249,15 @@ jobs:
           cmake
           -S .
           -B build
-          -DCMAKE_TOOLCHAIN_FILE="../cmake/Toolchain-${{matrix.arch}}-w64-mingw32-shared.cmake"
+          -DCMAKE_SYSTEM_NAME="Windows"
           -DCMAKE_BUILD_TYPE="${{env.cmake_buildtype}}"
+          -DCMAKE_FIND_ROOT_PATH=/strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared
+          -DCMAKE_C_COMPILER="${{matrix.arch}}-w64-mingw32.shared-gcc"
+          -DCMAKE_CXX_COMPILER="${{matrix.arch}}-w64-mingw32.shared-g++"
+          -DCMAKE_RC_COMPILER="${{matrix.arch}}-w64-mingw32.shared-windres"
+          -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY
+          -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY
+          -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER
           -DCMAKE_PREFIX_PATH="/strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/qt6"
           -DBUILD_WERROR=ON
           -DARCH="${{matrix.arch}}"
