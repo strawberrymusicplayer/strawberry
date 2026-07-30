@@ -20,6 +20,7 @@
 #include "core/logging.h"
 #include "networkremoteclient.h"
 #include "core/player.h"
+#include "constants/networkremoteconstants.h"
 
 NetworkRemoteClient::NetworkRemoteClient(const SharedPtr<Player> player, QObject *parent)
     : QObject(parent),
@@ -47,40 +48,73 @@ QTcpSocket *NetworkRemoteClient::GetSocket() {
 }
 
 void NetworkRemoteClient::ProcessIncoming() {
-  switch (incoming_msg_->GetMsgType()) {
+    const quint32 client_version = incoming_msg_->GetMsgVersion();
+    if (client_version < NetworkRemoteConstants::kMinSupportedVersion) {
+        qLog(Warning) << "Rejecting client with protocol version" << client_version
+                      << "- minimum supported is" << NetworkRemoteConstants::kMinSupportedVersion;
+        outgoing_msg_->SendDisconnect(nw::remote::ReasonDisconnectGadget::ReasonDisconnect::REASON_DISCONNECT_VERSION_MISMATCH);
+        Q_EMIT ClientIsLeaving();
+        return;   // don't process the message
+    }
+
+    const nw::remote::MsgTypeGadget::MsgType msg_type = incoming_msg_->GetMsgType();
+
+    if (!handshake_complete_) {
+        if (msg_type != nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_CONNECT) {
+            qLog(Warning) << "Client sent message type" << static_cast<int>(msg_type) << "before handshake - disconnecting";
+            outgoing_msg_->SendDisconnect(nw::remote::ReasonDisconnectGadget::ReasonDisconnect::REASON_DISCONNECT_NO_HANDSHAKE);
+            Q_EMIT ClientIsLeaving();
+            return;
+        }
+        handshake_complete_ = true;
+        qLog(Debug) << "Handshake from client:" << incoming_msg_->GetClientName() << "protocol version" << client_version;
+        outgoing_msg_->SendConnectResponse(true);
+        return;
+    }
+
+    switch (msg_type) {
     case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_SONG_INFO:
-      outgoing_msg_->SendCurrentTrackInfo();
-      break;
+        outgoing_msg_->SendCurrentTrackInfo();
+        break;
     case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_PLAY:
-      Q_EMIT RequestPlay();
-      outgoing_msg_->SendCurrentTrackInfo();
+        Q_EMIT RequestPlay();
+        outgoing_msg_->SendCurrentTrackInfo();
         break;
     case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_NEXT:
-      Q_EMIT RequestNext();
-      outgoing_msg_->SendCurrentTrackInfo();
-      break;
+        Q_EMIT RequestNext();
+        outgoing_msg_->SendCurrentTrackInfo();
+        break;
     case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_PREVIOUS:
-      Q_EMIT RequestPrevious();
-      outgoing_msg_->SendCurrentTrackInfo();
-      break;
+        Q_EMIT RequestPrevious();
+        outgoing_msg_->SendCurrentTrackInfo();
+        break;
     case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_PAUSE:
-      Q_EMIT RequestPause();
-      break;
+        Q_EMIT RequestPause();
+        break;
     case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_STOP:
-      Q_EMIT RequestStop();
-      break;
+        Q_EMIT RequestStop();
+        break;
     case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_FINISH:
-      Q_EMIT ClientIsLeaving();
-      break;
+        Q_EMIT ClientIsLeaving();
+        break;
     case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_DISCONNECT:
-      Q_EMIT ClientIsLeaving();
-      break;
+        Q_EMIT ClientIsLeaving();
+        break;
+    case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_CONNECT:
+        qLog(Warning) << "Duplicate handshake ignored";
+        break;
     default:
-      qLog(Debug) << "Unknown message type";
-      break;
+        qLog(Debug) << "Unknown message type";
+        outgoing_msg_->SendDisconnect(nw::remote::ReasonDisconnectGadget::ReasonDisconnect::REASON_DISCONNECT_UNKNOWN_MSGTYPE);
+        Q_EMIT ClientIsLeaving();
+        break;
     }
 }
 
 void NetworkRemoteClient::SendEngineState(EngineBase::State state) {
     outgoing_msg_->SendEngineState(state);
+}
+
+void NetworkRemoteClient::SendDisconnect(nw::remote::ReasonDisconnectGadget::ReasonDisconnect reason) {
+    outgoing_msg_->SendDisconnect(reason);
 }

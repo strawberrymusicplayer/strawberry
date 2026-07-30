@@ -37,6 +37,7 @@ class NetworkRemoteClient : public QObject{
   QTcpSocket *GetSocket();
   void ProcessIncoming();
   void SendEngineState(EngineBase::State state);
+  void SendDisconnect(nw::remote::ReasonDisconnectGadget::ReasonDisconnect reason);
 
  Q_SIGNALS:
   void ReceiveMsg();
@@ -53,6 +54,7 @@ class NetworkRemoteClient : public QObject{
   QTcpSocket *socket_;
   NetworkRemoteIncomingMsg *incoming_msg_;
   NetworkRemoteOutgoingMsg *outgoing_msg_;
+  bool handshake_complete_ = false;
 };
 
 #endif
