@@ -2,6 +2,17 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Version 1.2.26 (2026.07.30):
+
+  Bugfixes:
+    * Fixed re-loading playlist item metadata for local files not in the collection after editing tags (#2257)
+
+  Enhancements:
+    * Replaced deprecated QLibraryInfo::path with QLibraryInfo::paths
+    * Removed dedicated network access manager for lyrics
+    * Refactor the playlist items save/reload code
+    * Refactor the translation loading code
+
 Version 1.2.25 (2026.07.25):
 
   Bugfixes:
