@@ -17,39 +17,22 @@
  *
  */
 
-#ifndef NETWORKREMOTEINCOMINGMSG_H
-#define NETWORKREMOTEINCOMINGMSG_H
+#ifndef NETWORKREMOTECONSTANTS_H
+#define NETWORKREMOTECONSTANTS_H
 
-#include <QObject>
-#include <QByteArray>
-#include <QString>
-#include "networkremote/RemoteMessages.qpb.h"
+#include <QtGlobal>
 
-class QTcpSocket;
+namespace NetworkRemoteConstants {
 
-class NetworkRemoteIncomingMsg : public QObject{
-  Q_OBJECT
- public:
-  explicit NetworkRemoteIncomingMsg(QObject *parent = nullptr);
-  ~NetworkRemoteIncomingMsg(); 
-  void Init(QTcpSocket* socket);
+// Protocol version history:
+// 1 - initial protocol (song info, transport control, engine state push)
+// 2 - position/length in ResponseSongMetadata, version field in Message
+constexpr quint32 kProtocolVersion = 3;
 
-  nw::remote::MsgTypeGadget::MsgType GetMsgType();
-  quint32 GetMsgVersion();
-  QString GetClientName();
+// Oldest client protocol version this server accepts.
+// 0 = clients that predate the version field.
+constexpr quint32 kMinSupportedVersion = 3;
 
- private Q_SLOTS:
-  void ReadyRead();
+}  // namespace NetworkRemoteConstants
 
- Q_SIGNALS:
-  void InMsgParsed();
-
- private:
-  nw::remote::Message msg_;
-  nw::remote::MsgTypeGadget::MsgType msg_type_;
-  QTcpSocket *socket_;
-  QByteArray msg_stream_;
-  void SetMsgType();
-};
-
-#endif
+#endif  // NETWORKREMOTECONSTANTS_H
