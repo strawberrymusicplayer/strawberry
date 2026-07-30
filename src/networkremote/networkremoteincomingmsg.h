@@ -35,6 +35,8 @@ class NetworkRemoteIncomingMsg : public QObject{
   void Init(QTcpSocket* socket);
 
   nw::remote::MsgTypeGadget::MsgType GetMsgType();
+  quint32 GetMsgVersion();
+  QString GetClientName();
 
  private Q_SLOTS:
   void ReadyRead();

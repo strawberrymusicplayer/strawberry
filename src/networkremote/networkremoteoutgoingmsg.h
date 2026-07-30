@@ -39,6 +39,8 @@ class NetworkRemoteOutgoingMsg : public QObject{
   void SendCurrentTrackInfo();
   void SendEngineState(EngineBase::State state);
   void SendMsg();
+  void SendDisconnect(nw::remote::ReasonDisconnectGadget::ReasonDisconnect reason);
+  void SendConnectResponse(const bool accepted);
 
  private:
   static nw::remote::PlayerStateGadget::PlayerState MapEngineState(EngineBase::State state);
