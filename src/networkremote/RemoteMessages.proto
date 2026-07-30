@@ -29,6 +29,10 @@ enum MsgType {
 
     // Bidirectional messages
     MSG_TYPE_DISCONNECT = 16;
+
+    // Connection handshake
+    MSG_TYPE_REQUEST_CONNECT = 17;
+    MSG_TYPE_RESPONSE_CONNECT = 18;
 }
 
 enum PlayerState {
@@ -50,10 +54,21 @@ enum EngineState {
 enum ReasonDisconnect {
     REASON_DISCONNECT_SERVER_SHUTDOWN = 0;
     REASON_DISCONNECT_CLIENT_SHUTDOWN = 1;
+    REASON_DISCONNECT_VERSION_MISMATCH = 2;
+    REASON_DISCONNECT_UNKNOWN_MSGTYPE = 3;
+    REASON_DISCONNECT_NO_HANDSHAKE = 4;
 }
 
 message RequestDisconnect {
     ReasonDisconnect reason_disconnect = 1;
+}
+
+message RequestConnect {
+    string client_name = 1;
+}
+
+message ResponseConnect {
+    bool accepted = 1;
 }
 
 message SongMetadata{
@@ -75,6 +90,8 @@ message RequestSongMetadata {
 message ResponseSongMetadata {
     SongMetadata song_metadata = 1;
     PlayerState player_state = 2;
+    uint32 position_seconds = 3;
+    uint32 length_seconds = 4;
 }
 
 message RequestNextTrack {
@@ -119,6 +136,7 @@ message EngineStateChange {
 
 message Message {
     MsgType type = 1;
+    uint32 version = 15;
     oneof payload {
         RequestSongMetadata request_song_metadata = 2;
         ResponseSongMetadata response_song_metadata = 3;
@@ -133,5 +151,7 @@ message Message {
         ResponsePreviousTrack response_previous_track = 12;
         ResponsePlay response_play = 13;
         ResponsePause response_pause = 14;
+        RequestConnect request_connect = 16;
+        ResponseConnect response_connect = 17;
     }
 }

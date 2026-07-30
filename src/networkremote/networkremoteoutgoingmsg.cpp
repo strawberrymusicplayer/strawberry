@@ -23,6 +23,8 @@
 #include "core/application.h"
 #include "core/logging.h"
 #include "core/player.h"
+#include "constants/timeconstants.h"
+#include "constants/networkremoteconstants.h"
 
 NetworkRemoteOutgoingMsg::NetworkRemoteOutgoingMsg(const SharedPtr<Player> player, QObject *parent)
     : QObject(parent),
@@ -53,6 +55,16 @@ void NetworkRemoteOutgoingMsg::SendCurrentTrackInfo() {
 
     response_song_.setPlayerState(MapEngineState(player_->GetState()));
     response_song_.setSongMetadata(song_);
+
+    const qint64 position_nanosec = player_->engine()->position_nanosec();
+    qint64 length_nanosec = player_->engine()->length_nanosec();
+    if (length_nanosec <= 0) {
+      // Engine doesn't know yet (e.g. just-loaded track): fall back to the tag.
+      length_nanosec = current_item_->EffectiveMetadata().length_nanosec();
+    }
+
+    response_song_.setPositionSeconds(position_nanosec > 0 ? static_cast<quint32>(position_nanosec / kNsecPerSec) : 0);
+    response_song_.setLengthSeconds(length_nanosec > 0 ? static_cast<quint32>(length_nanosec / kNsecPerSec) : 0);
 
     msg_.setType(nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REPLY_SONG_INFO);
     msg_.setResponseSongMetadata(response_song_);
@@ -92,6 +104,7 @@ void NetworkRemoteOutgoingMsg::SendEngineState(EngineBase::State state) {
 }
 
 void NetworkRemoteOutgoingMsg::SendMsg() {
+    msg_.setVersion(NetworkRemoteConstants::kProtocolVersion);
     QProtobufSerializer serializer;
     QByteArray data = serializer.serialize(&msg_);
 
@@ -114,4 +127,22 @@ void NetworkRemoteOutgoingMsg::SendMsg() {
     else {
         qLog(Warning) << "Socket is not writable.";
     }
+}
+
+void NetworkRemoteOutgoingMsg::SendDisconnect(nw::remote::ReasonDisconnectGadget::ReasonDisconnect reason) {
+    msg_ = nw::remote::Message();
+    nw::remote::RequestDisconnect disconnect;
+    disconnect.setReasonDisconnect(reason);
+    msg_.setType(nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_DISCONNECT);
+    msg_.setRequestDisconnect(disconnect);
+    SendMsg();
+}
+
+void NetworkRemoteOutgoingMsg::SendConnectResponse(const bool accepted) {
+    msg_ = nw::remote::Message();
+    nw::remote::ResponseConnect response;
+    response.setAccepted(accepted);
+    msg_.setType(nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_RESPONSE_CONNECT);
+    msg_.setResponseConnect(response);
+    SendMsg();
 }

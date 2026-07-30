@@ -47,6 +47,7 @@ class NetworkRemoteClientManager : public QObject{
  private:
   const SharedPtr<Player> player_;
   QList<QSharedPointer<NetworkRemoteClient>> clients_;
+  QTimer *seek_debounce_timer_ = nullptr;
 };
 
 #endif

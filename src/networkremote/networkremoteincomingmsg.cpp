@@ -84,3 +84,11 @@ void NetworkRemoteIncomingMsg::ReadyRead() {
     }
   }
 }
+
+quint32 NetworkRemoteIncomingMsg::GetMsgVersion() {
+    return msg_.version();
+}
+
+QString NetworkRemoteIncomingMsg::GetClientName() {
+    return msg_.requestConnect().clientName();
+}
