@@ -29,12 +29,23 @@ if(MACDEPLOYQT_EXECUTABLE)
     set(CREATEDMG_SKIP_JENKINS_ARG "--skip-jenkins")
   endif()
 
-  add_custom_target(deploy
+  set(DEPLOY_COMMANDS
     COMMAND mkdir -p ${CMAKE_BINARY_DIR}/strawberry.app/Contents/{Frameworks,Resources}
     COMMAND cp -v ${CMAKE_BINARY_DIR}/dist/macos/Info.plist ${CMAKE_BINARY_DIR}/strawberry.app/Contents/
     COMMAND cp -v ${CMAKE_SOURCE_DIR}/dist/macos/strawberry.icns ${CMAKE_BINARY_DIR}/strawberry.app/Contents/Resources/
     COMMAND ${CMAKE_SOURCE_DIR}/dist/macos/macgstcopy.sh ${CMAKE_BINARY_DIR}/strawberry.app
-    COMMAND ${MACDEPLOYQT_EXECUTABLE} strawberry.app -verbose=3 -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/gst-plugin-scanner ${MACDEPLOYQT_CODESIGN}
+    COMMAND ${MACDEPLOYQT_EXECUTABLE} strawberry.app -verbose=3 -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/gst-plugin-scanner -no-codesign
+    COMMAND ${CMAKE_SOURCE_DIR}/dist/macos/macfixrpaths.sh ${CMAKE_BINARY_DIR}/strawberry.app
+  )
+  if(APPLE_DEVELOPER_ID)
+    # Sign anything macdeployqt's own dependency walk will never reach (e.g. dlopen'ed libsoup and its dependencies) before macdeployqt does its final pass and seals the outer app bundle's resources.
+    # Signing these after that seal is computed invalidates it ("nested code is modified or invalid"), so this must run before, not after, the real codesign.
+    list(APPEND DEPLOY_COMMANDS COMMAND ${CMAKE_SOURCE_DIR}/dist/macos/macfixadhocsign.sh ${CMAKE_BINARY_DIR}/strawberry.app ${APPLE_DEVELOPER_ID})
+  endif()
+  list(APPEND DEPLOY_COMMANDS COMMAND ${MACDEPLOYQT_EXECUTABLE} strawberry.app -verbose=3 -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/gst-plugin-scanner ${MACDEPLOYQT_CODESIGN})
+
+  add_custom_target(deploy
+    ${DEPLOY_COMMANDS}
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     DEPENDS strawberry
   )
