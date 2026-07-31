@@ -23,15 +23,30 @@
 #include "core/application.h"
 #include "core/logging.h"
 #include "core/player.h"
+#include "playlist/playlistmanager.h"
+#include "core/song.h"
 
 
-NetworkRemoteClientManager::NetworkRemoteClientManager(const SharedPtr<Player> player, QObject *parent)
+NetworkRemoteClientManager::NetworkRemoteClientManager(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent)
     : QObject(parent),
     player_(player),
+    playlist_manager_(playlist_manager),
     clients_() {
     QObject::connect(&*player_, &Player::Playing, this, [this]() { BroadcastEngineState(EngineBase::State::Playing); });
     QObject::connect(&*player_, &Player::Paused,  this, [this]() { BroadcastEngineState(EngineBase::State::Paused); });
     QObject::connect(&*player_, &Player::Stopped, this, [this]() { BroadcastEngineState(EngineBase::State::Idle); });
+    // The current song can change without any engine state change - a gapless
+    // transition keeps the pipeline in the Playing state throughout, so
+    // Player::Playing() never re-fires. PlaylistManager::CurrentSongChanged is
+    // the canonical "the current song is now X" event and does fire in that
+    // case, so broadcast on it too. Clients refetch song info on any state
+    // push, which picks up the new track.
+    QObject::connect(&*playlist_manager_, &PlaylistManager::CurrentSongChanged, this, [this](const Song &song) {
+        Q_UNUSED(song);
+        qLog(Debug) << "Current song changed - notifying clients";
+        BroadcastEngineState(player_->GetState());
+    });
+
     // Seeking emits Seeked on every mouse-move while dragging the slider;
     // coalesce the burst into a single broadcast once the drag settles.
     seek_debounce_timer_ = new QTimer(this);

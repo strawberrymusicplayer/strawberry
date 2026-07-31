@@ -22,16 +22,16 @@
 
 #include <QObject>
 #include <QHostAddress>
-
 #include "networkremotetcpserver.h"
 #include "networkremote/networkremotesettings.h"
 
-class QThread;
+class Player;
+class PlaylistManager;
 
 class NetworkRemote : public QObject {
   Q_OBJECT
  public:
-  explicit NetworkRemote(const SharedPtr<Player> player, QObject *parent = nullptr);
+  explicit NetworkRemote(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent = nullptr);
   ~NetworkRemote() override;
   static QHostAddress DetectLocalIpAddress();
 
@@ -44,12 +44,14 @@ class NetworkRemote : public QObject {
 
  private:
   const SharedPtr<Player> player_;
+  const SharedPtr<PlaylistManager> playlist_manager_;
   bool enabled_;
   int remote_port_;
   QHostAddress ipAddr_;
   NetworkRemoteTcpServer *server_;
   NetworkRemoteSettings *settings_;
   static QNetworkAddressEntry DetectLocalAddressEntry();
+
 };
 
 #endif // NETWORKREMOTE_H

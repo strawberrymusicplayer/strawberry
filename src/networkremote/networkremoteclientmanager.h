@@ -27,13 +27,13 @@
 #include "engine/enginebase.h"
 
 class Player;
-
+class PlaylistManager;
 class NetworkRemoteClient;
 
 class NetworkRemoteClientManager : public QObject{
   Q_OBJECT
  public:
-  explicit NetworkRemoteClientManager(const SharedPtr<Player> player, QObject *parent = nullptr);
+  explicit NetworkRemoteClientManager(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent = nullptr);
   ~NetworkRemoteClientManager();
   void AddClient(QTcpSocket *socket);
   void DisconnectAll();
@@ -46,6 +46,7 @@ class NetworkRemoteClientManager : public QObject{
 
  private:
   const SharedPtr<Player> player_;
+  const SharedPtr<PlaylistManager> playlist_manager_;
   QList<QSharedPointer<NetworkRemoteClient>> clients_;
   QTimer *seek_debounce_timer_ = nullptr;
 };
