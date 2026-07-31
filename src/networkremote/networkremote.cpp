@@ -23,13 +23,14 @@
 #include "core/application.h"
 #include "core/logging.h"
 
-NetworkRemote::NetworkRemote(const SharedPtr<Player> player, QObject *parent)
+NetworkRemote::NetworkRemote(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent)
     : QObject(parent),
       player_(player),
+      playlist_manager_(playlist_manager),
       enabled_(false),
       remote_port_(8888),
       server_(nullptr),
-      settings_(new NetworkRemoteSettings()) {
+      settings_(new NetworkRemoteSettings()){
   setObjectName("NetworkRemote");
 }
 
@@ -133,9 +134,9 @@ void NetworkRemote::StartTcpServer() {
     return;
   }
   ipAddr_ = entry.ip();
-  server_ = new NetworkRemoteTcpServer(player_, this);
+  server_ = new NetworkRemoteTcpServer(player_, playlist_manager_, this);
   server_->StartServer(ipAddr_, remote_port_, entry);
-  qLog(Debug) << "TcpServer started";
+  qLog(Debug) << "TcpServer started on" << ipAddr_.toString() << "port" << remote_port_;
 }
 
 void NetworkRemote::StopTcpServer() {
