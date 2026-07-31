@@ -94,7 +94,7 @@ void SetEnvironment() {
 #  endif
 
   // Set GIO module path
-  const QString gio_module_path = plugin_root_path + "/gio-modules"_L1;
+  const QStringList gio_module_paths = QStringList() << plugin_root_path + u"/gio/modules"_s << plugin_root_path + u"/gio-modules"_s;
 
   // Set GStreamer plugin scanner path
   QString gst_plugin_scanner;
@@ -110,14 +110,17 @@ void SetEnvironment() {
   gst_plugin_path = plugin_root_path + "/gstreamer"_L1;
 #  endif
 
-  if (!gio_module_path.isEmpty()) {
+  bool gio_module_path_found = false;
+  for (const QString &gio_module_path : gio_module_paths) {
     if (QDir(gio_module_path).exists()) {
       qLog(Debug) << "Setting GIO module path to" << gio_module_path;
       Utilities::SetEnv("GIO_EXTRA_MODULES", gio_module_path);
+      gio_module_path_found = true;
+      break;
     }
-    else {
-      qLog(Error) << "GIO module path" << gio_module_path << "does not exist.";
-    }
+  }
+  if (!gio_module_path_found) {
+    qLog(Error) << "GIO module path not found";
   }
 
   if (!gst_plugin_scanner.isEmpty()) {

@@ -50,6 +50,6 @@ if(UNIX AND NOT APPLE)
 endif()
 
 if(APPLE)
-  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/macos/Info.plist" DESTINATION "${CMAKE_BINARY_DIR}/strawberry.app/Contents")
-  install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/macos/strawberry.icns" DESTINATION "${CMAKE_BINARY_DIR}/strawberry.app/Contents/Resources")
+  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/macos/Info.plist" DESTINATION "${CMAKE_BINARY_DIR}/strawberry.app/Contents" COMPONENT macos_bundle_resources EXCLUDE_FROM_ALL)
+  install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/macos/strawberry.icns" DESTINATION "${CMAKE_BINARY_DIR}/strawberry.app/Contents/Resources" COMPONENT macos_bundle_resources EXCLUDE_FROM_ALL)
 endif()

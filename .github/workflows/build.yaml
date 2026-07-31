@@ -1026,17 +1026,8 @@ jobs:
         run: make install
 
       - name: Deploy
-        env:
-          GIO_EXTRA_MODULES: ${{env.prefix_path}}/lib/gio/modules
-          GST_PLUGIN_SCANNER: ${{env.prefix_path}}/libexec/gstreamer-1.0/gst-plugin-scanner
-          GST_PLUGIN_PATH: ${{env.prefix_path}}/lib/gstreamer-1.0
-          LIBSOUP_LIBRARY_PATH: ${{env.prefix_path}}/lib/libsoup-3.0.0.dylib
         working-directory: build
         run: make deploy
-
-      - name: Deploy check
-        working-directory: build
-        run: make deploycheck
 
       - name: Verify code-signing
         if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false
@@ -1156,21 +1147,8 @@ jobs:
         run: make install
 
       - name: Deploy
-        env:
-          GIO_EXTRA_MODULES: ${{env.prefix_path}}/lib/gio/modules
-          GST_PLUGIN_SCANNER: ${{env.prefix_path}}/libexec/gstreamer-1.0/gst-plugin-scanner
-          GST_PLUGIN_PATH: ${{env.prefix_path}}/lib/gstreamer-1.0
-          LIBSOUP_LIBRARY_PATH: ${{env.prefix_path}}/lib/libsoup-3.0.0.dylib
         working-directory: build
         run: make deploy
-
-      - name: Manually Codesign
-        working-directory: build
-        run: codesign -s 383J84DVB6 -f strawberry.app/Contents/Frameworks/png.framework/png strawberry.app
-
-      - name: Deploy check
-        working-directory: build
-        run: make deploycheck
 
       - name: Verify code-signing
         working-directory: build
