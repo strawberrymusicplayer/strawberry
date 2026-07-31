@@ -246,7 +246,7 @@ class ApplicationImpl {
         }),
 #ifdef HAVE_NETWORKREMOTE
          network_remote_([app]() {
-            NetworkRemote *remote = new NetworkRemote(app->player(), app);
+            NetworkRemote *remote = new NetworkRemote(app->player(), app->playlist_manager(), app);
             return remote;})
 #endif
   {}

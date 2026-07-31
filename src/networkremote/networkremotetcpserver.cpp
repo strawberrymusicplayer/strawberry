@@ -22,11 +22,12 @@
 #include "core/logging.h"
 #include "networkremote/networkremoteclientmanager.h"
 
-NetworkRemoteTcpServer::NetworkRemoteTcpServer(const SharedPtr<Player> player, QObject *parent)
+NetworkRemoteTcpServer::NetworkRemoteTcpServer(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent)
     : QObject(parent),
       player_(player),
+      playlist_manager_(playlist_manager),
       server_(new QTcpServer(this)),
-      client_mgr_(new NetworkRemoteClientManager(player_, this)){
+      client_mgr_(new NetworkRemoteClientManager(player_, playlist_manager_, this)){
       connect(server_, &QTcpServer::newConnection, this, &NetworkRemoteTcpServer::NewTcpConnection);
 }
 
