@@ -26,11 +26,13 @@
 #include <QNetworkAddressEntry>
 #include "networkremote/networkremoteclientmanager.h"
 
+class PlaylistManager;
+
 class NetworkRemoteTcpServer : public QObject{
   Q_OBJECT
 
  public:
-  explicit NetworkRemoteTcpServer(const SharedPtr<Player> player, QObject *parent = nullptr);
+  explicit NetworkRemoteTcpServer(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent = nullptr);
   void StartServer(const QHostAddress &ipAddr, int port, const QNetworkAddressEntry &subnet);
   void StopServer();
   bool ServerUp();
@@ -40,9 +42,11 @@ class NetworkRemoteTcpServer : public QObject{
 
  private:
   const SharedPtr<Player> player_;
+  const SharedPtr<PlaylistManager> playlist_manager_;
   QTcpServer *server_;
   NetworkRemoteClientManager *client_mgr_;
   QNetworkAddressEntry subnet_;
+
 };
 
 #endif
