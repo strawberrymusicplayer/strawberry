@@ -42,9 +42,7 @@ using namespace Qt::Literals::StringLiterals;
 
 const QStringList RadioBrowserService::kServers = {
     u"de1.api.radio-browser.info"_s,
-    u"de2.api.radio-browser.info"_s,
-    u"nl1.api.radio-browser.info"_s,
-    u"at1.api.radio-browser.info"_s
+    u"de2.api.radio-browser.info"_s
 };
 
 RadioBrowserService::RadioBrowserService(const SharedPtr<TaskManager> task_manager, const SharedPtr<NetworkAccessManager> network, QObject *parent)
