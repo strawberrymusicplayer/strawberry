@@ -131,6 +131,11 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
   ui_->search_field->installEventFilter(this);
 
   ui_->search_field->setToolTip(FilterParser::ToolTip());
+  ui_->playing_time_before_or_after->setToolTip(PlaylistContainer::ToolTipPlayingTime());
+  ui_->playing_center_time->setToolTip(PlaylistContainer::ToolTipPositionTime());
+
+  ui_->show_zapping_values->setIcon(IconLoader::Load(u"configure"_s));
+  QObject::connect(ui_->show_zapping_values, &QAction::triggered, this, &PlaylistContainer::DisplayPlayingOption);
 
   ReloadSettings();
 
@@ -146,6 +151,7 @@ void PlaylistContainer::SetActions(const Actions &actions) {
   ui_->load->setDefaultAction(actions.load_playlist);
   ui_->save->setDefaultAction(actions.save_playlist);
   ui_->clear->setDefaultAction(actions.clear_playlist);
+  ui_->display_option->setDefaultAction(ui_->show_zapping_values);
 
   ui_->tab_bar->SetActions(actions.new_playlist, actions.load_playlist);
 
@@ -160,6 +166,9 @@ void PlaylistContainer::SetActions(const Actions &actions) {
   QObject::connect(actions.close_playlist, &QAction::triggered, &*ui_->tab_bar, &PlaylistTabBar::CloseCurrentTab);
   QObject::connect(&*ui_->tab_bar, &PlaylistTabBar::LastTabCloseRequested, this, &PlaylistContainer::LastTabCloseRequested);
   QObject::connect(actions.save_all_playlists, &QAction::triggered, &*manager_, &PlaylistManager::SaveAllPlaylists);
+
+  QObject::connect(ui_->playing_time_before_or_after, &QSpinBox::valueChanged, &*manager_, &PlaylistManager::UpdatePlayingTime);
+  QObject::connect(ui_->playing_center_time, &QSpinBox::valueChanged, &*manager_, &PlaylistManager::UpdatePlayingPosition);
 
 }
 
@@ -201,6 +210,12 @@ void PlaylistContainer::SetViewModel(Playlist *playlist, const int scroll_positi
 
   playlist_ = playlist;
 
+  ui_->playing_time_before_or_after->blockSignals(true);
+  ui_->playing_time_before_or_after->setValue(manager_->half_playing_time_s());
+  ui_->playing_time_before_or_after->blockSignals(false);
+  ui_->playing_center_time->blockSignals(true);
+  ui_->playing_center_time->setValue(manager_->percent_interest_song());
+  ui_->playing_center_time->blockSignals(false);
   // Set the view
   playlist->IgnoreSorting(true);
   view()->setModel(playlist->filter());
@@ -259,6 +274,7 @@ void PlaylistContainer::ReloadSettings() {
   ui_->clear->setIconSize(QSize(iconsize, iconsize));
   ui_->undo->setIconSize(QSize(iconsize, iconsize));
   ui_->redo->setIconSize(QSize(iconsize, iconsize));
+  ui_->display_option->setIconSize(QSize(iconsize, iconsize));
   ui_->search_field->setIconSize(iconsize);
 
   s.beginGroup(PlaylistSettings::kSettingsGroup);
@@ -493,6 +509,13 @@ void PlaylistContainer::UpdateNoMatchesLabel() {
 
 }
 
+void PlaylistContainer::DisplayPlayingOption() {
+
+  ui_->playing_time_before_or_after->setVisible(!ui_->playing_time_before_or_after->isVisible());
+  ui_->playing_center_time->setVisible(!ui_->playing_center_time->isVisible());
+
+}
+
 void PlaylistContainer::resizeEvent(QResizeEvent *e) {
   QWidget::resizeEvent(e);
   RepositionNoMatchesLabel();
@@ -560,5 +583,21 @@ bool PlaylistContainer::eventFilter(QObject *objectWatched, QEvent *event) {
     }
   }
   return QWidget::eventFilter(objectWatched, event);
+
+}
+
+QString PlaylistContainer::ToolTipPlayingTime() {
+
+  return "<html><head/><body><p>"_L1 +
+         QObject::tr("The time played before and after the position time selected in seconds (0 for playing the complete track)") +
+         "</p></body></html>"_L1;
+
+}
+
+QString PlaylistContainer::ToolTipPositionTime() {
+
+  return "<html><head/><body><p>"_L1 +
+         QObject::tr("The position time reference selected in percent of the track length") +
+         "</p></body></html>"_L1;
 
 }
