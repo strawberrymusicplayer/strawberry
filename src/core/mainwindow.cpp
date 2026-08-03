@@ -246,6 +246,10 @@
 #  include "discord/discordrichpresence.h"
 #endif
 
+#ifdef HAVE_NETWORKREMOTE
+#  include "networkremote/networkremote.h"
+#endif
+
 using std::make_unique;
 using std::make_shared;
 using namespace std::chrono_literals;
@@ -1333,6 +1337,10 @@ void MainWindow::ReloadSettings() {
   else {
     ui_->tabs->DisableTab(qobuz_view_);
   }
+#endif
+
+#ifdef HAVE_NETWORKREMOTE
+  app_->network_remote()->Update();
 #endif
 
   ui_->tabs->ReloadSettings();
