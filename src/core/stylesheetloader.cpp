@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -65,7 +65,6 @@ void StyleSheetLoader::SetStyleSheet(QWidget *widget, const QString &filename) {
   SharedPtr<StyleSheetData> styledata = make_shared<StyleSheetData>();
   styledata->filename_ = filename;
   styledata->stylesheet_template_ = stylesheet;
-  styledata->stylesheet_current_ = widget->styleSheet();
   styledata_.insert(widget, styledata);
 
   widget->installEventFilter(this);
@@ -113,10 +112,7 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, SharedPtr<StyleSheetDat
   stylesheet.replace(QLatin1String("macos"), QLatin1String("*"));
 #endif
 
-  if (stylesheet != styledata->stylesheet_current_) {
-    styledata->stylesheet_current_ = stylesheet;
-    widget->setStyleSheet(stylesheet);
-  }
+  widget->setStyleSheet(stylesheet);
 
 }
 
