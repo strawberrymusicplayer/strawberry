@@ -17,7 +17,7 @@ if(MACDEPLOYTOOL_EXECUTABLE)
     COMMAND ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR} --component macos_bundle_resources
   )
   if(APPLE_DEVELOPER_ID)
-    list(APPEND DEPLOY_COMMANDS COMMAND ${MACDEPLOYTOOL_EXECUTABLE} strawberry.app --verbose=3 --codesign=${APPLE_DEVELOPER_ID} --gstreamer-plugins=all)
+    list(APPEND DEPLOY_COMMANDS COMMAND ${MACDEPLOYTOOL_EXECUTABLE} strawberry.app --verbose=3 --sign-for-notarization=${APPLE_DEVELOPER_ID} --gstreamer-plugins=all)
   else()
     list(APPEND DEPLOY_COMMANDS COMMAND ${MACDEPLOYTOOL_EXECUTABLE} strawberry.app --verbose=3 --no-codesign --gstreamer-plugins=all)
   endif()

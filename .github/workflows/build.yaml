@@ -1038,6 +1038,16 @@ jobs:
         working-directory: build
         run: make dmg
 
+      - name: Notarize DMG
+        if: github.repository == 'strawberrymusicplayer/strawberry' && (github.event_name == 'release' || (github.event_name == 'push' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos')))
+        working-directory: build
+        run: xcrun notarytool submit *.dmg --apple-id "${{secrets.APPLE_NOTARIZATION_APPLE_ID}}" --team-id "383J84DVB6" --password "${{secrets.APPLE_NOTARIZATION_PASSWORD}}" --wait
+
+      - name: Staple notarization ticket
+        if: github.repository == 'strawberrymusicplayer/strawberry' && (github.event_name == 'release' || (github.event_name == 'push' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos')))
+        working-directory: build
+        run: xcrun stapler staple *.dmg
+
       - name: SSH Setup
         if: github.repository == 'strawberrymusicplayer/strawberry' && (github.event_name == 'release' || (github.event_name == 'push' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos')))
         uses: shimataro/ssh-key-action@v2
@@ -1157,6 +1167,14 @@ jobs:
       - name: Create DMG
         working-directory: build
         run: make dmg
+
+      - name: Notarize DMG
+        working-directory: build
+        run: xcrun notarytool submit *.dmg --apple-id "${{secrets.APPLE_NOTARIZATION_APPLE_ID}}" --team-id "383J84DVB6" --password "${{secrets.APPLE_NOTARIZATION_PASSWORD}}" --wait
+
+      - name: Staple notarization ticket
+        working-directory: build
+        run: xcrun stapler staple *.dmg
 
       - name: Set Upload path
         id: set-upload-path
