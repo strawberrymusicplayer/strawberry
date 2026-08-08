@@ -65,22 +65,12 @@
   !define PRODUCT_NAME "Strawberry Music Player Debug"
   !define PRODUCT_NAME_SHORT "Strawberry"
   !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME_SHORT}Debug"
-  !ifdef arch_x86
-    !define PRODUCT_INSTALL_DIR "$PROGRAMFILES\Strawberry Music Player Debug"
-  !endif
-  !ifdef arch_x64 || arch_arm64
-    !define PRODUCT_INSTALL_DIR "$PROGRAMFILES64\Strawberry Music Player Debug"
-  !endif
+  !define PRODUCT_INSTALL_DIR "$PROGRAMFILES64\Strawberry Music Player Debug"
 !else
   !define PRODUCT_NAME "Strawberry Music Player"
   !define PRODUCT_NAME_SHORT "Strawberry"
   !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME_SHORT}"
-  !ifdef arch_x86
-    !define PRODUCT_INSTALL_DIR "$PROGRAMFILES\Strawberry Music Player"
-  !endif
-  !ifdef arch_x64 || arch_arm64
-    !define PRODUCT_INSTALL_DIR "$PROGRAMFILES64\Strawberry Music Player"
-  !endif
+  !define PRODUCT_INSTALL_DIR "$PROGRAMFILES64\Strawberry Music Player"
 !endif
 
 !define PRODUCT_VERSION_MAJOR @STRAWBERRY_VERSION_MAJOR@
@@ -246,17 +236,6 @@ Section "Strawberry" Strawberry
 
 !ifdef mingw
 
-!ifdef arch_x86
-  File "libgcc_s_sjlj-1.dll"
-  File "libcrypto-4.dll"
-  File "libssl-4.dll"
-!endif
-!ifdef arch_x64
-  File "libgcc_s_seh-1.dll"
-  File "libcrypto-4-x64.dll"
-  File "libssl-4-x64.dll"
-!endif
-
   File "libFLAC-14.dll"
   File "libbrotlicommon.dll"
   File "libbrotlidec.dll"
@@ -264,6 +243,7 @@ Section "Strawberry" Strawberry
   File "libbs2b-0.dll"
   File "libbz2.dll"
   File "libchromaprint.dll"
+  File "libcrypto-4-x64.dll"
   File "libdl.dll"
   File "libebur128.dll"
   File "libfaac-1.dll"
@@ -271,6 +251,7 @@ Section "Strawberry" Strawberry
   File "libfdk-aac-2.dll"
   File "libffi-8.dll"
   File "libfreetype-6.dll"
+  File "libgcc_s_seh-1.dll"
   File "libgcrypt-20.dll"
   File "libgetopt.dll"
   File "libgio-2.0-0.dll"
@@ -324,6 +305,7 @@ Section "Strawberry" Strawberry
   File "libsoup-3.0-0.dll"
   File "libspeex-1.dll"
   File "libsqlite3-0.dll"
+  File "libssl-4-x64.dll"
   File "libssp-0.dll"
   File "libstdc++-6.dll"
   File "libtag.dll"
@@ -360,10 +342,6 @@ Section "Strawberry" Strawberry
 
 !ifdef msvc
 
-!ifdef arch_x86
-  File "libcrypto-4.dll"
-  File "libssl-4.dll"
-!endif
 !ifdef arch_x64
   File "libcrypto-4-x64.dll"
   File "libssl-4-x64.dll"
@@ -458,12 +436,6 @@ Section "Strawberry" Strawberry
   File "tiffd.dll"
 !endif
 
-  ; Used by libfftw3-3.dll because fftw is compiled with MinGW.
-!ifdef arch_x86
-  File "libgcc_s_sjlj-1.dll"
-  File "libwinpthread-1.dll"
-!endif
-
 !endif ; MSVC
 
   ; Common files
@@ -496,21 +468,20 @@ Section "Strawberry" Strawberry
   File "Qt6Widgets.dll"
 !endif
 
-!ifdef msvc && arch_x86
-  File "avcodec-61.dll"
-  File "avfilter-10.dll"
-  File "avformat-61.dll"
-  File "avutil-59.dll"
-  File "postproc-58.dll"
-  File "swresample-5.dll"
-  File "swscale-8.dll"
-!else
+!ifdef msvc
   File "avcodec-62.dll"
   File "avfilter-11.dll"
   File "avformat-62.dll"
   File "avutil-60.dll"
   File "swresample-6.dll"
   File "swscale-9.dll"
+!else
+  File "avcodec-63.dll"
+  File "avfilter-12.dll"
+  File "avformat-63.dll"
+  File "avutil-61.dll"
+  File "swresample-7.dll"
+  File "swscale-10.dll"
 !endif
 
   ; Register Strawberry with Default Programs
@@ -787,18 +758,6 @@ Section "Uninstall"
 
 !ifdef mingw
 
-!ifdef arch_x86
-  Delete "$INSTDIR\libgcc_s_sjlj-1.dll"
-  Delete "$INSTDIR\libcrypto-4.dll"
-  Delete "$INSTDIR\libssl-4.dll"
-!endif
-
-!ifdef arch_x64
-  Delete "$INSTDIR\libgcc_s_seh-1.dll"
-  Delete "$INSTDIR\libcrypto-4-x64.dll"
-  Delete "$INSTDIR\libssl-4-x64.dll"
-!endif
-
   Delete "$INSTDIR\libFLAC-14.dll"
   Delete "$INSTDIR\libbrotlicommon.dll"
   Delete "$INSTDIR\libbrotlidec.dll"
@@ -806,6 +765,7 @@ Section "Uninstall"
   Delete "$INSTDIR\libbs2b-0.dll"
   Delete "$INSTDIR\libbz2.dll"
   Delete "$INSTDIR\libchromaprint.dll"
+  Delete "$INSTDIR\libcrypto-4-x64.dll"
   Delete "$INSTDIR\libdl.dll"
   Delete "$INSTDIR\libebur128.dll"
   Delete "$INSTDIR\libfaac-1.dll"
@@ -813,6 +773,7 @@ Section "Uninstall"
   Delete "$INSTDIR\libfdk-aac-2.dll"
   Delete "$INSTDIR\libffi-8.dll"
   Delete "$INSTDIR\libfreetype-6.dll"
+  Delete "$INSTDIR\libgcc_s_seh-1.dll"
   Delete "$INSTDIR\libgcrypt-20.dll"
   Delete "$INSTDIR\libgetopt.dll"
   Delete "$INSTDIR\libgio-2.0-0.dll"
@@ -866,6 +827,7 @@ Section "Uninstall"
   Delete "$INSTDIR\libsoup-3.0-0.dll"
   Delete "$INSTDIR\libspeex-1.dll"
   Delete "$INSTDIR\libsqlite3-0.dll"
+  Delete "$INSTDIR\libssl-4-x64.dll"
   Delete "$INSTDIR\libssp-0.dll"
   Delete "$INSTDIR\libstdc++-6.dll"
   Delete "$INSTDIR\libtag.dll"
@@ -902,10 +864,6 @@ Section "Uninstall"
 
 !ifdef msvc
 
-!ifdef arch_x86
-  Delete "$INSTDIR\libcrypto-4.dll"
-  Delete "$INSTDIR\libssl-4.dll"
-!endif
 !ifdef arch_x64
   Delete "$INSTDIR\libcrypto-4-x64.dll"
   Delete "$INSTDIR\libssl-4-x64.dll"
@@ -1000,11 +958,6 @@ Section "Uninstall"
   Delete "$INSTDIR\tiffd.dll"
 !endif
 
-!ifdef arch_x86
-  Delete "$INSTDIR\libgcc_s_sjlj-1.dll"
-  Delete "$INSTDIR\libwinpthread-1.dll"
-!endif
-
 !endif ; MSVC
 
   ; Common files
@@ -1037,21 +990,20 @@ Section "Uninstall"
   Delete "$INSTDIR\Qt6Widgets.dll"
 !endif
 
-!ifdef msvc && arch_x86
-  Delete "$INSTDIR\avcodec-61.dll"
-  Delete "$INSTDIR\avfilter-10.dll"
-  Delete "$INSTDIR\avformat-61.dll"
-  Delete "$INSTDIR\avutil-59.dll"
-  Delete "$INSTDIR\postproc-58.dll"
-  Delete "$INSTDIR\swresample-5.dll"
-  Delete "$INSTDIR\swscale-8.dll"
-!else
+!ifdef msvc
   Delete "$INSTDIR\avcodec-62.dll"
   Delete "$INSTDIR\avfilter-11.dll"
   Delete "$INSTDIR\avformat-62.dll"
   Delete "$INSTDIR\avutil-60.dll"
   Delete "$INSTDIR\swresample-6.dll"
   Delete "$INSTDIR\swscale-9.dll"
+!else
+  Delete "$INSTDIR\avcodec-63.dll"
+  Delete "$INSTDIR\avfilter-12.dll"
+  Delete "$INSTDIR\avformat-63.dll"
+  Delete "$INSTDIR\avutil-61.dll"
+  Delete "$INSTDIR\swresample-7.dll"
+  Delete "$INSTDIR\swscale-10.dll"
 !endif
 
 !ifdef mingw
