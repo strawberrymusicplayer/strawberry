@@ -51,6 +51,7 @@
 #include <QFutureWatcher>
 #include <QMutex>
 #include <QMutexLocker>
+#include <QDeadlineTimer>
 #include <QMetaType>
 #include <QByteArray>
 #include <QList>
@@ -93,6 +94,10 @@ constexpr int GST_PLAY_FLAG_SOFT_VOLUME = 0x00000010;
 constexpr int kGstStateTimeoutNanosecs = 10000000;
 constexpr std::chrono::milliseconds kFaderFudgeMsec = 2000ms;
 constexpr std::chrono::milliseconds kFaderTimeoutMsec = 3000ms;
+
+// How long a requested state change may run before the pipeline is considered stuck and abandoned.
+// A buggy source element can block gst_element_set_state() forever (e.g. souphttpsrc waiting on a HTTP request that unlock() fails to cancel when the connection silently died); without a deadline that would freeze pipeline teardown and eventually the whole application.
+constexpr std::chrono::seconds kFinishWatchdogTimeout = 20s;
 
 constexpr int kEqBandCount = 10;
 constexpr int kEqBandFrequencies[] = { 60, 170, 310, 600, 1000, 3000, 6000, 12000, 14000, 16000 };
@@ -218,6 +223,8 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       about_to_finish_(false),
       finish_requested_(false),
       finished_(false),
+      stuck_(false),
+      timer_finish_watchdog_(new QTimer(this)),
       bus_message_generation_(0),
       set_state_async_in_progress_(0) {
 
@@ -236,6 +243,10 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
   timer_fader_timeout_->setSingleShot(true);
   QObject::connect(timer_fader_timeout_, &QTimer::timeout, this, &GstEnginePipeline::FaderTimelineTimeout);
 
+  timer_finish_watchdog_->setSingleShot(true);
+  timer_finish_watchdog_->setInterval(kFinishWatchdogTimeout);
+  QObject::connect(timer_finish_watchdog_, &QTimer::timeout, this, &GstEnginePipeline::FinishWatchdogTimeout);
+
 }
 
 GstEnginePipeline::~GstEnginePipeline() {
@@ -246,8 +257,9 @@ GstEnginePipeline::~GstEnginePipeline() {
 
     // Wait for any ongoing state changes for this pipeline to complete before setting to NULL.
     // This prevents race conditions with async state transitions.
-    {
-      // Copy futures to local list to avoid holding mutex during waitForFinished()
+    // The wait is deadline-bounded: a state change stuck inside a broken source element would otherwise block this destructor (and with it the calling thread) forever.
+    if (!stuck_.load()) {
+      // Copy futures to local list to avoid holding mutex while waiting
       QList<QFuture<GstStateChangeReturn>> futures_to_wait;
       {
         QMutexLocker locker(&mutex_pending_state_changes_);
@@ -255,42 +267,56 @@ GstEnginePipeline::~GstEnginePipeline() {
         pending_state_changes_.clear();
       }
 
-      // Wait for all pending futures to complete
-      for (QFuture<GstStateChangeReturn> &future : futures_to_wait) {
-        future.waitForFinished();
+      QDeadlineTimer deadline(kFinishWatchdogTimeout);
+      for (const QFuture<GstStateChangeReturn> &future : std::as_const(futures_to_wait)) {
+        while (!future.isFinished() && !deadline.hasExpired()) QThread::msleep(50);
+        if (!future.isFinished()) {
+          stuck_ = true;
+          break;
+        }
       }
     }
 
-    // Setting the pipeline to NULL flushes it, which releases any pad still blocked in a serialized event (e.g. a manufactured-EOS gst_pad_send_event() call from ErrorMessageReceived(), still running on a worker thread).
-    // This must happen with pipeline_ still referenced/valid but before we wait for those pad-send futures below, otherwise waitForFinished() could block forever: nothing else would ever unblock that pad.
-    gst_element_set_state(pipeline_, GST_STATE_NULL);
+    if (stuck_.load()) {
+      // A state change never completed, so a GStreamer thread may still be inside gst_element_set_state() holding locks on this pipeline.
+      // Setting it to NULL or unreffing it here could block forever or crash; leaking the pipeline is the lesser harm.
+      // This also skips waiting for pending pad send events below, since without the NULL flush a manufactured-EOS pad send could block forever as well.
+      qLog(Error) << "Pipeline" << id() << "is stuck in a state change, abandoning it without cleanup";
+      pipeline_ = nullptr;
+      audiobin_ = nullptr;
+    }
+    else {
+      // Setting the pipeline to NULL flushes it, which releases any pad still blocked in a serialized event (e.g. a manufactured-EOS gst_pad_send_event() call from ErrorMessageReceived(), still running on a worker thread).
+      // This must happen with pipeline_ still referenced/valid but before we wait for those pad-send futures below, otherwise waitForFinished() could block forever: nothing else would ever unblock that pad.
+      gst_element_set_state(pipeline_, GST_STATE_NULL);
 
-    // Now wait for any manufactured-EOS pad sends still running on a worker thread, since they act directly on audiobin_'s pad and must not race with tearing it down below.
-    {
-      QList<QFuture<gboolean>> futures_to_wait;
+      // Now wait for any manufactured-EOS pad sends still running on a worker thread, since they act directly on audiobin_'s pad and must not race with tearing it down below.
       {
-        QMutexLocker locker(&mutex_pending_pad_send_events_);
-        futures_to_wait = pending_pad_send_events_;
-        pending_pad_send_events_.clear();
+        QList<QFuture<gboolean>> futures_to_wait;
+        {
+          QMutexLocker locker(&mutex_pending_pad_send_events_);
+          futures_to_wait = pending_pad_send_events_;
+          pending_pad_send_events_.clear();
+        }
+
+        for (QFuture<gboolean> &future : futures_to_wait) {
+          future.waitForFinished();
+        }
       }
 
-      for (QFuture<gboolean> &future : futures_to_wait) {
-        future.waitForFinished();
+      GstElement *audiobin = nullptr;
+      g_object_get(GST_OBJECT(pipeline_), "audio-sink", &audiobin, nullptr);
+
+      gst_object_unref(GST_OBJECT(pipeline_));
+      pipeline_ = nullptr;
+
+      if (audiobin_ && audiobin_ != audiobin) {
+        gst_object_unref(GST_OBJECT(audiobin_));
       }
-    }
-
-    GstElement *audiobin = nullptr;
-    g_object_get(GST_OBJECT(pipeline_), "audio-sink", &audiobin, nullptr);
-
-    gst_object_unref(GST_OBJECT(pipeline_));
-    pipeline_ = nullptr;
-
-    if (audiobin_ && audiobin_ != audiobin) {
-      gst_object_unref(GST_OBJECT(audiobin_));
-    }
-    audiobin_ = nullptr;
-    if (audiobin) {
-      gst_object_unref(GST_OBJECT(audiobin));
+      audiobin_ = nullptr;
+      if (audiobin) {
+        gst_object_unref(GST_OBJECT(audiobin));
+      }
     }
   }
 
@@ -536,6 +562,8 @@ bool GstEnginePipeline::Finish() {
     // Drive the pipeline to NULL without blocking; SetStateFinishedSlot() emits Finished() once it settles.
     // Routing through the async queue orders this NULL request after any state change already queued, and SetStateAsyncSlot() drops those queued non-NULL requests now that finishing has been requested.
     SetStateAsync(GST_STATE_NULL);
+    // If the NULL transition never settles (a source element can be stuck in a network request that ignores unlock), FinishWatchdogTimeout() abandons the pipeline so the engine is not blocked forever.
+    timer_finish_watchdog_->start();
   }
 
   return finished_.load();
@@ -2221,10 +2249,35 @@ void GstEnginePipeline::EmitFinishedIfQuiescent() {
   }
   if (!quiescent) return;
 
+  EmitFinishedOnce();
+
+}
+
+void GstEnginePipeline::EmitFinishedOnce() {
+
   bool expected = false;
   if (finished_.compare_exchange_strong(expected, true)) {
+    timer_finish_watchdog_->stop();
     Q_EMIT Finished();
   }
+
+}
+
+void GstEnginePipeline::FinishWatchdogTimeout() {
+
+  if (finished_.load()) return;
+
+  int pending = 0;
+  {
+    QMutexLocker locker(&mutex_pending_state_changes_);
+    pending = static_cast<int>(pending_state_changes_.size());
+  }
+
+  qLog(Error) << "Pipeline" << id() << "did not reach the NULL state within" << kFinishWatchdogTimeout.count() << "seconds (" << pending << "state change(s) still in flight), abandoning it";
+
+  // Mark the pipeline as stuck so the destructor knows a GStreamer thread may still hold locks on it and leaks it instead of blocking, then release Finish() waiters so the engine can move on.
+  stuck_ = true;
+  EmitFinishedOnce();
 
 }
 

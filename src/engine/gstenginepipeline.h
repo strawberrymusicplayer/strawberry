@@ -171,6 +171,7 @@ class GstEnginePipeline : public QObject {
   void SetStateAsync(const GstState state);
   void StartPlaybackAfterWarmup();
   void EmitFinishedIfQuiescent();
+  void EmitFinishedOnce();
   void SetNextUrl();
 
   // Static callbacks.  The GstEnginePipeline instance is passed in the last argument.
@@ -209,6 +210,7 @@ class GstEnginePipeline : public QObject {
   void ProcessPendingSeek(const GstState state);
 
  private Q_SLOTS:
+  void FinishWatchdogTimeout();
   void SetStateAsyncSlot(const GstState state);
   void SetStateFinishedSlot(const GstState state, const GstStateChangeReturn state_change_return);
   void SetFaderVolume(const qreal volume);
@@ -402,6 +404,11 @@ class GstEnginePipeline : public QObject {
   std::atomic<bool> about_to_finish_;
   std::atomic<bool> finish_requested_;
   std::atomic<bool> finished_;
+
+  // Set when a state change never completed within the watchdog deadline (e.g. a source element stuck in a network request that ignores unlock).
+  // A stuck pipeline is abandoned: Finished() is force-emitted so the engine can move on, and the destructor deliberately leaks the GStreamer objects instead of blocking forever.
+  std::atomic<bool> stuck_;
+  QTimer *timer_finish_watchdog_;
 
   // Identifies the current bus-watch session. Bumped by DisconnectCallbacks() so that GstBusMessageEvents posted from the GLib thread before teardown (Windows/macOS) are dropped instead of handled after the watch is gone or replaced.
   std::atomic<quint64> bus_message_generation_;
