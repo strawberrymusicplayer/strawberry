@@ -20,31 +20,109 @@
 #include "core/logging.h"
 #include "networkremoteclient.h"
 #include "core/player.h"
+#include "playlist/playlistmanager.h"
+#include "playlist/playlist.h"
 #include "constants/networkremoteconstants.h"
 
-NetworkRemoteClient::NetworkRemoteClient(const SharedPtr<Player> player, QObject *parent)
+NetworkRemoteClient::NetworkRemoteClient(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent)
     : QObject(parent),
     player_(player),
+    playlist_manager_ (playlist_manager),
     incoming_msg_(new NetworkRemoteIncomingMsg(this)),
-    outgoing_msg_(new NetworkRemoteOutgoingMsg(player, this)) {
+    outgoing_msg_(new NetworkRemoteOutgoingMsg(player, playlist_manager, this)) {
     QObject::connect(this, &NetworkRemoteClient::RequestPlay, player_.get(), [this]() { player_->Play(); });
     QObject::connect(this, &NetworkRemoteClient::RequestPause, player_.get(), &Player::Pause);
     QObject::connect(this, &NetworkRemoteClient::RequestNext, player_.get(), &Player::Next);
     QObject::connect(this, &NetworkRemoteClient::RequestPrevious, player_.get(), &Player::Previous);
     QObject::connect(this, &NetworkRemoteClient::RequestStop, player_.get(), [this]() { player_->Stop(); });
+    QObject::connect(this, &NetworkRemoteClient::RequestPlaylistSongs, this, &NetworkRemoteClient::HandleRequestPlaylistSongs);
+    QObject::connect(this, &NetworkRemoteClient::RequestPlaySong, this, &NetworkRemoteClient::HandleRequestPlaySong);
+    QObject::connect(this, &NetworkRemoteClient::RequestAddSongToPlaylist, this, &NetworkRemoteClient::HandleRequestAddSongToPlaylist);
+    QObject::connect(this, &NetworkRemoteClient::RequestRemoveSongFromPlaylist, this, &NetworkRemoteClient::HandleRequestRemoveSongFromPlaylist);
 }
 
 NetworkRemoteClient::~NetworkRemoteClient(){}
 
 void NetworkRemoteClient::Init(QTcpSocket *socket){
-  socket_ = socket;
-  QObject::connect(incoming_msg_, &NetworkRemoteIncomingMsg::InMsgParsed, this, &NetworkRemoteClient::ProcessIncoming);
-  incoming_msg_->Init(socket_);
-  outgoing_msg_->Init(socket_);
+    socket_ = socket;
+    QObject::connect(incoming_msg_, &NetworkRemoteIncomingMsg::InMsgParsed, this, &NetworkRemoteClient::ProcessIncoming);
+    incoming_msg_->Init(socket_);
+    outgoing_msg_->Init(socket_);
 }
 
 QTcpSocket *NetworkRemoteClient::GetSocket() {
-  return socket_;
+    return socket_;
+}
+
+void NetworkRemoteClient::SetPlaylistView(QPointer<PlaylistView> playlist_view) {
+    outgoing_msg_->SetPlaylistView(playlist_view);
+}
+
+void NetworkRemoteClient::SendPlaylistChanged(quint32 playlist_id) {
+    outgoing_msg_->SendPlaylistChanged(playlist_id);
+}
+
+void NetworkRemoteClient::SendPlaylistActivated(quint32 playlist_id) {
+    outgoing_msg_->SendPlaylistActivated(playlist_id);
+}
+
+void NetworkRemoteClient::HandleRequestPlaylistSongs(const quint32 playlist_id, const quint32 upcoming_count) {
+    outgoing_msg_->SendPlaylistSongs(playlist_id, upcoming_count);
+}
+
+// Plays a specific row within a specific playlist - the same SetActiveToCurrent()
+// + PlayAt() sequence MainWindow::PlayIndex() uses for a double-click on the
+// desktop, just driven by an explicit row index from the network instead of a
+// QModelIndex from a UI click.
+void NetworkRemoteClient::HandleRequestPlaySong(const quint32 playlist_id, const quint32 row_index) {
+    playlist_manager_->SetCurrentOrOpen(static_cast<int>(playlist_id));
+    playlist_manager_->SetActiveToCurrent();
+    player_->PlayAt(static_cast<int>(row_index), false, 0, EngineBase::TrackChangeType::Manual, Playlist::AutoScroll::Never, true);
+    outgoing_msg_->SendPlaySongResponse(true);
+}
+
+// Adds the currently-playing song to an existing playlist, or to a brand new
+// one if new_playlist_name is non-empty. Per the design decision this only
+// targets open playlists - a closed target has no live Playlist object to
+// mutate, so it's rejected rather than silently opened.
+void NetworkRemoteClient::HandleRequestAddSongToPlaylist(const quint32 target_playlist_id, const QString new_playlist_name) {
+    int resolved_id = static_cast<int>(target_playlist_id);
+
+    if (!new_playlist_name.isEmpty()) {
+        int captured_id = -1;
+        QMetaObject::Connection conn = QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistAdded, this,
+                                                        [&captured_id](int id, const QString &, bool) { captured_id = id; });
+        playlist_manager_->New(new_playlist_name);
+        QObject::disconnect(conn);
+        resolved_id = captured_id;
+    }
+
+    Playlist *pl = playlist_manager_->playlist(resolved_id);
+    bool accepted = false;
+    if (pl) {
+        PlaylistItemPtr current_item = player_->GetCurrentItem();
+        if (current_item) {
+            SongList songs;
+            songs.append(current_item->EffectiveMetadata());
+            pl->InsertSongs(songs, -1, false, false, false, true);
+            accepted = true;
+        }
+    }
+    outgoing_msg_->SendAddSongToPlaylistResponse(accepted, accepted ? static_cast<quint32>(resolved_id) : 0);
+}
+
+// Removes a single row from an open playlist. row_index must come from a
+// recent ResponsePlaylistSongs - the client is expected to only offer removal
+// on current/upcoming rows, not stale history rows, to avoid an index that no
+// longer matches the playlist's actual contents.
+void NetworkRemoteClient::HandleRequestRemoveSongFromPlaylist(const quint32 playlist_id, const quint32 row_index) {
+    Playlist *pl = playlist_manager_->playlist(static_cast<int>(playlist_id));
+    bool accepted = false;
+    if (pl && pl->has_item_at(static_cast<int>(row_index))) {
+        pl->RemoveItemsWithoutUndo(QList<int>{static_cast<int>(row_index)});
+        accepted = true;
+    }
+    outgoing_msg_->SendRemoveSongFromPlaylistResponse(accepted);
 }
 
 void NetworkRemoteClient::ProcessIncoming() {
@@ -103,6 +181,30 @@ void NetworkRemoteClient::ProcessIncoming() {
     case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_CONNECT:
         qLog(Warning) << "Duplicate handshake ignored";
         break;
+        // new case in the main switch:
+    case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_INITIAL_INFO:
+        outgoing_msg_->SendInitialInfo();
+        break;
+    case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_PLAYLIST_SONGS: {
+        const nw::remote::RequestPlaylistSongs request = incoming_msg_->GetRequestPlaylistSongs();
+        Q_EMIT RequestPlaylistSongs(request.playlistId(), request.upcomingCount());
+        break;
+    }
+    case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_PLAY_SONG: {
+        const nw::remote::RequestPlaySong request = incoming_msg_->GetRequestPlaySong();
+        Q_EMIT RequestPlaySong(request.playlistId(), request.rowIndex());
+        break;
+    }
+    case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_ADD_SONG_TO_PLAYLIST: {
+        const nw::remote::RequestAddSongToPlaylist request = incoming_msg_->GetRequestAddSongToPlaylist();
+        Q_EMIT RequestAddSongToPlaylist(request.targetPlaylistId(), request.newPlaylistName());
+        break;
+    }
+    case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_REMOVE_SONG_FROM_PLAYLIST: {
+        const nw::remote::RequestRemoveSongFromPlaylist request = incoming_msg_->GetRequestRemoveSongFromPlaylist();
+        Q_EMIT RequestRemoveSongFromPlaylist(request.playlistId(), request.rowIndex());
+        break;
+    }
     default:
         qLog(Debug) << "Unknown message type";
         outgoing_msg_->SendDisconnect(nw::remote::ReasonDisconnectGadget::ReasonDisconnect::REASON_DISCONNECT_UNKNOWN_MSGTYPE);

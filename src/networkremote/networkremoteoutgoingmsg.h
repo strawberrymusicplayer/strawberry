@@ -22,37 +22,56 @@
 
 #include <QObject>
 #include <QByteArray>
+#include <QPointer>
+#include "playlist/playlist.h"
 #include "playlist/playlistitem.h"
 #include "includes/shared_ptr.h"
 #include "engine/enginebase.h"
 #include "networkremote/RemoteMessages.qpb.h"
 
 class Playlist;
+class PlaylistManager;
+class PlaylistView;
 class Player;
 class QTcpSocket;
 
 class NetworkRemoteOutgoingMsg : public QObject{
     Q_OBJECT
- public:
-  explicit NetworkRemoteOutgoingMsg(const SharedPtr<Player> player, QObject *parent = nullptr);
-  void Init(QTcpSocket *);
-  void SendCurrentTrackInfo();
-  void SendEngineState(EngineBase::State state);
-  void SendMsg();
-  void SendDisconnect(nw::remote::ReasonDisconnectGadget::ReasonDisconnect reason);
-  void SendConnectResponse(const bool accepted);
+public:
+    explicit NetworkRemoteOutgoingMsg(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent = nullptr);
+    void Init(QTcpSocket *);
+    void SendCurrentTrackInfo();
+    void SendEngineState(EngineBase::State state);
+    void SendInitialInfo();
+    void SendMsg();
+    void SendDisconnect(nw::remote::ReasonDisconnectGadget::ReasonDisconnect reason);
+    void SendConnectResponse(const bool accepted);
+    void SendPlaylistSongs(const quint32 playlist_id, const quint32 upcoming_count);
+    void SendPlaySongResponse(const bool accepted);
+    void SendAddSongToPlaylistResponse(const bool accepted, const quint32 playlist_id);
+    void SendRemoveSongFromPlaylistResponse(const bool accepted);
+    void SendPlaylistChanged(const quint32 playlist_id);
+    void SendPlaylistActivated(const quint32 playlist_id);
+    void SetPlaylistView(QPointer<PlaylistView> playlist_view);
+    bool IsNumericColumn(Playlist::Column column);
 
- private:
-  static nw::remote::PlayerStateGadget::PlayerState MapEngineState(EngineBase::State state);
-  SharedPtr<Player> player_ ;
-  long bytes_out_;
-  QTcpSocket *socket_;
-  PlaylistItemPtr current_item_;
-  QByteArray msg_stream_;
-  std::string msg_string_;
-  nw::remote::Message msg_;
-  nw::remote::SongMetadata song_;
-  nw::remote::ResponseSongMetadata response_song_;
+private:
+    static nw::remote::PlayerStateGadget::PlayerState MapEngineState(EngineBase::State state);
+    static nw::remote::EngineStateChange BuildEngineStateChange(EngineBase::State state);
+    nw::remote::ResponseSongMetadata BuildResponseSongMetadata();
+    nw::remote::ResponsePlaylists BuildResponsePlaylists();
+
+    SharedPtr<Player> player_ ;
+    SharedPtr<PlaylistManager> playlist_manager_;
+    QPointer<PlaylistView> playlist_view_;
+    long bytes_out_;
+    QTcpSocket *socket_;
+    PlaylistItemPtr current_item_;
+    QByteArray msg_stream_;
+    std::string msg_string_;
+    nw::remote::Message msg_;
+    nw::remote::SongMetadata song_;
+    nw::remote::ResponseSongMetadata response_song_;
 };
 
 #endif
