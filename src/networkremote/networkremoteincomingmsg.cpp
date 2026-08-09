@@ -25,64 +25,80 @@
 
 NetworkRemoteIncomingMsg::NetworkRemoteIncomingMsg(QObject *parent)
     : QObject(parent),
-      socket_(nullptr){}
+    socket_(nullptr){}
 
 NetworkRemoteIncomingMsg::~NetworkRemoteIncomingMsg() = default;
 
 void NetworkRemoteIncomingMsg::Init(QTcpSocket *socket) {
-  socket_ = socket;
-  QObject::connect(socket_, &QIODevice::readyRead, this, &NetworkRemoteIncomingMsg::ReadyRead);
+    socket_ = socket;
+    QObject::connect(socket_, &QIODevice::readyRead, this, &NetworkRemoteIncomingMsg::ReadyRead);
 }
 
 void NetworkRemoteIncomingMsg::SetMsgType() {
-  msg_type_ = msg_.type();
+    msg_type_ = msg_.type();
 }
 
 nw::remote::MsgTypeGadget::MsgType NetworkRemoteIncomingMsg::GetMsgType() {
-  return msg_type_;
+    return msg_type_;
+}
+
+nw::remote::RequestPlaylistSongs NetworkRemoteIncomingMsg::GetRequestPlaylistSongs() {
+    return msg_.requestPlaylistSongs();
+}
+
+nw::remote::RequestPlaySong NetworkRemoteIncomingMsg::GetRequestPlaySong() {
+    return msg_.requestPlaySong();
+}
+
+nw::remote::RequestAddSongToPlaylist NetworkRemoteIncomingMsg::GetRequestAddSongToPlaylist() {
+    return msg_.requestAddSongToPlaylist();
+}
+
+nw::remote::RequestRemoveSongFromPlaylist NetworkRemoteIncomingMsg::GetRequestRemoveSongFromPlaylist() {
+    return msg_.requestRemoveSongFromPlaylist();
 }
 
 void NetworkRemoteIncomingMsg::ReadyRead() {
-  qLog(Debug) << "Ready To Read";
-  msg_stream_.append(socket_->readAll());
-  constexpr quint32 kMaxMsgLen = 1024 * 1024; // 1 MiB
+    qLog(Debug) << "Ready To Read";
+    msg_stream_.append(socket_->readAll());
+    constexpr quint32 kMaxMsgLen = 1024 * 1024; // 1 MiB
 
-  while (true) {
-    if (msg_stream_.size() < 4) {
-      break;
-    }
+    while (true) {
+        if (msg_stream_.size() < 4) {
+            break;
+        }
 
-    QDataStream len_stream(msg_stream_.left(4));
-    len_stream.setByteOrder(QDataStream::BigEndian);
-    quint32 msg_len = 0;
-    len_stream >> msg_len;
+        QDataStream len_stream(msg_stream_.left(4));
+        len_stream.setByteOrder(QDataStream::BigEndian);
+        quint32 msg_len = 0;
+        len_stream >> msg_len;
 
-    if (msg_len > kMaxMsgLen) {
-      qLog(Warning) << "Message length" << msg_len << "exceeds limit; dropping connection";
-      msg_stream_.clear();
-      socket_->disconnectFromHost();
-      break;
-    }
+        if (msg_len > kMaxMsgLen) {
+            qLog(Warning) << "Message length" << msg_len << "exceeds limit; dropping connection";
+            msg_stream_.clear();
+            socket_->disconnectFromHost();
+            break;
+        }
 
-    if (static_cast<quint64>(msg_stream_.size()) < 4ULL + msg_len) {
-      // Payload hasn't fully arrived yet.
-      break;
-    }
+        if (static_cast<quint64>(msg_stream_.size()) < 4ULL + msg_len) {
+            // Payload hasn't fully arrived yet.
+            break;
+        }
 
-    const QByteArray complete_msg = msg_stream_.mid(4, msg_len);
-    msg_stream_.remove(0, 4 + msg_len);
-    msg_ = nw::remote::Message();
-    QProtobufSerializer serializer;
-    msg_.deserialize(&serializer, complete_msg);
-    if (serializer.lastError() == QAbstractProtobufSerializer::Error::None) {
-      SetMsgType();
-      Q_EMIT InMsgParsed();
+        const QByteArray complete_msg = msg_stream_.mid(4, msg_len);
+        msg_stream_.remove(0, 4 + msg_len);
+        msg_ = nw::remote::Message();
+        QProtobufSerializer serializer;
+        msg_.deserialize(&serializer, complete_msg);
+        if (serializer.lastError() == QAbstractProtobufSerializer::Error::None) {
+            SetMsgType();
+            Q_EMIT InMsgParsed();
+        }
+        else {
+            qLog(Warning) << "Failed to deserialize message: ("
+                          << qToUnderlying(serializer.lastError()) << ") " << serializer.lastErrorString();
+        }
     }
-    else {
-      qLog(Warning) << "Failed to deserialize message: ("
-            << qToUnderlying(serializer.lastError()) << ") " << serializer.lastErrorString();
-    }
-  }
 }
 
 quint32 NetworkRemoteIncomingMsg::GetMsgVersion() {

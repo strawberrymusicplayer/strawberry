@@ -28,28 +28,31 @@
 class QTcpSocket;
 
 class NetworkRemoteIncomingMsg : public QObject{
-  Q_OBJECT
- public:
-  explicit NetworkRemoteIncomingMsg(QObject *parent = nullptr);
-  ~NetworkRemoteIncomingMsg(); 
-  void Init(QTcpSocket* socket);
+    Q_OBJECT
+public:
+    explicit NetworkRemoteIncomingMsg(QObject *parent = nullptr);
+    ~NetworkRemoteIncomingMsg();
+    void Init(QTcpSocket* socket);
+    nw::remote::MsgTypeGadget::MsgType GetMsgType();
+    quint32 GetMsgVersion();
+    QString GetClientName();
+    nw::remote::RequestPlaylistSongs GetRequestPlaylistSongs();
+    nw::remote::RequestPlaySong GetRequestPlaySong();
+    nw::remote::RequestAddSongToPlaylist GetRequestAddSongToPlaylist();
+    nw::remote::RequestRemoveSongFromPlaylist GetRequestRemoveSongFromPlaylist();
 
-  nw::remote::MsgTypeGadget::MsgType GetMsgType();
-  quint32 GetMsgVersion();
-  QString GetClientName();
+private Q_SLOTS:
+    void ReadyRead();
 
- private Q_SLOTS:
-  void ReadyRead();
+Q_SIGNALS:
+    void InMsgParsed();
 
- Q_SIGNALS:
-  void InMsgParsed();
-
- private:
-  nw::remote::Message msg_;
-  nw::remote::MsgTypeGadget::MsgType msg_type_;
-  QTcpSocket *socket_;
-  QByteArray msg_stream_;
-  void SetMsgType();
+private:
+    nw::remote::Message msg_;
+    nw::remote::MsgTypeGadget::MsgType msg_type_;
+    QTcpSocket *socket_;
+    QByteArray msg_stream_;
+    void SetMsgType();
 };
 
 #endif

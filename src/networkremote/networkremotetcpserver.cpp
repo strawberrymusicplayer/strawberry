@@ -74,3 +74,7 @@ void NetworkRemoteTcpServer::StopServer() {
 bool NetworkRemoteTcpServer::ServerUp() {
   return server_->isListening();
 }
+
+void NetworkRemoteTcpServer::SetPlaylistView(QPointer<PlaylistView> playlist_view) {
+    client_mgr_->SetPlaylistView(playlist_view);
+}

@@ -25,54 +25,66 @@
 
 NetworkRemote::NetworkRemote(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent)
     : QObject(parent),
-      player_(player),
-      playlist_manager_(playlist_manager),
-      enabled_(false),
-      remote_port_(8888),
-      server_(nullptr),
-      settings_(new NetworkRemoteSettings()){
-  setObjectName("NetworkRemote");
+    player_(player),
+    playlist_manager_(playlist_manager),
+    enabled_(false),
+    remote_port_(8888),
+    server_(nullptr),
+    settings_(new NetworkRemoteSettings()){
+    setObjectName("NetworkRemote");
 }
 
 NetworkRemote::~NetworkRemote() {
-  StopTcpServer();
-  delete settings_;
+    StopTcpServer();
+    delete settings_;
+}
+
+void NetworkRemote::SetPlaylistView(QPointer<PlaylistView> playlist_view) {
+    playlist_view_ = playlist_view;
+    qLog(Debug) << "NetworkRemote::SetPlaylistView, non-null:" << !playlist_view_.isNull();
+    if (server_) {
+        server_->SetPlaylistView(playlist_view_);
+    }
 }
 
 void NetworkRemote::Init() {
-  qLog(Debug) << "NetworkRemote Init() ";
-  LoadSettings();
-  if (enabled_) {
-    StartTcpServer();
-  }
-  else {
-    StopTcpServer();
-  }
+    qLog(Debug) << "NetworkRemote Init() ";
+    LoadSettings();
+    if (enabled_) {
+        StartTcpServer();
+    }
+    else {
+        StopTcpServer();
+    }
 }
 
 void NetworkRemote::Update() {
-  LoadSettings();
-  if (enabled_) {
-    StopTcpServer();
-    StartTcpServer();
-  }
-  else {
-    StopTcpServer();
-  }
-  qLog(Debug) << "NetworkRemote Updated ==== ";
+    const bool was_enabled = enabled_;
+    const int old_port = remote_port_;
+
+    LoadSettings();
+
+    if (!enabled_) {
+        StopTcpServer();
+    }
+    else if (!was_enabled || old_port != remote_port_) {
+        StopTcpServer();
+        StartTcpServer();
+    }
+    qLog(Debug) << "NetworkRemote Updated ==== ";
 }
 
 void NetworkRemote::LoadSettings() {
-  settings_->Load();
-  enabled_ = settings_->UseRemote();
-  const int port = settings_->GetPort();
-  if (port >= 8888 && port <= 65535) {
-      remote_port_ = port;
-  }
-  else {
-    remote_port_ = 8888;
-    qLog(Warning) << "Invalid NetworkRemote port in settings, falling back to 8888";
-  }
+    settings_->Load();
+    enabled_ = settings_->UseRemote();
+    const int port = settings_->GetPort();
+    if (port >= 8888 && port <= 65535) {
+        remote_port_ = port;
+    }
+    else {
+        remote_port_ = 8888;
+        qLog(Warning) << "Invalid NetworkRemote port in settings, falling back to 8888";
+    }
 }
 
 QNetworkAddressEntry NetworkRemote::DetectLocalAddressEntry() {
@@ -123,24 +135,25 @@ QHostAddress NetworkRemote::DetectLocalIpAddress() {
 }
 
 void NetworkRemote::StartTcpServer() {
-  if (server_) {
-    server_->StopServer();
-    delete server_;
-    server_ = nullptr;
-  }
-  const QNetworkAddressEntry entry = DetectLocalAddressEntry();
-  if (entry.ip().isNull()) {
-    qLog(Warning) << "NetworkRemote: No suitable local network interface found; not starting TCP server";
-    return;
-  }
-  ipAddr_ = entry.ip();
-  server_ = new NetworkRemoteTcpServer(player_, playlist_manager_, this);
-  server_->StartServer(ipAddr_, remote_port_, entry);
-  qLog(Debug) << "TcpServer started on" << ipAddr_.toString() << "port" << remote_port_;
+    if (server_) {
+        server_->StopServer();
+        delete server_;
+        server_ = nullptr;
+    }
+    const QNetworkAddressEntry entry = DetectLocalAddressEntry();
+    if (entry.ip().isNull()) {
+        qLog(Warning) << "NetworkRemote: No suitable local network interface found; not starting TCP server";
+        return;
+    }
+    ipAddr_ = entry.ip();
+    server_ = new NetworkRemoteTcpServer(player_, playlist_manager_, this);
+    server_->SetPlaylistView(playlist_view_);
+    server_->StartServer(ipAddr_, remote_port_, entry);
+    qLog(Debug) << "TcpServer started on" << ipAddr_.toString() << "port" << remote_port_;
 }
 
 void NetworkRemote::StopTcpServer() {
-  if (server_) {
-    server_->StopServer();
-  }
+    if (server_) {
+        server_->StopServer();
+    }
 }
