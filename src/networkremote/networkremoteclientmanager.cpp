@@ -24,6 +24,7 @@
 #include "core/logging.h"
 #include "core/player.h"
 #include "playlist/playlistmanager.h"
+#include "playlist/playlist.h"
 #include "core/song.h"
 
 
@@ -47,6 +48,17 @@ NetworkRemoteClientManager::NetworkRemoteClientManager(const SharedPtr<Player> p
         BroadcastEngineState(player_->GetState());
     });
 
+    // A playlist becoming the active (audio-producing) one - e.g. from a
+    // remote RequestPlaySong, or from the desktop UI itself.
+    QObject::connect(&*playlist_manager_, &PlaylistManager::ActiveChanged, this, [this](Playlist *pl) {
+        if (pl) BroadcastPlaylistActivated(static_cast<quint32>(pl->id()));
+    });
+
+    // Any open playlist's song list changed (songs added/removed/reordered).
+    QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistChanged, this, [this](Playlist *pl) {
+        if (pl) BroadcastPlaylistChanged(static_cast<quint32>(pl->id()));
+    });
+
     // Seeking emits Seeked on every mouse-move while dragging the slider;
     // coalesce the burst into a single broadcast once the drag settles.
     seek_debounce_timer_ = new QTimer(this);
@@ -68,8 +80,8 @@ void NetworkRemoteClientManager::AddClient(QTcpSocket *socket) {
     qLog(Debug) << "New Client connection +++++++++++++++";
     QObject::connect(socket, &QAbstractSocket::errorOccurred, this, &NetworkRemoteClientManager::Error);
     QObject::connect(socket, &QAbstractSocket::stateChanged, this, &NetworkRemoteClientManager::StateChanged);
-
-    QSharedPointer<NetworkRemoteClient> client = QSharedPointer<NetworkRemoteClient>::create(player_);
+    QSharedPointer<NetworkRemoteClient> client = QSharedPointer<NetworkRemoteClient>::create(player_, playlist_manager_);
+    client->SetPlaylistView(playlist_view_);
     client->Init(socket);
     clients_.append(client);
 
@@ -146,10 +158,31 @@ void NetworkRemoteClientManager::StateChanged() {
     }
 }
 
+void NetworkRemoteClientManager::SetPlaylistView(QPointer<PlaylistView> playlist_view) {
+    playlist_view_ = playlist_view;
+    for (const QSharedPointer<NetworkRemoteClient> &client : std::as_const(clients_)) {
+        client->SetPlaylistView(playlist_view_);
+    }
+}
+
 void NetworkRemoteClientManager::BroadcastEngineState(EngineBase::State state) {
     qLog(Debug) << "Broadcasting engine state to" << clients_.count() << "clients";
     for (const QSharedPointer<NetworkRemoteClient> &client : std::as_const(clients_)) {
         client->SendEngineState(state);
+    }
+}
+
+void NetworkRemoteClientManager::BroadcastPlaylistChanged(quint32 playlist_id) {
+    qLog(Debug) << "Broadcasting playlist" << playlist_id << "changed to" << clients_.count() << "clients";
+    for (const QSharedPointer<NetworkRemoteClient> &client : std::as_const(clients_)) {
+        client->SendPlaylistChanged(playlist_id);
+    }
+}
+
+void NetworkRemoteClientManager::BroadcastPlaylistActivated(quint32 playlist_id) {
+    qLog(Debug) << "Broadcasting playlist" << playlist_id << "activated to" << clients_.count() << "clients";
+    for (const QSharedPointer<NetworkRemoteClient> &client : std::as_const(clients_)) {
+        client->SendPlaylistActivated(playlist_id);
     }
 }
 

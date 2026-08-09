@@ -33,6 +33,30 @@ enum MsgType {
     // Connection handshake
     MSG_TYPE_REQUEST_CONNECT = 17;
     MSG_TYPE_RESPONSE_CONNECT = 18;
+
+    // Initial state, song and playlist
+    MSG_TYPE_REQUEST_INITIAL_INFO = 19;
+    MSG_TYPE_RESPONSE_INITIAL_INFO = 20;
+
+    // Playlist songs (queue view)
+    MSG_TYPE_REQUEST_PLAYLIST_SONGS = 21;
+    MSG_TYPE_RESPONSE_PLAYLIST_SONGS = 22;
+
+    // Play a specific song within a playlist
+    MSG_TYPE_REQUEST_PLAY_SONG = 23;
+    MSG_TYPE_RESPONSE_PLAY_SONG = 24;
+
+    // Add current song to a playlist (existing or newly created)
+    MSG_TYPE_REQUEST_ADD_SONG_TO_PLAYLIST = 25;
+    MSG_TYPE_RESPONSE_ADD_SONG_TO_PLAYLIST = 26;
+
+    // Remove a song from a playlist
+    MSG_TYPE_REQUEST_REMOVE_SONG_FROM_PLAYLIST = 27;
+    MSG_TYPE_RESPONSE_REMOVE_SONG_FROM_PLAYLIST = 28;
+
+    // Server-initiated broadcasts (sent to all connected clients, not just the requester)
+    MSG_TYPE_PLAYLIST_CHANGED = 29;
+    MSG_TYPE_PLAYLIST_ACTIVATED = 30;
 }
 
 enum PlayerState {
@@ -134,6 +158,92 @@ message EngineStateChange {
     EngineState state = 1;
 }
 
+message PlaylistInfo {
+    uint32 id = 1;
+    string name = 2;
+    uint32 item_count = 3;
+    bool is_open = 4;
+    bool is_playing = 5;
+}
+
+message ResponsePlaylists {
+    repeated PlaylistInfo playlists = 1;
+}
+
+message RequestInitialInfo {
+    bool send = 1;
+}
+
+message ResponseInitialInfo {
+    ResponseSongMetadata song_info = 1;
+    ResponsePlaylists playlists = 2;
+    EngineStateChange engine_state = 3;
+}
+
+message RequestPlaylistSongs {
+    uint32 playlist_id = 1;
+    uint32 upcoming_count = 2;
+}
+
+// One visible column's identity, sent once per ResponsePlaylistSongs rather
+// than re-sent per cell. is_numeric reflects the server's own knowledge of
+// the underlying Playlist::Column (Track, Year, Length, PlayCount, etc. are
+// numeric/measurement-like; Title, Artist, Album, Genre etc. are text) -
+// clients use it to decide left vs. center alignment without having to guess
+// from formatted cell content.
+message ColumnInfo {
+    string name = 1;
+    bool is_numeric = 2;
+}
+
+message PlaylistSongRow {
+    repeated string values = 1;   // positionally aligned with ResponsePlaylistSongs.columns
+    uint32 row_index = 2;         // absolute row position within the playlist; needed for play/remove
+}
+
+message ResponsePlaylistSongs {
+    uint32 playlist_id = 1;
+    repeated ColumnInfo columns = 2;      // visible desktop columns, left-to-right order
+    repeated PlaylistSongRow rows = 3;    // rows[0] = this playlist's current/last-played row; rows[1..] = upcoming
+    bool is_active = 4;                   // true only if this playlist is actually producing audio right now
+}
+
+message RequestPlaySong {
+    uint32 playlist_id = 1;
+    uint32 row_index = 2;
+}
+
+message ResponsePlaySong {
+    bool accepted = 1;
+}
+
+message RequestAddSongToPlaylist {
+    uint32 target_playlist_id = 1;  // ignored if new_playlist_name is set
+    string new_playlist_name = 2;   // non-empty => create playlist, use as target
+}
+
+message ResponseAddSongToPlaylist {
+    bool accepted = 1;
+    uint32 playlist_id = 2;         // resolved id (existing or newly created)
+}
+
+message RequestRemoveSongFromPlaylist {
+    uint32 playlist_id = 1;
+    uint32 row_index = 2;
+}
+
+message ResponseRemoveSongFromPlaylist {
+    bool accepted = 1;
+}
+
+message PlaylistChanged {
+    uint32 playlist_id = 1;
+}
+
+message PlaylistActivated {
+    uint32 playlist_id = 1;
+}
+
 message Message {
     MsgType type = 1;
     uint32 version = 15;
@@ -153,5 +263,17 @@ message Message {
         ResponsePause response_pause = 14;
         RequestConnect request_connect = 16;
         ResponseConnect response_connect = 17;
+        RequestInitialInfo request_initial_info = 18;
+        ResponseInitialInfo response_initial_info = 19;
+        RequestPlaylistSongs request_playlist_songs = 20;
+        ResponsePlaylistSongs response_playlist_songs = 21;
+        RequestPlaySong request_play_song = 22;
+        ResponsePlaySong response_play_song = 23;
+        RequestAddSongToPlaylist request_add_song_to_playlist = 24;
+        ResponseAddSongToPlaylist response_add_song_to_playlist = 25;
+        RequestRemoveSongFromPlaylist request_remove_song_from_playlist = 26;
+        ResponseRemoveSongFromPlaylist response_remove_song_from_playlist = 27;
+        PlaylistChanged playlist_changed = 28;
+        PlaylistActivated playlist_activated = 29;
     }
 }
