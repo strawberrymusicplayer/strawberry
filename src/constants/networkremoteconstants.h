@@ -27,11 +27,11 @@ namespace NetworkRemoteConstants {
 // Protocol version history:
 // 1 - initial protocol (song info, transport control, engine state push)
 // 2 - position/length in ResponseSongMetadata, version field in Message
-constexpr quint32 kProtocolVersion = 3;
+constexpr quint32 kProtocolVersion = 4;
 
 // Oldest client protocol version this server accepts.
 // 0 = clients that predate the version field.
-constexpr quint32 kMinSupportedVersion = 3;
+constexpr quint32 kMinSupportedVersion = 4;
 
 }  // namespace NetworkRemoteConstants
 

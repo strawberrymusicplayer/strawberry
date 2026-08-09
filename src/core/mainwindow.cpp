@@ -511,6 +511,10 @@ MainWindow::MainWindow(Application *app,
 #endif
                               app_->current_albumcover_loader());
 
+#ifdef HAVE_NETWORKREMOTE
+  app_->network_remote()->SetPlaylistView(ui_->playlist->view());
+#endif
+
   collection_view_->view()->setModel(app_->collection()->model()->filter());
   collection_view_->view()->Init(app->task_manager(), app->tagreader_client(), app->network(), app->albumcover_loader(), app->current_albumcover_loader(), app->cover_providers(), app->lyrics_providers(), app->collection(), app->device_manager(), app->streaming_services());
   device_view_->view()->Init(app->task_manager(), app->tagreader_client(), app->device_manager(), app->collection_model()->directory_model());
