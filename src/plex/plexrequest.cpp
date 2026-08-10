@@ -59,7 +59,20 @@ PlexRequest::PlexRequest(PlexService *service, PlexUrlHandler *url_handler, cons
       songs_total_(0),
       songs_received_(0) {
 
-  if (incremental_) songs_ = existing_songs;
+  if (incremental_) {
+    songs_ = existing_songs;
+    // Cover URLs carry the access token, refresh it in case the token changed since the last sync.
+    for (Song &song : songs_) {
+      QUrl cover_url = song.art_automatic();
+      if (cover_url.isEmpty() || cover_url.isLocalFile()) continue;
+      QUrlQuery cover_url_query(cover_url);
+      if (!cover_url_query.hasQueryItem(u"X-Plex-Token"_s)) continue;
+      cover_url_query.removeAllQueryItems(u"X-Plex-Token"_s);
+      cover_url_query.addQueryItem(u"X-Plex-Token"_s, token());
+      cover_url.setQuery(cover_url_query);
+      song.set_art_automatic(cover_url);
+    }
+  }
 
 }
 
@@ -244,8 +257,6 @@ void PlexRequest::ParseSong(const QJsonObject &object_metadata) {
   const qint64 created = object_metadata["addedAt"_L1].toVariant().toLongLong();
   const qint64 updated = object_metadata["updatedAt"_L1].toVariant().toLongLong();
 
-  newest_updated_at_ = qMax(newest_updated_at_, qMax(created, updated));
-
   const QJsonArray array_media = object_metadata["Media"_L1].toArray();
   if (array_media.isEmpty() || !array_media.first().isObject()) {
     Error(u"Invalid Json reply, song is missing Media."_s, object_metadata);
@@ -313,6 +324,9 @@ void PlexRequest::ParseSong(const QJsonObject &object_metadata) {
   song.set_ctime(created);
   song.set_bitrate(bitrate);
   song.set_valid(true);
+
+  // Only raise the incremental sync watermark for songs that were actually added, otherwise a song failing validation would be skipped by all future incremental syncs.
+  newest_updated_at_ = qMax(newest_updated_at_, qMax(created, updated));
 
   songs_.insert(song.song_id(), song);
 

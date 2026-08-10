@@ -83,7 +83,8 @@ PlexService::PlexService(const SharedPtr<TaskManager> task_manager,
       download_album_covers_(PlexSettings::kDefaultDownloadAlbumCovers),
       last_update_(0),
       pin_id_(0),
-      pin_polls_remaining_(0) {
+      pin_polls_remaining_(0),
+      pin_poll_reply_(nullptr) {
 
   url_handlers->Register(url_handler_);
 
@@ -147,6 +148,7 @@ QNetworkRequest PlexService::CreatePlexTvRequest(const QUrl &url) const {
 
   QNetworkRequest network_request(url);
   network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  network_request.setTransferTimeout(QNetworkRequest::DefaultTransferTimeoutConstant);
   network_request.setRawHeader("Accept", "application/json");
   network_request.setRawHeader("X-Plex-Product", kClientProduct);
   network_request.setRawHeader("X-Plex-Client-Identifier", client_id_.toUtf8());
@@ -257,9 +259,12 @@ void PlexService::PollPin() {
     return;
   }
 
+  if (pin_poll_reply_) return;  // The previous poll is still in flight.
+
   const QUrl url(QLatin1String(kPlexTvUrl) + "/api/v2/pins/"_L1 + QString::number(pin_id_));
   QNetworkReply *reply = network_->get(CreatePlexTvRequest(url));
   replies_ << reply;
+  pin_poll_reply_ = reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { HandlePollPinReply(reply); });
 
 }
@@ -268,6 +273,7 @@ void PlexService::HandlePollPinReply(QNetworkReply *reply) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
+  if (reply == pin_poll_reply_) pin_poll_reply_ = nullptr;
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
@@ -404,8 +410,9 @@ void PlexService::HandleResourcesReply(QNetworkReply *reply) {
   }
   else {
     // Refresh the access token for the currently configured server.
+    const QUrl server_url_normalized = server_url_.adjusted(QUrl::StripTrailingSlash | QUrl::NormalizePathSegments);
     for (const Server &server : std::as_const(servers)) {
-      if (server.url == server_url_) {
+      if (server.url.adjusted(QUrl::StripTrailingSlash | QUrl::NormalizePathSegments) == server_url_normalized) {
         server_token_ = server.owned ? QString() : server.access_token;
         Settings s;
         s.beginGroup(PlexSettings::kSettingsGroup);

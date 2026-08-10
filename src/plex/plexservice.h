@@ -141,6 +141,7 @@ class PlexService : public StreamingService {
   qint64 pin_id_;
   QString pin_code_;
   int pin_polls_remaining_;
+  QNetworkReply *pin_poll_reply_;
 
   QStringList errors_;
   QList<QNetworkReply*> replies_;
