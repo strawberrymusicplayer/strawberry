@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PlexSettingsPage</class>
+ <widget class="QWidget" name="PlexSettingsPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>505</width>
+    <height>553</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Plex</string>
+  </property>
+  <layout class="QVBoxLayout" name="layout_plexsettingspage">
+   <item>
+    <widget class="QCheckBox" name="enable">
+     <property name="text">
+      <string>Enable</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupbox_authentication">
+     <property name="title">
+      <string>Authentication</string>
+     </property>
+     <layout class="QVBoxLayout" name="layout_authentication">
+      <item>
+       <widget class="QLabel" name="label_authentication">
+        <property name="text">
+         <string>Click Log in to open the Plex website in your browser and authorize Strawberry.</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="layout_login">
+        <item>
+         <widget class="LoginStateWidget" name="login_state" native="true"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="button_login">
+          <property name="text">
+           <string>Log in with Plex</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupbox_server">
+     <property name="title">
+      <string>Server</string>
+     </property>
+     <layout class="QVBoxLayout" name="layout_server">
+      <item>
+       <widget class="QLabel" name="label_server_url">
+        <property name="text">
+         <string>Server URL</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="server_url">
+        <property name="editable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="layout_server_buttons">
+        <item>
+         <widget class="QPushButton" name="button_refresh_servers">
+          <property name="text">
+           <string>Refresh servers</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="button_test">
+          <property name="text">
+           <string>Test</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spacer_server_buttons">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupbox_preferences">
+     <property name="title">
+      <string>Preferences</string>
+     </property>
+     <layout class="QVBoxLayout" name="layout_preferences">
+      <item>
+       <widget class="QCheckBox" name="checkbox_verify_certificate">
+        <property name="text">
+         <string>Verify server certificate</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkbox_download_album_covers">
+        <property name="text">
+         <string>Download album covers</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="layout_buttons">
+     <item>
+      <widget class="QPushButton" name="button_deletesongs">
+       <property name="text">
+        <string>Delete songs</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="spacer_buttons">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="spacer_bottom">
+     <property name="orientation">
+      <enum>Qt::Orientation::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>LoginStateWidget</class>
+   <extends>QWidget</extends>
+   <header>widgets/loginstatewidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>enable</tabstop>
+  <tabstop>button_login</tabstop>
+  <tabstop>server_url</tabstop>
+  <tabstop>button_refresh_servers</tabstop>
+  <tabstop>button_test</tabstop>
+  <tabstop>checkbox_verify_certificate</tabstop>
+  <tabstop>checkbox_download_album_covers</tabstop>
+  <tabstop>button_deletesongs</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
