@@ -48,7 +48,6 @@ constexpr int kContainerSize = 500;
 
 PlexRequest::PlexRequest(PlexService *service, PlexUrlHandler *url_handler, const SongMap &existing_songs, const qint64 updated_since, QObject *parent)
     : PlexBaseRequest(service, parent),
-      service_(service),
       url_handler_(url_handler),
       finished_(false),
       incremental_(updated_since > 0 && !existing_songs.isEmpty()),

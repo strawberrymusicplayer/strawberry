@@ -135,7 +135,7 @@ JsonBaseRequest::JsonObjectResult PlexBaseRequest::ParseJsonObject(QNetworkReply
       result.error_code = ErrorCode::NetworkError;
       result.error_message = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
     }
-    else if (result.http_status_code != 200) {
+    else if (result.http_status_code < 200 || result.http_status_code > 299) {
       result.error_code = ErrorCode::HttpError;
       result.error_message = QStringLiteral("Received HTTP code %1").arg(result.http_status_code);
     }

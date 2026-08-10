@@ -66,7 +66,6 @@ class PlexRequest : public PlexBaseRequest {
   void FinishCheck();
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
-  PlexService *service_;
   PlexUrlHandler *url_handler_;
 
   bool finished_;
