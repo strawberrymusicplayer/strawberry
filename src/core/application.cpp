@@ -101,6 +101,10 @@
 #  include "covermanager/qobuzcoverprovider.h"
 #endif
 
+#ifdef HAVE_PLEX
+#  include "plex/plexservice.h"
+#endif
+
 #ifdef HAVE_MOODBAR
 #  include "moodbar/moodbarcontroller.h"
 #  include "moodbar/moodbarloader.h"
@@ -199,6 +203,9 @@ class ApplicationImpl {
 #endif
 #ifdef HAVE_QOBUZ
           streaming_services->AddService(make_shared<QobuzService>(app->task_manager(), app->database(), app->network(), app->url_handlers(), app->albumcover_loader()));
+#endif
+#ifdef HAVE_PLEX
+          streaming_services->AddService(make_shared<PlexService>(app->task_manager(), app->database(), app->network(), app->url_handlers(), app->albumcover_loader()));
 #endif
           return streaming_services;
         }),
