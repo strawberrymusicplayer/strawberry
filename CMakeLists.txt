@@ -359,6 +359,7 @@ optional_component(SUBSONIC ON "Streaming: Subsonic")
 optional_component(TIDAL ON "Streaming: Tidal")
 optional_component(SPOTIFY ON "Streaming: Spotify")
 optional_component(QOBUZ ON "Streaming: Qobuz")
+optional_component(PLEX ON "Streaming: Plex")
 
 optional_component(MOODBAR ON "Moodbar")
 
@@ -1532,6 +1533,23 @@ optional_source(HAVE_QOBUZ
     src/covermanager/qobuzcoverprovider.h
   UI
     src/settings/qobuzsettingspage.ui
+)
+
+optional_source(HAVE_PLEX
+  SOURCES
+    src/plex/plexservice.cpp
+    src/plex/plexurlhandler.cpp
+    src/plex/plexbaserequest.cpp
+    src/plex/plexrequest.cpp
+    src/settings/plexsettingspage.cpp
+  HEADERS
+    src/plex/plexservice.h
+    src/plex/plexurlhandler.h
+    src/plex/plexbaserequest.h
+    src/plex/plexrequest.h
+    src/settings/plexsettingspage.h
+  UI
+    src/settings/plexsettingspage.ui
 )
 
 qt_wrap_cpp(SOURCES ${HEADERS})
