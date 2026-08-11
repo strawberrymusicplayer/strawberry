@@ -4495,7 +4495,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Show above status bar</source>
-      <translation>Показать над строкой состояния</translation>
+      <translation>Выводить над строкой состояния</translation>
     </message>
   </context>
   <context>
