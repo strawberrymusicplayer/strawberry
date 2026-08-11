@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.2.27 (2026.08.11):
 
   Bugfixes:
     * Fixed custom palette colors under appearance settings sometimes not applying to some UI elements, such as the menu bar and playlist tabs, until a further edit or restart
