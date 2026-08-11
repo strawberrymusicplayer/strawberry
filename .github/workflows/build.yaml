@@ -1172,9 +1172,6 @@ jobs:
         working-directory: build
         run: make dmg
 
-      - name: Store notarization credentials
-        run: xcrun notarytool store-credentials "strawberry-notarization" --apple-id "${{secrets.APPLE_NOTARIZATION_APPLE_ID}}" --team-id "383J84DVB6" --password "${{secrets.APPLE_NOTARIZATION_PASSWORD}}"
-
       - name: Notarize DMG
         working-directory: build
         run: xcrun notarytool submit *.dmg --keychain-profile "strawberry-notarization" --wait
