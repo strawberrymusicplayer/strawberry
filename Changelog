@@ -2,6 +2,16 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed custom palette colors under appearance settings sometimes not applying to some UI elements, such as the menu bar and playlist tabs, until a further edit or restart
+    * Removed dead RadioBrowser API mirror servers that no longer exist, avoiding failed lookups before falling back when the service is unreachable
+
+  Enhancements:
+    * (macOS) Builds are now notarized and signed with the hardened runtime enabled
+    * (Windows MSVC) Switched from GnuTLS to OpenSSL GIO module
+
 Version 1.2.26 (2026.07.30):
 
   Bugfixes:
