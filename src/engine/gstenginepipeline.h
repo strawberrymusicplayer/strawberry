@@ -169,6 +169,8 @@ class GstEnginePipeline : public QObject {
   double PercentToInternalVolume(const uint volume_percent) const;
   uint InternalVolumeToPercent(const double volume_internal) const;
   void SetStateAsync(const GstState state);
+  // Applies a state without counting as a newer request, so it does not invalidate async requests queued in the meantime (see SetState() and SetStateAsyncSlot()).
+  QFuture<GstStateChangeReturn> ApplyState(const GstState state);
   void StartPlaybackAfterWarmup();
   void EmitFinishedIfQuiescent();
   void SetNextUrl();
@@ -207,9 +209,10 @@ class GstEnginePipeline : public QObject {
   void ResumeFaderAsync();
 
   void ProcessPendingSeek(const GstState state);
+  // Handles a request queued by SetStateAsync(). Not a slot: SetStateAsync() posts it as a functor, so the call is checked at compile time instead of resolved by name at runtime.
+  void SetStateAsyncSlot(const GstState state, const quint64 state_request_generation);
 
  private Q_SLOTS:
-  void SetStateAsyncSlot(const GstState state);
   void SetStateFinishedSlot(const GstState state, const GstStateChangeReturn state_change_return);
   void SetFaderVolume(const qreal volume);
   void FaderTimelineStateChanged(const QTimeLine::State state);
@@ -222,11 +225,8 @@ class GstEnginePipeline : public QObject {
   static std::atomic<int> sId;
   std::atomic<int> id_;
 
-  // Shared thread pool for all pipeline state changes to prevent thread/FD exhaustion
-  static QThreadPool *shared_state_threadpool();
-
   // Separate shared thread pool for manufactured-EOS pad sends (see ErrorMessageReceived()).
-  // These can block for as long as the current track takes to finish draining, so they must not share shared_state_threadpool() with gst_element_set_state() calls, which are expected to complete quickly and whose timely completion drives playback control (pause/stop/seek); sharing would let a long-blocked pad send starve state changes.
+  // These can block for as long as the current track takes to finish draining, so they must not share the per-pipeline state-change thread pool with gst_element_set_state() calls, which are expected to complete quickly and whose timely completion drives playback control (pause/stop/seek); sharing would let a long-blocked pad send starve state changes.
   static QThreadPool *shared_pad_send_threadpool();
 
   bool playbin3_support_;
@@ -406,9 +406,20 @@ class GstEnginePipeline : public QObject {
   // Identifies the current bus-watch session. Bumped by DisconnectCallbacks() so that GstBusMessageEvents posted from the GLib thread before teardown (Windows/macOS) are dropped instead of handled after the watch is gone or replaced.
   std::atomic<quint64> bus_message_generation_;
 
+  // Per-pipeline thread pool for gst_element_set_state() calls, limited to one thread so that no two state changes run concurrently on this pipeline and queued tasks (submitted via SetStateAsync) run in submission order.
+  // It is per-pipeline rather than shared so that a slow downwards transition on one pipeline (going to NULL can block until the streaming threads have stopped) cannot hold up another pipeline's state changes.
+  QThreadPool state_threadpool_;
+
   // Number of SetStateAsync() requests that have been queued but not yet turned into a running state change.
   // Incremented (possibly from a GStreamer streaming thread) the moment a request is queued and decremented when its slot runs, so that a state change is never briefly invisible while handing off from the queue to a pending future.
+  // A non-zero value seen by a running SetStateAsyncSlot() also means newer requests are already queued behind it, so the one it is handling has been superseded before it was ever applied.
   std::atomic<int> set_state_async_in_progress_;
+
+  // Bumped by every SetState() call, so an async request that snapshotted an older value when it was queued can tell that a newer state change was requested while it sat in the queue, and drop itself instead of resurrecting stale state.
+  // Only SetState() bumps it: a request applied from SetStateAsyncSlot() goes through ApplyState() instead, since anything queued after it is by definition newer and must still be applied.
+  // Guarded by mutex_set_state_async_, so that reading it and queueing the request it is snapshotted for cannot be interleaved with a bump.
+  quint64 set_state_request_generation_;
+  QMutex mutex_set_state_async_;
 
   // Running gst_element_set_state() calls for this pipeline.
   // Doubles as the source of truth for "a synchronous state change is in flight" and lets the destructor wait for them before unreffing the pipeline.
