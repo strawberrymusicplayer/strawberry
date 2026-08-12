@@ -108,29 +108,12 @@ constexpr int kIgnoreBufferingNearEndSeconds = 5;
 
 std::atomic<int> GstEnginePipeline::sId{1};
 
-QThreadPool *GstEnginePipeline::shared_state_threadpool() {
-
-  // C++11 guarantees thread-safe initialization of static local variables
-  static QThreadPool threadpool;
-  static const auto init = []() {
-    // Limit the number of threads to prevent resource exhaustion
-    // Use 2 threads max since state changes are typically sequential per pipeline
-    threadpool.setMaxThreadCount(2);
-    return true;
-  }();
-
-  Q_UNUSED(init);
-
-  return &threadpool;
-
-}
-
 QThreadPool *GstEnginePipeline::shared_pad_send_threadpool() {
 
   // C++11 guarantees thread-safe initialization of static local variables
   static QThreadPool threadpool;
   static const auto init = []() {
-    // Kept separate from shared_state_threadpool(): a pad send here can block for as long as the current track takes to drain, and must never be able to starve that pool's (normally fast) state-change tasks.
+    // Kept separate from the per-pipeline state-change thread pool: a pad send here can block for as long as the current track takes to drain, and must never be able to starve the (normally fast) state-change tasks.
     threadpool.setMaxThreadCount(2);
     return true;
   }();
@@ -219,12 +202,19 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       finish_requested_(false),
       finished_(false),
       bus_message_generation_(0),
-      set_state_async_in_progress_(0) {
+      set_state_async_in_progress_(0),
+      set_state_request_generation_(0) {
 
   guint version_major = 0, version_minor = 0;
   gst_plugins_base_version(&version_major, &version_minor, nullptr, nullptr);
   playbin3_support_ = QVersionNumber::compare(QVersionNumber(static_cast<int>(version_major), static_cast<int>(version_minor)), QVersionNumber(1, 24)) >= 0;
   volume_full_range_support_ = QVersionNumber::compare(QVersionNumber(static_cast<int>(version_major), static_cast<int>(version_minor)), QVersionNumber(1, 24)) >= 0;
+
+  // A single thread, so gst_element_set_state() calls for this pipeline are always applied in the order they were requested.
+  // Two of them running concurrently would let the pipeline settle in whichever state happened to be applied last rather than the one requested last.
+  state_threadpool_.setMaxThreadCount(1);
+  // Let idle threads expire sooner than the 30 second default: with one pool per pipeline, an idle thread per pipeline would otherwise be kept around for that long whenever several pipelines exist concurrently (the current one, a fadeout and any pipeline still on its way to NULL).
+  state_threadpool_.setExpiryTimeout(2000);
 
   eq_band_gains_.reserve(kEqBandCount);
   for (int i = 0; i < kEqBandCount; ++i) eq_band_gains_ << 0;
@@ -246,6 +236,8 @@ GstEnginePipeline::~GstEnginePipeline() {
 
     // Wait for any ongoing state changes for this pipeline to complete before setting to NULL.
     // This prevents race conditions with async state transitions.
+    // It is also what makes state_threadpool_ safe to hold as a member: each task captured the raw pipeline_ pointer that is unreffed below, and while ~QThreadPool() does block until its runnables have completed, it only runs after this destructor body has already unreffed the pipeline.
+    // So the pool must be empty by the time we get there, and waiting on the futures here is what guarantees that.
     {
       // Copy futures to local list to avoid holding mutex during waitForFinished()
       QList<QFuture<GstStateChangeReturn>> futures_to_wait;
@@ -1319,7 +1311,7 @@ void GstEnginePipeline::PadAddedCallback(GstElement *element, GstPad *pad, gpoin
   if (instance->pipeline_active_.load()) {
     const qint64 pending_seek = instance->pending_seek_nanosec_.exchange(-1);
     if (pending_seek != -1) {
-      QMetaObject::invokeMethod(instance, "Seek", Qt::QueuedConnection, Q_ARG(qint64, pending_seek));
+      QMetaObject::invokeMethod(instance, [instance, pending_seek]() { instance->Seek(pending_seek); }, Qt::QueuedConnection);
     }
   }
 
@@ -1836,7 +1828,7 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
     // The call itself blocks the caller on that pad's stream lock for as long as that takes.
     // Doing this on the main thread would freeze the UI for the remainder of the track,
     // or deadlock it outright if the sink is also stalled waiting on a state change that can only be observed on the main thread.
-    // So it is dispatched on shared_pad_send_threadpool(), a pool kept separate from shared_state_threadpool() (used by SetState() below) so a long-blocked pad send can never starve state-change requests.
+    // So it is dispatched on shared_pad_send_threadpool(), a pool kept separate from state_threadpool_ (used by SetState() below) so a long-blocked pad send can never starve state-change requests.
     // Repeated error messages can arrive for the same failed next-URI (e.g. from multiple internal elements), but only the first should manufacture an EOS; the guard is reset per next-URI cycle in SetNextUrl().
     bool expected = false;
     if (!next_uri_eos_manufactured_.compare_exchange_strong(expected, true)) {
@@ -2137,15 +2129,26 @@ bool GstEnginePipeline::StateChangeInProgress() {
 void GstEnginePipeline::SetStateAsync(const GstState state) {
 
   // Count the request as in progress before it is queued (this may run on a GStreamer streaming thread) so it stays visible until SetStateAsyncSlot() hands it off to a pending future.
-  ++set_state_async_in_progress_;
+  // Counting and queueing are done under the mutex so the counter and the queue always agree on the order of the requests, even when they come from different threads.
+  // SetStateAsyncSlot() relies on that to tell whether newer requests are queued behind the one it is handling.
+  QMutexLocker locker(&mutex_set_state_async_);
 
-  QMetaObject::invokeMethod(this, "SetStateAsyncSlot", Qt::QueuedConnection, Q_ARG(GstState, state));
+  ++set_state_async_in_progress_;
+  const quint64 state_request_generation = set_state_request_generation_;
+
+  QMetaObject::invokeMethod(this, [this, state, state_request_generation]() { SetStateAsyncSlot(state, state_request_generation); }, Qt::QueuedConnection);
 
 }
 
-void GstEnginePipeline::SetStateAsyncSlot(const GstState state) {
+void GstEnginePipeline::SetStateAsyncSlot(const GstState state, const quint64 state_request_generation) {
 
-  --set_state_async_in_progress_;
+  int queued_after = 0;
+  bool superseded_by_newer_direct_set_state = false;
+  {
+    QMutexLocker locker(&mutex_set_state_async_);
+    queued_after = --set_state_async_in_progress_;
+    superseded_by_newer_direct_set_state = state_request_generation != set_state_request_generation_;
+  }
 
   // Once finishing has been requested, drop any queued request that would move the pipeline away from NULL (e.g. a PLAYING queued from about-to-finish just before shutdown), otherwise it could be resurrected after Finish() asked it to stop.
   if (finish_requested_.load() && state != GST_STATE_NULL) {
@@ -2154,11 +2157,43 @@ void GstEnginePipeline::SetStateAsyncSlot(const GstState state) {
     return;
   }
 
-  SetState(state);
+  // Newer requests are already queued behind this one, so it was superseded before it was ever applied and only the last one describes the state we want to end up in.
+  // Applying it anyway would be pointless churn: the common case is a buffering message pair arriving back to back (buffering started asks for PAUSED, buffering finished asks for PLAYING again), where the pipeline would briefly pause even though there was never anything to wait for.
+  // A NULL request is never skipped: it only comes from Finish(), which needs it to be applied for the pipeline to be reclaimed, and the check above already drops anything queued after it that would move the pipeline away from NULL.
+  if (queued_after > 0 && state != GST_STATE_NULL) {
+    qLog(Debug) << "Pipeline" << id() << "skipping superseded state change to" << GstStateText(state);
+    // No need to check for quiescence here (unlike the branch above): the newer requests that superseded this one are still counted as in progress, so there is always something left in flight, and their slots will run this check when their turn comes.
+    return;
+  }
+
+  // A newer direct SetState() request was submitted after this async request was queued, so applying this older request now would resurrect stale state.
+  if (superseded_by_newer_direct_set_state && state != GST_STATE_NULL) {
+    qLog(Debug) << "Pipeline" << id() << "skipping stale state change to" << GstStateText(state) << "after newer direct request";
+    // Defensive, unlike the same call in the finish branch above: finishing cannot have been requested here (the branch above would have returned) and finish_requested_ is only ever set from Finish() on this thread, so this drop cannot be the one that leaves the pipeline quiescent as things stand.
+    EmitFinishedIfQuiescent();
+    return;
+  }
+
+  // ApplyState() rather than SetState(), so this request does not bump the generation itself.
+  // Bumping here would invalidate requests queued between the check above and the bump (SetStateAsync() can run on a GStreamer streaming thread), even though those are newer than this one and must still be applied.
+  // Requests queued before this one need no generation to be dropped: the queued_after check above already takes care of them.
+  ApplyState(state);
 
 }
 
 QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) {
+
+  // Count this as the newest state request, so any async request still sitting in the queue is dropped by SetStateAsyncSlot() instead of being applied on top of this one.
+  {
+    QMutexLocker locker(&mutex_set_state_async_);
+    ++set_state_request_generation_;
+  }
+
+  return ApplyState(state);
+
+}
+
+QFuture<GstStateChangeReturn> GstEnginePipeline::ApplyState(const GstState state) {
 
   qLog(Debug) << "Setting pipeline" << id() << "state to" << GstStateText(state);
 
@@ -2171,7 +2206,7 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) 
     watcher->deleteLater();
     SetStateFinishedSlot(state, state_change_return);
   });
-  QFuture<GstStateChangeReturn> future = QtConcurrent::run(shared_state_threadpool(), &gst_element_set_state, pipeline_, state);
+  QFuture<GstStateChangeReturn> future = QtConcurrent::run(&state_threadpool_, &gst_element_set_state, pipeline_, state);
   watcher->setFuture(future);
 
   // Track this future so the destructor can wait for it and so it counts as a state change in progress.
@@ -2331,7 +2366,7 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
 
 void GstEnginePipeline::SeekAsync(const qint64 nanosec) {
 
-  QMetaObject::invokeMethod(this, "Seek", Qt::QueuedConnection, Q_ARG(qint64, nanosec));
+  QMetaObject::invokeMethod(this, [this, nanosec]() { Seek(nanosec); }, Qt::QueuedConnection);
 
 }
 
