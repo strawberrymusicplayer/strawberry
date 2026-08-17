@@ -30,7 +30,6 @@
 #include <QDateTime>
 #include <QImage>
 #include <QImageReader>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QSslConfiguration>
@@ -41,6 +40,7 @@
 
 #include "core/logging.h"
 #include "core/song.h"
+#include "core/networkaccessmanager.h"
 #include "core/networktimeouts.h"
 #include "utilities/strutils.h"
 #include "utilities/imageutils.h"
@@ -58,11 +58,10 @@ constexpr int kMaxConcurrentAlbumSongsRequests = 3;
 constexpr int kMaxConcurrentAlbumCoverRequests = 1;
 }  // namespace
 
-SubsonicRequest::SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, QObject *parent)
-    : SubsonicBaseRequest(service, parent),
+SubsonicRequest::SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, const SharedPtr<NetworkAccessManager> network, QObject *parent)
+    : SubsonicBaseRequest(service, network, parent),
       service_(service),
       url_handler_(url_handler),
-      network_(new QNetworkAccessManager(this)),
       timeouts_(new NetworkTimeouts(30000, this)),
       finished_(false),
       albums_requests_active_(0),
@@ -72,23 +71,20 @@ SubsonicRequest::SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *u
       album_covers_requests_active_(0),
       album_covers_requested_(0),
       album_covers_received_(0),
-      no_results_(false) {
-
-  network_->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
-
-}
+      no_results_(false) {}
 
 SubsonicRequest::~SubsonicRequest() {
 
-  while (!replies_.isEmpty()) {
-    QNetworkReply *reply = replies_.takeFirst();
-    QObject::disconnect(reply, nullptr, this, nullptr);
-    if (reply->isRunning()) reply->abort();
-    reply->deleteLater();
-  }
+  AbortReplies(replies_);
+  AbortReplies(album_cover_replies_);
 
-  while (!album_cover_replies_.isEmpty()) {
-    QNetworkReply *reply = album_cover_replies_.takeFirst();
+}
+
+void SubsonicRequest::AbortReplies(QList<QNetworkReply*> &replies) {
+
+  // The replies are owned by the shared network access manager, which outlives this request, so they have to be aborted and deleted explicitly.
+  while (!replies.isEmpty()) {
+    QNetworkReply *reply = replies.takeFirst();
     QObject::disconnect(reply, nullptr, this, nullptr);
     if (reply->isRunning()) reply->abort();
     reply->deleteLater();
@@ -118,8 +114,8 @@ void SubsonicRequest::Reset() {
   cover_urls_.clear();
   errors_.clear();
   no_results_ = false;
-  replies_.clear();
-  album_cover_replies_.clear();
+  AbortReplies(replies_);
+  AbortReplies(album_cover_replies_);
 
 }
 
@@ -697,6 +693,8 @@ void SubsonicRequest::FlushAlbumCoverRequests() {
     QNetworkRequest network_request(request.url);
     network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
     network_request.setAttribute(QNetworkRequest::Http2AllowedAttribute, http2());
+    network_request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysNetwork);
+    network_request.setAttribute(QNetworkRequest::CacheSaveControlAttribute, false);
 
     if (!verify_certificate()) {
       QSslConfiguration sslconfig = QSslConfiguration::defaultConfiguration();

@@ -37,11 +37,12 @@
 #include <QUrl>
 #include <QJsonObject>
 
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "subsonicbaserequest.h"
 
-class QNetworkAccessManager;
 class QNetworkReply;
+class NetworkAccessManager;
 class SubsonicService;
 class SubsonicUrlHandler;
 class NetworkTimeouts;
@@ -50,7 +51,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   Q_OBJECT
 
  public:
-  explicit SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, QObject *parent = nullptr);
+  explicit SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~SubsonicRequest() override;
 
   void ReloadSettings();
@@ -105,12 +106,12 @@ class SubsonicRequest : public SubsonicBaseRequest {
   void AlbumCoverFinishCheck();
 
   void FinishCheck();
+  void AbortReplies(QList<QNetworkReply*> &replies);
   static void Warn(const QString &error, const QVariant &debug = QVariant());
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
   SubsonicService *service_;
   SubsonicUrlHandler *url_handler_;
-  QNetworkAccessManager *network_;
   NetworkTimeouts *timeouts_;
 
   bool finished_;

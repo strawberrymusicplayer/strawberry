@@ -20,7 +20,6 @@
 #include "config.h"
 
 #include <utility>
-#include <memory>
 
 #include <QtGlobal>
 #include <QObject>
@@ -30,7 +29,6 @@
 #include <QVariant>
 #include <QUrl>
 #include <QUrlQuery>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QSslConfiguration>
@@ -45,6 +43,7 @@
 #include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/database.h"
+#include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "core/settings.h"
 #include "core/urlhandlers.h"
@@ -58,7 +57,6 @@
 #include "constants/subsonicsettings.h"
 
 using namespace Qt::Literals::StringLiterals;
-using std::make_unique;
 using std::make_shared;
 
 const Song::Source SubsonicService::kSource = Song::Source::Subsonic;
@@ -72,10 +70,12 @@ constexpr int kMaxRedirects = 3;
 
 SubsonicService::SubsonicService(const SharedPtr<TaskManager> task_manager,
                                  const SharedPtr<Database> database,
+                                 const SharedPtr<NetworkAccessManager> network,
                                  const SharedPtr<UrlHandlers> url_handlers,
                                  const SharedPtr<AlbumCoverLoader> albumcover_loader,
                                  QObject *parent)
     : StreamingService(Song::Source::Subsonic, u"Subsonic"_s, u"subsonic"_s, QLatin1String(SubsonicSettings::kSettingsGroup), parent),
+      network_(network),
       url_handler_(new SubsonicUrlHandler(this)),
       collection_backend_(nullptr),
       collection_model_(nullptr),
@@ -142,9 +142,7 @@ void SubsonicService::SendPing() {
 
 void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username, const QString &password, const SubsonicSettings::AuthMethod auth_method, const bool redirect) {
 
-  if (!network_ || !redirect) {
-    network_ = make_unique<QNetworkAccessManager>();
-    network_->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
+  if (!redirect) {
     ping_redirects_ = 0;
   }
 
@@ -195,6 +193,8 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
   network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   network_request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
   network_request.setAttribute(QNetworkRequest::Http2AllowedAttribute, http2_);
+  network_request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysNetwork);
+  network_request.setAttribute(QNetworkRequest::CacheSaveControlAttribute, false);
 
   errors_.clear();
   QNetworkReply *reply = network_->get(network_request);
@@ -387,7 +387,7 @@ void SubsonicService::Scrobble(const QString &song_id, const bool submission, co
 
   if (!scrobble_request_) {
     // We're doing requests every 30-240s the whole time, so keep reusing this instance
-    scrobble_request_.reset(new SubsonicScrobbleRequest(this, url_handler_), [](SubsonicScrobbleRequest *request) { request->deleteLater(); });
+    scrobble_request_.reset(new SubsonicScrobbleRequest(this, url_handler_, network_), [](SubsonicScrobbleRequest *request) { request->deleteLater(); });
   }
 
   scrobble_request_->CreateScrobbleRequest(song_id, submission, time);
@@ -417,7 +417,7 @@ void SubsonicService::GetSongs() {
   }
 
   ResetSongsRequest();
-  songs_request_.reset(new SubsonicRequest(this, url_handler_), [](SubsonicRequest *request) { request->deleteLater(); });
+  songs_request_.reset(new SubsonicRequest(this, url_handler_, network_), [](SubsonicRequest *request) { request->deleteLater(); });
   QObject::connect(&*songs_request_, &SubsonicRequest::Results, this, &SubsonicService::SongsResultsReceived);
   QObject::connect(&*songs_request_, &SubsonicRequest::UpdateStatus, this, &SubsonicService::SongsUpdateStatus);
   QObject::connect(&*songs_request_, &SubsonicRequest::ProgressSetMaximum, this, &SubsonicService::SongsProgressSetMaximum);

@@ -34,19 +34,19 @@
 #include <QSslError>
 #include <QJsonObject>
 
-#include "includes/scoped_ptr.h"
+#include "includes/shared_ptr.h"
 #include "constants/subsonicsettings.h"
 #include "core/jsonbaserequest.h"
 #include "subsonicservice.h"
 
-class QNetworkAccessManager;
 class QNetworkReply;
+class NetworkAccessManager;
 
 class SubsonicBaseRequest : public QObject {
   Q_OBJECT
 
  public:
-  explicit SubsonicBaseRequest(SubsonicService *service, QObject *parent = nullptr);
+  explicit SubsonicBaseRequest(SubsonicService *service, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
 
   using JsonObjectResult = JsonBaseRequest::JsonObjectResult;
   using ErrorCode = JsonBaseRequest::ErrorCode;
@@ -76,9 +76,11 @@ class SubsonicBaseRequest : public QObject {
  private Q_SLOTS:
   void HandleSSLErrors(const QList<QSslError> &ssl_errors);
 
+ protected:
+  const SharedPtr<NetworkAccessManager> network_;
+
  private:
   SubsonicService *service_;
-  ScopedPtr<QNetworkAccessManager> network_;
 };
 
 #endif  // SUBSONICBASEREQUEST_H

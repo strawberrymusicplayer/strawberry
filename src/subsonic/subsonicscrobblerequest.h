@@ -31,9 +31,11 @@
 #include <QString>
 #include <QStringList>
 
+#include "includes/shared_ptr.h"
 #include "subsonicbaserequest.h"
 
 class QNetworkReply;
+class NetworkAccessManager;
 class SubsonicService;
 class SubsonicUrlHandler;
 
@@ -41,7 +43,7 @@ class SubsonicScrobbleRequest : public SubsonicBaseRequest {
   Q_OBJECT
 
  public:
-  explicit SubsonicScrobbleRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, QObject *parent = nullptr);
+  explicit SubsonicScrobbleRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~SubsonicScrobbleRequest() override;
 
   void CreateScrobbleRequest(const QString &song_id, const bool submission, const QDateTime &start_time);

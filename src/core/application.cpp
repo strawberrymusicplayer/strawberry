@@ -187,7 +187,7 @@ class ApplicationImpl {
         streaming_services_([app]() {
           StreamingServices *streaming_services = new StreamingServices();
 #ifdef HAVE_SUBSONIC
-          streaming_services->AddService(make_shared<SubsonicService>(app->task_manager(), app->database(), app->url_handlers(), app->albumcover_loader()));
+          streaming_services->AddService(make_shared<SubsonicService>(app->task_manager(), app->database(), app->network(), app->url_handlers(), app->albumcover_loader()));
 #endif
 #ifdef HAVE_TIDAL
           streaming_services->AddService(make_shared<TidalService>(app->task_manager(), app->database(), app->network(), app->url_handlers(), app->albumcover_loader()));
