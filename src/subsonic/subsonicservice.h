@@ -32,11 +32,9 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
-#include <QNetworkAccessManager>
 #include <QSslError>
 #include <QDateTime>
 
-#include "includes/scoped_ptr.h"
 #include "includes/shared_ptr.h"
 #include "constants/subsonicsettings.h"
 #include "core/song.h"
@@ -47,6 +45,7 @@ class QNetworkReply;
 
 class TaskManager;
 class Database;
+class NetworkAccessManager;
 class UrlHandlers;
 class AlbumCoverLoader;
 class SubsonicUrlHandler;
@@ -62,6 +61,7 @@ class SubsonicService : public StreamingService {
  public:
   explicit SubsonicService(const SharedPtr<TaskManager> task_manager,
                            const SharedPtr<Database> database,
+                           const SharedPtr<NetworkAccessManager> network,
                            const SharedPtr<UrlHandlers> url_handlers,
                            const SharedPtr<AlbumCoverLoader> albumcover_loader,
                            QObject *parent = nullptr);
@@ -110,7 +110,7 @@ class SubsonicService : public StreamingService {
  private:
   void PingError(const QString &error = QString(), const QVariant &debug = QVariant());
 
-  ScopedPtr<QNetworkAccessManager> network_;
+  const SharedPtr<NetworkAccessManager> network_;
   SubsonicUrlHandler *url_handler_;
 
   SharedPtr<CollectionBackend> collection_backend_;
