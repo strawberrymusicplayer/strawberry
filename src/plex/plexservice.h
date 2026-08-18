@@ -63,11 +63,21 @@ class PlexService : public StreamingService {
 
   static const Song::Source kSource;
 
+  struct Connection {
+    QUrl uri;
+    QString protocol;
+    bool local = false;
+    bool relay = false;
+  };
+  using ConnectionList = QList<Connection>;
+
   struct Server {
     QString name;
-    QUrl url;
+    QUrl url;  // Best-guess/display URL only; the actual connection used is chosen from "connections" by testing reachability.
     QString access_token;
     bool owned = false;
+    QString machine_identifier;
+    ConnectionList connections;
   };
   using ServerList = QList<Server>;
 
@@ -91,6 +101,9 @@ class PlexService : public StreamingService {
   SharedPtr<CollectionBackend> songs_collection_backend() override { return collection_backend_; }
   CollectionModel *songs_collection_model() override { return collection_model_; }
   CollectionFilter *songs_collection_filter_model() override { return collection_model_->filter(); }
+
+  // Shared QNetworkAccessManager, reused by PlexBaseRequest instead of creating a new one per request.
+  SharedPtr<QNetworkAccessManager> network();
 
  public Q_SLOTS:
   void Authenticate();
@@ -121,7 +134,14 @@ class PlexService : public StreamingService {
   void AuthenticationError(const QString &error);
   void PingError(const QString &error);
 
-  ScopedPtr<QNetworkAccessManager> network_;
+  // Reachability-based selection among all of a server's advertised connections (see plexservice.cpp for rationale).
+  static ConnectionList OrderConnectionCandidates(const ConnectionList &connections);
+  static bool HostLikelyReachableOnLan(const QString &host);
+  void BeginConnectionSelection(const Server &server);
+  void TryNextConnectionCandidate();
+  void HandleConnectionTestReply(QNetworkReply *reply, const QUrl &candidate_uri);
+
+  SharedPtr<QNetworkAccessManager> network_;
   PlexUrlHandler *url_handler_;
 
   SharedPtr<CollectionBackend> collection_backend_;
@@ -145,6 +165,11 @@ class PlexService : public StreamingService {
 
   QStringList errors_;
   QList<QNetworkReply*> replies_;
+
+  ConnectionList connection_test_candidates_;
+  int connection_test_index_;
+  Server connection_test_server_;
+  QNetworkReply *connection_test_reply_;
 };
 
 using PlexServicePtr = SharedPtr<PlexService>;

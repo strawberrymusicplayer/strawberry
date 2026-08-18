@@ -31,7 +31,7 @@
 #include <QSslError>
 #include <QJsonObject>
 
-#include "includes/scoped_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/jsonbaserequest.h"
 #include "plexservice.h"
 
@@ -68,7 +68,7 @@ class PlexBaseRequest : public QObject {
 
  private:
   PlexService *service_;
-  ScopedPtr<QNetworkAccessManager> network_;
+  SharedPtr<QNetworkAccessManager> network_;
 };
 
 #endif  // PLEXBASEREQUEST_H

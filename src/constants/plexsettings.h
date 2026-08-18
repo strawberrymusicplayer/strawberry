@@ -28,6 +28,7 @@ constexpr char kEnabled[] = "enabled";
 constexpr char kServerUrl[] = "server_url";
 constexpr char kServerName[] = "server_name";
 constexpr char kServerToken[] = "server_token";
+constexpr char kServerMachineIdentifier[] = "server_machine_identifier";
 constexpr char kToken[] = "token";
 constexpr char kClientId[] = "clientid";
 constexpr char kVerifyCertificate[] = "verifycertificate";

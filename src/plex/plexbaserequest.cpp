@@ -46,9 +46,7 @@ using namespace Qt::Literals::StringLiterals;
 PlexBaseRequest::PlexBaseRequest(PlexService *service, QObject *parent)
     : QObject(parent),
       service_(service),
-      network_(new QNetworkAccessManager) {
-
-  network_->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
+      network_(service->network()) {
 
 }
 
