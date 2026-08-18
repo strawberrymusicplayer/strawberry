@@ -5,11 +5,11 @@
     <name>ASXParser</name>
     <message>
       <source>ASX playlist is too large</source>
-      <translation type="unfinished">ASX playlist is too large</translation>
+      <translation>Η λίστα αναπαραγωγής ASX είναι πολύ μεγάλη</translation>
     </message>
     <message>
       <source>Failed to write ASX playlist</source>
-      <translation type="unfinished">Failed to write ASX playlist</translation>
+      <translation>Αποτυχία εγγραφής λίστας αναπαραγωγής ASX</translation>
     </message>
   </context>
   <context>
@@ -521,7 +521,7 @@
     </message>
     <message>
       <source>Window</source>
-      <translation type="unfinished">Window</translation>
+      <translation>Παράθυρο</translation>
     </message>
     <message>
       <source>Window text</source>
@@ -529,11 +529,11 @@
     </message>
     <message>
       <source>Base</source>
-      <translation type="unfinished">Base</translation>
+      <translation>Βασικό</translation>
     </message>
     <message>
       <source>Alternate base</source>
-      <translation type="unfinished">Alternate base</translation>
+      <translation/>
     </message>
     <message>
       <source>Tooltip base</source>
@@ -549,7 +549,7 @@
     </message>
     <message>
       <source>Text</source>
-      <translation type="unfinished">Text</translation>
+      <translation>Κείμενο</translation>
     </message>
     <message>
       <source>Button</source>
@@ -565,7 +565,7 @@
     </message>
     <message>
       <source>Select color</source>
-      <translation type="unfinished">Select color</translation>
+      <translation>Επιλέξτε χρώμα</translation>
     </message>
     <message>
       <source>Select background image</source>
@@ -573,51 +573,51 @@
     </message>
     <message>
       <source>Colors</source>
-      <translation type="unfinished">Colors</translation>
+      <translation>Χρώματα</translation>
     </message>
     <message>
       <source>&amp;Use the system default color set</source>
-      <translation type="unfinished">&amp;Use the system default color set</translation>
+      <translation>&amp;Χρησιμοποιήστε την προεπιλογή χρωμάτων του συστήματος</translation>
     </message>
     <message>
       <source>Use a custom color set</source>
-      <translation type="unfinished">Use a custom color set</translation>
+      <translation>Χρήση προσαρμοσμένου χρώματος</translation>
     </message>
     <message>
       <source>Set a custom color set suitable for a dark theme</source>
-      <translation type="unfinished">Set a custom color set suitable for a dark theme</translation>
+      <translation>Ορίστε ένα προσαρμοσμένο σύνολο χρωμάτων κατάλληλο για ένα σκούρο θέμα</translation>
     </message>
     <message>
       <source>Dark mode</source>
-      <translation type="unfinished">Dark mode</translation>
+      <translation>Dark mode</translation>
     </message>
     <message>
       <source>Reset the custom color set to the system default colors</source>
-      <translation type="unfinished">Reset the custom color set to the system default colors</translation>
+      <translation>Επαναφορά προσαρμοσμένου χρώματος στα προκαθορισμένα χρώματα του συστήματος</translation>
     </message>
     <message>
       <source>Reset to default</source>
-      <translation type="unfinished">Reset to default</translation>
+      <translation>Επαναφορά στις προεπιλογές</translation>
     </message>
     <message>
       <source>You might need to restart Strawberry for this setting to fully apply</source>
-      <translation type="unfinished">You might need to restart Strawberry for this setting to fully apply</translation>
+      <translation>Ίσως να πρέπει να επανεκκινήσετε το Srawberry για να ενεργοποιηθεί αυτή η ρύθμιση</translation>
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect</source>
-      <translation type="unfinished">You need to restart Strawberry for this setting to take affect</translation>
+      <translation>Θα πρέπει να επανεκκινήσετε το Srawberry για να ενεργοποιηθεί αυτή η ρύθμιση</translation>
     </message>
     <message>
       <source>System icons</source>
-      <translation type="unfinished">System icons</translation>
+      <translation>Εικονίδια συστήματος</translation>
     </message>
     <message>
       <source>Changing colors is only supported with some styles</source>
-      <translation type="unfinished">Changing colors is only supported with some styles</translation>
+      <translation>Η αλλαγή χρωμάτων υποστηρίζεται μόνο με κάποια στυλ</translation>
     </message>
     <message>
       <source>Dark colors</source>
-      <translation type="unfinished">Dark colors</translation>
+      <translation>Σκοτεινά χρώματα</translation>
     </message>
   </context>
   <context>
@@ -800,7 +800,7 @@
     </message>
     <message>
       <source>Map the volume slider to a decibel scale so that perceived loudness changes evenly. Each 1% step equals 0.5 dB, 100% is 0 dB and 0% is silence.</source>
-      <translation type="unfinished">Map the volume slider to a decibel scale so that perceived loudness changes evenly. Each 1% step equals 0.5 dB, 100% is 0 dB and 0% is silence.</translation>
+      <translation/>
     </message>
     <message>
       <source>Exponential volume scaling</source>
@@ -808,7 +808,7 @@
     </message>
     <message>
       <source>Device warm-up</source>
-      <translation type="unfinished">Device warm-up</translation>
+      <translation>Προθέρμανση συσκευής</translation>
     </message>
     <message>
       <source>Delay between opening the audio device and starting playback, to avoid the start of the track being cut off while the device (DAC) is still becoming ready.  Set to 0 to disable.</source>
@@ -3783,7 +3783,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+Shift+H</source>
-      <translation type="unfinished">Ctrl+Shift+H</translation>
+      <translation>Ctrl+Shift+H</translation>
     </message>
     <message>
       <source>Go to last playlist tab</source>
@@ -4472,11 +4472,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>File %1 does not exist</source>
-      <translation type="unfinished">File %1 does not exist</translation>
+      <translation>Το αρχείο %1 δεν υπάρχει</translation>
     </message>
     <message>
       <source>Could not read file %1: %2</source>
-      <translation type="unfinished">Could not read file %1: %2</translation>
+      <translation>Αδυναμία αντιγραφής αρχείου %1 στο %2</translation>
     </message>
   </context>
   <context>
@@ -4514,7 +4514,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Title Sort</source>
-      <translation type="unfinished">Title Sort</translation>
+      <translation>Ταξινόμηση τίτλων</translation>
     </message>
     <message>
       <source>Artist</source>
@@ -4522,7 +4522,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Artist Sort</source>
-      <translation type="unfinished">Artist Sort</translation>
+      <translation>Ταξινόμηση καλλιτέχνη</translation>
     </message>
     <message>
       <source>Album</source>
@@ -4530,7 +4530,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Album Sort</source>
-      <translation type="unfinished">Album Sort</translation>
+      <translation>Ταξινόμηση άλμπουμ</translation>
     </message>
     <message>
       <source>Track</source>
@@ -4562,7 +4562,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Album Artist Sort</source>
-      <translation type="unfinished">Album Artist Sort</translation>
+      <translation>Ταξινόμηση άλμπουμ καλλιτέχνη</translation>
     </message>
     <message>
       <source>Composer</source>
@@ -4570,7 +4570,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Composer Sort</source>
-      <translation type="unfinished">Composer Sort</translation>
+      <translation>Ταξινόμηση συνθέτη</translation>
     </message>
     <message>
       <source>Performer</source>
@@ -4578,7 +4578,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Performer Sort</source>
-      <translation type="unfinished">Performer Sort</translation>
+      <translation>Ταξινόμηση εκτελεστή</translation>
     </message>
     <message>
       <source>Grouping</source>
@@ -4590,7 +4590,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Skip Count</source>
-      <translation type="unfinished">Skip Count</translation>
+      <translation>Παράλειψη καταμέτρησης</translation>
     </message>
     <message>
       <source>Last Played</source>
@@ -4642,7 +4642,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Moodbar</source>
-      <translation type="unfinished">Moodbar</translation>
+      <translation>Moodbar</translation>
     </message>
     <message>
       <source>BPM</source>
@@ -4945,7 +4945,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Don&apos;t shuffle</source>
-      <translation type="unfinished">Don&apos;t shuffle</translation>
+      <translation>Ακύρωση ανακατέματος</translation>
     </message>
     <message>
       <source>Shuffle tracks in this album</source>
@@ -5012,7 +5012,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Enable delete files in the right click context menu</source>
-      <translation type="unfinished">Enable delete files in the right click context menu</translation>
+      <translation>Ενεργοποίηση διαγραφής αρχείων στο μενού δεξιού κλικ</translation>
     </message>
     <message>
       <source>Automatically sort playlist when inserting songs</source>
@@ -5618,7 +5618,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>No track ID</source>
-      <translation type="unfinished">No track ID</translation>
+      <translation>Δεν υπάρχει ID κομματιού</translation>
     </message>
   </context>
   <context>
@@ -5700,11 +5700,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Waiting for browser authentication...</source>
-      <translation type="unfinished">Waiting for browser authentication...</translation>
+      <translation>Αναμονή για έλεγχο ταυτότητας περιηγητή...</translation>
     </message>
     <message>
       <source>OAuth redirect failed: %1</source>
-      <translation type="unfinished">OAuth redirect failed: %1</translation>
+      <translation>Η ανακατεύθυνση OAuth απέτυχε: %1</translation>
     </message>
     <message>
       <source>OAuth redirect is missing authorization code.</source>
@@ -5902,54 +5902,54 @@ Are you sure you want to continue?</source>
     <name>RadioBrowserSearchModel</name>
     <message>
       <source>Name</source>
-      <translation type="unfinished">Name</translation>
+      <translation>Όνομα</translation>
     </message>
     <message>
       <source>Country</source>
-      <translation type="unfinished">Country</translation>
+      <translation>Χώρα</translation>
     </message>
     <message>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Ετικέτες</translation>
     </message>
     <message>
       <source>Codec</source>
-      <translation type="unfinished">Codec</translation>
+      <translation>Κωδικοποιητής</translation>
     </message>
   </context>
   <context>
     <name>RadioBrowserSearchView</name>
     <message>
       <source>Load more...</source>
-      <translation type="unfinished">Load more...</translation>
+      <translation>Φόρτωση περισσότερων...</translation>
     </message>
     <message>
       <source>Search for radio stations using radio-browser.info</source>
-      <translation type="unfinished">Search for radio stations using radio-browser.info</translation>
+      <translation>Αναζήτηση ραδιοφωνικών σταθμών με χρήση radio-browser.info</translation>
     </message>
     <message>
       <source>Search radio stations...</source>
-      <translation type="unfinished">Search radio stations...</translation>
+      <translation>Αναζήτηση ραδιοφωνικών σταθμών...</translation>
     </message>
     <message>
       <source>All countries</source>
-      <translation type="unfinished">All countries</translation>
+      <translation>Όλες οι χώρες</translation>
     </message>
     <message>
       <source>By votes</source>
-      <translation type="unfinished">By votes</translation>
+      <translation>Κατά ψήφους</translation>
     </message>
     <message>
       <source>By clicks</source>
-      <translation type="unfinished">By clicks</translation>
+      <translation>Κατά κλικ</translation>
     </message>
     <message>
       <source>By name</source>
-      <translation type="unfinished">By name</translation>
+      <translation>Κατά όνομα</translation>
     </message>
     <message>
       <source>By bitrate</source>
-      <translation type="unfinished">By bitrate</translation>
+      <translation>Κατά bitrate</translation>
     </message>
     <message>
       <source>Searching...</source>
@@ -7434,7 +7434,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Error</source>
-      <translation type="unfinished">Error</translation>
+      <translation>Σφάλμα</translation>
     </message>
     <message>
       <source>Original tags</source>
@@ -7454,7 +7454,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>No results</source>
-      <translation type="unfinished">No results</translation>
+      <translation>Δε βρέθηκαν αποτελέσματα</translation>
     </message>
   </context>
   <context>
@@ -7473,19 +7473,19 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Normal</source>
-      <translation type="unfinished">Normal</translation>
+      <translation>Κανονικός</translation>
     </message>
     <message>
       <source>Moodbar</source>
-      <translation type="unfinished">Moodbar</translation>
+      <translation>Moodbar</translation>
     </message>
     <message>
       <source>Moodbar style</source>
-      <translation type="unfinished">Moodbar style</translation>
+      <translation>Στυλ μπάρας διάθεσης</translation>
     </message>
     <message>
       <source>Waveform</source>
-      <translation type="unfinished">Waveform</translation>
+      <translation>Κυματομορφή</translation>
     </message>
   </context>
   <context>
@@ -7564,9 +7564,9 @@ Are you sure you want to continue?</source>
     </message>
     <message numerus="yes">
       <source>%n remaining</source>
-      <translation type="unfinished">
+      <translation>
         <numerusform>%n απομένουν</numerusform>
-        <numerusform>%n remaining</numerusform>
+        <numerusform>%n απομένουν</numerusform>
       </translation>
     </message>
     <message numerus="yes">
@@ -7578,9 +7578,9 @@ Are you sure you want to continue?</source>
     </message>
     <message numerus="yes">
       <source>%n failed</source>
-      <translation type="unfinished">
+      <translation>
         <numerusform>%n απέτυχε</numerusform>
-        <numerusform>%n failed</numerusform>
+        <numerusform>%n απέτυχε</numerusform>
       </translation>
     </message>
     <message>
@@ -8018,7 +8018,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Color</source>
-      <translation type="unfinished">Color</translation>
+      <translation>Χρώμα</translation>
     </message>
     <message>
       <source>Select waveform color</source>
