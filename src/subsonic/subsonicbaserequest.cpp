@@ -20,7 +20,6 @@
 #include "config.h"
 
 #include <utility>
-#include <memory>
 
 #include <QtGlobal>
 #include <QObject>
@@ -29,7 +28,6 @@
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QCryptographicHash>
@@ -40,6 +38,7 @@
 #include <QJsonObject>
 #include <QJsonValue>
 
+#include "core/networkaccessmanager.h"
 #include "utilities/randutils.h"
 #include "subsonicservice.h"
 #include "subsonicbaserequest.h"
@@ -48,14 +47,10 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-SubsonicBaseRequest::SubsonicBaseRequest(SubsonicService *service, QObject *parent)
+SubsonicBaseRequest::SubsonicBaseRequest(SubsonicService *service, const SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),
-      service_(service),
-      network_(new QNetworkAccessManager) {
-
-  network_->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
-
-}
+      network_(network),
+      service_(service) {}
 
 QUrl SubsonicBaseRequest::CreateUrl(const QUrl &server_url, const SubsonicSettings::AuthMethod auth_method, const QString &username, const QString &password, const QString &ressource_name, const ParamList &params_provided) {
 
@@ -112,6 +107,8 @@ QNetworkReply *SubsonicBaseRequest::CreateGetRequest(const QString &ressource_na
   network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   network_request.setAttribute(QNetworkRequest::Http2AllowedAttribute, http2());
   network_request.setTransferTimeout(QNetworkRequest::DefaultTransferTimeoutConstant);
+  network_request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysNetwork);
+  network_request.setAttribute(QNetworkRequest::CacheSaveControlAttribute, false);
 
   QNetworkReply *reply = network_->get(network_request);
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &SubsonicBaseRequest::HandleSSLErrors);

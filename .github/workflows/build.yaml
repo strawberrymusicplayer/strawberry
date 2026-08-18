@@ -534,7 +534,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ubuntu_version: [ 'noble', 'questing', 'resolute' ]
+        ubuntu_version: [ 'noble', 'resolute' ]
     container:
       image: ubuntu:${{matrix.ubuntu_version}}
     steps:
@@ -631,7 +631,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ubuntu_version: [ 'noble', 'questing', 'resolute' ]
+        ubuntu_version: [ 'noble', 'resolute' ]
     container:
       image: ubuntu:${{matrix.ubuntu_version}}
     steps:
@@ -1171,9 +1171,6 @@ jobs:
       - name: Create DMG
         working-directory: build
         run: make dmg
-
-      - name: Store notarization credentials
-        run: xcrun notarytool store-credentials "strawberry-notarization" --apple-id "${{secrets.APPLE_NOTARIZATION_APPLE_ID}}" --team-id "383J84DVB6" --password "${{secrets.APPLE_NOTARIZATION_PASSWORD}}"
 
       - name: Notarize DMG
         working-directory: build
