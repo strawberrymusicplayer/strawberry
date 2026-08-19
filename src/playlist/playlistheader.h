@@ -56,6 +56,7 @@ class PlaylistHeader : public StretchHeaderView {
   void HideCurrent();
   void ToggleVisible(const int section);
   void ResetColumns();
+  void SaveColumnsAsDefault();
   void SetColumnAlignment(QAction *action);
   void ToggleRatingEditStatus();
 
@@ -69,6 +70,7 @@ class PlaylistHeader : public StretchHeaderView {
   QMenu *menu_;
   QAction *action_hide_;
   QAction *action_reset_;
+  QAction *action_save_as_default_;
   QAction *action_stretch_;
   QAction *action_rating_lock_;
   QAction *action_align_left_;

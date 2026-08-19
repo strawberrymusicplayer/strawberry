@@ -56,6 +56,10 @@ constexpr char kState[] = "state";
 constexpr char kColumnAlignments[] = "column_alignments";
 constexpr char kRatingLocked[] = "rating_locked";
 
+constexpr char kSavedDefaultStateVersion[] = "saved_default_state_version";
+constexpr char kSavedDefaultState[] = "saved_default_state";
+constexpr char kSavedDefaultColumnAlignments[] = "saved_default_column_alignments";
+
 constexpr char kLastSaveFilter[] = "last_save_filter";
 constexpr char kLastSavePath[] = "last_save_path";
 constexpr char kLastSaveExtension[] = "last_save_extension";

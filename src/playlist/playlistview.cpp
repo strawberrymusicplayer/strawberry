@@ -348,11 +348,61 @@ void PlaylistView::SetHeaderState() {
 
 }
 
+bool PlaylistView::LoadSavedDefaultHeaderState() {
+
+  bool found = false;
+
+  Settings s;
+  s.beginGroup(PlaylistSettings::kSettingsGroup);
+  if (s.contains(PlaylistSettings::kSavedDefaultState) &&
+      s.contains(PlaylistSettings::kSavedDefaultColumnAlignments)) {
+    // Since we use serialized internal data structures, we cannot read anything but the current version.
+    const int saved_default_state_version = s.value(PlaylistSettings::kSavedDefaultStateVersion, PlaylistSettings::kDefaultStateVersion).toInt();
+    if (saved_default_state_version == kHeaderStateVersion) {
+      const QByteArray saved_default_state = s.value(PlaylistSettings::kSavedDefaultState).toByteArray();
+      if (!saved_default_state.isEmpty()) {
+        header_state_ = saved_default_state;
+        column_alignment_ = s.value(PlaylistSettings::kSavedDefaultColumnAlignments).value<ColumnAlignmentMap>();
+        found = true;
+      }
+    }
+  }
+  s.endGroup();
+
+  return found;
+
+}
+
 void PlaylistView::ResetHeaderState() {
 
-  set_initial_header_layout_ = true;
-  header_state_ = header_->ResetState();
+  header_state_.clear();
+
+  if (LoadSavedDefaultHeaderState()) {
+    // A user-saved default column layout exists: restore it instead of falling back to the built-in defaults.
+    set_initial_header_layout_ = false;
+  }
+  else {
+    set_initial_header_layout_ = true;
+    column_alignment_ = DefaultColumnAlignment();
+    header_state_ = header_->ResetState();
+  }
+
+  header_state_loaded_ = true;
+
   RestoreHeaderState();
+
+}
+
+void PlaylistView::SaveHeaderStateAsDefault() {
+
+  if (!header_state_loaded_ || read_only_settings_) return;
+
+  Settings s;
+  s.beginGroup(PlaylistSettings::kSettingsGroup);
+  s.setValue(PlaylistSettings::kSavedDefaultStateVersion, kHeaderStateVersion);
+  s.setValue(PlaylistSettings::kSavedDefaultState, header_->SaveState());
+  s.setValue(PlaylistSettings::kSavedDefaultColumnAlignments, QVariant::fromValue<ColumnAlignmentMap>(column_alignment_));
+  s.endGroup();
 
 }
 
@@ -362,6 +412,7 @@ void PlaylistView::RestoreHeaderState() {
 
   if (header_state_.isEmpty() || !header_->RestoreState(header_state_)) {
     set_initial_header_layout_ = true;
+    column_alignment_ = DefaultColumnAlignment();
   }
 
   if (set_initial_header_layout_) {
