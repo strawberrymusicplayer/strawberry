@@ -20,11 +20,18 @@
 #ifndef NETWORKREMOTESETTINGS_H
 #define NETWORKREMOTESETTINGS_H
 
+#include <QString>
 #include "core/settings.h"
 
 class NetworkRemoteSettings{
  public:
   static const char *kSettingsGroup;
+  static constexpr int kMinUpcomingRows = 10;  // Determines how many rows of a playlist will be
+  static constexpr int kMaxUpcomingRows = 100; // sent to the client
+  static constexpr int kMinPort = 8888;
+  static constexpr int kMaxPort = 65535;
+  static constexpr int kDefaultPort = 8888;
+
   explicit NetworkRemoteSettings();
   ~NetworkRemoteSettings();
   void Load();
@@ -33,11 +40,19 @@ class NetworkRemoteSettings{
   int GetPort() const;
   void SetUseRemote(bool);
   void SetPort(int);
+  QString GetToken() const;
+  void SetToken(const QString &token);
+  static QString CurrentToken();
+  int GetPlaylistSize() const;
+  void SetPlaylistSize(int size);
+  static int CurrentPlaylistSize();
 
  private:
   bool enabled_;
   int remote_port_;
   Settings settings_;
+  QString remote_token_;
+  int playlist_size_;
 };
 
 #endif

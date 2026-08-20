@@ -26,6 +26,7 @@
 #include "networkremoteincomingmsg.h"
 #include "networkremoteoutgoingmsg.h"
 #include "includes/shared_ptr.h"
+#include "networkremoteprotothelper.h"
 
 class Player;
 class PlaylistManager;
@@ -40,7 +41,7 @@ public:
     QTcpSocket *GetSocket();
     void ProcessIncoming();
     void SendEngineState(EngineBase::State state);
-    void SendDisconnect(nw::remote::ReasonDisconnectGadget::ReasonDisconnect reason);
+    void SendDisconnect(ReasonDisconnect reason);
     void SetPlaylistView(QPointer<PlaylistView> playlist_view);
     void SendPlaylistChanged(quint32 playlist_id);
     void SendPlaylistActivated(quint32 playlist_id);

@@ -19,7 +19,7 @@
 
 #include <QThread>
 #include <QNetworkInterface>
-#include "networkremote/networkremote.h"
+#include "networkremote.h"
 #include "core/application.h"
 #include "core/logging.h"
 
