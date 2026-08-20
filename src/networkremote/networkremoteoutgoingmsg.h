@@ -27,6 +27,7 @@
 #include "playlist/playlistitem.h"
 #include "includes/shared_ptr.h"
 #include "engine/enginebase.h"
+#include "networkremoteprotothelper.h"
 #include "networkremote/RemoteMessages.qpb.h"
 
 class Playlist;
@@ -44,22 +45,25 @@ public:
     void SendEngineState(EngineBase::State state);
     void SendInitialInfo();
     void SendMsg();
-    void SendDisconnect(nw::remote::ReasonDisconnectGadget::ReasonDisconnect reason);
-    void SendConnectResponse(const bool accepted);
+    void SendDisconnect(ReasonDisconnect reason);
+    void SendConnectResponse(const bool accepted, const bool auth_enabled);
     void SendPlaylistSongs(const quint32 playlist_id, const quint32 upcoming_count);
     void SendPlaySongResponse(const bool accepted);
-    void SendAddSongToPlaylistResponse(const bool accepted, const quint32 playlist_id);
-    void SendRemoveSongFromPlaylistResponse(const bool accepted);
+    void SendAddSongToPlaylistResponse(const bool accepted,
+        const quint32 playlist_id,
+        const PlaylistRejectReason reject_reason = PlaylistRejectReason::PLAYLIST_REJECT_NONE);
+    void SendRemoveSongFromPlaylistResponse(const bool accepted,
+        const PlaylistRejectReason reject_reason = PlaylistRejectReason::PLAYLIST_REJECT_NONE);
     void SendPlaylistChanged(const quint32 playlist_id);
     void SendPlaylistActivated(const quint32 playlist_id);
     void SetPlaylistView(QPointer<PlaylistView> playlist_view);
     bool IsNumericColumn(Playlist::Column column);
 
 private:
-    static nw::remote::PlayerStateGadget::PlayerState MapEngineState(EngineBase::State state);
-    static nw::remote::EngineStateChange BuildEngineStateChange(EngineBase::State state);
-    nw::remote::ResponseSongMetadata BuildResponseSongMetadata();
-    nw::remote::ResponsePlaylists BuildResponsePlaylists();
+    static PlayerState MapEngineState(EngineBase::State state);
+    static nwr::EngineStateChange BuildEngineStateChange(EngineBase::State state);
+    nwr::ResponseSongMetadata BuildResponseSongMetadata();
+    nwr::ResponsePlaylists BuildResponsePlaylists();
 
     SharedPtr<Player> player_ ;
     SharedPtr<PlaylistManager> playlist_manager_;
@@ -69,9 +73,9 @@ private:
     PlaylistItemPtr current_item_;
     QByteArray msg_stream_;
     std::string msg_string_;
-    nw::remote::Message msg_;
-    nw::remote::SongMetadata song_;
-    nw::remote::ResponseSongMetadata response_song_;
+    nwr::Message msg_;
+    nwr::SongMetadata song_;
+    nwr::ResponseSongMetadata response_song_;
 };
 
 #endif

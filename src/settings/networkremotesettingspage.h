@@ -43,6 +43,9 @@ class NetworkRemoteSettingsPage : public SettingsPage{
   void RemoteButtonClicked();
   void PortChanged();
   void DisplayIP();
+  void TokenChanged();
+  void ToggleTokenVisibility(bool visible);
+  void PlaylistSizeChanged();
 };
 
 #endif // NETWORKREMOTESETTINGSPAGE_H

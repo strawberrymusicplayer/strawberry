@@ -38,30 +38,36 @@ void NetworkRemoteIncomingMsg::SetMsgType() {
     msg_type_ = msg_.type();
 }
 
-nw::remote::MsgTypeGadget::MsgType NetworkRemoteIncomingMsg::GetMsgType() {
+MsgType NetworkRemoteIncomingMsg::GetMsgType() {
     return msg_type_;
 }
 
-nw::remote::RequestPlaylistSongs NetworkRemoteIncomingMsg::GetRequestPlaylistSongs() {
+nwr::RequestPlaylistSongs NetworkRemoteIncomingMsg::GetRequestPlaylistSongs() {
     return msg_.requestPlaylistSongs();
 }
 
-nw::remote::RequestPlaySong NetworkRemoteIncomingMsg::GetRequestPlaySong() {
+nwr::RequestPlaySong NetworkRemoteIncomingMsg::GetRequestPlaySong() {
     return msg_.requestPlaySong();
 }
 
-nw::remote::RequestAddSongToPlaylist NetworkRemoteIncomingMsg::GetRequestAddSongToPlaylist() {
+nwr::RequestAddSongToPlaylist NetworkRemoteIncomingMsg::GetRequestAddSongToPlaylist() {
     return msg_.requestAddSongToPlaylist();
 }
 
-nw::remote::RequestRemoveSongFromPlaylist NetworkRemoteIncomingMsg::GetRequestRemoveSongFromPlaylist() {
+nwr::RequestRemoveSongFromPlaylist NetworkRemoteIncomingMsg::GetRequestRemoveSongFromPlaylist() {
     return msg_.requestRemoveSongFromPlaylist();
 }
 
 void NetworkRemoteIncomingMsg::ReadyRead() {
-    qLog(Debug) << "Ready To Read";
     msg_stream_.append(socket_->readAll());
-    constexpr quint32 kMaxMsgLen = 1024 * 1024; // 1 MiB
+
+    if (static_cast<quint64>(msg_stream_.size()) > kMaxBufferedBytes) {
+        qLog(Warning) << "Incoming buffer exceeded" << kMaxBufferedBytes
+                      << "bytes without completing a frame; dropping connection";
+        msg_stream_.clear();
+        socket_->disconnectFromHost();
+        return;
+    }
 
     while (true) {
         if (msg_stream_.size() < 4) {
@@ -87,7 +93,7 @@ void NetworkRemoteIncomingMsg::ReadyRead() {
 
         const QByteArray complete_msg = msg_stream_.mid(4, msg_len);
         msg_stream_.remove(0, 4 + msg_len);
-        msg_ = nw::remote::Message();
+        msg_ = nwr::Message();
         QProtobufSerializer serializer;
         msg_.deserialize(&serializer, complete_msg);
         if (serializer.lastError() == QAbstractProtobufSerializer::Error::None) {
@@ -108,3 +114,4 @@ quint32 NetworkRemoteIncomingMsg::GetMsgVersion() {
 QString NetworkRemoteIncomingMsg::GetClientName() {
     return msg_.requestConnect().clientName();
 }
+

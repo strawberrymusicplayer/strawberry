@@ -100,9 +100,15 @@ void NetworkRemoteClientManager::AddClient(QTcpSocket *socket) {
 
 void NetworkRemoteClientManager::RemoveClient(const QSharedPointer<NetworkRemoteClient>& client) {
     clients_.removeOne(client);
+    QTcpSocket *socket = client->GetSocket();
+    if (socket){
+      qLog(Debug) << "Closing socket" << socket->socketDescriptor() << "for removed client";
+      socket->disconnectFromHost();
+      socket->deleteLater();
+    }
+
     QSharedPointer<NetworkRemoteClient> deferred = client;
-    QMetaObject::invokeMethod(this, [deferred]() {
-    }, Qt::QueuedConnection);
+    QMetaObject::invokeMethod(this, [deferred]() {}, Qt::QueuedConnection);
     qLog(Debug) << "There are now +++++++++++++++" << clients_.count() << "clients connected";
 }
 
