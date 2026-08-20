@@ -25,7 +25,7 @@
 #include <QTcpSocket>
 #include <QNetworkAddressEntry>
 #include <QPointer>
-#include "networkremote/networkremoteclientmanager.h"
+#include "networkremoteclientmanager.h"
 
 class PlaylistManager;
 class PlaylistView;

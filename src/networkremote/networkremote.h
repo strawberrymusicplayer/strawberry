@@ -24,7 +24,7 @@
 #include <QHostAddress>
 #include <QPointer>
 #include "networkremotetcpserver.h"
-#include "networkremote/networkremotesettings.h"
+#include "networkremotesettings.h"
 
 class Player;
 class PlaylistManager;
