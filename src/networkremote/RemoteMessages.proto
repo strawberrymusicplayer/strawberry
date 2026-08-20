@@ -83,6 +83,13 @@ enum ReasonDisconnect {
     REASON_DISCONNECT_NO_HANDSHAKE = 4;
 }
 
+enum PlaylistRejectReason {
+    PLAYLIST_REJECT_NONE = 0;            // accepted=true, ignore this field
+    PLAYLIST_REJECT_INVALID_REQUEST = 1; // e.g. bad row index, no current song, unknown playlist
+    PLAYLIST_REJECT_TOKEN_MISMATCH = 2;  // auth enabled, client sent a token, but it didn't match
+    PLAYLIST_REJECT_TOKEN_REQUIRED = 3;  // auth enabled, client sent no/empty token
+}
+
 message RequestDisconnect {
     ReasonDisconnect reason_disconnect = 1;
 }
@@ -93,6 +100,7 @@ message RequestConnect {
 
 message ResponseConnect {
     bool accepted = 1;
+    bool auth_enabled = 2;
 }
 
 message SongMetadata{
@@ -220,20 +228,24 @@ message ResponsePlaySong {
 message RequestAddSongToPlaylist {
     uint32 target_playlist_id = 1;  // ignored if new_playlist_name is set
     string new_playlist_name = 2;   // non-empty => create playlist, use as target
+    string token = 3;
 }
 
 message ResponseAddSongToPlaylist {
     bool accepted = 1;
     uint32 playlist_id = 2;         // resolved id (existing or newly created)
+    PlaylistRejectReason reject_reason = 3;
 }
 
 message RequestRemoveSongFromPlaylist {
     uint32 playlist_id = 1;
     uint32 row_index = 2;
+    string token = 3;
 }
 
 message ResponseRemoveSongFromPlaylist {
     bool accepted = 1;
+    PlaylistRejectReason reject_reason = 2;
 }
 
 message PlaylistChanged {

@@ -20,7 +20,7 @@
 #include <QNetworkProxy>
 #include "networkremotetcpserver.h"
 #include "core/logging.h"
-#include "networkremote/networkremoteclientmanager.h"
+#include "networkremoteclientmanager.h"
 
 NetworkRemoteTcpServer::NetworkRemoteTcpServer(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent)
     : QObject(parent),

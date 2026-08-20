@@ -31,6 +31,7 @@ class Player;
 class PlaylistManager;
 class PlaylistView;
 class NetworkRemoteClient;
+class QTimer;
 
 class NetworkRemoteClientManager : public QObject{
     Q_OBJECT
