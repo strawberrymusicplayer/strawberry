@@ -19,9 +19,10 @@
 
 #include <QTcpSocket>
 #include <QProtobufSerializer>
-
 #include "networkremoteincomingmsg.h"
 #include "core/logging.h"
+
+using namespace nwr_types;
 
 NetworkRemoteIncomingMsg::NetworkRemoteIncomingMsg(QObject *parent)
     : QObject(parent),

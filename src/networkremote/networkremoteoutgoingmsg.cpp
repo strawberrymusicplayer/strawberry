@@ -31,6 +31,8 @@
 #include "playlist/playlist.h"
 #include "constants/timeconstants.h"
 
+using namespace nwr_types;
+
 NetworkRemoteOutgoingMsg::NetworkRemoteOutgoingMsg(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent)
     : QObject(parent),
     player_(player),
@@ -48,43 +50,9 @@ void NetworkRemoteOutgoingMsg::SetPlaylistView(QPointer<PlaylistView> playlist_v
 }
 
 void NetworkRemoteOutgoingMsg::SendCurrentTrackInfo() {
-    msg_ =  nwr::Message();
-    response_song_ = nwr::ResponseSongMetadata();
-    current_item_ = player_->GetCurrentItem();
-
-    if (current_item_ != nullptr) {
-        song_ = nwr::SongMetadata();
-        song_.setTitle(current_item_->EffectiveMetadata().PrettyTitle());
-        song_.setAlbum(current_item_->EffectiveMetadata().album());
-        song_.setArtist(current_item_->EffectiveMetadata().artist());
-        song_.setAlbumartist(current_item_->EffectiveMetadata().albumartist());
-        song_.setTrack(current_item_->EffectiveMetadata().track());
-        song_.setStryear(current_item_->EffectiveMetadata().PrettyYear());
-        song_.setGenre(current_item_->EffectiveMetadata().genre());
-        song_.setPlaycount(current_item_->EffectiveMetadata().playcount());
-        song_.setSonglength(current_item_->EffectiveMetadata().PrettyLength());
-
-        response_song_.setPlayerState(MapEngineState(player_->GetState()));
-        response_song_.setSongMetadata(song_);
-
-        const qint64 position_nanosec = player_->engine()->position_nanosec();
-        qint64 length_nanosec = player_->engine()->length_nanosec();
-        if (length_nanosec <= 0) {
-            // Engine doesn't know yet (e.g. just-loaded track): fall back to the tag.
-            length_nanosec = current_item_->EffectiveMetadata().length_nanosec();
-        }
-
-        response_song_.setPositionSeconds(position_nanosec > 0 ? static_cast<quint32>(position_nanosec / kNsecPerSec) : 0);
-        response_song_.setLengthSeconds(length_nanosec > 0 ? static_cast<quint32>(length_nanosec / kNsecPerSec) : 0);
-
-        msg_.setType(MsgType::MSG_TYPE_REPLY_SONG_INFO);
-        msg_.setResponseSongMetadata(response_song_);
-    }
-    else {
-        response_song_.setPlayerState(PlayerState::PLAYER_STATUS_UNSPECIFIED);
-        msg_.setType(MsgType::MSG_TYPE_REPLY_SONG_INFO);
-        msg_.setResponseSongMetadata(response_song_);
-    }
+    msg_ = nwr::Message();
+    msg_.setType(MsgType::MSG_TYPE_REPLY_SONG_INFO);
+    msg_.setResponseSongMetadata(BuildResponseSongMetadata());
     SendMsg();
 }
 
@@ -100,17 +68,9 @@ PlayerState NetworkRemoteOutgoingMsg::MapEngineState(EngineBase::State state) {
 }
 
 void NetworkRemoteOutgoingMsg::SendEngineState(EngineBase::State state) {
-    msg_ =  nwr::Message();
-    nwr::EngineStateChange state_change;
-    switch (state) {
-    case EngineBase::State::Playing: state_change.setState(EngineState::ENGINE_STATE_PLAYING); break;
-    case EngineBase::State::Paused:  state_change.setState(EngineState::ENGINE_STATE_PAUSED);  break;
-    case EngineBase::State::Idle:    state_change.setState(EngineState::ENGINE_STATE_IDLE);    break;
-    default:                         state_change.setState(EngineState::ENGINE_STATE_EMPTY);   break;
-    }
+    msg_ = nwr::Message();
     msg_.setType(MsgType::MSG_TYPE_ENGINE_STATE_CHANGE);
-    msg_.setEngineStateChange(state_change);
-
+    msg_.setEngineStateChange(BuildEngineStateChange(state));
     SendMsg();
 }
 
