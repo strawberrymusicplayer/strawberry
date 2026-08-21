@@ -74,6 +74,7 @@
 #include "queue/queue.h"
 #include "playlist.h"
 #include "playlistitem.h"
+#include "playlistitemsavedata.h"
 #include "playlistview.h"
 #include "playlistsequence.h"
 #include "playlistbackend.h"
@@ -1712,7 +1713,14 @@ void Playlist::Save() {
 
   if (!playlist_backend_ || is_loading_) return;
 
-  playlist_backend_->SavePlaylistAsync(id_, items_, last_played_row(), dynamic_playlist_);
+  // Snapshot the items here, on the playlist's own thread, rather than handing the items themselves to the database thread:
+  // saving is asynchronous and the model keeps mutating the items (inline tag edits, collection updates, stream metadata) while it runs.
+  PlaylistItemSaveDataList items_save_data;
+  items_save_data.reserve(items_.count());
+  for (int i = 0; i < items_.count(); i++) {
+    items_save_data << items_.at(i)->CreateSaveData();
+  }
+  playlist_backend_->SavePlaylistAsync(id_, items_save_data, last_played_row(), dynamic_playlist_);
 
 }
 

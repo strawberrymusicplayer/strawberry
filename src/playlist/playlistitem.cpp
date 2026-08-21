@@ -30,6 +30,7 @@
 #include "core/song.h"
 
 #include "playlistitem.h"
+#include "playlistitemsavedata.h"
 #include "songplaylistitem.h"
 #include "collection/collectionplaylistitem.h"
 #include "streaming/streamserviceplaylistitem.h"
@@ -116,13 +117,15 @@ void PlaylistItem::ClearStreamMetadata() {
   stream_song_ = Song();
 }
 
-void PlaylistItem::BindToQuery(SqlQuery *query) const {
+PlaylistItemSaveData PlaylistItem::CreateSaveData() const {
 
-  query->BindValue(u":type"_s, static_cast<int>(source_));
-  query->BindValue(u":uuid"_s, uuid_.toString(QUuid::WithoutBraces));
-  query->BindValue(u":collection_id"_s, DatabaseValue(DatabaseColumn::CollectionId));
+  PlaylistItemSaveData save_data;
+  save_data.source = source_;
+  save_data.uuid = uuid_;
+  save_data.collection_id = DatabaseValue(DatabaseColumn::CollectionId);
+  save_data.song = DatabaseSongMetadata();
 
-  DatabaseSongMetadata().BindToQuery(query);
+  return save_data;
 
 }
 

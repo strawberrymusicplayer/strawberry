@@ -49,6 +49,7 @@
 #include "engine/gstenginepipeline.h"
 #include "collection/collectiondirectory.h"
 #include "playlist/playlistitem.h"
+#include "playlist/playlistitemsavedata.h"
 #include "playlist/playlistsequence.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "covermanager/albumcoverfetcher.h"
@@ -117,6 +118,8 @@ void RegisterMetaTypes() {
   qRegisterMetaType<CollectionModel::Grouping>("CollectionModel::Grouping");
   qRegisterMetaType<PlaylistItemPtr>("PlaylistItemPtr");
   qRegisterMetaType<PlaylistItemPtrList>("PlaylistItemPtrList");
+  qRegisterMetaType<PlaylistItemSaveData>("PlaylistItemSaveData");
+  qRegisterMetaType<PlaylistItemSaveDataList>("PlaylistItemSaveDataList");
   qRegisterMetaType<PlaylistSequence::RepeatMode>("PlaylistSequence::RepeatMode");
   qRegisterMetaType<PlaylistSequence::ShuffleMode>("PlaylistSequence::ShuffleMode");
   qRegisterMetaType<AlbumCoverLoaderResult>("AlbumCoverLoaderResult");
