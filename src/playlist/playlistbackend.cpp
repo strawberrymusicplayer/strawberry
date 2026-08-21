@@ -423,6 +423,40 @@ void PlaylistBackend::SavePlaylist(const int playlist, const PlaylistItemSaveDat
 
 }
 
+void PlaylistBackend::SavePlaylistItemsAsync(const int playlist, const PlaylistItemSaveDataList &items) {
+
+  QMetaObject::invokeMethod(this, "SavePlaylistItems", Qt::QueuedConnection, Q_ARG(int, playlist), Q_ARG(PlaylistItemSaveDataList, items));
+
+}
+
+void PlaylistBackend::SavePlaylistItems(const int playlist, const PlaylistItemSaveDataList &items) {
+
+  QMutexLocker l(database_->Mutex());
+  QSqlDatabase db(database_->Connect());
+
+  qLog(Debug) << "Saving" << items.count() << "items in playlist" << playlist;
+
+  ScopedTransaction transaction(&db);
+
+  // The row order of a playlist is its ROWID order, which an update leaves alone, unlike the delete and re-insert SavePlaylist() does.
+  for (const PlaylistItemSaveData &item : items) {
+    SqlQuery q(db);
+    q.prepare(u"UPDATE playlist_items SET type=:type, collection_id=:collection_id, "_s + Song::kUpdateSpec + u" WHERE playlist=:playlist AND uuid=:uuid"_s);
+    q.BindValue(u":playlist"_s, playlist);
+    q.BindValue(u":type"_s, static_cast<int>(item.source));
+    q.BindValue(u":uuid"_s, item.uuid.toString(QUuid::WithoutBraces));
+    q.BindValue(u":collection_id"_s, item.collection_id);
+    item.song.BindToQuery(&q);
+    if (!q.Exec()) {
+      database_->ReportErrors(q);
+      return;
+    }
+  }
+
+  transaction.Commit();
+
+}
+
 int PlaylistBackend::CreatePlaylist(const QString &name, const QString &special_type) {
 
   QMutexLocker l(database_->Mutex());

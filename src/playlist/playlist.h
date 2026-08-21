@@ -32,6 +32,7 @@
 #include <QFuture>
 #include <QList>
 #include <QMap>
+#include <QSet>
 #include <QMultiMap>
 #include <QMetaType>
 #include <QVariant>
@@ -394,6 +395,7 @@ class Playlist : public QAbstractListModel {
   void ReloadItemComplete(const QPersistentModelIndex &idx, PlaylistItemPtr item, const Song &new_metadata, const bool saved, const quint64 save_generation, const Song &fallback_metadata);
   void ItemsLoaded();
   void ForceScheduleSave();
+  void ScheduleSaveItem(const PlaylistItemPtr &item);
   void Save();
 
  private:
@@ -419,6 +421,11 @@ class Playlist : public QAbstractListModel {
   // Maps each item's UUID to the item, for fast lookups by UUID.
   // Only updated when items are added or removed; moves and reorders leave it untouched.
   QMap<QUuid, PlaylistItemPtr> items_by_uuid_;
+
+  // What the pending timer_save_ has to write. save_all_ means the whole playlist is rewritten (rows added, removed or reordered, or last played/dynamic state changed);
+  // otherwise only the rows in save_item_uuids_ are updated in place.
+  bool save_all_;
+  QSet<QUuid> save_item_uuids_;
 
   // Contains the indices into items_ in the order that they will be played.
   QList<int> virtual_items_;

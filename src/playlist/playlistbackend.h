@@ -82,6 +82,7 @@ class PlaylistBackend : public QObject {
 
   int CreatePlaylist(const QString &name, const QString &special_type);
   void SavePlaylistAsync(const int playlist, const PlaylistItemSaveDataList &items, const int last_played, PlaylistGeneratorPtr dynamic);
+  void SavePlaylistItemsAsync(const int playlist, const PlaylistItemSaveDataList &items);
   void RenamePlaylist(const int id, const QString &new_name);
   void FavoritePlaylist(const int id, bool is_favorite);
   void RemovePlaylist(const int id);
@@ -89,6 +90,7 @@ class PlaylistBackend : public QObject {
  public Q_SLOTS:
   void Exit();
   void SavePlaylist(const int playlist, const PlaylistItemSaveDataList &items, const int last_played, PlaylistGeneratorPtr dynamic);
+  void SavePlaylistItems(const int playlist, const PlaylistItemSaveDataList &items);
 
  Q_SIGNALS:
   void ExitFinished();
