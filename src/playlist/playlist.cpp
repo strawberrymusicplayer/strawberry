@@ -146,6 +146,7 @@ Playlist::Playlist(const SharedPtr<TaskManager> task_manager,
       tagreader_client_(tagreader_client),
       id_(id),
       favorite_(favorite),
+      save_all_(false),
       current_is_paused_(false),
       current_virtual_index_(-1),
       playlist_sequence_(nullptr),
@@ -474,7 +475,7 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
     item->SetOriginalMetadata(song);
     Q_EMIT dataChanged(index(row, 0), index(row, ColumnCount - 1));
     Q_EMIT EditingFinished(id_, idx);
-    ScheduleSave();
+    ScheduleSaveItem(item);
   }
 
   return true;
@@ -576,7 +577,7 @@ void Playlist::ReloadItemComplete(const QPersistentModelIndex &idx, PlaylistItem
     Q_EMIT EditingFinished(id_, idx);
   }
 
-  ScheduleSave();
+  ScheduleSaveItem(item);
 
 }
 
@@ -1694,6 +1695,21 @@ void Playlist::ForceScheduleSave() {
 
   if (!playlist_backend_) return;
 
+  save_all_ = true;
+  save_item_uuids_.clear();
+  timer_save_->start();
+
+}
+
+void Playlist::ScheduleSaveItem(const PlaylistItemPtr &item) {
+
+  if (is_loading_ || !playlist_backend_ || !item) return;
+
+  // A pending full save already covers this row, so there is nothing to add.
+  if (!save_all_) {
+    save_item_uuids_.insert(item->uuid());
+  }
+
   timer_save_->start();
 
 }
@@ -1702,8 +1718,28 @@ void Playlist::Save() {
 
   if (!playlist_backend_ || is_loading_) return;
 
-  // Snapshot the items here, on the playlist's own thread, rather than handing the items themselves to the database thread:
+  // The items are snapshotted here, on the playlist's own thread, rather than handing the items themselves to the database thread:
   // saving is asynchronous and the model keeps mutating the items (inline tag edits, collection updates, stream metadata) while it runs.
+
+  if (!save_all_) {
+    // Only the metadata of specific rows changed, so update those in place instead of rewriting the whole playlist.
+    const QSet<QUuid> save_item_uuids = save_item_uuids_;
+    save_item_uuids_.clear();
+    PlaylistItemSaveDataList items_save_data;
+    items_save_data.reserve(save_item_uuids.count());
+    for (const QUuid &uuid : save_item_uuids) {
+      const PlaylistItemPtr item = items_by_uuid_.value(uuid);
+      if (item) items_save_data << item->CreateSaveData();
+    }
+    if (!items_save_data.isEmpty()) {
+      playlist_backend_->SavePlaylistItemsAsync(id_, items_save_data);
+    }
+    return;
+  }
+
+  save_all_ = false;
+  save_item_uuids_.clear();
+
   PlaylistItemSaveDataList items_save_data;
   items_save_data.reserve(items_.count());
   for (int i = 0; i < items_.count(); i++) {
@@ -2773,7 +2809,7 @@ void Playlist::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &
     if (item && item->EffectiveMetadata() == song && (!item->EffectiveMetadata().art_manual_is_valid() || (result.type == AlbumCoverLoaderResult::Type::Unset && !item->EffectiveMetadata().art_unset()))) {
       qLog(Debug) << "Updating art manual for local song" << song.title() << song.album() << song.title() << "to" << result.album_cover.cover_url << "in playlist.";
       item->SetArtManual(result.album_cover.cover_url);
-      ScheduleSave();
+      ScheduleSaveItem(item);
     }
   }
 
