@@ -457,6 +457,30 @@ void PlaylistBackend::SavePlaylistItems(const int playlist, const PlaylistItemSa
 
 }
 
+void PlaylistBackend::SavePlaylistLastPlayedAsync(const int playlist, const int last_played) {
+
+  QMetaObject::invokeMethod(this, "SavePlaylistLastPlayed", Qt::QueuedConnection, Q_ARG(int, playlist), Q_ARG(int, last_played));
+
+}
+
+void PlaylistBackend::SavePlaylistLastPlayed(const int playlist, const int last_played) {
+
+  QMutexLocker l(database_->Mutex());
+  QSqlDatabase db(database_->Connect());
+
+  qLog(Debug) << "Saving last played" << last_played << "in playlist" << playlist;
+
+  SqlQuery q(db);
+  q.prepare(u"UPDATE playlists SET last_played=:last_played WHERE ROWID=:playlist"_s);
+  q.BindValue(u":last_played"_s, last_played);
+  q.BindValue(u":playlist"_s, playlist);
+
+  if (!q.Exec()) {
+    database_->ReportErrors(q);
+  }
+
+}
+
 int PlaylistBackend::CreatePlaylist(const QString &name, const QString &special_type) {
 
   QMutexLocker l(database_->Mutex());
