@@ -198,12 +198,9 @@ void NetworkRemoteClientManager::DisconnectAll() {
     for (const QSharedPointer<NetworkRemoteClient> &client : clients_copy) {
         QTcpSocket *socket = client->GetSocket();
         qLog(Debug) << "Sending shutdown notice to socket" << (socket ? socket->socketDescriptor() : -1);
-        client->SendDisconnect(nw::remote::ReasonDisconnectGadget::ReasonDisconnect::REASON_DISCONNECT_SERVER_SHUTDOWN);
+        client->SendDisconnect(nwr_types::ReasonDisconnect::REASON_DISCONNECT_SERVER_SHUTDOWN);
         if (socket) {
             socket->flush();
-            if (!socket->waitForBytesWritten(500)) {
-                qLog(Warning) << "Timed out flushing shutdown notice to socket" << socket->socketDescriptor();
-            }
             socket->disconnectFromHost();
         }
     }

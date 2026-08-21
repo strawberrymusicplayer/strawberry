@@ -24,6 +24,8 @@
 #include "playlist/playlistmanager.h"
 #include "playlist/playlist.h"
 
+using namespace nwr_types;
+
 NetworkRemoteClient::NetworkRemoteClient(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent)
     : QObject(parent),
     player_(player),
@@ -89,12 +91,8 @@ void NetworkRemoteClient::HandleRequestAddSongToPlaylist(const quint32 target_pl
     int resolved_id = static_cast<int>(target_playlist_id);
 
     if (!new_playlist_name.isEmpty()) {
-        int captured_id = -1;
-        QMetaObject::Connection conn = QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistAdded, this,
-                                                        [&captured_id](int id, const QString &, bool) { captured_id = id; });
         playlist_manager_->New(new_playlist_name);
-        QObject::disconnect(conn);
-        resolved_id = captured_id;
+        resolved_id = playlist_manager_->current_id();
     }
 
     Playlist *pl = playlist_manager_->playlist(resolved_id);
@@ -199,34 +197,34 @@ void NetworkRemoteClient::ProcessIncoming() {
     }
     case MsgType::MSG_TYPE_REQUEST_ADD_SONG_TO_PLAYLIST: {
         const nwr::RequestAddSongToPlaylist request = incoming_msg_->GetRequestAddSongToPlaylist();
-        const QString expected_token = NetworkRemoteSettings::CurrentToken();
-        if (!expected_token.isEmpty()) {
-            const PlaylistRejectReason reject_reason =
-                request.token().isEmpty()
-                    ? PlaylistRejectReason::PLAYLIST_REJECT_TOKEN_REQUIRED
-                    : PlaylistRejectReason::PLAYLIST_REJECT_TOKEN_MISMATCH;
-            if (request.token() != expected_token) {
-                qLog(Warning) << "Rejected RequestAddSongToPlaylist: token check failed";
-                outgoing_msg_->SendAddSongToPlaylistResponse(false, 0, reject_reason);
-                break;
+        PlaylistRejectReason reject_reason = PlaylistRejectReason::PLAYLIST_REJECT_NONE;
+        if (!TokenAccepted(request.token(), &reject_reason)) {
+            qLog(Warning) << "Rejected RequestAddSongToPlaylist: token check failed ("
+                          << failed_token_attempts_ << "consecutive failures)";
+            outgoing_msg_->SendAddSongToPlaylistResponse(false, 0, reject_reason);
+            if (failed_token_attempts_ >= kMaxFailedTokenAttempts) {
+                qLog(Warning) << "Too many failed token attempts; disconnecting client";
+                outgoing_msg_->SendDisconnect(ReasonDisconnect::REASON_DISCONNECT_TOO_MANY_FAILED_ATTEMPTS);
+                Q_EMIT ClientIsLeaving();
             }
+            break;
         }
         Q_EMIT RequestAddSongToPlaylist(request.targetPlaylistId(), request.newPlaylistName());
         break;
     }
     case MsgType::MSG_TYPE_REQUEST_REMOVE_SONG_FROM_PLAYLIST: {
         const nwr::RequestRemoveSongFromPlaylist request = incoming_msg_->GetRequestRemoveSongFromPlaylist();
-        const QString expected_token = NetworkRemoteSettings::CurrentToken();
-        if (!expected_token.isEmpty()) {
-            const PlaylistRejectReason reject_reason =
-                request.token().isEmpty()
-                    ? PlaylistRejectReason::PLAYLIST_REJECT_TOKEN_REQUIRED
-                    : PlaylistRejectReason::PLAYLIST_REJECT_TOKEN_MISMATCH;
-            if (request.token() != expected_token) {
-                qLog(Warning) << "Rejected RequestRemoveSongFromPlaylist: token check failed";
-                outgoing_msg_->SendRemoveSongFromPlaylistResponse(false, reject_reason);
-                break;
+        PlaylistRejectReason reject_reason = PlaylistRejectReason::PLAYLIST_REJECT_NONE;
+        if (!TokenAccepted(request.token(), &reject_reason)) {
+            qLog(Warning) << "Rejected RequestRemoveSongFromPlaylist: token check failed ("
+                          << failed_token_attempts_ << "consecutive failures)";
+            outgoing_msg_->SendRemoveSongFromPlaylistResponse(false, reject_reason);
+            if (failed_token_attempts_ >= kMaxFailedTokenAttempts) {
+                qLog(Warning) << "Too many failed token attempts; disconnecting client";
+                outgoing_msg_->SendDisconnect(ReasonDisconnect::REASON_DISCONNECT_TOO_MANY_FAILED_ATTEMPTS);
+                Q_EMIT ClientIsLeaving();
             }
+            break;
         }
         Q_EMIT RequestRemoveSongFromPlaylist(request.playlistId(), request.rowIndex());
         break;
@@ -245,4 +243,36 @@ void NetworkRemoteClient::SendEngineState(EngineBase::State state) {
 
 void NetworkRemoteClient::SendDisconnect(ReasonDisconnect reason) {
     outgoing_msg_->SendDisconnect(reason);
+}
+
+bool NetworkRemoteClient::TokenAccepted(const QString &token, PlaylistRejectReason *reject_reason) {
+    const QString expected_token = NetworkRemoteSettings::CurrentToken();
+    if (expected_token.isEmpty()) {
+        return true;
+    }
+    if (token.isEmpty()) {
+        *reject_reason = PlaylistRejectReason::PLAYLIST_REJECT_TOKEN_REQUIRED;
+        ++failed_token_attempts_;
+        return false;
+    }
+
+    const QByteArray given = token.toUtf8();
+    const QByteArray expected = expected_token.toUtf8();
+    const int max_len = std::max(given.size(), expected.size());
+
+    unsigned char diff = static_cast<unsigned char>(given.size() != expected.size());
+    for (int i = 0; i < max_len; ++i) {
+        const unsigned char g = (i < given.size()) ? static_cast<unsigned char>(given.at(i)) : 0;
+        const unsigned char e = (i < expected.size()) ? static_cast<unsigned char>(expected.at(i)) : 0;
+        diff |= (g ^ e);
+    }
+
+    if (diff != 0) {
+        *reject_reason = PlaylistRejectReason::PLAYLIST_REJECT_TOKEN_MISMATCH;
+        ++failed_token_attempts_;
+        return false;
+    }
+
+    failed_token_attempts_ = 0;
+    return true;
 }

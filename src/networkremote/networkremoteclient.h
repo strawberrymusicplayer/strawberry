@@ -41,7 +41,7 @@ public:
     QTcpSocket *GetSocket();
     void ProcessIncoming();
     void SendEngineState(EngineBase::State state);
-    void SendDisconnect(ReasonDisconnect reason);
+    void SendDisconnect(nwr_types::ReasonDisconnect reason);
     void SetPlaylistView(QPointer<PlaylistView> playlist_view);
     void SendPlaylistChanged(quint32 playlist_id);
     void SendPlaylistActivated(quint32 playlist_id);
@@ -65,12 +65,14 @@ private:
     void HandleRequestPlaySong(quint32 playlist_id, quint32 row_index);
     void HandleRequestAddSongToPlaylist(quint32 target_playlist_id, QString new_playlist_name);
     void HandleRequestRemoveSongFromPlaylist(quint32 playlist_id, quint32 row_index);
+    bool TokenAccepted(const QString &token, nwr_types::PlaylistRejectReason *reject_reason);
     const SharedPtr<Player> player_;
     const SharedPtr<PlaylistManager> playlist_manager_;
     QTcpSocket *socket_;
     NetworkRemoteIncomingMsg *incoming_msg_;
     NetworkRemoteOutgoingMsg *outgoing_msg_;
     bool handshake_complete_ = false;
+    int failed_token_attempts_ = 0;
 };
 
 #endif
