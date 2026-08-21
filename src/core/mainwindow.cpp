@@ -2360,7 +2360,7 @@ void MainWindow::EditTagDialogAccepted() {
     playlist->ReloadItems(rows_to_reload);
   }
 
-  playlist->ScheduleSaveAsync();
+  playlist->ScheduleSave();
 
 }
 

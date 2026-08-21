@@ -178,7 +178,8 @@ class Playlist : public QAbstractListModel {
 
   // Persistence
   void Restore();
-  void ScheduleSaveAsync();
+
+  void ScheduleSave();
 
   // Accessors
   PlaylistFilter *filter() const;
@@ -392,7 +393,6 @@ class Playlist : public QAbstractListModel {
   void SaveItemComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, PlaylistItemPtr item, const quint64 save_generation, const Song &pre_edit_metadata);
   void ReloadItemComplete(const QPersistentModelIndex &idx, PlaylistItemPtr item, const Song &new_metadata, const bool saved, const quint64 save_generation, const Song &fallback_metadata);
   void ItemsLoaded();
-  void ScheduleSave();
   void ForceScheduleSave();
   void Save();
 
