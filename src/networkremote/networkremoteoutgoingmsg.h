@@ -24,7 +24,6 @@
 #include <QByteArray>
 #include <QPointer>
 #include "playlist/playlist.h"
-#include "playlist/playlistitem.h"
 #include "includes/shared_ptr.h"
 #include "engine/enginebase.h"
 #include "networkremoteprotothelper.h"
@@ -45,22 +44,22 @@ public:
     void SendEngineState(EngineBase::State state);
     void SendInitialInfo();
     void SendMsg();
-    void SendDisconnect(ReasonDisconnect reason);
+    void SendDisconnect(nwr_types::ReasonDisconnect reason);
     void SendConnectResponse(const bool accepted, const bool auth_enabled);
     void SendPlaylistSongs(const quint32 playlist_id, const quint32 upcoming_count);
     void SendPlaySongResponse(const bool accepted);
     void SendAddSongToPlaylistResponse(const bool accepted,
         const quint32 playlist_id,
-        const PlaylistRejectReason reject_reason = PlaylistRejectReason::PLAYLIST_REJECT_NONE);
+        const nwr_types::PlaylistRejectReason reject_reason = nwr_types::PlaylistRejectReason::PLAYLIST_REJECT_NONE);
     void SendRemoveSongFromPlaylistResponse(const bool accepted,
-        const PlaylistRejectReason reject_reason = PlaylistRejectReason::PLAYLIST_REJECT_NONE);
+        const nwr_types::PlaylistRejectReason reject_reason = nwr_types::PlaylistRejectReason::PLAYLIST_REJECT_NONE);
     void SendPlaylistChanged(const quint32 playlist_id);
     void SendPlaylistActivated(const quint32 playlist_id);
     void SetPlaylistView(QPointer<PlaylistView> playlist_view);
     bool IsNumericColumn(Playlist::Column column);
 
 private:
-    static PlayerState MapEngineState(EngineBase::State state);
+    static nwr_types::PlayerState MapEngineState(EngineBase::State state);
     static nwr::EngineStateChange BuildEngineStateChange(EngineBase::State state);
     nwr::ResponseSongMetadata BuildResponseSongMetadata();
     nwr::ResponsePlaylists BuildResponsePlaylists();
@@ -68,14 +67,11 @@ private:
     SharedPtr<Player> player_ ;
     SharedPtr<PlaylistManager> playlist_manager_;
     QPointer<PlaylistView> playlist_view_;
-    long bytes_out_;
+    qint64 bytes_out_;
     QTcpSocket *socket_;
-    PlaylistItemPtr current_item_;
     QByteArray msg_stream_;
     std::string msg_string_;
     nwr::Message msg_;
-    nwr::SongMetadata song_;
-    nwr::ResponseSongMetadata response_song_;
 };
 
 #endif

@@ -30,6 +30,9 @@ NetworkRemoteSettings::NetworkRemoteSettings()
       remote_port_(8888),
     playlist_size_(50 ){}
 
+QString NetworkRemoteSettings::cached_token_;
+int NetworkRemoteSettings::cached_playlist_size_ = 50;
+
 NetworkRemoteSettings::~NetworkRemoteSettings() {}
 
 void NetworkRemoteSettings::Load() {  
@@ -39,7 +42,7 @@ void NetworkRemoteSettings::Load() {
     settings_.setValue("useRemote", false);
     settings_.setValue("remotePort", 8888);
     settings_.setValue("remoteToken", QString());
-    settings_.setValue("playlistsize", 50);
+    settings_.setValue("playlistSize", 50);
   }
   else {
     enabled_ = settings_.value("useRemote").toBool();
@@ -100,9 +103,7 @@ void NetworkRemoteSettings::SetToken(const QString &token) {
 }
 
 QString NetworkRemoteSettings::CurrentToken() {
-    NetworkRemoteSettings settings;
-    settings.Load();
-    return settings.GetToken();
+    return cached_token_;
 }
 
 int NetworkRemoteSettings::GetPlaylistSize() const {
@@ -114,7 +115,13 @@ void NetworkRemoteSettings::SetPlaylistSize(int size) {
 }
 
 int NetworkRemoteSettings::CurrentPlaylistSize() {
+    return cached_playlist_size_;
+}
+
+void NetworkRemoteSettings::RefreshCache() {
     NetworkRemoteSettings settings;
     settings.Load();
-    return settings.GetPlaylistSize();
+    cached_token_ = settings.GetToken();
+    cached_playlist_size_ = settings.GetPlaylistSize();
 }
+
