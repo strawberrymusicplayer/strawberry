@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef NETWORKREMOTETYPES_H
-#define NETWORKREMOTETYPES_H
+#ifndef NETWORKREMOTEPROTOHELPER_H
+#define NETWORKREMOTEPROTOHELPER_H
 
 #include <QtGlobal>
 #include "networkremote/RemoteMessages.qpb.h"
@@ -42,19 +42,23 @@
 // that works with the NetworkRemote wire protocol.
 namespace nwr = nw::remote;
 
+namespace nwr_types {
 using MsgType = nwr::MsgTypeGadget::MsgType;
 using ReasonDisconnect = nwr::ReasonDisconnectGadget::ReasonDisconnect;
 using PlaylistRejectReason = nwr::PlaylistRejectReasonGadget::PlaylistRejectReason;
 using PlayerState = nwr::PlayerStateGadget::PlayerState;
 using EngineState = nwr::EngineStateGadget::EngineState;
+}  // nwr_types
 
 // Protocol version history:
 // 1 - initial protocol (song info, transport control, engine state push)
 // 2 - position/length in ResponseSongMetadata, version field in Message
+// 3 - playlist listing and playlist song rows
+// 4 - playlist mutation (add/remove song) requests
+// 5 - optional token authentication, auth_enabled in ResponseConnect, PlaylistRejectReason
 constexpr quint32 kProtocolVersion = 5;
 
 // Oldest client protocol version this server accepts.
-// 0 = clients that predate the version field.
 constexpr quint32 kMinSupportedVersion = 5;
 
 // Maximum size (bytes) of a single incoming protobuf message payload,
@@ -73,4 +77,9 @@ constexpr quint64 kMaxBufferedBytes = 4ULL + kMaxMsgLen;
 // against unbounded memory growth from a slow or unresponsive peer.
 constexpr qint64 kMaxOutboundBufferBytes = 4 * 1024 * 1024; // 4 MiB
 
-#endif // NETWORKREMOTETYPES_H
+// Maximum consecutive failed token attempts on a single connection before
+// the client is disconnected, to slow down brute-force guessing.
+constexpr int kMaxFailedTokenAttempts = 5;
+
+#endif // NETWORKREMOTEPROTOHELPER_H
+

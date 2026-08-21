@@ -85,6 +85,7 @@ void NetworkRemote::LoadSettings() {
         remote_port_ = 8888;
         qLog(Warning) << "Invalid NetworkRemote port in settings, falling back to 8888";
     }
+    NetworkRemoteSettings::RefreshCache();
 }
 
 QNetworkAddressEntry NetworkRemote::DetectLocalAddressEntry() {

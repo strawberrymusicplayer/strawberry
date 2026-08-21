@@ -63,14 +63,16 @@ void NetworkRemoteSettingsPage::Load() {
     DisplayIP();
   }
   else {
-    ui_->portSelected->setReadOnly(true);
-    ui_->portSelected->setValue(0);
-    ui_->tokenValue->setEnabled(false);
-    ui_->tokenValue->clear();
-    ui_->toggleTokenVisibility->setEnabled(false);
-    ui_->playlistSizeValue->setEnabled(false);
-    ui_->playlistSizeValue->setValue(0);
-    ui_->ip_address->setText(QString());
+      ui_->portSelected->setReadOnly(true);
+      ui_->portSelected->setValue(0);
+      ui_->tokenValue->setEnabled(false);
+      ui_->tokenValue->clear();
+      ui_->toggleTokenVisibility->setEnabled(false);
+      ui_->toggleTokenVisibility->setChecked(false);
+      ui_->tokenValue->setEchoMode(QLineEdit::Password);
+      ui_->playlistSizeValue->setEnabled(false);
+      ui_->playlistSizeValue->setValue(0);
+      ui_->ip_address->setText(QString());
   }
 
   qLog(Debug) << "SettingsPage Loaded QSettings ++++++++++++++++";
@@ -95,14 +97,16 @@ void NetworkRemoteSettingsPage::RemoteButtonClicked() {
     DisplayIP();
   }
   else {
-    ui_->portSelected->setReadOnly(true);
-    ui_->tokenValue->setEnabled(false);
-    ui_->portSelected->setValue(0);
-    ui_->tokenValue->clear();
-    ui_->toggleTokenVisibility->setEnabled(false);
-    ui_->playlistSizeValue->setEnabled(false);
-    ui_->playlistSizeValue->setValue(0);
-    ui_->ip_address->setText(QString());
+      ui_->portSelected->setReadOnly(true);
+      ui_->portSelected->setValue(0);
+      ui_->tokenValue->setEnabled(false);
+      ui_->tokenValue->clear();
+      ui_->toggleTokenVisibility->setEnabled(false);
+      ui_->toggleTokenVisibility->setChecked(false);
+      ui_->tokenValue->setEchoMode(QLineEdit::Password);
+      ui_->playlistSizeValue->setEnabled(false);
+      ui_->playlistSizeValue->setValue(0);
+      ui_->ip_address->setText(QString());
   }
 }
 

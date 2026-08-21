@@ -42,10 +42,11 @@ class NetworkRemoteSettings{
   void SetPort(int);
   QString GetToken() const;
   void SetToken(const QString &token);
-  static QString CurrentToken();
   int GetPlaylistSize() const;
   void SetPlaylistSize(int size);
   static int CurrentPlaylistSize();
+  static void RefreshCache();
+  static QString CurrentToken();
 
  private:
   bool enabled_;
@@ -53,6 +54,8 @@ class NetworkRemoteSettings{
   Settings settings_;
   QString remote_token_;
   int playlist_size_;
+  static QString cached_token_;
+  static int cached_playlist_size_;
 };
 
 #endif

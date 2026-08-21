@@ -34,7 +34,7 @@ public:
     explicit NetworkRemoteIncomingMsg(QObject *parent = nullptr);
     ~NetworkRemoteIncomingMsg();
     void Init(QTcpSocket* socket);
-    MsgType GetMsgType();
+    nwr_types::MsgType GetMsgType();
     quint32 GetMsgVersion();
     QString GetClientName();
     nwr::RequestPlaylistSongs GetRequestPlaylistSongs();
@@ -50,7 +50,7 @@ Q_SIGNALS:
 
 private:
     nwr::Message msg_;
-    nwr::MsgTypeGadget::MsgType msg_type_;
+    nwr_types::MsgType msg_type_ = nwr_types::MsgType::MSG_TYPE_UNSPECIFIED;
     QTcpSocket *socket_;
     QByteArray msg_stream_;
     void SetMsgType();
