@@ -64,7 +64,9 @@ Chromaprinter::Chromaprinter(const QUrl &url)
     : url_(url),
       sample_rate_(0),
       channels_(0),
+      max_pcm_seconds_(kMaxPcmSeconds),
       max_pcm_bytes_(0),
+      pcm_format_missing_(false),
       pcm_limit_reached_(false),
       convert_element_(nullptr) {}
 
@@ -72,7 +74,9 @@ Chromaprinter::Chromaprinter(const QString &filename)
     : url_(QUrl::fromLocalFile(filename)),
       sample_rate_(0),
       channels_(0),
+      max_pcm_seconds_(kMaxPcmSeconds),
       max_pcm_bytes_(0),
+      pcm_format_missing_(false),
       pcm_limit_reached_(false),
       convert_element_(nullptr) {}
 
@@ -132,10 +136,16 @@ QString Chromaprinter::CreateFingerprintInternal(const bool legacy) {
 
   Q_ASSERT(qobject_cast<QApplication*>(QCoreApplication::instance()) == nullptr || QThread::currentThread() != qApp->thread());
 
-  sample_rate_ = 0;
-  channels_ = 0;
-  max_pcm_bytes_ = 0;
-  pcm_limit_reached_ = false;
+  {
+    const QMutexLocker locker(&mutex_state_);
+    sample_rate_ = 0;
+    channels_ = 0;
+    // Legacy mode keeps the first kLegacyPlayLengthSecs seconds, which is the window fingerprints already stored for existing libraries were generated from.
+    max_pcm_seconds_ = legacy ? kLegacyPlayLengthSecs : kMaxPcmSeconds;
+    max_pcm_bytes_ = 0;
+    pcm_format_missing_ = false;
+    pcm_limit_reached_ = false;
+  }
 
   ClearLastError();
 
@@ -231,31 +241,8 @@ QString Chromaprinter::CreateFingerprintInternal(const bool legacy) {
   QElapsedTimer time;
   time.start();
 
-  if (legacy) {
-    // Play only the first kLegacyPlayLengthSecs seconds, matching the window fingerprints already stored for existing libraries were generated from.
-    if (gst_element_set_state(pipeline, GST_STATE_PAUSED) == GST_STATE_CHANGE_FAILURE) {
-      teardown_pipeline();
-      buffer_.close();
-      set_error(u"Failed to pause pipeline for legacy fingerprint window seek"_s);
-      return QString();
-    }
-    // Wait for the state change before seeking.
-    GstState state = GST_STATE_VOID_PENDING;
-    if (gst_element_get_state(pipeline, &state, nullptr, timeout_secs * GST_SECOND) == GST_STATE_CHANGE_FAILURE || state != GST_STATE_PAUSED) {
-      teardown_pipeline();
-      buffer_.close();
-      set_error(u"Pipeline did not reach paused state for legacy fingerprint window seek"_s);
-      return QString();
-    }
-    if (!gst_element_seek(pipeline, 1.0, GST_FORMAT_TIME, GST_SEEK_FLAG_FLUSH, GST_SEEK_TYPE_SET, 0 * GST_SECOND, GST_SEEK_TYPE_SET, kLegacyPlayLengthSecs * GST_SECOND)) {
-      teardown_pipeline();
-      buffer_.close();
-      set_error(u"Failed to seek to legacy fingerprint window"_s);
-      return QString();
-    }
-  }
-
-  // Start playing
+  // Decode straight through from the start and stop once max PCM seconds has been collected (NewBufferCallback returns GST_FLOW_EOS), rather than asking for a bounded segment with a flushing seek.
+  // A flushing seek with a stop position makes the GstBaseParse based parsers (flacparse, mpegaudioparse, opusparse) reset their frame state and convert the stop time to a byte offset.
   gst_element_set_state(pipeline, GST_STATE_PLAYING);
 
   bool finished = false;
@@ -310,12 +297,19 @@ QString Chromaprinter::CreateFingerprintInternal(const bool legacy) {
   gst_element_set_state(pipeline, GST_STATE_NULL);
   gst_element_get_state(pipeline, nullptr, nullptr, 5 * GST_SECOND);
 
-  // Acquire mutex_state_ to ensure all prior callback writes (sample_rate_, channels_, max_pcm_bytes_, pcm_limit_reached_, buffer_) are visible on this thread.
+  // Acquire mutex_state_ to ensure all prior callback writes (sample_rate_, channels_, max_pcm_seconds_, max_pcm_bytes_, pcm_format_missing_, pcm_limit_reached_, buffer_) are visible on this thread.
   { const QMutexLocker locker(&mutex_state_); }
 
   const qint64 decode_time = time.restart();
 
   buffer_.close();
+
+  // Reported ahead of the empty buffer check below, since samples arriving without a format is the reason nothing was kept rather than a consequence of it.
+  if (pcm_format_missing_) {
+    teardown_pipeline();
+    set_error(u"Decoded samples arrived without a sample rate and channel count"_s);
+    return QString();
+  }
 
   // Generate fingerprint from recorded buffer data
   QByteArray data = buffer_.data();
@@ -331,7 +325,7 @@ QString Chromaprinter::CreateFingerprintInternal(const bool legacy) {
     return QString();
   }
   if (pcm_limit_reached_) {
-    qLog(Debug) << "Chromaprinter: Reached in-memory PCM cap for" << url_ << "bytes stored" << data.size();
+    qLog(Debug) << "Chromaprinter: Stopped decoding" << url_ << "after" << max_pcm_seconds_ << "seconds, bytes stored" << data.size();
   }
 
   if (sample_rate_ <= 0 || channels_ <= 0) {
@@ -505,17 +499,26 @@ GstFlowReturn Chromaprinter::NewBufferCallback(GstAppSink *app_sink, gpointer se
   const bool buffer_mapped = buffer && gst_buffer_map(buffer, &map, GST_MAP_READ);
 
   GstFlowReturn flow_return = GST_FLOW_OK;
+  bool pcm_format_missing = false;
   {
     const QMutexLocker locker(&instance->mutex_state_);
 
-    if (sample_rate > 0 && channels > 0 && instance->sample_rate_ == 0 && instance->channels_ == 0) {
-      instance->sample_rate_ = sample_rate;
-      instance->channels_ = channels;
-      // Bound retained PCM bytes based on the actual decoded stream format.
-      instance->max_pcm_bytes_ = static_cast<qint64>(sample_rate) * static_cast<qint64>(channels) * sizeof(int16_t) * kMaxPcmSeconds;
+    if (instance->sample_rate_ == 0 && instance->channels_ == 0) {
+      if (sample_rate > 0 && channels > 0) {
+        instance->sample_rate_ = sample_rate;
+        instance->channels_ = channels;
+        // Bound retained PCM bytes based on the actual decoded stream format.
+        instance->max_pcm_bytes_ = static_cast<qint64>(sample_rate) * static_cast<qint64>(channels) * sizeof(int16_t) * instance->max_pcm_seconds_;
+      }
+      else {
+        // max_pcm_bytes_ is the only thing bounding how much is decoded, so without a rate and channel count from the first sample's caps there is nothing to stop the buffer growing until the wall clock timeout expires.
+        // Negotiated raw audio caps always carry both, so this means something is fundamentally wrong with the stream; give up straight away instead of buffering.
+        instance->pcm_format_missing_ = true;
+        pcm_format_missing = true;
+      }
     }
 
-    if (buffer_mapped) {
+    if (buffer_mapped && !pcm_format_missing) {
       qint64 bytes_to_write = static_cast<qint64>(map.size);
       if (instance->max_pcm_bytes_ > 0) {
         const qint64 remaining_bytes = instance->max_pcm_bytes_ - instance->buffer_.size();
@@ -538,6 +541,14 @@ GstFlowReturn Chromaprinter::NewBufferCallback(GstAppSink *app_sink, gpointer se
       // Ask upstream to finish once we have enough decoded material.
       flow_return = GST_FLOW_EOS;
     }
+  }
+
+  if (pcm_format_missing) {
+    const QString reason = u"Decoded samples arrived without a sample rate and channel count"_s;
+    instance->SetLastErrorIfEmpty(reason);
+    qLog(Warning) << "Chromaprinter:" << reason << "File:" << instance->url_;
+    // Returning an error stops the pipeline now; appsink turns this into a bus error, so the bus loop does not have to wait for the timeout.
+    flow_return = GST_FLOW_ERROR;
   }
 
   if (buffer_mapped) gst_buffer_unmap(buffer, &map);

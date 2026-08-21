@@ -59,7 +59,7 @@ class Chromaprinter {
   QString LastError() const;
 
  private:
-  // Shared by CreateFingerprint()/CreateFullFingerprint(). legacy switches the caps filter, adds the fixed-rate resample stage, applies the first-30-seconds seek, and uses the shorter timeout.
+  // Shared by CreateFingerprint()/CreateFullFingerprint(). legacy switches the caps filter, adds the fixed-rate resample stage, limits the decode to the first 30 seconds, and uses the shorter timeout.
   QString CreateFingerprintInternal(const bool legacy);
 
   static QByteArray ToGstUrl(const QUrl &url);
@@ -78,12 +78,16 @@ class Chromaprinter {
   QUrl url_;
   QString last_error_;
   mutable QMutex mutex_last_error_;
-  // mutex_state_ protects sample_rate_, channels_, max_pcm_bytes_, pcm_limit_reached_, convert_element_, and buffer_: written by NewPadCallback/NewBufferCallback on the GStreamer streaming thread and read by CreateFingerprintInternal on the calling thread.
+  // mutex_state_ protects sample_rate_, channels_, max_pcm_seconds_, max_pcm_bytes_, pcm_format_missing_, pcm_limit_reached_, convert_element_, and buffer_: written by NewPadCallback/NewBufferCallback on the GStreamer streaming thread and read by CreateFingerprintInternal on the calling thread.
   QMutex mutex_state_;
   int sample_rate_;
   int channels_;
-  // Hard cap for decoded PCM retained in memory to avoid unbounded growth.
+  // Seconds of decoded audio to keep. This is what bounds the decode: once this much PCM has been collected the appsink returns GST_FLOW_EOS, which ends the pipeline.
+  int max_pcm_seconds_;
+  // Hard cap for decoded PCM retained in memory to avoid unbounded growth, derived from max_pcm_seconds_ and the decoded stream format.
   qint64 max_pcm_bytes_;
+  // Set when the first sample arrived without a rate and channel count, which leaves max_pcm_bytes_ unset and therefore nothing bounding how much would be decoded.
+  bool pcm_format_missing_;
   bool pcm_limit_reached_;
 
   GstElement *convert_element_;
