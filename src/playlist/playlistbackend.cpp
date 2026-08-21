@@ -49,6 +49,7 @@
 #include "collection/collectionbackend.h"
 #include "tagreader/tagreaderclient.h"
 #include "playlistitem.h"
+#include "playlistitemsavedata.h"
 #include "songplaylistitem.h"
 #include "playlistbackend.h"
 #include "playlistparsers/cueparser.h"
@@ -355,13 +356,13 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, SharedPtr<
 
 }
 
-void PlaylistBackend::SavePlaylistAsync(int playlist, const PlaylistItemPtrList &items, int last_played, PlaylistGeneratorPtr dynamic) {
+void PlaylistBackend::SavePlaylistAsync(const int playlist, const PlaylistItemSaveDataList &items, const int last_played, PlaylistGeneratorPtr dynamic) {
 
-  QMetaObject::invokeMethod(this, "SavePlaylist", Qt::QueuedConnection, Q_ARG(int, playlist), Q_ARG(PlaylistItemPtrList, items), Q_ARG(int, last_played), Q_ARG(PlaylistGeneratorPtr, dynamic));
+  QMetaObject::invokeMethod(this, "SavePlaylist", Qt::QueuedConnection, Q_ARG(int, playlist), Q_ARG(PlaylistItemSaveDataList, items), Q_ARG(int, last_played), Q_ARG(PlaylistGeneratorPtr, dynamic));
 
 }
 
-void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemPtrList &items, int last_played, PlaylistGeneratorPtr dynamic) {
+void PlaylistBackend::SavePlaylist(const int playlist, const PlaylistItemSaveDataList &items, const int last_played, PlaylistGeneratorPtr dynamic) {
 
   QMutexLocker l(database_->Mutex());
   QSqlDatabase db(database_->Connect());
@@ -382,13 +383,14 @@ void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemPtrList &item
   }
 
   // Save the new ones
-  for (int i = 0; i < items.count(); ++i) {
-    const PlaylistItemPtr item = items.at(i);
+  for (const PlaylistItemSaveData &item : items) {
     SqlQuery q(db);
     q.prepare(u"INSERT INTO playlist_items (playlist, type, uuid, collection_id, "_s + Song::kColumnSpec + u") VALUES (:playlist, :type, :uuid, :collection_id, "_s + Song::kBindSpec + u")"_s);
     q.BindValue(u":playlist"_s, playlist);
-    item->BindToQuery(&q);
-
+    q.BindValue(u":type"_s, static_cast<int>(item.source));
+    q.BindValue(u":uuid"_s, item.uuid.toString(QUuid::WithoutBraces));
+    q.BindValue(u":collection_id"_s, item.collection_id);
+    item.song.BindToQuery(&q);
     if (!q.Exec()) {
       database_->ReportErrors(q);
       return;

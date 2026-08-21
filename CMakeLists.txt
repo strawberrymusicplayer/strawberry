@@ -613,6 +613,7 @@ set(SOURCES
   src/playlist/playlistfilter.cpp
   src/playlist/playlistheader.cpp
   src/playlist/playlistitem.cpp
+  src/playlist/playlistitemsavedata.cpp
   src/playlist/songplaylistitem.cpp
   src/playlist/streamplaylistitem.cpp
   src/playlist/playlistitemmimedata.cpp
