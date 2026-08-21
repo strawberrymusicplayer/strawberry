@@ -147,6 +147,7 @@ Playlist::Playlist(const SharedPtr<TaskManager> task_manager,
       id_(id),
       favorite_(favorite),
       save_all_(false),
+      save_last_played_(false),
       current_is_paused_(false),
       current_virtual_index_(-1),
       playlist_sequence_(nullptr),
@@ -862,7 +863,7 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
     if (played_indexes_.count() > kMaxPlayedIndexes) {
       played_indexes_.remove(0, played_indexes_.count() - kMaxPlayedIndexes);
     }
-    ScheduleSave();
+    ScheduleSaveLastPlayed();
   }
 
   UpdateScrobblePoint();
@@ -1696,7 +1697,21 @@ void Playlist::ForceScheduleSave() {
   if (!playlist_backend_) return;
 
   save_all_ = true;
+  save_last_played_ = false;
   save_item_uuids_.clear();
+  timer_save_->start();
+
+}
+
+void Playlist::ScheduleSaveLastPlayed() {
+
+  if (is_loading_ || !playlist_backend_) return;
+
+  // A pending full save already writes the last played row, so there is nothing to add.
+  if (!save_all_) {
+    save_last_played_ = true;
+  }
+
   timer_save_->start();
 
 }
@@ -1722,6 +1737,10 @@ void Playlist::Save() {
   // saving is asynchronous and the model keeps mutating the items (inline tag edits, collection updates, stream metadata) while it runs.
 
   if (!save_all_) {
+    if (save_last_played_) {
+      save_last_played_ = false;
+      playlist_backend_->SavePlaylistLastPlayedAsync(id_, last_played_row());
+    }
     // Only the metadata of specific rows changed, so update those in place instead of rewriting the whole playlist.
     const QSet<QUuid> save_item_uuids = save_item_uuids_;
     save_item_uuids_.clear();
@@ -1738,6 +1757,7 @@ void Playlist::Save() {
   }
 
   save_all_ = false;
+  save_last_played_ = false;
   save_item_uuids_.clear();
 
   PlaylistItemSaveDataList items_save_data;

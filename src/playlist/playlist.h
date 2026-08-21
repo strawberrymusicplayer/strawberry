@@ -396,6 +396,7 @@ class Playlist : public QAbstractListModel {
   void ItemsLoaded();
   void ForceScheduleSave();
   void ScheduleSaveItem(const PlaylistItemPtr &item);
+  void ScheduleSaveLastPlayed();
   void Save();
 
  private:
@@ -425,6 +426,7 @@ class Playlist : public QAbstractListModel {
   // What the pending timer_save_ has to write. save_all_ means the whole playlist is rewritten (rows added, removed or reordered, or last played/dynamic state changed);
   // otherwise only the rows in save_item_uuids_ are updated in place.
   bool save_all_;
+  bool save_last_played_;
   QSet<QUuid> save_item_uuids_;
 
   // Contains the indices into items_ in the order that they will be played.
