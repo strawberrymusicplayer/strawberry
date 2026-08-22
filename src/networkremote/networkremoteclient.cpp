@@ -73,47 +73,46 @@ void NetworkRemoteClient::HandleRequestPlaylistSongs(const quint32 playlist_id, 
 }
 
 // Plays a specific row within a specific playlist - the same SetActiveToCurrent()
-// + PlayAt() sequence MainWindow::PlayIndex() uses for a double-click on the
-// desktop, just driven by an explicit row index from the network instead of a
-// QModelIndex from a UI click.
+// PlayAt() sequence MainWindow::PlayIndex() uses for a double-click on the desktop, just driven by an explicit row index from the network instead of a QModelIndex from a UI click.
 void NetworkRemoteClient::HandleRequestPlaySong(const quint32 playlist_id, const quint32 row_index) {
+  Playlist *playlist = playlist_manager_->playlist(static_cast<int>(playlist_id));
+  if (!playlist || static_cast<int>(row_index) >= playlist->rowCount()) {
+    outgoing_msg_->SendPlaySongResponse(false);
+    return;
+  }
+
   playlist_manager_->SetCurrentOrOpen(static_cast<int>(playlist_id));
   playlist_manager_->SetActiveToCurrent();
   player_->PlayAt(static_cast<int>(row_index), false, 0, EngineBase::TrackChangeType::Manual, Playlist::AutoScroll::Never, true);
   outgoing_msg_->SendPlaySongResponse(true);
 }
 
-// Adds the currently-playing song to an existing playlist, or to a brand new
-// one if new_playlist_name is non-empty. Per the design decision this only
-// targets open playlists - a closed target has no live Playlist object to
-// mutate, so it's rejected rather than silently opened.
+// Adds the currently-playing song to an existing playlist, or to a brand new one if new_playlist_name is non-empty. Per the design decision this only targets open playlists - a closed target has no live Playlist object tomutate, so it's rejected rather than silently opened.
 void NetworkRemoteClient::HandleRequestAddSongToPlaylist(const quint32 target_playlist_id, const QString new_playlist_name) {
+  PlaylistItemPtr current_item = player_->GetCurrentItem();
+  bool accepted = false;
   int resolved_id = static_cast<int>(target_playlist_id);
 
-  if (!new_playlist_name.isEmpty()) {
-    playlist_manager_->New(new_playlist_name);
-    resolved_id = playlist_manager_->current_id();
+  if (current_item) {
+    if (!new_playlist_name.isEmpty()) {
+      playlist_manager_->New(new_playlist_name);
+      resolved_id = playlist_manager_->current_id();
+    }
   }
 
   Playlist *pl = playlist_manager_->playlist(resolved_id);
-  bool accepted = false;
   if (pl) {
-    PlaylistItemPtr current_item = player_->GetCurrentItem();
-    if (current_item) {
-      SongList songs;
-      songs.append(current_item->EffectiveMetadata());
-      pl->InsertSongs(songs, -1, false, false, false, true);
-      accepted = true;
-    }
+    SongList songs;
+    songs.append(current_item->EffectiveMetadata());
+    pl->InsertSongs(songs, -1, false, false, false, true);
+    accepted = true;
   }
+
   const PlaylistRejectReason reject_reason = accepted ? PlaylistRejectReason::PLAYLIST_REJECT_NONE : PlaylistRejectReason::PLAYLIST_REJECT_INVALID_REQUEST;
   outgoing_msg_->SendAddSongToPlaylistResponse(accepted, accepted ? static_cast<quint32>(resolved_id) : 0, reject_reason);
 }
 
-// Removes a single row from an open playlist. row_index must come from a
-// recent ResponsePlaylistSongs - the client is expected to only offer removal
-// on current/upcoming rows, not stale history rows, to avoid an index that no
-// longer matches the playlist's actual contents.
+// Removes a single row from an open playlist. row_index must come from a recent ResponsePlaylistSongs - the client is expected to only offer removal on current/upcoming rows, not stale history rows, to avoid an index that no longer matches the playlist's actual contents.
 void NetworkRemoteClient::HandleRequestRemoveSongFromPlaylist(const quint32 playlist_id, const quint32 row_index) {
   Playlist *pl = playlist_manager_->playlist(static_cast<int>(playlist_id));
   bool accepted = false;
