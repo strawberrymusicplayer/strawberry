@@ -28,32 +28,32 @@
 
 class QTcpSocket;
 
-class NetworkRemoteIncomingMsg : public QObject{
-    Q_OBJECT
-public:
-    explicit NetworkRemoteIncomingMsg(QObject *parent = nullptr);
-    ~NetworkRemoteIncomingMsg();
-    void Init(QTcpSocket* socket);
-    nwr_types::MsgType GetMsgType();
-    quint32 GetMsgVersion();
-    QString GetClientName();
-    nwr::RequestPlaylistSongs GetRequestPlaylistSongs();
-    nwr::RequestPlaySong GetRequestPlaySong();
-    nwr::RequestAddSongToPlaylist GetRequestAddSongToPlaylist();
-    nwr::RequestRemoveSongFromPlaylist GetRequestRemoveSongFromPlaylist();
+class NetworkRemoteIncomingMsg : public QObject {
+  Q_OBJECT
+ public:
+  explicit NetworkRemoteIncomingMsg(QObject *parent = nullptr);
+  ~NetworkRemoteIncomingMsg();
+  void Init(QTcpSocket *socket);
+  nwr_types::MsgType GetMsgType();
+  quint32 GetMsgVersion();
+  QString GetClientName();
+  nwr::RequestPlaylistSongs GetRequestPlaylistSongs();
+  nwr::RequestPlaySong GetRequestPlaySong();
+  nwr::RequestAddSongToPlaylist GetRequestAddSongToPlaylist();
+  nwr::RequestRemoveSongFromPlaylist GetRequestRemoveSongFromPlaylist();
 
-private Q_SLOTS:
-    void ReadyRead();
+ private Q_SLOTS:
+  void ReadyRead();
 
-Q_SIGNALS:
-    void InMsgParsed();
+ Q_SIGNALS:
+  void InMsgParsed();
 
-private:
-    nwr::Message msg_;
-    nwr_types::MsgType msg_type_ = nwr_types::MsgType::MSG_TYPE_UNSPECIFIED;
-    QTcpSocket *socket_;
-    QByteArray msg_stream_;
-    void SetMsgType();
+ private:
+  nwr::Message msg_;
+  nwr_types::MsgType msg_type_ = nwr_types::MsgType::MSG_TYPE_UNSPECIFIED;
+  QTcpSocket *socket_;
+  QByteArray msg_stream_;
+  void SetMsgType();
 };
 
 #endif

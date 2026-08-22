@@ -27,8 +27,8 @@ NetworkRemoteTcpServer::NetworkRemoteTcpServer(const SharedPtr<Player> player, c
       player_(player),
       playlist_manager_(playlist_manager),
       server_(new QTcpServer(this)),
-      client_mgr_(new NetworkRemoteClientManager(player_, playlist_manager_, this)){
-      connect(server_, &QTcpServer::newConnection, this, &NetworkRemoteTcpServer::NewTcpConnection);
+      client_mgr_(new NetworkRemoteClientManager(player_, playlist_manager_, this)) {
+  connect(server_, &QTcpServer::newConnection, this, &NetworkRemoteTcpServer::NewTcpConnection);
 }
 
 void NetworkRemoteTcpServer::StartServer(const QHostAddress &ipAddr, int port, const QNetworkAddressEntry &subnet) {
@@ -39,9 +39,10 @@ void NetworkRemoteTcpServer::StartServer(const QHostAddress &ipAddr, int port, c
   }
   if (server_->listen(ipAddr, port)) {
     qLog(Debug) << "TCP Server Started on --- " << ipAddr.toString() << " and port -- " << port;
-  } else {
-        qLog(Error) << "Failed to start TCP Server on" << ipAddr.toString() << ":" << port << "-" << server_->errorString();
-    }
+  }
+  else {
+    qLog(Error) << "Failed to start TCP Server on" << ipAddr.toString() << ":" << port << "-" << server_->errorString();
+  }
 }
 
 void NetworkRemoteTcpServer::NewTcpConnection() {
@@ -76,5 +77,5 @@ bool NetworkRemoteTcpServer::ServerUp() {
 }
 
 void NetworkRemoteTcpServer::SetPlaylistView(QPointer<PlaylistView> playlist_view) {
-    client_mgr_->SetPlaylistView(playlist_view);
+  client_mgr_->SetPlaylistView(playlist_view);
 }
