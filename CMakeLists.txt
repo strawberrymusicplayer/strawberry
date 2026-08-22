@@ -1675,6 +1675,7 @@ endif()
 
 if(HAVE_NETWORKREMOTE)
   add_subdirectory(src/networkremote)
+  add_dependencies(strawberry_lib lib-networkremote)
   target_link_libraries(strawberry_lib PRIVATE Qt6::Protobuf)
   target_link_libraries(strawberry PUBLIC strawberry_lib lib-networkremote)
 endif()
