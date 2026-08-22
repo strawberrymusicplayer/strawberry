@@ -23,11 +23,11 @@
 #include <QString>
 #include "core/settings.h"
 
-class NetworkRemoteSettings{
+class NetworkRemoteSettings {
  public:
   static const char *kSettingsGroup;
-  static constexpr int kMinUpcomingRows = 10;  // Determines how many rows of a playlist will be
-  static constexpr int kMaxUpcomingRows = 100; // sent to the client
+  static constexpr int kMinUpcomingRows = 10;   // Determines how many rows of a playlist will be
+  static constexpr int kMaxUpcomingRows = 100;  // sent to the client
   static constexpr int kMinPort = 8888;
   static constexpr int kMaxPort = 65535;
   static constexpr int kDefaultPort = 8888;

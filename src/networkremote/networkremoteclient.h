@@ -32,47 +32,47 @@ class Player;
 class PlaylistManager;
 class PlaylistView;
 
-class NetworkRemoteClient : public QObject{
-    Q_OBJECT
-public:
-    explicit NetworkRemoteClient(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent = nullptr);
-    ~NetworkRemoteClient();
-    void Init(QTcpSocket *);
-    QTcpSocket *GetSocket();
-    void ProcessIncoming();
-    void SendEngineState(EngineBase::State state);
-    void SendDisconnect(nwr_types::ReasonDisconnect reason);
-    void SetPlaylistView(QPointer<PlaylistView> playlist_view);
-    void SendPlaylistChanged(quint32 playlist_id);
-    void SendPlaylistActivated(quint32 playlist_id);
+class NetworkRemoteClient : public QObject {
+  Q_OBJECT
+ public:
+  explicit NetworkRemoteClient(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent = nullptr);
+  ~NetworkRemoteClient();
+  void Init(QTcpSocket *);
+  QTcpSocket *GetSocket();
+  void ProcessIncoming();
+  void SendEngineState(EngineBase::State state);
+  void SendDisconnect(nwr_types::ReasonDisconnect reason);
+  void SetPlaylistView(QPointer<PlaylistView> playlist_view);
+  void SendPlaylistChanged(quint32 playlist_id);
+  void SendPlaylistActivated(quint32 playlist_id);
 
-Q_SIGNALS:
-    void ReceiveMsg();
-    void PrepareResponse();
-    void ClientIsLeaving();
-    void RequestPlay();
-    void RequestPause();
-    void RequestNext();
-    void RequestPrevious();
-    void RequestStop();
-    void RequestPlaylistSongs(quint32 playlist_id, quint32 upcoming_count);
-    void RequestPlaySong(quint32 playlist_id, quint32 row_index);
-    void RequestAddSongToPlaylist(quint32 target_playlist_id, QString new_playlist_name);
-    void RequestRemoveSongFromPlaylist(quint32 playlist_id, quint32 row_index);
+ Q_SIGNALS:
+  void ReceiveMsg();
+  void PrepareResponse();
+  void ClientIsLeaving();
+  void RequestPlay();
+  void RequestPause();
+  void RequestNext();
+  void RequestPrevious();
+  void RequestStop();
+  void RequestPlaylistSongs(quint32 playlist_id, quint32 upcoming_count);
+  void RequestPlaySong(quint32 playlist_id, quint32 row_index);
+  void RequestAddSongToPlaylist(quint32 target_playlist_id, QString new_playlist_name);
+  void RequestRemoveSongFromPlaylist(quint32 playlist_id, quint32 row_index);
 
-private:
-    void HandleRequestPlaylistSongs(quint32 playlist_id, quint32 upcoming_count);
-    void HandleRequestPlaySong(quint32 playlist_id, quint32 row_index);
-    void HandleRequestAddSongToPlaylist(quint32 target_playlist_id, QString new_playlist_name);
-    void HandleRequestRemoveSongFromPlaylist(quint32 playlist_id, quint32 row_index);
-    bool TokenAccepted(const QString &token, nwr_types::PlaylistRejectReason *reject_reason);
-    const SharedPtr<Player> player_;
-    const SharedPtr<PlaylistManager> playlist_manager_;
-    QTcpSocket *socket_;
-    NetworkRemoteIncomingMsg *incoming_msg_;
-    NetworkRemoteOutgoingMsg *outgoing_msg_;
-    bool handshake_complete_ = false;
-    int failed_token_attempts_ = 0;
+ private:
+  void HandleRequestPlaylistSongs(quint32 playlist_id, quint32 upcoming_count);
+  void HandleRequestPlaySong(quint32 playlist_id, quint32 row_index);
+  void HandleRequestAddSongToPlaylist(quint32 target_playlist_id, QString new_playlist_name);
+  void HandleRequestRemoveSongFromPlaylist(quint32 playlist_id, quint32 row_index);
+  bool TokenAccepted(const QString &token, nwr_types::PlaylistRejectReason *reject_reason);
+  const SharedPtr<Player> player_;
+  const SharedPtr<PlaylistManager> playlist_manager_;
+  QTcpSocket *socket_;
+  NetworkRemoteIncomingMsg *incoming_msg_;
+  NetworkRemoteOutgoingMsg *outgoing_msg_;
+  bool handshake_complete_ = false;
+  int failed_token_attempts_ = 0;
 };
 
 #endif

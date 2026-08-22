@@ -35,43 +35,43 @@ class PlaylistView;
 class Player;
 class QTcpSocket;
 
-class NetworkRemoteOutgoingMsg : public QObject{
-    Q_OBJECT
-public:
-    explicit NetworkRemoteOutgoingMsg(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent = nullptr);
-    void Init(QTcpSocket *);
-    void SendCurrentTrackInfo();
-    void SendEngineState(EngineBase::State state);
-    void SendInitialInfo();
-    void SendMsg();
-    void SendDisconnect(nwr_types::ReasonDisconnect reason);
-    void SendConnectResponse(const bool accepted, const bool auth_enabled);
-    void SendPlaylistSongs(const quint32 playlist_id, const quint32 upcoming_count);
-    void SendPlaySongResponse(const bool accepted);
-    void SendAddSongToPlaylistResponse(const bool accepted,
-        const quint32 playlist_id,
-        const nwr_types::PlaylistRejectReason reject_reason = nwr_types::PlaylistRejectReason::PLAYLIST_REJECT_NONE);
-    void SendRemoveSongFromPlaylistResponse(const bool accepted,
-        const nwr_types::PlaylistRejectReason reject_reason = nwr_types::PlaylistRejectReason::PLAYLIST_REJECT_NONE);
-    void SendPlaylistChanged(const quint32 playlist_id);
-    void SendPlaylistActivated(const quint32 playlist_id);
-    void SetPlaylistView(QPointer<PlaylistView> playlist_view);
-    bool IsNumericColumn(Playlist::Column column);
+class NetworkRemoteOutgoingMsg : public QObject {
+  Q_OBJECT
+ public:
+  explicit NetworkRemoteOutgoingMsg(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent = nullptr);
+  void Init(QTcpSocket *);
+  void SendCurrentTrackInfo();
+  void SendEngineState(EngineBase::State state);
+  void SendInitialInfo();
+  void SendMsg();
+  void SendDisconnect(nwr_types::ReasonDisconnect reason);
+  void SendConnectResponse(const bool accepted, const bool auth_enabled);
+  void SendPlaylistSongs(const quint32 playlist_id, const quint32 upcoming_count);
+  void SendPlaySongResponse(const bool accepted);
+  void SendAddSongToPlaylistResponse(const bool accepted,
+                                     const quint32 playlist_id,
+                                     const nwr_types::PlaylistRejectReason reject_reason = nwr_types::PlaylistRejectReason::PLAYLIST_REJECT_NONE);
+  void SendRemoveSongFromPlaylistResponse(const bool accepted,
+                                          const nwr_types::PlaylistRejectReason reject_reason = nwr_types::PlaylistRejectReason::PLAYLIST_REJECT_NONE);
+  void SendPlaylistChanged(const quint32 playlist_id);
+  void SendPlaylistActivated(const quint32 playlist_id);
+  void SetPlaylistView(QPointer<PlaylistView> playlist_view);
+  bool IsNumericColumn(Playlist::Column column);
 
-private:
-    static nwr_types::PlayerState MapEngineState(EngineBase::State state);
-    static nwr::EngineStateChange BuildEngineStateChange(EngineBase::State state);
-    nwr::ResponseSongMetadata BuildResponseSongMetadata();
-    nwr::ResponsePlaylists BuildResponsePlaylists();
+ private:
+  static nwr_types::PlayerState MapEngineState(EngineBase::State state);
+  static nwr::EngineStateChange BuildEngineStateChange(EngineBase::State state);
+  nwr::ResponseSongMetadata BuildResponseSongMetadata();
+  nwr::ResponsePlaylists BuildResponsePlaylists();
 
-    SharedPtr<Player> player_ ;
-    SharedPtr<PlaylistManager> playlist_manager_;
-    QPointer<PlaylistView> playlist_view_;
-    qint64 bytes_out_;
-    QTcpSocket *socket_;
-    QByteArray msg_stream_;
-    std::string msg_string_;
-    nwr::Message msg_;
+  SharedPtr<Player> player_;
+  SharedPtr<PlaylistManager> playlist_manager_;
+  QPointer<PlaylistView> playlist_view_;
+  qint64 bytes_out_;
+  QTcpSocket *socket_;
+  QByteArray msg_stream_;
+  std::string msg_string_;
+  nwr::Message msg_;
 };
 
 #endif

@@ -26,14 +26,14 @@
 #include "networkremote/networkremotesettings.h"
 #include "networkremote/networkremote.h"
 
-NetworkRemoteSettingsPage::NetworkRemoteSettingsPage(SettingsDialog *dialog, QWidget *parent) :
-    SettingsPage(dialog,parent),
-    ui_(new Ui_NetworkRemoteSettingsPage),
-    settings_(new NetworkRemoteSettings) {
+NetworkRemoteSettingsPage::NetworkRemoteSettingsPage(SettingsDialog *dialog, QWidget *parent)
+    : SettingsPage(dialog, parent),
+      ui_(new Ui_NetworkRemoteSettingsPage),
+      settings_(new NetworkRemoteSettings) {
   ui_->setupUi(this);
   const int iconSize = style()->pixelMetric(QStyle::PM_TabBarIconSize);
-  setWindowIcon(IconLoader::Load(QStringLiteral("network-remote"), true, 0,iconSize));
-  QObject::connect(ui_->useRemoteClient,&QAbstractButton::clicked, this, &NetworkRemoteSettingsPage::RemoteButtonClicked);
+  setWindowIcon(IconLoader::Load(QStringLiteral("network-remote"), true, 0, iconSize));
+  QObject::connect(ui_->useRemoteClient, &QAbstractButton::clicked, this, &NetworkRemoteSettingsPage::RemoteButtonClicked);
   QObject::connect(ui_->portSelected, &QAbstractSpinBox::editingFinished, this, &NetworkRemoteSettingsPage::PortChanged);
   QObject::connect(ui_->tokenValue, &QLineEdit::editingFinished, this, &NetworkRemoteSettingsPage::TokenChanged);
   QObject::connect(ui_->toggleTokenVisibility, &QAbstractButton::toggled, this, &NetworkRemoteSettingsPage::ToggleTokenVisibility);
@@ -42,7 +42,7 @@ NetworkRemoteSettingsPage::NetworkRemoteSettingsPage(SettingsDialog *dialog, QWi
 
 NetworkRemoteSettingsPage::~NetworkRemoteSettingsPage() {
   delete ui_;
-    delete settings_;
+  delete settings_;
 }
 
 void NetworkRemoteSettingsPage::Load() {
@@ -63,16 +63,16 @@ void NetworkRemoteSettingsPage::Load() {
     DisplayIP();
   }
   else {
-      ui_->portSelected->setReadOnly(true);
-      ui_->portSelected->setValue(0);
-      ui_->tokenValue->setEnabled(false);
-      ui_->tokenValue->clear();
-      ui_->toggleTokenVisibility->setEnabled(false);
-      ui_->toggleTokenVisibility->setChecked(false);
-      ui_->tokenValue->setEchoMode(QLineEdit::Password);
-      ui_->playlistSizeValue->setEnabled(false);
-      ui_->playlistSizeValue->setValue(0);
-      ui_->ip_address->setText(QString());
+    ui_->portSelected->setReadOnly(true);
+    ui_->portSelected->setValue(0);
+    ui_->tokenValue->setEnabled(false);
+    ui_->tokenValue->clear();
+    ui_->toggleTokenVisibility->setEnabled(false);
+    ui_->toggleTokenVisibility->setChecked(false);
+    ui_->tokenValue->setEchoMode(QLineEdit::Password);
+    ui_->playlistSizeValue->setEnabled(false);
+    ui_->playlistSizeValue->setValue(0);
+    ui_->ip_address->setText(QString());
   }
 
   qLog(Debug) << "SettingsPage Loaded QSettings ++++++++++++++++";
@@ -97,16 +97,16 @@ void NetworkRemoteSettingsPage::RemoteButtonClicked() {
     DisplayIP();
   }
   else {
-      ui_->portSelected->setReadOnly(true);
-      ui_->portSelected->setValue(0);
-      ui_->tokenValue->setEnabled(false);
-      ui_->tokenValue->clear();
-      ui_->toggleTokenVisibility->setEnabled(false);
-      ui_->toggleTokenVisibility->setChecked(false);
-      ui_->tokenValue->setEchoMode(QLineEdit::Password);
-      ui_->playlistSizeValue->setEnabled(false);
-      ui_->playlistSizeValue->setValue(0);
-      ui_->ip_address->setText(QString());
+    ui_->portSelected->setReadOnly(true);
+    ui_->portSelected->setValue(0);
+    ui_->tokenValue->setEnabled(false);
+    ui_->tokenValue->clear();
+    ui_->toggleTokenVisibility->setEnabled(false);
+    ui_->toggleTokenVisibility->setChecked(false);
+    ui_->tokenValue->setEchoMode(QLineEdit::Password);
+    ui_->playlistSizeValue->setEnabled(false);
+    ui_->playlistSizeValue->setValue(0);
+    ui_->ip_address->setText(QString());
   }
 }
 
@@ -115,17 +115,17 @@ void NetworkRemoteSettingsPage::PortChanged() {
 }
 
 void NetworkRemoteSettingsPage::DisplayIP() {
-    ui_->ip_address->setText(NetworkRemote::DetectLocalIpAddress().toString());
+  ui_->ip_address->setText(NetworkRemote::DetectLocalIpAddress().toString());
 }
 
 void NetworkRemoteSettingsPage::TokenChanged() {
-    settings_->SetToken(ui_->tokenValue->text());
+  settings_->SetToken(ui_->tokenValue->text());
 }
 
 void NetworkRemoteSettingsPage::ToggleTokenVisibility(bool visible) {
-    ui_->tokenValue->setEchoMode(visible ? QLineEdit::Normal : QLineEdit::Password);
+  ui_->tokenValue->setEchoMode(visible ? QLineEdit::Normal : QLineEdit::Password);
 }
 
 void NetworkRemoteSettingsPage::PlaylistSizeChanged() {
-    settings_->SetPlaylistSize(ui_->playlistSizeValue->value());
+  settings_->SetPlaylistSize(ui_->playlistSizeValue->value());
 }

@@ -27,7 +27,7 @@ class SettingsDialog;
 class Ui_NetworkRemoteSettingsPage;
 class NetworkRemote;
 
-class NetworkRemoteSettingsPage : public SettingsPage{
+class NetworkRemoteSettingsPage : public SettingsPage {
   Q_OBJECT
  public:
   explicit NetworkRemoteSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
@@ -48,4 +48,4 @@ class NetworkRemoteSettingsPage : public SettingsPage{
   void PlaylistSizeChanged();
 };
 
-#endif // NETWORKREMOTESETTINGSPAGE_H
+#endif  // NETWORKREMOTESETTINGSPAGE_H
