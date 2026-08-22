@@ -28,14 +28,14 @@ const char *NetworkRemoteSettings::kSettingsGroup = "NetworkRemote";
 NetworkRemoteSettings::NetworkRemoteSettings()
     : enabled_(false),
       remote_port_(8888),
-    playlist_size_(50 ){}
+      playlist_size_(50) {}
 
 QString NetworkRemoteSettings::cached_token_;
 int NetworkRemoteSettings::cached_playlist_size_ = 50;
 
 NetworkRemoteSettings::~NetworkRemoteSettings() {}
 
-void NetworkRemoteSettings::Load() {  
+void NetworkRemoteSettings::Load() {
   settings_.beginGroup(NetworkRemoteSettings::kSettingsGroup);
   if (!settings_.contains("useRemote")) {
     qLog(Debug) << "First time run the Network Remote";
@@ -52,15 +52,15 @@ void NetworkRemoteSettings::Load() {
   }
 
   if (remote_port_ < kMinPort || remote_port_ > kMaxPort) {
-      qLog(Warning) << "Invalid NetworkRemote port" << remote_port_
-                    << "in settings, falling back to" << kDefaultPort;
-      remote_port_ = kDefaultPort;
+    qLog(Warning) << "Invalid NetworkRemote port" << remote_port_
+                  << "in settings, falling back to" << kDefaultPort;
+    remote_port_ = kDefaultPort;
   }
 
   if (playlist_size_ < kMinUpcomingRows || playlist_size_ > kMaxUpcomingRows) {
-      qLog(Warning) << "Invalid NetworkRemote playlist size" << playlist_size_
-                    << "in settings, clamping to valid range";
-      playlist_size_ = std::clamp(playlist_size_, kMinUpcomingRows, kMaxUpcomingRows);
+    qLog(Warning) << "Invalid NetworkRemote playlist size" << playlist_size_
+                  << "in settings, clamping to valid range";
+    playlist_size_ = std::clamp(playlist_size_, kMinUpcomingRows, kMaxUpcomingRows);
   }
   settings_.endGroup();
   qLog(Debug) << "QSettings Loaded ++++++++++++++++";
@@ -86,7 +86,7 @@ int NetworkRemoteSettings::GetPort() const {
 }
 
 QString NetworkRemoteSettings::GetToken() const {
-    return remote_token_;
+  return remote_token_;
 }
 
 void NetworkRemoteSettings::SetUseRemote(bool useRemote) {
@@ -99,29 +99,29 @@ void NetworkRemoteSettings::SetPort(int port) {
 }
 
 void NetworkRemoteSettings::SetToken(const QString &token) {
-    remote_token_ = token;
+  remote_token_ = token;
 }
 
 QString NetworkRemoteSettings::CurrentToken() {
-    return cached_token_;
+  return cached_token_;
 }
 
 int NetworkRemoteSettings::GetPlaylistSize() const {
-    return playlist_size_;
+  return playlist_size_;
 }
 
 void NetworkRemoteSettings::SetPlaylistSize(int size) {
-    playlist_size_ = std::clamp(size, kMinUpcomingRows, kMaxUpcomingRows);
+  playlist_size_ = std::clamp(size, kMinUpcomingRows, kMaxUpcomingRows);
 }
 
 int NetworkRemoteSettings::CurrentPlaylistSize() {
-    return cached_playlist_size_;
+  return cached_playlist_size_;
 }
 
 void NetworkRemoteSettings::RefreshCache() {
-    NetworkRemoteSettings settings;
-    settings.Load();
-    cached_token_ = settings.GetToken();
-    cached_playlist_size_ = settings.GetPlaylistSize();
+  NetworkRemoteSettings settings;
+  settings.Load();
+  cached_token_ = settings.GetToken();
+  cached_playlist_size_ = settings.GetPlaylistSize();
 }
 

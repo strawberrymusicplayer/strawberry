@@ -33,29 +33,29 @@ class PlaylistView;
 class NetworkRemoteClient;
 class QTimer;
 
-class NetworkRemoteClientManager : public QObject{
-    Q_OBJECT
-public:
-    explicit NetworkRemoteClientManager(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent = nullptr);
-    ~NetworkRemoteClientManager();
-    void AddClient(QTcpSocket *socket);
-    void DisconnectAll();
-    void BroadcastEngineState(EngineBase::State state);
-    void BroadcastPlaylistChanged(quint32 playlist_id);
-    void BroadcastPlaylistActivated(quint32 playlist_id);
-    void SetPlaylistView(QPointer<PlaylistView> playlist_view);
+class NetworkRemoteClientManager : public QObject {
+  Q_OBJECT
+ public:
+  explicit NetworkRemoteClientManager(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent = nullptr);
+  ~NetworkRemoteClientManager();
+  void AddClient(QTcpSocket *socket);
+  void DisconnectAll();
+  void BroadcastEngineState(EngineBase::State state);
+  void BroadcastPlaylistChanged(quint32 playlist_id);
+  void BroadcastPlaylistActivated(quint32 playlist_id);
+  void SetPlaylistView(QPointer<PlaylistView> playlist_view);
 
-private Q_SLOTS:
-    void RemoveClient(const QSharedPointer<NetworkRemoteClient>& client);
-    void Error(QAbstractSocket::SocketError socketError);
-    void StateChanged();
+ private Q_SLOTS:
+  void RemoveClient(const QSharedPointer<NetworkRemoteClient> &client);
+  void Error(QAbstractSocket::SocketError socketError);
+  void StateChanged();
 
-private:
-    const SharedPtr<Player> player_;
-    const SharedPtr<PlaylistManager> playlist_manager_;
-    QList<QSharedPointer<NetworkRemoteClient>> clients_;
-    QTimer *seek_debounce_timer_ = nullptr;
-    QPointer<PlaylistView> playlist_view_;
+ private:
+  const SharedPtr<Player> player_;
+  const SharedPtr<PlaylistManager> playlist_manager_;
+  QList<QSharedPointer<NetworkRemoteClient>> clients_;
+  QTimer *seek_debounce_timer_ = nullptr;
+  QPointer<PlaylistView> playlist_view_;
 };
 
 #endif
