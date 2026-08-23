@@ -11,11 +11,8 @@ target_include_directories(lib-networkremote SYSTEM PRIVATE
   ${PROTOBUF_INCLUDE_DIRS}
 )
 
-target_include_directories(lib-networkremote PRIVATE
-  ${CMAKE_CURRENT_SOURCE_DIR}
-  ${CMAKE_CURRENT_BINARY_DIR}
-  ${CMAKE_SOURCE_DIR}/src
-  ${CMAKE_BINARY_DIR}/src
+target_link_libraries(lib-networkremote PUBLIC
+  Qt${QT_VERSION_MAJOR}::Protobuf
 )
 
 target_link_libraries(lib-networkremote PRIVATE
@@ -23,5 +20,4 @@ target_link_libraries(lib-networkremote PRIVATE
   Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Network
   Qt${QT_VERSION_MAJOR}::Gui
-  Qt${QT_VERSION_MAJOR}::Protobuf
 )

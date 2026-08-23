@@ -90,14 +90,16 @@ void NetworkRemoteClient::HandleRequestPlaySong(const quint32 playlist_id, const
 // Adds the currently-playing song to an existing playlist, or to a brand new one if new_playlist_name is non-empty. Per the design decision this only targets open playlists - a closed target has no live Playlist object tomutate, so it's rejected rather than silently opened.
 void NetworkRemoteClient::HandleRequestAddSongToPlaylist(const quint32 target_playlist_id, const QString new_playlist_name) {
   PlaylistItemPtr current_item = player_->GetCurrentItem();
+  if (!current_item) {
+    outgoing_msg_->SendAddSongToPlaylistResponse(false, 0, PlaylistRejectReason::PLAYLIST_REJECT_INVALID_REQUEST);
+    return;
+  }
+
   bool accepted = false;
   int resolved_id = static_cast<int>(target_playlist_id);
-
-  if (current_item) {
-    if (!new_playlist_name.isEmpty()) {
+  if (!new_playlist_name.isEmpty()) {
       playlist_manager_->New(new_playlist_name);
       resolved_id = playlist_manager_->current_id();
-    }
   }
 
   Playlist *pl = playlist_manager_->playlist(resolved_id);

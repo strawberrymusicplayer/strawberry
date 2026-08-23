@@ -62,14 +62,6 @@ nwr::RequestRemoveSongFromPlaylist NetworkRemoteIncomingMsg::GetRequestRemoveSon
 void NetworkRemoteIncomingMsg::ReadyRead() {
   msg_stream_.append(socket_->readAll());
 
-  if (static_cast<quint64>(msg_stream_.size()) > kMaxBufferedBytes) {
-    qLog(Warning) << "Incoming buffer exceeded" << kMaxBufferedBytes
-                  << "bytes without completing a frame; dropping connection";
-    msg_stream_.clear();
-    socket_->disconnectFromHost();
-    return;
-  }
-
   while (true) {
     if (msg_stream_.size() < 4) {
       break;
@@ -84,7 +76,7 @@ void NetworkRemoteIncomingMsg::ReadyRead() {
       qLog(Warning) << "Message length" << msg_len << "exceeds limit; dropping connection";
       msg_stream_.clear();
       socket_->disconnectFromHost();
-      break;
+      return;
     }
 
     if (static_cast<quint64>(msg_stream_.size()) < 4ULL + msg_len) {
@@ -103,11 +95,17 @@ void NetworkRemoteIncomingMsg::ReadyRead() {
     }
     else {
       qLog(Warning) << "Failed to deserialize message: ("
-                    << qToUnderlying(serializer.lastError()) << ") " << serializer.lastErrorString();
+            << qToUnderlying(serializer.lastError()) << ") " << serializer.lastErrorString();
     }
   }
-}
 
+    if (static_cast<quint64>(msg_stream_.size()) > kMaxBufferedBytes) {
+        qLog(Warning) << "Incoming buffer exceeded" << kMaxBufferedBytes
+                      << "bytes without completing a frame; dropping connection";
+        msg_stream_.clear();
+        socket_->disconnectFromHost();
+    }
+}
 quint32 NetworkRemoteIncomingMsg::GetMsgVersion() {
   return msg_.version();
 }
