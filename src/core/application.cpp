@@ -221,9 +221,9 @@ class ApplicationImpl {
           scrobbler->AddService(make_shared<SubsonicScrobbler>(scrobbler->settings(), app->network(), app->streaming_services()->Service<SubsonicService>(), app));
 #endif
           return scrobbler;
-        }),
+        })
 #ifdef HAVE_NETWORKREMOTE
-         network_remote_([app]() {
+         ,network_remote_([app]() {
             NetworkRemote *remote = new NetworkRemote(app->player(), app->playlist_manager(), app);
             return remote;})
 #endif
