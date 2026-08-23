@@ -379,7 +379,7 @@ optional_component(EBUR128 ON "EBU R 128 loudness normalization"
   DEPENDS "libebur128" LIBEBUR128_FOUND
 )
 
-optional_component(NETWORKREMOTE ON "Network Remote"
+optional_component(NETWORKREMOTE ${Qt6Protobuf_FOUND} "Network Remote"
     DEPENDS "Qt6 Protobuf" Qt6Protobuf_FOUND
 )
 
@@ -1676,7 +1676,7 @@ endif()
 if(HAVE_NETWORKREMOTE)
   add_subdirectory(src/networkremote)
   add_dependencies(strawberry_lib lib-networkremote)
-  target_link_libraries(strawberry_lib PRIVATE Qt6::Protobuf)
+  target_link_libraries(strawberry_lib PUBLIC Qt6::Protobuf)
   target_link_libraries(strawberry PUBLIC strawberry_lib lib-networkremote)
 endif()
 
