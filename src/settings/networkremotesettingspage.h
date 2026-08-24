@@ -21,6 +21,7 @@
 #define NETWORKREMOTESETTINGSPAGE_H
 
 #include "settingspage.h"
+#include "includes/scoped_ptr.h"
 #include "networkremote/networkremotesettings.h"
 
 class SettingsDialog;
@@ -37,7 +38,7 @@ class NetworkRemoteSettingsPage : public SettingsPage {
 
  private:
   Ui_NetworkRemoteSettingsPage *ui_;
-  NetworkRemoteSettings *settings_;
+  ScopedPtr<NetworkRemoteSettings> settings_;
 
  private Q_SLOTS:
   void RemoteButtonClicked();

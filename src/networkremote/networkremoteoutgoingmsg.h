@@ -26,7 +26,7 @@
 #include "playlist/playlist.h"
 #include "includes/shared_ptr.h"
 #include "engine/enginebase.h"
-#include "networkremoteprotothelper.h"
+#include "networkremotehelper.h"
 #include "networkremote/RemoteMessages.qpb.h"
 
 class Playlist;
