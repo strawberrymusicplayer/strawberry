@@ -23,7 +23,7 @@
 #include <QObject>
 #include <QByteArray>
 #include <QString>
-#include "networkremoteprotothelper.h"
+#include "networkremotehelper.h"
 #include "networkremotemessageframer.h"
 #include "networkremote/RemoteMessages.qpb.h"
 

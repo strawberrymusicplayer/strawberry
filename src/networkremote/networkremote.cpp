@@ -30,13 +30,12 @@ NetworkRemote::NetworkRemote(const SharedPtr<Player> player, const SharedPtr<Pla
     enabled_(false),
     remote_port_(8888),
     server_(nullptr),
-    settings_(new NetworkRemoteSettings()){
+    settings_(ScopedPtr<NetworkRemoteSettings>(new NetworkRemoteSettings())){
     setObjectName("NetworkRemote");
 }
 
 NetworkRemote::~NetworkRemote() {
     StopTcpServer();
-    delete settings_;
 }
 
 void NetworkRemote::SetPlaylistView(QPointer<PlaylistView> playlist_view) {

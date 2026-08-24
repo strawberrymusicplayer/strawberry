@@ -26,7 +26,7 @@
 #include "networkremoteincomingmsg.h"
 #include "networkremoteoutgoingmsg.h"
 #include "includes/shared_ptr.h"
-#include "networkremoteprotothelper.h"
+#include "networkremotehelper.h"
 
 class Player;
 class PlaylistManager;
