@@ -60,52 +60,35 @@ nwr::RequestRemoveSongFromPlaylist NetworkRemoteIncomingMsg::GetRequestRemoveSon
 }
 
 void NetworkRemoteIncomingMsg::ReadyRead() {
-  msg_stream_.append(socket_->readAll());
+  framer_.Feed(socket_->readAll());
+  QByteArray payload;
 
   while (true) {
-    if (msg_stream_.size() < 4) {
+    const NetworkRemoteMessageFramer::Status status = framer_.NextFrame(payload);
+
+    if (status == NetworkRemoteMessageFramer::Status::NeedMoreData) {
       break;
     }
-
-    QDataStream len_stream(msg_stream_.left(4));
-    len_stream.setByteOrder(QDataStream::BigEndian);
-    quint32 msg_len = 0;
-    len_stream >> msg_len;
-
-    if (msg_len > kMaxMsgLen) {
-      qLog(Warning) << "Message length" << msg_len << "exceeds limit; dropping connection";
-      msg_stream_.clear();
+    if (status == NetworkRemoteMessageFramer::Status::OversizedFrame) {
+      qLog(Warning) << "Message length exceeds limit; dropping connection";
+      framer_.Clear();
       socket_->disconnectFromHost();
       return;
     }
 
-    if (static_cast<quint64>(msg_stream_.size()) < 4ULL + msg_len) {
-      // Payload hasn't fully arrived yet.
-      break;
-    }
-
-    const QByteArray complete_msg = msg_stream_.mid(4, msg_len);
-    msg_stream_.remove(0, 4 + msg_len);
     msg_ = nwr::Message();
     QProtobufSerializer serializer;
-    msg_.deserialize(&serializer, complete_msg);
+    msg_.deserialize(&serializer, payload);
     if (serializer.lastError() == QAbstractProtobufSerializer::Error::None) {
       SetMsgType();
       Q_EMIT InMsgParsed();
     }
     else {
-      qLog(Warning) << "Failed to deserialize message: ("
-            << qToUnderlying(serializer.lastError()) << ") " << serializer.lastErrorString();
+      qLog(Warning) << "Failed to deserialize message: ("<< qToUnderlying(serializer.lastError()) << ") " << serializer.lastErrorString();
     }
   }
-
-    if (static_cast<quint64>(msg_stream_.size()) > kMaxBufferedBytes) {
-        qLog(Warning) << "Incoming buffer exceeded" << kMaxBufferedBytes
-                      << "bytes without completing a frame; dropping connection";
-        msg_stream_.clear();
-        socket_->disconnectFromHost();
-    }
 }
+
 quint32 NetworkRemoteIncomingMsg::GetMsgVersion() {
   return msg_.version();
 }
