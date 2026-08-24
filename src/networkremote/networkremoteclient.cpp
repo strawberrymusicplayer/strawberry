@@ -76,7 +76,7 @@ void NetworkRemoteClient::HandleRequestPlaylistSongs(const quint32 playlist_id, 
 // PlayAt() sequence MainWindow::PlayIndex() uses for a double-click on the desktop, just driven by an explicit row index from the network instead of a QModelIndex from a UI click.
 void NetworkRemoteClient::HandleRequestPlaySong(const quint32 playlist_id, const quint32 row_index) {
   Playlist *playlist = playlist_manager_->playlist(static_cast<int>(playlist_id));
-  if (!playlist || static_cast<int>(row_index) >= playlist->rowCount()) {
+  if (!playlist || row_index >= static_cast<quint32>(playlist->rowCount())) {
     outgoing_msg_->SendPlaySongResponse(false);
     return;
   }

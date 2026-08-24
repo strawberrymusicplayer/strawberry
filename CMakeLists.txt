@@ -1567,7 +1567,7 @@ optional_source(HAVE_NETWORKREMOTE
     src/networkremote/networkremoteoutgoingmsg.h
     src/networkremote/networkremotemessageframer.h
     src/settings/networkremotesettingspage.h
-    src/networkremote/networkremoteprotothelper.h
+    src/networkremote/networkremotehelper.h
   UI
     src/settings/networkremotesettingspage.ui
   )

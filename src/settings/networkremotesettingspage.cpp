@@ -29,7 +29,7 @@
 NetworkRemoteSettingsPage::NetworkRemoteSettingsPage(SettingsDialog *dialog, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui_NetworkRemoteSettingsPage),
-      settings_(new NetworkRemoteSettings) {
+      settings_(ScopedPtr<NetworkRemoteSettings>(new NetworkRemoteSettings)) {
   ui_->setupUi(this);
   const int iconSize = style()->pixelMetric(QStyle::PM_TabBarIconSize);
   setWindowIcon(IconLoader::Load(QStringLiteral("network-remote"), true, 0, iconSize));
@@ -42,7 +42,6 @@ NetworkRemoteSettingsPage::NetworkRemoteSettingsPage(SettingsDialog *dialog, QWi
 
 NetworkRemoteSettingsPage::~NetworkRemoteSettingsPage() {
   delete ui_;
-  delete settings_;
 }
 
 void NetworkRemoteSettingsPage::Load() {

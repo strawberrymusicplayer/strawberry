@@ -29,7 +29,7 @@
 #include <QProtobufSerializer>
 
 #include "networkremote/networkremotemessageframer.h"
-#include "networkremote/networkremoteprotothelper.h"
+#include "networkremote/networkremotehelper.h"
 #include "networkremote/RemoteMessages.qpb.h"
 
 using namespace nwr_types;
