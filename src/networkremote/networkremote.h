@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QHostAddress>
 #include <QPointer>
+#include "includes/scoped_ptr.h"
 #include "networkremotetcpserver.h"
 #include "networkremotesettings.h"
 
@@ -54,7 +55,7 @@ private:
     int remote_port_;
     QHostAddress ipAddr_;
     NetworkRemoteTcpServer *server_;
-    NetworkRemoteSettings *settings_;
+    ScopedPtr<NetworkRemoteSettings> settings_;
     static QNetworkAddressEntry DetectLocalAddressEntry();
 
 };

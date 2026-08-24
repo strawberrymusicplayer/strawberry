@@ -21,7 +21,7 @@
 
 #include <QDataStream>
 
-#include "networkremoteprotothelper.h"
+#include "networkremotehelper.h"
 
 void NetworkRemoteMessageFramer::Feed(const QByteArray &data) {
   buffer_.append(data);
