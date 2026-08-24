@@ -118,6 +118,10 @@ if(HAVE_WAVEFORM)
   add_test_file(src/waveformrenderer_test.cpp true)
   add_test_file(src/waveformproxystyle_test.cpp true)
 endif()
+if(HAVE_NETWORKREMOTE)
+  add_test_file(src/networkremotemessageframer_test.cpp false)
+  target_link_libraries(networkremotemessageframer_test PRIVATE lib-networkremote)
+endif()
 
 add_custom_target(run_strawberry_tests COMMAND ${CMAKE_CTEST_COMMAND} -V DEPENDS strawberry_tests)
 
