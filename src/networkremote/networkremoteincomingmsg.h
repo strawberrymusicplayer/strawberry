@@ -24,6 +24,7 @@
 #include <QByteArray>
 #include <QString>
 #include "networkremoteprotothelper.h"
+#include "networkremotemessageframer.h"
 #include "networkremote/RemoteMessages.qpb.h"
 
 class QTcpSocket;
@@ -52,7 +53,7 @@ class NetworkRemoteIncomingMsg : public QObject {
   nwr::Message msg_;
   nwr_types::MsgType msg_type_ = nwr_types::MsgType::MSG_TYPE_UNSPECIFIED;
   QTcpSocket *socket_;
-  QByteArray msg_stream_;
+  NetworkRemoteMessageFramer framer_;
   void SetMsgType();
 };
 

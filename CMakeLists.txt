@@ -1784,6 +1784,7 @@ optional_source(HAVE_NETWORKREMOTE
     src/networkremote/networkremoteclientmanager.cpp
     src/networkremote/networkremoteincomingmsg.cpp
     src/networkremote/networkremoteoutgoingmsg.cpp
+    src/networkremote/networkremotemessageframer.cpp
     src/networkremote/RemoteMessages.proto
     src/settings/networkremotesettingspage.cpp
   HEADERS
@@ -1794,6 +1795,7 @@ optional_source(HAVE_NETWORKREMOTE
     src/networkremote/networkremoteclientmanager.h
     src/networkremote/networkremoteincomingmsg.h
     src/networkremote/networkremoteoutgoingmsg.h
+    src/networkremote/networkremotemessageframer.h
     src/settings/networkremotesettingspage.h
     src/networkremote/networkremoteprotothelper.h
   UI
