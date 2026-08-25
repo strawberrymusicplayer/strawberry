@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,6 +53,9 @@ class PlaylistHeader : public StretchHeaderView {
   void SectionRatingLockStatusChanged(const bool);
 
  private Q_SLOTS:
+  void SortAscending();
+  void SortDescending();
+  void ClearSorting();
   void HideCurrent();
   void ToggleVisible(const int section);
   void ResetColumns();
@@ -61,12 +64,17 @@ class PlaylistHeader : public StretchHeaderView {
 
  private:
   void AddColumnAction(const int index);
+  void SortCurrent(const Qt::SortOrder sort_order);
 
  private:
   PlaylistView *view_;
 
   int menu_section_;
   QMenu *menu_;
+  QMenu *sort_menu_;
+  QAction *action_sort_ascending_;
+  QAction *action_sort_descending_;
+  QAction *action_sort_clear_;
   QAction *action_hide_;
   QAction *action_reset_;
   QAction *action_stretch_;
