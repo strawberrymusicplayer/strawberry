@@ -48,6 +48,7 @@ PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, 
       menu_(new QMenu(this)),
       action_hide_(nullptr),
       action_reset_(nullptr),
+      action_save_as_default_(nullptr),
       action_stretch_(nullptr),
       action_rating_lock_(nullptr),
       action_align_left_(nullptr),
@@ -57,6 +58,7 @@ PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, 
   action_hide_ = menu_->addAction(tr("&Hide..."), this, &PlaylistHeader::HideCurrent);
   action_stretch_ = menu_->addAction(tr("&Stretch columns to fit window"), this, &PlaylistHeader::ToggleStretchEnabled);
   action_reset_ = menu_->addAction(tr("&Reset columns to default"), this, &PlaylistHeader::ResetColumns);
+  action_save_as_default_ = menu_->addAction(tr("Sa&ve current columns as default"), this, &PlaylistHeader::SaveColumnsAsDefault);
   action_rating_lock_ = menu_->addAction(tr("&Lock rating"), this, &PlaylistHeader::ToggleRatingEditStatus);
   action_rating_lock_->setCheckable(true);
   menu_->addSeparator();
@@ -171,6 +173,10 @@ void PlaylistHeader::enterEvent(QEnterEvent *e) {
 
 void PlaylistHeader::ResetColumns() {
   view_->ResetHeaderState();
+}
+
+void PlaylistHeader::SaveColumnsAsDefault() {
+  view_->SaveHeaderStateAsDefault();
 }
 
 void PlaylistHeader::ToggleRatingEditStatus() {

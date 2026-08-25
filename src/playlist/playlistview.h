@@ -107,6 +107,7 @@ class PlaylistView : public QTreeView {
   Qt::Alignment column_alignment(int section) const;
 
   void ResetHeaderState();
+  void SaveHeaderStateAsDefault();
 
   // QTreeView
   void setModel(QAbstractItemModel *model) override;
@@ -184,6 +185,7 @@ class PlaylistView : public QTreeView {
  private:
   void LoadHeaderState();
   void RestoreHeaderState();
+  bool LoadSavedDefaultHeaderState();
 
   void ReloadBarPixmaps();
   QList<QPixmap> LoadBarPixmap(const QString &filename, const bool keep_aspect_ratio);
