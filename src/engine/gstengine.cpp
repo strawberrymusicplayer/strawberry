@@ -26,7 +26,6 @@
 #include <algorithm>
 #include <optional>
 #include <utility>
-#include <memory>
 
 #include <glib.h>
 #include <glib-object.h>
