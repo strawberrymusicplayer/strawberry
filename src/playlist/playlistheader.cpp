@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,6 +46,10 @@ PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, 
       view_(view),
       menu_section_(0),
       menu_(new QMenu(this)),
+      sort_menu_(nullptr),
+      action_sort_ascending_(nullptr),
+      action_sort_descending_(nullptr),
+      action_sort_clear_(nullptr),
       action_hide_(nullptr),
       action_reset_(nullptr),
       action_stretch_(nullptr),
@@ -60,6 +64,16 @@ PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, 
   action_rating_lock_ = menu_->addAction(tr("&Lock rating"), this, &PlaylistHeader::ToggleRatingEditStatus);
   action_rating_lock_->setCheckable(true);
   menu_->addSeparator();
+
+  // Sorting is normally done by clicking the header, so this covers what clicking cannot express: picking an order directly instead of cycling through it, and clearing the sorting again.
+  sort_menu_ = new QMenu(tr("Sor&t"), this);
+  action_sort_ascending_ = sort_menu_->addAction(tr("&Ascending"), this, &PlaylistHeader::SortAscending);
+  action_sort_descending_ = sort_menu_->addAction(tr("&Descending"), this, &PlaylistHeader::SortDescending);
+  action_sort_ascending_->setCheckable(true);
+  action_sort_descending_->setCheckable(true);
+  sort_menu_->addSeparator();
+  action_sort_clear_ = sort_menu_->addAction(tr("&Clear sorting"), this, &PlaylistHeader::ClearSorting);
+  menu_->addMenu(sort_menu_);
 
   QMenu *align_menu = new QMenu(tr("&Align text"), this);
   QActionGroup *align_group = new QActionGroup(this);
@@ -112,6 +126,15 @@ void PlaylistHeader::contextMenuEvent(QContextMenuEvent *e) {
 
   }
 
+  // Ascending/descending act on the section that was clicked, so they are only available when one was; clearing applies to the playlist as a whole.
+  const bool has_section = menu_section_ != -1;
+  const bool section_is_sorted = has_section && sortIndicatorSection() == menu_section_;
+  action_sort_ascending_->setEnabled(has_section);
+  action_sort_descending_->setEnabled(has_section);
+  action_sort_ascending_->setChecked(section_is_sorted && sortIndicatorOrder() == Qt::AscendingOrder);
+  action_sort_descending_->setChecked(section_is_sorted && sortIndicatorOrder() == Qt::DescendingOrder);
+  action_sort_clear_->setEnabled(sortIndicatorSection() != -1);
+
   qDeleteAll(show_actions_);
   show_actions_.clear();
   for (int i = 0; i < count(); ++i) {
@@ -138,6 +161,35 @@ void PlaylistHeader::AddColumnAction(const int index) {
   show_actions_ << action;
 
   QObject::connect(action, &QAction::triggered, this, [this, index]() { ToggleVisible(index); });
+
+}
+
+void PlaylistHeader::SortAscending() {
+  SortCurrent(Qt::AscendingOrder);
+}
+
+void PlaylistHeader::SortDescending() {
+  SortCurrent(Qt::DescendingOrder);
+}
+
+void PlaylistHeader::SortCurrent(const Qt::SortOrder sort_order) {
+
+  if (menu_section_ == -1) return;
+
+  // Already sorted this way, so do nothing rather than sort the playlist again and add another entry to the undo stack for an order it is already in.
+  if (sortIndicatorSection() == menu_section_ && sortIndicatorOrder() == sort_order) return;
+
+  // The view sorts through the header's sort indicator (sorting is enabled on it), so setting the indicator is what actually sorts the playlist.
+  setSortIndicator(menu_section_, sort_order);
+
+}
+
+void PlaylistHeader::ClearSorting() {
+
+  if (sortIndicatorSection() == -1) return;
+
+  // Clearing the indicator makes Playlist::sort() stop treating the playlist as sorted, leaving the items in their current order.
+  setSortIndicator(-1, sortIndicatorOrder());
 
 }
 
