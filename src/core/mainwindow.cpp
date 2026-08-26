@@ -22,7 +22,10 @@
 #include "config.h"
 #include "version.h"
 
+#include <cstdlib>
+#include <cstdio>
 #include <cmath>
+
 #include <algorithm>
 #include <utility>
 #include <functional>
@@ -417,6 +420,7 @@ MainWindow::MainWindow(Application *app,
       was_minimized_(false),
       exit_(false),
       exit_count_(0),
+      exit_started_(false),
       playlists_loaded_(false),
       delete_files_(false) {
 
@@ -1429,8 +1433,17 @@ void MainWindow::Exit() {
   settings_dialog_.reset();
 
   if (exit_count_ > 1) {
-    exit_ = true;
-    QCoreApplication::quit();
+    // Asked to quit again. Never quit the event loop directly here: exec() would return with the subsystems still running in their own threads, and Application's destructor would then delete them from this thread.
+    if (exit_started_) {
+      // The shutdown is already running and is waiting for a subsystem that has not reported back, so there is nothing left to hurry along.
+      // Leave the process without unwinding rather than tearing down objects the subsystem threads are still using.
+      qLog(Warning) << "Exit requested again while shutting down, exiting immediately.";
+      std::fflush(nullptr);
+      std::_Exit(EXIT_SUCCESS);
+    }
+    // Still waiting for a fadeout to finish, so skip the rest of it and shut down now.
+    QObject::disconnect(&*app_->player()->engine(), &EngineBase::Finished, this, &MainWindow::DoExit);
+    DoExit();
   }
   else {
     if (app_->player()->engine()->is_fadeout_enabled()) {
@@ -1458,6 +1471,9 @@ void MainWindow::Exit() {
 }
 
 void MainWindow::DoExit() {
+
+  if (exit_started_) return;
+  exit_started_ = true;
 
   QObject::connect(app_, &Application::ExitFinished, this, &MainWindow::ExitFinished);
   app_->Exit();

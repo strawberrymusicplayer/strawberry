@@ -224,6 +224,7 @@ class Mpris2 : public QObject {
   void TrackMetadataChanged(const QDBusObjectPath &track_id, const QVariantMap &metadata);
 
   void RaiseMainWindow();
+  void ExitApplication();
 
   // Playlist
   void PlaylistChanged(const MprisPlaylist &playlist);
