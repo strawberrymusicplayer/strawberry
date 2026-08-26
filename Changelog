@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.2.28 (2026.08.26):
 
   Bugfixes:
     * Fixed playback randomly pausing itself, caused by concurrent GStreamer state changes being applied in a different order than they were requested (#2008)
