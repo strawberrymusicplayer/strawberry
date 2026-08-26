@@ -419,6 +419,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   AlbumCoverImageResult album_cover_;
   bool exit_;
   int exit_count_;
+  bool exit_started_;
   bool playlists_loaded_;
   bool delete_files_;
   std::optional<CommandlineOptions> options_;

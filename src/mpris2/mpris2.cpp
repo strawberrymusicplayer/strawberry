@@ -323,7 +323,7 @@ QStringList Mpris2::SupportedMimeTypes() const {
 
 void Mpris2::Raise() { Q_EMIT RaiseMainWindow(); }
 
-void Mpris2::Quit() { QCoreApplication::quit(); }
+void Mpris2::Quit() { Q_EMIT ExitApplication(); }
 
 QString Mpris2::PlaybackStatus() const {
   return PlaybackStatus(player_->GetState());
