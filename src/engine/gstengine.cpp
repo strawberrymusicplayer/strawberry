@@ -246,7 +246,7 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine
 
   // Maybe fade in this track
   if (crossfade && (!old_pipeline || !old_pipeline->exclusive_mode()) && !AnyExclusivePipelineActive()) {
-    current_pipeline_->StartFader(fadeout_duration_nanosec_, QTimeLine::Forward);
+    current_pipeline_->StartFader(fadeout_duration_nanosec_, QTimeLine::Forward, QEasingCurve::Linear, true);
   }
 
   // Setting up stream discoverer
@@ -842,7 +842,7 @@ void GstEngine::StartFadeout(GstEnginePipelinePtr pipeline) {
   fadeout_pipelines_.insert(pipeline->id(), pipeline);
   pipeline->RemoveAllBufferConsumers();
 
-  pipeline->StartFader(fadeout_duration_nanosec_, QTimeLine::Backward);
+  pipeline->StartFader(fadeout_duration_nanosec_, QTimeLine::Backward, QEasingCurve::Linear, true);
   QObject::connect(&*pipeline, &GstEnginePipeline::FaderFinished, this, &GstEngine::FadeoutFinished);
 
 }

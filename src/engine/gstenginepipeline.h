@@ -116,7 +116,7 @@ class GstEnginePipeline : public QObject {
 
   void SetSourceDevice(const QString &device);
 
-  void StartFader(const qint64 duration_nanosec, const QTimeLine::Direction direction = QTimeLine::Forward, const QEasingCurve::Type shape = QEasingCurve::Linear, const bool use_fudge_timer = true);
+  void StartFader(const qint64 duration_nanosec, const QTimeLine::Direction direction, const QEasingCurve::Type shape, const bool use_fudge_timer);
 
   // Get information about the music playback
   QUrl media_url() const { return media_url_; }
