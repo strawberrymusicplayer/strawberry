@@ -152,6 +152,9 @@ DeviceManager::~DeviceManager() {
 
   for (DeviceLister *lister : std::as_const(listers_)) {
     lister->ShutDown();
+    // Stop the lister's thread before deleting it, so it is not still delivering events to the object once the derived destructor has run.
+    // Normally Exit() has already moved the lister back to this thread, but this destructor also runs when the event loop ended without that happening.
+    lister->StopThread();
     delete lister;
   }
   listers_.clear();
