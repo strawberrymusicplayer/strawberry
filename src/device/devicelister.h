@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,6 +45,9 @@ class DeviceLister : public QObject {
 
   // Tries to start the thread and initialize the engine.  This object will be moved to the new thread.
   void Start();
+  // Stops the thread started by Start() and waits for it to finish. Safe to call more than once, and does nothing if the thread was never started.
+  // Call this before destroying the lister: once the destructor has started, the derived part of the object is gone while its thread may still be delivering events to it.
+  void StopThread();
   virtual void ExitAsync();
 
   // If two listers know about the same device, then the metadata will get taken from the one with the highest priority.

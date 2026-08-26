@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,23 +45,38 @@ DeviceLister::DeviceLister(QObject *parent)
       original_thread_(nullptr),
       next_mount_request_id_(0) {
 
-  setObjectName(QLatin1String(QObject::metaObject()->className()));
-
   original_thread_ = thread();
 
 }
 
 DeviceLister::~DeviceLister() {
 
-  if (thread_) {
-    thread_->quit();
-    thread_->wait(1000);
-    thread_->deleteLater();
-  }
+  // Last resort: the thread should already have been stopped by whoever is destroying this lister, since by the time this runs the derived part of the object no longer exists.
+  StopThread();
+
+}
+
+void DeviceLister::StopThread() {
+
+  if (!thread_) return;
+
+  thread_->quit();
+
+  // Wait without a timeout, matching Application::~Application().
+  // Giving up on a thread that has not stopped is what turns a stuck lister into a crash: this object is freed regardless, and the thread goes on delivering queued events to freed memory.
+  thread_->wait();
+
+  // The thread has finished, so it can be deleted directly. deleteLater() would not do: this typically runs while the application is being torn down, with no event loop left to deliver the deletion.
+  delete thread_;
+  thread_ = nullptr;
 
 }
 
 void DeviceLister::Start() {
+
+  // Name the object after the concrete lister, which is only known once construction has finished (metaObject() resolves to DeviceLister while the base constructor runs).
+  // The thread takes the same name, which is what identifies it in a debugger or a backtrace.
+  setObjectName(QLatin1String(metaObject()->className()));
 
   thread_ = new QThread;
   thread_->setObjectName(objectName());
