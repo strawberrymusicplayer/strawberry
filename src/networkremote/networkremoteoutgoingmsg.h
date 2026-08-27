@@ -24,6 +24,7 @@
 #include <QByteArray>
 #include <QPointer>
 #include "playlist/playlist.h"
+#include "playlist/playlistitem.h"
 #include "includes/shared_ptr.h"
 #include "engine/enginebase.h"
 #include "networkremotehelper.h"
@@ -47,6 +48,7 @@ class NetworkRemoteOutgoingMsg : public QObject {
   void SendDisconnect(nwr_types::ReasonDisconnect reason);
   void SendConnectResponse(const bool accepted, const bool auth_enabled);
   void SendPlaylistSongs(const quint32 playlist_id, const quint32 upcoming_count);
+  void SendPlaylistAdvanced(const quint32 playlist_id, const quint32 new_current_row);
   void SendPlaySongResponse(const bool accepted);
   void SendAddSongToPlaylistResponse(const bool accepted,
                                      const quint32 playlist_id,
@@ -55,6 +57,8 @@ class NetworkRemoteOutgoingMsg : public QObject {
                                           const nwr_types::PlaylistRejectReason reject_reason = nwr_types::PlaylistRejectReason::PLAYLIST_REJECT_NONE);
   void SendPlaylistChanged(const quint32 playlist_id);
   void SendPlaylistActivated(const quint32 playlist_id);
+  void SendAuthStatusChanged(const bool auth_enabled);
+  void SendValidateTokenResponse(const bool valid);
   void SetPlaylistView(QPointer<PlaylistView> playlist_view);
   bool IsNumericColumn(Playlist::Column column);
 
@@ -63,6 +67,18 @@ class NetworkRemoteOutgoingMsg : public QObject {
   static nwr::EngineStateChange BuildEngineStateChange(EngineBase::State state);
   nwr::ResponseSongMetadata BuildResponseSongMetadata();
   nwr::ResponsePlaylists BuildResponsePlaylists();
+
+  // Builds a single row's data (formatted cell values + absolute row
+  // index) for the given visible columns. Used by SendPlaylistAdvanced,
+  // which needs exactly one new row rather than a whole window.
+  nwr::PlaylistSongRow BuildPlaylistSongRow(Playlist *pl, int row, const QList<int> &visible_columns);
+
+  // Returns the playlist's visible columns in on-screen (visual,
+  // drag-reordered) order. Shared by SendPlaylistSongs and
+  // SendPlaylistAdvanced, both of which need this same column set
+  // before building row data. Returns an empty list if playlist_view_
+  // is null.
+  QList<int> VisibleColumns();
 
   SharedPtr<Player> player_;
   SharedPtr<PlaylistManager> playlist_manager_;

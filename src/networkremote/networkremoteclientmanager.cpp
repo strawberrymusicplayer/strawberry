@@ -20,12 +20,16 @@
 #include <QTimer>
 #include "networkremoteclientmanager.h"
 #include "networkremoteclient.h"
+#include "networkremotehelper.h"
+#include "networkremotesettings.h"
 #include "core/application.h"
 #include "core/logging.h"
 #include "core/player.h"
 #include "playlist/playlistmanager.h"
 #include "playlist/playlist.h"
 #include "core/song.h"
+
+using namespace nwr_types;
 
 
 NetworkRemoteClientManager::NetworkRemoteClientManager(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent)
@@ -36,27 +40,71 @@ NetworkRemoteClientManager::NetworkRemoteClientManager(const SharedPtr<Player> p
   QObject::connect(&*player_, &Player::Playing, this, [this]() { BroadcastEngineState(EngineBase::State::Playing); });
   QObject::connect(&*player_, &Player::Paused, this, [this]() { BroadcastEngineState(EngineBase::State::Paused); });
   QObject::connect(&*player_, &Player::Stopped, this, [this]() { BroadcastEngineState(EngineBase::State::Idle); });
+
   // The current song can change without any engine state change - a gapless
   // transition keeps the pipeline in the Playing state throughout, so
   // Player::Playing() never re-fires. PlaylistManager::CurrentSongChanged is
   // the canonical "the current song is now X" event and does fire in that
-  // case, so broadcast on it too. Clients refetch song info on any state
-  // push, which picks up the new track.
+  // case, so broadcast on it too.
+  //
+  // Beyond the engine-state push, this also decides whether the active
+  // playlist's current row simply advanced by one (the common case: a
+  // song finished and the next one in the playlist started) versus
+  // anything else (previous, jump to a specific song, a mutation) which
+  // needs a full window resend. There is no direct signal for "this was
+  // an automatic advance" available outside Player itself, so this is
+  // inferred by comparing the new current row against the last one seen
+  // for this same playlist.
   QObject::connect(&*playlist_manager_, &PlaylistManager::CurrentSongChanged, this, [this](const Song &song) {
     Q_UNUSED(song);
     qLog(Debug) << "Current song changed - notifying clients";
     BroadcastEngineState(player_->GetState());
+
+    const int active_id = playlist_manager_->active_id();
+    Playlist *active_playlist = playlist_manager_->playlist(active_id);
+    if (!active_playlist) {
+      last_known_active_playlist_id_ = -1;
+      last_known_current_row_ = -1;
+      return;
+    }
+
+    const int new_row = active_playlist->current_row();
+    const bool is_simple_advance =
+      (active_id == last_known_active_playlist_id_) &&
+      (last_known_current_row_ >= 0) &&
+      (new_row == last_known_current_row_ + 1);
+
+    if (is_simple_advance) {
+      BroadcastPlaylistAdvanced(static_cast<quint32>(active_id), static_cast<quint32>(new_row));
+    }
+    else {
+      BroadcastPlaylistSongsFull(static_cast<quint32>(active_id));
+    }
+
+    last_known_active_playlist_id_ = active_id;
+    last_known_current_row_ = new_row;
   });
 
   // A playlist becoming the active (audio-producing) one - e.g. from a
-  // remote RequestPlaySong, or from the desktop UI itself.
+  // remote RequestPlaySong, or from the desktop UI itself. Clients also
+  // get a fresh window for the newly-active playlist, since they may not
+  // have an up-to-date one (or any at all) for it.
   QObject::connect(&*playlist_manager_, &PlaylistManager::ActiveChanged, this, [this](Playlist *pl) {
-    if (pl) BroadcastPlaylistActivated(static_cast<quint32>(pl->id()));
+    if (pl) {
+      BroadcastPlaylistActivated(static_cast<quint32>(pl->id()));
+      BroadcastPlaylistSongsFull(static_cast<quint32>(pl->id()));
+    }
   });
 
   // Any open playlist's song list changed (songs added/removed/reordered).
+  // Only the active playlist's window is proactively resent - a
+  // non-active open playlist stays request-driven, as before.
   QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistChanged, this, [this](Playlist *pl) {
-    if (pl) BroadcastPlaylistChanged(static_cast<quint32>(pl->id()));
+    if (!pl) return;
+    BroadcastPlaylistChanged(static_cast<quint32>(pl->id()));
+    if (pl->id() == playlist_manager_->active_id()) {
+      BroadcastPlaylistSongsFull(static_cast<quint32>(pl->id()));
+    }
   });
 
   // Seeking emits Seeked on every mouse-move while dragging the slider;
@@ -99,6 +147,7 @@ void NetworkRemoteClientManager::AddClient(QTcpSocket *socket) {
 
 void NetworkRemoteClientManager::RemoveClient(const QSharedPointer<NetworkRemoteClient> &client) {
   clients_.removeOne(client);
+
   QTcpSocket *socket = client->GetSocket();
   if (socket) {
     qLog(Debug) << "Closing socket" << socket->socketDescriptor() << "for removed client";
@@ -191,13 +240,35 @@ void NetworkRemoteClientManager::BroadcastPlaylistActivated(quint32 playlist_id)
   }
 }
 
+void NetworkRemoteClientManager::BroadcastAuthStatus(bool auth_enabled) {
+  qLog(Debug) << "Broadcasting auth status" << auth_enabled << "to" << clients_.count() << "clients";
+  for (const QSharedPointer<NetworkRemoteClient> &client : std::as_const(clients_)) {
+    client->SendAuthStatusChanged(auth_enabled);
+  }
+}
+
+void NetworkRemoteClientManager::BroadcastPlaylistSongsFull(quint32 playlist_id) {
+  const quint32 upcoming_count = static_cast<quint32>(NetworkRemoteSettings::CurrentPlaylistSize());
+  qLog(Debug) << "Broadcasting full playlist songs for playlist" << playlist_id << "to" << clients_.count() << "clients";
+  for (const QSharedPointer<NetworkRemoteClient> &client : std::as_const(clients_)) {
+    client->SendPlaylistSongs(playlist_id, upcoming_count);
+  }
+}
+
+void NetworkRemoteClientManager::BroadcastPlaylistAdvanced(quint32 playlist_id, quint32 new_current_row) {
+  qLog(Debug) << "Broadcasting playlist advanced for playlist" << playlist_id << "row" << new_current_row << "to" << clients_.count() << "clients";
+  for (const QSharedPointer<NetworkRemoteClient> &client : std::as_const(clients_)) {
+    client->SendPlaylistAdvanced(playlist_id, new_current_row);
+  }
+}
+
 void NetworkRemoteClientManager::DisconnectAll() {
   qLog(Debug) << "Disconnecting all clients";
   const QList<QSharedPointer<NetworkRemoteClient>> clients_copy = clients_;
   for (const QSharedPointer<NetworkRemoteClient> &client : clients_copy) {
     QTcpSocket *socket = client->GetSocket();
     qLog(Debug) << "Sending shutdown notice to socket" << (socket ? socket->socketDescriptor() : -1);
-    client->SendDisconnect(nwr_types::ReasonDisconnect::REASON_DISCONNECT_SERVER_SHUTDOWN);
+    client->SendDisconnect(ReasonDisconnect::REASON_DISCONNECT_SERVER_SHUTDOWN);
     if (socket) {
       socket->flush();
       socket->disconnectFromHost();

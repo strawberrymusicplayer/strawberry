@@ -39,6 +39,7 @@ class NetworkRemoteTcpServer : public QObject {
   void StopServer();
   bool ServerUp();
   void SetPlaylistView(QPointer<PlaylistView> playlist_view);
+  void BroadcastAuthStatus(bool auth_enabled);
 
  public Q_SLOTS:
   void NewTcpConnection();
