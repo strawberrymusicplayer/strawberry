@@ -32,32 +32,31 @@ class PlaylistManager;
 class PlaylistView;
 
 class NetworkRemote : public QObject {
-    Q_OBJECT
-public:
-    explicit NetworkRemote(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent = nullptr);
-    ~NetworkRemote() override;
-    static QHostAddress DetectLocalIpAddress();
+  Q_OBJECT
+ public:
+  explicit NetworkRemote(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent = nullptr);
+  ~NetworkRemote() override;
+  static QHostAddress DetectLocalIpAddress();
 
-    void SetPlaylistView(QPointer<PlaylistView> playlist_view);
+  void SetPlaylistView(QPointer<PlaylistView> playlist_view);
 
-public Q_SLOTS:
-    void Init();
-    void Update();
-    void LoadSettings();
-    void StartTcpServer();
-    void StopTcpServer();
+ public Q_SLOTS:
+  void Init();
+  void Update();
+  void LoadSettings();
+  void StartTcpServer();
+  void StopTcpServer();
 
-private:
-    const SharedPtr<Player> player_;
-    const SharedPtr<PlaylistManager> playlist_manager_;
-    QPointer<PlaylistView> playlist_view_;
-    bool enabled_;
-    int remote_port_;
-    QHostAddress ipAddr_;
-    NetworkRemoteTcpServer *server_;
-    ScopedPtr<NetworkRemoteSettings> settings_;
-    static QNetworkAddressEntry DetectLocalAddressEntry();
-
+ private:
+  const SharedPtr<Player> player_;
+  const SharedPtr<PlaylistManager> playlist_manager_;
+  QPointer<PlaylistView> playlist_view_;
+  bool enabled_;
+  int remote_port_;
+  QHostAddress ipAddr_;
+  NetworkRemoteTcpServer *server_;
+  ScopedPtr<NetworkRemoteSettings> settings_;
+  static QNetworkAddressEntry DetectLocalAddressEntry();
 };
 
-#endif // NETWORKREMOTE_H
+#endif  // NETWORKREMOTE_H

@@ -54,10 +54,10 @@ constexpr quint32 kProtocolVersion = 5;
 constexpr quint32 kMinSupportedVersion = 5;
 
 // Maximum size (bytes) of a single incoming protobuf message payload, excluding the 4-byte length header. Protects against a peer declaring (or the accumulated buffer implying) an unreasonably large frame.
-constexpr quint32 kMaxMsgLen = 1024 * 1024; // 1 MiB
+constexpr quint32 kMaxMsgLen = 1024 * 1024;  // 1 MiB
 
 // Maximum bytes allowed to sit unsent in a client's outbound socket buffer before the connection is considered stalled and dropped. Qt imposes no write-buffer limit itself (see QAbstractSocket docs), so this guards against unbounded memory growth from a slow or unresponsive peer.
-constexpr qint64 kMaxOutboundBufferBytes = 4 * 1024 * 1024; // 4 MiB
+constexpr qint64 kMaxOutboundBufferBytes = 4 * 1024 * 1024;  // 4 MiB
 
 // Maximum consecutive failed token attempts on a single connection before the client is disconnected, to slow down brute-force guessing.
 constexpr int kMaxFailedTokenAttempts = 5;
@@ -68,4 +68,4 @@ inline bool IsValidRowIndex(quint32 row_index, int row_count) {
   return row_index < static_cast<quint32>(row_count);
 }
 
-#endif // NETWORKREMOTEHELPER_H
+#endif  // NETWORKREMOTEHELPER_H
