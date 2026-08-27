@@ -84,7 +84,7 @@ void NetworkRemoteIncomingMsg::ReadyRead() {
       Q_EMIT InMsgParsed();
     }
     else {
-      qLog(Warning) << "Failed to deserialize message: ("<< qToUnderlying(serializer.lastError()) << ") " << serializer.lastErrorString();
+      qLog(Warning) << "Failed to deserialize message: (" << qToUnderlying(serializer.lastError()) << ") " << serializer.lastErrorString();
     }
   }
 }
@@ -97,3 +97,6 @@ QString NetworkRemoteIncomingMsg::GetClientName() {
   return msg_.requestConnect().clientName();
 }
 
+nwr::RequestValidateToken NetworkRemoteIncomingMsg::GetRequestValidateToken() {
+  return msg_.requestValidateToken();
+}

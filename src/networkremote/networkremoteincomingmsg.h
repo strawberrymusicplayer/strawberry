@@ -42,6 +42,7 @@ class NetworkRemoteIncomingMsg : public QObject {
   nwr::RequestPlaySong GetRequestPlaySong();
   nwr::RequestAddSongToPlaylist GetRequestAddSongToPlaylist();
   nwr::RequestRemoveSongFromPlaylist GetRequestRemoveSongFromPlaylist();
+  nwr::RequestValidateToken GetRequestValidateToken();
 
  private Q_SLOTS:
   void ReadyRead();

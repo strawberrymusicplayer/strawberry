@@ -79,3 +79,9 @@ bool NetworkRemoteTcpServer::ServerUp() {
 void NetworkRemoteTcpServer::SetPlaylistView(QPointer<PlaylistView> playlist_view) {
   client_mgr_->SetPlaylistView(playlist_view);
 }
+
+void NetworkRemoteTcpServer::BroadcastAuthStatus(bool auth_enabled) {
+  if (client_mgr_) {
+    client_mgr_->BroadcastAuthStatus(auth_enabled);
+  }
+}

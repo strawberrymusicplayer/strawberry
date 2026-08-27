@@ -107,6 +107,7 @@ nwr::ResponseSongMetadata NetworkRemoteOutgoingMsg::BuildResponseSongMetadata() 
     const qint64 position_nanosec = player_->engine()->position_nanosec();
     qint64 length_nanosec = player_->engine()->length_nanosec();
     if (length_nanosec <= 0) {
+      // Engine doesn't know yet (e.g. just-loaded track): fall back to the tag.
       length_nanosec = current_item->EffectiveMetadata().length_nanosec();
     }
 
@@ -179,8 +180,46 @@ bool NetworkRemoteOutgoingMsg::IsNumericColumn(Playlist::Column column) {
     case Playlist::Column::BPM:
       return true;
     default:
+      // Title, Artist, Album, Genre, Composer, Performer, Grouping,
+      // Comment, URL, Filetype, Mood, InitialKey, Source, Moodbar, and
+      // any future column default to text/left-aligned.
       return false;
   }
+}
+
+QList<int> NetworkRemoteOutgoingMsg::VisibleColumns() {
+  QList<int> visible_columns;
+  if (playlist_view_.isNull()) {
+    return visible_columns;
+  }
+  QHeaderView *header = playlist_view_->header();
+  for (int visual_pos = 0; visual_pos < header->count(); ++visual_pos) {
+    const int col = header->logicalIndex(visual_pos);
+    if (header->isSectionHidden(col)) continue;
+    visible_columns.append(col);
+  }
+  return visible_columns;
+}
+
+nwr::PlaylistSongRow NetworkRemoteOutgoingMsg::BuildPlaylistSongRow(Playlist *pl, int row, const QList<int> &visible_columns) {
+  nwr::PlaylistSongRow song_row;
+  const QLocale locale = QLocale::system();
+  QStringList values;
+  for (int col : visible_columns) {
+    const QVariant raw_value = pl->data(pl->index(row, col), Qt::DisplayRole);
+    QString formatted;
+    PlaylistDelegateBase *delegate = qobject_cast<PlaylistDelegateBase *>(playlist_view_->itemDelegateForColumn(col));
+    if (delegate) {
+      formatted = delegate->displayText(raw_value, locale);
+    }
+    else {
+      formatted = raw_value.toString();
+    }
+    values.append(formatted);
+  }
+  song_row.setValues(values);
+  song_row.setRowIndex(static_cast<quint32>(row));
+  return song_row;
 }
 
 void NetworkRemoteOutgoingMsg::SendPlaylistSongs(const quint32 playlist_id, const quint32 upcoming_count) {
@@ -191,18 +230,13 @@ void NetworkRemoteOutgoingMsg::SendPlaylistSongs(const quint32 playlist_id, cons
   response.setPlaylistId(playlist_id);
 
   if (pl && !playlist_view_.isNull()) {
-    QHeaderView *header = playlist_view_->header();
+    const QList<int> visible_columns = VisibleColumns();
 
     // Walk columns in visual (on-screen, drag-reordered) order, not
     // logical/enum order, so the client's column layout matches what's
     // actually displayed on the desktop.
-    QList<int> visible_columns;
     QList<nwr::ColumnInfo> columns;
-    for (int visual_pos = 0; visual_pos < header->count(); ++visual_pos) {
-      const int col = header->logicalIndex(visual_pos);
-      if (header->isSectionHidden(col)) continue;
-      visible_columns.append(col);
-
+    for (int col : visible_columns) {
       const Playlist::Column column_enum = static_cast<Playlist::Column>(col);
       nwr::ColumnInfo column_info;
       column_info.setName(Playlist::column_name(column_enum));
@@ -211,16 +245,13 @@ void NetworkRemoteOutgoingMsg::SendPlaylistSongs(const quint32 playlist_id, cons
     }
     response.setColumns(columns);
 
-    const QLocale locale = QLocale::system();
+    const quint32 configured_playlist_size = static_cast<quint32>(NetworkRemoteSettings::CurrentPlaylistSize());
+    const quint32 bounded_upcoming_count = std::min(upcoming_count, configured_playlist_size);
 
     // rows[0] is the current/last-played row itself, not the first upcoming song.
     const int current_row = pl->current_row();
     const int start_row = (current_row >= 0) ? current_row : 0;
     const int total = pl->rowCount();
-
-
-    const quint32 configured_playlist_size = static_cast<quint32>(NetworkRemoteSettings::CurrentPlaylistSize());
-    const quint32 bounded_upcoming_count = std::min(upcoming_count, configured_playlist_size);
     const quint64 end_row_64 = std::min(
       static_cast<quint64>(total),
       static_cast<quint64>(start_row) + 1ULL + static_cast<quint64>(bounded_upcoming_count));
@@ -228,24 +259,7 @@ void NetworkRemoteOutgoingMsg::SendPlaylistSongs(const quint32 playlist_id, cons
 
     QList<nwr::PlaylistSongRow> rows;
     for (int row = start_row; row < end_row; ++row) {
-      nwr::PlaylistSongRow song_row;
-      QStringList values;
-      for (int col : visible_columns) {
-        const QVariant raw_value = pl->data(pl->index(row, col), Qt::DisplayRole);
-
-        QString formatted;
-        PlaylistDelegateBase *delegate = qobject_cast<PlaylistDelegateBase *>(playlist_view_->itemDelegateForColumn(col));
-        if (delegate) {
-          formatted = delegate->displayText(raw_value, locale);
-        }
-        else {
-          formatted = raw_value.toString();
-        }
-        values.append(formatted);
-      }
-      song_row.setValues(values);
-      song_row.setRowIndex(static_cast<quint32>(row));
-      rows.append(song_row);
+      rows.append(BuildPlaylistSongRow(pl, row, visible_columns));
     }
     response.setRows(rows);
     response.setIsActive(playlist_manager_->active_id() == static_cast<int>(playlist_id));
@@ -259,6 +273,37 @@ void NetworkRemoteOutgoingMsg::SendPlaylistSongs(const quint32 playlist_id, cons
 
   msg_.setType(MsgType::MSG_TYPE_RESPONSE_PLAYLIST_SONGS);
   msg_.setResponsePlaylistSongs(response);
+  SendMsg();
+}
+
+void NetworkRemoteOutgoingMsg::SendPlaylistAdvanced(const quint32 playlist_id, const quint32 new_current_row) {
+  msg_ = nwr::Message();
+  nwr::PlaylistAdvanced advanced;
+  advanced.setPlaylistId(playlist_id);
+  advanced.setNewCurrentRow(new_current_row);
+
+  Playlist *pl = playlist_manager_->playlist(static_cast<int>(playlist_id));
+  if (pl && !playlist_view_.isNull()) {
+    const QList<int> visible_columns = VisibleColumns();
+
+    // The client's window is [current_row, current_row + PlaylistSize].
+    // When current_row advances by one, the one row that becomes newly
+    // visible at the far edge is the old window's end plus one - i.e.
+    // new_current_row + PlaylistSize. If that falls outside the
+    // playlist, there's nothing to append and trailing_row is left
+    // unset (proto3 "absent" semantics for a nested message).
+    const quint32 configured_playlist_size = static_cast<quint32>(NetworkRemoteSettings::CurrentPlaylistSize());
+    const int trailing_row = static_cast<int>(new_current_row) + static_cast<int>(configured_playlist_size);
+    if (trailing_row < pl->rowCount()) {
+      advanced.setTrailingRow(BuildPlaylistSongRow(pl, trailing_row, visible_columns));
+    }
+  }
+  else if (playlist_view_.isNull()) {
+    qLog(Warning) << "SendPlaylistAdvanced: playlist_view_ is null, cannot determine visible columns";
+  }
+
+  msg_.setType(MsgType::MSG_TYPE_PLAYLIST_ADVANCED);
+  msg_.setPlaylistAdvanced(advanced);
   SendMsg();
 }
 
@@ -307,6 +352,24 @@ void NetworkRemoteOutgoingMsg::SendPlaylistActivated(const quint32 playlist_id) 
   activated.setPlaylistId(playlist_id);
   msg_.setType(MsgType::MSG_TYPE_PLAYLIST_ACTIVATED);
   msg_.setPlaylistActivated(activated);
+  SendMsg();
+}
+
+void NetworkRemoteOutgoingMsg::SendAuthStatusChanged(const bool auth_enabled) {
+  msg_ = nwr::Message();
+  nwr::AuthStatusChanged changed;
+  changed.setAuthEnabled(auth_enabled);
+  msg_.setType(MsgType::MSG_TYPE_AUTH_STATUS_CHANGED);
+  msg_.setAuthStatusChanged(changed);
+  SendMsg();
+}
+
+void NetworkRemoteOutgoingMsg::SendValidateTokenResponse(const bool valid) {
+  msg_ = nwr::Message();
+  nwr::ResponseValidateToken response;
+  response.setValid(valid);
+  msg_.setType(MsgType::MSG_TYPE_RESPONSE_VALIDATE_TOKEN);
+  msg_.setResponseValidateToken(response);
   SendMsg();
 }
 

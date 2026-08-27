@@ -45,6 +45,9 @@ class NetworkRemoteClient : public QObject {
   void SetPlaylistView(QPointer<PlaylistView> playlist_view);
   void SendPlaylistChanged(quint32 playlist_id);
   void SendPlaylistActivated(quint32 playlist_id);
+  void SendPlaylistSongs(quint32 playlist_id, quint32 upcoming_count);
+  void SendPlaylistAdvanced(quint32 playlist_id, quint32 new_current_row);
+  void SendAuthStatusChanged(bool auth_enabled);
 
  Q_SIGNALS:
   void ReceiveMsg();
@@ -65,7 +68,16 @@ class NetworkRemoteClient : public QObject {
   void HandleRequestPlaySong(quint32 playlist_id, quint32 row_index);
   void HandleRequestAddSongToPlaylist(quint32 target_playlist_id, QString new_playlist_name);
   void HandleRequestRemoveSongFromPlaylist(quint32 playlist_id, quint32 row_index);
+
+  // Checks token against the currently configured server token. Empty
+  // configured token means auth is disabled and this always returns
+  // true. On failure, sets *reject_reason and increments
+  // failed_token_attempts_; on success, resets it to 0. Comparison is
+  // performed byte-by-byte over the full length of both strings rather
+  // than short-circuiting on the first mismatch, to avoid leaking how
+  // many leading characters matched via response timing.
   bool TokenAccepted(const QString &token, nwr_types::PlaylistRejectReason *reject_reason);
+
   const SharedPtr<Player> player_;
   const SharedPtr<PlaylistManager> playlist_manager_;
   QTcpSocket *socket_;
