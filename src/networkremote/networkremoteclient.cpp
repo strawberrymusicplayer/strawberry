@@ -17,6 +17,8 @@
  *
  */
 
+#include <algorithm>
+
 #include "core/logging.h"
 #include "networkremoteclient.h"
 #include "networkremotesettings.h"
@@ -68,15 +70,29 @@ void NetworkRemoteClient::SendPlaylistActivated(quint32 playlist_id) {
   outgoing_msg_->SendPlaylistActivated(playlist_id);
 }
 
+void NetworkRemoteClient::SendPlaylistSongs(quint32 playlist_id, quint32 upcoming_count) {
+  outgoing_msg_->SendPlaylistSongs(playlist_id, upcoming_count);
+}
+
+void NetworkRemoteClient::SendPlaylistAdvanced(quint32 playlist_id, quint32 new_current_row) {
+  outgoing_msg_->SendPlaylistAdvanced(playlist_id, new_current_row);
+}
+
+void NetworkRemoteClient::SendAuthStatusChanged(bool auth_enabled) {
+  outgoing_msg_->SendAuthStatusChanged(auth_enabled);
+}
+
 void NetworkRemoteClient::HandleRequestPlaylistSongs(const quint32 playlist_id, const quint32 upcoming_count) {
   outgoing_msg_->SendPlaylistSongs(playlist_id, upcoming_count);
 }
 
 // Plays a specific row within a specific playlist - the same SetActiveToCurrent()
-// PlayAt() sequence MainWindow::PlayIndex() uses for a double-click on the desktop, just driven by an explicit row index from the network instead of a QModelIndex from a UI click.
+// + PlayAt() sequence MainWindow::PlayIndex() uses for a double-click on the
+// desktop, just driven by an explicit row index from the network instead of a
+// QModelIndex from a UI click.
 void NetworkRemoteClient::HandleRequestPlaySong(const quint32 playlist_id, const quint32 row_index) {
   Playlist *playlist = playlist_manager_->playlist(static_cast<int>(playlist_id));
-  if (!playlist || row_index >= static_cast<quint32>(playlist->rowCount())) {
+  if (!playlist || !IsValidRowIndex(row_index, playlist->rowCount())) {
     outgoing_msg_->SendPlaySongResponse(false);
     return;
   }
@@ -87,7 +103,10 @@ void NetworkRemoteClient::HandleRequestPlaySong(const quint32 playlist_id, const
   outgoing_msg_->SendPlaySongResponse(true);
 }
 
-// Adds the currently-playing song to an existing playlist, or to a brand new one if new_playlist_name is non-empty. Per the design decision this only targets open playlists - a closed target has no live Playlist object tomutate, so it's rejected rather than silently opened.
+// Adds the currently-playing song to an existing playlist, or to a brand new
+// one if new_playlist_name is non-empty. Per the design decision this only
+// targets open playlists - a closed target has no live Playlist object to
+// mutate, so it's rejected rather than silently opened.
 void NetworkRemoteClient::HandleRequestAddSongToPlaylist(const quint32 target_playlist_id, const QString new_playlist_name) {
   PlaylistItemPtr current_item = player_->GetCurrentItem();
   if (!current_item) {
@@ -97,9 +116,10 @@ void NetworkRemoteClient::HandleRequestAddSongToPlaylist(const quint32 target_pl
 
   bool accepted = false;
   int resolved_id = static_cast<int>(target_playlist_id);
+
   if (!new_playlist_name.isEmpty()) {
-      playlist_manager_->New(new_playlist_name);
-      resolved_id = playlist_manager_->current_id();
+    playlist_manager_->New(new_playlist_name);
+    resolved_id = playlist_manager_->current_id();
   }
 
   Playlist *pl = playlist_manager_->playlist(resolved_id);
@@ -114,7 +134,10 @@ void NetworkRemoteClient::HandleRequestAddSongToPlaylist(const quint32 target_pl
   outgoing_msg_->SendAddSongToPlaylistResponse(accepted, accepted ? static_cast<quint32>(resolved_id) : 0, reject_reason);
 }
 
-// Removes a single row from an open playlist. row_index must come from a recent ResponsePlaylistSongs - the client is expected to only offer removal on current/upcoming rows, not stale history rows, to avoid an index that no longer matches the playlist's actual contents.
+// Removes a single row from an open playlist. row_index must come from a
+// recent ResponsePlaylistSongs - the client is expected to only offer removal
+// on current/upcoming rows, not stale history rows, to avoid an index that no
+// longer matches the playlist's actual contents.
 void NetworkRemoteClient::HandleRequestRemoveSongFromPlaylist(const quint32 playlist_id, const quint32 row_index) {
   Playlist *pl = playlist_manager_->playlist(static_cast<int>(playlist_id));
   bool accepted = false;
@@ -124,6 +147,41 @@ void NetworkRemoteClient::HandleRequestRemoveSongFromPlaylist(const quint32 play
   }
   const PlaylistRejectReason reject_reason = accepted ? PlaylistRejectReason::PLAYLIST_REJECT_NONE : PlaylistRejectReason::PLAYLIST_REJECT_INVALID_REQUEST;
   outgoing_msg_->SendRemoveSongFromPlaylistResponse(accepted, reject_reason);
+}
+
+bool NetworkRemoteClient::TokenAccepted(const QString &token, PlaylistRejectReason *reject_reason) {
+  const QString expected_token = NetworkRemoteSettings::CurrentToken();
+  if (expected_token.isEmpty()) {
+    return true;
+  }
+  if (token.isEmpty()) {
+    *reject_reason = PlaylistRejectReason::PLAYLIST_REJECT_TOKEN_REQUIRED;
+    ++failed_token_attempts_;
+    return false;
+  }
+
+  const QByteArray given = token.toUtf8();
+  const QByteArray expected = expected_token.toUtf8();
+  const int max_len = std::max(given.size(), expected.size());
+
+  // Constant-time-ish comparison: always touch every byte up to the longer
+  // length, rather than stopping at the first mismatch, so response timing
+  // doesn't leak how many leading characters matched.
+  unsigned char diff = static_cast<unsigned char>(given.size() != expected.size());
+  for (int i = 0; i < max_len; ++i) {
+    const unsigned char g = (i < given.size()) ? static_cast<unsigned char>(given.at(i)) : 0;
+    const unsigned char e = (i < expected.size()) ? static_cast<unsigned char>(expected.at(i)) : 0;
+    diff |= (g ^ e);
+  }
+
+  if (diff != 0) {
+    *reject_reason = PlaylistRejectReason::PLAYLIST_REJECT_TOKEN_MISMATCH;
+    ++failed_token_attempts_;
+    return false;
+  }
+
+  failed_token_attempts_ = 0;
+  return true;
 }
 
 void NetworkRemoteClient::ProcessIncoming() {
@@ -147,7 +205,8 @@ void NetworkRemoteClient::ProcessIncoming() {
     }
     handshake_complete_ = true;
     const bool auth_enabled = !NetworkRemoteSettings::CurrentToken().isEmpty();
-    qLog(Debug) << "Handshake from client:" << incoming_msg_->GetClientName() << "protocol version" << client_version;
+    qLog(Debug) << "Handshake from client:" << incoming_msg_->GetClientName() << "protocol version" << client_version
+                << "auth_enabled:" << auth_enabled;
     outgoing_msg_->SendConnectResponse(true, auth_enabled);
     return;
   }
@@ -230,6 +289,18 @@ void NetworkRemoteClient::ProcessIncoming() {
       Q_EMIT RequestRemoveSongFromPlaylist(request.playlistId(), request.rowIndex());
       break;
     }
+    case MsgType::MSG_TYPE_REQUEST_VALIDATE_TOKEN: {
+      const nwr::RequestValidateToken request = incoming_msg_->GetRequestValidateToken();
+      PlaylistRejectReason reject_reason = PlaylistRejectReason::PLAYLIST_REJECT_NONE;
+      const bool valid = TokenAccepted(request.token(), &reject_reason);
+      outgoing_msg_->SendValidateTokenResponse(valid);
+      if (!valid && failed_token_attempts_ >= kMaxFailedTokenAttempts) {
+        qLog(Warning) << "Too many failed token attempts; disconnecting client";
+        outgoing_msg_->SendDisconnect(ReasonDisconnect::REASON_DISCONNECT_TOO_MANY_FAILED_ATTEMPTS);
+        Q_EMIT ClientIsLeaving();
+      }
+      break;
+    }
     default:
       qLog(Debug) << "Unknown message type";
       outgoing_msg_->SendDisconnect(ReasonDisconnect::REASON_DISCONNECT_UNKNOWN_MSGTYPE);
@@ -244,36 +315,4 @@ void NetworkRemoteClient::SendEngineState(EngineBase::State state) {
 
 void NetworkRemoteClient::SendDisconnect(ReasonDisconnect reason) {
   outgoing_msg_->SendDisconnect(reason);
-}
-
-bool NetworkRemoteClient::TokenAccepted(const QString &token, PlaylistRejectReason *reject_reason) {
-  const QString expected_token = NetworkRemoteSettings::CurrentToken();
-  if (expected_token.isEmpty()) {
-    return true;
-  }
-  if (token.isEmpty()) {
-    *reject_reason = PlaylistRejectReason::PLAYLIST_REJECT_TOKEN_REQUIRED;
-    ++failed_token_attempts_;
-    return false;
-  }
-
-  const QByteArray given = token.toUtf8();
-  const QByteArray expected = expected_token.toUtf8();
-  const int max_len = std::max(given.size(), expected.size());
-
-  unsigned char diff = static_cast<unsigned char>(given.size() != expected.size());
-  for (int i = 0; i < max_len; ++i) {
-    const unsigned char g = (i < given.size()) ? static_cast<unsigned char>(given.at(i)) : 0;
-    const unsigned char e = (i < expected.size()) ? static_cast<unsigned char>(expected.at(i)) : 0;
-    diff |= (g ^ e);
-  }
-
-  if (diff != 0) {
-    *reject_reason = PlaylistRejectReason::PLAYLIST_REJECT_TOKEN_MISMATCH;
-    ++failed_token_attempts_;
-    return false;
-  }
-
-  failed_token_attempts_ = 0;
-  return true;
 }

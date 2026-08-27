@@ -57,6 +57,16 @@ enum MsgType {
     // Server-initiated broadcasts (sent to all connected clients, not just the requester)
     MSG_TYPE_PLAYLIST_CHANGED = 29;
     MSG_TYPE_PLAYLIST_ACTIVATED = 30;
+
+    // Client initiated if Authentication is enabled
+    MSG_TYPE_REQUEST_VALIDATE_TOKEN = 31;
+    MSG_TYPE_RESPONSE_VALIDATE_TOKEN = 32;
+
+    // If token status chages
+    MSG_TYPE_AUTH_STATUS_CHANGED = 33;
+
+    // Handle next song in playlist
+    MSG_TYPE_PLAYLIST_ADVANCED = 34;
 }
 
 enum PlayerState {
@@ -257,6 +267,24 @@ message PlaylistActivated {
     uint32 playlist_id = 1;
 }
 
+message RequestValidateToken {
+    string token = 1;
+}
+
+message ResponseValidateToken {
+    bool valid = 1;
+}
+
+message AuthStatusChanged {
+    bool auth_enabled = 1;
+}
+
+message PlaylistAdvanced {
+    uint32 playlist_id = 1;
+    uint32 new_current_row = 2;
+    PlaylistSongRow trailing_row = 3;
+}
+
 message Message {
     MsgType type = 1;
     uint32 version = 15;
@@ -288,5 +316,9 @@ message Message {
         ResponseRemoveSongFromPlaylist response_remove_song_from_playlist = 27;
         PlaylistChanged playlist_changed = 28;
         PlaylistActivated playlist_activated = 29;
+        RequestValidateToken request_validate_token = 30;
+        ResponseValidateToken response_validate_token = 31;
+        AuthStatusChanged auth_status_changed = 32;
+        PlaylistAdvanced playlist_advanced = 33;
     }
 }
