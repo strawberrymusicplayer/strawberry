@@ -40,21 +40,6 @@ NetworkRemoteClientManager::NetworkRemoteClientManager(const SharedPtr<Player> p
   QObject::connect(&*player_, &Player::Playing, this, [this]() { BroadcastEngineState(EngineBase::State::Playing); });
   QObject::connect(&*player_, &Player::Paused, this, [this]() { BroadcastEngineState(EngineBase::State::Paused); });
   QObject::connect(&*player_, &Player::Stopped, this, [this]() { BroadcastEngineState(EngineBase::State::Idle); });
-
-  // The current song can change without any engine state change - a gapless
-  // transition keeps the pipeline in the Playing state throughout, so
-  // Player::Playing() never re-fires. PlaylistManager::CurrentSongChanged is
-  // the canonical "the current song is now X" event and does fire in that
-  // case, so broadcast on it too.
-  //
-  // Beyond the engine-state push, this also decides whether the active
-  // playlist's current row simply advanced by one (the common case: a
-  // song finished and the next one in the playlist started) versus
-  // anything else (previous, jump to a specific song, a mutation) which
-  // needs a full window resend. There is no direct signal for "this was
-  // an automatic advance" available outside Player itself, so this is
-  // inferred by comparing the new current row against the last one seen
-  // for this same playlist.
   QObject::connect(&*playlist_manager_, &PlaylistManager::CurrentSongChanged, this, [this](const Song &song) {
     Q_UNUSED(song);
     qLog(Debug) << "Current song changed - notifying clients";
@@ -85,10 +70,7 @@ NetworkRemoteClientManager::NetworkRemoteClientManager(const SharedPtr<Player> p
     last_known_current_row_ = new_row;
   });
 
-  // A playlist becoming the active (audio-producing) one - e.g. from a
-  // remote RequestPlaySong, or from the desktop UI itself. Clients also
-  // get a fresh window for the newly-active playlist, since they may not
-  // have an up-to-date one (or any at all) for it.
+  // A playlist becoming the active (audio-producing) one - e.g. from a remote RequestPlaySong, or from the desktop UI itself. Clients also get a fresh window for the newly-active playlist, since they may not have an up-to-date one (or any at all) for it.
   QObject::connect(&*playlist_manager_, &PlaylistManager::ActiveChanged, this, [this](Playlist *pl) {
     if (pl) {
       BroadcastPlaylistActivated(static_cast<quint32>(pl->id()));
@@ -97,8 +79,7 @@ NetworkRemoteClientManager::NetworkRemoteClientManager(const SharedPtr<Player> p
   });
 
   // Any open playlist's song list changed (songs added/removed/reordered).
-  // Only the active playlist's window is proactively resent - a
-  // non-active open playlist stays request-driven, as before.
+  // Only the active playlist's window is proactively resent - a non-active open playlist stays request-driven, as before.
   QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistChanged, this, [this](Playlist *pl) {
     if (!pl) return;
     BroadcastPlaylistChanged(static_cast<quint32>(pl->id()));
@@ -107,8 +88,7 @@ NetworkRemoteClientManager::NetworkRemoteClientManager(const SharedPtr<Player> p
     }
   });
 
-  // Seeking emits Seeked on every mouse-move while dragging the slider;
-  // coalesce the burst into a single broadcast once the drag settles.
+  // Seeking emits Seeked on every mouse-move while dragging the slider; coalesce the burst into a single broadcast once the drag settles.
   seek_debounce_timer_ = new QTimer(this);
   seek_debounce_timer_->setSingleShot(true);
   seek_debounce_timer_->setInterval(300);
@@ -134,8 +114,7 @@ void NetworkRemoteClientManager::AddClient(QTcpSocket *socket) {
   clients_.append(client);
 
   QWeakPointer<NetworkRemoteClient> weak_client = client;
-  // Queued: ClientIsLeaving is emitted from within the client's own message
-  // processing, so removal must not run while that code is still on the stack.
+  // Queued: ClientIsLeaving is emitted from within the client's own message processing, so removal must not run while that code is still on the stack.
   QObject::connect(client.data(), &NetworkRemoteClient::ClientIsLeaving, this, [this, weak_client]() {
         QSharedPointer<NetworkRemoteClient> strong_client = weak_client.lock();
         if (strong_client) {
