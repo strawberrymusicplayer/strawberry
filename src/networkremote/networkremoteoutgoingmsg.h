@@ -68,16 +68,10 @@ class NetworkRemoteOutgoingMsg : public QObject {
   nwr::ResponseSongMetadata BuildResponseSongMetadata();
   nwr::ResponsePlaylists BuildResponsePlaylists();
 
-  // Builds a single row's data (formatted cell values + absolute row
-  // index) for the given visible columns. Used by SendPlaylistAdvanced,
-  // which needs exactly one new row rather than a whole window.
+  // Builds a single row's data (formatted cell values + absolute row index) for the given visible columns. Used by SendPlaylistAdvanced, which needs exactly one new row rather than a whole window.
   nwr::PlaylistSongRow BuildPlaylistSongRow(Playlist *pl, int row, const QList<int> &visible_columns);
 
-  // Returns the playlist's visible columns in on-screen (visual,
-  // drag-reordered) order. Shared by SendPlaylistSongs and
-  // SendPlaylistAdvanced, both of which need this same column set
-  // before building row data. Returns an empty list if playlist_view_
-  // is null.
+  // Returns the playlist's visible columns in on-screen (visual, drag-reordered) order. Shared by SendPlaylistSongs and SendPlaylistAdvanced, both of which need this same column set before building row data. Returns an empty list if playlist_view_ is null.
   QList<int> VisibleColumns();
 
   SharedPtr<Player> player_;

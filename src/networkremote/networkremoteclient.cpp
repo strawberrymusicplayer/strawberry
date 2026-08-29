@@ -86,10 +86,7 @@ void NetworkRemoteClient::HandleRequestPlaylistSongs(const quint32 playlist_id, 
   outgoing_msg_->SendPlaylistSongs(playlist_id, upcoming_count);
 }
 
-// Plays a specific row within a specific playlist - the same SetActiveToCurrent()
-// + PlayAt() sequence MainWindow::PlayIndex() uses for a double-click on the
-// desktop, just driven by an explicit row index from the network instead of a
-// QModelIndex from a UI click.
+// Plays a specific row within a specific playlist - the same SetActiveToCurrent() + PlayAt() sequence MainWindow::PlayIndex() uses for a double-click on the desktop, just driven by an explicit row index from the network instead of a QModelIndex from a UI click.
 void NetworkRemoteClient::HandleRequestPlaySong(const quint32 playlist_id, const quint32 row_index) {
   Playlist *playlist = playlist_manager_->playlist(static_cast<int>(playlist_id));
   if (!playlist || !IsValidRowIndex(row_index, playlist->rowCount())) {
@@ -103,10 +100,8 @@ void NetworkRemoteClient::HandleRequestPlaySong(const quint32 playlist_id, const
   outgoing_msg_->SendPlaySongResponse(true);
 }
 
-// Adds the currently-playing song to an existing playlist, or to a brand new
-// one if new_playlist_name is non-empty. Per the design decision this only
-// targets open playlists - a closed target has no live Playlist object to
-// mutate, so it's rejected rather than silently opened.
+// Adds the currently-playing song to an existing playlist, or to a brand new one if new_playlist_name is non-empty.
+// Per the design decision this only targets open playlists - a closed target has no live Playlist object to mutate, so it's rejected rather than silently opened.
 void NetworkRemoteClient::HandleRequestAddSongToPlaylist(const quint32 target_playlist_id, const QString new_playlist_name) {
   PlaylistItemPtr current_item = player_->GetCurrentItem();
   if (!current_item) {
@@ -134,10 +129,8 @@ void NetworkRemoteClient::HandleRequestAddSongToPlaylist(const quint32 target_pl
   outgoing_msg_->SendAddSongToPlaylistResponse(accepted, accepted ? static_cast<quint32>(resolved_id) : 0, reject_reason);
 }
 
-// Removes a single row from an open playlist. row_index must come from a
-// recent ResponsePlaylistSongs - the client is expected to only offer removal
-// on current/upcoming rows, not stale history rows, to avoid an index that no
-// longer matches the playlist's actual contents.
+// Removes a single row from an open playlist.
+// row_index must come from a recent ResponsePlaylistSongs - the client is expected to only offer removal on current/upcoming rows, not stale history rows, to avoid an index that no longer matches the playlist's actual contents.
 void NetworkRemoteClient::HandleRequestRemoveSongFromPlaylist(const quint32 playlist_id, const quint32 row_index) {
   Playlist *pl = playlist_manager_->playlist(static_cast<int>(playlist_id));
   bool accepted = false;
@@ -164,9 +157,7 @@ bool NetworkRemoteClient::TokenAccepted(const QString &token, PlaylistRejectReas
   const QByteArray expected = expected_token.toUtf8();
   const int max_len = std::max(given.size(), expected.size());
 
-  // Constant-time-ish comparison: always touch every byte up to the longer
-  // length, rather than stopping at the first mismatch, so response timing
-  // doesn't leak how many leading characters matched.
+  // Constant-time-ish comparison: always touch every byte up to the longer length, rather than stopping at the first mismatch, so response timing doesn't leak how many leading characters matched.
   unsigned char diff = static_cast<unsigned char>(given.size() != expected.size());
   for (int i = 0; i < max_len; ++i) {
     const unsigned char g = (i < given.size()) ? static_cast<unsigned char>(given.at(i)) : 0;
