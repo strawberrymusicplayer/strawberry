@@ -89,6 +89,17 @@ nwr::ResponseSongMetadata NetworkRemoteOutgoingMsg::BuildResponseSongMetadata() 
   nwr::ResponseSongMetadata response_song;
   PlaylistItemPtr current_item = player_->GetCurrentItem();
 
+// Player::current_item_ is only ever set as a side effect of PlayAt()/HandleLoadResult() actually running - if playback was never (re)started this session (e.g. app launched with a paused-but-loaded song and the resume path didn't run), it stays null even though the playlist itself already knows the right song.
+// Fall back to the playlist's own current/last-played row, same pattern already used elsewhere (see Player::PlayWithPause, PlayPlaylistInternal, PlayPause).
+  if (!current_item) {
+    Playlist *active_playlist = playlist_manager_->active();
+    if (active_playlist) {
+      int row = active_playlist->current_row();
+      if (row == -1) row = active_playlist->last_played_row();
+      if (row != -1) current_item = active_playlist->item_at(row);
+    }
+  }
+
   if (current_item != nullptr) {
     nwr::SongMetadata song;
     song.setTitle(current_item->EffectiveMetadata().PrettyTitle());
@@ -122,7 +133,7 @@ nwr::ResponseSongMetadata NetworkRemoteOutgoingMsg::BuildResponseSongMetadata() 
 
 nwr::ResponsePlaylists NetworkRemoteOutgoingMsg::BuildResponsePlaylists() {
   QList<nwr::PlaylistInfo> playlist_infos;
-  const int active_id = playlist_manager_->active_id();
+  const int current_id = playlist_manager_->current_id();
 
   for (const int id : playlist_manager_->playlist_ids()) {
     Playlist *pl = playlist_manager_->playlist(id);
@@ -131,7 +142,7 @@ nwr::ResponsePlaylists NetworkRemoteOutgoingMsg::BuildResponsePlaylists() {
     info.setName(playlist_manager_->playlist_name(id));
     info.setItemCount(static_cast<quint32>(pl->rowCount()));
     info.setIsOpen(true);
-    info.setIsPlaying(id == active_id);
+    info.setIsPlaying(id == current_id);
     playlist_infos.append(info);
   }
 
@@ -249,7 +260,8 @@ void NetworkRemoteOutgoingMsg::SendPlaylistSongs(const quint32 playlist_id, cons
     const quint32 bounded_upcoming_count = std::min(upcoming_count, configured_playlist_size);
 
     // rows[0] is the current/last-played row itself, not the first upcoming song.
-    const int current_row = pl->current_row();
+    int current_row = pl->current_row();
+    if (current_row == -1) current_row = pl->last_played_row();
     const int start_row = (current_row >= 0) ? current_row : 0;
     const int total = pl->rowCount();
     const quint64 end_row_64 = std::min(
@@ -262,7 +274,8 @@ void NetworkRemoteOutgoingMsg::SendPlaylistSongs(const quint32 playlist_id, cons
       rows.append(BuildPlaylistSongRow(pl, row, visible_columns));
     }
     response.setRows(rows);
-    response.setIsActive(playlist_manager_->active_id() == static_cast<int>(playlist_id));
+    const bool is_this_playlist_active = playlist_manager_->active_id() == static_cast<int>(playlist_id);
+    response.setIsActive(is_this_playlist_active && player_->GetState() == EngineBase::State::Playing);
   }
   else {
     response.setIsActive(false);
