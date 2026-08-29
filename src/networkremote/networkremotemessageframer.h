@@ -22,11 +22,8 @@
 
 #include <QByteArray>
 
-// Extracts length-prefixed protobuf frames from a byte stream. Deliberately
-// has no dependency on QTcpSocket or any other I/O source, so it can be fed
-// bytes from a real connection or directly from a test with no socket at all.
-// Each frame is a 4-byte big-endian length prefix followed by that many
-// bytes of serialized protobuf payload.
+// Extracts length-prefixed protobuf frames from a byte stream. Deliberately has no dependency on QTcpSocket or any other I/O source, so it can be fed bytes from a real connection or directly from a test with no socket at all.
+// Each frame is a 4-byte big-endian length prefix followed by that many bytes of serialized protobuf payload.
 class NetworkRemoteMessageFramer {
  public:
   enum class Status {
@@ -35,16 +32,17 @@ class NetworkRemoteMessageFramer {
     OversizedFrame,  // The declared frame length exceeds kMaxMsgLen.
   };
 
-  // Appends newly-received bytes to the internal buffer.
-  void Feed(const QByteArray &data);
+  // Appends newly-received bytes to the internal buffer. Returns false and leaves the buffer unchanged if appending would push it past kMaxBufferedBytes - callers should treat that as a fatal framing error and close the connection, since either a peer declared/implied an oversized frame, or enough data arrived in a single call to  what any legal frame could ever require.
+  bool Feed(const QByteArray &data);
 
   // Attempts to extract the next complete frame's payload from the buffer.
-  // Call repeatedly until it returns something other than FrameReady to
-  // drain every frame currently available.
+  // Call repeatedly until it returns something other than FrameReady to drain every frame currently available.
   Status NextFrame(QByteArray &payload);
 
   // Discards all buffered bytes, e.g. after a fatal framing error.
   void Clear();
+
+
 
  private:
   QByteArray buffer_;
