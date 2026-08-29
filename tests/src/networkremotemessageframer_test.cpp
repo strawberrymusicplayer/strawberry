@@ -196,4 +196,23 @@ TEST_F(NetworkRemoteMessageFramerTest, MaxSizedFrameArrivingSlowlyCompletesWitho
     EXPECT_EQ(status, Status::FrameReady);
 }
 
+// A single Feed() call large enough to exceed kMaxBufferedBytes on its own -
+// e.g. a peer that sends a legal-looking header immediately followed by a
+// huge batch of data in one socket read - is rejected outright, rather than
+// silently appended and left for NextFrame() to discover too late.
+TEST_F(NetworkRemoteMessageFramerTest, OversizedSingleFeedIsRejected) {
+    // A legal header (well within kMaxMsgLen), followed by enough bytes that
+    // the whole call exceeds kMaxBufferedBytes on its own.
+    QByteArray oversized_batch = BuildRawFrame(1000, QByteArray());
+    oversized_batch.append(QByteArray(static_cast<int>(kMaxBufferedBytes), '\x01'));
+
+    EXPECT_FALSE(framer_.Feed(oversized_batch));
+
+    // The rejected call must not have corrupted internal state - a
+    // subsequent legitimate frame should still parse normally.
+    framer_.Feed(BuildFrame(MakeRequestPlay()));
+    QByteArray payload;
+    EXPECT_EQ(framer_.NextFrame(payload), Status::FrameReady);
+}
+
 }  // namespace
