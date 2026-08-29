@@ -68,4 +68,7 @@ inline bool IsValidRowIndex(quint32 row_index, int row_count) {
   return row_index < static_cast<quint32>(row_count);
 }
 
+// Maximum bytes allowed to accumulate in the incoming read buffer before a complete frame has been assembled. 
+// Enforced in NetworkRemoteMessageFramer::Feed() - a single Feed() call large enough to exceed this on its own is rejected outright, rather than relying on NextFrame() ever getting a chance to reject an oversized frame after the fact
+constexpr quint64 kMaxBufferedBytes = 4ULL + kMaxMsgLen;
 #endif  // NETWORKREMOTEHELPER_H
