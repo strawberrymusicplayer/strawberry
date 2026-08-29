@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -180,6 +180,7 @@ class PlaylistView : public QTreeView {
   void SetRatingLockStatus(const bool state);
   void RatingHoverIn(const QModelIndex &idx, const QPoint pos);
   void RatingHoverOut();
+  void SortStateChanged(const bool is_sorted, const Playlist::Column column, const Qt::SortOrder sort_order);
 
  private:
   void LoadHeaderState();

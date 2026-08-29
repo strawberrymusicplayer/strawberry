@@ -2,7 +2,7 @@
 *   Copyright (C) 2003-2005 by Mark Kretschmann <markey@web.de>           *
 *   Copyright (C) 2005 by Jakub Stachowski <qbast@go2.pl>                 *
 *   Copyright (C) 2006 Paul Cifarelli <paul@cifarelli.net>                *
-*   Copyright (C) 2017-2024 Jonas Kvinge <jonas@jkvinge.net>              *
+*   Copyright (C) 2017-2026 Jonas Kvinge <jonas@jkvinge.net>              *
 *                                                                         *
 *   This program is free software; you can redistribute it and/or modify  *
 *   it under the terms of the GNU General Public License as published by  *
@@ -26,7 +26,6 @@
 #include <algorithm>
 #include <optional>
 #include <utility>
-#include <memory>
 
 #include <glib.h>
 #include <glib-object.h>
@@ -247,7 +246,7 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine
 
   // Maybe fade in this track
   if (crossfade && (!old_pipeline || !old_pipeline->exclusive_mode()) && !AnyExclusivePipelineActive()) {
-    current_pipeline_->StartFader(fadeout_duration_nanosec_, QTimeLine::Forward);
+    current_pipeline_->StartFader(fadeout_duration_nanosec_, QTimeLine::Forward, QEasingCurve::Linear, true);
   }
 
   // Setting up stream discoverer
@@ -843,7 +842,7 @@ void GstEngine::StartFadeout(GstEnginePipelinePtr pipeline) {
   fadeout_pipelines_.insert(pipeline->id(), pipeline);
   pipeline->RemoveAllBufferConsumers();
 
-  pipeline->StartFader(fadeout_duration_nanosec_, QTimeLine::Backward);
+  pipeline->StartFader(fadeout_duration_nanosec_, QTimeLine::Backward, QEasingCurve::Linear, true);
   QObject::connect(&*pipeline, &GstEnginePipeline::FaderFinished, this, &GstEngine::FadeoutFinished);
 
 }

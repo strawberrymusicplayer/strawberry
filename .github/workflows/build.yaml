@@ -469,7 +469,6 @@ jobs:
             libsqlite3-dev
             libasound2-dev
             libpulse-dev
-            libtag1-dev
             libicu-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
@@ -489,6 +488,10 @@ jobs:
             qt6-tools-dev
             qt6-tools-dev-tools
             qt6-l10n-tools
+      - name: Install TagLib
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: apt install -y libtag-dev || apt install -y libtag1-dev
       - name: Install KDSingleApplication
         if: matrix.debian_version != 'bookworm'
         run: apt install -y libkdsingleapplication-qt6-dev
@@ -534,7 +537,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ubuntu_version: [ 'noble', 'resolute' ]
+        ubuntu_version: [ 'noble', 'resolute', 'stonking' ]
     container:
       image: ubuntu:${{matrix.ubuntu_version}}
     steps:
@@ -565,7 +568,6 @@ jobs:
             libsqlite3-dev
             libasound2-dev
             libpulse-dev
-            libtag1-dev
             libicu-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
@@ -585,6 +587,10 @@ jobs:
             qt6-tools-dev
             qt6-tools-dev-tools
             qt6-l10n-tools
+      - name: Install TagLib
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: apt install -y libtag-dev || apt install -y libtag1-dev
       - name: Install KDSingleApplication
         if: matrix.ubuntu_version != 'noble'
         run: apt install -y libkdsingleapplication-qt6-dev
@@ -631,7 +637,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ubuntu_version: [ 'noble', 'resolute' ]
+        ubuntu_version: [ 'noble', 'resolute', 'stonking' ]
     container:
       image: ubuntu:${{matrix.ubuntu_version}}
     steps:
@@ -662,7 +668,6 @@ jobs:
             libsqlite3-dev
             libasound2-dev
             libpulse-dev
-            libtag1-dev
             libicu-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
@@ -683,6 +688,10 @@ jobs:
             gstreamer1.0-alsa
             gstreamer1.0-pulseaudio
             libkdsingleapplication-qt6-dev
+      - name: Install TagLib
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: apt install -y libtag-dev || apt install -y libtag1-dev
       - name: Install keyboxd
         if: matrix.ubuntu_version == 'noble'
         env:
@@ -884,7 +893,7 @@ jobs:
         df -h
     - name: Build FreeBSD
       id: build-freebsd
-      uses: vmactions/freebsd-vm@v1.5.3
+      uses: vmactions/freebsd-vm@v1.5.4
       with:
         usesh: true
         mem: 8192

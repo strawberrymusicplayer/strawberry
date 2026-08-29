@@ -2,6 +2,24 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Version 1.2.28 (2026.08.26):
+
+  Bugfixes:
+    * Fixed playback randomly pausing itself, caused by concurrent GStreamer state changes being applied in a different order than they were requested (#2008)
+    * Fixed GStreamer errors while fingerprinting, by decoding straight through from the start and stopping once enough audio has been collected (#2284)
+    * Fixed a crash on exit caused by device listers being deleted while their own threads were still running
+    * Fixed quitting through MPRIS, or asking to quit a second time, skipping the normal shutdown and leaving subsystems to be torn down while still running
+    * Fixed thread-safety issues with the audio fader that could crash or leave the volume at the wrong level when one fade replaced another
+    * Fixed a thread-safety issue with playlist items shared between the playlist model and the playlist backend
+
+  Enhancements:
+    * Added sort options (ascending, descending and clear sorting) to the playlist column header context menu
+    * Sorting the playlist can now be undone, and clicking an already sorted column cycles on to unsorted instead of only toggling the direction
+    * Playlist changes are now written to the database by updating only the affected items instead of saving the entire playlist
+    * Updating a playlist's last played time no longer rewrites the entire playlist
+    * Reuse the network access manager for Subsonic requests instead of creating a new one for every request
+    * Added a test for smart playlist search
+
 Version 1.2.27 (2026.08.11):
 
   Bugfixes:

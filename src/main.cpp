@@ -430,6 +430,7 @@ int main(int argc, char *argv[]) {
 
 #ifdef HAVE_MPRIS2
   QObject::connect(&mpris2, &mpris::Mpris2::RaiseMainWindow, &w, &MainWindow::Raise);
+  QObject::connect(&mpris2, &mpris::Mpris2::ExitApplication, &w, &MainWindow::Exit);
 #endif
   QObject::connect(&single_app, &KDSingleApplication::messageReceived, &w, QOverload<const QByteArray&>::of(&MainWindow::CommandlineOptionsReceived));
 

@@ -49,7 +49,6 @@
 #include "includes/shared_ptr.h"
 #include "core/enginemetadata.h"
 
-class QTimer;
 class GstBufferConsumer;
 struct GstPlayBin;
 
@@ -117,7 +116,7 @@ class GstEnginePipeline : public QObject {
 
   void SetSourceDevice(const QString &device);
 
-  void StartFader(const qint64 duration_nanosec, const QTimeLine::Direction direction = QTimeLine::Forward, const QEasingCurve::Type shape = QEasingCurve::Linear, const bool use_fudge_timer = true);
+  void StartFader(const qint64 duration_nanosec, const QTimeLine::Direction direction, const QEasingCurve::Type shape, const bool use_fudge_timer);
 
   // Get information about the music playback
   QUrl media_url() const { return media_url_; }
@@ -169,6 +168,8 @@ class GstEnginePipeline : public QObject {
   double PercentToInternalVolume(const uint volume_percent) const;
   uint InternalVolumeToPercent(const double volume_internal) const;
   void SetStateAsync(const GstState state);
+  // Applies a state without counting as a newer request, so it does not invalidate async requests queued in the meantime (see SetState() and SetStateAsyncSlot()).
+  QFuture<GstStateChangeReturn> ApplyState(const GstState state);
   void StartPlaybackAfterWarmup();
   void EmitFinishedIfQuiescent();
   void SetNextUrl();
@@ -205,28 +206,32 @@ class GstEnginePipeline : public QObject {
 
   void DisconnectCallbacks();
   void ResumeFaderAsync();
+  // Clears the fading state on behalf of the fade identified by fader_generation, and does nothing if that fade has since been replaced.
+  void ClearFaderState(const quint64 fader_generation);
+  // Arms the timeout for the fade identified by fader_generation. Both are taken from the same critical section by the caller, so the interval always belongs to the fade the generation names.
+  void StartFaderTimeout(const quint64 fader_generation, const qint64 interval_msec);
+  // Runs when a fade takes longer than expected. Not a slot: it is scheduled as a functor so each timeout carries the generation of the fade it was armed for (see StartFaderTimeout()).
+  void FaderTimelineTimeout(const quint64 fader_generation);
+  // Runs once the fudge delay after a fade has elapsed, and emits FaderFinished() unless the fade it was armed for has since been replaced or torn down. Scheduled as a functor for the same reason as FaderTimelineTimeout().
+  void FaderFudgeFinished(const quint64 fader_generation);
 
   void ProcessPendingSeek(const GstState state);
+  // Handles a request queued by SetStateAsync(). Not a slot: SetStateAsync() posts it as a functor, so the call is checked at compile time instead of resolved by name at runtime.
+  void SetStateAsyncSlot(const GstState state, const quint64 state_request_generation);
 
  private Q_SLOTS:
-  void SetStateAsyncSlot(const GstState state);
   void SetStateFinishedSlot(const GstState state, const GstStateChangeReturn state_change_return);
   void SetFaderVolume(const qreal volume);
   void FaderTimelineStateChanged(const QTimeLine::State state);
   void FaderTimelineFinished();
-  void FaderTimelineTimeout();
-  void FaderFudgeFinished();
 
  private:
   // Using == to compare two pipelines is a bad idea, because new ones often get created in the same address as old ones.  This ID will be unique for each pipeline.
   static std::atomic<int> sId;
   std::atomic<int> id_;
 
-  // Shared thread pool for all pipeline state changes to prevent thread/FD exhaustion
-  static QThreadPool *shared_state_threadpool();
-
   // Separate shared thread pool for manufactured-EOS pad sends (see ErrorMessageReceived()).
-  // These can block for as long as the current track takes to finish draining, so they must not share shared_state_threadpool() with gst_element_set_state() calls, which are expected to complete quickly and whose timely completion drives playback control (pause/stop/seek); sharing would let a long-blocked pad send starve state changes.
+  // These can block for as long as the current track takes to finish draining, so they must not share the per-pipeline state-change thread pool with gst_element_set_state() calls, which are expected to complete quickly and whose timely completion drives playback control (pause/stop/seek); sharing would let a long-blocked pad send starve state changes.
   static QThreadPool *shared_pad_send_threadpool();
 
   bool playbin3_support_;
@@ -371,8 +376,11 @@ class GstEnginePipeline : public QObject {
   std::atomic<bool> fader_running_;
   bool fader_use_fudge_timer_;
   SharedPtr<QTimeLine> fader_;
-  QTimer *timer_fader_fudge_;
-  QTimer *timer_fader_timeout_;
+  // Identifies the current fade. Bumped whenever a fade is started, re-armed or cleared, and captured by the timeout scheduled for that fade, so a timeout belonging to a fade that has since been replaced or cleared can be told apart from the one belonging to the fade that is running now.
+  quint64 fader_generation_;
+  // Interval the current fade's timeout is armed with, kept so ResumeFaderAsync() can re-arm the same timeout without recomputing it from the fade duration.
+  qint64 fader_timeout_interval_msec_;
+  mutable QMutex mutex_fader_;
 
   GstElement *pipeline_;
   GstElement *audiobin_;
@@ -406,9 +414,20 @@ class GstEnginePipeline : public QObject {
   // Identifies the current bus-watch session. Bumped by DisconnectCallbacks() so that GstBusMessageEvents posted from the GLib thread before teardown (Windows/macOS) are dropped instead of handled after the watch is gone or replaced.
   std::atomic<quint64> bus_message_generation_;
 
+  // Per-pipeline thread pool for gst_element_set_state() calls, limited to one thread so that no two state changes run concurrently on this pipeline and queued tasks (submitted via SetStateAsync) run in submission order.
+  // It is per-pipeline rather than shared so that a slow downwards transition on one pipeline (going to NULL can block until the streaming threads have stopped) cannot hold up another pipeline's state changes.
+  QThreadPool state_threadpool_;
+
   // Number of SetStateAsync() requests that have been queued but not yet turned into a running state change.
   // Incremented (possibly from a GStreamer streaming thread) the moment a request is queued and decremented when its slot runs, so that a state change is never briefly invisible while handing off from the queue to a pending future.
+  // A non-zero value seen by a running SetStateAsyncSlot() also means newer requests are already queued behind it, so the one it is handling has been superseded before it was ever applied.
   std::atomic<int> set_state_async_in_progress_;
+
+  // Bumped by every SetState() call, so an async request that snapshotted an older value when it was queued can tell that a newer state change was requested while it sat in the queue, and drop itself instead of resurrecting stale state.
+  // Only SetState() bumps it: a request applied from SetStateAsyncSlot() goes through ApplyState() instead, since anything queued after it is by definition newer and must still be applied.
+  // Guarded by mutex_set_state_async_, so that reading it and queueing the request it is snapshotted for cannot be interleaved with a bump.
+  quint64 set_state_request_generation_;
+  QMutex mutex_set_state_async_;
 
   // Running gst_element_set_state() calls for this pipeline.
   // Doubles as the source of truth for "a synchronous state change is in flight" and lets the destructor wait for them before unreffing the pipeline.
