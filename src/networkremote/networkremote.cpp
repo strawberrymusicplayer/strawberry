@@ -69,7 +69,7 @@ void NetworkRemote::Update() {
   if (!enabled_) {
     StopTcpServer();
   }
-  else if (!was_enabled || old_port != remote_port_) {
+  else if (!was_enabled || old_port != remote_port_ || !server_ || !server_->ServerUp()) {
     StopTcpServer();
     StartTcpServer();
   }
