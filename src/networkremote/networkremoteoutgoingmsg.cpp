@@ -164,10 +164,8 @@ void NetworkRemoteOutgoingMsg::SendInitialInfo() {
   SendMsg();
 }
 
-// Server-authoritative classification of which columns are numeric/
-// measurement-like (right/center-align friendly) vs. free text. This mirrors
-// Playlist::Column's own nature - the server knows the real type, so clients
-// don't need to guess alignment from formatted cell content.
+// Server-authoritative classification of which columns are numeric/ measurement-like (right/center-align friendly) vs. free text.
+// This mirrors Playlist::Column's own nature - the server knows the real type, so clients don't need to guess alignment from formatted cell content.
 bool NetworkRemoteOutgoingMsg::IsNumericColumn(Playlist::Column column) {
   switch (column) {
     case Playlist::Column::Year:
@@ -191,9 +189,7 @@ bool NetworkRemoteOutgoingMsg::IsNumericColumn(Playlist::Column column) {
     case Playlist::Column::BPM:
       return true;
     default:
-      // Title, Artist, Album, Genre, Composer, Performer, Grouping,
-      // Comment, URL, Filetype, Mood, InitialKey, Source, Moodbar, and
-      // any future column default to text/left-aligned.
+      // Title, Artist, Album, Genre, Composer, Performer, Grouping, Comment, URL, Filetype, Mood, InitialKey, Source, Moodbar, and any future column default to text/left-aligned.
       return false;
   }
 }
@@ -243,9 +239,7 @@ void NetworkRemoteOutgoingMsg::SendPlaylistSongs(const quint32 playlist_id, cons
   if (pl && !playlist_view_.isNull()) {
     const QList<int> visible_columns = VisibleColumns();
 
-    // Walk columns in visual (on-screen, drag-reordered) order, not
-    // logical/enum order, so the client's column layout matches what's
-    // actually displayed on the desktop.
+    // Walk columns in visual (on-screen, drag-reordered) order, not logical/enum order, so the client's column layout matches what's actually displayed on the desktop.
     QList<nwr::ColumnInfo> columns;
     for (int col : visible_columns) {
       const Playlist::Column column_enum = static_cast<Playlist::Column>(col);
@@ -300,11 +294,7 @@ void NetworkRemoteOutgoingMsg::SendPlaylistAdvanced(const quint32 playlist_id, c
     const QList<int> visible_columns = VisibleColumns();
 
     // The client's window is [current_row, current_row + PlaylistSize].
-    // When current_row advances by one, the one row that becomes newly
-    // visible at the far edge is the old window's end plus one - i.e.
-    // new_current_row + PlaylistSize. If that falls outside the
-    // playlist, there's nothing to append and trailing_row is left
-    // unset (proto3 "absent" semantics for a nested message).
+    // When current_row advances by one, the one row that becomes newly visible at the far edge is the old window's end plus one - i.e. new_current_row + PlaylistSize. If that falls outside the playlist, there's nothing to append and trailing_row is left unset (proto3 "absent" semantics for a nested message).
     const quint32 configured_playlist_size = static_cast<quint32>(NetworkRemoteSettings::CurrentPlaylistSize());
     const int trailing_row = static_cast<int>(new_current_row) + static_cast<int>(configured_playlist_size);
     if (trailing_row < pl->rowCount()) {

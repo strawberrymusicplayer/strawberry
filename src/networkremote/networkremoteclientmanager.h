@@ -52,16 +52,11 @@ class NetworkRemoteClientManager : public QObject {
   void StateChanged();
 
  private:
-  // Sends the full current window (current row + up to PlaylistSize
-  // upcoming rows) for playlist_id to every connected client. Used for
-  // any change to the active playlist that isn't a simple one-row
-  // advance (previous, jump, mutation, becoming newly active).
+  // Sends the full current window (current row + up to PlaylistSize upcoming rows) for playlist_id to every connected client.
+  // Used for any change to the active playlist that isn't a simple one-row advance (previous, jump, mutation, becoming newly active).
   void BroadcastPlaylistSongsFull(quint32 playlist_id);
 
-  // Sends the lightweight PlaylistAdvanced message to every connected
-  // client - used only when the active playlist's current row moved
-  // forward by exactly one, as detected in the CurrentSongChanged
-  // handler by comparing against last_known_current_row_.
+  // Sends the lightweight PlaylistAdvanced message to every connected client - used only when the active playlist's current row moved forward by exactly one, as detected in the CurrentSongChanged handler by comparing against last_known_current_row_.
   void BroadcastPlaylistAdvanced(quint32 playlist_id, quint32 new_current_row);
 
   const SharedPtr<Player> player_;
@@ -70,10 +65,7 @@ class NetworkRemoteClientManager : public QObject {
   QTimer *seek_debounce_timer_ = nullptr;
   QPointer<PlaylistView> playlist_view_;
 
-  // Baseline used to detect a simple one-row forward advance on the
-  // active playlist. -1 means "nothing remembered yet" (e.g. at
-  // startup, or after the active playlist itself changed), which
-  // deliberately prevents a false-positive advance match.
+  // Baseline used to detect a simple one-row forward advance on the active playlist. -1 means "nothing remembered yet" (e.g. at startup, or after the active playlist itself changed), which deliberately prevents a false-positive advance match.
   int last_known_active_playlist_id_ = -1;
   int last_known_current_row_ = -1;
 };
