@@ -23,8 +23,12 @@
 
 #include "networkremotehelper.h"
 
-void NetworkRemoteMessageFramer::Feed(const QByteArray &data) {
+bool NetworkRemoteMessageFramer::Feed(const QByteArray &data) {
+  if (static_cast<quint64>(buffer_.size()) + static_cast<quint64>(data.size()) > kMaxBufferedBytes) {
+    return false;
+  }
   buffer_.append(data);
+  return true;
 }
 
 void NetworkRemoteMessageFramer::Clear() {
