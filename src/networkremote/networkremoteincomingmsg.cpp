@@ -32,6 +32,7 @@ NetworkRemoteIncomingMsg::~NetworkRemoteIncomingMsg() = default;
 
 void NetworkRemoteIncomingMsg::Init(QTcpSocket *socket) {
   socket_ = socket;
+  socket_->setReadBufferSize(kMaxBufferedBytes);
   QObject::connect(socket_, &QIODevice::readyRead, this, &NetworkRemoteIncomingMsg::ReadyRead);
 }
 
@@ -60,7 +61,12 @@ nwr::RequestRemoveSongFromPlaylist NetworkRemoteIncomingMsg::GetRequestRemoveSon
 }
 
 void NetworkRemoteIncomingMsg::ReadyRead() {
-  framer_.Feed(socket_->readAll());
+  if (!framer_.Feed(socket_->readAll())) {
+    qLog(Warning) << "Incoming data exceeded" << kMaxBufferedBytes << "bytes; dropping connection";
+    socket_->disconnectFromHost();
+    return;
+  }
+
   QByteArray payload;
 
   while (true) {
