@@ -227,10 +227,9 @@ void NetworkRemoteClientManager::BroadcastAuthStatus(bool auth_enabled) {
 }
 
 void NetworkRemoteClientManager::BroadcastPlaylistSongsFull(quint32 playlist_id) {
-  const quint32 upcoming_count = static_cast<quint32>(NetworkRemoteSettings::CurrentPlaylistSize());
   qLog(Debug) << "Broadcasting full playlist songs for playlist" << playlist_id << "to" << clients_.count() << "clients";
   for (const QSharedPointer<NetworkRemoteClient> &client : std::as_const(clients_)) {
-    client->SendPlaylistSongs(playlist_id, upcoming_count);
+    client->SendPlaylistSongs(playlist_id);
   }
 }
 

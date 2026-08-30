@@ -54,7 +54,8 @@ class NetworkRemote : public QObject {
   bool enabled_;
   int remote_port_;
   QHostAddress ipAddr_;
-  NetworkRemoteTcpServer *server_;
+  QNetworkAddressEntry current_address_entry_;
+  ScopedPtr<NetworkRemoteTcpServer> server_;
   ScopedPtr<NetworkRemoteSettings> settings_;
   static QNetworkAddressEntry DetectLocalAddressEntry();
 };

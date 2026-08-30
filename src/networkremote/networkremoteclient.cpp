@@ -70,8 +70,8 @@ void NetworkRemoteClient::SendPlaylistActivated(quint32 playlist_id) {
   outgoing_msg_->SendPlaylistActivated(playlist_id);
 }
 
-void NetworkRemoteClient::SendPlaylistSongs(quint32 playlist_id, quint32 upcoming_count) {
-  outgoing_msg_->SendPlaylistSongs(playlist_id, upcoming_count);
+void NetworkRemoteClient::SendPlaylistSongs(quint32 playlist_id) {
+  outgoing_msg_->SendPlaylistSongs(playlist_id);
 }
 
 void NetworkRemoteClient::SendPlaylistAdvanced(quint32 playlist_id, quint32 new_current_row) {
@@ -82,8 +82,8 @@ void NetworkRemoteClient::SendAuthStatusChanged(bool auth_enabled) {
   outgoing_msg_->SendAuthStatusChanged(auth_enabled);
 }
 
-void NetworkRemoteClient::HandleRequestPlaylistSongs(const quint32 playlist_id, const quint32 upcoming_count) {
-  outgoing_msg_->SendPlaylistSongs(playlist_id, upcoming_count);
+void NetworkRemoteClient::HandleRequestPlaylistSongs(const quint32 playlist_id) {
+  outgoing_msg_->SendPlaylistSongs(playlist_id);
 }
 
 // Plays a specific row within a specific playlist - the same SetActiveToCurrent() + PlayAt() sequence MainWindow::PlayIndex() uses for a double-click on the desktop, just driven by an explicit row index from the network instead of a QModelIndex from a UI click.
@@ -238,7 +238,7 @@ void NetworkRemoteClient::ProcessIncoming() {
       break;
     case MsgType::MSG_TYPE_REQUEST_PLAYLIST_SONGS: {
       const nwr::RequestPlaylistSongs request = incoming_msg_->GetRequestPlaylistSongs();
-      Q_EMIT RequestPlaylistSongs(request.playlistId(), request.upcomingCount());
+      Q_EMIT RequestPlaylistSongs(request.playlistId());
       break;
     }
     case MsgType::MSG_TYPE_REQUEST_PLAY_SONG: {

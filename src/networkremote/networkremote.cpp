@@ -29,7 +29,6 @@ NetworkRemote::NetworkRemote(const SharedPtr<Player> player, const SharedPtr<Pla
       playlist_manager_(playlist_manager),
       enabled_(false),
       remote_port_(8888),
-      server_(nullptr),
       settings_(ScopedPtr<NetworkRemoteSettings>(new NetworkRemoteSettings())) {
   setObjectName("NetworkRemote");
 }
@@ -61,22 +60,29 @@ void NetworkRemote::Update() {
   const bool was_enabled = enabled_;
   const int old_port = remote_port_;
   const bool was_auth_enabled = !settings_->GetToken().isEmpty();
+  const bool is_auth_enabled = !settings_->GetToken().isEmpty();
 
   LoadSettings();
-
-  const bool is_auth_enabled = !settings_->GetToken().isEmpty();
 
   if (!enabled_) {
     StopTcpServer();
   }
-  else if (!was_enabled || old_port != remote_port_ || !server_ || !server_->ServerUp()) {
-    StopTcpServer();
-    StartTcpServer();
+  else {
+    bool address_changed = false;
+    if (server_ && server_->ServerUp()) {
+      const QNetworkAddressEntry current_entry = DetectLocalAddressEntry();
+      address_changed = current_entry.ip() != current_address_entry_.ip() ||
+        current_entry.prefixLength() != current_address_entry_.prefixLength();
+    }
+    if (!was_enabled || old_port != remote_port_ || !server_ || !server_->ServerUp() || address_changed) {
+      StopTcpServer();
+      StartTcpServer();
+    }
+    else if (is_auth_enabled != was_auth_enabled) {
+      server_->BroadcastAuthStatus(is_auth_enabled);
+    }
   }
-  else if (server_ && is_auth_enabled != was_auth_enabled) {
-    server_->BroadcastAuthStatus(is_auth_enabled);
-  }
-  qLog(Debug) << "NetworkRemote Updated ==== ";
+    qLog(Debug) << "NetworkRemote Updated ==== ";
 }
 
 void NetworkRemote::LoadSettings() {
@@ -143,8 +149,7 @@ QHostAddress NetworkRemote::DetectLocalIpAddress() {
 void NetworkRemote::StartTcpServer() {
   if (server_) {
     server_->StopServer();
-    delete server_;
-    server_ = nullptr;
+      server_.reset();
   }
   const QNetworkAddressEntry entry = DetectLocalAddressEntry();
   if (entry.ip().isNull()) {
@@ -152,7 +157,8 @@ void NetworkRemote::StartTcpServer() {
     return;
   }
   ipAddr_ = entry.ip();
-  server_ = new NetworkRemoteTcpServer(player_, playlist_manager_, this);
+  current_address_entry_ = entry;
+  server_ = ScopedPtr<NetworkRemoteTcpServer>(new NetworkRemoteTcpServer(player_, playlist_manager_));
   server_->SetPlaylistView(playlist_view_);
   server_->StartServer(ipAddr_, remote_port_, entry);
   qLog(Debug) << "TcpServer started on" << ipAddr_.toString() << "port" << remote_port_;
