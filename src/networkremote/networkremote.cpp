@@ -60,9 +60,8 @@ void NetworkRemote::Update() {
   const bool was_enabled = enabled_;
   const int old_port = remote_port_;
   const bool was_auth_enabled = !settings_->GetToken().isEmpty();
-  const bool is_auth_enabled = !settings_->GetToken().isEmpty();
-
   LoadSettings();
+  const bool is_auth_enabled = !settings_->GetToken().isEmpty();
 
   if (!enabled_) {
     StopTcpServer();
@@ -82,7 +81,7 @@ void NetworkRemote::Update() {
       server_->BroadcastAuthStatus(is_auth_enabled);
     }
   }
-    qLog(Debug) << "NetworkRemote Updated ==== ";
+  qLog(Debug) << "NetworkRemote Updated ==== ";
 }
 
 void NetworkRemote::LoadSettings() {
@@ -149,7 +148,7 @@ QHostAddress NetworkRemote::DetectLocalIpAddress() {
 void NetworkRemote::StartTcpServer() {
   if (server_) {
     server_->StopServer();
-      server_.reset();
+    server_.reset();
   }
   const QNetworkAddressEntry entry = DetectLocalAddressEntry();
   if (entry.ip().isNull()) {
