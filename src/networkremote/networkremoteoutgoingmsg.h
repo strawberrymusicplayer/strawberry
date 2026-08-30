@@ -47,7 +47,7 @@ class NetworkRemoteOutgoingMsg : public QObject {
   void SendMsg();
   void SendDisconnect(nwr_types::ReasonDisconnect reason);
   void SendConnectResponse(const bool accepted, const bool auth_enabled);
-  void SendPlaylistSongs(const quint32 playlist_id, const quint32 upcoming_count);
+  void SendPlaylistSongs(const quint32 playlist_id);
   void SendPlaylistAdvanced(const quint32 playlist_id, const quint32 new_current_row);
   void SendPlaySongResponse(const bool accepted);
   void SendAddSongToPlaylistResponse(const bool accepted,
