@@ -45,7 +45,7 @@ class NetworkRemoteClient : public QObject {
   void SetPlaylistView(QPointer<PlaylistView> playlist_view);
   void SendPlaylistChanged(quint32 playlist_id);
   void SendPlaylistActivated(quint32 playlist_id);
-  void SendPlaylistSongs(quint32 playlist_id, quint32 upcoming_count);
+  void SendPlaylistSongs(quint32 playlist_id);
   void SendPlaylistAdvanced(quint32 playlist_id, quint32 new_current_row);
   void SendAuthStatusChanged(bool auth_enabled);
 
@@ -58,13 +58,13 @@ class NetworkRemoteClient : public QObject {
   void RequestNext();
   void RequestPrevious();
   void RequestStop();
-  void RequestPlaylistSongs(quint32 playlist_id, quint32 upcoming_count);
+  void RequestPlaylistSongs(quint32 playlist_id);
   void RequestPlaySong(quint32 playlist_id, quint32 row_index);
   void RequestAddSongToPlaylist(quint32 target_playlist_id, QString new_playlist_name);
   void RequestRemoveSongFromPlaylist(quint32 playlist_id, quint32 row_index);
 
  private:
-  void HandleRequestPlaylistSongs(quint32 playlist_id, quint32 upcoming_count);
+  void HandleRequestPlaylistSongs(quint32 playlist_id);
   void HandleRequestPlaySong(quint32 playlist_id, quint32 row_index);
   void HandleRequestAddSongToPlaylist(quint32 target_playlist_id, QString new_playlist_name);
   void HandleRequestRemoveSongFromPlaylist(quint32 playlist_id, quint32 row_index);

@@ -142,7 +142,7 @@ nwr::ResponsePlaylists NetworkRemoteOutgoingMsg::BuildResponsePlaylists() {
     info.setName(playlist_manager_->playlist_name(id));
     info.setItemCount(static_cast<quint32>(pl->rowCount()));
     info.setIsOpen(true);
-    info.setIsPlaying(id == current_id);
+    info.setIsCurrent(id == current_id);
     playlist_infos.append(info);
   }
 
@@ -229,7 +229,7 @@ nwr::PlaylistSongRow NetworkRemoteOutgoingMsg::BuildPlaylistSongRow(Playlist *pl
   return song_row;
 }
 
-void NetworkRemoteOutgoingMsg::SendPlaylistSongs(const quint32 playlist_id, const quint32 upcoming_count) {
+void NetworkRemoteOutgoingMsg::SendPlaylistSongs(const quint32 playlist_id) {
   msg_ = nwr::Message();
 
   Playlist *pl = playlist_manager_->playlist(static_cast<int>(playlist_id));
@@ -251,7 +251,6 @@ void NetworkRemoteOutgoingMsg::SendPlaylistSongs(const quint32 playlist_id, cons
     response.setColumns(columns);
 
     const quint32 configured_playlist_size = static_cast<quint32>(NetworkRemoteSettings::CurrentPlaylistSize());
-    const quint32 bounded_upcoming_count = std::min(upcoming_count, configured_playlist_size);
 
     // rows[0] is the current/last-played row itself, not the first upcoming song.
     int current_row = pl->current_row();
@@ -260,7 +259,7 @@ void NetworkRemoteOutgoingMsg::SendPlaylistSongs(const quint32 playlist_id, cons
     const int total = pl->rowCount();
     const quint64 end_row_64 = std::min(
       static_cast<quint64>(total),
-      static_cast<quint64>(start_row) + 1ULL + static_cast<quint64>(bounded_upcoming_count));
+      static_cast<quint64>(start_row) + 1ULL + static_cast<quint64>(configured_playlist_size));
     const int end_row = static_cast<int>(end_row_64);
 
     QList<nwr::PlaylistSongRow> rows;
