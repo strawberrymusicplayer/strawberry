@@ -182,7 +182,7 @@ message PlaylistInfo {
     string name = 2;
     uint32 item_count = 3;
     bool is_open = 4;
-    bool is_playing = 5;
+    bool is_current = 5;
 }
 
 message ResponsePlaylists {
@@ -201,15 +201,9 @@ message ResponseInitialInfo {
 
 message RequestPlaylistSongs {
     uint32 playlist_id = 1;
-    uint32 upcoming_count = 2;
 }
 
-// One visible column's identity, sent once per ResponsePlaylistSongs rather
-// than re-sent per cell. is_numeric reflects the server's own knowledge of
-// the underlying Playlist::Column (Track, Year, Length, PlayCount, etc. are
-// numeric/measurement-like; Title, Artist, Album, Genre etc. are text) -
-// clients use it to decide left vs. center alignment without having to guess
-// from formatted cell content.
+// One visible column's identity, sent once per ResponsePlaylistSongs rather than re-sent per cell. is_numeric reflects the server's own knowledge of the underlying Playlist::Column (Track, Year, Length, PlayCount, etc. are numeric/measurement-like; Title, Artist, Album, Genre etc. are text) - clients use it to decide left vs. center alignment without having to guess from formatted cell content.
 message ColumnInfo {
     string name = 1;
     bool is_numeric = 2;
