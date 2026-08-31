@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@
 #include <QSettings>
 #include <QCheckBox>
 #include <QComboBox>
+#include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QSpinBox>
@@ -54,6 +55,11 @@ SpotifySettingsPage::SpotifySettingsPage(SettingsDialog *dialog, const SharedPtr
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(u"spotify"_s));
+
+  QObject::connect(ui_->checkbox_use_custom_credentials, &QCheckBox::toggled, ui_->client_id, &QLineEdit::setEnabled);
+  QObject::connect(ui_->checkbox_use_custom_credentials, &QCheckBox::toggled, ui_->client_secret, &QLineEdit::setEnabled);
+  QObject::connect(ui_->checkbox_use_custom_credentials, &QCheckBox::toggled, ui_->label_client_id, &QLabel::setEnabled);
+  QObject::connect(ui_->checkbox_use_custom_credentials, &QCheckBox::toggled, ui_->label_client_secret, &QLabel::setEnabled);
 
   QObject::connect(ui_->button_login, &QPushButton::clicked, this, &SpotifySettingsPage::LoginClicked);
   QObject::connect(ui_->login_state, &LoginStateWidget::LogoutClicked, this, &SpotifySettingsPage::LogoutClicked);
@@ -94,6 +100,25 @@ void SpotifySettingsPage::Load() {
   s.beginGroup(kSettingsGroup);
   ui_->enable->setChecked(s.value(kEnabled, kDefaultEnabled).toBool());
 
+  if (service_->HasCompiledCredentials()) {
+    ui_->checkbox_use_custom_credentials->setVisible(true);
+    const bool use_custom_api_credentials = s.value(kUseCustomApiCredentials, false).toBool();
+    ui_->checkbox_use_custom_credentials->setChecked(use_custom_api_credentials);
+    ui_->client_id->setEnabled(use_custom_api_credentials);
+    ui_->client_secret->setEnabled(use_custom_api_credentials);
+    ui_->label_client_id->setEnabled(use_custom_api_credentials);
+    ui_->label_client_secret->setEnabled(use_custom_api_credentials);
+  }
+  else {
+    ui_->checkbox_use_custom_credentials->setVisible(false);
+    ui_->client_id->setEnabled(true);
+    ui_->client_secret->setEnabled(true);
+    ui_->label_client_id->setEnabled(true);
+    ui_->label_client_secret->setEnabled(true);
+  }
+  ui_->client_id->setText(s.value(kClientId).toString());
+  ui_->client_secret->setText(s.value(kClientSecret).toString());
+
   ui_->searchdelay->setValue(s.value(kSearchDelay, kDefaultSearchDelay).toInt());
   ui_->artistssearchlimit->setValue(s.value(kArtistsSearchLimit, kDefaultArtistsSearchLimit).toInt());
   ui_->albumssearchlimit->setValue(s.value(kAlbumsSearchLimit, kDefaultAlbumsSearchLimit).toInt());
@@ -117,6 +142,9 @@ void SpotifySettingsPage::Save() {
   Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue(kEnabled, ui_->enable->isChecked());
+  s.setValue(kUseCustomApiCredentials, ui_->checkbox_use_custom_credentials->isChecked());
+  s.setValue(kClientId, ui_->client_id->text());
+  s.setValue(kClientSecret, ui_->client_secret->text());
   s.setValue(kSearchDelay, ui_->searchdelay->value());
   s.setValue(kArtistsSearchLimit, ui_->artistssearchlimit->value());
   s.setValue(kAlbumsSearchLimit, ui_->albumssearchlimit->value());

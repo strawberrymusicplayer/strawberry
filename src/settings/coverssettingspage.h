@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include "config.h"
 
 #include <QObject>
+#include <QHash>
 #include <QString>
 #include <QStringList>
 
@@ -51,10 +52,18 @@ class CoversSettingsPage : public SettingsPage {
   void showEvent(QShowEvent *e) override;
 
  private:
+  struct CredentialsDraft {
+    bool use_custom_api_credentials = false;
+    QString id;
+    QString secret;
+  };
+
   void NoProviderSelected();
   void ProvidersMove(const int d);
   void DisableAuthentication();
   void DisconnectAuthentication(CoverProvider *provider) const;
+  void UpdateCredentialsUi(CoverProvider *provider);
+  void SaveCredentialsUi(CoverProvider *provider, const CredentialsDraft &credentials_draft);
   static bool ProviderCompareOrder(CoverProvider *a, CoverProvider *b);
   void AddAlbumCoverArtType(const QString &name, const QString &description, const bool enabled);
   QString AlbumCoverArtTypeDescription(const QString &type) const;
@@ -76,6 +85,7 @@ class CoversSettingsPage : public SettingsPage {
   void TypesItemChanged(QListWidgetItem *item);
   void TypesMoveUp();
   void TypesMoveDown();
+  void CredentialsUiChanged();
 
  private:
   enum Type_Role {
@@ -88,6 +98,9 @@ class CoversSettingsPage : public SettingsPage {
 
   bool provider_selected_;
   bool types_selected_;
+
+  QHash<QString, CredentialsDraft> credential_drafts_;
+  QString current_credentials_provider_;
 };
 
 #endif  // COVERSSETTINGSPAGE_H

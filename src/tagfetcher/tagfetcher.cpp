@@ -105,7 +105,12 @@ void TagFetcher::StartFetch(const SongList &songs) {
       Q_EMIT Progress(song, tr("Identifying song"));
       const QString fingerprint = song.fingerprint();
       qLog(Debug) << "Tag fetch using cached fingerprint for" << song.url() << "length" << fingerprint.size();
-      acoustid_client_->Start(i, fingerprint, static_cast<int>(song.length_nanosec() / kNsecPerMsec));
+      QString error;
+      if (!acoustid_client_->Start(i, fingerprint, static_cast<int>(song.length_nanosec() / kNsecPerMsec), error)) {
+        qLog(Error) << "Tag fetch could not start AcoustID request for" << song.url() << ":" << error;
+        Q_EMIT ResultAvailable(song, SongList(), error);
+        continue;
+      }
     }
   }
   else {
@@ -157,7 +162,12 @@ void TagFetcher::FingerprintFound(const int index) {
 
   Q_EMIT Progress(song, tr("Identifying song"));
   qLog(Debug) << "Tag fetch sending generated fingerprint for" << song.url() << "length" << fingerprint.size();
-  acoustid_client_->Start(index, fingerprint, static_cast<int>(song.length_nanosec() / kNsecPerMsec));
+  QString error;
+  if (!acoustid_client_->Start(index, fingerprint, static_cast<int>(song.length_nanosec() / kNsecPerMsec), error)) {
+    qLog(Error) << "Tag fetch could not start AcoustID request for" << song.url() << ":" << error;
+    Q_EMIT ResultAvailable(song, SongList(), error);
+    return;
+  }
 
 }
 

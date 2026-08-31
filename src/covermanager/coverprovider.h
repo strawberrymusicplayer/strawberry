@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,6 +51,15 @@ class CoverProvider : public JsonBaseRequest {
   void set_order(const int order) { order_ = order; }
 
   virtual QString service_name() const override { return name_; }
+  virtual bool supports_custom_api_credentials() const { return false; }
+  virtual bool has_compiled_api_credentials() const { return false; }
+  virtual bool api_credentials_use_secret() const { return true; }
+  virtual QString api_credentials_id_label() const { return tr("Client ID"); }
+  virtual QString api_credentials_secret_label() const { return tr("Client secret"); }
+  virtual QString api_credentials_settings_group() const { return QString(); }
+  virtual QString api_credentials_use_custom_key() const { return QStringLiteral("use_custom_api_credentials"); }
+  virtual QString api_credentials_id_key() const { return QStringLiteral("client_id"); }
+  virtual QString api_credentials_secret_key() const { return QStringLiteral("client_secret"); }
   virtual bool authentication_required() const override { return authentication_required_; }
   virtual bool authenticated() const override { return true; }
   virtual bool use_authorization_header() const override { return false; }
@@ -58,6 +67,8 @@ class CoverProvider : public JsonBaseRequest {
 
   virtual void Authenticate() {}
   virtual void ClearSession() {}
+
+  virtual void ReloadSettings() {}
 
   // Starts searching for covers matching the given query text.
   // Returns true if the query has been started, or false if an error occurred.

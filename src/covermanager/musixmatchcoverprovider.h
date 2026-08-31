@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,6 +41,7 @@ class MusixmatchCoverProvider : public JsonCoverProvider {
   void CancelSearch(const int id) override;
 
  private:
+  static QString StringFixup(QString text);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private Q_SLOTS:

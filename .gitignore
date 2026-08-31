@@ -12,5 +12,6 @@
 /out
 /CMakeSettings.json
 /dist/scripts/maketarball.sh
+/src/apicredentials.h
 /debian/changelog
 _codeql_detected_source_root

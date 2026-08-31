@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,6 +61,8 @@ class SpotifyService : public StreamingService {
 
   static const Song::Source kSource;
   static const char kApiUrl[];
+
+  static bool HasCompiledCredentials();
 
   void Exit() override;
   void ReloadSettings() override;
@@ -146,6 +148,9 @@ class SpotifyService : public StreamingService {
   SpotifyFavoriteRequest *favorite_request_;
 
   bool enabled_;
+  QString client_id_;
+  QString client_secret_;
+  bool api_credentials_initialized_;
   int artistssearchlimit_;
   int albumssearchlimit_;
   int songssearchlimit_;

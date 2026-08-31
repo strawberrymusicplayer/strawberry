@@ -235,6 +235,57 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="checkbox_lastfm_use_custom_credentials">
+        <property name="text">
+         <string>Use custom API credentials</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="layout_lastfm_client_id">
+        <item>
+         <widget class="QLabel" name="label_lastfm_client_id">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Client ID:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineedit_lastfm_client_id"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="layout_lastfm_client_secret">
+        <item>
+         <widget class="QLabel" name="label_lastfm_client_secret">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Client secret:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineedit_lastfm_client_secret">
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
        <widget class="LoginStateWidget" name="widget_lastfm_login_state" native="true"/>
       </item>
       <item>
@@ -282,6 +333,57 @@
          <string>Enable</string>
         </property>
        </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkbox_listenbrainz_use_custom_credentials">
+        <property name="text">
+         <string>Use custom API credentials</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="layout_listenbrainz_client_id">
+        <item>
+         <widget class="QLabel" name="label_listenbrainz_client_id">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Client ID:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineedit_listenbrainz_client_id"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="layout_listenbrainz_client_secret">
+        <item>
+         <widget class="QLabel" name="label_listenbrainz_client_secret">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Client secret:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineedit_listenbrainz_client_secret">
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <layout class="QHBoxLayout" name="layout_listenbrainz_user_token">
@@ -394,8 +496,14 @@
   <tabstop>checkbox_source_somafm</tabstop>
   <tabstop>checkbox_source_radioparadise</tabstop>
   <tabstop>checkbox_lastfm_enable</tabstop>
+  <tabstop>checkbox_lastfm_use_custom_credentials</tabstop>
+  <tabstop>lineedit_lastfm_client_id</tabstop>
+  <tabstop>lineedit_lastfm_client_secret</tabstop>
   <tabstop>button_lastfm_login</tabstop>
   <tabstop>checkbox_listenbrainz_enable</tabstop>
+  <tabstop>checkbox_listenbrainz_use_custom_credentials</tabstop>
+  <tabstop>lineedit_listenbrainz_client_id</tabstop>
+  <tabstop>lineedit_listenbrainz_client_secret</tabstop>
   <tabstop>lineedit_listenbrainz_user_token</tabstop>
   <tabstop>button_listenbrainz_login</tabstop>
  </tabstops>

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,6 +40,8 @@
 #include "scrobbler/lastfmscrobbler.h"
 #include "scrobbler/listenbrainzscrobbler.h"
 #include "constants/scrobblersettings.h"
+#include "constants/lastfmsettings.h"
+#include "constants/listenbrainzsettings.h"
 
 using namespace Qt::Literals::StringLiterals;
 using namespace ScrobblerSettings;
@@ -62,6 +64,10 @@ ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *dialog, const Share
   QObject::connect(ui_->widget_lastfm_login_state, &LoginStateWidget::LoginClicked, this, &ScrobblerSettingsPage::LastFM_Login);
   QObject::connect(ui_->widget_lastfm_login_state, &LoginStateWidget::LogoutClicked, this, &ScrobblerSettingsPage::LastFM_Logout);
   ui_->widget_lastfm_login_state->AddCredentialGroup(ui_->widget_lastfm_login);
+  QObject::connect(ui_->checkbox_lastfm_use_custom_credentials, &QCheckBox::toggled, ui_->lineedit_lastfm_client_id, &QLineEdit::setEnabled);
+  QObject::connect(ui_->checkbox_lastfm_use_custom_credentials, &QCheckBox::toggled, ui_->lineedit_lastfm_client_secret, &QLineEdit::setEnabled);
+  QObject::connect(ui_->checkbox_lastfm_use_custom_credentials, &QCheckBox::toggled, ui_->label_lastfm_client_id, &QLabel::setEnabled);
+  QObject::connect(ui_->checkbox_lastfm_use_custom_credentials, &QCheckBox::toggled, ui_->label_lastfm_client_secret, &QLabel::setEnabled);
 
   // ListenBrainz
   QObject::connect(&*listenbrainzscrobbler_, &ListenBrainzScrobbler::AuthenticationComplete, this, &ScrobblerSettingsPage::ListenBrainz_AuthenticationComplete);
@@ -69,6 +75,10 @@ ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *dialog, const Share
   QObject::connect(ui_->widget_listenbrainz_login_state, &LoginStateWidget::LoginClicked, this, &ScrobblerSettingsPage::ListenBrainz_Login);
   QObject::connect(ui_->widget_listenbrainz_login_state, &LoginStateWidget::LogoutClicked, this, &ScrobblerSettingsPage::ListenBrainz_Logout);
   ui_->widget_listenbrainz_login_state->AddCredentialGroup(ui_->widget_listenbrainz_login);
+  QObject::connect(ui_->checkbox_listenbrainz_use_custom_credentials, &QCheckBox::toggled, ui_->lineedit_listenbrainz_client_id, &QLineEdit::setEnabled);
+  QObject::connect(ui_->checkbox_listenbrainz_use_custom_credentials, &QCheckBox::toggled, ui_->lineedit_listenbrainz_client_secret, &QLineEdit::setEnabled);
+  QObject::connect(ui_->checkbox_listenbrainz_use_custom_credentials, &QCheckBox::toggled, ui_->label_listenbrainz_client_id, &QLabel::setEnabled);
+  QObject::connect(ui_->checkbox_listenbrainz_use_custom_credentials, &QCheckBox::toggled, ui_->label_listenbrainz_client_secret, &QLabel::setEnabled);
 
   ui_->label_listenbrainz_token->setText(u"<html><head/><body><p>"_s + tr("Enter your user token from") + QLatin1Char(' ') + u"<a href=\"https://listenbrainz.org/profile/\"><span style=\"text-decoration: underline; color:#0000ff;\">https://listenbrainz.org/profile/</span></a></p></body></html>"_s);
 
@@ -106,9 +116,49 @@ void ScrobblerSettingsPage::Load() {
   ui_->checkbox_source_unknown->setChecked(scrobbler_->sources().contains(Song::Source::Unknown));
 
   ui_->checkbox_lastfm_enable->setChecked(lastfmscrobbler_->enabled());
+  s.beginGroup(LastFMScrobbler::kSettingsGroup);
+  if (LastFMScrobbler::HasCompiledCredentials()) {
+    ui_->checkbox_lastfm_use_custom_credentials->setVisible(true);
+    const bool lastfm_use_custom_credentials = s.value(LastFMSettings::kUseCustomApiCredentials, false).toBool();
+    ui_->checkbox_lastfm_use_custom_credentials->setChecked(lastfm_use_custom_credentials);
+    ui_->lineedit_lastfm_client_id->setEnabled(lastfm_use_custom_credentials);
+    ui_->lineedit_lastfm_client_secret->setEnabled(lastfm_use_custom_credentials);
+    ui_->label_lastfm_client_id->setEnabled(lastfm_use_custom_credentials);
+    ui_->label_lastfm_client_secret->setEnabled(lastfm_use_custom_credentials);
+  }
+  else {
+    ui_->checkbox_lastfm_use_custom_credentials->setVisible(false);
+    ui_->lineedit_lastfm_client_id->setEnabled(true);
+    ui_->lineedit_lastfm_client_secret->setEnabled(true);
+    ui_->label_lastfm_client_id->setEnabled(true);
+    ui_->label_lastfm_client_secret->setEnabled(true);
+  }
+  ui_->lineedit_lastfm_client_id->setText(s.value(LastFMSettings::kClientId).toString());
+  ui_->lineedit_lastfm_client_secret->setText(s.value(LastFMSettings::kClientSecret).toString());
+  s.endGroup();
   LastFM_RefreshControls(lastfmscrobbler_->authenticated());
 
   ui_->checkbox_listenbrainz_enable->setChecked(listenbrainzscrobbler_->enabled());
+  s.beginGroup(ListenBrainzScrobbler::kSettingsGroup);
+  if (ListenBrainzScrobbler::HasCompiledCredentials()) {
+    ui_->checkbox_listenbrainz_use_custom_credentials->setVisible(true);
+    const bool listenbrainz_use_custom_credentials = s.value(ListenBrainzSettings::kUseCustomApiCredentials, false).toBool();
+    ui_->checkbox_listenbrainz_use_custom_credentials->setChecked(listenbrainz_use_custom_credentials);
+    ui_->lineedit_listenbrainz_client_id->setEnabled(listenbrainz_use_custom_credentials);
+    ui_->lineedit_listenbrainz_client_secret->setEnabled(listenbrainz_use_custom_credentials);
+    ui_->label_listenbrainz_client_id->setEnabled(listenbrainz_use_custom_credentials);
+    ui_->label_listenbrainz_client_secret->setEnabled(listenbrainz_use_custom_credentials);
+  }
+  else {
+    ui_->checkbox_listenbrainz_use_custom_credentials->setVisible(false);
+    ui_->lineedit_listenbrainz_client_id->setEnabled(true);
+    ui_->lineedit_listenbrainz_client_secret->setEnabled(true);
+    ui_->label_listenbrainz_client_id->setEnabled(true);
+    ui_->label_listenbrainz_client_secret->setEnabled(true);
+  }
+  ui_->lineedit_listenbrainz_client_id->setText(s.value(ListenBrainzSettings::kClientId).toString());
+  ui_->lineedit_listenbrainz_client_secret->setText(s.value(ListenBrainzSettings::kClientSecret).toString());
+  s.endGroup();
   ui_->lineedit_listenbrainz_user_token->setText(listenbrainzscrobbler_->user_token());
   ListenBrainz_RefreshControls(listenbrainzscrobbler_->authenticated());
 
@@ -152,11 +202,17 @@ void ScrobblerSettingsPage::Save() {
 
   s.beginGroup(LastFMScrobbler::kSettingsGroup);
   s.setValue(kEnabled, ui_->checkbox_lastfm_enable->isChecked());
+  s.setValue(LastFMSettings::kUseCustomApiCredentials, ui_->checkbox_lastfm_use_custom_credentials->isChecked());
+  s.setValue(LastFMSettings::kClientId, ui_->lineedit_lastfm_client_id->text());
+  s.setValue(LastFMSettings::kClientSecret, ui_->lineedit_lastfm_client_secret->text());
   s.endGroup();
 
   s.beginGroup(ListenBrainzScrobbler::kSettingsGroup);
   s.setValue(kEnabled, ui_->checkbox_listenbrainz_enable->isChecked());
   s.setValue(kUserToken, ui_->lineedit_listenbrainz_user_token->text());
+  s.setValue(ListenBrainzSettings::kUseCustomApiCredentials, ui_->checkbox_listenbrainz_use_custom_credentials->isChecked());
+  s.setValue(ListenBrainzSettings::kClientId, ui_->lineedit_listenbrainz_client_id->text());
+  s.setValue(ListenBrainzSettings::kClientSecret, ui_->lineedit_listenbrainz_client_secret->text());
   s.endGroup();
 
   scrobbler_->ReloadSettings();
@@ -164,6 +220,15 @@ void ScrobblerSettingsPage::Save() {
 }
 
 void ScrobblerSettingsPage::LastFM_Login() {
+
+  // Persist the currently-edited custom credential selection first and reload it into the scrobbler, so Authenticate() below uses whatever is currently shown in the UI rather than whatever was last saved.
+  Settings s;
+  s.beginGroup(LastFMScrobbler::kSettingsGroup);
+  s.setValue(LastFMSettings::kUseCustomApiCredentials, ui_->checkbox_lastfm_use_custom_credentials->isChecked());
+  s.setValue(LastFMSettings::kClientId, ui_->lineedit_lastfm_client_id->text());
+  s.setValue(LastFMSettings::kClientSecret, ui_->lineedit_lastfm_client_secret->text());
+  s.endGroup();
+  lastfmscrobbler_->ReloadSettings();
 
   lastfm_waiting_for_auth_ = true;
   ui_->widget_lastfm_login_state->SetLoggedIn(LoginStateWidget::State::LoginInProgress);
@@ -199,6 +264,15 @@ void ScrobblerSettingsPage::LastFM_RefreshControls(const bool authenticated) {
 }
 
 void ScrobblerSettingsPage::ListenBrainz_Login() {
+
+  // Persist the currently-edited custom credential selection first and reload it into the scrobbler, so Authenticate() below uses whatever is currently shown in the UI rather than whatever was last saved.
+  Settings s;
+  s.beginGroup(ListenBrainzScrobbler::kSettingsGroup);
+  s.setValue(ListenBrainzSettings::kUseCustomApiCredentials, ui_->checkbox_listenbrainz_use_custom_credentials->isChecked());
+  s.setValue(ListenBrainzSettings::kClientId, ui_->lineedit_listenbrainz_client_id->text());
+  s.setValue(ListenBrainzSettings::kClientSecret, ui_->lineedit_listenbrainz_client_secret->text());
+  s.endGroup();
+  listenbrainzscrobbler_->ReloadSettings();
 
   listenbrainz_waiting_for_auth_ = true;
   ui_->widget_listenbrainz_login_state->SetLoggedIn(LoginStateWidget::State::LoginInProgress);

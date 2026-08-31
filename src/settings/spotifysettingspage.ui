@@ -22,6 +22,62 @@
     </widget>
    </item>
    <item>
+    <widget class="QGroupBox" name="credential_group">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>Authentication</string>
+     </property>
+     <layout class="QFormLayout" name="layout_credential_group">
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="checkbox_use_custom_credentials">
+        <property name="text">
+         <string>Use custom API credentials</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_client_id">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Client ID</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="client_id">
+        <property name="text">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_client_secret">
+        <property name="text">
+         <string>Client secret</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="client_secret">
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupbox_basic_authentication">
      <property name="title">
       <string>Basic authentication</string>
@@ -273,6 +329,9 @@
  </customwidgets>
  <tabstops>
   <tabstop>enable</tabstop>
+  <tabstop>checkbox_use_custom_credentials</tabstop>
+  <tabstop>client_id</tabstop>
+  <tabstop>client_secret</tabstop>
   <tabstop>searchdelay</tabstop>
   <tabstop>artistssearchlimit</tabstop>
   <tabstop>albumssearchlimit</tabstop>

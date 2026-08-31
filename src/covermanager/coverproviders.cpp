@@ -55,6 +55,7 @@ void CoverProviders::ReloadSettings() {
   QMap<int, QString> all_providers;
   QList<CoverProvider*> old_providers = cover_providers_.keys();
   for (CoverProvider *provider : std::as_const(old_providers)) {
+    provider->ReloadSettings();
     if (!provider->enabled()) continue;
     all_providers.insert(provider->order(), provider->name());
   }

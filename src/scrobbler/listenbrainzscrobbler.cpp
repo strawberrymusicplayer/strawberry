@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
  */
 
 #include "config.h"
+#include "apicredentials.h"
 
 #include <algorithm>
 #include <utility>
@@ -36,6 +37,7 @@
 #include <QJsonValue>
 
 #include "includes/shared_ptr.h"
+#include "utilities/cryptutils.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "core/logging.h"
@@ -43,6 +45,7 @@
 #include "core/oauthenticator.h"
 #include "constants/timeconstants.h"
 #include "constants/scrobblersettings.h"
+#include "constants/listenbrainzsettings.h"
 
 #include "scrobblersettingsservice.h"
 #include "scrobblerservice.h"
@@ -62,11 +65,33 @@ constexpr char kOAuthAccessTokenUrl[] = "https://musicbrainz.org/oauth2/token";
 constexpr char kOAuthRedirectUrl[] = "http://localhost";
 constexpr char kOAuthScope[] = "profile;email;tag;rating;collection;submit_isrc;submit_barcode";
 constexpr char kApiUrl[] = "https://api.listenbrainz.org";
-constexpr char kClientIDB64[] = "b2VBVU53cVNRZXIwZXIwOUZpcWkwUQ==";
-constexpr char kClientSecretB64[] = "Uk9GZ2hrZVEzRjNvUHlFaHFpeVdQQQ==";
 constexpr char kCacheFile[] = "listenbrainzscrobbler.cache";
 constexpr int kScrobblesPerRequest = 10;
+
+QString CompiledClientId() {
+#ifdef LISTENBRAINZ_CLIENT_ID
+  return Utilities::MaybeDecryptApiCredential(QStringLiteral(LISTENBRAINZ_CLIENT_ID));
+#else
+  return QString();
+#endif
+}
+
+QString CompiledClientSecret() {
+#ifdef LISTENBRAINZ_CLIENT_SECRET
+  return Utilities::MaybeDecryptApiCredential(QStringLiteral(LISTENBRAINZ_CLIENT_SECRET));
+#else
+  return QString();
+#endif
+}
 }  // namespace
+
+bool ListenBrainzScrobbler::HasCompiledCredentials() {
+#if defined(LISTENBRAINZ_CLIENT_ID) && defined(LISTENBRAINZ_CLIENT_SECRET)
+  return true;
+#else
+  return false;
+#endif
+}
 
 ListenBrainzScrobbler::ListenBrainzScrobbler(const SharedPtr<ScrobblerSettingsService> settings, const SharedPtr<NetworkAccessManager> network, QObject *parent)
     : ScrobblerService(QLatin1String(kName), network, settings, parent),
@@ -86,8 +111,6 @@ ListenBrainzScrobbler::ListenBrainzScrobbler(const SharedPtr<ScrobblerSettingsSe
   oauth_->set_authorize_url(QUrl(QLatin1String(kOAuthAuthorizeUrl)));
   oauth_->set_redirect_url(QUrl(QLatin1String(kOAuthRedirectUrl)));
   oauth_->set_access_token_url(QUrl(QLatin1String(kOAuthAccessTokenUrl)));
-  oauth_->set_client_id(QString::fromLatin1(QByteArray::fromBase64(kClientIDB64)));
-  oauth_->set_client_secret(QString::fromLatin1(QByteArray::fromBase64(kClientSecretB64)));
   oauth_->set_scope(QLatin1String(kOAuthScope));
   oauth_->set_use_local_redirect_server(true);
   oauth_->set_random_port(true);
@@ -114,7 +137,20 @@ void ListenBrainzScrobbler::ReloadSettings() {
   s.beginGroup(kSettingsGroup);
   enabled_ = s.value(ScrobblerSettings::kEnabled, ScrobblerSettings::kDefaultEnabled).toBool();
   user_token_ = s.value(ScrobblerSettings::kUserToken).toString();
+  const bool use_custom_api_credentials = !HasCompiledCredentials() || s.value(ListenBrainzSettings::kUseCustomApiCredentials, false).toBool();
+  const QString client_id = use_custom_api_credentials ? s.value(ListenBrainzSettings::kClientId).toString() : CompiledClientId();
+  const QString client_secret = use_custom_api_credentials ? s.value(ListenBrainzSettings::kClientSecret).toString() : CompiledClientSecret();
   s.endGroup();
+
+  const bool api_credentials_changed = api_credentials_initialized_ && (client_id != client_id_ || client_secret != client_secret_);
+  client_id_ = client_id;
+  client_secret_ = client_secret;
+  oauth_->set_client_id(client_id_);
+  oauth_->set_client_secret(client_secret_);
+  if (api_credentials_changed || client_id_.isEmpty() || client_secret_.isEmpty()) {
+    oauth_->ClearSession();
+  }
+  api_credentials_initialized_ = true;
 
   s.beginGroup(ScrobblerSettings::kSettingsGroup);
   prefer_albumartist_ = s.value(ScrobblerSettings::kAlbumArtist, ScrobblerSettings::kDefaultAlbumArtist).toBool();
@@ -123,6 +159,13 @@ void ListenBrainzScrobbler::ReloadSettings() {
 }
 
 void ListenBrainzScrobbler::Authenticate() {
+
+  if (client_id_.isEmpty() || client_secret_.isEmpty()) {
+    const QString error = tr("Missing ListenBrainz client ID and/or client secret");
+    qLog(Error) << error;
+    Q_EMIT AuthenticationComplete(false, error);
+    return;
+  }
 
   oauth_->Authenticate();
 

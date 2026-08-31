@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2022, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,15 +17,16 @@
  *
  */
 
-#ifndef MUSIXMATCHPROVIDER_H
-#define MUSIXMATCHPROVIDER_H
+#ifndef ACOUSTIDSETTINGS_H
+#define ACOUSTIDSETTINGS_H
 
-#include <QString>
+namespace AcoustidSettings {
 
-namespace MusixmatchProvider {
+constexpr char kSettingsGroup[] = "AcoustID";
 
-QString StringFixup(QString text);
+constexpr char kUseCustomApiKey[] = "use_custom_api_key";
+constexpr char kApiKey[] = "api_key";
 
-}  // namespace MusixmatchProvider
+}  // namespace AcoustidSettings
 
-#endif  // MUSIXMATCHPROVIDER_H
+#endif  // ACOUSTIDSETTINGS_H

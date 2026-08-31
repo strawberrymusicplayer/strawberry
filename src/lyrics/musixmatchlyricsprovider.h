@@ -40,34 +40,50 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
  public:
   explicit MusixmatchLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
 
+  bool has_compiled_api_credentials() const override;
+  bool supports_custom_api_credentials() const override { return true; }
+  QString api_credentials_id_label() const override { return tr("App ID"); }
+  QString api_credentials_secret_label() const override { return tr("Signature secret"); }
+  QString api_credentials_settings_group() const override;
+  QString api_credentials_use_custom_key() const override;
+  QString api_credentials_id_key() const override;
+  QString api_credentials_secret_key() const override;
+
+  void ReloadSettings() override;
+
  private:
   struct LyricsSearchContext {
-    explicit LyricsSearchContext() : id(-1) {}
+    explicit LyricsSearchContext() : id(-1), token_retried(false) {}
     int id;
     LyricsSearchRequest request;
-    QList<QUrl> requests_lyrics_;
     LyricsSearchResults results;
+    bool token_retried;
   };
 
   using LyricsSearchContextPtr = SharedPtr<LyricsSearchContext>;
 
-  bool SendSearchRequest(LyricsSearchContextPtr search);
+  QUrl SignedUrl(const QString &endpoint, const ParamList &params) const;
+  QNetworkReply *CreateAndroidGetRequest(const QUrl &url);
+  void RequestUserToken();
   JsonObjectResult ParseJsonObject(QNetworkReply *reply);
-  bool CreateLyricsRequest(LyricsSearchContextPtr search);
-  void SendLyricsRequest(const LyricsSearchRequest &request, const QString &artist, const QString &title);
-  bool SendLyricsRequest(LyricsSearchContextPtr search, const QUrl &url);
-  void EndSearch(LyricsSearchContextPtr search, const QUrl &url = QUrl());
+  void SendLyricsRequest(LyricsSearchContextPtr search);
+  bool RetryLyricsRequestWithFreshToken(LyricsSearchContextPtr search);
+  void EndSearch(LyricsSearchContextPtr search);
 
  protected Q_SLOTS:
   void StartSearch(const int id, const LyricsSearchRequest &request) override;
 
  private Q_SLOTS:
-  void HandleSearchReply(QNetworkReply *reply, MusixmatchLyricsProvider::LyricsSearchContextPtr search);
-  void HandleLyricsReply(QNetworkReply *reply, MusixmatchLyricsProvider::LyricsSearchContextPtr search, const QUrl &url);
+  void HandleTokenReply(QNetworkReply *reply);
+  void HandleLyricsReply(QNetworkReply *reply, MusixmatchLyricsProvider::LyricsSearchContextPtr search);
 
  private:
   QList<LyricsSearchContextPtr> requests_search_;
-  bool use_api_;
+  QList<LyricsSearchContextPtr> pending_token_requests_;
+  QString client_id_;
+  QString client_secret_;
+  QString user_token_;
+  bool requesting_user_token_;
 
   Q_DISABLE_COPY_MOVE(MusixmatchLyricsProvider)
 };

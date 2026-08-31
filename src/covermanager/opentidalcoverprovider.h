@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,6 +43,15 @@ class OpenTidalCoverProvider : public JsonCoverProvider {
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
   void CancelSearch(const int id) override;
+
+  bool supports_custom_api_credentials() const override { return true; }
+  bool has_compiled_api_credentials() const override;
+  QString api_credentials_settings_group() const override;
+  QString api_credentials_use_custom_key() const override;
+  QString api_credentials_id_key() const override;
+  QString api_credentials_secret_key() const override;
+
+  void ReloadSettings() override;
 
  private:
   class ArtworkRequest {
@@ -119,6 +128,9 @@ class OpenTidalCoverProvider : public JsonCoverProvider {
 
  private:
   OAuthenticator *oauth_;
+  QString client_id_;
+  QString client_secret_;
+  bool api_credentials_initialized_ = false;
   QTimer *timer_flush_requests_;
   bool login_in_progress_;
   QDateTime last_login_attempt_;

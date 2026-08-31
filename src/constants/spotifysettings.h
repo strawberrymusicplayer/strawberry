@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,6 +37,10 @@ constexpr char kAccessToken[] = "access_token";
 constexpr char kRefreshToken[] = "refresh_token";
 constexpr char kExpiresIn[] = "expires_in";
 constexpr char kLoginTime[] = "login_time";
+
+constexpr char kUseCustomApiCredentials[] = "use_custom_api_credentials";
+constexpr char kClientId[] = "client_id";
+constexpr char kClientSecret[] = "client_secret";
 
 constexpr bool kDefaultEnabled = false;
 constexpr int kDefaultSearchDelay = 1500;

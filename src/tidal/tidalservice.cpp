@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
  */
 
 #include "config.h"
+#include "apicredentials.h"
 
 #include <memory>
 
@@ -27,6 +28,7 @@
 #include <QTimer>
 
 #include "includes/shared_ptr.h"
+#include "utilities/cryptutils.h"
 #include "core/logging.h"
 #include "core/settings.h"
 #include "core/database.h"
@@ -56,6 +58,22 @@ const Song::Source TidalService::kSource = Song::Source::Tidal;
 
 const char TidalService::kApiUrl[] = "https://api.tidalhifi.com/v1";
 const char TidalService::kResourcesUrl[] = "https://resources.tidal.com";
+
+bool TidalService::HasCompiledCredentials() {
+#ifdef TIDAL_CLIENT_ID
+  return true;
+#else
+  return false;
+#endif
+}
+
+QString TidalService::CompiledClientId() {
+#ifdef TIDAL_CLIENT_ID
+  return Utilities::MaybeDecryptApiCredential(QStringLiteral(TIDAL_CLIENT_ID));
+#else
+  return QString();
+#endif
+}
 
 namespace {
 
@@ -223,7 +241,9 @@ void TidalService::ReloadSettings() {
   Settings s;
   s.beginGroup(TidalSettings::kSettingsGroup);
   enabled_ = s.value(TidalSettings::kEnabled, TidalSettings::kDefaultEnabled).toBool();
-  client_id_ = s.value(TidalSettings::kClientId).toString();
+  const QString client_id = s.value(TidalSettings::kClientId).toString();
+  const bool use_custom_client_id = !HasCompiledCredentials() || s.value(TidalSettings::kUseCustomClientId, !client_id.isEmpty()).toBool();
+  client_id_ = use_custom_client_id ? client_id : CompiledClientId();
   quality_ = s.value(TidalSettings::kQuality, QLatin1String(TidalSettings::kDefaultQuality)).toString();
   quint64 search_delay = s.value(TidalSettings::kSearchDelay, TidalSettings::kDefaultSearchDelay).toULongLong();
   artistssearchlimit_ = s.value(TidalSettings::kArtistsSearchLimit, TidalSettings::kDefaultArtistsSearchLimit).toInt();
