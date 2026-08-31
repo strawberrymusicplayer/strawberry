@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,6 +50,8 @@ class ListenBrainzScrobbler : public ScrobblerService {
   static const char *kName;
   static const char *kSettingsGroup;
 
+  static bool HasCompiledCredentials();
+
   void ReloadSettings() override;
 
   bool enabled() const override { return enabled_; }
@@ -95,6 +97,9 @@ class ListenBrainzScrobbler : public ScrobblerService {
   QTimer *timer_submit_;
   bool enabled_;
   QString user_token_;
+  QString client_id_;
+  QString client_secret_;
+  bool api_credentials_initialized_ = false;
   bool submitted_;
   Song song_playing_;
   bool scrobbled_;

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -230,7 +230,16 @@ void OAuthenticator::StartRefreshLoginTimer() {
 
 void OAuthenticator::Authenticate() {
 
+  if (client_id_.isEmpty()) {
+    Q_EMIT AuthenticationFinished(false, tr("Missing client ID"));
+    return;
+  }
+
   if (type_ == Type::Client_Credentials) {
+    if (client_secret_.isEmpty()) {
+      Q_EMIT AuthenticationFinished(false, tr("Missing client secret"));
+      return;
+    }
     RequestAccessToken();
     return;
   }

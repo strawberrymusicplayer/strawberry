@@ -46,9 +46,17 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   void Authenticate() override;
   void ClearSession() override;
 
+  bool has_compiled_api_credentials() const override;
+  bool supports_custom_api_credentials() const override;
+  QString api_credentials_settings_group() const override;
+  QString api_credentials_use_custom_key() const override;
+  QString api_credentials_id_key() const override;
+  QString api_credentials_secret_key() const override;
   virtual bool authenticated() const override;
   virtual bool use_authorization_header() const override;
   virtual QByteArray authorization_header() const override;
+
+  void ReloadSettings() override;
 
  protected Q_SLOTS:
   void StartSearch(const int id, const LyricsSearchRequest &request) override;
@@ -86,6 +94,9 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
 
  private:
   OAuthenticator *oauth_;
+  QString client_id_;
+  QString client_secret_;
+  bool api_credentials_initialized_ = false;
   mutable QMutex mutex_access_token_;
   QMap<int, SharedPtr<GeniusLyricsSearchContext>> requests_search_;
 

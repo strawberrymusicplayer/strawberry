@@ -18,6 +18,7 @@
  */
 
 #include "config.h"
+#include "apicredentials.h"
 
 #include <memory>
 
@@ -40,9 +41,12 @@
 #include <QMessageBox>
 
 #include "includes/shared_ptr.h"
+#include "utilities/cryptutils.h"
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "core/oauthenticator.h"
+#include "core/settings.h"
+#include "constants/geniussettings.h"
 #include "jsonlyricsprovider.h"
 #include "htmllyricsprovider.h"
 #include "geniuslyricsprovider.h"
@@ -57,8 +61,22 @@ constexpr char kOAuthAccessTokenUrl[] = "https://api.genius.com/oauth/token";
 constexpr char kOAuthRedirectUrl[] = "http://localhost:63111/";  // Genius does not accept a random port number. This port must match the URL of the ClientID.
 constexpr char kOAuthScope[] = "me";
 constexpr char kUrlSearch[] = "https://api.genius.com/search/";
-constexpr char kClientIDB64[] = "RUNTNXU4U1VyMU1KUU5hdTZySEZteUxXY2hkanFiY3lfc2JjdXBpNG5WMU9SNUg4dTBZelEtZTZCdFg2dl91SQ==";
-constexpr char kClientSecretB64[] = "VE9pMU9vUjNtTXZ3eFR3YVN0QVRyUjVoUlhVWDI1Ylp5X240eEt1M0ZkYlNwRG5JUnd0LXFFbHdGZkZkRWY2VzJ1S011UnQzM3c2Y3hqY0tVZ3NGN2c=";
+
+QString CompiledClientId() {
+#ifdef GENIUS_CLIENT_ID
+  return Utilities::MaybeDecryptApiCredential(QStringLiteral(GENIUS_CLIENT_ID));
+#else
+  return QString();
+#endif
+}
+
+QString CompiledClientSecret() {
+#ifdef GENIUS_CLIENT_SECRET
+  return Utilities::MaybeDecryptApiCredential(QStringLiteral(GENIUS_CLIENT_SECRET));
+#else
+  return QString();
+#endif
+}
 }  // namespace
 
 GeniusLyricsProvider::GeniusLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent)
@@ -70,15 +88,63 @@ GeniusLyricsProvider::GeniusLyricsProvider(const SharedPtr<NetworkAccessManager>
   oauth_->set_authorize_url(QUrl(QLatin1String(kOAuthAuthorizeUrl)));
   oauth_->set_redirect_url(QUrl(QLatin1String(kOAuthRedirectUrl)));
   oauth_->set_access_token_url(QUrl(QLatin1String(kOAuthAccessTokenUrl)));
-  oauth_->set_client_id(QString::fromLatin1(QByteArray::fromBase64(kClientIDB64)));
-  oauth_->set_client_secret(QString::fromLatin1(QByteArray::fromBase64(kClientSecretB64)));
   oauth_->set_scope(QLatin1String(kOAuthScope));
   oauth_->set_use_local_redirect_server(true);
   oauth_->set_random_port(false);
 
   QObject::connect(oauth_, &OAuthenticator::AuthenticationFinished, this, &GeniusLyricsProvider::OAuthFinished);
 
+  GeniusLyricsProvider::ReloadSettings();
   oauth_->LoadSession();
+
+}
+
+bool GeniusLyricsProvider::has_compiled_api_credentials() const {
+#if defined(GENIUS_CLIENT_ID) && defined(GENIUS_CLIENT_SECRET)
+  return true;
+#else
+  return false;
+#endif
+}
+
+bool GeniusLyricsProvider::supports_custom_api_credentials() const {
+  return true;
+}
+
+QString GeniusLyricsProvider::api_credentials_settings_group() const {
+  return QLatin1String(kSettingsGroup);
+}
+
+QString GeniusLyricsProvider::api_credentials_use_custom_key() const {
+  return QLatin1String(GeniusSettings::kUseCustomApiCredentials);
+}
+
+QString GeniusLyricsProvider::api_credentials_id_key() const {
+  return QLatin1String(GeniusSettings::kClientId);
+}
+
+QString GeniusLyricsProvider::api_credentials_secret_key() const {
+  return QLatin1String(GeniusSettings::kClientSecret);
+}
+
+void GeniusLyricsProvider::ReloadSettings() {
+
+  Settings s;
+  s.beginGroup(QLatin1String(kSettingsGroup));
+  const bool use_custom_api_credentials = !has_compiled_api_credentials() || s.value(GeniusSettings::kUseCustomApiCredentials, false).toBool();
+  const QString client_id = use_custom_api_credentials ? s.value(GeniusSettings::kClientId).toString() : CompiledClientId();
+  const QString client_secret = use_custom_api_credentials ? s.value(GeniusSettings::kClientSecret).toString() : CompiledClientSecret();
+  s.endGroup();
+
+  const bool api_credentials_changed = api_credentials_initialized_ && (client_id != client_id_ || client_secret != client_secret_);
+  client_id_ = client_id;
+  client_secret_ = client_secret;
+  oauth_->set_client_id(client_id_);
+  oauth_->set_client_secret(client_secret_);
+  if (api_credentials_changed || client_id_.isEmpty() || client_secret_.isEmpty()) {
+    oauth_->ClearSession();
+  }
+  api_credentials_initialized_ = true;
 
 }
 
@@ -95,6 +161,14 @@ bool GeniusLyricsProvider::use_authorization_header() const {
 }
 
 void GeniusLyricsProvider::Authenticate() {
+
+  if (client_id_.isEmpty() || client_secret_.isEmpty()) {
+    const QString error = tr("Missing Genius client ID and/or client secret");
+    qLog(Error) << error;
+    Q_EMIT AuthenticationFailure(error);
+    Q_EMIT AuthenticationComplete(false, error);
+    return;
+  }
 
   oauth_->Authenticate();
 
@@ -128,6 +202,12 @@ void GeniusLyricsProvider::OAuthFinished(const bool success, const QString &erro
 }
 
 void GeniusLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
+
+  if (client_id_.isEmpty() || client_secret_.isEmpty()) {
+    Error(tr("Missing Genius client ID and/or client secret"));
+    EndSearch(id, request);
+    return;
+  }
 
   if (!authenticated()) {
     EndSearch(id, request);

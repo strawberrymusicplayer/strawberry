@@ -1,8 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,11 +17,28 @@
  *
  */
 
+#ifndef ACOUSTIDSETTINGSPAGE_H
+#define ACOUSTIDSETTINGSPAGE_H
+
 #include "config.h"
 
-#include <QString>
+#include "settings/settingspage.h"
 
-#include "includes/shared_ptr.h"
-#include "coverprovider.h"
+class SettingsDialog;
+class Ui_AcoustidSettingsPage;
 
-CoverProvider::CoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool batch, const bool allow_missing_album, const SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonBaseRequest(network, parent), network_(network), name_(name), enabled_(enabled), order_(0), authentication_required_(authentication_required), quality_(quality), batch_(batch), allow_missing_album_(allow_missing_album) {}
+class AcoustidSettingsPage : public SettingsPage {
+  Q_OBJECT
+
+ public:
+  explicit AcoustidSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
+  ~AcoustidSettingsPage() override;
+
+  void Load() override;
+  void Save() override;
+
+ private:
+  Ui_AcoustidSettingsPage *ui_;
+};
+
+#endif  // ACOUSTIDSETTINGSPAGE_H

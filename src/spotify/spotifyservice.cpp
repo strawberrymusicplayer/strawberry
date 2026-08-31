@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
  */
 
 #include "config.h"
+#include "apicredentials.h"
 
 #include <memory>
 
@@ -27,6 +28,7 @@
 #include <QTimer>
 
 #include "constants/spotifysettings.h"
+#include "utilities/cryptutils.h"
 #include "core/logging.h"
 #include "core/song.h"
 #include "core/settings.h"
@@ -53,13 +55,35 @@ constexpr char kOAuthAuthorizeUrl[] = "https://accounts.spotify.com/authorize";
 constexpr char kOAuthAccessTokenUrl[] = "https://accounts.spotify.com/api/token";
 constexpr char kOAuthRedirectUrl[] = "http://127.0.0.1:63111";
 constexpr char kOAuthScope[] = "user-follow-read user-follow-modify user-library-read user-library-modify streaming";
-constexpr char kClientIDB64[] = "ZTZjY2Y2OTQ5NzY1NGE3NThjOTAxNWViYzdiMWQzMTc=";
-constexpr char kClientSecretB64[] = "N2ZlMDMxODk1NTBlNDE3ZGI1ZWQ1MzE3ZGZlZmU2MTE=";
 constexpr char kArtistsSongsTable[] = "spotify_artists_songs";
 constexpr char kAlbumsSongsTable[] = "spotify_albums_songs";
 constexpr char kSongsTable[] = "spotify_songs";
 
+QString CompiledClientId() {
+#ifdef SPOTIFY_CLIENT_ID
+  return Utilities::MaybeDecryptApiCredential(QStringLiteral(SPOTIFY_CLIENT_ID));
+#else
+  return QString();
+#endif
+}
+
+QString CompiledClientSecret() {
+#ifdef SPOTIFY_CLIENT_SECRET
+  return Utilities::MaybeDecryptApiCredential(QStringLiteral(SPOTIFY_CLIENT_SECRET));
+#else
+  return QString();
+#endif
+}
+
 }  // namespace
+
+bool SpotifyService::HasCompiledCredentials() {
+#if defined(SPOTIFY_CLIENT_ID) && defined(SPOTIFY_CLIENT_SECRET)
+  return true;
+#else
+  return false;
+#endif
+}
 
 using std::make_shared;
 using namespace std::chrono_literals;
@@ -81,6 +105,7 @@ SpotifyService::SpotifyService(const SharedPtr<TaskManager> task_manager,
       timer_search_delay_(new QTimer(this)),
       favorite_request_(new SpotifyFavoriteRequest(this, network_, this)),
       enabled_(false),
+      api_credentials_initialized_(false),
       artistssearchlimit_(1),
       albumssearchlimit_(1),
       songssearchlimit_(1),
@@ -97,8 +122,6 @@ SpotifyService::SpotifyService(const SharedPtr<TaskManager> task_manager,
   oauth_->set_authorize_url(QUrl(QLatin1String(kOAuthAuthorizeUrl)));
   oauth_->set_redirect_url(QUrl(QLatin1String(kOAuthRedirectUrl)));
   oauth_->set_access_token_url(QUrl(QLatin1String(kOAuthAccessTokenUrl)));
-  oauth_->set_client_id(QString::fromLatin1(QByteArray::fromBase64(kClientIDB64)));
-  oauth_->set_client_secret(QString::fromLatin1(QByteArray::fromBase64(kClientSecretB64)));
   oauth_->set_scope(QLatin1String(kOAuthScope));
   oauth_->set_use_local_redirect_server(true);
   oauth_->set_random_port(false);
@@ -199,6 +222,20 @@ void SpotifyService::ReloadSettings() {
 
   enabled_ = s.value(SpotifySettings::kEnabled, SpotifySettings::kDefaultEnabled).toBool();
 
+  const bool use_custom_api_credentials = !HasCompiledCredentials() || s.value(SpotifySettings::kUseCustomApiCredentials, false).toBool();
+  const QString client_id = use_custom_api_credentials ? s.value(SpotifySettings::kClientId).toString() : CompiledClientId();
+  const QString client_secret = use_custom_api_credentials ? s.value(SpotifySettings::kClientSecret).toString() : CompiledClientSecret();
+  const bool api_credentials_changed = api_credentials_initialized_ && (client_id != client_id_ || client_secret != client_secret_);
+  client_id_ = client_id;
+  client_secret_ = client_secret;
+  oauth_->set_client_id(client_id_);
+  oauth_->set_client_secret(client_secret_);
+  // A session granted under a since-changed client id must not survive, and an empty client id can never have a valid session of its own - clear unconditionally in that case (including on the very first call from the constructor, before oauth_->LoadSession() below has a chance to read a leftover persisted session back in).
+  if (api_credentials_changed || client_id_.isEmpty() || client_secret_.isEmpty()) {
+    oauth_->ClearSession();
+  }
+  api_credentials_initialized_ = true;
+
   quint64 search_delay = std::max(s.value(SpotifySettings::kSearchDelay, SpotifySettings::kDefaultSearchDelay).toULongLong(), 500ULL);
   artistssearchlimit_ = s.value(SpotifySettings::kArtistsSearchLimit, SpotifySettings::kDefaultArtistsSearchLimit).toInt();
   albumssearchlimit_ = s.value(SpotifySettings::kAlbumsSearchLimit, SpotifySettings::kDefaultAlbumsSearchLimit).toInt();
@@ -214,6 +251,14 @@ void SpotifyService::ReloadSettings() {
 }
 
 void SpotifyService::Authenticate() {
+
+  if (client_id_.isEmpty() || client_secret_.isEmpty()) {
+    const QString error = tr("Missing Spotify client ID and/or client secret");
+    qLog(Error) << error;
+    Q_EMIT LoginFailure(error);
+    Q_EMIT LoginFinished(false, error);
+    return;
+  }
 
   oauth_->Authenticate();
 

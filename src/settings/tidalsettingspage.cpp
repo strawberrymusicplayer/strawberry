@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 #include <QSettings>
 #include <QCheckBox>
 #include <QComboBox>
+#include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QSpinBox>
@@ -50,6 +51,9 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, SharedPtr<TidalServ
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(u"tidal"_s, true, 0, 32));
+
+  QObject::connect(ui_->checkbox_use_custom_client_id, &QCheckBox::toggled, ui_->client_id, &QLineEdit::setEnabled);
+  QObject::connect(ui_->checkbox_use_custom_client_id, &QCheckBox::toggled, ui_->label_client_id, &QLabel::setEnabled);
 
   QObject::connect(ui_->button_login, &QPushButton::clicked, this, &TidalSettingsPage::LoginClicked);
   QObject::connect(ui_->login_state, &LoginStateWidget::LogoutClicked, this, &TidalSettingsPage::LogoutClicked);
@@ -93,7 +97,20 @@ void TidalSettingsPage::Load() {
   Settings s;
   s.beginGroup(kSettingsGroup);
   ui_->enable->setChecked(s.value(kEnabled, kDefaultEnabled).toBool());
-  ui_->client_id->setText(s.value(kClientId).toString());
+  const QString client_id = s.value(kClientId).toString();
+  ui_->client_id->setText(client_id);
+  if (TidalService::HasCompiledCredentials()) {
+    ui_->checkbox_use_custom_client_id->setVisible(true);
+    const bool use_custom_client_id = s.value(kUseCustomClientId, !client_id.isEmpty()).toBool();
+    ui_->checkbox_use_custom_client_id->setChecked(use_custom_client_id);
+    ui_->client_id->setEnabled(use_custom_client_id);
+    ui_->label_client_id->setEnabled(use_custom_client_id);
+  }
+  else {
+    ui_->checkbox_use_custom_client_id->setVisible(false);
+    ui_->client_id->setEnabled(true);
+    ui_->label_client_id->setEnabled(true);
+  }
   ComboBoxLoadFromSettings(s, ui_->quality, QLatin1String(kQuality), QLatin1String(kDefaultQuality));
   ui_->searchdelay->setValue(s.value(kSearchDelay, kDefaultSearchDelay).toInt());
   ui_->artistssearchlimit->setValue(s.value(kArtistsSearchLimit, kDefaultArtistsSearchLimit).toInt());
@@ -135,6 +152,7 @@ void TidalSettingsPage::Save() {
     s.remove(kPassword);
   }
   s.setValue(kClientId, ui_->client_id->text());
+  s.setValue(kUseCustomClientId, ui_->checkbox_use_custom_client_id->isChecked());
   s.setValue(kQuality, ui_->quality->currentData().toString());
   s.setValue(kSearchDelay, ui_->searchdelay->value());
   s.setValue(kArtistsSearchLimit, ui_->artistssearchlimit->value());
@@ -152,11 +170,15 @@ void TidalSettingsPage::Save() {
 
 void TidalSettingsPage::LoginClicked() {
 
-  if (ui_->client_id->text().isEmpty()) {
+  // When not using a custom client ID, ui_->client_id is intentionally left blank (see Load()) - fall back to the compiled-in default rather than treating that as "missing". Mirrors TidalService::ReloadSettings()'s own use_custom_client_id logic.
+  const bool use_custom_client_id = !TidalService::HasCompiledCredentials() || ui_->checkbox_use_custom_client_id->isChecked();
+  const QString client_id = use_custom_client_id ? ui_->client_id->text() : TidalService::CompiledClientId();
+
+  if (client_id.isEmpty()) {
     QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing Tidal client ID."));
     return;
   }
-  Q_EMIT Authorize(ui_->client_id->text());
+  Q_EMIT Authorize(client_id);
   ui_->button_login->setEnabled(false);
 
 }

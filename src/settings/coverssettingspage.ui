@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>460</width>
-    <height>897</height>
+    <height>1028</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -66,7 +66,7 @@
           <item>
            <spacer name="spacer_providers_updown">
             <property name="orientation">
-             <enum>Qt::Orientation::Vertical</enum>
+             <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -77,6 +77,60 @@
            </spacer>
           </item>
          </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupbox_api_credentials">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>API Credentials</string>
+     </property>
+     <layout class="QVBoxLayout" name="layout_credentials">
+      <item>
+       <widget class="QCheckBox" name="checkbox_custom_api_credentials">
+        <property name="text">
+         <string>Use custom API credentials</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QFormLayout" name="formlayout_api_credentials">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_api_credential_id">
+          <property name="text">
+           <string>Client ID</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="lineedit_api_credential_id">
+          <property name="text">
+           <string notr="true"/>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_api_credential_secret">
+          <property name="text">
+           <string>Client secret</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="lineedit_api_credential_secret">
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -126,7 +180,7 @@
         <item>
          <spacer name="spacer_button_authenticate">
           <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
+           <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -176,7 +230,7 @@
         <item>
          <spacer name="spacer_types_updown">
           <property name="orientation">
-           <enum>Qt::Orientation::Vertical</enum>
+           <enum>Qt::Vertical</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -268,7 +322,7 @@
             <item>
              <spacer name="spacer_cover_filename_bttons">
               <property name="orientation">
-               <enum>Qt::Orientation::Horizontal</enum>
+               <enum>Qt::Horizontal</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
@@ -318,7 +372,7 @@
    <item>
     <spacer name="spacer_bottom">
      <property name="orientation">
-      <enum>Qt::Orientation::Vertical</enum>
+      <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -338,6 +392,27 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>providers</tabstop>
+  <tabstop>providers_up</tabstop>
+  <tabstop>providers_down</tabstop>
+  <tabstop>checkbox_custom_api_credentials</tabstop>
+  <tabstop>lineedit_api_credential_id</tabstop>
+  <tabstop>lineedit_api_credential_secret</tabstop>
+  <tabstop>button_authenticate</tabstop>
+  <tabstop>types</tabstop>
+  <tabstop>types_up</tabstop>
+  <tabstop>types_down</tabstop>
+  <tabstop>radiobutton_save_albumcover_albumdir</tabstop>
+  <tabstop>radiobutton_save_albumcover_cache</tabstop>
+  <tabstop>radiobutton_save_albumcover_embedded</tabstop>
+  <tabstop>radiobutton_cover_pattern</tabstop>
+  <tabstop>radiobutton_cover_hash</tabstop>
+  <tabstop>lineedit_cover_pattern</tabstop>
+  <tabstop>checkbox_cover_overwrite</tabstop>
+  <tabstop>checkbox_cover_lowercase</tabstop>
+  <tabstop>checkbox_cover_replace_spaces</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

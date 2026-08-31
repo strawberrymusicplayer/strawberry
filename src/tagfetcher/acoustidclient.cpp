@@ -20,6 +20,7 @@
  */
 
 #include "config.h"
+#include "apicredentials.h"
 
 #include <algorithm>
 #include <utility>
@@ -41,20 +42,51 @@
 #include <QJsonValue>
 
 #include "includes/shared_ptr.h"
+#include "utilities/cryptutils.h"
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "core/networktimeouts.h"
+#include "core/settings.h"
 #include "constants/timeconstants.h"
+#include "constants/acoustidsettings.h"
 
 #include "acoustidclient.h"
 
 using namespace Qt::Literals::StringLiterals;
 
 namespace {
-constexpr char kClientId[] = "0qjUoxbowg";
 constexpr char kUrl[] = "https://api.acoustid.org/v2/lookup";
 constexpr int kDefaultTimeout = 5000;  // msec
+
+QString CompiledApiKey() {
+#ifdef ACOUSTID_API_KEY
+  return Utilities::MaybeDecryptApiCredential(QStringLiteral(ACOUSTID_API_KEY));
+#else
+  return QString();
+#endif
+}
+
+QString ApiKey() {
+
+  Settings s;
+  s.beginGroup(QLatin1String(AcoustidSettings::kSettingsGroup));
+  const bool use_custom_api_key = !AcoustidClient::HasCompiledApiKey() || s.value(AcoustidSettings::kUseCustomApiKey, false).toBool();
+  const QString api_key = use_custom_api_key ? s.value(AcoustidSettings::kApiKey).toString() : CompiledApiKey();
+  s.endGroup();
+
+  return api_key;
+
+}
+
 }  // namespace
+
+bool AcoustidClient::HasCompiledApiKey() {
+#ifdef ACOUSTID_API_KEY
+  return true;
+#else
+  return false;
+#endif
+}
 
 AcoustidClient::AcoustidClient(SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),
@@ -69,7 +101,13 @@ AcoustidClient::~AcoustidClient() {
 
 void AcoustidClient::SetTimeout(const int msec) { timeouts_->SetTimeout(msec); }
 
-void AcoustidClient::Start(const int id, const QString &fingerprint, const int duration_msec) {
+bool AcoustidClient::Start(const int id, const QString &fingerprint, const int duration_msec, QString &error) {
+
+  const QString api_key = ApiKey();
+  if (api_key.isEmpty()) {
+    error = tr("Missing AcoustID API key");
+    return false;
+  }
 
   using Param = QPair<QString, QString>;
   using ParamList = QList<Param>;
@@ -77,7 +115,7 @@ void AcoustidClient::Start(const int id, const QString &fingerprint, const int d
   const qint64 duration_secs = qMax(1LL, duration_msec / kMsecPerSec);
 
   const ParamList params = ParamList() << Param(u"format"_s, u"json"_s)
-                                       << Param(u"client"_s, QLatin1String(kClientId))
+                                       << Param(u"client"_s, api_key)
                                        << Param(u"duration"_s, QString::number(duration_secs))
                                        << Param(u"meta"_s, u"recordingids+sources"_s)
                                        << Param(u"fingerprint"_s, fingerprint);
@@ -94,6 +132,8 @@ void AcoustidClient::Start(const int id, const QString &fingerprint, const int d
   requests_[id] = reply;
 
   timeouts_->AddReply(reply);
+
+  return true;
 
 }
 

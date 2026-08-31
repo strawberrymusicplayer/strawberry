@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include "config.h"
 
 #include <QObject>
+#include <QHash>
 #include <QString>
 #include <QStringList>
 
@@ -47,10 +48,18 @@ class LyricsSettingsPage : public SettingsPage {
   void Save() override;
 
  private:
+  struct CredentialsDraft {
+    bool use_custom_api_credentials = false;
+    QString id;
+    QString secret;
+  };
+
   void NoProviderSelected();
   void ProvidersMove(const int d);
   void DisableAuthentication();
   void DisconnectAuthentication(LyricsProvider *provider) const;
+  void UpdateCredentialsUi(LyricsProvider *provider);
+  void SaveCredentialsUi(LyricsProvider *provider, const CredentialsDraft &credentials_draft);
   static bool ProviderCompareOrder(LyricsProvider *a, LyricsProvider *b);
 
  private Q_SLOTS:
@@ -63,11 +72,14 @@ class LyricsSettingsPage : public SettingsPage {
   void LogoutClicked();
   void AuthenticationSuccess();
   void AuthenticationFailure(const QString &error);
+  void CredentialsUiChanged();
 
  private:
   Ui_LyricsSettingsPage *ui_;
   const SharedPtr<LyricsProviders> lyrics_providers_;
   bool provider_selected_;
+  QHash<QString, CredentialsDraft> credential_drafts_;
+  QString current_credentials_provider_;
 };
 
 #endif  // LYRICSSETTINGSPAGE_H

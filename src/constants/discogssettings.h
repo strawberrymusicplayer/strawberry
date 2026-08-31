@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,21 +17,15 @@
  *
  */
 
-#ifndef CRYPTUTILS_H
-#define CRYPTUTILS_H
+#ifndef DISCOGSSETTINGS_H
+#define DISCOGSSETTINGS_H
 
-#include <QByteArray>
-#include <QString>
-#include <QCryptographicHash>
+namespace DiscogsSettings {
 
-namespace Utilities {
+constexpr char kUseCustomApiCredentials[] = "use_custom_api_credentials";
+constexpr char kClientId[] = "client_id";
+constexpr char kClientSecret[] = "client_secret";
 
-QByteArray Hmac(const QByteArray &key, const QByteArray &data, const QCryptographicHash::Algorithm method);
-QByteArray HmacMd5(const QByteArray &key, const QByteArray &data);
-QByteArray HmacSha256(const QByteArray &key, const QByteArray &data);
-QByteArray HmacSha1(const QByteArray &key, const QByteArray &data);
-QString MaybeDecryptApiCredential(const QString &value);
+}  // namespace DiscogsSettings
 
-}  // namespace Utilities
-
-#endif  // CRYPTUTILS_H
+#endif  // DISCOGSSETTINGS_H

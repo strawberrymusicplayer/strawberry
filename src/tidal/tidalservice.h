@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -71,6 +71,9 @@ class TidalService : public StreamingService {
   static const Song::Source kSource;
   static const char kApiUrl[];
   static const char kResourcesUrl[];
+
+  static bool HasCompiledCredentials();
+  static QString CompiledClientId();
 
   void Exit() override;
   void ReloadSettings() override;

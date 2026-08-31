@@ -57,6 +57,7 @@ void LyricsProviders::ReloadSettings() {
   QMap<int, QString> all_providers;
   QList<LyricsProvider*> old_providers = lyrics_providers_.keys();
   for (LyricsProvider *provider : std::as_const(old_providers)) {
+    provider->ReloadSettings();
     if (!provider->is_enabled()) continue;
     all_providers.insert(provider->order(), provider->name());
   }

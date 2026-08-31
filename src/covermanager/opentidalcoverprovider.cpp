@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
  */
 
 #include "config.h"
+#include "apicredentials.h"
 
 #include <QVariant>
 #include <QByteArray>
@@ -34,9 +35,12 @@
 #include <QScopeGuard>
 
 #include "includes/shared_ptr.h"
+#include "utilities/cryptutils.h"
 #include "core/networkaccessmanager.h"
 #include "core/logging.h"
 #include "core/oauthenticator.h"
+#include "core/settings.h"
+#include "constants/opentidalsettings.h"
 #include "albumcoverfetcher.h"
 #include "jsoncoverprovider.h"
 #include "opentidalcoverprovider.h"
@@ -47,11 +51,25 @@ namespace {
 constexpr char kSettingsGroup[] = "OpenTidal";
 constexpr char kOAuthAccessTokenUrl[] = "https://auth.tidal.com/v1/oauth2/token";
 constexpr char kApiUrl[] = "https://openapi.tidal.com/v2";
-constexpr char kApiClientIdB64[] = "RHBwV3FpTEM4ZFJSV1RJaQ==";
-constexpr char kApiClientSecretB64[] = "cGk0QmxpclZXQWlteWpBc0RnWmZ5RmVlRzA2b3E1blVBVTljUW1IdFhDST0=";
 constexpr char kContentTypeHeader[] = "application/vnd.api+json";
 constexpr int kSearchLimit = 6;
 constexpr const int kRequestsDelay = 300;
+
+QString CompiledClientId() {
+#ifdef OPENTIDAL_CLIENT_ID
+  return Utilities::MaybeDecryptApiCredential(QStringLiteral(OPENTIDAL_CLIENT_ID));
+#else
+  return QString();
+#endif
+}
+
+QString CompiledClientSecret() {
+#ifdef OPENTIDAL_CLIENT_SECRET
+  return Utilities::MaybeDecryptApiCredential(QStringLiteral(OPENTIDAL_CLIENT_SECRET));
+#else
+  return QString();
+#endif
+}
 }  // namespace
 
 using std::make_shared;
@@ -65,8 +83,6 @@ OpenTidalCoverProvider::OpenTidalCoverProvider(const SharedPtr<NetworkAccessMana
   oauth_->set_settings_group(QLatin1String(kSettingsGroup));
   oauth_->set_type(OAuthenticator::Type::Client_Credentials);
   oauth_->set_access_token_url(QUrl(QLatin1String(kOAuthAccessTokenUrl)));
-  oauth_->set_client_id(QString::fromLatin1(QByteArray::fromBase64(kApiClientIdB64)));
-  oauth_->set_client_secret(QString::fromLatin1(QByteArray::fromBase64(kApiClientSecretB64)));
   oauth_->set_use_local_redirect_server(false);
   oauth_->set_random_port(false);
   QObject::connect(oauth_, &OAuthenticator::AuthenticationFinished, this, &OpenTidalCoverProvider::OAuthFinished);
@@ -75,13 +91,65 @@ OpenTidalCoverProvider::OpenTidalCoverProvider(const SharedPtr<NetworkAccessMana
   timer_flush_requests_->setSingleShot(false);
   QObject::connect(timer_flush_requests_, &QTimer::timeout, this, &OpenTidalCoverProvider::FlushRequests);
 
+  OpenTidalCoverProvider::ReloadSettings();
   oauth_->LoadSession();
+
+}
+
+bool OpenTidalCoverProvider::has_compiled_api_credentials() const {
+#if defined(OPENTIDAL_CLIENT_ID) && defined(OPENTIDAL_CLIENT_SECRET)
+  return true;
+#else
+  return false;
+#endif
+}
+
+QString OpenTidalCoverProvider::api_credentials_settings_group() const {
+  return QLatin1String(kSettingsGroup);
+}
+
+QString OpenTidalCoverProvider::api_credentials_use_custom_key() const {
+  return QLatin1String(OpenTidalSettings::kUseCustomApiCredentials);
+}
+
+QString OpenTidalCoverProvider::api_credentials_id_key() const {
+  return QLatin1String(OpenTidalSettings::kClientId);
+}
+
+QString OpenTidalCoverProvider::api_credentials_secret_key() const {
+  return QLatin1String(OpenTidalSettings::kClientSecret);
+}
+
+void OpenTidalCoverProvider::ReloadSettings() {
+
+  Settings s;
+  s.beginGroup(QLatin1String(kSettingsGroup));
+  const bool use_custom_api_credentials = !has_compiled_api_credentials() || s.value(OpenTidalSettings::kUseCustomApiCredentials, false).toBool();
+  const QString client_id = use_custom_api_credentials ? s.value(OpenTidalSettings::kClientId).toString() : CompiledClientId();
+  const QString client_secret = use_custom_api_credentials ? s.value(OpenTidalSettings::kClientSecret).toString() : CompiledClientSecret();
+  s.endGroup();
+
+  // Only clear a previously granted token (belonging to the old client id/secret) on an actual change after initialization - not on the very first ReloadSettings() call from the constructor, which would otherwise wipe a persisted session before LoadSession() reads it.
+  const bool api_credentials_changed = api_credentials_initialized_ && (client_id != client_id_ || client_secret != client_secret_);
+  client_id_ = client_id;
+  client_secret_ = client_secret;
+  oauth_->set_client_id(client_id_);
+  oauth_->set_client_secret(client_secret_);
+  if (api_credentials_changed) {
+    oauth_->ClearSession();
+  }
+  api_credentials_initialized_ = true;
 
 }
 
 bool OpenTidalCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 
   if (artist.isEmpty() || album.isEmpty()) return false;
+
+  if (client_id_.isEmpty() || client_secret_.isEmpty()) {
+    Error(tr("Missing OpenTidal client ID and/or client secret."));
+    return false;
+  }
 
   if (!oauth_->authenticated() && !login_in_progress_ && (last_login_attempt_.isValid() && (QDateTime::currentSecsSinceEpoch() - last_login_attempt_.toSecsSinceEpoch()) < 120)) {
     return false;
@@ -160,8 +228,9 @@ void OpenTidalCoverProvider::OAuthFinished(const bool success, const QString &er
     }
   }
   else {
-    qLog(Debug) << "OpenTidal: Authentication failed" << error;
+    Error(tr("Authentication failed: %1").arg(error));
     last_login_attempt_ = QDateTime::currentDateTime();
+    FinishAllSearches();
   }
 
 }

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +32,6 @@
 #include <QScopeGuard>
 
 #include "includes/shared_ptr.h"
-#include "utilities/musixmatchprovider.h"
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "albumcoverfetcher.h"
@@ -40,7 +39,6 @@
 #include "musixmatchcoverprovider.h"
 
 using namespace Qt::Literals::StringLiterals;
-using namespace MusixmatchProvider;
 
 MusixmatchCoverProvider::MusixmatchCoverProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent)
     : JsonCoverProvider(u"Musixmatch"_s, true, false, 1.0, true, false, network, parent) {}
@@ -171,6 +169,23 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
       results << result;
     }
   }
+
+}
+
+QString MusixmatchCoverProvider::StringFixup(QString text) {
+
+  static const QRegularExpression regex_illegal_characters(u"[^\\w0-9\\- ]"_s, QRegularExpression::UseUnicodePropertiesOption);
+  static const QRegularExpression regex_duplicate_whitespaces(u" {2,}"_s);
+  static const QRegularExpression regex_duplicate_dashes(u"(-)\\1+"_s);
+
+  return text.replace(u'/', u'-')
+             .replace(u'\'', u'-')
+             .remove(regex_illegal_characters)
+             .replace(regex_duplicate_whitespaces, u" "_s)
+             .simplified()
+             .replace(u' ', u'-')
+             .replace(regex_duplicate_dashes, u"-"_s)
+             .toLower();
 
 }
 

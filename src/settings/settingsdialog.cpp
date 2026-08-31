@@ -66,6 +66,7 @@
 #include "scrobblersettingspage.h"
 #include "coverssettingspage.h"
 #include "lyricssettingspage.h"
+#include "acoustidsettingspage.h"
 #include "transcodersettingspage.h"
 #include "networkproxysettingspage.h"
 #include "appearancesettingspage.h"
@@ -136,6 +137,7 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
   AddPage(Page::Scrobbler, new ScrobblerSettingsPage(this, scrobbler, this), general);
   AddPage(Page::Covers, new CoversSettingsPage(this, cover_providers, this), general);
   AddPage(Page::Lyrics, new LyricsSettingsPage(this, lyrics_providers, this), general);
+  AddPage(Page::Acoustid, new AcoustidSettingsPage(this, this), general);
   AddPage(Page::Transcoding, new TranscoderSettingsPage(this, this), general);
   AddPage(Page::Proxy, new NetworkProxySettingsPage(this, this), general);
 

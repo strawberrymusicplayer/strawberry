@@ -40,8 +40,10 @@ jobs:
             cmake
             gcc
             gcc-c++
+            openssl
             openssh-clients
             glibc-devel
+            libopenssl-devel
             libboost_headers-devel
             boost-devel
             glib2-devel
@@ -92,7 +94,28 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory build
       - name: Configure CMake
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
+        run: >
+          cmake -S . -B build
+          -DCMAKE_BUILD_TYPE=Debug
+          -DBUILD_WERROR=ON
+          -DCREATE_SOURCE_API_CREDENTIALS=ON
+          -DAPI_CREDENTIALS_ENCRYPTION_KEY="$(openssl rand -hex 32)"
+          -DACOUSTID_API_KEY="${{secrets.ACOUSTID_API_KEY}}"
+          -DLASTFM_API_KEY="${{secrets.LASTFM_API_KEY}}"
+          -DLASTFM_SHARED_SECRET="${{secrets.LASTFM_SHARED_SECRET}}"
+          -DLISTENBRAINZ_CLIENT_ID="${{secrets.LISTENBRAINZ_CLIENT_ID}}"
+          -DLISTENBRAINZ_CLIENT_SECRET="${{secrets.LISTENBRAINZ_CLIENT_SECRET}}"
+          -DSPOTIFY_CLIENT_ID="${{secrets.SPOTIFY_CLIENT_ID}}"
+          -DSPOTIFY_CLIENT_SECRET="${{secrets.SPOTIFY_CLIENT_SECRET}}"
+          -DGENIUS_CLIENT_ID="${{secrets.GENIUS_CLIENT_ID}}"
+          -DGENIUS_CLIENT_SECRET="${{secrets.GENIUS_CLIENT_SECRET}}"
+          -DMUSIXMATCH_APP_ID="${{secrets.MUSIXMATCH_APP_ID}}"
+          -DMUSIXMATCH_APP_SECRET="${{secrets.MUSIXMATCH_APP_SECRET}}"
+          -DOPENTIDAL_CLIENT_ID="${{secrets.OPENTIDAL_CLIENT_ID}}"
+          -DOPENTIDAL_CLIENT_SECRET="${{secrets.OPENTIDAL_CLIENT_SECRET}}"
+          -DDISCOGS_CLIENT_ID="${{secrets.DISCOGS_CLIENT_ID}}"
+          -DDISCOGS_CLIENT_SECRET="${{secrets.DISCOGS_CLIENT_SECRET}}"
+          -DTIDAL_CLIENT_ID="${{secrets.TIDAL_CLIENT_ID}}"
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -159,8 +182,10 @@ jobs:
             glib
             man
             tar
+            openssl
             openssh
             rsync
+            openssl-devel
             boost-devel
             sqlite-devel
             alsa-lib-devel
@@ -198,7 +223,28 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory build
       - name: Configure CMake
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
+        run: >
+          cmake -S . -B build
+          -DCMAKE_BUILD_TYPE=Debug
+          -DBUILD_WERROR=ON
+          -DCREATE_SOURCE_API_CREDENTIALS=ON
+          -DAPI_CREDENTIALS_ENCRYPTION_KEY="$(openssl rand -hex 32)"
+          -DACOUSTID_API_KEY="${{secrets.ACOUSTID_API_KEY}}"
+          -DLASTFM_API_KEY="${{secrets.LASTFM_API_KEY}}"
+          -DLASTFM_SHARED_SECRET="${{secrets.LASTFM_SHARED_SECRET}}"
+          -DLISTENBRAINZ_CLIENT_ID="${{secrets.LISTENBRAINZ_CLIENT_ID}}"
+          -DLISTENBRAINZ_CLIENT_SECRET="${{secrets.LISTENBRAINZ_CLIENT_SECRET}}"
+          -DSPOTIFY_CLIENT_ID="${{secrets.SPOTIFY_CLIENT_ID}}"
+          -DSPOTIFY_CLIENT_SECRET="${{secrets.SPOTIFY_CLIENT_SECRET}}"
+          -DGENIUS_CLIENT_ID="${{secrets.GENIUS_CLIENT_ID}}"
+          -DGENIUS_CLIENT_SECRET="${{secrets.GENIUS_CLIENT_SECRET}}"
+          -DMUSIXMATCH_APP_ID="${{secrets.MUSIXMATCH_APP_ID}}"
+          -DMUSIXMATCH_APP_SECRET="${{secrets.MUSIXMATCH_APP_SECRET}}"
+          -DOPENTIDAL_CLIENT_ID="${{secrets.OPENTIDAL_CLIENT_ID}}"
+          -DOPENTIDAL_CLIENT_SECRET="${{secrets.OPENTIDAL_CLIENT_SECRET}}"
+          -DDISCOGS_CLIENT_ID="${{secrets.DISCOGS_CLIENT_ID}}"
+          -DDISCOGS_CLIENT_SECRET="${{secrets.DISCOGS_CLIENT_SECRET}}"
+          -DTIDAL_CLIENT_ID="${{secrets.TIDAL_CLIENT_ID}}"
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -250,9 +296,11 @@ jobs:
           lsb-release
           rpmdevtools
           rpm-build
+          openssl
           glibc-devel
           boost-devel
           lib64glib2.0-devel
+          lib64openssl-devel
           lib64asound-devel
           lib64pulseaudio-devel
           lib64sqlite3-devel
@@ -301,7 +349,28 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory build
       - name: Configure CMake
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
+        run: >
+          cmake -S . -B build
+          -DCMAKE_BUILD_TYPE=Debug
+          -DBUILD_WERROR=ON
+          -DCREATE_SOURCE_API_CREDENTIALS=ON
+          -DAPI_CREDENTIALS_ENCRYPTION_KEY="$(openssl rand -hex 32)"
+          -DACOUSTID_API_KEY="${{secrets.ACOUSTID_API_KEY}}"
+          -DLASTFM_API_KEY="${{secrets.LASTFM_API_KEY}}"
+          -DLASTFM_SHARED_SECRET="${{secrets.LASTFM_SHARED_SECRET}}"
+          -DLISTENBRAINZ_CLIENT_ID="${{secrets.LISTENBRAINZ_CLIENT_ID}}"
+          -DLISTENBRAINZ_CLIENT_SECRET="${{secrets.LISTENBRAINZ_CLIENT_SECRET}}"
+          -DSPOTIFY_CLIENT_ID="${{secrets.SPOTIFY_CLIENT_ID}}"
+          -DSPOTIFY_CLIENT_SECRET="${{secrets.SPOTIFY_CLIENT_SECRET}}"
+          -DGENIUS_CLIENT_ID="${{secrets.GENIUS_CLIENT_ID}}"
+          -DGENIUS_CLIENT_SECRET="${{secrets.GENIUS_CLIENT_SECRET}}"
+          -DMUSIXMATCH_APP_ID="${{secrets.MUSIXMATCH_APP_ID}}"
+          -DMUSIXMATCH_APP_SECRET="${{secrets.MUSIXMATCH_APP_SECRET}}"
+          -DOPENTIDAL_CLIENT_ID="${{secrets.OPENTIDAL_CLIENT_ID}}"
+          -DOPENTIDAL_CLIENT_SECRET="${{secrets.OPENTIDAL_CLIENT_SECRET}}"
+          -DDISCOGS_CLIENT_ID="${{secrets.DISCOGS_CLIENT_ID}}"
+          -DDISCOGS_CLIENT_SECRET="${{secrets.DISCOGS_CLIENT_SECRET}}"
+          -DTIDAL_CLIENT_ID="${{secrets.TIDAL_CLIENT_ID}}"
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -356,6 +425,8 @@ jobs:
           man
           tar
           rpmdevtools
+          openssl
+          lib64openssl-devel
           lib64boost-devel
           lib64sqlite3-devel
           lib64alsa2-devel
@@ -407,7 +478,28 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory build
       - name: Configure CMake
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
+        run: >
+          cmake -S . -B build
+          -DCMAKE_BUILD_TYPE=Debug
+          -DBUILD_WERROR=ON
+          -DCREATE_SOURCE_API_CREDENTIALS=ON
+          -DAPI_CREDENTIALS_ENCRYPTION_KEY="$(openssl rand -hex 32)"
+          -DACOUSTID_API_KEY="${{secrets.ACOUSTID_API_KEY}}"
+          -DLASTFM_API_KEY="${{secrets.LASTFM_API_KEY}}"
+          -DLASTFM_SHARED_SECRET="${{secrets.LASTFM_SHARED_SECRET}}"
+          -DLISTENBRAINZ_CLIENT_ID="${{secrets.LISTENBRAINZ_CLIENT_ID}}"
+          -DLISTENBRAINZ_CLIENT_SECRET="${{secrets.LISTENBRAINZ_CLIENT_SECRET}}"
+          -DSPOTIFY_CLIENT_ID="${{secrets.SPOTIFY_CLIENT_ID}}"
+          -DSPOTIFY_CLIENT_SECRET="${{secrets.SPOTIFY_CLIENT_SECRET}}"
+          -DGENIUS_CLIENT_ID="${{secrets.GENIUS_CLIENT_ID}}"
+          -DGENIUS_CLIENT_SECRET="${{secrets.GENIUS_CLIENT_SECRET}}"
+          -DMUSIXMATCH_APP_ID="${{secrets.MUSIXMATCH_APP_ID}}"
+          -DMUSIXMATCH_APP_SECRET="${{secrets.MUSIXMATCH_APP_SECRET}}"
+          -DOPENTIDAL_CLIENT_ID="${{secrets.OPENTIDAL_CLIENT_ID}}"
+          -DOPENTIDAL_CLIENT_SECRET="${{secrets.OPENTIDAL_CLIENT_SECRET}}"
+          -DDISCOGS_CLIENT_ID="${{secrets.DISCOGS_CLIENT_ID}}"
+          -DDISCOGS_CLIENT_SECRET="${{secrets.DISCOGS_CLIENT_SECRET}}"
+          -DTIDAL_CLIENT_ID="${{secrets.TIDAL_CLIENT_ID}}"
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -463,8 +555,10 @@ jobs:
             pkg-config
             fakeroot
             lsb-release
+            openssl
             dpkg-dev
             libglib2.0-dev
+            libssl-dev
             libboost-dev
             libsqlite3-dev
             libasound2-dev
@@ -513,7 +607,29 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory build
       - name: Configure CMake
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_WERROR=ON
+        run: >
+          cmake -S . -B build
+          -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_INSTALL_PREFIX=/usr
+          -DBUILD_WERROR=ON
+          -DCREATE_SOURCE_API_CREDENTIALS=ON
+          -DAPI_CREDENTIALS_ENCRYPTION_KEY="$(openssl rand -hex 32)"
+          -DACOUSTID_API_KEY="${{secrets.ACOUSTID_API_KEY}}"
+          -DLASTFM_API_KEY="${{secrets.LASTFM_API_KEY}}"
+          -DLASTFM_SHARED_SECRET="${{secrets.LASTFM_SHARED_SECRET}}"
+          -DLISTENBRAINZ_CLIENT_ID="${{secrets.LISTENBRAINZ_CLIENT_ID}}"
+          -DLISTENBRAINZ_CLIENT_SECRET="${{secrets.LISTENBRAINZ_CLIENT_SECRET}}"
+          -DSPOTIFY_CLIENT_ID="${{secrets.SPOTIFY_CLIENT_ID}}"
+          -DSPOTIFY_CLIENT_SECRET="${{secrets.SPOTIFY_CLIENT_SECRET}}"
+          -DGENIUS_CLIENT_ID="${{secrets.GENIUS_CLIENT_ID}}"
+          -DGENIUS_CLIENT_SECRET="${{secrets.GENIUS_CLIENT_SECRET}}"
+          -DMUSIXMATCH_APP_ID="${{secrets.MUSIXMATCH_APP_ID}}"
+          -DMUSIXMATCH_APP_SECRET="${{secrets.MUSIXMATCH_APP_SECRET}}"
+          -DOPENTIDAL_CLIENT_ID="${{secrets.OPENTIDAL_CLIENT_ID}}"
+          -DOPENTIDAL_CLIENT_SECRET="${{secrets.OPENTIDAL_CLIENT_SECRET}}"
+          -DDISCOGS_CLIENT_ID="${{secrets.DISCOGS_CLIENT_ID}}"
+          -DDISCOGS_CLIENT_SECRET="${{secrets.DISCOGS_CLIENT_SECRET}}"
+          -DTIDAL_CLIENT_ID="${{secrets.TIDAL_CLIENT_ID}}"
       - name: Delete build directory
         run: rm -rf build
       - name: make deb
@@ -563,7 +679,9 @@ jobs:
             curl
             lsb-release
             dpkg-dev
+            openssl
             libglib2.0-dev
+            libssl-dev
             libboost-dev
             libsqlite3-dev
             libasound2-dev
@@ -612,7 +730,29 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory build
       - name: Configure CMake
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_WERROR=ON
+        run: >
+          cmake -S . -B build
+          -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_INSTALL_PREFIX=/usr
+          -DBUILD_WERROR=ON
+          -DCREATE_SOURCE_API_CREDENTIALS=ON
+          -DAPI_CREDENTIALS_ENCRYPTION_KEY="$(openssl rand -hex 32)"
+          -DACOUSTID_API_KEY="${{secrets.ACOUSTID_API_KEY}}"
+          -DLASTFM_API_KEY="${{secrets.LASTFM_API_KEY}}"
+          -DLASTFM_SHARED_SECRET="${{secrets.LASTFM_SHARED_SECRET}}"
+          -DLISTENBRAINZ_CLIENT_ID="${{secrets.LISTENBRAINZ_CLIENT_ID}}"
+          -DLISTENBRAINZ_CLIENT_SECRET="${{secrets.LISTENBRAINZ_CLIENT_SECRET}}"
+          -DSPOTIFY_CLIENT_ID="${{secrets.SPOTIFY_CLIENT_ID}}"
+          -DSPOTIFY_CLIENT_SECRET="${{secrets.SPOTIFY_CLIENT_SECRET}}"
+          -DGENIUS_CLIENT_ID="${{secrets.GENIUS_CLIENT_ID}}"
+          -DGENIUS_CLIENT_SECRET="${{secrets.GENIUS_CLIENT_SECRET}}"
+          -DMUSIXMATCH_APP_ID="${{secrets.MUSIXMATCH_APP_ID}}"
+          -DMUSIXMATCH_APP_SECRET="${{secrets.MUSIXMATCH_APP_SECRET}}"
+          -DOPENTIDAL_CLIENT_ID="${{secrets.OPENTIDAL_CLIENT_ID}}"
+          -DOPENTIDAL_CLIENT_SECRET="${{secrets.OPENTIDAL_CLIENT_SECRET}}"
+          -DDISCOGS_CLIENT_ID="${{secrets.DISCOGS_CLIENT_ID}}"
+          -DDISCOGS_CLIENT_SECRET="${{secrets.DISCOGS_CLIENT_SECRET}}"
+          -DTIDAL_CLIENT_ID="${{secrets.TIDAL_CLIENT_ID}}"
       - name: Delete build directory
         run: rm -rf build
       - name: make deb
@@ -663,7 +803,9 @@ jobs:
             gpg
             dput
             dpkg-dev
+            openssl
             libglib2.0-dev
+            libssl-dev
             libboost-dev
             libsqlite3-dev
             libasound2-dev
@@ -711,7 +853,29 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory build
       - name: Configure CMake
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_WERROR=ON
+        run: >
+          cmake -S . -B build
+          -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_INSTALL_PREFIX=/usr
+          -DBUILD_WERROR=ON
+          -DCREATE_SOURCE_API_CREDENTIALS=ON
+          -DAPI_CREDENTIALS_ENCRYPTION_KEY="$(openssl rand -hex 32)"
+          -DACOUSTID_API_KEY="${{secrets.ACOUSTID_API_KEY}}"
+          -DLASTFM_API_KEY="${{secrets.LASTFM_API_KEY}}"
+          -DLASTFM_SHARED_SECRET="${{secrets.LASTFM_SHARED_SECRET}}"
+          -DLISTENBRAINZ_CLIENT_ID="${{secrets.LISTENBRAINZ_CLIENT_ID}}"
+          -DLISTENBRAINZ_CLIENT_SECRET="${{secrets.LISTENBRAINZ_CLIENT_SECRET}}"
+          -DSPOTIFY_CLIENT_ID="${{secrets.SPOTIFY_CLIENT_ID}}"
+          -DSPOTIFY_CLIENT_SECRET="${{secrets.SPOTIFY_CLIENT_SECRET}}"
+          -DGENIUS_CLIENT_ID="${{secrets.GENIUS_CLIENT_ID}}"
+          -DGENIUS_CLIENT_SECRET="${{secrets.GENIUS_CLIENT_SECRET}}"
+          -DMUSIXMATCH_APP_ID="${{secrets.MUSIXMATCH_APP_ID}}"
+          -DMUSIXMATCH_APP_SECRET="${{secrets.MUSIXMATCH_APP_SECRET}}"
+          -DOPENTIDAL_CLIENT_ID="${{secrets.OPENTIDAL_CLIENT_ID}}"
+          -DOPENTIDAL_CLIENT_SECRET="${{secrets.OPENTIDAL_CLIENT_SECRET}}"
+          -DDISCOGS_CLIENT_ID="${{secrets.DISCOGS_CLIENT_ID}}"
+          -DDISCOGS_CLIENT_SECRET="${{secrets.DISCOGS_CLIENT_SECRET}}"
+          -DTIDAL_CLIENT_ID="${{secrets.TIDAL_CLIENT_ID}}"
       - name: Delete build directory
         run: rm -rf build
       - name: Import Ubuntu PPA GPG private key
@@ -761,8 +925,10 @@ jobs:
             cmake
             gcc
             gcc-c++
+            openssl
             openssh-clients
             glibc-devel
+            libopenssl-devel
             libboost_headers-devel
             boost-devel
             glib2-devel
@@ -819,7 +985,29 @@ jobs:
       - name: Add safe git directory
         run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Configure
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_WERROR=ON
+        run: >
+          cmake -S . -B build
+          -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_INSTALL_PREFIX=/usr
+          -DBUILD_WERROR=ON
+          -DCREATE_SOURCE_API_CREDENTIALS=OFF
+          -DAPI_CREDENTIALS_ENCRYPTION_KEY="$(openssl rand -hex 32)"
+          -DACOUSTID_API_KEY="${{secrets.ACOUSTID_API_KEY}}"
+          -DLASTFM_API_KEY="${{secrets.LASTFM_API_KEY}}"
+          -DLASTFM_SHARED_SECRET="${{secrets.LASTFM_SHARED_SECRET}}"
+          -DLISTENBRAINZ_CLIENT_ID="${{secrets.LISTENBRAINZ_CLIENT_ID}}"
+          -DLISTENBRAINZ_CLIENT_SECRET="${{secrets.LISTENBRAINZ_CLIENT_SECRET}}"
+          -DSPOTIFY_CLIENT_ID="${{secrets.SPOTIFY_CLIENT_ID}}"
+          -DSPOTIFY_CLIENT_SECRET="${{secrets.SPOTIFY_CLIENT_SECRET}}"
+          -DGENIUS_CLIENT_ID="${{secrets.GENIUS_CLIENT_ID}}"
+          -DGENIUS_CLIENT_SECRET="${{secrets.GENIUS_CLIENT_SECRET}}"
+          -DMUSIXMATCH_APP_ID="${{secrets.MUSIXMATCH_APP_ID}}"
+          -DMUSIXMATCH_APP_SECRET="${{secrets.MUSIXMATCH_APP_SECRET}}"
+          -DOPENTIDAL_CLIENT_ID="${{secrets.OPENTIDAL_CLIENT_ID}}"
+          -DOPENTIDAL_CLIENT_SECRET="${{secrets.OPENTIDAL_CLIENT_SECRET}}"
+          -DDISCOGS_CLIENT_ID="${{secrets.DISCOGS_CLIENT_ID}}"
+          -DDISCOGS_CLIENT_SECRET="${{secrets.DISCOGS_CLIENT_SECRET}}"
+          -DTIDAL_CLIENT_ID="${{secrets.TIDAL_CLIENT_ID}}"
       - name: Build
         working-directory: build
         run: make -j$(nproc)
@@ -897,7 +1085,7 @@ jobs:
       with:
         usesh: true
         mem: 8192
-        prepare: pkg install -y git cmake pkgconf boost-libs alsa-lib glib qt6-base qt6-tools sqlite gstreamer1 gstreamer1-plugins chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf2 fftw3 icu kdsingleapplication googletest pulseaudio sparsehash
+        prepare: pkg install -y git cmake pkgconf openssl boost-libs alsa-lib glib qt6-base qt6-tools sqlite gstreamer1 gstreamer1-plugins chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf2 fftw3 icu kdsingleapplication googletest pulseaudio sparsehash
         run: |
           set -e
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
@@ -1013,10 +1201,7 @@ jobs:
           PKG_CONFIG_PATH: ${{env.prefix_path}}/lib/pkgconfig
           LDFLAGS: -L${{env.prefix_path}}/lib -Wl,-rpath,${{env.prefix_path}}/lib
         run: >
-          cmake
-          --log-level="DEBUG"
-          -S .
-          -B build
+          cmake --log-level="DEBUG" -S . -B build
           -DCMAKE_BUILD_TYPE="${{env.cmake_buildtype}}"
           -DCMAKE_PREFIX_PATH="${{env.prefix_path}}/lib/cmake"
           -DBUILD_WERROR=ON
@@ -1026,6 +1211,24 @@ jobs:
           -DENABLE_SPOTIFY=$(test -f "${{env.prefix_path}}/lib/gstreamer-1.0/libgstspotify.dylib" && echo "ON" || echo "OFF")
           -DENABLE_SPARKLE=ON
           -DENABLE_QTSPARKLE=OFF
+          -DCREATE_SOURCE_API_CREDENTIALS=OFF
+          -DAPI_CREDENTIALS_ENCRYPTION_KEY="$(openssl rand -hex 32)"
+          -DACOUSTID_API_KEY="${{secrets.ACOUSTID_API_KEY}}"
+          -DLASTFM_API_KEY="${{secrets.LASTFM_API_KEY}}"
+          -DLASTFM_SHARED_SECRET="${{secrets.LASTFM_SHARED_SECRET}}"
+          -DLISTENBRAINZ_CLIENT_ID="${{secrets.LISTENBRAINZ_CLIENT_ID}}"
+          -DLISTENBRAINZ_CLIENT_SECRET="${{secrets.LISTENBRAINZ_CLIENT_SECRET}}"
+          -DSPOTIFY_CLIENT_ID="${{secrets.SPOTIFY_CLIENT_ID}}"
+          -DSPOTIFY_CLIENT_SECRET="${{secrets.SPOTIFY_CLIENT_SECRET}}"
+          -DGENIUS_CLIENT_ID="${{secrets.GENIUS_CLIENT_ID}}"
+          -DGENIUS_CLIENT_SECRET="${{secrets.GENIUS_CLIENT_SECRET}}"
+          -DMUSIXMATCH_APP_ID="${{secrets.MUSIXMATCH_APP_ID}}"
+          -DMUSIXMATCH_APP_SECRET="${{secrets.MUSIXMATCH_APP_SECRET}}"
+          -DOPENTIDAL_CLIENT_ID="${{secrets.OPENTIDAL_CLIENT_ID}}"
+          -DOPENTIDAL_CLIENT_SECRET="${{secrets.OPENTIDAL_CLIENT_SECRET}}"
+          -DDISCOGS_CLIENT_ID="${{secrets.DISCOGS_CLIENT_ID}}"
+          -DDISCOGS_CLIENT_SECRET="${{secrets.DISCOGS_CLIENT_SECRET}}"
+          -DTIDAL_CLIENT_ID="${{secrets.TIDAL_CLIENT_ID}}"
 
       - name: Build
         run: cmake --build build --config Release --parallel 4
@@ -1148,10 +1351,7 @@ jobs:
           PKG_CONFIG_PATH: ${{env.prefix_path}}/lib/pkgconfig
           LDFLAGS: -L${{env.prefix_path}}/lib -Wl,-rpath,${{env.prefix_path}}/lib
         run: >
-          cmake
-          --log-level="DEBUG"
-          -S .
-          -B build
+          cmake --log-level="DEBUG" -S . -B build
           -DCMAKE_BUILD_TYPE="${{env.cmake_buildtype}}"
           -DCMAKE_PREFIX_PATH="${{env.prefix_path}}/lib/cmake"
           -DBUILD_WERROR=ON
@@ -1161,6 +1361,24 @@ jobs:
           -DENABLE_SPOTIFY=$(test -f "${{env.prefix_path}}/lib/gstreamer-1.0/libgstspotify.dylib" && echo "ON" || echo "OFF")
           -DENABLE_SPARKLE=ON
           -DENABLE_QTSPARKLE=OFF
+          -DCREATE_SOURCE_API_CREDENTIALS=OFF
+          -DAPI_CREDENTIALS_ENCRYPTION_KEY="$(openssl rand -hex 32)"
+          -DACOUSTID_API_KEY="${{secrets.ACOUSTID_API_KEY}}"
+          -DLASTFM_API_KEY="${{secrets.LASTFM_API_KEY}}"
+          -DLASTFM_SHARED_SECRET="${{secrets.LASTFM_SHARED_SECRET}}"
+          -DLISTENBRAINZ_CLIENT_ID="${{secrets.LISTENBRAINZ_CLIENT_ID}}"
+          -DLISTENBRAINZ_CLIENT_SECRET="${{secrets.LISTENBRAINZ_CLIENT_SECRET}}"
+          -DSPOTIFY_CLIENT_ID="${{secrets.SPOTIFY_CLIENT_ID}}"
+          -DSPOTIFY_CLIENT_SECRET="${{secrets.SPOTIFY_CLIENT_SECRET}}"
+          -DGENIUS_CLIENT_ID="${{secrets.GENIUS_CLIENT_ID}}"
+          -DGENIUS_CLIENT_SECRET="${{secrets.GENIUS_CLIENT_SECRET}}"
+          -DMUSIXMATCH_APP_ID="${{secrets.MUSIXMATCH_APP_ID}}"
+          -DMUSIXMATCH_APP_SECRET="${{secrets.MUSIXMATCH_APP_SECRET}}"
+          -DOPENTIDAL_CLIENT_ID="${{secrets.OPENTIDAL_CLIENT_ID}}"
+          -DOPENTIDAL_CLIENT_SECRET="${{secrets.OPENTIDAL_CLIENT_SECRET}}"
+          -DDISCOGS_CLIENT_ID="${{secrets.DISCOGS_CLIENT_ID}}"
+          -DDISCOGS_CLIENT_SECRET="${{secrets.DISCOGS_CLIENT_SECRET}}"
+          -DTIDAL_CLIENT_ID="${{secrets.TIDAL_CLIENT_ID}}"
 
       - name: Build
         run: cmake --build build --config Release --parallel 4
@@ -1243,9 +1461,7 @@ jobs:
         env:
           PKG_CONFIG_PATH: /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/lib/pkgconfig
         run: >
-          cmake
-          -S .
-          -B build
+          cmake -S . -B build
           -DCMAKE_SYSTEM_NAME="Windows"
           -DCMAKE_BUILD_TYPE="${{env.cmake_buildtype}}"
           -DCMAKE_FIND_ROOT_PATH=/strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared
@@ -1263,6 +1479,24 @@ jobs:
           -DENABLE_MTP=OFF
           -DENABLE_GPOD=OFF
           -DENABLE_SPOTIFY=OFF
+          -DCREATE_SOURCE_API_CREDENTIALS=OFF
+          -DAPI_CREDENTIALS_ENCRYPTION_KEY="$(openssl rand -hex 32)"
+          -DACOUSTID_API_KEY="${{secrets.ACOUSTID_API_KEY}}"
+          -DLASTFM_API_KEY="${{secrets.LASTFM_API_KEY}}"
+          -DLASTFM_SHARED_SECRET="${{secrets.LASTFM_SHARED_SECRET}}"
+          -DLISTENBRAINZ_CLIENT_ID="${{secrets.LISTENBRAINZ_CLIENT_ID}}"
+          -DLISTENBRAINZ_CLIENT_SECRET="${{secrets.LISTENBRAINZ_CLIENT_SECRET}}"
+          -DSPOTIFY_CLIENT_ID="${{secrets.SPOTIFY_CLIENT_ID}}"
+          -DSPOTIFY_CLIENT_SECRET="${{secrets.SPOTIFY_CLIENT_SECRET}}"
+          -DGENIUS_CLIENT_ID="${{secrets.GENIUS_CLIENT_ID}}"
+          -DGENIUS_CLIENT_SECRET="${{secrets.GENIUS_CLIENT_SECRET}}"
+          -DMUSIXMATCH_APP_ID="${{secrets.MUSIXMATCH_APP_ID}}"
+          -DMUSIXMATCH_APP_SECRET="${{secrets.MUSIXMATCH_APP_SECRET}}"
+          -DOPENTIDAL_CLIENT_ID="${{secrets.OPENTIDAL_CLIENT_ID}}"
+          -DOPENTIDAL_CLIENT_SECRET="${{secrets.OPENTIDAL_CLIENT_SECRET}}"
+          -DDISCOGS_CLIENT_ID="${{secrets.DISCOGS_CLIENT_ID}}"
+          -DDISCOGS_CLIENT_SECRET="${{secrets.DISCOGS_CLIENT_SECRET}}"
+          -DTIDAL_CLIENT_ID="${{secrets.TIDAL_CLIENT_ID}}"
 
       - name: Run Make
         run: cmake --build build --config "${{env.cmake_buildtype}}" --parallel $(nproc)
@@ -1565,6 +1799,10 @@ jobs:
         shell: bash
         run: echo "enable_spotify=$(test -f "${{env.prefix_path_unix}}/lib/gstreamer-1.0/gstspotify.dll" && echo "ON" || echo "OFF")" >> $GITHUB_ENV
 
+      - name: Generate API credentials encryption key
+        shell: bash
+        run: echo "api_credentials_encryption_key=$(openssl rand -hex 32)" >> $GITHUB_ENV
+
       - name: Remove -lm from .pc files
         if: matrix.arch == 'arm64'
         shell: bash
@@ -1573,10 +1811,7 @@ jobs:
       - name: Run CMake
         shell: cmd
         run: >
-          cmake
-          -S .
-          -B build
-          -G "Ninja"
+          cmake -S . -B build -G "Ninja"
           -DCMAKE_BUILD_TYPE="${{env.cmake_buildtype}}"
           -DCMAKE_PREFIX_PATH="${{env.prefix_path_forwardslash}}/lib/cmake"
           -DENABLE_WIN32_CONSOLE=${{env.enable_win32_console}}
@@ -1587,6 +1822,24 @@ jobs:
           -DENABLE_MTP=OFF
           -DENABLE_GPOD=OFF
           -DENABLE_SPOTIFY=${{env.enable_spotify}}
+          -DCREATE_SOURCE_API_CREDENTIALS=OFF
+          -DAPI_CREDENTIALS_ENCRYPTION_KEY="${{env.api_credentials_encryption_key}}"
+          -DACOUSTID_API_KEY="${{secrets.ACOUSTID_API_KEY}}"
+          -DLASTFM_API_KEY="${{secrets.LASTFM_API_KEY}}"
+          -DLASTFM_SHARED_SECRET="${{secrets.LASTFM_SHARED_SECRET}}"
+          -DLISTENBRAINZ_CLIENT_ID="${{secrets.LISTENBRAINZ_CLIENT_ID}}"
+          -DLISTENBRAINZ_CLIENT_SECRET="${{secrets.LISTENBRAINZ_CLIENT_SECRET}}"
+          -DSPOTIFY_CLIENT_ID="${{secrets.SPOTIFY_CLIENT_ID}}"
+          -DSPOTIFY_CLIENT_SECRET="${{secrets.SPOTIFY_CLIENT_SECRET}}"
+          -DGENIUS_CLIENT_ID="${{secrets.GENIUS_CLIENT_ID}}"
+          -DGENIUS_CLIENT_SECRET="${{secrets.GENIUS_CLIENT_SECRET}}"
+          -DMUSIXMATCH_APP_ID="${{secrets.MUSIXMATCH_APP_ID}}"
+          -DMUSIXMATCH_APP_SECRET="${{secrets.MUSIXMATCH_APP_SECRET}}"
+          -DOPENTIDAL_CLIENT_ID="${{secrets.OPENTIDAL_CLIENT_ID}}"
+          -DOPENTIDAL_CLIENT_SECRET="${{secrets.OPENTIDAL_CLIENT_SECRET}}"
+          -DDISCOGS_CLIENT_ID="${{secrets.DISCOGS_CLIENT_ID}}"
+          -DDISCOGS_CLIENT_SECRET="${{secrets.DISCOGS_CLIENT_SECRET}}"
+          -DTIDAL_CLIENT_ID="${{secrets.TIDAL_CLIENT_ID}}"
 
       - name: Run Make
         shell: cmd
