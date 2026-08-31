@@ -1348,10 +1348,10 @@ endif()
 
 if(HAVE_MPRIS2)
   optional_source(HAVE_MPRIS2 SOURCES src/mpris2/mpris2.cpp HEADERS src/mpris2/mpris2.h)
-  qt_add_dbus_adaptor(SOURCES src/mpris2/org.mpris.MediaPlayer2.xml src/mpris2/mpris2.h mpris::Mpris2 mpris2_root Mpris2Root)
-  qt_add_dbus_adaptor(SOURCES src/mpris2/org.mpris.MediaPlayer2.Player.xml src/mpris2/mpris2.h mpris::Mpris2 mpris2_player Mpris2Player)
-  qt_add_dbus_adaptor(SOURCES src/mpris2/org.mpris.MediaPlayer2.TrackList.xml src/mpris2/mpris2.h mpris::Mpris2 mpris2_tracklist Mpris2TrackList)
-  qt_add_dbus_adaptor(SOURCES src/mpris2/org.mpris.MediaPlayer2.Playlists.xml src/mpris2/mpris2.h mpris::Mpris2 mpris2_playlists Mpris2Playlists)
+  qt_add_dbus_adaptor(SOURCES src/mpris2/org.mpris.MediaPlayer2.xml src/mpris2/mpris2.h Mpris2 mpris2_root Mpris2Root)
+  qt_add_dbus_adaptor(SOURCES src/mpris2/org.mpris.MediaPlayer2.Player.xml src/mpris2/mpris2.h Mpris2 mpris2_player Mpris2Player)
+  qt_add_dbus_adaptor(SOURCES src/mpris2/org.mpris.MediaPlayer2.TrackList.xml src/mpris2/mpris2.h Mpris2 mpris2_tracklist Mpris2TrackList)
+  qt_add_dbus_adaptor(SOURCES src/mpris2/org.mpris.MediaPlayer2.Playlists.xml src/mpris2/mpris2.h Mpris2 mpris2_playlists Mpris2Playlists)
 endif()
 
 optional_source(HAVE_WAVEFORM

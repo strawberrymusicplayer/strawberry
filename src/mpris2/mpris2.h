@@ -83,8 +83,6 @@ const QDBusArgument &operator>>(const QDBusArgument &arg, MprisPlaylist &playlis
 QDBusArgument &operator<<(QDBusArgument &arg, const MaybePlaylist &playlist);
 const QDBusArgument &operator>>(const QDBusArgument &arg, MaybePlaylist &playlist);
 
-namespace mpris {
-
 class Mpris2 : public QObject {
   Q_OBJECT
 
@@ -270,8 +268,5 @@ class Mpris2 : public QObject {
   QString desktopfilepath_;
   QVariantMap last_metadata_;
 };
-
-}  // namespace mpris
-
 
 #endif  // MPRIS2_H

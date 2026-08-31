@@ -30,7 +30,7 @@
 #include <QStringList>
 #include <QDBusObjectPath>
 
-namespace mpris {
+namespace MPRIS2Common {
 
 inline void AddMetadata(const QString &key, const QString &metadata, QVariantMap *map) {
   if (!metadata.isEmpty()) (*map)[key] = metadata;
@@ -64,6 +64,6 @@ inline QString AsMPRISDateTimeType(const qint64 time) {
   return time != -1 ? QDateTime::fromSecsSinceEpoch(time).toString(Qt::ISODate) : QLatin1String("");
 }
 
-}  // namespace mpris
+}  // namespace MPRIS2Common
 
 #endif  // MPRIS_COMMON_H
