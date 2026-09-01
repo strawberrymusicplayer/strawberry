@@ -5,74 +5,104 @@
     <name>ASXParser</name>
     <message>
       <source>ASX playlist is too large</source>
-      <translation type="unfinished">ASX playlist is too large</translation>
+      <translation>ASX-spilunarlisti er of stór</translation>
     </message>
     <message>
       <source>Failed to write ASX playlist</source>
-      <translation type="unfinished">Failed to write ASX playlist</translation>
+      <translation>Mistókst að skrifa ASX-spilunarlista</translation>
     </message>
   </context>
   <context>
-    <name>About</name>
+    <name>AboutDialog</name>
     <message>
       <source>About</source>
-      <translation>Um hugbúnaðinn</translation>
+      <translation type="unfinished">About</translation>
     </message>
     <message>
       <source>About Strawberry</source>
-      <translation>Um Strawberry</translation>
+      <translation type="unfinished">About Strawberry</translation>
     </message>
     <message>
       <source>Version %1</source>
-      <translation>Útgáfa %1</translation>
+      <translation type="unfinished">Version %1</translation>
     </message>
     <message>
       <source>Strawberry is a music player and music collection organizer.</source>
-      <translation>Strawberry er tónlistarspilari og skipulagningartól fyrir tónlistarsafnið.</translation>
+      <translation type="unfinished">Strawberry is a music player and music collection organizer.</translation>
     </message>
     <message>
       <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
-      <translation>Það er kvíslað frá Clementine árið 2018 og miðast við þarfir tónlistarsafnara og hljómgæðafikla.</translation>
+      <translation type="unfinished">It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</translation>
     </message>
     <message>
       <source>Strawberry is free software released under GPL. The source code is available on %1</source>
-      <translation>Strawberry er frjáls hugbúnaður, gefinn út með almenna GPL-notkunarleyfinu. Grunnkóðann má nálgast á %1</translation>
+      <translation type="unfinished">Strawberry is free software released under GPL. The source code is available on %1</translation>
     </message>
     <message>
       <source>You should have received a copy of the GNU General Public License along with this program.  If not, see %1</source>
-      <translation>Það ætti að hafa fylgt afrit af almenna GNU GPL notkunarleyfinu með forritinu. Ef ekki, skoðaðu þá %1</translation>
+      <translation type="unfinished">You should have received a copy of the GNU General Public License along with this program.  If not, see %1</translation>
     </message>
     <message>
       <source>If you like Strawberry and can make use of it, consider sponsoring or donating.</source>
-      <translation>Ef þú kannt við Strawberry og það nýtist þér vel, ættirðu að íhuga að styrkja verkefnið.</translation>
+      <translation type="unfinished">If you like Strawberry and can make use of it, consider sponsoring or donating.</translation>
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation>Þú getur styrkt höfundinn á %1 eða %2. Þú getur líka lagt fram eins-skiptis greiðslu í gegnum %3.</translation>
+      <translation type="unfinished">You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
-      <translation>Höfundur og umsjónarmaður</translation>
+      <translation type="unfinished">Author and maintainer</translation>
     </message>
     <message>
       <source>Contributors</source>
-      <translation>Þátttakendur</translation>
+      <translation type="unfinished">Contributors</translation>
     </message>
     <message>
       <source>Clementine authors</source>
-      <translation>Höfundar Clementine</translation>
+      <translation type="unfinished">Clementine authors</translation>
     </message>
     <message>
       <source>Clementine contributors</source>
-      <translation>Þátttakendur í Clementine</translation>
+      <translation type="unfinished">Clementine contributors</translation>
     </message>
     <message>
       <source>Thanks to</source>
-      <translation>Þakkir til</translation>
+      <translation type="unfinished">Thanks to</translation>
     </message>
     <message>
       <source>Thanks to all the other Amarok and Clementine contributors.</source>
-      <translation>Bestu þakkir til allra hinna þátttakendanna í Amarok og Clementine verkefnunum.</translation>
+      <translation type="unfinished">Thanks to all the other Amarok and Clementine contributors.</translation>
+    </message>
+  </context>
+  <context>
+    <name>AcoustidClient</name>
+    <message>
+      <source>Missing AcoustID API key</source>
+      <translation type="unfinished">Missing AcoustID API key</translation>
+    </message>
+  </context>
+  <context>
+    <name>AcoustidSettingsPage</name>
+    <message>
+      <source>AcoustID</source>
+      <translation type="unfinished">AcoustID</translation>
+    </message>
+    <message>
+      <source>AcoustID is used to identify songs by their audio fingerprint when fetching tags.</source>
+      <translation type="unfinished">AcoustID is used to identify songs by their audio fingerprint when fetching tags.</translation>
+    </message>
+    <message>
+      <source>API credentials</source>
+      <translation type="unfinished">API credentials</translation>
+    </message>
+    <message>
+      <source>Use custom API Key</source>
+      <translation type="unfinished">Use custom API Key</translation>
+    </message>
+    <message>
+      <source>API key</source>
+      <translation type="unfinished">API key</translation>
     </message>
   </context>
   <context>
@@ -521,51 +551,51 @@
     </message>
     <message>
       <source>Window</source>
-      <translation type="unfinished">Window</translation>
+      <translation>Gluggi</translation>
     </message>
     <message>
       <source>Window text</source>
-      <translation type="unfinished">Window text</translation>
+      <translation>Texti glugga</translation>
     </message>
     <message>
       <source>Base</source>
-      <translation type="unfinished">Base</translation>
+      <translation>Grunnlína</translation>
     </message>
     <message>
       <source>Alternate base</source>
-      <translation type="unfinished">Alternate base</translation>
+      <translation>Önnur grunnlína</translation>
     </message>
     <message>
       <source>Tooltip base</source>
-      <translation type="unfinished">Tooltip base</translation>
+      <translation>Grunnlína ábendingar</translation>
     </message>
     <message>
       <source>Tooltip text</source>
-      <translation type="unfinished">Tooltip text</translation>
+      <translation>Texti ábendingar</translation>
     </message>
     <message>
       <source>Placeholder text</source>
-      <translation type="unfinished">Placeholder text</translation>
+      <translation>Frátökutexti</translation>
     </message>
     <message>
       <source>Text</source>
-      <translation type="unfinished">Text</translation>
+      <translation>Texti</translation>
     </message>
     <message>
       <source>Button</source>
-      <translation type="unfinished">Button</translation>
+      <translation>Hnappur</translation>
     </message>
     <message>
       <source>Button text</source>
-      <translation type="unfinished">Button text</translation>
+      <translation>Texti hnapps</translation>
     </message>
     <message>
       <source>Bright text</source>
-      <translation type="unfinished">Bright text</translation>
+      <translation>Bjartur texti</translation>
     </message>
     <message>
       <source>Select color</source>
-      <translation type="unfinished">Select color</translation>
+      <translation>Veldu lit</translation>
     </message>
     <message>
       <source>Select background image</source>
@@ -573,51 +603,51 @@
     </message>
     <message>
       <source>Colors</source>
-      <translation type="unfinished">Colors</translation>
+      <translation>Litir</translation>
     </message>
     <message>
       <source>&amp;Use the system default color set</source>
-      <translation type="unfinished">&amp;Use the system default color set</translation>
+      <translation>&amp;Nota sjálfgefið litastef kerfisins</translation>
     </message>
     <message>
       <source>Use a custom color set</source>
-      <translation type="unfinished">Use a custom color set</translation>
+      <translation>Nota sérsniðið litasett</translation>
     </message>
     <message>
       <source>Set a custom color set suitable for a dark theme</source>
-      <translation type="unfinished">Set a custom color set suitable for a dark theme</translation>
+      <translation>Stilla sérsniðið litasett sem hentar dökku þema</translation>
     </message>
     <message>
       <source>Dark mode</source>
-      <translation type="unfinished">Dark mode</translation>
+      <translation>Dökkur hamur</translation>
     </message>
     <message>
       <source>Reset the custom color set to the system default colors</source>
-      <translation type="unfinished">Reset the custom color set to the system default colors</translation>
+      <translation>Endurstilla sjálfgefna litasettið á sjálfgefna liti kerfisins</translation>
     </message>
     <message>
       <source>Reset to default</source>
-      <translation type="unfinished">Reset to default</translation>
+      <translation>Endurstilla á sjálfgefið</translation>
     </message>
     <message>
       <source>You might need to restart Strawberry for this setting to fully apply</source>
-      <translation type="unfinished">You might need to restart Strawberry for this setting to fully apply</translation>
+      <translation>Þú gætir þurft að endurræsa Strawberry til að þessi stilling taki gildi að fullu</translation>
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect</source>
-      <translation type="unfinished">You need to restart Strawberry for this setting to take affect</translation>
+      <translation>Þú þarft að endurræsa Strawberry til að þessi stilling taki gildi</translation>
     </message>
     <message>
       <source>System icons</source>
-      <translation type="unfinished">System icons</translation>
+      <translation>Kerfistáknmyndir</translation>
     </message>
     <message>
       <source>Changing colors is only supported with some styles</source>
-      <translation type="unfinished">Changing colors is only supported with some styles</translation>
+      <translation>Einungis er hægt að breyta litum með sumum stílum</translation>
     </message>
     <message>
       <source>Dark colors</source>
-      <translation type="unfinished">Dark colors</translation>
+      <translation>Dökkir litir</translation>
     </message>
   </context>
   <context>
@@ -796,7 +826,7 @@
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect</source>
-      <translation type="unfinished">You need to restart Strawberry for this setting to take affect</translation>
+      <translation>Þú þarft að endurræsa Strawberry til að þessi stilling taki gildi</translation>
     </message>
     <message>
       <source>Map the volume slider to a decibel scale so that perceived loudness changes evenly. Each 1% step equals 0.5 dB, 100% is 0 dB and 0% is silence.</source>
@@ -804,11 +834,11 @@
     </message>
     <message>
       <source>Exponential volume scaling</source>
-      <translation type="unfinished">Exponential volume scaling</translation>
+      <translation>Veldisfall á kvörðun hljóðstyrks</translation>
     </message>
     <message>
       <source>Device warm-up</source>
-      <translation type="unfinished">Device warm-up</translation>
+      <translation>Upphitun tækis</translation>
     </message>
     <message>
       <source>Delay between opening the audio device and starting playback, to avoid the start of the track being cut off while the device (DAC) is still becoming ready.  Set to 0 to disable.</source>
@@ -958,23 +988,23 @@
     <name>CDDASongLoader</name>
     <message>
       <source>Could not create cdiocddasrc</source>
-      <translation type="unfinished">Could not create cdiocddasrc</translation>
+      <translation>Gat ekki búið til cdiocddasrc</translation>
     </message>
     <message>
       <source>Error while setting CDDA device to ready state.</source>
-      <translation type="unfinished">Error while setting CDDA device to ready state.</translation>
+      <translation>Villa við að setja CDDA-tæki í tilbúið-stöðu.</translation>
     </message>
     <message>
       <source>Error while setting CDDA device to pause state.</source>
-      <translation type="unfinished">Error while setting CDDA device to pause state.</translation>
+      <translation>Villa við að setja CDDA-tæki í bið-stöðu.</translation>
     </message>
     <message>
       <source>The &apos;track&apos; format is not supported by GStreamer.</source>
-      <translation type="unfinished">The &apos;track&apos; format is not supported by GStreamer.</translation>
+      <translation>GStreamer styður ekki &apos;track&apos; snið.</translation>
     </message>
     <message>
       <source>Error while querying CDDA tracks.</source>
-      <translation type="unfinished">Error while querying CDDA tracks.</translation>
+      <translation>Villa við að lesa CDDA-spor.</translation>
     </message>
   </context>
   <context>
@@ -1040,27 +1070,27 @@
     </message>
     <message>
       <source>Any rating</source>
-      <translation type="unfinished">Any rating</translation>
+      <translation>Hvaða einkunn sem er</translation>
     </message>
     <message>
       <source>Rating non null</source>
-      <translation type="unfinished">Rating non null</translation>
+      <translation>Einkunn ekki núll</translation>
     </message>
     <message>
       <source>Rating greater than 1 star</source>
-      <translation type="unfinished">Rating greater than 1 star</translation>
+      <translation>Einkunn hærri en 1 stjarna</translation>
     </message>
     <message>
       <source>Rating greater than 2 stars</source>
-      <translation type="unfinished">Rating greater than 2 stars</translation>
+      <translation>Einkunn hærri en 2 stjörnur</translation>
     </message>
     <message>
       <source>Rating greater than 3 stars</source>
-      <translation type="unfinished">Rating greater than 3 stars</translation>
+      <translation>Einkunn hærri en 3 stjörnur</translation>
     </message>
     <message>
       <source>Rating greater than 4 stars</source>
-      <translation type="unfinished">Rating greater than 4 stars</translation>
+      <translation>Einkunn hærri en 4 stjörnur</translation>
     </message>
     <message>
       <source>Group by</source>
@@ -1068,11 +1098,11 @@
     </message>
     <message>
       <source>Filter by age</source>
-      <translation type="unfinished">Filter by age</translation>
+      <translation>Sía eftir aldri</translation>
     </message>
     <message>
       <source>Filter by rating</source>
-      <translation type="unfinished">Filter by rating</translation>
+      <translation>Sía eftir einkunn</translation>
     </message>
     <message>
       <source>Display options</source>
@@ -1259,7 +1289,7 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</source>
-      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</translation>
+      <translation>Sleppa greinum á undan (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) þegar nöfnum hljómplatna er raðað</translation>
     </message>
     <message>
       <source>Use sort tags for sorting when available</source>
@@ -1919,6 +1949,22 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
       <source>Embedded album cover art (%1)</source>
       <translation>Ívafin myndskreyting umslags (%1)</translation>
     </message>
+    <message>
+      <source>API Credentials</source>
+      <translation type="unfinished">API Credentials</translation>
+    </message>
+    <message>
+      <source>Use custom API credentials</source>
+      <translation type="unfinished">Use custom API credentials</translation>
+    </message>
+    <message>
+      <source>Client ID</source>
+      <translation type="unfinished">Client ID</translation>
+    </message>
+    <message>
+      <source>Client secret</source>
+      <translation type="unfinished">Client secret</translation>
+    </message>
   </context>
   <context>
     <name>CueParser</name>
@@ -2160,10 +2206,17 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
   </context>
   <context>
+    <name>DiscogsCoverProvider</name>
+    <message>
+      <source>Missing Discogs client ID and/or client secret</source>
+      <translation type="unfinished">Missing Discogs client ID and/or client secret</translation>
+    </message>
+  </context>
+  <context>
     <name>DiscordRichPresence</name>
     <message>
       <source>on </source>
-      <translation type="unfinished">on </translation>
+      <translation>á </translation>
     </message>
   </context>
   <context>
@@ -2478,39 +2531,39 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
     <message>
       <source>ID3v2 version:</source>
-      <translation type="unfinished">ID3v2 version:</translation>
+      <translation>ID3v2 útgáfa:</translation>
     </message>
     <message>
       <source>2.3</source>
-      <translation type="unfinished">2.3</translation>
+      <translation>2.3</translation>
     </message>
     <message>
       <source>2.4</source>
-      <translation type="unfinished">2.4</translation>
+      <translation>2.4</translation>
     </message>
     <message>
       <source>Performer sort</source>
-      <translation type="unfinished">Performer sort</translation>
+      <translation>Röðun eftir flytjanda</translation>
     </message>
     <message>
       <source>Title sort</source>
-      <translation type="unfinished">Title sort</translation>
+      <translation>Röðun eftir heiti</translation>
     </message>
     <message>
       <source>Album artist sort</source>
-      <translation type="unfinished">Album artist sort</translation>
+      <translation>Röðun eftir flytjanda hljómplötu</translation>
     </message>
     <message>
       <source>Artist sort</source>
-      <translation type="unfinished">Artist sort</translation>
+      <translation>Röðun eftir listamanni</translation>
     </message>
     <message>
       <source>Album sort</source>
-      <translation type="unfinished">Album sort</translation>
+      <translation>Röðun eftir hljómplötu</translation>
     </message>
     <message>
       <source>Composer sort</source>
-      <translation type="unfinished">Composer sort</translation>
+      <translation>Röðun eftir höfundi</translation>
     </message>
   </context>
   <context>
@@ -2762,43 +2815,43 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     <name>FileViewTree</name>
     <message>
       <source>Append to current playlist</source>
-      <translation type="unfinished">Append to current playlist</translation>
+      <translation>Bæta við fyrirliggjandi spilunarlista</translation>
     </message>
     <message>
       <source>Replace current playlist</source>
-      <translation type="unfinished">Replace current playlist</translation>
+      <translation>Skipta út fyrirliggjandi spilunarlista</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
-      <translation type="unfinished">Open in new playlist</translation>
+      <translation>Opna í nýjum spilunarlista</translation>
     </message>
     <message>
       <source>Copy to collection...</source>
-      <translation type="unfinished">Copy to collection...</translation>
+      <translation>Afrita í safn...</translation>
     </message>
     <message>
       <source>Move to collection...</source>
-      <translation type="unfinished">Move to collection...</translation>
+      <translation>Færa í safn...</translation>
     </message>
     <message>
       <source>Copy to device...</source>
-      <translation type="unfinished">Copy to device...</translation>
+      <translation>Afrita á tæki...</translation>
     </message>
     <message>
       <source>Delete from disk...</source>
-      <translation type="unfinished">Delete from disk...</translation>
+      <translation>Eyða af diski...</translation>
     </message>
     <message>
       <source>Edit track information...</source>
-      <translation type="unfinished">Edit track information...</translation>
+      <translation>Breyta upplýsingum um lag...</translation>
     </message>
     <message>
       <source>Show in file browser...</source>
-      <translation type="unfinished">Show in file browser...</translation>
+      <translation>Sýna í skráavafra...</translation>
     </message>
     <message>
       <source>Files</source>
-      <translation type="unfinished">Files</translation>
+      <translation>Skrár</translation>
     </message>
   </context>
   <context>
@@ -2844,6 +2897,13 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     <message>
       <source>An error occurred loading the iTunes database</source>
       <translation>Villa kom upp við hleðslu iTunes gagnagrunns</translation>
+    </message>
+  </context>
+  <context>
+    <name>GeniusLyricsProvider</name>
+    <message>
+      <source>Missing Genius client ID and/or client secret</source>
+      <translation type="unfinished">Missing Genius client ID and/or client secret</translation>
     </message>
   </context>
   <context>
@@ -3123,7 +3183,7 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
     <message>
       <source>Original year - Album - Disc</source>
-      <translation type="unfinished">Original year - Album - Disc</translation>
+      <translation>Upprunaár - Hljómplata - Diskur</translation>
     </message>
   </context>
   <context>
@@ -3136,36 +3196,47 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
   <context>
     <name>LastFMScrobbler</name>
     <message>
+      <source>Missing Last.fm API key and/or API secret</source>
+      <translation type="unfinished">Missing Last.fm API key and/or API secret</translation>
+    </message>
+    <message>
       <source>%1 Scrobbler Authentication</source>
-      <translation type="unfinished">%1 Scrobbler Authentication</translation>
+      <translation>Auðkenning fyrir %1 Scrobbler-hlustunarvenjur</translation>
     </message>
     <message>
       <source>Open URL in web browser?</source>
-      <translation type="unfinished">Open URL in web browser?</translation>
+      <translation>Opna slóð í vafra?</translation>
     </message>
     <message>
       <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
-      <translation type="unfinished">Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</translation>
+      <translation>Ýttu á &quot;Vista&quot; til að afrita slóðina á klippispjald og opnaðu hana handvirkt í vafra.</translation>
     </message>
     <message>
       <source>Could not open URL. Please open this URL in your browser</source>
-      <translation type="unfinished">Could not open URL. Please open this URL in your browser</translation>
+      <translation>Gat ekki opnað slóð. Opnaðu þessa slóð í vafranum þínum</translation>
     </message>
     <message>
       <source>Invalid reply from web browser. Missing token.</source>
-      <translation type="unfinished">Invalid reply from web browser. Missing token.</translation>
+      <translation>Fékk ógilt svar frá vafra. Vantar teikn.</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser. Try another browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser. Try another browser.</translation>
+      <translation>Fékk ógilt svar frá vafra. Prófaðu annan vafra.</translation>
     </message>
     <message>
       <source>Scrobbler %1 is not authenticated!</source>
-      <translation type="unfinished">Scrobbler %1 is not authenticated!</translation>
+      <translation>Ekki er auðkennt á %1 scrobbler-hlustunarvenjur!</translation>
     </message>
     <message>
       <source>Scrobbler %1 error: %2</source>
-      <translation type="unfinished">Scrobbler %1 error: %2</translation>
+      <translation>Villa í Scrobbler-hlustunarvenjum %1: %2</translation>
+    </message>
+  </context>
+  <context>
+    <name>LastFmCoverProvider</name>
+    <message>
+      <source>Missing Last.fm API key and/or API secret</source>
+      <translation type="unfinished">Missing Last.fm API key and/or API secret</translation>
     </message>
   </context>
   <context>
@@ -3184,6 +3255,10 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
   </context>
   <context>
     <name>ListenBrainzScrobbler</name>
+    <message>
+      <source>Missing ListenBrainz client ID and/or client secret</source>
+      <translation type="unfinished">Missing ListenBrainz client ID and/or client secret</translation>
+    </message>
     <message>
       <source>Unable to scrobble %1 - %2 because of error: %3</source>
       <translation>Tekst ekki að skrá hlustunarvenjur %1 - %2 vegna villu: %3</translation>
@@ -3265,6 +3340,22 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     <message>
       <source>Authentication failed</source>
       <translation>Auðkenning mistókst</translation>
+    </message>
+    <message>
+      <source>API Credentials</source>
+      <translation type="unfinished">API Credentials</translation>
+    </message>
+    <message>
+      <source>Use custom API credentials</source>
+      <translation type="unfinished">Use custom API credentials</translation>
+    </message>
+    <message>
+      <source>Client ID</source>
+      <translation type="unfinished">Client ID</translation>
+    </message>
+    <message>
+      <source>Client secret</source>
+      <translation type="unfinished">Client secret</translation>
     </message>
   </context>
   <context>
@@ -3783,7 +3874,7 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
     <message>
       <source>Ctrl+Shift+H</source>
-      <translation type="unfinished">Ctrl+Shift+H</translation>
+      <translation>Ctrl+Shift+H</translation>
     </message>
     <message>
       <source>Go to last playlist tab</source>
@@ -3863,6 +3954,13 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     <message>
       <source>Error connecting MTP device %1: %2</source>
       <translation>Villa við að tengja MTP-tæki %1: %2</translation>
+    </message>
+  </context>
+  <context>
+    <name>MusixmatchLyricsProvider</name>
+    <message>
+      <source>Missing Musixmatch client ID and/or client secret</source>
+      <translation type="unfinished">Missing Musixmatch client ID and/or client secret</translation>
     </message>
   </context>
   <context>
@@ -4145,42 +4243,50 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
     <message>
       <source>Discord</source>
-      <translation type="unfinished">Discord</translation>
+      <translation>Discord</translation>
     </message>
     <message>
       <source>Enable Rich Presence</source>
-      <translation type="unfinished">Enable Rich Presence</translation>
+      <translation>Virkjaðu Rich Presence</translation>
     </message>
     <message>
       <source>&quot;Listening to...&quot;</source>
-      <translation type="unfinished">&quot;Listening to...&quot;</translation>
+      <translation>&quot;Hlusta á...&quot;</translation>
     </message>
     <message>
       <source>Strawberry</source>
-      <translation type="unfinished">Strawberry</translation>
+      <translation>Strawberry</translation>
     </message>
     <message>
       <source>Artist name</source>
-      <translation type="unfinished">Artist name</translation>
+      <translation>Nafn flytjanda</translation>
     </message>
     <message>
       <source>Song title</source>
-      <translation type="unfinished">Song title</translation>
+      <translation>Heiti lags</translation>
     </message>
   </context>
   <context>
     <name>OAuthenticator</name>
     <message>
+      <source>Missing client ID</source>
+      <translation type="unfinished">Missing client ID</translation>
+    </message>
+    <message>
+      <source>Missing client secret</source>
+      <translation type="unfinished">Missing client secret</translation>
+    </message>
+    <message>
       <source>Authentication</source>
-      <translation type="unfinished">Authentication</translation>
+      <translation>Auðkenning</translation>
     </message>
     <message>
       <source>Please open this URL in your browser</source>
-      <translation type="unfinished">Please open this URL in your browser</translation>
+      <translation>Opnaðu þessa slóð í vafranum þínum</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser.</translation>
+      <translation>Fékk ógilt svar frá vafra.</translation>
     </message>
     <message>
       <source>Redirect URL is missing query.</source>
@@ -4280,6 +4386,17 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     <message>
       <source>Intro tracks</source>
       <translation>Kynningarlög</translation>
+    </message>
+  </context>
+  <context>
+    <name>OpenTidalCoverProvider</name>
+    <message>
+      <source>Missing OpenTidal client ID and/or client secret.</source>
+      <translation type="unfinished">Missing OpenTidal client ID and/or client secret.</translation>
+    </message>
+    <message>
+      <source>Authentication failed: %1</source>
+      <translation type="unfinished">Authentication failed: %1</translation>
     </message>
   </context>
   <context>
@@ -4472,11 +4589,11 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
     <message>
       <source>File %1 does not exist</source>
-      <translation type="unfinished">File %1 does not exist</translation>
+      <translation>Skráin %1 er ekki til</translation>
     </message>
     <message>
       <source>Could not read file %1: %2</source>
-      <translation type="unfinished">Could not read file %1: %2</translation>
+      <translation>Tókst ekki að lesa skrána %1: %2</translation>
     </message>
   </context>
   <context>
@@ -4514,7 +4631,7 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
     <message>
       <source>Title Sort</source>
-      <translation type="unfinished">Title Sort</translation>
+      <translation>Röðun eftir heiti</translation>
     </message>
     <message>
       <source>Artist</source>
@@ -4522,7 +4639,7 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
     <message>
       <source>Artist Sort</source>
-      <translation type="unfinished">Artist Sort</translation>
+      <translation>Röðun eftir listamanni</translation>
     </message>
     <message>
       <source>Album</source>
@@ -4530,7 +4647,7 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
     <message>
       <source>Album Sort</source>
-      <translation type="unfinished">Album Sort</translation>
+      <translation>Röðun eftir hljómplötu</translation>
     </message>
     <message>
       <source>Track</source>
@@ -4562,7 +4679,7 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
     <message>
       <source>Album Artist Sort</source>
-      <translation type="unfinished">Album Artist Sort</translation>
+      <translation>Röðun eftir flytjanda hljómplötu</translation>
     </message>
     <message>
       <source>Composer</source>
@@ -4570,7 +4687,7 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
     <message>
       <source>Composer Sort</source>
-      <translation type="unfinished">Composer Sort</translation>
+      <translation>Röðun eftir höfundi</translation>
     </message>
     <message>
       <source>Performer</source>
@@ -4578,7 +4695,7 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
     <message>
       <source>Performer Sort</source>
-      <translation type="unfinished">Performer Sort</translation>
+      <translation>Röðun eftir flytjanda</translation>
     </message>
     <message>
       <source>Grouping</source>
@@ -4642,11 +4759,11 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
     <message>
       <source>Moodbar</source>
-      <translation type="unfinished">Moodbar</translation>
+      <translation>Skapbrigðastika</translation>
     </message>
     <message>
       <source>BPM</source>
-      <translation type="unfinished">BPM</translation>
+      <translation>BPM</translation>
     </message>
     <message>
       <source>Mood</source>
@@ -4658,7 +4775,7 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
     <message>
       <source>URL</source>
-      <translation type="unfinished">URL</translation>
+      <translation>Vefslóð</translation>
     </message>
     <message>
       <source>CUE</source>
@@ -4731,6 +4848,22 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     <message>
       <source>&amp;Lock rating</source>
       <translation>&amp;Læsa einkunn</translation>
+    </message>
+    <message>
+      <source>Sor&amp;t</source>
+      <translation type="unfinished">Sor&amp;t</translation>
+    </message>
+    <message>
+      <source>&amp;Ascending</source>
+      <translation type="unfinished">&amp;Ascending</translation>
+    </message>
+    <message>
+      <source>&amp;Descending</source>
+      <translation type="unfinished">&amp;Descending</translation>
+    </message>
+    <message>
+      <source>&amp;Clear sorting</source>
+      <translation type="unfinished">&amp;Clear sorting</translation>
     </message>
     <message>
       <source>&amp;Align text</source>
@@ -5263,7 +5396,7 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Create fingerprint</source>
-      <translation type="unfinished">Create fingerprint</translation>
+      <translation>Útbúa fingrafar</translation>
     </message>
     <message>
       <source>Failed to create directory %1.</source>
@@ -5371,7 +5504,7 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Could not save file</source>
-      <translation type="unfinished">Could not save file</translation>
+      <translation>Tókst ekki að vista skrá</translation>
     </message>
     <message>
       <source>Unknown error</source>
@@ -5614,11 +5747,11 @@ Ertu viss um að þú viljir halda áfram?</translation>
     <name>QobuzMetadataRequest</name>
     <message>
       <source>Not authenticated</source>
-      <translation type="unfinished">Not authenticated</translation>
+      <translation>Ekki auðkennt</translation>
     </message>
     <message>
       <source>No track ID</source>
-      <translation type="unfinished">No track ID</translation>
+      <translation>Ekkert auðkenni spors</translation>
     </message>
   </context>
   <context>
@@ -5807,7 +5940,7 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Fetching...</source>
-      <translation type="unfinished">Fetching...</translation>
+      <translation>Sæki...</translation>
     </message>
     <message>
       <source>Credentials fetched</source>
@@ -5831,7 +5964,7 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Private key</source>
-      <translation type="unfinished">Private key</translation>
+      <translation>Einkalykill</translation>
     </message>
     <message>
       <source>Automatically fetch app ID, app secret and private key from Qobuz web player</source>
@@ -5902,26 +6035,26 @@ Ertu viss um að þú viljir halda áfram?</translation>
     <name>RadioBrowserSearchModel</name>
     <message>
       <source>Name</source>
-      <translation type="unfinished">Name</translation>
+      <translation>Nafn</translation>
     </message>
     <message>
       <source>Country</source>
-      <translation type="unfinished">Country</translation>
+      <translation>Land</translation>
     </message>
     <message>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Merki</translation>
     </message>
     <message>
       <source>Codec</source>
-      <translation type="unfinished">Codec</translation>
+      <translation>Kóðunarlykill</translation>
     </message>
   </context>
   <context>
     <name>RadioBrowserSearchView</name>
     <message>
       <source>Load more...</source>
-      <translation type="unfinished">Load more...</translation>
+      <translation>Hlaða inn fleiru...</translation>
     </message>
     <message>
       <source>Search for radio stations using radio-browser.info</source>
@@ -5929,43 +6062,43 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Search radio stations...</source>
-      <translation type="unfinished">Search radio stations...</translation>
+      <translation>Leita að útvarpsstöðvum...</translation>
     </message>
     <message>
       <source>All countries</source>
-      <translation type="unfinished">All countries</translation>
+      <translation>Öll lönd</translation>
     </message>
     <message>
       <source>By votes</source>
-      <translation type="unfinished">By votes</translation>
+      <translation>Eftir atkvæðum</translation>
     </message>
     <message>
       <source>By clicks</source>
-      <translation type="unfinished">By clicks</translation>
+      <translation>Eftir smellum</translation>
     </message>
     <message>
       <source>By name</source>
-      <translation type="unfinished">By name</translation>
+      <translation>Eftir heiti</translation>
     </message>
     <message>
       <source>By bitrate</source>
-      <translation type="unfinished">By bitrate</translation>
+      <translation>Eftir bitahraða</translation>
     </message>
     <message>
       <source>Searching...</source>
-      <translation type="unfinished">Searching...</translation>
+      <translation>Leita...</translation>
     </message>
     <message>
       <source>No stations found.</source>
-      <translation type="unfinished">No stations found.</translation>
+      <translation>Engar stöðvar fundust.</translation>
     </message>
     <message>
       <source>%1 stations found</source>
-      <translation type="unfinished">%1 stations found</translation>
+      <translation>%1 stöð fannst</translation>
     </message>
     <message>
       <source>Append to current playlist</source>
-      <translation type="unfinished">Append to current playlist</translation>
+      <translation>Bæta við fyrirliggjandi spilunarlista</translation>
     </message>
   </context>
   <context>
@@ -5994,15 +6127,15 @@ Ertu viss um að þú viljir halda áfram?</translation>
     <name>RadioSettingsPage</name>
     <message>
       <source>Radios</source>
-      <translation type="unfinished">Radios</translation>
+      <translation>Útvarpsstöðvar</translation>
     </message>
     <message>
       <source>SomaFM</source>
-      <translation type="unfinished">SomaFM</translation>
+      <translation>SomaFM</translation>
     </message>
     <message>
       <source>Stream quality:</source>
-      <translation type="unfinished">Stream quality:</translation>
+      <translation>Gæði streymis:</translation>
     </message>
     <message>
       <source>Radio Browser</source>
@@ -6018,43 +6151,43 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Default sort order:</source>
-      <translation type="unfinished">Default sort order:</translation>
+      <translation>Sjálfgefin röðun:</translation>
     </message>
     <message>
       <source>Default country:</source>
-      <translation type="unfinished">Default country:</translation>
+      <translation>Sjálfgefið land:</translation>
     </message>
     <message>
       <source>All countries</source>
-      <translation type="unfinished">All countries</translation>
+      <translation>Öll lönd</translation>
     </message>
     <message>
       <source>Highest</source>
-      <translation type="unfinished">Highest</translation>
+      <translation>Hæsta</translation>
     </message>
     <message>
       <source>High</source>
-      <translation type="unfinished">High</translation>
+      <translation>Hátt</translation>
     </message>
     <message>
       <source>Low</source>
-      <translation type="unfinished">Low</translation>
+      <translation>Lágt</translation>
     </message>
     <message>
       <source>By votes</source>
-      <translation type="unfinished">By votes</translation>
+      <translation>Eftir atkvæðum</translation>
     </message>
     <message>
       <source>By clicks</source>
-      <translation type="unfinished">By clicks</translation>
+      <translation>Eftir smellum</translation>
     </message>
     <message>
       <source>By name</source>
-      <translation type="unfinished">By name</translation>
+      <translation>Eftir heiti</translation>
     </message>
     <message>
       <source>By bitrate</source>
-      <translation type="unfinished">By bitrate</translation>
+      <translation>Eftir bitahraða</translation>
     </message>
   </context>
   <context>
@@ -6092,7 +6225,7 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Channels</source>
-      <translation type="unfinished">Channels</translation>
+      <translation>Rásir</translation>
     </message>
     <message>
       <source>Radio Browser</source>
@@ -6362,6 +6495,18 @@ Ertu viss um að þú viljir halda áfram?</translation>
     <message>
       <source>Spotify</source>
       <translation>Spotify</translation>
+    </message>
+    <message>
+      <source>Use custom API credentials</source>
+      <translation type="unfinished">Use custom API credentials</translation>
+    </message>
+    <message>
+      <source>Client ID:</source>
+      <translation type="unfinished">Client ID:</translation>
+    </message>
+    <message>
+      <source>Client secret:</source>
+      <translation type="unfinished">Client secret:</translation>
     </message>
   </context>
   <context>
@@ -6650,7 +6795,7 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Restore defaults</source>
-      <translation type="unfinished">Restore defaults</translation>
+      <translation>Endurheimta sjálfgefið</translation>
     </message>
   </context>
   <context>
@@ -6722,11 +6867,11 @@ Ertu viss um að þú viljir halda áfram?</translation>
     <name>SpotifyMetadataRequest</name>
     <message>
       <source>Not authenticated</source>
-      <translation type="unfinished">Not authenticated</translation>
+      <translation>Ekki auðkennt</translation>
     </message>
     <message>
       <source>No track ID</source>
-      <translation type="unfinished">No track ID</translation>
+      <translation>Ekkert auðkenni spors</translation>
     </message>
     <message>
       <source>No pending song for track ID</source>
@@ -6790,6 +6935,10 @@ Ertu viss um að þú viljir halda áfram?</translation>
   </context>
   <context>
     <name>SpotifyService</name>
+    <message>
+      <source>Missing Spotify client ID and/or client secret</source>
+      <translation type="unfinished">Missing Spotify client ID and/or client secret</translation>
+    </message>
     <message>
       <source>Not authenticated with Spotify.</source>
       <translation>Ekki auðkennt á Spotify.</translation>
@@ -6856,6 +7005,22 @@ Ertu viss um að þú viljir halda áfram?</translation>
     <message>
       <source>Remove (Remastered), etc from song titles</source>
       <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
+    </message>
+    <message>
+      <source>Authentication</source>
+      <translation type="unfinished">Authentication</translation>
+    </message>
+    <message>
+      <source>Use custom API credentials</source>
+      <translation type="unfinished">Use custom API credentials</translation>
+    </message>
+    <message>
+      <source>Client ID</source>
+      <translation type="unfinished">Client ID</translation>
+    </message>
+    <message>
+      <source>Client secret</source>
+      <translation type="unfinished">Client secret</translation>
     </message>
   </context>
   <context>
@@ -7179,11 +7344,11 @@ Ertu viss um að þú viljir halda áfram?</translation>
     <name>TagFetcher</name>
     <message>
       <source>Stage: %1</source>
-      <translation type="unfinished">Stage: %1</translation>
+      <translation>Stig: %1</translation>
     </message>
     <message>
       <source>Reason: %1</source>
-      <translation type="unfinished">Reason: %1</translation>
+      <translation>Ástæða: %1</translation>
     </message>
     <message>
       <source>Identifying song</source>
@@ -7219,7 +7384,7 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>MusicBrainz metadata</source>
-      <translation type="unfinished">MusicBrainz metadata</translation>
+      <translation>MusicBrainz lýsigögn</translation>
     </message>
     <message>
       <source>Candidate metadata rows: 0</source>
@@ -7289,10 +7454,6 @@ Ertu viss um að þú viljir halda áfram?</translation>
     <message>
       <source>Enable</source>
       <translation>Virkja</translation>
-    </message>
-    <message>
-      <source>Tidal support is not official and requires a API token from a registered application to work. We can&apos;t help you getting these.</source>
-      <translation>Stuðningur við Tidal er ekki opinber og krefst API-auðkennis forrits frá skráðu forriti til að virka. Við erum ekki í aðstöðu til að hjálpa þér með þetta.</translation>
     </message>
     <message>
       <source>Authentication</source>
@@ -7370,6 +7531,10 @@ Ertu viss um að þú viljir halda áfram?</translation>
       <source>Remove (Remastered), etc from song titles</source>
       <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
     </message>
+    <message>
+      <source>Use custom client ID</source>
+      <translation type="unfinished">Use custom client ID</translation>
+    </message>
   </context>
   <context>
     <name>TidalStreamURLRequest</name>
@@ -7382,12 +7547,12 @@ Ertu viss um að þú viljir halda áfram?</translation>
       <translation>Hætt við.</translation>
     </message>
     <message>
-      <source>Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
-      <translation>Tók við URL-slóð með %1 dulrituðu streymi frá Tidal. Strawberry styður ekki við dulrituð streymi.</translation>
+      <source>Received a %1 encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings</source>
+      <translation type="unfinished">Received a %1 encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings</translation>
     </message>
     <message>
-      <source>Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
-      <translation>Tók við URL-slóð með dulrituðu streymi frá Tidal. Strawberry styður ekki við dulrituð streymi.</translation>
+      <source>Received an encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings</source>
+      <translation type="unfinished">Received an encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings</translation>
     </message>
   </context>
   <context>
@@ -7434,7 +7599,7 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Error</source>
-      <translation type="unfinished">Error</translation>
+      <translation>Villa</translation>
     </message>
     <message>
       <source>Original tags</source>
@@ -7450,11 +7615,11 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Album artist</source>
-      <translation type="unfinished">Album artist</translation>
+      <translation>Flytjandi hljómplötu</translation>
     </message>
     <message>
       <source>No results</source>
-      <translation type="unfinished">No results</translation>
+      <translation>Engar niðurstöður</translation>
     </message>
   </context>
   <context>
@@ -7473,15 +7638,15 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Normal</source>
-      <translation type="unfinished">Normal</translation>
+      <translation>Venjulegt</translation>
     </message>
     <message>
       <source>Moodbar</source>
-      <translation type="unfinished">Moodbar</translation>
+      <translation>Skapbrigðastika</translation>
     </message>
     <message>
       <source>Moodbar style</source>
-      <translation type="unfinished">Moodbar style</translation>
+      <translation>Stíll skapbrigðastiku</translation>
     </message>
     <message>
       <source>Waveform</source>
@@ -8018,7 +8183,7 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Color</source>
-      <translation type="unfinished">Color</translation>
+      <translation>Litur</translation>
     </message>
     <message>
       <source>Select waveform color</source>

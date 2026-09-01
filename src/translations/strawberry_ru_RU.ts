@@ -13,66 +13,96 @@
     </message>
   </context>
   <context>
-    <name>About</name>
+    <name>AboutDialog</name>
     <message>
       <source>About</source>
-      <translation>О программе</translation>
+      <translation type="unfinished">About</translation>
     </message>
     <message>
       <source>About Strawberry</source>
-      <translation>О программе Strawberry</translation>
+      <translation type="unfinished">About Strawberry</translation>
     </message>
     <message>
       <source>Version %1</source>
-      <translation>Версия %1</translation>
+      <translation type="unfinished">Version %1</translation>
     </message>
     <message>
       <source>Strawberry is a music player and music collection organizer.</source>
-      <translation>Strawberry — музыкальный проигрыватель и органайзер фонотеки.</translation>
+      <translation type="unfinished">Strawberry is a music player and music collection organizer.</translation>
     </message>
     <message>
       <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
-      <translation>Это ответвление плеера Clementine, созданное в 2018 году специально для коллекционеров музыки и ценителей качественного звука.</translation>
+      <translation type="unfinished">It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</translation>
     </message>
     <message>
       <source>Strawberry is free software released under GPL. The source code is available on %1</source>
-      <translation>Strawberry — бесплатное программное обеспечение, выпущенное под лицензией GPL. Исходный код доступен на %1</translation>
+      <translation type="unfinished">Strawberry is free software released under GPL. The source code is available on %1</translation>
     </message>
     <message>
       <source>You should have received a copy of the GNU General Public License along with this program.  If not, see %1</source>
-      <translation>Вы должны были получить копию Стандартной общественной лицензии GNU вместе с этой программой. Если нет, см. %1</translation>
+      <translation type="unfinished">You should have received a copy of the GNU General Public License along with this program.  If not, see %1</translation>
     </message>
     <message>
       <source>If you like Strawberry and can make use of it, consider sponsoring or donating.</source>
-      <translation>Если вам приглянулся Strawberry, пожалуйста, рассмотрите возможность спонсорства или пожертвования.</translation>
+      <translation type="unfinished">If you like Strawberry and can make use of it, consider sponsoring or donating.</translation>
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation>Вы можете материально поддержать автора на %1 или %2. Также можно произвести единовременный платёж на %3.</translation>
+      <translation type="unfinished">You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
-      <translation>Автор и куратор</translation>
+      <translation type="unfinished">Author and maintainer</translation>
     </message>
     <message>
       <source>Contributors</source>
-      <translation>Участники</translation>
+      <translation type="unfinished">Contributors</translation>
     </message>
     <message>
       <source>Clementine authors</source>
-      <translation>Авторы Clementine</translation>
+      <translation type="unfinished">Clementine authors</translation>
     </message>
     <message>
       <source>Clementine contributors</source>
-      <translation>Разработчики Clementine</translation>
+      <translation type="unfinished">Clementine contributors</translation>
     </message>
     <message>
       <source>Thanks to</source>
-      <translation>Благодарности</translation>
+      <translation type="unfinished">Thanks to</translation>
     </message>
     <message>
       <source>Thanks to all the other Amarok and Clementine contributors.</source>
-      <translation>Спасибо всем прочим разработчикам Amarok и Clementine.</translation>
+      <translation type="unfinished">Thanks to all the other Amarok and Clementine contributors.</translation>
+    </message>
+  </context>
+  <context>
+    <name>AcoustidClient</name>
+    <message>
+      <source>Missing AcoustID API key</source>
+      <translation type="unfinished">Missing AcoustID API key</translation>
+    </message>
+  </context>
+  <context>
+    <name>AcoustidSettingsPage</name>
+    <message>
+      <source>AcoustID</source>
+      <translation type="unfinished">AcoustID</translation>
+    </message>
+    <message>
+      <source>AcoustID is used to identify songs by their audio fingerprint when fetching tags.</source>
+      <translation type="unfinished">AcoustID is used to identify songs by their audio fingerprint when fetching tags.</translation>
+    </message>
+    <message>
+      <source>API credentials</source>
+      <translation type="unfinished">API credentials</translation>
+    </message>
+    <message>
+      <source>Use custom API Key</source>
+      <translation type="unfinished">Use custom API Key</translation>
+    </message>
+    <message>
+      <source>API key</source>
+      <translation type="unfinished">API key</translation>
     </message>
   </context>
   <context>
@@ -1919,6 +1949,22 @@ If there are no matches then it will use the largest image in the directory.</so
       <source>Embedded album cover art (%1)</source>
       <translation>Встроенная обложка альбома (%1)</translation>
     </message>
+    <message>
+      <source>API Credentials</source>
+      <translation type="unfinished">API Credentials</translation>
+    </message>
+    <message>
+      <source>Use custom API credentials</source>
+      <translation type="unfinished">Use custom API credentials</translation>
+    </message>
+    <message>
+      <source>Client ID</source>
+      <translation type="unfinished">Client ID</translation>
+    </message>
+    <message>
+      <source>Client secret</source>
+      <translation type="unfinished">Client secret</translation>
+    </message>
   </context>
   <context>
     <name>CueParser</name>
@@ -2157,6 +2203,13 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Form</source>
       <translation>Форма</translation>
+    </message>
+  </context>
+  <context>
+    <name>DiscogsCoverProvider</name>
+    <message>
+      <source>Missing Discogs client ID and/or client secret</source>
+      <translation type="unfinished">Missing Discogs client ID and/or client secret</translation>
     </message>
   </context>
   <context>
@@ -2847,6 +2900,13 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
   </context>
   <context>
+    <name>GeniusLyricsProvider</name>
+    <message>
+      <source>Missing Genius client ID and/or client secret</source>
+      <translation type="unfinished">Missing Genius client ID and/or client secret</translation>
+    </message>
+  </context>
+  <context>
     <name>GioLister</name>
     <message>
       <source>Mount point</source>
@@ -3136,6 +3196,10 @@ If there are no matches then it will use the largest image in the directory.</so
   <context>
     <name>LastFMScrobbler</name>
     <message>
+      <source>Missing Last.fm API key and/or API secret</source>
+      <translation type="unfinished">Missing Last.fm API key and/or API secret</translation>
+    </message>
+    <message>
       <source>%1 Scrobbler Authentication</source>
       <translation>Аутентификация скробблера %1</translation>
     </message>
@@ -3169,6 +3233,13 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
   </context>
   <context>
+    <name>LastFmCoverProvider</name>
+    <message>
+      <source>Missing Last.fm API key and/or API secret</source>
+      <translation type="unfinished">Missing Last.fm API key and/or API secret</translation>
+    </message>
+  </context>
+  <context>
     <name>LastPlayedItemDelegate</name>
     <message>
       <source>Never</source>
@@ -3184,6 +3255,10 @@ If there are no matches then it will use the largest image in the directory.</so
   </context>
   <context>
     <name>ListenBrainzScrobbler</name>
+    <message>
+      <source>Missing ListenBrainz client ID and/or client secret</source>
+      <translation type="unfinished">Missing ListenBrainz client ID and/or client secret</translation>
+    </message>
     <message>
       <source>Unable to scrobble %1 - %2 because of error: %3</source>
       <translation>Не удаётся заскробблить %1 — %2 из-за ошибки: %3</translation>
@@ -3265,6 +3340,22 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Authentication failed</source>
       <translation>Ошибка аутентификации</translation>
+    </message>
+    <message>
+      <source>API Credentials</source>
+      <translation type="unfinished">API Credentials</translation>
+    </message>
+    <message>
+      <source>Use custom API credentials</source>
+      <translation type="unfinished">Use custom API credentials</translation>
+    </message>
+    <message>
+      <source>Client ID</source>
+      <translation type="unfinished">Client ID</translation>
+    </message>
+    <message>
+      <source>Client secret</source>
+      <translation type="unfinished">Client secret</translation>
     </message>
   </context>
   <context>
@@ -3866,6 +3957,13 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
   </context>
   <context>
+    <name>MusixmatchLyricsProvider</name>
+    <message>
+      <source>Missing Musixmatch client ID and/or client secret</source>
+      <translation type="unfinished">Missing Musixmatch client ID and/or client secret</translation>
+    </message>
+  </context>
+  <context>
     <name>NetworkProxySettingsPage</name>
     <message>
       <source>Network Proxy</source>
@@ -4171,6 +4269,14 @@ If there are no matches then it will use the largest image in the directory.</so
   <context>
     <name>OAuthenticator</name>
     <message>
+      <source>Missing client ID</source>
+      <translation type="unfinished">Missing client ID</translation>
+    </message>
+    <message>
+      <source>Missing client secret</source>
+      <translation type="unfinished">Missing client secret</translation>
+    </message>
+    <message>
       <source>Authentication</source>
       <translation>Аутентификация</translation>
     </message>
@@ -4280,6 +4386,17 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Intro tracks</source>
       <translation>Вступительные треки</translation>
+    </message>
+  </context>
+  <context>
+    <name>OpenTidalCoverProvider</name>
+    <message>
+      <source>Missing OpenTidal client ID and/or client secret.</source>
+      <translation type="unfinished">Missing OpenTidal client ID and/or client secret.</translation>
+    </message>
+    <message>
+      <source>Authentication failed: %1</source>
+      <translation type="unfinished">Authentication failed: %1</translation>
     </message>
   </context>
   <context>
@@ -4731,6 +4848,22 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>&amp;Lock rating</source>
       <translation>&amp;Заблокировать оценку</translation>
+    </message>
+    <message>
+      <source>Sor&amp;t</source>
+      <translation type="unfinished">Sor&amp;t</translation>
+    </message>
+    <message>
+      <source>&amp;Ascending</source>
+      <translation type="unfinished">&amp;Ascending</translation>
+    </message>
+    <message>
+      <source>&amp;Descending</source>
+      <translation type="unfinished">&amp;Descending</translation>
+    </message>
+    <message>
+      <source>&amp;Clear sorting</source>
+      <translation type="unfinished">&amp;Clear sorting</translation>
     </message>
     <message>
       <source>&amp;Align text</source>
@@ -6373,6 +6506,18 @@ Are you sure you want to continue?</source>
       <source>Spotify</source>
       <translation>Spotify</translation>
     </message>
+    <message>
+      <source>Use custom API credentials</source>
+      <translation type="unfinished">Use custom API credentials</translation>
+    </message>
+    <message>
+      <source>Client ID:</source>
+      <translation type="unfinished">Client ID:</translation>
+    </message>
+    <message>
+      <source>Client secret:</source>
+      <translation type="unfinished">Client secret:</translation>
+    </message>
   </context>
   <context>
     <name>SettingsDialog</name>
@@ -6801,6 +6946,10 @@ Are you sure you want to continue?</source>
   <context>
     <name>SpotifyService</name>
     <message>
+      <source>Missing Spotify client ID and/or client secret</source>
+      <translation type="unfinished">Missing Spotify client ID and/or client secret</translation>
+    </message>
+    <message>
       <source>Not authenticated with Spotify.</source>
       <translation>Не выполнена аутентификация в Spotify.</translation>
     </message>
@@ -6866,6 +7015,22 @@ Are you sure you want to continue?</source>
     <message>
       <source>Remove (Remastered), etc from song titles</source>
       <translation>Удалять (Remastered) и прочее из названий песен</translation>
+    </message>
+    <message>
+      <source>Authentication</source>
+      <translation type="unfinished">Authentication</translation>
+    </message>
+    <message>
+      <source>Use custom API credentials</source>
+      <translation type="unfinished">Use custom API credentials</translation>
+    </message>
+    <message>
+      <source>Client ID</source>
+      <translation type="unfinished">Client ID</translation>
+    </message>
+    <message>
+      <source>Client secret</source>
+      <translation type="unfinished">Client secret</translation>
     </message>
   </context>
   <context>
@@ -7301,10 +7466,6 @@ Are you sure you want to continue?</source>
       <translation>Включить</translation>
     </message>
     <message>
-      <source>Tidal support is not official and requires a API token from a registered application to work. We can&apos;t help you getting these.</source>
-      <translation>Поддержка Tidal не является официальной и для работы требует токен API из зарегистрированного приложения. Мы не можем помочь вам в его получении.</translation>
-    </message>
-    <message>
       <source>Authentication</source>
       <translation>Аутентификация</translation>
     </message>
@@ -7380,6 +7541,10 @@ Are you sure you want to continue?</source>
       <source>Remove (Remastered), etc from song titles</source>
       <translation>Удалять (Remastered) и прочее из названий песен</translation>
     </message>
+    <message>
+      <source>Use custom client ID</source>
+      <translation type="unfinished">Use custom client ID</translation>
+    </message>
   </context>
   <context>
     <name>TidalStreamURLRequest</name>
@@ -7392,12 +7557,12 @@ Are you sure you want to continue?</source>
       <translation>Отменено.</translation>
     </message>
     <message>
-      <source>Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
-      <translation>Получен адрес с шифрованным потоком %1 от Tidal. Strawberry в настоящее время не поддерживает шифрованные потоки.</translation>
+      <source>Received a %1 encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings</source>
+      <translation type="unfinished">Received a %1 encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings</translation>
     </message>
     <message>
-      <source>Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
-      <translation>Получен адрес с шифрованным потоком от Tidal. Strawberry в настоящее время не поддерживает шифрованные потоки.</translation>
+      <source>Received an encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings</source>
+      <translation type="unfinished">Received an encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings</translation>
     </message>
   </context>
   <context>
