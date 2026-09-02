@@ -237,7 +237,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
       if (object_manifest.contains("encryptionType"_L1)) {
         const QString encryption_type = object_manifest["encryptionType"_L1].toString();
         if (!encryption_type.isEmpty() && encryption_type != "NONE"_L1) {
-          Q_EMIT StreamURLFailure(id_, media_url_, tr("Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams.").arg(encryption_type));
+          Q_EMIT StreamURLFailure(id_, media_url_, tr("Received a %1 encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings").arg(encryption_type));
           return;
         }
       }
@@ -288,7 +288,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
   if (json_object.contains("encryptionKey"_L1)) {
     const QString encryption_key = json_object["encryptionKey"_L1].toString();
     if (!encryption_key.isEmpty()) {
-      Q_EMIT StreamURLFailure(id_, media_url_, tr("Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams."));
+      Q_EMIT StreamURLFailure(id_, media_url_, tr("Received an encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings"));
       return;
     }
   }
@@ -296,8 +296,8 @@ void TidalStreamURLRequest::StreamURLReceived() {
   if (json_object.contains("securityType"_L1) && json_object.contains("securityToken"_L1)) {
     const QString security_type = json_object["securityType"_L1].toString();
     const QString security_token = json_object["securityToken"_L1].toString();
-    if (!security_type.isEmpty() && !security_token.isEmpty()) {
-      Q_EMIT StreamURLFailure(id_, media_url_, tr("Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams."));
+    if (!security_type.isEmpty() && security_type != "NONE"_L1 && !security_token.isEmpty()) {
+      Q_EMIT StreamURLFailure(id_, media_url_, tr("Received a %1 encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings").arg(security_type));
       return;
     }
   }
