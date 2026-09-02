@@ -96,10 +96,10 @@ class ListenBrainzScrobbler : public ScrobblerService {
   ScrobblerCache *cache_;
   QTimer *timer_submit_;
   bool enabled_;
-  QString user_token_;
   QString client_id_;
   QString client_secret_;
-  bool api_credentials_initialized_ = false;
+  bool api_credentials_initialized_;
+  QString user_token_;
   bool submitted_;
   Song song_playing_;
   bool scrobbled_;

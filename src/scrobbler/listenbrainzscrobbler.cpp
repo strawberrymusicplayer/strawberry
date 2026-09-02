@@ -100,6 +100,7 @@ ListenBrainzScrobbler::ListenBrainzScrobbler(const SharedPtr<ScrobblerSettingsSe
       cache_(new ScrobblerCache(QLatin1String(kCacheFile), this)),
       timer_submit_(new QTimer(this)),
       enabled_(false),
+      api_credentials_initialized_(false),
       submitted_(false),
       scrobbled_(false),
       timestamp_(0),

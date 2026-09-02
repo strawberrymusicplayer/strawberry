@@ -128,10 +128,10 @@ class OpenTidalCoverProvider : public JsonCoverProvider {
 
  private:
   OAuthenticator *oauth_;
+  QTimer *timer_flush_requests_;
   QString client_id_;
   QString client_secret_;
-  bool api_credentials_initialized_ = false;
-  QTimer *timer_flush_requests_;
+  bool api_credentials_initialized_;
   bool login_in_progress_;
   QDateTime last_login_attempt_;
   QQueue<QueuedSearchRequestPtr> search_requests_queue_;

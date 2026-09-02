@@ -78,6 +78,7 @@ OpenTidalCoverProvider::OpenTidalCoverProvider(const SharedPtr<NetworkAccessMana
     : JsonCoverProvider(u"OpenTidal"_s, true, false, 2.5, true, false, network, parent),
       oauth_(new OAuthenticator(network, this)),
       timer_flush_requests_(new QTimer(this)),
+      api_credentials_initialized_(false),
       login_in_progress_(false) {
 
   oauth_->set_settings_group(QLatin1String(kSettingsGroup));
