@@ -138,6 +138,13 @@ void TidalStreamURLRequest::GetStreamURL() {
       reply_ = CreateRequest(QStringLiteral("tracks/%1/playbackinfopostpaywall").arg(song_id_), params);
       QObject::connect(reply_, &QNetworkReply::finished, this, &TidalStreamURLRequest::StreamURLReceived);
       break;
+    case TidalSettings::StreamUrlMethod::PlaybackInfo:
+      params << Param(u"audioquality"_s, service_->quality());
+      params << Param(u"playbackmode"_s, u"STREAM"_s);
+      params << Param(u"assetpresentation"_s, u"FULL"_s);
+      reply_ = CreateRequest(QStringLiteral("tracks/%1/playbackinfo").arg(song_id_), params);
+      QObject::connect(reply_, &QNetworkReply::finished, this, &TidalStreamURLRequest::StreamURLReceived);
+      break;
   }
 
 }

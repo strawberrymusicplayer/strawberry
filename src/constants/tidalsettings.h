@@ -25,7 +25,8 @@ namespace TidalSettings {
 enum class StreamUrlMethod {
   StreamUrl,
   UrlPostPaywall,
-  PlaybackInfoPostPaywall
+  PlaybackInfoPostPaywall,
+  PlaybackInfo
 };
 
 constexpr char kSettingsGroup[] = "Tidal";

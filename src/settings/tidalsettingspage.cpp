@@ -80,6 +80,7 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, SharedPtr<TidalServ
   ui_->streamurl->addItem(u"streamurl"_s, static_cast<int>(StreamUrlMethod::StreamUrl));
   ui_->streamurl->addItem(u"urlpostpaywall"_s, static_cast<int>(StreamUrlMethod::UrlPostPaywall));
   ui_->streamurl->addItem(u"playbackinfopostpaywall"_s, static_cast<int>(StreamUrlMethod::PlaybackInfoPostPaywall));
+  ui_->streamurl->addItem(u"playbackinfo"_s, static_cast<int>(StreamUrlMethod::PlaybackInfo));
 
 }
 
