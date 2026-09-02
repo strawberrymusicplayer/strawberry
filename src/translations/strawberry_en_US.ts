@@ -13,7 +13,7 @@
     </message>
 </context>
 <context>
-    <name>About</name>
+    <name>AboutDialog</name>
     <message>
         <source>About</source>
         <translation type="unfinished"></translation>
@@ -72,6 +72,36 @@
     </message>
     <message>
         <source>Thanks to all the other Amarok and Clementine contributors.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AcoustidClient</name>
+    <message>
+        <source>Missing AcoustID API key</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AcoustidSettingsPage</name>
+    <message>
+        <source>AcoustID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>AcoustID is used to identify songs by their audio fingerprint when fetching tags.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>API credentials</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use custom API Key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>API key</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1918,6 +1948,22 @@ If there are no matches then it will use the largest image in the directory.</so
         <source>Embedded album cover art (%1)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>API Credentials</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use custom API credentials</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client secret</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CueParser</name>
@@ -2155,6 +2201,13 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>DeviceViewContainer</name>
     <message>
         <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DiscogsCoverProvider</name>
+    <message>
+        <source>Missing Discogs client ID and/or client secret</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2846,6 +2899,13 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
 </context>
 <context>
+    <name>GeniusLyricsProvider</name>
+    <message>
+        <source>Missing Genius client ID and/or client secret</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>GioLister</name>
     <message>
         <source>Mount point</source>
@@ -3135,6 +3195,10 @@ If there are no matches then it will use the largest image in the directory.</so
 <context>
     <name>LastFMScrobbler</name>
     <message>
+        <source>Missing Last.fm API key and/or API secret</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>%1 Scrobbler Authentication</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3168,6 +3232,13 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
 </context>
 <context>
+    <name>LastFmCoverProvider</name>
+    <message>
+        <source>Missing Last.fm API key and/or API secret</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LastPlayedItemDelegate</name>
     <message>
         <source>Never</source>
@@ -3183,6 +3254,10 @@ If there are no matches then it will use the largest image in the directory.</so
 </context>
 <context>
     <name>ListenBrainzScrobbler</name>
+    <message>
+        <source>Missing ListenBrainz client ID and/or client secret</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <source>Unable to scrobble %1 - %2 because of error: %3</source>
         <translation type="unfinished"></translation>
@@ -3263,6 +3338,22 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
         <source>Authentication failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>API Credentials</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use custom API credentials</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client secret</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3865,6 +3956,13 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
 </context>
 <context>
+    <name>MusixmatchLyricsProvider</name>
+    <message>
+        <source>Missing Musixmatch client ID and/or client secret</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>NetworkProxySettingsPage</name>
     <message>
         <source>Network Proxy</source>
@@ -4170,6 +4268,14 @@ If there are no matches then it will use the largest image in the directory.</so
 <context>
     <name>OAuthenticator</name>
     <message>
+        <source>Missing client ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing client secret</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Authentication</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4278,6 +4384,17 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
         <source>Intro tracks</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenTidalCoverProvider</name>
+    <message>
+        <source>Missing OpenTidal client ID and/or client secret.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Authentication failed: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4727,6 +4844,22 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
         <source>&amp;Lock rating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sor&amp;t</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Ascending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Descending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Clear sorting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6359,6 +6492,18 @@ Are you sure you want to continue?</source>
         <source>Spotify</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Use custom API credentials</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client ID:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client secret:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>
@@ -6787,6 +6932,10 @@ Are you sure you want to continue?</source>
 <context>
     <name>SpotifyService</name>
     <message>
+        <source>Missing Spotify client ID and/or client secret</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Not authenticated with Spotify.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6851,6 +7000,22 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source>Remove (Remastered), etc from song titles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Authentication</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use custom API credentials</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client secret</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7287,10 +7452,6 @@ Are you sure you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Tidal support is not official and requires a API token from a registered application to work. We can&apos;t help you getting these.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Authentication</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7366,6 +7527,10 @@ Are you sure you want to continue?</source>
         <source>Remove (Remastered), etc from song titles</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Use custom client ID</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TidalStreamURLRequest</name>
@@ -7378,11 +7543,11 @@ Are you sure you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
+        <source>Received a %1 encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
+        <source>Received an encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
