@@ -270,7 +270,9 @@ void SpotifyService::ClearSession() {
 
 }
 
-void SpotifyService::OAuthFinished(const bool success, const QString &error) {
+void SpotifyService::OAuthFinished(const bool success, const QString &error, const bool invalid_grant) {
+
+  Q_UNUSED(invalid_grant);
 
   if (success) {
     Q_EMIT LoginSuccess();

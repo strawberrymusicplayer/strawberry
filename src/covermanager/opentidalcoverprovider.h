@@ -120,7 +120,7 @@ class OpenTidalCoverProvider : public JsonCoverProvider {
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private Q_SLOTS:
-  void OAuthFinished(const bool success, const QString &error = QString());
+  void OAuthFinished(const bool success, const QString &error = QString(), const bool invalid_grant = false);
   void FlushRequests();
   void HandleSearchReply(QNetworkReply *reply, OpenTidalCoverProvider::SearchRequestPtr search_request);
   void HandleAlbumCoverReply(QNetworkReply *reply, OpenTidalCoverProvider::SearchRequestPtr search_request, OpenTidalCoverProvider::AlbumCoverRequestPtr albumcover_request);

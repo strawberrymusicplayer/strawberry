@@ -125,7 +125,7 @@ class TidalService : public StreamingService {
 
  private Q_SLOTS:
   void ExitReceived();
-  void OAuthFinished(const bool success, const QString &error);
+  void OAuthFinished(const bool success, const QString &error, const bool invalid_grant = false);
   void StartSearch();
   void ArtistsResultsReceived(const int id, const SongMap &songs, const QString &error);
   void AlbumsResultsReceived(const int id, const SongMap &songs, const QString &error);

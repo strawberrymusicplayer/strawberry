@@ -217,7 +217,9 @@ void OpenTidalCoverProvider::Login() {
 
 }
 
-void OpenTidalCoverProvider::OAuthFinished(const bool success, const QString &error) {
+void OpenTidalCoverProvider::OAuthFinished(const bool success, const QString &error, const bool invalid_grant) {
+
+  Q_UNUSED(invalid_grant);
 
   login_in_progress_ = false;
 

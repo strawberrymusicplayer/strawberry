@@ -87,7 +87,7 @@ class OAuthenticator : public QObject {
 
  Q_SIGNALS:
   void Error(const QString &error);
-  void AuthenticationFinished(const bool success, const QString &error = QString());
+  void AuthenticationFinished(const bool success, const QString &error = QString(), const bool invalid_grant = false);
 
  private Q_SLOTS:
   void RedirectArrived();
