@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,19 +17,26 @@
  *
  */
 
-#ifndef ENVUTILS_H
-#define ENVUTILS_H
+#include "config.h"
 
+#include <QByteArray>
 #include <QString>
+#include <QCoreApplication>
+#include <QSysInfo>
+
+#include "envutils.h"
+#include "useragent.h"
+
+using namespace Qt::Literals::StringLiterals;
 
 namespace Utilities {
 
-QString GetEnv(const QString &key);
-void SetEnv(const char *key, const QString &value);
-QString OSName();
-QString DesktopEnvironment();
-bool IsWSL();
+const QByteArray &UserAgent() {
+
+  static const QByteArray user_agent = "%1/%2 (%3 %4; +https://www.strawberrymusicplayer.org)"_L1.arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion(), Utilities::OSName(), QSysInfo::currentCpuArchitecture()).toUtf8();
+
+  return user_agent;
+
+}
 
 }  // namespace Utilities
-
-#endif  // ENVUTILS_H

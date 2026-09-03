@@ -507,6 +507,7 @@ set(SOURCES
   src/utilities/textencodingutils.cpp
   src/utilities/styleutils.cpp
   src/utilities/coveroptions.cpp
+  src/utilities/useragent.cpp
 
   src/tagreader/tagreaderclient.cpp
   src/tagreader/tagreaderresult.cpp

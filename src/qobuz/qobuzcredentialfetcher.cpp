@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,6 +41,7 @@ using namespace Qt::Literals::StringLiterals;
 namespace {
 constexpr char kLoginPageUrl[] = "https://play.qobuz.com/login";
 constexpr char kPlayQobuzUrl[] = "https://play.qobuz.com";
+constexpr char kUserAgent[] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 }  // namespace
 
 QobuzCredentialFetcher::QobuzCredentialFetcher(const SharedPtr<NetworkAccessManager> network, QObject *parent)
@@ -55,7 +56,7 @@ void QobuzCredentialFetcher::FetchCredentials() {
 
   QNetworkRequest request(QUrl(QString::fromLatin1(kLoginPageUrl)));
   request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  request.setHeader(QNetworkRequest::UserAgentHeader, u"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"_s);
+  request.setHeader(QNetworkRequest::UserAgentHeader, QLatin1String(kUserAgent));
 
   login_page_reply_ = network_->get(request);
   QObject::connect(login_page_reply_, &QNetworkReply::finished, this, &QobuzCredentialFetcher::LoginPageReceived);
@@ -98,7 +99,7 @@ void QobuzCredentialFetcher::LoginPageReceived() {
   // Fetch the bundle.js
   QNetworkRequest request(QUrl(QString::fromLatin1(kPlayQobuzUrl) + bundle_url_));
   request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  request.setHeader(QNetworkRequest::UserAgentHeader, u"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"_s);
+  request.setHeader(QNetworkRequest::UserAgentHeader, QLatin1String(kUserAgent));
 
   bundle_reply_ = network_->get(request);
   QObject::connect(bundle_reply_, &QNetworkReply::finished, this, &QobuzCredentialFetcher::BundleReceived);
