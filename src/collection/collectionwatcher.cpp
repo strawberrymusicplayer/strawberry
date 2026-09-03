@@ -83,7 +83,26 @@
 using namespace std::chrono_literals;
 using namespace Qt::Literals::StringLiterals;
 
-QStringList CollectionWatcher::sValidImages = QStringList() << u"jpg"_s << u"jpeg"_s << u"jp2"_s << u"png"_s << u"gif"_s << u"tiff"_s << u"tif"_s << u"webp"_s;
+namespace {
+
+const QStringList &ValidImageExtensions() {
+
+  static const QStringList valid_image_extensions = []() {
+    QStringList result = QStringList() << u"jpg"_s << u"jpeg"_s << u"jp2"_s << u"png"_s << u"gif"_s << u"tiff"_s << u"tif"_s << u"webp"_s;
+    const QStringList &supported_image_formats = ImageUtils::SupportedImageFormats();
+    for (const QString &supported_image_format : supported_image_formats) {
+      if (!result.contains(supported_image_format)) {
+        result.append(supported_image_format);
+      }
+    }
+    return result;
+  }();
+
+  return valid_image_extensions;
+
+}
+
+}  // namespace
 
 CollectionWatcher::CollectionWatcher(const Song::Source source,
                                      const SharedPtr<TaskManager> task_manager,
@@ -129,13 +148,6 @@ CollectionWatcher::CollectionWatcher(const Song::Source source,
 
   periodic_scan_timer_->setInterval(86400 * kMsecPerSec);
   periodic_scan_timer_->setSingleShot(false);
-
-  const QStringList image_formats = ImageUtils::SupportedImageFormats();
-  for (const QString &format : image_formats) {
-    if (!sValidImages.contains(format)) {
-      sValidImages.append(format);
-    }
-  }
 
   ReloadSettings();
 
@@ -656,7 +668,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
         if (Song::kRejectedExtensions.contains(child_fileinfo.suffix(), Qt::CaseInsensitive) || child_fileinfo.baseName() == "qt_temp"_L1) {
           t->AddToProgress(1);
         }
-        else if (sValidImages.contains(ext_part)) {
+        else if (ValidImageExtensions().contains(ext_part)) {
           album_art[dir_part] << child_filepath;
           t->AddToProgress(1);
         }
