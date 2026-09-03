@@ -1148,7 +1148,7 @@ MainWindow::MainWindow(Application *app,
   CommandlineOptionsReceived(options);
 
   if (app_->scrobbler()->enabled() && !app_->scrobbler()->offline()) {
-    app_->scrobbler()->Submit();
+    app_->scrobbler()->Start();
   }
 
 #ifdef HAVE_SPARKLE
