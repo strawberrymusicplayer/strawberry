@@ -78,7 +78,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
   void WriteCache() override { cache_->WriteCache(); }
 
  private Q_SLOTS:
-  void OAuthFinished(const bool success, const QString &error);
+  void OAuthFinished(const bool success, const QString &error = QString(), const bool invalid_grant = false);
   void UpdateNowPlayingRequestFinished(QNetworkReply *reply);
   void ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCacheItemPtrList cache_items);
   void LoveRequestFinished(QNetworkReply *reply);

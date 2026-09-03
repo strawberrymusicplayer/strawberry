@@ -85,7 +85,7 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   void EndSearch(const int id, const LyricsSearchRequest &request, const LyricsSearchResults &results = LyricsSearchResults());
 
  private Q_SLOTS:
-  void OAuthFinished(const bool success, const QString &error);
+  void OAuthFinished(const bool success, const QString &error, const bool invalid_grant = false);
   void HandleSearchReply(QNetworkReply *reply, const int id);
   void HandleLyricReply(QNetworkReply *reply, const int search_id, const QUrl &url);
 

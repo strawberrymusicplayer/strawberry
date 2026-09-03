@@ -186,7 +186,9 @@ QByteArray GeniusLyricsProvider::authorization_header() const {
 
 }
 
-void GeniusLyricsProvider::OAuthFinished(const bool success, const QString &error) {
+void GeniusLyricsProvider::OAuthFinished(const bool success, const QString &error, const bool invalid_grant) {
+
+  Q_UNUSED(invalid_grant);
 
   if (success) {
     qLog(Debug) << "Genius: Authentication was successful.";

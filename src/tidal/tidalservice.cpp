@@ -269,7 +269,9 @@ void TidalService::StartAuthorization(const QString &client_id) {
 
 }
 
-void TidalService::OAuthFinished(const bool success, const QString &error) {
+void TidalService::OAuthFinished(const bool success, const QString &error, const bool invalid_grant) {
+
+  Q_UNUSED(invalid_grant);
 
   if (success) {
     qLog(Debug) << "Tidal: Login successful" << "user id" << user_id();

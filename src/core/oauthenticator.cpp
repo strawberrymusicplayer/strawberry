@@ -486,10 +486,18 @@ void OAuthenticator::AccessTokenRequestFinished(QNetworkReply *reply, const bool
       const QJsonDocument json_document = QJsonDocument::fromJson(data, &json_error);
       if (json_error.error == QJsonParseError::NoError && !json_document.isEmpty() && json_document.isObject()) {
         const QJsonObject json_object = json_document.object();
-        if (json_object.contains("error"_L1) && json_object.contains("error_description"_L1)) {
+        if (json_object.contains("error"_L1)) {
           const QString error = json_object["error"_L1].toString();
           const QString error_description = json_object["error_description"_L1].toString();
-          Q_EMIT AuthenticationFinished(false, QStringLiteral("%1 (%2)").arg(error, error_description));
+          // invalid_grant means the refresh token or authorization code is expired, revoked or otherwise unusable, so retrying with the same grant can never succeed.
+          // Clear the session to stop the same failure from being repeated on every startup, the user has to authenticate again.
+          const bool invalid_grant = error.compare("invalid_grant"_L1, Qt::CaseInsensitive) == 0;
+          if (invalid_grant) {
+            qLog(Error) << settings_group_ << "Authorization grant is no longer valid, clearing session.";
+            ClearSession();
+          }
+          const QString error_message = error_description.isEmpty() ? error : QStringLiteral("%1 (%2)").arg(error, error_description);
+          Q_EMIT AuthenticationFinished(false, error_message, invalid_grant);
           return;
         }
         qLog(Debug) << settings_group_ << "Unknown Json reply" << json_object;

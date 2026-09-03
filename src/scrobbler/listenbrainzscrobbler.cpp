@@ -184,7 +184,7 @@ void ListenBrainzScrobbler::Logout() {
 
 }
 
-void ListenBrainzScrobbler::OAuthFinished(const bool success, const QString &error) {
+void ListenBrainzScrobbler::OAuthFinished(const bool success, const QString &error, const bool invalid_grant) {
 
   if (success) {
     qLog(Debug) << "ListenBrainz: Authentication was successful, login expires in" << oauth_->expires_in();
@@ -193,6 +193,9 @@ void ListenBrainzScrobbler::OAuthFinished(const bool success, const QString &err
   }
   else {
     qLog(Debug) << "ListenBrainz: Authentication failed:" << error;
+    if (invalid_grant) {
+      qLog(Debug) << "ListenBrainz: Authorization grant is no longer valid; OAuth session was cleared and the user must authenticate again.";
+    }
     Q_EMIT AuthenticationComplete(false, error);
   }
 
