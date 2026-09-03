@@ -77,11 +77,20 @@ MusicBrainzClient::~MusicBrainzClient() {
 
 void MusicBrainzClient::FlushRequests() {
 
-  FlushMbIdRequests();
-  FlushDiscIdRequests();
+  // Send only one request per tick.
+  // The MusicBrainz API allows one request per second on average, and servicing both queues here would send two requests at the same time.
+  if (!FlushMbIdRequests()) {
+    FlushDiscIdRequests();
+  }
 
-  if (pending_mbid_requests_.isEmpty() && pending_discid_requests_.isEmpty() && timer_flush_requests_->isActive()) {
-    timer_flush_requests_->stop();
+  // Keep the timer running for as long as anything is queued, otherwise the queue that was skipped this tick would never be serviced.
+  if (pending_mbid_requests_.isEmpty() && pending_discid_requests_.isEmpty()) {
+    if (timer_flush_requests_->isActive()) {
+      timer_flush_requests_->stop();
+    }
+  }
+  else if (!timer_flush_requests_->isActive()) {
+    timer_flush_requests_->start();
   }
 
 }
@@ -189,11 +198,13 @@ void MusicBrainzClient::CancelMbIdRequest(const int id) {
 
 }
 
-void MusicBrainzClient::FlushMbIdRequests() {
+bool MusicBrainzClient::FlushMbIdRequests() {
 
-  if (!mbid_requests_.isEmpty() || pending_mbid_requests_.isEmpty()) return;
+  if (!mbid_requests_.isEmpty() || pending_mbid_requests_.isEmpty()) return false;
 
   SendMbIdRequest(pending_mbid_requests_.take(pending_mbid_requests_.firstKey()));
+
+  return true;
 
 }
 
@@ -286,11 +297,13 @@ void MusicBrainzClient::CancelDiscIdRequest(const QString &disc_id) {
 
 }
 
-void MusicBrainzClient::FlushDiscIdRequests() {
+bool MusicBrainzClient::FlushDiscIdRequests() {
 
-  if (!discid_requests_.isEmpty() || pending_discid_requests_.isEmpty()) return;
+  if (!discid_requests_.isEmpty() || pending_discid_requests_.isEmpty()) return false;
 
   SendDiscIdRequest(pending_discid_requests_.takeFirst());
+
+  return true;
 
 }
 

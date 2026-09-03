@@ -171,8 +171,8 @@ class MusicBrainzClient : public JsonBaseRequest {
   };
 
   JsonObjectResult ParseJsonObject(QNetworkReply *reply);
-  void FlushMbIdRequests();
-  void FlushDiscIdRequests();
+  bool FlushMbIdRequests();
+  bool FlushDiscIdRequests();
   void SendMbIdRequest(const MbIdRequest &request);
   void SendDiscIdRequest(const QString &disc_id);
 
