@@ -34,32 +34,35 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-QStringList ImageUtils::kSupportedImageMimeTypes;
-QStringList ImageUtils::kSupportedImageFormats;
+const QStringList &ImageUtils::SupportedImageMimeTypes() {
 
-QStringList ImageUtils::SupportedImageMimeTypes() {
-
-  if (kSupportedImageMimeTypes.isEmpty()) {
-    const QList<QByteArray> supported_mimetypes = QImageReader::supportedMimeTypes();
-    for (const QByteArray &mimetype : supported_mimetypes) {
-      kSupportedImageMimeTypes << QString::fromUtf8(mimetype);
+  static const QStringList supported_image_mimetypes = []() {
+    const QList<QByteArray> imagereader_supported_mime_types = QImageReader::supportedMimeTypes();
+    QStringList result;
+    result.reserve(imagereader_supported_mime_types.count());
+    for (const QByteArray &i : imagereader_supported_mime_types) {
+      result << QString::fromUtf8(i);
     }
-  }
+    return result;
+  }();
 
-  return kSupportedImageMimeTypes;
+  return supported_image_mimetypes;
 
 }
 
-QStringList ImageUtils::SupportedImageFormats() {
+const QStringList &ImageUtils::SupportedImageFormats() {
 
-  if (kSupportedImageFormats.isEmpty()) {
-    const QList<QByteArray> image_formats = QImageReader::supportedImageFormats();
-    for (const QByteArray &filetype : image_formats) {
-      kSupportedImageFormats << QString::fromUtf8(filetype);
+  static const QStringList supported_image_formats = []() {
+    const QList<QByteArray> imagereader_supported_image_formats = QImageReader::supportedImageFormats();
+    QStringList result;
+    result.reserve(imagereader_supported_image_formats.count());
+    for (const QByteArray &i : imagereader_supported_image_formats) {
+      result << QString::fromUtf8(i);
     }
-  }
+    return result;
+  }();
 
-  return kSupportedImageFormats;
+  return supported_image_formats;
 
 }
 

@@ -30,13 +30,9 @@
 
 class ImageUtils {
 
- private:
-  static QStringList kSupportedImageMimeTypes;
-  static QStringList kSupportedImageFormats;
-
  public:
-  static QStringList SupportedImageMimeTypes();
-  static QStringList SupportedImageFormats();
+  static const QStringList &SupportedImageMimeTypes();
+  static const QStringList &SupportedImageFormats();
   static QByteArray SaveImageToJpegData(const QImage &image = QImage());
   static QByteArray FileToJpegData(const QString &filename);
   static QImage ScaleImage(const QImage &image, const QSize desired_size, const qreal device_pixel_ratio = 1.0F, const bool pad = true);
