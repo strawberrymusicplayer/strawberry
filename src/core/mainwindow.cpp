@@ -187,6 +187,9 @@
 #  include "qobuz/qobuzmetadatarequest.h"
 #  include "constants/qobuzsettings.h"
 #endif
+#ifdef HAVE_PLEX
+#  include "constants/plexsettings.h"
+#endif
 
 #include "streaming/streamingservices.h"
 #include "streaming/streamingservice.h"
@@ -380,6 +383,9 @@ MainWindow::MainWindow(Application *app,
 #ifdef HAVE_QOBUZ
       qobuz_view_(new StreamingTabsView(app->streaming_services()->ServiceBySource(Song::Source::Qobuz), app->albumcover_loader(), QLatin1String(QobuzSettings::kSettingsGroup), this)),
 #endif
+#ifdef HAVE_PLEX
+      plex_view_(new StreamingSongsView(app->streaming_services()->ServiceBySource(Song::Source::Plex), QLatin1String(PlexSettings::kSettingsGroup), this)),
+#endif
       radio_view_(new RadioViewContainer(this)),
       collection_show_all_(nullptr),
       collection_show_duplicates_(nullptr),
@@ -473,6 +479,9 @@ MainWindow::MainWindow(Application *app,
 #endif
 #ifdef HAVE_QOBUZ
   ui_->tabs->AddTab(qobuz_view_, u"qobuz"_s, IconLoader::Load(u"qobuz"_s, true, 0, 32), tr("Qobuz"));
+#endif
+#ifdef HAVE_PLEX
+  ui_->tabs->AddTab(plex_view_, u"plex"_s, IconLoader::Load(u"plex"_s, true, 0, 32), tr("Plex"));
 #endif
 
   // Add the playing widget to the fancy tab widget
@@ -847,6 +856,11 @@ MainWindow::MainWindow(Application *app,
   if (SpotifyServicePtr spotifyservice = app_->streaming_services()->Service<SpotifyService>()) {
     QObject::connect(&*spotifyservice, &SpotifyService::UpdateSpotifyAccessToken, &*app_->player()->engine(), &EngineBase::UpdateSpotifyAccessToken);
   }
+#endif
+
+#ifdef HAVE_PLEX
+  QObject::connect(plex_view_, &StreamingSongsView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
+  QObject::connect(plex_view_->view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
 #endif
 
   QObject::connect(radio_view_, &RadioViewContainer::Refresh, &*app_->radio_services(), &RadioServices::RefreshChannels);
@@ -1339,6 +1353,18 @@ void MainWindow::ReloadSettings() {
   }
 #endif
 
+#ifdef HAVE_PLEX
+  s.beginGroup(PlexSettings::kSettingsGroup);
+  bool enable_plex = s.value(PlexSettings::kEnabled, PlexSettings::kDefaultEnabled).toBool();
+  s.endGroup();
+  if (enable_plex) {
+    ui_->tabs->EnableTab(plex_view_);
+  }
+  else {
+    ui_->tabs->DisableTab(plex_view_);
+  }
+#endif
+
   ui_->tabs->ReloadSettings();
 
 }
@@ -1393,6 +1419,9 @@ void MainWindow::ReloadAllSettings() {
 #ifdef HAVE_QOBUZ
   qobuz_view_->ReloadSettings();
   qobuz_view_->search_view()->ReloadSettings();
+#endif
+#ifdef HAVE_PLEX
+  plex_view_->ReloadSettings();
 #endif
 #ifdef HAVE_DISCORD_RPC
   discord_rich_presence_->ReloadSettings();
@@ -2848,6 +2877,9 @@ void MainWindow::OpenServiceSettingsDialog(const Song::Source source) {
     case Song::Source::Spotify:
       settings_dialog_->OpenAtPage(SettingsDialog::Page::Spotify);
       break;
+    case Song::Source::Plex:
+      settings_dialog_->OpenAtPage(SettingsDialog::Page::Plex);
+      break;
     default:
       break;
   }
@@ -3539,6 +3571,11 @@ void MainWindow::FocusSearchField() {
 #ifdef HAVE_QOBUZ
   else if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(qobuz_view_) && !qobuz_view_->SearchFieldHasFocus()) {
     qobuz_view_->FocusSearchField();
+  }
+#endif
+#ifdef HAVE_PLEX
+  else if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(plex_view_) && !plex_view_->SearchFieldHasFocus()) {
+    plex_view_->FocusSearchField();
   }
 #endif
   else if (!ui_->playlist->SearchFieldHasFocus()) {

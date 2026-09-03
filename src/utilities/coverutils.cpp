@@ -128,6 +128,7 @@ QString CoverUtils::CoverFilenameFromSource(const Song::Source source, const QUr
       }
       [[fallthrough]];
     case Song::Source::Subsonic:
+    case Song::Source::Plex:
     case Song::Source::Spotify:
     case Song::Source::Qobuz:
       if (!album_id.isEmpty()) {

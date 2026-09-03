@@ -56,6 +56,7 @@ void ScrobblerSettingsService::ReloadSettings() {
   show_error_dialog_ = s.value(ScrobblerSettings::kShowErrorDialog, ScrobblerSettings::kDefaultShowErrorDialog).toBool();
   strip_remastered_ = s.value(ScrobblerSettings::kStripRemastered, ScrobblerSettings::kDefaultStripRemastered).toBool();
   const QStringList sources = s.value(ScrobblerSettings::kSources).toStringList();
+  const bool plex_source_migration_done = s.value(ScrobblerSettings::kPlexSourceMigrationDone, false).toBool();
   s.endGroup();
 
   sources_.clear();
@@ -69,13 +70,47 @@ void ScrobblerSettingsService::ReloadSettings() {
              << Song::Source::Stream
              << Song::Source::Tidal
              << Song::Source::Subsonic
+             << Song::Source::Plex
              << Song::Source::Qobuz
              << Song::Source::Spotify
              << Song::Source::SomaFM
              << Song::Source::RadioParadise;
+
+    if (!plex_source_migration_done) {
+      s.beginGroup(ScrobblerSettings::kSettingsGroup);
+      s.setValue(ScrobblerSettings::kPlexSourceMigrationDone, true);
+      s.endGroup();
+    }
   }
   else {
-    for (const QString &source : sources) {
+    QStringList sources_for_load = sources;
+
+    // Migrate old default source lists written before Plex support, once, so unchecking Plex afterwards sticks.
+    if (!plex_source_migration_done) {
+      const QStringList old_default_sources = {
+        Song::TextForSource(Song::Source::Collection),
+        Song::TextForSource(Song::Source::LocalFile),
+        Song::TextForSource(Song::Source::CDDA),
+        Song::TextForSource(Song::Source::Device),
+        Song::TextForSource(Song::Source::Subsonic),
+        Song::TextForSource(Song::Source::Tidal),
+        Song::TextForSource(Song::Source::Qobuz),
+        Song::TextForSource(Song::Source::Spotify),
+        Song::TextForSource(Song::Source::Stream),
+        Song::TextForSource(Song::Source::SomaFM),
+        Song::TextForSource(Song::Source::RadioParadise),
+        Song::TextForSource(Song::Source::Unknown)
+      };
+      s.beginGroup(ScrobblerSettings::kSettingsGroup);
+      if (sources_for_load == old_default_sources) {
+        sources_for_load << Song::TextForSource(Song::Source::Plex);
+        s.setValue(ScrobblerSettings::kSources, sources_for_load);
+      }
+      s.setValue(ScrobblerSettings::kPlexSourceMigrationDone, true);
+      s.endGroup();
+    }
+
+    for (const QString &source : sources_for_load) {
       sources_ << Song::SourceFromText(source);
     }
   }

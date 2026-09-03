@@ -366,6 +366,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 #ifdef HAVE_QOBUZ
   StreamingTabsView *qobuz_view_;
 #endif
+#ifdef HAVE_PLEX
+  StreamingSongsView *plex_view_;
+#endif
 
   RadioViewContainer *radio_view_;
 

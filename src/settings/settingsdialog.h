@@ -97,6 +97,7 @@ class SettingsDialog : public QDialog {
     Tidal,
     Qobuz,
     Spotify,
+    Plex,
     Radio,
   };
 
