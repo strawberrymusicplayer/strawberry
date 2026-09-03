@@ -30,6 +30,8 @@
 #include <QUrl>
 #include <QDateTime>
 #include <QTimer>
+#include <QElapsedTimer>
+#include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -67,6 +69,24 @@ constexpr char kOAuthScope[] = "profile;email;tag;rating;collection;submit_isrc;
 constexpr char kApiUrl[] = "https://api.listenbrainz.org";
 constexpr char kCacheFile[] = "listenbrainzscrobbler.cache";
 constexpr int kScrobblesPerRequest = 10;
+// ListenBrainz allows one request per second, this is the floor kept between requests when the server has not asked us to wait longer.
+constexpr int kMinRequestIntervalMsec = 1200;
+// Used when the server rate limits us without saying how much of the current window is left.
+constexpr int kDefaultRateLimitDelay = 5;
+// The delay is bounded before it is narrowed to int for the timers.
+// A bogus X-RateLimit-Reset-In value, or the system clock jumping backwards, would otherwise overflow the cast and give a negative interval, which the timers would treat as no delay at all.
+constexpr qint64 kMaxRateLimitDelayMsec = 600 * kMsecPerSec;
+// How many times a love is put back on the queue before giving up on it.
+constexpr int kMaxLoveAttempts = 3;
+
+// Rate limiting and server errors are temporary, so the request may succeed on a later attempt and nothing may be discarded because of them.
+bool IsRetryableHttpStatusCode(const int http_status_code) {
+  return http_status_code == 429 || http_status_code >= 500;
+}
+
+int RateLimitInterval(const qint64 delay_msec) {
+  return static_cast<int>(std::clamp(delay_msec, static_cast<qint64>(0), kMaxRateLimitDelayMsec));
+}
 
 QString CompiledClientId() {
 #ifdef LISTENBRAINZ_CLIENT_ID
@@ -98,13 +118,16 @@ ListenBrainzScrobbler::ListenBrainzScrobbler(const SharedPtr<ScrobblerSettingsSe
       network_(network),
       oauth_(new OAuthenticator(network, this)),
       cache_(new ScrobblerCache(QLatin1String(kCacheFile), this)),
-      timer_submit_(new QTimer(this)),
+      timer_flush_requests_(new QTimer(this)),
       enabled_(false),
       api_credentials_initialized_(false),
       submitted_(false),
       scrobbled_(false),
       timestamp_(0),
       submit_error_(false),
+      next_request_time_(0),
+      now_playing_pending_(false),
+      scrobbles_due_time_(0),
       prefer_albumartist_(false) {
 
   oauth_->set_settings_group(QLatin1String(kSettingsGroup));
@@ -118,8 +141,10 @@ ListenBrainzScrobbler::ListenBrainzScrobbler(const SharedPtr<ScrobblerSettingsSe
 
   QObject::connect(oauth_, &OAuthenticator::AuthenticationFinished, this, &ListenBrainzScrobbler::OAuthFinished);
 
-  timer_submit_->setSingleShot(true);
-  QObject::connect(timer_submit_, &QTimer::timeout, this, &ListenBrainzScrobbler::Submit);
+  timer_flush_requests_->setSingleShot(true);
+  QObject::connect(timer_flush_requests_, &QTimer::timeout, this, &ListenBrainzScrobbler::FlushRequests);
+
+  rate_limit_timer_.start();
 
   ListenBrainzScrobbler::ReloadSettings();
   oauth_->LoadSession();
@@ -157,6 +182,9 @@ void ListenBrainzScrobbler::ReloadSettings() {
   prefer_albumartist_ = s.value(ScrobblerSettings::kAlbumArtist, ScrobblerSettings::kDefaultAlbumArtist).toBool();
   s.endGroup();
 
+  // Enabling the service here is the one way it is switched back on without going through Start(), so anything left pending has to be picked up again.
+  ScheduleFlushRequests();
+
 }
 
 void ListenBrainzScrobbler::Authenticate() {
@@ -189,7 +217,7 @@ void ListenBrainzScrobbler::OAuthFinished(const bool success, const QString &err
   if (success) {
     qLog(Debug) << "ListenBrainz: Authentication was successful, login expires in" << oauth_->expires_in();
     Q_EMIT AuthenticationComplete(true);
-    StartSubmit();
+    Start();
   }
   else {
     qLog(Debug) << "ListenBrainz: Authentication failed:" << error;
@@ -203,6 +231,7 @@ void ListenBrainzScrobbler::OAuthFinished(const bool success, const QString &err
 
 QNetworkReply *ListenBrainzScrobbler::CreateRequest(const QUrl &url, const QJsonDocument &json_document) {
 
+  ReserveRequestSlot();
   return CreatePostRequest(url, json_document);
 
 }
@@ -372,8 +401,20 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
   song_playing_ = song;
   scrobbled_ = false;
   timestamp_ = static_cast<quint64>(QDateTime::currentSecsSinceEpoch());
+  now_playing_pending_ = false;
 
   if (!song.is_metadata_good() || !authenticated() || settings_->offline()) return;
+
+  // Record that an update is due rather than sending it from here.
+  // The flush loop sends whichever song is current when a slot opens, so a song change before then simply replaces this one instead of sending a stale update.
+  now_playing_pending_ = true;
+  ScheduleFlushRequests();
+
+}
+
+void ListenBrainzScrobbler::SendNowPlaying(const Song &song) {
+
+  if (!song.is_valid() || !song.is_metadata_good()) return;
 
   QJsonObject object_listen;
   object_listen.insert("track_metadata"_L1, JsonTrackMetadata(ScrobbleMetadata(song)));
@@ -393,6 +434,9 @@ void ListenBrainzScrobbler::UpdateNowPlayingRequestFinished(QNetworkReply *reply
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
+
+  UpdateRateLimit(reply);
+
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
@@ -427,6 +471,7 @@ void ListenBrainzScrobbler::ClearPlaying() {
   song_playing_ = Song();
   scrobbled_ = false;
   timestamp_ = 0;
+  now_playing_pending_ = false;
 
 }
 
@@ -440,29 +485,132 @@ void ListenBrainzScrobbler::Scrobble(const Song &song) {
 
   if (settings_->offline() || !authenticated()) return;
 
-  StartSubmit();
+  Start();
 
 }
 
-void ListenBrainzScrobbler::StartSubmit(const bool initial) {
+void ListenBrainzScrobbler::Stop() {
+
+  timer_flush_requests_->stop();
+
+  // A now playing update describes what is playing at this moment, so it is dropped rather than held on to.
+  // The queued loves and the cached scrobbles are kept, since those are still valid whenever they are sent.
+  now_playing_pending_ = false;
+
+}
+
+void ListenBrainzScrobbler::Start(const bool initial) {
 
   if (!submitted_ && cache_->Count() > 0) {
+    const qint64 now = QDateTime::currentMSecsSinceEpoch();
+    // Nothing in this class passes initial as true, so scrobbles here always wait out the delay below.
+    // LastFMScrobbler::Scrobble() does pass it, and so submits as soon as the song is scrobbled when the submit delay is zero, which is the default.
     if (initial && settings_->submit_delay() <= 0 && !submit_error_) {
-      if (timer_submit_->isActive()) {
-        timer_submit_->stop();
-      }
-      Submit();
+      scrobbles_due_time_ = now;
     }
-    else if (!timer_submit_->isActive()) {
-      int submit_delay = static_cast<int>(std::max(settings_->submit_delay(), submit_error_ ? 30 : 5) * kMsecPerSec);
-      timer_submit_->setInterval(submit_delay);
-      timer_submit_->start();
+    else if (scrobbles_due_time_ <= now) {
+      // Only start a new delay when one is not already running, otherwise scrobbling another song would keep pushing the submission back.
+      scrobbles_due_time_ = now + static_cast<qint64>(std::max(settings_->submit_delay(), submit_error_ ? 30 : 5)) * kMsecPerSec;
     }
+  }
+
+  ScheduleFlushRequests();
+
+}
+
+qint64 ListenBrainzScrobbler::NextFlushRequestsDelay() const {
+
+  qint64 delay = -1;
+
+  // A now playing update and a love are ready as soon as the rate limiter allows.
+  if (now_playing_pending_ || !queue_love_.isEmpty()) {
+    delay = 0;
+  }
+
+  // Scrobbles additionally wait out the submit delay, so that several listens are sent in one request.
+  if (!submitted_ && cache_->Count() > 0) {
+    const qint64 scrobbles_delay = std::max(static_cast<qint64>(0), scrobbles_due_time_ - QDateTime::currentMSecsSinceEpoch());
+    delay = delay < 0 ? scrobbles_delay : std::min(delay, scrobbles_delay);
+  }
+
+  if (delay < 0) return -1;
+
+  return std::max(delay, RateLimitDelay());
+
+}
+
+void ListenBrainzScrobbler::ScheduleFlushRequests() {
+
+  const qint64 delay = NextFlushRequestsDelay();
+  if (delay < 0) {
+    if (timer_flush_requests_->isActive()) {
+      timer_flush_requests_->stop();
+    }
+    return;
+  }
+
+  timer_flush_requests_->setInterval(RateLimitInterval(delay));
+  timer_flush_requests_->start();
+
+}
+
+void ListenBrainzScrobbler::FlushRequests() {
+
+  if (!settings_->enabled() || settings_->offline() || !enabled() || !authenticated()) return;
+
+  if (RateLimitDelay() <= 0) {
+    // Send one request per pass, ordered by how quickly the work goes stale.
+    // A now playing update describes what is playing right now, a love is a user action waiting to take effect, and scrobbles are cached and can wait.
+    if (now_playing_pending_) {
+      now_playing_pending_ = false;
+      SendNowPlaying(song_playing_);
+    }
+    else if (!queue_love_.isEmpty()) {
+      SendLove(queue_love_.dequeue());
+    }
+    else if (!submitted_ && cache_->Count() > 0 && scrobbles_due_time_ <= QDateTime::currentMSecsSinceEpoch()) {
+      SubmitListens();
+    }
+  }
+
+  ScheduleFlushRequests();
+
+}
+
+void ListenBrainzScrobbler::ReserveRequestSlot() {
+
+  const qint64 now = rate_limit_timer_.elapsed();
+  next_request_time_ = std::max(next_request_time_, now) + kMinRequestIntervalMsec;
+
+}
+
+void ListenBrainzScrobbler::UpdateRateLimit(QNetworkReply *reply) {
+
+  // ListenBrainz reports how many requests are left in the current window and when it expires, and expects clients to use those to decide when to send the next request.
+  // Reset-In is preferred over Reset because it is not affected by clock skew between the client and the server.
+  bool remaining_ok = false;
+  const int remaining = reply->rawHeader(QByteArray("X-RateLimit-Remaining")).toInt(&remaining_ok);
+
+  bool reset_in_ok = false;
+  const int reset_in = reply->rawHeader(QByteArray("X-RateLimit-Reset-In")).toInt(&reset_in_ok);
+
+  const int http_status_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+  if (http_status_code == 429 || (remaining_ok && remaining <= 0)) {
+    const int seconds = reset_in_ok && reset_in > 0 ? reset_in : kDefaultRateLimitDelay;
+    const qint64 delay_msec = std::clamp(static_cast<qint64>(seconds) * kMsecPerSec, static_cast<qint64>(0), kMaxRateLimitDelayMsec);
+    next_request_time_ = std::max(next_request_time_, rate_limit_timer_.elapsed() + delay_msec);
+    qLog(Debug) << "ListenBrainz: Rate limited, waiting" << seconds << "seconds before sending another request.";
   }
 
 }
 
-void ListenBrainzScrobbler::Submit() {
+qint64 ListenBrainzScrobbler::RateLimitDelay() const {
+
+  return std::max(static_cast<qint64>(0), next_request_time_ - rate_limit_timer_.elapsed());
+
+}
+
+void ListenBrainzScrobbler::SubmitListens() {
 
   qLog(Debug) << "ListenBrainz: Submitting scrobbles.";
 
@@ -484,7 +632,12 @@ void ListenBrainzScrobbler::Submit() {
     if (cache_items_sent.count() >= kScrobblesPerRequest || cache_item->error) break;
   }
 
-  if (cache_items_sent.count() <= 0) return;
+  if (cache_items_sent.count() <= 0) {
+    // Nothing was sent, so back off rather than returning to a flush that would immediately ask for another submission and spin.
+    // Getting here means the cache holds only items already flagged as sent while no submission is in progress.
+    scrobbles_due_time_ = QDateTime::currentMSecsSinceEpoch() + kMinRequestIntervalMsec;
+    return;
+  }
 
   submitted_ = true;
 
@@ -503,6 +656,9 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, Scrobb
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
+
+  UpdateRateLimit(reply);
+
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
@@ -513,7 +669,7 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, Scrobb
     JsonBaseRequest::Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     cache_->ClearSent(cache_items);
     submit_error_ = true;
-    StartSubmit();
+    Start();
     return;
   }
 
@@ -533,7 +689,12 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, Scrobb
   else {
     submit_error_ = true;
     if (json_object_result.error_code == ErrorCode::APIError) {
-      if (cache_items.count() == 1) {
+      if (IsRetryableHttpStatusCode(json_object_result.http_status_code)) {
+        // Keep the listens in the cache, they are sent again once the rate limit window has passed or the server has recovered.
+        Error(json_object_result.error_message);
+        cache_->ClearSent(cache_items);
+      }
+      else if (cache_items.count() == 1) {
         const ScrobbleMetadata &metadata = cache_items.first()->metadata;
         Error(tr("Unable to scrobble %1 - %2 because of error: %3").arg(metadata.effective_albumartist(), metadata.title, json_object_result.error_message));
         cache_->Flush(cache_items);
@@ -550,7 +711,7 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, Scrobb
     }
   }
 
-  StartSubmit();
+  Start();
 
 }
 
@@ -568,27 +729,47 @@ void ListenBrainzScrobbler::Love() {
     return;
   }
 
-  qLog(Debug) << "ListenBrainz: Sending love for song" << song_playing_.artist() << song_playing_.album() << song_playing_.title();
+  qLog(Debug) << "ListenBrainz: Queueing love for song" << song_playing_.artist() << song_playing_.album() << song_playing_.title();
 
-  QJsonObject object;
-  object.insert("recording_mbid"_L1, song_playing_.musicbrainz_recording_id());
-  object.insert("score"_L1, 1);
+  queue_love_ << LoveRequest(song_playing_.musicbrainz_recording_id());
 
-  QUrl url(QStringLiteral("%1/1/feedback/recording-feedback").arg(QLatin1String(kApiUrl)));
-  QNetworkReply *reply = CreateRequest(url, QJsonDocument(object));
-  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { LoveRequestFinished(reply); });
+  ScheduleFlushRequests();
 
 }
 
-void ListenBrainzScrobbler::LoveRequestFinished(QNetworkReply *reply) {
+void ListenBrainzScrobbler::SendLove(const LoveRequest &love_request) {
+
+  QJsonObject object;
+  object.insert("recording_mbid"_L1, love_request.recording_mbid);
+  object.insert("score"_L1, 1);
+
+  const QUrl url(QStringLiteral("%1/1/feedback/recording-feedback").arg(QLatin1String(kApiUrl)));
+  QNetworkReply *reply = CreateRequest(url, QJsonDocument(object));
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, love_request]() { LoveRequestFinished(reply, love_request); });
+
+}
+
+void ListenBrainzScrobbler::LoveRequestFinished(QNetworkReply *reply, LoveRequest love_request) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
+
+  UpdateRateLimit(reply);
+
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   const JsonObjectResult json_object_result = ParseJsonObject(reply);
   if (!json_object_result.success()) {
+    // Put the love back on the queue when the failure was temporary, it is the users action and there is no other record of it.
+    const bool retryable = json_object_result.error_code == ErrorCode::NetworkError || IsRetryableHttpStatusCode(json_object_result.http_status_code);
+    if (retryable && love_request.attempts + 1 < kMaxLoveAttempts) {
+      ++love_request.attempts;
+      qLog(Debug) << "ListenBrainz: Requeueing love for" << love_request.recording_mbid << "after" << json_object_result.error_message;
+      queue_love_.prepend(love_request);
+      ScheduleFlushRequests();
+      return;
+    }
     Error(json_object_result.error_message);
     return;
   }

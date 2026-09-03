@@ -70,8 +70,9 @@ class LastFMScrobbler : public ScrobblerService {
   void UpdateNowPlaying(const Song &song) override;
   void ClearPlaying() override;
   void Scrobble(const Song &song) override;
-  void Submit() override;
   void Love() override;
+  void Start(const bool initial = false) override;
+  void Stop() override;
 
  Q_SIGNALS:
   void AuthenticationComplete(const bool success, const QString &error = QString());
@@ -126,7 +127,7 @@ class LastFMScrobbler : public ScrobblerService {
   void SendSingleScrobble(ScrobblerCacheItemPtr item);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
   static QString ErrorString(const ScrobbleErrorCode error);
-  void StartSubmit(const bool initial = false) override;
+  void SendScrobbleRequests();
   void CheckScrobblePrevSong();
 
  protected:
@@ -151,7 +152,7 @@ class LastFMScrobbler : public ScrobblerService {
   quint64 timestamp_;
   bool submit_error_;
 
-  QTimer *timer_submit_;
+  QTimer *timer_send_scrobble_requests_;
 };
 
 #endif  // LASTFMSCROBBLER_H

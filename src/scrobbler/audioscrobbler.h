@@ -78,7 +78,8 @@ class AudioScrobbler : public QObject {
   void ToggleScrobbling();
   void ToggleOffline();
   void ErrorReceived(const QString &error);
-  void Submit();
+  void Start();
+  void Stop();
   void Love();
   void WriteCache();
 

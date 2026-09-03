@@ -25,8 +25,10 @@
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
+#include <QQueue>
 #include <QUrl>
 #include <QJsonDocument>
+#include <QElapsedTimer>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -65,11 +67,12 @@ class ListenBrainzScrobbler : public ScrobblerService {
   void Authenticate();
   void Deauthenticate();
   void Logout();
-  void Submit() override;
   void UpdateNowPlaying(const Song &song) override;
   void ClearPlaying() override;
   void Scrobble(const Song &song) override;
   void Love() override;
+  void Start(const bool initial = false) override;
+  void Stop() override;
 
  Q_SIGNALS:
   void AuthenticationComplete(const bool success, const QString &error = QString());
@@ -77,24 +80,41 @@ class ListenBrainzScrobbler : public ScrobblerService {
  public Q_SLOTS:
   void WriteCache() override { cache_->WriteCache(); }
 
+ private:
+  // A love waiting to be sent, along with the number of times sending it has already failed.
+  struct LoveRequest {
+    explicit LoveRequest(const QString &_recording_mbid) : recording_mbid(_recording_mbid), attempts(0) {}
+    QString recording_mbid;
+    int attempts;
+  };
+
  private Q_SLOTS:
   void OAuthFinished(const bool success, const QString &error = QString(), const bool invalid_grant = false);
   void UpdateNowPlayingRequestFinished(QNetworkReply *reply);
   void ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCacheItemPtrList cache_items);
-  void LoveRequestFinished(QNetworkReply *reply);
+  void LoveRequestFinished(QNetworkReply *reply, LoveRequest love_request);
 
  private:
   QNetworkReply *CreateRequest(const QUrl &url, const QJsonDocument &json_document);
   QJsonObject JsonTrackMetadata(const ScrobbleMetadata &metadata) const;
   JsonObjectResult ParseJsonObject(QNetworkReply *reply);
   void Error(const QString &error_message, const QVariant &debug_output = QVariant()) override;
-  void StartSubmit(const bool initial = false) override;
   void CheckScrobblePrevSong();
+  void FlushRequests();
+  void ScheduleFlushRequests();
+  qint64 NextFlushRequestsDelay() const;
+  void SubmitListens();
+  void SendNowPlaying(const Song &song);
+  void ReserveRequestSlot();
+  void SendLove(const LoveRequest &love_request);
+  void UpdateRateLimit(QNetworkReply *reply);
+  qint64 RateLimitDelay() const;
 
   const SharedPtr<NetworkAccessManager> network_;
   OAuthenticator *oauth_;
   ScrobblerCache *cache_;
-  QTimer *timer_submit_;
+  QTimer *timer_flush_requests_;
+  QElapsedTimer rate_limit_timer_;
   bool enabled_;
   QString client_id_;
   QString client_secret_;
@@ -105,6 +125,10 @@ class ListenBrainzScrobbler : public ScrobblerService {
   bool scrobbled_;
   quint64 timestamp_;
   bool submit_error_;
+  qint64 next_request_time_;
+  QQueue<LoveRequest> queue_love_;
+  bool now_playing_pending_;
+  qint64 scrobbles_due_time_;
 
   bool prefer_albumartist_;
 };

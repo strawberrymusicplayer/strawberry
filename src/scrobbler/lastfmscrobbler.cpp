@@ -116,10 +116,10 @@ LastFMScrobbler::LastFMScrobbler(const SharedPtr<ScrobblerSettingsService> setti
       scrobbled_(false),
       timestamp_(0),
       submit_error_(false),
-      timer_submit_(new QTimer(this)) {
+      timer_send_scrobble_requests_(new QTimer(this)) {
 
-  timer_submit_->setSingleShot(true);
-  QObject::connect(timer_submit_, &QTimer::timeout, this, &LastFMScrobbler::Submit);
+  timer_send_scrobble_requests_->setSingleShot(true);
+  QObject::connect(timer_send_scrobble_requests_, &QTimer::timeout, this, &LastFMScrobbler::SendScrobbleRequests);
 
   LastFMScrobbler::ReloadSettings();
   LoadSession();
@@ -345,7 +345,7 @@ void LastFMScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
 
   Q_EMIT AuthenticationComplete(true);
 
-  StartSubmit();
+  Start();
 
 }
 
@@ -507,31 +507,37 @@ void LastFMScrobbler::Scrobble(const Song &song) {
     return;
   }
 
-  StartSubmit(true);
+  Start(true);
 
 }
 
-void LastFMScrobbler::StartSubmit(const bool initial) {
+void LastFMScrobbler::Start(const bool initial) {
 
   if (!submitted_ && cache_->Count() > 0) {
     if (initial && settings_->submit_delay() <= 0 && !submit_error_) {
-      if (timer_submit_->isActive()) {
-        timer_submit_->stop();
+      if (timer_send_scrobble_requests_->isActive()) {
+        timer_send_scrobble_requests_->stop();
       }
-      Submit();
+      SendScrobbleRequests();
     }
-    else if (!timer_submit_->isActive()) {
-      int submit_delay = static_cast<int>(std::max(settings_->submit_delay(), submit_error_ ? 30 : 5) * kMsecPerSec);
-      timer_submit_->setInterval(submit_delay);
-      timer_submit_->start();
+    else if (!timer_send_scrobble_requests_->isActive()) {
+      const int submit_delay = static_cast<int>(std::max(settings_->submit_delay(), submit_error_ ? 30 : 5) * kMsecPerSec);
+      timer_send_scrobble_requests_->setInterval(submit_delay);
+      timer_send_scrobble_requests_->start();
     }
   }
 
 }
 
-void LastFMScrobbler::Submit() {
+void LastFMScrobbler::Stop() {
 
-  if (!enabled() || !authenticated() || settings_->offline()) return;
+  timer_send_scrobble_requests_->stop();
+
+}
+
+void LastFMScrobbler::SendScrobbleRequests() {
+
+  if (!settings_->enabled() || settings_->offline() || !enabled() || !authenticated()) return;
 
   qLog(Debug) << name_ << "Submitting scrobbles.";
 
@@ -585,7 +591,7 @@ void LastFMScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCac
     Error(json_object_result.error_message);
     cache_->ClearSent(cache_items);
     submit_error_ = true;
-    StartSubmit();
+    Start();
     return;
   }
   const QJsonObject &json_object = json_object_result.json_object;
@@ -595,43 +601,43 @@ void LastFMScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCac
 
   if (!json_object.contains("scrobbles"_L1)) {
     Error(u"Json reply from server is missing scrobbles."_s, json_object);
-    StartSubmit();
+    Start();
     return;
   }
 
   const QJsonValue value_scrobbles = json_object["scrobbles"_L1];
   if (!value_scrobbles.isObject()) {
     Error(u"Json scrobbles is not an object."_s, json_object);
-    StartSubmit();
+    Start();
     return;
   }
   const QJsonObject object_scrobbles = value_scrobbles.toObject();
   if (object_scrobbles.isEmpty()) {
     Error(u"Json scrobbles object is empty."_s, value_scrobbles);
-    StartSubmit();
+    Start();
     return;
   }
   if (!object_scrobbles.contains("@attr"_L1) || !object_scrobbles.contains("scrobble"_L1)) {
     Error(u"Json scrobbles object is missing values."_s, object_scrobbles);
-    StartSubmit();
+    Start();
     return;
   }
 
   const QJsonValue value_attr = object_scrobbles["@attr"_L1];
   if (!value_attr.isObject()) {
     Error(u"Json scrobbles attr is not an object."_s, value_attr);
-    StartSubmit();
+    Start();
     return;
   }
   const QJsonObject object_attr = value_attr.toObject();
   if (object_attr.isEmpty()) {
     Error(u"Json scrobbles attr is empty."_s, value_attr);
-    StartSubmit();
+    Start();
     return;
   }
   if (!object_attr.contains("accepted"_L1) || !object_attr.contains("ignored"_L1)) {
     Error(u"Json scrobbles attr is missing values."_s, object_attr);
-    StartSubmit();
+    Start();
     return;
   }
   int accepted = object_attr["accepted"_L1].toInt();
@@ -646,7 +652,7 @@ void LastFMScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCac
     QJsonObject obj_scrobble = value_scrobble.toObject();
     if (obj_scrobble.isEmpty()) {
       Error(u"Json scrobbles scrobble object is empty."_s, obj_scrobble);
-      StartSubmit();
+      Start();
       return;
     }
     array_scrobble.append(obj_scrobble);
@@ -655,13 +661,13 @@ void LastFMScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCac
     array_scrobble = value_scrobble.toArray();
     if (array_scrobble.isEmpty()) {
       Error(u"Json scrobbles scrobble array is empty."_s, value_scrobble);
-      StartSubmit();
+      Start();
       return;
     }
   }
   else {
     Error(u"Json scrobbles scrobble is not an object or array."_s, value_scrobble);
-    StartSubmit();
+    Start();
     return;
   }
 
@@ -727,7 +733,7 @@ void LastFMScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCac
 
   }
 
-  StartSubmit();
+  Start();
 
 }
 
