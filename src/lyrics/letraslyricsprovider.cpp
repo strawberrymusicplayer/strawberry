@@ -22,7 +22,6 @@
 #include <QFuture>
 #include <QFutureWatcher>
 #include <QtConcurrentRun>
-#include <QCoreApplication>
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
@@ -57,13 +56,9 @@ QUrl LetrasLyricsProvider::Url(const LyricsSearchRequest &request) {
 
 void LetrasLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
-  // letras.mus.br's Akamai edge blocks generic browser User-Agents (Mozilla/Firefox/Chrome strings all return 403)
-  // but lets through identifiable HTTP-client UAs in the `name/version (+url)` form.
-  // Send a Strawberry-identifying UA instead of the default fake browser UA used by other HTML providers.
   const QUrl url = Url(request);
   QNetworkRequest network_request(url);
   network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  network_request.setHeader(QNetworkRequest::UserAgentHeader, QStringLiteral("Strawberry/%1 (+https://www.strawberrymusicplayer.org)").arg(QCoreApplication::applicationVersion()));
   QNetworkReply *reply = network_->get(network_request);
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &HttpBaseRequest::HandleSSLErrors);
   replies_ << reply;

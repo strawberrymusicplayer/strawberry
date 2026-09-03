@@ -64,10 +64,11 @@
 #include <QUuid>
 #include <QVersionNumber>
 
-#include "core/logging.h"
-#include "core/signalchecker.h"
 #include "constants/timeconstants.h"
 #include "constants/backendsettings.h"
+#include "utilities/useragent.h"
+#include "core/logging.h"
+#include "core/signalchecker.h"
 #include "gstengine.h"
 #include "gstenginepipeline.h"
 #include "gstbusmessageevent.h"
@@ -1200,8 +1201,8 @@ void GstEnginePipeline::SourceSetupCallback(GstElement *playbin, GstElement *sou
 
   if (g_object_class_find_property(G_OBJECT_GET_CLASS(source), "user-agent")) {
     qLog(Debug) << "Setting user-agent";
-    QString user_agent = QStringLiteral("%1 %2").arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion());
-    g_object_set(source, "user-agent", user_agent.toUtf8().constData(), nullptr);
+    const QByteArray user_agent = Utilities::UserAgent();
+    g_object_set(source, "user-agent", user_agent.constData(), nullptr);
   }
 
   if (g_object_class_find_property(G_OBJECT_GET_CLASS(source), "ssl-strict")) {

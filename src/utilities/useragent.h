@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,19 +17,15 @@
  *
  */
 
-#ifndef ENVUTILS_H
-#define ENVUTILS_H
+#ifndef USERAGENT_H
+#define USERAGENT_H
 
-#include <QString>
+#include <QByteArray>
 
 namespace Utilities {
 
-QString GetEnv(const QString &key);
-void SetEnv(const char *key, const QString &value);
-QString OSName();
-QString DesktopEnvironment();
-bool IsWSL();
+const QByteArray &UserAgent();
 
 }  // namespace Utilities
 
-#endif  // ENVUTILS_H
+#endif  // USERAGENT_H
