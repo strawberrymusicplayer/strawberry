@@ -51,7 +51,7 @@ class PlaylistSequence : public QWidget {
     Album = 2,
     Playlist = 3,
     OneByOne = 4,
-    Intro = 5
+    Zapping = 5
   };
   enum class ShuffleMode {
     Off = 0,
@@ -67,6 +67,15 @@ class PlaylistSequence : public QWidget {
   QMenu *repeat_menu() const { return repeat_menu_; }
   QMenu *shuffle_menu() const { return shuffle_menu_; }
 
+  int half_playing_time_s() const { return half_playing_time_s_; }
+  void UpdatePlayingTime(const int time_s);
+
+  int percent_interest_song() const { return percent_interest_song_; }
+  void UpdatePlayingPosition(const int percent_time);
+
+  static QString ToolTipPlayingTime();
+  static QString ToolTipPositionTime();
+
  public Q_SLOTS:
   void SetRepeatMode(const PlaylistSequence::RepeatMode mode);
   void SetShuffleMode(const PlaylistSequence::ShuffleMode mode);
@@ -80,6 +89,9 @@ class PlaylistSequence : public QWidget {
  private Q_SLOTS:
   void RepeatActionTriggered(QAction *action);
   void ShuffleActionTriggered(QAction *action);
+  void UpdateActionPlayingTime(QAction *action);
+  void UpdateActionPlayingPosition(QAction *action);
+  void DisplayPlayingOption();
 
  private:
   void Load();
@@ -97,6 +109,10 @@ class PlaylistSequence : public QWidget {
   bool loading_;
   RepeatMode repeat_mode_;
   ShuffleMode shuffle_mode_;
+
+  // Variables to maintain the time to play the song
+  int half_playing_time_s_;
+  int percent_interest_song_;
 };
 
 #endif  // PLAYLISTSEQUENCE_H
