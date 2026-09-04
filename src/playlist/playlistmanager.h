@@ -71,6 +71,10 @@ class PlaylistManager : public PlaylistManagerInterface {
   Playlist *playlist(const int id) const override { return playlists_[id].p; }
   Playlist *current() const override { return playlist(current_id()); }
   Playlist *active() const override { return playlist(active_id()); }
+  bool remove_duplicates() const { return remove_duplicates_; }
+
+  // Update the grouped before queue value : we have to do more than just update the attribute
+  void update_setting(const bool remove_duplicates);
 
   // Returns the collection of playlists managed by this PlaylistManager.
   QList<Playlist*> GetAllPlaylists() const override;
@@ -179,6 +183,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   int current_;
   int active_;
   int playlists_loading_;
+  bool remove_duplicates_;
 };
 
 #endif  // PLAYLISTMANAGER_H
