@@ -172,6 +172,7 @@ class GstEnginePipeline : public QObject {
   QFuture<GstStateChangeReturn> ApplyState(const GstState state);
   void StartPlaybackAfterWarmup();
   void EmitFinishedIfQuiescent();
+  void EmitFinishedOnce();
   void SetNextUrl();
 
   // Static callbacks.  The GstEnginePipeline instance is passed in the last argument.
@@ -220,6 +221,7 @@ class GstEnginePipeline : public QObject {
   void SetStateAsyncSlot(const GstState state, const quint64 state_request_generation);
 
  private Q_SLOTS:
+  void FinishWatchdogTimeout();
   void SetStateFinishedSlot(const GstState state, const GstStateChangeReturn state_change_return);
   void SetFaderVolume(const qreal volume);
   void FaderTimelineStateChanged(const QTimeLine::State state);
@@ -411,12 +413,18 @@ class GstEnginePipeline : public QObject {
   std::atomic<bool> finish_requested_;
   std::atomic<bool> finished_;
 
+  // Set when a state change never completed within the watchdog deadline (e.g. a source element stuck in a network request that ignores unlock).
+  // A stuck pipeline is abandoned: Finished() is force-emitted so the engine can move on, and the destructor deliberately leaks the GStreamer objects instead of blocking forever.
+  std::atomic<bool> stuck_;
+  QTimer *timer_finish_watchdog_;
+
   // Identifies the current bus-watch session. Bumped by DisconnectCallbacks() so that GstBusMessageEvents posted from the GLib thread before teardown (Windows/macOS) are dropped instead of handled after the watch is gone or replaced.
   std::atomic<quint64> bus_message_generation_;
 
   // Per-pipeline thread pool for gst_element_set_state() calls, limited to one thread so that no two state changes run concurrently on this pipeline and queued tasks (submitted via SetStateAsync) run in submission order.
   // It is per-pipeline rather than shared so that a slow downwards transition on one pipeline (going to NULL can block until the streaming threads have stopped) cannot hold up another pipeline's state changes.
-  QThreadPool state_threadpool_;
+  // Held by pointer so the destructor can leak it together with a stuck pipeline: ~QThreadPool() waits for its runnables, and a state change stuck inside a broken source element would never let that wait return.
+  QThreadPool *state_threadpool_;
 
   // Number of SetStateAsync() requests that have been queued but not yet turned into a running state change.
   // Incremented (possibly from a GStreamer streaming thread) the moment a request is queued and decremented when its slot runs, so that a state change is never briefly invisible while handing off from the queue to a pending future.
