@@ -93,16 +93,16 @@
       <translation type="unfinished">AcoustID is used to identify songs by their audio fingerprint when fetching tags.</translation>
     </message>
     <message>
-      <source>API credentials</source>
-      <translation type="unfinished">API credentials</translation>
-    </message>
-    <message>
       <source>Use custom API Key</source>
       <translation type="unfinished">Use custom API Key</translation>
     </message>
     <message>
       <source>API key</source>
       <translation type="unfinished">API key</translation>
+    </message>
+    <message>
+      <source>API Credentials</source>
+      <translation type="unfinished">API Credentials</translation>
     </message>
   </context>
   <context>
@@ -4278,6 +4278,10 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
       <translation type="unfinished">Missing client secret</translation>
     </message>
     <message>
+      <source>Invalid redirect URL</source>
+      <translation type="unfinished">Invalid redirect URL</translation>
+    </message>
+    <message>
       <source>Authentication</source>
       <translation>Autenticazione</translation>
     </message>
@@ -5874,10 +5878,6 @@ Sei sicuro di voler continuare?</translation>
       <translation>Abilita</translation>
     </message>
     <message>
-      <source>Authentication</source>
-      <translation>Autenticazione</translation>
-    </message>
-    <message>
       <source>App ID</source>
       <translation>ID app</translation>
     </message>
@@ -5926,16 +5926,16 @@ Sei sicuro di voler continuare?</translation>
       <translation>Configurazione non completa</translation>
     </message>
     <message>
-      <source>Missing app id. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing app id. Please fetch credentials first.</translation>
+      <source>Missing app id. Please fetch API credentials first.</source>
+      <translation type="unfinished">Missing app id. Please fetch API credentials first.</translation>
     </message>
     <message>
-      <source>Missing app secret. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing app secret. Please fetch credentials first.</translation>
+      <source>Missing app secret. Please fetch API credentials first.</source>
+      <translation type="unfinished">Missing app secret. Please fetch API credentials first.</translation>
     </message>
     <message>
-      <source>Missing private key. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing private key. Please fetch credentials first.</translation>
+      <source>Missing private key. Please fetch API credentials first.</source>
+      <translation type="unfinished">Missing private key. Please fetch API credentials first.</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -5946,20 +5946,16 @@ Sei sicuro di voler continuare?</translation>
       <translation type="unfinished">Fetching...</translation>
     </message>
     <message>
-      <source>Credentials fetched</source>
-      <translation type="unfinished">Credentials fetched</translation>
+      <source>API credentials fetched</source>
+      <translation type="unfinished">API credentials fetched</translation>
     </message>
     <message>
-      <source>Credentials have been successfully fetched. Click Login to authenticate via your browser.</source>
-      <translation type="unfinished">Credentials have been successfully fetched. Click Login to authenticate via your browser.</translation>
+      <source>API credentials have been successfully fetched. Click Login to authenticate via your browser.</source>
+      <translation type="unfinished">API credentials have been successfully fetched. Click Login to authenticate via your browser.</translation>
     </message>
     <message>
       <source>Credential fetch failed</source>
       <translation type="unfinished">Credential fetch failed</translation>
-    </message>
-    <message>
-      <source>Fetch Credentials</source>
-      <translation type="unfinished">Fetch Credentials</translation>
     </message>
     <message>
       <source>Remove (Remastered), etc from song titles</source>
@@ -5972,6 +5968,14 @@ Sei sicuro di voler continuare?</translation>
     <message>
       <source>Automatically fetch app ID, app secret and private key from Qobuz web player</source>
       <translation type="unfinished">Automatically fetch app ID, app secret and private key from Qobuz web player</translation>
+    </message>
+    <message>
+      <source>API Credentials</source>
+      <translation type="unfinished">API Credentials</translation>
+    </message>
+    <message>
+      <source>Fetch API Credentials</source>
+      <translation type="unfinished">Fetch API Credentials</translation>
     </message>
   </context>
   <context>
@@ -6959,10 +6963,6 @@ Esistono diversi tipi di playlist intelligenti che offrono diversi modi di selez
       <translation>Abilita</translation>
     </message>
     <message>
-      <source>Basic authentication</source>
-      <translation type="unfinished">Basic authentication</translation>
-    </message>
-    <message>
       <source>Authenticate</source>
       <translation type="unfinished">Authenticate</translation>
     </message>
@@ -7025,6 +7025,10 @@ Esistono diversi tipi di playlist intelligenti che offrono diversi modi di selez
     <message>
       <source>Client secret</source>
       <translation type="unfinished">Client secret</translation>
+    </message>
+    <message>
+      <source>API Credentials</source>
+      <translation type="unfinished">API Credentials</translation>
     </message>
   </context>
   <context>
@@ -7460,10 +7464,6 @@ Esistono diversi tipi di playlist intelligenti che offrono diversi modi di selez
       <translation>Abilita</translation>
     </message>
     <message>
-      <source>Authentication</source>
-      <translation>Autenticazione</translation>
-    </message>
-    <message>
       <source>Client ID</source>
       <translation>ID client</translation>
     </message>
@@ -7538,6 +7538,10 @@ Esistono diversi tipi di playlist intelligenti che offrono diversi modi di selez
     <message>
       <source>Use custom client ID</source>
       <translation type="unfinished">Use custom client ID</translation>
+    </message>
+    <message>
+      <source>API Credentials</source>
+      <translation type="unfinished">API Credentials</translation>
     </message>
   </context>
   <context>

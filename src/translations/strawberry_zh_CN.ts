@@ -93,16 +93,16 @@
       <translation type="unfinished">AcoustID is used to identify songs by their audio fingerprint when fetching tags.</translation>
     </message>
     <message>
-      <source>API credentials</source>
-      <translation type="unfinished">API credentials</translation>
-    </message>
-    <message>
       <source>Use custom API Key</source>
       <translation type="unfinished">Use custom API Key</translation>
     </message>
     <message>
       <source>API key</source>
       <translation type="unfinished">API key</translation>
+    </message>
+    <message>
+      <source>API Credentials</source>
+      <translation type="unfinished">API Credentials</translation>
     </message>
   </context>
   <context>
@@ -4277,6 +4277,10 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation type="unfinished">Missing client secret</translation>
     </message>
     <message>
+      <source>Invalid redirect URL</source>
+      <translation type="unfinished">Invalid redirect URL</translation>
+    </message>
+    <message>
       <source>Authentication</source>
       <translation>认证</translation>
     </message>
@@ -5867,10 +5871,6 @@ Are you sure you want to continue?</source>
       <translation>启用</translation>
     </message>
     <message>
-      <source>Authentication</source>
-      <translation>验证</translation>
-    </message>
-    <message>
       <source>App ID</source>
       <translation>应用账号</translation>
     </message>
@@ -5919,16 +5919,16 @@ Are you sure you want to continue?</source>
       <translation>配置不完整</translation>
     </message>
     <message>
-      <source>Missing app id. Please fetch credentials first.</source>
-      <translation>缺少应用 ID。请先获取凭据。</translation>
+      <source>Missing app id. Please fetch API credentials first.</source>
+      <translation type="unfinished">Missing app id. Please fetch API credentials first.</translation>
     </message>
     <message>
-      <source>Missing app secret. Please fetch credentials first.</source>
-      <translation>缺少应用密钥。请先获取凭据。</translation>
+      <source>Missing app secret. Please fetch API credentials first.</source>
+      <translation type="unfinished">Missing app secret. Please fetch API credentials first.</translation>
     </message>
     <message>
-      <source>Missing private key. Please fetch credentials first.</source>
-      <translation>缺少私钥。请先获取凭据。</translation>
+      <source>Missing private key. Please fetch API credentials first.</source>
+      <translation type="unfinished">Missing private key. Please fetch API credentials first.</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -5939,20 +5939,16 @@ Are you sure you want to continue?</source>
       <translation>正在获取…</translation>
     </message>
     <message>
-      <source>Credentials fetched</source>
-      <translation>凭据已获取</translation>
+      <source>API credentials fetched</source>
+      <translation type="unfinished">API credentials fetched</translation>
     </message>
     <message>
-      <source>Credentials have been successfully fetched. Click Login to authenticate via your browser.</source>
-      <translation>凭据已成功获取。点击登录以通过浏览器进行认证。</translation>
+      <source>API credentials have been successfully fetched. Click Login to authenticate via your browser.</source>
+      <translation type="unfinished">API credentials have been successfully fetched. Click Login to authenticate via your browser.</translation>
     </message>
     <message>
       <source>Credential fetch failed</source>
       <translation>凭据获取失败</translation>
-    </message>
-    <message>
-      <source>Fetch Credentials</source>
-      <translation>获取凭据</translation>
     </message>
     <message>
       <source>Remove (Remastered), etc from song titles</source>
@@ -5965,6 +5961,14 @@ Are you sure you want to continue?</source>
     <message>
       <source>Automatically fetch app ID, app secret and private key from Qobuz web player</source>
       <translation>从 Qobuz 网页播放器自动获取应用 ID、应用密钥和私钥</translation>
+    </message>
+    <message>
+      <source>API Credentials</source>
+      <translation type="unfinished">API Credentials</translation>
+    </message>
+    <message>
+      <source>Fetch API Credentials</source>
+      <translation type="unfinished">Fetch API Credentials</translation>
     </message>
   </context>
   <context>
@@ -6950,10 +6954,6 @@ Are you sure you want to continue?</source>
       <translation>启用</translation>
     </message>
     <message>
-      <source>Basic authentication</source>
-      <translation>基本身份验证</translation>
-    </message>
-    <message>
       <source>Authenticate</source>
       <translation>进行身份验证</translation>
     </message>
@@ -7016,6 +7016,10 @@ Are you sure you want to continue?</source>
     <message>
       <source>Client secret</source>
       <translation type="unfinished">Client secret</translation>
+    </message>
+    <message>
+      <source>API Credentials</source>
+      <translation type="unfinished">API Credentials</translation>
     </message>
   </context>
   <context>
@@ -7451,10 +7455,6 @@ Are you sure you want to continue?</source>
       <translation>启用</translation>
     </message>
     <message>
-      <source>Authentication</source>
-      <translation>验证</translation>
-    </message>
-    <message>
       <source>Client ID</source>
       <translation>客户端 ID</translation>
     </message>
@@ -7529,6 +7529,10 @@ Are you sure you want to continue?</source>
     <message>
       <source>Use custom client ID</source>
       <translation type="unfinished">Use custom client ID</translation>
+    </message>
+    <message>
+      <source>API Credentials</source>
+      <translation type="unfinished">API Credentials</translation>
     </message>
   </context>
   <context>

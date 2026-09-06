@@ -93,16 +93,16 @@
       <translation type="unfinished">AcoustID is used to identify songs by their audio fingerprint when fetching tags.</translation>
     </message>
     <message>
-      <source>API credentials</source>
-      <translation type="unfinished">API credentials</translation>
-    </message>
-    <message>
       <source>Use custom API Key</source>
       <translation type="unfinished">Use custom API Key</translation>
     </message>
     <message>
       <source>API key</source>
       <translation type="unfinished">API key</translation>
+    </message>
+    <message>
+      <source>API Credentials</source>
+      <translation type="unfinished">API Credentials</translation>
     </message>
   </context>
   <context>
@@ -4277,6 +4277,10 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
       <translation type="unfinished">Missing client secret</translation>
     </message>
     <message>
+      <source>Invalid redirect URL</source>
+      <translation type="unfinished">Invalid redirect URL</translation>
+    </message>
+    <message>
       <source>Authentication</source>
       <translation>Autentisering</translation>
     </message>
@@ -5871,10 +5875,6 @@ Are you sure you want to continue?</source>
       <translation>Aktivera</translation>
     </message>
     <message>
-      <source>Authentication</source>
-      <translation>Autentisering</translation>
-    </message>
-    <message>
       <source>App ID</source>
       <translation>App-ID</translation>
     </message>
@@ -5923,16 +5923,16 @@ Are you sure you want to continue?</source>
       <translation>Konfigurationen ofullständig</translation>
     </message>
     <message>
-      <source>Missing app id. Please fetch credentials first.</source>
-      <translation>App-ID saknas. Hämta autentiseringsuppgifterna först.</translation>
+      <source>Missing app id. Please fetch API credentials first.</source>
+      <translation type="unfinished">Missing app id. Please fetch API credentials first.</translation>
     </message>
     <message>
-      <source>Missing app secret. Please fetch credentials first.</source>
-      <translation>Apphemligheten saknas. Hämta autentiseringsuppgifterna först.</translation>
+      <source>Missing app secret. Please fetch API credentials first.</source>
+      <translation type="unfinished">Missing app secret. Please fetch API credentials first.</translation>
     </message>
     <message>
-      <source>Missing private key. Please fetch credentials first.</source>
-      <translation>Den privata nyckeln saknas. Hämta autentiseringsuppgifterna först.</translation>
+      <source>Missing private key. Please fetch API credentials first.</source>
+      <translation type="unfinished">Missing private key. Please fetch API credentials first.</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -5943,20 +5943,16 @@ Are you sure you want to continue?</source>
       <translation>Hämtar…</translation>
     </message>
     <message>
-      <source>Credentials fetched</source>
-      <translation>Autentiseringsuppgifterna har hämtats</translation>
+      <source>API credentials fetched</source>
+      <translation type="unfinished">API credentials fetched</translation>
     </message>
     <message>
-      <source>Credentials have been successfully fetched. Click Login to authenticate via your browser.</source>
-      <translation>Autentiseringsuppgifterna har hämtats. Klicka på Logga in för att autentisera via webbläsaren.</translation>
+      <source>API credentials have been successfully fetched. Click Login to authenticate via your browser.</source>
+      <translation type="unfinished">API credentials have been successfully fetched. Click Login to authenticate via your browser.</translation>
     </message>
     <message>
       <source>Credential fetch failed</source>
       <translation>Det gick inte att hämta autentiseringsuppgifterna</translation>
-    </message>
-    <message>
-      <source>Fetch Credentials</source>
-      <translation>Hämta autentiseringsuppgifter</translation>
     </message>
     <message>
       <source>Remove (Remastered), etc from song titles</source>
@@ -5969,6 +5965,14 @@ Are you sure you want to continue?</source>
     <message>
       <source>Automatically fetch app ID, app secret and private key from Qobuz web player</source>
       <translation>Hämta automatiskt app-ID, apphemlighet och privat nyckel från Qobuz-webbspelaren</translation>
+    </message>
+    <message>
+      <source>API Credentials</source>
+      <translation type="unfinished">API Credentials</translation>
+    </message>
+    <message>
+      <source>Fetch API Credentials</source>
+      <translation type="unfinished">Fetch API Credentials</translation>
     </message>
   </context>
   <context>
@@ -6955,10 +6959,6 @@ Are you sure you want to continue?</source>
       <translation>Aktivera</translation>
     </message>
     <message>
-      <source>Basic authentication</source>
-      <translation>Grundläggande autentisering</translation>
-    </message>
-    <message>
       <source>Authenticate</source>
       <translation>Autentisera</translation>
     </message>
@@ -7021,6 +7021,10 @@ Are you sure you want to continue?</source>
     <message>
       <source>Client secret</source>
       <translation type="unfinished">Client secret</translation>
+    </message>
+    <message>
+      <source>API Credentials</source>
+      <translation type="unfinished">API Credentials</translation>
     </message>
   </context>
   <context>
@@ -7456,10 +7460,6 @@ Are you sure you want to continue?</source>
       <translation>Aktivera</translation>
     </message>
     <message>
-      <source>Authentication</source>
-      <translation>Autentisering</translation>
-    </message>
-    <message>
       <source>Client ID</source>
       <translation>Klient-ID</translation>
     </message>
@@ -7534,6 +7534,10 @@ Are you sure you want to continue?</source>
     <message>
       <source>Use custom client ID</source>
       <translation type="unfinished">Use custom client ID</translation>
+    </message>
+    <message>
+      <source>API Credentials</source>
+      <translation type="unfinished">API Credentials</translation>
     </message>
   </context>
   <context>
