@@ -91,6 +91,7 @@ GeniusLyricsProvider::GeniusLyricsProvider(const SharedPtr<NetworkAccessManager>
   oauth_->set_scope(QLatin1String(kOAuthScope));
   oauth_->set_use_local_redirect_server(true);
   oauth_->set_port_type(OAuthenticator::PortType::PassInState);
+  oauth_->set_use_pkce(true);
 
   QObject::connect(oauth_, &OAuthenticator::AuthenticationFinished, this, &GeniusLyricsProvider::OAuthFinished);
 

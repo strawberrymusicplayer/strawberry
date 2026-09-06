@@ -65,6 +65,7 @@ class OAuthenticator : public QObject {
   void set_scope(const QString &scope);
   void set_use_local_redirect_server(const bool use_local_redirect_server);
   void set_port_type(const PortType port_type);
+  void set_use_pkce(const bool use_pkce);
 
   QString token_type() const { return token_type_; }
   QString access_token() const { return access_token_; }
@@ -116,10 +117,12 @@ class OAuthenticator : public QObject {
   QString scope_;
   bool use_local_redirect_server_;
   PortType port_type_;
+  bool use_pkce_;
+
+  QString state_;
 
   QString code_verifier_;
   QString code_challenge_;
-  QString state_;
 
   QString token_type_;
   QString access_token_;

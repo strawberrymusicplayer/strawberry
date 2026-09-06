@@ -65,6 +65,7 @@ OAuthenticator::OAuthenticator(const SharedPtr<NetworkAccessManager> network, QO
       type_(Type::Authorization_Code),
       use_local_redirect_server_(true),
       port_type_(PortType::SetToRedirectURL),
+      use_pkce_(true),
       expires_in_(0LL),
       login_time_(0LL),
       user_id_(0) {
@@ -142,6 +143,12 @@ void OAuthenticator::set_use_local_redirect_server(const bool use_local_redirect
 void OAuthenticator::set_port_type(const PortType port_type) {
 
   port_type_ = port_type;
+
+}
+
+void OAuthenticator::set_use_pkce(const bool use_pkce) {
+
+  use_pkce_ = use_pkce;
 
 }
 
@@ -288,22 +295,28 @@ void OAuthenticator::Authenticate() {
 
   const QUrl redirect_url = EffectiveRedirectUrl();
 
-  code_verifier_ = Utilities::CryptographicRandomString(44);
-  code_challenge_ = QString::fromLatin1(QCryptographicHash::hash(code_verifier_.toUtf8(), QCryptographicHash::Sha256).toBase64(QByteArray::Base64UrlEncoding));
-  if (code_challenge_.lastIndexOf(u'=') == code_challenge_.length() - 1) {
-    code_challenge_.chop(1);
-  }
-
-  state_ = code_challenge_;
+  state_ = Utilities::CryptographicRandomString(32);
   if (port_type_ == PortType::PassInState && !local_redirect_server_.isNull()) {
     state_ += u'-' + QString::number(local_redirect_server_->port());
   }
 
+  if (use_pkce_) {
+    code_verifier_ = Utilities::CryptographicRandomString(44);
+    code_challenge_ = QString::fromLatin1(QCryptographicHash::hash(code_verifier_.toUtf8(), QCryptographicHash::Sha256).toBase64(QByteArray::Base64UrlEncoding | QByteArray::OmitTrailingEquals));
+  }
+  else {
+    code_verifier_.clear();
+    code_challenge_.clear();
+  }
+
   ParamList params = ParamList() << Param(u"response_type"_s, u"code"_s)
                                  << Param(u"redirect_uri"_s, redirect_url.toString())
-                                 << Param(u"state"_s, state_)
-                                 << Param(u"code_challenge_method"_s, u"S256"_s)
-                                 << Param(u"code_challenge"_s, code_challenge_);
+                                 << Param(u"state"_s, state_);
+
+  if (use_pkce_) {
+    params << Param(u"code_challenge_method"_s, u"S256"_s)
+           << Param(u"code_challenge"_s, code_challenge_);
+  }
 
   if (!client_id_.isEmpty()) {
     params << Param(u"client_id"_s, client_id_);
