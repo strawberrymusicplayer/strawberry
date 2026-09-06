@@ -137,7 +137,7 @@ ListenBrainzScrobbler::ListenBrainzScrobbler(const SharedPtr<ScrobblerSettingsSe
   oauth_->set_access_token_url(QUrl(QLatin1String(kOAuthAccessTokenUrl)));
   oauth_->set_scope(QLatin1String(kOAuthScope));
   oauth_->set_use_local_redirect_server(true);
-  oauth_->set_random_port(true);
+  oauth_->set_port_type(OAuthenticator::PortType::SetToRedirectURL);
 
   QObject::connect(oauth_, &OAuthenticator::AuthenticationFinished, this, &ListenBrainzScrobbler::OAuthFinished);
 

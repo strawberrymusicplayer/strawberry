@@ -85,7 +85,7 @@ OpenTidalCoverProvider::OpenTidalCoverProvider(const SharedPtr<NetworkAccessMana
   oauth_->set_type(OAuthenticator::Type::Client_Credentials);
   oauth_->set_access_token_url(QUrl(QLatin1String(kOAuthAccessTokenUrl)));
   oauth_->set_use_local_redirect_server(false);
-  oauth_->set_random_port(false);
+  oauth_->set_port_type(OAuthenticator::PortType::SetToRedirectURL);
   QObject::connect(oauth_, &OAuthenticator::AuthenticationFinished, this, &OpenTidalCoverProvider::OAuthFinished);
 
   timer_flush_requests_->setInterval(kRequestsDelay);

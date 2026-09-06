@@ -130,7 +130,7 @@ TidalService::TidalService(const SharedPtr<TaskManager> task_manager,
   oauth_->set_access_token_url(QUrl(QLatin1String(kOAuthAccessTokenUrl)));
   oauth_->set_scope(QLatin1String(kOAuthScope));
   oauth_->set_use_local_redirect_server(false);
-  oauth_->set_random_port(false);
+  oauth_->set_port_type(OAuthenticator::PortType::SetToRedirectURL);
   QObject::connect(oauth_, &OAuthenticator::AuthenticationFinished, this, &TidalService::OAuthFinished);
 
   // Backends

@@ -58,7 +58,7 @@ namespace {
 constexpr char kSettingsGroup[] = "GeniusLyrics";
 constexpr char kOAuthAuthorizeUrl[] = "https://api.genius.com/oauth/authorize";
 constexpr char kOAuthAccessTokenUrl[] = "https://api.genius.com/oauth/token";
-constexpr char kOAuthRedirectUrl[] = "http://localhost:63111/";  // Genius does not accept a random port number. This port must match the URL of the ClientID.
+constexpr char kOAuthRedirectUrl[] = "https://oauth.strawberrymusicplayer.org/";
 constexpr char kOAuthScope[] = "me";
 constexpr char kUrlSearch[] = "https://api.genius.com/search/";
 
@@ -90,7 +90,7 @@ GeniusLyricsProvider::GeniusLyricsProvider(const SharedPtr<NetworkAccessManager>
   oauth_->set_access_token_url(QUrl(QLatin1String(kOAuthAccessTokenUrl)));
   oauth_->set_scope(QLatin1String(kOAuthScope));
   oauth_->set_use_local_redirect_server(true);
-  oauth_->set_random_port(false);
+  oauth_->set_port_type(OAuthenticator::PortType::PassInState);
 
   QObject::connect(oauth_, &OAuthenticator::AuthenticationFinished, this, &GeniusLyricsProvider::OAuthFinished);
 
