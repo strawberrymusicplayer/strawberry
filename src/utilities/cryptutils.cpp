@@ -39,14 +39,19 @@ namespace Utilities {
 QByteArray Hmac(const QByteArray &key, const QByteArray &data, const QCryptographicHash::Algorithm method) {
 
   constexpr int block_size = 64;
-  Q_ASSERT(key.length() <= block_size);
+  QByteArray k = key;
+  if (k.length() > block_size) {
+    k = QCryptographicHash::hash(k, method);
+  }
+
+  Q_ASSERT(k.length() <= block_size);
 
   QByteArray inner_padding(block_size, static_cast<char>(0x36));
   QByteArray outer_padding(block_size, static_cast<char>(0x5c));
 
-  for (int i = 0; i < key.length(); ++i) {
-    inner_padding[i] = static_cast<char>(inner_padding[i] ^ key[i]);
-    outer_padding[i] = static_cast<char>(outer_padding[i] ^ key[i]);
+  for (int i = 0; i < k.length(); ++i) {
+    inner_padding[i] = static_cast<char>(inner_padding[i] ^ k[i]);
+    outer_padding[i] = static_cast<char>(outer_padding[i] ^ k[i]);
   }
 
   QByteArray part;

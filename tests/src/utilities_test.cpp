@@ -105,6 +105,27 @@ TEST(UtilitiesTest, HmacFunctions) {
   bool result_sha256 = result_hash_sha256 == u"f7bc83f430538424b13298e6aa6fb143ef4d59a14946175997479dbc2d1a3cd8"_s;
   EXPECT_TRUE(result_sha256);
 
+  // Test Hmac MD5 with key larger than block size (RFC 2202 TC4)
+  QByteArray key_long_md5(80, 0x01);
+  QByteArray data_long_md5 = "Test Using Larger Than Block-Size Key - Hash Key First";
+  QString result_hash_long_md5 = QString::fromLatin1(Utilities::HmacMd5(key_long_md5, data_long_md5).toHex());
+  EXPECT_EQ(result_hash_long_md5, u"aa9df6c21548e9a650f5841b1b1521e0"_s);
+
+  // Test Hmac SHA1 with key larger than block size (RFC 2202 TC4)
+  QString result_hash_long_sha1 = QString::fromLatin1(Utilities::HmacSha1(key_long_md5, data_long_md5).toHex());
+  EXPECT_EQ(result_hash_long_sha1, u"a7a110816ae9239bbd2f885b7590bb024b59f381"_s);
+
+  // Test Hmac SHA256 with key larger than block size (RFC 4231 TC6)
+  QByteArray key_long_sha256(131, static_cast<char>(0xaa));
+  QByteArray data_long_sha256 = "Test Using Larger Than Block-Size Key - Hash Key First";
+  QString result_hash_long_sha256 = QString::fromLatin1(Utilities::HmacSha256(key_long_sha256, data_long_sha256).toHex());
+  EXPECT_EQ(result_hash_long_sha256, u"60e431591ee0b67f0d8a26aacbf5b77f8e0bc6213728c5140546040f0ee37f54"_s);
+
+  // Test Hmac SHA256 with key and data larger than block size (RFC 4231 TC7)
+  QByteArray data_long_sha256_2 = "This is a test using a larger than block-size key and a larger than block-size data. The key needs to be hashed before being used by the HMAC algorithm.";
+  QString result_hash_long_sha256_2 = QString::fromLatin1(Utilities::HmacSha256(key_long_sha256, data_long_sha256_2).toHex());
+  EXPECT_EQ(result_hash_long_sha256_2, u"9b09ffa71b942fcb27635fbcd5b0e944bfdc63644f0713938a7f51535c3a35e2"_s);
+
 }
 
 TEST(UtilitiesTest, PrettySize2) {
