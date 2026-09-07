@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -147,82 +148,52 @@ void CommandlineOptions::RemoveArg(const QString &starts_with, int count) {
 
 bool CommandlineOptions::Parse() {
 
-  static const struct option kOptions[] = {
 #ifdef Q_OS_WIN32
-      {L"help", no_argument, nullptr, 'h'},
-      {L"play", no_argument, nullptr, 'p'},
-      {L"play-pause", no_argument, nullptr, 't'},
-      {L"pause", no_argument, nullptr, 'u'},
-      {L"stop", no_argument, nullptr, 's'},
-      {L"stop-after-current", no_argument, nullptr, 'q'},
-      {L"previous", no_argument, nullptr, 'r'},
-      {L"next", no_argument, nullptr, 'f'},
-      {L"volume", required_argument, nullptr, 'v'},
-      {L"volume-up", no_argument, nullptr, LongOptions::VolumeUp},
-      {L"volume-down", no_argument, nullptr, LongOptions::VolumeDown},
-      {L"volume-increase-by", required_argument, nullptr, LongOptions::VolumeIncreaseBy},
-      {L"volume-decrease-by", required_argument, nullptr, LongOptions::VolumeDecreaseBy},
-      {L"seek-to", required_argument, nullptr, LongOptions::SeekTo},
-      {L"seek-by", required_argument, nullptr, LongOptions::SeekBy},
-      {L"restart-or-previous", no_argument, nullptr, LongOptions::RestartOrPrevious },
-      {L"create", required_argument, nullptr, 'c' },
-      {L"append", no_argument, nullptr, 'a' },
-      {L"load", no_argument, nullptr, 'l'},
-      {L"play-track", required_argument, nullptr, 'k'},
-      {L"play-playlist", required_argument, nullptr, 'i'},
-      {L"show-osd", no_argument, nullptr, 'o'},
-      {L"toggle-pretty-osd", no_argument, nullptr, 'y'},
-      {L"language", required_argument, nullptr, 'g'},
-      {L"resize-window", required_argument, nullptr, 'w'},
-      {L"quiet", no_argument, nullptr, LongOptions::Quiet},
-      {L"verbose", no_argument, nullptr, LongOptions::Verbose},
-      {L"log-levels", required_argument, nullptr, LongOptions::LogLevels},
-      {L"version", no_argument, nullptr, LongOptions::Version},
-      {L"create-fingerprint", required_argument, nullptr, LongOptions::CreateFingerPrint},
-      {nullptr, 0, nullptr, 0}
+#  define OPTSTR(s) L##s
 #else
-    { "help", no_argument, nullptr, 'h' },
-    { "play", no_argument, nullptr, 'p' },
-    { "play-pause", no_argument, nullptr, 't' },
-    { "pause", no_argument, nullptr, 'u' },
-    { "stop", no_argument, nullptr, 's' },
-    { "stop-after-current", no_argument, nullptr, 'q' },
-    { "previous", no_argument, nullptr, 'r' },
-    { "next", no_argument, nullptr, 'f' },
-    { "volume", required_argument, nullptr, 'v' },
-    { "volume-up", no_argument, nullptr, LongOptions::VolumeUp },
-    { "volume-down", no_argument, nullptr, LongOptions::VolumeDown },
-    { "volume-increase-by", required_argument, nullptr, LongOptions::VolumeIncreaseBy },
-    { "volume-decrease-by", required_argument, nullptr, LongOptions::VolumeDecreaseBy },
-    { "seek-to", required_argument, nullptr, LongOptions::SeekTo },
-    { "seek-by", required_argument, nullptr, LongOptions::SeekBy },
-    { "restart-or-previous", no_argument, nullptr, LongOptions::RestartOrPrevious },
-    { "create", required_argument, nullptr, 'c' },
-    { "append", no_argument, nullptr, 'a' },
-    { "load", no_argument, nullptr, 'l' },
-    { "play-track", required_argument, nullptr, 'k' },
-    { "play-playlist", required_argument, nullptr, 'i' },
-    { "show-osd", no_argument, nullptr, 'o' },
-    { "toggle-pretty-osd", no_argument, nullptr, 'y' },
-    { "language", required_argument, nullptr, 'g' },
-    { "resize-window", required_argument, nullptr, 'w' },
-    { "quiet", no_argument, nullptr, LongOptions::Quiet },
-    { "verbose", no_argument, nullptr, LongOptions::Verbose },
-    { "log-levels", required_argument, nullptr, LongOptions::LogLevels },
-    { "version", no_argument, nullptr, LongOptions::Version },
-    { "create-fingerprint", required_argument, nullptr, LongOptions::CreateFingerPrint },
-    { nullptr, 0, nullptr, 0 }
+#  define OPTSTR(s) s
 #endif
+
+  static const struct option kOptions[] = {
+      { OPTSTR("help"), no_argument, nullptr, 'h' },
+      { OPTSTR("play"), no_argument, nullptr, 'p' },
+      { OPTSTR("play-pause"), no_argument, nullptr, 't' },
+      { OPTSTR("pause"), no_argument, nullptr, 'u' },
+      { OPTSTR("stop"), no_argument, nullptr, 's' },
+      { OPTSTR("stop-after-current"), no_argument, nullptr, 'q' },
+      { OPTSTR("previous"), no_argument, nullptr, 'r' },
+      { OPTSTR("next"), no_argument, nullptr, 'f' },
+      { OPTSTR("volume"), required_argument, nullptr, 'v' },
+      { OPTSTR("volume-up"), no_argument, nullptr, LongOptions::VolumeUp },
+      { OPTSTR("volume-down"), no_argument, nullptr, LongOptions::VolumeDown },
+      { OPTSTR("volume-increase-by"), required_argument, nullptr, LongOptions::VolumeIncreaseBy },
+      { OPTSTR("volume-decrease-by"), required_argument, nullptr, LongOptions::VolumeDecreaseBy },
+      { OPTSTR("seek-to"), required_argument, nullptr, LongOptions::SeekTo },
+      { OPTSTR("seek-by"), required_argument, nullptr, LongOptions::SeekBy },
+      { OPTSTR("restart-or-previous"), no_argument, nullptr, LongOptions::RestartOrPrevious },
+      { OPTSTR("create"), required_argument, nullptr, 'c' },
+      { OPTSTR("append"), no_argument, nullptr, 'a' },
+      { OPTSTR("load"), no_argument, nullptr, 'l' },
+      { OPTSTR("play-track"), required_argument, nullptr, 'k' },
+      { OPTSTR("play-playlist"), required_argument, nullptr, 'i' },
+      { OPTSTR("show-osd"), no_argument, nullptr, 'o' },
+      { OPTSTR("toggle-pretty-osd"), no_argument, nullptr, 'y' },
+      { OPTSTR("language"), required_argument, nullptr, 'g' },
+      { OPTSTR("resize-window"), required_argument, nullptr, 'w' },
+      { OPTSTR("quiet"), no_argument, nullptr, LongOptions::Quiet },
+      { OPTSTR("verbose"), no_argument, nullptr, LongOptions::Verbose },
+      { OPTSTR("log-levels"), required_argument, nullptr, LongOptions::LogLevels },
+      { OPTSTR("version"), no_argument, nullptr, LongOptions::Version },
+      { OPTSTR("create-fingerprint"), required_argument, nullptr, LongOptions::CreateFingerPrint },
+      { nullptr, 0, nullptr, 0 }
   };
 
   // Parse the arguments
   bool ok = false;
   Q_FOREVER {
-#ifdef Q_OS_WIN32
-    int c = getopt_long(argc_, argv_, L"hptusqrfv:c:alk:i:oyg:w:", kOptions, nullptr);
-#else
-    int c = getopt_long(argc_, argv_, "hptusqrfv:c:alk:i:oyg:w:", kOptions, nullptr);
-#endif
+    int c = getopt_long(argc_, argv_, OPTSTR("hptusqrfv:c:alk:i:oyg:w:"), kOptions, nullptr);
+
+#undef OPTSTR
 
     // End of the options
     if (c == -1) break;
