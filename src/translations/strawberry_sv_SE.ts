@@ -16,93 +16,93 @@
     <name>AboutDialog</name>
     <message>
       <source>About</source>
-      <translation type="unfinished">About</translation>
+      <translation>Om</translation>
     </message>
     <message>
       <source>About Strawberry</source>
-      <translation type="unfinished">About Strawberry</translation>
+      <translation>Om Strawberry</translation>
     </message>
     <message>
       <source>Version %1</source>
-      <translation type="unfinished">Version %1</translation>
+      <translation>Version %1</translation>
     </message>
     <message>
       <source>Strawberry is a music player and music collection organizer.</source>
-      <translation type="unfinished">Strawberry is a music player and music collection organizer.</translation>
+      <translation>Strawberry är en musikspelare och musikbibliotekshanterare.</translation>
     </message>
     <message>
       <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
-      <translation type="unfinished">It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</translation>
+      <translation>Det är en förgrening av Clementine från 2018, inriktad på musiksamlare och audiofiler.</translation>
     </message>
     <message>
       <source>Strawberry is free software released under GPL. The source code is available on %1</source>
-      <translation type="unfinished">Strawberry is free software released under GPL. The source code is available on %1</translation>
+      <translation>Strawberry är fri programvara som ges ut under GPL. Källkoden finns på %1</translation>
     </message>
     <message>
       <source>You should have received a copy of the GNU General Public License along with this program.  If not, see %1</source>
-      <translation type="unfinished">You should have received a copy of the GNU General Public License along with this program.  If not, see %1</translation>
+      <translation>Du bör ha fått en kopia av GNU General Public License tillsammans med programmet. Om inte, se %1</translation>
     </message>
     <message>
       <source>If you like Strawberry and can make use of it, consider sponsoring or donating.</source>
-      <translation type="unfinished">If you like Strawberry and can make use of it, consider sponsoring or donating.</translation>
+      <translation>Överväg att sponsra eller donera om du gillar Strawberry och har nytta av det.</translation>
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation type="unfinished">You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</translation>
+      <translation>Du kan sponsra upphovspersonen på %1 eller %2. Du kan även göra en engångsbetalning via %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
-      <translation type="unfinished">Author and maintainer</translation>
+      <translation>Upphovsperson och underhållare</translation>
     </message>
     <message>
       <source>Contributors</source>
-      <translation type="unfinished">Contributors</translation>
+      <translation>Bidragsgivare</translation>
     </message>
     <message>
       <source>Clementine authors</source>
-      <translation type="unfinished">Clementine authors</translation>
+      <translation>Upphovspersoner till Clementine</translation>
     </message>
     <message>
       <source>Clementine contributors</source>
-      <translation type="unfinished">Clementine contributors</translation>
+      <translation>Bidragsgivare till Clementine</translation>
     </message>
     <message>
       <source>Thanks to</source>
-      <translation type="unfinished">Thanks to</translation>
+      <translation>Tack till</translation>
     </message>
     <message>
       <source>Thanks to all the other Amarok and Clementine contributors.</source>
-      <translation type="unfinished">Thanks to all the other Amarok and Clementine contributors.</translation>
+      <translation>Tack till alla andra som bidrar till Amarok och Clementine.</translation>
     </message>
   </context>
   <context>
     <name>AcoustidClient</name>
     <message>
       <source>Missing AcoustID API key</source>
-      <translation type="unfinished">Missing AcoustID API key</translation>
+      <translation>AcoustID API-nyckel saknas</translation>
     </message>
   </context>
   <context>
     <name>AcoustidSettingsPage</name>
     <message>
       <source>AcoustID</source>
-      <translation type="unfinished">AcoustID</translation>
+      <translation>AcoustID</translation>
     </message>
     <message>
       <source>AcoustID is used to identify songs by their audio fingerprint when fetching tags.</source>
-      <translation type="unfinished">AcoustID is used to identify songs by their audio fingerprint when fetching tags.</translation>
+      <translation>AcoustID används för att identifiera låtar genom deras ljudfingeravtryck när taggar hämtas.</translation>
     </message>
     <message>
       <source>Use custom API Key</source>
-      <translation type="unfinished">Use custom API Key</translation>
+      <translation>Använd en egen API-nyckel</translation>
     </message>
     <message>
       <source>API key</source>
-      <translation type="unfinished">API key</translation>
+      <translation>API-nyckel</translation>
     </message>
     <message>
       <source>API Credentials</source>
-      <translation type="unfinished">API Credentials</translation>
+      <translation>API-inloggningsuppgifter</translation>
     </message>
   </context>
   <context>
@@ -1951,19 +1951,19 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>API Credentials</source>
-      <translation type="unfinished">API Credentials</translation>
+      <translation>API-inloggningsuppgifter</translation>
     </message>
     <message>
       <source>Use custom API credentials</source>
-      <translation type="unfinished">Use custom API credentials</translation>
+      <translation>Använd egna API-inloggningsuppgifter</translation>
     </message>
     <message>
       <source>Client ID</source>
-      <translation type="unfinished">Client ID</translation>
+      <translation>Klient-ID</translation>
     </message>
     <message>
       <source>Client secret</source>
-      <translation type="unfinished">Client secret</translation>
+      <translation>Klienthemlighet</translation>
     </message>
   </context>
   <context>
@@ -2209,7 +2209,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     <name>DiscogsCoverProvider</name>
     <message>
       <source>Missing Discogs client ID and/or client secret</source>
-      <translation type="unfinished">Missing Discogs client ID and/or client secret</translation>
+      <translation>Discogs klient-ID och/eller klienthemlighet saknas</translation>
     </message>
   </context>
   <context>
@@ -2903,7 +2903,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     <name>GeniusLyricsProvider</name>
     <message>
       <source>Missing Genius client ID and/or client secret</source>
-      <translation type="unfinished">Missing Genius client ID and/or client secret</translation>
+      <translation>Genius klient-ID och/eller klienthemlighet saknas</translation>
     </message>
   </context>
   <context>
@@ -3197,7 +3197,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     <name>LastFMScrobbler</name>
     <message>
       <source>Missing Last.fm API key and/or API secret</source>
-      <translation type="unfinished">Missing Last.fm API key and/or API secret</translation>
+      <translation>Last.fm API-nyckel och/eller API-hemlighet saknas</translation>
     </message>
     <message>
       <source>%1 Scrobbler Authentication</source>
@@ -3236,7 +3236,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     <name>LastFmCoverProvider</name>
     <message>
       <source>Missing Last.fm API key and/or API secret</source>
-      <translation type="unfinished">Missing Last.fm API key and/or API secret</translation>
+      <translation>Last.fm API-nyckel och/eller API-hemlighet saknas</translation>
     </message>
   </context>
   <context>
@@ -3257,7 +3257,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     <name>ListenBrainzScrobbler</name>
     <message>
       <source>Missing ListenBrainz client ID and/or client secret</source>
-      <translation type="unfinished">Missing ListenBrainz client ID and/or client secret</translation>
+      <translation>ListenBrainz klient-ID och/eller klienthemlighet saknas</translation>
     </message>
     <message>
       <source>Unable to scrobble %1 - %2 because of error: %3</source>
@@ -3343,19 +3343,19 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>API Credentials</source>
-      <translation type="unfinished">API Credentials</translation>
+      <translation>API-inloggningsuppgifter</translation>
     </message>
     <message>
       <source>Use custom API credentials</source>
-      <translation type="unfinished">Use custom API credentials</translation>
+      <translation>Använd egna API-inloggningsuppgifter</translation>
     </message>
     <message>
       <source>Client ID</source>
-      <translation type="unfinished">Client ID</translation>
+      <translation>Klient-ID</translation>
     </message>
     <message>
       <source>Client secret</source>
-      <translation type="unfinished">Client secret</translation>
+      <translation>Klienthemlighet</translation>
     </message>
   </context>
   <context>
@@ -3960,7 +3960,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     <name>MusixmatchLyricsProvider</name>
     <message>
       <source>Missing Musixmatch client ID and/or client secret</source>
-      <translation type="unfinished">Missing Musixmatch client ID and/or client secret</translation>
+      <translation>Musixmatch klient-ID och/eller klienthemlighet saknas</translation>
     </message>
   </context>
   <context>
@@ -4270,15 +4270,15 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     <name>OAuthenticator</name>
     <message>
       <source>Missing client ID</source>
-      <translation type="unfinished">Missing client ID</translation>
+      <translation>Klient-ID saknas</translation>
     </message>
     <message>
       <source>Missing client secret</source>
-      <translation type="unfinished">Missing client secret</translation>
+      <translation>Klienthemlighet saknas</translation>
     </message>
     <message>
       <source>Invalid redirect URL</source>
-      <translation type="unfinished">Invalid redirect URL</translation>
+      <translation>Ogiltig omdirigerings-URL</translation>
     </message>
     <message>
       <source>Authentication</source>
@@ -4396,11 +4396,11 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     <name>OpenTidalCoverProvider</name>
     <message>
       <source>Missing OpenTidal client ID and/or client secret.</source>
-      <translation type="unfinished">Missing OpenTidal client ID and/or client secret.</translation>
+      <translation>OpenTidal klient-ID och/eller klienthemlighet saknas.</translation>
     </message>
     <message>
       <source>Authentication failed: %1</source>
-      <translation type="unfinished">Authentication failed: %1</translation>
+      <translation>Autentisering misslyckades: %1</translation>
     </message>
   </context>
   <context>
@@ -4855,19 +4855,19 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Sor&amp;t</source>
-      <translation type="unfinished">Sor&amp;t</translation>
+      <translation>Sor&amp;tera</translation>
     </message>
     <message>
       <source>&amp;Ascending</source>
-      <translation type="unfinished">&amp;Ascending</translation>
+      <translation>&amp;Stigande</translation>
     </message>
     <message>
       <source>&amp;Descending</source>
-      <translation type="unfinished">&amp;Descending</translation>
+      <translation>&amp;Fallande</translation>
     </message>
     <message>
       <source>&amp;Clear sorting</source>
-      <translation type="unfinished">&amp;Clear sorting</translation>
+      <translation>&amp;Rensa sortering</translation>
     </message>
     <message>
       <source>&amp;Align text</source>
@@ -5924,15 +5924,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Missing app id. Please fetch API credentials first.</source>
-      <translation type="unfinished">Missing app id. Please fetch API credentials first.</translation>
+      <translation>Program-ID saknas. Hämta först API-inloggningsuppgifter.</translation>
     </message>
     <message>
       <source>Missing app secret. Please fetch API credentials first.</source>
-      <translation type="unfinished">Missing app secret. Please fetch API credentials first.</translation>
+      <translation>Programhemlighet saknas. Hämta först API-inloggningsuppgifter.</translation>
     </message>
     <message>
       <source>Missing private key. Please fetch API credentials first.</source>
-      <translation type="unfinished">Missing private key. Please fetch API credentials first.</translation>
+      <translation>Privat nyckel saknas. Hämta först API-inloggningsuppgifter.</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -5944,11 +5944,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>API credentials fetched</source>
-      <translation type="unfinished">API credentials fetched</translation>
+      <translation>API-inloggningsuppgifter hämtades</translation>
     </message>
     <message>
       <source>API credentials have been successfully fetched. Click Login to authenticate via your browser.</source>
-      <translation type="unfinished">API credentials have been successfully fetched. Click Login to authenticate via your browser.</translation>
+      <translation>API-inloggningsuppgifterna har hämtats. Klicka på Logga in för att autentisera dig via webbläsaren.</translation>
     </message>
     <message>
       <source>Credential fetch failed</source>
@@ -5968,11 +5968,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>API Credentials</source>
-      <translation type="unfinished">API Credentials</translation>
+      <translation>API-inloggningsuppgifter</translation>
     </message>
     <message>
       <source>Fetch API Credentials</source>
-      <translation type="unfinished">Fetch API Credentials</translation>
+      <translation>Hämta API-inloggningsuppgifter</translation>
     </message>
   </context>
   <context>
@@ -6502,15 +6502,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Use custom API credentials</source>
-      <translation type="unfinished">Use custom API credentials</translation>
+      <translation>Använd egna API-inloggningsuppgifter</translation>
     </message>
     <message>
       <source>Client ID:</source>
-      <translation type="unfinished">Client ID:</translation>
+      <translation>Klient-ID:</translation>
     </message>
     <message>
       <source>Client secret:</source>
-      <translation type="unfinished">Client secret:</translation>
+      <translation>Klienthemlighet:</translation>
     </message>
   </context>
   <context>
@@ -6941,7 +6941,7 @@ Are you sure you want to continue?</source>
     <name>SpotifyService</name>
     <message>
       <source>Missing Spotify client ID and/or client secret</source>
-      <translation type="unfinished">Missing Spotify client ID and/or client secret</translation>
+      <translation>Spotify klient-ID och/eller klienthemlighet saknas</translation>
     </message>
     <message>
       <source>Not authenticated with Spotify.</source>
@@ -7008,23 +7008,23 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Authentication</source>
-      <translation type="unfinished">Authentication</translation>
+      <translation>Autentisering</translation>
     </message>
     <message>
       <source>Use custom API credentials</source>
-      <translation type="unfinished">Use custom API credentials</translation>
+      <translation>Använd egna API-inloggningsuppgifter</translation>
     </message>
     <message>
       <source>Client ID</source>
-      <translation type="unfinished">Client ID</translation>
+      <translation>Klient-ID</translation>
     </message>
     <message>
       <source>Client secret</source>
-      <translation type="unfinished">Client secret</translation>
+      <translation>Klienthemlighet</translation>
     </message>
     <message>
       <source>API Credentials</source>
-      <translation type="unfinished">API Credentials</translation>
+      <translation>API-inloggningsuppgifter</translation>
     </message>
   </context>
   <context>
@@ -7533,11 +7533,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Use custom client ID</source>
-      <translation type="unfinished">Use custom client ID</translation>
+      <translation>Använd eget klient-ID</translation>
     </message>
     <message>
       <source>API Credentials</source>
-      <translation type="unfinished">API Credentials</translation>
+      <translation>API-inloggningsuppgifter</translation>
     </message>
   </context>
   <context>
@@ -7552,11 +7552,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Received a %1 encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings</source>
-      <translation type="unfinished">Received a %1 encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings</translation>
+      <translation>En %1-krypterad ström togs emot från Tidal, vilket Strawberry inte stöder. Om Tidal levererar krypterade strömmar beror på det klient-ID som används. Försök att ändra klient-ID i Tidal-inställningarna.</translation>
     </message>
     <message>
       <source>Received an encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings</source>
-      <translation type="unfinished">Received an encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings</translation>
+      <translation>En krypterad ström togs emot från Tidal, vilket Strawberry inte stöder. Om Tidal levererar krypterade strömmar beror på det klient-ID som används. Försök att ändra klient-ID i Tidal-inställningarna.</translation>
     </message>
   </context>
   <context>
