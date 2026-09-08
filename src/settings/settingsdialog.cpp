@@ -137,7 +137,9 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
   AddPage(Page::Scrobbler, new ScrobblerSettingsPage(this, scrobbler, this), general);
   AddPage(Page::Covers, new CoversSettingsPage(this, cover_providers, this), general);
   AddPage(Page::Lyrics, new LyricsSettingsPage(this, lyrics_providers, this), general);
+#ifdef HAVE_TAGFETCHER
   AddPage(Page::Acoustid, new AcoustidSettingsPage(this, this), general);
+#endif
   AddPage(Page::Transcoding, new TranscoderSettingsPage(this, this), general);
   AddPage(Page::Proxy, new NetworkProxySettingsPage(this, this), general);
 
