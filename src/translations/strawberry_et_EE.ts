@@ -16,93 +16,93 @@
     <name>AboutDialog</name>
     <message>
       <source>About</source>
-      <translation type="unfinished">About</translation>
+      <translation>Rakenduse teave</translation>
     </message>
     <message>
       <source>About Strawberry</source>
-      <translation type="unfinished">About Strawberry</translation>
+      <translation>Rakenduse teave: Strawberry</translation>
     </message>
     <message>
       <source>Version %1</source>
-      <translation type="unfinished">Version %1</translation>
+      <translation>Versioon %1</translation>
     </message>
     <message>
       <source>Strawberry is a music player and music collection organizer.</source>
-      <translation type="unfinished">Strawberry is a music player and music collection organizer.</translation>
+      <translation>Strawberry on muusikapleier ja muusikakogu haldur.</translation>
     </message>
     <message>
       <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
-      <translation type="unfinished">It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</translation>
+      <translation>See on 2018. aastal välja antud Clementine'i haru, mis on mõeldud muusikakollektsionääridele ja audiofiilidele.</translation>
     </message>
     <message>
       <source>Strawberry is free software released under GPL. The source code is available on %1</source>
-      <translation type="unfinished">Strawberry is free software released under GPL. The source code is available on %1</translation>
+      <translation>Strawberry on avatud lähtekoodiga tasuta tarkvara, mis on avaldatud GPL-i alusel. Lähtekood on saadaval siin: %1</translation>
     </message>
     <message>
       <source>You should have received a copy of the GNU General Public License along with this program.  If not, see %1</source>
-      <translation type="unfinished">You should have received a copy of the GNU General Public License along with this program.  If not, see %1</translation>
+      <translation>Said ilmselt koos selle programmiga ka GNU Üldise Avaliku Litsentsi koopia. Kui ei, siis leiad ta siit: %1</translation>
     </message>
     <message>
       <source>If you like Strawberry and can make use of it, consider sponsoring or donating.</source>
-      <translation type="unfinished">If you like Strawberry and can make use of it, consider sponsoring or donating.</translation>
+      <translation>Kui Strawberry sulle meeldib ja leiad ta olevat kasulik, kaalu rahalist toetust või annetamist.</translation>
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation type="unfinished">You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</translation>
+      <translation>Võid toetada autorit saidis %1 või %2. Samuti on võimalik ühekordne toetus %3 teenuse kaudu.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
-      <translation type="unfinished">Author and maintainer</translation>
+      <translation>Autor ja hooldaja</translation>
     </message>
     <message>
       <source>Contributors</source>
-      <translation type="unfinished">Contributors</translation>
+      <translation>Kaasautorid</translation>
     </message>
     <message>
       <source>Clementine authors</source>
-      <translation type="unfinished">Clementine authors</translation>
+      <translation>Clementine'i autorid</translation>
     </message>
     <message>
       <source>Clementine contributors</source>
-      <translation type="unfinished">Clementine contributors</translation>
+      <translation>Clementine'i kaasautorid</translation>
     </message>
     <message>
       <source>Thanks to</source>
-      <translation type="unfinished">Thanks to</translation>
+      <translation>Tänud</translation>
     </message>
     <message>
       <source>Thanks to all the other Amarok and Clementine contributors.</source>
-      <translation type="unfinished">Thanks to all the other Amarok and Clementine contributors.</translation>
+      <translation>Täname kõiki teisi Amaroki ja Clementine'i kaasautoreid.</translation>
     </message>
   </context>
   <context>
     <name>AcoustidClient</name>
     <message>
       <source>Missing AcoustID API key</source>
-      <translation type="unfinished">Missing AcoustID API key</translation>
+      <translation>AcoustID API-võti on puudu</translation>
     </message>
   </context>
   <context>
     <name>AcoustidSettingsPage</name>
     <message>
       <source>AcoustID</source>
-      <translation type="unfinished">AcoustID</translation>
+      <translation>AcoustID</translation>
     </message>
     <message>
       <source>AcoustID is used to identify songs by their audio fingerprint when fetching tags.</source>
-      <translation type="unfinished">AcoustID is used to identify songs by their audio fingerprint when fetching tags.</translation>
+      <translation>AcoustID on kasutusel siltide täitmise ajal lugude tuvastamiseks sõrmejäljestamise abil.</translation>
     </message>
     <message>
       <source>Use custom API Key</source>
-      <translation type="unfinished">Use custom API Key</translation>
+      <translation>Kasuta oma API-võtit</translation>
     </message>
     <message>
       <source>API key</source>
-      <translation type="unfinished">API key</translation>
+      <translation>API-võti</translation>
     </message>
     <message>
       <source>API Credentials</source>
-      <translation type="unfinished">API Credentials</translation>
+      <translation>API autentimistunnused</translation>
     </message>
   </context>
   <context>
@@ -1951,19 +1951,19 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>API Credentials</source>
-      <translation type="unfinished">API Credentials</translation>
+      <translation>API autentimistunnused</translation>
     </message>
     <message>
       <source>Use custom API credentials</source>
-      <translation type="unfinished">Use custom API credentials</translation>
+      <translation>Kasuta oma autentimistunnuseid</translation>
     </message>
     <message>
       <source>Client ID</source>
-      <translation type="unfinished">Client ID</translation>
+      <translation>Klienditunnus</translation>
     </message>
     <message>
       <source>Client secret</source>
-      <translation type="unfinished">Client secret</translation>
+      <translation>Kliendi saladus</translation>
     </message>
   </context>
   <context>
@@ -2209,7 +2209,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <name>DiscogsCoverProvider</name>
     <message>
       <source>Missing Discogs client ID and/or client secret</source>
-      <translation type="unfinished">Missing Discogs client ID and/or client secret</translation>
+      <translation>Discogsi klienditunnus ja/või kliendisaladus on puudu</translation>
     </message>
   </context>
   <context>
@@ -2903,7 +2903,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <name>GeniusLyricsProvider</name>
     <message>
       <source>Missing Genius client ID and/or client secret</source>
-      <translation type="unfinished">Missing Genius client ID and/or client secret</translation>
+      <translation>Geniuse klienditunnus ja/või kliendisaladus on puudu</translation>
     </message>
   </context>
   <context>
@@ -3197,7 +3197,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <name>LastFMScrobbler</name>
     <message>
       <source>Missing Last.fm API key and/or API secret</source>
-      <translation type="unfinished">Missing Last.fm API key and/or API secret</translation>
+      <translation>Last.fm-i API-võti ja/või API-saladus on puudu</translation>
     </message>
     <message>
       <source>%1 Scrobbler Authentication</source>
@@ -3236,7 +3236,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <name>LastFmCoverProvider</name>
     <message>
       <source>Missing Last.fm API key and/or API secret</source>
-      <translation type="unfinished">Missing Last.fm API key and/or API secret</translation>
+      <translation>Last.fm-i API-võti ja/või API-saladus on puudu</translation>
     </message>
   </context>
   <context>
@@ -3257,7 +3257,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <name>ListenBrainzScrobbler</name>
     <message>
       <source>Missing ListenBrainz client ID and/or client secret</source>
-      <translation type="unfinished">Missing ListenBrainz client ID and/or client secret</translation>
+      <translation>ListenBrainzi API-võti ja/või API-saladus on puudu</translation>
     </message>
     <message>
       <source>Unable to scrobble %1 - %2 because of error: %3</source>
@@ -3343,19 +3343,19 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>API Credentials</source>
-      <translation type="unfinished">API Credentials</translation>
+      <translation>API autentimistunnused</translation>
     </message>
     <message>
       <source>Use custom API credentials</source>
-      <translation type="unfinished">Use custom API credentials</translation>
+      <translation>Kasuta oma autentimistunnuseid</translation>
     </message>
     <message>
       <source>Client ID</source>
-      <translation type="unfinished">Client ID</translation>
+      <translation>Klienditunnus</translation>
     </message>
     <message>
       <source>Client secret</source>
-      <translation type="unfinished">Client secret</translation>
+      <translation>Kliendi saladus</translation>
     </message>
   </context>
   <context>
@@ -3960,7 +3960,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <name>MusixmatchLyricsProvider</name>
     <message>
       <source>Missing Musixmatch client ID and/or client secret</source>
-      <translation type="unfinished">Missing Musixmatch client ID and/or client secret</translation>
+      <translation>Musixmatchi klienditunnus ja/või kliendisaladus on puudu</translation>
     </message>
   </context>
   <context>
@@ -4270,15 +4270,15 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <name>OAuthenticator</name>
     <message>
       <source>Missing client ID</source>
-      <translation type="unfinished">Missing client ID</translation>
+      <translation>Klienditunnus on puudu</translation>
     </message>
     <message>
       <source>Missing client secret</source>
-      <translation type="unfinished">Missing client secret</translation>
+      <translation>Kliendisaladus on puudu</translation>
     </message>
     <message>
       <source>Invalid redirect URL</source>
-      <translation type="unfinished">Invalid redirect URL</translation>
+      <translation>Vigane aadress edasisuunamiseks</translation>
     </message>
     <message>
       <source>Authentication</source>
@@ -4396,11 +4396,11 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <name>OpenTidalCoverProvider</name>
     <message>
       <source>Missing OpenTidal client ID and/or client secret.</source>
-      <translation type="unfinished">Missing OpenTidal client ID and/or client secret.</translation>
+      <translation>OpenTidali klienditunnus ja/või kliendisaladus on puudu.</translation>
     </message>
     <message>
       <source>Authentication failed: %1</source>
-      <translation type="unfinished">Authentication failed: %1</translation>
+      <translation>Autentimine ei õnnestunud: %1</translation>
     </message>
   </context>
   <context>
@@ -4855,19 +4855,19 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Sor&amp;t</source>
-      <translation type="unfinished">Sor&amp;t</translation>
+      <translation>Järjes&amp;ta</translation>
     </message>
     <message>
       <source>&amp;Ascending</source>
-      <translation type="unfinished">&amp;Ascending</translation>
+      <translation>&amp;Kasvav</translation>
     </message>
     <message>
       <source>&amp;Descending</source>
-      <translation type="unfinished">&amp;Descending</translation>
+      <translation>Ka&amp;hanev</translation>
     </message>
     <message>
       <source>&amp;Clear sorting</source>
-      <translation type="unfinished">&amp;Clear sorting</translation>
+      <translation>&amp;Eemalda järjestus</translation>
     </message>
     <message>
       <source>&amp;Align text</source>
@@ -5924,15 +5924,15 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Missing app id. Please fetch API credentials first.</source>
-      <translation type="unfinished">Missing app id. Please fetch API credentials first.</translation>
+      <translation>Rakenduse tunnus on puudu. Palun laadi esmalt API autentimistunnused.</translation>
     </message>
     <message>
       <source>Missing app secret. Please fetch API credentials first.</source>
-      <translation type="unfinished">Missing app secret. Please fetch API credentials first.</translation>
+      <translation>Rakenduse saladus on puudu. Palun laadi esmalt API autentimistunnused.</translation>
     </message>
     <message>
       <source>Missing private key. Please fetch API credentials first.</source>
-      <translation type="unfinished">Missing private key. Please fetch API credentials first.</translation>
+      <translation>Privaatvõti on puudu. Palun laadi esmalt API autentimistunnused.</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -5944,11 +5944,11 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>API credentials fetched</source>
-      <translation type="unfinished">API credentials fetched</translation>
+      <translation>API autentimistunnuste laadimine õnnestus</translation>
     </message>
     <message>
       <source>API credentials have been successfully fetched. Click Login to authenticate via your browser.</source>
-      <translation type="unfinished">API credentials have been successfully fetched. Click Login to authenticate via your browser.</translation>
+      <translation>API autentimistunnuste laadimine õnnestus. Autentimiseks veebibrauserist klõpsa nuppu „Logi sisse“.</translation>
     </message>
     <message>
       <source>Credential fetch failed</source>
@@ -5968,11 +5968,11 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>API Credentials</source>
-      <translation type="unfinished">API Credentials</translation>
+      <translation>API autentimistunnused</translation>
     </message>
     <message>
       <source>Fetch API Credentials</source>
-      <translation type="unfinished">Fetch API Credentials</translation>
+      <translation>Laadi API autentimistunnused</translation>
     </message>
   </context>
   <context>
@@ -6502,15 +6502,15 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Use custom API credentials</source>
-      <translation type="unfinished">Use custom API credentials</translation>
+      <translation>Kasuta API oma autentimistunnuseid</translation>
     </message>
     <message>
       <source>Client ID:</source>
-      <translation type="unfinished">Client ID:</translation>
+      <translation>Klienditunnus:</translation>
     </message>
     <message>
       <source>Client secret:</source>
-      <translation type="unfinished">Client secret:</translation>
+      <translation>Kliendi saladus:</translation>
     </message>
   </context>
   <context>
@@ -6941,7 +6941,7 @@ Kas soovid jätkata?</translation>
     <name>SpotifyService</name>
     <message>
       <source>Missing Spotify client ID and/or client secret</source>
-      <translation type="unfinished">Missing Spotify client ID and/or client secret</translation>
+      <translation>Spotify klienditunnus ja/või kliendisaladus on puudu</translation>
     </message>
     <message>
       <source>Not authenticated with Spotify.</source>
@@ -7008,23 +7008,23 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Authentication</source>
-      <translation type="unfinished">Authentication</translation>
+      <translation>Autentimine</translation>
     </message>
     <message>
       <source>Use custom API credentials</source>
-      <translation type="unfinished">Use custom API credentials</translation>
+      <translation>Kasuta API oma autentimistunnuseid</translation>
     </message>
     <message>
       <source>Client ID</source>
-      <translation type="unfinished">Client ID</translation>
+      <translation>Klienditunnus</translation>
     </message>
     <message>
       <source>Client secret</source>
-      <translation type="unfinished">Client secret</translation>
+      <translation>Kliendi saladus</translation>
     </message>
     <message>
       <source>API Credentials</source>
-      <translation type="unfinished">API Credentials</translation>
+      <translation>API autentimistunnused</translation>
     </message>
   </context>
   <context>
@@ -7533,11 +7533,11 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Use custom client ID</source>
-      <translation type="unfinished">Use custom client ID</translation>
+      <translation>Kasuta oma klienditunnust</translation>
     </message>
     <message>
       <source>API Credentials</source>
-      <translation type="unfinished">API Credentials</translation>
+      <translation>API autentimistunnused</translation>
     </message>
   </context>
   <context>
@@ -7552,11 +7552,11 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Received a %1 encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings</source>
-      <translation type="unfinished">Received a %1 encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings</translation>
+      <translation>Tidal edastas krüptitud voogedastuse (%1), mida Strawberry ei toeta. Seda, kas Tidal voogedastuse krüptib või mitte sõltub klienditunnusest. Proovi seda Tidali seadistustest muuta</translation>
     </message>
     <message>
       <source>Received an encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings</source>
-      <translation type="unfinished">Received an encrypted stream from Tidal, which Strawberry does not support. Whether Tidal delivers encrypted streams depends on the client ID in use. Try changing the Client ID in the Tidal settings</translation>
+      <translation>Tidal edastas krüptitud voogedastuse, mida Strawberry ei toeta. Seda, kas Tidal voogedastuse krüptib või mitte sõltub klienditunnusest. Proovi seda Tidali seadistustest muuta</translation>
     </message>
   </context>
   <context>
