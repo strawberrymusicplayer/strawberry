@@ -871,6 +871,9 @@
    <property name="text">
     <string>Show sidebar</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
+   </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
