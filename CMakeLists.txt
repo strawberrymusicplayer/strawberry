@@ -730,7 +730,6 @@ set(SOURCES
   src/settings/scrobblersettingspage.cpp
   src/settings/coverssettingspage.cpp
   src/settings/lyricssettingspage.cpp
-  src/settings/acoustidsettingspage.cpp
   src/settings/networkproxysettingspage.cpp
   src/settings/radiosettingspage.cpp
   src/settings/appearancesettingspage.cpp
@@ -1029,7 +1028,6 @@ set(HEADERS
   src/settings/scrobblersettingspage.h
   src/settings/coverssettingspage.h
   src/settings/lyricssettingspage.h
-  src/settings/acoustidsettingspage.h
   src/settings/networkproxysettingspage.h
   src/settings/radiosettingspage.h
   src/settings/appearancesettingspage.h
@@ -1185,7 +1183,6 @@ set(UI
   src/settings/scrobblersettingspage.ui
   src/settings/coverssettingspage.ui
   src/settings/lyricssettingspage.ui
-  src/settings/acoustidsettingspage.ui
   src/settings/networkproxysettingspage.ui
   src/settings/radiosettingspage.ui
   src/settings/appearancesettingspage.ui
@@ -1341,10 +1338,14 @@ optional_source(HAVE_TAGFETCHER
     src/tagfetcher/acoustidclient.cpp
     src/tagfetcher/musicbrainzclient.cpp
     src/tagfetcher/tagfetcher.cpp
+    src/settings/acoustidsettingspage.cpp
   HEADERS
     src/tagfetcher/acoustidclient.h
     src/tagfetcher/musicbrainzclient.h
     src/tagfetcher/tagfetcher.h
+    src/settings/acoustidsettingspage.h
+  UI
+    src/settings/acoustidsettingspage.ui
 )
 
 optional_source(HAVE_EBUR128 SOURCES src/engine/ebur128analysis.cpp)
