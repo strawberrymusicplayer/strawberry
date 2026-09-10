@@ -99,6 +99,8 @@ option(CREATE_SOURCE_API_CREDENTIALS "Generate src/apicredentials.h into the sou
 
 if(CREATE_SOURCE_API_CREDENTIALS)
   configure_file(${CMAKE_SOURCE_DIR}/src/apicredentials.h.in ${CMAKE_SOURCE_DIR}/src/apicredentials.h @ONLY)
+elseif(EXISTS "${CMAKE_SOURCE_DIR}/src/apicredentials.h")
+  message(STATUS "Using existing ${CMAKE_SOURCE_DIR}/src/apicredentials.h")
 else()
   configure_file(${CMAKE_SOURCE_DIR}/src/apicredentials.h.in ${CMAKE_BINARY_DIR}/src/apicredentials.h @ONLY)
 endif()
