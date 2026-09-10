@@ -93,16 +93,16 @@
       <translation type="unfinished">AcoustID is used to identify songs by their audio fingerprint when fetching tags.</translation>
     </message>
     <message>
+      <source>API Credentials</source>
+      <translation type="unfinished">API Credentials</translation>
+    </message>
+    <message>
       <source>Use custom API Key</source>
       <translation type="unfinished">Use custom API Key</translation>
     </message>
     <message>
       <source>API key</source>
       <translation type="unfinished">API key</translation>
-    </message>
-    <message>
-      <source>API Credentials</source>
-      <translation type="unfinished">API Credentials</translation>
     </message>
   </context>
   <context>
@@ -3888,6 +3888,10 @@ If there are no matches then it will use the largest image in the directory.</so
       <source>Close current playlist tab</source>
       <translation type="unfinished">Close current playlist tab</translation>
     </message>
+    <message>
+      <source>Ctrl+B</source>
+      <translation type="unfinished">Ctrl+B</translation>
+    </message>
   </context>
   <context>
     <name>MessageDialog</name>
@@ -4348,6 +4352,14 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Гучність %1%</translation>
     </message>
     <message>
+      <source>Muted</source>
+      <translation type="unfinished">Muted</translation>
+    </message>
+    <message>
+      <source>Unmuted</source>
+      <translation type="unfinished">Unmuted</translation>
+    </message>
+    <message>
       <source>Don&apos;t shuffle</source>
       <translation>Не перемішувати</translation>
     </message>
@@ -4388,8 +4400,8 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Зупинятися після будь-якої композиції</translation>
     </message>
     <message>
-      <source>Intro tracks</source>
-      <translation>Вступні композиції</translation>
+      <source>Scan tracks</source>
+      <translation type="unfinished">Scan tracks</translation>
     </message>
   </context>
   <context>
@@ -5079,10 +5091,6 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Зупинятися після кожної композиції</translation>
     </message>
     <message>
-      <source>Intro tracks</source>
-      <translation>Вступні композиції</translation>
-    </message>
-    <message>
       <source>Don&apos;t shuffle</source>
       <translation>Не перемішувати</translation>
     </message>
@@ -5101,6 +5109,10 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Shuffle grouping</source>
       <translation>Перемішати групування</translation>
+    </message>
+    <message>
+      <source>Scan tracks</source>
+      <translation type="unfinished">Scan tracks</translation>
     </message>
   </context>
   <context>
@@ -5192,6 +5204,26 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Write metadata when saving playlists</source>
       <translation>Записати метадані під час збереження списків відтворення</translation>
+    </message>
+    <message>
+      <source>Scan mode</source>
+      <translation type="unfinished">Scan mode</translation>
+    </message>
+    <message>
+      <source>Playing time (seconds)</source>
+      <translation type="unfinished">Playing time (seconds)</translation>
+    </message>
+    <message>
+      <source>The time played before and after the position time selected in seconds (0 for playing the complete track)</source>
+      <translation type="unfinished">The time played before and after the position time selected in seconds (0 for playing the complete track)</translation>
+    </message>
+    <message>
+      <source>Interest position (percent of track length)</source>
+      <translation type="unfinished">Interest position (percent of track length)</translation>
+    </message>
+    <message>
+      <source>The position time reference selected in percent of the track length</source>
+      <translation type="unfinished">The position time reference selected in percent of the track length</translation>
     </message>
   </context>
   <context>
@@ -8193,6 +8225,13 @@ Are you sure you want to continue?</source>
     <message>
       <source>Password</source>
       <translation>Пароль</translation>
+    </message>
+  </context>
+  <context>
+    <name>VolumeSlider</name>
+    <message>
+      <source>Muted</source>
+      <translation type="unfinished">Muted</translation>
     </message>
   </context>
   <context>
