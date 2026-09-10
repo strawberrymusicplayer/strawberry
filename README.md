@@ -132,7 +132,7 @@ Also install GStreamer plugins **base**, **good**, and optionally **bad**, **ugl
     cmake --build build --parallel $(nproc)
     sudo cmake --install build
 
-For building on Windows with Visual Studio 2022, see: :point_right: https://github.com/strawberrymusicplayer/strawberry-msvc-build-tools
+For building on Windows with Visual Studio 2022/2026, see: :point_right: https://github.com/strawberrymusicplayer/strawberry-msvc-build-tools
 
 ---
 
