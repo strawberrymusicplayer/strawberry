@@ -93,16 +93,16 @@
       <translation>AcoustID används för att identifiera låtar genom deras ljudfingeravtryck när taggar hämtas.</translation>
     </message>
     <message>
+      <source>API Credentials</source>
+      <translation>API-inloggningsuppgifter</translation>
+    </message>
+    <message>
       <source>Use custom API Key</source>
       <translation>Använd en egen API-nyckel</translation>
     </message>
     <message>
       <source>API key</source>
       <translation>API-nyckel</translation>
-    </message>
-    <message>
-      <source>API Credentials</source>
-      <translation>API-inloggningsuppgifter</translation>
     </message>
   </context>
   <context>
@@ -3888,6 +3888,10 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
       <source>Close current playlist tab</source>
       <translation>Stäng den aktuella spellistefliken</translation>
     </message>
+    <message>
+      <source>Ctrl+B</source>
+      <translation type="unfinished">Ctrl+B</translation>
+    </message>
   </context>
   <context>
     <name>MessageDialog</name>
@@ -4348,6 +4352,14 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
       <translation>Volym %1%</translation>
     </message>
     <message>
+      <source>Muted</source>
+      <translation type="unfinished">Muted</translation>
+    </message>
+    <message>
+      <source>Unmuted</source>
+      <translation type="unfinished">Unmuted</translation>
+    </message>
+    <message>
       <source>Don&apos;t shuffle</source>
       <translation>Blanda inte</translation>
     </message>
@@ -4388,8 +4400,8 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
       <translation>Stoppa efter varje spår</translation>
     </message>
     <message>
-      <source>Intro tracks</source>
-      <translation>Introduktionsspår</translation>
+      <source>Scan tracks</source>
+      <translation type="unfinished">Scan tracks</translation>
     </message>
   </context>
   <context>
@@ -5077,10 +5089,6 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
       <translation>Stoppa efter varje låt</translation>
     </message>
     <message>
-      <source>Intro tracks</source>
-      <translation>Introduktionsspår</translation>
-    </message>
-    <message>
       <source>Don&apos;t shuffle</source>
       <translation>Blanda inte</translation>
     </message>
@@ -5099,6 +5107,10 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     <message>
       <source>Shuffle grouping</source>
       <translation>Blanda gruppering</translation>
+    </message>
+    <message>
+      <source>Scan tracks</source>
+      <translation type="unfinished">Scan tracks</translation>
     </message>
   </context>
   <context>
@@ -5190,6 +5202,26 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     <message>
       <source>Write metadata when saving playlists</source>
       <translation>Skriv metadata när spellistor sparas</translation>
+    </message>
+    <message>
+      <source>Scan mode</source>
+      <translation type="unfinished">Scan mode</translation>
+    </message>
+    <message>
+      <source>Playing time (seconds)</source>
+      <translation type="unfinished">Playing time (seconds)</translation>
+    </message>
+    <message>
+      <source>The time played before and after the position time selected in seconds (0 for playing the complete track)</source>
+      <translation type="unfinished">The time played before and after the position time selected in seconds (0 for playing the complete track)</translation>
+    </message>
+    <message>
+      <source>Interest position (percent of track length)</source>
+      <translation type="unfinished">Interest position (percent of track length)</translation>
+    </message>
+    <message>
+      <source>The position time reference selected in percent of the track length</source>
+      <translation type="unfinished">The position time reference selected in percent of the track length</translation>
     </message>
   </context>
   <context>
@@ -8177,6 +8209,13 @@ Are you sure you want to continue?</source>
     <message>
       <source>Password</source>
       <translation>Lösenord</translation>
+    </message>
+  </context>
+  <context>
+    <name>VolumeSlider</name>
+    <message>
+      <source>Muted</source>
+      <translation type="unfinished">Muted</translation>
     </message>
   </context>
   <context>

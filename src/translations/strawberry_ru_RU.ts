@@ -93,16 +93,16 @@
       <translation>AcoustID используется для идентификации песен по их аудиоотпечатку при получении тегов.</translation>
     </message>
     <message>
+      <source>API Credentials</source>
+      <translation>Учётные данные API</translation>
+    </message>
+    <message>
       <source>Use custom API Key</source>
       <translation>Использовать собственный ключ API</translation>
     </message>
     <message>
       <source>API key</source>
       <translation>Ключ API</translation>
-    </message>
-    <message>
-      <source>API Credentials</source>
-      <translation type="unfinished">API Credentials</translation>
     </message>
   </context>
   <context>
@@ -3888,6 +3888,10 @@ If there are no matches then it will use the largest image in the directory.</so
       <source>Close current playlist tab</source>
       <translation>Закрыть текущую вкладку плейлиста</translation>
     </message>
+    <message>
+      <source>Ctrl+B</source>
+      <translation>Ctrl+B</translation>
+    </message>
   </context>
   <context>
     <name>MessageDialog</name>
@@ -4278,7 +4282,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Invalid redirect URL</source>
-      <translation type="unfinished">Invalid redirect URL</translation>
+      <translation>Неверный URL-адрес перенаправления</translation>
     </message>
     <message>
       <source>Authentication</source>
@@ -4348,6 +4352,14 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Громкость %1%</translation>
     </message>
     <message>
+      <source>Muted</source>
+      <translation>Звук отключён</translation>
+    </message>
+    <message>
+      <source>Unmuted</source>
+      <translation>Звук включён</translation>
+    </message>
+    <message>
       <source>Don&apos;t shuffle</source>
       <translation>Не перемешивать</translation>
     </message>
@@ -4388,8 +4400,8 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Стоп после каждого трека</translation>
     </message>
     <message>
-      <source>Intro tracks</source>
-      <translation>Вступительные треки</translation>
+      <source>Scan tracks</source>
+      <translation>Сканировать треки</translation>
     </message>
   </context>
   <context>
@@ -5079,10 +5091,6 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Стоп после каждого трека</translation>
     </message>
     <message>
-      <source>Intro tracks</source>
-      <translation>Вступительные треки</translation>
-    </message>
-    <message>
       <source>Don&apos;t shuffle</source>
       <translation>Не перемешивать</translation>
     </message>
@@ -5101,6 +5109,10 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Shuffle grouping</source>
       <translation>Перемешать группировка</translation>
+    </message>
+    <message>
+      <source>Scan tracks</source>
+      <translation>Сканировать треки</translation>
     </message>
   </context>
   <context>
@@ -5192,6 +5204,26 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Write metadata when saving playlists</source>
       <translation>Записывать метаданные при сохранении плейлистов</translation>
+    </message>
+    <message>
+      <source>Scan mode</source>
+      <translation>Режим сканирования</translation>
+    </message>
+    <message>
+      <source>Playing time (seconds)</source>
+      <translation>Время проигрывания (секунды)</translation>
+    </message>
+    <message>
+      <source>The time played before and after the position time selected in seconds (0 for playing the complete track)</source>
+      <translation>Время воспроизведения до и после выбранной позиции в секундах (0 для воспроизведения всего трека)</translation>
+    </message>
+    <message>
+      <source>Interest position (percent of track length)</source>
+      <translation>Интересующая позиция (в процентах от длины дорожки)</translation>
+    </message>
+    <message>
+      <source>The position time reference selected in percent of the track length</source>
+      <translation>Временная привязка местоположения, выбранная в процентах от длины дорожки</translation>
     </message>
   </context>
   <context>
@@ -5932,15 +5964,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Missing app id. Please fetch API credentials first.</source>
-      <translation type="unfinished">Missing app id. Please fetch API credentials first.</translation>
+      <translation>Отсутствует идентификатор приложения. Пожалуйста, сначала получите учётные данные API.</translation>
     </message>
     <message>
       <source>Missing app secret. Please fetch API credentials first.</source>
-      <translation type="unfinished">Missing app secret. Please fetch API credentials first.</translation>
+      <translation>Отсутствует секретный ключ приложения. Пожалуйста, сначала получите учётные данные API.</translation>
     </message>
     <message>
       <source>Missing private key. Please fetch API credentials first.</source>
-      <translation type="unfinished">Missing private key. Please fetch API credentials first.</translation>
+      <translation>Отсутствует закрытый ключ. Пожалуйста, сначала получите учётные данные API.</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -5952,11 +5984,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>API credentials fetched</source>
-      <translation type="unfinished">API credentials fetched</translation>
+      <translation>Учётные данные API получены</translation>
     </message>
     <message>
       <source>API credentials have been successfully fetched. Click Login to authenticate via your browser.</source>
-      <translation type="unfinished">API credentials have been successfully fetched. Click Login to authenticate via your browser.</translation>
+      <translation>Учётные данные API успешно получены. Нажмите «Войти», чтобы пройти аутентификацию через ваш браузер.</translation>
     </message>
     <message>
       <source>Credential fetch failed</source>
@@ -5976,11 +6008,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>API Credentials</source>
-      <translation type="unfinished">API Credentials</translation>
+      <translation>Учётные данные API</translation>
     </message>
     <message>
       <source>Fetch API Credentials</source>
-      <translation type="unfinished">Fetch API Credentials</translation>
+      <translation>Получить учётные данные API</translation>
     </message>
   </context>
   <context>
@@ -7034,7 +7066,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>API Credentials</source>
-      <translation type="unfinished">API Credentials</translation>
+      <translation>Учётные данные API</translation>
     </message>
   </context>
   <context>
@@ -7547,7 +7579,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>API Credentials</source>
-      <translation type="unfinished">API Credentials</translation>
+      <translation>Учётные данные API</translation>
     </message>
   </context>
   <context>
@@ -8193,6 +8225,13 @@ Are you sure you want to continue?</source>
     <message>
       <source>Password</source>
       <translation>Пароль</translation>
+    </message>
+  </context>
+  <context>
+    <name>VolumeSlider</name>
+    <message>
+      <source>Muted</source>
+      <translation>Звук отключён</translation>
     </message>
   </context>
   <context>
