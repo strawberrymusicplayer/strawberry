@@ -93,15 +93,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>API Credentials</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Use custom API Key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>API key</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>API Credentials</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
