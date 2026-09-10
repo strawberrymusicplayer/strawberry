@@ -2,6 +2,13 @@ Strawberry Music Player
 =======================
 Changelog
 
+Version 1.2.30 (2026.09.10):
+
+  Bugfixes:
+    * Fixed an out-of-bounds memory access in HMAC signing when using keys longer than the hash's block size, affecting request signing for Discogs and Musixmatch (#2309)
+    * Fixed the build failing when the tag fetcher (AcoustID) is disabled (#2310)
+    * Changed API credentials for Spotify for production use
+
 Version 1.2.29 (2026.09.07):
 
   Enhancements:
