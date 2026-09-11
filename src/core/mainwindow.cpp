@@ -249,6 +249,10 @@
 #  include "discord/discordrichpresence.h"
 #endif
 
+#ifdef HAVE_NETWORKREMOTE
+#  include "networkremote/networkremote.h"
+#endif
+
 using std::make_unique;
 using std::make_shared;
 using namespace std::chrono_literals;
@@ -510,6 +514,10 @@ MainWindow::MainWindow(Application *app,
                               app_->moodbar_loader(),
 #endif
                               app_->current_albumcover_loader());
+
+#ifdef HAVE_NETWORKREMOTE
+  app_->network_remote()->SetPlaylistView(ui_->playlist->view());
+#endif
 
   collection_view_->view()->setModel(app_->collection()->model()->filter());
   collection_view_->view()->Init(app->task_manager(), app->tagreader_client(), app->network(), app->albumcover_loader(), app->current_albumcover_loader(), app->cover_providers(), app->lyrics_providers(), app->collection(), app->device_manager(), app->streaming_services());
@@ -1337,6 +1345,10 @@ void MainWindow::ReloadSettings() {
   else {
     ui_->tabs->DisableTab(qobuz_view_);
   }
+#endif
+
+#ifdef HAVE_NETWORKREMOTE
+  app_->network_remote()->Update();
 #endif
 
   ui_->tabs->ReloadSettings();
