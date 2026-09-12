@@ -34,6 +34,51 @@
     <number>0</number>
    </property>
    <item>
+    <widget class="QToolButton" name="display_option">
+     <property name="iconSize">
+      <size>
+       <width>16</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QSpinBox" name="playing_time_before_or_after">
+     <property name="minimum">
+      <number>10</number>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="visible">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QSpinBox" name="playing_center_time">
+     <property name="minimum">
+      <number>0</number>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="visible">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QToolButton" name="repeat">
      <property name="toolTip">
       <string>Repeat</string>
@@ -49,6 +94,29 @@
      </property>
      <property name="popupMode">
       <enum>QToolButton::InstantPopup</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QMenu" name="menu_param_zapping">
+     <property name="title">
+      <string>Zapping track parameters</string>
+     </property>
+     <addaction name="menu_param_zapping_intro_time"/>
+     <addaction name="menu_param_zapping_playing_time"/>
+    </widget>
+   </item>
+   <item>
+    <widget class="QMenu" name="menu_param_zapping_intro_time">
+     <property name="title">
+      <string>Interest time (percent of track length)</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QMenu" name="menu_param_zapping_playing_time">
+     <property name="title">
+      <string>Playing time (s)</string>
      </property>
     </widget>
    </item>
@@ -115,12 +183,171 @@
     <string>Stop after each track</string>
    </property>
   </action>
-  <action name="action_repeat_intro">
+  <action name="action_param_zapping">
+   <property name="text">
+    <string>Zapping track parameters</string>
+   </property>
+  </action>
+  <action name="action_zapping_intro_000">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Intro tracks</string>
+    <string>0 %</string>
+   </property>
+  </action>
+  <action name="action_zapping_intro_010">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>10 %</string>
+   </property>
+  </action>
+  <action name="action_zapping_intro_020">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>20 %</string>
+   </property>
+  </action>
+  <action name="action_zapping_intro_033">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>33 %</string>
+   </property>
+  </action>
+  <action name="action_zapping_intro_050">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>50 %</string>
+   </property>
+  </action>
+  <action name="action_zapping_intro_066">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>66 %</string>
+   </property>
+  </action>
+  <action name="action_zapping_intro_080">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>80 %</string>
+   </property>
+  </action>
+  <action name="action_zapping_intro_090">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>90 %</string>
+   </property>
+  </action>
+  <action name="action_zapping_intro_100">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>100 %</string>
+   </property>
+  </action>
+  <action name="action_param_zapping_playing_time">
+   <property name="text">
+    <string>Zapping tracks parameters</string>
+   </property>
+  </action>
+  <action name="action_zapping_time_010">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>10 s</string>
+   </property>
+  </action>
+  <action name="action_zapping_time_020">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>20 s</string>
+   </property>
+  </action>
+  <action name="action_zapping_time_030">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>30 s</string>
+   </property>
+  </action>
+  <action name="action_zapping_time_045">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>45 s</string>
+   </property>
+  </action>
+  <action name="action_zapping_time_060">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>60 s</string>
+   </property>
+  </action>
+  <action name="action_zapping_time_090">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>90 s</string>
+   </property>
+  </action>
+  <action name="action_zapping_time_120">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>120 s</string>
+   </property>
+  </action>
+  <action name="action_zapping_time_180">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>180 s</string>
+   </property>
+  </action>
+  <action name="action_zapping_time_240">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>240 s</string>
+   </property>
+  </action>
+  <action name="action_repeat_zapping">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Zapping tracks</string>
+   </property>
+  </action>
+  <action name="show_zapping_values">
+   <property name="text">
+    <string>Show the zapping values</string>
    </property>
   </action>
   <action name="action_shuffle_off">
