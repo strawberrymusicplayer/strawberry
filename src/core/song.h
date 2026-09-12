@@ -77,10 +77,11 @@ class Song {
     SomaFM = 9,
     RadioParadise = 10,
     Spotify = 11,
-    RadioBrowser = 12
+    RadioBrowser = 12,
+    Plex = 13
   };
   static const int kSourceCount = 16;
-  static_assert(static_cast<int>(Source::RadioBrowser) < kSourceCount, "kSourceCount must exceed the largest Song::Source value");
+  static_assert(static_cast<int>(Source::Plex) < kSourceCount, "kSourceCount must exceed the largest Song::Source value");
 
   enum class FileType {
     Unknown = 0,

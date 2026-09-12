@@ -49,6 +49,7 @@ PlaylistItemPtr PlaylistItem::NewFromSource(const Song::Source source, const QUu
     case Song::Source::Collection:
       return make_shared<CollectionPlaylistItem>(source, uuid);
     case Song::Source::Subsonic:
+    case Song::Source::Plex:
     case Song::Source::Tidal:
     case Song::Source::Spotify:
     case Song::Source::Qobuz:
@@ -75,6 +76,7 @@ PlaylistItemPtr PlaylistItem::NewFromSong(const Song &song, const bool signal) {
     case Song::Source::Collection:
       return make_shared<CollectionPlaylistItem>(song, signal);
     case Song::Source::Subsonic:
+    case Song::Source::Plex:
     case Song::Source::Tidal:
     case Song::Source::Spotify:
     case Song::Source::Qobuz:

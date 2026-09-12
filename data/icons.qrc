@@ -89,6 +89,7 @@
         <file>icons/128x128/scrobble-disabled.png</file>
         <file>icons/128x128/moodbar.png</file>
         <file>icons/128x128/love.png</file>
+        <file>icons/128x128/plex.png</file>
         <file>icons/128x128/subsonic.png</file>
         <file>icons/128x128/tidal.png</file>
         <file>icons/128x128/spotify.png</file>
@@ -190,6 +191,7 @@
         <file>icons/64x64/scrobble-disabled.png</file>
         <file>icons/64x64/moodbar.png</file>
         <file>icons/64x64/love.png</file>
+        <file>icons/64x64/plex.png</file>
         <file>icons/64x64/subsonic.png</file>
         <file>icons/64x64/tidal.png</file>
         <file>icons/64x64/spotify.png</file>
@@ -295,6 +297,7 @@
         <file>icons/48x48/scrobble-disabled.png</file>
         <file>icons/48x48/moodbar.png</file>
         <file>icons/48x48/love.png</file>
+        <file>icons/48x48/plex.png</file>
         <file>icons/48x48/subsonic.png</file>
         <file>icons/48x48/tidal.png</file>
         <file>icons/48x48/spotify.png</file>
@@ -400,6 +403,7 @@
         <file>icons/32x32/scrobble-disabled.png</file>
         <file>icons/32x32/moodbar.png</file>
         <file>icons/32x32/love.png</file>
+        <file>icons/32x32/plex.png</file>
         <file>icons/32x32/subsonic.png</file>
         <file>icons/32x32/tidal.png</file>
         <file>icons/32x32/spotify.png</file>
@@ -505,6 +509,7 @@
         <file>icons/22x22/scrobble-disabled.png</file>
         <file>icons/22x22/moodbar.png</file>
         <file>icons/22x22/love.png</file>
+        <file>icons/22x22/plex.png</file>
         <file>icons/22x22/subsonic.png</file>
         <file>icons/22x22/tidal.png</file>
         <file>icons/22x22/spotify.png</file>
