@@ -18,7 +18,9 @@
  *
  */
 
+#include <QByteArray>
 #include <QString>
+#include <QUrl>
 #include <QStringList>
 #include <QRegularExpression>
 #include <QMetaObject>
@@ -230,6 +232,69 @@ QString StringListToHTML(const QStringList &string_list) {
   }
 
   return html;
+
+}
+
+QString UrlForLog(const QUrl &url) {
+
+  return url.adjusted(QUrl::RemoveUserInfo | QUrl::RemoveQuery).toString();
+
+}
+
+QString UrlForLog(const QByteArray &url) {
+
+  // Local file URLs from the engine are not always encoded, and don't contain credentials.
+  if (url.startsWith("file:")) return QString::fromUtf8(url);
+
+  return UrlForLog(QUrl::fromEncoded(url));
+
+}
+
+QString RedactUrls(const QString &text) {
+
+  // A URL ends at whitespace or quotes, or where another URL follows after a separator.
+  static const QRegularExpression regex_url(u"[A-Za-z][A-Za-z0-9+.-]*://(?:(?![;,][A-Za-z][A-Za-z0-9+.-]*://)[^\\s\"'<>])*"_s);
+
+  QString result = text;
+  qsizetype offset = 0;
+  QRegularExpressionMatch match;
+  while ((match = regex_url.match(result, offset)).hasMatch()) {
+
+    QString url_text = match.captured();
+
+    // Punctuation at the end usually belongs to the text, not the URL.
+    while (!url_text.isEmpty() && u".,;:!?)]"_s.contains(url_text.back())) {
+      url_text.chop(1);
+    }
+
+    // Local file URLs don't contain credentials.
+    if (url_text.startsWith("file:"_L1, Qt::CaseInsensitive)) {
+      offset = match.capturedStart() + url_text.length();
+      continue;
+    }
+
+    QString redacted_url;
+    const QUrl url(url_text);
+    if (url.isValid()) {
+      redacted_url = UrlForLog(url);
+    }
+    else {
+      // Remove the query and user info from the text when it can't be parsed as a URL.
+      redacted_url = url_text;
+      const qsizetype query_start = redacted_url.indexOf(u'?');
+      if (query_start >= 0) redacted_url.truncate(query_start);
+      const qsizetype authority_start = redacted_url.indexOf("://"_L1) + 3;
+      const qsizetype path_start = redacted_url.indexOf(u'/', authority_start);
+      const qsizetype userinfo_end = redacted_url.lastIndexOf(u'@', path_start < 0 ? -1 : path_start);
+      if (userinfo_end >= authority_start) redacted_url.remove(authority_start, userinfo_end + 1 - authority_start);
+    }
+
+    result.replace(match.capturedStart(), url_text.length(), redacted_url);
+    offset = match.capturedStart() + redacted_url.length();
+
+  }
+
+  return result;
 
 }
 

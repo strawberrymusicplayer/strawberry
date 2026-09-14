@@ -78,10 +78,11 @@ class Song {
     RadioParadise = 10,
     Spotify = 11,
     RadioBrowser = 12,
-    Plex = 13
+    Plex = 13,
+    Jellyfin = 14
   };
   static const int kSourceCount = 16;
-  static_assert(static_cast<int>(Source::Plex) < kSourceCount, "kSourceCount must exceed the largest Song::Source value");
+  static_assert(static_cast<int>(Source::Jellyfin) < kSourceCount, "kSourceCount must exceed the largest Song::Source value");
 
   enum class FileType {
     Unknown = 0,
@@ -400,6 +401,8 @@ class Song {
   void set_initial_key(const TagLib::String &v);
 
   const QUrl &effective_url() const;
+  // The URL to show or share, the stream URL of a streaming service can expire and contain credentials.
+  QUrl display_url() const;
   const QString &effective_titlesort() const;
   const QString &effective_albumartist() const;
   const QString &effective_albumartistsort() const;

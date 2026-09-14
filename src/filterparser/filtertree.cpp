@@ -82,7 +82,7 @@ QVariant FilterTree::DataFromColumn(const FilterColumn filter_column, const Song
     case FilterColumn::Filename:
       return song.basefilename();
     case FilterColumn::URL:
-      return song.effective_url().toString();
+      return song.display_url().toString();
     case FilterColumn::Unknown:
       break;
   }

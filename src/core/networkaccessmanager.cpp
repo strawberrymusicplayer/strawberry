@@ -65,7 +65,10 @@ QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkR
   const QByteArray user_agent = user_agent_header.isValid() ? user_agent_header.toByteArray() : Utilities::UserAgent();
 
   QNetworkRequest new_network_request(network_request);
-  new_network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  // Keep a redirect policy set by the caller, for example one that doesn't send credentials to another server.
+  if (!network_request.attribute(QNetworkRequest::RedirectPolicyAttribute).isValid()) {
+    new_network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  }
   new_network_request.setHeader(QNetworkRequest::UserAgentHeader, user_agent);
 
   if (op == QNetworkAccessManager::PostOperation && !new_network_request.header(QNetworkRequest::ContentTypeHeader).isValid()) {

@@ -23,6 +23,7 @@
 
 #include <QByteArray>
 #include <QString>
+#include <QUrl>
 #include <QDateTime>
 #include <QRegularExpression>
 #include <QtDebug>
@@ -298,5 +299,26 @@ TEST(UtilitiesTest, TemporaryFile) {
   static const QRegularExpression regex_temp_filename(u"^\\/tmp\\/test-....\\.jpg$"_s);
 
   EXPECT_TRUE(regex_temp_filename.match(temp_file.filename()).hasMatch());
+
+}
+
+TEST(UtilitiesTest, UrlForLog) {
+
+  EXPECT_EQ(Utilities::UrlForLog(QUrl(u"https://user:secret@example.com/Audio/1/stream?static=true&api_key=token"_s)), u"https://example.com/Audio/1/stream"_s);
+  EXPECT_EQ(Utilities::UrlForLog(QByteArray("http://example.com/rest/stream.view?u=user&p=secret")), u"http://example.com/rest/stream.view"_s);
+  EXPECT_EQ(Utilities::UrlForLog(QByteArray("file:///music/a%b#1.flac")), u"file:///music/a%b#1.flac"_s);
+
+}
+
+TEST(UtilitiesTest, RedactUrls) {
+
+  EXPECT_EQ(Utilities::RedactUrls(u"Unauthorized (401), URL: https://example.com/Audio/1/stream?api_key=token, Redirect to: (NULL)"_s), u"Unauthorized (401), URL: https://example.com/Audio/1/stream, Redirect to: (NULL)"_s);
+  EXPECT_EQ(Utilities::RedactUrls(u"URL: https://example.com:8096, Redirect"_s), u"URL: https://example.com:8096, Redirect"_s);
+  EXPECT_EQ(Utilities::RedactUrls(u"(https://example.com/x?t=1)."_s), u"(https://example.com/x)."_s);
+  EXPECT_EQ(Utilities::RedactUrls(u"https://user:pw@a.example.com/p?x=1;https://b.example.com/q?y=2"_s), u"https://a.example.com/p;https://b.example.com/q"_s);
+  EXPECT_EQ(Utilities::RedactUrls(u"http://user:pw@host:abc/p?k=secret"_s), u"http://host:abc/p"_s);
+  EXPECT_EQ(Utilities::RedactUrls(u"Could not open file:///music/100%.flac for reading."_s), u"Could not open file:///music/100%.flac for reading."_s);
+  EXPECT_EQ(Utilities::RedactUrls(u"First http://a.example.com/x?t=1 and second https://user:pw@b.example.com/y"_s), u"First http://a.example.com/x and second https://b.example.com/y"_s);
+  EXPECT_EQ(Utilities::RedactUrls(u"No URL here."_s), u"No URL here."_s);
 
 }

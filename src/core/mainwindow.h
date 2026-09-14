@@ -369,6 +369,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 #ifdef HAVE_PLEX
   StreamingSongsView *plex_view_;
 #endif
+#ifdef HAVE_JELLYFIN
+  StreamingTabsView *jellyfin_view_;
+#endif
 
   RadioViewContainer *radio_view_;
 

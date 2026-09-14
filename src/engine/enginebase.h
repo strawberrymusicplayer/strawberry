@@ -100,6 +100,8 @@ class EngineBase : public QObject {
   virtual void SetVolumeSW(const uint percent) = 0;
   virtual void SetMuteSW(const bool mute) = 0;
 
+  QUrl media_url() const { return media_url_; }
+
   virtual qint64 position_nanosec() const = 0;
   virtual qint64 length_nanosec() const = 0;
 

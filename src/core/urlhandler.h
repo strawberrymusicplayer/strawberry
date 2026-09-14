@@ -87,6 +87,9 @@ class UrlHandler : public QObject {
   // Called by the Player when a song starts loading - gives the handler a chance to do something clever to get a playable track.
   virtual LoadResult StartLoading(const QUrl &url) { return LoadResult(url); }
 
+  // Called by the Player when a song it loaded failed to play, for example because the credentials in the stream URL are not valid anymore.
+  virtual void PlaybackFailed(const QUrl &url) { Q_UNUSED(url) }
+
  Q_SIGNALS:
   void AsyncLoadComplete(const UrlHandler::LoadResult &result);
 };
