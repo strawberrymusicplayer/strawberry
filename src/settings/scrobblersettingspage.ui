@@ -197,31 +197,38 @@
         </property>
        </widget>
       </item>
+      <item row="4" column="1">
+       <widget class="QCheckBox" name="checkbox_source_spotify">
+        <property name="text">
+         <string>Spotify</string>
+        </property>
+       </widget>
+      </item>
       <item row="5" column="1">
+       <widget class="QCheckBox" name="checkbox_source_jellyfin">
+        <property name="text">
+         <string>Jellyfin</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
        <widget class="QCheckBox" name="checkbox_source_somafm">
         <property name="text">
          <string>SomaFM</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
-       <widget class="QCheckBox" name="checkbox_source_unknown">
-        <property name="text">
-         <string>Unknown</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
+      <item row="6" column="0">
        <widget class="QCheckBox" name="checkbox_source_radioparadise">
         <property name="text">
          <string>Radio Paradise</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
-       <widget class="QCheckBox" name="checkbox_source_spotify">
+      <item row="6" column="1">
+       <widget class="QCheckBox" name="checkbox_source_unknown">
         <property name="text">
-         <string>Spotify</string>
+         <string>Unknown</string>
         </property>
        </widget>
       </item>
@@ -495,14 +502,11 @@
   <tabstop>checkbox_source_device</tabstop>
   <tabstop>checkbox_source_cdda</tabstop>
   <tabstop>checkbox_source_stream</tabstop>
-  <tabstop>checkbox_source_unknown</tabstop>
   <tabstop>checkbox_source_subsonic</tabstop>
-    <tabstop>checkbox_source_plex</tabstop>
+  <tabstop>checkbox_source_plex</tabstop>
   <tabstop>checkbox_source_tidal</tabstop>
   <tabstop>checkbox_source_qobuz</tabstop>
   <tabstop>checkbox_source_spotify</tabstop>
-  <tabstop>checkbox_source_somafm</tabstop>
-  <tabstop>checkbox_source_radioparadise</tabstop>
   <tabstop>checkbox_lastfm_enable</tabstop>
   <tabstop>checkbox_lastfm_use_custom_api_credentials</tabstop>
   <tabstop>lineedit_lastfm_client_id</tabstop>

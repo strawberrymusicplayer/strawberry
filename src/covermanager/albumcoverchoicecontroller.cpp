@@ -355,7 +355,8 @@ AlbumCoverImageResult AlbumCoverChoiceController::SearchForImage(Song *song) {
 
 void AlbumCoverChoiceController::UnsetCover(Song *song) {
 
-  if (!song->url().isValid() || !song->url().isLocalFile() || song->effective_albumartist().isEmpty() || song->album().isEmpty()) return;
+  if (!song->url().isValid() || song->effective_albumartist().isEmpty() || song->album().isEmpty()) return;
+  if (!song->url().isLocalFile() && song->source() != Song::Source::Jellyfin) return;
 
   UnsetAlbumCoverForSong(song);
 
@@ -363,7 +364,8 @@ void AlbumCoverChoiceController::UnsetCover(Song *song) {
 
 void AlbumCoverChoiceController::ClearCover(Song *song) {
 
-  if (!song->url().isValid() || !song->url().isLocalFile() || song->effective_albumartist().isEmpty() || song->album().isEmpty()) return;
+  if (!song->url().isValid() || song->effective_albumartist().isEmpty() || song->album().isEmpty()) return;
+  if (!song->url().isLocalFile() && song->source() != Song::Source::Jellyfin) return;
 
   ClearAlbumCoverForSong(song);
 
@@ -590,6 +592,7 @@ void AlbumCoverChoiceController::SaveArtManualToSong(Song *song, const QUrl &art
     case Song::Source::Tidal:
     case Song::Source::Spotify:
     case Song::Source::Qobuz:
+    case Song::Source::Jellyfin:
       StreamingServicePtr service = streaming_services_->ServiceBySource(song->source());
       if (!service) break;
       if (service->artists_collection_backend()) {
@@ -619,8 +622,31 @@ void AlbumCoverChoiceController::ClearAlbumCoverForSong(Song *song) {
   song->clear_art_automatic();
   song->clear_art_manual();
 
-  if (song->source() == Song::Source::Collection) {
-    collection_backend_->ClearAlbumArtAsync(song->effective_albumartist(), song->album(), false);
+  switch (song->source()) {
+    case Song::Source::Collection:
+      collection_backend_->ClearAlbumArtAsync(song->effective_albumartist(), song->album(), false);
+      break;
+    case Song::Source::Subsonic:
+    case Song::Source::Tidal:
+    case Song::Source::Spotify:
+    case Song::Source::Qobuz:
+    case Song::Source::Jellyfin: {
+      StreamingServicePtr service = streaming_services_->ServiceBySource(song->source());
+      if (service) {
+        if (service->artists_collection_backend()) {
+          service->artists_collection_backend()->ClearAlbumArtAsync(song->effective_albumartist(), song->album(), false);
+        }
+        if (service->albums_collection_backend()) {
+          service->albums_collection_backend()->ClearAlbumArtAsync(song->effective_albumartist(), song->album(), false);
+        }
+        if (service->songs_collection_backend()) {
+          service->songs_collection_backend()->ClearAlbumArtAsync(song->effective_albumartist(), song->album(), false);
+        }
+      }
+      break;
+    }
+    default:
+      break;
   }
 
   if (*song == current_albumcover_loader_->last_song()) {
@@ -638,8 +664,31 @@ void AlbumCoverChoiceController::UnsetAlbumCoverForSong(Song *song) {
   song->clear_art_manual();
   song->clear_art_automatic();
 
-  if (song->source() == Song::Source::Collection) {
-    collection_backend_->UnsetAlbumArtAsync(song->effective_albumartist(), song->album());
+  switch (song->source()) {
+    case Song::Source::Collection:
+      collection_backend_->UnsetAlbumArtAsync(song->effective_albumartist(), song->album());
+      break;
+    case Song::Source::Subsonic:
+    case Song::Source::Tidal:
+    case Song::Source::Spotify:
+    case Song::Source::Qobuz:
+    case Song::Source::Jellyfin: {
+      StreamingServicePtr service = streaming_services_->ServiceBySource(song->source());
+      if (service) {
+        if (service->artists_collection_backend()) {
+          service->artists_collection_backend()->UnsetAlbumArtAsync(song->effective_albumartist(), song->album());
+        }
+        if (service->albums_collection_backend()) {
+          service->albums_collection_backend()->UnsetAlbumArtAsync(song->effective_albumartist(), song->album());
+        }
+        if (service->songs_collection_backend()) {
+          service->songs_collection_backend()->UnsetAlbumArtAsync(song->effective_albumartist(), song->album());
+        }
+      }
+      break;
+    }
+    default:
+      break;
   }
 
   if (*song == current_albumcover_loader_->last_song()) {

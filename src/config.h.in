@@ -41,6 +41,7 @@
 #cmakedefine HAVE_SPOTIFY
 #cmakedefine HAVE_QOBUZ
 #cmakedefine HAVE_PLEX
+#cmakedefine HAVE_JELLYFIN
 #cmakedefine HAVE_DISCORD_RPC
 
 #cmakedefine HAVE_TAGLIB_DSFFILE

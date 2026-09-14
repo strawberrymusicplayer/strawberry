@@ -373,6 +373,7 @@ optional_component(TIDAL ON "Streaming: Tidal")
 optional_component(SPOTIFY ON "Streaming: Spotify")
 optional_component(QOBUZ ON "Streaming: Qobuz")
 optional_component(PLEX ON "Streaming: Plex")
+optional_component(JELLYFIN ON "Streaming: Jellyfin")
 
 optional_component(MOODBAR ON "Moodbar")
 
@@ -1551,6 +1552,31 @@ if(HAVE_SUBSONIC)
   )
   list(APPEND UI
     src/settings/subsonicsettingspage.ui
+  )
+endif()
+
+if(HAVE_JELLYFIN)
+  list(APPEND SOURCES
+    src/jellyfin/jellyfinservice.cpp
+    src/jellyfin/jellyfinbaserequest.cpp
+    src/jellyfin/jellyfinrequest.cpp
+    src/jellyfin/jellyfinscrobblerequest.cpp
+    src/jellyfin/jellyfinurlhandler.cpp
+    src/settings/jellyfinsettingspage.cpp
+    src/scrobbler/jellyfinscrobbler.cpp
+  )
+  list(APPEND HEADERS
+    src/jellyfin/jellyfinservice.h
+    src/jellyfin/jellyfinbaserequest.h
+    src/jellyfin/jellyfinrequest.h
+    src/jellyfin/jellyfinscrobblerequest.h
+    src/jellyfin/jellyfinurlhandler.h
+    src/constants/jellyfinsettings.h
+    src/settings/jellyfinsettingspage.h
+    src/scrobbler/jellyfinscrobbler.h
+  )
+  list(APPEND UI
+    src/settings/jellyfinsettingspage.ui
   )
 endif()
 

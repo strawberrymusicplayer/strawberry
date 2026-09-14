@@ -161,6 +161,15 @@ QIcon IconLoader::Load(const QString &name, const bool system_icon, const int fi
   }
 
   const QString path(u":/icons/%1x%2/%3.png"_s);
+
+  if (svg_supported_) {
+    const QString scalable_svg_filename(u":/icons/scalable/%1.svg"_s.arg(name));
+    if (QFile::exists(scalable_svg_filename)) {
+      ret.addFile(scalable_svg_filename);
+      return ret;
+    }
+  }
+
   for (int s : std::as_const(sizes)) {
     QString filename(path.arg(s).arg(s).arg(name));
     if (QFile::exists(filename)) ret.addFile(filename, QSize(s, s));
