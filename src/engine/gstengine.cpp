@@ -55,6 +55,7 @@
 #include "core/signalchecker.h"
 #include "core/enginemetadata.h"
 #include "constants/timeconstants.h"
+#include "utilities/strutils.h"
 #include "enginebase.h"
 #include "gsturl.h"
 #include "gstengine.h"
@@ -190,7 +191,7 @@ void GstEngine::StartPreloading(const QUrl &media_url, const QUrl &stream_url, c
     // Add request to discover the stream
     if (discoverer_ && media_url.scheme() != u"spotify"_s) {
       if (!gst_discoverer_discover_uri_async(discoverer_, gst_url.url.constData())) {
-        qLog(Error) << "Failed to start stream discovery for" << gst_url.url;
+        qLog(Error) << "Failed to start stream discovery for" << Utilities::UrlForLog(gst_url.url);
       }
     }
   }
@@ -263,7 +264,7 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine
   // Add request to discover the stream
   if (discoverer_ && media_url.scheme() != u"spotify"_s) {
     if (!gst_discoverer_discover_uri_async(discoverer_, gst_url.url.constData())) {
-      qLog(Error) << "Failed to start stream discovery for" << gst_url.url;
+      qLog(Error) << "Failed to start stream discovery for" << Utilities::UrlForLog(gst_url.url);
     }
   }
 
@@ -615,7 +616,7 @@ void GstEngine::timerEvent(QTimerEvent *e) {
       const qint64 gap = static_cast<qint64>(buffer_duration_nanosec_) + (autocrossfade_enabled_ ? fadeout_duration_nanosec_ : kPreloadGapNanosec);
       // Emit TrackAboutToEnd when we're a few seconds away from finishing
       if (remaining < gap + fudge) {
-        qLog(Debug) << "Stream from URL" << media_url_.toString() << "about to end in" << remaining / kNsecPerSec << "seconds. Fudge:" << fudge / kNsecPerMsec << "+" << "Gap:" << gap / kNsecPerMsec;
+        qLog(Debug) << "Stream from URL" << Utilities::UrlForLog(media_url_) << "about to end in" << remaining / kNsecPerSec << "seconds. Fudge:" << fudge / kNsecPerMsec << "+" << "Gap:" << gap / kNsecPerMsec;
         EmitAboutToFinish();
       }
     }
@@ -1086,7 +1087,7 @@ void GstEngine::StreamDiscovered(GstDiscoverer *discoverer, GstDiscovererInfo *i
   GstDiscovererResult result = gst_discoverer_info_get_result(info);
   if (result != GST_DISCOVERER_OK) {
     const QString error_message = GSTdiscovererErrorMessage(result);
-    qLog(Error) << QStringLiteral("Stream discovery for %1 failed: %2").arg(QString::fromUtf8(discovered_url), error_message);
+    qLog(Error) << QStringLiteral("Stream discovery for %1 failed: %2").arg(Utilities::UrlForLog(discovered_url), error_message);
     return;
   }
 
@@ -1151,13 +1152,13 @@ void GstEngine::StreamDiscovered(GstDiscoverer *discoverer, GstDiscovererInfo *i
 
     gst_discoverer_stream_info_list_free(audio_streams);
 
-    qLog(Debug) << "Got stream info for" << discovered_url + ":" << Song::TextForFiletype(engine_metadata.filetype);
+    qLog(Debug) << "Got stream info for" << Utilities::UrlForLog(discovered_url) + u':' << Song::TextForFiletype(engine_metadata.filetype);
 
     Q_EMIT instance->MetaData(engine_metadata);
 
   }
   else {
-    qLog(Error) << "Could not detect an audio stream in" << discovered_url;
+    qLog(Error) << "Could not detect an audio stream in" << Utilities::UrlForLog(discovered_url);
   }
 
 }

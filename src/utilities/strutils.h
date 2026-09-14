@@ -21,8 +21,10 @@
 #ifndef STRUTILS_H
 #define STRUTILS_H
 
+#include <QByteArray>
 #include <QString>
 #include <QStringList>
+#include <QUrl>
 #include <QMetaObject>
 
 #include "core/song.h"
@@ -50,6 +52,13 @@ QString ReplaceMessage(const QString &message, const Song &song, const QString &
 QString ReplaceVariable(const QString &variable, const Song &song, const QString &newline, const bool html_escaped = false);
 
 QString StringListToHTML(const QStringList &string_list);
+
+// A URL without its user info and query, which can contain credentials, for example an access token in a stream URL.
+QString UrlForLog(const QUrl &url);
+QString UrlForLog(const QByteArray &url);
+
+// Text with the URLs in it without their user info and query, for example an error message from GStreamer.
+QString RedactUrls(const QString &text);
 
 }  // namespace Utilities
 

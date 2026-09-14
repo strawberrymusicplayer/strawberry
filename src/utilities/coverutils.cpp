@@ -21,6 +21,7 @@
 #include <QString>
 #include <QRegularExpression>
 #include <QUrl>
+#include <QUrlQuery>
 #include <QFileInfo>
 #include <QDir>
 #include <QCryptographicHash>
@@ -121,6 +122,20 @@ QString CoverUtils::CoverFilenameFromSource(const Song::Source source, const QUr
   QString filename;
 
   switch (source) {
+    case Song::Source::Jellyfin:
+      if (!album_id.isEmpty()) {
+        filename = album_id + QLatin1Char('-') + cover_url.fileName();
+        const QUrlQuery url_query(cover_url);
+        const QString image_tag = url_query.queryItemValue(u"tag"_s);
+        // The tag comes from the server, only use it in the filename when it's letters and digits, which Jellyfin uses.
+        static const QRegularExpression regex_tag(u"^[A-Za-z0-9]+$"_s);
+        if (!image_tag.isEmpty() && regex_tag.match(image_tag).hasMatch()) {
+          filename.append(QLatin1Char('-'));
+          filename.append(image_tag);
+        }
+        break;
+      }
+      [[fallthrough]];
     case Song::Source::Tidal:
       if (!album_id.isEmpty()) {
         filename = album_id + QLatin1Char('-') + cover_url.fileName();

@@ -102,19 +102,21 @@ void ScrobblerSettingsPage::Load() {
   ui_->checkbox_show_error_dialog->setChecked(scrobbler_->ShowErrorDialog());
   ui_->checkbox_strip_remastered->setChecked(scrobbler_->strip_remastered());
 
-  ui_->checkbox_source_collection->setChecked(scrobbler_->sources().contains(Song::Source::Collection));
+  ui_->checkbox_source_unknown->setChecked(scrobbler_->sources().contains(Song::Source::Unknown));
   ui_->checkbox_source_local->setChecked(scrobbler_->sources().contains(Song::Source::LocalFile));
+  ui_->checkbox_source_collection->setChecked(scrobbler_->sources().contains(Song::Source::Collection));
   ui_->checkbox_source_cdda->setChecked(scrobbler_->sources().contains(Song::Source::CDDA));
   ui_->checkbox_source_device->setChecked(scrobbler_->sources().contains(Song::Source::Device));
-  ui_->checkbox_source_subsonic->setChecked(scrobbler_->sources().contains(Song::Source::Subsonic));
-  ui_->checkbox_source_plex->setChecked(scrobbler_->sources().contains(Song::Source::Plex));
-  ui_->checkbox_source_tidal->setChecked(scrobbler_->sources().contains(Song::Source::Tidal));
-  ui_->checkbox_source_qobuz->setChecked(scrobbler_->sources().contains(Song::Source::Qobuz));
-  ui_->checkbox_source_spotify->setChecked(scrobbler_->sources().contains(Song::Source::Spotify));
   ui_->checkbox_source_stream->setChecked(scrobbler_->sources().contains(Song::Source::Stream));
+  ui_->checkbox_source_tidal->setChecked(scrobbler_->sources().contains(Song::Source::Tidal));
+  ui_->checkbox_source_subsonic->setChecked(scrobbler_->sources().contains(Song::Source::Subsonic));
+  ui_->checkbox_source_qobuz->setChecked(scrobbler_->sources().contains(Song::Source::Qobuz));
   ui_->checkbox_source_somafm->setChecked(scrobbler_->sources().contains(Song::Source::SomaFM));
   ui_->checkbox_source_radioparadise->setChecked(scrobbler_->sources().contains(Song::Source::RadioParadise));
-  ui_->checkbox_source_unknown->setChecked(scrobbler_->sources().contains(Song::Source::Unknown));
+  ui_->checkbox_source_spotify->setChecked(scrobbler_->sources().contains(Song::Source::Spotify));
+  ui_->checkbox_source_radiobrowser->setChecked(scrobbler_->sources().contains(Song::Source::RadioBrowser));
+  ui_->checkbox_source_plex->setChecked(scrobbler_->sources().contains(Song::Source::Plex));
+  ui_->checkbox_source_jellyfin->setChecked(scrobbler_->sources().contains(Song::Source::Jellyfin));
 
   ui_->checkbox_lastfm_enable->setChecked(lastfmscrobbler_->enabled());
   s.beginGroup(LastFMScrobbler::kSettingsGroup);
@@ -184,19 +186,21 @@ void ScrobblerSettingsPage::Save() {
   s.setValue(kStripRemastered, ui_->checkbox_strip_remastered->isChecked());
 
   QStringList sources;
-  if (ui_->checkbox_source_collection->isChecked()) sources << Song::TextForSource(Song::Source::Collection);
+  if (ui_->checkbox_source_unknown->isChecked()) sources << Song::TextForSource(Song::Source::Unknown);
   if (ui_->checkbox_source_local->isChecked()) sources << Song::TextForSource(Song::Source::LocalFile);
+  if (ui_->checkbox_source_collection->isChecked()) sources << Song::TextForSource(Song::Source::Collection);
   if (ui_->checkbox_source_cdda->isChecked()) sources << Song::TextForSource(Song::Source::CDDA);
   if (ui_->checkbox_source_device->isChecked()) sources << Song::TextForSource(Song::Source::Device);
-  if (ui_->checkbox_source_subsonic->isChecked()) sources << Song::TextForSource(Song::Source::Subsonic);
-  if (ui_->checkbox_source_plex->isChecked()) sources << Song::TextForSource(Song::Source::Plex);
-  if (ui_->checkbox_source_tidal->isChecked()) sources << Song::TextForSource(Song::Source::Tidal);
-  if (ui_->checkbox_source_qobuz->isChecked()) sources << Song::TextForSource(Song::Source::Qobuz);
-  if (ui_->checkbox_source_spotify->isChecked()) sources << Song::TextForSource(Song::Source::Spotify);
   if (ui_->checkbox_source_stream->isChecked()) sources << Song::TextForSource(Song::Source::Stream);
+  if (ui_->checkbox_source_tidal->isChecked()) sources << Song::TextForSource(Song::Source::Tidal);
+  if (ui_->checkbox_source_subsonic->isChecked()) sources << Song::TextForSource(Song::Source::Subsonic);
+  if (ui_->checkbox_source_qobuz->isChecked()) sources << Song::TextForSource(Song::Source::Qobuz);
   if (ui_->checkbox_source_somafm->isChecked()) sources << Song::TextForSource(Song::Source::SomaFM);
   if (ui_->checkbox_source_radioparadise->isChecked()) sources << Song::TextForSource(Song::Source::RadioParadise);
-  if (ui_->checkbox_source_unknown->isChecked()) sources << Song::TextForSource(Song::Source::Unknown);
+  if (ui_->checkbox_source_spotify->isChecked()) sources << Song::TextForSource(Song::Source::Spotify);
+  if (ui_->checkbox_source_radiobrowser->isChecked()) sources << Song::TextForSource(Song::Source::RadioBrowser);
+  if (ui_->checkbox_source_plex->isChecked()) sources << Song::TextForSource(Song::Source::Plex);
+  if (ui_->checkbox_source_jellyfin->isChecked()) sources << Song::TextForSource(Song::Source::Jellyfin);
 
   s.setValue(kSources, sources);
 

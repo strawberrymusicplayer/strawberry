@@ -69,7 +69,8 @@ class Player : public PlayerInterface {
   void SetAnalyzer(AnalyzerContainer *analyzer) { analyzer_ = analyzer; }
   void SetEqualizer(SharedPtr<Equalizer> equalizer) { equalizer_ = equalizer; }
 
-  void EndPositionNext(const int position);
+  // Called regularly with the position while playing.
+  void TrackPositionChanged(const int position);
 
  public Q_SLOTS:
   void ReloadSettings() override;
@@ -173,6 +174,8 @@ class Player : public PlayerInterface {
   QDateTime pause_time_;
   quint64 play_offset_nanosec_;
   qint64 play_end_sec_;
+  int playing_start_position_;  // Position when playing the current track was first reported, to reset the error count after it played for a while.
+  QUrl invalid_song_pending_url_;  // The track failed to load, and continuing with the next track is queued.
 };
 
 #endif  // PLAYER_H
