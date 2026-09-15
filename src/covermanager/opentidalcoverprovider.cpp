@@ -322,7 +322,7 @@ void OpenTidalCoverProvider::SendSearchRequest(SearchRequestPtr search_request) 
   url_query.addQueryItem(u"countryCode"_s, u"US"_s);
   url_query.addQueryItem(u"limit"_s, QString::number(kSearchLimit));
   url_query.addQueryItem(u"include"_s, u"albums"_s);
-  url_query.addQueryItem(u"filter[query]"_s, query);
+  url_query.addQueryItem(u"filter[query]"_s, QString::fromUtf8(QUrl::toPercentEncoding(u'"' + query + u'"')));
   QUrl url(QLatin1String(kApiUrl) + "/searchResults"_L1);
   url.setQuery(url_query);
   QNetworkRequest network_request(url);
