@@ -206,6 +206,7 @@ class GstEnginePipeline : public QObject {
   void UpdateEqualizer();
 
   void DisconnectCallbacks();
+  void RemovePadProbe();
   void ResumeFaderAsync();
   // Clears the fading state on behalf of the fade identified by fader_generation, and does nothing if that fade has since been replaced.
   void ClearFaderState(const quint64 fader_generation);
@@ -397,6 +398,8 @@ class GstEnginePipeline : public QObject {
   GstElement *equalizer_preamp_;
   GstElement *eventprobe_;
   GstElement *bufferprobe_;
+  // The pad PadProbeCallback is installed on, referenced so the probe can be removed in DisconnectCallbacks() even after the pad has left the pipeline.
+  GstPad *pad_probe_pad_;
 
   std::optional<gulong> upstream_events_probe_cb_id_;
   std::optional<gulong> buffer_probe_cb_id_;

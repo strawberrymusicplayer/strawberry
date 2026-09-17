@@ -203,6 +203,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       equalizer_preamp_(nullptr),
       eventprobe_(nullptr),
       bufferprobe_(nullptr),
+      pad_probe_pad_(nullptr),
       logged_unsupported_analyzer_format_(false),
       about_to_finish_(false),
       finish_requested_(false),
@@ -535,8 +536,8 @@ void GstEnginePipeline::DisconnectCallbacks() {
       buffer_probe_cb_id_.reset();
     }
 
-    // The pad this probe sits on belongs to playbin's dynamic source pad and disappears when the pipeline goes to NULL, so we can't remove the probe here; just drop the stale ID.
-    pad_probe_cb_id_.reset();
+    // This is the last callback left that carries a raw pointer to this object, so it must go here: a pipeline abandoned as stuck in ~GstEnginePipeline() is leaked alive, and a probe left behind on it would outlive the object it points to.
+    RemovePadProbe();
 
     {
       GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_));
@@ -1355,6 +1356,9 @@ void GstEnginePipeline::PadAddedCallback(GstElement *element, GstPad *pad, gpoin
   gst_pad_set_offset(pad, static_cast<gint64>(running_time));
 
   // Add a probe to the pad so we can update last_playbin_segment_.
+  // The pad belongs to playbin's dynamic source pad, so hold a reference to it: it can be gone from the pipeline by the time DisconnectCallbacks() removes the probe again.
+  instance->RemovePadProbe();
+  instance->pad_probe_pad_ = GST_PAD(gst_object_ref(pad));
   instance->pad_probe_cb_id_ = gst_pad_add_probe(pad, static_cast<GstPadProbeType>(GST_PAD_PROBE_TYPE_BUFFER | GST_PAD_PROBE_TYPE_EVENT_DOWNSTREAM | GST_PAD_PROBE_TYPE_EVENT_FLUSH), PadProbeCallback, instance, nullptr);
 
   instance->pipeline_connected_ = true;
@@ -1364,6 +1368,19 @@ void GstEnginePipeline::PadAddedCallback(GstElement *element, GstPad *pad, gpoin
       QMetaObject::invokeMethod(instance, [instance, pending_seek]() { instance->Seek(pending_seek); }, Qt::QueuedConnection);
     }
   }
+
+}
+
+void GstEnginePipeline::RemovePadProbe() {
+
+  if (pad_probe_pad_) {
+    if (pad_probe_cb_id_.has_value()) {
+      gst_pad_remove_probe(pad_probe_pad_, pad_probe_cb_id_.value());
+    }
+    gst_object_unref(pad_probe_pad_);
+    pad_probe_pad_ = nullptr;
+  }
+  pad_probe_cb_id_.reset();
 
 }
 
