@@ -33,6 +33,10 @@
 
 using namespace Qt::Literals::StringLiterals;
 
+namespace {
+constexpr char kFakeUserAgent[] = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36";
+}
+
 HttpBaseRequest::HttpBaseRequest(const SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),
       network_(network) {}
@@ -93,7 +97,7 @@ QNetworkReply *HttpBaseRequest::CreateGetRequest(const QUrl &url, const QUrlQuer
     network_request.setRawHeader("Authorization", authorization_header());
   }
   if (fake_user_agent_header) {
-    network_request.setHeader(QNetworkRequest::UserAgentHeader, u"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"_s);
+    network_request.setHeader(QNetworkRequest::UserAgentHeader, QLatin1String(kFakeUserAgent));
   }
   QNetworkReply *reply = network_->get(network_request);
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &HttpBaseRequest::HandleSSLErrors);

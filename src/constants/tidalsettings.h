@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,13 +25,15 @@ namespace TidalSettings {
 enum class StreamUrlMethod {
   StreamUrl,
   UrlPostPaywall,
-  PlaybackInfoPostPaywall
+  PlaybackInfoPostPaywall,
+  PlaybackInfo
 };
 
 constexpr char kSettingsGroup[] = "Tidal";
 
 constexpr char kEnabled[] = "enabled";
 constexpr char kClientId[] = "client_id";
+constexpr char kUseCustomClientId[] = "use_custom_client_id";
 constexpr char kQuality[] = "quality";
 constexpr char kSearchDelay[] = "searchdelay";
 constexpr char kArtistsSearchLimit[] = "artistssearchlimit";
@@ -58,7 +60,7 @@ constexpr int kDefaultSongsSearchLimit = 10;
 constexpr bool kDefaultFetchAlbums = false;
 constexpr bool kDefaultDownloadAlbumCovers = true;
 constexpr char kDefaultCoverSize[] = "640x640";
-constexpr StreamUrlMethod kDefaultStreamUrl = StreamUrlMethod::StreamUrl;
+constexpr StreamUrlMethod kDefaultStreamUrl = StreamUrlMethod::PlaybackInfoPostPaywall;
 constexpr bool kDefaultAlbumExplicit = false;
 constexpr bool kDefaultRemoveRemastered = true;
 

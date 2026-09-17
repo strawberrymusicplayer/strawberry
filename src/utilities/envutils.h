@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@ namespace Utilities {
 
 QString GetEnv(const QString &key);
 void SetEnv(const char *key, const QString &value);
+QString OSName();
 QString DesktopEnvironment();
 bool IsWSL();
 

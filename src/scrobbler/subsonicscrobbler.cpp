@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  * Copyright 2020, Pascal Below <spezifisch@below.fr>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -47,12 +47,13 @@ SubsonicScrobbler::SubsonicScrobbler(const SharedPtr<ScrobblerSettingsService> s
     : ScrobblerService(QLatin1String(kName), network, settings, parent),
       service_(service),
       enabled_(false),
-      submitted_(false) {
+      submitted_(false),
+      scrobble_pending_(false) {
 
   SubsonicScrobbler::ReloadSettings();
 
-  timer_submit_.setSingleShot(true);
-  QObject::connect(&timer_submit_, &QTimer::timeout, this, &SubsonicScrobbler::Submit);
+  timer_send_scrobbles_.setSingleShot(true);
+  QObject::connect(&timer_send_scrobbles_, &QTimer::timeout, this, &SubsonicScrobbler::SendScrobbles);
 
 }
 
@@ -68,6 +69,25 @@ void SubsonicScrobbler::ReloadSettings() {
 SubsonicServicePtr SubsonicScrobbler::service() const {
 
   return service_;
+
+}
+
+void SubsonicScrobbler::Start(const bool initial) {
+
+  Q_UNUSED(initial)
+
+  // Resume a scrobble that was left pending when scrobbling was switched off or offline mode was switched on.
+  if (scrobble_pending_ && !submitted_) {
+    ScheduleSendScrobbles();
+  }
+
+}
+
+void SubsonicScrobbler::Stop() {
+
+  // scrobble_pending_ is deliberately left alone, so that Start() can send the scrobble that this discards the timer for.
+  timer_send_scrobbles_.stop();
+  submitted_ = false;
 
 }
 
@@ -98,25 +118,35 @@ void SubsonicScrobbler::Scrobble(const Song &song) {
   if (settings_->offline()) return;
 
   if (!submitted_) {
-    submitted_ = true;
-    if (settings_->submit_delay() <= 0) {
-      Submit();
-    }
-    else if (!timer_submit_.isActive()) {
-      timer_submit_.setInterval(static_cast<int>(settings_->submit_delay() * kMsecPerSec));
-      timer_submit_.start();
-    }
+    scrobble_pending_ = true;
+    ScheduleSendScrobbles();
   }
 
 }
 
-void SubsonicScrobbler::Submit() {
+void SubsonicScrobbler::ScheduleSendScrobbles() {
+
+  submitted_ = true;
+
+  if (settings_->submit_delay() <= 0) {
+    SendScrobbles();
+  }
+  else if (!timer_send_scrobbles_.isActive()) {
+    timer_send_scrobbles_.setInterval(static_cast<int>(settings_->submit_delay() * kMsecPerSec));
+    timer_send_scrobbles_.start();
+  }
+
+}
+
+void SubsonicScrobbler::SendScrobbles() {
 
   qLog(Debug) << "SubsonicScrobbler: Submitting scrobble for" << song_playing_.artist() << song_playing_.title();
   submitted_ = false;
 
   if (settings_->offline() || !service()) return;
 
+  scrobble_pending_ = false;
   service()->Scrobble(song_playing_.song_id(), true, time_);
 
 }
+

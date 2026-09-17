@@ -103,7 +103,12 @@ void AudioScrobbler::ToggleScrobbling() {
 
   settings_->ToggleScrobbling();
 
-  if (settings_->enabled() && !settings_->offline()) { Submit(); }
+  if (settings_->enabled() && !settings_->offline()) {
+    Start();
+  }
+  else {
+    Stop();
+  }
 
 }
 
@@ -111,7 +116,12 @@ void AudioScrobbler::ToggleOffline() {
 
   settings_->ToggleOffline();
 
-  if (settings_->enabled() && !settings_->offline()) { Submit(); }
+  if (settings_->enabled() && !settings_->offline()) {
+    Start();
+  }
+  else {
+    Stop();
+  }
 
 }
 
@@ -163,12 +173,22 @@ void AudioScrobbler::Love() {
 
 }
 
-void AudioScrobbler::Submit() {
+void AudioScrobbler::Start() {
 
   const QList<ScrobblerServicePtr> services = GetAll();
   for (ScrobblerServicePtr service : services) {
     if (!service->enabled() || !service->authenticated() || service->submitted()) continue;
-    service->StartSubmit();
+    service->Start();
+  }
+
+}
+
+void AudioScrobbler::Stop() {
+
+  // Stop every service, not only the enabled ones, since this is called after scrobbling has been switched off or offline mode has been switched on.
+  const QList<ScrobblerServicePtr> services = GetAll();
+  for (ScrobblerServicePtr service : services) {
+    service->Stop();
   }
 
 }

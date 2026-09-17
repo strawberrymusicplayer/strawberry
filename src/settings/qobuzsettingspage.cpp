@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@
 #include "core/settings.h"
 #include "widgets/loginstatewidget.h"
 #include "qobuz/qobuzservice.h"
-#include "qobuz/qobuzcredentialfetcher.h"
+#include "qobuz/qobuzapicredentialfetcher.h"
 #include "constants/qobuzsettings.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -48,14 +48,14 @@ QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *dialog, const SharedPtr<Qob
     : SettingsPage(dialog, parent),
       ui_(new Ui::QobuzSettingsPage),
       service_(service),
-      credential_fetcher_(nullptr) {
+      api_credential_fetcher_(nullptr) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(u"qobuz"_s, true, 0, 32));
 
   QObject::connect(ui_->button_login, &QPushButton::clicked, this, &QobuzSettingsPage::LoginClicked);
   QObject::connect(ui_->login_state, &LoginStateWidget::LogoutClicked, this, &QobuzSettingsPage::LogoutClicked);
-  QObject::connect(ui_->button_fetch_credentials, &QPushButton::clicked, this, &QobuzSettingsPage::FetchCredentialsClicked);
+  QObject::connect(ui_->button_fetch_api_credentials, &QPushButton::clicked, this, &QobuzSettingsPage::FetchApiCredentialsClicked);
 
   QObject::connect(&*service_, &StreamingService::LoginFailure, this, &QobuzSettingsPage::LoginFailure);
   QObject::connect(&*service_, &StreamingService::LoginSuccess, this, &QobuzSettingsPage::LoginSuccess);
@@ -130,15 +130,15 @@ void QobuzSettingsPage::Save() {
 void QobuzSettingsPage::LoginClicked() {
 
   if (ui_->app_id->text().isEmpty()) {
-    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing app id. Please fetch credentials first."));
+    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing app id. Please fetch API credentials first."));
     return;
   }
   if (ui_->app_secret->text().isEmpty()) {
-    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing app secret. Please fetch credentials first."));
+    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing app secret. Please fetch API credentials first."));
     return;
   }
   if (ui_->private_key->text().isEmpty()) {
-    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing private key. Please fetch credentials first."));
+    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing private key. Please fetch API credentials first."));
     return;
   }
 
@@ -181,22 +181,22 @@ void QobuzSettingsPage::LoginFailure(const QString &failure_reason) {
 
 }
 
-void QobuzSettingsPage::FetchCredentialsClicked() {
+void QobuzSettingsPage::FetchApiCredentialsClicked() {
 
-  ui_->button_fetch_credentials->setEnabled(false);
-  ui_->button_fetch_credentials->setText(tr("Fetching..."));
+  ui_->button_fetch_api_credentials->setEnabled(false);
+  ui_->button_fetch_api_credentials->setText(tr("Fetching..."));
 
-  if (!credential_fetcher_) {
-    credential_fetcher_ = new QobuzCredentialFetcher(service_->network(), this);
-    QObject::connect(credential_fetcher_, &QobuzCredentialFetcher::CredentialsFetched, this, &QobuzSettingsPage::CredentialsFetched);
-    QObject::connect(credential_fetcher_, &QobuzCredentialFetcher::CredentialsFetchError, this, &QobuzSettingsPage::CredentialsFetchError);
+  if (!api_credential_fetcher_) {
+    api_credential_fetcher_ = new QobuzApiCredentialFetcher(service_->network(), this);
+    QObject::connect(api_credential_fetcher_, &QobuzApiCredentialFetcher::ApiCredentialsFetched, this, &QobuzSettingsPage::ApiCredentialsFetched);
+    QObject::connect(api_credential_fetcher_, &QobuzApiCredentialFetcher::ApiCredentialsFetchError, this, &QobuzSettingsPage::ApiCredentialsFetchError);
   }
 
-  credential_fetcher_->FetchCredentials();
+  api_credential_fetcher_->FetchApiCredentials();
 
 }
 
-void QobuzSettingsPage::CredentialsFetched(const QString &app_id, const QString &app_secret, const QString &login_app_id, const QString &private_key) {
+void QobuzSettingsPage::ApiCredentialsFetched(const QString &app_id, const QString &app_secret, const QString &login_app_id, const QString &private_key) {
 
   Q_UNUSED(login_app_id)
 
@@ -204,17 +204,17 @@ void QobuzSettingsPage::CredentialsFetched(const QString &app_id, const QString 
   ui_->app_secret->setText(app_secret);
   ui_->private_key->setText(private_key);
 
-  ui_->button_fetch_credentials->setEnabled(true);
-  ui_->button_fetch_credentials->setText(tr("Fetch Credentials"));
+  ui_->button_fetch_api_credentials->setEnabled(true);
+  ui_->button_fetch_api_credentials->setText(tr("Fetch API Credentials"));
 
-  QMessageBox::information(this, tr("Credentials fetched"), tr("Credentials have been successfully fetched. Click Login to authenticate via your browser."));
+  QMessageBox::information(this, tr("API credentials fetched"), tr("API credentials have been successfully fetched. Click Login to authenticate via your browser."));
 
 }
 
-void QobuzSettingsPage::CredentialsFetchError(const QString &error) {
+void QobuzSettingsPage::ApiCredentialsFetchError(const QString &error) {
 
-  ui_->button_fetch_credentials->setEnabled(true);
-  ui_->button_fetch_credentials->setText(tr("Fetch Credentials"));
+  ui_->button_fetch_api_credentials->setEnabled(true);
+  ui_->button_fetch_api_credentials->setText(tr("Fetch API Credentials"));
 
   QMessageBox::warning(this, tr("Credential fetch failed"), error);
 

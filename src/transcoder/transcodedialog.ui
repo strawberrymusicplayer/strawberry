@@ -234,6 +234,7 @@
   <tabstop>options</tabstop>
   <tabstop>destination</tabstop>
   <tabstop>select</tabstop>
+  <tabstop>preserve_dir_structure</tabstop>
   <tabstop>details</tabstop>
  </tabstops>
  <resources/>

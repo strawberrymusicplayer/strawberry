@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
  */
 
 #include "config.h"
+#include "apicredentials.h"
 
 #include <algorithm>
 #include <utility>
@@ -37,27 +38,63 @@
 #include <QScopeGuard>
 
 #include "includes/shared_ptr.h"
+#include "utilities/cryptutils.h"
 #include "core/networkaccessmanager.h"
 #include "core/logging.h"
+#include "core/settings.h"
+#include "constants/lastfmsettings.h"
 
 #include "jsoncoverprovider.h"
 #include "albumcoverfetcher.h"
 #include "lastfmcoverprovider.h"
+#include "scrobbler/lastfmscrobbler.h"
 
 using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kUrl[] = "https://ws.audioscrobbler.com/2.0/";
-constexpr char kApiKey[] = "211990b4c96782c05d1536e7219eb56e";
-constexpr char kSecret[] = "80fd738f49596e9709b1bf9319c444a8";
+
+QString CompiledApiKey() {
+#ifdef LASTFM_API_KEY
+  return Utilities::MaybeDecryptApiCredential(QStringLiteral(LASTFM_API_KEY));
+#else
+  return QString();
+#endif
+}
+
+QString CompiledApiSecret() {
+#ifdef LASTFM_SHARED_SECRET
+  return Utilities::MaybeDecryptApiCredential(QStringLiteral(LASTFM_SHARED_SECRET));
+#else
+  return QString();
+#endif
+}
 }  // namespace
 
 LastFmCoverProvider::LastFmCoverProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonCoverProvider(u"Last.fm"_s, true, false, 1.0, true, false, network, parent) {}
+    : JsonCoverProvider(u"Last.fm"_s, true, false, 1.0, true, false, network, parent) {
+  LastFmCoverProvider::ReloadSettings();
+}
+
+void LastFmCoverProvider::ReloadSettings() {
+
+  Settings s;
+  s.beginGroup(QLatin1String(LastFMScrobbler::kSettingsGroup));
+  const bool use_custom_api_credentials = !LastFMScrobbler::HasCompiledCredentials() || s.value(LastFMSettings::kUseCustomApiCredentials, false).toBool();
+  api_key_ = use_custom_api_credentials ? s.value(LastFMSettings::kClientId).toString() : CompiledApiKey();
+  api_secret_ = use_custom_api_credentials ? s.value(LastFMSettings::kClientSecret).toString() : CompiledApiSecret();
+  s.endGroup();
+
+}
 
 bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 
   if (artist.isEmpty() && album.isEmpty() && title.isEmpty()) return false;
+
+  if (api_key_.isEmpty() || api_secret_.isEmpty()) {
+    Error(tr("Missing Last.fm API key and/or API secret"));
+    return false;
+  }
 
   QString method;
   QString type;
@@ -77,7 +114,7 @@ bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &albu
     }
   }
 
-  ParamList params = ParamList() << Param(u"api_key"_s, QLatin1String(kApiKey))
+  ParamList params = ParamList() << Param(u"api_key"_s, api_key_)
                                  << Param(u"lang"_s, QLocale().name().left(2).toLower())
                                  << Param(u"method"_s, method)
                                  << Param(type, query);
@@ -90,7 +127,7 @@ bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &albu
     url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
     data_to_sign += param.first + param.second;
   }
-  data_to_sign += QLatin1String(kSecret);
+  data_to_sign += api_secret_;
 
   QByteArray const digest = QCryptographicHash::hash(data_to_sign.toUtf8(), QCryptographicHash::Md5);
   QString signature = QString::fromLatin1(digest.toHex()).rightJustified(32, u'0').toLower();

@@ -1,6 +1,24 @@
 Strawberry Music Player
 =======================
-ChangeLog
+Changelog
+
+Version 1.2.30 (2026.09.10):
+
+  Bugfixes:
+    * Fixed an out-of-bounds memory access in HMAC signing when using keys longer than the hash's block size, affecting request signing for Discogs and Musixmatch (#2309)
+    * Fixed the build failing when the tag fetcher (AcoustID) is disabled (#2310)
+    * Changed API credentials for Spotify for production use
+
+Version 1.2.29 (2026.09.07):
+
+  Enhancements:
+    * Switched MusixMatch lyrics to use API instead of scraping the HTML pages
+    * Standardized the User-Agent header format used for network requests
+    * Improved ListenBrainz scrobbling and made it respect rate limits
+    * Use self-hosted OAuth redirect/proxy for Spotify and Genius which does not accept a random localhost port
+    * Made PKCE optional for OAuth logins, for providers that don't support it
+    * Cover art search now takes album artist and compilation status into account when matching results
+    * Improved detection of generic album titles (e.g. "Greatest Hits", "Live") when scoring cover art search results, using regular expressions
 
 Version 1.2.28 (2026.08.26):
 

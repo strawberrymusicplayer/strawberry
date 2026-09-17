@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,6 +30,8 @@
 #include <QTimer>
 #include <QList>
 #include <QString>
+#include <QStringList>
+#include <QRegularExpression>
 #include <QUrl>
 #include <QImage>
 #include <QImageReader>
@@ -51,10 +53,72 @@
 using namespace Qt::Literals::StringLiterals;
 
 namespace {
+
 constexpr int kSearchTimeoutMs = 20000;
 constexpr int kImageLoadTimeoutMs = 6000;
 constexpr int kTargetSize = 500;
 constexpr float kGoodScore = 4.0;
+
+// Number of images loaded per round, counting only one image per album so that several sizes of the same cover do not fill the whole round.
+constexpr int kImagesPerRound = 3;
+
+constexpr float kScoreArtistMatch = 0.5;
+constexpr float kScoreAlbumMatch = 0.5;
+constexpr float kScoreMismatch = -1.5;
+constexpr float kScoreArtistMismatch = -1.0;
+
+// Penalties for releases that are unlikely to be the album the song actually belongs to.
+// These have to be large enough to drop the result below kGoodScore on their own, since a large cover from a good provider scores well above it.
+// Without that the search stops at the first compilation cover that is big enough and never gets around to looking for the studio album.
+constexpr float kScoreCompilation = -4.0;
+constexpr float kScoreGenericAlbumTitle = -3.0;
+constexpr float kScoreSoundtrack = -0.5;
+
+// Album titles that read like an editorial compilation or playlist rather than a release by the artist we searched for.
+// Only consulted when the search has no album title of its own to compare against.
+const QRegularExpression &GenericAlbumTitleRegex() {
+
+  static const QRegularExpression regex(QStringLiteral("\\b(?:%1)\\b").arg(QStringList({
+      u"hits"_s,
+      u"greatest"_s,
+      u"best"_s,
+      u"collection"_s,
+      u"classics"_s,
+      u"singles"_s,
+      u"bootleg"_s,
+      u"live"_s,
+      u"concert"_s,
+      u"essential"_s,
+      u"ultimate"_s,
+      u"karaoke"_s,
+      u"mixtape"_s,
+      u"anthems"_s,
+      u"playlist"_s,
+      u"compilation"_s,
+      u"various artists"_s,
+      u"soft rock"_s,
+      u"mellow rock"_s,
+      u"country rock"_s,
+      u"rock songs"_s,
+      u"indie folk"_s,
+      u"folk music"_s,
+      u"folk and blues"_s,
+      u"classic psychedelic"_s,
+      u"background music"_s,
+      u"dinner accompaniment"_s,
+      u"complete studio albums"_s,
+      u"traffic jam jams"_s,
+      u"rockfluence"_s,
+      // Decades, covering "60s music", "the 60s", "late 60s", "70's gold", "rock 80s" and similar.
+      u"\\d0'?s"_s,
+      u"rock \\d{4}"_s,
+      u"top \\d+"_s
+    }).join(u'|')), QRegularExpression::CaseInsensitiveOption);
+
+  return regex;
+
+}
+
 }  // namespace
 
 AlbumCoverFetcherSearch::AlbumCoverFetcherSearch(const CoverSearchRequest &request, SharedPtr<NetworkAccessManager> network, QObject *parent)
@@ -155,69 +219,32 @@ void AlbumCoverFetcherSearch::ProviderSearchResults(CoverProvider *provider, con
     const QString &result_album = results_copy[i].album;
 
     if (result_artist.compare(request_artist, Qt::CaseInsensitive) == 0) {
-      results_copy[i].score_match += 0.5;
+      results_copy[i].score_match += kScoreArtistMatch;
     }
     if (result_album.compare(request_album, Qt::CaseInsensitive) == 0) {
-      results_copy[i].score_match += 0.5;
+      results_copy[i].score_match += kScoreAlbumMatch;
     }
     if (result_artist.compare(request_artist, Qt::CaseInsensitive) != 0 && result_album.compare(request_album, Qt::CaseInsensitive) != 0) {
-      results_copy[i].score_match -= 1.5;
+      results_copy[i].score_match += kScoreMismatch;
     }
 
     if (request_album.isEmpty() && result_artist.compare(request_artist, Qt::CaseInsensitive) != 0) {
-      results_copy[i].score_match -= 1;
+      results_copy[i].score_match += kScoreArtistMismatch;
     }
 
-    // Decrease score if the search was based on artist and song title, and the resulting album is a compilation or live album.
-    // This is done since we can't match the album titles, and we want to prevent compilation or live albums from being picked before studio albums for streams.
-    // TODO: Make these regular expressions.
-    if (request_album.isEmpty() && (
-        result_album.contains("hits"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("greatest"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("best"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("collection"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("classics"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("singles"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("bootleg"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("live"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("concert"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("essential"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("ultimate"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("karaoke"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("mixtape"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("country rock"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("indie folk"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("soft rock"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("folk music"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("60's rock"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("60's romance"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("60s music"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("late 60s"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("the 60s"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("folk and blues"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("60 from the 60's"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("classic psychedelic"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("playlist: acoustic"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("90's rnb playlist"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("rock 80s"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("classic 80s"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("rock anthems"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("rock songs"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("rock 2019"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("guitar anthems"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("driving anthems"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("traffic jam jams"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("perfect background music"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("70's gold"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("rockfluence"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("acoustic dinner accompaniment"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("complete studio albums"_L1, Qt::CaseInsensitive) ||
-        result_album.contains("mellow rock"_L1, Qt::CaseInsensitive)
-        )) {
-      results_copy[i].score_match -= 1;
-    }
-    else if (request_album.isEmpty() && result_album.contains("soundtrack"_L1, Qt::CaseInsensitive)) {
-      results_copy[i].score_match -= 0.5;
+    // Decrease the score if the search was based on artist and song title, since we have no album title to match the result against.
+    // A track by the artist we searched for turns up on any number of compilations, and those are credited to the artist of the track, so they look like a perfect artist match.
+    // Release metadata from the provider is trusted over the album title, which is only a guess.
+    if (request_album.isEmpty()) {
+      if (results_copy[i].compilation || results_copy[i].album_artist.compare("Various Artists"_L1, Qt::CaseInsensitive) == 0) {
+        results_copy[i].score_match += kScoreCompilation;
+      }
+      else if (GenericAlbumTitleRegex().match(result_album).hasMatch()) {
+        results_copy[i].score_match += kScoreGenericAlbumTitle;
+      }
+      else if (result_album.contains("soundtrack"_L1, Qt::CaseInsensitive)) {
+        results_copy[i].score_match += kScoreSoundtrack;
+      }
     }
 
     // Set the initial image quality score based on the size returned by the API, this is recalculated when the image is received.
@@ -280,10 +307,22 @@ void AlbumCoverFetcherSearch::AllProvidersFinished() {
 
 void AlbumCoverFetcherSearch::FetchMoreImages() {
 
-  int i = 0;
-  while (!results_.isEmpty()) {
-    ++i;
-    CoverProviderSearchResult result = results_.takeFirst();
+  // Take the highest scoring results, but at most one image per album.
+  // Providers commonly return the same cover in several sizes, and loading three sizes of the same album tells us nothing the first one did not.
+  // The sizes we skip are left in the list, so they are still available as a fallback in a later round if this one fails to load.
+  QList<CoverProviderSearchResult> results_to_load;
+  QStringList albums_to_load;
+  for (int i = 0; i < results_.count() && results_to_load.count() < kImagesPerRound;) {
+    const QString album_key = QStringLiteral("%1 - %2").arg(results_[i].artist.toLower(), results_[i].album.toLower());
+    if (albums_to_load.contains(album_key)) {
+      ++i;
+      continue;
+    }
+    albums_to_load << album_key;
+    results_to_load << results_.takeAt(i);
+  }
+
+  for (const CoverProviderSearchResult &result : std::as_const(results_to_load)) {
 
     qLog(Debug) << "Loading" << result.artist << result.album << result.image_url << "from" << result.provider << "with current score" << result.score();
 
@@ -295,8 +334,6 @@ void AlbumCoverFetcherSearch::FetchMoreImages() {
     image_load_timeout_->AddReply(image_reply);
 
     ++statistics_.network_requests_made_;
-
-    if (i >= 3) break;
 
   }
 

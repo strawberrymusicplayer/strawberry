@@ -21,6 +21,7 @@ include(cmake/Version.cmake)
 include(cmake/OptionalComponent.cmake)
 include(cmake/OptionalSource.cmake)
 include(cmake/ParseArguments.cmake)
+include(cmake/ApiCredentials.cmake)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
   set(LINUX ON)
@@ -166,6 +167,10 @@ endif()
 find_package(Backtrace)
 if(Backtrace_FOUND)
   set(HAVE_BACKTRACE ON)
+endif()
+find_package(OpenSSL COMPONENTS Crypto CONFIG)
+if(NOT OpenSSL_FOUND)
+  find_package(OpenSSL COMPONENTS Crypto REQUIRED)
 endif()
 find_package(Boost CONFIG)
 if(NOT Boost_FOUND)
@@ -502,7 +507,7 @@ set(SOURCES
   src/utilities/textencodingutils.cpp
   src/utilities/styleutils.cpp
   src/utilities/coveroptions.cpp
-  src/utilities/musixmatchprovider.cpp
+  src/utilities/useragent.cpp
 
   src/tagreader/tagreaderclient.cpp
   src/tagreader/tagreaderresult.cpp
@@ -1333,10 +1338,14 @@ optional_source(HAVE_TAGFETCHER
     src/tagfetcher/acoustidclient.cpp
     src/tagfetcher/musicbrainzclient.cpp
     src/tagfetcher/tagfetcher.cpp
+    src/settings/acoustidsettingspage.cpp
   HEADERS
     src/tagfetcher/acoustidclient.h
     src/tagfetcher/musicbrainzclient.h
     src/tagfetcher/tagfetcher.h
+    src/settings/acoustidsettingspage.h
+  UI
+    src/settings/acoustidsettingspage.ui
 )
 
 optional_source(HAVE_EBUR128 SOURCES src/engine/ebur128analysis.cpp)
@@ -1348,10 +1357,10 @@ endif()
 
 if(HAVE_MPRIS2)
   optional_source(HAVE_MPRIS2 SOURCES src/mpris2/mpris2.cpp HEADERS src/mpris2/mpris2.h)
-  qt_add_dbus_adaptor(SOURCES src/mpris2/org.mpris.MediaPlayer2.xml src/mpris2/mpris2.h mpris::Mpris2 mpris2_root Mpris2Root)
-  qt_add_dbus_adaptor(SOURCES src/mpris2/org.mpris.MediaPlayer2.Player.xml src/mpris2/mpris2.h mpris::Mpris2 mpris2_player Mpris2Player)
-  qt_add_dbus_adaptor(SOURCES src/mpris2/org.mpris.MediaPlayer2.TrackList.xml src/mpris2/mpris2.h mpris::Mpris2 mpris2_tracklist Mpris2TrackList)
-  qt_add_dbus_adaptor(SOURCES src/mpris2/org.mpris.MediaPlayer2.Playlists.xml src/mpris2/mpris2.h mpris::Mpris2 mpris2_playlists Mpris2Playlists)
+  qt_add_dbus_adaptor(SOURCES src/mpris2/org.mpris.MediaPlayer2.xml src/mpris2/mpris2.h Mpris2 mpris2_root Mpris2Root)
+  qt_add_dbus_adaptor(SOURCES src/mpris2/org.mpris.MediaPlayer2.Player.xml src/mpris2/mpris2.h Mpris2 mpris2_player Mpris2Player)
+  qt_add_dbus_adaptor(SOURCES src/mpris2/org.mpris.MediaPlayer2.TrackList.xml src/mpris2/mpris2.h Mpris2 mpris2_tracklist Mpris2TrackList)
+  qt_add_dbus_adaptor(SOURCES src/mpris2/org.mpris.MediaPlayer2.Playlists.xml src/mpris2/mpris2.h Mpris2 mpris2_playlists Mpris2Playlists)
 endif()
 
 optional_source(HAVE_WAVEFORM
@@ -1517,7 +1526,7 @@ optional_source(HAVE_QOBUZ
     src/qobuz/qobuzstreamurlrequest.cpp
     src/qobuz/qobuzfavoriterequest.cpp
     src/qobuz/qobuzmetadatarequest.cpp
-    src/qobuz/qobuzcredentialfetcher.cpp
+    src/qobuz/qobuzapicredentialfetcher.cpp
     src/settings/qobuzsettingspage.cpp
     src/covermanager/qobuzcoverprovider.cpp
   HEADERS
@@ -1528,7 +1537,7 @@ optional_source(HAVE_QOBUZ
     src/qobuz/qobuzstreamurlrequest.h
     src/qobuz/qobuzfavoriterequest.h
     src/qobuz/qobuzmetadatarequest.h
-    src/qobuz/qobuzcredentialfetcher.h
+    src/qobuz/qobuzapicredentialfetcher.h
     src/settings/qobuzsettingspage.h
     src/covermanager/qobuzcoverprovider.h
   UI
@@ -1582,6 +1591,7 @@ endif()
 target_link_libraries(strawberry_lib PUBLIC
   ${CMAKE_THREAD_LIBS_INIT}
   $<$<BOOL:${HAVE_BACKTRACE}>:${Backtrace_LIBRARIES}>
+  OpenSSL::Crypto
   PkgConfig::GLIB
   PkgConfig::GOBJECT
   PkgConfig::SQLITE

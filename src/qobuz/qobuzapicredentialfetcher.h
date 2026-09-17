@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef QOBUZCREDENTIALFETCHER_H
-#define QOBUZCREDENTIALFETCHER_H
+#ifndef QOBUZAPICREDENTIALFETCHER_H
+#define QOBUZAPICREDENTIALFETCHER_H
 
 #include "config.h"
 
@@ -30,17 +30,17 @@
 class QNetworkReply;
 class NetworkAccessManager;
 
-class QobuzCredentialFetcher : public QObject {
+class QobuzApiCredentialFetcher : public QObject {
   Q_OBJECT
 
  public:
-  explicit QobuzCredentialFetcher(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit QobuzApiCredentialFetcher(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
 
-  void FetchCredentials();
+  void FetchApiCredentials();
 
  Q_SIGNALS:
-  void CredentialsFetched(const QString &app_id, const QString &app_secret, const QString &login_app_id, const QString &private_key);
-  void CredentialsFetchError(const QString &error);
+  void ApiCredentialsFetched(const QString &app_id, const QString &app_secret, const QString &login_app_id, const QString &private_key);
+  void ApiCredentialsFetchError(const QString &error);
 
  private Q_SLOTS:
   void LoginPageReceived();
@@ -58,4 +58,4 @@ class QobuzCredentialFetcher : public QObject {
   QString bundle_url_;
 };
 
-#endif  // QOBUZCREDENTIALFETCHER_H
+#endif  // QOBUZAPICREDENTIALFETCHER_H

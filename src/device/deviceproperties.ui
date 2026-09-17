@@ -87,7 +87,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox">
+        <widget class="QGroupBox" name="groupbox_hardware_information">
          <property name="title">
           <string>Hardware information</string>
          </property>

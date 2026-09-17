@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, Martin Björklund <mbj4668@gmail.com>
- * Copyright 2016-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2016-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
  */
 
 #include "config.h"
+#include "apicredentials.h"
 
 #include <memory>
 #include <algorithm>
@@ -43,6 +44,8 @@
 #include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
+#include "core/settings.h"
+#include "constants/discogssettings.h"
 #include "utilities/cryptutils.h"
 #include "albumcoverfetcher.h"
 #include "jsoncoverprovider.h"
@@ -52,10 +55,25 @@ using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
 
 namespace {
+constexpr char kSettingsGroup[] = "Discogs";
 constexpr char kUrlSearch[] = "https://api.discogs.com/database/search";
-constexpr char kAccessKeyB64[] = "dGh6ZnljUGJlZ1NEeXBuSFFxSVk=";
-constexpr char kSecretKeyB64[] = "ZkFIcmlaSER4aHhRSlF2U3d0bm5ZVmdxeXFLWUl0UXI=";
 constexpr int kRequestsDelay = 1000;
+
+QString CompiledClientId() {
+#ifdef DISCOGS_CLIENT_ID
+  return Utilities::MaybeDecryptApiCredential(QStringLiteral(DISCOGS_CLIENT_ID));
+#else
+  return QString();
+#endif
+}
+
+QString CompiledClientSecret() {
+#ifdef DISCOGS_CLIENT_SECRET
+  return Utilities::MaybeDecryptApiCredential(QStringLiteral(DISCOGS_CLIENT_SECRET));
+#else
+  return QString();
+#endif
+}
 }  // namespace
 
 DiscogsCoverProvider::DiscogsCoverProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent)
@@ -65,6 +83,43 @@ DiscogsCoverProvider::DiscogsCoverProvider(const SharedPtr<NetworkAccessManager>
   timer_flush_requests_->setInterval(kRequestsDelay);
   timer_flush_requests_->setSingleShot(false);
   QObject::connect(timer_flush_requests_, &QTimer::timeout, this, &DiscogsCoverProvider::FlushRequests);
+
+  DiscogsCoverProvider::ReloadSettings();
+
+}
+
+bool DiscogsCoverProvider::has_compiled_api_credentials() const {
+#if defined(DISCOGS_CLIENT_ID) && defined(DISCOGS_CLIENT_SECRET)
+  return true;
+#else
+  return false;
+#endif
+}
+
+QString DiscogsCoverProvider::api_credentials_settings_group() const {
+  return QLatin1String(kSettingsGroup);
+}
+
+QString DiscogsCoverProvider::api_credentials_use_custom_key() const {
+  return QLatin1String(DiscogsSettings::kUseCustomApiCredentials);
+}
+
+QString DiscogsCoverProvider::api_credentials_id_key() const {
+  return QLatin1String(DiscogsSettings::kClientId);
+}
+
+QString DiscogsCoverProvider::api_credentials_secret_key() const {
+  return QLatin1String(DiscogsSettings::kClientSecret);
+}
+
+void DiscogsCoverProvider::ReloadSettings() {
+
+  Settings s;
+  s.beginGroup(QLatin1String(kSettingsGroup));
+  const bool use_custom_api_credentials = !has_compiled_api_credentials() || s.value(DiscogsSettings::kUseCustomApiCredentials, false).toBool();
+  client_id_ = use_custom_api_credentials ? s.value(DiscogsSettings::kClientId).toString() : CompiledClientId();
+  client_secret_ = use_custom_api_credentials ? s.value(DiscogsSettings::kClientSecret).toString() : CompiledClientSecret();
+  s.endGroup();
 
 }
 
@@ -89,6 +144,11 @@ bool DiscogsCoverProvider::StartSearch(const QString &artist, const QString &alb
   Q_UNUSED(title);
 
   if (artist.isEmpty() || album.isEmpty()) return false;
+
+  if (client_id_.isEmpty() || client_secret_.isEmpty()) {
+    Error(tr("Missing Discogs client ID and/or client secret"));
+    return false;
+  }
 
   SharedPtr<DiscogsCoverSearchContext> search = make_shared<DiscogsCoverSearchContext>(id, artist, album);
 
@@ -147,8 +207,8 @@ void DiscogsCoverProvider::SendSearchRequest(SharedPtr<DiscogsCoverSearchContext
 
 QNetworkReply *DiscogsCoverProvider::CreateRequest(const QUrl &url, const ParamList &params) {
 
-  const ParamList request_params = ParamList() << Param(u"key"_s, QString::fromLatin1(QByteArray::fromBase64(kAccessKeyB64)))
-                                               << Param(u"secret"_s, QString::fromLatin1(QByteArray::fromBase64(kSecretKeyB64)))
+  const ParamList request_params = ParamList() << Param(u"key"_s, client_id_)
+                                               << Param(u"secret"_s, client_secret_)
                                                << params;
 
   QUrlQuery url_query;
@@ -167,7 +227,7 @@ QNetworkReply *DiscogsCoverProvider::CreateRequest(const QUrl &url, const ParamL
 
   // Sign the request
   const QByteArray data_to_sign = QStringLiteral("GET\n%1\n%2\n%3").arg(request_url.host(), request_url.path(), query_items.join(u'&')).toUtf8();
-  const QByteArray signature(Utilities::HmacSha256(QByteArray::fromBase64(kSecretKeyB64), data_to_sign));
+  const QByteArray signature(Utilities::HmacSha256(client_secret_.toUtf8(), data_to_sign));
 
   // Add the signature to the request
   url_query.addQueryItem(u"Signature"_s, QString::fromLatin1(QUrl::toPercentEncoding(QString::fromLatin1(signature.toBase64()))));
@@ -176,8 +236,6 @@ QNetworkReply *DiscogsCoverProvider::CreateRequest(const QUrl &url, const ParamL
   network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   QNetworkReply *reply = network_->get(network_request);
   replies_ << reply;
-
-  qLog(Debug) << "Discogs: Sending request" << request_url;
 
   return reply;
 

@@ -294,6 +294,7 @@
   <tabstop>aftercopying</tabstop>
   <tabstop>naming</tabstop>
   <tabstop>insert</tabstop>
+  <tabstop>remove_problematic</tabstop>
   <tabstop>remove_non_fat</tabstop>
   <tabstop>remove_non_ascii</tabstop>
   <tabstop>allow_ascii_ext</tabstop>

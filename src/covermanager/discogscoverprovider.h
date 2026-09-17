@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, Martin Björklund <mbj4668@gmail.com>
- * Copyright 2016-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2016-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,6 +48,15 @@ class DiscogsCoverProvider : public JsonCoverProvider {
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
   void CancelSearch(const int id) override;
 
+  bool supports_custom_api_credentials() const override { return true; }
+  bool has_compiled_api_credentials() const override;
+  QString api_credentials_settings_group() const override;
+  QString api_credentials_use_custom_key() const override;
+  QString api_credentials_id_key() const override;
+  QString api_credentials_secret_key() const override;
+
+  void ReloadSettings() override;
+
   enum class DiscogsCoverType {
     Master,
     Release
@@ -84,6 +93,8 @@ class DiscogsCoverProvider : public JsonCoverProvider {
   void HandleReleaseReply(QNetworkReply *reply, const int search_id, const quint64 release_id);
 
  private:
+  QString client_id_;
+  QString client_secret_;
   QTimer *timer_flush_requests_;
   QQueue<SharedPtr<DiscogsCoverSearchContext>> queue_search_requests_;
   QQueue<DiscogsCoverReleaseContext> queue_release_requests_;

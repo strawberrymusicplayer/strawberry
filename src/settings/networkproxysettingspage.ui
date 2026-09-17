@@ -176,6 +176,7 @@
   <tabstop>proxy_auth</tabstop>
   <tabstop>proxy_username</tabstop>
   <tabstop>proxy_password</tabstop>
+  <tabstop>proxy_engine</tabstop>
  </tabstops>
  <resources/>
  <connections>

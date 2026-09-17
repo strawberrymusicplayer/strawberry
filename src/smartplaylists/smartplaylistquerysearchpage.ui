@@ -29,7 +29,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="groupBox_3">
+    <widget class="QGroupBox" name="groupbox_search_mode">
      <property name="title">
       <string>Search mode</string>
      </property>

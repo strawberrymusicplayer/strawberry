@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 #include <QString>
 #include <QIODevice>
 #include <QFile>
+#include <QSysInfo>
 #include <QSettings>
 
 #include "envutils.h"
@@ -43,6 +44,26 @@ void SetEnv(const char *key, const QString &value) {
   _putenv(QStringLiteral("%1=%2").arg(QLatin1String(key), value).toLocal8Bit().constData());
 #else
   setenv(key, value.toLocal8Bit().constData(), 1);
+#endif
+
+}
+
+QString OSName() {
+
+#if defined(Q_OS_MACOS)
+  return u"macOS"_s;
+#elif defined(Q_OS_WIN)
+  return u"Windows"_s;
+#elif defined(Q_OS_FREEBSD)
+  return u"FreeBSD"_s;
+#elif defined(Q_OS_OPENBSD)
+  return u"OpenBSD"_s;
+#elif defined(Q_OS_NETBSD)
+  return u"NetBSD"_s;
+#elif defined(Q_OS_LINUX)
+  return u"Linux"_s;
+#else
+  return QSysInfo::kernelType();
 #endif
 
 }

@@ -1,8 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,15 +20,16 @@
 #include "config.h"
 
 #include <QtGlobal>
-#include <QCoreApplication>
 #include <QIODevice>
 #include <QByteArray>
+#include <QVariant>
 #include <QString>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QNetworkInformation>
 
+#include "utilities/useragent.h"
 #include "networkaccessmanager.h"
 #include "threadsafenetworkdiskcache.h"
 
@@ -62,13 +61,8 @@ NetworkAccessManager::NetworkAccessManager(QObject *parent)
 
 QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkRequest &network_request, QIODevice *outgoing_data) {
 
-  QByteArray user_agent;
-  if (network_request.hasRawHeader("User-Agent")) {
-    user_agent = network_request.header(QNetworkRequest::UserAgentHeader).toByteArray();
-  }
-  else {
-    user_agent = "Strawberry Music Player";
-  }
+  const QVariant user_agent_header = network_request.header(QNetworkRequest::UserAgentHeader);
+  const QByteArray user_agent = user_agent_header.isValid() ? user_agent_header.toByteArray() : Utilities::UserAgent();
 
   QNetworkRequest new_network_request(network_request);
   new_network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);

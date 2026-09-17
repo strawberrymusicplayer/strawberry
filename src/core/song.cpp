@@ -1981,9 +1981,9 @@ void Song::BindToQuery(SqlQuery *query) const {
 #ifdef HAVE_MPRIS2
 void Song::ToXesam(QVariantMap *map) const {
 
-  using mpris::AddMetadata;
-  using mpris::AddMetadataAsList;
-  using mpris::AsMPRISDateTimeType;
+  using MPRIS2Common::AddMetadata;
+  using MPRIS2Common::AddMetadataAsList;
+  using MPRIS2Common::AsMPRISDateTimeType;
 
   AddMetadata(u"xesam:url"_s, effective_url().toString(), map);
   AddMetadata(u"xesam:title"_s, PrettyTitle(), map);

@@ -602,6 +602,11 @@
   <tabstop>notifications_bg_preset</tabstop>
   <tabstop>notifications_fg_choose</tabstop>
   <tabstop>notifications_font_choose</tabstop>
+  <tabstop>notifications_fading</tabstop>
+  <tabstop>richpresence_enabled</tabstop>
+  <tabstop>richpresence_listening_to_app</tabstop>
+  <tabstop>richpresence_listening_to_artist</tabstop>
+  <tabstop>richpresence_listening_to_song</tabstop>
  </tabstops>
  <resources/>
  <connections/>

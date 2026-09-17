@@ -51,7 +51,8 @@ class ScrobblerService : public JsonBaseRequest {
   virtual void Scrobble(const Song &song) = 0;
   virtual void Love() {}
 
-  virtual void StartSubmit(const bool initial = false) = 0;
+  virtual void Start(const bool initial = false) = 0;
+  virtual void Stop() = 0;
   virtual bool submitted() const { return false; }
 
  protected:
@@ -61,7 +62,6 @@ class ScrobblerService : public JsonBaseRequest {
   QString StripTitle(const QString &title) const;
 
  public Q_SLOTS:
-  virtual void Submit() = 0;
   virtual void WriteCache() = 0;
 
  Q_SIGNALS:

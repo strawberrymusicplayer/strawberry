@@ -1420,6 +1420,7 @@
   <tabstop>tags_summary</tabstop>
   <tabstop>tags_art_button</tabstop>
   <tabstop>checkbox_embedded_cover</tabstop>
+  <tabstop>combobox_id3v2_version</tabstop>
   <tabstop>title</tabstop>
   <tabstop>track</tabstop>
   <tabstop>titlesort</tabstop>

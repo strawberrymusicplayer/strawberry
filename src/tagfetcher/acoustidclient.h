@@ -48,11 +48,15 @@ class AcoustidClient : public QObject {
   explicit AcoustidClient(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~AcoustidClient() override;
 
+  // Was an API key compiled in (i.e. was ACOUSTID_API_KEY defined)? Used by AcoustidSettingsPage to decide whether to show the "use custom API key" checkbox.
+  static bool HasCompiledApiKey();
+
   // Network requests will be aborted after this interval.
   void SetTimeout(const int msec);
 
   // Starts a request and returns immediately.  Finished() will be emitted later with the same ID.
-  void Start(const int id, const QString &fingerprint, const int duration_msec);
+  // Returns false (and sets error) without starting anything if no AcoustID API key is configured.
+  bool Start(const int id, const QString &fingerprint, const int duration_msec, QString &error);
 
   // Cancels the request with the given ID.  Finished() will never be emitted for that ID.  Does nothing if there is no request with the given ID.
   void Cancel(const int id);

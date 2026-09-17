@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,6 +39,8 @@ class LastFmCoverProvider : public JsonCoverProvider {
 
   bool authentication_required() const override { return true; }
 
+  void ReloadSettings() override;
+
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
 
  private Q_SLOTS:
@@ -58,6 +60,9 @@ class LastFmCoverProvider : public JsonCoverProvider {
 
   static LastFmImageSize ImageSizeFromString(const QString &size);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
+
+  QString api_key_;
+  QString api_secret_;
 };
 
 #endif  // LASTFMCOVERPROVIDER_H

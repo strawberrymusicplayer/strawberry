@@ -27,7 +27,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="groupbox_sorting">
      <property name="title">
       <string>Sorting</string>
      </property>
@@ -67,7 +67,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
+    <widget class="QGroupBox" name="groupbox_limits">
      <property name="title">
       <string>Limits</string>
      </property>

@@ -168,6 +168,10 @@
  <tabstops>
   <tabstop>preset</tabstop>
   <tabstop>preset_save</tabstop>
+  <tabstop>preset_del</tabstop>
+  <tabstop>enable_equalizer</tabstop>
+  <tabstop>enable_stereo_balancer</tabstop>
+  <tabstop>stereo_balance_slider</tabstop>
  </tabstops>
  <resources>
   <include location="../../data/icons.qrc"/>

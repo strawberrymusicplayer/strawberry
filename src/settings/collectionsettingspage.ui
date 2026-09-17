@@ -541,6 +541,7 @@ If there are no matches then it will use the largest image in the directory.</st
   <tabstop>various_artists</tabstop>
   <tabstop>checkbox_skip_articles_for_artists</tabstop>
   <tabstop>checkbox_skip_articles_for_albums</tabstop>
+  <tabstop>checkbox_use_sort_tags</tabstop>
   <tabstop>spinbox_cache_size</tabstop>
   <tabstop>combobox_cache_size</tabstop>
   <tabstop>checkbox_disk_cache</tabstop>

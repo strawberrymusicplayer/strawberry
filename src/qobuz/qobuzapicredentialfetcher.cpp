@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,35 +34,36 @@
 #include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
-#include "qobuzcredentialfetcher.h"
+#include "qobuzapicredentialfetcher.h"
 
 using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kLoginPageUrl[] = "https://play.qobuz.com/login";
 constexpr char kPlayQobuzUrl[] = "https://play.qobuz.com";
+constexpr char kUserAgent[] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 }  // namespace
 
-QobuzCredentialFetcher::QobuzCredentialFetcher(const SharedPtr<NetworkAccessManager> network, QObject *parent)
+QobuzApiCredentialFetcher::QobuzApiCredentialFetcher(const SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),
       network_(network),
       login_page_reply_(nullptr),
       bundle_reply_(nullptr) {}
 
-void QobuzCredentialFetcher::FetchCredentials() {
+void QobuzApiCredentialFetcher::FetchApiCredentials() {
 
-  qLog(Debug) << "Qobuz: Fetching credentials from web player";
+  qLog(Debug) << "Qobuz: Fetching API credentials from web player";
 
   QNetworkRequest request(QUrl(QString::fromLatin1(kLoginPageUrl)));
   request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  request.setHeader(QNetworkRequest::UserAgentHeader, u"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"_s);
+  request.setHeader(QNetworkRequest::UserAgentHeader, QLatin1String(kUserAgent));
 
   login_page_reply_ = network_->get(request);
-  QObject::connect(login_page_reply_, &QNetworkReply::finished, this, &QobuzCredentialFetcher::LoginPageReceived);
+  QObject::connect(login_page_reply_, &QNetworkReply::finished, this, &QobuzApiCredentialFetcher::LoginPageReceived);
 
 }
 
-void QobuzCredentialFetcher::LoginPageReceived() {
+void QobuzApiCredentialFetcher::LoginPageReceived() {
 
   if (!login_page_reply_) return;
 
@@ -73,7 +74,7 @@ void QobuzCredentialFetcher::LoginPageReceived() {
     QString error = QStringLiteral("Failed to fetch login page: %1").arg(reply->errorString());
     qLog(Error) << "Qobuz:" << error;
     reply->deleteLater();
-    Q_EMIT CredentialsFetchError(error);
+    Q_EMIT ApiCredentialsFetchError(error);
     return;
   }
 
@@ -88,7 +89,7 @@ void QobuzCredentialFetcher::LoginPageReceived() {
   if (!bundle_match.hasMatch()) {
     QString error = u"Failed to find bundle.js URL in login page"_s;
     qLog(Error) << "Qobuz:" << error;
-    Q_EMIT CredentialsFetchError(error);
+    Q_EMIT ApiCredentialsFetchError(error);
     return;
   }
 
@@ -98,14 +99,14 @@ void QobuzCredentialFetcher::LoginPageReceived() {
   // Fetch the bundle.js
   QNetworkRequest request(QUrl(QString::fromLatin1(kPlayQobuzUrl) + bundle_url_));
   request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  request.setHeader(QNetworkRequest::UserAgentHeader, u"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"_s);
+  request.setHeader(QNetworkRequest::UserAgentHeader, QLatin1String(kUserAgent));
 
   bundle_reply_ = network_->get(request);
-  QObject::connect(bundle_reply_, &QNetworkReply::finished, this, &QobuzCredentialFetcher::BundleReceived);
+  QObject::connect(bundle_reply_, &QNetworkReply::finished, this, &QobuzApiCredentialFetcher::BundleReceived);
 
 }
 
-void QobuzCredentialFetcher::BundleReceived() {
+void QobuzApiCredentialFetcher::BundleReceived() {
 
   if (!bundle_reply_) return;
 
@@ -116,7 +117,7 @@ void QobuzCredentialFetcher::BundleReceived() {
     QString error = QStringLiteral("Failed to fetch bundle.js: %1").arg(reply->errorString());
     qLog(Error) << "Qobuz:" << error;
     reply->deleteLater();
-    Q_EMIT CredentialsFetchError(error);
+    Q_EMIT ApiCredentialsFetchError(error);
     return;
   }
 
@@ -129,7 +130,7 @@ void QobuzCredentialFetcher::BundleReceived() {
   if (app_id.isEmpty()) {
     QString error = u"Failed to extract app_id from bundle"_s;
     qLog(Error) << "Qobuz:" << error;
-    Q_EMIT CredentialsFetchError(error);
+    Q_EMIT ApiCredentialsFetchError(error);
     return;
   }
 
@@ -137,18 +138,18 @@ void QobuzCredentialFetcher::BundleReceived() {
   if (app_secret.isEmpty()) {
     QString error = u"Failed to extract app_secret from bundle"_s;
     qLog(Error) << "Qobuz:" << error;
-    Q_EMIT CredentialsFetchError(error);
+    Q_EMIT ApiCredentialsFetchError(error);
     return;
   }
 
   const QString login_app_id = ExtractLoginAppId(bundle);
   const QString private_key = ExtractPrivateKey(bundle);
-  qLog(Debug) << "Qobuz: Successfully extracted credentials - app_id:" << app_id << "login_app_id:" << login_app_id << "private_key:" << !private_key.isEmpty();
-  Q_EMIT CredentialsFetched(app_id, app_secret, login_app_id, private_key);
+  qLog(Debug) << "Qobuz: Successfully extracted API credentials - app_id:" << app_id << "login_app_id:" << login_app_id << "private_key:" << !private_key.isEmpty();
+  Q_EMIT ApiCredentialsFetched(app_id, app_secret, login_app_id, private_key);
 
 }
 
-QString QobuzCredentialFetcher::ExtractAppId(const QString &bundle) {
+QString QobuzApiCredentialFetcher::ExtractAppId(const QString &bundle) {
 
   // Extract the production app_id used for API request signing.
   static const QRegularExpression app_id_regex(u"production:\\{api:\\{appId:\"(\\d+)\""_s);
@@ -162,7 +163,7 @@ QString QobuzCredentialFetcher::ExtractAppId(const QString &bundle) {
 
 }
 
-QString QobuzCredentialFetcher::ExtractLoginAppId(const QString &bundle) {
+QString QobuzApiCredentialFetcher::ExtractLoginAppId(const QString &bundle) {
 
   // The production app_id is blocked at the Qobuz API gateway for /user/login.
   // A standalone {appId:"<id>"} object (8-10 digits, no appSecret alongside) is used exclusively for login authentication.
@@ -177,7 +178,7 @@ QString QobuzCredentialFetcher::ExtractLoginAppId(const QString &bundle) {
 
 }
 
-QString QobuzCredentialFetcher::ExtractAppSecret(const QString &bundle) {
+QString QobuzApiCredentialFetcher::ExtractAppSecret(const QString &bundle) {
 
   // The plain-text appSecret in the bundle doesn't work for API requests.
   // We need to use the Spoofbuz method to extract the real secrets:
@@ -292,7 +293,7 @@ QString QobuzCredentialFetcher::ExtractAppSecret(const QString &bundle) {
 
 }
 
-QString QobuzCredentialFetcher::ExtractPrivateKey(const QString &bundle) {
+QString QobuzApiCredentialFetcher::ExtractPrivateKey(const QString &bundle) {
 
   // Extract the private key used for OAuth callback token exchange.
   // In the bundle it appears as: privateKey:"6lz8C03UDIC7"

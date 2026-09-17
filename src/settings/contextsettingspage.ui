@@ -616,6 +616,23 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>context_custom_text1</tabstop>
+  <tabstop>context_exp_chooser1</tabstop>
+  <tabstop>context_custom_text2</tabstop>
+  <tabstop>context_exp_chooser2</tabstop>
+  <tabstop>checkbox_album</tabstop>
+  <tabstop>checkbox_technical_data</tabstop>
+  <tabstop>checkbox_song_lyrics</tabstop>
+  <tabstop>checkbox_search_cover</tabstop>
+  <tabstop>checkbox_search_lyrics</tabstop>
+  <tabstop>font_headline</tabstop>
+  <tabstop>font_size_headline</tabstop>
+  <tabstop>preview_headline</tabstop>
+  <tabstop>font_normal</tabstop>
+  <tabstop>font_size_normal</tabstop>
+  <tabstop>preview_normal</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -390,6 +390,7 @@
   <tabstop>checkbox_showtrayicon</tabstop>
   <tabstop>checkbox_keeprunning</tabstop>
   <tabstop>checkbox_trayicon_progress</tabstop>
+  <tabstop>checkbox_taskbar_progress</tabstop>
   <tabstop>checkbox_resumeplayback</tabstop>
   <tabstop>checkbox_playingwidget</tabstop>
   <tabstop>radiobutton_remember</tabstop>
@@ -404,6 +405,7 @@
   <tabstop>combobox_doubleclickplaymode</tabstop>
   <tabstop>combobox_doubleclickplaylistaddmode</tabstop>
   <tabstop>spinbox_seekstepsec</tabstop>
+  <tabstop>spinbox_volumeincrement</tabstop>
  </tabstops>
  <resources/>
  <connections/>

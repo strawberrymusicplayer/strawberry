@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,6 +49,12 @@ class OAuthenticator : public QObject {
     Client_Credentials
   };
 
+  enum class PortType {
+    SetToRedirectURL,
+    PassAsUrlParam,
+    PassInState
+  };
+
   void set_settings_group(const QString &settings_group);
   void set_type(const Type type);
   void set_authorize_url(const QUrl &authorize_url);
@@ -58,7 +64,8 @@ class OAuthenticator : public QObject {
   void set_client_secret(const QString &client_secret);
   void set_scope(const QString &scope);
   void set_use_local_redirect_server(const bool use_local_redirect_server);
-  void set_random_port(const bool random_port);
+  void set_port_type(const PortType port_type);
+  void set_use_pkce(const bool use_pkce);
 
   QString token_type() const { return token_type_; }
   QString access_token() const { return access_token_; }
@@ -84,10 +91,11 @@ class OAuthenticator : public QObject {
   void RequestAccessToken(const QString &code = QString(), const QUrl &redirect_url = QUrl());
   void RerefreshAccessToken();
   void AuthorizationUrlReceived(const QUrl &request_url, const QUrl &redirect_url);
+  QUrl EffectiveRedirectUrl() const;
 
  Q_SIGNALS:
   void Error(const QString &error);
-  void AuthenticationFinished(const bool success, const QString &error = QString());
+  void AuthenticationFinished(const bool success, const QString &error = QString(), const bool invalid_grant = false);
 
  private Q_SLOTS:
   void RedirectArrived();
@@ -108,7 +116,10 @@ class OAuthenticator : public QObject {
   QString client_secret_;
   QString scope_;
   bool use_local_redirect_server_;
-  bool random_port_;
+  PortType port_type_;
+  bool use_pkce_;
+
+  QString state_;
 
   QString code_verifier_;
   QString code_challenge_;

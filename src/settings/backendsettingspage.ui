@@ -190,7 +190,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="groupbox_options">
      <property name="title">
       <string>Options</string>
      </property>
@@ -501,7 +501,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
+    <widget class="QGroupBox" name="groupbox_audio_normalization">
      <property name="title">
       <string>Audio normalization</string>
      </property>

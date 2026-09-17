@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -67,7 +67,7 @@ struct CoverSearchRequest {
 
 // This structure represents a single result of some album's cover search request.
 struct CoverProviderSearchResult {
-  explicit CoverProviderSearchResult() : score_provider(0.0), score_match(0.0), score_quality(0.0), number(0) {}
+  explicit CoverProviderSearchResult() : score_provider(0.0), score_match(0.0), score_quality(0.0), number(0), compilation(false) {}
 
   // Used for grouping in the user interface.
   QString provider;
@@ -75,6 +75,9 @@ struct CoverProviderSearchResult {
   // Artist and album returned by the provider
   QString artist;
   QString album;
+
+  // Artist credited to the release itself, when the provider supplies it.
+  QString album_artist;
 
   // An URL of a cover image
   QUrl image_url;
@@ -93,6 +96,9 @@ struct CoverProviderSearchResult {
 
   // The result number
   int number;
+
+  // Set when the provider identified the release as a compilation.
+  bool compilation;
 
   // Total score for this result
   float score() const { return score_provider + score_match + score_quality; }

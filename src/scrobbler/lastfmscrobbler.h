@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,7 +49,8 @@ class LastFMScrobbler : public ScrobblerService {
   static const char *kName;
   static const char *kSettingsGroup;
   static const char *kApiUrl;
-  static const char *kApiKey;
+
+  static bool HasCompiledCredentials();
 
   void ReloadSettings() override;
   void LoadSession();
@@ -57,7 +58,7 @@ class LastFMScrobbler : public ScrobblerService {
 
   bool enabled() const override { return enabled_; }
   bool authentication_required() const override { return true; }
-  bool authenticated() const override { return !username_.isEmpty() && !session_key_.isEmpty(); }
+  bool authenticated() const override { return !api_key_.isEmpty() && !api_secret_.isEmpty() && !username_.isEmpty() && !session_key_.isEmpty(); }
   bool use_authorization_header() const override { return false; }
   QByteArray authorization_header() const override { return QByteArray(); }
 
@@ -69,8 +70,9 @@ class LastFMScrobbler : public ScrobblerService {
   void UpdateNowPlaying(const Song &song) override;
   void ClearPlaying() override;
   void Scrobble(const Song &song) override;
-  void Submit() override;
   void Love() override;
+  void Start(const bool initial = false) override;
+  void Stop() override;
 
  Q_SIGNALS:
   void AuthenticationComplete(const bool success, const QString &error = QString());
@@ -125,7 +127,7 @@ class LastFMScrobbler : public ScrobblerService {
   void SendSingleScrobble(ScrobblerCacheItemPtr item);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
   static QString ErrorString(const ScrobbleErrorCode error);
-  void StartSubmit(const bool initial = false) override;
+  void SendScrobbleRequests();
   void CheckScrobblePrevSong();
 
  protected:
@@ -135,10 +137,14 @@ class LastFMScrobbler : public ScrobblerService {
 
   bool enabled_;
   bool prefer_albumartist_;
+  bool api_credentials_initialized_;
 
   bool subscriber_;
   QString username_;
   QString session_key_;
+
+  QString api_key_;
+  QString api_secret_;
 
   bool submitted_;
   Song song_playing_;
@@ -146,7 +152,7 @@ class LastFMScrobbler : public ScrobblerService {
   quint64 timestamp_;
   bool submit_error_;
 
-  QTimer *timer_submit_;
+  QTimer *timer_send_scrobble_requests_;
 };
 
 #endif  // LASTFMSCROBBLER_H

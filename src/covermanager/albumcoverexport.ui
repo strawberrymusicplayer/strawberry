@@ -25,7 +25,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="groupbox_output">
      <property name="title">
       <string>Output</string>
      </property>
@@ -64,7 +64,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
+    <widget class="QGroupBox" name="groupbox_existing_covers">
      <property name="title">
       <string>Existing covers</string>
      </property>
@@ -94,7 +94,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_3">
+    <widget class="QGroupBox" name="groupbox_size">
      <property name="title">
       <string>Size</string>
      </property>

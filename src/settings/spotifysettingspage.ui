@@ -22,9 +22,65 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupbox_basic_authentication">
+    <widget class="QGroupBox" name="groupbox_api_credentials">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title">
-      <string>Basic authentication</string>
+      <string>API Credentials</string>
+     </property>
+     <layout class="QFormLayout" name="layout_api_credentials">
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="checkbox_use_custom_api_credentials">
+        <property name="text">
+         <string>Use custom API credentials</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_client_id">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Client ID</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="client_id">
+        <property name="text">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_client_secret">
+        <property name="text">
+         <string>Client secret</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="client_secret">
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupbox_authentication">
+     <property name="title">
+      <string>Authentication</string>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
@@ -80,7 +136,7 @@
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See &lt;a href=&quot;https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Wiki&lt;/span&gt;&lt;/a&gt; for instructions on how to install the plugin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -215,7 +271,7 @@
    <item>
     <spacer name="spacer_middle">
      <property name="orientation">
-      <enum>Qt::Orientation::Vertical</enum>
+      <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -230,7 +286,7 @@
      <item>
       <spacer name="spacer_bottom">
        <property name="orientation">
-        <enum>Qt::Orientation::Horizontal</enum>
+        <enum>Qt::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -273,12 +329,17 @@
  </customwidgets>
  <tabstops>
   <tabstop>enable</tabstop>
+  <tabstop>checkbox_use_custom_api_credentials</tabstop>
+  <tabstop>client_id</tabstop>
+  <tabstop>client_secret</tabstop>
+  <tabstop>button_login</tabstop>
   <tabstop>searchdelay</tabstop>
   <tabstop>artistssearchlimit</tabstop>
   <tabstop>albumssearchlimit</tabstop>
   <tabstop>songssearchlimit</tabstop>
   <tabstop>checkbox_download_album_covers</tabstop>
   <tabstop>checkbox_fetchalbums</tabstop>
+  <tabstop>checkbox_remove_remastered</tabstop>
  </tabstops>
  <resources>
   <include location="../../data/icons.qrc"/>

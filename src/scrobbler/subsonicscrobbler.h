@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  * Copyright 2020, Pascal Below <spezifisch@below.fr>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -53,22 +53,27 @@ class SubsonicScrobbler : public ScrobblerService {
   void ClearPlaying() override;
   void Scrobble(const Song &song) override;
 
-  void StartSubmit(const bool initial = false) override { Q_UNUSED(initial) }
+  void Start(const bool initial = false) override;
+  void Stop() override;
+  void ScheduleSendScrobbles();
+
   bool submitted() const override { return submitted_; }
 
   SharedPtr<SubsonicService> service() const;
 
  public Q_SLOTS:
   void WriteCache() override {}
-  void Submit() override;
 
  private:
+  void SendScrobbles();
+
   const SharedPtr<SubsonicService> service_;
   bool enabled_;
   bool submitted_;
+  bool scrobble_pending_;
   Song song_playing_;
   QDateTime time_;
-  QTimer timer_submit_;
+  QTimer timer_send_scrobbles_;
 };
 
 #endif  // SUBSONICSCROBBLER_H

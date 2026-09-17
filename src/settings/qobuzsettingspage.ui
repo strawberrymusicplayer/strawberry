@@ -22,7 +22,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="credential_group">
+    <widget class="QGroupBox" name="groupbox_api_credentials">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
        <horstretch>0</horstretch>
@@ -30,9 +30,9 @@
       </sizepolicy>
      </property>
      <property name="title">
-      <string>Authentication</string>
+      <string>API Credentials</string>
      </property>
-     <layout class="QFormLayout" name="layout_credential_group">
+     <layout class="QFormLayout" name="layout_api_credentials">
       <item row="1" column="0">
        <widget class="QLabel" name="label_app_id">
         <property name="minimumSize">
@@ -81,12 +81,12 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="button_fetch_credentials">
+    <widget class="QPushButton" name="button_fetch_api_credentials">
      <property name="toolTip">
       <string>Automatically fetch app ID, app secret and private key from Qobuz web player</string>
      </property>
      <property name="text">
-      <string>Fetch Credentials</string>
+      <string>Fetch API Credentials</string>
      </property>
     </widget>
    </item>
@@ -287,7 +287,7 @@
   <tabstop>app_id</tabstop>
   <tabstop>app_secret</tabstop>
   <tabstop>private_key</tabstop>
-  <tabstop>button_fetch_credentials</tabstop>
+  <tabstop>button_fetch_api_credentials</tabstop>
   <tabstop>button_login</tabstop>
   <tabstop>format</tabstop>
   <tabstop>searchdelay</tabstop>

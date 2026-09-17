@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ class QShowEvent;
 class QEvent;
 class SettingsDialog;
 class QobuzService;
-class QobuzCredentialFetcher;
+class QobuzApiCredentialFetcher;
 class Ui_QobuzSettingsPage;
 
 class QobuzSettingsPage : public SettingsPage {
@@ -53,14 +53,14 @@ class QobuzSettingsPage : public SettingsPage {
   void LogoutClicked();
   void LoginSuccess();
   void LoginFailure(const QString &failure_reason);
-  void FetchCredentialsClicked();
-  void CredentialsFetched(const QString &app_id, const QString &app_secret, const QString &login_app_id, const QString &private_key);
-  void CredentialsFetchError(const QString &error);
+  void FetchApiCredentialsClicked();
+  void ApiCredentialsFetched(const QString &app_id, const QString &app_secret, const QString &login_app_id, const QString &private_key);
+  void ApiCredentialsFetchError(const QString &error);
 
  private:
   Ui_QobuzSettingsPage *ui_;
   const SharedPtr<QobuzService> service_;
-  QobuzCredentialFetcher *credential_fetcher_;
+  QobuzApiCredentialFetcher *api_credential_fetcher_;
 };
 
 #endif  // QOBUZSETTINGSPAGE_H

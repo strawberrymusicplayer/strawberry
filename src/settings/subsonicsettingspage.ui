@@ -51,7 +51,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="credential_group">
+    <widget class="QGroupBox" name="groupbox_authentication">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
        <horstretch>0</horstretch>
@@ -61,7 +61,7 @@
      <property name="title">
       <string>Authentication</string>
      </property>
-     <layout class="QFormLayout" name="layout_credential_group">
+     <layout class="QFormLayout" name="layout_authentication">
       <item row="1" column="0">
        <widget class="QLabel" name="label_username">
         <property name="text">
@@ -280,8 +280,15 @@
   <tabstop>server_url</tabstop>
   <tabstop>username</tabstop>
   <tabstop>password</tabstop>
+  <tabstop>auth_method_hex</tabstop>
+  <tabstop>auth_method_md5</tabstop>
+  <tabstop>checkbox_http2</tabstop>
   <tabstop>checkbox_verify_certificate</tabstop>
   <tabstop>checkbox_download_album_covers</tabstop>
+  <tabstop>checkbox_use_album_id_for_album_covers</tabstop>
+  <tabstop>checkbox_server_scrobbling</tabstop>
+  <tabstop>button_test</tabstop>
+  <tabstop>button_deletesongs</tabstop>
  </tabstops>
  <resources>
   <include location="../../data/data.qrc"/>

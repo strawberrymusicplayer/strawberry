@@ -97,6 +97,7 @@ To build Strawberry from source, you’ll need:
 - [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/) or [pkgconf](https://github.com/pkgconf/pkgconf)
 - [Boost](https://www.boost.org/)
 - [GLib](https://developer.gnome.org/glib/)
+- [OpenSSL](https://www.openssl.org/)
 - [Qt 6.4 or higher](https://www.qt.io/) (Core, Concurrent, Gui, Widgets, Network, SQL, D-Bus)
 - [SQLite 3.9 or higher](https://www.sqlite.org)
 - [ALSA (Linux only)](https://www.alsa-project.org/)
@@ -131,7 +132,7 @@ Also install GStreamer plugins **base**, **good**, and optionally **bad**, **ugl
     cmake --build build --parallel $(nproc)
     sudo cmake --install build
 
-For building on Windows with Visual Studio 2022, see: :point_right: https://github.com/strawberrymusicplayer/strawberry-msvc-build-tools
+For building on Windows with Visual Studio 2022/2026, see: :point_right: https://github.com/strawberrymusicplayer/strawberry-msvc-build-tools
 
 ---
 

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ QByteArray Hmac(const QByteArray &key, const QByteArray &data, const QCryptograp
 QByteArray HmacMd5(const QByteArray &key, const QByteArray &data);
 QByteArray HmacSha256(const QByteArray &key, const QByteArray &data);
 QByteArray HmacSha1(const QByteArray &key, const QByteArray &data);
+QString MaybeDecryptApiCredential(const QString &value);
 
 }  // namespace Utilities
 

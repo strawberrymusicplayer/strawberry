@@ -29,7 +29,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="groupbox_group_by">
      <property name="title">
       <string>Group Collection by...</string>
      </property>
@@ -421,6 +421,7 @@
   <tabstop>combobox_first</tabstop>
   <tabstop>combobox_second</tabstop>
   <tabstop>combobox_third</tabstop>
+  <tabstop>checkbox_separate_albums_by_grouping</tabstop>
   <tabstop>buttonbox</tabstop>
  </tabstops>
  <resources>

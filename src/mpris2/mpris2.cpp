@@ -102,14 +102,14 @@ const QDBusArgument &operator>>(const QDBusArgument &arg, MaybePlaylist &playlis
   return arg;
 }
 
-namespace mpris {
-
+namespace {
 constexpr char kMprisObjectPath[] = "/org/mpris/MediaPlayer2";
 constexpr char kServiceName[] = "org.mpris.MediaPlayer2.strawberry";
 constexpr char kFreedesktopPath[] = "org.freedesktop.DBus.Properties";
 constexpr char kTrackPrefix[] = "/org/strawberrymusicplayer/strawberry/Track/";
 constexpr char kNoTrack[] = "/org/mpris/MediaPlayer2/TrackList/NoTrack";
 constexpr int kTracksSubsetCount = 20;
+}  // namespace
 
 Mpris2::Mpris2(const SharedPtr<Player> player,
                const SharedPtr<PlaylistManager> playlist_manager,
@@ -538,7 +538,7 @@ void Mpris2::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &re
   last_metadata_ = QVariantMap();
   song.ToXesam(&last_metadata_);
 
-  using mpris::AddMetadata;
+  using MPRIS2Common::AddMetadata;
   AddMetadata(u"mpris:trackid"_s, current_track_id(playlist_item_uuid), &last_metadata_);
 
   QUrl cover_url;
@@ -914,5 +914,3 @@ void Mpris2::PlaylistCollectionChanged(Playlist *playlist) {
   Q_UNUSED(playlist);
   EmitNotification(u"PlaylistCount"_s, ""_L1, u"org.mpris.MediaPlayer2.Playlists"_s);
 }
-
-}  // namespace mpris

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -249,9 +249,24 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
     const QString album = object_album["title"_L1].toString();
     const QString cover = object_album["cover"_L1].toString().replace("-"_L1, "/"_L1);
 
+    // Pick up the artist credited to the release itself, which is not always the artist of the track.
+    // Tidal only populates this when searching for albums, a track search returns an album object holding little more than id, title and cover.
+    QString album_artist;
+    if (object_album["artist"_L1].isObject()) {
+      album_artist = object_album["artist"_L1].toObject()["name"_L1].toString();
+    }
+    else if (object_album["artists"_L1].isArray()) {
+      const QJsonArray array_album_artists = object_album["artists"_L1].toArray();
+      if (!array_album_artists.isEmpty() && array_album_artists.first().isObject()) {
+        album_artist = array_album_artists.first().toObject()["name"_L1].toString();
+      }
+    }
+
     CoverProviderSearchResult cover_result;
     cover_result.artist = artist;
     cover_result.album = Song::AlbumRemoveDiscMisc(album);
+    cover_result.album_artist = album_artist;
+    cover_result.compilation = object_album["type"_L1].toString().compare("COMPILATION"_L1, Qt::CaseInsensitive) == 0;
     cover_result.number = ++i;
 
     const QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(u"1280x1280"_s, QSize(1280, 1280))

@@ -293,6 +293,9 @@
  </customwidgets>
  <tabstops>
   <tabstop>artists</tabstop>
+  <tabstop>view</tabstop>
+  <tabstop>button_fetch</tabstop>
+  <tabstop>export_covers</tabstop>
   <tabstop>albums</tabstop>
  </tabstops>
  <resources>

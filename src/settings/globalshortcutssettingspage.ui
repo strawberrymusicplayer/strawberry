@@ -308,6 +308,7 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>checkbox_kglobalaccel</tabstop>
   <tabstop>checkbox_x11</tabstop>
   <tabstop>button_macos_preferences</tabstop>
   <tabstop>list</tabstop>
@@ -317,8 +318,6 @@
   <tabstop>button_change</tabstop>
  </tabstops>
  <resources>
-  <include location="../../data/icons.qrc"/>
-  <include location="../../data/icons.qrc"/>
   <include location="../../data/icons.qrc"/>
  </resources>
  <connections/>

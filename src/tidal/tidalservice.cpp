@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
  */
 
 #include "config.h"
+#include "apicredentials.h"
 
 #include <memory>
 
@@ -27,6 +28,7 @@
 #include <QTimer>
 
 #include "includes/shared_ptr.h"
+#include "utilities/cryptutils.h"
 #include "core/logging.h"
 #include "core/settings.h"
 #include "core/database.h"
@@ -56,6 +58,22 @@ const Song::Source TidalService::kSource = Song::Source::Tidal;
 
 const char TidalService::kApiUrl[] = "https://api.tidalhifi.com/v1";
 const char TidalService::kResourcesUrl[] = "https://resources.tidal.com";
+
+bool TidalService::HasCompiledCredentials() {
+#ifdef TIDAL_CLIENT_ID
+  return true;
+#else
+  return false;
+#endif
+}
+
+QString TidalService::CompiledClientId() {
+#ifdef TIDAL_CLIENT_ID
+  return Utilities::MaybeDecryptApiCredential(QStringLiteral(TIDAL_CLIENT_ID));
+#else
+  return QString();
+#endif
+}
 
 namespace {
 
@@ -112,7 +130,9 @@ TidalService::TidalService(const SharedPtr<TaskManager> task_manager,
   oauth_->set_access_token_url(QUrl(QLatin1String(kOAuthAccessTokenUrl)));
   oauth_->set_scope(QLatin1String(kOAuthScope));
   oauth_->set_use_local_redirect_server(false);
-  oauth_->set_random_port(false);
+  oauth_->set_port_type(OAuthenticator::PortType::SetToRedirectURL);
+  oauth_->set_use_pkce(true);
+
   QObject::connect(oauth_, &OAuthenticator::AuthenticationFinished, this, &TidalService::OAuthFinished);
 
   // Backends
@@ -223,7 +243,9 @@ void TidalService::ReloadSettings() {
   Settings s;
   s.beginGroup(TidalSettings::kSettingsGroup);
   enabled_ = s.value(TidalSettings::kEnabled, TidalSettings::kDefaultEnabled).toBool();
-  client_id_ = s.value(TidalSettings::kClientId).toString();
+  const QString client_id = s.value(TidalSettings::kClientId).toString();
+  const bool use_custom_client_id = !HasCompiledCredentials() || s.value(TidalSettings::kUseCustomClientId, !client_id.isEmpty()).toBool();
+  client_id_ = use_custom_client_id ? client_id : CompiledClientId();
   quality_ = s.value(TidalSettings::kQuality, QLatin1String(TidalSettings::kDefaultQuality)).toString();
   quint64 search_delay = s.value(TidalSettings::kSearchDelay, TidalSettings::kDefaultSearchDelay).toULongLong();
   artistssearchlimit_ = s.value(TidalSettings::kArtistsSearchLimit, TidalSettings::kDefaultArtistsSearchLimit).toInt();
@@ -249,7 +271,9 @@ void TidalService::StartAuthorization(const QString &client_id) {
 
 }
 
-void TidalService::OAuthFinished(const bool success, const QString &error) {
+void TidalService::OAuthFinished(const bool success, const QString &error, const bool invalid_grant) {
+
+  Q_UNUSED(invalid_grant);
 
   if (success) {
     qLog(Debug) << "Tidal: Login successful" << "user id" << user_id();
