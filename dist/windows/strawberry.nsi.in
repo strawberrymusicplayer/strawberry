@@ -466,21 +466,12 @@ Section "Strawberry" Strawberry
   File "Qt6Widgets.dll"
 !endif
 
-!ifdef msvc
-  File "avcodec-62.dll"
-  File "avfilter-11.dll"
-  File "avformat-62.dll"
-  File "avutil-60.dll"
-  File "swresample-6.dll"
-  File "swscale-9.dll"
-!else
   File "avcodec-63.dll"
   File "avfilter-12.dll"
   File "avformat-63.dll"
   File "avutil-61.dll"
   File "swresample-7.dll"
   File "swscale-10.dll"
-!endif
 
   ; Register Strawberry with Default Programs
   Var /GLOBAL AppIcon
@@ -985,21 +976,12 @@ Section "Uninstall"
   Delete "$INSTDIR\Qt6Widgets.dll"
 !endif
 
-!ifdef msvc
-  Delete "$INSTDIR\avcodec-62.dll"
-  Delete "$INSTDIR\avfilter-11.dll"
-  Delete "$INSTDIR\avformat-62.dll"
-  Delete "$INSTDIR\avutil-60.dll"
-  Delete "$INSTDIR\swresample-6.dll"
-  Delete "$INSTDIR\swscale-9.dll"
-!else
   Delete "$INSTDIR\avcodec-63.dll"
   Delete "$INSTDIR\avfilter-12.dll"
   Delete "$INSTDIR\avformat-63.dll"
   Delete "$INSTDIR\avutil-61.dll"
   Delete "$INSTDIR\swresample-7.dll"
   Delete "$INSTDIR\swscale-10.dll"
-!endif
 
 !ifdef mingw
   Delete "$INSTDIR\gio-modules\libgiognutls.dll"
