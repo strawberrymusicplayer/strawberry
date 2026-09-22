@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,6 +45,7 @@ class PlayerInterface : public QObject {
   virtual SharedPtr<EngineBase> engine() const = 0;
   virtual EngineBase::State GetState() const = 0;
   virtual uint GetVolume() const = 0;
+  virtual bool is_muted() const = 0;
 
   virtual PlaylistItemPtr GetCurrentItem() const = 0;
   virtual PlaylistItemPtr GetItemAt(const int pos) const = 0;
@@ -100,6 +101,7 @@ class PlayerInterface : public QObject {
   void PlaylistFinished();
   void VolumeEnabled(const bool volume_enabled);
   void VolumeChanged(const uint volume);
+  void MuteChanged(const bool mute);
   void TrackSkipped(PlaylistItemPtr old_track);
   // Emitted when there's a manual change to the current's track position.
   void Seeked(const qint64 microseconds);

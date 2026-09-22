@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -90,7 +90,6 @@ Player::Player(const SharedPtr<TaskManager> task_manager, const SharedPtr<UrlHan
       last_state_(EngineBase::State::Empty),
       nb_errors_received_(0),
       volume_(100),
-      volume_before_mute_(100),
       last_pressed_previous_(QDateTime::currentDateTime()),
       continue_on_error_(false),
       greyout_(true),
@@ -127,6 +126,7 @@ void Player::Init() {
   QObject::connect(&*engine_, &EngineBase::TrackEnded, this, &Player::TrackEnded);
   QObject::connect(&*engine_, &EngineBase::MetaData, this, &Player::EngineMetadataReceived);
   QObject::connect(&*engine_, &EngineBase::VolumeChanged, this, &Player::SetVolumeFromEngine);
+  QObject::connect(&*engine_, &EngineBase::MuteChanged, this, &Player::SetMuteFromEngine);
 
   // Equalizer
   QObject::connect(&*equalizer_, &Equalizer::StereoBalancerEnabledChanged, &*engine_, &EngineBase::SetStereoBalancerEnabled);
@@ -707,6 +707,9 @@ void Player::SetVolumeFromSlider(const int value) {
     timer_save_volume_->start();
   }
 
+  // The user is adjusting the volume, so it shouldn't stay muted regardless of the resulting level (including zero).
+  SetMuted(false);
+
 }
 
 void Player::SetVolumeFromEngine(const uint volume) {
@@ -720,6 +723,10 @@ void Player::SetVolumeFromEngine(const uint volume) {
 
 }
 
+void Player::SetMuteFromEngine(const bool mute) {
+  Q_EMIT MuteChanged(mute);
+}
+
 void Player::SetVolume(const uint volume) {
 
   const uint new_volume = qBound(0U, volume, 100U);
@@ -729,6 +736,9 @@ void Player::SetVolume(const uint volume) {
     Q_EMIT VolumeChanged(new_volume);
     timer_save_volume_->start();
   }
+
+  // The volume is being explicitly (re)set, so it shouldn't stay muted regardless of the resulting level (including zero).
+  SetMuted(false);
 
 }
 
@@ -888,15 +898,16 @@ PlaylistItemPtr Player::GetItemAt(const int pos) const {
 
 void Player::Mute() {
 
-  const uint current_volume = engine_->volume();
+  SetMuted(!engine_->is_muted());
 
-  if (current_volume == 0) {
-    SetVolume(volume_before_mute_);
-  }
-  else {
-    volume_before_mute_ = current_volume;
-    SetVolume(0);
-  }
+}
+
+void Player::SetMuted(const bool mute) {
+
+  if (mute == engine_->is_muted()) return;
+
+  engine_->SetMute(mute);
+  Q_EMIT MuteChanged(mute);
 
 }
 

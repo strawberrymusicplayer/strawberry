@@ -6,7 +6,7 @@
    email                : markey@web.de
    copyright            : (C) 2005 by Gábor Lehel
    email                : illissius@gmail.com
-   copyright            : (C) 2018-2023 by Jonas Kvinge
+   copyright            : (C) 2018-2026 by Jonas Kvinge
    email                : jonas@jkvinge.net
 ***************************************************************************/
 
@@ -46,6 +46,7 @@ class VolumeSlider : public SliderSlider {
   explicit VolumeSlider(QWidget *parent, uint max = 0);
   void SetEnabled(const bool enabled);
   void HandleWheel(const int delta);
+  void SetMuted(const bool muted);
 
  protected:
   void enterEvent(QEnterEvent *e) override;
@@ -75,6 +76,8 @@ class VolumeSlider : public SliderSlider {
   void drawVolumeSliderHandle();
 
   int wheel_accumulator_;
+
+  bool muted_;
 
   bool anim_enter_;
   int anim_count_;

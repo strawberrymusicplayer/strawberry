@@ -497,7 +497,7 @@ MainWindow::MainWindow(Application *app,
 
   const uint volume = app_->player()->GetVolume();
   ui_->volume->SetValue(volume);
-  VolumeChanged(volume);
+  MuteChanged(app_->player()->is_muted());
 
   QObject::connect(ui_->playlist, &PlaylistContainer::ViewSelectionModelChanged, this, &MainWindow::PlaylistViewSelectionModelChanged);
 
@@ -692,7 +692,7 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(&*app_->player(), &Player::Stopped, this, &MainWindow::MediaStopped);
   QObject::connect(&*app_->player(), &Player::Seeked, this, &MainWindow::Seeked);
   QObject::connect(&*app_->player(), &Player::TrackSkipped, this, &MainWindow::TrackSkipped);
-  QObject::connect(&*app_->player(), &Player::VolumeChanged, this, &MainWindow::VolumeChanged);
+  QObject::connect(&*app_->player(), &Player::MuteChanged, this, &MainWindow::MuteChanged);
 
   QObject::connect(&*app_->player(), &Player::Paused, ui_->playlist, &PlaylistContainer::ActivePaused);
   QObject::connect(&*app_->player(), &Player::Playing, ui_->playlist, &PlaylistContainer::ActivePlaying);
@@ -705,6 +705,7 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(&*app_->player(), &Player::Stopped, osd_, &OSDBase::Stopped);
   QObject::connect(&*app_->player(), &Player::PlaylistFinished, osd_, &OSDBase::PlaylistFinished);
   QObject::connect(&*app_->player(), &Player::VolumeChanged, osd_, &OSDBase::VolumeChanged);
+  QObject::connect(&*app_->player(), &Player::MuteChanged, osd_, &OSDBase::MuteChanged);
   QObject::connect(&*app_->player(), &Player::VolumeChanged, ui_->volume, &VolumeSlider::SetValue);
   QObject::connect(&*app_->player(), &Player::ForceShowOSD, this, &MainWindow::ForceShowOSD);
 
@@ -1612,9 +1613,12 @@ void MainWindow::SendNowPlaying() {
 
 }
 
-void MainWindow::VolumeChanged(const uint volume) {
-  ui_->action_mute->setChecked(volume == 0);
-  systemtrayicon_->MuteButtonStateChanged(volume == 0);
+void MainWindow::MuteChanged(const bool mute) {
+
+  ui_->action_mute->setChecked(mute);
+  systemtrayicon_->MuteButtonStateChanged(mute);
+  ui_->volume->SetMuted(mute);
+
 }
 
 void MainWindow::SongChanged(const Song &song) {

@@ -4,7 +4,7 @@
  * Copyright 2003 Mark Kretschmann
  * Copyright 2004 - 2005 Max Howell, <max.howell@methylblue.com>
  * Copyright 2010 David Sansome <me@davidsansome.com>
- * Copyright 2017-2021 Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2017-2026 Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -98,6 +98,7 @@ class EngineBase : public QObject {
   virtual void Unpause() = 0;
   virtual void Seek(const quint64 offset_nanosec) = 0;
   virtual void SetVolumeSW(const uint percent) = 0;
+  virtual void SetMuteSW(const bool mute) = 0;
 
   virtual qint64 position_nanosec() const = 0;
   virtual qint64 length_nanosec() const = 0;
@@ -122,10 +123,12 @@ class EngineBase : public QObject {
   // Both markers should be passed in nanoseconds. 'end' can be negative, indicating that the real length of 'u' stream is unknown.
   bool Play(const QUrl &media_url, const QUrl &stream_url, const bool pause, const TrackChangeFlags flags, const bool force_stop_at_end, const quint64 beginning_offset_nanosec, const qint64 end_offset_nanosec, const quint64 offset_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs);
   void SetVolume(const uint volume);
+  void SetMute(const bool mute);
 
  public Q_SLOTS:
   virtual void ReloadSettings();
   void UpdateVolume(const uint volume);
+  void UpdateMute(const bool mute);
   void EmitAboutToFinish();
   void UpdateSpotifyAccessToken(const QString &spotify_access_token);
 
@@ -134,6 +137,7 @@ class EngineBase : public QObject {
   bool volume_control() const { return volume_control_; }
   bool volume_exponential() const { return volume_exponential_; }
   inline uint volume() const { return volume_; }
+  inline bool is_muted() const { return muted_; }
 
   bool is_fadeout_enabled() const { return fadeout_enabled_; }
   bool is_crossfade_enabled() const { return crossfade_enabled_; }
@@ -174,6 +178,7 @@ class EngineBase : public QObject {
   void StateChanged(const EngineBase::State state);
 
   void VolumeChanged(const uint volume);
+  void MuteChanged(const bool mute);
 
   void Finished();
 
@@ -188,6 +193,7 @@ class EngineBase : public QObject {
   bool volume_control_;
   bool volume_exponential_;
   uint volume_;
+  bool muted_;
   quint64 beginning_offset_nanosec_;
   qint64 end_offset_nanosec_;
   QUrl media_url_;
