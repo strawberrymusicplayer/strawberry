@@ -3887,6 +3887,10 @@ If there are no matches then it will use the largest image in the directory.</so
         <source>Close current playlist tab</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Ctrl+B</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MessageDialog</name>
@@ -4347,6 +4351,14 @@ If there are no matches then it will use the largest image in the directory.</so
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Muted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unmuted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Don&apos;t shuffle</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4387,7 +4399,7 @@ If there are no matches then it will use the largest image in the directory.</so
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Intro tracks</source>
+        <source>Scan tracks</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5074,10 +5086,6 @@ If there are no matches then it will use the largest image in the directory.</so
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Intro tracks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Don&apos;t shuffle</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5095,6 +5103,10 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
         <source>Shuffle grouping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scan tracks</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5186,6 +5198,26 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
         <source>Write metadata when saving playlists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scan mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Playing time (seconds)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The time played before and after the position time selected in seconds (0 for playing the complete track)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Interest position (percent of track length)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The position time reference selected in percent of the track length</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8172,6 +8204,13 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source>Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>VolumeSlider</name>
+    <message>
+        <source>Muted</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
