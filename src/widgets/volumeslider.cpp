@@ -6,7 +6,7 @@
    email                : markey@web.de
    copyright            : (C) 2005 by Gábor Lehel
    email                : illissius@gmail.com
-   copyright            : (C) 2018-2023 by Jonas Kvinge
+   copyright            : (C) 2018-2026 by Jonas Kvinge
    email                : jonas@jkvinge.net
 ***************************************************************************/
 
@@ -53,6 +53,7 @@ using namespace Qt::Literals::StringLiterals;
 VolumeSlider::VolumeSlider(QWidget *parent, const uint max)
     : SliderSlider(Qt::Horizontal, parent, static_cast<int>(max)),
       wheel_accumulator_(0),
+      muted_(false),
       anim_enter_(false),
       anim_count_(0),
       timer_anim_(new QTimer(this)),
@@ -77,6 +78,14 @@ VolumeSlider::VolumeSlider(QWidget *parent, const uint max)
 void VolumeSlider::SetEnabled(const bool enabled) {
   QSlider::setEnabled(enabled);
   QSlider::setVisible(enabled);
+}
+
+void VolumeSlider::SetMuted(const bool muted) {
+
+  if (muted == muted_) return;
+  muted_ = muted;
+  update();
+
 }
 
 void VolumeSlider::HandleWheel(const int delta) {
@@ -120,14 +129,16 @@ void VolumeSlider::paintEvent(QPaintEvent *e) {
   p.drawPixmap(0, 0, pixmap_inset_);
   p.drawPixmap(offset - handle_pixmaps_.value(0).width() / 2 + padding, 0, handle_pixmaps_[anim_count_]);
 
-  // Draw percentage number
+  // Draw percentage number, or "Muted" in its place when muted
   QStyleOptionViewItem opt;
   p.setPen(opt.palette.color(QPalette::Normal, QPalette::Text));
   QFont vol_font(opt.font);
   vol_font.setPixelSize(9);
   p.setFont(vol_font);
+
+  const QString text = muted_ ? tr("Muted") : QString::number(value()) + QLatin1Char('%');
   const QRect rect(0, 0, 34, 15);
-  p.drawText(rect, Qt::AlignRight | Qt::AlignVCenter, QString::number(value()) + QLatin1Char('%'));
+  p.drawText(rect, Qt::AlignRight | Qt::AlignVCenter, text);
 
 }
 

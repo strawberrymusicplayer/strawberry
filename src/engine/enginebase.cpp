@@ -4,7 +4,7 @@
  * Copyright 2003 Mark Kretschmann
  * Copyright 2004 - 2005 Max Howell, <max.howell@methylblue.com>
  * Copyright 2010 David Sansome <me@davidsansome.com>
- * Copyright 2017-2021 Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2017-2026 Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,6 +52,7 @@ EngineBase::EngineBase(QObject *parent)
       volume_control_(true),
       volume_exponential_(false),
       volume_(100),
+      muted_(false),
       beginning_offset_nanosec_(0),
       end_offset_nanosec_(0),
       ebur128_loudness_normalizing_gain_db_(0.0),
@@ -143,10 +144,24 @@ void EngineBase::UpdateVolume(const uint volume) {
 
 }
 
+void EngineBase::UpdateMute(const bool mute) {
+
+  muted_ = mute;
+  Q_EMIT MuteChanged(mute);
+
+}
+
 void EngineBase::SetVolume(const uint volume) {
 
   volume_ = volume;
   SetVolumeSW(volume);
+
+}
+
+void EngineBase::SetMute(const bool mute) {
+
+  muted_ = mute;
+  SetMuteSW(mute);
 
 }
 

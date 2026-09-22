@@ -71,6 +71,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
 
  protected:
   void SetVolumeSW(const uint volume) override;
+  void SetMuteSW(const bool mute) override;
 
  public:
   qint64 position_nanosec() const override;

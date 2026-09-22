@@ -105,6 +105,7 @@ class GstEnginePipeline : public QObject {
   void SeekDelayed(const qint64 nanosec);
 
   void SetVolume(const uint volume_percent);
+  void SetMute(const bool mute);
   void SetStereoBalance(const float value);
   void SetEqualizerParams(const int preamp, const QList<int> &band_gains);
   void SetEBUR128LoudnessNormalizingGain_dB(const double ebur128_loudness_normalizing_gain_db);
@@ -152,6 +153,7 @@ class GstEnginePipeline : public QObject {
   void AboutToFinish();
   void Finished();
   void VolumeChanged(const uint volume);
+  void MuteChanged(const bool mute);
   void FaderFinished(const int pipeline_id);
   void BufferingStarted();
   void BufferingProgress(const int percent);
@@ -165,6 +167,7 @@ class GstEnginePipeline : public QObject {
   bool InitAudioBin(QString &error);
   void SetupVolume(GstElement *element);
   void ReapplyVolume();
+  void ReapplyMute();
   double PercentToInternalVolume(const uint volume_percent) const;
   uint InternalVolumeToPercent(const double volume_internal) const;
   void SetStateAsync(const GstState state);
@@ -183,6 +186,7 @@ class GstEnginePipeline : public QObject {
   static void PadAddedCallback(GstElement *element, GstPad *pad, gpointer self);
   static void SourceSetupCallback(GstElement *playbin, GstElement *source, gpointer self);
   static void NotifyVolumeCallback(GstElement *element, GParamSpec *param_spec, gpointer self);
+  static void NotifyMuteCallback(GstElement *element, GParamSpec *param_spec, gpointer self);
   static void AboutToFinishCallback(GstPlayBin *playbin, gpointer self);
   static GstBusSyncReply BusSyncCallback(GstBus *bus, GstMessage *msg, gpointer self);
   static gboolean BusWatchCallback(GstBus *bus, GstMessage *msg, gpointer self);
@@ -366,11 +370,13 @@ class GstEnginePipeline : public QObject {
   // Guards ErrorMessageReceived()'s manufactured-EOS path: reset to false each time a new next-URI is set (SetNextUrl()), and claimed with a single compare_exchange so repeated error messages about the same failed next-URI (e.g. from multiple internal elements) submit at most one manufactured EOS per next-URI cycle.
   std::atomic<bool> next_uri_eos_manufactured_;
 
-  // volume_set_, volume_internal_ and volume_percent_ are read independently in many places, but updates that mutate two or more together must hold mutex_volume_.
+  // volume_set_, volume_internal_, volume_percent_, mute_set_ and muted_ are read independently in many places, but updates that mutate two or more together must hold mutex_volume_.
   mutable QMutex mutex_volume_;
   std::atomic<bool> volume_set_;
   std::atomic<gdouble> volume_internal_;
   std::atomic<uint> volume_percent_;
+  std::atomic<bool> mute_set_;
+  std::atomic<bool> muted_;
 
   std::atomic<bool> fader_active_;
   std::atomic<bool> fader_running_;
@@ -405,6 +411,7 @@ class GstEnginePipeline : public QObject {
   std::optional<gulong> notify_source_cb_id_;
   std::optional<gulong> about_to_finish_cb_id_;
   std::optional<gulong> notify_volume_cb_id_;
+  std::optional<gulong> notify_mute_cb_id_;
 
   bool logged_unsupported_analyzer_format_;
   std::atomic<bool> about_to_finish_;

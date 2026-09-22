@@ -195,7 +195,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void StopAfterCurrent();
 
   void SongChanged(const Song &song);
-  void VolumeChanged(const uint volume);
+  void MuteChanged(const bool mute);
 
   void CopyFilesToCollection(const QList<QUrl> &urls);
   void MoveFilesToCollection(const QList<QUrl> &urls);

@@ -68,6 +68,7 @@ class StubPlayer : public PlayerInterface {
   SharedPtr<EngineBase> engine() const override { return nullptr; }
   EngineBase::State GetState() const override { return state_; }
   uint GetVolume() const override { return 0; }
+  bool is_muted() const override { return false; }
   PlaylistItemPtr GetCurrentItem() const override { return current_item_; }
   PlaylistItemPtr GetItemAt(const int) const override { return nullptr; }
 

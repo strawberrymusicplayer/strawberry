@@ -180,6 +180,8 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       volume_set_(false),
       volume_internal_(-1.0),
       volume_percent_(100),
+      mute_set_(false),
+      muted_(false),
       fader_active_(false),
       fader_running_(false),
       fader_use_fudge_timer_(false),
@@ -477,11 +479,15 @@ void GstEnginePipeline::DisconnectCallbacks() {
     }
 
     {
-      // volume_ and notify_volume_cb_id_ are mutated together under mutex_volume_.
+      // volume_, notify_volume_cb_id_ and notify_mute_cb_id_ are mutated together under mutex_volume_.
       QMutexLocker locker(&mutex_volume_);
       if (notify_volume_cb_id_.has_value() && volume_) {
         g_signal_handler_disconnect(G_OBJECT(volume_), notify_volume_cb_id_.value());
         notify_volume_cb_id_.reset();
+      }
+      if (notify_mute_cb_id_.has_value() && volume_) {
+        g_signal_handler_disconnect(G_OBJECT(volume_), notify_mute_cb_id_.value());
+        notify_mute_cb_id_.reset();
       }
     }
 
@@ -1064,35 +1070,51 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 void GstEnginePipeline::SetupVolume(GstElement *element) {
 
   GstElement *previous_volume = nullptr;
-  std::optional<gulong> previous_cb_id;
+  std::optional<gulong> previous_volume_cb_id;
+  std::optional<gulong> previous_mute_cb_id;
   {
     QMutexLocker locker(&mutex_volume_);
     previous_volume = volume_;
-    previous_cb_id = notify_volume_cb_id_;
+    previous_volume_cb_id = notify_volume_cb_id_;
+    previous_mute_cb_id = notify_mute_cb_id_;
     notify_volume_cb_id_.reset();
+    notify_mute_cb_id_.reset();
     volume_ = nullptr;
   }
-  if (previous_volume && previous_cb_id.has_value()) {
+  if (previous_volume && previous_volume_cb_id.has_value()) {
     qLog(Debug) << "Disconnecting volume notify on" << previous_volume;
-    g_signal_handler_disconnect(G_OBJECT(previous_volume), previous_cb_id.value());
+    g_signal_handler_disconnect(G_OBJECT(previous_volume), previous_volume_cb_id.value());
+  }
+  if (previous_volume && previous_mute_cb_id.has_value()) {
+    qLog(Debug) << "Disconnecting mute notify on" << previous_volume;
+    g_signal_handler_disconnect(G_OBJECT(previous_volume), previous_mute_cb_id.value());
   }
 
   qLog(Debug) << "Connecting volume notify on" << element;
-  const gulong new_cb_id = CHECKED_GCONNECT(G_OBJECT(element), "notify::volume", &NotifyVolumeCallback, this);
+  const gulong new_volume_cb_id = CHECKED_GCONNECT(G_OBJECT(element), "notify::volume", &NotifyVolumeCallback, this);
+  qLog(Debug) << "Connecting mute notify on" << element;
+  const gulong new_mute_cb_id = CHECKED_GCONNECT(G_OBJECT(element), "notify::mute", &NotifyMuteCallback, this);
   {
     QMutexLocker locker(&mutex_volume_);
-    notify_volume_cb_id_ = new_cb_id;
+    notify_volume_cb_id_ = new_volume_cb_id;
+    notify_mute_cb_id_ = new_mute_cb_id;
     volume_ = element;
     volume_set_ = false;
+    mute_set_ = false;
   }
 
-  // Make sure the unused volume element is set to 1.0.
+  // Make sure the unused volume element is set to 1.0 and unmuted.
   if (volume_sw_ && volume_sw_ != element) {
     double volume_internal = 1.0;
     g_object_get(G_OBJECT(volume_sw_), "volume", &volume_internal, nullptr);
     if (volume_internal != 1.0) {
       volume_internal = 1.0;
       g_object_set(G_OBJECT(volume_sw_), "volume", volume_internal, nullptr);
+    }
+    gboolean volume_sw_muted = FALSE;
+    g_object_get(G_OBJECT(volume_sw_), "mute", &volume_sw_muted, nullptr);
+    if (volume_sw_muted) {
+      g_object_set(G_OBJECT(volume_sw_), "mute", FALSE, nullptr);
     }
   }
 
@@ -1151,6 +1173,7 @@ void GstEnginePipeline::ElementAddedCallback(GstBin *bin, GstBin *sub_bin, GstEl
 
   instance->SetupVolume(volume);
   instance->SetVolume(instance->volume_percent_.load());
+  instance->SetMute(instance->muted_.load());
 
 }
 
@@ -1163,20 +1186,28 @@ void GstEnginePipeline::ElementRemovedCallback(GstBin *bin, GstBin *sub_bin, Gst
   if (bin != GST_BIN(instance->audiobin_)) return;
 
   GstElement *to_disconnect = nullptr;
-  std::optional<gulong> cb_id;
+  std::optional<gulong> volume_cb_id;
+  std::optional<gulong> mute_cb_id;
   {
     QMutexLocker locker(&instance->mutex_volume_);
-    if (instance->notify_volume_cb_id_.has_value() && element == instance->volume_) {
+    if ((instance->notify_volume_cb_id_.has_value() || instance->notify_mute_cb_id_.has_value()) && element == instance->volume_) {
       to_disconnect = instance->volume_;
-      cb_id = instance->notify_volume_cb_id_;
+      volume_cb_id = instance->notify_volume_cb_id_;
+      mute_cb_id = instance->notify_mute_cb_id_;
       instance->notify_volume_cb_id_.reset();
+      instance->notify_mute_cb_id_.reset();
       instance->volume_ = nullptr;
       instance->volume_set_ = false;
+      instance->mute_set_ = false;
     }
   }
-  if (to_disconnect && cb_id.has_value()) {
+  if (to_disconnect && volume_cb_id.has_value()) {
     qLog(Debug) << "Disconnecting volume notify on" << to_disconnect;
-    g_signal_handler_disconnect(G_OBJECT(to_disconnect), cb_id.value());
+    g_signal_handler_disconnect(G_OBJECT(to_disconnect), volume_cb_id.value());
+  }
+  if (to_disconnect && mute_cb_id.has_value()) {
+    qLog(Debug) << "Disconnecting mute notify on" << to_disconnect;
+    g_signal_handler_disconnect(G_OBJECT(to_disconnect), mute_cb_id.value());
   }
 
 }
@@ -1290,6 +1321,38 @@ void GstEnginePipeline::NotifyVolumeCallback(GstElement *element, GParamSpec *pa
 
   if (changed) {
     Q_EMIT instance->VolumeChanged(volume_percent);
+  }
+
+}
+
+void GstEnginePipeline::NotifyMuteCallback(GstElement *element, GParamSpec *param_spec, gpointer self) {
+
+  Q_UNUSED(param_spec)
+
+  GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
+
+  // Ignore device-originated mute changes during a gapless transition, for the same reason NotifyVolumeCallback does: a sink renegotiation is not a user action.
+  // StreamStartMessageReceived re-asserts the correct mute state once the new stream has started.
+  if (instance->about_to_finish_.load()) return;
+
+  // Read the property from the element that actually fired the signal, not from instance->volume_ - see NotifyVolumeCallback for why.
+  gboolean mute = FALSE;
+  g_object_get(G_OBJECT(element), "mute", &mute, nullptr);
+
+  const bool muted = static_cast<bool>(mute);
+  bool changed = false;
+  {
+    // Only publish the new value if `element` is still the active volume/mute source.
+    QMutexLocker locker(&instance->mutex_volume_);
+    if (!instance->mute_set_.load() || instance->volume_ != element) return;
+    if (muted != instance->muted_.load()) {
+      instance->muted_.store(muted);
+      changed = true;
+    }
+  }
+
+  if (changed) {
+    Q_EMIT instance->MuteChanged(muted);
   }
 
 }
@@ -1773,11 +1836,12 @@ void GstEnginePipeline::StreamStartMessageReceived() {
     next_end_offset_nanosec_.store(0);
   }
 
-  // The new track may have a different sample rate, which makes the sink renegotiate in place and can reset the device stream volume (the audio goes silent while playback continues).
-  // ElementAddedCallback re-applies the volume only when the sink element is re-added (the new-pipeline / crossfade path), which does not happen during gapless playback, so re-assert it here on the new stream.
+  // The new track may have a different sample rate, which makes the sink renegotiate in place and can reset the device stream volume/mute (the audio goes silent, or unmutes, while playback continues).
+  // ElementAddedCallback re-applies volume and mute only when the sink element is re-added (the new-pipeline / crossfade path), which does not happen during gapless playback, so re-assert them here on the new stream.
   ReapplyVolume();
+  ReapplyMute();
 
-  // Clear the transition flag only after re-asserting, so NotifyVolumeCallback keeps ignoring the renegotiation's volume reset for the whole transition.
+  // Clear the transition flag only after re-asserting, so NotifyVolumeCallback/NotifyMuteCallback keep ignoring the renegotiation's reset for the whole transition.
   about_to_finish_ = false;
 
   Q_EMIT EndOfStreamReached(id(), true);
@@ -1989,8 +2053,13 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
   }
 
   // SetVolume is idempotent (it checks volume_set_ under mutex_volume_) so it is safe to call here even if a concurrent path also calls it.
-  if (pipeline_connected_.load() && pipeline_active_.load() && !volume_set_.load()) {
-    SetVolume(volume_percent_.load());
+  if (pipeline_connected_.load() && pipeline_active_.load()) {
+    if (!volume_set_.load()) {
+      SetVolume(volume_percent_.load());
+    }
+    if (!mute_set_.load()) {
+      SetMute(muted_.load());
+    }
   }
 
   // Warm-up delay for a fresh start without an offset: the pipeline has prerolled (the audio device is now open), so wait before starting playback to let the device (DAC) become ready, then go to PLAYING.
@@ -2495,6 +2564,53 @@ void GstEnginePipeline::ReapplyVolume() {
   // Unconditionally push the stored volume to the element (SetVolume would skip this when it considers the value unchanged, but the element itself may have been reset by an in-place sink renegotiation).
   // g_object_set is called outside the lock - it fires notify::volume synchronously, which runs NotifyVolumeCallback (which takes mutex_volume_).
   g_object_set(G_OBJECT(volume), "volume", volume_internal, nullptr);
+
+}
+
+void GstEnginePipeline::SetMute(const bool mute) {
+
+  bool apply_to_element = false;
+  GstElement *volume = nullptr;
+  {
+    QMutexLocker locker(&mutex_volume_);
+    if (volume_) {
+      if (!mute_set_.load() || mute != muted_.load()) {
+        apply_to_element = true;
+        volume = volume_;
+        if (pipeline_active_.load()) {
+          mute_set_ = true;
+        }
+      }
+    }
+    muted_.store(mute);
+  }
+
+  // Push to GStreamer outside the lock - g_object_set fires the notify::mute signal synchronously, which runs NotifyMuteCallback, which itself takes mutex_volume_.
+  // Holding the lock here would deadlock when the notify is delivered on this thread.
+  // The element backing volume_ is normally a GstStreamVolume implementer (the "volume" element or a sink such as pulsesink/pipewinsink), which always has both "volume" and "mute" - the property check here only guards the unlikely case of a sink that exposes "volume" without "mute".
+  if (apply_to_element && volume && g_object_class_find_property(G_OBJECT_GET_CLASS(volume), "mute")) {
+    g_object_set(G_OBJECT(volume), "mute", static_cast<gboolean>(mute), nullptr);
+  }
+
+}
+
+void GstEnginePipeline::ReapplyMute() {
+
+  GstElement *volume = nullptr;
+  bool mute = false;
+  {
+    QMutexLocker locker(&mutex_volume_);
+    // Nothing to re-assert if we never set a mute state on this pipeline yet.
+    if (!volume_ || !mute_set_.load()) return;
+    volume = volume_;
+    mute = muted_.load();
+  }
+
+  // Unconditionally push the stored mute state to the element (SetMute would skip this when it considers the value unchanged, but the element itself may have been reset by an in-place sink renegotiation).
+  // g_object_set is called outside the lock - it fires notify::mute synchronously, which runs NotifyMuteCallback (which takes mutex_volume_).
+  if (g_object_class_find_property(G_OBJECT_GET_CLASS(volume), "mute")) {
+    g_object_set(G_OBJECT(volume), "mute", static_cast<gboolean>(mute), nullptr);
+  }
 
 }
 
