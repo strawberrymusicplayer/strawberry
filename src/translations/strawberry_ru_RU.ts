@@ -411,7 +411,7 @@
     </message>
     <message>
       <source>Use custom color</source>
-      <translation>Использовать собственный цвет</translation>
+      <translation>Использовать свой цвет</translation>
     </message>
     <message>
       <source>Use gradient background</source>
@@ -543,7 +543,7 @@
     </message>
     <message>
       <source>Custom color</source>
-      <translation>Собственный цвет</translation>
+      <translation>Свой цвет</translation>
     </message>
     <message>
       <source>Select playlist playing song color:</source>
