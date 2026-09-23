@@ -46,6 +46,7 @@
 #include "core/networkaccessmanager.h"
 #include "core/player.h"
 #include "core/urlhandlers.h"
+#include "credentialsmanager/credentialsmanager.h"
 #include "engine/devicefinders.h"
 #include "tagreader/tagreaderclient.h"
 #include "collection/collectionlibrary.h"
@@ -133,6 +134,7 @@ class ApplicationImpl {
         task_manager_([]() { return new TaskManager(); }),
         player_([app]() { return new Player(app->task_manager(), app->url_handlers(), app->playlist_manager()); }),
         network_([]() { return new NetworkAccessManager(); }),
+        credentials_manager_([]() { return new CredentialsManager(); }),
         device_finders_([]() { return new DeviceFinders(); }),
         url_handlers_([]() { return new UrlHandlers(); }),
         device_manager_([app]() { return new DeviceManager(app->task_manager(), app->database(), app->tagreader_client(), app->albumcover_loader()); }),
@@ -187,7 +189,7 @@ class ApplicationImpl {
         streaming_services_([app]() {
           StreamingServices *streaming_services = new StreamingServices();
 #ifdef HAVE_SUBSONIC
-          streaming_services->AddService(make_shared<SubsonicService>(app->task_manager(), app->database(), app->network(), app->url_handlers(), app->albumcover_loader()));
+          streaming_services->AddService(make_shared<SubsonicService>(app->task_manager(), app->database(), app->network(), app->credentials_manager(), app->url_handlers(), app->albumcover_loader()));
 #endif
 #ifdef HAVE_TIDAL
           streaming_services->AddService(make_shared<TidalService>(app->task_manager(), app->database(), app->network(), app->url_handlers(), app->albumcover_loader()));
@@ -225,6 +227,7 @@ class ApplicationImpl {
   Lazy<TaskManager> task_manager_;
   Lazy<Player> player_;
   Lazy<NetworkAccessManager> network_;
+  Lazy<CredentialsManager> credentials_manager_;
   Lazy<DeviceFinders> device_finders_;
   Lazy<UrlHandlers> url_handlers_;
   Lazy<DeviceManager> device_manager_;
@@ -373,6 +376,7 @@ SharedPtr<Database> Application::database() const { return p_->database_.ptr(); 
 SharedPtr<TaskManager> Application::task_manager() const { return p_->task_manager_.ptr(); }
 SharedPtr<Player> Application::player() const { return p_->player_.ptr(); }
 SharedPtr<NetworkAccessManager> Application::network() const { return p_->network_.ptr(); }
+SharedPtr<CredentialsManager> Application::credentials_manager() const { return p_->credentials_manager_.ptr(); }
 SharedPtr<DeviceFinders> Application::device_finders() const { return p_->device_finders_.ptr(); }
 SharedPtr<UrlHandlers> Application::url_handlers() const { return p_->url_handlers_.ptr(); }
 SharedPtr<DeviceManager> Application::device_manager() const { return p_->device_manager_.ptr(); }

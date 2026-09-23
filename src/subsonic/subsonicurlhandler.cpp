@@ -28,9 +28,35 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-SubsonicUrlHandler::SubsonicUrlHandler(SubsonicService *service) : UrlHandler(service), service_(service) {}
+SubsonicUrlHandler::SubsonicUrlHandler(SubsonicService *service) : UrlHandler(service), service_(service) {
+
+  QObject::connect(service, &SubsonicService::PasswordLoaded, this, &SubsonicUrlHandler::PasswordLoaded);
+
+}
 
 UrlHandler::LoadResult SubsonicUrlHandler::StartLoading(const QUrl &url) {
+
+  // Wait for the password to be read from the credentials manager.
+  if (service_->password_loading()) {
+    pending_urls_ << url;
+    return LoadResult(url, LoadResult::Type::WillLoadAsynchronously);
+  }
+
+  return CreateLoadResult(url);
+
+}
+
+void SubsonicUrlHandler::PasswordLoaded() {
+
+  const QList<QUrl> pending_urls = pending_urls_;
+  pending_urls_.clear();
+  for (const QUrl &url : pending_urls) {
+    Q_EMIT AsyncLoadComplete(CreateLoadResult(url));
+  }
+
+}
+
+UrlHandler::LoadResult SubsonicUrlHandler::CreateLoadResult(const QUrl &url) const {
 
   if (!server_url().isValid()) {
     return LoadResult(url, LoadResult::Type::Error, tr("Subsonic server URL is invalid."));

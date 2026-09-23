@@ -22,6 +22,7 @@
 
 #include "config.h"
 
+#include <QList>
 #include <QString>
 #include <QUrl>
 
@@ -44,7 +45,14 @@ class SubsonicUrlHandler : public UrlHandler {
   LoadResult StartLoading(const QUrl &url) override;
 
  private:
+  LoadResult CreateLoadResult(const QUrl &url) const;
+
+ private Q_SLOTS:
+  void PasswordLoaded();
+
+ private:
   SubsonicService *service_;
+  QList<QUrl> pending_urls_;
 };
 
 #endif  // SUBSONICURLHANDLER_H

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,6 +47,7 @@
 #include "core/song.h"
 #include "core/settings.h"
 #include "core/urlhandlers.h"
+#include "credentialsmanager/credentialsmanager.h"
 #include "utilities/randutils.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
@@ -71,11 +72,13 @@ constexpr int kMaxRedirects = 3;
 SubsonicService::SubsonicService(const SharedPtr<TaskManager> task_manager,
                                  const SharedPtr<Database> database,
                                  const SharedPtr<NetworkAccessManager> network,
+                                 const SharedPtr<CredentialsManager> credentials_manager,
                                  const SharedPtr<UrlHandlers> url_handlers,
                                  const SharedPtr<AlbumCoverLoader> albumcover_loader,
                                  QObject *parent)
     : StreamingService(Song::Source::Subsonic, u"Subsonic"_s, u"subsonic"_s, QLatin1String(SubsonicSettings::kSettingsGroup), parent),
       network_(network),
+      credentials_manager_(credentials_manager),
       url_handler_(new SubsonicUrlHandler(this)),
       collection_backend_(nullptr),
       collection_model_(nullptr),
@@ -84,7 +87,9 @@ SubsonicService::SubsonicService(const SharedPtr<TaskManager> task_manager,
       download_album_covers_(true),
       use_album_id_for_album_covers_(false),
       auth_method_(SubsonicSettings::AuthMethod::MD5),
-      ping_redirects_(0) {
+      ping_redirects_(0),
+      pending_get_songs_(false),
+      pending_ping_(false) {
 
   url_handlers->Register(url_handler_);
 
@@ -122,9 +127,44 @@ void SubsonicService::ReloadSettings() {
 
   server_url_ = s.value(SubsonicSettings::kUrl).toUrl();
   username_ = s.value(SubsonicSettings::kUsername).toString();
-  QByteArray password = s.value(SubsonicSettings::kPassword).toByteArray();
-  if (password.isEmpty()) password_.clear();
-  else password_ = QString::fromUtf8(QByteArray::fromBase64(password));
+  const bool enabled = s.value(SubsonicSettings::kEnabled, SubsonicSettings::kDefaultEnabled).toBool();
+
+  password_.clear();
+
+  // Ignore replies from a previous reload.
+  if (migrate_password_reply_) {
+    QObject::disconnect(&*migrate_password_reply_, nullptr, this, nullptr);
+    migrate_password_reply_.reset();
+  }
+  const bool password_was_loading = password_loading();
+  if (read_password_reply_) {
+    QObject::disconnect(&*read_password_reply_, nullptr, this, nullptr);
+    read_password_reply_.reset();
+  }
+
+  // Migrate the password from the settings file to the credentials manager.
+  // The old password is removed from the settings file when it is saved, if saving fails it is kept and migrated next time.
+  if (s.contains(SubsonicSettings::kPassword)) {
+    password_ = QString::fromUtf8(QByteArray::fromBase64(s.value(SubsonicSettings::kPassword).toByteArray()));
+    if (password_.isEmpty()) {
+      s.remove(SubsonicSettings::kPassword);
+    }
+    else {
+      migrate_password_reply_ = credentials_manager_->SavePasswordAsync(QLatin1String(SubsonicSettings::kCredentialsService), password_);
+      QObject::connect(&*migrate_password_reply_, &CredentialsReply::Finished, this, &SubsonicService::MigratePasswordFinished);
+    }
+  }
+
+  // Only read the password when Subsonic is configured, since reading it can show a keyring password prompt.
+  if (password_.isEmpty() && enabled && server_url_.isValid() && !username_.isEmpty()) {
+    read_password_reply_ = credentials_manager_->ReadPasswordAsync(QLatin1String(SubsonicSettings::kCredentialsService));
+    QObject::connect(&*read_password_reply_, &CredentialsReply::Finished, this, &SubsonicService::ReadPasswordFinished);
+  }
+
+  // Held requests were waiting for the previous read, release them if the password is not read again.
+  if (password_was_loading && !password_loading()) {
+    PasswordLoadFinished();
+  }
 
   http2_ = s.value(SubsonicSettings::kHTTP2, SubsonicSettings::kDefaultHTTP2).toBool();
   verify_certificate_ = s.value(SubsonicSettings::kVerifyCertificate, SubsonicSettings::kDefaultVerifyCertificate).toBool();
@@ -136,8 +176,67 @@ void SubsonicService::ReloadSettings() {
 
 }
 
+void SubsonicService::MigratePasswordFinished() {
+
+  if (!migrate_password_reply_ || sender() != &*migrate_password_reply_) return;
+
+  if (migrate_password_reply_->success()) {
+    Settings s;
+    s.beginGroup(SubsonicSettings::kSettingsGroup);
+    s.remove(SubsonicSettings::kPassword);
+    s.endGroup();
+  }
+
+  migrate_password_reply_.reset();
+
+}
+
+void SubsonicService::ReadPasswordFinished() {
+
+  if (!read_password_reply_ || sender() != &*read_password_reply_) return;
+
+  if (read_password_reply_->success()) {
+    password_ = read_password_reply_->password();
+  }
+
+  read_password_reply_.reset();
+
+  PasswordLoadFinished();
+
+}
+
+void SubsonicService::PasswordLoadFinished() {
+
+  // Run the requests that were held while the password was loading.
+  if (pending_ping_) {
+    pending_ping_ = false;
+    SendPing();
+  }
+
+  if (pending_get_songs_) {
+    pending_get_songs_ = false;
+    GetSongs();
+  }
+
+  const QList<PendingScrobble> pending_scrobbles = pending_scrobbles_;
+  pending_scrobbles_.clear();
+  for (const PendingScrobble &pending_scrobble : pending_scrobbles) {
+    Scrobble(pending_scrobble.song_id, pending_scrobble.submission, pending_scrobble.time);
+  }
+
+  Q_EMIT PasswordLoaded();
+
+}
+
 void SubsonicService::SendPing() {
+
+  if (password_loading()) {
+    pending_ping_ = true;
+    return;
+  }
+
   SendPingWithCredentials(server_url_, username_, password_, auth_method_, false);
+
 }
 
 void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username, const QString &password, const SubsonicSettings::AuthMethod auth_method, const bool redirect) {
@@ -381,6 +480,11 @@ void SubsonicService::CheckConfiguration() {
 
 void SubsonicService::Scrobble(const QString &song_id, const bool submission, const QDateTime &time) {
 
+  if (password_loading()) {
+    pending_scrobbles_ << PendingScrobble{ song_id, submission, time };
+    return;
+  }
+
   if (!server_url().isValid() || username().isEmpty() || password().isEmpty()) {
     return;
   }
@@ -405,6 +509,11 @@ void SubsonicService::ResetSongsRequest() {
 }
 
 void SubsonicService::GetSongs() {
+
+  if (password_loading()) {
+    pending_get_songs_ = true;
+    return;
+  }
 
   if (!server_url().isValid()) {
     Q_EMIT SongsResults(SongMap(), tr("Server URL is invalid."));

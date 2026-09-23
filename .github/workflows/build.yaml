@@ -52,6 +52,7 @@ jobs:
             libnotify-devel
             sqlite3-devel
             libpulse-devel
+            libsecret-devel
             gstreamer-devel
             gstreamer-plugins-base-devel
             gstreamer-plugins-base
@@ -190,6 +191,7 @@ jobs:
             sqlite-devel
             alsa-lib-devel
             pulseaudio-libs-devel
+            libsecret-devel
             libnotify-devel
             libicu-devel
             qt6-qtbase-devel
@@ -303,6 +305,7 @@ jobs:
           lib64openssl-devel
           lib64asound-devel
           lib64pulseaudio-devel
+          lib64secret-devel
           lib64sqlite3-devel
           lib64gstreamer-devel
           lib64gst-plugins-base1.0-devel
@@ -431,6 +434,7 @@ jobs:
           lib64sqlite3-devel
           lib64alsa2-devel
           lib64pulseaudio-devel
+          lib64secret-devel
           lib64gstreamer1.0-devel
           lib64gstreamer-plugins-base1.0-devel
           lib64cdio-devel
@@ -563,6 +567,7 @@ jobs:
             libsqlite3-dev
             libasound2-dev
             libpulse-dev
+            libsecret-1-dev
             libicu-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
@@ -686,6 +691,7 @@ jobs:
             libsqlite3-dev
             libasound2-dev
             libpulse-dev
+            libsecret-1-dev
             libicu-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
@@ -810,6 +816,7 @@ jobs:
             libsqlite3-dev
             libasound2-dev
             libpulse-dev
+            libsecret-1-dev
             libicu-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
@@ -937,6 +944,7 @@ jobs:
             libnotify-devel
             sqlite3-devel
             libpulse-devel
+            libsecret-devel
             gstreamer-devel
             gstreamer-plugins-base-devel
             gstreamer-plugins-base
@@ -1085,7 +1093,7 @@ jobs:
       with:
         usesh: true
         mem: 8192
-        prepare: pkg install -y git cmake pkgconf openssl boost-libs alsa-lib glib qt6-base qt6-tools sqlite gstreamer1 gstreamer1-plugins chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf2 fftw3 icu kdsingleapplication googletest pulseaudio sparsehash
+        prepare: pkg install -y git cmake pkgconf openssl boost-libs alsa-lib glib qt6-base qt6-tools sqlite gstreamer1 gstreamer1-plugins chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf2 fftw3 icu kdsingleapplication googletest pulseaudio sparsehash libsecret
         run: |
           set -e
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
@@ -1111,7 +1119,7 @@ jobs:
       with:
         usesh: true
         mem: 4096
-        prepare: pkg_add git cmake pkgconf boost glib2 qt6-qtbase qt6-qttools sqlite gstreamer1 gstreamer1-plugins-base chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf libgpod fftw3 icu4c kdsingleapplication pulseaudio sparsehash
+        prepare: pkg_add git cmake pkgconf boost glib2 qt6-qtbase qt6-qttools sqlite gstreamer1 gstreamer1-plugins-base chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf libgpod fftw3 icu4c kdsingleapplication pulseaudio sparsehash libsecret
         run: |
           set -e
           export LDFLAGS="-L/usr/local/lib"
