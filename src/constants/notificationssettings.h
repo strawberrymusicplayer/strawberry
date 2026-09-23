@@ -40,6 +40,7 @@ constexpr char kShowOnVolumeChange[] = "ShowOnVolumeChange";
 constexpr char kShowOnPlayModeChange[] = "ShowOnPlayModeChange";
 constexpr char kShowOnPausePlayback[] = "ShowOnPausePlayback";
 constexpr char kShowOnResumePlayback[] = "ShowOnResumePlayback";
+constexpr char kShowOnStreamTitleChange[] = "ShowOnStreamTitleChange";
 constexpr char kShowArt[] = "ShowArt";
 constexpr char kCustomTextEnabled[] = "CustomTextEnabled";
 constexpr char kCustomText1[] = "CustomText1";
@@ -51,6 +52,7 @@ constexpr bool kDefaultShowOnVolumeChange = false;
 constexpr bool kDefaultShowOnPlayModeChange = true;
 constexpr bool kDefaultShowOnPausePlayback = true;
 constexpr bool kDefaultShowOnResumePlayback = false;
+constexpr bool kDefaultShowOnStreamTitleChange = true;
 constexpr bool kDefaultShowArt = true;
 constexpr bool kDefaultCustomTextEnabled = false;
 

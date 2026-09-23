@@ -97,6 +97,7 @@ class OSDBase : public QObject {
   bool show_on_play_mode_change_;
   bool show_on_pause_;
   bool show_on_resume_;
+  bool show_on_stream_title_change_;
   bool use_custom_text_;
   QString custom_text1_;
   QString custom_text2_;
