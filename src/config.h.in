@@ -17,6 +17,9 @@
 #cmakedefine HAVE_DBUS
 #cmakedefine HAVE_MPRIS2
 #cmakedefine HAVE_UDISKS2
+#cmakedefine HAVE_KWALLET
+#cmakedefine HAVE_GNOME_KEYRING
+#cmakedefine HAVE_LIBSECRET
 #cmakedefine HAVE_AUDIOCD
 #cmakedefine HAVE_MTP
 #cmakedefine HAVE_GPOD

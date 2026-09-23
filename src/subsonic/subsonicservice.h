@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,6 +39,7 @@
 #include "constants/subsonicsettings.h"
 #include "core/song.h"
 #include "streaming/streamingservice.h"
+#include "credentialsmanager/credentialsreply.h"
 #include "collection/collectionmodel.h"
 
 class QNetworkReply;
@@ -46,6 +47,7 @@ class QNetworkReply;
 class TaskManager;
 class Database;
 class NetworkAccessManager;
+class CredentialsManager;
 class UrlHandlers;
 class AlbumCoverLoader;
 class SubsonicUrlHandler;
@@ -62,6 +64,7 @@ class SubsonicService : public StreamingService {
   explicit SubsonicService(const SharedPtr<TaskManager> task_manager,
                            const SharedPtr<Database> database,
                            const SharedPtr<NetworkAccessManager> network,
+                           const SharedPtr<CredentialsManager> credentials_manager,
                            const SharedPtr<UrlHandlers> url_handlers,
                            const SharedPtr<AlbumCoverLoader> albumcover_loader,
                            QObject *parent = nullptr);
@@ -75,6 +78,8 @@ class SubsonicService : public StreamingService {
   void ReloadSettings() override;
   void Exit() override;
 
+  SharedPtr<CredentialsManager> credentials_manager() const { return credentials_manager_; }
+
   QUrl server_url() const { return server_url_; }
   QString username() const { return username_; }
   QString password() const { return password_; }
@@ -83,6 +88,9 @@ class SubsonicService : public StreamingService {
   bool download_album_covers() const { return download_album_covers_; }
   bool use_album_id_for_album_covers() const { return use_album_id_for_album_covers_; }
   SubsonicSettings::AuthMethod auth_method() const { return auth_method_; }
+
+  // True while the password is being read from the credentials manager, requests are held until PasswordLoaded is emitted.
+  bool password_loading() const { return static_cast<bool>(read_password_reply_); }
 
   SharedPtr<CollectionBackend> collection_backend() const { return collection_backend_; }
   CollectionModel *collection_model() const { return collection_model_; }
@@ -95,6 +103,9 @@ class SubsonicService : public StreamingService {
   void CheckConfiguration();
   void Scrobble(const QString &song_id, const bool submission, const QDateTime &time);
 
+ Q_SIGNALS:
+  void PasswordLoaded();
+
  public Q_SLOTS:
   void SendPing();
   void SendPingWithCredentials(QUrl url, const QString &username, const QString &password, const SubsonicSettings::AuthMethod auth_method, const bool redirect = false);
@@ -106,11 +117,15 @@ class SubsonicService : public StreamingService {
   void HandlePingSSLErrors(const QList<QSslError> &ssl_errors);
   void HandlePingReply(QNetworkReply *reply, const QUrl &url, const QString &username, const QString &password, const SubsonicSettings::AuthMethod auth_method);
   void SongsResultsReceived(const SongMap &songs, const QString &error);
+  void MigratePasswordFinished();
+  void ReadPasswordFinished();
 
  private:
   void PingError(const QString &error = QString(), const QVariant &debug = QVariant());
+  void PasswordLoadFinished();
 
   const SharedPtr<NetworkAccessManager> network_;
+  const SharedPtr<CredentialsManager> credentials_manager_;
   SubsonicUrlHandler *url_handler_;
 
   SharedPtr<CollectionBackend> collection_backend_;
@@ -132,6 +147,18 @@ class SubsonicService : public StreamingService {
   int ping_redirects_;
 
   QList<QNetworkReply*> replies_;
+
+  CredentialsReplyPtr migrate_password_reply_;
+  CredentialsReplyPtr read_password_reply_;
+
+  struct PendingScrobble {
+    QString song_id;
+    bool submission;
+    QDateTime time;
+  };
+  bool pending_get_songs_;
+  bool pending_ping_;
+  QList<PendingScrobble> pending_scrobbles_;
 };
 
 using SubsonicServicePtr = SharedPtr<SubsonicService>;

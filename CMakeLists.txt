@@ -203,6 +203,7 @@ pkg_check_modules(GSTREAMER_PBUTILS REQUIRED IMPORTED_TARGET gstreamer-pbutils-1
 pkg_check_modules(SQLITE REQUIRED IMPORTED_TARGET sqlite3>=3.9)
 if(UNIX AND NOT APPLE)
   pkg_check_modules(LIBPULSE IMPORTED_TARGET libpulse)
+  pkg_check_modules(LIBSECRET IMPORTED_TARGET libsecret-1)
 endif()
 pkg_check_modules(CHROMAPRINT IMPORTED_TARGET libchromaprint>=1.4)
 pkg_check_modules(FFTW3 IMPORTED_TARGET fftw3)
@@ -329,6 +330,15 @@ if(UNIX AND NOT APPLE)
   )
   optional_component(UDISKS2 ON "Devices: UDisks2 backend"
     DEPENDS "D-Bus support" HAVE_DBUS
+  )
+  optional_component(KWALLET ON "Credentials: KWallet backend"
+    DEPENDS "D-Bus support" HAVE_DBUS
+  )
+  optional_component(GNOME_KEYRING ON "Credentials: GNOME Keyring backend"
+    DEPENDS "D-Bus support" HAVE_DBUS
+  )
+  optional_component(LIBSECRET ON "Credentials: libsecret backend"
+    DEPENDS "libsecret" LIBSECRET_FOUND
   )
 endif()
 
@@ -508,6 +518,12 @@ set(SOURCES
   src/utilities/styleutils.cpp
   src/utilities/coveroptions.cpp
   src/utilities/useragent.cpp
+
+  src/credentialsmanager/credentialsmanager.cpp
+  src/credentialsmanager/credentialsresult.cpp
+  src/credentialsmanager/credentialsreply.cpp
+  src/credentialsmanager/credentialsblockingbackend.cpp
+  src/credentialsmanager/credentialsbackendsettings.cpp
 
   src/tagreader/tagreaderclient.cpp
   src/tagreader/tagreaderresult.cpp
@@ -886,6 +902,11 @@ set(HEADERS
   src/core/jsonbaserequest.h
   src/core/oauthenticator.h
   src/core/appearance.h
+
+  src/credentialsmanager/credentialsmanager.h
+  src/credentialsmanager/credentialsreply.h
+  src/credentialsmanager/credentialsbackendinterface.h
+  src/credentialsmanager/credentialsblockingbackend.h
 
   src/tagreader/tagreaderclient.h
   src/tagreader/tagreaderreply.h
@@ -1327,6 +1348,13 @@ if(HAVE_GLOBALSHORTCUTS)
 
 endif()
 
+optional_source(HAVE_DBUS SOURCES src/credentialsmanager/credentialsdbusutils.cpp)
+optional_source(HAVE_KWALLET SOURCES src/credentialsmanager/credentialsbackendkwallet.cpp HEADERS src/credentialsmanager/credentialsbackendkwallet.h)
+optional_source(HAVE_GNOME_KEYRING SOURCES src/credentialsmanager/credentialsbackendgnomekeyring.cpp src/credentialsmanager/secretservicepromptwaiter.cpp src/credentialsmanager/secretservicesecret.cpp HEADERS src/credentialsmanager/credentialsbackendgnomekeyring.h src/credentialsmanager/secretservicepromptwaiter.h)
+optional_source(HAVE_LIBSECRET SOURCES src/credentialsmanager/credentialsbackendlibsecret.cpp HEADERS src/credentialsmanager/credentialsbackendlibsecret.h)
+optional_source(WIN32 SOURCES src/credentialsmanager/credentialsbackendwincred.cpp)
+optional_source(APPLE SOURCES src/credentialsmanager/credentialsbackendkeychain.cpp)
+
 optional_source(HAVE_ALSA SOURCES src/engine/alsadevicefinder.cpp src/engine/alsapcmdevicefinder.cpp)
 optional_source(HAVE_PULSE SOURCES src/engine/pulsedevicefinder.cpp)
 optional_source(MSVC SOURCES src/engine/uwpdevicefinder.cpp src/engine/asiodevicefinder.cpp)
@@ -1615,6 +1643,7 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${HAVE_STREAMTAGREADER}>:PkgConfig::LIBSPARSEHASH>
   $<$<BOOL:${HAVE_ALSA}>:ALSA::ALSA>
   $<$<BOOL:${HAVE_PULSE}>:PkgConfig::LIBPULSE>
+  $<$<BOOL:${HAVE_LIBSECRET}>:PkgConfig::LIBSECRET>
   $<$<BOOL:${HAVE_CHROMAPRINT}>:PkgConfig::CHROMAPRINT>
   $<$<BOOL:${HAVE_GSTFASTSPECTRUM}>:PkgConfig::FFTW3>
   $<$<BOOL:${HAVE_EBUR128}>:PkgConfig::LIBEBUR128>
@@ -1625,7 +1654,7 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${HAVE_MTP}>:PkgConfig::LIBMTP>
   $<$<BOOL:${HAVE_GPOD}>:PkgConfig::LIBGPOD PkgConfig::GDK_PIXBUF>
   $<$<BOOL:${HAVE_QTSPARKLE}>:qtsparkle-qt${QT_VERSION_MAJOR}::qtsparkle>
-  $<$<BOOL:${WIN32}>:dsound dwmapi ${GETOPT_LIBRARIES}>
+  $<$<BOOL:${WIN32}>:dsound dwmapi advapi32 ${GETOPT_LIBRARIES}>
   $<$<BOOL:${MSVC}>:WindowsApp>
   KDAB::kdsingleapplication
 )
@@ -1639,6 +1668,7 @@ if(APPLE)
     "-framework DiskArbitration"
     "-framework IOKit"
     "-framework ScriptingBridge"
+    "-framework Security"
     "-framework UserNotifications"
   )
   if(HAVE_SPARKLE)

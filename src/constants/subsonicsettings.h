@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,6 +40,8 @@ constexpr char kDownloadAlbumCovers[] = "downloadalbumcovers";
 constexpr char kUseAlbumIdForAlbumCovers[] = "usealbumidforalbumcovers";
 constexpr char kServerSideScrobbling[] = "serversidescrobbling";
 constexpr char kAuthMethod[] = "authmethod";
+
+constexpr char kCredentialsService[] = "subsonic";
 
 constexpr bool kDefaultEnabled = false;
 constexpr bool kDefaultHTTP2 = false;

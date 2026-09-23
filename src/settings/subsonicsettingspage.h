@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@
 #include "includes/shared_ptr.h"
 #include "constants/subsonicsettings.h"
 #include "settings/settingspage.h"
+#include "credentialsmanager/credentialsreply.h"
 
 class QEvent;
 class SettingsDialog;
@@ -55,10 +56,15 @@ class SubsonicSettingsPage : public SettingsPage {
   void TestClicked();
   void TestSuccess();
   void TestFailure(const QString &failure_reason);
+  void ReadPasswordFinished();
+  void SavePasswordFinished();
 
  private:
   Ui_SubsonicSettingsPage *ui_;
   const SharedPtr<SubsonicService> service_;
+  QString loaded_password_;
+  CredentialsReplyPtr read_password_reply_;
+  CredentialsReplyPtr save_password_reply_;
 };
 
 #endif  // SUBSONICSETTINGSPAGE_H

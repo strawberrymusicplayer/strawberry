@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,6 +37,7 @@
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "subsonic/subsonicservice.h"
+#include "credentialsmanager/credentialsmanager.h"
 #include "constants/subsonicsettings.h"
 
 using namespace SubsonicSettings;
@@ -73,9 +74,24 @@ void SubsonicSettingsPage::Load() {
   ui_->enable->setChecked(s.value(kEnabled, kDefaultEnabled).toBool());
   ui_->server_url->setText(s.value(kUrl).toString());
   ui_->username->setText(s.value(kUsername).toString());
-  QByteArray password = s.value(kPassword).toByteArray();
-  if (password.isEmpty()) ui_->password->clear();
-  else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
+
+  if (read_password_reply_) {
+    QObject::disconnect(&*read_password_reply_, nullptr, this, nullptr);
+    read_password_reply_.reset();
+  }
+
+  loaded_password_.clear();
+  if (s.contains(kPassword)) {
+    // The password was not migrated to the credentials manager yet.
+    loaded_password_ = QString::fromUtf8(QByteArray::fromBase64(s.value(kPassword).toByteArray()));
+  }
+  else if (!ui_->username->text().isEmpty()) {
+    // Only read the password when Subsonic is configured, since reading it can show a keyring password prompt.
+    read_password_reply_ = service_->credentials_manager()->ReadPasswordAsync(QLatin1String(kCredentialsService));
+    QObject::connect(&*read_password_reply_, &CredentialsReply::Finished, this, &SubsonicSettingsPage::ReadPasswordFinished);
+  }
+  ui_->password->setText(loaded_password_);
+
   ui_->checkbox_http2->setChecked(s.value(kHTTP2, kDefaultHTTP2).toBool());
   ui_->checkbox_verify_certificate->setChecked(s.value(kVerifyCertificate, kDefaultVerifyCertificate).toBool());
   ui_->checkbox_download_album_covers->setChecked(s.value(kDownloadAlbumCovers, kDefaultDownloadAlbumCovers).toBool());
@@ -109,7 +125,23 @@ void SubsonicSettingsPage::Save() {
   s.setValue(kEnabled, ui_->enable->isChecked());
   s.setValue(kUrl, QUrl(ui_->server_url->text()));
   s.setValue(kUsername, ui_->username->text());
-  s.setValue(kPassword, QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
+
+  // Requests are run in order, so the service reads the new password when it reloads the settings after this.
+  const QString password = ui_->password->text();
+  if (password != loaded_password_ || s.contains(kPassword)) {
+    // A pending read would finish with the old password and overwrite the new one.
+    if (read_password_reply_) {
+      QObject::disconnect(&*read_password_reply_, nullptr, this, nullptr);
+      read_password_reply_.reset();
+    }
+    if (save_password_reply_) {
+      QObject::disconnect(&*save_password_reply_, nullptr, this, nullptr);
+    }
+    save_password_reply_ = service_->credentials_manager()->SavePasswordAsync(QLatin1String(kCredentialsService), password);
+    QObject::connect(&*save_password_reply_, &CredentialsReply::Finished, this, &SubsonicSettingsPage::SavePasswordFinished);
+    loaded_password_ = password;
+  }
+
   s.setValue(kHTTP2, ui_->checkbox_http2->isChecked());
   s.setValue(kVerifyCertificate, ui_->checkbox_verify_certificate->isChecked());
   s.setValue(kDownloadAlbumCovers, ui_->checkbox_download_album_covers->isChecked());
@@ -125,6 +157,40 @@ void SubsonicSettingsPage::Save() {
   ui_->checkbox_use_album_id_for_album_covers->setEnabled(ui_->checkbox_download_album_covers->isChecked());
 
   s.endGroup();
+
+}
+
+void SubsonicSettingsPage::ReadPasswordFinished() {
+
+  if (!read_password_reply_ || sender() != &*read_password_reply_) return;
+
+  // Don't overwrite a password the user started typing while the password was being read.
+  if (read_password_reply_->success() && ui_->password->text() == loaded_password_) {
+    loaded_password_ = read_password_reply_->password();
+    ui_->password->setText(loaded_password_);
+  }
+
+  read_password_reply_.reset();
+
+}
+
+void SubsonicSettingsPage::SavePasswordFinished() {
+
+  if (!save_password_reply_ || sender() != &*save_password_reply_) return;
+
+  if (save_password_reply_->success()) {
+    Settings s;
+    s.beginGroup(kSettingsGroup);
+    s.remove(kPassword);
+    s.endGroup();
+  }
+  else {
+    // Try to save the password again next time.
+    loaded_password_.clear();
+    QMessageBox::warning(this, tr("Failed to save password"), tr("Failed to save the Subsonic password: %1").arg(save_password_reply_->error()));
+  }
+
+  save_password_reply_.reset();
 
 }
 
