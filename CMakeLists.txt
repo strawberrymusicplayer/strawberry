@@ -607,6 +607,7 @@ set(SOURCES
 
   src/context/contextview.cpp
   src/context/contextalbum.cpp
+  src/context/lyricswidget.cpp
 
   src/collection/collectionlibrary.cpp
   src/collection/collectionmodel.cpp
@@ -933,6 +934,7 @@ set(HEADERS
 
   src/context/contextview.h
   src/context/contextalbum.h
+  src/context/lyricswidget.h
 
   src/collection/collectionlibrary.h
   src/collection/collectionmodel.h

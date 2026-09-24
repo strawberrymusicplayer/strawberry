@@ -45,7 +45,12 @@ class QContextMenuEvent;
 class QDragEnterEvent;
 class QDropEvent;
 
+#include "includes/shared_ptr.h"
+#include "core/playerinterface.h"
+
+class QTimer;
 class ResizableTextEdit;
+class LyricsWidget;
 class CollectionView;
 class AlbumCoverChoiceController;
 class LyricsProviders;
@@ -55,9 +60,17 @@ class ContextView : public QWidget {
   Q_OBJECT
 
  public:
+  struct LrcLine {
+    qint64 timestamp_ms;
+    QString text;
+  };
+
   explicit ContextView(QWidget *parent = nullptr);
 
-  void Init(CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller, SharedPtr<LyricsProviders> lyrics_providers);
+  void Init(CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller, SharedPtr<LyricsProviders> lyrics_providers, SharedPtr<PlayerInterface> player = nullptr);
+
+  static QList<LrcLine> ParseLrc(const QString &lrc_text);
+  static QString LoadSidecarLrc(const QUrl &url);
 
   ContextAlbum *album_widget() const { return widget_album_; }
   bool album_enabled() const { return action_show_album_->isChecked(); }
@@ -125,7 +138,7 @@ class ContextView : public QWidget {
   QLabel *label_stop_summary_;
   QWidget *widget_play_data_;
   QGridLayout *layout_play_data_;
-  ResizableTextEdit *textedit_play_lyrics_;
+  LyricsWidget *lyrics_widget_;
 
   QSpacerItem *spacer_play_data_;
 
@@ -152,6 +165,19 @@ class ContextView : public QWidget {
   QFont font_headline_;
   QFont font_normal_;
   QFont font_nosong_;
+
+  void SetupLyricsDisplay();
+
+ private Q_SLOTS:
+  void UpdateLiveLyricsPosition();
+  void UpdateLiveLyricsDisplay();
+  void LyricsSeekRequested(qint64 timestamp_ms);
+
+ private:
+  SharedPtr<PlayerInterface> player_;
+  QList<LrcLine> lrc_lines_;
+  int active_lrc_index_;
+  QTimer *lrc_timer_;
 
   QList<QLabel*> labels_play_;
   QList<ResizableTextEdit*> textedit_play_;
