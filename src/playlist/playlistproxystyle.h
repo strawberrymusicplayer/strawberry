@@ -45,6 +45,7 @@ class PlaylistProxyStyle : public QProxyStyle {
 
   void drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const override;
   void drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const override;
+  int styleHint(StyleHint hint, const QStyleOption *option = nullptr, const QWidget *widget = nullptr, QStyleHintReturn *return_data = nullptr) const override;
 
  private:
   ScopedPtr<QCommonStyle> common_style_;
