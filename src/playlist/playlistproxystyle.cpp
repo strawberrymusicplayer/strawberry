@@ -72,3 +72,14 @@ void PlaylistProxyStyle::drawPrimitive(PrimitiveElement element, const QStyleOpt
   }
 
 }
+
+int PlaylistProxyStyle::styleHint(StyleHint hint, const QStyleOption *option, const QWidget *widget, QStyleHintReturn *return_data) const {
+
+  // Only paint alternating row colors for rows with songs, the macOS style also paints them in the empty area below the songs.
+  if (hint == QStyle::SH_ItemView_PaintAlternatingRowColorsForEmptyArea) {
+    return 0;
+  }
+
+  return QProxyStyle::styleHint(hint, option, widget, return_data);
+
+}
