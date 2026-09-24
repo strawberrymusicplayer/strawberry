@@ -28,6 +28,10 @@ namespace Utilities {
 QString ColorToRgba(const QColor &color);
 bool IsColorDark(const QColor &color);
 
+// Returns the difference between two colors, from 0 for the same color to 1 for black and white.
+// For grays this is the lightness difference, but it also includes differences in hue and saturation.
+float ColorDifference(const QColor &color1, const QColor &color2);
+
 }  // namespace Utilities
 
 #endif  // COLORUTILS_H
