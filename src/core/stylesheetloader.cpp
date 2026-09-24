@@ -101,7 +101,7 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, SharedPtr<StyleSheetDat
   // The alternate base is drawn on top of the base, so the visible difference is the alpha multiplied by the color difference between the colours.
   // Calculate the alpha giving the same visible difference for all palettes, but never more opaque than the palette colour.
   const QColor color_base = palette.color(QPalette::Base);
-  const float target_color_difference = color_base.lightnessF() < 0.5F ? kAlternateBaseColorDifferenceDark : kAlternateBaseColorDifferenceLight;
+  const float target_color_difference = Utilities::IsPaletteDark(palette, QPalette::Base, QPalette::Text) ? kAlternateBaseColorDifferenceDark : kAlternateBaseColorDifferenceLight;
   QColor color_altbase = palette.color(QPalette::AlternateBase);
   float color_difference = Utilities::ColorDifference(color_altbase, color_base);
   // Some palettes use an alternate base too close to the base to be visible, use the text colour instead.
