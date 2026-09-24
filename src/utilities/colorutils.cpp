@@ -17,6 +17,8 @@
  *
  */
 
+#include <cmath>
+
 #include <QString>
 #include <QColor>
 
@@ -32,6 +34,16 @@ QString ColorToRgba(const QColor &c) {
 
 bool IsColorDark(const QColor &color) {
   return ((30 * color.red() + 59 * color.green() + 11 * color.blue()) / 100) <= 130;
+}
+
+float ColorDifference(const QColor &color1, const QColor &color2) {
+
+  const float red = color1.redF() - color2.redF();
+  const float green = color1.greenF() - color2.greenF();
+  const float blue = color1.blueF() - color2.blueF();
+
+  return std::sqrt((red * red + green * green + blue * blue) / 3.0F);
+
 }
 
 }  // namespace Utilities
