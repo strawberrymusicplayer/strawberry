@@ -260,10 +260,14 @@ class Song {
   QString *mutable_musicbrainz_disc_id();
   QString *mutable_musicbrainz_release_group_id();
   QString *mutable_musicbrainz_work_id();
+  QString *mutable_edition();
 
   bool init_from_file() const;
 
   const QUrl &stream_url() const;
+  const QString &edition() const;
+  int album_samplerate() const;
+  int album_bitdepth() const;
 
   // Setters
   void set_id(const int id);
@@ -358,6 +362,9 @@ class Song {
   void set_init_from_file(const bool v);
 
   void set_stream_url(const QUrl &v);
+  void set_edition(const QString &v);
+  void set_album_samplerate(const int v);
+  void set_album_bitdepth(const int v);
 
   void set_title(const TagLib::String &v);
   void set_titlesort(const TagLib::String &v);

@@ -194,6 +194,8 @@ class StreamingSearchView : public QWidget {
   QTimer *swap_models_timer_;
 
   bool use_pretty_covers_;
+  bool show_search_album_edition_;
+  bool show_search_album_quality_;
   StreamingService::SearchType search_type_;
   bool search_error_;
   int last_search_id_;

@@ -96,6 +96,8 @@ void QobuzSettingsPage::Load() {
   ui_->songssearchlimit->setValue(s.value(kSongsSearchLimit, kDefaultSongsSearchLimit).toInt());
   ui_->checkbox_download_album_covers->setChecked(s.value(kDownloadAlbumCovers, kDefaultDownloadAlbumCovers).toBool());
   ui_->checkbox_remove_remastered->setChecked(s.value(kRemoveRemastered, kDefaultRemoveRemastered).toBool());
+  ui_->checkbox_show_search_album_quality->setChecked(s.value(kShowSearchAlbumQuality, kDefaultShowSearchAlbumQuality).toBool());
+  ui_->checkbox_show_search_album_edition->setChecked(s.value(kShowSearchAlbumEdition, kDefaultShowSearchAlbumEdition).toBool());
 
   s.endGroup();
 
@@ -123,6 +125,8 @@ void QobuzSettingsPage::Save() {
   s.setValue(kSongsSearchLimit, ui_->songssearchlimit->value());
   s.setValue(kDownloadAlbumCovers, ui_->checkbox_download_album_covers->isChecked());
   s.setValue(kRemoveRemastered, ui_->checkbox_remove_remastered->isChecked());
+  s.setValue(kShowSearchAlbumQuality, ui_->checkbox_show_search_album_quality->isChecked());
+  s.setValue(kShowSearchAlbumEdition, ui_->checkbox_show_search_album_edition->isChecked());
   s.endGroup();
 
 }

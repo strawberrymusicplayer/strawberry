@@ -112,6 +112,8 @@ StreamingSearchView::StreamingSearchView(QWidget *parent)
       current_proxy_(front_proxy_),
       swap_models_timer_(new QTimer(this)),
       use_pretty_covers_(true),
+      show_search_album_edition_(false),
+      show_search_album_quality_(false),
       search_type_(StreamingService::SearchType::Artists),
       search_error_(false),
       last_search_id_(0),
@@ -250,6 +252,16 @@ void StreamingSearchView::ReloadSettings() {
     SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy::AlbumArtist, CollectionModel::GroupBy::AlbumDisc, CollectionModel::GroupBy::None));
   }
   s.endGroup();
+
+  // Rebuild the displayed results if the album edition or quality setting changed, since they are part of the album text.
+  if (service_->show_search_album_edition() != show_search_album_edition_ || service_->show_search_album_quality() != show_search_album_quality_) {
+    show_search_album_edition_ = service_->show_search_album_edition();
+    show_search_album_quality_ = service_->show_search_album_quality();
+    // Rebuilding removes all items, so the QModelIndex in the cover requests become invalid.
+    cover_loader_tasks_.clear();
+    front_model_->ReloadResults();
+    back_model_->ReloadResults();
+  }
 
   s.beginGroup(AppearanceSettings::kSettingsGroup);
   int iconsize = s.value(AppearanceSettings::kIconSizeConfigureButtons, AppearanceSettings::kDefaultIconSizeConfigureButtons).toInt();
