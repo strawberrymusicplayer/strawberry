@@ -76,6 +76,7 @@ class PlayerInterface : public QObject {
   virtual void VolumeUp() = 0;
   virtual void VolumeDown() = 0;
   virtual void SeekTo(const quint64 seconds) = 0;
+  virtual void SeekToMs(const quint64 ms) = 0;
   // Moves the position of the currently playing song five seconds forward.
   virtual void SeekForward() = 0;
   // Moves the position of the currently playing song five seconds backwards.

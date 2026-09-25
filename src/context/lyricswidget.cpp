@@ -43,7 +43,8 @@ using namespace Qt::Literals::StringLiterals;
 LyricLineLabel::LyricLineLabel(const int index, const qint64 timestamp_ms, const QString &text, QWidget *parent)
     : QLabel(text, parent),
       index_(index),
-      timestamp_ms_(timestamp_ms) {
+      timestamp_ms_(timestamp_ms),
+      base_font_(font()) {
 
   setWordWrap(true);
   setCursor(Qt::PointingHandCursor);
@@ -53,13 +54,22 @@ LyricLineLabel::LyricLineLabel(const int index, const qint64 timestamp_ms, const
 
 void LyricLineLabel::SetActive(const bool active) {
 
+  QFont f = base_font_;
+  if (f.pointSizeF() > 0) {
+    f.setPointSizeF(f.pointSizeF() * (active ? 1.15 : 0.95));
+  }
+  else if (f.pixelSize() > 0) {
+    f.setPixelSize(qRound(f.pixelSize() * (active ? 1.15 : 0.95)));
+  }
+  setFont(f);
+
   const QColor c = palette().color(QPalette::Text);
   if (active) {
-    setStyleSheet(QStringLiteral("QLabel { color: rgba(%1, %2, %3, 1.0); font-weight: bold; font-size: 115%; background: transparent; border: none; padding: 4px 6px; }")
+    setStyleSheet(QStringLiteral("QLabel { color: rgba(%1, %2, %3, 1.0); font-weight: bold; background: transparent; border: none; padding: 4px 6px; }")
                       .arg(c.red()).arg(c.green()).arg(c.blue()));
   }
   else {
-    setStyleSheet(QStringLiteral("QLabel { color: rgba(%1, %2, %3, 0.4); font-weight: normal; font-size: 95%; background: transparent; border: none; padding: 4px 6px; }")
+    setStyleSheet(QStringLiteral("QLabel { color: rgba(%1, %2, %3, 0.4); font-weight: normal; background: transparent; border: none; padding: 4px 6px; }")
                       .arg(c.red()).arg(c.green()).arg(c.blue()));
   }
 
@@ -101,7 +111,15 @@ LyricsWidget::LyricsWidget(QWidget *parent)
   setMinimumHeight(280);
 
   button_sync_->setCursor(Qt::PointingHandCursor);
-  button_sync_->setStyleSheet(u"QPushButton { background-color: rgba(60, 60, 60, 0.85); color: #ffffff; border: none; border-radius: 12px; padding: 6px 14px; font-weight: bold; font-size: 90%; } QPushButton:hover { background-color: rgba(80, 80, 80, 0.95); }"_s);
+  QFont btn_font = button_sync_->font();
+  if (btn_font.pointSizeF() > 0) {
+    btn_font.setPointSizeF(btn_font.pointSizeF() * 0.90);
+  }
+  else if (btn_font.pixelSize() > 0) {
+    btn_font.setPixelSize(qRound(btn_font.pixelSize() * 0.90));
+  }
+  button_sync_->setFont(btn_font);
+  button_sync_->setStyleSheet(u"QPushButton { background-color: rgba(60, 60, 60, 0.85); color: #ffffff; border: none; border-radius: 12px; padding: 6px 14px; font-weight: bold; } QPushButton:hover { background-color: rgba(80, 80, 80, 0.95); }"_s);
   button_sync_->hide();
 
   QObject::connect(scroll_area_->verticalScrollBar(), &QScrollBar::valueChanged, this, &LyricsWidget::ScrollBarValueChanged);

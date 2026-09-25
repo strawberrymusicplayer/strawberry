@@ -829,6 +829,10 @@ void Player::CurrentMetadataChanged(const Song &metadata) {
 }
 
 void Player::SeekTo(const quint64 seconds) {
+  SeekToMs(seconds * 1000);
+}
+
+void Player::SeekToMs(const quint64 ms) {
 
   const qint64 length_nanosec = engine_->length_nanosec();
 
@@ -837,7 +841,7 @@ void Player::SeekTo(const quint64 seconds) {
     return;
   }
 
-  const qint64 nanosec = qBound(0LL, static_cast<qint64>(seconds) * kNsecPerSec, length_nanosec);
+  const qint64 nanosec = qBound(0LL, static_cast<qint64>(ms) * kNsecPerMsec, length_nanosec);
   engine_->Seek(static_cast<quint64>(nanosec));
 
   qLog(Debug) << "Track seeked to" << nanosec << "ns - updating scrobble point";
@@ -845,7 +849,7 @@ void Player::SeekTo(const quint64 seconds) {
 
   Q_EMIT Seeked(nanosec / 1000);
 
-  if (seconds == 0) {
+  if (ms == 0) {
     playlist_manager_->active()->InformOfCurrentSongChange(false);
   }
 

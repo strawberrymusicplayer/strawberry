@@ -142,12 +142,12 @@ void LrcLibLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id,
   result.artist = json_object["artistName"_L1].toString();
   result.album = json_object["albumName"_L1].toString();
   result.title = json_object["trackName"_L1].toString();
-  const QString synced_lyrics = json_object["syncedLyrics"_L1].toString();
-  if (!synced_lyrics.isEmpty()) {
-    result.lyrics = synced_lyrics;
+  const QString plain_lyrics = json_object["plainLyrics"_L1].toString();
+  if (!plain_lyrics.isEmpty()) {
+    result.lyrics = plain_lyrics;
   }
   else {
-    result.lyrics = json_object["plainLyrics"_L1].toString();
+    result.lyrics = json_object["syncedLyrics"_L1].toString();
   }
   results << result;
 

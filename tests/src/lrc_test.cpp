@@ -33,9 +33,9 @@ TEST(LrcTest, ParseLrcMultipleTimestampsAndOffset) {
   const QList<ContextView::LrcLine> lines = ContextView::ParseLrc(lrc);
 
   ASSERT_EQ(lines.size(), 2);
-  EXPECT_EQ(lines[0].timestamp_ms, 10500);
+  EXPECT_EQ(lines[0].timestamp_ms, 9500);
   EXPECT_EQ(lines[0].text, u"Repeated line"_s);
-  EXPECT_EQ(lines[1].timestamp_ms, 60500);
+  EXPECT_EQ(lines[1].timestamp_ms, 59500);
   EXPECT_EQ(lines[1].text, u"Repeated line"_s);
 
 }

@@ -27,6 +27,7 @@
 #include <QList>
 #include <QString>
 #include <QLabel>
+#include <QFont>
 #include <QVariantAnimation>
 #include "contextview.h"
 
@@ -53,6 +54,7 @@ class LyricLineLabel : public QLabel {
  private:
   int index_;
   qint64 timestamp_ms_;
+  QFont base_font_;
 };
 
 class LyricsWidget : public QWidget {

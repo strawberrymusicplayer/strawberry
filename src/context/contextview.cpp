@@ -675,7 +675,7 @@ QList<ContextView::LrcLine> ContextView::ParseLrc(const QString &lrc_text) {
       text = text.trimmed();
 
       for (const qint64 ts : line_timestamps) {
-        lines.append(LrcLine{ts + global_offset_ms, text});
+        lines.append(LrcLine{ts - global_offset_ms, text});
       }
     }
   }
@@ -771,7 +771,7 @@ void ContextView::UpdateLiveLyricsDisplay() {
 void ContextView::LyricsSeekRequested(const qint64 timestamp_ms) {
 
   if (player_) {
-    player_->SeekTo(static_cast<quint64>(timestamp_ms / 1000));
+    player_->SeekToMs(static_cast<quint64>(std::max<qint64>(0, timestamp_ms)));
   }
 
 }
