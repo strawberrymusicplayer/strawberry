@@ -362,6 +362,10 @@ struct Song::Private : public QSharedData {
 
   QUrl stream_url_;             // Temporary stream URL set by the URL handler.
 
+  QString edition_;             // Streaming service release edition/version text, not persisted.
+  int album_samplerate_;        // Highest sample rate the album is available in on the streaming service, not persisted.
+  int album_bitdepth_;          // Highest bit depth the album is available in on the streaming service, not persisted.
+
 };
 
 Song::Private::Private(const Source source)
@@ -407,7 +411,10 @@ Song::Private::Private(const Source source)
       id3v2_version_(0),
 
       init_from_file_(false),
-      suspicious_tags_(false)
+      suspicious_tags_(false),
+
+      album_samplerate_(-1),
+      album_bitdepth_(-1)
 
       {}
 
@@ -540,10 +547,14 @@ QString *Song::mutable_musicbrainz_track_id() { return &d->musicbrainz_track_id_
 QString *Song::mutable_musicbrainz_disc_id() { return &d->musicbrainz_disc_id_; }
 QString *Song::mutable_musicbrainz_release_group_id() { return &d->musicbrainz_release_group_id_; }
 QString *Song::mutable_musicbrainz_work_id() { return &d->musicbrainz_work_id_; }
+QString *Song::mutable_edition() { return &d->edition_; }
 
 bool Song::init_from_file() const { return d->init_from_file_; }
 
 const QUrl &Song::stream_url() const { return d->stream_url_; }
+const QString &Song::edition() const { return d->edition_; }
+int Song::album_samplerate() const { return d->album_samplerate_; }
+int Song::album_bitdepth() const { return d->album_bitdepth_; }
 
 void Song::set_id(const int id) { d->id_ = id; }
 void Song::set_valid(const bool v) { d->valid_ = v; }
@@ -637,6 +648,9 @@ void Song::set_id3v2_version(const int v) { d->id3v2_version_ = v; }
 void Song::set_init_from_file(const bool v) { d->init_from_file_ = v; }
 
 void Song::set_stream_url(const QUrl &v) { d->stream_url_ = v; }
+void Song::set_edition(const QString &v) { d->edition_ = v; }
+void Song::set_album_samplerate(const int v) { d->album_samplerate_ = v; }
+void Song::set_album_bitdepth(const int v) { d->album_bitdepth_ = v; }
 
 void Song::set_title(const TagLib::String &v) { d->title_ = TagLibStringToQString(v); }
 void Song::set_titlesort(const TagLib::String &v) { d->titlesort_ = TagLibStringToQString(v); }

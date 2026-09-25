@@ -67,6 +67,9 @@ class StreamingSearchModel : public QStandardItemModel {
   void set_use_pretty_covers(const bool pretty) { use_pretty_covers_ = pretty; }
   void SetGroupBy(const CollectionModel::Grouping grouping, const bool regroup_now);
 
+  // Rebuilds container labels for the results already shown, e.g. after a display setting changes.
+  void ReloadResults();
+
   void Clear();
 
   StreamingSearchView::ResultList GetChildResults(const QModelIndexList &indexes) const;
@@ -82,8 +85,9 @@ class StreamingSearchModel : public QStandardItemModel {
   void AddResults(const StreamingSearchView::ResultList &results);
 
  private:
-  QStandardItem *BuildContainers(const Song &s, QStandardItem *parent, ContainerKey *key, const int level = 0);
+  QStandardItem *BuildContainers(const Song &song, QStandardItem *parent, ContainerKey *key, const int level = 0);
   void GetChildResults(const QStandardItem *item, StreamingSearchView::ResultList *results, QSet<const QStandardItem*> *visited) const;
+  QString AlbumQualifierSuffix(const Song &song) const;
 
  private:
   SharedPtr<StreamingService> service_;

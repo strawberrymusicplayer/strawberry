@@ -99,6 +99,8 @@ QobuzService::QobuzService(const SharedPtr<TaskManager> task_manager,
       songssearchlimit_(1),
       download_album_covers_(true),
       remove_remastered_(true),
+      show_search_album_quality_(false),
+      show_search_album_edition_(false),
       user_id_(-1),
       pending_search_id_(0),
       next_pending_search_id_(1),
@@ -213,6 +215,8 @@ void QobuzService::ReloadSettings() {
   songssearchlimit_ = s.value(QobuzSettings::kSongsSearchLimit, QobuzSettings::kDefaultSongsSearchLimit).toInt();
   download_album_covers_ = s.value(QobuzSettings::kDownloadAlbumCovers, QobuzSettings::kDefaultDownloadAlbumCovers).toBool();
   remove_remastered_ = s.value(QobuzSettings::kRemoveRemastered, QobuzSettings::kDefaultRemoveRemastered).toBool();
+  show_search_album_quality_ = s.value(QobuzSettings::kShowSearchAlbumQuality, QobuzSettings::kDefaultShowSearchAlbumQuality).toBool();
+  show_search_album_edition_ = s.value(QobuzSettings::kShowSearchAlbumEdition, QobuzSettings::kDefaultShowSearchAlbumEdition).toBool();
 
   user_id_ = s.value(QobuzSettings::kUserId).toLongLong();
   user_auth_token_ = s.value(QobuzSettings::kUserAuthToken).toString();

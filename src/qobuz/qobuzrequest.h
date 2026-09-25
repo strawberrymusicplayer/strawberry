@@ -60,12 +60,16 @@ class QobuzRequest : public QobuzBaseRequest {
     QString artist;
   };
   struct Album {
-    Album() : album_explicit(false) {}
+    Album() : album_explicit(false), year(0), samplerate(0), bitdepth(0) {}
     QString album_id;
     QString album;
     QUrl cover_url;
     bool album_explicit;
     QString genre;
+    int year;
+    int samplerate;
+    int bitdepth;
+    QString version;
   };
   struct Request {
     Request() : offset(0), limit(0) {}

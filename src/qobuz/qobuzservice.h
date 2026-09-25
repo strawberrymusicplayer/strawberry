@@ -94,6 +94,8 @@ class QobuzService : public StreamingService {
   int songssearchlimit() const { return songssearchlimit_; }
   bool download_album_covers() const { return download_album_covers_; }
   bool remove_remastered() const { return remove_remastered_; }
+  bool show_search_album_quality() const override { return show_search_album_quality_; }
+  bool show_search_album_edition() const override { return show_search_album_edition_; }
 
   QString user_auth_token() const { return user_auth_token_; }
   qint64 user_id() const { return user_id_; }
@@ -184,6 +186,8 @@ class QobuzService : public StreamingService {
   int songssearchlimit_;
   bool download_album_covers_;
   bool remove_remastered_;
+  bool show_search_album_quality_;
+  bool show_search_album_edition_;
 
   qint64 user_id_;
   QString user_auth_token_;
