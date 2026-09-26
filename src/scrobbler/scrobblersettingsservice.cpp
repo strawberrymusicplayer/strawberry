@@ -71,6 +71,7 @@ void ScrobblerSettingsService::ReloadSettings() {
              << Song::Source::Tidal
              << Song::Source::Subsonic
              << Song::Source::Plex
+             << Song::Source::Jellyfin
              << Song::Source::Qobuz
              << Song::Source::Spotify
              << Song::Source::SomaFM

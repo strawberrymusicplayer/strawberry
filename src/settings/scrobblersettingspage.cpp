@@ -115,6 +115,7 @@ void ScrobblerSettingsPage::Load() {
   ui_->checkbox_source_somafm->setChecked(scrobbler_->sources().contains(Song::Source::SomaFM));
   ui_->checkbox_source_radioparadise->setChecked(scrobbler_->sources().contains(Song::Source::RadioParadise));
   ui_->checkbox_source_unknown->setChecked(scrobbler_->sources().contains(Song::Source::Unknown));
+  ui_->checkbox_source_jellyfin->setChecked(scrobbler_->sources().contains(Song::Source::Jellyfin));
 
   ui_->checkbox_lastfm_enable->setChecked(lastfmscrobbler_->enabled());
   s.beginGroup(LastFMScrobbler::kSettingsGroup);
@@ -197,6 +198,7 @@ void ScrobblerSettingsPage::Save() {
   if (ui_->checkbox_source_somafm->isChecked()) sources << Song::TextForSource(Song::Source::SomaFM);
   if (ui_->checkbox_source_radioparadise->isChecked()) sources << Song::TextForSource(Song::Source::RadioParadise);
   if (ui_->checkbox_source_unknown->isChecked()) sources << Song::TextForSource(Song::Source::Unknown);
+  if (ui_->checkbox_source_jellyfin->isChecked()) sources << Song::TextForSource(Song::Source::Jellyfin);
 
   s.setValue(kSources, sources);
 
