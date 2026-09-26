@@ -93,6 +93,7 @@ class Player : public PlayerInterface {
   void VolumeUp() override;
   void VolumeDown() override;
   void SeekTo(const quint64 seconds) override;
+  void SeekToMs(const quint64 ms) override;
   void SeekForward() override;
   void SeekBackward() override;
 

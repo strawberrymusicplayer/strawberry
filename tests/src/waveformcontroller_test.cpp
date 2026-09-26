@@ -90,6 +90,7 @@ class StubPlayer : public PlayerInterface {
   void VolumeUp() override {}
   void VolumeDown() override {}
   void SeekTo(const quint64) override {}
+  void SeekToMs(const quint64) override {}
   void SeekForward() override {}
   void SeekBackward() override {}
   void CurrentMetadataChanged(const Song &) override {}

@@ -453,7 +453,7 @@ MainWindow::MainWindow(Application *app,
   album_cover_choice_controller_->Init(app->network(), app->tagreader_client(), app->collection()->backend(), app->albumcover_loader(), app->current_albumcover_loader(), app->cover_providers(), app->streaming_services());
 
   ui_->multi_loading_indicator->SetTaskManager(app_->task_manager());
-  context_view_->Init(collection_view_->view(), album_cover_choice_controller_, app_->lyrics_providers());
+  context_view_->Init(collection_view_->view(), album_cover_choice_controller_, app_->lyrics_providers(), app_->player());
   ui_->widget_playing->Init(album_cover_choice_controller_);
 
   // Initialize the search widget
