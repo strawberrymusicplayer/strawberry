@@ -77,7 +77,7 @@ void StreamingSearchModel::AddResults(const StreamingSearchView::ResultList &res
 
 }
 
-QStandardItem *StreamingSearchModel::BuildContainers(const Song &s, QStandardItem *parent, ContainerKey *key, const int level) {
+QStandardItem *StreamingSearchModel::BuildContainers(const Song &song, QStandardItem *parent, ContainerKey *key, const int level) {
 
   if (level >= 3) {
     return parent;
@@ -85,6 +85,7 @@ QStandardItem *StreamingSearchModel::BuildContainers(const Song &s, QStandardIte
 
   bool has_artist_icon = false;
   bool has_album_icon = false;
+  bool is_album_container = false;
   QString display_text;
   QString sort_text;
   QString unique_tag;
@@ -92,159 +93,165 @@ QStandardItem *StreamingSearchModel::BuildContainers(const Song &s, QStandardIte
   switch (group_by_[level]) {
 
     case CollectionModel::GroupBy::AlbumArtist:
-      if (s.is_compilation()) {
+      if (song.is_compilation()) {
         display_text = tr("Various artists");
         sort_text = "aaaaaa"_L1;
       }
       else {
-        display_text = CollectionModel::TextOrUnknown(s.effective_albumartist());
-        sort_text = CollectionModel::SortTextForName(s.effective_albumartistsort(), true);
+        display_text = CollectionModel::TextOrUnknown(song.effective_albumartist());
+        sort_text = CollectionModel::SortTextForName(song.effective_albumartistsort(), true);
       }
       has_artist_icon = true;
       break;
 
     case CollectionModel::GroupBy::Artist:
-      if (s.is_compilation()) {
+      if (song.is_compilation()) {
         display_text = tr("Various artists");
         sort_text = "aaaaaa"_L1;
       }
       else {
-        display_text = CollectionModel::TextOrUnknown(s.artist());
-        sort_text = CollectionModel::SortTextForName(s.effective_artistsort(), true);
+        display_text = CollectionModel::TextOrUnknown(song.artist());
+        sort_text = CollectionModel::SortTextForName(song.effective_artistsort(), true);
       }
       has_artist_icon = true;
       break;
 
     case CollectionModel::GroupBy::Album:
-      display_text = CollectionModel::TextOrUnknown(s.album());
-      sort_text = CollectionModel::SortTextForName(s.effective_albumsort(), false);
-      unique_tag = s.album_id();
+      display_text = CollectionModel::TextOrUnknown(song.album());
+      sort_text = CollectionModel::SortTextForName(song.effective_albumsort(), false);
+      unique_tag = song.album_id();
       has_album_icon = true;
+      is_album_container = true;
       break;
 
     case CollectionModel::GroupBy::AlbumDisc:{
-      const int disc = std::max(0, s.disc());
-      display_text = CollectionModel::PrettyAlbumDisc(s.album(), disc);
-      sort_text = CollectionModel::SortTextForName(s.effective_albumsort(), false) + CollectionModel::SortTextForNumber(disc);
-      unique_tag = s.album_id();
+      const int disc = std::max(0, song.disc());
+      display_text = CollectionModel::PrettyAlbumDisc(song.album(), disc);
+      sort_text = CollectionModel::SortTextForName(song.effective_albumsort(), false) + CollectionModel::SortTextForNumber(disc);
+      unique_tag = song.album_id();
       has_album_icon = true;
+      is_album_container = true;
       break;
     }
 
     case CollectionModel::GroupBy::YearAlbum:{
-      const int year = std::max(0, s.year());
-      display_text = CollectionModel::PrettyYearAlbum(year, s.album());
-      sort_text = CollectionModel::SortTextForNumber(year) + CollectionModel::SortTextForName(s.effective_albumsort(), false);
-      unique_tag = s.album_id();
+      const int year = std::max(0, song.year());
+      display_text = CollectionModel::PrettyYearAlbum(year, song.album());
+      sort_text = CollectionModel::SortTextForNumber(year) + CollectionModel::SortTextForName(song.effective_albumsort(), false);
+      unique_tag = song.album_id();
       has_album_icon = true;
+      is_album_container = true;
       break;
     }
 
     case CollectionModel::GroupBy::YearAlbumDisc:{
-      const int year = std::max(0, s.year());
-      const int disc = std::max(0, s.disc());
-      display_text = CollectionModel::PrettyYearAlbumDisc(year, s.album(), disc);
-      sort_text = CollectionModel::SortTextForNumber(year) + CollectionModel::SortTextForName(s.effective_albumsort(), false) + CollectionModel::SortTextForNumber(disc);
-      unique_tag = s.album_id();
+      const int year = std::max(0, song.year());
+      const int disc = std::max(0, song.disc());
+      display_text = CollectionModel::PrettyYearAlbumDisc(year, song.album(), disc);
+      sort_text = CollectionModel::SortTextForNumber(year) + CollectionModel::SortTextForName(song.effective_albumsort(), false) + CollectionModel::SortTextForNumber(disc);
+      unique_tag = song.album_id();
       has_album_icon = true;
+      is_album_container = true;
       break;
     }
 
     case CollectionModel::GroupBy::OriginalYearAlbum:{
-      const int year = std::max(0, s.effective_originalyear());
-      display_text = CollectionModel::PrettyYearAlbum(year, s.album());
-      sort_text = CollectionModel::SortTextForNumber(year) + CollectionModel::SortTextForName(s.effective_albumsort(), false);
-      unique_tag = s.album_id();
+      const int year = std::max(0, song.effective_originalyear());
+      display_text = CollectionModel::PrettyYearAlbum(year, song.album());
+      sort_text = CollectionModel::SortTextForNumber(year) + CollectionModel::SortTextForName(song.effective_albumsort(), false);
+      unique_tag = song.album_id();
       has_album_icon = true;
+      is_album_container = true;
       break;
     }
 
     case CollectionModel::GroupBy::OriginalYearAlbumDisc:{
-      const int year = std::max(0, s.effective_originalyear());
-      const int disc = std::max(0, s.disc());
-      display_text = CollectionModel::PrettyYearAlbumDisc(year, s.album(), disc);
-      sort_text = CollectionModel::SortTextForNumber(year) + CollectionModel::SortTextForName(s.effective_albumsort(), false) + CollectionModel::SortTextForNumber(disc);
-      unique_tag = s.album_id();
+      const int year = std::max(0, song.effective_originalyear());
+      const int disc = std::max(0, song.disc());
+      display_text = CollectionModel::PrettyYearAlbumDisc(year, song.album(), disc);
+      sort_text = CollectionModel::SortTextForNumber(year) + CollectionModel::SortTextForName(song.effective_albumsort(), false) + CollectionModel::SortTextForNumber(disc);
+      unique_tag = song.album_id();
       has_album_icon = true;
+      is_album_container = true;
       break;
     }
 
     case CollectionModel::GroupBy::Disc:
-      display_text = CollectionModel::PrettyDisc(s.disc());
+      display_text = CollectionModel::PrettyDisc(song.disc());
       sort_text = CollectionModel::SortText(display_text);
       has_album_icon = true;
       break;
 
     case CollectionModel::GroupBy::Year:{
-      const int year = qMax(0, s.year());
+      const int year = qMax(0, song.year());
       display_text = QString::number(year);
       sort_text = CollectionModel::SortTextForNumber(year) + QLatin1Char(' ');
       break;
     }
 
     case CollectionModel::GroupBy::OriginalYear:{
-      const int year = qMax(0, s.effective_originalyear());
+      const int year = qMax(0, song.effective_originalyear());
       display_text = QString::number(year);
       sort_text = CollectionModel::SortTextForNumber(year) + QLatin1Char(' ');
       break;
     }
 
     case CollectionModel::GroupBy::Genre:
-      display_text = CollectionModel::TextOrUnknown(s.genre());
-      sort_text = CollectionModel::SortText(s.genre());
+      display_text = CollectionModel::TextOrUnknown(song.genre());
+      sort_text = CollectionModel::SortText(song.genre());
       has_album_icon = true;
       break;
 
     case CollectionModel::GroupBy::Composer:
-      display_text = CollectionModel::TextOrUnknown(s.composer());
-      sort_text = CollectionModel::SortTextForName(s.composer(), true);
+      display_text = CollectionModel::TextOrUnknown(song.composer());
+      sort_text = CollectionModel::SortTextForName(song.composer(), true);
       has_album_icon = true;
       break;
 
     case CollectionModel::GroupBy::Performer:
-      display_text = CollectionModel::TextOrUnknown(s.performer());
-      sort_text = CollectionModel::SortTextForName(s.performer(), true);
+      display_text = CollectionModel::TextOrUnknown(song.performer());
+      sort_text = CollectionModel::SortTextForName(song.performer(), true);
       has_album_icon = true;
       break;
 
     case CollectionModel::GroupBy::Grouping:
-      display_text = CollectionModel::TextOrUnknown(s.grouping());
-      sort_text = CollectionModel::SortText(s.grouping());
+      display_text = CollectionModel::TextOrUnknown(song.grouping());
+      sort_text = CollectionModel::SortText(song.grouping());
       has_album_icon = true;
       break;
 
     case CollectionModel::GroupBy::FileType:
-      display_text = s.TextForFiletype();
+      display_text = song.TextForFiletype();
       sort_text = display_text;
       break;
 
     case CollectionModel::GroupBy::Format:
-      if (s.samplerate() <= 0) {
-        display_text = s.TextForFiletype();
+      if (song.samplerate() <= 0) {
+        display_text = song.TextForFiletype();
       }
       else {
-        if (s.bitdepth() <= 0) {
-          display_text = QStringLiteral("%1 (%2)").arg(s.TextForFiletype(), QString::number(s.samplerate() / 1000.0, 'G', 5));
+        if (song.bitdepth() <= 0) {
+          display_text = QStringLiteral("%1 (%2)").arg(song.TextForFiletype(), QString::number(song.samplerate() / 1000.0, 'G', 5));
         }
         else {
-          display_text = QStringLiteral("%1 (%2/%3)").arg(s.TextForFiletype(), QString::number(s.samplerate() / 1000.0, 'G', 5), QString::number(s.bitdepth()));
+          display_text = QStringLiteral("%1 (%2/%3)").arg(song.TextForFiletype(), QString::number(song.samplerate() / 1000.0, 'G', 5), QString::number(song.bitdepth()));
         }
       }
       sort_text = display_text;
       break;
 
     case CollectionModel::GroupBy::Samplerate:
-      display_text = QString::number(s.samplerate());
+      display_text = QString::number(song.samplerate());
       sort_text = display_text;
       break;
 
     case CollectionModel::GroupBy::Bitdepth:
-      display_text = QString::number(s.bitdepth());
+      display_text = QString::number(song.bitdepth());
       sort_text = display_text;
       break;
 
     case CollectionModel::GroupBy::Bitrate:
-      display_text = QString::number(s.bitrate());
+      display_text = QString::number(song.bitrate());
       sort_text = display_text;
       break;
 
@@ -260,13 +267,17 @@ QStandardItem *StreamingSearchModel::BuildContainers(const Song &s, QStandardIte
     sort_text = display_text;
   }
 
-  // Find a container for this level
+  // Find a container for this level.
+  // The key is based on the plain display text so that per-song differences in the (optional) qualifier suffix below can't split one album into multiple containers.
   key->group_[level] = display_text + unique_tag;
   QStandardItem *container = nullptr;
   if (containers_.contains(*key)) {
     container = containers_.value(*key);
   }
   else {
+    if (is_album_container) {
+      display_text += AlbumQualifierSuffix(song);
+    }
     container = new QStandardItem(display_text);
     container->setData(sort_text, CollectionModel::Role_SortText);
     container->setData(static_cast<int>(group_by_[level]), CollectionModel::Role_ContainerType);
@@ -288,7 +299,24 @@ QStandardItem *StreamingSearchModel::BuildContainers(const Song &s, QStandardIte
   }
 
   // Create the container for the next level.
-  return BuildContainers(s, container, key, level + 1);
+  return BuildContainers(song, container, key, level + 1);
+
+}
+
+QString StreamingSearchModel::AlbumQualifierSuffix(const Song &song) const {
+
+  QString suffix;
+
+  // Skip if the title already contains the edition text.
+  if (service_->show_search_album_edition() && !song.edition().isEmpty() && !song.album().contains(song.edition(), Qt::CaseInsensitive)) {
+    suffix += QStringLiteral(" (%1)").arg(song.edition());
+  }
+
+  if (service_->show_search_album_quality() && !song.album_quality().isEmpty()) {
+    suffix += QStringLiteral(" [%1]").arg(song.album_quality());
+  }
+
+  return suffix;
 
 }
 
@@ -389,6 +417,16 @@ void StreamingSearchModel::SetGroupBy(const CollectionModel::Grouping grouping, 
     Clear();
     AddResults(results);
   }
+
+}
+
+void StreamingSearchModel::ReloadResults() {
+
+  StreamingSearchView::ResultList results;
+  GatherResults(invisibleRootItem(), &results);
+
+  Clear();
+  AddResults(results);
 
 }
 

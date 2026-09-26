@@ -123,6 +123,7 @@ void TidalSettingsPage::Load() {
   ui_->streamurl->setCurrentIndex(ui_->streamurl->findData(s.value(kStreamUrl, static_cast<int>(kDefaultStreamUrl)).toInt()));
   ui_->checkbox_album_explicit->setChecked(s.value(kAlbumExplicit, kDefaultAlbumExplicit).toBool());
   ui_->checkbox_remove_remastered->setChecked(s.value(kRemoveRemastered, kDefaultRemoveRemastered).toBool());
+  ui_->checkbox_show_search_album_quality->setChecked(s.value(kShowSearchAlbumQuality, kDefaultShowSearchAlbumQuality).toBool());
   s.endGroup();
 
   if (service_->authenticated()) {
@@ -165,6 +166,7 @@ void TidalSettingsPage::Save() {
   s.setValue(kStreamUrl, ui_->streamurl->currentData().toInt());
   s.setValue(kAlbumExplicit, ui_->checkbox_album_explicit->isChecked());
   s.setValue(kRemoveRemastered, ui_->checkbox_remove_remastered->isChecked());
+  s.setValue(kShowSearchAlbumQuality, ui_->checkbox_show_search_album_quality->isChecked());
   s.endGroup();
 
 }

@@ -3890,7 +3890,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Ctrl+B</source>
-      <translation type="unfinished">Ctrl+B</translation>
+      <translation>Ctrl+B</translation>
     </message>
   </context>
   <context>
@@ -4353,11 +4353,11 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Muted</source>
-      <translation type="unfinished">Muted</translation>
+      <translation>Tystad</translation>
     </message>
     <message>
       <source>Unmuted</source>
-      <translation type="unfinished">Unmuted</translation>
+      <translation>Ljud aktiverat</translation>
     </message>
     <message>
       <source>Don&apos;t shuffle</source>
@@ -4401,7 +4401,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Scan tracks</source>
-      <translation type="unfinished">Scan tracks</translation>
+      <translation>Sök igenom spår</translation>
     </message>
   </context>
   <context>
@@ -5110,7 +5110,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Scan tracks</source>
-      <translation type="unfinished">Scan tracks</translation>
+      <translation>Sök igenom spår</translation>
     </message>
   </context>
   <context>
@@ -5205,11 +5205,11 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
     <message>
       <source>Scan mode</source>
-      <translation type="unfinished">Scan mode</translation>
+      <translation>Genomsökningsläge</translation>
     </message>
     <message>
       <source>Playing time (seconds)</source>
-      <translation type="unfinished">Playing time (seconds)</translation>
+      <translation>Speltid (sekunder)</translation>
     </message>
     <message>
       <source>The time played before and after the position time selected in seconds (0 for playing the complete track)</source>
@@ -8215,7 +8215,7 @@ Are you sure you want to continue?</source>
     <name>VolumeSlider</name>
     <message>
       <source>Muted</source>
-      <translation type="unfinished">Muted</translation>
+      <translation>Tystad</translation>
     </message>
   </context>
   <context>

@@ -235,6 +235,13 @@
         </property>
        </widget>
       </item>
+      <item row="11" column="0">
+       <widget class="QCheckBox" name="checkbox_show_search_album_quality">
+        <property name="text">
+         <string>Show audio quality in album names in search results</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -313,6 +320,7 @@
   <tabstop>streamurl</tabstop>
   <tabstop>checkbox_album_explicit</tabstop>
   <tabstop>checkbox_remove_remastered</tabstop>
+  <tabstop>checkbox_show_search_album_quality</tabstop>
  </tabstops>
  <resources>
   <include location="../../data/icons.qrc"/>

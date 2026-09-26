@@ -220,6 +220,20 @@
         </property>
        </widget>
       </item>
+      <item row="9" column="0">
+       <widget class="QCheckBox" name="checkbox_show_search_album_quality">
+        <property name="text">
+         <string>Show audio quality in album names in search results</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QCheckBox" name="checkbox_show_search_album_edition">
+        <property name="text">
+         <string>Show edition (e.g. Remastered, Deluxe) in album names in search results</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -296,6 +310,8 @@
   <tabstop>songssearchlimit</tabstop>
   <tabstop>checkbox_download_album_covers</tabstop>
   <tabstop>checkbox_remove_remastered</tabstop>
+  <tabstop>checkbox_show_search_album_quality</tabstop>
+  <tabstop>checkbox_show_search_album_edition</tabstop>
  </tabstops>
  <resources>
   <include location="../../data/icons.qrc"/>

@@ -77,10 +77,11 @@ class Song {
     SomaFM = 9,
     RadioParadise = 10,
     Spotify = 11,
-    RadioBrowser = 12
+    RadioBrowser = 12,
+    Plex = 13
   };
   static const int kSourceCount = 16;
-  static_assert(static_cast<int>(Source::RadioBrowser) < kSourceCount, "kSourceCount must exceed the largest Song::Source value");
+  static_assert(static_cast<int>(Source::Plex) < kSourceCount, "kSourceCount must exceed the largest Song::Source value");
 
   enum class FileType {
     Unknown = 0,
@@ -260,10 +261,13 @@ class Song {
   QString *mutable_musicbrainz_disc_id();
   QString *mutable_musicbrainz_release_group_id();
   QString *mutable_musicbrainz_work_id();
+  QString *mutable_edition();
 
   bool init_from_file() const;
 
   const QUrl &stream_url() const;
+  const QString &edition() const;
+  const QString &album_quality() const;
 
   // Setters
   void set_id(const int id);
@@ -358,6 +362,8 @@ class Song {
   void set_init_from_file(const bool v);
 
   void set_stream_url(const QUrl &v);
+  void set_edition(const QString &v);
+  void set_album_quality(const QString &v);
 
   void set_title(const TagLib::String &v);
   void set_titlesort(const TagLib::String &v);

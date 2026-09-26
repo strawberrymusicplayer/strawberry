@@ -372,6 +372,7 @@ optional_component(SUBSONIC ON "Streaming: Subsonic")
 optional_component(TIDAL ON "Streaming: Tidal")
 optional_component(SPOTIFY ON "Streaming: Spotify")
 optional_component(QOBUZ ON "Streaming: Qobuz")
+optional_component(PLEX ON "Streaming: Plex")
 
 optional_component(MOODBAR ON "Moodbar")
 
@@ -1632,6 +1633,26 @@ if(HAVE_QOBUZ)
   )
   list(APPEND UI
     src/settings/qobuzsettingspage.ui
+  )
+endif()
+
+if(HAVE_PLEX)
+  list(APPEND SOURCES
+    src/plex/plexservice.cpp
+    src/plex/plexurlhandler.cpp
+    src/plex/plexbaserequest.cpp
+    src/plex/plexrequest.cpp
+    src/settings/plexsettingspage.cpp
+  )
+  list(APPEND HEADERS
+    src/plex/plexservice.h
+    src/plex/plexurlhandler.h
+    src/plex/plexbaserequest.h
+    src/plex/plexrequest.h
+    src/settings/plexsettingspage.h
+  )
+  list(APPEND UI
+    src/settings/plexsettingspage.ui
   )
 endif()
 

@@ -26,6 +26,8 @@
 #include <QByteArrayList>
 #include <QString>
 #include <QUrl>
+#include <QDateTime>
+#include <QTimeZone>
 #include <QImage>
 #include <QImageReader>
 #include <QNetworkRequest>
@@ -701,6 +703,29 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
       }
     }
 
+    if (obj_item.contains("released_at"_L1) && !obj_item["released_at"_L1].isNull()) {
+      const qint64 released_at = obj_item["released_at"_L1].toVariant().toLongLong();
+      album.year = QDateTime::fromSecsSinceEpoch(released_at, QTimeZone::utc()).date().year();
+    }
+
+    if (obj_item.contains("maximum_sampling_rate"_L1)) {
+      const double sampling_rate = obj_item["maximum_sampling_rate"_L1].toDouble();
+      if (sampling_rate > 0) {
+        album.samplerate = static_cast<int>(sampling_rate * 1000);
+      }
+    }
+
+    if (obj_item.contains("maximum_bit_depth"_L1)) {
+      const int bit_depth = obj_item["maximum_bit_depth"_L1].toInt();
+      if (bit_depth > 0) {
+        album.bitdepth = bit_depth;
+      }
+    }
+
+    if (obj_item.contains("version"_L1) && obj_item["version"_L1].isString()) {
+      album.version = obj_item["version"_L1].toString();
+    }
+
     if (album_songs_requests_pending_.contains(album.album_id)) continue;
 
     QJsonValue value_artist = obj_item["artist"_L1];
@@ -1145,11 +1170,46 @@ void QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
         }
       }
     }
+
+    if (obj_album.contains("released_at"_L1) && !obj_album["released_at"_L1].isNull()) {
+      const qint64 released_at = obj_album["released_at"_L1].toVariant().toLongLong();
+      song_album.year = QDateTime::fromSecsSinceEpoch(released_at, QTimeZone::utc()).date().year();
+    }
+
+    if (obj_album.contains("maximum_sampling_rate"_L1)) {
+      const double sampling_rate = obj_album["maximum_sampling_rate"_L1].toDouble();
+      if (sampling_rate > 0) {
+        song_album.samplerate = static_cast<int>(sampling_rate * 1000);
+      }
+    }
+
+    if (obj_album.contains("maximum_bit_depth"_L1)) {
+      const int bit_depth = obj_album["maximum_bit_depth"_L1].toInt();
+      if (bit_depth > 0) {
+        song_album.bitdepth = bit_depth;
+      }
+    }
+
+    if (obj_album.contains("version"_L1) && obj_album["version"_L1].isString()) {
+      song_album.version = obj_album["version"_L1].toString();
+    }
   }
 
-  // Fall back to genre from the Album struct if not found in the track's album object
+  // Fall back to values from the Album struct if not found in the track's album object
   if (genre.isEmpty() && !album.genre.isEmpty()) {
     genre = album.genre;
+  }
+  if (song_album.year <= 0 && album.year > 0) {
+    song_album.year = album.year;
+  }
+  if (song_album.samplerate <= 0 && album.samplerate > 0) {
+    song_album.samplerate = album.samplerate;
+  }
+  if (song_album.bitdepth <= 0 && album.bitdepth > 0) {
+    song_album.bitdepth = album.bitdepth;
+  }
+  if (song_album.version.isEmpty() && !album.version.isEmpty()) {
+    song_album.version = album.version;
   }
 
   if (json_obj.contains("composer"_L1)) {
@@ -1213,6 +1273,17 @@ void QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
   song.set_composer(composer);
   song.set_comment(copyright);
   song.set_genre(genre);
+  if (song_album.year > 0) song.set_year(song_album.year);
+  // The album's highest quality is only for display, the stream quality depends on the format setting.
+  if (song_album.samplerate > 0) {
+    if (song_album.bitdepth > 0) {
+      song.set_album_quality(QStringLiteral("%1kHz/%2bit").arg(QString::number(song_album.samplerate / 1000.0, 'G', 5)).arg(song_album.bitdepth));
+    }
+    else {
+      song.set_album_quality(QStringLiteral("%1kHz").arg(QString::number(song_album.samplerate / 1000.0, 'G', 5)));
+    }
+  }
+  if (!song_album.version.isEmpty()) song.set_edition(song_album.version);
   song.set_directory_id(0);
   song.set_filetype(Song::FileType::Stream);
   song.set_filesize(0);

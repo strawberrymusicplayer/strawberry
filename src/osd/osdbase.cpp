@@ -56,6 +56,7 @@ OSDBase::OSDBase(const SharedPtr<SystemTrayIcon> tray_icon, QObject *parent)
       show_on_play_mode_change_(true),
       show_on_pause_(true),
       show_on_resume_(false),
+      show_on_stream_title_change_(true),
       use_custom_text_(false),
       force_show_next_(false),
       ignore_next_stopped_(false),
@@ -76,6 +77,7 @@ void OSDBase::ReloadSettings() {
   show_on_play_mode_change_ = s.value(OSDSettings::kShowOnPlayModeChange, OSDSettings::kDefaultShowOnPlayModeChange).toBool();
   show_on_pause_ = s.value(OSDSettings::kShowOnPausePlayback, OSDSettings::kDefaultShowOnPausePlayback).toBool();
   show_on_resume_ = s.value(OSDSettings::kShowOnResumePlayback, OSDSettings::kDefaultShowOnResumePlayback).toBool();
+  show_on_stream_title_change_ = s.value(OSDSettings::kShowOnStreamTitleChange, OSDSettings::kDefaultShowOnStreamTitleChange).toBool();
   use_custom_text_ = s.value(OSDSettings::kCustomTextEnabled, OSDSettings::kDefaultCustomTextEnabled).toBool();
   custom_text1_ = s.value(OSDSettings::kCustomText1).toString();
   custom_text2_ = s.value(OSDSettings::kCustomText2).toString();
@@ -142,11 +144,19 @@ void OSDBase::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QI
 
   if (song != song_playing_) return;
 
+  // Radio streams can update the title every few seconds while the same stream keeps playing.
+  const bool radio_stream_metadata_change = song.is_radio() && last_song_.is_radio() && last_song_.is_valid() && song.url() == last_song_.url();
+
   last_song_ = song;
   last_image_ = image;
   last_image_uri_ = cover_url;
 
-  ShowPlaying(song, cover_url, image);
+  if (radio_stream_metadata_change && !show_on_stream_title_change_) {
+    if (tray_icon_) tray_icon_->SetNowPlaying(song, cover_url);
+  }
+  else {
+    ShowPlaying(song, cover_url, image);
+  }
 
 }
 

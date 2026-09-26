@@ -61,6 +61,8 @@ class StreamingService : public QObject {
   virtual void CancelSearch() {}
   virtual bool show_progress() const { return true; }
   virtual bool enable_refresh_button() const { return true; }
+  virtual bool show_search_album_quality() const { return false; }
+  virtual bool show_search_album_edition() const { return false; }
 
   virtual SharedPtr<CollectionBackend> artists_collection_backend() { return nullptr; }
   virtual SharedPtr<CollectionBackend> albums_collection_backend() { return nullptr; }

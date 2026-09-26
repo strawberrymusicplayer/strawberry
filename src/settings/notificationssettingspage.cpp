@@ -177,6 +177,7 @@ void NotificationsSettingsPage::Load() {
   ui_->notifications_play_mode->setChecked(s.value(OSDSettings::kShowOnPlayModeChange, OSDSettings::kDefaultShowOnPlayModeChange).toBool());
   ui_->notifications_pause->setChecked(s.value(OSDSettings::kShowOnPausePlayback, OSDSettings::kDefaultShowOnPausePlayback).toBool());
   ui_->notifications_resume->setChecked(s.value(OSDSettings::kShowOnResumePlayback, OSDSettings::kDefaultShowOnResumePlayback).toBool());
+  ui_->notifications_stream_title_change->setChecked(s.value(OSDSettings::kShowOnStreamTitleChange, OSDSettings::kDefaultShowOnStreamTitleChange).toBool());
   ui_->notifications_art->setChecked(s.value(OSDSettings::kShowArt, OSDSettings::kDefaultShowArt).toBool());
   ui_->notifications_custom_text_enabled->setChecked(s.value(OSDSettings::kCustomTextEnabled, OSDSettings::kDefaultCustomTextEnabled).toBool());
   ui_->notifications_custom_text1->setText(s.value(OSDSettings::kCustomText1).toString());
@@ -254,6 +255,7 @@ void NotificationsSettingsPage::Save() {
   s.setValue(OSDSettings::kShowOnPlayModeChange, ui_->notifications_play_mode->isChecked());
   s.setValue(OSDSettings::kShowOnPausePlayback, ui_->notifications_pause->isChecked());
   s.setValue(OSDSettings::kShowOnResumePlayback, ui_->notifications_resume->isChecked());
+  s.setValue(OSDSettings::kShowOnStreamTitleChange, ui_->notifications_stream_title_change->isChecked());
   s.setValue(OSDSettings::kShowArt, ui_->notifications_art->isChecked());
   s.setValue(OSDSettings::kCustomTextEnabled, ui_->notifications_custom_text_enabled->isChecked());
   s.setValue(OSDSettings::kCustomText1, ui_->notifications_custom_text1->text());

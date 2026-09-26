@@ -45,6 +45,7 @@ constexpr char kCoverSize[] = "coversize";
 constexpr char kStreamUrl[] = "streamurl";
 constexpr char kAlbumExplicit[] = "album_explicit";
 constexpr char kRemoveRemastered[] = "remove_remastered";
+constexpr char kShowSearchAlbumQuality[] = "show_search_album_quality";
 
 constexpr char kOAuth[] = "oauth";
 constexpr char kApiToken[] = "api_token";
@@ -63,6 +64,7 @@ constexpr char kDefaultCoverSize[] = "640x640";
 constexpr StreamUrlMethod kDefaultStreamUrl = StreamUrlMethod::PlaybackInfoPostPaywall;
 constexpr bool kDefaultAlbumExplicit = false;
 constexpr bool kDefaultRemoveRemastered = true;
+constexpr bool kDefaultShowSearchAlbumQuality = false;
 
 }  // namespace TidalSettings
 

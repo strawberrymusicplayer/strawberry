@@ -35,6 +35,8 @@ constexpr char kAlbumsSearchLimit[] = "albumssearchlimit";
 constexpr char kSongsSearchLimit[] = "songssearchlimit";
 constexpr char kDownloadAlbumCovers[] = "downloadalbumcovers";
 constexpr char kRemoveRemastered[] = "remove_remastered";
+constexpr char kShowSearchAlbumQuality[] = "show_search_album_quality";
+constexpr char kShowSearchAlbumEdition[] = "show_search_album_edition";
 
 constexpr char kUsername[] = "username";
 constexpr char kPassword[] = "password";
@@ -51,6 +53,8 @@ constexpr int kDefaultAlbumsSearchLimit = 10;
 constexpr int kDefaultSongsSearchLimit = 10;
 constexpr bool kDefaultDownloadAlbumCovers = true;
 constexpr bool kDefaultRemoveRemastered = true;
+constexpr bool kDefaultShowSearchAlbumQuality = false;
+constexpr bool kDefaultShowSearchAlbumEdition = false;
 
 }  // namespace QobuzSettings
 

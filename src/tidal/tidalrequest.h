@@ -65,6 +65,7 @@ class TidalRequest : public TidalBaseRequest {
     QString album;
     QUrl cover_url;
     bool album_explicit;
+    QString quality;
   };
   struct Request {
     Request() : offset(0), limit(0) {}
