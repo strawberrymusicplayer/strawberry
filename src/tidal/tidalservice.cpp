@@ -115,6 +115,7 @@ TidalService::TidalService(const SharedPtr<TaskManager> task_manager,
       stream_url_method_(TidalSettings::StreamUrlMethod::StreamUrl),
       album_explicit_(false),
       remove_remastered_(true),
+      show_search_album_quality_(false),
       pending_search_id_(0),
       next_pending_search_id_(1),
       pending_search_type_(SearchType::Artists),
@@ -257,6 +258,7 @@ void TidalService::ReloadSettings() {
   stream_url_method_ = static_cast<TidalSettings::StreamUrlMethod>(s.value(TidalSettings::kStreamUrl, static_cast<int>(TidalSettings::kDefaultStreamUrl)).toInt());
   album_explicit_ = s.value(TidalSettings::kAlbumExplicit, TidalSettings::kDefaultAlbumExplicit).toBool();
   remove_remastered_ = s.value(TidalSettings::kRemoveRemastered, TidalSettings::kDefaultRemoveRemastered).toBool();
+  show_search_album_quality_ = s.value(TidalSettings::kShowSearchAlbumQuality, TidalSettings::kDefaultShowSearchAlbumQuality).toBool();
   s.endGroup();
 
   oauth_->set_client_id(client_id_);
