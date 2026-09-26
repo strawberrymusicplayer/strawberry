@@ -25,6 +25,7 @@
 #include <QByteArray>
 #include <QByteArrayList>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 #include <QImage>
 #include <QImageReader>
@@ -59,6 +60,38 @@ constexpr int kMaxConcurrentArtistAlbumsRequests = 3;
 constexpr int kMaxConcurrentAlbumSongsRequests = 3;
 constexpr int kMaxConcurrentAlbumCoverRequests = 1;
 constexpr int kFlushRequestsDelay = 200;
+
+// Returns a label for the audio quality of a Tidal album or track object, for example "Hi-Res, Dolby Atmos".
+// The audioQuality value can't be used, it's LOSSLESS for hi-res albums and LOW for Dolby Atmos only albums.
+QString AudioQualityLabel(const QJsonObject &json_obj) {
+
+  QStringList tags;
+  const QJsonArray array_tags = json_obj["mediaMetadata"_L1].toObject()["tags"_L1].toArray();
+  for (const QJsonValue &value_tag : array_tags) {
+    tags << value_tag.toString();
+  }
+
+  QStringList audio_modes;
+  const QJsonArray array_audio_modes = json_obj["audioModes"_L1].toArray();
+  for (const QJsonValue &value_audio_mode : array_audio_modes) {
+    audio_modes << value_audio_mode.toString();
+  }
+
+  QStringList labels;
+  if (tags.contains("HIRES_LOSSLESS"_L1)) {
+    labels << u"Hi-Res"_s;
+  }
+  else if (tags.contains("LOSSLESS"_L1)) {
+    labels << u"Lossless"_s;
+  }
+  if (tags.contains("DOLBY_ATMOS"_L1) || audio_modes.contains("DOLBY_ATMOS"_L1)) {
+    labels << u"Dolby Atmos"_s;
+  }
+
+  return labels.join(", "_L1);
+
+}
+
 }  // namespace
 
 TidalRequest::TidalRequest(TidalService *service, TidalUrlHandler *url_handler, const SharedPtr<NetworkAccessManager> network, const Type query_type, QObject *parent)
@@ -643,6 +676,7 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
         album.album_id = QString::number(object_item["id"_L1].toInt());
       }
       album.album = object_item["title"_L1].toString();
+      album.quality = AudioQualityLabel(object_item);
       if (service_->album_explicit() && object_item.contains("explicit"_L1)) {
         album.album_explicit = object_item["explicit"_L1].toVariant().toBool();
         if (album.album_explicit && !album.album.isEmpty()) {
@@ -1101,6 +1135,8 @@ void TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
   }
   song.set_comment(copyright);
   song.set_genre(genre);
+  // Tracks from a song search only have the album ID and title, so use the quality of the track, which is normally the same as the album.
+  song.set_album_quality(album.quality.isEmpty() ? AudioQualityLabel(json_obj) : album.quality);
   song.set_directory_id(0);
   song.set_filetype(Song::FileType::Stream);
   song.set_filesize(0);

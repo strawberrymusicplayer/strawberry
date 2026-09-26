@@ -266,8 +266,7 @@ class Song {
 
   const QUrl &stream_url() const;
   const QString &edition() const;
-  int album_samplerate() const;
-  int album_bitdepth() const;
+  const QString &album_quality() const;
 
   // Setters
   void set_id(const int id);
@@ -363,8 +362,7 @@ class Song {
 
   void set_stream_url(const QUrl &v);
   void set_edition(const QString &v);
-  void set_album_samplerate(const int v);
-  void set_album_bitdepth(const int v);
+  void set_album_quality(const QString &v);
 
   void set_title(const TagLib::String &v);
   void set_titlesort(const TagLib::String &v);

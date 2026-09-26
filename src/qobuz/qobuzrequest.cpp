@@ -1275,8 +1275,14 @@ void QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
   song.set_genre(genre);
   if (song_album.year > 0) song.set_year(song_album.year);
   // The album's highest quality is only for display, the stream quality depends on the format setting.
-  if (song_album.samplerate > 0) song.set_album_samplerate(song_album.samplerate);
-  if (song_album.bitdepth > 0) song.set_album_bitdepth(song_album.bitdepth);
+  if (song_album.samplerate > 0) {
+    if (song_album.bitdepth > 0) {
+      song.set_album_quality(QStringLiteral("%1kHz/%2bit").arg(QString::number(song_album.samplerate / 1000.0, 'G', 5)).arg(song_album.bitdepth));
+    }
+    else {
+      song.set_album_quality(QStringLiteral("%1kHz").arg(QString::number(song_album.samplerate / 1000.0, 'G', 5)));
+    }
+  }
   if (!song_album.version.isEmpty()) song.set_edition(song_album.version);
   song.set_directory_id(0);
   song.set_filetype(Song::FileType::Stream);

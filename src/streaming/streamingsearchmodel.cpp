@@ -312,13 +312,8 @@ QString StreamingSearchModel::AlbumQualifierSuffix(const Song &song) const {
     suffix += QStringLiteral(" (%1)").arg(song.edition());
   }
 
-  if (service_->show_search_album_quality() && song.album_samplerate() > 0) {
-    if (song.album_bitdepth() > 0) {
-      suffix += QStringLiteral(" [%1kHz/%2bit]").arg(QString::number(song.album_samplerate() / 1000.0, 'G', 5)).arg(song.album_bitdepth());
-    }
-    else {
-      suffix += QStringLiteral(" [%1kHz]").arg(QString::number(song.album_samplerate() / 1000.0, 'G', 5));
-    }
+  if (service_->show_search_album_quality() && !song.album_quality().isEmpty()) {
+    suffix += QStringLiteral(" [%1]").arg(song.album_quality());
   }
 
   return suffix;
