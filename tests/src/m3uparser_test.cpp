@@ -23,6 +23,7 @@
 #include "gmock_include.h"
 #include "test_utils.h"
 
+#include <QByteArray>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
@@ -344,6 +345,28 @@ TEST_F(M3UParserTest, DepthAwareCacheReexpandsShallowReference) {
   // The deep path contributes nothing (truncated), but the shallow reference to shared must still resolve the leaf through deep.m3u.
   ASSERT_EQ(result.songs.size(), 1);
   EXPECT_EQ(result.songs[0].url(), QUrl::fromLocalFile(leaf.fileName()));
+}
+
+// Extended M3U playlists that are not in UTF-8 are decoded with the detected encoding, here Cyrillic text in windows-1251.
+TEST_F(M3UParserTest, Windows1251MetadataIsDecoded) {
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+
+  TemporaryResource leaf(u":/audio/strawberry.mp3"_s);
+  ASSERT_TRUE(leaf.isOpen());
+
+  // #EXTINF:180,Гражданская Оборона - Зачем снятся сны
+  const QString parent = tmp.filePath(u"parent.m3u"_s);
+  QFile file(parent);
+  ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+  file.write(QByteArray("#EXTM3U\r\n#EXTINF:180,\xc3\xf0\xe0\xe6\xe4\xe0\xed\xf1\xea\xe0\xff \xce\xe1\xee\xf0\xee\xed\xe0 - \xc7\xe0\xf7\xe5\xec \xf1\xed\xff\xf2\xf1\xff \xf1\xed\xfb\r\n") + leaf.fileName().toUtf8() + QByteArray("\r\n"));
+  file.close();
+
+  M3UParser parser = MakeParser();
+  const ParserBase::LoadResult result = Load(parser, parent);
+  ASSERT_EQ(result.songs.size(), 1);
+  EXPECT_EQ(result.songs[0].artist(), u"Гражданская Оборона"_s);
+  EXPECT_EQ(result.songs[0].title(), u"Зачем снятся сны"_s);
 }
 
 }  // namespace
