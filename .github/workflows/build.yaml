@@ -1928,35 +1928,12 @@ jobs:
         working-directory: downloads
         run: 7z x LockedList.zip
 
-      - name: Download NSIS Registry plugin
-        shell: cmd
-        working-directory: downloads
-        run: curl -f -O -L https://nsis.sourceforge.io/mediawiki/images/4/47/Registry.zip
-
-      - name: Extract NSIS Registry plugin
-        shell: cmd
-        working-directory: downloads
-        run: 7z x Registry.zip
-
-      - name: Download NSIS Inetc plugin
-        shell: cmd
-        working-directory: downloads
-        run: curl -f -O -L https://nsis.sourceforge.io/mediawiki/images/c/c9/Inetc.zip
-
-      - name: Extract NSIS Inetc plugin
-        shell: cmd
-        working-directory: downloads
-        run: 7z x Inetc.zip
-
       - name: Install NSIS plugins
         shell: cmd
         working-directory: downloads
         run: |
           copy "Plugins\LockedList64.dll" "C:\Program Files (x86)\NSIS\Plugins\"
           copy "Plugins\x86-unicode\LockedList.dll" "C:\Program Files (x86)\NSIS\Plugins\x86-unicode\"
-          copy "Desktop\Plugin\registry.dll" "C:\Program Files (x86)\NSIS\Plugins\"
-          copy "Desktop\Plugin\registry.dll" "C:\Program Files (x86)\NSIS\Plugins\x86-unicode\"
-          copy "Plugins\x86-unicode\INetC.dll" "C:\Program Files (x86)\NSIS\Plugins\x86-unicode\"
 
       - name: Setup MSVC Environment
         uses: ilammy/msvc-dev-cmd@v1
