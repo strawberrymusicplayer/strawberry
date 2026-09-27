@@ -104,6 +104,7 @@ To build Strawberry from source, you’ll need:
 - [GStreamer](https://gstreamer.freedesktop.org/)
 - [TagLib 1.12 or higher](https://www.taglib.org/)
 - [ICU](https://unicode-org.github.io/icu/)
+- [uchardet](https://www.freedesktop.org/wiki/Software/uchardet/)
 - [KDSingleApplication 1.1.0 or higher](https://github.com/KDAB/KDSingleApplication)
 
 **Dependencies for optional features:**

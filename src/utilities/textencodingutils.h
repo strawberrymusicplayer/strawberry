@@ -25,6 +25,7 @@
 
 namespace Utilities {
 QByteArray TextEncodingFromData(const QByteArray &data);
+QString TextFromData(const QByteArray &data);
 }  // namespace Utilities
 
 #endif  // TEXTENCODINGUTILS_H

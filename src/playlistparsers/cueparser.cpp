@@ -30,7 +30,6 @@
 #include <QStringList>
 #include <QRegularExpression>
 #include <QTextStream>
-#include <QStringConverter>
 
 #include "includes/shared_ptr.h"
 #include "constants/timeconstants.h"
@@ -70,23 +69,9 @@ ParserBase::LoadResult CueParser::Load(QIODevice *device, const QString &playlis
 
   SongList ret;
 
-  QTextStream text_stream(device);
-
-  const QByteArray data_chunk = device->peek(1024);
-
-  std::optional<QStringConverter::Encoding> encoding = QStringConverter::encodingForData(data_chunk);
-  if (encoding.has_value()) {
-    text_stream.setEncoding(encoding.value());
-  }
-  else {
-    const QByteArray encoding_name = Utilities::TextEncodingFromData(data_chunk);
-    if (!encoding_name.isEmpty()) {
-      encoding = QStringConverter::encodingForName(encoding_name.constData());
-      if (encoding.has_value()) {
-        text_stream.setEncoding(encoding.value());
-      }
-    }
-  }
+  // Cue files are often not in UTF-8, for example windows-1251 for Cyrillic text.
+  QString text = Utilities::TextFromData(device->readAll());
+  QTextStream text_stream(&text, QIODevice::ReadOnly);
 
   QString dir_path = dir.absolutePath();
   // Read the first line already

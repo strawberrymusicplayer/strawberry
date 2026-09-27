@@ -37,6 +37,7 @@
 #include "core/settings.h"
 #include "constants/timeconstants.h"
 #include "constants/playlistsettings.h"
+#include "utilities/textencodingutils.h"
 #include "parserbase.h"
 #include "m3uparser.h"
 
@@ -87,7 +88,7 @@ void M3UParser::ParsePlaylistData(QIODevice *device, const QDir &dir, QSet<QStri
   M3UType type = M3UType::STANDARD;
   Metadata current_metadata;
 
-  QString data = QString::fromUtf8(device->readAll());
+  QString data = Utilities::TextFromData(device->readAll());
   data.replace(u'\r', u'\n');
   data.replace("\n\n"_L1, "\n"_L1);
   QByteArray bytes = data.toUtf8();
