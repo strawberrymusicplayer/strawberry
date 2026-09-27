@@ -1304,6 +1304,7 @@ if(WIN32)
     src/utilities/winutils.cpp
     src/engine/directsounddevicefinder.cpp
     src/engine/mmdevicefinder.cpp
+    src/engine/asiodevicefinder.cpp
     src/core/windows7thumbbar.cpp
   )
   list(APPEND HEADERS
@@ -1380,7 +1381,7 @@ if(HAVE_PULSE)
   list(APPEND SOURCES src/engine/pulsedevicefinder.cpp)
 endif()
 if(MSVC)
-  list(APPEND SOURCES src/engine/uwpdevicefinder.cpp src/engine/asiodevicefinder.cpp)
+  list(APPEND SOURCES src/engine/uwpdevicefinder.cpp)
   list(APPEND SOURCES src/core/winsystemmediatransportcontrols.cpp)
   list(APPEND HEADERS src/core/winsystemmediatransportcontrols.h)
 endif()

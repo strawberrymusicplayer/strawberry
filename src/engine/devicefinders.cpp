@@ -43,9 +43,9 @@
 #ifdef Q_OS_WIN32
 #  include "directsounddevicefinder.h"
 #  include "mmdevicefinder.h"
+#  include "asiodevicefinder.h"
 #  ifdef _MSC_VER
 #    include "uwpdevicefinder.h"
-#    include "asiodevicefinder.h"
 #  endif  // _MSC_VER
 #endif  // Q_OS_WIN32
 
@@ -78,9 +78,9 @@ void DeviceFinders::Init() {
 #ifdef Q_OS_WIN32
   device_finders.append(new DirectSoundDeviceFinder);
   device_finders.append(new MMDeviceFinder);
+  device_finders.append(new AsioDeviceFinder);
 #  ifdef _MSC_VER
   device_finders.append(new UWPDeviceFinder);
-  device_finders.append(new AsioDeviceFinder);
 #  endif  // _MSC_VER
 #endif  // Q_OS_WIN32
 
