@@ -3193,6 +3193,259 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
 </context>
 <context>
+    <name>JellyfinFavoriteRequest</name>
+    <message>
+        <source>Changing Jellyfin favorites failed: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>JellyfinRequest</name>
+    <message>
+        <source>Invalid query type.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Searching for %1...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Retrieving favorite artists...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Retrieving favorite albums...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Retrieving favorite songs...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Received an empty reply for offset %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not authorized, logging in again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not authorized with Jellyfin, try again later.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>Retrieving album covers for %n album(s)...</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Catalog may be incomplete: stopped receiving results before the end of the list was reached.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No match.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>JellyfinScrobbleRequest</name>
+    <message numerus="yes">
+        <source>Could not log in again, dropped %n playback report(s): %1</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+</context>
+<context>
+    <name>JellyfinScrobbler</name>
+    <message>
+        <source>Scrobbler %1 error: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>JellyfinService</name>
+    <message>
+        <source>The Jellyfin server or username changed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Jellyfin server URL or username is missing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jellyfin is disabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not authenticated with Jellyfin.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Changing Jellyfin favorites failed: not authorized.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Changing Jellyfin favorites failed: not authenticated with Jellyfin.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logging in failed, not trying again automatically yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No stored Jellyfin password to log in with.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The server redirected to another server %1, which is not followed, since the credentials would be sent to it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No stored credentials to log in with.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not authorized with Jellyfin.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing Json response.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Response is missing AccessToken or User.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Response contains an empty AccessToken or User Id.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing server url, username or password.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Jellyfin settings changed while logging in.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not authenticated with Jellyfin, logging in failed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>JellyfinSettingsPage</name>
+    <message>
+        <source>Jellyfin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Authentication</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preferences</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use HTTP/2 when possible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Verify server certificate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download album covers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server-side scrobbling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Test</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to save password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to save the Jellyfin password: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unencrypted connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The server URL uses HTTP, so the username, password and access token are sent unencrypted and can be read by others on the network. Use HTTPS if the server supports it.
+
+Do you want to continue?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configuration incorrect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server URL is invalid, Jellyfin was not enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configuration incomplete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing server url, username or password.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server URL is invalid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Test successful!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Test failed!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>JellyfinUrlHandler</name>
+    <message>
+        <source>Not authenticated with Jellyfin.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid Jellyfin URL.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LastFMScrobbler</name>
     <message>
         <source>Missing Last.fm API key and/or API secret</source>
@@ -3685,6 +3938,14 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
         <source>Qobuz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Plex</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jellyfin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4266,6 +4527,10 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
         <source>Song title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show a notification when the title of a radio stream changes</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5289,6 +5554,126 @@ Are you sure you want to continue?</source>
     </message>
 </context>
 <context>
+    <name>PlexRequest</name>
+    <message>
+        <source>Retrieving library sections...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No music libraries found on the Plex server.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Retrieving songs...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PlexService</name>
+    <message>
+        <source>Server URL is invalid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not authenticated with Plex.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PlexSettingsPage</name>
+    <message>
+        <source>Plex</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Authentication</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click Log in to open the Plex website in your browser and authorize Strawberry.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Log in with Plex</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Refresh servers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Test</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preferences</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Verify server certificate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download album covers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete songs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Authentication failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not authenticated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Log in with Plex first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configuration incorrect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server URL is invalid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Test successful!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Test failed!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PlexUrlHandler</name>
+    <message>
+        <source>Plex server URL is invalid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not authenticated with Plex.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
         <source>Usage</source>
@@ -6002,6 +6387,14 @@ Are you sure you want to continue?</source>
         <source>Fetch API Credentials</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Show audio quality in album names in search results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show edition (e.g. Remastered, Deluxe) in album names in search results</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QobuzStreamURLRequest</name>
@@ -6538,6 +6931,18 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source>Client secret:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Plex</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jellyfin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Radio Browser</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7326,6 +7731,14 @@ Are you sure you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Failed to save password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to save the Subsonic password: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Configuration incomplete</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7565,6 +7978,10 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source>API Credentials</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show audio quality in album names in search results</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
