@@ -1944,10 +1944,28 @@ jobs:
           copy "Plugins\x86-unicode\LockedList.dll" "C:\Program Files (x86)\NSIS\Plugins\x86-unicode\"
 
       - name: Setup MSVC Environment
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: ${{matrix.arch}}
-          sdk: ${{env.sdk_version}}
+        shell: pwsh
+        run: |
+          $vcvars_arch = if ("${{matrix.arch}}" -eq "arm64") { "arm64" } else { "x64" }
+          $vc_tools_component = if ("${{matrix.arch}}" -eq "arm64") { "Microsoft.VisualStudio.Component.VC.Tools.ARM64" } else { "Microsoft.VisualStudio.Component.VC.Tools.x86.x64" }
+          $vswhere = Join-Path ${env:ProgramFiles(x86)} "Microsoft Visual Studio\Installer\vswhere.exe"
+          $vs_path = & $vswhere -latest -products * -requires $vc_tools_component -property installationPath
+          if (-not $vs_path) { throw "Visual Studio with $vc_tools_component not found" }
+          Write-Host "Using Visual Studio in $vs_path"
+          # Run vcvarsall.bat from a batch file to avoid cmd.exe quoting issues, and print the resulting environment.
+          $vcvars_script = Join-Path $env:RUNNER_TEMP "vcvars.bat"
+          Set-Content -Path $vcvars_script -Encoding ascii -Value "@call `"$vs_path\VC\Auxiliary\Build\vcvarsall.bat`" $vcvars_arch ${{env.sdk_version}} || exit /b 1`r`n@set"
+          $vcvars_output = & cmd.exe /c $vcvars_script
+          if ($LASTEXITCODE -ne 0 -or ($vcvars_output -match '^\[ERROR:')) {
+            $vcvars_output | Write-Host
+            throw "vcvarsall.bat failed"
+          }
+          # Export the variables vcvarsall.bat added or changed to the following steps.
+          foreach ($line in $vcvars_output) {
+            if ($line -match '^([^=]+)=(.*)$' -and [Environment]::GetEnvironmentVariable($matches[1]) -ne $matches[2]) {
+              "$($matches[1])=$($matches[2])" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+            }
+          }
 
       - name: Checkout
         uses: actions/checkout@v7
