@@ -58,6 +58,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
 
   static const char *kAutoSink;
   static const char *kALSASink;
+  static const char *kASIOSink;
 
   bool Init() override;
   State state() const override;
@@ -84,6 +85,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   bool CustomDeviceSupport(const QString &output) const override;
   bool ALSADeviceSupport(const QString &output) const override;
   bool ExclusiveModeSupport(const QString &output) const override;
+  bool FadingSupport(const QString &output) const override;
 
   void ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format) override;
 

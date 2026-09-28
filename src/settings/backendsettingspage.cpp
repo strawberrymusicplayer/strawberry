@@ -751,7 +751,9 @@ void BackendSettingsPage::FadingOptionsChanged() {
   if (!configloaded_) return;
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
-  if (!player_->engine()->ALSADeviceSupport(output.name) || ui_->lineedit_device->text().isEmpty() || (!ui_->lineedit_device->text().contains(kRegex_ALSA_HW) && !ui_->lineedit_device->text().contains(kRegex_ALSA_PlugHW))) {
+  const bool fading_supported = player_->engine()->FadingSupport(output.name);
+  const bool alsa_hw = player_->engine()->ALSADeviceSupport(output.name) && !ui_->lineedit_device->text().isEmpty() && (ui_->lineedit_device->text().contains(kRegex_ALSA_HW) || ui_->lineedit_device->text().contains(kRegex_ALSA_PlugHW));
+  if (fading_supported && !alsa_hw) {
     ui_->groupbox_fading->setEnabled(true);
   }
   else {
