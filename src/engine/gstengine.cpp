@@ -71,6 +71,7 @@ using namespace Qt::Literals::StringLiterals;
 
 const char *GstEngine::kAutoSink = "autoaudiosink";
 const char *GstEngine::kALSASink = "alsasink";
+const char *GstEngine::kASIOSink = "asiosink";
 
 namespace {
 constexpr char kOpenALSASink[] = "openalsink";
@@ -530,6 +531,11 @@ bool GstEngine::ExclusiveModeSupport(const QString &output) const {
   return output == QLatin1String(kWASAPISink) || output == QLatin1String(kWASAPI2Sink);
 }
 
+bool GstEngine::FadingSupport(const QString &output) const {
+  // ASIO drivers usually only allow one stream at a time, so fading between two pipelines doesn't work, and fading on a single pipeline breaks bit-perfect output.
+  return output != QLatin1String(kASIOSink);
+}
+
 void GstEngine::ReloadSettings() {
 
 #ifdef HAVE_SPOTIFY
@@ -910,7 +916,7 @@ GstEnginePipelinePtr GstEngine::CreatePipeline() {
   pipeline->set_channels(channels_enabled_, channels_);
   pipeline->set_bs2b_enabled(bs2b_enabled_);
   pipeline->set_strict_ssl_enabled(strict_ssl_enabled_);
-  pipeline->set_fading_enabled(fadeout_enabled_ || crossfade_enabled_ || autocrossfade_enabled_ || fadeout_pause_enabled_);
+  pipeline->set_fading_enabled(FadingSupport(output_) && (fadeout_enabled_ || crossfade_enabled_ || autocrossfade_enabled_ || fadeout_pause_enabled_));
 
 #ifdef HAVE_SPOTIFY
   pipeline->set_spotify_access_token(spotify_access_token_);
