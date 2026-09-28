@@ -43,8 +43,10 @@
 #include <QStringList>
 #include <QUrl>
 #include <QImage>
+#include <QRegularExpression>
 #include <QMutexLocker>
 #include <QSettings>
+#include <algorithm>
 
 #include "core/logging.h"
 #include "core/taskmanager.h"
@@ -621,6 +623,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   }
 
   QMap<QString, QStringList> album_art;
+  QMap<QString, QString> lrc_files;
   QStringList files_on_disk;
   CollectionSubdirectoryList my_new_subdirs;
 
@@ -672,6 +675,10 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
           album_art[dir_part] << child_filepath;
           t->AddToProgress(1);
         }
+        else if (child_fileinfo.suffix().compare(u"lrc"_s, Qt::CaseInsensitive) == 0) {
+          lrc_files[child_fileinfo.completeBaseName()] = child_filepath;
+          t->AddToProgress(1);
+        }
         else {
           files_on_disk << child_filepath;
         }
@@ -703,6 +710,12 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
       // The song is in the database and still on disk.
       // Check the mtime to see if it's been changed since it was added.
       const QFileInfo fileinfo(file);
+      const QString base_name = fileinfo.completeBaseName();
+      const QString lrc_path = lrc_files.value(base_name, FindLrcFile(file));
+      QString lrc_content;
+      if (!lrc_path.isEmpty()) {
+        lrc_content = ReadLrcFile(lrc_path);
+      }
 
       if (!fileinfo.exists()) {
         // Partially fixes race condition - if file was removed between being added to the list and now.
@@ -731,6 +744,13 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
       const QUrl art_automatic = ArtForSong(file, album_art);
       if (matching_song.art_automatic() != art_automatic || (!matching_song.art_automatic().isEmpty() && !matching_song.art_automatic_is_valid())) {
         changed = true;
+      }
+
+      if (!lrc_path.isEmpty()) {
+        const QFileInfo lrc_fileinfo(lrc_path);
+        if (lrc_fileinfo.lastModified().toSecsSinceEpoch() > matching_song.mtime() || matching_song.lyrics_synced().isEmpty()) {
+          changed = true;
+        }
       }
 
       bool missing_fingerprint = false;
@@ -777,12 +797,12 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
 #endif
 
         if (new_cue.isEmpty() || new_cue_mtime == 0) {  // If no CUE or it's about to lose it.
-          if (!UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, cue_deleted, t)) {
+          if (!UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, lrc_content, cue_deleted, t)) {
             files_on_disk.removeAll(file);
           }
         }
         else {  // If CUE associated.
-          UpdateCueAssociatedSongs(file, path, fingerprint, new_cue, art_automatic, matching_songs, t);
+          UpdateCueAssociatedSongs(file, path, fingerprint, new_cue, art_automatic, lrc_content, matching_songs, t);
         }
       }
 
@@ -835,19 +855,33 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
         // Get new album art
         const QUrl art_automatic = ArtForSong(file, album_art);
 
+        const QString base_name = fileinfo.completeBaseName();
+        const QString lrc_path = lrc_files.value(base_name, FindLrcFile(file));
+        QString lrc_content;
+        if (!lrc_path.isEmpty()) {
+          lrc_content = ReadLrcFile(lrc_path);
+        }
+
         if (new_cue.isEmpty() || new_cue_mtime == 0) {  // If no CUE or it's about to lose it.
-          if (!UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, matching_songs_has_cue && new_cue_mtime == 0, t)) {
+          if (!UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, lrc_content, matching_songs_has_cue && new_cue_mtime == 0, t)) {
             files_on_disk.removeAll(file);
           }
         }
         else {  // If CUE associated.
-          UpdateCueAssociatedSongs(file, path, fingerprint, new_cue, art_automatic, matching_songs, t);
+          UpdateCueAssociatedSongs(file, path, fingerprint, new_cue, art_automatic, lrc_content, matching_songs, t);
         }
 
       }
       else {  // The song is on disk but not in the DB
 
-        const SongList songs = ScanNewFile(file, path, fingerprint, new_cue, &cues_processed);
+        const QString base_name = QFileInfo(file).completeBaseName();
+        const QString lrc_path = lrc_files.value(base_name, FindLrcFile(file));
+        QString lrc_content;
+        if (!lrc_path.isEmpty()) {
+          lrc_content = ReadLrcFile(lrc_path);
+        }
+
+        const SongList songs = ScanNewFile(file, path, fingerprint, new_cue, lrc_content, &cues_processed);
         if (songs.isEmpty()) {
           files_on_disk.removeAll(file);
           t->AddToProgress(1);
@@ -914,6 +948,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
                                                  const QString &fingerprint,
                                                  const QString &matching_cue,
                                                  const QUrl &art_automatic,
+                                                 const QString &lrc_content,
                                                  const SongList &old_cue_songs,
                                                  ScanTransaction *t) const {
 
@@ -939,6 +974,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
     new_cue_song.set_directory_id(t->dir_id());
     PerformEBUR128Analysis(new_cue_song);
     new_cue_song.set_fingerprint(fingerprint);
+    ApplyLrcToSong(new_cue_song, lrc_content);
 
     if (sections_map.contains(static_cast<quint64>(new_cue_song.beginning_nanosec()))) {  // Changed section
       const Song matching_cue_song = sections_map[static_cast<quint64>(new_cue_song.beginning_nanosec())];
@@ -966,6 +1002,7 @@ bool CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
                                                    const QString &fingerprint,
                                                    const SongList &matching_songs,
                                                    const QUrl &art_automatic,
+                                                   const QString &lrc_content,
                                                    const bool cue_deleted,
                                                    ScanTransaction *t) {
 
@@ -988,6 +1025,7 @@ bool CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
     PerformEBUR128Analysis(song_on_disk);
     song_on_disk.set_fingerprint(fingerprint);
     song_on_disk.set_art_automatic(art_automatic);
+    ApplyLrcToSong(song_on_disk, lrc_content);
     song_on_disk.MergeUserSetData(matching_song, !overwrite_playcount_, !overwrite_rating_);
     AddChangedSong(file, matching_song, song_on_disk, t);
   }
@@ -996,7 +1034,7 @@ bool CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
 
 }
 
-SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, QSet<QString> *cues_processed) const {
+SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, const QString &lrc_content, QSet<QString> *cues_processed) const {
 
   SongList songs;
 
@@ -1025,6 +1063,7 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
       cue_song.set_source(source_);
       PerformEBUR128Analysis(cue_song);
       cue_song.set_fingerprint(fingerprint);
+      ApplyLrcToSong(cue_song, lrc_content);
       if (cue_song.url().toLocalFile().normalized(QString::NormalizationForm_D) == file_nfd) {
         songs << cue_song;
       }
@@ -1040,6 +1079,7 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
       song.set_source(source_);
       PerformEBUR128Analysis(song);
       song.set_fingerprint(fingerprint);
+      ApplyLrcToSong(song, lrc_content);
       songs << song;
     }
   }
@@ -1359,6 +1399,143 @@ QUrl CollectionWatcher::ArtForSong(const QString &path, QMap<QString, QStringLis
   }
 
   return QUrl();
+
+}
+
+QList<CollectionWatcher::LrcLine> CollectionWatcher::ParseLrc(const QString &lrc_text) {
+
+  QList<LrcLine> lines;
+  if (lrc_text.isEmpty()) return lines;
+
+  qint64 global_offset_ms = 0;
+  static const QRegularExpression offset_rx(u"^\\[offset:\\s*([+-]?\\d+)\\]"_s, QRegularExpression::CaseInsensitiveOption);
+  static const QRegularExpression time_rx(u"\\[(\\d+):(\\d+)(?:[\\.:](\\d+))?\\]"_s);
+
+  const QStringList raw_lines = lrc_text.split(QLatin1Char('\n'));
+
+  for (QString line : raw_lines) {
+    line = line.trimmed();
+    if (line.endsWith(QLatin1Char('\r'))) line.chop(1);
+    if (line.isEmpty()) continue;
+
+    const QRegularExpressionMatch offset_match = offset_rx.match(line);
+    if (offset_match.hasMatch()) {
+      global_offset_ms = offset_match.captured(1).toLongLong();
+      continue;
+    }
+
+    if (line.startsWith(QLatin1Char('[')) && !time_rx.match(line).hasMatch()) {
+      continue;
+    }
+
+    QList<qint64> line_timestamps;
+    QRegularExpressionMatchIterator it = time_rx.globalMatch(line);
+    while (it.hasNext()) {
+      const QRegularExpressionMatch match = it.next();
+      const qint64 min = match.captured(1).toLongLong();
+      const qint64 sec = match.captured(2).toLongLong();
+      qint64 ms = 0;
+      const QString ms_str = match.captured(3);
+      if (ms_str.length() == 1) {
+        ms = ms_str.toLongLong() * 100;
+      }
+      else if (ms_str.length() == 2) {
+        ms = ms_str.toLongLong() * 10;
+      }
+      else if (ms_str.length() == 3) {
+        ms = ms_str.toLongLong();
+      }
+      const qint64 total_ms = min * 60000 + sec * 1000 + ms;
+      line_timestamps.append(total_ms);
+    }
+
+    if (!line_timestamps.isEmpty()) {
+      QString text = line;
+      text.remove(time_rx);
+      text = text.trimmed();
+
+      for (const qint64 ts : line_timestamps) {
+        lines.append(LrcLine{ts - global_offset_ms, text});
+      }
+    }
+  }
+
+  std::sort(lines.begin(), lines.end(), [](const LrcLine &a, const LrcLine &b) {
+    return a.timestamp_ms < b.timestamp_ms;
+  });
+
+  return lines;
+
+}
+
+QString CollectionWatcher::ExtractPlainLyrics(const QString &lrc_text) {
+
+  if (lrc_text.isEmpty()) return QString();
+
+  static const QRegularExpression time_rx(u"\\[(\\d+):(\\d+)(?:[\\.:](\\d+))?\\]"_s);
+  static const QRegularExpression tag_rx(u"^\\[[a-zA-Z]+:.*?\\]"_s);
+
+  const QStringList raw_lines = lrc_text.split(QLatin1Char('\n'));
+  QStringList plain_lines;
+
+  for (QString line : raw_lines) {
+    line = line.trimmed();
+    if (line.endsWith(QLatin1Char('\r'))) line.chop(1);
+    if (line.isEmpty()) continue;
+    if (tag_rx.match(line).hasMatch()) continue;
+
+    line.remove(time_rx);
+    line = line.trimmed();
+    if (!line.isEmpty()) {
+      plain_lines.append(line);
+    }
+  }
+
+  return plain_lines.join(QLatin1Char('\n'));
+
+}
+
+QString CollectionWatcher::ReadLrcFile(const QString &lrc_filepath) {
+
+  QFile file(lrc_filepath);
+  if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    return QString();
+  }
+  return QString::fromUtf8(file.readAll());
+
+}
+
+QString CollectionWatcher::FindLrcFile(const QString &media_filepath) {
+
+  const QFileInfo file_info(media_filepath);
+  const QDir dir = file_info.dir();
+  const QString base_name = file_info.completeBaseName();
+  const QStringList exts = {u".lrc"_s, u".LRC"_s};
+  for (const QString &ext : exts) {
+    const QString lrc_path = dir.filePath(base_name + ext);
+    if (QFile::exists(lrc_path)) {
+      return lrc_path;
+    }
+  }
+  return QString();
+
+}
+
+void CollectionWatcher::ApplyLrcToSong(Song &song, const QString &lrc_content) {
+
+  if (!lrc_content.isEmpty()) {
+    song.set_lyrics_synced(lrc_content);
+    if (song.lyrics().isEmpty()) {
+      song.set_lyrics(ExtractPlainLyrics(lrc_content));
+    }
+  }
+  else if (!song.lyrics().isEmpty() && song.lyrics().contains(u'[')) {
+    const QList<LrcLine> lines = ParseLrc(song.lyrics());
+    if (!lines.isEmpty()) {
+      song.set_lyrics_synced(song.lyrics());
+      song.set_lyrics(ExtractPlainLyrics(song.lyrics()));
+    }
+  }
 
 }
 

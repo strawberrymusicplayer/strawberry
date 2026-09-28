@@ -48,6 +48,8 @@ class QDropEvent;
 #include "includes/shared_ptr.h"
 #include "core/playerinterface.h"
 
+#include "collection/collectionwatcher.h"
+
 class QTimer;
 class ResizableTextEdit;
 class LyricsWidget;
@@ -60,17 +62,11 @@ class ContextView : public QWidget {
   Q_OBJECT
 
  public:
-  struct LrcLine {
-    qint64 timestamp_ms;
-    QString text;
-  };
+  using LrcLine = CollectionWatcher::LrcLine;
 
   explicit ContextView(QWidget *parent = nullptr);
 
   void Init(CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller, SharedPtr<LyricsProviders> lyrics_providers, SharedPtr<PlayerInterface> player = nullptr);
-
-  static QList<LrcLine> ParseLrc(const QString &lrc_text);
-  static QString LoadSidecarLrc(const QUrl &url);
 
   ContextAlbum *album_widget() const { return widget_album_; }
   bool album_enabled() const { return action_show_album_->isChecked(); }
@@ -103,7 +99,7 @@ class ContextView : public QWidget {
   void ActionSearchLyrics();
   void UpdateNoSong();
   void FadeStopFinished();
-  void UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics);
+  void UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics, const QString &lyrics_synced = QString());
 
  public Q_SLOTS:
   void ReloadSettings();
@@ -160,6 +156,7 @@ class ContextView : public QWidget {
   bool lyrics_tried_;
   qint64 lyrics_id_;
   QString lyrics_;
+  QString lyrics_synced_;
   QString title_fmt_;
   QString summary_fmt_;
   QFont font_headline_;

@@ -158,7 +158,7 @@ void LyricsWidget::SetPlainLyrics(const QString &text) {
 
 }
 
-void LyricsWidget::SetSyncedLyrics(const QList<ContextView::LrcLine> &lines) {
+void LyricsWidget::SetSyncedLyrics(const QList<CollectionWatcher::LrcLine> &lines) {
 
   Clear();
 

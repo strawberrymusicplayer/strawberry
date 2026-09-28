@@ -340,6 +340,7 @@ void ContextView::Stopped() {
   song_playing_ = Song();
   song_prev_ = Song();
   lyrics_.clear();
+  lyrics_synced_.clear();
   image_original_ = QImage();
   widget_album_->SetImage();
 
@@ -356,16 +357,7 @@ void ContextView::SongChanged(const Song &song) {
     song_prev_ = song_playing_;
     song_playing_ = song;
     lyrics_ = song.lyrics();
-
-    if (song_playing_.url().isLocalFile()) {
-      const QList<LrcLine> parsed = ParseLrc(lyrics_);
-      if (parsed.isEmpty()) {
-        const QString sidecar = LoadSidecarLrc(song_playing_.url());
-        if (!sidecar.isEmpty()) {
-          lyrics_ = sidecar;
-        }
-      }
-    }
+    lyrics_synced_ = song.lyrics_synced();
 
     lyrics_id_ = -1;
     lyrics_tried_ = false;
@@ -578,6 +570,11 @@ void ContextView::UpdateSong(const Song &song) {
         SetLabelText(label_bitrate_, song.bitrate(), tr("kbps"));
       }
     }
+    if (song.lyrics() != song_playing_.lyrics() || song.lyrics_synced() != song_playing_.lyrics_synced()) {
+      lyrics_ = song.lyrics();
+      lyrics_synced_ = song.lyrics_synced();
+      SetupLyricsDisplay();
+    }
   }
 
   song_playing_ = song;
@@ -591,6 +588,8 @@ void ContextView::ResetSong() {
   lrc_timer_->stop();
   lrc_lines_.clear();
   active_lrc_index_ = -1;
+  lyrics_.clear();
+  lyrics_synced_.clear();
 
   for (QLabel *l : std::as_const(labels_play_data_)) {
     l->clear();
@@ -606,15 +605,17 @@ void ContextView::ResetSong() {
 
 }
 
-void ContextView::UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics) {
+void ContextView::UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics, const QString &lyrics_synced) {
 
   if (static_cast<qint64>(id) != lyrics_id_) return;
 
-  if (lyrics.isEmpty()) {
+  if (lyrics.isEmpty() && lyrics_synced.isEmpty()) {
     lyrics_ = "No lyrics found.\n"_L1;
+    lyrics_synced_.clear();
   }
   else {
-    lyrics_ = lyrics + "\n\n(Lyrics from "_L1 + provider + ")\n"_L1;
+    lyrics_ = !lyrics.isEmpty() ? lyrics + "\n\n(Lyrics from "_L1 + provider + ")\n"_L1 : QString();
+    lyrics_synced_ = lyrics_synced;
   }
   lyrics_id_ = -1;
 
@@ -622,100 +623,20 @@ void ContextView::UpdateLyrics(const quint64 id, const QString &provider, const 
 
 }
 
-QList<ContextView::LrcLine> ContextView::ParseLrc(const QString &lrc_text) {
-
-  QList<LrcLine> lines;
-  if (lrc_text.isEmpty()) return lines;
-
-  qint64 global_offset_ms = 0;
-  static const QRegularExpression offset_rx(u"^\\[offset:\\s*([+-]?\\d+)\\]"_s, QRegularExpression::CaseInsensitiveOption);
-  static const QRegularExpression time_rx(u"\\[(\\d+):(\\d+)(?:[\\.:](\\d+))?\\]"_s);
-
-  const QStringList raw_lines = lrc_text.split(QLatin1Char('\n'));
-
-  for (QString line : raw_lines) {
-    line = line.trimmed();
-    if (line.endsWith(QLatin1Char('\r'))) line.chop(1);
-    if (line.isEmpty()) continue;
-
-    const QRegularExpressionMatch offset_match = offset_rx.match(line);
-    if (offset_match.hasMatch()) {
-      global_offset_ms = offset_match.captured(1).toLongLong();
-      continue;
-    }
-
-    if (line.startsWith(QLatin1Char('[')) && !time_rx.match(line).hasMatch()) {
-      continue;
-    }
-
-    QList<qint64> line_timestamps;
-    QRegularExpressionMatchIterator it = time_rx.globalMatch(line);
-    while (it.hasNext()) {
-      const QRegularExpressionMatch match = it.next();
-      const qint64 min = match.captured(1).toLongLong();
-      const qint64 sec = match.captured(2).toLongLong();
-      qint64 ms = 0;
-      const QString ms_str = match.captured(3);
-      if (ms_str.length() == 1) {
-        ms = ms_str.toLongLong() * 100;
-      }
-      else if (ms_str.length() == 2) {
-        ms = ms_str.toLongLong() * 10;
-      }
-      else if (ms_str.length() == 3) {
-        ms = ms_str.toLongLong();
-      }
-      const qint64 total_ms = min * 60000 + sec * 1000 + ms;
-      line_timestamps.append(total_ms);
-    }
-
-    if (!line_timestamps.isEmpty()) {
-      QString text = line;
-      text.remove(time_rx);
-      text = text.trimmed();
-
-      for (const qint64 ts : line_timestamps) {
-        lines.append(LrcLine{ts - global_offset_ms, text});
-      }
-    }
-  }
-
-  std::sort(lines.begin(), lines.end(), [](const LrcLine &a, const LrcLine &b) {
-    return a.timestamp_ms < b.timestamp_ms;
-  });
-
-  return lines;
-
-}
-
-QString ContextView::LoadSidecarLrc(const QUrl &url) {
-
-  if (!url.isLocalFile()) return QString();
-  const QFileInfo file_info(url.toLocalFile());
-  const QDir dir = file_info.dir();
-  const QString base_name = file_info.completeBaseName();
-
-  const QStringList exts = {u".lrc"_s, u".LRC"_s, u".txt"_s};
-  for (const QString &ext : exts) {
-    const QString lrc_path = dir.filePath(base_name + ext);
-    if (QFile::exists(lrc_path)) {
-      QFile file(lrc_path);
-      if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        const QString content = QString::fromUtf8(file.readAll());
-        if (!content.isEmpty()) return content;
-      }
-    }
-  }
-  return QString();
-
-}
-
 void ContextView::SetupLyricsDisplay() {
 
-  lrc_lines_ = ParseLrc(lyrics_);
+  if (!lyrics_synced_.isEmpty()) {
+    lrc_lines_ = CollectionWatcher::ParseLrc(lyrics_synced_);
+  }
+  else if (!lyrics_.isEmpty() && lyrics_.contains(u'[')) {
+    lrc_lines_ = CollectionWatcher::ParseLrc(lyrics_);
+  }
+  else {
+    lrc_lines_.clear();
+  }
   active_lrc_index_ = -1;
 
-  if (action_show_lyrics_->isChecked() && !lyrics_.isEmpty()) {
+  if (action_show_lyrics_->isChecked() && (!lyrics_synced_.isEmpty() || !lyrics_.isEmpty())) {
     if (!lrc_lines_.isEmpty()) {
       lyrics_widget_->SetSyncedLyrics(lrc_lines_);
       UpdateLiveLyricsPosition();

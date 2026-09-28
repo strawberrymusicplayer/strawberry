@@ -32,6 +32,7 @@ class LyricsSearchResult {
   QString album;
   QString title;
   QString lyrics;
+  QString lyrics_synced;
   float score;
 };
 using LyricsSearchResults = QList<LyricsSearchResult>;

@@ -29,7 +29,7 @@
 #include <QLabel>
 #include <QFont>
 #include <QVariantAnimation>
-#include "contextview.h"
+#include "collection/collectionwatcher.h"
 
 class QVBoxLayout;
 class QPushButton;
@@ -64,7 +64,7 @@ class LyricsWidget : public QWidget {
   explicit LyricsWidget(QWidget *parent = nullptr);
 
   void SetPlainLyrics(const QString &text);
-  void SetSyncedLyrics(const QList<ContextView::LrcLine> &lines);
+  void SetSyncedLyrics(const QList<CollectionWatcher::LrcLine> &lines);
   void SetActiveIndex(int index);
   void Clear();
   bool is_synced() const { return !lines_.isEmpty(); }
@@ -90,7 +90,7 @@ class LyricsWidget : public QWidget {
   QVBoxLayout *content_layout_;
   QPushButton *button_sync_;
 
-  QList<ContextView::LrcLine> lines_;
+  QList<CollectionWatcher::LrcLine> lines_;
   QList<LyricLineLabel*> label_items_;
   int active_index_;
   bool user_scrolled_away_;

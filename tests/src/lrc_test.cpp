@@ -8,14 +8,14 @@
 #include <QString>
 #include <QList>
 
-#include "context/contextview.h"
+#include "collection/collectionwatcher.h"
 
 using namespace Qt::Literals::StringLiterals;
 
 TEST(LrcTest, ParseLrcStandard) {
 
   const QString lrc = u"[00:12.34]Line 1\n[00:15.80]Line 2\n[00:20.00]Line 3"_s;
-  const QList<ContextView::LrcLine> lines = ContextView::ParseLrc(lrc);
+  const QList<CollectionWatcher::LrcLine> lines = CollectionWatcher::ParseLrc(lrc);
 
   ASSERT_EQ(lines.size(), 3);
   EXPECT_EQ(lines[0].timestamp_ms, 12340);
@@ -30,7 +30,7 @@ TEST(LrcTest, ParseLrcStandard) {
 TEST(LrcTest, ParseLrcMultipleTimestampsAndOffset) {
 
   const QString lrc = u"[offset: 500]\n[00:10.00][01:00.00]Repeated line"_s;
-  const QList<ContextView::LrcLine> lines = ContextView::ParseLrc(lrc);
+  const QList<CollectionWatcher::LrcLine> lines = CollectionWatcher::ParseLrc(lrc);
 
   ASSERT_EQ(lines.size(), 2);
   EXPECT_EQ(lines[0].timestamp_ms, 9500);
@@ -39,3 +39,13 @@ TEST(LrcTest, ParseLrcMultipleTimestampsAndOffset) {
   EXPECT_EQ(lines[1].text, u"Repeated line"_s);
 
 }
+
+TEST(LrcTest, ExtractPlainLyrics) {
+
+  const QString lrc = u"[ti:Song Title]\n[ar:Artist]\n[00:10.00]First line\n[00:20.00]Second line\n"_s;
+  const QString plain = CollectionWatcher::ExtractPlainLyrics(lrc);
+
+  EXPECT_EQ(plain, u"First line\nSecond line"_s);
+
+}
+
