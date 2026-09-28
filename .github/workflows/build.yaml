@@ -1948,7 +1948,6 @@ jobs:
         with:
           arch: ${{matrix.arch}}
           sdk: ${{env.sdk_version}}
-          vsversion: 2022
 
       - name: Checkout
         uses: actions/checkout@v7
