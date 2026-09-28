@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef PULSEDEVICEFINDER_H
-#define PULSEDEVICEFINDER_H
+#ifndef PULSEAUDIODEVICELISTER_H
+#define PULSEAUDIODEVICELISTER_H
 
 #include "config.h"
 
@@ -27,13 +27,13 @@
 #include <pulse/introspect.h>
 #include <pulse/mainloop.h>
 
-#include "devicefinder.h"
+#include "audiodevicelister.h"
 #include "enginedevice.h"
 
-class PulseDeviceFinder : public DeviceFinder {
+class PulseAudioDeviceLister : public AudioDeviceLister {
  public:
-  explicit PulseDeviceFinder();
-  ~PulseDeviceFinder() override;
+  explicit PulseAudioDeviceLister();
+  ~PulseAudioDeviceLister() override;
 
   bool Initialize() override;
   EngineDeviceList ListDevices() override;
@@ -53,7 +53,7 @@ class PulseDeviceFinder : public DeviceFinder {
   pa_mainloop *mainloop_;
   pa_context *context_;
 
-  Q_DISABLE_COPY(PulseDeviceFinder)
+  Q_DISABLE_COPY(PulseAudioDeviceLister)
 };
 
-#endif  // PULSEDEVICEFINDER_H
+#endif  // PULSEAUDIODEVICELISTER_H

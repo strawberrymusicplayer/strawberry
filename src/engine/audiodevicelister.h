@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2014, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2017-2021, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,29 +19,38 @@
  *
  */
 
-#ifndef DIRECTSOUNDDEVICEFINDER_H
-#define DIRECTSOUNDDEVICEFINDER_H
+#ifndef AUDIODEVICELISTER_H
+#define AUDIODEVICELISTER_H
 
 #include "config.h"
 
-#include <rpc.h>
+#include <QString>
 
-#include "devicefinder.h"
 #include "enginedevice.h"
 
-class DirectSoundDeviceFinder : public DeviceFinder {
+// Finds audio output devices
+class AudioDeviceLister {
  public:
-  explicit DirectSoundDeviceFinder();
+  virtual ~AudioDeviceLister() {}
 
-  virtual bool Initialize() { return true; }
-  virtual EngineDeviceList ListDevices();
+  QString name() const { return name_; }
+  const QStringList &outputs() const { return outputs_; }
+  void add_output(const QString &output) { outputs_.append(output); }
+
+  // Does any necessary setup, returning false if this AudioDeviceLister cannot be used.
+  virtual bool Initialize() = 0;
+
+  // Returns a list of available devices.
+  virtual EngineDeviceList ListDevices() = 0;
+
+ protected:
+  explicit AudioDeviceLister(const QString &name, const QStringList &outputs);
 
  private:
-  struct State {
-    EngineDeviceList devices;
-  };
+  QString name_;
+  QStringList outputs_;
 
-  static BOOL CALLBACK EnumerateCallback(LPGUID guid, LPCSTR description, LPCSTR module, LPVOID state_voidptr);
+  Q_DISABLE_COPY(AudioDeviceLister)
 };
 
-#endif  // DIRECTSOUNDDEVICEFINDER_H
+#endif  // AUDIODEVICELISTER_H

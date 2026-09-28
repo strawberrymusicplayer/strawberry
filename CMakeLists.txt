@@ -586,8 +586,8 @@ set(SOURCES
 
   src/engine/enginebase.cpp
   src/engine/enginedevice.cpp
-  src/engine/devicefinders.cpp
-  src/engine/devicefinder.cpp
+  src/engine/audiodevicelisters.cpp
+  src/engine/audiodevicelister.cpp
   src/engine/gststartup.cpp
   src/engine/gstengine.cpp
   src/engine/gstenginepipeline.cpp
@@ -916,7 +916,7 @@ set(HEADERS
   src/tagreader/tagreaderloadcoverimagereply.h
 
   src/engine/enginebase.h
-  src/engine/devicefinders.h
+  src/engine/audiodevicelisters.h
   src/engine/gstengine.h
   src/engine/gstenginepipeline.h
 
@@ -1281,7 +1281,7 @@ if(APPLE)
     src/systemtrayicon/macsystemtrayicon.mm
     src/osd/osdmac.mm
     src/widgets/searchfield_mac.mm
-    src/engine/macosdevicefinder.cpp
+    src/engine/macosaudiodevicelister.cpp
     src/device/macosdevicelister.mm
   )
   list(APPEND HEADERS
@@ -1302,9 +1302,9 @@ if(WIN32)
   list(APPEND SOURCES
     src/utilities/scopedwchararray.cpp
     src/utilities/winutils.cpp
-    src/engine/directsounddevicefinder.cpp
-    src/engine/mmdevicefinder.cpp
-    src/engine/asiodevicefinder.cpp
+    src/engine/directsoundaudiodevicelister.cpp
+    src/engine/mmaudiodevicelister.cpp
+    src/engine/asioaudiodevicelister.cpp
     src/core/windows7thumbbar.cpp
   )
   list(APPEND HEADERS
@@ -1375,13 +1375,13 @@ if(APPLE)
 endif()
 
 if(HAVE_ALSA)
-  list(APPEND SOURCES src/engine/alsadevicefinder.cpp src/engine/alsapcmdevicefinder.cpp)
+  list(APPEND SOURCES src/engine/alsaaudiodevicelister.cpp src/engine/alsapcmaudiodevicelister.cpp)
 endif()
 if(HAVE_PULSE)
-  list(APPEND SOURCES src/engine/pulsedevicefinder.cpp)
+  list(APPEND SOURCES src/engine/pulseaudiodevicelister.cpp)
 endif()
 if(MSVC)
-  list(APPEND SOURCES src/engine/uwpdevicefinder.cpp)
+  list(APPEND SOURCES src/engine/uwpaudiodevicelister.cpp)
   list(APPEND SOURCES src/core/winsystemmediatransportcontrols.cpp)
   list(APPEND HEADERS src/core/winsystemmediatransportcontrols.h)
 endif()

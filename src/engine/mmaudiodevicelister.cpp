@@ -33,7 +33,7 @@
 #include <QString>
 #include <QScopeGuard>
 
-#include "mmdevicefinder.h"
+#include "mmaudiodevicelister.h"
 #include "enginedevice.h"
 #include "core/logging.h"
 
@@ -91,9 +91,9 @@ EngineDevice GetDevice(IMMDevice *endpoint) {
 
 }  // namespace
 
-MMDeviceFinder::MMDeviceFinder() : DeviceFinder(u"mmdevice"_s, { u"wasapisink"_s, u"wasapi2sink"_s }) {}
+MMAudioDeviceLister::MMAudioDeviceLister() : AudioDeviceLister(u"mmdevice"_s, { u"wasapisink"_s, u"wasapi2sink"_s }) {}
 
-EngineDeviceList MMDeviceFinder::ListDevices() {
+EngineDeviceList MMAudioDeviceLister::ListDevices() {
 
   const HRESULT hr_coinit = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
   const QScopeGuard scopeguard_coinit = qScopeGuard([hr_coinit]() {

@@ -28,14 +28,14 @@
 
 #include <core/logging.h>
 
-#include "alsadevicefinder.h"
+#include "alsaaudiodevicelister.h"
 #include "enginedevice.h"
 
 using namespace Qt::Literals::StringLiterals;
 
-AlsaDeviceFinder::AlsaDeviceFinder() : DeviceFinder(u"alsa"_s, { u"alsa"_s, u"alsasink"_s }) {}
+AlsaAudioDeviceLister::AlsaAudioDeviceLister() : AudioDeviceLister(u"alsa"_s, { u"alsa"_s, u"alsasink"_s }) {}
 
-EngineDeviceList AlsaDeviceFinder::ListDevices() {
+EngineDeviceList AlsaAudioDeviceLister::ListDevices() {
 
   EngineDeviceList devices;
 

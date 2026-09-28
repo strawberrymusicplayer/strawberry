@@ -25,7 +25,7 @@
 #include <QString>
 #include <QScopeGuard>
 
-#include "asiodevicefinder.h"
+#include "asioaudiodevicelister.h"
 #include "enginedevice.h"
 #include "core/logging.h"
 
@@ -65,9 +65,9 @@ QString ReadRegistryString(HKEY key, LPCWSTR value_name) {
 
 }  // namespace
 
-AsioDeviceFinder::AsioDeviceFinder() : DeviceFinder(u"asio"_s, { u"asiosink"_s }) {}
+AsioAudioDeviceLister::AsioAudioDeviceLister() : AudioDeviceLister(u"asio"_s, { u"asiosink"_s }) {}
 
-EngineDeviceList AsioDeviceFinder::ListDevices() {
+EngineDeviceList AsioAudioDeviceLister::ListDevices() {
 
   EngineDeviceList devices;
 
@@ -93,7 +93,7 @@ EngineDeviceList AsioDeviceFinder::ListDevices() {
 
 }
 
-EngineDevice AsioDeviceFinder::GetDevice(HKEY reg_key, LPWSTR key_name) {
+EngineDevice AsioAudioDeviceLister::GetDevice(HKEY reg_key, LPWSTR key_name) {
 
   HKEY sub_key = nullptr;
   const QScopeGuard scopeguard_sub_key = qScopeGuard([&sub_key]() {

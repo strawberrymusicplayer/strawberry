@@ -31,19 +31,19 @@
 #include <QString>
 #include <QUuid>
 
-#include "directsounddevicefinder.h"
+#include "directsoundaudiodevicelister.h"
 #include "enginedevice.h"
 #include "core/logging.h"
 
-DirectSoundDeviceFinder::DirectSoundDeviceFinder() : DeviceFinder(QStringLiteral("directsound"), { QStringLiteral("directsound"), QStringLiteral("dsound"), QStringLiteral("directsoundsink"), QStringLiteral("directx"), QStringLiteral("directx2"), QStringLiteral("waveformsink") }) {}
+DirectSoundAudioDeviceLister::DirectSoundAudioDeviceLister() : AudioDeviceLister(QStringLiteral("directsound"), { QStringLiteral("directsound"), QStringLiteral("dsound"), QStringLiteral("directsoundsink"), QStringLiteral("directx"), QStringLiteral("directx2"), QStringLiteral("waveformsink") }) {}
 
-EngineDeviceList DirectSoundDeviceFinder::ListDevices() {
+EngineDeviceList DirectSoundAudioDeviceLister::ListDevices() {
   State state;
-  DirectSoundEnumerateA(&DirectSoundDeviceFinder::EnumerateCallback, &state);
+  DirectSoundEnumerateA(&DirectSoundAudioDeviceLister::EnumerateCallback, &state);
   return state.devices;
 }
 
-BOOL CALLBACK DirectSoundDeviceFinder::EnumerateCallback(LPGUID guid, LPCSTR description, LPCSTR module, LPVOID state_voidptr) {
+BOOL CALLBACK DirectSoundAudioDeviceLister::EnumerateCallback(LPGUID guid, LPCSTR description, LPCSTR module, LPVOID state_voidptr) {
 
   Q_UNUSED(module);
 

@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2014, David Sansome <me@davidsansome.com>
+ * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,20 +17,23 @@
  *
  */
 
-#ifndef MACOSDEVICEFINDER_H
-#define MACOSDEVICEFINDER_H
+#ifndef ALSAPCMAUDIODEVICELISTER_H
+#define ALSAPCMAUDIODEVICELISTER_H
 
 #include "config.h"
 
-#include "devicefinder.h"
+#include "audiodevicelister.h"
 #include "enginedevice.h"
 
-class MacOsDeviceFinder : public DeviceFinder {
+class AlsaPCMAudioDeviceLister : public AudioDeviceLister {
  public:
-  explicit MacOsDeviceFinder();
+  explicit AlsaPCMAudioDeviceLister();
 
-  virtual bool Initialize() { return true; }
-  virtual EngineDeviceList ListDevices();
+  bool Initialize() override { return true; }
+  EngineDeviceList ListDevices() override;
+
+ private:
+  Q_DISABLE_COPY(AlsaPCMAudioDeviceLister)
 };
 
-#endif  // MACOSDEVICEFINDER_H
+#endif  // ALSAPCMAUDIODEVICELISTER_H

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2017-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2014-2021, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,10 +17,29 @@
  *
  */
 
+#ifndef AUDIODEVICELISTERS_H
+#define AUDIODEVICELISTERS_H
+
 #include "config.h"
 
+#include <QObject>
+#include <QList>
 #include <QString>
 
-#include "devicefinder.h"
+class AudioDeviceLister;
 
-DeviceFinder::DeviceFinder(const QString &name, const QStringList &outputs) : name_(name), outputs_(outputs) {}
+class AudioDeviceListers : public QObject {
+  Q_OBJECT
+
+ public:
+  explicit AudioDeviceListers(QObject *parent = nullptr);
+  ~AudioDeviceListers() override;
+
+  void Init();
+  QList<AudioDeviceLister*> ListListers() { return audio_device_listers_; }
+
+ private:
+  QList<AudioDeviceLister*> audio_device_listers_;
+};
+
+#endif  // AUDIODEVICELISTERS_H

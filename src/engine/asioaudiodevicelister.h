@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2014-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,29 +17,25 @@
  *
  */
 
-#ifndef DEVICEFINDERS_H
-#define DEVICEFINDERS_H
+#ifndef ASIOAUDIODEVICELISTER_H
+#define ASIOAUDIODEVICELISTER_H
 
 #include "config.h"
 
-#include <QObject>
-#include <QList>
-#include <QString>
+#include <windows.h>
 
-class DeviceFinder;
+#include "audiodevicelister.h"
+#include "enginedevice.h"
 
-class DeviceFinders : public QObject {
-  Q_OBJECT
-
+class AsioAudioDeviceLister : public AudioDeviceLister {
  public:
-  explicit DeviceFinders(QObject *parent = nullptr);
-  ~DeviceFinders() override;
+  explicit AsioAudioDeviceLister();
 
-  void Init();
-  QList<DeviceFinder*> ListFinders() { return device_finders_; }
+  virtual bool Initialize() { return true; }
+  virtual EngineDeviceList ListDevices();
 
  private:
-  QList<DeviceFinder*> device_finders_;
+  EngineDevice GetDevice(HKEY reg_key, LPWSTR key_name);
 };
 
-#endif  // DEVICEFINDERS_H
+#endif  // ASIOAUDIODEVICELISTER_H

@@ -33,7 +33,7 @@
 
 #include "AsyncOperations.h"
 
-#include "uwpdevicefinder.h"
+#include "uwpaudiodevicelister.h"
 #include "enginedevice.h"
 #include "core/logging.h"
 
@@ -45,7 +45,7 @@ using namespace ABI::Windows::Devices::Enumeration;
 
 using namespace Qt::Literals::StringLiterals;
 
-UWPDeviceFinder::UWPDeviceFinder() : DeviceFinder(u"uwpdevice"_s, { u"wasapi2sink_"_s }) {}
+UWPAudioDeviceLister::UWPAudioDeviceLister() : AudioDeviceLister(u"uwpdevice"_s, { u"wasapi2sink_"_s }) {}
 
 namespace {
 
@@ -74,7 +74,7 @@ static std::string hstring_to_stdstring(HString *hstr) {
 
 }  // namespace
 
-EngineDeviceList UWPDeviceFinder::ListDevices() {
+EngineDeviceList UWPAudioDeviceLister::ListDevices() {
 
   ComPtr<IDeviceInformationStatics> device_info_statics;
   HRESULT hr = ABI::Windows::Foundation::GetActivationFactory(HStringReference(RuntimeClass_Windows_Devices_Enumeration_DeviceInformation).Get(), &device_info_statics);

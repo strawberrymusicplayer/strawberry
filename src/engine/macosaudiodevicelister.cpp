@@ -31,7 +31,7 @@
 #include "includes/scoped_cftyperef.h"
 #include "core/logging.h"
 
-#include "macosdevicefinder.h"
+#include "macosaudiodevicelister.h"
 #include "enginedevice.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -70,9 +70,9 @@ PropertyPtr<T> GetProperty(const AudioDeviceID &device_id, const AudioObjectProp
 }  // namespace
 
 
-MacOsDeviceFinder::MacOsDeviceFinder() : DeviceFinder(u"osxaudio"_s, { u"osxaudio"_s, u"osx"_s, u"osxaudiosink"_s }) {}
+MacOsAudioDeviceLister::MacOsAudioDeviceLister() : AudioDeviceLister(u"osxaudio"_s, { u"osxaudio"_s, u"osx"_s, u"osxaudiosink"_s }) {}
 
-EngineDeviceList MacOsDeviceFinder::ListDevices() {
+EngineDeviceList MacOsAudioDeviceLister::ListDevices() {
 
   AudioObjectPropertyAddress address = {
     kAudioHardwarePropertyDevices,

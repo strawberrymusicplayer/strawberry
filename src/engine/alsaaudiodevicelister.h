@@ -17,23 +17,23 @@
  *
  */
 
-#ifndef ALSADEVICEFINDER_H
-#define ALSADEVICEFINDER_H
+#ifndef ALSAAUDIODEVICELISTER_H
+#define ALSAAUDIODEVICELISTER_H
 
 #include "config.h"
 
-#include "devicefinder.h"
+#include "audiodevicelister.h"
 #include "enginedevice.h"
 
-class AlsaDeviceFinder : public DeviceFinder {
+class AlsaAudioDeviceLister : public AudioDeviceLister {
  public:
-  explicit AlsaDeviceFinder();
+  explicit AlsaAudioDeviceLister();
 
   bool Initialize() override { return true; }
   EngineDeviceList ListDevices() override;
 
  private:
-  Q_DISABLE_COPY(AlsaDeviceFinder)
+  Q_DISABLE_COPY(AlsaAudioDeviceLister)
 };
 
-#endif  // ALSADEVICEFINDER_H
+#endif  // ALSAAUDIODEVICELISTER_H
