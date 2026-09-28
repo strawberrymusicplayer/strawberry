@@ -69,6 +69,7 @@
 #include "utilities/useragent.h"
 #include "core/logging.h"
 #include "core/signalchecker.h"
+#include "utilities/strutils.h"
 #include "gstengine.h"
 #include "gstenginepipeline.h"
 #include "gstbusmessageevent.h"
@@ -1681,7 +1682,7 @@ void GstEnginePipeline::AboutToFinishCallback(GstPlayBin *playbin, gpointer self
 
   {
     QMutexLocker l(&instance->mutex_url_);
-    qLog(Debug) << "Stream from URL" << instance->gst_url_ << "about to finish.";
+    qLog(Debug) << "Stream from URL" << Utilities::UrlForLog(instance->gst_url_) << "about to finish.";
   }
 
   // When playing GME files it seems playbin3 emits about-to-finish early
@@ -1823,7 +1824,7 @@ void GstEnginePipeline::StreamStartMessageReceived() {
   {
     QMutexLocker lock_url(&mutex_url_);
     QMutexLocker lock_next_url(&mutex_next_url_);
-    qLog(Debug) << "Stream changed from URL" << gst_url_ << "to" << next_gst_url_;
+    qLog(Debug) << "Stream changed from URL" << Utilities::UrlForLog(gst_url_) << "to" << Utilities::UrlForLog(next_gst_url_);
     media_url_ = next_media_url_;
     stream_url_ = next_stream_url_;
     gst_url_ = next_gst_url_;
@@ -1894,10 +1895,11 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
   if (error) {
     domain = error->domain;
     code = error->code;
-    message = QString::fromLocal8Bit(error->message);
+    // Messages can contain the stream URL, with credentials in its query for streaming services.
+    message = Utilities::RedactUrls(QString::fromLocal8Bit(error->message));
     g_error_free(error);
   }
-  QString debugstr = QString::fromLocal8Bit(debugs);
+  QString debugstr = Utilities::RedactUrls(QString::fromLocal8Bit(debugs));
   g_free(debugs);
 
   if (pipeline_active_.load() && next_uri_set_.load() && (domain == GST_CORE_ERROR || domain == GST_RESOURCE_ERROR || domain == GST_STREAM_ERROR)) {
@@ -2963,7 +2965,7 @@ void GstEnginePipeline::SetNextUrl() {
   // When the next uri is not playable an error message is send when the pipeline goes to PLAY (or PAUSE) state or immediately if it is currently in PLAY state.
   {
     QMutexLocker l(&mutex_next_url_);
-    qLog(Debug) << "Setting next URL to" << next_gst_url_;
+    qLog(Debug) << "Setting next URL to" << Utilities::UrlForLog(next_gst_url_);
     g_object_set(G_OBJECT(pipeline_), "uri", next_gst_url_.constData(), nullptr);
   }
   about_to_finish_ = false;

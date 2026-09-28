@@ -127,7 +127,11 @@ void AudioScrobbler::ToggleOffline() {
 
 void AudioScrobbler::UpdateNowPlaying(const Song &song) {
 
-  if (!settings_->sources().contains(song.source())) return;
+  // The services still need to know that the previous song is no longer playing.
+  if (!settings_->sources().contains(song.source())) {
+    ClearPlaying();
+    return;
+  }
 
   qLog(Debug) << "Sending now playing for song" << song.artist() << song.album() << song.title();
 

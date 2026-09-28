@@ -199,6 +199,7 @@ pkg_check_modules(GSTREAMER_APP REQUIRED IMPORTED_TARGET gstreamer-app-1.0)
 pkg_check_modules(GSTREAMER_TAG REQUIRED IMPORTED_TARGET gstreamer-tag-1.0)
 pkg_check_modules(GSTREAMER_PBUTILS REQUIRED IMPORTED_TARGET gstreamer-pbutils-1.0)
 pkg_check_modules(SQLITE REQUIRED IMPORTED_TARGET sqlite3>=3.9)
+pkg_check_modules(UCHARDET REQUIRED IMPORTED_TARGET uchardet)
 if(UNIX AND NOT APPLE)
   pkg_check_modules(LIBPULSE IMPORTED_TARGET libpulse)
   pkg_check_modules(LIBSECRET IMPORTED_TARGET libsecret-1)
@@ -373,6 +374,7 @@ optional_component(TIDAL ON "Streaming: Tidal")
 optional_component(SPOTIFY ON "Streaming: Spotify")
 optional_component(QOBUZ ON "Streaming: Qobuz")
 optional_component(PLEX ON "Streaming: Plex")
+optional_component(JELLYFIN ON "Streaming: Jellyfin")
 
 optional_component(MOODBAR ON "Moodbar")
 
@@ -1556,6 +1558,32 @@ if(HAVE_SUBSONIC)
   )
 endif()
 
+if(HAVE_JELLYFIN)
+  list(APPEND SOURCES
+    src/jellyfin/jellyfinservice.cpp
+    src/jellyfin/jellyfinbaserequest.cpp
+    src/jellyfin/jellyfinrequest.cpp
+    src/jellyfin/jellyfinscrobblerequest.cpp
+    src/jellyfin/jellyfinfavoriterequest.cpp
+    src/jellyfin/jellyfinurlhandler.cpp
+    src/settings/jellyfinsettingspage.cpp
+    src/scrobbler/jellyfinscrobbler.cpp
+  )
+  list(APPEND HEADERS
+    src/jellyfin/jellyfinservice.h
+    src/jellyfin/jellyfinbaserequest.h
+    src/jellyfin/jellyfinrequest.h
+    src/jellyfin/jellyfinscrobblerequest.h
+    src/jellyfin/jellyfinfavoriterequest.h
+    src/jellyfin/jellyfinurlhandler.h
+    src/settings/jellyfinsettingspage.h
+    src/scrobbler/jellyfinscrobbler.h
+  )
+  list(APPEND UI
+    src/settings/jellyfinsettingspage.ui
+  )
+endif()
+
 if(HAVE_TIDAL)
   list(APPEND SOURCES
     src/tidal/tidalservice.cpp
@@ -1724,6 +1752,7 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${HAVE_QPA_QPLATFORMNATIVEINTERFACE}>:Qt${QT_VERSION_MAJOR}::GuiPrivate>
   ICU::uc
   ICU::i18n
+  PkgConfig::UCHARDET
   $<$<BOOL:${HAVE_STREAMTAGREADER}>:PkgConfig::LIBSPARSEHASH>
   $<$<BOOL:${HAVE_ALSA}>:ALSA::ALSA>
   $<$<BOOL:${HAVE_PULSE}>:PkgConfig::LIBPULSE>

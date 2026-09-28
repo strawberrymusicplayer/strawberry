@@ -77,7 +77,6 @@
 !define PRODUCT_VERSION_MINOR @STRAWBERRY_VERSION_MINOR@
 !define PRODUCT_VERSION_PATCH @STRAWBERRY_VERSION_PATCH@
 !define PRODUCT_DISPLAY_VERSION "@STRAWBERRY_VERSION_PACKAGE@"
-!define PRODUCT_DISPLAY_VERSION_SHORT "@STRAWBERRY_VERSION_PACKAGE@"
 
 !define PRODUCT_PUBLISHER "Jonas Kvinge"
 !define PRODUCT_WEB_SITE "https://www.strawberrymusicplayer.org/"
@@ -91,9 +90,6 @@
 !define CAPABILITIES_PATH "Software\Clients\Media\Strawberry"
 !define CAPABILITIES_DESCRIPTION "Strawberry Music Player"
 !define CAPABILITIES_ICON "$INSTDIR\strawberry.ico"
-!define CAPABILITIES_REINSTALL "Command to reinstall"
-!define CAPABILITIES_HIDE_ICONS "Command to hide icons"
-!define CAPABILITIES_SHOW_ICONS "Command to show icons"
 
 Unicode True
 
@@ -104,28 +100,21 @@ SetCompressor /SOLID lzma
 !endif
 
 !include "MUI2.nsh"
-!include "FileAssociation.nsh"
 !include "Capabilities.nsh"
 !include LogicLib.nsh
-!include Registry.nsh
 !include x64.nsh
+!include FileFunc.nsh
 
 !define MUI_ICON "strawberry.ico"
-
-!define MUI_COMPONENTSPAGE_SMALLDESC
 
 !ifdef mingw
   ReserveFile "${NSISDIR}/Plugins/x86-unicode/LockedList.dll"
   ReserveFile "${NSISDIR}/Plugins/LockedList64.dll"
-  ReserveFile "${NSISDIR}/Plugins/registry.dll"
-  ReserveFile "${NSISDIR}/Plugins/x86-unicode/INetC.dll"
 !endif
 
 !ifdef msvc
   ReserveFile "${NSISDIR}\Plugins\x86-unicode\LockedList.dll"
   ReserveFile "${NSISDIR}\Plugins\LockedList64.dll"
-  ReserveFile "${NSISDIR}\Plugins\registry.dll"
-  ReserveFile "${NSISDIR}\Plugins\x86-unicode\INetC.dll"
 !endif
 
 ; Installer pages
@@ -133,9 +122,6 @@ SetCompressor /SOLID lzma
 !insertmacro MUI_PAGE_LICENSE COPYING
 Page Custom LockedListPageShow
 !insertmacro MUI_PAGE_DIRECTORY
-!ifdef msvc
-Page Custom InstallMSVCRuntime
-!endif
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
 
@@ -151,10 +137,8 @@ Name "${PRODUCT_NAME}"
 
 OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}${build_type}-${compiler}-${arch}.exe"
 
+; CheckPreviousInstall changes this to the directory Strawberry was installed to previously.
 InstallDir "${PRODUCT_INSTALL_DIR}"
-
-; Get the path where Strawberry was installed previously and set it as default path
-InstallDirRegKey ${PRODUCT_UNINST_ROOT_KEY} ${PRODUCT_UNINST_KEY} "UninstallString"
 
 ShowInstDetails show
 ShowUnInstDetails show
@@ -170,55 +154,116 @@ Function un.LockedListPageShow
   LockedList::Dialog /heading "Checking for running programs:" /noprograms "No programs need to close." /searching "Searching for running programs..."
 FunctionEnd
 
+; Abort a silent (un)installation when Strawberry is running, the LockedList page that asks the user to close it is not shown in silent mode.
+!macro AbortIfStrawberryRunning
+  ${If} ${Silent}
+    LockedList::FindProcess /yesno strawberry.exe
+    Pop $R0
+    ${If} $R0 == "yes"
+      SetErrorLevel 1
+      Quit
+    ${EndIf}
+  ${EndIf}
+!macroend
+
 ; Check for previous installation, and call the uninstaller if any
 Function CheckPreviousInstall
 
-  ReadRegStr $R0 ${PRODUCT_UNINST_ROOT_KEY} ${PRODUCT_UNINST_KEY} "UninstallString"
-  StrCmp $R0 "" Done
-
-${IfNot} ${Silent}
-  MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION "${PRODUCT_NAME} is already installed. $\n$\nClick `OK` to remove the previous version or `Cancel` to cancel this upgrade." IDOK Uninstall
-  Abort
-${EndIf}
-
-  Uninstall:
-  ClearErrors
-  ${If} ${Silent}
-  ExecWait '$R0 /S'
-  ${Else}
-  ExecWait '$R0'
+  ; Strawberry 1.2.30 and older wrote the uninstall key to the 32-bit registry view.
+  ReadRegStr $R0 ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString"
+  ${If} $R0 == ""
+    SetRegView 32
+    ReadRegStr $R0 ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString"
+    SetRegView 64
   ${EndIf}
 
-  Done:
+  ${If} $R0 == ""
+  ${OrIfNot} ${FileExists} "$R0"
+    Return
+  ${EndIf}
+
+  ${GetParent} "$R0" $R1
+
+  ; Install to the same directory, unless another directory was given with /D.
+  ${If} $INSTDIR == "${PRODUCT_INSTALL_DIR}"
+    StrCpy $INSTDIR $R1
+  ${EndIf}
+
+  ${IfNot} ${Silent}
+    MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION "${PRODUCT_NAME} is already installed. $\n$\nClick `OK` to remove the previous version or `Cancel` to cancel this upgrade." IDOK +2
+    Abort
+  ${EndIf}
+
+  ; Run the uninstaller from the installation directory with _?=, otherwise it copies itself to a temporary directory and returns before the previous version is removed.
+  ClearErrors
+  ${If} ${Silent}
+    ExecWait '"$R0" /S _?=$R1' $R2
+  ${Else}
+    ExecWait '"$R0" _?=$R1' $R2
+  ${EndIf}
+
+  ${If} ${Errors}
+  ${OrIf} $R2 != 0
+    MessageBox MB_OK|MB_ICONSTOP "The previous version of ${PRODUCT_NAME} was not removed, the installation is cancelled." /SD IDOK
+    SetErrorLevel 2
+    Quit
+  ${EndIf}
+
+  ; The uninstaller can't delete itself when it runs from the installation directory.
+  Delete "$R0"
+  RMDir "$R1"
 
 FunctionEnd
-
-!ifdef msvc
-!define vc_redist_file "vc_redist.${arch}.exe"
-Function InstallMSVCRuntime
-  SetOutPath "$TEMP"
-  File "${vc_redist_file}"
-  ; ${registry::Read} "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\${arch}" "Version" $R0 $R1
-  ; ${If} $R0 == ""
-    SetDetailsView hide
-    ; inetc::get /caption "Downloading..." "https://aka.ms/vs/17/release/${vc_redist_file}" "$TEMP\${vc_redist_file}" /end
-    ExecWait '"$TEMP\${vc_redist_file}" /install /passive /norestart'
-    Delete "$TEMP\${vc_redist_file}"
-    SetDetailsView show
-  ; ${EndIf}
-FunctionEnd
-!endif
 
 Function .onInit
 
-  !insertmacro MUI_LANGDLL_DISPLAY
+  ; Strawberry is 64-bit, use the 64-bit registry view like it does.
+  SetRegView 64
+
+  !insertmacro AbortIfStrawberryRunning
 
   Call CheckPreviousInstall
 
 FunctionEnd
 
-Section "Delete old files" oldfiles
+Function un.onInit
+
+  SetRegView 64
+
+  !insertmacro AbortIfStrawberryRunning
+
+FunctionEnd
+
+!ifdef msvc
+!define vc_redist_file "vc_redist.${arch}.exe"
+Section "-Visual C++ Runtime"
+
+  ; The runtime installer checks the installed version itself, it returns 1638 when the same or a newer version is already installed.
+  InitPluginsDir
+  SetOutPath "$PLUGINSDIR"
+  File "${vc_redist_file}"
+
+  DetailPrint "Installing Visual C++ Runtime..."
+  ClearErrors
+  ${If} ${Silent}
+    ExecWait '"$PLUGINSDIR\${vc_redist_file}" /install /quiet /norestart' $R0
+  ${Else}
+    ExecWait '"$PLUGINSDIR\${vc_redist_file}" /install /passive /norestart' $R0
+  ${EndIf}
+  Delete "$PLUGINSDIR\${vc_redist_file}"
+
+  ${If} ${Errors}
+    MessageBox MB_OK|MB_ICONEXCLAMATION "Failed to run the Visual C++ Runtime installer, ${PRODUCT_NAME} might not start." /SD IDOK
+  ${ElseIf} $R0 == 3010
+  ${OrIf} $R0 == 1641
+    SetRebootFlag true
+  ${ElseIf} $R0 != 0
+  ${AndIf} $R0 != 1638
+    MessageBox MB_OK|MB_ICONEXCLAMATION "Failed to install the Visual C++ Runtime (error $R0), ${PRODUCT_NAME} might not start." /SD IDOK
+  ${EndIf}
+
 SectionEnd
+!endif
 
 Section "Strawberry" Strawberry
   SetOutPath "$INSTDIR"
@@ -310,6 +355,7 @@ Section "Strawberry" Strawberry
   File "libstdc++-6.dll"
   File "libtag.dll"
   File "libtasn1-6.dll"
+  File "libuchardet.dll"
   File "libunistring-5.dll"
   File "libvorbis-0.dll"
   File "libvorbisenc-2.dll"
@@ -409,6 +455,7 @@ Section "Strawberry" Strawberry
   File "soup-3.0-0.dll"
   File "sqlite3.dll"
   File "tag.dll"
+  File "uchardet.dll"
   File "vorbis.dll"
   File "vorbisfile.dll"
   File "wavpackdll.dll"
@@ -481,27 +528,49 @@ Section "Strawberry" Strawberry
 
   ${RegisterCapabilities}
 
+  ; Video containers (.mp4, .webm, .asf) are not registered, Strawberry would be offered as the default program for videos.
   ${RegisterMediaType} ".mp3" $AppExe $AppIcon "MP3 Audio File"
+  ${RegisterMediaType} ".mp2" $AppExe $AppIcon "MP2 Audio File"
   ${RegisterMediaType} ".flac" $AppExe $AppIcon "FLAC Audio File"
   ${RegisterMediaType} ".ogg" $AppExe $AppIcon "OGG Audio File"
+  ${RegisterMediaType} ".oga" $AppExe $AppIcon "OGG Audio File"
+  ${RegisterMediaType} ".opus" $AppExe $AppIcon "Opus Audio File"
   ${RegisterMediaType} ".spx" $AppExe $AppIcon "OGG Speex Audio File"
   ${RegisterMediaType} ".m4a" $AppExe $AppIcon "MP4 Audio File"
   ${RegisterMediaType} ".aac" $AppExe $AppIcon "AAC Audio File"
   ${RegisterMediaType} ".wma" $AppExe $AppIcon "WMA Audio File"
   ${RegisterMediaType} ".wav" $AppExe $AppIcon "WAV Audio File"
+  ${RegisterMediaType} ".aif" $AppExe $AppIcon "AIFF Audio File"
+  ${RegisterMediaType} ".aiff" $AppExe $AppIcon "AIFF Audio File"
+  ${RegisterMediaType} ".aifc" $AppExe $AppIcon "AIFF Audio File"
+  ${RegisterMediaType} ".wv" $AppExe $AppIcon "WavPack Audio File"
+  ${RegisterMediaType} ".ape" $AppExe $AppIcon "Monkey's Audio File"
+  ${RegisterMediaType} ".mpc" $AppExe $AppIcon "Musepack Audio File"
+  ${RegisterMediaType} ".tta" $AppExe $AppIcon "TrueAudio Audio File"
+  ${RegisterMediaType} ".tak" $AppExe $AppIcon "TAK Audio File"
+  ${RegisterMediaType} ".mka" $AppExe $AppIcon "Matroska Audio File"
+  ${RegisterMediaType} ".ac3" $AppExe $AppIcon "AC3 Audio File"
+  ${RegisterMediaType} ".dts" $AppExe $AppIcon "DTS Audio File"
+  ${RegisterMediaType} ".dsf" $AppExe $AppIcon "DSF Audio File"
+  ${RegisterMediaType} ".dsd" $AppExe $AppIcon "DSDIFF Audio File"
+  ${RegisterMediaType} ".dff" $AppExe $AppIcon "DSDIFF Audio File"
+  ${RegisterMediaType} ".spc" $AppExe $AppIcon "SNES SPC700 Audio File"
+  ${RegisterMediaType} ".vgm" $AppExe $AppIcon "VGM Audio File"
+  ${RegisterMediaType} ".mod" $AppExe $AppIcon "MOD Module Music File"
+  ${RegisterMediaType} ".s3m" $AppExe $AppIcon "S3M Module Music File"
+  ${RegisterMediaType} ".xm" $AppExe $AppIcon "XM Module Music File"
+  ${RegisterMediaType} ".it" $AppExe $AppIcon "IT Module Music File"
 
   ${RegisterMediaType} ".pls" $AppExe $AppIcon "PLS Audio File"
   ${RegisterMediaType} ".m3u" $AppExe $AppIcon "M3U Audio File"
+  ${RegisterMediaType} ".m3u8" $AppExe $AppIcon "M3U8 Playlist"
   ${RegisterMediaType} ".xspf" $AppExe $AppIcon "XSPF Audio File"
   ${RegisterMediaType} ".asx" $AppExe $AppIcon "Windows Media Audio/Video playlist"
+  ${RegisterMediaType} ".wpl" $AppExe $AppIcon "Windows Media Playlist"
+  ${RegisterMediaType} ".cue" $AppExe $AppIcon "CUE Sheet"
 
-  ${RegisterMimeType} "audio/mp3" "mp3" "{cd3afa76-b84f-48f0-9393-7edc34128127}"
-  ${RegisterMimeType} "audio/mp4" "m4a" "{cd3afa7c-b84f-48f0-9393-7edc34128127}"
-  ${RegisterMimeType} "audio/x-ms-wma" "wma" "{cd3afa84-b84f-48f0-9393-7edc34128127}"
-  ${RegisterMimeType} "audio/wav" "wav" "{cd3afa7b-b84f-48f0-9393-7edc34128127}"
-
-  ${RegisterMimeType} "audio/mpegurl" "m3u" "{cd3afa78-b84f-48f0-9393-7edc34128127}"
-  ${RegisterMimeType} "application/x-wmplayer" "asx" "{cd3afa96-b84f-48f0-9393-7edc34128127}"
+  ; Notify the shell that the file associations changed (SHCNE_ASSOCCHANGED).
+  System::Call 'shell32::SHChangeNotify(i 0x08000000, i 0, p 0, p 0)'
 
 SectionEnd
 
@@ -713,7 +782,7 @@ SectionEnd
 Section "Tidal URL Scheme"
   WriteRegStr HKCR "tidal" "URL Protocol" ""
   WriteRegStr HKCR "tidal" "" "URL:tidal"
-  WriteRegStr HKCR 'tidal\shell\open\command' '' '"${PRODUCT_INSTALL_DIR}\strawberry.exe" "%1"'
+  WriteRegStr HKCR 'tidal\shell\open\command' '' '"$INSTDIR\strawberry.exe" "%1"'
 SectionEnd
 
 Section "Uninstaller"
@@ -728,6 +797,12 @@ Section "Uninstaller"
   WriteRegDWORD ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "VersionMinor" "${PRODUCT_VERSION_MINOR}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${PRODUCT_WEB_SITE}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
+  WriteRegDWORD ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "NoModify" 1
+  WriteRegDWORD ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "NoRepair" 1
+
+  ${GetSize} "$INSTDIR" "/S=0K" $0 $1 $2
+  IntFmt $0 "0x%08X" $0
+  WriteRegDWORD ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "EstimatedSize" "$0"
 
 SectionEnd
 
@@ -820,6 +895,7 @@ Section "Uninstall"
   Delete "$INSTDIR\libstdc++-6.dll"
   Delete "$INSTDIR\libtag.dll"
   Delete "$INSTDIR\libtasn1-6.dll"
+  Delete "$INSTDIR\libuchardet.dll"
   Delete "$INSTDIR\libunistring-5.dll"
   Delete "$INSTDIR\libvorbis-0.dll"
   Delete "$INSTDIR\libvorbisenc-2.dll"
@@ -919,6 +995,7 @@ Section "Uninstall"
   Delete "$INSTDIR\soup-3.0-0.dll"
   Delete "$INSTDIR\sqlite3.dll"
   Delete "$INSTDIR\tag.dll"
+  Delete "$INSTDIR\uchardet.dll"
   Delete "$INSTDIR\vorbis.dll"
   Delete "$INSTDIR\vorbisfile.dll"
   Delete "$INSTDIR\wavpackdll.dll"
@@ -1020,7 +1097,6 @@ Section "Uninstall"
 
 !ifdef mingw
   Delete "$INSTDIR\gstreamer-plugins\libgstadaptivedemux2.dll"
-  Delete "$INSTDIR\gstreamer-plugins\libgstaes.dll"
   Delete "$INSTDIR\gstreamer-plugins\libgstaiff.dll"
   Delete "$INSTDIR\gstreamer-plugins\libgstapetag.dll"
   Delete "$INSTDIR\gstreamer-plugins\libgstapp.dll"
@@ -1083,7 +1159,6 @@ Section "Uninstall"
 
 !ifdef msvc
   Delete "$INSTDIR\gstreamer-plugins\gstadaptivedemux2.dll"
-  Delete "$INSTDIR\gstreamer-plugins\gstaes.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstaiff.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstapetag.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstapp.dll"
@@ -1140,7 +1215,7 @@ Section "Uninstall"
   Delete "$INSTDIR\gstreamer-plugins\gstwavpack.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstwavparse.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstxingmux.dll"
-  !ifdef arch_x64
+!ifdef arch_x64
   Delete "$INSTDIR\gstreamer-plugins\gstspotify.dll"
 !endif
 
@@ -1163,12 +1238,18 @@ Section "Uninstall"
 
   Delete "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk"
   Delete "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall.lnk"
-  RMDir /r "$SMPROGRAMS\${PRODUCT_NAME}"
+  RMDir "$SMPROGRAMS\${PRODUCT_NAME}"
+
+  ; Remove the Tidal URL scheme
+  DeleteRegKey HKCR "tidal"
 
   ; Remove the entry from 'installed programs list'
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
 
   ; Unregister from Default Programs
   ${UnRegisterCapabilities}
+
+  ; Notify the shell that the file associations changed (SHCNE_ASSOCCHANGED).
+  System::Call 'shell32::SHChangeNotify(i 0x08000000, i 0, p 0, p 0)'
 
 SectionEnd

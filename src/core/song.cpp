@@ -681,6 +681,7 @@ void Song::set_mood(const TagLib::String &v) { d->mood_ = TagLibStringToQString(
 void Song::set_initial_key(const TagLib::String &v) { d->initial_key_ = TagLibStringToQString(v); }
 
 const QUrl &Song::effective_url() const { return !d->stream_url_.isEmpty() && d->stream_url_.isValid() ? d->stream_url_ : d->url_; }
+QUrl Song::display_url() const { return d->source_ == Source::Subsonic || d->source_ == Source::Plex || d->source_ == Source::Jellyfin ? d->url_ : effective_url(); }
 const QString &Song::effective_titlesort() const { return d->titlesort_.isEmpty() ? d->title_ : d->titlesort_; }
 const QString &Song::effective_albumartist() const { return d->albumartist_.isEmpty() ? d->artist_ : d->albumartist_; }
 const QString &Song::effective_albumartistsort() const { return !d->albumartistsort_.isEmpty() ? d->albumartistsort_ : !d->albumartist_.isEmpty() ? d->albumartist_ : effective_artistsort(); }
@@ -697,11 +698,11 @@ bool Song::is_metadata_good() const { return !d->url_.isEmpty() && !d->artist_.i
 bool Song::is_local_collection_song() const { return d->source_ == Source::Collection; }
 bool Song::is_linked_collection_song() const { return IsLinkedCollectionSource(d->source_); }
 bool Song::is_radio() const { return d->source_ == Source::Stream || d->source_ == Source::SomaFM || d->source_ == Source::RadioParadise || d->source_ == Source::RadioBrowser; }
-bool Song::is_stream_service() const { return d->source_ == Source::Subsonic || d->source_ == Source::Tidal || d->source_ == Source::Qobuz || d->source_ == Source::Spotify || d->source_ == Source::Plex; }
+bool Song::is_stream_service() const { return d->source_ == Source::Subsonic || d->source_ == Source::Tidal || d->source_ == Source::Qobuz || d->source_ == Source::Spotify || d->source_ == Source::Plex || d->source_ == Source::Jellyfin; }
 bool Song::is_stream() const { return is_radio() || is_stream_service(); }
 bool Song::is_cdda() const { return d->source_ == Source::CDDA; }
 bool Song::is_compilation() const { return (d->compilation_ || d->compilation_detected_ || d->compilation_on_) && !d->compilation_off_; }
-bool Song::stream_url_can_expire() const { return d->source_ == Source::Tidal || d->source_ == Source::Qobuz; }
+bool Song::stream_url_can_expire() const { return d->source_ == Source::Tidal || d->source_ == Source::Qobuz || d->source_ == Source::Jellyfin; }
 bool Song::is_module_music() const { return d->filetype_ == FileType::MOD || d->filetype_ == FileType::S3M || d->filetype_ == FileType::XM || d->filetype_ == FileType::IT; }
 bool Song::has_cue() const { return !d->cue_path_.isEmpty(); }
 
@@ -1148,6 +1149,7 @@ Song::Source Song::SourceFromURL(const QUrl &url) {
   if (url.scheme() == u"tidal"_s) return Source::Tidal;
   if (url.scheme() == u"spotify"_s) return Source::Spotify;
   if (url.scheme() == u"qobuz"_s) return Source::Qobuz;
+  if (url.scheme() == u"jellyfin"_s) return Source::Jellyfin;
   if (url.scheme() == u"http"_s || url.scheme() == u"https"_s || url.scheme() == u"rtsp"_s) {
     if (url.host().endsWith("tidal.com"_L1, Qt::CaseInsensitive)) { return Source::Tidal; }
     if (url.host().endsWith("spotify.com"_L1, Qt::CaseInsensitive)) { return Source::Spotify; }
@@ -1173,6 +1175,7 @@ QString Song::TextForSource(const Source source) {
     case Source::Tidal:         return u"tidal"_s;
     case Source::Spotify:       return u"spotify"_s;
     case Source::Qobuz:         return u"qobuz"_s;
+    case Source::Jellyfin:      return u"jellyfin"_s;
     case Source::SomaFM:        return u"somafm"_s;
     case Source::RadioParadise: return u"radioparadise"_s;
     case Source::RadioBrowser:  return u"radiobrowser"_s;
@@ -1195,6 +1198,7 @@ QString Song::DescriptionForSource(const Source source) {
     case Source::Tidal:         return u"Tidal"_s;
     case Source::Spotify:       return u"Spotify"_s;
     case Source::Qobuz:         return u"Qobuz"_s;
+    case Source::Jellyfin:      return u"Jellyfin"_s;
     case Source::SomaFM:        return u"SomaFM"_s;
     case Source::RadioParadise: return u"Radio Paradise"_s;
     case Source::RadioBrowser:  return u"Radio Browser"_s;
@@ -1216,6 +1220,7 @@ Song::Source Song::SourceFromText(const QString &source) {
   if (source.compare("tidal"_L1, Qt::CaseInsensitive) == 0) return Source::Tidal;
   if (source.compare("spotify"_L1, Qt::CaseInsensitive) == 0) return Source::Spotify;
   if (source.compare("qobuz"_L1, Qt::CaseInsensitive) == 0) return Source::Qobuz;
+  if (source.compare("jellyfin"_L1, Qt::CaseInsensitive) == 0) return Source::Jellyfin;
   if (source.compare("somafm"_L1, Qt::CaseInsensitive) == 0) return Source::SomaFM;
   if (source.compare("radioparadise"_L1, Qt::CaseInsensitive) == 0) return Source::RadioParadise;
   if (source.compare("radiobrowser"_L1, Qt::CaseInsensitive) == 0) return Source::RadioBrowser;
@@ -1236,6 +1241,7 @@ QIcon Song::IconForSource(const Source source) {
     case Source::Tidal:         return IconLoader::Load(u"tidal"_s);
     case Source::Spotify:       return IconLoader::Load(u"spotify"_s);
     case Source::Qobuz:         return IconLoader::Load(u"qobuz"_s);
+    case Source::Jellyfin:      return IconLoader::Load(u"jellyfin"_s);
     case Source::SomaFM:        return IconLoader::Load(u"somafm"_s);
     case Source::RadioParadise: return IconLoader::Load(u"radioparadise"_s);
     case Source::RadioBrowser:  return IconLoader::Load(u"radiobrowser"_s);
@@ -1509,6 +1515,8 @@ QString Song::ImageCacheDir(const Source source) {
       return StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/spotifyalbumcovers"_s;
     case Source::Qobuz:
       return StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/qobuzalbumcovers"_s;
+    case Source::Jellyfin:
+      return StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/jellyfinalbumcovers"_s;
     case Source::Device:
       return StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/devicealbumcovers"_s;
     case Source::LocalFile:
@@ -2000,7 +2008,7 @@ void Song::ToXesam(QVariantMap *map) const {
   using MPRIS2Common::AddMetadataAsList;
   using MPRIS2Common::AsMPRISDateTimeType;
 
-  AddMetadata(u"xesam:url"_s, effective_url().toString(), map);
+  AddMetadata(u"xesam:url"_s, display_url().toString(), map);
   AddMetadata(u"xesam:title"_s, PrettyTitle(), map);
   AddMetadataAsList(u"xesam:artist"_s, artist(), map);
   AddMetadata(u"xesam:album"_s, album(), map);

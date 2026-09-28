@@ -101,6 +101,10 @@
 #  include "plex/plexservice.h"
 #  include "plexsettingspage.h"
 #endif
+#ifdef HAVE_JELLYFIN
+#  include "jellyfin/jellyfinservice.h"
+#  include "jellyfinsettingspage.h"
+#endif
 
 #include "radiosettingspage.h"
 
@@ -182,6 +186,9 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 #endif
 #ifdef HAVE_PLEX
   AddPage(Page::Plex, new PlexSettingsPage(this, streaming_services->Service<PlexService>(), this), streaming);
+#endif
+#ifdef HAVE_JELLYFIN
+  AddPage(Page::Jellyfin, new JellyfinSettingsPage(this, streaming_services->Service<JellyfinService>(), this), streaming);
 #endif
 
   AddPage(Page::Radio, new RadioSettingsPage(this, this), streaming);

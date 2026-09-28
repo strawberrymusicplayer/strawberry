@@ -60,6 +60,7 @@ jobs:
             gstreamer-plugins-good
             taglib-devel
             libicu-devel
+            libuchardet-devel
             libcdio-devel
             libgpod-devel
             libmtp-devel
@@ -216,6 +217,7 @@ jobs:
             libsecret-devel
             libnotify-devel
             libicu-devel
+            uchardet-devel
             qt6-qtbase-devel
             qt6-qtbase-private-devel
             qt6-qttools-devel
@@ -357,6 +359,7 @@ jobs:
           lib64ebur128-devel
           lib64fftw-devel
           lib64icu-devel
+          lib64uchardet-devel
           lib64cdio-devel
           lib64gpod-devel
           lib64mtp-devel
@@ -506,6 +509,7 @@ jobs:
           lib64chromaprint-devel
           lib64ebur128-devel
           lib64icu-devel
+          lib64uchardet-devel
           lib64fftw-devel
           lib64dbus-devel
           lib64appstream-devel
@@ -652,6 +656,7 @@ jobs:
             libpulse-dev
             libsecret-1-dev
             libicu-dev
+            libuchardet-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
             gstreamer1.0-alsa
@@ -797,6 +802,7 @@ jobs:
             libpulse-dev
             libsecret-1-dev
             libicu-dev
+            libuchardet-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
             gstreamer1.0-alsa
@@ -945,6 +951,7 @@ jobs:
             libpulse-dev
             libsecret-1-dev
             libicu-dev
+            libuchardet-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
             libchromaprint-dev
@@ -1084,6 +1091,7 @@ jobs:
             gstreamer-plugins-rs
             taglib-devel
             libicu-devel
+            libuchardet-devel
             libcdio-devel
             libgpod-devel
             libmtp-devel
@@ -1241,7 +1249,7 @@ jobs:
       with:
         usesh: true
         mem: 8192
-        prepare: pkg install -y git cmake pkgconf openssl boost-libs alsa-lib glib qt6-base qt6-tools sqlite gstreamer1 gstreamer1-plugins chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf2 fftw3 icu kdsingleapplication googletest pulseaudio sparsehash libsecret
+        prepare: pkg install -y git cmake pkgconf openssl boost-libs alsa-lib glib qt6-base qt6-tools sqlite gstreamer1 gstreamer1-plugins chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf2 fftw3 icu uchardet kdsingleapplication googletest pulseaudio sparsehash libsecret
         run: |
           set -e
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
@@ -1267,7 +1275,7 @@ jobs:
       with:
         usesh: true
         mem: 4096
-        prepare: pkg_add git cmake pkgconf boost glib2 qt6-qtbase qt6-qttools sqlite gstreamer1 gstreamer1-plugins-base chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf libgpod fftw3 icu4c kdsingleapplication pulseaudio sparsehash libsecret
+        prepare: pkg_add git cmake pkgconf boost glib2 qt6-qtbase qt6-qttools sqlite gstreamer1 gstreamer1-plugins-base chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf libgpod fftw3 icu4c uchardet kdsingleapplication pulseaudio sparsehash libsecret
         run: |
           set -e
           export LDFLAGS="-L/usr/local/lib"
@@ -1928,35 +1936,12 @@ jobs:
         working-directory: downloads
         run: 7z x LockedList.zip
 
-      - name: Download NSIS Registry plugin
-        shell: cmd
-        working-directory: downloads
-        run: curl -f -O -L https://nsis.sourceforge.io/mediawiki/images/4/47/Registry.zip
-
-      - name: Extract NSIS Registry plugin
-        shell: cmd
-        working-directory: downloads
-        run: 7z x Registry.zip
-
-      - name: Download NSIS Inetc plugin
-        shell: cmd
-        working-directory: downloads
-        run: curl -f -O -L https://nsis.sourceforge.io/mediawiki/images/c/c9/Inetc.zip
-
-      - name: Extract NSIS Inetc plugin
-        shell: cmd
-        working-directory: downloads
-        run: 7z x Inetc.zip
-
       - name: Install NSIS plugins
         shell: cmd
         working-directory: downloads
         run: |
           copy "Plugins\LockedList64.dll" "C:\Program Files (x86)\NSIS\Plugins\"
           copy "Plugins\x86-unicode\LockedList.dll" "C:\Program Files (x86)\NSIS\Plugins\x86-unicode\"
-          copy "Desktop\Plugin\registry.dll" "C:\Program Files (x86)\NSIS\Plugins\"
-          copy "Desktop\Plugin\registry.dll" "C:\Program Files (x86)\NSIS\Plugins\x86-unicode\"
-          copy "Plugins\x86-unicode\INetC.dll" "C:\Program Files (x86)\NSIS\Plugins\x86-unicode\"
 
       - name: Setup MSVC Environment
         uses: ilammy/msvc-dev-cmd@v1

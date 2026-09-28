@@ -31,6 +31,7 @@
 #include "includes/shared_ptr.h"
 #include "constants/timeconstants.h"
 #include "constants/playlistsettings.h"
+#include "utilities/textencodingutils.h"
 #include "parserbase.h"
 #include "plsparser.h"
 
@@ -48,8 +49,10 @@ ParserBase::LoadResult PLSParser::Load(QIODevice *device, const QString &playlis
   QMap<int, Song> songs;
   static const QRegularExpression n_re(u"\\d+$"_s);
 
-  while (!device->atEnd()) {
-    QString line = QString::fromUtf8(device->readLine()).trimmed();
+  QString data = Utilities::TextFromData(device->readAll());
+  QTextStream text_stream(&data, QIODevice::ReadOnly);
+  while (!text_stream.atEnd()) {
+    QString line = text_stream.readLine().trimmed();
     qint64 equals = line.indexOf(u'=');
     if (equals < 0) continue;
     QString key = line.left(equals).toLower();
