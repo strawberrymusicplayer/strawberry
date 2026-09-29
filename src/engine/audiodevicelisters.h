@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef DEVICEFINDERS_H
-#define DEVICEFINDERS_H
+#ifndef AUDIODEVICELISTERS_H
+#define AUDIODEVICELISTERS_H
 
 #include "config.h"
 
@@ -26,20 +26,20 @@
 #include <QList>
 #include <QString>
 
-class DeviceFinder;
+class AudioDeviceLister;
 
-class DeviceFinders : public QObject {
+class AudioDeviceListers : public QObject {
   Q_OBJECT
 
  public:
-  explicit DeviceFinders(QObject *parent = nullptr);
-  ~DeviceFinders() override;
+  explicit AudioDeviceListers(QObject *parent = nullptr);
+  ~AudioDeviceListers() override;
 
   void Init();
-  QList<DeviceFinder*> ListFinders() { return device_finders_; }
+  QList<AudioDeviceLister*> ListListers() { return audio_device_listers_; }
 
  private:
-  QList<DeviceFinder*> device_finders_;
+  QList<AudioDeviceLister*> audio_device_listers_;
 };
 
-#endif  // DEVICEFINDERS_H
+#endif  // AUDIODEVICELISTERS_H

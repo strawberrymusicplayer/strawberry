@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,21 +18,56 @@
  */
 
 #include <windows.h>
-#include <string.h>
-#include <atlconv.h>
 #include <winreg.h>
 
-#include <QString>
+#include <vector>
 
-#include "asiodevicefinder.h"
+#include <QString>
+#include <QScopeGuard>
+
+#include "asioaudiodevicelister.h"
 #include "enginedevice.h"
 #include "core/logging.h"
 
 using namespace Qt::Literals::StringLiterals;
 
-AsioDeviceFinder::AsioDeviceFinder() : DeviceFinder(u"asio"_s, { u"asiosink"_s }) {}
+namespace {
 
-EngineDeviceList AsioDeviceFinder::ListDevices() {
+// Reads a REG_SZ value of any length, returns a null QString if the value is missing, has another type or can't be read.
+QString ReadRegistryString(HKEY key, LPCWSTR value_name) {
+
+  // The value can change between querying the size and reading it, so retry if it grew in the meantime.
+  for (int attempt = 0; attempt < 3; ++attempt) {
+    DWORD data_size = 0;
+    LSTATUS status = RegGetValueW(key, nullptr, value_name, RRF_RT_REG_SZ, nullptr, nullptr, &data_size);
+    if (status != ERROR_SUCCESS || data_size == 0) {
+      return QString();
+    }
+
+    // The returned size is in bytes and includes the terminator, add room for one more in case the stored value lacks it.
+    std::vector<WCHAR> data((data_size / sizeof(WCHAR)) + 1, 0);
+    data_size = static_cast<DWORD>(data.size() * sizeof(WCHAR));
+    status = RegGetValueW(key, nullptr, value_name, RRF_RT_REG_SZ, nullptr, data.data(), &data_size);
+    if (status == ERROR_MORE_DATA) {
+      continue;
+    }
+    if (status != ERROR_SUCCESS) {
+      return QString();
+    }
+
+    // RegGetValueW guarantees null-termination, so this stops at the terminator.
+    return QString::fromWCharArray(data.data());
+  }
+
+  return QString();
+
+}
+
+}  // namespace
+
+AsioAudioDeviceLister::AsioAudioDeviceLister() : AudioDeviceLister(u"asio"_s, { u"asiosink"_s }) {}
+
+EngineDeviceList AsioAudioDeviceLister::ListDevices() {
 
   EngineDeviceList devices;
 
@@ -58,7 +93,7 @@ EngineDeviceList AsioDeviceFinder::ListDevices() {
 
 }
 
-EngineDevice AsioDeviceFinder::GetDevice(HKEY reg_key, LPWSTR key_name) {
+EngineDevice AsioAudioDeviceLister::GetDevice(HKEY reg_key, LPWSTR key_name) {
 
   HKEY sub_key = nullptr;
   const QScopeGuard scopeguard_sub_key = qScopeGuard([&sub_key]() {
@@ -72,23 +107,18 @@ EngineDevice AsioDeviceFinder::GetDevice(HKEY reg_key, LPWSTR key_name) {
     return EngineDevice();
   }
 
-  DWORD type = REG_SZ;
-  WCHAR clsid_data[256]{};
-  DWORD clsid_data_size = sizeof(clsid_data);
-  status = RegQueryValueExW(sub_key, L"clsid", 0, &type, (LPBYTE)clsid_data, &clsid_data_size);
-  if (status != ERROR_SUCCESS) {
+  const QString clsid = ReadRegistryString(sub_key, L"clsid");
+  if (clsid.isEmpty()) {
     return EngineDevice();
   }
 
   EngineDevice device;
-  device.value = QString::fromStdWString(clsid_data);
-  device.description = QString::fromStdWString(key_name);
+  device.value = clsid;
+  device.description = QString::fromWCharArray(key_name);
 
-  WCHAR desc_data[256]{};
-  DWORD desc_data_size = sizeof(desc_data);
-  status = RegQueryValueExW(sub_key, L"description", 0, &type, (LPBYTE)desc_data, &desc_data_size);
-  if (status == ERROR_SUCCESS) {
-    device.description = QString::fromStdWString(desc_data);
+  const QString description = ReadRegistryString(sub_key, L"description");
+  if (!description.isEmpty()) {
+    device.description = description;
   }
 
   return device;

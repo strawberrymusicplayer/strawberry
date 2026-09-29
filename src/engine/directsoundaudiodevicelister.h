@@ -1,6 +1,8 @@
 /*
  * Strawberry Music Player
- * Copyright 2017-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * This file was part of Clementine.
+ * Copyright 2014, David Sansome <me@davidsansome.com>
+ * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,23 +19,29 @@
  *
  */
 
-#ifndef ALSADEVICEFINDER_H
-#define ALSADEVICEFINDER_H
+#ifndef DIRECTSOUNDAUDIODEVICELISTER_H
+#define DIRECTSOUNDAUDIODEVICELISTER_H
 
 #include "config.h"
 
-#include "devicefinder.h"
+#include <rpc.h>
+
+#include "audiodevicelister.h"
 #include "enginedevice.h"
 
-class AlsaDeviceFinder : public DeviceFinder {
+class DirectSoundAudioDeviceLister : public AudioDeviceLister {
  public:
-  explicit AlsaDeviceFinder();
+  explicit DirectSoundAudioDeviceLister();
 
-  bool Initialize() override { return true; }
-  EngineDeviceList ListDevices() override;
+  virtual bool Initialize() { return true; }
+  virtual EngineDeviceList ListDevices();
 
  private:
-  Q_DISABLE_COPY(AlsaDeviceFinder)
+  struct State {
+    EngineDeviceList devices;
+  };
+
+  static BOOL CALLBACK EnumerateCallback(LPGUID guid, LPCSTR description, LPCSTR module, LPVOID state_voidptr);
 };
 
-#endif  // ALSADEVICEFINDER_H
+#endif  // DIRECTSOUNDAUDIODEVICELISTER_H

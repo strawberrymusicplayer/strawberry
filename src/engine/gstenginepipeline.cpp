@@ -726,6 +726,11 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   }
 
+  // ASIO drivers usually only allow one stream at a time, treat it as exclusive so the engine never runs two pipelines at once (crossfading, fading out).
+  if (output_ == QLatin1String(GstEngine::kASIOSink)) {
+    exclusive_mode_ = true;
+  }
+
   if (g_object_class_find_property(G_OBJECT_GET_CLASS(audiosink_), "exclusive")) {
     if (exclusive_mode_) {
       qLog(Debug) << "Setting exclusive mode for" << output_;

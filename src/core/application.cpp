@@ -47,7 +47,7 @@
 #include "core/player.h"
 #include "core/urlhandlers.h"
 #include "credentialsmanager/credentialsmanager.h"
-#include "engine/devicefinders.h"
+#include "engine/audiodevicelisters.h"
 #include "tagreader/tagreaderclient.h"
 #include "collection/collectionlibrary.h"
 #include "playlist/playlistbackend.h"
@@ -146,7 +146,7 @@ class ApplicationImpl {
         player_([app]() { return new Player(app->task_manager(), app->url_handlers(), app->playlist_manager()); }),
         network_([]() { return new NetworkAccessManager(); }),
         credentials_manager_([]() { return new CredentialsManager(); }),
-        device_finders_([]() { return new DeviceFinders(); }),
+        audio_device_listers_([]() { return new AudioDeviceListers(); }),
         url_handlers_([]() { return new UrlHandlers(); }),
         device_manager_([app]() { return new DeviceManager(app->task_manager(), app->database(), app->tagreader_client(), app->albumcover_loader()); }),
         collection_([app]() { return new CollectionLibrary(app->database(), app->task_manager(), app->tagreader_client(), app->albumcover_loader()); }),
@@ -248,7 +248,7 @@ class ApplicationImpl {
   Lazy<Player> player_;
   Lazy<NetworkAccessManager> network_;
   Lazy<CredentialsManager> credentials_manager_;
-  Lazy<DeviceFinders> device_finders_;
+  Lazy<AudioDeviceListers> audio_device_listers_;
   Lazy<UrlHandlers> url_handlers_;
   Lazy<DeviceManager> device_manager_;
   Lazy<CollectionLibrary> collection_;
@@ -284,7 +284,7 @@ Application::Application(QObject *parent)
     g_thread_ = g_thread_new(nullptr, Application::GLibMainLoopThreadFunc, nullptr);
   }
 
-  device_finders()->Init();
+  audio_device_listers()->Init();
   collection()->Init();
   tagreader_client();
 
@@ -397,7 +397,7 @@ SharedPtr<TaskManager> Application::task_manager() const { return p_->task_manag
 SharedPtr<Player> Application::player() const { return p_->player_.ptr(); }
 SharedPtr<NetworkAccessManager> Application::network() const { return p_->network_.ptr(); }
 SharedPtr<CredentialsManager> Application::credentials_manager() const { return p_->credentials_manager_.ptr(); }
-SharedPtr<DeviceFinders> Application::device_finders() const { return p_->device_finders_.ptr(); }
+SharedPtr<AudioDeviceListers> Application::audio_device_listers() const { return p_->audio_device_listers_.ptr(); }
 SharedPtr<UrlHandlers> Application::url_handlers() const { return p_->url_handlers_.ptr(); }
 SharedPtr<DeviceManager> Application::device_manager() const { return p_->device_manager_.ptr(); }
 SharedPtr<CollectionLibrary> Application::collection() const { return p_->collection_.ptr(); }

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2023, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,20 +17,20 @@
  *
  */
 
-#ifndef MMDEVICEFINDER_H
-#define MMDEVICEFINDER_H
+#ifndef UWPAUDIODEVICELISTER_H
+#define UWPAUDIODEVICELISTER_H
 
 #include "config.h"
 
-#include "devicefinder.h"
+#include "audiodevicelister.h"
 #include "enginedevice.h"
 
-class MMDeviceFinder : public DeviceFinder {
+class UWPAudioDeviceLister : public AudioDeviceLister {
  public:
-  explicit MMDeviceFinder();
+  explicit UWPAudioDeviceLister();
 
   virtual bool Initialize() { return true; }
   virtual EngineDeviceList ListDevices();
 };
 
-#endif  // MMDEVICEFINDER_H
+#endif  // UWPAUDIODEVICELISTER_H

@@ -3177,7 +3177,7 @@ void MainWindow::ShowEqualizer() {
 SettingsDialog *MainWindow::CreateSettingsDialog() {
 
   SettingsDialog *settings_dialog = new SettingsDialog(app_->player(),
-                                                       app_->device_finders(),
+                                                       app_->audio_device_listers(),
                                                        app_->collection(),
                                                        app_->cover_providers(),
                                                        app_->lyrics_providers(),

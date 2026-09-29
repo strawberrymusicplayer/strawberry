@@ -30,14 +30,14 @@
 #include <QString>
 
 #include "core/logging.h"
-#include "pulsedevicefinder.h"
+#include "pulseaudiodevicelister.h"
 #include "enginedevice.h"
 
 using namespace Qt::Literals::StringLiterals;
 
-PulseDeviceFinder::PulseDeviceFinder() : DeviceFinder(u"pulseaudio"_s, { u"pulseaudio"_s, u"pulse"_s, u"pulsesink"_s }), mainloop_(nullptr), context_(nullptr) {}
+PulseAudioDeviceLister::PulseAudioDeviceLister() : AudioDeviceLister(u"pulseaudio"_s, { u"pulseaudio"_s, u"pulse"_s, u"pulsesink"_s }), mainloop_(nullptr), context_(nullptr) {}
 
-bool PulseDeviceFinder::Initialize() {
+bool PulseAudioDeviceLister::Initialize() {
 
   mainloop_ = pa_mainloop_new();
   if (!mainloop_) {
@@ -48,14 +48,14 @@ bool PulseDeviceFinder::Initialize() {
   return Reconnect();
 }
 
-bool PulseDeviceFinder::Reconnect() {
+bool PulseAudioDeviceLister::Reconnect() {
 
   if (context_) {
     pa_context_disconnect(context_);
     pa_context_unref(context_);
   }
 
-  context_ = pa_context_new(pa_mainloop_get_api(mainloop_), "Strawberry device finder");
+  context_ = pa_context_new(pa_mainloop_get_api(mainloop_), "Strawberry audio device lister");
   if (!context_) {
     qLog(Warning) << "Failed to create pulseaudio context";
     return false;
@@ -87,7 +87,7 @@ bool PulseDeviceFinder::Reconnect() {
   }
 }
 
-EngineDeviceList PulseDeviceFinder::ListDevices() {
+EngineDeviceList PulseAudioDeviceLister::ListDevices() {
 
   if (!context_ || pa_context_get_state(context_) != PA_CONTEXT_READY) {
     return EngineDeviceList();
@@ -95,7 +95,7 @@ EngineDeviceList PulseDeviceFinder::ListDevices() {
 
 retry:
   ListDevicesState state;
-  pa_context_get_sink_info_list(context_, &PulseDeviceFinder::GetSinkInfoCallback, &state);
+  pa_context_get_sink_info_list(context_, &PulseAudioDeviceLister::GetSinkInfoCallback, &state);
 
   Q_FOREVER {
     if (state.finished) {
@@ -120,7 +120,7 @@ retry:
   }
 }
 
-void PulseDeviceFinder::GetSinkInfoCallback(pa_context *c, const pa_sink_info *info, int eol, void *state_voidptr) {
+void PulseAudioDeviceLister::GetSinkInfoCallback(pa_context *c, const pa_sink_info *info, int eol, void *state_voidptr) {
 
   Q_UNUSED(c);
 
@@ -141,7 +141,7 @@ void PulseDeviceFinder::GetSinkInfoCallback(pa_context *c, const pa_sink_info *i
   }
 }
 
-PulseDeviceFinder::~PulseDeviceFinder() {
+PulseAudioDeviceLister::~PulseAudioDeviceLister() {
 
   if (context_) {
     pa_context_disconnect(context_);

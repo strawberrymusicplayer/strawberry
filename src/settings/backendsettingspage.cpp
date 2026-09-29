@@ -48,8 +48,8 @@
 #include "core/player.h"
 #include "engine/enginebase.h"
 #include "engine/enginedevice.h"
-#include "engine/devicefinders.h"
-#include "engine/devicefinder.h"
+#include "engine/audiodevicelisters.h"
+#include "engine/audiodevicelister.h"
 #include "widgets/lineedit.h"
 #include "widgets/stickyslider.h"
 #include "settings/settingspage.h"
@@ -77,11 +77,11 @@ static const QRegularExpression kRegex_ALSA_PCM_Dev(u"^.*:.*DEV=.*"_s);
 #  pragma GCC diagnostic ignored "-Warray-bounds"
 #endif
 
-BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, const SharedPtr<Player> player, const SharedPtr<DeviceFinders> device_finders, QWidget *parent)
+BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, const SharedPtr<Player> player, const SharedPtr<AudioDeviceListers> audio_device_listers, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui_BackendSettingsPage),
       player_(player),
-      device_finders_(device_finders),
+      audio_device_listers_(audio_device_listers),
       configloaded_(false) {
 
   ui_->setupUi(this);
@@ -299,8 +299,8 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
   ui_->combobox_device->addItem(IconLoader::Load(u"soundcard"_s), QLatin1String(kOutputAutomaticallySelect), QVariant());
 #endif
 
-  const QList<DeviceFinder*> device_finders = device_finders_->ListFinders();
-  for (DeviceFinder *f : device_finders) {
+  const QList<AudioDeviceLister*> audio_device_listers = audio_device_listers_->ListListers();
+  for (AudioDeviceLister *f : audio_device_listers) {
     if (!f->outputs().contains(output)) continue;
     const EngineDeviceList engine_devices = f->ListDevices();
     for (const EngineDevice &d : engine_devices) {
@@ -751,7 +751,9 @@ void BackendSettingsPage::FadingOptionsChanged() {
   if (!configloaded_) return;
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
-  if (!player_->engine()->ALSADeviceSupport(output.name) || ui_->lineedit_device->text().isEmpty() || (!ui_->lineedit_device->text().contains(kRegex_ALSA_HW) && !ui_->lineedit_device->text().contains(kRegex_ALSA_PlugHW))) {
+  const bool fading_supported = player_->engine()->FadingSupport(output.name);
+  const bool alsa_hw = player_->engine()->ALSADeviceSupport(output.name) && !ui_->lineedit_device->text().isEmpty() && (ui_->lineedit_device->text().contains(kRegex_ALSA_HW) || ui_->lineedit_device->text().contains(kRegex_ALSA_PlugHW));
+  if (fading_supported && !alsa_hw) {
     ui_->groupbox_fading->setEnabled(true);
   }
   else {

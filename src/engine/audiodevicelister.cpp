@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2017-2021, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,23 +17,10 @@
  *
  */
 
-#ifndef ALSAPCMDEVICEFINDER_H
-#define ALSAPCMDEVICEFINDER_H
-
 #include "config.h"
 
-#include "devicefinder.h"
-#include "enginedevice.h"
+#include <QString>
 
-class AlsaPCMDeviceFinder : public DeviceFinder {
- public:
-  explicit AlsaPCMDeviceFinder();
+#include "audiodevicelister.h"
 
-  bool Initialize() override { return true; }
-  EngineDeviceList ListDevices() override;
-
- private:
-  Q_DISABLE_COPY(AlsaPCMDeviceFinder)
-};
-
-#endif  // ALSAPCMDEVICEFINDER_H
+AudioDeviceLister::AudioDeviceLister(const QString &name, const QStringList &outputs) : name_(name), outputs_(outputs) {}

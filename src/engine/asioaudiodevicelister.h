@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,19 +17,19 @@
  *
  */
 
-#ifndef ASIODEVICEFINDER_H
-#define ASIODEVICEFINDER_H
+#ifndef ASIOAUDIODEVICELISTER_H
+#define ASIOAUDIODEVICELISTER_H
 
 #include "config.h"
 
 #include <windows.h>
 
-#include "devicefinder.h"
+#include "audiodevicelister.h"
 #include "enginedevice.h"
 
-class AsioDeviceFinder : public DeviceFinder {
+class AsioAudioDeviceLister : public AudioDeviceLister {
  public:
-  explicit AsioDeviceFinder();
+  explicit AsioAudioDeviceLister();
 
   virtual bool Initialize() { return true; }
   virtual EngineDeviceList ListDevices();
@@ -38,4 +38,4 @@ class AsioDeviceFinder : public DeviceFinder {
   EngineDevice GetDevice(HKEY reg_key, LPWSTR key_name);
 };
 
-#endif  // ASIODEVICEFINDER_H
+#endif  // ASIOAUDIODEVICELISTER_H
