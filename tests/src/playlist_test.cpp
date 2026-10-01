@@ -19,6 +19,7 @@
  *
  */
 
+#include <algorithm>
 #include <memory>
 
 #include "gtest_include.h"
@@ -112,6 +113,25 @@ class PlaylistTest : public ::testing::Test {
   void SetVirtualOrder(const QList<int> &virtual_items, const int current_virtual_index) {
     playlist_.virtual_items_ = virtual_items;
     playlist_.current_virtual_index_ = current_virtual_index;
+  }
+
+  // Plays the next rows like the player does, until there is no next row or count rows were played, and returns the played rows.
+  // Each next row is asked for twice, like Player::TrackAboutToEnd() does, so a next_row() that changes the result between calls fails the test.
+  QList<int> PlayNextRows(const int count) {
+    QList<int> rows;
+    for (int i = 0; i < count; ++i) {
+      const int row = playlist_.next_row();
+      if (row == -1) break;
+      EXPECT_EQ(row, playlist_.next_row());
+      rows << row;
+      playlist_.set_current_row(row);
+    }
+    return rows;
+  }
+
+  static QList<int> Sorted(QList<int> list) {
+    std::sort(list.begin(), list.end());
+    return list;
   }
 
   // Forwards to the private Playlist::RemoveItemsNotInQueue(), which is otherwise only reachable through repopulating a dynamic playlist.
@@ -1273,6 +1293,100 @@ TEST_F(PlaylistTest, RemoveLastCurrentWithShuffleAndRepeatTrackStops) {
   ASSERT_EQ(-1, playlist_.current_row());
 
   EXPECT_EQ(-1, playlist_.next_row());
+
+}
+
+// Regression test: with shuffle and playlist repeat, the next shuffle order must start after the current track, so every other track is played before any track is repeated.
+// The next row used to be asked for twice when preloading, and the second call continued from the current track's random position in the new order, skipping the tracks before it.
+TEST_F(PlaylistTest, ShuffleRepeatPlaylistPlaysAllTracksAfterWrapping) {
+
+  PlaylistItemPtrList items;
+  for (int i = 0; i < 5; ++i) {
+    items << MakeMockItemP(QString::number(i));
+  }
+  playlist_.InsertItems(items);
+
+  playlist_.sequence()->SetShuffleMode(PlaylistSequence::ShuffleMode::All);
+  playlist_.sequence()->SetRepeatMode(PlaylistSequence::RepeatMode::Playlist);
+  playlist_.set_current_row(0);
+
+  // Row 0 is the last track in the shuffle order, so the next track starts a new shuffle order.
+  SetVirtualOrder(QList<int>() << 1 << 2 << 3 << 4 << 0, 4);
+
+  EXPECT_EQ(QList<int>() << 1 << 2 << 3 << 4, Sorted(PlayNextRows(4)));
+
+}
+
+// Regression test: with shuffle, choosing a track that has not been played yet must not skip the tracks before it in the shuffle order, or replay the tracks after it.
+TEST_F(PlaylistTest, ShuffleChoosingUnplayedTrackKeepsTheRest) {
+
+  PlaylistItemPtrList items;
+  for (int i = 0; i < 5; ++i) {
+    items << MakeMockItemP(QString::number(i));
+  }
+  playlist_.InsertItems(items);
+
+  playlist_.sequence()->SetShuffleMode(PlaylistSequence::ShuffleMode::All);
+  playlist_.set_current_row(0);
+  SetVirtualOrder(QList<int>() << 0 << 1 << 2 << 3 << 4, 0);
+
+  playlist_.set_current_row(3);
+
+  EXPECT_EQ(QList<int>() << 1 << 2 << 4, PlayNextRows(5));
+
+}
+
+// Regression test: with shuffle, choosing a track that has already been played must replay it, and then continue with the tracks that have not been played yet.
+TEST_F(PlaylistTest, ShuffleChoosingPlayedTrackContinuesWithTheRest) {
+
+  PlaylistItemPtrList items;
+  for (int i = 0; i < 5; ++i) {
+    items << MakeMockItemP(QString::number(i));
+  }
+  playlist_.InsertItems(items);
+
+  playlist_.sequence()->SetShuffleMode(PlaylistSequence::ShuffleMode::All);
+  playlist_.set_current_row(2);
+  SetVirtualOrder(QList<int>() << 0 << 1 << 2 << 3 << 4, 2);
+
+  playlist_.set_current_row(0);
+
+  EXPECT_EQ(QList<int>() << 3 << 4, PlayNextRows(5));
+
+}
+
+// Regression test: when the player reshuffles before playing a chosen track, which it does when a track is double-clicked, every other track must still be played once.
+TEST_F(PlaylistTest, ShuffleReshuffleThenChoosingTrackPlaysAllTracks) {
+
+  PlaylistItemPtrList items;
+  for (int i = 0; i < 6; ++i) {
+    items << MakeMockItemP(QString::number(i));
+  }
+  playlist_.InsertItems(items);
+
+  playlist_.sequence()->SetShuffleMode(PlaylistSequence::ShuffleMode::All);
+  playlist_.set_current_row(0);
+
+  playlist_.ReshuffleIndices();
+  playlist_.set_current_row(3);
+
+  EXPECT_EQ(QList<int>() << 1 << 2 << 4 << 5, Sorted(PlayNextRows(6)));
+
+}
+
+// Regression test: turning on shuffle while a track is playing must play every other track once, not only the tracks after the current track's random position.
+TEST_F(PlaylistTest, ShuffleTurnedOnWhilePlayingPlaysAllTracks) {
+
+  PlaylistItemPtrList items;
+  for (int i = 0; i < 5; ++i) {
+    items << MakeMockItemP(QString::number(i));
+  }
+  playlist_.InsertItems(items);
+
+  playlist_.set_current_row(2);
+  playlist_.sequence()->SetShuffleMode(PlaylistSequence::ShuffleMode::All);
+
+  EXPECT_EQ(QList<int>() << 0 << 1 << 3 << 4, Sorted(PlayNextRows(5)));
 
 }
 
