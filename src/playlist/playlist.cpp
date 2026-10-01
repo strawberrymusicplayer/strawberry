@@ -661,9 +661,13 @@ int Playlist::PreviousVirtualIndex(int i, const bool ignore_repeat_track) const 
     return i;
   }
 
+  // Without a current item, i is the position before the removed current item, so i itself is the first candidate.
+  // Cap it at the last valid index, since i is past the end of the list when wrapping around.
+  const int first_candidate = std::min(current_item_index_.isValid() ? i - 1 : i, static_cast<int>(virtual_items_.count()) - 1);
+
   // If we're not bothered about whether a song is on the same album then return the previous virtual index, whatever it is.
   if (!album_only) {
-    --i;
+    i = first_candidate;
 
     // Decrement i until we find any track that is in the filter
     while (i >= 0 && (!FilterContainsVirtualIndex(i) || item_at(virtual_items_[i])->GetShouldSkip())) --i;
@@ -672,7 +676,7 @@ int Playlist::PreviousVirtualIndex(int i, const bool ignore_repeat_track) const 
 
   // We need to decrement i until we get something else on the same album
   const Song last_song = current_item() ? current_item_metadata() : removed_current_item_metadata_;
-  for (int j = i - 1; j >= 0; --j) {
+  for (int j = first_candidate; j >= 0; --j) {
     if (item_at(virtual_items_[j])->GetShouldSkip()) {
       continue;
     }

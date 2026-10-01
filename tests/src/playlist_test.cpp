@@ -1141,6 +1141,48 @@ TEST_F(PlaylistTest, RemoveRowsAroundCurrentWithShuffleKeepsShufflePosition) {
 
 }
 
+// Regression test: with shuffle, after removing the current track, the previous track is the one before it in the shuffle order, which the retained virtual index points at.
+TEST_F(PlaylistTest, RemoveCurrentWithShufflePreviousIsPredecessor) {
+
+  const PlaylistItemPtr item_one = MakeMockItemP(u"One"_s);
+  const PlaylistItemPtr item_two = MakeMockItemP(u"Two"_s);
+  playlist_.InsertItems(PlaylistItemPtrList() << item_one << item_two);
+
+  playlist_.sequence()->SetShuffleMode(PlaylistSequence::ShuffleMode::All);
+  playlist_.set_current_row(1);
+
+  // Shuffle order One, Two (current).
+  SetVirtualOrder(QList<int>() << 0 << 1, 1);
+
+  playlist_.removeRow(1);
+  ASSERT_EQ(-1, playlist_.current_row());
+
+  const int previous_row = playlist_.previous_row();
+  ASSERT_NE(-1, previous_row);
+  EXPECT_EQ(item_one, playlist_.item_at(previous_row));
+
+}
+
+// Regression test: with album repeat, going back from the start of the list after removing the current track wraps around to the last track on the same album, without reading past the end of the list.
+TEST_F(PlaylistTest, RemoveCurrentWithRepeatAlbumPreviousWrapsAround) {
+
+  const PlaylistItemPtr item_x1 = MakeMockItemP(u"X1"_s, u"Artist"_s, u"Album X"_s);
+  const PlaylistItemPtr item_y1 = MakeMockItemP(u"Y1"_s, u"Artist"_s, u"Album Y"_s);
+  const PlaylistItemPtr item_x2 = MakeMockItemP(u"X2"_s, u"Artist"_s, u"Album X"_s);
+  playlist_.InsertItems(PlaylistItemPtrList() << item_x1 << item_y1 << item_x2);
+
+  playlist_.sequence()->SetRepeatMode(PlaylistSequence::RepeatMode::Album);
+
+  playlist_.set_current_row(0);
+  playlist_.removeRow(0);
+  ASSERT_EQ(-1, playlist_.current_row());
+
+  const int previous_row = playlist_.previous_row();
+  ASSERT_NE(-1, previous_row);
+  EXPECT_EQ(item_x2, playlist_.item_at(previous_row));
+
+}
+
 // Regression test: restoring a playlist must not be undoable, and must clear undo commands added while the restore was in progress, since their rows are no longer valid.
 TEST_F(PlaylistTest, RestoreClearsUndoStack) {
 
