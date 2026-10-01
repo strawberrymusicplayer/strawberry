@@ -449,6 +449,9 @@ class Playlist : public QAbstractListModel {
   bool current_is_paused_;
   int current_virtual_index_;
 
+  // Metadata of the current item if it was removed from the playlist, used to find the next track on the same album.
+  Song removed_current_item_metadata_;
+
   PlaylistSequence *playlist_sequence_;
 
   // Hack to stop QTreeView::setModel sorting the playlist
