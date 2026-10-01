@@ -716,7 +716,16 @@ int Playlist::next_row(const bool ignore_repeat_track) {
 
       default:
         ReshuffleIndices();
-        next_virtual_index = NextVirtualIndex(-1, ignore_repeat_track);
+        // With shuffle, the current track is at the start of the new order, so continue after it.
+        // This also makes calling next_row() again return the same row, instead of continuing from the current track's position in another order.
+        next_virtual_index = static_cast<int>(virtual_items_.count());
+        if (ShuffleMode() != PlaylistSequence::ShuffleMode::Off) {
+          next_virtual_index = NextVirtualIndex(current_virtual_index_, ignore_repeat_track);
+        }
+        // Start from the beginning without shuffle, or if the current track is the only one to play.
+        if (next_virtual_index >= virtual_items_.count()) {
+          next_virtual_index = NextVirtualIndex(-1, ignore_repeat_track);
+        }
         break;
     }
   }
@@ -827,6 +836,21 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
         virtual_items_.prepend(i);
       }
       current_virtual_index_ = 0;
+    }
+  }
+  else if (ShuffleMode() == PlaylistSequence::ShuffleMode::All || ShuffleMode() == PlaylistSequence::ShuffleMode::InsideAlbum) {
+    // The tracks up to the current virtual index are the ones played in this shuffle order, and the tracks after it are the ones left to play.
+    // Move the new track to just after the current position instead of jumping to its position, which would skip the tracks before it, and play the tracks after it again.
+    const int virtual_index = static_cast<int>(virtual_items_.indexOf(i));
+    if (virtual_index != -1) {
+      int new_virtual_index = current_virtual_index_ + 1;
+      // Taking out a track before the new position moves the new position back by one.
+      if (virtual_index < new_virtual_index) --new_virtual_index;
+      virtual_items_.move(virtual_index, new_virtual_index);
+      current_virtual_index_ = new_virtual_index;
+    }
+    else {
+      current_virtual_index_ = -1;
     }
   }
   else if (ShuffleMode() != PlaylistSequence::ShuffleMode::Off) {
@@ -2321,6 +2345,13 @@ void Playlist::ReshuffleIndices() {
     case PlaylistSequence::ShuffleMode::InsideAlbum:{
       std::random_device rd;
       std::shuffle(virtual_items_.begin(), virtual_items_.end(), std::mt19937(rd()));
+      // Put the current track first, so the rest of the playlist follows it in the new order, instead of the tracks before its random position being skipped.
+      if (current_item_index_.isValid()) {
+        const qsizetype current_index = virtual_items_.indexOf(current_item_index_.row());
+        if (current_index > 0) {
+          virtual_items_.move(current_index, 0);
+        }
+      }
       break;
     }
 
