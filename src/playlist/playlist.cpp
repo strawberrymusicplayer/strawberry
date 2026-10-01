@@ -985,10 +985,11 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
         undo_stack_->push(new PlaylistUndoCommandInsertItems(this, items, row));
       }
 
-      // Remove the items from the source playlist if it was a move event
+      // Remove the items from the source playlist if it was a move event.
+      // Remove from the end, so the rows that are not removed yet don't move.
       if (action == Qt::MoveAction) {
-        for (const int i : std::as_const(source_rows)) {
-          source_playlist->undo_stack()->push(new PlaylistUndoCommandRemoveItems(source_playlist, i, 1));
+        for (auto it = source_rows.crbegin(); it != source_rows.crend(); ++it) {
+          source_playlist->undo_stack()->push(new PlaylistUndoCommandRemoveItems(source_playlist, *it, 1));
         }
       }
     }
