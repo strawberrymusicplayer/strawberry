@@ -1918,8 +1918,11 @@ void Playlist::RemoveItemsWithoutUndo(const QList<int> &indicesIn) {
     }
 
     // Remove the current sequence.
-    removeRows(beginning, end - beginning + 1);
+    RemoveItemsWithoutUndo(beginning, end - beginning + 1);
   }
+
+  // The rows stored in the undo commands are no longer valid.
+  undo_stack_->clear();
 
 }
 
