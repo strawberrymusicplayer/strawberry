@@ -631,7 +631,7 @@ int Playlist::NextVirtualIndex(int i, const bool ignore_repeat_track) const {
   }
 
   // We need to advance i until we get something else on the same album
-  const Song last_song = current_item_metadata();
+  const Song last_song = current_item() ? current_item_metadata() : removed_current_item_metadata_;
   for (int j = i + 1; j < virtual_items_.count(); ++j) {
     if (item_at(virtual_items_[j])->GetShouldSkip()) {
       continue;
@@ -671,7 +671,7 @@ int Playlist::PreviousVirtualIndex(int i, const bool ignore_repeat_track) const 
   }
 
   // We need to decrement i until we get something else on the same album
-  Song last_song = current_item_metadata();
+  const Song last_song = current_item() ? current_item_metadata() : removed_current_item_metadata_;
   for (int j = i - 1; j >= 0; --j) {
     if (item_at(virtual_items_[j])->GetShouldSkip()) {
       continue;
@@ -780,6 +780,7 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
   }
 
   current_item_index_ = new_current_item_index;
+  removed_current_item_metadata_ = Song();
 
   // If the given item is the first in the queue, remove it from the queue
   if (current_item_index_.isValid() && current_item_index_.row() == queue_->PeekNext()) {
@@ -1991,6 +1992,11 @@ PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int co
 
   if (count <= 0 || row < 0 || row >= items_.size() || row + count > items_.size()) {
     return PlaylistItemPtrList();
+  }
+
+  // Keep the metadata of the current item if it's removed, so the next track on the same album can still be found.
+  if (current_item_index_.isValid() && current_item_index_.row() >= row && current_item_index_.row() < row + count) {
+    removed_current_item_metadata_ = current_item_metadata();
   }
 
   // Remove items
