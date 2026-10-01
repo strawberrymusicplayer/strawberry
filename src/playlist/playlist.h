@@ -179,8 +179,6 @@ class Playlist : public QAbstractListModel {
   static bool set_column_value(Song &song, Column column, const QVariant &value);
 
   // Persistence
-  void Restore();
-
   void ScheduleSave();
 
   // Accessors
@@ -362,6 +360,8 @@ class Playlist : public QAbstractListModel {
   void Rename(const int id, const QString &name);
 
  private:
+  void Restore();
+
   void SetCurrentIsPaused(const bool paused);
   int NextVirtualIndex(int i, const bool ignore_repeat_track) const;
   int PreviousVirtualIndex(int i, const bool ignore_repeat_track) const;
