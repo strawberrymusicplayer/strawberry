@@ -43,6 +43,11 @@ constexpr char kUrl[] = "https://www.letras.mus.br/";
 constexpr char kStartTag[] = "<div[^>]*>";
 constexpr char kEndTag[] = "<\\/div>";
 constexpr char kLyricsStart[] = "<div class=\"lyric-original\">";
+
+// letras.mus.br is behind Akamai, which blocks the Strawberry user agent, and a browser user agent unless the request has the headers a browser sends with it.
+constexpr char kUserAgent[] = "Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0";
+constexpr char kAccept[] = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
+constexpr char kAcceptLanguage[] = "en-US,en;q=0.5";
 }  // namespace
 
 LetrasLyricsProvider::LetrasLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent)
@@ -59,6 +64,14 @@ void LetrasLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &
   const QUrl url = Url(request);
   QNetworkRequest network_request(url);
   network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  network_request.setHeader(QNetworkRequest::UserAgentHeader, QLatin1String(kUserAgent));
+  network_request.setRawHeader("Accept", kAccept);
+  network_request.setRawHeader("Accept-Language", kAcceptLanguage);
+  network_request.setRawHeader("Upgrade-Insecure-Requests", "1");
+  network_request.setRawHeader("Sec-Fetch-Dest", "document");
+  network_request.setRawHeader("Sec-Fetch-Mode", "navigate");
+  network_request.setRawHeader("Sec-Fetch-Site", "none");
+  network_request.setRawHeader("Sec-Fetch-User", "?1");
   QNetworkReply *reply = network_->get(network_request);
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &HttpBaseRequest::HandleSSLErrors);
   replies_ << reply;
