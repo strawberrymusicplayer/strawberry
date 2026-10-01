@@ -1243,12 +1243,6 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
       }
     }
 
-    if (item == current_item()) {
-      // It's one we removed before that got re-added through an undo
-      current_item_index_ = index(i, 0);
-      last_played_item_index_ = current_item_index_;
-    }
-
     if (item->uuid_generated()) {
       has_generated_uuids = true;
     }
