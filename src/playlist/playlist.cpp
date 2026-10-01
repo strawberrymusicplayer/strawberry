@@ -1822,10 +1822,13 @@ void Playlist::Restore() {
 
   if (!playlist_backend_) return;
 
+  beginResetModel();
   items_.clear();
   items_by_uuid_.clear();
   virtual_items_.clear();
   ClearCollectionItems();
+  current_virtual_index_ = -1;
+  endResetModel();
 
   cancel_restore_ = false;
   QFuture<PlaylistItemPtrList> future = QtConcurrent::run(&PlaylistBackend::GetPlaylistItems, playlist_backend_, id_);
