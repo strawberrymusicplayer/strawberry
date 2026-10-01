@@ -1183,6 +1183,53 @@ TEST_F(PlaylistTest, RemoveCurrentWithRepeatAlbumPreviousWrapsAround) {
 
 }
 
+// Regression test: with shuffle and track repeat, removing the current track must advance to the next track in the shuffle order, not repeat the one before it.
+TEST_F(PlaylistTest, RemoveCurrentWithShuffleAndRepeatTrackAdvances) {
+
+  const PlaylistItemPtr item_a = MakeMockItemP(u"A"_s);
+  const PlaylistItemPtr item_b = MakeMockItemP(u"B"_s);
+  const PlaylistItemPtr item_c = MakeMockItemP(u"C"_s);
+  playlist_.InsertItems(PlaylistItemPtrList() << item_a << item_b << item_c);
+
+  playlist_.sequence()->SetShuffleMode(PlaylistSequence::ShuffleMode::All);
+  playlist_.sequence()->SetRepeatMode(PlaylistSequence::RepeatMode::Track);
+  playlist_.set_current_row(1);
+
+  // Shuffle order A, B (current), C.
+  SetVirtualOrder(QList<int>() << 0 << 1 << 2, 1);
+
+  playlist_.removeRow(1);
+  ASSERT_EQ(-1, playlist_.current_row());
+
+  const int next_row = playlist_.next_row();
+  ASSERT_NE(-1, next_row);
+  EXPECT_EQ(item_c, playlist_.item_at(next_row));
+
+  const int previous_row = playlist_.previous_row();
+  ASSERT_NE(-1, previous_row);
+  EXPECT_EQ(item_a, playlist_.item_at(previous_row));
+
+}
+
+// Regression test: with shuffle and track repeat, removing the current track at the end of the shuffle order must stop, not repeat the track before it.
+TEST_F(PlaylistTest, RemoveLastCurrentWithShuffleAndRepeatTrackStops) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"A"_s) << MakeMockItemP(u"B"_s));
+
+  playlist_.sequence()->SetShuffleMode(PlaylistSequence::ShuffleMode::All);
+  playlist_.sequence()->SetRepeatMode(PlaylistSequence::RepeatMode::Track);
+  playlist_.set_current_row(1);
+
+  // Shuffle order A, B (current).
+  SetVirtualOrder(QList<int>() << 0 << 1, 1);
+
+  playlist_.removeRow(1);
+  ASSERT_EQ(-1, playlist_.current_row());
+
+  EXPECT_EQ(-1, playlist_.next_row());
+
+}
+
 // Regression test: restoring a playlist must not be undoable, and must clear undo commands added while the restore was in progress, since their rows are no longer valid.
 TEST_F(PlaylistTest, RestoreClearsUndoStack) {
 
@@ -1269,6 +1316,23 @@ TEST_F(PlaylistTest, RemoveItemsNotInQueueKeepsCurrentAndQueuedAndClearsUndoStac
 
   EXPECT_FALSE(playlist_.undo_stack()->canUndo());
   EXPECT_FALSE(playlist_.undo_stack()->canRedo());
+
+}
+
+// Regression test: when every item is either current or queued, nothing is removed, so the undo stack must be kept.
+TEST_F(PlaylistTest, RemoveItemsNotInQueueKeepsUndoStackWhenNothingRemoved) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s));
+  ASSERT_TRUE(playlist_.undo_stack()->canUndo());
+
+  playlist_.set_current_row(0);
+  playlist_.queue()->ToggleTracks(QModelIndexList() << playlist_.index(1, 0));
+  ASSERT_TRUE(playlist_.queue()->ContainsSourceRow(1));
+
+  CallRemoveItemsNotInQueue();
+
+  ASSERT_EQ(2, playlist_.rowCount(QModelIndex()));
+  EXPECT_TRUE(playlist_.undo_stack()->canUndo());
 
 }
 
