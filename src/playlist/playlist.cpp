@@ -1860,9 +1860,11 @@ void Playlist::ItemsLoaded() {
     }
   }
 
+  // Restoring the playlist should not be undoable, and inserting at the top makes the rows stored in any existing undo commands invalid.
   is_loading_ = true;
-  InsertItems(items, 0);
+  InsertItemsWithoutUndo(items, 0);
   is_loading_ = false;
+  undo_stack_->clear();
 
   const PlaylistBackend::Playlist playlist = playlist_backend_->GetPlaylist(id_);
 
