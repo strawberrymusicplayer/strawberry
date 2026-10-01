@@ -612,7 +612,8 @@ int Playlist::NextVirtualIndex(int i, const bool ignore_repeat_track) const {
   const bool album_only = repeat_mode == PlaylistSequence::RepeatMode::Album || ShuffleMode() == PlaylistSequence::ShuffleMode::InsideAlbum;
 
   // This one's easy - if we have to repeat the current track then just return i
-  if (repeat_mode == PlaylistSequence::RepeatMode::Track && !ignore_repeat_track) {
+  // Without a current item, i is the position before the removed current item, so there is nothing to repeat.
+  if (repeat_mode == PlaylistSequence::RepeatMode::Track && !ignore_repeat_track && current_item_index_.isValid()) {
     if (!FilterContainsVirtualIndex(i)) {
       return static_cast<int>(virtual_items_.count());  // It's not in the filter any more
     }
@@ -656,7 +657,8 @@ int Playlist::PreviousVirtualIndex(int i, const bool ignore_repeat_track) const 
   const bool album_only = repeat_mode == PlaylistSequence::RepeatMode::Album || ShuffleMode() == PlaylistSequence::ShuffleMode::InsideAlbum;
 
   // This one's easy - if we have to repeat the current track then just return i
-  if (repeat_mode == PlaylistSequence::RepeatMode::Track && !ignore_repeat_track) {
+  // Without a current item, i is the position before the removed current item, so there is nothing to repeat.
+  if (repeat_mode == PlaylistSequence::RepeatMode::Track && !ignore_repeat_track && current_item_index_.isValid()) {
     if (!FilterContainsVirtualIndex(i)) return -1;
     return i;
   }
@@ -707,6 +709,8 @@ int Playlist::next_row(const bool ignore_repeat_track) {
       case PlaylistSequence::RepeatMode::Scan:
         return -1;
       case PlaylistSequence::RepeatMode::Track:
+        // The current item was removed, so there is nothing to repeat.
+        if (!current_item_index_.isValid()) return -1;
         next_virtual_index = current_virtual_index_;
         break;
 
@@ -739,6 +743,8 @@ int Playlist::previous_row(const bool ignore_repeat_track) const {
       case PlaylistSequence::RepeatMode::Off:
         return -1;
       case PlaylistSequence::RepeatMode::Track:
+        // The current item was removed, so there is nothing to repeat.
+        if (!current_item_index_.isValid()) return -1;
         prev_virtual_index = current_virtual_index_;
         break;
 
@@ -2207,36 +2213,36 @@ void Playlist::ExpandDynamicPlaylist() {
 
 void Playlist::RemoveItemsNotInQueue() {
 
-  // The items are removed without undo, so the rows stored in the undo commands are no longer valid.
+  bool items_removed = false;
 
   if (queue_->is_empty() && !current_item_index_.isValid()) {
-    RemoveItemsWithoutUndo(0, static_cast<int>(items_.count()));
-    undo_stack_->clear();
-    return;
+    items_removed = !RemoveItemsWithoutUndo(0, static_cast<int>(items_.count())).isEmpty();
+  }
+  else {
+    int start = 0;
+    while (start < rowCount()) {
+      // Find a place to start - first row that isn't in the queue
+      if (queue_->ContainsSourceRow(start) || current_row() == start) {
+        ++start;
+        continue;
+      }
+
+      // Figure out how many rows to remove - keep going until we find a row that is in the queue
+      int count = 1;
+      while (start + count < rowCount() && !queue_->ContainsSourceRow(start + count) && current_row() != start + count) {
+        ++count;
+      }
+
+      RemoveItemsWithoutUndo(start, count);
+      items_removed = true;
+      ++start;
+    }
   }
 
-  int start = 0;
-  Q_FOREVER {
-    // Find a place to start - first row that isn't in the queue
-    Q_FOREVER {
-      if (start >= rowCount()) {
-        undo_stack_->clear();
-        return;
-      }
-      if (!queue_->ContainsSourceRow(start) && current_row() != start) break;
-      start++;
-    }
-
-    // Figure out how many rows to remove - keep going until we find a row that is in the queue
-    int count = 1;
-    Q_FOREVER {
-      if (start + count >= rowCount()) break;
-      if (queue_->ContainsSourceRow(start + count) || current_row() == start + count) break;
-      count++;
-    }
-
-    RemoveItemsWithoutUndo(start, count);
-    start++;
+  // The items are removed without undo, so the rows stored in the undo commands are no longer valid.
+  // If nothing was removed, the undo commands are still valid.
+  if (items_removed) {
+    undo_stack_->clear();
   }
 
 }
