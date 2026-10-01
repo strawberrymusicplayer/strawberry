@@ -1202,8 +1202,6 @@ void Playlist::InsertItems(const PlaylistItemPtrList &itemsIn, const int pos, co
 
   PlaylistItemPtrList items = itemsIn;
 
-  const int start = pos == -1 ? static_cast<int>(items_.count()) : pos;
-
   if (items.count() > kUndoItemLimit) {
     // Too big to keep in the undo stack. Also clear the stack because it might have been invalidated.
     InsertItemsWithoutUndo(items, pos, enqueue, enqueue_next);
@@ -1213,7 +1211,13 @@ void Playlist::InsertItems(const PlaylistItemPtrList &itemsIn, const int pos, co
     undo_stack_->push(new PlaylistUndoCommandInsertItems(this, items, pos, enqueue, enqueue_next));
   }
 
-  if (play_now) Q_EMIT PlayRequested(index(start, 0), AutoScroll::Maybe);
+  // Look up the row after inserting, since the playlist might have been sorted.
+  if (play_now) {
+    const int row = row_of(items.first());
+    if (row != -1) {
+      Q_EMIT PlayRequested(index(row, 0), AutoScroll::Maybe);
+    }
+  }
 
 }
 
