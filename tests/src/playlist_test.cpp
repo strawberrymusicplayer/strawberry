@@ -94,6 +94,17 @@ class PlaylistTest : public ::testing::Test {
     return PlaylistItemPtr(MakeMockItem(title, artist, album, length));
   }
 
+  PlaylistItemPtr MakeMockItemWithGroupingP(const QString &title, const QString &grouping) const {
+    Song metadata;
+    metadata.Init(title, u"Artist"_s, u"Album"_s, 123);
+    metadata.set_grouping(grouping);
+
+    MockPlaylistItem *ret = new MockPlaylistItem;
+    EXPECT_CALL(*ret, OriginalMetadata()).WillRepeatedly(Return(metadata));
+
+    return PlaylistItemPtr(ret);
+  }
+
   // Forwards to the private Playlist::ReloadItemComplete(), to let tests exercise the save-generation staleness check directly instead of via a real asynchronous write-then-reread round trip.
   void CallReloadItemComplete(const QPersistentModelIndex &idx, const PlaylistItemPtr &item, const Song &new_metadata, const bool saved, const quint64 save_generation, const Song &fallback_metadata = Song()) {
     playlist_.ReloadItemComplete(idx, item, new_metadata, saved, save_generation, fallback_metadata);
@@ -1336,22 +1347,25 @@ TEST_F(PlaylistTest, ShuffleChoosingUnplayedTrackKeepsTheRest) {
 
 }
 
-// Regression test: with shuffle, choosing a track that has already been played must replay it, and then continue with the tracks that have not been played yet.
-TEST_F(PlaylistTest, ShuffleChoosingPlayedTrackContinuesWithTheRest) {
+// Regression test: with shuffle, going back to the previous track must keep the shuffle order, so the next track is the one that was backed out of.
+TEST_F(PlaylistTest, ShufflePreviousThenNextKeepsShuffleOrder) {
 
   PlaylistItemPtrList items;
-  for (int i = 0; i < 5; ++i) {
+  for (int i = 0; i < 4; ++i) {
     items << MakeMockItemP(QString::number(i));
   }
   playlist_.InsertItems(items);
 
   playlist_.sequence()->SetShuffleMode(PlaylistSequence::ShuffleMode::All);
   playlist_.set_current_row(2);
-  SetVirtualOrder(QList<int>() << 0 << 1 << 2 << 3 << 4, 2);
+  SetVirtualOrder(QList<int>() << 0 << 1 << 2 << 3, 2);
 
-  playlist_.set_current_row(0);
+  // Like Player::PreviousItem().
+  const int previous_row = playlist_.take_previous_row();
+  ASSERT_EQ(1, previous_row);
+  playlist_.set_current_row(previous_row);
 
-  EXPECT_EQ(QList<int>() << 3 << 4, PlayNextRows(5));
+  EXPECT_EQ(QList<int>() << 2 << 3, PlayNextRows(4));
 
 }
 
@@ -1371,6 +1385,50 @@ TEST_F(PlaylistTest, ShuffleReshuffleThenChoosingTrackPlaysAllTracks) {
   playlist_.set_current_row(3);
 
   EXPECT_EQ(QList<int>() << 1 << 2 << 4 << 5, Sorted(PlayNextRows(6)));
+
+}
+
+// Regression test: with album shuffle, when the player reshuffles before playing a chosen track, the rest of the chosen album and every other album must still be played, keeping the albums together.
+TEST_F(PlaylistTest, AlbumShuffleReshuffleThenChoosingTrackPlaysAllAlbums) {
+
+  playlist_.InsertItems(PlaylistItemPtrList()
+      << MakeMockItemP(u"A1"_s, u"Artist"_s, u"Album A"_s)
+      << MakeMockItemP(u"A2"_s, u"Artist"_s, u"Album A"_s)
+      << MakeMockItemP(u"B1"_s, u"Artist"_s, u"Album B"_s)
+      << MakeMockItemP(u"B2"_s, u"Artist"_s, u"Album B"_s)
+      << MakeMockItemP(u"C1"_s, u"Artist"_s, u"Album C"_s)
+      << MakeMockItemP(u"C2"_s, u"Artist"_s, u"Album C"_s));
+
+  playlist_.sequence()->SetShuffleMode(PlaylistSequence::ShuffleMode::Albums);
+  playlist_.set_current_row(0);
+
+  playlist_.ReshuffleIndices();
+  playlist_.set_current_row(4);
+
+  // C2 finishes album C, then the rest of album A, then album B.
+  EXPECT_EQ(QList<int>() << 5 << 1 << 2 << 3, PlayNextRows(6));
+
+}
+
+// Regression test: with grouping shuffle, when the player reshuffles before playing a chosen track, the rest of the chosen grouping and every other grouping must still be played, keeping the groupings together.
+TEST_F(PlaylistTest, GroupingShuffleReshuffleThenChoosingTrackPlaysAllGroupings) {
+
+  playlist_.InsertItems(PlaylistItemPtrList()
+      << MakeMockItemWithGroupingP(u"A1"_s, u"Grouping A"_s)
+      << MakeMockItemWithGroupingP(u"A2"_s, u"Grouping A"_s)
+      << MakeMockItemWithGroupingP(u"B1"_s, u"Grouping B"_s)
+      << MakeMockItemWithGroupingP(u"B2"_s, u"Grouping B"_s)
+      << MakeMockItemWithGroupingP(u"C1"_s, u"Grouping C"_s)
+      << MakeMockItemWithGroupingP(u"C2"_s, u"Grouping C"_s));
+
+  playlist_.sequence()->SetShuffleMode(PlaylistSequence::ShuffleMode::Grouping);
+  playlist_.set_current_row(0);
+
+  playlist_.ReshuffleIndices();
+  playlist_.set_current_row(4);
+
+  // C2 finishes grouping C, then the rest of grouping A, then grouping B.
+  EXPECT_EQ(QList<int>() << 5 << 1 << 2 << 3, PlayNextRows(6));
 
 }
 
