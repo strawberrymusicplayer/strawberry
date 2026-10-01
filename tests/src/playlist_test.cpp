@@ -25,6 +25,7 @@
 
 #include "test_utils.h"
 
+#include "includes/scoped_ptr.h"
 #include "collection/collectionplaylistitem.h"
 #include "playlist/playlist.h"
 #include "playlist/songplaylistitem.h"
@@ -35,6 +36,7 @@
 #include "mock_playlistitem.h"
 
 #include <QtDebug>
+#include <QMimeData>
 #include <QUndoStack>
 #include <QThread>
 #include <QEventLoop>
@@ -875,6 +877,78 @@ TEST_F(PlaylistTest, UndoingASortAlsoRevertsSortState) {
   EXPECT_EQ(Qt::AscendingOrder, SortOrder());
   EXPECT_EQ(u"A"_s, playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Title))));
   EXPECT_EQ(u"B"_s, playlist_.data(playlist_.index(1, static_cast<int>(Playlist::Column::Title))));
+
+}
+
+// Regression test: moving non-contiguous rows to another playlist must remove exactly those rows from the source playlist.
+// The rows used to be removed in ascending order, so every removal shifted the rows after it and the wrong items were removed.
+TEST_F(PlaylistTest, MoveNonContiguousRowsToAnotherPlaylist) {
+
+  Playlist source_playlist(nullptr, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  source_playlist.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s) << MakeMockItemP(u"Three"_s) << MakeMockItemP(u"Four"_s) << MakeMockItemP(u"Five"_s));
+  ASSERT_EQ(5, source_playlist.rowCount(QModelIndex()));
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"Destination"_s));
+  ASSERT_EQ(1, playlist_.rowCount(QModelIndex()));
+
+  // Move "One", "Three" and "Five", including the last row, to the end of the destination playlist.
+  const QModelIndexList source_indexes = QModelIndexList() << source_playlist.index(0, 0) << source_playlist.index(2, 0) << source_playlist.index(4, 0);
+  ScopedPtr<QMimeData> mimedata(source_playlist.mimeData(source_indexes));
+  ASSERT_TRUE(mimedata);
+  ASSERT_TRUE(playlist_.dropMimeData(mimedata.get(), Qt::MoveAction, -1, 0, QModelIndex()));
+
+  ASSERT_EQ(4, playlist_.rowCount(QModelIndex()));
+  EXPECT_EQ(u"Destination"_s, playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(u"One"_s, playlist_.data(playlist_.index(1, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(u"Three"_s, playlist_.data(playlist_.index(2, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(u"Five"_s, playlist_.data(playlist_.index(3, static_cast<int>(Playlist::Column::Title))));
+
+  ASSERT_EQ(2, source_playlist.rowCount(QModelIndex()));
+  EXPECT_EQ(u"Two"_s, source_playlist.data(source_playlist.index(0, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(u"Four"_s, source_playlist.data(source_playlist.index(1, static_cast<int>(Playlist::Column::Title))));
+
+  // Undoing the removal in the source playlist puts the items back at their original rows.
+  source_playlist.undo_stack()->undo();
+  ASSERT_EQ(5, source_playlist.rowCount(QModelIndex()));
+  EXPECT_EQ(u"One"_s, source_playlist.data(source_playlist.index(0, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(u"Two"_s, source_playlist.data(source_playlist.index(1, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(u"Three"_s, source_playlist.data(source_playlist.index(2, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(u"Four"_s, source_playlist.data(source_playlist.index(3, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(u"Five"_s, source_playlist.data(source_playlist.index(4, static_cast<int>(Playlist::Column::Title))));
+
+}
+
+// Regression test: with auto-sort, "play now" must request the first inserted item, not whatever item was sorted into the insert position.
+TEST_F(PlaylistTest, PlayNowWithAutoSortRequestsFirstInsertedItem) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"D"_s) << MakeMockItemP(u"B"_s));
+  playlist_.sort(static_cast<int>(Playlist::Column::Title), Qt::AscendingOrder);
+  playlist_.set_auto_sort(true);
+  ASSERT_EQ(u"B"_s, playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Title))));
+  ASSERT_EQ(u"D"_s, playlist_.data(playlist_.index(1, static_cast<int>(Playlist::Column::Title))));
+
+  int play_requested_count = 0;
+  QModelIndex play_requested_index;
+  QObject::connect(&playlist_, &Playlist::PlayRequested, &playlist_, [&play_requested_count, &play_requested_index](const QModelIndex idx, const Playlist::AutoScroll autoscroll) {
+    Q_UNUSED(autoscroll)
+    ++play_requested_count;
+    play_requested_index = idx;
+  });
+
+  // "E" is appended at row 2, but auto-sort moves it to row 3 and puts "D" at row 2.
+  const PlaylistItemPtr item_e = MakeMockItemP(u"E"_s);
+  playlist_.InsertItems(PlaylistItemPtrList() << item_e << MakeMockItemP(u"A"_s), -1, true);
+
+  ASSERT_EQ(4, playlist_.rowCount(QModelIndex()));
+  EXPECT_EQ(u"A"_s, playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(u"B"_s, playlist_.data(playlist_.index(1, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(u"D"_s, playlist_.data(playlist_.index(2, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(u"E"_s, playlist_.data(playlist_.index(3, static_cast<int>(Playlist::Column::Title))));
+
+  ASSERT_EQ(1, play_requested_count);
+  ASSERT_TRUE(play_requested_index.isValid());
+  EXPECT_EQ(3, play_requested_index.row());
+  EXPECT_EQ(item_e, playlist_.item_at(play_requested_index.row()));
 
 }
 
