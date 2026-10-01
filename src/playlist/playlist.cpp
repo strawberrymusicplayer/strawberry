@@ -2006,16 +2006,9 @@ PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int co
   }
 
   // Update virtual items
-  for (int i = row; i < items_.count() + count; ++i) {
-    Q_ASSERT(virtual_items_.count(i) == 1);
-    const int virtual_index = static_cast<int>(virtual_items_.indexOf(i));
-    if (virtual_index < 0) continue;
-    if (i >= row + count) {
-      virtual_items_[virtual_index] = i - count;
-    }
-    else {
-      virtual_items_.removeAt(virtual_index);
-    }
+  virtual_items_.removeIf([row, count](const int virtual_item) { return virtual_item >= row && virtual_item < row + count; });
+  for (int &virtual_item : virtual_items_) {
+    if (virtual_item >= row + count) virtual_item -= count;
   }
 
   endRemoveRows();
