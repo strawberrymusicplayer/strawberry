@@ -1235,7 +1235,6 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
     const PlaylistItemPtr item = items[i - start];
     items_.insert(i, item);
     items_by_uuid_.insert(item->uuid(), item);
-    virtual_items_ << static_cast<int>(virtual_items_.count());
 
     if (Song::IsLinkedCollectionSource(item->source())) {
       const int id = item->EffectiveMetadata().id();
@@ -1259,7 +1258,41 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
     }
 
   }
+
+  // Update virtual items
+  const int count = static_cast<int>(items.count());
+  for (int &virtual_item : virtual_items_) {
+    if (virtual_item >= start) virtual_item += count;
+  }
+  const PlaylistSequence::ShuffleMode shuffle_mode = ShuffleMode();
+  if (shuffle_mode == PlaylistSequence::ShuffleMode::All || shuffle_mode == PlaylistSequence::ShuffleMode::InsideAlbum) {
+    // Insert the new items at random positions after the current virtual index, so the existing shuffle order is kept.
+    std::mt19937 rng{std::random_device{}()};
+    for (int i = start; i <= end; ++i) {
+      const int virtual_count = static_cast<int>(virtual_items_.count());
+      std::uniform_int_distribution<int> dist(qBound(0, current_virtual_index_ + 1, virtual_count), virtual_count);
+      virtual_items_.insert(dist(rng), i);
+    }
+  }
+  else {
+    // With shuffle off the virtual items are in order, so the new items go to the same position.
+    // Album and grouping shuffle are reshuffled below.
+    for (int i = start; i <= end; ++i) {
+      virtual_items_.insert(i, i);
+    }
+  }
+
   endInsertRows();
+
+  Q_ASSERT(items_.count() == virtual_items_.count());
+
+  // Update current virtual index
+  if (current_item_index_.isValid()) {
+    current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(current_item_index_.row()));
+  }
+  else if (shuffle_mode == PlaylistSequence::ShuffleMode::Off && current_virtual_index_ >= start) {
+    current_virtual_index_ += count;
+  }
 
   if (!signal_track_ids.isEmpty()) {
     Q_EMIT PlaylistItemsAdded(id_, signal_track_ids, after_track_id);
@@ -1285,7 +1318,9 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
     sort(static_cast<int>(sort_column_), sort_order_);
   }
 
-  ReshuffleIndices();
+  if (shuffle_mode == PlaylistSequence::ShuffleMode::Albums || shuffle_mode == PlaylistSequence::ShuffleMode::Grouping) {
+    ReshuffleIndices();
+  }
 
   if (has_generated_uuids) {
     ForceScheduleSave();
