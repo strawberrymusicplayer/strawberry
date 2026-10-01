@@ -2008,6 +2008,14 @@ PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int co
     }
   }
 
+  // Count the removed virtual items up to and including the current virtual index, so the position in the shuffle order can be kept.
+  int removed_up_to_current_virtual_index = 0;
+  for (int i = 0; i <= current_virtual_index_ && i < virtual_items_.count(); ++i) {
+    if (virtual_items_[i] >= row && virtual_items_[i] < row + count) {
+      ++removed_up_to_current_virtual_index;
+    }
+  }
+
   // Update virtual items
   virtual_items_.removeIf([row, count](const int virtual_item) { return virtual_item >= row && virtual_item < row + count; });
   for (int &virtual_item : virtual_items_) {
@@ -2021,6 +2029,10 @@ PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int co
   // Update current virtual index
   if (current_item_index_.isValid()) {
     current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(current_item_index_.row()));
+  }
+  else if (ShuffleMode() != PlaylistSequence::ShuffleMode::Off) {
+    // Keep the position in the shuffle order, so the next track is the one after the removed current track.
+    current_virtual_index_ -= removed_up_to_current_virtual_index;
   }
   else {
     if (row - 1 > 0 && row - 1 < items_.size()) {
