@@ -99,6 +99,10 @@ PlaylistItemPtr PlaylistItem::NewFromSong(const Song &song, const bool signal) {
 
 }
 
+PlaylistItemPtr PlaylistItem::Copy() const {
+  return NewFromSong(OriginalMetadata());
+}
+
 void PlaylistItem::SetStreamMetadata(const Song &song) {
   stream_song_ = song;
 }

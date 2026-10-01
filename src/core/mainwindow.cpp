@@ -2096,7 +2096,8 @@ void MainWindow::AddToPlaylistFromAction(QAction *action) {
     if (!source_index.isValid()) continue;
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (!item) continue;
-    items << item;
+    // Insert copies, so the items are not shared between the playlists, or between rows when adding to the current playlist.
+    items << item->Copy();
     songs << item->EffectiveMetadata();
   }
 

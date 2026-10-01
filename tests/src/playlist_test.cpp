@@ -41,6 +41,7 @@
 
 #include <QtDebug>
 #include <QMimeData>
+#include <QSet>
 #include <QTemporaryDir>
 #include <QUndoStack>
 #include <QThread>
@@ -957,6 +958,51 @@ TEST_F(PlaylistTest, MoveNonContiguousRowsToAnotherPlaylist) {
   EXPECT_EQ(u"Three"_s, source_playlist.data(source_playlist.index(2, static_cast<int>(Playlist::Column::Title))));
   EXPECT_EQ(u"Four"_s, source_playlist.data(source_playlist.index(3, static_cast<int>(Playlist::Column::Title))));
   EXPECT_EQ(u"Five"_s, source_playlist.data(source_playlist.index(4, static_cast<int>(Playlist::Column::Title))));
+
+}
+
+// Regression test: copying rows to another playlist must insert new items with new UUIDs, not share the source playlist's items, even when the same rows are copied twice.
+TEST_F(PlaylistTest, CopyRowsToAnotherPlaylistInsertsNewItems) {
+
+  Playlist source_playlist(nullptr, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  source_playlist.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s) << MakeMockItemP(u"Three"_s));
+  ASSERT_EQ(3, source_playlist.rowCount(QModelIndex()));
+
+  const QModelIndexList source_indexes = QModelIndexList() << source_playlist.index(0, 0) << source_playlist.index(2, 0);
+  for (int i = 0; i < 2; ++i) {
+    ScopedPtr<QMimeData> mimedata(source_playlist.mimeData(source_indexes));
+    ASSERT_TRUE(mimedata);
+    ASSERT_TRUE(playlist_.dropMimeData(mimedata.get(), Qt::CopyAction, -1, 0, QModelIndex()));
+  }
+
+  // The source playlist is left alone.
+  ASSERT_EQ(3, source_playlist.rowCount(QModelIndex()));
+
+  ASSERT_EQ(4, playlist_.rowCount(QModelIndex()));
+  EXPECT_EQ(u"One"_s, TitleAt(playlist_, 0));
+  EXPECT_EQ(u"Three"_s, TitleAt(playlist_, 1));
+  EXPECT_EQ(u"One"_s, TitleAt(playlist_, 2));
+  EXPECT_EQ(u"Three"_s, TitleAt(playlist_, 3));
+
+  // Every row is its own item with its own UUID, not shared with the source playlist or with another row.
+  QSet<QUuid> uuids;
+  for (int row = 0; row < source_playlist.rowCount(QModelIndex()); ++row) {
+    uuids << source_playlist.item_at(row)->uuid();
+  }
+  for (int row = 0; row < playlist_.rowCount(QModelIndex()); ++row) {
+    const PlaylistItemPtr item = playlist_.item_at(row);
+    for (int source_row = 0; source_row < source_playlist.rowCount(QModelIndex()); ++source_row) {
+      EXPECT_NE(source_playlist.item_at(source_row), item);
+    }
+    EXPECT_FALSE(uuids.contains(item->uuid()));
+    uuids << item->uuid();
+    EXPECT_EQ(row, playlist_.IndexByUuId(item->uuid()));
+  }
+
+  // Removing one copy must not affect looking up the other copy of the same row by UUID.
+  const QUuid remaining_uuid = playlist_.item_at(2)->uuid();
+  playlist_.removeRow(0);
+  EXPECT_EQ(1, playlist_.IndexByUuId(remaining_uuid));
 
 }
 
