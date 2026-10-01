@@ -2193,8 +2193,11 @@ void Playlist::ExpandDynamicPlaylist() {
 
 void Playlist::RemoveItemsNotInQueue() {
 
+  // The items are removed without undo, so the rows stored in the undo commands are no longer valid.
+
   if (queue_->is_empty() && !current_item_index_.isValid()) {
     RemoveItemsWithoutUndo(0, static_cast<int>(items_.count()));
+    undo_stack_->clear();
     return;
   }
 
@@ -2202,7 +2205,10 @@ void Playlist::RemoveItemsNotInQueue() {
   Q_FOREVER {
     // Find a place to start - first row that isn't in the queue
     Q_FOREVER {
-      if (start >= rowCount()) return;
+      if (start >= rowCount()) {
+        undo_stack_->clear();
+        return;
+      }
       if (!queue_->ContainsSourceRow(start) && current_row() != start) break;
       start++;
     }
