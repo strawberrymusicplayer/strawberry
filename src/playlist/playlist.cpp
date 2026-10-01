@@ -944,7 +944,11 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
     }
   }
   else if (const PlaylistItemMimeData *item_mimedata = qobject_cast<const PlaylistItemMimeData*>(data)) {
-    InsertItems(item_mimedata->items_, row, play_now, enqueue_now, enqueue_next_now);
+    // Insert copies, since the items might already be in a playlist.
+    PlaylistItemPtrList items;
+    items.reserve(item_mimedata->items_.count());
+    for (const PlaylistItemPtr &item : item_mimedata->items_) items << item->Copy();
+    InsertItems(items, row, play_now, enqueue_now, enqueue_next_now);
   }
   else if (const PlaylistGeneratorMimeData *generator_mimedata = qobject_cast<const PlaylistGeneratorMimeData*>(data)) {
     InsertSmartPlaylist(generator_mimedata->generator_, row, play_now, enqueue_now, enqueue_next_now);
@@ -983,9 +987,10 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
     }
     else if (pid == own_pid) {
       // Drag from a different playlist
+      // Insert copies, so the items are not shared between the playlists.
       PlaylistItemPtrList items;
       items.reserve(source_rows.count());
-      for (const int i : std::as_const(source_rows)) items << source_playlist->item_at(i);
+      for (const int i : std::as_const(source_rows)) items << source_playlist->item_at(i)->Copy();
 
       if (items.count() > kUndoItemLimit) {
         // Too big to keep in the undo stack. Also clear the stack because it might have been invalidated.

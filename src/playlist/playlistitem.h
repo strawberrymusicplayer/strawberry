@@ -52,6 +52,11 @@ class PlaylistItem {
   static SharedPtr<PlaylistItem> NewFromSource(const Song::Source source, const QUuid &uuid = QUuid());
   static SharedPtr<PlaylistItem> NewFromSong(const Song &song, bool signal = false);
 
+  // Creates a new item with the same metadata and a new UUID, for inserting into another playlist, or again into the same playlist.
+  // Items must not be shared between playlists or rows, since the playlist keys them by UUID and pointer.
+  // Like restoring the item from the database, playlist specific state such as stream metadata, colors and skipping is not copied.
+  SharedPtr<PlaylistItem> Copy() const;
+
   enum class Option {
     Default = 0x00,
 
