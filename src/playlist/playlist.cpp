@@ -838,22 +838,39 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
       current_virtual_index_ = 0;
     }
   }
-  else if (ShuffleMode() == PlaylistSequence::ShuffleMode::All || ShuffleMode() == PlaylistSequence::ShuffleMode::InsideAlbum) {
-    // The tracks up to the current virtual index are the ones played in this shuffle order, and the tracks after it are the ones left to play.
-    // Move the new track to just after the current position instead of jumping to its position, which would skip the tracks before it, and play the tracks after it again.
-    const int virtual_index = static_cast<int>(virtual_items_.indexOf(i));
-    if (virtual_index != -1) {
-      int new_virtual_index = current_virtual_index_ + 1;
-      // Taking out a track before the new position moves the new position back by one.
-      if (virtual_index < new_virtual_index) --new_virtual_index;
-      virtual_items_.move(virtual_index, new_virtual_index);
-      current_virtual_index_ = new_virtual_index;
-    }
-    else {
-      current_virtual_index_ = -1;
-    }
-  }
   else if (ShuffleMode() != PlaylistSequence::ShuffleMode::Off) {
+    // The tracks up to the current virtual index are the ones played in this shuffle order, and the tracks after it are the ones left to play.
+    // A track that is left to play is moved to just after the current position, instead of jumping to its position, which would skip the tracks before it.
+    // A track that was played, for example when going back to the previous track, only moves the current position, so the order is kept and the next track is the one after it again.
+    // With album and grouping shuffle, the tracks of the album or grouping that are left to play are moved together, in their order.
+    const int virtual_index = static_cast<int>(virtual_items_.indexOf(i));
+    if (virtual_index > current_virtual_index_ + 1) {
+      QList<int> moved_items;
+      QList<int> remaining_items;
+      const PlaylistSequence::ShuffleMode shuffle_mode = ShuffleMode();
+      if (shuffle_mode == PlaylistSequence::ShuffleMode::Albums || shuffle_mode == PlaylistSequence::ShuffleMode::Grouping) {
+        const auto shuffle_key = [this, shuffle_mode](const int row) {
+          const Song song = item_at(row)->EffectiveMetadata();
+          return shuffle_mode == PlaylistSequence::ShuffleMode::Albums ? song.AlbumKey() : song.GroupingKey();
+        };
+        const QString key = shuffle_key(i);
+        for (int j = current_virtual_index_ + 1; j < virtual_items_.count(); ++j) {
+          if (shuffle_key(virtual_items_[j]) == key) {
+            moved_items << virtual_items_[j];
+          }
+          else {
+            remaining_items << virtual_items_[j];
+          }
+        }
+      }
+      else {
+        moved_items << i;
+        for (int j = current_virtual_index_ + 1; j < virtual_items_.count(); ++j) {
+          if (j != virtual_index) remaining_items << virtual_items_[j];
+        }
+      }
+      virtual_items_ = virtual_items_.mid(0, current_virtual_index_ + 1) + moved_items + remaining_items;
+    }
     current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(i));
   }
   else {
