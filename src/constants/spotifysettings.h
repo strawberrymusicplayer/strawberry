@@ -51,6 +51,12 @@ constexpr bool kDefaultFetchAlbums = false;
 constexpr bool kDefaultDownloadAlbumCovers = true;
 constexpr bool kDefaultRemoveRemastered = true;
 
+// The GStreamer Spotify plugin needs librespot 0.8 to play tracks, which is in version 0.14.4 and newer.
+// Older versions fail with "track is not available" for every track.
+constexpr int kMinimumGstPluginVersionMajor = 0;
+constexpr int kMinimumGstPluginVersionMinor = 14;
+constexpr int kMinimumGstPluginVersionMicro = 4;
+
 }  // namespace SpotifySettings
 
 #endif  // SPOTIFYSETTINGS_H

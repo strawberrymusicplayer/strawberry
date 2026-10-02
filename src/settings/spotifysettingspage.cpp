@@ -35,6 +35,7 @@
 #include <QSpinBox>
 #include <QMessageBox>
 #include <QEvent>
+#include <QVersionNumber>
 
 #include "settingsdialog.h"
 #include "spotifysettingspage.h"
@@ -47,6 +48,10 @@
 
 using namespace Qt::Literals::StringLiterals;
 using namespace SpotifySettings;
+
+namespace {
+constexpr char kGstPluginWikiUrl[] = "https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin";
+}  // namespace
 
 SpotifySettingsPage::SpotifySettingsPage(SettingsDialog *dialog, const SharedPtr<SpotifyService> service, QWidget *parent)
     : SettingsPage(dialog, parent),
@@ -75,8 +80,25 @@ SpotifySettingsPage::SpotifySettingsPage(SettingsDialog *dialog, const SharedPtr
   if (reg) {
     GstPluginFeature *spotifyaudiosrc = gst_registry_lookup_feature(reg, "spotifyaudiosrc");
     if (spotifyaudiosrc) {
+      QString plugin_version;
+      GstPlugin *plugin = gst_plugin_feature_get_plugin(spotifyaudiosrc);
+      if (plugin) {
+        plugin_version = QString::fromUtf8(gst_plugin_get_version(plugin));
+        gst_object_unref(plugin);
+      }
       gst_object_unref(spotifyaudiosrc);
-      ui_->widget_warning->hide();
+      // The plugin version is the crate version followed by the commit, for example "0.15.3-RELEASE".
+      const QVersionNumber version = QVersionNumber::fromString(plugin_version);
+      const QVersionNumber minimum_version(kMinimumGstPluginVersionMajor, kMinimumGstPluginVersionMinor, kMinimumGstPluginVersionMicro);
+      if (!version.isNull() && version < minimum_version) {
+        const QString wiki_link = QStringLiteral("<a href=\"%1\"><span style=\" text-decoration: underline; color:#2980b9;\">%2</span></a>").arg(QLatin1String(kGstPluginWikiUrl), tr("Wiki").toHtmlEscaped());
+        const QString warning_text = tr("The installed GStreamer Spotify plugin version %1 is too old, playing songs from Spotify fails with \"track is not available\". Version %2 or newer is required.").arg(plugin_version, minimum_version.toString()).toHtmlEscaped() + u' ' + tr("See %1 for instructions on how to install the plugin.").toHtmlEscaped().arg(wiki_link);
+        ui_->label_warning_text->setText(QStringLiteral("<html><head/><body><p>%1</p></body></html>").arg(warning_text));
+        ui_->widget_warning->show();
+      }
+      else {
+        ui_->widget_warning->hide();
+      }
     }
     else {
       ui_->widget_warning->show();

@@ -32,6 +32,7 @@ Unreleased:
     * Added options to show the album edition and audio quality in Qobuz search results, and the audio quality in Tidal search results
     * Added Plex support
     * Added Jellyfin support
+    * Show a warning in the Spotify settings when the GStreamer Spotify plugin is too old to play tracks (older than 0.14.4), and explain the possible causes when a Spotify track can't be  played
     * (macOS) Fixed alternating row colors being painted in the empty area below the playlist
     * (Windows) Disabled fading when ASIO output is selected
 

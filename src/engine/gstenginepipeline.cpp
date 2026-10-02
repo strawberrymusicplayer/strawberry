@@ -57,6 +57,7 @@
 #include <QVariant>
 #include <QString>
 #include <QUrl>
+#include <QVersionNumber>
 #include <QTimer>
 #include <QTimeLine>
 #include <QEasingCurve>
@@ -74,6 +75,10 @@
 #include "gstenginepipeline.h"
 #include "gstbusmessageevent.h"
 #include "gstbufferconsumer.h"
+
+#ifdef HAVE_SPOTIFY
+#  include "constants/spotifysettings.h"
+#endif
 
 using namespace std::chrono_literals;
 using namespace Qt::Literals::StringLiterals;
@@ -1937,6 +1942,17 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
 
   qLog(Error) << __FUNCTION__ << "ID:" << id() << "Domain:" << domain << "Code:" << code << "Error:" << message;
   qLog(Error) << __FUNCTION__ << "ID:" << id() << "Domain:" << domain << "Code:" << code << "Debug:" << debugstr;
+
+#ifdef HAVE_SPOTIFY
+  // The Spotify plugin only reports "Resource not found." with "track is not available" in the debug message, which doesn't tell the user why.
+  if (domain == GST_RESOURCE_ERROR && code == GST_RESOURCE_ERROR_NOT_FOUND && GST_IS_ELEMENT(GST_MESSAGE_SRC(msg))) {
+    GstElementFactory *factory = gst_element_get_factory(GST_ELEMENT(GST_MESSAGE_SRC(msg)));
+    if (factory && g_strcmp0(gst_plugin_feature_get_name(GST_PLUGIN_FEATURE(factory)), "spotifyaudiosrc") == 0) {
+      const QVersionNumber minimum_version(SpotifySettings::kMinimumGstPluginVersionMajor, SpotifySettings::kMinimumGstPluginVersionMinor, SpotifySettings::kMinimumGstPluginVersionMicro);
+      message = tr("The track is not available from Spotify. This happens for every track when the GStreamer Spotify plugin is older than version %1, or when the account doesn't have Spotify Premium. Some tracks are also not available in every country.").arg(minimum_version.toString());
+    }
+  }
+#endif
 
 #ifdef Q_OS_WIN32
   // Ignore non-error received for directsoundsink: "IDirectSoundBuffer_GetStatus The operation completed successfully"
