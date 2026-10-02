@@ -245,20 +245,30 @@
        </widget>
       </item>
       <item row="4" column="0">
+       <widget class="QLabel" name="label_bitrate">
+        <property name="text">
+         <string>Bitrate</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QComboBox" name="bitrate"/>
+      </item>
+      <item row="5" column="0">
        <widget class="QCheckBox" name="checkbox_download_album_covers">
         <property name="text">
          <string>Download album covers</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
+      <item row="6" column="0">
        <widget class="QCheckBox" name="checkbox_fetchalbums">
         <property name="text">
          <string>Fetch entire albums when searching songs</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="0">
+      <item row="7" column="0">
        <widget class="QCheckBox" name="checkbox_remove_remastered">
         <property name="text">
          <string>Remove (Remastered), etc from song titles</string>
@@ -337,6 +347,7 @@
   <tabstop>artistssearchlimit</tabstop>
   <tabstop>albumssearchlimit</tabstop>
   <tabstop>songssearchlimit</tabstop>
+  <tabstop>bitrate</tabstop>
   <tabstop>checkbox_download_album_covers</tabstop>
   <tabstop>checkbox_fetchalbums</tabstop>
   <tabstop>checkbox_remove_remastered</tabstop>

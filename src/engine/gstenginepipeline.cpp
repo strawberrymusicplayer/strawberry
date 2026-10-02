@@ -162,6 +162,9 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       rg_fallbackgain_(0.0),
       rg_compression_(true),
       ebur128_loudness_normalization_(false),
+#ifdef HAVE_SPOTIFY
+      spotify_bitrate_(SpotifySettings::kDefaultBitrate),
+#endif
       ebur128_loudness_normalizing_gain_db_(0.0),
       segment_start_(0),
       segment_start_received_(false),
@@ -391,6 +394,10 @@ void GstEnginePipeline::set_fading_enabled(const bool enabled) {
 void GstEnginePipeline::set_spotify_access_token(const QString &spotify_access_token) {
   QMutexLocker l(&mutex_spotify_access_token_);
   spotify_access_token_ = spotify_access_token;
+}
+
+void GstEnginePipeline::set_spotify_bitrate(const SpotifySettings::Bitrate spotify_bitrate) {
+  spotify_bitrate_ = spotify_bitrate;
 }
 #endif  // HAVE_SPOTIFY
 
@@ -1278,7 +1285,8 @@ void GstEnginePipeline::SourceSetupCallback(GstElement *playbin, GstElement *sou
     QMutexLocker mutex_locker_url(&instance->mutex_url_);
     if (instance->media_url_.scheme() == u"spotify"_s) {
       if (g_object_class_find_property(G_OBJECT_GET_CLASS(source), "bitrate")) {
-        g_object_set(source, "bitrate", 2, nullptr);
+        // Set the bitrate enum by its nick, which is the bitrate in kbit/s ("96", "160" or "320").
+        gst_util_set_object_arg(G_OBJECT(source), "bitrate", QByteArray::number(static_cast<int>(instance->spotify_bitrate_.load())).constData());
       }
       QMutexLocker mutex_locker_spotify_access_token(&instance->mutex_spotify_access_token_);
       if (!instance->spotify_access_token_.isEmpty() && g_object_class_find_property(G_OBJECT_GET_CLASS(source), "access-token")) {

@@ -7478,6 +7478,10 @@ Are you sure you want to continue?</source>
         <source>API Credentials</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Bitrate</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StreamingCollectionView</name>

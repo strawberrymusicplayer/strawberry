@@ -76,6 +76,10 @@ SpotifySettingsPage::SpotifySettingsPage(SettingsDialog *dialog, const SharedPtr
 
   dialog->installEventFilter(this);
 
+  ui_->bitrate->addItem(u"96 kbit/s"_s, static_cast<int>(Bitrate::Bitrate96));
+  ui_->bitrate->addItem(u"160 kbit/s"_s, static_cast<int>(Bitrate::Bitrate160));
+  ui_->bitrate->addItem(u"320 kbit/s"_s, static_cast<int>(Bitrate::Bitrate320));
+
   GstRegistry *reg = gst_registry_get();
   if (reg) {
     GstPluginFeature *spotifyaudiosrc = gst_registry_lookup_feature(reg, "spotifyaudiosrc");
@@ -145,6 +149,7 @@ void SpotifySettingsPage::Load() {
   ui_->artistssearchlimit->setValue(s.value(kArtistsSearchLimit, kDefaultArtistsSearchLimit).toInt());
   ui_->albumssearchlimit->setValue(s.value(kAlbumsSearchLimit, kDefaultAlbumsSearchLimit).toInt());
   ui_->songssearchlimit->setValue(s.value(kSongsSearchLimit, kDefaultSongsSearchLimit).toInt());
+  ComboBoxLoadFromSettings(s, ui_->bitrate, QLatin1String(kBitrate), static_cast<int>(kDefaultBitrate));
   ui_->checkbox_fetchalbums->setChecked(s.value(kFetchAlbums, kDefaultFetchAlbums).toBool());
   ui_->checkbox_download_album_covers->setChecked(s.value(kDownloadAlbumCovers, kDefaultDownloadAlbumCovers).toBool());
   ui_->checkbox_remove_remastered->setChecked(s.value(kRemoveRemastered, kDefaultRemoveRemastered).toBool());
@@ -171,6 +176,7 @@ void SpotifySettingsPage::Save() {
   s.setValue(kArtistsSearchLimit, ui_->artistssearchlimit->value());
   s.setValue(kAlbumsSearchLimit, ui_->albumssearchlimit->value());
   s.setValue(kSongsSearchLimit, ui_->songssearchlimit->value());
+  s.setValue(kBitrate, ui_->bitrate->currentData().toInt());
   s.setValue(kFetchAlbums, ui_->checkbox_fetchalbums->isChecked());
   s.setValue(kDownloadAlbumCovers, ui_->checkbox_download_album_covers->isChecked());
   s.setValue(kRemoveRemastered, ui_->checkbox_remove_remastered->isChecked());

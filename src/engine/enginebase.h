@@ -39,6 +39,9 @@
 #include <QUrl>
 
 #include "core/enginemetadata.h"
+#ifdef HAVE_SPOTIFY
+#  include "constants/spotifysettings.h"
+#endif
 #include "core/song.h"
 
 class EngineBase : public QObject {
@@ -258,6 +261,7 @@ class EngineBase : public QObject {
   // Spotify
 #ifdef HAVE_SPOTIFY
   QString spotify_access_token_;
+  SpotifySettings::Bitrate spotify_bitrate_;
 #endif
 
   bool about_to_end_emitted_;

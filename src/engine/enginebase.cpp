@@ -85,6 +85,9 @@ EngineBase::EngineBase(QObject *parent)
       bs2b_enabled_(false),
       http2_enabled_(true),
       strict_ssl_enabled_(false),
+#ifdef HAVE_SPOTIFY
+      spotify_bitrate_(SpotifySettings::kDefaultBitrate),
+#endif
       about_to_end_emitted_(false) {}
 
 EngineBase::~EngineBase() = default;
@@ -265,6 +268,17 @@ void EngineBase::ReloadSettings() {
 #ifdef HAVE_SPOTIFY
   s.beginGroup(SpotifySettings::kSettingsGroup);
   spotify_access_token_ = s.value(SpotifySettings::kAccessToken).toString();
+  const SpotifySettings::Bitrate spotify_bitrate = static_cast<SpotifySettings::Bitrate>(s.value(SpotifySettings::kBitrate, static_cast<int>(SpotifySettings::kDefaultBitrate)).toInt());
+  switch (spotify_bitrate) {
+    case SpotifySettings::Bitrate::Bitrate96:
+    case SpotifySettings::Bitrate::Bitrate160:
+    case SpotifySettings::Bitrate::Bitrate320:
+      spotify_bitrate_ = spotify_bitrate;
+      break;
+    default:
+      spotify_bitrate_ = SpotifySettings::kDefaultBitrate;
+      break;
+  }
   s.endGroup();
 #endif
 

@@ -540,6 +540,7 @@ void GstEngine::ReloadSettings() {
 
 #ifdef HAVE_SPOTIFY
   const QString old_spotify_access_token = spotify_access_token_;
+  const SpotifySettings::Bitrate old_spotify_bitrate = spotify_bitrate_;
 #endif
 
   EngineBase::ReloadSettings();
@@ -549,6 +550,10 @@ void GstEngine::ReloadSettings() {
 #ifdef HAVE_SPOTIFY
   if (current_pipeline_ && old_spotify_access_token != spotify_access_token_) {
     current_pipeline_->set_spotify_access_token(spotify_access_token_);
+  }
+  // Applies to the next track, the bitrate can't be changed for the track that is playing.
+  if (current_pipeline_ && old_spotify_bitrate != spotify_bitrate_) {
+    current_pipeline_->set_spotify_bitrate(spotify_bitrate_);
   }
 #endif
 
@@ -920,6 +925,7 @@ GstEnginePipelinePtr GstEngine::CreatePipeline() {
 
 #ifdef HAVE_SPOTIFY
   pipeline->set_spotify_access_token(spotify_access_token_);
+  pipeline->set_spotify_bitrate(spotify_bitrate_);
 #endif
 
   pipeline->AddBufferConsumer(this);
