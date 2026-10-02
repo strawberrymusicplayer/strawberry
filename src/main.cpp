@@ -269,22 +269,6 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  // Set the permissions on the config file on Unix - it can contain passwords for streaming services, so it's important that other users can't read it.
-  // On Windows these are stored in the registry instead.
-#ifdef Q_OS_UNIX
-  {
-    Settings s;
-    if (QFile::exists(s.fileName())) {
-      if (!QFile::setPermissions(s.fileName(), QFile::ReadOwner | QFile::WriteOwner)) {
-        qLog(Error) << "Could not set permissions for settingsfile" << s.fileName();
-      }
-    }
-    else {
-      qLog(Error) << "Missing settingsfile" << s.fileName();
-    }
-  }
-#endif
-
   // Resources
   Q_INIT_RESOURCE(data);
   Q_INIT_RESOURCE(icons);
