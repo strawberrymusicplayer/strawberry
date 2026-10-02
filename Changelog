@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 Changelog
 
-Unreleased:
+Version 1.2.31 (2026.10.03):
 
   Bugfixes:
     * Fixed shuffle skipping tracks and repeating tracks already played, when adding tracks, removing the current track, choosing a track, turning on shuffle while playing or repeating the playlist
