@@ -110,7 +110,6 @@ endif()
 add_compile_options(${COMPILE_OPTIONS})
 
 add_definitions(
-  -DBOOST_BIND_NO_PLACEHOLDERS
   -DQT_STRICT_ITERATORS
   -DQT_NO_CAST_FROM_BYTEARRAY
   -DQT_USE_QSTRINGBUILDER
@@ -169,10 +168,6 @@ endif()
 find_package(OpenSSL COMPONENTS Crypto CONFIG)
 if(NOT OpenSSL_FOUND)
   find_package(OpenSSL COMPONENTS Crypto REQUIRED)
-endif()
-find_package(Boost CONFIG)
-if(NOT Boost_FOUND)
-  find_package(Boost REQUIRED)
 endif()
 find_package(ICU COMPONENTS uc i18n REQUIRED)
 if(UNIX AND NOT APPLE)
