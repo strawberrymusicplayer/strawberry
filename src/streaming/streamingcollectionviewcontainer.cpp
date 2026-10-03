@@ -25,10 +25,12 @@
 #include <QLabel>
 #include <QProgressBar>
 #include <QPushButton>
+#include <QToolButton>
 #include <QStackedWidget>
 #include <QKeyEvent>
 #include <QContextMenuEvent>
 
+#include "core/iconloader.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionfilter.h"
 #include "collection/collectionfilterwidget.h"
@@ -36,11 +38,18 @@
 #include "streamingcollectionviewcontainer.h"
 #include "ui_streamingcollectionviewcontainer.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 StreamingCollectionViewContainer::StreamingCollectionViewContainer(QWidget *parent)
     : QWidget(parent),
-      ui_(new Ui_StreamingCollectionViewContainer) {
+      ui_(new Ui_StreamingCollectionViewContainer),
+      refresh_(new QToolButton(this)) {
 
   ui_->setupUi(this);
+
+  refresh_->setIcon(IconLoader::Load(u"view-refresh"_s));
+  refresh_->setToolTip(tr("Refresh catalogue"));
+  ui_->filter_widget->AddButton(refresh_);
   ui_->view->SetFilterWidget(ui_->filter_widget);
 
   QObject::connect(ui_->filter_widget, &CollectionFilterWidget::UpPressed, ui_->view, &StreamingCollectionView::UpAndFocus);

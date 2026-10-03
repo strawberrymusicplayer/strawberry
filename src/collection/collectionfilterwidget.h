@@ -27,6 +27,7 @@
 #include <QWidget>
 #include <QObject>
 #include <QHash>
+#include <QList>
 #include <QString>
 
 #include "collectionmodel.h"
@@ -35,6 +36,7 @@ class QTimer;
 class QMenu;
 class QAction;
 class QActionGroup;
+class QToolButton;
 class QKeyEvent;
 
 class GroupByDialog;
@@ -70,6 +72,8 @@ class CollectionFilterWidget : public QWidget {
 
   QMenu *menu() const { return collection_menu_; }
   void AddMenuAction(QAction *action);
+  // Adds a tool button between the search field and the options button, with the same style and icon size as the options button.
+  void AddButton(QToolButton *button);
 
   void SetSettingsGroup(const QString &group);
   void SetSettingsPrefix(const QString &prefix);
@@ -122,6 +126,7 @@ class CollectionFilterWidget : public QWidget {
   QMenu *filter_rating_menu_;
   QMenu *group_by_menu_;
   QMenu *collection_menu_;
+  QList<QToolButton*> buttons_;
   QActionGroup *group_by_group_;
   QHash<QAction*, int> filter_max_ages_;
   QHash<QAction*, float> filter_min_rating_;

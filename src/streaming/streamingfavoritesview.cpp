@@ -26,6 +26,7 @@
 #include <QLabel>
 #include <QProgressBar>
 #include <QPushButton>
+#include <QToolButton>
 #include <QSortFilterProxyModel>
 #include <QTabWidget>
 #include <QContextMenuEvent>
@@ -74,7 +75,7 @@ StreamingFavoritesView::StreamingFavoritesView(const StreamingServicePtr service
     QObject::connect(ui_->artists_collection->view(), &StreamingCollectionView::GetSongs, this, &StreamingFavoritesView::GetArtists);
     QObject::connect(ui_->artists_collection->view(), &StreamingCollectionView::RemoveSongs, &*service_, &StreamingService::RemoveArtists);
 
-    QObject::connect(ui_->artists_collection->button_refresh(), &QPushButton::clicked, this, &StreamingFavoritesView::GetArtists);
+    QObject::connect(ui_->artists_collection->button_refresh(), &QToolButton::clicked, this, &StreamingFavoritesView::GetArtists);
     QObject::connect(ui_->artists_collection->button_close(), &QPushButton::clicked, this, &StreamingFavoritesView::AbortGetArtists);
     QObject::connect(ui_->artists_collection->button_abort(), &QPushButton::clicked, this, &StreamingFavoritesView::AbortGetArtists);
     QObject::connect(&*service_, &StreamingService::ArtistsResults, this, &StreamingFavoritesView::ArtistsFinished);
@@ -93,7 +94,7 @@ StreamingFavoritesView::StreamingFavoritesView(const StreamingServicePtr service
     QObject::connect(ui_->albums_collection->view(), &StreamingCollectionView::GetSongs, this, &StreamingFavoritesView::GetAlbums);
     QObject::connect(ui_->albums_collection->view(), &StreamingCollectionView::RemoveSongs, &*service_, &StreamingService::RemoveAlbums);
 
-    QObject::connect(ui_->albums_collection->button_refresh(), &QPushButton::clicked, this, &StreamingFavoritesView::GetAlbums);
+    QObject::connect(ui_->albums_collection->button_refresh(), &QToolButton::clicked, this, &StreamingFavoritesView::GetAlbums);
     QObject::connect(ui_->albums_collection->button_close(), &QPushButton::clicked, this, &StreamingFavoritesView::AbortGetAlbums);
     QObject::connect(ui_->albums_collection->button_abort(), &QPushButton::clicked, this, &StreamingFavoritesView::AbortGetAlbums);
     QObject::connect(&*service_, &StreamingService::AlbumsResults, this, &StreamingFavoritesView::AlbumsFinished);
@@ -112,7 +113,7 @@ StreamingFavoritesView::StreamingFavoritesView(const StreamingServicePtr service
     QObject::connect(ui_->songs_collection->view(), &StreamingCollectionView::GetSongs, this, &StreamingFavoritesView::GetSongs);
     QObject::connect(ui_->songs_collection->view(), &StreamingCollectionView::RemoveSongs, &*service_, &StreamingService::RemoveSongsByList);
 
-    QObject::connect(ui_->songs_collection->button_refresh(), &QPushButton::clicked, this, &StreamingFavoritesView::GetSongs);
+    QObject::connect(ui_->songs_collection->button_refresh(), &QToolButton::clicked, this, &StreamingFavoritesView::GetSongs);
     QObject::connect(ui_->songs_collection->button_close(), &QPushButton::clicked, this, &StreamingFavoritesView::AbortGetSongs);
     QObject::connect(ui_->songs_collection->button_abort(), &QPushButton::clicked, this, &StreamingFavoritesView::AbortGetSongs);
     QObject::connect(&*service_, &StreamingService::SongsResults, this, &StreamingFavoritesView::SongsFinished);

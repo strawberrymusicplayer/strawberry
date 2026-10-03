@@ -26,6 +26,7 @@
 #include <QLabel>
 #include <QProgressBar>
 #include <QPushButton>
+#include <QToolButton>
 #include <QAction>
 
 #include "core/iconloader.h"
@@ -57,7 +58,7 @@ StreamingLibraryView::StreamingLibraryView(const StreamingServicePtr service, co
   QObject::connect(container_->view(), &StreamingCollectionView::GetSongs, this, &StreamingLibraryView::GetSongs);
   QObject::connect(container_->view(), &StreamingCollectionView::RemoveSongs, &*service_, &StreamingService::RemoveSongsByList);
 
-  QObject::connect(container_->button_refresh(), &QPushButton::clicked, this, &StreamingLibraryView::GetSongs);
+  QObject::connect(container_->button_refresh(), &QToolButton::clicked, this, &StreamingLibraryView::GetSongs);
   QObject::connect(container_->button_close(), &QPushButton::clicked, this, &StreamingLibraryView::AbortGetSongs);
   QObject::connect(container_->button_abort(), &QPushButton::clicked, this, &StreamingLibraryView::AbortGetSongs);
   QObject::connect(&*service_, &StreamingService::ShowErrorDialog, this, &StreamingLibraryView::ShowErrorDialog);

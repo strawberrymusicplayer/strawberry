@@ -241,6 +241,9 @@ void CollectionFilterWidget::ReloadSettings() {
   int iconsize = s.value(AppearanceSettings::kIconSizeConfigureButtons, AppearanceSettings::kDefaultIconSizeConfigureButtons).toInt();
   s.endGroup();
   ui_->options->setIconSize(QSize(iconsize, iconsize));
+  for (QToolButton *button : std::as_const(buttons_)) {
+    button->setIconSize(QSize(iconsize, iconsize));
+  }
   ui_->search_field->setIconSize(iconsize);
 
 }
@@ -508,6 +511,15 @@ void CollectionFilterWidget::SetAgeFilterEnabled(bool enabled) {
 
 void CollectionFilterWidget::SetGroupByEnabled(bool enabled) {
   group_by_menu_->setEnabled(enabled);
+}
+
+void CollectionFilterWidget::AddButton(QToolButton *button) {
+
+  button->setAutoRaise(true);
+  button->setIconSize(ui_->options->iconSize());
+  ui_->horizontalLayout->insertWidget(ui_->horizontalLayout->indexOf(ui_->options), button);
+  buttons_ << button;
+
 }
 
 void CollectionFilterWidget::AddMenuAction(QAction *action) {

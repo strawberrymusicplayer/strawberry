@@ -29,6 +29,7 @@
 #include "streamingcollectionview.h"
 
 class QPushButton;
+class QToolButton;
 class QLabel;
 class QProgressBar;
 class QContextMenuEvent;
@@ -61,7 +62,7 @@ class StreamingCollectionViewContainer : public QWidget {
 
   StreamingCollectionView *view() const { return ui_->view; }
   CollectionFilterWidget *filter_widget() const { return ui_->filter_widget; }
-  QPushButton *button_refresh() const { return ui_->refresh; }
+  QToolButton *button_refresh() const { return refresh_; }
   QPushButton *button_close() const { return ui_->close; }
   QPushButton *button_abort() const { return ui_->abort; }
   QLabel *status() const { return ui_->status; }
@@ -72,6 +73,7 @@ class StreamingCollectionViewContainer : public QWidget {
 
  private:
   Ui_StreamingCollectionViewContainer *ui_;
+  QToolButton *refresh_;
 };
 
 #endif  // STREAMINGCOLLECTIONVIEWCONTAINER_H

@@ -132,13 +132,6 @@
         <widget class="CollectionFilterWidget" name="filter_widget" native="true"/>
        </item>
        <item>
-        <widget class="QPushButton" name="refresh">
-         <property name="text">
-          <string>Refresh catalogue</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="StreamingCollectionView" name="view"/>
        </item>
       </layout>
