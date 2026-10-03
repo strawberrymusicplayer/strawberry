@@ -33,7 +33,6 @@
 
 class QWidget;
 
-class GroupByDialogPrivate;
 class Ui_GroupByDialog;
 
 class GroupByDialog : public QDialog {
@@ -55,7 +54,6 @@ class GroupByDialog : public QDialog {
 
  private:
   ScopedPtr<Ui_GroupByDialog> ui_;
-  ScopedPtr<GroupByDialogPrivate> p_;
 };
 
 #endif  // GROUPBYDIALOG_H

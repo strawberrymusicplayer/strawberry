@@ -23,17 +23,27 @@
 
 #include "config.h"
 
+#include <QtGlobal>
+
 #include <glib.h>
 #include <glib-object.h>
-
-#include <boost/function_types/function_arity.hpp>
-#include <boost/typeof/typeof.hpp>
 
 // Do not call this directly, use CHECKED_GCONNECT instead.
 gulong CheckedGConnect(gpointer source, const char *signal, GCallback callback, gpointer data, const int callback_param_count);
 
-#define FUNCTION_ARITY(callback) boost::function_types::function_arity<BOOST_TYPEOF(callback)>::value
+// Returns the number of parameters of the callback function.
+template<typename R, typename... Args>
+constexpr int FunctionArity(R (*callback)(Args...)) {
+  Q_UNUSED(callback)
+  return static_cast<int>(sizeof...(Args));
+}
 
-#define CHECKED_GCONNECT(source, signal, callback, data) CheckedGConnect(source, signal, G_CALLBACK(callback), data, FUNCTION_ARITY(callback))
+template<typename R, typename... Args>
+constexpr int FunctionArity(R (*callback)(Args...) noexcept) {
+  Q_UNUSED(callback)
+  return static_cast<int>(sizeof...(Args));
+}
+
+#define CHECKED_GCONNECT(source, signal, callback, data) CheckedGConnect(source, signal, G_CALLBACK(callback), data, FunctionArity(callback))
 
 #endif  // SIGNALCHECKER_H
