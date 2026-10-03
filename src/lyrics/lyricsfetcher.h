@@ -60,12 +60,12 @@ class LyricsFetcher : public QObject {
   void AddRequest(const Request &request);
 
  Q_SIGNALS:
-  void LyricsFetched(const quint64 request_id, const QString &provider, const QString &lyrics);
+  void LyricsFetched(const quint64 request_id, const QString &provider, const QString &lyrics, const QString &lyrics_synced = QString());
   void SearchFinished(const quint64 request_id, const LyricsSearchResults &results);
 
  private Q_SLOTS:
   void SingleSearchFinished(const quint64 request_id, const LyricsSearchResults &results);
-  void SingleLyricsFetched(const quint64 request_id, const QString &provider, const QString &lyrics);
+  void SingleLyricsFetched(const quint64 request_id, const QString &provider, const QString &lyrics, const QString &lyrics_synced = QString());
   void StartRequests();
 
  private:

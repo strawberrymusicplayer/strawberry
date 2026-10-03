@@ -45,7 +45,14 @@ class QContextMenuEvent;
 class QDragEnterEvent;
 class QDropEvent;
 
+#include "includes/shared_ptr.h"
+#include "core/playerinterface.h"
+
+#include "collection/collectionwatcher.h"
+
+class QTimer;
 class ResizableTextEdit;
+class LyricsWidget;
 class CollectionView;
 class AlbumCoverChoiceController;
 class LyricsProviders;
@@ -55,9 +62,11 @@ class ContextView : public QWidget {
   Q_OBJECT
 
  public:
+  using LrcLine = CollectionWatcher::LrcLine;
+
   explicit ContextView(QWidget *parent = nullptr);
 
-  void Init(CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller, SharedPtr<LyricsProviders> lyrics_providers);
+  void Init(CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller, SharedPtr<LyricsProviders> lyrics_providers, SharedPtr<PlayerInterface> player = nullptr);
 
   ContextAlbum *album_widget() const { return widget_album_; }
   bool album_enabled() const { return action_show_album_->isChecked(); }
@@ -90,7 +99,7 @@ class ContextView : public QWidget {
   void ActionSearchLyrics();
   void UpdateNoSong();
   void FadeStopFinished();
-  void UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics);
+  void UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics, const QString &lyrics_synced = QString());
 
  public Q_SLOTS:
   void ReloadSettings();
@@ -125,7 +134,7 @@ class ContextView : public QWidget {
   QLabel *label_stop_summary_;
   QWidget *widget_play_data_;
   QGridLayout *layout_play_data_;
-  ResizableTextEdit *textedit_play_lyrics_;
+  LyricsWidget *lyrics_widget_;
 
   QSpacerItem *spacer_play_data_;
 
@@ -147,11 +156,25 @@ class ContextView : public QWidget {
   bool lyrics_tried_;
   qint64 lyrics_id_;
   QString lyrics_;
+  QString lyrics_synced_;
   QString title_fmt_;
   QString summary_fmt_;
   QFont font_headline_;
   QFont font_normal_;
   QFont font_nosong_;
+
+  void SetupLyricsDisplay();
+
+ private Q_SLOTS:
+  void UpdateLiveLyricsPosition();
+  void UpdateLiveLyricsDisplay();
+  void LyricsSeekRequested(qint64 timestamp_ms);
+
+ private:
+  SharedPtr<PlayerInterface> player_;
+  QList<LrcLine> lrc_lines_;
+  int active_lrc_index_;
+  QTimer *lrc_timer_;
 
   QList<QLabel*> labels_play_;
   QList<ResizableTextEdit*> textedit_play_;

@@ -36,6 +36,7 @@
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"
 #include "lrcliblyricsprovider.h"
+#include "collection/collectionwatcher.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -134,7 +135,7 @@ void LrcLibLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id,
       !json_object.contains("trackName"_L1) ||
       !json_object.contains("artistName"_L1) ||
       !json_object.contains("albumName"_L1) ||
-      !json_object.contains("plainLyrics"_L1)) {
+      (!json_object.contains("plainLyrics"_L1) && !json_object.contains("syncedLyrics"_L1))) {
     return;
   }
 
@@ -143,6 +144,10 @@ void LrcLibLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id,
   result.album = json_object["albumName"_L1].toString();
   result.title = json_object["trackName"_L1].toString();
   result.lyrics = json_object["plainLyrics"_L1].toString();
+  result.lyrics_synced = json_object["syncedLyrics"_L1].toString();
+  if (result.lyrics.isEmpty() && !result.lyrics_synced.isEmpty()) {
+    result.lyrics = CollectionWatcher::ExtractPlainLyrics(result.lyrics_synced);
+  }
   results << result;
 
 }

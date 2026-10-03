@@ -52,6 +52,17 @@ class CollectionWatcher : public QObject {
   Q_OBJECT
 
  public:
+  struct LrcLine {
+    qint64 timestamp_ms;
+    QString text;
+  };
+
+  static QList<LrcLine> ParseLrc(const QString &lrc_text);
+  static QString ExtractPlainLyrics(const QString &lrc_text);
+  static QString ReadLrcFile(const QString &lrc_filepath);
+  static QString FindLrcFile(const QString &media_filepath);
+  static void ApplyLrcToSong(Song &song, const QString &lrc_content);
+
   explicit CollectionWatcher(const Song::Source source,
                              const SharedPtr<TaskManager> task_manager,
                              const SharedPtr<TagReaderClient> tagreader_client,
@@ -207,12 +218,12 @@ class CollectionWatcher : public QObject {
   void PerformScan(const bool incremental, const bool ignore_mtimes);
 
   // Updates the sections of a cue associated and altered (according to mtime) media file during a scan.
-  void UpdateCueAssociatedSongs(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, const QUrl &art_automatic, const SongList &old_cue_songs, ScanTransaction *t) const;
+  void UpdateCueAssociatedSongs(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, const QUrl &art_automatic, const QString &lrc_content, const SongList &old_cue_songs, ScanTransaction *t) const;
   // Updates a single non-cue associated and altered (according to mtime) song during a scan.
-  bool UpdateNonCueAssociatedSong(const QString &file, const QString &fingerprint, const SongList &matching_songs, const QUrl &art_automatic, const bool cue_deleted, ScanTransaction *t);
+  bool UpdateNonCueAssociatedSong(const QString &file, const QString &fingerprint, const SongList &matching_songs, const QUrl &art_automatic, const QString &lrc_content, const bool cue_deleted, ScanTransaction *t);
   // Scans a single media file that's present on the disk but not yet in the collection.
   // It may result in a multiple files added to the collection when the media file has many sections (like a CUE related media file).
-  SongList ScanNewFile(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, QSet<QString> *cues_processed) const;
+  SongList ScanNewFile(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, const QString &lrc_content, QSet<QString> *cues_processed) const;
 
   static void AddChangedSong(const QString &file, const Song &matching_song, const Song &new_song, ScanTransaction *t);
 

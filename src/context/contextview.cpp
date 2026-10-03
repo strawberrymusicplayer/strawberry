@@ -44,11 +44,19 @@
 #include <QSpacerItem>
 #include <QLabel>
 #include <QTextEdit>
+#include <QTextBlock>
+#include <QTextCursor>
 #include <QSettings>
 #include <QResizeEvent>
 #include <QContextMenuEvent>
 #include <QDragEnterEvent>
 #include <QDropEvent>
+#include <QTimer>
+#include <QFileInfo>
+#include <QDir>
+#include <QFile>
+#include <QRegularExpression>
+#include <algorithm>
 
 #include "core/song.h"
 #include "core/settings.h"
@@ -63,6 +71,7 @@
 
 #include "contextview.h"
 #include "contextalbum.h"
+#include "lyricswidget.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -94,7 +103,7 @@ ContextView::ContextView(QWidget *parent)
       label_stop_summary_(new QLabel(this)),
       widget_play_data_(new QWidget(this)),
       layout_play_data_(new QGridLayout()),
-      textedit_play_lyrics_(new ResizableTextEdit(this)),
+      lyrics_widget_(new LyricsWidget(this)),
       spacer_play_data_(new QSpacerItem(20, 20, QSizePolicy::Fixed, QSizePolicy::Fixed)),
       label_filetype_title_(new QLabel(this)),
       label_length_title_(new QLabel(this)),
@@ -107,7 +116,13 @@ ContextView::ContextView(QWidget *parent)
       label_bitdepth_(new QLabel(this)),
       label_bitrate_(new QLabel(this)),
       lyrics_tried_(false),
-      lyrics_id_(-1) {
+      lyrics_id_(-1),
+      player_(nullptr),
+      active_lrc_index_(-1),
+      lrc_timer_(new QTimer(this)) {
+
+  lrc_timer_->setInterval(150);
+  QObject::connect(lrc_timer_, &QTimer::timeout, this, &ContextView::UpdateLiveLyricsPosition);
 
   setLayout(layout_container_);
 
@@ -190,14 +205,13 @@ ContextView::ContextView(QWidget *parent)
 
   widget_play_data_->setLayout(layout_play_data_);
 
-  textedit_play_lyrics_->setReadOnly(true);
-  textedit_play_lyrics_->setFrameShape(QFrame::NoFrame);
-  textedit_play_lyrics_->hide();
+  lyrics_widget_->hide();
+  QObject::connect(lyrics_widget_, &LyricsWidget::SeekRequested, this, &ContextView::LyricsSeekRequested);
 
   layout_play_->setContentsMargins(0, 0, 0, 0);
   layout_play_->addWidget(widget_play_data_);
   layout_play_->addSpacerItem(spacer_play_data_);
-  layout_play_->addWidget(textedit_play_lyrics_);
+  layout_play_->addWidget(lyrics_widget_);
   layout_play_->addSpacerItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding));
 
   labels_play_ << label_filetype_title_
@@ -214,16 +228,15 @@ ContextView::ContextView(QWidget *parent)
 
   labels_play_all_ = labels_play_ << labels_play_data_;
 
-  textedit_play_ << textedit_play_lyrics_;
-
   QObject::connect(widget_album_, &ContextAlbum::FadeStopFinished, this, &ContextView::FadeStopFinished);
 
 }
 
-void ContextView::Init(CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller, SharedPtr<LyricsProviders> lyrics_providers) {
+void ContextView::Init(CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller, SharedPtr<LyricsProviders> lyrics_providers, SharedPtr<PlayerInterface> player) {
 
   collectionview_ = collectionview;
   album_cover_choice_controller_ = album_cover_choice_controller;
+  player_ = player;
 
   widget_album_->Init(this, album_cover_choice_controller_);
   lyrics_fetcher_ = new LyricsFetcher(lyrics_providers, this);
@@ -321,9 +334,13 @@ void ContextView::Playing() {}
 
 void ContextView::Stopped() {
 
+  lrc_timer_->stop();
+  lrc_lines_.clear();
+  active_lrc_index_ = -1;
   song_playing_ = Song();
   song_prev_ = Song();
   lyrics_.clear();
+  lyrics_synced_.clear();
   image_original_ = QImage();
   widget_album_->SetImage();
 
@@ -340,6 +357,8 @@ void ContextView::SongChanged(const Song &song) {
     song_prev_ = song_playing_;
     song_playing_ = song;
     lyrics_ = song.lyrics();
+    lyrics_synced_ = song.lyrics_synced();
+
     lyrics_id_ = -1;
     lyrics_tried_ = false;
     SetSong();
@@ -487,14 +506,7 @@ void ContextView::SetSong() {
     spacer_play_data_->changeSize(0, 0, QSizePolicy::Fixed);
   }
 
-  if (action_show_lyrics_->isChecked() && !lyrics_.isEmpty()) {
-    textedit_play_lyrics_->SetText(lyrics_);
-    textedit_play_lyrics_->show();
-  }
-  else {
-    textedit_play_lyrics_->clear();
-    textedit_play_lyrics_->hide();
-  }
+  SetupLyricsDisplay();
 
   widget_stacked_->setCurrentWidget(widget_play_);
   widget_stacked_->updateGeometry();
@@ -558,6 +570,11 @@ void ContextView::UpdateSong(const Song &song) {
         SetLabelText(label_bitrate_, song.bitrate(), tr("kbps"));
       }
     }
+    if (song.lyrics() != song_playing_.lyrics() || song.lyrics_synced() != song_playing_.lyrics_synced()) {
+      lyrics_ = song.lyrics();
+      lyrics_synced_ = song.lyrics_synced();
+      SetupLyricsDisplay();
+    }
   }
 
   song_playing_ = song;
@@ -568,6 +585,12 @@ void ContextView::UpdateSong(const Song &song) {
 
 void ContextView::ResetSong() {
 
+  lrc_timer_->stop();
+  lrc_lines_.clear();
+  active_lrc_index_ = -1;
+  lyrics_.clear();
+  lyrics_synced_.clear();
+
   for (QLabel *l : std::as_const(labels_play_data_)) {
     l->clear();
   }
@@ -577,29 +600,99 @@ void ContextView::ResetSong() {
   }
 
   widget_play_data_->hide();
-  textedit_play_lyrics_->hide();
+  lyrics_widget_->Clear();
+  lyrics_widget_->hide();
 
 }
 
-void ContextView::UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics) {
+void ContextView::UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics, const QString &lyrics_synced) {
 
   if (static_cast<qint64>(id) != lyrics_id_) return;
 
-  if (lyrics.isEmpty()) {
+  if (lyrics.isEmpty() && lyrics_synced.isEmpty()) {
     lyrics_ = "No lyrics found.\n"_L1;
+    lyrics_synced_.clear();
   }
   else {
-    lyrics_ = lyrics + "\n\n(Lyrics from "_L1 + provider + ")\n"_L1;
+    lyrics_ = !lyrics.isEmpty() ? lyrics + "\n\n(Lyrics from "_L1 + provider + ")\n"_L1 : QString();
+    lyrics_synced_ = lyrics_synced;
   }
   lyrics_id_ = -1;
 
-  if (action_show_lyrics_->isChecked() && !lyrics_.isEmpty()) {
-    textedit_play_lyrics_->SetText(lyrics_);
-    textedit_play_lyrics_->show();
+  SetupLyricsDisplay();
+
+}
+
+void ContextView::SetupLyricsDisplay() {
+
+  if (!lyrics_synced_.isEmpty()) {
+    lrc_lines_ = CollectionWatcher::ParseLrc(lyrics_synced_);
+  }
+  else if (!lyrics_.isEmpty() && lyrics_.contains(u'[')) {
+    lrc_lines_ = CollectionWatcher::ParseLrc(lyrics_);
   }
   else {
-    textedit_play_lyrics_->clear();
-    textedit_play_lyrics_->hide();
+    lrc_lines_.clear();
+  }
+  active_lrc_index_ = -1;
+
+  if (action_show_lyrics_->isChecked() && (!lyrics_synced_.isEmpty() || !lyrics_.isEmpty())) {
+    if (!lrc_lines_.isEmpty()) {
+      lyrics_widget_->SetSyncedLyrics(lrc_lines_);
+      UpdateLiveLyricsPosition();
+      if (!lrc_timer_->isActive()) lrc_timer_->start();
+    }
+    else {
+      lrc_timer_->stop();
+      lyrics_widget_->SetPlainLyrics(lyrics_);
+    }
+    lyrics_widget_->show();
+  }
+  else {
+    lrc_timer_->stop();
+    lyrics_widget_->Clear();
+    lyrics_widget_->hide();
+  }
+
+}
+
+void ContextView::UpdateLiveLyricsPosition() {
+
+  if (lrc_lines_.isEmpty() || !player_ || player_->GetState() != EngineBase::State::Playing || !isVisible()) {
+    return;
+  }
+
+  const qint64 pos_ms = player_->engine()->position_nanosec() / kNsecPerMsec;
+
+  int new_active_index = -1;
+  for (int i = 0; i < lrc_lines_.size(); ++i) {
+    if (lrc_lines_[i].timestamp_ms <= pos_ms) {
+      new_active_index = i;
+    }
+    else {
+      break;
+    }
+  }
+
+  if (new_active_index != active_lrc_index_) {
+    active_lrc_index_ = new_active_index;
+    lyrics_widget_->SetActiveIndex(active_lrc_index_);
+  }
+
+}
+
+void ContextView::UpdateLiveLyricsDisplay() {
+
+  if (!lrc_lines_.isEmpty() && active_lrc_index_ >= 0) {
+    lyrics_widget_->SetActiveIndex(active_lrc_index_);
+  }
+
+}
+
+void ContextView::LyricsSeekRequested(const qint64 timestamp_ms) {
+
+  if (player_) {
+    player_->SeekToMs(static_cast<quint64>(std::max<qint64>(0, timestamp_ms)));
   }
 
 }

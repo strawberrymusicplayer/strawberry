@@ -48,6 +48,7 @@
 #include "songloader.h"
 #include "tagreader/tagreaderclient.h"
 #include "collection/collectionbackend.h"
+#include "collection/collectionwatcher.h"
 #include "playlistparsers/cueparser.h"
 #include "playlistparsers/parserbase.h"
 #include "playlistparsers/playlistparser.h"
@@ -359,6 +360,9 @@ void SongLoader::EffectiveSongLoad(Song *song) {
     if (!result.success()) {
       qLog(Error) << "Could not read file" << song->url() << result.error_string();
     }
+    const QString lrc_path = CollectionWatcher::FindLrcFile(filename);
+    const QString lrc_content = !lrc_path.isEmpty() ? CollectionWatcher::ReadLrcFile(lrc_path) : QString();
+    CollectionWatcher::ApplyLrcToSong(*song, lrc_content);
   }
 
 }
