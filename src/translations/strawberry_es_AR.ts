@@ -1360,15 +1360,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
   </context>
   <context>
-    <name>CollectionView</name>
-    <message>
-      <source>Your collection is empty!</source>
-      <translation>La colección está vacía.</translation>
-    </message>
-    <message>
-      <source>Click here to add some music</source>
-      <translation>Pulse aquí para añadir música</translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
       <source>Append to current playlist</source>
       <translation>Añadir a la lista de reproducción actual</translation>
@@ -1392,6 +1384,17 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Search for this</source>
       <translation>Buscar esto</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionView</name>
+    <message>
+      <source>Your collection is empty!</source>
+      <translation>La colección está vacía.</translation>
+    </message>
+    <message>
+      <source>Click here to add some music</source>
+      <translation>Pulse aquí para añadir música</translation>
     </message>
     <message>
       <source>Organize files...</source>
@@ -7067,26 +7070,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Click here to retrieve music</source>
       <translation>Pulse aquí para recuperar música</translation>
-    </message>
-    <message>
-      <source>Append to current playlist</source>
-      <translation>Añadir a la lista de reproducción actual</translation>
-    </message>
-    <message>
-      <source>Replace current playlist</source>
-      <translation>Reemplazar lista de reproducción actual</translation>
-    </message>
-    <message>
-      <source>Open in new playlist</source>
-      <translation>Abrir en una lista nueva</translation>
-    </message>
-    <message>
-      <source>Queue track</source>
-      <translation>Poner pista en cola</translation>
-    </message>
-    <message>
-      <source>Queue to play next</source>
-      <translation>Poner en cola para reproducir a continuación</translation>
     </message>
     <message>
       <source>Remove from favorites</source>

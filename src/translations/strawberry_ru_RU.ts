@@ -1361,15 +1361,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
   </context>
   <context>
-    <name>CollectionView</name>
-    <message>
-      <source>Your collection is empty!</source>
-      <translation>Ваша фонотека пуста!</translation>
-    </message>
-    <message>
-      <source>Click here to add some music</source>
-      <translation>Нажмите сюда для добавления музыки</translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
       <source>Append to current playlist</source>
       <translation>Добавить в текущий плейлист</translation>
@@ -1393,6 +1385,17 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Search for this</source>
       <translation>Поиск этого</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionView</name>
+    <message>
+      <source>Your collection is empty!</source>
+      <translation>Ваша фонотека пуста!</translation>
+    </message>
+    <message>
+      <source>Click here to add some music</source>
+      <translation>Нажмите сюда для добавления музыки</translation>
     </message>
     <message>
       <source>Organize files...</source>
@@ -7078,26 +7081,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Click here to retrieve music</source>
       <translation>Щёлкните сюда, чтобы получить музыку</translation>
-    </message>
-    <message>
-      <source>Append to current playlist</source>
-      <translation>Добавить в текущий плейлист</translation>
-    </message>
-    <message>
-      <source>Replace current playlist</source>
-      <translation>Заменить текущий плейлист</translation>
-    </message>
-    <message>
-      <source>Open in new playlist</source>
-      <translation>Открыть в новом плейлисте</translation>
-    </message>
-    <message>
-      <source>Queue track</source>
-      <translation>Добавить трек в очередь</translation>
-    </message>
-    <message>
-      <source>Queue to play next</source>
-      <translation>Добавить в начало очереди</translation>
     </message>
     <message>
       <source>Remove from favorites</source>

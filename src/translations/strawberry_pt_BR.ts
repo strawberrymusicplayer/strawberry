@@ -1361,15 +1361,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
   </context>
   <context>
-    <name>CollectionView</name>
-    <message>
-      <source>Your collection is empty!</source>
-      <translation>Sua biblioteca está vazia!</translation>
-    </message>
-    <message>
-      <source>Click here to add some music</source>
-      <translation>Clique aqui para adicionar algumas músicas</translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
       <source>Append to current playlist</source>
       <translation>Adicionar à lista de reprodução atual</translation>
@@ -1393,6 +1385,17 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     <message>
       <source>Search for this</source>
       <translation>Buscar por isso</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionView</name>
+    <message>
+      <source>Your collection is empty!</source>
+      <translation>Sua biblioteca está vazia!</translation>
+    </message>
+    <message>
+      <source>Click here to add some music</source>
+      <translation>Clique aqui para adicionar algumas músicas</translation>
     </message>
     <message>
       <source>Organize files...</source>
@@ -7068,26 +7071,6 @@ Deseja continuar?</translation>
     <message>
       <source>Click here to retrieve music</source>
       <translation type="unfinished">Click here to retrieve music</translation>
-    </message>
-    <message>
-      <source>Append to current playlist</source>
-      <translation>Adicionar à lista de reprodução atual</translation>
-    </message>
-    <message>
-      <source>Replace current playlist</source>
-      <translation>Substituir lista de reprodução atual</translation>
-    </message>
-    <message>
-      <source>Open in new playlist</source>
-      <translation>Abrir em nova lista de reprodução</translation>
-    </message>
-    <message>
-      <source>Queue track</source>
-      <translation>Colocar a faixa na fila</translation>
-    </message>
-    <message>
-      <source>Queue to play next</source>
-      <translation type="unfinished">Queue to play next</translation>
     </message>
     <message>
       <source>Remove from favorites</source>

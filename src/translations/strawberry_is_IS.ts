@@ -1361,15 +1361,7 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
   </context>
   <context>
-    <name>CollectionView</name>
-    <message>
-      <source>Your collection is empty!</source>
-      <translation>Safnið þitt er tómt!</translation>
-    </message>
-    <message>
-      <source>Click here to add some music</source>
-      <translation>Smelltu hér til að bæta við tónlist</translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
       <source>Append to current playlist</source>
       <translation>Bæta við fyrirliggjandi spilunarlista</translation>
@@ -1393,6 +1385,17 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     <message>
       <source>Search for this</source>
       <translation>Leita að þessu</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionView</name>
+    <message>
+      <source>Your collection is empty!</source>
+      <translation>Safnið þitt er tómt!</translation>
+    </message>
+    <message>
+      <source>Click here to add some music</source>
+      <translation>Smelltu hér til að bæta við tónlist</translation>
     </message>
     <message>
       <source>Organize files...</source>
@@ -7068,26 +7071,6 @@ Ertu viss um að þú viljir halda áfram?</translation>
     <message>
       <source>Click here to retrieve music</source>
       <translation>Smelltu hér til að ná í tónlist</translation>
-    </message>
-    <message>
-      <source>Append to current playlist</source>
-      <translation>Bæta við fyrirliggjandi spilunarlista</translation>
-    </message>
-    <message>
-      <source>Replace current playlist</source>
-      <translation>Skipta út fyrirliggjandi spilunarlista</translation>
-    </message>
-    <message>
-      <source>Open in new playlist</source>
-      <translation>Opna í nýjum spilunarlista</translation>
-    </message>
-    <message>
-      <source>Queue track</source>
-      <translation>Setja lag í biðröð</translation>
-    </message>
-    <message>
-      <source>Queue to play next</source>
-      <translation>Setja í biðröð til að spila næst</translation>
     </message>
     <message>
       <source>Remove from favorites</source>

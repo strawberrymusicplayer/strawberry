@@ -1361,15 +1361,7 @@ Falls es keine Treffer gibt, wird das größte Bild aus dem Verzeichnis ausgewä
     </message>
   </context>
   <context>
-    <name>CollectionView</name>
-    <message>
-      <source>Your collection is empty!</source>
-      <translation>Ihre Bibliothek ist leer!</translation>
-    </message>
-    <message>
-      <source>Click here to add some music</source>
-      <translation>Hier klicken, um Musik hinzuzufügen</translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
       <source>Append to current playlist</source>
       <translation>Zur aktuellen Wiedergabeliste hinzufügen</translation>
@@ -1393,6 +1385,17 @@ Falls es keine Treffer gibt, wird das größte Bild aus dem Verzeichnis ausgewä
     <message>
       <source>Search for this</source>
       <translation>Nach diesem suchen</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionView</name>
+    <message>
+      <source>Your collection is empty!</source>
+      <translation>Ihre Bibliothek ist leer!</translation>
+    </message>
+    <message>
+      <source>Click here to add some music</source>
+      <translation>Hier klicken, um Musik hinzuzufügen</translation>
     </message>
     <message>
       <source>Organize files...</source>
@@ -7068,26 +7071,6 @@ Möchten Sie wirklich fortfahren?</translation>
     <message>
       <source>Click here to retrieve music</source>
       <translation>Klicken Sie hier um Musik zu abzuholen</translation>
-    </message>
-    <message>
-      <source>Append to current playlist</source>
-      <translation>Zur aktuellen Wiedergabeliste hinzufügen</translation>
-    </message>
-    <message>
-      <source>Replace current playlist</source>
-      <translation>Wiedergabeliste ersetzen</translation>
-    </message>
-    <message>
-      <source>Open in new playlist</source>
-      <translation>In einer neuen Wiedergabeliste öffnen</translation>
-    </message>
-    <message>
-      <source>Queue track</source>
-      <translation>Titel in die Warteschlange einreihen</translation>
-    </message>
-    <message>
-      <source>Queue to play next</source>
-      <translation>In die Warteschlange, um sie als nächstes abzuspielen</translation>
     </message>
     <message>
       <source>Remove from favorites</source>

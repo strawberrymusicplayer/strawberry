@@ -41,7 +41,7 @@ StreamingCollectionViewContainer::StreamingCollectionViewContainer(QWidget *pare
       ui_(new Ui_StreamingCollectionViewContainer) {
 
   ui_->setupUi(this);
-  ui_->view->SetFilter(ui_->filter_widget);
+  ui_->view->SetFilterWidget(ui_->filter_widget);
 
   QObject::connect(ui_->filter_widget, &CollectionFilterWidget::UpPressed, ui_->view, &StreamingCollectionView::UpAndFocus);
   QObject::connect(ui_->filter_widget, &CollectionFilterWidget::DownPressed, ui_->view, &StreamingCollectionView::DownAndFocus);

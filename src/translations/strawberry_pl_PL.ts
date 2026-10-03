@@ -1361,15 +1361,7 @@ W przypadku braku takich plików użyty zostanie największy obraz z danego kata
     </message>
   </context>
   <context>
-    <name>CollectionView</name>
-    <message>
-      <source>Your collection is empty!</source>
-      <translation>Twoja kolekcja jest pusta!</translation>
-    </message>
-    <message>
-      <source>Click here to add some music</source>
-      <translation>Kliknij tutaj, aby dodać jakąś muzykę</translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
       <source>Append to current playlist</source>
       <translation>Dołącz do aktualnej listy odtwarzania</translation>
@@ -1393,6 +1385,17 @@ W przypadku braku takich plików użyty zostanie największy obraz z danego kata
     <message>
       <source>Search for this</source>
       <translation>Szukaj tego:</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionView</name>
+    <message>
+      <source>Your collection is empty!</source>
+      <translation>Twoja kolekcja jest pusta!</translation>
+    </message>
+    <message>
+      <source>Click here to add some music</source>
+      <translation>Kliknij tutaj, aby dodać jakąś muzykę</translation>
     </message>
     <message>
       <source>Organize files...</source>
@@ -7080,26 +7083,6 @@ Na pewno chcesz usunąć?</translation>
     <message>
       <source>Click here to retrieve music</source>
       <translation>Kliknij tutaj, aby pobrać&#xa0;muzykę</translation>
-    </message>
-    <message>
-      <source>Append to current playlist</source>
-      <translation>Dołącz do aktualnej listy odtwarzania</translation>
-    </message>
-    <message>
-      <source>Replace current playlist</source>
-      <translation>Zastąp aktualną listę odtwarzania</translation>
-    </message>
-    <message>
-      <source>Open in new playlist</source>
-      <translation>Otwórz w nowej liście odtwarzania</translation>
-    </message>
-    <message>
-      <source>Queue track</source>
-      <translation>Dodaj ścieżkę do kolejki</translation>
-    </message>
-    <message>
-      <source>Queue to play next</source>
-      <translation>Dodaj do kolejki, aby następnie odtworzyć</translation>
     </message>
     <message>
       <source>Remove from favorites</source>

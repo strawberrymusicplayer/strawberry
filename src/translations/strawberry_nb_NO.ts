@@ -1361,15 +1361,7 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     </message>
   </context>
   <context>
-    <name>CollectionView</name>
-    <message>
-      <source>Your collection is empty!</source>
-      <translation>Samlingen din er tom!</translation>
-    </message>
-    <message>
-      <source>Click here to add some music</source>
-      <translation>Klikk her for å legge til musikk</translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
       <source>Append to current playlist</source>
       <translation>Legg til i gjeldende spilleliste</translation>
@@ -1393,6 +1385,17 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     <message>
       <source>Search for this</source>
       <translation>Søk etter dette</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionView</name>
+    <message>
+      <source>Your collection is empty!</source>
+      <translation>Samlingen din er tom!</translation>
+    </message>
+    <message>
+      <source>Click here to add some music</source>
+      <translation>Klikk her for å legge til musikk</translation>
     </message>
     <message>
       <source>Organize files...</source>
@@ -7068,26 +7071,6 @@ Er du sikker?</translation>
     <message>
       <source>Click here to retrieve music</source>
       <translation>Klikk her for å få inn musikk</translation>
-    </message>
-    <message>
-      <source>Append to current playlist</source>
-      <translation>Legg til i gjeldende spilleliste</translation>
-    </message>
-    <message>
-      <source>Replace current playlist</source>
-      <translation>Erstatt gjeldende spilleliste</translation>
-    </message>
-    <message>
-      <source>Open in new playlist</source>
-      <translation>Åpne i ny spilleliste</translation>
-    </message>
-    <message>
-      <source>Queue track</source>
-      <translation>Legg spor i kø</translation>
-    </message>
-    <message>
-      <source>Queue to play next</source>
-      <translation>Legg i kø for å spille som neste</translation>
     </message>
     <message>
       <source>Remove from favorites</source>

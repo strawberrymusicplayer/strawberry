@@ -614,6 +614,7 @@ set(SOURCES
   src/collection/collectionbackend.cpp
   src/collection/collectionwatcher.cpp
   src/collection/collectionview.cpp
+  src/collection/collectiontreeview.cpp
   src/collection/collectionitem.cpp
   src/collection/collectionitemdelegate.cpp
   src/collection/collectionviewcontainer.cpp
@@ -940,6 +941,7 @@ set(HEADERS
   src/collection/collectionbackend.h
   src/collection/collectionwatcher.h
   src/collection/collectionview.h
+  src/collection/collectiontreeview.h
   src/collection/collectionitemdelegate.h
   src/collection/collectionviewcontainer.h
   src/collection/collectiondirectorymodel.h

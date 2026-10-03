@@ -1361,15 +1361,7 @@ Pokud nenajde žádné, které by se shodovaly, potom použije největší obrá
     </message>
   </context>
   <context>
-    <name>CollectionView</name>
-    <message>
-      <source>Your collection is empty!</source>
-      <translation>Vaše hudební sbírka je prázdná!</translation>
-    </message>
-    <message>
-      <source>Click here to add some music</source>
-      <translation>Klepněte sem pro přidání nějaké hudby</translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
       <source>Append to current playlist</source>
       <translation>Přidat do současného seznamu skladeb</translation>
@@ -1393,6 +1385,17 @@ Pokud nenajde žádné, které by se shodovaly, potom použije největší obrá
     <message>
       <source>Search for this</source>
       <translation>Hledat toto</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionView</name>
+    <message>
+      <source>Your collection is empty!</source>
+      <translation>Vaše hudební sbírka je prázdná!</translation>
+    </message>
+    <message>
+      <source>Click here to add some music</source>
+      <translation>Klepněte sem pro přidání nějaké hudby</translation>
     </message>
     <message>
       <source>Organize files...</source>
@@ -7078,26 +7081,6 @@ Opravdu chcete pokračovat?</translation>
     <message>
       <source>Click here to retrieve music</source>
       <translation>Klikněte zde pro načtení hudby</translation>
-    </message>
-    <message>
-      <source>Append to current playlist</source>
-      <translation>Přidat do současného seznamu skladeb</translation>
-    </message>
-    <message>
-      <source>Replace current playlist</source>
-      <translation>Nahradit současný seznam skladeb</translation>
-    </message>
-    <message>
-      <source>Open in new playlist</source>
-      <translation>Otevřít v novém seznamu skladeb</translation>
-    </message>
-    <message>
-      <source>Queue track</source>
-      <translation>Přidat skladbu do řady</translation>
-    </message>
-    <message>
-      <source>Queue to play next</source>
-      <translation>Do fronty jako další</translation>
     </message>
     <message>
       <source>Remove from favorites</source>

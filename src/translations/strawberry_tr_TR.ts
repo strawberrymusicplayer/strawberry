@@ -1360,15 +1360,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
   </context>
   <context>
-    <name>CollectionView</name>
-    <message>
-      <source>Your collection is empty!</source>
-      <translation>Koleksiyonunuz boş!</translation>
-    </message>
-    <message>
-      <source>Click here to add some music</source>
-      <translation>Biraz müzik eklemek için buraya tıklayın</translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
       <source>Append to current playlist</source>
       <translation>Geçerli çalma listesine ekle</translation>
@@ -1392,6 +1384,17 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Search for this</source>
       <translation>Bunun için ara</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionView</name>
+    <message>
+      <source>Your collection is empty!</source>
+      <translation>Koleksiyonunuz boş!</translation>
+    </message>
+    <message>
+      <source>Click here to add some music</source>
+      <translation>Biraz müzik eklemek için buraya tıklayın</translation>
     </message>
     <message>
       <source>Organize files...</source>
@@ -7067,26 +7070,6 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <message>
       <source>Click here to retrieve music</source>
       <translation>Müziğinizi geri getirmek için tıklayın</translation>
-    </message>
-    <message>
-      <source>Append to current playlist</source>
-      <translation>Geçerli çalma listesine ekle</translation>
-    </message>
-    <message>
-      <source>Replace current playlist</source>
-      <translation>Geçerli çalma listesinin yerine koy</translation>
-    </message>
-    <message>
-      <source>Open in new playlist</source>
-      <translation>Yeni çalma listesinde aç</translation>
-    </message>
-    <message>
-      <source>Queue track</source>
-      <translation>Çalma sırasına ekle</translation>
-    </message>
-    <message>
-      <source>Queue to play next</source>
-      <translation>Sıradaki yap</translation>
     </message>
     <message>
       <source>Remove from favorites</source>

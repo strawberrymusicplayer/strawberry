@@ -1361,15 +1361,7 @@ Als er geen match is wordt de grootste afbeelding uit de map gebruikt.</translat
     </message>
   </context>
   <context>
-    <name>CollectionView</name>
-    <message>
-      <source>Your collection is empty!</source>
-      <translation>Uw bibliotheek is leeg!</translation>
-    </message>
-    <message>
-      <source>Click here to add some music</source>
-      <translation>Klik hier om muziek toe te voegen</translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
       <source>Append to current playlist</source>
       <translation>Aan huidige afspeellijst toevoegen</translation>
@@ -1393,6 +1385,17 @@ Als er geen match is wordt de grootste afbeelding uit de map gebruikt.</translat
     <message>
       <source>Search for this</source>
       <translation>Zoek hier naar</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionView</name>
+    <message>
+      <source>Your collection is empty!</source>
+      <translation>Uw bibliotheek is leeg!</translation>
+    </message>
+    <message>
+      <source>Click here to add some music</source>
+      <translation>Klik hier om muziek toe te voegen</translation>
     </message>
     <message>
       <source>Organize files...</source>
@@ -7068,26 +7071,6 @@ Weet je zeker dat je verder wilt gaan?</translation>
     <message>
       <source>Click here to retrieve music</source>
       <translation>Klik hier om muziek op te halen</translation>
-    </message>
-    <message>
-      <source>Append to current playlist</source>
-      <translation>Aan huidige afspeellijst toevoegen</translation>
-    </message>
-    <message>
-      <source>Replace current playlist</source>
-      <translation>Huidige afspeellijst vervangen</translation>
-    </message>
-    <message>
-      <source>Open in new playlist</source>
-      <translation>In een nieuwe afspeellijst openen</translation>
-    </message>
-    <message>
-      <source>Queue track</source>
-      <translation>Nummer in de wachtrij plaatsen</translation>
-    </message>
-    <message>
-      <source>Queue to play next</source>
-      <translation type="unfinished">Queue to play next</translation>
     </message>
     <message>
       <source>Remove from favorites</source>

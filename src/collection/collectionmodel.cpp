@@ -194,15 +194,26 @@ void CollectionModel::ResetInternal() {
 
   loading_ = true;
 
+  // Begin the reset before switching to the new options, so the items that are about to be removed are still described with the options they were built with.
+  BeginReset();
+
   options_active_ = options_current_;
 
-  BeginReset();
   // Show a loading indicator in the model.
   CollectionItem *loading = new CollectionItem(CollectionItem::Type::LoadingIndicator, root_);
   loading->display_text = tr("Loading...");
   EndReset();
 
   LoadSongsFromSqlAsync();
+
+}
+
+QModelIndex CollectionModel::IndexOfSong(const int song_id) const {
+
+  const QMap<int, CollectionItem*>::const_iterator it = song_nodes_.constFind(song_id);
+  if (it == song_nodes_.constEnd()) return QModelIndex();
+
+  return ItemToIndex(it.value());
 
 }
 

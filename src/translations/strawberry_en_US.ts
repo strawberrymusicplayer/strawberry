@@ -1360,15 +1360,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
 </context>
 <context>
-    <name>CollectionView</name>
-    <message>
-        <source>Your collection is empty!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Click here to add some music</source>
-        <translation type="unfinished"></translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
         <source>Append to current playlist</source>
         <translation type="unfinished"></translation>
@@ -1391,6 +1383,17 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
         <source>Search for this</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CollectionView</name>
+    <message>
+        <source>Your collection is empty!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click here to add some music</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7491,26 +7494,6 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source>Click here to retrieve music</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Append to current playlist</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Replace current playlist</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open in new playlist</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Queue track</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Queue to play next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

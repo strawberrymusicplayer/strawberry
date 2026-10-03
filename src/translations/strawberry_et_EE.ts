@@ -1361,15 +1361,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
   </context>
   <context>
-    <name>CollectionView</name>
-    <message>
-      <source>Your collection is empty!</source>
-      <translation>Su muusikakogu on tühi!</translation>
-    </message>
-    <message>
-      <source>Click here to add some music</source>
-      <translation>Muusika lisamiseks klõpsa siin</translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
       <source>Append to current playlist</source>
       <translation>Lisa praegusesse esitusloendisse</translation>
@@ -1393,6 +1385,17 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <message>
       <source>Search for this</source>
       <translation>Otsi seda</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionView</name>
+    <message>
+      <source>Your collection is empty!</source>
+      <translation>Su muusikakogu on tühi!</translation>
+    </message>
+    <message>
+      <source>Click here to add some music</source>
+      <translation>Muusika lisamiseks klõpsa siin</translation>
     </message>
     <message>
       <source>Organize files...</source>
@@ -7068,26 +7071,6 @@ Kas soovid jätkata?</translation>
     <message>
       <source>Click here to retrieve music</source>
       <translation>Muusika hankimiseks klõpsa siia</translation>
-    </message>
-    <message>
-      <source>Append to current playlist</source>
-      <translation>Lisa praegusesse esitusloendisse</translation>
-    </message>
-    <message>
-      <source>Replace current playlist</source>
-      <translation>Asenda praegune esitusloend</translation>
-    </message>
-    <message>
-      <source>Open in new playlist</source>
-      <translation>Ava uues esitusloendis</translation>
-    </message>
-    <message>
-      <source>Queue track</source>
-      <translation>Lisa järjekorda</translation>
-    </message>
-    <message>
-      <source>Queue to play next</source>
-      <translation>Lisa järgmisena esitamiseks järjekorda</translation>
     </message>
     <message>
       <source>Remove from favorites</source>
