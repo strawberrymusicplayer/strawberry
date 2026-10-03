@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,10 +21,16 @@
 
 #include <QtGlobal>
 #include <QWidget>
+#include <QString>
+#include <QLabel>
 #include <QProgressBar>
+#include <QPushButton>
+#include <QStackedWidget>
 #include <QKeyEvent>
 #include <QContextMenuEvent>
 
+#include "collection/collectionmodel.h"
+#include "collection/collectionfilter.h"
 #include "collection/collectionfilterwidget.h"
 #include "streamingcollectionview.h"
 #include "streamingcollectionviewcontainer.h"
@@ -50,6 +56,23 @@ StreamingCollectionViewContainer::StreamingCollectionViewContainer(QWidget *pare
 
 StreamingCollectionViewContainer::~StreamingCollectionViewContainer() { delete ui_; }
 
+void StreamingCollectionViewContainer::Init(CollectionModel *collection_model, CollectionFilter *collection_filter, const QString &settings_group, const QString &settings_prefix, const bool favorite) {
+
+  ui_->stacked->setCurrentWidget(ui_->streamingcollection_page);
+  ui_->view->Init(collection_model, favorite);
+  ui_->view->setModel(collection_filter);
+  ui_->filter_widget->SetSettingsGroup(settings_group);
+  if (!settings_prefix.isEmpty()) {
+    ui_->filter_widget->SetSettingsPrefix(settings_prefix);
+  }
+  ui_->filter_widget->Init(collection_model, collection_filter);
+
+  QObject::connect(collection_model, &CollectionModel::TotalSongCountUpdated, ui_->view, &StreamingCollectionView::TotalSongCountUpdated);
+  QObject::connect(collection_model, &CollectionModel::modelAboutToBeReset, ui_->view, &StreamingCollectionView::SaveFocus);
+  QObject::connect(collection_model, &CollectionModel::modelReset, ui_->view, &StreamingCollectionView::RestoreFocus);
+
+}
+
 void StreamingCollectionViewContainer::ReloadSettings() const {
 
   ui_->filter_widget->ReloadSettings();
@@ -63,6 +86,34 @@ bool StreamingCollectionViewContainer::SearchFieldHasFocus() const {
 
 void StreamingCollectionViewContainer::FocusSearchField() {
   ui_->filter_widget->FocusSearchField();
+}
+
+void StreamingCollectionViewContainer::ShowProgress() {
+
+  ui_->status->clear();
+  ui_->progressbar->show();
+  ui_->abort->show();
+  ui_->close->hide();
+  ui_->stacked->setCurrentWidget(ui_->help_page);
+
+}
+
+void StreamingCollectionViewContainer::ShowCollection() {
+
+  ui_->progressbar->setValue(0);
+  ui_->status->clear();
+  ui_->stacked->setCurrentWidget(ui_->streamingcollection_page);
+
+}
+
+void StreamingCollectionViewContainer::ShowError(const QString &error) {
+
+  ui_->status->setText(error);
+  ui_->progressbar->setValue(0);
+  ui_->progressbar->hide();
+  ui_->abort->hide();
+  ui_->close->show();
+
 }
 
 void StreamingCollectionViewContainer::contextMenuEvent(QContextMenuEvent *e) { Q_UNUSED(e); }

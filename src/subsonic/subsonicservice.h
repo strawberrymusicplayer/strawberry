@@ -40,7 +40,6 @@
 #include "core/song.h"
 #include "streaming/streamingservice.h"
 #include "credentialsmanager/credentialsreply.h"
-#include "collection/collectionmodel.h"
 
 class QNetworkReply;
 
@@ -92,13 +91,13 @@ class SubsonicService : public StreamingService {
   // True while the password is being read from the credentials manager, requests are held until PasswordLoaded is emitted.
   bool password_loading() const { return static_cast<bool>(read_password_reply_); }
 
-  SharedPtr<CollectionBackend> collection_backend() const { return collection_backend_; }
-  CollectionModel *collection_model() const { return collection_model_; }
-  CollectionFilter *collection_filter_model() const { return collection_model_->filter(); }
+  SharedPtr<CollectionBackend> collection_backend() const;
+  CollectionModel *collection_model() const;
+  CollectionFilter *collection_filter_model() const;
 
-  SharedPtr<CollectionBackend> songs_collection_backend() override { return collection_backend_; }
-  CollectionModel *songs_collection_model() override { return collection_model_; }
-  CollectionFilter *songs_collection_filter_model() override { return collection_model_->filter(); }
+  SharedPtr<CollectionBackend> songs_collection_backend() override;
+  CollectionModel *songs_collection_model() override;
+  CollectionFilter *songs_collection_filter_model() override;
 
   void CheckConfiguration();
   void Scrobble(const QString &song_id, const bool submission, const QDateTime &time);

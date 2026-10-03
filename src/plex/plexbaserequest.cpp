@@ -35,6 +35,7 @@
 #include <QJsonObject>
 #include <QJsonValue>
 
+#include "includes/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "plexservice.h"
 #include "plexbaserequest.h"

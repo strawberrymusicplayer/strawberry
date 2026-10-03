@@ -29,6 +29,7 @@
 #include <QEvent>
 #include <QShowEvent>
 
+#include "includes/shared_ptr.h"
 #include "settingsdialog.h"
 #include "plexsettingspage.h"
 #include "ui_plexsettingspage.h"

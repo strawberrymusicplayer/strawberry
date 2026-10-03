@@ -31,6 +31,7 @@
 #include <QMessageBox>
 #include <QEvent>
 
+#include "includes/shared_ptr.h"
 #include "settingsdialog.h"
 #include "subsonicsettingspage.h"
 #include "ui_subsonicsettingspage.h"

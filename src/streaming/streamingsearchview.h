@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This code was part of Clementine (GlobalSearch)
  * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,15 +25,10 @@
 #include "config.h"
 
 #include <QWidget>
-#include <QPair>
 #include <QList>
 #include <QMap>
 #include <QString>
-#include <QStringList>
-#include <QUrl>
-#include <QImage>
-#include <QPixmap>
-#include <QMetaType>
+#include <QPersistentModelIndex>
 
 #include "includes/scoped_ptr.h"
 #include "includes/shared_ptr.h"
@@ -41,8 +36,8 @@
 #include "collection/collectionmodel.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "streamingservice.h"
+#include "streamingsearchmodel.h"
 
-class QSortFilterProxyModel;
 class QMimeData;
 class QTimer;
 class QMenu;
@@ -57,7 +52,7 @@ class QTimerEvent;
 class MimeData;
 class AlbumCoverLoader;
 class GroupByDialog;
-class StreamingSearchModel;
+class StreamingSearchSortModel;
 class Ui_StreamingSearchView;
 
 class StreamingSearchView : public QWidget {
@@ -67,12 +62,6 @@ class StreamingSearchView : public QWidget {
   explicit StreamingSearchView(QWidget *parent = nullptr);
   ~StreamingSearchView() override;
 
-  struct Result {
-    Song metadata_;
-    QString pixmap_cache_key_;
-  };
-  using ResultList = QList<Result>;
-
   void Init(const SharedPtr<StreamingService> service, const SharedPtr<AlbumCoverLoader> albumcover_loader);
 
   bool SearchFieldHasFocus() const;
@@ -81,29 +70,9 @@ class StreamingSearchView : public QWidget {
   void LazyLoadAlbumCover(const QModelIndex &proxy_index);
 
  protected:
-  struct PendingState {
-    PendingState() : orig_id_(-1) {}
-    PendingState(int orig_id, const QStringList &tokens) : orig_id_(orig_id), tokens_(tokens) {}
-    int orig_id_;
-    QStringList tokens_;
-
-    bool operator<(const PendingState &b) const {
-      return orig_id_ < b.orig_id_;
-    }
-
-    bool operator==(const PendingState &b) const {
-      return orig_id_ == b.orig_id_;
-    }
-  };
-
   void showEvent(QShowEvent *e) override;
   bool eventFilter(QObject *object, QEvent *e) override;
   void timerEvent(QTimerEvent *e) override;
-
-  // These functions treat queries in the same way as CollectionQuery.
-  // They're useful for figuring out whether you got a result because it matched in the song title or the artist/album name.
-  static QStringList TokenizeQuery(const QString &query);
-  static bool Matches(const QStringList &tokens, const QString &string);
 
  private:
   struct DelayedSearch {
@@ -112,10 +81,17 @@ class StreamingSearchView : public QWidget {
     StreamingService::SearchType type_;
   };
 
+  struct CoverLoaderTask {
+    QPersistentModelIndex index_;
+    QString pixmap_cache_key_;
+  };
+
   bool SearchKeyEvent(QKeyEvent *e);
   bool ResultsContextMenuEvent(QContextMenuEvent *e);
 
+  StreamingSearchModel::ResultList SelectedResults();
   MimeData *SelectedMimeData();
+  SongList SelectedSongs();
 
   void SetSearchType(const StreamingService::SearchType type);
 
@@ -123,10 +99,10 @@ class StreamingSearchView : public QWidget {
   void SearchAsync(const int id, const QString &query, const StreamingService::SearchType type);
   void SearchError(const int id, const QString &error);
   void CancelSearch(const int id);
+  // Whether the service's search ID belongs to the search that is shown.
+  bool IsCurrentSearch(const int service_id) const;
 
-  QString PixmapCacheKey(const Result &result) const;
-  bool FindCachedPixmap(const Result &result, QPixmap *pixmap) const;
-  int LoadAlbumCoverAsync(const Result &result);
+  QString PixmapCacheKey(const Song &song) const;
 
  Q_SIGNALS:
   void AddToPlaylist(QMimeData *mimedata);
@@ -144,7 +120,7 @@ class StreamingSearchView : public QWidget {
   void UpdateStatus(const int service_id, const QString &text);
   void ProgressSetMaximum(const int service_id, const int max);
   void UpdateProgress(const int service_id, const int progress);
-  void AddResults(const int service_id, const StreamingSearchView::ResultList &results);
+  void AddResults(const int search_id, const StreamingSearchModel::ResultList &results);
 
   void FocusOnFilter(QKeyEvent *e);
 
@@ -178,6 +154,7 @@ class StreamingSearchView : public QWidget {
 
   QMenu *context_menu_;
   QList<QAction*> context_actions_;
+  QAction *search_for_this_;
   QActionGroup *group_by_actions_;
 
   // Like graphics APIs have a front buffer and a back buffer, there's a front model and a back model
@@ -187,9 +164,8 @@ class StreamingSearchView : public QWidget {
   StreamingSearchModel *back_model_;
   StreamingSearchModel *current_model_;
 
-  QSortFilterProxyModel *front_proxy_;
-  QSortFilterProxyModel *back_proxy_;
-  QSortFilterProxyModel *current_proxy_;
+  StreamingSearchSortModel *front_proxy_;
+  StreamingSearchSortModel *back_proxy_;
 
   QTimer *swap_models_timer_;
 
@@ -202,11 +178,10 @@ class StreamingSearchView : public QWidget {
   int searches_next_id_;
 
   QMap<int, DelayedSearch> delayed_searches_;
-  QMap<int, PendingState> pending_searches_;
+  // Maps the service's search ID to our search ID.
+  QMap<int, int> pending_searches_;
 
-  QMap<quint64, QPair<QModelIndex, QString>> cover_loader_tasks_;
+  QMap<quint64, CoverLoaderTask> cover_loader_tasks_;
 };
-Q_DECLARE_METATYPE(StreamingSearchView::Result)
-Q_DECLARE_METATYPE(StreamingSearchView::ResultList)
 
 #endif  // STREAMINGSEARCHVIEW_H

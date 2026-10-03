@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This code was part of Clementine
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,10 +38,8 @@
 #include <QMenu>
 #include <QtEvents>
 
-#include "includes/shared_ptr.h"
 #include "core/iconloader.h"
 #include "core/mimedata.h"
-#include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionfilterwidget.h"
 #include "collection/collectionitem.h"
@@ -52,13 +50,10 @@ using namespace Qt::Literals::StringLiterals;
 
 StreamingCollectionView::StreamingCollectionView(QWidget *parent)
     : AutoExpandingTreeView(parent),
-      collection_backend_(nullptr),
       collection_model_(nullptr),
       filter_(nullptr),
       favorite_(false),
       total_song_count_(0),
-      total_artist_count_(0),
-      total_album_count_(0),
       nomusic_(u":/pictures/nomusic.png"_s),
       context_menu_(nullptr),
       load_(nullptr),
@@ -82,9 +77,8 @@ StreamingCollectionView::StreamingCollectionView(QWidget *parent)
 
 }
 
-void StreamingCollectionView::Init(const SharedPtr<CollectionBackend> collection_backend, CollectionModel *collection_model, const bool favorite) {
+void StreamingCollectionView::Init(CollectionModel *collection_model, const bool favorite) {
 
-  collection_backend_ = collection_backend;
   collection_model_ = collection_model;
   favorite_ = favorite;
 
@@ -105,7 +99,15 @@ void StreamingCollectionView::ReloadSettings() {
 
 }
 
+QSortFilterProxyModel *StreamingCollectionView::filter_model() const {
+
+  return qobject_cast<QSortFilterProxyModel*>(model());
+
+}
+
 void StreamingCollectionView::SaveFocus() {
+
+  if (!filter_model() || !collection_model_) return;
 
   const QModelIndex current = currentIndex();
   const QVariant role_type = model()->data(current, CollectionModel::Role_Type);
@@ -123,8 +125,8 @@ void StreamingCollectionView::SaveFocus() {
 
   switch (item_type) {
     case CollectionItem::Type::Song:{
-      QModelIndex idx = qobject_cast<QSortFilterProxyModel*>(model())->mapToSource(current);
-      SongList songs = collection_model_->GetChildSongs(idx);
+      const QModelIndex idx = filter_model()->mapToSource(current);
+      const SongList songs = collection_model_->GetChildSongs(idx);
       if (!songs.isEmpty()) {
         last_selected_song_ = songs.last();
       }
@@ -175,6 +177,8 @@ void StreamingCollectionView::RestoreFocus() {
 
 bool StreamingCollectionView::RestoreLevelFocus(const QModelIndex &parent) {
 
+  if (!filter_model() || !collection_model_) return false;
+
   if (model()->canFetchMore(parent)) {
     model()->fetchMore(parent);
   }
@@ -191,7 +195,7 @@ bool StreamingCollectionView::RestoreLevelFocus(const QModelIndex &parent) {
         break;
       case CollectionItem::Type::Song:
         if (!last_selected_song_.url().isEmpty()) {
-          QModelIndex idx = qobject_cast<QSortFilterProxyModel*>(model())->mapToSource(current);
+          const QModelIndex idx = filter_model()->mapToSource(current);
           const SongList songs = collection_model_->GetChildSongs(idx);
           for (const Song &song : songs) {
             if (song == last_selected_song_) {
@@ -228,54 +232,20 @@ bool StreamingCollectionView::RestoreLevelFocus(const QModelIndex &parent) {
 
 }
 
-void StreamingCollectionView::TotalSongCountUpdated(int count) {
+void StreamingCollectionView::TotalSongCountUpdated(const int count) {
 
-  int old = total_song_count_;
-  total_song_count_ = count;
-  if (old != total_song_count_) update();
+  if (count != total_song_count_) {
+    total_song_count_ = count;
+    update();
+  }
 
+  // An empty collection shows a text to click on to retrieve the music.
   if (total_song_count_ == 0) {
     setCursor(Qt::PointingHandCursor);
   }
   else {
     unsetCursor();
   }
-
-  Q_EMIT TotalSongCountUpdated_();
-
-}
-
-void StreamingCollectionView::TotalArtistCountUpdated(int count) {
-
-  int old = total_artist_count_;
-  total_artist_count_ = count;
-  if (old != total_artist_count_) update();
-
-  if (total_artist_count_ == 0) {
-    setCursor(Qt::PointingHandCursor);
-  }
-  else {
-    unsetCursor();
-  }
-
-  Q_EMIT TotalArtistCountUpdated_();
-
-}
-
-void StreamingCollectionView::TotalAlbumCountUpdated(int count) {
-
-  int old = total_album_count_;
-  total_album_count_ = count;
-  if (old != total_album_count_) update();
-
-  if (total_album_count_ == 0) {
-    setCursor(Qt::PointingHandCursor);
-  }
-  else {
-    unsetCursor();
-  }
-
-  Q_EMIT TotalAlbumCountUpdated_();
 
 }
 
@@ -344,27 +314,33 @@ void StreamingCollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
   }
 
-  context_menu_index_ = indexAt(e->pos());
-  if (!context_menu_index_.isValid()) return;
+  if (!indexAt(e->pos()).isValid()) return;
 
-  context_menu_index_ = qobject_cast<QSortFilterProxyModel*>(model())->mapToSource(context_menu_index_);
-  QModelIndexList selected_indexes = qobject_cast<QSortFilterProxyModel*>(model())->mapSelectionToSource(selectionModel()->selection()).indexes();
-  qint64 songs_selected = selected_indexes.count();
-
-  // In all modes
-  load_->setEnabled(songs_selected > 0);
-  add_to_playlist_->setEnabled(songs_selected > 0);
-  open_in_new_playlist_->setEnabled(songs_selected > 0);
-  add_to_playlist_enqueue_->setEnabled(songs_selected > 0);
-  if (remove_songs_) remove_songs_->setEnabled(songs_selected > 0);
+  const bool has_selection = selectionModel() && selectionModel()->hasSelection();
+  load_->setEnabled(has_selection);
+  add_to_playlist_->setEnabled(has_selection);
+  open_in_new_playlist_->setEnabled(has_selection);
+  add_to_playlist_enqueue_->setEnabled(has_selection);
+  add_to_playlist_enqueue_next_->setEnabled(has_selection);
+  if (remove_songs_) remove_songs_->setEnabled(has_selection);
 
   context_menu_->popup(e->globalPos());
 
 }
 
+QMimeData *StreamingCollectionView::SelectedMimeData() const {
+
+  if (!model() || !selectionModel() || !selectionModel()->hasSelection()) return nullptr;
+
+  return model()->mimeData(selectedIndexes());
+
+}
+
 void StreamingCollectionView::Load() {
 
-  QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
+  QMimeData *q_mimedata = SelectedMimeData();
+  if (!q_mimedata) return;
+
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->clear_first_ = true;
   }
@@ -374,13 +350,18 @@ void StreamingCollectionView::Load() {
 
 void StreamingCollectionView::AddToPlaylist() {
 
-  Q_EMIT AddToPlaylistSignal(model()->mimeData(selectedIndexes()));
+  QMimeData *q_mimedata = SelectedMimeData();
+  if (!q_mimedata) return;
+
+  Q_EMIT AddToPlaylistSignal(q_mimedata);
 
 }
 
 void StreamingCollectionView::AddToPlaylistEnqueue() {
 
-  QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
+  QMimeData *q_mimedata = SelectedMimeData();
+  if (!q_mimedata) return;
+
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->enqueue_now_ = true;
   }
@@ -390,7 +371,9 @@ void StreamingCollectionView::AddToPlaylistEnqueue() {
 
 void StreamingCollectionView::AddToPlaylistEnqueueNext() {
 
-  QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
+  QMimeData *q_mimedata = SelectedMimeData();
+  if (!q_mimedata) return;
+
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->enqueue_next_now_ = true;
   }
@@ -400,7 +383,9 @@ void StreamingCollectionView::AddToPlaylistEnqueueNext() {
 
 void StreamingCollectionView::OpenInNewPlaylist() {
 
-  QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
+  QMimeData *q_mimedata = SelectedMimeData();
+  if (!q_mimedata) return;
+
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->open_in_new_playlist_ = true;
   }
@@ -435,7 +420,9 @@ void StreamingCollectionView::scrollTo(const QModelIndex &idx, ScrollHint hint) 
 
 SongList StreamingCollectionView::GetSelectedSongs() const {
 
-  QModelIndexList selected_indexes = qobject_cast<QSortFilterProxyModel*>(model())->mapSelectionToSource(selectionModel()->selection()).indexes();
+  if (!filter_model() || !collection_model_ || !selectionModel()) return SongList();
+
+  const QModelIndexList selected_indexes = filter_model()->mapSelectionToSource(selectionModel()->selection()).indexes();
   return collection_model_->GetChildSongs(selected_indexes);
 
 }
@@ -460,14 +447,4 @@ void StreamingCollectionView::FilterReturnPressed() {
 
   Q_EMIT doubleClicked(currentIndex());
 
-}
-
-int StreamingCollectionView::TotalSongs() const {
-  return total_song_count_;
-}
-int StreamingCollectionView::TotalArtists() const {
-  return total_artist_count_;
-}
-int StreamingCollectionView::TotalAlbums() const {
-  return total_album_count_;
 }

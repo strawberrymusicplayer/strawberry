@@ -38,6 +38,7 @@
 #include <QJsonObject>
 #include <QJsonValue>
 
+#include "includes/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "utilities/randutils.h"
 #include "subsonicservice.h"

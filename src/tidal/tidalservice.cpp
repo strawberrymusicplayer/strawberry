@@ -38,7 +38,6 @@
 #include "core/urlhandlers.h"
 #include "core/oauthenticator.h"
 #include "constants/tidalsettings.h"
-#include "streaming/streamingsearchview.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "covermanager/albumcoverloader.h"
@@ -213,6 +212,42 @@ quint64 TidalService::user_id() const {
 
   return oauth_->user_id();
 
+}
+
+SharedPtr<CollectionBackend> TidalService::artists_collection_backend() {
+  return artists_collection_backend_;
+}
+
+SharedPtr<CollectionBackend> TidalService::albums_collection_backend() {
+  return albums_collection_backend_;
+}
+
+SharedPtr<CollectionBackend> TidalService::songs_collection_backend() {
+  return songs_collection_backend_;
+}
+
+CollectionModel *TidalService::artists_collection_model() {
+  return artists_collection_model_;
+}
+
+CollectionModel *TidalService::albums_collection_model() {
+  return albums_collection_model_;
+}
+
+CollectionModel *TidalService::songs_collection_model() {
+  return songs_collection_model_;
+}
+
+CollectionFilter *TidalService::artists_collection_filter_model() {
+  return artists_collection_model_->filter();
+}
+
+CollectionFilter *TidalService::albums_collection_filter_model() {
+  return albums_collection_model_->filter();
+}
+
+CollectionFilter *TidalService::songs_collection_filter_model() {
+  return songs_collection_model_->filter();
 }
 
 void TidalService::Exit() {

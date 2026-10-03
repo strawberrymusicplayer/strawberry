@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This code was part of Clementine (GlobalSearch)
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,12 +24,14 @@
 #include <QObject>
 #include <QAbstractItemModel>
 #include <QSortFilterProxyModel>
+#include <QMimeData>
+#include <QSet>
 #include <QString>
 
+#include "core/mimedata.h"
 #include "collection/collectionmodel.h"
 #include "streamingsearchmodel.h"
 #include "streamingsearchsortmodel.h"
-#include "streamingsearchview.h"
 
 StreamingSearchSortModel::StreamingSearchSortModel(QObject *parent) : QSortFilterProxyModel(parent) {}
 
@@ -52,19 +55,57 @@ bool StreamingSearchSortModel::lessThan(const QModelIndex &left, const QModelInd
   }
 
   // Otherwise we're comparing songs.  Sort by disc, track, then title.
-  const StreamingSearchView::Result r1 = left.data(StreamingSearchModel::Role_Result).value<StreamingSearchView::Result>();
-  const StreamingSearchView::Result r2 = right.data(StreamingSearchModel::Role_Result).value<StreamingSearchView::Result>();
+  const Song left_song = left.data(StreamingSearchModel::Role_Result).value<StreamingSearchModel::Result>().metadata_;
+  const Song right_song = right.data(StreamingSearchModel::Role_Result).value<StreamingSearchModel::Result>().metadata_;
 
-  if (r1.metadata_.disc() < r2.metadata_.disc()) return true;
-  if (r1.metadata_.disc() > r2.metadata_.disc()) return false;
+  if (left_song.disc() != right_song.disc()) return left_song.disc() < right_song.disc();
+  if (left_song.track() != right_song.track()) return left_song.track() < right_song.track();
 
-  if (r1.metadata_.track() < r2.metadata_.track()) return true;
-  if (r1.metadata_.track() > r2.metadata_.track()) return false;
+  return QString::localeAwareCompare(left_song.title(), right_song.title()) < 0;
 
-  int ret = QString::localeAwareCompare(r1.metadata_.title(), r2.metadata_.title());
-  if (ret < 0) return true;
-  if (ret > 0) return false;
+}
 
-  return false;
+StreamingSearchModel::ResultList StreamingSearchSortModel::GetChildResults(const QModelIndexList &proxy_indexes) const {
+
+  StreamingSearchModel::ResultList results;
+  QSet<QModelIndex> visited;
+  for (const QModelIndex &proxy_index : proxy_indexes) {
+    GetChildResults(proxy_index, &results, &visited);
+  }
+
+  return results;
+
+}
+
+void StreamingSearchSortModel::GetChildResults(const QModelIndex &proxy_index, StreamingSearchModel::ResultList *results, QSet<QModelIndex> *visited) const {
+
+  if (!proxy_index.isValid() || visited->contains(proxy_index)) {
+    return;
+  }
+  visited->insert(proxy_index);
+
+  const int child_count = rowCount(proxy_index);
+  if (child_count > 0) {
+    // Visit the children through the proxy, so they are in the order they are shown.
+    for (int row = 0; row < child_count; ++row) {
+      GetChildResults(index(row, 0, proxy_index), results, visited);
+    }
+  }
+  else {
+    // A song, add its result.
+    const QVariant result = proxy_index.data(StreamingSearchModel::Role_Result);
+    if (result.isValid()) {
+      results->append(result.value<StreamingSearchModel::Result>());
+    }
+  }
+
+}
+
+QMimeData *StreamingSearchSortModel::mimeData(const QModelIndexList &proxy_indexes) const {
+
+  const StreamingSearchModel *search_model = qobject_cast<const StreamingSearchModel*>(sourceModel());
+  if (!search_model) return nullptr;
+
+  return search_model->LoadTracks(GetChildResults(proxy_indexes));
 
 }

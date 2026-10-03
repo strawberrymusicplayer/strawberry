@@ -29,6 +29,7 @@
 #include <QEvent>
 #include <QSignalBlocker>
 
+#include "includes/shared_ptr.h"
 #include "settingsdialog.h"
 #include "jellyfinsettingspage.h"
 #include "ui_jellyfinsettingspage.h"

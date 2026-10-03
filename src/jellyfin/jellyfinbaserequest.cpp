@@ -36,6 +36,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
+#include "includes/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "jellyfinservice.h"
 #include "jellyfinbaserequest.h"

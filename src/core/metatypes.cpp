@@ -64,7 +64,7 @@
 #  include "mpris2/mpris2.h"
 #endif
 
-#include "streaming/streamingsearchview.h"
+#include "streaming/streamingsearchmodel.h"
 
 #include "smartplaylists/playlistgenerator_fwd.h"
 
@@ -144,8 +144,8 @@ void RegisterMetaTypes() {
 #  endif
 #endif
 
-  qRegisterMetaType<StreamingSearchView::Result>("StreamingSearchView::Result");
-  qRegisterMetaType<StreamingSearchView::ResultList>("StreamingSearchView::ResultList");
+  qRegisterMetaType<StreamingSearchModel::Result>("StreamingSearchModel::Result");
+  qRegisterMetaType<StreamingSearchModel::ResultList>("StreamingSearchModel::ResultList");
 
   qRegisterMetaType<RadioChannel>("RadioChannel");
   qRegisterMetaType<RadioChannelList>("RadioChannelList");

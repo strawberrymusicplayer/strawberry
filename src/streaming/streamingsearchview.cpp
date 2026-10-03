@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This code was part of Clementine (GlobalSearch)
  * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,12 +33,10 @@
 #include <QApplication>
 #include <QWidget>
 #include <QTimer>
-#include <QPair>
 #include <QList>
 #include <QMap>
 #include <QString>
-#include <QStringList>
-#include <QRegularExpression>
+#include <QPersistentModelIndex>
 #include <QPixmap>
 #include <QPixmapCache>
 #include <QPainter>
@@ -74,7 +72,6 @@
 #include "collection/savedgroupingmanager.h"
 #include "covermanager/albumcoverloader.h"
 #include "covermanager/albumcoverloaderresult.h"
-#include "streamsongmimedata.h"
 #include "streamingservice.h"
 #include "streamingsearchitemdelegate.h"
 #include "streamingsearchmodel.h"
@@ -103,13 +100,13 @@ StreamingSearchView::StreamingSearchView(QWidget *parent)
       service_(nullptr),
       ui_(new Ui_StreamingSearchView),
       context_menu_(nullptr),
+      search_for_this_(nullptr),
       group_by_actions_(nullptr),
       front_model_(nullptr),
       back_model_(nullptr),
       current_model_(nullptr),
       front_proxy_(nullptr),
       back_proxy_(nullptr),
-      current_proxy_(front_proxy_),
       swap_models_timer_(new QTimer(this)),
       use_pretty_covers_(true),
       show_search_album_edition_(false),
@@ -166,11 +163,7 @@ void StreamingSearchView::Init(const StreamingServicePtr service, const SharedPt
   front_proxy_ = new StreamingSearchSortModel(this);
   back_proxy_ = new StreamingSearchSortModel(this);
 
-  front_model_->set_proxy(front_proxy_);
-  back_model_->set_proxy(back_proxy_);
-
   current_model_ = front_model_;
-  current_proxy_ = front_proxy_;
 
   // Set up the sorting proxy model
   front_proxy_->setSourceModel(front_model_);
@@ -353,9 +346,7 @@ bool StreamingSearchView::ResultsContextMenuEvent(QContextMenuEvent *e) {
       context_menu_->addSeparator();
     }
 
-    if (ui_->results->selectionModel() && ui_->results->selectionModel()->selectedRows().length() == 1) {
-      context_actions_ << context_menu_->addAction(IconLoader::Load(u"search"_s), tr("Search for this"), this, &StreamingSearchView::SearchForThis);
-    }
+    search_for_this_ = context_menu_->addAction(IconLoader::Load(u"search"_s), tr("Search for this"), this, &StreamingSearchView::SearchForThis);
 
     context_menu_->addSeparator();
     context_menu_->addMenu(tr("Group by"))->addActions(group_by_actions_->actions());
@@ -369,6 +360,7 @@ bool StreamingSearchView::ResultsContextMenuEvent(QContextMenuEvent *e) {
   for (QAction *action : std::as_const(context_actions_)) {
     action->setEnabled(enable_context_actions);
   }
+  search_for_this_->setEnabled(ui_->results->selectionModel() && ui_->results->selectionModel()->selectedRows().count() == 1);
 
   context_menu_->popup(e->globalPos());
 
@@ -411,7 +403,6 @@ void StreamingSearchView::TextEdited(const QString &text) {
   // Add results to the back model, switch models after some delay.
   back_model_->Clear();
   current_model_ = back_model_;
-  current_proxy_ = back_proxy_;
   swap_models_timer_->start();
 
   // Cancel the last search (if any) and start the new one.
@@ -450,38 +441,6 @@ void StreamingSearchView::SwapModels() {
 
 }
 
-QStringList StreamingSearchView::TokenizeQuery(const QString &query) {
-
-  static const QRegularExpression regex_whitespaces(u"\\s+"_s);
-  QStringList tokens = query.split(regex_whitespaces);
-
-  for (QStringList::iterator it = tokens.begin(); it != tokens.end(); ++it) {
-    (*it).remove(u'(');
-    (*it).remove(u')');
-    (*it).remove(u'"');
-
-    const qint64 colon = (*it).indexOf(u':');
-    if (colon != -1) {
-      (*it).remove(0, colon + 1);
-    }
-  }
-
-  return tokens;
-
-}
-
-bool StreamingSearchView::Matches(const QStringList &tokens, const QString &string) {
-
-  for (const QString &token : tokens) {
-    if (!string.contains(token, Qt::CaseInsensitive)) {
-      return false;
-    }
-  }
-
-  return true;
-
-}
-
 int StreamingSearchView::SearchAsync(const QString &query, const StreamingService::SearchType type) {
 
   const int id = searches_next_id_++;
@@ -498,7 +457,7 @@ int StreamingSearchView::SearchAsync(const QString &query, const StreamingServic
 void StreamingSearchView::SearchAsync(const int id, const QString &query, const StreamingService::SearchType type) {
 
   const int service_id = service_->Search(query, type);
-  pending_searches_[service_id] = PendingState(id, TokenizeQuery(query));
+  pending_searches_[service_id] = id;
 
 }
 
@@ -507,25 +466,17 @@ void StreamingSearchView::SearchDone(const int service_id, const SongMap &songs,
   if (!pending_searches_.contains(service_id)) return;
 
   // Map back to the original id.
-  const PendingState state = pending_searches_.take(service_id);
-  const int search_id = state.orig_id_;
+  const int search_id = pending_searches_.take(service_id);
 
   if (songs.isEmpty()) {
     SearchError(search_id, error);
     return;
   }
 
-  ResultList results;
+  StreamingSearchModel::ResultList results;
   results.reserve(songs.count());
   for (const Song &song : songs) {
-    Result result;
-    result.metadata_ = song;
-    results << result;
-  }
-
-  // Load cached pixmaps into the results
-  for (StreamingSearchView::ResultList::iterator it = results.begin(); it != results.end(); ++it) {
-    it->pixmap_cache_key_ = PixmapCacheKey(*it);
+    results << StreamingSearchModel::Result{song, PixmapCacheKey(song)};
   }
 
   AddResults(search_id, results);
@@ -545,9 +496,9 @@ void StreamingSearchView::CancelSearch(const int id) {
 
 }
 
-void StreamingSearchView::AddResults(const int id, const StreamingSearchView::ResultList &results) {
+void StreamingSearchView::AddResults(const int search_id, const StreamingSearchModel::ResultList &results) {
 
-  if (id != last_search_id_ || results.isEmpty()) return;
+  if (search_id != last_search_id_ || results.isEmpty()) return;
 
   ui_->label_status->clear();
   ui_->progressbar->reset();
@@ -569,12 +520,16 @@ void StreamingSearchView::SearchError(const int id, const QString &error) {
 
 }
 
+bool StreamingSearchView::IsCurrentSearch(const int service_id) const {
+
+  const QMap<int, int>::const_iterator it = pending_searches_.constFind(service_id);
+  return it != pending_searches_.constEnd() && it.value() == last_search_id_;
+
+}
+
 void StreamingSearchView::UpdateStatus(const int service_id, const QString &text) {
 
-  if (!pending_searches_.contains(service_id)) return;
-  const PendingState state = pending_searches_.value(service_id);
-  const int search_id = state.orig_id_;
-  if (search_id != last_search_id_) return;
+  if (!IsCurrentSearch(service_id)) return;
   ui_->progressbar->show();
   ui_->label_status->setText(text);
 
@@ -582,34 +537,27 @@ void StreamingSearchView::UpdateStatus(const int service_id, const QString &text
 
 void StreamingSearchView::ProgressSetMaximum(const int service_id, const int max) {
 
-  if (!pending_searches_.contains(service_id)) return;
-  const PendingState state = pending_searches_.value(service_id);
-  const int search_id = state.orig_id_;
-  if (search_id != last_search_id_) return;
+  if (!IsCurrentSearch(service_id)) return;
   ui_->progressbar->setMaximum(max);
 
 }
 
 void StreamingSearchView::UpdateProgress(const int service_id, const int progress) {
 
-  if (!pending_searches_.contains(service_id)) return;
-  const PendingState state = pending_searches_.value(service_id);
-  const int search_id = state.orig_id_;
-  if (search_id != last_search_id_) return;
+  if (!IsCurrentSearch(service_id)) return;
   ui_->progressbar->setValue(progress);
 
 }
 
-MimeData *StreamingSearchView::SelectedMimeData() {
+StreamingSearchModel::ResultList StreamingSearchView::SelectedResults() {
 
-  if (!ui_->results->selectionModel()) return nullptr;
+  if (!ui_->results->selectionModel()) return StreamingSearchModel::ResultList();
 
-  // Get all selected model indexes
   QModelIndexList indexes = ui_->results->selectionModel()->selectedRows();
   if (indexes.isEmpty()) {
     // There's nothing selected - take the first thing in the model that isn't a divider.
     for (int i = 0; i < front_proxy_->rowCount(); ++i) {
-      QModelIndex idx = front_proxy_->index(i, 0);
+      const QModelIndex idx = front_proxy_->index(i, 0);
       if (!idx.data(CollectionModel::Role_IsDivider).toBool()) {
         indexes << idx;  // clazy:exclude=reserve-candidates
         ui_->results->setCurrentIndex(idx);
@@ -618,24 +566,36 @@ MimeData *StreamingSearchView::SelectedMimeData() {
     }
   }
 
-  // Still got nothing?  Give up.
-  if (indexes.isEmpty()) {
-    return nullptr;
+  return front_proxy_->GetChildResults(indexes);
+
+}
+
+MimeData *StreamingSearchView::SelectedMimeData() {
+
+  return front_model_->LoadTracks(SelectedResults());
+
+}
+
+SongList StreamingSearchView::SelectedSongs() {
+
+  const StreamingSearchModel::ResultList results = SelectedResults();
+  SongList songs;
+  songs.reserve(results.count());
+  for (const StreamingSearchModel::Result &result : results) {
+    songs << result.metadata_;
   }
 
-  // Get items for these indexes
-  QList<QStandardItem*> items;
-  for (const QModelIndex &idx : std::as_const(indexes)) {
-    items << (front_model_->itemFromIndex(front_proxy_->mapToSource(idx)));  // clazy:exclude=reserve-candidates
-  }
-
-  // Get a MimeData for these items
-  return front_model_->LoadTracks(front_model_->GetChildResults(items));
+  return songs;
 
 }
 
 void StreamingSearchView::AddSelectedToPlaylist() {
-  Q_EMIT AddToPlaylist(SelectedMimeData());
+
+  MimeData *mimedata = SelectedMimeData();
+  if (!mimedata) return;
+
+  Q_EMIT AddToPlaylist(mimedata);
+
 }
 
 void StreamingSearchView::LoadSelected() {
@@ -669,7 +629,14 @@ void StreamingSearchView::OpenSelectedInNewPlaylist() {
 }
 
 void StreamingSearchView::SearchForThis() {
-  StartSearch(ui_->results->selectionModel()->selectedRows().first().data().toString());
+
+  if (!ui_->results->selectionModel()) return;
+
+  const QModelIndexList selected_rows = ui_->results->selectionModel()->selectedRows();
+  if (selected_rows.count() != 1) return;
+
+  StartSearch(selected_rows.first().data().toString());
+
 }
 
 bool StreamingSearchView::SearchFieldHasFocus() const {
@@ -778,49 +745,42 @@ void StreamingSearchView::SetSearchType(const StreamingService::SearchType type)
 
 void StreamingSearchView::AddArtists() {
 
-  MimeData *mimedata = SelectedMimeData();
-  if (!mimedata) return;
-  if (const StreamSongMimeData *streaming_song_data = qobject_cast<const StreamSongMimeData*>(mimedata)) {
-    Q_EMIT AddArtistsSignal(streaming_song_data->songs);
-  }
+  const SongList songs = SelectedSongs();
+  if (songs.isEmpty()) return;
+
+  Q_EMIT AddArtistsSignal(songs);
 
 }
 
 void StreamingSearchView::AddAlbums() {
 
-  MimeData *mimedata = SelectedMimeData();
-  if (!mimedata) return;
-  if (const StreamSongMimeData *streaming_song_data = qobject_cast<const StreamSongMimeData*>(mimedata)) {
-    Q_EMIT AddAlbumsSignal(streaming_song_data->songs);
-  }
+  const SongList songs = SelectedSongs();
+  if (songs.isEmpty()) return;
+
+  Q_EMIT AddAlbumsSignal(songs);
 
 }
 
 void StreamingSearchView::AddSongs() {
 
-  MimeData *mimedata = SelectedMimeData();
-  if (!mimedata) return;
-  if (const StreamSongMimeData *streaming_song_data = qobject_cast<const StreamSongMimeData*>(mimedata)) {
-    Q_EMIT AddSongsSignal(streaming_song_data->songs);
-  }
+  const SongList songs = SelectedSongs();
+  if (songs.isEmpty()) return;
+
+  Q_EMIT AddSongsSignal(songs);
 
 }
 
-QString StreamingSearchView::PixmapCacheKey(const StreamingSearchView::Result &result) const {
+QString StreamingSearchView::PixmapCacheKey(const Song &song) const {
 
-  if (result.metadata_.art_automatic_is_valid()) {
-    return Song::TextForSource(service_->source()) + QLatin1Char('/') + result.metadata_.art_automatic().toString();
+  if (song.art_automatic_is_valid()) {
+    return Song::TextForSource(service_->source()) + QLatin1Char('/') + song.art_automatic().toString();
   }
-  if (!result.metadata_.effective_albumartist().isEmpty() && !result.metadata_.album().isEmpty()) {
-    return Song::TextForSource(service_->source()) + QLatin1Char('/') + result.metadata_.effective_albumartist() + QLatin1Char('/') + result.metadata_.album();
+  if (!song.effective_albumartist().isEmpty() && !song.album().isEmpty()) {
+    return Song::TextForSource(service_->source()) + QLatin1Char('/') + song.effective_albumartist() + QLatin1Char('/') + song.album();
   }
 
-  return Song::TextForSource(service_->source()) + QLatin1Char('/') + result.metadata_.url().toString();
+  return Song::TextForSource(service_->source()) + QLatin1Char('/') + song.url().toString();
 
-}
-
-bool StreamingSearchView::FindCachedPixmap(const StreamingSearchView::Result &result, QPixmap *pixmap) const {
-  return QPixmapCache::find(result.pixmap_cache_key_, pixmap);
 }
 
 void StreamingSearchView::LazyLoadAlbumCover(const QModelIndex &proxy_index) {
@@ -863,7 +823,7 @@ void StreamingSearchView::LazyLoadAlbumCover(const QModelIndex &proxy_index) {
   }
 
   // Get the track's Result
-  const StreamingSearchView::Result result = item_song->data(StreamingSearchModel::Role_Result).value<StreamingSearchView::Result>();
+  const StreamingSearchModel::Result result = item_song->data(StreamingSearchModel::Role_Result).value<StreamingSearchModel::Result>();
 
   QPixmap cached_pixmap;
   if (QPixmapCache::find(result.pixmap_cache_key_, &cached_pixmap)) {
@@ -872,8 +832,8 @@ void StreamingSearchView::LazyLoadAlbumCover(const QModelIndex &proxy_index) {
   else {
     AlbumCoverLoaderOptions cover_loader_options(AlbumCoverLoaderOptions::Option::ScaledImage | AlbumCoverLoaderOptions::Option::PadScaledImage);
     cover_loader_options.desired_scaled_size = QSize(kArtHeight, kArtHeight);
-    quint64 loader_id = albumcover_loader_->LoadImageAsync(cover_loader_options, result.metadata_);
-    cover_loader_tasks_[loader_id] = qMakePair(source_index, result.pixmap_cache_key_);
+    const quint64 loader_id = albumcover_loader_->LoadImageAsync(cover_loader_options, result.metadata_);
+    cover_loader_tasks_.insert(loader_id, CoverLoaderTask{QPersistentModelIndex(source_index), result.pixmap_cache_key_});
   }
 
 }
@@ -882,20 +842,19 @@ void StreamingSearchView::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoa
 
   if (!cover_loader_tasks_.contains(id)) return;
 
-  QPair<QModelIndex, QString> cover_loader_task = cover_loader_tasks_.take(id);
-  QModelIndex idx = cover_loader_task.first;
-  QString key = cover_loader_task.second;
+  const CoverLoaderTask cover_loader_task = cover_loader_tasks_.take(id);
 
-  if (albumcover_result.success && !albumcover_result.image_scaled.isNull()) {
-    QPixmap pixmap = QPixmap::fromImage(albumcover_result.image_scaled);
-    if (!pixmap.isNull()) {
-      QPixmapCache::insert(key, pixmap);
-    }
-    if (idx.isValid()) {
-      QStandardItem *item = front_model_->itemFromIndex(idx);
-      if (item) {
-        item->setData(albumcover_result.image_scaled, Qt::DecorationRole);
-      }
+  if (!albumcover_result.success || albumcover_result.image_scaled.isNull()) return;
+
+  const QPixmap pixmap = QPixmap::fromImage(albumcover_result.image_scaled);
+  if (pixmap.isNull()) return;
+
+  QPixmapCache::insert(cover_loader_task.pixmap_cache_key_, pixmap);
+
+  // The persistent index follows the item while results are added, and becomes invalid when the results are cleared.
+  if (cover_loader_task.index_.isValid() && cover_loader_task.index_.model() == front_model_) {
+    if (QStandardItem *item = front_model_->itemFromIndex(cover_loader_task.index_)) {
+      item->setData(pixmap, Qt::DecorationRole);
     }
   }
 

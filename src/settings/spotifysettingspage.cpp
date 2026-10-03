@@ -37,6 +37,7 @@
 #include <QEvent>
 #include <QVersionNumber>
 
+#include "includes/shared_ptr.h"
 #include "settingsdialog.h"
 #include "spotifysettingspage.h"
 #include "ui_spotifysettingspage.h"
