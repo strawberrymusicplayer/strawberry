@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,32 +24,27 @@
 
 #include <QObject>
 #include <QWidget>
-#include <QMap>
 #include <QString>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
 
-class QContextMenuEvent;
-
 class StreamingService;
 class StreamingCollectionView;
-
-#include "ui_streamingcollectionviewcontainer.h"
+class StreamingCollectionViewContainer;
 
 class StreamingSongsView : public QWidget {
   Q_OBJECT
 
  public:
   explicit StreamingSongsView(const SharedPtr<StreamingService> service, const QString &settings_group, QWidget *parent = nullptr);
-  ~StreamingSongsView() override;
 
   void ReloadSettings();
 
-  StreamingCollectionView *view() const { return ui_->view; }
+  StreamingCollectionView *view() const;
 
-  bool SearchFieldHasFocus() const { return ui_->filter_widget->SearchFieldHasFocus(); }
-  void FocusSearchField() { ui_->filter_widget->FocusSearchField(); }
+  bool SearchFieldHasFocus() const;
+  void FocusSearchField();
 
  private Q_SLOTS:
   void Configure();
@@ -63,8 +58,7 @@ class StreamingSongsView : public QWidget {
 
  private:
   const SharedPtr<StreamingService> service_;
-  QString settings_group_;
-  Ui_StreamingCollectionViewContainer *ui_;
+  StreamingCollectionViewContainer *container_;
 };
 
 #endif  // STREAMINGSONGSVIEW_H

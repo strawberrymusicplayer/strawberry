@@ -27,6 +27,7 @@
 #include <QUrl>
 #include <QTimer>
 
+#include "includes/shared_ptr.h"
 #include "constants/spotifysettings.h"
 #include "utilities/cryptutils.h"
 #include "core/logging.h"
@@ -36,7 +37,6 @@
 #include "core/database.h"
 #include "core/networkaccessmanager.h"
 #include "core/oauthenticator.h"
-#include "streaming/streamingsearchview.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "spotifyservice.h"
@@ -179,6 +179,42 @@ SpotifyService::~SpotifyService() {
   albums_collection_backend_->deleteLater();
   songs_collection_backend_->deleteLater();
 
+}
+
+SharedPtr<CollectionBackend> SpotifyService::artists_collection_backend() {
+  return artists_collection_backend_;
+}
+
+SharedPtr<CollectionBackend> SpotifyService::albums_collection_backend() {
+  return albums_collection_backend_;
+}
+
+SharedPtr<CollectionBackend> SpotifyService::songs_collection_backend() {
+  return songs_collection_backend_;
+}
+
+CollectionModel *SpotifyService::artists_collection_model() {
+  return artists_collection_model_;
+}
+
+CollectionModel *SpotifyService::albums_collection_model() {
+  return albums_collection_model_;
+}
+
+CollectionModel *SpotifyService::songs_collection_model() {
+  return songs_collection_model_;
+}
+
+CollectionFilter *SpotifyService::artists_collection_filter_model() {
+  return artists_collection_model_->filter();
+}
+
+CollectionFilter *SpotifyService::albums_collection_filter_model() {
+  return albums_collection_model_->filter();
+}
+
+CollectionFilter *SpotifyService::songs_collection_filter_model() {
+  return songs_collection_model_->filter();
 }
 
 void SpotifyService::Exit() {

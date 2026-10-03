@@ -184,6 +184,42 @@ JellyfinService::~JellyfinService() {
 
 }
 
+SharedPtr<CollectionBackend> JellyfinService::artists_collection_backend() {
+  return artists_collection_backend_;
+}
+
+SharedPtr<CollectionBackend> JellyfinService::albums_collection_backend() {
+  return albums_collection_backend_;
+}
+
+SharedPtr<CollectionBackend> JellyfinService::songs_collection_backend() {
+  return songs_collection_backend_;
+}
+
+CollectionModel *JellyfinService::artists_collection_model() {
+  return artists_collection_model_;
+}
+
+CollectionModel *JellyfinService::albums_collection_model() {
+  return albums_collection_model_;
+}
+
+CollectionModel *JellyfinService::songs_collection_model() {
+  return songs_collection_model_;
+}
+
+CollectionFilter *JellyfinService::artists_collection_filter_model() {
+  return artists_collection_model_->filter();
+}
+
+CollectionFilter *JellyfinService::albums_collection_filter_model() {
+  return albums_collection_model_->filter();
+}
+
+CollectionFilter *JellyfinService::songs_collection_filter_model() {
+  return songs_collection_model_->filter();
+}
+
 void JellyfinService::Exit() {
 
   wait_for_exit_ << &*artists_collection_backend_ << &*albums_collection_backend_ << &*songs_collection_backend_;

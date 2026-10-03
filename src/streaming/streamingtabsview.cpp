@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,7 +28,6 @@
 #include <QPushButton>
 #include <QSortFilterProxyModel>
 #include <QTabWidget>
-#include <QStackedWidget>
 #include <QContextMenuEvent>
 #include <QAction>
 #include <QSettings>
@@ -69,13 +68,7 @@ StreamingTabsView::StreamingTabsView(const StreamingServicePtr service, const Sh
   QObject::connect(action_configure, &QAction::triggered, this, &StreamingTabsView::Configure);
 
   if (service_->artists_collection_model()) {
-    ui_->artists_collection->stacked()->setCurrentWidget(ui_->artists_collection->streamingcollection_page());
-    ui_->artists_collection->view()->Init(service_->artists_collection_backend(), service_->artists_collection_model(), true);
-    ui_->artists_collection->view()->setModel(service_->artists_collection_filter_model());
-    ui_->artists_collection->view()->SetFilter(ui_->artists_collection->filter_widget());
-    ui_->artists_collection->filter_widget()->SetSettingsGroup(settings_group);
-    ui_->artists_collection->filter_widget()->SetSettingsPrefix(u"artists"_s);
-    ui_->artists_collection->filter_widget()->Init(service_->artists_collection_model(), service_->artists_collection_filter_model());
+    ui_->artists_collection->Init(service_->artists_collection_model(), service_->artists_collection_filter_model(), settings_group, u"artists"_s, true);
     ui_->artists_collection->filter_widget()->AddMenuAction(action_configure);
 
     QObject::connect(ui_->artists_collection->view(), &StreamingCollectionView::GetSongs, this, &StreamingTabsView::GetArtists);
@@ -88,26 +81,13 @@ StreamingTabsView::StreamingTabsView(const StreamingServicePtr service, const Sh
     QObject::connect(&*service_, &StreamingService::ArtistsUpdateStatus, ui_->artists_collection->status(), &QLabel::setText);
     QObject::connect(&*service_, &StreamingService::ArtistsProgressSetMaximum, ui_->artists_collection->progressbar(), &QProgressBar::setMaximum);
     QObject::connect(&*service_, &StreamingService::ArtistsUpdateProgress, ui_->artists_collection->progressbar(), &QProgressBar::setValue);
-
-    QObject::connect(service_->artists_collection_model(), &CollectionModel::TotalArtistCountUpdated, ui_->artists_collection->view(), &StreamingCollectionView::TotalArtistCountUpdated);
-    QObject::connect(service_->artists_collection_model(), &CollectionModel::TotalAlbumCountUpdated, ui_->artists_collection->view(), &StreamingCollectionView::TotalAlbumCountUpdated);
-    QObject::connect(service_->artists_collection_model(), &CollectionModel::TotalSongCountUpdated, ui_->artists_collection->view(), &StreamingCollectionView::TotalSongCountUpdated);
-    QObject::connect(service_->artists_collection_model(), &CollectionModel::modelAboutToBeReset, ui_->artists_collection->view(), &StreamingCollectionView::SaveFocus);
-    QObject::connect(service_->artists_collection_model(), &CollectionModel::modelReset, ui_->artists_collection->view(), &StreamingCollectionView::RestoreFocus);
-
   }
   else {
     ui_->tabs->removeTab(ui_->tabs->indexOf(ui_->artists));
   }
 
   if (service_->albums_collection_model()) {
-    ui_->albums_collection->stacked()->setCurrentWidget(ui_->albums_collection->streamingcollection_page());
-    ui_->albums_collection->view()->Init(service_->albums_collection_backend(), service_->albums_collection_model(), true);
-    ui_->albums_collection->view()->setModel(service_->albums_collection_filter_model());
-    ui_->albums_collection->view()->SetFilter(ui_->albums_collection->filter_widget());
-    ui_->albums_collection->filter_widget()->SetSettingsGroup(settings_group);
-    ui_->albums_collection->filter_widget()->SetSettingsPrefix(u"albums"_s);
-    ui_->albums_collection->filter_widget()->Init(service_->albums_collection_model(), service_->albums_collection_filter_model());
+    ui_->albums_collection->Init(service_->albums_collection_model(), service_->albums_collection_filter_model(), settings_group, u"albums"_s, true);
     ui_->albums_collection->filter_widget()->AddMenuAction(action_configure);
 
     QObject::connect(ui_->albums_collection->view(), &StreamingCollectionView::GetSongs, this, &StreamingTabsView::GetAlbums);
@@ -120,26 +100,13 @@ StreamingTabsView::StreamingTabsView(const StreamingServicePtr service, const Sh
     QObject::connect(&*service_, &StreamingService::AlbumsUpdateStatus, ui_->albums_collection->status(), &QLabel::setText);
     QObject::connect(&*service_, &StreamingService::AlbumsProgressSetMaximum, ui_->albums_collection->progressbar(), &QProgressBar::setMaximum);
     QObject::connect(&*service_, &StreamingService::AlbumsUpdateProgress, ui_->albums_collection->progressbar(), &QProgressBar::setValue);
-
-    QObject::connect(service_->albums_collection_model(), &CollectionModel::TotalArtistCountUpdated, ui_->albums_collection->view(), &StreamingCollectionView::TotalArtistCountUpdated);
-    QObject::connect(service_->albums_collection_model(), &CollectionModel::TotalAlbumCountUpdated, ui_->albums_collection->view(), &StreamingCollectionView::TotalAlbumCountUpdated);
-    QObject::connect(service_->albums_collection_model(), &CollectionModel::TotalSongCountUpdated, ui_->albums_collection->view(), &StreamingCollectionView::TotalSongCountUpdated);
-    QObject::connect(service_->albums_collection_model(), &CollectionModel::modelAboutToBeReset, ui_->albums_collection->view(), &StreamingCollectionView::SaveFocus);
-    QObject::connect(service_->albums_collection_model(), &CollectionModel::modelReset, ui_->albums_collection->view(), &StreamingCollectionView::RestoreFocus);
-
   }
   else {
     ui_->tabs->removeTab(ui_->tabs->indexOf(ui_->albums));
   }
 
   if (service_->songs_collection_model()) {
-    ui_->songs_collection->stacked()->setCurrentWidget(ui_->songs_collection->streamingcollection_page());
-    ui_->songs_collection->view()->Init(service_->songs_collection_backend(), service_->songs_collection_model(), true);
-    ui_->songs_collection->view()->setModel(service_->songs_collection_filter_model());
-    ui_->songs_collection->view()->SetFilter(ui_->songs_collection->filter_widget());
-    ui_->songs_collection->filter_widget()->SetSettingsGroup(settings_group);
-    ui_->songs_collection->filter_widget()->SetSettingsPrefix(u"songs"_s);
-    ui_->songs_collection->filter_widget()->Init(service_->songs_collection_model(), service_->songs_collection_filter_model());
+    ui_->songs_collection->Init(service_->songs_collection_model(), service_->songs_collection_filter_model(), settings_group, u"songs"_s, true);
     ui_->songs_collection->filter_widget()->AddMenuAction(action_configure);
 
     QObject::connect(ui_->songs_collection->view(), &StreamingCollectionView::GetSongs, this, &StreamingTabsView::GetSongs);
@@ -152,13 +119,6 @@ StreamingTabsView::StreamingTabsView(const StreamingServicePtr service, const Sh
     QObject::connect(&*service_, &StreamingService::SongsUpdateStatus, ui_->songs_collection->status(), &QLabel::setText);
     QObject::connect(&*service_, &StreamingService::SongsProgressSetMaximum, ui_->songs_collection->progressbar(), &QProgressBar::setMaximum);
     QObject::connect(&*service_, &StreamingService::SongsUpdateProgress, ui_->songs_collection->progressbar(), &QProgressBar::setValue);
-
-    QObject::connect(service_->songs_collection_model(), &CollectionModel::TotalArtistCountUpdated, ui_->songs_collection->view(), &StreamingCollectionView::TotalArtistCountUpdated);
-    QObject::connect(service_->songs_collection_model(), &CollectionModel::TotalAlbumCountUpdated, ui_->songs_collection->view(), &StreamingCollectionView::TotalAlbumCountUpdated);
-    QObject::connect(service_->songs_collection_model(), &CollectionModel::TotalSongCountUpdated, ui_->songs_collection->view(), &StreamingCollectionView::TotalSongCountUpdated);
-    QObject::connect(service_->songs_collection_model(), &CollectionModel::modelAboutToBeReset, ui_->songs_collection->view(), &StreamingCollectionView::SaveFocus);
-    QObject::connect(service_->songs_collection_model(), &CollectionModel::modelReset, ui_->songs_collection->view(), &StreamingCollectionView::RestoreFocus);
-
   }
   else {
     ui_->tabs->removeTab(ui_->tabs->indexOf(ui_->songs));
@@ -247,11 +207,7 @@ void StreamingTabsView::GetArtists() {
     return;
   }
 
-  ui_->artists_collection->status()->clear();
-  ui_->artists_collection->progressbar()->show();
-  ui_->artists_collection->button_abort()->show();
-  ui_->artists_collection->button_close()->hide();
-  ui_->artists_collection->stacked()->setCurrentWidget(ui_->artists_collection->help_page());
+  ui_->artists_collection->ShowProgress();
   service_->GetArtists();
 
 }
@@ -259,24 +215,17 @@ void StreamingTabsView::GetArtists() {
 void StreamingTabsView::AbortGetArtists() {
 
   service_->ResetArtistsRequest();
-  ui_->artists_collection->progressbar()->setValue(0);
-  ui_->artists_collection->status()->clear();
-  ui_->artists_collection->stacked()->setCurrentWidget(ui_->artists_collection->streamingcollection_page());
+  ui_->artists_collection->ShowCollection();
 
 }
 
 void StreamingTabsView::ArtistsFinished(const SongMap &songs, const QString &error) {
 
   if (songs.isEmpty() && !error.isEmpty()) {
-    ui_->artists_collection->status()->setText(error);
-    ui_->artists_collection->progressbar()->setValue(0);
-    ui_->artists_collection->progressbar()->hide();
-    ui_->artists_collection->button_abort()->hide();
-    ui_->artists_collection->button_close()->show();
+    ui_->artists_collection->ShowError(error);
   }
   else {
-    ui_->artists_collection->stacked()->setCurrentWidget(ui_->artists_collection->streamingcollection_page());
-    ui_->artists_collection->status()->clear();
+    ui_->artists_collection->ShowCollection();
     service_->artists_collection_backend()->UpdateSongsBySongIDAsync(songs);
   }
 
@@ -289,11 +238,7 @@ void StreamingTabsView::GetAlbums() {
     return;
   }
 
-  ui_->albums_collection->status()->clear();
-  ui_->albums_collection->progressbar()->show();
-  ui_->albums_collection->button_abort()->show();
-  ui_->albums_collection->button_close()->hide();
-  ui_->albums_collection->stacked()->setCurrentWidget(ui_->albums_collection->help_page());
+  ui_->albums_collection->ShowProgress();
   service_->GetAlbums();
 
 }
@@ -301,24 +246,17 @@ void StreamingTabsView::GetAlbums() {
 void StreamingTabsView::AbortGetAlbums() {
 
   service_->ResetAlbumsRequest();
-  ui_->albums_collection->progressbar()->setValue(0);
-  ui_->albums_collection->status()->clear();
-  ui_->albums_collection->stacked()->setCurrentWidget(ui_->albums_collection->streamingcollection_page());
+  ui_->albums_collection->ShowCollection();
 
 }
 
 void StreamingTabsView::AlbumsFinished(const SongMap &songs, const QString &error) {
 
   if (songs.isEmpty() && !error.isEmpty()) {
-    ui_->albums_collection->status()->setText(error);
-    ui_->albums_collection->progressbar()->setValue(0);
-    ui_->albums_collection->progressbar()->hide();
-    ui_->albums_collection->button_abort()->hide();
-    ui_->albums_collection->button_close()->show();
+    ui_->albums_collection->ShowError(error);
   }
   else {
-    ui_->albums_collection->stacked()->setCurrentWidget(ui_->albums_collection->streamingcollection_page());
-    ui_->albums_collection->status()->clear();
+    ui_->albums_collection->ShowCollection();
     service_->albums_collection_backend()->UpdateSongsBySongIDAsync(songs);
   }
 
@@ -331,11 +269,7 @@ void StreamingTabsView::GetSongs() {
     return;
   }
 
-  ui_->songs_collection->status()->clear();
-  ui_->songs_collection->progressbar()->show();
-  ui_->songs_collection->button_abort()->show();
-  ui_->songs_collection->button_close()->hide();
-  ui_->songs_collection->stacked()->setCurrentWidget(ui_->songs_collection->help_page());
+  ui_->songs_collection->ShowProgress();
   service_->GetSongs();
 
 }
@@ -343,24 +277,17 @@ void StreamingTabsView::GetSongs() {
 void StreamingTabsView::AbortGetSongs() {
 
   service_->ResetSongsRequest();
-  ui_->songs_collection->progressbar()->setValue(0);
-  ui_->songs_collection->status()->clear();
-  ui_->songs_collection->stacked()->setCurrentWidget(ui_->songs_collection->streamingcollection_page());
+  ui_->songs_collection->ShowCollection();
 
 }
 
 void StreamingTabsView::SongsFinished(const SongMap &songs, const QString &error) {
 
   if (songs.isEmpty() && !error.isEmpty()) {
-    ui_->songs_collection->status()->setText(error);
-    ui_->songs_collection->progressbar()->setValue(0);
-    ui_->songs_collection->progressbar()->hide();
-    ui_->songs_collection->button_abort()->hide();
-    ui_->songs_collection->button_close()->show();
+    ui_->songs_collection->ShowError(error);
   }
   else {
-    ui_->songs_collection->stacked()->setCurrentWidget(ui_->songs_collection->streamingcollection_page());
-    ui_->songs_collection->status()->clear();
+    ui_->songs_collection->ShowCollection();
     service_->songs_collection_backend()->UpdateSongsBySongIDAsync(songs);
   }
 

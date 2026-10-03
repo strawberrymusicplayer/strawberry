@@ -34,6 +34,7 @@
 #include <QTimer>
 #include <QScopeGuard>
 
+#include "includes/shared_ptr.h"
 #include "constants/timeconstants.h"
 #include "utilities/imageutils.h"
 #include "utilities/coverutils.h"

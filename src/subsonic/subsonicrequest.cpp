@@ -38,6 +38,7 @@
 #include <QJsonArray>
 #include <QJsonValue>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/song.h"
 #include "core/networkaccessmanager.h"

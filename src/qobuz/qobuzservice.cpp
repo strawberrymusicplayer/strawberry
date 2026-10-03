@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,7 +46,6 @@
 #include "core/song.h"
 #include "core/settings.h"
 #include "core/urlhandlers.h"
-#include "streaming/streamingsearchview.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "qobuzservice.h"
@@ -173,6 +172,42 @@ QobuzService::~QobuzService() {
   albums_collection_backend_.reset();
   songs_collection_backend_.reset();
 
+}
+
+SharedPtr<CollectionBackend> QobuzService::artists_collection_backend() {
+  return artists_collection_backend_;
+}
+
+SharedPtr<CollectionBackend> QobuzService::albums_collection_backend() {
+  return albums_collection_backend_;
+}
+
+SharedPtr<CollectionBackend> QobuzService::songs_collection_backend() {
+  return songs_collection_backend_;
+}
+
+CollectionModel *QobuzService::artists_collection_model() {
+  return artists_collection_model_;
+}
+
+CollectionModel *QobuzService::albums_collection_model() {
+  return albums_collection_model_;
+}
+
+CollectionModel *QobuzService::songs_collection_model() {
+  return songs_collection_model_;
+}
+
+CollectionFilter *QobuzService::artists_collection_filter_model() {
+  return artists_collection_model_->filter();
+}
+
+CollectionFilter *QobuzService::albums_collection_filter_model() {
+  return albums_collection_model_->filter();
+}
+
+CollectionFilter *QobuzService::songs_collection_filter_model() {
+  return songs_collection_model_->filter();
 }
 
 void QobuzService::Exit() {

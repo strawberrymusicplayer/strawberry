@@ -36,7 +36,6 @@
 #include "core/song.h"
 #include "streaming/streamingservice.h"
 #include "credentialsmanager/credentialsreply.h"
-#include "collection/collectionmodel.h"
 
 class QTimer;
 class QNetworkReply;
@@ -48,6 +47,7 @@ class CredentialsManager;
 class UrlHandlers;
 class AlbumCoverLoader;
 class CollectionBackend;
+class CollectionModel;
 class CollectionFilter;
 class JellyfinRequest;
 class JellyfinScrobbleRequest;
@@ -134,17 +134,17 @@ class JellyfinService : public StreamingService {
   // The settings page saved a new password, read it again on the next settings reload.
   void PasswordSaved() { password_saved_ = true; }
 
-  SharedPtr<CollectionBackend> artists_collection_backend() override { return artists_collection_backend_; }
-  SharedPtr<CollectionBackend> albums_collection_backend() override { return albums_collection_backend_; }
-  SharedPtr<CollectionBackend> songs_collection_backend() override { return songs_collection_backend_; }
+  SharedPtr<CollectionBackend> artists_collection_backend() override;
+  SharedPtr<CollectionBackend> albums_collection_backend() override;
+  SharedPtr<CollectionBackend> songs_collection_backend() override;
 
-  CollectionModel *artists_collection_model() override { return artists_collection_model_; }
-  CollectionModel *albums_collection_model() override { return albums_collection_model_; }
-  CollectionModel *songs_collection_model() override { return songs_collection_model_; }
+  CollectionModel *artists_collection_model() override;
+  CollectionModel *albums_collection_model() override;
+  CollectionModel *songs_collection_model() override;
 
-  CollectionFilter *artists_collection_filter_model() override { return artists_collection_model_->filter(); }
-  CollectionFilter *albums_collection_filter_model() override { return albums_collection_model_->filter(); }
-  CollectionFilter *songs_collection_filter_model() override { return songs_collection_model_->filter(); }
+  CollectionFilter *artists_collection_filter_model() override;
+  CollectionFilter *albums_collection_filter_model() override;
+  CollectionFilter *songs_collection_filter_model() override;
 
   int Search(const QString &search_text, const SearchType type) override;
   void CancelSearch() override;

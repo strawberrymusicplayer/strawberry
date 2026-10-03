@@ -136,6 +136,26 @@ PlexService::~PlexService() {
 
 }
 
+SharedPtr<CollectionBackend> PlexService::collection_backend() const {
+  return collection_backend_;
+}
+
+CollectionModel *PlexService::collection_model() const {
+  return collection_model_;
+}
+
+SharedPtr<CollectionBackend> PlexService::songs_collection_backend() {
+  return collection_backend_;
+}
+
+CollectionModel *PlexService::songs_collection_model() {
+  return collection_model_;
+}
+
+CollectionFilter *PlexService::songs_collection_filter_model() {
+  return collection_model_->filter();
+}
+
 void PlexService::Exit() {
 
   QObject::connect(&*collection_backend_, &CollectionBackend::ExitFinished, this, &PlexService::ExitFinished);

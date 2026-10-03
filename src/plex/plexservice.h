@@ -28,12 +28,12 @@
 #include <QStringList>
 #include <QUrl>
 #include <QTimer>
+#include <QNetworkRequest>
 #include <QSslError>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "streaming/streamingservice.h"
-#include "collection/collectionmodel.h"
 
 class QNetworkReply;
 
@@ -96,12 +96,12 @@ class PlexService : public StreamingService {
   bool verify_certificate() const { return verify_certificate_; }
   bool download_album_covers() const { return download_album_covers_; }
 
-  SharedPtr<CollectionBackend> collection_backend() const { return collection_backend_; }
-  CollectionModel *collection_model() const { return collection_model_; }
+  SharedPtr<CollectionBackend> collection_backend() const;
+  CollectionModel *collection_model() const;
 
-  SharedPtr<CollectionBackend> songs_collection_backend() override { return collection_backend_; }
-  CollectionModel *songs_collection_model() override { return collection_model_; }
-  CollectionFilter *songs_collection_filter_model() override { return collection_model_->filter(); }
+  SharedPtr<CollectionBackend> songs_collection_backend() override;
+  CollectionModel *songs_collection_model() override;
+  CollectionFilter *songs_collection_filter_model() override;
 
  public Q_SLOTS:
   void Authenticate();

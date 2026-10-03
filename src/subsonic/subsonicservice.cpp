@@ -113,6 +113,30 @@ SubsonicService::~SubsonicService() {
 
 }
 
+SharedPtr<CollectionBackend> SubsonicService::collection_backend() const {
+  return collection_backend_;
+}
+
+CollectionModel *SubsonicService::collection_model() const {
+  return collection_model_;
+}
+
+CollectionFilter *SubsonicService::collection_filter_model() const {
+  return collection_model_->filter();
+}
+
+SharedPtr<CollectionBackend> SubsonicService::songs_collection_backend() {
+  return collection_backend_;
+}
+
+CollectionModel *SubsonicService::songs_collection_model() {
+  return collection_model_;
+}
+
+CollectionFilter *SubsonicService::songs_collection_filter_model() {
+  return collection_model_->filter();
+}
+
 void SubsonicService::Exit() {
 
   QObject::connect(&*collection_backend_, &CollectionBackend::ExitFinished, this, &SubsonicService::ExitFinished);

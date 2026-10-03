@@ -25,6 +25,7 @@
 #include <QNetworkReply>
 #include <QJsonObject>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "utilities/strutils.h"
 #include "jellyfinservice.h"

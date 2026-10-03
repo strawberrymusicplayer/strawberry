@@ -29,7 +29,6 @@
 #include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "streaming/streamingservice.h"
-#include "collection/collectionmodel.h"
 
 class QTimer;
 
@@ -80,17 +79,17 @@ class SpotifyService : public StreamingService {
   bool authenticated() const override;
   QByteArray authorization_header() const;
 
-  SharedPtr<CollectionBackend> artists_collection_backend() override { return artists_collection_backend_; }
-  SharedPtr<CollectionBackend> albums_collection_backend() override { return albums_collection_backend_; }
-  SharedPtr<CollectionBackend> songs_collection_backend() override { return songs_collection_backend_; }
+  SharedPtr<CollectionBackend> artists_collection_backend() override;
+  SharedPtr<CollectionBackend> albums_collection_backend() override;
+  SharedPtr<CollectionBackend> songs_collection_backend() override;
 
-  CollectionModel *artists_collection_model() override { return artists_collection_model_; }
-  CollectionModel *albums_collection_model() override { return albums_collection_model_; }
-  CollectionModel *songs_collection_model() override { return songs_collection_model_; }
+  CollectionModel *artists_collection_model() override;
+  CollectionModel *albums_collection_model() override;
+  CollectionModel *songs_collection_model() override;
 
-  CollectionFilter *artists_collection_filter_model() override { return artists_collection_model_->filter(); }
-  CollectionFilter *albums_collection_filter_model() override { return albums_collection_model_->filter(); }
-  CollectionFilter *songs_collection_filter_model() override { return songs_collection_model_->filter(); }
+  CollectionFilter *artists_collection_filter_model() override;
+  CollectionFilter *albums_collection_filter_model() override;
+  CollectionFilter *songs_collection_filter_model() override;
 
  Q_SIGNALS:
   void UpdateSpotifyAccessToken(const QString &access_token);

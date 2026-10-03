@@ -1,8 +1,6 @@
 /*
  * Strawberry Music Player
- * This code was part of Clementine (GlobalSearch)
- * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,270 +20,127 @@
 #include "config.h"
 
 #include <QStandardItemModel>
-#include <QSortFilterProxyModel>
-#include <QMimeData>
 #include <QList>
-#include <QSet>
 #include <QVariant>
 #include <QString>
+#include <QStringList>
 #include <QSize>
+#include <QUrl>
 
 #include "core/iconloader.h"
 #include "core/mimedata.h"
 #include "streamsongmimedata.h"
 #include "streamingservice.h"
 #include "streamingsearchmodel.h"
-#include "streamingsearchview.h"
 
 using namespace Qt::Literals::StringLiterals;
+
+namespace {
+
+// Container types shown with the album icon, or the album cover with pretty covers.
+bool HasAlbumIcon(const CollectionModel::GroupBy group_by) {
+
+  switch (group_by) {
+    case CollectionModel::GroupBy::Disc:
+    case CollectionModel::GroupBy::Genre:
+    case CollectionModel::GroupBy::Composer:
+    case CollectionModel::GroupBy::Performer:
+    case CollectionModel::GroupBy::Grouping:
+      return true;
+    default:
+      return CollectionModel::IsAlbumGroupBy(group_by);
+  }
+
+}
+
+void GatherResults(const QStandardItem *parent, StreamingSearchModel::ResultList *results) {
+
+  const QVariant result = parent->data(StreamingSearchModel::Role_Result);
+  if (result.isValid()) {
+    results->append(result.value<StreamingSearchModel::Result>());
+  }
+
+  for (int i = 0; i < parent->rowCount(); ++i) {
+    GatherResults(parent->child(i), results);
+  }
+
+}
+
+}  // namespace
 
 StreamingSearchModel::StreamingSearchModel(StreamingServicePtr service, QObject *parent)
     : QStandardItemModel(parent),
       service_(service),
-      proxy_(nullptr),
       use_pretty_covers_(true),
       artist_icon_(IconLoader::Load(u"folder-sound"_s)),
-      album_icon_(IconLoader::Load(u"cdcase"_s)) {
+      album_icon_(IconLoader::Load(u"cdcase"_s)),
+      group_by_(CollectionModel::GroupBy::AlbumArtist, CollectionModel::GroupBy::AlbumDisc, CollectionModel::GroupBy::None) {
 
-  group_by_[0] = CollectionModel::GroupBy::AlbumArtist;
-  group_by_[1] = CollectionModel::GroupBy::AlbumDisc;
-  group_by_[2] = CollectionModel::GroupBy::None;
-
-  QList<QSize> nocover_sizes = album_icon_.availableSizes();
+  const QList<QSize> nocover_sizes = album_icon_.availableSizes();
   const QPixmap nocover_pixmap = nocover_sizes.isEmpty() ? album_icon_.pixmap(CollectionModel::kPrettyCoverSize, CollectionModel::kPrettyCoverSize) : album_icon_.pixmap(nocover_sizes.last());
   no_cover_icon_ = nocover_pixmap.scaled(CollectionModel::kPrettyCoverSize, CollectionModel::kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
 }
 
-void StreamingSearchModel::AddResults(const StreamingSearchView::ResultList &results) {
+void StreamingSearchModel::AddResults(const ResultList &results) {
 
-  for (const StreamingSearchView::Result &result : results) {
-    QStandardItem *parent = invisibleRootItem();
+  for (const Result &result : results) {
+    // Find (or create) the container nodes for this result.
+    QStringList key;
+    QStandardItem *parent = BuildContainers(result.metadata_, invisibleRootItem(), &key);
 
-    // Find (or create) the container nodes for this result if we can.
-    ContainerKey key;
-    parent = BuildContainers(result.metadata_, parent, &key);
-
-    // Create the item
     QStandardItem *item = new QStandardItem;
     item->setText(result.metadata_.TitleWithCompilationArtist());
     item->setData(QVariant::fromValue(result), Role_Result);
-
     parent->appendRow(item);
-
   }
 
 }
 
-QStandardItem *StreamingSearchModel::BuildContainers(const Song &song, QStandardItem *parent, ContainerKey *key, const int level) {
+QStandardItem *StreamingSearchModel::BuildContainers(const Song &song, QStandardItem *parent, QStringList *key, const int level) {
 
   if (level >= 3) {
     return parent;
   }
 
-  bool has_artist_icon = false;
-  bool has_album_icon = false;
-  bool is_album_container = false;
-  QString display_text;
-  QString sort_text;
-  QString unique_tag;
-
-  switch (group_by_[level]) {
-
-    case CollectionModel::GroupBy::AlbumArtist:
-      if (song.is_compilation()) {
-        display_text = tr("Various artists");
-        sort_text = "aaaaaa"_L1;
-      }
-      else {
-        display_text = CollectionModel::TextOrUnknown(song.effective_albumartist());
-        sort_text = CollectionModel::SortTextForName(song.effective_albumartistsort(), true);
-      }
-      has_artist_icon = true;
-      break;
-
-    case CollectionModel::GroupBy::Artist:
-      if (song.is_compilation()) {
-        display_text = tr("Various artists");
-        sort_text = "aaaaaa"_L1;
-      }
-      else {
-        display_text = CollectionModel::TextOrUnknown(song.artist());
-        sort_text = CollectionModel::SortTextForName(song.effective_artistsort(), true);
-      }
-      has_artist_icon = true;
-      break;
-
-    case CollectionModel::GroupBy::Album:
-      display_text = CollectionModel::TextOrUnknown(song.album());
-      sort_text = CollectionModel::SortTextForName(song.effective_albumsort(), false);
-      unique_tag = song.album_id();
-      has_album_icon = true;
-      is_album_container = true;
-      break;
-
-    case CollectionModel::GroupBy::AlbumDisc:{
-      const int disc = std::max(0, song.disc());
-      display_text = CollectionModel::PrettyAlbumDisc(song.album(), disc);
-      sort_text = CollectionModel::SortTextForName(song.effective_albumsort(), false) + CollectionModel::SortTextForNumber(disc);
-      unique_tag = song.album_id();
-      has_album_icon = true;
-      is_album_container = true;
-      break;
-    }
-
-    case CollectionModel::GroupBy::YearAlbum:{
-      const int year = std::max(0, song.year());
-      display_text = CollectionModel::PrettyYearAlbum(year, song.album());
-      sort_text = CollectionModel::SortTextForNumber(year) + CollectionModel::SortTextForName(song.effective_albumsort(), false);
-      unique_tag = song.album_id();
-      has_album_icon = true;
-      is_album_container = true;
-      break;
-    }
-
-    case CollectionModel::GroupBy::YearAlbumDisc:{
-      const int year = std::max(0, song.year());
-      const int disc = std::max(0, song.disc());
-      display_text = CollectionModel::PrettyYearAlbumDisc(year, song.album(), disc);
-      sort_text = CollectionModel::SortTextForNumber(year) + CollectionModel::SortTextForName(song.effective_albumsort(), false) + CollectionModel::SortTextForNumber(disc);
-      unique_tag = song.album_id();
-      has_album_icon = true;
-      is_album_container = true;
-      break;
-    }
-
-    case CollectionModel::GroupBy::OriginalYearAlbum:{
-      const int year = std::max(0, song.effective_originalyear());
-      display_text = CollectionModel::PrettyYearAlbum(year, song.album());
-      sort_text = CollectionModel::SortTextForNumber(year) + CollectionModel::SortTextForName(song.effective_albumsort(), false);
-      unique_tag = song.album_id();
-      has_album_icon = true;
-      is_album_container = true;
-      break;
-    }
-
-    case CollectionModel::GroupBy::OriginalYearAlbumDisc:{
-      const int year = std::max(0, song.effective_originalyear());
-      const int disc = std::max(0, song.disc());
-      display_text = CollectionModel::PrettyYearAlbumDisc(year, song.album(), disc);
-      sort_text = CollectionModel::SortTextForNumber(year) + CollectionModel::SortTextForName(song.effective_albumsort(), false) + CollectionModel::SortTextForNumber(disc);
-      unique_tag = song.album_id();
-      has_album_icon = true;
-      is_album_container = true;
-      break;
-    }
-
-    case CollectionModel::GroupBy::Disc:
-      display_text = CollectionModel::PrettyDisc(song.disc());
-      sort_text = CollectionModel::SortText(display_text);
-      has_album_icon = true;
-      break;
-
-    case CollectionModel::GroupBy::Year:{
-      const int year = qMax(0, song.year());
-      display_text = QString::number(year);
-      sort_text = CollectionModel::SortTextForNumber(year) + QLatin1Char(' ');
-      break;
-    }
-
-    case CollectionModel::GroupBy::OriginalYear:{
-      const int year = qMax(0, song.effective_originalyear());
-      display_text = QString::number(year);
-      sort_text = CollectionModel::SortTextForNumber(year) + QLatin1Char(' ');
-      break;
-    }
-
-    case CollectionModel::GroupBy::Genre:
-      display_text = CollectionModel::TextOrUnknown(song.genre());
-      sort_text = CollectionModel::SortText(song.genre());
-      has_album_icon = true;
-      break;
-
-    case CollectionModel::GroupBy::Composer:
-      display_text = CollectionModel::TextOrUnknown(song.composer());
-      sort_text = CollectionModel::SortTextForName(song.composer(), true);
-      has_album_icon = true;
-      break;
-
-    case CollectionModel::GroupBy::Performer:
-      display_text = CollectionModel::TextOrUnknown(song.performer());
-      sort_text = CollectionModel::SortTextForName(song.performer(), true);
-      has_album_icon = true;
-      break;
-
-    case CollectionModel::GroupBy::Grouping:
-      display_text = CollectionModel::TextOrUnknown(song.grouping());
-      sort_text = CollectionModel::SortText(song.grouping());
-      has_album_icon = true;
-      break;
-
-    case CollectionModel::GroupBy::FileType:
-      display_text = song.TextForFiletype();
-      sort_text = display_text;
-      break;
-
-    case CollectionModel::GroupBy::Format:
-      if (song.samplerate() <= 0) {
-        display_text = song.TextForFiletype();
-      }
-      else {
-        if (song.bitdepth() <= 0) {
-          display_text = QStringLiteral("%1 (%2)").arg(song.TextForFiletype(), QString::number(song.samplerate() / 1000.0, 'G', 5));
-        }
-        else {
-          display_text = QStringLiteral("%1 (%2/%3)").arg(song.TextForFiletype(), QString::number(song.samplerate() / 1000.0, 'G', 5), QString::number(song.bitdepth()));
-        }
-      }
-      sort_text = display_text;
-      break;
-
-    case CollectionModel::GroupBy::Samplerate:
-      display_text = QString::number(song.samplerate());
-      sort_text = display_text;
-      break;
-
-    case CollectionModel::GroupBy::Bitdepth:
-      display_text = QString::number(song.bitdepth());
-      sort_text = display_text;
-      break;
-
-    case CollectionModel::GroupBy::Bitrate:
-      display_text = QString::number(song.bitrate());
-      sort_text = display_text;
-      break;
-
-    case CollectionModel::GroupBy::None:
-    case CollectionModel::GroupBy::GroupByCount:
-      return parent;
+  const CollectionModel::GroupBy group_by = group_by_[level];
+  if (group_by == CollectionModel::GroupBy::None || group_by == CollectionModel::GroupBy::GroupByCount) {
+    return parent;
   }
 
-  if (display_text.isEmpty()) {
-    display_text = "Unknown"_L1;
+  const bool is_artist_container = CollectionModel::IsArtistGroupBy(group_by);
+  const bool is_album_container = CollectionModel::IsAlbumGroupBy(group_by);
+
+  QString display_text;
+  QString sort_text;
+  if (is_artist_container && song.is_compilation()) {
+    display_text = tr("Various artists");
+    sort_text = "aaaaaa"_L1;
+  }
+  else {
+    display_text = CollectionModel::TextOrUnknown(CollectionModel::DisplayText(group_by, song));
+    sort_text = CollectionModel::SortText(group_by, song, true, false, true);
   }
   if (sort_text.isEmpty()) {
     sort_text = display_text;
   }
 
-  // Find a container for this level.
   // The key is based on the plain display text so that per-song differences in the (optional) qualifier suffix below can't split one album into multiple containers.
-  key->group_[level] = display_text + unique_tag;
-  QStandardItem *container = nullptr;
-  if (containers_.contains(*key)) {
-    container = containers_.value(*key);
-  }
-  else {
+  key->append(is_album_container ? display_text + song.album_id() : display_text);
+
+  QStandardItem *container = containers_.value(*key);
+  if (!container) {
     if (is_album_container) {
       display_text += AlbumQualifierSuffix(song);
     }
     container = new QStandardItem(display_text);
     container->setData(sort_text, CollectionModel::Role_SortText);
-    container->setData(static_cast<int>(group_by_[level]), CollectionModel::Role_ContainerType);
+    container->setData(static_cast<int>(group_by), CollectionModel::Role_ContainerType);
 
-    if (has_artist_icon) {
+    if (is_artist_container) {
       container->setIcon(artist_icon_);
     }
-    else if (has_album_icon) {
+    else if (HasAlbumIcon(group_by)) {
       if (use_pretty_covers_) {
         container->setData(no_cover_icon_, Qt::DecorationRole);
       }
@@ -295,7 +150,7 @@ QStandardItem *StreamingSearchModel::BuildContainers(const Song &song, QStandard
     }
 
     parent->appendRow(container);
-    containers_[*key] = container;
+    containers_.insert(*key, container);
   }
 
   // Create the container for the next level.
@@ -327,81 +182,13 @@ void StreamingSearchModel::Clear() {
 
 }
 
-StreamingSearchView::ResultList StreamingSearchModel::GetChildResults(const QModelIndexList &indexes) const {
+StreamingSearchModel::ResultList StreamingSearchModel::AllResults() const {
 
-  QList<QStandardItem*> items;
-  items.reserve(indexes.count());
-  for (const QModelIndex &idx : indexes) {
-    items << itemFromIndex(idx);
-  }
-  return GetChildResults(items);
-
-}
-
-StreamingSearchView::ResultList StreamingSearchModel::GetChildResults(const QList<QStandardItem*> &items) const {
-
-  StreamingSearchView::ResultList results;
-  QSet<const QStandardItem*> visited;
-
-  for (QStandardItem *item : items) {
-    GetChildResults(item, &results, &visited);
-  }
-
+  ResultList results;
+  GatherResults(invisibleRootItem(), &results);
   return results;
 
 }
-
-void StreamingSearchModel::GetChildResults(const QStandardItem *item, StreamingSearchView::ResultList *results, QSet<const QStandardItem*> *visited) const {
-
-  if (visited->contains(item)) {
-    return;
-  }
-  visited->insert(item);
-
-  // Does this item have children?
-  if (item->rowCount() > 0) {
-    const QModelIndex parent_proxy_index = proxy_->mapFromSource(item->index());
-
-    // Yes - visit all the children, but do so through the proxy, so we get them in the right order.
-    for (int i = 0; i < item->rowCount(); ++i) {
-      const QModelIndex proxy_index = parent_proxy_index.model()->index(i, 0, parent_proxy_index);
-      const QModelIndex idx = proxy_->mapToSource(proxy_index);
-      GetChildResults(itemFromIndex(idx), results, visited);
-    }
-  }
-  else {
-    // No - maybe it's a song, add its result if valid
-    QVariant result = item->data(Role_Result);
-    if (result.isValid()) {
-      results->append(result.value<StreamingSearchView::Result>());
-    }
-  }
-
-}
-
-QMimeData *StreamingSearchModel::mimeData(const QModelIndexList &indexes) const {
-
-  return LoadTracks(GetChildResults(indexes));
-
-}
-
-namespace {
-
-void GatherResults(const QStandardItem *parent, StreamingSearchView::ResultList *results) {
-
-  QVariant result_variant = parent->data(StreamingSearchModel::Role_Result);
-  if (result_variant.isValid()) {
-    StreamingSearchView::Result result = result_variant.value<StreamingSearchView::Result>();
-    (*results).append(result);
-  }
-
-  for (int i = 0; i < parent->rowCount(); ++i) {
-    GatherResults(parent->child(i), results);
-  }
-
-}
-
-}  // namespace
 
 void StreamingSearchModel::SetGroupBy(const CollectionModel::Grouping grouping, const bool regroup_now) {
 
@@ -409,28 +196,21 @@ void StreamingSearchModel::SetGroupBy(const CollectionModel::Grouping grouping, 
   group_by_ = grouping;
 
   if (regroup_now && group_by_ != old_group_by) {
-    // Walk the tree gathering the results we have already
-    StreamingSearchView::ResultList results;
-    GatherResults(invisibleRootItem(), &results);
-
-    // Reset the model and re-add all the results using the new grouping.
-    Clear();
-    AddResults(results);
+    ReloadResults();
   }
 
 }
 
 void StreamingSearchModel::ReloadResults() {
 
-  StreamingSearchView::ResultList results;
-  GatherResults(invisibleRootItem(), &results);
-
+  // Reset the model and add the results again, so the containers are built with the current settings.
+  const ResultList results = AllResults();
   Clear();
   AddResults(results);
 
 }
 
-MimeData *StreamingSearchModel::LoadTracks(const StreamingSearchView::ResultList &results) const {
+MimeData *StreamingSearchModel::LoadTracks(const ResultList &results) const {
 
   if (results.isEmpty()) {
     return nullptr;
@@ -440,17 +220,15 @@ MimeData *StreamingSearchModel::LoadTracks(const StreamingSearchView::ResultList
   QList<QUrl> urls;
   songs.reserve(results.count());
   urls.reserve(results.count());
-  for (const StreamingSearchView::Result &result : results) {
-    songs.append(result.metadata_);
+  for (const Result &result : results) {
+    songs << result.metadata_;
     urls << result.metadata_.url();
   }
 
-  StreamSongMimeData *streaming_song_mime_data = new StreamSongMimeData(service_);
-  streaming_song_mime_data->songs = songs;
-  MimeData *mime_data = streaming_song_mime_data;
+  StreamSongMimeData *mimedata = new StreamSongMimeData(service_);
+  mimedata->songs = songs;
+  mimedata->setUrls(urls);
 
-  mime_data->setUrls(urls);
-
-  return mime_data;
+  return mimedata;
 
 }

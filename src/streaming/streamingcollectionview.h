@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This code was part of Clementine
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,14 +25,11 @@
 #include "config.h"
 
 #include <QObject>
-#include <QAbstractItemModel>
 #include <QAbstractItemView>
 #include <QSet>
-#include <QMap>
 #include <QString>
 #include <QPixmap>
 
-#include "includes/shared_ptr.h"
 #include "core/song.h"
 
 #include "widgets/autoexpandingtreeview.h"
@@ -40,11 +37,12 @@
 class QWidget;
 class QMenu;
 class QAction;
+class QMimeData;
+class QSortFilterProxyModel;
 class QContextMenuEvent;
 class QMouseEvent;
 class QPaintEvent;
 
-class CollectionBackend;
 class CollectionModel;
 class CollectionFilterWidget;
 
@@ -54,7 +52,7 @@ class StreamingCollectionView : public AutoExpandingTreeView {
  public:
   explicit StreamingCollectionView(QWidget *parent = nullptr);
 
-  void Init(const SharedPtr<CollectionBackend> collection_backend, CollectionModel *collection_model, const bool favorite = false);
+  void Init(CollectionModel *collection_model, const bool favorite = false);
 
   // Returns Songs currently selected in the collection view.
   // Please note that the selection is recursive meaning that if for example an album is selected this will return all of it's songs.
@@ -66,14 +64,8 @@ class StreamingCollectionView : public AutoExpandingTreeView {
   void keyboardSearch(const QString &search) override;
   void scrollTo(const QModelIndex &idx, ScrollHint hint = EnsureVisible) override;
 
-  int TotalSongs() const;
-  int TotalArtists() const;
-  int TotalAlbums() const;
-
  public Q_SLOTS:
-  void TotalSongCountUpdated(int count);
-  void TotalArtistCountUpdated(int count);
-  void TotalAlbumCountUpdated(int count);
+  void TotalSongCountUpdated(const int count);
   void ReloadSettings();
 
   void FilterReturnPressed();
@@ -83,10 +75,6 @@ class StreamingCollectionView : public AutoExpandingTreeView {
 
  Q_SIGNALS:
   void GetSongs();
-  void TotalSongCountUpdated_();
-  void TotalArtistCountUpdated_();
-  void TotalAlbumCountUpdated_();
-  void Error(const QString &error);
   void RemoveSongs(const SongList &songs);
 
  protected:
@@ -104,24 +92,21 @@ class StreamingCollectionView : public AutoExpandingTreeView {
   void RemoveSelectedSongs();
 
  private:
-  void RecheckIsEmpty();
+  QSortFilterProxyModel *filter_model() const;
+  QMimeData *SelectedMimeData() const;
   bool RestoreLevelFocus(const QModelIndex &parent = QModelIndex());
   void SaveContainerPath(const QModelIndex &child);
 
  private:
-  SharedPtr<CollectionBackend> collection_backend_;
   CollectionModel *collection_model_;
   CollectionFilterWidget *filter_;
   bool favorite_;
 
   int total_song_count_;
-  int total_artist_count_;
-  int total_album_count_;
 
   QPixmap nomusic_;
 
   QMenu *context_menu_;
-  QModelIndex context_menu_index_;
   QAction *load_;
   QAction *add_to_playlist_;
   QAction *add_to_playlist_enqueue_;

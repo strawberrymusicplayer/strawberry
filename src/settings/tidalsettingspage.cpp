@@ -32,6 +32,7 @@
 #include <QMessageBox>
 #include <QEvent>
 
+#include "includes/shared_ptr.h"
 #include "settingsdialog.h"
 #include "tidalsettingspage.h"
 #include "ui_tidalsettingspage.h"
