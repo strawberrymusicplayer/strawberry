@@ -1361,15 +1361,7 @@ Si no hi ha resultats, s’usarà la imatge més gran en el directori.</translat
     </message>
   </context>
   <context>
-    <name>CollectionView</name>
-    <message>
-      <source>Your collection is empty!</source>
-      <translation>La vostra col·lecció està buida.</translation>
-    </message>
-    <message>
-      <source>Click here to add some music</source>
-      <translation>Feu clic aquí per afegir música</translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
       <source>Append to current playlist</source>
       <translation>Afegeix a la llista de reproducció actual</translation>
@@ -1393,6 +1385,17 @@ Si no hi ha resultats, s’usarà la imatge més gran en el directori.</translat
     <message>
       <source>Search for this</source>
       <translation>Cerca-ho</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionView</name>
+    <message>
+      <source>Your collection is empty!</source>
+      <translation>La vostra col·lecció està buida.</translation>
+    </message>
+    <message>
+      <source>Click here to add some music</source>
+      <translation>Feu clic aquí per afegir música</translation>
     </message>
     <message>
       <source>Organize files...</source>
@@ -7068,26 +7071,6 @@ Esteu segur que voleu continuar?</translation>
     <message>
       <source>Click here to retrieve music</source>
       <translation type="unfinished">Click here to retrieve music</translation>
-    </message>
-    <message>
-      <source>Append to current playlist</source>
-      <translation>Afegeix a la llista de reproducció actual</translation>
-    </message>
-    <message>
-      <source>Replace current playlist</source>
-      <translation>Substitueix la llista de reproducció actual</translation>
-    </message>
-    <message>
-      <source>Open in new playlist</source>
-      <translation>Obre en una llista de reproducció nova</translation>
-    </message>
-    <message>
-      <source>Queue track</source>
-      <translation>Afegeix la peça a la cua</translation>
-    </message>
-    <message>
-      <source>Queue to play next</source>
-      <translation type="unfinished">Queue to play next</translation>
     </message>
     <message>
       <source>Remove from favorites</source>

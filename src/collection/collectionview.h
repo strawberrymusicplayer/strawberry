@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,33 +24,23 @@
 
 #include "config.h"
 
-#include <QAbstractItemModel>
-#include <QAbstractItemView>
+#include <QObject>
 #include <QString>
-#include <QPixmap>
-#include <QSet>
 
 #include "includes/scoped_ptr.h"
 #include "includes/shared_ptr.h"
 #include "core/song.h"
-#include "widgets/autoexpandingtreeview.h"
+#include "collectiontreeview.h"
 
-class QSortFilterProxyModel;
+class QWidget;
 class QMenu;
 class QAction;
-class QContextMenuEvent;
-class QMouseEvent;
-class QPaintEvent;
-class QKeyEvent;
 
 class TaskManager;
 class TagReaderClient;
 class NetworkAccessManager;
 class CollectionLibrary;
 class CollectionBackend;
-class CollectionModel;
-class CollectionFilter;
-class CollectionFilterWidget;
 class DeviceManager;
 class StreamingServices;
 class AlbumCoverLoader;
@@ -60,16 +50,12 @@ class LyricsProviders;
 class EditTagDialog;
 class OrganizeDialog;
 
-class CollectionView : public AutoExpandingTreeView {
+class CollectionView : public CollectionTreeView {
   Q_OBJECT
 
  public:
   explicit CollectionView(QWidget *parent = nullptr);
   ~CollectionView() override;
-
-  // Returns Songs currently selected in the collection view.
-  // Please note that the selection is recursive meaning that if for example an album is selected this will return all of it's songs.
-  SongList GetSelectedSongs() const;
 
   void Init(const SharedPtr<TaskManager> task_manager,
             const SharedPtr<TagReaderClient> tagreader_client,
@@ -82,51 +68,31 @@ class CollectionView : public AutoExpandingTreeView {
             const SharedPtr<DeviceManager> device_manager,
             const SharedPtr<StreamingServices> streaming_services);
 
-  void SetFilterWidget(CollectionFilterWidget *filter_widget);
-
-  // QTreeView
-  void keyboardSearch(const QString &search) override;
-  void scrollTo(const QModelIndex &idx, ScrollHint hint = EnsureVisible) override;
-
-  int TotalSongs() const;
-  int TotalArtists() const;
-  int TotalAlbums() const;
+  int TotalArtists() const { return total_artist_count_; }
+  int TotalAlbums() const { return total_album_count_; }
 
  public Q_SLOTS:
-  void TotalSongCountUpdated(const int count);
   void TotalArtistCountUpdated(const int count);
   void TotalAlbumCountUpdated(const int count);
   void ReloadSettings();
-
-  void FilterReturnPressed();
-
-  void SaveFocus();
-  void RestoreFocus();
 
   void EditTagError(const QString &message);
 
  Q_SIGNALS:
   void ShowSettingsDialog();
 
-  void TotalSongCountUpdated_();
   void TotalArtistCountUpdated_();
   void TotalAlbumCountUpdated_();
   void Error(const QString &error);
 
  protected:
-  // QWidget
-  void paintEvent(QPaintEvent *event) override;
-  void keyPressEvent(QKeyEvent *e) override;
-  void mouseReleaseEvent(QMouseEvent *e) override;
-  void contextMenuEvent(QContextMenuEvent *e) override;
+  QString EmptyTitleText() const override;
+  QString EmptyText() const override;
+  void EmptyClicked() override;
+  void AddContextMenuActions(QMenu *menu) override;
+  void UpdateContextMenuActions(const bool has_selection) override;
 
  private Q_SLOTS:
-  void Load();
-  void AddToPlaylist();
-  void AddToPlaylistEnqueue();
-  void AddToPlaylistEnqueueNext();
-  void OpenInNewPlaylist();
-  void SearchForThis();
   void Organize();
   void CopyToDevice();
   void EditTracks();
@@ -139,8 +105,6 @@ class CollectionView : public AutoExpandingTreeView {
 
  private:
   void SetShowInVarious(const bool on);
-  bool RestoreLevelFocus(const QModelIndex &parent = QModelIndex());
-  void SaveContainerPath(const QModelIndex &child);
 
  private:
   SharedPtr<TaskManager> task_manager_;
@@ -155,26 +119,11 @@ class CollectionView : public AutoExpandingTreeView {
   SharedPtr<StreamingServices> streaming_services_;
 
   SharedPtr<CollectionBackend> backend_;
-  CollectionModel *model_;
-  CollectionFilter *filter_;
-  CollectionFilterWidget *filter_widget_;
 
-  int total_song_count_;
   int total_artist_count_;
   int total_album_count_;
 
-  QPixmap nomusic_;
-
-  QMenu *context_menu_;
-  QPersistentModelIndex context_menu_index_;
-  QAction *action_load_;
-  QAction *action_add_to_playlist_;
-  QAction *action_add_to_playlist_enqueue_;
-  QAction *action_add_to_playlist_enqueue_next_;
-  QAction *action_open_in_new_playlist_;
   QAction *action_organize_;
-  QAction *action_search_for_this_;
-
   QAction *action_copy_to_device_;
   QAction *action_edit_track_;
   QAction *action_edit_tracks_;
@@ -187,13 +136,7 @@ class CollectionView : public AutoExpandingTreeView {
   ScopedPtr<OrganizeDialog> organize_dialog_;
   ScopedPtr<EditTagDialog> edit_tag_dialog_;
 
-  bool is_in_keyboard_search_;
   bool delete_files_;
-
-  // Save focus
-  Song last_selected_song_;
-  QString last_selected_container_;
-  QSet<QString> last_selected_path_;
 };
 
 #endif  // COLLECTIONVIEW_H

@@ -1361,15 +1361,7 @@ Jos vastaavia tiedostoja ei löydy, Strawberry käyttää suurinta kansiossa ole
     </message>
   </context>
   <context>
-    <name>CollectionView</name>
-    <message>
-      <source>Your collection is empty!</source>
-      <translation>Kirjasto on tyhjä!</translation>
-    </message>
-    <message>
-      <source>Click here to add some music</source>
-      <translation>Napsauta tästä lisätäksesi musiikkia</translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
       <source>Append to current playlist</source>
       <translation>Lisää nykyiselle soittolistalle</translation>
@@ -1393,6 +1385,17 @@ Jos vastaavia tiedostoja ei löydy, Strawberry käyttää suurinta kansiossa ole
     <message>
       <source>Search for this</source>
       <translation>Hae tätä</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionView</name>
+    <message>
+      <source>Your collection is empty!</source>
+      <translation>Kirjasto on tyhjä!</translation>
+    </message>
+    <message>
+      <source>Click here to add some music</source>
+      <translation>Napsauta tästä lisätäksesi musiikkia</translation>
     </message>
     <message>
       <source>Organize files...</source>
@@ -7068,26 +7071,6 @@ Haluatko varmasti jatkaa?</translation>
     <message>
       <source>Click here to retrieve music</source>
       <translation type="unfinished">Click here to retrieve music</translation>
-    </message>
-    <message>
-      <source>Append to current playlist</source>
-      <translation>Lisää nykyiselle soittolistalle</translation>
-    </message>
-    <message>
-      <source>Replace current playlist</source>
-      <translation>Korvaa nykyinen soittolista</translation>
-    </message>
-    <message>
-      <source>Open in new playlist</source>
-      <translation>Avaa uudessa soittolistassa</translation>
-    </message>
-    <message>
-      <source>Queue track</source>
-      <translation>Aseta kappale jonoon</translation>
-    </message>
-    <message>
-      <source>Queue to play next</source>
-      <translation>Toistojonoon</translation>
     </message>
     <message>
       <source>Remove from favorites</source>

@@ -1361,15 +1361,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
   </context>
   <context>
-    <name>CollectionView</name>
-    <message>
-      <source>Your collection is empty!</source>
-      <translation>Votre bibliothèque est vide !</translation>
-    </message>
-    <message>
-      <source>Click here to add some music</source>
-      <translation>Cliquez ici pour créer votre bibliothèque musicale</translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
       <source>Append to current playlist</source>
       <translation>Ajouter à la liste de lecture actuelle</translation>
@@ -1393,6 +1385,17 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     <message>
       <source>Search for this</source>
       <translation>Rechercher cela</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionView</name>
+    <message>
+      <source>Your collection is empty!</source>
+      <translation>Votre bibliothèque est vide !</translation>
+    </message>
+    <message>
+      <source>Click here to add some music</source>
+      <translation>Cliquez ici pour créer votre bibliothèque musicale</translation>
     </message>
     <message>
       <source>Organize files...</source>
@@ -7068,26 +7071,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Click here to retrieve music</source>
       <translation>Cliquez ici pour récupérer la musique</translation>
-    </message>
-    <message>
-      <source>Append to current playlist</source>
-      <translation>Ajouter à la liste de lecture actuelle</translation>
-    </message>
-    <message>
-      <source>Replace current playlist</source>
-      <translation>Remplacer la liste de lecture actuelle</translation>
-    </message>
-    <message>
-      <source>Open in new playlist</source>
-      <translation>Ouvrir dans une nouvelle liste de lecture</translation>
-    </message>
-    <message>
-      <source>Queue track</source>
-      <translation>Mettre cette piste en fin de liste d&apos;attente</translation>
-    </message>
-    <message>
-      <source>Queue to play next</source>
-      <translation>Mettre cette piste au début de la liste d&apos;attente</translation>
     </message>
     <message>
       <source>Remove from favorites</source>

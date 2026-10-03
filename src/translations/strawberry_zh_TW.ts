@@ -1361,15 +1361,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
   </context>
   <context>
-    <name>CollectionView</name>
-    <message>
-      <source>Your collection is empty!</source>
-      <translation type="unfinished">Your collection is empty!</translation>
-    </message>
-    <message>
-      <source>Click here to add some music</source>
-      <translation type="unfinished">Click here to add some music</translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
       <source>Append to current playlist</source>
       <translation type="unfinished">Append to current playlist</translation>
@@ -1393,6 +1385,17 @@ If there are no matches then it will use the largest image in the directory.</tr
     <message>
       <source>Search for this</source>
       <translation type="unfinished">Search for this</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionView</name>
+    <message>
+      <source>Your collection is empty!</source>
+      <translation type="unfinished">Your collection is empty!</translation>
+    </message>
+    <message>
+      <source>Click here to add some music</source>
+      <translation type="unfinished">Click here to add some music</translation>
     </message>
     <message>
       <source>Organize files...</source>
@@ -7063,26 +7066,6 @@ Are you sure you want to continue?</translation>
     <message>
       <source>Click here to retrieve music</source>
       <translation type="unfinished">Click here to retrieve music</translation>
-    </message>
-    <message>
-      <source>Append to current playlist</source>
-      <translation type="unfinished">Append to current playlist</translation>
-    </message>
-    <message>
-      <source>Replace current playlist</source>
-      <translation type="unfinished">Replace current playlist</translation>
-    </message>
-    <message>
-      <source>Open in new playlist</source>
-      <translation type="unfinished">Open in new playlist</translation>
-    </message>
-    <message>
-      <source>Queue track</source>
-      <translation type="unfinished">Queue track</translation>
-    </message>
-    <message>
-      <source>Queue to play next</source>
-      <translation type="unfinished">Queue to play next</translation>
     </message>
     <message>
       <source>Remove from favorites</source>

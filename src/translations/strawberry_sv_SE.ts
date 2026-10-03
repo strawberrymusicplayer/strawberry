@@ -1361,15 +1361,7 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
   </context>
   <context>
-    <name>CollectionView</name>
-    <message>
-      <source>Your collection is empty!</source>
-      <translation>Din samling är tom!</translation>
-    </message>
-    <message>
-      <source>Click here to add some music</source>
-      <translation>Klicka här för att lägga till musik</translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
       <source>Append to current playlist</source>
       <translation>Lägg till i aktuell spellista</translation>
@@ -1393,6 +1385,17 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     <message>
       <source>Search for this</source>
       <translation>Sök efter det här</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionView</name>
+    <message>
+      <source>Your collection is empty!</source>
+      <translation>Din samling är tom!</translation>
+    </message>
+    <message>
+      <source>Click here to add some music</source>
+      <translation>Klicka här för att lägga till musik</translation>
     </message>
     <message>
       <source>Organize files...</source>
@@ -7068,26 +7071,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Click here to retrieve music</source>
       <translation>Klicka här för att hämta musik</translation>
-    </message>
-    <message>
-      <source>Append to current playlist</source>
-      <translation>Lägg till i aktuell spellista</translation>
-    </message>
-    <message>
-      <source>Replace current playlist</source>
-      <translation>Ersätt aktuell spellista</translation>
-    </message>
-    <message>
-      <source>Open in new playlist</source>
-      <translation>Öppna i ny spellista</translation>
-    </message>
-    <message>
-      <source>Queue track</source>
-      <translation>Lägg till spår i kön</translation>
-    </message>
-    <message>
-      <source>Queue to play next</source>
-      <translation>Lägg till i kön för att spela som nästa</translation>
     </message>
     <message>
       <source>Remove from favorites</source>

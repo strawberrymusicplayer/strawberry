@@ -1,7 +1,5 @@
 /*
  * Strawberry Music Player
- * This code was part of Clementine
- * Copyright 2010, David Sansome <me@davidsansome.com>
  * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -25,28 +23,18 @@
 #include "config.h"
 
 #include <QObject>
-#include <QAbstractItemView>
-#include <QSet>
 #include <QString>
-#include <QPixmap>
 
 #include "core/song.h"
-
-#include "widgets/autoexpandingtreeview.h"
+#include "collection/collectiontreeview.h"
 
 class QWidget;
 class QMenu;
 class QAction;
-class QMimeData;
-class QSortFilterProxyModel;
-class QContextMenuEvent;
-class QMouseEvent;
-class QPaintEvent;
 
 class CollectionModel;
-class CollectionFilterWidget;
 
-class StreamingCollectionView : public AutoExpandingTreeView {
+class StreamingCollectionView : public CollectionTreeView {
   Q_OBJECT
 
  public:
@@ -54,72 +42,26 @@ class StreamingCollectionView : public AutoExpandingTreeView {
 
   void Init(CollectionModel *collection_model, const bool favorite = false);
 
-  // Returns Songs currently selected in the collection view.
-  // Please note that the selection is recursive meaning that if for example an album is selected this will return all of it's songs.
-  SongList GetSelectedSongs() const;
-
-  void SetFilter(CollectionFilterWidget *filter);
-
-  // QTreeView
-  void keyboardSearch(const QString &search) override;
-  void scrollTo(const QModelIndex &idx, ScrollHint hint = EnsureVisible) override;
-
  public Q_SLOTS:
-  void TotalSongCountUpdated(const int count);
   void ReloadSettings();
-
-  void FilterReturnPressed();
-
-  void SaveFocus();
-  void RestoreFocus();
 
  Q_SIGNALS:
   void GetSongs();
   void RemoveSongs(const SongList &songs);
 
  protected:
-  // QWidget
-  void paintEvent(QPaintEvent *event) override;
-  void mouseReleaseEvent(QMouseEvent *e) override;
-  void contextMenuEvent(QContextMenuEvent *e) override;
+  QString EmptyTitleText() const override;
+  QString EmptyText() const override;
+  void EmptyClicked() override;
+  void AddContextMenuActions(QMenu *menu) override;
+  void UpdateContextMenuActions(const bool has_selection) override;
 
  private Q_SLOTS:
-  void Load();
-  void AddToPlaylist();
-  void AddToPlaylistEnqueue();
-  void AddToPlaylistEnqueueNext();
-  void OpenInNewPlaylist();
   void RemoveSelectedSongs();
 
  private:
-  QSortFilterProxyModel *filter_model() const;
-  QMimeData *SelectedMimeData() const;
-  bool RestoreLevelFocus(const QModelIndex &parent = QModelIndex());
-  void SaveContainerPath(const QModelIndex &child);
-
- private:
-  CollectionModel *collection_model_;
-  CollectionFilterWidget *filter_;
   bool favorite_;
-
-  int total_song_count_;
-
-  QPixmap nomusic_;
-
-  QMenu *context_menu_;
-  QAction *load_;
-  QAction *add_to_playlist_;
-  QAction *add_to_playlist_enqueue_;
-  QAction *add_to_playlist_enqueue_next_;
-  QAction *open_in_new_playlist_;
-  QAction *remove_songs_;
-
-  bool is_in_keyboard_search_;
-
-  // Save focus
-  Song last_selected_song_;
-  QString last_selected_container_;
-  QSet<QString> last_selected_path_;
+  QAction *action_remove_songs_;
 };
 
 #endif  // STREAMINGCOLLECTIONVIEW_H

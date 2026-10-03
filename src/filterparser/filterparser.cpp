@@ -323,7 +323,12 @@ FilterTree *FilterParser::parseSearchTerm() {
       previous_char_operator = false;
     }
     if (in_quotes) {
-      if (*iter_ == u'"') {
+      if (*iter_ == u'\\' && iter_ + 1 != end_ && (*(iter_ + 1) == u'"' || *(iter_ + 1) == u'\\')) {
+        // An escaped quote or backslash, other backslashes are kept as they are.
+        ++iter_;
+        buf_ += *iter_;
+      }
+      else if (*iter_ == u'"') {
         in_quotes = false;
       }
       else {
@@ -609,6 +614,16 @@ float FilterParser::ParseRating(const QString &rating_str) {
   }
 
   return rating;
+
+}
+
+QString FilterParser::QuoteValue(const QString &value) {
+
+  QString escaped_value = value;
+  escaped_value.replace(u'\\', "\\\\"_L1);
+  escaped_value.replace(u'"', "\\\""_L1);
+
+  return QLatin1Char('"') + escaped_value + QLatin1Char('"');
 
 }
 

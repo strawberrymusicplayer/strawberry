@@ -48,6 +48,9 @@ class FilterParser {
 
   static QString ToolTip();
 
+  // Returns the value in quotes, with backslashes and quotes escaped, for use as a quoted value in a filter.
+  static QString QuoteValue(const QString &value);
+
  protected:
   void advance();
   // Check if iter is at the start of 'AND' if so, step over it and return true if not, return false and leave iter where it was

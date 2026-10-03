@@ -1361,15 +1361,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
   </context>
   <context>
-    <name>CollectionView</name>
-    <message>
-      <source>Your collection is empty!</source>
-      <translation>您的媒体库是空的！</translation>
-    </message>
-    <message>
-      <source>Click here to add some music</source>
-      <translation>点击此处添加一些音乐</translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
       <source>Append to current playlist</source>
       <translation>追加至当前播放列表</translation>
@@ -1393,6 +1385,17 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Search for this</source>
       <translation>搜索此项</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionView</name>
+    <message>
+      <source>Your collection is empty!</source>
+      <translation>您的媒体库是空的！</translation>
+    </message>
+    <message>
+      <source>Click here to add some music</source>
+      <translation>点击此处添加一些音乐</translation>
     </message>
     <message>
       <source>Organize files...</source>
@@ -7063,26 +7066,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Click here to retrieve music</source>
       <translation>点击此处检索音乐</translation>
-    </message>
-    <message>
-      <source>Append to current playlist</source>
-      <translation>追加至当前播放列表</translation>
-    </message>
-    <message>
-      <source>Replace current playlist</source>
-      <translation>移除当前播放列表</translation>
-    </message>
-    <message>
-      <source>Open in new playlist</source>
-      <translation>在新播放列表中打开</translation>
-    </message>
-    <message>
-      <source>Queue track</source>
-      <translation>加入队列</translation>
-    </message>
-    <message>
-      <source>Queue to play next</source>
-      <translation>下一个播放队列</translation>
     </message>
     <message>
       <source>Remove from favorites</source>

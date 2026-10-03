@@ -171,6 +171,9 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   const QMap<QString, CollectionItem*> &container_nodes(const int i) const { return container_nodes_[i]; }
   QList<CollectionItem*> song_nodes() const { return song_nodes_.values(); }
 
+  // Returns the index of the song with the given ID, or an invalid index if it isn't in the model.
+  QModelIndex IndexOfSong(const int song_id) const;
+
   // QAbstractItemModel
   QVariant data(const QModelIndex &idx, const int role = Qt::DisplayRole) const override;
   Qt::ItemFlags flags(const QModelIndex &idx) const override;

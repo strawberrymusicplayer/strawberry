@@ -1361,15 +1361,7 @@ Ha nincs egyezés, akkor a legnagyobb képet veszi a könyvtárból.</translatio
     </message>
   </context>
   <context>
-    <name>CollectionView</name>
-    <message>
-      <source>Your collection is empty!</source>
-      <translation>Az Ön gyűjteménye üres.</translation>
-    </message>
-    <message>
-      <source>Click here to add some music</source>
-      <translation>Zene hozzáadásához kattintson ide</translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
       <source>Append to current playlist</source>
       <translation>Hozzáfűzés a jelenlegi lejátszólistához</translation>
@@ -1393,6 +1385,17 @@ Ha nincs egyezés, akkor a legnagyobb képet veszi a könyvtárból.</translatio
     <message>
       <source>Search for this</source>
       <translation>Keresés erre</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionView</name>
+    <message>
+      <source>Your collection is empty!</source>
+      <translation>Az Ön gyűjteménye üres.</translation>
+    </message>
+    <message>
+      <source>Click here to add some music</source>
+      <translation>Zene hozzáadásához kattintson ide</translation>
     </message>
     <message>
       <source>Organize files...</source>
@@ -7069,26 +7072,6 @@ másodpercnél hosszabbak, illetve legalább a felükig vagy 4 percig vannak lej
     <message>
       <source>Click here to retrieve music</source>
       <translation>Kattintson ide a zenék lekéréséhez</translation>
-    </message>
-    <message>
-      <source>Append to current playlist</source>
-      <translation>Hozzáfűzés a jelenlegi lejátszólistához</translation>
-    </message>
-    <message>
-      <source>Replace current playlist</source>
-      <translation>Jelenlegi lejátszólista cseréje</translation>
-    </message>
-    <message>
-      <source>Open in new playlist</source>
-      <translation>Megnyitás új lejátszólistában</translation>
-    </message>
-    <message>
-      <source>Queue track</source>
-      <translation>Szám hozzáadása a lejátszási sorhoz</translation>
-    </message>
-    <message>
-      <source>Queue to play next</source>
-      <translation>Lejátszás következőként</translation>
     </message>
     <message>
       <source>Remove from favorites</source>

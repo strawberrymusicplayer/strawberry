@@ -1,7 +1,5 @@
 /*
  * Strawberry Music Player
- * This code was part of Clementine
- * Copyright 2010, David Sansome <me@davidsansome.com>
  * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -21,430 +19,72 @@
 
 #include "config.h"
 
-#include <utility>
-
 #include <QWidget>
-#include <QTreeView>
-#include <QSortFilterProxyModel>
-#include <QAbstractItemView>
-#include <QItemSelectionModel>
-#include <QVariant>
 #include <QString>
-#include <QPainter>
-#include <QRect>
-#include <QFont>
-#include <QFontMetrics>
-#include <QMimeData>
 #include <QMenu>
-#include <QtEvents>
+#include <QAction>
 
 #include "core/iconloader.h"
-#include "core/mimedata.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionfilterwidget.h"
-#include "collection/collectionitem.h"
-#include "collection/collectionitemdelegate.h"
 #include "streamingcollectionview.h"
 
 using namespace Qt::Literals::StringLiterals;
 
 StreamingCollectionView::StreamingCollectionView(QWidget *parent)
-    : AutoExpandingTreeView(parent),
-      collection_model_(nullptr),
-      filter_(nullptr),
+    : CollectionTreeView(parent),
       favorite_(false),
-      total_song_count_(0),
-      nomusic_(u":/pictures/nomusic.png"_s),
-      context_menu_(nullptr),
-      load_(nullptr),
-      add_to_playlist_(nullptr),
-      add_to_playlist_enqueue_(nullptr),
-      add_to_playlist_enqueue_next_(nullptr),
-      open_in_new_playlist_(nullptr),
-      remove_songs_(nullptr),
-      is_in_keyboard_search_(false) {
+      action_remove_songs_(nullptr) {
 
-  setItemDelegate(new CollectionItemDelegate(this));
-  setAttribute(Qt::WA_MacShowFocusRect, false);
-  setHeaderHidden(true);
-  setAllColumnsShowFocus(true);
-  setDragEnabled(true);
-  setDragDropMode(QAbstractItemView::DragOnly);
-  setSelectionMode(QAbstractItemView::ExtendedSelection);
   SetAutoOpen(false);
-
-  setStyleSheet(u"QTreeView::item{padding-top:1px;}"_s);
 
 }
 
 void StreamingCollectionView::Init(CollectionModel *collection_model, const bool favorite) {
 
-  collection_model_ = collection_model;
+  SetCollectionModel(collection_model);
   favorite_ = favorite;
 
   ReloadSettings();
 
 }
 
-void StreamingCollectionView::SetFilter(CollectionFilterWidget *filter) {
-
-  filter_ = filter;
-
-}
-
 void StreamingCollectionView::ReloadSettings() {
 
-  if (collection_model_) collection_model_->ReloadSettings();
-  if (filter_) filter_->ReloadSettings();
+  if (collection_model()) collection_model()->ReloadSettings();
+  if (filter_widget()) filter_widget()->ReloadSettings();
 
 }
 
-QSortFilterProxyModel *StreamingCollectionView::filter_model() const {
-
-  return qobject_cast<QSortFilterProxyModel*>(model());
-
+QString StreamingCollectionView::EmptyTitleText() const {
+  return tr("The streaming collection is empty!");
 }
 
-void StreamingCollectionView::SaveFocus() {
-
-  if (!filter_model() || !collection_model_) return;
-
-  const QModelIndex current = currentIndex();
-  const QVariant role_type = model()->data(current, CollectionModel::Role_Type);
-  if (!role_type.isValid()) {
-    return;
-  }
-  const CollectionItem::Type item_type = role_type.value<CollectionItem::Type>();
-  if (item_type != CollectionItem::Type::Song && item_type != CollectionItem::Type::Container && item_type != CollectionItem::Type::Divider) {
-    return;
-  }
-
-  last_selected_path_.clear();
-  last_selected_song_ = Song();
-  last_selected_container_ = QString();
-
-  switch (item_type) {
-    case CollectionItem::Type::Song:{
-      const QModelIndex idx = filter_model()->mapToSource(current);
-      const SongList songs = collection_model_->GetChildSongs(idx);
-      if (!songs.isEmpty()) {
-        last_selected_song_ = songs.last();
-      }
-      break;
-    }
-
-    case CollectionItem::Type::Container:
-    case CollectionItem::Type::Divider:{
-      QString text = model()->data(current, CollectionModel::Role_SortText).toString();
-      last_selected_container_ = text;
-      break;
-    }
-
-    default:
-      return;
-  }
-
-  SaveContainerPath(current);
-
+QString StreamingCollectionView::EmptyText() const {
+  return tr("Click here to retrieve music");
 }
 
-void StreamingCollectionView::SaveContainerPath(const QModelIndex &child) {
-
-  const QModelIndex current = model()->parent(child);
-  const QVariant role_type = model()->data(current, CollectionModel::Role_Type);
-  if (!role_type.isValid()) {
-    return;
-  }
-  const CollectionItem::Type item_type = role_type.value<CollectionItem::Type>();
-  if (item_type != CollectionItem::Type::Container && item_type != CollectionItem::Type::Divider) {
-    return;
-  }
-
-  QString text = model()->data(current, CollectionModel::Role_SortText).toString();
-  last_selected_path_ << text;
-  SaveContainerPath(current);
-
+void StreamingCollectionView::EmptyClicked() {
+  Q_EMIT GetSongs();
 }
 
-void StreamingCollectionView::RestoreFocus() {
+void StreamingCollectionView::AddContextMenuActions(QMenu *menu) {
 
-  if (last_selected_container_.isEmpty() && last_selected_song_.url().isEmpty()) {
-    return;
-  }
-  RestoreLevelFocus();
-
-}
-
-bool StreamingCollectionView::RestoreLevelFocus(const QModelIndex &parent) {
-
-  if (!filter_model() || !collection_model_) return false;
-
-  if (model()->canFetchMore(parent)) {
-    model()->fetchMore(parent);
-  }
-  const int rows = model()->rowCount(parent);
-  for (int i = 0; i < rows; i++) {
-    const QModelIndex current = model()->index(i, 0, parent);
-    if (!current.isValid()) continue;
-    const QVariant role_type = model()->data(current, CollectionModel::Role_Type);
-    if (!role_type.isValid()) continue;
-    const CollectionItem::Type item_type = role_type.value<CollectionItem::Type>();
-    switch (item_type) {
-      case CollectionItem::Type::Root:
-      case CollectionItem::Type::LoadingIndicator:
-        break;
-      case CollectionItem::Type::Song:
-        if (!last_selected_song_.url().isEmpty()) {
-          const QModelIndex idx = filter_model()->mapToSource(current);
-          const SongList songs = collection_model_->GetChildSongs(idx);
-          for (const Song &song : songs) {
-            if (song == last_selected_song_) {
-              setCurrentIndex(current);
-              return true;
-            }
-          }
-        }
-        break;
-
-      case CollectionItem::Type::Container:
-      case CollectionItem::Type::Divider:{
-        QString text = model()->data(current, CollectionModel::Role_SortText).toString();
-        if (!last_selected_container_.isEmpty() && last_selected_container_ == text) {
-          expand(current);
-          setCurrentIndex(current);
-          return true;
-        }
-        if (last_selected_path_.contains(text)) {
-          expand(current);
-          // If a selected container or song were not found, we've got into a wrong subtree (happens with "unknown" all the time)
-          if (!RestoreLevelFocus(current)) {
-            collapse(current);
-          }
-          else {
-            return true;
-          }
-        }
-        break;
-      }
-    }
-  }
-  return false;
-
-}
-
-void StreamingCollectionView::TotalSongCountUpdated(const int count) {
-
-  if (count != total_song_count_) {
-    total_song_count_ = count;
-    update();
-  }
-
-  // An empty collection shows a text to click on to retrieve the music.
-  if (total_song_count_ == 0) {
-    setCursor(Qt::PointingHandCursor);
-  }
-  else {
-    unsetCursor();
+  if (favorite_) {
+    action_remove_songs_ = menu->addAction(IconLoader::Load(u"edit-delete"_s), tr("Remove from favorites"), this, &StreamingCollectionView::RemoveSelectedSongs);
+    menu->addSeparator();
   }
 
 }
 
-void StreamingCollectionView::paintEvent(QPaintEvent *event) {
+void StreamingCollectionView::UpdateContextMenuActions(const bool has_selection) {
 
-  if (total_song_count_ == 0) {
-    QPainter p(viewport());
-    QRect rect(viewport()->rect());
-
-    // Draw the confused strawberry
-    QRect image_rect((rect.width() - nomusic_.width()) / 2, 50, nomusic_.width(), nomusic_.height());
-    p.drawPixmap(image_rect, nomusic_);
-
-    // Draw the title text
-    QFont bold_font;
-    bold_font.setBold(true);
-    p.setFont(bold_font);
-
-    QFontMetrics metrics(bold_font);
-
-    QRect title_rect(0, image_rect.bottom() + 20, rect.width(), metrics.height());
-    p.drawText(title_rect, Qt::AlignHCenter, tr("The streaming collection is empty!"));
-
-    // Draw the other text
-    p.setFont(QFont());
-
-    QRect text_rect(0, title_rect.bottom() + 5, rect.width(), metrics.height());
-    p.drawText(text_rect, Qt::AlignHCenter, tr("Click here to retrieve music"));
-  }
-  else {
-    QTreeView::paintEvent(event);
-  }
-
-}
-
-void StreamingCollectionView::mouseReleaseEvent(QMouseEvent *e) {
-
-  QTreeView::mouseReleaseEvent(e);
-
-  if (total_song_count_ == 0) {
-    Q_EMIT GetSongs();
-  }
-
-}
-
-void StreamingCollectionView::contextMenuEvent(QContextMenuEvent *e) {
-
-  if (!context_menu_) {
-    context_menu_ = new QMenu(this);
-    add_to_playlist_ = context_menu_->addAction(IconLoader::Load(u"media-playback-start"_s), tr("Append to current playlist"), this, &StreamingCollectionView::AddToPlaylist);
-    load_ = context_menu_->addAction(IconLoader::Load(u"media-playback-start"_s), tr("Replace current playlist"), this, &StreamingCollectionView::Load);
-    open_in_new_playlist_ = context_menu_->addAction(IconLoader::Load(u"document-new"_s), tr("Open in new playlist"), this, &StreamingCollectionView::OpenInNewPlaylist);
-
-    context_menu_->addSeparator();
-    add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load(u"go-next"_s), tr("Queue track"), this, &StreamingCollectionView::AddToPlaylistEnqueue);
-    add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load(u"go-next"_s), tr("Queue to play next"), this, &StreamingCollectionView::AddToPlaylistEnqueueNext);
-
-    context_menu_->addSeparator();
-
-    if (favorite_) {
-      remove_songs_ = context_menu_->addAction(IconLoader::Load(u"edit-delete"_s), tr("Remove from favorites"), this, &StreamingCollectionView::RemoveSelectedSongs);
-      context_menu_->addSeparator();
-    }
-
-    if (filter_) context_menu_->addMenu(filter_->menu());
-
-  }
-
-  if (!indexAt(e->pos()).isValid()) return;
-
-  const bool has_selection = selectionModel() && selectionModel()->hasSelection();
-  load_->setEnabled(has_selection);
-  add_to_playlist_->setEnabled(has_selection);
-  open_in_new_playlist_->setEnabled(has_selection);
-  add_to_playlist_enqueue_->setEnabled(has_selection);
-  add_to_playlist_enqueue_next_->setEnabled(has_selection);
-  if (remove_songs_) remove_songs_->setEnabled(has_selection);
-
-  context_menu_->popup(e->globalPos());
-
-}
-
-QMimeData *StreamingCollectionView::SelectedMimeData() const {
-
-  if (!model() || !selectionModel() || !selectionModel()->hasSelection()) return nullptr;
-
-  return model()->mimeData(selectedIndexes());
-
-}
-
-void StreamingCollectionView::Load() {
-
-  QMimeData *q_mimedata = SelectedMimeData();
-  if (!q_mimedata) return;
-
-  if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
-    mimedata->clear_first_ = true;
-  }
-  Q_EMIT AddToPlaylistSignal(q_mimedata);
-
-}
-
-void StreamingCollectionView::AddToPlaylist() {
-
-  QMimeData *q_mimedata = SelectedMimeData();
-  if (!q_mimedata) return;
-
-  Q_EMIT AddToPlaylistSignal(q_mimedata);
-
-}
-
-void StreamingCollectionView::AddToPlaylistEnqueue() {
-
-  QMimeData *q_mimedata = SelectedMimeData();
-  if (!q_mimedata) return;
-
-  if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
-    mimedata->enqueue_now_ = true;
-  }
-  Q_EMIT AddToPlaylistSignal(q_mimedata);
-
-}
-
-void StreamingCollectionView::AddToPlaylistEnqueueNext() {
-
-  QMimeData *q_mimedata = SelectedMimeData();
-  if (!q_mimedata) return;
-
-  if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
-    mimedata->enqueue_next_now_ = true;
-  }
-  Q_EMIT AddToPlaylistSignal(q_mimedata);
-
-}
-
-void StreamingCollectionView::OpenInNewPlaylist() {
-
-  QMimeData *q_mimedata = SelectedMimeData();
-  if (!q_mimedata) return;
-
-  if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
-    mimedata->open_in_new_playlist_ = true;
-  }
-  Q_EMIT AddToPlaylistSignal(q_mimedata);
+  if (action_remove_songs_) action_remove_songs_->setEnabled(has_selection);
 
 }
 
 void StreamingCollectionView::RemoveSelectedSongs() {
 
   Q_EMIT RemoveSongs(GetSelectedSongs());
-
-}
-
-void StreamingCollectionView::keyboardSearch(const QString &search) {
-
-  is_in_keyboard_search_ = true;
-  QTreeView::keyboardSearch(search);
-  is_in_keyboard_search_ = false;
-
-}
-
-void StreamingCollectionView::scrollTo(const QModelIndex &idx, ScrollHint hint) {
-
-  if (is_in_keyboard_search_) {
-    QTreeView::scrollTo(idx, QAbstractItemView::PositionAtTop);
-  }
-  else {
-    QTreeView::scrollTo(idx, hint);
-  }
-
-}
-
-SongList StreamingCollectionView::GetSelectedSongs() const {
-
-  if (!filter_model() || !collection_model_ || !selectionModel()) return SongList();
-
-  const QModelIndexList selected_indexes = filter_model()->mapSelectionToSource(selectionModel()->selection()).indexes();
-  return collection_model_->GetChildSongs(selected_indexes);
-
-}
-
-void StreamingCollectionView::FilterReturnPressed() {
-
-  if (!currentIndex().isValid()) {
-    // Pick the first thing that isn't a divider
-    for (int row = 0; row < model()->rowCount(); ++row) {
-      QModelIndex idx = model()->index(row, 0);
-      const QVariant role_type = idx.data(CollectionModel::Role::Role_Type);
-      if (!role_type.isValid()) continue;
-      const CollectionItem::Type item_type = role_type.value<CollectionItem::Type>();
-      if (item_type != CollectionItem::Type::Divider) {
-        setCurrentIndex(idx);
-        break;
-      }
-    }
-  }
-
-  if (!currentIndex().isValid()) return;
-
-  Q_EMIT doubleClicked(currentIndex());
 
 }

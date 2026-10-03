@@ -1361,15 +1361,7 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
     </message>
   </context>
   <context>
-    <name>CollectionView</name>
-    <message>
-      <source>Your collection is empty!</source>
-      <translation>Pustaka Anda kosong!</translation>
-    </message>
-    <message>
-      <source>Click here to add some music</source>
-      <translation>Klik di sini untuk menambahkan musik</translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
       <source>Append to current playlist</source>
       <translation>Tambahkan ke daftar putar saat ini</translation>
@@ -1393,6 +1385,17 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
     <message>
       <source>Search for this</source>
       <translation>Cari ini</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionView</name>
+    <message>
+      <source>Your collection is empty!</source>
+      <translation>Pustaka Anda kosong!</translation>
+    </message>
+    <message>
+      <source>Click here to add some music</source>
+      <translation>Klik di sini untuk menambahkan musik</translation>
     </message>
     <message>
       <source>Organize files...</source>
@@ -7063,26 +7066,6 @@ Apakah Anda yakin ingin melanjutkan?</translation>
     <message>
       <source>Click here to retrieve music</source>
       <translation>Klik di sini untuk menerima musik</translation>
-    </message>
-    <message>
-      <source>Append to current playlist</source>
-      <translation>Tambahkan ke daftar putar saat ini</translation>
-    </message>
-    <message>
-      <source>Replace current playlist</source>
-      <translation>Ganti daftar putar saat ini</translation>
-    </message>
-    <message>
-      <source>Open in new playlist</source>
-      <translation>Buka di daftar putar baru</translation>
-    </message>
-    <message>
-      <source>Queue track</source>
-      <translation>Antre trek</translation>
-    </message>
-    <message>
-      <source>Queue to play next</source>
-      <translation>Antre untuk diputar selanjutnya</translation>
     </message>
     <message>
       <source>Remove from favorites</source>

@@ -1361,15 +1361,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
   </context>
   <context>
-    <name>CollectionView</name>
-    <message>
-      <source>Your collection is empty!</source>
-      <translation>ライブラリは空です!</translation>
-    </message>
-    <message>
-      <source>Click here to add some music</source>
-      <translation>音楽を追加するにはここをクリックします</translation>
-    </message>
+    <name>CollectionTreeView</name>
     <message>
       <source>Append to current playlist</source>
       <translation>現在のプレイリストに追加する</translation>
@@ -1393,6 +1385,17 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Search for this</source>
       <translation>これを検索</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionView</name>
+    <message>
+      <source>Your collection is empty!</source>
+      <translation>ライブラリは空です!</translation>
+    </message>
+    <message>
+      <source>Click here to add some music</source>
+      <translation>音楽を追加するにはここをクリックします</translation>
     </message>
     <message>
       <source>Organize files...</source>
@@ -7063,26 +7066,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Click here to retrieve music</source>
       <translation>音楽を取得するにはここをクリック</translation>
-    </message>
-    <message>
-      <source>Append to current playlist</source>
-      <translation>現在のプレイリストに追加する</translation>
-    </message>
-    <message>
-      <source>Replace current playlist</source>
-      <translation>現在のプレイリストを置き換える</translation>
-    </message>
-    <message>
-      <source>Open in new playlist</source>
-      <translation>新しいプレイリストで開く</translation>
-    </message>
-    <message>
-      <source>Queue track</source>
-      <translation>トラックをキューに追加</translation>
-    </message>
-    <message>
-      <source>Queue to play next</source>
-      <translation>次に再生する</translation>
     </message>
     <message>
       <source>Remove from favorites</source>
