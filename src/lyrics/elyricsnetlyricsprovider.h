@@ -39,6 +39,9 @@ class ElyricsNetLyricsProvider : public HtmlLyricsProvider {
  protected:
   QUrl Url(const LyricsSearchRequest &request) override;
 
+  // elyrics.net serves the Strawberry user agent.
+  bool UseFakeUserAgent() const override { return false; }
+
  private:
   static QString StringFixup(const QString &text);
 };

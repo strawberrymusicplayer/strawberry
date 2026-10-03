@@ -2,6 +2,41 @@ Strawberry Music Player
 =======================
 Changelog
 
+Version 1.2.31 (2026.10.03):
+
+  Bugfixes:
+    * Fixed shuffle skipping tracks and repeating tracks already played, when adding tracks, removing the current track, choosing a track, turning on shuffle while playing or repeating the playlist
+    * Fixed going back to the previous track changing the shuffle order
+    * Fixed album and grouping shuffle skipping albums or groupings when choosing a track
+    * Fixed inside album shuffle and album repeat not finding the next track on the same album after removing the current track
+    * Fixed track repeat playing the wrong track after removing the current track
+    * Fixed moving several tracks that are not next to each other to another playlist removing the wrong tracks from the source playlist
+    * Fixed undo right after startup removing the restored playlist
+    * Fixed undo after repopulating a dynamic playlist acting on the wrong tracks
+    * Fixed "play now" playing the wrong track when inserting tracks into an automatically sorted playlist
+    * Fixed tracks copied to another playlist, or added to the same playlist again, being shared between the playlists, which broke updating and saving the remaining tracks when one of them was removed
+    * Fixed OpenTidal cover provider search (API changed)
+    * Fixed songlyrics.com and letras.mus.br lyrics being blocked
+    * (Windows) Fixed unstable ASIO playback
+    * (Windows|MinGW-W64) Fixed ASIO device listing
+
+  Enhancements:
+    * Volume mute is now a separate state instead of setting the volume to zero, and is shown in the volume slider and on-screen display
+    * Use uchardet to detect the text encoding of CUE sheets and M3U and PLS playlists (#2336)
+    * Use existing src/apicredentials.h when building from source
+    * Improved detecting a dark palette and calculating the playlist alternating row color
+    * Added Ctrl+B shortcut for showing the sidebar
+    * Added a "Scan tracks" repeat mode which only plays a part of each track
+    * Added a credentials manager which stores the Subsonic password in the system keyring (libsecret, KWallet, GNOME Keyring, macOS Keychain or Windows Credential Manager)
+    * Added an option to disable notifications when the title of a radio stream changes
+    * Added options to show the album edition and audio quality in Qobuz search results, and the audio quality in Tidal search results
+    * Added Plex support
+    * Added Jellyfin support
+    * Added a bitrate setting for Spotify (96, 160 or 320 kbit/s)
+    * Show a warning in the Spotify settings when the GStreamer Spotify plugin is too old to play tracks (older than 0.14.4), and explain the possible causes when a Spotify track can't be played
+    * (macOS) Fixed alternating row colors being painted in the empty area below the playlist
+    * (Windows) Disabled fading when ASIO output is selected
+
 Version 1.2.30 (2026.09.10):
 
   Bugfixes:

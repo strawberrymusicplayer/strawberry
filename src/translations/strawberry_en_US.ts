@@ -3193,6 +3193,13 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
 </context>
 <context>
+    <name>GstEnginePipeline</name>
+    <message>
+        <source>The track is not available from Spotify. This happens for every track when the GStreamer Spotify plugin is older than version %1, or when the account doesn&apos;t have Spotify Premium. Some tracks are also not available in every country.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>JellyfinFavoriteRequest</name>
     <message>
         <source>Changing Jellyfin favorites failed: %1</source>
@@ -7432,6 +7439,18 @@ Are you sure you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Wiki</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The installed GStreamer Spotify plugin version %1 is too old, playing songs from Spotify fails with &quot;track is not available&quot;. Version %2 or newer is required.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>See %1 for instructions on how to install the plugin.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Authentication failed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7457,6 +7476,10 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source>API Credentials</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bitrate</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

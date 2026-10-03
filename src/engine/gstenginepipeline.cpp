@@ -57,6 +57,7 @@
 #include <QVariant>
 #include <QString>
 #include <QUrl>
+#include <QVersionNumber>
 #include <QTimer>
 #include <QTimeLine>
 #include <QEasingCurve>
@@ -74,6 +75,10 @@
 #include "gstenginepipeline.h"
 #include "gstbusmessageevent.h"
 #include "gstbufferconsumer.h"
+
+#ifdef HAVE_SPOTIFY
+#  include "constants/spotifysettings.h"
+#endif
 
 using namespace std::chrono_literals;
 using namespace Qt::Literals::StringLiterals;
@@ -157,6 +162,9 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       rg_fallbackgain_(0.0),
       rg_compression_(true),
       ebur128_loudness_normalization_(false),
+#ifdef HAVE_SPOTIFY
+      spotify_bitrate_(SpotifySettings::kDefaultBitrate),
+#endif
       ebur128_loudness_normalizing_gain_db_(0.0),
       segment_start_(0),
       segment_start_received_(false),
@@ -386,6 +394,10 @@ void GstEnginePipeline::set_fading_enabled(const bool enabled) {
 void GstEnginePipeline::set_spotify_access_token(const QString &spotify_access_token) {
   QMutexLocker l(&mutex_spotify_access_token_);
   spotify_access_token_ = spotify_access_token;
+}
+
+void GstEnginePipeline::set_spotify_bitrate(const SpotifySettings::Bitrate spotify_bitrate) {
+  spotify_bitrate_ = spotify_bitrate;
 }
 #endif  // HAVE_SPOTIFY
 
@@ -1273,7 +1285,8 @@ void GstEnginePipeline::SourceSetupCallback(GstElement *playbin, GstElement *sou
     QMutexLocker mutex_locker_url(&instance->mutex_url_);
     if (instance->media_url_.scheme() == u"spotify"_s) {
       if (g_object_class_find_property(G_OBJECT_GET_CLASS(source), "bitrate")) {
-        g_object_set(source, "bitrate", 2, nullptr);
+        // Set the bitrate enum by its nick, which is the bitrate in kbit/s ("96", "160" or "320").
+        gst_util_set_object_arg(G_OBJECT(source), "bitrate", QByteArray::number(static_cast<int>(instance->spotify_bitrate_.load())).constData());
       }
       QMutexLocker mutex_locker_spotify_access_token(&instance->mutex_spotify_access_token_);
       if (!instance->spotify_access_token_.isEmpty() && g_object_class_find_property(G_OBJECT_GET_CLASS(source), "access-token")) {
@@ -1937,6 +1950,17 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
 
   qLog(Error) << __FUNCTION__ << "ID:" << id() << "Domain:" << domain << "Code:" << code << "Error:" << message;
   qLog(Error) << __FUNCTION__ << "ID:" << id() << "Domain:" << domain << "Code:" << code << "Debug:" << debugstr;
+
+#ifdef HAVE_SPOTIFY
+  // The Spotify plugin only reports "Resource not found." with "track is not available" in the debug message, which doesn't tell the user why.
+  if (domain == GST_RESOURCE_ERROR && code == GST_RESOURCE_ERROR_NOT_FOUND && GST_IS_ELEMENT(GST_MESSAGE_SRC(msg))) {
+    GstElementFactory *factory = gst_element_get_factory(GST_ELEMENT(GST_MESSAGE_SRC(msg)));
+    if (factory && g_strcmp0(gst_plugin_feature_get_name(GST_PLUGIN_FEATURE(factory)), "spotifyaudiosrc") == 0) {
+      const QVersionNumber minimum_version(SpotifySettings::kMinimumGstPluginVersionMajor, SpotifySettings::kMinimumGstPluginVersionMinor, SpotifySettings::kMinimumGstPluginVersionMicro);
+      message = tr("The track is not available from Spotify. This happens for every track when the GStreamer Spotify plugin is older than version %1, or when the account doesn't have Spotify Premium. Some tracks are also not available in every country.").arg(minimum_version.toString());
+    }
+  }
+#endif
 
 #ifdef Q_OS_WIN32
   // Ignore non-error received for directsoundsink: "IDirectSoundBuffer_GetStatus The operation completed successfully"

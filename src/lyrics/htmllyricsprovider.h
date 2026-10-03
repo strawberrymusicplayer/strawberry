@@ -45,6 +45,11 @@ class HtmlLyricsProvider : public LyricsProvider {
 
  protected:
   virtual QUrl Url(const LyricsSearchRequest &request) = 0;
+
+  // Whether to send a browser user agent instead of the Strawberry user agent.
+  // Some sites only serve browsers, while others block clients that claim to be a browser without behaving like one.
+  virtual bool UseFakeUserAgent() const { return false; }
+
   void ParseLyricsFromHTMLFinished(QFutureWatcher<QString> *watcher, const int id, const LyricsSearchRequest &request);
 
  protected Q_SLOTS:

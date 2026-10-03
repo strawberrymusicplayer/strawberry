@@ -48,6 +48,9 @@
 
 #include "includes/shared_ptr.h"
 #include "core/enginemetadata.h"
+#ifdef HAVE_SPOTIFY
+#  include "constants/spotifysettings.h"
+#endif
 
 class GstBufferConsumer;
 struct GstPlayBin;
@@ -85,6 +88,7 @@ class GstEnginePipeline : public QObject {
   void set_fading_enabled(const bool enabled);
 #ifdef HAVE_SPOTIFY
   void set_spotify_access_token(const QString &spotify_access_token);
+  void set_spotify_bitrate(const SpotifySettings::Bitrate spotify_bitrate);
 #endif
 
   bool Finish();
@@ -303,6 +307,7 @@ class GstEnginePipeline : public QObject {
 #ifdef HAVE_SPOTIFY
   QString spotify_access_token_;
   mutable QMutex mutex_spotify_access_token_;
+  std::atomic<SpotifySettings::Bitrate> spotify_bitrate_;
 #endif
 
   // The URL that is currently playing, and the URL that is to be preloaded when the current track is close to finishing.

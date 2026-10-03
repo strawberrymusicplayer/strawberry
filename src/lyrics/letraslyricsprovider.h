@@ -39,6 +39,9 @@ class LetrasLyricsProvider : public HtmlLyricsProvider {
  protected:
   QUrl Url(const LyricsSearchRequest &request) override;
 
+  // letras.mus.br only serves a browser, StartSearch() sends the browser user agent together with the other headers a browser sends.
+  bool UseFakeUserAgent() const override { return true; }
+
  protected Q_SLOTS:
   void StartSearch(const int id, const LyricsSearchRequest &request) override;
   void HandleLyricsReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request) override;

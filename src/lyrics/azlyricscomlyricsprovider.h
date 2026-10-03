@@ -39,6 +39,9 @@ class AzLyricsComLyricsProvider : public HtmlLyricsProvider {
  protected:
   QUrl Url(const LyricsSearchRequest &request) override;
 
+  // azlyrics.com redirects the Strawberry user agent away from the lyrics, but serves the browser user agent.
+  bool UseFakeUserAgent() const override { return true; }
+
  private:
   static QString StringFixup(const QString &text);
 };

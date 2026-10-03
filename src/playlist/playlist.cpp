@@ -612,7 +612,8 @@ int Playlist::NextVirtualIndex(int i, const bool ignore_repeat_track) const {
   const bool album_only = repeat_mode == PlaylistSequence::RepeatMode::Album || ShuffleMode() == PlaylistSequence::ShuffleMode::InsideAlbum;
 
   // This one's easy - if we have to repeat the current track then just return i
-  if (repeat_mode == PlaylistSequence::RepeatMode::Track && !ignore_repeat_track) {
+  // Without a current item, i is the position before the removed current item, so there is nothing to repeat.
+  if (repeat_mode == PlaylistSequence::RepeatMode::Track && !ignore_repeat_track && current_item_index_.isValid()) {
     if (!FilterContainsVirtualIndex(i)) {
       return static_cast<int>(virtual_items_.count());  // It's not in the filter any more
     }
@@ -631,7 +632,7 @@ int Playlist::NextVirtualIndex(int i, const bool ignore_repeat_track) const {
   }
 
   // We need to advance i until we get something else on the same album
-  const Song last_song = current_item_metadata();
+  const Song last_song = current_item() ? current_item_metadata() : removed_current_item_metadata_;
   for (int j = i + 1; j < virtual_items_.count(); ++j) {
     if (item_at(virtual_items_[j])->GetShouldSkip()) {
       continue;
@@ -656,14 +657,19 @@ int Playlist::PreviousVirtualIndex(int i, const bool ignore_repeat_track) const 
   const bool album_only = repeat_mode == PlaylistSequence::RepeatMode::Album || ShuffleMode() == PlaylistSequence::ShuffleMode::InsideAlbum;
 
   // This one's easy - if we have to repeat the current track then just return i
-  if (repeat_mode == PlaylistSequence::RepeatMode::Track && !ignore_repeat_track) {
+  // Without a current item, i is the position before the removed current item, so there is nothing to repeat.
+  if (repeat_mode == PlaylistSequence::RepeatMode::Track && !ignore_repeat_track && current_item_index_.isValid()) {
     if (!FilterContainsVirtualIndex(i)) return -1;
     return i;
   }
 
+  // Without a current item, i is the position before the removed current item, so i itself is the first candidate.
+  // Cap it at the last valid index, since i is past the end of the list when wrapping around.
+  const int first_candidate = std::min(current_item_index_.isValid() ? i - 1 : i, static_cast<int>(virtual_items_.count()) - 1);
+
   // If we're not bothered about whether a song is on the same album then return the previous virtual index, whatever it is.
   if (!album_only) {
-    --i;
+    i = first_candidate;
 
     // Decrement i until we find any track that is in the filter
     while (i >= 0 && (!FilterContainsVirtualIndex(i) || item_at(virtual_items_[i])->GetShouldSkip())) --i;
@@ -671,8 +677,8 @@ int Playlist::PreviousVirtualIndex(int i, const bool ignore_repeat_track) const 
   }
 
   // We need to decrement i until we get something else on the same album
-  Song last_song = current_item_metadata();
-  for (int j = i - 1; j >= 0; --j) {
+  const Song last_song = current_item() ? current_item_metadata() : removed_current_item_metadata_;
+  for (int j = first_candidate; j >= 0; --j) {
     if (item_at(virtual_items_[j])->GetShouldSkip()) {
       continue;
     }
@@ -703,12 +709,23 @@ int Playlist::next_row(const bool ignore_repeat_track) {
       case PlaylistSequence::RepeatMode::Scan:
         return -1;
       case PlaylistSequence::RepeatMode::Track:
+        // The current item was removed, so there is nothing to repeat.
+        if (!current_item_index_.isValid()) return -1;
         next_virtual_index = current_virtual_index_;
         break;
 
       default:
         ReshuffleIndices();
-        next_virtual_index = NextVirtualIndex(-1, ignore_repeat_track);
+        // With shuffle, the current track is at the start of the new order, so continue after it.
+        // This also makes calling next_row() again return the same row, instead of continuing from the current track's position in another order.
+        next_virtual_index = static_cast<int>(virtual_items_.count());
+        if (ShuffleMode() != PlaylistSequence::ShuffleMode::Off) {
+          next_virtual_index = NextVirtualIndex(current_virtual_index_, ignore_repeat_track);
+        }
+        // Start from the beginning without shuffle, or if the current track is the only one to play.
+        if (next_virtual_index >= virtual_items_.count()) {
+          next_virtual_index = NextVirtualIndex(-1, ignore_repeat_track);
+        }
         break;
     }
   }
@@ -735,6 +752,8 @@ int Playlist::previous_row(const bool ignore_repeat_track) const {
       case PlaylistSequence::RepeatMode::Off:
         return -1;
       case PlaylistSequence::RepeatMode::Track:
+        // The current item was removed, so there is nothing to repeat.
+        if (!current_item_index_.isValid()) return -1;
         prev_virtual_index = current_virtual_index_;
         break;
 
@@ -780,6 +799,7 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
   }
 
   current_item_index_ = new_current_item_index;
+  removed_current_item_metadata_ = Song();
 
   // If the given item is the first in the queue, remove it from the queue
   if (current_item_index_.isValid() && current_item_index_.row() == queue_->PeekNext()) {
@@ -819,6 +839,38 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
     }
   }
   else if (ShuffleMode() != PlaylistSequence::ShuffleMode::Off) {
+    // The tracks up to the current virtual index are the ones played in this shuffle order, and the tracks after it are the ones left to play.
+    // A track that is left to play is moved to just after the current position, instead of jumping to its position, which would skip the tracks before it.
+    // A track that was played, for example when going back to the previous track, only moves the current position, so the order is kept and the next track is the one after it again.
+    // With album and grouping shuffle, the tracks of the album or grouping that are left to play are moved together, in their order.
+    const int virtual_index = static_cast<int>(virtual_items_.indexOf(i));
+    if (virtual_index > current_virtual_index_ + 1) {
+      QList<int> moved_items;
+      QList<int> remaining_items;
+      const PlaylistSequence::ShuffleMode shuffle_mode = ShuffleMode();
+      if (shuffle_mode == PlaylistSequence::ShuffleMode::Albums || shuffle_mode == PlaylistSequence::ShuffleMode::Grouping) {
+        const auto shuffle_key = [this, shuffle_mode](const int row) {
+          const Song song = item_at(row)->EffectiveMetadata();
+          return shuffle_mode == PlaylistSequence::ShuffleMode::Albums ? song.AlbumKey() : song.GroupingKey();
+        };
+        const QString key = shuffle_key(i);
+        for (int j = current_virtual_index_ + 1; j < virtual_items_.count(); ++j) {
+          if (shuffle_key(virtual_items_[j]) == key) {
+            moved_items << virtual_items_[j];
+          }
+          else {
+            remaining_items << virtual_items_[j];
+          }
+        }
+      }
+      else {
+        moved_items << i;
+        for (int j = current_virtual_index_ + 1; j < virtual_items_.count(); ++j) {
+          if (j != virtual_index) remaining_items << virtual_items_[j];
+        }
+      }
+      virtual_items_ = virtual_items_.mid(0, current_virtual_index_ + 1) + moved_items + remaining_items;
+    }
     current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(i));
   }
   else {
@@ -933,7 +985,11 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
     }
   }
   else if (const PlaylistItemMimeData *item_mimedata = qobject_cast<const PlaylistItemMimeData*>(data)) {
-    InsertItems(item_mimedata->items_, row, play_now, enqueue_now, enqueue_next_now);
+    // Insert copies, since the items might already be in a playlist.
+    PlaylistItemPtrList items;
+    items.reserve(item_mimedata->items_.count());
+    for (const PlaylistItemPtr &item : item_mimedata->items_) items << item->Copy();
+    InsertItems(items, row, play_now, enqueue_now, enqueue_next_now);
   }
   else if (const PlaylistGeneratorMimeData *generator_mimedata = qobject_cast<const PlaylistGeneratorMimeData*>(data)) {
     InsertSmartPlaylist(generator_mimedata->generator_, row, play_now, enqueue_now, enqueue_next_now);
@@ -972,9 +1028,10 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
     }
     else if (pid == own_pid) {
       // Drag from a different playlist
+      // Insert copies, so the items are not shared between the playlists.
       PlaylistItemPtrList items;
       items.reserve(source_rows.count());
-      for (const int i : std::as_const(source_rows)) items << source_playlist->item_at(i);
+      for (const int i : std::as_const(source_rows)) items << source_playlist->item_at(i)->Copy();
 
       if (items.count() > kUndoItemLimit) {
         // Too big to keep in the undo stack. Also clear the stack because it might have been invalidated.
@@ -985,10 +1042,11 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
         undo_stack_->push(new PlaylistUndoCommandInsertItems(this, items, row));
       }
 
-      // Remove the items from the source playlist if it was a move event
+      // Remove the items from the source playlist if it was a move event.
+      // Remove from the end, so the rows that are not removed yet don't move.
       if (action == Qt::MoveAction) {
-        for (const int i : std::as_const(source_rows)) {
-          source_playlist->undo_stack()->push(new PlaylistUndoCommandRemoveItems(source_playlist, i, 1));
+        for (auto it = source_rows.crbegin(); it != source_rows.crend(); ++it) {
+          source_playlist->undo_stack()->push(new PlaylistUndoCommandRemoveItems(source_playlist, *it, 1));
         }
       }
     }
@@ -1201,8 +1259,6 @@ void Playlist::InsertItems(const PlaylistItemPtrList &itemsIn, const int pos, co
 
   PlaylistItemPtrList items = itemsIn;
 
-  const int start = pos == -1 ? static_cast<int>(items_.count()) : pos;
-
   if (items.count() > kUndoItemLimit) {
     // Too big to keep in the undo stack. Also clear the stack because it might have been invalidated.
     InsertItemsWithoutUndo(items, pos, enqueue, enqueue_next);
@@ -1212,7 +1268,13 @@ void Playlist::InsertItems(const PlaylistItemPtrList &itemsIn, const int pos, co
     undo_stack_->push(new PlaylistUndoCommandInsertItems(this, items, pos, enqueue, enqueue_next));
   }
 
-  if (play_now) Q_EMIT PlayRequested(index(start, 0), AutoScroll::Maybe);
+  // Look up the row after inserting, since the playlist might have been sorted.
+  if (play_now) {
+    const int row = row_of(items.first());
+    if (row != -1) {
+      Q_EMIT PlayRequested(index(row, 0), AutoScroll::Maybe);
+    }
+  }
 
 }
 
@@ -1235,19 +1297,12 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
     const PlaylistItemPtr item = items[i - start];
     items_.insert(i, item);
     items_by_uuid_.insert(item->uuid(), item);
-    virtual_items_ << static_cast<int>(virtual_items_.count());
 
     if (Song::IsLinkedCollectionSource(item->source())) {
       const int id = item->EffectiveMetadata().id();
       if (id != -1) {
         collection_items_[item->EffectiveMetadata().source_id()].insert(id, item);
       }
-    }
-
-    if (item == current_item()) {
-      // It's one we removed before that got re-added through an undo
-      current_item_index_ = index(i, 0);
-      last_played_item_index_ = current_item_index_;
     }
 
     if (item->uuid_generated()) {
@@ -1259,7 +1314,41 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
     }
 
   }
+
+  // Update virtual items
+  const int count = static_cast<int>(items.count());
+  for (int &virtual_item : virtual_items_) {
+    if (virtual_item >= start) virtual_item += count;
+  }
+  const PlaylistSequence::ShuffleMode shuffle_mode = ShuffleMode();
+  if (shuffle_mode == PlaylistSequence::ShuffleMode::All || shuffle_mode == PlaylistSequence::ShuffleMode::InsideAlbum) {
+    // Insert the new items at random positions after the current virtual index, so the existing shuffle order is kept.
+    std::mt19937 rng{std::random_device{}()};
+    for (int i = start; i <= end; ++i) {
+      const int virtual_count = static_cast<int>(virtual_items_.count());
+      std::uniform_int_distribution<int> dist(qBound(0, current_virtual_index_ + 1, virtual_count), virtual_count);
+      virtual_items_.insert(dist(rng), i);
+    }
+  }
+  else {
+    // With shuffle off the virtual items are in order, so the new items go to the same position.
+    // Album and grouping shuffle are reshuffled below.
+    for (int i = start; i <= end; ++i) {
+      virtual_items_.insert(i, i);
+    }
+  }
+
   endInsertRows();
+
+  Q_ASSERT(items_.count() == virtual_items_.count());
+
+  // Update current virtual index
+  if (current_item_index_.isValid()) {
+    current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(current_item_index_.row()));
+  }
+  else if (shuffle_mode == PlaylistSequence::ShuffleMode::Off && current_virtual_index_ >= start) {
+    current_virtual_index_ += count;
+  }
 
   if (!signal_track_ids.isEmpty()) {
     Q_EMIT PlaylistItemsAdded(id_, signal_track_ids, after_track_id);
@@ -1285,7 +1374,9 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
     sort(static_cast<int>(sort_column_), sort_order_);
   }
 
-  ReshuffleIndices();
+  if (shuffle_mode == PlaylistSequence::ShuffleMode::Albums || shuffle_mode == PlaylistSequence::ShuffleMode::Grouping) {
+    ReshuffleIndices();
+  }
 
   if (has_generated_uuids) {
     ForceScheduleSave();
@@ -1787,10 +1878,13 @@ void Playlist::Restore() {
 
   if (!playlist_backend_) return;
 
+  beginResetModel();
   items_.clear();
   items_by_uuid_.clear();
   virtual_items_.clear();
   ClearCollectionItems();
+  current_virtual_index_ = -1;
+  endResetModel();
 
   cancel_restore_ = false;
   QFuture<PlaylistItemPtrList> future = QtConcurrent::run(&PlaylistBackend::GetPlaylistItems, playlist_backend_, id_);
@@ -1827,9 +1921,11 @@ void Playlist::ItemsLoaded() {
     }
   }
 
+  // Restoring the playlist should not be undoable, and inserting at the top makes the rows stored in any existing undo commands invalid.
   is_loading_ = true;
-  InsertItems(items, 0);
+  InsertItemsWithoutUndo(items, 0);
   is_loading_ = false;
+  undo_stack_->clear();
 
   const PlaylistBackend::Playlist playlist = playlist_backend_->GetPlaylist(id_);
 
@@ -1886,8 +1982,11 @@ void Playlist::RemoveItemsWithoutUndo(const QList<int> &indicesIn) {
     }
 
     // Remove the current sequence.
-    removeRows(beginning, end - beginning + 1);
+    RemoveItemsWithoutUndo(beginning, end - beginning + 1);
   }
+
+  // The rows stored in the undo commands are no longer valid.
+  undo_stack_->clear();
 
 }
 
@@ -1951,6 +2050,11 @@ PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int co
     return PlaylistItemPtrList();
   }
 
+  // Keep the metadata of the current item if it's removed, so the next track on the same album can still be found.
+  if (current_item_index_.isValid() && current_item_index_.row() >= row && current_item_index_.row() < row + count) {
+    removed_current_item_metadata_ = current_item_metadata();
+  }
+
   // Remove items
   beginRemoveRows(QModelIndex(), row, row + count - 1);
   PlaylistItemPtrList items;
@@ -1970,17 +2074,18 @@ PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int co
     }
   }
 
+  // Count the removed virtual items up to and including the current virtual index, so the position in the shuffle order can be kept.
+  int removed_up_to_current_virtual_index = 0;
+  for (int i = 0; i <= current_virtual_index_ && i < virtual_items_.count(); ++i) {
+    if (virtual_items_[i] >= row && virtual_items_[i] < row + count) {
+      ++removed_up_to_current_virtual_index;
+    }
+  }
+
   // Update virtual items
-  for (int i = row; i < items_.count() + count; ++i) {
-    Q_ASSERT(virtual_items_.count(i) == 1);
-    const int virtual_index = static_cast<int>(virtual_items_.indexOf(i));
-    if (virtual_index < 0) continue;
-    if (i >= row + count) {
-      virtual_items_[virtual_index] = i - count;
-    }
-    else {
-      virtual_items_.removeAt(virtual_index);
-    }
+  virtual_items_.removeIf([row, count](const int virtual_item) { return virtual_item >= row && virtual_item < row + count; });
+  for (int &virtual_item : virtual_items_) {
+    if (virtual_item >= row + count) virtual_item -= count;
   }
 
   endRemoveRows();
@@ -1990,6 +2095,10 @@ PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int co
   // Update current virtual index
   if (current_item_index_.isValid()) {
     current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(current_item_index_.row()));
+  }
+  else if (ShuffleMode() != PlaylistSequence::ShuffleMode::Off) {
+    // Keep the position in the shuffle order, so the next track is the one after the removed current track.
+    current_virtual_index_ -= removed_up_to_current_virtual_index;
   }
   else {
     if (row - 1 > 0 && row - 1 < items_.size()) {
@@ -2150,30 +2259,36 @@ void Playlist::ExpandDynamicPlaylist() {
 
 void Playlist::RemoveItemsNotInQueue() {
 
+  bool items_removed = false;
+
   if (queue_->is_empty() && !current_item_index_.isValid()) {
-    RemoveItemsWithoutUndo(0, static_cast<int>(items_.count()));
-    return;
+    items_removed = !RemoveItemsWithoutUndo(0, static_cast<int>(items_.count())).isEmpty();
+  }
+  else {
+    int start = 0;
+    while (start < rowCount()) {
+      // Find a place to start - first row that isn't in the queue
+      if (queue_->ContainsSourceRow(start) || current_row() == start) {
+        ++start;
+        continue;
+      }
+
+      // Figure out how many rows to remove - keep going until we find a row that is in the queue
+      int count = 1;
+      while (start + count < rowCount() && !queue_->ContainsSourceRow(start + count) && current_row() != start + count) {
+        ++count;
+      }
+
+      RemoveItemsWithoutUndo(start, count);
+      items_removed = true;
+      ++start;
+    }
   }
 
-  int start = 0;
-  Q_FOREVER {
-    // Find a place to start - first row that isn't in the queue
-    Q_FOREVER {
-      if (start >= rowCount()) return;
-      if (!queue_->ContainsSourceRow(start) && current_row() != start) break;
-      start++;
-    }
-
-    // Figure out how many rows to remove - keep going until we find a row that is in the queue
-    int count = 1;
-    Q_FOREVER {
-      if (start + count >= rowCount()) break;
-      if (queue_->ContainsSourceRow(start + count) || current_row() == start + count) break;
-      count++;
-    }
-
-    RemoveItemsWithoutUndo(start, count);
-    start++;
+  // The items are removed without undo, so the rows stored in the undo commands are no longer valid.
+  // If nothing was removed, the undo commands are still valid.
+  if (items_removed) {
+    undo_stack_->clear();
   }
 
 }
@@ -2247,6 +2362,13 @@ void Playlist::ReshuffleIndices() {
     case PlaylistSequence::ShuffleMode::InsideAlbum:{
       std::random_device rd;
       std::shuffle(virtual_items_.begin(), virtual_items_.end(), std::mt19937(rd()));
+      // Put the current track first, so the rest of the playlist follows it in the new order, instead of the tracks before its random position being skipped.
+      if (current_item_index_.isValid()) {
+        const qsizetype current_index = virtual_items_.indexOf(current_item_index_.row());
+        if (current_index > 0) {
+          virtual_items_.move(current_index, 0);
+        }
+      }
       break;
     }
 

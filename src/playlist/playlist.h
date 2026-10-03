@@ -179,8 +179,6 @@ class Playlist : public QAbstractListModel {
   static bool set_column_value(Song &song, Column column, const QVariant &value);
 
   // Persistence
-  void Restore();
-
   void ScheduleSave();
 
   // Accessors
@@ -362,6 +360,8 @@ class Playlist : public QAbstractListModel {
   void Rename(const int id, const QString &name);
 
  private:
+  void Restore();
+
   void SetCurrentIsPaused(const bool paused);
   int NextVirtualIndex(int i, const bool ignore_repeat_track) const;
   int PreviousVirtualIndex(int i, const bool ignore_repeat_track) const;
@@ -448,6 +448,9 @@ class Playlist : public QAbstractListModel {
   QPersistentModelIndex stop_after_;
   bool current_is_paused_;
   int current_virtual_index_;
+
+  // Metadata of the current item if it was removed from the playlist, used to find the next track on the same album.
+  Song removed_current_item_metadata_;
 
   PlaylistSequence *playlist_sequence_;
 

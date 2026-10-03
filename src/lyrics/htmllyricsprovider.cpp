@@ -57,7 +57,7 @@ void HtmlLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &re
   }
 
   const QUrl url = Url(request);
-  QNetworkReply *reply = CreateGetRequest(url, true);
+  QNetworkReply *reply = CreateGetRequest(url, UseFakeUserAgent());
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, request]() { HandleLyricsReply(reply, id, request); });
 
   qLog(Debug) << name_ << "Sending request for" << url;

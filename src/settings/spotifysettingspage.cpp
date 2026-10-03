@@ -35,6 +35,7 @@
 #include <QSpinBox>
 #include <QMessageBox>
 #include <QEvent>
+#include <QVersionNumber>
 
 #include "settingsdialog.h"
 #include "spotifysettingspage.h"
@@ -47,6 +48,10 @@
 
 using namespace Qt::Literals::StringLiterals;
 using namespace SpotifySettings;
+
+namespace {
+constexpr char kGstPluginWikiUrl[] = "https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin";
+}  // namespace
 
 SpotifySettingsPage::SpotifySettingsPage(SettingsDialog *dialog, const SharedPtr<SpotifyService> service, QWidget *parent)
     : SettingsPage(dialog, parent),
@@ -71,12 +76,33 @@ SpotifySettingsPage::SpotifySettingsPage(SettingsDialog *dialog, const SharedPtr
 
   dialog->installEventFilter(this);
 
+  ui_->bitrate->addItem(u"96 kbit/s"_s, static_cast<int>(Bitrate::Bitrate96));
+  ui_->bitrate->addItem(u"160 kbit/s"_s, static_cast<int>(Bitrate::Bitrate160));
+  ui_->bitrate->addItem(u"320 kbit/s"_s, static_cast<int>(Bitrate::Bitrate320));
+
   GstRegistry *reg = gst_registry_get();
   if (reg) {
     GstPluginFeature *spotifyaudiosrc = gst_registry_lookup_feature(reg, "spotifyaudiosrc");
     if (spotifyaudiosrc) {
+      QString plugin_version;
+      GstPlugin *plugin = gst_plugin_feature_get_plugin(spotifyaudiosrc);
+      if (plugin) {
+        plugin_version = QString::fromUtf8(gst_plugin_get_version(plugin));
+        gst_object_unref(plugin);
+      }
       gst_object_unref(spotifyaudiosrc);
-      ui_->widget_warning->hide();
+      // The plugin version is the crate version followed by the commit, for example "0.15.3-RELEASE".
+      const QVersionNumber version = QVersionNumber::fromString(plugin_version);
+      const QVersionNumber minimum_version(kMinimumGstPluginVersionMajor, kMinimumGstPluginVersionMinor, kMinimumGstPluginVersionMicro);
+      if (!version.isNull() && version < minimum_version) {
+        const QString wiki_link = QStringLiteral("<a href=\"%1\"><span style=\" text-decoration: underline; color:#2980b9;\">%2</span></a>").arg(QLatin1String(kGstPluginWikiUrl), tr("Wiki").toHtmlEscaped());
+        const QString warning_text = tr("The installed GStreamer Spotify plugin version %1 is too old, playing songs from Spotify fails with \"track is not available\". Version %2 or newer is required.").arg(plugin_version, minimum_version.toString()).toHtmlEscaped() + u' ' + tr("See %1 for instructions on how to install the plugin.").toHtmlEscaped().arg(wiki_link);
+        ui_->label_warning_text->setText(QStringLiteral("<html><head/><body><p>%1</p></body></html>").arg(warning_text));
+        ui_->widget_warning->show();
+      }
+      else {
+        ui_->widget_warning->hide();
+      }
     }
     else {
       ui_->widget_warning->show();
@@ -123,6 +149,7 @@ void SpotifySettingsPage::Load() {
   ui_->artistssearchlimit->setValue(s.value(kArtistsSearchLimit, kDefaultArtistsSearchLimit).toInt());
   ui_->albumssearchlimit->setValue(s.value(kAlbumsSearchLimit, kDefaultAlbumsSearchLimit).toInt());
   ui_->songssearchlimit->setValue(s.value(kSongsSearchLimit, kDefaultSongsSearchLimit).toInt());
+  ComboBoxLoadFromSettings(s, ui_->bitrate, QLatin1String(kBitrate), static_cast<int>(kDefaultBitrate));
   ui_->checkbox_fetchalbums->setChecked(s.value(kFetchAlbums, kDefaultFetchAlbums).toBool());
   ui_->checkbox_download_album_covers->setChecked(s.value(kDownloadAlbumCovers, kDefaultDownloadAlbumCovers).toBool());
   ui_->checkbox_remove_remastered->setChecked(s.value(kRemoveRemastered, kDefaultRemoveRemastered).toBool());
@@ -149,6 +176,7 @@ void SpotifySettingsPage::Save() {
   s.setValue(kArtistsSearchLimit, ui_->artistssearchlimit->value());
   s.setValue(kAlbumsSearchLimit, ui_->albumssearchlimit->value());
   s.setValue(kSongsSearchLimit, ui_->songssearchlimit->value());
+  s.setValue(kBitrate, ui_->bitrate->currentData().toInt());
   s.setValue(kFetchAlbums, ui_->checkbox_fetchalbums->isChecked());
   s.setValue(kDownloadAlbumCovers, ui_->checkbox_download_album_covers->isChecked());
   s.setValue(kRemoveRemastered, ui_->checkbox_remove_remastered->isChecked());

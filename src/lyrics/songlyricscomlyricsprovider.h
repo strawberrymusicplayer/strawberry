@@ -37,6 +37,9 @@ class SongLyricsComLyricsProvider : public HtmlLyricsProvider {
  protected:
   QUrl Url(const LyricsSearchRequest &request) override;
 
+  // songlyrics.com is behind Cloudflare, which challenges the browser user agent, but serves the Strawberry user agent.
+  bool UseFakeUserAgent() const override { return false; }
+
  private:
   static QString StringFixup(QString text);
 };
