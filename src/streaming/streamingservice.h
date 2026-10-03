@@ -120,6 +120,8 @@ class StreamingService : public QObject {
   void SongsUpdateProgress(const int max);
 
   void SearchResults(const int id, const SongMap &songs, const QString &error);
+  // Songs found so far for a search that is still running, SearchResults is emitted with all the songs when it has finished.
+  void SearchSongsAvailable(const int id, const SongMap &songs);
   void SearchUpdateStatus(const int id, const QString &text);
   void SearchProgressSetMaximum(const int id, const int max);
   void SearchUpdateProgress(const int id, const int max);

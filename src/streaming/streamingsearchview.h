@@ -27,6 +27,7 @@
 #include <QWidget>
 #include <QList>
 #include <QMap>
+#include <QSet>
 #include <QString>
 #include <QPersistentModelIndex>
 
@@ -103,6 +104,8 @@ class StreamingSearchView : public QWidget {
   bool IsCurrentSearch(const int service_id) const;
 
   QString PixmapCacheKey(const Song &song) const;
+  // Returns the results for the songs that are not shown yet, and remembers them as shown.
+  StreamingSearchModel::ResultList NewResults(const SongMap &songs);
 
  Q_SIGNALS:
   void AddToPlaylist(QMimeData *mimedata);
@@ -116,6 +119,7 @@ class StreamingSearchView : public QWidget {
   void TextEdited(const QString &text);
   void StartSearch(const QString &query);
   void SearchDone(const int service_id, const SongMap &songs, const QString &error);
+  void SearchSongsAvailable(const int service_id, const SongMap &songs);
 
   void UpdateStatus(const int service_id, const QString &text);
   void ProgressSetMaximum(const int service_id, const int max);
@@ -180,6 +184,8 @@ class StreamingSearchView : public QWidget {
   QMap<int, DelayedSearch> delayed_searches_;
   // Maps the service's search ID to our search ID.
   QMap<int, int> pending_searches_;
+  // The IDs of the songs shown for the current search, since they are shown as they are received.
+  QSet<QString> shown_song_ids_;
 
   QMap<quint64, CoverLoaderTask> cover_loader_tasks_;
 };

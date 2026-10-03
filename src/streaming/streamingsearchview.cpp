@@ -199,6 +199,7 @@ void StreamingSearchView::Init(const StreamingServicePtr service, const SharedPt
   QObject::connect(&*service_, &StreamingService::SearchProgressSetMaximum, this, &StreamingSearchView::ProgressSetMaximum);
   QObject::connect(&*service_, &StreamingService::SearchUpdateProgress, this, &StreamingSearchView::UpdateProgress);
   QObject::connect(&*service_, &StreamingService::SearchResults, this, &StreamingSearchView::SearchDone);
+  QObject::connect(&*service_, &StreamingService::SearchSongsAvailable, this, &StreamingSearchView::SearchSongsAvailable);
 
   QObject::connect(&*albumcover_loader_, &AlbumCoverLoader::AlbumCoverLoaded, this, &StreamingSearchView::AlbumCoverLoaded);
 
@@ -399,6 +400,7 @@ void StreamingSearchView::TextEdited(const QString &text) {
 
   search_error_ = false;
   cover_loader_tasks_.clear();
+  shown_song_ids_.clear();
 
   // Add results to the back model, switch models after some delay.
   back_model_->Clear();
@@ -473,13 +475,13 @@ void StreamingSearchView::SearchDone(const int service_id, const SongMap &songs,
     return;
   }
 
-  StreamingSearchModel::ResultList results;
-  results.reserve(songs.count());
-  for (const Song &song : songs) {
-    results << StreamingSearchModel::Result{song, PixmapCacheKey(song)};
+  // Replace preliminary entries with the authoritative metadata returned on completion.
+  if (search_id == last_search_id_) {
+    cover_loader_tasks_.clear();
+    shown_song_ids_.clear();
+    current_model_->Clear();
   }
-
-  AddResults(search_id, results);
+  AddResults(search_id, search_id == last_search_id_ ? NewResults(songs) : StreamingSearchModel::ResultList());
 
 }
 
@@ -496,14 +498,41 @@ void StreamingSearchView::CancelSearch(const int id) {
 
 }
 
+void StreamingSearchView::SearchSongsAvailable(const int service_id, const SongMap &songs) {
+
+  if (!IsCurrentSearch(service_id)) return;
+
+  // Show the songs while the search continues, the status and progress stay until it has finished.
+  const StreamingSearchModel::ResultList results = NewResults(songs);
+  if (!results.isEmpty()) {
+    current_model_->AddResults(results);
+  }
+
+}
+
+StreamingSearchModel::ResultList StreamingSearchView::NewResults(const SongMap &songs) {
+
+  StreamingSearchModel::ResultList results;
+  for (const Song &song : songs) {
+    if (shown_song_ids_.contains(song.song_id())) continue;
+    shown_song_ids_.insert(song.song_id());
+    results << StreamingSearchModel::Result{song, PixmapCacheKey(song)};
+  }
+
+  return results;
+
+}
+
 void StreamingSearchView::AddResults(const int search_id, const StreamingSearchModel::ResultList &results) {
 
-  if (search_id != last_search_id_ || results.isEmpty()) return;
+  if (search_id != last_search_id_) return;
 
   ui_->label_status->clear();
   ui_->progressbar->reset();
   ui_->progressbar->hide();
-  current_model_->AddResults(results);
+  if (!results.isEmpty()) {
+    current_model_->AddResults(results);
+  }
 
 }
 

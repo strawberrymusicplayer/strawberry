@@ -946,10 +946,15 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, con
     songs << song;
   }
 
+  SongMap available_songs;
   for (Song song : std::as_const(songs)) {
     if (compilation) song.set_compilation_detected(true);
     if (!multidisc) song.set_disc(0);
     songs_.insert(song.song_id(), song);
+    available_songs.insert(song.song_id(), song);
+  }
+  if (!available_songs.isEmpty()) {
+    Q_EMIT SongsAvailable(query_id_, available_songs);
   }
 
   if (query_type_ == Type::FavouriteSongs || query_type_ == Type::SearchSongs) {

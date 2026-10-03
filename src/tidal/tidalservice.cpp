@@ -516,6 +516,7 @@ void TidalService::SendSearch() {
 
   search_request_.reset(new TidalRequest(this, url_handler_, network_, query_type, this));
   QObject::connect(&*search_request_, &TidalRequest::Results, this, &TidalService::SearchResultsReceived);
+  QObject::connect(&*search_request_, &TidalRequest::SongsAvailable, this, &TidalService::SearchSongsAvailable);
   QObject::connect(&*search_request_, &TidalRequest::UpdateStatus, this, &TidalService::SearchUpdateStatus);
   QObject::connect(&*search_request_, &TidalRequest::UpdateProgress, this, &TidalService::SearchUpdateProgress);
 

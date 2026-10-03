@@ -790,10 +790,15 @@ void SpotifyRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_a
           if (song.is_compilation()) compilation = true;
           songs << song;
         }
+        SongMap available_songs;
         for (Song song : std::as_const(songs)) {
           if (compilation) song.set_compilation_detected(true);
           if (!multidisc) song.set_disc(0);
           songs_.insert(song.song_id(), song);
+          available_songs.insert(song.song_id(), song);
+        }
+        if (!available_songs.isEmpty()) {
+          Q_EMIT SongsAvailable(query_id_, available_songs);
         }
       }
     }
@@ -1007,10 +1012,15 @@ void SpotifyRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, c
     songs << song;
   }
 
+  SongMap available_songs;
   for (Song song : std::as_const(songs)) {
     if (compilation) song.set_compilation_detected(true);
     if (!multidisc) song.set_disc(0);
     songs_.insert(song.song_id(), song);
+    available_songs.insert(song.song_id(), song);
+  }
+  if (!available_songs.isEmpty()) {
+    Q_EMIT SongsAvailable(query_id_, available_songs);
   }
 
   if (type_ == Type::FavouriteSongs || type_ == Type::SearchSongs) {

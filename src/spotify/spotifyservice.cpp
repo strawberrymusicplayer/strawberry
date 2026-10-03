@@ -521,6 +521,7 @@ void SpotifyService::SendSearch() {
 
   search_request_.reset(new SpotifyRequest(this, network_, type, this));
   QObject::connect(&*search_request_, &SpotifyRequest::Results, this, &SpotifyService::SearchResultsReceived);
+  QObject::connect(&*search_request_, &SpotifyRequest::SongsAvailable, this, &SpotifyService::SearchSongsAvailable);
   QObject::connect(&*search_request_, &SpotifyRequest::UpdateStatus, this, &SpotifyService::SearchUpdateStatus);
   QObject::connect(&*search_request_, &SpotifyRequest::ProgressSetMaximum, this, &SpotifyService::SearchProgressSetMaximum);
   QObject::connect(&*search_request_, &SpotifyRequest::UpdateProgress, this, &SpotifyService::SearchUpdateProgress);
