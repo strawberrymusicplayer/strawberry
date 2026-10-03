@@ -1490,6 +1490,7 @@ void JellyfinService::StartSearch() {
 
   search_request_.reset(new JellyfinRequest(this, network_, query_type, this));
   QObject::connect(&*search_request_, &JellyfinRequest::Results, this, &JellyfinService::SearchResultsReceived);
+  QObject::connect(&*search_request_, &JellyfinRequest::SongsAvailable, this, &JellyfinService::SearchSongsAvailable);
   QObject::connect(&*search_request_, &JellyfinRequest::UpdateStatus, this, &JellyfinService::SearchUpdateStatusReceived);
   QObject::connect(&*search_request_, &JellyfinRequest::UpdateProgress, this, &JellyfinService::SearchUpdateProgressReceived);
 

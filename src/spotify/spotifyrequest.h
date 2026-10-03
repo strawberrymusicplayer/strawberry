@@ -92,6 +92,9 @@ class SpotifyRequest : public SpotifyBaseRequest {
 
  Q_SIGNALS:
   void Results(int id, SongMap songs, QString error);
+  // Songs received so far, emitted while the request continues, so they can be shown before it has finished.
+  // The songs emitted with Results can differ, for example by pointing to a downloaded album cover.
+  void SongsAvailable(const int id, const SongMap &songs);
   void UpdateStatus(int id, QString text);
   void ProgressSetMaximum(int id, int max);
   void UpdateProgress(int id, int max);

@@ -96,6 +96,9 @@ class TidalRequest : public TidalBaseRequest {
   void LoginSuccess();
   void LoginFailure(const QString &failure_reason);
   void Results(const int id, const SongMap &songs = SongMap(), const QString &error = QString());
+  // Songs received so far, emitted while the request continues, so they can be shown before it has finished.
+  // The songs emitted with Results can differ, for example by pointing to a downloaded album cover.
+  void SongsAvailable(const int id, const SongMap &songs);
   void UpdateStatus(const int id, const QString &text);
   void UpdateProgress(const int id, const int max);
   void StreamURLFinished(const QUrl &media_url, const QUrl &url, const Song::FileType filetype, const QString &error = QString());

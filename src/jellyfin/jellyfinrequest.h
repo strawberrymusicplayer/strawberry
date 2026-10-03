@@ -53,6 +53,9 @@ class JellyfinRequest : public JellyfinBaseRequest {
 
  Q_SIGNALS:
   void Results(const int id, const SongMap &songs = SongMap(), const QString &error = QString());
+  // Songs received so far, emitted while the request continues, so they can be shown before it has finished.
+  // The songs emitted with Results can differ, for example by pointing to a downloaded album cover.
+  void SongsAvailable(const int id, const SongMap &songs);
   void UpdateStatus(const int id, const QString &text);
   void UpdateProgress(const int id, const int max);
 

@@ -695,6 +695,7 @@ void QobuzService::SendSearch() {
 
   search_request_.reset(new QobuzRequest(this, url_handler_, network_, query_type));
   QObject::connect(&*search_request_, &QobuzRequest::Results, this, &QobuzService::SearchResultsReceived);
+  QObject::connect(&*search_request_, &QobuzRequest::SongsAvailable, this, &QobuzService::SearchSongsAvailable);
   QObject::connect(&*search_request_, &QobuzRequest::UpdateStatus, this, &QobuzService::SearchUpdateStatus);
   QObject::connect(&*search_request_, &QobuzRequest::UpdateProgress, this, &QobuzService::SearchUpdateProgress);
   search_request_->Search(search_id_, search_text_);

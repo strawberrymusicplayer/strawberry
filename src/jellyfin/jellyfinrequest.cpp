@@ -280,6 +280,7 @@ void JellyfinRequest::ReplyReceived(QNetworkReply *reply, const int offset_reque
   const int page_items = static_cast<int>(array_items.size());
 
   int items_received = 0;
+  SongMap available_songs;
   for (const QJsonValue &value_item : array_items) {
 
     if (!value_item.isObject()) {
@@ -303,7 +304,12 @@ void JellyfinRequest::ReplyReceived(QNetworkReply *reply, const int offset_reque
 
     if (!songs_.contains(song.song_id())) ++items_received;
     songs_.insert(song.song_id(), song);
+    available_songs.insert(song.song_id(), song);
 
+  }
+
+  if (!available_songs.isEmpty()) {
+    Q_EMIT SongsAvailable(query_id_, available_songs);
   }
 
   items_received_ += page_items;
@@ -462,6 +468,7 @@ void JellyfinRequest::TracksReplyReceived(QNetworkReply *reply, const TracksRequ
   }
 
   const QJsonArray array_items = array_items_result.json_array;
+  SongMap available_songs;
   for (const QJsonValue &value_item : array_items) {
     if (!value_item.isObject()) continue;
     Song song(Song::Source::Jellyfin);
@@ -481,7 +488,12 @@ void JellyfinRequest::TracksReplyReceived(QNetworkReply *reply, const TracksRequ
         song.set_artist_id(!previous_artist_id.isEmpty() && artist_match(previous_artist_id) >= artist_match(request.parent_id) ? previous_artist_id : request.parent_id);
       }
       songs_.insert(song.song_id(), song);
+      available_songs.insert(song.song_id(), song);
     }
+  }
+
+  if (!available_songs.isEmpty()) {
+    Q_EMIT SongsAvailable(query_id_, available_songs);
   }
 
   qLog(Debug) << "Jellyfin:" << "Received" << array_items.size() << "tracks for" << request.parent_id << "at offset" << request.offset;
