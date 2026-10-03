@@ -196,8 +196,8 @@
 
 #include "streaming/streamingservices.h"
 #include "streaming/streamingservice.h"
-#include "streaming/streamingsongsview.h"
-#include "streaming/streamingtabsview.h"
+#include "streaming/streaminglibraryview.h"
+#include "streaming/streamingfavoritesview.h"
 #include "streaming/streamingcollectionview.h"
 #include "streaming/streamingsearchview.h"
 
@@ -375,22 +375,22 @@ MainWindow::MainWindow(Application *app,
                                                            app->current_albumcover_loader(),
                                                            this)),
 #ifdef HAVE_SUBSONIC
-      subsonic_view_(new StreamingSongsView(app->streaming_services()->ServiceBySource(Song::Source::Subsonic), QLatin1String(SubsonicSettings::kSettingsGroup), this)),
+      subsonic_view_(new StreamingLibraryView(app->streaming_services()->ServiceBySource(Song::Source::Subsonic), QLatin1String(SubsonicSettings::kSettingsGroup), this)),
 #endif
 #ifdef HAVE_TIDAL
-      tidal_view_(new StreamingTabsView(app->streaming_services()->ServiceBySource(Song::Source::Tidal), app->albumcover_loader(), QLatin1String(TidalSettings::kSettingsGroup), this)),
+      tidal_view_(new StreamingFavoritesView(app->streaming_services()->ServiceBySource(Song::Source::Tidal), app->albumcover_loader(), QLatin1String(TidalSettings::kSettingsGroup), this)),
 #endif
 #ifdef HAVE_SPOTIFY
-      spotify_view_(new StreamingTabsView(app->streaming_services()->ServiceBySource(Song::Source::Spotify), app->albumcover_loader(), QLatin1String(SpotifySettings::kSettingsGroup), this)),
+      spotify_view_(new StreamingFavoritesView(app->streaming_services()->ServiceBySource(Song::Source::Spotify), app->albumcover_loader(), QLatin1String(SpotifySettings::kSettingsGroup), this)),
 #endif
 #ifdef HAVE_QOBUZ
-      qobuz_view_(new StreamingTabsView(app->streaming_services()->ServiceBySource(Song::Source::Qobuz), app->albumcover_loader(), QLatin1String(QobuzSettings::kSettingsGroup), this)),
+      qobuz_view_(new StreamingFavoritesView(app->streaming_services()->ServiceBySource(Song::Source::Qobuz), app->albumcover_loader(), QLatin1String(QobuzSettings::kSettingsGroup), this)),
 #endif
 #ifdef HAVE_PLEX
-      plex_view_(new StreamingSongsView(app->streaming_services()->ServiceBySource(Song::Source::Plex), QLatin1String(PlexSettings::kSettingsGroup), this)),
+      plex_view_(new StreamingLibraryView(app->streaming_services()->ServiceBySource(Song::Source::Plex), QLatin1String(PlexSettings::kSettingsGroup), this)),
 #endif
 #ifdef HAVE_JELLYFIN
-      jellyfin_view_(new StreamingTabsView(app->streaming_services()->ServiceBySource(Song::Source::Jellyfin), app->albumcover_loader(), QLatin1String(JellyfinSettings::kSettingsGroup), this)),
+      jellyfin_view_(new StreamingFavoritesView(app->streaming_services()->ServiceBySource(Song::Source::Jellyfin), app->albumcover_loader(), QLatin1String(JellyfinSettings::kSettingsGroup), this)),
 #endif
       radio_view_(new RadioViewContainer(this)),
       collection_show_all_(nullptr),
@@ -831,12 +831,12 @@ MainWindow::MainWindow(Application *app,
   collection_view_->filter_widget()->AddMenuAction(collection_config_action);
 
 #ifdef HAVE_SUBSONIC
-  QObject::connect(subsonic_view_, &StreamingSongsView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
+  QObject::connect(subsonic_view_, &StreamingLibraryView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
   QObject::connect(subsonic_view_->view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
 #endif
 
 #ifdef HAVE_TIDAL
-  QObject::connect(tidal_view_, &StreamingTabsView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
+  QObject::connect(tidal_view_, &StreamingFavoritesView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
   QObject::connect(tidal_view_->artists_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(tidal_view_->albums_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(tidal_view_->songs_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
@@ -848,7 +848,7 @@ MainWindow::MainWindow(Application *app,
 #endif
 
 #ifdef HAVE_QOBUZ
-  QObject::connect(qobuz_view_, &StreamingTabsView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
+  QObject::connect(qobuz_view_, &StreamingFavoritesView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
   QObject::connect(qobuz_view_->artists_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(qobuz_view_->albums_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(qobuz_view_->songs_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
@@ -857,7 +857,7 @@ MainWindow::MainWindow(Application *app,
 #endif
 
 #ifdef HAVE_SPOTIFY
-  QObject::connect(spotify_view_, &StreamingTabsView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
+  QObject::connect(spotify_view_, &StreamingFavoritesView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
   QObject::connect(spotify_view_->artists_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(spotify_view_->albums_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(spotify_view_->songs_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
@@ -869,12 +869,12 @@ MainWindow::MainWindow(Application *app,
 #endif
 
 #ifdef HAVE_PLEX
-  QObject::connect(plex_view_, &StreamingSongsView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
+  QObject::connect(plex_view_, &StreamingLibraryView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
   QObject::connect(plex_view_->view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
 #endif
 
 #ifdef HAVE_JELLYFIN
-  QObject::connect(jellyfin_view_, &StreamingTabsView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
+  QObject::connect(jellyfin_view_, &StreamingFavoritesView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
   QObject::connect(&*app_->streaming_services()->ServiceBySource(Song::Source::Jellyfin), &StreamingService::ShowErrorDialog, this, &MainWindow::ShowErrorDialog);
   QObject::connect(jellyfin_view_->artists_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(jellyfin_view_->albums_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);

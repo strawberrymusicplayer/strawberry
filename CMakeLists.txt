@@ -804,8 +804,8 @@ set(SOURCES
   src/streaming/streamingsearchmodel.cpp
   src/streaming/streamingsearchsortmodel.cpp
   src/streaming/streamingsearchitemdelegate.cpp
-  src/streaming/streamingsongsview.cpp
-  src/streaming/streamingtabsview.cpp
+  src/streaming/streaminglibraryview.cpp
+  src/streaming/streamingfavoritesview.cpp
   src/streaming/streamingcollectionview.cpp
   src/streaming/streamingcollectionviewcontainer.cpp
   src/streaming/streamingsearchview.cpp
@@ -1108,8 +1108,8 @@ set(HEADERS
   src/streaming/streamingsearchsortmodel.h
   src/streaming/streamingsearchitemdelegate.h
   src/streaming/streamingsearchview.h
-  src/streaming/streamingsongsview.h
-  src/streaming/streamingtabsview.h
+  src/streaming/streaminglibraryview.h
+  src/streaming/streamingfavoritesview.h
   src/streaming/streamingcollectionview.h
   src/streaming/streamingcollectionviewcontainer.h
 
@@ -1231,7 +1231,7 @@ set(UI
 
   src/osd/osdpretty.ui
 
-  src/streaming/streamingtabsview.ui
+  src/streaming/streamingfavoritesview.ui
   src/streaming/streamingcollectionviewcontainer.ui
   src/streaming/streamingsearchview.ui
 

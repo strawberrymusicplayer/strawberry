@@ -7097,6 +7097,40 @@ Deseja continuar?</translation>
     </message>
   </context>
   <context>
+    <name>StreamingFavoritesView</name>
+    <message>
+      <source>Streaming Tabs View</source>
+      <translation type="unfinished">Streaming Tabs View</translation>
+    </message>
+    <message>
+      <source>Artists</source>
+      <translation>Artistas</translation>
+    </message>
+    <message>
+      <source>Albums</source>
+      <translation>Álbuns</translation>
+    </message>
+    <message>
+      <source>Songs</source>
+      <translation>Músicas</translation>
+    </message>
+    <message>
+      <source>Search</source>
+      <translation>Pesquisar</translation>
+    </message>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Configurar %1...</translation>
+    </message>
+  </context>
+  <context>
+    <name>StreamingLibraryView</name>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Configurar %1...</translation>
+    </message>
+  </context>
+  <context>
     <name>StreamingSearchModel</name>
     <message>
       <source>Various artists</source>
@@ -7168,40 +7202,6 @@ Deseja continuar?</translation>
     <message>
       <source>Group by</source>
       <translation>Organizar por</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingSongsView</name>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Configurar %1...</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingTabsView</name>
-    <message>
-      <source>Streaming Tabs View</source>
-      <translation type="unfinished">Streaming Tabs View</translation>
-    </message>
-    <message>
-      <source>Artists</source>
-      <translation>Artistas</translation>
-    </message>
-    <message>
-      <source>Albums</source>
-      <translation>Álbuns</translation>
-    </message>
-    <message>
-      <source>Songs</source>
-      <translation>Músicas</translation>
-    </message>
-    <message>
-      <source>Search</source>
-      <translation>Pesquisar</translation>
-    </message>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Configurar %1...</translation>
     </message>
   </context>
   <context>

@@ -7092,6 +7092,40 @@ Apakah Anda yakin ingin melanjutkan?</translation>
     </message>
   </context>
   <context>
+    <name>StreamingFavoritesView</name>
+    <message>
+      <source>Streaming Tabs View</source>
+      <translation type="unfinished">Streaming Tabs View</translation>
+    </message>
+    <message>
+      <source>Artists</source>
+      <translation>Artis</translation>
+    </message>
+    <message>
+      <source>Albums</source>
+      <translation>Album</translation>
+    </message>
+    <message>
+      <source>Songs</source>
+      <translation>Lagu</translation>
+    </message>
+    <message>
+      <source>Search</source>
+      <translation>Cari</translation>
+    </message>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Konfigurasi %1...</translation>
+    </message>
+  </context>
+  <context>
+    <name>StreamingLibraryView</name>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Konfigurasi %1...</translation>
+    </message>
+  </context>
+  <context>
     <name>StreamingSearchModel</name>
     <message>
       <source>Various artists</source>
@@ -7163,40 +7197,6 @@ Apakah Anda yakin ingin melanjutkan?</translation>
     <message>
       <source>Group by</source>
       <translation>Grup berdasarkan</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingSongsView</name>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Konfigurasi %1...</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingTabsView</name>
-    <message>
-      <source>Streaming Tabs View</source>
-      <translation type="unfinished">Streaming Tabs View</translation>
-    </message>
-    <message>
-      <source>Artists</source>
-      <translation>Artis</translation>
-    </message>
-    <message>
-      <source>Albums</source>
-      <translation>Album</translation>
-    </message>
-    <message>
-      <source>Songs</source>
-      <translation>Lagu</translation>
-    </message>
-    <message>
-      <source>Search</source>
-      <translation>Cari</translation>
-    </message>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Konfigurasi %1...</translation>
     </message>
   </context>
   <context>

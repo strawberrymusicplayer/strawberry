@@ -7097,6 +7097,40 @@ Er du sikker?</translation>
     </message>
   </context>
   <context>
+    <name>StreamingFavoritesView</name>
+    <message>
+      <source>Streaming Tabs View</source>
+      <translation type="unfinished">Streaming Tabs View</translation>
+    </message>
+    <message>
+      <source>Artists</source>
+      <translation>Artister</translation>
+    </message>
+    <message>
+      <source>Albums</source>
+      <translation>Albumer</translation>
+    </message>
+    <message>
+      <source>Songs</source>
+      <translation>Sanger</translation>
+    </message>
+    <message>
+      <source>Search</source>
+      <translation>Søk</translation>
+    </message>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Sett opp %1…</translation>
+    </message>
+  </context>
+  <context>
+    <name>StreamingLibraryView</name>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Sett opp %1…</translation>
+    </message>
+  </context>
+  <context>
     <name>StreamingSearchModel</name>
     <message>
       <source>Various artists</source>
@@ -7168,40 +7202,6 @@ Er du sikker?</translation>
     <message>
       <source>Group by</source>
       <translation>Grupper etter</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingSongsView</name>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Sett opp %1…</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingTabsView</name>
-    <message>
-      <source>Streaming Tabs View</source>
-      <translation type="unfinished">Streaming Tabs View</translation>
-    </message>
-    <message>
-      <source>Artists</source>
-      <translation>Artister</translation>
-    </message>
-    <message>
-      <source>Albums</source>
-      <translation>Albumer</translation>
-    </message>
-    <message>
-      <source>Songs</source>
-      <translation>Sanger</translation>
-    </message>
-    <message>
-      <source>Search</source>
-      <translation>Søk</translation>
-    </message>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Sett opp %1…</translation>
     </message>
   </context>
   <context>

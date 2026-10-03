@@ -7097,6 +7097,40 @@ Haluatko varmasti jatkaa?</translation>
     </message>
   </context>
   <context>
+    <name>StreamingFavoritesView</name>
+    <message>
+      <source>Streaming Tabs View</source>
+      <translation type="unfinished">Streaming Tabs View</translation>
+    </message>
+    <message>
+      <source>Artists</source>
+      <translation>Esittäjät</translation>
+    </message>
+    <message>
+      <source>Albums</source>
+      <translation>Albumit</translation>
+    </message>
+    <message>
+      <source>Songs</source>
+      <translation>Kappaleet</translation>
+    </message>
+    <message>
+      <source>Search</source>
+      <translation>Etsi</translation>
+    </message>
+    <message>
+      <source>Configure %1...</source>
+      <translation>%1 - asetukset...</translation>
+    </message>
+  </context>
+  <context>
+    <name>StreamingLibraryView</name>
+    <message>
+      <source>Configure %1...</source>
+      <translation>%1 - asetukset...</translation>
+    </message>
+  </context>
+  <context>
     <name>StreamingSearchModel</name>
     <message>
       <source>Various artists</source>
@@ -7168,40 +7202,6 @@ Haluatko varmasti jatkaa?</translation>
     <message>
       <source>Group by</source>
       <translation>Järjestä</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingSongsView</name>
-    <message>
-      <source>Configure %1...</source>
-      <translation>%1 - asetukset...</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingTabsView</name>
-    <message>
-      <source>Streaming Tabs View</source>
-      <translation type="unfinished">Streaming Tabs View</translation>
-    </message>
-    <message>
-      <source>Artists</source>
-      <translation>Esittäjät</translation>
-    </message>
-    <message>
-      <source>Albums</source>
-      <translation>Albumit</translation>
-    </message>
-    <message>
-      <source>Songs</source>
-      <translation>Kappaleet</translation>
-    </message>
-    <message>
-      <source>Search</source>
-      <translation>Etsi</translation>
-    </message>
-    <message>
-      <source>Configure %1...</source>
-      <translation>%1 - asetukset...</translation>
     </message>
   </context>
   <context>

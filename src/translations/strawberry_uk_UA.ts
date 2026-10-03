@@ -7107,6 +7107,40 @@ Are you sure you want to continue?</source>
     </message>
   </context>
   <context>
+    <name>StreamingFavoritesView</name>
+    <message>
+      <source>Streaming Tabs View</source>
+      <translation>Подання з вкладками трансляцій</translation>
+    </message>
+    <message>
+      <source>Artists</source>
+      <translation>Виконавці</translation>
+    </message>
+    <message>
+      <source>Albums</source>
+      <translation>Альбоми</translation>
+    </message>
+    <message>
+      <source>Songs</source>
+      <translation>Композиції</translation>
+    </message>
+    <message>
+      <source>Search</source>
+      <translation>Пошук</translation>
+    </message>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Налаштувати %1...</translation>
+    </message>
+  </context>
+  <context>
+    <name>StreamingLibraryView</name>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Налаштувати %1...</translation>
+    </message>
+  </context>
+  <context>
     <name>StreamingSearchModel</name>
     <message>
       <source>Various artists</source>
@@ -7178,40 +7212,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Group by</source>
       <translation>Групувати за</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingSongsView</name>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Налаштувати %1...</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingTabsView</name>
-    <message>
-      <source>Streaming Tabs View</source>
-      <translation>Подання з вкладками трансляцій</translation>
-    </message>
-    <message>
-      <source>Artists</source>
-      <translation>Виконавці</translation>
-    </message>
-    <message>
-      <source>Albums</source>
-      <translation>Альбоми</translation>
-    </message>
-    <message>
-      <source>Songs</source>
-      <translation>Композиції</translation>
-    </message>
-    <message>
-      <source>Search</source>
-      <translation>Пошук</translation>
-    </message>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Налаштувати %1...</translation>
     </message>
   </context>
   <context>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>StreamingTabsView</class>
- <widget class="QWidget" name="StreamingTabsView">
+ <class>StreamingFavoritesView</class>
+ <widget class="QWidget" name="StreamingFavoritesView">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Streaming Tabs View</string>
   </property>
-  <layout class="QVBoxLayout" name="layout_streamingtabsview">
+  <layout class="QVBoxLayout" name="layout_streamingfavoritesview">
    <item>
     <widget class="QTabWidget" name="tabs">
      <property name="sizePolicy">

@@ -7097,6 +7097,40 @@ Are you sure you want to continue?</source>
     </message>
   </context>
   <context>
+    <name>StreamingFavoritesView</name>
+    <message>
+      <source>Streaming Tabs View</source>
+      <translation>Προβολή Καρτέλων Ροής</translation>
+    </message>
+    <message>
+      <source>Artists</source>
+      <translation>Καλλιτέχνες</translation>
+    </message>
+    <message>
+      <source>Albums</source>
+      <translation>Άλμπουμ</translation>
+    </message>
+    <message>
+      <source>Songs</source>
+      <translation>Τραγούδια</translation>
+    </message>
+    <message>
+      <source>Search</source>
+      <translation>Αναζήτηση</translation>
+    </message>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Ρύθμιση %1...</translation>
+    </message>
+  </context>
+  <context>
+    <name>StreamingLibraryView</name>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Ρύθμιση %1...</translation>
+    </message>
+  </context>
+  <context>
     <name>StreamingSearchModel</name>
     <message>
       <source>Various artists</source>
@@ -7168,40 +7202,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Group by</source>
       <translation>Ομαδοποίηση κατά</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingSongsView</name>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Ρύθμιση %1...</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingTabsView</name>
-    <message>
-      <source>Streaming Tabs View</source>
-      <translation>Προβολή Καρτέλων Ροής</translation>
-    </message>
-    <message>
-      <source>Artists</source>
-      <translation>Καλλιτέχνες</translation>
-    </message>
-    <message>
-      <source>Albums</source>
-      <translation>Άλμπουμ</translation>
-    </message>
-    <message>
-      <source>Songs</source>
-      <translation>Τραγούδια</translation>
-    </message>
-    <message>
-      <source>Search</source>
-      <translation>Αναζήτηση</translation>
-    </message>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Ρύθμιση %1...</translation>
     </message>
   </context>
   <context>

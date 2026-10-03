@@ -7521,6 +7521,40 @@ Are you sure you want to continue?</source>
     </message>
 </context>
 <context>
+    <name>StreamingFavoritesView</name>
+    <message>
+        <source>Streaming Tabs View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Artists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Songs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure %1...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>StreamingLibraryView</name>
+    <message>
+        <source>Configure %1...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>StreamingSearchModel</name>
     <message>
         <source>Various artists</source>
@@ -7591,40 +7625,6 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source>Group by</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>StreamingSongsView</name>
-    <message>
-        <source>Configure %1...</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>StreamingTabsView</name>
-    <message>
-        <source>Streaming Tabs View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Artists</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Albums</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Songs</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Search</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Configure %1...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

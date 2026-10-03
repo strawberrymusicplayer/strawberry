@@ -17,48 +17,65 @@
  *
  */
 
-#ifndef STREAMINGSONGSVIEW_H
-#define STREAMINGSONGSVIEW_H
+#ifndef STREAMINGFAVORITESVIEW_H
+#define STREAMINGFAVORITESVIEW_H
 
 #include "config.h"
 
 #include <QObject>
 #include <QWidget>
+#include <QMap>
 #include <QString>
 
 #include "includes/shared_ptr.h"
+#include "streamingcollectionviewcontainer.h"
 #include "core/song.h"
+
+#include "ui_streamingfavoritesview.h"
+
+class QContextMenuEvent;
 
 class StreamingService;
 class StreamingCollectionView;
-class StreamingCollectionViewContainer;
+class StreamingSearchView;
+class AlbumCoverLoader;
 
-class StreamingSongsView : public QWidget {
+class StreamingFavoritesView : public QWidget {
   Q_OBJECT
 
  public:
-  explicit StreamingSongsView(const SharedPtr<StreamingService> service, const QString &settings_group, QWidget *parent = nullptr);
+  explicit StreamingFavoritesView(const SharedPtr<StreamingService> service, const SharedPtr<AlbumCoverLoader> albumcover_loader, const QString &settings_group, QWidget *parent = nullptr);
+  ~StreamingFavoritesView() override;
 
   void ReloadSettings();
 
-  StreamingCollectionView *view() const;
+  StreamingCollectionView *artists_collection_view() const { return ui_->artists_collection->view(); }
+  StreamingCollectionView *albums_collection_view() const { return ui_->albums_collection->view(); }
+  StreamingCollectionView *songs_collection_view() const { return ui_->songs_collection->view(); }
+  StreamingSearchView *search_view() const { return ui_->search_view; }
 
   bool SearchFieldHasFocus() const;
   void FocusSearchField();
 
  private Q_SLOTS:
   void Configure();
+  void GetArtists();
+  void GetAlbums();
   void GetSongs();
+  void AbortGetArtists();
+  void AbortGetAlbums();
   void AbortGetSongs();
+  void ArtistsFinished(const SongMap &songs, const QString &error);
+  void AlbumsFinished(const SongMap &songs, const QString &error);
   void SongsFinished(const SongMap &songs, const QString &error);
 
  Q_SIGNALS:
-  void ShowErrorDialog(const QString &error);
   void OpenSettingsDialog(const Song::Source source);
 
  private:
   const SharedPtr<StreamingService> service_;
-  StreamingCollectionViewContainer *container_;
+  QString settings_group_;
+  Ui_StreamingFavoritesView *ui_;
 };
 
-#endif  // STREAMINGSONGSVIEW_H
+#endif  // STREAMINGFAVORITESVIEW_H

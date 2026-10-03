@@ -7097,6 +7097,40 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
   </context>
   <context>
+    <name>StreamingFavoritesView</name>
+    <message>
+      <source>Streaming Tabs View</source>
+      <translation>Streymisflipasýn</translation>
+    </message>
+    <message>
+      <source>Artists</source>
+      <translation>Flytjendur</translation>
+    </message>
+    <message>
+      <source>Albums</source>
+      <translation>Hljómplötur</translation>
+    </message>
+    <message>
+      <source>Songs</source>
+      <translation>Lög</translation>
+    </message>
+    <message>
+      <source>Search</source>
+      <translation>Leita</translation>
+    </message>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Stilla %1...</translation>
+    </message>
+  </context>
+  <context>
+    <name>StreamingLibraryView</name>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Grunnstilla %1...</translation>
+    </message>
+  </context>
+  <context>
     <name>StreamingSearchModel</name>
     <message>
       <source>Various artists</source>
@@ -7168,40 +7202,6 @@ Ertu viss um að þú viljir halda áfram?</translation>
     <message>
       <source>Group by</source>
       <translation>Hópa eftir</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingSongsView</name>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Grunnstilla %1...</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingTabsView</name>
-    <message>
-      <source>Streaming Tabs View</source>
-      <translation>Streymisflipasýn</translation>
-    </message>
-    <message>
-      <source>Artists</source>
-      <translation>Flytjendur</translation>
-    </message>
-    <message>
-      <source>Albums</source>
-      <translation>Hljómplötur</translation>
-    </message>
-    <message>
-      <source>Songs</source>
-      <translation>Lög</translation>
-    </message>
-    <message>
-      <source>Search</source>
-      <translation>Leita</translation>
-    </message>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Stilla %1...</translation>
     </message>
   </context>
   <context>

@@ -39,10 +39,10 @@
 #include "collection/collectionfilter.h"
 #include "collection/collectionfilterwidget.h"
 #include "streamingservice.h"
-#include "streamingtabsview.h"
+#include "streamingfavoritesview.h"
 #include "streamingcollectionview.h"
 #include "streamingcollectionviewcontainer.h"
-#include "ui_streamingtabsview.h"
+#include "ui_streamingfavoritesview.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -51,11 +51,11 @@ constexpr char kTab[] = "tab";
 constexpr char kDefaultTab[] = "artists";
 }  // namespace
 
-StreamingTabsView::StreamingTabsView(const StreamingServicePtr service, const SharedPtr<AlbumCoverLoader> albumcover_loader, const QString &settings_group, QWidget *parent)
+StreamingFavoritesView::StreamingFavoritesView(const StreamingServicePtr service, const SharedPtr<AlbumCoverLoader> albumcover_loader, const QString &settings_group, QWidget *parent)
     : QWidget(parent),
       service_(service),
       settings_group_(settings_group),
-      ui_(new Ui_StreamingTabsView) {
+      ui_(new Ui_StreamingFavoritesView) {
 
   ui_->setupUi(this);
 
@@ -65,19 +65,19 @@ StreamingTabsView::StreamingTabsView(const StreamingServicePtr service, const Sh
   QObject::connect(ui_->search_view, &StreamingSearchView::AddSongsSignal, &*service_, &StreamingService::AddSongs);
 
   QAction *action_configure = new QAction(IconLoader::Load(u"configure"_s), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this);
-  QObject::connect(action_configure, &QAction::triggered, this, &StreamingTabsView::Configure);
+  QObject::connect(action_configure, &QAction::triggered, this, &StreamingFavoritesView::Configure);
 
   if (service_->artists_collection_model()) {
     ui_->artists_collection->Init(service_->artists_collection_model(), service_->artists_collection_filter_model(), settings_group, u"artists"_s, true);
     ui_->artists_collection->filter_widget()->AddMenuAction(action_configure);
 
-    QObject::connect(ui_->artists_collection->view(), &StreamingCollectionView::GetSongs, this, &StreamingTabsView::GetArtists);
+    QObject::connect(ui_->artists_collection->view(), &StreamingCollectionView::GetSongs, this, &StreamingFavoritesView::GetArtists);
     QObject::connect(ui_->artists_collection->view(), &StreamingCollectionView::RemoveSongs, &*service_, &StreamingService::RemoveArtists);
 
-    QObject::connect(ui_->artists_collection->button_refresh(), &QPushButton::clicked, this, &StreamingTabsView::GetArtists);
-    QObject::connect(ui_->artists_collection->button_close(), &QPushButton::clicked, this, &StreamingTabsView::AbortGetArtists);
-    QObject::connect(ui_->artists_collection->button_abort(), &QPushButton::clicked, this, &StreamingTabsView::AbortGetArtists);
-    QObject::connect(&*service_, &StreamingService::ArtistsResults, this, &StreamingTabsView::ArtistsFinished);
+    QObject::connect(ui_->artists_collection->button_refresh(), &QPushButton::clicked, this, &StreamingFavoritesView::GetArtists);
+    QObject::connect(ui_->artists_collection->button_close(), &QPushButton::clicked, this, &StreamingFavoritesView::AbortGetArtists);
+    QObject::connect(ui_->artists_collection->button_abort(), &QPushButton::clicked, this, &StreamingFavoritesView::AbortGetArtists);
+    QObject::connect(&*service_, &StreamingService::ArtistsResults, this, &StreamingFavoritesView::ArtistsFinished);
     QObject::connect(&*service_, &StreamingService::ArtistsUpdateStatus, ui_->artists_collection->status(), &QLabel::setText);
     QObject::connect(&*service_, &StreamingService::ArtistsProgressSetMaximum, ui_->artists_collection->progressbar(), &QProgressBar::setMaximum);
     QObject::connect(&*service_, &StreamingService::ArtistsUpdateProgress, ui_->artists_collection->progressbar(), &QProgressBar::setValue);
@@ -90,13 +90,13 @@ StreamingTabsView::StreamingTabsView(const StreamingServicePtr service, const Sh
     ui_->albums_collection->Init(service_->albums_collection_model(), service_->albums_collection_filter_model(), settings_group, u"albums"_s, true);
     ui_->albums_collection->filter_widget()->AddMenuAction(action_configure);
 
-    QObject::connect(ui_->albums_collection->view(), &StreamingCollectionView::GetSongs, this, &StreamingTabsView::GetAlbums);
+    QObject::connect(ui_->albums_collection->view(), &StreamingCollectionView::GetSongs, this, &StreamingFavoritesView::GetAlbums);
     QObject::connect(ui_->albums_collection->view(), &StreamingCollectionView::RemoveSongs, &*service_, &StreamingService::RemoveAlbums);
 
-    QObject::connect(ui_->albums_collection->button_refresh(), &QPushButton::clicked, this, &StreamingTabsView::GetAlbums);
-    QObject::connect(ui_->albums_collection->button_close(), &QPushButton::clicked, this, &StreamingTabsView::AbortGetAlbums);
-    QObject::connect(ui_->albums_collection->button_abort(), &QPushButton::clicked, this, &StreamingTabsView::AbortGetAlbums);
-    QObject::connect(&*service_, &StreamingService::AlbumsResults, this, &StreamingTabsView::AlbumsFinished);
+    QObject::connect(ui_->albums_collection->button_refresh(), &QPushButton::clicked, this, &StreamingFavoritesView::GetAlbums);
+    QObject::connect(ui_->albums_collection->button_close(), &QPushButton::clicked, this, &StreamingFavoritesView::AbortGetAlbums);
+    QObject::connect(ui_->albums_collection->button_abort(), &QPushButton::clicked, this, &StreamingFavoritesView::AbortGetAlbums);
+    QObject::connect(&*service_, &StreamingService::AlbumsResults, this, &StreamingFavoritesView::AlbumsFinished);
     QObject::connect(&*service_, &StreamingService::AlbumsUpdateStatus, ui_->albums_collection->status(), &QLabel::setText);
     QObject::connect(&*service_, &StreamingService::AlbumsProgressSetMaximum, ui_->albums_collection->progressbar(), &QProgressBar::setMaximum);
     QObject::connect(&*service_, &StreamingService::AlbumsUpdateProgress, ui_->albums_collection->progressbar(), &QProgressBar::setValue);
@@ -109,13 +109,13 @@ StreamingTabsView::StreamingTabsView(const StreamingServicePtr service, const Sh
     ui_->songs_collection->Init(service_->songs_collection_model(), service_->songs_collection_filter_model(), settings_group, u"songs"_s, true);
     ui_->songs_collection->filter_widget()->AddMenuAction(action_configure);
 
-    QObject::connect(ui_->songs_collection->view(), &StreamingCollectionView::GetSongs, this, &StreamingTabsView::GetSongs);
+    QObject::connect(ui_->songs_collection->view(), &StreamingCollectionView::GetSongs, this, &StreamingFavoritesView::GetSongs);
     QObject::connect(ui_->songs_collection->view(), &StreamingCollectionView::RemoveSongs, &*service_, &StreamingService::RemoveSongsByList);
 
-    QObject::connect(ui_->songs_collection->button_refresh(), &QPushButton::clicked, this, &StreamingTabsView::GetSongs);
-    QObject::connect(ui_->songs_collection->button_close(), &QPushButton::clicked, this, &StreamingTabsView::AbortGetSongs);
-    QObject::connect(ui_->songs_collection->button_abort(), &QPushButton::clicked, this, &StreamingTabsView::AbortGetSongs);
-    QObject::connect(&*service_, &StreamingService::SongsResults, this, &StreamingTabsView::SongsFinished);
+    QObject::connect(ui_->songs_collection->button_refresh(), &QPushButton::clicked, this, &StreamingFavoritesView::GetSongs);
+    QObject::connect(ui_->songs_collection->button_close(), &QPushButton::clicked, this, &StreamingFavoritesView::AbortGetSongs);
+    QObject::connect(ui_->songs_collection->button_abort(), &QPushButton::clicked, this, &StreamingFavoritesView::AbortGetSongs);
+    QObject::connect(&*service_, &StreamingService::SongsResults, this, &StreamingFavoritesView::SongsFinished);
     QObject::connect(&*service_, &StreamingService::SongsUpdateStatus, ui_->songs_collection->status(), &QLabel::setText);
     QObject::connect(&*service_, &StreamingService::SongsProgressSetMaximum, ui_->songs_collection->progressbar(), &QProgressBar::setMaximum);
     QObject::connect(&*service_, &StreamingService::SongsUpdateProgress, ui_->songs_collection->progressbar(), &QProgressBar::setValue);
@@ -146,7 +146,7 @@ StreamingTabsView::StreamingTabsView(const StreamingServicePtr service, const Sh
 
 }
 
-StreamingTabsView::~StreamingTabsView() {
+StreamingFavoritesView::~StreamingFavoritesView() {
 
   Settings s;
   s.beginGroup(settings_group_);
@@ -159,7 +159,7 @@ StreamingTabsView::~StreamingTabsView() {
 
 }
 
-void StreamingTabsView::ReloadSettings() {
+void StreamingFavoritesView::ReloadSettings() {
 
   if (service_->artists_collection_model()) {
     ui_->artists_collection->view()->ReloadSettings();
@@ -174,7 +174,7 @@ void StreamingTabsView::ReloadSettings() {
 
 }
 
-bool StreamingTabsView::SearchFieldHasFocus() const {
+bool StreamingFavoritesView::SearchFieldHasFocus() const {
 
   return ((ui_->tabs->currentWidget() == ui_->artists && ui_->artists_collection->SearchFieldHasFocus()) ||
       (ui_->tabs->currentWidget() == ui_->albums && ui_->albums_collection->SearchFieldHasFocus()) ||
@@ -183,7 +183,7 @@ bool StreamingTabsView::SearchFieldHasFocus() const {
 
 }
 
-void StreamingTabsView::FocusSearchField() {
+void StreamingFavoritesView::FocusSearchField() {
 
   if (ui_->tabs->currentWidget() == ui_->artists) {
     ui_->artists_collection->FocusSearchField();
@@ -200,7 +200,7 @@ void StreamingTabsView::FocusSearchField() {
 
 }
 
-void StreamingTabsView::GetArtists() {
+void StreamingFavoritesView::GetArtists() {
 
   if (!service_->authenticated() && service_->oauth()) {
     Configure();
@@ -212,14 +212,14 @@ void StreamingTabsView::GetArtists() {
 
 }
 
-void StreamingTabsView::AbortGetArtists() {
+void StreamingFavoritesView::AbortGetArtists() {
 
   service_->ResetArtistsRequest();
   ui_->artists_collection->ShowCollection();
 
 }
 
-void StreamingTabsView::ArtistsFinished(const SongMap &songs, const QString &error) {
+void StreamingFavoritesView::ArtistsFinished(const SongMap &songs, const QString &error) {
 
   if (songs.isEmpty() && !error.isEmpty()) {
     ui_->artists_collection->ShowError(error);
@@ -231,7 +231,7 @@ void StreamingTabsView::ArtistsFinished(const SongMap &songs, const QString &err
 
 }
 
-void StreamingTabsView::GetAlbums() {
+void StreamingFavoritesView::GetAlbums() {
 
   if (!service_->authenticated() && service_->oauth()) {
     Configure();
@@ -243,14 +243,14 @@ void StreamingTabsView::GetAlbums() {
 
 }
 
-void StreamingTabsView::AbortGetAlbums() {
+void StreamingFavoritesView::AbortGetAlbums() {
 
   service_->ResetAlbumsRequest();
   ui_->albums_collection->ShowCollection();
 
 }
 
-void StreamingTabsView::AlbumsFinished(const SongMap &songs, const QString &error) {
+void StreamingFavoritesView::AlbumsFinished(const SongMap &songs, const QString &error) {
 
   if (songs.isEmpty() && !error.isEmpty()) {
     ui_->albums_collection->ShowError(error);
@@ -262,7 +262,7 @@ void StreamingTabsView::AlbumsFinished(const SongMap &songs, const QString &erro
 
 }
 
-void StreamingTabsView::GetSongs() {
+void StreamingFavoritesView::GetSongs() {
 
   if (!service_->authenticated() && service_->oauth()) {
     Configure();
@@ -274,14 +274,14 @@ void StreamingTabsView::GetSongs() {
 
 }
 
-void StreamingTabsView::AbortGetSongs() {
+void StreamingFavoritesView::AbortGetSongs() {
 
   service_->ResetSongsRequest();
   ui_->songs_collection->ShowCollection();
 
 }
 
-void StreamingTabsView::SongsFinished(const SongMap &songs, const QString &error) {
+void StreamingFavoritesView::SongsFinished(const SongMap &songs, const QString &error) {
 
   if (songs.isEmpty() && !error.isEmpty()) {
     ui_->songs_collection->ShowError(error);
@@ -293,6 +293,6 @@ void StreamingTabsView::SongsFinished(const SongMap &songs, const QString &error
 
 }
 
-void StreamingTabsView::Configure() {
+void StreamingFavoritesView::Configure() {
   Q_EMIT OpenSettingsDialog(service_->source());
 }

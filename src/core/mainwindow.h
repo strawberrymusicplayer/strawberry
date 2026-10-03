@@ -88,8 +88,8 @@ class TagFetcher;
 class TrackSelectionDialog;
 class TranscodeDialog;
 class Ui_MainWindow;
-class StreamingSongsView;
-class StreamingTabsView;
+class StreamingLibraryView;
+class StreamingFavoritesView;
 class SmartPlaylistsViewContainer;
 #ifdef Q_OS_WIN32
 class Windows7ThumbBar;
@@ -355,22 +355,22 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   SmartPlaylistsViewContainer *smartplaylists_view_;
 
 #ifdef HAVE_SUBSONIC
-  StreamingSongsView *subsonic_view_;
+  StreamingLibraryView *subsonic_view_;
 #endif
 #ifdef HAVE_TIDAL
-  StreamingTabsView *tidal_view_;
+  StreamingFavoritesView *tidal_view_;
 #endif
 #ifdef HAVE_SPOTIFY
-  StreamingTabsView *spotify_view_;
+  StreamingFavoritesView *spotify_view_;
 #endif
 #ifdef HAVE_QOBUZ
-  StreamingTabsView *qobuz_view_;
+  StreamingFavoritesView *qobuz_view_;
 #endif
 #ifdef HAVE_PLEX
-  StreamingSongsView *plex_view_;
+  StreamingLibraryView *plex_view_;
 #endif
 #ifdef HAVE_JELLYFIN
-  StreamingTabsView *jellyfin_view_;
+  StreamingFavoritesView *jellyfin_view_;
 #endif
 
   RadioViewContainer *radio_view_;

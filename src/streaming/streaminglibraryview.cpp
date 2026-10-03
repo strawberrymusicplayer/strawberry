@@ -32,13 +32,13 @@
 #include "collection/collectionbackend.h"
 #include "collection/collectionfilterwidget.h"
 #include "streamingservice.h"
-#include "streamingsongsview.h"
+#include "streaminglibraryview.h"
 #include "streamingcollectionview.h"
 #include "streamingcollectionviewcontainer.h"
 
 using namespace Qt::Literals::StringLiterals;
 
-StreamingSongsView::StreamingSongsView(const StreamingServicePtr service, const QString &settings_group, QWidget *parent)
+StreamingLibraryView::StreamingLibraryView(const StreamingServicePtr service, const QString &settings_group, QWidget *parent)
     : QWidget(parent),
       service_(service),
       container_(new StreamingCollectionViewContainer(this)) {
@@ -51,17 +51,17 @@ StreamingSongsView::StreamingSongsView(const StreamingServicePtr service, const 
   container_->button_refresh()->setVisible(service_->enable_refresh_button());
 
   QAction *action_configure = new QAction(IconLoader::Load(u"configure"_s), tr("Configure %1...").arg(Song::DescriptionForSource(service_->source())), this);
-  QObject::connect(action_configure, &QAction::triggered, this, &StreamingSongsView::Configure);
+  QObject::connect(action_configure, &QAction::triggered, this, &StreamingLibraryView::Configure);
   container_->filter_widget()->AddMenuAction(action_configure);
 
-  QObject::connect(container_->view(), &StreamingCollectionView::GetSongs, this, &StreamingSongsView::GetSongs);
+  QObject::connect(container_->view(), &StreamingCollectionView::GetSongs, this, &StreamingLibraryView::GetSongs);
   QObject::connect(container_->view(), &StreamingCollectionView::RemoveSongs, &*service_, &StreamingService::RemoveSongsByList);
 
-  QObject::connect(container_->button_refresh(), &QPushButton::clicked, this, &StreamingSongsView::GetSongs);
-  QObject::connect(container_->button_close(), &QPushButton::clicked, this, &StreamingSongsView::AbortGetSongs);
-  QObject::connect(container_->button_abort(), &QPushButton::clicked, this, &StreamingSongsView::AbortGetSongs);
-  QObject::connect(&*service_, &StreamingService::ShowErrorDialog, this, &StreamingSongsView::ShowErrorDialog);
-  QObject::connect(&*service_, &StreamingService::SongsResults, this, &StreamingSongsView::SongsFinished);
+  QObject::connect(container_->button_refresh(), &QPushButton::clicked, this, &StreamingLibraryView::GetSongs);
+  QObject::connect(container_->button_close(), &QPushButton::clicked, this, &StreamingLibraryView::AbortGetSongs);
+  QObject::connect(container_->button_abort(), &QPushButton::clicked, this, &StreamingLibraryView::AbortGetSongs);
+  QObject::connect(&*service_, &StreamingService::ShowErrorDialog, this, &StreamingLibraryView::ShowErrorDialog);
+  QObject::connect(&*service_, &StreamingService::SongsResults, this, &StreamingLibraryView::SongsFinished);
   QObject::connect(&*service_, &StreamingService::SongsUpdateStatus, container_->status(), &QLabel::setText);
   QObject::connect(&*service_, &StreamingService::SongsProgressSetMaximum, container_->progressbar(), &QProgressBar::setMaximum);
   QObject::connect(&*service_, &StreamingService::SongsUpdateProgress, container_->progressbar(), &QProgressBar::setValue);
@@ -70,27 +70,27 @@ StreamingSongsView::StreamingSongsView(const StreamingServicePtr service, const 
 
 }
 
-StreamingCollectionView *StreamingSongsView::view() const {
+StreamingCollectionView *StreamingLibraryView::view() const {
   return container_->view();
 }
 
-bool StreamingSongsView::SearchFieldHasFocus() const {
+bool StreamingLibraryView::SearchFieldHasFocus() const {
   return container_->SearchFieldHasFocus();
 }
 
-void StreamingSongsView::FocusSearchField() {
+void StreamingLibraryView::FocusSearchField() {
   container_->FocusSearchField();
 }
 
-void StreamingSongsView::ReloadSettings() {
+void StreamingLibraryView::ReloadSettings() {
   container_->ReloadSettings();
 }
 
-void StreamingSongsView::Configure() {
+void StreamingLibraryView::Configure() {
   Q_EMIT OpenSettingsDialog(service_->source());
 }
 
-void StreamingSongsView::GetSongs() {
+void StreamingLibraryView::GetSongs() {
 
   if (!service_->authenticated() && service_->oauth()) {
     Configure();
@@ -105,7 +105,7 @@ void StreamingSongsView::GetSongs() {
 
 }
 
-void StreamingSongsView::AbortGetSongs() {
+void StreamingLibraryView::AbortGetSongs() {
 
   service_->ResetSongsRequest();
 
@@ -115,7 +115,7 @@ void StreamingSongsView::AbortGetSongs() {
 
 }
 
-void StreamingSongsView::SongsFinished(const SongMap &songs, const QString &error) {
+void StreamingLibraryView::SongsFinished(const SongMap &songs, const QString &error) {
 
   if (songs.isEmpty() && !error.isEmpty()) {
     container_->ShowError(error);

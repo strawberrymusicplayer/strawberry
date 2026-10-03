@@ -7097,6 +7097,40 @@ Möchten Sie wirklich fortfahren?</translation>
     </message>
   </context>
   <context>
+    <name>StreamingFavoritesView</name>
+    <message>
+      <source>Streaming Tabs View</source>
+      <translation type="unfinished">Streaming Tabs View</translation>
+    </message>
+    <message>
+      <source>Artists</source>
+      <translation>Künstler</translation>
+    </message>
+    <message>
+      <source>Albums</source>
+      <translation>Alben</translation>
+    </message>
+    <message>
+      <source>Songs</source>
+      <translation>Lieder</translation>
+    </message>
+    <message>
+      <source>Search</source>
+      <translation>Suche</translation>
+    </message>
+    <message>
+      <source>Configure %1...</source>
+      <translation>%1 konfigurieren …</translation>
+    </message>
+  </context>
+  <context>
+    <name>StreamingLibraryView</name>
+    <message>
+      <source>Configure %1...</source>
+      <translation>%1 konfigurieren …</translation>
+    </message>
+  </context>
+  <context>
     <name>StreamingSearchModel</name>
     <message>
       <source>Various artists</source>
@@ -7168,40 +7202,6 @@ Möchten Sie wirklich fortfahren?</translation>
     <message>
       <source>Group by</source>
       <translation>Sortieren nach</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingSongsView</name>
-    <message>
-      <source>Configure %1...</source>
-      <translation>%1 konfigurieren …</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingTabsView</name>
-    <message>
-      <source>Streaming Tabs View</source>
-      <translation type="unfinished">Streaming Tabs View</translation>
-    </message>
-    <message>
-      <source>Artists</source>
-      <translation>Künstler</translation>
-    </message>
-    <message>
-      <source>Albums</source>
-      <translation>Alben</translation>
-    </message>
-    <message>
-      <source>Songs</source>
-      <translation>Lieder</translation>
-    </message>
-    <message>
-      <source>Search</source>
-      <translation>Suche</translation>
-    </message>
-    <message>
-      <source>Configure %1...</source>
-      <translation>%1 konfigurieren …</translation>
     </message>
   </context>
   <context>

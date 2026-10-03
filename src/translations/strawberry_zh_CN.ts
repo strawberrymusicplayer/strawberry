@@ -7092,6 +7092,40 @@ Are you sure you want to continue?</source>
     </message>
   </context>
   <context>
+    <name>StreamingFavoritesView</name>
+    <message>
+      <source>Streaming Tabs View</source>
+      <translation>流媒体标签视图</translation>
+    </message>
+    <message>
+      <source>Artists</source>
+      <translation>艺术家</translation>
+    </message>
+    <message>
+      <source>Albums</source>
+      <translation>专辑</translation>
+    </message>
+    <message>
+      <source>Songs</source>
+      <translation>歌曲</translation>
+    </message>
+    <message>
+      <source>Search</source>
+      <translation>搜索</translation>
+    </message>
+    <message>
+      <source>Configure %1...</source>
+      <translation>配置 %1 ...</translation>
+    </message>
+  </context>
+  <context>
+    <name>StreamingLibraryView</name>
+    <message>
+      <source>Configure %1...</source>
+      <translation>配置 %1 ...</translation>
+    </message>
+  </context>
+  <context>
     <name>StreamingSearchModel</name>
     <message>
       <source>Various artists</source>
@@ -7163,40 +7197,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Group by</source>
       <translation>分组</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingSongsView</name>
-    <message>
-      <source>Configure %1...</source>
-      <translation>配置 %1 ...</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingTabsView</name>
-    <message>
-      <source>Streaming Tabs View</source>
-      <translation>流媒体标签视图</translation>
-    </message>
-    <message>
-      <source>Artists</source>
-      <translation>艺术家</translation>
-    </message>
-    <message>
-      <source>Albums</source>
-      <translation>专辑</translation>
-    </message>
-    <message>
-      <source>Songs</source>
-      <translation>歌曲</translation>
-    </message>
-    <message>
-      <source>Search</source>
-      <translation>搜索</translation>
-    </message>
-    <message>
-      <source>Configure %1...</source>
-      <translation>配置 %1 ...</translation>
     </message>
   </context>
   <context>

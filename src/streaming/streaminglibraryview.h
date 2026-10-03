@@ -17,65 +17,48 @@
  *
  */
 
-#ifndef STREAMINGTABSVIEW_H
-#define STREAMINGTABSVIEW_H
+#ifndef STREAMINGLIBRARYVIEW_H
+#define STREAMINGLIBRARYVIEW_H
 
 #include "config.h"
 
 #include <QObject>
 #include <QWidget>
-#include <QMap>
 #include <QString>
 
 #include "includes/shared_ptr.h"
-#include "streamingcollectionviewcontainer.h"
 #include "core/song.h"
-
-#include "ui_streamingtabsview.h"
-
-class QContextMenuEvent;
 
 class StreamingService;
 class StreamingCollectionView;
-class StreamingSearchView;
-class AlbumCoverLoader;
+class StreamingCollectionViewContainer;
 
-class StreamingTabsView : public QWidget {
+class StreamingLibraryView : public QWidget {
   Q_OBJECT
 
  public:
-  explicit StreamingTabsView(const SharedPtr<StreamingService> service, const SharedPtr<AlbumCoverLoader> albumcover_loader, const QString &settings_group, QWidget *parent = nullptr);
-  ~StreamingTabsView() override;
+  explicit StreamingLibraryView(const SharedPtr<StreamingService> service, const QString &settings_group, QWidget *parent = nullptr);
 
   void ReloadSettings();
 
-  StreamingCollectionView *artists_collection_view() const { return ui_->artists_collection->view(); }
-  StreamingCollectionView *albums_collection_view() const { return ui_->albums_collection->view(); }
-  StreamingCollectionView *songs_collection_view() const { return ui_->songs_collection->view(); }
-  StreamingSearchView *search_view() const { return ui_->search_view; }
+  StreamingCollectionView *view() const;
 
   bool SearchFieldHasFocus() const;
   void FocusSearchField();
 
  private Q_SLOTS:
   void Configure();
-  void GetArtists();
-  void GetAlbums();
   void GetSongs();
-  void AbortGetArtists();
-  void AbortGetAlbums();
   void AbortGetSongs();
-  void ArtistsFinished(const SongMap &songs, const QString &error);
-  void AlbumsFinished(const SongMap &songs, const QString &error);
   void SongsFinished(const SongMap &songs, const QString &error);
 
  Q_SIGNALS:
+  void ShowErrorDialog(const QString &error);
   void OpenSettingsDialog(const Song::Source source);
 
  private:
   const SharedPtr<StreamingService> service_;
-  QString settings_group_;
-  Ui_StreamingTabsView *ui_;
+  StreamingCollectionViewContainer *container_;
 };
 
-#endif  // STREAMINGTABSVIEW_H
+#endif  // STREAMINGLIBRARYVIEW_H

@@ -7097,6 +7097,40 @@ Esteu segur que voleu continuar?</translation>
     </message>
   </context>
   <context>
+    <name>StreamingFavoritesView</name>
+    <message>
+      <source>Streaming Tabs View</source>
+      <translation type="unfinished">Streaming Tabs View</translation>
+    </message>
+    <message>
+      <source>Artists</source>
+      <translation type="unfinished">Artists</translation>
+    </message>
+    <message>
+      <source>Albums</source>
+      <translation>Àlbums</translation>
+    </message>
+    <message>
+      <source>Songs</source>
+      <translation type="unfinished">Songs</translation>
+    </message>
+    <message>
+      <source>Search</source>
+      <translation>Cerca</translation>
+    </message>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Configura %1…</translation>
+    </message>
+  </context>
+  <context>
+    <name>StreamingLibraryView</name>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Configura %1…</translation>
+    </message>
+  </context>
+  <context>
     <name>StreamingSearchModel</name>
     <message>
       <source>Various artists</source>
@@ -7168,40 +7202,6 @@ Esteu segur que voleu continuar?</translation>
     <message>
       <source>Group by</source>
       <translation>Agrupa per</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingSongsView</name>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Configura %1…</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingTabsView</name>
-    <message>
-      <source>Streaming Tabs View</source>
-      <translation type="unfinished">Streaming Tabs View</translation>
-    </message>
-    <message>
-      <source>Artists</source>
-      <translation type="unfinished">Artists</translation>
-    </message>
-    <message>
-      <source>Albums</source>
-      <translation>Àlbums</translation>
-    </message>
-    <message>
-      <source>Songs</source>
-      <translation type="unfinished">Songs</translation>
-    </message>
-    <message>
-      <source>Search</source>
-      <translation>Cerca</translation>
-    </message>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Configura %1…</translation>
     </message>
   </context>
   <context>

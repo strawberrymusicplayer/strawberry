@@ -7097,6 +7097,40 @@ Are you sure you want to continue?</source>
     </message>
   </context>
   <context>
+    <name>StreamingFavoritesView</name>
+    <message>
+      <source>Streaming Tabs View</source>
+      <translation>Vue des onglets de streaming</translation>
+    </message>
+    <message>
+      <source>Artists</source>
+      <translation>Artistes</translation>
+    </message>
+    <message>
+      <source>Albums</source>
+      <translation type="unfinished">Albums</translation>
+    </message>
+    <message>
+      <source>Songs</source>
+      <translation>Morceaux</translation>
+    </message>
+    <message>
+      <source>Search</source>
+      <translation>Recherche</translation>
+    </message>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Configurer %1...</translation>
+    </message>
+  </context>
+  <context>
+    <name>StreamingLibraryView</name>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Configurer %1...</translation>
+    </message>
+  </context>
+  <context>
     <name>StreamingSearchModel</name>
     <message>
       <source>Various artists</source>
@@ -7168,40 +7202,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Group by</source>
       <translation>Grouper par</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingSongsView</name>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Configurer %1...</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingTabsView</name>
-    <message>
-      <source>Streaming Tabs View</source>
-      <translation>Vue des onglets de streaming</translation>
-    </message>
-    <message>
-      <source>Artists</source>
-      <translation>Artistes</translation>
-    </message>
-    <message>
-      <source>Albums</source>
-      <translation type="unfinished">Albums</translation>
-    </message>
-    <message>
-      <source>Songs</source>
-      <translation>Morceaux</translation>
-    </message>
-    <message>
-      <source>Search</source>
-      <translation>Recherche</translation>
-    </message>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Configurer %1...</translation>
     </message>
   </context>
   <context>

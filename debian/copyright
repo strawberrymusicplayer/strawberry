@@ -39,10 +39,10 @@ Files: src/core/main.h
        src/engine/enginemetadata.h
        src/streaming/streamingservice.cpp
        src/streaming/streamingservice.h
-       src/streaming/streamingtabsview.cpp
-       src/streaming/streamingtabsview.h
-       src/streaming/streamingsongsview.cpp
-       src/streaming/streamingsongsview.h
+       src/streaming/streamingfavoritesview.cpp
+       src/streaming/streamingfavoritesview.h
+       src/streaming/streaminglibraryview.cpp
+       src/streaming/streaminglibraryview.h
        src/settings/backendsettingspage.cpp
        src/settings/backendsettingspage.h
        src/settings/coverssettingspage.cpp

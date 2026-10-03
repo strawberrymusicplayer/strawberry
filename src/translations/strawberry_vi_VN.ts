@@ -7092,6 +7092,40 @@ Bạn có chắc chắn muốn tiếp tục không?</translation>
     </message>
   </context>
   <context>
+    <name>StreamingFavoritesView</name>
+    <message>
+      <source>Streaming Tabs View</source>
+      <translation>Khung thẻ phát trực tuyến</translation>
+    </message>
+    <message>
+      <source>Artists</source>
+      <translation>Nghệ sĩ</translation>
+    </message>
+    <message>
+      <source>Albums</source>
+      <translation>Album</translation>
+    </message>
+    <message>
+      <source>Songs</source>
+      <translation>Bài hát</translation>
+    </message>
+    <message>
+      <source>Search</source>
+      <translation>Tìm kiếm</translation>
+    </message>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Cấu hình %1...</translation>
+    </message>
+  </context>
+  <context>
+    <name>StreamingLibraryView</name>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Cấu hình %1...</translation>
+    </message>
+  </context>
+  <context>
     <name>StreamingSearchModel</name>
     <message>
       <source>Various artists</source>
@@ -7163,40 +7197,6 @@ Bạn có chắc chắn muốn tiếp tục không?</translation>
     <message>
       <source>Group by</source>
       <translation>Nhóm theo</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingSongsView</name>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Cấu hình %1...</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingTabsView</name>
-    <message>
-      <source>Streaming Tabs View</source>
-      <translation>Khung thẻ phát trực tuyến</translation>
-    </message>
-    <message>
-      <source>Artists</source>
-      <translation>Nghệ sĩ</translation>
-    </message>
-    <message>
-      <source>Albums</source>
-      <translation>Album</translation>
-    </message>
-    <message>
-      <source>Songs</source>
-      <translation>Bài hát</translation>
-    </message>
-    <message>
-      <source>Search</source>
-      <translation>Tìm kiếm</translation>
-    </message>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Cấu hình %1...</translation>
     </message>
   </context>
   <context>

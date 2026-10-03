@@ -7097,6 +7097,40 @@ Weet je zeker dat je verder wilt gaan?</translation>
     </message>
   </context>
   <context>
+    <name>StreamingFavoritesView</name>
+    <message>
+      <source>Streaming Tabs View</source>
+      <translation type="unfinished">Streaming Tabs View</translation>
+    </message>
+    <message>
+      <source>Artists</source>
+      <translation>Artiesten</translation>
+    </message>
+    <message>
+      <source>Albums</source>
+      <translation type="unfinished">Albums</translation>
+    </message>
+    <message>
+      <source>Songs</source>
+      <translation>Liedjes</translation>
+    </message>
+    <message>
+      <source>Search</source>
+      <translation>Zoeken</translation>
+    </message>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Configureren %1</translation>
+    </message>
+  </context>
+  <context>
+    <name>StreamingLibraryView</name>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Configureren %1</translation>
+    </message>
+  </context>
+  <context>
     <name>StreamingSearchModel</name>
     <message>
       <source>Various artists</source>
@@ -7168,40 +7202,6 @@ Weet je zeker dat je verder wilt gaan?</translation>
     <message>
       <source>Group by</source>
       <translation>Groeperen op</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingSongsView</name>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Configureren %1</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingTabsView</name>
-    <message>
-      <source>Streaming Tabs View</source>
-      <translation type="unfinished">Streaming Tabs View</translation>
-    </message>
-    <message>
-      <source>Artists</source>
-      <translation>Artiesten</translation>
-    </message>
-    <message>
-      <source>Albums</source>
-      <translation type="unfinished">Albums</translation>
-    </message>
-    <message>
-      <source>Songs</source>
-      <translation>Liedjes</translation>
-    </message>
-    <message>
-      <source>Search</source>
-      <translation>Zoeken</translation>
-    </message>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Configureren %1</translation>
     </message>
   </context>
   <context>

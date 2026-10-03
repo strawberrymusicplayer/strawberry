@@ -7098,6 +7098,40 @@ másodpercnél hosszabbak, illetve legalább a felükig vagy 4 percig vannak lej
     </message>
   </context>
   <context>
+    <name>StreamingFavoritesView</name>
+    <message>
+      <source>Streaming Tabs View</source>
+      <translation type="unfinished">Streaming Tabs View</translation>
+    </message>
+    <message>
+      <source>Artists</source>
+      <translation>Előadók</translation>
+    </message>
+    <message>
+      <source>Albums</source>
+      <translation>Albumok</translation>
+    </message>
+    <message>
+      <source>Songs</source>
+      <translation>Számok</translation>
+    </message>
+    <message>
+      <source>Search</source>
+      <translation>Keresés</translation>
+    </message>
+    <message>
+      <source>Configure %1...</source>
+      <translation>%1 beállítása…</translation>
+    </message>
+  </context>
+  <context>
+    <name>StreamingLibraryView</name>
+    <message>
+      <source>Configure %1...</source>
+      <translation>%1 beállítása…</translation>
+    </message>
+  </context>
+  <context>
     <name>StreamingSearchModel</name>
     <message>
       <source>Various artists</source>
@@ -7169,40 +7203,6 @@ másodpercnél hosszabbak, illetve legalább a felükig vagy 4 percig vannak lej
     <message>
       <source>Group by</source>
       <translation>Csoportosítás</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingSongsView</name>
-    <message>
-      <source>Configure %1...</source>
-      <translation>%1 beállítása…</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingTabsView</name>
-    <message>
-      <source>Streaming Tabs View</source>
-      <translation type="unfinished">Streaming Tabs View</translation>
-    </message>
-    <message>
-      <source>Artists</source>
-      <translation>Előadók</translation>
-    </message>
-    <message>
-      <source>Albums</source>
-      <translation>Albumok</translation>
-    </message>
-    <message>
-      <source>Songs</source>
-      <translation>Számok</translation>
-    </message>
-    <message>
-      <source>Search</source>
-      <translation>Keresés</translation>
-    </message>
-    <message>
-      <source>Configure %1...</source>
-      <translation>%1 beállítása…</translation>
     </message>
   </context>
   <context>

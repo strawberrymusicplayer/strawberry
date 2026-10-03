@@ -7096,6 +7096,40 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
   </context>
   <context>
+    <name>StreamingFavoritesView</name>
+    <message>
+      <source>Streaming Tabs View</source>
+      <translation type="unfinished">Streaming Tabs View</translation>
+    </message>
+    <message>
+      <source>Artists</source>
+      <translation>Sanatçılar</translation>
+    </message>
+    <message>
+      <source>Albums</source>
+      <translation>Albümler</translation>
+    </message>
+    <message>
+      <source>Songs</source>
+      <translation>Şarkılar</translation>
+    </message>
+    <message>
+      <source>Search</source>
+      <translation>Ara</translation>
+    </message>
+    <message>
+      <source>Configure %1...</source>
+      <translation>%1 yapılandır...</translation>
+    </message>
+  </context>
+  <context>
+    <name>StreamingLibraryView</name>
+    <message>
+      <source>Configure %1...</source>
+      <translation>%1 yapılandır...</translation>
+    </message>
+  </context>
+  <context>
     <name>StreamingSearchModel</name>
     <message>
       <source>Various artists</source>
@@ -7167,40 +7201,6 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <message>
       <source>Group by</source>
       <translation>Grupla</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingSongsView</name>
-    <message>
-      <source>Configure %1...</source>
-      <translation>%1 yapılandır...</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingTabsView</name>
-    <message>
-      <source>Streaming Tabs View</source>
-      <translation type="unfinished">Streaming Tabs View</translation>
-    </message>
-    <message>
-      <source>Artists</source>
-      <translation>Sanatçılar</translation>
-    </message>
-    <message>
-      <source>Albums</source>
-      <translation>Albümler</translation>
-    </message>
-    <message>
-      <source>Songs</source>
-      <translation>Şarkılar</translation>
-    </message>
-    <message>
-      <source>Search</source>
-      <translation>Ara</translation>
-    </message>
-    <message>
-      <source>Configure %1...</source>
-      <translation>%1 yapılandır...</translation>
     </message>
   </context>
   <context>

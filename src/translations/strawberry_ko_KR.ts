@@ -7092,6 +7092,40 @@ Are you sure you want to continue?</source>
     </message>
   </context>
   <context>
+    <name>StreamingFavoritesView</name>
+    <message>
+      <source>Streaming Tabs View</source>
+      <translation type="unfinished">Streaming Tabs View</translation>
+    </message>
+    <message>
+      <source>Artists</source>
+      <translation>아티스트</translation>
+    </message>
+    <message>
+      <source>Albums</source>
+      <translation>앨범</translation>
+    </message>
+    <message>
+      <source>Songs</source>
+      <translation>노래</translation>
+    </message>
+    <message>
+      <source>Search</source>
+      <translation>검색</translation>
+    </message>
+    <message>
+      <source>Configure %1...</source>
+      <translation>%1 설정...</translation>
+    </message>
+  </context>
+  <context>
+    <name>StreamingLibraryView</name>
+    <message>
+      <source>Configure %1...</source>
+      <translation>%1 설정...</translation>
+    </message>
+  </context>
+  <context>
     <name>StreamingSearchModel</name>
     <message>
       <source>Various artists</source>
@@ -7163,40 +7197,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Group by</source>
       <translation>그룹 방식</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingSongsView</name>
-    <message>
-      <source>Configure %1...</source>
-      <translation>%1 설정...</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingTabsView</name>
-    <message>
-      <source>Streaming Tabs View</source>
-      <translation type="unfinished">Streaming Tabs View</translation>
-    </message>
-    <message>
-      <source>Artists</source>
-      <translation>아티스트</translation>
-    </message>
-    <message>
-      <source>Albums</source>
-      <translation>앨범</translation>
-    </message>
-    <message>
-      <source>Songs</source>
-      <translation>노래</translation>
-    </message>
-    <message>
-      <source>Search</source>
-      <translation>검색</translation>
-    </message>
-    <message>
-      <source>Configure %1...</source>
-      <translation>%1 설정...</translation>
     </message>
   </context>
   <context>

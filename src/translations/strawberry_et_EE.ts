@@ -7097,6 +7097,40 @@ Kas soovid jätkata?</translation>
     </message>
   </context>
   <context>
+    <name>StreamingFavoritesView</name>
+    <message>
+      <source>Streaming Tabs View</source>
+      <translation>Voogedastuse kaardivaade</translation>
+    </message>
+    <message>
+      <source>Artists</source>
+      <translation>Esitajad</translation>
+    </message>
+    <message>
+      <source>Albums</source>
+      <translation>Albumid</translation>
+    </message>
+    <message>
+      <source>Songs</source>
+      <translation>Lood</translation>
+    </message>
+    <message>
+      <source>Search</source>
+      <translation>Otsing</translation>
+    </message>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Seadista %1...</translation>
+    </message>
+  </context>
+  <context>
+    <name>StreamingLibraryView</name>
+    <message>
+      <source>Configure %1...</source>
+      <translation>Seadista %1...</translation>
+    </message>
+  </context>
+  <context>
     <name>StreamingSearchModel</name>
     <message>
       <source>Various artists</source>
@@ -7168,40 +7202,6 @@ Kas soovid jätkata?</translation>
     <message>
       <source>Group by</source>
       <translation>Rühmitamise alus</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingSongsView</name>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Seadista %1...</translation>
-    </message>
-  </context>
-  <context>
-    <name>StreamingTabsView</name>
-    <message>
-      <source>Streaming Tabs View</source>
-      <translation>Voogedastuse kaardivaade</translation>
-    </message>
-    <message>
-      <source>Artists</source>
-      <translation>Esitajad</translation>
-    </message>
-    <message>
-      <source>Albums</source>
-      <translation>Albumid</translation>
-    </message>
-    <message>
-      <source>Songs</source>
-      <translation>Lood</translation>
-    </message>
-    <message>
-      <source>Search</source>
-      <translation>Otsing</translation>
-    </message>
-    <message>
-      <source>Configure %1...</source>
-      <translation>Seadista %1...</translation>
     </message>
   </context>
   <context>
