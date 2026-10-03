@@ -552,6 +552,10 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_object, c
   QString genre;
   if (json_object.contains("genre"_L1)) genre = json_object["genre"_L1].toString();
 
+  // OpenSubsonic: musicBrainzId on a song is the MusicBrainz recording ID.
+  QString musicbrainz_recording_id;
+  if (json_object.contains("musicBrainzId"_L1)) musicbrainz_recording_id = json_object["musicBrainzId"_L1].toString();
+
   QString cover_id;
   if (use_album_id_for_album_covers() && !album_cover_id.isEmpty()) {
     cover_id = album_cover_id;
@@ -617,6 +621,7 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_object, c
   song.set_length_nanosec(duration);
   if (cover_url.isValid()) song.set_art_automatic(cover_url);
   song.set_genre(genre);
+  if (!musicbrainz_recording_id.isEmpty()) song.set_musicbrainz_recording_id(musicbrainz_recording_id);
   song.set_directory_id(0);
   song.set_filetype(filetype);
   song.set_filesize(size);
