@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -106,7 +107,15 @@ QString PlaylistParser::filters(const Type type) const {
   filters.reserve(parsers_.count() + 1);
   QStringList all_extensions;
   for (ParserBase *parser : parsers_) {
-    if (ParserIsSupported(type, parser)) {
+    if (!ParserIsSupported(type, parser)) continue;
+    if (type == Type::Save) {
+      // When saving, the extension decides the format, so a parser with several extensions has a filter for each.
+      const QStringList extensions = parser->file_extensions();
+      for (const QString &extension : extensions) {
+        filters << FilterForExtension(parser, extension);
+      }
+    }
+    else {
       filters << FilterForParser(parser, &all_extensions);
     }
   }
@@ -134,13 +143,54 @@ QString PlaylistParser::FilterForParser(const ParserBase *parser, QStringList *a
 
 }
 
+QString PlaylistParser::FilterForExtension(const ParserBase *parser, const QString &extension) {
+
+  // A parser with several extensions is named by the extension, for example M3U and M3U8.
+  const QString name = parser->file_extensions().count() > 1 ? extension.toUpper() : parser->name();
+  return tr("%1 playlists (%2)").arg(name, u"*."_s + extension);
+
+}
+
 QString PlaylistParser::default_extension() const {
   const QStringList extensions = default_parser_->file_extensions();
   return extensions.isEmpty() ? QString() : extensions.constFirst();
 }
 
 QString PlaylistParser::default_filter() const {
-  return FilterForParser(default_parser_);
+  return FilterForExtension(default_parser_, default_extension());
+}
+
+QString PlaylistParser::save_filter(const QString &extension) const {
+
+  ParserBase *parser = ParserForExtension(Type::Save, extension);
+  if (!parser) return QString();
+
+  // Use the extension as the parser has it, the given one can have another case.
+  const QStringList extensions = parser->file_extensions();
+  for (const QString &parser_extension : extensions) {
+    if (parser_extension.compare(extension, Qt::CaseInsensitive) == 0) {
+      return FilterForExtension(parser, parser_extension);
+    }
+  }
+
+  return QString();
+
+}
+
+QString PlaylistParser::save_extension(const QString &filter) const {
+
+  for (ParserBase *parser : parsers_) {
+    if (!ParserIsSupported(Type::Save, parser)) continue;
+    const QStringList extensions = parser->file_extensions();
+    for (const QString &extension : extensions) {
+      if (FilterForExtension(parser, extension) == filter) {
+        return extension;
+      }
+    }
+  }
+
+  return QString();
+
 }
 
 ParserBase *PlaylistParser::ParserForExtension(const Type type, const QString &suffix) const {

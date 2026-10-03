@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,17 +19,22 @@
  *
  */
 
+#include <algorithm>
+
 #include <QObject>
 #include <QIODevice>
 #include <QDir>
 #include <QBuffer>
 #include <QByteArray>
 #include <QFile>
+#include <QFileDevice>
 #include <QFileInfo>
 #include <QSet>
 #include <QHash>
 #include <QString>
 #include <QStringList>
+#include <QStringDecoder>
+#include <QUrl>
 #include <QRegularExpression>
 #include <QSettings>
 
@@ -66,6 +72,21 @@ ParserBase::LoadResult M3UParser::Load(QIODevice *device, const QString &playlis
   ParsePlaylistData(device, dir, ancestors, expanded, 0, collection_lookup, songs);
 
   return songs;
+
+}
+
+QString M3UParser::DecodeLocation(const QString &location, const QDir &dir) {
+
+  // URLs are decoded when they are loaded.
+  static const QRegularExpression regex_url_schema(u"^[a-z]{2,}:"_s, QRegularExpression::CaseInsensitiveOption);
+  if (!location.contains(u'%') || location.contains(regex_url_schema)) return location;
+
+  const QString decoded_location = QUrl::fromPercentEncoding(location.toUtf8());
+  if (decoded_location == location || QFileInfo::exists(dir.absoluteFilePath(location)) || !QFileInfo::exists(dir.absoluteFilePath(decoded_location))) {
+    return location;
+  }
+
+  return decoded_location;
 
 }
 
@@ -112,14 +133,15 @@ void M3UParser::ParsePlaylistData(QIODevice *device, const QDir &dir, QSet<QStri
       }
     }
     else if (!line.isEmpty()) {
-      if (IsNestedPlaylistReference(line)) {
+      const QString location = DecodeLocation(line, dir);
+      if (IsNestedPlaylistReference(location)) {
         // Nested playlist reference — expand recursively instead of treating as a track.
         // Discard any preceding #EXTINF because metadata describes tracks, not playlists.
         current_metadata = Metadata();
-        LoadNested(line, dir, ancestors, expanded, depth, collection_lookup, ret);
+        LoadNested(location, dir, ancestors, expanded, depth, collection_lookup, ret);
       }
       else {
-        Song song = LoadSong(line, 0, 0, dir, collection_lookup);
+        Song song = LoadSong(location, 0, 0, dir, collection_lookup);
         if (!current_metadata.title.isEmpty()) {
           song.set_title(current_metadata.title);
         }
@@ -225,9 +247,41 @@ bool M3UParser::ParseMetadata(const QString &line, M3UParser::Metadata *metadata
 
 }
 
+namespace {
+
+bool IsLatin1(const QString &text) {
+
+  return std::all_of(text.cbegin(), text.cend(), [](const QChar c) { return c.unicode() <= 0xFF; });
+
+}
+
+// Whether the text encoded as Latin-1 is read back as UTF-8, because the bytes are also valid UTF-8, for example "Ã©" which is read as "é".
+// Utilities::TextFromData() reads data that is valid UTF-8 as UTF-8, before detecting other encodings.
+bool Latin1IsReadAsUtf8(const QString &text) {
+
+  const QByteArray latin1 = text.toLatin1();
+  if (std::all_of(latin1.cbegin(), latin1.cend(), [](const char c) { return static_cast<unsigned char>(c) < 0x80; })) {
+    // ASCII is the same in both.
+    return false;
+  }
+
+  QStringDecoder utf8_decoder(QStringConverter::Encoding::Utf8);
+  const QString utf8_text = utf8_decoder.decode(latin1);
+  return !utf8_decoder.hasError();
+
+}
+
+}  // namespace
+
 void M3UParser::Save(const QString &playlist_name, const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type) const {
 
   Q_UNUSED(playlist_name)
+
+  // M3U8 playlists are UTF-8, M3U playlists use the legacy Latin-1 encoding.
+  // Other devices than files are written as UTF-8.
+  const QFileDevice *file = qobject_cast<QFileDevice*>(device);
+  const bool utf8 = !file || QFileInfo(file->fileName()).suffix().compare("m3u"_L1, Qt::CaseInsensitive) != 0;
+  const auto encode = [utf8](const QString &text) { return utf8 ? text.toUtf8() : text.toLatin1(); };
 
   device->write("#EXTM3U\n");
 
@@ -241,10 +295,26 @@ void M3UParser::Save(const QString &playlist_name, const SongList &songs, QIODev
       continue;
     }
     if (write_metadata || (song.is_stream() && !song.is_radio())) {
-      QString meta = QStringLiteral("#EXTINF:%1,%2 - %3\n").arg(song.length_nanosec() / kNsecPerSec).arg(song.artist(), song.title());
-      device->write(meta.toUtf8());
+      const QString meta = QStringLiteral("#EXTINF:%1,%2 - %3\n").arg(song.length_nanosec() / kNsecPerSec).arg(song.artist(), song.title());
+      // The metadata replaces the song's metadata when loading, so skip metadata that would be loaded changed, because Latin-1 can't represent it, or it's read back as UTF-8.
+      if (utf8 || (IsLatin1(meta) && !Latin1IsReadAsUtf8(meta))) {
+        device->write(encode(meta));
+      }
     }
-    device->write(URLOrFilename(song.url(), dir, path_type).toUtf8());
+    QString location = URLOrFilename(song.url(), dir, path_type);
+    // Latin-1 can't represent every character, and Latin-1 that is also valid UTF-8 is read back as UTF-8, so percent encode those locations, so they can still be found.
+    if (!utf8 && (!IsLatin1(location) || Latin1IsReadAsUtf8(location))) {
+      if (song.url().isLocalFile() && !QDir::isAbsolutePath(location)) {
+        // Keep a relative path relative, as a relative URL, it's decoded by DecodeLocation() when loading.
+        // DecodeLocation() prefers a file named like the encoded location, so then use the URL of the file.
+        const QString encoded_location = QString::fromLatin1(QUrl::toPercentEncoding(location, "/"));
+        location = QFileInfo::exists(dir.absoluteFilePath(encoded_location)) ? QString::fromLatin1(song.url().toEncoded()) : encoded_location;
+      }
+      else {
+        location = QString::fromLatin1(song.url().toEncoded());
+      }
+    }
+    device->write(encode(location));
     device->write("\n");
   }
 

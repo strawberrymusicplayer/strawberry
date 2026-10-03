@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -259,16 +259,40 @@ void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
   QString last_save_extension = s.value(PlaylistSettings::kLastSaveExtension, parser()->default_extension()).toString();
   s.endGroup();
 
+  // The saved filter can be from before each extension had its own filter, then use the filter for the last extension.
+  const QString filters = parser()->filters(PlaylistParser::Type::Save);
+  if (!filters.split(u";;"_s).contains(last_save_filter)) {
+    last_save_filter = parser()->save_filter(last_save_extension);
+    if (last_save_filter.isEmpty()) last_save_filter = parser()->default_filter();
+  }
+
   QString suggested_filename = playlist_name;
   QString filename = last_save_path + QLatin1Char('/') + suggested_filename.remove(u'/').remove(QRegularExpression(QLatin1String(kProblematicCharactersRegex), QRegularExpression::CaseInsensitiveOption)) + QLatin1Char('.') + last_save_extension;
 
   QFileInfo fileinfo;
   Q_FOREVER {
-    filename = QFileDialog::getSaveFileName(nullptr, tr("Save playlist", "Title of the playlist save dialog."), filename, parser()->filters(PlaylistParser::Type::Save), &last_save_filter);
+    filename = GetSaveFileName(filename, filters, &last_save_filter);
     if (filename.isEmpty()) return;
     fileinfo.setFile(filename);
+
+    // A playlist extension that was entered is kept, without one, add the extension of the selected filter.
+    const QString filter_extension = parser()->save_extension(last_save_filter);
+    if (!filter_extension.isEmpty() && !parser_->ParserForExtension(PlaylistParser::Type::Save, fileinfo.suffix())) {
+      filename += QLatin1Char('.') + filter_extension;
+      fileinfo.setFile(filename);
+      // The file dialog only asked about replacing the file it returned.
+      if (fileinfo.exists() && QMessageBox::question(nullptr, tr("Save playlist", "Title of the playlist save dialog."), tr("%1 already exists. Do you want to replace it?").arg(fileinfo.fileName()), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes) {
+        continue;
+      }
+    }
+
     ParserBase *parser = parser_->ParserForExtension(PlaylistParser::Type::Save, fileinfo.suffix());
-    if (parser) break;
+    if (parser) {
+      // Remember the filter of the extension that is saved, it differs from the selected filter when another playlist extension was entered.
+      const QString saved_filter = parser_->save_filter(fileinfo.suffix());
+      if (!saved_filter.isEmpty()) last_save_filter = saved_filter;
+      break;
+    }
     QMessageBox::warning(nullptr, tr("Unknown playlist extension"), tr("Unknown file extension for playlist."));
   }
 
@@ -289,6 +313,42 @@ void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
   s.endGroup();
 
   Save(id == -1 ? current_id() : id, playlist_name, filename, path_type);
+
+}
+
+QString PlaylistManager::GetSaveFileName(const QString &filename, const QString &filters, QString *selected_filter) const {
+
+  QFileDialog dialog(nullptr, tr("Save playlist", "Title of the playlist save dialog."));
+#ifdef Q_OS_MACOS
+  // The native macOS save dialog ignores the filters, so the playlist format couldn't be selected.
+  // The option has to be set before the other properties.
+  dialog.setOption(QFileDialog::DontUseNativeDialog);
+#endif
+  dialog.setAcceptMode(QFileDialog::AcceptSave);
+  dialog.setFileMode(QFileDialog::AnyFile);
+  dialog.setNameFilters(filters.split(u";;"_s));
+  dialog.selectNameFilter(*selected_filter);
+  const QFileInfo fileinfo(filename);
+  dialog.setDirectory(fileinfo.path());
+  dialog.selectFile(fileinfo.fileName());
+
+  // The extension decides the format, so change it to the extension of the filter when another filter is selected.
+  // Once the dialog is closed, it can't be told whether an extension was entered or kept, so this has to be done while the dialog is shown.
+  QObject::connect(&dialog, &QFileDialog::filterSelected, &dialog, [this, &dialog](const QString &filter) {
+    const QString extension = parser_->save_extension(filter);
+    const QString current_filename = dialog.selectedFiles().value(0);
+    if (extension.isEmpty() || current_filename.isEmpty()) return;
+    const QFileInfo current_fileinfo(current_filename);
+    if (current_fileinfo.suffix().compare(extension, Qt::CaseInsensitive) == 0) return;
+    const QString basename = parser_->ParserForExtension(PlaylistParser::Type::Save, current_fileinfo.suffix()) ? current_fileinfo.completeBaseName() : current_fileinfo.fileName();
+    dialog.selectFile(basename + QLatin1Char('.') + extension);
+  });
+
+  if (dialog.exec() != QDialog::Accepted) return QString();
+
+  *selected_filter = dialog.selectedNameFilter();
+
+  return dialog.selectedFiles().value(0);
 
 }
 

@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <algorithm>
+
 #include "gtest_include.h"
 #include "gmock_include.h"
 #include "test_utils.h"
@@ -367,6 +369,243 @@ TEST_F(M3UParserTest, Windows1251MetadataIsDecoded) {
   ASSERT_EQ(result.songs.size(), 1);
   EXPECT_EQ(result.songs[0].artist(), u"Гражданская Оборона"_s);
   EXPECT_EQ(result.songs[0].title(), u"Зачем снятся сны"_s);
+}
+
+// Saves a playlist with one local file to the given path, and returns the bytes written.
+QByteArray SaveSingleFile(const M3UParser &parser, const QString &playlist_path, const QString &song_path, const PlaylistSettings::PathType path_type = PlaylistSettings::PathType::Absolute) {
+
+  Song song(Song::Source::LocalFile);
+  song.set_url(QUrl::fromLocalFile(song_path));
+
+  QFile file(playlist_path);
+  if (!file.open(QIODevice::WriteOnly)) return QByteArray();
+  parser.Save(u"Test"_s, SongList() << song, &file, QFileInfo(playlist_path).dir(), path_type);
+  file.close();
+
+  if (!file.open(QIODevice::ReadOnly)) return QByteArray();
+  return file.readAll();
+
+}
+
+// An .m3u8 playlist is saved as UTF-8.
+TEST_F(M3UParserTest, SaveM3U8IsUtf8) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  const M3UParser parser = MakeParser();
+
+  const QString song_path = tmp.filePath(u"Björk - Ελληνικά.mp3"_s);
+  const QByteArray data = SaveSingleFile(parser, tmp.filePath(u"playlist.m3u8"_s), song_path);
+
+  EXPECT_TRUE(data.startsWith("#EXTM3U\n"));
+  EXPECT_TRUE(data.contains(song_path.toUtf8()));
+
+}
+
+// An .m3u playlist is saved as Latin-1.
+TEST_F(M3UParserTest, SaveM3UIsLatin1) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  const M3UParser parser = MakeParser();
+
+  const QString song_path = tmp.filePath(u"Björk.mp3"_s);
+  const QByteArray data = SaveSingleFile(parser, tmp.filePath(u"playlist.m3u"_s), song_path);
+
+  EXPECT_TRUE(data.startsWith("#EXTM3U\n"));
+  EXPECT_TRUE(data.contains(song_path.toLatin1()));
+  EXPECT_FALSE(data.contains(song_path.toUtf8()));
+
+}
+
+// An .m3u playlist saves a location that Latin-1 can't represent as a percent encoded URL, so it can still be found.
+TEST_F(M3UParserTest, SaveM3UNonLatin1PathIsPercentEncodedUrl) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  const M3UParser parser = MakeParser();
+
+  const QString song_path = tmp.filePath(u"Ελληνικά.mp3"_s);
+  const QByteArray data = SaveSingleFile(parser, tmp.filePath(u"playlist.m3u"_s), song_path);
+
+  const QByteArray encoded_url = QUrl::fromLocalFile(song_path).toEncoded();
+  const QByteArray encoded_url_line = encoded_url + '\n';
+  EXPECT_TRUE(data.contains(encoded_url_line));
+  EXPECT_TRUE(std::all_of(data.cbegin(), data.cend(), [](const char c) { return static_cast<unsigned char>(c) < 0x80; }));
+  EXPECT_EQ(QUrl::fromEncoded(encoded_url).toLocalFile(), song_path);
+
+}
+
+// An .m3u playlist keeps a relative location that Latin-1 can't represent relative, percent encoded like a relative URL.
+TEST_F(M3UParserTest, SaveM3UNonLatin1RelativePathStaysRelative) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  const M3UParser parser = MakeParser();
+
+  const QString song_path = tmp.filePath(u"Ελληνικά/track.mp3"_s);
+  const QByteArray data = SaveSingleFile(parser, tmp.filePath(u"playlist.m3u"_s), song_path, PlaylistSettings::PathType::Relative);
+
+  const QByteArray encoded_relative_line = QUrl::toPercentEncoding(u"Ελληνικά/track.mp3"_s, "/") + '\n';
+  EXPECT_TRUE(data.contains(encoded_relative_line));
+  EXPECT_FALSE(data.contains("file:"));
+
+}
+
+// A percent encoded relative location saved in an .m3u playlist is loaded as the file it points to.
+TEST_F(M3UParserTest, LoadM3UPercentEncodedRelativePath) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  TemporaryResource audio(u":/audio/strawberry.mp3"_s);
+  ASSERT_TRUE(audio.isOpen());
+
+  ASSERT_TRUE(QDir(tmp.path()).mkdir(u"Ελληνικά"_s));
+  const QString song_path = tmp.filePath(u"Ελληνικά/track.mp3"_s);
+  ASSERT_TRUE(QFile::copy(audio.fileName(), song_path));
+
+  M3UParser parser = MakeParser();
+  const QString playlist_path = tmp.filePath(u"playlist.m3u"_s);
+  SaveSingleFile(parser, playlist_path, song_path, PlaylistSettings::PathType::Relative);
+
+  const ParserBase::LoadResult result = Load(parser, playlist_path);
+  ASSERT_EQ(result.songs.size(), 1);
+  EXPECT_EQ(QFileInfo(result.songs[0].url().toLocalFile()).canonicalFilePath(), QFileInfo(song_path).canonicalFilePath());
+
+}
+
+// A file name containing a percent sign is loaded as it is, when the file exists with that name.
+TEST_F(M3UParserTest, LoadM3UPercentInFileNameIsNotDecoded) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  TemporaryResource audio(u":/audio/strawberry.mp3"_s);
+  ASSERT_TRUE(audio.isOpen());
+
+  // %41 would decode to "A".
+  const QString song_path = tmp.filePath(u"100%41.mp3"_s);
+  ASSERT_TRUE(QFile::copy(audio.fileName(), song_path));
+
+  const QString playlist_path = tmp.filePath(u"playlist.m3u"_s);
+  ASSERT_TRUE(WriteFile(playlist_path, u"100%41.mp3\n"_s));
+
+  M3UParser parser = MakeParser();
+  const ParserBase::LoadResult result = Load(parser, playlist_path);
+  ASSERT_EQ(result.songs.size(), 1);
+  EXPECT_EQ(QFileInfo(result.songs[0].url().toLocalFile()).canonicalFilePath(), QFileInfo(song_path).canonicalFilePath());
+
+}
+
+// An .m3u playlist percent encodes a location whose Latin-1 bytes are also valid UTF-8, since it would otherwise be read back as UTF-8.
+TEST_F(M3UParserTest, SaveM3UAmbiguousLatin1PathIsPercentEncoded) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  const M3UParser parser = MakeParser();
+
+  // "Ã©" in Latin-1 is C3 A9, which is "é" in UTF-8.
+  const QString song_path = tmp.filePath(u"Ã©.mp3"_s);
+  const QByteArray data = SaveSingleFile(parser, tmp.filePath(u"playlist.m3u"_s), song_path, PlaylistSettings::PathType::Relative);
+
+  const QByteArray encoded_relative_line = QUrl::toPercentEncoding(u"Ã©.mp3"_s, "/") + '\n';
+  EXPECT_TRUE(data.contains(encoded_relative_line));
+  EXPECT_FALSE(data.contains(u"Ã©.mp3"_s.toLatin1()));
+
+}
+
+// A location whose Latin-1 bytes are also valid UTF-8 is loaded as the file it was saved for.
+TEST_F(M3UParserTest, LoadM3UAmbiguousLatin1Path) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  TemporaryResource audio(u":/audio/strawberry.mp3"_s);
+  ASSERT_TRUE(audio.isOpen());
+
+  const QString song_path = tmp.filePath(u"Ã©.mp3"_s);
+  ASSERT_TRUE(QFile::copy(audio.fileName(), song_path));
+
+  M3UParser parser = MakeParser();
+  const QString playlist_path = tmp.filePath(u"playlist.m3u"_s);
+  SaveSingleFile(parser, playlist_path, song_path, PlaylistSettings::PathType::Relative);
+
+  const ParserBase::LoadResult result = Load(parser, playlist_path);
+  ASSERT_EQ(result.songs.size(), 1);
+  EXPECT_EQ(QFileInfo(result.songs[0].url().toLocalFile()).canonicalFilePath(), QFileInfo(song_path).canonicalFilePath());
+
+}
+
+// An .m3u playlist keeps a Latin-1 location that is not valid UTF-8 as Latin-1, for players that read it as Latin-1.
+TEST_F(M3UParserTest, SaveM3UUnambiguousLatin1PathIsNotEncoded) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  const M3UParser parser = MakeParser();
+
+  const QString song_path = tmp.filePath(u"Björk.mp3"_s);
+  const QByteArray data = SaveSingleFile(parser, tmp.filePath(u"playlist.m3u"_s), song_path, PlaylistSettings::PathType::Relative);
+
+  EXPECT_TRUE(data.contains(u"Björk.mp3\n"_s.toLatin1()));
+
+}
+
+// Saves a stream song, which always has its metadata written, to the given path, and returns the bytes written.
+QByteArray SaveStreamSong(const M3UParser &parser, const QString &playlist_path, const QString &artist, const QString &title) {
+
+  Song song(Song::Source::Subsonic);
+  song.set_url(QUrl(u"https://example.com/stream/1"_s));
+  song.set_artist(artist);
+  song.set_title(title);
+
+  QFile file(playlist_path);
+  if (!file.open(QIODevice::WriteOnly)) return QByteArray();
+  parser.Save(u"Test"_s, SongList() << song, &file, QFileInfo(playlist_path).dir(), PlaylistSettings::PathType::Absolute);
+  file.close();
+
+  if (!file.open(QIODevice::ReadOnly)) return QByteArray();
+  return file.readAll();
+
+}
+
+// An .m3u playlist skips metadata Latin-1 can't represent, since it would replace the song's metadata with an altered one when loading.
+TEST_F(M3UParserTest, SaveM3USkipsNonLatin1Metadata) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  const M3UParser parser = MakeParser();
+
+  EXPECT_FALSE(SaveStreamSong(parser, tmp.filePath(u"greek.m3u"_s), u"Ελληνικά"_s, u"Τραγούδι"_s).contains("#EXTINF"));
+  EXPECT_FALSE(SaveStreamSong(parser, tmp.filePath(u"ambiguous.m3u"_s), u"Ã©"_s, u"Title"_s).contains("#EXTINF"));
+
+  const QByteArray latin1_data = SaveStreamSong(parser, tmp.filePath(u"latin1.m3u"_s), u"Björk"_s, u"Jóga"_s);
+  EXPECT_TRUE(latin1_data.contains(u"#EXTINF:0,Björk - Jóga\n"_s.toLatin1()));
+
+  const QByteArray utf8_data = SaveStreamSong(parser, tmp.filePath(u"greek.m3u8"_s), u"Ελληνικά"_s, u"Τραγούδι"_s);
+  EXPECT_TRUE(utf8_data.contains(u"#EXTINF:0,Ελληνικά - Τραγούδι\n"_s.toUtf8()));
+
+}
+
+// When a file is named like the percent encoded relative location, the URL of the file is saved instead, so the right file is loaded.
+TEST_F(M3UParserTest, SaveM3UEncodedRelativePathCollision) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  TemporaryResource audio(u":/audio/strawberry.mp3"_s);
+  ASSERT_TRUE(audio.isOpen());
+
+  const QString song_path = tmp.filePath(u"猫.mp3"_s);
+  ASSERT_TRUE(QFile::copy(audio.fileName(), song_path));
+  const QString colliding_path = tmp.filePath(QString::fromLatin1(QUrl::toPercentEncoding(u"猫.mp3"_s, "/")));
+  ASSERT_TRUE(QFile::copy(audio.fileName(), colliding_path));
+
+  M3UParser parser = MakeParser();
+  const QString playlist_path = tmp.filePath(u"playlist.m3u"_s);
+  const QByteArray data = SaveSingleFile(parser, playlist_path, song_path, PlaylistSettings::PathType::Relative);
+  EXPECT_TRUE(data.contains(QUrl::fromLocalFile(song_path).toEncoded()));
+
+  const ParserBase::LoadResult result = Load(parser, playlist_path);
+  ASSERT_EQ(result.songs.size(), 1);
+  EXPECT_EQ(QFileInfo(result.songs[0].url().toLocalFile()).canonicalFilePath(), QFileInfo(song_path).canonicalFilePath());
+
 }
 
 }  // namespace
