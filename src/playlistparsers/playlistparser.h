@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -59,6 +60,10 @@ class PlaylistParser : public QObject {
 
   QString default_extension() const;
   QString default_filter() const;
+  // Returns the save filter for the file extension, or an empty string if no parser can save it.
+  QString save_filter(const QString &extension) const;
+  // Returns the file extension of the save filter, or an empty string if it's not a save filter.
+  QString save_extension(const QString &filter) const;
 
   ParserBase *ParserForMagic(const QByteArray &data, const QString &mime_type = QString()) const;
   ParserBase *ParserForExtension(const Type type, const QString &suffix) const;
@@ -75,6 +80,7 @@ class PlaylistParser : public QObject {
   void AddParser(ParserBase *parser);
   bool ParserIsSupported(const Type type, ParserBase *parser) const;
   static QString FilterForParser(const ParserBase *parser, QStringList *all_extensions = nullptr);
+  static QString FilterForExtension(const ParserBase *parser, const QString &extension);
 
  private:
   QList<ParserBase*> parsers_;

@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -75,6 +76,10 @@ class M3UParser : public ParserBase {
   };
 
   static bool ParseMetadata(const QString &line, Metadata *metadata);
+
+  // Returns the percent decoded location if the location was saved percent encoded, because the playlist's encoding can't represent it.
+  // A file name can contain a percent sign as well, so it's only decoded when the file is found that way, and not without decoding.
+  static QString DecodeLocation(const QString &location, const QDir &dir);
 
   // Returns true when a playlist entry is a local (non-URL) reference to another .m3u/.m3u8 file, which must be expanded rather than loaded as a track.
   // Remote or stream URLs (those carrying a URL scheme, such as an HLS http .m3u8) are left for LoadSong to turn into a stream, matching its own URL-scheme detection.
