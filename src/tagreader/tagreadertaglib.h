@@ -83,6 +83,8 @@ class TagReaderTagLib : public TagReaderBase {
 
   TagReaderResult SaveSongPlaycount(const QString &filename, const uint playcount) const override;
   TagReaderResult SaveSongRating(const QString &filename, const float rating) const override;
+  TagReaderResult SaveSongLyrics(const QString &filename, const QString &lyrics) const override;
+  TagReaderResult SaveSongSyncedLyrics(const QString &filename, const QString &synced_lyrics) const override;
 
  private:
   static Song::FileType GuessFileType(TagLib::FileRef *fileref);
@@ -101,6 +103,9 @@ class TagReaderTagLib : public TagReaderBase {
   void SetUnsyncLyricsFrame(const QString &value, TagLib::ID3v2::Tag *tag) const;
   bool SetSyncLyricsFrame(const QString &value, TagLib::ID3v2::Tag *tag) const;
 
+  static bool WriteLyricsToTags(const Song::StorageType storage_type);
+  static void SetLyricsFromTag(Song *song, const QString &lyrics);
+  static void SetSyncedLyricsFromTag(Song *song, const QString &synced_lyrics);
   static bool IsSupportedSyncLyricsFrame(const TagLib::ID3v2::SynchronizedLyricsFrame *frame);
   static QString SynchedTextToLRC(const TagLib::ID3v2::SynchronizedLyricsFrame::SynchedTextList &synched_text);
   static std::optional<TagLib::ID3v2::SynchronizedLyricsFrame::SynchedTextList> LRCToSynchedText(const QString &lrc);
@@ -127,6 +132,14 @@ class TagReaderTagLib : public TagReaderBase {
   void SetRating(TagLib::ID3v2::Tag *tag, const float rating) const;
   void SetRating(TagLib::MP4::Tag *tag, const float rating) const;
   void SetRating(TagLib::ASF::Tag *tag, const float rating) const;
+
+  void SetLyrics(TagLib::Ogg::XiphComment *vorbis_comment, const QString &lyrics) const;
+  void SetLyrics(TagLib::APE::Tag *tag, const QString &lyrics) const;
+  void SetLyrics(TagLib::MP4::Tag *tag, const QString &lyrics) const;
+  void SetLyrics(TagLib::ASF::Tag *tag, const QString &lyrics) const;
+  void SetSyncedLyrics(TagLib::Ogg::XiphComment *vorbis_comment, const QString &synced_lyrics) const;
+  void SetSyncedLyrics(TagLib::APE::Tag *tag, const QString &synced_lyrics) const;
+  TagReaderResult SaveLyricsToFile(const QString &filename, const QString &lyrics, const bool synced) const;
 
   void SetEmbeddedCover(TagLib::FLAC::File *flac_file, TagLib::Ogg::XiphComment *vorbis_comment, const QByteArray &data, const QString &mimetype) const;
   void SetEmbeddedCover(TagLib::Ogg::XiphComment *vorbis_comment, const QByteArray &data, const QString &mimetype) const;

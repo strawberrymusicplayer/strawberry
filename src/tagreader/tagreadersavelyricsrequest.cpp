@@ -17,30 +17,8 @@
  *
  */
 
-#ifndef LRCUTILS_H
-#define LRCUTILS_H
-
-#include <optional>
-
-#include <QtGlobal>
-#include <QList>
 #include <QString>
 
-namespace Utilities {
+#include "tagreadersavelyricsrequest.h"
 
-struct LRCLine {
-  uint time;  // Absolute time in milliseconds.
-  QString text;
-};
-using LRCLines = QList<LRCLine>;
-
-// Parses LRC into lines sorted by time, with lines that have multiple timestamps expanded and the offset tag applied.
-// Returns an empty list for empty input, and std::nullopt if the LRC is invalid.
-std::optional<LRCLines> ParseLRC(const QString &lrc);
-
-// Returns the filename of the LRC file next to the media file, the existing one if there is one, otherwise the one to create.
-QString LRCFilename(const QString &media_filename);
-
-}  // namespace Utilities
-
-#endif  // LRCUTILS_H
+TagReaderSaveLyricsRequest::TagReaderSaveLyricsRequest(const QString &_filename) : TagReaderRequest(_filename), synced(false) {}

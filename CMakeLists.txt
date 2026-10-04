@@ -536,6 +536,7 @@ set(SOURCES
   src/tagreader/tagreadersavecoverrequest.cpp
   src/tagreader/tagreadersaveplaycountrequest.cpp
   src/tagreader/tagreadersaveratingrequest.cpp
+  src/tagreader/tagreadersavelyricsrequest.cpp
   src/tagreader/albumcovertagdata.cpp
   src/tagreader/savetagcoverdata.cpp
   src/tagreader/tagreaderreply.cpp

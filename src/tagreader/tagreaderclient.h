@@ -89,6 +89,12 @@ class TagReaderClient : public QObject {
   [[nodiscard]] TagReaderReplyPtr SaveSongRatingAsync(const QString &filename, const float rating);
   TagReaderResult SaveSongRatingBlocking(const QString &filename, const float rating);
 
+  [[nodiscard]] TagReaderReplyPtr SaveSongLyricsAsync(const QString &filename, const QString &lyrics);
+  TagReaderResult SaveSongLyricsBlocking(const QString &filename, const QString &lyrics);
+
+  [[nodiscard]] TagReaderReplyPtr SaveSongSyncedLyricsAsync(const QString &filename, const QString &synced_lyrics);
+  TagReaderResult SaveSongSyncedLyricsBlocking(const QString &filename, const QString &synced_lyrics);
+
  private:
   bool HaveRequests() const;
   void EnqueueRequest(TagReaderRequestPtr request);

@@ -68,6 +68,7 @@ CREATE TABLE device_%deviceid_songs (
 
   art_embedded INTEGER DEFAULT 0,
   art_automatic TEXT,
+  art_automatic_mtime INTEGER NOT NULL DEFAULT 0,
   art_manual TEXT,
   art_unset INTEGER DEFAULT 0,
 
@@ -97,7 +98,11 @@ CREATE TABLE device_%deviceid_songs (
 
   bpm REAL,
   mood TEXT,
-  initial_key TEXT
+  initial_key TEXT,
+
+  lyrics_storage_type INTEGER NOT NULL DEFAULT 0,
+  synced_lyrics_storage_type INTEGER NOT NULL DEFAULT 0,
+  lrc_mtime INTEGER NOT NULL DEFAULT 0
 
 );
 

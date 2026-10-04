@@ -45,6 +45,7 @@
 #include "tagreadersavecoverrequest.h"
 #include "tagreadersaveplaycountrequest.h"
 #include "tagreadersaveratingrequest.h"
+#include "tagreadersavelyricsrequest.h"
 #include "tagreaderreply.h"
 #include "tagreaderreadfilereply.h"
 #include "tagreaderreadstreamreply.h"
@@ -225,6 +226,14 @@ void TagReaderClient::ProcessRequest(TagReaderRequestPtr request) {
   }
   else if (TagReaderSaveRatingRequestPtr save_rating_request = dynamic_pointer_cast<TagReaderSaveRatingRequest>(request)) {
     result = SaveSongRatingBlocking(save_rating_request->filename, save_rating_request->rating);
+  }
+  else if (TagReaderSaveLyricsRequestPtr save_lyrics_request = dynamic_pointer_cast<TagReaderSaveLyricsRequest>(request)) {
+    if (save_lyrics_request->synced) {
+      result = SaveSongSyncedLyricsBlocking(save_lyrics_request->filename, save_lyrics_request->lyrics);
+    }
+    else {
+      result = SaveSongLyricsBlocking(save_lyrics_request->filename, save_lyrics_request->lyrics);
+    }
   }
   else {
     result = TagReaderResult::ErrorCode::Unsupported;
@@ -487,5 +496,53 @@ void TagReaderClient::SaveSongsRatingAsync(const SongList &songs) {
       QObject::disconnect(*connection);
     }, Qt::QueuedConnection);
   }
+
+}
+
+TagReaderResult TagReaderClient::SaveSongLyricsBlocking(const QString &filename, const QString &lyrics) {
+
+  return tagreader_.SaveSongLyrics(filename, lyrics);
+
+}
+
+TagReaderReplyPtr TagReaderClient::SaveSongLyricsAsync(const QString &filename, const QString &lyrics) {
+
+  Q_ASSERT(QThread::currentThread() != thread());
+
+  TagReaderReplyPtr reply = TagReaderReply::Create<TagReaderReply>(filename);
+
+  TagReaderSaveLyricsRequestPtr request = TagReaderSaveLyricsRequest::Create(filename);
+  request->reply = reply;
+  request->filename = filename;
+  request->lyrics = lyrics;
+  request->synced = false;
+
+  EnqueueRequest(request);
+
+  return reply;
+
+}
+
+TagReaderResult TagReaderClient::SaveSongSyncedLyricsBlocking(const QString &filename, const QString &synced_lyrics) {
+
+  return tagreader_.SaveSongSyncedLyrics(filename, synced_lyrics);
+
+}
+
+TagReaderReplyPtr TagReaderClient::SaveSongSyncedLyricsAsync(const QString &filename, const QString &synced_lyrics) {
+
+  Q_ASSERT(QThread::currentThread() != thread());
+
+  TagReaderReplyPtr reply = TagReaderReply::Create<TagReaderReply>(filename);
+
+  TagReaderSaveLyricsRequestPtr request = TagReaderSaveLyricsRequest::Create(filename);
+  request->reply = reply;
+  request->filename = filename;
+  request->lyrics = synced_lyrics;
+  request->synced = true;
+
+  EnqueueRequest(request);
+
+  return reply;
 
 }

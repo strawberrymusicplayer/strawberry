@@ -27,6 +27,9 @@
 #include <QStringList>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
+#include <QFileInfo>
+#include <QDir>
+#include <QDirIterator>
 
 #include "lrcutils.h"
 
@@ -126,6 +129,23 @@ std::optional<LRCLines> ParseLRC(const QString &lrc) {
   }
 
   return lrc_lines;
+
+}
+
+QString LRCFilename(const QString &media_filename) {
+
+  // The collection watcher matches the extension case insensitively, so look for an existing file with the extension in any case, otherwise a second file could be created next to it.
+  const QFileInfo fileinfo(media_filename);
+  const QString complete_base_name = fileinfo.completeBaseName();
+  QDirIterator it(fileinfo.path(), QDir::Files | QDir::Hidden);
+  while (it.hasNext()) {
+    const QFileInfo lrc_fileinfo(it.next());
+    if (lrc_fileinfo.completeBaseName() == complete_base_name && lrc_fileinfo.suffix().compare("lrc"_L1, Qt::CaseInsensitive) == 0) {
+      return lrc_fileinfo.filePath();
+    }
+  }
+
+  return fileinfo.path() + u'/' + complete_base_name + u".lrc"_s;
 
 }
 

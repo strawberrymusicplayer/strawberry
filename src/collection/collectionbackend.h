@@ -234,6 +234,12 @@ class CollectionBackend : public CollectionBackendInterface {
   void UpdateSongRatingAsync(const int id, const float rating, const bool save_tags = false);
   void UpdateSongsRatingAsync(const QList<int> &ids, const float rating, const bool save_tags = false);
 
+  // Sets the lyrics, or the synchronized lyrics when synced_lyrics is true, and where they are stored, empty lyrics clear them.
+  // With only_if_empty, the lyrics are only set if the song has none and they were not cleared, so lyrics found automatically do not replace lyrics added or cleared in the meantime.
+  void UpdateSongLyricsAsync(const int id, const bool synced_lyrics, const QString &lyrics, const Song::StorageType storage_type, const bool only_if_empty, const bool save_tags = false);
+  // Sets where the lyrics, or the synchronized lyrics when synced_lyrics is true, are stored, only if they are still the expected lyrics stored as expected.
+  void UpdateSongLyricsStorageTypeAsync(const int id, const bool synced_lyrics, const QString &expected_lyrics, const Song::StorageType expected_storage_type, const Song::StorageType storage_type);
+
   void DeleteSongsAsync(const SongList &songs);
   void DeleteSongsByUrlsAsync(const QList<QUrl> &url);
 
@@ -274,6 +280,8 @@ class CollectionBackend : public CollectionBackendInterface {
 
   void UpdateSongRating(const int id, const float rating, const bool save_tags = false);
   void UpdateSongsRating(const QList<int> &id_list, const float rating, const bool save_tags = false);
+  void UpdateSongLyrics(const int id, const bool synced_lyrics, const QString &lyrics, const int storage_type, const bool only_if_empty, const bool save_tags);
+  void UpdateSongLyricsStorageType(const int id, const bool synced_lyrics, const QString &expected_lyrics, const int expected_storage_type, const int storage_type);
 
   void UpdateLastSeen(const int directory_id, const int expire_unavailable_songs_days);
   void ExpireSongs(const int directory_id, const int expire_unavailable_songs_days);
@@ -294,6 +302,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void TotalArtistCountUpdated(const int count);
   void TotalAlbumCountUpdated(const int count);
   void SongsRatingChanged(const SongList &songs, const bool save_tags);
+  void SongsLyricsChanged(const SongList &songs, const bool save_lyrics_tags, const bool save_synced_lyrics_tags);
 
   void ExitFinished();
 

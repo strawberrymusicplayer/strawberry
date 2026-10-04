@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,6 +48,7 @@ class QMenu;
 class QLabel;
 class QAbstractButton;
 class QPushButton;
+class QComboBox;
 class QEvent;
 class QShowEvent;
 class QHideEvent;
@@ -106,7 +107,7 @@ class EditTagDialog : public QDialog {
     New
   };
   struct Data {
-    explicit Data(const Song &song = Song()) : original_(song), current_(song), cover_action_(UpdateCoverAction::None) {}
+    explicit Data(const Song &song = Song()) : original_(song), current_(song), cover_action_(UpdateCoverAction::None), stored_lyrics_storage_type_(song.lyrics_storage_type()), stored_synced_lyrics_storage_type_(song.synced_lyrics_storage_type()) {}
 
     static QVariant value(const Song &song, const QString &id);
     QVariant original_value(const QString &id) const { return value(original_, id); }
@@ -118,6 +119,9 @@ class EditTagDialog : public QDialog {
     Song current_;
     UpdateCoverAction cover_action_;
     AlbumCoverImageResult cover_result_;
+    // Where the lyrics were stored before a storage type was preselected for the editor, None if they were not stored anywhere.
+    Song::StorageType stored_lyrics_storage_type_;
+    Song::StorageType stored_synced_lyrics_storage_type_;
   };
 
  private Q_SLOTS:
@@ -134,6 +138,8 @@ class EditTagDialog : public QDialog {
   void FetchTagSongChosen(const Song &original_song, const Song &new_metadata);
   void FetchLyrics();
   void UpdateLyrics(const quint64 id, const LyricsSearchResult &result);
+  void LyricsStorageChanged(const int index);
+  void SyncedLyricsStorageChanged(const int index);
 
   void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &cover_result);
 
@@ -149,7 +155,7 @@ class EditTagDialog : public QDialog {
   void PreviousSong();
   void NextSong();
 
-  void SongSaveTagsComplete(TagReaderReplyPtr reply, const QString &filename, Song song, const EditTagDialog::UpdateCoverAction cover_action);
+  void SongSaveTagsComplete(TagReaderReplyPtr reply, const QString &filename, Song song, const EditTagDialog::UpdateCoverAction cover_action, const Song &song_lyrics_not_in_tags);
 
  private:
   struct FieldData {
@@ -186,6 +192,12 @@ class EditTagDialog : public QDialog {
   // Called by QtConcurrentRun
   QList<Data> LoadData(const SongList &songs) const;
   void SaveData();
+
+  static bool StorageTypeAvailable(const Song &song, const Song::StorageType storage_type, const bool synced);
+  static void SetAvailableStorageTypes(Song *song, const bool save_lyrics_to_tags);
+  void UpdateStorageComboBox(QComboBox *combobox, const Data &tag_data, const bool synced);
+  void StorageComboBoxChanged(QComboBox *combobox, const int index, const bool synced);
+  static bool SaveSyncedLyricsToLrcFile(Song *song);
 
   static void SetText(QLabel *label, const int value, const QString &suffix, const QString &def = QString());
   static void SetDate(QLabel *label, const qint64 time);
@@ -237,6 +249,9 @@ class EditTagDialog : public QDialog {
   AlbumCoverLoaderOptions::Types cover_types_;
 
   qint64 lyrics_id_;
+
+  // Default for new lyrics from the collection settings, read before loading the songs.
+  bool save_lyrics_to_tags_;
 };
 
 #endif  // EDITTAGDIALOG_H

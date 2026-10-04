@@ -201,18 +201,21 @@ class CollectionWatcher : public QObject {
   inline static QString DirectoryPart(const QString &fileName);
   QString PickBestArt(const QStringList &art_automatic_list);
   QUrl ArtForSong(const QString &path, QMap<QString, QStringList> &art_automatic_list);
+  static qint64 ArtAutomaticMtime(const QUrl &art_automatic);
   void AddWatch(const CollectionDirectory &dir, const QString &path);
   void RemoveWatch(const CollectionDirectory &dir, const CollectionSubdirectory &subdir);
-  static quint64 GetMtimeForCue(const QString &cue_path);
+  static quint64 GetMtimeForPath(const QString &path);
+  static QString ReadSyncedLyricsFromLrc(const QString &lrc_file);
+  static void SetLyricsFromStorage(Song *song, const Song &matching_song, const QString &lrc_file);
   void PerformScan(const bool incremental, const bool ignore_mtimes);
 
   // Updates the sections of a cue associated and altered (according to mtime) media file during a scan.
   void UpdateCueAssociatedSongs(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, const QUrl &art_automatic, const SongList &old_cue_songs, ScanTransaction *t) const;
   // Updates a single non-cue associated and altered (according to mtime) song during a scan.
-  bool UpdateNonCueAssociatedSong(const QString &file, const QString &fingerprint, const SongList &matching_songs, const QUrl &art_automatic, const bool cue_deleted, ScanTransaction *t);
+  bool UpdateNonCueAssociatedSong(const QString &file, const QString &fingerprint, const SongList &matching_songs, const QUrl &art_automatic, const QString &lrc_file, const bool cue_deleted, ScanTransaction *t);
   // Scans a single media file that's present on the disk but not yet in the collection.
   // It may result in a multiple files added to the collection when the media file has many sections (like a CUE related media file).
-  SongList ScanNewFile(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, QSet<QString> *cues_processed) const;
+  SongList ScanNewFile(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, const QString &lrc_file, QSet<QString> *cues_processed) const;
 
   static void AddChangedSong(const QString &file, const Song &matching_song, const Song &new_song, ScanTransaction *t);
 

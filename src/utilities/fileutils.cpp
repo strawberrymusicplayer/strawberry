@@ -1,7 +1,7 @@
 /*
  * Strawberry Music Player
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,8 @@
 #include <QIODevice>
 #include <QDir>
 #include <QFile>
+#include <QFileInfo>
+#include <QDateTime>
 
 #include "core/logging.h"
 #include "includes/scoped_ptr.h"
@@ -217,6 +219,17 @@ bool CopyFileContents(const QString &source, const QString &destination) {
   }
 
   return true;
+
+}
+
+qint64 FileMtimeMsec(const QString &filename) {
+
+  if (filename.isEmpty()) return 0;
+
+  const QFileInfo fileinfo(filename);
+  if (!fileinfo.exists() || !fileinfo.lastModified().isValid()) return 0;
+
+  return fileinfo.lastModified().toMSecsSinceEpoch();
 
 }
 

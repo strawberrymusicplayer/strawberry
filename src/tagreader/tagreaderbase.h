@@ -53,6 +53,8 @@ class TagReaderBase {
 
   virtual TagReaderResult SaveSongPlaycount(const QString &filename, const uint playcount) const = 0;
   virtual TagReaderResult SaveSongRating(const QString &filename, const float rating) const = 0;
+  virtual TagReaderResult SaveSongLyrics(const QString &filename, const QString &lyrics) const = 0;
+  virtual TagReaderResult SaveSongSyncedLyrics(const QString &filename, const QString &synced_lyrics) const = 0;
 
  protected:
   static float ConvertPOPMRating(const int POPM_rating);
