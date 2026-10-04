@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS schema_version (
 
 DELETE FROM schema_version;
 
-INSERT INTO schema_version (version) VALUES (25);
+INSERT INTO schema_version (version) VALUES (26);
 
 CREATE TABLE IF NOT EXISTS directories (
   path TEXT NOT NULL,
@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS songs (
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
+  synced_lyrics TEXT,
 
   artist_id TEXT,
   album_id TEXT,
@@ -131,6 +132,7 @@ CREATE TABLE IF NOT EXISTS subsonic_songs (
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
+  synced_lyrics TEXT,
 
   artist_id TEXT,
   album_id TEXT,
@@ -222,6 +224,7 @@ CREATE TABLE IF NOT EXISTS plex_songs (
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
+  synced_lyrics TEXT,
 
   artist_id TEXT,
   album_id TEXT,
@@ -313,6 +316,7 @@ CREATE TABLE IF NOT EXISTS tidal_artists_songs (
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
+  synced_lyrics TEXT,
 
   artist_id TEXT,
   album_id TEXT,
@@ -404,6 +408,7 @@ CREATE TABLE IF NOT EXISTS tidal_albums_songs (
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
+  synced_lyrics TEXT,
 
   artist_id TEXT,
   album_id TEXT,
@@ -495,6 +500,7 @@ CREATE TABLE IF NOT EXISTS tidal_songs (
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
+  synced_lyrics TEXT,
 
   artist_id TEXT,
   album_id TEXT,
@@ -586,6 +592,7 @@ CREATE TABLE IF NOT EXISTS spotify_artists_songs (
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
+  synced_lyrics TEXT,
 
   artist_id TEXT,
   album_id TEXT,
@@ -677,6 +684,7 @@ CREATE TABLE IF NOT EXISTS spotify_albums_songs (
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
+  synced_lyrics TEXT,
 
   artist_id TEXT,
   album_id TEXT,
@@ -768,6 +776,7 @@ CREATE TABLE IF NOT EXISTS spotify_songs (
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
+  synced_lyrics TEXT,
 
   artist_id TEXT,
   album_id TEXT,
@@ -859,6 +868,7 @@ CREATE TABLE IF NOT EXISTS qobuz_artists_songs (
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
+  synced_lyrics TEXT,
 
   artist_id TEXT,
   album_id TEXT,
@@ -950,6 +960,7 @@ CREATE TABLE IF NOT EXISTS qobuz_albums_songs (
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
+  synced_lyrics TEXT,
 
   artist_id TEXT,
   album_id TEXT,
@@ -1041,6 +1052,7 @@ CREATE TABLE IF NOT EXISTS qobuz_songs (
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
+  synced_lyrics TEXT,
 
   artist_id TEXT,
   album_id TEXT,
@@ -1132,6 +1144,7 @@ CREATE TABLE IF NOT EXISTS jellyfin_artists_songs (
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
+  synced_lyrics TEXT,
 
   artist_id TEXT,
   album_id TEXT,
@@ -1223,6 +1236,7 @@ CREATE TABLE IF NOT EXISTS jellyfin_albums_songs (
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
+  synced_lyrics TEXT,
 
   artist_id TEXT,
   album_id TEXT,
@@ -1314,6 +1328,7 @@ CREATE TABLE IF NOT EXISTS jellyfin_songs (
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
+  synced_lyrics TEXT,
 
   artist_id TEXT,
   album_id TEXT,
@@ -1426,6 +1441,7 @@ CREATE TABLE IF NOT EXISTS playlist_items (
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
+  synced_lyrics TEXT,
 
   artist_id TEXT,
   album_id TEXT,

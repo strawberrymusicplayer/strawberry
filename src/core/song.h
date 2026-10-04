@@ -174,6 +174,7 @@ class Song {
   const QString &grouping() const;
   const QString &comment() const;
   const QString &lyrics() const;
+  const QString &synced_lyrics() const;
 
   QString artist_id() const;
   QString album_id() const;
@@ -250,6 +251,7 @@ class Song {
   QString *mutable_grouping();
   QString *mutable_comment();
   QString *mutable_lyrics();
+  QString *mutable_synced_lyrics();
   QString *mutable_acoustid_id();
   QString *mutable_acoustid_fingerprint();
   QString *mutable_musicbrainz_album_artist_id();
@@ -295,6 +297,7 @@ class Song {
   void set_grouping(const QString &v);
   void set_comment(const QString &v);
   void set_lyrics(const QString &v);
+  void set_synced_lyrics(const QString &v);
 
   void set_artist_id(const QString &v);
   void set_album_id(const QString &v);
@@ -382,6 +385,7 @@ class Song {
   void set_grouping(const TagLib::String &v);
   void set_comment(const TagLib::String &v);
   void set_lyrics(const TagLib::String &v);
+  void set_synced_lyrics(const TagLib::String &v);
   void set_artist_id(const TagLib::String &v);
   void set_album_id(const TagLib::String &v);
   void set_song_id(const TagLib::String &v);
@@ -444,6 +448,7 @@ class Song {
   bool rating_supported() const;
   bool comment_supported() const;
   bool lyrics_supported() const;
+  bool synced_lyrics_supported() const;
 
   bool albumartistsort_supported() const;
   bool albumsort_supported() const;

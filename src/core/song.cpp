@@ -88,6 +88,7 @@ const QStringList Song::kColumns = QStringList() << u"title"_s
                                                  << u"grouping"_s
                                                  << u"comment"_s
                                                  << u"lyrics"_s
+                                                 << u"synced_lyrics"_s
 
                                                  << u"artist_id"_s
                                                  << u"album_id"_s
@@ -293,6 +294,7 @@ struct Song::Private : public QSharedData {
   QString grouping_;
   QString comment_;
   QString lyrics_;
+  QString synced_lyrics_;
 
   QString artist_id_;
   QString album_id_;
@@ -455,6 +457,7 @@ const QString &Song::performersort() const { return d->performersort_; }
 const QString &Song::grouping() const { return d->grouping_; }
 const QString &Song::comment() const { return d->comment_; }
 const QString &Song::lyrics() const { return d->lyrics_; }
+const QString &Song::synced_lyrics() const { return d->synced_lyrics_; }
 
 QString Song::artist_id() const { return d->artist_id_.isNull() ? ""_L1 : d->artist_id_; }
 QString Song::album_id() const { return d->album_id_.isNull() ? ""_L1 : d->album_id_; }
@@ -531,6 +534,7 @@ QString *Song::mutable_performer() { return &d->performer_; }
 QString *Song::mutable_grouping() { return &d->grouping_; }
 QString *Song::mutable_comment() { return &d->comment_; }
 QString *Song::mutable_lyrics() { return &d->lyrics_; }
+QString *Song::mutable_synced_lyrics() { return &d->synced_lyrics_; }
 QString *Song::mutable_acoustid_id() { return &d->acoustid_id_; }
 QString *Song::mutable_acoustid_fingerprint() { return &d->acoustid_fingerprint_; }
 QString *Song::mutable_musicbrainz_album_artist_id() { return &d->musicbrainz_album_artist_id_; }
@@ -575,6 +579,7 @@ void Song::set_performersort(const QString &v) { d->performersort_ = v; }
 void Song::set_grouping(const QString &v) { d->grouping_ = v; }
 void Song::set_comment(const QString &v) { d->comment_ = v; }
 void Song::set_lyrics(const QString &v) { d->lyrics_ = v; }
+void Song::set_synced_lyrics(const QString &v) { d->synced_lyrics_ = v; }
 
 void Song::set_artist_id(const QString &v) { d->artist_id_ = v; }
 void Song::set_album_id(const QString &v) { d->album_id_ = v; }
@@ -662,6 +667,7 @@ void Song::set_performersort(const TagLib::String &v) { d->performersort_ = TagL
 void Song::set_grouping(const TagLib::String &v) { d->grouping_ = TagLibStringToQString(v); }
 void Song::set_comment(const TagLib::String &v) { d->comment_ = TagLibStringToQString(v); }
 void Song::set_lyrics(const TagLib::String &v) { d->lyrics_ = TagLibStringToQString(v); }
+void Song::set_synced_lyrics(const TagLib::String &v) { d->synced_lyrics_ = TagLibStringToQString(v); }
 void Song::set_artist_id(const TagLib::String &v) { d->artist_id_ = TagLibStringToQString(v); }
 void Song::set_album_id(const TagLib::String &v) { d->album_id_ = TagLibStringToQString(v); }
 void Song::set_song_id(const TagLib::String &v) { d->song_id_ = TagLibStringToQString(v); }
@@ -814,6 +820,20 @@ bool Song::comment_supported() const {
 
 bool Song::lyrics_supported() const {
   return additional_tags_supported() || d->filetype_ == FileType::ASF;
+}
+
+bool Song::synced_lyrics_supported() const {
+  return d->filetype_ == FileType::FLAC ||
+         d->filetype_ == FileType::OggFlac ||
+         d->filetype_ == FileType::OggVorbis ||
+         d->filetype_ == FileType::OggOpus ||
+         d->filetype_ == FileType::OggSpeex ||
+         d->filetype_ == FileType::MPEG ||
+         d->filetype_ == FileType::MPC ||
+         d->filetype_ == FileType::APE ||
+         d->filetype_ == FileType::WavPack ||
+         d->filetype_ == FileType::WAV ||
+         d->filetype_ == FileType::AIFF;
 }
 
 bool Song::albumartistsort_supported() const {
@@ -1008,6 +1028,7 @@ bool Song::IsMetadataEqual(const Song &other) const {
          d->grouping_ == other.d->grouping_ &&
          d->comment_ == other.d->comment_ &&
          d->lyrics_ == other.d->lyrics_ &&
+         d->synced_lyrics_ == other.d->synced_lyrics_ &&
          d->artist_id_ == other.d->artist_id_ &&
          d->album_id_ == other.d->album_id_ &&
          d->song_id_ == other.d->song_id_ &&
@@ -1594,6 +1615,7 @@ void Song::InitFromQuery(const QSqlRecord &r, const bool reliable_metadata, cons
   d->grouping_ = SqlHelper::ValueToString(r, ColumnIndex(u"grouping"_s) + col);
   d->comment_ = SqlHelper::ValueToString(r, ColumnIndex(u"comment"_s) + col);
   d->lyrics_ = SqlHelper::ValueToString(r, ColumnIndex(u"lyrics"_s) + col);
+  d->synced_lyrics_ = SqlHelper::ValueToString(r, ColumnIndex(u"synced_lyrics"_s) + col);
   d->artist_id_ = SqlHelper::ValueToString(r, ColumnIndex(u"artist_id"_s) + col);
   d->album_id_ = SqlHelper::ValueToString(r, ColumnIndex(u"album_id"_s) + col);
   d->song_id_ = SqlHelper::ValueToString(r, ColumnIndex(u"song_id"_s) + col);
@@ -1934,6 +1956,7 @@ void Song::BindToQuery(SqlQuery *query) const {
   query->BindStringValue(u":grouping"_s, d->grouping_);
   query->BindStringValue(u":comment"_s, d->comment_);
   query->BindStringValue(u":lyrics"_s, d->lyrics_);
+  query->BindStringValue(u":synced_lyrics"_s, d->synced_lyrics_);
 
   query->BindStringValue(u":artist_id"_s, d->artist_id_);
   query->BindStringValue(u":album_id"_s, d->album_id_);

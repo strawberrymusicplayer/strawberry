@@ -505,6 +505,7 @@ set(SOURCES
   src/utilities/randutils.cpp
   src/utilities/threadutils.cpp
   src/utilities/timeutils.cpp
+  src/utilities/lrcutils.cpp
   src/utilities/transliterate.cpp
   src/utilities/xmlutils.cpp
   src/utilities/filemanagerutils.cpp

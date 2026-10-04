@@ -33,6 +33,7 @@
 #include "utilities/envutils.h"
 #include "utilities/strutils.h"
 #include "utilities/timeutils.h"
+#include "utilities/lrcutils.h"
 #include "utilities/randutils.h"
 #include "utilities/cryptutils.h"
 #include "utilities/colorutils.h"
@@ -350,5 +351,54 @@ TEST(UtilitiesTest, TextFromData) {
   const QByteArray utf16be_data = utf16be_encoder.encode(utf16_text);
   EXPECT_EQ(Utilities::TextFromData(utf16le_data), utf16_text);
   EXPECT_EQ(Utilities::TextFromData(utf16be_data), utf16_text);
+
+}
+
+TEST(UtilitiesTest, ParseLRC) {
+
+  { // Empty input clears the lyrics
+    const std::optional<Utilities::LRCLines> lrc_lines = Utilities::ParseLRC(QString());
+    ASSERT_TRUE(lrc_lines.has_value());
+    ASSERT_TRUE(lrc_lines->isEmpty());
+  }
+
+  { // Metadata and blank lines are skipped, multiple timestamps are expanded and sorted, fraction widths
+    const std::optional<Utilities::LRCLines> lrc_lines = Utilities::ParseLRC(u"[ar:strawberry artist]\r\n[00:01.00]Line one\r\n\n[00:02.50][00:10.25]Chorus\n[00:03.123]Precise\n[00:04.5]Tenths\n[00:05]No fraction"_s);
+    ASSERT_TRUE(lrc_lines.has_value());
+    ASSERT_EQ(lrc_lines->count(), 6);
+    ASSERT_EQ(lrc_lines->at(0).time, 1000U);
+    ASSERT_EQ(lrc_lines->at(0).text, u"Line one"_s);
+    ASSERT_EQ(lrc_lines->at(1).time, 2500U);
+    ASSERT_EQ(lrc_lines->at(1).text, u"Chorus"_s);
+    ASSERT_EQ(lrc_lines->at(2).time, 3123U);
+    ASSERT_EQ(lrc_lines->at(3).time, 4500U);
+    ASSERT_EQ(lrc_lines->at(4).time, 5000U);
+    ASSERT_EQ(lrc_lines->at(5).time, 10250U);
+    ASSERT_EQ(lrc_lines->at(5).text, u"Chorus"_s);
+  }
+
+  { // Offset, lines shifted before the start are clamped to zero
+    const std::optional<Utilities::LRCLines> lrc_lines = Utilities::ParseLRC(u"[offset:+500]\n[00:01.00]Line one\n[00:00.20]Line zero"_s);
+    ASSERT_TRUE(lrc_lines.has_value());
+    ASSERT_EQ(lrc_lines->count(), 2);
+    ASSERT_EQ(lrc_lines->at(0).time, 0U);
+    ASSERT_EQ(lrc_lines->at(1).time, 500U);
+  }
+
+  { // Invalid
+    ASSERT_FALSE(Utilities::ParseLRC(u"[00:01.00]Line one\nLine without timestamp"_s).has_value());
+    ASSERT_FALSE(Utilities::ParseLRC(u"Just plain lyrics"_s).has_value());
+    ASSERT_FALSE(Utilities::ParseLRC(u"[ar:strawberry artist]"_s).has_value());
+    ASSERT_FALSE(Utilities::ParseLRC(u"[00:75.00]Invalid seconds"_s).has_value());
+    ASSERT_FALSE(Utilities::ParseLRC(u"[99999999:00.00]Too large"_s).has_value());
+    ASSERT_FALSE(Utilities::ParseLRC(u"[offset:abc]\n[00:01.00]Invalid offset"_s).has_value());
+  }
+
+  { // Expansion of lines with many timestamps is limited
+    QString lrc;
+    for (int i = 0; i < 1000; ++i) lrc += u"[00:00.00]"_s;
+    lrc += QString(2000, u'x');
+    ASSERT_FALSE(Utilities::ParseLRC(lrc).has_value());
+  }
 
 }

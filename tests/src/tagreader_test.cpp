@@ -76,13 +76,23 @@ class TagReaderTest : public ::testing::Test {
 
   }
 
-  void WriteSongToFile(const Song &song, const QString &filename) const {
+  TagReaderResult WriteSongToFile(const Song &song, const QString &filename) const {
 
     TagReaderReplyPtr reply = tagreader_client_->WriteFileAsync(filename, song, SaveTagsOption::Tags, SaveTagCoverData());
 
     QEventLoop loop;
     QObject::connect(&*reply, &TagReaderReply::Finished, &loop, &QEventLoop::quit);
     loop.exec();
+
+    return reply->result();
+
+  }
+
+  TagReaderResult WriteSyncedLyricsToFile(const QString &synced_lyrics, const QString &filename) const {
+
+    Song song;
+    song.set_synced_lyrics(synced_lyrics);
+    return WriteSongToFile(song, filename);
 
   }
 
@@ -2237,6 +2247,85 @@ TEST_F(TagReaderTest, TestMP4AudioFilePlaycount) {
   {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(4, song.playcount());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestMP3AudioFileSyncedLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.mp3"_s);
+
+  { // Multiple timestamps per line, fraction widths and sorting
+    EXPECT_TRUE(WriteSyncedLyricsToFile(u"[ar:strawberry artist]\n[00:01.00]Line one\n[00:02.50][00:10.25]Chorus\n\n[00:03.123]Precise\n[00:04.5]Tenths"_s, r.fileName()).success());
+    const Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(u"[00:01.00]Line one\n[00:02.50]Chorus\n[00:03.123]Precise\n[00:04.50]Tenths\n[00:10.25]Chorus"_s, song.synced_lyrics());
+  }
+
+  { // Offset is applied to the timestamps, lines shifted before the start are clamped to zero
+    EXPECT_TRUE(WriteSyncedLyricsToFile(u"[offset:+500]\n[00:01.00]Line one\n[00:00.20]Line zero"_s, r.fileName()).success());
+    const Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(u"[00:00.00]Line zero\n[00:00.50]Line one"_s, song.synced_lyrics());
+  }
+
+  { // Negative offset
+    EXPECT_TRUE(WriteSyncedLyricsToFile(u"[offset:-1500]\n[01:00.00]Line one"_s, r.fileName()).success());
+    const Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(u"[01:01.50]Line one"_s, song.synced_lyrics());
+  }
+
+  { // Invalid LRC fails the write and leaves the existing lyrics alone
+    EXPECT_FALSE(WriteSyncedLyricsToFile(u"[00:01.00]Line one\nLine without timestamp"_s, r.fileName()).success());
+    EXPECT_FALSE(WriteSyncedLyricsToFile(u"Just plain lyrics"_s, r.fileName()).success());
+    EXPECT_FALSE(WriteSyncedLyricsToFile(u"[ar:strawberry artist]"_s, r.fileName()).success());
+    EXPECT_FALSE(WriteSyncedLyricsToFile(u"[00:75.00]Invalid seconds"_s, r.fileName()).success());
+    EXPECT_FALSE(WriteSyncedLyricsToFile(u"[99999999:00.00]Too large"_s, r.fileName()).success());
+    EXPECT_FALSE(WriteSyncedLyricsToFile(u"[offset:abc]\n[00:01.00]Invalid offset"_s, r.fileName()).success());
+    const Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(u"[01:01.50]Line one"_s, song.synced_lyrics());
+  }
+
+  { // Clear
+    EXPECT_TRUE(WriteSyncedLyricsToFile(QString(), r.fileName()).success());
+    const Song song = ReadSongFromFile(r.fileName());
+    EXPECT_TRUE(song.synced_lyrics().isEmpty());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileSyncedLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+
+  { // Stored as is
+    const QString synced_lyrics = u"[ar:strawberry artist]\n[00:01.00]Line one\n[00:02.50][00:10.25]Chorus"_s;
+    EXPECT_TRUE(WriteSyncedLyricsToFile(synced_lyrics, r.fileName()).success());
+    const Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(synced_lyrics, song.synced_lyrics());
+  }
+
+  { // Clear
+    EXPECT_TRUE(WriteSyncedLyricsToFile(QString(), r.fileName()).success());
+    const Song song = ReadSongFromFile(r.fileName());
+    EXPECT_TRUE(song.synced_lyrics().isEmpty());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestWavPackAudioFileSyncedLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.wv"_s);
+
+  { // Stored as is
+    const QString synced_lyrics = u"[00:01.00]Line one\n[00:02.50]Line two"_s;
+    EXPECT_TRUE(WriteSyncedLyricsToFile(synced_lyrics, r.fileName()).success());
+    const Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(synced_lyrics, song.synced_lyrics());
+  }
+
+  { // Clear
+    EXPECT_TRUE(WriteSyncedLyricsToFile(QString(), r.fileName()).success());
+    const Song song = ReadSongFromFile(r.fileName());
+    EXPECT_TRUE(song.synced_lyrics().isEmpty());
   }
 
 }
