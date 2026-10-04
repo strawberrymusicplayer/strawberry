@@ -1775,8 +1775,8 @@ if(HAVE_PLEX)
   )
 endif()
 
-optional_source(HAVE_NETWORKREMOTE
-  SOURCES
+if(HAVE_NETWORKREMOTE)
+  list(APPEND SOURCES
     src/networkremote/networkremote.cpp
     src/networkremote/networkremotetcpserver.cpp
     src/networkremote/networkremotesettings.cpp
@@ -1787,7 +1787,8 @@ optional_source(HAVE_NETWORKREMOTE
     src/networkremote/networkremotemessageframer.cpp
     src/networkremote/RemoteMessages.proto
     src/settings/networkremotesettingspage.cpp
-  HEADERS
+  )
+  list(APPEND HEADERS
     src/networkremote/networkremote.h
     src/networkremote/networkremotetcpserver.h
     src/networkremote/networkremotesettings.h
@@ -1798,10 +1799,11 @@ optional_source(HAVE_NETWORKREMOTE
     src/networkremote/networkremotemessageframer.h
     src/settings/networkremotesettingspage.h
     src/networkremote/networkremotehelper.h
-  UI
+  )
+  list(APPEND UI
     src/settings/networkremotesettingspage.ui
   )
-
+endif()
 
 qt_wrap_cpp(SOURCES ${HEADERS})
 qt_wrap_ui(SOURCES ${UI})
