@@ -23,6 +23,8 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <QByteArray>
 #include <QString>
 
@@ -37,6 +39,7 @@
 #include <taglib/asffile.h>
 #include <taglib/id3v2tag.h>
 #include <taglib/popularimeterframe.h>
+#include <taglib/synchronizedlyricsframe.h>
 #include <taglib/mp4tag.h>
 #include <taglib/asftag.h>
 
@@ -92,10 +95,15 @@ class TagReaderTagLib : public TagReaderBase {
   void ParseASFTags(TagLib::ASF::Tag *tag, QString *disc, QString *compilation, Song *song) const;
   void ParseASFAttribute(const TagLib::ASF::AttributeListMap &attributes_map, const char *attribute, QString *str) const;
 
-  void SetID3v2Tag(TagLib::ID3v2::Tag *tag, const Song &song) const;
+  bool SetID3v2Tag(TagLib::ID3v2::Tag *tag, const Song &song) const;
   void SetTextFrame(const char *id, const QString &value, TagLib::ID3v2::Tag *tag) const;
   void SetUserTextFrame(const QString &description, const QString &value, TagLib::ID3v2::Tag *tag) const;
   void SetUnsyncLyricsFrame(const QString &value, TagLib::ID3v2::Tag *tag) const;
+  bool SetSyncLyricsFrame(const QString &value, TagLib::ID3v2::Tag *tag) const;
+
+  static bool IsSupportedSyncLyricsFrame(const TagLib::ID3v2::SynchronizedLyricsFrame *frame);
+  static QString SynchedTextToLRC(const TagLib::ID3v2::SynchronizedLyricsFrame::SynchedTextList &synched_text);
+  static std::optional<TagLib::ID3v2::SynchronizedLyricsFrame::SynchedTextList> LRCToSynchedText(const QString &lrc);
 
   void SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment, const Song &song) const;
   void SetAPETag(TagLib::APE::Tag *tag, const Song &song) const;

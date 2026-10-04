@@ -1353,6 +1353,48 @@
             </item>
            </layout>
           </widget>
+          <widget class="QWidget" name="tab_synced_lyrics">
+           <attribute name="title">
+            <string>Synced lyrics</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="layout_synced_lyrics">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetMaximumSize</enum>
+            </property>
+            <item>
+             <widget class="TextEdit" name="synced_lyrics">
+              <property name="toolTip">
+               <string>Lyrics in LRC format, one line per timestamp, e.g. [01:23.45]Lyrics line</string>
+              </property>
+              <property name="has_reset_button" stdset="0">
+               <bool>true</bool>
+              </property>
+              <property name="has_clear_button" stdset="0">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_synced_lyrics">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>1</width>
+                <height>1</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="buddy">
+               <cstring>synced_lyrics</cstring>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
          </widget>
         </widget>
        </item>
@@ -1443,6 +1485,7 @@
   <tabstop>comment</tabstop>
   <tabstop>lyrics</tabstop>
   <tabstop>fetch_lyrics</tabstop>
+  <tabstop>synced_lyrics</tabstop>
  </tabstops>
  <resources>
   <include location="../../data/data.qrc"/>

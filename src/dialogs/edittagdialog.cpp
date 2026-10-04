@@ -80,6 +80,7 @@
 #include "core/settings.h"
 #include "utilities/strutils.h"
 #include "utilities/timeutils.h"
+#include "utilities/lrcutils.h"
 #include "utilities/imageutils.h"
 #include "utilities/coverutils.h"
 #include "utilities/coveroptions.h"
@@ -181,6 +182,7 @@ EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
   ui_->splitter->setSizes(QList<int>() << 200 << width() - 200);
   ui_->loading_label->hide();
   ui_->label_lyrics->hide();
+  ui_->label_synced_lyrics->hide();
 
   ui_->fetch_tag->setIcon(QPixmap::fromImage(QImage(u":/pictures/musicbrainz.png"_s)));
 #ifdef HAVE_TAGFETCHER
@@ -357,6 +359,17 @@ void EditTagDialog::hideEvent(QHideEvent *e) {
 }
 
 void EditTagDialog::accept() {
+
+  // Validate edited synchronized lyrics up front, a failed write would otherwise still close the dialog and the edits would be lost.
+  for (int i = 0; i < data_.count(); ++i) {
+    const Data &ref = data_.at(i);
+    if (ref.current_.synced_lyrics() != ref.original_.synced_lyrics() && !Utilities::ParseLRC(ref.current_.synced_lyrics()).has_value()) {
+      ui_->song_list->setCurrentRow(i);
+      ui_->tab_widget->setCurrentWidget(ui_->tab_synced_lyrics);
+      QMessageBox::critical(this, tr("Invalid synchronized lyrics"), tr("The synchronized lyrics for %1 are not valid LRC. Lyric lines must start with a timestamp, for example [01:23.45]. Only blank lines and metadata tags such as [ar:Artist] can be without one.").arg(ref.current_.basefilename()));
+      return;
+    }
+  }
 
   // Show the loading indicator
   if (!SetLoading(tr("Saving tracks") + u"..."_s)) return;
@@ -559,6 +572,7 @@ QVariant EditTagDialog::Data::value(const Song &song, const QString &id) {
   if (id == "genre"_L1) return song.genre();
   if (id == "comment"_L1) return song.comment();
   if (id == "lyrics"_L1) return song.lyrics();
+  if (id == "synced_lyrics"_L1) return song.synced_lyrics();
   if (id == "track"_L1) return song.track();
   if (id == "disc"_L1) return song.disc();
   if (id == "year"_L1) return song.year();
@@ -587,6 +601,7 @@ void EditTagDialog::Data::set_value(const QString &id, const QVariant &value) {
   else if (id == "genre"_L1) current_.set_genre(value.toString());
   else if (id == "comment"_L1) current_.set_comment(value.toString());
   else if (id == "lyrics"_L1) current_.set_lyrics(value.toString());
+  else if (id == "synced_lyrics"_L1) current_.set_synced_lyrics(value.toString());
   else if (id == "track"_L1) current_.set_track(value.toInt());
   else if (id == "disc"_L1) current_.set_disc(value.toInt());
   else if (id == "year"_L1) current_.set_year(value.toInt());
@@ -723,6 +738,7 @@ void EditTagDialog::SelectionChanged() {
   const bool multiple = indexes.count() > 1;
   ui_->tab_widget->setTabEnabled(ui_->tab_widget->indexOf(ui_->tab_summary), !multiple);
   ui_->tab_widget->setTabEnabled(ui_->tab_widget->indexOf(ui_->tab_lyrics), !multiple);
+  ui_->tab_widget->setTabEnabled(ui_->tab_widget->indexOf(ui_->tab_synced_lyrics), !multiple);
 
   if (multiple) {
     UpdateSummaryTab(Song());
@@ -749,6 +765,7 @@ void EditTagDialog::SelectionChanged() {
   bool rating_enabled = false;
   bool comment_enabled = false;
   bool lyrics_enabled = false;
+  bool synced_lyrics_enabled = false;
   bool titlesort_enabled = false;
   bool artistsort_enabled = false;
   bool albumsort_enabled = false;
@@ -806,6 +823,9 @@ void EditTagDialog::SelectionChanged() {
     }
     if (song.lyrics_supported()) {
       lyrics_enabled = true;
+    }
+    if (song.synced_lyrics_supported()) {
+      synced_lyrics_enabled = true;
     }
     if (song.titlesort_supported()) {
       titlesort_enabled = true;
@@ -894,6 +914,7 @@ void EditTagDialog::SelectionChanged() {
   ui_->rating->setEnabled(rating_enabled);
   ui_->comment->setEnabled(comment_enabled);
   ui_->lyrics->setEnabled(lyrics_enabled);
+  ui_->synced_lyrics->setEnabled(synced_lyrics_enabled);
   ui_->titlesort->setEnabled(titlesort_enabled);
   ui_->artistsort->setEnabled(artistsort_enabled);
   ui_->albumsort->setEnabled(albumsort_enabled);

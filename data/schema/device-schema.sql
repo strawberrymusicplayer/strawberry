@@ -32,6 +32,7 @@ CREATE TABLE device_%deviceid_songs (
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
+  synced_lyrics TEXT,
 
   artist_id TEXT,
   album_id TEXT,

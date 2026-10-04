@@ -27,7 +27,9 @@
 #endif
 
 #include <memory>
+#include <optional>
 #include <algorithm>
+#include <utility>
 #include <sys/stat.h>
 
 #include <taglib/taglib.h>
@@ -51,6 +53,7 @@
 #include <taglib/attachedpictureframe.h>
 #include <taglib/textidentificationframe.h>
 #include <taglib/unsynchronizedlyricsframe.h>
+#include <taglib/synchronizedlyricsframe.h>
 #include <taglib/popularimeterframe.h>
 #include <taglib/uniquefileidentifierframe.h>
 #include <taglib/commentsframe.h>
@@ -94,6 +97,8 @@
 #include <QByteArray>
 #include <QString>
 #include <QStringList>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 #include <QFile>
 #include <QFileInfo>
 #include <QUrl>
@@ -104,6 +109,7 @@
 #include "core/logging.h"
 #include "core/song.h"
 #include "core/filewriteguard.h"
+#include "utilities/lrcutils.h"
 #include "constants/timeconstants.h"
 
 #include "albumcovertagdata.h"
@@ -131,6 +137,7 @@ constexpr char kID3v2_Compilation[] = "TCMP";
 constexpr char kID3v2_OriginalReleaseTime[] = "TDOR";
 constexpr char kID3v2_OriginalReleaseYear[] = "TORY";
 constexpr char kID3v2_UnsychronizedLyrics[] = "USLT";
+constexpr char kID3v2_SynchronizedLyrics[] = "SYLT";
 constexpr char kID3v2_CoverArt[] = "APIC";
 constexpr char kID3v2_FMPS_Playcount[] = "FMPS_Playcount";
 constexpr char kID3v2_FMPS_Rating[] = "FMPS_Rating";
@@ -175,6 +182,7 @@ constexpr char kVorbisComment_FMPS_Playcount[] = "FMPS_PLAYCOUNT";
 constexpr char kVorbisComment_FMPS_Rating[] = "FMPS_RATING";
 constexpr char kVorbisComment_Lyrics[] = "LYRICS";
 constexpr char kVorbisComment_UnsyncedLyrics[] = "UNSYNCEDLYRICS";
+constexpr char kVorbisComment_SyncedLyrics[] = "SYNCEDLYRICS";
 constexpr char kVorbisComment_BPM[] = "BPM";
 constexpr char kVorbisComment_Mood[] = "MOOD";
 constexpr char kVorbisComment_Initial_Key[] = "INITIALKEY";
@@ -226,6 +234,7 @@ constexpr char kAPE_CoverArt[] = "COVER ART (FRONT)";
 constexpr char kAPE_FMPS_Playcount[] = "FMPS_PLAYCOUNT";
 constexpr char kAPE_FMPS_Rating[] = "FMPS_RATING";
 constexpr char kAPE_Lyrics[] = "LYRICS";
+constexpr char kAPE_SyncedLyrics[] = "SYNCEDLYRICS";
 constexpr char kAPE_BPM[] = "BPM";
 constexpr char kAPE_AcoustId[] = "ACOUSTID_ID";
 constexpr char kAPE_AcoustId_Fingerprint[] = "ACOUSTID_FINGERPRINT";
@@ -660,6 +669,16 @@ void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QSt
     song->set_lyrics(map[kID3v2_UnsychronizedLyrics].front()->toString());
   }
 
+  if (map.contains(kID3v2_SynchronizedLyrics)) {
+    for (TagLib::ID3v2::Frame *frame : std::as_const(map[kID3v2_SynchronizedLyrics])) {
+      const TagLib::ID3v2::SynchronizedLyricsFrame *frame_sylt = dynamic_cast<const TagLib::ID3v2::SynchronizedLyricsFrame*>(frame);
+      if (IsSupportedSyncLyricsFrame(frame_sylt)) {
+        song->set_synced_lyrics(SynchedTextToLRC(frame_sylt->synchedText()));
+        break;
+      }
+    }
+  }
+
   if (map.contains(kID3v2_CoverArt) && song->url().isLocalFile()) song->set_art_embedded(true);
 
   if (map.contains(kID3v2_BPM)) song->set_bpm(TagLibStringToQString(map[kID3v2_BPM].front()->toString()).trimmed().toFloat());
@@ -788,6 +807,7 @@ void TagReaderTagLib::ParseVorbisComments(const TagLib::Ogg::FieldListMap &map, 
 
   if (map.contains(kVorbisComment_Lyrics)) song->set_lyrics(map[kVorbisComment_Lyrics].front());
   else if (map.contains(kVorbisComment_UnsyncedLyrics)) song->set_lyrics(map[kVorbisComment_UnsyncedLyrics].front());
+  if (map.contains(kVorbisComment_SyncedLyrics)) song->set_synced_lyrics(map[kVorbisComment_SyncedLyrics].front());
 
   if (map.contains(kVorbisComment_BPM)) song->set_bpm(TagLibStringToQString(map[kVorbisComment_BPM].front()).toFloat());
   if (map.contains(kVorbisComment_Mood)) song->set_mood(map[kVorbisComment_Mood].front());
@@ -844,6 +864,10 @@ void TagReaderTagLib::ParseAPETags(const TagLib::APE::ItemListMap &map, QString 
 
   if (map.contains(kAPE_Lyrics)) {
     song->set_lyrics(map[kAPE_Lyrics].toString());
+  }
+
+  if (map.contains(kAPE_SyncedLyrics)) {
+    song->set_synced_lyrics(map[kAPE_SyncedLyrics].toString());
   }
 
   if (map.contains(kAPE_FMPS_Playcount)) {
@@ -1198,8 +1222,8 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
   else if (TagLib::MPEG::File *file_mpeg = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
     TagLib::ID3v2::Tag *tag = file_mpeg->ID3v2Tag(true);
     if (tag) {
-      if (save_tags) {
-        SetID3v2Tag(tag, song);
+      if (save_tags && !SetID3v2Tag(tag, song)) {
+        return TagReaderResult(TagReaderResult::ErrorCode::CustomError, QObject::tr("Synchronized lyrics are not valid LRC"));
       }
       if (save_playcount) {
         SetPlaycount(tag, song.playcount());
@@ -1242,8 +1266,8 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
   else if (TagLib::RIFF::WAV::File *file_wav = dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) {
     TagLib::ID3v2::Tag *tag = file_wav->ID3v2Tag();
     if (tag) {
-      if (save_tags) {
-        SetID3v2Tag(tag, song);
+      if (save_tags && !SetID3v2Tag(tag, song)) {
+        return TagReaderResult(TagReaderResult::ErrorCode::CustomError, QObject::tr("Synchronized lyrics are not valid LRC"));
       }
       if (save_playcount) {
         SetPlaycount(tag, song.playcount());
@@ -1260,8 +1284,8 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
   else if (TagLib::RIFF::AIFF::File *file_aiff = dynamic_cast<TagLib::RIFF::AIFF::File*>(fileref->file())) {
     TagLib::ID3v2::Tag *tag = file_aiff->tag();
     if (tag) {
-      if (save_tags) {
-        SetID3v2Tag(tag, song);
+      if (save_tags && !SetID3v2Tag(tag, song)) {
+        return TagReaderResult(TagReaderResult::ErrorCode::CustomError, QObject::tr("Synchronized lyrics are not valid LRC"));
       }
       if (save_playcount) {
         SetPlaycount(tag, song.playcount());
@@ -1343,7 +1367,7 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
 
 }
 
-void TagReaderTagLib::SetID3v2Tag(TagLib::ID3v2::Tag *tag, const Song &song) const {
+bool TagReaderTagLib::SetID3v2Tag(TagLib::ID3v2::Tag *tag, const Song &song) const {
 
   SetTextFrame(kID3v2_Disc, song.disc() <= 0 ? QString() : QString::number(song.disc()), tag);
   SetTextFrame(kID3v2_Composer, song.composer().isEmpty() ? QString() : song.composer(), tag);
@@ -1358,9 +1382,14 @@ void TagReaderTagLib::SetID3v2Tag(TagLib::ID3v2::Tag *tag, const Song &song) con
   SetTextFrame(kID3v2_TitleSort, song.titlesort().isEmpty() ? QString() : song.titlesort(), tag);
   SetTextFrame(kID3v2_Compilation, song.compilation() ? QString::number(1) : QString(), tag);
   SetUnsyncLyricsFrame(song.lyrics().isEmpty() ? QString() : song.lyrics(), tag);
+  if (!SetSyncLyricsFrame(song.synced_lyrics(), tag)) {
+    return false;
+  }
   if (!song.musicbrainz_recording_id().isEmpty()) {
     SetUserTextFrame(QLatin1String(kID3v2_MusicBrainz_RecordingId), song.musicbrainz_recording_id(), tag);
   }
+
+  return true;
 
 }
 
@@ -1443,6 +1472,102 @@ void TagReaderTagLib::SetUnsyncLyricsFrame(const QString &value, TagLib::ID3v2::
 
 }
 
+bool TagReaderTagLib::SetSyncLyricsFrame(const QString &value, TagLib::ID3v2::Tag *tag) const {
+
+  // Parse before touching the tag, so invalid LRC fails the write and leaves the existing frame alone.
+  const std::optional<TagLib::ID3v2::SynchronizedLyricsFrame::SynchedTextList> synched_text = LRCToSynchedText(value);
+  if (!synched_text.has_value()) {
+    qLog(Error) << "Synchronized lyrics are not valid LRC, not saving tags";
+    return false;
+  }
+
+  // Leave frames with MPEG frame timestamps or content types other than lyrics and unspecified ("Other") alone, since we are not able to represent them as LRC.
+  QList<TagLib::ID3v2::SynchronizedLyricsFrame*> supported_frames;
+  const TagLib::ID3v2::FrameList frames = tag->frameList(kID3v2_SynchronizedLyrics);
+  for (TagLib::ID3v2::Frame *f : frames) {
+    TagLib::ID3v2::SynchronizedLyricsFrame *frame_sylt = dynamic_cast<TagLib::ID3v2::SynchronizedLyricsFrame*>(f);
+    if (IsSupportedSyncLyricsFrame(frame_sylt)) {
+      supported_frames << frame_sylt;
+    }
+  }
+
+  // An empty list is only returned for empty input, which means the lyrics were explicitly cleared.
+  // Remove all supported frames, otherwise the next one would be read back as the synchronized lyrics.
+  if (synched_text->isEmpty()) {
+    for (TagLib::ID3v2::SynchronizedLyricsFrame *frame_sylt : std::as_const(supported_frames)) {
+      tag->removeFrame(frame_sylt);
+    }
+    return true;
+  }
+
+  // Only update the first supported frame, which is the one read back, and leave frames for other languages or descriptions alone.
+  TagLib::ID3v2::SynchronizedLyricsFrame *frame = supported_frames.isEmpty() ? nullptr : supported_frames.first();
+
+  if (!frame) {
+    frame = new TagLib::ID3v2::SynchronizedLyricsFrame(TagLib::String::UTF8);
+    frame->setDescription("Strawberry editor");
+    frame->setType(TagLib::ID3v2::SynchronizedLyricsFrame::Lyrics);
+    frame->setTimestampFormat(TagLib::ID3v2::SynchronizedLyricsFrame::AbsoluteMilliseconds);
+    // Add frame takes ownership and clears the memory
+    tag->addFrame(frame);
+  }
+
+  frame->setSynchedText(*synched_text);
+
+  return true;
+
+}
+
+bool TagReaderTagLib::IsSupportedSyncLyricsFrame(const TagLib::ID3v2::SynchronizedLyricsFrame *frame) {
+
+  return frame && frame->timestampFormat() == TagLib::ID3v2::SynchronizedLyricsFrame::AbsoluteMilliseconds && (frame->type() == TagLib::ID3v2::SynchronizedLyricsFrame::Lyrics || frame->type() == TagLib::ID3v2::SynchronizedLyricsFrame::Other);
+
+}
+
+QString TagReaderTagLib::SynchedTextToLRC(const TagLib::ID3v2::SynchronizedLyricsFrame::SynchedTextList &synched_text) {
+
+  static const QRegularExpression regex_line_break(u"\\r\\n|\\r|\\n"_s);
+
+  QStringList lines;
+  lines.reserve(static_cast<qsizetype>(synched_text.size()));
+  for (const TagLib::ID3v2::SynchronizedLyricsFrame::SynchedText &line : synched_text) {
+    QString text = TagLibStringToQString(line.text);
+    // Some taggers prefix each line with a line break, strip those since LRC is line based.
+    while (text.startsWith(u'\n') || text.startsWith(u'\r')) text.remove(0, 1);
+    while (text.endsWith(u'\n') || text.endsWith(u'\r')) text.chop(1);
+    const uint minutes = line.time / 60000U;
+    const uint seconds = (line.time / 1000U) % 60U;
+    const uint milliseconds = line.time % 1000U;
+    // Use the common hundredths format unless that would lose precision.
+    const QString fraction = milliseconds % 10U == 0 ? u"%1"_s.arg(milliseconds / 10U, 2, 10, u'0') : u"%1"_s.arg(milliseconds, 3, 10, u'0');
+    const QString timestamp = u"[%1:%2.%3]"_s.arg(minutes, 2, 10, u'0').arg(seconds, 2, 10, u'0').arg(fraction);
+    // Line breaks inside an entry would produce LRC lines without a timestamp, so give each of them the timestamp of the entry.
+    const QStringList text_lines = text.split(regex_line_break);
+    for (const QString &text_line : text_lines) {
+      lines << timestamp + text_line;
+    }
+  }
+
+  return lines.join(u'\n');
+
+}
+
+std::optional<TagLib::ID3v2::SynchronizedLyricsFrame::SynchedTextList> TagReaderTagLib::LRCToSynchedText(const QString &lrc) {
+
+  const std::optional<Utilities::LRCLines> lrc_lines = Utilities::ParseLRC(lrc);
+  if (!lrc_lines.has_value()) {
+    return std::nullopt;
+  }
+
+  TagLib::ID3v2::SynchronizedLyricsFrame::SynchedTextList synched_text;
+  for (const Utilities::LRCLine &lrc_line : *lrc_lines) {
+    synched_text.append(TagLib::ID3v2::SynchronizedLyricsFrame::SynchedText(lrc_line.time, QStringToTagLibString(lrc_line.text)));
+  }
+
+  return synched_text;
+
+}
+
 void TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment, const Song &song) const {
 
   vorbis_comment->addField(kVorbisComment_Composer, QStringToTagLibString(song.composer()), true);
@@ -1464,6 +1589,7 @@ void TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment
 
   vorbis_comment->addField(kVorbisComment_Lyrics, QStringToTagLibString(song.lyrics()), true);
   vorbis_comment->removeFields(kVorbisComment_UnsyncedLyrics);
+  vorbis_comment->addField(kVorbisComment_SyncedLyrics, QStringToTagLibString(song.synced_lyrics()), true);
   if (!song.musicbrainz_recording_id().isEmpty()) {
     vorbis_comment->addField(kVorbisComment_MusicBrainz_TackId, QStringToTagLibString(song.musicbrainz_recording_id()), true);
   }
@@ -1478,6 +1604,12 @@ void TagReaderTagLib::SetAPETag(TagLib::APE::Tag *tag, const Song &song) const {
   tag->setItem(kAPE_Grouping, TagLib::APE::Item(kAPE_Grouping, TagLib::StringList(QStringToTagLibString(song.grouping()))));
   tag->setItem(kAPE_Performer, TagLib::APE::Item(kAPE_Performer, TagLib::StringList(QStringToTagLibString(song.performer()))));
   tag->setItem(kAPE_Lyrics, TagLib::APE::Item(kAPE_Lyrics, QStringToTagLibString(song.lyrics())));
+  if (song.synced_lyrics().isEmpty()) {
+    tag->removeItem(kAPE_SyncedLyrics);
+  }
+  else {
+    tag->setItem(kAPE_SyncedLyrics, TagLib::APE::Item(kAPE_SyncedLyrics, QStringToTagLibString(song.synced_lyrics())));
+  }
   tag->addValue(kAPE_Compilation, QStringToTagLibString(song.compilation() ? QString::number(1) : QString()), true);
   if (!song.musicbrainz_recording_id().isEmpty()) {
     tag->setItem(kAPE_MusicBrainz_TackId, TagLib::APE::Item(kAPE_MusicBrainz_TackId, TagLib::StringList(QStringToTagLibString(song.musicbrainz_recording_id()))));
