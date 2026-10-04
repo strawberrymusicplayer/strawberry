@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -122,12 +122,12 @@ void LyricsFetcher::SingleSearchFinished(const quint64 request_id, const LyricsS
 
 }
 
-void LyricsFetcher::SingleLyricsFetched(const quint64 request_id, const QString &provider, const QString &lyrics) {
+void LyricsFetcher::SingleLyricsFetched(const quint64 request_id, const LyricsSearchResult &result) {
 
   if (!active_requests_.contains(request_id)) return;
 
   LyricsFetcherSearch *search = active_requests_.take(request_id);
   search->deleteLater();
-  Q_EMIT LyricsFetched(request_id, provider, lyrics);
+  Q_EMIT LyricsFetched(request_id, result);
 
 }

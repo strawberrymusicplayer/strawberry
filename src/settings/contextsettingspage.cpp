@@ -58,6 +58,7 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog *dialog, QWidget *parent
   checkboxes_[QLatin1String(kAlbum)] = ui_->checkbox_album;
   checkboxes_[QLatin1String(kTechnicalData)] = ui_->checkbox_technical_data;
   checkboxes_[QLatin1String(kSongLyrics)] = ui_->checkbox_song_lyrics;
+  checkboxes_[QLatin1String(kSyncedLyrics)] = ui_->checkbox_synced_lyrics;
   checkboxes_[QLatin1String(kSearchCover)] = ui_->checkbox_search_cover;
   checkboxes_[QLatin1String(kSearchLyrics)] = ui_->checkbox_search_lyrics;
 
@@ -102,6 +103,9 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog *dialog, QWidget *parent
   ui_->context_exp_chooser1->setIcon(IconLoader::Load(u"list-add"_s));
   ui_->context_exp_chooser2->setIcon(IconLoader::Load(u"list-add"_s));
 
+  // Synchronized lyrics are shown in place of the song lyrics, so the option only applies when song lyrics are shown.
+  QObject::connect(ui_->checkbox_song_lyrics, &QCheckBox::toggled, ui_->checkbox_synced_lyrics, &QCheckBox::setEnabled);
+
   QObject::connect(ui_->font_headline, &QFontComboBox::currentFontChanged, this, &ContextSettingsPage::HeadlineFontChanged);
   QObject::connect(ui_->font_size_headline, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &ContextSettingsPage::HeadlineFontChanged);
   QObject::connect(ui_->font_normal, &QFontComboBox::currentFontChanged, this, &ContextSettingsPage::NormalFontChanged);
@@ -134,6 +138,7 @@ void ContextSettingsPage::Load() {
   for (const QString &i : checkbox_keys) {
     checkboxes_.value(i)->setChecked(s.value(i, checkboxes_.value(i)->isChecked()).toBool());
   }
+  ui_->checkbox_synced_lyrics->setEnabled(ui_->checkbox_song_lyrics->isChecked());
 
   // Fonts
   QString default_font;

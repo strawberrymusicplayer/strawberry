@@ -188,7 +188,7 @@ void LyricsFetcherSearch::FinishSearch() {
   }
   else {
     qLog(Debug) << "Using lyrics from" << results_.last().provider << "for" << request_.artist << request_.title << "with score" << results_.last().score;
-    Q_EMIT LyricsFetched(id_, results_.constLast().provider, results_.constLast().lyrics);
+    Q_EMIT LyricsFetched(id_, results_.constLast());
   }
 
   Q_EMIT SearchFinished(id_, results_);

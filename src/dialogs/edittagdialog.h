@@ -41,6 +41,7 @@
 #include "covermanager/albumcoverloaderoptions.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "covermanager/albumcoverimageresult.h"
+#include "lyrics/lyricssearchresult.h"
 
 class QWidget;
 class QMenu;
@@ -132,7 +133,7 @@ class EditTagDialog : public QDialog {
   void FetchTag();
   void FetchTagSongChosen(const Song &original_song, const Song &new_metadata);
   void FetchLyrics();
-  void UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics);
+  void UpdateLyrics(const quint64 id, const LyricsSearchResult &result);
 
   void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &cover_result);
 

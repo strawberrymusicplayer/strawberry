@@ -32,6 +32,7 @@ constexpr char kSettingsSummaryFmt[] = "SummaryFmt";
 constexpr char kAlbum[] = "AlbumEnable";
 constexpr char kTechnicalData[] = "TechnicalDataEnable";
 constexpr char kSongLyrics[] = "SongLyricsEnable";
+constexpr char kSyncedLyrics[] = "SyncedLyricsEnable";
 constexpr char kSearchCover[] = "SearchCoverEnable";
 constexpr char kSearchLyrics[] = "SearchLyricsEnable";
 
@@ -46,6 +47,7 @@ constexpr char kDefaultSummaryFmt[] = "%album%";
 constexpr bool kDefaultAlbum = true;
 constexpr bool kDefaultTechnicalData = false;
 constexpr bool kDefaultSongLyrics = true;
+constexpr bool kDefaultSyncedLyrics = true;
 constexpr bool kDefaultSearchLyrics = true;
 
 constexpr char kDefaultFontFamily[] = "Noto Sans";

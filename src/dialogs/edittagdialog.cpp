@@ -1635,17 +1635,15 @@ void EditTagDialog::FetchLyrics() {
 
 }
 
-void EditTagDialog::UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics) {
-
-  Q_UNUSED(provider);
+void EditTagDialog::UpdateLyrics(const quint64 id, const LyricsSearchResult &result) {
 
   if (static_cast<qint64>(id) != lyrics_id_) return;
   lyrics_id_ = -1;
-  if (lyrics.isEmpty()) {
+  if (result.lyrics.isEmpty()) {
     ui_->lyrics->setPlainText(tr("Not found."));
   }
   else {
-    ui_->lyrics->setPlainText(lyrics);
+    ui_->lyrics->setPlainText(result.lyrics);
   }
 
 }

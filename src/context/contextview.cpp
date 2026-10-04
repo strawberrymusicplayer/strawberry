@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2013-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2013-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,9 @@
 #include "config.h"
 
 #include <utility>
+#include <optional>
+#include <algorithm>
+#include <iterator>
 
 #include <QtGlobal>
 #include <QObject>
@@ -27,6 +30,7 @@
 #include <QList>
 #include <QVariant>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 #include <QImage>
 #include <QIcon>
@@ -49,15 +53,24 @@
 #include <QContextMenuEvent>
 #include <QDragEnterEvent>
 #include <QDropEvent>
+#include <QTimer>
+#include <QTextDocument>
+#include <QTextCursor>
+#include <QTextBlock>
+#include <QTextCharFormat>
 
 #include "core/song.h"
 #include "core/settings.h"
+#include "core/player.h"
+#include "engine/enginebase.h"
 #include "utilities/strutils.h"
 #include "utilities/timeutils.h"
+#include "utilities/lrcutils.h"
 #include "widgets/resizabletextedit.h"
 #include "collection/collectionview.h"
 #include "covermanager/albumcoverchoicecontroller.h"
 #include "lyrics/lyricsfetcher.h"
+#include "lyrics/lyricssearchresult.h"
 #include "constants/contextsettings.h"
 #include "constants/timeconstants.h"
 
@@ -68,6 +81,7 @@ using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr int kWidgetSpacing = 50;
+constexpr qint64 kSyncedLyricsMaxUpdateTimeMs = 250;
 }  // namespace
 
 ContextView::ContextView(QWidget *parent)
@@ -75,6 +89,7 @@ ContextView::ContextView(QWidget *parent)
       collectionview_(nullptr),
       album_cover_choice_controller_(nullptr),
       lyrics_fetcher_(nullptr),
+      timer_synced_lyrics_(new QTimer(this)),
       menu_options_(new QMenu(this)),
       action_show_album_(nullptr),
       action_show_data_(nullptr),
@@ -107,7 +122,10 @@ ContextView::ContextView(QWidget *parent)
       label_bitdepth_(new QLabel(this)),
       label_bitrate_(new QLabel(this)),
       lyrics_tried_(false),
-      lyrics_id_(-1) {
+      lyrics_id_(-1),
+      synced_lyrics_enabled_(ContextSettings::kDefaultSyncedLyrics),
+      synced_lyrics_line_(-1),
+      synced_lyrics_offset_msec_(0) {
 
   setLayout(layout_container_);
 
@@ -192,6 +210,8 @@ ContextView::ContextView(QWidget *parent)
 
   textedit_play_lyrics_->setReadOnly(true);
   textedit_play_lyrics_->setFrameShape(QFrame::NoFrame);
+  // The active synchronized lyrics line is marked by changing the formatting, which should not end up in an undo stack.
+  textedit_play_lyrics_->document()->setUndoRedoEnabled(false);
   textedit_play_lyrics_->hide();
 
   layout_play_->setContentsMargins(0, 0, 0, 0);
@@ -218,12 +238,18 @@ ContextView::ContextView(QWidget *parent)
 
   QObject::connect(widget_album_, &ContextAlbum::FadeStopFinished, this, &ContextView::FadeStopFinished);
 
+  // The timer is scheduled for when the next line starts, so it needs to be precise for the line to be highlighted on time.
+  timer_synced_lyrics_->setSingleShot(true);
+  timer_synced_lyrics_->setTimerType(Qt::PreciseTimer);
+  QObject::connect(timer_synced_lyrics_, &QTimer::timeout, this, &ContextView::UpdateSyncedLyricsPosition);
+
 }
 
-void ContextView::Init(CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller, SharedPtr<LyricsProviders> lyrics_providers) {
+void ContextView::Init(CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller, SharedPtr<Player> player, SharedPtr<LyricsProviders> lyrics_providers) {
 
   collectionview_ = collectionview;
   album_cover_choice_controller_ = album_cover_choice_controller;
+  player_ = player;
 
   widget_album_->Init(this, album_cover_choice_controller_);
   lyrics_fetcher_ = new LyricsFetcher(lyrics_providers, this);
@@ -288,6 +314,7 @@ void ContextView::ReloadSettings() {
   action_show_data_->setChecked(s.value(ContextSettings::kTechnicalData, ContextSettings::kDefaultTechnicalData).toBool());
   action_show_lyrics_->setChecked(s.value(ContextSettings::kSongLyrics, ContextSettings::kDefaultSongLyrics).toBool());
   action_search_lyrics_->setChecked(s.value(ContextSettings::kSearchLyrics, ContextSettings::kDefaultSearchLyrics).toBool());
+  synced_lyrics_enabled_ = s.value(ContextSettings::kSyncedLyrics, ContextSettings::kDefaultSyncedLyrics).toBool();
   font_headline_.setFamily(s.value(ContextSettings::kFontHeadline, default_font).toString());
   font_headline_.setPointSizeF(s.value(ContextSettings::kFontSizeHeadline, ContextSettings::kDefaultFontSizeHeadline).toReal());
   font_nosong_.setFamily(font_headline_.family());
@@ -303,6 +330,8 @@ void ContextView::ReloadSettings() {
   }
   else {
     SetSong();
+    // The changed settings can leave the song without lyrics to show, for example when synchronized lyrics are disabled.
+    SearchLyrics();
   }
 
 }
@@ -317,13 +346,30 @@ void ContextView::resizeEvent(QResizeEvent *e) {
 
 }
 
-void ContextView::Playing() {}
+void ContextView::Playing() {
+
+  // Reschedule right away when playback resumes, the timer only checks occasionally while paused.
+  if (!synced_lyrics_lines_.isEmpty()) {
+    UpdateSyncedLyricsPosition();
+  }
+
+}
 
 void ContextView::Stopped() {
 
   song_playing_ = Song();
   song_prev_ = Song();
   lyrics_.clear();
+  synced_lyrics_.clear();
+  fetched_lyrics_.clear();
+  fetched_synced_lyrics_.clear();
+  fetched_lyrics_provider_.clear();
+  synced_lyrics_shown_.clear();
+  synced_lyrics_lines_.clear();
+  synced_lyrics_line_ = -1;
+  timer_synced_lyrics_->stop();
+  // Ignore a pending lyrics search, so a late result does not show lyrics or restart the timer with no song playing.
+  lyrics_id_ = -1;
   image_original_ = QImage();
   widget_album_->SetImage();
 
@@ -333,13 +379,18 @@ void ContextView::Error() {}
 
 void ContextView::SongChanged(const Song &song) {
 
-  if (widget_stacked_->currentWidget() == widget_play_ && song_playing_.is_valid() && song == song_playing_ && song.title() == song_playing_.title() && song.album() == song_playing_.album() && song.artist() == song_playing_.artist()) {
+  // Changed lyrics, for example from editing the tags of the playing song, need a full update to be shown.
+  if (widget_stacked_->currentWidget() == widget_play_ && song_playing_.is_valid() && song == song_playing_ && song.title() == song_playing_.title() && song.album() == song_playing_.album() && song.artist() == song_playing_.artist() && song.lyrics() == song_playing_.lyrics() && song.synced_lyrics() == song_playing_.synced_lyrics()) {
     UpdateSong(song);
   }
   else {
     song_prev_ = song_playing_;
     song_playing_ = song;
     lyrics_ = song.lyrics();
+    synced_lyrics_ = song.synced_lyrics();
+    fetched_lyrics_.clear();
+    fetched_synced_lyrics_.clear();
+    fetched_lyrics_provider_.clear();
     lyrics_id_ = -1;
     lyrics_tried_ = false;
     SetSong();
@@ -351,7 +402,10 @@ void ContextView::SongChanged(const Song &song) {
 
 void ContextView::SearchLyrics() {
 
-  if (lyrics_.isEmpty() && action_show_lyrics_->isChecked() && action_search_lyrics_->isChecked() && !song_playing_.artist().isEmpty() && !song_playing_.title().isEmpty() && !lyrics_tried_ && lyrics_id_ == -1) {
+  // Synchronized lyrics from the tags are only enough when they are valid LRC and shown, otherwise search for plain lyrics.
+  // synced_lyrics_lines_ is only set by SetLyricsText() under those conditions.
+  const bool have_lyrics = !lyrics_.isEmpty() || !synced_lyrics_lines_.isEmpty();
+  if (!have_lyrics && action_show_lyrics_->isChecked() && action_search_lyrics_->isChecked() && !song_playing_.artist().isEmpty() && !song_playing_.title().isEmpty() && !lyrics_tried_ && lyrics_id_ == -1) {
     lyrics_fetcher_->Clear();
     lyrics_tried_ = true;
     lyrics_id_ = static_cast<qint64>(lyrics_fetcher_->Search(song_playing_.effective_albumartist(), song_playing_.artist(), song_playing_.album(), song_playing_.title(), song_playing_.length_nanosec() / kNsecPerSec));
@@ -487,14 +541,7 @@ void ContextView::SetSong() {
     spacer_play_data_->changeSize(0, 0, QSizePolicy::Fixed);
   }
 
-  if (action_show_lyrics_->isChecked() && !lyrics_.isEmpty()) {
-    textedit_play_lyrics_->SetText(lyrics_);
-    textedit_play_lyrics_->show();
-  }
-  else {
-    textedit_play_lyrics_->clear();
-    textedit_play_lyrics_->hide();
-  }
+  SetLyricsText();
 
   widget_stacked_->setCurrentWidget(widget_play_);
   widget_stacked_->updateGeometry();
@@ -578,29 +625,191 @@ void ContextView::ResetSong() {
 
   widget_play_data_->hide();
   textedit_play_lyrics_->hide();
+  timer_synced_lyrics_->stop();
 
 }
 
-void ContextView::UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics) {
+void ContextView::UpdateLyrics(const quint64 id, const LyricsSearchResult &result) {
 
   if (static_cast<qint64>(id) != lyrics_id_) return;
 
-  if (lyrics.isEmpty()) {
-    lyrics_ = "No lyrics found.\n"_L1;
+  // Fetched lyrics are kept apart from the lyrics from the tags, so the tags are still used if the settings change.
+  if (result.lyrics.isEmpty() && result.synced_lyrics.isEmpty()) {
+    fetched_lyrics_ = "No lyrics found.\n"_L1;
+    fetched_synced_lyrics_.clear();
+    fetched_lyrics_provider_.clear();
   }
   else {
-    lyrics_ = lyrics + "\n\n(Lyrics from "_L1 + provider + ")\n"_L1;
+    fetched_lyrics_ = result.lyrics;
+    fetched_synced_lyrics_ = result.synced_lyrics;
+    fetched_lyrics_provider_ = result.provider;
   }
   lyrics_id_ = -1;
 
-  if (action_show_lyrics_->isChecked() && !lyrics_.isEmpty()) {
-    textedit_play_lyrics_->SetText(lyrics_);
-    textedit_play_lyrics_->show();
+  SetLyricsText();
+
+}
+
+void ContextView::SetLyricsText() {
+
+  if (!action_show_lyrics_->isChecked()) {
+    synced_lyrics_lines_.clear();
+    synced_lyrics_line_ = -1;
+    synced_lyrics_shown_.clear();
+    timer_synced_lyrics_->stop();
+    textedit_play_lyrics_->clear();
+    textedit_play_lyrics_->hide();
+    return;
   }
-  else {
+
+  // Prefer synchronized lyrics from the tags over fetched ones, and fall back to plain lyrics if they are disabled or not valid LRC.
+  Utilities::LRCLines lrc_lines;
+  QString synced_lyrics;
+  QString synced_lyrics_provider;
+  if (synced_lyrics_enabled_) {
+    const std::optional<Utilities::LRCLines> tag_lrc_lines = Utilities::ParseLRC(synced_lyrics_);
+    if (tag_lrc_lines.has_value() && !tag_lrc_lines->isEmpty()) {
+      lrc_lines = *tag_lrc_lines;
+      synced_lyrics = synced_lyrics_;
+      // Lyrics from the tags of a CUE track are for the whole media file, while the position is relative to the start of the track.
+      synced_lyrics_offset_msec_ = song_playing_.beginning_nanosec() / kNsecPerMsec;
+    }
+    else {
+      const std::optional<Utilities::LRCLines> fetched_lrc_lines = Utilities::ParseLRC(fetched_synced_lyrics_);
+      if (fetched_lrc_lines.has_value() && !fetched_lrc_lines->isEmpty()) {
+        lrc_lines = *fetched_lrc_lines;
+        synced_lyrics = fetched_synced_lyrics_;
+        synced_lyrics_provider = fetched_lyrics_provider_;
+        // Fetched lyrics are for the track itself.
+        synced_lyrics_offset_msec_ = 0;
+      }
+    }
+  }
+
+  if (!lrc_lines.isEmpty()) {
+    // Only replace the text if the lyrics changed, so a selection in the lyrics is kept.
+    const QString synced_lyrics_shown = synced_lyrics + u'\n' + synced_lyrics_provider;
+    if (synced_lyrics_shown != synced_lyrics_shown_ || textedit_play_lyrics_->isHidden()) {
+      synced_lyrics_shown_ = synced_lyrics_shown;
+      synced_lyrics_lines_ = lrc_lines;
+      synced_lyrics_line_ = -1;
+      SetSyncedLyricsText(synced_lyrics_provider);
+      textedit_play_lyrics_->show();
+    }
+    UpdateSyncedLyricsPosition();
+    return;
+  }
+
+  synced_lyrics_lines_.clear();
+  synced_lyrics_line_ = -1;
+  synced_lyrics_shown_.clear();
+  timer_synced_lyrics_->stop();
+
+  QString text;
+  if (!lyrics_.isEmpty()) {
+    text = lyrics_;
+  }
+  else if (!fetched_lyrics_.isEmpty()) {
+    text = fetched_lyrics_;
+    if (!fetched_lyrics_provider_.isEmpty()) {
+      text += "\n\n(Lyrics from "_L1 + fetched_lyrics_provider_ + ")\n"_L1;
+    }
+  }
+
+  if (text.isEmpty()) {
     textedit_play_lyrics_->clear();
     textedit_play_lyrics_->hide();
   }
+  else {
+    textedit_play_lyrics_->SetText(text);
+    textedit_play_lyrics_->show();
+  }
+
+}
+
+void ContextView::SetSyncedLyricsText(const QString &provider) {
+
+  // One block per line, so the block number is the line number when marking the active line.
+  textedit_play_lyrics_->clear();
+  QTextCursor cursor(textedit_play_lyrics_->document());
+  const QTextCharFormat char_format;
+  for (qsizetype i = 0; i < synced_lyrics_lines_.size(); ++i) {
+    if (i > 0) cursor.insertBlock();
+    cursor.insertText(synced_lyrics_lines_.at(i).text, char_format);
+  }
+
+  if (!provider.isEmpty()) {
+    cursor.insertBlock();
+    cursor.insertBlock();
+    cursor.insertText("(Lyrics from "_L1 + provider + u')', char_format);
+  }
+
+  textedit_play_lyrics_->updateGeometry();
+
+}
+
+void ContextView::SetSyncedLyricsLineBold(const qsizetype line, const bool bold) {
+
+  if (line < 0 || line >= synced_lyrics_lines_.size()) return;
+
+  // The active line is the last of the lines with the same timestamp, for example from a multiline SYLT entry, so mark all of them.
+  qsizetype first_line = line;
+  while (first_line > 0 && synced_lyrics_lines_.at(first_line - 1).time == synced_lyrics_lines_.at(line).time) {
+    --first_line;
+  }
+
+  const QTextBlock first_text_block = textedit_play_lyrics_->document()->findBlockByNumber(static_cast<int>(first_line));
+  const QTextBlock last_text_block = textedit_play_lyrics_->document()->findBlockByNumber(static_cast<int>(line));
+  if (!first_text_block.isValid() || !last_text_block.isValid()) return;
+
+  // Use a separate cursor, the formatting is changed without touching the text or the user's selection.
+  QTextCursor cursor(first_text_block);
+  cursor.setPosition(last_text_block.position() + last_text_block.length() - 1, QTextCursor::KeepAnchor);
+  QTextCharFormat char_format;
+  char_format.setFontWeight(bold ? QFont::Bold : QFont::Normal);
+  cursor.mergeCharFormat(char_format);
+
+  // Bold text is wider and can wrap differently.
+  textedit_play_lyrics_->updateGeometry();
+
+}
+
+qint64 ContextView::SyncedLyricsPositionMsec() const {
+
+  return (player_ ? player_->engine()->position_nanosec() / kNsecPerMsec : 0) + synced_lyrics_offset_msec_;
+
+}
+
+qsizetype ContextView::SyncedLyricsLine(const qint64 position_msec) const {
+
+  // The active line is the last line which started at or before the current position, none before the first line.
+  const Utilities::LRCLines::const_iterator it = std::upper_bound(synced_lyrics_lines_.cbegin(), synced_lyrics_lines_.cend(), position_msec, [](const qint64 position, const Utilities::LRCLine &lrc_line) { return position < static_cast<qint64>(lrc_line.time); });
+
+  return std::distance(synced_lyrics_lines_.cbegin(), it) - 1;
+
+}
+
+void ContextView::UpdateSyncedLyricsPosition() {
+
+  if (synced_lyrics_lines_.isEmpty()) return;
+
+  const qint64 position_msec = SyncedLyricsPositionMsec();
+  const qsizetype line = SyncedLyricsLine(position_msec);
+
+  // Only change the formatting of the previous and new active line.
+  if (line != synced_lyrics_line_) {
+    SetSyncedLyricsLineBold(synced_lyrics_line_, false);
+    SetSyncedLyricsLineBold(line, true);
+    synced_lyrics_line_ = line;
+  }
+
+  // Wake up exactly when the next line starts instead of polling, but check at least regularly to follow seeking and pausing.
+  // Only while playing, the position does not advance when paused, so the timer would otherwise keep firing right away.
+  qint64 next_update_msec = kSyncedLyricsMaxUpdateTimeMs;
+  if (player_ && player_->GetState() == EngineBase::State::Playing && line + 1 < synced_lyrics_lines_.size()) {
+    next_update_msec = std::clamp(static_cast<qint64>(synced_lyrics_lines_.at(line + 1).time) - position_msec, 1LL, kSyncedLyricsMaxUpdateTimeMs);
+  }
+  timer_synced_lyrics_->start(static_cast<int>(next_update_msec));
 
 }
 

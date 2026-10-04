@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -60,12 +60,12 @@ class LyricsFetcher : public QObject {
   void AddRequest(const Request &request);
 
  Q_SIGNALS:
-  void LyricsFetched(const quint64 request_id, const QString &provider, const QString &lyrics);
+  void LyricsFetched(const quint64 request_id, const LyricsSearchResult &result);
   void SearchFinished(const quint64 request_id, const LyricsSearchResults &results);
 
  private Q_SLOTS:
   void SingleSearchFinished(const quint64 request_id, const LyricsSearchResults &results);
-  void SingleLyricsFetched(const quint64 request_id, const QString &provider, const QString &lyrics);
+  void SingleLyricsFetched(const quint64 request_id, const LyricsSearchResult &result);
   void StartRequests();
 
  private:

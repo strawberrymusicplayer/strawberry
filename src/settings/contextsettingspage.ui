@@ -186,6 +186,19 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="checkbox_synced_lyrics">
+        <property name="toolTip">
+         <string>Show synchronized lyrics when available, with the current line highlighted during playback</string>
+        </property>
+        <property name="text">
+         <string>Synchronized lyrics</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QCheckBox" name="checkbox_search_cover">
         <property name="text">
          <string>Automatically search for album cover</string>
@@ -624,6 +637,7 @@
   <tabstop>checkbox_album</tabstop>
   <tabstop>checkbox_technical_data</tabstop>
   <tabstop>checkbox_song_lyrics</tabstop>
+  <tabstop>checkbox_synced_lyrics</tabstop>
   <tabstop>checkbox_search_cover</tabstop>
   <tabstop>checkbox_search_lyrics</tabstop>
   <tabstop>font_headline</tabstop>
