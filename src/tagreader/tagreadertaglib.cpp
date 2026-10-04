@@ -1539,8 +1539,8 @@ QString TagReaderTagLib::SynchedTextToLRC(const TagLib::ID3v2::SynchronizedLyric
     const uint seconds = (line.time / 1000U) % 60U;
     const uint milliseconds = line.time % 1000U;
     // Use the common hundredths format unless that would lose precision.
-    const QString fraction = milliseconds % 10U == 0 ? u"%1"_s.arg(milliseconds / 10U, 2, 10, u'0') : u"%1"_s.arg(milliseconds, 3, 10, u'0');
-    const QString timestamp = u"[%1:%2.%3]"_s.arg(minutes, 2, 10, u'0').arg(seconds, 2, 10, u'0').arg(fraction);
+    const QString fraction = milliseconds % 10U == 0 ? u"%1"_s.arg(milliseconds / 10U, 2, 10, QLatin1Char('0')) : u"%1"_s.arg(milliseconds, 3, 10, QLatin1Char('0'));
+    const QString timestamp = u"[%1:%2.%3]"_s.arg(minutes, 2, 10, QLatin1Char('0')).arg(seconds, 2, 10, QLatin1Char('0')).arg(fraction);
     // Line breaks inside an entry would produce LRC lines without a timestamp, so give each of them the timestamp of the entry.
     const QStringList text_lines = text.split(regex_line_break);
     for (const QString &text_line : text_lines) {
