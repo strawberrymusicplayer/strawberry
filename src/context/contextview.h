@@ -92,6 +92,7 @@ class ContextView : public QWidget {
 
  Q_SIGNALS:
   void AlbumEnabledChanged();
+  void SaveLyrics(const Song &song, const QString &lyrics, const QString &synced_lyrics);
 
  private Q_SLOTS:
   void ActionShowAlbum();

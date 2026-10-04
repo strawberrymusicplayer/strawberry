@@ -1,6 +1,7 @@
 /*
  * Strawberry Music Player
  * Copyright 2022, Eoin O'Neill <eoinoneill1991@gmail.com>
+ * Copyright 2022-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -366,6 +367,24 @@ TagReaderResult TagReaderGME::SaveSongRating(const QString &filename, const floa
 
   Q_UNUSED(filename);
   Q_UNUSED(rating);
+
+  return TagReaderResult::ErrorCode::Unsupported;
+
+}
+
+TagReaderResult TagReaderGME::SaveSongLyrics(const QString &filename, const QString &lyrics) const {
+
+  Q_UNUSED(filename);
+  Q_UNUSED(lyrics);
+
+  return TagReaderResult::ErrorCode::Unsupported;
+
+}
+
+TagReaderResult TagReaderGME::SaveSongSyncedLyrics(const QString &filename, const QString &synced_lyrics) const {
+
+  Q_UNUSED(filename);
+  Q_UNUSED(synced_lyrics);
 
   return TagReaderResult::ErrorCode::Unsupported;
 

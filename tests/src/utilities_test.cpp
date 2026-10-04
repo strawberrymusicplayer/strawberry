@@ -27,6 +27,8 @@
 #include <QUrl>
 #include <QDateTime>
 #include <QRegularExpression>
+#include <QTemporaryDir>
+#include <QFile>
 #include <QtDebug>
 
 #include "test_utils.h"
@@ -400,5 +402,33 @@ TEST(UtilitiesTest, ParseLRC) {
     lrc += QString(2000, u'x');
     ASSERT_FALSE(Utilities::ParseLRC(lrc).has_value());
   }
+
+}
+
+TEST(UtilitiesTest, LRCFilename) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+
+  const QString media_filename = temp_dir.filePath(u"strawberry.song.flac"_s);
+
+  // Without an existing LRC file, the name is the media filename with the extension replaced.
+  EXPECT_EQ(temp_dir.filePath(u"strawberry.song.lrc"_s), Utilities::LRCFilename(media_filename));
+
+  // LRC files for other media files are not used.
+  {
+    QFile other_file(temp_dir.filePath(u"strawberry.lrc"_s));
+    ASSERT_TRUE(other_file.open(QIODevice::WriteOnly));
+    other_file.close();
+  }
+  EXPECT_EQ(temp_dir.filePath(u"strawberry.song.lrc"_s), Utilities::LRCFilename(media_filename));
+
+  // An existing LRC file with the extension in any case is reused, so a second LRC file is not created next to it.
+  {
+    QFile lrc_file(temp_dir.filePath(u"strawberry.song.LrC"_s));
+    ASSERT_TRUE(lrc_file.open(QIODevice::WriteOnly));
+    lrc_file.close();
+  }
+  EXPECT_EQ(temp_dir.filePath(u"strawberry.song.LrC"_s), Utilities::LRCFilename(media_filename));
 
 }

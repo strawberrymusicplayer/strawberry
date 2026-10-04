@@ -457,7 +457,7 @@ If there are no matches then it will use the largest image in the directory.</st
    <item>
     <widget class="QGroupBox" name="groupbox_song_playcounts_and_ratings">
      <property name="title">
-      <string>Song playcounts and ratings</string>
+      <string>Song playcounts, ratings and lyrics</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
@@ -471,6 +471,16 @@ If there are no matches then it will use the largest image in the directory.</st
        <widget class="QCheckBox" name="checkbox_save_ratings">
         <property name="text">
          <string>Save ratings to song tags when possible</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkbox_save_lyrics">
+        <property name="toolTip">
+         <string>Lyrics found automatically are saved to the song tags when possible, otherwise they are saved to the collection database only. This is also the default for new lyrics in the tag editor.</string>
+        </property>
+        <property name="text">
+         <string>Save lyrics to song tags when possible</string>
         </property>
        </widget>
       </item>
@@ -550,6 +560,7 @@ If there are no matches then it will use the largest image in the directory.</st
   <tabstop>button_clear_disk_cache</tabstop>
   <tabstop>checkbox_save_playcounts</tabstop>
   <tabstop>checkbox_save_ratings</tabstop>
+  <tabstop>checkbox_save_lyrics</tabstop>
   <tabstop>checkbox_overwrite_playcount</tabstop>
   <tabstop>checkbox_overwrite_rating</tabstop>
   <tabstop>button_save_stats</tabstop>

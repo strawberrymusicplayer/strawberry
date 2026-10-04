@@ -643,6 +643,10 @@ void ContextView::UpdateLyrics(const quint64 id, const LyricsSearchResult &resul
     fetched_lyrics_ = result.lyrics;
     fetched_synced_lyrics_ = result.synced_lyrics;
     fetched_lyrics_provider_ = result.provider;
+    // Save the lyrics the song does not have yet, to the tags or the database depending on the collection settings.
+    if (song_playing_.is_local_collection_song()) {
+      Q_EMIT SaveLyrics(song_playing_, song_playing_.lyrics().isEmpty() ? result.lyrics : QString(), song_playing_.synced_lyrics().isEmpty() ? result.synced_lyrics : QString());
+    }
   }
   lyrics_id_ = -1;
 

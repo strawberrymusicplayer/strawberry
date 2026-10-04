@@ -1004,6 +1004,7 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(this, &MainWindow::AlbumCoverReady, context_view_, &ContextView::AlbumCoverLoaded);
   QObject::connect(this, &MainWindow::SearchCoverInProgress, context_view_->album_widget(), &ContextAlbum::SearchCoverInProgress);
   QObject::connect(context_view_, &ContextView::AlbumEnabledChanged, this, &MainWindow::TabSwitched);
+  QObject::connect(context_view_, &ContextView::SaveLyrics, &*app_->collection(), &CollectionLibrary::SaveLyrics);
 
   // Analyzer
   QObject::connect(ui_->analyzer, &AnalyzerContainer::WheelEvent, this, &MainWindow::VolumeWheelEvent);

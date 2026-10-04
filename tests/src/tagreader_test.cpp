@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -92,6 +92,7 @@ class TagReaderTest : public ::testing::Test {
 
     Song song;
     song.set_synced_lyrics(synced_lyrics);
+    song.set_synced_lyrics_storage_type(Song::StorageType::Tag);
     return WriteSongToFile(song, filename);
 
   }
@@ -119,6 +120,93 @@ class TagReaderTest : public ::testing::Test {
     QEventLoop loop;
     QObject::connect(&*reply, &TagReaderReply::Finished, &loop, &QEventLoop::quit);
     loop.exec();
+
+  }
+
+  TagReaderResult SaveLyricsToFile(const QString &lyrics, const QString &filename) const {
+
+    TagReaderReplyPtr reply = tagreader_client_->SaveSongLyricsAsync(filename, lyrics);
+    QEventLoop loop;
+    QObject::connect(&*reply, &TagReaderReply::Finished, &loop, &QEventLoop::quit);
+    loop.exec();
+
+    return reply->result();
+
+  }
+
+  TagReaderResult SaveSyncedLyricsToFile(const QString &synced_lyrics, const QString &filename) const {
+
+    TagReaderReplyPtr reply = tagreader_client_->SaveSongSyncedLyricsAsync(filename, synced_lyrics);
+    QEventLoop loop;
+    QObject::connect(&*reply, &TagReaderReply::Finished, &loop, &QEventLoop::quit);
+    loop.exec();
+
+    return reply->result();
+
+  }
+
+  // Saves, overwrites and clears the lyrics, and checks that the other tags are not changed.
+  void TestSaveLyrics(const QString &filename) const {
+
+    {
+      Song song;
+      song.set_title(u"strawberry title"_s);
+      song.set_artist(u"strawberry artist"_s);
+      EXPECT_TRUE(WriteSongToFile(song, filename).success());
+    }
+
+    EXPECT_TRUE(SaveLyricsToFile(u"strawberry lyrics"_s, filename).success());
+    {
+      const Song song = ReadSongFromFile(filename);
+      EXPECT_EQ(u"strawberry lyrics"_s, song.lyrics());
+      EXPECT_EQ(Song::StorageType::Tag, song.lyrics_storage_type());
+      EXPECT_EQ(u"strawberry title"_s, song.title());
+      EXPECT_EQ(u"strawberry artist"_s, song.artist());
+    }
+
+    EXPECT_TRUE(SaveLyricsToFile(u"new lyrics"_s, filename).success());
+    {
+      const Song song = ReadSongFromFile(filename);
+      EXPECT_EQ(u"new lyrics"_s, song.lyrics());
+      EXPECT_EQ(u"strawberry title"_s, song.title());
+      EXPECT_EQ(u"strawberry artist"_s, song.artist());
+    }
+
+    EXPECT_TRUE(SaveLyricsToFile(QString(), filename).success());
+    {
+      const Song song = ReadSongFromFile(filename);
+      EXPECT_TRUE(song.lyrics().isEmpty());
+      EXPECT_EQ(u"strawberry title"_s, song.title());
+    }
+
+  }
+
+  // Saves, overwrites and clears the synchronized lyrics, and checks that the plain lyrics are not changed.
+  void TestSaveSyncedLyrics(const QString &filename) const {
+
+    EXPECT_TRUE(SaveLyricsToFile(u"strawberry lyrics"_s, filename).success());
+
+    EXPECT_TRUE(SaveSyncedLyricsToFile(u"[00:01.00]Line one\n[00:02.50]Line two"_s, filename).success());
+    {
+      const Song song = ReadSongFromFile(filename);
+      EXPECT_EQ(u"[00:01.00]Line one\n[00:02.50]Line two"_s, song.synced_lyrics());
+      EXPECT_EQ(Song::StorageType::Tag, song.synced_lyrics_storage_type());
+      EXPECT_EQ(u"strawberry lyrics"_s, song.lyrics());
+    }
+
+    EXPECT_TRUE(SaveSyncedLyricsToFile(u"[00:03.00]New line"_s, filename).success());
+    {
+      const Song song = ReadSongFromFile(filename);
+      EXPECT_EQ(u"[00:03.00]New line"_s, song.synced_lyrics());
+      EXPECT_EQ(u"strawberry lyrics"_s, song.lyrics());
+    }
+
+    EXPECT_TRUE(SaveSyncedLyricsToFile(QString(), filename).success());
+    {
+      const Song song = ReadSongFromFile(filename);
+      EXPECT_TRUE(song.synced_lyrics().isEmpty());
+      EXPECT_EQ(u"strawberry lyrics"_s, song.lyrics());
+    }
 
   }
 
@@ -210,6 +298,7 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
     song.set_lyrics(u"strawberry lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -263,6 +352,7 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
     song.set_genre(u"new genre"_s);
     song.set_comment(u"new comment"_s);
     song.set_lyrics(u"new lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(21);
     song.set_disc(4321);
     song.set_year(9102);
@@ -312,6 +402,7 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
     song.set_lyrics(u"strawberry lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -405,6 +496,7 @@ TEST_F(TagReaderTest, TestWavPackAudioFileTagging) {
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
     song.set_lyrics(u"strawberry lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -446,6 +538,7 @@ TEST_F(TagReaderTest, TestWavPackAudioFileTagging) {
     song.set_genre(u"new genre"_s);
     song.set_comment(u"new comment"_s);
     song.set_lyrics(u"new lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(21);
     song.set_disc(4321);
     song.set_year(9102);
@@ -483,6 +576,7 @@ TEST_F(TagReaderTest, TestWavPackAudioFileTagging) {
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
     song.set_lyrics(u"strawberry lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -570,6 +664,7 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileTagging) {
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
     song.set_lyrics(u"strawberry lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -611,6 +706,7 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileTagging) {
     song.set_genre(u"new genre"_s);
     song.set_comment(u"new comment"_s);
     song.set_lyrics(u"new lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(21);
     song.set_disc(4321);
     song.set_year(9102);
@@ -648,6 +744,7 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileTagging) {
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
     song.set_lyrics(u"strawberry lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -735,6 +832,7 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileTagging) {
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
     song.set_lyrics(u"strawberry lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -776,6 +874,7 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileTagging) {
     song.set_genre(u"new genre"_s);
     song.set_comment(u"new comment"_s);
     song.set_lyrics(u"new lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(21);
     song.set_disc(4321);
     song.set_year(9102);
@@ -812,6 +911,7 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileTagging) {
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
     song.set_lyrics(u"strawberry lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -899,6 +999,7 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileTagging) {
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
     song.set_lyrics(u"strawberry lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -940,6 +1041,7 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileTagging) {
     song.set_genre(u"new genre"_s);
     song.set_comment(u"new comment"_s);
     song.set_lyrics(u"new lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(21);
     song.set_disc(4321);
     song.set_year(9102);
@@ -977,6 +1079,7 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileTagging) {
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
     song.set_lyrics(u"strawberry lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -1064,6 +1167,7 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileTagging) {
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
     song.set_lyrics(u"strawberry lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -1105,6 +1209,7 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileTagging) {
     song.set_genre(u"new genre"_s);
     song.set_comment(u"new comment"_s);
     song.set_lyrics(u"new lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(21);
     song.set_disc(4321);
     song.set_year(9102);
@@ -1142,6 +1247,7 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileTagging) {
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
     song.set_lyrics(u"strawberry lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -1229,6 +1335,7 @@ TEST_F(TagReaderTest, TestAIFFAudioFileTagging) {
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
     song.set_lyrics(u"strawberry lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -1270,6 +1377,7 @@ TEST_F(TagReaderTest, TestAIFFAudioFileTagging) {
     song.set_genre(u"new genre"_s);
     song.set_comment(u"new comment"_s);
     song.set_lyrics(u"new lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(21);
     song.set_disc(4321);
     song.set_year(9102);
@@ -1307,6 +1415,7 @@ TEST_F(TagReaderTest, TestAIFFAudioFileTagging) {
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
     song.set_lyrics(u"strawberry lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -1394,6 +1503,7 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
     song.set_lyrics(u"strawberry lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -1436,6 +1546,7 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
     song.set_genre(u"new genre"_s);
     song.set_comment(u"new comment"_s);
     song.set_lyrics(u"new lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(21);
     song.set_disc(4321);
     song.set_year(9102);
@@ -1473,6 +1584,7 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
     song.set_lyrics(u"strawberry lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -1565,6 +1677,7 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
     song.set_lyrics(u"strawberry lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -1616,6 +1729,7 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
     song.set_genre(u"new genre"_s);
     song.set_comment(u"new comment"_s);
     song.set_lyrics(u"new lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(21);
     song.set_disc(4321);
     song.set_year(9102);
@@ -1663,6 +1777,7 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
     song.set_lyrics(u"strawberry lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -1755,6 +1870,7 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
     song.set_lyrics(u"strawberry lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -1796,6 +1912,7 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
     song.set_genre(u"new genre"_s);
     song.set_comment(u"new comment"_s);
     song.set_lyrics(u"new lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(21);
     song.set_disc(4321);
     song.set_year(9102);
@@ -1833,6 +1950,7 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
     song.set_lyrics(u"strawberry lyrics"_s);
+    song.set_lyrics_storage_type(Song::StorageType::Tag);
     song.set_track(12);
     song.set_disc(1234);
     song.set_year(2019);
@@ -2480,6 +2598,145 @@ TEST_F(TagReaderTest, TestMP4AudioFileRating) {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(0.4F, song.rating());
   }
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileSaveLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  TestSaveLyrics(r.fileName());
+
+}
+
+TEST_F(TagReaderTest, TestWavPackAudioFileSaveLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.wv"_s);
+  TestSaveLyrics(r.fileName());
+
+}
+
+TEST_F(TagReaderTest, TestOggFLACAudioFileSaveLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.oga"_s);
+  TestSaveLyrics(r.fileName());
+
+}
+
+TEST_F(TagReaderTest, TestOggVorbisAudioFileSaveLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.ogg"_s);
+  TestSaveLyrics(r.fileName());
+
+}
+
+TEST_F(TagReaderTest, TestOggOpusAudioFileSaveLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.opus"_s);
+  TestSaveLyrics(r.fileName());
+
+}
+
+TEST_F(TagReaderTest, TestOggSpeexAudioFileSaveLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.spx"_s);
+  TestSaveLyrics(r.fileName());
+
+}
+
+TEST_F(TagReaderTest, TestASFAudioFileSaveLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.asf"_s);
+  TestSaveLyrics(r.fileName());
+
+}
+
+TEST_F(TagReaderTest, TestMP3AudioFileSaveLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.mp3"_s);
+  TestSaveLyrics(r.fileName());
+
+}
+
+TEST_F(TagReaderTest, TestMP4AudioFileSaveLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.m4a"_s);
+  TestSaveLyrics(r.fileName());
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileSaveSyncedLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  TestSaveSyncedLyrics(r.fileName());
+
+}
+
+TEST_F(TagReaderTest, TestWavPackAudioFileSaveSyncedLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.wv"_s);
+  TestSaveSyncedLyrics(r.fileName());
+
+}
+
+TEST_F(TagReaderTest, TestOggFLACAudioFileSaveSyncedLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.oga"_s);
+  TestSaveSyncedLyrics(r.fileName());
+
+}
+
+TEST_F(TagReaderTest, TestOggVorbisAudioFileSaveSyncedLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.ogg"_s);
+  TestSaveSyncedLyrics(r.fileName());
+
+}
+
+TEST_F(TagReaderTest, TestOggOpusAudioFileSaveSyncedLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.opus"_s);
+  TestSaveSyncedLyrics(r.fileName());
+
+}
+
+TEST_F(TagReaderTest, TestOggSpeexAudioFileSaveSyncedLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.spx"_s);
+  TestSaveSyncedLyrics(r.fileName());
+
+}
+
+TEST_F(TagReaderTest, TestMP3AudioFileSaveSyncedLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.mp3"_s);
+  TestSaveSyncedLyrics(r.fileName());
+
+}
+
+TEST_F(TagReaderTest, TestMP3AudioFileSaveInvalidSyncedLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.mp3"_s);
+
+  // Synchronized lyrics are converted to SYLT frames for ID3v2, so they need to be valid LRC, and the existing ones are kept otherwise.
+  EXPECT_TRUE(SaveSyncedLyricsToFile(u"[00:01.00]Line one"_s, r.fileName()).success());
+  EXPECT_FALSE(SaveSyncedLyricsToFile(u"Not LRC"_s, r.fileName()).success());
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"[00:01.00]Line one"_s, song.synced_lyrics());
+
+}
+
+TEST_F(TagReaderTest, TestMP4AudioFileSaveSyncedLyricsUnsupported) {
+
+  TemporaryResource r(u":/audio/strawberry.m4a"_s);
+  EXPECT_FALSE(SaveSyncedLyricsToFile(u"[00:01.00]Line one"_s, r.fileName()).success());
+
+}
+
+TEST_F(TagReaderTest, TestASFAudioFileSaveSyncedLyricsUnsupported) {
+
+  TemporaryResource r(u":/audio/strawberry.asf"_s);
+  EXPECT_FALSE(SaveSyncedLyricsToFile(u"[00:01.00]Line one"_s, r.fileName()).success());
 
 }
 

@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -83,6 +83,14 @@ class Song {
   };
   static const int kSourceCount = 16;
   static_assert(static_cast<int>(Source::Jellyfin) < kSourceCount, "kSourceCount must exceed the largest Song::Source value");
+
+  // Where the lyrics are stored, the values are stored in the database.
+  enum class StorageType {
+    None = 0,      // No lyrics stored.
+    Database = 1,  // Only in the database.
+    Tag = 2,       // In the tags of the media file.
+    File = 3       // In an LRC file next to the media file, only for synchronized lyrics.
+  };
 
   enum class FileType {
     Unknown = 0,
@@ -212,6 +220,7 @@ class Song {
 
   bool art_embedded() const;
   const QUrl &art_automatic() const;
+  qint64 art_automatic_mtime() const;
   const QUrl &art_manual() const;
   bool art_unset() const;
 
@@ -221,6 +230,10 @@ class Song {
   float bpm() const;
   const QString &mood() const;
   const QString &initial_key() const;
+
+  StorageType lyrics_storage_type() const;
+  StorageType synced_lyrics_storage_type() const;
+  qint64 lrc_mtime() const;
 
   const QString &acoustid_id() const;
   const QString &acoustid_fingerprint() const;
@@ -334,6 +347,7 @@ class Song {
 
   void set_art_embedded(const bool v);
   void set_art_automatic(const QUrl &v);
+  void set_art_automatic_mtime(const qint64 v);
   void set_art_manual(const QUrl &v);
   void set_art_unset(const bool v);
 
@@ -343,6 +357,10 @@ class Song {
   void set_bpm(const float v);
   void set_mood(const QString &v);
   void set_initial_key(const QString &v);
+
+  void set_lyrics_storage_type(const StorageType v);
+  void set_synced_lyrics_storage_type(const StorageType v);
+  void set_lrc_mtime(const qint64 v);
 
   void set_acoustid_id(const QString &v);
   void set_acoustid_fingerprint(const QString &v);
@@ -496,6 +514,7 @@ class Song {
   bool IsMusicBrainzEqual(const Song &other) const;
   bool IsEBUR128Equal(const Song &other) const;
   bool IsArtEqual(const Song &other) const;
+  bool IsLyricsStorageEqual(const Song &other) const;
   bool IsCompilationEqual(const Song &other) const;
   bool IsSettingsEqual(const Song &other) const;
   bool IsAllMetadataEqual(const Song &other) const;

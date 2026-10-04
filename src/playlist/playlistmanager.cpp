@@ -105,6 +105,7 @@ void PlaylistManager::Init(PlaylistSequence *sequence, PlaylistContainer *playli
   QObject::connect(&*collection_backend_, &CollectionBackend::SongsChanged, this, &PlaylistManager::UpdateCollectionSongs);
   QObject::connect(&*collection_backend_, &CollectionBackend::SongsStatisticsChanged, this, &PlaylistManager::UpdateCollectionSongs);
   QObject::connect(&*collection_backend_, &CollectionBackend::SongsRatingChanged, this, &PlaylistManager::UpdateCollectionSongs);
+  QObject::connect(&*collection_backend_, &CollectionBackend::SongsLyricsChanged, this, &PlaylistManager::UpdateCollectionSongs);
 
   QObject::connect(parser_, &PlaylistParser::Error, this, &PlaylistManager::Error);
 

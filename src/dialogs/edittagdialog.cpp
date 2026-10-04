@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 #include <iterator>
 #include <limits>
 #include <memory>
+#include <optional>
 
 #include <QtGlobal>
 #include <QCoreApplication>
@@ -67,6 +68,12 @@
 #include <QKeySequence>
 #include <QDialogButtonBox>
 #include <QPushButton>
+#include <QComboBox>
+#include <QSignalBlocker>
+#include <QStandardItemModel>
+#include <QFile>
+#include <QFileInfo>
+#include <QSaveFile>
 #include <QAbstractButton>
 #include <QAbstractSpinBox>
 #include <QScrollArea>
@@ -78,8 +85,10 @@
 #include "core/iconloader.h"
 #include "core/logging.h"
 #include "core/settings.h"
+#include "constants/collectionsettings.h"
 #include "utilities/strutils.h"
 #include "utilities/timeutils.h"
+#include "utilities/fileutils.h"
 #include "utilities/lrcutils.h"
 #include "utilities/imageutils.h"
 #include "utilities/coverutils.h"
@@ -164,7 +173,8 @@ EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
       tags_cover_art_id_(0),
       cover_art_is_set_(false),
       save_tag_pending_(0),
-      lyrics_id_(-1) {
+      lyrics_id_(-1),
+      save_lyrics_to_tags_(CollectionSettings::kDefaultSaveLyrics) {
 
   QObject::connect(&*albumcover_loader_, &AlbumCoverLoader::AlbumCoverLoaded, this, &EditTagDialog::AlbumCoverLoaded);
 
@@ -184,6 +194,18 @@ EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
   ui_->label_lyrics->hide();
   ui_->label_synced_lyrics->hide();
 
+  // Where to save the lyrics, items are enabled per song depending on what the song supports.
+  ui_->lyrics_storage->addItem(tr("Database"), static_cast<int>(Song::StorageType::Database));
+  ui_->lyrics_storage->addItem(tr("Tag"), static_cast<int>(Song::StorageType::Tag));
+  ui_->synced_lyrics_storage->addItem(tr("Database"), static_cast<int>(Song::StorageType::Database));
+  ui_->synced_lyrics_storage->addItem(tr("Tag"), static_cast<int>(Song::StorageType::Tag));
+  ui_->synced_lyrics_storage->addItem(tr("LRC file"), static_cast<int>(Song::StorageType::File));
+  ui_->lyrics_storage->setToolTip(tr("Save the lyrics to the collection database only or to the tags of the file"));
+  ui_->synced_lyrics_storage->setToolTip(tr("Save the synchronized lyrics to the collection database only, to the tags of the file or to an LRC file next to it"));
+  // UpdateStorageComboBox() blocks the signals while setting the current index, so only changes by the user are handled.
+  QObject::connect(ui_->lyrics_storage, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &EditTagDialog::LyricsStorageChanged);
+  QObject::connect(ui_->synced_lyrics_storage, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &EditTagDialog::SyncedLyricsStorageChanged);
+
   ui_->fetch_tag->setIcon(QPixmap::fromImage(QImage(u":/pictures/musicbrainz.png"_s)));
 #ifdef HAVE_TAGFETCHER
   ui_->fetch_tag->setEnabled(true);
@@ -196,7 +218,8 @@ EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
   QList<QLabel*> labels = findChildren<QLabel*>();
   for (QLabel *label : std::as_const(labels)) {
     QWidget *widget = label->buddy();
-    if (widget) {
+    // Combo boxes have their own handling, the buddy is only set for accessibility.
+    if (widget && !qobject_cast<QComboBox*>(widget)) {
       // Store information about the field
       fields_ << FieldData(label, widget, widget->objectName());  // clazy:exclude=reserve-candidates
 
@@ -482,7 +505,20 @@ QList<EditTagDialog::Data> EditTagDialog::LoadData(const SongList &songs) const 
       const TagReaderResult result = tagreader_client_->ReadFileBlocking(copy.url().toLocalFile(), &copy);
       if (result.success() && copy.is_valid()) {
         copy.MergeUserSetData(song, false, false);
-        ret << Data(copy);
+        // The tags were read again above, lyrics which are not stored in the tags are only in the song from the collection.
+        // Empty lyrics in the database are lyrics cleared on purpose, so they are not replaced by lyrics in the tags.
+        if (song.lyrics_storage_type() == Song::StorageType::Database) {
+          copy.set_lyrics(song.lyrics());
+          copy.set_lyrics_storage_type(song.lyrics_storage_type());
+        }
+        if (song.synced_lyrics_storage_type() == Song::StorageType::Database || (song.synced_lyrics_storage_type() == Song::StorageType::File && !song.synced_lyrics().isEmpty())) {
+          copy.set_synced_lyrics(song.synced_lyrics());
+          copy.set_synced_lyrics_storage_type(song.synced_lyrics_storage_type());
+        }
+        Data tag_data(copy);
+        SetAvailableStorageTypes(&tag_data.original_, save_lyrics_to_tags_);
+        tag_data.current_ = tag_data.original_;
+        ret << tag_data;
       }
     }
   }
@@ -500,6 +536,13 @@ void EditTagDialog::SetSongs(const SongList &s, const PlaylistItemPtrList &items
   playlist_items_ = items;
   ui_->song_list->clear();
   collection_songs_.clear();
+
+  {
+    Settings settings;
+    settings.beginGroup(CollectionSettings::kSettingsGroup);
+    save_lyrics_to_tags_ = settings.value(CollectionSettings::kSaveLyrics, CollectionSettings::kDefaultSaveLyrics).toBool();
+    settings.endGroup();
+  }
 
   // Reload tags in the background
   QFuture<QList<Data>> future = QtConcurrent::run(&EditTagDialog::LoadData, this, s);
@@ -821,10 +864,10 @@ void EditTagDialog::SelectionChanged() {
     if (song.comment_supported()) {
       comment_enabled = true;
     }
-    if (song.lyrics_supported()) {
+    if (StorageTypeAvailable(song, Song::StorageType::Tag, false) || StorageTypeAvailable(song, Song::StorageType::Database, false)) {
       lyrics_enabled = true;
     }
-    if (song.synced_lyrics_supported()) {
+    if (StorageTypeAvailable(song, Song::StorageType::Tag, true) || StorageTypeAvailable(song, Song::StorageType::File, true) || StorageTypeAvailable(song, Song::StorageType::Database, true)) {
       synced_lyrics_enabled = true;
     }
     if (song.titlesort_supported()) {
@@ -915,6 +958,15 @@ void EditTagDialog::SelectionChanged() {
   ui_->comment->setEnabled(comment_enabled);
   ui_->lyrics->setEnabled(lyrics_enabled);
   ui_->synced_lyrics->setEnabled(synced_lyrics_enabled);
+  ui_->lyrics_storage->setEnabled(lyrics_enabled);
+  ui_->synced_lyrics_storage->setEnabled(synced_lyrics_enabled);
+
+  // The lyrics tabs are only enabled for a single song.
+  if (indexes.count() == 1) {
+    const Data &tag_data = data_.at(indexes.first().row());
+    UpdateStorageComboBox(ui_->lyrics_storage, tag_data, false);
+    UpdateStorageComboBox(ui_->synced_lyrics_storage, tag_data, true);
+  }
   ui_->titlesort->setEnabled(titlesort_enabled);
   ui_->artistsort->setEnabled(artistsort_enabled);
   ui_->albumsort->setEnabled(albumsort_enabled);
@@ -1379,7 +1431,39 @@ void EditTagDialog::SaveData() {
       }
     }
 
-    const bool save_tags = !ref.current_.IsMetadataEqual(ref.original_);
+    // The database is only preselected for lyrics not stored anywhere, if none were entered they are still not stored anywhere.
+    // Lyrics cleared on purpose with the database selected are kept as empty lyrics in the database, so they are not restored from the tags or an LRC file.
+    if (ref.stored_lyrics_storage_type_ == Song::StorageType::None && ref.original_.lyrics().isEmpty() && ref.current_.lyrics().isEmpty() && ref.current_.lyrics_storage_type() == Song::StorageType::Database) {
+      ref.original_.set_lyrics_storage_type(Song::StorageType::None);
+      ref.current_.set_lyrics_storage_type(Song::StorageType::None);
+    }
+    if (ref.stored_synced_lyrics_storage_type_ == Song::StorageType::None && ref.original_.synced_lyrics().isEmpty() && ref.current_.synced_lyrics().isEmpty() && ref.current_.synced_lyrics_storage_type() == Song::StorageType::Database) {
+      ref.original_.set_synced_lyrics_storage_type(Song::StorageType::None);
+      ref.current_.set_synced_lyrics_storage_type(Song::StorageType::None);
+    }
+
+    // Write the LRC file first, if that fails the synchronized lyrics are not saved anywhere, so the collection does not refer to an LRC file which was not written.
+    if ((ref.current_.synced_lyrics() != ref.original_.synced_lyrics() || ref.current_.synced_lyrics_storage_type() != ref.original_.synced_lyrics_storage_type()) && ref.current_.synced_lyrics_storage_type() == Song::StorageType::File && !SaveSyncedLyricsToLrcFile(&ref.current_)) {
+      Q_EMIT Error(tr("Could not write synchronized lyrics to LRC file for %1").arg(ref.current_.url().toLocalFile()));
+      ref.current_.set_synced_lyrics(ref.original_.synced_lyrics());
+      ref.current_.set_synced_lyrics_storage_type(ref.original_.synced_lyrics_storage_type());
+      ref.current_.set_lrc_mtime(ref.original_.lrc_mtime());
+    }
+    // Cleared synchronized lyrics in an LRC file means the LRC file was removed above, so they are not stored anywhere now.
+    else if (ref.current_.synced_lyrics().isEmpty() && ref.current_.synced_lyrics_storage_type() == Song::StorageType::File) {
+      ref.current_.set_synced_lyrics_storage_type(Song::StorageType::None);
+    }
+
+    // Lyrics are only written to the tags when they are stored there, otherwise changing them alone does not require writing the tags.
+    const bool lyrics_changed = ref.current_.lyrics() != ref.original_.lyrics() || ref.current_.lyrics_storage_type() != ref.original_.lyrics_storage_type();
+    const bool synced_lyrics_changed = ref.current_.synced_lyrics() != ref.original_.synced_lyrics() || ref.current_.synced_lyrics_storage_type() != ref.original_.synced_lyrics_storage_type();
+    Song song_without_lyrics(ref.current_);
+    song_without_lyrics.set_lyrics(ref.original_.lyrics());
+    song_without_lyrics.set_synced_lyrics(ref.original_.synced_lyrics());
+    const bool save_lyrics_tags = lyrics_changed && ref.current_.lyrics_storage_type() == Song::StorageType::Tag;
+    const bool save_synced_lyrics_tags = synced_lyrics_changed && ref.current_.synced_lyrics_storage_type() == Song::StorageType::Tag;
+
+    const bool save_tags = !song_without_lyrics.IsMetadataEqual(ref.original_) || save_lyrics_tags || save_synced_lyrics_tags;
     const bool save_rating = !ref.current_.IsRatingEqual(ref.original_);
     const bool save_playcount = ref.current_.playcount() == 0 && ref.current_.skipcount() == 0 && ref.current_.lastplayed() == -1 && !ref.current_.IsPlayStatisticsEqual(ref.original_);
     const bool save_embedded_cover = ref.cover_action_ != UpdateCoverAction::None && ui_->checkbox_embedded_cover->isChecked() && ref.original_.save_embedded_cover_supported();
@@ -1494,10 +1578,25 @@ void EditTagDialog::SaveData() {
       if (save_embedded_cover) {
         save_tags_options |= TagReaderClient::SaveOption::Cover;
       }
+      // Lyrics saved to the database or an LRC file do not depend on writing the tags, so they are still saved to the collection if writing the tags fails.
+      Song song_lyrics_not_in_tags;
+      if ((lyrics_changed && ref.current_.lyrics_storage_type() != Song::StorageType::Tag) || (synced_lyrics_changed && ref.current_.synced_lyrics_storage_type() != Song::StorageType::Tag)) {
+        song_lyrics_not_in_tags = ref.original_;
+        if (lyrics_changed && ref.current_.lyrics_storage_type() != Song::StorageType::Tag) {
+          song_lyrics_not_in_tags.set_lyrics(ref.current_.lyrics());
+          song_lyrics_not_in_tags.set_lyrics_storage_type(ref.current_.lyrics_storage_type());
+        }
+        if (synced_lyrics_changed && ref.current_.synced_lyrics_storage_type() != Song::StorageType::Tag) {
+          song_lyrics_not_in_tags.set_synced_lyrics(ref.current_.synced_lyrics());
+          song_lyrics_not_in_tags.set_synced_lyrics_storage_type(ref.current_.synced_lyrics_storage_type());
+          song_lyrics_not_in_tags.set_lrc_mtime(ref.current_.lrc_mtime());
+        }
+      }
+
       TagReaderReplyPtr reply = tagreader_client_->WriteFileAsync(ref.current_.url().toLocalFile(), ref.current_, save_tags_options, save_tag_cover_data, tag_id3v2_version);
       SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
-      *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, ref, connection]() {
-        SongSaveTagsComplete(reply, ref.current_.url().toLocalFile(), ref.current_, ref.cover_action_);
+      *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, ref, song_lyrics_not_in_tags, connection]() {
+        SongSaveTagsComplete(reply, ref.current_.url().toLocalFile(), ref.current_, ref.cover_action_, song_lyrics_not_in_tags);
         QObject::disconnect(*connection);
       }, Qt::QueuedConnection);
     }
@@ -1509,6 +1608,11 @@ void EditTagDialog::SaveData() {
       if (ref.current_ == current_albumcover_loader_->last_song()) {
         current_albumcover_loader_->LoadAlbumCover(ref.current_);
       }
+    }
+
+    // Lyrics stored in the database or in an LRC file still need the collection to be updated when nothing was written to the tags.
+    if (!(save_tags || save_playcount || save_rating || save_embedded_cover) && (lyrics_changed || synced_lyrics_changed) && ref.current_.is_local_collection_song()) {
+      collection_songs_.insert(ref.current_.id(), ref.current_);
     }
 
   }
@@ -1648,7 +1752,146 @@ void EditTagDialog::UpdateLyrics(const quint64 id, const LyricsSearchResult &res
 
 }
 
-void EditTagDialog::SongSaveTagsComplete(TagReaderReplyPtr reply, const QString &filename, Song song, const UpdateCoverAction cover_action) {
+void EditTagDialog::LyricsStorageChanged(const int index) {
+
+  StorageComboBoxChanged(ui_->lyrics_storage, index, false);
+
+}
+
+void EditTagDialog::SyncedLyricsStorageChanged(const int index) {
+
+  StorageComboBoxChanged(ui_->synced_lyrics_storage, index, true);
+
+}
+
+void EditTagDialog::StorageComboBoxChanged(QComboBox *combobox, const int index, const bool synced) {
+
+  const QModelIndexList indexes = ui_->song_list->selectionModel()->selectedIndexes();
+  if (indexes.isEmpty()) return;
+
+  const Song::StorageType storage_type = static_cast<Song::StorageType>(combobox->itemData(index).toInt());
+  for (const QModelIndex &idx : indexes) {
+    if (synced) {
+      data_[idx.row()].current_.set_synced_lyrics_storage_type(storage_type);
+    }
+    else {
+      data_[idx.row()].current_.set_lyrics_storage_type(storage_type);
+    }
+  }
+
+  UpdateStorageComboBox(combobox, data_.at(indexes.first().row()), synced);
+
+}
+
+bool EditTagDialog::StorageTypeAvailable(const Song &song, const Song::StorageType storage_type, const bool synced) {
+
+  switch (storage_type) {
+    case Song::StorageType::None:
+      return false;
+    case Song::StorageType::Database:
+      return song.is_local_collection_song();
+    case Song::StorageType::Tag:
+      return synced ? song.synced_lyrics_supported() : song.lyrics_supported();
+    case Song::StorageType::File:
+      // LRC files are only for synchronized lyrics, and are not used for CUE tracks since a single LRC file would be for all tracks.
+      // Only for collection songs, since only the collection watcher reads LRC files, other songs would lose the lyrics when they are reloaded from the file.
+      return synced && song.is_local_collection_song() && !song.has_cue();
+  }
+
+  return false;
+
+}
+
+void EditTagDialog::SetAvailableStorageTypes(Song *song, const bool save_lyrics_to_tags) {
+
+  // Pick the first available storage type if the song's is not available, for example for songs without lyrics, songs not in the collection or file types without lyrics tags.
+  // The collection settings decide whether the database or the tags are preferred, an LRC file is only the default when the lyrics are already stored there.
+  const Song::StorageType preferred_storage_type = save_lyrics_to_tags ? Song::StorageType::Tag : Song::StorageType::Database;
+  const Song::StorageType other_storage_type = save_lyrics_to_tags ? Song::StorageType::Database : Song::StorageType::Tag;
+  if (!StorageTypeAvailable(*song, song->lyrics_storage_type(), false)) {
+    for (const Song::StorageType storage_type : {preferred_storage_type, other_storage_type}) {
+      if (StorageTypeAvailable(*song, storage_type, false)) {
+        song->set_lyrics_storage_type(storage_type);
+        break;
+      }
+    }
+  }
+
+  if (!StorageTypeAvailable(*song, song->synced_lyrics_storage_type(), true)) {
+    for (const Song::StorageType storage_type : {preferred_storage_type, other_storage_type, Song::StorageType::File}) {
+      if (StorageTypeAvailable(*song, storage_type, true)) {
+        song->set_synced_lyrics_storage_type(storage_type);
+        break;
+      }
+    }
+  }
+
+}
+
+void EditTagDialog::UpdateStorageComboBox(QComboBox *combobox, const Data &tag_data, const bool synced) {
+
+  if (QStandardItemModel *model = qobject_cast<QStandardItemModel*>(combobox->model())) {
+    for (int i = 0; i < combobox->count(); ++i) {
+      const Song::StorageType storage_type = static_cast<Song::StorageType>(combobox->itemData(i).toInt());
+      model->item(i)->setEnabled(StorageTypeAvailable(tag_data.current_, storage_type, synced));
+    }
+  }
+
+  const Song::StorageType original_storage_type = synced ? tag_data.original_.synced_lyrics_storage_type() : tag_data.original_.lyrics_storage_type();
+  const Song::StorageType current_storage_type = synced ? tag_data.current_.synced_lyrics_storage_type() : tag_data.current_.lyrics_storage_type();
+  {
+    const QSignalBlocker signal_blocker(combobox);
+    combobox->setCurrentIndex(combobox->findData(static_cast<int>(current_storage_type)));
+  }
+
+  // Bold when changed, like the labels of the other fields.
+  QFont combobox_font(font());
+  combobox_font.setBold(current_storage_type != original_storage_type);
+  combobox->setFont(combobox_font);
+
+}
+
+bool EditTagDialog::SaveSyncedLyricsToLrcFile(Song *song) {
+
+  const QString lrc_filename = Utilities::LRCFilename(song->url().toLocalFile());
+
+  // Cleared synchronized lyrics stored in an LRC file means removing the file.
+  if (song->synced_lyrics().isEmpty()) {
+    if (QFile::exists(lrc_filename) && !QFile::remove(lrc_filename)) {
+      qLog(Error) << "Could not remove LRC file" << lrc_filename;
+      return false;
+    }
+    song->set_lrc_mtime(0);
+    return true;
+  }
+
+  // The collection watcher only reads LRC files with timed lines, so do not write a file it would ignore.
+  const std::optional<Utilities::LRCLines> lrc_lines = Utilities::ParseLRC(song->synced_lyrics());
+  if (!lrc_lines.has_value() || lrc_lines->isEmpty()) {
+    qLog(Error) << "Not writing LRC file" << lrc_filename << "for synchronized lyrics which are not valid LRC";
+    return false;
+  }
+
+  QSaveFile file(lrc_filename);
+  if (!file.open(QIODevice::WriteOnly)) {
+    qLog(Error) << "Could not open LRC file" << lrc_filename << "for writing:" << file.errorString();
+    return false;
+  }
+  // A short write is a failure too, QSaveFile discards the file if it is not committed.
+  const QByteArray data = song->synced_lyrics().toUtf8();
+  if (file.write(data) != data.size() || !file.commit()) {
+    qLog(Error) << "Could not write LRC file" << lrc_filename << ":" << file.errorString();
+    return false;
+  }
+
+  // Store the LRC file's mtime, so the collection watcher does not see the new file as changed.
+  song->set_lrc_mtime(Utilities::FileMtimeMsec(lrc_filename));
+
+  return true;
+
+}
+
+void EditTagDialog::SongSaveTagsComplete(TagReaderReplyPtr reply, const QString &filename, Song song, const UpdateCoverAction cover_action, const Song &song_lyrics_not_in_tags) {
 
   --save_tag_pending_;
 
@@ -1690,6 +1933,10 @@ void EditTagDialog::SongSaveTagsComplete(TagReaderReplyPtr reply, const QString 
     }
     else {
       Q_EMIT Error(tr("Could not write metadata to %1: %2").arg(filename, error));
+    }
+    // The original song with only the lyrics saved to the database or an LRC file, which are saved even though writing the tags failed.
+    if (song_lyrics_not_in_tags.is_valid() && song_lyrics_not_in_tags.is_local_collection_song()) {
+      collection_songs_.insert(song_lyrics_not_in_tags.id(), song_lyrics_not_in_tags);
     }
   }
 

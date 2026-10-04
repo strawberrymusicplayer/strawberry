@@ -23,6 +23,7 @@
 
 #include <utility>
 #include <chrono>
+#include <optional>
 
 #include <QObject>
 #include <QThread>
@@ -32,6 +33,7 @@
 #include <QDirIterator>
 #include <QFile>
 #include <QFileInfo>
+#include <QByteArray>
 #include <QMetaObject>
 #include <QDateTime>
 #include <QHash>
@@ -50,6 +52,9 @@
 #include "core/taskmanager.h"
 #include "core/settings.h"
 #include "utilities/imageutils.h"
+#include "utilities/textencodingutils.h"
+#include "utilities/fileutils.h"
+#include "utilities/lrcutils.h"
 #include "constants/timeconstants.h"
 #include "constants/filesystemconstants.h"
 #include "tagreader/tagreaderclient.h"
@@ -84,6 +89,9 @@ using namespace std::chrono_literals;
 using namespace Qt::Literals::StringLiterals;
 
 namespace {
+
+// LRC files are small text files, anything larger is not read into memory.
+constexpr qint64 kMaxLrcFileSize = 1024 * 1024;
 
 const QStringList &ValidImageExtensions() {
 
@@ -621,6 +629,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   }
 
   QMap<QString, QStringList> album_art;
+  QMap<QString, QString> lrc_files;
   QStringList files_on_disk;
   CollectionSubdirectoryList my_new_subdirs;
 
@@ -665,7 +674,12 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
       else {
         const QString ext_part = ExtensionPart(child_filepath);
         const QString dir_part = DirectoryPart(child_filepath);
-        if (Song::kRejectedExtensions.contains(child_fileinfo.suffix(), Qt::CaseInsensitive) || child_fileinfo.baseName() == "qt_temp"_L1) {
+        if (ext_part == "lrc"_L1) {
+          // Synchronized lyrics for the media file with the same name, they are read together with the song.
+          lrc_files.insert(NoExtensionPart(child_filepath), child_filepath);
+          t->AddToProgress(1);
+        }
+        else if (Song::kRejectedExtensions.contains(child_fileinfo.suffix(), Qt::CaseInsensitive) || child_fileinfo.baseName() == "qt_temp"_L1) {
           t->AddToProgress(1);
         }
         else if (ValidImageExtensions().contains(ext_part)) {
@@ -712,24 +726,30 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
       }
 
       // CUE sheet's path from collection (if any).
-      qint64 matching_song_cue_mtime = static_cast<qint64>(GetMtimeForCue(matching_song.cue_path()));
+      qint64 matching_song_cue_mtime = static_cast<qint64>(GetMtimeForPath(matching_song.cue_path()));
 
       // CUE sheet's path from this file (if any).
       qint64 new_cue_mtime = 0;
       if (!new_cue.isEmpty()) {
-        new_cue_mtime = static_cast<qint64>(GetMtimeForCue(new_cue));
+        new_cue_mtime = static_cast<qint64>(GetMtimeForPath(new_cue));
       }
 
       const bool cue_added = new_cue_mtime != 0 && !matching_song.has_cue();
       const bool cue_changed = new_cue_mtime != 0 && matching_song.has_cue() && new_cue != matching_song.cue_path();
       const bool cue_deleted = matching_song.has_cue() && new_cue_mtime == 0;
 
-      // Watch out for CUE songs which have their mtime equal to qMax(media_file_mtime, cue_sheet_mtime)
-      bool changed = (matching_song.mtime() != qMax(fileinfo.lastModified().toSecsSinceEpoch(), matching_song_cue_mtime)) || cue_deleted || cue_added || cue_changed;
+      // LRC file with synchronized lyrics (if any), only used for media files without a CUE sheet.
+      const QString lrc_file = new_cue_mtime == 0 ? lrc_files.value(NoExtensionPart(file)) : QString();
+      const qint64 lrc_mtime = Utilities::FileMtimeMsec(lrc_file);
 
-      // Also want to look to see whether the album art has changed
+      // Watch out for CUE songs which have their mtime equal to qMax(media_file_mtime, cue_sheet_mtime)
+      // The LRC file's mtime is stored separately, so an added, changed or deleted LRC file is detected regardless of how its mtime compares to the media file's.
+      const bool changed_lrc = matching_song.lrc_mtime() != lrc_mtime;
+      bool changed = (matching_song.mtime() != qMax(fileinfo.lastModified().toSecsSinceEpoch(), matching_song_cue_mtime)) || cue_deleted || cue_added || cue_changed || changed_lrc;
+
+      // Also want to look to see whether the album art has changed, the cover file's mtime is stored separately like for LRC files, so a cover file replaced with the same name is detected too.
       const QUrl art_automatic = ArtForSong(file, album_art);
-      if (matching_song.art_automatic() != art_automatic || (!matching_song.art_automatic().isEmpty() && !matching_song.art_automatic_is_valid())) {
+      if (matching_song.art_automatic() != art_automatic || (!matching_song.art_automatic().isEmpty() && !matching_song.art_automatic_is_valid()) || matching_song.art_automatic_mtime() != ArtAutomaticMtime(art_automatic)) {
         changed = true;
       }
 
@@ -777,7 +797,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
 #endif
 
         if (new_cue.isEmpty() || new_cue_mtime == 0) {  // If no CUE or it's about to lose it.
-          if (!UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, cue_deleted, t)) {
+          if (!UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, lrc_file, cue_deleted, t)) {
             files_on_disk.removeAll(file);
           }
         }
@@ -829,14 +849,14 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
         // CUE sheet's path from this file (if any).
         qint64 new_cue_mtime = 0;
         if (!new_cue.isEmpty()) {
-          new_cue_mtime = static_cast<qint64>(GetMtimeForCue(new_cue));
+          new_cue_mtime = static_cast<qint64>(GetMtimeForPath(new_cue));
         }
 
         // Get new album art
         const QUrl art_automatic = ArtForSong(file, album_art);
 
         if (new_cue.isEmpty() || new_cue_mtime == 0) {  // If no CUE or it's about to lose it.
-          if (!UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, matching_songs_has_cue && new_cue_mtime == 0, t)) {
+          if (!UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, lrc_files.value(NoExtensionPart(file)), matching_songs_has_cue && new_cue_mtime == 0, t)) {
             files_on_disk.removeAll(file);
           }
         }
@@ -847,7 +867,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
       }
       else {  // The song is on disk but not in the DB
 
-        const SongList songs = ScanNewFile(file, path, fingerprint, new_cue, &cues_processed);
+        const SongList songs = ScanNewFile(file, path, fingerprint, new_cue, lrc_files.value(NoExtensionPart(file)), &cues_processed);
         if (songs.isEmpty()) {
           files_on_disk.removeAll(file);
           t->AddToProgress(1);
@@ -862,6 +882,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
         for (Song song : songs) {
           song.set_directory_id(t->dir_id());
           if (song.art_automatic().isEmpty()) song.set_art_automatic(art_automatic);
+          song.set_art_automatic_mtime(ArtAutomaticMtime(song.art_automatic()));
           t->new_songs << song;
         }
       }
@@ -944,7 +965,9 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
       const Song matching_cue_song = sections_map[static_cast<quint64>(new_cue_song.beginning_nanosec())];
       new_cue_song.set_id(matching_cue_song.id());
       new_cue_song.set_art_automatic(art_automatic);
+      new_cue_song.set_art_automatic_mtime(ArtAutomaticMtime(art_automatic));
       new_cue_song.MergeUserSetData(matching_cue_song, true, true);
+      SetLyricsFromStorage(&new_cue_song, matching_cue_song, QString());
       AddChangedSong(file, matching_cue_song, new_cue_song, t);
       used_ids.insert(matching_cue_song.id());
     }
@@ -966,6 +989,7 @@ bool CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
                                                    const QString &fingerprint,
                                                    const SongList &matching_songs,
                                                    const QUrl &art_automatic,
+                                                   const QString &lrc_file,
                                                    const bool cue_deleted,
                                                    ScanTransaction *t) {
 
@@ -988,6 +1012,8 @@ bool CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
     PerformEBUR128Analysis(song_on_disk);
     song_on_disk.set_fingerprint(fingerprint);
     song_on_disk.set_art_automatic(art_automatic);
+    song_on_disk.set_art_automatic_mtime(ArtAutomaticMtime(art_automatic));
+    SetLyricsFromStorage(&song_on_disk, matching_song, lrc_file);
     song_on_disk.MergeUserSetData(matching_song, !overwrite_playcount_, !overwrite_rating_);
     AddChangedSong(file, matching_song, song_on_disk, t);
   }
@@ -996,11 +1022,11 @@ bool CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
 
 }
 
-SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, QSet<QString> *cues_processed) const {
+SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, const QString &lrc_file, QSet<QString> *cues_processed) const {
 
   SongList songs;
 
-  quint64 matching_cue_mtime = GetMtimeForCue(matching_cue);
+  quint64 matching_cue_mtime = GetMtimeForPath(matching_cue);
   if (matching_cue_mtime != 0) {  // If it's a CUE - create virtual tracks
 
     // Don't process the same CUE many times
@@ -1040,6 +1066,7 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
       song.set_source(source_);
       PerformEBUR128Analysis(song);
       song.set_fingerprint(fingerprint);
+      SetLyricsFromStorage(&song, Song(), lrc_file);
       songs << song;
     }
   }
@@ -1112,6 +1139,11 @@ void CollectionWatcher::AddChangedSong(const QString &file, const Song &matching
     if (matching_song.ctime() != new_song.ctime()) {
       changes << u"ctime"_s;
     }
+    // Touched songs only have their mtime updated, so where the lyrics are stored, including the LRC file's mtime, needs a full update to be stored, also when the lyrics did not change.
+    if (!matching_song.IsLyricsStorageEqual(new_song)) {
+      changes << u"lyrics storage"_s;
+      notify_new = true;
+    }
 
     if (changes.isEmpty()) {
       qLog(Debug) << "Song" << file << "unchanged.";
@@ -1147,20 +1179,90 @@ void CollectionWatcher::PerformEBUR128Analysis(Song &song) const {
 
 }
 
-quint64 CollectionWatcher::GetMtimeForCue(const QString &cue_path) {
+quint64 CollectionWatcher::GetMtimeForPath(const QString &path) {
 
-  if (cue_path.isEmpty()) {
+  if (path.isEmpty()) {
     return 0;
   }
 
-  const QFileInfo fileinfo(cue_path);
+  const QFileInfo fileinfo(path);
   if (!fileinfo.exists()) {
     return 0;
   }
 
-  const QDateTime cue_last_modified = fileinfo.lastModified();
+  const QDateTime last_modified = fileinfo.lastModified();
 
-  return cue_last_modified.isValid() ? static_cast<quint64>(cue_last_modified.toSecsSinceEpoch()) : 0;
+  return last_modified.isValid() ? static_cast<quint64>(last_modified.toSecsSinceEpoch()) : 0;
+
+}
+
+QString CollectionWatcher::ReadSyncedLyricsFromLrc(const QString &lrc_file) {
+
+  QFile file(lrc_file);
+  if (!file.open(QIODevice::ReadOnly)) {
+    qLog(Error) << "Could not open LRC file" << lrc_file << "for reading:" << file.errorString();
+    return QString();
+  }
+
+  // Read at most one byte more than the limit, so the limit holds even if the file grows after its size was checked.
+  const QByteArray data = file.read(kMaxLrcFileSize + 1);
+  file.close();
+  if (data.size() > kMaxLrcFileSize) {
+    qLog(Warning) << "Ignoring LRC file" << lrc_file << "which is larger than" << kMaxLrcFileSize << "bytes";
+    return QString();
+  }
+
+  // LRC files are not always UTF-8, detect the encoding like for other text files.
+  const QString synced_lyrics = Utilities::TextFromData(data);
+  const std::optional<Utilities::LRCLines> lrc_lines = Utilities::ParseLRC(synced_lyrics);
+  if (!lrc_lines.has_value() || lrc_lines->isEmpty()) {
+    qLog(Debug) << "Ignoring LRC file" << lrc_file << "which is not valid LRC";
+    return QString();
+  }
+
+  return synced_lyrics;
+
+}
+
+void CollectionWatcher::SetLyricsFromStorage(Song *song, const Song &matching_song, const QString &lrc_file) {
+
+  // song has just been read from the tags, which sets the storage type to the tags for lyrics found there, otherwise it is the database.
+  // matching_song is the song from the collection, or an empty song for new songs.
+
+  // Lyrics stored in the database only are kept.
+  // Empty lyrics in the database are lyrics cleared on purpose, so they are kept too, otherwise they would be restored from the tags or an LRC file.
+  if (matching_song.is_valid() && matching_song.lyrics_storage_type() == Song::StorageType::Database) {
+    song->set_lyrics(matching_song.lyrics());
+    song->set_lyrics_storage_type(Song::StorageType::Database);
+  }
+
+  // Store the LRC file's mtime even if it is not used or not valid, so the song is only rescanned again when the LRC file changes.
+  const QFileInfo lrc_fileinfo(lrc_file);
+  const bool lrc_file_exists = !lrc_file.isEmpty() && lrc_fileinfo.exists();
+  song->set_lrc_mtime(lrc_file_exists ? Utilities::FileMtimeMsec(lrc_file) : 0);
+
+  if (matching_song.is_valid() && matching_song.synced_lyrics_storage_type() == Song::StorageType::Database) {
+    song->set_synced_lyrics(matching_song.synced_lyrics());
+    song->set_synced_lyrics_storage_type(Song::StorageType::Database);
+    return;
+  }
+
+  // Synchronized lyrics saved to an LRC file take precedence over the tags, otherwise the tags take precedence and the LRC file is only used when the tags have none.
+  if (!lrc_file_exists || (matching_song.synced_lyrics_storage_type() != Song::StorageType::File && !song->synced_lyrics().isEmpty())) {
+    return;
+  }
+
+  // Skip reading larger files completely, ReadSyncedLyricsFromLrc() also limits how much it reads.
+  if (lrc_fileinfo.size() > kMaxLrcFileSize) {
+    qLog(Warning) << "Ignoring LRC file" << lrc_file << "which is larger than" << kMaxLrcFileSize << "bytes";
+    return;
+  }
+
+  const QString synced_lyrics = ReadSyncedLyricsFromLrc(lrc_file);
+  if (!synced_lyrics.isEmpty()) {
+    song->set_synced_lyrics(synced_lyrics);
+    song->set_synced_lyrics_storage_type(Song::StorageType::File);
+  }
 
 }
 
@@ -1340,6 +1442,12 @@ QString CollectionWatcher::PickBestArt(const QStringList &art_automatic_list) {
   }
 
   return biggest_path;
+
+}
+
+qint64 CollectionWatcher::ArtAutomaticMtime(const QUrl &art_automatic) {
+
+  return art_automatic.isLocalFile() ? Utilities::FileMtimeMsec(art_automatic.toLocalFile()) : 0;
 
 }
 
