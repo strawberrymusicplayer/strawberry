@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2025-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,9 +19,12 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <QByteArray>
 #include <QVariant>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 #include <QUrlQuery>
 #include <QRegularExpression>
@@ -32,6 +35,7 @@
 
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
+#include "utilities/lrcutils.h"
 #include "jsonlyricsprovider.h"
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"
@@ -134,15 +138,41 @@ void LrcLibLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id,
       !json_object.contains("trackName"_L1) ||
       !json_object.contains("artistName"_L1) ||
       !json_object.contains("albumName"_L1) ||
-      !json_object.contains("plainLyrics"_L1)) {
+      (!json_object.contains("plainLyrics"_L1) && !json_object.contains("syncedLyrics"_L1))) {
     return;
   }
 
+  // Either of the lyrics can be null, for example syncedLyrics is null when there are no synchronized lyrics for the track.
   LyricsSearchResult result;
   result.artist = json_object["artistName"_L1].toString();
   result.album = json_object["albumName"_L1].toString();
   result.title = json_object["trackName"_L1].toString();
   result.lyrics = json_object["plainLyrics"_L1].toString();
+  result.synced_lyrics = json_object["syncedLyrics"_L1].toString();
+
+  if (!result.synced_lyrics.isEmpty()) {
+    const std::optional<Utilities::LRCLines> lrc_lines = Utilities::ParseLRC(result.synced_lyrics);
+    if (!lrc_lines.has_value()) {
+      // Synchronized lyrics which are not valid LRC can not be shown anywhere, so drop them.
+      result.synced_lyrics.clear();
+    }
+    else if (result.lyrics.trimmed().isEmpty()) {
+      // Derive the plain lyrics from the synchronized lyrics, so the result is still usable where only plain lyrics are shown.
+      // Whitespace only plain lyrics are treated as missing, the same as in the check below.
+      QStringList lines;
+      lines.reserve(lrc_lines->size());
+      for (const Utilities::LRCLine &lrc_line : *lrc_lines) {
+        lines << lrc_line.text;
+      }
+      result.lyrics = lines.join(u'\n');
+    }
+  }
+
+  // Plain lyrics are always set when there are usable synchronized lyrics, since they are derived from them above.
+  if (result.lyrics.trimmed().isEmpty()) {
+    return;
+  }
+
   results << result;
 
 }

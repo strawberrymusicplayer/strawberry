@@ -164,6 +164,7 @@ void RegisterMetaTypes() {
   qRegisterMetaType<SmartPlaylistSearchTerm::DateType>("SmartPlaylistSearchTerm::DateType");
   qRegisterMetaType<SmartPlaylistsItem::Type>("SmartPlaylistsItem::Type");
 
+  qRegisterMetaType<LyricsSearchResult>("LyricsSearchResult");
   qRegisterMetaType<LyricsSearchResults>("LyricsSearchResults");
 
 }
