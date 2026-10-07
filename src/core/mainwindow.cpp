@@ -999,6 +999,8 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongMetadataChanged, context_view_, &ContextView::SongChanged);
   QObject::connect(&*app_->player(), &Player::PlaylistFinished, context_view_, &ContextView::Stopped);
   QObject::connect(&*app_->player(), &Player::Playing, context_view_, &ContextView::Playing);
+  QObject::connect(&*app_->player(), &Player::Paused, context_view_, &ContextView::Paused);
+  QObject::connect(&*app_->player(), &Player::Seeked, context_view_, &ContextView::Seeked);
   QObject::connect(&*app_->player(), &Player::Stopped, context_view_, &ContextView::Stopped);
   QObject::connect(&*app_->player(), &Player::Error, context_view_, &ContextView::Error);
   QObject::connect(this, &MainWindow::AlbumCoverReady, context_view_, &ContextView::AlbumCoverLoaded);

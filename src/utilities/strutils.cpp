@@ -23,6 +23,8 @@
 #include <QUrl>
 #include <QStringList>
 #include <QRegularExpression>
+#include <QRegularExpressionMatch>
+#include <QRegularExpressionMatchIterator>
 #include <QMetaObject>
 #include <QMetaEnum>
 
@@ -117,17 +119,18 @@ QString DecodeHtmlEntities(const QString &text) {
 QString ReplaceMessage(const QString &message, const Song &song, const QString &newline, const bool html_escaped) {
 
   static const QRegularExpression variable_replacer(u"[%][a-z]+[%]"_s);
-  QString copy(message);
 
-  // Replace the first line
-  qint64 pos = 0;
-  QRegularExpressionMatch match;
-  for (match = variable_replacer.match(message, pos); match.hasMatch(); match = variable_replacer.match(message, pos)) {
-    pos = match.capturedStart();
-    QStringList captured = match.capturedTexts();
-    copy.replace(captured[0], ReplaceVariable(captured[0], song, newline, html_escaped));
-    pos += match.capturedLength();
+  // Build the result in one pass, so variables in the values themselves, for example a title containing "%album%", are not replaced.
+  QString copy;
+  qsizetype pos = 0;
+  QRegularExpressionMatchIterator match_iterator = variable_replacer.globalMatch(message);
+  while (match_iterator.hasNext()) {
+    const QRegularExpressionMatch match = match_iterator.next();
+    copy += message.mid(pos, match.capturedStart() - pos);
+    copy += ReplaceVariable(match.captured(0), song, newline, html_escaped);
+    pos = match.capturedEnd();
   }
+  copy += message.mid(pos);
 
   static const QRegularExpression regexp(u" - (>|$)"_s);
   qint64 index_of = copy.indexOf(regexp);
