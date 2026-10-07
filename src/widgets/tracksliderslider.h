@@ -33,9 +33,7 @@ class QMouseEvent;
 class QWheelEvent;
 class QEnterEvent;
 
-#ifndef Q_OS_MACOS
 class TrackSliderPopup;
-#endif
 
 // It's the slider inside the TrackSliderSlider
 class TrackSliderSlider : public QSlider {
@@ -67,9 +65,7 @@ class TrackSliderSlider : public QSlider {
   // Units are eighths of a degree
   static const int WHEEL_ROTATION_TO_SEEK = 120;
 
-#ifndef Q_OS_MACOS
   TrackSliderPopup *popup_;
-#endif
 
   int mouse_hover_seconds_;
 
