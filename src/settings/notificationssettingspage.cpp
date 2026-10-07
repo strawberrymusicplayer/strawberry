@@ -268,7 +268,7 @@ void NotificationsSettingsPage::Save() {
   s.setValue(OSDPrettySettings::kBackgroundOpacity, pretty_popup_->background_opacity());
   s.setValue(OSDPrettySettings::kPopupScreen, pretty_popup_->popup_screen());
   s.setValue(OSDPrettySettings::kPopupPos, pretty_popup_->popup_pos());
-  s.setValue(OSDPrettySettings::kFont, pretty_popup_->font().toString());
+  s.setValue(OSDPrettySettings::kFont, pretty_popup_->osd_font().toString());
   s.setValue(OSDPrettySettings::kDisableDuration, ui_->notifications_disable_duration->isChecked());
   s.setValue(OSDPrettySettings::kFading, ui_->notifications_fading->isChecked());
   s.endGroup();
@@ -342,7 +342,7 @@ void NotificationsSettingsPage::ChooseFgColor() {
 void NotificationsSettingsPage::ChooseFont() {
 
   bool ok = false;
-  QFont font = QFontDialog::getFont(&ok, pretty_popup_->font(), this);
+  QFont font = QFontDialog::getFont(&ok, pretty_popup_->osd_font(), this);
   if (ok) {
     pretty_popup_->set_font(font);
     set_changed();
