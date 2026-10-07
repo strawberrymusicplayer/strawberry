@@ -60,12 +60,12 @@ class OSDPretty : public QWidget {
   explicit OSDPretty(const Mode mode, QWidget *parent = nullptr);
   ~OSDPretty() override;
 
-  bool IsTransparencyAvailable();
+  bool IsTransparencyAvailable() const;
 
   void SetMessage(const QString &summary, const QString &message, const QImage &image);
   void ShowMessage(const QString &summary, const QString &message, const QImage &image);
 
-  // Popup duration in seconds.  Only used in Mode_Popup.
+  // Popup duration in milliseconds.  Only used in Mode::Popup.
   void set_popup_duration(const int msec);
 
   // These will get overwritten when ReloadSettings() is called
@@ -79,7 +79,7 @@ class OSDPretty : public QWidget {
   qreal background_opacity() const { return background_opacity_; }
   QString popup_screen() const { return popup_screen_name_; }
   QPoint popup_pos() const { return popup_pos_; }
-  QFont font() const { return font_; }
+  QFont osd_font() const { return font_; }
   bool disable_duration() const { return disable_duration_; }
   bool fading() const { return fading_enabled_; }
 
@@ -112,6 +112,7 @@ class OSDPretty : public QWidget {
 
  private:
   void Reposition();
+  void UpdateMaximumSize();
   void Load();
 
   QRect BoxBorder() const;

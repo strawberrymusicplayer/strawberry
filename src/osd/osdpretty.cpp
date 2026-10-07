@@ -152,8 +152,14 @@ OSDPretty::OSDPretty(const Mode mode, QWidget *parent)
   margin.setRight(margin.right() + kDropShadowSize);
   l->setContentsMargins(margin);
 
+  const QList<QScreen*> screens = QGuiApplication::screens();
+  for (QScreen *screen : screens) {
+    screens_.insert(screen->name(), screen);
+  }
   QObject::connect(qApp, &QApplication::screenAdded, this, &OSDPretty::ScreenAdded);
   QObject::connect(qApp, &QApplication::screenRemoved, this, &OSDPretty::ScreenRemoved);
+
+  Load();
 
 }
 
@@ -163,28 +169,14 @@ OSDPretty::~OSDPretty() {
 
 void OSDPretty::showEvent(QShowEvent *e) {
 
-  screens_.clear();
-  const QList<QScreen*> screens = QGuiApplication::screens();
-  for (QScreen *screen : screens) {
-    screens_.insert(screen->name(), screen);
-  }
+  // The settings are not loaded here, they are loaded with ReloadSettings(), otherwise unsaved changes to the preview in the settings dialog would be lost.
 
-  // Get current screen resolution
-  QScreen *screen = current_screen();
-  if (screen) {
-    QRect resolution = screen->availableGeometry();
-    // Leave 200 px for icon
-    ui_->summary->setMaximumWidth(resolution.width() - 200);
-    ui_->message->setMaximumWidth(resolution.width() - 200);
-    // Set maximum size for the OSD, a little margin here too
-    setMaximumSize(resolution.width() - 100, resolution.height() - 100);
-  }
+  UpdateMaximumSize();
 
   setWindowOpacity(fading_enabled_ ? 0.0 : 1.0);
 
   QWidget::showEvent(e);
 
-  Load();
   Reposition();
 
   if (fading_enabled_) {
@@ -205,16 +197,32 @@ void OSDPretty::ScreenAdded(QScreen *screen) {
 
   screens_.insert(screen->name(), screen);
 
+  // Show the OSD on the configured screen again when it is added back, also when it is shown right now.
+  if (screen->name() == popup_screen_name_) {
+    popup_screen_ = screen;
+    if (isVisible()) {
+      UpdateMaximumSize();
+      Reposition();
+    }
+  }
+
 }
 
 void OSDPretty::ScreenRemoved(QScreen *screen) {
 
   if (screens_.contains(screen->name())) screens_.remove(screen->name());
-  if (screen == popup_screen_) popup_screen_ = current_screen();
+  // Fall back to another screen, but keep the configured screen name, so the OSD is shown on it again when it is added back.
+  if (screen == popup_screen_) {
+    popup_screen_ = current_screen();
+    if (isVisible()) {
+      UpdateMaximumSize();
+      Reposition();
+    }
+  }
 
 }
 
-bool OSDPretty::IsTransparencyAvailable() {
+bool OSDPretty::IsTransparencyAvailable() const {
 
   if (qApp) {
     const QString platform = QGuiApplication::platformName();
@@ -268,9 +276,8 @@ void OSDPretty::Load() {
       popup_screen_ = screens_.value(popup_screen_name_);
     }
     else {
+      // Fall back to another screen, but keep the configured screen name, so ScreenAdded() shows the OSD on it again when it is added back.
       popup_screen_ = current_screen();
-      if (current_screen()) popup_screen_name_ = current_screen()->name();
-      else popup_screen_name_.clear();
     }
   }
   else {
@@ -282,18 +289,15 @@ void OSDPretty::Load() {
     popup_pos_ = s.value(OSDPrettySettings::kPopupPos).toPoint();
   }
   else {
-    if (popup_screen_) {
-      QRect geometry = popup_screen_->availableGeometry();
-      popup_pos_.setX(geometry.width() - width());
-      popup_pos_.setY(0);
-    }
-    else {
-      popup_pos_.setX(0);
-      popup_pos_.setY(0);
-    }
+    // Top right corner by default, -1 means the right edge, so it does not depend on the size of the OSD, which is not known before a message is set.
+    popup_pos_.setX(-1);
+    popup_pos_.setY(0);
   }
 
-  set_font(font());
+  // The screen can have changed while the OSD is shown, update the size limits before set_font() repositions it.
+  UpdateMaximumSize();
+
+  set_font(font_);
   set_foreground_color(foreground_color());
 
   s.endGroup();
@@ -436,6 +440,21 @@ void OSDPretty::FaderValueChanged(const qreal value) {
   setWindowOpacity(value);
 }
 
+void OSDPretty::UpdateMaximumSize() {
+
+  // Get the resolution of the screen the OSD is shown on
+  QScreen *screen = popup_screen_ ? popup_screen_ : current_screen();
+  if (!screen) return;
+
+  const QRect resolution = screen->availableGeometry();
+  // Leave 200 px for icon
+  ui_->summary->setMaximumWidth(resolution.width() - 200);
+  ui_->message->setMaximumWidth(resolution.width() - 200);
+  // Set maximum size for the OSD, a little margin here too
+  setMaximumSize(resolution.width() - 100, resolution.height() - 100);
+
+}
+
 void OSDPretty::Reposition() {
 
   // Make the OSD the proper size
@@ -447,15 +466,26 @@ void OSDPretty::Reposition() {
 
     QRect geometry = popup_screen_->availableGeometry();
 
-    int x = popup_pos_.x() < 0 ? geometry.right() - width() : geometry.left() + popup_pos_.x();
-    int y = popup_pos_.y() < 0 ? geometry.bottom() - height() : geometry.top() + popup_pos_.y();
+    int x = popup_pos_.x() < 0 ? geometry.right() + 1 - width() : geometry.left() + popup_pos_.x();
+    int y = popup_pos_.y() < 0 ? geometry.bottom() + 1 - height() : geometry.top() + popup_pos_.y();
 
-#ifndef Q_OS_WIN32
-    x = qBound(0, x, geometry.right() - width());
-    y = qBound(0, y, geometry.bottom() - height());
-#endif
+    // Keep it on the screen, screens left of or above the primary screen have negative coordinates.
+    // QRect::right() and bottom() are the last pixel inside the screen, so add 1 for the OSD to reach the edge.
+    // qMax() keeps the range valid if the OSD is still larger than the screen.
+    x = qBound(geometry.left(), x, qMax(geometry.left(), geometry.right() + 1 - width()));
+    y = qBound(geometry.top(), y, qMax(geometry.top(), geometry.bottom() + 1 - height()));
     move(x, y);
   }
+
+  const bool transparency_available = IsTransparencyAvailable();
+
+#ifndef Q_OS_WIN32
+  // The mask is only needed without a compositing window manager, then it is set as XShape mask.
+  if (transparency_available) {
+    clearMask();
+    return;
+  }
+#endif
 
   // Create a mask for the actual area of the OSD
   QBitmap mask(size());
@@ -466,9 +496,9 @@ void OSDPretty::Reposition() {
   p.drawRoundedRect(BoxBorder().adjusted(-1, -1, 0, 0), kBorderRadius, kBorderRadius);
   p.end();
 
-  // If there's no compositing window manager running then we have to set an XShape mask.
-  if (IsTransparencyAvailable())
+  if (transparency_available) {
     clearMask();
+  }
   else {
     setMask(mask);
   }
@@ -520,10 +550,20 @@ void OSDPretty::mouseMoveEvent(QMouseEvent *e) {
     QScreen *screen = current_screen(e->globalPosition().toPoint());
     if (!screen) return;
 
+    // When dragged to another screen, update the size limits for it first, so the OSD fits on it before it is kept within its bounds.
+    if (screen != popup_screen_) {
+      popup_screen_ = screen;
+      popup_screen_name_ = screen->name();
+      UpdateMaximumSize();
+      layout()->activate();
+      resize(sizeHint());
+    }
+
     QRect geometry = screen->availableGeometry();
 
-    new_pos.setX(qBound(geometry.left(), new_pos.x(), geometry.right() - width()));
-    new_pos.setY(qBound(geometry.top(), new_pos.y(), geometry.bottom() - height()));
+    // qMax() keeps the range valid if the OSD is still larger than the screen.
+    new_pos.setX(qBound(geometry.left(), new_pos.x(), qMax(geometry.left(), geometry.right() + 1 - width())));
+    new_pos.setY(qBound(geometry.top(), new_pos.y(), qMax(geometry.top(), geometry.bottom() + 1 - height())));
 
     // Snap to center
     int snap_x = geometry.center().x() - width() / 2;
@@ -532,9 +572,6 @@ void OSDPretty::mouseMoveEvent(QMouseEvent *e) {
     }
 
     move(new_pos);
-
-    popup_screen_ = screen;
-    popup_screen_name_ = screen->name();
   }
 
 }
@@ -568,8 +605,8 @@ QPoint OSDPretty::current_pos() const {
   if (current_screen()) {
     QRect geometry = current_screen()->availableGeometry();
 
-    int x = pos().x() >= geometry.right() - width() ? -1 : pos().x() - geometry.left();
-    int y = pos().y() >= geometry.bottom() - height() ? -1 : pos().y() - geometry.top();
+    int x = pos().x() >= geometry.right() + 1 - width() ? -1 : pos().x() - geometry.left();
+    int y = pos().y() >= geometry.bottom() + 1 - height() ? -1 : pos().y() - geometry.top();
 
     return QPoint(x, y);
   }
