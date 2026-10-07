@@ -49,7 +49,7 @@
 #include "core/standardpaths.h"
 #include "core/settings.h"
 #include "utilities/strutils.h"
-#include "collection/collectionlibrary.h"
+#include "collection/collectionmanager.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectiondirectory.h"
@@ -66,7 +66,7 @@ using namespace Qt::Literals::StringLiterals;
 using namespace CollectionSettings;
 
 CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog,
-                                               const SharedPtr<CollectionLibrary> collection,
+                                               const SharedPtr<CollectionManager> collection,
                                                const SharedPtr<CollectionBackend> collection_backend,
                                                CollectionModel *collection_model,
                                                CollectionDirectoryModel *collection_directory_model,

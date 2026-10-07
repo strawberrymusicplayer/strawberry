@@ -35,7 +35,7 @@
 #include "core/memorydatabase.h"
 #include "constants/timeconstants.h"
 #include "collection/collectionbackend.h"
-#include "collection/collectionlibrary.h"
+#include "collection/collectionmanager.h"
 
 using namespace Qt::Literals::StringLiterals;
 using std::make_unique;
@@ -50,7 +50,7 @@ class CollectionBackendTest : public ::testing::Test {
   void SetUp() override {
     database_ = make_shared<MemoryDatabase>(nullptr);
     backend_ = make_unique<CollectionBackend>();
-    backend_->Init(database_, nullptr, Song::Source::Collection, QLatin1String(CollectionLibrary::kSongsTable), QLatin1String(CollectionLibrary::kDirsTable), QLatin1String(CollectionLibrary::kSubdirsTable));
+    backend_->Init(database_, nullptr, Song::Source::Collection, QLatin1String(CollectionManager::kSongsTable), QLatin1String(CollectionManager::kDirsTable), QLatin1String(CollectionManager::kSubdirsTable));
   }
 
   static Song MakeDummySong(int directory_id) {
@@ -724,7 +724,7 @@ TEST_F(TestUrls, TestUrls) {
 
     QSqlDatabase db(database_->Connect());
     QSqlQuery q(db);
-    q.prepare(QStringLiteral("SELECT url FROM %1 WHERE url = :url").arg(QLatin1String(CollectionLibrary::kSongsTable)));
+    q.prepare(QStringLiteral("SELECT url FROM %1 WHERE url = :url").arg(QLatin1String(CollectionManager::kSongsTable)));
 
     q.bindValue(u":url"_s, url.toString(QUrl::FullyEncoded));
     EXPECT_TRUE(q.exec());
@@ -802,7 +802,7 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
     SongMap songs;
     {
       QSqlDatabase db(database_->Connect());
-      CollectionQuery query(db, QLatin1String(CollectionLibrary::kSongsTable));
+      CollectionQuery query(db, QLatin1String(CollectionManager::kSongsTable));
       EXPECT_TRUE(backend_->ExecCollectionQuery(&query, songs));
     }
 

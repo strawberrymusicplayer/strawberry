@@ -34,7 +34,7 @@
 
 class QModelIndex;
 class SettingsDialog;
-class CollectionLibrary;
+class CollectionManager;
 class CollectionBackend;
 class CollectionModel;
 class CollectionDirectoryModel;
@@ -45,7 +45,7 @@ class CollectionSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit CollectionSettingsPage(SettingsDialog *dialog, const SharedPtr<CollectionLibrary> collection, const SharedPtr<CollectionBackend> collection_backend, CollectionModel *collection_model, CollectionDirectoryModel *collection_directory_model, QWidget *parent = nullptr);
+  explicit CollectionSettingsPage(SettingsDialog *dialog, const SharedPtr<CollectionManager> collection, const SharedPtr<CollectionBackend> collection_backend, CollectionModel *collection_model, CollectionDirectoryModel *collection_directory_model, QWidget *parent = nullptr);
   ~CollectionSettingsPage() override;
 
   void Load() override;
@@ -73,7 +73,7 @@ class CollectionSettingsPage : public SettingsPage {
  private:
   Ui_CollectionSettingsPage *ui_;
 
-  const SharedPtr<CollectionLibrary> collection_;
+  const SharedPtr<CollectionManager> collection_;
   const SharedPtr<CollectionBackend> collection_backend_;
   CollectionModel *collection_model_;
   CollectionSettingsDirectoryModel *collectionsettings_directory_model_;

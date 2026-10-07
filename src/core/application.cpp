@@ -49,7 +49,7 @@
 #include "credentialsmanager/credentialsmanager.h"
 #include "engine/audiodevicelisters.h"
 #include "tagreader/tagreaderclient.h"
-#include "collection/collectionlibrary.h"
+#include "collection/collectionmanager.h"
 #include "playlist/playlistbackend.h"
 #include "playlist/playlistmanager.h"
 #include "device/devicemanager.h"
@@ -149,7 +149,7 @@ class ApplicationImpl {
         audio_device_listers_([]() { return new AudioDeviceListers(); }),
         url_handlers_([]() { return new UrlHandlers(); }),
         device_manager_([app]() { return new DeviceManager(app->task_manager(), app->database(), app->tagreader_client(), app->albumcover_loader()); }),
-        collection_([app]() { return new CollectionLibrary(app->database(), app->task_manager(), app->tagreader_client(), app->albumcover_loader()); }),
+        collection_([app]() { return new CollectionManager(app->database(), app->task_manager(), app->tagreader_client(), app->albumcover_loader()); }),
         playlist_backend_([this, app]() {
           PlaylistBackend *playlist_backend = new PlaylistBackend(app->database(), app->tagreader_client(), app->collection_backend());
           app->MoveToThread(playlist_backend, database_->thread());
@@ -251,7 +251,7 @@ class ApplicationImpl {
   Lazy<AudioDeviceListers> audio_device_listers_;
   Lazy<UrlHandlers> url_handlers_;
   Lazy<DeviceManager> device_manager_;
-  Lazy<CollectionLibrary> collection_;
+  Lazy<CollectionManager> collection_;
   Lazy<PlaylistBackend> playlist_backend_;
   Lazy<PlaylistManager> playlist_manager_;
   Lazy<CoverProviders> cover_providers_;
@@ -355,7 +355,7 @@ void Application::Exit() {
   QObject::connect(&*tagreader_client(), &TagReaderClient::ExitFinished, this, &Application::ExitReceived);
   tagreader_client()->ExitAsync();
 
-  QObject::connect(&*collection(), &CollectionLibrary::ExitFinished, this, &Application::ExitReceived);
+  QObject::connect(&*collection(), &CollectionManager::ExitFinished, this, &Application::ExitReceived);
   collection()->Exit();
 
   QObject::connect(&*playlist_backend(), &PlaylistBackend::ExitFinished, this, &Application::ExitReceived);
@@ -400,7 +400,7 @@ SharedPtr<CredentialsManager> Application::credentials_manager() const { return 
 SharedPtr<AudioDeviceListers> Application::audio_device_listers() const { return p_->audio_device_listers_.ptr(); }
 SharedPtr<UrlHandlers> Application::url_handlers() const { return p_->url_handlers_.ptr(); }
 SharedPtr<DeviceManager> Application::device_manager() const { return p_->device_manager_.ptr(); }
-SharedPtr<CollectionLibrary> Application::collection() const { return p_->collection_.ptr(); }
+SharedPtr<CollectionManager> Application::collection() const { return p_->collection_.ptr(); }
 SharedPtr<CollectionBackend> Application::collection_backend() const { return collection()->backend(); }
 CollectionModel *Application::collection_model() const { return collection()->model(); }
 SharedPtr<AlbumCoverLoader> Application::albumcover_loader() const { return p_->albumcover_loader_.ptr(); }

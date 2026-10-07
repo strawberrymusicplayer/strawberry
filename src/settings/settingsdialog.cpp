@@ -52,7 +52,7 @@
 #include "core/appearance.h"
 #include "utilities/screenutils.h"
 #include "widgets/groupediconview.h"
-#include "collection/collectionlibrary.h"
+#include "collection/collectionmanager.h"
 #include "collection/collectionmodel.h"
 #include "streaming/streamingservices.h"
 
@@ -119,7 +119,7 @@ constexpr char kGeometry[] = "geometry";
 
 SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
                                const SharedPtr<AudioDeviceListers> audio_device_listers,
-                               const SharedPtr<CollectionLibrary> collection,
+                               const SharedPtr<CollectionManager> collection,
                                const SharedPtr<CoverProviders> cover_providers,
                                const SharedPtr<LyricsProviders> lyrics_providers,
                                const SharedPtr<AudioScrobbler> scrobbler,

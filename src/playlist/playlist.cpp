@@ -67,7 +67,7 @@
 #include "constants/timeconstants.h"
 #include "constants/playlistsettings.h"
 #include "tagreader/tagreaderclient.h"
-#include "collection/collectionlibrary.h"
+#include "collection/collectionmanager.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionplaylistitem.h"
 #include "covermanager/albumcoverloaderresult.h"

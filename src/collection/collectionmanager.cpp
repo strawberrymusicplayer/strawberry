@@ -40,7 +40,7 @@
 #include "core/settings.h"
 #include "tagreader/tagreaderclient.h"
 #include "utilities/threadutils.h"
-#include "collectionlibrary.h"
+#include "collectionmanager.h"
 #include "collectionwatcher.h"
 #include "collectionbackend.h"
 #include "collectionmodel.h"
@@ -48,11 +48,11 @@
 
 using std::make_shared;
 
-const char *CollectionLibrary::kSongsTable = "songs";
-const char *CollectionLibrary::kDirsTable = "directories";
-const char *CollectionLibrary::kSubdirsTable = "subdirectories";
+const char *CollectionManager::kSongsTable = "songs";
+const char *CollectionManager::kDirsTable = "directories";
+const char *CollectionManager::kSubdirsTable = "subdirectories";
 
-CollectionLibrary::CollectionLibrary(const SharedPtr<Database> database,
+CollectionManager::CollectionManager(const SharedPtr<Database> database,
                                      const SharedPtr<TaskManager> task_manager,
                                      const SharedPtr<TagReaderClient> tagreader_client,
                                      const SharedPtr<AlbumCoverLoader> albumcover_loader,
@@ -87,7 +87,7 @@ CollectionLibrary::CollectionLibrary(const SharedPtr<Database> database,
 
 }
 
-CollectionLibrary::~CollectionLibrary() {
+CollectionManager::~CollectionManager() {
 
   if (watcher_) {
     watcher_->Abort();
@@ -100,7 +100,7 @@ CollectionLibrary::~CollectionLibrary() {
 
 }
 
-void CollectionLibrary::Init() {
+void CollectionManager::Init() {
 
   watcher_ = new CollectionWatcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
   watcher_thread_ = new Thread(this);
@@ -114,12 +114,12 @@ void CollectionLibrary::Init() {
 
   watcher_thread_->start(QThread::IdlePriority);
 
-  QObject::connect(&*backend_, &CollectionBackend::Error, this, &CollectionLibrary::Error);
+  QObject::connect(&*backend_, &CollectionBackend::Error, this, &CollectionManager::Error);
   QObject::connect(&*backend_, &CollectionBackend::DirectoryAdded, watcher_, &CollectionWatcher::AddDirectory);
   QObject::connect(&*backend_, &CollectionBackend::DirectoryDeleted, watcher_, &CollectionWatcher::RemoveDirectory);
-  QObject::connect(&*backend_, &CollectionBackend::SongsRatingChanged, this, &CollectionLibrary::SongsRatingChanged);
-  QObject::connect(&*backend_, &CollectionBackend::SongsStatisticsChanged, this, &CollectionLibrary::SongsPlaycountChanged);
-  QObject::connect(&*backend_, &CollectionBackend::SongsLyricsChanged, this, &CollectionLibrary::SongsLyricsChanged);
+  QObject::connect(&*backend_, &CollectionBackend::SongsRatingChanged, this, &CollectionManager::SongsRatingChanged);
+  QObject::connect(&*backend_, &CollectionBackend::SongsStatisticsChanged, this, &CollectionManager::SongsPlaycountChanged);
+  QObject::connect(&*backend_, &CollectionBackend::SongsLyricsChanged, this, &CollectionManager::SongsLyricsChanged);
 
   QObject::connect(watcher_, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
   QObject::connect(watcher_, &CollectionWatcher::SongsMTimeUpdated, &*backend_, &CollectionBackend::UpdateMTimesOnly);
@@ -137,22 +137,22 @@ void CollectionLibrary::Init() {
 
 }
 
-void CollectionLibrary::Exit() {
+void CollectionManager::Exit() {
 
   wait_for_exit_ << &*backend_ << watcher_;
 
   QObject::disconnect(&*backend_, nullptr, watcher_, nullptr);
   QObject::disconnect(watcher_, nullptr, &*backend_, nullptr);
 
-  QObject::connect(&*backend_, &CollectionBackend::ExitFinished, this, &CollectionLibrary::ExitReceived);
-  QObject::connect(watcher_, &CollectionWatcher::ExitFinished, this, &CollectionLibrary::ExitReceived);
+  QObject::connect(&*backend_, &CollectionBackend::ExitFinished, this, &CollectionManager::ExitReceived);
+  QObject::connect(watcher_, &CollectionWatcher::ExitFinished, this, &CollectionManager::ExitReceived);
   backend_->ExitAsync();
   watcher_->Abort();
   watcher_->ExitAsync();
 
 }
 
-void CollectionLibrary::ExitReceived() {
+void CollectionManager::ExitReceived() {
 
   QObject *obj = sender();
   QObject::disconnect(obj, nullptr, this, nullptr);
@@ -162,13 +162,13 @@ void CollectionLibrary::ExitReceived() {
 
 }
 
-void CollectionLibrary::IncrementalScan() { watcher_->IncrementalScanAsync(); }
+void CollectionManager::IncrementalScan() { watcher_->IncrementalScanAsync(); }
 
-void CollectionLibrary::FullScan() { watcher_->FullScanAsync(); }
+void CollectionManager::FullScan() { watcher_->FullScanAsync(); }
 
-void CollectionLibrary::StopScan() { watcher_->Stop(); }
+void CollectionManager::StopScan() { watcher_->Stop(); }
 
-void CollectionLibrary::Rescan(const SongList &songs) {
+void CollectionManager::Rescan(const SongList &songs) {
 
   qLog(Debug) << "Rescan" << songs.size() << "songs";
   if (!songs.isEmpty()) {
@@ -177,11 +177,11 @@ void CollectionLibrary::Rescan(const SongList &songs) {
 
 }
 
-void CollectionLibrary::PauseWatcher() { watcher_->SetRescanPausedAsync(true); }
+void CollectionManager::PauseWatcher() { watcher_->SetRescanPausedAsync(true); }
 
-void CollectionLibrary::ResumeWatcher() { watcher_->SetRescanPausedAsync(false); }
+void CollectionManager::ResumeWatcher() { watcher_->SetRescanPausedAsync(false); }
 
-void CollectionLibrary::ReloadSettings() {
+void CollectionManager::ReloadSettings() {
 
   watcher_->ReloadSettingsAsync();
   model_->ReloadSettings();
@@ -195,7 +195,7 @@ void CollectionLibrary::ReloadSettings() {
 
 }
 
-void CollectionLibrary::CurrentSongChanged(const Song &song) {
+void CollectionManager::CurrentSongChanged(const Song &song) {
 
   current_song_url_ = song.url();
 
@@ -205,7 +205,7 @@ void CollectionLibrary::CurrentSongChanged(const Song &song) {
 
 }
 
-void CollectionLibrary::Stopped() {
+void CollectionManager::Stopped() {
 
   current_song_url_ = QUrl();
 
@@ -215,13 +215,13 @@ void CollectionLibrary::Stopped() {
 
 }
 
-void CollectionLibrary::SyncPlaycountAndRatingToFilesAsync() {
+void CollectionManager::SyncPlaycountAndRatingToFilesAsync() {
 
-  (void)QtConcurrent::run(&CollectionLibrary::SyncPlaycountAndRatingToFiles, this);
+  (void)QtConcurrent::run(&CollectionManager::SyncPlaycountAndRatingToFiles, this);
 
 }
 
-void CollectionLibrary::SyncPlaycountAndRatingToFiles() {
+void CollectionManager::SyncPlaycountAndRatingToFiles() {
 
   const int task_id = task_manager_->StartTask(tr("Saving playcounts and ratings"));
   task_manager_->SetTaskBlocksCollectionScans(task_id);
@@ -238,7 +238,7 @@ void CollectionLibrary::SyncPlaycountAndRatingToFiles() {
 
 }
 
-void CollectionLibrary::SongsPlaycountChanged(const SongList &songs, const bool save_tags) {
+void CollectionManager::SongsPlaycountChanged(const SongList &songs, const bool save_tags) {
 
   if (save_tags || save_playcounts_to_files_) {
     SongList songs_to_save_now;
@@ -268,7 +268,7 @@ void CollectionLibrary::SongsPlaycountChanged(const SongList &songs, const bool 
 
 }
 
-void CollectionLibrary::SongsRatingChanged(const SongList &songs, const bool save_tags) {
+void CollectionManager::SongsRatingChanged(const SongList &songs, const bool save_tags) {
 
   if (save_tags || save_ratings_to_files_) {
     SongList songs_to_save_now;
@@ -298,7 +298,7 @@ void CollectionLibrary::SongsRatingChanged(const SongList &songs, const bool sav
 
 }
 
-void CollectionLibrary::SaveLyrics(const Song &song, const QString &lyrics, const QString &synced_lyrics) {
+void CollectionManager::SaveLyrics(const Song &song, const QString &lyrics, const QString &synced_lyrics) {
 
   if (!song.is_local_collection_song() || song.id() == -1 || (lyrics.isEmpty() && synced_lyrics.isEmpty())) return;
 
@@ -313,7 +313,7 @@ void CollectionLibrary::SaveLyrics(const Song &song, const QString &lyrics, cons
 
 }
 
-void CollectionLibrary::SongsLyricsChanged(const SongList &songs, const bool save_lyrics_tags, const bool save_synced_lyrics_tags) {
+void CollectionManager::SongsLyricsChanged(const SongList &songs, const bool save_lyrics_tags, const bool save_synced_lyrics_tags) {
 
   if (!save_lyrics_tags && !save_synced_lyrics_tags) return;
 
@@ -366,10 +366,10 @@ void CollectionLibrary::SongsLyricsChanged(const SongList &songs, const bool sav
 
 }
 
-Song CollectionLibrary::CurrentLyricsToSave(const SharedPtr<CollectionBackend> &backend, const Song &song) {
+Song CollectionManager::CurrentLyricsToSave(const SharedPtr<CollectionBackend> &backend, const Song &song) {
 
   // Called by QtConcurrentRun, so the collection is not queried in the GUI thread.
-  // Static and given the backend, so it does not depend on CollectionLibrary still existing, playback is often stopped when exiting.
+  // Static and given the backend, so it does not depend on CollectionManager still existing, playback is often stopped when exiting.
   // The lyrics could have been changed while the save was deferred, for example in the tag editor, so only save lyrics which are still the same in the collection and still only stored in the database.
   // Otherwise the tags would be overwritten with older lyrics.
   const Song collection_song = backend->GetSongById(song.id());
@@ -388,7 +388,7 @@ Song CollectionLibrary::CurrentLyricsToSave(const SharedPtr<CollectionBackend> &
 
 }
 
-void CollectionLibrary::SaveLyricsToFile(const Song &song) {
+void CollectionManager::SaveLyricsToFile(const Song &song) {
 
   // Only the lyrics with the storage type set to the tags are saved, without writing the other tags.
   const QString filename = song.url().toLocalFile();
@@ -426,14 +426,14 @@ void CollectionLibrary::SaveLyricsToFile(const Song &song) {
 
 }
 
-bool CollectionLibrary::IsCurrentSongSaveDeferred(const Song &song, const QUrl &current_song_url) {
+bool CollectionManager::IsCurrentSongSaveDeferred(const Song &song, const QUrl &current_song_url) {
 
   // Writing to these file types while they are playing can interrupt playback, so the save is deferred until the song is no longer playing.
   return song.url().isLocalFile() && song.url() == current_song_url && (song.filetype() == Song::FileType::OggFlac || song.filetype() == Song::FileType::OggVorbis || song.filetype() == Song::FileType::OggOpus || song.filetype() == Song::FileType::MPEG);
 
 }
 
-void CollectionLibrary::SavePendingSongSaves() {
+void CollectionManager::SavePendingSongSaves() {
 
   for (QMap<QUrl, SharedPtr<PendingSongSave>>::iterator it = pending_song_saves_.begin(); it != pending_song_saves_.end();) {
     const QUrl url = it.key();

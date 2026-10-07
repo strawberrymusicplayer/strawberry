@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef COLLECTION_H
-#define COLLECTION_H
+#ifndef COLLECTIONMANAGER_H
+#define COLLECTIONMANAGER_H
 
 #include "config.h"
 
@@ -43,17 +43,17 @@ class CollectionModel;
 class CollectionWatcher;
 class AlbumCoverLoader;
 
-class CollectionLibrary : public QObject {
+class CollectionManager : public QObject {
   Q_OBJECT
 
  public:
-  explicit CollectionLibrary(const SharedPtr<Database> database,
+  explicit CollectionManager(const SharedPtr<Database> database,
                              const SharedPtr<TaskManager> task_manager,
                              const SharedPtr<TagReaderClient> tagreader_client,
                              const SharedPtr<AlbumCoverLoader> albumcover_loader,
                              QObject *parent = nullptr);
 
-  ~CollectionLibrary() override;
+  ~CollectionManager() override;
 
   static const char *kSongsTable;
   static const char *kFtsTable;

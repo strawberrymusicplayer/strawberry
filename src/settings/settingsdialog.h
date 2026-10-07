@@ -44,7 +44,7 @@ class QCloseEvent;
 
 class Player;
 class AudioDeviceListers;
-class CollectionLibrary;
+class CollectionManager;
 class CoverProviders;
 class LyricsProviders;
 class AudioScrobbler;
@@ -61,7 +61,7 @@ class SettingsDialog : public QDialog {
  public:
   explicit SettingsDialog(const SharedPtr<Player> player,
                           const SharedPtr<AudioDeviceListers> audio_device_listers,
-                          const SharedPtr<CollectionLibrary> collection,
+                          const SharedPtr<CollectionManager> collection,
                           const SharedPtr<CoverProviders> cover_providers,
                           const SharedPtr<LyricsProviders> lyrics_providers,
                           const SharedPtr<AudioScrobbler> scrobbler,

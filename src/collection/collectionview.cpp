@@ -44,7 +44,7 @@
 #include "core/deletefiles.h"
 #include "core/settings.h"
 #include "utilities/filemanagerutils.h"
-#include "collectionlibrary.h"
+#include "collectionmanager.h"
 #include "collectionbackend.h"
 #include "collectiondirectorymodel.h"
 #include "collectionmodel.h"
@@ -88,7 +88,7 @@ void CollectionView::Init(const SharedPtr<TaskManager> task_manager,
                           const SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader,
                           const SharedPtr<CoverProviders> cover_providers,
                           const SharedPtr<LyricsProviders> lyrics_providers,
-                          const SharedPtr<CollectionLibrary> collection,
+                          const SharedPtr<CollectionManager> collection,
                           const SharedPtr<DeviceManager> device_manager,
                           const SharedPtr<StreamingServices> streaming_services) {
 
