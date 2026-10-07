@@ -143,12 +143,18 @@ void PlaylistTabBar::contextMenuEvent(QContextMenuEvent *e) {
 
 void PlaylistTabBar::mouseReleaseEvent(QMouseEvent *e) {
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 11, 0)
+  // Handle middle click ourselves and don't pass it on to QTabBar.
+  // Since Qt 6.11, QTabBar also emits tabCloseRequested on middle click, and if both handle it, the tab that moved under the cursor is closed as well.
+  // This can't be a compile-time check because Strawberry might be built against an older Qt than the one used at runtime.
   if (e->button() == Qt::MiddleButton) {
-    menu_index_ = tabAt(e->pos());
-    CloseSlot();
+    const int index = tabAt(e->pos());
+    if (index != -1) {
+      menu_index_ = index;
+      CloseSlot();
+      e->accept();
+      return;
+    }
   }
-#endif
 
   QTabBar::mouseReleaseEvent(e);
 
