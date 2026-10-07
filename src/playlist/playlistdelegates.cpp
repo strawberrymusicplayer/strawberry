@@ -59,6 +59,7 @@
 #include <QTreeView>
 #include <QWhatsThis>
 #include <QStyledItemDelegate>
+#include <QStyle>
 #include <QStyleOptionViewItem>
 #include <QtEvents>
 #include <QLinearGradient>
@@ -207,6 +208,15 @@ QString PlaylistDelegateBase::displayText(const QVariant &value, const QLocale &
 QSize PlaylistDelegateBase::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &idx) const {
 
   QSize size = QueuedItemDelegate::sizeHint(option, idx);
+
+  // Base the height on the font instead of the actual text.
+  // Characters missing from the font (e.g. "→") are drawn using a fallback font which can be taller, and since the playlist view uses uniform row heights, the first row would otherwise change the height of all rows.
+  QStyleOptionViewItem opt = option;
+  initStyleOption(&opt, idx);
+  opt.text = QStringLiteral("Ag");
+  const QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+  size.setHeight(style->sizeFromContents(QStyle::CT_ItemViewItem, &opt, QSize(), opt.widget).height());
+
   if (size.height() < kMinHeight) size.setHeight(kMinHeight);
   return size;
 
