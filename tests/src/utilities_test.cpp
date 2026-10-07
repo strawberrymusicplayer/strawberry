@@ -289,6 +289,12 @@ TEST(UtilitiesTest, ReplaceMessage) {
   ASSERT_EQ(Utilities::ReplaceMessage(u"%title% - %artist%"_s, song, ""_L1), song.title() + u" - "_s + song.artist());
   ASSERT_EQ(Utilities::ReplaceMessage(u"%artistsort% - %albumartistsort%"_s, song, ""_L1), song.artistsort() + u" - "_s + song.albumartistsort());
 
+  // Variables in the values themselves are not replaced.
+  Song song_with_variable;
+  song_with_variable.set_title(u"Title %album%"_s);
+  song_with_variable.set_album(u"Album"_s);
+  ASSERT_EQ(Utilities::ReplaceMessage(u"%title% / %album%"_s, song_with_variable, ""_L1), u"Title %album% / Album"_s);
+
 }
 
 TEST(UtilitiesTest, TemporaryFile) {
@@ -377,6 +383,14 @@ TEST(UtilitiesTest, ParseLRC) {
     ASSERT_EQ(lrc_lines->at(4).time, 5000U);
     ASSERT_EQ(lrc_lines->at(5).time, 10250U);
     ASSERT_EQ(lrc_lines->at(5).text, u"Chorus"_s);
+  }
+
+  { // Lines ending with only CR (classic Mac OS)
+    const std::optional<Utilities::LRCLines> lrc_lines = Utilities::ParseLRC(u"[00:01.00]Line one\r[00:02.00]Line two"_s);
+    ASSERT_TRUE(lrc_lines.has_value());
+    ASSERT_EQ(lrc_lines->count(), 2);
+    ASSERT_EQ(lrc_lines->at(0).text, u"Line one"_s);
+    ASSERT_EQ(lrc_lines->at(1).time, 2000U);
   }
 
   { // Offset, lines shifted before the start are clamped to zero

@@ -55,3 +55,11 @@ void ResizableTextEdit::SetText(const QString &text) {
   updateGeometry();
 
 }
+
+void ResizableTextEdit::SetPlainText(const QString &text) {
+
+  text_ = text;
+  QTextEdit::setPlainText(text);
+  updateGeometry();
+
+}

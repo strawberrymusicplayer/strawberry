@@ -36,6 +36,7 @@ class ResizableTextEdit : public QTextEdit {
   QString Text() const { return text_; }
   void setText(const QString &text) { SetText(text); }
   void SetText(const QString &text);
+  void SetPlainText(const QString &text);
 
  protected:
   virtual void resizeEvent(QResizeEvent *event) override;

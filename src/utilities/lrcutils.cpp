@@ -55,10 +55,11 @@ std::optional<LRCLines> ParseLRC(const QString &lrc) {
 
   qint64 offset = 0;
   QList<std::pair<qint64, QString>> entries;
-  const QStringList lines = lrc.split(u'\n');
+  // Lines can end with CR LF, LF or only CR (classic Mac OS).
+  static const QRegularExpression regex_line_break(u"\\r\\n|\\n|\\r"_s);
+  const QStringList lines = lrc.split(regex_line_break);
   for (const QString &line : lines) {
     QString text = line;
-    if (text.endsWith(u'\r')) text.chop(1);
     QList<qint64> times;
     QRegularExpressionMatch match = regex_timestamp.match(text);
     while (match.hasMatch()) {
