@@ -88,17 +88,18 @@ void Deliver(const std::shared_ptr<CredentialsBackendLibSecretGuard> &guard, con
 
 }
 
-void ServiceGetFinished(GObject *source, GAsyncResult *result, gpointer user_data) {
+void AvailableLookupFinished(GObject *source, GAsyncResult *result, gpointer user_data) {
 
   Q_UNUSED(source)
 
   AvailableCallData *data = static_cast<AvailableCallData*>(user_data);
 
+  // A lookup that finds nothing returns nullptr without an error, so only an error means that libsecret is not available.
   GError *error = nullptr;
-  SecretService *secret_service = secret_service_get_finish(result, &error);
-  const bool available = secret_service != nullptr;
-  if (secret_service) {
-    g_object_unref(secret_service);
+  gchar *password = secret_password_lookup_finish(result, &error);
+  const bool available = error == nullptr;
+  if (password) {
+    secret_password_free(password);
   }
   if (error) {
     if (!g_error_matches(error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
@@ -208,7 +209,9 @@ QString CredentialsBackendLibSecret::name() const {
 
 void CredentialsBackendLibSecret::CheckAvailable(const AvailableCallback &available_callback) {
 
-  secret_service_get(SECRET_SERVICE_OPEN_SESSION, cancellable_, ServiceGetFinished, new AvailableCallData{ guard_, available_callback });
+  // Use a password lookup instead of secret_service_get(), so that the check goes through the same backend as the actual requests.
+  // Inside Flatpak, libsecret uses a local keyring file unlocked through the Secret portal instead of the Secret Service D-Bus API.
+  secret_password_lookup(Schema(), cancellable_, AvailableLookupFinished, new AvailableCallData{ guard_, available_callback }, "application", kApplication, "service", "", nullptr);
 
 }
 
