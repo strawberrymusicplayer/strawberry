@@ -56,6 +56,7 @@
 #include "core/enginemetadata.h"
 #include "constants/timeconstants.h"
 #include "utilities/strutils.h"
+#include "utilities/nativefileutils.h"
 #include "enginebase.h"
 #include "gsturl.h"
 #include "gstengine.h"
@@ -834,7 +835,7 @@ GstUrl GstEngine::FixupUrl(const QUrl &url) {
     gst_url.url = str.toUtf8();
   }
   else {
-    gst_url.url = url.toEncoded();
+    gst_url.url = Utilities::NativeFileUrl(url).toEncoded();
   }
 
   return gst_url;

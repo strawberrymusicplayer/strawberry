@@ -29,7 +29,6 @@
 #include <QIODevice>
 #include <QStorageInfo>
 #include <QDir>
-#include <QDirIterator>
 #include <QFile>
 #include <QFileInfo>
 #include <QMetaObject>
@@ -50,6 +49,7 @@
 #include "core/taskmanager.h"
 #include "core/settings.h"
 #include "utilities/imageutils.h"
+#include "utilities/nativefileutils.h"
 #include "constants/timeconstants.h"
 #include "constants/filesystemconstants.h"
 #include "tagreader/tagreaderclient.h"
@@ -510,7 +510,7 @@ CollectionSubdirectoryList CollectionWatcher::ScanTransaction::GetAllSubdirs() {
 void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const CollectionSubdirectoryList &subdirs) {
 
   {
-    const QFileInfo path_info(dir.path);
+    const NativeFileInfo path_info(dir.path);
     if (path_info.isSymbolicLink()) {
       const QStorageInfo storage_info(path_info.symLinkTarget());
       if (kRejectedFileSystems.contains(storage_info.fileSystemType())) {
@@ -576,7 +576,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   }
   t->MarkPathScanned(path);
 
-  const QFileInfo path_info(path);
+  const NativeFileInfo path_info(path);
   const qint64 path_mtime = path_info.exists() && path_info.lastModified().isValid() ? path_info.lastModified().toSecsSinceEpoch() : 0;
 
   if (path_info.isSymLink()) {
@@ -628,20 +628,19 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   // If one has been removed, "rescan" it to get the deleted songs
   const CollectionSubdirectoryList previous_subdirs = t->GetImmediateSubdirs(path);
   for (const CollectionSubdirectory &prev_subdir : previous_subdirs) {
-    if (!QFile::exists(prev_subdir.path) && prev_subdir.path != path) {
+    if (!NativeFileInfo::exists(prev_subdir.path) && prev_subdir.path != path) {
       ScanSubdirectory(dir, prev_subdir.path, prev_subdir, 0, t, true);
     }
   }
 
   // First we "quickly" get a list of the files in the directory that we think might be music.  While we're here, we also look for new subdirectories and possible album artwork.
   if (path_info.exists()) {
-    QDirIterator it(path, QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
-    while (it.hasNext()) {
+    const QStringList child_filepaths = Utilities::ListDirectory(path);
+    for (const QString &child_filepath : child_filepaths) {
 
       if (stop_or_abort_requested()) return;
 
-      const QString child_filepath = it.next();
-      const QFileInfo child_fileinfo(child_filepath);
+      const NativeFileInfo child_fileinfo(child_filepath);
 
       if (child_fileinfo.isSymLink()) {
         const QStorageInfo storage_info(child_fileinfo.symLinkTarget());
@@ -702,7 +701,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
 
       // The song is in the database and still on disk.
       // Check the mtime to see if it's been changed since it was added.
-      const QFileInfo fileinfo(file);
+      const NativeFileInfo fileinfo(file);
 
       if (!fileinfo.exists()) {
         // Partially fixes race condition - if file was removed between being added to the list and now.
@@ -802,7 +801,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
 
         // The song is in the database and still on disk.
         // Check the mtime to see if it's been changed since it was added.
-        const QFileInfo fileinfo(file);
+        const NativeFileInfo fileinfo(file);
         if (!fileinfo.exists()) {
           // Partially fixes race condition - if file was removed between being added to the list and now.
           files_on_disk.removeAll(file);
@@ -924,8 +923,8 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
 
   // Load new CUE songs
   QFile cue_file(matching_cue);
-  if (!cue_file.exists()) return;
-  if (!cue_file.open(QIODevice::ReadOnly)) {
+  if (!NativeFileInfo::exists(matching_cue)) return;
+  if (!Utilities::OpenFileForReading(&cue_file)) {
     qLog(Error) << "Could not open CUE file" << matching_cue << "for reading:" << cue_file.errorString();
     return;
   }
@@ -1007,9 +1006,9 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
     if (cues_processed->contains(matching_cue)) return songs;
 
     QFile cue_file(matching_cue);
-    if (!cue_file.exists()) return songs;
+    if (!NativeFileInfo::exists(matching_cue)) return songs;
 
-    if (!cue_file.open(QIODevice::ReadOnly)) {
+    if (!Utilities::OpenFileForReading(&cue_file)) {
       qLog(Error) << "Could not open CUE file" << matching_cue << "for reading:" << cue_file.errorString();
       return songs;
     }
@@ -1153,7 +1152,7 @@ quint64 CollectionWatcher::GetMtimeForCue(const QString &cue_path) {
     return 0;
   }
 
-  const QFileInfo fileinfo(cue_path);
+  const NativeFileInfo fileinfo(cue_path);
   if (!fileinfo.exists()) {
     return 0;
   }
@@ -1218,7 +1217,7 @@ bool CollectionWatcher::FindSongsByFingerprint(const QString &file, const QStrin
   const SongList songs = backend_->GetSongsByFingerprint(fingerprint);
   for (const Song &song : songs) {
     QString filename = song.url().toLocalFile();
-    QFileInfo info(filename);
+    const NativeFileInfo info(filename);
     // Allow multiple songs in different directories with the same fingerprint.
     // Only use the matching song by fingerprint if it doesn't already exist in a different path.
     if (file == filename || !info.exists()) {
@@ -1234,7 +1233,7 @@ bool CollectionWatcher::FindSongsByFingerprint(const QString &file, const SongLi
 
   for (const Song &song : songs) {
     QString filename = song.url().toLocalFile();
-    if (song.fingerprint() == fingerprint && (file == filename || !QFileInfo::exists(filename))) {
+    if (song.fingerprint() == fingerprint && (file == filename || !NativeFileInfo::exists(filename))) {
       *out << song;
       return true;
     }
@@ -1329,8 +1328,9 @@ QString CollectionWatcher::PickBestArt(const QStringList &art_automatic_list) {
   for (const QString &path : std::as_const(filtered)) {
     if (stop_or_abort_requested()) break;
 
-    QImage image(path);
-    if (image.isNull()) continue;
+    QImage image;
+    QFile image_file(path);
+    if (!Utilities::OpenFileForReading(&image_file) || !image.load(&image_file, nullptr)) continue;
 
     int size = image.width() * image.height();
     if (size > biggest_size) {
@@ -1441,7 +1441,7 @@ void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mt
 
 quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &path) {
 
-  const QFileInfo path_info(path);
+  const NativeFileInfo path_info(path);
   if (path_info.isSymLink()) {
     const QString real_path = path_info.symLinkTarget();
     const QStorageInfo storage_info(real_path);
@@ -1462,13 +1462,12 @@ quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &
   }
 
   quint64 i = 0;
-  QDirIterator it(path, QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
-  while (it.hasNext()) {
+  const QStringList child_filepaths = Utilities::ListDirectory(path);
+  for (const QString &child_filepath : child_filepaths) {
 
     if (stop_or_abort_requested()) break;
 
-    const QString child_filepath = it.next();
-    const QFileInfo child_fileinfo(child_filepath);
+    const NativeFileInfo child_fileinfo(child_filepath);
 
     if (child_fileinfo.isDir()) {
       if (child_fileinfo.isSymLink()) {

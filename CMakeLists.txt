@@ -498,6 +498,7 @@ set(SOURCES
   src/utilities/colorutils.cpp
   src/utilities/cryptutils.cpp
   src/utilities/fileutils.cpp
+  src/utilities/nativefileutils.cpp
   src/utilities/diskutils.cpp
   src/utilities/imageutils.cpp
   src/utilities/macaddrutils.cpp

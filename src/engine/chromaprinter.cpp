@@ -40,6 +40,7 @@
 
 #include "chromaprinter.h"
 #include "core/logging.h"
+#include "utilities/nativefileutils.h"
 #include "core/signalchecker.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -114,7 +115,7 @@ QByteArray Chromaprinter::ToGstUrl(const QUrl &url) {
     return str.toUtf8();
   }
 
-  return url.toEncoded();
+  return Utilities::NativeFileUrl(url).toEncoded();
 
 }
 

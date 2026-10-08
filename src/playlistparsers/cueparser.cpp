@@ -35,6 +35,7 @@
 #include "constants/timeconstants.h"
 #include "core/logging.h"
 #include "utilities/textencodingutils.h"
+#include "utilities/nativefileutils.h"
 #include "constants/playlistsettings.h"
 #include "parserbase.h"
 #include "cueparser.h"
@@ -236,7 +237,7 @@ ParserBase::LoadResult CueParser::Load(QIODevice *device, const QString &playlis
     }
   }
 
-  QDateTime cue_mtime = QFileInfo(playlist_path).lastModified();
+  QDateTime cue_mtime = NativeFileInfo(playlist_path).lastModified();
 
   // Finalize parsing songs
   for (int i = 0; i < entries.length(); i++) {
@@ -403,7 +404,7 @@ QString CueParser::FindCueFilename(const QString &filename) {
                                               << filename.section(u'.', 0, -2) + u".cue"_s;
 
   for (const QString &cuefile : cue_files) {
-    if (QFileInfo::exists(cuefile)) return cuefile;
+    if (NativeFileInfo::exists(cuefile)) return cuefile;
   }
 
   return QString();

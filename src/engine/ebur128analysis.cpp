@@ -42,6 +42,7 @@
 #include <QtGlobal>
 
 #include "core/logging.h"
+#include "utilities/nativefileutils.h"
 #include "core/signalchecker.h"
 
 #include "ebur128analysis.h"
@@ -462,7 +463,7 @@ std::optional<EBUR128Measures> EBUR128AnalysisImpl::Compute(const Song &song) {
   g_object_set(G_OBJECT(sink), "max-buffers", 1, nullptr);
 
   // Set the filename
-  g_object_set(src, "location", song.url().toLocalFile().toUtf8().constData(), nullptr);
+  g_object_set(src, "location", Utilities::NativeFileUrl(song.url()).toLocalFile().toUtf8().constData(), nullptr);
 
   // Connect signals
   GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline));
