@@ -35,7 +35,7 @@
 #include "core/memorydatabase.h"
 #include "constants/timeconstants.h"
 #include "collection/collectionbackend.h"
-#include "collection/collectionlibrary.h"
+#include "collection/collectionmanager.h"
 
 using namespace Qt::Literals::StringLiterals;
 using std::make_unique;
@@ -50,7 +50,7 @@ class CollectionBackendTest : public ::testing::Test {
   void SetUp() override {
     database_ = make_shared<MemoryDatabase>(nullptr);
     backend_ = make_unique<CollectionBackend>();
-    backend_->Init(database_, nullptr, Song::Source::Collection, QLatin1String(CollectionLibrary::kSongsTable), QLatin1String(CollectionLibrary::kDirsTable), QLatin1String(CollectionLibrary::kSubdirsTable));
+    backend_->Init(database_, nullptr, Song::Source::Collection, QLatin1String(CollectionManager::kSongsTable), QLatin1String(CollectionManager::kDirsTable), QLatin1String(CollectionManager::kSubdirsTable));
   }
 
   static Song MakeDummySong(int directory_id) {
@@ -242,6 +242,196 @@ TEST_F(SingleSong, GetSongById) {
   EXPECT_EQ(song_.artist(), song.artist());
   EXPECT_EQ(song_.title(), song.title());
   EXPECT_EQ(1, song.id());
+
+}
+
+// Lyrics found automatically are saved with UpdateSongLyrics(), and their storage type is changed with UpdateSongLyricsStorageType() once they are written to the tags.
+
+TEST_F(SingleSong, UpdateSongLyrics) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::SongsLyricsChanged);
+
+  backend_->UpdateSongLyrics(1, false, u"strawberry lyrics"_s, static_cast<int>(Song::StorageType::Database), false, true);
+
+  // Only the lyrics are to be saved to the tags, not the synchronized lyrics.
+  ASSERT_EQ(1, spy.count());
+  const SongList songs = *(reinterpret_cast<SongList*>(spy[0][0].data()));
+  ASSERT_EQ(1, songs.count());
+  EXPECT_EQ(u"strawberry lyrics"_s, songs[0].lyrics());
+  EXPECT_TRUE(spy[0][1].toBool());
+  EXPECT_FALSE(spy[0][2].toBool());
+
+  const Song song = backend_->GetSongById(1);
+  EXPECT_EQ(u"strawberry lyrics"_s, song.lyrics());
+  EXPECT_EQ(Song::StorageType::Database, song.lyrics_storage_type());
+  EXPECT_TRUE(song.synced_lyrics().isEmpty());
+  EXPECT_EQ(Song::StorageType::None, song.synced_lyrics_storage_type());
+  // Other columns are not changed.
+  EXPECT_EQ(song_.title(), song.title());
+
+}
+
+TEST_F(SingleSong, UpdateSongSyncedLyrics) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  backend_->UpdateSongLyrics(1, false, u"strawberry lyrics"_s, static_cast<int>(Song::StorageType::Tag), false, false);
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::SongsLyricsChanged);
+
+  backend_->UpdateSongLyrics(1, true, u"[00:01.00]Line one"_s, static_cast<int>(Song::StorageType::Database), false, true);
+
+  // Only the synchronized lyrics are to be saved to the tags.
+  ASSERT_EQ(1, spy.count());
+  EXPECT_FALSE(spy[0][1].toBool());
+  EXPECT_TRUE(spy[0][2].toBool());
+
+  // The lyrics are not changed.
+  const Song song = backend_->GetSongById(1);
+  EXPECT_EQ(u"[00:01.00]Line one"_s, song.synced_lyrics());
+  EXPECT_EQ(Song::StorageType::Database, song.synced_lyrics_storage_type());
+  EXPECT_EQ(u"strawberry lyrics"_s, song.lyrics());
+  EXPECT_EQ(Song::StorageType::Tag, song.lyrics_storage_type());
+
+}
+
+TEST_F(SingleSong, UpdateSongLyricsNotSavingTags) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::SongsLyricsChanged);
+
+  backend_->UpdateSongLyrics(1, false, u"strawberry lyrics"_s, static_cast<int>(Song::StorageType::Database), false, false);
+
+  ASSERT_EQ(1, spy.count());
+  EXPECT_FALSE(spy[0][1].toBool());
+  EXPECT_FALSE(spy[0][2].toBool());
+
+}
+
+TEST_F(SingleSong, UpdateSongLyricsOnlyIfEmpty) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  backend_->UpdateSongLyrics(1, false, u"existing lyrics"_s, static_cast<int>(Song::StorageType::Tag), false, false);
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::SongsLyricsChanged);
+
+  // Lyrics added in the meantime are not replaced by lyrics found automatically.
+  backend_->UpdateSongLyrics(1, false, u"fetched lyrics"_s, static_cast<int>(Song::StorageType::Database), true, true);
+  EXPECT_EQ(0, spy.count());
+  {
+    const Song song = backend_->GetSongById(1);
+    EXPECT_EQ(u"existing lyrics"_s, song.lyrics());
+    EXPECT_EQ(Song::StorageType::Tag, song.lyrics_storage_type());
+  }
+
+  // The synchronized lyrics are still empty, so they are set.
+  backend_->UpdateSongLyrics(1, true, u"[00:01.00]Line one"_s, static_cast<int>(Song::StorageType::Database), true, true);
+  EXPECT_EQ(1, spy.count());
+  {
+    const Song song = backend_->GetSongById(1);
+    EXPECT_EQ(u"[00:01.00]Line one"_s, song.synced_lyrics());
+    EXPECT_EQ(Song::StorageType::Database, song.synced_lyrics_storage_type());
+  }
+
+}
+
+TEST_F(SingleSong, UpdateSongLyricsOnlyIfEmptyCleared) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  // Empty lyrics stored in the database are lyrics cleared on purpose.
+  backend_->UpdateSongLyrics(1, false, QString(), static_cast<int>(Song::StorageType::Database), false, false);
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::SongsLyricsChanged);
+
+  backend_->UpdateSongLyrics(1, false, u"fetched lyrics"_s, static_cast<int>(Song::StorageType::Database), true, true);
+  EXPECT_EQ(0, spy.count());
+
+  const Song song = backend_->GetSongById(1);
+  EXPECT_TRUE(song.lyrics().isEmpty());
+  EXPECT_EQ(Song::StorageType::Database, song.lyrics_storage_type());
+
+}
+
+TEST_F(SingleSong, UpdateSongLyricsClear) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  backend_->UpdateSongLyrics(1, false, u"strawberry lyrics"_s, static_cast<int>(Song::StorageType::Database), false, false);
+  backend_->UpdateSongLyrics(1, false, QString(), static_cast<int>(Song::StorageType::None), false, false);
+
+  const Song song = backend_->GetSongById(1);
+  EXPECT_TRUE(song.lyrics().isEmpty());
+  EXPECT_EQ(Song::StorageType::None, song.lyrics_storage_type());
+
+}
+
+TEST_F(SingleSong, UpdateSongLyricsStorageType) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  backend_->UpdateSongLyrics(1, false, u"strawberry lyrics"_s, static_cast<int>(Song::StorageType::Database), false, false);
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::SongsLyricsChanged);
+
+  backend_->UpdateSongLyricsStorageType(1, false, u"strawberry lyrics"_s, static_cast<int>(Song::StorageType::Database), static_cast<int>(Song::StorageType::Tag));
+
+  // Nothing more is saved to the tags after changing the storage type.
+  ASSERT_EQ(1, spy.count());
+  EXPECT_FALSE(spy[0][1].toBool());
+  EXPECT_FALSE(spy[0][2].toBool());
+
+  const Song song = backend_->GetSongById(1);
+  EXPECT_EQ(u"strawberry lyrics"_s, song.lyrics());
+  EXPECT_EQ(Song::StorageType::Tag, song.lyrics_storage_type());
+
+}
+
+TEST_F(SingleSong, UpdateSongLyricsStorageTypeChangedLyrics) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  // The lyrics were changed while they were being written to the tags.
+  backend_->UpdateSongLyrics(1, false, u"newer lyrics"_s, static_cast<int>(Song::StorageType::Database), false, false);
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::SongsLyricsChanged);
+
+  backend_->UpdateSongLyricsStorageType(1, false, u"strawberry lyrics"_s, static_cast<int>(Song::StorageType::Database), static_cast<int>(Song::StorageType::Tag));
+  EXPECT_EQ(0, spy.count());
+
+  const Song song = backend_->GetSongById(1);
+  EXPECT_EQ(u"newer lyrics"_s, song.lyrics());
+  EXPECT_EQ(Song::StorageType::Database, song.lyrics_storage_type());
+
+}
+
+TEST_F(SingleSong, UpdateSongLyricsStorageTypeChangedStorageType) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  // The same synchronized lyrics were saved to an LRC file while they were being written to the tags.
+  backend_->UpdateSongLyrics(1, true, u"[00:01.00]Line one"_s, static_cast<int>(Song::StorageType::File), false, false);
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::SongsLyricsChanged);
+
+  backend_->UpdateSongLyricsStorageType(1, true, u"[00:01.00]Line one"_s, static_cast<int>(Song::StorageType::Database), static_cast<int>(Song::StorageType::Tag));
+  EXPECT_EQ(0, spy.count());
+
+  const Song song = backend_->GetSongById(1);
+  EXPECT_EQ(Song::StorageType::File, song.synced_lyrics_storage_type());
 
 }
 
@@ -534,7 +724,7 @@ TEST_F(TestUrls, TestUrls) {
 
     QSqlDatabase db(database_->Connect());
     QSqlQuery q(db);
-    q.prepare(QStringLiteral("SELECT url FROM %1 WHERE url = :url").arg(QLatin1String(CollectionLibrary::kSongsTable)));
+    q.prepare(QStringLiteral("SELECT url FROM %1 WHERE url = :url").arg(QLatin1String(CollectionManager::kSongsTable)));
 
     q.bindValue(u":url"_s, url.toString(QUrl::FullyEncoded));
     EXPECT_TRUE(q.exec());
@@ -612,7 +802,7 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
     SongMap songs;
     {
       QSqlDatabase db(database_->Connect());
-      CollectionQuery query(db, QLatin1String(CollectionLibrary::kSongsTable));
+      CollectionQuery query(db, QLatin1String(CollectionManager::kSongsTable));
       EXPECT_TRUE(backend_->ExecCollectionQuery(&query, songs));
     }
 

@@ -22,6 +22,8 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
@@ -43,8 +45,9 @@ class QVBoxLayout;
 class QGridLayout;
 class QScrollArea;
 class QSpacerItem;
-class QResizeEvent;
 class QContextMenuEvent;
+class QShowEvent;
+class QHideEvent;
 class QTimer;
 class QDragEnterEvent;
 class QDropEvent;
@@ -66,32 +69,40 @@ class ContextView : public QWidget {
 
   ContextAlbum *album_widget() const { return widget_album_; }
   bool album_enabled() const { return action_show_album_->isChecked(); }
-  Song song_playing() const { return song_playing_; }
 
  protected:
-  void resizeEvent(QResizeEvent *e) override;
-  void contextMenuEvent(QContextMenuEvent *e) override;
+  void showEvent(QShowEvent *e) override;
+  void hideEvent(QHideEvent *e) override;
   void dragEnterEvent(QDragEnterEvent *e) override;
   void dropEvent(QDropEvent *e) override;
+  void contextMenuEvent(QContextMenuEvent *e) override;
 
  private:
   void AddActions();
-  static void SetLabelText(QLabel *label, int value, const QString &suffix, const QString &def = QString());
+  static QString DataLabelText(const int value, const QString &suffix);
+  static void SetDataLabel(QLabel *title_label, QLabel *label, const QString &text);
   void NoSong();
   void SetSong();
   void UpdateSong(const Song &song);
   void ResetSong();
-  void GetCoverAutomatically();
   void SearchLyrics();
   void SetLyricsText();
+  // Parsed synchronized lyrics, cached so they are only parsed again when they change.
+  struct ParsedSyncedLyrics {
+    QString synced_lyrics;
+    std::optional<Utilities::LRCLines> lrc_lines = Utilities::LRCLines();
+  };
+  static const std::optional<Utilities::LRCLines> &ParseSyncedLyrics(ParsedSyncedLyrics *parsed_synced_lyrics, const QString &synced_lyrics);
   void SetSyncedLyricsText(const QString &provider);
   void SetSyncedLyricsLineBold(const qsizetype line, const bool bold);
   qint64 SyncedLyricsPositionMsec() const;
   qsizetype SyncedLyricsLine(const qint64 position_msec) const;
+  void UpdateSyncedLyricsLine(const qint64 position_msec);
   void UpdateFonts();
 
  Q_SIGNALS:
   void AlbumEnabledChanged();
+  void SaveLyrics(const Song &song, const QString &lyrics, const QString &synced_lyrics);
 
  private Q_SLOTS:
   void ActionShowAlbum();
@@ -106,8 +117,10 @@ class ContextView : public QWidget {
  public Q_SLOTS:
   void ReloadSettings();
   void Playing();
+  void Paused();
   void Stopped();
   void Error();
+  void Seeked(const qint64 microseconds);
   void SongChanged(const Song &song);
   void AlbumCoverLoaded(const Song &song, const QImage &image);
 
@@ -169,6 +182,8 @@ class ContextView : public QWidget {
   Utilities::LRCLines synced_lyrics_lines_;
   qsizetype synced_lyrics_line_;
   qint64 synced_lyrics_offset_msec_;
+  ParsedSyncedLyrics parsed_tag_synced_lyrics_;
+  ParsedSyncedLyrics parsed_fetched_synced_lyrics_;
   QString title_fmt_;
   QString summary_fmt_;
   QFont font_headline_;

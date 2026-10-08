@@ -45,7 +45,7 @@ class UrlHandlers;
 class Player;
 class NetworkAccessManager;
 class CredentialsManager;
-class CollectionLibrary;
+class CollectionManager;
 class CollectionBackend;
 class CollectionModel;
 class PlaylistBackend;
@@ -85,7 +85,7 @@ class Application : public QObject {
   SharedPtr<UrlHandlers> url_handlers() const;
   SharedPtr<DeviceManager> device_manager() const;
 
-  SharedPtr<CollectionLibrary> collection() const;
+  SharedPtr<CollectionManager> collection() const;
   SharedPtr<CollectionBackend> collection_backend() const;
   CollectionModel *collection_model() const;
 

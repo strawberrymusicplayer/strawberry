@@ -39,7 +39,7 @@ class QAction;
 class TaskManager;
 class TagReaderClient;
 class NetworkAccessManager;
-class CollectionLibrary;
+class CollectionManager;
 class CollectionBackend;
 class DeviceManager;
 class StreamingServices;
@@ -64,7 +64,7 @@ class CollectionView : public CollectionTreeView {
             const SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader,
             const SharedPtr<CoverProviders> cover_providers,
             const SharedPtr<LyricsProviders> lyrics_providers,
-            const SharedPtr<CollectionLibrary> collection,
+            const SharedPtr<CollectionManager> collection,
             const SharedPtr<DeviceManager> device_manager,
             const SharedPtr<StreamingServices> streaming_services);
 
@@ -113,7 +113,7 @@ class CollectionView : public CollectionTreeView {
   SharedPtr<DeviceManager> device_manager_;
   SharedPtr<AlbumCoverLoader> albumcover_loader_;
   SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader_;
-  SharedPtr<CollectionLibrary> collection_;
+  SharedPtr<CollectionManager> collection_;
   SharedPtr<CoverProviders> cover_providers_;
   SharedPtr<LyricsProviders> lyrics_providers_;
   SharedPtr<StreamingServices> streaming_services_;

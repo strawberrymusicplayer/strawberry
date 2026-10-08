@@ -34,24 +34,19 @@
 
 #include "utilities/timeutils.h"
 #include "constants/timeconstants.h"
-#ifndef Q_OS_MACOS
-#  include "tracksliderpopup.h"
-#endif
+#include "tracksliderpopup.h"
 #include "tracksliderslider.h"
 
 TrackSliderSlider::TrackSliderSlider(QWidget *parent)
     : QSlider(parent),
-#ifndef Q_OS_MACOS
       popup_(new TrackSliderPopup(window())),
-#endif
       mouse_hover_seconds_(0),
       wheel_accumulator_(0) {
 
   setMouseTracking(true);
-#ifndef Q_OS_MACOS
+
   popup_->hide();
   QObject::connect(this, &TrackSliderSlider::valueChanged, this, &TrackSliderSlider::UpdateDeltaTime);
-#endif
 
 }
 
@@ -134,11 +129,9 @@ void TrackSliderSlider::mouseMoveEvent(QMouseEvent *e) {
 
   mouse_hover_seconds_ = QStyle::sliderValueFromPosition(minimum() / static_cast<int>(kMsecPerSec), maximum() / static_cast<int>(kMsecPerSec), e->pos().x() - slider_length / 2 - slider_min + 1, slider_max - slider_min);
 
-#ifndef Q_OS_MACOS
   popup_->SetText(Utilities::PrettyTime(mouse_hover_seconds_));
   UpdateDeltaTime();
   popup_->SetPopupPosition(mapTo(window(), QPoint(e->pos().x(), rect().center().y())));
-#endif
 
 }
 
@@ -161,22 +154,20 @@ void TrackSliderSlider::wheelEvent(QWheelEvent *e) {
 void TrackSliderSlider::enterEvent(QEnterEvent *e) {
 
   QSlider::enterEvent(e);
-#ifndef Q_OS_MACOS
+
   if (isEnabled()) {
     popup_->show();
   }
-#endif
 
 }
 
 void TrackSliderSlider::leaveEvent(QEvent *e) {
 
   QSlider::leaveEvent(e);
-#ifndef Q_OS_MACOS
+
   if (popup_->isVisible()) {
     popup_->hide();
   }
-#endif
 
 }
 
@@ -198,11 +189,9 @@ void TrackSliderSlider::keyPressEvent(QKeyEvent *event) {
 
 void TrackSliderSlider::UpdateDeltaTime() {
 
-#ifndef Q_OS_MACOS
   if (popup_->isVisible()) {
     int delta_seconds = mouse_hover_seconds_ - (value() / static_cast<int>(kMsecPerSec));
     popup_->SetSmallText(Utilities::PrettyTimeDelta(delta_seconds));
   }
-#endif
 
 }

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,6 +54,7 @@ constexpr int kSettingsCacheSizeDefault = 160;
 constexpr int kSettingsDiskCacheSizeDefault = 360;
 constexpr char kSavePlayCounts[] = "save_playcounts";
 constexpr char kSaveRatings[] = "save_ratings";
+constexpr char kSaveLyrics[] = "save_lyrics";
 constexpr char kOverwritePlaycount[] = "overwrite_playcount";
 constexpr char kOverwriteRating[] = "overwrite_rating";
 constexpr char kDeleteFiles[] = "delete_files";
@@ -77,6 +78,7 @@ constexpr bool kDefaultSettingsDiskCacheEnable = false;
 constexpr CacheSizeUnit kDefaultSettingsDiskCacheSizeUnit = CacheSizeUnit::MB;
 constexpr bool kDefaultSavePlayCounts = false;
 constexpr bool kDefaultSaveRatings = false;
+constexpr bool kDefaultSaveLyrics = false;
 constexpr bool kDefaultOverwritePlaycount = false;
 constexpr bool kDefaultOverwriteRating = false;
 constexpr bool kDefaultDeleteFiles = false;

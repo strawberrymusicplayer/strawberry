@@ -17,30 +17,24 @@
  *
  */
 
-#ifndef LRCUTILS_H
-#define LRCUTILS_H
+#ifndef TAGREADERSAVELYRICSREQUEST_H
+#define TAGREADERSAVELYRICSREQUEST_H
 
-#include <optional>
-
-#include <QtGlobal>
-#include <QList>
 #include <QString>
 
-namespace Utilities {
+#include "includes/shared_ptr.h"
+#include "tagreaderrequest.h"
 
-struct LRCLine {
-  uint time;  // Absolute time in milliseconds.
-  QString text;
+using std::make_shared;
+
+class TagReaderSaveLyricsRequest : public TagReaderRequest {
+ public:
+  explicit TagReaderSaveLyricsRequest(const QString &_filename);
+  static SharedPtr<TagReaderSaveLyricsRequest> Create(const QString &filename) { return make_shared<TagReaderSaveLyricsRequest>(filename); }
+  QString lyrics;
+  bool synced;  // Whether the lyrics are synchronized lyrics in LRC format.
 };
-using LRCLines = QList<LRCLine>;
 
-// Parses LRC into lines sorted by time, with lines that have multiple timestamps expanded and the offset tag applied.
-// Returns an empty list for empty input, and std::nullopt if the LRC is invalid.
-std::optional<LRCLines> ParseLRC(const QString &lrc);
+using TagReaderSaveLyricsRequestPtr = SharedPtr<TagReaderSaveLyricsRequest>;
 
-// Returns the filename of the LRC file next to the media file, the existing one if there is one, otherwise the one to create.
-QString LRCFilename(const QString &media_filename);
-
-}  // namespace Utilities
-
-#endif  // LRCUTILS_H
+#endif  // TAGREADERSAVELYRICSREQUEST_H

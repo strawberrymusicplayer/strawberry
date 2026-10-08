@@ -27,6 +27,9 @@
 #include <QStringList>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
+#include <QFileInfo>
+#include <QDir>
+#include <QDirIterator>
 
 #include "lrcutils.h"
 
@@ -52,10 +55,11 @@ std::optional<LRCLines> ParseLRC(const QString &lrc) {
 
   qint64 offset = 0;
   QList<std::pair<qint64, QString>> entries;
-  const QStringList lines = lrc.split(u'\n');
+  // Lines can end with CR LF, LF or only CR (classic Mac OS).
+  static const QRegularExpression regex_line_break(u"\\r\\n|\\n|\\r"_s);
+  const QStringList lines = lrc.split(regex_line_break);
   for (const QString &line : lines) {
     QString text = line;
-    if (text.endsWith(u'\r')) text.chop(1);
     QList<qint64> times;
     QRegularExpressionMatch match = regex_timestamp.match(text);
     while (match.hasMatch()) {
@@ -126,6 +130,23 @@ std::optional<LRCLines> ParseLRC(const QString &lrc) {
   }
 
   return lrc_lines;
+
+}
+
+QString LRCFilename(const QString &media_filename) {
+
+  // The collection watcher matches the extension case insensitively, so look for an existing file with the extension in any case, otherwise a second file could be created next to it.
+  const QFileInfo fileinfo(media_filename);
+  const QString complete_base_name = fileinfo.completeBaseName();
+  QDirIterator it(fileinfo.path(), QDir::Files | QDir::Hidden);
+  while (it.hasNext()) {
+    const QFileInfo lrc_fileinfo(it.next());
+    if (lrc_fileinfo.completeBaseName() == complete_base_name && lrc_fileinfo.suffix().compare("lrc"_L1, Qt::CaseInsensitive) == 0) {
+      return lrc_fileinfo.filePath();
+    }
+  }
+
+  return fileinfo.path() + u'/' + complete_base_name + u".lrc"_s;
 
 }
 

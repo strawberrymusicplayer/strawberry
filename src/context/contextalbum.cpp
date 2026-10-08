@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2022, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,21 +28,21 @@
 #include <QByteArray>
 #include <QImage>
 #include <QPixmap>
-#include <QPalette>
-#include <QBrush>
 #include <QMovie>
 #include <QTimeLine>
+#include <QTimer>
+#include <QRect>
 #include <QPainter>
 #include <QSizePolicy>
 #include <QMenu>
 #include <QContextMenuEvent>
 #include <QPaintEvent>
+#include <QResizeEvent>
 
 #include "includes/shared_ptr.h"
 #include "utilities/imageutils.h"
 #include "covermanager/albumcoverchoicecontroller.h"
 
-#include "contextview.h"
 #include "contextalbum.h"
 
 using std::make_unique;
@@ -52,15 +52,17 @@ using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr int kFadeTimeLineMs = 1000;
+// Rescaling the covers with smooth transformation is expensive for large covers, so it is delayed while the width keeps changing, for example when dragging a splitter.
+constexpr int kScaleDelayMs = 100;
 }
 
 ContextAlbum::ContextAlbum(QWidget *parent)
     : QWidget(parent),
       menu_(new QMenu(this)),
-      context_view_(nullptr),
       album_cover_choice_controller_(nullptr),
       downloading_covers_(false),
       timeline_fade_(new QTimeLine(kFadeTimeLineMs, this)),
+      timer_scale_(new QTimer(this)),
       image_strawberry_(u":/pictures/strawberry.png"_s),
       image_original_(image_strawberry_),
       pixmap_current_opacity_(1.0),
@@ -68,7 +70,10 @@ ContextAlbum::ContextAlbum(QWidget *parent)
 
   setObjectName(u"context-widget-album"_s);
 
-  setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  // The cover is square and as wide as the layout allows, the height follows the width.
+  QSizePolicy size_policy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+  size_policy.setHeightForWidth(true);
+  setSizePolicy(size_policy);
 
   QImage image = ImageUtils::ScaleImage(image_strawberry_, QSize(desired_height_, desired_height_), devicePixelRatioF(), true);
   if (!image.isNull()) {
@@ -79,11 +84,13 @@ ContextAlbum::ContextAlbum(QWidget *parent)
   QObject::connect(timeline_fade_, &QTimeLine::valueChanged, this, &ContextAlbum::FadeCurrentCover);
   QObject::connect(timeline_fade_, &QTimeLine::finished, this, &ContextAlbum::FadeCurrentCoverFinished);
 
+  timer_scale_->setSingleShot(true);
+  timer_scale_->setInterval(kScaleDelayMs);
+  QObject::connect(timer_scale_, &QTimer::timeout, this, &ContextAlbum::ScaleCovers);
+
 }
 
-void ContextAlbum::Init(ContextView *context_view, AlbumCoverChoiceController *album_cover_choice_controller) {
-
-  context_view_ = context_view;
+void ContextAlbum::Init(AlbumCoverChoiceController *album_cover_choice_controller) {
 
   album_cover_choice_controller_ = album_cover_choice_controller;
   QObject::connect(album_cover_choice_controller_, &AlbumCoverChoiceController::AutomaticCoverSearchDone, this, &ContextAlbum::AutomaticCoverSearchDone);
@@ -98,7 +105,8 @@ void ContextAlbum::Init(ContextView *context_view, AlbumCoverChoiceController *a
 
 QSize ContextAlbum::sizeHint() const {
 
-  return QSize(static_cast<int>(pixmap_current_.width() / devicePixelRatioF()), static_cast<int>(pixmap_current_.height() / devicePixelRatioF()));
+  // The covers are scaled and padded to a square of the desired size, use that size directly so the size is right while rescaling is delayed.
+  return pixmap_current_.isNull() ? QSize(0, 0) : QSize(desired_height_, desired_height_);
 
 }
 
@@ -118,8 +126,8 @@ void ContextAlbum::paintEvent(QPaintEvent *paint_event) {
 void ContextAlbum::mouseDoubleClickEvent(QMouseEvent *e) {
 
   // Same behaviour as right-click > Show Fullsize
-  if (image_original_ != image_strawberry_ && e->button() == Qt::LeftButton && context_view_->song_playing().is_valid()) {
-    album_cover_choice_controller_->ShowCover(context_view_->song_playing(), image_original_);
+  if (image_original_ != image_strawberry_ && e->button() == Qt::LeftButton && song_playing_.is_valid()) {
+    album_cover_choice_controller_->ShowCover(song_playing_, image_original_);
   }
 
 }
@@ -135,13 +143,27 @@ void ContextAlbum::contextMenuEvent(QContextMenuEvent *e) {
 
 }
 
-void ContextAlbum::UpdateWidth(const int new_width) {
+bool ContextAlbum::hasHeightForWidth() const {
 
-  if (new_width != desired_height_) {
-    desired_height_ = new_width;
-    ScaleCover();
-    ScalePreviousCovers();
-    updateGeometry();
+  return true;
+
+}
+
+int ContextAlbum::heightForWidth(const int widget_width) const {
+
+  return widget_width;
+
+}
+
+void ContextAlbum::resizeEvent(QResizeEvent *e) {
+
+  QWidget::resizeEvent(e);
+
+  if (width() != desired_height_) {
+    desired_height_ = width();
+    // The current pixmaps are drawn scaled to the new size until the covers are rescaled.
+    timer_scale_->start();
+    update();
   }
 
 }
@@ -153,16 +175,21 @@ void ContextAlbum::SetImage(const QImage &image) {
     spinner_animation_.reset();
   }
 
+  // Setting the same image again, for example when stopping is signalled twice, would restart the fade.
+  const QImage &image_new = image.isNull() ? image_strawberry_ : image;
+  if (image_new == image_original_) {
+    // The stopped view is still shown once the strawberry is shown, like when the fade to it finishes.
+    if (image_original_ == image_strawberry_ && timeline_fade_->state() == QTimeLine::State::NotRunning) {
+      Q_EMIT FadeStopFinished();
+    }
+    return;
+  }
+
   QImage image_previous = image_original_;
   QPixmap pixmap_previous = pixmap_current_;
   qreal opacity_previous = pixmap_current_opacity_;
 
-  if (image.isNull()) {
-    image_original_ = image_strawberry_;
-  }
-  else {
-    image_original_ = image;
-  }
+  image_original_ = image_new;
 
   pixmap_current_opacity_ = 0.0;
   ScaleCover();
@@ -172,11 +199,22 @@ void ContextAlbum::SetImage(const QImage &image) {
     previous_cover->image = image_previous;
     previous_cover->pixmap = pixmap_previous;
     previous_cover->opacity = opacity_previous;
-    previous_cover->timeline.reset(new QTimeLine(kFadeTimeLineMs), [](QTimeLine *timeline) { timeline->deleteLater(); });
+    // The timeline has this as parent, so it is also deleted if this is deleted while fading.
+    previous_cover->timeline.reset(new QTimeLine(kFadeTimeLineMs, this), [](QTimeLine *timeline) { timeline->deleteLater(); });
     previous_cover->timeline->setDirection(QTimeLine::Direction::Backward);
     previous_cover->timeline->setCurrentTime(timeline_fade_->state() == QTimeLine::State::Running ? timeline_fade_->currentTime() : kFadeTimeLineMs);
-    QObject::connect(&*previous_cover->timeline, &QTimeLine::valueChanged, this, [this, previous_cover]() { FadePreviousCover(previous_cover); });
-    QObject::connect(&*previous_cover->timeline, &QTimeLine::finished, this, [this, previous_cover]() { FadePreviousCoverFinished(previous_cover); });
+    // Capture a weak pointer, the timeline is owned by the previous cover, so a shared pointer would be a reference cycle.
+    const std::weak_ptr<PreviousCover> previous_cover_weak = previous_cover;
+    QObject::connect(&*previous_cover->timeline, &QTimeLine::valueChanged, this, [this, previous_cover_weak]() {
+      if (SharedPtr<PreviousCover> previous_cover_locked = previous_cover_weak.lock()) {
+        FadePreviousCover(previous_cover_locked);
+      }
+    });
+    QObject::connect(&*previous_cover->timeline, &QTimeLine::finished, this, [this, previous_cover_weak]() {
+      if (SharedPtr<PreviousCover> previous_cover_locked = previous_cover_weak.lock()) {
+        FadePreviousCoverFinished(previous_cover_locked);
+      }
+    });
     previous_covers_ << previous_cover;
     previous_cover->timeline->start();
   }
@@ -193,7 +231,8 @@ void ContextAlbum::DrawImage(QPainter *p, const QPixmap &pixmap, const qreal opa
   if (qFuzzyCompare(opacity, static_cast<qreal>(0.0))) return;
 
   p->setOpacity(opacity);
-  p->drawPixmap(0, 0, static_cast<int>(pixmap.width() / pixmap.devicePixelRatioF()), static_cast<int>(pixmap.height() / pixmap.devicePixelRatioF()), pixmap);
+  // Draw to the desired size, the pixmap is scaled to it, or is still being rescaled after the width changed.
+  p->drawPixmap(QRect(0, 0, desired_height_, desired_height_), pixmap);
 
 }
 
@@ -207,8 +246,7 @@ void ContextAlbum::DrawSpinner(QPainter *p) {
 
 void ContextAlbum::DrawPreviousCovers(QPainter *p) {
 
-  for (int i = 0; i < previous_covers_.count(); i++) {
-    SharedPtr<PreviousCover> previous_cover = previous_covers_.at(i);
+  for (const SharedPtr<PreviousCover> &previous_cover : std::as_const(previous_covers_)) {
     DrawImage(p, previous_cover->pixmap, previous_cover->opacity);
   }
 
@@ -260,9 +298,8 @@ void ContextAlbum::ScaleCover() {
 
 void ContextAlbum::ScalePreviousCovers() {
 
-  for (int i = 0; i < previous_covers_.count(); i++) {
-    SharedPtr<PreviousCover> previous_cover = previous_covers_.at(i);
-    QImage image = ImageUtils::ScaleImage(previous_cover->image, QSize(desired_height_, desired_height_), devicePixelRatioF(), true);
+  for (const SharedPtr<PreviousCover> &previous_cover : std::as_const(previous_covers_)) {
+    const QImage image = ImageUtils::ScaleImage(previous_cover->image, QSize(desired_height_, desired_height_), devicePixelRatioF(), true);
     if (image.isNull()) {
       previous_cover->pixmap = QPixmap();
     }
@@ -270,6 +307,14 @@ void ContextAlbum::ScalePreviousCovers() {
       previous_cover->pixmap = QPixmap::fromImage(image);
     }
   }
+
+}
+
+void ContextAlbum::ScaleCovers() {
+
+  ScaleCover();
+  ScalePreviousCovers();
+  update();
 
 }
 

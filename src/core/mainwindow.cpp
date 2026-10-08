@@ -128,7 +128,7 @@
 #include "fileview/fileview.h"
 #include "osd/osdbase.h"
 #include "context/contextview.h"
-#include "collection/collectionlibrary.h"
+#include "collection/collectionmanager.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectiondirectorymodel.h"
 #include "collection/collectionviewcontainer.h"
@@ -644,9 +644,9 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(ui_->action_equalizer, &QAction::triggered, this, &MainWindow::ShowEqualizer);
   QObject::connect(ui_->action_transcoder, &QAction::triggered, this, &MainWindow::ShowTranscodeDialog);
   QObject::connect(ui_->action_jump, &QAction::triggered, ui_->playlist->view(), &PlaylistView::JumpToCurrentlyPlayingTrack);
-  QObject::connect(ui_->action_update_collection, &QAction::triggered, &*app_->collection(), &CollectionLibrary::IncrementalScan);
-  QObject::connect(ui_->action_full_collection_scan, &QAction::triggered, &*app_->collection(), &CollectionLibrary::FullScan);
-  QObject::connect(ui_->action_stop_collection_scan, &QAction::triggered, &*app_->collection(), &CollectionLibrary::StopScan);
+  QObject::connect(ui_->action_update_collection, &QAction::triggered, &*app_->collection(), &CollectionManager::IncrementalScan);
+  QObject::connect(ui_->action_full_collection_scan, &QAction::triggered, &*app_->collection(), &CollectionManager::FullScan);
+  QObject::connect(ui_->action_stop_collection_scan, &QAction::triggered, &*app_->collection(), &CollectionManager::StopScan);
   QObject::connect(ui_->action_add_files_to_transcoder, &QAction::triggered, this, &MainWindow::AddFilesToTranscoder);
   ui_->action_add_files_to_transcoder->setIcon(IconLoader::Load(u"tools-wizard"_s));
 
@@ -760,7 +760,7 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(ui_->track_slider, &TrackSlider::Next, &*app_->player(), &Player::Next);
 
   // Collection connections
-  QObject::connect(&*app_->collection(), &CollectionLibrary::Error, this, &MainWindow::ShowErrorDialog);
+  QObject::connect(&*app_->collection(), &CollectionManager::Error, this, &MainWindow::ShowErrorDialog);
   QObject::connect(collection_view_->view(), &CollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(collection_view_->view(), &CollectionView::ShowSettingsDialog, this, &MainWindow::OpenCollectionSettingsDialog);
   QObject::connect(collection_view_->view(), &CollectionView::Error, this, &MainWindow::ShowErrorDialog);
@@ -770,11 +770,11 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(app_->collection_model(), &CollectionModel::modelAboutToBeReset, collection_view_->view(), &CollectionView::SaveFocus);
   QObject::connect(app_->collection_model(), &CollectionModel::modelReset, collection_view_->view(), &CollectionView::RestoreFocus);
 
-  QObject::connect(&*app_->task_manager(), &TaskManager::PauseCollectionWatchers, &*app_->collection(), &CollectionLibrary::PauseWatcher);
-  QObject::connect(&*app_->task_manager(), &TaskManager::ResumeCollectionWatchers, &*app_->collection(), &CollectionLibrary::ResumeWatcher);
+  QObject::connect(&*app_->task_manager(), &TaskManager::PauseCollectionWatchers, &*app_->collection(), &CollectionManager::PauseWatcher);
+  QObject::connect(&*app_->task_manager(), &TaskManager::ResumeCollectionWatchers, &*app_->collection(), &CollectionManager::ResumeWatcher);
 
-  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->collection(), &CollectionLibrary::CurrentSongChanged);
-  QObject::connect(&*app_->player(), &Player::Stopped, &*app_->collection(), &CollectionLibrary::Stopped);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->collection(), &CollectionManager::CurrentSongChanged);
+  QObject::connect(&*app_->player(), &Player::Stopped, &*app_->collection(), &CollectionManager::Stopped);
 
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::LoadAlbumCover);
   QObject::connect(&*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, this, &MainWindow::AlbumCoverLoaded);
@@ -999,11 +999,14 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongMetadataChanged, context_view_, &ContextView::SongChanged);
   QObject::connect(&*app_->player(), &Player::PlaylistFinished, context_view_, &ContextView::Stopped);
   QObject::connect(&*app_->player(), &Player::Playing, context_view_, &ContextView::Playing);
+  QObject::connect(&*app_->player(), &Player::Paused, context_view_, &ContextView::Paused);
+  QObject::connect(&*app_->player(), &Player::Seeked, context_view_, &ContextView::Seeked);
   QObject::connect(&*app_->player(), &Player::Stopped, context_view_, &ContextView::Stopped);
   QObject::connect(&*app_->player(), &Player::Error, context_view_, &ContextView::Error);
   QObject::connect(this, &MainWindow::AlbumCoverReady, context_view_, &ContextView::AlbumCoverLoaded);
   QObject::connect(this, &MainWindow::SearchCoverInProgress, context_view_->album_widget(), &ContextAlbum::SearchCoverInProgress);
   QObject::connect(context_view_, &ContextView::AlbumEnabledChanged, this, &MainWindow::TabSwitched);
+  QObject::connect(context_view_, &ContextView::SaveLyrics, &*app_->collection(), &CollectionManager::SaveLyrics);
 
   // Analyzer
   QObject::connect(ui_->analyzer, &AnalyzerContainer::WheelEvent, this, &MainWindow::VolumeWheelEvent);

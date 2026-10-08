@@ -1178,7 +1178,7 @@
     </message>
 </context>
 <context>
-    <name>CollectionLibrary</name>
+    <name>CollectionManager</name>
     <message>
         <source>Support for sort tags artist, album, album artist, title, composer and performer</source>
         <translation type="unfinished"></translation>

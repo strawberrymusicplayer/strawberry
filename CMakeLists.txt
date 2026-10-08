@@ -537,6 +537,7 @@ set(SOURCES
   src/tagreader/tagreadersavecoverrequest.cpp
   src/tagreader/tagreadersaveplaycountrequest.cpp
   src/tagreader/tagreadersaveratingrequest.cpp
+  src/tagreader/tagreadersavelyricsrequest.cpp
   src/tagreader/albumcovertagdata.cpp
   src/tagreader/savetagcoverdata.cpp
   src/tagreader/tagreaderreply.cpp
@@ -606,7 +607,7 @@ set(SOURCES
   src/context/contextview.cpp
   src/context/contextalbum.cpp
 
-  src/collection/collectionlibrary.cpp
+  src/collection/collectionmanager.cpp
   src/collection/collectionmodel.cpp
   src/collection/collectionbackend.cpp
   src/collection/collectionwatcher.cpp
@@ -933,7 +934,7 @@ set(HEADERS
   src/context/contextview.h
   src/context/contextalbum.h
 
-  src/collection/collectionlibrary.h
+  src/collection/collectionmanager.h
   src/collection/collectionmodel.h
   src/collection/collectionbackend.h
   src/collection/collectionwatcher.h

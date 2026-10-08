@@ -2180,6 +2180,80 @@ void CollectionBackend::UpdateSongsRatingAsync(const QList<int> &ids, const floa
   QMetaObject::invokeMethod(this, "UpdateSongsRating", Qt::QueuedConnection, Q_ARG(QList<int>, ids), Q_ARG(float, rating), Q_ARG(bool, save_tags));
 }
 
+void CollectionBackend::UpdateSongLyrics(const int id, const bool synced_lyrics, const QString &lyrics, const int storage_type, const bool only_if_empty, const bool save_tags) {
+
+  if (id == -1) return;
+
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  // Only update the columns for these lyrics, so other changes to the song, like the playcount, are not overwritten.
+  const QString lyrics_column = synced_lyrics ? u"synced_lyrics"_s : u"lyrics"_s;
+  SqlQuery q(db);
+  // Empty lyrics stored in the database are lyrics cleared on purpose, those are not empty in this sense.
+  q.prepare(QStringLiteral("UPDATE %1 SET %2 = :lyrics, %2_storage_type = :storage_type WHERE ROWID = :id%3").arg(songs_table_, lyrics_column, only_if_empty ? QStringLiteral(" AND (%1 IS NULL OR %1 = '') AND %1_storage_type != :database_storage_type").arg(lyrics_column) : QString()));
+  q.BindStringValue(u":lyrics"_s, lyrics);
+  q.BindValue(u":storage_type"_s, storage_type);
+  q.BindValue(u":id"_s, id);
+  if (only_if_empty) {
+    q.BindValue(u":database_storage_type"_s, static_cast<int>(Song::StorageType::Database));
+  }
+  if (!q.Exec()) {
+    db_->ReportErrors(q);
+    return;
+  }
+
+  if (q.numRowsAffected() <= 0) {
+    qLog(Debug) << "Song" << id << "already has lyrics or they were cleared, not saving the lyrics found";
+    return;
+  }
+
+  const SongList new_song_list = GetSongsById(QStringList() << QString::number(id), db);
+
+  // Only the lyrics given here are to be saved to the tags, not other lyrics deliberately stored in the database.
+  Q_EMIT SongsLyricsChanged(new_song_list, save_tags && !synced_lyrics, save_tags && synced_lyrics);
+
+}
+
+void CollectionBackend::UpdateSongLyricsAsync(const int id, const bool synced_lyrics, const QString &lyrics, const Song::StorageType storage_type, const bool only_if_empty, const bool save_tags) {
+  QMetaObject::invokeMethod(this, "UpdateSongLyrics", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(bool, synced_lyrics), Q_ARG(QString, lyrics), Q_ARG(int, static_cast<int>(storage_type)), Q_ARG(bool, only_if_empty), Q_ARG(bool, save_tags));
+}
+
+void CollectionBackend::UpdateSongLyricsStorageType(const int id, const bool synced_lyrics, const QString &expected_lyrics, const int expected_storage_type, const int storage_type) {
+
+  if (id == -1) return;
+
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  // Compare and set in one statement, so newer lyrics, or the same lyrics saved somewhere else in the meantime, for example from the tag editor, are not changed.
+  const QString lyrics_column = synced_lyrics ? u"synced_lyrics"_s : u"lyrics"_s;
+  SqlQuery q(db);
+  q.prepare(QStringLiteral("UPDATE %1 SET %2_storage_type = :storage_type WHERE ROWID = :id AND %2 = :lyrics AND %2_storage_type = :expected_storage_type").arg(songs_table_, lyrics_column));
+  q.BindValue(u":storage_type"_s, storage_type);
+  q.BindValue(u":expected_storage_type"_s, expected_storage_type);
+  q.BindValue(u":id"_s, id);
+  q.BindStringValue(u":lyrics"_s, expected_lyrics);
+  if (!q.Exec()) {
+    db_->ReportErrors(q);
+    return;
+  }
+
+  if (q.numRowsAffected() <= 0) {
+    qLog(Debug) << "Lyrics for song" << id << "changed or were saved elsewhere while saving them to the tags, not updating where they are stored";
+    return;
+  }
+
+  const SongList new_song_list = GetSongsById(QStringList() << QString::number(id), db);
+
+  Q_EMIT SongsLyricsChanged(new_song_list, false, false);
+
+}
+
+void CollectionBackend::UpdateSongLyricsStorageTypeAsync(const int id, const bool synced_lyrics, const QString &expected_lyrics, const Song::StorageType expected_storage_type, const Song::StorageType storage_type) {
+  QMetaObject::invokeMethod(this, "UpdateSongLyricsStorageType", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(bool, synced_lyrics), Q_ARG(QString, expected_lyrics), Q_ARG(int, static_cast<int>(expected_storage_type)), Q_ARG(int, static_cast<int>(storage_type)));
+}
+
 void CollectionBackend::UpdateLastSeen(const int directory_id, const int expire_unavailable_songs_days) {
 
   {

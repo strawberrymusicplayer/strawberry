@@ -27,6 +27,8 @@
 #include <QUrl>
 #include <QDateTime>
 #include <QRegularExpression>
+#include <QTemporaryDir>
+#include <QFile>
 #include <QtDebug>
 
 #include "test_utils.h"
@@ -287,6 +289,12 @@ TEST(UtilitiesTest, ReplaceMessage) {
   ASSERT_EQ(Utilities::ReplaceMessage(u"%title% - %artist%"_s, song, ""_L1), song.title() + u" - "_s + song.artist());
   ASSERT_EQ(Utilities::ReplaceMessage(u"%artistsort% - %albumartistsort%"_s, song, ""_L1), song.artistsort() + u" - "_s + song.albumartistsort());
 
+  // Variables in the values themselves are not replaced.
+  Song song_with_variable;
+  song_with_variable.set_title(u"Title %album%"_s);
+  song_with_variable.set_album(u"Album"_s);
+  ASSERT_EQ(Utilities::ReplaceMessage(u"%title% / %album%"_s, song_with_variable, ""_L1), u"Title %album% / Album"_s);
+
 }
 
 TEST(UtilitiesTest, TemporaryFile) {
@@ -377,6 +385,14 @@ TEST(UtilitiesTest, ParseLRC) {
     ASSERT_EQ(lrc_lines->at(5).text, u"Chorus"_s);
   }
 
+  { // Lines ending with only CR (classic Mac OS)
+    const std::optional<Utilities::LRCLines> lrc_lines = Utilities::ParseLRC(u"[00:01.00]Line one\r[00:02.00]Line two"_s);
+    ASSERT_TRUE(lrc_lines.has_value());
+    ASSERT_EQ(lrc_lines->count(), 2);
+    ASSERT_EQ(lrc_lines->at(0).text, u"Line one"_s);
+    ASSERT_EQ(lrc_lines->at(1).time, 2000U);
+  }
+
   { // Offset, lines shifted before the start are clamped to zero
     const std::optional<Utilities::LRCLines> lrc_lines = Utilities::ParseLRC(u"[offset:+500]\n[00:01.00]Line one\n[00:00.20]Line zero"_s);
     ASSERT_TRUE(lrc_lines.has_value());
@@ -400,5 +416,33 @@ TEST(UtilitiesTest, ParseLRC) {
     lrc += QString(2000, u'x');
     ASSERT_FALSE(Utilities::ParseLRC(lrc).has_value());
   }
+
+}
+
+TEST(UtilitiesTest, LRCFilename) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+
+  const QString media_filename = temp_dir.filePath(u"strawberry.song.flac"_s);
+
+  // Without an existing LRC file, the name is the media filename with the extension replaced.
+  EXPECT_EQ(temp_dir.filePath(u"strawberry.song.lrc"_s), Utilities::LRCFilename(media_filename));
+
+  // LRC files for other media files are not used.
+  {
+    QFile other_file(temp_dir.filePath(u"strawberry.lrc"_s));
+    ASSERT_TRUE(other_file.open(QIODevice::WriteOnly));
+    other_file.close();
+  }
+  EXPECT_EQ(temp_dir.filePath(u"strawberry.song.lrc"_s), Utilities::LRCFilename(media_filename));
+
+  // An existing LRC file with the extension in any case is reused, so a second LRC file is not created next to it.
+  {
+    QFile lrc_file(temp_dir.filePath(u"strawberry.song.LrC"_s));
+    ASSERT_TRUE(lrc_file.open(QIODevice::WriteOnly));
+    lrc_file.close();
+  }
+  EXPECT_EQ(temp_dir.filePath(u"strawberry.song.LrC"_s), Utilities::LRCFilename(media_filename));
 
 }

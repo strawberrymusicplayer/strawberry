@@ -31,16 +31,13 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QUrl>
 #include <QImage>
-#include <QIcon>
 #include <QFont>
 #include <QSize>
 #include <QSizePolicy>
 #include <QMenu>
 #include <QAction>
 #include <QFontDatabase>
-#include <QLayoutItem>
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QStackedWidget>
@@ -49,10 +46,11 @@
 #include <QLabel>
 #include <QTextEdit>
 #include <QSettings>
-#include <QResizeEvent>
 #include <QContextMenuEvent>
 #include <QDragEnterEvent>
 #include <QDropEvent>
+#include <QShowEvent>
+#include <QHideEvent>
 #include <QTimer>
 #include <QTextDocument>
 #include <QTextCursor>
@@ -80,7 +78,6 @@
 using namespace Qt::Literals::StringLiterals;
 
 namespace {
-constexpr int kWidgetSpacing = 50;
 constexpr qint64 kSyncedLyricsMaxUpdateTimeMs = 250;
 }  // namespace
 
@@ -128,6 +125,9 @@ ContextView::ContextView(QWidget *parent)
       synced_lyrics_offset_msec_(0) {
 
   setLayout(layout_container_);
+
+  // A cover image can be dropped on the view to save it for the song playing.
+  setAcceptDrops(true);
 
   layout_container_->setObjectName(u"context-layout-container"_s);
   layout_container_->setContentsMargins(0, 0, 0, 0);
@@ -232,7 +232,7 @@ ContextView::ContextView(QWidget *parent)
                     << label_bitdepth_
                     << label_bitrate_;
 
-  labels_play_all_ = labels_play_ << labels_play_data_;
+  labels_play_all_ = labels_play_ + labels_play_data_;
 
   textedit_play_ << textedit_play_lyrics_;
 
@@ -251,7 +251,7 @@ void ContextView::Init(CollectionView *collectionview, AlbumCoverChoiceControlle
   album_cover_choice_controller_ = album_cover_choice_controller;
   player_ = player;
 
-  widget_album_->Init(this, album_cover_choice_controller_);
+  widget_album_->Init(album_cover_choice_controller_);
   lyrics_fetcher_ = new LyricsFetcher(lyrics_providers, this);
 
   QObject::connect(collectionview_, &CollectionView::TotalSongCountUpdated_, this, &ContextView::UpdateNoSong);
@@ -260,6 +260,56 @@ void ContextView::Init(CollectionView *collectionview, AlbumCoverChoiceControlle
   QObject::connect(lyrics_fetcher_, &LyricsFetcher::LyricsFetched, this, &ContextView::UpdateLyrics);
 
   AddActions();
+
+}
+
+void ContextView::showEvent(QShowEvent *e) {
+
+  QWidget::showEvent(e);
+
+  // The active line was not updated while hidden.
+  if (!synced_lyrics_lines_.isEmpty()) {
+    UpdateSyncedLyricsPosition();
+  }
+
+}
+
+void ContextView::hideEvent(QHideEvent *e) {
+
+  timer_synced_lyrics_->stop();
+
+  QWidget::hideEvent(e);
+
+}
+
+void ContextView::dragEnterEvent(QDragEnterEvent *e) {
+
+  if (song_playing_.is_valid() && AlbumCoverChoiceController::CanAcceptDrag(e)) {
+    e->acceptProposedAction();
+  }
+
+  QWidget::dragEnterEvent(e);
+
+}
+
+void ContextView::dropEvent(QDropEvent *e) {
+
+  if (song_playing_.is_valid()) {
+    album_cover_choice_controller_->SaveCover(&song_playing_, e);
+  }
+
+  QWidget::dropEvent(e);
+
+}
+
+void ContextView::contextMenuEvent(QContextMenuEvent *e) {
+
+  if (menu_options_ && widget_stacked_->currentWidget() == widget_stop_) {
+    menu_options_->popup(mapToGlobal(e->pos()));
+  }
+  else {
+    QWidget::contextMenuEvent(e);
+  }
 
 }
 
@@ -315,12 +365,20 @@ void ContextView::ReloadSettings() {
   action_show_lyrics_->setChecked(s.value(ContextSettings::kSongLyrics, ContextSettings::kDefaultSongLyrics).toBool());
   action_search_lyrics_->setChecked(s.value(ContextSettings::kSearchLyrics, ContextSettings::kDefaultSearchLyrics).toBool());
   synced_lyrics_enabled_ = s.value(ContextSettings::kSyncedLyrics, ContextSettings::kDefaultSyncedLyrics).toBool();
+  // Font sizes which are not positive, for example from an edited configuration file, fall back to the defaults.
+  qreal font_size_headline = s.value(ContextSettings::kFontSizeHeadline, ContextSettings::kDefaultFontSizeHeadline).toReal();
+  if (font_size_headline <= 0) font_size_headline = ContextSettings::kDefaultFontSizeHeadline;
+  qreal font_size_normal = s.value(ContextSettings::kFontSizeNormal, font().pointSizeF()).toReal();
+  if (font_size_normal <= 0) font_size_normal = font().pointSizeF();
   font_headline_.setFamily(s.value(ContextSettings::kFontHeadline, default_font).toString());
-  font_headline_.setPointSizeF(s.value(ContextSettings::kFontSizeHeadline, ContextSettings::kDefaultFontSizeHeadline).toReal());
+  font_headline_.setPointSizeF(font_size_headline);
   font_nosong_.setFamily(font_headline_.family());
   font_nosong_.setPointSizeF(font_headline_.pointSizeF() * 1.6F);
+  // Start from the widget font, so it is used as it is when there is no valid point size, a size from earlier settings is not kept.
+  font_normal_ = font();
   font_normal_.setFamily(s.value(ContextSettings::kFontNormal, default_font).toString());
-  font_normal_.setPointSizeF(s.value(ContextSettings::kFontSizeNormal, font().pointSizeF()).toReal());
+  // The default font can have a pixel size instead of a point size, then the point size is not positive either.
+  if (font_size_normal > 0) font_normal_.setPointSizeF(font_size_normal);
   s.endGroup();
 
   UpdateFonts();
@@ -336,28 +394,27 @@ void ContextView::ReloadSettings() {
 
 }
 
-void ContextView::resizeEvent(QResizeEvent *e) {
+void ContextView::Playing() {
 
-  if (e->size().width() != e->oldSize().width()) {
-    widget_album_->UpdateWidth(width() - kWidgetSpacing);
+  // Reschedule right away when playback resumes, the timer is stopped while paused.
+  // Deferred, the player emits Playing() before its state is updated, so it would still be paused here.
+  if (!synced_lyrics_lines_.isEmpty()) {
+    timer_synced_lyrics_->start(0);
   }
-
-  QWidget::resizeEvent(e);
 
 }
 
-void ContextView::Playing() {
+void ContextView::Paused() {
 
-  // Reschedule right away when playback resumes, the timer only checks occasionally while paused.
-  if (!synced_lyrics_lines_.isEmpty()) {
-    UpdateSyncedLyricsPosition();
-  }
+  // The position does not change while paused, Playing() reschedules when playback resumes.
+  timer_synced_lyrics_->stop();
 
 }
 
 void ContextView::Stopped() {
 
   song_playing_ = Song();
+  widget_album_->set_song_playing(song_playing_);
   song_prev_ = Song();
   lyrics_.clear();
   synced_lyrics_.clear();
@@ -375,7 +432,21 @@ void ContextView::Stopped() {
 
 }
 
-void ContextView::Error() {}
+void ContextView::Error() {
+
+  // Playback stopped because of an error, Playing() reschedules if playback starts again.
+  timer_synced_lyrics_->stop();
+
+}
+
+void ContextView::Seeked(const qint64 microseconds) {
+
+  // Update the active line right away from the seek position, seeking is asynchronous, so the engine can still report the position before seeking.
+  if (!synced_lyrics_lines_.isEmpty()) {
+    UpdateSyncedLyricsLine(microseconds / 1000 + synced_lyrics_offset_msec_);
+  }
+
+}
 
 void ContextView::SongChanged(const Song &song) {
 
@@ -386,6 +457,7 @@ void ContextView::SongChanged(const Song &song) {
   else {
     song_prev_ = song_playing_;
     song_playing_ = song;
+    widget_album_->set_song_playing(song_playing_);
     lyrics_ = song.lyrics();
     synced_lyrics_ = song.synced_lyrics();
     fetched_lyrics_.clear();
@@ -422,8 +494,24 @@ void ContextView::FadeStopFinished() {
 
 }
 
-void ContextView::SetLabelText(QLabel *label, int value, const QString &suffix, const QString &def) {
-  label->setText(value <= 0 ? def : (QString::number(value) + QLatin1Char(' ') + suffix));
+QString ContextView::DataLabelText(const int value, const QString &suffix) {
+  return value <= 0 ? QString() : (QString::number(value) + QLatin1Char(' ') + suffix);
+}
+
+void ContextView::SetDataLabel(QLabel *title_label, QLabel *label, const QString &text) {
+
+  // The title and value are hidden together when there is no value.
+  if (text.isEmpty()) {
+    title_label->hide();
+    label->hide();
+    label->clear();
+  }
+  else {
+    title_label->show();
+    label->show();
+    label->setText(text);
+  }
+
 }
 
 void ContextView::UpdateNoSong() {
@@ -488,47 +576,11 @@ void ContextView::SetSong() {
 
   if (action_show_data_->isChecked()) {
     widget_play_data_->show();
-    label_filetype_->setText(song_playing_.TextForFiletype());
-    if (song_playing_.length_nanosec() <= 0) {
-      label_length_title_->hide();
-      label_length_->hide();
-      label_length_->clear();
-    }
-    else {
-      label_length_title_->show();
-      label_length_->show();
-      label_length_->setText(Utilities::PrettyTimeNanosec(song_playing_.length_nanosec()));
-    }
-    if (song_playing_.samplerate() <= 0) {
-      label_samplerate_title_->hide();
-      label_samplerate_->hide();
-      label_samplerate_->clear();
-    }
-    else {
-      label_samplerate_title_->show();
-      label_samplerate_->show();
-      SetLabelText(label_samplerate_, song_playing_.samplerate(), u"Hz"_s);
-    }
-    if (song_playing_.bitdepth() <= 0) {
-      label_bitdepth_title_->hide();
-      label_bitdepth_->hide();
-      label_bitdepth_->clear();
-    }
-    else {
-      label_bitdepth_title_->show();
-      label_bitdepth_->show();
-      SetLabelText(label_bitdepth_, song_playing_.bitdepth(), u"Bit"_s);
-    }
-    if (song_playing_.bitrate() <= 0) {
-      label_bitrate_title_->hide();
-      label_bitrate_->hide();
-      label_bitrate_->clear();
-    }
-    else {
-      label_bitrate_title_->show();
-      label_bitrate_->show();
-      SetLabelText(label_bitrate_, song_playing_.bitrate(), tr("kbps"));
-    }
+    SetDataLabel(label_filetype_title_, label_filetype_, song_playing_.TextForFiletype());
+    SetDataLabel(label_length_title_, label_length_, song_playing_.length_nanosec() <= 0 ? QString() : Utilities::PrettyTimeNanosec(song_playing_.length_nanosec()));
+    SetDataLabel(label_samplerate_title_, label_samplerate_, DataLabelText(song_playing_.samplerate(), u"Hz"_s));
+    SetDataLabel(label_bitdepth_title_, label_bitdepth_, DataLabelText(song_playing_.bitdepth(), u"Bit"_s));
+    SetDataLabel(label_bitrate_title_, label_bitrate_, DataLabelText(song_playing_.bitrate(), tr("kbps")));
     spacer_play_data_->changeSize(20, 20, QSizePolicy::Fixed);
   }
   else {
@@ -556,58 +608,25 @@ void ContextView::UpdateSong(const Song &song) {
   }
 
   if (action_show_data_->isChecked()) {
-    if (song.filetype() != song_playing_.filetype()) label_filetype_->setText(song.TextForFiletype());
+    if (song.filetype() != song_playing_.filetype()) {
+      SetDataLabel(label_filetype_title_, label_filetype_, song.TextForFiletype());
+    }
     if (song.length_nanosec() != song_playing_.length_nanosec()) {
-      if (song.length_nanosec() <= 0) {
-        label_length_title_->hide();
-        label_length_->hide();
-        label_length_->clear();
-      }
-      else {
-        label_length_title_->show();
-        label_length_->show();
-        label_length_->setText(Utilities::PrettyTimeNanosec(song.length_nanosec()));
-      }
+      SetDataLabel(label_length_title_, label_length_, song.length_nanosec() <= 0 ? QString() : Utilities::PrettyTimeNanosec(song.length_nanosec()));
     }
     if (song.samplerate() != song_playing_.samplerate()) {
-      if (song.samplerate() <= 0) {
-        label_samplerate_title_->hide();
-        label_samplerate_->hide();
-        label_samplerate_->clear();
-      }
-      else {
-        label_samplerate_title_->show();
-        label_samplerate_->show();
-        SetLabelText(label_samplerate_, song.samplerate(), u"Hz"_s);
-      }
+      SetDataLabel(label_samplerate_title_, label_samplerate_, DataLabelText(song.samplerate(), u"Hz"_s));
     }
     if (song.bitdepth() != song_playing_.bitdepth()) {
-      if (song.bitdepth() <= 0) {
-        label_bitdepth_title_->hide();
-        label_bitdepth_->hide();
-        label_bitdepth_->clear();
-      }
-      else {
-        label_bitdepth_title_->show();
-        label_bitdepth_->show();
-        SetLabelText(label_bitdepth_, song.bitdepth(), u"Bit"_s);
-      }
+      SetDataLabel(label_bitdepth_title_, label_bitdepth_, DataLabelText(song.bitdepth(), u"Bit"_s));
     }
     if (song.bitrate() != song_playing_.bitrate()) {
-      if (song.bitrate() <= 0) {
-        label_bitrate_title_->hide();
-        label_bitrate_->hide();
-        label_bitrate_->clear();
-      }
-      else {
-        label_bitrate_title_->show();
-        label_bitrate_->show();
-        SetLabelText(label_bitrate_, song.bitrate(), tr("kbps"));
-      }
+      SetDataLabel(label_bitrate_title_, label_bitrate_, DataLabelText(song.bitrate(), tr("kbps")));
     }
   }
 
   song_playing_ = song;
+  widget_album_->set_song_playing(song_playing_);
 
   widget_stacked_->updateGeometry();
 
@@ -643,6 +662,10 @@ void ContextView::UpdateLyrics(const quint64 id, const LyricsSearchResult &resul
     fetched_lyrics_ = result.lyrics;
     fetched_synced_lyrics_ = result.synced_lyrics;
     fetched_lyrics_provider_ = result.provider;
+    // Save the lyrics the song does not have yet, to the tags or the database depending on the collection settings.
+    if (song_playing_.is_local_collection_song()) {
+      Q_EMIT SaveLyrics(song_playing_, song_playing_.lyrics().isEmpty() ? result.lyrics : QString(), song_playing_.synced_lyrics().isEmpty() ? result.synced_lyrics : QString());
+    }
   }
   lyrics_id_ = -1;
 
@@ -663,21 +686,21 @@ void ContextView::SetLyricsText() {
   }
 
   // Prefer synchronized lyrics from the tags over fetched ones, and fall back to plain lyrics if they are disabled or not valid LRC.
-  Utilities::LRCLines lrc_lines;
+  const Utilities::LRCLines *lrc_lines = nullptr;
   QString synced_lyrics;
   QString synced_lyrics_provider;
   if (synced_lyrics_enabled_) {
-    const std::optional<Utilities::LRCLines> tag_lrc_lines = Utilities::ParseLRC(synced_lyrics_);
+    const std::optional<Utilities::LRCLines> &tag_lrc_lines = ParseSyncedLyrics(&parsed_tag_synced_lyrics_, synced_lyrics_);
     if (tag_lrc_lines.has_value() && !tag_lrc_lines->isEmpty()) {
-      lrc_lines = *tag_lrc_lines;
+      lrc_lines = &*tag_lrc_lines;
       synced_lyrics = synced_lyrics_;
       // Lyrics from the tags of a CUE track are for the whole media file, while the position is relative to the start of the track.
       synced_lyrics_offset_msec_ = song_playing_.beginning_nanosec() / kNsecPerMsec;
     }
     else {
-      const std::optional<Utilities::LRCLines> fetched_lrc_lines = Utilities::ParseLRC(fetched_synced_lyrics_);
+      const std::optional<Utilities::LRCLines> &fetched_lrc_lines = ParseSyncedLyrics(&parsed_fetched_synced_lyrics_, fetched_synced_lyrics_);
       if (fetched_lrc_lines.has_value() && !fetched_lrc_lines->isEmpty()) {
-        lrc_lines = *fetched_lrc_lines;
+        lrc_lines = &*fetched_lrc_lines;
         synced_lyrics = fetched_synced_lyrics_;
         synced_lyrics_provider = fetched_lyrics_provider_;
         // Fetched lyrics are for the track itself.
@@ -686,12 +709,12 @@ void ContextView::SetLyricsText() {
     }
   }
 
-  if (!lrc_lines.isEmpty()) {
+  if (lrc_lines) {
     // Only replace the text if the lyrics changed, so a selection in the lyrics is kept.
     const QString synced_lyrics_shown = synced_lyrics + u'\n' + synced_lyrics_provider;
     if (synced_lyrics_shown != synced_lyrics_shown_ || textedit_play_lyrics_->isHidden()) {
       synced_lyrics_shown_ = synced_lyrics_shown;
-      synced_lyrics_lines_ = lrc_lines;
+      synced_lyrics_lines_ = *lrc_lines;
       synced_lyrics_line_ = -1;
       SetSyncedLyricsText(synced_lyrics_provider);
       textedit_play_lyrics_->show();
@@ -721,21 +744,38 @@ void ContextView::SetLyricsText() {
     textedit_play_lyrics_->hide();
   }
   else {
-    textedit_play_lyrics_->SetText(text);
+    // Lyrics are plain text, rich text detection would render lyrics starting with something like a tag as HTML.
+    textedit_play_lyrics_->SetPlainText(text);
     textedit_play_lyrics_->show();
   }
+
+}
+
+const std::optional<Utilities::LRCLines> &ContextView::ParseSyncedLyrics(ParsedSyncedLyrics *parsed_synced_lyrics, const QString &synced_lyrics) {
+
+  if (synced_lyrics != parsed_synced_lyrics->synced_lyrics) {
+    parsed_synced_lyrics->synced_lyrics = synced_lyrics;
+    parsed_synced_lyrics->lrc_lines = Utilities::ParseLRC(synced_lyrics);
+  }
+
+  return parsed_synced_lyrics->lrc_lines;
 
 }
 
 void ContextView::SetSyncedLyricsText(const QString &provider) {
 
   // One block per line, so the block number is the line number when marking the active line.
+  // Characters which insertText() turns into a new block are replaced, otherwise the block numbers would no longer match the lines.
   textedit_play_lyrics_->clear();
   QTextCursor cursor(textedit_play_lyrics_->document());
   const QTextCharFormat char_format;
   for (qsizetype i = 0; i < synced_lyrics_lines_.size(); ++i) {
     if (i > 0) cursor.insertBlock();
-    cursor.insertText(synced_lyrics_lines_.at(i).text, char_format);
+    QString text = synced_lyrics_lines_.at(i).text;
+    for (const QChar c : {QChar(u'\r'), QChar(u'\n'), QChar(QChar::ParagraphSeparator), QChar(0xFDD0), QChar(0xFDD1)}) {
+      text.replace(c, u' ');
+    }
+    cursor.insertText(text, char_format);
   }
 
   if (!provider.isEmpty()) {
@@ -791,9 +831,15 @@ qsizetype ContextView::SyncedLyricsLine(const qint64 position_msec) const {
 
 void ContextView::UpdateSyncedLyricsPosition() {
 
-  if (synced_lyrics_lines_.isEmpty()) return;
+  UpdateSyncedLyricsLine(SyncedLyricsPositionMsec());
 
-  const qint64 position_msec = SyncedLyricsPositionMsec();
+}
+
+void ContextView::UpdateSyncedLyricsLine(const qint64 position_msec) {
+
+  // While hidden, nothing is updated, showEvent() updates the active line when the view is shown again.
+  if (synced_lyrics_lines_.isEmpty() || !isVisible()) return;
+
   const qsizetype line = SyncedLyricsLine(position_msec);
 
   // Only change the formatting of the previous and new active line.
@@ -803,44 +849,18 @@ void ContextView::UpdateSyncedLyricsPosition() {
     synced_lyrics_line_ = line;
   }
 
-  // Wake up exactly when the next line starts instead of polling, but check at least regularly to follow seeking and pausing.
-  // Only while playing, the position does not advance when paused, so the timer would otherwise keep firing right away.
+  // Only while playing, the position does not change otherwise, Playing() and Seeked() update the active line when that changes.
+  if (!player_ || player_->GetState() != EngineBase::State::Playing) {
+    timer_synced_lyrics_->stop();
+    return;
+  }
+
+  // Wake up exactly when the next line starts instead of polling, but check at least regularly in case a position change is missed.
   qint64 next_update_msec = kSyncedLyricsMaxUpdateTimeMs;
-  if (player_ && player_->GetState() == EngineBase::State::Playing && line + 1 < synced_lyrics_lines_.size()) {
+  if (line + 1 < synced_lyrics_lines_.size()) {
     next_update_msec = std::clamp(static_cast<qint64>(synced_lyrics_lines_.at(line + 1).time) - position_msec, 1LL, kSyncedLyricsMaxUpdateTimeMs);
   }
   timer_synced_lyrics_->start(static_cast<int>(next_update_msec));
-
-}
-
-void ContextView::contextMenuEvent(QContextMenuEvent *e) {
-
-  if (menu_options_ && widget_stacked_->currentWidget() == widget_stop_) {
-    menu_options_->popup(mapToGlobal(e->pos()));
-  }
-  else {
-    QWidget::contextMenuEvent(e);
-  }
-
-}
-
-void ContextView::dragEnterEvent(QDragEnterEvent *e) {
-
-  if (song_playing_.is_valid() && AlbumCoverChoiceController::CanAcceptDrag(e)) {
-    e->acceptProposedAction();
-  }
-
-  QWidget::dragEnterEvent(e);
-
-}
-
-void ContextView::dropEvent(QDropEvent *e) {
-
-  if (song_playing_.is_valid()) {
-    album_cover_choice_controller_->SaveCover(&song_playing_, e);
-  }
-
-  QWidget::dropEvent(e);
 
 }
 

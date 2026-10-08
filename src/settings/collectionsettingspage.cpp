@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@
 #include "core/standardpaths.h"
 #include "core/settings.h"
 #include "utilities/strutils.h"
-#include "collection/collectionlibrary.h"
+#include "collection/collectionmanager.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectiondirectory.h"
@@ -66,7 +66,7 @@ using namespace Qt::Literals::StringLiterals;
 using namespace CollectionSettings;
 
 CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog,
-                                               const SharedPtr<CollectionLibrary> collection,
+                                               const SharedPtr<CollectionManager> collection,
                                                const SharedPtr<CollectionBackend> collection_backend,
                                                CollectionModel *collection_model,
                                                CollectionDirectoryModel *collection_directory_model,
@@ -174,6 +174,7 @@ void CollectionSettingsPage::Load() {
 
   ui_->checkbox_save_playcounts->setChecked(s.value(kSavePlayCounts, kDefaultSavePlayCounts).toBool());
   ui_->checkbox_save_ratings->setChecked(s.value(kSaveRatings, kDefaultSaveRatings).toBool());
+  ui_->checkbox_save_lyrics->setChecked(s.value(kSaveLyrics, kDefaultSaveLyrics).toBool());
   ui_->checkbox_overwrite_playcount->setChecked(s.value(kOverwritePlaycount, kDefaultOverwritePlaycount).toBool());
   ui_->checkbox_overwrite_rating->setChecked(s.value(kOverwriteRating, kDefaultOverwriteRating).toBool());
 
@@ -222,6 +223,7 @@ void CollectionSettingsPage::Save() {
 
   s.setValue(kSavePlayCounts, ui_->checkbox_save_playcounts->isChecked());
   s.setValue(kSaveRatings, ui_->checkbox_save_ratings->isChecked());
+  s.setValue(kSaveLyrics, ui_->checkbox_save_lyrics->isChecked());
   s.setValue(kOverwritePlaycount, ui_->checkbox_overwrite_playcount->isChecked());
   s.setValue(kOverwriteRating, ui_->checkbox_overwrite_rating->isChecked());
 

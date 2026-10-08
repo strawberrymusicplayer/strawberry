@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -124,6 +124,7 @@ const QStringList Song::kColumns = QStringList() << u"title"_s
 
                                                  << u"art_embedded"_s
                                                  << u"art_automatic"_s
+                                                 << u"art_automatic_mtime"_s
                                                  << u"art_manual"_s
                                                  << u"art_unset"_s
 
@@ -136,6 +137,10 @@ const QStringList Song::kColumns = QStringList() << u"title"_s
                                                  << u"bpm"_s
                                                  << u"mood"_s
                                                  << u"initial_key"_s
+
+                                                 << u"lyrics_storage_type"_s
+                                                 << u"synced_lyrics_storage_type"_s
+                                                 << u"lrc_mtime"_s
 
                                                  << u"acoustid_id"_s
                                                  << u"acoustid_fingerprint"_s
@@ -265,6 +270,26 @@ const QStringList Song::kRejectedExtensions = QStringList() << u"tmp"_s
                                                             << u"zst"_s
                                                             << u"lrc"_s;
 
+namespace {
+
+// Unknown values are treated as no lyrics stored.
+Song::StorageType StorageTypeFromInt(const int value) {
+
+  switch (value) {
+    case static_cast<int>(Song::StorageType::Database):
+      return Song::StorageType::Database;
+    case static_cast<int>(Song::StorageType::Tag):
+      return Song::StorageType::Tag;
+    case static_cast<int>(Song::StorageType::File):
+      return Song::StorageType::File;
+    default:
+      return Song::StorageType::None;
+  }
+
+}
+
+}  // namespace
+
 struct Song::Private : public QSharedData {
 
   explicit Private(Source source = Source::Unknown);
@@ -330,6 +355,7 @@ struct Song::Private : public QSharedData {
 
   bool art_embedded_;           // if the song has embedded album cover art.
   QUrl art_automatic_;          // Guessed by CollectionWatcher.
+  qint64 art_automatic_mtime_;  // Modification time in milliseconds of the automatic album cover file, 0 if there is none.
   QUrl art_manual_;             // Set by the user - should take priority.
   bool art_unset_;              // If the art was unset by the user.
 
@@ -339,6 +365,10 @@ struct Song::Private : public QSharedData {
   float bpm_;
   QString mood_;
   QString initial_key_;
+
+  StorageType lyrics_storage_type_;
+  StorageType synced_lyrics_storage_type_;
+  qint64 lrc_mtime_;  // Modification time in milliseconds of the LRC file with synchronized lyrics next to the media file, 0 if there is none.
 
   QString acoustid_id_;
   QString acoustid_fingerprint_;
@@ -404,10 +434,16 @@ Song::Private::Private(const Source source)
       compilation_off_(false),
 
       art_embedded_(false),
+      art_automatic_mtime_(0),
       art_unset_(false),
 
       rating_(-1),
       bpm_(-1),
+
+      // Set when lyrics are read from the tags or an LRC file, or saved to the database.
+      lyrics_storage_type_(StorageType::None),
+      synced_lyrics_storage_type_(StorageType::None),
+      lrc_mtime_(0),
 
       id3v2_version_(0),
 
@@ -495,6 +531,7 @@ bool Song::compilation_on() const { return d->compilation_on_; }
 
 bool Song::art_embedded() const { return d->art_embedded_; }
 const QUrl &Song::art_automatic() const { return d->art_automatic_; }
+qint64 Song::art_automatic_mtime() const { return d->art_automatic_mtime_; }
 const QUrl &Song::art_manual() const { return d->art_manual_; }
 bool Song::art_unset() const { return d->art_unset_; }
 
@@ -504,6 +541,10 @@ float Song::rating() const { return d->rating_; }
 float Song::bpm() const { return d->bpm_; }
 const QString &Song::mood() const { return d->mood_; }
 const QString &Song::initial_key() const { return d->initial_key_; }
+
+Song::StorageType Song::lyrics_storage_type() const { return d->lyrics_storage_type_; }
+Song::StorageType Song::synced_lyrics_storage_type() const { return d->synced_lyrics_storage_type_; }
+qint64 Song::lrc_mtime() const { return d->lrc_mtime_; }
 
 const QString &Song::acoustid_id() const { return d->acoustid_id_; }
 const QString &Song::acoustid_fingerprint() const { return d->acoustid_fingerprint_; }
@@ -615,7 +656,16 @@ void Song::set_compilation_on(const bool v) { d->compilation_on_ = v; }
 void Song::set_compilation_off(const bool v) { d->compilation_off_ = v; }
 
 void Song::set_art_embedded(const bool v) { d->art_embedded_ = v; }
-void Song::set_art_automatic(const QUrl &v) { d->art_automatic_ = v; }
+void Song::set_art_automatic(const QUrl &v) {
+
+  // The mtime is for the cover file, it does not apply to a different file, the collection watcher sets the new file's mtime.
+  if (v != d->art_automatic_) {
+    d->art_automatic_mtime_ = 0;
+  }
+  d->art_automatic_ = v;
+
+}
+void Song::set_art_automatic_mtime(const qint64 v) { d->art_automatic_mtime_ = v; }
 void Song::set_art_manual(const QUrl &v) { d->art_manual_ = v; }
 void Song::set_art_unset(const bool v) { d->art_unset_ = v; }
 
@@ -625,6 +675,10 @@ void Song::set_rating(const float v) { d->rating_ = v; }
 void Song::set_bpm(const float v) { d->bpm_ = v; }
 void Song::set_mood(const QString &v) { d->mood_ = v; }
 void Song::set_initial_key(const QString &v) { d->initial_key_ = v; }
+
+void Song::set_lyrics_storage_type(const StorageType v) { d->lyrics_storage_type_ = v; }
+void Song::set_synced_lyrics_storage_type(const StorageType v) { d->synced_lyrics_storage_type_ = v; }
+void Song::set_lrc_mtime(const qint64 v) { d->lrc_mtime_ = v; }
 
 void Song::set_acoustid_id(const QString &v) { d->acoustid_id_ = v; }
 void Song::set_acoustid_fingerprint(const QString &v) { d->acoustid_fingerprint_ = v; }
@@ -719,7 +773,12 @@ bool Song::art_manual_is_valid() const {
   return !d->art_manual_.isEmpty() && d->art_manual_.isValid() && (!d->art_manual_.isLocalFile() || (d->art_manual_.isLocalFile() && QFile::exists(d->art_manual_.toLocalFile())));
 }
 bool Song::has_valid_art() const { return art_embedded() || art_automatic_is_valid() || art_manual_is_valid(); }
-void Song::clear_art_automatic() { d->art_automatic_.clear(); }
+void Song::clear_art_automatic() {
+
+  d->art_automatic_.clear();
+  d->art_automatic_mtime_ = 0;
+
+}
 void Song::clear_art_manual() { d->art_manual_.clear(); }
 
 bool Song::write_tags_supported() const {
@@ -1095,8 +1154,18 @@ bool Song::IsArtEqual(const Song &other) const {
 
   return d->art_embedded_ == other.d->art_embedded_ &&
          d->art_automatic_ == other.d->art_automatic_ &&
+         d->art_automatic_mtime_ == other.d->art_automatic_mtime_ &&
          d->art_manual_ == other.d->art_manual_ &&
          d->art_unset_ == other.d->art_unset_;
+
+}
+
+bool Song::IsLyricsStorageEqual(const Song &other) const {
+
+  // Where the lyrics are stored, this is not tag metadata, so it is not part of IsMetadataEqual().
+  return d->lyrics_storage_type_ == other.d->lyrics_storage_type_ &&
+         d->synced_lyrics_storage_type_ == other.d->synced_lyrics_storage_type_ &&
+         d->lrc_mtime_ == other.d->lrc_mtime_;
 
 }
 
@@ -1134,6 +1203,7 @@ bool Song::IsEqual(const Song &other) const {
   return IsFileInfoEqual(other) &&
          IsSettingsEqual(other) &&
          IsAllMetadataEqual(other) &&
+         IsLyricsStorageEqual(other) &&
          IsFingerprintEqual(other) &&
          IsCompilationEqual(other);
 
@@ -1650,6 +1720,7 @@ void Song::InitFromQuery(const QSqlRecord &r, const bool reliable_metadata, cons
 
   d->art_embedded_ = SqlHelper::ValueToBool(r, ColumnIndex(u"art_embedded"_s) + col);
   d->art_automatic_ = QUrl::fromEncoded(SqlHelper::ValueToString(r, ColumnIndex(u"art_automatic"_s) + col).toUtf8());
+  d->art_automatic_mtime_ = SqlHelper::ValueToLongLong(r, ColumnIndex(u"art_automatic_mtime"_s) + col);
   d->art_manual_ = QUrl::fromEncoded(SqlHelper::ValueToString(r, ColumnIndex(u"art_manual"_s) + col).toUtf8());
   d->art_unset_ = SqlHelper::ValueToBool(r, ColumnIndex(u"art_unset"_s) + col);
 
@@ -1659,6 +1730,10 @@ void Song::InitFromQuery(const QSqlRecord &r, const bool reliable_metadata, cons
   d->bpm_ = SqlHelper::ValueToFloat(r, ColumnIndex(u"bpm"_s) + col);
   d->mood_ = SqlHelper::ValueToString(r, ColumnIndex(u"mood"_s) + col);
   d->initial_key_ = SqlHelper::ValueToString(r, ColumnIndex(u"initial_key"_s) + col);
+
+  d->lyrics_storage_type_ = StorageTypeFromInt(SqlHelper::ValueToInt(r, ColumnIndex(u"lyrics_storage_type"_s) + col));
+  d->synced_lyrics_storage_type_ = StorageTypeFromInt(SqlHelper::ValueToInt(r, ColumnIndex(u"synced_lyrics_storage_type"_s) + col));
+  d->lrc_mtime_ = SqlHelper::ValueToLongLong(r, ColumnIndex(u"lrc_mtime"_s) + col);
 
   d->acoustid_id_ = SqlHelper::ValueToString(r, ColumnIndex(u"acoustid_id"_s) + col);
   d->acoustid_fingerprint_ = SqlHelper::ValueToString(r, ColumnIndex(u"acoustid_fingerprint"_s) + col);
@@ -1992,6 +2067,7 @@ void Song::BindToQuery(SqlQuery *query) const {
 
   query->BindBoolValue(u":art_embedded"_s, d->art_embedded_);
   query->BindUrlValue(u":art_automatic"_s, d->art_automatic_);
+  query->BindLongLongValueOrZero(u":art_automatic_mtime"_s, d->art_automatic_mtime_);
   query->BindUrlValue(u":art_manual"_s, d->art_manual_);
   query->BindBoolValue(u":art_unset"_s, d->art_unset_);
 
@@ -2004,6 +2080,10 @@ void Song::BindToQuery(SqlQuery *query) const {
   query->BindFloatValue(u":bpm"_s, d->bpm_);
   query->BindStringValue(u":mood"_s, d->mood_);
   query->BindStringValue(u":initial_key"_s, d->initial_key_);
+
+  query->BindValue(u":lyrics_storage_type"_s, static_cast<int>(d->lyrics_storage_type_));
+  query->BindValue(u":synced_lyrics_storage_type"_s, static_cast<int>(d->synced_lyrics_storage_type_));
+  query->BindLongLongValueOrZero(u":lrc_mtime"_s, d->lrc_mtime_);
 
   query->BindStringValue(u":acoustid_id"_s, d->acoustid_id_);
   query->BindStringValue(u":acoustid_fingerprint"_s, d->acoustid_fingerprint_);
