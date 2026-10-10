@@ -1275,35 +1275,27 @@ jobs:
           cmake --build build --config Debug --parallel 4
 
 
-  build-macos-public:
-    name: Build macOS Public
-    if: (github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.ref_name != 'l10n_master' && github.ref_name != 'nsi') ||
+  build-macos:
+    name: Build macOS
+    if: (github.repository == 'strawberrymusicplayer/strawberry-private') ||
+        (github.event_name == 'push' && github.repository == 'strawberrymusicplayer/strawberry' && github.ref_name != 'l10n_master' && github.ref_name != 'nsi') ||
         (github.event_name == 'pull_request' && github.head_ref != 'l10n_master' && github.head_ref != 'nsi') ||
         (github.event_name == 'release')
 
     strategy:
       fail-fast: false
       matrix:
-        runner: [ 'macos-15-intel', 'macos-15' ]
+        runner: ${{fromJSON(github.repository == 'strawberrymusicplayer/strawberry-private' && '["macos-arm64", "macos-intel"]' || '["macos-15-intel", "macos-15"]')}}
         buildtype: [ 'release' ]
 
     runs-on: ${{ matrix.runner }}
 
+    env:
+      is_private: ${{github.repository == 'strawberrymusicplayer/strawberry-private'}}
+      is_public_release: ${{github.repository == 'strawberrymusicplayer/strawberry' && (github.event_name == 'release' || (github.event_name == 'push' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos')))}}
+      is_upload: ${{(github.repository == 'strawberrymusicplayer/strawberry' || (github.repository == 'strawberrymusicplayer/strawberry-private' && matrix.runner == 'macos-intel')) && (github.event_name == 'release' || (github.event_name == 'push' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos')))}}
+
     steps:
-
-      - name: Set MACOSX_DEPLOYMENT_TARGET
-        run: |
-          for i in 12 13 14 15; do
-            if [ -d "/Library/Developer/CommandLineTools/SDKs/MacOSX${i}.sdk" ]; then
-              echo "Using macOS SDK ${i}"
-              echo "MACOSX_DEPLOYMENT_TARGET=${i}.0" >> $GITHUB_ENV
-              break
-            fi
-          done
-
-      - name: Verify MACOSX_DEPLOYMENT_TARGET
-        run: |
-          test "${MACOSX_DEPLOYMENT_TARGET}" = "" && false || echo "MACOSX_DEPLOYMENT_TARGET: ${MACOSX_DEPLOYMENT_TARGET}"
 
       - name: Set arch
         shell: bash
@@ -1316,6 +1308,7 @@ jobs:
         run: echo "cmake_buildtype=$(echo ${{env.buildtype}} | awk '{print toupper(substr($0,0,1))tolower(substr($0,2))}')" >> $GITHUB_ENV
 
       - name: Uninstall homebrew
+        if: env.is_private != 'true'
         run: |
           curl -sfLO https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh
           chmod +x ./uninstall.sh
@@ -1335,10 +1328,16 @@ jobs:
           p12-file-base64: ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE }}
           p12-password: ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD }}
 
+      - name: Unlock keychain
+        if: env.is_private == 'true'
+        run: security unlock-keychain -p ${{ secrets.MACOS_KEYCHAIN_PASSWORD }}
+
       - name: Download macOS dependencies
+        if: env.is_private != 'true'
         run: curl -f -O -L "https://github.com/strawberrymusicplayer/strawberry-macos-dependencies$(test "${{env.arch}}" = "x86_64" && echo -n "-legacy" || echo -n "")/releases/latest/download/strawberry-macos-${{env.arch}}-${{env.buildtype}}.tar.xz"
 
       - name: Extract macOS dependencies
+        if: env.is_private != 'true'
         run: sudo tar -C / -xf strawberry-macos-${{env.arch}}-${{env.buildtype}}.tar.xz
 
       - name: Set prefix path
@@ -1346,6 +1345,29 @@ jobs:
 
       - name: Update PATH
         run: echo "${{env.prefix_path}}/bin" >> $GITHUB_PATH
+
+      - name: Set MACOSX_DEPLOYMENT_TARGET
+        shell: bash
+        run: |
+          # Use the deployment target Qt was built with, which is the minimum macOS version supported by the Qt version.
+          qtcore=
+          for file in "${{env.prefix_path}}/lib/QtCore.framework/QtCore" "${{env.prefix_path}}/lib/libQt6Core.dylib"; do
+            if [ -f "${file}" ]; then
+              qtcore="${file}"
+              break
+            fi
+          done
+          if [ "${qtcore}" = "" ]; then
+            echo "Could not find QtCore in ${{env.prefix_path}}/lib."
+            exit 1
+          fi
+          deployment_target=$(otool -l "${qtcore}" | awk '/LC_BUILD_VERSION/ { b = 1 } /LC_VERSION_MIN_MACOSX/ { v = 1 } !found && ((b && $1 == "minos") || (v && $1 == "version")) { print $2; found = 1 }')
+          if [ "${deployment_target}" = "" ]; then
+            echo "Could not get the deployment target from ${qtcore}."
+            exit 1
+          fi
+          echo "MACOSX_DEPLOYMENT_TARGET: ${deployment_target}"
+          echo "MACOSX_DEPLOYMENT_TARGET=${deployment_target}" >> $GITHUB_ENV
 
       - name: Create Build Environment
         run: cmake -E make_directory build
@@ -1361,10 +1383,11 @@ jobs:
           -DBUILD_WERROR=ON
           -DUSE_BUNDLE=ON
           -DICU_ROOT="${{env.prefix_path}}"
-          -DAPPLE_DEVELOPER_ID=$(test '${{github.repository}}' = 'strawberrymusicplayer/strawberry' && test '${{github.event.pull_request.base.repo.full_name}}' = '${{github.event.pull_request.head.repo.full_name}}' && echo "383J84DVB6" || echo "")
+          -DAPPLE_DEVELOPER_ID=$( (test '${{env.is_private}}' = 'true' || (test '${{github.repository}}' = 'strawberrymusicplayer/strawberry' && test '${{github.event.pull_request.base.repo.full_name}}' = '${{github.event.pull_request.head.repo.full_name}}')) && echo "383J84DVB6" || echo "")
           -DENABLE_SPOTIFY=$(test -f "${{env.prefix_path}}/lib/gstreamer-1.0/libgstspotify.dylib" && echo "ON" || echo "OFF")
           -DENABLE_SPARKLE=ON
           -DENABLE_QTSPARKLE=OFF
+          -DDMG_NAME=$(test '${{matrix.runner}}' = 'macos-intel' && echo "strawberry-compat" || echo "strawberry")
           -DCREATE_SOURCE_API_CREDENTIALS=OFF
           -DAPI_CREDENTIALS_ENCRYPTION_KEY="$(openssl rand -hex 32)"
           -DACOUSTID_API_KEY="${{secrets.ACOUSTID_API_KEY}}"
@@ -1396,7 +1419,7 @@ jobs:
         run: make deploy
 
       - name: Verify code-signing
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false
+        if: env.is_private == 'true' || (github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false)
         working-directory: build
         run: codesign --deep -v strawberry.app
 
@@ -1405,29 +1428,31 @@ jobs:
         run: make dmg
 
       - name: Store notarization credentials
-        if: github.repository == 'strawberrymusicplayer/strawberry' && (github.event_name == 'release' || (github.event_name == 'push' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos')))
+        if: env.is_public_release == 'true'
         run: xcrun notarytool store-credentials "strawberry-notarization" --apple-id "${{secrets.APPLE_NOTARIZATION_APPLE_ID}}" --team-id "383J84DVB6" --password "${{secrets.APPLE_NOTARIZATION_PASSWORD}}"
 
       - name: Notarize DMG
-        if: github.repository == 'strawberrymusicplayer/strawberry' && (github.event_name == 'release' || (github.event_name == 'push' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos')))
+        if: env.is_private == 'true' || env.is_public_release == 'true'
         working-directory: build
         run: xcrun notarytool submit *.dmg --keychain-profile "strawberry-notarization" --wait
 
       - name: Staple notarization ticket
-        if: github.repository == 'strawberrymusicplayer/strawberry' && (github.event_name == 'release' || (github.event_name == 'push' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos')))
+        if: env.is_private == 'true' || env.is_public_release == 'true'
         working-directory: build
         run: xcrun stapler staple *.dmg
 
       - name: SSH Setup
-        if: github.repository == 'strawberrymusicplayer/strawberry' && (github.event_name == 'release' || (github.event_name == 'push' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos')))
+        if: env.is_upload == 'true'
         uses: shimataro/ssh-key-action@v2
         with:
           known_hosts: ${{secrets.SSH_KNOWN_HOSTS}}
           key: ${{ secrets.SSH_KEY }}
+          name: strawberry_upload
+          if_key_exists: replace
 
       - name: Set Upload path
         id: set-upload-path
-        if: github.repository == 'strawberrymusicplayer/strawberry' && (github.event_name == 'release' || (github.event_name == 'push' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos')))
+        if: env.is_upload == 'true'
         run: |
           if [ "${{github.event_name}}" = "release" ]; then
             echo "upload_path=${{secrets.DOWNLOADS_PATH}}/stable_releases/macos" >> $GITHUB_OUTPUT
@@ -1437,144 +1462,11 @@ jobs:
 
       - name: Create server path
         if: steps.set-upload-path.outputs.upload_path != ''
-        run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{steps.set-upload-path.outputs.upload_path}}
+        run: ssh -i ~/.ssh/strawberry_upload -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{steps.set-upload-path.outputs.upload_path}}
 
       - name: rsync
         if: steps.set-upload-path.outputs.upload_path != ''
-        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/*.dmg ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{steps.set-upload-path.outputs.upload_path}}/
-
-
-  build-macos-private:
-    name: Build macOS Private
-    if: github.repository == 'strawberrymusicplayer/strawberry-private'
-
-    strategy:
-      fail-fast: false
-      matrix:
-        runner: [ 'macos-arm64' ]
-        buildtype: [ 'release' ]
-
-    runs-on: ${{ matrix.runner }}
-
-    steps:
-
-      - name: Set MACOSX_DEPLOYMENT_TARGET
-        run: |
-          for i in 12 13 14 15; do
-            if [ -d "/Library/Developer/CommandLineTools/SDKs/MacOSX${i}.sdk" ]; then
-              echo "Using macOS SDK ${i}"
-              echo "MACOSX_DEPLOYMENT_TARGET=${i}.0" >> $GITHUB_ENV
-              break
-            fi
-          done
-
-      - name: Verify MACOSX_DEPLOYMENT_TARGET
-        run: |
-          test "${MACOSX_DEPLOYMENT_TARGET}" = "" && false || echo "MACOSX_DEPLOYMENT_TARGET: ${MACOSX_DEPLOYMENT_TARGET}"
-
-      - name: Set arch
-        shell: bash
-        run: echo "arch=$(uname -m)" >> $GITHUB_ENV
-
-      - name: Set buildtype
-        run: echo "buildtype=$(echo ${{matrix.buildtype}} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-
-      - name: Set cmake buildtype
-        run: echo "cmake_buildtype=$(echo ${{env.buildtype}} | awk '{print toupper(substr($0,0,1))tolower(substr($0,2))}')" >> $GITHUB_ENV
-
-      - name: Checkout
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-          submodules: recursive
-
-      - name: Unlock keychain
-        run: security unlock-keychain -p ${{ secrets.MACOS_KEYCHAIN_PASSWORD }}
-
-      - name: Set prefix path
-        run: echo "prefix_path=/opt/strawberry_macos_${{env.arch}}_${{env.buildtype}}" >> $GITHUB_ENV
-
-      - name: Update PATH
-        run: echo "${{env.prefix_path}}/bin" >> $GITHUB_PATH
-
-      - name: Create Build Environment
-        run: cmake -E make_directory build
-
-      - name: Configure CMake
-        env:
-          PKG_CONFIG_PATH: ${{env.prefix_path}}/lib/pkgconfig
-          LDFLAGS: -L${{env.prefix_path}}/lib -Wl,-rpath,${{env.prefix_path}}/lib
-        run: >
-          cmake --log-level="DEBUG" -S . -B build
-          -DCMAKE_BUILD_TYPE="${{env.cmake_buildtype}}"
-          -DCMAKE_PREFIX_PATH="${{env.prefix_path}}/lib/cmake"
-          -DBUILD_WERROR=ON
-          -DUSE_BUNDLE=ON
-          -DICU_ROOT="${{env.prefix_path}}"
-          -DAPPLE_DEVELOPER_ID="383J84DVB6"
-          -DENABLE_SPOTIFY=$(test -f "${{env.prefix_path}}/lib/gstreamer-1.0/libgstspotify.dylib" && echo "ON" || echo "OFF")
-          -DENABLE_SPARKLE=ON
-          -DENABLE_QTSPARKLE=OFF
-          -DCREATE_SOURCE_API_CREDENTIALS=OFF
-          -DAPI_CREDENTIALS_ENCRYPTION_KEY="$(openssl rand -hex 32)"
-          -DACOUSTID_API_KEY="${{secrets.ACOUSTID_API_KEY}}"
-          -DLASTFM_API_KEY="${{secrets.LASTFM_API_KEY}}"
-          -DLASTFM_SHARED_SECRET="${{secrets.LASTFM_SHARED_SECRET}}"
-          -DLISTENBRAINZ_CLIENT_ID="${{secrets.LISTENBRAINZ_CLIENT_ID}}"
-          -DLISTENBRAINZ_CLIENT_SECRET="${{secrets.LISTENBRAINZ_CLIENT_SECRET}}"
-          -DSPOTIFY_CLIENT_ID="${{secrets.SPOTIFY_CLIENT_ID}}"
-          -DSPOTIFY_CLIENT_SECRET="${{secrets.SPOTIFY_CLIENT_SECRET}}"
-          -DGENIUS_CLIENT_ID="${{secrets.GENIUS_CLIENT_ID}}"
-          -DGENIUS_CLIENT_SECRET="${{secrets.GENIUS_CLIENT_SECRET}}"
-          -DMUSIXMATCH_APP_ID="${{secrets.MUSIXMATCH_APP_ID}}"
-          -DMUSIXMATCH_APP_SECRET="${{secrets.MUSIXMATCH_APP_SECRET}}"
-          -DOPENTIDAL_CLIENT_ID="${{secrets.OPENTIDAL_CLIENT_ID}}"
-          -DOPENTIDAL_CLIENT_SECRET="${{secrets.OPENTIDAL_CLIENT_SECRET}}"
-          -DDISCOGS_CLIENT_ID="${{secrets.DISCOGS_CLIENT_ID}}"
-          -DDISCOGS_CLIENT_SECRET="${{secrets.DISCOGS_CLIENT_SECRET}}"
-          -DTIDAL_CLIENT_ID="${{secrets.TIDAL_CLIENT_ID}}"
-
-      - name: Build
-        run: cmake --build build --config Release --parallel 4
-
-      - name: Install
-        working-directory: build
-        run: make install
-
-      - name: Deploy
-        working-directory: build
-        run: make deploy
-
-      - name: Verify code-signing
-        working-directory: build
-        run: codesign --deep -v strawberry.app
-
-      - name: Create DMG
-        working-directory: build
-        run: make dmg
-
-      - name: Notarize DMG
-        working-directory: build
-        run: xcrun notarytool submit *.dmg --keychain-profile "strawberry-notarization" --wait
-
-      - name: Staple notarization ticket
-        working-directory: build
-        run: xcrun stapler staple *.dmg
-
-      - name: Set Upload path
-        id: set-upload-path
-        run: |
-          if [ "${{github.event_name}}" = "release" ]; then
-            echo "upload_path=${{secrets.DOWNLOADS_PATH}}/stable_releases/macos" >> $GITHUB_OUTPUT
-          else
-            echo "upload_path=${{secrets.DOWNLOADS_PATH}}/development_releases/macos" >> $GITHUB_OUTPUT
-          fi
-
-      #- name: Create server path
-        #run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{steps.set-upload-path.outputs.upload_path}}
-
-      #- name: rsync
-        #run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/*.dmg ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{steps.set-upload-path.outputs.upload_path}}/
+        run: rsync -e "ssh -i ~/.ssh/strawberry_upload -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/*.dmg ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{steps.set-upload-path.outputs.upload_path}}/
 
 
   build-windows-mingw:
