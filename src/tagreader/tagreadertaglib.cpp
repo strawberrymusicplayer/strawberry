@@ -110,6 +110,7 @@
 #include "core/song.h"
 #include "core/filewriteguard.h"
 #include "utilities/lrcutils.h"
+#include "utilities/nativefileutils.h"
 #include "constants/timeconstants.h"
 
 #include "albumcovertagdata.h"
@@ -292,7 +293,7 @@ class TagLibFileRefFactory : public FileRefFactory {
 #ifdef Q_OS_WIN32
     return new TagLib::FileStream(filename.toStdWString().c_str(), true);
 #else
-    return new TagLib::FileStream(QFile::encodeName(filename).constData(), true);
+    return new TagLib::FileStream(Utilities::NativeFilePath(filename).constData(), true);
 #endif
   }
 
@@ -300,7 +301,7 @@ class TagLibFileRefFactory : public FileRefFactory {
 #ifdef Q_OS_WIN32
     return new TagLib::FileStream(filename.toStdWString().c_str(), false);
 #else
-    return new TagLib::FileStream(QFile::encodeName(filename).constData(), false);
+    return new TagLib::FileStream(Utilities::NativeFilePath(filename).constData(), false);
 #endif
   }
 
@@ -542,7 +543,7 @@ TagReaderResult TagReaderTagLib::ReadFile(const QString &filename, Song *song) c
 
   qLog(Debug) << "Reading tags from file" << filename;
 
-  const QFileInfo fileinfo(filename);
+  const NativeFileInfo fileinfo(filename);
   if (!fileinfo.exists()) {
     qLog(Error) << "File" << filename << "does not exist";
     return TagReaderResult::ErrorCode::FileDoesNotExist;
@@ -1102,7 +1103,7 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     return TagReaderResult::ErrorCode::FilenameMissing;
   }
 
-  if (!QFile::exists(filename)) {
+  if (!NativeFileInfo::exists(filename)) {
     qLog(Error) << "File" << filename << "does not exist";
     return TagReaderResult::ErrorCode::FileDoesNotExist;
   }
@@ -1711,7 +1712,7 @@ TagReaderResult TagReaderTagLib::LoadEmbeddedCover(const QString &filename, QByt
     return TagReaderResult::ErrorCode::FilenameMissing;
   }
 
-  if (!QFile::exists(filename)) {
+  if (!NativeFileInfo::exists(filename)) {
     qLog(Error) << "File" << filename << "does not exist";
     return TagReaderResult::ErrorCode::FileDoesNotExist;
   }
@@ -1975,7 +1976,7 @@ TagReaderResult TagReaderTagLib::SaveEmbeddedCover(const QString &filename, cons
 
   qLog(Debug) << "Saving cover to" << filename;
 
-  if (!QFile::exists(filename)) {
+  if (!NativeFileInfo::exists(filename)) {
     qLog(Error) << "File" << filename << "does not exist";
     return TagReaderResult::ErrorCode::FileDoesNotExist;
   }
@@ -2136,7 +2137,7 @@ TagReaderResult TagReaderTagLib::SaveSongPlaycount(const QString &filename, cons
 
   qLog(Debug) << "Saving song playcount to" << filename;
 
-  if (!QFile::exists(filename)) {
+  if (!NativeFileInfo::exists(filename)) {
     qLog(Error) << "File" << filename << "does not exist";
     return TagReaderResult::ErrorCode::FileDoesNotExist;
   }
@@ -2269,7 +2270,7 @@ TagReaderResult TagReaderTagLib::SaveSongRating(const QString &filename, const f
 
   qLog(Debug) << "Saving song rating to" << filename;
 
-  if (!QFile::exists(filename)) {
+  if (!NativeFileInfo::exists(filename)) {
     qLog(Error) << "File" << filename << "does not exist";
     return TagReaderResult::ErrorCode::FileDoesNotExist;
   }
