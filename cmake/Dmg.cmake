@@ -29,8 +29,11 @@ if(MACDEPLOYTOOL_EXECUTABLE)
     if(CREATEDMG_SKIP_JENKINS)
       set(CREATEDMG_SKIP_JENKINS_ARG "--skip-jenkins")
     endif()
+    if(NOT DMG_NAME)
+      set(DMG_NAME strawberry)
+    endif()
     add_custom_target(dmg
-      COMMAND ${CREATEDMG_EXECUTABLE} --volname strawberry --background "${CMAKE_SOURCE_DIR}/dist/macos/dmg_background.png" --app-drop-link 450 218 --icon strawberry.app 150 218 --window-size 600 450 ${CREATEDMG_CODESIGN} ${CREATEDMG_SKIP_JENKINS_ARG} strawberry-${STRAWBERRY_VERSION_PACKAGE}-${CMAKE_HOST_SYSTEM_PROCESSOR}.dmg strawberry.app
+      COMMAND ${CREATEDMG_EXECUTABLE} --volname strawberry --background "${CMAKE_SOURCE_DIR}/dist/macos/dmg_background.png" --app-drop-link 450 218 --icon strawberry.app 150 218 --window-size 600 450 ${CREATEDMG_CODESIGN} ${CREATEDMG_SKIP_JENKINS_ARG} ${DMG_NAME}-${STRAWBERRY_VERSION_PACKAGE}-${CMAKE_HOST_SYSTEM_PROCESSOR}.dmg strawberry.app
       WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     )
   endif()
