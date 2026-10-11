@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -167,6 +167,18 @@ TEST(UtilitiesTest, DecodeHtmlEntities) {
   ASSERT_EQ(Utilities::DecodeHtmlEntities(u"&#60;"_s), u"<"_s);
   ASSERT_EQ(Utilities::DecodeHtmlEntities(u"&gt;"_s), u">"_s);
   ASSERT_EQ(Utilities::DecodeHtmlEntities(u"&#62;"_s), u">"_s);
+  // Escaped entities are decoded once only.
+  ASSERT_EQ(Utilities::DecodeHtmlEntities(u"&amp;lt;"_s), u"&lt;"_s);
+  ASSERT_EQ(Utilities::DecodeHtmlEntities(u"&amp;quot;"_s), u"&quot;"_s);
+  ASSERT_EQ(Utilities::DecodeHtmlEntities(u"&#38;gt;"_s), u"&gt;"_s);
+  ASSERT_EQ(Utilities::DecodeHtmlEntities(u"&amp;#38;"_s), u"&#38;"_s);
+  ASSERT_EQ(Utilities::DecodeHtmlEntities(u"&amp;amp;"_s), u"&amp;"_s);
+  ASSERT_EQ(Utilities::DecodeHtmlEntities(u"&#38;amp;"_s), u"&amp;"_s);
+  ASSERT_EQ(Utilities::DecodeHtmlEntities(u"&#38;lt;"_s), u"&lt;"_s);
+  ASSERT_EQ(Utilities::DecodeHtmlEntities(u"&#38;#60;"_s), u"&#60;"_s);
+  ASSERT_EQ(Utilities::DecodeHtmlEntities(u"&#x27;&apos;&#39;"_s), u"'''"_s);
+  ASSERT_EQ(Utilities::DecodeHtmlEntities(u"Unknown &nbsp; and &amp stay"_s), u"Unknown &nbsp; and &amp stay"_s);
+  ASSERT_EQ(Utilities::DecodeHtmlEntities(u"Tom &amp; Jerry &lt;3"_s), u"Tom & Jerry <3"_s);
 
 }
 

@@ -1,7 +1,7 @@
 /*
  * Strawberry Music Player
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -99,20 +99,26 @@ QStringList Updateify(const QStringList &list) {
 
 QString DecodeHtmlEntities(const QString &text) {
 
-  QString copy(text);
-  copy.replace("&amp;"_L1, "&"_L1)
-      .replace("&#38;"_L1, "&"_L1)
-      .replace("&quot;"_L1, "\""_L1)
-      .replace("&#34;"_L1, "\""_L1)
-      .replace("&apos;"_L1, "'"_L1)
-      .replace("&#39;"_L1, "'"_L1)
-      .replace("&lt;"_L1, "<"_L1)
-      .replace("&#60;"_L1, "<"_L1)
-      .replace("&gt;"_L1, ">"_L1)
-      .replace("&#62;"_L1, ">"_L1)
-      .replace("&#x27;"_L1, "'"_L1);
+  // Decode in one pass over the text, so the result of decoding an entity is not decoded again, e.g. "&amp;lt;" must become "&lt;", and "&#38;amp;" must become "&amp;".
+  static const QRegularExpression regex_entity(u"&(quot|#34|apos|#39|#x27|lt|#60|gt|#62|amp|#38);"_s);
 
-  return copy;
+  QString decoded;
+  decoded.reserve(text.size());
+  qsizetype last_end = 0;
+  for (QRegularExpressionMatchIterator it = regex_entity.globalMatch(text); it.hasNext();) {
+    const QRegularExpressionMatch match = it.next();
+    decoded.append(QStringView(text).mid(last_end, match.capturedStart() - last_end));
+    const QStringView entity = match.capturedView(1);
+    if (entity == "quot"_L1 || entity == "#34"_L1) decoded.append(u'"');
+    else if (entity == "apos"_L1 || entity == "#39"_L1 || entity == "#x27"_L1) decoded.append(u'\'');
+    else if (entity == "lt"_L1 || entity == "#60"_L1) decoded.append(u'<');
+    else if (entity == "gt"_L1 || entity == "#62"_L1) decoded.append(u'>');
+    else decoded.append(u'&');
+    last_end = match.capturedEnd();
+  }
+  decoded.append(QStringView(text).mid(last_end));
+
+  return decoded;
 
 }
 
