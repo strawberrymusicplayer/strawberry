@@ -24,7 +24,10 @@
 
 #include "config.h"
 
+#include <atomic>
+
 #include <QObject>
+#include <QFuture>
 #include <QList>
 #include <QHash>
 #include <QMap>
@@ -136,6 +139,12 @@ class CollectionManager : public QObject {
   QUrl current_song_url_;
 
   QMap<QUrl, SharedPtr<PendingSongSave>> pending_song_saves_;
+
+  // The sync runs in a concurrent thread using this object, so it is aborted and waited for when exiting.
+  QFuture<void> sync_playcount_and_rating_future_;
+  std::atomic<bool> abort_sync_playcount_and_rating_;
+  // A sync was requested while one was running, which might have read the songs before they changed.
+  bool sync_playcount_and_rating_pending_;
 };
 
 #endif
