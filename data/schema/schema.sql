@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS schema_version (
 
 DELETE FROM schema_version;
 
-INSERT INTO schema_version (version) VALUES (27);
+INSERT INTO schema_version (version) VALUES (28);
 
 CREATE TABLE IF NOT EXISTS directories (
   path TEXT NOT NULL,
@@ -1607,8 +1607,6 @@ CREATE TABLE IF NOT EXISTS radio_channels (
   thumbnail_url TEXT
 );
 
-CREATE INDEX IF NOT EXISTS idx_url ON songs (url);
-
 CREATE UNIQUE INDEX IF NOT EXISTS idx_songs_url_beginning ON songs (url, beginning);
 
 CREATE INDEX IF NOT EXISTS idx_comp_artist ON songs (compilation_effective, artist);
@@ -1623,14 +1621,14 @@ CREATE INDEX IF NOT EXISTS idx_artistsort ON songs (artistsort);
 
 CREATE INDEX IF NOT EXISTS idx_album ON songs (album);
 
-CREATE INDEX IF NOT EXISTS idx_albumsort ON songs (album);
+CREATE INDEX IF NOT EXISTS idx_albumsort ON songs (albumsort);
 
 CREATE INDEX IF NOT EXISTS idx_title ON songs (title);
 
-CREATE INDEX IF NOT EXISTS idx_titlesort ON songs (title);
+CREATE INDEX IF NOT EXISTS idx_titlesort ON songs (titlesort);
 
-CREATE INDEX IF NOT EXISTS idx_composersort ON songs (title);
+CREATE INDEX IF NOT EXISTS idx_composersort ON songs (composersort);
 
-CREATE INDEX IF NOT EXISTS idx_performersort ON songs (title);
+CREATE INDEX IF NOT EXISTS idx_performersort ON songs (performersort);
 
 CREATE VIEW IF NOT EXISTS duplicated_songs as select artist dup_artist, album dup_album, title dup_title from songs as inner_songs where artist != '' and album != '' and title != '' and unavailable = 0 group by artist, album , title having count(*) > 1;
