@@ -52,7 +52,7 @@
 
 using std::make_shared;
 
-MoodbarItemDelegate::Data::Data() : state_(State::None) {}
+MoodbarItemDelegate::Data::Data() : state_(State::None), reload_(false) {}
 
 MoodbarItemDelegate::MoodbarItemDelegate(const SharedPtr<MoodbarLoader> moodbar_loader, PlaylistView *playlist_view, QObject *parent)
     : QItemDelegate(parent),
@@ -194,12 +194,24 @@ bool MoodbarItemDelegate::RemoveFromCacheIfIndexesInvalid(const QUrl &url, Data 
 void MoodbarItemDelegate::ReloadAllColors() {
 
   // Loaded moodbars don't keep their indexes, so mark them to be loaded again, and repaint the view so the visible ones are reloaded.
+  // Moodbars that are rendering colors or an image use the previous style, so mark them to be reloaded when they are finished.
+  // Moodbars that are loading data will render the colors with the new style.
   const QList<QUrl> urls = data_.keys();
   for (const QUrl &url : urls) {
     Data *data = data_[url];
 
-    if (data->state_ == Data::State::Loaded) {
-      data->state_ = Data::State::None;
+    switch (data->state_) {
+      case Data::State::Loaded:
+        data->state_ = Data::State::None;
+        break;
+      case Data::State::LoadingColors:
+      case Data::State::LoadingImage:
+        data->reload_ = true;
+        break;
+      case Data::State::None:
+      case Data::State::CannotLoad:
+      case Data::State::LoadingData:
+        break;
     }
   }
 
@@ -316,5 +328,11 @@ void MoodbarItemDelegate::ImageLoaded(const QUrl &url, const QImage &image) {
 
   // The rows have been told to repaint, so the indexes are no longer needed.
   data->indexes_.clear();
+
+  // If the style changed while rendering, the repaint loads the moodbar again with the new style.
+  if (data->reload_) {
+    data->reload_ = false;
+    data->state_ = Data::State::None;
+  }
 
 }
