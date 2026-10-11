@@ -50,7 +50,7 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-const int Database::kSchemaVersion = 27;
+const int Database::kSchemaVersion = 28;
 
 namespace {
 constexpr char kDatabaseFilename[] = "strawberry.db";
