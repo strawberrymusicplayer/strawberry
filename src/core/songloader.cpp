@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -423,7 +423,9 @@ void SongLoader::AddAsRawStream() {
 
 void SongLoader::Timeout() {
 
-  state_ = State::Finished;
+  // If the typefind already finished, StopTypefind() is queued already.
+  if (!SetStateFinished()) return;
+
   success_ = false;
   StopTypefind();
 
@@ -508,12 +510,10 @@ SongLoader::Result SongLoader::LoadRemote() {
     return Result::Error;
   }
 
-  // Connect callbacks
   CHECKED_GCONNECT(typefind, "have-type", &TypeFound, this);
   GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(&*pipeline));
   if (bus) {
     gst_bus_set_sync_handler(bus, BusCallbackSync, this, nullptr);
-    gst_bus_add_watch(bus, BusWatchCallback, this);
     gst_object_unref(bus);
   }
 
@@ -527,7 +527,6 @@ SongLoader::Result SongLoader::LoadRemote() {
   QEventLoop loop;
   QObject::connect(this, &SongLoader::LoadRemoteFinished, &loop, &QEventLoop::quit);
 
-  // Start "playing"
   pipeline_ = pipeline;
   gst_element_set_state(&*pipeline, GST_STATE_PLAYING);
 
@@ -552,7 +551,7 @@ void SongLoader::TypeFound(GstElement *typefind, const uint probability, GstCaps
   qLog(Debug) << "Mime type is" << instance->mime_type_;
   if (instance->mime_type_ == u"text/plain"_s || instance->mime_type_ == u"text/uri-list"_s) {
     // Yeah it might be a playlist, let's get some data and have a better look
-    instance->state_ = State::WaitingForMagic;
+    instance->ChangeState(State::WaitingForType, State::WaitingForMagic);
     return;
   }
 
@@ -589,25 +588,6 @@ GstPadProbeReturn SongLoader::DataReady(GstPad *pad, GstPadProbeInfo *info, gpoi
 
 }
 
-gboolean SongLoader::BusWatchCallback(GstBus *bus, GstMessage *msg, gpointer self) {
-
-  Q_UNUSED(bus)
-
-  SongLoader *instance = reinterpret_cast<SongLoader*>(self);
-
-  switch (GST_MESSAGE_TYPE(msg)) {
-    case GST_MESSAGE_ERROR:
-      instance->ErrorMessageReceived(msg);
-      break;
-
-    default:
-      break;
-  }
-
-  return TRUE;
-
-}
-
 GstBusSyncReply SongLoader::BusCallbackSync(GstBus *bus, GstMessage *msg, gpointer self) {
 
   Q_UNUSED(bus)
@@ -627,7 +607,10 @@ GstBusSyncReply SongLoader::BusCallbackSync(GstBus *bus, GstMessage *msg, gpoint
       break;
   }
 
-  return GST_BUS_PASS;
+  // The messages are handled here only, so they don't need to be queued on the bus.
+  // When dropping the message, the sync handler owns it, so it must be unreffed.
+  gst_message_unref(msg);
+  return GST_BUS_DROP;
 
 }
 
@@ -647,9 +630,8 @@ void SongLoader::ErrorMessageReceived(GstMessage *msg) {
   g_error_free(error);
   g_free(debugs);
 
-  if (state_ == State::WaitingForType && message_str == QString::fromUtf8(gst_error_get_message(GST_STREAM_ERROR, GST_STREAM_ERROR_TYPE_NOT_FOUND))) {
+  if (message_str == QString::fromUtf8(gst_error_get_message(GST_STREAM_ERROR, GST_STREAM_ERROR_TYPE_NOT_FOUND)) && ChangeState(State::WaitingForType, State::WaitingForMagic)) {
     // Don't give up - assume it's a playlist and see if one of our parsers can read it.
-    state_ = State::WaitingForMagic;
     return;
   }
 
@@ -659,9 +641,9 @@ void SongLoader::ErrorMessageReceived(GstMessage *msg) {
 
 void SongLoader::EndOfStreamReached() {
 
-  qLog(Debug) << Q_FUNC_INFO << static_cast<int>(state_);
+  qLog(Debug) << Q_FUNC_INFO << static_cast<int>(state_.load());
 
-  switch (state_) {
+  switch (state_.load()) {
     case State::Finished:
       break;
 
@@ -705,7 +687,7 @@ void SongLoader::MagicReady() {
     QObject::connect(parser_, &ParserBase::Error, this, &SongLoader::ParserError, static_cast<Qt::ConnectionType>(Qt::QueuedConnection | Qt::UniqueConnection));
   }
 
-  state_ = State::WaitingForData;
+  if (!ChangeState(State::WaitingForMagic, State::WaitingForData)) return;
 
   if (!IsPipelinePlaying()) {
     EndOfStreamReached();
@@ -717,7 +699,8 @@ bool SongLoader::IsPipelinePlaying() {
 
   GstState state = GST_STATE_NULL;
   GstState pending_state = GST_STATE_NULL;
-  GstStateChangeReturn ret = gst_element_get_state(&*pipeline_, &state, &pending_state, GST_SECOND);
+  // Don't wait for the state change, this is called from the pad probe, while the state change can be waiting for the buffer in the probe.
+  GstStateChangeReturn ret = gst_element_get_state(&*pipeline_, &state, &pending_state, 0);
 
   if (ret == GST_STATE_CHANGE_ASYNC && pending_state == GST_STATE_PLAYING) {
     // We're still on the way to playing
@@ -727,9 +710,28 @@ bool SongLoader::IsPipelinePlaying() {
 
 }
 
+bool SongLoader::ChangeState(const State from, const State to) {
+
+  State expected = from;
+  return state_.compare_exchange_strong(expected, to);
+
+}
+
+bool SongLoader::SetStateFinished() {
+
+  // Only one of the timeout, errors, end of stream and the typefind itself can finish the typefind.
+  State expected = state_.load();
+  while (expected != State::Finished) {
+    if (state_.compare_exchange_weak(expected, State::Finished)) return true;
+  }
+  return false;
+
+}
+
 void SongLoader::StopTypefindAsync(const bool success) {
 
-  state_ = State::Finished;
+  if (!SetStateFinished()) return;
+
   success_ = success;
 
   QMetaObject::invokeMethod(this, &SongLoader::StopTypefind, Qt::QueuedConnection);
@@ -770,7 +772,6 @@ void SongLoader::CleanupPipeline() {
     {
       GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(&*pipeline_));
       if (bus) {
-        gst_bus_remove_watch(bus);
         gst_bus_set_sync_handler(bus, nullptr, nullptr, nullptr);
         gst_object_unref(bus);
       }

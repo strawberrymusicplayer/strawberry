@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@
 
 #include <memory>
 #include <functional>
+#include <atomic>
 #include <glib.h>
 #include <gst/gst.h>
 
@@ -131,12 +132,13 @@ class SongLoader : public QObject {
   static void TypeFound(GstElement *typefind, const uint probability, GstCaps *caps, void *self);
   static GstPadProbeReturn DataReady(GstPad *pad, GstPadProbeInfo *info, gpointer self);
   static GstBusSyncReply BusCallbackSync(GstBus *bus, GstMessage *msg, gpointer self);
-  static gboolean BusWatchCallback(GstBus *bus, GstMessage *msg, gpointer self);
 
   void ErrorMessageReceived(GstMessage *msg);
   void EndOfStreamReached();
   void MagicReady();
   bool IsPipelinePlaying();
+  bool ChangeState(const State from, const State to);
+  bool SetStateFinished();
   void StopTypefindAsync(const bool success);
   void CleanupPipeline();
 
@@ -161,7 +163,8 @@ class SongLoader : public QObject {
   QString mime_type_;
   QByteArray buffer_;
   ParserBase *parser_;
-  State state_;
+  // Changed from the GStreamer streaming thread and from the thread of this object.
+  std::atomic<State> state_;
   int timeout_;
 
   SharedPtr<GstElement> pipeline_;
