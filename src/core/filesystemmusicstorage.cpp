@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,6 +50,17 @@ bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job, QString &error_te
 
   // Don't do anything if the destination is the same as the source
   if (src == dest) return true;
+
+  // The destination is made from the tags, so make sure it doesn't point outside the root directory.
+  const QString root_path = QDir::cleanPath(QDir(root_).absolutePath());
+  const QString root_prefix = root_path.endsWith(u'/') ? root_path : root_path + u'/';
+  const auto is_inside_root = [&root_prefix](const QFileInfo &fileinfo) { return QDir::cleanPath(fileinfo.absoluteFilePath()).startsWith(root_prefix); };
+  for (const QFileInfo &fileinfo : {dest, cover_dest}) {
+    if (fileinfo.filePath().isEmpty() || is_inside_root(fileinfo)) continue;
+    error_text = QObject::tr("Destination %1 is outside of %2.").arg(QDir::cleanPath(fileinfo.absoluteFilePath()), root_path);
+    qLog(Error) << error_text;
+    return false;
+  }
 
   // Create directories as required
   QDir dir;

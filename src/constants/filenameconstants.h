@@ -20,12 +20,9 @@
 #ifndef FILENAMECONSTANTS_H
 #define FILENAMECONSTANTS_H
 
-#include "includes/arraysize.h"
-
 constexpr char kProblematicCharactersRegex[] = "[:?*\"<>|]";
 constexpr char kInvalidFatCharactersRegex[] = "[^a-zA-Z0-9!#\\$%&'()\\-@\\^_`{}~/. ]";
 constexpr char kInvalidDirCharactersRegex[] = "[/\\\\]";
 constexpr char kInvalidPrefixCharacters[] = ".";
-constexpr int kInvalidPrefixCharactersCount = arraysize(kInvalidPrefixCharacters) - 1;
 
 #endif  // FILENAMECONSTANTS_H
