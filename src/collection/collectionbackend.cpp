@@ -2078,34 +2078,48 @@ SongList CollectionBackend::GetSongsBy(const QString &artist, const QString &alb
 
 void CollectionBackend::UpdateLastPlayed(const QString &artist, const QString &album, const QString &title, const qint64 lastplayed) {
 
+  // Lock before looking up the songs, so they can't be deleted, and their ROWID reused, before they are updated.
+  QMutexLocker l(db_->Mutex());
+
   const SongList songs = GetSongsBy(artist, album, title);
   if (songs.isEmpty()) {
     qLog(Debug) << "Could not find a matching song in the database for" << artist << album << title;
     return;
   }
 
-  QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
+  ScopedTransaction transaction(&db);
+  if (!transaction.started()) return;
+
+  QStringList updated_ids;
   for (const Song &song : songs) {
-    if (song.lastplayed() >= lastplayed) {
-      continue;
-    }
     SqlQuery q(db);
-    q.prepare(QStringLiteral("UPDATE %1 SET lastplayed = :lastplayed WHERE ROWID = :id").arg(songs_table_));
+    q.prepare(QStringLiteral("UPDATE %1 SET lastplayed = :lastplayed WHERE ROWID = :id AND lastplayed < :lastplayed_compare").arg(songs_table_));
     q.BindValue(u":lastplayed"_s, lastplayed);
+    q.BindValue(u":lastplayed_compare"_s, lastplayed);
     q.BindValue(u":id"_s, song.id());
     if (!q.Exec()) {
       db_->ReportErrors(q);
-      continue;
+      return;
+    }
+    if (q.numRowsAffected() > 0) {
+      updated_ids << QString::number(song.id());
     }
   }
 
-  Q_EMIT SongsStatisticsChanged(SongList() << songs);
+  if (!transaction.Commit()) return;
+
+  if (updated_ids.isEmpty()) return;
+
+  Q_EMIT SongsStatisticsChanged(GetSongsById(updated_ids, db));
 
 }
 
 void CollectionBackend::UpdatePlayCount(const QString &artist, const QString &title, const int playcount, const bool save_tags) {
+
+  // Lock before looking up the songs, so they can't be deleted, and their ROWID reused, before they are updated.
+  QMutexLocker l(db_->Mutex());
 
   const SongList songs = GetSongsBy(artist, QString(), title);
   if (songs.isEmpty()) {
@@ -2113,21 +2127,33 @@ void CollectionBackend::UpdatePlayCount(const QString &artist, const QString &ti
     return;
   }
 
-  QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
+  ScopedTransaction transaction(&db);
+  if (!transaction.started()) return;
+
+  // Only update and emit the songs that don't have the playcount already, so their tags are not saved again for nothing.
+  QStringList updated_ids;
   for (const Song &song : songs) {
     SqlQuery q(db);
-    q.prepare(QStringLiteral("UPDATE %1 SET playcount = :playcount WHERE ROWID = :id").arg(songs_table_));
+    q.prepare(QStringLiteral("UPDATE %1 SET playcount = :playcount WHERE ROWID = :id AND playcount != :playcount_compare").arg(songs_table_));
     q.BindValue(u":playcount"_s, playcount);
     q.BindValue(u":id"_s, song.id());
+    q.BindValue(u":playcount_compare"_s, playcount);
     if (!q.Exec()) {
       db_->ReportErrors(q);
       return;
     }
+    if (q.numRowsAffected() > 0) {
+      updated_ids << QString::number(song.id());
+    }
   }
 
-  Q_EMIT SongsStatisticsChanged(SongList() << songs, save_tags);
+  if (!transaction.Commit()) return;
+
+  if (updated_ids.isEmpty()) return;
+
+  Q_EMIT SongsStatisticsChanged(GetSongsById(updated_ids, db), save_tags);
 
 }
 

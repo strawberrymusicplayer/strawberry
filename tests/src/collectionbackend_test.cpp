@@ -658,6 +658,113 @@ TEST_F(CollectionBackendTest, SameUrlDifferentBeginningKeptSeparate) {
 
 }
 
+// Two songs with the same artist and title in different files, both matched by the play statistics updates.
+class PlayStatistics : public CollectionBackendTest {
+ protected:
+  void SetUp() override {
+    CollectionBackendTest::SetUp();
+    backend_->AddDirectory(u"/tmp"_s);
+
+    Song song1 = MakeDummySong(1);
+    song1.set_artist(u"Artist"_s);
+    song1.set_album(u"Album"_s);
+    song1.set_title(u"Title"_s);
+    song1.set_url(QUrl::fromLocalFile(u"/tmp/song1.flac"_s));
+    song1.set_playcount(3);
+    song1.set_lastplayed(100);
+
+    Song song2 = MakeDummySong(1);
+    song2.set_artist(u"Artist"_s);
+    song2.set_album(u"Album"_s);
+    song2.set_title(u"Title"_s);
+    song2.set_url(QUrl::fromLocalFile(u"/tmp/song2.flac"_s));
+    song2.set_playcount(5);
+    song2.set_lastplayed(300);
+
+    backend_->AddOrUpdateSongs(SongList() << song1 << song2);
+    ASSERT_EQ(2, backend_->GetAllSongs().count());
+  }
+};
+
+TEST_F(PlayStatistics, UpdatePlayCount) {
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::SongsStatisticsChanged);
+
+  backend_->UpdatePlayCount(u"Artist"_s, u"Title"_s, 10, true);
+
+  const SongList songs = backend_->GetAllSongs();
+  ASSERT_EQ(2, songs.count());
+  for (const Song &song : songs) {
+    EXPECT_EQ(10U, song.playcount());
+  }
+
+  // The emitted songs must have the new playcount, since it is what gets saved to the tags.
+  ASSERT_EQ(1, spy.count());
+  const SongList emitted_songs = spy[0][0].value<SongList>();
+  ASSERT_EQ(2, emitted_songs.count());
+  for (const Song &song : emitted_songs) {
+    EXPECT_EQ(10U, song.playcount());
+  }
+  EXPECT_TRUE(spy[0][1].toBool());
+
+}
+
+TEST_F(PlayStatistics, UpdatePlayCountUnchanged) {
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::SongsStatisticsChanged);
+
+  backend_->UpdatePlayCount(u"Artist"_s, u"Title"_s, 5, true);
+
+  const Song song1 = backend_->GetSongByUrl(QUrl::fromLocalFile(u"/tmp/song1.flac"_s));
+  const Song song2 = backend_->GetSongByUrl(QUrl::fromLocalFile(u"/tmp/song2.flac"_s));
+  EXPECT_EQ(5U, song1.playcount());
+  EXPECT_EQ(5U, song2.playcount());
+
+  // The song that already had the playcount is not emitted, so its tags are not saved again.
+  ASSERT_EQ(1, spy.count());
+  const SongList emitted_songs = spy[0][0].value<SongList>();
+  ASSERT_EQ(1, emitted_songs.count());
+  EXPECT_EQ(song1.id(), emitted_songs[0].id());
+
+  // Nothing is emitted when all the songs already have the playcount.
+  backend_->UpdatePlayCount(u"Artist"_s, u"Title"_s, 5, true);
+  EXPECT_EQ(1, spy.count());
+
+}
+
+TEST_F(PlayStatistics, UpdateLastPlayed) {
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::SongsStatisticsChanged);
+
+  backend_->UpdateLastPlayed(u"Artist"_s, u"Album"_s, u"Title"_s, 200);
+
+  // Only the song played before is updated, the newer last played time is kept.
+  const Song song1 = backend_->GetSongByUrl(QUrl::fromLocalFile(u"/tmp/song1.flac"_s));
+  const Song song2 = backend_->GetSongByUrl(QUrl::fromLocalFile(u"/tmp/song2.flac"_s));
+  EXPECT_EQ(200, song1.lastplayed());
+  EXPECT_EQ(300, song2.lastplayed());
+
+  // Only the updated song is emitted, with the new last played time.
+  ASSERT_EQ(1, spy.count());
+  const SongList emitted_songs = spy[0][0].value<SongList>();
+  ASSERT_EQ(1, emitted_songs.count());
+  EXPECT_EQ(song1.id(), emitted_songs[0].id());
+  EXPECT_EQ(200, emitted_songs[0].lastplayed());
+
+}
+
+TEST_F(PlayStatistics, UpdateLastPlayedNotNewer) {
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::SongsStatisticsChanged);
+
+  backend_->UpdateLastPlayed(u"Artist"_s, u"Album"_s, u"Title"_s, 50);
+
+  EXPECT_EQ(100, backend_->GetSongByUrl(QUrl::fromLocalFile(u"/tmp/song1.flac"_s)).lastplayed());
+  EXPECT_EQ(300, backend_->GetSongByUrl(QUrl::fromLocalFile(u"/tmp/song2.flac"_s)).lastplayed());
+  EXPECT_EQ(0, spy.count());
+
+}
+
 class TestUrls : public CollectionBackendTest {
  protected:
   void SetUp() override {
