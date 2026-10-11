@@ -17,6 +17,8 @@
  *
  */
 
+#include <algorithm>
+
 #include "playlist.h"
 #include "playlistundocommandreorderitems.h"
 
@@ -26,3 +28,10 @@ PlaylistUndoCommandReOrderItems::PlaylistUndoCommandReOrderItems(Playlist *playl
 void PlaylistUndoCommandReOrderItems::undo() { playlist_->ReOrderWithoutUndo(old_items_); }
 
 void PlaylistUndoCommandReOrderItems::redo() { playlist_->ReOrderWithoutUndo(new_items_); }
+
+void PlaylistUndoCommandReOrderItems::ReplaceItem(const PlaylistItemPtr &old_item, const PlaylistItemPtr &new_item) {
+
+  std::replace(old_items_.begin(), old_items_.end(), old_item, new_item);
+  std::replace(new_items_.begin(), new_items_.end(), old_item, new_item);
+
+}

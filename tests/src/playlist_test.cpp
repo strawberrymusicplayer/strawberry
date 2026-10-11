@@ -906,6 +906,135 @@ TEST_F(PlaylistTest, AutoSortDoesNothingUntilAColumnHasBeenSorted) {
 
 }
 
+// Regression test: with auto-sort, undoing an insert must remove the inserted items rather than whatever ended up at the insert rows after sorting, and redo must insert and sort them again.
+// The auto-sort used to push its sort command from inside the insert command, which put the commands on the undo stack in the wrong order.
+TEST_F(PlaylistTest, UndoRedoAutoSortedInsert) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"D"_s) << MakeMockItemP(u"B"_s), -1);
+  playlist_.sort(static_cast<int>(Playlist::Column::Title), Qt::AscendingOrder);
+  playlist_.set_auto_sort(true);
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"C"_s) << MakeMockItemP(u"A"_s), -1);
+  ASSERT_EQ(4, playlist_.rowCount(QModelIndex()));
+  EXPECT_EQ(u"A"_s, TitleAt(playlist_, 0));
+  EXPECT_EQ(u"B"_s, TitleAt(playlist_, 1));
+  EXPECT_EQ(u"C"_s, TitleAt(playlist_, 2));
+  EXPECT_EQ(u"D"_s, TitleAt(playlist_, 3));
+
+  // One undo step reverts both the insert and its auto-sort.
+  ASSERT_TRUE(playlist_.undo_stack()->canUndo());
+  playlist_.undo_stack()->undo();
+  ASSERT_EQ(2, playlist_.rowCount(QModelIndex()));
+  EXPECT_EQ(u"B"_s, TitleAt(playlist_, 0));
+  EXPECT_EQ(u"D"_s, TitleAt(playlist_, 1));
+  EXPECT_TRUE(IsSorted());
+
+  ASSERT_TRUE(playlist_.undo_stack()->canRedo());
+  playlist_.undo_stack()->redo();
+  EXPECT_FALSE(playlist_.undo_stack()->canRedo());
+  ASSERT_EQ(4, playlist_.rowCount(QModelIndex()));
+  EXPECT_EQ(u"A"_s, TitleAt(playlist_, 0));
+  EXPECT_EQ(u"B"_s, TitleAt(playlist_, 1));
+  EXPECT_EQ(u"C"_s, TitleAt(playlist_, 2));
+  EXPECT_EQ(u"D"_s, TitleAt(playlist_, 3));
+
+  // Undo the insert again, then the original sort.
+  playlist_.undo_stack()->undo();
+  playlist_.undo_stack()->undo();
+  ASSERT_EQ(2, playlist_.rowCount(QModelIndex()));
+  EXPECT_EQ(u"D"_s, TitleAt(playlist_, 0));
+  EXPECT_EQ(u"B"_s, TitleAt(playlist_, 1));
+  EXPECT_FALSE(IsSorted());
+
+}
+
+// Regression test: when an auto-sorted insert's item is replaced after loading, redo must bring back the loaded item rather than the one stored by the sort command.
+TEST_F(PlaylistTest, RedoAutoSortedInsertKeepsLoadedItem) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"D"_s) << MakeMockItemP(u"B"_s), -1);
+  playlist_.sort(static_cast<int>(Playlist::Column::Title), Qt::AscendingOrder);
+  playlist_.set_auto_sort(true);
+
+  Song song;
+  song.Init(u"C"_s, u"Artist"_s, u"Album"_s, 123);
+  song.set_url(QUrl::fromLocalFile(u"/tmp/does-not-need-to-exist.mp3"_s));
+  playlist_.InsertItems(PlaylistItemPtrList() << std::make_shared<SongPlaylistItem>(song), -1);
+  ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
+  ASSERT_EQ(u"C"_s, TitleAt(playlist_, 1));
+
+  // Replace the item, like SongLoaderInserter does when the songs have finished loading.
+  Song loaded_song = song;
+  loaded_song.set_title(u"C loaded"_s);
+  playlist_.UpdateItems(SongList() << loaded_song);
+  ASSERT_EQ(u"C loaded"_s, TitleAt(playlist_, 1));
+  const PlaylistItemPtr loaded_item = playlist_.item_at(1);
+
+  playlist_.undo_stack()->undo();
+  ASSERT_EQ(2, playlist_.rowCount(QModelIndex()));
+
+  playlist_.undo_stack()->redo();
+  ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
+  EXPECT_EQ(u"B"_s, TitleAt(playlist_, 0));
+  EXPECT_EQ(u"C loaded"_s, TitleAt(playlist_, 1));
+  EXPECT_EQ(u"D"_s, TitleAt(playlist_, 2));
+  EXPECT_EQ(loaded_item, playlist_.item_at(1));
+  EXPECT_EQ(1, playlist_.IndexByUuId(loaded_item->uuid()));
+
+}
+
+// Regression test: an auto-sorted insert too large for the undo stack must still be sorted, and must leave the undo stack empty.
+TEST_F(PlaylistTest, LargeAutoSortedInsertIsSortedAndClearsUndoStack) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"B"_s) << MakeMockItemP(u"A"_s), -1);
+  playlist_.sort(static_cast<int>(Playlist::Column::Title), Qt::AscendingOrder);
+  playlist_.set_auto_sort(true);
+
+  // Insert in descending order, so the result is only in order if it was sorted.
+  PlaylistItemPtrList items;
+  const int count = Playlist::kUndoItemLimit + 1;
+  for (int i = count - 1; i >= 0; --i) {
+    items << MakeMockItemP(u"T%1"_s.arg(i, 4, 10, u'0'));
+  }
+  playlist_.InsertItems(items, -1);
+
+  ASSERT_EQ(count + 2, playlist_.rowCount(QModelIndex()));
+  EXPECT_EQ(u"A"_s, TitleAt(playlist_, 0));
+  EXPECT_EQ(u"B"_s, TitleAt(playlist_, 1));
+  for (int i = 0; i < count; ++i) {
+    EXPECT_EQ(u"T%1"_s.arg(i, 4, 10, u'0'), TitleAt(playlist_, i + 2));
+  }
+  EXPECT_EQ(0, playlist_.undo_stack()->count());
+
+}
+
+// Regression test: with auto-sort, undoing a removal must put the item back at its row without pushing a sort command onto the undo stack, and redo must remove the same item again.
+TEST_F(PlaylistTest, UndoRedoRemoveWithAutoSort) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"C"_s) << MakeMockItemP(u"A"_s) << MakeMockItemP(u"B"_s), -1);
+  playlist_.sort(static_cast<int>(Playlist::Column::Title), Qt::AscendingOrder);
+  playlist_.set_auto_sort(true);
+  const int undo_count = playlist_.undo_stack()->count();
+
+  ASSERT_TRUE(playlist_.removeRows(1, 1, QModelIndex()));
+  ASSERT_EQ(2, playlist_.rowCount(QModelIndex()));
+  EXPECT_EQ(u"A"_s, TitleAt(playlist_, 0));
+  EXPECT_EQ(u"C"_s, TitleAt(playlist_, 1));
+
+  playlist_.undo_stack()->undo();
+  ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
+  EXPECT_EQ(u"A"_s, TitleAt(playlist_, 0));
+  EXPECT_EQ(u"B"_s, TitleAt(playlist_, 1));
+  EXPECT_EQ(u"C"_s, TitleAt(playlist_, 2));
+  EXPECT_EQ(undo_count + 1, playlist_.undo_stack()->count());
+
+  playlist_.undo_stack()->redo();
+  EXPECT_FALSE(playlist_.undo_stack()->canRedo());
+  ASSERT_EQ(2, playlist_.rowCount(QModelIndex()));
+  EXPECT_EQ(u"A"_s, TitleAt(playlist_, 0));
+  EXPECT_EQ(u"C"_s, TitleAt(playlist_, 1));
+
+}
+
 // Regression test: undoing a column sort must also revert the playlist's own idea of what's sorted (is_sorted_/sort_column_/sort_order_), and announce it via SortStateChanged, so the header's sort indicator can be kept in sync rather than being left showing a sort that's since been undone.
 TEST_F(PlaylistTest, UndoingASortAlsoRevertsSortState) {
 
