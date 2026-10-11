@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -235,6 +235,11 @@ GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus *bus, GstMessage *messag
 
   MoodbarPipeline *instance = reinterpret_cast<MoodbarPipeline*>(self);
 
+  // Errors are remembered before checking if the pipeline is running, the end of the stream can stop the pipeline in another thread just before the error arrives.
+  if (GST_MESSAGE_TYPE(message) == GST_MESSAGE_ERROR) {
+    instance->error_received_ = true;
+  }
+
   if (!instance->running_) return GST_BUS_PASS;
 
   switch (GST_MESSAGE_TYPE(message)) {
@@ -244,8 +249,6 @@ GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus *bus, GstMessage *messag
 
     case GST_MESSAGE_ERROR:
       instance->ReportError(message);
-      // Remembered separately, the end of the stream can stop the pipeline first in another thread.
-      instance->error_received_ = true;
       instance->Stop(false);
       break;
 
@@ -303,7 +306,7 @@ void MoodbarPipeline::Finish(const bool success) {
     builder_.reset();
   }
 
-  Q_EMIT Finished(success);
+  Q_EMIT Finished(success_);
 
 }
 

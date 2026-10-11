@@ -1,6 +1,7 @@
 /*
  * Strawberry Music Player
  * Copyright 2026, Strawberry contributors
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -233,6 +234,11 @@ GstBusSyncReply WaveformPipeline::BusCallbackSync(GstBus *bus, GstMessage *messa
 
   WaveformPipeline *instance = reinterpret_cast<WaveformPipeline*>(self);
 
+  // Errors are remembered before checking if the pipeline is running, the end of the stream can stop the pipeline in another thread just before the error arrives.
+  if (GST_MESSAGE_TYPE(message) == GST_MESSAGE_ERROR) {
+    instance->error_received_ = true;
+  }
+
   if (!instance->running_) return GST_BUS_PASS;
 
   switch (GST_MESSAGE_TYPE(message)) {
@@ -242,8 +248,6 @@ GstBusSyncReply WaveformPipeline::BusCallbackSync(GstBus *bus, GstMessage *messa
 
     case GST_MESSAGE_ERROR:
       instance->ReportError(message);
-      // Remembered separately, the end of the stream can stop the pipeline first in another thread.
-      instance->error_received_ = true;
       instance->Stop(false);
       break;
 
