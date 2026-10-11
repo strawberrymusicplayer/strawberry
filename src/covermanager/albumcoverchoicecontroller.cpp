@@ -34,6 +34,7 @@
 #include <QDialog>
 #include <QDir>
 #include <QFile>
+#include <QSaveFile>
 #include <QFileInfo>
 #include <QMimeData>
 #include <QSet>
@@ -269,20 +270,18 @@ void AlbumCoverChoiceController::SaveCoverToFileManual(const Song &song, const A
   }
 
   if (result.is_jpeg() && fileinfo.completeSuffix().compare("jpg"_L1, Qt::CaseInsensitive) == 0) {
-    QFile file(save_filename);
+    QSaveFile file(save_filename);
     if (!file.open(QIODevice::WriteOnly)) {
       qLog(Error) << "Failed to open cover file" << save_filename << "for writing:" << file.errorString();
       Q_EMIT Error(tr("Failed to open cover file %1 for writing: %2").arg(save_filename, file.errorString()));
-      file.close();
       return;
     }
-    if (file.write(result.image_data) <= 0) {
+    // A short write is a failure too, QSaveFile discards the file if it is not committed, so an existing file is not left truncated.
+    if (file.write(result.image_data) != result.image_data.size() || !file.commit()) {
       qLog(Error) << "Failed writing cover to file" << save_filename << file.errorString();
       Q_EMIT Error(tr("Failed writing cover to file %1: %2").arg(save_filename, file.errorString()));
-      file.close();
       return;
     }
-    file.close();
   }
   else {
     if (!result.image.save(save_filename)) {
@@ -683,20 +682,18 @@ QUrl AlbumCoverChoiceController::SaveCoverToFileAutomatic(const Song::Source sou
   }
 
   if (!result.image_data.isEmpty() && result.is_jpeg()) {
-    if (file.open(QIODevice::WriteOnly)) {
-      if (file.write(result.image_data) > 0) {
-        file.close();
+    QSaveFile save_file(filepath);
+    if (save_file.open(QIODevice::WriteOnly)) {
+      // A short write is a failure too, QSaveFile discards the file if it is not committed, so an existing cover is not left truncated.
+      if (save_file.write(result.image_data) == result.image_data.size() && save_file.commit()) {
         return QUrl::fromLocalFile(filepath);
       }
-      else {
-        qLog(Error) << "Failed to write cover to file" << file.fileName() << file.errorString();
-        Q_EMIT Error(tr("Failed to write cover to file %1: %2").arg(file.fileName(), file.errorString()));
-      }
-      file.close();
+      qLog(Error) << "Failed to write cover to file" << filepath << save_file.errorString();
+      Q_EMIT Error(tr("Failed to write cover to file %1: %2").arg(filepath, save_file.errorString()));
     }
     else {
-      qLog(Error) << "Failed to open cover file" << file.fileName() << "for writing:" << file.errorString();
-      Q_EMIT Error(tr("Failed to open cover file %1 for writing: %2").arg(file.fileName(), file.errorString()));
+      qLog(Error) << "Failed to open cover file" << filepath << "for writing:" << save_file.errorString();
+      Q_EMIT Error(tr("Failed to open cover file %1 for writing: %2").arg(filepath, save_file.errorString()));
     }
   }
   else {
