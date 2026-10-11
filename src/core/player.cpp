@@ -886,7 +886,8 @@ void Player::SeekTo(const quint64 seconds) {
     return;
   }
 
-  const qint64 nanosec = qBound(0LL, static_cast<qint64>(seconds) * kNsecPerSec, length_nanosec);
+  // Clamp before converting to nanoseconds, a large number of seconds would overflow.
+  const qint64 nanosec = seconds > static_cast<quint64>(length_nanosec / kNsecPerSec) ? length_nanosec : static_cast<qint64>(seconds) * kNsecPerSec;
   engine_->Seek(static_cast<quint64>(nanosec));
 
   qLog(Debug) << "Track seeked to" << nanosec << "ns - updating scrobble point";
@@ -905,7 +906,8 @@ void Player::SeekForward() {
 }
 
 void Player::SeekBackward() {
-  SeekTo(static_cast<quint64>(engine()->position_nanosec() / kNsecPerSec - seek_step_sec_));
+  // Seek to the start instead of wrapping around when seeking back further than the start.
+  SeekTo(static_cast<quint64>(std::max<qint64>(0, engine()->position_nanosec() / kNsecPerSec - seek_step_sec_)));
 }
 
 void Player::EngineMetadataReceived(const EngineMetadata &engine_metadata) {

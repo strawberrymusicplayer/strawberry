@@ -674,7 +674,9 @@ void Mpris2::Play() {
 void Mpris2::Seek(qint64 offset) {
 
   if (CanSeek()) {
-    player_->SeekTo(player_->engine()->position_nanosec() / kNsecPerSec + offset / kUsecPerSec);
+    // The offset comes from a D-Bus client, seeking back before the start of the song seeks to the start, instead of wrapping around in SeekTo().
+    const qint64 seconds = player_->engine()->position_nanosec() / kNsecPerSec + offset / kUsecPerSec;
+    player_->SeekTo(static_cast<quint64>(std::max<qint64>(0, seconds)));
   }
 
 }
@@ -685,9 +687,9 @@ void Mpris2::SetPosition(const QDBusObjectPath &trackId, qint64 offset) {
   if (playlist_item_uuid.isNull()) return;
 
   if (CanSeek() && trackId == current_track_id(playlist_item_uuid) && offset >= 0) {
-    offset *= kNsecPerUsec;
-    if (offset < player_->GetCurrentItem()->EffectiveMetadata().length_nanosec()) {
-      player_->SeekTo(offset / kNsecPerSec);
+    // Compare in microseconds, converting a large offset from a D-Bus client to nanoseconds would overflow.
+    if (offset < player_->GetCurrentItem()->EffectiveMetadata().length_nanosec() / kNsecPerUsec) {
+      player_->SeekTo(static_cast<quint64>(offset / kUsecPerSec));
     }
   }
 
