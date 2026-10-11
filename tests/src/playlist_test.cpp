@@ -992,6 +992,49 @@ TEST_F(PlaylistTest, MoveNonContiguousRowsToAnotherPlaylist) {
 
 }
 
+// Regression test: undoing a move within a playlist must keep persistent indexes on the same items, including unmoved items that end up at one of the restored rows.
+TEST_F(PlaylistTest, UndoMoveKeepsPersistentIndexesOnSameItems) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s) << MakeMockItemP(u"Three"_s) << MakeMockItemP(u"Four"_s) << MakeMockItemP(u"Five"_s));
+  ASSERT_EQ(5, playlist_.rowCount(QModelIndex()));
+
+  // Drag "One" and "Three" within the playlist to before "Five".
+  const QModelIndexList source_indexes = QModelIndexList() << playlist_.index(0, 0) << playlist_.index(2, 0);
+  ScopedPtr<QMimeData> mimedata(playlist_.mimeData(source_indexes));
+  ASSERT_TRUE(mimedata);
+  ASSERT_TRUE(playlist_.dropMimeData(mimedata.get(), Qt::MoveAction, 4, 0, QModelIndex()));
+
+  const QStringList moved_titles = QStringList() << u"Two"_s << u"Four"_s << u"One"_s << u"Three"_s << u"Five"_s;
+  ASSERT_EQ(5, playlist_.rowCount(QModelIndex()));
+  for (int row = 0; row < moved_titles.count(); ++row) {
+    EXPECT_EQ(moved_titles[row], playlist_.data(playlist_.index(row, static_cast<int>(Playlist::Column::Title))));
+  }
+
+  QList<QPersistentModelIndex> persistent_indexes;
+  for (int row = 0; row < playlist_.rowCount(QModelIndex()); ++row) {
+    persistent_indexes << QPersistentModelIndex(playlist_.index(row, static_cast<int>(Playlist::Column::Title)));
+  }
+  playlist_.set_current_row(0);
+
+  ASSERT_TRUE(playlist_.undo_stack()->canUndo());
+  playlist_.undo_stack()->undo();
+
+  const QStringList original_titles = QStringList() << u"One"_s << u"Two"_s << u"Three"_s << u"Four"_s << u"Five"_s;
+  ASSERT_EQ(5, playlist_.rowCount(QModelIndex()));
+  for (int row = 0; row < original_titles.count(); ++row) {
+    EXPECT_EQ(original_titles[row], playlist_.data(playlist_.index(row, static_cast<int>(Playlist::Column::Title))));
+  }
+
+  // Each persistent index still points at the item it pointed at before the undo.
+  for (int i = 0; i < persistent_indexes.count(); ++i) {
+    ASSERT_TRUE(persistent_indexes[i].isValid());
+    EXPECT_EQ(moved_titles[i], persistent_indexes[i].data());
+  }
+  EXPECT_EQ(1, playlist_.current_row());
+  EXPECT_EQ(u"Two"_s, playlist_.current_item()->EffectiveMetadata().title());
+
+}
+
 // Regression test: copying rows to another playlist must insert new items with new UUIDs, not share the source playlist's items, even when the same rows are copied twice.
 TEST_F(PlaylistTest, CopyRowsToAnotherPlaylistInsertsNewItems) {
 
