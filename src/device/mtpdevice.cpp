@@ -163,13 +163,12 @@ bool MtpDevice::StartCopy(QList<Song::FileType> *supported_types) {
   // Ensure only one "organize files" can be active at any one time
   db_busy_.lock();
 
+  // The caller always calls FinishCopy(), also when this fails, which unlocks db_busy_, so don't call it here.
   if (!connection_ || !connection_->is_valid()) return false;
 
   // Did the caller want a list of supported types?
   if (supported_types) {
     if (!GetSupportedFiletypes(supported_types, connection_->device())) {
-      QString error_text;
-      FinishCopy(false, error_text);
       return false;
     }
   }
