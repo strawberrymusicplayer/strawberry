@@ -47,6 +47,7 @@
 #include "core/song.h"
 #include "core/settings.h"
 #include "core/urlhandlers.h"
+#include "utilities/strutils.h"
 #include "credentialsmanager/credentialsmanager.h"
 #include "utilities/randutils.h"
 #include "collection/collectionbackend.h"
@@ -349,7 +350,7 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
   if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
     if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
-      PingError(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+      PingError(QStringLiteral("%1 (%2)").arg(Utilities::RedactUrls(reply->errorString()), QString::number(reply->error())));
       return;
     }
     else {
@@ -394,7 +395,7 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
       }
       if (errors_.isEmpty()) {
         if (reply->error() != QNetworkReply::NoError) {
-          errors_ << QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+          errors_ << QStringLiteral("%1 (%2)").arg(Utilities::RedactUrls(reply->errorString()), QString::number(reply->error()));
         }
         else {
           errors_ << QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());

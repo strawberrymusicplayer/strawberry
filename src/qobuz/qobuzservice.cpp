@@ -46,6 +46,7 @@
 #include "core/song.h"
 #include "core/settings.h"
 #include "core/urlhandlers.h"
+#include "utilities/strutils.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "qobuzservice.h"
@@ -386,7 +387,7 @@ QJsonObject QobuzService::ParseLoginReply(QNetworkReply *reply, const QString &r
 
   if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
     if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
-      LoginError(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+      LoginError(QStringLiteral("%1 (%2)").arg(Utilities::RedactUrls(reply->errorString()), QString::number(reply->error())));
       return QJsonObject();
     }
     // See if there is Json data containing "status", "code" and "message" - then use that instead.
@@ -404,7 +405,7 @@ QJsonObject QobuzService::ParseLoginReply(QNetworkReply *reply, const QString &r
     }
     if (error_message.isEmpty()) {
       if (reply->error() != QNetworkReply::NoError) {
-        error_message = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+        error_message = QStringLiteral("%1 (%2)").arg(Utilities::RedactUrls(reply->errorString()), QString::number(reply->error()));
       }
       else {
         error_message = QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());

@@ -39,6 +39,7 @@
 #include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
+#include "utilities/strutils.h"
 #include "qobuzservice.h"
 #include "qobuzbaserequest.h"
 
@@ -113,7 +114,7 @@ QNetworkReply *QobuzBaseRequest::CreateRequest(const QString &ressource_name, co
 JsonBaseRequest::JsonObjectResult QobuzBaseRequest::ParseJsonObject(QNetworkReply *reply) {
 
   if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
-    return ReplyDataResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    return ReplyDataResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(Utilities::RedactUrls(reply->errorString()), QString::number(reply->error())));
   }
 
   JsonObjectResult result(ErrorCode::Success);
@@ -147,7 +148,7 @@ JsonBaseRequest::JsonObjectResult QobuzBaseRequest::ParseJsonObject(QNetworkRepl
   if (result.error_code != ErrorCode::APIError) {
     if (reply->error() != QNetworkReply::NoError) {
       result.error_code = ErrorCode::NetworkError;
-      result.error_message = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      result.error_message = QStringLiteral("%1 (%2)").arg(Utilities::RedactUrls(reply->errorString()), QString::number(reply->error()));
     }
     else if (result.http_status_code != 200) {
       result.error_code = ErrorCode::HttpError;
