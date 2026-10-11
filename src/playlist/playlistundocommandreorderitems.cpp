@@ -17,8 +17,6 @@
  *
  */
 
-#include <algorithm>
-
 #include "playlist.h"
 #include "playlistundocommandreorderitems.h"
 
@@ -29,9 +27,15 @@ void PlaylistUndoCommandReOrderItems::undo() { playlist_->ReOrderWithoutUndo(old
 
 void PlaylistUndoCommandReOrderItems::redo() { playlist_->ReOrderWithoutUndo(new_items_); }
 
-void PlaylistUndoCommandReOrderItems::ReplaceItem(const PlaylistItemPtr &old_item, const PlaylistItemPtr &new_item) {
+void PlaylistUndoCommandReOrderItems::ReplaceItems(const QHash<const PlaylistItem*, PlaylistItemPtr> &replacements) {
 
-  std::replace(old_items_.begin(), old_items_.end(), old_item, new_item);
-  std::replace(new_items_.begin(), new_items_.end(), old_item, new_item);
+  for (PlaylistItemPtrList *items : {&old_items_, &new_items_}) {
+    for (PlaylistItemPtr &item : *items) {
+      const QHash<const PlaylistItem*, PlaylistItemPtr>::const_iterator it = replacements.constFind(&*item);
+      if (it != replacements.constEnd()) {
+        item = it.value();
+      }
+    }
+  }
 
 }

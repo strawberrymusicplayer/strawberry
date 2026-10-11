@@ -1484,71 +1484,81 @@ void Playlist::UpdateItems(SongList songs) {
 
   qLog(Debug) << "Updating playlist with new tracks' info";
 
-  // We first convert our songs list into a linked list (a 'real' list), because removals are faster with QLinkedList.
-  // Next, we walk through the list of playlist's items then the list of songs
-  // we want to update: if an item corresponds to the song (we rely on URL for this), we update the item with the new metadata,
-  // then we remove song from our list because we will not need to check it again.
-  // And we also update undo actions.
+  // Walk through the playlist's items, and look up the song for each item by URL: if an item corresponds to a song, update the item with the new metadata, and don't use that song again.
+  // Songs with the same URL, such as the tracks of a CUE sheet, are used in their order.
+  // And we also update the undo actions.
+  QHash<QUrl, SongList> songs_by_url;
+  for (const Song &song : std::as_const(songs)) {
+    songs_by_url[song.url()] << song;
+  }
 
-  for (int i = 0; i < items_.size(); i++) {
-    // Update current items list
-    QMutableListIterator<Song> it(songs);
-    while (it.hasNext()) {
-      const Song &song = it.next();
-      const PlaylistItemPtr item = items_.value(i);
-      if (item->EffectiveMetadata().url() == song.url() && (item->EffectiveMetadata().filetype() == Song::FileType::Unknown || item->EffectiveMetadata().filetype() == Song::FileType::Stream || item->EffectiveMetadata().filetype() == Song::FileType::CDDA || !item->EffectiveMetadata().init_from_file())) {
-        PlaylistItemPtr new_item;
-        if (song.is_linked_collection_song()) {
-          new_item = make_shared<CollectionPlaylistItem>(song);
-          if (collection_items_[song.source_id()].contains(song.id(), item)) collection_items_[song.source_id()].remove(song.id(), item);
-          collection_items_[song.source_id()].insert(song.id(), new_item);
+  // The undo commands, including the commands in macros, an auto-sorted insert is a macro with the insert and sort commands as its children.
+  QList<QUndoCommand*> undo_commands;
+  for (int y = 0; y < undo_stack_->count(); y++) {
+    QUndoCommand *undo_command = const_cast<QUndoCommand*>(undo_stack_->command(y));
+    if (undo_command->childCount() > 0) {
+      for (int c = 0; c < undo_command->childCount(); ++c) {
+        undo_commands << const_cast<QUndoCommand*>(undo_command->child(c));
+      }
+    }
+    else {
+      undo_commands << undo_command;
+    }
+  }
+
+  // The replaced items are kept, so their addresses are not reused until the sort and shuffle commands are updated below.
+  PlaylistItemPtrList replaced_items;
+  QHash<const PlaylistItem*, PlaylistItemPtr> replacements;
+
+  for (int i = 0; i < items_.size() && !songs_by_url.isEmpty(); i++) {
+    const PlaylistItemPtr item = items_.value(i);
+    const Song metadata = item->EffectiveMetadata();
+    if (metadata.filetype() != Song::FileType::Unknown && metadata.filetype() != Song::FileType::Stream && metadata.filetype() != Song::FileType::CDDA && metadata.init_from_file()) {
+      continue;
+    }
+    QHash<QUrl, SongList>::iterator songs_it = songs_by_url.find(metadata.url());
+    if (songs_it == songs_by_url.end()) continue;
+    const Song song = songs_it->takeFirst();
+    if (songs_it->isEmpty()) songs_by_url.erase(songs_it);
+
+    PlaylistItemPtr new_item;
+    if (song.is_linked_collection_song()) {
+      new_item = make_shared<CollectionPlaylistItem>(song);
+      if (collection_items_[song.source_id()].contains(song.id(), item)) collection_items_[song.source_id()].remove(song.id(), item);
+      collection_items_[song.source_id()].insert(song.id(), new_item);
+    }
+    else {
+      if (song.url().isLocalFile()) {
+        new_item = make_shared<SongPlaylistItem>(song);
+      }
+      else {
+        if (song.is_radio()) {
+          new_item = make_shared<RadioStreamPlaylistItem>(song);
         }
         else {
-          if (song.url().isLocalFile()) {
-            new_item = make_shared<SongPlaylistItem>(song);
-          }
-          else {
-            if (song.is_radio()) {
-              new_item = make_shared<RadioStreamPlaylistItem>(song);
-            }
-            else {
-              new_item = make_shared<StreamServicePlaylistItem>(song);
-            }
-          }
+          new_item = make_shared<StreamServicePlaylistItem>(song);
         }
-        items_by_uuid_.remove(item->uuid());
-        items_by_uuid_.insert(new_item->uuid(), new_item);
-        items_[i] = new_item;
-        InvalidateItemRows();
-        Q_EMIT dataChanged(index(i, 0), index(i, ColumnCount - 1));
-        // Also update undo actions
-        // Sort and shuffle commands store the item order, so they must also replace the item, or undo and redo bring back the old item.
-        // An auto-sorted insert is a macro, with the insert and sort commands as its children.
-        bool insert_updated = false;
-        for (int y = 0; y < undo_stack_->count(); y++) {
-          QUndoCommand *undo_action = const_cast<QUndoCommand*>(undo_stack_->command(y));
-          QList<QUndoCommand*> undo_actions;
-          if (undo_action->childCount() > 0) {
-            for (int c = 0; c < undo_action->childCount(); ++c) {
-              undo_actions << const_cast<QUndoCommand*>(undo_action->child(c));
-            }
-          }
-          else {
-            undo_actions << undo_action;
-          }
-          for (QUndoCommand *child_undo_action : std::as_const(undo_actions)) {
-            if (PlaylistUndoCommandInsertItems *undo_action_insert = dynamic_cast<PlaylistUndoCommandInsertItems*>(child_undo_action)) {
-              if (!insert_updated) {
-                insert_updated = undo_action_insert->UpdateItem(new_item);
-              }
-            }
-            else if (PlaylistUndoCommandReOrderItems *undo_action_reorder = dynamic_cast<PlaylistUndoCommandReOrderItems*>(child_undo_action)) {
-              undo_action_reorder->ReplaceItem(item, new_item);
-            }
-          }
-        }
-        it.remove();
-        break;
+      }
+    }
+    items_by_uuid_.remove(item->uuid());
+    items_by_uuid_.insert(new_item->uuid(), new_item);
+    items_[i] = new_item;
+    InvalidateItemRows();
+    Q_EMIT dataChanged(index(i, 0), index(i, ColumnCount - 1));
+
+    replaced_items << item;
+    replacements.insert(&*item, new_item);
+  }
+
+  if (!replacements.isEmpty()) {
+    // Insert, sort and shuffle commands store the items, so they must also replace them, or undo and redo bring back the old items.
+    // They are updated once for all items, and matched by the item itself, so items sharing a URL, such as the tracks of a CUE sheet, each keep their own loaded item.
+    for (QUndoCommand *undo_command : std::as_const(undo_commands)) {
+      if (PlaylistUndoCommandInsertItems *undo_command_insert = dynamic_cast<PlaylistUndoCommandInsertItems*>(undo_command)) {
+        undo_command_insert->ReplaceItems(replacements);
+      }
+      else if (PlaylistUndoCommandReOrderItems *undo_command_reorder = dynamic_cast<PlaylistUndoCommandReOrderItems*>(undo_command)) {
+        undo_command_reorder->ReplaceItems(replacements);
       }
     }
   }
