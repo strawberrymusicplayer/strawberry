@@ -76,6 +76,7 @@ class MoodbarPipeline : public QObject {
 
   bool success_;
   std::atomic<bool> running_;
+  std::atomic<bool> error_received_;
   QByteArray data_;
 };
 

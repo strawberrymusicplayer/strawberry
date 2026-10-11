@@ -48,7 +48,8 @@ WaveformPipeline::WaveformPipeline(const QUrl &url, QObject *parent)
       pipeline_(nullptr),
       convert_element_(nullptr),
       success_(false),
-      running_(false) {}
+      running_(false),
+      error_received_(false) {}
 
 WaveformPipeline::~WaveformPipeline() {
 
@@ -241,6 +242,8 @@ GstBusSyncReply WaveformPipeline::BusCallbackSync(GstBus *bus, GstMessage *messa
 
     case GST_MESSAGE_ERROR:
       instance->ReportError(message);
+      // Remembered separately, the end of the stream can stop the pipeline first in another thread.
+      instance->error_received_ = true;
       instance->Stop(false);
       break;
 
@@ -270,7 +273,8 @@ void WaveformPipeline::Finish(const bool success) {
   // Setting it to GST_STATE_NULL joins the GStreamer streaming threads, so NewBufferCallback can no longer be running and the builder_.reset() below cannot race with it.
   Cleanup();
 
-  success_ = success;
+  // After joining the streaming threads, so an error that arrived while the end of the stream finished the pipeline is not missed.
+  success_ = success && !error_received_;
 
   if (builder_) {
     data_ = builder_->Finish(WaveformBuilder::kWaveformBaseCount);

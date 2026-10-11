@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <atomic>
+
 #include "gtest_include.h"
 #include "gmock_include.h"
 
@@ -28,6 +30,9 @@
 #include <QFile>
 #include <QIODevice>
 #include <QSignalSpy>
+#include <QTest>
+#include <QThread>
+#include <QCoreApplication>
 #include <QStandardPaths>
 #include <QString>
 #include <QUrl>
@@ -107,6 +112,37 @@ TEST_F(WaveformLoaderTest, DedupesInFlightAndReusesCacheOnReplay) {
   EXPECT_EQ(replay.status, WaveformLoader::LoadStatus::Loaded);
   EXPECT_GT(replay.data.size(), 16);
   EXPECT_EQ(replay.data.left(4), QByteArray("SWVF"));
+
+}
+
+// Regression test: the pipeline lives in the loader's worker thread, so it must be deleted there, also when the last reference is released in the GUI thread.
+TEST_F(WaveformLoaderTest, PipelineIsDeletedInWorkerThread) {
+
+  TemporaryResource res(u":/audio/strawberry.wav"_s);
+  ASSERT_TRUE(res.open());
+  const QUrl url = QUrl::fromLocalFile(res.fileName());
+
+  WaveformLoader loader;
+
+  WaveformLoader::LoadResult result = loader.Load(url, false);
+  ASSERT_EQ(result.status, WaveformLoader::LoadStatus::WillLoadAsync);
+  ASSERT_TRUE(result.pipeline);
+
+  QThread *worker_thread = result.pipeline->thread();
+  ASSERT_NE(worker_thread, QThread::currentThread());
+
+  std::atomic<QThread*> deleted_in_thread = nullptr;
+  QObject::connect(&*result.pipeline, &QObject::destroyed, &*result.pipeline, [&deleted_in_thread]() { deleted_in_thread = QThread::currentThread(); }, Qt::DirectConnection);
+
+  QSignalSpy spy(&*result.pipeline, &WaveformPipeline::Finished);
+  ASSERT_TRUE(spy.wait(10000));
+
+  // Let the loader handle the finished request and release its references, then release the last one here in the GUI thread.
+  QCoreApplication::processEvents();
+  result.pipeline.reset();
+
+  ASSERT_TRUE(QTest::qWaitFor([&deleted_in_thread]() { return deleted_in_thread != nullptr; }, 10000));
+  EXPECT_EQ(deleted_in_thread.load(), worker_thread);
 
 }
 
