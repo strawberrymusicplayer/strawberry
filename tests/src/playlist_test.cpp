@@ -1377,6 +1377,56 @@ TEST_F(PlaylistTest, RemoveCurrentWithShuffleKeepsShufflePosition) {
 
 }
 
+// Regression test: with shuffle, inserting several items in the middle of the playlist must keep the played part of the shuffle order, keep the order of the rest, and add each new item once after the current track.
+// The new items get random positions, so only these properties are checked, not the exact order.
+TEST_F(PlaylistTest, InsertSeveralWithShuffleKeepsShuffleOrder) {
+
+  PlaylistItemPtrList items;
+  for (int i = 0; i < 6; ++i) {
+    items << MakeMockItemP(QString::number(i));
+  }
+  playlist_.InsertItems(items);
+
+  playlist_.sequence()->SetShuffleMode(PlaylistSequence::ShuffleMode::All);
+  playlist_.set_current_row(5);
+
+  // Shuffle order 3, 0, 5 (current), 1, 4, 2.
+  SetVirtualOrder(QList<int>() << 3 << 0 << 5 << 1 << 4 << 2, 2);
+
+  // Insert 4 items at row 2, the rows from 2 on move down by 4.
+  PlaylistItemPtrList new_items;
+  for (int i = 0; i < 4; ++i) {
+    new_items << MakeMockItemP(u"New "_s + QString::number(i));
+  }
+  playlist_.InsertItems(new_items, 2);
+  ASSERT_EQ(10, playlist_.rowCount(QModelIndex()));
+
+  const QList<int> virtual_order = VirtualOrder();
+  ASSERT_EQ(10, virtual_order.count());
+
+  // The played part and the current track are kept, with the moved rows: 3, 0, 5 became 7, 0, 9.
+  EXPECT_EQ((QList<int>() << 7 << 0 << 9), virtual_order.first(3));
+  EXPECT_EQ(9, playlist_.current_row());
+  EXPECT_EQ(items[5], playlist_.current_item());
+
+  // After the current track, the remaining old rows 1, 4, 2 (now 1, 8, 6) keep their order, and each new row 2 to 5 appears once.
+  const QList<int> rest = virtual_order.sliced(3);
+  QList<int> old_rows_in_rest;
+  QList<int> new_rows_in_rest;
+  for (const int row : rest) {
+    if (row >= 2 && row <= 5) {
+      new_rows_in_rest << row;
+    }
+    else {
+      old_rows_in_rest << row;
+    }
+  }
+  EXPECT_EQ((QList<int>() << 1 << 8 << 6), old_rows_in_rest);
+  std::sort(new_rows_in_rest.begin(), new_rows_in_rest.end());
+  EXPECT_EQ((QList<int>() << 2 << 3 << 4 << 5), new_rows_in_rest);
+
+}
+
 // Regression test: with shuffle, removing several rows including the current track, with removed items both before and after it in the shuffle order, must keep the position in the shuffle order.
 TEST_F(PlaylistTest, RemoveRowsAroundCurrentWithShuffleKeepsShufflePosition) {
 
