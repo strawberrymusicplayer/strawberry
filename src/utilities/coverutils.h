@@ -32,6 +32,8 @@ class CoverUtils {
  public:
   static QByteArray Sha1CoverHash(const QString &artist, const QString &album);
   static QString AlbumCoverFilename(QString artist, QString album, const QString &extension);
+  // Returns the ID unchanged if it is safe to use in a filename, otherwise a hash of it, for IDs from streaming servers.
+  static QString FilenameFromId(const QString &id);
   static QString CoverFilenameFromSource(const Song::Source source, const QUrl &cover_url, const QString &artist, const QString &album, const QString &album_id, const QString &extension);
   static QString CoverFilenameFromVariable(const CoverOptions &options, const QString &artist, QString album, const QString &extension = QString());
   static QString CoverFilePath(const CoverOptions &options, const Song &song, const QString &album_dir, const QUrl &cover_url, const QString &extension = QString());

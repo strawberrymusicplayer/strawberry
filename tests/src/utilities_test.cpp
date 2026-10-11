@@ -23,6 +23,7 @@
 
 #include <QByteArray>
 #include <QString>
+#include <QStringList>
 #include <QStringConverter>
 #include <QUrl>
 #include <QDateTime>
@@ -41,6 +42,7 @@
 #include "utilities/colorutils.h"
 #include "utilities/transliterate.h"
 #include "utilities/textencodingutils.h"
+#include "utilities/coverutils.h"
 #include "core/logging.h"
 #include "core/temporaryfile.h"
 
@@ -444,5 +446,58 @@ TEST(UtilitiesTest, LRCFilename) {
     lrc_file.close();
   }
   EXPECT_EQ(temp_dir.filePath(u"strawberry.song.LrC"_s), Utilities::LRCFilename(media_filename));
+
+}
+
+// Regression test: IDs from streaming servers must not be able to make the cover cache filename write outside the cache directory.
+TEST(UtilitiesTest, CoverFilenameFromId) {
+
+  // IDs used by the servers are kept, so existing cached covers are still found.
+  EXPECT_EQ(u"12345"_s, CoverUtils::FilenameFromId(u"12345"_s));
+  EXPECT_EQ(u"al-123"_s, CoverUtils::FilenameFromId(u"al-123"_s));
+  EXPECT_EQ(u"4uLU6hMCjMI75M1A2tKUQC"_s, CoverUtils::FilenameFromId(u"4uLU6hMCjMI75M1A2tKUQC"_s));
+  EXPECT_EQ(u"1280x1280.jpg"_s, CoverUtils::FilenameFromId(u"1280x1280.jpg"_s));
+  EXPECT_EQ(QString(), CoverUtils::FilenameFromId(QString()));
+  // Only the exact Windows device names are reserved, not names starting with them.
+  EXPECT_EQ(u"CONSOLE"_s, CoverUtils::FilenameFromId(u"CONSOLE"_s));
+  EXPECT_EQ(u"COM10"_s, CoverUtils::FilenameFromId(u"COM10"_s));
+  EXPECT_EQ(u"al-NUL"_s, CoverUtils::FilenameFromId(u"al-NUL"_s));
+  // IDs up to 64 characters are kept, longer IDs are hashed, so filenames combining several IDs can't exceed the filename length limit.
+  EXPECT_EQ(QString(64, u'a'), CoverUtils::FilenameFromId(QString(64, u'a')));
+  EXPECT_EQ(41, CoverUtils::FilenameFromId(QString(65, u'a')).length());
+  EXPECT_EQ(41, CoverUtils::FilenameFromId(QString(256, u'a')).length());
+
+  // Anything with path separators, a leading or trailing dot, a newline, or a Windows device name is replaced by a hash, which is the same for the same ID.
+  const QStringList unsafe_ids = QStringList() << u"../../../Pictures/x"_s << u".."_s << u".hidden"_s << u"a/b"_s << u"a\\b"_s << u"a b"_s << u"CON"_s << u"nul"_s << u"NUL.jpg"_s << u"com1"_s << u"LPT9.tar.gz"_s << u"abc."_s << u"abc\n"_s;
+  for (const QString &id : unsafe_ids) {
+    const QString filename = CoverUtils::FilenameFromId(id);
+    EXPECT_FALSE(filename.contains(u'/')) << id.toStdString();
+    EXPECT_FALSE(filename.contains(u'\\')) << id.toStdString();
+    EXPECT_FALSE(filename.startsWith(u'.')) << id.toStdString();
+    EXPECT_EQ(41, filename.length()) << id.toStdString();
+    EXPECT_TRUE(filename.startsWith(u'+')) << id.toStdString();
+    EXPECT_EQ(filename, CoverUtils::FilenameFromId(id));
+  }
+  EXPECT_NE(CoverUtils::FilenameFromId(u"a/b"_s), CoverUtils::FilenameFromId(u"a\\b"_s));
+
+  // A hash can't be the same as an ID that is used as it is, even when the server uses the hash as an ID.
+  const QString hashed_filename = CoverUtils::FilenameFromId(u"a/b"_s);
+  const QString hash_as_id = hashed_filename.mid(1);
+  EXPECT_EQ(hash_as_id, CoverUtils::FilenameFromId(hash_as_id));
+  EXPECT_NE(hashed_filename, CoverUtils::FilenameFromId(hash_as_id));
+  EXPECT_NE(hashed_filename, CoverUtils::FilenameFromId(hashed_filename));
+
+  const QString subsonic_filename = CoverUtils::CoverFilenameFromSource(Song::Source::Subsonic, QUrl(), u"Artist"_s, u"Album"_s, u"../../x"_s, u"jpg"_s);
+  EXPECT_FALSE(subsonic_filename.contains(u'/'));
+  EXPECT_TRUE(subsonic_filename.endsWith(u".jpg"_s));
+
+  EXPECT_EQ(u"12345-1280x1280.jpg"_s, CoverUtils::CoverFilenameFromSource(Song::Source::Tidal, QUrl(u"https://resources.tidal.com/images/a/b/c/1280x1280.jpg"_s), u"Artist"_s, u"Album"_s, u"12345"_s, QString()));
+  const QString tidal_filename = CoverUtils::CoverFilenameFromSource(Song::Source::Tidal, QUrl(u"https://example.com/images/..%5C..%5Cx"_s), u"Artist"_s, u"Album"_s, u"12345"_s, u"jpg"_s);
+  EXPECT_FALSE(tidal_filename.contains(u'\\'));
+  EXPECT_FALSE(tidal_filename.contains(u'/'));
+
+  const QString long_id(256, u'a');
+  const QString jellyfin_filename = CoverUtils::CoverFilenameFromSource(Song::Source::Jellyfin, QUrl(u"https://example.com/Items/"_s + long_id + u"/Images/"_s + long_id + u"?tag="_s + long_id), u"Artist"_s, u"Album"_s, long_id, u"jpg"_s);
+  EXPECT_LT(jellyfin_filename.length(), 255);
 
 }
