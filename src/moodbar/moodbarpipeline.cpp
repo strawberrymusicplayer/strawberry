@@ -276,7 +276,8 @@ GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus *bus, GstMessage *messag
 
 void MoodbarPipeline::Stop(const bool success) {
 
-  running_ = false;
+  // The end of the stream and errors can arrive in different streaming threads, only the first one that stops the pipeline finishes it.
+  if (!running_.exchange(false)) return;
 
   QMetaObject::invokeMethod(this, "Finish", Qt::QueuedConnection, Q_ARG(bool, success));
 
