@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@
 #include "albumcoverloaderoptions.h"
 #include "albumcoverexport.h"
 
+class QImage;
 class TagReaderClient;
 
 class CoverExportRunnable : public QObject, public QRunnable {
@@ -57,6 +58,8 @@ class CoverExportRunnable : public QObject, public QRunnable {
 
   void ProcessAndExportCover();
   void ExportCover();
+  static bool SaveImage(const QImage &image, const QString &filename);
+  static bool CopyCoverFile(const QString &source_filename, const QString &destination_filename);
 
   SharedPtr<TagReaderClient> tagreader_client_;
   AlbumCoverExport::DialogResult dialog_result_;
