@@ -235,14 +235,15 @@ bool M3UParser::ParseMetadata(const QString &line, M3UParser::Metadata *metadata
   }
   metadata->length = length * kNsecPerSec;
 
-  QString track_info = info.section(u',', 1);
-  QStringList list = track_info.split(u" - "_s);
-  if (list.size() <= 1) {
+  // Split at the first " - " only, the title can contain " - " too, e.g. "Artist - Title - Remastered".
+  const QString track_info = info.section(u',', 1);
+  const qsizetype separator = track_info.indexOf(u" - "_s);
+  if (separator < 0) {
     metadata->title = track_info;
     return true;
   }
-  metadata->artist = list[0].trimmed();
-  metadata->title = list[1].trimmed();
+  metadata->artist = track_info.left(separator).trimmed();
+  metadata->title = track_info.mid(separator + 3).trimmed();
   return true;
 
 }
