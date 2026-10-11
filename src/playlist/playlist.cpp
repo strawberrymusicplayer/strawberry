@@ -1324,10 +1324,12 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
   }
 
   beginInsertRows(QModelIndex(), start, end);
-  for (int i = start; i <= end; ++i) {
-    const PlaylistItemPtr item = items[i - start];
-    items_.insert(i, item);
-    InvalidateItemRows();
+
+  // Insert the items at once, inserting them one at a time moves all the items after them for each item.
+  items_ = items_.first(start) + items + items_.sliced(start);
+  InvalidateItemRows();
+
+  for (const PlaylistItemPtr &item : items) {
     items_by_uuid_.insert(item->uuid(), item);
 
     if (Song::IsLinkedCollectionSource(item->source())) {
@@ -1353,21 +1355,36 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
     if (virtual_item >= start) virtual_item += count;
   }
   const PlaylistSequence::ShuffleMode shuffle_mode = ShuffleMode();
+  QList<int> new_rows;
+  new_rows.reserve(count);
+  for (int i = start; i <= end; ++i) {
+    new_rows << i;
+  }
   if (shuffle_mode == PlaylistSequence::ShuffleMode::All || shuffle_mode == PlaylistSequence::ShuffleMode::InsideAlbum) {
     // Insert the new items at random positions after the current virtual index, so the existing shuffle order is kept.
+    // The new items are shuffled and merged with the following virtual items in one pass, each position takes a new item with the probability of the new items left, which gives the same result as inserting each new item at a random position, without moving the following virtual items for each new item.
     std::mt19937 rng{std::random_device{}()};
-    for (int i = start; i <= end; ++i) {
-      const int virtual_count = static_cast<int>(virtual_items_.count());
-      std::uniform_int_distribution<int> dist(qBound(0, current_virtual_index_ + 1, virtual_count), virtual_count);
-      virtual_items_.insert(dist(rng), i);
+    std::shuffle(new_rows.begin(), new_rows.end(), rng);
+    const qsizetype first_position = qBound(0, current_virtual_index_ + 1, static_cast<int>(virtual_items_.count()));
+    QList<int> merged_rows;
+    merged_rows.reserve(virtual_items_.count() - first_position + count);
+    qsizetype virtual_index = first_position;
+    qsizetype new_index = 0;
+    for (qsizetype positions_left = virtual_items_.count() - first_position + count; positions_left > 0; --positions_left) {
+      std::uniform_int_distribution<qsizetype> dist(0, positions_left - 1);
+      if (dist(rng) < count - new_index) {
+        merged_rows << new_rows[new_index++];
+      }
+      else {
+        merged_rows << virtual_items_[virtual_index++];
+      }
     }
+    virtual_items_ = virtual_items_.first(first_position) + merged_rows;
   }
   else {
-    // With shuffle off the virtual items are in order, so the new items go to the same position.
+    // With shuffle off the virtual items are in order, so the new items go to the same position, inserted at once.
     // Album and grouping shuffle are reshuffled below.
-    for (int i = start; i <= end; ++i) {
-      virtual_items_.insert(i, i);
-    }
+    virtual_items_ = virtual_items_.first(start) + new_rows + virtual_items_.sliced(start);
   }
 
   endInsertRows();
