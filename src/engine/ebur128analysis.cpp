@@ -1,6 +1,7 @@
 /*
  * Strawberry Music Player
  * Copyright 2023 Roman Lebedev
+ * Copyright 2023-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +24,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <optional>
+#include <atomic>
 #include <tuple>
 #include <vector>
 #include <memory>
@@ -210,6 +212,9 @@ class EBUR128AnalysisImpl {
 
   std::optional<EBUR128State> state;
 
+  // Counted in the streaming thread, so the analysis only times out when decoding stops making progress, not when a long song takes long to decode.
+  std::atomic<quint64> buffers_received_{0};
+
   static void NewPadCallback(GstElement *elt, GstPad *pad, gpointer data);
   static GstFlowReturn NewBufferCallback(GstAppSink *app_sink, gpointer self);
 };
@@ -376,6 +381,8 @@ GstFlowReturn EBUR128AnalysisImpl::NewBufferCallback(GstAppSink *app_sink, gpoin
     }
   }
 
+  ++me->buffers_received_;
+
   return GST_FLOW_OK;
 
 }
@@ -480,13 +487,21 @@ std::optional<EBUR128Measures> EBUR128AnalysisImpl::Compute(const Song &song) {
   // Start playing
   gst_element_set_state(pipeline, GST_STATE_PLAYING);
 
-  // Wait until EOS or error
+  // Wait until EOS or error, as long as decoding makes progress, so long songs on slow storage are still analyzed.
   bool hadError = false;
-  GstMessage *msg = gst_bus_timed_pop_filtered(bus, kTimeoutSecs * GST_SECOND, static_cast<GstMessageType>(GST_MESSAGE_EOS | GST_MESSAGE_ERROR));
+  GstMessage *msg = nullptr;
+  quint64 buffers_received = 0;
+  while (true) {
+    msg = gst_bus_timed_pop_filtered(bus, kTimeoutSecs * GST_SECOND, static_cast<GstMessageType>(GST_MESSAGE_EOS | GST_MESSAGE_ERROR));
+    if (msg) break;
+    const quint64 new_buffers_received = impl.buffers_received_;
+    if (new_buffers_received == buffers_received) break;
+    buffers_received = new_buffers_received;
+  }
   if (!msg) {
     // The song is not completely analyzed, so the result would be wrong.
     hadError = true;
-    qLog(Error) << "Timed out processing" << song.url();
+    qLog(Error) << "Timed out processing" << song.url() << "after" << kTimeoutSecs << "seconds without progress";
   }
   else {
     if (msg->type == GST_MESSAGE_ERROR) {
