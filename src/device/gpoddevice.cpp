@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -273,8 +273,8 @@ bool GPodDevice::CopyToStorage(const CopyJob &job, QString &error_text) {
     qLog(Error) << error_text;
     Q_EMIT Error(error_text);
 
-    // Need to remove the track from the db again
-    itdb_track_remove(track);
+    // Need to remove the track from the db again, and from the master playlist it was added to.
+    RemoveTrackFromITunesDb(track);
     return false;
   }
 
@@ -378,19 +378,26 @@ bool GPodDevice::RemoveTrackFromITunesDb(const QString &path, const QString &rel
     return false;
   }
 
-  // Remove the track from all playlists
+  RemoveTrackFromITunesDb(track);
+
+  return true;
+
+}
+
+void GPodDevice::RemoveTrackFromITunesDb(Itdb_Track *track) {
+
+  // Remove the track from all playlists first, since itdb_track_remove() only removes it from the track list, so the playlists would keep a pointer to the freed track.
   for (GList *playlists = db_->playlists; playlists != nullptr; playlists = playlists->next) {
     Itdb_Playlist *playlist = static_cast<Itdb_Playlist*>(playlists->data);
 
-    if (itdb_playlist_contains_track(playlist, track)) {
+    // itdb_playlist_remove_track() only removes the first occurrence, and a playlist can contain the same track more than once.
+    while (itdb_playlist_contains_track(playlist, track)) {
       itdb_playlist_remove_track(playlist, track);
     }
   }
 
   // Remove the track from the database, this frees the struct too
   itdb_track_remove(track);
-
-  return true;
 
 }
 
