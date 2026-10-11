@@ -28,6 +28,7 @@
 #include <QJsonObject>
 
 #include "core/logging.h"
+#include "utilities/strutils.h"
 #include "networkaccessmanager.h"
 #include "httpbaserequest.h"
 
@@ -170,7 +171,7 @@ HttpBaseRequest::ReplyDataResult HttpBaseRequest::GetReplyData(QNetworkReply *re
     if (reply->error() >= 200) {
       reply->readAll(); // QTBUG-135641
     }
-    return ReplyDataResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    return ReplyDataResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(Utilities::RedactUrls(reply->errorString()), QString::number(reply->error())));
   }
 
   if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).isValid()) {

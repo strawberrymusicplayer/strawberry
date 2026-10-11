@@ -44,6 +44,7 @@
 #include "core/networkaccessmanager.h"
 #include "constants/timeconstants.h"
 #include "utilities/imageutils.h"
+#include "utilities/strutils.h"
 #include "utilities/coverutils.h"
 #include "qobuzservice.h"
 #include "qobuzurlhandler.h"
@@ -1399,7 +1400,7 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
   }
 
   if (reply->error() != QNetworkReply::NoError) {
-    Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    Error(QStringLiteral("%1 (%2)").arg(Utilities::RedactUrls(reply->errorString()), QString::number(reply->error())));
     if (album_covers_requests_sent_.contains(cover_url)) album_covers_requests_sent_.remove(cover_url);
     return;
   }

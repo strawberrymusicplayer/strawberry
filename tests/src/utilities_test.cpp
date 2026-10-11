@@ -333,6 +333,9 @@ TEST(UtilitiesTest, RedactUrls) {
   EXPECT_EQ(Utilities::RedactUrls(u"Could not open file:///music/100%.flac for reading."_s), u"Could not open file:///music/100%.flac for reading."_s);
   EXPECT_EQ(Utilities::RedactUrls(u"First http://a.example.com/x?t=1 and second https://user:pw@b.example.com/y"_s), u"First http://a.example.com/x and second https://b.example.com/y"_s);
   EXPECT_EQ(Utilities::RedactUrls(u"No URL here."_s), u"No URL here."_s);
+  // Subsonic and Qobuz send the credentials in the query, and QNetworkReply::errorString() includes the URL for HTTP errors.
+  EXPECT_EQ(Utilities::RedactUrls(u"Error transferring https://example.com/rest/getCoverArt?u=user&p=enc:736563726574&v=1.13.0&c=Strawberry&f=json&id=al-1 - server replied: Not Found"_s), u"Error transferring https://example.com/rest/getCoverArt - server replied: Not Found"_s);
+  EXPECT_EQ(Utilities::RedactUrls(u"Error transferring https://example.com/rest/ping?u=user&t=26719a1196d2a940705a59634eb18eab&s=c19b2d - server replied: Unauthorized"_s), u"Error transferring https://example.com/rest/ping - server replied: Unauthorized"_s);
 
 }
 
