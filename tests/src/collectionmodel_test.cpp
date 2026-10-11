@@ -26,9 +26,12 @@
 
 #include <QMap>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 #include <QThread>
 #include <QSignalSpy>
+#include <QHash>
+#include <QSet>
 #include <QTimer>
 #include <QEventLoop>
 #include <QElapsedTimer>
@@ -395,6 +398,86 @@ TEST_F(CollectionModelTest, BulkUpdateSuppressesPerRowSignals) {
   EXPECT_GE(spy_layout.count(), 1);
   EXPECT_EQ(0, spy_reset.count());
   EXPECT_EQ(n + 1, static_cast<int>(model_->song_nodes().count()));
+
+}
+
+// Regression test: removing many scattered siblings under one parent in bulk mode must leave the remaining siblings at consecutive rows, addressable through the model.
+TEST_F(CollectionModelTest, BulkRemoveScatteredSiblings) {
+
+  AddSong(u"seed"_s, u"seed"_s, u"seed"_s, 1);
+
+  // All songs in one album, so they are siblings under the same album node.
+  const int n = 2400;
+  SongList songs;
+  songs.reserve(n);
+  for (int i = 0; i < n; ++i) {
+    Song song;
+    song.Init(u"sibling_"_s + QString::number(i), u"sibling_artist"_s, u"sibling_album"_s, 123);
+    song.set_albumartist(u"sibling_artist"_s);
+    song.set_directory_id(1);
+    song.set_mtime(1);
+    song.set_ctime(1);
+    song.set_url(QUrl(u"file:///tmp/sibling_"_s + QString::number(i) + u".flac"_s));
+    song.set_filesize(1);
+    songs << song;  // clazy:exclude=reserve-candidates
+  }
+  backend_->AddOrUpdateSongs(songs);
+  Drain();
+
+  QHash<int, CollectionItem*> nodes_by_number;
+  const QList<CollectionItem*> song_nodes = model_->song_nodes();
+  for (CollectionItem *node : song_nodes) {
+    if (node->metadata.title().startsWith(u"sibling_"_s)) {
+      nodes_by_number.insert(node->metadata.title().mid(8).toInt(), node);
+    }
+  }
+  ASSERT_EQ(n, nodes_by_number.count());
+  CollectionItem *album = nodes_by_number.value(0)->parent;
+  ASSERT_TRUE(album);
+  ASSERT_EQ(n, album->children.count());
+
+  // Remove every other song, which is more than the bulk threshold, and scattered over the siblings.
+  SongList songs_to_delete;
+  for (int i = 0; i < n; i += 2) {
+    songs_to_delete << nodes_by_number.value(i)->metadata;
+  }
+
+  // The remaining siblings must keep their order, so expect the current order without the removed songs.
+  QStringList expected_titles;
+  for (CollectionItem *child : std::as_const(album->children)) {
+    if (child->metadata.title().mid(8).toInt() % 2 == 1) {
+      expected_titles << child->metadata.title();
+    }
+  }
+
+  // A persistent index of a remaining song must be moved to its new row.
+  CollectionItem *kept_node = nodes_by_number.value(n - 1);
+  const QPersistentModelIndex kept_index(model_->ItemToIndex(kept_node));
+  ASSERT_TRUE(kept_index.isValid());
+
+  QSignalSpy spy_layout(&*model_, &CollectionModel::layoutChanged);
+  backend_->DeleteSongs(songs_to_delete);
+  Drain();
+  EXPECT_GE(spy_layout.count(), 1);
+
+  // The remaining siblings are at consecutive rows, and each row is addressable through the model.
+  ASSERT_EQ(n / 2, album->children.count());
+  const QModelIndex album_index = model_->ItemToIndex(album);
+  ASSERT_EQ(n / 2, model_->rowCount(album_index));
+  QStringList titles;
+  for (int row = 0; row < album->children.count(); ++row) {
+    CollectionItem *child = album->children[row];
+    EXPECT_EQ(row, child->row);
+    const QModelIndex child_index = model_->index(row, 0, album_index);
+    EXPECT_EQ(child, model_->IndexToItem(child_index));
+    EXPECT_EQ(album_index, model_->parent(child_index));
+    titles << child->metadata.title();
+  }
+  EXPECT_EQ(expected_titles, titles);
+
+  ASSERT_TRUE(kept_index.isValid());
+  EXPECT_EQ(kept_node, model_->IndexToItem(kept_index));
+  EXPECT_EQ(kept_node->row, kept_index.row());
 
 }
 
