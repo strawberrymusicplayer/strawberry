@@ -1177,7 +1177,13 @@ void GstEnginePipeline::ElementAddedCallback(GstBin *bin, GstBin *sub_bin, GstEl
   const QString element_name = QString::fromUtf8(element_name_char);
   g_free(element_name_char);
 
-  if (bin != GST_BIN(instance->audiobin_) || element_name == "fake-audio-sink"_L1 || GST_ELEMENT(gst_element_get_parent(element)) != instance->audiosink_) return;
+  if (bin != GST_BIN(instance->audiobin_) || element_name == "fake-audio-sink"_L1) return;
+
+  // gst_element_get_parent() returns a new reference, which must be released.
+  GstObject *parent = gst_element_get_parent(element);
+  const bool parent_is_audiosink = parent && GST_ELEMENT(parent) == instance->audiosink_;
+  if (parent) gst_object_unref(parent);
+  if (!parent_is_audiosink) return;
 
   GstElement *volume = nullptr;
   if (GST_IS_STREAM_VOLUME(element)) {
