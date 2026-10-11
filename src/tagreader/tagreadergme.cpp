@@ -278,7 +278,8 @@ bool GME::VGM::GetPlaybackLength(const QByteArray &sample_count_bytes, const QBy
 
   quint64 loop_sample_count = GME::UnpackBytes32(loop_count_bytes.constData(), static_cast<size_t>(loop_count_bytes.size()));
 
-  if (loop_sample_count == 0) {
+  // The loop is part of the samples, a longer loop is invalid, and would make the intro length underflow, so ignore the loop then.
+  if (loop_sample_count == 0 || loop_sample_count > sample_count) {
     out_length = sample_count * 1000 / SAMPLE_TIMEBASE;
     return true;
   }
