@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -185,5 +185,45 @@ TEST_F(OrganizeFormatTest, ReplaceSlashes) {
   format_.set_format(u"%title"_s);
   song_.set_title(u"foo/bar\\baz"_s);
   EXPECT_EQ(u"foobarbaz"_s, format_.GetFilenameForSong(song_).filename);
+
+}
+
+// Regression test: tag values made of dots must not become ".." in the path, which would point outside the destination directory.
+TEST_F(OrganizeFormatTest, DotsInTags) {
+
+  format_.set_remove_problematic(false);
+  format_.set_format(u"%artist/%album/%title"_s);
+  song_.set_url(QUrl::fromLocalFile(u"/music/original.flac"_s));
+  song_.set_basefilename(u"original.flac"_s);
+
+  song_.set_artist(u"..."_s);
+  song_.set_album(u". .."_s);
+  song_.set_title(u"title"_s);
+  EXPECT_EQ(u"title.flac"_s, format_.GetFilenameForSong(song_).filename);
+
+  song_.set_artist(u"...artist"_s);
+  song_.set_album(u".. album"_s);
+  EXPECT_EQ(u"artist/album/title.flac"_s, format_.GetFilenameForSong(song_).filename);
+
+  // When nothing is left of the filename, the original filename is used, not a hidden file with the extension only.
+  song_.set_artist(u"artist"_s);
+  song_.set_album(u"album"_s);
+  song_.set_title(u"..."_s);
+  EXPECT_EQ(u"artist/album/original.flac"_s, format_.GetFilenameForSong(song_).filename);
+
+}
+
+// Regression test: when the original filename is used because nothing is left of the filename, the same characters must be removed from it.
+TEST_F(OrganizeFormatTest, FallbackFilenameIsFiltered) {
+
+  format_.set_remove_problematic(true);
+  format_.set_format(u"%artist/%album/%title"_s);
+  song_.set_url(QUrl::fromLocalFile(u"/music/bad:name?.flac"_s));
+  song_.set_basefilename(u"bad:name?.flac"_s);
+  song_.set_artist(u"artist"_s);
+  song_.set_album(u"album"_s);
+  song_.set_title(u"?"_s);
+
+  EXPECT_EQ(u"artist/album/badname.flac"_s, format_.GetFilenameForSong(song_).filename);
 
 }
