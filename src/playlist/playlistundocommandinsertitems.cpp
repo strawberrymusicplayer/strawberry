@@ -44,15 +44,13 @@ void PlaylistUndoCommandInsertItems::undo() {
 
 }
 
-bool PlaylistUndoCommandInsertItems::UpdateItem(const PlaylistItemPtr &updated_item) {
+void PlaylistUndoCommandInsertItems::ReplaceItems(const QHash<const PlaylistItem*, PlaylistItemPtr> &replacements) {
 
-  for (int i = 0; i < items_.size(); i++) {
-    PlaylistItemPtr item = items_.value(i);
-    if (item->EffectiveMetadata().url() == updated_item->EffectiveMetadata().url()) {
-      items_[i] = updated_item;
-      return true;
+  for (PlaylistItemPtr &item : items_) {
+    const QHash<const PlaylistItem*, PlaylistItemPtr>::const_iterator it = replacements.constFind(&*item);
+    if (it != replacements.constEnd()) {
+      item = it.value();
     }
   }
-  return false;
 
 }

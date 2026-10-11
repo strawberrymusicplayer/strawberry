@@ -996,6 +996,52 @@ TEST_F(PlaylistTest, RedoAutoSortedInsertKeepsLoadedItem) {
 
 }
 
+// Regression test: updating items must give the songs with the same URL, like the tracks of a CUE sheet, to the items with that URL in order, leave items without a song alone, and replace the items in the sort commands.
+TEST_F(PlaylistTest, UpdateItemsMatchesSongsByUrlInOrder) {
+
+  const auto make_song = [](const QString &title, const QString &filename) {
+    Song song;
+    song.Init(title, u"Artist"_s, u"Album"_s, 123);
+    song.set_url(QUrl::fromLocalFile(u"/tmp/"_s + filename));
+    return song;
+  };
+
+  playlist_.InsertItems(PlaylistItemPtrList()
+                        << std::make_shared<SongPlaylistItem>(make_song(u"A"_s, u"image.flac"_s))
+                        << std::make_shared<SongPlaylistItem>(make_song(u"B"_s, u"other.flac"_s))
+                        << std::make_shared<SongPlaylistItem>(make_song(u"C"_s, u"image.flac"_s)), -1);
+  playlist_.sort(static_cast<int>(Playlist::Column::Title), Qt::DescendingOrder);
+  ASSERT_EQ(u"C"_s, TitleAt(playlist_, 0));
+  ASSERT_EQ(u"B"_s, TitleAt(playlist_, 1));
+  ASSERT_EQ(u"A"_s, TitleAt(playlist_, 2));
+
+  // The two loaded tracks of image.flac are used for the items with that URL in playlist order, other.flac has no song.
+  playlist_.UpdateItems(SongList() << make_song(u"Track 1"_s, u"image.flac"_s) << make_song(u"Track 2"_s, u"image.flac"_s));
+  EXPECT_EQ(u"Track 1"_s, TitleAt(playlist_, 0));
+  EXPECT_EQ(u"B"_s, TitleAt(playlist_, 1));
+  EXPECT_EQ(u"Track 2"_s, TitleAt(playlist_, 2));
+
+  // Undoing and redoing the sort keeps the loaded items.
+  playlist_.undo_stack()->undo();
+  EXPECT_EQ(u"Track 2"_s, TitleAt(playlist_, 0));
+  EXPECT_EQ(u"B"_s, TitleAt(playlist_, 1));
+  EXPECT_EQ(u"Track 1"_s, TitleAt(playlist_, 2));
+  playlist_.undo_stack()->redo();
+  EXPECT_EQ(u"Track 1"_s, TitleAt(playlist_, 0));
+  EXPECT_EQ(u"Track 2"_s, TitleAt(playlist_, 2));
+
+  // Undoing and redoing the insert keeps each loaded item too, also for the items sharing a URL.
+  playlist_.undo_stack()->undo();
+  playlist_.undo_stack()->undo();
+  ASSERT_EQ(0, playlist_.rowCount(QModelIndex()));
+  playlist_.undo_stack()->redo();
+  ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
+  EXPECT_EQ(u"Track 2"_s, TitleAt(playlist_, 0));
+  EXPECT_EQ(u"B"_s, TitleAt(playlist_, 1));
+  EXPECT_EQ(u"Track 1"_s, TitleAt(playlist_, 2));
+
+}
+
 // Regression test: an auto-sorted insert too large for the undo stack must still be sorted, and must leave the undo stack empty.
 TEST_F(PlaylistTest, LargeAutoSortedInsertIsSortedAndClearsUndoStack) {
 

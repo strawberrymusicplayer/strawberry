@@ -20,6 +20,8 @@
 #ifndef PLAYLISTUNDOCOMMANDINSERTITEMS_H
 #define PLAYLISTUNDOCOMMANDINSERTITEMS_H
 
+#include <QHash>
+
 #include "playlistundocommandbase.h"
 #include "playlistitem.h"
 
@@ -30,9 +32,8 @@ class PlaylistUndoCommandInsertItems : public PlaylistUndoCommandBase {
   void undo() override;
   void redo() override;
   // When load is async, items have already been pushed, so we need to update them.
-  // This function try to find the equivalent item, and replace it with the new (completely loaded) one.
-  // Return true if the was found (and updated), false otherwise
-  bool UpdateItem(const PlaylistItemPtr &updated_item);
+  // Replaces the old items with the new (completely loaded) items, matched by the item itself, not the URL, which items such as the tracks of a CUE sheet share.
+  void ReplaceItems(const QHash<const PlaylistItem*, PlaylistItemPtr> &replacements);
 
  private:
   PlaylistItemPtrList items_;

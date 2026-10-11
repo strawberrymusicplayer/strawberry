@@ -20,6 +20,8 @@
 #ifndef PLAYLISTUNDOCOMMANDREORDERITEMS_H
 #define PLAYLISTUNDOCOMMANDREORDERITEMS_H
 
+#include <QHash>
+
 #include "playlistundocommandbase.h"
 #include "playlistitem.h"
 
@@ -32,8 +34,8 @@ class PlaylistUndoCommandReOrderItems : public PlaylistUndoCommandBase {
   void undo() override;
   void redo() override;
 
-  // Replaces old_item with new_item in the stored item orders, so undo and redo keep an item that was replaced after the command was pushed.
-  void ReplaceItem(const PlaylistItemPtr &old_item, const PlaylistItemPtr &new_item);
+  // Replaces the old items with the new items in the stored item orders, so undo and redo keep items that were replaced after the command was pushed.
+  void ReplaceItems(const QHash<const PlaylistItem*, PlaylistItemPtr> &replacements);
 
  private:
   PlaylistItemPtrList old_items_;
