@@ -993,7 +993,7 @@ TEST_F(PlaylistTest, LargeAutoSortedInsertIsSortedAndClearsUndoStack) {
   PlaylistItemPtrList items;
   const int count = Playlist::kUndoItemLimit + 1;
   for (int i = count - 1; i >= 0; --i) {
-    items << MakeMockItemP(u"T%1"_s.arg(i, 4, 10, u'0'));
+    items << MakeMockItemP(u"T%1"_s.arg(i, 4, 10, QLatin1Char('0')));
   }
   playlist_.InsertItems(items, -1);
 
@@ -1001,7 +1001,7 @@ TEST_F(PlaylistTest, LargeAutoSortedInsertIsSortedAndClearsUndoStack) {
   EXPECT_EQ(u"A"_s, TitleAt(playlist_, 0));
   EXPECT_EQ(u"B"_s, TitleAt(playlist_, 1));
   for (int i = 0; i < count; ++i) {
-    EXPECT_EQ(u"T%1"_s.arg(i, 4, 10, u'0'), TitleAt(playlist_, i + 2));
+    EXPECT_EQ(u"T%1"_s.arg(i, 4, 10, QLatin1Char('0')), TitleAt(playlist_, i + 2));
   }
   EXPECT_EQ(0, playlist_.undo_stack()->count());
 
