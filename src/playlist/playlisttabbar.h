@@ -126,6 +126,8 @@ class PlaylistTabBar : public QTabBar {
 
   // Editor for inline renaming
   RenameTabLineEdit *rename_editor_;
+  // The playlist being renamed inline, kept by id since tabs can be closed or moved while the editor is open.
+  int rename_playlist_id_;
 };
 
 #endif  // PLAYLISTTABBAR_H
