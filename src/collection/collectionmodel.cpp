@@ -28,6 +28,7 @@
 
 #include <QObject>
 #include <QtGlobal>
+#include <QtAlgorithms>
 #include <QtConcurrentRun>
 #include <QThread>
 #include <QMutex>
@@ -864,6 +865,25 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
 
 void CollectionModel::RemoveSiblingNodes(CollectionItem *parent, QList<CollectionItem*> nodes) {
 
+  if (bulk_mode_) {
+    // No rows are removed one range at a time in bulk mode, it ends with one layout change, so take all the nodes out in one pass and number the remaining rows once.
+    // Renumbering after each range would go through all the rows after it for each range.
+    const QSet<CollectionItem*> nodes_to_remove(nodes.begin(), nodes.end());
+    QList<CollectionItem*> remaining_children;
+    remaining_children.reserve(parent->children.count() - nodes_to_remove.count());
+    for (CollectionItem *child : std::as_const(parent->children)) {
+      if (nodes_to_remove.contains(child)) {
+        delete child;
+      }
+      else {
+        child->row = static_cast<int>(remaining_children.count());
+        remaining_children << child;
+      }
+    }
+    parent->children = remaining_children;
+    return;
+  }
+
   // Sort by row descending so each contiguous-range removal doesn't shift later ranges.
   std::sort(nodes.begin(), nodes.end(), [](CollectionItem *a, CollectionItem *b) {
     return a->row > b->row;
@@ -880,14 +900,14 @@ void CollectionModel::RemoveSiblingNodes(CollectionItem *parent, QList<Collectio
     }
     const int bottom_row = top_row - run_count + 1;
 
-    if (!bulk_mode_) beginRemoveRows(parent_index, bottom_row, top_row);
-    for (int r = top_row; r >= bottom_row; --r) {
-      delete parent->children.takeAt(r);
-    }
+    // The rows after the range must be numbered right before endRemoveRows(), views and proxies can map their items while handling the removal.
+    beginRemoveRows(parent_index, bottom_row, top_row);
+    qDeleteAll(parent->children.cbegin() + bottom_row, parent->children.cbegin() + top_row + 1);
+    parent->children.remove(bottom_row, run_count);
     for (int r = bottom_row; r < parent->children.count(); ++r) {
       parent->children[r]->row = r;
     }
-    if (!bulk_mode_) endRemoveRows();
+    endRemoveRows();
 
     i += run_count;
   }
