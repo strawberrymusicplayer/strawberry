@@ -1222,7 +1222,7 @@ void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
       }
 
       for (int dest_row : dest_rows) {
-        if (pidx.row() + d > dest_row) d++;
+        if (pidx.row() + d >= dest_row) d++;
       }
 
       changePersistentIndex(pidx, index(pidx.row() + d, pidx.column(), QModelIndex()));
