@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 #include "gtest_include.h"
 
 #include <QFileInfo>
+#include <QSet>
 #include <QSignalSpy>
 #include <QThread>
 #include <QtDebug>
@@ -979,6 +980,102 @@ TEST_F(ChangeDirPath, RewritesSubdirectoryPaths) {
     ASSERT_EQ(1, subdirs.count());
     EXPECT_EQ(u"/mnt/newmusic/album"_s, subdirs[0].path);
   }
+
+}
+
+// Songs in several directories are added and updated in one call, songs in a directory that doesn't exist and songs with an ID that doesn't exist are skipped.
+TEST_F(CollectionBackendTest, AddOrUpdateSongsInSeveralDirectories) {
+
+  backend_->AddDirectory(u"/tmp/a"_s);
+  backend_->AddDirectory(u"/tmp/b"_s);
+
+  Song song_a1 = MakeDummySong(1);
+  song_a1.set_url(QUrl::fromLocalFile(u"/tmp/a/1.flac"_s));
+  song_a1.set_title(u"A1"_s);
+  Song song_a2 = MakeDummySong(1);
+  song_a2.set_url(QUrl::fromLocalFile(u"/tmp/a/2.flac"_s));
+  song_a2.set_title(u"A2"_s);
+  Song song_b1 = MakeDummySong(2);
+  song_b1.set_url(QUrl::fromLocalFile(u"/tmp/b/1.flac"_s));
+  song_b1.set_title(u"B1"_s);
+  Song song_missing_directory = MakeDummySong(99);
+  song_missing_directory.set_url(QUrl::fromLocalFile(u"/tmp/c/1.flac"_s));
+  song_missing_directory.set_title(u"C1"_s);
+
+  QSignalSpy added_spy(&*backend_, &CollectionBackend::SongsAdded);
+  backend_->AddOrUpdateSongs(SongList() << song_a1 << song_missing_directory << song_a2 << song_b1);
+
+  ASSERT_EQ(1, added_spy.size());
+  SongList added_songs = *(reinterpret_cast<SongList*>(added_spy[0][0].data()));
+  ASSERT_EQ(3, added_songs.size());
+  EXPECT_EQ(u"A1"_s, added_songs[0].title());
+  EXPECT_EQ(u"A2"_s, added_songs[1].title());
+  EXPECT_EQ(u"B1"_s, added_songs[2].title());
+  EXPECT_EQ(3, backend_->GetAllSongs().count());
+
+  // Update the added songs, and a song with an ID that doesn't exist.
+  SongList updated_songs;
+  for (Song song : added_songs) {
+    song.set_title(song.title() + u" updated"_s);
+    updated_songs << song;
+  }
+  Song song_missing_id = MakeDummySong(1);
+  song_missing_id.set_id(999);
+  song_missing_id.set_url(QUrl::fromLocalFile(u"/tmp/a/999.flac"_s));
+  updated_songs.insert(1, song_missing_id);
+
+  QSignalSpy added_spy2(&*backend_, &CollectionBackend::SongsAdded);
+  QSignalSpy changed_spy(&*backend_, &CollectionBackend::SongsChanged);
+  backend_->AddOrUpdateSongs(updated_songs);
+
+  EXPECT_EQ(0, added_spy2.size());
+  ASSERT_EQ(1, changed_spy.size());
+  const SongList changed_songs = *(reinterpret_cast<SongList*>(changed_spy[0][0].data()));
+  ASSERT_EQ(3, changed_songs.size());
+  EXPECT_EQ(u"A1 updated"_s, changed_songs[0].title());
+  EXPECT_EQ(u"A2 updated"_s, changed_songs[1].title());
+  EXPECT_EQ(u"B1 updated"_s, changed_songs[2].title());
+  EXPECT_EQ(3, backend_->GetAllSongs().count());
+  EXPECT_EQ(u"B1 updated"_s, backend_->GetSongById(added_songs[2].id()).title());
+
+}
+
+// Regression test: CUE sheet songs share the URL of the file, each of them must be marked as a compilation and reported changed once only.
+TEST_F(CollectionBackendTest, CompilationsNeedUpdatingSharedUrl) {
+
+  backend_->AddDirectory(u"/tmp"_s);
+
+  SongList songs;
+  for (int i = 0; i < 3; ++i) {
+    Song song = MakeDummySong(1);
+    song.set_url(QUrl::fromLocalFile(u"/tmp/album/image.flac"_s));
+    song.set_cue_path(u"/tmp/album/image.cue"_s);
+    song.set_beginning_nanosec(i * 60 * kNsecPerSec);
+    song.set_title(u"Track %1"_s.arg(i + 1));
+    song.set_artist(u"Artist %1"_s.arg(i + 1));
+    song.set_album(u"Album"_s);
+    songs << song;
+  }
+  backend_->AddOrUpdateSongs(songs);
+  ASSERT_EQ(3, backend_->GetAllSongs().count());
+
+  QSignalSpy changed_spy(&*backend_, &CollectionBackend::SongsChanged);
+  backend_->CompilationsNeedUpdating();
+
+  ASSERT_EQ(1, changed_spy.size());
+  const SongList changed_songs = *(reinterpret_cast<SongList*>(changed_spy[0][0].data()));
+  ASSERT_EQ(3, changed_songs.size());
+  QSet<int> ids;
+  for (const Song &song : changed_songs) {
+    EXPECT_TRUE(song.compilation_detected());
+    ids << song.id();
+  }
+  EXPECT_EQ(3, ids.size());
+
+  // The songs are marked already, so nothing changes the next time.
+  QSignalSpy changed_spy2(&*backend_, &CollectionBackend::SongsChanged);
+  backend_->CompilationsNeedUpdating();
+  EXPECT_EQ(0, changed_spy2.size());
 
 }
 
