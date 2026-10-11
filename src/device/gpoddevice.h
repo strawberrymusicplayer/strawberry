@@ -86,7 +86,7 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   bool FinishDelete(bool success, QString &error_text) override;
 
  protected Q_SLOTS:
-  void LoadFinished(Itdb_iTunesDB *db, const bool success);
+  void LoadFinished(const bool success);
   void LoaderError(const QString &message);
 
  protected:
