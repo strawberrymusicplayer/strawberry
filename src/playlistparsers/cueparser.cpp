@@ -122,8 +122,9 @@ ParserBase::LoadResult CueParser::Load(QIODevice *device, const QString &playlis
         album_composer = line_value;
       }
       else if (line_name.compare(QLatin1String(kRem), Qt::CaseInsensitive) == 0) {
+        // A comment without a value, skip it, but stay in the header.
         if (splitted.size() < 3) {
-          break;
+          continue;
         }
         if (line_value.compare(QLatin1String(kGenre), Qt::CaseInsensitive) == 0) {
           album_genre = splitted[2];
