@@ -372,6 +372,9 @@ GstFlowReturn EBUR128AnalysisImpl::NewBufferCallback(GstAppSink *app_sink, gpoin
     return GST_FLOW_ERROR;
   }
 
+  // Recorded when the buffer arrives, before processing it, so the time processing takes doesn't count as time without progress.
+  me->last_buffer_time_usec_ = g_get_monotonic_time();
+
   GstBuffer *buffer = gst_sample_get_buffer(&*sample);
   if (buffer) {
     GstMapInfo map;
@@ -380,8 +383,6 @@ GstFlowReturn EBUR128AnalysisImpl::NewBufferCallback(GstAppSink *app_sink, gpoin
       gst_buffer_unmap(buffer, &map);
     }
   }
-
-  me->last_buffer_time_usec_ = g_get_monotonic_time();
 
   return GST_FLOW_OK;
 
