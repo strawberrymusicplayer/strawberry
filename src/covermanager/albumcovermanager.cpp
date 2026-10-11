@@ -837,6 +837,8 @@ void AlbumCoverManager::SaveImageToAlbums(Song *song, const AlbumCoverImageResul
       if (cover_url.isEmpty() || !cover_url.isValid() || !cover_url.isLocalFile()) {
         cover_url = album_cover_choice_controller_->SaveCoverToFileAutomatic(song, result);
       }
+      // Saving the cover failed, keep the existing covers instead of clearing them.
+      if (cover_url.isEmpty()) return;
       break;
     case CoverOptions::CoverType::Embedded:
       cover_url.clear();

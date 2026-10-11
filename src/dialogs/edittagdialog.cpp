@@ -1491,8 +1491,17 @@ void EditTagDialog::SaveData() {
                 }
               }
             }
-            ref.current_.set_art_manual(cover_url);
-            ref.current_.set_art_unset(false);
+            if (cover_url.isValid()) {
+              ref.current_.set_art_manual(cover_url);
+              ref.current_.set_art_unset(false);
+            }
+            else {
+              // Saving the cover failed, UpdateCover() already cleared the cover when it was chosen, so restore the existing cover instead of clearing it.
+              ref.current_.set_art_manual(ref.original_.art_manual());
+              ref.current_.set_art_unset(ref.original_.art_unset());
+              // The cover is not changed, so writing the other tags must not handle it as a new cover either.
+              ref.cover_action_ = UpdateCoverAction::None;
+            }
           }
           break;
         }
