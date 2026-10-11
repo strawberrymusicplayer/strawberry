@@ -222,14 +222,16 @@ void CollectionBackend::ChangeDirPath(const int id, const QString &old_path, con
 
   // SQLite substr() is 1-indexed, so start one character past the old prefix to drop it.
   // The subdirectories table stores plain filesystem paths, while the songs table stores file:// URLs, so each needs its own prefix and offset.
-  const qint64 subdir_substr_start = old_path.length() + 1;
+  // The URLs are percent encoded, so their length is the same in SQLite and here.
   const qint64 song_substr_start = old_url.length() + 1;
 
   // Do the subdirs table (paths are plain filesystem paths)
   {
+    // SQLite counts the characters of the old path itself, it counts code points, while QString::length() counts UTF-16 code units, which differ for characters such as emoji.
     SqlQuery q(db);
-    q.prepare(QStringLiteral("UPDATE %1 SET path=:path || substr(path, %2) WHERE directory_id=:id").arg(subdirs_table_).arg(subdir_substr_start));
+    q.prepare(QStringLiteral("UPDATE %1 SET path=:path || substr(path, length(:old_path) + 1) WHERE directory_id=:id").arg(subdirs_table_));
     q.BindValue(u":path"_s, new_path);
+    q.BindValue(u":old_path"_s, old_path);
     q.BindValue(u":id"_s, id);
     if (!q.Exec()) {
       db_->ReportErrors(q);

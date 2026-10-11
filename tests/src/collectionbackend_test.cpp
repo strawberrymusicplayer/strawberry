@@ -983,6 +983,35 @@ TEST_F(ChangeDirPath, RewritesSubdirectoryPaths) {
 
 }
 
+// Regression test: renaming a directory whose path has characters outside the Basic Multilingual Plane must not cut characters off the subdirectory paths.
+// SQLite counts these as one character, while QString counts two UTF-16 code units.
+TEST_F(CollectionBackendTest, ChangeDirPathWithNonBmpCharacters) {
+
+  const QString old_path = u"/mnt/\U0001F3B5music"_s;
+  backend_->AddDirectory(old_path);  // Gets directory ID 1.
+
+  CollectionSubdirectory subdir;
+  subdir.directory_id = 1;
+  subdir.path = old_path + u"/album"_s;
+  subdir.mtime = 1;
+  backend_->AddOrUpdateSubdirs(CollectionSubdirectoryList() << subdir);
+
+  Song song = MakeDummySong(1);
+  song.set_url(QUrl::fromLocalFile(old_path + u"/album/song.flac"_s));
+  backend_->AddOrUpdateSongs(SongList() << song);
+
+  backend_->ChangeDirPath(1, old_path, u"/mnt/newmusic"_s);
+
+  const CollectionSubdirectoryList subdirs = backend_->SubdirsInDirectory(1);
+  ASSERT_EQ(1, subdirs.count());
+  EXPECT_EQ(u"/mnt/newmusic/album"_s, subdirs[0].path);
+
+  const SongList songs = backend_->FindSongsInDirectory(1);
+  ASSERT_EQ(1, songs.count());
+  EXPECT_EQ(QUrl::fromLocalFile(u"/mnt/newmusic/album/song.flac"_s), songs[0].url());
+
+}
+
 // Songs in several directories are added and updated in one call, songs in a directory that doesn't exist and songs with an ID that doesn't exist are skipped.
 TEST_F(CollectionBackendTest, AddOrUpdateSongsInSeveralDirectories) {
 
