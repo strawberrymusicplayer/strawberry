@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@
 #include <QString>
 #include <QStringList>
 #include <QMimeData>
+#include <QCoreApplication>
 #include <QAbstractItemModel>
 #include <QAbstractProxyModel>
 
@@ -392,13 +393,28 @@ bool Queue::dropMimeData(const QMimeData *data, Qt::DropAction action, const int
 
     Playlist *playlist = nullptr;
     QList<int> source_rows;
+    qint64 pid = 0;
     QDataStream stream(data->data(QLatin1String(Playlist::kRowsMimetype)));
-    stream.readRawData(reinterpret_cast<char*>(&playlist), sizeof(&playlist));
+    // The data must be complete, including the process ID, which Playlist::mimeData() always writes, so data from another instance without it is not mistaken for this one.
+    if (stream.readRawData(reinterpret_cast<char*>(&playlist), sizeof(&playlist)) != static_cast<int>(sizeof(&playlist))) {
+      return false;
+    }
     stream >> source_rows;
+    if (stream.status() != QDataStream::Ok || stream.readRawData(reinterpret_cast<char*>(&pid), sizeof(pid)) != static_cast<int>(sizeof(pid))) {
+      return false;
+    }
+
+    // The queue can only contain rows of its own playlist, rows dragged from another playlist or another instance are different songs, or don't exist here.
+    // The pointer is only compared, it's not valid in another process.
+    if (pid != QCoreApplication::applicationPid() || playlist != sourceModel()) {
+      return false;
+    }
 
     QModelIndexList source_indexes;
     for (int source_row : std::as_const(source_rows)) {
       const QModelIndex source_index = sourceModel()->index(source_row, 0);
+      // Skip rows that don't exist (anymore), the playlist could have changed during the drag.
+      if (!source_index.isValid()) continue;
       const QModelIndex proxy_index = mapFromSource(source_index);
       if (proxy_index.isValid()) {
         // This row was already in the queue, so no need to add it again

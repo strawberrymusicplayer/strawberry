@@ -42,6 +42,9 @@
 
 #include <QtDebug>
 #include <QMimeData>
+#include <QByteArray>
+#include <QDataStream>
+#include <QIODevice>
 #include <QSet>
 #include <QStringList>
 #include <QPersistentModelIndex>
@@ -1689,6 +1692,47 @@ TEST_F(PlaylistTest, RemoveItemsNotInQueueClearsUndoStackWhenRemovingAll) {
   EXPECT_EQ(0, playlist_.rowCount(QModelIndex()));
   EXPECT_FALSE(playlist_.undo_stack()->canUndo());
   EXPECT_FALSE(playlist_.undo_stack()->canRedo());
+
+}
+
+// Regression test: the queue must only accept rows dragged from its own playlist, and skip rows that don't exist anymore.
+TEST_F(PlaylistTest, QueueDropOnlyAcceptsExistingRowsOfOwnPlaylist) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s) << MakeMockItemP(u"Three"_s));
+
+  // Rows dragged from another playlist are other songs, so they are not queued.
+  Playlist other_playlist(nullptr, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  other_playlist.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"A"_s) << MakeMockItemP(u"B"_s) << MakeMockItemP(u"C"_s) << MakeMockItemP(u"D"_s) << MakeMockItemP(u"E"_s));
+  {
+    ScopedPtr<QMimeData> mimedata(other_playlist.mimeData(QModelIndexList() << other_playlist.index(4, 0)));
+    ASSERT_TRUE(mimedata);
+    EXPECT_FALSE(playlist_.queue()->dropMimeData(mimedata.get(), Qt::CopyAction, -1, 0, QModelIndex()));
+    EXPECT_EQ(0, playlist_.queue()->rowCount(QModelIndex()));
+  }
+
+  // Data without the process ID is not accepted, even with the pointer of this playlist, it could come from another instance.
+  {
+    QByteArray rows_data;
+    QDataStream stream(&rows_data, QIODevice::WriteOnly);
+    const Playlist *playlist = &playlist_;
+    stream.writeRawData(reinterpret_cast<const char*>(&playlist), sizeof(&playlist));
+    stream << (QList<int>() << 0);
+    QMimeData mimedata;
+    mimedata.setData(QLatin1String(Playlist::kRowsMimetype), rows_data);
+    EXPECT_FALSE(playlist_.queue()->dropMimeData(&mimedata, Qt::CopyAction, -1, 0, QModelIndex()));
+    EXPECT_EQ(0, playlist_.queue()->rowCount(QModelIndex()));
+  }
+
+  // Rows of its own playlist that were removed during the drag are skipped, the others are queued.
+  {
+    ScopedPtr<QMimeData> mimedata(playlist_.mimeData(QModelIndexList() << playlist_.index(0, 0) << playlist_.index(2, 0)));
+    ASSERT_TRUE(mimedata);
+    ASSERT_TRUE(playlist_.removeRows(1, 2, QModelIndex()));
+    ASSERT_EQ(1, playlist_.rowCount(QModelIndex()));
+    EXPECT_TRUE(playlist_.queue()->dropMimeData(mimedata.get(), Qt::CopyAction, -1, 0, QModelIndex()));
+    EXPECT_EQ(1, playlist_.queue()->rowCount(QModelIndex()));
+    EXPECT_TRUE(playlist_.queue()->ContainsSourceRow(0));
+  }
 
 }
 
