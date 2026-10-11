@@ -76,7 +76,7 @@ QUrl CDDASongLoader::GetUrlFromTrack(int track_number) const {
     return QUrl(QStringLiteral("cdda://%1a").arg(track_number));
   }
 
-  return QUrl(QStringLiteral("cdda://%1/%2").arg(url_.path()).arg(track_number));
+  return QUrl(QStringLiteral("cdda://%1/%2").arg(url_.path(), QString::number(track_number)));
 
 }
 

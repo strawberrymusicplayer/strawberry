@@ -149,7 +149,7 @@ void DiscordRPC::ConnectToDiscord() {
 
   for (const QString &temp_path : std::as_const(temp_paths)) {
     for (int i = 0; i < 10; ++i) {
-      connection_paths_ << "%1/discord-ipc-%2"_L1.arg(temp_path).arg(i);
+      connection_paths_ << "%1/discord-ipc-%2"_L1.arg(temp_path, QString::number(i));
     }
   }
 #endif
