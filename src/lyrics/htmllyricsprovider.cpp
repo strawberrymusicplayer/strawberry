@@ -147,7 +147,14 @@ QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QR
           start_idx = rematch_end_tag.capturedEnd();
         }
       }
+      else {
+        // There are more start tags, but no end tags left, so the lyrics are never closed, and idx would not move forward.
+        break;
+      }
     } while (tags > 0 && (rematch_start_tag.hasMatch() || rematch_end_tag.hasMatch()));
+
+    // Without an end tag, start_idx is not moved forward, so searching again would find the same lyrics forever.
+    if (end_lyrics_idx == -1) break;
 
     if (end_lyrics_idx != -1 && start_lyrics_idx < end_lyrics_idx) {
       if (!lyrics.isEmpty()) {
