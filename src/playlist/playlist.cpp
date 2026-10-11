@@ -2565,8 +2565,10 @@ PlaylistItemPtrList Playlist::collection_items(const Song::Source source, const 
 void Playlist::TracksAboutToBeDequeued(const QModelIndex &idx, const int begin, const int end) {
 
   Q_UNUSED(idx)
+  Q_UNUSED(end)
 
-  for (int i = begin; i <= end; ++i) {
+  // The queue positions of the tracks after the removed ones change too.
+  for (int i = begin; i < queue_->rowCount(); ++i) {
     temp_dequeue_change_indexes_ << queue_->mapToSource(queue_->index(i, static_cast<int>(Column::Title)));
   }
 
@@ -2585,10 +2587,14 @@ void Playlist::TracksDequeued() {
 void Playlist::TracksEnqueued(const QModelIndex &parent_idx, const int begin, const int end) {
 
   Q_UNUSED(parent_idx)
+  Q_UNUSED(end)
 
-  const QModelIndex &b = queue_->mapToSource(queue_->index(begin, static_cast<int>(Column::Title)));
-  const QModelIndex &e = queue_->mapToSource(queue_->index(end, static_cast<int>(Column::Title)));
-  Q_EMIT dataChanged(b, e);
+  // The queued rows are not contiguous or in order in the playlist, so update each row instead of a range, which can be reversed.
+  // The queue positions of the tracks after the inserted ones changed too.
+  for (int i = begin; i < queue_->rowCount(); ++i) {
+    const QModelIndex idx = queue_->mapToSource(queue_->index(i, static_cast<int>(Column::Title)));
+    Q_EMIT dataChanged(idx, idx);
+  }
 
 }
 
