@@ -231,8 +231,9 @@ void MoodbarItemDelegate::DataLoaded(const QUrl &url, MoodbarPipelinePtr pipelin
 
   if (!pipeline->success()) {
     data->state_ = Data::State::CannotLoad;
+    // The rows may still show a previous pixmap while reloading, so repaint them without it.
     data->pixmap_ = QPixmap();
-    data->indexes_.clear();
+    RepaintIndexes(url, data);
     return;
   }
 
@@ -306,6 +307,18 @@ void MoodbarItemDelegate::ImageLoaded(const QUrl &url, const QImage &image) {
   data->pixmap_ = QPixmap::fromImage(image);
   data->state_ = Data::State::Loaded;
 
+  RepaintIndexes(url, data);
+
+  // If the style changed while rendering, the repaint loads the moodbar again with the new style.
+  if (data->reload_) {
+    data->reload_ = false;
+    data->state_ = Data::State::None;
+  }
+
+}
+
+void MoodbarItemDelegate::RepaintIndexes(const QUrl &url, Data *data) {
+
   Playlist *playlist = playlist_view_->playlist();
   const PlaylistFilter *filter = playlist->filter();
 
@@ -328,11 +341,5 @@ void MoodbarItemDelegate::ImageLoaded(const QUrl &url, const QImage &image) {
 
   // The rows have been told to repaint, so the indexes are no longer needed.
   data->indexes_.clear();
-
-  // If the style changed while rendering, the repaint loads the moodbar again with the new style.
-  if (data->reload_) {
-    data->reload_ = false;
-    data->state_ = Data::State::None;
-  }
 
 }

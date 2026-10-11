@@ -93,6 +93,7 @@ class MoodbarItemDelegate : public QItemDelegate {
   void StartLoadingImage(const QUrl &url, Data *data);
 
   bool RemoveFromCacheIfIndexesInvalid(const QUrl &url, Data *data);
+  void RepaintIndexes(const QUrl &url, Data *data);
 
   void ReloadAllColors();
 
