@@ -144,6 +144,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   void UpdateScope(int chunk_length);
 
   static void StreamDiscovered(GstDiscoverer *discoverer, GstDiscovererInfo *info, GError *error, gpointer self);
+  void StreamDiscoveredMetadata(const QByteArray &discovered_url, EngineMetadata engine_metadata);
   static void StreamDiscoveryFinished(GstDiscoverer *discoverer, gpointer self);
   static QString GSTdiscovererErrorMessage(GstDiscovererResult result);
 
