@@ -46,6 +46,7 @@
 #include <QDataStream>
 #include <QIODevice>
 #include <QSet>
+#include <QSignalSpy>
 #include <QStringList>
 #include <QPersistentModelIndex>
 #include <QTemporaryDir>
@@ -1733,6 +1734,43 @@ TEST_F(PlaylistTest, QueueDropOnlyAcceptsExistingRowsOfOwnPlaylist) {
     EXPECT_EQ(1, playlist_.queue()->rowCount(QModelIndex()));
     EXPECT_TRUE(playlist_.queue()->ContainsSourceRow(0));
   }
+
+}
+
+// Regression test: the queue markers of each queued track must be updated, the queued tracks are not in order in the playlist, so one range from the first to the last could be reversed, and was ignored.
+// The tracks after added or removed ones get a new queue position, so they must be updated too.
+TEST_F(PlaylistTest, QueueMarkersUpdatedForEachQueuedTrack) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"Zero"_s) << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s) << MakeMockItemP(u"Three"_s) << MakeMockItemP(u"Four"_s) << MakeMockItemP(u"Five"_s));
+  playlist_.queue()->ToggleTracks(QModelIndexList() << playlist_.index(4, 0) << playlist_.index(1, 0) << playlist_.index(5, 0));
+  ASSERT_EQ(3, playlist_.queue()->rowCount(QModelIndex()));
+
+  // Returns the rows updated by the spied dataChanged signals, and fails for reversed ranges.
+  const auto updated_rows = [](const QSignalSpy &spy) {
+    QSet<int> rows;
+    for (const QList<QVariant> &arguments : spy) {
+      const QModelIndex top_left = arguments.at(0).toModelIndex();
+      const QModelIndex bottom_right = arguments.at(1).toModelIndex();
+      EXPECT_LE(top_left.row(), bottom_right.row());
+      for (int row = top_left.row(); row <= bottom_right.row(); ++row) {
+        rows << row;
+      }
+    }
+    return rows;
+  };
+
+  QSignalSpy spy(&playlist_, &Playlist::dataChanged);
+
+  // Add two tracks to the front of the queue, in reverse order of the playlist, all queued tracks get a new position.
+  playlist_.queue()->InsertFirst(QModelIndexList() << playlist_.index(3, 0) << playlist_.index(0, 0));
+  ASSERT_EQ(5, playlist_.queue()->rowCount(QModelIndex()));
+  EXPECT_EQ(QSet<int>() << 3 << 0 << 4 << 1 << 5, updated_rows(spy));
+
+  // Remove a track from the middle of the queue, the removed track and the tracks after it are updated.
+  spy.clear();
+  playlist_.queue()->ToggleTracks(QModelIndexList() << playlist_.index(4, 0));
+  ASSERT_EQ(4, playlist_.queue()->rowCount(QModelIndex()));
+  EXPECT_EQ(QSet<int>() << 4 << 1 << 5, updated_rows(spy));
 
 }
 
