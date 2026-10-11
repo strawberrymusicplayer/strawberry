@@ -110,7 +110,6 @@ class MergedProxyModelPrivate {
 
 MergedProxyModel::MergedProxyModel(QObject *parent)
     : QAbstractProxyModel(parent),
-      resetting_model_(nullptr),
       p_(new MergedProxyModelPrivate) {}
 
 MergedProxyModel::~MergedProxyModel() { DeleteAllMappings(); }
@@ -161,6 +160,10 @@ void MergedProxyModel::ForgetSubModel(QAbstractItemModel *submodel, const bool d
 
   if (!merge_points_.contains(submodel)) return;
 
+  // A submodel deleted in the middle of a reset must not stay marked as resetting, another submodel can get the same address.
+  // Its rows were already removed from the proxy when the reset started.
+  const bool resetting = resetting_submodels_.remove(submodel);
+
   const QList<QMetaObject::Connection> connections = submodel_connections_.take(submodel);
   for (const QMetaObject::Connection &connection : connections) {
     QObject::disconnect(connection);
@@ -169,7 +172,7 @@ void MergedProxyModel::ForgetSubModel(QAbstractItemModel *submodel, const bool d
   const QModelIndex source_parent = merge_points_.value(submodel);
   const QModelIndex proxy_parent = mapFromSource(source_parent);
   const int tracked_row_count = submodel_row_counts_.take(submodel);
-  const int row_count = destroyed ? tracked_row_count : submodel->rowCount();
+  const int row_count = (destroyed || resetting) ? tracked_row_count : submodel->rowCount();
 
   if (destroyed) {
     // The submodel can't be asked for its rows or the parents of its items anymore, so the rows can't be removed one level at a time.
@@ -237,6 +240,7 @@ void MergedProxyModel::SourceModelReset() {
   }
   submodel_connections_.clear();
   submodel_row_counts_.clear();
+  resetting_submodels_.clear();
 
   endResetModel();
 
@@ -249,20 +253,21 @@ void MergedProxyModel::SubModelAboutToBeReset() {
   QModelIndex source_parent = merge_points_.value(submodel);
   QModelIndex proxy_parent = mapFromSource(source_parent);
 
-  if (proxy_parent.isValid()) {
-    const int row_count = submodel->rowCount();
-    if (row_count > 0) {
-      resetting_model_ = submodel;
-      beginRemoveRows(proxy_parent, 0, row_count - 1);
-      endRemoveRows();
-      resetting_model_ = nullptr;
-    }
+  // The submodel still has its rows here, so remove them while the parents of its items can be found, so their persistent indexes are invalidated.
+  // Then mark it as resetting inside the removal, so the views don't see its old rows anymore until the reset is done.
+  const int row_count = submodel->rowCount();
+  if (proxy_parent.isValid() && row_count > 0) {
+    beginRemoveRows(proxy_parent, 0, row_count - 1);
+    resetting_submodels_.insert(submodel);
+    p_->DeleteMappings(submodel);
+    endRemoveRows();
+  }
+  else {
+    resetting_submodels_.insert(submodel);
+    p_->DeleteMappings(submodel);
   }
 
   submodel_row_counts_[submodel] = 0;
-
-  // Delete all the mappings that reference the submodel
-  p_->DeleteMappings(submodel);
 
 }
 
@@ -274,11 +279,16 @@ void MergedProxyModel::SubModelResetSlot() {
   QModelIndex proxy_parent = mapFromSource(source_parent);
 
   // "Insert" items from the newly reset submodel
+  // The submodel is only shown again inside the insertion, so the new rows are not visible before they are announced.
   int count = submodel->rowCount();
   if (count > 0) {
     beginInsertRows(proxy_parent, 0, count - 1);
+    resetting_submodels_.remove(submodel);
     submodel_row_counts_[submodel] = count;
     endInsertRows();
+  }
+  else {
+    resetting_submodels_.remove(submodel);
   }
 
   Q_EMIT SubModelReset(proxy_parent, submodel);
@@ -336,7 +346,7 @@ QModelIndex MergedProxyModel::mapToSource(const QModelIndex &proxy_index) const 
 
   const Mapping *mapping = static_cast<const Mapping*>(proxy_index.internalPointer());
   if (!p_->ContainsMapping(mapping)) return QModelIndex();
-  if (mapping->model == resetting_model_) return QModelIndex();
+  if (resetting_submodels_.contains(mapping->model)) return QModelIndex();
 
   return mapping->source_index;
 
@@ -345,7 +355,7 @@ QModelIndex MergedProxyModel::mapToSource(const QModelIndex &proxy_index) const 
 QModelIndex MergedProxyModel::mapFromSource(const QModelIndex &source_index) const {
 
   if (!source_index.isValid()) return QModelIndex();
-  if (source_index.model() == resetting_model_) return QModelIndex();
+  if (resetting_submodels_.contains(source_index.model())) return QModelIndex();
 
   // Add a mapping if we don't have one already
   Mapping *mapping = p_->MappingForSourceIndex(source_index);
@@ -370,6 +380,7 @@ QModelIndex MergedProxyModel::index(const int row, const int column, const QMode
     const QAbstractItemModel *child_model = merge_points_.key(source_parent);
 
     if (child_model) {
+      if (resetting_submodels_.contains(child_model)) return QModelIndex();
       source_index = child_model->index(row, column, QModelIndex());
     }
     else {
@@ -410,6 +421,8 @@ int MergedProxyModel::rowCount(const QModelIndex &parent) const {
     // Query the source model but disregard what it says, so it gets a chance to lazy load
     source_parent.model()->rowCount(source_parent);
 
+    if (resetting_submodels_.contains(child_model)) return 0;
+
     return child_model->rowCount(QModelIndex());
   }
 
@@ -439,7 +452,7 @@ bool MergedProxyModel::hasChildren(const QModelIndex &parent) const {
 
   const QAbstractItemModel *child_model = merge_points_.key(source_parent);
 
-  if (child_model) return child_model->hasChildren(QModelIndex()) || source_parent.model()->hasChildren(source_parent);
+  if (child_model) return (!resetting_submodels_.contains(child_model) && child_model->hasChildren(QModelIndex())) || source_parent.model()->hasChildren(source_parent);
   return source_parent.model()->hasChildren(source_parent);
 
 }
