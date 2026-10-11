@@ -24,6 +24,8 @@
 
 #include "config.h"
 
+#include <atomic>
+
 #include <gpod/itdb.h>
 
 #include <QObject>
@@ -35,7 +37,6 @@
 class QThread;
 class TaskManager;
 class CollectionBackend;
-class ConnectedDevice;
 
 class GPodLoader : public QObject {
   Q_OBJECT
@@ -44,7 +45,6 @@ class GPodLoader : public QObject {
   explicit GPodLoader(const QString &mount_point,
                       const SharedPtr<TaskManager> task_manager,
                       const SharedPtr<CollectionBackend> backend,
-                      const SharedPtr<ConnectedDevice> device,
                       QObject *parent = nullptr);
 
   ~GPodLoader() override;
@@ -54,19 +54,21 @@ class GPodLoader : public QObject {
 
   void Abort() { abort_ = true; }
 
+  // Takes ownership of the loaded database, the loader frees it when it's deleted without it being taken.
+  Itdb_iTunesDB *TakeDatabase();
+
  public Q_SLOTS:
   void LoadDatabase();
 
  Q_SIGNALS:
   void Error(const QString &message);
   void TaskStarted(const int task_id);
-  void LoadFinished(Itdb_iTunesDB *db, const bool success);
+  void LoadFinished(const bool success);
 
  private:
   Itdb_iTunesDB *TryLoad();
 
  private:
-  SharedPtr<ConnectedDevice> device_;
   QThread *original_thread_;
 
   QString mount_point_;
@@ -74,7 +76,9 @@ class GPodLoader : public QObject {
   Song::FileType type_;
   SharedPtr<TaskManager> task_manager_;
   SharedPtr<CollectionBackend> backend_;
-  bool abort_;
+  // Set by the device in its own thread while loading in the loader thread.
+  std::atomic<bool> abort_;
+  Itdb_iTunesDB *db_;
 };
 
 #endif  // GPODLOADER_H

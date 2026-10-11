@@ -39,31 +39,47 @@
 GPodLoader::GPodLoader(const QString &mount_point,
                        const SharedPtr<TaskManager> task_manager,
                        const SharedPtr<CollectionBackend> backend,
-                       const SharedPtr<ConnectedDevice> device,
                        QObject *parent)
     : QObject(parent),
-      device_(device),
       mount_point_(mount_point),
       type_(Song::FileType::Unknown),
       task_manager_(task_manager),
       backend_(backend),
-      abort_(false) {
+      abort_(false),
+      db_(nullptr) {
   original_thread_ = thread();
 }
 
-GPodLoader::~GPodLoader() = default;
+GPodLoader::~GPodLoader() {
+
+  // The device didn't take the database, e.g. because it was deleted while loading.
+  if (db_) {
+    itdb_free(db_);
+    db_ = nullptr;
+  }
+
+}
+
+Itdb_iTunesDB *GPodLoader::TakeDatabase() {
+
+  Itdb_iTunesDB *db = db_;
+  db_ = nullptr;
+  return db;
+
+}
 
 void GPodLoader::LoadDatabase() {
 
   int task_id = task_manager_->StartTask(tr("Loading iPod database"));
   Q_EMIT TaskStarted(task_id);
 
-  Itdb_iTunesDB *db = TryLoad();
+  // Kept here until the device takes it, so it's freed with the loader if the device is deleted before handling LoadFinished.
+  db_ = TryLoad();
 
   moveToThread(original_thread_);
 
   task_manager_->SetTaskFinished(task_id);
-  Q_EMIT LoadFinished(db, !abort_);
+  Q_EMIT LoadFinished(!abort_);
 
 }
 
