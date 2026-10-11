@@ -492,11 +492,13 @@ void GioLister::DeviceInfo::ReadMountInfo(GMount *mount) {
   }
 
 #ifdef HAVE_GIO_UNIX
+  gchar *root_path = g_file_get_path(root);
 #  ifdef GLIB_VERSION_2_84
-  GUnixMountEntry *unix_mount = g_unix_mount_entry_for(g_file_get_path(root), nullptr);
+  GUnixMountEntry *unix_mount = root_path ? g_unix_mount_entry_for(root_path, nullptr) : nullptr;
 #  else
-  GUnixMountEntry *unix_mount = g_unix_mount_for(g_file_get_path(root), nullptr);
+  GUnixMountEntry *unix_mount = root_path ? g_unix_mount_for(root_path, nullptr) : nullptr;
 #  endif
+  g_free(root_path);
   if (unix_mount) {
     // The GIO's definition of system internal mounts include filesystems like autofs, tmpfs, sysfs, etc,
     // and various system directories, including the root, /boot, /var, /home, etc.
@@ -554,7 +556,7 @@ void GioLister::DeviceInfo::ReadVolumeInfo(GVolume *volume) {
 
   GFile *root = g_volume_get_activation_root(volume);
   if (root) {
-    volume_root_uri = QString::fromUtf8(g_file_get_uri(root));
+    volume_root_uri = ConvertAndFree(g_file_get_uri(root));
     g_object_unref(root);
   }
 
