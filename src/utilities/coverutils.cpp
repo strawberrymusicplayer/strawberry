@@ -117,19 +117,43 @@ QString CoverUtils::CoverFilePath(const CoverOptions &options, const Song::Sourc
 
 }
 
-QString CoverUtils::CoverFilenameFromSource(const Song::Source source, const QUrl &cover_url, const QString &artist, const QString &album, const QString &album_id, const QString &extension) {
+QString CoverUtils::FilenameFromId(const QString &id) {
+
+  if (id.isEmpty()) return id;
+
+  // Longer IDs are hashed, so filenames combining several IDs stay well below the filename length limit of 255 bytes.
+  // The IDs used by the servers are much shorter.
+  constexpr qsizetype kMaxIdLength = 64;
+
+  // The ID comes from the server, so only use it as it is when it can't contain path separators or start with a dot, which could write outside the cache directory.
+  // \z instead of $, since $ also matches before a newline at the end.
+  static const QRegularExpression regex_id(u"^[A-Za-z0-9_\\-][A-Za-z0-9_.\\-]*\\z"_s);
+  // Windows reserves device names, also with an extension, and removes trailing dots, so such IDs can't be used as filenames there either.
+  // They are hashed on all platforms, so the filenames are the same everywhere.
+  static const QRegularExpression regex_reserved(u"^(CON|PRN|AUX|NUL|COM[0-9]|LPT[0-9])(\\..*)?\\z"_s, QRegularExpression::CaseInsensitiveOption);
+  if (id.length() <= kMaxIdLength && regex_id.match(id).hasMatch() && !id.endsWith(u'.') && !regex_reserved.match(id).hasMatch()) return id;
+
+  // Prefixed with a character that is not allowed in the IDs used as they are, so a hash can't be the same as another ID.
+  return u"+"_s + QString::fromLatin1(QCryptographicHash::hash(id.toUtf8(), QCryptographicHash::Sha1).toHex());
+
+}
+
+QString CoverUtils::CoverFilenameFromSource(const Song::Source source, const QUrl &cover_url, const QString &artist, const QString &album, const QString &album_id_in, const QString &extension) {
+
+  // The album ID and the cover URL come from the server.
+  const QString album_id = FilenameFromId(album_id_in);
+  const QString cover_url_filename = FilenameFromId(cover_url.fileName());
 
   QString filename;
 
   switch (source) {
     case Song::Source::Jellyfin:
       if (!album_id.isEmpty()) {
-        filename = album_id + QLatin1Char('-') + cover_url.fileName();
+        filename = album_id + QLatin1Char('-') + cover_url_filename;
         const QUrlQuery url_query(cover_url);
-        const QString image_tag = url_query.queryItemValue(u"tag"_s);
-        // The tag comes from the server, only use it in the filename when it's letters and digits, which Jellyfin uses.
-        static const QRegularExpression regex_tag(u"^[A-Za-z0-9]+$"_s);
-        if (!image_tag.isEmpty() && regex_tag.match(image_tag).hasMatch()) {
+        // The tag comes from the server too.
+        const QString image_tag = FilenameFromId(url_query.queryItemValue(u"tag"_s));
+        if (!image_tag.isEmpty()) {
           filename.append(QLatin1Char('-'));
           filename.append(image_tag);
         }
@@ -138,7 +162,7 @@ QString CoverUtils::CoverFilenameFromSource(const Song::Source source, const QUr
       [[fallthrough]];
     case Song::Source::Tidal:
       if (!album_id.isEmpty()) {
-        filename = album_id + QLatin1Char('-') + cover_url.fileName();
+        filename = album_id + QLatin1Char('-') + cover_url_filename;
         break;
       }
       [[fallthrough]];

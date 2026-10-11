@@ -45,6 +45,7 @@
 #include "core/networktimeouts.h"
 #include "utilities/strutils.h"
 #include "utilities/imageutils.h"
+#include "utilities/coverutils.h"
 #include "constants/timeconstants.h"
 #include "subsonicservice.h"
 #include "subsonicurlhandler.h"
@@ -679,7 +680,8 @@ void SubsonicRequest::AddAlbumCoverRequest(const Song &song) {
   request.album_id = song.album_id();
   request.cover_id = cover_id;
   request.url = cover_url;
-  request.filename = cover_path + QLatin1Char('/') + cover_id + ".jpg"_L1;
+  // The cover ID comes from the server.
+  request.filename = cover_path + QLatin1Char('/') + CoverUtils::FilenameFromId(cover_id) + ".jpg"_L1;
   if (request.filename.isEmpty()) return;
 
   album_covers_requests_sent_.insert(cover_id, song.song_id());
