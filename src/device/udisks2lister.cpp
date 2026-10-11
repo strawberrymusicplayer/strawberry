@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2016, Valeriy Malov <jazzvoid@gmail.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -73,11 +73,16 @@ QStringList Udisks2Lister::DeviceUniqueIDs() {
 
 QVariantList Udisks2Lister::DeviceIcons(const QString &id) {
 
-  QReadLocker locker(&device_data_lock_);
-  if (!device_data_.contains(id)) return QVariantList();
-  const QString path = device_data_.value(id).mount_paths.value(0);
+  // Read the data once, instead of locking again through DeviceManufacturer() and DeviceModel().
+  // QReadWriteLock is not recursive, so locking again would deadlock if a write lock is waiting in between.
+  PartitionData data;
+  {
+    QReadLocker locker(&device_data_lock_);
+    if (!device_data_.contains(id)) return QVariantList();
+    data = device_data_.value(id);
+  }
 
-  return QVariantList() << GuessIconForPath(path) << GuessIconForModel(DeviceManufacturer(id), DeviceModel(id));
+  return QVariantList() << GuessIconForPath(data.mount_paths.value(0)) << GuessIconForModel(data.vendor, data.model);
 
 }
 
@@ -153,10 +158,18 @@ QList<QUrl> Udisks2Lister::MakeDeviceUrls(const QString &id) {
 
 void Udisks2Lister::UnmountDevice(const QString &id) {
 
-  QReadLocker locker(&device_data_lock_);
-  if (!device_data_.contains(id)) return;
+  // Don't hold the lock during the blocking D-Bus calls, since the GUI thread reads the device data.
+  QString dbus_path;
+  QString dbus_drive_path;
+  {
+    QReadLocker locker(&device_data_lock_);
+    if (!device_data_.contains(id)) return;
+    const PartitionData data = device_data_.value(id);
+    dbus_path = data.dbus_path;
+    dbus_drive_path = data.dbus_drive_path;
+  }
 
-  OrgFreedesktopUDisks2FilesystemInterface filesystem(QLatin1String(kUDisks2Service), device_data_.value(id).dbus_path, QDBusConnection::systemBus());
+  OrgFreedesktopUDisks2FilesystemInterface filesystem(QLatin1String(kUDisks2Service), dbus_path, QDBusConnection::systemBus());
 
   if (filesystem.isValid()) {
     auto unmount_result = filesystem.Unmount(QVariantMap());
@@ -167,7 +180,7 @@ void Udisks2Lister::UnmountDevice(const QString &id) {
       return;
     }
 
-    OrgFreedesktopUDisks2DriveInterface drive(QLatin1String(kUDisks2Service), device_data_.value(id).dbus_drive_path, QDBusConnection::systemBus());
+    OrgFreedesktopUDisks2DriveInterface drive(QLatin1String(kUDisks2Service), dbus_drive_path, QDBusConnection::systemBus());
 
     if (drive.isValid()) {
       auto eject_result = drive.Eject(QVariantMap());
@@ -178,8 +191,16 @@ void Udisks2Lister::UnmountDevice(const QString &id) {
       }
     }
 
-    device_data_.remove(id);
-    Q_EMIT DeviceRemoved(id);
+    // Removing the device needs a write lock, since the GUI thread can read the device data at the same time.
+    // It might also have been removed in the meantime, when the unmount was noticed.
+    bool removed = false;
+    {
+      QWriteLocker locker(&device_data_lock_);
+      removed = device_data_.remove(id) > 0;
+    }
+    if (removed) {
+      Q_EMIT DeviceRemoved(id);
+    }
   }
 
 }
