@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -302,7 +302,7 @@ QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset
     QString filename = fileinfo_output.completeBaseName();
     QString suffix = fileinfo_output.suffix();
     for (int i = 0; i < 1000000; ++i) {
-      QString new_filename = QStringLiteral("%1/%2-%3.%4").arg(path, filename).arg(i).arg(suffix);
+      QString new_filename = QStringLiteral("%1/%2-%3.%4").arg(path, filename, QString::number(i), suffix);
       fileinfo_output.setFile(new_filename);
       if (!fileinfo_output.exists()) {
         break;
