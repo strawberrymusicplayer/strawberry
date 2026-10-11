@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2016-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,10 +35,15 @@ class ScopedTransaction {
   explicit ScopedTransaction(QSqlDatabase *db);
   ~ScopedTransaction();
 
-  void Commit();
+  // Returns false if the transaction could not be started, so the changes would not be made in a transaction.
+  bool started() const { return started_; }
+
+  // Returns false if the transaction was not started here, or could not be committed, in which case it is rolled back.
+  bool Commit();
 
  private:
   QSqlDatabase *db_;
+  bool started_;
   bool pending_;
 
   Q_DISABLE_COPY(ScopedTransaction)
