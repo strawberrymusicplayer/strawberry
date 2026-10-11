@@ -1033,14 +1033,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
       items.reserve(source_rows.count());
       for (const int i : std::as_const(source_rows)) items << source_playlist->item_at(i)->Copy();
 
-      if (items.count() > kUndoItemLimit) {
-        // Too big to keep in the undo stack. Also clear the stack because it might have been invalidated.
-        InsertItemsWithoutUndo(items, row, false, false);
-        undo_stack_->clear();
-      }
-      else {
-        undo_stack_->push(new PlaylistUndoCommandInsertItems(this, items, row));
-      }
+      InsertItemsWithUndo(items, row);
 
       // Remove the items from the source playlist if it was a move event.
       // Remove from the end, so the rows that are not removed yet don't move.
@@ -1259,14 +1252,7 @@ void Playlist::InsertItems(const PlaylistItemPtrList &itemsIn, const int pos, co
 
   PlaylistItemPtrList items = itemsIn;
 
-  if (items.count() > kUndoItemLimit) {
-    // Too big to keep in the undo stack. Also clear the stack because it might have been invalidated.
-    InsertItemsWithoutUndo(items, pos, enqueue, enqueue_next);
-    undo_stack_->clear();
-  }
-  else {
-    undo_stack_->push(new PlaylistUndoCommandInsertItems(this, items, pos, enqueue, enqueue_next));
-  }
+  InsertItemsWithUndo(items, pos, enqueue, enqueue_next);
 
   // Look up the row after inserting, since the playlist might have been sorted.
   if (play_now) {
@@ -1274,6 +1260,33 @@ void Playlist::InsertItems(const PlaylistItemPtrList &itemsIn, const int pos, co
     if (row != -1) {
       Q_EMIT PlayRequested(index(row, 0), AutoScroll::Maybe);
     }
+  }
+
+}
+
+void Playlist::InsertItemsWithUndo(const PlaylistItemPtrList &items, const int pos, const bool enqueue, const bool enqueue_next) {
+
+  // Auto-sort here rather than in InsertItemsWithoutUndo(), since that is also run from inside undo commands, where pushing the sort command would corrupt the undo stack.
+  const bool auto_sort = auto_sort_ && !is_loading_ && is_sorted_;
+
+  if (items.count() > kUndoItemLimit) {
+    // Too big to keep in the undo stack. Also clear the stack because it might have been invalidated.
+    InsertItemsWithoutUndo(items, pos, enqueue, enqueue_next);
+    if (auto_sort) {
+      sort(static_cast<int>(sort_column_), sort_order_);
+    }
+    undo_stack_->clear();
+    return;
+  }
+
+  // Group the insert and the sort, so they are undone in reverse order: the sort first, which puts the inserted items back at the rows the insert command removes.
+  if (auto_sort) {
+    undo_stack_->beginMacro(tr("add %n songs", "", static_cast<int>(items.count())));
+  }
+  undo_stack_->push(new PlaylistUndoCommandInsertItems(this, items, pos, enqueue, enqueue_next));
+  if (auto_sort) {
+    sort(static_cast<int>(sort_column_), sort_order_);
+    undo_stack_->endMacro();
   }
 
 }
@@ -1368,10 +1381,6 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
       indexes << index(i, 0);  // clazy:exclude=reserve-candidates
     }
     queue_->InsertFirst(indexes);
-  }
-
-  if (auto_sort_ && !is_loading_ && is_sorted_) {
-    sort(static_cast<int>(sort_column_), sort_order_);
   }
 
   if (shuffle_mode == PlaylistSequence::ShuffleMode::Albums || shuffle_mode == PlaylistSequence::ShuffleMode::Grouping) {
@@ -1476,12 +1485,29 @@ void Playlist::UpdateItems(SongList songs) {
         items_[i] = new_item;
         Q_EMIT dataChanged(index(i, 0), index(i, ColumnCount - 1));
         // Also update undo actions
+        // Sort and shuffle commands store the item order, so they must also replace the item, or undo and redo bring back the old item.
+        // An auto-sorted insert is a macro, with the insert and sort commands as its children.
+        bool insert_updated = false;
         for (int y = 0; y < undo_stack_->count(); y++) {
           QUndoCommand *undo_action = const_cast<QUndoCommand*>(undo_stack_->command(y));
-          PlaylistUndoCommandInsertItems *undo_action_insert = dynamic_cast<PlaylistUndoCommandInsertItems*>(undo_action);
-          if (undo_action_insert) {
-            bool found_and_updated = undo_action_insert->UpdateItem(new_item);
-            if (found_and_updated) break;
+          QList<QUndoCommand*> undo_actions;
+          if (undo_action->childCount() > 0) {
+            for (int c = 0; c < undo_action->childCount(); ++c) {
+              undo_actions << const_cast<QUndoCommand*>(undo_action->child(c));
+            }
+          }
+          else {
+            undo_actions << undo_action;
+          }
+          for (QUndoCommand *child_undo_action : std::as_const(undo_actions)) {
+            if (PlaylistUndoCommandInsertItems *undo_action_insert = dynamic_cast<PlaylistUndoCommandInsertItems*>(child_undo_action)) {
+              if (!insert_updated) {
+                insert_updated = undo_action_insert->UpdateItem(new_item);
+              }
+            }
+            else if (PlaylistUndoCommandReOrderItems *undo_action_reorder = dynamic_cast<PlaylistUndoCommandReOrderItems*>(child_undo_action)) {
+              undo_action_reorder->ReplaceItem(item, new_item);
+            }
           }
         }
         it.remove();

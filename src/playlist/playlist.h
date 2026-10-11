@@ -370,6 +370,9 @@ class Playlist : public QAbstractListModel {
   template<typename T>
   void InsertSongItems(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next = false, const bool signal = false);
 
+  // Inserts the items through the undo stack, and auto-sorts afterwards if enabled, so that undo and redo replay the insert and the sort in the right order.
+  void InsertItemsWithUndo(const PlaylistItemPtrList &items, const int pos, const bool enqueue = false, const bool enqueue_next = false);
+
   // Modify the playlist without changing the undo stack.  These are used by our friends in PlaylistUndoCommands
   void InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const int pos, const bool enqueue = false, const bool enqueue_next = false);
   PlaylistItemPtrList RemoveItemsWithoutUndo(const int row, const int count);

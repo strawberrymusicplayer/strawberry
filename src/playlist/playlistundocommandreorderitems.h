@@ -32,6 +32,9 @@ class PlaylistUndoCommandReOrderItems : public PlaylistUndoCommandBase {
   void undo() override;
   void redo() override;
 
+  // Replaces old_item with new_item in the stored item orders, so undo and redo keep an item that was replaced after the command was pushed.
+  void ReplaceItem(const PlaylistItemPtr &old_item, const PlaylistItemPtr &new_item);
+
  private:
   PlaylistItemPtrList old_items_;
   PlaylistItemPtrList new_items_;
