@@ -2842,4 +2842,31 @@ TEST_F(TagReaderTest, TestMP4AudioFileCover) {
 
 }
 
+// Regression test: a loop sample count larger than the sample count in a VGM header must not make the length underflow.
+TEST(TagReaderGMETest, VGMPlaybackLength) {
+
+  const auto pack = [](const quint32 value) {
+    QByteArray bytes(4, '\0');
+    for (int i = 0; i < 4; ++i) bytes[i] = static_cast<char>((value >> (8 * i)) & 0xFF);
+    return bytes;
+  };
+
+  quint64 length = 0;
+
+  // 10 seconds without a loop.
+  ASSERT_TRUE(GME::VGM::GetPlaybackLength(pack(441000), pack(0), length));
+  EXPECT_EQ(10000ULL, length);
+
+  // 2 seconds intro and 8 seconds loop, played twice, plus the fade out.
+  ASSERT_TRUE(GME::VGM::GetPlaybackLength(pack(441000), pack(352800), length));
+  EXPECT_EQ(2000ULL + (8000ULL * 2) + GME::VGM::GST_GME_LOOP_TIME_MS, length);
+
+  // A loop longer than the song is ignored.
+  ASSERT_TRUE(GME::VGM::GetPlaybackLength(pack(441000), pack(441001), length));
+  EXPECT_EQ(10000ULL, length);
+
+  EXPECT_FALSE(GME::VGM::GetPlaybackLength(pack(0), pack(0), length));
+
+}
+
 }  // namespace
