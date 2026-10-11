@@ -210,15 +210,16 @@ PlaylistItemPtrList PlaylistBackend::GetPlaylistItems(const int playlist_id) {
     q.setForwardOnly(true);
     q.prepare(PlaylistItemsQuery());
     q.BindValue(u":playlist"_s, playlist_id);
-    if (!q.Exec()) {
-      database_->ReportErrors(q);
-      return PlaylistItemPtrList();
+    // Don't return early on errors, the connection must be closed below.
+    if (q.Exec()) {
+      // It's probable that we'll have a few songs associated with the same CUE, so we're caching results of parsing CUEs
+      SharedPtr<NewSongFromQueryState> state_ptr = make_shared<NewSongFromQueryState>();
+      while (q.next()) {
+        playlist_items << NewPlaylistItemFromQuery(SqlRow(q), state_ptr);
+      }
     }
-
-    // It's probable that we'll have a few songs associated with the same CUE, so we're caching results of parsing CUEs
-    SharedPtr<NewSongFromQueryState> state_ptr = make_shared<NewSongFromQueryState>();
-    while (q.next()) {
-      playlist_items << NewPlaylistItemFromQuery(SqlRow(q), state_ptr);
+    else {
+      database_->ReportErrors(q);
     }
 
   }
@@ -243,15 +244,16 @@ SongList PlaylistBackend::GetPlaylistSongs(const int playlist_id) {
     q.setForwardOnly(true);
     q.prepare(PlaylistItemsQuery());
     q.BindValue(u":playlist"_s, playlist_id);
-    if (!q.Exec()) {
-      database_->ReportErrors(q);
-      return SongList();
+    // Don't return early on errors, the connection must be closed below.
+    if (q.Exec()) {
+      // It's probable that we'll have a few songs associated with the same CUE, so we're caching results of parsing CUEs
+      SharedPtr<NewSongFromQueryState> state_ptr = make_shared<NewSongFromQueryState>();
+      while (q.next()) {
+        songs << NewSongFromQuery(SqlRow(q), state_ptr);
+      }
     }
-
-    // It's probable that we'll have a few songs associated with the same CUE, so we're caching results of parsing CUEs
-    SharedPtr<NewSongFromQueryState> state_ptr = make_shared<NewSongFromQueryState>();
-    while (q.next()) {
-      songs << NewSongFromQuery(SqlRow(q), state_ptr);
+    else {
+      database_->ReportErrors(q);
     }
 
   }

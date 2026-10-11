@@ -85,6 +85,9 @@ class CollectionBackendInterface : public QObject {
 
   virtual SharedPtr<Database> db() const = 0;
 
+  // Closes the database connection of the calling thread, which must be done after querying from a concurrent thread.
+  virtual void Close() = 0;
+
   virtual void GetAllSongsAsync(const int id = 0) = 0;
 
   // Get a list of directories in the collection.  Emits DirectoriesDiscovered.
@@ -147,7 +150,7 @@ class CollectionBackend : public CollectionBackendInterface {
 
   void Init(SharedPtr<Database> db, SharedPtr<TaskManager> task_manager, const Song::Source source, const QString &songs_table, const QString &dirs_table = QString(), const QString &subdirs_table = QString());
 
-  void Close();
+  void Close() override;
 
   void ExitAsync();
 
