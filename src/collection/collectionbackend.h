@@ -313,13 +313,10 @@ class CollectionBackend : public CollectionBackendInterface {
 
  private:
   struct CompilationInfo {
-    CompilationInfo() : has_compilation_detected(0), has_not_compilation_detected(0) {}
-
-    QList<QUrl> urls;
+    // Each URL once, CUE sheet songs share the URL of the file.
+    QList<QUrl> urls_compilation_detected;
+    QList<QUrl> urls_not_compilation_detected;
     QStringList artists;
-
-    int has_compilation_detected;
-    int has_not_compilation_detected;
   };
 
   bool UpdateCompilations(const QSqlDatabase &db, SongList &changed_songs, const QUrl &url, const bool compilation_detected);
