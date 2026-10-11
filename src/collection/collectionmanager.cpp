@@ -227,6 +227,8 @@ void CollectionManager::SyncPlaycountAndRatingToFiles() {
   task_manager_->SetTaskBlocksCollectionScans(task_id);
 
   const SongList songs = backend_->GetAllSongs();
+  // This is done in a concurrent thread so close the unique DB connection.
+  backend_->Close();
   const quint64 nb_songs = static_cast<quint64>(songs.size());
   quint64 i = 0;
   for (const Song &song : songs) {
@@ -373,6 +375,8 @@ Song CollectionManager::CurrentLyricsToSave(const SharedPtr<CollectionBackend> &
   // The lyrics could have been changed while the save was deferred, for example in the tag editor, so only save lyrics which are still the same in the collection and still only stored in the database.
   // Otherwise the tags would be overwritten with older lyrics.
   const Song collection_song = backend->GetSongById(song.id());
+  // This is done in a concurrent thread so close the unique DB connection.
+  backend->Close();
   Song song_to_save(song);
   if (song.lyrics_storage_type() == Song::StorageType::Tag && (!collection_song.is_valid() || collection_song.lyrics() != song.lyrics() || collection_song.lyrics_storage_type() != Song::StorageType::Database)) {
     qLog(Debug) << "Lyrics for" << song.url().toLocalFile() << "changed while the save was deferred, not saving them";

@@ -33,6 +33,7 @@
 #include "core/urlhandlers.h"
 #include "core/taskmanager.h"
 #include "core/songloader.h"
+#include "collection/collectionbackend.h"
 #include "playlist.h"
 #include "songloaderinserter.h"
 
@@ -236,6 +237,11 @@ void SongLoaderInserter::AsyncLoad() {
     task_manager_->SetTaskProgress(async_load_id, static_cast<quint64>(songs.count()));
   }
   task_manager_->SetTaskFinished(async_load_id);
+
+  // The song loaders query the collection in this concurrent thread, so close the unique DB connection.
+  if (collection_backend_) {
+    collection_backend_->Close();
+  }
 
   // Replace the partially-loaded items by the new ones, fully loaded.
   Q_EMIT EffectiveLoadFinished(songs);

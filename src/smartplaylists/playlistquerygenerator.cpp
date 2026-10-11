@@ -25,6 +25,8 @@
 #include <QByteArray>
 #include <QString>
 #include <QVariantList>
+#include <QThread>
+#include <QCoreApplication>
 
 #include "playlistquerygenerator.h"
 #include "collection/collectionbackend.h"
@@ -92,6 +94,12 @@ PlaylistItemPtrList PlaylistQueryGenerator::GenerateMore(const int count) {
   QVariantList bound_values;
   const QString sql = search_copy.ToSql(collection_backend_->songs_table(), bound_values);
   const SongList songs = collection_backend_->ExecuteQuery(sql, bound_values);
+
+  // When called in a concurrent thread, close the unique DB connection.
+  if (QThread::currentThread() != collection_backend_->thread() && QThread::currentThread() != QCoreApplication::instance()->thread()) {
+    collection_backend_->Close();
+  }
+
   PlaylistItemPtrList items;
   items.reserve(songs.count());
   for (const Song &song : songs) {

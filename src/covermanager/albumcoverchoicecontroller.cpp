@@ -728,7 +728,12 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedToCollectionSongs(const Song &
 
 void AlbumCoverChoiceController::SaveCoverEmbeddedToCollectionSongs(const QString &effective_albumartist, const QString &effective_album, const QString &cover_filename, const QByteArray &image_data, const QString &mime_type) {
 
-  QFuture<SongList> future = QtConcurrent::run(&CollectionBackend::GetAlbumSongs, collection_backend_, effective_albumartist, effective_album, CollectionFilterOptions());
+  QFuture<SongList> future = QtConcurrent::run([collection_backend = collection_backend_, effective_albumartist, effective_album]() {
+    const SongList songs = collection_backend->GetAlbumSongs(effective_albumartist, effective_album, CollectionFilterOptions());
+    // This is done in a concurrent thread so close the unique DB connection.
+    collection_backend->Close();
+    return songs;
+  });
   QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>(this);
   QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [this, watcher, cover_filename, image_data, mime_type]() {
     const SongList collection_songs = watcher->result();
