@@ -115,6 +115,9 @@ void SongLoaderInserter::LoadAudioCD(Playlist *destination, const int row, const
   enqueue_ = enqueue;
   enqueue_next_ = enqueue_next;
 
+  // The tracks are inserted and updated later, so stop using the playlist if it is closed while the audio CD is loading.
+  QObject::connect(destination, &Playlist::destroyed, this, &SongLoaderInserter::DestinationDestroyed);
+
   SongLoader *loader = new SongLoader(url_handlers_, collection_backend_, tagreader_client_, this);
   QObject::connect(loader, &SongLoader::AudioCDTracksLoaded, this, &SongLoaderInserter::AudioCDTracksLoadedSlot);
   QObject::connect(loader, &SongLoader::AudioCDTracksUpdated, this, &SongLoaderInserter::AudioCDTracksUpdatedSlot);
@@ -132,6 +135,9 @@ void SongLoaderInserter::LoadAudioCD(Playlist *destination, const int row, const
       }
     }
     delete loader;
+    // Nothing will be loaded, so AudioCDLoadingFinishedSlot is never called to delete this.
+    deleteLater();
+    return;
   }
 
   // Songs will be loaded later: see AudioCDTracksLoadFinished and AudioCDTagsLoaded slots
