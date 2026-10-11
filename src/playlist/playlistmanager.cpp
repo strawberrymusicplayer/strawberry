@@ -43,6 +43,7 @@
 #include <QMessageBox>
 
 #include "includes/shared_ptr.h"
+#include "core/logging.h"
 #include "core/settings.h"
 #include "constants/filenameconstants.h"
 #include "utilities/timeutils.h"
@@ -355,7 +356,11 @@ QString PlaylistManager::GetSaveFileName(const QString &filename, const QString 
 
 void PlaylistManager::Rename(const int id, const QString &new_name) {
 
-  Q_ASSERT(playlists_.contains(id));
+  // Using operator[] below would add an entry without a playlist for an id that is not open.
+  if (!playlists_.contains(id)) {
+    qLog(Error) << "Can't rename playlist" << id << "since it is not open";
+    return;
+  }
 
   playlist_backend_->RenamePlaylist(id, new_name);
   playlists_[id].name = new_name;
