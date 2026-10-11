@@ -122,6 +122,9 @@ TEST_F(WaveformLoaderTest, PipelineIsDeletedInWorkerThread) {
   ASSERT_TRUE(res.open());
   const QUrl url = QUrl::fromLocalFile(res.fileName());
 
+  // Declared before the loader, so it outlives the pipeline also when the loader deletes it at the end of the test.
+  std::atomic<QThread*> deleted_in_thread = nullptr;
+
   WaveformLoader loader;
 
   WaveformLoader::LoadResult result = loader.Load(url, false);
@@ -131,7 +134,6 @@ TEST_F(WaveformLoaderTest, PipelineIsDeletedInWorkerThread) {
   QThread *worker_thread = result.pipeline->thread();
   ASSERT_NE(worker_thread, QThread::currentThread());
 
-  std::atomic<QThread*> deleted_in_thread = nullptr;
   QObject::connect(&*result.pipeline, &QObject::destroyed, &*result.pipeline, [&deleted_in_thread]() { deleted_in_thread = QThread::currentThread(); }, Qt::DirectConnection);
 
   QSignalSpy spy(&*result.pipeline, &WaveformPipeline::Finished);
