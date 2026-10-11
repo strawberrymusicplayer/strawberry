@@ -1,7 +1,7 @@
 /*
  * Strawberry Music Player
  * Copyright 2012, 2014, John Maguire <john.maguire@gmail.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,14 +22,13 @@
 #define LOCALREDIRECTSERVER_H
 
 #include <QtGlobal>
+#include <QTcpServer>
+#include <QHash>
 #include <QByteArray>
-#include <QObject>
-#include <QList>
 #include <QString>
 #include <QUrl>
-#include <QTcpServer>
 
-class QAbstractSocket;
+class QTcpSocket;
 
 class LocalRedirectServer : public QTcpServer {
   Q_OBJECT
@@ -54,21 +53,23 @@ class LocalRedirectServer : public QTcpServer {
  public Q_SLOTS:
   void NewConnection();
   void incomingConnection(qintptr socket_descriptor) override;
-  void Encrypted();
-  void Connected();
-  void Disconnected();
+
+ private Q_SLOTS:
   void ReadyRead();
+  void Disconnected();
 
  private:
-  void WriteTemplate() const;
+  void WriteTemplate(QTcpSocket *socket) const;
+  static void WriteNotFound(QTcpSocket *socket);
   QUrl ParseUrlFromRequest(const QByteArray &request) const;
+  static bool IsRedirect(const QUrl &url);
 
  private:
   int port_;
   QUrl url_;
   QUrl request_url_;
-  QAbstractSocket *socket_;
-  QByteArray buffer_;
+  // The request received so far on each connection, a request can arrive in several parts, and other connections than the redirect must not end it.
+  QHash<QTcpSocket*, QByteArray> requests_;
   bool success_;
   QString error_;
 };
