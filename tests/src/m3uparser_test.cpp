@@ -1,6 +1,7 @@
 /*
  * Strawberry Music Player
  * Copyright 2024, Octavio Calleya Garcia <ogarcia.extern@autofleetcontrol.de>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -369,6 +370,24 @@ TEST_F(M3UParserTest, Windows1251MetadataIsDecoded) {
   ASSERT_EQ(result.songs.size(), 1);
   EXPECT_EQ(result.songs[0].artist(), u"Гражданская Оборона"_s);
   EXPECT_EQ(result.songs[0].title(), u"Зачем снятся сны"_s);
+}
+
+// Regression test: a title containing " - " must be loaded completely, it used to be cut off at the second " - ".
+TEST_F(M3UParserTest, TitleWithSeparatorIsNotCutOff) {
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+
+  TemporaryResource leaf(u":/audio/strawberry.mp3"_s);
+  ASSERT_TRUE(leaf.isOpen());
+
+  const QString parent = tmp.filePath(u"parent.m3u8"_s);
+  ASSERT_TRUE(WriteFile(parent, u"#EXTM3U\n#EXTINF:200,Artist - Song - Remastered 2011\n"_s + leaf.fileName() + u"\n"_s));
+
+  M3UParser parser = MakeParser();
+  const ParserBase::LoadResult result = Load(parser, parent);
+  ASSERT_EQ(result.songs.size(), 1);
+  EXPECT_EQ(result.songs[0].artist(), u"Artist"_s);
+  EXPECT_EQ(result.songs[0].title(), u"Song - Remastered 2011"_s);
 }
 
 // Saves a playlist with one local file to the given path, and returns the bytes written.
