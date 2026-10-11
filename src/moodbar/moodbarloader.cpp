@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -175,7 +175,16 @@ MoodbarLoader::LoadResult MoodbarLoader::Load(const QUrl &url, const bool has_cu
   if (!thread_->isRunning()) thread_->start(QThread::IdlePriority);
 
   // There was no existing file, analyze the audio file and create one.
-  MoodbarPipelinePtr pipeline = MoodbarPipelinePtr(new MoodbarPipeline(url));
+  // The pipeline lives in the worker thread, but the last reference is usually released in the GUI thread, so delete it in its own thread, unless that thread is stopped already.
+  MoodbarPipelinePtr pipeline = MoodbarPipelinePtr(new MoodbarPipeline(url), [](MoodbarPipeline *pipeline_to_delete) {
+    QThread *pipeline_thread = pipeline_to_delete->thread();
+    if (pipeline_thread && pipeline_thread != QThread::currentThread() && pipeline_thread->isRunning()) {
+      pipeline_to_delete->deleteLater();
+    }
+    else {
+      delete pipeline_to_delete;
+    }
+  });
   pipeline->moveToThread(thread_);
   SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
   *connection = QObject::connect(&*pipeline, &MoodbarPipeline::Finished, this, [this, connection, pipeline, url]() {
