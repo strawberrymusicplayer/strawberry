@@ -123,6 +123,19 @@ constexpr qint64 kMaxScrobblePointNsecs = 240LL * kNsecPerSec;
 
 constexpr int kMaxPlayedIndexes = 100;
 
+// Maps each item to its first row, like PlaylistItemPtrList::indexOf(), for looking up the rows of many items without scanning the list for each item.
+QHash<const PlaylistItem*, int> FirstRowsOfItems(const PlaylistItemPtrList &items) {
+
+  QHash<const PlaylistItem*, int> rows;
+  rows.reserve(items.size());
+  for (int i = 0; i < items.size(); ++i) {
+    const PlaylistItem *item = &*items[i];
+    if (!rows.contains(item)) rows.insert(item, i);
+  }
+  return rows;
+
+}
+
 }  // namespace
 
 Playlist::Playlist(const SharedPtr<TaskManager> task_manager,
@@ -146,6 +159,7 @@ Playlist::Playlist(const SharedPtr<TaskManager> task_manager,
       tagreader_client_(tagreader_client),
       id_(id),
       favorite_(favorite),
+      item_rows_valid_(false),
       save_all_(false),
       save_last_played_(false),
       current_is_paused_(false),
@@ -1129,6 +1143,7 @@ void Playlist::MoveItemsWithoutUndo(const QList<int> &source_rows, int pos) {
     moved_items[i - start]->RemoveForegroundColor(kDynamicHistoryPriority);
     items_.insert(i, moved_items[i - start]);
   }
+  InvalidateItemRows();
 
   // Update persistent indexes
   const QModelIndexList pidx_list = persistentIndexList();
@@ -1151,9 +1166,10 @@ void Playlist::MoveItemsWithoutUndo(const QList<int> &source_rows, int pos) {
 
   // Update virtual items
   if (ShuffleMode() != PlaylistSequence::ShuffleMode::Off) {
+    const QHash<const PlaylistItem*, int> new_rows_of_items = FirstRowsOfItems(items_);
     const QList<int> old_virtual_items = virtual_items_;
     for (int i = 0; i < virtual_items_.count(); ++i) {
-      virtual_items_[i] = static_cast<int>(items_.indexOf(old_items[old_virtual_items[i]]));
+      virtual_items_[i] = new_rows_of_items.value(&*old_items[old_virtual_items[i]], -1);
     }
   }
 
@@ -1199,6 +1215,7 @@ void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
     items_.insert(dest_row, moved_items[offset]);
     offset++;
   }
+  InvalidateItemRows();
 
   // Update persistent indexes
   const QModelIndexList pidx_list = persistentIndexList();
@@ -1224,9 +1241,10 @@ void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
 
   // Update virtual items
   if (ShuffleMode() != PlaylistSequence::ShuffleMode::Off) {
+    const QHash<const PlaylistItem*, int> new_rows_of_items = FirstRowsOfItems(items_);
     const QList<int> old_virtual_items = virtual_items_;
     for (int i = 0; i < virtual_items_.count(); ++i) {
-      virtual_items_[i] = static_cast<int>(items_.indexOf(old_items[old_virtual_items[i]]));
+      virtual_items_[i] = new_rows_of_items.value(&*old_items[old_virtual_items[i]], -1);
     }
   }
 
@@ -1309,6 +1327,7 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
   for (int i = start; i <= end; ++i) {
     const PlaylistItemPtr item = items[i - start];
     items_.insert(i, item);
+    InvalidateItemRows();
     items_by_uuid_.insert(item->uuid(), item);
 
     if (Song::IsLinkedCollectionSource(item->source())) {
@@ -1483,6 +1502,7 @@ void Playlist::UpdateItems(SongList songs) {
         items_by_uuid_.remove(item->uuid());
         items_by_uuid_.insert(new_item->uuid(), new_item);
         items_[i] = new_item;
+        InvalidateItemRows();
         Q_EMIT dataChanged(index(i, 0), index(i, ColumnCount - 1));
         // Also update undo actions
         // Sort and shuffle commands store the item order, so they must also replace the item, or undo and redo bring back the old item.
@@ -1761,6 +1781,7 @@ void Playlist::ReOrderWithoutUndo(const PlaylistItemPtrList &new_items) {
 
   PlaylistItemPtrList old_items = items_;
   items_ = new_items;
+  InvalidateItemRows();
 
   QHash<const PlaylistItem*, int> new_rows;
   for (int i = 0; i < new_items.length(); ++i) {
@@ -1775,9 +1796,10 @@ void Playlist::ReOrderWithoutUndo(const PlaylistItemPtrList &new_items) {
 
   // Update virtual items
   if (ShuffleMode() != PlaylistSequence::ShuffleMode::Off) {
+    const QHash<const PlaylistItem*, int> new_rows_of_items = FirstRowsOfItems(items_);
     const QList<int> old_virtual_items = virtual_items_;
     for (int i = 0; i < virtual_items_.count(); ++i) {
-      virtual_items_[i] = static_cast<int>(items_.indexOf(old_items[old_virtual_items[i]]));
+      virtual_items_[i] = new_rows_of_items.value(&*old_items[old_virtual_items[i]], -1);
     }
   }
 
@@ -1906,6 +1928,7 @@ void Playlist::Restore() {
 
   beginResetModel();
   items_.clear();
+  InvalidateItemRows();
   items_by_uuid_.clear();
   virtual_items_.clear();
   ClearCollectionItems();
@@ -2082,13 +2105,13 @@ PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int co
   }
 
   // Remove items
+  // The range is taken out at once, taking the items one at a time moves all the items after them for each item.
   beginRemoveRows(QModelIndex(), row, row + count - 1);
-  PlaylistItemPtrList items;
-  items.reserve(count);
+  const PlaylistItemPtrList items = items_.mid(row, count);
+  items_.remove(row, count);
+  InvalidateItemRows();
   QList<QUuid> signal_track_ids;
-  for (int i = 0; i < count; ++i) {
-    PlaylistItemPtr item(items_.takeAt(row));
-    items << item;
+  for (const PlaylistItemPtr &item : items) {
     items_by_uuid_.remove(item->uuid());
     const int id = item->EffectiveMetadata().id();
     const int source_id = item->EffectiveMetadata().source_id();
@@ -2717,12 +2740,12 @@ bool Playlist::MinorMetadataChange(const Song &old_metadata, const Song &new_met
 
 bool Playlist::UpdateItemMetadata(PlaylistItemPtr item, const Song &new_metadata, const bool stream_metadata_update) {
 
-  if (!items_.contains(item)) {
-    return false;
-  }
-
+  // The rows are looked up in item_rows_, this is called for every changed collection song, and scanning the whole playlist for each would be slow for large playlists.
   bool any_changed = false;
-  for (int row = static_cast<int>(items_.indexOf(item, 0)); row != -1; row = static_cast<int>(items_.indexOf(item, row + 1))) {
+  const QList<int> rows = ItemRows(item.get());
+  for (const int row : rows) {
+    // Make sure the row still contains the item, in case updating the previous row changed the playlist.
+    if (row >= items_.size() || items_[row] != item) continue;
     const bool changed = UpdateItemMetadata(row, item, new_metadata, stream_metadata_update);
     if (changed) {
       any_changed = true;
@@ -2730,6 +2753,32 @@ bool Playlist::UpdateItemMetadata(PlaylistItemPtr item, const Song &new_metadata
   }
 
   return any_changed;
+
+}
+
+QList<int> Playlist::ItemRows(const PlaylistItem *item) const {
+
+  // The size is checked too, as a safety net in case items_ was changed without calling InvalidateItemRows().
+  if (!item_rows_valid_ || item_rows_.size() != items_.size()) {
+    item_rows_.clear();
+    item_rows_.reserve(items_.size());
+    for (int i = 0; i < items_.size(); ++i) {
+      item_rows_.insert(&*items_[i], i);
+    }
+    item_rows_valid_ = true;
+  }
+
+  if (!item_rows_.contains(item)) return QList<int>();
+
+  QList<int> rows = item_rows_.values(item);
+  std::sort(rows.begin(), rows.end());
+  return rows;
+
+}
+
+void Playlist::InvalidateItemRows() {
+
+  item_rows_valid_ = false;
 
 }
 

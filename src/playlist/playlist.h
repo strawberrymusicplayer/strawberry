@@ -34,6 +34,7 @@
 #include <QMap>
 #include <QSet>
 #include <QMultiMap>
+#include <QMultiHash>
 #include <QMetaType>
 #include <QVariant>
 #include <QString>
@@ -381,6 +382,11 @@ class Playlist : public QAbstractListModel {
   void MoveItemsWithoutUndo(int start, const QList<int> &dest_rows);
   void ReOrderWithoutUndo(const PlaylistItemPtrList &new_items);
 
+  // Returns the rows of the item in ascending order, using item_rows_.
+  QList<int> ItemRows(const PlaylistItem *item) const;
+  // Must be called whenever items_ is changed.
+  void InvalidateItemRows();
+
   void RemoveItemsNotInQueue();
 
   // Removes rows with given indices from this playlist.
@@ -428,6 +434,10 @@ class Playlist : public QAbstractListModel {
   bool favorite_;
 
   PlaylistItemPtrList items_;
+
+  // The rows of the items in items_, rebuilt when needed after items_ changed, so finding the rows of an item doesn't scan the whole playlist.
+  mutable QMultiHash<const PlaylistItem*, int> item_rows_;
+  mutable bool item_rows_valid_;
 
   // Maps each item's UUID to the item, for fast lookups by UUID.
   // Only updated when items are added or removed; moves and reorders leave it untouched.
