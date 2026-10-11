@@ -117,6 +117,8 @@ class TagReaderClient : public QObject {
   QThread *original_thread_;
   QQueue<TagReaderRequestPtr> requests_;
   mutable QMutex mutex_requests_;
+  // Held while writing tags, the blocking functions are also called from other threads than the queued requests, and two writes to the same file at once can corrupt it.
+  QMutex mutex_write_;
   TagReaderTagLib tagreader_;
   TagReaderGME gmereader_;
   std::atomic<bool> abort_;

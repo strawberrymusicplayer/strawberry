@@ -327,6 +327,7 @@ TagReaderReadStreamReplyPtr TagReaderClient::ReadStreamAsync(const QUrl &url, co
 
 TagReaderResult TagReaderClient::WriteFileBlocking(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options, const SaveTagCoverData &save_tag_cover_data, const TagID3v2Version tag_id3v2_version) {
 
+  QMutexLocker l(&mutex_write_);
   return tagreader_.WriteFile(filename, song, save_tags_options, save_tag_cover_data, tag_id3v2_version);
 
 }
@@ -404,6 +405,7 @@ TagReaderLoadCoverImageReplyPtr TagReaderClient::LoadCoverImageAsync(const QStri
 
 TagReaderResult TagReaderClient::SaveCoverBlocking(const QString &filename, const SaveTagCoverData &save_tag_cover_data) {
 
+  QMutexLocker l(&mutex_write_);
   return tagreader_.SaveEmbeddedCover(filename, save_tag_cover_data);
 
 }
@@ -444,6 +446,7 @@ TagReaderReplyPtr TagReaderClient::SaveSongPlaycountAsync(const QString &filenam
 
 TagReaderResult TagReaderClient::SaveSongPlaycountBlocking(const QString &filename, const uint playcount) {
 
+  QMutexLocker l(&mutex_write_);
   return tagreader_.SaveSongPlaycount(filename, playcount);
 
 }
@@ -464,6 +467,7 @@ void TagReaderClient::SaveSongsPlaycountAsync(const SongList &songs) {
 
 TagReaderResult TagReaderClient::SaveSongRatingBlocking(const QString &filename, const float rating) {
 
+  QMutexLocker l(&mutex_write_);
   return tagreader_.SaveSongRating(filename, rating);
 
 }
@@ -501,6 +505,7 @@ void TagReaderClient::SaveSongsRatingAsync(const SongList &songs) {
 
 TagReaderResult TagReaderClient::SaveSongLyricsBlocking(const QString &filename, const QString &lyrics) {
 
+  QMutexLocker l(&mutex_write_);
   return tagreader_.SaveSongLyrics(filename, lyrics);
 
 }
@@ -525,6 +530,7 @@ TagReaderReplyPtr TagReaderClient::SaveSongLyricsAsync(const QString &filename, 
 
 TagReaderResult TagReaderClient::SaveSongSyncedLyricsBlocking(const QString &filename, const QString &synced_lyrics) {
 
+  QMutexLocker l(&mutex_write_);
   return tagreader_.SaveSongSyncedLyrics(filename, synced_lyrics);
 
 }
