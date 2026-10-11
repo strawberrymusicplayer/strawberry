@@ -937,7 +937,7 @@ void CollectionBackend::DeleteSongs(const SongList &songs) {
 }
 
 void CollectionBackend::DeleteSongsByUrlsAsync(const QList<QUrl> &urls) {
-  QMetaObject::invokeMethod(this, "DeleteSongsByUrl", Qt::QueuedConnection, Q_ARG(QList<QUrl>, urls));
+  QMetaObject::invokeMethod(this, [this, urls]() { DeleteSongsByUrls(urls); }, Qt::QueuedConnection);
 }
 
 void CollectionBackend::DeleteSongsByUrls(const QList<QUrl> &urls) {
