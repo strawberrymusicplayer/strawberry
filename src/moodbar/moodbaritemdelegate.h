@@ -79,6 +79,8 @@ class MoodbarItemDelegate : public QItemDelegate {
     QSet<QPersistentModelIndex> indexes_;
 
     State state_;
+    // Set when the style changed while the colors or the image were being rendered with the previous style.
+    bool reload_;
     ColorVector colors_;
     QSize desired_size_;
     QPixmap pixmap_;
