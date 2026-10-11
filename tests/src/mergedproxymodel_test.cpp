@@ -26,6 +26,8 @@
 
 #include <QStandardItemModel>
 #include <QSignalSpy>
+#include <QStringListModel>
+#include <QPersistentModelIndex>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -294,5 +296,57 @@ TEST_F(MergedProxyModelTest, SourceInsertBeforeMergePoint) {
   EXPECT_EQ(u"two"_s, two_p.data());
   EXPECT_EQ(one_p, two_p.parent());
   EXPECT_EQ(0, merged_.rowCount(merged_.index(0, 0, QModelIndex())));
+
+}
+
+// Regression test: resetting a submodel must invalidate the proxy's persistent indexes of its items, and the proxy must show its new rows after the reset.
+TEST_F(MergedProxyModelTest, SubModelResetInvalidatesPersistentIndexes) {
+
+  source_.appendRow(new QStandardItem(u"one"_s));
+  QStandardItemModel submodel;
+  submodel.appendRow(new QStandardItem(u"two"_s));
+  submodel.appendRow(new QStandardItem(u"three"_s));
+  merged_.AddSubModel(source_.index(0, 0, QModelIndex()), &submodel);
+
+  const QPersistentModelIndex one_p(merged_.index(0, 0, QModelIndex()));
+  ASSERT_EQ(2, merged_.rowCount(one_p));
+  const QPersistentModelIndex three_p(merged_.index(1, 0, one_p));
+  ASSERT_EQ(u"three"_s, three_p.data());
+
+  QSignalSpy remove_spy(&merged_, &MergedProxyModel::rowsRemoved);
+
+  submodel.clear();
+
+  EXPECT_EQ(1, remove_spy.count());
+  EXPECT_FALSE(three_p.isValid());
+  ASSERT_TRUE(one_p.isValid());
+  EXPECT_EQ(0, merged_.rowCount(one_p));
+
+  // The rows added after the reset show up.
+  submodel.appendRow(new QStandardItem(u"four"_s));
+  ASSERT_EQ(1, merged_.rowCount(one_p));
+  EXPECT_EQ(u"four"_s, merged_.index(0, 0, one_p).data());
+
+}
+
+// Regression test: after a submodel reset, its new rows must not be visible before they are announced with rowsAboutToBeInserted.
+TEST_F(MergedProxyModelTest, SubModelResetRowsHiddenUntilInserted) {
+
+  source_.appendRow(new QStandardItem(u"one"_s));
+  QStringListModel submodel(QStringList() << u"two"_s);
+  merged_.AddSubModel(source_.index(0, 0, QModelIndex()), &submodel);
+
+  const QPersistentModelIndex one_p(merged_.index(0, 0, QModelIndex()));
+  ASSERT_EQ(1, merged_.rowCount(one_p));
+
+  int rows_before_insert = -1;
+  QObject::connect(&merged_, &MergedProxyModel::rowsAboutToBeInserted, &merged_, [this, &one_p, &rows_before_insert]() { rows_before_insert = merged_.rowCount(one_p); });
+
+  // Resets the submodel with new rows.
+  submodel.setStringList(QStringList() << u"three"_s << u"four"_s);
+
+  EXPECT_EQ(0, rows_before_insert);
+  ASSERT_EQ(2, merged_.rowCount(one_p));
+  EXPECT_EQ(u"three"_s, merged_.index(0, 0, one_p).data());
 
 }

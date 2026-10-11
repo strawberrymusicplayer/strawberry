@@ -30,6 +30,7 @@
 #include <QList>
 #include <QMap>
 #include <QHash>
+#include <QSet>
 #include <QMetaObject>
 #include <QVariant>
 #include <QString>
@@ -108,7 +109,8 @@ class MergedProxyModel : public QAbstractProxyModel {
   void ForgetSubModel(QAbstractItemModel *submodel, const bool destroyed);
 
   QHash<QAbstractItemModel*, QPersistentModelIndex> merge_points_;
-  QAbstractItemModel *resetting_model_;
+  // Submodels between modelAboutToBeReset and modelReset, their rows are already removed from the proxy, so they have no rows here until the reset is done.
+  QSet<const QAbstractItemModel*> resetting_submodels_;
 
   // Kept per submodel, since the submodel can be deleted before it is removed, and must not be dereferenced then.
   QHash<QAbstractItemModel*, QList<QMetaObject::Connection>> submodel_connections_;
