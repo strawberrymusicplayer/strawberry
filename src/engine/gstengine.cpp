@@ -1091,8 +1091,9 @@ void GstEngine::StreamDiscovered(GstDiscoverer *discoverer, GstDiscovererInfo *i
   Q_UNUSED(discoverer)
   Q_UNUSED(error)
 
+  // This is called from the thread running the GLib main loop, which is not always the thread of the engine.
+  // Only the discovered info is read here, the pipelines are only used in StreamDiscoveredMetadata() in the thread of the engine.
   GstEngine *instance = reinterpret_cast<GstEngine*>(self);
-  if (!instance->current_pipeline_) return;
 
   const QByteArray discovered_url = gst_discoverer_info_get_uri(info);
 
@@ -1104,74 +1105,83 @@ void GstEngine::StreamDiscovered(GstDiscoverer *discoverer, GstDiscovererInfo *i
   }
 
   GList *audio_streams = gst_discoverer_info_get_audio_streams(info);
-  if (audio_streams) {
-
-    GstDiscovererStreamInfo *stream_info = reinterpret_cast<GstDiscovererStreamInfo*>(g_list_first(audio_streams)->data);
-
-    EngineMetadata engine_metadata;
-    bool match = false;
-    {
-      QMutexLocker l(instance->current_pipeline_->mutex_url());
-      if (discovered_url == instance->current_pipeline_->gst_url()) {
-        match = true;
-        engine_metadata.type = EngineMetadata::Type::Current;
-        engine_metadata.media_url = instance->current_pipeline_->media_url();
-        engine_metadata.stream_url = instance->current_pipeline_->stream_url();
-      }
-    }
-    if (!match) {
-      QMutexLocker l(instance->current_pipeline_->mutex_next_url());
-      if (discovered_url == instance->current_pipeline_->next_gst_url()) {
-        engine_metadata.type = EngineMetadata::Type::Next;
-        engine_metadata.media_url = instance->current_pipeline_->next_media_url();
-        engine_metadata.stream_url = instance->current_pipeline_->next_stream_url();
-      }
-    }
-    engine_metadata.samplerate = static_cast<int>(gst_discoverer_audio_info_get_sample_rate(GST_DISCOVERER_AUDIO_INFO(stream_info)));
-    engine_metadata.bitdepth = static_cast<int>(gst_discoverer_audio_info_get_depth(GST_DISCOVERER_AUDIO_INFO(stream_info)));
-    engine_metadata.bitrate = static_cast<int>(gst_discoverer_audio_info_get_bitrate(GST_DISCOVERER_AUDIO_INFO(stream_info)) / 1000);
-
-    GstCaps *caps = gst_discoverer_stream_info_get_caps(stream_info);
-
-    if (caps) {
-      const guint caps_size = gst_caps_get_size(caps);
-      for (guint i = 0; i < caps_size; ++i) {
-        GstStructure *gst_structure = gst_caps_get_structure(caps, i);
-        if (!gst_structure) continue;
-        QString mimetype = QString::fromUtf8(gst_structure_get_name(gst_structure));
-        if (!mimetype.isEmpty() && mimetype != "audio/mpeg"_L1) {
-          engine_metadata.filetype = Song::FiletypeByMimetype(mimetype);
-          if (engine_metadata.filetype == Song::FileType::Unknown) {
-            qLog(Error) << "Unknown mimetype" << mimetype;
-          }
-        }
-      }
-
-      if (engine_metadata.filetype == Song::FileType::Unknown) {
-        gchar *codec_description = gst_pb_utils_get_codec_description(caps);
-        QString filetype_description = (codec_description ? QString::fromUtf8(codec_description) : QString());
-        g_free(codec_description);
-        if (!filetype_description.isEmpty()) {
-          engine_metadata.filetype = Song::FiletypeByDescription(filetype_description);
-          if (engine_metadata.filetype == Song::FileType::Unknown) {
-            qLog(Error) << "Unknown filetype" << filetype_description;
-          }
-        }
-      }
-
-      gst_caps_unref(caps);
-    }
-
-    gst_discoverer_stream_info_list_free(audio_streams);
-
-    qLog(Debug) << "Got stream info for" << Utilities::UrlForLog(discovered_url) + u':' << Song::TextForFiletype(engine_metadata.filetype);
-
-    Q_EMIT instance->MetaData(engine_metadata);
-
-  }
-  else {
+  if (!audio_streams) {
     qLog(Error) << "Could not detect an audio stream in" << Utilities::UrlForLog(discovered_url);
+    return;
   }
+
+  GstDiscovererStreamInfo *stream_info = reinterpret_cast<GstDiscovererStreamInfo*>(g_list_first(audio_streams)->data);
+
+  EngineMetadata engine_metadata;
+  engine_metadata.samplerate = static_cast<int>(gst_discoverer_audio_info_get_sample_rate(GST_DISCOVERER_AUDIO_INFO(stream_info)));
+  engine_metadata.bitdepth = static_cast<int>(gst_discoverer_audio_info_get_depth(GST_DISCOVERER_AUDIO_INFO(stream_info)));
+  engine_metadata.bitrate = static_cast<int>(gst_discoverer_audio_info_get_bitrate(GST_DISCOVERER_AUDIO_INFO(stream_info)) / 1000);
+
+  GstCaps *caps = gst_discoverer_stream_info_get_caps(stream_info);
+
+  if (caps) {
+    const guint caps_size = gst_caps_get_size(caps);
+    for (guint i = 0; i < caps_size; ++i) {
+      GstStructure *gst_structure = gst_caps_get_structure(caps, i);
+      if (!gst_structure) continue;
+      QString mimetype = QString::fromUtf8(gst_structure_get_name(gst_structure));
+      if (!mimetype.isEmpty() && mimetype != "audio/mpeg"_L1) {
+        engine_metadata.filetype = Song::FiletypeByMimetype(mimetype);
+        if (engine_metadata.filetype == Song::FileType::Unknown) {
+          qLog(Error) << "Unknown mimetype" << mimetype;
+        }
+      }
+    }
+
+    if (engine_metadata.filetype == Song::FileType::Unknown) {
+      gchar *codec_description = gst_pb_utils_get_codec_description(caps);
+      QString filetype_description = (codec_description ? QString::fromUtf8(codec_description) : QString());
+      g_free(codec_description);
+      if (!filetype_description.isEmpty()) {
+        engine_metadata.filetype = Song::FiletypeByDescription(filetype_description);
+        if (engine_metadata.filetype == Song::FileType::Unknown) {
+          qLog(Error) << "Unknown filetype" << filetype_description;
+        }
+      }
+    }
+
+    gst_caps_unref(caps);
+  }
+
+  gst_discoverer_stream_info_list_free(audio_streams);
+
+  // Called directly when already in the thread of the engine, otherwise queued.
+  QMetaObject::invokeMethod(instance, [instance, discovered_url, engine_metadata]() { instance->StreamDiscoveredMetadata(discovered_url, engine_metadata); }, Qt::AutoConnection);
+
+}
+
+void GstEngine::StreamDiscoveredMetadata(const QByteArray &discovered_url, EngineMetadata engine_metadata) {
+
+  if (!current_pipeline_) return;
+
+  {
+    // Hold both locks, in the same order as the pipeline, so the next URL can't become the current URL between checking them.
+    QMutexLocker lock_url(current_pipeline_->mutex_url());
+    QMutexLocker lock_next_url(current_pipeline_->mutex_next_url());
+    if (discovered_url == current_pipeline_->gst_url()) {
+      engine_metadata.type = EngineMetadata::Type::Current;
+      engine_metadata.media_url = current_pipeline_->media_url();
+      engine_metadata.stream_url = current_pipeline_->stream_url();
+    }
+    else if (discovered_url == current_pipeline_->next_gst_url()) {
+      engine_metadata.type = EngineMetadata::Type::Next;
+      engine_metadata.media_url = current_pipeline_->next_media_url();
+      engine_metadata.stream_url = current_pipeline_->next_stream_url();
+    }
+    else {
+      // The stream is not playing or queued anymore, the metadata would not belong to any song.
+      return;
+    }
+  }
+
+  qLog(Debug) << "Got stream info for" << Utilities::UrlForLog(discovered_url) + u':' << Song::TextForFiletype(engine_metadata.filetype);
+
+  Q_EMIT MetaData(engine_metadata);
 
 }
 
