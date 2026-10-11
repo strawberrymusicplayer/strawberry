@@ -212,8 +212,8 @@ class EBUR128AnalysisImpl {
 
   std::optional<EBUR128State> state;
 
-  // Counted in the streaming thread, so the analysis only times out when decoding stops making progress, not when a long song takes long to decode.
-  std::atomic<quint64> buffers_received_{0};
+  // Monotonic time of the last buffer, set in the streaming thread, so the analysis only times out when decoding stops making progress, not when a long song takes long to decode.
+  std::atomic<gint64> last_buffer_time_usec_{0};
 
   static void NewPadCallback(GstElement *elt, GstPad *pad, gpointer data);
   static GstFlowReturn NewBufferCallback(GstAppSink *app_sink, gpointer self);
@@ -381,7 +381,7 @@ GstFlowReturn EBUR128AnalysisImpl::NewBufferCallback(GstAppSink *app_sink, gpoin
     }
   }
 
-  ++me->buffers_received_;
+  me->last_buffer_time_usec_ = g_get_monotonic_time();
 
   return GST_FLOW_OK;
 
@@ -484,19 +484,19 @@ std::optional<EBUR128Measures> EBUR128AnalysisImpl::Compute(const Song &song) {
   QElapsedTimer time;
   time.start();
 
-  // Start playing
+  // Start playing, the time without progress is counted from here until the first buffer.
+  impl.last_buffer_time_usec_ = g_get_monotonic_time();
   gst_element_set_state(pipeline, GST_STATE_PLAYING);
 
   // Wait until EOS or error, as long as decoding makes progress, so long songs on slow storage are still analyzed.
   bool hadError = false;
   GstMessage *msg = nullptr;
-  quint64 buffers_received = 0;
   while (true) {
-    msg = gst_bus_timed_pop_filtered(bus, kTimeoutSecs * GST_SECOND, static_cast<GstMessageType>(GST_MESSAGE_EOS | GST_MESSAGE_ERROR));
+    // Only wait for what remains of the timeout since the last buffer, so it times out the same time after the last buffer, however the buffers arrived.
+    const gint64 remaining_usec = (kTimeoutSecs * G_USEC_PER_SEC) - (g_get_monotonic_time() - impl.last_buffer_time_usec_);
+    if (remaining_usec <= 0) break;
+    msg = gst_bus_timed_pop_filtered(bus, static_cast<GstClockTime>(remaining_usec) * GST_USECOND, static_cast<GstMessageType>(GST_MESSAGE_EOS | GST_MESSAGE_ERROR));
     if (msg) break;
-    const quint64 new_buffers_received = impl.buffers_received_;
-    if (new_buffers_received == buffers_received) break;
-    buffers_received = new_buffers_received;
   }
   if (!msg) {
     // The song is not completely analyzed, so the result would be wrong.
