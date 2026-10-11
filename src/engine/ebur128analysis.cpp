@@ -483,7 +483,12 @@ std::optional<EBUR128Measures> EBUR128AnalysisImpl::Compute(const Song &song) {
   // Wait until EOS or error
   bool hadError = false;
   GstMessage *msg = gst_bus_timed_pop_filtered(bus, kTimeoutSecs * GST_SECOND, static_cast<GstMessageType>(GST_MESSAGE_EOS | GST_MESSAGE_ERROR));
-  if (msg) {
+  if (!msg) {
+    // The song is not completely analyzed, so the result would be wrong.
+    hadError = true;
+    qLog(Error) << "Timed out processing" << song.url();
+  }
+  else {
     if (msg->type == GST_MESSAGE_ERROR) {
       hadError = true;
       // Report error
@@ -502,6 +507,9 @@ std::optional<EBUR128Measures> EBUR128AnalysisImpl::Compute(const Song &song) {
 
   const qint64 decode_time = time.restart();
 
+  // Stop the pipeline before using the state, this waits for the streaming threads, which still add frames to it after a timeout.
+  gst_element_set_state(pipeline, GST_STATE_NULL);
+
   std::optional<EBUR128Measures> result;
   if (!hadError && impl.state) {
     // Generate loudness characteristics from sampled data.
@@ -513,9 +521,7 @@ std::optional<EBUR128Measures> EBUR128AnalysisImpl::Compute(const Song &song) {
   }
 
   // Cleanup
-  callbacks.new_sample = nullptr;
   gst_object_unref(bus);
-  gst_element_set_state(pipeline, GST_STATE_NULL);
   gst_object_unref(pipeline);
 
   return result;
