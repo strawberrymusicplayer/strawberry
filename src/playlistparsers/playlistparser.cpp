@@ -25,6 +25,7 @@
 #include <QIODevice>
 #include <QDir>
 #include <QFile>
+#include <QSaveFile>
 #include <QFileInfo>
 #include <QByteArray>
 #include <QString>
@@ -290,8 +291,10 @@ void PlaylistParser::Save(const QString &playlist_name, const SongList &songs, c
     dir.setPath(dir.canonicalPath());
   }
 
-  // Open the file
-  QFile file(fileinfo.absoluteFilePath());
+  // Write to a temporary file that replaces the playlist when it's committed, so a failed write doesn't leave the existing playlist truncated.
+  QSaveFile file(fileinfo.absoluteFilePath());
+  // Write directly when the temporary file can't be created in the directory, so saving still works where only the playlist itself is writable.
+  file.setDirectWriteFallback(true);
   if (!file.open(QIODevice::WriteOnly)) {
     qLog(Error) << "Failed to open" << filename << "for writing.";
     Q_EMIT Error(tr("Failed to open %1 for writing.").arg(filename));
@@ -300,7 +303,11 @@ void PlaylistParser::Save(const QString &playlist_name, const SongList &songs, c
 
   parser->Save(playlist_name, songs, &file, dir, path_type);
 
-  file.close();
+  // QSaveFile remembers write errors, and doesn't replace the playlist when committing after one.
+  if (!file.commit()) {
+    qLog(Error) << "Failed to save" << filename << file.errorString();
+    Q_EMIT Error(tr("Failed to save %1: %2").arg(filename, file.errorString()));
+  }
 
 }
 
