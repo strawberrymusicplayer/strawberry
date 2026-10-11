@@ -221,7 +221,7 @@ find_package(GTest)
 pkg_check_modules(LIBSPARSEHASH IMPORTED_TARGET libsparsehash)
 
 set(QT_VERSION_MAJOR 6)
-if(APPLE OR WIN32)
+if(WIN32)
   set(QT_MIN_VERSION 6.8.0)
 else()
   set(QT_MIN_VERSION 6.4.0)
