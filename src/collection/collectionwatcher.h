@@ -174,6 +174,10 @@ class CollectionWatcher : public QObject {
 
     CollectionSubdirectoryList known_subdirs_;
     bool known_subdirs_dirty_;
+    // Indexes of known_subdirs_, so looking up a subdirectory doesn't go through all of them.
+    // known_subdir_paths_ only has the subdirectories with a modification time, known_subdirs_by_parent_ has all of them, keyed by the parent path.
+    QSet<QString> known_subdir_paths_;
+    QHash<QString, CollectionSubdirectoryList> known_subdirs_by_parent_;
 
     QSet<QString> scanned_paths_;
   };
@@ -193,9 +197,10 @@ class CollectionWatcher : public QObject {
   bool stop_requested() const;
   bool abort_requested() const;
   bool stop_or_abort_requested() const;
-  static bool FindSongsByPath(const SongList &songs, const QString &path, SongList *out);
-  bool FindSongsByFingerprint(const QString &file, const QString &fingerprint, SongList *out);
-  static bool FindSongsByFingerprint(const QString &file, const SongList &songs, const QString &fingerprint, SongList *out);
+  static QHash<QString, SongList> SongsByPath(const SongList &songs);
+  static bool FindSongsByPath(const QHash<QString, SongList> &songs_by_path, const QString &path, SongList &songs_out);
+  bool FindSongsByFingerprint(const QString &file, const QString &fingerprint, SongList &songs_out);
+  static bool FindSongsByFingerprint(const QString &file, const SongList &songs, const QString &fingerprint, SongList &songs_out);
   inline static QString NoExtensionPart(const QString &fileName);
   inline static QString ExtensionPart(const QString &fileName);
   inline static QString DirectoryPart(const QString &fileName);

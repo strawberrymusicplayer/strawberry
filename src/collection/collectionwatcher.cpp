@@ -464,6 +464,17 @@ void CollectionWatcher::ScanTransaction::SetKnownSubdirs(const CollectionSubdire
   known_subdirs_ = subdirs;
   known_subdirs_dirty_ = false;
 
+  known_subdir_paths_.clear();
+  known_subdirs_by_parent_.clear();
+  for (const CollectionSubdirectory &subdir : subdirs) {
+    // Subdirectories without a modification time are not seen, so they are scanned, but they are still children, so they are found when they're removed.
+    if (subdir.mtime != 0) {
+      known_subdir_paths_.insert(subdir.path);
+    }
+    // QFileInfo::path() keeps the slash of a root directory, e.g. "/" for "/Music" and "C:/" for "C:/Music".
+    known_subdirs_by_parent_[QFileInfo(subdir.path).path()] << subdir;
+  }
+
 }
 
 bool CollectionWatcher::ScanTransaction::HasSeenSubdir(const QString &path) {
@@ -472,7 +483,7 @@ bool CollectionWatcher::ScanTransaction::HasSeenSubdir(const QString &path) {
     SetKnownSubdirs(watcher_->backend_->SubdirsInDirectory(dir_id_));
   }
 
-  return std::any_of(known_subdirs_.begin(), known_subdirs_.end(), [path](const CollectionSubdirectory &subdir) { return subdir.path == path && subdir.mtime != 0; });
+  return known_subdir_paths_.contains(path);
 
 }
 
@@ -494,14 +505,7 @@ CollectionSubdirectoryList CollectionWatcher::ScanTransaction::GetImmediateSubdi
     SetKnownSubdirs(watcher_->backend_->SubdirsInDirectory(dir_id_));
   }
 
-  CollectionSubdirectoryList ret;
-  for (const CollectionSubdirectory &subdir : std::as_const(known_subdirs_)) {
-    if (subdir.path.left(subdir.path.lastIndexOf(QDir::separator())) == path && subdir.mtime != 0) {
-      ret << subdir;
-    }
-  }
-
-  return ret;
+  return known_subdirs_by_parent_.value(path);
 
 }
 
@@ -697,6 +701,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
 
   // Ask the database for a list of files in this directory
   const SongList songs_in_db = t->FindSongsInSubdirectory(path);
+  const QHash<QString, SongList> songs_in_db_by_path = SongsByPath(songs_in_db);
 
   QSet<QString> cues_processed;
 
@@ -710,7 +715,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
     const QString new_cue = CueParser::FindCueFilename(file);
 
     SongList matching_songs;
-    if (FindSongsByPath(songs_in_db, file, &matching_songs)) {  // Found matching song in DB by path.
+    if (FindSongsByPath(songs_in_db_by_path, file, matching_songs)) {  // Found matching song in DB by path.
 
       const Song matching_song = matching_songs.first();
 
@@ -818,7 +823,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
         }
       }
 #endif
-      if (song_tracking_ && !fingerprint.isEmpty() && fingerprint != "NONE"_L1 && FindSongsByFingerprint(file, fingerprint, &matching_songs)) {
+      if (song_tracking_ && !fingerprint.isEmpty() && fingerprint != "NONE"_L1 && FindSongsByFingerprint(file, fingerprint, matching_songs)) {
 
         // The song is in the database and still on disk.
         // Check the mtime to see if it's been changed since it was added.
@@ -1301,21 +1306,29 @@ void CollectionWatcher::RemoveDirectory(const CollectionDirectory &dir) {
 
 }
 
-bool CollectionWatcher::FindSongsByPath(const SongList &songs, const QString &path, SongList *out) {
+QHash<QString, SongList> CollectionWatcher::SongsByPath(const SongList &songs) {
 
-  // Compare on the NFC-normalized path so a file that differs only in Unicode normalization (NFC vs NFD) between disk and database still matches, instead of being treated as a new file and duplicated.
-  const QString nfc_path = path.normalized(QString::NormalizationForm_C);
+  // Keyed on the NFC-normalized path so a file that differs only in Unicode normalization (NFC vs NFD) between disk and database still matches, instead of being treated as a new file and duplicated.
+  // The songs for each path keep the order of the list, several songs can share a path with a CUE sheet.
+  QHash<QString, SongList> songs_by_path;
+  songs_by_path.reserve(songs.count());
   for (const Song &song : songs) {
-    if (song.url().toLocalFile().normalized(QString::NormalizationForm_C) == nfc_path) {
-      *out << song;
-    }
+    songs_by_path[song.url().toLocalFile().normalized(QString::NormalizationForm_C)] << song;
   }
 
-  return !out->isEmpty();
+  return songs_by_path;
 
 }
 
-bool CollectionWatcher::FindSongsByFingerprint(const QString &file, const QString &fingerprint, SongList *out) {
+bool CollectionWatcher::FindSongsByPath(const QHash<QString, SongList> &songs_by_path, const QString &path, SongList &songs_out) {
+
+  songs_out << songs_by_path.value(path.normalized(QString::NormalizationForm_C));
+
+  return !songs_out.isEmpty();
+
+}
+
+bool CollectionWatcher::FindSongsByFingerprint(const QString &file, const QString &fingerprint, SongList &songs_out) {
 
   const SongList songs = backend_->GetSongsByFingerprint(fingerprint);
   for (const Song &song : songs) {
@@ -1324,25 +1337,25 @@ bool CollectionWatcher::FindSongsByFingerprint(const QString &file, const QStrin
     // Allow multiple songs in different directories with the same fingerprint.
     // Only use the matching song by fingerprint if it doesn't already exist in a different path.
     if (file == filename || !info.exists()) {
-      *out << song;
+      songs_out << song;
     }
   }
 
-  return !out->isEmpty();
+  return !songs_out.isEmpty();
 
 }
 
-bool CollectionWatcher::FindSongsByFingerprint(const QString &file, const SongList &songs, const QString &fingerprint, SongList *out) {
+bool CollectionWatcher::FindSongsByFingerprint(const QString &file, const SongList &songs, const QString &fingerprint, SongList &songs_out) {
 
   for (const Song &song : songs) {
     QString filename = song.url().toLocalFile();
     if (song.fingerprint() == fingerprint && (file == filename || !QFileInfo::exists(filename))) {
-      *out << song;
+      songs_out << song;
       return true;
     }
   }
 
-  return !out->isEmpty();
+  return !songs_out.isEmpty();
 
 }
 
