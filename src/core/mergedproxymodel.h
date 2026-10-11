@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,13 +24,13 @@
 
 #include "config.h"
 
-#include <cstddef>
-
 #include <QObject>
 #include <QAbstractItemModel>
 #include <QAbstractProxyModel>
+#include <QList>
 #include <QMap>
 #include <QHash>
+#include <QMetaObject>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
@@ -38,8 +38,6 @@
 #include "includes/scoped_ptr.h"
 
 class QMimeData;
-
-std::size_t hash_value(const QModelIndex &idx);
 
 class MergedProxyModelPrivate;
 
@@ -107,11 +105,14 @@ class MergedProxyModel : public QAbstractProxyModel {
   QAbstractItemModel *GetModel(const QModelIndex &source_index) const;
   void DeleteAllMappings();
   bool IsKnownModel(const QAbstractItemModel *model) const;
+  void ForgetSubModel(QAbstractItemModel *submodel, const bool destroyed);
 
   QHash<QAbstractItemModel*, QPersistentModelIndex> merge_points_;
   QAbstractItemModel *resetting_model_;
 
-  QHash<QAbstractItemModel*, QModelIndex> old_merge_points_;
+  // Kept per submodel, since the submodel can be deleted before it is removed, and must not be dereferenced then.
+  QHash<QAbstractItemModel*, QList<QMetaObject::Connection>> submodel_connections_;
+  QHash<QAbstractItemModel*, int> submodel_row_counts_;
 
   ScopedPtr<MergedProxyModelPrivate> p_;
 };

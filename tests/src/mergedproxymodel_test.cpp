@@ -184,3 +184,115 @@ TEST_F(MergedProxyModelTest, SubRemove) {
   EXPECT_EQ(0, after_spy[0][2].toInt());
 
 }
+
+// Regression test: removing a submodel must remove its rows from the proxy, and stop forwarding its signals.
+TEST_F(MergedProxyModelTest, RemoveSubModel) {
+
+  source_.appendRow(new QStandardItem(u"one"_s));
+  QStandardItemModel submodel;
+  submodel.appendRow(new QStandardItem(u"two"_s));
+  submodel.appendRow(new QStandardItem(u"three"_s));
+  merged_.AddSubModel(source_.index(0, 0, QModelIndex()), &submodel);
+
+  const QModelIndex one_i = merged_.index(0, 0, QModelIndex());
+  ASSERT_EQ(2, merged_.rowCount(one_i));
+  const QPersistentModelIndex two_p(merged_.index(0, 0, one_i));
+
+  QSignalSpy before_spy(&merged_, &MergedProxyModel::rowsAboutToBeRemoved);
+  QSignalSpy after_spy(&merged_, &MergedProxyModel::rowsRemoved);
+
+  merged_.RemoveSubModel(source_.index(0, 0, QModelIndex()));
+
+  ASSERT_EQ(1, before_spy.count());
+  ASSERT_EQ(1, after_spy.count());
+  EXPECT_EQ(u"one"_s, before_spy[0][0].toModelIndex().data());
+  EXPECT_EQ(0, before_spy[0][1].toInt());
+  EXPECT_EQ(1, before_spy[0][2].toInt());
+  EXPECT_EQ(0, merged_.rowCount(one_i));
+  EXPECT_FALSE(two_p.isValid());
+
+  // The submodel is no longer connected.
+  QSignalSpy insert_spy(&merged_, &MergedProxyModel::rowsAboutToBeInserted);
+  submodel.appendRow(new QStandardItem(u"four"_s));
+  EXPECT_EQ(0, insert_spy.count());
+  EXPECT_EQ(0, merged_.rowCount(one_i));
+
+}
+
+// Regression test: a submodel that is deleted before it is removed must be forgotten, without the proxy using it anymore.
+TEST_F(MergedProxyModelTest, DeletedSubModel) {
+
+  source_.appendRow(new QStandardItem(u"one"_s));
+  QStandardItemModel *submodel = new QStandardItemModel;
+  submodel->appendRow(new QStandardItem(u"two"_s));
+  merged_.AddSubModel(source_.index(0, 0, QModelIndex()), submodel);
+  ASSERT_EQ(1, merged_.rowCount(merged_.index(0, 0, QModelIndex())));
+
+  delete submodel;
+
+  const QModelIndex one_i = merged_.index(0, 0, QModelIndex());
+  EXPECT_EQ(u"one"_s, one_i.data());
+  EXPECT_EQ(0, merged_.rowCount(one_i));
+  EXPECT_FALSE(merged_.hasChildren(one_i));
+
+  // Removing it afterwards does nothing.
+  merged_.RemoveSubModel(source_.index(0, 0, QModelIndex()));
+  EXPECT_EQ(0, merged_.rowCount(one_i));
+
+}
+
+// Regression test: a layout change in a submodel must be forwarded, and move the proxy's persistent indexes with their items.
+TEST_F(MergedProxyModelTest, SubModelLayoutChange) {
+
+  source_.appendRow(new QStandardItem(u"one"_s));
+  QStandardItemModel submodel;
+  submodel.appendRow(new QStandardItem(u"b"_s));
+  submodel.appendRow(new QStandardItem(u"a"_s));
+  merged_.AddSubModel(source_.index(0, 0, QModelIndex()), &submodel);
+
+  const QModelIndex one_i = merged_.index(0, 0, QModelIndex());
+  const QPersistentModelIndex b_p(merged_.index(0, 0, one_i));
+  const QPersistentModelIndex a_p(merged_.index(1, 0, one_i));
+  ASSERT_EQ(u"b"_s, b_p.data());
+  ASSERT_EQ(u"a"_s, a_p.data());
+
+  QSignalSpy before_spy(&merged_, &MergedProxyModel::layoutAboutToBeChanged);
+  QSignalSpy after_spy(&merged_, &MergedProxyModel::layoutChanged);
+
+  submodel.sort(0);
+
+  EXPECT_EQ(1, before_spy.count());
+  EXPECT_EQ(1, after_spy.count());
+  EXPECT_EQ(1, b_p.row());
+  EXPECT_EQ(u"b"_s, b_p.data());
+  EXPECT_EQ(0, a_p.row());
+  EXPECT_EQ(u"a"_s, a_p.data());
+  EXPECT_EQ(u"a"_s, merged_.index(0, 0, one_i).data());
+  EXPECT_EQ(u"b"_s, merged_.index(1, 0, one_i).data());
+
+}
+
+// Regression test: inserting rows in the source model before a merge point must keep the merge point's persistent index mapped to the same item, with the submodel's rows under it.
+TEST_F(MergedProxyModelTest, SourceInsertBeforeMergePoint) {
+
+  source_.appendRow(new QStandardItem(u"one"_s));
+  QStandardItemModel submodel;
+  submodel.appendRow(new QStandardItem(u"two"_s));
+  merged_.AddSubModel(source_.index(0, 0, QModelIndex()), &submodel);
+
+  const QPersistentModelIndex one_p(merged_.index(0, 0, QModelIndex()));
+  const QPersistentModelIndex two_p(merged_.index(0, 0, one_p));
+  ASSERT_EQ(u"two"_s, two_p.data());
+
+  source_.insertRow(0, new QStandardItem(u"zero"_s));
+
+  ASSERT_EQ(1, one_p.row());
+  EXPECT_EQ(u"one"_s, one_p.data());
+  EXPECT_EQ(source_.index(1, 0, QModelIndex()), merged_.mapToSource(one_p));
+  ASSERT_EQ(1, merged_.rowCount(one_p));
+  EXPECT_EQ(u"two"_s, merged_.index(0, 0, one_p).data());
+  EXPECT_EQ(u"two"_s, two_p.data());
+  EXPECT_EQ(one_p, two_p.parent());
+  EXPECT_EQ(0, merged_.rowCount(merged_.index(0, 0, QModelIndex())));
+
+}
