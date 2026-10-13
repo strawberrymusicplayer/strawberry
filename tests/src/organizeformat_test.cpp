@@ -128,6 +128,24 @@ TEST_F(OrganizeFormatTest, Blocks) {
 
 }
 
+TEST_F(OrganizeFormatTest, PercentInBlockValue) {
+
+  // Values from blocks must not be parsed again, a "%" in them should be kept and not expanded as a tag.
+  format_.set_replace_spaces(false);
+  format_.set_format(u"%artist/{%artist - }%title"_s);
+  ASSERT_TRUE(format_.IsValid());
+
+  song_.set_artist(u"100% Band"_s);
+  song_.set_title(u"%album"_s);
+  song_.set_album(u"album"_s);
+  EXPECT_EQ(u"100% Band/100% Band - %album"_s, format_.GetFilenameForSong(song_).filename);
+
+  song_.set_artist(u"Band %title"_s);
+  song_.set_title(u"title"_s);
+  EXPECT_EQ(u"Band %title/Band %title - title"_s, format_.GetFilenameForSong(song_).filename);
+
+}
+
 TEST_F(OrganizeFormatTest, ReplaceSpaces) {
 
   song_.set_title(u"The Song Title"_s);

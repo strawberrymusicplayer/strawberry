@@ -208,39 +208,44 @@ OrganizeFormat::GetFilenameForSongResult OrganizeFormat::GetFilenameForSong(cons
 
 QString OrganizeFormat::ParseBlock(QString block, const Song &song, bool *have_tagdata, bool *any_empty) const {
 
-  // Find any blocks first
-  qint64 pos = 0;
   static const QRegularExpression block_regexp(QString::fromLatin1(kBlockPattern));
-  QRegularExpressionMatch re_match;
-  for (re_match = block_regexp.match(block, pos); re_match.hasMatch(); re_match = block_regexp.match(block, pos)) {
-    pos = re_match.capturedStart();
-    // Recursively parse the block
-    bool empty = false;
-    QString value = ParseBlock(re_match.captured(1), song, have_tagdata, &empty);
-    if (empty) value = ""_L1;
-
-    // Replace the block's value
-    block.replace(pos, re_match.capturedLength(), value);
-    pos += value.length();
-  }
-
-  // Now look for tags
-  bool empty = false;
-  pos = 0;
   static const QRegularExpression tag_regexp(QString::fromLatin1(kTagPattern));
-  for (re_match = tag_regexp.match(block, pos); re_match.hasMatch(); re_match = tag_regexp.match(block, pos)) {
-    pos = re_match.capturedStart();
-    const QString tag = re_match.captured(1);
-    const QString value = TagValue(tag, song);
-    if (value.isEmpty()) {
-      empty = true;
+
+  // Replace blocks and tags in one pass from left to right, so values that are already replaced are not parsed again.
+  // Otherwise a "%" in the value of a block, like in "100% Band", would be parsed as a tag.
+  bool empty = false;
+  qint64 pos = 0;
+  while (pos < block.length()) {
+    const QRegularExpressionMatch block_match = block_regexp.match(block, pos);
+    const QRegularExpressionMatch tag_match = tag_regexp.match(block, pos);
+    if (!block_match.hasMatch() && !tag_match.hasMatch()) break;
+
+    qint64 start = 0;
+    qint64 length = 0;
+    QString value;
+    if (block_match.hasMatch() && (!tag_match.hasMatch() || block_match.capturedStart() < tag_match.capturedStart())) {
+      // Recursively parse the block
+      bool block_empty = false;
+      value = ParseBlock(block_match.captured(1), song, have_tagdata, &block_empty);
+      if (block_empty) value.clear();
+      start = block_match.capturedStart();
+      length = block_match.capturedLength();
     }
-    else if (have_tagdata && kUniqueTags.contains(tag)) {
-      *have_tagdata = true;
+    else {
+      const QString tag = tag_match.captured(1);
+      value = TagValue(tag, song);
+      if (value.isEmpty()) {
+        empty = true;
+      }
+      else if (have_tagdata && kUniqueTags.contains(tag)) {
+        *have_tagdata = true;
+      }
+      start = tag_match.capturedStart();
+      length = tag_match.capturedLength();
     }
 
-    block.replace(pos, re_match.capturedLength(), value);
-    pos += value.length();
+    block.replace(start, length, value);
+    pos = start + value.length();
   }
 
   if (any_empty) {
