@@ -124,12 +124,16 @@ const QRegularExpression &GenericAlbumTitleRegex() {
 AlbumCoverFetcherSearch::AlbumCoverFetcherSearch(const CoverSearchRequest &request, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),
       request_(request),
+      timer_search_timeout_(new QTimer(this)),
       image_load_timeout_(new NetworkTimeouts(kImageLoadTimeoutMs, this)),
       network_(network),
       cancel_requested_(false) {
 
   // We will terminate the search after kSearchTimeoutMs milliseconds if we are not able to find all of the results before that point in time
-  QTimer::singleShot(kSearchTimeoutMs, this, &AlbumCoverFetcherSearch::TerminateSearch);
+  timer_search_timeout_->setSingleShot(true);
+  timer_search_timeout_->setInterval(kSearchTimeoutMs);
+  QObject::connect(timer_search_timeout_, &QTimer::timeout, this, &AlbumCoverFetcherSearch::TerminateSearch);
+  timer_search_timeout_->start();
 
 }
 
@@ -275,6 +279,9 @@ void AlbumCoverFetcherSearch::ProviderSearchFinished(const int id, const CoverPr
 }
 
 void AlbumCoverFetcherSearch::AllProvidersFinished() {
+
+  // Only finish the search once, the timeout would otherwise finish it again while the images are loading, and report no cover when the results are already taken for loading.
+  timer_search_timeout_->stop();
 
   qLog(Debug) << "Search finished, got" << results_.count() << "results";
 
