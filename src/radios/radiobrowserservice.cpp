@@ -1,6 +1,7 @@
 /*
  * Strawberry Music Player
  * Copyright 2026, Malte Zilinski <malte@zilinski.eu>
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -73,9 +74,25 @@ void RadioBrowserService::Abort() {
     task_manager_->SetTaskFinished(task_id);
   }
   pending_search_tasks_.clear();
+  search_replies_.clear();
 
   has_pending_search_ = false;
   has_pending_countries_ = false;
+
+}
+
+void RadioBrowserService::AbortSearches() {
+
+  for (QHash<QNetworkReply*, int>::const_iterator it = search_replies_.constBegin(); it != search_replies_.constEnd(); ++it) {
+    QNetworkReply *reply = it.key();
+    replies_.removeAll(reply);
+    QObject::disconnect(reply, nullptr, this, nullptr);
+    if (reply->isRunning()) reply->abort();
+    reply->deleteLater();
+    task_manager_->SetTaskFinished(it.value());
+    pending_search_tasks_.removeAll(it.value());
+  }
+  search_replies_.clear();
 
 }
 
@@ -156,6 +173,12 @@ void RadioBrowserService::Search(const QString &query,
                                   const int offset,
                                   const bool hide_broken) {
 
+  // A new search replaces the previous ones, their results would otherwise be added to the results of this one.
+  // Loading more results for the same search keeps them.
+  if (offset == 0) {
+    AbortSearches();
+  }
+
   if (!server_discovered_) {
     // Save search and discover server first
     pending_search_ = {query, country, tag, language, order, limit, offset, hide_broken};
@@ -194,6 +217,7 @@ void RadioBrowserService::Search(const QString &query,
   replies_ << reply;
   const int task_id = task_manager_->StartTask(tr("Searching Radio Browser"));
   pending_search_tasks_ << task_id;
+  search_replies_.insert(reply, task_id);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, task_id, limit]() { SearchReply(reply, task_id, limit); });
 
 }
@@ -201,6 +225,7 @@ void RadioBrowserService::Search(const QString &query,
 void RadioBrowserService::SearchReply(QNetworkReply *reply, const int task_id, const int limit) {
 
   if (replies_.contains(reply)) replies_.removeAll(reply);
+  search_replies_.remove(reply);
   reply->deleteLater();
   task_manager_->SetTaskFinished(task_id);
   pending_search_tasks_.removeAll(task_id);

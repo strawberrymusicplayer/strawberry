@@ -1,6 +1,7 @@
 /*
  * Strawberry Music Player
  * Copyright 2026, Malte Zilinski <malte@zilinski.eu>
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +24,7 @@
 #include <QObject>
 #include <QPair>
 #include <QList>
+#include <QHash>
 #include <QString>
 #include <QUrl>
 
@@ -73,8 +75,11 @@ class RadioBrowserService : public RadioService {
  private:
   void DiscoverServer();
   void TestServer(const QString &hostname);
+  void AbortSearches();
 
   QList<QNetworkReply*> replies_;
+  // Search replies with their task ID, so a new search can abort the previous ones.
+  QHash<QNetworkReply*, int> search_replies_;
   QList<int> pending_search_tasks_;
   QUrl server_url_;
   bool server_discovered_;
