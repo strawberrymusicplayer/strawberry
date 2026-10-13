@@ -111,7 +111,7 @@ void TidalCoverProvider::CancelSearch(const int id) { Q_UNUSED(id); }
 JsonBaseRequest::JsonObjectResult TidalCoverProvider::ParseJsonObject(QNetworkReply *reply) {
 
   if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
-    return ReplyDataResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    return ReplyDataResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error())));
   }
 
   JsonObjectResult result(ErrorCode::Success);
@@ -132,7 +132,7 @@ JsonBaseRequest::JsonObjectResult TidalCoverProvider::ParseJsonObject(QNetworkRe
         const QString user_message = json_object["userMessage"_L1].toString();
         result.error_code = ErrorCode::APIError;
         result.api_error = status;
-        result.error_message = QStringLiteral("%1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
+        result.error_message = QStringLiteral("%1 (%2) (%3)").arg(user_message, QString::number(status), QString::number(sub_status));
       }
       else {
         result.json_object = json_document.object();
@@ -147,7 +147,7 @@ JsonBaseRequest::JsonObjectResult TidalCoverProvider::ParseJsonObject(QNetworkRe
   if (result.error_code != ErrorCode::APIError) {
     if (reply->error() != QNetworkReply::NoError) {
       result.error_code = ErrorCode::NetworkError;
-      result.error_message = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      result.error_message = QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error()));
     }
     else if (result.http_status_code != 200) {
       result.error_code = ErrorCode::HttpError;

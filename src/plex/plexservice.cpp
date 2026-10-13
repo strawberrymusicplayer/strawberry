@@ -279,7 +279,7 @@ void PlexService::HandlePinReply(QNetworkReply *reply) {
   reply->deleteLater();
 
   if (reply->error() != QNetworkReply::NoError) {
-    AuthenticationError(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    AuthenticationError(QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error())));
     return;
   }
 
@@ -344,7 +344,7 @@ void PlexService::HandlePollPinReply(QNetworkReply *reply) {
 
   if (reply->error() != QNetworkReply::NoError) {
     CancelAuthentication();
-    AuthenticationError(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    AuthenticationError(QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error())));
     return;
   }
 
@@ -767,7 +767,7 @@ void PlexService::HandlePingReply(QNetworkReply *reply) {
   reply->deleteLater();
 
   if (reply->error() != QNetworkReply::NoError) {
-    PingError(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    PingError(QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error())));
     return;
   }
 

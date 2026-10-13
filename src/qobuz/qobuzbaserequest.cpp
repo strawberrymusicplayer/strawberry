@@ -133,7 +133,7 @@ JsonBaseRequest::JsonObjectResult QobuzBaseRequest::ParseJsonObject(QNetworkRepl
         const int code = json_object["code"_L1].toInt();
         const QString message = json_object["message"_L1].toString();
         result.error_code = ErrorCode::APIError;
-        result.error_message = QStringLiteral("%1 (%2)").arg(message).arg(code);
+        result.error_message = QStringLiteral("%1 (%2)").arg(message, QString::number(code));
       }
       else {
         result.json_object = json_document.object();

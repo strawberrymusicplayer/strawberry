@@ -201,7 +201,7 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
           const int api_error_code = error_object["code"_L1].toInt();
           const QString api_error_text = error_object["message"_L1].toString();
           if (!api_error_text.isEmpty()) {
-            api_error_message = QStringLiteral("%1 (%2)").arg(api_error_text).arg(api_error_code);
+            api_error_message = QStringLiteral("%1 (%2)").arg(api_error_text, QString::number(api_error_code));
           }
         }
         else if (json_object["error"_L1].isString()) {
@@ -225,7 +225,7 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
         error_message = QStringLiteral("Received HTTP code %1").arg(http_status_code);
       }
       else {
-        error_message = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+        error_message = QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error()));
       }
     }
     qLog(Error) << QStringLiteral("Acoustid: %1").arg(error_message);

@@ -1285,7 +1285,7 @@ void SpotifyRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &alb
   }
 
   if (reply->error() != QNetworkReply::NoError) {
-    Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    Error(QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error())));
     album_covers_requests_sent_.remove(album_id);
     return;
   }

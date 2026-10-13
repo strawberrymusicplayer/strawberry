@@ -145,7 +145,7 @@ bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &albu
 JsonBaseRequest::JsonObjectResult LastFmCoverProvider::ParseJsonObject(QNetworkReply *reply) {
 
   if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
-    return ReplyDataResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    return ReplyDataResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error())));
   }
 
   JsonObjectResult result(ErrorCode::Success);
@@ -164,7 +164,7 @@ JsonBaseRequest::JsonObjectResult LastFmCoverProvider::ParseJsonObject(QNetworkR
         const int error = json_object["error"_L1].toInt();
         const QString message = json_object["message"_L1].toString();
         result.error_code = ErrorCode::APIError;
-        result.error_message = QStringLiteral("%1 (%2)").arg(message).arg(error);
+        result.error_message = QStringLiteral("%1 (%2)").arg(message, QString::number(error));
       }
       else {
         result.json_object = json_document.object();
@@ -179,7 +179,7 @@ JsonBaseRequest::JsonObjectResult LastFmCoverProvider::ParseJsonObject(QNetworkR
   if (result.error_code != ErrorCode::APIError) {
     if (reply->error() != QNetworkReply::NoError) {
       result.error_code = ErrorCode::NetworkError;
-      result.error_message = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      result.error_message = QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error()));
     }
     else if (result.http_status_code != 200) {
       result.error_code = ErrorCode::HttpError;

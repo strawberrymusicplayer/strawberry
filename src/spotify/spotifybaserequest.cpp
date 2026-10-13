@@ -72,7 +72,7 @@ QNetworkReply *SpotifyBaseRequest::CreateRequest(const QString &ressource_name, 
 JsonBaseRequest::JsonObjectResult SpotifyBaseRequest::ParseJsonObject(QNetworkReply *reply) {
 
   if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
-    return ReplyDataResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    return ReplyDataResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error())));
   }
 
   JsonObjectResult result(ErrorCode::Success);
@@ -93,7 +93,7 @@ JsonBaseRequest::JsonObjectResult SpotifyBaseRequest::ParseJsonObject(QNetworkRe
           const int status = object_error["status"_L1].toInt();
           const QString message = object_error["message"_L1].toString();
           result.error_code = ErrorCode::APIError;
-          result.error_message = QStringLiteral("%1 (%2)").arg(message).arg(status);
+          result.error_message = QStringLiteral("%1 (%2)").arg(message, QString::number(status));
         }
         else {
           // Error object without the expected status/message keys - surface the object rather than treating it as a success.
@@ -113,7 +113,7 @@ JsonBaseRequest::JsonObjectResult SpotifyBaseRequest::ParseJsonObject(QNetworkRe
   if (result.error_code != ErrorCode::APIError) {
     if (reply->error() != QNetworkReply::NoError) {
       result.error_code = ErrorCode::NetworkError;
-      result.error_message = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      result.error_message = QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error()));
     }
     else if (result.http_status_code < 200 || result.http_status_code > 207) {
       result.error_code = ErrorCode::HttpError;

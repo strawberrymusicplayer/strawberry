@@ -400,7 +400,7 @@ QJsonObject QobuzService::ParseLoginReply(QNetworkReply *reply, const QString &r
       if (!json_object.isEmpty() && json_object.contains("status"_L1) && json_object.contains("code"_L1) && json_object.contains("message"_L1)) {
         const int code = json_object["code"_L1].toInt();
         const QString message = json_object["message"_L1].toString();
-        error_message = QStringLiteral("%1 (%2)").arg(message).arg(code);
+        error_message = QStringLiteral("%1 (%2)").arg(message, QString::number(code));
       }
     }
     if (error_message.isEmpty()) {

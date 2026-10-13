@@ -47,7 +47,7 @@ RadioService::RadioService(const Song::Source source,
 QByteArray RadioService::ExtractData(QNetworkReply *reply) {
 
   if (reply->error() != QNetworkReply::NoError) {
-    Error(QStringLiteral("Failed to retrieve data from %1: %2 (%3)").arg(name_, reply->errorString()).arg(reply->error()));
+    Error(QStringLiteral("Failed to retrieve data from %1: %2 (%3)").arg(name_, reply->errorString(), QString::number(reply->error())));
     if (reply->error() < 200) {
       return QByteArray();
     }

@@ -466,7 +466,7 @@ void Chromaprinter::NewPadCallback(GstElement *element, GstPad *pad, gpointer da
 
   const GstPadLinkReturn pad_link_return = gst_pad_link(pad, audiopad);
   if (pad_link_return != GST_PAD_LINK_OK) {
-    const QString reason = QStringLiteral("Failed to link decodebin pad '%1' to audioconvert (code %2)").arg(caps_name).arg(static_cast<int>(pad_link_return));
+    const QString reason = QStringLiteral("Failed to link decodebin pad '%1' to audioconvert (code %2)").arg(caps_name, QString::number(static_cast<int>(pad_link_return)));
     instance->SetLastErrorIfEmpty(reason);
     qLog(Warning) << "Chromaprinter:" << reason << "File:" << instance->url_;
   }
