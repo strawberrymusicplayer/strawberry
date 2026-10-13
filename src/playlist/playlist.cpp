@@ -1282,7 +1282,11 @@ void Playlist::InsertItems(const PlaylistItemPtrList &itemsIn, const int pos, co
 
 }
 
-void Playlist::InsertItemsWithUndo(const PlaylistItemPtrList &items, const int pos, const bool enqueue, const bool enqueue_next) {
+void Playlist::InsertItemsWithUndo(const PlaylistItemPtrList &items, const int requested_pos, const bool enqueue, const bool enqueue_next) {
+
+  // The position can be out of range when it was stored while loading songs or generating a playlist, and rows were removed in the meantime, so append the items then.
+  // This is done before creating the undo command, so it removes the items from the rows they were inserted at.
+  const int pos = requested_pos < 0 || requested_pos > static_cast<int>(items_.count()) ? -1 : requested_pos;
 
   // Auto-sort here rather than in InsertItemsWithoutUndo(), since that is also run from inside undo commands, where pushing the sort command would corrupt the undo stack.
   const bool auto_sort = auto_sort_ && !is_loading_ && is_sorted_;
@@ -1313,7 +1317,7 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
 
   if (items.isEmpty()) return;
 
-  const int start = pos == -1 ? static_cast<int>(items_.count()) : pos;
+  const int start = pos < 0 || pos > static_cast<int>(items_.count()) ? static_cast<int>(items_.count()) : pos;
   const int end = start + static_cast<int>(items.count()) - 1;
 
   bool has_generated_uuids = false;
