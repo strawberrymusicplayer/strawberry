@@ -1066,7 +1066,8 @@ void TagReaderTagLib::ParseASFTags(TagLib::ASF::Tag *tag, QString *disc, QString
   if (attributes_map.contains(kASF_FMPS_Playcount)) {
     const TagLib::ASF::AttributeList &attributes = attributes_map[kASF_FMPS_Playcount];
     if (!attributes.isEmpty()) {
-      int playcount = TagLibStringToQString(attributes.front().toString()).toInt();
+      // Older versions added a new value on every save instead of replacing it, so the last value is the most recent.
+      int playcount = TagLibStringToQString(attributes.back().toString()).toInt();
       if (song->playcount() <= 0 && playcount > 0) {
         song->set_playcount(static_cast<uint>(playcount));
       }
@@ -1076,7 +1077,8 @@ void TagReaderTagLib::ParseASFTags(TagLib::ASF::Tag *tag, QString *disc, QString
   if (attributes_map.contains(kASF_FMPS_Rating)) {
     const TagLib::ASF::AttributeList &attributes = attributes_map[kASF_FMPS_Rating];
     if (!attributes.isEmpty()) {
-      float rating = TagLibStringToQString(attributes.front().toString()).toFloat();
+      // Older versions added a new value on every save instead of replacing it, so the last value is the most recent.
+      float rating = TagLibStringToQString(attributes.back().toString()).toFloat();
       if (song->rating() <= 0 && rating > 0) {
         song->set_rating(rating);
       }
@@ -1309,7 +1311,15 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
   else if (TagLib::ASF::File *file_asf = dynamic_cast<TagLib::ASF::File*>(fileref->file())) {
     TagLib::ASF::Tag *tag = file_asf->tag();
     if (tag) {
-      SetASFTag(tag, song);
+      if (save_tags) {
+        SetASFTag(tag, song);
+      }
+      if (save_playcount) {
+        SetPlaycount(tag, song.playcount());
+      }
+      if (save_rating) {
+        SetRating(tag, song.rating());
+      }
     }
   }
 
@@ -2196,8 +2206,8 @@ TagReaderResult TagReaderTagLib::SaveSongPlaycount(const QString &filename, cons
   }
   else if (TagLib::ASF::File *asf_file = dynamic_cast<TagLib::ASF::File*>(fileref->file())) {
     TagLib::ASF::Tag *tag = asf_file->tag();
-    if (tag && playcount > 0) {
-      tag->addAttribute(kASF_FMPS_Playcount, TagLib::ASF::Attribute(QStringToTagLibString(QString::number(playcount))));
+    if (tag) {
+      SetPlaycount(tag, playcount);
     }
   }
   else {
@@ -2257,7 +2267,13 @@ void TagReaderTagLib::SetRating(TagLib::MP4::Tag *tag, const float rating) const
 
 void TagReaderTagLib::SetRating(TagLib::ASF::Tag *tag, const float rating) const {
 
-  tag->addAttribute(kASF_FMPS_Rating, TagLib::ASF::Attribute(QStringToTagLibString(QString::number(rating))));
+  // Replace any existing values, adding would keep the old value first.
+  if (rating > 0.0F) {
+    tag->setAttribute(kASF_FMPS_Rating, TagLib::ASF::Attribute(QStringToTagLibString(QString::number(rating))));
+  }
+  else {
+    tag->removeItem(kASF_FMPS_Rating);
+  }
 
 }
 
