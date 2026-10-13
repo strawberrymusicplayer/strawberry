@@ -27,6 +27,7 @@
 #include <QtGlobal>
 #include <QMutex>
 #include <QList>
+#include <QVariant>
 #include <QVariantList>
 #include <QVariantMap>
 #include <QString>
@@ -391,13 +392,22 @@ void Udisks2Lister::HandleFinishedMountJob(const PartitionData &partition_data) 
 void Udisks2Lister::HandleFinishedUnmountJob(const QDBusObjectPath &partition_path) {
 
   // The filesystem can still be mounted somewhere else, read the mount points that are left before taking the lock.
-  QStringList mount_paths;
+  // Only an empty list of mount points means it's unmounted, if they can't be read, leave the device alone.
+  // A partition that is removed is handled by DBusInterfaceRemoved().
   OrgFreedesktopUDisks2FilesystemInterface filesystem(QLatin1String(kUDisks2Service), partition_path.path(), QDBusConnection::systemBus());
-  if (filesystem.isValid()) {
-    const QList<QByteArray> mountpoints = filesystem.mountPoints();
-    for (const QByteArray &p : mountpoints) {
-      mount_paths << QString::fromUtf8(p.data(), static_cast<qint64>(qstrlen(p.data())));
-    }
+  if (!filesystem.isValid()) {
+    qLog(Warning) << "UDisks2 umount job finished, but the filesystem of" << partition_path.path() << "is not available:" << filesystem.lastError().message();
+    return;
+  }
+  const QVariant mountpoints_value = filesystem.property("MountPoints");
+  if (!mountpoints_value.isValid()) {
+    qLog(Warning) << "UDisks2 umount job finished, but the mount points of" << partition_path.path() << "could not be read:" << filesystem.lastError().message();
+    return;
+  }
+  QStringList mount_paths;
+  const QList<QByteArray> mountpoints = qvariant_cast<QList<QByteArray>>(mountpoints_value);
+  for (const QByteArray &p : mountpoints) {
+    mount_paths << QString::fromUtf8(p.data(), static_cast<qint64>(qstrlen(p.data())));
   }
 
   QWriteLocker locker(&device_data_lock_);
