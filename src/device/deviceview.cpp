@@ -361,7 +361,12 @@ void DeviceView::Forget() {
 }
 
 void DeviceView::Properties() {
-  properties_dialog_->ShowDevice(MapToDevice(menu_index_));
+
+  const QModelIndex device_idx = MapToDevice(menu_index_);
+  if (!device_idx.isValid()) return;
+
+  properties_dialog_->ShowDevice(device_idx);
+
 }
 
 void DeviceView::mouseDoubleClickEvent(QMouseEvent *e) {
