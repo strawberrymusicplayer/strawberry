@@ -130,7 +130,7 @@ TEST(SmartPlaylistSearchTest, SettingsRoundTrip) {
 
   QVariantList bound_values;
   const QString sql = loaded.ToSql(u"songs"_s, bound_values);
-  EXPECT_TRUE(sql.contains("genre LIKE ?"_L1)) << "sql was: " << sql.toStdString();
+  EXPECT_TRUE(sql.contains("genre = ? COLLATE NOCASE"_L1)) << "sql was: " << sql.toStdString();
 
 }
 
