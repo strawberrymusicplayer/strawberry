@@ -74,6 +74,29 @@ class PlaylistQueryGeneratorTest : public ::testing::Test {
     return titles;
   }
 
+  void AddSongs(const QStringList &titles) {
+    SongList songs;
+    for (const QString &title : titles) {
+      Song song;
+      song.set_directory_id(1);
+      song.set_url(QUrl::fromLocalFile(u"/tmp/extra%1.flac"_s.arg(songs.count())));
+      song.set_mtime(1);
+      song.set_ctime(1);
+      song.set_filesize(1);
+      song.set_title(title);
+      songs << song;
+    }
+    backend_->AddOrUpdateSongs(songs);
+  }
+
+  // Returns the sorted titles of the songs matching a single title term.
+  QStringList TitlesMatching(const SmartPlaylistSearchTerm::Operator op, const QString &value) {
+    const SmartPlaylistSearch search(SmartPlaylistSearch::SearchType::And, SmartPlaylistSearch::TermList() << SmartPlaylistSearchTerm(SmartPlaylistSearchTerm::Field::Title, op, value), SmartPlaylistSearch::SortType::FieldAsc, SmartPlaylistSearchTerm::Field::Title, -1);
+    PlaylistQueryGenerator generator(u"Test"_s, search, false);
+    generator.set_collection_backend(backend_);
+    return Titles(generator.Generate());
+  }
+
   SharedPtr<Database> database_;
   SharedPtr<CollectionBackend> backend_;
 };
@@ -131,6 +154,36 @@ TEST_F(PlaylistQueryGeneratorTest, RandomDynamicDoesNotRepeatSongs) {
   // The songs already added are excluded, so all songs are added once.
   titles.sort();
   EXPECT_EQ(QStringList() << u"A"_s << u"B"_s << u"C"_s << u"D"_s << u"E"_s, titles);
+
+}
+
+TEST_F(PlaylistQueryGeneratorTest, TextTermsMatchWildcardsLiterally) {
+
+  AddSongs(QStringList() << u"100% Hits"_s << u"100 Hits"_s << u"a_b"_s << u"axb"_s << u"back\\slash"_s);
+
+  // "%" and "_" are LIKE wildcards, they should only match themselves.
+  EXPECT_EQ(QStringList() << u"100% Hits"_s, TitlesMatching(SmartPlaylistSearchTerm::Operator::Contains, u"%"_s));
+  EXPECT_EQ(QStringList() << u"a_b"_s, TitlesMatching(SmartPlaylistSearchTerm::Operator::Contains, u"_"_s));
+  EXPECT_EQ(QStringList() << u"100% Hits"_s, TitlesMatching(SmartPlaylistSearchTerm::Operator::StartsWith, u"100%"_s));
+  EXPECT_EQ(QStringList() << u"a_b"_s, TitlesMatching(SmartPlaylistSearchTerm::Operator::EndsWith, u"_b"_s));
+  EXPECT_EQ(QStringList() << u"back\\slash"_s, TitlesMatching(SmartPlaylistSearchTerm::Operator::Contains, u"\\"_s));
+  EXPECT_FALSE(TitlesMatching(SmartPlaylistSearchTerm::Operator::NotContains, u"_"_s).contains(u"a_b"_s));
+  EXPECT_TRUE(TitlesMatching(SmartPlaylistSearchTerm::Operator::NotContains, u"_"_s).contains(u"axb"_s));
+
+}
+
+TEST_F(PlaylistQueryGeneratorTest, TextEqualsIsExactAndCaseInsensitive) {
+
+  AddSongs(QStringList() << u"a_b"_s << u"axb"_s);
+
+  // Equals should not treat "_" as a wildcard, but still ignore case like before.
+  EXPECT_EQ(QStringList() << u"a_b"_s, TitlesMatching(SmartPlaylistSearchTerm::Operator::Equals, u"a_b"_s));
+  EXPECT_EQ(QStringList() << u"a_b"_s, TitlesMatching(SmartPlaylistSearchTerm::Operator::Equals, u"A_B"_s));
+  EXPECT_EQ(QStringList() << u"A"_s, TitlesMatching(SmartPlaylistSearchTerm::Operator::Equals, u"a"_s));
+
+  // NotEquals is the opposite of Equals, so it ignores case too.
+  EXPECT_FALSE(TitlesMatching(SmartPlaylistSearchTerm::Operator::NotEquals, u"a"_s).contains(u"A"_s));
+  EXPECT_TRUE(TitlesMatching(SmartPlaylistSearchTerm::Operator::NotEquals, u"a"_s).contains(u"B"_s));
 
 }
 
