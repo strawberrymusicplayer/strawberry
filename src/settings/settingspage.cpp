@@ -53,6 +53,7 @@ void SettingsPage::Init(QWidget *ui_widget) {
   radiobuttons_.clear();
   comboboxes_.clear();
   spinboxes_.clear();
+  double_spinboxes_.clear();
   sliders_.clear();
   lineedits_.clear();
 
