@@ -2943,6 +2943,54 @@ TEST_F(TagReaderTest, TestFLACAudioFileCover) {
 
 }
 
+TEST_F(TagReaderTest, TestCoverThatCannotBeLoadedKeepsExistingCover) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  const QString cover_filename = u":/pictures/strawberry.png"_s;
+
+  QImage original_image;
+  EXPECT_TRUE(original_image.load(cover_filename));
+
+  EXPECT_TRUE(WriteCoverToFile(r.fileName(), cover_filename).success());
+
+  // A cover file that does not exist.
+  EXPECT_FALSE(WriteCoverToFile(r.fileName(), SaveTagCoverData(u"/nonexistent/strawberry-cover.png"_s)).success());
+  EXPECT_EQ(ReadCoverFromFile(r.fileName()), original_image);
+
+  // Cover data that is not an image.
+  EXPECT_FALSE(WriteCoverToFile(r.fileName(), SaveTagCoverData(QByteArray("not an image"))).success());
+  EXPECT_EQ(ReadCoverFromFile(r.fileName()), original_image);
+
+  // Corrupt cover data with a JPEG or PNG mimetype.
+  EXPECT_FALSE(WriteCoverToFile(r.fileName(), SaveTagCoverData(QByteArray("\xff\xd8\xff\xe0 not a JPEG"), u"image/jpeg"_s)).success());
+  EXPECT_EQ(ReadCoverFromFile(r.fileName()), original_image);
+
+  QFile cover_file(cover_filename);
+  ASSERT_TRUE(cover_file.open(QIODevice::ReadOnly));
+  const QByteArray png_data = cover_file.readAll();
+  cover_file.close();
+  EXPECT_FALSE(WriteCoverToFile(r.fileName(), SaveTagCoverData(png_data.left(png_data.size() / 2), u"image/png"_s)).success());
+  EXPECT_EQ(ReadCoverFromFile(r.fileName()), original_image);
+
+  // Data with the wrong mimetype is converted.
+  EXPECT_TRUE(WriteCoverToFile(r.fileName(), SaveTagCoverData(png_data, u"image/jpeg"_s)).success());
+  EXPECT_FALSE(ReadCoverFromFile(r.fileName()).isNull());
+
+}
+
+TEST_F(TagReaderTest, TestEmptyCoverRemovesCover) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  const QString cover_filename = u":/pictures/strawberry.png"_s;
+
+  EXPECT_TRUE(WriteCoverToFile(r.fileName(), cover_filename).success());
+  EXPECT_FALSE(ReadCoverFromFile(r.fileName()).isNull());
+
+  EXPECT_TRUE(WriteCoverToFile(r.fileName(), SaveTagCoverData()).success());
+  EXPECT_TRUE(ReadCoverFromFile(r.fileName()).isNull());
+
+}
+
 TEST_F(TagReaderTest, TestOggVorbisAudioFileCover) {
 
   TemporaryResource r(u":/audio/strawberry.ogg"_s);
