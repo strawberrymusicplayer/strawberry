@@ -81,19 +81,28 @@ PlaylistItemPtrList PlaylistQueryGenerator::Generate() {
 PlaylistItemPtrList PlaylistQueryGenerator::GenerateMore(const int count) {
 
   SmartPlaylistSearch search_copy = search_;
-  search_copy.id_not_in_ = previous_ids_;
   if (count > 0) {
     search_copy.limit_ = count;
   }
 
-  if (search_copy.sort_type_ != SmartPlaylistSearch::SortType::Random) {
+  // In random order exclude the songs already added, in sorted order continue after them instead.
+  // Doing both would skip as many songs as were already added.
+  const bool random = search_copy.sort_type_ == SmartPlaylistSearch::SortType::Random;
+  if (random) {
+    search_copy.id_not_in_ = previous_ids_;
+  }
+  else {
     search_copy.first_item_ = current_pos_;
-    current_pos_ += search_copy.limit_;
   }
 
   QVariantList bound_values;
   const QString sql = search_copy.ToSql(collection_backend_->songs_table(), bound_values);
   const SongList songs = collection_backend_->ExecuteQuery(sql, bound_values);
+
+  // Continue after the songs that were returned, the limit can be -1 for no limit.
+  if (!random) {
+    current_pos_ += static_cast<int>(songs.count());
+  }
 
   // When called in a concurrent thread, close the unique DB connection.
   if (QThread::currentThread() != collection_backend_->thread() && QThread::currentThread() != QCoreApplication::instance()->thread()) {
