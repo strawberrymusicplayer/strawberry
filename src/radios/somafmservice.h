@@ -57,6 +57,7 @@ class SomaFMService : public RadioService {
  private:
   QList<QNetworkReply*> replies_;
   RadioChannelList channels_;
+  int task_id_;
 };
 
 #endif  // SOMAFMSERVICE_H

@@ -50,6 +50,7 @@ class RadioParadiseService : public RadioService {
  private:
   QList<QNetworkReply*> replies_;
   RadioChannelList channels_;
+  int task_id_;
 };
 
 #endif  // RADIOPARADISESERVICE_H
