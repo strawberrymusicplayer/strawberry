@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -123,9 +123,9 @@ JsonBaseRequest::JsonObjectResult TidalBaseRequest::ParseJsonObject(QNetworkRepl
     }
   }
 
-  // Clear the session on auth failure so the user is prompted to log in again (matches Qobuz/Spotify).
+  // Refresh the access token on auth failure, the session is cleared so the user is prompted to log in again if it can't be refreshed.
   if (reply->error() == QNetworkReply::AuthenticationRequiredError) {
-    service_->ClearSession();
+    service_->AccessTokenRejected(reply->request().rawHeader("Authorization"));
   }
 
   return result;

@@ -23,6 +23,7 @@
 #include "config.h"
 
 #include <QList>
+#include <QByteArray>
 #include <QString>
 #include <QScopedPointer>
 
@@ -97,6 +98,7 @@ class SpotifyService : public StreamingService {
  public Q_SLOTS:
   void Authenticate();
   void ClearSession();
+  void AccessTokenRejected(const QByteArray &authorization_header);
   void GetArtists() override;
   void GetAlbums() override;
   void GetSongs() override;

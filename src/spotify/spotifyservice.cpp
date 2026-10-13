@@ -308,6 +308,19 @@ void SpotifyService::ClearSession() {
 
 }
 
+void SpotifyService::AccessTokenRejected(const QByteArray &authorization_header) {
+
+  // A request sent with the previous access token can be rejected after it was refreshed, the current access token is fine then.
+  if (authorization_header != oauth_->authorization_header()) return;
+
+  // The access token can expire before it is refreshed, for example while the system is suspended, so refresh it instead of clearing the session, which would lose the refresh token too.
+  // The session is cleared when refreshing fails because the refresh token is no longer valid.
+  if (!oauth_->RefreshAccessToken()) {
+    oauth_->ClearSession();
+  }
+
+}
+
 void SpotifyService::OAuthFinished(const bool success, const QString &error, const bool invalid_grant) {
 
   Q_UNUSED(invalid_grant);

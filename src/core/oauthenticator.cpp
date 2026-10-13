@@ -23,6 +23,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 #include <QUrlQuery>
 #include <QDateTime>
@@ -56,6 +57,37 @@ constexpr char kExpiresIn[] = "expires_in";
 constexpr char kLoginTime[] = "login_time";
 constexpr char kUserId[] = "user_id";
 constexpr char kCountryCode[] = "country_code";
+
+// Refresh the access token this many seconds before it expires, so requests are not sent with an access token that is about to expire.
+constexpr qint64 kRefreshMarginSecs = 60;
+
+// Timers don't count the time the system is suspended, so check the expiry against the clock at least this often, instead of waiting for one long timer.
+constexpr qint64 kMaxRefreshCheckIntervalSecs = 300;
+
+// When refreshing the access token fails, for example because the network is not up yet after resuming, try again after this many seconds, doubled for each failure.
+constexpr qint64 kMinRefreshRetryIntervalSecs = 60;
+constexpr qint64 kMaxRefreshRetryIntervalSecs = 1800;
+
+// Use at most half of the token lifetime as the margin, otherwise a token that expires within the margin would be refreshed again right away.
+qint64 RefreshMarginSecs(const qint64 expires_in) {
+  return std::min(kRefreshMarginSecs, expires_in / 2);
+}
+
+// OAuth errors from refreshing that are not temporary, so trying again with the same refresh token can't succeed.
+bool IsTerminalRefreshError(const QString &error) {
+
+  static const QStringList terminal_errors = QStringList() << u"invalid_grant"_s
+                                                           << u"invalid_request"_s
+                                                           << u"invalid_client"_s
+                                                           << u"unauthorized_client"_s
+                                                           << u"unsupported_grant_type"_s
+                                                           << u"invalid_scope"_s
+                                                           << u"access_denied"_s;
+
+  return terminal_errors.contains(error, Qt::CaseInsensitive);
+
+}
+
 }  // namespace
 
 OAuthenticator::OAuthenticator(const SharedPtr<NetworkAccessManager> network, QObject *parent)
@@ -68,14 +100,22 @@ OAuthenticator::OAuthenticator(const SharedPtr<NetworkAccessManager> network, QO
       use_pkce_(true),
       expires_in_(0LL),
       login_time_(0LL),
-      user_id_(0) {
+      user_id_(0),
+      refresh_in_progress_(false),
+      refresh_retry_interval_(0LL) {
 
   timer_refresh_login_->setSingleShot(true);
-  QObject::connect(timer_refresh_login_, &QTimer::timeout, this, &OAuthenticator::RerefreshAccessToken);
+  QObject::connect(timer_refresh_login_, &QTimer::timeout, this, &OAuthenticator::RefreshLoginTimerTimeout);
 
 }
 
 OAuthenticator::~OAuthenticator() {
+
+  AbortReplies();
+
+}
+
+void OAuthenticator::AbortReplies() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
@@ -83,6 +123,8 @@ OAuthenticator::~OAuthenticator() {
     reply->abort();
     reply->deleteLater();
   }
+
+  refresh_in_progress_ = false;
 
 }
 
@@ -203,6 +245,10 @@ void OAuthenticator::ClearSession() {
   login_time_ = 0;
   country_code_.clear();
   user_id_ = 0;
+  refresh_retry_interval_ = 0;
+
+  // A pending reply would store the tokens again when it finishes, logging the user back in.
+  AbortReplies();
 
   Settings s;
   s.beginGroup(settings_group_);
@@ -224,13 +270,46 @@ void OAuthenticator::ClearSession() {
 void OAuthenticator::StartRefreshLoginTimer() {
 
   if (login_time_ > 0 && !refresh_token_.isEmpty() && expires_in_ > 0) {
-    const qint64 time = std::max(1LL, expires_in_ - (QDateTime::currentSecsSinceEpoch() - login_time_));
+    const qint64 time = std::max(1LL, expires_in_ - RefreshMarginSecs(expires_in_) - (QDateTime::currentSecsSinceEpoch() - login_time_));
     qLog(Debug) << settings_group_ << "Refreshing login in" << time << "seconds";
-    timer_refresh_login_->setInterval(static_cast<int>(time * kMsecPerSec));
-    if (!timer_refresh_login_->isActive()) {
-      timer_refresh_login_->start();
-    }
+    timer_refresh_login_->start(static_cast<int>(std::min(time, kMaxRefreshCheckIntervalSecs) * kMsecPerSec));
   }
+
+}
+
+void OAuthenticator::RefreshLoginTimerTimeout() {
+
+  // Try again when refreshing failed, otherwise only refresh when the access token is about to expire according to the clock, and check again later if not.
+  if (refresh_retry_interval_ > 0 || (expires_in_ > 0 && QDateTime::currentSecsSinceEpoch() - login_time_ >= expires_in_ - RefreshMarginSecs(expires_in_))) {
+    RerefreshAccessToken();
+  }
+  else {
+    StartRefreshLoginTimer();
+  }
+
+}
+
+void OAuthenticator::ScheduleRefreshRetry() {
+
+  if (refresh_token_.isEmpty()) return;
+
+  refresh_retry_interval_ = refresh_retry_interval_ == 0 ? kMinRefreshRetryIntervalSecs : std::min(refresh_retry_interval_ * 2, kMaxRefreshRetryIntervalSecs);
+  qLog(Debug) << settings_group_ << "Refreshing login failed, trying again in" << refresh_retry_interval_ << "seconds";
+  timer_refresh_login_->start(static_cast<int>(refresh_retry_interval_ * kMsecPerSec));
+
+}
+
+bool OAuthenticator::RefreshAccessToken() {
+
+  if (client_id_.isEmpty() || refresh_token_.isEmpty()) return false;
+
+  // Keep the backoff when refreshing failed, the retry timer refreshes again.
+  // Otherwise every request rejected with the old access token would refresh right away.
+  if (refresh_retry_interval_ > 0 && timer_refresh_login_->isActive()) return true;
+
+  RerefreshAccessToken();
+
+  return true;
 
 }
 
@@ -479,6 +558,10 @@ void OAuthenticator::RerefreshAccessToken() {
     return;
   }
 
+  // Several requests rejected at the same time should only refresh the access token once.
+  if (refresh_in_progress_) return;
+  refresh_in_progress_ = true;
+
   ParamList params = ParamList() << Param(u"grant_type"_s, u"refresh_token"_s)
                                  << Param(u"client_id"_s, client_id_)
                                  << Param(u"refresh_token"_s, refresh_token_);
@@ -506,9 +589,13 @@ void OAuthenticator::AccessTokenRequestFinished(QNetworkReply *reply, const bool
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
+  if (refresh_token) {
+    refresh_in_progress_ = false;
+  }
+
   if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
     const QString error_message = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-    Q_EMIT AuthenticationFinished(false, error_message);
+    AccessTokenRequestFailed(refresh_token, error_message);
     return;
   }
 
@@ -523,24 +610,26 @@ void OAuthenticator::AccessTokenRequestFinished(QNetworkReply *reply, const bool
           const QString error = json_object["error"_L1].toString();
           const QString error_description = json_object["error_description"_L1].toString();
           // invalid_grant means the refresh token or authorization code is expired, revoked or otherwise unusable, so retrying with the same grant can never succeed.
-          // Clear the session to stop the same failure from being repeated on every startup, the user has to authenticate again.
+          // When refreshing, the other OAuth errors also mean the same request will be rejected again, Tidal documents them as logging out.
+          // Clear the session to stop the same failure from being repeated, the user has to authenticate again.
           const bool invalid_grant = error.compare("invalid_grant"_L1, Qt::CaseInsensitive) == 0;
-          if (invalid_grant) {
+          const bool clear_session = invalid_grant || (refresh_token && IsTerminalRefreshError(error));
+          if (clear_session) {
             qLog(Error) << settings_group_ << "Authorization grant is no longer valid, clearing session.";
             ClearSession();
           }
           const QString error_message = error_description.isEmpty() ? error : QStringLiteral("%1 (%2)").arg(error, error_description);
-          Q_EMIT AuthenticationFinished(false, error_message, invalid_grant);
+          AccessTokenRequestFailed(refresh_token, error_message, clear_session);
           return;
         }
         qLog(Debug) << settings_group_ << "Unknown Json reply" << json_object;
       }
     }
     if (reply->error() == QNetworkReply::NoError) {
-      Q_EMIT AuthenticationFinished(false, QStringLiteral("Received HTTP status code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
+      AccessTokenRequestFailed(refresh_token, QStringLiteral("Received HTTP status code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
     }
     else {
-      Q_EMIT AuthenticationFinished(false, QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+      AccessTokenRequestFailed(refresh_token, QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     }
     return;
   }
@@ -550,33 +639,33 @@ void OAuthenticator::AccessTokenRequestFinished(QNetworkReply *reply, const bool
   QJsonParseError json_error;
   const QJsonDocument json_document = QJsonDocument::fromJson(data, &json_error);
   if (json_error.error != QJsonParseError::NoError) {
-    Q_EMIT AuthenticationFinished(false, QStringLiteral("Failed to parse Json data in authentication reply: %1").arg(json_error.errorString()));
+    AccessTokenRequestFailed(refresh_token, QStringLiteral("Failed to parse Json data in authentication reply: %1").arg(json_error.errorString()));
     return;
   }
 
   if (json_document.isEmpty()) {
-    Q_EMIT AuthenticationFinished(false, u"Authentication reply from server has empty Json document."_s);
+    AccessTokenRequestFailed(refresh_token, u"Authentication reply from server has empty Json document."_s);
     return;
   }
 
   if (!json_document.isObject()) {
-    Q_EMIT AuthenticationFinished(false, u"Authentication reply from server has Json document that is not an object."_s);
+    AccessTokenRequestFailed(refresh_token, u"Authentication reply from server has Json document that is not an object."_s);
     return;
   }
 
   const QJsonObject json_object = json_document.object();
   if (json_object.isEmpty()) {
-    Q_EMIT AuthenticationFinished(false, u"Authentication reply from server has empty Json object."_s);
+    AccessTokenRequestFailed(refresh_token, u"Authentication reply from server has empty Json object."_s);
     return;
   }
 
   if (!json_object.contains("token_type"_L1)) {
-    Q_EMIT AuthenticationFinished(false, u"Authentication reply from server is missing token type."_s);
+    AccessTokenRequestFailed(refresh_token, u"Authentication reply from server is missing token type."_s);
     return;
   }
 
   if (!json_object.contains("access_token"_L1)) {
-    Q_EMIT AuthenticationFinished(false, u"Authentication reply from server is missing access token."_s);
+    AccessTokenRequestFailed(refresh_token, u"Authentication reply from server is missing access token."_s);
     return;
   }
 
@@ -600,6 +689,7 @@ void OAuthenticator::AccessTokenRequestFinished(QNetworkReply *reply, const bool
   login_time_ = QDateTime::currentSecsSinceEpoch();
   country_code_.clear();
   user_id_ = 0;
+  refresh_retry_interval_ = 0;
 
   if (json_object.contains("user"_L1) && json_object["user"_L1].isObject()) {
     const QJsonObject object_user = json_object["user"_L1].toObject();
@@ -651,5 +741,19 @@ void OAuthenticator::AccessTokenRequestFinished(QNetworkReply *reply, const bool
   qLog(Debug) << settings_group_ << "Authentication was successful, login expires in" << expires_in_;
 
   Q_EMIT AuthenticationFinished(true);
+
+}
+
+void OAuthenticator::AccessTokenRequestFailed(const bool refresh_token, const QString &error, const bool clear_session) {
+
+  // When refreshing fails, keep the session and try again later, since failures like network errors are usually temporary.
+  // Refreshing happens in the background, so don't report a failure that is retried, it would show an authentication failed message every time.
+  if (refresh_token && !clear_session && !refresh_token_.isEmpty()) {
+    qLog(Error) << settings_group_ << "Refreshing login failed:" << error;
+    ScheduleRefreshRetry();
+    return;
+  }
+
+  Q_EMIT AuthenticationFinished(false, error, clear_session);
 
 }

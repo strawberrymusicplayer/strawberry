@@ -81,12 +81,19 @@ class OAuthenticator : public QObject {
   void LoadSession();
   void ExternalAuthorizationUrlReceived(const QUrl &request_url);
 
+  // Requests a new access token with the refresh token, for when the server rejected the access token.
+  // Returns false if there is no refresh token, so the session can't be refreshed.
+  bool RefreshAccessToken();
+
  private:
   using Param = QPair<QString, QString>;
   using ParamList = QList<Param>;
 
   QString GrantType() const;
   void StartRefreshLoginTimer();
+  void ScheduleRefreshRetry();
+  void AbortReplies();
+  void AccessTokenRequestFailed(const bool refresh_token, const QString &error, const bool clear_session = false);
   QNetworkReply *CreateAccessTokenRequest(const ParamList &params, const bool refresh_token);
   void RequestAccessToken(const QString &code = QString(), const QUrl &redirect_url = QUrl());
   void RerefreshAccessToken();
@@ -98,6 +105,7 @@ class OAuthenticator : public QObject {
   void AuthenticationFinished(const bool success, const QString &error = QString(), const bool invalid_grant = false);
 
  private Q_SLOTS:
+  void RefreshLoginTimerTimeout();
   void RedirectArrived();
   void HandleSSLErrors(const QList<QSslError> &ssl_errors);
   void AccessTokenRequestFinished(QNetworkReply *reply, const bool refresh_token);
@@ -131,6 +139,9 @@ class OAuthenticator : public QObject {
   qint64 login_time_;
   QString country_code_;
   quint64 user_id_;
+
+  bool refresh_in_progress_;
+  qint64 refresh_retry_interval_;
 
   QList<QNetworkReply*> replies_;
 };
