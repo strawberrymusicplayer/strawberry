@@ -30,6 +30,7 @@
 #include <QMutex>
 #include <QWaitCondition>
 #include <QList>
+#include <QSet>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
@@ -92,7 +93,7 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
  protected:
   Itdb_Track *AddTrackToITunesDb(const Song &metadata);
   void AddTrackToModel(Itdb_Track *track, const QString &prefix);
-  bool RemoveTrackFromITunesDb(const QString &path, const QString &relative_to = QString());
+  Itdb_Track *FindTrackInITunesDb(const QString &path, const QString &relative_to = QString()) const;
   void RemoveTrackFromITunesDb(Itdb_Track *track);
 
  private:
@@ -113,6 +114,9 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   QMutex db_busy_;
   SongList songs_to_add_;
   SongList songs_to_remove_;
+  // The originals of moved files, removed when the tracks are written to the database.
+  // A set, since the same file can be copied more than once, and it can only be removed once.
+  QSet<QString> files_to_remove_;
   QList<SharedPtr<TemporaryFile>> cover_files_;
 };
 

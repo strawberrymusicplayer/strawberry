@@ -575,9 +575,10 @@ void OrganizeDialog::UpdatePreviews() {
 
 }
 
-void OrganizeDialog::OrganizeFinished(const QStringList &files_with_errors, const QStringList &log) {
+void OrganizeDialog::OrganizeFinished(const QStringList &files_with_errors, const QStringList &log, const bool success) {
 
-  if (files_with_errors.isEmpty()) return;
+  // Finishing can fail when all files were copied, for example when writing the device database or removing the originals fails, the error is in the log.
+  if (success && files_with_errors.isEmpty()) return;
 
   error_dialog_ = make_unique<OrganizeErrorDialog>();
   error_dialog_->Show(OrganizeErrorDialog::OperationType::Copy, files_with_errors, log);

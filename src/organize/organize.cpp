@@ -153,14 +153,15 @@ void Organize::ProcessSomeFiles() {
     UpdateProgress();
 
     QString error_text;
-    if (!destination_->FinishCopy(files_with_errors_.isEmpty(), error_text) && !error_text.isEmpty()) {
+    const bool success = destination_->FinishCopy(files_with_errors_.isEmpty(), error_text);
+    if (!success && !error_text.isEmpty()) {
       log_ << error_text;
     }
     if (eject_after_) destination_->Eject();
 
     task_manager_->SetTaskFinished(task_id_);
 
-    Q_EMIT Finished(files_with_errors_, log_);
+    Q_EMIT Finished(files_with_errors_, log_, success);
 
     // Move back to the original thread so deleteLater() can get called in the main thread's event loop
     moveToThread(original_thread_);
@@ -247,7 +248,8 @@ void Organize::ProcessSomeFiles() {
     job.metadata_ = song;
     job.overwrite_ = overwrite_;
     job.albumcover_ = albumcover_;
-    job.remove_original_ = !copy_;
+    // The source of a transcoded file is a temporary file, which is removed below, so the original is not removed.
+    job.remove_original_ = !copy_ && task.transcoded_filename_.isEmpty();
     job.playlist_ = playlist_;
 
     if (task.song_info_.song_.art_manual_is_valid() && !task.song_info_.song_.art_unset()) {

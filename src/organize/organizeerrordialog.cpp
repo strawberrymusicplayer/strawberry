@@ -66,18 +66,30 @@ void OrganizeErrorDialog::Show(const OperationType operation_type, const QString
   QStringList sorted_files = files_with_errors;
   std::stable_sort(sorted_files.begin(), sorted_files.end());
 
+  // When no files failed, finishing the operation failed, for example writing the device database, so the error is only in the log.
   switch (operation_type) {
     case OperationType::Copy:
       setWindowTitle(tr("Error copying songs"));
-      ui_->label->setText(tr("There were problems copying some songs.  The following files could not be copied:"));
+      if (sorted_files.isEmpty()) {
+        ui_->label->setText(tr("There were problems copying the songs."));
+      }
+      else {
+        ui_->label->setText(tr("There were problems copying some songs.  The following files could not be copied:"));
+      }
       break;
 
     case OperationType::Delete:
       setWindowTitle(tr("Error deleting songs"));
-      ui_->label->setText(tr("There were problems deleting some songs.  The following files could not be deleted:"));
+      if (sorted_files.isEmpty()) {
+        ui_->label->setText(tr("There were problems deleting the songs."));
+      }
+      else {
+        ui_->label->setText(tr("There were problems deleting some songs.  The following files could not be deleted:"));
+      }
       break;
   }
 
+  ui_->files->setVisible(!sorted_files.isEmpty());
   ui_->files->addItems(sorted_files);
   ui_->log->addItems(log);
 
