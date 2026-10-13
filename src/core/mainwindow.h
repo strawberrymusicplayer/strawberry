@@ -34,6 +34,7 @@
 #include <QSortFilterProxyModel>
 #include <QAbstractItemModel>
 #include <QPersistentModelIndex>
+#include <QPointer>
 #include <QMenu>
 #include <QAction>
 #include <QPoint>
@@ -329,6 +330,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   Lazy<AboutDialog> about_dialog_;
   Lazy<Console> console_;
   Lazy<EditTagDialog> edit_tag_dialog_;
+  QPointer<Playlist> edit_tag_dialog_playlist_;
   AlbumCoverChoiceController *album_cover_choice_controller_;
 
   GlobalShortcutsManager *globalshortcuts_manager_;

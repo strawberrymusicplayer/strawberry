@@ -84,7 +84,8 @@ class EditTagDialog : public QDialog {
 
   ~EditTagDialog() override;
 
-  void SetSongs(const SongList &songs, const PlaylistItemPtrList &items = PlaylistItemPtrList());
+  // Returns false when the songs are not set, since the dialog is still loading or saving the previous songs.
+  bool SetSongs(const SongList &songs, const PlaylistItemPtrList &items = PlaylistItemPtrList());
 
   PlaylistItemPtrList playlist_items() const { return playlist_items_; }
   SongList songs() const;
