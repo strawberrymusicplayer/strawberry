@@ -21,12 +21,19 @@
 
 #include "gtest_include.h"
 
+#include <QList>
+#include <QSet>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
+#include <QFuture>
+#include <QThreadPool>
+#include <QTemporaryDir>
+#include <QtConcurrentRun>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
+#include "core/database.h"
 #include "core/memorydatabase.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmanager.h"
@@ -184,6 +191,58 @@ TEST_F(PlaylistQueryGeneratorTest, TextEqualsIsExactAndCaseInsensitive) {
   // NotEquals is the opposite of Equals, so it ignores case too.
   EXPECT_FALSE(TitlesMatching(SmartPlaylistSearchTerm::Operator::NotEquals, u"a"_s).contains(u"A"_s));
   EXPECT_TRUE(TitlesMatching(SmartPlaylistSearchTerm::Operator::NotEquals, u"a"_s).contains(u"B"_s));
+
+}
+
+TEST(PlaylistQueryGeneratorConcurrentTest, ConcurrentRandomDynamicDoesNotRepeatSongs) {
+
+  // A database file instead of a memory database, since every thread has its own connection, and a memory database is not shared between connections.
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  SharedPtr<Database> database = make_shared<Database>(nullptr, nullptr, temp_dir.filePath(u"strawberry.db"_s));
+  SharedPtr<CollectionBackend> backend = make_shared<CollectionBackend>();
+  backend->Init(database, nullptr, Song::Source::Collection, QLatin1String(CollectionManager::kSongsTable), QLatin1String(CollectionManager::kDirsTable), QLatin1String(CollectionManager::kSubdirsTable));
+  backend->AddDirectory(u"/tmp"_s);
+
+  constexpr int kSongCount = 20;
+  SongList songs;
+  for (int i = 0; i < kSongCount; ++i) {
+    Song song;
+    song.set_directory_id(1);
+    song.set_url(QUrl::fromLocalFile(u"/tmp/%1.flac"_s.arg(i)));
+    song.set_mtime(1);
+    song.set_ctime(1);
+    song.set_filesize(1);
+    song.set_title(QString::number(i));
+    songs << song;
+  }
+  backend->AddOrUpdateSongs(songs);
+  ASSERT_EQ(kSongCount, backend->GetAllSongs().count());
+
+  const SmartPlaylistSearch search(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::SortType::Random, SmartPlaylistSearchTerm::Field::Title, kSongCount);
+  PlaylistQueryGenerator generator(u"Random"_s, search, true);
+  generator.set_collection_backend(backend);
+
+  // Generate more songs from several threads at once, like a dynamic playlist advanced again before the previous songs were generated.
+  // Each call excludes the songs added by the calls before it, so no song is added twice.
+  constexpr int kCallCount = 10;
+  QThreadPool threadpool;
+  threadpool.setMaxThreadCount(kCallCount);
+  QList<QFuture<PlaylistItemPtrList>> futures;
+  for (int i = 0; i < kCallCount; ++i) {
+    futures << QtConcurrent::run(&threadpool, [&generator]() { return generator.GenerateMore(1); });
+  }
+
+  QStringList titles;
+  for (QFuture<PlaylistItemPtrList> &future : futures) {
+    future.waitForFinished();
+    for (const PlaylistItemPtr &item : future.result()) {
+      titles << item->EffectiveMetadata().title();
+    }
+  }
+
+  EXPECT_EQ(kCallCount, titles.count());
+  EXPECT_EQ(kCallCount, QSet<QString>(titles.begin(), titles.end()).count());
 
 }
 
