@@ -1,6 +1,7 @@
 /*
  * Strawberry Music Player
  * Copyright 2026, Malte Zilinski <malte@zilinski.eu>
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +24,7 @@
 #include <QString>
 #include <QUrl>
 #include <QTimer>
+#include <QSignalBlocker>
 #include <QMenu>
 #include <QAction>
 #include <QShowEvent>
@@ -157,6 +159,9 @@ void RadioBrowserSearchView::TextChanged(const QString &text) {
 
 void RadioBrowserSearchView::SearchTriggered() {
 
+  // The search uses the current text, so a pending search for a text change would only search again.
+  search_timer_->stop();
+
   current_offset_ = 0;
   model_->Clear();
   DoSearch();
@@ -204,22 +209,29 @@ void RadioBrowserSearchView::CountriesLoaded(const QList<QPair<QString, QString>
 
   countries_loaded_ = true;
 
-  ui_->combo_country->clear();
-  ui_->combo_country->addItem(tr("All countries"), QString());
+  {
+    // Clearing and filling the combo box changes the current index several times, search only once when it's done.
+    const QSignalBlocker blocker(ui_->combo_country);
 
-  for (const QPair<QString, QString> &entry : countries) {
-    ui_->combo_country->addItem(entry.first, entry.second);
-  }
+    ui_->combo_country->clear();
+    ui_->combo_country->addItem(tr("All countries"), QString());
 
-  // Restore saved default country
-  if (!default_country_.isEmpty()) {
-    for (int i = 0; i < ui_->combo_country->count(); ++i) {
-      if (ui_->combo_country->itemData(i).toString() == default_country_) {
-        ui_->combo_country->setCurrentIndex(i);
-        break;
+    for (const QPair<QString, QString> &entry : countries) {
+      ui_->combo_country->addItem(entry.first, entry.second);
+    }
+
+    // Restore saved default country
+    if (!default_country_.isEmpty()) {
+      for (int i = 0; i < ui_->combo_country->count(); ++i) {
+        if (ui_->combo_country->itemData(i).toString() == default_country_) {
+          ui_->combo_country->setCurrentIndex(i);
+          break;
+        }
       }
     }
   }
+
+  if (service_) SearchTriggered();
 
 }
 
