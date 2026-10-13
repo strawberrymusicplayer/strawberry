@@ -118,6 +118,8 @@ void SubsonicScrobbler::Scrobble(const Song &song) {
   if (settings_->offline()) return;
 
   if (!submitted_) {
+    scrobble_song_id_ = song_playing_.song_id();
+    scrobble_time_ = time_;
     scrobble_pending_ = true;
     ScheduleSendScrobbles();
   }
@@ -140,13 +142,13 @@ void SubsonicScrobbler::ScheduleSendScrobbles() {
 
 void SubsonicScrobbler::SendScrobbles() {
 
-  qLog(Debug) << "SubsonicScrobbler: Submitting scrobble for" << song_playing_.artist() << song_playing_.title();
+  qLog(Debug) << "SubsonicScrobbler: Submitting scrobble for song" << scrobble_song_id_;
   submitted_ = false;
 
   if (settings_->offline() || !service()) return;
 
   scrobble_pending_ = false;
-  service()->Scrobble(song_playing_.song_id(), true, time_);
+  service()->Scrobble(scrobble_song_id_, true, scrobble_time_);
 
 }
 

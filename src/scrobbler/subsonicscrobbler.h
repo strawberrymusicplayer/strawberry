@@ -73,6 +73,9 @@ class SubsonicScrobbler : public ScrobblerService {
   bool scrobble_pending_;
   Song song_playing_;
   QDateTime time_;
+  // The song and time of the scrobble that is pending, since another song can be playing when the scrobble is sent.
+  QString scrobble_song_id_;
+  QDateTime scrobble_time_;
   QTimer timer_send_scrobbles_;
 };
 
