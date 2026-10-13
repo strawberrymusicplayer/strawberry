@@ -22,6 +22,7 @@
 #include <chrono>
 
 #include <QtGlobal>
+#include <QMetaObject>
 #include <QTimer>
 #include <QString>
 
@@ -73,7 +74,10 @@ void LyricsFetcher::AddRequest(const Request &request) {
 
   if (!request_starter_->isActive()) request_starter_->start();
 
-  if (active_requests_.size() < kMaxConcurrentRequests) StartRequests();
+  // Start the requests from the event loop, since a search without any providers finishes right away, and the caller has to get the request ID from Search() before the result is emitted.
+  if (active_requests_.size() < kMaxConcurrentRequests) {
+    QMetaObject::invokeMethod(this, &LyricsFetcher::StartRequests, Qt::QueuedConnection);
+  }
 
 }
 

@@ -1388,6 +1388,13 @@
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QLabel" name="lyrics_fetch_status">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
            </layout>
           </widget>
           <widget class="QWidget" name="tab_synced_lyrics">
