@@ -60,7 +60,7 @@ class TagReaderBase {
   static float ConvertPOPMRating(const int POPM_rating);
   static int ConvertToPOPMRating(const float rating);
 
-  static AlbumCoverTagData LoadAlbumCoverTagData(const QString &song_filename, const SaveTagCoverData &save_tag_cover_data);
+  static TagReaderResult LoadAlbumCoverTagData(const QString &song_filename, const SaveTagCoverData &save_tag_cover_data, AlbumCoverTagData &cover);
 
   Q_DISABLE_COPY(TagReaderBase)
 };

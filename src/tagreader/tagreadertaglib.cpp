@@ -1136,7 +1136,10 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
 
   AlbumCoverTagData cover;
   if (save_cover) {
-    cover = LoadAlbumCoverTagData(filename, save_tag_cover_data);
+    const TagReaderResult cover_result = LoadAlbumCoverTagData(filename, save_tag_cover_data, cover);
+    if (!cover_result.success()) {
+      return cover_result;
+    }
   }
 
   FileWriteGuard write_guard(filename);
@@ -1994,6 +1997,12 @@ TagReaderResult TagReaderTagLib::SaveEmbeddedCover(const QString &filename, cons
     return TagReaderResult::ErrorCode::FileDoesNotExist;
   }
 
+  AlbumCoverTagData cover;
+  const TagReaderResult cover_result = LoadAlbumCoverTagData(filename, save_tag_cover_data, cover);
+  if (!cover_result.success()) {
+    return cover_result;
+  }
+
   FileWriteGuard write_guard(filename);
   if (!write_guard.Init()) {
     return TagReaderResult::ErrorCode::FileOpenError;
@@ -2005,8 +2014,6 @@ TagReaderResult TagReaderTagLib::SaveEmbeddedCover(const QString &filename, cons
     qLog(Error) << "TagLib could not open file" << write_guard.working_filename();
     return TagReaderResult::ErrorCode::FileOpenError;
   }
-
-  const AlbumCoverTagData cover = LoadAlbumCoverTagData(filename, save_tag_cover_data);
 
   // FLAC
   if (TagLib::FLAC::File *file_flac = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
