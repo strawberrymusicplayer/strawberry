@@ -257,6 +257,10 @@ void DeviceManager::AddDevicesFromDB(const DeviceDatabaseBackend::DeviceList &de
     if (device_info && device_info->database_id_ == -1) {
       qLog(Info) << "Database device linked to physical device:" << device.friendly_name_;
       device_info->database_id_ = device.id_;
+      // Use the saved settings, the physical device only has the defaults, which would be saved over them when the device properties are saved.
+      device_info->friendly_name_ = device.friendly_name_;
+      device_info->transcode_mode_ = device.transcode_mode_;
+      device_info->transcode_format_ = device.transcode_format_;
       device_info->icon_name_ = device.icon_name_;
       device_info->InitIcon();
       const QModelIndex idx = ItemToIndex(device_info);
