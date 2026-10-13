@@ -141,6 +141,8 @@ class Player : public PlayerInterface {
 
   void SetMuted(const bool mute);
 
+  void SeekToNanosec(const quint64 nanosec);
+
  private:
   const SharedPtr<TaskManager> task_manager_;
   const SharedPtr<UrlHandlers> url_handlers_;

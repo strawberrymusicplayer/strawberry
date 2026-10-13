@@ -887,15 +887,28 @@ void Player::SeekTo(const quint64 seconds) {
   }
 
   // Clamp before converting to nanoseconds, a large number of seconds would overflow.
-  const qint64 nanosec = seconds > static_cast<quint64>(length_nanosec / kNsecPerSec) ? length_nanosec : static_cast<qint64>(seconds) * kNsecPerSec;
-  engine_->Seek(static_cast<quint64>(nanosec));
+  SeekToNanosec(seconds > static_cast<quint64>(length_nanosec / kNsecPerSec) ? static_cast<quint64>(length_nanosec) : seconds * kNsecPerSec);
 
-  qLog(Debug) << "Track seeked to" << nanosec << "ns - updating scrobble point";
-  playlist_manager_->active()->UpdateScrobblePoint(nanosec);
+}
 
-  Q_EMIT Seeked(nanosec / 1000);
+void Player::SeekToNanosec(const quint64 nanosec) {
 
-  if (seconds == 0) {
+  const qint64 length_nanosec = engine_->length_nanosec();
+
+  // If the length is 0 then either there is no song playing, or the song isn't seekable.
+  if (length_nanosec <= 0) {
+    return;
+  }
+
+  const qint64 position_nanosec = nanosec > static_cast<quint64>(length_nanosec) ? length_nanosec : static_cast<qint64>(nanosec);
+  engine_->Seek(static_cast<quint64>(position_nanosec));
+
+  qLog(Debug) << "Track seeked to" << position_nanosec << "ns - updating scrobble point";
+  playlist_manager_->active()->UpdateScrobblePoint(position_nanosec);
+
+  Q_EMIT Seeked(position_nanosec / 1000);
+
+  if (position_nanosec == 0) {
     playlist_manager_->active()->InformOfCurrentSongChange(false);
   }
 
@@ -973,7 +986,7 @@ void Player::Play(const quint64 offset_nanosec) {
 
   switch (GetState()) {
     case EngineBase::State::Playing:
-      SeekTo(offset_nanosec);
+      SeekToNanosec(offset_nanosec);
       break;
     case EngineBase::State::Paused:
       UnPause();
