@@ -86,7 +86,7 @@ PlaylistItemPtrList PlaylistQueryGenerator::GenerateMore(const int count) {
   }
 
   // In random order exclude the songs already added, in sorted order continue after them instead.
-  // Doing both would skip as many songs as were already added.
+  // Doing both would skip as many songs as were already added, since the offset counts the rows after excluding them.
   const bool random = search_copy.sort_type_ == SmartPlaylistSearch::SortType::Random;
   if (random) {
     search_copy.id_not_in_ = previous_ids_;
@@ -112,6 +112,8 @@ PlaylistItemPtrList PlaylistQueryGenerator::GenerateMore(const int count) {
   PlaylistItemPtrList items;
   items.reserve(songs.count());
   for (const Song &song : songs) {
+    // In sorted order the offset can return a song that was already added, when songs earlier in the order were added to the collection after the previous call, so skip those.
+    if (previous_ids_.contains(song.id())) continue;
     items << PlaylistItem::NewFromSong(song);
     previous_ids_ << song.id();
 

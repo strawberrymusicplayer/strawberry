@@ -93,6 +93,31 @@ TEST_F(PlaylistQueryGeneratorTest, SortedDynamicDoesNotSkipSongs) {
 
 }
 
+TEST_F(PlaylistQueryGeneratorTest, SortedDynamicDoesNotRepeatSongsWhenCollectionChanges) {
+
+  const SmartPlaylistSearch search(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::SortType::FieldAsc, SmartPlaylistSearchTerm::Field::Title, 2);
+  PlaylistQueryGenerator generator(u"Sorted"_s, search, true);
+  generator.set_collection_backend(backend_);
+
+  QStringList titles = Titles(generator.Generate());
+
+  // A song added before the songs already added moves them one row down, the next batch should not add them again.
+  Song song;
+  song.set_directory_id(1);
+  song.set_url(QUrl::fromLocalFile(u"/tmp/AA.flac"_s));
+  song.set_mtime(1);
+  song.set_ctime(1);
+  song.set_filesize(1);
+  song.set_title(u"AA"_s);
+  backend_->AddOrUpdateSongs(SongList() << song);
+
+  titles << Titles(generator.GenerateMore(2));
+  titles << Titles(generator.GenerateMore(2));
+
+  EXPECT_EQ(QStringList() << u"A"_s << u"B"_s << u"C"_s << u"D"_s << u"E"_s, titles);
+
+}
+
 TEST_F(PlaylistQueryGeneratorTest, RandomDynamicDoesNotRepeatSongs) {
 
   const SmartPlaylistSearch search(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::SortType::Random, SmartPlaylistSearchTerm::Field::Title, 2);
