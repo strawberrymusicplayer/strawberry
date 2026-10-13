@@ -678,7 +678,7 @@ void PlaylistManager::SaveAllPlaylists() {
     path_type = optionsdialog.path_type();
   }
 
-  static const QRegularExpression regex_invalid_dir_characters(QLatin1String(kInvalidDirCharactersRegex));
+  static const QRegularExpression regex_invalid_dir_characters(QString::fromLatin1(kInvalidDirCharactersRegex));
   static const QRegularExpression regex_problematic_characters(QLatin1String(kProblematicCharactersRegex), QRegularExpression::CaseInsensitiveOption);
   static const QRegularExpression regex_control_characters(u"[\\x00-\\x1F]"_s);
   // Windows doesn't allow these device names as filenames, also not with an extension, so "CON.m3u" can't be created.
