@@ -44,7 +44,8 @@ constexpr char kApiChannelsUrl[] = "https://somafm.com/channels.json";
 }  // namespace
 
 SomaFMService::SomaFMService(const SharedPtr<TaskManager> task_manager, const SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : RadioService(Song::Source::SomaFM, u"SomaFM"_s, IconLoader::Load(u"somafm"_s), task_manager, network, parent) {}
+    : RadioService(Song::Source::SomaFM, u"SomaFM"_s, IconLoader::Load(u"somafm"_s), task_manager, network, parent),
+      task_id_(-1) {}
 
 SomaFMService::~SomaFMService() {
   Abort();
@@ -64,6 +65,12 @@ void SomaFMService::Abort() {
 
   channels_.clear();
 
+  // The replies are disconnected, so they won't finish the task.
+  if (task_id_ != -1) {
+    task_manager_->SetTaskFinished(task_id_);
+    task_id_ = -1;
+  }
+
 }
 
 void SomaFMService::GetChannels() {
@@ -75,6 +82,7 @@ void SomaFMService::GetChannels() {
   QNetworkReply *reply = network_->get(network_request);
   replies_ << reply;
   const int task_id = task_manager_->StartTask(tr("Getting %1 channels").arg(name_));
+  task_id_ = task_id;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, task_id]() { GetChannelsReply(reply, task_id); });
 
 }

@@ -38,7 +38,8 @@ constexpr char kApiChannelsUrl[] = "https://api.radioparadise.com/api/list_strea
 }  // namespace
 
 RadioParadiseService::RadioParadiseService(const SharedPtr<TaskManager> task_manager, const SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : RadioService(Song::Source::RadioParadise, u"Radio Paradise"_s, IconLoader::Load(u"radioparadise"_s), task_manager, network, parent) {}
+    : RadioService(Song::Source::RadioParadise, u"Radio Paradise"_s, IconLoader::Load(u"radioparadise"_s), task_manager, network, parent),
+      task_id_(-1) {}
 
 QUrl RadioParadiseService::Homepage() { return QUrl(u"https://radioparadise.com/"_s); }
 QUrl RadioParadiseService::Donate() { return QUrl(u"https://payments.radioparadise.com/rp2s-content.php?name=Support&file=support"_s); }
@@ -54,6 +55,12 @@ void RadioParadiseService::Abort() {
 
   channels_.clear();
 
+  // The replies are disconnected, so they won't finish the task.
+  if (task_id_ != -1) {
+    task_manager_->SetTaskFinished(task_id_);
+    task_id_ = -1;
+  }
+
 }
 
 void RadioParadiseService::GetChannels() {
@@ -64,6 +71,7 @@ void RadioParadiseService::GetChannels() {
   QNetworkReply *reply = network_->get(network_request);
   replies_ << reply;
   const int task_id = task_manager_->StartTask(tr("Getting %1 channels").arg(name_));
+  task_id_ = task_id;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, task_id]() { GetChannelsReply(reply, task_id); });
 
 }
