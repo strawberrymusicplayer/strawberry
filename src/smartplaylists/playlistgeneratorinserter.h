@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,6 +51,8 @@ class PlaylistGeneratorInserter : public QObject {
 
  Q_SIGNALS:
   void Error(const QString &message);
+  // Emitted when the items are generated, before they are inserted.
+  void Generated(const bool empty);
   void PlayRequested(const QModelIndex idx, const Playlist::AutoScroll autoscroll);
 
  private Q_SLOTS:
@@ -65,7 +68,6 @@ class PlaylistGeneratorInserter : public QObject {
   bool play_now_;
   bool enqueue_;
   bool enqueue_next_;
-  bool is_dynamic_;
 };
 
 #endif  // PLAYLISTGENERATORINSERTER_H

@@ -171,6 +171,9 @@ Playlist::Playlist(const SharedPtr<TaskManager> task_manager,
       cancel_restore_(false),
       scrobbled_(false),
       scrobble_point_(-1),
+      dynamic_items_pending_(0),
+      dynamic_items_queued_(0),
+      dynamic_generation_(0),
       auto_sort_(false),
       is_sorted_(false),
       sort_column_(Column::Title),
@@ -910,7 +913,8 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
       // Compute the number of new items that have to be inserted
       // This is not necessarily 1 because the user might have added or removed items manually.
       // Note that the future excludes the current item.
-      const int count = static_cast<int>(dynamic_history_length() + 1 + dynamic_playlist_->GetDynamicFuture() - items_.count());
+      // Items which are still being generated are not in the playlist yet, but they are part of the future, otherwise advancing again before they are inserted generates too many.
+      const int count = static_cast<int>(dynamic_history_length() + 1 + dynamic_playlist_->GetDynamicFuture() - items_.count() - dynamic_items_pending_);
       if (count > 0) {
         InsertDynamicItems(count);
       }
@@ -939,11 +943,50 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
 
 void Playlist::InsertDynamicItems(const int count) {
 
+  dynamic_items_pending_ += count;
+
+  // Only generate one batch at a time, so the batches are inserted in the order they were requested, the next batch is generated when the previous one is inserted.
+  if (dynamic_inserter_) {
+    dynamic_items_queued_ += count;
+    return;
+  }
+
+  PlaylistGeneratorInserter *inserter = NewDynamicInserter(count);
+  inserter->Load(this, -1, false, false, false, dynamic_playlist_, count);
+
+}
+
+PlaylistGeneratorInserter *Playlist::NewDynamicInserter(const int count) {
+
   PlaylistGeneratorInserter *inserter = new PlaylistGeneratorInserter(task_manager_, collection_backend_, this);
   QObject::connect(inserter, &PlaylistGeneratorInserter::Error, this, &Playlist::Error);
   QObject::connect(inserter, &PlaylistGeneratorInserter::PlayRequested, this, &Playlist::PlayRequested);
 
-  inserter->Load(this, -1, false, false, false, dynamic_playlist_, count);
+  dynamic_inserter_ = inserter;
+
+  // Results for a dynamic playlist which was replaced or turned off in the meantime don't change the current one.
+  const quint64 dynamic_generation = dynamic_generation_;
+
+  // The items are no longer pending when they are generated, before they are inserted, since advancing while inserting would otherwise count them twice.
+  QObject::connect(inserter, &PlaylistGeneratorInserter::Generated, this, [this, count, dynamic_generation](const bool empty) {
+    if (dynamic_generation != dynamic_generation_) return;
+    dynamic_items_pending_ -= count;
+    // No more items, so the dynamic playlist ends.
+    if (empty) {
+      TurnOffDynamicPlaylist();
+    }
+  });
+
+  // The inserter deletes itself when the items are inserted, then generate the items requested in the meantime.
+  QObject::connect(inserter, &QObject::destroyed, this, [this, dynamic_generation]() {
+    if (dynamic_generation != dynamic_generation_ || !dynamic_playlist_ || dynamic_items_queued_ == 0) return;
+    const int queued = dynamic_items_queued_;
+    dynamic_items_queued_ = 0;
+    PlaylistGeneratorInserter *next_inserter = NewDynamicInserter(queued);
+    next_inserter->Load(this, -1, false, false, false, dynamic_playlist_, queued);
+  });
+
+  return inserter;
 
 }
 
@@ -1090,20 +1133,41 @@ void Playlist::InsertSmartPlaylist(PlaylistGeneratorPtr generator, const int pos
     generator->set_collection_backend(collection_backend_);
   }
 
-  PlaylistGeneratorInserter *inserter = new PlaylistGeneratorInserter(task_manager_, collection_backend_, this);
-  QObject::connect(inserter, &PlaylistGeneratorInserter::Error, this, &Playlist::Error);
-
-  inserter->Load(this, pos, play_now, enqueue, enqueue_next, generator);
-
+  // Turn on the dynamic playlist first, so the items generated now are counted as pending for it.
   if (generator->is_dynamic()) {
     TurnOnDynamicPlaylist(generator);
   }
+
+  PlaylistGeneratorInserter *inserter = nullptr;
+  if (generator->is_dynamic()) {
+    // Generate() returns the future of the dynamic playlist.
+    const int count = generator->GetDynamicFuture();
+    dynamic_items_pending_ += count;
+    inserter = NewDynamicInserter(count);
+  }
+  else {
+    inserter = new PlaylistGeneratorInserter(task_manager_, collection_backend_, this);
+    QObject::connect(inserter, &PlaylistGeneratorInserter::Error, this, &Playlist::Error);
+  }
+
+  inserter->Load(this, pos, play_now, enqueue, enqueue_next, generator);
+
+}
+
+void Playlist::ResetDynamicItemsPending() {
+
+  // Items still being generated for the previous dynamic playlist are not part of the future of the new one.
+  ++dynamic_generation_;
+  dynamic_items_pending_ = 0;
+  dynamic_items_queued_ = 0;
+  dynamic_inserter_.clear();
 
 }
 
 void Playlist::TurnOnDynamicPlaylist(PlaylistGeneratorPtr gen) {
 
   dynamic_playlist_ = gen;
+  ResetDynamicItemsPending();
   ShuffleModeChanged(PlaylistSequence::ShuffleMode::Off);
   Q_EMIT DynamicModeChanged(true);
 
@@ -3090,6 +3154,7 @@ int Playlist::dynamic_history_length() const {
 void Playlist::TurnOffDynamicPlaylist() {
 
   dynamic_playlist_.reset();
+  ResetDynamicItemsPending();
 
   if (playlist_sequence_) {
     ShuffleModeChanged(ShuffleMode());

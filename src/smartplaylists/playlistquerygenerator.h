@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +27,7 @@
 #include <QList>
 #include <QByteArray>
 #include <QString>
+#include <QMutex>
 
 #include "playlistgenerator.h"
 #include "smartplaylistsearch.h"
@@ -52,9 +54,14 @@ class PlaylistQueryGenerator : public PlaylistGenerator {
   int GetDynamicFuture() override { return search_.limit_; }
 
  private:
+  PlaylistItemPtrList GenerateMoreLocked(const int count);
+
+ private:
   SmartPlaylistSearch search_;
   bool dynamic_;
 
+  // Generate() and GenerateMore() run in a concurrent thread, and a dynamic playlist can generate more songs again before the previous call finished.
+  QMutex mutex_;
   QList<int> previous_ids_;
   int current_pos_;
 };

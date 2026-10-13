@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,8 +45,7 @@ PlaylistGeneratorInserter::PlaylistGeneratorInserter(SharedPtr<TaskManager> task
       row_(0),
       play_now_(false),
       enqueue_(false),
-      enqueue_next_(false),
-      is_dynamic_(false) {}
+      enqueue_next_(false) {}
 
 PlaylistItemPtrList PlaylistGeneratorInserter::Generate(PlaylistGeneratorPtr generator, int dynamic_count) {
 
@@ -66,7 +66,6 @@ void PlaylistGeneratorInserter::Load(Playlist *destination, const int row, const
   play_now_ = play_now;
   enqueue_ = enqueue;
   enqueue_next_ = enqueue_next;
-  is_dynamic_ = generator->is_dynamic();
 
   QObject::connect(&*generator, &PlaylistGenerator::Error, this, &PlaylistGeneratorInserter::Error);
 
@@ -83,12 +82,10 @@ void PlaylistGeneratorInserter::Finished() {
   PlaylistItemPtrList items = watcher->result();
   watcher->deleteLater();
 
-  if (items.isEmpty()) {
-    if (is_dynamic_) {
-      destination_->TurnOffDynamicPlaylist();
-    }
-  }
-  else {
+  // The playlist turns off the dynamic playlist when no items were generated, only when it's still the same dynamic playlist.
+  Q_EMIT Generated(items.isEmpty());
+
+  if (!items.isEmpty()) {
     destination_->InsertItems(items, row_, play_now_, enqueue_, enqueue_next_);
   }
 

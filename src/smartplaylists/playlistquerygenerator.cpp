@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +27,8 @@
 #include <QString>
 #include <QVariantList>
 #include <QThread>
+#include <QMutex>
+#include <QMutexLocker>
 #include <QCoreApplication>
 
 #include "playlistquerygenerator.h"
@@ -45,6 +48,7 @@ PlaylistQueryGenerator::PlaylistQueryGenerator(const QString &name, const SmartP
 
 void PlaylistQueryGenerator::Load(const SmartPlaylistSearch &search) {
 
+  QMutexLocker l(&mutex_);
   search_ = search;
   dynamic_ = false;
   current_pos_ = 0;
@@ -53,6 +57,7 @@ void PlaylistQueryGenerator::Load(const SmartPlaylistSearch &search) {
 
 void PlaylistQueryGenerator::Load(const QByteArray &data) {
 
+  QMutexLocker l(&mutex_);
   QDataStream s(data);
   s >> search_;
   s >> dynamic_;
@@ -72,13 +77,21 @@ QByteArray PlaylistQueryGenerator::Save() const {
 
 PlaylistItemPtrList PlaylistQueryGenerator::Generate() {
 
+  QMutexLocker l(&mutex_);
   previous_ids_.clear();
   current_pos_ = 0;
-  return GenerateMore(0);
+  return GenerateMoreLocked(0);
 
 }
 
 PlaylistItemPtrList PlaylistQueryGenerator::GenerateMore(const int count) {
+
+  QMutexLocker l(&mutex_);
+  return GenerateMoreLocked(count);
+
+}
+
+PlaylistItemPtrList PlaylistQueryGenerator::GenerateMoreLocked(const int count) {
 
   SmartPlaylistSearch search_copy = search_;
   if (count > 0) {
