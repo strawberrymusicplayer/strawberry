@@ -35,6 +35,7 @@
 #include <taglib/asffile.h>
 #include <taglib/asftag.h>
 #include <taglib/asfattribute.h>
+#include <taglib/mpegfile.h>
 
 #include "core/logging.h"
 #include "core/song.h"
@@ -51,9 +52,9 @@ namespace {
 
 // For opening files with TagLib directly, to create or check tags the tag reader doesn't write itself.
 #ifdef Q_OS_WIN32
-std::wstring ASFFileName(const QString &filename) { return filename.toStdWString(); }
+std::wstring TagLibFileName(const QString &filename) { return filename.toStdWString(); }
 #else
-QByteArray ASFFileName(const QString &filename) { return QFile::encodeName(filename); }
+QByteArray TagLibFileName(const QString &filename) { return QFile::encodeName(filename); }
 #endif
 
 class TagReaderTest : public ::testing::Test {
@@ -2698,7 +2699,7 @@ TEST_F(TagReaderTest, TestASFAudioFilePlaycountAndRatingRemoved) {
   }
 
   {
-    TagLib::ASF::File file(ASFFileName(r.fileName()).data());
+    TagLib::ASF::File file(TagLibFileName(r.fileName()).data());
     ASSERT_TRUE(file.isValid());
     EXPECT_FALSE(file.tag()->contains("FMPS/Playcount"));
     EXPECT_FALSE(file.tag()->contains("FMPS/Rating"));
@@ -2712,7 +2713,7 @@ TEST_F(TagReaderTest, TestASFAudioFileReadLegacyPlaycountAndRating) {
 
   // Older versions added a new value on every save, so the file has several values, with the most recent last.
   {
-    TagLib::ASF::File file(ASFFileName(r.fileName()).data());
+    TagLib::ASF::File file(TagLibFileName(r.fileName()).data());
     ASSERT_TRUE(file.isValid());
     file.tag()->addAttribute("FMPS/Playcount", TagLib::ASF::Attribute(TagLib::String("4")));
     file.tag()->addAttribute("FMPS/Playcount", TagLib::ASF::Attribute(TagLib::String("5")));
@@ -2737,7 +2738,7 @@ TEST_F(TagReaderTest, TestASFAudioFileReadLegacyPlaycountAndRating) {
   }
 
   {
-    TagLib::ASF::File file(ASFFileName(r.fileName()).data());
+    TagLib::ASF::File file(TagLibFileName(r.fileName()).data());
     ASSERT_TRUE(file.isValid());
     EXPECT_EQ(1U, file.tag()->attribute("FMPS/Playcount").size());
     EXPECT_EQ(1U, file.tag()->attribute("FMPS/Rating").size());
@@ -2996,6 +2997,35 @@ TEST_F(TagReaderTest, TestMP3AudioFileCover) {
 
   TemporaryResource r(u":/audio/strawberry.mp3"_s);
   const QString cover_filename = u":/pictures/strawberry.png"_s;
+
+  QImage original_image;
+  EXPECT_TRUE(original_image.load(cover_filename));
+
+  TagReaderResult result = WriteCoverToFile(r.fileName(), cover_filename);
+  EXPECT_TRUE(result.success());
+
+  const QImage new_image = ReadCoverFromFile(r.fileName());
+  EXPECT_TRUE(!new_image.isNull());
+  EXPECT_EQ(new_image, original_image);
+
+}
+
+TEST_F(TagReaderTest, TestMP3AudioFileWithoutID3v2TagCover) {
+
+  TemporaryResource r(u":/audio/strawberry.mp3"_s);
+  const QString cover_filename = u":/pictures/strawberry.png"_s;
+
+  {
+    TagLib::MPEG::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    ASSERT_TRUE(file.strip(TagLib::MPEG::File::ID3v2));
+  }
+
+  {
+    TagLib::MPEG::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    ASSERT_FALSE(file.hasID3v2Tag());
+  }
 
   QImage original_image;
   EXPECT_TRUE(original_image.load(cover_filename));
