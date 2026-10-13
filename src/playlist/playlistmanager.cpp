@@ -678,9 +678,59 @@ void PlaylistManager::SaveAllPlaylists() {
     path_type = optionsdialog.path_type();
   }
 
+  static const QRegularExpression regex_invalid_dir_characters(QLatin1String(kInvalidDirCharactersRegex));
+  static const QRegularExpression regex_problematic_characters(QLatin1String(kProblematicCharactersRegex), QRegularExpression::CaseInsensitiveOption);
+  static const QRegularExpression regex_control_characters(u"[\\x00-\\x1F]"_s);
+  // Windows doesn't allow these device names as filenames, also not with an extension, so "CON.m3u" can't be created.
+  // This includes the superscript digits ¹, ² and ³ (U+00B9, U+00B2, U+00B3) after COM and LPT.
+  static const QRegularExpression regex_windows_reserved_names(u"^(CON|PRN|AUX|NUL|COM[0-9\\x{00B9}\\x{00B2}\\x{00B3}]|LPT[0-9\\x{00B9}\\x{00B2}\\x{00B3}])(\\.|$)"_s, QRegularExpression::CaseInsensitiveOption);
+
+  // Playlists can have the same name, use a unique filename for each, so they don't overwrite each other.
+  // Compared case and normalization insensitive, since the filesystem might be, for example "é" can be one or two characters.
+  const auto filename_key = [](const QString &filename) { return filename.normalized(QString::NormalizationForm_C).toCaseFolded(); };
+  QSet<QString> filename_keys;
+
+  // Most filesystems limit a filename to 255 bytes, or 255 UTF-16 characters, which a UTF-8 length of 255 bytes is also within.
+  // Shorten the name, leaving room for the extension and the number added to make it unique, without splitting a surrogate pair.
+  constexpr qsizetype kMaxFilenameBytes = 255;
+  const qsizetype extension_bytes = 1 + extension.toUtf8().size();
+  const auto shorten_filename = [](const QString &filename, const qsizetype max_bytes) {
+    qsizetype bytes = 0;
+    qsizetype i = 0;
+    while (i < filename.size()) {
+      const char16_t c = filename.at(i).unicode();
+      const bool surrogate_pair = QChar::isHighSurrogate(c) && i + 1 < filename.size() && filename.at(i + 1).isLowSurrogate();
+      const qsizetype char_bytes = surrogate_pair ? 4 : c < 0x80 ? 1 : c < 0x800 ? 2 : 3;
+      if (bytes + char_bytes > max_bytes) break;
+      bytes += char_bytes;
+      i += surrogate_pair ? 2 : 1;
+    }
+    return filename.left(i).trimmed();
+  };
   for (QMap<int, Data>::const_iterator it = playlists_.constBegin(); it != playlists_.constEnd(); ++it) {
     const Data &data = *it;
-    const QString filepath = path + QLatin1Char('/') + data.name + QLatin1Char('.') + extension;
+
+    // The playlist name can contain characters that are not valid in a filename, a "/" would point to a directory that doesn't exist.
+    QString filename = data.name;
+    filename.remove(regex_invalid_dir_characters).remove(regex_problematic_characters).remove(regex_control_characters);
+    filename = filename.trimmed();
+    while (filename.startsWith(QLatin1String(kInvalidPrefixCharacters))) {
+      filename = filename.mid(1).trimmed();
+    }
+    if (filename.isEmpty()) {
+      filename = tr("Playlist");
+    }
+    // Done on all platforms, since the playlists can be copied to Windows.
+    filename.replace(regex_windows_reserved_names, u"\\1_\\2"_s);
+
+    QString unique_filename = shorten_filename(filename, kMaxFilenameBytes - extension_bytes);
+    for (int i = 2; filename_keys.contains(filename_key(unique_filename)); ++i) {
+      const QString suffix = QStringLiteral(" (%1)").arg(i);
+      unique_filename = shorten_filename(filename, kMaxFilenameBytes - extension_bytes - suffix.size()) + suffix;
+    }
+    filename_keys << filename_key(unique_filename);
+
+    const QString filepath = path + QLatin1Char('/') + unique_filename + QLatin1Char('.') + extension;
     Save(it.key(), data.name, filepath, path_type);
   }
 
