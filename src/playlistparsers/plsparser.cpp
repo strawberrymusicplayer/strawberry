@@ -23,6 +23,7 @@
 #include <QIODevice>
 #include <QDir>
 #include <QMap>
+#include <QSet>
 #include <QByteArray>
 #include <QString>
 #include <QRegularExpression>
@@ -47,6 +48,8 @@ ParserBase::LoadResult PLSParser::Load(QIODevice *device, const QString &playlis
   Q_UNUSED(playlist_path);
 
   QMap<int, Song> songs;
+  // Title and length lines also add an entry, only the entries with a file are songs.
+  QSet<int> entries_with_file;
   static const QRegularExpression n_re(u"\\d+$"_s);
 
   QString data = Utilities::TextFromData(device->readAll());
@@ -71,6 +74,7 @@ ParserBase::LoadResult PLSParser::Load(QIODevice *device, const QString &playlis
       }
 
       songs[n] = song;
+      entries_with_file << n;
     }
     else if (key.startsWith("title"_L1)) {
       songs[n].set_title(value);
@@ -83,7 +87,14 @@ ParserBase::LoadResult PLSParser::Load(QIODevice *device, const QString &playlis
     }
   }
 
-  return songs.values();
+  SongList ret;
+  for (QMap<int, Song>::const_iterator it = songs.constBegin(); it != songs.constEnd(); ++it) {
+    if (entries_with_file.contains(it.key())) {
+      ret << it.value();
+    }
+  }
+
+  return ret;
 
 }
 

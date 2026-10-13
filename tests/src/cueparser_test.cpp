@@ -28,6 +28,7 @@
 #include <QFileInfo>
 #include <QString>
 #include <QThread>
+#include <QUrl>
 
 #include "core/song.h"
 #include "includes/shared_ptr.h"
@@ -97,6 +98,59 @@ TEST_F(CueParserTest, RemWithoutValueKeepsHeader) {
   EXPECT_EQ(u"Album"_s, result.songs[0].album());
   EXPECT_EQ(u"Album Artist"_s, result.songs[0].albumartist());
   EXPECT_EQ(1999, result.songs[0].year());
+
+}
+
+// Regression test: tracks of a media file that doesn't exist used to be returned as valid songs without a URL.
+TEST_F(CueParserTest, TracksWithMissingMediaFileAreSkipped) {
+
+  TemporaryResource audio(u":/audio/strawberry.mp3"_s);
+  ASSERT_TRUE(audio.isOpen());
+  const QFileInfo audio_info(audio.fileName());
+
+  QByteArray cue;
+  cue += "TITLE \"Album\"\n";
+  cue += "FILE \"does-not-exist.flac\" WAVE\n";
+  cue += "  TRACK 01 AUDIO\n";
+  cue += "    TITLE \"Missing\"\n";
+  cue += "    INDEX 01 00:00:00\n";
+  cue += "FILE \"" + audio_info.fileName().toUtf8() + "\" MP3\n";
+  cue += "  TRACK 02 AUDIO\n";
+  cue += "    TITLE \"Existing\"\n";
+  cue += "    INDEX 01 00:00:00\n";
+
+  QBuffer buffer(&cue);
+  ASSERT_TRUE(buffer.open(QIODevice::ReadOnly));
+
+  CueParser parser = MakeParser();
+  const ParserBase::LoadResult result = parser.Load(&buffer, audio_info.dir().filePath(u"album.cue"_s), audio_info.dir(), false);
+
+  ASSERT_EQ(1, result.songs.size());
+  EXPECT_EQ(u"Existing"_s, result.songs[0].title());
+  EXPECT_EQ(QUrl::fromLocalFile(audio_info.absoluteFilePath()), result.songs[0].url());
+
+}
+
+// Regression test: a track before any FILE line has no media file, it used to be returned as a valid song without a URL.
+TEST_F(CueParserTest, TrackWithoutFileIsSkipped) {
+
+  TemporaryResource audio(u":/audio/strawberry.mp3"_s);
+  ASSERT_TRUE(audio.isOpen());
+  const QFileInfo audio_info(audio.fileName());
+
+  QByteArray cue;
+  cue += "TITLE \"Album\"\n";
+  cue += "  TRACK 01 AUDIO\n";
+  cue += "    TITLE \"No file\"\n";
+  cue += "    INDEX 01 00:00:00\n";
+
+  QBuffer buffer(&cue);
+  ASSERT_TRUE(buffer.open(QIODevice::ReadOnly));
+
+  CueParser parser = MakeParser();
+  const ParserBase::LoadResult result = parser.Load(&buffer, audio_info.dir().filePath(u"album.cue"_s), audio_info.dir(), false);
+
+  EXPECT_TRUE(result.songs.isEmpty());
 
 }
 

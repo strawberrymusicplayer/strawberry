@@ -245,6 +245,12 @@ ParserBase::LoadResult CueParser::Load(QIODevice *device, const QString &playlis
 
     Song song = LoadSong(entry.file, IndexToMarker(entry.index), 0, dir, collection_lookup);
 
+    // The media file doesn't exist, or the track has no FILE, skip it, since the CUE metadata below would make it a valid song without a URL.
+    if (song.url().isEmpty()) {
+      qLog(Warning) << "Skipping track" << entry.title << "in" << playlist_path << "without a media file";
+      continue;
+    }
+
     // Cue song has mtime equal to qMax(media_file_mtime, cue_sheet_mtime)
     if (cue_mtime.isValid()) {
       song.set_mtime(qMax(cue_mtime.toSecsSinceEpoch(), song.mtime()));

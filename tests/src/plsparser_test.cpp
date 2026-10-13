@@ -108,6 +108,24 @@ TEST_F(PLSParserTest, LoadsEntriesWithTitleAndLength) {
   EXPECT_EQ(result.songs[1].length_nanosec(), 240 * kNsecPerSec);
 }
 
+// Title and length lines without a file line are not songs, they used to be returned as songs without a URL.
+TEST_F(PLSParserTest, EntriesWithoutFileAreSkipped) {
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+
+  TemporaryResource leaf(u":/audio/strawberry.mp3"_s);
+  ASSERT_TRUE(leaf.isOpen());
+
+  const QString playlist = tmp.filePath(u"playlist.pls"_s);
+  ASSERT_TRUE(WriteFile(playlist, u"[playlist]\r\nFile1=%1\r\nTitle1=First\r\nTitle2=Second\r\nLength2=240\r\nLength3=120\r\nNumberOfEntries=3\r\nVersion=2\r\n"_s.arg(leaf.fileName()).toUtf8()));
+
+  PLSParser parser = MakeParser();
+  const ParserBase::LoadResult result = Load(parser, playlist);
+  ASSERT_EQ(result.songs.size(), 1);
+  EXPECT_EQ(result.songs[0].url(), QUrl::fromLocalFile(leaf.fileName()));
+  EXPECT_EQ(result.songs[0].title(), u"First"_s);
+}
+
 // PLS playlists that are not in UTF-8 are decoded with the detected encoding, here Cyrillic text in windows-1251.
 TEST_F(PLSParserTest, Windows1251TitleIsDecoded) {
   QTemporaryDir tmp;
