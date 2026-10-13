@@ -69,9 +69,20 @@ AlbumCoverExport::DialogResult AlbumCoverExport::Exec() {
 
   // Restore last accepted settings
   ui_->fileName->setText(s.value(kFileName, u"cover"_s).toString());
-  ui_->doNotOverwrite->setChecked(static_cast<OverwriteMode>(s.value(kOverwrite, static_cast<int>(OverwriteMode::None)).toInt()) == OverwriteMode::None);
-  ui_->overwriteAll->setChecked(static_cast<OverwriteMode>(s.value(kOverwrite, static_cast<int>(OverwriteMode::All)).toInt()) == OverwriteMode::All);
-  ui_->overwriteSmaller->setChecked(static_cast<OverwriteMode>(s.value(kOverwrite, static_cast<int>(OverwriteMode::Smaller)).toInt()) == OverwriteMode::Smaller);
+  // Read the setting once, with one default, otherwise all the buttons are checked when it's not set, and the last one wins.
+  const OverwriteMode saved_overwrite_mode = static_cast<OverwriteMode>(s.value(kOverwrite, static_cast<int>(OverwriteMode::None)).toInt());
+  switch (saved_overwrite_mode) {
+    case OverwriteMode::All:
+      ui_->overwriteAll->setChecked(true);
+      break;
+    case OverwriteMode::Smaller:
+      ui_->overwriteSmaller->setChecked(true);
+      break;
+    case OverwriteMode::None:
+    default:
+      ui_->doNotOverwrite->setChecked(true);
+      break;
+  }
   ui_->forceSize->setChecked(s.value(kForceSize, false).toBool());
   ui_->width->setText(s.value(kWidth, ""_L1).toString());
   ui_->height->setText(s.value(kHeight, ""_L1).toString());
