@@ -1833,6 +1833,60 @@ TEST_F(PlaylistTest, QueueDropOnlyAcceptsExistingRowsOfOwnPlaylist) {
 
 }
 
+// Regression test: moving queued rows must put them before the row they are dropped on, counting from before they are taken out.
+TEST_F(PlaylistTest, QueueMove) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"0"_s) << MakeMockItemP(u"1"_s) << MakeMockItemP(u"2"_s) << MakeMockItemP(u"3"_s) << MakeMockItemP(u"4"_s));
+
+  Queue *queue = playlist_.queue();
+  const auto queued_source_rows = [queue]() {
+    QList<int> rows;
+    for (int i = 0; i < queue->rowCount(QModelIndex()); ++i) {
+      rows << queue->mapToSource(queue->index(i, 0)).row();
+    }
+    return rows;
+  };
+  const auto reset_queue = [this, queue]() {
+    queue->Clear();
+    QModelIndexList source_indexes;
+    for (int i = 0; i < playlist_.rowCount(QModelIndex()); ++i) {
+      source_indexes << playlist_.index(i, 0);
+    }
+    queue->ToggleTracks(source_indexes);
+  };
+
+  reset_queue();
+  ASSERT_EQ(QList<int>() << 0 << 1 << 2 << 3 << 4, queued_source_rows());
+
+  // Dropping rows right before the row after them changes nothing.
+  queue->Move(QList<int>() << 0 << 1 << 2, 3);
+  EXPECT_EQ(QList<int>() << 0 << 1 << 2 << 3 << 4, queued_source_rows());
+
+  // Dropping a row on itself changes nothing.
+  queue->Move(QList<int>() << 2, 2);
+  EXPECT_EQ(QList<int>() << 0 << 1 << 2 << 3 << 4, queued_source_rows());
+
+  queue->Move(QList<int>() << 0 << 2, 4);
+  EXPECT_EQ(QList<int>() << 1 << 3 << 0 << 2 << 4, queued_source_rows());
+
+  reset_queue();
+  queue->Move(QList<int>() << 3 << 4, 1);
+  EXPECT_EQ(QList<int>() << 0 << 3 << 4 << 1 << 2, queued_source_rows());
+
+  reset_queue();
+  queue->Move(QList<int>() << 1, -1);
+  EXPECT_EQ(QList<int>() << 0 << 2 << 3 << 4 << 1, queued_source_rows());
+
+  reset_queue();
+  queue->MoveUp(2);
+  EXPECT_EQ(QList<int>() << 0 << 2 << 1 << 3 << 4, queued_source_rows());
+
+  reset_queue();
+  queue->MoveDown(2);
+  EXPECT_EQ(QList<int>() << 0 << 1 << 3 << 2 << 4, queued_source_rows());
+
+}
+
 // Regression test: the queue markers of each queued track must be updated, the queued tracks are not in order in the playlist, so one range from the first to the last could be reversed, and was ignored.
 // The tracks after added or removed ones get a new queue position, so they must be updated too.
 TEST_F(PlaylistTest, QueueMarkersUpdatedForEachQueuedTrack) {

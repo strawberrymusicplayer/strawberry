@@ -291,12 +291,14 @@ void Queue::Move(const QList<int> &proxy_rows, int pos) {
   Q_EMIT layoutAboutToBeChanged();
   QList<QPersistentModelIndex> moved_items;
 
-  // Take the items out of the list first, keeping track of whether the insertion point changes
+  // Take the items out of the list first, keeping track of whether the insertion point changes.
+  // The insertion point is a row before the items are taken out, so it moves up by one for every item taken out before it, compared against the original insertion point.
+  const int original_pos = pos;
   int offset = 0;
   moved_items.reserve(proxy_rows.count());
   for (const int row : proxy_rows) {
     moved_items << source_indexes_.takeAt(row - offset);
-    if (pos != -1 && pos >= row) --pos;
+    if (original_pos != -1 && row < original_pos) --pos;
     ++offset;
   }
 
