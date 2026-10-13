@@ -25,6 +25,7 @@
 #include <QDir>
 #include <QByteArray>
 #include <QString>
+#include <QStringView>
 #include <QRegularExpression>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
@@ -63,18 +64,26 @@ ParserBase::LoadResult ASXParser::Load(QIODevice *device, const QString &playlis
   }
 
   // Some playlists have unescaped & characters in URLs :(
-  static const QRegularExpression ex(u"(href\\s*=\\s*\")([^\"]+)\""_s, QRegularExpression::CaseInsensitiveOption);
-  qint64 index = 0;
-  for (QRegularExpressionMatch re_match = ex.match(QString::fromUtf8(data), index); re_match.hasMatch(); re_match = ex.match(QString::fromUtf8(data), index)) {
-    index = re_match.capturedStart();
+  // The data is decoded as Latin-1, which maps every byte to one character, so the bytes are kept as they are, whatever the encoding of the playlist is, which is left to the XML reader.
+  // Only ASCII is matched and inserted, so characters in other encodings are not changed.
+  static const QRegularExpression regex_href(u"(href\\s*=\\s*\")([^\"]+)\""_s, QRegularExpression::CaseInsensitiveOption);
+  // Keep the predefined XML entities and numeric character references, such as "&#38;" and "&#x26;".
+  static const QRegularExpression regex_html_entities(u"&(?!amp;|quot;|apos;|lt;|gt;|#[0-9]+;|#x[0-9a-fA-F]+;)"_s);
+  const QString text = QString::fromLatin1(data);
+  QString escaped_text;
+  escaped_text.reserve(text.size());
+  qsizetype last_end = 0;
+  QRegularExpressionMatchIterator it = regex_href.globalMatch(text);
+  while (it.hasNext()) {
+    const QRegularExpressionMatch re_match = it.next();
     QString url = re_match.captured(2);
-    static const QRegularExpression regex_html_entities(u"&(?!amp;|quot;|apos;|lt;|gt;)"_s);
     url.replace(regex_html_entities, u"&amp;"_s);
-
-    QByteArray replacement = QStringLiteral("%1%2\"").arg(re_match.captured(1), url).toLocal8Bit();
-    data.replace(re_match.captured(0).toLocal8Bit(), replacement);
-    index += replacement.length();
+    escaped_text.append(QStringView(text).mid(last_end, re_match.capturedStart(2) - last_end));
+    escaped_text.append(url);
+    last_end = re_match.capturedEnd(2);
   }
+  escaped_text.append(QStringView(text).mid(last_end));
+  data = escaped_text.toLatin1();
 
   QBuffer buffer(&data);
   if (!buffer.open(QIODevice::ReadOnly)) return SongList();
