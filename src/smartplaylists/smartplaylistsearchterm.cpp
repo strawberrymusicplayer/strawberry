@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2022-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -121,23 +122,32 @@ QString SmartPlaylistSearchTerm::ToSql(QVariantList &bound_values) const {
     value_expr = u"CAST ((? + 0.05) * 10 AS INTEGER)"_s;
   }
 
+  // "%" and "_" in the value are wildcards for LIKE, escape them so they only match themselves.
+  const auto like_value = [&value]() {
+    QString like = value.toString();
+    like.replace(u'\\', u"\\\\"_s).replace(u'%', u"\\%"_s).replace(u'_', u"\\_"_s);
+    return like;
+  };
+  const QString like_escape = u" ESCAPE '\\'"_s;
+
   switch (operator_) {
     case Operator::Contains:
-      bound_values.append(QString(u"%"_s + value.toString() + u"%"_s));
-      return col + " LIKE "_L1 + value_expr;
+      bound_values.append(QString(u"%"_s + like_value() + u"%"_s));
+      return col + " LIKE "_L1 + value_expr + like_escape;
     case Operator::NotContains:
-      bound_values.append(QString(u"%"_s + value.toString() + u"%"_s));
-      return col + " NOT LIKE "_L1 + value_expr;
+      bound_values.append(QString(u"%"_s + like_value() + u"%"_s));
+      return col + " NOT LIKE "_L1 + value_expr + like_escape;
     case Operator::StartsWith:
-      bound_values.append(QString(value.toString() + u"%"_s));
-      return col + " LIKE "_L1 + value_expr;
+      bound_values.append(QString(like_value() + u"%"_s));
+      return col + " LIKE "_L1 + value_expr + like_escape;
     case Operator::EndsWith:
-      bound_values.append(QString(u"%"_s + value.toString()));
-      return col + " LIKE "_L1 + value_expr;
+      bound_values.append(QString(u"%"_s + like_value()));
+      return col + " LIKE "_L1 + value_expr + like_escape;
     case Operator::Equals:
       bound_values.append(value);
+      // Text is compared case insensitive, like the other text operators.
       if (type == Type::Text) {
-        return col + " LIKE "_L1 + value_expr;
+        return col + " = "_L1 + value_expr + " COLLATE NOCASE"_L1;
       }
       return col + " = "_L1 + value_expr;
     case Operator::GreaterThan:
@@ -158,6 +168,9 @@ QString SmartPlaylistSearchTerm::ToSql(QVariantList &bound_values) const {
       return "("_L1 + col + " < DATETIME('now', ?, 'localtime') AND "_L1 + col + " > DATETIME('now', ?, 'localtime'))"_L1;
     case Operator::NotEquals:
       bound_values.append(value);
+      if (type == Type::Text) {
+        return col + " <> "_L1 + value_expr + " COLLATE NOCASE"_L1;
+      }
       return col + " <> "_L1 + value_expr;
     case Operator::Empty:
       return col + " = ''"_L1;
