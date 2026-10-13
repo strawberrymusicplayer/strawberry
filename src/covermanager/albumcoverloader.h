@@ -111,6 +111,7 @@ class AlbumCoverLoader : public QObject {
   quint64 EnqueueTask(TaskPtr task);
   void ProcessTask(TaskPtr task);
   void InitArt(TaskPtr task);
+  static void ClearImage(TaskPtr task);
   LoadImageResult LoadImage(TaskPtr task, const AlbumCoverLoaderOptions::Type type);
   LoadImageResult LoadEmbeddedImage(TaskPtr task);
   LoadImageResult LoadUrlImage(TaskPtr task, const AlbumCoverLoaderResult::Type result_type, const QUrl &cover_url);

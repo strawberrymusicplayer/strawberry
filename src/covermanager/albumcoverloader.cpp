@@ -230,6 +230,7 @@ void AlbumCoverLoader::ProcessTask(TaskPtr task) {
       task->result_type = result.type;
       break;
     }
+    ClearImage(task);
   }
 
   if (!task->success && !task->options.default_cover.isEmpty()) {
@@ -260,6 +261,14 @@ void AlbumCoverLoader::FinishTask(TaskPtr task, const AlbumCoverLoaderResult::Ty
   }
 
   Q_EMIT AlbumCoverLoaded(task->id, AlbumCoverLoaderResult(task->success, task->result_type, task->album_cover, image_scaled, task->art_manual_updated, task->art_automatic_updated));
+
+}
+
+// Don't keep the data of a cover that failed to load, it would be taken as an already loaded cover and the remaining types and the default cover would be skipped.
+void AlbumCoverLoader::ClearImage(TaskPtr task) {
+
+  task->album_cover.image_data = QByteArray();
+  task->album_cover.image = QImage();
 
 }
 
@@ -415,6 +424,7 @@ void AlbumCoverLoader::LoadRemoteImageFinished(QNetworkReply *reply, TaskPtr tas
   QVariant redirect = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
   if (redirect.isValid() && redirect.metaType().id() == QMetaType::QUrl) {
     if (task->redirects++ >= kMaxRedirects) {
+      ClearImage(task);
       ProcessTask(task);
       return;
     }
@@ -443,6 +453,7 @@ void AlbumCoverLoader::LoadRemoteImageFinished(QNetworkReply *reply, TaskPtr tas
     qLog(Error) << "Unable to get album cover from URL" << cover_url << reply->error() << reply->errorString();
   }
 
+  ClearImage(task);
   ProcessTask(task);
 
 }
