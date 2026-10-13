@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -272,6 +272,13 @@ bool MtpDevice::FinishDelete(const bool success, QString &error_text) { return F
 bool MtpDevice::GetSupportedFiletypes(QList<Song::FileType> *ret) {
 
   QMutexLocker l(&db_busy_);
+
+  // Use the connection the device already holds, many MTP devices only allow one connection at a time.
+  if (connection_ && connection_->is_valid()) {
+    return GetSupportedFiletypes(ret, connection_->device());
+  }
+
+  // There's no connection, for example when loading the device failed, so open one only for this.
   MtpConnection connection(url_);
 
   if (!connection.is_valid()) {
