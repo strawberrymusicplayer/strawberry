@@ -28,6 +28,7 @@
 #include <QStyleOption>
 #include <QStyleOptionViewItem>
 #include <QAbstractItemModel>
+#include <QPersistentModelIndex>
 #include <QString>
 
 #include "includes/scoped_ptr.h"
@@ -129,7 +130,7 @@ class DeviceView : public AutoExpandingTreeView {
   QAction *organize_action_;
   QAction *delete_action_;
 
-  QModelIndex menu_index_;
+  QPersistentModelIndex menu_index_;
 };
 
 #endif  // DEVICEVIEW_H
