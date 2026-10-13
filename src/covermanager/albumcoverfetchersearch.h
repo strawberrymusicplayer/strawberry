@@ -41,6 +41,7 @@
 #include "albumcoverimageresult.h"
 
 class QNetworkReply;
+class QTimer;
 class CoverProvider;
 class CoverProviders;
 class NetworkAccessManager;
@@ -100,6 +101,7 @@ class AlbumCoverFetcherSearch : public QObject {
 
   QMap<int, CoverProvider*> pending_requests_;
   QHash<QNetworkReply*, CoverProviderSearchResult> pending_image_loads_;
+  QTimer *timer_search_timeout_;
   NetworkTimeouts *image_load_timeout_;
 
   // QMap is sorted by key (score).
