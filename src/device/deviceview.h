@@ -30,6 +30,7 @@
 #include <QAbstractItemModel>
 #include <QPersistentModelIndex>
 #include <QString>
+#include <QStringList>
 
 #include "includes/scoped_ptr.h"
 #include "includes/shared_ptr.h"
@@ -100,7 +101,7 @@ class DeviceView : public AutoExpandingTreeView {
   void DeviceConnected(const QModelIndex &idx);
   void DeviceDisconnected(const QModelIndex &idx);
 
-  void DeleteFinished(const SongList &songs_with_errors);
+  void DeleteFinished(const SongList &songs_with_errors, const QStringList &log);
 
  private:
   QModelIndex MapToDevice(const QModelIndex &merged_model_index) const;

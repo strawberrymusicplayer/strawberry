@@ -81,7 +81,7 @@ class FileView : public QWidget {
   void ToggleViewMode();
 
   void Delete(const QStringList &filenames);
-  void DeleteFinished(const SongList &songs_with_errors);
+  void DeleteFinished(const SongList &songs_with_errors, const QStringList &log);
 
  public Q_SLOTS:
   void AddTreeRootPath(const QString &path);

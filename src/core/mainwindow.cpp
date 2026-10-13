@@ -3597,13 +3597,13 @@ void MainWindow::PlaylistDelete() {
 
 }
 
-void MainWindow::DeleteFilesFinished(const SongList &songs_with_errors) {
+void MainWindow::DeleteFilesFinished(const SongList &songs_with_errors, const QStringList &log) {
 
-  if (songs_with_errors.isEmpty()) return;
+  if (songs_with_errors.isEmpty() && log.isEmpty()) return;
 
   OrganizeErrorDialog *dialog = new OrganizeErrorDialog(this);
   dialog->setAttribute(Qt::WA_DeleteOnClose);
-  dialog->Show(OrganizeErrorDialog::OperationType::Delete, songs_with_errors);
+  dialog->Show(OrganizeErrorDialog::OperationType::Delete, songs_with_errors, log);
 
 }
 

@@ -41,6 +41,7 @@
 #include <QList>
 #include <QByteArray>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 #include <QImage>
 #include <QTimer>
@@ -279,7 +280,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   void FocusSearchField();
 
-  void DeleteFilesFinished(const SongList &songs_with_errors);
+  void DeleteFilesFinished(const SongList &songs_with_errors, const QStringList &log);
 
   void FetchStreamingMetadata();
   void ProcessMetadataQueue();

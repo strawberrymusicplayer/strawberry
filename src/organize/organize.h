@@ -78,7 +78,7 @@ class Organize : public QObject {
   void Start();
 
  Q_SIGNALS:
-  void Finished(const QStringList &files_with_errors, const QStringList &log);
+  void Finished(const QStringList &files_with_errors, const QStringList &log, const bool success);
   void FileCopied(const int database_id);
   void SongPathChanged(const Song &song, const QFileInfo &new_file, const std::optional<int> new_collection_directory_id);
 

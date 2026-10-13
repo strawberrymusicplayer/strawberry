@@ -26,6 +26,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QStringList>
 
 #include "includes/scoped_ptr.h"
 #include "includes/shared_ptr.h"
@@ -101,7 +102,7 @@ class CollectionView : public CollectionTreeView {
   void ShowInVarious();
   void NoShowInVarious();
   void Delete();
-  void DeleteFilesFinished(const SongList &songs_with_errors);
+  void DeleteFilesFinished(const SongList &songs_with_errors, const QStringList &log);
 
  private:
   void SetShowInVarious(const bool on);

@@ -94,12 +94,16 @@ void DeleteFiles::ProcessSomeFiles() {
   if (progress_ >= songs_.count()) {
     task_manager_->SetTaskProgress(task_id_, static_cast<quint64>(progress_), static_cast<quint64>(songs_.count()));
 
+    // Finishing can fail when all files were deleted, for example when writing the device database fails.
     QString error_text;
-    storage_->FinishCopy(songs_with_errors_.isEmpty(), error_text);
+    QStringList log;
+    if (!storage_->FinishDelete(songs_with_errors_.isEmpty(), error_text) && !error_text.isEmpty()) {
+      log << error_text;
+    }
 
     task_manager_->SetTaskFinished(task_id_);
 
-    Q_EMIT Finished(songs_with_errors_);
+    Q_EMIT Finished(songs_with_errors_, log);
 
     // Move back to the original thread so deleteLater() can get called in the main thread's event loop
     moveToThread(original_thread_);
