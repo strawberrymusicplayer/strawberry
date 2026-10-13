@@ -22,12 +22,19 @@
 #include "gtest_include.h"
 #include "gmock_include.h"
 
+#include <string>
+
 #include <QFile>
 #include <QByteArray>
 #include <QString>
 #include <QCryptographicHash>
 #include <QThread>
 #include <QEventLoop>
+
+#include <taglib/tstring.h>
+#include <taglib/asffile.h>
+#include <taglib/asftag.h>
+#include <taglib/asfattribute.h>
 
 #include "core/logging.h"
 #include "core/song.h"
@@ -41,6 +48,13 @@ using namespace Qt::Literals::StringLiterals;
 // clazy:excludeall=non-pod-global-static
 
 namespace {
+
+// For opening files with TagLib directly, to create or check tags the tag reader doesn't write itself.
+#ifdef Q_OS_WIN32
+std::wstring ASFFileName(const QString &filename) { return filename.toStdWString(); }
+#else
+QByteArray ASFFileName(const QString &filename) { return QFile::encodeName(filename); }
+#endif
 
 class TagReaderTest : public ::testing::Test {
  protected:
@@ -2563,6 +2577,176 @@ TEST_F(TagReaderTest, TestASFAudioFileRating) {
   {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(0.4F, song.rating());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestASFAudioFilePlaycountAndRatingReplaced) {
+
+  TemporaryResource r(u":/audio/strawberry.asf"_s);
+
+  {
+    Song song;
+    song.set_playcount(4);
+    song.set_rating(0.4F);
+    WriteSongPlaycountToFile(song, r.fileName());
+    WriteSongRatingToFile(song, r.fileName());
+  }
+
+  {
+    Song song;
+    song.set_playcount(5);
+    song.set_rating(0.8F);
+    WriteSongPlaycountToFile(song, r.fileName());
+    WriteSongRatingToFile(song, r.fileName());
+  }
+
+  {
+    const Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(5, song.playcount());
+    EXPECT_EQ(0.8F, song.rating());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestASFAudioFileWritePlaycountAndRating) {
+
+  TemporaryResource r(u":/audio/strawberry.asf"_s);
+
+  {
+    Song song;
+    song.set_playcount(3);
+    song.set_rating(0.6F);
+    SaveTagsOptions save_tags_options;
+    save_tags_options.setFlag(SaveTagsOption::Playcount);
+    save_tags_options.setFlag(SaveTagsOption::Rating);
+    TagReaderReplyPtr reply = tagreader_client_->WriteFileAsync(r.fileName(), song, save_tags_options, SaveTagCoverData());
+    QEventLoop loop;
+    QObject::connect(&*reply, &TagReaderReply::Finished, &loop, &QEventLoop::quit);
+    loop.exec();
+    EXPECT_TRUE(reply->result().success());
+  }
+
+  {
+    const Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(3, song.playcount());
+    EXPECT_EQ(0.6F, song.rating());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestASFAudioFileWritePlaycountAndRatingKeepsTags) {
+
+  TemporaryResource r(u":/audio/strawberry.asf"_s);
+
+  {
+    Song song;
+    song.set_albumartist(u"strawberry album artist"_s);
+    song.set_composer(u"strawberry composer"_s);
+    EXPECT_TRUE(WriteSongToFile(song, r.fileName()).success());
+  }
+
+  // Saving only the play count and rating should not touch the other tags.
+  {
+    Song song;
+    song.set_playcount(3);
+    song.set_rating(0.6F);
+    SaveTagsOptions save_tags_options;
+    save_tags_options.setFlag(SaveTagsOption::Playcount);
+    save_tags_options.setFlag(SaveTagsOption::Rating);
+    TagReaderReplyPtr reply = tagreader_client_->WriteFileAsync(r.fileName(), song, save_tags_options, SaveTagCoverData());
+    QEventLoop loop;
+    QObject::connect(&*reply, &TagReaderReply::Finished, &loop, &QEventLoop::quit);
+    loop.exec();
+    EXPECT_TRUE(reply->result().success());
+  }
+
+  {
+    const Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(u"strawberry album artist"_s, song.albumartist());
+    EXPECT_EQ(u"strawberry composer"_s, song.composer());
+    EXPECT_EQ(3, song.playcount());
+    EXPECT_EQ(0.6F, song.rating());
+  }
+
+}
+
+TEST_F(TagReaderTest, TestASFAudioFilePlaycountAndRatingRemoved) {
+
+  TemporaryResource r(u":/audio/strawberry.asf"_s);
+
+  {
+    Song song;
+    song.set_playcount(4);
+    song.set_rating(0.4F);
+    WriteSongPlaycountToFile(song, r.fileName());
+    WriteSongRatingToFile(song, r.fileName());
+  }
+
+  {
+    Song song;
+    song.set_playcount(0);
+    song.set_rating(0.0F);
+    WriteSongPlaycountToFile(song, r.fileName());
+    WriteSongRatingToFile(song, r.fileName());
+  }
+
+  {
+    const Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(0, song.playcount());
+    EXPECT_LE(song.rating(), 0.0F);
+  }
+
+  {
+    TagLib::ASF::File file(ASFFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    EXPECT_FALSE(file.tag()->contains("FMPS/Playcount"));
+    EXPECT_FALSE(file.tag()->contains("FMPS/Rating"));
+  }
+
+}
+
+TEST_F(TagReaderTest, TestASFAudioFileReadLegacyPlaycountAndRating) {
+
+  TemporaryResource r(u":/audio/strawberry.asf"_s);
+
+  // Older versions added a new value on every save, so the file has several values, with the most recent last.
+  {
+    TagLib::ASF::File file(ASFFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    file.tag()->addAttribute("FMPS/Playcount", TagLib::ASF::Attribute(TagLib::String("4")));
+    file.tag()->addAttribute("FMPS/Playcount", TagLib::ASF::Attribute(TagLib::String("5")));
+    file.tag()->addAttribute("FMPS/Rating", TagLib::ASF::Attribute(TagLib::String("0.4")));
+    file.tag()->addAttribute("FMPS/Rating", TagLib::ASF::Attribute(TagLib::String("0.8")));
+    ASSERT_TRUE(file.save());
+  }
+
+  {
+    const Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(5, song.playcount());
+    EXPECT_EQ(0.8F, song.rating());
+  }
+
+  // Saving again replaces all the old values.
+  {
+    Song song;
+    song.set_playcount(6);
+    song.set_rating(0.6F);
+    WriteSongPlaycountToFile(song, r.fileName());
+    WriteSongRatingToFile(song, r.fileName());
+  }
+
+  {
+    TagLib::ASF::File file(ASFFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    EXPECT_EQ(1U, file.tag()->attribute("FMPS/Playcount").size());
+    EXPECT_EQ(1U, file.tag()->attribute("FMPS/Rating").size());
+  }
+
+  {
+    const Song song = ReadSongFromFile(r.fileName());
+    EXPECT_EQ(6, song.playcount());
+    EXPECT_EQ(0.6F, song.rating());
   }
 
 }
