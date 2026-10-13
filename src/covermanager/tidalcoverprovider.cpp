@@ -121,7 +121,6 @@ JsonBaseRequest::JsonObjectResult TidalCoverProvider::ParseJsonObject(QNetworkRe
   }
 
   const QByteArray data = reply->readAll();
-  bool clear_session = false;
   if (!data.isEmpty()) {
     QJsonParseError json_parse_error;
     const QJsonDocument json_document = QJsonDocument::fromJson(data, &json_parse_error);
@@ -134,9 +133,6 @@ JsonBaseRequest::JsonObjectResult TidalCoverProvider::ParseJsonObject(QNetworkRe
         result.error_code = ErrorCode::APIError;
         result.api_error = status;
         result.error_message = QStringLiteral("%1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
-        if (status == 401 && sub_status == 6001) {
-          clear_session = true;
-        }
       }
       else {
         result.json_object = json_document.object();
@@ -159,8 +155,10 @@ JsonBaseRequest::JsonObjectResult TidalCoverProvider::ParseJsonObject(QNetworkRe
     }
   }
 
-  if (reply->error() == QNetworkReply::AuthenticationRequiredError || clear_session) {
-    service_->ClearSession();
+  // Refresh the access token instead of clearing the session, which would lose the refresh token too.
+  // This includes the 401 with sub status 6001, the session is cleared if the refresh token is no longer valid either.
+  if (reply->error() == QNetworkReply::AuthenticationRequiredError) {
+    service_->AccessTokenRejected(reply->request().rawHeader("Authorization"));
   }
 
   return result;

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -156,8 +156,9 @@ JsonBaseRequest::JsonObjectResult SpotifyCoverProvider::ParseJsonObject(QNetwork
     }
   }
 
+  // Refresh the access token instead of clearing the session, which would lose the refresh token too.
   if (reply->error() == QNetworkReply::AuthenticationRequiredError) {
-    service_->ClearSession();
+    service_->AccessTokenRejected(reply->request().rawHeader("Authorization"));
   }
 
   return result;

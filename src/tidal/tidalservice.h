@@ -78,6 +78,7 @@ class TidalService : public StreamingService {
   void ReloadSettings() override;
 
   void ClearSession();
+  void AccessTokenRejected(const QByteArray &authorization_header);
   int Search(const QString &text, const SearchType type) override;
   void CancelSearch() override;
 
