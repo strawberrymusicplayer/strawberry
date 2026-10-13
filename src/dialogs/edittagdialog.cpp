@@ -266,7 +266,7 @@ EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
     }
   }
 
-  QObject::connect(ui_->song_list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &EditTagDialog::SelectionChanged);
+  QObject::connect(ui_->song_list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &EditTagDialog::SongSelectionChanged);
   QObject::connect(ui_->button_box, &QDialogButtonBox::clicked, this, &EditTagDialog::ButtonClicked);
   QObject::connect(ui_->playcount_reset, &QPushButton::clicked, this, &EditTagDialog::ResetPlayStatistics);
   QObject::connect(ui_->rating, &RatingWidget::RatingChanged, this, &EditTagDialog::SongRated);
@@ -767,6 +767,18 @@ void EditTagDialog::ResetFieldValue(const FieldData &field, const QModelIndexLis
 
 }
 
+void EditTagDialog::SongSelectionChanged() {
+
+  // Cancel fetching lyrics for the previously selected song, also when nothing is selected now, otherwise the result is shown for the wrong song.
+  // This is not done in SelectionChanged(), since that is also called to update the UI for the same song, for example when the cover changed.
+  lyrics_fetcher_->Clear();
+  lyrics_id_ = -1;
+  ui_->lyrics_fetch_status->clear();
+
+  SelectionChanged();
+
+}
+
 void EditTagDialog::SelectionChanged() {
 
   const QModelIndexList indexes = ui_->song_list->selectionModel()->selectedIndexes();
@@ -774,8 +786,6 @@ void EditTagDialog::SelectionChanged() {
 
   // Set the editable fields
   UpdateUI(indexes);
-
-  lyrics_id_ = -1;
 
   // If we're editing multiple songs then we have to disable certain tabs
   const bool multiple = indexes.count() > 1;
@@ -1743,7 +1753,8 @@ void EditTagDialog::FetchLyrics() {
   if (ui_->song_list->selectionModel()->selectedIndexes().isEmpty()) return;
   const Song song = data_.value(ui_->song_list->selectionModel()->selectedIndexes().first().row()).current_;
   lyrics_fetcher_->Clear();
-  ui_->lyrics->setPlainText(tr("loading..."));
+  // The status is not shown in the lyrics field, since the field is the lyrics of the song, so the status would be saved as the lyrics.
+  ui_->lyrics_fetch_status->setText(tr("loading..."));
   lyrics_id_ = static_cast<qint64>(lyrics_fetcher_->Search(song.effective_albumartist(), song.artist(), song.album(), song.title(), song.length_nanosec() / kNsecPerSec));
 
 }
@@ -1753,9 +1764,10 @@ void EditTagDialog::UpdateLyrics(const quint64 id, const LyricsSearchResult &res
   if (static_cast<qint64>(id) != lyrics_id_) return;
   lyrics_id_ = -1;
   if (result.lyrics.isEmpty()) {
-    ui_->lyrics->setPlainText(tr("Not found."));
+    ui_->lyrics_fetch_status->setText(tr("Not found."));
   }
   else {
+    ui_->lyrics_fetch_status->clear();
     ui_->lyrics->setPlainText(result.lyrics);
   }
 

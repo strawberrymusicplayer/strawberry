@@ -128,6 +128,7 @@ class EditTagDialog : public QDialog {
   void SetSongsFinished();
   void SaveDataFinished();
 
+  void SongSelectionChanged();
   void SelectionChanged();
   void FieldValueEdited();
   void ResetField();
