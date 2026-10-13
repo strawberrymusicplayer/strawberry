@@ -415,6 +415,26 @@ TEST_F(PlaylistTest, InsertAfterCurrent) {
 
 }
 
+TEST_F(PlaylistTest, InsertAtRowPastEnd) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s) << MakeMockItemP(u"Three"_s));
+  ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
+
+  // A row which was valid when loading started, but rows were removed in the meantime.
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"Four"_s), 10);
+  ASSERT_EQ(4, playlist_.rowCount(QModelIndex()));
+  EXPECT_EQ(u"Four"_s, playlist_.data(playlist_.index(3, static_cast<int>(Playlist::Column::Title))));
+
+  playlist_.undo_stack()->undo();
+  ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
+  EXPECT_EQ(u"Three"_s, playlist_.data(playlist_.index(2, static_cast<int>(Playlist::Column::Title))));
+
+  playlist_.undo_stack()->redo();
+  ASSERT_EQ(4, playlist_.rowCount(QModelIndex()));
+  EXPECT_EQ(u"Four"_s, playlist_.data(playlist_.index(3, static_cast<int>(Playlist::Column::Title))));
+
+}
+
 TEST_F(PlaylistTest, Clear) {
 
   playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s) << MakeMockItemP(u"Three"_s));
