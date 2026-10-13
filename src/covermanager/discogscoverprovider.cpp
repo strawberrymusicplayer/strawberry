@@ -298,7 +298,7 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
   if (!requests_search_.contains(id)) return;
   SharedPtr<DiscogsCoverSearchContext> search = requests_search_.value(id);
 
-  const QScopeGuard end_search = qScopeGuard([this, search]() { EndSearch(search); });
+  QScopeGuard end_search = qScopeGuard([this, search]() { EndSearch(search); });
 
   const JsonObjectResult json_object_result = ParseJsonObject(reply);
   if (!json_object_result.success()) {
@@ -361,9 +361,14 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
     StartReleaseRequest(search, release_id, resource_url);
   }
 
+  // No master releases were found, so search the releases instead, the search is not finished until that one is.
   if (search->requests_release_.count() == 0 && search->type == DiscogsCoverType::Master) {
+    end_search.dismiss();
     search->type = DiscogsCoverType::Release;
     queue_search_requests_.enqueue(search);
+    if (!timer_flush_requests_->isActive()) {
+      timer_flush_requests_->start();
+    }
   }
 
 }
