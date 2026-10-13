@@ -388,7 +388,7 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
             if (!json_obj.isEmpty() && json_obj.contains("code"_L1) && json_obj.contains("message"_L1)) {
               int code = json_obj["code"_L1].toInt();
               QString message = json_obj["message"_L1].toString();
-              errors_ << QStringLiteral("%1 (%2)").arg(message).arg(code);
+              errors_ << QStringLiteral("%1 (%2)").arg(message, QString::number(code));
             }
           }
         }

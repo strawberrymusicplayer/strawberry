@@ -189,7 +189,7 @@ JsonBaseRequest::JsonObjectResult JellyfinBaseRequest::ParseJsonObject(QNetworkR
 
   if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
     const QString redirect_error = JellyfinService::RedirectRefusedError(reply);
-    return JsonObjectResult(ErrorCode::NetworkError, redirect_error.isEmpty() ? QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()) : redirect_error);
+    return JsonObjectResult(ErrorCode::NetworkError, redirect_error.isEmpty() ? QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error())) : redirect_error);
   }
 
   JsonObjectResult result(ErrorCode::Success);
@@ -207,7 +207,7 @@ JsonBaseRequest::JsonObjectResult JellyfinBaseRequest::ParseJsonObject(QNetworkR
       const QJsonObject json_object = json_document.object();
       if (json_object.contains(u"Message"_s)) {
         result.error_code = ErrorCode::HttpError;
-        result.error_message = QStringLiteral("%1 (%2)").arg(json_object.value(u"Message"_s).toString()).arg(result.http_status_code);
+        result.error_message = QStringLiteral("%1 (%2)").arg(json_object.value(u"Message"_s).toString(), QString::number(result.http_status_code));
         return result;
       }
     }

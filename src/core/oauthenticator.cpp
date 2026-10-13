@@ -594,7 +594,7 @@ void OAuthenticator::AccessTokenRequestFinished(QNetworkReply *reply, const bool
   }
 
   if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
-    const QString error_message = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+    const QString error_message = QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error()));
     AccessTokenRequestFailed(refresh_token, error_message);
     return;
   }
@@ -629,7 +629,7 @@ void OAuthenticator::AccessTokenRequestFinished(QNetworkReply *reply, const bool
       AccessTokenRequestFailed(refresh_token, QStringLiteral("Received HTTP status code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
     }
     else {
-      AccessTokenRequestFailed(refresh_token, QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+      AccessTokenRequestFailed(refresh_token, QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error())));
     }
     return;
   }

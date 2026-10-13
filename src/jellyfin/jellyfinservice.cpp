@@ -1066,7 +1066,7 @@ JellyfinService::AuthReply JellyfinService::ParseAuthReply(QNetworkReply *reply)
   if (reply->error() != QNetworkReply::NoError || http_status != 200) {
     if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       const QString redirect_error = RedirectRefusedError(reply);
-      auth_reply.error = redirect_error.isEmpty() ? QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()) : redirect_error;
+      auth_reply.error = redirect_error.isEmpty() ? QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error())) : redirect_error;
       // A refused redirect is not a login failure either.
       auth_reply.network_error = http_status == 0 || reply->error() == QNetworkReply::OperationCanceledError || reply->error() == QNetworkReply::InsecureRedirectError || reply->error() == QNetworkReply::TooManyRedirectsError;
       return auth_reply;
@@ -1084,12 +1084,12 @@ JellyfinService::AuthReply JellyfinService::ParseAuthReply(QNetworkReply *reply)
     if (parse_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
       const QJsonObject json_obj = json_doc.object();
       if (json_obj.contains(u"Message"_s)) {
-        auth_reply.error = QStringLiteral("%1 (%2)").arg(json_obj.value(u"Message"_s).toString()).arg(http_status);
+        auth_reply.error = QStringLiteral("%1 (%2)").arg(json_obj.value(u"Message"_s).toString(), QString::number(http_status));
         return auth_reply;
       }
     }
 
-    auth_reply.error = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(http_status);
+    auth_reply.error = QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(http_status));
     return auth_reply;
   }
 

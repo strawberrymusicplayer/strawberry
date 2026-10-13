@@ -117,7 +117,7 @@ void QobuzCoverProvider::CancelSearch(const int id) { Q_UNUSED(id); }
 JsonBaseRequest::JsonObjectResult QobuzCoverProvider::ParseJsonObject(QNetworkReply *reply) {
 
   if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
-    return ReplyDataResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    return ReplyDataResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error())));
   }
 
   JsonObjectResult result(ErrorCode::Success);
@@ -136,7 +136,7 @@ JsonBaseRequest::JsonObjectResult QobuzCoverProvider::ParseJsonObject(QNetworkRe
         const int code = json_object["code"_L1].toInt();
         const QString message = json_object["message"_L1].toString();
         result.error_code = ErrorCode::APIError;
-        result.error_message = QStringLiteral("%1 (%2)").arg(message).arg(code);
+        result.error_message = QStringLiteral("%1 (%2)").arg(message, QString::number(code));
       }
       else {
         result.json_object = json_document.object();
@@ -151,7 +151,7 @@ JsonBaseRequest::JsonObjectResult QobuzCoverProvider::ParseJsonObject(QNetworkRe
   if (result.error_code != ErrorCode::APIError) {
     if (reply->error() != QNetworkReply::NoError) {
       result.error_code = ErrorCode::NetworkError;
-      result.error_message = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      result.error_message = QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error()));
     }
     else if (result.http_status_code != 200) {
       result.error_code = ErrorCode::HttpError;

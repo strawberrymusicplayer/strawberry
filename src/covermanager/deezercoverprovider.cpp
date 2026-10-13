@@ -91,7 +91,7 @@ void DeezerCoverProvider::CancelSearch(const int id) { Q_UNUSED(id); }
 JsonBaseRequest::JsonObjectResult DeezerCoverProvider::ParseJsonObject(QNetworkReply *reply) {
 
   if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
-    return ReplyDataResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    return ReplyDataResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error())));
   }
 
   JsonObjectResult result(ErrorCode::Success);
@@ -113,7 +113,7 @@ JsonBaseRequest::JsonObjectResult DeezerCoverProvider::ParseJsonObject(QNetworkR
           const QString type = object_error["type"_L1].toString();
           const QString message = object_error["message"_L1].toString();
           result.error_code = ErrorCode::APIError;
-          result.error_message = QStringLiteral("%1: %2 (%3)").arg(type, message).arg(code);
+          result.error_message = QStringLiteral("%1: %2 (%3)").arg(type, message, QString::number(code));
         }
       }
       else {
@@ -129,7 +129,7 @@ JsonBaseRequest::JsonObjectResult DeezerCoverProvider::ParseJsonObject(QNetworkR
   if (result.error_code != ErrorCode::APIError) {
     if (reply->error() != QNetworkReply::NoError) {
       result.error_code = ErrorCode::NetworkError;
-      result.error_message = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      result.error_message = QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error()));
     }
     else if (result.http_status_code != 200) {
       result.error_code = ErrorCode::HttpError;

@@ -339,7 +339,7 @@ QJsonObject ListenBrainzScrobbler::JsonTrackMetadata(const ScrobbleMetadata &met
 JsonBaseRequest::JsonObjectResult ListenBrainzScrobbler::ParseJsonObject(QNetworkReply *reply) {
 
   if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
-    return ReplyDataResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    return ReplyDataResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error())));
   }
 
   JsonObjectResult result(ErrorCode::Success);
@@ -358,13 +358,13 @@ JsonBaseRequest::JsonObjectResult ListenBrainzScrobbler::ParseJsonObject(QNetwor
         const int code = json_object["code"_L1].toInt();
         const QString error = json_object["error"_L1].toString();
         result.error_code = ErrorCode::APIError;
-        result.error_message = QStringLiteral("%1 (%2)").arg(error).arg(code);
+        result.error_message = QStringLiteral("%1 (%2)").arg(error, QString::number(code));
       }
       else if (json_object.contains("error"_L1) && json_object.contains("error_description"_L1)) {
         const int error = json_object["error"_L1].toInt();
         const QString error_description = json_object["error_description"_L1].toString();
         result.error_code = ErrorCode::APIError;
-        result.error_message = QStringLiteral("%1 (%2)").arg(error_description).arg(error);
+        result.error_message = QStringLiteral("%1 (%2)").arg(error_description, QString::number(error));
       }
       else {
         result.json_object = json_document.object();
@@ -379,7 +379,7 @@ JsonBaseRequest::JsonObjectResult ListenBrainzScrobbler::ParseJsonObject(QNetwor
   if (result.error_code != ErrorCode::APIError) {
     if (reply->error() != QNetworkReply::NoError) {
       result.error_code = ErrorCode::NetworkError;
-      result.error_message = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      result.error_message = QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error()));
     }
     else if (result.http_status_code != 200) {
       result.error_code = ErrorCode::HttpError;
@@ -443,7 +443,7 @@ void ListenBrainzScrobbler::UpdateNowPlayingRequestFinished(QNetworkReply *reply
 
   // ListenBrainz frequently close the connection, ignore any connection closed errors to avoid error popups
   if (reply->error() == QNetworkReply::NetworkError::RemoteHostClosedError) {
-    JsonBaseRequest::Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    JsonBaseRequest::Error(QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error())));
     return;
   }
 
@@ -667,7 +667,7 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, Scrobb
 
   // ListenBrainz frequently close the connection, ignore any connection closed errors to avoid error popups
   if (reply->error() == QNetworkReply::NetworkError::RemoteHostClosedError) {
-    JsonBaseRequest::Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    JsonBaseRequest::Error(QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error())));
     cache_->ClearSent(cache_items);
     submit_error_ = true;
     Start();
