@@ -263,6 +263,13 @@ using namespace Qt::Literals::StringLiterals;
 namespace {
 const int kTrackSliderUpdateTimeMs = 200;
 const int kTrackPositionUpdateTimeMs = 1000;
+
+// Returns the playlist the index belongs to, which is not necessarily the current playlist when a reply arrives, or nullptr when the row or the playlist was removed.
+Playlist *PlaylistOfIndex(const QPersistentModelIndex &idx) {
+  if (!idx.isValid()) return nullptr;
+  return qobject_cast<Playlist*>(const_cast<QAbstractItemModel*>(idx.model()));
+}
+
 }  // namespace
 
 #ifdef HAVE_QTSPARKLE
@@ -2420,7 +2427,11 @@ void MainWindow::EditTracks() {
 
   if (items.isEmpty()) return;
 
-  edit_tag_dialog_->SetSongs(songs, items);
+  // The dialog is not modal, so the current playlist can change before it is accepted.
+  // It keeps the previous songs while it is loading or saving them, then they are still from the previous playlist.
+  if (edit_tag_dialog_->SetSongs(songs, items)) {
+    edit_tag_dialog_playlist_ = app_->playlist_manager()->current();
+  }
   edit_tag_dialog_->show();
   edit_tag_dialog_->raise();
 
@@ -2435,7 +2446,8 @@ void MainWindow::EditTagDialogAccepted() {
     return;
   }
 
-  Playlist *playlist = app_->playlist_manager()->current();
+  // Update the playlist the songs were edited from, not the current playlist.
+  Playlist *playlist = edit_tag_dialog_playlist_;
   if (!playlist) {
     return;
   }
@@ -2508,8 +2520,9 @@ void MainWindow::RenumberTracks() {
 
 void MainWindow::SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx) {
 
-  if (reply->success() && idx.isValid()) {
-    app_->playlist_manager()->current()->ReloadItems(QList<int>() << idx.row());
+  Playlist *playlist = PlaylistOfIndex(idx);
+  if (reply->success() && playlist) {
+    playlist->ReloadItems(QList<int>() << idx.row());
   }
 
 }
@@ -3012,7 +3025,9 @@ void MainWindow::EditFileTags(const QList<QUrl> &urls) {
     songs << song;
   }
 
-  edit_tag_dialog_->SetSongs(songs);
+  if (edit_tag_dialog_->SetSongs(songs)) {
+    edit_tag_dialog_playlist_.clear();
+  }
   edit_tag_dialog_->show();
   edit_tag_dialog_->raise();
 
@@ -3716,8 +3731,9 @@ void MainWindow::ProcessMetadataQueue() {
       QobuzMetadataRequest *request = new QobuzMetadataRequest(&*qobuz_service, qobuz_service->network(), this);
       QObject::connect(request, &QobuzMetadataRequest::MetadataReceived, this, [this, metadata_queue_entry, request](const QString &received_track_id, const Song &fetched_song) {
         Q_UNUSED(received_track_id);
-        if (metadata_queue_entry.persistent_index.isValid() && fetched_song.is_valid()) {
-          PlaylistItemPtr playlist_item = app_->playlist_manager()->current()->item_at(metadata_queue_entry.persistent_index.row());
+        Playlist *playlist = PlaylistOfIndex(metadata_queue_entry.persistent_index);
+        if (playlist && fetched_song.is_valid()) {
+          PlaylistItemPtr playlist_item = playlist->item_at(metadata_queue_entry.persistent_index.row());
           if (playlist_item) {
             const Song old_song = playlist_item->OriginalMetadata();
             Song updated_song = old_song;
@@ -3735,7 +3751,7 @@ void MainWindow::ProcessMetadataQueue() {
             if (fetched_song.year() > 0) updated_song.set_year(fetched_song.year());
             if (fetched_song.length_nanosec() > 0) updated_song.set_length_nanosec(fetched_song.length_nanosec());
             if (fetched_song.art_automatic().isValid()) updated_song.set_art_automatic(fetched_song.art_automatic());
-            app_->playlist_manager()->current()->UpdateItemMetadata(metadata_queue_entry.persistent_index.row(), playlist_item, updated_song, false);
+            playlist->UpdateItemMetadata(metadata_queue_entry.persistent_index.row(), playlist_item, updated_song, false);
           }
         }
         request->deleteLater();
@@ -3765,8 +3781,9 @@ void MainWindow::ProcessMetadataQueue() {
       SpotifyMetadataRequest *request = new SpotifyMetadataRequest(&*spotify_service, app_->network(), this);
       QObject::connect(request, &SpotifyMetadataRequest::MetadataReceived, this, [this, metadata_queue_entry, request](const QString &received_track_id, const Song &fetched_song) {
         Q_UNUSED(received_track_id);
-        if (metadata_queue_entry.persistent_index.isValid() && fetched_song.is_valid()) {
-          PlaylistItemPtr playlist_item = app_->playlist_manager()->current()->item_at(metadata_queue_entry.persistent_index.row());
+        Playlist *playlist = PlaylistOfIndex(metadata_queue_entry.persistent_index);
+        if (playlist && fetched_song.is_valid()) {
+          PlaylistItemPtr playlist_item = playlist->item_at(metadata_queue_entry.persistent_index.row());
           if (playlist_item) {
             const Song old_song = playlist_item->OriginalMetadata();
             Song updated_song = old_song;
@@ -3784,7 +3801,7 @@ void MainWindow::ProcessMetadataQueue() {
             if (fetched_song.year() > 0) updated_song.set_year(fetched_song.year());
             if (fetched_song.length_nanosec() > 0) updated_song.set_length_nanosec(fetched_song.length_nanosec());
             if (fetched_song.art_automatic().isValid()) updated_song.set_art_automatic(fetched_song.art_automatic());
-            app_->playlist_manager()->current()->UpdateItemMetadata(metadata_queue_entry.persistent_index.row(), playlist_item, updated_song, false);
+            playlist->UpdateItemMetadata(metadata_queue_entry.persistent_index.row(), playlist_item, updated_song, false);
           }
         }
         request->deleteLater();

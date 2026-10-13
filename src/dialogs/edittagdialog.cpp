@@ -527,10 +527,10 @@ QList<EditTagDialog::Data> EditTagDialog::LoadData(const SongList &songs) const 
 
 }
 
-void EditTagDialog::SetSongs(const SongList &s, const PlaylistItemPtrList &items) {
+bool EditTagDialog::SetSongs(const SongList &s, const PlaylistItemPtrList &items) {
 
   // Show the loading indicator
-  if (!SetLoading(tr("Loading tracks") + u"..."_s)) return;
+  if (!SetLoading(tr("Loading tracks") + u"..."_s)) return false;
 
   data_.clear();
   playlist_items_ = items;
@@ -549,6 +549,8 @@ void EditTagDialog::SetSongs(const SongList &s, const PlaylistItemPtrList &items
   QFutureWatcher<QList<Data>> *watcher = new QFutureWatcher<QList<Data>>(this);
   QObject::connect(watcher, &QFutureWatcher<QList<Data>>::finished, this, &EditTagDialog::SetSongsFinished);
   watcher->setFuture(future);
+
+  return true;
 
 }
 
