@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -215,10 +215,13 @@ QList<QUrl> GioLister::MakeDeviceUrls(const QString &id) {
 
   {
     QMutexLocker l(&mutex_);
-    volume_root_uri = devices_[id].volume_root_uri;
-    mount_point = devices_[id].mount_path;
-    mount_uri = devices_[id].mount_uri;
-    unix_device = devices_[id].volume_unix_device;
+    // The device can be removed already, operator[] would add an empty device for it.
+    if (!devices_.contains(id)) return QList<QUrl>();
+    const DeviceInfo info = devices_.value(id);
+    volume_root_uri = info.volume_root_uri;
+    mount_point = info.mount_path;
+    mount_uri = info.mount_uri;
+    unix_device = info.volume_unix_device;
   }
 
   QStringList uris;
