@@ -1066,8 +1066,11 @@ void TagReaderTagLib::ParseASFTags(TagLib::ASF::Tag *tag, QString *disc, QString
   if (attributes_map.contains(kASF_FMPS_Playcount)) {
     const TagLib::ASF::AttributeList &attributes = attributes_map[kASF_FMPS_Playcount];
     if (!attributes.isEmpty()) {
-      // Older versions added a new value on every save instead of replacing it, so the last value is the most recent.
-      int playcount = TagLibStringToQString(attributes.back().toString()).toInt();
+      // Older versions added a new value on every save instead of replacing it, and TagLib does not keep the order of the values, so use the highest play count, which is the most recent.
+      int playcount = 0;
+      for (const TagLib::ASF::Attribute &attribute : attributes) {
+        playcount = std::max(playcount, TagLibStringToQString(attribute.toString()).toInt());
+      }
       if (song->playcount() <= 0 && playcount > 0) {
         song->set_playcount(static_cast<uint>(playcount));
       }
@@ -1077,8 +1080,9 @@ void TagReaderTagLib::ParseASFTags(TagLib::ASF::Tag *tag, QString *disc, QString
   if (attributes_map.contains(kASF_FMPS_Rating)) {
     const TagLib::ASF::AttributeList &attributes = attributes_map[kASF_FMPS_Rating];
     if (!attributes.isEmpty()) {
-      // Older versions added a new value on every save instead of replacing it, so the last value is the most recent.
-      float rating = TagLibStringToQString(attributes.back().toString()).toFloat();
+      // Older versions added a new value on every save instead of replacing it, and TagLib does not keep the order of the values, so which one is the most recent is not known.
+      // Saving the rating again replaces all of them.
+      float rating = TagLibStringToQString(attributes.front().toString()).toFloat();
       if (song->rating() <= 0 && rating > 0) {
         song->set_rating(rating);
       }
