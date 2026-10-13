@@ -2019,7 +2019,7 @@ TagReaderResult TagReaderTagLib::SaveEmbeddedCover(const QString &filename, cons
 
   // MP3
   else if (TagLib::MPEG::File *file_mp3 = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
-    TagLib::ID3v2::Tag *tag = file_mp3->ID3v2Tag();
+    TagLib::ID3v2::Tag *tag = file_mp3->ID3v2Tag(true);
     if (tag) {
       SetEmbeddedCover(tag, cover.data, cover.mimetype);
     }
