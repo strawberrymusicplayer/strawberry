@@ -88,6 +88,8 @@ class TagReaderTagLib : public TagReaderBase {
 
  private:
   static Song::FileType GuessFileType(TagLib::FileRef *fileref);
+  static TagLib::ID3v2::Version ID3v2VersionToSave(const TagLib::ID3v2::Tag *tag, const TagID3v2Version tag_id3v2_version);
+  static bool SaveFile(TagLib::FileRef *fileref, const TagID3v2Version tag_id3v2_version = TagID3v2Version::Default);
   TagReaderResult Read(SharedPtr<TagLib::FileRef> fileref, Song *song) const;
 
   void ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QString *compilation, Song *song) const;
