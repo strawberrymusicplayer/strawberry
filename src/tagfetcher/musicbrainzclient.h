@@ -199,6 +199,8 @@ class MusicBrainzClient : public JsonBaseRequest {
   QMultiMap<QString, QNetworkReply*> discid_requests_;
 
   QMap<int, QList<PendingResults>> pending_results_;
+  // The errors of the requests for an ID, only reported when none of the requests had results.
+  QMap<int, QStringList> pending_errors_;
   QTimer *timer_flush_requests_;
 };
 
