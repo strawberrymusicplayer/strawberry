@@ -446,8 +446,41 @@ TEST_F(PlaylistTest, RemoveCurrent) {
   playlist_.removeRow(1, QModelIndex());
   EXPECT_EQ(-1, playlist_.current_row());
   EXPECT_EQ(-1, playlist_.last_played_row());
-  EXPECT_EQ(-1, playlist_.previous_row());
+  // The previous track is the one before the removed track, and the next track is the one after it.
+  EXPECT_EQ(0, playlist_.previous_row());
+  EXPECT_EQ(u"One"_s, TitleAt(playlist_, playlist_.previous_row()));
+  EXPECT_EQ(1, playlist_.next_row());
+  EXPECT_EQ(u"Three"_s, TitleAt(playlist_, playlist_.next_row()));
+
+}
+
+TEST_F(PlaylistTest, RemoveCurrentAtFirstRow) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s) << MakeMockItemP(u"Three"_s));
+
+  playlist_.set_current_row(0);
+  playlist_.removeRow(0, QModelIndex());
+  EXPECT_EQ(-1, playlist_.current_row());
   EXPECT_EQ(0, playlist_.next_row());
+  EXPECT_EQ(u"Two"_s, TitleAt(playlist_, playlist_.next_row()));
+
+}
+
+TEST_F(PlaylistTest, RemoveRowsAfterRemovedCurrentKeepsPosition) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s) << MakeMockItemP(u"Three"_s) << MakeMockItemP(u"Four"_s) << MakeMockItemP(u"Five"_s));
+
+  playlist_.set_current_row(1);
+  playlist_.removeRow(1, QModelIndex());
+  ASSERT_EQ(u"Three"_s, TitleAt(playlist_, playlist_.next_row()));
+
+  // Removing a row after the next track does not move the position.
+  playlist_.removeRow(3, QModelIndex());
+  EXPECT_EQ(u"Three"_s, TitleAt(playlist_, playlist_.next_row()));
+
+  // Removing a row before the position moves it with the rows.
+  playlist_.removeRow(0, QModelIndex());
+  EXPECT_EQ(u"Three"_s, TitleAt(playlist_, playlist_.next_row()));
 
 }
 
