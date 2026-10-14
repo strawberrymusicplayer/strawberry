@@ -87,8 +87,11 @@ class EditTagDialog : public QDialog {
   // Returns false when the songs are not set, since the dialog is still loading or saving the previous songs.
   bool SetSongs(const SongList &songs, const PlaylistItemPtrList &items = PlaylistItemPtrList());
 
-  PlaylistItemPtrList playlist_items() const { return playlist_items_; }
+  // Returns the playlist items of the songs in the dialog, in the same order as songs(), songs which could not be loaded are not in the dialog.
+  PlaylistItemPtrList playlist_items() const;
   SongList songs() const;
+  // Returns the songs as they were loaded into the dialog, in the same order as songs(), to find out which fields were edited.
+  SongList original_songs() const;
   void accept() override;
 
  Q_SIGNALS:
@@ -108,7 +111,7 @@ class EditTagDialog : public QDialog {
     New
   };
   struct Data {
-    explicit Data(const Song &song = Song()) : original_(song), current_(song), cover_action_(UpdateCoverAction::None), stored_lyrics_storage_type_(song.lyrics_storage_type()), stored_synced_lyrics_storage_type_(song.synced_lyrics_storage_type()) {}
+    explicit Data(const Song &song = Song(), const qsizetype index = -1) : original_(song), current_(song), cover_action_(UpdateCoverAction::None), stored_lyrics_storage_type_(song.lyrics_storage_type()), stored_synced_lyrics_storage_type_(song.synced_lyrics_storage_type()), index_(index) {}
 
     static QVariant value(const Song &song, const QString &id);
     QVariant original_value(const QString &id) const { return value(original_, id); }
@@ -123,6 +126,8 @@ class EditTagDialog : public QDialog {
     // Where the lyrics were stored before a storage type was preselected for the editor, None if they were not stored anywhere.
     Song::StorageType stored_lyrics_storage_type_;
     Song::StorageType stored_synced_lyrics_storage_type_;
+    // The index of the song in the songs set in SetSongs(), to find its playlist item.
+    qsizetype index_;
   };
 
  private Q_SLOTS:

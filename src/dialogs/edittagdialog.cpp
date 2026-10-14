@@ -463,6 +463,32 @@ bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
 
 }
 
+PlaylistItemPtrList EditTagDialog::playlist_items() const {
+
+  if (playlist_items_.isEmpty()) return PlaylistItemPtrList();
+
+  PlaylistItemPtrList items;
+  items.reserve(data_.count());
+  for (const Data &d : data_) {
+    items << playlist_items_.value(d.index_);
+  }
+
+  return items;
+
+}
+
+SongList EditTagDialog::original_songs() const {
+
+  SongList result;
+  result.reserve(data_.count());
+  for (const Data &d : data_) {
+    result << d.original_;
+  }
+
+  return result;
+
+}
+
 SongList EditTagDialog::songs() const {
 
   SongList result;
@@ -498,28 +524,36 @@ QList<EditTagDialog::Data> EditTagDialog::LoadData(const SongList &songs) const 
 
   QList<Data> ret;
 
-  for (const Song &song : songs) {
-    if (song.IsEditable()) {
-      // Try reloading the tags from file
-      Song copy(song);
-      const TagReaderResult result = tagreader_client_->ReadFileBlocking(copy.url().toLocalFile(), &copy);
-      if (result.success() && copy.is_valid()) {
-        copy.MergeUserSetData(song, false, false);
-        // The tags were read again above, lyrics which are not stored in the tags are only in the song from the collection.
-        // Empty lyrics in the database are lyrics cleared on purpose, so they are not replaced by lyrics in the tags.
-        if (song.lyrics_storage_type() == Song::StorageType::Database) {
-          copy.set_lyrics(song.lyrics());
-          copy.set_lyrics_storage_type(song.lyrics_storage_type());
-        }
-        if (song.synced_lyrics_storage_type() == Song::StorageType::Database || (song.synced_lyrics_storage_type() == Song::StorageType::File && !song.synced_lyrics().isEmpty())) {
-          copy.set_synced_lyrics(song.synced_lyrics());
-          copy.set_synced_lyrics_storage_type(song.synced_lyrics_storage_type());
-        }
-        Data tag_data(copy);
-        SetAvailableStorageTypes(&tag_data.original_, save_lyrics_to_tags_);
-        tag_data.current_ = tag_data.original_;
-        ret << tag_data;
+  for (qsizetype i = 0; i < songs.count(); ++i) {
+    const Song &song = songs.at(i);
+    if (!song.IsEditable()) continue;
+    // Streams have no file to reload the tags from, their metadata is applied to the playlist item.
+    if (song.is_stream()) {
+      Data tag_data(song, i);
+      SetAvailableStorageTypes(&tag_data.original_, save_lyrics_to_tags_);
+      tag_data.current_ = tag_data.original_;
+      ret << tag_data;
+      continue;
+    }
+    // Try reloading the tags from file
+    Song copy(song);
+    const TagReaderResult result = tagreader_client_->ReadFileBlocking(copy.url().toLocalFile(), &copy);
+    if (result.success() && copy.is_valid()) {
+      copy.MergeUserSetData(song, false, false);
+      // The tags were read again above, lyrics which are not stored in the tags are only in the song from the collection.
+      // Empty lyrics in the database are lyrics cleared on purpose, so they are not replaced by lyrics in the tags.
+      if (song.lyrics_storage_type() == Song::StorageType::Database) {
+        copy.set_lyrics(song.lyrics());
+        copy.set_lyrics_storage_type(song.lyrics_storage_type());
       }
+      if (song.synced_lyrics_storage_type() == Song::StorageType::Database || (song.synced_lyrics_storage_type() == Song::StorageType::File && !song.synced_lyrics().isEmpty())) {
+        copy.set_synced_lyrics(song.synced_lyrics());
+        copy.set_synced_lyrics_storage_type(song.synced_lyrics_storage_type());
+      }
+      Data tag_data(copy, i);
+      SetAvailableStorageTypes(&tag_data.original_, save_lyrics_to_tags_);
+      tag_data.current_ = tag_data.original_;
+      ret << tag_data;
     }
   }
 
@@ -577,9 +611,9 @@ void EditTagDialog::SetSongsFinished() {
     return;
   }
 
-  // Add the filenames to the list
+  // Add the filenames to the list, streams can be without a filename.
   for (const Data &tag_data : std::as_const(data_)) {
-    ui_->song_list->addItem(tag_data.current_.basefilename());
+    ui_->song_list->addItem(tag_data.current_.basefilename().isEmpty() ? tag_data.current_.url().toString() : tag_data.current_.basefilename());
   }
 
   // Select all
@@ -1718,14 +1752,14 @@ void EditTagDialog::FetchTagSongChosen(const Song &original_song, const Song &ne
 
 #ifdef HAVE_TAGFETCHER
 
-  const QString filename = original_song.url().toLocalFile();
+  const QUrl url = original_song.url();
 
-  // Find the song with this filename
-  auto data_it = std::find_if(data_.begin(), data_.end(), [&filename](const Data &d) {
-    return d.original_.url().toLocalFile() == filename;
+  // Find the song with this URL, not the local filename, which is empty for all streams.
+  auto data_it = std::find_if(data_.begin(), data_.end(), [&url](const Data &d) {
+    return d.original_.url() == url;
   });
   if (data_it == data_.end()) {
-    qLog(Warning) << "Could not find song to filename: " << filename;
+    qLog(Warning) << "Could not find song with URL" << url;
     return;
   }
 

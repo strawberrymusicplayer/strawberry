@@ -2441,8 +2441,9 @@ void MainWindow::EditTagDialogAccepted() {
 
   const PlaylistItemPtrList items = edit_tag_dialog_->playlist_items();
   const SongList songs = edit_tag_dialog_->songs();
+  const SongList original_songs = edit_tag_dialog_->original_songs();
 
-  if (items.count() != songs.count()) {
+  if (items.count() != songs.count() || original_songs.count() != songs.count()) {
     return;
   }
 
@@ -2456,9 +2457,20 @@ void MainWindow::EditTagDialogAccepted() {
   for (int i = 0; i < items.count(); ++i) {
     PlaylistItemPtr item = items.at(i);
     const Song &updated_song = songs.at(i);
-    // For stream tracks, apply the metadata directly since there's no file to reload from.
-    if (updated_song.is_stream_service()) {
-      playlist->UpdateItemMetadata(item, updated_song, false);
+    // For stream tracks, including radio streams, apply the metadata directly since there's no file to reload from.
+    // Only the fields edited in the dialog are changed, since the metadata can have changed while the dialog was open.
+    if (updated_song.is_stream()) {
+      const Song &dialog_original_song = original_songs.at(i);
+      const Song original_song = Song::SongWithEditedFields(dialog_original_song, updated_song, item->OriginalMetadata());
+      if (item->HasStreamMetadata()) {
+        // Updating the original metadata would replace the metadata of what is playing on the stream now, and the stream URL it resolved to, so only the edited fields are changed in it too.
+        const Song stream_song = Song::SongWithEditedFields(dialog_original_song, updated_song, item->EffectiveMetadata());
+        item->SetOriginalMetadata(original_song);
+        playlist->UpdateItemMetadata(item, stream_song, true);
+      }
+      else {
+        playlist->UpdateItemMetadata(item, original_song, false);
+      }
       continue;
     }
     // The item's row may have shifted since the dialog was opened, and reloading below needs a row rather than just the item.

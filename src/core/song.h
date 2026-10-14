@@ -587,6 +587,9 @@ class Song {
   // Useful when you want updated tags from disk but you want to keep user stats.
   void MergeUserSetData(const Song &other, const bool merge_playcount, const bool merge_rating);
 
+  // Returns the song with the fields which were edited in the edit tag dialog, the other fields are kept, since they can be the metadata of what is playing on a stream now, or changed while the dialog was open.
+  static Song SongWithEditedFields(const Song &original_song, const Song &edited_song, Song song);
+
   // Two songs that are on the same album will have the same AlbumKey.
   // It is more efficient to use IsOnSameAlbum, but this function can be used when you need to hash the key to do fast lookups.
   QString AlbumKey() const;
