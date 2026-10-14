@@ -36,6 +36,8 @@
 #include <taglib/asftag.h>
 #include <taglib/asfattribute.h>
 #include <taglib/mpegfile.h>
+#include <taglib/id3v2tag.h>
+#include <taglib/id3v2header.h>
 
 #include "core/logging.h"
 #include "core/song.h"
@@ -3085,6 +3087,63 @@ TEST_F(TagReaderTest, TestMP3AudioFileWithoutID3v2TagCover) {
   const QImage new_image = ReadCoverFromFile(r.fileName());
   EXPECT_TRUE(!new_image.isNull());
   EXPECT_EQ(new_image, original_image);
+
+}
+
+TEST_F(TagReaderTest, TestMP3KeepsID3v2VersionWhenSaving) {
+
+  TemporaryResource r(u":/audio/strawberry.mp3"_s);
+
+  const auto id3v2_version = [&r]() {
+    TagLib::MPEG::File file(TagLibFileName(r.fileName()).data());
+    return file.isValid() && file.hasID3v2Tag() ? static_cast<int>(file.ID3v2Tag()->header()->majorVersion()) : 0;
+  };
+
+  // Convert the tag to ID3v2.3.
+  Song song;
+  song.set_title(u"Strawberry"_s);
+  {
+    TagReaderReplyPtr reply = tagreader_client_->WriteFileAsync(r.fileName(), song, SaveTagsOption::Tags, SaveTagCoverData(), TagID3v2Version::V3);
+    QEventLoop loop;
+    QObject::connect(&*reply, &TagReaderReply::Finished, &loop, &QEventLoop::quit);
+    loop.exec();
+    ASSERT_TRUE(reply->result().success());
+  }
+  ASSERT_EQ(3, id3v2_version());
+
+  // Saving without an explicit version keeps ID3v2.3.
+  song.set_artist(u"Strawberry Artist"_s);
+  EXPECT_TRUE(WriteSongToFile(song, r.fileName()).success());
+  EXPECT_EQ(3, id3v2_version());
+
+  song.set_playcount(5);
+  WriteSongPlaycountToFile(song, r.fileName());
+  EXPECT_EQ(3, id3v2_version());
+
+  {
+    TagReaderReplyPtr reply = tagreader_client_->SaveSongRatingAsync(r.fileName(), 0.8F);
+    QEventLoop loop;
+    QObject::connect(&*reply, &TagReaderReply::Finished, &loop, &QEventLoop::quit);
+    loop.exec();
+    EXPECT_TRUE(reply->result().success());
+  }
+  EXPECT_EQ(3, id3v2_version());
+
+  EXPECT_TRUE(SaveLyricsToFile(u"strawberry lyrics"_s, r.fileName()).success());
+  EXPECT_EQ(3, id3v2_version());
+
+  EXPECT_TRUE(WriteCoverToFile(r.fileName(), u":/pictures/strawberry.png"_s).success());
+  EXPECT_EQ(3, id3v2_version());
+
+  // An explicit version is still used.
+  {
+    TagReaderReplyPtr reply = tagreader_client_->WriteFileAsync(r.fileName(), song, SaveTagsOption::Tags, SaveTagCoverData(), TagID3v2Version::V4);
+    QEventLoop loop;
+    QObject::connect(&*reply, &TagReaderReply::Finished, &loop, &QEventLoop::quit);
+    loop.exec();
+    EXPECT_TRUE(reply->result().success());
+  }
+  EXPECT_EQ(4, id3v2_version());
 
 }
 

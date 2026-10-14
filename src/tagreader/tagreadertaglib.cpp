@@ -362,6 +362,46 @@ Song::FileType TagReaderTagLib::GuessFileType(TagLib::FileRef *fileref) {
 
 }
 
+// Returns the ID3v2 version to save, by default the version of the existing tag, so saving a tag doesn't convert ID3v2.3 tags to ID3v2.4, which older players can't read.
+TagLib::ID3v2::Version TagReaderTagLib::ID3v2VersionToSave(const TagLib::ID3v2::Tag *tag, const TagID3v2Version tag_id3v2_version) {
+
+  switch (tag_id3v2_version) {
+    case TagID3v2Version::V3:
+      return TagLib::ID3v2::v3;
+    case TagID3v2Version::V4:
+      return TagLib::ID3v2::v4;
+    case TagID3v2Version::Default:
+      break;
+  }
+
+  // TagLib can't write ID3v2.2, so those are saved as ID3v2.4.
+  if (tag && tag->header() && tag->header()->majorVersion() == 3) {
+    return TagLib::ID3v2::v3;
+  }
+
+  return TagLib::ID3v2::v4;
+
+}
+
+// Saves the file, with the given ID3v2 version for files with ID3v2 tags.
+bool TagReaderTagLib::SaveFile(TagLib::FileRef *fileref, const TagID3v2Version tag_id3v2_version) {
+
+  if (TagLib::MPEG::File *file_mpeg = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
+    return file_mpeg->save(TagLib::MPEG::File::AllTags, TagLib::File::StripOthers, ID3v2VersionToSave(file_mpeg->hasID3v2Tag() ? file_mpeg->ID3v2Tag() : nullptr, tag_id3v2_version));
+  }
+
+  if (TagLib::RIFF::WAV::File *file_wav = dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) {
+    return file_wav->save(TagLib::RIFF::WAV::File::AllTags, TagLib::File::StripOthers, ID3v2VersionToSave(file_wav->hasID3v2Tag() ? file_wav->ID3v2Tag() : nullptr, tag_id3v2_version));
+  }
+
+  if (TagLib::RIFF::AIFF::File *file_aiff = dynamic_cast<TagLib::RIFF::AIFF::File*>(fileref->file())) {
+    return file_aiff->save(ID3v2VersionToSave(file_aiff->hasID3v2Tag() ? file_aiff->tag() : nullptr, tag_id3v2_version));
+  }
+
+  return fileref->save();
+
+}
+
 TagReaderResult TagReaderTagLib::Read(SharedPtr<TagLib::FileRef> fileref, Song *song) const {
 
   song->set_filetype(GuessFileType(&*fileref));
@@ -1351,33 +1391,7 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     }
   }
 
-  // Determine ID3v2 version to use and convert to TagLib type
-  TagLib::ID3v2::Version taglib_id3v2_version = TagLib::ID3v2::v4;
-  if (tag_id3v2_version == TagID3v2Version::V3) {
-    taglib_id3v2_version = TagLib::ID3v2::v3;
-  }
-  else if (tag_id3v2_version == TagID3v2Version::V4) {
-    taglib_id3v2_version = TagLib::ID3v2::v4;
-  }
-
-  bool success = false;
-
-  // For MPEG files, use save with ID3v2 version parameter
-  if (TagLib::MPEG::File *file_mpeg = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
-    success = file_mpeg->save(TagLib::MPEG::File::AllTags, TagLib::File::StripOthers, taglib_id3v2_version);
-  }
-  // For WAV files with ID3v2 tags
-  else if (TagLib::RIFF::WAV::File *file_wav = dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) {
-    success = file_wav->save(TagLib::RIFF::WAV::File::AllTags, TagLib::File::StripOthers, taglib_id3v2_version);
-  }
-  // For AIFF files with ID3v2 tags
-  else if (TagLib::RIFF::AIFF::File *file_aiff = dynamic_cast<TagLib::RIFF::AIFF::File*>(fileref->file())) {
-    success = file_aiff->save(taglib_id3v2_version);
-  }
-  // For all other file types, use default save
-  else {
-    success = fileref->save();
-  }
+  const bool success = SaveFile(&*fileref, tag_id3v2_version);
 
   // Tear down the TagLib stream first so all writes are flushed and the temporary file is closed before it is copied back.
   fileref.reset();
@@ -2064,7 +2078,7 @@ TagReaderResult TagReaderTagLib::SaveEmbeddedCover(const QString &filename, cons
     return TagReaderResult::ErrorCode::Unsupported;
   }
 
-  const bool success = fileref->file()->save();
+  const bool success = SaveFile(&*fileref);
 
   fileref.reset();
   stream.reset();
@@ -2225,7 +2239,7 @@ TagReaderResult TagReaderTagLib::SaveSongPlaycount(const QString &filename, cons
     return TagReaderResult::ErrorCode::Unsupported;
   }
 
-  const bool success = fileref->save();
+  const bool success = SaveFile(&*fileref);
 
   fileref.reset();
   stream.reset();
@@ -2367,7 +2381,7 @@ TagReaderResult TagReaderTagLib::SaveSongRating(const QString &filename, const f
     return TagReaderResult::ErrorCode::Unsupported;
   }
 
-  const bool success = fileref->save();
+  const bool success = SaveFile(&*fileref);
   if (!success) {
     qLog(Error) << "TagLib hasn't been able to save file" << write_guard.working_filename();
   }
@@ -2545,7 +2559,7 @@ TagReaderResult TagReaderTagLib::SaveLyricsToFile(const QString &filename, const
     }
   }
 
-  const bool success = fileref->save();
+  const bool success = SaveFile(&*fileref);
   if (!success) {
     qLog(Error) << "TagLib hasn't been able to save file" << write_guard.working_filename();
   }
