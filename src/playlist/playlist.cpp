@@ -2240,17 +2240,10 @@ PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int co
   if (current_item_index_.isValid()) {
     current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(current_item_index_.row()));
   }
-  else if (ShuffleMode() != PlaylistSequence::ShuffleMode::Off) {
-    // Keep the position in the shuffle order, so the next track is the one after the removed current track.
-    current_virtual_index_ -= removed_up_to_current_virtual_index;
-  }
   else {
-    if (row - 1 > 0 && row - 1 < items_.size()) {
-      current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(row - 1));
-    }
-    else {
-      current_virtual_index_ = -1;
-    }
+    // Keep the position in the play order, so the next track is the one after the removed current track.
+    // Without shuffle the play order is the row order, so when the current track is removed, this is the row before the removed rows, and removing other rows after it only moves it with the rows.
+    current_virtual_index_ -= removed_up_to_current_virtual_index;
   }
 
   if (!signal_track_ids.isEmpty()) {
