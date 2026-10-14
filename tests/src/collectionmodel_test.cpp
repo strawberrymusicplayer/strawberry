@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,11 +40,13 @@
 #include <QItemSelectionModel>
 #include <QScrollBar>
 #include <QTreeView>
+#include <QTemporaryDir>
 #include <QtDebug>
 
 #include "includes/scoped_ptr.h"
 #include "includes/shared_ptr.h"
 #include "core/logging.h"
+#include "core/database.h"
 #include "core/memorydatabase.h"
 #include "collection/collectionmanager.h"
 #include "collection/collectionbackend.h"
@@ -73,6 +75,45 @@ class CollectionModelTest : public ::testing::Test {
 
     added_dir_ = false;
 
+  }
+
+  void TearDown() override {
+
+    // Database doesn't close its connection when deleted, unlike MemoryDatabase, so close it, also after a failed assertion, otherwise the database file stays open.
+    model_.reset();
+    backend_.reset();
+    if (database_) {
+      database_->Close();
+      database_.reset();
+    }
+
+  }
+
+  // Waits until the model was reset the given number of times, since the update timer is not active while the songs are loaded, so Drain() can return before they are added.
+  // Each reload resets the model twice, when it starts and when the songs are loaded.
+  static bool WaitForResets(QSignalSpy *spy, const int count, const int timeout_ms = 60000) {
+    QElapsedTimer timer;
+    timer.start();
+    while (spy->count() < count) {
+      if (timer.elapsed() > timeout_ms) return false;
+      spy->wait(100);
+    }
+    return true;
+  }
+
+  // Uses a database file instead of the memory database, since the songs are loaded in another thread, which has its own connection, and a memory database is not shared between connections.
+  void UseDatabaseFile() {
+    ASSERT_TRUE(temp_dir_.isValid());
+    // Delete the memory database before creating the new one, since deleting a database logs all connections which are still open, also the ones of the new database.
+    model_.reset();
+    backend_.reset();
+    database_.reset();
+    database_ = make_shared<Database>(nullptr, nullptr, temp_dir_.filePath(u"strawberry.db"_s));
+    backend_ = make_shared<CollectionBackend>();
+    backend_->Init(database_, nullptr, Song::Source::Collection, QLatin1String(CollectionManager::kSongsTable), QLatin1String(CollectionManager::kDirsTable), QLatin1String(CollectionManager::kSubdirsTable));
+    model_ = make_unique<CollectionModel>(backend_, nullptr);
+    collection_filter_ = model_->filter();
+    added_dir_ = false;
   }
 
   Song AddSong(Song &song) {
@@ -149,6 +190,7 @@ class CollectionModelTest : public ::testing::Test {
     }
   }
 
+  QTemporaryDir temp_dir_;
   SharedPtr<Database> database_;
   SharedPtr<CollectionBackend> backend_;
   ScopedPtr<CollectionModel> model_;
@@ -526,6 +568,73 @@ TEST_F(CollectionModelTest, LargeBatchProducesSingleLayoutChange) {
 // folding it in would tear the model down mid-layout-change and leave the begin/end signals of either transaction unbalanced.
 // NOTE: data preservation across the Reset cannot be checked here - the reload runs on a worker thread, which opens its own connection to the :memory: test DB and so sees it empty;
 // against a real file DB that reload restores the full collection, which is why a dropped trailing update is not actually lost in production.
+TEST_F(CollectionModelTest, FilterModeChangedWhileLoadingDoesNotAddOldResults) {
+
+  UseDatabaseFile();
+  AddSong(u"Title 1"_s, u"Artist 1"_s, u"Album 1"_s, 1);
+  AddSong(u"Title 2"_s, u"Artist 2"_s, u"Album 2"_s, 1);
+  Drain();
+  ASSERT_EQ(2, model_->song_nodes().count());
+
+  // Change the filter mode while the songs are loaded for the reset, the songs loaded for the old filter mode should not be added.
+  bool filter_mode_changed = false;
+  QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
+  const QMetaObject::Connection connection = QObject::connect(&*model_, &CollectionModel::modelReset, &*model_, [this, &filter_mode_changed]() {
+    if (filter_mode_changed) return;
+    filter_mode_changed = true;
+    model_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
+  });
+  model_->SetGroupBy(model_->GetGroupBy());
+  // The reload, and the reload for the changed filter mode.
+  EXPECT_TRUE(WaitForResets(&spy_reset, 4));
+  Drain();
+  // The model is reset when it's deleted after the test, when the captured variables are gone.
+  QObject::disconnect(connection);
+
+  ASSERT_TRUE(filter_mode_changed);
+  // None of the songs are duplicates.
+  EXPECT_EQ(0, model_->song_nodes().count());
+
+}
+
+TEST_F(CollectionModelTest, SongRemovedWhileLoadingIsNotAddedAgain) {
+
+  UseDatabaseFile();
+  AddSong(u"Title 1"_s, u"Artist 1"_s, u"Album 1"_s, 1);
+  AddSong(u"Title 2"_s, u"Artist 2"_s, u"Album 2"_s, 1);
+  Drain();
+  ASSERT_EQ(2, model_->song_nodes().count());
+
+  // The songs in the model have their IDs from the database.
+  Song song1;
+  Song song2;
+  for (const CollectionItem *node : model_->song_nodes()) {
+    if (node->metadata.title() == u"Title 1"_s) song1 = node->metadata;
+    else song2 = node->metadata;
+  }
+  ASSERT_NE(-1, song1.id());
+  ASSERT_NE(-1, song2.id());
+
+  // Remove a song while the songs are loaded for the reset, the loaded songs still have it, so it should be removed after they are added.
+  bool removed = false;
+  QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
+  const QMetaObject::Connection connection = QObject::connect(&*model_, &CollectionModel::modelReset, &*model_, [this, &removed, song1]() {
+    if (removed) return;
+    removed = true;
+    model_->RemoveSongs(SongList() << song1);
+  });
+  model_->SetGroupBy(model_->GetGroupBy());
+  EXPECT_TRUE(WaitForResets(&spy_reset, 2));
+  Drain();
+  // The model is reset when it's deleted after the test, when the captured variables are gone.
+  QObject::disconnect(connection);
+
+  ASSERT_TRUE(removed);
+  ASSERT_EQ(1, model_->song_nodes().count());
+  EXPECT_EQ(song2.id(), model_->song_nodes().constFirst()->metadata.id());
+
+}
+
 TEST_F(CollectionModelTest, ResetMixedIntoBulkBatchDoesNotNestResets) {
 
   AddSong(u"seed"_s, u"seed"_s, u"seed"_s, 1);

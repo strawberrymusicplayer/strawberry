@@ -1045,10 +1045,22 @@ void CollectionModel::LoadSongsFromSqlAsyncFinished() {
   watcher->deleteLater();
 
   BeginReset();
-  ScheduleAddSongs(songs);
   EndReset();
 
   loading_ = false;
+
+  // When the options changed while loading, a reset is queued, which loads the songs again, so these songs are for the old options, for example without the duplicates filter.
+  const bool reset_pending = std::any_of(updates_.cbegin(), updates_.cend(), [](const CollectionModelUpdate &update) { return update.type == CollectionModelUpdate::Type::Reset; });
+  if (!reset_pending) {
+    // Add the loaded songs before the updates queued while loading, so those are applied after them, otherwise a song removed while loading is added again by the loaded songs.
+    QList<CollectionModelUpdate> load_updates;
+    for (qint64 i = 0; i < songs.count(); i += 400LL) {
+      load_updates << CollectionModelUpdate(CollectionModelUpdate::Type::Add, songs.mid(i, std::min(songs.count() - i, 400LL)));
+    }
+    for (qint64 i = load_updates.count() - 1; i >= 0; --i) {
+      updates_.prepend(load_updates.at(i));
+    }
+  }
 
   if (!updates_.isEmpty() && !timer_update_->isActive()) {
     timer_update_->start();
