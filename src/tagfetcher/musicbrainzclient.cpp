@@ -99,6 +99,7 @@ void MusicBrainzClient::CancelAll() {
   pending_mbid_requests_.clear();
   pending_discid_requests_.clear();
   pending_results_.clear();
+  pending_errors_.clear();
 
   if (timer_flush_requests_->isActive()) {
     timer_flush_requests_->stop();
@@ -186,6 +187,7 @@ void MusicBrainzClient::CancelMbIdRequest(const int id) {
   if (pending_results_.contains(id)) {
     pending_results_.remove(id);
   }
+  pending_errors_.remove(id);
 
 }
 
@@ -228,32 +230,35 @@ void MusicBrainzClient::MbIdRequestFinished(QNetworkReply *reply, const int id, 
     timer_flush_requests_->start();
   }
 
+  // A failed request doesn't finish the ID, the other requests for it can still have results.
   const JsonObjectResult json_object_result = ParseJsonObject(reply);
-  if (!json_object_result.success()) {
-    Q_EMIT MbIdFinished(id, ResultList(), json_object_result.error_message);
-    return;
-  }
-  const QJsonObject object_root = json_object_result.json_object;
-
-  if (object_root.contains("releases"_L1) && object_root.value("releases"_L1).isArray()) {
-    const ReleaseList releases = ParseReleases(object_root.value("releases"_L1).toArray());
-    if (!releases.isEmpty()) {
-      ResultList results = ResultListFromReleases(releases);
-      for (Result &result : results) {
-        result.musicbrainz_recording_id_ = mbid;
+  if (json_object_result.success()) {
+    const QJsonObject object_root = json_object_result.json_object;
+    if (object_root.contains("releases"_L1) && object_root.value("releases"_L1).isArray()) {
+      const ReleaseList releases = ParseReleases(object_root.value("releases"_L1).toArray());
+      if (!releases.isEmpty()) {
+        ResultList results = ResultListFromReleases(releases);
+        for (Result &result : results) {
+          result.musicbrainz_recording_id_ = mbid;
+        }
+        pending_results_[id] << PendingResults(request_number, results);
       }
-      pending_results_[id] << PendingResults(request_number, results);
     }
+  }
+  else {
+    qLog(Error) << "MusicBrainz request for" << mbid << "failed:" << json_object_result.error_message;
+    pending_errors_[id] << json_object_result.error_message;
   }
 
   if (!mbid_requests_.contains(id) && !pending_mbid_requests_.contains(id)) {
     QList<PendingResults> pending_results_list = pending_results_.take(id);
+    const QStringList errors = pending_errors_.take(id);
     std::sort(pending_results_list.begin(), pending_results_list.end());
     ResultList results;
     for (const PendingResults &pending_results : std::as_const(pending_results_list)) {
       results << pending_results.results_;
     }
-    Q_EMIT MbIdFinished(id, UniqueResults(results, UniqueResultsSortOption::KeepOriginalOrder));
+    Q_EMIT MbIdFinished(id, UniqueResults(results, UniqueResultsSortOption::KeepOriginalOrder), results.isEmpty() && !errors.isEmpty() ? errors.first() : QString());
   }
 
 }
