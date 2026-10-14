@@ -694,6 +694,10 @@ void QobuzService::SendSearch() {
       break;
   }
 
+  // The previous search request is deleted later, so disconnect it, otherwise its results can still arrive and end the new search.
+  if (search_request_) {
+    QObject::disconnect(&*search_request_, nullptr, this, nullptr);
+  }
   search_request_.reset(new QobuzRequest(this, url_handler_, network_, query_type));
   QObject::connect(&*search_request_, &QobuzRequest::Results, this, &QobuzService::SearchResultsReceived);
   QObject::connect(&*search_request_, &QobuzRequest::SongsAvailable, this, &QobuzService::SearchSongsAvailable);
@@ -706,7 +710,10 @@ void QobuzService::SendSearch() {
 
 void QobuzService::SearchResultsReceived(const int id, const SongMap &songs, const QString &error) {
 
-  search_request_.reset();
+  // Only the current search request is finished, not one started after these results.
+  if (id == search_id_) {
+    search_request_.reset();
+  }
   Q_EMIT SearchResults(id, songs, error);
 
 }

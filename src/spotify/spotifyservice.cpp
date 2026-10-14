@@ -532,6 +532,10 @@ void SpotifyService::SendSearch() {
       return;
   }
 
+  // The previous search request is deleted later, so disconnect it, otherwise its results can still arrive and end the new search.
+  if (search_request_) {
+    QObject::disconnect(&*search_request_, nullptr, this, nullptr);
+  }
   search_request_.reset(new SpotifyRequest(this, network_, type, this));
   QObject::connect(&*search_request_, &SpotifyRequest::Results, this, &SpotifyService::SearchResultsReceived);
   QObject::connect(&*search_request_, &SpotifyRequest::SongsAvailable, this, &SpotifyService::SearchSongsAvailable);
@@ -547,6 +551,9 @@ void SpotifyService::SendSearch() {
 void SpotifyService::SearchResultsReceived(const int id, const SongMap &songs, const QString &error) {
 
   Q_EMIT SearchResults(id, songs, error);
-  search_request_.reset();
+  // Only the current search request is finished, not one started after these results.
+  if (id == search_id_) {
+    search_request_.reset();
+  }
 
 }
