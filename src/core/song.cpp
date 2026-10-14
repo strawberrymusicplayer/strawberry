@@ -2207,6 +2207,47 @@ void Song::MergeUserSetData(const Song &other, const bool merge_playcount, const
 
 }
 
+Song Song::SongWithEditedFields(const Song &original_song, const Song &edited_song, Song song) {
+
+  if (edited_song.title() != original_song.title()) song.set_title(edited_song.title());
+  if (edited_song.titlesort() != original_song.titlesort()) song.set_titlesort(edited_song.titlesort());
+  if (edited_song.artist() != original_song.artist()) song.set_artist(edited_song.artist());
+  if (edited_song.artistsort() != original_song.artistsort()) song.set_artistsort(edited_song.artistsort());
+  if (edited_song.album() != original_song.album()) song.set_album(edited_song.album());
+  if (edited_song.albumsort() != original_song.albumsort()) song.set_albumsort(edited_song.albumsort());
+  if (edited_song.albumartist() != original_song.albumartist()) song.set_albumartist(edited_song.albumartist());
+  if (edited_song.albumartistsort() != original_song.albumartistsort()) song.set_albumartistsort(edited_song.albumartistsort());
+  if (edited_song.composer() != original_song.composer()) song.set_composer(edited_song.composer());
+  if (edited_song.composersort() != original_song.composersort()) song.set_composersort(edited_song.composersort());
+  if (edited_song.performer() != original_song.performer()) song.set_performer(edited_song.performer());
+  if (edited_song.performersort() != original_song.performersort()) song.set_performersort(edited_song.performersort());
+  if (edited_song.grouping() != original_song.grouping()) song.set_grouping(edited_song.grouping());
+  if (edited_song.genre() != original_song.genre()) song.set_genre(edited_song.genre());
+  if (edited_song.comment() != original_song.comment()) song.set_comment(edited_song.comment());
+  if (edited_song.lyrics() != original_song.lyrics()) song.set_lyrics(edited_song.lyrics());
+  if (edited_song.synced_lyrics() != original_song.synced_lyrics()) song.set_synced_lyrics(edited_song.synced_lyrics());
+  if (edited_song.lyrics_storage_type() != original_song.lyrics_storage_type()) song.set_lyrics_storage_type(edited_song.lyrics_storage_type());
+  if (edited_song.synced_lyrics_storage_type() != original_song.synced_lyrics_storage_type()) song.set_synced_lyrics_storage_type(edited_song.synced_lyrics_storage_type());
+  if (edited_song.track() != original_song.track()) song.set_track(edited_song.track());
+  if (edited_song.disc() != original_song.disc()) song.set_disc(edited_song.disc());
+  if (edited_song.year() != original_song.year()) song.set_year(edited_song.year());
+  if (edited_song.compilation() != original_song.compilation()) song.set_compilation(edited_song.compilation());
+  if (edited_song.rating() != original_song.rating()) song.set_rating(edited_song.rating());
+  // The play statistics are reset together, so they are all copied when one of them was changed.
+  if (edited_song.playcount() != original_song.playcount() || edited_song.skipcount() != original_song.skipcount() || edited_song.lastplayed() != original_song.lastplayed()) {
+    song.set_playcount(edited_song.playcount());
+    song.set_skipcount(edited_song.skipcount());
+    song.set_lastplayed(edited_song.lastplayed());
+  }
+  if (edited_song.art_embedded() != original_song.art_embedded()) song.set_art_embedded(edited_song.art_embedded());
+  if (edited_song.art_automatic() != original_song.art_automatic()) song.set_art_automatic(edited_song.art_automatic());
+  if (edited_song.art_manual() != original_song.art_manual()) song.set_art_manual(edited_song.art_manual());
+  if (edited_song.art_unset() != original_song.art_unset()) song.set_art_unset(edited_song.art_unset());
+
+  return song;
+
+}
+
 QString Song::AlbumKey() const {
   return QStringLiteral("%1|%2|%3").arg(is_compilation() ? u"_compilation"_s : effective_albumartist(), has_cue() ? cue_path() : ""_L1, effective_album());
 }
