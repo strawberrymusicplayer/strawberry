@@ -527,6 +527,10 @@ void TidalService::SendSearch() {
       return;
   }
 
+  // The previous search request is deleted later, so disconnect it, otherwise its results can still arrive and end the new search.
+  if (search_request_) {
+    QObject::disconnect(&*search_request_, nullptr, this, nullptr);
+  }
   search_request_.reset(new TidalRequest(this, url_handler_, network_, query_type, this));
   QObject::connect(&*search_request_, &TidalRequest::Results, this, &TidalService::SearchResultsReceived);
   QObject::connect(&*search_request_, &TidalRequest::SongsAvailable, this, &TidalService::SearchSongsAvailable);
@@ -541,7 +545,10 @@ void TidalService::SendSearch() {
 void TidalService::SearchResultsReceived(const int id, const SongMap &songs, const QString &error) {
 
   Q_EMIT SearchResults(id, songs, error);
-  search_request_.reset();
+  // Only the current search request is finished, not one started after these results.
+  if (id == search_id_) {
+    search_request_.reset();
+  }
 
 }
 
