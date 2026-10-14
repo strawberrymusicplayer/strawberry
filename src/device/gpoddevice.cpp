@@ -299,7 +299,7 @@ bool GPodDevice::CopyToStorage(const CopyJob &job, QString &error_text) {
 
   // Remove the original if it was requested, but only when the database is written, otherwise the track is not on the device.
   if (job.remove_original_) {
-    files_to_remove_.insert(job.source_);
+    files_to_remove_.insert(job.original());
   }
 
   return true;

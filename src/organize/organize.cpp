@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -244,12 +244,13 @@ void Organize::ProcessSomeFiles() {
 
     MusicStorage::CopyJob job;
     job.source_ = task.transcoded_filename_.isEmpty() ? task.song_info_.song_.url().toLocalFile() : task.transcoded_filename_;
+    // The source of a transcoded file is a temporary file, which is removed below, so the original is removed instead.
+    job.original_source_ = task.song_info_.song_.url().toLocalFile();
     job.destination_ = task.song_info_.new_filename_;
     job.metadata_ = song;
     job.overwrite_ = overwrite_;
     job.albumcover_ = albumcover_;
-    // The source of a transcoded file is a temporary file, which is removed below, so the original is not removed.
-    job.remove_original_ = !copy_ && task.transcoded_filename_.isEmpty();
+    job.remove_original_ = !copy_;
     job.playlist_ = playlist_;
 
     if (task.song_info_.song_.art_manual_is_valid() && !task.song_info_.song_.art_unset()) {
