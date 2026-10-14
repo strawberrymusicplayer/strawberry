@@ -214,9 +214,12 @@ bool MtpDevice::CopyToStorage(const CopyJob &job, QString &error_text) {
   metadata_on_device.set_albumartist(""_L1);
   songs_to_add_ << metadata_on_device;
 
-  // Remove the original if requested
-  if (job.remove_original_) {
-    if (!QFile::remove(job.source_)) return false;
+  // Remove the original if requested.
+  // The track is on the device now, so it's added to the collection even when this fails, but the move failed.
+  if (job.remove_original_ && !QFile::remove(job.original())) {
+    error_text = tr("Could not remove original file %1").arg(job.original());
+    qLog(Error) << error_text;
+    return false;
   }
 
   return true;
@@ -225,10 +228,9 @@ bool MtpDevice::CopyToStorage(const CopyJob &job, QString &error_text) {
 
 bool MtpDevice::FinishCopy(const bool success, QString &error_text) {
 
-  if (success) {
-    if (!songs_to_add_.isEmpty()) collection_backend_->AddOrUpdateSongs(songs_to_add_);
-    if (!songs_to_remove_.isEmpty()) collection_backend_->DeleteSongs(songs_to_remove_);
-  }
+  // Update the collection with the tracks which were sent or deleted, also when others failed, since they are on the device or removed from it.
+  if (!songs_to_add_.isEmpty()) collection_backend_->AddOrUpdateSongs(songs_to_add_);
+  if (!songs_to_remove_.isEmpty()) collection_backend_->DeleteSongs(songs_to_remove_);
 
   songs_to_add_.clear();
   songs_to_remove_.clear();
