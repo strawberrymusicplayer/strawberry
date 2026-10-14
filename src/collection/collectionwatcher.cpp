@@ -1378,6 +1378,9 @@ void CollectionWatcher::DirectoryChanged(const QString &subdir) {
 
 void CollectionWatcher::RescanPathsNow() {
 
+  // Stopping a scan only stops the scan which was running, otherwise all the changed paths queued after it are thrown away without being scanned.
+  CancelStop();
+
   const QList<int> dir_ids = rescan_queue_.keys();
   for (const int dir_id : dir_ids) {
 
