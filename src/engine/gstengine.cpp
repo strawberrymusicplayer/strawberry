@@ -162,6 +162,17 @@ bool GstEngine::Init() {
 
 EngineBase::State GstEngine::state() const {
 
+  // The pipeline is not started yet while waiting for an exclusive pipeline to finish, so report the state it will start in, so pausing and unpausing works.
+  if (current_pipeline_ && (delayed_state_ == State::Playing || delayed_state_ == State::Paused)) {
+    return delayed_state_;
+  }
+
+  return actual_state();
+
+}
+
+EngineBase::State GstEngine::actual_state() const {
+
   if (!current_pipeline_) return stream_url_.isEmpty() ? State::Empty : State::Idle;
 
   switch (current_pipeline_->state()) {
@@ -228,6 +239,11 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine
     pipeline->SetSourceDevice(gst_url.source_device);
   }
 
+  // A delayed start was for the previous pipeline.
+  delayed_state_ = State::Empty;
+  delayed_state_pause_ = false;
+  delayed_state_offset_nanosec_ = 0;
+
   GstEnginePipelinePtr old_pipeline = current_pipeline_;
   current_pipeline_ = pipeline;
 
@@ -292,6 +308,8 @@ bool GstEngine::Play(const bool pause, const quint64 offset_nanosec) {
     delayed_state_ = pause ? State::Paused : State::Playing;
     delayed_state_pause_ = pause;
     delayed_state_offset_nanosec_ = offset_nanosec;
+    // Report the state it will start in, so the player and playback controls show it, and pausing or unpausing changes it.
+    Q_EMIT StateChanged(delayed_state_);
     return true;
   }
 
@@ -358,6 +376,17 @@ void GstEngine::Pause() {
 
   if (!current_pipeline_ || current_pipeline_->is_buffering()) return;
 
+  // Playback is waiting for an exclusive pipeline to finish, so start it paused instead, and keep the offset, also when it was already going to start paused.
+  if (delayed_state_ == State::Playing || delayed_state_ == State::Paused) {
+    const bool changed = delayed_state_ != State::Paused;
+    delayed_state_ = State::Paused;
+    delayed_state_pause_ = true;
+    if (changed) {
+      Q_EMIT StateChanged(State::Paused);
+    }
+    return;
+  }
+
   delayed_state_ = State::Empty;
   delayed_state_pause_ = false;
   delayed_state_offset_nanosec_ = 0;
@@ -382,6 +411,14 @@ void GstEngine::Pause() {
 void GstEngine::Unpause() {
 
   if (!current_pipeline_ || current_pipeline_->is_buffering()) return;
+
+  // Playback is waiting for an exclusive pipeline to finish, so start it playing instead of paused.
+  if (delayed_state_ == State::Paused) {
+    delayed_state_ = State::Playing;
+    delayed_state_pause_ = false;
+    Q_EMIT StateChanged(State::Playing);
+    return;
+  }
 
   if (current_pipeline_->state() == GST_STATE_PAUSED) {
 
@@ -999,19 +1036,13 @@ void GstEngine::PipelineFinished(const int pipeline_id) {
   }
 
   if (current_pipeline_ && old_pipelines_.isEmpty() && delayed_state_ != State::Empty) {
-    switch (delayed_state_) {
-      case State::Playing:
-        Play(delayed_state_pause_, delayed_state_offset_nanosec_);
-        break;
-      case State::Paused:
-        Pause();
-        break;
-      default:
-        break;
-    }
+    // The pipeline was not started yet, so a delayed paused start is started paused, Pause() does nothing for a pipeline which is not playing.
+    const bool pause = delayed_state_ == State::Paused || delayed_state_pause_;
+    const quint64 offset_nanosec = delayed_state_offset_nanosec_;
     delayed_state_ = State::Empty;
     delayed_state_pause_ = false;
     delayed_state_offset_nanosec_ = 0;
+    Play(pause, offset_nanosec);
   }
 
 }

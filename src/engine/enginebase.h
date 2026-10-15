@@ -93,6 +93,7 @@ class EngineBase : public QObject {
 
   virtual bool Init() = 0;
   virtual State state() const = 0;
+  virtual State actual_state() const { return state(); }
   virtual void StartPreloading(const QUrl &media_url, const QUrl &stream_url, const bool force_stop_at_end, const qint64 beginning_offset_nanosec, const qint64 end_offset_nanosec);
   virtual bool Load(const QUrl &media_url, const QUrl &stream_url, const TrackChangeFlags track_change_flags, const bool force_stop_at_end, const quint64 beginning_offset_nanosec, const qint64 end_offset_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs);
   virtual bool Play(const bool pause, const quint64 offset_nanosec) = 0;

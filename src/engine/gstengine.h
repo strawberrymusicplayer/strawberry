@@ -62,6 +62,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
 
   bool Init() override;
   State state() const override;
+  State actual_state() const override;
   void StartPreloading(const QUrl &media_url, const QUrl &stream_url, const bool force_stop_at_end, const qint64 beginning_offset_nanosec, const qint64 end_offset_nanosec) override;
   bool Load(const QUrl &media_url, const QUrl &stream_url, const EngineBase::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_offset_nanosec, const qint64 end_offset_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs) override;
   bool Play(const bool pause, const quint64 offset_nanosec) override;
