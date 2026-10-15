@@ -397,7 +397,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QAction *playlist_queue_;
   QAction *playlist_queue_play_next_;
   QAction *playlist_skip_;
-  QAction *playlist_add_to_another_;
+  QMenu *playlist_add_to_another_menu_;
   QList<QAction*> playlistitem_actions_;
   QAction *playlistitem_actions_separator_;
   QAction *playlist_rescan_songs_;

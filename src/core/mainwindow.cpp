@@ -418,7 +418,7 @@ MainWindow::MainWindow(Application *app,
       playlist_queue_(nullptr),
       playlist_queue_play_next_(nullptr),
       playlist_skip_(nullptr),
-      playlist_add_to_another_(nullptr),
+      playlist_add_to_another_menu_(nullptr),
       playlistitem_actions_separator_(nullptr),
       playlist_rescan_songs_(nullptr),
       playlist_fetch_metadata_(nullptr),
@@ -2328,38 +2328,39 @@ void MainWindow::ShowPlaylistContextMenu(const QPoint global_pos, const QModelIn
     playlist_menu_->insertActions(playlistitem_actions_separator_, playlistitem_actions_);
   }
 
-  // If it isn't the first time we right click, we need to remove the menu previously created
-  if (playlist_add_to_another_ != nullptr) {
-    playlist_menu_->removeAction(playlist_add_to_another_);
-    delete playlist_add_to_another_;
-    playlist_add_to_another_ = nullptr;
+  // If it isn't the first time we right click, we need to remove the menu previously created.
+  // Delete the whole menu, with the actions in it, deleting only its menu action leaves the menu and its actions.
+  if (playlist_add_to_another_menu_) {
+    playlist_menu_->removeAction(playlist_add_to_another_menu_->menuAction());
+    playlist_add_to_another_menu_->deleteLater();
+    playlist_add_to_another_menu_ = nullptr;
   }
 
   // Create the playlist submenu if songs are selected.
   if (selected > 0) {
-    QMenu *add_to_another_menu = new QMenu(tr("Add to another playlist"), this);
-    add_to_another_menu->setIcon(IconLoader::Load(u"list-add"_s));
+    playlist_add_to_another_menu_ = new QMenu(tr("Add to another playlist"), playlist_menu_);
+    playlist_add_to_another_menu_->setIcon(IconLoader::Load(u"list-add"_s));
 
     const QList<int> playlist_ids = app_->playlist_manager()->playlist_ids();
     for (const int playlist_id : playlist_ids) {
       // Don't add the current playlist
       if (playlist_id != app_->playlist_manager()->current()->id()) {
-        QAction *existing_playlist = new QAction(this);
+        QAction *existing_playlist = new QAction(playlist_add_to_another_menu_);
         existing_playlist->setText(app_->playlist_manager()->playlist_name(playlist_id));
         existing_playlist->setData(playlist_id);
-        add_to_another_menu->addAction(existing_playlist);
+        playlist_add_to_another_menu_->addAction(existing_playlist);
       }
     }
 
-    add_to_another_menu->addSeparator();
+    playlist_add_to_another_menu_->addSeparator();
     // Add to a new playlist
-    QAction *new_playlist = new QAction(this);
+    QAction *new_playlist = new QAction(playlist_add_to_another_menu_);
     new_playlist->setText(tr("New playlist"));
     new_playlist->setData(-1);  // fake id
-    add_to_another_menu->addAction(new_playlist);
-    playlist_add_to_another_ = playlist_menu_->insertMenu(ui_->action_remove_from_playlist, add_to_another_menu);
+    playlist_add_to_another_menu_->addAction(new_playlist);
+    playlist_menu_->insertMenu(ui_->action_remove_from_playlist, playlist_add_to_another_menu_);
 
-    QObject::connect(add_to_another_menu, &QMenu::triggered, this, &MainWindow::AddToPlaylistFromAction);
+    QObject::connect(playlist_add_to_another_menu_, &QMenu::triggered, this, &MainWindow::AddToPlaylistFromAction);
 
   }
 
