@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2014, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,8 +23,10 @@
 
 #include <pulse/context.h>
 #include <pulse/def.h>
+#include <pulse/error.h>
 #include <pulse/introspect.h>
 #include <pulse/mainloop.h>
+#include <pulse/operation.h>
 
 #include <QtGlobal>
 #include <QVariant>
@@ -85,44 +88,65 @@ bool PulseAudioDeviceLister::Reconnect() {
 
     pa_mainloop_iterate(mainloop_, true, nullptr);
   }
+
 }
 
 EngineDeviceList PulseAudioDeviceLister::ListDevices() {
 
-  if (!context_ || pa_context_get_state(context_) != PA_CONTEXT_READY) {
+  // Reconnect when the connection was lost, for example when pulseaudio was restarted since the last time.
+  if (!context_ || pa_context_get_state(context_) == PA_CONTEXT_FAILED || pa_context_get_state(context_) == PA_CONTEXT_TERMINATED) {
+    if (!mainloop_ || !Reconnect()) {
+      return EngineDeviceList();
+    }
+  }
+
+  if (pa_context_get_state(context_) != PA_CONTEXT_READY) {
     return EngineDeviceList();
   }
 
-retry:
-  ListDevicesState state;
-  pa_context_get_sink_info_list(context_, &PulseAudioDeviceLister::GetSinkInfoCallback, &state);
+  // Try again once after reconnecting, in case pulseaudio was restarted.
+  for (int attempt = 0; attempt < 2; ++attempt) {
 
-  Q_FOREVER {
-    if (state.finished) {
+    ListDevicesState state;
+    pa_operation *operation = pa_context_get_sink_info_list(context_, &PulseAudioDeviceLister::GetSinkInfoCallback, &state);
+    if (!operation) {
+      qLog(Warning) << "Failed to list pulseaudio sinks:" << pa_strerror(pa_context_errno(context_));
+      return EngineDeviceList();
+    }
+
+    // Wait until all sinks are listed, the operation failed or the connection was lost.
+    while (!state.finished && pa_operation_get_state(operation) == PA_OPERATION_RUNNING) {
+      if (pa_context_get_state(context_) != PA_CONTEXT_READY || pa_mainloop_iterate(mainloop_, true, nullptr) < 0) {
+        break;
+      }
+    }
+
+    // Check the connection after the loop, losing the connection cancels the operation, which also ends the loop.
+    const pa_context_state context_state = pa_context_get_state(context_);
+    const bool connection_lost = !state.finished && (context_state == PA_CONTEXT_FAILED || context_state == PA_CONTEXT_TERMINATED);
+
+    // Cancel the operation if it's still running, so the callback is not called with the state after it's gone, and release it.
+    if (pa_operation_get_state(operation) == PA_OPERATION_RUNNING) {
+      pa_operation_cancel(operation);
+    }
+    pa_operation_unref(operation);
+
+    if (!connection_lost) {
       return state.devices;
     }
 
-    switch (pa_context_get_state(context_)) {
-      case PA_CONTEXT_READY:
-        break;
-      case PA_CONTEXT_FAILED:
-      case PA_CONTEXT_TERMINATED:
-        // Maybe pulseaudio died.  Try reconnecting.
-        if (Reconnect()) {
-          goto retry;
-        }
-        return state.devices;
-      default:
-        return state.devices;
+    // Maybe pulseaudio died. Try reconnecting.
+    if (!Reconnect()) {
+      return state.devices;
     }
 
-    pa_mainloop_iterate(mainloop_, true, nullptr);
   }
+
+  return EngineDeviceList();
+
 }
 
 void PulseAudioDeviceLister::GetSinkInfoCallback(pa_context *c, const pa_sink_info *info, int eol, void *state_voidptr) {
-
-  Q_UNUSED(c);
 
   ListDevicesState *state = reinterpret_cast<ListDevicesState*>(state_voidptr);
   if (!state) return;
@@ -136,9 +160,14 @@ void PulseAudioDeviceLister::GetSinkInfoCallback(pa_context *c, const pa_sink_in
     state->devices.append(device);
   }
 
-  if (eol > 0) {
+  // eol is negative when listing the sinks failed, the callback is not called again then.
+  if (eol < 0) {
+    qLog(Warning) << "Failed to list pulseaudio sinks:" << pa_strerror(pa_context_errno(c));
+  }
+  if (eol != 0) {
     state->finished = true;
   }
+
 }
 
 PulseAudioDeviceLister::~PulseAudioDeviceLister() {
@@ -151,4 +180,5 @@ PulseAudioDeviceLister::~PulseAudioDeviceLister() {
   if (mainloop_) {
     pa_mainloop_free(mainloop_);
   }
+
 }
