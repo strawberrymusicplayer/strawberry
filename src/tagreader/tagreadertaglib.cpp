@@ -1005,13 +1005,11 @@ void TagReaderTagLib::ParseMP4Tags(TagLib::MP4::Tag *tag, QString *disc, QString
 
   song->set_comment(tag->comment());
 
+  // The BPM is an integer item, TagLib always reads it as an integer, so the string list is empty.
   if (tag->item(kMP4_BPM).isValid()) {
-    const TagLib::MP4::Item item = tag->item(kMP4_BPM);
-    if (item.isValid()) {
-      const float bpm = TagLibStringToQString(item.toStringList().toString('\n')).toFloat();
-      if (bpm > 0) {
-        song->set_bpm(bpm);
-      }
+    const int bpm = tag->item(kMP4_BPM).toInt();
+    if (bpm > 0) {
+      song->set_bpm(static_cast<float>(bpm));
     }
   }
 
