@@ -38,6 +38,8 @@
 #include <QString>
 #include <QUrl>
 #include <QEventLoop>
+#include <QMutex>
+#include <QMutexLocker>
 
 #include "includes/shared_ptr.h"
 #include "core/logging.h"
@@ -94,8 +96,9 @@ SongLoader::SongLoader(const SharedPtr<UrlHandlers> url_handlers,
 
   QObject::connect(timeout_timer_, &QTimer::timeout, this, &SongLoader::Timeout);
 
-  QObject::connect(playlist_parser_, &PlaylistParser::Error, this, &SongLoader::ParserError);
-  QObject::connect(cue_parser_, &CueParser::Error, this, &SongLoader::ParserError);
+  // The parsers emit errors from the thread loading the songs, which can be a concurrent thread, use a direct connection so the errors are added before the loading returns, and the caller can read them.
+  // The playlist parser forwards the errors of all its parsers, the parser used is connected when it's selected instead, otherwise the errors are added twice.
+  QObject::connect(cue_parser_, &CueParser::Error, this, &SongLoader::ParserError, Qt::DirectConnection);
 
 }
 
@@ -106,7 +109,17 @@ SongLoader::~SongLoader() {
 }
 
 void SongLoader::ParserError(const QString &error) {
+  AddError(error);
+}
+
+void SongLoader::AddError(const QString &error) {
+  QMutexLocker l(&mutex_errors_);
   errors_ << error;
+}
+
+QStringList SongLoader::errors() const {
+  QMutexLocker l(&mutex_errors_);
+  return errors_;
 }
 
 SongLoader::Result SongLoader::Load(const QUrl &url) {
@@ -138,7 +151,7 @@ SongLoader::Result SongLoader::LoadFilenamesBlocking() {
     return preload_func_();
   }
   else {
-    errors_ << tr("Preload function was not set for blocking operation.");
+    AddError(tr("Preload function was not set for blocking operation."));
     return Result::Error;
   }
 
@@ -151,7 +164,7 @@ SongLoader::Result SongLoader::LoadLocalPartial(const QString &filename) {
   QFileInfo fileinfo(filename);
 
   if (!fileinfo.exists()) {
-    errors_ << tr("File %1 does not exist.").arg(filename);
+    AddError(tr("File %1 does not exist.").arg(filename));
     return Result::Error;
   }
 
@@ -188,7 +201,7 @@ SongLoader::Result SongLoader::LoadAudioCD() {
   cdda_song_loader->LoadSongs();
   return Result::Success;
 #else
-  errors_ << tr("Missing CDDA playback.");
+  AddError(tr("Missing CDDA playback."));
   return Result::Error;
 #endif
 
@@ -198,7 +211,7 @@ SongLoader::Result SongLoader::LoadAudioCD() {
 
 void SongLoader::AudioCDTracksLoadErrorSlot(const QString &error) {
 
-  errors_ << error;
+  AddError(error);
 
 }
 
@@ -263,7 +276,7 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
   QFileInfo fileinfo(filename);
 
   if (!fileinfo.exists()) {
-    errors_ << tr("File %1 does not exist.").arg(filename);
+    AddError(tr("File %1 does not exist.").arg(filename));
     return Result::Error;
   }
 
@@ -276,7 +289,7 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
   // It's a local file, so check if it looks like a playlist. Read the first few bytes.
   QFile file(filename);
   if (!file.open(QIODevice::ReadOnly)) {
-    errors_ << tr("Could not open file %1 for reading: %2").arg(filename, file.errorString());
+    AddError(tr("Could not open file %1 for reading: %2").arg(filename, file.errorString()));
     return Result::Error;
   }
   QByteArray data(file.read(PlaylistParser::kMagicSize));
@@ -289,7 +302,7 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
   }
 
   if (parser) {  // It's a playlist!
-    QObject::connect(parser, &ParserBase::Error, this, &SongLoader::ParserError, static_cast<Qt::ConnectionType>(Qt::QueuedConnection | Qt::UniqueConnection));
+    QObject::connect(parser, &ParserBase::Error, this, &SongLoader::ParserError, static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
     qLog(Debug) << "Parsing using" << parser->name();
     LoadPlaylist(parser, filename);
     return Result::Success;
@@ -309,7 +322,7 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
       return Result::Success;
     }
     else {
-      errors_ << tr("Could not open CUE file %1 for reading: %2").arg(matching_cue, cue.errorString());
+      AddError(tr("Could not open CUE file %1 for reading: %2").arg(matching_cue, cue.errorString()));
       return Result::Error;
     }
   }
@@ -373,7 +386,7 @@ void SongLoader::LoadPlaylist(ParserBase *parser, const QString &filename) {
     file.close();
   }
   else {
-    errors_ << tr("Could not open playlist file %1 for reading: %2").arg(filename, file.errorString());
+    AddError(tr("Could not open playlist file %1 for reading: %2").arg(filename, file.errorString()));
   }
 
 }
@@ -483,7 +496,7 @@ SongLoader::Result SongLoader::LoadRemote() {
   // Create the source element automatically based on the URL
   GstElement *source = gst_element_make_from_uri(GST_URI_SRC, url_.toEncoded().constData(), nullptr, nullptr);
   if (!source) {
-    errors_ << tr("Couldn't create GStreamer source element for %1").arg(url_.toString());
+    AddError(tr("Couldn't create GStreamer source element for %1").arg(url_.toString()));
     return Result::Error;
   }
   gst_bin_add(GST_BIN(&*pipeline), source);
@@ -493,20 +506,20 @@ SongLoader::Result SongLoader::LoadRemote() {
   // Create the other elements and link them up
   GstElement *typefind = gst_element_factory_make("typefind", nullptr);
   if (!typefind) {
-    errors_ << tr("Couldn't create GStreamer typefind element for %1").arg(url_.toString());
+    AddError(tr("Couldn't create GStreamer typefind element for %1").arg(url_.toString()));
     return Result::Error;
   }
   gst_bin_add(GST_BIN(&*pipeline), typefind);
 
   fakesink_ = gst_element_factory_make("fakesink", nullptr);
   if (!fakesink_) {
-    errors_ << tr("Couldn't create GStreamer fakesink element for %1").arg(url_.toString());
+    AddError(tr("Couldn't create GStreamer fakesink element for %1").arg(url_.toString()));
     return Result::Error;
   }
   gst_bin_add(GST_BIN(&*pipeline), fakesink_);
 
   if (!gst_element_link_many(source, typefind, fakesink_, nullptr)) {
-    errors_ << tr("Couldn't link GStreamer source, typefind and fakesink elements for %1").arg(url_.toString());
+    AddError(tr("Couldn't link GStreamer source, typefind and fakesink elements for %1").arg(url_.toString()));
     return Result::Error;
   }
 
@@ -684,7 +697,7 @@ void SongLoader::MagicReady() {
   qLog(Debug) << "Magic says" << parser_->name();
 
   if (parser_) {
-    QObject::connect(parser_, &ParserBase::Error, this, &SongLoader::ParserError, static_cast<Qt::ConnectionType>(Qt::QueuedConnection | Qt::UniqueConnection));
+    QObject::connect(parser_, &ParserBase::Error, this, &SongLoader::ParserError, static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
   }
 
   if (!ChangeState(State::WaitingForMagic, State::WaitingForData)) return;
