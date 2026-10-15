@@ -322,7 +322,8 @@ static void gst_strawberry_fastspectrum_input_data_mixed_int24_max(const guint8 
       value |= 0xff000000;
     }
 
-    out[op] = value / max_value;
+    // The value is sign extended above, so it has to be divided as a signed value, otherwise negative samples become large positive values.
+    out[op] = static_cast<gint32>(value) / max_value;
     op = (op + 1) % nfft;
     _in += 3;
   }
