@@ -263,8 +263,16 @@ void PlaylistView::SetItemDelegates() {
 void PlaylistView::setModel(QAbstractItemModel *m) {
 
   if (model()) {
+    // Stop hovering the rating while the hovered index of the old model is still valid, the old playlist can be deleted after switching to another one.
+    if (rating_delegate_) {
+      RatingHoverOut();
+    }
+
     QObject::disconnect(model(), &QAbstractItemModel::dataChanged, this, &PlaylistView::InvalidateCachedCurrentPixmap);
     QObject::disconnect(model(), &QAbstractItemModel::layoutAboutToBeChanged, this, &PlaylistView::RatingHoverOut);
+    QObject::disconnect(model(), &QAbstractItemModel::rowsAboutToBeInserted, this, &PlaylistView::RatingHoverOut);
+    QObject::disconnect(model(), &QAbstractItemModel::rowsAboutToBeRemoved, this, &PlaylistView::RatingHoverOut);
+    QObject::disconnect(model(), &QAbstractItemModel::modelAboutToBeReset, this, &PlaylistView::RatingHoverOut);
 
     // When changing the model, always invalidate the current pixmap.
     // If a remote client uses "stop after", without invaliding the stop mark would not appear.
@@ -274,7 +282,11 @@ void PlaylistView::setModel(QAbstractItemModel *m) {
   QTreeView::setModel(m);
 
   QObject::connect(model(), &QAbstractItemModel::dataChanged, this, &PlaylistView::InvalidateCachedCurrentPixmap);
+  // Stop hovering the rating before the rows change, while the hovered index is still valid, otherwise the hover is painted on the row it moved to, or the cursor is not reset when the row is removed.
   QObject::connect(model(), &QAbstractItemModel::layoutAboutToBeChanged, this, &PlaylistView::RatingHoverOut);
+  QObject::connect(model(), &QAbstractItemModel::rowsAboutToBeInserted, this, &PlaylistView::RatingHoverOut);
+  QObject::connect(model(), &QAbstractItemModel::rowsAboutToBeRemoved, this, &PlaylistView::RatingHoverOut);
+  QObject::connect(model(), &QAbstractItemModel::modelAboutToBeReset, this, &PlaylistView::RatingHoverOut);
 
 }
 
@@ -1629,7 +1641,8 @@ void PlaylistView::RatingHoverIn(const QModelIndex &idx, const QPoint pos) {
 
 void PlaylistView::RatingHoverOut() {
 
-  if (editTriggers() & QAbstractItemView::NoEditTriggers) {
+  // This is also called when rows change, so only when hovering the rating.
+  if (editTriggers() & QAbstractItemView::NoEditTriggers || !rating_delegate_->is_mouse_over()) {
     return;
   }
 

@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,6 +43,9 @@
 #include <QFont>
 #include <QString>
 #include <QStringListModel>
+#include <QList>
+#include <QModelIndex>
+#include <QPersistentModelIndex>
 #include <QStyleOption>
 #include <QHelpEvent>
 #include <QLineEdit>
@@ -205,22 +208,18 @@ class RatingItemDelegate : public PlaylistDelegateBase {
   QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
   QString displayText(const QVariant &value, const QLocale &locale) const override;
 
-  void set_mouse_over(const QModelIndex &idx, const QModelIndexList &selected_indexes, const QPoint pos) {
-    mouse_over_index_ = idx;
-    selected_indexes_ = selected_indexes;
-    mouse_over_pos_ = pos;
-  }
-
-  void set_mouse_out() { mouse_over_index_ = QModelIndex(); }
+  void set_mouse_over(const QModelIndex &idx, const QModelIndexList &selected_indexes, const QPoint pos);
+  void set_mouse_out();
   bool is_mouse_over() const { return mouse_over_index_.isValid(); }
   QModelIndex mouse_over_index() const { return mouse_over_index_; }
 
  private:
   RatingPainter painter_;
 
-  QModelIndex mouse_over_index_;
+  // Persistent indexes, since rows can be inserted, removed or moved while the mouse is over the rating, which would make plain indexes point to other rows.
+  QPersistentModelIndex mouse_over_index_;
   QPoint mouse_over_pos_;
-  QModelIndexList selected_indexes_;
+  QList<QPersistentModelIndex> selected_indexes_;
 };
 
 class Ebur128LoudnessLUFSItemDelegate : public PlaylistDelegateBase {
