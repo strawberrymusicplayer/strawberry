@@ -420,6 +420,7 @@ class GstEnginePipeline : public QObject {
 
   bool logged_unsupported_analyzer_format_;
   std::atomic<bool> about_to_finish_;
+  std::atomic<bool> gapless_transition_;
   std::atomic<bool> finish_requested_;
   std::atomic<bool> finished_;
 
