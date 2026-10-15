@@ -25,6 +25,8 @@
 #include <string>
 
 #include <QFile>
+#include <QPair>
+#include <QList>
 #include <QByteArray>
 #include <QString>
 #include <QCryptographicHash>
@@ -41,6 +43,7 @@
 #include <taglib/mp4item.h>
 #include <taglib/id3v2tag.h>
 #include <taglib/id3v2header.h>
+#include <taglib/popularimeterframe.h>
 
 #include "core/logging.h"
 #include "core/song.h"
@@ -2816,6 +2819,38 @@ TEST_F(TagReaderTest, TestMP3AudioFileRating) {
   {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(0.4F, song.rating());
+  }
+
+}
+
+// Ratings computed with floats can be slightly lower, like 0.59999996 for 3 stars, which should still be written as 3 stars.
+TEST_F(TagReaderTest, TestMP3AudioFilePOPMRatingRounding) {
+
+  TemporaryResource r(u":/audio/strawberry.mp3"_s);
+
+  const auto popm_rating = [&r]() {
+    TagLib::MPEG::File file(TagLibFileName(r.fileName()).data());
+    if (!file.isValid() || !file.hasID3v2Tag()) return -1;
+    const TagLib::ID3v2::FrameList frames = file.ID3v2Tag()->frameListMap()["POPM"];
+    if (frames.isEmpty()) return -1;
+    const TagLib::ID3v2::PopularimeterFrame *frame = dynamic_cast<TagLib::ID3v2::PopularimeterFrame*>(frames.front());
+    return frame ? frame->rating() : -1;
+  };
+
+  const QList<QPair<float, int>> ratings = QList<QPair<float, int>>()
+    << qMakePair(1.0F / 5.0F, 0x01)
+    << qMakePair(2.0F / 5.0F, 0x40)
+    << qMakePair(0.59999996F, 0x80)
+    << qMakePair(3.0F / 5.0F, 0x80)
+    << qMakePair(0.79999995F, 0xC0)
+    << qMakePair(0.99999994F, 0xFF)
+    << qMakePair(0.5F, 0x40);
+
+  for (const QPair<float, int> &rating : ratings) {
+    Song song;
+    song.set_rating(rating.first);
+    WriteSongRatingToFile(song, r.fileName());
+    EXPECT_EQ(rating.second, popm_rating()) << "Rating " << rating.first;
   }
 
 }
