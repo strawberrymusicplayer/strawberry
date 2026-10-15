@@ -74,7 +74,8 @@ class OrganizeDialog : public QDialog {
 
   void SetCopy(const bool copy);
 
-  static Organize::NewSongInfoList ComputeNewSongsFilenames(const SongList &songs, const OrganizeFormat &format, const QString &extension = QString());
+  // root is the destination directory, to keep the current files of the songs in it from being overwritten by other songs.
+  static Organize::NewSongInfoList ComputeNewSongsFilenames(const SongList &songs, const OrganizeFormat &format, const QString &extension = QString(), const QString &root = QString());
 
   void SetPlaylist(const QString &playlist);
 
