@@ -29,6 +29,7 @@
 #include <QCoreApplication>
 #include <QGuiApplication>
 #include <QObject>
+#include <QMetaObject>
 #include <QFile>
 #include <QList>
 #include <QVariant>
@@ -118,7 +119,9 @@ Mpris2::Mpris2(const SharedPtr<Player> player,
     : QObject(parent),
       player_(player),
       playlist_manager_(playlist_manager),
-      current_albumcover_loader_(current_albumcover_loader) {
+      current_albumcover_loader_(current_albumcover_loader),
+      active_playlist_id_(-1),
+      active_playlist_notification_pending_(false) {
 
   new Mpris2Root(this);
   new Mpris2TrackList(this);
@@ -145,7 +148,10 @@ Mpris2::Mpris2(const SharedPtr<Player> player,
   QObject::connect(&*playlist_manager_, &PlaylistManager::AllPlaylistsLoaded, this, &Mpris2::AllPlaylistsLoaded);
   QObject::connect(&*playlist_manager_, &PlaylistManager::CurrentSongChanged, this, &Mpris2::CurrentSongChanged);
   QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistChanged, this, &Mpris2::PlaylistChangedSlot);
-  QObject::connect(&*playlist_manager_, &PlaylistManager::CurrentChanged, this, &Mpris2::PlaylistCollectionChanged);
+  QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistAdded, this, &Mpris2::PlaylistCollectionChanged);
+  QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistClosed, this, &Mpris2::PlaylistCollectionChanged);
+  QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistDeleted, this, &Mpris2::PlaylistCollectionChanged);
+  QObject::connect(&*playlist_manager_, &PlaylistManager::ActiveChanged, this, &Mpris2::ActivePlaylistChanged);
   QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistItemsAdded, this, &Mpris2::PlaylistItemsAdded);
   QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistItemsRemoved, this, &Mpris2::PlaylistItemsRemoved);
   QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistItemMetadataChanged, this, &Mpris2::PlaylistItemMetadataChanged);
@@ -191,6 +197,10 @@ void Mpris2::AllPlaylistsLoaded() {
   EmitNotification(u"CanGoNext"_s, CanGoNext());
   EmitNotification(u"CanGoPrevious"_s, CanGoPrevious());
   EmitNotification(u"CanSeek"_s, CanSeek());
+
+  // The active playlist can be set before its songs are restored, and restoring them doesn't notify the added songs, so replace the track list now that they are loaded.
+  // Playback is resumed after this, so notify when control returns to the event loop, when the resumed song is selected.
+  QueueActivePlaylistNotification();
 
 }
 
@@ -835,15 +845,16 @@ QDBusObjectPath Mpris2::MakePlaylistPath(const int id) const {
 
 MaybePlaylist Mpris2::ActivePlaylist() const {
 
+  // The active playlist is the one being played, not the current one, which is the one shown.
   MaybePlaylist maybe_playlist;
-  Playlist *current_playlist = playlist_manager_->current();
-  maybe_playlist.valid = current_playlist != nullptr;
-  if (!current_playlist) {
+  Playlist *active_playlist = playlist_manager_->active();
+  maybe_playlist.valid = active_playlist != nullptr;
+  if (!active_playlist) {
     return maybe_playlist;
   }
 
-  maybe_playlist.playlist.id = MakePlaylistPath(current_playlist->id());
-  maybe_playlist.playlist.name = playlist_manager_->GetPlaylistName(current_playlist->id());
+  maybe_playlist.playlist.id = MakePlaylistPath(active_playlist->id());
+  maybe_playlist.playlist.name = playlist_manager_->GetPlaylistName(active_playlist->id());
 
   return maybe_playlist;
 
@@ -867,7 +878,11 @@ void Mpris2::ActivatePlaylist(const QDBusObjectPath &mpris2_playlist_id) {
   playlist_manager_->SetActivePlaylist(playlist_id);
   player_->Next();
 
-  EmitTrackListReplaced();
+  // A changed active playlist replaces the track list when the notification is sent, see ActivePlaylistChanged().
+  // When the playlist was already active, Next() can still play a song which is not in the track list, so replace it now.
+  if (!active_playlist_notification_pending_) {
+    EmitTrackListReplaced();
+  }
 
 }
 
@@ -912,7 +927,38 @@ void Mpris2::PlaylistChangedSlot(Playlist *playlist) {
 
 }
 
-void Mpris2::PlaylistCollectionChanged(Playlist *playlist) {
-  Q_UNUSED(playlist);
-  EmitNotification(u"PlaylistCount"_s, ""_L1, u"org.mpris.MediaPlayer2.Playlists"_s);
+void Mpris2::PlaylistCollectionChanged() {
+  EmitNotification(u"PlaylistCount"_s, PlaylistCount(), u"org.mpris.MediaPlayer2.Playlists"_s);
+}
+
+void Mpris2::ActivePlaylistChanged(Playlist *playlist) {
+
+  const int playlist_id = playlist ? playlist->id() : -1;
+  if (playlist_id == active_playlist_id_) return;
+  active_playlist_id_ = playlist_id;
+
+  // The active playlist is changed before the caller selects the song to play in it, and the track list contains the tracks around the current song.
+  // So notify when control returns to the event loop, after the song is selected.
+  QueueActivePlaylistNotification();
+
+}
+
+void Mpris2::QueueActivePlaylistNotification() {
+
+  // Only once when it's queued again before that.
+  if (active_playlist_notification_pending_) return;
+  active_playlist_notification_pending_ = true;
+  QMetaObject::invokeMethod(this, &Mpris2::EmitActivePlaylistChanged, Qt::QueuedConnection);
+
+}
+
+void Mpris2::EmitActivePlaylistChanged() {
+
+  active_playlist_notification_pending_ = false;
+
+  EmitNotification(u"ActivePlaylist"_s, QVariant::fromValue(ActivePlaylist()), u"org.mpris.MediaPlayer2.Playlists"_s);
+
+  // The track list is the one of the active playlist.
+  EmitTrackListReplaced();
+
 }

@@ -238,7 +238,10 @@ class Mpris2 : public QObject {
   void ShuffleModeChanged();
   void RepeatModeChanged();
   void PlaylistChangedSlot(Playlist *playlist);
-  void PlaylistCollectionChanged(Playlist *playlist);
+  void PlaylistCollectionChanged();
+  void ActivePlaylistChanged(Playlist *playlist);
+  void QueueActivePlaylistNotification();
+  void EmitActivePlaylistChanged();
   void PlaylistItemsAdded(const int playlist_id, const QList<QUuid> &track_ids, const QUuid &after_track_id);
   void PlaylistItemsRemoved(const int playlist_id, const QList<QUuid> &track_ids);
   void PlaylistItemMetadataChanged(const int playlist_id, const QUuid &track_id);
@@ -267,6 +270,9 @@ class Mpris2 : public QObject {
 
   QString desktopfilepath_;
   QVariantMap last_metadata_;
+  // The active playlist last notified, the playlist manager emits ActiveChanged also when the active playlist did not change.
+  int active_playlist_id_;
+  bool active_playlist_notification_pending_;
 };
 
 #endif  // MPRIS2_H
