@@ -838,16 +838,17 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     g_object_set(G_OBJECT(equalizer_), "num-bands", kEqBandCount + 2, nullptr);
 
     // Dummy first band (bandwidth 0, cutting below 20Hz):
+    // The band properties are doubles, and g_object_set() reads the arguments as the type of the property, so the values have to be passed as doubles, an int is read wrongly.
     GstObject *first_band = GST_OBJECT(gst_child_proxy_get_child_by_index(GST_CHILD_PROXY(equalizer_), 0));
     if (first_band) {
-      g_object_set(G_OBJECT(first_band), "freq", 20.0, "bandwidth", 0, "gain", 0.0F, nullptr);
+      g_object_set(G_OBJECT(first_band), "freq", 20.0, "bandwidth", 0.0, "gain", 0.0, nullptr);
       g_object_unref(G_OBJECT(first_band));
     }
 
     // Dummy last band (bandwidth 0, cutting over 20KHz):
     GstObject *last_band = GST_OBJECT(gst_child_proxy_get_child_by_index(GST_CHILD_PROXY(equalizer_), kEqBandCount + 1));
     if (last_band) {
-      g_object_set(G_OBJECT(last_band), "freq", 20000.0, "bandwidth", 0, "gain", 0.0F, nullptr);
+      g_object_set(G_OBJECT(last_band), "freq", 20000.0, "bandwidth", 0.0, "gain", 0.0, nullptr);
       g_object_unref(G_OBJECT(last_band));
     }
 
@@ -859,7 +860,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
         const float frequency = static_cast<float>(kEqBandFrequencies[i]);
         const float bandwidth = frequency - static_cast<float>(last_band_frequency);
         last_band_frequency = static_cast<int>(frequency);
-        g_object_set(G_OBJECT(band), "freq", frequency, "bandwidth", bandwidth, "gain", 0.0F, nullptr);
+        g_object_set(G_OBJECT(band), "freq", static_cast<double>(frequency), "bandwidth", static_cast<double>(bandwidth), "gain", 0.0, nullptr);
         g_object_unref(G_OBJECT(band));
       }
 
@@ -2701,7 +2702,7 @@ void GstEnginePipeline::UpdateEqualizer() {
     const int index_in_eq = i + 1;
     // Offset because of the first dummy band we created.
     GstObject *band = GST_OBJECT(gst_child_proxy_get_child_by_index(GST_CHILD_PROXY(equalizer_), static_cast<guint>(index_in_eq)));
-    g_object_set(G_OBJECT(band), "gain", gain, nullptr);
+    g_object_set(G_OBJECT(band), "gain", static_cast<double>(gain), nullptr);
     g_object_unref(G_OBJECT(band));
   }
 
