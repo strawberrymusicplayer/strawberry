@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,8 +53,14 @@ ParserBase::LoadResult XSPFParser::Load(QIODevice *device, const QString &playli
   QString playlist_name;
   {
     QXmlStreamReader reader(device);
-    if (Utilities::ParseUntilElement(&reader, u"playlist"_s) && Utilities::ParseUntilElement(&reader, u"title"_s)) {
-      playlist_name = reader.readElementText();
+    if (Utilities::ParseUntilElement(&reader, u"playlist"_s)) {
+      while (reader.readNextStartElement()) {
+        if (reader.name() == "title"_L1) {
+          playlist_name = reader.readElementText();
+          break;
+        }
+        reader.skipCurrentElement();
+      }
     }
   }
 
