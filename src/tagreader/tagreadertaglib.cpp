@@ -1057,7 +1057,6 @@ void TagReaderTagLib::ParseMP4Tags(TagLib::MP4::Tag *tag, QString *disc, QString
 
 void TagReaderTagLib::ParseASFTags(TagLib::ASF::Tag *tag, QString *disc, QString *compilation, Song *song) const {
 
-  Q_UNUSED(disc);
   Q_UNUSED(compilation);
 
   const TagLib::ASF::AttributeListMap &attributes_map = tag->attributeListMap();
@@ -1083,10 +1082,18 @@ void TagReaderTagLib::ParseASFTags(TagLib::ASF::Tag *tag, QString *disc, QString
   ParseASFAttribute(attributes_map, kASF_MusicBrainz_ReleaseGroupId, song->mutable_musicbrainz_release_group_id());
   ParseASFAttribute(attributes_map, kASF_MusicBrainz_WorkId, song->mutable_musicbrainz_work_id());
 
+  // The disc can include the number of discs, like "1/2", which is handled with the disc of the other tag types, so only set the text here.
+  // It's normally text, but some taggers write it as a number.
   if (attributes_map.contains(kASF_Disc)) {
     const TagLib::ASF::AttributeList &attributes = attributes_map[kASF_Disc];
     if (!attributes.isEmpty()) {
-      song->set_disc(TagLibStringToQString(attributes.front().toString()).toInt());
+      const TagLib::ASF::Attribute &attribute = attributes.front();
+      if (attribute.type() == TagLib::ASF::Attribute::UnicodeType) {
+        *disc = TagLibStringToQString(attribute.toString()).trimmed();
+      }
+      else if (attribute.type() == TagLib::ASF::Attribute::DWordType) {
+        *disc = QString::number(attribute.toUInt());
+      }
     }
   }
 

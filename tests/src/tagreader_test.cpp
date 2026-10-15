@@ -2709,6 +2709,36 @@ TEST_F(TagReaderTest, TestASFAudioFilePlaycountAndRatingRemoved) {
 
 }
 
+TEST_F(TagReaderTest, TestASFAudioFileReadDiscWithNumberOfDiscs) {
+
+  TemporaryResource r(u":/audio/strawberry.asf"_s);
+
+  // The disc can include the number of discs.
+  {
+    TagLib::ASF::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    file.tag()->setAttribute("WM/PartOfSet", TagLib::ASF::Attribute(TagLib::String("2/3")));
+    ASSERT_TRUE(file.save());
+  }
+  EXPECT_EQ(2, ReadSongFromFile(r.fileName()).disc());
+
+  // Some taggers write it as a number.
+  {
+    TagLib::ASF::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    file.tag()->setAttribute("WM/PartOfSet", TagLib::ASF::Attribute(static_cast<unsigned int>(4)));
+    ASSERT_TRUE(file.save());
+  }
+  EXPECT_EQ(4, ReadSongFromFile(r.fileName()).disc());
+
+  // Written by Strawberry.
+  Song song;
+  song.set_disc(5);
+  EXPECT_TRUE(WriteSongToFile(song, r.fileName()).success());
+  EXPECT_EQ(5, ReadSongFromFile(r.fileName()).disc());
+
+}
+
 TEST_F(TagReaderTest, TestASFAudioFileReadLegacyPlaycountAndRating) {
 
   TemporaryResource r(u":/audio/strawberry.asf"_s);
