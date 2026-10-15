@@ -211,6 +211,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       bufferprobe_(nullptr),
       logged_unsupported_analyzer_format_(false),
       about_to_finish_(false),
+      gapless_transition_(false),
       finish_requested_(false),
       finished_(false),
       bus_message_generation_(0),
@@ -1322,7 +1323,8 @@ void GstEnginePipeline::NotifyVolumeCallback(GstElement *element, GParamSpec *pa
   // Ignore device-originated volume changes during a gapless transition.
   // When the next track has a different sample rate the sink renegotiates in place and can reset the (device) stream volume; that is not a user action, so adopting it here would clobber the slider (and the stored volume).
   // StreamStartMessageReceived re-asserts the correct volume once the new stream has started.
-  if (instance->about_to_finish_.load()) return;
+  // This is not about_to_finish_, since that is cleared when the next URL is set, before the transition.
+  if (instance->gapless_transition_.load()) return;
 
   // Read the property from the element that actually fired the signal, not from instance->volume_
   // SetupVolume may have swapped volume_ between the signal being queued and this callback running,
@@ -1358,7 +1360,7 @@ void GstEnginePipeline::NotifyMuteCallback(GstElement *element, GParamSpec *para
 
   // Ignore device-originated mute changes during a gapless transition, for the same reason NotifyVolumeCallback does: a sink renegotiation is not a user action.
   // StreamStartMessageReceived re-asserts the correct mute state once the new stream has started.
-  if (instance->about_to_finish_.load()) return;
+  if (instance->gapless_transition_.load()) return;
 
   // Read the property from the element that actually fired the signal, not from instance->volume_ - see NotifyVolumeCallback for why.
   gboolean mute = FALSE;
@@ -1677,6 +1679,9 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
         instance->next_end_offset_nanosec_.store(0);
       }
 
+      // The stream continues, so there is no stream start which ends the transition.
+      instance->gapless_transition_ = false;
+
       // GstEngine will try to seek to the start of the new section, but we're already there so ignore it.
       instance->ignore_next_seek_ = true;
       Q_EMIT instance->EndOfStreamReached(instance->id(), true);
@@ -1868,6 +1873,7 @@ void GstEnginePipeline::StreamStartMessageReceived() {
 
   // Clear the transition flag only after re-asserting, so NotifyVolumeCallback/NotifyMuteCallback keep ignoring the renegotiation's reset for the whole transition.
   about_to_finish_ = false;
+  gapless_transition_ = false;
 
   Q_EMIT EndOfStreamReached(id(), true);
 
@@ -1941,6 +1947,8 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
       return;
     }
     qLog(Info) << "Ignoring error" << domain << code << message << debugstr << "when loading next track";
+    // The next track can't be played, so there is no transition to it.
+    gapless_transition_ = false;
     GstPad *pad = gst_element_get_static_pad(audiobin_, "sink");
     if (pad) {
       QFuture<gboolean> future = QtConcurrent::run(shared_pad_send_threadpool(), [pad]() {
@@ -2109,6 +2117,8 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
   if (next_uri_set_.load() && next_uri_need_reset_.load() && new_state == GST_STATE_READY && pending_seek_nanosec_.load() != -1) {
     qLog(Debug) << "Reverting next uri and going to pause state.";
     next_uri_set_ = false;
+    // There is no transition to the next stream now.
+    gapless_transition_ = false;
     {
       QMutexLocker l(&mutex_url_);
       g_object_set(G_OBJECT(pipeline_), "uri", gst_url_.constData(), nullptr);
@@ -3000,6 +3010,9 @@ void GstEnginePipeline::SetNextUrl() {
   // When the next uri is not playable an error message is send when the pipeline goes to PLAY (or PAUSE) state or immediately if it is currently in PLAY state.
   {
     QMutexLocker l(&mutex_next_url_);
+    // The transition happens when the current stream ends, so keep ignoring volume and mute changes until the next stream started.
+    // This is set before the next URL, since the stream start or an error for it can clear it as soon as it is set, which setting this after would undo.
+    gapless_transition_ = true;
     qLog(Debug) << "Setting next URL to" << Utilities::UrlForLog(next_gst_url_);
     g_object_set(G_OBJECT(pipeline_), "uri", next_gst_url_.constData(), nullptr);
   }
