@@ -324,7 +324,7 @@ void JellyfinScrobbler::Playing() {
   // The engine reports playing before the stream is loaded, a stream that fails to load must not be reported as played.
   // Report the playback start when the engine really plays the stream, ResyncPosition() checks it.
   if (start_pending_) {
-    if (EngineHasSong() && player_->engine()->state() == EngineBase::State::Playing) {
+    if (EngineHasSong() && player_->engine()->actual_state() == EngineBase::State::Playing) {
       StartPlayback();
     }
     else {
@@ -344,7 +344,7 @@ void JellyfinScrobbler::ResyncPosition() {
   if (start_pending_) {
     CheckPlaying();
     if (!start_pending_) return;
-    if (EngineHasSong() && player_->engine()->state() == EngineBase::State::Playing) {
+    if (EngineHasSong() && player_->engine()->actual_state() == EngineBase::State::Playing) {
       StartPlayback();
     }
     // Keep checking while the song is current, loading the stream can take a while, for example while buffering.
@@ -360,7 +360,7 @@ void JellyfinScrobbler::ResyncPosition() {
 
   // The engine paused by itself, for example while buffering or starting the stream again, continue when it plays again.
   if (paused_ && player_->GetState() == EngineBase::State::Playing) {
-    if (EngineHasSong() && player_->engine()->state() == EngineBase::State::Playing) {
+    if (EngineHasSong() && player_->engine()->actual_state() == EngineBase::State::Playing) {
       Resumed();
     }
     else if (++resync_position_attempts_ < kResyncPositionMaxAttempts) {
@@ -370,7 +370,7 @@ void JellyfinScrobbler::ResyncPosition() {
   }
 
   // Wait until the engine plays the song, or is paused after seeking to the start position, it can still be loading the stream, but not forever.
-  const bool engine_ready = EngineHasSong() && (paused_ ? player_->engine()->state() == EngineBase::State::Paused && player_->engine()->position_nanosec() > 0 : player_->engine()->state() == EngineBase::State::Playing);
+  const bool engine_ready = EngineHasSong() && (paused_ ? player_->engine()->actual_state() == EngineBase::State::Paused && player_->engine()->position_nanosec() > 0 : player_->engine()->actual_state() == EngineBase::State::Playing);
   if (!engine_ready) {
     if (++resync_position_attempts_ < kResyncPositionMaxAttempts) timer_resync_position_.start();
     return;
@@ -427,7 +427,7 @@ void JellyfinScrobbler::PlaybackProgressTimeout() {
 
   // Correct the estimated position with the engine position when the engine plays the track, it can be started at an offset or restarted without notifying the scrobbler.
   if (EngineHasSong()) {
-    const EngineBase::State state = player_->engine()->state();
+    const EngineBase::State state = player_->engine()->actual_state();
     if (state == EngineBase::State::Playing && !paused_) {
       UpdatePosition();
     }
