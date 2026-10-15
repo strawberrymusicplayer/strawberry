@@ -33,6 +33,7 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QThreadPool>
+#include <QMutex>
 #include <QByteArray>
 #include <QSet>
 #include <QString>
@@ -88,7 +89,7 @@ class SongLoader : public QObject {
   void LoadMetadataBlocking();
   Result LoadAudioCD();
 
-  QStringList errors() { return errors_; }
+  QStringList errors() const;
 
  Q_SIGNALS:
   void AudioCDTracksLoaded();
@@ -101,6 +102,7 @@ class SongLoader : public QObject {
   void Timeout();
   void StopTypefind();
   void ParserError(const QString &error);
+  void AddError(const QString &error);
 
 #ifdef HAVE_AUDIOCD
   void AudioCDTracksLoadErrorSlot(const QString &error);
@@ -172,6 +174,8 @@ class SongLoader : public QObject {
   gulong buffer_probe_cb_id_;
 
   QThreadPool thread_pool_;
+  // The errors are added from the thread loading the songs, which can be a concurrent thread, and from the thread of this object.
+  mutable QMutex mutex_errors_;
   QStringList errors_;
 
   bool success_;
