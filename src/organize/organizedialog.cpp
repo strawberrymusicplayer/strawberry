@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,6 @@
 #include <QAbstractItemModel>
 #include <QDialog>
 #include <QScreen>
-#include <QHash>
 #include <QMap>
 #include <QDir>
 #include <QFileInfo>
@@ -463,12 +462,13 @@ void OrganizeDialog::InsertTag(const QString &tag) {
   ui_->naming->insertPlainText(QLatin1Char('%') + tag);
 }
 
-Organize::NewSongInfoList OrganizeDialog::ComputeNewSongsFilenames(const SongList &songs, const OrganizeFormat &format, const QString &extension) {
+Organize::NewSongInfoList OrganizeDialog::ComputeNewSongsFilenames(const SongList &songs, const OrganizeFormat &format, const QString &extension, const QString &root) {
 
   // Check if we will have multiple files with the same name.
   // If so, they will erase each other if the overwrite flag is set.
   // Better to rename them: e.g. foo.bar -> foo(2).bar
-  QHash<QString, int> filenames;
+  // Organize checks again when copying, since transcoding can change the extensions.
+  Organize::UniqueFilenames unique_filenames(root, songs);
   Organize::NewSongInfoList new_songs_info;
   new_songs_info.reserve(songs.count());
   for (const Song &song : songs) {
@@ -477,13 +477,7 @@ Organize::NewSongInfoList OrganizeDialog::ComputeNewSongsFilenames(const SongLis
       return Organize::NewSongInfoList();
     }
     if (result.unique_filename) {
-      if (filenames.contains(result.filename)) {
-        QString song_number = QString::number(++filenames[result.filename]);
-        result.filename = Utilities::PathWithoutFilenameExtension(result.filename) + u"("_s + song_number + u")."_s + QFileInfo(result.filename).suffix();
-      }
-      else {
-        filenames.insert(result.filename, 1);
-      }
+      result.filename = unique_filenames.Make(result.filename, song.url().toLocalFile());
     }
     new_songs_info << Organize::NewSongInfo(song, result.filename, result.unique_filename);
   }
@@ -543,7 +537,7 @@ void OrganizeDialog::UpdatePreviews() {
       TranscoderPreset preset = Transcoder::PresetForFileType(format);
       extension = preset.extension_;
     }
-    new_songs_info_ = ComputeNewSongsFilenames(songs_, format_, extension);
+    new_songs_info_ = ComputeNewSongsFilenames(songs_, format_, extension, storage ? storage->LocalPath() : QString());
     if (new_songs_info_.isEmpty()) {
       ok = false;
     }
