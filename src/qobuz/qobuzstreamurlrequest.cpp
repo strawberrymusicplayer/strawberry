@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #include <algorithm>
 #include <utility>
 
+#include <QtGlobal>
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
@@ -194,7 +195,8 @@ void QobuzStreamURLRequest::StreamURLReceived() {
   }
   int samplerate = -1;
   if (json_object.contains("sampling_rate"_L1)) {
-    samplerate = static_cast<int>(json_object["sampling_rate"_L1].toDouble()) * 1000;
+    // The sampling rate is in kHz, for example 44.1, so scale it before rounding it to an integer, otherwise 44.1 kHz becomes 44000 Hz.
+    samplerate = qRound(json_object["sampling_rate"_L1].toDouble() * 1000.0);
   }
   int bit_depth = -1;
   if (json_object.contains("bit_depth"_L1)) {
