@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,8 @@
  */
 
 #include "config.h"
+
+#include <cmath>
 
 #include <QObject>
 #include <QByteArray>
@@ -50,11 +52,15 @@ float TagReaderBase::ConvertPOPMRating(const int POPM_rating) {
 
 int TagReaderBase::ConvertToPOPMRating(const float rating) {
 
-  if (rating < 0.20) return 0x00;
-  if (rating < 0.40) return 0x01;
-  if (rating < 0.60) return 0x40;
-  if (rating < 0.80) return 0x80;
-  if (rating < 1.0)  return 0xC0;
+  // Convert to whole stars, half stars are rounded down.
+  // A small tolerance is added before rounding down, since ratings computed with floats can be slightly lower, like 0.59999996 for 3 stars, which would otherwise be one star less.
+  const int stars = static_cast<int>(std::floor((rating * 5.0F) + 0.01F));
+
+  if (stars <= 0) return 0x00;
+  if (stars == 1) return 0x01;
+  if (stars == 2) return 0x40;
+  if (stars == 3) return 0x80;
+  if (stars == 4) return 0xC0;
 
   return 0xFF;
 
