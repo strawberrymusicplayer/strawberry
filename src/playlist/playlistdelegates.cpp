@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -526,6 +526,27 @@ void SongSourceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
 RatingItemDelegate::RatingItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
 
+void RatingItemDelegate::set_mouse_over(const QModelIndex &idx, const QModelIndexList &selected_indexes, const QPoint pos) {
+
+  mouse_over_index_ = idx;
+  // The selection contains the cells of all columns, but only the rating cells are painted by this delegate, so only keep those, since this is called for every mouse move.
+  selected_indexes_.clear();
+  for (const QModelIndex &selected_index : selected_indexes) {
+    if (selected_index.column() == static_cast<int>(Playlist::Column::Rating)) {
+      selected_indexes_ << QPersistentModelIndex(selected_index);
+    }
+  }
+  mouse_over_pos_ = pos;
+
+}
+
+void RatingItemDelegate::set_mouse_out() {
+
+  mouse_over_index_ = QPersistentModelIndex();
+  selected_indexes_.clear();
+
+}
+
 void RatingItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
 
   // Draw the background
@@ -534,7 +555,7 @@ void RatingItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
   // Don't draw anything else if the user can't set the rating of this item
   if (!idx.data(Playlist::Role_CanSetRating).toBool()) return;
 
-  const bool hover = mouse_over_index_.isValid() && (mouse_over_index_ == idx || (selected_indexes_.contains(mouse_over_index_) && selected_indexes_.contains(idx)));
+  const bool hover = mouse_over_index_.isValid() && (mouse_over_index_ == idx || (selected_indexes_.contains(mouse_over_index_) && selected_indexes_.contains(QPersistentModelIndex(idx))));
 
   const float rating = (hover ? RatingPainter::RatingForPos(mouse_over_pos_, option.rect) : idx.data().toFloat());
 
