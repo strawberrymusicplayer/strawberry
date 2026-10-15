@@ -36,6 +36,9 @@
 #include <taglib/asftag.h>
 #include <taglib/asfattribute.h>
 #include <taglib/mpegfile.h>
+#include <taglib/mp4file.h>
+#include <taglib/mp4tag.h>
+#include <taglib/mp4item.h>
 #include <taglib/id3v2tag.h>
 #include <taglib/id3v2header.h>
 
@@ -2202,6 +2205,21 @@ TEST_F(TagReaderTest, TestMP3AudioFileCompilation) {
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(false, song.compilation());
   }
+
+}
+
+TEST_F(TagReaderTest, TestMP4AudioFileReadBPM) {
+
+  TemporaryResource r(u":/audio/strawberry.m4a"_s);
+
+  // The BPM is an integer item.
+  {
+    TagLib::MP4::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    file.tag()->setItem("tmpo", TagLib::MP4::Item(128));
+    ASSERT_TRUE(file.save());
+  }
+  EXPECT_EQ(128.0F, ReadSongFromFile(r.fileName()).bpm());
 
 }
 
