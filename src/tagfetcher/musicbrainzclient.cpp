@@ -189,6 +189,11 @@ void MusicBrainzClient::CancelMbIdRequest(const int id) {
   }
   pending_errors_.remove(id);
 
+  // The finished request starts the next one, so start it when the request was cancelled.
+  if (!timer_flush_requests_->isActive() && mbid_requests_.isEmpty() && !pending_mbid_requests_.isEmpty()) {
+    timer_flush_requests_->start();
+  }
+
 }
 
 void MusicBrainzClient::FlushMbIdRequests() {
@@ -289,6 +294,11 @@ void MusicBrainzClient::CancelDiscIdRequest(const QString &disc_id) {
     pending_discid_requests_.removeAll(disc_id);
   }
 
+  // The finished request starts the next one, so start it when the request was cancelled.
+  if (!timer_flush_requests_->isActive() && discid_requests_.isEmpty() && !pending_discid_requests_.isEmpty()) {
+    timer_flush_requests_->start();
+  }
+
 }
 
 void MusicBrainzClient::FlushDiscIdRequests() {
@@ -307,6 +317,8 @@ void MusicBrainzClient::SendDiscIdRequest(const QString &disc_id) {
 
   QNetworkReply *reply = CreateGetRequest(QUrl(QString::fromLatin1(kDiscUrl) + disc_id), url_query);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, disc_id, reply]() { DiscIdRequestFinished(disc_id, reply); });
+  // Keep the request, so it can be cancelled and deleted, and only one disc ID request is sent at a time.
+  discid_requests_.insert(disc_id, reply);
 
   timeouts_->AddReply(reply);
 
@@ -320,8 +332,8 @@ void MusicBrainzClient::DiscIdRequestFinished(const QString &disc_id, QNetworkRe
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  if (discid_requests_.contains(disc_id)) {
-    discid_requests_.remove(disc_id);
+  if (discid_requests_.contains(disc_id, reply)) {
+    discid_requests_.remove(disc_id, reply);
   }
 
   if (!timer_flush_requests_->isActive() && discid_requests_.isEmpty() && !pending_discid_requests_.isEmpty()) {
