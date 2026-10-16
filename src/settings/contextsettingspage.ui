@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>510</width>
-    <height>874</height>
+    <height>900</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -340,6 +340,79 @@
     </widget>
    </item>
    <item>
+    <widget class="QGroupBox" name="groupbox_synced_lyrics_style">
+     <property name="title">
+      <string>Currently playing lyrics</string>
+     </property>
+     <layout class="QVBoxLayout" name="layout_synced_lyrics_style">
+      <item>
+       <widget class="QCheckBox" name="checkbox_synced_lyrics_bold">
+        <property name="text">
+         <string>Bold</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkbox_synced_lyrics_italic">
+        <property name="text">
+         <string>Italic</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkbox_synced_lyrics_system_color">
+        <property name="text">
+         <string>Use system text color</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="layout_synced_lyrics_color">
+        <item>
+         <widget class="QLabel" name="label_synced_lyrics_color">
+          <property name="text">
+           <string>Text color:</string>
+          </property>
+          <property name="buddy">
+           <cstring>select_synced_lyrics_color</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="select_synced_lyrics_color">
+          <property name="toolTip">
+           <string>Choose the text color for the current synchronized lyrics line</string>
+          </property>
+          <property name="accessibleName">
+           <string>Currently playing lyrics color</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_synced_lyrics_not_highlighted">
+        <property name="text">
+         <string>The currently playing line is not highlighted.</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <spacer name="spacer_bottom">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -646,6 +719,10 @@
   <tabstop>font_normal</tabstop>
   <tabstop>font_size_normal</tabstop>
   <tabstop>preview_normal</tabstop>
+  <tabstop>checkbox_synced_lyrics_bold</tabstop>
+  <tabstop>checkbox_synced_lyrics_italic</tabstop>
+  <tabstop>checkbox_synced_lyrics_system_color</tabstop>
+  <tabstop>select_synced_lyrics_color</tabstop>
  </tabstops>
  <resources/>
  <connections/>

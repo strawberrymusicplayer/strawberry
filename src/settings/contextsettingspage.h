@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This code was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@
 
 #include <QObject>
 #include <QHash>
+#include <QColor>
 #include <QString>
 
 #include "settingspage.h"
@@ -52,10 +53,15 @@ class ContextSettingsPage : public SettingsPage {
   static void ShowMenuTooltip(QAction *action);
   void HeadlineFontChanged();
   void NormalFontChanged();
+  void SelectSyncedLyricsColor();
+  void UpdateSyncedLyricsColor();
+  void UpdateSyncedLyricsNotHighlighted();
+  void UpdateSyncedLyricsStyleEnabled();
 
  private:
   Ui_ContextSettingsPage *ui_;
   QHash<QString, QCheckBox*> checkboxes_;
+  QColor synced_lyrics_color_;
 };
 
 #endif  // CONTEXTSETTINGSPAGE_H

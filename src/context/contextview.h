@@ -30,6 +30,7 @@
 #include <QList>
 #include <QString>
 #include <QImage>
+#include <QColor>
 #include <QAction>
 
 #include "includes/shared_ptr.h"
@@ -94,7 +95,7 @@ class ContextView : public QWidget {
   };
   static const std::optional<Utilities::LRCLines> &ParseSyncedLyrics(ParsedSyncedLyrics *parsed_synced_lyrics, const QString &synced_lyrics);
   void SetSyncedLyricsText(const QString &provider);
-  void SetSyncedLyricsLineBold(const qsizetype line, const bool bold);
+  void SetSyncedLyricsLineFormat(const qsizetype line, const bool active);
   qint64 SyncedLyricsPositionMsec() const;
   qsizetype SyncedLyricsLine(const qint64 position_msec) const;
   void UpdateSyncedLyricsLine(const qint64 position_msec);
@@ -179,6 +180,9 @@ class ContextView : public QWidget {
   QString fetched_lyrics_provider_;
   QString synced_lyrics_shown_;
   bool synced_lyrics_enabled_;
+  bool synced_lyrics_bold_;
+  bool synced_lyrics_italic_;
+  QColor synced_lyrics_color_;
   Utilities::LRCLines synced_lyrics_lines_;
   qsizetype synced_lyrics_line_;
   qint64 synced_lyrics_offset_msec_;
