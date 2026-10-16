@@ -168,6 +168,7 @@ EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
       cover_menu_(new QMenu(this)),
       image_no_cover_thumbnail_(ImageUtils::GenerateNoCoverImage(QSize(128, 128), devicePixelRatioF())),
       loading_(false),
+      songs_pending_(false),
       ignore_edits_(false),
       summary_cover_art_id_(0),
       tags_cover_art_id_(0),
@@ -185,6 +186,9 @@ EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
   QObject::connect(results_dialog_, &TrackSelectionDialog::finished, tag_fetcher_, &TagFetcher::Cancel);
 #endif
   QObject::connect(lyrics_fetcher_, &LyricsFetcher::LyricsFetched, this, &EditTagDialog::UpdateLyrics);
+
+  // Don't open the dialog again with the songs set while loading or saving when the dialog was closed.
+  QObject::connect(this, &QDialog::rejected, this, &EditTagDialog::ClearPendingSongs);
 
   album_cover_choice_controller_->Init(network, tagreader_client, collection_backend, albumcover_loader, current_albumcover_loader, cover_providers, streaming_services);
 
@@ -564,7 +568,13 @@ QList<EditTagDialog::Data> EditTagDialog::LoadData(const SongList &songs) const 
 bool EditTagDialog::SetSongs(const SongList &s, const PlaylistItemPtrList &items) {
 
   // Show the loading indicator
-  if (!SetLoading(tr("Loading tracks") + u"..."_s)) return false;
+  // While the previous songs are still loading or saving, keep the songs and set them when it's finished, so they are not ignored.
+  if (!SetLoading(tr("Loading tracks") + u"..."_s)) {
+    songs_pending_ = true;
+    pending_songs_ = s;
+    pending_playlist_items_ = items;
+    return false;
+  }
 
   data_.clear();
   playlist_items_ = items;
@@ -595,6 +605,12 @@ void EditTagDialog::SetSongsFinished() {
   watcher->deleteLater();
 
   if (!SetLoading(QString())) return;
+
+  // Other songs were set while loading these, load those instead.
+  if (songs_pending_) {
+    SetPendingSongs();
+    return;
+  }
 
   data_ = result_data;
 
@@ -1678,6 +1694,9 @@ void EditTagDialog::SaveData() {
 
 void EditTagDialog::SaveDataFinished() {
 
+  // The collection songs as they were saved, with what was saved when saving failed, to update the songs set while saving.
+  const QMap<int, Song> saved_collection_songs = collection_songs_;
+
   if (!collection_songs_.isEmpty()) {
     collection_backend_->AddOrUpdateSongsAsync(collection_songs_.values());
     collection_songs_.clear();
@@ -1686,6 +1705,53 @@ void EditTagDialog::SaveDataFinished() {
   if (!SetLoading(QString())) return;
 
   QDialog::accept();
+
+  // Other songs were set while saving, open the dialog again with those.
+  SetPendingSongs(saved_collection_songs);
+
+}
+
+void EditTagDialog::SetPendingSongs(const QMap<int, Song> &saved_collection_songs) {
+
+  if (!songs_pending_) return;
+
+  SongList songs = pending_songs_;
+  const PlaylistItemPtrList items = pending_playlist_items_;
+  ClearPendingSongs();
+
+  // The songs were set before the save finished, so songs which were saved have the metadata from before.
+  // The tags are read again from the files, but the lyrics stored in the database and the statistics are taken from these songs, so use the saved songs instead.
+  for (qint64 i = 0; i < songs.count(); ++i) {
+    Song &song = songs[i];
+    // Streams are not read again, and they are not in the collection, the edits to them were applied to their playlist items when the dialog was accepted.
+    if (song.is_stream()) {
+      const PlaylistItemPtr item = items.value(i);
+      if (item) {
+        song = item->OriginalMetadata();
+      }
+      continue;
+    }
+    if (song.id() == -1 || !saved_collection_songs.contains(song.id())) continue;
+    const Song &saved_song = saved_collection_songs[song.id()];
+    if (saved_song.source() == song.source() && saved_song.url() == song.url()) {
+      song = saved_song;
+    }
+  }
+
+  if (!SetSongs(songs, items)) return;
+
+  Q_EMIT PendingSongsSet();
+
+  show();
+  raise();
+
+}
+
+void EditTagDialog::ClearPendingSongs() {
+
+  songs_pending_ = false;
+  pending_songs_.clear();
+  pending_playlist_items_.clear();
 
 }
 
