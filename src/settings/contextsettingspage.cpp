@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This code was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,9 @@
 #include <QIODevice>
 #include <QFile>
 #include <QFont>
+#include <QColorDialog>
+#include <QPalette>
+#include <QPushButton>
 #include <QMenu>
 #include <QCursor>
 #include <QCheckBox>
@@ -61,6 +64,15 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog *dialog, QWidget *parent
   checkboxes_[QLatin1String(kSyncedLyrics)] = ui_->checkbox_synced_lyrics;
   checkboxes_[QLatin1String(kSearchCover)] = ui_->checkbox_search_cover;
   checkboxes_[QLatin1String(kSearchLyrics)] = ui_->checkbox_search_lyrics;
+
+  checkboxes_[QLatin1String(kSyncedLyricsBold)] = ui_->checkbox_synced_lyrics_bold;
+  checkboxes_[QLatin1String(kSyncedLyricsItalic)] = ui_->checkbox_synced_lyrics_italic;
+  checkboxes_[QLatin1String(kSyncedLyricsSystemColor)] = ui_->checkbox_synced_lyrics_system_color;
+  QObject::connect(ui_->select_synced_lyrics_color, &QPushButton::clicked, this, &ContextSettingsPage::SelectSyncedLyricsColor);
+  QObject::connect(ui_->checkbox_synced_lyrics_system_color, &QCheckBox::toggled, this, &ContextSettingsPage::UpdateSyncedLyricsColor);
+  QObject::connect(ui_->checkbox_synced_lyrics_bold, &QCheckBox::toggled, this, &ContextSettingsPage::UpdateSyncedLyricsNotHighlighted);
+  QObject::connect(ui_->checkbox_synced_lyrics_italic, &QCheckBox::toggled, this, &ContextSettingsPage::UpdateSyncedLyricsNotHighlighted);
+  QObject::connect(ui_->checkbox_synced_lyrics_system_color, &QCheckBox::toggled, this, &ContextSettingsPage::UpdateSyncedLyricsNotHighlighted);
 
   // Create and populate the helper menus
   QMenu *menu = new QMenu(this);
@@ -105,6 +117,9 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog *dialog, QWidget *parent
 
   // Synchronized lyrics are shown in place of the song lyrics, so the option only applies when song lyrics are shown.
   QObject::connect(ui_->checkbox_song_lyrics, &QCheckBox::toggled, ui_->checkbox_synced_lyrics, &QCheckBox::setEnabled);
+  // The style of the currently playing lyrics only applies when synchronized lyrics are shown.
+  QObject::connect(ui_->checkbox_song_lyrics, &QCheckBox::toggled, this, &ContextSettingsPage::UpdateSyncedLyricsStyleEnabled);
+  QObject::connect(ui_->checkbox_synced_lyrics, &QCheckBox::toggled, this, &ContextSettingsPage::UpdateSyncedLyricsStyleEnabled);
 
   QObject::connect(ui_->font_headline, &QFontComboBox::currentFontChanged, this, &ContextSettingsPage::HeadlineFontChanged);
   QObject::connect(ui_->font_size_headline, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &ContextSettingsPage::HeadlineFontChanged);
@@ -139,6 +154,12 @@ void ContextSettingsPage::Load() {
     checkboxes_.value(i)->setChecked(s.value(i, checkboxes_.value(i)->isChecked()).toBool());
   }
   ui_->checkbox_synced_lyrics->setEnabled(ui_->checkbox_song_lyrics->isChecked());
+
+  // Invalid when no color was chosen, then the system text color is shown, and no color is saved, so it follows the theme.
+  synced_lyrics_color_ = s.value(kSyncedLyricsColor).value<QColor>();
+  UpdateSyncedLyricsColor();
+  UpdateSyncedLyricsNotHighlighted();
+  UpdateSyncedLyricsStyleEnabled();
 
   // Fonts
   QString default_font;
@@ -181,6 +202,10 @@ void ContextSettingsPage::Save() {
   s.setValue(kFontNormal, ui_->font_normal->currentFont().family());
   s.setValue(kFontSizeHeadline, ui_->font_size_headline->value());
   s.setValue(kFontSizeNormal, ui_->font_size_normal->value());
+  // Only a chosen color is saved, not the system text color at the time.
+  if (synced_lyrics_color_.isValid()) {
+    s.setValue(kSyncedLyricsColor, synced_lyrics_color_);
+  }
   s.endGroup();
 
   s.beginGroup(MainWindowSettings::kSettingsGroup);
@@ -220,5 +245,41 @@ void ContextSettingsPage::NormalFontChanged() {
     font.setPointSizeF(ui_->font_size_normal->value());
   }
   ui_->preview_normal->setFont(font);
+
+}
+
+void ContextSettingsPage::SelectSyncedLyricsColor() {
+
+  const QColor color = QColorDialog::getColor(synced_lyrics_color_.isValid() ? synced_lyrics_color_ : palette().color(QPalette::Text), this);
+  if (!color.isValid()) return;
+  synced_lyrics_color_ = color;
+  UpdateSyncedLyricsColor();
+  UpdateSyncedLyricsNotHighlighted();
+  set_changed();
+
+}
+
+void ContextSettingsPage::UpdateSyncedLyricsColor() {
+
+  const bool system_color = ui_->checkbox_synced_lyrics_system_color->isChecked();
+  ui_->select_synced_lyrics_color->setEnabled(!system_color);
+  ui_->label_synced_lyrics_color->setEnabled(!system_color);
+  const QColor color = system_color || !synced_lyrics_color_.isValid() ? palette().color(QPalette::Text) : synced_lyrics_color_;
+  ui_->select_synced_lyrics_color->setStyleSheet(QStringLiteral("background-color: rgb(%1, %2, %3); border: 1px dotted black;").arg(color.red()).arg(color.green()).arg(color.blue()));
+
+}
+
+void ContextSettingsPage::UpdateSyncedLyricsNotHighlighted() {
+
+  // Without bold, italic or a chosen color, the currently playing line looks like the other lines.
+  const bool system_color = ui_->checkbox_synced_lyrics_system_color->isChecked() || !synced_lyrics_color_.isValid();
+  const bool not_highlighted = !ui_->checkbox_synced_lyrics_bold->isChecked() && !ui_->checkbox_synced_lyrics_italic->isChecked() && system_color;
+  ui_->label_synced_lyrics_not_highlighted->setVisible(not_highlighted);
+
+}
+
+void ContextSettingsPage::UpdateSyncedLyricsStyleEnabled() {
+
+  ui_->groupbox_synced_lyrics_style->setEnabled(ui_->checkbox_song_lyrics->isChecked() && ui_->checkbox_synced_lyrics->isChecked());
 
 }

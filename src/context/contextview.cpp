@@ -121,6 +121,8 @@ ContextView::ContextView(QWidget *parent)
       lyrics_tried_(false),
       lyrics_id_(-1),
       synced_lyrics_enabled_(ContextSettings::kDefaultSyncedLyrics),
+      synced_lyrics_bold_(ContextSettings::kDefaultSyncedLyricsBold),
+      synced_lyrics_italic_(ContextSettings::kDefaultSyncedLyricsItalic),
       synced_lyrics_line_(-1),
       synced_lyrics_offset_msec_(0) {
 
@@ -379,9 +381,15 @@ void ContextView::ReloadSettings() {
   font_normal_.setFamily(s.value(ContextSettings::kFontNormal, default_font).toString());
   // The default font can have a pixel size instead of a point size, then the point size is not positive either.
   if (font_size_normal > 0) font_normal_.setPointSizeF(font_size_normal);
+  synced_lyrics_bold_ = s.value(ContextSettings::kSyncedLyricsBold, ContextSettings::kDefaultSyncedLyricsBold).toBool();
+  synced_lyrics_italic_ = s.value(ContextSettings::kSyncedLyricsItalic, ContextSettings::kDefaultSyncedLyricsItalic).toBool();
+  synced_lyrics_color_ = s.value(ContextSettings::kSyncedLyricsSystemColor, ContextSettings::kDefaultSyncedLyricsSystemColor).toBool()
+                            ? QColor() : s.value(ContextSettings::kSyncedLyricsColor).value<QColor>();
   s.endGroup();
 
   UpdateFonts();
+  // Refresh the current line even when playback is paused or its timestamp has not changed.
+  SetSyncedLyricsLineFormat(synced_lyrics_line_, true);
 
   if (widget_stacked_->currentWidget() == widget_stop_) {
     NoSong();
@@ -788,7 +796,7 @@ void ContextView::SetSyncedLyricsText(const QString &provider) {
 
 }
 
-void ContextView::SetSyncedLyricsLineBold(const qsizetype line, const bool bold) {
+void ContextView::SetSyncedLyricsLineFormat(const qsizetype line, const bool active) {
 
   if (line < 0 || line >= synced_lyrics_lines_.size()) return;
 
@@ -806,10 +814,13 @@ void ContextView::SetSyncedLyricsLineBold(const qsizetype line, const bool bold)
   QTextCursor cursor(first_text_block);
   cursor.setPosition(last_text_block.position() + last_text_block.length() - 1, QTextCursor::KeepAnchor);
   QTextCharFormat char_format;
-  char_format.setFontWeight(bold ? QFont::Bold : QFont::Normal);
-  cursor.mergeCharFormat(char_format);
+  char_format.setFontWeight(active && synced_lyrics_bold_ ? QFont::Bold : QFont::Normal);
+  char_format.setFontItalic(active && synced_lyrics_italic_);
+  if (active && synced_lyrics_color_.isValid()) char_format.setForeground(synced_lyrics_color_);
+  // Replace the format so inactive lines inherit the palette color again.
+  cursor.setCharFormat(char_format);
 
-  // Bold text is wider and can wrap differently.
+  // Font styles can change the line wrapping.
   textedit_play_lyrics_->updateGeometry();
 
 }
@@ -844,8 +855,8 @@ void ContextView::UpdateSyncedLyricsLine(const qint64 position_msec) {
 
   // Only change the formatting of the previous and new active line.
   if (line != synced_lyrics_line_) {
-    SetSyncedLyricsLineBold(synced_lyrics_line_, false);
-    SetSyncedLyricsLineBold(line, true);
+    SetSyncedLyricsLineFormat(synced_lyrics_line_, false);
+    SetSyncedLyricsLineFormat(line, true);
     synced_lyrics_line_ = line;
   }
 
