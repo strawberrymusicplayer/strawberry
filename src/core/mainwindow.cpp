@@ -2429,9 +2429,12 @@ void MainWindow::EditTracks() {
   if (items.isEmpty()) return;
 
   // The dialog is not modal, so the current playlist can change before it is accepted.
-  // It keeps the previous songs while it is loading or saving them, then they are still from the previous playlist.
+  // It keeps the previous songs while it is loading or saving them, then they are still from the previous playlist, and these are set when it's finished.
   if (edit_tag_dialog_->SetSongs(songs, items)) {
     edit_tag_dialog_playlist_ = app_->playlist_manager()->current();
+  }
+  else {
+    edit_tag_dialog_pending_playlist_ = app_->playlist_manager()->current();
   }
   edit_tag_dialog_->show();
   edit_tag_dialog_->raise();
@@ -3041,6 +3044,9 @@ void MainWindow::EditFileTags(const QList<QUrl> &urls) {
   if (edit_tag_dialog_->SetSongs(songs)) {
     edit_tag_dialog_playlist_.clear();
   }
+  else {
+    edit_tag_dialog_pending_playlist_.clear();
+  }
   edit_tag_dialog_->show();
   edit_tag_dialog_->raise();
 
@@ -3248,6 +3254,11 @@ EditTagDialog *MainWindow::CreateEditTagDialog() {
   EditTagDialog *edit_tag_dialog = new EditTagDialog(app_->network(), app_->tagreader_client(), app_->collection_backend(), app_->albumcover_loader(), app_->current_albumcover_loader(), app_->cover_providers(), app_->lyrics_providers(), app_->streaming_services());
   QObject::connect(edit_tag_dialog, &EditTagDialog::accepted, this, &MainWindow::EditTagDialogAccepted);
   QObject::connect(edit_tag_dialog, &EditTagDialog::Error, this, &MainWindow::ShowErrorDialog);
+  // The songs set while the dialog was loading or saving were set now, they are from the playlist they were set from.
+  QObject::connect(edit_tag_dialog, &EditTagDialog::PendingSongsSet, this, [this]() {
+    edit_tag_dialog_playlist_ = edit_tag_dialog_pending_playlist_;
+    edit_tag_dialog_pending_playlist_.clear();
+  });
   return edit_tag_dialog;
 
 }

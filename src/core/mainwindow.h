@@ -331,6 +331,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   Lazy<Console> console_;
   Lazy<EditTagDialog> edit_tag_dialog_;
   QPointer<Playlist> edit_tag_dialog_playlist_;
+  // The playlist of the songs set while the dialog was loading or saving the previous songs.
+  QPointer<Playlist> edit_tag_dialog_pending_playlist_;
   AlbumCoverChoiceController *album_cover_choice_controller_;
 
   GlobalShortcutsManager *globalshortcuts_manager_;

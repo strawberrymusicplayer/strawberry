@@ -84,7 +84,8 @@ class EditTagDialog : public QDialog {
 
   ~EditTagDialog() override;
 
-  // Returns false when the songs are not set, since the dialog is still loading or saving the previous songs.
+  // Returns false when the songs are not set yet, since the dialog is still loading or saving the previous songs.
+  // They are set when it's finished then, and PendingSongsSet is emitted.
   bool SetSongs(const SongList &songs, const PlaylistItemPtrList &items = PlaylistItemPtrList());
 
   // Returns the playlist items of the songs in the dialog, in the same order as songs(), songs which could not be loaded are not in the dialog.
@@ -96,6 +97,8 @@ class EditTagDialog : public QDialog {
 
  Q_SIGNALS:
   void Error(const QString &message);
+  // Emitted when songs which were set while loading or saving the previous songs are set.
+  void PendingSongsSet();
 
  protected:
   bool eventFilter(QObject *o, QEvent *e) override;
@@ -132,6 +135,8 @@ class EditTagDialog : public QDialog {
 
  private Q_SLOTS:
   void SetSongsFinished();
+  void SetPendingSongs(const QMap<int, Song> &saved_collection_songs = QMap<int, Song>());
+  void ClearPendingSongs();
   void SaveDataFinished();
 
   void SongSelectionChanged();
@@ -235,6 +240,10 @@ class EditTagDialog : public QDialog {
   bool loading_;
 
   PlaylistItemPtrList playlist_items_;
+  // The songs set while loading or saving the previous songs, they are set when it's finished.
+  bool songs_pending_;
+  SongList pending_songs_;
+  PlaylistItemPtrList pending_playlist_items_;
   QList<Data> data_;
   QList<FieldData> fields_;
 
