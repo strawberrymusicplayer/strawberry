@@ -138,6 +138,8 @@ class CollectionWatcher : public QObject {
     CollectionSubdirectoryList deleted_subdirs;
 
     QStringList files_changed_path_;
+    // The entries of the directories, for resolving paths to the names on disk, shared by the whole scan so each directory is only listed once.
+    QHash<QString, QStringList> directory_entries_;
 
    private:
     ScanTransaction &operator=(const ScanTransaction &transaction) { Q_UNUSED(transaction); return *this; }
@@ -198,7 +200,8 @@ class CollectionWatcher : public QObject {
   bool abort_requested() const;
   bool stop_or_abort_requested() const;
   static QHash<QString, SongList> SongsByPath(const SongList &songs);
-  static bool FindSongsByPath(const QHash<QString, SongList> &songs_by_path, const QString &path, SongList &songs_out);
+  // The songs with the exact path, otherwise the songs found by the path in NFC, but not songs of another file on disk whose name only differs in Unicode normalization form.
+  static bool FindSongsByPath(const QHash<QString, SongList> &songs_by_path, const QString &path, const QSet<QString> &files_on_disk, SongList &songs_out);
   bool FindSongsByFingerprint(const QString &file, const QString &fingerprint, SongList &songs_out);
   static bool FindSongsByFingerprint(const QString &file, const SongList &songs, const QString &fingerprint, SongList &songs_out);
   inline static QString NoExtensionPart(const QString &fileName);
@@ -214,13 +217,38 @@ class CollectionWatcher : public QObject {
   static void SetLyricsFromStorage(Song *song, const Song &matching_song, const QString &lrc_file);
   void PerformScan(const bool incremental, const bool ignore_mtimes);
 
+  // Returns the CUE sheets of a directory by the media files they have songs for, without loading the songs.
+  // A CUE sheet can have songs for several media files, and it's not necessarily named after them.
+  // CUE sheets which can't be read are added to unreadable_cue_sheets, the songs from them are kept until they can be read.
+  QHash<QString, QString> FindCueSheets(const QStringList &cue_files, const QString &path, QSet<QString> *unreadable_cue_sheets, QHash<QString, QStringList> *directory_entries) const;
+  // Loads the songs of the CUE sheet for the media file, the songs of each CUE sheet are only loaded once in a scan, and only when a media file needs them.
+  // Returns false when the CUE sheet can't be read.
+  bool LoadCueSongs(const QString &file, const QString &cue_file, const QString &path, QHash<QString, QMap<QString, SongList>> *loaded_cue_sheets, QSet<QString> *unreadable_cue_sheets, QHash<QString, QStringList> *directory_entries, SongList *songs) const;
+  // Returns the key for the media files and CUE sheets in the maps, files which only differ in Unicode normalization form are different files.
+  static QString PathKey(const QString &filename);
+  // Returns the filename with the names of the file and its directories on disk, when it exists with another case or Unicode normalization form, otherwise the filename.
+  // The entries of the directories are cached in directory_entries.
+  static QString OnDiskFilename(const QString &filename, QHash<QString, QStringList> *directory_entries);
+  // Returns the path with every component resolved to the name on disk, for OnDiskFilename().
+  static QString OnDiskPath(const QString &path, QHash<QString, QStringList> *directory_entries);
+  // Returns the filename on disk with the spelling of the directory being scanned, when it's in that directory.
+  static QString ScanPath(const QString &filename_on_disk, const QString &path, QHash<QString, QStringList> *directory_entries);
+  // Returns the priority of the CUE sheet for the media file, lower is preferred.
+  // A CUE sheet named after the media file with its extension, then in another case on case-insensitive filesystems, then the same without the extension, then other CUE sheets.
+  // The entries of the directories are cached in directory_entries.
+  static int CueSheetPriority(const QString &media_file, const QString &cue_filename, QHash<QString, QStringList> *directory_entries);
+
   // Updates the sections of a cue associated and altered (according to mtime) media file during a scan.
-  void UpdateCueAssociatedSongs(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, const QUrl &art_automatic, const SongList &old_cue_songs, ScanTransaction *t) const;
+  void UpdateCueAssociatedSongs(const QString &file, const QString &fingerprint, const SongList &cue_songs, const QUrl &art_automatic, const SongList &old_cue_songs, ScanTransaction *t) const;
+  // Updates the songs of the media file in the collection with the CUE songs of the CUE sheet, and retires the songs which are not used anymore.
+  void UpdateCueSongs(const QString &file, const QString &fingerprint, const SongList &cue_songs, const QUrl &art_automatic, const QString &cue_file, const SongList &matching_songs, ScanTransaction *t) const;
+  // Marks the CUE songs of a media file unavailable while its CUE sheet can't be read, and adds or updates a song for the whole media file.
+  void UseMediaFileWhileCueSheetUnreadable(const QString &file, const QFileInfo &fileinfo, const SongList &cue_songs_in_db, const SongList &file_songs_in_db, const QUrl &art_automatic, const QString &lrc_file, ScanTransaction *t);
   // Updates a single non-cue associated and altered (according to mtime) song during a scan.
   bool UpdateNonCueAssociatedSong(const QString &file, const QString &fingerprint, const SongList &matching_songs, const QUrl &art_automatic, const QString &lrc_file, const bool cue_deleted, ScanTransaction *t);
   // Scans a single media file that's present on the disk but not yet in the collection.
   // It may result in a multiple files added to the collection when the media file has many sections (like a CUE related media file).
-  SongList ScanNewFile(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, const QString &lrc_file, QSet<QString> *cues_processed) const;
+  SongList ScanNewFile(const QString &file, const QString &fingerprint, const SongList &cue_songs, const QString &lrc_file) const;
 
   static void AddChangedSong(const QString &file, const Song &matching_song, const Song &new_song, ScanTransaction *t);
 

@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 #include <QObject>
 #include <QByteArray>
 #include <QString>
+#include <QMap>
 #include <QStringList>
 #include <QDir>
 
@@ -57,6 +58,12 @@ class CueParser : public ParserBase {
   bool TryMagic(const QByteArray &data) const override;
 
   LoadResult Load(QIODevice *device, const QString &playlist_path = QLatin1String(""), const QDir &dir = QDir(), const bool collection_lookup = true) const override;
+
+  // Returns the songs of each media file in the CUE sheet, a CUE sheet can have several FILE sections, mapped by the local filename of the media file.
+  QMap<QString, SongList> LoadByFile(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup = true) const;
+
+  // Returns the local filenames of the audio media files in the CUE sheet which have tracks, without reading the media files, which is much faster than loading the songs.
+  QStringList MediaFiles(QIODevice *device, const QDir &dir) const;
   void Save(const QString &playlist_name, const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettings::PathType path_type = PlaylistSettings::PathType::Automatic) const override;
 
   static QString FindCueFilename(const QString &filename);
@@ -87,6 +94,10 @@ class CueParser : public ParserBase {
     file(_file), index(_index), title(_title), artist(_artist), album_artist(_album_artist), album(_album), composer(_composer), album_composer(_album_composer), genre(_genre), date(_date), disc(_disc) {}
   };
 
+  // Parses the tracks of the CUE sheet, without reading the media files.
+  static QList<CueEntry> ParseEntries(QIODevice *device, const QDir &dir);
+  // Returns true when the indices of the track are valid, so Load() can return a song for it.
+  static bool EntryHasValidIndices(const QList<CueEntry> &entries, const qsizetype i);
   static bool UpdateSong(const CueEntry &entry, const QString &next_index, Song *song);
   static bool UpdateLastSong(const CueEntry &entry, Song *song);
 

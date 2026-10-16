@@ -26,7 +26,9 @@
 #include <QByteArray>
 #include <QDir>
 #include <QFileInfo>
+#include <QMap>
 #include <QString>
+#include <QStringList>
 #include <QThread>
 #include <QUrl>
 
@@ -98,6 +100,102 @@ TEST_F(CueParserTest, RemWithoutValueKeepsHeader) {
   EXPECT_EQ(u"Album"_s, result.songs[0].album());
   EXPECT_EQ(u"Album Artist"_s, result.songs[0].albumartist());
   EXPECT_EQ(1999, result.songs[0].year());
+
+}
+
+// A CUE sheet with several FILE sections returns the songs of each media file separately, so the collection watcher only adds the songs of the media file it's scanning.
+TEST_F(CueParserTest, LoadByFileGroupsSongsByMediaFile) {
+
+  TemporaryResource audio1(u":/audio/strawberry.mp3"_s);
+  TemporaryResource audio2(u":/audio/strawberry.flac"_s);
+  ASSERT_TRUE(audio1.isOpen());
+  ASSERT_TRUE(audio2.isOpen());
+  const QFileInfo audio1_info(audio1.fileName());
+  const QFileInfo audio2_info(audio2.fileName());
+  ASSERT_EQ(audio1_info.dir(), audio2_info.dir());
+
+  QByteArray cue;
+  cue += "TITLE \"Album\"\n";
+  cue += "FILE \"" + audio1_info.fileName().toUtf8() + "\" MP3\n";
+  cue += "  TRACK 01 AUDIO\n";
+  cue += "    TITLE \"First\"\n";
+  cue += "    INDEX 01 00:00:00\n";
+  cue += "  TRACK 02 AUDIO\n";
+  cue += "    TITLE \"Second\"\n";
+  cue += "    INDEX 01 00:01:00\n";
+  cue += "FILE \"" + audio2_info.fileName().toUtf8() + "\" WAVE\n";
+  cue += "  TRACK 03 AUDIO\n";
+  cue += "    TITLE \"Third\"\n";
+  cue += "    INDEX 01 00:00:00\n";
+
+  QBuffer buffer(&cue);
+  ASSERT_TRUE(buffer.open(QIODevice::ReadOnly));
+
+  CueParser parser = MakeParser();
+  const QMap<QString, SongList> songs_by_file = parser.LoadByFile(&buffer, audio1_info.dir().filePath(u"album.cue"_s), audio1_info.dir(), false);
+
+  ASSERT_EQ(2, songs_by_file.count());
+
+  const SongList songs1 = songs_by_file.value(audio1_info.absoluteFilePath());
+  ASSERT_EQ(2, songs1.count());
+  EXPECT_EQ(u"First"_s, songs1[0].title());
+  EXPECT_EQ(u"Second"_s, songs1[1].title());
+
+  const SongList songs2 = songs_by_file.value(audio2_info.absoluteFilePath());
+  ASSERT_EQ(1, songs2.count());
+  EXPECT_EQ(u"Third"_s, songs2[0].title());
+  EXPECT_EQ(3, songs2[0].track());
+  EXPECT_EQ(QUrl::fromLocalFile(audio2_info.absoluteFilePath()), songs2[0].url());
+
+}
+
+// The media files of a CUE sheet can be found without loading the songs, data files and media files without tracks are not included.
+TEST_F(CueParserTest, MediaFiles) {
+
+  QByteArray cue;
+  cue += "TITLE \"Album\"\r\n";
+  cue += "FILE \"CD1.flac\" WAVE\r\n";
+  cue += "  TRACK 01 AUDIO\r\n";
+  cue += "    INDEX 01 00:00:00\r\n";
+  cue += "FILE \"data.bin\" BINARY\r\n";
+  cue += "  TRACK 02 MODE1/2352\r\n";
+  cue += "    INDEX 01 00:00:00\r\n";
+  cue += "FILE \"/music/CD2.flac\" WAVE\r\n";
+  cue += "  TRACK 03 AUDIO\r\n";
+  cue += "    INDEX 01 00:00:00\r\n";
+  // Media files without a track, or without an index, can't have songs, so they are not included.
+  cue += "FILE \"no-tracks.flac\" WAVE\r\n";
+  cue += "FILE \"no-index.flac\" WAVE\r\n";
+  cue += "  TRACK 04 AUDIO\r\n";
+  cue += "FILE \"index-without-position.flac\" WAVE\r\n";
+  cue += "  TRACK 05 AUDIO\r\n";
+  cue += "    INDEX 01\r\n";
+  cue += "FILE \"invalid-index.flac\" WAVE\r\n";
+  cue += "  TRACK 06 AUDIO\r\n";
+  cue += "    INDEX 01 invalid\r\n";
+  // The "01" index is used, even when an earlier index is valid.
+  cue += "FILE \"invalid-index-01.flac\" WAVE\r\n";
+  cue += "  TRACK 07 AUDIO\r\n";
+  cue += "    INDEX 00 00:00:00\r\n";
+  cue += "    INDEX 01 invalid\r\n";
+  // The track before the last track of a media file also needs the index of the next track as its end, so neither track is valid.
+  cue += "FILE \"invalid-next-index.flac\" WAVE\r\n";
+  cue += "  TRACK 09 AUDIO\r\n";
+  cue += "    INDEX 01 00:00:00\r\n";
+  cue += "  TRACK 10 AUDIO\r\n";
+  cue += "    INDEX 01 invalid\r\n";
+  // Without a "01" index, the first index is used.
+  cue += "FILE \"index-00.flac\" WAVE\r\n";
+  cue += "  TRACK 08 AUDIO\r\n";
+  cue += "    INDEX 00 00:00:00\r\n";
+
+  QBuffer buffer(&cue);
+  ASSERT_TRUE(buffer.open(QIODevice::ReadOnly));
+
+  CueParser parser = MakeParser();
+  const QStringList media_files = parser.MediaFiles(&buffer, QDir(u"/albums/album"_s));
+
+  EXPECT_EQ(QStringList() << u"/albums/album/CD1.flac"_s << u"/music/CD2.flac"_s << u"/albums/album/index-00.flac"_s, media_files);
 
 }
 

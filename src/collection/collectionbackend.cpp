@@ -642,7 +642,8 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
   SqlQuery q_song_exists(db);
   q_song_exists.prepare(QStringLiteral("SELECT ROWID FROM %1 WHERE ROWID = :id").arg(songs_table_));
   SqlQuery q_find_url(db);
-  q_find_url.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND beginning = :beginning ORDER BY unavailable ASC LIMIT 1").arg(Song::kRowIdColumnSpec, songs_table_));
+  // The CUE sheet is matched too, the media file of a CUE sheet can also have a song for the whole media file, for example while the CUE sheet can't be read, which starts at the same position as the first CUE song.
+  q_find_url.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND beginning = :beginning AND IFNULL(cue_path, '') = :cue_path ORDER BY unavailable ASC LIMIT 1").arg(Song::kRowIdColumnSpec, songs_table_));
   SqlQuery q_update(db);
   q_update.prepare(QStringLiteral("UPDATE %1 SET %2 WHERE ROWID = :id").arg(songs_table_, Song::kUpdateSpec));
   SqlQuery q_insert(db);
@@ -741,6 +742,8 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
       q_find_url.BindValue(u":url3"_s, song.url().toEncoded(QUrl::FullyDecoded));
       q_find_url.BindValue(u":url4"_s, song.url().toEncoded(QUrl::FullyEncoded));
       q_find_url.BindValue(u":beginning"_s, song.beginning_nanosec());
+      // Not a null string, which would be bound as NULL.
+      q_find_url.BindValue(u":cue_path"_s, song.has_cue() ? song.cue_path() : u""_s);
       if (!q_find_url.Exec()) {
         db_->ReportErrors(q_find_url);
         if (!transaction.active()) return;
