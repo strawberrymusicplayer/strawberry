@@ -645,17 +645,28 @@ void Transcoder::SetElementProperties(const QString &name, GObject *object) {
         g_object_set(object, property->name, g_value, nullptr);
         break;
       }
-      case G_TYPE_LONG:
-      case G_TYPE_INT64:{
+      // g_object_set() reads the value as the type of the property, and long is only 32 bits on Windows, so 64-bit properties need 64-bit values.
+      case G_TYPE_LONG:{
         const glong g_value = static_cast<glong>(value.toLongLong());
         qLog(Debug) << "Setting" << property->name << "(long)" << "to" << g_value;
         g_object_set(object, property->name, g_value, nullptr);
         break;
       }
-      case G_TYPE_ULONG:
-      case G_TYPE_UINT64:{
+      case G_TYPE_INT64:{
+        const gint64 g_value = static_cast<gint64>(value.toLongLong());
+        qLog(Debug) << "Setting" << property->name << "(int64)" << "to" << g_value;
+        g_object_set(object, property->name, g_value, nullptr);
+        break;
+      }
+      case G_TYPE_ULONG:{
         const gulong g_value = static_cast<gulong>(value.toULongLong());
         qLog(Debug) << "Setting" << property->name << "(ulong)" << "to" << g_value;
+        g_object_set(object, property->name, g_value, nullptr);
+        break;
+      }
+      case G_TYPE_UINT64:{
+        const guint64 g_value = static_cast<guint64>(value.toULongLong());
+        qLog(Debug) << "Setting" << property->name << "(uint64)" << "to" << g_value;
         g_object_set(object, property->name, g_value, nullptr);
         break;
       }
