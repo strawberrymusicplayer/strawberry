@@ -430,6 +430,42 @@ if(NOT CMAKE_CROSSCOMPILING)
     "
     QT_SQLITE_TEST
   )
+  # Check that the Qt sqlite driver uses the same sqlite library as strawberry, since strawberry uses the sqlite functions on the database connections opened by Qt.
+  # An auto extension registered with the sqlite library linked to strawberry is only run for connections opened with that library, not when Qt has its own sqlite library.
+  if(QT_SQLITE_TEST)
+    set(CMAKE_REQUIRED_LIBRARIES Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Sql PkgConfig::SQLITE)
+    check_cxx_source_runs("
+      #include <sqlite3.h>
+      #include <QCoreApplication>
+      #include <QSqlDatabase>
+      #include <QSqlQuery>
+      static bool extension_loaded = false;
+      static int TestExtension(sqlite3 *db, char **error, const struct sqlite3_api_routines *api) {
+        (void)db;
+        (void)error;
+        (void)api;
+        extension_loaded = true;
+        return SQLITE_OK;
+      }
+      int main(int argc, char *argv[]) {
+        QCoreApplication app(argc, argv);
+        if (sqlite3_auto_extension(reinterpret_cast<void(*)(void)>(TestExtension)) != SQLITE_OK) return 1;
+        QSqlDatabase db = QSqlDatabase::addDatabase(\"QSQLITE\");
+        db.setDatabaseName(\":memory:\");
+        if (!db.open()) return 1;
+        QSqlQuery q(db);
+        if (!q.exec(\"SELECT 1;\")) return 1;
+        return extension_loaded ? 0 : 1;
+      }
+      "
+      QT_SQLITE_SAME_LIBRARY_TEST
+    )
+    if(NOT QT_SQLITE_SAME_LIBRARY_TEST)
+      message(FATAL_ERROR "The Qt sqlite driver is not using the same sqlite library as strawberry (${SQLITE_LINK_LIBRARIES}), Qt is probably built with its own sqlite library instead of the system sqlite library. Strawberry uses sqlite functions on the database connections opened by Qt, which requires the same sqlite library.")
+    endif()
+  endif()
+  unset(CMAKE_REQUIRED_FLAGS)
+  unset(CMAKE_REQUIRED_LIBRARIES)
 endif()
 
 add_executable(strawberry)
