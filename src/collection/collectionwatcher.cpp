@@ -21,6 +21,7 @@
 
 #include "config.h"
 
+#include <algorithm>
 #include <utility>
 #include <chrono>
 #include <optional>
@@ -634,6 +635,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
 
   QMap<QString, QStringList> album_art;
   QMap<QString, QString> lrc_files;
+  QStringList cue_files;
   QStringList files_on_disk;
   CollectionSubdirectoryList my_new_subdirs;
 
@@ -683,6 +685,11 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
           lrc_files.insert(NoExtensionPart(child_filepath), child_filepath);
           t->AddToProgress(1);
         }
+        else if (ext_part == "cue"_L1) {
+          // CUE sheets are loaded before the media files, since a CUE sheet can have songs for several media files.
+          cue_files << child_filepath;
+          t->AddToProgress(1);
+        }
         else if (Song::kRejectedExtensions.contains(child_fileinfo.suffix(), Qt::CaseInsensitive) || child_fileinfo.baseName() == "qt_temp"_L1) {
           t->AddToProgress(1);
         }
@@ -700,24 +707,112 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   if (stop_or_abort_requested()) return;
 
   // Ask the database for a list of files in this directory
-  const SongList songs_in_db = t->FindSongsInSubdirectory(path);
+  // FindSongsInSubdirectory() finds the songs by the directory in NFC, the songs of another directory on disk whose name only differs in Unicode normalization form are not included.
+  // The songs of another spelling of this directory are, also with the difference in a parent directory, the directories are compared with every component resolved to the names on disk.
+  SongList songs_in_db;
+  {
+    QHash<QString, bool> same_directory;
+    // Only resolved when a song has another spelling of the directory, which is rare.
+    QString path_on_disk;
+    const SongList songs_in_directory = t->FindSongsInSubdirectory(path);
+    for (const Song &song : songs_in_directory) {
+      const QString song_directory = song.url().toLocalFile().section(u'/', 0, -2);
+      if (song_directory == path) {
+        songs_in_db << song;
+        continue;
+      }
+      QHash<QString, bool>::const_iterator it = same_directory.constFind(song_directory);
+      if (it == same_directory.constEnd()) {
+        // A directory which isn't on disk with this spelling is not another directory.
+        bool same = !QFileInfo::exists(song_directory);
+        if (!same) {
+          if (path_on_disk.isEmpty()) path_on_disk = OnDiskFilename(QDir::cleanPath(path), &t->directory_entries_);
+          same = OnDiskFilename(QDir::cleanPath(song_directory), &t->directory_entries_) == path_on_disk;
+        }
+        it = same_directory.insert(song_directory, same);
+      }
+      if (it.value()) {
+        songs_in_db << song;
+      }
+    }
+  }
   const QHash<QString, SongList> songs_in_db_by_path = SongsByPath(songs_in_db);
 
-  QSet<QString> cues_processed;
+  // Find the CUE sheets first, to know which media files have CUE sheets.
+  QSet<QString> unreadable_cue_sheets;
+  const QHash<QString, QString> cue_sheets = FindCueSheets(cue_files, path, &unreadable_cue_sheets, &t->directory_entries_);
+  QHash<QString, QMap<QString, SongList>> loaded_cue_sheets;
 
   // Now compare the list from the database with the list of files on disk
   const QStringList files_on_disk_copy = files_on_disk;
+  const QSet<QString> files_on_disk_set(files_on_disk.constBegin(), files_on_disk.constEnd());
+  // The media file on disk which the songs in the database were matched with by path, for finding deleted songs.
+  QHash<int, QString> matched_song_files;
   for (const QString &file : files_on_disk_copy) {
 
     if (stop_or_abort_requested()) return;
 
-    // Associated CUE
-    const QString new_cue = CueParser::FindCueFilename(file);
+    // Associated CUE, the CUE sheet which has songs for this media file.
+    const QString new_cue = cue_sheets.value(PathKey(file));
 
     SongList matching_songs;
-    if (FindSongsByPath(songs_in_db_by_path, file, matching_songs)) {  // Found matching song in DB by path.
+    if (FindSongsByPath(songs_in_db_by_path, file, files_on_disk_set, matching_songs)) {  // Found matching song in DB by path.
 
-      const Song matching_song = matching_songs.first();
+      for (const Song &song : std::as_const(matching_songs)) {
+        matched_song_files.insert(song.id(), file);
+      }
+
+      // The songs of a media file with a CUE sheet can be both the CUE songs and a song for the whole media file, which is used while the CUE sheet can't be read.
+      // With unavailable songs kept, the CUE songs can also be from several CUE sheets, for example when another CUE sheet was used while the CUE sheet couldn't be read.
+      SongList cue_songs_in_db;
+      SongList file_songs_in_db;
+      SongList available_cue_songs;
+      SongList available_file_songs;
+      SongList new_cue_songs_in_db;
+      for (const Song &song : std::as_const(matching_songs)) {
+        if (song.has_cue()) {
+          cue_songs_in_db << song;
+          if (!song.unavailable()) available_cue_songs << song;
+          if (!new_cue.isEmpty() && PathKey(song.cue_path()) == PathKey(new_cue)) new_cue_songs_in_db << song;
+        }
+        else {
+          file_songs_in_db << song;
+          if (!song.unavailable()) available_file_songs << song;
+        }
+      }
+      const bool file_song_available = !available_file_songs.isEmpty();
+      const bool cue_song_available = !available_cue_songs.isEmpty();
+
+      // The songs in use first, the song for the whole media file while the CUE sheet can't be read, otherwise the available CUE songs.
+      // When no song is available, the CUE songs of the CUE sheet for the media file now, otherwise the song for the whole media file, so it's kept when the CUE sheet is deleted.
+      SongList songs_in_use;
+      if (file_song_available) {
+        songs_in_use = available_file_songs;
+      }
+      else if (cue_song_available) {
+        songs_in_use = available_cue_songs;
+      }
+      else if (!new_cue_songs_in_db.isEmpty()) {
+        songs_in_use = new_cue_songs_in_db;
+      }
+      else if (!file_songs_in_db.isEmpty()) {
+        songs_in_use = file_songs_in_db;
+      }
+      else {
+        songs_in_use = cue_songs_in_db;
+      }
+      // Song::operator==() doesn't compare the CUE sheet, so compare the IDs, the song for the whole media file has the same URL and beginning as the first CUE song.
+      QSet<int> songs_in_use_ids;
+      for (const Song &song : std::as_const(songs_in_use)) {
+        songs_in_use_ids.insert(song.id());
+      }
+      SongList other_songs;
+      for (const Song &song : std::as_const(matching_songs)) {
+        if (!songs_in_use_ids.contains(song.id())) other_songs << song;
+      }
+      matching_songs = songs_in_use + other_songs;
+
+      const Song matching_song = matching_songs.constFirst();
 
       // The song is in the database and still on disk.
       // Check the mtime to see if it's been changed since it was added.
@@ -730,8 +825,19 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
         continue;
       }
 
-      // CUE sheet's path from collection (if any).
-      qint64 matching_song_cue_mtime = static_cast<qint64>(GetMtimeForPath(matching_song.cue_path()));
+      // CUE sheet's path from collection (if any), the CUE sheet of the songs in use, otherwise of the last CUE songs.
+      const QString old_cue = matching_song.has_cue() ? matching_song.cue_path() : (cue_songs_in_db.isEmpty() ? QString() : cue_songs_in_db.first().cue_path());
+
+      // The CUE sheet of the songs exists, but can't be read, mark the CUE songs unavailable, and use a song for the whole media file until it can be read again.
+      // When another CUE sheet which can be read has songs for the media file, that's used instead.
+      if (!old_cue.isEmpty() && unreadable_cue_sheets.contains(PathKey(old_cue)) && (new_cue.isEmpty() || PathKey(new_cue) == PathKey(old_cue))) {
+        UseMediaFileWhileCueSheetUnreadable(file, fileinfo, cue_songs_in_db, file_songs_in_db, ArtForSong(file, album_art), lrc_files.value(NoExtensionPart(file)), t);
+        t->AddToProgress(1);
+        continue;
+      }
+
+      // Only when the song in use has a CUE sheet, the mtime of the song for the whole media file is the mtime of the media file.
+      const qint64 matching_song_cue_mtime = static_cast<qint64>(GetMtimeForPath(matching_song.cue_path()));
 
       // CUE sheet's path from this file (if any).
       qint64 new_cue_mtime = 0;
@@ -739,9 +845,16 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
         new_cue_mtime = static_cast<qint64>(GetMtimeForPath(new_cue));
       }
 
-      const bool cue_added = new_cue_mtime != 0 && !matching_song.has_cue();
-      const bool cue_changed = new_cue_mtime != 0 && matching_song.has_cue() && new_cue != matching_song.cue_path();
-      const bool cue_deleted = matching_song.has_cue() && new_cue_mtime == 0;
+      const bool cue_added = new_cue_mtime != 0 && cue_songs_in_db.isEmpty();
+      // The actual paths are compared, so a CUE sheet renamed to another Unicode normalization form gets its new path stored.
+      const bool cue_changed = new_cue_mtime != 0 && !cue_songs_in_db.isEmpty() && new_cue != old_cue;
+      // CUE songs which are already unavailable, after the CUE sheet was deleted, are not deleted again.
+      // When no song is available, for example when the media file is restored without the CUE sheet, the CUE songs are replaced with the song for the whole media file instead of restoring them.
+      const bool cue_deleted = !cue_songs_in_db.isEmpty() && (cue_song_available || !file_song_available) && new_cue_mtime == 0;
+      // The CUE sheet can be read again, the CUE songs are restored, and the song for the whole media file is not used anymore.
+      const bool cue_readable_again = new_cue_mtime != 0 && !cue_songs_in_db.isEmpty() && file_song_available;
+      // No song is available, the CUE songs kept in the collection are not necessarily all the songs of the CUE sheet, for example when another CUE sheet was used for some of them, so the CUE sheet is loaded again instead of only restoring them.
+      const bool cue_songs_unavailable = new_cue_mtime != 0 && !file_song_available && !cue_song_available;
 
       // LRC file with synchronized lyrics (if any), only used for media files without a CUE sheet.
       const QString lrc_file = new_cue_mtime == 0 ? lrc_files.value(NoExtensionPart(file)) : QString();
@@ -750,7 +863,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
       // Watch out for CUE songs which have their mtime equal to qMax(media_file_mtime, cue_sheet_mtime)
       // The LRC file's mtime is stored separately, so an added, changed or deleted LRC file is detected regardless of how its mtime compares to the media file's.
       const bool changed_lrc = matching_song.lrc_mtime() != lrc_mtime;
-      bool changed = (matching_song.mtime() != qMax(fileinfo.lastModified().toSecsSinceEpoch(), matching_song_cue_mtime)) || cue_deleted || cue_added || cue_changed || changed_lrc;
+      bool changed = (matching_song.mtime() != qMax(fileinfo.lastModified().toSecsSinceEpoch(), matching_song_cue_mtime)) || cue_deleted || cue_added || cue_changed || cue_readable_again || cue_songs_unavailable || changed_lrc;
 
       // Also want to look to see whether the album art has changed, the cover file's mtime is stored separately like for LRC files, so a cover file replaced with the same name is detected too.
       const QUrl art_automatic = ArtForSong(file, album_art);
@@ -785,7 +898,8 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
       // For CUE files with multiple sections, all sections share the same file and would have the same availability status
       if (matching_song.unavailable() && !changed && !missing_fingerprint && !missing_loudness_characteristics) {
         qLog(Debug) << "Unavailable song" << file << "restored without re-scanning.";
-        t->readded_songs << matching_songs;
+        // Only the songs in use, not the songs which were used while the CUE sheet couldn't be read, or from another CUE sheet.
+        t->readded_songs << songs_in_use;
       }
       // The song's changed or missing fingerprint - create fingerprint and reread the metadata from file.
       else if (t->ignores_mtime() || changed || missing_fingerprint || missing_loudness_characteristics) {
@@ -807,7 +921,18 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
           }
         }
         else {  // If CUE associated.
-          UpdateCueAssociatedSongs(file, path, fingerprint, new_cue, art_automatic, matching_songs, t);
+          SongList cue_songs;
+          // When the CUE sheet can't be read now, it's handled on the next scan.
+          if (LoadCueSongs(file, new_cue, path, &loaded_cue_sheets, &unreadable_cue_sheets, &t->directory_entries_, &cue_songs)) {
+            if (cue_songs.isEmpty()) {  // The CUE sheet has no valid songs for the media file.
+              if (!UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, lrc_files.value(NoExtensionPart(file)), !cue_songs_in_db.isEmpty(), t)) {
+                files_on_disk.removeAll(file);
+              }
+            }
+            else {
+              UpdateCueSongs(file, fingerprint, cue_songs, art_automatic, new_cue, matching_songs, t);
+            }
+          }
         }
       }
 
@@ -866,13 +991,30 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
           }
         }
         else {  // If CUE associated.
-          UpdateCueAssociatedSongs(file, path, fingerprint, new_cue, art_automatic, matching_songs, t);
+          SongList cue_songs;
+          // When the CUE sheet can't be read, the songs are kept.
+          if (LoadCueSongs(file, new_cue, path, &loaded_cue_sheets, &unreadable_cue_sheets, &t->directory_entries_, &cue_songs)) {
+            if (cue_songs.isEmpty()) {  // The CUE sheet has no valid songs for the media file.
+              if (!UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, lrc_files.value(NoExtensionPart(file)), matching_songs_has_cue, t)) {
+                files_on_disk.removeAll(file);
+              }
+            }
+            else {
+              UpdateCueSongs(file, fingerprint, cue_songs, art_automatic, new_cue, matching_songs, t);
+            }
+          }
         }
 
       }
       else {  // The song is on disk but not in the DB
 
-        const SongList songs = ScanNewFile(file, path, fingerprint, new_cue, lrc_files.value(NoExtensionPart(file)), &cues_processed);
+        // When the CUE sheet can't be read, the media file is added as a song for the whole media file, which is replaced by the CUE songs when it can be read.
+        SongList cue_songs;
+        if (!new_cue.isEmpty() && !LoadCueSongs(file, new_cue, path, &loaded_cue_sheets, &unreadable_cue_sheets, &t->directory_entries_, &cue_songs)) {
+          cue_songs.clear();
+        }
+
+        const SongList songs = ScanNewFile(file, fingerprint, cue_songs, lrc_files.value(NoExtensionPart(file)));
         if (songs.isEmpty()) {
           files_on_disk.removeAll(file);
           t->AddToProgress(1);
@@ -897,15 +1039,13 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
 
   // Look for deleted songs.
   // files_on_disk holds the on-disk path spelling while the database stores its own; the two can differ purely by Unicode normalization form (NFC vs NFD).
-  // Compare in NFC so a song that was just matched (FindSongsByPath normalizes too) is not also treated as deleted within the same scan.
-  QSet<QString> files_on_disk_nfc;
-  files_on_disk_nfc.reserve(files_on_disk.count());
-  for (const QString &file : std::as_const(files_on_disk)) {
-    files_on_disk_nfc.insert(file.normalized(QString::NormalizationForm_C));
-  }
+  // A song is on disk when it was matched with a media file by FindSongsByPath(), which uses the songs with the exact path, otherwise another spelling of the same file, so the songs of a deleted file whose name only differs in normalization form from another file are deleted.
+  // The media files which couldn't be read were removed from files_on_disk.
+  const QSet<QString> remaining_files_on_disk(files_on_disk.constBegin(), files_on_disk.constEnd());
   for (const Song &song : std::as_const(songs_in_db)) {
     const QString file = song.url().toLocalFile();
-    if (!song.unavailable() && !files_on_disk_nfc.contains(file.normalized(QString::NormalizationForm_C)) && !t->files_changed_path_.contains(file)) {
+    const bool on_disk = matched_song_files.contains(song.id()) && remaining_files_on_disk.contains(matched_song_files.value(song.id()));
+    if (!song.unavailable() && !on_disk && !t->files_changed_path_.contains(file)) {
       qLog(Debug) << "Song deleted from disk:" << file;
       t->deleted_songs << song;
     }
@@ -935,10 +1075,184 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
 
 }
 
+QString CollectionWatcher::PathKey(const QString &filename) {
+
+  // Not normalized, so files which only differ in Unicode normalization form are different, the media filenames from the CUE sheets are resolved to the names on disk with OnDiskFilename().
+  return QDir::cleanPath(filename);
+
+}
+
+QHash<QString, QString> CollectionWatcher::FindCueSheets(const QStringList &cue_files, const QString &path, QSet<QString> *unreadable_cue_sheets, QHash<QString, QStringList> *directory_entries) const {
+
+  QHash<QString, QString> cue_sheets;
+  QHash<QString, int> cue_sheet_priorities;
+
+  QStringList sorted_cue_files = cue_files;
+  std::sort(sorted_cue_files.begin(), sorted_cue_files.end());
+
+  for (const QString &cue_filename : std::as_const(sorted_cue_files)) {
+
+    if (stop_or_abort_requested()) break;
+
+    QFile cue_file(cue_filename);
+    if (!cue_file.open(QIODevice::ReadOnly)) {
+      qLog(Error) << "Could not open CUE file" << cue_filename << "for reading:" << cue_file.errorString();
+      unreadable_cue_sheets->insert(PathKey(cue_filename));
+      continue;
+    }
+    // Only read the FILE lines, the songs are only loaded when a media file needs them.
+    const QStringList media_files = cue_parser_->MediaFiles(&cue_file, QDir(path));
+    cue_file.close();
+
+    for (const QString &cue_media_file : media_files) {
+      // The FILE line can use another case than the media file on case-insensitive filesystems, the media file is looked up with the name on disk, with the spelling of the directory being scanned.
+      const QString media_file = ScanPath(OnDiskFilename(cue_media_file, directory_entries), path, directory_entries);
+      const QString key = PathKey(media_file);
+      // When several CUE sheets have songs for the same media file, use the one named after the media file, like before CUE sheets with several media files were supported, otherwise the first one.
+      const int priority = CueSheetPriority(media_file, cue_filename, directory_entries);
+      if (cue_sheets.contains(key) && priority >= cue_sheet_priorities.value(key)) continue;
+      cue_sheets.insert(key, cue_filename);
+      cue_sheet_priorities.insert(key, priority);
+    }
+
+  }
+
+  return cue_sheets;
+
+}
+
+QString CollectionWatcher::OnDiskFilename(const QString &filename, QHash<QString, QStringList> *directory_entries) {
+
+  // When the file doesn't exist with this name, it's either missing, or a different file on a case-sensitive filesystem.
+  if (!QFileInfo::exists(filename)) return filename;
+
+  return OnDiskPath(QDir::cleanPath(filename), directory_entries);
+
+}
+
+QString CollectionWatcher::OnDiskPath(const QString &path, QHash<QString, QStringList> *directory_entries) {
+
+  // Every component of the path is resolved, also the directories, for example an absolute path in a CUE sheet with a directory in another Unicode normalization form.
+  const QFileInfo fileinfo(path);
+  const QString name = fileinfo.fileName();
+  const QString parent = fileinfo.absolutePath();
+  if (name.isEmpty() || parent == path) return path;
+
+  const QString parent_on_disk = QDir(parent).isRoot() ? parent : OnDiskPath(parent, directory_entries);
+  const QString parent_prefix = parent_on_disk.endsWith(u'/') ? parent_on_disk : parent_on_disk + QLatin1Char('/');
+
+  QHash<QString, QStringList>::const_iterator it = directory_entries->constFind(parent_on_disk);
+  if (it == directory_entries->constEnd()) {
+    it = directory_entries->insert(parent_on_disk, QDir(parent_on_disk).entryList(QDir::AllEntries | QDir::Hidden | QDir::System | QDir::NoDotAndDotDot));
+  }
+  const QStringList &entries = it.value();
+
+  if (entries.contains(name)) return parent_prefix + name;
+
+  // The entry exists with another case or Unicode normalization form, use the name on disk when there's exactly one, distinct entries are never merged.
+  const QString name_nfc = name.normalized(QString::NormalizationForm_C);
+  QString entry_on_disk;
+  for (const QString &entry : entries) {
+    if (entry.normalized(QString::NormalizationForm_C).compare(name_nfc, Qt::CaseInsensitive) == 0) {
+      if (!entry_on_disk.isEmpty()) return parent_prefix + name;
+      entry_on_disk = entry;
+    }
+  }
+
+  return parent_prefix + (entry_on_disk.isEmpty() ? name : entry_on_disk);
+
+}
+
+QString CollectionWatcher::ScanPath(const QString &filename_on_disk, const QString &path, QHash<QString, QStringList> *directory_entries) {
+
+  // The directory being scanned can be spelled differently than on disk, for example a collection directory added with another case on a case-insensitive filesystem.
+  // The media files in it are scanned with that spelling, so the media files on disk use it too.
+  const QString path_on_disk = OnDiskFilename(QDir::cleanPath(path), directory_entries);
+  if (path_on_disk == path) return filename_on_disk;
+  if (filename_on_disk == path_on_disk) return path;
+  if (filename_on_disk.startsWith(path_on_disk + QLatin1Char('/'))) {
+    return QDir::cleanPath(path) + filename_on_disk.mid(path_on_disk.length());
+  }
+
+  return filename_on_disk;
+
+}
+
+int CollectionWatcher::CueSheetPriority(const QString &media_file, const QString &cue_filename, QHash<QString, QStringList> *directory_entries) {
+
+  // Like CueParser::FindCueFilename(), "track.flac.cue" is preferred over "track.cue", but the CUE sheets are compared directly, so a CUE sheet with an uppercase suffix, which is found on case-sensitive filesystems, is also preferred.
+  // Normalized, so a media file and its CUE sheet with names in different Unicode normalization forms are compared correctly.
+  const QFileInfo media_fileinfo(QDir::cleanPath(media_file).normalized(QString::NormalizationForm_C));
+  const QFileInfo cue_fileinfo(QDir::cleanPath(cue_filename).normalized(QString::NormalizationForm_C));
+  if (QDir::cleanPath(media_fileinfo.absolutePath()) != QDir::cleanPath(cue_fileinfo.absolutePath())) return 4;
+  if (cue_fileinfo.suffix().compare("cue"_L1, Qt::CaseInsensitive) != 0) return 4;
+
+  // On case-insensitive filesystems, a CUE sheet named after the media file in another case is also named after it, like with CueParser::FindCueFilename(), which uses QFileInfo::exists().
+  // This is checked with the filesystem, so on case-sensitive filesystems, the names are still different, and an exact match is preferred.
+  // The other spelling is the same file when it exists, but is not another file in the directory.
+  const QString cue_stem = cue_fileinfo.completeBaseName();
+  const QString cue_dir = QFileInfo(cue_filename).absolutePath();
+  QHash<QString, QStringList>::const_iterator it = directory_entries->constFind(cue_dir);
+  if (it == directory_entries->constEnd()) {
+    it = directory_entries->insert(cue_dir, QDir(cue_dir).entryList(QDir::AllEntries | QDir::Hidden | QDir::System | QDir::NoDotAndDotDot));
+  }
+  const QStringList &entries = it.value();
+  const auto named_after = [&cue_stem, &cue_dir, &cue_fileinfo, &entries](const QString &stem) {
+    const QString name = stem + QLatin1Char('.') + cue_fileinfo.suffix();
+    return cue_stem.compare(stem, Qt::CaseInsensitive) == 0 && !entries.contains(name) && QFileInfo::exists(cue_dir + QLatin1Char('/') + name);
+  };
+
+  const QString media_filename = media_fileinfo.fileName();
+  const QString media_basename = media_filename.section(u'.', 0, -2);
+  if (cue_stem == media_filename) return 0;
+  if (named_after(media_filename)) return 1;
+  if (cue_stem == media_basename) return 2;
+  if (named_after(media_basename)) return 3;
+
+  return 4;
+
+}
+
+bool CollectionWatcher::LoadCueSongs(const QString &file, const QString &cue_file, const QString &path, QHash<QString, QMap<QString, SongList>> *loaded_cue_sheets, QSet<QString> *unreadable_cue_sheets, QHash<QString, QStringList> *directory_entries, SongList *songs) const {
+
+  const QString cue_key = PathKey(cue_file);
+  if (unreadable_cue_sheets->contains(cue_key)) return false;
+
+  QHash<QString, QMap<QString, SongList>>::const_iterator it = loaded_cue_sheets->constFind(cue_key);
+  if (it == loaded_cue_sheets->constEnd()) {
+    QFile file_cue(cue_file);
+    if (!file_cue.open(QIODevice::ReadOnly)) {
+      qLog(Error) << "Could not open CUE file" << cue_file << "for reading:" << file_cue.errorString();
+      unreadable_cue_sheets->insert(cue_key);
+      return false;
+    }
+    // Media files which don't exist are not included, so invalid media doesn't get into the collection.
+    const QMap<QString, SongList> songs_by_file = cue_parser_->LoadByFile(&file_cue, cue_file, QDir(path), false);
+    file_cue.close();
+    QMap<QString, SongList> songs_by_key;
+    for (QMap<QString, SongList>::const_iterator file_it = songs_by_file.constBegin(); file_it != songs_by_file.constEnd(); ++file_it) {
+      // Like in FindCueSheets(), with the name of the media file on disk, which is also used for the URL of the songs, so they match the media file in the collection.
+      const QString media_file = ScanPath(OnDiskFilename(file_it.key(), directory_entries), path, directory_entries);
+      SongList media_file_songs = file_it.value();
+      if (media_file != file_it.key()) {
+        for (Song &song : media_file_songs) {
+          song.set_url(QUrl::fromLocalFile(media_file));
+        }
+      }
+      songs_by_key[PathKey(media_file)] << media_file_songs;
+    }
+    it = loaded_cue_sheets->insert(cue_key, songs_by_key);
+  }
+
+  *songs = it.value().value(PathKey(file));
+
+  return true;
+
+}
+
 void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
-                                                 const QString &path,
                                                  const QString &fingerprint,
-                                                 const QString &matching_cue,
+                                                 const SongList &cue_songs,
                                                  const QUrl &art_automatic,
                                                  const SongList &old_cue_songs,
                                                  ScanTransaction *t) const {
@@ -948,19 +1262,9 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
     sections_map.insert(static_cast<quint64>(song.beginning_nanosec()), song);
   }
 
-  // Load new CUE songs
-  QFile cue_file(matching_cue);
-  if (!cue_file.exists()) return;
-  if (!cue_file.open(QIODevice::ReadOnly)) {
-    qLog(Error) << "Could not open CUE file" << matching_cue << "for reading:" << cue_file.errorString();
-    return;
-  }
-  const SongList songs = cue_parser_->Load(&cue_file, matching_cue, path, false).songs;
-  cue_file.close();
-
-  // Update every song that's in the CUE and collection
+  // Update every song that's in the CUE and collection, the CUE songs are only the songs of this media file.
   QSet<int> used_ids;
-  for (Song new_cue_song : songs) {
+  for (Song new_cue_song : cue_songs) {
     new_cue_song.set_source(source_);
     new_cue_song.set_directory_id(t->dir_id());
     PerformEBUR128Analysis(new_cue_song);
@@ -976,16 +1280,138 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
       AddChangedSong(file, matching_cue_song, new_cue_song, t);
       used_ids.insert(matching_cue_song.id());
     }
-    else {  // A new section
+    else {  // A new section, the album art is set like for new songs in the initial scan.
+      if (new_cue_song.art_automatic().isEmpty()) new_cue_song.set_art_automatic(art_automatic);
+      new_cue_song.set_art_automatic_mtime(ArtAutomaticMtime(new_cue_song.art_automatic()));
       t->new_songs << new_cue_song;
     }
   }
 
-  // Sections that are now missing
+  // Sections that are now missing, the unavailable ones are not deleted again.
   for (const Song &old_cue : old_cue_songs) {
-    if (!used_ids.contains(old_cue.id())) {
+    if (!used_ids.contains(old_cue.id()) && !old_cue.unavailable()) {
       t->deleted_songs << old_cue;
     }
+  }
+
+}
+
+void CollectionWatcher::UpdateCueSongs(const QString &file, const QString &fingerprint, const SongList &cue_songs, const QUrl &art_automatic, const QString &cue_file, const SongList &matching_songs, ScanTransaction *t) const {
+
+  // The songs to update with the CUE songs, by their position, only CUE songs, the song for the whole media file is never used for a CUE song, so new CUE songs are added as new songs.
+  // The unavailable CUE songs of the previous CUE sheet, for example when the media file was restored with a renamed CUE sheet, when the CUE sheet was renamed while it couldn't be read, or when the media file was moved and found by fingerprint after the old location was scanned.
+  // Then the available CUE songs from another CUE sheet, then the CUE songs of this CUE sheet, which are used before another song at the same position, so the songs keep their statistics when switching between CUE sheets.
+  const QString cue_key = PathKey(cue_file);
+  SongList available_other_cue_songs;
+  SongList cue_file_songs;
+  QHash<QString, SongList> unavailable_other_cue_songs;
+  QHash<QString, qint64> unavailable_other_cue_lastseen;
+  for (const Song &song : matching_songs) {
+    if (!song.has_cue()) {
+      continue;
+    }
+    else if (PathKey(song.cue_path()) == cue_key) {
+      cue_file_songs << song;
+    }
+    else if (!song.unavailable()) {
+      available_other_cue_songs << song;
+    }
+    else {
+      const QString other_cue_key = PathKey(song.cue_path());
+      unavailable_other_cue_songs[other_cue_key] << song;
+      unavailable_other_cue_lastseen[other_cue_key] = qMax(unavailable_other_cue_lastseen.value(other_cue_key, -1), song.lastseen());
+    }
+  }
+
+  // The previous CUE sheet is the one which was seen last, not older CUE sheets which were replaced before.
+  QString previous_cue_key;
+  for (QHash<QString, qint64>::const_iterator it = unavailable_other_cue_lastseen.constBegin(); it != unavailable_other_cue_lastseen.constEnd(); ++it) {
+    if (previous_cue_key.isEmpty() || it.value() > unavailable_other_cue_lastseen.value(previous_cue_key) || (it.value() == unavailable_other_cue_lastseen.value(previous_cue_key) && it.key() < previous_cue_key)) {
+      previous_cue_key = it.key();
+    }
+  }
+
+  // UpdateCueAssociatedSongs() uses the last song at the same position, so the CUE songs of the previous CUE sheet have the lowest priority.
+  // They are used for positions which the other songs don't have, for example when the kept CUE songs of this CUE sheet are only some of its songs, since another CUE sheet was used for some of them.
+  const SongList old_songs = unavailable_other_cue_songs.value(previous_cue_key) + available_other_cue_songs + cue_file_songs;
+
+  UpdateCueAssociatedSongs(file, fingerprint, cue_songs, art_automatic, old_songs, t);
+
+  // The other available songs are not used anymore, for example the song for the whole media file, which is marked unavailable or deleted.
+  QSet<int> old_song_ids;
+  for (const Song &song : old_songs) {
+    old_song_ids.insert(song.id());
+  }
+  for (const Song &song : matching_songs) {
+    if (!song.unavailable() && !old_song_ids.contains(song.id())) {
+      t->deleted_songs << song;
+    }
+  }
+
+}
+
+void CollectionWatcher::UseMediaFileWhileCueSheetUnreadable(const QString &file, const QFileInfo &fileinfo, const SongList &cue_songs_in_db, const SongList &file_songs_in_db, const QUrl &art_automatic, const QString &lrc_file, ScanTransaction *t) {
+
+  // Mark the CUE songs unavailable, they are restored when the CUE sheet can be read again.
+  bool cue_songs_available = false;
+  for (const Song &cue_song : cue_songs_in_db) {
+    if (!cue_song.unavailable()) {
+      t->deleted_songs << cue_song;
+      cue_songs_available = true;
+    }
+  }
+  if (cue_songs_available) {
+    qLog(Warning) << "The CUE sheet" << cue_songs_in_db.first().cue_path() << "can't be read, using" << file << "as a single song until it can be read";
+  }
+
+  // The song for the whole media file is already used, only update it when the media file, the LRC file or the album art changed, like in the normal scan.
+  const Song file_song_in_db = file_songs_in_db.isEmpty() ? Song() : file_songs_in_db.first();
+  if (file_song_in_db.is_valid() && !t->ignores_mtime() && !file_song_in_db.unavailable() && file_song_in_db.mtime() == fileinfo.lastModified().toSecsSinceEpoch()) {
+    const bool changed_lrc = file_song_in_db.lrc_mtime() != Utilities::FileMtimeMsec(lrc_file);
+    const bool changed_art = file_song_in_db.art_automatic() != art_automatic || (!file_song_in_db.art_automatic().isEmpty() && !file_song_in_db.art_automatic_is_valid()) || file_song_in_db.art_automatic_mtime() != ArtAutomaticMtime(art_automatic);
+    bool missing_fingerprint = false;
+    bool missing_loudness_characteristics = false;
+#ifdef HAVE_SONGTRACKING
+    missing_fingerprint = song_tracking_ && file_song_in_db.fingerprint().isEmpty();
+#endif
+#ifdef HAVE_EBUR128
+    missing_loudness_characteristics = song_ebur128_loudness_analysis_ && (!file_song_in_db.ebur128_integrated_loudness_lufs() || !file_song_in_db.ebur128_loudness_range_lu());
+#endif
+    if (!changed_lrc && !changed_art && !missing_fingerprint && !missing_loudness_characteristics) {
+      return;
+    }
+  }
+
+  QString fingerprint;
+#ifdef HAVE_SONGTRACKING
+  if (song_tracking_) {
+    Chromaprinter chromaprinter(file);
+    fingerprint = chromaprinter.CreateFingerprint();
+    if (fingerprint.isEmpty()) {
+      fingerprint = "NONE"_L1;
+    }
+  }
+#endif
+
+  if (file_song_in_db.is_valid()) {
+    // The media file can't be read either, retire the song for the whole media file, like the normal scan does.
+    if (!UpdateNonCueAssociatedSong(file, fingerprint, file_songs_in_db, art_automatic, lrc_file, false, t)) {
+      for (const Song &file_song : file_songs_in_db) {
+        if (!file_song.unavailable()) {
+          t->deleted_songs << file_song;
+        }
+      }
+    }
+    return;
+  }
+
+  // Add the media file as a separate song.
+  const SongList songs = ScanNewFile(file, fingerprint, SongList(), lrc_file);
+  for (Song song : songs) {
+    song.set_directory_id(t->dir_id());
+    if (song.art_automatic().isEmpty()) song.set_art_automatic(art_automatic);
+    song.set_art_automatic_mtime(ArtAutomaticMtime(song.art_automatic()));
+    t->new_songs << song;
   }
 
 }
@@ -998,11 +1424,19 @@ bool CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
                                                    const bool cue_deleted,
                                                    ScanTransaction *t) {
 
-  // If a CUE got deleted, we turn it's first section into the new 'raw' (cueless) song, and we just remove the rest of the sections from the collection
-  const Song &matching_song = matching_songs.first();
+  // The song for the whole media file, a CUE song is never used for it, so when the CUE sheet is deleted, the media file is added as a new song, unless there already is a song for the whole media file, for example from when the CUE sheet couldn't be read.
+  Song matching_song;
+  for (const Song &song : matching_songs) {
+    if (!song.has_cue()) {
+      matching_song = song;
+      break;
+    }
+  }
+
+  // If the CUE sheet was deleted, the CUE songs are marked unavailable or deleted.
   if (cue_deleted) {
     for (const Song &song : matching_songs) {
-      if (!song.IsAllMetadataEqual(matching_song)) {
+      if (song.has_cue() && !song.unavailable()) {
         t->deleted_songs << song;
       }
     }
@@ -1019,49 +1453,30 @@ bool CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
     song_on_disk.set_art_automatic(art_automatic);
     song_on_disk.set_art_automatic_mtime(ArtAutomaticMtime(art_automatic));
     SetLyricsFromStorage(&song_on_disk, matching_song, lrc_file);
-    song_on_disk.MergeUserSetData(matching_song, !overwrite_playcount_, !overwrite_rating_);
-    AddChangedSong(file, matching_song, song_on_disk, t);
+    if (matching_song.is_valid()) {
+      song_on_disk.MergeUserSetData(matching_song, !overwrite_playcount_, !overwrite_rating_);
+      AddChangedSong(file, matching_song, song_on_disk, t);
+    }
+    else {
+      t->new_songs << song_on_disk;
+    }
   }
 
   return result.success() && song_on_disk.is_valid();
 
 }
 
-SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, const QString &lrc_file, QSet<QString> *cues_processed) const {
+SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &fingerprint, const SongList &cue_songs, const QString &lrc_file) const {
 
   SongList songs;
 
-  quint64 matching_cue_mtime = GetMtimeForPath(matching_cue);
-  if (matching_cue_mtime != 0) {  // If it's a CUE - create virtual tracks
-
-    // Don't process the same CUE many times
-    if (cues_processed->contains(matching_cue)) return songs;
-
-    QFile cue_file(matching_cue);
-    if (!cue_file.exists()) return songs;
-
-    if (!cue_file.open(QIODevice::ReadOnly)) {
-      qLog(Error) << "Could not open CUE file" << matching_cue << "for reading:" << cue_file.errorString();
-      return songs;
-    }
-
-    // Ignore FILEs pointing to other media files.
-    // Also, watch out for incorrect media files.
-    // Playlist parser for CUEs considers every entry in sheet valid, and we don't want invalid media getting into collection!
-    QString file_nfd = file.normalized(QString::NormalizationForm_D);
-    SongList cue_songs = cue_parser_->Load(&cue_file, matching_cue, path, false).songs;
-    cue_file.close();
+  if (!cue_songs.isEmpty()) {  // If it's a CUE - create virtual tracks, the CUE songs are only the songs of this media file.
     songs.reserve(cue_songs.count());
-    for (Song &cue_song : cue_songs) {
+    for (Song cue_song : cue_songs) {
       cue_song.set_source(source_);
       PerformEBUR128Analysis(cue_song);
       cue_song.set_fingerprint(fingerprint);
-      if (cue_song.url().toLocalFile().normalized(QString::NormalizationForm_D) == file_nfd) {
-        songs << cue_song;
-      }
-    }
-    if (!songs.isEmpty()) {
-      *cues_processed << matching_cue;
+      songs << cue_song;
     }
   }
   else {  // It's a normal media file
@@ -1320,9 +1735,24 @@ QHash<QString, SongList> CollectionWatcher::SongsByPath(const SongList &songs) {
 
 }
 
-bool CollectionWatcher::FindSongsByPath(const QHash<QString, SongList> &songs_by_path, const QString &path, SongList &songs_out) {
+bool CollectionWatcher::FindSongsByPath(const QHash<QString, SongList> &songs_by_path, const QString &path, const QSet<QString> &files_on_disk, SongList &songs_out) {
 
-  songs_out << songs_by_path.value(path.normalized(QString::NormalizationForm_C));
+  // The songs with the exact path are used when there are any.
+  // Otherwise a song with another spelling of the path is the same file when that spelling is not another file on disk, for example when the database and the filesystem use different Unicode normalization forms.
+  const SongList songs = songs_by_path.value(path.normalized(QString::NormalizationForm_C));
+  SongList other_spelling_songs;
+  for (const Song &song : songs) {
+    const QString song_file = song.url().toLocalFile();
+    if (song_file == path) {
+      songs_out << song;
+    }
+    else if (!files_on_disk.contains(song_file)) {
+      other_spelling_songs << song;
+    }
+  }
+  if (songs_out.isEmpty()) {
+    songs_out << other_spelling_songs;
+  }
 
   return !songs_out.isEmpty();
 
