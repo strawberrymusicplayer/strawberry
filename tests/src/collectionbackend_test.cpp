@@ -26,6 +26,10 @@
 #include <QFileInfo>
 #include <QSet>
 #include <QSignalSpy>
+#include <QUrl>
+#include <QStringList>
+#include <QSqlQuery>
+#include <QSqlDatabase>
 #include <QThread>
 #include <QtDebug>
 
@@ -117,6 +121,70 @@ TEST_F(CollectionBackendTest, RemoveDirectory) {
 }
 
 TEST_F(CollectionBackendTest, GetAlbumArtNonExistent) {}
+
+// A song which can't be added is skipped, the other songs of the batch are still added.
+TEST_F(CollectionBackendTest, AddOrUpdateSongsSkipsFailedSong) {
+
+  backend_->AddDirectory(u"/tmp"_s);
+
+  // Make the database reject one of the songs.
+  {
+    QSqlDatabase db(database_->Connect());
+    QSqlQuery q(db);
+    ASSERT_TRUE(q.exec(QStringLiteral("CREATE TRIGGER reject_bad_song BEFORE INSERT ON %1 WHEN NEW.title = 'Bad' BEGIN SELECT RAISE(ABORT, 'Rejected'); END").arg(QLatin1String(CollectionManager::kSongsTable))));
+  }
+
+  SongList songs;
+  for (const QString &title : QStringList{u"First"_s, u"Bad"_s, u"Last"_s}) {
+    Song song = MakeDummySong(1);
+    song.set_title(title);
+    song.set_url(QUrl::fromLocalFile(u"/tmp/"_s + title + u".flac"_s));
+    songs << song;
+  }
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::SongsAdded);
+  backend_->AddOrUpdateSongs(songs);
+
+  QStringList titles;
+  const SongList all_songs = backend_->GetAllSongs();
+  for (const Song &song : all_songs) {
+    titles << song.title();
+  }
+  titles.sort();
+  EXPECT_EQ(QStringList() << u"First"_s << u"Last"_s, titles);
+
+  ASSERT_EQ(1, spy.count());
+  EXPECT_EQ(2, spy[0][0].value<SongList>().count());
+
+}
+
+// When a failure ends the whole transaction, like when the disk is full, the songs before it were not saved, so none are reported as added, and the songs after it are not saved outside of the transaction.
+TEST_F(CollectionBackendTest, AddOrUpdateSongsStopsWhenTransactionEnded) {
+
+  backend_->AddDirectory(u"/tmp"_s);
+
+  // Make the database roll back the transaction for one of the songs.
+  {
+    QSqlDatabase db(database_->Connect());
+    QSqlQuery q(db);
+    ASSERT_TRUE(q.exec(QStringLiteral("CREATE TRIGGER rollback_bad_song BEFORE INSERT ON %1 WHEN NEW.title = 'Bad' BEGIN SELECT RAISE(ROLLBACK, 'Rolled back'); END").arg(QLatin1String(CollectionManager::kSongsTable))));
+  }
+
+  SongList songs;
+  for (const QString &title : QStringList{u"First"_s, u"Bad"_s, u"Last"_s}) {
+    Song song = MakeDummySong(1);
+    song.set_title(title);
+    song.set_url(QUrl::fromLocalFile(u"/tmp/"_s + title + u".flac"_s));
+    songs << song;
+  }
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::SongsAdded);
+  backend_->AddOrUpdateSongs(songs);
+
+  EXPECT_TRUE(backend_->GetAllSongs().isEmpty());
+  EXPECT_EQ(0, spy.count());
+
+}
 
 // Test adding a single song to the database, then getting various information back about it.
 class SingleSong : public CollectionBackendTest {

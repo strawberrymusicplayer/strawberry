@@ -21,7 +21,11 @@
 
 #include "config.h"
 
+#include <sqlite3.h>
+
+#include <QVariant>
 #include <QSqlDatabase>
+#include <QSqlDriver>
 #include <QSqlError>
 
 #include "core/logging.h"
@@ -45,6 +49,19 @@ ScopedTransaction::~ScopedTransaction() {
     qLog(Warning) << "Rolling back transaction";
     db_->rollback();
   }
+
+}
+
+bool ScopedTransaction::active() const {
+
+  if (!pending_) return false;
+
+  const QVariant handle = db_->driver()->handle();
+  if (!handle.isValid() || qstrcmp(handle.typeName(), "sqlite3*") != 0) return true;
+
+  sqlite3 *connection = *static_cast<sqlite3* const*>(handle.constData());
+  // Autocommit mode means there is no transaction open.
+  return connection && sqlite3_get_autocommit(connection) == 0;
 
 }
 
