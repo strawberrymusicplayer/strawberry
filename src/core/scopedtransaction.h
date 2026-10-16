@@ -41,6 +41,10 @@ class ScopedTransaction {
   // Returns false if the transaction was not started here, or could not be committed, in which case it is rolled back.
   bool Commit();
 
+  // Returns true if the transaction is still open.
+  // SQLite rolls back the whole transaction for some errors, like when the disk is full, instead of only the failed statement.
+  bool active() const;
+
  private:
   QSqlDatabase *db_;
   bool started_;
