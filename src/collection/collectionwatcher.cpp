@@ -346,6 +346,38 @@ void CollectionWatcher::ScanTransaction::AddToProgressMax(const quint64 n) {
 
 }
 
+void CollectionWatcher::ScanTransaction::LogChanges() const {
+
+  // CUE songs share the media file, so the track is logged too.
+  const auto song_description = [](const Song &song) {
+    return song.has_cue() ? song.url().toLocalFile() + u" track "_s + QString::number(song.track()) : song.url().toLocalFile();
+  };
+
+  for (const Song &song : deleted_songs) {
+    if (mark_songs_unavailable_ && watcher_->source() == Song::Source::Collection) {
+      qLog(Debug) << "Song unavailable:" << song_description(song);
+    }
+    else {
+      qLog(Debug) << "Song deleted:" << song_description(song);
+    }
+  }
+  for (const Song &song : new_songs) {
+    if (song.id() == -1) {
+      qLog(Debug) << "Song added:" << song_description(song);
+    }
+    else {
+      qLog(Debug) << "Song changed:" << song_description(song) << song_changes.value(song.id()).join(", "_L1);
+    }
+  }
+  for (const Song &song : touched_songs) {
+    qLog(Debug) << "Song unchanged:" << song_description(song);
+  }
+  for (const Song &song : readded_songs) {
+    qLog(Debug) << "Song restored without rescanning:" << song_description(song);
+  }
+
+}
+
 void CollectionWatcher::ScanTransaction::CommitNewOrUpdatedSongs() {
 
   if (!deleted_subdirs.isEmpty()) {
@@ -361,6 +393,27 @@ void CollectionWatcher::ScanTransaction::CommitNewOrUpdatedSongs() {
     touched_subdirs.clear();
   }
 
+  // Songs which are updated or restored in this transaction are not deleted, for example songs found by fingerprint which changed file path, which are also deleted when their old file path is scanned in this transaction.
+  // Each song is only deleted once.
+  if (!deleted_songs.isEmpty()) {
+    QSet<int> kept_song_ids;
+    for (const SongList *songs : {&new_songs, &touched_songs, &readded_songs}) {
+      for (const Song &song : *songs) {
+        if (song.id() != -1) kept_song_ids.insert(song.id());
+      }
+    }
+    SongList songs_to_delete;
+    QSet<int> deleted_song_ids;
+    for (const Song &song : std::as_const(deleted_songs)) {
+      if (kept_song_ids.contains(song.id()) || deleted_song_ids.contains(song.id())) continue;
+      deleted_song_ids.insert(song.id());
+      songs_to_delete << song;
+    }
+    deleted_songs = songs_to_delete;
+  }
+
+  LogChanges();
+
   if (!deleted_songs.isEmpty()) {
     if (mark_songs_unavailable_ && watcher_->source() == Song::Source::Collection) {
       Q_EMIT watcher_->SongsUnavailable(deleted_songs);
@@ -374,6 +427,7 @@ void CollectionWatcher::ScanTransaction::CommitNewOrUpdatedSongs() {
   if (!new_songs.isEmpty()) {
     Q_EMIT watcher_->NewOrUpdatedSongs(new_songs);
     new_songs.clear();
+    song_changes.clear();
   }
 
   if (!touched_songs.isEmpty()) {
@@ -636,7 +690,8 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   QMap<QString, QStringList> album_art;
   QMap<QString, QString> lrc_files;
   QStringList cue_files;
-  QStringList files_on_disk;
+  // The media files found in the directory, not changed after listing the directory.
+  QStringList initial_files_on_disk;
   CollectionSubdirectoryList my_new_subdirs;
 
   // If a directory is moved then only its parent gets a changed notification, so we need to look and see if any of our children don't exist anymore.
@@ -698,7 +753,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
           t->AddToProgress(1);
         }
         else {
-          files_on_disk << child_filepath;
+          initial_files_on_disk << child_filepath;
         }
       }
     }
@@ -744,13 +799,18 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   QHash<QString, QMap<QString, SongList>> loaded_cue_sheets;
 
   // Now compare the list from the database with the list of files on disk
-  const QStringList files_on_disk_copy = files_on_disk;
-  const QSet<QString> files_on_disk_set(files_on_disk.constBegin(), files_on_disk.constEnd());
+  const QSet<QString> files_on_disk_set(initial_files_on_disk.constBegin(), initial_files_on_disk.constEnd());
+  // The media files which are kept, the media files which are removed or couldn't be read are not added.
+  QSet<QString> valid_files_on_disk;
+  valid_files_on_disk.reserve(initial_files_on_disk.count());
   // The media file on disk which the songs in the database were matched with by path, for finding deleted songs.
   QHash<int, QString> matched_song_files;
-  for (const QString &file : files_on_disk_copy) {
+  for (const QString &file : std::as_const(initial_files_on_disk)) {
 
     if (stop_or_abort_requested()) return;
+
+    // Set to false when the media file is not kept, but scanning it continues.
+    bool file_valid = true;
 
     // Associated CUE, the CUE sheet which has songs for this media file.
     const QString new_cue = cue_sheets.value(PathKey(file));
@@ -820,7 +880,6 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
 
       if (!fileinfo.exists()) {
         // Partially fixes race condition - if file was removed between being added to the list and now.
-        files_on_disk.removeAll(file);
         t->AddToProgress(1);
         continue;
       }
@@ -832,6 +891,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
       // When another CUE sheet which can be read has songs for the media file, that's used instead.
       if (!old_cue.isEmpty() && unreadable_cue_sheets.contains(PathKey(old_cue)) && (new_cue.isEmpty() || PathKey(new_cue) == PathKey(old_cue))) {
         UseMediaFileWhileCueSheetUnreadable(file, fileinfo, cue_songs_in_db, file_songs_in_db, ArtForSong(file, album_art), lrc_files.value(NoExtensionPart(file)), t);
+        valid_files_on_disk.insert(file);
         t->AddToProgress(1);
         continue;
       }
@@ -884,20 +944,19 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
       }
 #endif
 
-      if (changed) {
-        qLog(Debug) << file << "has changed.";
-      }
-      else if (missing_fingerprint) {
-        qLog(Debug) << file << "is missing fingerprint.";
-      }
-      else if (missing_loudness_characteristics) {
-        qLog(Debug) << file << "is missing EBU R 128 loudness characteristics.";
+      // The added, changed and deleted songs are logged when the transaction is committed.
+      if (!changed) {
+        if (missing_fingerprint) {
+          qLog(Debug) << file << "is missing fingerprint.";
+        }
+        else if (missing_loudness_characteristics) {
+          qLog(Debug) << file << "is missing EBU R 128 loudness characteristics.";
+        }
       }
 
       // If the song is unavailable and nothing has changed, just mark it as available without re-scanning
       // For CUE files with multiple sections, all sections share the same file and would have the same availability status
       if (matching_song.unavailable() && !changed && !missing_fingerprint && !missing_loudness_characteristics) {
-        qLog(Debug) << "Unavailable song" << file << "restored without re-scanning.";
         // Only the songs in use, not the songs which were used while the CUE sheet couldn't be read, or from another CUE sheet.
         t->readded_songs << songs_in_use;
       }
@@ -917,7 +976,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
 
         if (new_cue.isEmpty() || new_cue_mtime == 0) {  // If no CUE or it's about to lose it.
           if (!UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, lrc_file, cue_deleted, t)) {
-            files_on_disk.removeAll(file);
+            file_valid = false;
           }
         }
         else {  // If CUE associated.
@@ -926,11 +985,11 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
           if (LoadCueSongs(file, new_cue, path, &loaded_cue_sheets, &unreadable_cue_sheets, &t->directory_entries_, &cue_songs)) {
             if (cue_songs.isEmpty()) {  // The CUE sheet has no valid songs for the media file.
               if (!UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, lrc_files.value(NoExtensionPart(file)), !cue_songs_in_db.isEmpty(), t)) {
-                files_on_disk.removeAll(file);
+                file_valid = false;
               }
             }
             else {
-              UpdateCueSongs(file, fingerprint, cue_songs, art_automatic, new_cue, matching_songs, t);
+              UpdateCueSongs(fingerprint, cue_songs, art_automatic, new_cue, matching_songs, t);
             }
           }
         }
@@ -955,22 +1014,13 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
         const QFileInfo fileinfo(file);
         if (!fileinfo.exists()) {
           // Partially fixes race condition - if file was removed between being added to the list and now.
-          files_on_disk.removeAll(file);
           t->AddToProgress(1);
           continue;
         }
 
-        // Make sure the songs aren't deleted, as they still exist elsewhere with a different file path.
+        // The songs are updated with the new file path, they can also be in the deleted songs when the old file path is scanned in this transaction, that's resolved when the transaction is committed.
         bool matching_songs_has_cue = false;
         for (const Song &matching_song : std::as_const(matching_songs)) {
-          const QString matching_filename = matching_song.url().toLocalFile();
-          if (!t->files_changed_path_.contains(matching_filename)) {
-            t->files_changed_path_ << matching_filename;
-            qLog(Debug) << matching_filename << "has changed path to" << file;
-          }
-          if (t->deleted_songs.contains(matching_song)) {
-            t->deleted_songs.removeAll(matching_song);
-          }
           if (matching_song.has_cue()) {
             matching_songs_has_cue = true;
           }
@@ -987,7 +1037,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
 
         if (new_cue.isEmpty() || new_cue_mtime == 0) {  // If no CUE or it's about to lose it.
           if (!UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, lrc_files.value(NoExtensionPart(file)), matching_songs_has_cue && new_cue_mtime == 0, t)) {
-            files_on_disk.removeAll(file);
+            file_valid = false;
           }
         }
         else {  // If CUE associated.
@@ -996,11 +1046,11 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
           if (LoadCueSongs(file, new_cue, path, &loaded_cue_sheets, &unreadable_cue_sheets, &t->directory_entries_, &cue_songs)) {
             if (cue_songs.isEmpty()) {  // The CUE sheet has no valid songs for the media file.
               if (!UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, lrc_files.value(NoExtensionPart(file)), matching_songs_has_cue, t)) {
-                files_on_disk.removeAll(file);
+                file_valid = false;
               }
             }
             else {
-              UpdateCueSongs(file, fingerprint, cue_songs, art_automatic, new_cue, matching_songs, t);
+              UpdateCueSongs(fingerprint, cue_songs, art_automatic, new_cue, matching_songs, t);
             }
           }
         }
@@ -1016,12 +1066,9 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
 
         const SongList songs = ScanNewFile(file, fingerprint, cue_songs, lrc_files.value(NoExtensionPart(file)));
         if (songs.isEmpty()) {
-          files_on_disk.removeAll(file);
           t->AddToProgress(1);
           continue;
         }
-
-        qLog(Debug) << file << "is new.";
 
         // Choose art for the song(s)
         const QUrl art_automatic = ArtForSong(file, album_art);
@@ -1034,19 +1081,19 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
         }
       }
     }
+    if (file_valid) {
+      valid_files_on_disk.insert(file);
+    }
     t->AddToProgress(1);
   }
 
   // Look for deleted songs.
-  // files_on_disk holds the on-disk path spelling while the database stores its own; the two can differ purely by Unicode normalization form (NFC vs NFD).
+  // The media files hold the on-disk path spelling while the database stores its own; the two can differ purely by Unicode normalization form (NFC vs NFD).
   // A song is on disk when it was matched with a media file by FindSongsByPath(), which uses the songs with the exact path, otherwise another spelling of the same file, so the songs of a deleted file whose name only differs in normalization form from another file are deleted.
-  // The media files which couldn't be read were removed from files_on_disk.
-  const QSet<QString> remaining_files_on_disk(files_on_disk.constBegin(), files_on_disk.constEnd());
+  // The media files which couldn't be read are not in valid_files_on_disk.
   for (const Song &song : std::as_const(songs_in_db)) {
-    const QString file = song.url().toLocalFile();
-    const bool on_disk = matched_song_files.contains(song.id()) && remaining_files_on_disk.contains(matched_song_files.value(song.id()));
-    if (!song.unavailable() && !on_disk && !t->files_changed_path_.contains(file)) {
-      qLog(Debug) << "Song deleted from disk:" << file;
+    const bool on_disk = matched_song_files.contains(song.id()) && valid_files_on_disk.contains(matched_song_files.value(song.id()));
+    if (!song.unavailable() && !on_disk) {
       t->deleted_songs << song;
     }
   }
@@ -1250,8 +1297,7 @@ bool CollectionWatcher::LoadCueSongs(const QString &file, const QString &cue_fil
 
 }
 
-void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
-                                                 const QString &fingerprint,
+void CollectionWatcher::UpdateCueAssociatedSongs(const QString &fingerprint,
                                                  const SongList &cue_songs,
                                                  const QUrl &art_automatic,
                                                  const SongList &old_cue_songs,
@@ -1277,7 +1323,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
       new_cue_song.set_art_automatic_mtime(ArtAutomaticMtime(art_automatic));
       new_cue_song.MergeUserSetData(matching_cue_song, true, true);
       SetLyricsFromStorage(&new_cue_song, matching_cue_song, QString());
-      AddChangedSong(file, matching_cue_song, new_cue_song, t);
+      AddChangedSong(matching_cue_song, new_cue_song, t);
       used_ids.insert(matching_cue_song.id());
     }
     else {  // A new section, the album art is set like for new songs in the initial scan.
@@ -1296,7 +1342,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
 
 }
 
-void CollectionWatcher::UpdateCueSongs(const QString &file, const QString &fingerprint, const SongList &cue_songs, const QUrl &art_automatic, const QString &cue_file, const SongList &matching_songs, ScanTransaction *t) const {
+void CollectionWatcher::UpdateCueSongs(const QString &fingerprint, const SongList &cue_songs, const QUrl &art_automatic, const QString &cue_file, const SongList &matching_songs, ScanTransaction *t) const {
 
   // The songs to update with the CUE songs, by their position, only CUE songs, the song for the whole media file is never used for a CUE song, so new CUE songs are added as new songs.
   // The unavailable CUE songs of the previous CUE sheet, for example when the media file was restored with a renamed CUE sheet, when the CUE sheet was renamed while it couldn't be read, or when the media file was moved and found by fingerprint after the old location was scanned.
@@ -1335,7 +1381,7 @@ void CollectionWatcher::UpdateCueSongs(const QString &file, const QString &finge
   // They are used for positions which the other songs don't have, for example when the kept CUE songs of this CUE sheet are only some of its songs, since another CUE sheet was used for some of them.
   const SongList old_songs = unavailable_other_cue_songs.value(previous_cue_key) + available_other_cue_songs + cue_file_songs;
 
-  UpdateCueAssociatedSongs(file, fingerprint, cue_songs, art_automatic, old_songs, t);
+  UpdateCueAssociatedSongs(fingerprint, cue_songs, art_automatic, old_songs, t);
 
   // The other available songs are not used anymore, for example the song for the whole media file, which is marked unavailable or deleted.
   QSet<int> old_song_ids;
@@ -1455,7 +1501,7 @@ bool CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
     SetLyricsFromStorage(&song_on_disk, matching_song, lrc_file);
     if (matching_song.is_valid()) {
       song_on_disk.MergeUserSetData(matching_song, !overwrite_playcount_, !overwrite_rating_);
-      AddChangedSong(file, matching_song, song_on_disk, t);
+      AddChangedSong(matching_song, song_on_disk, t);
     }
     else {
       t->new_songs << song_on_disk;
@@ -1495,18 +1541,18 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &fing
 
 }
 
-void CollectionWatcher::AddChangedSong(const QString &file, const Song &matching_song, const Song &new_song, ScanTransaction *t) {
+void CollectionWatcher::AddChangedSong(const Song &matching_song, const Song &new_song, ScanTransaction *t) {
 
   bool notify_new = false;
   QStringList changes;
 
   if (matching_song.unavailable()) {
-    qLog(Debug) << "Unavailable song" << file << "restored.";
+    changes << u"restored"_s;
     notify_new = true;
   }
   else {
     if (matching_song.url() != new_song.url()) {
-      changes << u"file path"_s;
+      changes << u"file path from %1"_s.arg(matching_song.url().toLocalFile());
       notify_new = true;
     }
     if (matching_song.filetype() != new_song.filetype()) {
@@ -1565,13 +1611,11 @@ void CollectionWatcher::AddChangedSong(const QString &file, const Song &matching
       notify_new = true;
     }
 
-    if (changes.isEmpty()) {
-      qLog(Debug) << "Song" << file << "unchanged.";
-    }
-    else {
-      qLog(Debug) << "Song" << file << changes.join(", "_L1) << "changed.";
-    }
+  }
 
+  // The changes are logged when the transaction is committed.
+  if (!changes.isEmpty()) {
+    t->song_changes.insert(new_song.id(), changes);
   }
 
   if (notify_new) {

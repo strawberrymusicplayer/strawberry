@@ -22,6 +22,9 @@
 #include <memory>
 
 #include <algorithm>
+#include <cmath>
+
+#include <gst/gst.h>
 
 #include "gtest_include.h"
 
@@ -33,8 +36,10 @@
 #include <QIODevice>
 #include <QMap>
 #include <QSignalSpy>
+#include <QHash>
 #include <QImage>
 #include <QSet>
+#include <QCoreApplication>
 #include <QString>
 #include <QStringList>
 #include <QTemporaryDir>
@@ -49,6 +54,8 @@
 #include "collection/collectionmanager.h"
 #include "collection/collectiondirectory.h"
 #include "collection/collectionwatcher.h"
+#include "constants/collectionsettings.h"
+#include "core/settings.h"
 
 using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
@@ -60,6 +67,8 @@ namespace {
 class CollectionWatcherTest : public ::testing::Test {
  protected:
   void SetUp() override {
+    // For the fingerprints with Chromaprint.
+    gst_init(nullptr, nullptr);
     tagreader_client_thread_ = new QThread();
     tagreader_client_ = SharedPtr<TagReaderClient>(new TagReaderClient(), [](TagReaderClient *tagreader_client) { tagreader_client->deleteLater(); });
     tagreader_client_->moveToThread(tagreader_client_thread_);
@@ -104,8 +113,18 @@ class CollectionWatcherTest : public ::testing::Test {
     int touched = 0;
     int readded = 0;
   };
-  ScanResult ScanDirectoryToCollection(const QString &path) {
+  // With subdirectories, only those are scanned, in that order, in one transaction, like the incremental scan on startup, their mtime is not set, so they are always scanned.
+  ScanResult ScanDirectoryToCollection(const QString &path, const bool song_tracking = false, const QStringList &subdirectories = QStringList()) {
     CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+    if (song_tracking) {
+      // The settings are in a temporary directory for the tests, the setting is removed again after the scan.
+      Settings s;
+      s.beginGroup(CollectionSettings::kSettingsGroup);
+      s.setValue(CollectionSettings::kSongTracking, true);
+      s.endGroup();
+      watcher.ReloadSettingsAsync();
+      QCoreApplication::processEvents();
+    }
     QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
     QObject::connect(&watcher, &CollectionWatcher::SongsMTimeUpdated, &*backend_, &CollectionBackend::UpdateMTimesOnly);
     QObject::connect(&watcher, &CollectionWatcher::SongsDeleted, &*backend_, &CollectionBackend::DeleteSongs);
@@ -121,13 +140,26 @@ class CollectionWatcherTest : public ::testing::Test {
     CollectionDirectory dir;
     dir.id = 1;
     dir.path = path;
-    watcher.AddDirectory(dir, CollectionSubdirectoryList());
+    CollectionSubdirectoryList subdirs;
+    for (const QString &subdirectory : subdirectories) {
+      CollectionSubdirectory subdir;
+      subdir.directory_id = dir.id;
+      subdir.path = subdirectory;
+      subdirs << subdir;
+    }
+    watcher.AddDirectory(dir, subdirs);
     ScanResult result;
     for (const QList<QVariant> &arguments : std::as_const(spy_new_or_updated)) result.new_or_updated += static_cast<int>(arguments.at(0).value<SongList>().count());
     for (const QList<QVariant> &arguments : std::as_const(spy_deleted)) result.deleted += static_cast<int>(arguments.at(0).value<SongList>().count());
     for (const QList<QVariant> &arguments : std::as_const(spy_unavailable)) result.unavailable += static_cast<int>(arguments.at(0).value<SongList>().count());
     for (const QList<QVariant> &arguments : std::as_const(spy_touched)) result.touched += static_cast<int>(arguments.at(0).value<SongList>().count());
     for (const QList<QVariant> &arguments : std::as_const(spy_readded)) result.readded += static_cast<int>(arguments.at(0).value<SongList>().count());
+    if (song_tracking) {
+      Settings s;
+      s.beginGroup(CollectionSettings::kSettingsGroup);
+      s.remove(CollectionSettings::kSongTracking);
+      s.endGroup();
+    }
     return result;
   }
 
@@ -192,6 +224,40 @@ class CollectionWatcherTest : public ::testing::Test {
       return false;
     }
     return true;
+  }
+
+  // Writes a mono 16-bit WAV file with tones changing every 100 ms, long enough for a fingerprint, the seed makes a different file.
+  static void WriteWavFile(const QString &filename, const quint32 seed, const int seconds = 20) {
+    constexpr int sample_rate = 44100;
+    const quint32 samples = static_cast<quint32>(sample_rate * seconds);
+    QByteArray data;
+    data.reserve(static_cast<qsizetype>(samples * 2 + 44));
+    const auto append_u32 = [&data](const quint32 value) { for (int i = 0; i < 4; ++i) data.append(static_cast<char>((value >> (i * 8)) & 0xFF)); };
+    const auto append_u16 = [&data](const quint16 value) { data.append(static_cast<char>(value & 0xFF)); data.append(static_cast<char>((value >> 8) & 0xFF)); };
+    data.append("RIFF");
+    append_u32(36 + samples * 2);
+    data.append("WAVEfmt ");
+    append_u32(16);
+    append_u16(1);
+    append_u16(1);
+    append_u32(sample_rate);
+    append_u32(sample_rate * 2);
+    append_u16(2);
+    append_u16(16);
+    data.append("data");
+    append_u32(samples * 2);
+    quint32 state = seed;
+    double frequency = 440.0;
+    double phase = 0.0;
+    for (quint32 i = 0; i < samples; ++i) {
+      if (i % (sample_rate / 10) == 0) {
+        state = state * 1664525U + 1013904223U;
+        frequency = 200.0 + static_cast<double>(state % 2000U);
+      }
+      phase += 2.0 * M_PI * frequency / sample_rate;
+      append_u16(static_cast<quint16>(static_cast<qint16>(std::sin(phase) * 12000.0)));
+    }
+    WriteFile(filename, data);
   }
 
   static void SetModificationTime(const QString &filename, const QDateTime &mtime) {
@@ -1298,6 +1364,63 @@ TEST_F(CollectionWatcherTest, DirectoryWithParentInOtherNormalizationFormKeepsSo
   ASSERT_EQ(1, songs_after_scan.count());
   EXPECT_EQ(song_id, songs_after_scan.first().id());
   EXPECT_FALSE(songs_after_scan.first().unavailable());
+
+}
+
+// A media file moved to another directory in the collection is found by fingerprint, and keeps its song, also when the old directory is scanned in the same transaction.
+TEST_F(CollectionWatcherTest, MediaFileMovedToAnotherDirectoryIsFoundByFingerprint) {
+
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  // One media file is moved to a directory scanned after the old directory, and one to a directory scanned before the old directory.
+  for (const QStringList &directory_names : QList<QStringList>{{u"A"_s, u"B"_s}, {u"D"_s, u"C"_s}}) {
+    const QString old_directory = temp_dir.filePath(directory_names.at(0));
+    const QString new_directory = temp_dir.filePath(directory_names.at(1));
+    ASSERT_TRUE(QDir().mkpath(old_directory));
+    ASSERT_TRUE(QDir().mkpath(new_directory));
+  }
+  const QString old_filename = temp_dir.filePath(u"A/track.wav"_s);
+  const QString old_filename2 = temp_dir.filePath(u"D/track2.wav"_s);
+  WriteWavFile(old_filename, 1);
+  if (HasFatalFailure()) return;
+  WriteWavFile(old_filename2, 2);
+  if (HasFatalFailure()) return;
+  backend_->AddDirectory(temp_dir.path());
+
+  ScanDirectoryToCollection(temp_dir.path(), true);
+  const SongList songs = backend_->GetAllSongs();
+  ASSERT_EQ(2, songs.count());
+  for (const Song &song : songs) {
+    if (song.fingerprint().isEmpty() || song.fingerprint() == u"NONE"_s) GTEST_SKIP() << "No fingerprint for the test media file";
+  }
+  // The song ID of each media file, so each moved media file is checked against its own song.
+  QHash<QString, int> song_ids;
+  for (const Song &song : songs) song_ids.insert(song.url().toLocalFile(), song.id());
+  ASSERT_TRUE(song_ids.contains(old_filename));
+  ASSERT_TRUE(song_ids.contains(old_filename2));
+
+  // Move the media files, from A to B, which is scanned after A, and from D to C, which is scanned before D.
+  // The directories are scanned in this order in one transaction, the order of the directories found when scanning the whole directory isn't defined.
+  const QString new_filename = temp_dir.filePath(u"B/track.wav"_s);
+  const QString new_filename2 = temp_dir.filePath(u"C/track2.wav"_s);
+  ASSERT_TRUE(QFile::rename(old_filename, new_filename));
+  ASSERT_TRUE(QFile::rename(old_filename2, new_filename2));
+  const QStringList subdirectories = QStringList() << temp_dir.filePath(u"A"_s) << temp_dir.filePath(u"B"_s) << temp_dir.filePath(u"C"_s) << temp_dir.filePath(u"D"_s);
+  const ScanResult scan = ScanDirectoryToCollection(temp_dir.path(), true, subdirectories);
+  EXPECT_EQ(0, scan.deleted);
+  EXPECT_EQ(0, scan.unavailable);
+
+  QHash<QString, int> moved_song_ids;
+  const SongList moved_songs = backend_->GetAllSongs();
+  ASSERT_EQ(2, moved_songs.count());
+  for (const Song &song : moved_songs) {
+    EXPECT_FALSE(song.unavailable()) << song.url().toLocalFile().toStdString();
+    moved_song_ids.insert(song.url().toLocalFile(), song.id());
+  }
+  ASSERT_TRUE(moved_song_ids.contains(new_filename));
+  ASSERT_TRUE(moved_song_ids.contains(new_filename2));
+  EXPECT_EQ(song_ids.value(old_filename), moved_song_ids.value(new_filename));
+  EXPECT_EQ(song_ids.value(old_filename2), moved_song_ids.value(new_filename2));
 
 }
 
