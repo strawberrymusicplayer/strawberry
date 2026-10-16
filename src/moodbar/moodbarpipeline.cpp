@@ -38,6 +38,7 @@
 
 #include "core/logging.h"
 #include "core/signalchecker.h"
+#include "engine/gstpadutils.h"
 #include "utilities/threadutils.h"
 #include "moodbar/moodbarbuilder.h"
 #ifdef HAVE_GSTFASTSPECTRUM
@@ -198,6 +199,9 @@ void MoodbarPipeline::NewPadCallback(GstElement *element, GstPad *pad, gpointer 
     qLog(Warning) << "Received gstreamer callback after pipeline has stopped.";
     return;
   }
+
+  // Only link the audio, not pads for video or subtitles, which would otherwise replace the audio pad.
+  if (!GstPadIsAudio(pad)) return;
 
   GstPad *const audiopad = gst_element_get_static_pad(instance->convert_element_, "sink");
   if (!audiopad) return;

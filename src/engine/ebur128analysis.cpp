@@ -45,6 +45,7 @@
 
 #include "core/logging.h"
 #include "core/signalchecker.h"
+#include "engine/gstpadutils.h"
 
 #include "ebur128analysis.h"
 
@@ -345,7 +346,12 @@ void EBUR128AnalysisImpl::NewPadCallback(GstElement *elt, GstPad *pad, gpointer 
   Q_UNUSED(elt);
 
   EBUR128AnalysisImpl *me = reinterpret_cast<EBUR128AnalysisImpl*>(data);
+
+  // Only link the audio, not pads for video or subtitles, which would otherwise replace the audio pad.
+  if (!GstPadIsAudio(pad)) return;
+
   GstPad *const audiopad = gst_element_get_static_pad(me->convert_element_, "sink");
+  if (!audiopad) return;
 
   if (GST_PAD_IS_LINKED(audiopad)) {
     qLog(Warning) << "audiopad is already linked, unlinking old pad";
