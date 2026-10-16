@@ -124,6 +124,8 @@ class CollectionWatcher : public QObject {
 
     // Emits the signals for new & deleted songs etc and clears the lists. This causes the new stuff to be updated on UI.
     void CommitNewOrUpdatedSongs();
+    // Logs the deleted, added, changed and restored songs which are committed.
+    void LogChanges() const;
 
     int dir_id() const { return dir_id_; }
     bool is_incremental() const { return incremental_; }
@@ -133,11 +135,12 @@ class CollectionWatcher : public QObject {
     SongList readded_songs;
     SongList new_songs;
     SongList touched_songs;
+    // What changed for the songs in new_songs which are already in the collection, by song ID, for logging.
+    QHash<int, QStringList> song_changes;
     CollectionSubdirectoryList new_subdirs;
     CollectionSubdirectoryList touched_subdirs;
     CollectionSubdirectoryList deleted_subdirs;
 
-    QStringList files_changed_path_;
     // The entries of the directories, for resolving paths to the names on disk, shared by the whole scan so each directory is only listed once.
     QHash<QString, QStringList> directory_entries_;
 
@@ -239,9 +242,9 @@ class CollectionWatcher : public QObject {
   static int CueSheetPriority(const QString &media_file, const QString &cue_filename, QHash<QString, QStringList> *directory_entries);
 
   // Updates the sections of a cue associated and altered (according to mtime) media file during a scan.
-  void UpdateCueAssociatedSongs(const QString &file, const QString &fingerprint, const SongList &cue_songs, const QUrl &art_automatic, const SongList &old_cue_songs, ScanTransaction *t) const;
+  void UpdateCueAssociatedSongs(const QString &fingerprint, const SongList &cue_songs, const QUrl &art_automatic, const SongList &old_cue_songs, ScanTransaction *t) const;
   // Updates the songs of the media file in the collection with the CUE songs of the CUE sheet, and retires the songs which are not used anymore.
-  void UpdateCueSongs(const QString &file, const QString &fingerprint, const SongList &cue_songs, const QUrl &art_automatic, const QString &cue_file, const SongList &matching_songs, ScanTransaction *t) const;
+  void UpdateCueSongs(const QString &fingerprint, const SongList &cue_songs, const QUrl &art_automatic, const QString &cue_file, const SongList &matching_songs, ScanTransaction *t) const;
   // Marks the CUE songs of a media file unavailable while its CUE sheet can't be read, and adds or updates a song for the whole media file.
   void UseMediaFileWhileCueSheetUnreadable(const QString &file, const QFileInfo &fileinfo, const SongList &cue_songs_in_db, const SongList &file_songs_in_db, const QUrl &art_automatic, const QString &lrc_file, ScanTransaction *t);
   // Updates a single non-cue associated and altered (according to mtime) song during a scan.
@@ -250,7 +253,7 @@ class CollectionWatcher : public QObject {
   // It may result in a multiple files added to the collection when the media file has many sections (like a CUE related media file).
   SongList ScanNewFile(const QString &file, const QString &fingerprint, const SongList &cue_songs, const QString &lrc_file) const;
 
-  static void AddChangedSong(const QString &file, const Song &matching_song, const Song &new_song, ScanTransaction *t);
+  static void AddChangedSong(const Song &matching_song, const Song &new_song, ScanTransaction *t);
 
   void PerformEBUR128Analysis(Song &song) const;
 
