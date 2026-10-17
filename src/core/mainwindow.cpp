@@ -1874,7 +1874,8 @@ void MainWindow::ToggleHide() {
 }
 
 void MainWindow::StopAfterCurrent() {
-  app_->playlist_manager()->current()->StopAfter(app_->playlist_manager()->current()->current_row());
+  // The playing playlist, not the playlist which is shown, which can be another playlist.
+  app_->player()->StopAfterCurrent();
   Q_EMIT StopAfterToggled(app_->playlist_manager()->active()->stop_after_current());
 }
 
