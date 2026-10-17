@@ -838,7 +838,7 @@
     </message>
     <message>
       <source>Device warm-up</source>
-      <translation>Préchauffage du périphérique</translation>
+      <translation>Préparation du périphérique</translation>
     </message>
     <message>
       <source>Delay between opening the audio device and starting playback, to avoid the start of the track being cut off while the device (DAC) is still becoming ready.  Set to 0 to disable.</source>
@@ -3881,15 +3881,15 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Go to last playlist tab</source>
-      <translation type="unfinished">Go to last playlist tab</translation>
+      <translation type="unfinished">Va au dernier tab de liste de lecture</translation>
     </message>
     <message>
       <source>Go to active playlist tab</source>
-      <translation type="unfinished">Go to active playlist tab</translation>
+      <translation type="unfinished">Va au tab de liste de lecture active</translation>
     </message>
     <message>
       <source>Close current playlist tab</source>
-      <translation type="unfinished">Close current playlist tab</translation>
+      <translation type="unfinished">Ferme le tab de liste de lecture courant</translation>
     </message>
     <message>
       <source>Ctrl+B</source>
@@ -4404,7 +4404,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Scan tracks</source>
-      <translation type="unfinished">Scan tracks</translation>
+      <translation>Lecture d'extraits de chaque piste</translation>
     </message>
   </context>
   <context>
@@ -5113,7 +5113,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Scan tracks</source>
-      <translation type="unfinished">Scan tracks</translation>
+      <translation>Extraits de pistes</translation>
     </message>
   </context>
   <context>
@@ -5208,23 +5208,23 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Scan mode</source>
-      <translation type="unfinished">Scan mode</translation>
+      <translation>Paramétrage des extraits de piste</translation>
     </message>
     <message>
       <source>Playing time (seconds)</source>
-      <translation type="unfinished">Playing time (seconds)</translation>
+      <translation>Temps de jeu de chaque extrait (secondes)</translation>
     </message>
     <message>
       <source>The time played before and after the position time selected in seconds (0 for playing the complete track)</source>
-      <translation type="unfinished">The time played before and after the position time selected in seconds (0 for playing the complete track)</translation>
+      <translation>Défini le temps de jeu avant et après la position de temps choisi en secondes (0 pour jouer la piste complète)</translation>
     </message>
     <message>
       <source>Interest position (percent of track length)</source>
-      <translation type="unfinished">Interest position (percent of track length)</translation>
+      <translation>Position du temps de référence (pourcentage de la durée de la piste)</translation>
     </message>
     <message>
       <source>The position time reference selected in percent of the track length</source>
-      <translation type="unfinished">The position time reference selected in percent of the track length</translation>
+      <translation>Position du temps de référence en pourcentage de la durée de la piste</translation>
     </message>
   </context>
   <context>
@@ -6129,7 +6129,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>No stations found.</source>
-      <translation>Aucune station trouvée.</translation>
+      <translation>Aucune station n'a été trouvée.</translation>
     </message>
     <message>
       <source>%1 stations found</source>
@@ -6194,7 +6194,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Default country:</source>
-      <translation>Pays par Défaut :</translation>
+      <translation>Pays par défaut :</translation>
     </message>
     <message>
       <source>All countries</source>
