@@ -50,7 +50,7 @@ LyricsFetcher::LyricsFetcher(const SharedPtr<LyricsProviders> lyrics_providers, 
 
 }
 
-quint64 LyricsFetcher::Search(const QString &effective_albumartist, const QString &artist, const QString &album, const QString &title, const qint64 duration) {
+LyricsSearchRequest LyricsFetcher::CreateSearchRequest(const QString &effective_albumartist, const QString &artist, const QString &album, const QString &title, const qint64 duration) {
 
   LyricsSearchRequest search_request;
   search_request.albumartist = effective_albumartist;
@@ -59,9 +59,30 @@ quint64 LyricsFetcher::Search(const QString &effective_albumartist, const QStrin
   search_request.title = Song::TitleRemoveMisc(title);
   search_request.duration = duration;
 
+  return search_request;
+
+}
+
+quint64 LyricsFetcher::Search(const QString &effective_albumartist, const QString &artist, const QString &album, const QString &title, const qint64 duration, const bool synced) {
+
   Request request;
   request.id = ++next_id_;
-  request.search_request = search_request;
+  request.search_request = CreateSearchRequest(effective_albumartist, artist, album, title, duration);
+  request.search = false;
+  request.synced = synced;
+  AddRequest(request);
+
+  return request.id;
+
+}
+
+quint64 LyricsFetcher::SearchForLyrics(const QString &effective_albumartist, const QString &artist, const QString &album, const QString &title, const qint64 duration, const bool synced) {
+
+  Request request;
+  request.id = ++next_id_;
+  request.search_request = CreateSearchRequest(effective_albumartist, artist, album, title, duration);
+  request.search = true;
+  request.synced = synced;
   AddRequest(request);
 
   return request.id;
@@ -105,7 +126,7 @@ void LyricsFetcher::StartRequests() {
 
     Request request = queued_requests_.dequeue();
 
-    LyricsFetcherSearch *search = new LyricsFetcherSearch(request.id, request.search_request, this);
+    LyricsFetcherSearch *search = new LyricsFetcherSearch(request.id, request.search_request, request.search, request.synced, this);
     active_requests_.insert(request.id, search);
 
     QObject::connect(search, &LyricsFetcherSearch::SearchFinished, this, &LyricsFetcher::SingleSearchFinished);

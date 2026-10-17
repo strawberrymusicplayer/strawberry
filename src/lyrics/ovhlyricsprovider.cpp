@@ -41,7 +41,7 @@ namespace {
 constexpr char kUrlSearch[] = "https://api.lyrics.ovh/v1/";
 }  // namespace
 
-OVHLyricsProvider::OVHLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"Lyrics.ovh"_s, true, false, network, parent) {}
+OVHLyricsProvider::OVHLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"Lyrics.ovh"_s, true, false, false, network, parent) {}
 
 void OVHLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 

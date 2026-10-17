@@ -791,6 +791,7 @@ set(SOURCES
 
   src/tageditor/tageditor.cpp
   src/tageditor/trackselectiondialog.cpp
+  src/tageditor/lyricssearchdialog.cpp
 
   src/osd/osdbase.cpp
   src/osd/osdpretty.cpp
@@ -1096,6 +1097,7 @@ set(HEADERS
 
   src/tageditor/tageditor.h
   src/tageditor/trackselectiondialog.h
+  src/tageditor/lyricssearchdialog.h
 
   src/osd/osdbase.h
   src/osd/osdpretty.h
@@ -1218,8 +1220,6 @@ set(UI
   src/dialogs/aboutdialog.ui
   src/dialogs/errordialog.ui
   src/dialogs/console.ui
-  src/tageditor/tageditor.ui
-  src/tageditor/trackselectiondialog.ui
   src/dialogs/addstreamdialog.ui
   src/dialogs/userpassdialog.ui
   src/dialogs/messagedialog.ui
@@ -1227,6 +1227,10 @@ set(UI
 
   src/widgets/trackslider.ui
   src/widgets/loginstatewidget.ui
+
+  src/tageditor/tageditor.ui
+  src/tageditor/trackselectiondialog.ui
+  src/tageditor/lyricssearchdialog.ui
 
   src/osd/osdpretty.ui
 

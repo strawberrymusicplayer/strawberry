@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ class JsonLyricsProvider : public LyricsProvider {
   Q_OBJECT
 
  public:
-  explicit JsonLyricsProvider(const QString &name, const bool enabled, const bool authentication_required, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit JsonLyricsProvider(const QString &name, const bool enabled, const bool authentication_required, const bool synced_lyrics, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
 
   class JsonObjectResult : public ReplyDataResult {
    public:

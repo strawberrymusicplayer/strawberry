@@ -105,6 +105,7 @@
 #  include "trackselectiondialog.h"
 #endif
 #include "lyrics/lyricsfetcher.h"
+#include "lyricssearchdialog.h"
 #include "covermanager/albumcoverchoicecontroller.h"
 #include "covermanager/albumcoverloader.h"
 #include "covermanager/albumcoverloaderoptions.h"
@@ -166,6 +167,7 @@ TagEditor::TagEditor(const SharedPtr<NetworkAccessManager> network,
       results_dialog_(new TrackSelectionDialog(tagreader_client, this)),
 #endif
       lyrics_fetcher_(new LyricsFetcher(lyrics_providers, this)),
+      lyrics_search_dialog_(new LyricsSearchDialog(lyrics_providers, this)),
       cover_menu_(new QMenu(this)),
       image_no_cover_thumbnail_(ImageUtils::GenerateNoCoverImage(QSize(128, 128), devicePixelRatioF())),
       loading_(false),
@@ -175,7 +177,10 @@ TagEditor::TagEditor(const SharedPtr<NetworkAccessManager> network,
       tags_cover_art_id_(0),
       cover_art_is_set_(false),
       save_tag_pending_(0),
-      lyrics_id_(-1),
+      lyrics_requests_count_(0),
+      lyrics_found_count_(0),
+      lyrics_fetch_synced_(false),
+      songs_generation_(0),
       save_lyrics_to_tags_(CollectionSettings::kDefaultSaveLyrics) {
 
   QObject::connect(&*albumcover_loader_, &AlbumCoverLoader::AlbumCoverLoaded, this, &TagEditor::AlbumCoverLoaded);
@@ -190,6 +195,7 @@ TagEditor::TagEditor(const SharedPtr<NetworkAccessManager> network,
 
   // Don't open the dialog again with the songs set while loading or saving when the dialog was closed.
   QObject::connect(this, &QDialog::rejected, this, &TagEditor::ClearPendingSongs);
+  QObject::connect(this, &QDialog::rejected, this, &TagEditor::CancelFetchLyrics);
 
   album_cover_choice_controller_->Init(network, tagreader_client, collection_backend, albumcover_loader, current_albumcover_loader, cover_providers, streaming_services);
 
@@ -220,7 +226,8 @@ TagEditor::TagEditor(const SharedPtr<NetworkAccessManager> network,
 
   // An editable field is one that has a label as a buddy.
   // The label is important because it gets turned bold when the field is changed.
-  QList<QLabel*> labels = findChildren<QLabel*>();
+  // Only the labels in the tabs, not the labels of child dialogs like the lyrics search dialog.
+  QList<QLabel*> labels = ui_->tab_widget->findChildren<QLabel*>();
   for (QLabel *label : std::as_const(labels)) {
     QWidget *widget = label->buddy();
     // Combo boxes have their own handling, the buddy is only set for accessibility.
@@ -279,6 +286,9 @@ TagEditor::TagEditor(const SharedPtr<NetworkAccessManager> network,
   QObject::connect(ui_->fetch_tag, &QPushButton::clicked, this, &TagEditor::FetchTag);
 #endif
   QObject::connect(ui_->fetch_lyrics, &QPushButton::clicked, this, &TagEditor::FetchLyrics);
+  QObject::connect(ui_->search_lyrics, &QPushButton::clicked, this, &TagEditor::SearchLyrics);
+  QObject::connect(ui_->search_synced_lyrics, &QPushButton::clicked, this, &TagEditor::SearchSyncedLyrics);
+  QObject::connect(ui_->fetch_synced_lyrics, &QPushButton::clicked, this, &TagEditor::FetchSyncedLyrics);
 
   QList<QAction*> actions = album_cover_choice_controller_->GetAllActions();
 
@@ -401,6 +411,9 @@ void TagEditor::accept() {
 
   // Show the loading indicator
   if (!SetLoading(tr("Saving tracks") + u"..."_s)) return;
+
+  // Lyrics fetched after saving started would not be saved.
+  CancelFetchLyrics();
 
   SaveData();
 
@@ -576,6 +589,10 @@ bool TagEditor::SetSongs(const SongList &s, const PlaylistItemPtrList &items) {
     pending_playlist_items_ = items;
     return false;
   }
+
+  // The fetched lyrics are for the songs which are replaced.
+  CancelFetchLyrics();
+  ++songs_generation_;
 
   data_.clear();
   playlist_items_ = items;
@@ -822,12 +839,7 @@ void TagEditor::ResetFieldValue(const FieldData &field, const QModelIndexList &s
 
 void TagEditor::SongSelectionChanged() {
 
-  // Cancel fetching lyrics for the previously selected song, also when nothing is selected now, otherwise the result is shown for the wrong song.
-  // This is not done in SelectionChanged(), since that is also called to update the UI for the same song, for example when the cover changed.
-  lyrics_fetcher_->Clear();
-  lyrics_id_ = -1;
-  ui_->lyrics_fetch_status->clear();
-
+  // Fetching lyrics continues, the lyrics are set for the songs they were fetched for, not for the selected songs.
   SelectionChanged();
 
 }
@@ -843,8 +855,9 @@ void TagEditor::SelectionChanged() {
   // If we're editing multiple songs then we have to disable certain tabs
   const bool multiple = indexes.count() > 1;
   ui_->tab_widget->setTabEnabled(ui_->tab_widget->indexOf(ui_->tab_summary), !multiple);
-  ui_->tab_widget->setTabEnabled(ui_->tab_widget->indexOf(ui_->tab_lyrics), !multiple);
-  ui_->tab_widget->setTabEnabled(ui_->tab_widget->indexOf(ui_->tab_synced_lyrics), !multiple);
+  // The lyrics can be completed automatically for multiple songs, choosing the lyrics from a search is only for a single song.
+  ui_->tab_widget->setTabEnabled(ui_->tab_widget->indexOf(ui_->tab_lyrics), true);
+  ui_->tab_widget->setTabEnabled(ui_->tab_widget->indexOf(ui_->tab_synced_lyrics), true);
 
   if (multiple) {
     UpdateSummaryTab(Song());
@@ -927,10 +940,10 @@ void TagEditor::SelectionChanged() {
     if (song.comment_supported()) {
       comment_enabled = true;
     }
-    if (StorageTypeAvailable(song, Song::StorageType::Tag, false) || StorageTypeAvailable(song, Song::StorageType::Database, false)) {
+    if (LyricsStorageAvailable(song, false)) {
       lyrics_enabled = true;
     }
-    if (StorageTypeAvailable(song, Song::StorageType::Tag, true) || StorageTypeAvailable(song, Song::StorageType::File, true) || StorageTypeAvailable(song, Song::StorageType::Database, true)) {
+    if (LyricsStorageAvailable(song, true)) {
       synced_lyrics_enabled = true;
     }
     if (song.titlesort_supported()) {
@@ -1021,10 +1034,15 @@ void TagEditor::SelectionChanged() {
   ui_->comment->setEnabled(comment_enabled);
   ui_->lyrics->setEnabled(lyrics_enabled);
   ui_->synced_lyrics->setEnabled(synced_lyrics_enabled);
-  ui_->lyrics_storage->setEnabled(lyrics_enabled);
-  ui_->synced_lyrics_storage->setEnabled(synced_lyrics_enabled);
+  // The lyrics are only searched for when they can be saved for at least one of the songs, choosing the lyrics from a search is only for a single song.
+  ui_->fetch_lyrics->setEnabled(lyrics_enabled);
+  ui_->search_lyrics->setEnabled(lyrics_enabled && indexes.count() == 1);
+  ui_->fetch_synced_lyrics->setEnabled(synced_lyrics_enabled);
+  ui_->search_synced_lyrics->setEnabled(synced_lyrics_enabled && indexes.count() == 1);
+  // The storage of the lyrics can be different for each song, it is only changed for a single song, otherwise each song keeps its storage.
+  ui_->lyrics_storage->setEnabled(lyrics_enabled && indexes.count() == 1);
+  ui_->synced_lyrics_storage->setEnabled(synced_lyrics_enabled && indexes.count() == 1);
 
-  // The lyrics tabs are only enabled for a single song.
   if (indexes.count() == 1) {
     const Data &tag_data = data_.at(indexes.first().row());
     UpdateStorageComboBox(ui_->lyrics_storage, tag_data, false);
@@ -1853,25 +1871,179 @@ void TagEditor::FetchTagSongChosen(const Song &original_song, const Song &new_me
 
 void TagEditor::FetchLyrics() {
 
-  if (ui_->song_list->selectionModel()->selectedIndexes().isEmpty()) return;
-  const Song song = data_.value(ui_->song_list->selectionModel()->selectedIndexes().first().row()).current_;
-  lyrics_fetcher_->Clear();
+  StartFetchLyrics(false);
+
+}
+
+void TagEditor::FetchSyncedLyrics() {
+
+  StartFetchLyrics(true);
+
+}
+
+void TagEditor::StartFetchLyrics(const bool synced) {
+
+  const QModelIndexList indexes = ui_->song_list->selectionModel()->selectedIndexes();
+  if (indexes.isEmpty()) return;
+
+  // Only one of the lyrics and synchronized lyrics are fetched at a time.
+  CancelFetchLyrics();
+  lyrics_fetch_synced_ = synced;
+
+  // The best lyrics are used for each selected song, the songs which can't save the lyrics are skipped, so they are not counted as found.
+  for (const QModelIndex &idx : indexes) {
+    const Song &song = data_.at(idx.row()).current_;
+    if (!LyricsStorageAvailable(song, synced)) continue;
+    const quint64 id = lyrics_fetcher_->Search(song.effective_albumartist(), song.artist(), song.album(), song.title(), song.length_nanosec() / kNsecPerSec, synced);
+    lyrics_requests_.insert(id, idx.row());
+  }
+  lyrics_requests_count_ = static_cast<int>(lyrics_requests_.count());
+  if (lyrics_requests_count_ == 0) return;
+
   // The status is not shown in the lyrics field, since the field is the lyrics of the song, so the status would be saved as the lyrics.
-  ui_->lyrics_fetch_status->setText(tr("loading..."));
-  lyrics_id_ = static_cast<qint64>(lyrics_fetcher_->Search(song.effective_albumartist(), song.artist(), song.album(), song.title(), song.length_nanosec() / kNsecPerSec));
+  LyricsFetchStatusLabel()->setText(tr("loading..."));
+
+}
+
+QLabel *TagEditor::LyricsFetchStatusLabel() const {
+
+  return lyrics_fetch_synced_ ? ui_->synced_lyrics_fetch_status : ui_->lyrics_fetch_status;
 
 }
 
 void TagEditor::UpdateLyrics(const quint64 id, const LyricsSearchResult &result) {
 
-  if (static_cast<qint64>(id) != lyrics_id_) return;
-  lyrics_id_ = -1;
-  if (result.lyrics.isEmpty()) {
-    ui_->lyrics_fetch_status->setText(tr("Not found."));
+  if (!lyrics_requests_.contains(id)) return;
+  const int row = lyrics_requests_.take(id);
+
+  const QString lyrics = lyrics_fetch_synced_ ? result.synced_lyrics : result.lyrics;
+  if (!lyrics.isEmpty()) {
+    ++lyrics_found_count_;
+    SetFieldValue(row, lyrics_fetch_synced_ ? u"synced_lyrics"_s : u"lyrics"_s, lyrics);
+  }
+
+  UpdateLyricsFetchStatus();
+
+}
+
+void TagEditor::UpdateLyricsFetchStatus() {
+
+  QLabel *status_label = LyricsFetchStatusLabel();
+
+  if (lyrics_requests_count_ == 0) {
+    status_label->clear();
+    return;
+  }
+
+  if (!lyrics_requests_.isEmpty()) {
+    status_label->setText(tr("loading... (%1 of %2)").arg(lyrics_requests_count_ - lyrics_requests_.count()).arg(lyrics_requests_count_));
+    return;
+  }
+
+  if (lyrics_requests_count_ == 1) {
+    if (lyrics_found_count_ == 0) {
+      status_label->setText(tr("Not found."));
+    }
+    else {
+      status_label->clear();
+    }
   }
   else {
-    ui_->lyrics_fetch_status->clear();
-    ui_->lyrics->setPlainText(result.lyrics);
+    status_label->setText(tr("Found lyrics for %1 of %2 songs.").arg(lyrics_found_count_).arg(lyrics_requests_count_));
+  }
+
+}
+
+void TagEditor::CancelFetchLyrics() {
+
+  lyrics_fetcher_->Clear();
+  lyrics_requests_.clear();
+  lyrics_requests_count_ = 0;
+  lyrics_found_count_ = 0;
+  ui_->lyrics_fetch_status->clear();
+  ui_->synced_lyrics_fetch_status->clear();
+
+}
+
+void TagEditor::SearchLyrics() {
+
+  ChooseLyrics(false);
+
+}
+
+void TagEditor::SearchSyncedLyrics() {
+
+  ChooseLyrics(true);
+
+}
+
+void TagEditor::ChooseLyrics(const bool synced) {
+
+  const QModelIndexList indexes = ui_->song_list->selectionModel()->selectedIndexes();
+  if (indexes.count() != 1) return;
+
+  const int row = indexes.first().row();
+  if (!LyricsStorageAvailable(data_.at(row).current_, synced)) return;
+
+  const quint64 songs_generation = songs_generation_;
+  const std::optional<LyricsSearchResult> result = lyrics_search_dialog_->Exec(data_.at(row).current_, synced);
+  if (!result.has_value()) return;
+
+  // The songs were replaced while the dialog was open, the row is another song now.
+  if (songs_generation_ != songs_generation) return;
+
+  const QString lyrics = synced ? result->synced_lyrics : result->lyrics;
+  if (lyrics.isEmpty()) return;
+
+  // The songs are still loading after they were replaced.
+  if (row >= data_.count()) return;
+
+  // Don't let lyrics being completed automatically for the song replace the chosen lyrics.
+  if (lyrics_fetch_synced_ == synced) {
+    bool fetch_cancelled = false;
+    for (QHash<quint64, int>::iterator it = lyrics_requests_.begin(); it != lyrics_requests_.end();) {
+      if (it.value() == row) {
+        it = lyrics_requests_.erase(it);
+        --lyrics_requests_count_;
+        fetch_cancelled = true;
+      }
+      else {
+        ++it;
+      }
+    }
+    if (fetch_cancelled) {
+      UpdateLyricsFetchStatus();
+    }
+  }
+
+  SetFieldValue(row, synced ? u"synced_lyrics"_s : u"lyrics"_s, lyrics);
+
+}
+
+void TagEditor::SetFieldValue(const int row, const QString &id, const QString &value) {
+
+  if (row < 0 || row >= data_.count()) return;
+
+  data_[row].set_value(id, value);
+
+  // Update the field when the song is selected, with multiple songs it shows whether the values are different.
+  const QModelIndexList indexes = ui_->song_list->selectionModel()->selectedIndexes();
+  bool selected = false;
+  for (const QModelIndex &idx : indexes) {
+    if (idx.row() == row) {
+      selected = true;
+      break;
+    }
+  }
+  if (!selected) return;
+
+  for (const FieldData &field : std::as_const(fields_)) {
+    if (field.id_ == id) {
+      ignore_edits_ = true;
+      InitFieldValue(field, indexes);
+      ignore_edits_ = false;
+      break;
+    }
   }
 
 }
@@ -1904,6 +2076,16 @@ void TagEditor::StorageComboBoxChanged(QComboBox *combobox, const int index, con
   }
 
   UpdateStorageComboBox(combobox, data_.at(indexes.first().row()), synced);
+
+}
+
+bool TagEditor::LyricsStorageAvailable(const Song &song, const bool synced) {
+
+  if (synced) {
+    return StorageTypeAvailable(song, Song::StorageType::Tag, true) || StorageTypeAvailable(song, Song::StorageType::File, true) || StorageTypeAvailable(song, Song::StorageType::Database, true);
+  }
+
+  return StorageTypeAvailable(song, Song::StorageType::Tag, false) || StorageTypeAvailable(song, Song::StorageType::Database, false);
 
 }
 

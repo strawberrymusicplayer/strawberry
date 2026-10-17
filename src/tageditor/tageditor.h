@@ -33,6 +33,7 @@
 #include <QUrl>
 #include <QList>
 #include <QMap>
+#include <QHash>
 #include <QImage>
 
 #include "core/song.h"
@@ -67,6 +68,7 @@ class TrackSelectionDialog;
 class TagFetcher;
 #endif
 class LyricsFetcher;
+class LyricsSearchDialog;
 
 class TagEditor : public QDialog {
   Q_OBJECT
@@ -149,7 +151,10 @@ class TagEditor : public QDialog {
   void FetchTag();
   void FetchTagSongChosen(const Song &original_song, const Song &new_metadata);
   void FetchLyrics();
+  void FetchSyncedLyrics();
   void UpdateLyrics(const quint64 id, const LyricsSearchResult &result);
+  void SearchLyrics();
+  void SearchSyncedLyrics();
   void LyricsStorageChanged(const int index);
   void SyncedLyricsStorageChanged(const int index);
 
@@ -198,6 +203,17 @@ class TagEditor : public QDialog {
 
   void UpdateUI(const QModelIndexList &indexes);
 
+  // Lets the user choose the lyrics or synchronized lyrics from a search for the selected song.
+  void ChooseLyrics(const bool synced);
+  // Sets the value of the field for the song in the row, and updates the field when the song is selected.
+  void SetFieldValue(const int row, const QString &id, const QString &value);
+  void CancelFetchLyrics();
+  // Completes the lyrics or synchronized lyrics automatically for the selected songs.
+  void StartFetchLyrics(const bool synced);
+  QLabel *LyricsFetchStatusLabel() const;
+  // Shows the progress or the result of completing the lyrics automatically.
+  void UpdateLyricsFetchStatus();
+
   bool SetLoading(const QString &message);
   void SetSongListVisibility(bool visible);
 
@@ -206,6 +222,8 @@ class TagEditor : public QDialog {
   void SaveData();
 
   static bool StorageTypeAvailable(const Song &song, const Song::StorageType storage_type, const bool synced);
+  // Returns true when the lyrics or synchronized lyrics of the song can be saved anywhere.
+  static bool LyricsStorageAvailable(const Song &song, const bool synced);
   static void SetAvailableStorageTypes(Song *song, const bool save_lyrics_to_tags);
   void UpdateStorageComboBox(QComboBox *combobox, const Data &tag_data, const bool synced);
   void StorageComboBoxChanged(QComboBox *combobox, const int index, const bool synced);
@@ -232,6 +250,7 @@ class TagEditor : public QDialog {
   TrackSelectionDialog *results_dialog_;
 #endif
   LyricsFetcher *lyrics_fetcher_;
+  LyricsSearchDialog *lyrics_search_dialog_;
 
   QMenu *cover_menu_;
 
@@ -264,7 +283,14 @@ class TagEditor : public QDialog {
 
   AlbumCoverLoaderOptions::Types cover_types_;
 
-  qint64 lyrics_id_;
+  // The rows in data_ of the songs the lyrics are fetched for, by the lyrics request ID.
+  QHash<quint64, int> lyrics_requests_;
+  int lyrics_requests_count_;
+  int lyrics_found_count_;
+  // Whether the lyrics being fetched are synchronized lyrics.
+  bool lyrics_fetch_synced_;
+  // Changed when other songs are set, to know whether the songs were replaced while the lyrics search dialog was open.
+  quint64 songs_generation_;
 
   // Default for new lyrics from the collection settings, read before loading the songs.
   bool save_lyrics_to_tags_;

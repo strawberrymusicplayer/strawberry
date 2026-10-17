@@ -47,7 +47,7 @@ namespace {
 constexpr char kApiUrl[] = "https://lrclib.net/api/get";
 }  // namespace
 
-LrcLibLyricsProvider::LrcLibLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"LrcLib"_s, true, false, network, parent) {}
+LrcLibLyricsProvider::LrcLibLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"LrcLib"_s, true, false, true, network, parent) {}
 
 void LrcLibLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
