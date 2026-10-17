@@ -158,6 +158,7 @@ OSDPretty::OSDPretty(const Mode mode, QWidget *parent)
   }
   QObject::connect(qApp, &QApplication::screenAdded, this, &OSDPretty::ScreenAdded);
   QObject::connect(qApp, &QApplication::screenRemoved, this, &OSDPretty::ScreenRemoved);
+  QObject::connect(qApp, &QApplication::primaryScreenChanged, this, &OSDPretty::ScreenChanged);
 
   Load();
 
@@ -205,6 +206,16 @@ void OSDPretty::ScreenAdded(QScreen *screen) {
       Reposition();
     }
   }
+
+}
+
+void OSDPretty::ScreenChanged(QScreen *screen) {
+
+  popup_screen_ = screen;
+  popup_screen_name_ = screen->name();
+  UpdateMaximumSize();
+  layout()->activate();
+  resize(sizeHint());
 
 }
 
@@ -552,11 +563,7 @@ void OSDPretty::mouseMoveEvent(QMouseEvent *e) {
 
     // When dragged to another screen, update the size limits for it first, so the OSD fits on it before it is kept within its bounds.
     if (screen != popup_screen_) {
-      popup_screen_ = screen;
-      popup_screen_name_ = screen->name();
-      UpdateMaximumSize();
-      layout()->activate();
-      resize(sizeHint());
+      ScreenChanged(screen);
     }
 
     QRect geometry = screen->availableGeometry();

@@ -122,6 +122,7 @@ class OSDPretty : public QWidget {
   void FaderFinished();
   void ScreenAdded(QScreen *screen);
   void ScreenRemoved(QScreen *screen);
+  void ScreenChanged(QScreen *screen);
 
  private:
   Ui_OSDPretty *ui_;
