@@ -552,13 +552,18 @@ void AlbumCoverChoiceController::SaveArtEmbeddedToSong(Song *song, const bool ar
   if (!song->is_valid()) return;
 
   song->set_art_embedded(art_embedded);
-  song->set_art_unset(false);
+  // Removing the embedded cover when the cover is unset should not reset art_unset.
+  if (art_embedded) {
+    song->set_art_unset(false);
+  }
 
   if (song->source() == Song::Source::Collection) {
     collection_backend_->UpdateEmbeddedAlbumArtAsync(song->effective_albumartist(), song->album(), art_embedded);
   }
 
-  if (*song == current_albumcover_loader_->last_song()) {
+  // The embedded cover is only removed when deleting the cover, which already reloads the current cover with the cover cleared or unset.
+  // The song here was copied before that, so reloading it would restore the deleted cover state.
+  if (art_embedded && *song == current_albumcover_loader_->last_song()) {
     current_albumcover_loader_->LoadAlbumCover(*song);
   }
 
@@ -624,9 +629,7 @@ void AlbumCoverChoiceController::ClearAlbumCoverForSong(Song *song) {
     collection_backend_->ClearAlbumArtAsync(song->effective_albumartist(), song->album(), false);
   }
 
-  if (*song == current_albumcover_loader_->last_song()) {
-    current_albumcover_loader_->LoadAlbumCover(*song);
-  }
+  LoadCurrentAlbumCover(*song);
 
 }
 
@@ -643,8 +646,27 @@ void AlbumCoverChoiceController::UnsetAlbumCoverForSong(Song *song) {
     collection_backend_->UnsetAlbumArtAsync(song->effective_albumartist(), song->album());
   }
 
-  if (*song == current_albumcover_loader_->last_song()) {
-    current_albumcover_loader_->LoadAlbumCover(*song);
+  LoadCurrentAlbumCover(*song);
+
+}
+
+void AlbumCoverChoiceController::LoadCurrentAlbumCover(const Song &song) {
+
+  const Song &current_song = current_albumcover_loader_->last_song();
+
+  if (song == current_song) {
+    current_albumcover_loader_->LoadAlbumCover(song);
+    return;
+  }
+
+  // The cover is changed for the whole album in the collection, so also reload it when another song from the album is the current song, like when the cover is changed from the album cover manager.
+  if (song.source() == Song::Source::Collection && current_song.is_valid() && current_song.source() == song.source() && current_song.effective_albumartist() == song.effective_albumartist() && current_song.album() == song.album()) {
+    Song album_song = current_song;
+    album_song.set_art_unset(song.art_unset());
+    album_song.set_art_embedded(song.art_embedded());
+    album_song.set_art_automatic(song.art_automatic());
+    album_song.set_art_manual(song.art_manual());
+    current_albumcover_loader_->LoadAlbumCover(album_song);
   }
 
 }
@@ -850,5 +872,7 @@ void AlbumCoverChoiceController::SaveEmbeddedCoverFinished(TagReaderReplyPtr rep
   else {
     Q_EMIT Error(tr("Could not save cover to file %1.").arg(song.url().toLocalFile()));
   }
+
+  Q_EMIT EmbeddedCoverSaved(song, reply->success());
 
 }

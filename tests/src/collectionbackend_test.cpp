@@ -343,6 +343,27 @@ TEST_F(SingleSong, GetSongById) {
 
 }
 
+// Regression test: deleting and unsetting a cover removes the embedded cover after the cover is unset, which reset art_unset, so the cover was detected or fetched again.
+TEST_F(SingleSong, UpdateEmbeddedAlbumArtKeepsArtUnset) {
+
+  song_.set_art_embedded(true);
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  backend_->UnsetAlbumArt(song_.effective_albumartist(), song_.album());
+  backend_->UpdateEmbeddedAlbumArt(song_.effective_albumartist(), song_.album(), false);
+  Song song = backend_->GetSongById(1);
+  EXPECT_FALSE(song.art_embedded());
+  EXPECT_TRUE(song.art_unset());
+
+  // Embedding a cover sets the cover again.
+  backend_->UpdateEmbeddedAlbumArt(song_.effective_albumartist(), song_.album(), true);
+  song = backend_->GetSongById(1);
+  EXPECT_TRUE(song.art_embedded());
+  EXPECT_FALSE(song.art_unset());
+
+}
+
 // Lyrics found automatically are saved with UpdateSongLyrics(), and their storage type is changed with UpdateSongLyricsStorageType() once they are written to the tags.
 
 TEST_F(SingleSong, UpdateSongLyrics) {

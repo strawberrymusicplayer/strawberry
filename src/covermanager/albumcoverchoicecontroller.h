@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -173,9 +173,11 @@ class AlbumCoverChoiceController : public QWidget {
  Q_SIGNALS:
   void Error(const QString &error);
   void AutomaticCoverSearchDone();
+  void EmbeddedCoverSaved(const Song &song, const bool success);
 
  private:
   static QString GetInitialPathForFileDialog(const Song &song, const QString &filename);
+  void LoadCurrentAlbumCover(const Song &song);
 
   static bool IsKnownImageExtension(const QString &suffix);
 
