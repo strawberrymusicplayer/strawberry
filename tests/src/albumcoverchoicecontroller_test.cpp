@@ -139,4 +139,37 @@ TEST_F(AlbumCoverChoiceControllerTest, EmbeddingImageOnlyResultReplacesCover) {
 
 }
 
+// Regression test: embedding a cover from a file, like a cover loaded from disk, stored the song as not having an embedded cover, since only the image data was checked.
+TEST_F(AlbumCoverChoiceControllerTest, EmbeddingCoverFromFileSetsArtEmbedded) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString filename = temp_dir.filePath(u"song.mp3"_s);
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, filename));
+  ASSERT_TRUE(QFile::setPermissions(filename, QFile::ReadOwner | QFile::WriteOwner | QFile::ReadUser | QFile::WriteUser));
+  const QString cover_filename = temp_dir.filePath(u"cover.jpg"_s);
+  ASSERT_TRUE(CreateImage(Qt::green).save(cover_filename, "JPG"));
+
+  Song song(Song::Source::LocalFile);
+  ASSERT_TRUE(tagreader_client_->ReadFileBlocking(filename, &song).success());
+  ASSERT_TRUE(song.save_embedded_cover_supported());
+  collection_backend_->AddDirectory(temp_dir.path());
+  song.set_source(Song::Source::Collection);
+  song.set_directory_id(1);
+  song.set_artist(u"Artist"_s);
+  song.set_album(u"Album"_s);
+  song.set_art_embedded(false);
+  collection_backend_->AddOrUpdateSongs(SongList() << song);
+  ASSERT_EQ(collection_backend_->GetAllSongs().count(), 1);
+  ASSERT_FALSE(collection_backend_->GetAllSongs().first().art_embedded());
+
+  AlbumCoverChoiceController controller;
+  controller.Init(make_shared<NetworkAccessManager>(), tagreader_client_, collection_backend_, albumcover_loader_, make_shared<CurrentAlbumCoverLoader>(albumcover_loader_), make_shared<CoverProviders>(), make_shared<StreamingServices>());
+
+  controller.SaveCoverEmbeddedToSong(song, cover_filename, QByteArray());
+  ASSERT_TRUE(WaitFor([this, &filename]() { return HasEmbeddedCoverColor(filename, Qt::green); }));
+  EXPECT_TRUE(WaitFor([this]() { return collection_backend_->GetAllSongs().first().art_embedded(); }));
+
+}
+
 }  // namespace
