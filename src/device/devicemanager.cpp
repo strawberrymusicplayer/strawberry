@@ -713,17 +713,23 @@ void DeviceManager::DeviceCloseFinished(const QString &id) {
 
   device_info->device_.reset();
 
+  // Unmounting and forgetting only apply to this close, the device info is kept while the device is still attached or remembered, so a later close must not unmount or forget the device again.
+  const bool unmount = device_info->unmount_;
+  const bool forget = device_info->forget_;
+  device_info->unmount_ = false;
+  device_info->forget_ = false;
+
   QModelIndex idx = ItemToIndex(device_info);
   if (!idx.isValid()) return;
 
   Q_EMIT DeviceDisconnected(idx);
   Q_EMIT dataChanged(idx, idx);
 
-  if (device_info->unmount_ && device_info->BestBackend() && device_info->BestBackend()->lister_) {
+  if (unmount && device_info->BestBackend() && device_info->BestBackend()->lister_) {
     device_info->BestBackend()->lister_->UnmountDeviceAsync(device_info->BestBackend()->unique_id_);
   }
 
-  if (device_info->forget_) {
+  if (forget) {
     RemoveFromDB(device_info, idx);
   }
 
