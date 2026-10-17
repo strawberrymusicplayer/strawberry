@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -210,7 +210,15 @@ void OSDPretty::ScreenAdded(QScreen *screen) {
 
 void OSDPretty::ScreenRemoved(QScreen *screen) {
 
-  if (screens_.contains(screen->name())) screens_.remove(screen->name());
+  // Remove the screen by the pointer and not by the name, since the name of a screen can change after it was added, and the screen would be kept, also remove screens which were already deleted.
+  for (QMap<QString, QPointer<QScreen>>::iterator it = screens_.begin(); it != screens_.end();) {
+    if (it.value().isNull() || it.value() == screen) {
+      it = screens_.erase(it);
+    }
+    else {
+      ++it;
+    }
+  }
   // Fall back to another screen, but keep the configured screen name, so the OSD is shown on it again when it is added back.
   if (screen == popup_screen_) {
     popup_screen_ = current_screen();
@@ -230,7 +238,7 @@ bool OSDPretty::IsTransparencyAvailable() const {
     if (platform == "xcb"_L1) {
       // On X11 the window can only be translucent while a compositing manager is running.
       QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();
-      QScreen *screen = popup_screen_ == nullptr ? QGuiApplication::primaryScreen() : popup_screen_;
+      QScreen *screen = popup_screen_.isNull() ? QGuiApplication::primaryScreen() : popup_screen_.data();
       if (native && screen) {
         return native->nativeResourceForScreen(QByteArray("compositingEnabled"), screen);
       }
@@ -272,7 +280,8 @@ void OSDPretty::Load() {
 
   if (s.contains(OSDPrettySettings::kPopupScreen)) {
     popup_screen_name_ = s.value(OSDPrettySettings::kPopupScreen).toString();
-    if (screens_.contains(popup_screen_name_)) {
+    // The screen can have been deleted without being removed, then it's nullptr.
+    if (screens_.contains(popup_screen_name_) && !screens_.value(popup_screen_name_).isNull()) {
       popup_screen_ = screens_.value(popup_screen_name_);
     }
     else {
@@ -443,7 +452,7 @@ void OSDPretty::FaderValueChanged(const qreal value) {
 void OSDPretty::UpdateMaximumSize() {
 
   // Get the resolution of the screen the OSD is shown on
-  QScreen *screen = popup_screen_ ? popup_screen_ : current_screen();
+  QScreen *screen = popup_screen_ ? popup_screen_.data() : current_screen();
   if (!screen) return;
 
   const QRect resolution = screen->availableGeometry();
@@ -456,6 +465,13 @@ void OSDPretty::UpdateMaximumSize() {
 }
 
 void OSDPretty::Reposition() {
+
+  // The screen was deleted without being removed, use the configured screen if it's available, otherwise another screen.
+  if (!popup_screen_) {
+    const QPointer<QScreen> configured_screen = screens_.value(popup_screen_name_);
+    popup_screen_ = configured_screen ? configured_screen.data() : current_screen();
+    UpdateMaximumSize();
+  }
 
   // Make the OSD the proper size
   layout()->activate();
