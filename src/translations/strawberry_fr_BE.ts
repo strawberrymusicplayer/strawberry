@@ -5,11 +5,11 @@
     <name>ASXParser</name>
     <message>
       <source>ASX playlist is too large</source>
-      <translation type="unfinished">ASX playlist is too large</translation>
+      <translation>La liste de lecture ASX est trop volumineuse</translation>
     </message>
     <message>
       <source>Failed to write ASX playlist</source>
-      <translation type="unfinished">Failed to write ASX playlist</translation>
+      <translation>Échec de l'écriture de la liste de lecture ASX</translation>
     </message>
   </context>
   <context>
@@ -251,7 +251,7 @@
     </message>
     <message>
       <source>Pixel</source>
-      <translation type="unfinished">Pixel</translation>
+      <translation>Pixel</translation>
     </message>
   </context>
   <context>
@@ -329,7 +329,7 @@
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Search</source>
@@ -380,7 +380,7 @@
     </message>
     <message>
       <source>Turbine</source>
-      <translation type="unfinished">Turbine</translation>
+      <translation>Turbine</translation>
     </message>
     <message>
       <source>Sonogram</source>
@@ -399,7 +399,7 @@
     </message>
     <message>
       <source>Style</source>
-      <translation type="unfinished">Style</translation>
+      <translation>Style</translation>
     </message>
     <message>
       <source>Tabbar colors</source>
@@ -451,7 +451,7 @@
     </message>
     <message>
       <source>Position</source>
-      <translation type="unfinished">Position</translation>
+      <translation>Position</translation>
     </message>
     <message>
       <source>Upper Left</source>
@@ -495,7 +495,7 @@
     </message>
     <message>
       <source>0px</source>
-      <translation type="unfinished">0px</translation>
+      <translation>0px</translation>
     </message>
     <message>
       <source>Opacity</source>
@@ -503,7 +503,7 @@
     </message>
     <message>
       <source>40%</source>
-      <translation type="unfinished">40%</translation>
+      <translation>40%</translation>
     </message>
     <message>
       <source>Icon sizes</source>
@@ -551,51 +551,51 @@
     </message>
     <message>
       <source>Window</source>
-      <translation type="unfinished">Window</translation>
+      <translation>Fenêtre</translation>
     </message>
     <message>
       <source>Window text</source>
-      <translation type="unfinished">Window text</translation>
+      <translation>Texte de la fenêtre</translation>
     </message>
     <message>
       <source>Base</source>
-      <translation type="unfinished">Base</translation>
+      <translation>Base</translation>
     </message>
     <message>
       <source>Alternate base</source>
-      <translation type="unfinished">Alternate base</translation>
+      <translation>Base alternative</translation>
     </message>
     <message>
       <source>Tooltip base</source>
-      <translation type="unfinished">Tooltip base</translation>
+      <translation>Base de l'infobulle</translation>
     </message>
     <message>
       <source>Tooltip text</source>
-      <translation type="unfinished">Tooltip text</translation>
+      <translation>Texte de l'infobulle</translation>
     </message>
     <message>
       <source>Placeholder text</source>
-      <translation type="unfinished">Placeholder text</translation>
+      <translation>Texte d'espace réservé</translation>
     </message>
     <message>
       <source>Text</source>
-      <translation type="unfinished">Text</translation>
+      <translation>Texte</translation>
     </message>
     <message>
       <source>Button</source>
-      <translation type="unfinished">Button</translation>
+      <translation>Bouton</translation>
     </message>
     <message>
       <source>Button text</source>
-      <translation type="unfinished">Button text</translation>
+      <translation>Texte du bouton</translation>
     </message>
     <message>
       <source>Bright text</source>
-      <translation type="unfinished">Bright text</translation>
+      <translation>Texte lumineux</translation>
     </message>
     <message>
       <source>Select color</source>
-      <translation type="unfinished">Select color</translation>
+      <translation>Sélectionner une couleur</translation>
     </message>
     <message>
       <source>Select background image</source>
@@ -603,51 +603,51 @@
     </message>
     <message>
       <source>Colors</source>
-      <translation type="unfinished">Colors</translation>
+      <translation>Couleurs</translation>
     </message>
     <message>
       <source>&amp;Use the system default color set</source>
-      <translation type="unfinished">&amp;Use the system default color set</translation>
+      <translation>&amp;Utiliser le jeu de couleurs par défaut du système</translation>
     </message>
     <message>
       <source>Use a custom color set</source>
-      <translation type="unfinished">Use a custom color set</translation>
+      <translation>Utiliser un jeu de couleurs personnalisé</translation>
     </message>
     <message>
       <source>Set a custom color set suitable for a dark theme</source>
-      <translation type="unfinished">Set a custom color set suitable for a dark theme</translation>
+      <translation>Définissez un jeu de couleurs personnalisé adapté à un thème sombre</translation>
     </message>
     <message>
       <source>Dark mode</source>
-      <translation type="unfinished">Dark mode</translation>
+      <translation>Mode sombre</translation>
     </message>
     <message>
       <source>Reset the custom color set to the system default colors</source>
-      <translation type="unfinished">Reset the custom color set to the system default colors</translation>
+      <translation>Réinitialiser le jeu de couleurs personnalisées aux couleurs par défaut du système</translation>
     </message>
     <message>
       <source>Reset to default</source>
-      <translation type="unfinished">Reset to default</translation>
+      <translation>Réinitialiser aux valeurs par défaut</translation>
     </message>
     <message>
       <source>You might need to restart Strawberry for this setting to fully apply</source>
-      <translation type="unfinished">You might need to restart Strawberry for this setting to fully apply</translation>
+      <translation>Il se peut que Strawberry doit être redémarré pour que la modification de cette option soit pleinement appliquée</translation>
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect</source>
-      <translation type="unfinished">You need to restart Strawberry for this setting to take affect</translation>
+      <translation>Strawberry doit être redémarré pour que la modification de cette option soit prise en compte</translation>
     </message>
     <message>
       <source>System icons</source>
-      <translation type="unfinished">System icons</translation>
+      <translation>Icônes du système</translation>
     </message>
     <message>
       <source>Changing colors is only supported with some styles</source>
-      <translation type="unfinished">Changing colors is only supported with some styles</translation>
+      <translation>Le changement de couleur n'est pris en charge qu'avec certains styles</translation>
     </message>
     <message>
       <source>Dark colors</source>
-      <translation type="unfinished">Dark colors</translation>
+      <translation>Couleurs sombres</translation>
     </message>
   </context>
   <context>
@@ -674,15 +674,15 @@
     </message>
     <message>
       <source>hw</source>
-      <translation type="unfinished">hw</translation>
+      <translation>hw</translation>
     </message>
     <message>
       <source>p&amp;lughw</source>
-      <translation type="unfinished">p&amp;lughw</translation>
+      <translation>p&amp;ghoul</translation>
     </message>
     <message>
       <source>pcm</source>
-      <translation type="unfinished">pcm</translation>
+      <translation>pcm</translation>
     </message>
     <message>
       <source>Exclusive mode (Experimental)</source>
@@ -690,7 +690,7 @@
     </message>
     <message>
       <source>Options</source>
-      <translation type="unfinished">Options</translation>
+      <translation>Options</translation>
     </message>
     <message>
       <source>Enable volume control</source>
@@ -726,7 +726,7 @@
     </message>
     <message>
       <source> ms</source>
-      <translation type="unfinished"> ms</translation>
+      <translation> ms</translation>
     </message>
     <message>
       <source>Buffer duration</source>
@@ -830,19 +830,19 @@
     </message>
     <message>
       <source>Map the volume slider to a decibel scale so that perceived loudness changes evenly. Each 1% step equals 0.5 dB, 100% is 0 dB and 0% is silence.</source>
-      <translation type="unfinished">Map the volume slider to a decibel scale so that perceived loudness changes evenly. Each 1% step equals 0.5 dB, 100% is 0 dB and 0% is silence.</translation>
+      <translation>Configurez le curseur de volume sur une échelle de décibels afin que le niveau sonore perçu varie de manière uniforme. Chaque incrément de 1 % correspond à 0,5 dB, 100 % correspond à 0 dB et 0 % correspond au silence.</translation>
     </message>
     <message>
       <source>Exponential volume scaling</source>
-      <translation type="unfinished">Exponential volume scaling</translation>
+      <translation>Échelle du volume exponentielle</translation>
     </message>
     <message>
       <source>Device warm-up</source>
-      <translation type="unfinished">Device warm-up</translation>
+      <translation>Préparation du périphérique</translation>
     </message>
     <message>
       <source>Delay between opening the audio device and starting playback, to avoid the start of the track being cut off while the device (DAC) is still becoming ready.  Set to 0 to disable.</source>
-      <translation type="unfinished">Delay between opening the audio device and starting playback, to avoid the start of the track being cut off while the device (DAC) is still becoming ready.  Set to 0 to disable.</translation>
+      <translation>Délai entre l'ouverture du périphérique audio et le début de la lecture, afin d'éviter que le début du morceau ne soit coupé pendant que le périphérique (DAC) est encore en cours de préparation. Définir sur 0 pour désactiver.</translation>
     </message>
   </context>
   <context>
@@ -977,7 +977,7 @@
     </message>
     <message>
       <source> s</source>
-      <translation type="unfinished"> s</translation>
+      <translation> s</translation>
     </message>
     <message>
       <source>Volume Increment</source>
@@ -1000,7 +1000,7 @@
     </message>
     <message>
       <source>The &apos;track&apos; format is not supported by GStreamer.</source>
-      <translation type="unfinished">The &apos;track&apos; format is not supported by GStreamer.</translation>
+      <translation>Le format &apos;piste&apos; n’est pas pris en charge par GStreamer.</translation>
     </message>
     <message>
       <source>Error while querying CDDA tracks.</source>
@@ -1011,7 +1011,7 @@
     <name>CollectionBackend</name>
     <message>
       <source>Unable to execute collection SQL query: %1</source>
-      <translation>Impossible d&apos;exécuter la requête SQL de la collection : %1</translation>
+      <translation>Impossible d&apos;exécuter la requête SQL de la bibliothèque : %1</translation>
     </message>
     <message>
       <source>Failed SQL query: %1</source>
@@ -1181,7 +1181,7 @@
     <name>CollectionManager</name>
     <message>
       <source>Support for sort tags artist, album, album artist, title, composer and performer</source>
-      <translation type="unfinished">Support for sort tags artist, album, album artist, title, composer and performer</translation>
+      <translation>Support pour le tri par les tags artistes, album, artiste de l’album, titre, compositeur et interprète</translation>
     </message>
     <message>
       <source>Saving playcounts and ratings</source>
@@ -1472,7 +1472,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     <name>Console</name>
     <message>
       <source>Console</source>
-      <translation type="unfinished">Console</translation>
+      <translation>Console</translation>
     </message>
     <message>
       <source>Run</source>
@@ -1507,7 +1507,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Technical Data</source>
@@ -1539,7 +1539,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source> pt</source>
-      <translation type="unfinished"> pt</translation>
+      <translation> pt</translation>
     </message>
     <message>
       <source>Preview</source>
@@ -1611,7 +1611,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>%filename%</source>
-      <translation type="unfinished">%filename%</translation>
+      <translation>%filename%</translation>
     </message>
     <message>
       <source>Add song filename</source>
@@ -1619,7 +1619,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>%url%</source>
-      <translation type="unfinished">%url%</translation>
+      <translation>%url%</translation>
     </message>
     <message>
       <source>Add song URL</source>
@@ -1627,7 +1627,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>%rating%</source>
-      <translation type="unfinished">%rating%</translation>
+      <translation>%rating%</translation>
     </message>
     <message>
       <source>Add song rating</source>
@@ -1722,15 +1722,15 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>%1 album</source>
-      <translation type="unfinished">%1 album</translation>
+      <translation>%1 album</translation>
     </message>
     <message>
       <source>%1 albums</source>
-      <translation type="unfinished">%1 albums</translation>
+      <translation>%1 albums</translation>
     </message>
     <message>
       <source>kbps</source>
-      <translation type="unfinished">kbps</translation>
+      <translation>kbps</translation>
     </message>
   </context>
   <context>
@@ -1784,7 +1784,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>0</source>
-      <translation type="unfinished">0</translation>
+      <translation>0</translation>
     </message>
     <message>
       <source>Fetch Missing Covers</source>
@@ -2083,7 +2083,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Information</source>
-      <translation type="unfinished">Information</translation>
+      <translation>Information</translation>
     </message>
     <message>
       <source>Name</source>
@@ -2338,7 +2338,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Tags</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
@@ -2366,7 +2366,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Year</source>
@@ -2390,7 +2390,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Genre</source>
-      <translation type="unfinished">Genre</translation>
+      <translation>Genre</translation>
     </message>
     <message>
       <source>Comment</source>
@@ -2402,7 +2402,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Compilation</source>
-      <translation type="unfinished">Compilation</translation>
+      <translation>Compilation</translation>
     </message>
     <message>
       <source>Track</source>
@@ -2450,7 +2450,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>kbps</source>
-      <translation type="unfinished">kbps</translation>
+      <translation>kbps</translation>
     </message>
     <message>
       <source>Unknown</source>
@@ -2534,7 +2534,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>ID3v2 version:</source>
-      <translation type="unfinished">ID3v2 version:</translation>
+      <translation>Version ID3v2 :</translation>
     </message>
     <message>
       <source>2.3</source>
@@ -2601,7 +2601,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Balance</source>
-      <translation type="unfinished">Balance</translation>
+      <translation>Balance</translation>
     </message>
     <message>
       <source>Right</source>
@@ -2621,7 +2621,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Club</source>
-      <translation type="unfinished">Club</translation>
+      <translation>Club</translation>
     </message>
     <message>
       <source>Dance</source>
@@ -2657,15 +2657,15 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Pop</source>
-      <translation type="unfinished">Pop</translation>
+      <translation>Pop</translation>
     </message>
     <message>
       <source>Reggae</source>
-      <translation type="unfinished">Reggae</translation>
+      <translation>Reggae</translation>
     </message>
     <message>
       <source>Rock</source>
-      <translation type="unfinished">Rock</translation>
+      <translation>Rock</translation>
     </message>
     <message>
       <source>Soft</source>
@@ -2673,15 +2673,15 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ska</source>
-      <translation type="unfinished">Ska</translation>
+      <translation>Ska</translation>
     </message>
     <message>
       <source>Soft Rock</source>
-      <translation type="unfinished">Soft Rock</translation>
+      <translation>Soft Rock</translation>
     </message>
     <message>
       <source>Techno</source>
-      <translation type="unfinished">Techno</translation>
+      <translation>Techno</translation>
     </message>
     <message>
       <source>Zero</source>
@@ -2708,7 +2708,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>%1 dB</source>
-      <translation type="unfinished">%1 dB</translation>
+      <translation>%1 dB</translation>
     </message>
   </context>
   <context>
@@ -2921,7 +2921,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>URI</source>
-      <translation type="unfinished">URI</translation>
+      <translation>URI</translation>
     </message>
   </context>
   <context>
@@ -2943,7 +2943,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Pause</source>
-      <translation type="unfinished">Pause</translation>
+      <translation>Pause</translation>
     </message>
     <message>
       <source>Play/Pause</source>
@@ -3039,7 +3039,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     <message>
       <source>Action</source>
       <comment>Category label</comment>
-      <translation type="unfinished">Action</translation>
+      <translation>Action</translation>
     </message>
     <message>
       <source>Shortcut</source>
@@ -3082,7 +3082,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>You can change the way the songs in the collection are organized.</source>
-      <translation>Vous pouvez changer la façon dont les morceaux de la collection sont organisés.</translation>
+      <translation>Vous pouvez changer la façon dont les morceaux de la bibliothèque sont organisés.</translation>
     </message>
     <message>
       <source>Group Collection by...</source>
@@ -3106,7 +3106,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Album - Disc</source>
@@ -3118,11 +3118,11 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Format</source>
-      <translation type="unfinished">Format</translation>
+      <translation>Format</translation>
     </message>
     <message>
       <source>Genre</source>
-      <translation type="unfinished">Genre</translation>
+      <translation>Genre</translation>
     </message>
     <message>
       <source>Year</source>
@@ -3186,7 +3186,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Original year - Album - Disc</source>
-      <translation type="unfinished">Original year - Album - Disc</translation>
+      <translation>Année d'origine - Album - Disque</translation>
     </message>
   </context>
   <context>
@@ -3204,35 +3204,35 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>%1 Scrobbler Authentication</source>
-      <translation type="unfinished">%1 Scrobbler Authentication</translation>
+      <translation>%1 authentification Scrobbler</translation>
     </message>
     <message>
       <source>Open URL in web browser?</source>
-      <translation type="unfinished">Open URL in web browser?</translation>
+      <translation>Ouvrir le lien dans le navigateur web ?</translation>
     </message>
     <message>
       <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
-      <translation type="unfinished">Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</translation>
+      <translation>Appuyez sur &quot;Enregistrer&quot; pour copier le lien dans le presse-papier et l'ouvrir manuellement dans un navigateur web.</translation>
     </message>
     <message>
       <source>Could not open URL. Please open this URL in your browser</source>
-      <translation type="unfinished">Could not open URL. Please open this URL in your browser</translation>
+      <translation>Impossible d'ouvrir le lien. Veuillez ouvrir ce lien dans votre navigateur</translation>
     </message>
     <message>
       <source>Invalid reply from web browser. Missing token.</source>
-      <translation type="unfinished">Invalid reply from web browser. Missing token.</translation>
+      <translation>Réponse invalide du navigateur web. Jeton manquant.</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser. Try another browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser. Try another browser.</translation>
+      <translation>Réponse invalide reçue du navigateur web. Essayez un autre navigateur.</translation>
     </message>
     <message>
       <source>Scrobbler %1 is not authenticated!</source>
-      <translation type="unfinished">Scrobbler %1 is not authenticated!</translation>
+      <translation>Scrobbler %1 n'est pas authentifié !</translation>
     </message>
     <message>
       <source>Scrobbler %1 error: %2</source>
-      <translation type="unfinished">Scrobbler %1 error: %2</translation>
+      <translation>Erreur Scrobbler %1 : %2</translation>
     </message>
   </context>
   <context>
@@ -3369,7 +3369,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>&amp;Music</source>
@@ -3393,7 +3393,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>F5</source>
-      <translation type="unfinished">F5</translation>
+      <translation>F5</translation>
     </message>
     <message>
       <source>&amp;Play</source>
@@ -3401,15 +3401,15 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>F6</source>
-      <translation type="unfinished">F6</translation>
+      <translation>F6</translation>
     </message>
     <message>
       <source>&amp;Stop</source>
-      <translation type="unfinished">&amp;Stop</translation>
+      <translation>&amp;Stop</translation>
     </message>
     <message>
       <source>F7</source>
-      <translation type="unfinished">F7</translation>
+      <translation>F7</translation>
     </message>
     <message>
       <source>&amp;Next track</source>
@@ -3417,7 +3417,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>F8</source>
-      <translation type="unfinished">F8</translation>
+      <translation>F8</translation>
     </message>
     <message>
       <source>&amp;Quit</source>
@@ -3425,7 +3425,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+Q</source>
-      <translation type="unfinished">Ctrl+Q</translation>
+      <translation>Ctrl+Q</translation>
     </message>
     <message>
       <source>Stop after this track</source>
@@ -3433,7 +3433,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+Alt+V</source>
-      <translation type="unfinished">Ctrl+Alt+V</translation>
+      <translation>Ctrl+Alt+V</translation>
     </message>
     <message>
       <source>Love</source>
@@ -3449,7 +3449,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+K</source>
-      <translation type="unfinished">Ctrl+K</translation>
+      <translation>Ctrl+K</translation>
     </message>
     <message>
       <source>Edit track information...</source>
@@ -3457,7 +3457,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+E</source>
-      <translation type="unfinished">Ctrl+E</translation>
+      <translation>Ctrl+E</translation>
     </message>
     <message>
       <source>Renumber tracks in this order...</source>
@@ -3477,7 +3477,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+P</source>
-      <translation type="unfinished">Ctrl+P</translation>
+      <translation>Ctrl+P</translation>
     </message>
     <message>
       <source>&amp;About Strawberry</source>
@@ -3485,7 +3485,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>F1</source>
-      <translation type="unfinished">F1</translation>
+      <translation>F1</translation>
     </message>
     <message>
       <source>S&amp;huffle playlist</source>
@@ -3545,7 +3545,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+J</source>
-      <translation type="unfinished">Ctrl+J</translation>
+      <translation>Ctrl+J</translation>
     </message>
     <message>
       <source>&amp;New playlist</source>
@@ -3553,7 +3553,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+N</source>
-      <translation type="unfinished">Ctrl+N</translation>
+      <translation>Ctrl+N</translation>
     </message>
     <message>
       <source>Save &amp;playlist...</source>
@@ -3561,7 +3561,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+S</source>
-      <translation type="unfinished">Ctrl+S</translation>
+      <translation>Ctrl+S</translation>
     </message>
     <message>
       <source>&amp;Load playlist...</source>
@@ -3597,7 +3597,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+M</source>
-      <translation type="unfinished">Ctrl+M</translation>
+      <translation>Ctrl+M</translation>
     </message>
     <message>
       <source>&amp;Do a full collection rescan</source>
@@ -3613,7 +3613,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+T</source>
-      <translation type="unfinished">Ctrl+T</translation>
+      <translation>Ctrl+T</translation>
     </message>
     <message>
       <source>Toggle scrobbling</source>
@@ -3785,7 +3785,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Pause</source>
-      <translation type="unfinished">Pause</translation>
+      <translation>Pause</translation>
     </message>
     <message>
       <source>Dequeue track</source>
@@ -3881,15 +3881,15 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Go to last playlist tab</source>
-      <translation type="unfinished">Go to last playlist tab</translation>
+      <translation type="unfinished">Va au dernier tab de liste de lecture</translation>
     </message>
     <message>
       <source>Go to active playlist tab</source>
-      <translation type="unfinished">Go to active playlist tab</translation>
+      <translation type="unfinished">Va au tab de liste de lecture active</translation>
     </message>
     <message>
       <source>Close current playlist tab</source>
-      <translation type="unfinished">Close current playlist tab</translation>
+      <translation type="unfinished">Ferme le tab de liste de lecture courant</translation>
     </message>
     <message>
       <source>Ctrl+B</source>
@@ -3933,7 +3933,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     <name>MtpConnection</name>
     <message>
       <source>Invalid MTP device: %1</source>
-      <translation>Dispositif MTP non valide : %1</translation>
+      <translation>Périphérique MTP non valide : %1</translation>
     </message>
     <message>
       <source>Could not open MTP device.</source>
@@ -3998,7 +3998,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Port</source>
-      <translation type="unfinished">Port</translation>
+      <translation>Port</translation>
     </message>
     <message>
       <source>Use authentication</source>
@@ -4018,14 +4018,14 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Only HTTP proxy is supported for streaming.</source>
-      <translation type="unfinished">Only HTTP proxy is supported for streaming.</translation>
+      <translation>Seul le proxy HTTP est supporté pour le streaming.</translation>
     </message>
   </context>
   <context>
     <name>NotificationsSettingsPage</name>
     <message>
       <source>Notifications</source>
-      <translation type="unfinished">Notifications</translation>
+      <translation>Notifications</translation>
     </message>
     <message>
       <source>Strawberry can show a message when the track changes.</source>
@@ -4042,7 +4042,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Show a &amp;native desktop notification</source>
-      <translation>Afficher une notification native au bureau</translation>
+      <translation>Afficher une notification &amp;native au bureau</translation>
     </message>
     <message>
       <source>Show a pretty OSD</source>
@@ -4102,7 +4102,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>Bouton d'outil de menu contextuel</translation>
     </message>
     <message>
       <source>Summary</source>
@@ -4218,7 +4218,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>%filename%</source>
-      <translation type="unfinished">%filename%</translation>
+      <translation>%filename%</translation>
     </message>
     <message>
       <source>Add song filename</source>
@@ -4226,7 +4226,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>%url%</source>
-      <translation type="unfinished">%url%</translation>
+      <translation>%url%</translation>
     </message>
     <message>
       <source>Add song URL</source>
@@ -4234,7 +4234,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>%originalyear%</source>
-      <translation type="unfinished">%originalyear%</translation>
+      <translation>%originalyear%</translation>
     </message>
     <message>
       <source>Add song original year tag</source>
@@ -4250,7 +4250,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Discord</source>
-      <translation type="unfinished">Discord</translation>
+      <translation>Discord</translation>
     </message>
     <message>
       <source>Enable Rich Presence</source>
@@ -4258,19 +4258,19 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>&quot;Listening to...&quot;</source>
-      <translation type="unfinished">&quot;Listening to...&quot;</translation>
+      <translation>&quot;Écouter...&quot;</translation>
     </message>
     <message>
       <source>Strawberry</source>
-      <translation type="unfinished">Strawberry</translation>
+      <translation>Strawberry</translation>
     </message>
     <message>
       <source>Artist name</source>
-      <translation type="unfinished">Artist name</translation>
+      <translation>Nom de l’artiste</translation>
     </message>
     <message>
       <source>Song title</source>
-      <translation type="unfinished">Song title</translation>
+      <translation>Titre du morceau</translation>
     </message>
   </context>
   <context>
@@ -4289,31 +4289,31 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Authentication</source>
-      <translation type="unfinished">Authentication</translation>
+      <translation>Authentification</translation>
     </message>
     <message>
       <source>Please open this URL in your browser</source>
-      <translation type="unfinished">Please open this URL in your browser</translation>
+      <translation>Veuillez ouvrir ce lien dans votre navigateur</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser.</translation>
+      <translation>Réponse invalide du navigateur web.</translation>
     </message>
     <message>
       <source>Redirect URL is missing query.</source>
-      <translation type="unfinished">Redirect URL is missing query.</translation>
+      <translation>Le lien de redirection ne contient pas de requête.</translation>
     </message>
     <message>
       <source>Request URL is missing code!</source>
-      <translation type="unfinished">Request URL is missing code!</translation>
+      <translation>Le lien de la requête ne contient pas de code !</translation>
     </message>
     <message>
       <source>Request URL is missing state!</source>
-      <translation type="unfinished">Request URL is missing state!</translation>
+      <translation>Le lien de la requête ne contient pas d'état !</translation>
     </message>
     <message>
       <source>Request URL has wrong state %1 != %2</source>
-      <translation type="unfinished">Request URL has wrong state %1 != %2</translation>
+      <translation>Le lien de la requête a un état incorrect %1 != %2</translation>
     </message>
   </context>
   <context>
@@ -4352,7 +4352,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Volume %1%</source>
-      <translation type="unfinished">Volume %1%</translation>
+      <translation>Volume %1%</translation>
     </message>
     <message>
       <source>Muted</source>
@@ -4404,7 +4404,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Scan tracks</source>
-      <translation type="unfinished">Scan tracks</translation>
+      <translation>Lecture d'extraits de chaque piste</translation>
     </message>
   </context>
   <context>
@@ -4433,7 +4433,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Destination</source>
-      <translation type="unfinished">Destination</translation>
+      <translation>Destination</translation>
     </message>
     <message>
       <source>After copying...</source>
@@ -4509,7 +4509,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Artist</source>
@@ -4553,7 +4553,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Genre</source>
-      <translation type="unfinished">Genre</translation>
+      <translation>Genre</translation>
     </message>
     <message>
       <source>Comment</source>
@@ -4608,11 +4608,11 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>File %1 does not exist</source>
-      <translation type="unfinished">File %1 does not exist</translation>
+      <translation>Le fichier %1 n'existe pas</translation>
     </message>
     <message>
       <source>Could not read file %1: %2</source>
-      <translation type="unfinished">Could not read file %1: %2</translation>
+      <translation>Impossible de lire le fichier %1: %2</translation>
     </message>
   </context>
   <context>
@@ -4662,7 +4662,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Album Sort</source>
@@ -4690,7 +4690,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Genre</source>
-      <translation type="unfinished">Genre</translation>
+      <translation>Genre</translation>
     </message>
     <message>
       <source>Album Artist</source>
@@ -4746,7 +4746,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Initial key</source>
-      <translation type="unfinished">Initial key</translation>
+      <translation>Clé initiale</translation>
     </message>
     <message>
       <source>File Name (without path)</source>
@@ -4774,7 +4774,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Source</source>
-      <translation type="unfinished">Source</translation>
+      <translation>Source</translation>
     </message>
     <message>
       <source>Moodbar</source>
@@ -4782,7 +4782,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>BPM</source>
-      <translation type="unfinished">BPM</translation>
+      <translation>BPM</translation>
     </message>
     <message>
       <source>Mood</source>
@@ -4794,11 +4794,11 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>URL</source>
-      <translation type="unfinished">URL</translation>
+      <translation>URL</translation>
     </message>
     <message>
       <source>CUE</source>
-      <translation type="unfinished">CUE</translation>
+      <translation>CUE</translation>
     </message>
     <message>
       <source>Integrated Loudness</source>
@@ -4938,7 +4938,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Copy songs to playlist</source>
-      <translation type="unfinished">Copy songs to playlist</translation>
+      <translation>Copier les morceaux dans la liste de lecture</translation>
     </message>
     <message>
       <source>Copy to device</source>
@@ -5113,7 +5113,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Scan tracks</source>
-      <translation type="unfinished">Scan tracks</translation>
+      <translation>Extraits de pistes</translation>
     </message>
   </context>
   <context>
@@ -5208,23 +5208,23 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Scan mode</source>
-      <translation type="unfinished">Scan mode</translation>
+      <translation>Paramétrage des extraits de piste</translation>
     </message>
     <message>
       <source>Playing time (seconds)</source>
-      <translation type="unfinished">Playing time (seconds)</translation>
+      <translation>Temps de jeu de chaque extrait (secondes)</translation>
     </message>
     <message>
       <source>The time played before and after the position time selected in seconds (0 for playing the complete track)</source>
-      <translation type="unfinished">The time played before and after the position time selected in seconds (0 for playing the complete track)</translation>
+      <translation>Défini le temps de jeu avant et après la position de temps choisi en secondes (0 pour jouer la piste complète)</translation>
     </message>
     <message>
       <source>Interest position (percent of track length)</source>
-      <translation type="unfinished">Interest position (percent of track length)</translation>
+      <translation>Position du temps de référence (pourcentage de la durée de la piste)</translation>
     </message>
     <message>
       <source>The position time reference selected in percent of the track length</source>
-      <translation type="unfinished">The position time reference selected in percent of the track length</translation>
+      <translation>Position du temps de référence en pourcentage de la durée de la piste</translation>
     </message>
   </context>
   <context>
@@ -5284,15 +5284,15 @@ Are you sure you want to continue?</source>
     <name>PlaylistView</name>
     <message>
       <source>Hz</source>
-      <translation type="unfinished">Hz</translation>
+      <translation>Hz</translation>
     </message>
     <message>
       <source>Bit</source>
-      <translation type="unfinished">Bit</translation>
+      <translation>Bit</translation>
     </message>
     <message>
       <source>kbps</source>
-      <translation type="unfinished">kbps</translation>
+      <translation>kbps</translation>
     </message>
   </context>
   <context>
@@ -5303,11 +5303,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>options</source>
-      <translation type="unfinished">options</translation>
+      <translation>options</translation>
     </message>
     <message>
       <source>URL(s)</source>
-      <translation type="unfinished">URL(s)</translation>
+      <translation>URL(s)</translation>
     </message>
     <message>
       <source>Player options</source>
@@ -5435,7 +5435,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Create fingerprint</source>
-      <translation type="unfinished">Create fingerprint</translation>
+      <translation>Créer une empreinte digitale</translation>
     </message>
     <message>
       <source>Failed to create directory %1.</source>
@@ -5543,7 +5543,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Could not save file</source>
-      <translation type="unfinished">Could not save file</translation>
+      <translation>Impossible d'enregistrer le fichier</translation>
     </message>
     <message>
       <source>Unknown error</source>
@@ -5655,11 +5655,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>A-Z</source>
-      <translation type="unfinished">A-Z</translation>
+      <translation>A-Z</translation>
     </message>
     <message>
       <source>Z-A</source>
-      <translation type="unfinished">Z-A</translation>
+      <translation>Z-A</translation>
     </message>
     <message>
       <source>oldest first</source>
@@ -5707,7 +5707,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Normal</source>
-      <translation type="unfinished">Normal</translation>
+      <translation>Normal</translation>
     </message>
     <message>
       <source>Angry</source>
@@ -5764,11 +5764,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Invalid collection directory</source>
-      <translation type="unfinished">Invalid collection directory</translation>
+      <translation>Répertoire de la bibliothèque invalide</translation>
     </message>
     <message>
       <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
-      <translation type="unfinished">Can&apos;t add directory %1 with special filesystem %2 to collection</translation>
+      <translation>Impossible d&apos;ajouter un répertoire %1 avec le système de fichiers spécial %2 à la bibliothèque</translation>
     </message>
   </context>
   <context>
@@ -5786,11 +5786,11 @@ Are you sure you want to continue?</source>
     <name>QobuzMetadataRequest</name>
     <message>
       <source>Not authenticated</source>
-      <translation type="unfinished">Not authenticated</translation>
+      <translation>Non authentifié</translation>
     </message>
     <message>
       <source>No track ID</source>
-      <translation type="unfinished">No track ID</translation>
+      <translation>Aucun identifiant de piste</translation>
     </message>
   </context>
   <context>
@@ -5852,39 +5852,39 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Missing app ID. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing app ID. Please fetch credentials first.</translation>
+      <translation>ID de l'application manquant. Veuillez d'abord récupérer vos identifiants.</translation>
     </message>
     <message>
       <source>Missing app secret. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing app secret. Please fetch credentials first.</translation>
+      <translation>Secret d'application manquant. Veuillez d'abord récupérer vos identifiants.</translation>
     </message>
     <message>
       <source>Missing private key. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing private key. Please fetch credentials first.</translation>
+      <translation>Clé privée manquante. Veuillez d'abord récupérer vos identifiants.</translation>
     </message>
     <message>
       <source>Failed to start local server for OAuth redirect: %1</source>
-      <translation type="unfinished">Failed to start local server for OAuth redirect: %1</translation>
+      <translation>Impossible de démarrer le serveur local pour la redirection OAuth : %1</translation>
     </message>
     <message>
       <source>Failed to open the web browser. Please open this URL manually: %1</source>
-      <translation type="unfinished">Failed to open the web browser. Please open this URL manually: %1</translation>
+      <translation>Impossible d'ouvrir le navigateur web. Veuillez ouvrir cette URL manuellement : %1</translation>
     </message>
     <message>
       <source>Waiting for browser authentication...</source>
-      <translation type="unfinished">Waiting for browser authentication...</translation>
+      <translation>En attente de l'authentification du navigateur...</translation>
     </message>
     <message>
       <source>OAuth redirect failed: %1</source>
-      <translation type="unfinished">OAuth redirect failed: %1</translation>
+      <translation>Échec de la redirection OAuth : %1</translation>
     </message>
     <message>
       <source>OAuth redirect is missing authorization code.</source>
-      <translation type="unfinished">OAuth redirect is missing authorization code.</translation>
+      <translation>Le code d'autorisation de redirection OAuth est manquant.</translation>
     </message>
     <message>
       <source>Exchanging authorization code...</source>
-      <translation type="unfinished">Exchanging authorization code...</translation>
+      <translation>Échange du code d'autorisation...</translation>
     </message>
     <message>
       <source>Not authenticated with Qobuz.</source>
@@ -5896,7 +5896,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Not authenticated. Please login to Qobuz in the settings.</source>
-      <translation type="unfinished">Not authenticated. Please login to Qobuz in the settings.</translation>
+      <translation>Authentification impossible. Veuillez vous connecter à Qobuz dans les paramètres.</translation>
     </message>
   </context>
   <context>
@@ -5975,7 +5975,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Fetching...</source>
-      <translation type="unfinished">Fetching...</translation>
+      <translation>Récupération en cours...</translation>
     </message>
     <message>
       <source>API credentials fetched</source>
@@ -5987,19 +5987,19 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Credential fetch failed</source>
-      <translation type="unfinished">Credential fetch failed</translation>
+      <translation>Échec de la récupération des identifiants</translation>
     </message>
     <message>
       <source>Remove (Remastered), etc from song titles</source>
-      <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
+      <translation>Supprimer (Remasterisé), etc des titres du morceau</translation>
     </message>
     <message>
       <source>Private key</source>
-      <translation type="unfinished">Private key</translation>
+      <translation>Clé privée</translation>
     </message>
     <message>
       <source>Automatically fetch app ID, app secret and private key from Qobuz web player</source>
-      <translation type="unfinished">Automatically fetch app ID, app secret and private key from Qobuz web player</translation>
+      <translation>Récupération automatique de l'identifiant, du secret et de la clé privée de l'application depuis le lecteur web Qobuz</translation>
     </message>
     <message>
       <source>API Credentials</source>
@@ -6018,7 +6018,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Not authenticated. Please log in on the Qobuz settings page.</source>
-      <translation type="unfinished">Not authenticated. Please log in on the Qobuz settings page.</translation>
+      <translation>Authentification impossible. Veuillez vous connecter sur la page des paramètres Qobuz.</translation>
     </message>
     <message>
       <source>Cancelled.</source>
@@ -6067,18 +6067,18 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Ctrl+K</source>
-      <translation type="unfinished">Ctrl+K</translation>
+      <translation>Ctrl+K</translation>
     </message>
   </context>
   <context>
     <name>RadioBrowserSearchModel</name>
     <message>
       <source>Name</source>
-      <translation type="unfinished">Name</translation>
+      <translation>Nom</translation>
     </message>
     <message>
       <source>Country</source>
-      <translation type="unfinished">Country</translation>
+      <translation>Pays</translation>
     </message>
     <message>
       <source>Tags</source>
@@ -6086,73 +6086,73 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Codec</source>
-      <translation type="unfinished">Codec</translation>
+      <translation>Codec</translation>
     </message>
   </context>
   <context>
     <name>RadioBrowserSearchView</name>
     <message>
       <source>Load more...</source>
-      <translation type="unfinished">Load more...</translation>
+      <translation>En charger davantage...</translation>
     </message>
     <message>
       <source>Search for radio stations using radio-browser.info</source>
-      <translation type="unfinished">Search for radio stations using radio-browser.info</translation>
+      <translation>Recherche pour des stations radio en utilisant radio-browser.info</translation>
     </message>
     <message>
       <source>Search radio stations...</source>
-      <translation type="unfinished">Search radio stations...</translation>
+      <translation>Recherche de station radio...</translation>
     </message>
     <message>
       <source>All countries</source>
-      <translation type="unfinished">All countries</translation>
+      <translation>Tous les pays</translation>
     </message>
     <message>
       <source>By votes</source>
-      <translation type="unfinished">By votes</translation>
+      <translation>Par votes</translation>
     </message>
     <message>
       <source>By clicks</source>
-      <translation type="unfinished">By clicks</translation>
+      <translation>Par clics</translation>
     </message>
     <message>
       <source>By name</source>
-      <translation type="unfinished">By name</translation>
+      <translation>Par nom</translation>
     </message>
     <message>
       <source>By bitrate</source>
-      <translation type="unfinished">By bitrate</translation>
+      <translation>Par taux de transfert</translation>
     </message>
     <message>
       <source>Searching...</source>
-      <translation type="unfinished">Searching...</translation>
+      <translation>Chercher...</translation>
     </message>
     <message>
       <source>No stations found.</source>
-      <translation type="unfinished">No stations found.</translation>
+      <translation>Aucune station n'a été trouvée.</translation>
     </message>
     <message>
       <source>%1 stations found</source>
-      <translation type="unfinished">%1 stations found</translation>
+      <translation>%1 stations trouvées</translation>
     </message>
     <message>
       <source>Append to current playlist</source>
-      <translation type="unfinished">Append to current playlist</translation>
+      <translation>Ajouter à la liste de lecture</translation>
     </message>
   </context>
   <context>
     <name>RadioBrowserService</name>
     <message>
       <source>No Radio Browser server available.</source>
-      <translation type="unfinished">No Radio Browser server available.</translation>
+      <translation>Aucun serveur de recherche de radio n&apos;est disponible.</translation>
     </message>
     <message>
       <source>Searching Radio Browser</source>
-      <translation type="unfinished">Searching Radio Browser</translation>
+      <translation>Recherche d&apos;un browser de radio</translation>
     </message>
     <message>
       <source>Radio Browser search failed: %1</source>
-      <translation type="unfinished">Radio Browser search failed: %1</translation>
+      <translation>La recherche d&apos;un browser de radio a échoué: %1</translation>
     </message>
   </context>
   <context>
@@ -6174,59 +6174,59 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Stream quality:</source>
-      <translation type="unfinished">Stream quality:</translation>
+      <translation>Qualité d'échantillonage:</translation>
     </message>
     <message>
       <source>Radio Browser</source>
-      <translation type="unfinished">Radio Browser</translation>
+      <translation>Browser Radio</translation>
     </message>
     <message>
       <source>Search results limit:</source>
-      <translation type="unfinished">Search results limit:</translation>
+      <translation>Limite des résultats de recherche:</translation>
     </message>
     <message>
       <source>Hide broken stations</source>
-      <translation type="unfinished">Hide broken stations</translation>
+      <translation>Masquer les stations cassées</translation>
     </message>
     <message>
       <source>Default sort order:</source>
-      <translation type="unfinished">Default sort order:</translation>
+      <translation>Ordre de tri par défaut:</translation>
     </message>
     <message>
       <source>Default country:</source>
-      <translation type="unfinished">Default country:</translation>
+      <translation>Pays par défaut:</translation>
     </message>
     <message>
       <source>All countries</source>
-      <translation type="unfinished">All countries</translation>
+      <translation>Tous les pays</translation>
     </message>
     <message>
       <source>Highest</source>
-      <translation type="unfinished">Highest</translation>
+      <translation>Le meilleur</translation>
     </message>
     <message>
       <source>High</source>
-      <translation type="unfinished">High</translation>
+      <translation>Élevé</translation>
     </message>
     <message>
       <source>Low</source>
-      <translation type="unfinished">Low</translation>
+      <translation>Faible</translation>
     </message>
     <message>
       <source>By votes</source>
-      <translation type="unfinished">By votes</translation>
+      <translation>Par votes</translation>
     </message>
     <message>
       <source>By clicks</source>
-      <translation type="unfinished">By clicks</translation>
+      <translation>Par clics</translation>
     </message>
     <message>
       <source>By name</source>
-      <translation type="unfinished">By name</translation>
+      <translation>Par nom</translation>
     </message>
     <message>
       <source>By bitrate</source>
-      <translation type="unfinished">By bitrate</translation>
+      <translation>Par taux d'échantillonage</translation>
     </message>
   </context>
   <context>
@@ -6279,7 +6279,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Type</source>
-      <translation type="unfinished">Type</translation>
+      <translation>Type</translation>
     </message>
     <message>
       <source>Select directory for the playlists</source>
@@ -6334,7 +6334,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Album - Disc</source>
@@ -6370,7 +6370,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Genre</source>
-      <translation type="unfinished">Genre</translation>
+      <translation>Genre</translation>
     </message>
     <message>
       <source>Composer</source>
@@ -6521,15 +6521,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
-      <translation type="unfinished">With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</translation>
+      <translation>Avec cette option activée, Scrobbles sera mis en cache sur le disque mais non envoyé au serveur. Cette option peut être activée dans les cas où le serveur ou la connexion Internet est instable, les Scrobbles seront envoyés lorsque l'option sera désactivée.</translation>
     </message>
     <message>
       <source>Offline mode (Only cache scrobbles)</source>
-      <translation type="unfinished">Offline mode (Only cache scrobbles)</translation>
+      <translation>Mode hors ligne (uniquement cache scrobbles)</translation>
     </message>
     <message>
       <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
-      <translation type="unfinished">This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</translation>
+      <translation>(Il s&apos;agit du délai entre le moment où un morceau est scrobblé et celui où les scrobbles sont soumis au serveur. Si vous fixez ce délai à 0 seconde, les scrobbles seront soumis immédiatement.</translation>
     </message>
     <message>
       <source>Spotify</source>
@@ -6759,7 +6759,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Ever played</source>
-      <translation>Jamais écouté</translation>
+      <translation>Déjà écouté</translation>
     </message>
     <message>
       <source>Never played</source>
@@ -6830,11 +6830,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Are you sure you want to restore the default smart playlists? This will remove all custom smart playlists</source>
-      <translation type="unfinished">Are you sure you want to restore the default smart playlists? This will remove all custom smart playlists</translation>
+      <translation>Êtes-vous sûr de vouloir restaurer les listes de lecture intelligentes par défaut ? Cela supprimera toutes les listes de lecture intelligentes personnalisées</translation>
     </message>
     <message>
       <source>Restore defaults</source>
-      <translation type="unfinished">Restore defaults</translation>
+      <translation>Rétablir les paramètres par défaut</translation>
     </message>
   </context>
   <context>
@@ -6906,15 +6906,15 @@ Are you sure you want to continue?</source>
     <name>SpotifyMetadataRequest</name>
     <message>
       <source>Not authenticated</source>
-      <translation type="unfinished">Not authenticated</translation>
+      <translation>Non authentifié</translation>
     </message>
     <message>
       <source>No track ID</source>
-      <translation type="unfinished">No track ID</translation>
+      <translation>Aucun identifiant de piste</translation>
     </message>
     <message>
       <source>No pending song for track ID</source>
-      <translation type="unfinished">No pending song for track ID</translation>
+      <translation>Aucun morceau en attente pour l'identifiant de la piste</translation>
     </message>
   </context>
   <context>
@@ -6987,7 +6987,7 @@ Are you sure you want to continue?</source>
     <name>SpotifySettingsPage</name>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -7011,7 +7011,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>ms</source>
-      <translation type="unfinished">ms</translation>
+      <translation>ms</translation>
     </message>
     <message>
       <source>Artists search limit</source>
@@ -7039,7 +7039,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Remove (Remastered), etc from song titles</source>
-      <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
+      <translation>Supprimer (Remasterisé), etc des titres du morceau</translation>
     </message>
     <message>
       <source>Authentication</source>
@@ -7108,7 +7108,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Albums</source>
-      <translation type="unfinished">Albums</translation>
+      <translation>Albums</translation>
     </message>
     <message>
       <source>Songs</source>
@@ -7145,7 +7145,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>Bouton d'outil de menu contextuel</translation>
     </message>
     <message>
       <source>artists</source>
@@ -7153,7 +7153,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>albums</source>
-      <translation type="unfinished">albums</translation>
+      <translation>albums</translation>
     </message>
     <message>
       <source>songs</source>
@@ -7274,7 +7274,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Hex</source>
-      <translation type="unfinished">Hex</translation>
+      <translation>Hex</translation>
     </message>
     <message>
       <source>MD5 token (Recommended)</source>
@@ -7306,7 +7306,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Test</source>
-      <translation type="unfinished">Test</translation>
+      <translation>Test</translation>
     </message>
     <message>
       <source>Delete songs</source>
@@ -7352,7 +7352,7 @@ Are you sure you want to continue?</source>
     <name>SystemTrayIcon</name>
     <message>
       <source>Pause</source>
-      <translation type="unfinished">Pause</translation>
+      <translation>Pause</translation>
     </message>
     <message>
       <source>Play</source>
@@ -7496,7 +7496,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>ms</source>
-      <translation type="unfinished">ms</translation>
+      <translation>ms</translation>
     </message>
     <message>
       <source>Artists search limit</source>
@@ -7544,7 +7544,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Remove (Remastered), etc from song titles</source>
-      <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
+      <translation>Supprimer (Remasterisé), etc des titres du morceau</translation>
     </message>
     <message>
       <source>Use custom client ID</source>
@@ -7606,7 +7606,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Previous</source>
@@ -7634,7 +7634,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Album artist</source>
-      <translation type="unfinished">Album artist</translation>
+      <translation>Artiste de l'album</translation>
     </message>
     <message>
       <source>No results</source>
@@ -7649,7 +7649,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>0:00:00</source>
-      <translation type="unfinished">0:00:00</translation>
+      <translation>0:00:00</translation>
     </message>
     <message>
       <source>Click to toggle between remaining time and total time</source>
@@ -7657,15 +7657,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Normal</source>
-      <translation type="unfinished">Normal</translation>
+      <translation>Normal</translation>
     </message>
     <message>
       <source>Moodbar</source>
-      <translation type="unfinished">Moodbar</translation>
+      <translation>Barre d'humeur</translation>
     </message>
     <message>
       <source>Moodbar style</source>
-      <translation type="unfinished">Moodbar style</translation>
+      <translation>Style de la barre d'humeur</translation>
     </message>
     <message>
       <source>Waveform</source>
@@ -7716,11 +7716,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Options...</source>
-      <translation type="unfinished">Options...</translation>
+      <translation>Options...</translation>
     </message>
     <message>
       <source>Destination</source>
-      <translation type="unfinished">Destination</translation>
+      <translation>Destination</translation>
     </message>
     <message>
       <source>Alongside the originals</source>
@@ -7785,11 +7785,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Import Directory</source>
-      <translation type="unfinished">Import Directory</translation>
+      <translation>Répertoire d'importation</translation>
     </message>
     <message>
       <source>Preserve directory structure in output directory (import only)</source>
-      <translation type="unfinished">Preserve directory structure in output directory (import only)</translation>
+      <translation>Conserver la structure du répertoire dans le répertoire de sortie (importation uniquement)</translation>
     </message>
   </context>
   <context>
@@ -7842,7 +7842,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
     <message>
       <source>Profile</source>
@@ -7901,7 +7901,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
   </context>
   <context>
@@ -7956,7 +7956,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
     <message>
       <source>Constant bitrate</source>
@@ -7972,7 +7972,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Standard</source>
-      <translation type="unfinished">Standard</translation>
+      <translation>Standard</translation>
     </message>
     <message>
       <source>High</source>
@@ -7995,7 +7995,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
   </context>
   <context>
@@ -8019,7 +8019,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
     <message>
       <source>Average bitrate</source>
@@ -8035,7 +8035,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Auto</source>
-      <translation type="unfinished">Auto</translation>
+      <translation>Auto</translation>
     </message>
     <message>
       <source>Ultra wide band (UWB)</source>
@@ -8091,7 +8091,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
     <message>
       <source>Minimum bitrate</source>
@@ -8125,35 +8125,35 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>FLAC</source>
-      <translation type="unfinished">FLAC</translation>
+      <translation>FLAC</translation>
     </message>
     <message>
       <source>WavPack</source>
-      <translation type="unfinished">WavPack</translation>
+      <translation>WavPack</translation>
     </message>
     <message>
       <source>Vorbis</source>
-      <translation type="unfinished">Vorbis</translation>
+      <translation>Vorbis</translation>
     </message>
     <message>
       <source>Opus</source>
-      <translation type="unfinished">Opus</translation>
+      <translation>Opus</translation>
     </message>
     <message>
       <source>Speex</source>
-      <translation type="unfinished">Speex</translation>
+      <translation>Speex</translation>
     </message>
     <message>
       <source>AAC</source>
-      <translation type="unfinished">AAC</translation>
+      <translation>AAC</translation>
     </message>
     <message>
       <source>ASF (WMA)</source>
-      <translation type="unfinished">ASF (WMA)</translation>
+      <translation>ASF (WMA)</translation>
     </message>
     <message>
       <source>MP3</source>
-      <translation type="unfinished">MP3</translation>
+      <translation>MP3</translation>
     </message>
   </context>
   <context>
@@ -8176,7 +8176,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>UUID</source>
-      <translation type="unfinished">UUID</translation>
+      <translation>UUID</translation>
     </message>
   </context>
   <context>
@@ -8209,22 +8209,22 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Color</source>
-      <translation type="unfinished">Color</translation>
+      <translation>Couleur</translation>
     </message>
     <message>
       <source>Select waveform color</source>
-      <translation type="unfinished">Select waveform color</translation>
+      <translation>Sélectionner la couleur de waveform</translation>
     </message>
     <message>
       <source>Save the .waveform files directly in the songs folders</source>
-      <translation type="unfinished">Save the .waveform files directly in the songs folders</translation>
+      <translation>Enregistrez les fichiers .waveform directement dans les dossiers des morceaux</translation>
     </message>
   </context>
   <context>
     <name>XSPFParser</name>
     <message>
       <source>Failed to write XSPF playlist</source>
-      <translation type="unfinished">Failed to write XSPF playlist</translation>
+      <translation>Échec de l'écriture de la liste de lecture XSPF</translation>
     </message>
   </context>
 </TS>
