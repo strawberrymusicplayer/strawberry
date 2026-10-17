@@ -2246,6 +2246,60 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
   </context>
   <context>
+    <name>LyricsTab</name>
+    <message>
+      <source>Complete lyrics automatically</source>
+      <translation>Preencher letras de música automaticamente</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>Letras</translation>
+    </message>
+  </context>
+  <context>
+    <name>SongEditor</name>
+    <message>
+      <source>(different across multiple songs)</source>
+      <translation>(diferentes entre várias músicas)</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>Letras</translation>
+    </message>
+    <message>
+      <source>Previous</source>
+      <translation>Anterior</translation>
+    </message>
+    <message>
+      <source>Next</source>
+      <translation>Próximo</translation>
+    </message>
+    <message>
+      <source>Saving tracks</source>
+      <translation>Gravando faixas</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1</source>
+      <translation>Não foi possível escrever metadados para %1</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1: %2</source>
+      <translation>Não foi possível escrever metadados para %1: %2</translation>
+    </message>
+    <message>
+      <source>Loading tracks</source>
+      <translation>Carregando faixas</translation>
+    </message>
+    <message>
+      <source>loading...</source>
+      <translation>carregando...</translation>
+    </message>
+    <message>
+      <source>Not found.</source>
+      <translation>Não encontrado</translation>
+    </message>
+  </context>
+  <context>
     <name>TagEditor</name>
     <message>
       <source>Edit track information</source>

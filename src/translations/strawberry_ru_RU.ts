@@ -2246,6 +2246,60 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
   </context>
   <context>
+    <name>LyricsTab</name>
+    <message>
+      <source>Complete lyrics automatically</source>
+      <translation>Заполнять тексты песен автоматически</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>Текст песни</translation>
+    </message>
+  </context>
+  <context>
+    <name>SongEditor</name>
+    <message>
+      <source>(different across multiple songs)</source>
+      <translation>(различные для нескольких песен)</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>Текст песни</translation>
+    </message>
+    <message>
+      <source>Previous</source>
+      <translation>Предыдущий</translation>
+    </message>
+    <message>
+      <source>Next</source>
+      <translation>Следующий</translation>
+    </message>
+    <message>
+      <source>Saving tracks</source>
+      <translation>Сохранение треков</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1</source>
+      <translation>Не удалось записать метаданные в %1</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1: %2</source>
+      <translation>Не удалось записать метаданные в %1: %2</translation>
+    </message>
+    <message>
+      <source>Loading tracks</source>
+      <translation>Загрузка композиций</translation>
+    </message>
+    <message>
+      <source>loading...</source>
+      <translation>загружается…</translation>
+    </message>
+    <message>
+      <source>Not found.</source>
+      <translation>Не найдено.</translation>
+    </message>
+  </context>
+  <context>
     <name>TagEditor</name>
     <message>
       <source>Edit track information</source>

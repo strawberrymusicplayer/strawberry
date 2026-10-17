@@ -2246,6 +2246,60 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
   </context>
   <context>
+    <name>LyricsTab</name>
+    <message>
+      <source>Complete lyrics automatically</source>
+      <translation>Klára lagatexta sjálfkrafa</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>Lagatextar</translation>
+    </message>
+  </context>
+  <context>
+    <name>SongEditor</name>
+    <message>
+      <source>(different across multiple songs)</source>
+      <translation>(breytilegt yfir mörg lög)</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>Lagatextar</translation>
+    </message>
+    <message>
+      <source>Previous</source>
+      <translation>Fyrra</translation>
+    </message>
+    <message>
+      <source>Next</source>
+      <translation>Næsta</translation>
+    </message>
+    <message>
+      <source>Saving tracks</source>
+      <translation>Vista lög</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1</source>
+      <translation>Ekki tókst að skrifa lýsigögn í %1</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1: %2</source>
+      <translation>Ekki tókst að skrifa lýsigögn í %1: %2</translation>
+    </message>
+    <message>
+      <source>Loading tracks</source>
+      <translation>Hleð inn lögum</translation>
+    </message>
+    <message>
+      <source>loading...</source>
+      <translation>hleð inn...</translation>
+    </message>
+    <message>
+      <source>Not found.</source>
+      <translation>Fannst ekki.</translation>
+    </message>
+  </context>
+  <context>
     <name>TagEditor</name>
     <message>
       <source>Edit track information</source>

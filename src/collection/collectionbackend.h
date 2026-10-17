@@ -240,6 +240,9 @@ class CollectionBackend : public CollectionBackendInterface {
   // Sets the lyrics, or the synchronized lyrics when synced_lyrics is true, and where they are stored, empty lyrics clear them.
   // With only_if_empty, the lyrics are only set if the song has none and they were not cleared, so lyrics found automatically do not replace lyrics added or cleared in the meantime.
   void UpdateSongLyricsAsync(const int id, const bool synced_lyrics, const QString &lyrics, const Song::StorageType storage_type, const bool only_if_empty, const bool save_tags = false);
+  // Updates only the lyrics and their storage type of lyrics_songs, and only the synchronized lyrics, their storage type and the LRC file mtime of synced_lyrics_songs.
+  // Other changes to the songs since they were loaded, including the other lyrics, are kept.
+  void UpdateSongsLyricsAsync(const SongList &lyrics_songs, const SongList &synced_lyrics_songs);
   // Sets where the lyrics, or the synchronized lyrics when synced_lyrics is true, are stored, only if they are still the expected lyrics stored as expected.
   void UpdateSongLyricsStorageTypeAsync(const int id, const bool synced_lyrics, const QString &expected_lyrics, const Song::StorageType expected_storage_type, const Song::StorageType storage_type);
 
@@ -284,6 +287,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void UpdateSongRating(const int id, const float rating, const bool save_tags = false);
   void UpdateSongsRating(const QList<int> &id_list, const float rating, const bool save_tags = false);
   void UpdateSongLyrics(const int id, const bool synced_lyrics, const QString &lyrics, const int storage_type, const bool only_if_empty, const bool save_tags);
+  void UpdateSongsLyrics(const SongList &lyrics_songs, const SongList &synced_lyrics_songs);
   void UpdateSongLyricsStorageType(const int id, const bool synced_lyrics, const QString &expected_lyrics, const int expected_storage_type, const int storage_type);
 
   void UpdateLastSeen(const int directory_id, const int expire_unavailable_songs_days);

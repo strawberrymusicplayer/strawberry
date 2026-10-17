@@ -2246,6 +2246,60 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
   </context>
   <context>
+    <name>LyricsTab</name>
+    <message>
+      <source>Complete lyrics automatically</source>
+      <translation>Αυτόματη ολοκλήρωση στίχων</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>Στίχοι</translation>
+    </message>
+  </context>
+  <context>
+    <name>SongEditor</name>
+    <message>
+      <source>(different across multiple songs)</source>
+      <translation>(διαφορετικά μεταξύ πολλών τραγουδιών)</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>Στίχοι</translation>
+    </message>
+    <message>
+      <source>Previous</source>
+      <translation>Προηγούμενο</translation>
+    </message>
+    <message>
+      <source>Next</source>
+      <translation>Επόμενο</translation>
+    </message>
+    <message>
+      <source>Saving tracks</source>
+      <translation>Αποθήκευση τραγουδιών</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1</source>
+      <translation>Αδυναμία εγγραφής μεταδεδομένων στο %1</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1: %2</source>
+      <translation>Αδυναμία εγγραφής μεταδεδομένων στο %1: %2</translation>
+    </message>
+    <message>
+      <source>Loading tracks</source>
+      <translation>Φόρτωση τραγουδιών</translation>
+    </message>
+    <message>
+      <source>loading...</source>
+      <translation>φόρτωση...</translation>
+    </message>
+    <message>
+      <source>Not found.</source>
+      <translation>Δε βρέθηκε.</translation>
+    </message>
+  </context>
+  <context>
     <name>TagEditor</name>
     <message>
       <source>Edit track information</source>

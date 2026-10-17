@@ -32,6 +32,7 @@
 #include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "lyrics/lyricssearchresult.h"
+#include "lyricssearchtype.h"
 
 class QWidget;
 class QTreeWidgetItem;
@@ -48,8 +49,8 @@ class LyricsSearchDialog : public QDialog {
   ~LyricsSearchDialog() override;
 
   // Searches for lyrics for the song and shows the dialog, returns the chosen lyrics, or nothing when the dialog was cancelled.
-  // With synced, only the lyrics with synchronized lyrics are shown, and the synchronized lyrics are shown.
-  std::optional<LyricsSearchResult> Exec(const Song &song, const bool synced);
+  // Only the lyrics with the type searched for are shown, with both the lyrics with lyrics or synchronized lyrics.
+  std::optional<LyricsSearchResult> Exec(const Song &song, const LyricsSearchType search_type);
 
  private Q_SLOTS:
   void Search();
@@ -65,7 +66,7 @@ class LyricsSearchDialog : public QDialog {
   // The search uses the album artist and the length of the song, they can't be edited in the dialog.
   QString albumartist_;
   qint64 duration_;
-  bool synced_;
+  LyricsSearchType search_type_;
   LyricsSearchResults results_;
 };
 

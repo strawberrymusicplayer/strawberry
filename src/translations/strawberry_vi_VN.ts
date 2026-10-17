@@ -2246,6 +2246,60 @@ Nếu không có kết quả trùng khớp thì nó sẽ sử dụng hình ảnh
     </message>
   </context>
   <context>
+    <name>LyricsTab</name>
+    <message>
+      <source>Complete lyrics automatically</source>
+      <translation>Tự động hoàn thành lời bài hát</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>Lời bài hát</translation>
+    </message>
+  </context>
+  <context>
+    <name>SongEditor</name>
+    <message>
+      <source>(different across multiple songs)</source>
+      <translation>(khác nhau giữa các bài hát)</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>Lời bài hát</translation>
+    </message>
+    <message>
+      <source>Previous</source>
+      <translation>Trước</translation>
+    </message>
+    <message>
+      <source>Next</source>
+      <translation>Tiếp</translation>
+    </message>
+    <message>
+      <source>Saving tracks</source>
+      <translation>Đang lưu bản nhạc</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1</source>
+      <translation>Không thể ghi metadata vào %1</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1: %2</source>
+      <translation>Không thể ghi metadata vào %1: %2</translation>
+    </message>
+    <message>
+      <source>Loading tracks</source>
+      <translation>Đang tải bản nhạc</translation>
+    </message>
+    <message>
+      <source>loading...</source>
+      <translation>đang tải...</translation>
+    </message>
+    <message>
+      <source>Not found.</source>
+      <translation>Không tìm thấy.</translation>
+    </message>
+  </context>
+  <context>
     <name>TagEditor</name>
     <message>
       <source>Edit track information</source>

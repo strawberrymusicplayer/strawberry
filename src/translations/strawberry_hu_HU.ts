@@ -2246,6 +2246,60 @@ Ha nincs egyezés, akkor a legnagyobb képet veszi a könyvtárból.</translatio
     </message>
   </context>
   <context>
+    <name>LyricsTab</name>
+    <message>
+      <source>Complete lyrics automatically</source>
+      <translation type="unfinished">Complete lyrics automatically</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>Dalszöveg</translation>
+    </message>
+  </context>
+  <context>
+    <name>SongEditor</name>
+    <message>
+      <source>(different across multiple songs)</source>
+      <translation type="unfinished">(different across multiple songs)</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>Dalszöveg</translation>
+    </message>
+    <message>
+      <source>Previous</source>
+      <translation>Előző</translation>
+    </message>
+    <message>
+      <source>Next</source>
+      <translation>Következő</translation>
+    </message>
+    <message>
+      <source>Saving tracks</source>
+      <translation>Számok mentése</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1</source>
+      <translation>Nem írható metaadat ebbe a fájlba: %1</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1: %2</source>
+      <translation type="unfinished">Could not write metadata to %1: %2</translation>
+    </message>
+    <message>
+      <source>Loading tracks</source>
+      <translation>Számok betöltése</translation>
+    </message>
+    <message>
+      <source>loading...</source>
+      <translation>betöltés...</translation>
+    </message>
+    <message>
+      <source>Not found.</source>
+      <translation>Nem található.</translation>
+    </message>
+  </context>
+  <context>
     <name>TagEditor</name>
     <message>
       <source>Edit track information</source>

@@ -117,8 +117,9 @@
 #include "dialogs/addstreamdialog.h"
 #include "dialogs/deleteconfirmationdialog.h"
 #include "dialogs/messagedialog.h"
-#include "tageditor/tageditor.h"
-#include "tageditor/trackselectiondialog.h"
+#include "songeditor/tageditor.h"
+#include "songeditor/lyricseditor.h"
+#include "songeditor/trackselectiondialog.h"
 #include "organize/organizedialog.h"
 #include "widgets/fancytabwidget.h"
 #include "widgets/playingwidget.h"
@@ -338,6 +339,7 @@ MainWindow::MainWindow(Application *app,
         return console;
       }),
       tag_editor_(std::bind(&MainWindow::CreateTagEditor, this)),
+      lyrics_editor_(std::bind(&MainWindow::CreateLyricsEditor, this)),
       album_cover_choice_controller_(new AlbumCoverChoiceController(this)),
 #ifdef HAVE_GLOBALSHORTCUTS
       globalshortcuts_manager_(new GlobalShortcutsManager(this)),
@@ -418,6 +420,7 @@ MainWindow::MainWindow(Application *app,
       playlist_queue_(nullptr),
       playlist_queue_play_next_(nullptr),
       playlist_skip_(nullptr),
+      playlist_edit_lyrics_(nullptr),
       playlist_add_to_another_menu_(nullptr),
       playlistitem_actions_separator_(nullptr),
       playlist_rescan_songs_(nullptr),
@@ -913,6 +916,7 @@ MainWindow::MainWindow(Application *app,
   playlist_menu_->addAction(ui_->action_remove_from_playlist);
   playlist_undoredo_ = playlist_menu_->addSeparator();
   playlist_menu_->addAction(ui_->action_edit_track);
+  playlist_edit_lyrics_ = playlist_menu_->addAction(IconLoader::Load(u"view-media-lyrics"_s), tr("Edit lyrics..."), this, &MainWindow::EditLyrics);
   playlist_menu_->addAction(ui_->action_edit_value);
   playlist_menu_->addAction(ui_->action_renumber_tracks);
   playlist_menu_->addAction(ui_->action_selection_set_value);
@@ -1014,6 +1018,7 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(this, &MainWindow::SearchCoverInProgress, context_view_->album_widget(), &ContextAlbum::SearchCoverInProgress);
   QObject::connect(context_view_, &ContextView::AlbumEnabledChanged, this, &MainWindow::TabSwitched);
   QObject::connect(context_view_, &ContextView::SaveLyrics, &*app_->collection(), &CollectionManager::SaveLyrics);
+  QObject::connect(context_view_, &ContextView::EditLyrics, this, &MainWindow::EditSongLyrics);
 
   // Analyzer
   QObject::connect(ui_->analyzer, &AnalyzerContainer::WheelEvent, this, &MainWindow::VolumeWheelEvent);
@@ -2214,6 +2219,8 @@ void MainWindow::ShowPlaylistContextMenu(const QPoint global_pos, const QModelIn
   // this is available when we have one or many files and at least one of those is not CUE related
   ui_->action_edit_track->setEnabled(local_songs > 0 && editable > 0);
   ui_->action_edit_track->setVisible(local_songs > 0 && editable > 0);
+  playlist_edit_lyrics_->setEnabled(local_songs > 0 && editable > 0);
+  playlist_edit_lyrics_->setVisible(local_songs > 0 && editable > 0);
 #ifdef HAVE_TAGFETCHER
   ui_->action_auto_complete_tags->setEnabled(local_songs > 0 && editable > 0);
   ui_->action_auto_complete_tags->setVisible(local_songs > 0 && editable > 0);
@@ -2408,10 +2415,7 @@ void MainWindow::RescanSongs() {
 
 }
 
-void MainWindow::EditTracks() {
-
-  SongList songs;
-  PlaylistItemPtrList items;
+bool MainWindow::GetSelectedPlaylistSongs(SongList *songs, PlaylistItemPtrList *items) const {
 
   const QModelIndexList proxy_indexes = ui_->playlist->view()->selectionModel()->selectedRows();
   for (const QModelIndex &proxy_index : proxy_indexes) {
@@ -2421,12 +2425,20 @@ void MainWindow::EditTracks() {
     if (!item) continue;
     Song song = item->OriginalMetadata();
     if (song.IsEditable()) {
-      songs << song;
-      items << item;
+      *songs << song;
+      *items << item;
     }
   }
 
-  if (items.isEmpty()) return;
+  return !items->isEmpty();
+
+}
+
+void MainWindow::EditTracks() {
+
+  SongList songs;
+  PlaylistItemPtrList items;
+  if (!GetSelectedPlaylistSongs(&songs, &items)) return;
 
   // The dialog is not modal, so the current playlist can change before it is accepted.
   // It keeps the previous songs while it is loading or saving them, then they are still from the previous playlist, and these are set when it's finished.
@@ -2443,16 +2455,72 @@ void MainWindow::EditTracks() {
 
 void MainWindow::TagEditorAccepted() {
 
-  const PlaylistItemPtrList items = tag_editor_->playlist_items();
-  const SongList songs = tag_editor_->songs();
-  const SongList original_songs = tag_editor_->original_songs();
+  UpdateEditedPlaylistItems(&*tag_editor_, tag_editor_playlist_);
+
+}
+
+void MainWindow::EditLyrics() {
+
+  SongList songs;
+  PlaylistItemPtrList items;
+  if (!GetSelectedPlaylistSongs(&songs, &items)) return;
+
+  // Like the tag editor, the songs set while it's loading or saving are set when it's finished, then they are still from the previous playlist.
+  if (lyrics_editor_->SetSongs(songs, items)) {
+    lyrics_editor_playlist_ = app_->playlist_manager()->current();
+  }
+  else {
+    lyrics_editor_pending_playlist_ = app_->playlist_manager()->current();
+  }
+  lyrics_editor_->show();
+  lyrics_editor_->raise();
+
+}
+
+void MainWindow::EditSongLyrics(const Song &song) {
+
+  // The song playing in the context, use its playlist item when it's still the current item, so the playlist is updated when the lyrics are saved.
+  SongList songs;
+  PlaylistItemPtrList items;
+  Playlist *playlist = nullptr;
+  PlaylistItemPtr item = app_->player()->GetCurrentItem();
+  if (item && item->OriginalMetadata().url() == song.url() && item->OriginalMetadata().beginning_nanosec() == song.beginning_nanosec()) {
+    songs << item->OriginalMetadata();
+    items << item;
+    playlist = app_->playlist_manager()->active();
+  }
+  else {
+    songs << song;
+  }
+
+  if (lyrics_editor_->SetSongs(songs, items)) {
+    lyrics_editor_playlist_ = playlist;
+  }
+  else {
+    lyrics_editor_pending_playlist_ = playlist;
+  }
+  lyrics_editor_->show();
+  lyrics_editor_->raise();
+
+}
+
+void MainWindow::LyricsEditorAccepted() {
+
+  UpdateEditedPlaylistItems(&*lyrics_editor_, lyrics_editor_playlist_);
+
+}
+
+void MainWindow::UpdateEditedPlaylistItems(SongEditor *song_editor, Playlist *playlist) {
+
+  const PlaylistItemPtrList items = song_editor->playlist_items();
+  const SongList songs = song_editor->songs();
+  const SongList original_songs = song_editor->original_songs();
 
   if (items.count() != songs.count() || original_songs.count() != songs.count()) {
     return;
   }
 
   // Update the playlist the songs were edited from, not the current playlist.
-  Playlist *playlist = tag_editor_playlist_;
   if (!playlist) {
     return;
   }
@@ -2477,6 +2545,26 @@ void MainWindow::TagEditorAccepted() {
       }
       continue;
     }
+    // Reloading reads the tags again, but the lyrics stored in the database or in an LRC file are taken from the item, so the item gets the saved lyrics first, otherwise the reload would bring back the lyrics from before saving.
+    // Only the edited lyrics are set, the item can have newer lyrics from elsewhere, and the editor reverts the lyrics which could not be saved.
+    const Song &dialog_original_song = original_songs.at(i);
+    const bool lyrics_edited = updated_song.lyrics() != dialog_original_song.lyrics() || updated_song.lyrics_storage_type() != dialog_original_song.lyrics_storage_type();
+    const bool synced_lyrics_edited = updated_song.synced_lyrics() != dialog_original_song.synced_lyrics() || updated_song.synced_lyrics_storage_type() != dialog_original_song.synced_lyrics_storage_type();
+    if (lyrics_edited || synced_lyrics_edited) {
+      Song item_song = item->OriginalMetadata();
+      if (lyrics_edited) {
+        item_song.set_lyrics(updated_song.lyrics());
+        item_song.set_lyrics_storage_type(updated_song.lyrics_storage_type());
+      }
+      if (synced_lyrics_edited) {
+        item_song.set_synced_lyrics(updated_song.synced_lyrics());
+        item_song.set_synced_lyrics_storage_type(updated_song.synced_lyrics_storage_type());
+        item_song.set_lrc_mtime(updated_song.lrc_mtime());
+      }
+      // Updated through the playlist, so the views and the context of the current song get the saved lyrics, also when the reload finds nothing else changed.
+      playlist->UpdateItemMetadata(item, item_song, false);
+    }
+
     // The item's row may have shifted since the dialog was opened, and reloading below needs a row rather than just the item.
     const int row = playlist->row_of(item);
     if (row != -1) {
@@ -3260,6 +3348,20 @@ TagEditor *MainWindow::CreateTagEditor() {
     tag_editor_pending_playlist_.clear();
   });
   return tag_editor;
+
+}
+
+LyricsEditor *MainWindow::CreateLyricsEditor() {
+
+  LyricsEditor *lyrics_editor = new LyricsEditor(app_->tagreader_client(), app_->collection_backend(), app_->lyrics_providers());
+  QObject::connect(lyrics_editor, &LyricsEditor::accepted, this, &MainWindow::LyricsEditorAccepted);
+  QObject::connect(lyrics_editor, &LyricsEditor::Error, this, &MainWindow::ShowErrorDialog);
+  // The songs set while the lyrics editor was loading or saving were set now, they are from the playlist they were set from.
+  QObject::connect(lyrics_editor, &LyricsEditor::PendingSongsSet, this, [this]() {
+    lyrics_editor_playlist_ = lyrics_editor_pending_playlist_;
+    lyrics_editor_pending_playlist_.clear();
+  });
+  return lyrics_editor;
 
 }
 

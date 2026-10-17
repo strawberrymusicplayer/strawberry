@@ -51,7 +51,8 @@
 #include "collectionview.h"
 #include "device/devicemanager.h"
 #include "device/devicestatefiltermodel.h"
-#include "tageditor/tageditor.h"
+#include "songeditor/tageditor.h"
+#include "songeditor/lyricseditor.h"
 #include "dialogs/deleteconfirmationdialog.h"
 #include "organize/organizedialog.h"
 #include "organize/organizeerrordialog.h"
@@ -68,6 +69,7 @@ CollectionView::CollectionView(QWidget *parent)
       action_copy_to_device_(nullptr),
       action_edit_track_(nullptr),
       action_edit_tracks_(nullptr),
+      action_edit_lyrics_(nullptr),
       action_rescan_songs_(nullptr),
       action_show_in_browser_(nullptr),
       action_show_in_various_(nullptr),
@@ -154,6 +156,7 @@ void CollectionView::AddContextMenuActions(QMenu *menu) {
   menu->addSeparator();
   action_edit_track_ = menu->addAction(IconLoader::Load(u"edit-rename"_s), tr("Edit track information..."), this, &CollectionView::EditTracks);
   action_edit_tracks_ = menu->addAction(IconLoader::Load(u"edit-rename"_s), tr("Edit tracks information..."), this, &CollectionView::EditTracks);
+  action_edit_lyrics_ = menu->addAction(IconLoader::Load(u"view-media-lyrics"_s), tr("Edit lyrics..."), this, &CollectionView::EditLyrics);
   action_show_in_browser_ = menu->addAction(IconLoader::Load(u"document-open-folder"_s), tr("Show in file browser..."), this, &CollectionView::ShowInBrowser);
 
   menu->addSeparator();
@@ -191,6 +194,8 @@ void CollectionView::UpdateContextMenuActions(const bool has_selection) {
   action_edit_track_->setEnabled(regular_editable == 1);
   action_edit_tracks_->setVisible(regular_editable > 1);
   action_edit_tracks_->setEnabled(regular_editable > 1);
+  action_edit_lyrics_->setVisible(regular_editable > 0);
+  action_edit_lyrics_->setEnabled(regular_editable > 0);
 
   action_rescan_songs_->setVisible(regular_editable > 0);
   action_rescan_songs_->setEnabled(regular_editable > 0);
@@ -282,6 +287,19 @@ void CollectionView::EditTracks() {
   const SongList songs = GetSelectedSongs();
   tag_editor_->SetSongs(songs);
   tag_editor_->show();
+
+}
+
+void CollectionView::EditLyrics() {
+
+  if (!lyrics_editor_) {
+    lyrics_editor_ = make_unique<LyricsEditor>(tagreader_client_, backend_, lyrics_providers_, this);
+    QObject::connect(&*lyrics_editor_, &LyricsEditor::Error, this, &CollectionView::EditTagError);
+  }
+  const SongList songs = GetSelectedSongs();
+  lyrics_editor_->SetSongs(songs);
+  lyrics_editor_->show();
+  lyrics_editor_->raise();
 
 }
 
