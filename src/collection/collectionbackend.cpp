@@ -798,11 +798,11 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
 
 }
 
-void CollectionBackend::UpdateSongsBySongIDAsync(const SongMap &new_songs) {
-  QMetaObject::invokeMethod(this, "UpdateSongsBySongID", Qt::QueuedConnection, Q_ARG(SongMap, new_songs));
+void CollectionBackend::UpdateSongsBySongIDAsync(const SongMap &new_songs, const bool delete_missing_songs) {
+  QMetaObject::invokeMethod(this, "UpdateSongsBySongID", Qt::QueuedConnection, Q_ARG(SongMap, new_songs), Q_ARG(bool, delete_missing_songs));
 }
 
-void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
+void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs, const bool delete_missing_songs) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -873,8 +873,8 @@ void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
     }
   }
 
-  // Delete songs
-  const QList old_songs_list = old_songs.values();
+  // Delete songs, unless some of the songs could not be fetched, then the songs missing from new_songs can still exist.
+  const QList old_songs_list = delete_missing_songs ? old_songs.values() : QList<Song>();
   for (const Song &old_song : old_songs_list) {
     if (!new_songs.contains(old_song.song_id())) {
       {

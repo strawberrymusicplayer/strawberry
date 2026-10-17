@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -744,14 +744,14 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const AlbumCoverR
   }
 
   if (reply->error() != QNetworkReply::NoError) {
-    Error(QStringLiteral("%1 (%2) for %3").arg(Utilities::RedactUrls(reply->errorString()), QString::number(reply->error()), Utilities::UrlForLog(request.url)));
+    Warn(QStringLiteral("%1 (%2) for %3").arg(Utilities::RedactUrls(reply->errorString()), QString::number(reply->error()), Utilities::UrlForLog(request.url)));
     if (album_covers_requests_sent_.contains(request.cover_id)) album_covers_requests_sent_.remove(request.cover_id);
     AlbumCoverFinishCheck();
     return;
   }
 
   if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
-    Error(QStringLiteral("Received HTTP code %1 for %2.").arg(QString::number(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()), Utilities::UrlForLog(request.url)));
+    Warn(QStringLiteral("Received HTTP code %1 for %2.").arg(QString::number(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()), Utilities::UrlForLog(request.url)));
     if (album_covers_requests_sent_.contains(request.cover_id)) album_covers_requests_sent_.remove(request.cover_id);
     AlbumCoverFinishCheck();
     return;
@@ -762,7 +762,7 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const AlbumCoverR
     mimetype = mimetype.left(mimetype.indexOf(u';'));
   }
   if (!ImageUtils::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !ImageUtils::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
-    Error(QStringLiteral("Unsupported mimetype for image reader %1 for %2").arg(mimetype, Utilities::UrlForLog(request.url)));
+    Warn(QStringLiteral("Unsupported mimetype for image reader %1 for %2").arg(mimetype, Utilities::UrlForLog(request.url)));
     if (album_covers_requests_sent_.contains(request.cover_id)) album_covers_requests_sent_.remove(request.cover_id);
     AlbumCoverFinishCheck();
     return;
@@ -770,7 +770,7 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const AlbumCoverR
 
   const QByteArray data = reply->readAll();
   if (data.isEmpty()) {
-    Error(QStringLiteral("Received empty image data for %1").arg(Utilities::UrlForLog(request.url)));
+    Warn(QStringLiteral("Received empty image data for %1").arg(Utilities::UrlForLog(request.url)));
     if (album_covers_requests_sent_.contains(request.cover_id)) album_covers_requests_sent_.remove(request.cover_id);
     AlbumCoverFinishCheck();
     return;
@@ -793,12 +793,12 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const AlbumCoverR
       }
     }
     else {
-      Error(QStringLiteral("Error saving image data to %1.").arg(request.filename));
+      Warn(QStringLiteral("Error saving image data to %1.").arg(request.filename));
       if (album_covers_requests_sent_.contains(request.cover_id)) album_covers_requests_sent_.remove(request.cover_id);
     }
   }
   else {
-    Error(QStringLiteral("Error decoding image data from %1.").arg(Utilities::UrlForLog(request.url)));
+    Warn(QStringLiteral("Error decoding image data from %1.").arg(Utilities::UrlForLog(request.url)));
     if (album_covers_requests_sent_.contains(request.cover_id)) album_covers_requests_sent_.remove(request.cover_id);
   }
 

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1285,13 +1285,13 @@ void SpotifyRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &alb
   }
 
   if (reply->error() != QNetworkReply::NoError) {
-    Error(QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error())));
+    Warn(QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error())));
     album_covers_requests_sent_.remove(album_id);
     return;
   }
 
   if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
-    Error(QStringLiteral("Received HTTP code %1 for %2.").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()).arg(url.toString()));
+    Warn(QStringLiteral("Received HTTP code %1 for %2.").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()).arg(url.toString()));
     if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
     return;
   }
@@ -1301,14 +1301,14 @@ void SpotifyRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &alb
     mimetype = mimetype.left(mimetype.indexOf(u';'));
   }
   if (!ImageUtils::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !ImageUtils::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
-    Error(QStringLiteral("Unsupported mimetype for image reader %1 for %2").arg(mimetype, url.toString()));
+    Warn(QStringLiteral("Unsupported mimetype for image reader %1 for %2").arg(mimetype, url.toString()));
     if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
     return;
   }
 
   QByteArray data = reply->readAll();
   if (data.isEmpty()) {
-    Error(QStringLiteral("Received empty image data for %1").arg(url.toString()));
+    Warn(QStringLiteral("Received empty image data for %1").arg(url.toString()));
     if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
     return;
   }
@@ -1330,13 +1330,13 @@ void SpotifyRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &alb
       }
     }
     else {
-      Error(QStringLiteral("Error saving image data to %1").arg(filename));
+      Warn(QStringLiteral("Error saving image data to %1").arg(filename));
       if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
     }
   }
   else {
     if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
-    Error(QStringLiteral("Error decoding image data from %1").arg(url.toString()));
+    Warn(QStringLiteral("Error decoding image data from %1").arg(url.toString()));
   }
 
 }
