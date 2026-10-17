@@ -722,7 +722,7 @@ void ContextView::SetLyricsText() {
     synced_lyrics_line_ = -1;
     synced_lyrics_shown_.clear();
     timer_synced_lyrics_->stop();
-    textedit_play_lyrics_->clear();
+    textedit_play_lyrics_->Clear();
     textedit_play_lyrics_->hide();
     return;
   }
@@ -782,7 +782,7 @@ void ContextView::SetLyricsText() {
   }
 
   if (text.isEmpty()) {
-    textedit_play_lyrics_->clear();
+    textedit_play_lyrics_->Clear();
     textedit_play_lyrics_->hide();
   }
   else {
@@ -808,7 +808,7 @@ void ContextView::SetSyncedLyricsText(const QString &provider) {
 
   // One block per line, so the block number is the line number when marking the active line.
   // Characters which insertText() turns into a new block are replaced, otherwise the block numbers would no longer match the lines.
-  textedit_play_lyrics_->clear();
+  textedit_play_lyrics_->Clear();
   QTextCursor cursor(textedit_play_lyrics_->document());
   const QTextCharFormat char_format;
   for (qsizetype i = 0; i < synced_lyrics_lines_.size(); ++i) {

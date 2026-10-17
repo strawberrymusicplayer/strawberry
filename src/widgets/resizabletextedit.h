@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,10 +36,15 @@ class ResizableTextEdit : public QTextEdit {
   QString Text() const { return text_; }
   void setText(const QString &text) { SetText(text); }
   void SetText(const QString &text);
+  // The text gets the default format, not the format at the cursor.
   void SetPlainText(const QString &text);
+  void Clear();
 
  protected:
   virtual void resizeEvent(QResizeEvent *event) override;
+
+ private:
+  void ResetCharFormat();
 
  private:
   QString text_;
