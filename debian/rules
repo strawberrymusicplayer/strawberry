@@ -7,6 +7,17 @@ override_dh_auto_configure:
 	dh_auto_configure -- \
 	-DBUILD_WERROR=ON
 
+# The tests are not built by default, so they are built here, and run with ctest by dh_auto_test.
+# The tests need a writable home directory, which the build environment does not always have, and the offscreen platform since there is no display.
+# Phony, so the target does nothing with nocheck instead of falling through to the pattern rule below.
+.PHONY: override_dh_auto_test
+override_dh_auto_test:
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	dh_auto_build -- build_tests
+	mkdir -p -m 0700 debian/test-home
+	HOME=$(CURDIR)/debian/test-home XDG_RUNTIME_DIR=$(CURDIR)/debian/test-home QT_QPA_PLATFORM=offscreen dh_auto_test
+endif
+
 override_dh_installchangelogs:
 	dh_installchangelogs Changelog
 

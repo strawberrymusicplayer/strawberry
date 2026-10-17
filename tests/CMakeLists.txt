@@ -1,5 +1,3 @@
-enable_testing()
-
 add_custom_target(strawberry_tests echo "Running Strawberry tests" WORKING_DIRECTORY ${CURRENT_BINARY_DIR})
 add_custom_target(build_tests WORKING_DIRECTORY ${CURRENT_BINARY_DIR})
 add_dependencies(strawberry_tests build_tests)
