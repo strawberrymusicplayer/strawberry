@@ -75,6 +75,7 @@ void DiscordRichPresence::ReloadSettings() {
 
   if (enabled && !discord_rpc_) {
     discord_rpc_ = new DiscordRPC(QString::fromLatin1(kDiscordApplicationId), this);
+    QObject::connect(discord_rpc_, &DiscordRPC::Ready, this, &DiscordRichPresence::DiscordReady);
     discord_rpc_->Initialize();
   }
   else if (!enabled && discord_rpc_) {
@@ -83,6 +84,13 @@ void DiscordRichPresence::ReloadSettings() {
     delete discord_rpc_;
     discord_rpc_ = nullptr;
   }
+
+}
+
+void DiscordRichPresence::DiscordReady() {
+
+  // Presence updates are dropped while not connected, so send the presence when connected, this is also after Discord is started or restarted, or when enabled in the settings.
+  EngineStateChanged(player_->engine()->state());
 
 }
 
@@ -102,13 +110,14 @@ void DiscordRichPresence::EngineStateChanged(const EngineBase::State state) {
 
 void DiscordRichPresence::CurrentSongChanged(const Song &song) {
 
-  if (!discord_rpc_) return;
-
+  // The song is also kept while disabled or not connected, so the presence can be sent when connected.
   SetTimestamp(0LL);
   activity_.length_secs = song.length_nanosec() / kNsecPerSec;
   activity_.title = song.PrettyTitle();
   activity_.artist = song.artist();
   activity_.album = song.album();
+
+  if (!discord_rpc_) return;
 
   SendPresenceUpdate();
 

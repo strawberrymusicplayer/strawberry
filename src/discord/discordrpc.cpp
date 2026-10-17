@@ -370,6 +370,7 @@ void DiscordRPC::HandleMessage(const QByteArray &data) {
 
     if (cmd == "DISPATCH"_L1 && evt == "READY"_L1) {
       state_ = State::Connected;
+      Q_EMIT Ready();
     }
   }
 

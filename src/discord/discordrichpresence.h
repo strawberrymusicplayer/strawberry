@@ -48,6 +48,7 @@ class DiscordRichPresence : public QObject {
   void Stop();
 
  private Q_SLOTS:
+  void DiscordReady();
   void EngineStateChanged(const EngineBase::State state);
   void CurrentSongChanged(const Song &song);
   void Seeked(const qint64 seek_microseconds);
