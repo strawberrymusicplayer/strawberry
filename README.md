@@ -92,7 +92,7 @@ Supporting open-source developers helps ensure continued maintenance and improve
 To build Strawberry from source, you’ll need:
 
 **Dependencies:**
-- [CMake 3.13 or higher](https://cmake.org/)
+- [CMake 3.25 or higher](https://cmake.org/)
 - C/C++ compiler ([GCC](https://gcc.gnu.org/), [Clang](https://clang.llvm.org/), or [MSVC](https://visualstudio.microsoft.com/vs/features/cplusplus/))
 - [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/) or [pkgconf](https://github.com/pkgconf/pkgconf)
 - [GLib](https://developer.gnome.org/glib/)
