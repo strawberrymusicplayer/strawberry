@@ -39,7 +39,9 @@ class LyricsFetcherSearch : public QObject {
   Q_OBJECT
 
  public:
-  explicit LyricsFetcherSearch(const quint64 id, const LyricsSearchRequest &request, QObject *parent);
+  // With search, all providers are searched and all results are emitted with SearchFinished, otherwise the best lyrics are emitted with LyricsFetched.
+  // With synced, only the providers with synchronized lyrics are searched, and only lyrics with synchronized lyrics are used.
+  explicit LyricsFetcherSearch(const quint64 id, const LyricsSearchRequest &request, const bool search, const bool synced, QObject *parent);
 
   void Start(SharedPtr<LyricsProviders> lyrics_providers);
   void Cancel();
@@ -62,6 +64,8 @@ class LyricsFetcherSearch : public QObject {
  private:
   quint64 id_;
   const LyricsSearchRequest request_;
+  const bool search_;
+  const bool synced_;
   QTimer *timer_search_early_timeout_;
   QTimer *timer_search_timeout_;
   LyricsSearchResults results_;

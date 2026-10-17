@@ -39,7 +39,8 @@ class LyricsProvider : public HttpBaseRequest {
   Q_OBJECT
 
  public:
-  explicit LyricsProvider(const QString &name, const bool enabled, const bool authentication_required, const SharedPtr<NetworkAccessManager> network, QObject *parent);
+  // synced_lyrics is whether the provider can return synchronized lyrics, only those providers are used when searching for synchronized lyrics.
+  explicit LyricsProvider(const QString &name, const bool enabled, const bool authentication_required, const bool synced_lyrics, const SharedPtr<NetworkAccessManager> network, QObject *parent);
 
   QString name() const { return name_; }
   bool is_enabled() const { return enabled_; }
@@ -59,6 +60,7 @@ class LyricsProvider : public HttpBaseRequest {
   virtual QString api_credentials_id_key() const { return QStringLiteral("client_id"); }
   virtual QString api_credentials_secret_key() const { return QStringLiteral("client_secret"); }
   virtual bool authentication_required() const override { return authentication_required_; }
+  bool synced_lyrics() const { return synced_lyrics_; }
   virtual bool authenticated() const override { return false; }
   virtual bool use_authorization_header() const override { return authentication_required_; }
   virtual QByteArray authorization_header() const override { return QByteArray(); }
@@ -85,6 +87,7 @@ class LyricsProvider : public HttpBaseRequest {
   bool enabled_;
   int order_;
   const bool authentication_required_;
+  const bool synced_lyrics_;
 
   Q_DISABLE_COPY_MOVE(LyricsProvider)
 };

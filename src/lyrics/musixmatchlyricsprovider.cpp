@@ -83,7 +83,7 @@ QString RandomGuid() {
 }  // namespace
 
 MusixmatchLyricsProvider::MusixmatchLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonLyricsProvider(u"Musixmatch"_s, true, false, network, parent),
+    : JsonLyricsProvider(u"Musixmatch"_s, true, false, false, network, parent),
       requesting_user_token_(false) {
   MusixmatchLyricsProvider::ReloadSettings();
 }

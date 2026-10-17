@@ -1382,11 +1382,41 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="fetch_lyrics">
-              <property name="text">
-               <string>Complete lyrics automatically</string>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="layout_fetch_lyrics">
+              <item>
+               <widget class="QPushButton" name="fetch_lyrics">
+                <property name="toolTip">
+                 <string>Use the best lyrics found for each selected song</string>
+                </property>
+                <property name="text">
+                 <string>Complete lyrics automatically</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="search_lyrics">
+                <property name="toolTip">
+                 <string>Search all lyrics providers and choose the lyrics to use</string>
+                </property>
+                <property name="text">
+                 <string>Search for lyrics...</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer_fetch_lyrics">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
             </item>
             <item>
              <widget class="QLabel" name="lyrics_fetch_status">
@@ -1454,6 +1484,50 @@
                </spacer>
               </item>
              </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="layout_search_synced_lyrics">
+              <item>
+               <widget class="QPushButton" name="fetch_synced_lyrics">
+                <property name="toolTip">
+                 <string>Use the best synchronized lyrics found for each selected song</string>
+                </property>
+                <property name="text">
+                 <string>Complete lyrics automatically</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="search_synced_lyrics">
+                <property name="toolTip">
+                 <string>Search all lyrics providers and choose the synchronized lyrics to use</string>
+                </property>
+                <property name="text">
+                 <string>Search for lyrics...</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer_search_synced_lyrics">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QLabel" name="synced_lyrics_fetch_status">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_synced_lyrics">
@@ -1567,8 +1641,11 @@
   <tabstop>lyrics</tabstop>
   <tabstop>lyrics_storage</tabstop>
   <tabstop>fetch_lyrics</tabstop>
+  <tabstop>search_lyrics</tabstop>
   <tabstop>synced_lyrics</tabstop>
   <tabstop>synced_lyrics_storage</tabstop>
+  <tabstop>fetch_synced_lyrics</tabstop>
+  <tabstop>search_synced_lyrics</tabstop>
  </tabstops>
  <resources>
   <include location="../../data/data.qrc"/>

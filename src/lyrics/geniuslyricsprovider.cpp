@@ -80,7 +80,7 @@ QString CompiledClientSecret() {
 }  // namespace
 
 GeniusLyricsProvider::GeniusLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonLyricsProvider(u"Genius"_s, true, true, network, parent),
+    : JsonLyricsProvider(u"Genius"_s, true, true, false, network, parent),
       oauth_(new OAuthenticator(network, this)) {
 
   oauth_->set_settings_group(QLatin1String(kSettingsGroup));

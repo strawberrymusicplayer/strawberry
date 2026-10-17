@@ -48,16 +48,24 @@ class LyricsFetcher : public QObject {
   ~LyricsFetcher() override {}
 
   struct Request {
-    Request() : id(0) {}
+    Request() : id(0), search(false), synced(false) {}
     quint64 id;
     LyricsSearchRequest search_request;
+    // Search all providers and return all results with SearchFinished, instead of returning the best lyrics with LyricsFetched.
+    bool search;
+    // Only use the providers with synchronized lyrics, and only lyrics with synchronized lyrics.
+    bool synced;
   };
 
-  quint64 Search(const QString &effective_albumartist, const QString &artist, const QString &album, const QString &title, const qint64 duration);
+  // Returns the best lyrics from the providers with LyricsFetched, with synced only the best lyrics with synchronized lyrics.
+  quint64 Search(const QString &effective_albumartist, const QString &artist, const QString &album, const QString &title, const qint64 duration, const bool synced = false);
+  // Searches all providers and returns all lyrics found with SearchFinished, for choosing the lyrics, with synced only the providers with synchronized lyrics.
+  quint64 SearchForLyrics(const QString &effective_albumartist, const QString &artist, const QString &album, const QString &title, const qint64 duration, const bool synced = false);
   void Clear();
 
  private:
   void AddRequest(const Request &request);
+  static LyricsSearchRequest CreateSearchRequest(const QString &effective_albumartist, const QString &artist, const QString &album, const QString &title, const qint64 duration);
 
  Q_SIGNALS:
   void LyricsFetched(const quint64 request_id, const LyricsSearchResult &result);
