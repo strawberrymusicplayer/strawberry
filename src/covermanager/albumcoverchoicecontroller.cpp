@@ -759,7 +759,7 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedToSong(const Song &song, const
 
   QMutexLocker l(&mutex_cover_save_tasks_);
   cover_save_tasks_.append(song);
-  const bool art_embedded = !image_data.isNull();
+  const bool art_embedded = !cover_filename.isEmpty() || !image_data.isEmpty();
   TagReaderReplyPtr reply = tagreader_client_->SaveCoverAsync(song.url().toLocalFile(), SaveTagCoverData(cover_filename, image_data, mime_type));
   SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
   *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, song, art_embedded, connection]() {
