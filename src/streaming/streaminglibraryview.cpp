@@ -123,7 +123,8 @@ void StreamingLibraryView::SongsFinished(const SongMap &songs, const QString &er
   }
   else {
     container_->ShowCollection();
-    service_->songs_collection_backend()->UpdateSongsBySongIDAsync(songs);
+    // When some of the songs could not be fetched, the songs missing from the results are kept, they are not removed from the library.
+    service_->songs_collection_backend()->UpdateSongsBySongIDAsync(songs, error.isEmpty());
   }
 
 }

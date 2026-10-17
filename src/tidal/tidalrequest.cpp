@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@
 #include <QImageReader>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QSslError>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
@@ -1217,6 +1218,13 @@ void TidalRequest::FlushAlbumCoverRequests() {
 
     AlbumCoverRequest request = album_cover_requests_queue_.dequeue();
     QNetworkReply *reply = CreateGetRequest(request.url);
+    // Certificate errors for album covers are only warnings, they don't mean that songs are missing.
+    QObject::disconnect(reply, &QNetworkReply::sslErrors, this, &HttpBaseRequest::HandleSSLErrors);
+    QObject::connect(reply, &QNetworkReply::sslErrors, this, [](const QList<QSslError> &ssl_errors) {
+      for (const QSslError &ssl_error : ssl_errors) {
+        Warn(ssl_error.errorString());
+      }
+    });
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumCoverReceived(reply, request.album_id, request.url, request.filename); });
 
     ++album_covers_requests_active_;
@@ -1251,13 +1259,13 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album
   }
 
   if (reply->error() != QNetworkReply::NoError) {
-    Error(QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error())));
+    Warn(QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error())));
     album_covers_requests_sent_.remove(album_id);
     return;
   }
 
   if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
-    Error(QStringLiteral("Received HTTP code %1 for %2.").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()).arg(url.toString()));
+    Warn(QStringLiteral("Received HTTP code %1 for %2.").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()).arg(url.toString()));
     if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
     return;
   }
@@ -1267,14 +1275,14 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album
     mimetype = mimetype.left(mimetype.indexOf(u';'));
   }
   if (!ImageUtils::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !ImageUtils::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
-    Error(QStringLiteral("Unsupported mimetype for image reader %1 for %2").arg(mimetype, url.toString()));
+    Warn(QStringLiteral("Unsupported mimetype for image reader %1 for %2").arg(mimetype, url.toString()));
     if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
     return;
   }
 
   const QByteArray data = reply->readAll();
   if (data.isEmpty()) {
-    Error(QStringLiteral("Received empty image data for %1").arg(url.toString()));
+    Warn(QStringLiteral("Received empty image data for %1").arg(url.toString()));
     if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
     return;
   }
@@ -1296,13 +1304,13 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album
       }
     }
     else {
-      Error(QStringLiteral("Error saving image data to %1").arg(filename));
+      Warn(QStringLiteral("Error saving image data to %1").arg(filename));
       if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
     }
   }
   else {
     if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
-    Error(QStringLiteral("Error decoding image data from %1").arg(url.toString()));
+    Warn(QStringLiteral("Error decoding image data from %1").arg(url.toString()));
   }
 
 }
@@ -1349,7 +1357,7 @@ void TidalRequest::FinishCheck() {
       }
     }
     else {
-      Q_EMIT Results(query_id_, songs_);
+      Q_EMIT Results(query_id_, songs_, error_);
     }
   }
 
