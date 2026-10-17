@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 #include <QObject>
 #include <QWidget>
 #include <QMap>
+#include <QPointer>
 #include <QString>
 #include <QImage>
 #include <QPixmap>
@@ -134,7 +135,7 @@ class OSDPretty : public QWidget {
   qreal background_opacity_;
   QString popup_screen_name_;
   QPoint popup_pos_;
-  QScreen *popup_screen_;
+  QPointer<QScreen> popup_screen_;
   QFont font_;
   // The OSD is kept always on top until you click (no timer)
   bool disable_duration_;
@@ -158,7 +159,7 @@ class OSDPretty : public QWidget {
   // Toggling requested, we have to show or hide the OSD
   bool toggle_mode_;
 
-  QMap<QString, QScreen*> screens_;
+  QMap<QString, QPointer<QScreen>> screens_;
 };
 
 #endif  // OSDPRETTY_H
