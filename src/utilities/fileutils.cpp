@@ -37,6 +37,7 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+#include <QFileInfoList>
 #include <QDateTime>
 
 #include "core/logging.h"
@@ -130,19 +131,42 @@ bool CopyRecursive(const QString &source, const QString &destination) {
 
 }
 
+namespace {
+
+bool IsLink(const QFileInfo &fileinfo) {
+  return fileinfo.isSymLink() || fileinfo.isJunction();
+}
+
+bool RemoveLink(const QString &path) {
+  // A link to a directory is a directory on Windows, so it is removed as a directory there.
+  return QFile::remove(path) || QDir().rmdir(path);
+}
+
+}  // namespace
+
 bool RemoveRecursive(const QString &path) {
 
-  QDir dir(path);
-  const QStringList children_dirs = dir.entryList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Hidden);
-  for (const QString &child : children_dirs) {
-    if (!RemoveRecursive(path + QLatin1Char('/') + child)) {
-      return false;
-    }
+  // Links are removed, not followed, otherwise the files in the directory they link to, which is outside this directory, would be removed too.
+  if (IsLink(QFileInfo(path))) {
+    return RemoveLink(path);
   }
 
-  const QStringList children_files = dir.entryList(QDir::NoDotAndDotDot | QDir::Files | QDir::Hidden);
-  for (const QString &child : children_files) {
-    if (!QFile::remove(path + QLatin1Char('/') + child)) {
+  QDir dir(path);
+  // System is needed to list broken links.
+  const QFileInfoList children = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::AllEntries | QDir::Hidden | QDir::System);
+  for (const QFileInfo &child : children) {
+    const QString child_path = child.absoluteFilePath();
+    bool success = false;
+    if (IsLink(child)) {
+      success = RemoveLink(child_path);
+    }
+    else if (child.isDir()) {
+      success = RemoveRecursive(child_path);
+    }
+    else {
+      success = QFile::remove(child_path);
+    }
+    if (!success) {
       return false;
     }
   }
