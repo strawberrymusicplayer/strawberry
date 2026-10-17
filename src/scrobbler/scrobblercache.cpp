@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,7 +51,8 @@ ScrobblerCache::ScrobblerCache(const QString &filename, QObject *parent)
     : QObject(parent),
       timer_flush_(new QTimer(this)),
       filename_(StandardPaths::WritableLocation(StandardPaths::StandardLocation::CacheLocation) + QLatin1Char('/') + filename),
-      loaded_(false) {
+      loaded_(false),
+      dirty_(false) {
 
   ReadCache();
   loaded_ = true;
@@ -63,8 +64,9 @@ ScrobblerCache::ScrobblerCache(const QString &filename, QObject *parent)
 }
 
 ScrobblerCache::~ScrobblerCache() {
-  // Flush any unsaved items so scrobbles added since the last timer tick aren't lost on shutdown.
-  if (!scrobbler_cache_.isEmpty()) WriteCache();
+  // Write any unsaved changes so scrobbles added since the last timer tick aren't lost on shutdown.
+  // This also applies when the cache is empty, otherwise the file keeps the scrobbles which were sent since the last write, and they are sent again.
+  if (dirty_) WriteCache();
   scrobbler_cache_.clear();
 }
 
@@ -207,9 +209,17 @@ void ScrobblerCache::WriteCache() {
 
   qLog(Debug) << "Writing scrobbler cache file" << filename_;
 
+  timer_flush_->stop();
+
+  // The cache is only marked as saved when the file has the current scrobbles, otherwise it is written again by the timer and on exit.
   if (scrobbler_cache_.isEmpty()) {
     QFile file(filename_);
-    if (file.exists()) file.remove();
+    if (file.exists() && !file.remove()) {
+      qLog(Error) << "Unable to remove scrobbler cache file" << filename_ << file.errorString();
+      timer_flush_->start();
+      return;
+    }
+    dirty_ = false;
     return;
   }
 
@@ -250,7 +260,8 @@ void ScrobblerCache::WriteCache() {
   QSaveFile file(filename_);
   bool result = file.open(QIODevice::WriteOnly | QIODevice::Text);
   if (!result) {
-    qLog(Error) << "Unable to open scrobbler cache file" << filename_;
+    qLog(Error) << "Unable to open scrobbler cache file" << filename_ << file.errorString();
+    timer_flush_->start();
     return;
   }
   QTextStream stream(&file);
@@ -258,8 +269,12 @@ void ScrobblerCache::WriteCache() {
   stream << doc.toJson();
   stream.flush();
   if (!file.commit()) {
-    qLog(Error) << "Unable to write scrobbler cache file" << filename_;
+    qLog(Error) << "Unable to write scrobbler cache file" << filename_ << file.errorString();
+    timer_flush_->start();
+    return;
   }
+
+  dirty_ = false;
 
 }
 
@@ -269,8 +284,11 @@ ScrobblerCacheItemPtr ScrobblerCache::Add(const Song &song, const quint64 timest
 
   scrobbler_cache_ << cache_item;
 
-  if (loaded_ && !timer_flush_->isActive()) {
-    timer_flush_->start();
+  if (loaded_) {
+    dirty_ = true;
+    if (!timer_flush_->isActive()) {
+      timer_flush_->start();
+    }
   }
 
   return cache_item;
@@ -279,9 +297,13 @@ ScrobblerCacheItemPtr ScrobblerCache::Add(const Song &song, const quint64 timest
 
 void ScrobblerCache::Remove(ScrobblerCacheItemPtr cache_item) {
 
-  if (scrobbler_cache_.contains(cache_item)) {
-    scrobbler_cache_.removeAll(cache_item);
+  if (scrobbler_cache_.removeAll(cache_item) > 0) {
+    dirty_ = true;
+    if (!timer_flush_->isActive()) {
+      timer_flush_->start();
+    }
   }
+
 }
 
 void ScrobblerCache::ClearSent(ScrobblerCacheItemPtrList cache_items) {
@@ -311,6 +333,7 @@ void ScrobblerCache::Flush(ScrobblerCacheItemPtrList cache_items) {
     }
   }
 
+  dirty_ = true;
   if (!timer_flush_->isActive()) {
     timer_flush_->start();
   }
