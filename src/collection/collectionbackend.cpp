@@ -1701,7 +1701,13 @@ void CollectionBackend::UpdateEmbeddedAlbumArt(const QString &effective_albumart
 
   {
     SqlQuery q(db);
-    q.prepare(QStringLiteral("UPDATE %1 SET art_embedded = :art_embedded, art_unset = 0 WHERE effective_albumartist = :effective_albumartist AND album = :album AND unavailable = 0").arg(songs_table_));
+    // Removing the embedded cover keeps art_unset, since deleting and unsetting a cover removes the embedded cover after the cover is unset.
+    if (art_embedded) {
+      q.prepare(QStringLiteral("UPDATE %1 SET art_embedded = :art_embedded, art_unset = 0 WHERE effective_albumartist = :effective_albumartist AND album = :album AND unavailable = 0").arg(songs_table_));
+    }
+    else {
+      q.prepare(QStringLiteral("UPDATE %1 SET art_embedded = :art_embedded WHERE effective_albumartist = :effective_albumartist AND album = :album AND unavailable = 0").arg(songs_table_));
+    }
     q.BindValue(u":art_embedded"_s, art_embedded ? 1 : 0);
     q.BindValue(u":effective_albumartist"_s, effective_albumartist);
     q.BindValue(u":album"_s, album);

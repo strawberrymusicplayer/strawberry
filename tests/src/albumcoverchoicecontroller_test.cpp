@@ -33,9 +33,11 @@
 #include <QImage>
 #include <QColor>
 #include <QElapsedTimer>
+#include <QSignalSpy>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
+#include "core/database.h"
 #include "core/memorydatabase.h"
 #include "core/taskmanager.h"
 #include "core/networkaccessmanager.h"
@@ -169,6 +171,112 @@ TEST_F(AlbumCoverChoiceControllerTest, EmbeddingCoverFromFileSetsArtEmbedded) {
   controller.SaveCoverEmbeddedToSong(song, cover_filename, QByteArray());
   ASSERT_TRUE(WaitFor([this, &filename]() { return HasEmbeddedCoverColor(filename, Qt::green); }));
   EXPECT_TRUE(WaitFor([this]() { return collection_backend_->GetAllSongs().first().art_embedded(); }));
+
+}
+
+// Regression test: deleting and unsetting an embedded cover reloaded the current cover with the song copied before the cover was unset when the embedded cover was removed, so the cover was no longer unset and could be fetched again.
+TEST_F(AlbumCoverChoiceControllerTest, DeletingEmbeddedCoverKeepsCurrentCoverUnset) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString filename = temp_dir.filePath(u"song.mp3"_s);
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, filename));
+  ASSERT_TRUE(QFile::setPermissions(filename, QFile::ReadOwner | QFile::WriteOwner | QFile::ReadUser | QFile::WriteUser));
+
+  Song song(Song::Source::LocalFile);
+  ASSERT_TRUE(tagreader_client_->ReadFileBlocking(filename, &song).success());
+  ASSERT_TRUE(song.save_embedded_cover_supported());
+  song.set_artist(u"Artist"_s);
+  song.set_album(u"Album"_s);
+
+  SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader = make_shared<CurrentAlbumCoverLoader>(albumcover_loader_);
+  AlbumCoverChoiceController controller;
+  controller.Init(make_shared<NetworkAccessManager>(), tagreader_client_, collection_backend_, albumcover_loader_, current_albumcover_loader, make_shared<CoverProviders>(), make_shared<StreamingServices>());
+
+  // The song is the current song, and the file has an embedded cover.
+  current_albumcover_loader->LoadAlbumCover(song);
+  const QByteArray blue_image_data = ImageUtils::SaveImageToJpegData(CreateImage(Qt::blue));
+  ASSERT_FALSE(blue_image_data.isEmpty());
+  controller.SaveCoverEmbeddedToCollectionSongs(song, QString(), blue_image_data, u"image/jpeg"_s);
+  ASSERT_TRUE(WaitFor([&current_albumcover_loader]() { return current_albumcover_loader->last_song().art_embedded(); }));
+  ASSERT_TRUE(HasEmbeddedCoverColor(filename, Qt::blue));
+  song.set_art_embedded(true);
+
+  // Delete and unset the cover, the embedded cover is removed after the cover is unset.
+  QSignalSpy spy_embedded_cover_saved(&controller, &AlbumCoverChoiceController::EmbeddedCoverSaved);
+  ASSERT_TRUE(controller.DeleteCover(&song, true));
+  EXPECT_TRUE(song.art_unset());
+  EXPECT_TRUE(current_albumcover_loader->last_song().art_unset());
+  ASSERT_TRUE(WaitFor([&spy_embedded_cover_saved]() { return spy_embedded_cover_saved.count() == 1; }));
+  EXPECT_TRUE(spy_embedded_cover_saved.first().at(1).toBool());
+  EXPECT_FALSE(HasEmbeddedCoverColor(filename, Qt::blue));
+
+  EXPECT_TRUE(current_albumcover_loader->last_song().art_unset());
+  EXPECT_FALSE(current_albumcover_loader->last_song().art_embedded());
+
+}
+
+// Regression test: deleting and unsetting the cover of an album, like from the album cover manager, did not reload the current cover when the current song was another song from the album.
+TEST_F(AlbumCoverChoiceControllerTest, DeletingAlbumCoverUnsetsCurrentAlbumSong) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+
+  // The album songs are read from the collection in another thread, so use a database file, a memory database is empty in other threads.
+  collection_backend_.reset();
+  database_.reset();
+  database_ = make_shared<Database>(task_manager_, nullptr, temp_dir.filePath(u"strawberry.db"_s));
+  collection_backend_ = make_shared<CollectionBackend>();
+  collection_backend_->Init(database_, task_manager_, Song::Source::Collection, QLatin1String(CollectionManager::kSongsTable), QLatin1String(CollectionManager::kDirsTable), QLatin1String(CollectionManager::kSubdirsTable));
+  collection_backend_->AddDirectory(temp_dir.path());
+
+  SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader = make_shared<CurrentAlbumCoverLoader>(albumcover_loader_);
+  AlbumCoverChoiceController controller;
+  controller.Init(make_shared<NetworkAccessManager>(), tagreader_client_, collection_backend_, albumcover_loader_, current_albumcover_loader, make_shared<CoverProviders>(), make_shared<StreamingServices>());
+  QSignalSpy spy_embedded_cover_saved(&controller, &AlbumCoverChoiceController::EmbeddedCoverSaved);
+
+  // Two songs from the same album in the collection, with an embedded cover.
+  const QByteArray blue_image_data = ImageUtils::SaveImageToJpegData(CreateImage(Qt::blue));
+  ASSERT_FALSE(blue_image_data.isEmpty());
+  SongList songs;
+  for (const QString &name : {u"first.mp3"_s, u"second.mp3"_s}) {
+    const QString filename = temp_dir.filePath(name);
+    ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, filename));
+    ASSERT_TRUE(QFile::setPermissions(filename, QFile::ReadOwner | QFile::WriteOwner | QFile::ReadUser | QFile::WriteUser));
+    Song song(Song::Source::LocalFile);
+    ASSERT_TRUE(tagreader_client_->ReadFileBlocking(filename, &song).success());
+    ASSERT_TRUE(song.save_embedded_cover_supported());
+    controller.SaveCoverEmbeddedToSong(song, QString(), blue_image_data, u"image/jpeg"_s);
+    song.set_source(Song::Source::Collection);
+    song.set_directory_id(1);
+    song.set_artist(u"Artist"_s);
+    song.set_album(u"Album"_s);
+    song.set_art_embedded(true);
+    songs << song;
+  }
+  ASSERT_TRUE(WaitFor([&spy_embedded_cover_saved]() { return spy_embedded_cover_saved.count() == 2; }));
+  spy_embedded_cover_saved.clear();
+  collection_backend_->AddOrUpdateSongs(songs);
+  const SongList collection_songs = collection_backend_->GetAllSongs();
+  ASSERT_EQ(2, collection_songs.count());
+
+  // The second song is the current song, the cover is deleted for the album from the first song.
+  Song current_song = collection_songs.value(1);
+  ASSERT_TRUE(current_song.art_embedded());
+  current_albumcover_loader->LoadAlbumCover(current_song);
+  Song album_song = collection_songs.value(0);
+  ASSERT_TRUE(controller.DeleteCover(&album_song, true));
+
+  EXPECT_TRUE(current_albumcover_loader->last_song() == current_song);
+  EXPECT_TRUE(current_albumcover_loader->last_song().art_unset());
+  EXPECT_FALSE(current_albumcover_loader->last_song().art_embedded());
+
+  // The embedded covers of both songs are removed after the cover is unset, and the current cover stays unset.
+  ASSERT_TRUE(WaitFor([&spy_embedded_cover_saved]() { return spy_embedded_cover_saved.count() == 2; }));
+  EXPECT_TRUE(current_albumcover_loader->last_song().art_unset());
+  EXPECT_FALSE(current_albumcover_loader->last_song().art_embedded());
+
+  database_->Close();
 
 }
 
