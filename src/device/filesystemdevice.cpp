@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -116,6 +116,8 @@ void FilesystemDevice::Close() {
   QObject::connect(&*collection_backend_, &CollectionBackend::ExitFinished, this, &FilesystemDevice::ExitFinished);
   QObject::connect(collection_watcher_, &CollectionWatcher::ExitFinished, this, &FilesystemDevice::ExitFinished);
   collection_backend_->ExitAsync();
+  // Abort a scan that is running, exiting the watcher is queued after it, so unmounting the device or quitting would otherwise wait until the whole scan is finished.
+  collection_watcher_->Abort();
   collection_watcher_->ExitAsync();
 
 }
