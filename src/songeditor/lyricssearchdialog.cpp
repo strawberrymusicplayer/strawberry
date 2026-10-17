@@ -44,6 +44,8 @@
 #include "lyricssearchdialog.h"
 #include "ui_lyricssearchdialog.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 namespace {
 enum Column {
   Column_Provider,
@@ -59,7 +61,7 @@ LyricsSearchDialog::LyricsSearchDialog(const SharedPtr<LyricsProviders> lyrics_p
       lyrics_fetcher_(new LyricsFetcher(lyrics_providers, this)),
       id_(0),
       duration_(-1),
-      synced_(false) {
+      search_type_(LyricsSearchType::Lyrics) {
 
   ui_->setupUi(this);
 
@@ -93,10 +95,10 @@ LyricsSearchDialog::~LyricsSearchDialog() {
   delete ui_;
 }
 
-std::optional<LyricsSearchResult> LyricsSearchDialog::Exec(const Song &song, const bool synced) {
+std::optional<LyricsSearchResult> LyricsSearchDialog::Exec(const Song &song, const LyricsSearchType search_type) {
 
-  synced_ = synced;
-  setWindowTitle(synced ? tr("Search for synchronized lyrics") : tr("Search for lyrics"));
+  search_type_ = search_type;
+  setWindowTitle(search_type == LyricsSearchType::SyncedLyrics ? tr("Search for synchronized lyrics") : tr("Search for lyrics"));
 
   albumartist_ = song.effective_albumartist();
   duration_ = song.length_nanosec() / kNsecPerSec;
@@ -132,7 +134,7 @@ void LyricsSearchDialog::Search() {
   ui_->results->clear();
   ui_->lyrics->clear();
 
-  id_ = lyrics_fetcher_->SearchForLyrics(albumartist_, ui_->artist->text(), ui_->album->text(), ui_->title->text(), duration_, synced_);
+  id_ = lyrics_fetcher_->SearchForLyrics(albumartist_, ui_->artist->text(), ui_->album->text(), ui_->title->text(), duration_, search_type_ == LyricsSearchType::SyncedLyrics);
   SetSearching(true);
 
 }
@@ -154,7 +156,7 @@ void LyricsSearchDialog::SearchFinished(const quint64 id, const LyricsSearchResu
   // The best lyrics first, only the lyrics with synchronized lyrics when searching for synchronized lyrics.
   results_.clear();
   for (const LyricsSearchResult &result : results) {
-    if (synced_ ? !result.synced_lyrics.isEmpty() : !result.lyrics.isEmpty()) {
+    if ((LyricsSearchTypeHasLyrics(search_type_) && !result.lyrics.isEmpty()) || (LyricsSearchTypeHasSyncedLyrics(search_type_) && !result.synced_lyrics.isEmpty())) {
       results_ << result;
     }
   }
@@ -177,7 +179,7 @@ void LyricsSearchDialog::SearchFinished(const quint64 id, const LyricsSearchResu
   SetSearching(false);
 
   if (results_.isEmpty()) {
-    ui_->status->setText(synced_ ? tr("No synchronized lyrics found.") : tr("No lyrics found."));
+    ui_->status->setText(search_type_ == LyricsSearchType::SyncedLyrics ? tr("No synchronized lyrics found.") : tr("No lyrics found."));
   }
 
 }
@@ -192,7 +194,25 @@ void LyricsSearchDialog::CurrentResultChanged(QTreeWidgetItem *current, QTreeWid
 
   const qsizetype index = current->data(Column_Provider, Qt::UserRole).toLongLong();
   if (index >= 0 && index < results_.size()) {
-    ui_->lyrics->setPlainText(synced_ ? results_.at(index).synced_lyrics : results_.at(index).lyrics);
+    const LyricsSearchResult &result = results_.at(index);
+    switch (search_type_) {
+      case LyricsSearchType::Lyrics:
+        ui_->lyrics->setPlainText(result.lyrics);
+        break;
+      case LyricsSearchType::SyncedLyrics:
+        ui_->lyrics->setPlainText(result.synced_lyrics);
+        break;
+      case LyricsSearchType::Both:{
+        // Both are used, so show both.
+        QString text = result.lyrics;
+        if (!result.synced_lyrics.isEmpty()) {
+          if (!text.isEmpty()) text += u"\n\n"_s;
+          text += u"--- "_s + tr("Synchronized lyrics") + u" ---\n"_s + result.synced_lyrics;
+        }
+        ui_->lyrics->setPlainText(text);
+        break;
+      }
+    }
   }
 
 }

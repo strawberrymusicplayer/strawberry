@@ -2246,6 +2246,60 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
   </context>
   <context>
+    <name>LyricsTab</name>
+    <message>
+      <source>Complete lyrics automatically</source>
+      <translation>Завантажити текст пісні</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>Тексти пісень</translation>
+    </message>
+  </context>
+  <context>
+    <name>SongEditor</name>
+    <message>
+      <source>(different across multiple songs)</source>
+      <translation>(відрізняється поміж кількох композицій)</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>Тексти пісень</translation>
+    </message>
+    <message>
+      <source>Previous</source>
+      <translation>Попередня</translation>
+    </message>
+    <message>
+      <source>Next</source>
+      <translation>Наступна</translation>
+    </message>
+    <message>
+      <source>Saving tracks</source>
+      <translation>Збереження композицій</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1</source>
+      <translation>Не вдалось записати метадані в %1</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1: %2</source>
+      <translation>Не вдалось записати метадані в %1: %2</translation>
+    </message>
+    <message>
+      <source>Loading tracks</source>
+      <translation>Завантаження композицій</translation>
+    </message>
+    <message>
+      <source>loading...</source>
+      <translation>завантаження...</translation>
+    </message>
+    <message>
+      <source>Not found.</source>
+      <translation>Не знайдено.</translation>
+    </message>
+  </context>
+  <context>
     <name>TagEditor</name>
     <message>
       <source>Edit track information</source>

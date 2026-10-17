@@ -49,6 +49,7 @@ class CurrentAlbumCoverLoader;
 class CoverProviders;
 class LyricsProviders;
 class TagEditor;
+class LyricsEditor;
 class OrganizeDialog;
 
 class CollectionView : public CollectionTreeView {
@@ -97,6 +98,7 @@ class CollectionView : public CollectionTreeView {
   void Organize();
   void CopyToDevice();
   void EditTracks();
+  void EditLyrics();
   void RescanSongs();
   void ShowInBrowser() const;
   void ShowInVarious();
@@ -128,6 +130,7 @@ class CollectionView : public CollectionTreeView {
   QAction *action_copy_to_device_;
   QAction *action_edit_track_;
   QAction *action_edit_tracks_;
+  QAction *action_edit_lyrics_;
   QAction *action_rescan_songs_;
   QAction *action_show_in_browser_;
   QAction *action_show_in_various_;
@@ -136,6 +139,7 @@ class CollectionView : public CollectionTreeView {
 
   ScopedPtr<OrganizeDialog> organize_dialog_;
   ScopedPtr<TagEditor> tag_editor_;
+  ScopedPtr<LyricsEditor> lyrics_editor_;
 
   bool delete_files_;
 };

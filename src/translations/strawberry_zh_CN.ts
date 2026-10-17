@@ -2246,6 +2246,60 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
   </context>
   <context>
+    <name>LyricsTab</name>
+    <message>
+      <source>Complete lyrics automatically</source>
+      <translation>自动填写歌词</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>歌词</translation>
+    </message>
+  </context>
+  <context>
+    <name>SongEditor</name>
+    <message>
+      <source>(different across multiple songs)</source>
+      <translation>(多首歌曲间不同)</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>歌词</translation>
+    </message>
+    <message>
+      <source>Previous</source>
+      <translation>上一首</translation>
+    </message>
+    <message>
+      <source>Next</source>
+      <translation>下一首</translation>
+    </message>
+    <message>
+      <source>Saving tracks</source>
+      <translation>正在保存音轨</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1</source>
+      <translation>无法写入元数据到 %1</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1: %2</source>
+      <translation>无法写入元数据到 %1：%2</translation>
+    </message>
+    <message>
+      <source>Loading tracks</source>
+      <translation>正在载入曲目</translation>
+    </message>
+    <message>
+      <source>loading...</source>
+      <translation>加载中...</translation>
+    </message>
+    <message>
+      <source>Not found.</source>
+      <translation>未找到。</translation>
+    </message>
+  </context>
+  <context>
     <name>TagEditor</name>
     <message>
       <source>Edit track information</source>

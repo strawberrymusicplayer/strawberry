@@ -825,9 +825,12 @@ set(SOURCES
   src/widgets/ratingpainter.cpp
   src/widgets/resizabletextedit.cpp
 
-  src/tageditor/tageditor.cpp
-  src/tageditor/trackselectiondialog.cpp
-  src/tageditor/lyricssearchdialog.cpp
+  src/songeditor/songeditor.cpp
+  src/songeditor/tageditor.cpp
+  src/songeditor/lyricstab.cpp
+  src/songeditor/trackselectiondialog.cpp
+  src/songeditor/lyricssearchdialog.cpp
+  src/songeditor/lyricseditor.cpp
 
   src/osd/osdbase.cpp
   src/osd/osdpretty.cpp
@@ -1131,9 +1134,12 @@ set(HEADERS
   src/widgets/forcescrollperpixel.h
   src/widgets/resizabletextedit.h
 
-  src/tageditor/tageditor.h
-  src/tageditor/trackselectiondialog.h
-  src/tageditor/lyricssearchdialog.h
+  src/songeditor/songeditor.h
+  src/songeditor/tageditor.h
+  src/songeditor/lyricstab.h
+  src/songeditor/trackselectiondialog.h
+  src/songeditor/lyricssearchdialog.h
+  src/songeditor/lyricseditor.h
 
   src/osd/osdbase.h
   src/osd/osdpretty.h
@@ -1264,9 +1270,11 @@ set(UI
   src/widgets/trackslider.ui
   src/widgets/loginstatewidget.ui
 
-  src/tageditor/tageditor.ui
-  src/tageditor/trackselectiondialog.ui
-  src/tageditor/lyricssearchdialog.ui
+  src/songeditor/tageditor.ui
+  src/songeditor/lyricstab.ui
+  src/songeditor/lyricseditor.ui
+  src/songeditor/trackselectiondialog.ui
+  src/songeditor/lyricssearchdialog.ui
 
   src/osd/osdpretty.ui
 

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>LyricsEditor</class>
+ <widget class="QDialog" name="LyricsEditor">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>813</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Lyrics Editor</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../data/icons.qrc">
+    <normaloff>:/icons/64x64/strawberry.png</normaloff>:/icons/64x64/strawberry.png</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="layout_lyricseditor">
+   <item>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <widget class="QListWidget" name="song_list">
+      <property name="selectionMode">
+       <enum>QAbstractItemView::ExtendedSelection</enum>
+      </property>
+     </widget>
+     <widget class="QTabWidget" name="tab_widget"/>
+    </widget>
+   </item>
+   <item>
+    <widget class="BusyIndicator" name="loading_label" native="true"/>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="button_box">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Discard|QDialogButtonBox::Save</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>BusyIndicator</class>
+   <extends>QWidget</extends>
+   <header>widgets/busyindicator.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>song_list</tabstop>
+  <tabstop>tab_widget</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../../data/icons.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>button_box</sender>
+   <signal>accepted()</signal>
+   <receiver>LyricsEditor</receiver>
+   <slot>accept()</slot>
+  </connection>
+  <connection>
+   <sender>button_box</sender>
+   <signal>rejected()</signal>
+   <receiver>LyricsEditor</receiver>
+   <slot>reject()</slot>
+  </connection>
+ </connections>
+</ui>

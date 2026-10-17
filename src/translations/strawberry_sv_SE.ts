@@ -2246,6 +2246,60 @@ Om det inte finns några träffar används den största bilden i mappen.</transl
     </message>
   </context>
   <context>
+    <name>LyricsTab</name>
+    <message>
+      <source>Complete lyrics automatically</source>
+      <translation>Komplettera låttexter automatiskt</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>Låttexter</translation>
+    </message>
+  </context>
+  <context>
+    <name>SongEditor</name>
+    <message>
+      <source>(different across multiple songs)</source>
+      <translation>(skiljer sig mellan flera låtar)</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>Låttexter</translation>
+    </message>
+    <message>
+      <source>Previous</source>
+      <translation>Föregående</translation>
+    </message>
+    <message>
+      <source>Next</source>
+      <translation>Nästa</translation>
+    </message>
+    <message>
+      <source>Saving tracks</source>
+      <translation>Sparar spår</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1</source>
+      <translation>Det gick inte att skriva metadata till %1</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1: %2</source>
+      <translation>Det gick inte att skriva metadata till %1: %2</translation>
+    </message>
+    <message>
+      <source>Loading tracks</source>
+      <translation>Läser in spår</translation>
+    </message>
+    <message>
+      <source>loading...</source>
+      <translation>läser in…</translation>
+    </message>
+    <message>
+      <source>Not found.</source>
+      <translation>Hittades inte.</translation>
+    </message>
+  </context>
+  <context>
     <name>TagEditor</name>
     <message>
       <source>Edit track information</source>

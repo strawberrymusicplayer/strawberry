@@ -2218,6 +2218,57 @@ void CollectionBackend::UpdateSongsRatingAsync(const QList<int> &ids, const floa
   QMetaObject::invokeMethod(this, "UpdateSongsRating", Qt::QueuedConnection, Q_ARG(QList<int>, ids), Q_ARG(float, rating), Q_ARG(bool, save_tags));
 }
 
+void CollectionBackend::UpdateSongsLyricsAsync(const SongList &lyrics_songs, const SongList &synced_lyrics_songs) {
+  QMetaObject::invokeMethod(this, "UpdateSongsLyrics", Qt::QueuedConnection, Q_ARG(SongList, lyrics_songs), Q_ARG(SongList, synced_lyrics_songs));
+}
+
+void CollectionBackend::UpdateSongsLyrics(const SongList &lyrics_songs, const SongList &synced_lyrics_songs) {
+
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  // Only update the columns of the changed lyrics, so other changes to the songs since they were loaded, like the playcount or the other lyrics, are not overwritten.
+  // One transaction for all songs, instead of one for each song.
+  ScopedTransaction transaction(&db);
+
+  QStringList song_ids;
+  for (const bool synced : {false, true}) {
+    const SongList &songs = synced ? synced_lyrics_songs : lyrics_songs;
+    for (const Song &song : songs) {
+      if (song.id() == -1) continue;
+      SqlQuery q(db);
+      if (synced) {
+        q.prepare(QStringLiteral("UPDATE %1 SET synced_lyrics = :lyrics, synced_lyrics_storage_type = :storage_type, lrc_mtime = :lrc_mtime WHERE ROWID = :id").arg(songs_table_));
+        q.BindStringValue(u":lyrics"_s, song.synced_lyrics());
+        q.BindValue(u":storage_type"_s, static_cast<int>(song.synced_lyrics_storage_type()));
+        q.BindValue(u":lrc_mtime"_s, song.lrc_mtime());
+      }
+      else {
+        q.prepare(QStringLiteral("UPDATE %1 SET lyrics = :lyrics, lyrics_storage_type = :storage_type WHERE ROWID = :id").arg(songs_table_));
+        q.BindStringValue(u":lyrics"_s, song.lyrics());
+        q.BindValue(u":storage_type"_s, static_cast<int>(song.lyrics_storage_type()));
+      }
+      q.BindValue(u":id"_s, song.id());
+      if (!q.Exec()) {
+        db_->ReportErrors(q);
+        // The transaction was rolled back, the updates after this would be committed one by one without being notified.
+        if (!transaction.active()) return;
+        continue;
+      }
+      const QString song_id = QString::number(song.id());
+      if (!song_ids.contains(song_id)) song_ids << song_id;
+    }
+  }
+
+  if (!transaction.Commit()) return;
+
+  if (song_ids.isEmpty()) return;
+
+  const SongList changed_songs = GetSongsById(song_ids, db);
+  if (!changed_songs.isEmpty()) Q_EMIT SongsChanged(changed_songs);
+
+}
+
 void CollectionBackend::UpdateSongLyrics(const int id, const bool synced_lyrics, const QString &lyrics, const int storage_type, const bool only_if_empty, const bool save_tags) {
 
   if (id == -1) return;
