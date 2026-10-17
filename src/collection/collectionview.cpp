@@ -51,7 +51,7 @@
 #include "collectionview.h"
 #include "device/devicemanager.h"
 #include "device/devicestatefiltermodel.h"
-#include "dialogs/edittagdialog.h"
+#include "tageditor/tageditor.h"
 #include "dialogs/deleteconfirmationdialog.h"
 #include "organize/organizedialog.h"
 #include "organize/organizeerrordialog.h"
@@ -275,13 +275,13 @@ void CollectionView::Organize() {
 
 void CollectionView::EditTracks() {
 
-  if (!edit_tag_dialog_) {
-    edit_tag_dialog_ = make_unique<EditTagDialog>(network_, tagreader_client_, backend_, albumcover_loader_, current_albumcover_loader_, cover_providers_, lyrics_providers_, streaming_services_, this);
-    QObject::connect(&*edit_tag_dialog_, &EditTagDialog::Error, this, &CollectionView::EditTagError);
+  if (!tag_editor_) {
+    tag_editor_ = make_unique<TagEditor>(network_, tagreader_client_, backend_, albumcover_loader_, current_albumcover_loader_, cover_providers_, lyrics_providers_, streaming_services_, this);
+    QObject::connect(&*tag_editor_, &TagEditor::Error, this, &CollectionView::EditTagError);
   }
   const SongList songs = GetSelectedSongs();
-  edit_tag_dialog_->SetSongs(songs);
-  edit_tag_dialog_->show();
+  tag_editor_->SetSongs(songs);
+  tag_editor_->show();
 
 }
 

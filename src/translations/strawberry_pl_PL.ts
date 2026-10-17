@@ -2246,7 +2246,7 @@ W przypadku braku takich plików użyty zostanie największy obraz z danego kata
     </message>
   </context>
   <context>
-    <name>EditTagDialog</name>
+    <name>TagEditor</name>
     <message>
       <source>Edit track information</source>
       <translation>Edytuj informacje o ścieżce</translation>

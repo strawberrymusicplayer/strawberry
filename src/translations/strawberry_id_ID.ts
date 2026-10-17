@@ -2246,7 +2246,7 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
     </message>
   </context>
   <context>
-    <name>EditTagDialog</name>
+    <name>TagEditor</name>
     <message>
       <source>Edit track information</source>
       <translation>Sunting informasi trek</translation>

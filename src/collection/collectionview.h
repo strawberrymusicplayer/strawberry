@@ -48,7 +48,7 @@ class AlbumCoverLoader;
 class CurrentAlbumCoverLoader;
 class CoverProviders;
 class LyricsProviders;
-class EditTagDialog;
+class TagEditor;
 class OrganizeDialog;
 
 class CollectionView : public CollectionTreeView {
@@ -135,7 +135,7 @@ class CollectionView : public CollectionTreeView {
   QAction *action_delete_files_;
 
   ScopedPtr<OrganizeDialog> organize_dialog_;
-  ScopedPtr<EditTagDialog> edit_tag_dialog_;
+  ScopedPtr<TagEditor> tag_editor_;
 
   bool delete_files_;
 };

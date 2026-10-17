@@ -112,8 +112,8 @@
 #include "covermanager/coverproviders.h"
 #include "covermanager/currentalbumcoverloader.h"
 #include "covermanager/albumcoverimageresult.h"
-#include "edittagdialog.h"
-#include "ui_edittagdialog.h"
+#include "tageditor.h"
+#include "ui_tageditor.h"
 
 using std::make_shared;
 using namespace Qt::Literals::StringLiterals;
@@ -124,6 +124,7 @@ using namespace Qt::Literals::StringLiterals;
 #endif
 
 namespace {
+// The settings group has the name from before the class was renamed, so the saved settings are kept.
 constexpr char kSettingsGroup[] = "EditTagDialog";
 constexpr char kGeometry[] = "geometry";
 constexpr char kCurrentTab[] = "current_tab";
@@ -136,14 +137,14 @@ constexpr int kComboBoxIndex_ID3v2_3 = 0;
 constexpr int kComboBoxIndex_ID3v2_4 = 1;
 }  // namespace
 
-const char EditTagDialog::kTagsDifferentHintText[] = QT_TR_NOOP("(different across multiple songs)");
-const char EditTagDialog::kArtDifferentHintText[] = QT_TR_NOOP("Different art across multiple songs.");
+const char TagEditor::kTagsDifferentHintText[] = QT_TR_NOOP("(different across multiple songs)");
+const char TagEditor::kArtDifferentHintText[] = QT_TR_NOOP("Different art across multiple songs.");
 
 #ifdef __clang__
 #  pragma clang diagnostic pop
 #endif
 
-EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
+TagEditor::TagEditor(const SharedPtr<NetworkAccessManager> network,
                              const SharedPtr<TagReaderClient> tagreader_client,
                              const SharedPtr<CollectionBackend> collection_backend,
                              const SharedPtr<AlbumCoverLoader> albumcover_loader,
@@ -153,7 +154,7 @@ EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
                              const SharedPtr<StreamingServices> streaming_services,
                              QWidget *parent)
     : QDialog(parent),
-      ui_(new Ui_EditTagDialog),
+      ui_(new Ui_TagEditor),
       tagreader_client_(tagreader_client),
       collection_backend_(collection_backend),
       albumcover_loader_(albumcover_loader),
@@ -177,18 +178,18 @@ EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
       lyrics_id_(-1),
       save_lyrics_to_tags_(CollectionSettings::kDefaultSaveLyrics) {
 
-  QObject::connect(&*albumcover_loader_, &AlbumCoverLoader::AlbumCoverLoaded, this, &EditTagDialog::AlbumCoverLoaded);
+  QObject::connect(&*albumcover_loader_, &AlbumCoverLoader::AlbumCoverLoaded, this, &TagEditor::AlbumCoverLoaded);
 
 #ifdef HAVE_TAGFETCHER
   QObject::connect(tag_fetcher_, &TagFetcher::ResultAvailable, results_dialog_, &TrackSelectionDialog::FetchTagFinished, Qt::QueuedConnection);
   QObject::connect(tag_fetcher_, &TagFetcher::Progress, results_dialog_, &TrackSelectionDialog::FetchTagProgress);
-  QObject::connect(results_dialog_, &TrackSelectionDialog::SongChosen, this, &EditTagDialog::FetchTagSongChosen);
+  QObject::connect(results_dialog_, &TrackSelectionDialog::SongChosen, this, &TagEditor::FetchTagSongChosen);
   QObject::connect(results_dialog_, &TrackSelectionDialog::finished, tag_fetcher_, &TagFetcher::Cancel);
 #endif
-  QObject::connect(lyrics_fetcher_, &LyricsFetcher::LyricsFetched, this, &EditTagDialog::UpdateLyrics);
+  QObject::connect(lyrics_fetcher_, &LyricsFetcher::LyricsFetched, this, &TagEditor::UpdateLyrics);
 
   // Don't open the dialog again with the songs set while loading or saving when the dialog was closed.
-  QObject::connect(this, &QDialog::rejected, this, &EditTagDialog::ClearPendingSongs);
+  QObject::connect(this, &QDialog::rejected, this, &TagEditor::ClearPendingSongs);
 
   album_cover_choice_controller_->Init(network, tagreader_client, collection_backend, albumcover_loader, current_albumcover_loader, cover_providers, streaming_services);
 
@@ -207,8 +208,8 @@ EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
   ui_->lyrics_storage->setToolTip(tr("Save the lyrics to the collection database only or to the tags of the file"));
   ui_->synced_lyrics_storage->setToolTip(tr("Save the synchronized lyrics to the collection database only, to the tags of the file or to an LRC file next to it"));
   // UpdateStorageComboBox() blocks the signals while setting the current index, so only changes by the user are handled.
-  QObject::connect(ui_->lyrics_storage, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &EditTagDialog::LyricsStorageChanged);
-  QObject::connect(ui_->synced_lyrics_storage, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &EditTagDialog::SyncedLyricsStorageChanged);
+  QObject::connect(ui_->lyrics_storage, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &TagEditor::LyricsStorageChanged);
+  QObject::connect(ui_->synced_lyrics_storage, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &TagEditor::SyncedLyricsStorageChanged);
 
   ui_->fetch_tag->setIcon(QPixmap::fromImage(QImage(u":/pictures/musicbrainz.png"_s)));
 #ifdef HAVE_TAGFETCHER
@@ -229,30 +230,30 @@ EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
 
       // Connect the edited signal
       if (LineEdit *lineedit = qobject_cast<LineEdit*>(widget)) {
-        QObject::connect(lineedit, &LineEdit::textChanged, this, &EditTagDialog::FieldValueEdited);
-        QObject::connect(lineedit, &LineEdit::Reset, this, &EditTagDialog::ResetField);
+        QObject::connect(lineedit, &LineEdit::textChanged, this, &TagEditor::FieldValueEdited);
+        QObject::connect(lineedit, &LineEdit::Reset, this, &TagEditor::ResetField);
       }
       else if (TextEdit *textedit = qobject_cast<TextEdit*>(widget)) {
-        QObject::connect(textedit, &TextEdit::textChanged, this, &EditTagDialog::FieldValueEdited);
-        QObject::connect(textedit, &TextEdit::Reset, this, &EditTagDialog::ResetField);
+        QObject::connect(textedit, &TextEdit::textChanged, this, &TagEditor::FieldValueEdited);
+        QObject::connect(textedit, &TextEdit::Reset, this, &TagEditor::ResetField);
       }
       else if (SpinBox *spinbox = qobject_cast<SpinBox*>(widget)) {
-        QObject::connect(spinbox, QOverload<int>::of(&SpinBox::valueChanged), this, &EditTagDialog::FieldValueEdited);
-        QObject::connect(spinbox, &SpinBox::Reset, this, &EditTagDialog::ResetField);
+        QObject::connect(spinbox, QOverload<int>::of(&SpinBox::valueChanged), this, &TagEditor::FieldValueEdited);
+        QObject::connect(spinbox, &SpinBox::Reset, this, &TagEditor::ResetField);
         spinbox->setFocusPolicy(Qt::StrongFocus);
         spinbox->installEventFilter(this);
       }
       else if (CheckBox *checkbox = qobject_cast<CheckBox*>(widget)) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-        QObject::connect(checkbox, &QCheckBox::checkStateChanged, this, &EditTagDialog::FieldValueEdited);
+        QObject::connect(checkbox, &QCheckBox::checkStateChanged, this, &TagEditor::FieldValueEdited);
 #else
-        QObject::connect(checkbox, &QCheckBox::stateChanged, this, &EditTagDialog::FieldValueEdited);
+        QObject::connect(checkbox, &QCheckBox::stateChanged, this, &TagEditor::FieldValueEdited);
 #endif
-        QObject::connect(checkbox, &CheckBox::Reset, this, &EditTagDialog::ResetField);
+        QObject::connect(checkbox, &CheckBox::Reset, this, &TagEditor::ResetField);
       }
       else if (RatingBox *ratingbox = qobject_cast<RatingBox*>(widget)) {
-        QObject::connect(ratingbox, &RatingWidget::RatingChanged, this, &EditTagDialog::FieldValueEdited);
-        QObject::connect(ratingbox, &RatingBox::Reset, this, &EditTagDialog::ResetField);
+        QObject::connect(ratingbox, &RatingWidget::RatingChanged, this, &TagEditor::FieldValueEdited);
+        QObject::connect(ratingbox, &RatingBox::Reset, this, &TagEditor::ResetField);
       }
     }
   }
@@ -270,26 +271,26 @@ EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
     }
   }
 
-  QObject::connect(ui_->song_list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &EditTagDialog::SongSelectionChanged);
-  QObject::connect(ui_->button_box, &QDialogButtonBox::clicked, this, &EditTagDialog::ButtonClicked);
-  QObject::connect(ui_->playcount_reset, &QPushButton::clicked, this, &EditTagDialog::ResetPlayStatistics);
-  QObject::connect(ui_->rating, &RatingWidget::RatingChanged, this, &EditTagDialog::SongRated);
+  QObject::connect(ui_->song_list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &TagEditor::SongSelectionChanged);
+  QObject::connect(ui_->button_box, &QDialogButtonBox::clicked, this, &TagEditor::ButtonClicked);
+  QObject::connect(ui_->playcount_reset, &QPushButton::clicked, this, &TagEditor::ResetPlayStatistics);
+  QObject::connect(ui_->rating, &RatingWidget::RatingChanged, this, &TagEditor::SongRated);
 #ifdef HAVE_TAGFETCHER
-  QObject::connect(ui_->fetch_tag, &QPushButton::clicked, this, &EditTagDialog::FetchTag);
+  QObject::connect(ui_->fetch_tag, &QPushButton::clicked, this, &TagEditor::FetchTag);
 #endif
-  QObject::connect(ui_->fetch_lyrics, &QPushButton::clicked, this, &EditTagDialog::FetchLyrics);
+  QObject::connect(ui_->fetch_lyrics, &QPushButton::clicked, this, &TagEditor::FetchLyrics);
 
   QList<QAction*> actions = album_cover_choice_controller_->GetAllActions();
 
-  QObject::connect(album_cover_choice_controller_, &AlbumCoverChoiceController::Error, this, &EditTagDialog::Error);
-  QObject::connect(album_cover_choice_controller_->cover_from_file_action(), &QAction::triggered, this, &EditTagDialog::LoadCoverFromFile);
-  QObject::connect(album_cover_choice_controller_->cover_to_file_action(), &QAction::triggered, this, &EditTagDialog::SaveCoverToFile);
-  QObject::connect(album_cover_choice_controller_->cover_from_url_action(), &QAction::triggered, this, &EditTagDialog::LoadCoverFromURL);
-  QObject::connect(album_cover_choice_controller_->search_for_cover_action(), &QAction::triggered, this, &EditTagDialog::SearchForCover);
-  QObject::connect(album_cover_choice_controller_->unset_cover_action(), &QAction::triggered, this, &EditTagDialog::UnsetCover);
-  QObject::connect(album_cover_choice_controller_->clear_cover_action(), &QAction::triggered, this, &EditTagDialog::ClearCover);
-  QObject::connect(album_cover_choice_controller_->delete_cover_action(), &QAction::triggered, this, &EditTagDialog::DeleteCover);
-  QObject::connect(album_cover_choice_controller_->show_cover_action(), &QAction::triggered, this, &EditTagDialog::ShowCover);
+  QObject::connect(album_cover_choice_controller_, &AlbumCoverChoiceController::Error, this, &TagEditor::Error);
+  QObject::connect(album_cover_choice_controller_->cover_from_file_action(), &QAction::triggered, this, &TagEditor::LoadCoverFromFile);
+  QObject::connect(album_cover_choice_controller_->cover_to_file_action(), &QAction::triggered, this, &TagEditor::SaveCoverToFile);
+  QObject::connect(album_cover_choice_controller_->cover_from_url_action(), &QAction::triggered, this, &TagEditor::LoadCoverFromURL);
+  QObject::connect(album_cover_choice_controller_->search_for_cover_action(), &QAction::triggered, this, &TagEditor::SearchForCover);
+  QObject::connect(album_cover_choice_controller_->unset_cover_action(), &QAction::triggered, this, &TagEditor::UnsetCover);
+  QObject::connect(album_cover_choice_controller_->clear_cover_action(), &QAction::triggered, this, &TagEditor::ClearCover);
+  QObject::connect(album_cover_choice_controller_->delete_cover_action(), &QAction::triggered, this, &TagEditor::DeleteCover);
+  QObject::connect(album_cover_choice_controller_->show_cover_action(), &QAction::triggered, this, &TagEditor::ShowCover);
   QObject::connect(ui_->checkbox_embedded_cover, &QCheckBox::toggled, album_cover_choice_controller_, &AlbumCoverChoiceController::set_save_embedded_cover_override);
 
   cover_menu_->addActions(actions);
@@ -307,8 +308,8 @@ EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
   ui_->button_box->addButton(previous_button_, QDialogButtonBox::ResetRole);
   ui_->button_box->addButton(next_button_, QDialogButtonBox::ResetRole);
 
-  QObject::connect(previous_button_, &QPushButton::clicked, this, &EditTagDialog::PreviousSong);
-  QObject::connect(next_button_, &QPushButton::clicked, this, &EditTagDialog::NextSong);
+  QObject::connect(previous_button_, &QPushButton::clicked, this, &TagEditor::PreviousSong);
+  QObject::connect(next_button_, &QPushButton::clicked, this, &TagEditor::NextSong);
 
   // Set some shortcuts for the buttons
   new QShortcut(QKeySequence::Back, previous_button_, SLOT(click()));
@@ -342,11 +343,11 @@ EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
 
 }
 
-EditTagDialog::~EditTagDialog() {
+TagEditor::~TagEditor() {
   delete ui_;
 }
 
-void EditTagDialog::showEvent(QShowEvent *e) {
+void TagEditor::showEvent(QShowEvent *e) {
 
   if (!e->spontaneous()) {
 
@@ -372,7 +373,7 @@ void EditTagDialog::showEvent(QShowEvent *e) {
 
 }
 
-void EditTagDialog::hideEvent(QHideEvent *e) {
+void TagEditor::hideEvent(QHideEvent *e) {
 
   // Save the current tab
   Settings s;
@@ -385,7 +386,7 @@ void EditTagDialog::hideEvent(QHideEvent *e) {
 
 }
 
-void EditTagDialog::accept() {
+void TagEditor::accept() {
 
   // Validate edited synchronized lyrics up front, a failed write would otherwise still close the dialog and the edits would be lost.
   for (int i = 0; i < data_.count(); ++i) {
@@ -405,7 +406,7 @@ void EditTagDialog::accept() {
 
 }
 
-bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
+bool TagEditor::eventFilter(QObject *o, QEvent *e) {
 
   if (e->type() == QEvent::Wheel) {
     if (QAbstractSpinBox *spinbox = qobject_cast<QAbstractSpinBox*>(o)) {
@@ -467,7 +468,7 @@ bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
 
 }
 
-PlaylistItemPtrList EditTagDialog::playlist_items() const {
+PlaylistItemPtrList TagEditor::playlist_items() const {
 
   if (playlist_items_.isEmpty()) return PlaylistItemPtrList();
 
@@ -481,7 +482,7 @@ PlaylistItemPtrList EditTagDialog::playlist_items() const {
 
 }
 
-SongList EditTagDialog::original_songs() const {
+SongList TagEditor::original_songs() const {
 
   SongList result;
   result.reserve(data_.count());
@@ -493,7 +494,7 @@ SongList EditTagDialog::original_songs() const {
 
 }
 
-SongList EditTagDialog::songs() const {
+SongList TagEditor::songs() const {
 
   SongList result;
   result.reserve(data_.count());
@@ -505,7 +506,7 @@ SongList EditTagDialog::songs() const {
 
 }
 
-bool EditTagDialog::SetLoading(const QString &message) {
+bool TagEditor::SetLoading(const QString &message) {
 
   const bool loading = !message.isEmpty();
   if (loading == loading_) return false;
@@ -524,7 +525,7 @@ bool EditTagDialog::SetLoading(const QString &message) {
 
 }
 
-QList<EditTagDialog::Data> EditTagDialog::LoadData(const SongList &songs) const {
+QList<TagEditor::Data> TagEditor::LoadData(const SongList &songs) const {
 
   QList<Data> ret;
 
@@ -565,7 +566,7 @@ QList<EditTagDialog::Data> EditTagDialog::LoadData(const SongList &songs) const 
 
 }
 
-bool EditTagDialog::SetSongs(const SongList &s, const PlaylistItemPtrList &items) {
+bool TagEditor::SetSongs(const SongList &s, const PlaylistItemPtrList &items) {
 
   // Show the loading indicator
   // While the previous songs are still loading or saving, keep the songs and set them when it's finished, so they are not ignored.
@@ -589,16 +590,16 @@ bool EditTagDialog::SetSongs(const SongList &s, const PlaylistItemPtrList &items
   }
 
   // Reload tags in the background
-  QFuture<QList<Data>> future = QtConcurrent::run(&EditTagDialog::LoadData, this, s);
+  QFuture<QList<Data>> future = QtConcurrent::run(&TagEditor::LoadData, this, s);
   QFutureWatcher<QList<Data>> *watcher = new QFutureWatcher<QList<Data>>(this);
-  QObject::connect(watcher, &QFutureWatcher<QList<Data>>::finished, this, &EditTagDialog::SetSongsFinished);
+  QObject::connect(watcher, &QFutureWatcher<QList<Data>>::finished, this, &TagEditor::SetSongsFinished);
   watcher->setFuture(future);
 
   return true;
 
 }
 
-void EditTagDialog::SetSongsFinished() {
+void TagEditor::SetSongsFinished() {
 
   QFutureWatcher<QList<Data>> *watcher = static_cast<QFutureWatcher<QList<Data>>*>(sender());
   QList<Data> result_data = watcher->result();
@@ -641,7 +642,7 @@ void EditTagDialog::SetSongsFinished() {
 
 }
 
-void EditTagDialog::SetSongListVisibility(bool visible) {
+void TagEditor::SetSongListVisibility(bool visible) {
 
   ui_->song_list->setVisible(visible);
   previous_button_->setEnabled(visible);
@@ -649,7 +650,7 @@ void EditTagDialog::SetSongListVisibility(bool visible) {
 
 }
 
-QVariant EditTagDialog::Data::value(const Song &song, const QString &id) {
+QVariant TagEditor::Data::value(const Song &song, const QString &id) {
 
   if (id == "title"_L1) return song.title();
   if (id == "titlesort"_L1) return song.titlesort();
@@ -678,7 +679,7 @@ QVariant EditTagDialog::Data::value(const Song &song, const QString &id) {
 
 }
 
-void EditTagDialog::Data::set_value(const QString &id, const QVariant &value) {
+void TagEditor::Data::set_value(const QString &id, const QVariant &value) {
 
   if (id == "title"_L1) current_.set_title(value.toString());
   else if (id == "titlesort"_L1) current_.set_titlesort(value.toString());
@@ -706,7 +707,7 @@ void EditTagDialog::Data::set_value(const QString &id, const QVariant &value) {
 
 }
 
-bool EditTagDialog::DoesValueVary(const QModelIndexList &sel, const QString &id) const {
+bool TagEditor::DoesValueVary(const QModelIndexList &sel, const QString &id) const {
 
   QVariant value = data_[sel.first().row()].current_value(id);
   for (int i = 1; i < sel.count(); ++i) {
@@ -716,7 +717,7 @@ bool EditTagDialog::DoesValueVary(const QModelIndexList &sel, const QString &id)
 
 }
 
-bool EditTagDialog::IsValueModified(const QModelIndexList &sel, const QString &id) const {
+bool TagEditor::IsValueModified(const QModelIndexList &sel, const QString &id) const {
 
   if (id == u"track"_s || id == u"disc"_s || id == u"year"_s) {
     return std::any_of(sel.begin(), sel.end(), [this, id](const QModelIndex &i) {
@@ -736,7 +737,7 @@ bool EditTagDialog::IsValueModified(const QModelIndexList &sel, const QString &i
 
 }
 
-void EditTagDialog::InitFieldValue(const FieldData &field, const QModelIndexList &sel) {
+void TagEditor::InitFieldValue(const FieldData &field, const QModelIndexList &sel) {
 
   const bool varies = DoesValueVary(sel, field.id_);
 
@@ -759,7 +760,7 @@ void EditTagDialog::InitFieldValue(const FieldData &field, const QModelIndexList
 
 }
 
-void EditTagDialog::UpdateFieldValue(const FieldData &field, const QModelIndexList &sel) {
+void TagEditor::UpdateFieldValue(const FieldData &field, const QModelIndexList &sel) {
 
   // Get the value from the field
   QVariant value;
@@ -785,7 +786,7 @@ void EditTagDialog::UpdateFieldValue(const FieldData &field, const QModelIndexLi
 
 }
 
-void EditTagDialog::UpdateModifiedField(const FieldData &field, const QModelIndexList &sel) {
+void TagEditor::UpdateModifiedField(const FieldData &field, const QModelIndexList &sel) {
 
   const bool modified = IsValueModified(sel, field.id_);
 
@@ -805,7 +806,7 @@ void EditTagDialog::UpdateModifiedField(const FieldData &field, const QModelInde
 
 }
 
-void EditTagDialog::ResetFieldValue(const FieldData &field, const QModelIndexList &sel) {
+void TagEditor::ResetFieldValue(const FieldData &field, const QModelIndexList &sel) {
 
   // Reset each selected song
   for (const QModelIndex &i : sel) {
@@ -819,7 +820,7 @@ void EditTagDialog::ResetFieldValue(const FieldData &field, const QModelIndexLis
 
 }
 
-void EditTagDialog::SongSelectionChanged() {
+void TagEditor::SongSelectionChanged() {
 
   // Cancel fetching lyrics for the previously selected song, also when nothing is selected now, otherwise the result is shown for the wrong song.
   // This is not done in SelectionChanged(), since that is also called to update the UI for the same song, for example when the cover changed.
@@ -831,7 +832,7 @@ void EditTagDialog::SongSelectionChanged() {
 
 }
 
-void EditTagDialog::SelectionChanged() {
+void TagEditor::SelectionChanged() {
 
   const QModelIndexList indexes = ui_->song_list->selectionModel()->selectedIndexes();
   if (indexes.isEmpty()) return;
@@ -1052,7 +1053,7 @@ void EditTagDialog::SelectionChanged() {
 
 }
 
-void EditTagDialog::UpdateUI(const QModelIndexList &indexes) {
+void TagEditor::UpdateUI(const QModelIndexList &indexes) {
 
   ignore_edits_ = true;
   for (const FieldData &field : std::as_const(fields_)) {
@@ -1062,11 +1063,11 @@ void EditTagDialog::UpdateUI(const QModelIndexList &indexes) {
 
 }
 
-void EditTagDialog::SetText(QLabel *label, const int value, const QString &suffix, const QString &def) {
+void TagEditor::SetText(QLabel *label, const int value, const QString &suffix, const QString &def) {
   label->setText(value <= 0 ? def : (QString::number(value) + QLatin1Char(' ') + suffix));
 }
 
-void EditTagDialog::SetDate(QLabel *label, const qint64 time) {
+void TagEditor::SetDate(QLabel *label, const qint64 time) {
 
   if (time == std::numeric_limits<qint64>::max()) {  // -1
     label->setText(QObject::tr("Unknown"));
@@ -1077,7 +1078,7 @@ void EditTagDialog::SetDate(QLabel *label, const qint64 time) {
 
 }
 
-void EditTagDialog::UpdateSummaryTab(const Song &song) {
+void TagEditor::UpdateSummaryTab(const Song &song) {
 
   AlbumCoverLoaderOptions cover_options(AlbumCoverLoaderOptions::Option::ScaledImage | AlbumCoverLoaderOptions::Option::PadScaledImage);
   cover_options.types = cover_types_;
@@ -1136,7 +1137,7 @@ void EditTagDialog::UpdateSummaryTab(const Song &song) {
 
 }
 
-QString EditTagDialog::GetArtSummary(const Song &song, const AlbumCoverLoaderResult::Type cover_type) {
+QString TagEditor::GetArtSummary(const Song &song, const AlbumCoverLoaderResult::Type cover_type) {
 
   QString summary;
 
@@ -1170,7 +1171,7 @@ QString EditTagDialog::GetArtSummary(const Song &song, const AlbumCoverLoaderRes
 
 }
 
-QString EditTagDialog::GetArtSummary(const UpdateCoverAction cover_action) {
+QString TagEditor::GetArtSummary(const UpdateCoverAction cover_action) {
 
   switch (cover_action) {
     case UpdateCoverAction::Clear:
@@ -1189,7 +1190,7 @@ QString EditTagDialog::GetArtSummary(const UpdateCoverAction cover_action) {
 
 }
 
-void EditTagDialog::UpdateStatisticsTab(const Song &song) {
+void TagEditor::UpdateStatisticsTab(const Song &song) {
 
   ui_->playcount->setText(QString::number(song.playcount()));
   ui_->skipcount->setText(QString::number(song.skipcount()));
@@ -1197,7 +1198,7 @@ void EditTagDialog::UpdateStatisticsTab(const Song &song) {
 
 }
 
-void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result) {
+void TagEditor::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result) {
 
   if (id == summary_cover_art_id_) {
     if (result.success && !result.image_scaled.isNull() && result.type != AlbumCoverLoaderResult::Type::Unset) {
@@ -1255,7 +1256,7 @@ void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderRes
 
 }
 
-void EditTagDialog::FieldValueEdited() {
+void TagEditor::FieldValueEdited() {
 
   if (ignore_edits_) return;
 
@@ -1276,7 +1277,7 @@ void EditTagDialog::FieldValueEdited() {
 
 }
 
-void EditTagDialog::ResetField() {
+void TagEditor::ResetField() {
 
   const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
   if (sel.isEmpty()) {
@@ -1297,7 +1298,7 @@ void EditTagDialog::ResetField() {
 
 }
 
-Song *EditTagDialog::GetFirstSelected() {
+Song *TagEditor::GetFirstSelected() {
 
   const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
   if (sel.isEmpty()) return nullptr;
@@ -1305,7 +1306,7 @@ Song *EditTagDialog::GetFirstSelected() {
 
 }
 
-void EditTagDialog::LoadCoverFromFile() {
+void TagEditor::LoadCoverFromFile() {
 
   Song *song = GetFirstSelected();
   if (!song) return;
@@ -1315,7 +1316,7 @@ void EditTagDialog::LoadCoverFromFile() {
 
 }
 
-void EditTagDialog::SaveCoverToFile() {
+void TagEditor::SaveCoverToFile() {
 
   if (ui_->song_list->selectionModel()->selectedIndexes().isEmpty()) return;
 
@@ -1324,7 +1325,7 @@ void EditTagDialog::SaveCoverToFile() {
 
 }
 
-void EditTagDialog::LoadCoverFromURL() {
+void TagEditor::LoadCoverFromURL() {
 
   if (ui_->song_list->selectionModel()->selectedIndexes().isEmpty()) return;
 
@@ -1333,7 +1334,7 @@ void EditTagDialog::LoadCoverFromURL() {
 
 }
 
-void EditTagDialog::SearchForCover() {
+void TagEditor::SearchForCover() {
 
   Song *song = GetFirstSelected();
   if (!song) return;
@@ -1343,7 +1344,7 @@ void EditTagDialog::SearchForCover() {
 
 }
 
-void EditTagDialog::UnsetCover() {
+void TagEditor::UnsetCover() {
 
   Song *song = GetFirstSelected();
   if (!song) return;
@@ -1357,7 +1358,7 @@ void EditTagDialog::UnsetCover() {
 
 }
 
-void EditTagDialog::ClearCover() {
+void TagEditor::ClearCover() {
 
   Song *song = GetFirstSelected();
   if (!song) return;
@@ -1371,13 +1372,13 @@ void EditTagDialog::ClearCover() {
 
 }
 
-void EditTagDialog::DeleteCover() {
+void TagEditor::DeleteCover() {
 
   UpdateCover(UpdateCoverAction::Delete);
 
 }
 
-void EditTagDialog::ShowCover() {
+void TagEditor::ShowCover() {
 
   if (ui_->song_list->selectionModel()->selectedIndexes().isEmpty()) return;
   const Data first_data = data_.value(ui_->song_list->selectionModel()->selectedIndexes().first().row());
@@ -1385,7 +1386,7 @@ void EditTagDialog::ShowCover() {
 
 }
 
-void EditTagDialog::UpdateCover(const UpdateCoverAction cover_action, const AlbumCoverImageResult &cover_result) {
+void TagEditor::UpdateCover(const UpdateCoverAction cover_action, const AlbumCoverImageResult &cover_result) {
 
   const QModelIndexList indexes = ui_->song_list->selectionModel()->selectedIndexes();
   if (indexes.isEmpty()) return;
@@ -1443,7 +1444,7 @@ void EditTagDialog::UpdateCover(const UpdateCoverAction cover_action, const Albu
 
 }
 
-void EditTagDialog::NextSong() {
+void TagEditor::NextSong() {
 
   if (ui_->song_list->count() == 0) {
     return;
@@ -1454,7 +1455,7 @@ void EditTagDialog::NextSong() {
 
 }
 
-void EditTagDialog::PreviousSong() {
+void TagEditor::PreviousSong() {
 
   if (ui_->song_list->count() == 0) {
     return;
@@ -1465,7 +1466,7 @@ void EditTagDialog::PreviousSong() {
 
 }
 
-void EditTagDialog::ButtonClicked(QAbstractButton *button) {
+void TagEditor::ButtonClicked(QAbstractButton *button) {
 
   if (button == ui_->button_box->button(QDialogButtonBox::Discard)) {
     reject();
@@ -1473,7 +1474,7 @@ void EditTagDialog::ButtonClicked(QAbstractButton *button) {
 
 }
 
-void EditTagDialog::SaveData() {
+void TagEditor::SaveData() {
 
   QMap<QString, QUrl> cover_urls;
 
@@ -1607,7 +1608,7 @@ void EditTagDialog::SaveData() {
 
     if (save_tags || save_playcount || save_rating || save_embedded_cover) {
       // For streaming tracks, skip tag writing since there's no local file.
-      // The metadata will be applied directly to the playlist item in MainWindow::EditTagDialogAccepted.
+      // The metadata will be applied directly to the playlist item in MainWindow::TagEditorAccepted.
       if (ref.current_.is_stream()) {
         continue;
       }
@@ -1692,7 +1693,7 @@ void EditTagDialog::SaveData() {
 
 }
 
-void EditTagDialog::SaveDataFinished() {
+void TagEditor::SaveDataFinished() {
 
   // The collection songs as they were saved, with what was saved when saving failed, to update the songs set while saving.
   const QMap<int, Song> saved_collection_songs = collection_songs_;
@@ -1711,7 +1712,7 @@ void EditTagDialog::SaveDataFinished() {
 
 }
 
-void EditTagDialog::SetPendingSongs(const QMap<int, Song> &saved_collection_songs) {
+void TagEditor::SetPendingSongs(const QMap<int, Song> &saved_collection_songs) {
 
   if (!songs_pending_) return;
 
@@ -1747,7 +1748,7 @@ void EditTagDialog::SetPendingSongs(const QMap<int, Song> &saved_collection_song
 
 }
 
-void EditTagDialog::ClearPendingSongs() {
+void TagEditor::ClearPendingSongs() {
 
   songs_pending_ = false;
   pending_songs_.clear();
@@ -1755,7 +1756,7 @@ void EditTagDialog::ClearPendingSongs() {
 
 }
 
-void EditTagDialog::ResetPlayStatistics() {
+void TagEditor::ResetPlayStatistics() {
 
   const QModelIndexList idx_list = ui_->song_list->selectionModel()->selectedIndexes();
   if (idx_list.isEmpty()) return;
@@ -1775,7 +1776,7 @@ void EditTagDialog::ResetPlayStatistics() {
 
 }
 
-void EditTagDialog::SongRated(const float rating) {
+void TagEditor::SongRated(const float rating) {
 
   const QModelIndexList indexes = ui_->song_list->selectionModel()->selectedIndexes();
   if (indexes.isEmpty()) return;
@@ -1787,7 +1788,7 @@ void EditTagDialog::SongRated(const float rating) {
 
 }
 
-void EditTagDialog::FetchTag() {
+void TagEditor::FetchTag() {
 
 #ifdef HAVE_TAGFETCHER
 
@@ -1814,7 +1815,7 @@ void EditTagDialog::FetchTag() {
 
 }
 
-void EditTagDialog::FetchTagSongChosen(const Song &original_song, const Song &new_metadata) {
+void TagEditor::FetchTagSongChosen(const Song &original_song, const Song &new_metadata) {
 
 #ifdef HAVE_TAGFETCHER
 
@@ -1850,7 +1851,7 @@ void EditTagDialog::FetchTagSongChosen(const Song &original_song, const Song &ne
 
 }
 
-void EditTagDialog::FetchLyrics() {
+void TagEditor::FetchLyrics() {
 
   if (ui_->song_list->selectionModel()->selectedIndexes().isEmpty()) return;
   const Song song = data_.value(ui_->song_list->selectionModel()->selectedIndexes().first().row()).current_;
@@ -1861,7 +1862,7 @@ void EditTagDialog::FetchLyrics() {
 
 }
 
-void EditTagDialog::UpdateLyrics(const quint64 id, const LyricsSearchResult &result) {
+void TagEditor::UpdateLyrics(const quint64 id, const LyricsSearchResult &result) {
 
   if (static_cast<qint64>(id) != lyrics_id_) return;
   lyrics_id_ = -1;
@@ -1875,19 +1876,19 @@ void EditTagDialog::UpdateLyrics(const quint64 id, const LyricsSearchResult &res
 
 }
 
-void EditTagDialog::LyricsStorageChanged(const int index) {
+void TagEditor::LyricsStorageChanged(const int index) {
 
   StorageComboBoxChanged(ui_->lyrics_storage, index, false);
 
 }
 
-void EditTagDialog::SyncedLyricsStorageChanged(const int index) {
+void TagEditor::SyncedLyricsStorageChanged(const int index) {
 
   StorageComboBoxChanged(ui_->synced_lyrics_storage, index, true);
 
 }
 
-void EditTagDialog::StorageComboBoxChanged(QComboBox *combobox, const int index, const bool synced) {
+void TagEditor::StorageComboBoxChanged(QComboBox *combobox, const int index, const bool synced) {
 
   const QModelIndexList indexes = ui_->song_list->selectionModel()->selectedIndexes();
   if (indexes.isEmpty()) return;
@@ -1906,7 +1907,7 @@ void EditTagDialog::StorageComboBoxChanged(QComboBox *combobox, const int index,
 
 }
 
-bool EditTagDialog::StorageTypeAvailable(const Song &song, const Song::StorageType storage_type, const bool synced) {
+bool TagEditor::StorageTypeAvailable(const Song &song, const Song::StorageType storage_type, const bool synced) {
 
   switch (storage_type) {
     case Song::StorageType::None:
@@ -1925,7 +1926,7 @@ bool EditTagDialog::StorageTypeAvailable(const Song &song, const Song::StorageTy
 
 }
 
-void EditTagDialog::SetAvailableStorageTypes(Song *song, const bool save_lyrics_to_tags) {
+void TagEditor::SetAvailableStorageTypes(Song *song, const bool save_lyrics_to_tags) {
 
   // Pick the first available storage type if the song's is not available, for example for songs without lyrics, songs not in the collection or file types without lyrics tags.
   // The collection settings decide whether the database or the tags are preferred, an LRC file is only the default when the lyrics are already stored there.
@@ -1951,7 +1952,7 @@ void EditTagDialog::SetAvailableStorageTypes(Song *song, const bool save_lyrics_
 
 }
 
-void EditTagDialog::UpdateStorageComboBox(QComboBox *combobox, const Data &tag_data, const bool synced) {
+void TagEditor::UpdateStorageComboBox(QComboBox *combobox, const Data &tag_data, const bool synced) {
 
   if (QStandardItemModel *model = qobject_cast<QStandardItemModel*>(combobox->model())) {
     for (int i = 0; i < combobox->count(); ++i) {
@@ -1974,7 +1975,7 @@ void EditTagDialog::UpdateStorageComboBox(QComboBox *combobox, const Data &tag_d
 
 }
 
-bool EditTagDialog::SaveSyncedLyricsToLrcFile(Song *song) {
+bool TagEditor::SaveSyncedLyricsToLrcFile(Song *song) {
 
   const QString lrc_filename = Utilities::LRCFilename(song->url().toLocalFile());
 
@@ -2014,7 +2015,7 @@ bool EditTagDialog::SaveSyncedLyricsToLrcFile(Song *song) {
 
 }
 
-void EditTagDialog::SongSaveTagsComplete(TagReaderReplyPtr reply, const QString &filename, Song song, const UpdateCoverAction cover_action, const Song &song_lyrics_not_in_tags) {
+void TagEditor::SongSaveTagsComplete(TagReaderReplyPtr reply, const QString &filename, Song song, const UpdateCoverAction cover_action, const Song &song_lyrics_not_in_tags) {
 
   --save_tag_pending_;
 

@@ -2246,7 +2246,7 @@ Nếu không có kết quả trùng khớp thì nó sẽ sử dụng hình ảnh
     </message>
   </context>
   <context>
-    <name>EditTagDialog</name>
+    <name>TagEditor</name>
     <message>
       <source>Edit track information</source>
       <translation>Sửa thông tin bài hát</translation>

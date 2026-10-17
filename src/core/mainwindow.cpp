@@ -117,8 +117,8 @@
 #include "dialogs/addstreamdialog.h"
 #include "dialogs/deleteconfirmationdialog.h"
 #include "dialogs/messagedialog.h"
-#include "dialogs/edittagdialog.h"
-#include "dialogs/trackselectiondialog.h"
+#include "tageditor/tageditor.h"
+#include "tageditor/trackselectiondialog.h"
 #include "organize/organizedialog.h"
 #include "widgets/fancytabwidget.h"
 #include "widgets/playingwidget.h"
@@ -337,7 +337,7 @@ MainWindow::MainWindow(Application *app,
         QObject::connect(console, &Console::Error, this, &MainWindow::ShowErrorDialog);
         return console;
       }),
-      edit_tag_dialog_(std::bind(&MainWindow::CreateEditTagDialog, this)),
+      tag_editor_(std::bind(&MainWindow::CreateTagEditor, this)),
       album_cover_choice_controller_(new AlbumCoverChoiceController(this)),
 #ifdef HAVE_GLOBALSHORTCUTS
       globalshortcuts_manager_(new GlobalShortcutsManager(this)),
@@ -2430,29 +2430,29 @@ void MainWindow::EditTracks() {
 
   // The dialog is not modal, so the current playlist can change before it is accepted.
   // It keeps the previous songs while it is loading or saving them, then they are still from the previous playlist, and these are set when it's finished.
-  if (edit_tag_dialog_->SetSongs(songs, items)) {
-    edit_tag_dialog_playlist_ = app_->playlist_manager()->current();
+  if (tag_editor_->SetSongs(songs, items)) {
+    tag_editor_playlist_ = app_->playlist_manager()->current();
   }
   else {
-    edit_tag_dialog_pending_playlist_ = app_->playlist_manager()->current();
+    tag_editor_pending_playlist_ = app_->playlist_manager()->current();
   }
-  edit_tag_dialog_->show();
-  edit_tag_dialog_->raise();
+  tag_editor_->show();
+  tag_editor_->raise();
 
 }
 
-void MainWindow::EditTagDialogAccepted() {
+void MainWindow::TagEditorAccepted() {
 
-  const PlaylistItemPtrList items = edit_tag_dialog_->playlist_items();
-  const SongList songs = edit_tag_dialog_->songs();
-  const SongList original_songs = edit_tag_dialog_->original_songs();
+  const PlaylistItemPtrList items = tag_editor_->playlist_items();
+  const SongList songs = tag_editor_->songs();
+  const SongList original_songs = tag_editor_->original_songs();
 
   if (items.count() != songs.count() || original_songs.count() != songs.count()) {
     return;
   }
 
   // Update the playlist the songs were edited from, not the current playlist.
-  Playlist *playlist = edit_tag_dialog_playlist_;
+  Playlist *playlist = tag_editor_playlist_;
   if (!playlist) {
     return;
   }
@@ -3041,14 +3041,14 @@ void MainWindow::EditFileTags(const QList<QUrl> &urls) {
     songs << song;
   }
 
-  if (edit_tag_dialog_->SetSongs(songs)) {
-    edit_tag_dialog_playlist_.clear();
+  if (tag_editor_->SetSongs(songs)) {
+    tag_editor_playlist_.clear();
   }
   else {
-    edit_tag_dialog_pending_playlist_.clear();
+    tag_editor_pending_playlist_.clear();
   }
-  edit_tag_dialog_->show();
-  edit_tag_dialog_->raise();
+  tag_editor_->show();
+  tag_editor_->raise();
 
 }
 
@@ -3249,17 +3249,17 @@ void MainWindow::OpenSettingsDialogAtPage(const SettingsDialog::Page page) {
   settings_dialog_->OpenAtPage(page);
 }
 
-EditTagDialog *MainWindow::CreateEditTagDialog() {
+TagEditor *MainWindow::CreateTagEditor() {
 
-  EditTagDialog *edit_tag_dialog = new EditTagDialog(app_->network(), app_->tagreader_client(), app_->collection_backend(), app_->albumcover_loader(), app_->current_albumcover_loader(), app_->cover_providers(), app_->lyrics_providers(), app_->streaming_services());
-  QObject::connect(edit_tag_dialog, &EditTagDialog::accepted, this, &MainWindow::EditTagDialogAccepted);
-  QObject::connect(edit_tag_dialog, &EditTagDialog::Error, this, &MainWindow::ShowErrorDialog);
+  TagEditor *tag_editor = new TagEditor(app_->network(), app_->tagreader_client(), app_->collection_backend(), app_->albumcover_loader(), app_->current_albumcover_loader(), app_->cover_providers(), app_->lyrics_providers(), app_->streaming_services());
+  QObject::connect(tag_editor, &TagEditor::accepted, this, &MainWindow::TagEditorAccepted);
+  QObject::connect(tag_editor, &TagEditor::Error, this, &MainWindow::ShowErrorDialog);
   // The songs set while the dialog was loading or saving were set now, they are from the playlist they were set from.
-  QObject::connect(edit_tag_dialog, &EditTagDialog::PendingSongsSet, this, [this]() {
-    edit_tag_dialog_playlist_ = edit_tag_dialog_pending_playlist_;
-    edit_tag_dialog_pending_playlist_.clear();
+  QObject::connect(tag_editor, &TagEditor::PendingSongsSet, this, [this]() {
+    tag_editor_playlist_ = tag_editor_pending_playlist_;
+    tag_editor_pending_playlist_.clear();
   });
-  return edit_tag_dialog;
+  return tag_editor;
 
 }
 

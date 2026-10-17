@@ -2246,7 +2246,7 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     </message>
   </context>
   <context>
-    <name>EditTagDialog</name>
+    <name>TagEditor</name>
     <message>
       <source>Edit track information</source>
       <translation>Rediger spor informasjon</translation>

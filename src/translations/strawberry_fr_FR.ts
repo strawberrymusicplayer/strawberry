@@ -2246,7 +2246,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
   </context>
   <context>
-    <name>EditTagDialog</name>
+    <name>TagEditor</name>
     <message>
       <source>Edit track information</source>
       <translation>Modifier la description de la piste</translation>

@@ -2246,7 +2246,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
   </context>
   <context>
-    <name>EditTagDialog</name>
+    <name>TagEditor</name>
     <message>
       <source>Edit track information</source>
       <translation>Muuda loo teavet</translation>

@@ -2246,7 +2246,7 @@ Jos vastaavia tiedostoja ei löydy, Strawberry käyttää suurinta kansiossa ole
     </message>
   </context>
   <context>
-    <name>EditTagDialog</name>
+    <name>TagEditor</name>
     <message>
       <source>Edit track information</source>
       <translation>Muokkaa kappaleen tietoja</translation>

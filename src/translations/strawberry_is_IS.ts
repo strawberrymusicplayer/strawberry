@@ -2246,7 +2246,7 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
   </context>
   <context>
-    <name>EditTagDialog</name>
+    <name>TagEditor</name>
     <message>
       <source>Edit track information</source>
       <translation>Breyta upplýsingum um lag</translation>

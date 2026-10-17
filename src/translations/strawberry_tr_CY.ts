@@ -2246,7 +2246,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
   </context>
   <context>
-    <name>EditTagDialog</name>
+    <name>TagEditor</name>
     <message>
       <source>Edit track information</source>
       <translation type="unfinished">Edit track information</translation>

@@ -2246,7 +2246,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
   </context>
   <context>
-    <name>EditTagDialog</name>
+    <name>TagEditor</name>
     <message>
       <source>Edit track information</source>
       <translation>Editar informações da faixa</translation>

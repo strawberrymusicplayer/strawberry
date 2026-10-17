@@ -755,8 +755,6 @@ set(SOURCES
   src/dialogs/aboutdialog.cpp
   src/dialogs/console.cpp
   src/dialogs/errordialog.cpp
-  src/dialogs/edittagdialog.cpp
-  src/dialogs/trackselectiondialog.cpp
   src/dialogs/addstreamdialog.cpp
   src/dialogs/userpassdialog.cpp
   src/dialogs/deleteconfirmationdialog.cpp
@@ -790,6 +788,9 @@ set(SOURCES
   src/widgets/ratingwidget.cpp
   src/widgets/ratingpainter.cpp
   src/widgets/resizabletextedit.cpp
+
+  src/tageditor/tageditor.cpp
+  src/tageditor/trackselectiondialog.cpp
 
   src/osd/osdbase.cpp
   src/osd/osdpretty.cpp
@@ -1059,8 +1060,6 @@ set(HEADERS
   src/dialogs/aboutdialog.h
   src/dialogs/errordialog.h
   src/dialogs/console.h
-  src/dialogs/edittagdialog.h
-  src/dialogs/trackselectiondialog.h
   src/dialogs/addstreamdialog.h
   src/dialogs/userpassdialog.h
   src/dialogs/deleteconfirmationdialog.h
@@ -1094,6 +1093,9 @@ set(HEADERS
   src/widgets/ratingwidget.h
   src/widgets/forcescrollperpixel.h
   src/widgets/resizabletextedit.h
+
+  src/tageditor/tageditor.h
+  src/tageditor/trackselectiondialog.h
 
   src/osd/osdbase.h
   src/osd/osdpretty.h
@@ -1216,8 +1218,8 @@ set(UI
   src/dialogs/aboutdialog.ui
   src/dialogs/errordialog.ui
   src/dialogs/console.ui
-  src/dialogs/edittagdialog.ui
-  src/dialogs/trackselectiondialog.ui
+  src/tageditor/tageditor.ui
+  src/tageditor/trackselectiondialog.ui
   src/dialogs/addstreamdialog.ui
   src/dialogs/userpassdialog.ui
   src/dialogs/messagedialog.ui

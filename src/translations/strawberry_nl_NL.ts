@@ -2246,7 +2246,7 @@ Als er geen match is wordt de grootste afbeelding uit de map gebruikt.</translat
     </message>
   </context>
   <context>
-    <name>EditTagDialog</name>
+    <name>TagEditor</name>
     <message>
       <source>Edit track information</source>
       <translation>Nummerinformatie bewerken</translation>

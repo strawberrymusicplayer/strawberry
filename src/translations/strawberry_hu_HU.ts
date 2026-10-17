@@ -2246,7 +2246,7 @@ Ha nincs egyezés, akkor a legnagyobb képet veszi a könyvtárból.</translatio
     </message>
   </context>
   <context>
-    <name>EditTagDialog</name>
+    <name>TagEditor</name>
     <message>
       <source>Edit track information</source>
       <translation>Száminformációk szerkesztése</translation>

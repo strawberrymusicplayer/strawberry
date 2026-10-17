@@ -2246,7 +2246,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
   </context>
   <context>
-    <name>EditTagDialog</name>
+    <name>TagEditor</name>
     <message>
       <source>Edit track information</source>
       <translation>Правка сведений о треке</translation>

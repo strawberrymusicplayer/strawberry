@@ -2247,7 +2247,7 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
     </message>
   </context>
   <context>
-    <name>EditTagDialog</name>
+    <name>TagEditor</name>
     <message>
       <source>Edit track information</source>
       <translation>Modifica informazioni traccia</translation>

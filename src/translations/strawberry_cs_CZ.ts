@@ -2246,7 +2246,7 @@ Pokud nenajde žádné, které by se shodovaly, potom použije největší obrá
     </message>
   </context>
   <context>
-    <name>EditTagDialog</name>
+    <name>TagEditor</name>
     <message>
       <source>Edit track information</source>
       <translation>Upravit informace o skladbě</translation>

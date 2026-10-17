@@ -2246,7 +2246,7 @@ Falls es keine Treffer gibt, wird das größte Bild aus dem Verzeichnis ausgewä
     </message>
   </context>
   <context>
-    <name>EditTagDialog</name>
+    <name>TagEditor</name>
     <message>
       <source>Edit track information</source>
       <translation>Metadaten bearbeiten</translation>

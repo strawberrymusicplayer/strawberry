@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef EDITTAGDIALOG_H
-#define EDITTAGDIALOG_H
+#ifndef TAGEDITOR_H
+#define TAGEDITOR_H
 
 #include "config.h"
 
@@ -61,18 +61,18 @@ class CoverProviders;
 class LyricsProviders;
 class StreamingServices;
 class AlbumCoverChoiceController;
-class Ui_EditTagDialog;
+class Ui_TagEditor;
 #ifdef HAVE_TAGFETCHER
 class TrackSelectionDialog;
 class TagFetcher;
 #endif
 class LyricsFetcher;
 
-class EditTagDialog : public QDialog {
+class TagEditor : public QDialog {
   Q_OBJECT
 
  public:
-  explicit EditTagDialog(const SharedPtr<NetworkAccessManager> network,
+  explicit TagEditor(const SharedPtr<NetworkAccessManager> network,
                          const SharedPtr<TagReaderClient> tagreader_client,
                          const SharedPtr<CollectionBackend> collection_backend,
                          const SharedPtr<AlbumCoverLoader> albumcover_loader,
@@ -82,7 +82,7 @@ class EditTagDialog : public QDialog {
                          const SharedPtr<StreamingServices> streaming_services,
                          QWidget *parent = nullptr);
 
-  ~EditTagDialog() override;
+  ~TagEditor() override;
 
   // Returns false when the songs are not set yet, since the dialog is still loading or saving the previous songs.
   // They are set when it's finished then, and PendingSongsSet is emitted.
@@ -167,7 +167,7 @@ class EditTagDialog : public QDialog {
   void PreviousSong();
   void NextSong();
 
-  void SongSaveTagsComplete(TagReaderReplyPtr reply, const QString &filename, Song song, const EditTagDialog::UpdateCoverAction cover_action, const Song &song_lyrics_not_in_tags);
+  void SongSaveTagsComplete(TagReaderReplyPtr reply, const QString &filename, Song song, const TagEditor::UpdateCoverAction cover_action, const Song &song_lyrics_not_in_tags);
 
  private:
   struct FieldData {
@@ -218,7 +218,7 @@ class EditTagDialog : public QDialog {
   static const char kTagsDifferentHintText[];
   static const char kArtDifferentHintText[];
 
-  Ui_EditTagDialog *ui_;
+  Ui_TagEditor *ui_;
 
   const SharedPtr<TagReaderClient> tagreader_client_;
   const SharedPtr<CollectionBackend> collection_backend_;
@@ -270,4 +270,4 @@ class EditTagDialog : public QDialog {
   bool save_lyrics_to_tags_;
 };
 
-#endif  // EDITTAGDIALOG_H
+#endif  // TAGEDITOR_H

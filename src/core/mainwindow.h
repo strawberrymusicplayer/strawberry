@@ -74,7 +74,7 @@ class CollectionFilter;
 class AlbumCoverChoiceController;
 class CommandlineOptions;
 class DeviceViewContainer;
-class EditTagDialog;
+class TagEditor;
 class Equalizer;
 class ErrorDialog;
 class FileView;
@@ -173,7 +173,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void PlaylistClearCurrent();
   void RescanSongs();
   void EditTracks();
-  void EditTagDialogAccepted();
+  void TagEditorAccepted();
   void RenumberTracks();
   void SelectionSetValue();
   void EditValue();
@@ -243,7 +243,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void CheckShowErrorDialog();
   void ShowTranscodeDialog();
   SettingsDialog *CreateSettingsDialog();
-  EditTagDialog *CreateEditTagDialog();
+  TagEditor *CreateTagEditor();
   void OpenSettingsDialog();
   void OpenSettingsDialogAtPage(const SettingsDialog::Page page);
 
@@ -329,10 +329,10 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   Lazy<ErrorDialog> error_dialog_;
   Lazy<AboutDialog> about_dialog_;
   Lazy<Console> console_;
-  Lazy<EditTagDialog> edit_tag_dialog_;
-  QPointer<Playlist> edit_tag_dialog_playlist_;
+  Lazy<TagEditor> tag_editor_;
+  QPointer<Playlist> tag_editor_playlist_;
   // The playlist of the songs set while the dialog was loading or saving the previous songs.
-  QPointer<Playlist> edit_tag_dialog_pending_playlist_;
+  QPointer<Playlist> tag_editor_pending_playlist_;
   AlbumCoverChoiceController *album_cover_choice_controller_;
 
   GlobalShortcutsManager *globalshortcuts_manager_;

@@ -2246,7 +2246,7 @@ Si no hi ha resultats, s’usarà la imatge més gran en el directori.</translat
     </message>
   </context>
   <context>
-    <name>EditTagDialog</name>
+    <name>TagEditor</name>
     <message>
       <source>Edit track information</source>
       <translation>Edita la informació de la peça</translation>
