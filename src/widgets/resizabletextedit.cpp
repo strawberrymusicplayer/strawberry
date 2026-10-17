@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
  */
 
 #include <QTextEdit>
+#include <QTextCharFormat>
 #include <QResizeEvent>
 
 #include "resizabletextedit.h"
@@ -56,9 +57,26 @@ void ResizableTextEdit::SetText(const QString &text) {
 
 }
 
+void ResizableTextEdit::ResetCharFormat() {
+
+  // Setting plain text gives all the text the format at the cursor, so when the cursor is in text formatted differently, like a bold line the user clicked in, all the new text would get that format.
+  setCurrentCharFormat(QTextCharFormat());
+
+}
+
+void ResizableTextEdit::Clear() {
+
+  text_.clear();
+  ResetCharFormat();
+  QTextEdit::clear();
+  updateGeometry();
+
+}
+
 void ResizableTextEdit::SetPlainText(const QString &text) {
 
   text_ = text;
+  ResetCharFormat();
   QTextEdit::setPlainText(text);
   updateGeometry();
 
