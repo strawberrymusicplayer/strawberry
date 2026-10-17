@@ -58,6 +58,8 @@ struct GstPlayBin;
 class GstEnginePipeline : public QObject {
   Q_OBJECT
 
+  friend class GstEnginePipelineTest;
+
  public:
   explicit GstEnginePipeline(QObject *parent = nullptr);
   ~GstEnginePipeline() override;
@@ -105,6 +107,13 @@ class GstEnginePipeline : public QObject {
   Q_INVOKABLE QFuture<GstStateChangeReturn> SetState(const GstState state);
   Q_INVOKABLE QFuture<GstStateChangeReturn> Play(const bool pause, const quint64 offset_nanosec);
   Q_INVOKABLE bool Seek(const qint64 nanosec);
+
+  // Playback is started, but waits for the pipeline to preroll, the seek to the offset or the audio device warm-up before going to PLAYING.
+  bool play_pending() const;
+  // Paused while playback was waiting to start, playback does not start until UnpauseBeforePlaying() is called.
+  bool paused_before_playing() const { return paused_before_playing_.load(); }
+  void PauseBeforePlaying();
+  void UnpauseBeforePlaying();
   void SeekAsync(const qint64 nanosec);
   void SeekDelayed(const qint64 nanosec);
 
@@ -178,6 +187,7 @@ class GstEnginePipeline : public QObject {
   // Applies a state without counting as a newer request, so it does not invalidate async requests queued in the meantime (see SetState() and SetStateAsyncSlot()).
   QFuture<GstStateChangeReturn> ApplyState(const GstState state);
   void StartPlaybackAfterWarmup();
+  void DeviceWarmupElapsed(const quint64 device_warmup_generation);
   void EmitFinishedIfQuiescent();
   void SetNextUrl();
 
@@ -267,6 +277,14 @@ class GstEnginePipeline : public QObject {
   std::atomic<bool> device_warmup_pending_;
   // Bumped by every SetState() call so a scheduled warm-up timer can detect that a newer transition (e.g. the user paused/stopped, or a newer start) superseded it and skip resuming playback.
   std::atomic<quint64> device_warmup_generation_;
+  // Set while the warm-up timer is waiting to start playback.
+  std::atomic<bool> device_warmup_waiting_;
+  // Set when paused while playback was waiting to start, so playback is held when it would otherwise start.
+  std::atomic<bool> paused_before_playing_;
+  // Set when playback would have started while paused_before_playing_ was set, so it is started when unpaused.
+  std::atomic<bool> play_held_;
+  // The state of the latest state change request, set together with the request generation, so it is the latest playback intent, also while older state changed messages are still queued.
+  std::atomic<GstState> target_state_;
 
   // Proxy
   QString proxy_address_;
