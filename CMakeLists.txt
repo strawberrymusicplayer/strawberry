@@ -1748,6 +1748,7 @@ add_subdirectory(src)
 add_subdirectory(dist)
 
 if(TARGET GTest::gtest AND TARGET GTest::gmock AND Qt${QT_VERSION_MAJOR}Test_FOUND)
+  enable_testing()
   add_subdirectory(tests)
 endif()
 
