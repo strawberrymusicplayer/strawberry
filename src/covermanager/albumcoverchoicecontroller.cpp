@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -63,6 +63,7 @@
 #include "utilities/mimeutils.h"
 #include "utilities/coveroptions.h"
 #include "utilities/coverutils.h"
+#include "utilities/imageutils.h"
 #include "utilities/screenutils.h"
 #include "core/logging.h"
 #include "core/song.h"
@@ -707,6 +708,17 @@ QUrl AlbumCoverChoiceController::SaveCoverToFileAutomatic(const Song::Source sou
 }
 
 void AlbumCoverChoiceController::SaveCoverEmbeddedToCollectionSongs(const Song &song, const AlbumCoverImageResult &result) {
+
+  // Empty cover data removes the embedded cover, so a result with only an image, like an image dropped on the cover, is encoded first, otherwise the existing embedded covers would be removed instead.
+  if (result.image_data.isEmpty() && !result.image.isNull()) {
+    const QByteArray image_data = ImageUtils::SaveImageToJpegData(result.image);
+    if (image_data.isEmpty()) {
+      qLog(Error) << "Could not encode the cover image for" << song.url();
+      return;
+    }
+    SaveCoverEmbeddedToCollectionSongs(song, QString(), image_data, u"image/jpeg"_s);
+    return;
+  }
 
   SaveCoverEmbeddedToCollectionSongs(song, QString(), result.image_data, result.mime_type);
 
