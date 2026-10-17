@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@
 #include <QImageReader>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QSslError>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
@@ -1368,6 +1369,13 @@ void QobuzRequest::FlushAlbumCoverRequests() {
   while (!album_cover_requests_queue_.isEmpty() && album_covers_requests_active_ < kMaxConcurrentAlbumCoverRequests) {
     const AlbumCoverRequest request = album_cover_requests_queue_.dequeue();
     QNetworkReply *reply = CreateGetRequest(request.url);
+    // Certificate errors for album covers are only warnings, they don't mean that songs are missing.
+    QObject::disconnect(reply, &QNetworkReply::sslErrors, this, &HttpBaseRequest::HandleSSLErrors);
+    QObject::connect(reply, &QNetworkReply::sslErrors, this, [](const QList<QSslError> &ssl_errors) {
+      for (const QSslError &ssl_error : ssl_errors) {
+        Warn(ssl_error.errorString());
+      }
+    });
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumCoverReceived(reply, request.url, request.filename); });
     ++album_covers_requests_active_;
   }
@@ -1400,13 +1408,13 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
   }
 
   if (reply->error() != QNetworkReply::NoError) {
-    Error(QStringLiteral("%1 (%2)").arg(Utilities::RedactUrls(reply->errorString()), QString::number(reply->error())));
+    Warn(QStringLiteral("%1 (%2)").arg(Utilities::RedactUrls(reply->errorString()), QString::number(reply->error())));
     if (album_covers_requests_sent_.contains(cover_url)) album_covers_requests_sent_.remove(cover_url);
     return;
   }
 
   if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
-    Error(QStringLiteral("Received HTTP code %1 for %2.").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()).arg(cover_url.toString()));
+    Warn(QStringLiteral("Received HTTP code %1 for %2.").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()).arg(cover_url.toString()));
     if (album_covers_requests_sent_.contains(cover_url)) album_covers_requests_sent_.remove(cover_url);
     return;
   }
@@ -1416,14 +1424,14 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
     mimetype = mimetype.left(mimetype.indexOf(u';'));
   }
   if (!ImageUtils::SupportedImageMimeTypes().contains(mimetype, Qt::CaseInsensitive) && !ImageUtils::SupportedImageFormats().contains(mimetype, Qt::CaseInsensitive)) {
-    Error(QStringLiteral("Unsupported mimetype for image reader %1 for %2").arg(mimetype, cover_url.toString()));
+    Warn(QStringLiteral("Unsupported mimetype for image reader %1 for %2").arg(mimetype, cover_url.toString()));
     if (album_covers_requests_sent_.contains(cover_url)) album_covers_requests_sent_.remove(cover_url);
     return;
   }
 
   const QByteArray data = reply->readAll();
   if (data.isEmpty()) {
-    Error(QStringLiteral("Received empty image data for %1").arg(cover_url.toString()));
+    Warn(QStringLiteral("Received empty image data for %1").arg(cover_url.toString()));
     if (album_covers_requests_sent_.contains(cover_url)) album_covers_requests_sent_.remove(cover_url);
     return;
   }
@@ -1445,13 +1453,13 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
       }
     }
     else {
-      Error(QStringLiteral("Error saving image data to %1").arg(filename));
+      Warn(QStringLiteral("Error saving image data to %1").arg(filename));
       if (album_covers_requests_sent_.contains(cover_url)) album_covers_requests_sent_.remove(cover_url);
     }
   }
   else {
     if (album_covers_requests_sent_.contains(cover_url)) album_covers_requests_sent_.remove(cover_url);
-    Error(QStringLiteral("Error decoding image data from %1").arg(cover_url.toString()));
+    Warn(QStringLiteral("Error decoding image data from %1").arg(cover_url.toString()));
   }
 
 }
@@ -1526,7 +1534,7 @@ void QobuzRequest::Error(const QString &error_message, const QVariant &debug_out
 
 void QobuzRequest::Warn(const QString &error_message, const QVariant &debug_output) {
 
-  qLog(Error) << "Qobuz:" << error_message;
+  qLog(Warning) << "Qobuz:" << error_message;
   if (debug_output.isValid()) {
     qLog(Debug) << debug_output;
   }

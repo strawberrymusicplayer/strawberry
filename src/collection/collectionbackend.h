@@ -232,7 +232,8 @@ class CollectionBackend : public CollectionBackendInterface {
   SongList ExecuteQuery(const QString &sql, const QVariantList &bound_values = QVariantList());
 
   void AddOrUpdateSongsAsync(const SongList &songs);
-  void UpdateSongsBySongIDAsync(const SongMap &new_songs);
+  // Adds and updates the songs by song ID, and deletes the songs not in new_songs, unless delete_missing_songs is false, which is used when some of the songs could not be fetched.
+  void UpdateSongsBySongIDAsync(const SongMap &new_songs, const bool delete_missing_songs = true);
 
   void UpdateSongRatingAsync(const int id, const float rating, const bool save_tags = false);
   void UpdateSongsRatingAsync(const QList<int> &ids, const float rating, const bool save_tags = false);
@@ -259,7 +260,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void AddDirectory(const QString &path);
   void RemoveDirectory(const CollectionDirectory &dir);
   void AddOrUpdateSongs(const SongList &songs);
-  void UpdateSongsBySongID(const SongMap &new_songs);
+  void UpdateSongsBySongID(const SongMap &new_songs, const bool delete_missing_songs = true);
   void UpdateMTimesOnly(const SongList &songs);
   void DeleteSongs(const SongList &songs);
   void DeleteSongsByUrls(const QList<QUrl> &url);
