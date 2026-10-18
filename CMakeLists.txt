@@ -254,6 +254,25 @@ if(X11_FOUND)
   unset(CMAKE_REQUIRED_LIBRARIES)
 endif()
 
+if(UNIX AND NOT APPLE)
+  find_package(LayerShellQt 6.0 CONFIG)
+  pkg_check_modules(WAYLAND_CLIENT IMPORTED_TARGET wayland-client)
+  # Check for QWaylandApplication (Qt 6.5 or newer compiled with Wayland), Qt 6.5 is also needed to use layer shell for only some windows.
+  set(CMAKE_REQUIRED_FLAGS "-std=c++17")
+  set(CMAKE_REQUIRED_LIBRARIES Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui)
+  check_cxx_source_compiles("
+    #include <QGuiApplication>
+    int main() {
+      (void)qApp->nativeInterface<QNativeInterface::QWaylandApplication>();
+      return 0;
+    }
+    "
+    HAVE_QWAYLANDAPPLICATION
+  )
+  unset(CMAKE_REQUIRED_FLAGS)
+  unset(CMAKE_REQUIRED_LIBRARIES)
+endif()
+
 find_package(KDSingleApplication-qt${QT_VERSION_MAJOR} 1.1.0 REQUIRED)
 
 if(APPLE)
@@ -326,6 +345,11 @@ if(UNIX AND NOT APPLE)
   )
   optional_component(LIBSECRET ON "Credentials: libsecret backend"
     DEPENDS "libsecret" LIBSECRET_FOUND
+  )
+  optional_component(LAYERSHELLQT ON "OSD Pretty on Wayland: LayerShellQt"
+    DEPENDS "LayerShellQt" LayerShellQt_FOUND
+    DEPENDS "wayland-client" WAYLAND_CLIENT_FOUND
+    DEPENDS "QWaylandApplication" HAVE_QWAYLANDAPPLICATION
   )
 endif()
 
@@ -1803,6 +1827,7 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${HAVE_GSTFASTSPECTRUM}>:PkgConfig::FFTW3>
   $<$<BOOL:${HAVE_EBUR128}>:PkgConfig::LIBEBUR128>
   $<$<BOOL:${HAVE_X11_GLOBALSHORTCUTS}>:X11::X11_xcb>
+  $<$<BOOL:${HAVE_LAYERSHELLQT}>:LayerShellQt::Interface PkgConfig::WAYLAND_CLIENT>
   $<$<BOOL:${HAVE_GIO}>:PkgConfig::GIO>
   $<$<BOOL:${HAVE_GIO_UNIX}>:PkgConfig::GIO_UNIX>
   $<$<BOOL:${HAVE_AUDIOCD}>:PkgConfig::LIBCDIO>

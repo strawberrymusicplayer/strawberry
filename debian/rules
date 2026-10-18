@@ -3,9 +3,14 @@
 export DH_VERBOSE=1
 export DEB_BUILD_MAINT_OPTIONS=hardening=+all
 
+# LayerShellQt is only used for Qt 6, older releases such as Debian bookworm and Ubuntu noble only have the Qt 5 version, or it is not installed.
+LAYERSHELLQT_VERSION := $(shell dpkg-query -W -f='$${Version}' liblayershellqtinterface-dev 2>/dev/null)
+ENABLE_LAYERSHELLQT := $(shell dpkg --compare-versions "$(LAYERSHELLQT_VERSION)" ge 6 && echo ON || echo OFF)
+
 override_dh_auto_configure:
 	dh_auto_configure -- \
-	-DBUILD_WERROR=ON
+	-DBUILD_WERROR=ON \
+	-DENABLE_LAYERSHELLQT=$(ENABLE_LAYERSHELLQT)
 
 # The tests are not built by default, so they are built here, and run with ctest by dh_auto_test.
 # The tests need a writable home directory, which the build environment does not always have, and the offscreen platform since there is no display.

@@ -24,6 +24,8 @@
 
 #include "config.h"
 
+#include <chrono>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
@@ -46,8 +48,15 @@ class QMouseEvent;
 class QPaintEvent;
 class QShowEvent;
 class QEnterEvent;
+class QGraphicsOpacityEffect;
 
 class Ui_OSDPretty;
+
+#ifdef HAVE_LAYERSHELLQT
+namespace LayerShellQt {
+class Window;
+}
+#endif
 
 class OSDPretty : public QWidget {
   Q_OBJECT
@@ -62,6 +71,9 @@ class OSDPretty : public QWidget {
   ~OSDPretty() override;
 
   bool IsTransparencyAvailable() const;
+
+  // Wayland compositors don't let windows position themselves, so on Wayland the OSD is shown as a layer shell surface, which not all compositors support.
+  static bool IsLayerShellAvailable();
 
   void SetMessage(const QString &summary, const QString &message, const QImage &image);
   void ShowMessage(const QString &summary, const QString &message, const QImage &image);
@@ -114,6 +126,14 @@ class OSDPretty : public QWidget {
  private:
   void Reposition();
   void UpdateMaximumSize();
+  void SetOpacity(const qreal opacity);
+#ifdef HAVE_LAYERSHELLQT
+  void InitLayerShell();
+  void SetLayerShellPosition(QScreen *screen, const QPoint &pos, const bool right_edge, const bool bottom_edge);
+  void RecreateLayerShellSurface();
+  QPoint LayerShellPopupPos(const QRect &geometry, const QPoint &pos) const;
+#endif
+  QRect PopupGeometry(QScreen *screen) const;
   void Load();
 
   QRect BoxBorder() const;
@@ -123,6 +143,7 @@ class OSDPretty : public QWidget {
   void FaderFinished();
   void ScreenAdded(QScreen *screen);
   void ScreenRemoved(QScreen *screen);
+  void ScreenGeometryChanged(QScreen *screen);
 
  private:
   Ui_OSDPretty *ui_;
@@ -149,8 +170,20 @@ class OSDPretty : public QWidget {
   QPoint original_window_pos_;
   QPoint drag_start_pos_;
 
+#ifdef HAVE_LAYERSHELLQT
+  // The layer shell surface on Wayland, it is positioned by its position on the screen, since the position of the window and the global mouse position are not known.
+  LayerShellQt::Window *layer_shell_window_;
+  QPoint layer_shell_pos_;
+  QPointer<QScreen> layer_shell_committed_screen_;
+  QPoint layer_shell_committed_pos_;
+  QGraphicsOpacityEffect *opacity_effect_;
+  bool layer_shell_dragging_;
+#endif
+
   // For timeout of notification
+  // The duration is kept separately from the interval of the timer, since the timer is also started with the remaining time when the surface is created again.
   QTimer *timeout_;
+  std::chrono::milliseconds popup_duration_;
 
   // For fading
   bool fading_enabled_;
