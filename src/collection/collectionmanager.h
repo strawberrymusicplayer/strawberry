@@ -78,6 +78,10 @@ class CollectionManager : public QObject {
   void SavePendingSongSaves();
   static Song CurrentLyricsToSave(const SharedPtr<CollectionBackend> &backend, const Song &song);
   void SaveLyricsToFile(const Song &song);
+  void LyricsSaveFinished();
+  void SavePendingSongSavesAndExit();
+  void ExitBackendAndWatcher();
+  void CheckExitFinished();
   static bool IsCurrentSongSaveDeferred(const Song &song, const QUrl &current_song_url);
 
  public Q_SLOTS:
@@ -145,6 +149,12 @@ class CollectionManager : public QObject {
   std::atomic<bool> abort_sync_playcount_and_rating_;
   // A sync was requested while one was running, which might have read the songs before they changed.
   bool sync_playcount_and_rating_pending_;
+
+  // Lyrics being saved to the files, the storage type is updated in the backend when they are saved, so the backend exits after them.
+  int lyrics_saves_running_;
+  bool exiting_;
+  bool pending_song_saves_saved_;
+  bool backend_exiting_;
 };
 
 #endif
