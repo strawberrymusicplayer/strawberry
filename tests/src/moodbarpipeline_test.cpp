@@ -1,0 +1,79 @@
+/*
+ * Strawberry Music Player
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
+ *
+ * Strawberry is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Strawberry is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+#include "config.h"
+
+#include "gtest_include.h"
+#include "gmock_include.h"
+
+#include <QByteArray>
+#include <QString>
+#include <QUrl>
+#include <QThread>
+#include <QCoreApplication>
+#include <QSignalSpy>
+
+#include "engine/gststartup.h"
+#include "moodbar/moodbarpipeline.h"
+
+#include "test_utils.h"
+
+using namespace Qt::Literals::StringLiterals;
+
+namespace {
+
+// Regression test: a request for a pipeline which finished before the request connected to Finished never got the result.
+TEST(MoodbarPipelineTest, NotifyFinishedCallsBackOnce) {
+
+  GstStartup::Initialize();
+
+  TemporaryResource res(u":/audio/strawberry.wav"_s);
+  ASSERT_TRUE(res.open());
+  const QUrl url = QUrl::fromLocalFile(res.fileName());
+
+  MoodbarPipeline pipeline(url);
+  QSignalSpy spy(&pipeline, &MoodbarPipeline::Finished);
+
+  QObject context;
+  int calls_before = 0;
+  int calls_after = 0;
+  pipeline.NotifyFinished(&context, [&calls_before]() { ++calls_before; });
+
+  QThread worker_thread;
+  pipeline.moveToThread(&worker_thread);
+  worker_thread.start();
+
+  QMetaObject::invokeMethod(&pipeline, &MoodbarPipeline::Start, Qt::QueuedConnection);
+
+  const bool finished = spy.wait(10000);
+  worker_thread.quit();
+  worker_thread.wait();
+  ASSERT_TRUE(finished);
+
+  // Registering after the pipeline finished still calls back.
+  pipeline.NotifyFinished(&context, [&calls_after]() { ++calls_after; });
+  QCoreApplication::processEvents();
+  QCoreApplication::processEvents();
+
+  EXPECT_EQ(1, calls_before);
+  EXPECT_EQ(1, calls_after);
+
+}
+
+}  // namespace
