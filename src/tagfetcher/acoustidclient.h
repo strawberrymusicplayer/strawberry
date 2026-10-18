@@ -26,12 +26,15 @@
 
 #include <QObject>
 #include <QMap>
+#include <QQueue>
+#include <QByteArray>
 #include <QString>
 #include <QStringList>
 
 #include "includes/shared_ptr.h"
 
 class QNetworkReply;
+class QTimer;
 class NetworkAccessManager;
 class NetworkTimeouts;
 
@@ -55,6 +58,7 @@ class AcoustidClient : public QObject {
   void SetTimeout(const int msec);
 
   // Starts a request and returns immediately.  Finished() will be emitted later with the same ID.
+  // AcoustID allows 3 requests per second, so the requests are queued and sent one at a time with a delay.
   // Returns false (and sets error) without starting anything if no AcoustID API key is configured.
   bool Start(const int id, const QString &fingerprint, const int duration_msec, QString &error);
 
@@ -68,11 +72,18 @@ class AcoustidClient : public QObject {
   void Finished(const int id, const QStringList &mbid_list, const QString &error = QString());
 
  private Q_SLOTS:
+  void FlushRequests();
   void RequestFinished(QNetworkReply *reply, const int id);
 
  private:
   SharedPtr<NetworkAccessManager> network_;
   NetworkTimeouts *timeouts_;
+  struct PendingRequest {
+    int id;
+    QByteArray data;
+  };
+  QQueue<PendingRequest> pending_requests_;
+  QTimer *timer_flush_requests_;
   QMap<int, QNetworkReply*> requests_;
 };
 
