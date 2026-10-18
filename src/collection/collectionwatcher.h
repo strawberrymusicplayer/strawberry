@@ -67,6 +67,7 @@ class CollectionWatcher : public QObject {
   void IncrementalScanAsync();
   void FullScanAsync();
   void SetRescanPausedAsync(const bool pause);
+  bool rescan_paused() const { return rescan_paused_; }
   void ReloadSettingsAsync();
 
   void Stop();

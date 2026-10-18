@@ -124,6 +124,9 @@ void CollectionManager::Init() {
 
   watcher_thread_->start(QThread::IdlePriority);
 
+  QObject::connect(&*task_manager_, &TaskManager::PauseCollectionWatchers, this, &CollectionManager::UpdateWatcherPaused);
+  QObject::connect(&*task_manager_, &TaskManager::ResumeCollectionWatchers, this, &CollectionManager::UpdateWatcherPaused);
+
   QObject::connect(&*backend_, &CollectionBackend::Error, this, &CollectionManager::Error);
   QObject::connect(&*backend_, &CollectionBackend::DirectoryAdded, watcher_, &CollectionWatcher::AddDirectory);
   QObject::connect(&*backend_, &CollectionBackend::DirectoryDeleted, watcher_, &CollectionWatcher::RemoveDirectory);
@@ -254,9 +257,12 @@ void CollectionManager::Rescan(const SongList &songs) {
 
 }
 
-void CollectionManager::PauseWatcher() { watcher_->SetRescanPausedAsync(true); }
+void CollectionManager::UpdateWatcherPaused() {
 
-void CollectionManager::ResumeWatcher() { watcher_->SetRescanPausedAsync(false); }
+  // The pause and resume signals from the task manager can be received in another order than they were emitted from different threads, so the current state is used, not the signal, otherwise the collection watcher could be resumed while another delete or organize is still running.
+  watcher_->SetRescanPausedAsync(task_manager_->BlocksCollectionScans());
+
+}
 
 void CollectionManager::ReloadSettings() {
 

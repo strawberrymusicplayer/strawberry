@@ -67,6 +67,7 @@ class CollectionManager : public QObject {
   void Exit();
 
   SharedPtr<CollectionBackend> backend() const { return backend_; }
+  CollectionWatcher *watcher() const { return watcher_; }
   CollectionModel *model() const { return model_; }
 
   QString full_rescan_reason(const int schema_version) const { return full_rescan_revisions_.value(schema_version, QString()); }
@@ -87,8 +88,7 @@ class CollectionManager : public QObject {
  public Q_SLOTS:
   void ReloadSettings();
 
-  void PauseWatcher();
-  void ResumeWatcher();
+  void UpdateWatcherPaused();
 
   void FullScan();
   void StopScan();

@@ -40,6 +40,7 @@
 #include "covermanager/albumcoverloader.h"
 #include "collection/collectionmanager.h"
 #include "collection/collectionbackend.h"
+#include "collection/collectionwatcher.h"
 
 #include "test_utils.h"
 
@@ -119,6 +120,16 @@ class CollectionManagerTest : public ::testing::Test {
   SharedPtr<TagReaderClient> tagreader_client_;
   SharedPtr<AlbumCoverLoader> albumcover_loader_;
   CollectionManager *collection_manager_ = nullptr;
+
+  // Returns if the collection watcher's rescan is paused, after the calls queued to the collection watcher's thread before it.
+  bool WatcherRescanPaused() const {
+
+    CollectionWatcher *watcher = collection_manager_->watcher();
+    bool paused = false;
+    QMetaObject::invokeMethod(watcher, [watcher, &paused]() { paused = watcher->rescan_paused(); }, Qt::BlockingQueuedConnection);
+    return paused;
+
+  }
 };
 
 TEST_F(CollectionManagerTest, ExitSavesDeferredPlaycountAndRating) {
@@ -177,6 +188,34 @@ TEST_F(CollectionManagerTest, ExitSavesDeferredLyrics) {
   Song saved_song;
   ASSERT_TRUE(TagReaderTagLib().ReadFile(filename, &saved_song).success());
   EXPECT_EQ(u"Deferred lyrics"_s, saved_song.lyrics());
+
+}
+
+// The pause and resume signals from the task manager can be received in another order than the tasks were started and finished when they are emitted from different threads.
+// The collection watcher is only resumed when no task which blocks collection scans is running anymore.
+TEST_F(CollectionManagerTest, WatcherPausedWhileBlockingTaskRuns) {
+
+  const int delete_task_id = task_manager_->StartTask(u"Deleting files"_s);
+  task_manager_->SetTaskBlocksCollectionScans(delete_task_id);
+  EXPECT_TRUE(WatcherRescanPaused());
+
+  const int organize_task_id = task_manager_->StartTask(u"Organizing files"_s);
+  task_manager_->SetTaskBlocksCollectionScans(organize_task_id);
+  task_manager_->SetTaskFinished(delete_task_id);
+  EXPECT_TRUE(WatcherRescanPaused());
+
+  // The resume signal for the finished delete is received after the pause signal for the organize, which is still running.
+  Q_EMIT task_manager_->ResumeCollectionWatchers();
+  EXPECT_TRUE(WatcherRescanPaused());
+
+  task_manager_->SetTaskFinished(organize_task_id);
+  EXPECT_FALSE(WatcherRescanPaused());
+
+  // A pause signal received after the task finished doesn't pause the collection watcher again.
+  Q_EMIT task_manager_->PauseCollectionWatchers();
+  EXPECT_FALSE(WatcherRescanPaused());
+
+  ASSERT_TRUE(Exit());
 
 }
 
