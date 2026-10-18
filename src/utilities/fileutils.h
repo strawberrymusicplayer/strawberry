@@ -35,6 +35,13 @@ bool RemoveRecursive(const QString &path);
 bool FilenameOnGVFS(const QString &filename);
 bool CopyFileContents(const QString &source, const QString &destination);
 
+// Returns true when the existing directories are the same directory on the filesystem, also when their paths differ in case or links.
+bool IsSameDirectory(const QString &directory1, const QString &directory2);
+
+// Returns true when the existing file or directory is inside the existing directory, but not the directory itself.
+// The path is resolved first, then its parent directories are compared with the directory with IsSameDirectory().
+bool PathIsInsideDirectory(const QString &path, const QString &directory);
+
 // Returns the modification time of the file in milliseconds, 0 if it does not exist.
 // Milliseconds rather than seconds, so changes within the same second can be detected on filesystems with a finer timestamp resolution.
 qint64 FileMtimeMsec(const QString &filename);

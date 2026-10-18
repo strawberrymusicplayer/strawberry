@@ -65,6 +65,7 @@
 #include "widgets/linetextedit.h"
 #include "tagreader/tagreaderclient.h"
 #include "collection/collectionbackend.h"
+#include "collection/collectiondirectorymodel.h"
 #include "organize.h"
 #include "organizeformat.h"
 #include "organizesyntaxhighlighter.h"
@@ -172,6 +173,14 @@ OrganizeDialog::~OrganizeDialog() {
   delete ui_;
 }
 
+void OrganizeDialog::SetCollectionDirectoryModel(CollectionDirectoryModel *collection_directory_model) {
+  collection_directory_model_ = collection_directory_model;
+}
+
+void OrganizeDialog::SetSourceRoots(const QStringList &source_roots) {
+  source_roots_ = source_roots;
+}
+
 void OrganizeDialog::SetDestinationModel(QAbstractItemModel *model, const bool devices) {
 
   ui_->destination->setModel(model);
@@ -208,9 +217,15 @@ void OrganizeDialog::accept() {
 
   if (!storage) return;
 
+  // Empty directories left by moving songs are only removed inside the collection directories, the source roots and the destination.
+  QStringList original_roots = source_roots_;
+  if (collection_directory_model_) {
+    original_roots << collection_directory_model_->paths();
+  }
+
   // It deletes itself when it's finished.
   const bool copy = ui_->aftercopying->currentIndex() == 0;
-  Organize *organize = new Organize(task_manager_, tagreader_client_, storage, format_, copy, ui_->overwrite->isChecked(), ui_->albumcover->isChecked(), new_songs_info_, ui_->eject_after->isChecked(), playlist_);
+  Organize *organize = new Organize(task_manager_, tagreader_client_, storage, format_, copy, ui_->overwrite->isChecked(), ui_->albumcover->isChecked(), new_songs_info_, original_roots, ui_->eject_after->isChecked(), playlist_);
   QObject::connect(organize, &Organize::Finished, this, &OrganizeDialog::OrganizeFinished);
   QObject::connect(organize, &Organize::FileCopied, this, &OrganizeDialog::FileCopied);
   if (collection_backend_) {

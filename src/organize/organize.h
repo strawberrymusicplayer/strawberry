@@ -70,6 +70,7 @@ class Organize : public QObject {
                     const bool overwrite,
                     const bool albumcover,
                     const NewSongInfoList &songs,
+                    const QStringList &original_roots,
                     const bool eject_after,
                     const QString &playlist = QString(),
                     QObject *parent = nullptr);
@@ -77,6 +78,10 @@ class Organize : public QObject {
   ~Organize() override;
 
   void Start();
+
+  // Returns the innermost of the collection or device directories containing the file, empty directories left by moving it are removed up to that directory.
+  // Returns an empty string when none of them contain the file.
+  static QString OriginalRoot(const QStringList &roots, const QString &filename);
 
   // Makes the destination filenames of the organized songs unique, so they don't overwrite each other.
   class UniqueFilenames {
@@ -153,6 +158,8 @@ class Organize : public QObject {
   const bool overwrite_;
   const bool albumcover_;
   const bool eject_after_;
+  // The collection and device directories of the songs and the root of the destination, empty directories left by moving songs are only removed inside these.
+  QStringList original_roots_;
   quint64 task_count_;
   const QString playlist_;
 

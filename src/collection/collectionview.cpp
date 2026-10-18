@@ -264,6 +264,7 @@ void CollectionView::Organize() {
 
   if (!organize_dialog_) {
     organize_dialog_ = make_unique<OrganizeDialog>(task_manager_, tagreader_client_, backend_, this);
+    organize_dialog_->SetCollectionDirectoryModel(collection_model()->directory_model());
   }
 
   organize_dialog_->SetDestinationModel(collection_model()->directory_model());
@@ -317,6 +318,7 @@ void CollectionView::CopyToDevice() {
 
   if (!organize_dialog_) {
     organize_dialog_ = make_unique<OrganizeDialog>(task_manager_, tagreader_client_, nullptr, this);
+    organize_dialog_->SetCollectionDirectoryModel(collection_model()->directory_model());
   }
 
   organize_dialog_->SetDestinationModel(device_manager_->connected_devices_model(), true);

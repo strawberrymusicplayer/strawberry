@@ -137,11 +137,15 @@ bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job, QString &error_te
         QFile::remove(cover_src.absoluteFilePath());
       }
     }
-    // Remove empty directories.
-    QDir remove_dir(original.absolutePath(), QString(), QDir::Name, QDir::NoDotAndDotDot);
-    while (remove_dir.isEmpty()) {
-      if (!QDir().rmdir(remove_dir.absolutePath())) break;
-      remove_dir.cdUp();
+    // Remove the directories which are empty now, up to the collection or device directory of the original.
+    // Without a limit, this would also remove the collection directory itself, and empty directories above it like the home directory.
+    // The directories are compared with links resolved, so a directory outside the root, which is linked from inside it, is not removed.
+    if (result && !job.original_root_.isEmpty()) {
+      QDir remove_dir(original.absolutePath(), QString(), QDir::Name, QDir::NoDotAndDotDot);
+      while (Utilities::PathIsInsideDirectory(remove_dir.absolutePath(), job.original_root_) && remove_dir.isEmpty()) {
+        if (!QDir().rmdir(remove_dir.absolutePath())) break;
+        remove_dir.cdUp();
+      }
     }
   }
   else {

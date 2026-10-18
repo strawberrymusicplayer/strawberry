@@ -33,6 +33,7 @@
 #include <QDateTime>
 #include <QList>
 #include <QString>
+#include <QStringList>
 #include <QSet>
 #include <QHash>
 #include <QUrl>
@@ -44,6 +45,7 @@
 #include "core/musicstorage.h"
 #include "core/song.h"
 #include "utilities/strutils.h"
+#include "utilities/fileutils.h"
 #include "tagreader/tagreaderclient.h"
 #include "organize.h"
 #include "transcoder/transcoder.h"
@@ -65,6 +67,7 @@ Organize::Organize(const SharedPtr<TaskManager> task_manager,
                    const bool overwrite,
                    const bool albumcover,
                    const NewSongInfoList &songs_info,
+                   const QStringList &original_roots,
                    const bool eject_after,
                    const QString &playlist,
                    QObject *parent)
@@ -81,6 +84,7 @@ Organize::Organize(const SharedPtr<TaskManager> task_manager,
       overwrite_(overwrite),
       albumcover_(albumcover),
       eject_after_(eject_after),
+      original_roots_(original_roots),
       task_count_(static_cast<quint64>(songs_info.count())),
       playlist_(playlist),
       tasks_complete_(0),
@@ -90,6 +94,10 @@ Organize::Organize(const SharedPtr<TaskManager> task_manager,
       finished_(false) {
 
   original_thread_ = thread();
+
+  if (!destination_->LocalPath().isEmpty()) {
+    original_roots_ << destination_->LocalPath();
+  }
 
   process_files_timer_->setSingleShot(true);
   process_files_timer_->setInterval(100ms);
@@ -264,6 +272,7 @@ void Organize::ProcessSomeFiles() {
     job.source_ = task.transcoded_filename_.isEmpty() ? task.song_info_.song_.url().toLocalFile() : task.transcoded_filename_;
     // The source of a transcoded file is a temporary file, which is removed below, so the original is removed instead.
     job.original_source_ = task.song_info_.song_.url().toLocalFile();
+    job.original_root_ = OriginalRoot(original_roots_, job.original_source_);
     job.destination_ = task.song_info_.new_filename_;
     job.metadata_ = song;
     job.overwrite_ = overwrite_;
@@ -343,6 +352,25 @@ bool Organize::ShouldSkipFile(const QString &filename) const {
   }
 
   return QFile::exists(destination_->LocalPath() + QLatin1Char('/') + filename);
+
+}
+
+QString Organize::OriginalRoot(const QStringList &roots, const QString &filename) {
+
+  // Use the innermost directory containing the file, in case a collection directory is inside another one.
+  // The directory of the file is used, so a song which is a link to a file elsewhere gets the root of the link, not of the file it links to.
+  // The directories are compared with links resolved, so a directory linked from inside another directory is used instead of the directory containing the link.
+  const QString directory = QFileInfo(filename).absolutePath();
+  QString original_root;
+  for (const QString &root : roots) {
+    if (!Utilities::IsSameDirectory(directory, root) && !Utilities::PathIsInsideDirectory(directory, root)) continue;
+    const QString canonical_root = QFileInfo(root).canonicalFilePath();
+    if (canonical_root.length() > original_root.length()) {
+      original_root = canonical_root;
+    }
+  }
+
+  return original_root;
 
 }
 

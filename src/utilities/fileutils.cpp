@@ -25,6 +25,7 @@
 #ifdef Q_OS_UNIX
 #  include <unistd.h>
 #  include <cstring>
+#  include <sys/stat.h>
 #endif
 
 #ifdef Q_OS_WIN32
@@ -143,6 +144,38 @@ bool RemoveLink(const QString &path) {
 }
 
 }  // namespace
+
+bool IsSameDirectory(const QString &directory1, const QString &directory2) {
+
+#ifdef Q_OS_UNIX
+  // Compare the directories by their device and inode, the case of their paths can differ on case-insensitive filesystems, and only differing case can be different directories on case-sensitive filesystems.
+  struct stat stat1 {};
+  struct stat stat2 {};
+  if (::stat(QFile::encodeName(directory1).constData(), &stat1) != 0 || ::stat(QFile::encodeName(directory2).constData(), &stat2) != 0) return false;
+  return S_ISDIR(stat1.st_mode) && stat1.st_dev == stat2.st_dev && stat1.st_ino == stat2.st_ino;
+#else
+  // The canonical paths have the case of the directories on the filesystem.
+  const QString canonical_directory1 = QFileInfo(directory1).canonicalFilePath();
+  return !canonical_directory1.isEmpty() && canonical_directory1 == QFileInfo(directory2).canonicalFilePath();
+#endif
+
+}
+
+bool PathIsInsideDirectory(const QString &path, const QString &directory) {
+
+  // The path is resolved, so a link inside the directory to a directory outside it is not inside it, and a link outside the directory to a directory inside it is.
+  // Then its parent directories are compared with the directory.
+  const QString canonical_path = QFileInfo(path).canonicalFilePath();
+  if (canonical_path.isEmpty() || !QFileInfo(directory).isDir()) return false;
+
+  QDir parent_dir(canonical_path);
+  while (parent_dir.cdUp()) {
+    if (IsSameDirectory(parent_dir.absolutePath(), directory)) return true;
+  }
+
+  return false;
+
+}
 
 bool RemoveRecursive(const QString &path) {
 

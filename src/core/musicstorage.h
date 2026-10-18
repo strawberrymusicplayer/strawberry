@@ -65,6 +65,9 @@ class MusicStorage {
     QString original() const { return original_source_.isEmpty() ? source_ : original_source_; }
     QString source_;
     QString original_source_;
+    // The collection or device directory of the original, empty directories left by removing the original are removed up to this directory, but not this directory itself.
+    // When it's empty, no directories are removed.
+    QString original_root_;
     QString destination_;
     Song metadata_;
     bool overwrite_;
