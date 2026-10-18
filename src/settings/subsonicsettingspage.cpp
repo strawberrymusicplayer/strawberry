@@ -138,6 +138,11 @@ void SubsonicSettingsPage::Save() {
     if (save_password_reply_) {
       QObject::disconnect(&*save_password_reply_, nullptr, this, nullptr);
     }
+    // The password from the settings file is not migrated yet, the service migrates it again when it reloads the settings, which would overwrite the new password.
+    // So it's replaced with the new password, and removed when the new password is saved.
+    if (s.contains(kPassword)) {
+      s.setValue(kPassword, password.toUtf8().toBase64());
+    }
     save_password_reply_ = service_->credentials_manager()->SavePasswordAsync(QLatin1String(kCredentialsService), password);
     QObject::connect(&*save_password_reply_, &CredentialsReply::Finished, this, &SubsonicSettingsPage::SavePasswordFinished);
     loaded_password_ = password;
