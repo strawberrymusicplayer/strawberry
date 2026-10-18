@@ -1783,9 +1783,11 @@ if(HAVE_TRANSLATIONS)
   endif()
 endif()
 
+# The API credentials directory is before the source directory, so a header generated from the credentials set in CMake is used instead of an existing src/apicredentials.h.
 target_include_directories(strawberry_lib PUBLIC
   ${CMAKE_SOURCE_DIR}
   ${CMAKE_BINARY_DIR}
+  ${API_CREDENTIALS_INCLUDE_DIR}
   ${CMAKE_SOURCE_DIR}/src
   ${CMAKE_BINARY_DIR}/src
 )

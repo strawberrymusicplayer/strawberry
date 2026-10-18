@@ -34,6 +34,14 @@ mark_as_advanced(
   TIDAL_CLIENT_ID
 )
 
+# True when any of the credentials is set, then an existing src/apicredentials.h is not used.
+set(api_credentials_given OFF)
+foreach(api_credential ACOUSTID_API_KEY LASTFM_API_KEY LASTFM_SHARED_SECRET LISTENBRAINZ_CLIENT_ID LISTENBRAINZ_CLIENT_SECRET OPENTIDAL_CLIENT_ID OPENTIDAL_CLIENT_SECRET SPOTIFY_CLIENT_ID SPOTIFY_CLIENT_SECRET GENIUS_CLIENT_ID GENIUS_CLIENT_SECRET MUSIXMATCH_APP_ID MUSIXMATCH_APP_SECRET DISCOGS_CLIENT_ID DISCOGS_CLIENT_SECRET TIDAL_CLIENT_ID)
+  if(NOT "${${api_credential}}" STREQUAL "")
+    set(api_credentials_given ON)
+  endif()
+endforeach()
+
 set(API_CREDENTIALS_ENCRYPTION_KEY "" CACHE STRING "Passphrase to AES-256-CBC-encrypt embedded API credentials with, instead of storing them in plaintext")
 mark_as_advanced(API_CREDENTIALS_ENCRYPTION_KEY)
 
@@ -97,10 +105,22 @@ _encrypt_api_credential(TIDAL_CLIENT_ID)
 
 option(CREATE_SOURCE_API_CREDENTIALS "Generate src/apicredentials.h into the source tree instead of the build tree (needed so it lands in the release source tarball)" OFF)
 
+# The header generated in the build tree is in its own directory, which is added to the include directories before the source directory, so it's used instead of an existing src/apicredentials.h.
+# The directory is only added when the header is generated there, so switching between the headers changes the compile flags, which recompiles the sources, otherwise the sources compiled with the other header are not recompiled.
+set(api_credentials_dir "${CMAKE_BINARY_DIR}/apicredentials")
+unset(API_CREDENTIALS_INCLUDE_DIR)
+
 if(CREATE_SOURCE_API_CREDENTIALS)
   configure_file(${CMAKE_SOURCE_DIR}/src/apicredentials.h.in ${CMAKE_SOURCE_DIR}/src/apicredentials.h @ONLY)
-elseif(EXISTS "${CMAKE_SOURCE_DIR}/src/apicredentials.h")
+  file(REMOVE "${api_credentials_dir}/apicredentials.h")
+elseif(EXISTS "${CMAKE_SOURCE_DIR}/src/apicredentials.h" AND NOT api_credentials_given)
   message(STATUS "Using existing ${CMAKE_SOURCE_DIR}/src/apicredentials.h")
+  file(REMOVE "${api_credentials_dir}/apicredentials.h")
 else()
-  configure_file(${CMAKE_SOURCE_DIR}/src/apicredentials.h.in ${CMAKE_BINARY_DIR}/src/apicredentials.h @ONLY)
+  # Credentials given with -D are used instead of the ones in an existing src/apicredentials.h, which would otherwise silently override them.
+  if(EXISTS "${CMAKE_SOURCE_DIR}/src/apicredentials.h")
+    message(WARNING "API credentials are set in CMake, so ${CMAKE_SOURCE_DIR}/src/apicredentials.h is not used, credentials which are not set in CMake are empty.")
+  endif()
+  configure_file(${CMAKE_SOURCE_DIR}/src/apicredentials.h.in ${api_credentials_dir}/apicredentials.h @ONLY)
+  set(API_CREDENTIALS_INCLUDE_DIR "${api_credentials_dir}")
 endif()
