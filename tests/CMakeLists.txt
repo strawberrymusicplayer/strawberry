@@ -97,6 +97,7 @@ macro(add_test_file test_source gui_required)
 endmacro(add_test_file)
 
 add_test_file(src/utilities_test.cpp false)
+add_test_file(src/temporaryfile_test.cpp false)
 add_test_file(src/filesystemmusicstorage_test.cpp false)
 add_test_file(src/concurrentrun_test.cpp false)
 add_test_file(src/mergedproxymodel_test.cpp false)
