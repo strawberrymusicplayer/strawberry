@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2014, David Sansome <me@davidsansome.com>
- * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -164,10 +164,12 @@ void MoodbarBuilder::Normalize(QList<Rgb> *vals, double Rgb::*member) {
 
 QByteArray MoodbarBuilder::Finish(const int width) {
 
+  // Without frames, like for a track shorter than a frame, there is no moodbar, return empty data instead of uninitialized data.
+  if (frames_.isEmpty() || width <= 0) return QByteArray();
+
   QByteArray ret;
   ret.resize(width * 3);
   char *data = ret.data();
-  if (frames_.count() == 0) return ret;
 
   Normalize(&frames_, &Rgb::r);
   Normalize(&frames_, &Rgb::g);
