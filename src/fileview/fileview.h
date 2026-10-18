@@ -58,6 +58,9 @@ class FileView : public QWidget {
   void ReloadSettings();
 
   void SetPath(const QString &path);
+
+  // Returns true when the path is the root or inside it, the paths are compared without resolving them, and case-insensitively on Windows.
+  static bool PathIsInsideRoot(const QString &path, const QString &root);
   void SetTaskManager(SharedPtr<TaskManager> task_manager);
 
  protected:
