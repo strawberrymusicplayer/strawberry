@@ -116,9 +116,9 @@ Organize::Organize(const SharedPtr<TaskManager> task_manager,
 
 Organize::~Organize() {
 
+  // The thread is deleted when it finished.
   if (thread_) {
     thread_->quit();
-    thread_->deleteLater();
   }
 
 }
@@ -130,8 +130,10 @@ void Organize::Start() {
   task_id_ = task_manager_->StartTask(tr("Organizing files"));
   task_manager_->SetTaskBlocksCollectionScans(task_id_);
 
+  // The thread is deleted in the original thread when it finished, since this can be deleted before the thread finished.
   thread_ = new QThread;
   QObject::connect(thread_, &QThread::started, this, &Organize::ProcessSomeFiles);
+  QObject::connect(thread_, &QThread::finished, thread_, &QThread::deleteLater);
 
   QObject::connect(transcoder_, &Transcoder::JobComplete, this, &Organize::FileTranscoded);
   QObject::connect(transcoder_, &Transcoder::LogLine, this, &Organize::LogLine);
@@ -178,13 +180,13 @@ void Organize::ProcessSomeFiles() {
 
     Q_EMIT Finished(files_with_errors_, log_, success);
 
-    // Move back to the original thread so deleteLater() can get called in the main thread's event loop
+    // Stop this thread, then move back to the original thread so deleteLater() can get called in the main thread's event loop.
+    // This can be deleted as soon as deleteLater() is called, so don't use it after that.
+    finished_ = true;
+    thread_->quit();
+    thread_ = nullptr;
     moveToThread(original_thread_);
     deleteLater();
-
-    // Stop this thread
-    thread_->quit();
-    finished_ = true;
     return;
   }
 
