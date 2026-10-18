@@ -180,22 +180,26 @@ GstElement *Transcoder::CreateElementForMimeType(GstElementFactoryListType eleme
 
 }
 
-Transcoder::JobFinishedEvent::JobFinishedEvent(JobState *state, bool success)
-    : QEvent(static_cast<QEvent::Type>(sEventType)), state_(state), success_(success) {}
+Transcoder::JobFinishedEvent::JobFinishedEvent(const quint64 job_id, const bool success)
+    : QEvent(static_cast<QEvent::Type>(sEventType)), job_id_(job_id), success_(success) {}
 
 void Transcoder::JobState::PostFinished(const bool success) {
+
+  // Only post the first result, a pipeline can post more than one error message, or an error message and end of stream.
+  if (finished_posted_.exchange(true)) return;
 
   if (success) {
     Q_EMIT parent_->LogLine(tr("Successfully written %1").arg(QDir::toNativeSeparators(job_.output)));
   }
 
-  QCoreApplication::postEvent(parent_, new Transcoder::JobFinishedEvent(this, success));
+  QCoreApplication::postEvent(parent_, new Transcoder::JobFinishedEvent(id_, success));
 
 }
 
 Transcoder::Transcoder(QObject *parent, const QString &settings_postfix)
     : QObject(parent),
       max_threads_(QThread::idealThreadCount()),
+      next_job_id_(0),
       settings_postfix_(settings_postfix) {
 
   if (JobFinishedEvent::sEventType == -1)
@@ -417,7 +421,7 @@ void Transcoder::JobState::ReportError(GstMessage *msg) const {
 
 bool Transcoder::StartJob(const Job &job) {
 
-  SharedPtr<JobState> state = make_shared<JobState>(job, this);
+  SharedPtr<JobState> state = make_shared<JobState>(++next_job_id_, job, this);
 
   Q_EMIT LogLine(tr("Starting %1").arg(QDir::toNativeSeparators(job.input)));
 
@@ -505,7 +509,7 @@ bool Transcoder::event(QEvent *e) {
     // Find this job in the list
     JobStateList::const_iterator it = current_jobs_.cbegin();
     for (; it != current_jobs_.cend(); ++it) {
-      if (it->get() == finished_event->state_) break;
+      if ((*it)->id_ == finished_event->job_id_) break;
     }
     if (it == current_jobs_.cend()) {
       // Couldn't find it, maybe GStreamer gave us an event after we'd destroyed the pipeline?
@@ -517,7 +521,7 @@ bool Transcoder::event(QEvent *e) {
 
     // Remove event handlers from the gstreamer pipeline, so they don't get called after the pipeline is shutting down
     {
-      GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(finished_event->state_->pipeline_));
+      GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE((*it)->pipeline_));
       if (bus) {
         gst_bus_set_sync_handler(bus, nullptr, nullptr, nullptr);
         gst_object_unref(bus);
