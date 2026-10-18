@@ -31,6 +31,7 @@
 #include <QSet>
 #include <QList>
 #include <QMap>
+#include <QHash>
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
@@ -207,6 +208,7 @@ class AlbumCoverChoiceController : public QWidget {
 
   QMap<quint64, Song> cover_fetching_tasks_;
   QList<Song> cover_save_tasks_;
+  QHash<Song, bool> cover_save_results_;
   QMutex mutex_cover_save_tasks_;
 
   CoverOptions cover_options_;

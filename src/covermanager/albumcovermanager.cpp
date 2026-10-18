@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -339,6 +339,7 @@ void AlbumCoverManager::CancelRequests() {
   cover_loading_pending_.clear();
   cover_loading_tasks_.clear();
   cover_save_tasks_.clear();
+  cover_save_results_.clear();
 
   cover_exporter_->Cancel();
 
@@ -1011,8 +1012,9 @@ void AlbumCoverManager::SaveAndSetCover(AlbumItem *album_item, const AlbumCoverI
   const bool has_cue = !album_item->data(Role_CuePath).toString().isEmpty();
 
   if (album_cover_choice_controller_->get_save_album_cover_type() == CoverOptions::CoverType::Embedded && Song::save_embedded_cover_supported(filetype) && !has_cue) {
+    // The cover is embedded from the cover file or from the image data.
+    const bool art_embedded = (result.cover_url.isValid() && result.cover_url.isLocalFile()) || !result.image_data.isEmpty();
     for (const QUrl &url : urls) {
-      const bool art_embedded = !result.image_data.isEmpty();
       TagReaderReplyPtr reply = tagreader_client_->SaveCoverAsync(url.toLocalFile(), SaveTagCoverData(result.cover_url.isValid() ? result.cover_url.toLocalFile() : QString(), result.image_data, result.mime_type));
       SharedPtr<QMetaObject::Connection> connection = std::make_shared<QMetaObject::Connection>();
       *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, album_item, url, art_embedded, connection]() {
@@ -1111,24 +1113,32 @@ bool AlbumCoverManager::ItemHasCover(const AlbumItem &album_item) const {
   return album_item.icon().cacheKey() != icon_nocover_item_.cacheKey();
 }
 
-void AlbumCoverManager::SaveEmbeddedCoverFinished(TagReaderReplyPtr reply, AlbumItem *album_item, const QUrl &url, const bool art_embedded) {
+void AlbumCoverManager::SaveEmbeddedCoverFinished(TagReaderReplyPtr reply, AlbumItem *album_item, const QUrl &url, bool art_embedded) {
 
-  if (!cover_save_tasks_.contains(album_item, url)) {
+  // Only remove this save, QMultiMap::remove() removes all saves to the same file, saves to the same file can overlap.
+  QMultiMap<AlbumItem*, QUrl>::iterator it = cover_save_tasks_.find(album_item, url);
+  if (it == cover_save_tasks_.end()) {
     return;
   }
-  cover_save_tasks_.remove(album_item, url);
+  cover_save_tasks_.erase(it);
 
-  if (!reply->success()) {
+  // The covers are saved in order, so the last successful save decides whether the album has an embedded cover, it is applied when the last pending save to the album finished, also when that save failed.
+  if (reply->success()) {
+    cover_save_results_.insert(album_item, art_embedded);
+  }
+  else {
     Q_EMIT Error(tr("Could not save cover to file %1.").arg(url.toLocalFile()));
-    return;
   }
 
-  if (cover_save_tasks_.contains(album_item)) {
+  if (cover_save_tasks_.contains(album_item) || !cover_save_results_.contains(album_item)) {
     return;
   }
+  art_embedded = cover_save_results_.take(album_item);
 
-  album_item->setData(Role_ArtEmbedded, true);
-  album_item->setData(Role_ArtUnset, false);
+  album_item->setData(Role_ArtEmbedded, art_embedded);
+  if (art_embedded) {
+    album_item->setData(Role_ArtUnset, false);
+  }
   Song song = AlbumItemAsSong(album_item);
   album_cover_choice_controller_->SaveArtEmbeddedToSong(&song, art_embedded);
   LoadAlbumCoverAsync(album_item);
