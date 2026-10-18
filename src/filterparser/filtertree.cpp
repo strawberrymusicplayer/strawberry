@@ -22,6 +22,7 @@
 #include "filtertree.h"
 #include "filtercolumn.h"
 #include "core/song.h"
+#include "constants/timeconstants.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -67,8 +68,12 @@ QVariant FilterTree::DataFromColumn(const FilterColumn filter_column, const Song
       return song.year();
     case FilterColumn::OriginalYear:
       return song.effective_originalyear();
-    case FilterColumn::Length:
-      return song.length_nanosec();
+    case FilterColumn::Length:{
+      // Whole seconds, truncated like the length is shown, so searching for the shown length matches it.
+      // An unknown length is -1, which is kept, so it doesn't become 0.
+      const qint64 length_nanosec = song.length_nanosec();
+      return length_nanosec < 0 ? length_nanosec : length_nanosec / kNsecPerSec;
+    }
     case FilterColumn::Samplerate:
       return song.samplerate();
     case FilterColumn::Bitdepth:

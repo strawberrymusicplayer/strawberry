@@ -23,7 +23,6 @@
 #include <QString>
 #include <QMap>
 
-#include "constants/timeconstants.h"
 #include "core/song.h"
 #include "filterparser.h"
 #include "filtertreenop.h"
@@ -463,7 +462,8 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &column, const 
       case ColumnType::Int64:{
         qint64 number = 0;
         if (filter_column == FilterColumn::Length) {
-          number = ParseTime(value) * kNsecPerSec;
+          // The length is compared in whole seconds.
+          number = ParseTime(value);
         }
         else {
           number = value.toLongLong();

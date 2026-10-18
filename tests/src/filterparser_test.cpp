@@ -25,6 +25,7 @@
 
 #include "includes/scoped_ptr.h"
 #include "core/song.h"
+#include "constants/timeconstants.h"
 #include "filterparser/filterparser.h"
 #include "filterparser/filtertree.h"
 
@@ -139,6 +140,47 @@ TEST(FilterParserTest, UnknownYear) {
   EXPECT_FALSE(Accepts(u"year:<=0"_s, SongWithYears(2011, -1)));
   EXPECT_TRUE(Accepts(u"originalyear:<=0"_s, SongWithYears(-1, -1)));
   EXPECT_FALSE(Accepts(u"originalyear:<=0"_s, SongWithYears(-1, 1971)));
+}
+
+Song SongWithLength(const qint64 length_nanosec) {
+  Song song;
+  song.set_length_nanosec(length_nanosec);
+  return song;
+}
+
+TEST(FilterParserTest, LengthMatchesShownLength) {
+
+  // 3:45.6 is shown as 3:45.
+  const Song song = SongWithLength((225 * kNsecPerSec) + (600 * kNsecPerMsec));
+  EXPECT_TRUE(Accepts(u"length:3:45"_s, song));
+  EXPECT_TRUE(Accepts(u"length:=225"_s, song));
+  EXPECT_FALSE(Accepts(u"length:3:46"_s, song));
+  EXPECT_FALSE(Accepts(u"length:!=3:45"_s, song));
+
+}
+
+TEST(FilterParserTest, LengthComparisons) {
+
+  const Song song = SongWithLength((225 * kNsecPerSec) + (600 * kNsecPerMsec));
+  EXPECT_TRUE(Accepts(u"length:>=3:45"_s, song));
+  EXPECT_TRUE(Accepts(u"length:<=3:45"_s, song));
+  EXPECT_FALSE(Accepts(u"length:>3:45"_s, song));
+  EXPECT_FALSE(Accepts(u"length:<3:45"_s, song));
+  EXPECT_TRUE(Accepts(u"length:<3:46"_s, song));
+  EXPECT_TRUE(Accepts(u"length:>3:44"_s, song));
+  EXPECT_TRUE(Accepts(u"length:<1:00:00"_s, song));
+
+}
+
+TEST(FilterParserTest, UnknownLength) {
+
+  // An unknown length is -1, which is shown as an empty length, it's not 0.
+  const Song song = SongWithLength(-1);
+  EXPECT_FALSE(Accepts(u"length:0"_s, song));
+  EXPECT_FALSE(Accepts(u"length:0:00"_s, song));
+  EXPECT_TRUE(Accepts(u"length:<0"_s, song));
+  EXPECT_TRUE(Accepts(u"length:0"_s, SongWithLength(500 * kNsecPerMsec)));
+
 }
 
 }  // namespace
