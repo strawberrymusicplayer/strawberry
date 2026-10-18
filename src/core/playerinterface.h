@@ -98,6 +98,7 @@ class PlayerInterface : public QObject {
   void Resumed();
   void Stopped();
   void Error(const QString &message = QString());
+  void PlaylistDone();
   void PlaylistFinished();
   void VolumeEnabled(const bool volume_enabled);
   void VolumeChanged(const uint volume);

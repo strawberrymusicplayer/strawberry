@@ -134,6 +134,7 @@
 #include "collection/collectiondirectorymodel.h"
 #include "collection/collectionviewcontainer.h"
 #include "collection/collectionfilterwidget.h"
+#include "collection/collectionautoqueue.h"
 #include "collection/collectionfilter.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionview.h"
@@ -839,6 +840,41 @@ MainWindow::MainWindow(Application *app,
   collection_view_->filter_widget()->AddMenuAction(collection_show_untagged_);
   collection_view_->filter_widget()->AddMenuAction(separator);
   collection_view_->filter_widget()->AddMenuAction(collection_config_action);
+
+  // Collection auto-queue button
+  CollectionAutoQueue *collection_auto_queue = new CollectionAutoQueue(app_->playlist_manager(), app_->collection_model(), this);
+  QToolButton *collection_auto_queue_button = new QToolButton(this);
+  collection_auto_queue_button->setCheckable(true);
+  collection_view_->filter_widget()->AppendButton(collection_auto_queue_button);
+  const auto update_collection_auto_queue_button = [collection_auto_queue, collection_auto_queue_button]() {
+    QString icon_name = u"media-playlist-shuffle"_s;
+    QString tooltip;
+    switch (collection_auto_queue->mode()) {
+      case CollectionAutoQueue::Mode::Off:
+        tooltip = tr("No shuffle: nothing is queued when the playlist ends");
+        break;
+      case CollectionAutoQueue::Mode::Track:
+        tooltip = tr("Track shuffle: when the playlist ends, queue a random track");
+        break;
+      case CollectionAutoQueue::Mode::Album:
+        icon_name = u"cdcase"_s;
+        tooltip = tr("Album shuffle: when the playlist ends, queue all songs of a random album");
+        break;
+      case CollectionAutoQueue::Mode::Artist:
+        icon_name = u"folder-sound"_s;
+        tooltip = tr("Artist shuffle: when the playlist ends, queue all songs by a random artist");
+        break;
+    }
+    collection_auto_queue_button->setIcon(PlaylistSequence::AddDesaturatedIcon(IconLoader::Load(icon_name)));
+    collection_auto_queue_button->setToolTip(tooltip);
+    collection_auto_queue_button->setChecked(collection_auto_queue->mode() != CollectionAutoQueue::Mode::Off);
+  };
+  update_collection_auto_queue_button();
+  QObject::connect(collection_auto_queue_button, &QToolButton::clicked, collection_auto_queue, [collection_auto_queue, update_collection_auto_queue_button]() {
+    collection_auto_queue->CycleMode();
+    update_collection_auto_queue_button();
+  });
+  QObject::connect(&*app_->player(), &Player::PlaylistDone, collection_auto_queue, &CollectionAutoQueue::PlaylistDone, Qt::DirectConnection);
 
 #ifdef HAVE_SUBSONIC
   QObject::connect(subsonic_view_, &StreamingLibraryView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
