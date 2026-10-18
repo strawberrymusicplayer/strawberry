@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,10 @@
 #include <QByteArray>
 #include <QString>
 #include <QStringList>
+#include <QList>
+#include <QMap>
+#include <QQueue>
+#include <QScopeGuard>
 #include <QUrl>
 #include <QUrlQuery>
 #include <QNetworkRequest>
@@ -40,7 +44,8 @@
 using namespace Qt::Literals::StringLiterals;
 
 SpotifyFavoriteRequest::SpotifyFavoriteRequest(SpotifyService *service, const SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : SpotifyBaseRequest(service, network, parent) {}
+    : SpotifyBaseRequest(service, network, parent),
+      request_active_(false) {}
 
 QString SpotifyFavoriteRequest::FavoriteText(const FavoriteType type) {
 
@@ -54,6 +59,76 @@ QString SpotifyFavoriteRequest::FavoriteText(const FavoriteType type) {
   }
 
   return QString();
+
+}
+
+qsizetype SpotifyFavoriteRequest::MaxIds(const FavoriteType type) {
+
+  // The maximum number of IDs the API accepts in one request.
+  switch (type) {
+    case FavoriteType_Artists:
+      return 50;
+    case FavoriteType_Albums:
+      return 20;
+    case FavoriteType_Songs:
+      return 50;
+  }
+
+  return 20;
+
+}
+
+QString SpotifyFavoriteRequest::FavoriteId(const FavoriteType type, const Song &song) {
+
+  switch (type) {
+    case FavoriteType_Artists:
+      return song.artist_id();
+    case FavoriteType_Albums:
+      return song.album_id();
+    case FavoriteType_Songs:
+      return song.song_id();
+  }
+
+  return QString();
+
+}
+
+QList<SpotifyFavoriteRequest::FavoriteBatch> SpotifyFavoriteRequest::SplitFavorites(const FavoriteType type, const SongList &songs) {
+
+  // Split the unique IDs into batches the API accepts, with the songs for the IDs in each batch, so each reply only reports the songs it added or removed.
+  QList<FavoriteBatch> batches;
+  QMap<QString, qsizetype> batch_for_id;
+  for (const Song &song : songs) {
+    const QString id = FavoriteId(type, song);
+    if (id.isEmpty()) continue;
+    if (!batch_for_id.contains(id)) {
+      if (batches.isEmpty() || batches.last().ids.count() >= MaxIds(type)) {
+        batches << FavoriteBatch();
+      }
+      batches.last().ids << id;
+      batch_for_id.insert(id, batches.count() - 1);
+    }
+    batches[batch_for_id.value(id)].songs << song;
+  }
+
+  return batches;
+
+}
+
+void SpotifyFavoriteRequest::FlushRequests() {
+
+  // The batches are sent one at a time, so a large selection does not send all requests at once.
+  if (request_active_ || requests_queue_.isEmpty()) return;
+
+  const QueuedRequest request = requests_queue_.dequeue();
+  const QByteArray json_data = QJsonDocument(QJsonArray::fromStringList(request.batch.ids)).toJson();
+  request_active_ = true;
+  if (request.remove) {
+    RemoveFavoritesRequest(request.type, request.batch.ids.join(u','), json_data, request.batch.songs);
+  }
+  else {
+    AddFavoritesRequest(request.type, request.batch.ids.join(u','), json_data, request.batch.songs);
+  }
 
 }
 
@@ -75,37 +150,12 @@ void SpotifyFavoriteRequest::AddSongs(const SongMap &songs) {
 
 void SpotifyFavoriteRequest::AddFavorites(const FavoriteType type, const SongList &songs) {
 
-  QStringList list_ids;
-  QJsonArray array_ids;
-  for (const Song &song : songs) {
-    QString id;
-    switch (type) {
-      case FavoriteType_Artists:
-        id = song.artist_id();
-        break;
-      case FavoriteType_Albums:
-        id = song.album_id();
-        break;
-      case FavoriteType_Songs:
-        id = song.song_id();
-        break;
-    }
-    if (!id.isEmpty()) {
-      if (!list_ids.contains(id)) {
-        list_ids << id;
-      }
-      if (!array_ids.contains(id)) {
-        array_ids << id;
-      }
-    }
+  const QList<FavoriteBatch> batches = SplitFavorites(type, songs);
+  for (const FavoriteBatch &batch : batches) {
+    requests_queue_.enqueue(QueuedRequest{false, type, batch});
   }
 
-  if (list_ids.isEmpty() || array_ids.isEmpty()) return;
-
-  const QByteArray json_data = QJsonDocument(array_ids).toJson();
-  const QString ids_list = list_ids.join(u',');
-
-  AddFavoritesRequest(type, ids_list, json_data, songs);
+  FlushRequests();
 
 }
 
@@ -139,6 +189,12 @@ void SpotifyFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const 
 void SpotifyFavoriteRequest::AddFavoritesReply(QNetworkReply *reply, const FavoriteType type, const SongList &songs) {
 
   if (!replies_.contains(reply)) return;
+
+  // Send the next batch when this one is finished, also when it failed.
+  const QScopeGuard send_next_request = qScopeGuard([this]() {
+    request_active_ = false;
+    FlushRequests();
+  });
   replies_.removeAll(reply);
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
@@ -190,37 +246,12 @@ void SpotifyFavoriteRequest::RemoveSongs(const SongMap &songs) {
 
 void SpotifyFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongList &songs) {
 
-  QStringList list_ids;
-  QJsonArray array_ids;
-  for (const Song &song : songs) {
-    QString id;
-    switch (type) {
-      case FavoriteType_Artists:
-        id = song.artist_id();
-        break;
-      case FavoriteType_Albums:
-        id = song.album_id();
-        break;
-      case FavoriteType_Songs:
-        id = song.song_id();
-        break;
-    }
-    if (!id.isEmpty()) {
-      if (!list_ids.contains(id)) {
-        list_ids << id;
-      }
-      if (!array_ids.contains(id)) {
-        array_ids << id;
-      }
-    }
+  const QList<FavoriteBatch> batches = SplitFavorites(type, songs);
+  for (const FavoriteBatch &batch : batches) {
+    requests_queue_.enqueue(QueuedRequest{true, type, batch});
   }
 
-  if (list_ids.isEmpty() || array_ids.isEmpty()) return;
-
-  const QByteArray json_data = QJsonDocument(array_ids).toJson();
-  const QString ids_list = list_ids.join(u',');
-
-  RemoveFavoritesRequest(type, ids_list, json_data, songs);
+  FlushRequests();
 
 }
 
@@ -250,6 +281,12 @@ void SpotifyFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, con
 void SpotifyFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const FavoriteType type, const SongList &songs) {
 
   if (!replies_.contains(reply)) return;
+
+  // Send the next batch when this one is finished, also when it failed.
+  const QScopeGuard send_next_request = qScopeGuard([this]() {
+    request_active_ = false;
+    FlushRequests();
+  });
   replies_.removeAll(reply);
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
