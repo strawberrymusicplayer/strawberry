@@ -71,6 +71,7 @@ enum class xID6_TYPE {
 };
 
 TagReaderResult Read(const QFileInfo &fileinfo, Song *song);
+QString ReadFixedString(const QByteArray &data);
 qint16 GetNextMemAddressAlign32bit(qint16 input);
 quint64 ConvertSPCStringToNum(const QByteArray &arr);
 }  // namespace SPC
