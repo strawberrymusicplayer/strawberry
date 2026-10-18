@@ -83,6 +83,7 @@ class TrackSelectionDialog : public QDialog {
     int selected_result_;
   };
 
+  QList<int> RowsForSong(const Song &song) const;
   void AddDivider(const QString &text, QTreeWidget *parent) const;
   static void AddSong(const Song &song, const int result_index, QTreeWidget *parent);
 
