@@ -266,7 +266,8 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   CollectionItem *CreateCompilationArtistNode(CollectionItem *parent);
 
   void LoadSongsFromSqlAsync();
-  SongList LoadSongsFromSql(const CollectionFilterOptions &filter_options = CollectionFilterOptions());
+  // Runs in a thread pool, so it doesn't use the model, which can be deleted while the songs are loaded.
+  static SongList LoadSongsFromSql(const SharedPtr<CollectionBackend> backend, const CollectionFilterOptions &filter_options);
 
   static QString DividerKey(const GroupBy group_by, const Song &song, const QString &sort_text);
   static QString DividerDisplayText(const GroupBy group_by, const QString &key);

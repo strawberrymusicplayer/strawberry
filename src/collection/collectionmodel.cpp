@@ -1002,21 +1002,21 @@ CollectionItem *CollectionModel::CreateCompilationArtistNode(CollectionItem *par
 
 void CollectionModel::LoadSongsFromSqlAsync() {
 
-  QFuture<SongList> future = QtConcurrent::run(&CollectionModel::LoadSongsFromSql, this, options_active_.filter_options);
+  QFuture<SongList> future = QtConcurrent::run(&CollectionModel::LoadSongsFromSql, backend_, options_active_.filter_options);
   QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>(this);
   QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, &CollectionModel::LoadSongsFromSqlAsyncFinished);
   watcher->setFuture(future);
 
 }
 
-SongList CollectionModel::LoadSongsFromSql(const CollectionFilterOptions &filter_options) {
+SongList CollectionModel::LoadSongsFromSql(const SharedPtr<CollectionBackend> backend, const CollectionFilterOptions &filter_options) {
 
   SongList songs;
 
   {
-    QMutexLocker l(backend_->db()->Mutex());
-    QSqlDatabase db(backend_->db()->Connect());
-    CollectionQuery q(db, backend_->songs_table(), filter_options);
+    QMutexLocker l(backend->db()->Mutex());
+    QSqlDatabase db(backend->db()->Connect());
+    CollectionQuery q(db, backend->songs_table(), filter_options);
     q.SetColumnSpec(u"%songs_table.ROWID, "_s + Song::kColumnSpec);
     if (q.Exec()) {
       while (q.Next()) {
@@ -1026,12 +1026,13 @@ SongList CollectionModel::LoadSongsFromSql(const CollectionFilterOptions &filter
       }
     }
     else {
-      backend_->ReportErrors(q);
+      backend->ReportErrors(q);
     }
   }
 
-  if (QThread::currentThread() != thread() && QThread::currentThread() != backend_->thread()) {
-    backend_->db()->Close();
+  // Close the connection of the thread pool thread.
+  if (QThread::currentThread() != backend->thread()) {
+    backend->db()->Close();
   }
 
   return songs;
