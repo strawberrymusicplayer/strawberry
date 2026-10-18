@@ -310,6 +310,11 @@ void MoodbarPipeline::Finish(const bool success) {
     builder_.reset();
   }
 
+  // Without data, there is no moodbar to show or save.
+  if (data_.isEmpty()) {
+    success_ = false;
+  }
+
   Q_EMIT Finished(success_);
 
 }
