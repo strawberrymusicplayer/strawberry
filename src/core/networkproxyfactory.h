@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +28,7 @@
 #include <QMutex>
 #include <QList>
 #include <QString>
-#include <QUrl>
+#include <QStringList>
 #include <QNetworkProxy>
 #include <QNetworkProxyFactory>
 
@@ -40,6 +41,21 @@ class NetworkProxyFactory : public QNetworkProxyFactory {
   // These methods are thread-safe
   void ReloadSettings();
   QList<QNetworkProxy> queryProxy(const QNetworkProxyQuery &query) override;
+
+  // Returns the proxy for a proxy URL from the environment, like http_proxy, or NoProxy if it's not a supported proxy URL.
+  // URLs without a scheme are HTTP proxies, and URLs without a port use 8080 for HTTP proxies and 1080 for SOCKS proxies.
+  static QNetworkProxy ProxyFromUrl(const QString &url_str);
+
+  // Returns the proxy for the first supported proxy URL, skipping empty and unsupported URLs, or NoProxy if there is none.
+  static QNetworkProxy ProxyFromUrls(const QStringList &urls);
+
+  // Returns the port the query connects to, the default port for the scheme if the URL has no port, or -1 if it's not known.
+  static int QueryPort(const QNetworkProxyQuery &query);
+
+  // Returns true when the host should be connected to directly according to the no_proxy environment variable.
+  // The entries are separated by commas, they can be * for all hosts, a domain name, which also matches subdomains, an IP address or a CIDR range, optionally with a port.
+  // An entry with a port only matches that port, port is -1 when it's not known, then entries with a port don't match.
+  static bool HostMatchesNoProxy(const QString &host, const int port, const QString &no_proxy);
 
  private:
   explicit NetworkProxyFactory();
@@ -57,7 +73,8 @@ class NetworkProxyFactory : public QNetworkProxyFactory {
   QString password_;
 
 #ifdef Q_OS_LINUX
-  QUrl env_url_;
+  QNetworkProxy env_proxy_;
+  QString env_no_proxy_;
 #endif
 };
 
