@@ -503,7 +503,14 @@ bool OSDBase::SupportsTrayPopups() const {
 }
 
 bool OSDBase::SupportsOSDPretty() {
-  return QGuiApplication::platformName() != "wayland"_L1;
+
+  // Wayland compositors don't let windows position themselves, there the OSD is shown as a layer shell surface, which not all compositors support.
+  if (QGuiApplication::platformName().startsWith("wayland"_L1)) {
+    return OSDPretty::IsLayerShellAvailable();
+  }
+
+  return true;
+
 }
 
 void OSDBase::ShowMessageNative(const QString &summary, const QString &message, const QString &icon, const QImage &image) {

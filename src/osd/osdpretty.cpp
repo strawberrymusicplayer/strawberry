@@ -49,6 +49,7 @@
 #include <QLinearGradient>
 #include <QSettings>
 #include <QFlags>
+#include <QGraphicsOpacityEffect>
 #include <QtEvents>
 
 #ifdef HAVE_QPA_QPLATFORMNATIVEINTERFACE
@@ -57,6 +58,11 @@
 
 #include "core/settings.h"
 #include "constants/notificationssettings.h"
+
+#ifdef HAVE_LAYERSHELLQT
+#  include <wayland-client.h>
+#  include <LayerShellQt/Window>
+#endif
 
 #include "osdpretty.h"
 #include "ui_osdpretty.h"
@@ -80,7 +86,63 @@ constexpr int kBorderRadius = 10;
 constexpr int kMaxIconSize = 100;
 constexpr int kSnapProximity = 20;
 
+#ifdef HAVE_LAYERSHELLQT
+void LayerShellRegistryGlobal(void *data, wl_registry *registry, const uint32_t name, const char *interface, const uint32_t version) {
+
+  Q_UNUSED(registry)
+  Q_UNUSED(name)
+  Q_UNUSED(version)
+
+  if (qstrcmp(interface, "zwlr_layer_shell_v1") == 0) {
+    *static_cast<bool*>(data) = true;
+  }
+
+}
+
+void LayerShellRegistryGlobalRemove(void *data, wl_registry *registry, const uint32_t name) {
+
+  Q_UNUSED(data)
+  Q_UNUSED(registry)
+  Q_UNUSED(name)
+
+}
+
+constexpr wl_registry_listener kLayerShellRegistryListener = { LayerShellRegistryGlobal, LayerShellRegistryGlobalRemove };
+#endif
+
 }  // namespace
+
+bool OSDPretty::IsLayerShellAvailable() {
+
+#ifdef HAVE_LAYERSHELLQT
+  // The compositor doesn't change while running, so only check once.
+  static const bool available = []() {
+    if (!qGuiApp || !QGuiApplication::platformName().startsWith("wayland"_L1)) return false;
+    QNativeInterface::QWaylandApplication *wayland_application = qGuiApp->nativeInterface<QNativeInterface::QWaylandApplication>();
+    if (!wayland_application || !wayland_application->display()) return false;
+    wl_display *display = wayland_application->display();
+
+    // List the globals of the compositor on an own event queue, since Qt dispatches the default queue.
+    bool layer_shell_found = false;
+    wl_event_queue *queue = wl_display_create_queue(display);
+    wl_display *display_wrapper = static_cast<wl_display*>(wl_proxy_create_wrapper(display));
+    wl_proxy_set_queue(reinterpret_cast<wl_proxy*>(display_wrapper), queue);
+    wl_registry *registry = wl_display_get_registry(display_wrapper);
+    wl_registry_add_listener(registry, &kLayerShellRegistryListener, &layer_shell_found);
+    wl_display_roundtrip_queue(display, queue);
+    wl_registry_destroy(registry);
+    wl_proxy_wrapper_destroy(display_wrapper);
+    wl_event_queue_destroy(queue);
+
+    return layer_shell_found;
+  }();
+
+  return available;
+#else
+  return false;
+#endif
+
+}
 
 OSDPretty::OSDPretty(const Mode mode, QWidget *parent)
     : QWidget(parent),
@@ -90,7 +152,13 @@ OSDPretty::OSDPretty(const Mode mode, QWidget *parent)
       background_opacity_(0.85),
       popup_screen_(nullptr),
       disable_duration_(false),
+#ifdef HAVE_LAYERSHELLQT
+      layer_shell_window_(nullptr),
+      opacity_effect_(nullptr),
+      layer_shell_dragging_(false),
+#endif
       timeout_(new QTimer(this)),
+      popup_duration_(5s),
       fading_enabled_(false),
       fader_(new QTimeLine(300, this)),
       toggle_mode_(false) {
@@ -124,7 +192,6 @@ OSDPretty::OSDPretty(const Mode mode, QWidget *parent)
 
   // Timeout
   timeout_->setSingleShot(true);
-  timeout_->setInterval(5s);
   QObject::connect(timeout_, &QTimer::timeout, this, &OSDPretty::hide);
 
   ui_->icon->setMaximumSize(kMaxIconSize, kMaxIconSize);
@@ -155,9 +222,15 @@ OSDPretty::OSDPretty(const Mode mode, QWidget *parent)
   const QList<QScreen*> screens = QGuiApplication::screens();
   for (QScreen *screen : screens) {
     screens_.insert(screen->name(), screen);
+    QObject::connect(screen, &QScreen::geometryChanged, this, [this, screen]() { ScreenGeometryChanged(screen); });
+    QObject::connect(screen, &QScreen::availableGeometryChanged, this, [this, screen]() { ScreenGeometryChanged(screen); });
   }
   QObject::connect(qApp, &QApplication::screenAdded, this, &OSDPretty::ScreenAdded);
   QObject::connect(qApp, &QApplication::screenRemoved, this, &OSDPretty::ScreenRemoved);
+
+#ifdef HAVE_LAYERSHELLQT
+  InitLayerShell();
+#endif
 
   Load();
 
@@ -167,13 +240,136 @@ OSDPretty::~OSDPretty() {
   delete ui_;
 }
 
+#ifdef HAVE_LAYERSHELLQT
+void OSDPretty::InitLayerShell() {
+
+  if (!IsLayerShellAvailable()) return;
+
+  // The layer shell surface is created for the platform window, so create it before the window is shown.
+  winId();
+  if (!windowHandle()) return;
+
+  layer_shell_window_ = LayerShellQt::Window::get(windowHandle());
+  if (!layer_shell_window_) return;
+
+  // Show the OSD above other windows without taking the keyboard focus, and without reserving space on the screen.
+  // An exclusive zone of -1 places the OSD relative to the whole screen and not next to panels, so the margins are in the same coordinates as the screen geometry, which PopupGeometry() returns.
+  // Qt doesn't know the space panels reserve on Wayland, so with an exclusive zone of 0 the compositor would place the OSD next to them, off by their size from the calculated position.
+  layer_shell_window_->setScope(u"strawberry-osd"_s);
+  layer_shell_window_->setLayer(LayerShellQt::Window::LayerOverlay);
+  layer_shell_window_->setKeyboardInteractivity(LayerShellQt::Window::KeyboardInteractivityNone);
+  layer_shell_window_->setExclusiveZone(-1);
+
+  if (!opacity_effect_) {
+    opacity_effect_ = new QGraphicsOpacityEffect(this);
+    opacity_effect_->setEnabled(false);
+    setGraphicsEffect(opacity_effect_);
+  }
+
+}
+
+void OSDPretty::SetLayerShellPosition(QScreen *screen, const QPoint &pos, const bool right_edge, const bool bottom_edge) {
+
+  layer_shell_pos_ = pos;
+
+  // The layer shell surface is placed on the screen of the window, which can only be changed before it is shown.
+  if (screen && windowHandle() && windowHandle()->screen() != screen) {
+    // A shown surface can't be moved to another screen, for example when the screen is changed in the settings or added back while the OSD is shown, so create it again, which places it on this screen.
+    if (windowHandle()->isExposed()) {
+      RecreateLayerShellSurface();
+      return;
+    }
+    windowHandle()->setScreen(screen);
+  }
+
+  // Anchor to the right and bottom edges for the right and bottom edge positions, so the compositor keeps the OSD at the edge.
+  LayerShellQt::Window::Anchors anchors;
+  QMargins margins;
+  if (right_edge) {
+    anchors |= LayerShellQt::Window::AnchorRight;
+  }
+  else {
+    anchors |= LayerShellQt::Window::AnchorLeft;
+    margins.setLeft(pos.x());
+  }
+  if (bottom_edge) {
+    anchors |= LayerShellQt::Window::AnchorBottom;
+  }
+  else {
+    anchors |= LayerShellQt::Window::AnchorTop;
+    margins.setTop(pos.y());
+  }
+  layer_shell_window_->setAnchors(anchors);
+  layer_shell_window_->setMargins(margins);
+
+  // The compositor applies the anchors and margins with the next commit of the surface, so repaint the OSD to commit them.
+  if (isVisible()) update();
+
+}
+
+void OSDPretty::RecreateLayerShellSurface() {
+
+  // A layer shell surface can't be moved to another screen, so hide the OSD and show it again, which creates the surface on popup_screen_ at popup_pos_.
+  // Keep the time left before the OSD is hidden, and the opacity if it is fading, since showing it again starts them over.
+  const bool timeout_active = timeout_->isActive();
+  const int timeout_remaining = timeout_->remainingTime();
+  const bool fader_running = fader_->state() == QTimeLine::Running;
+
+  // Show it again without fading in, since it is already shown.
+  const bool fading_enabled = fading_enabled_;
+  fading_enabled_ = false;
+  QWidget::setVisible(false);
+
+  // Also create the platform window again, so it gets a new surface, otherwise the compositor can keep sending mouse positions relative to the surface on the other screen.
+  // The layer shell is only set for the platform window when the layer shell window is created, so create that again too.
+  delete layer_shell_window_;
+  layer_shell_window_ = nullptr;
+  if (windowHandle()) {
+    windowHandle()->destroy();
+  }
+  InitLayerShell();
+
+  QWidget::setVisible(true);
+  fading_enabled_ = fading_enabled;
+
+  if (timeout_active) {
+    timeout_->start(timeout_remaining);
+  }
+  else {
+    timeout_->stop();
+  }
+  if (fader_running) {
+    SetOpacity(fader_->currentValue());
+  }
+
+}
+
+QPoint OSDPretty::LayerShellPopupPos(const QRect &geometry, const QPoint &pos) const {
+
+  // -1 means the right or bottom edge, like current_pos(), so the OSD stays at the edge when its size changes.
+  return QPoint(pos.x() >= geometry.width() - width() ? -1 : pos.x(), pos.y() >= geometry.height() - height() ? -1 : pos.y());
+
+}
+#endif
+
+QRect OSDPretty::PopupGeometry(QScreen *screen) const {
+
+#ifdef HAVE_LAYERSHELLQT
+  // The layer shell surface is placed relative to the whole screen, see InitLayerShell().
+  if (layer_shell_window_) return screen->geometry();
+#endif
+
+  return screen->availableGeometry();
+
+}
+
 void OSDPretty::showEvent(QShowEvent *e) {
 
   // The settings are not loaded here, they are loaded with ReloadSettings(), otherwise unsaved changes to the preview in the settings dialog would be lost.
 
   UpdateMaximumSize();
 
-  setWindowOpacity(fading_enabled_ ? 0.0 : 1.0);
+  SetOpacity(fading_enabled_ ? 0.0 : 1.0);
 
   QWidget::showEvent(e);
 
@@ -185,7 +381,7 @@ void OSDPretty::showEvent(QShowEvent *e) {
   }
   else if (mode_ == Mode::Popup) {
     if (!disable_duration()) {
-      timeout_->start();
+      timeout_->start(popup_duration_);
     }
     // Ensures it is above when showing the preview
     raise();
@@ -196,6 +392,8 @@ void OSDPretty::showEvent(QShowEvent *e) {
 void OSDPretty::ScreenAdded(QScreen *screen) {
 
   screens_.insert(screen->name(), screen);
+  QObject::connect(screen, &QScreen::geometryChanged, this, [this, screen]() { ScreenGeometryChanged(screen); });
+  QObject::connect(screen, &QScreen::availableGeometryChanged, this, [this, screen]() { ScreenGeometryChanged(screen); });
 
   // Show the OSD on the configured screen again when it is added back, also when it is shown right now.
   if (screen->name() == popup_screen_name_) {
@@ -226,6 +424,17 @@ void OSDPretty::ScreenRemoved(QScreen *screen) {
       UpdateMaximumSize();
       Reposition();
     }
+  }
+
+}
+
+void OSDPretty::ScreenGeometryChanged(QScreen *screen) {
+
+  // Position the OSD again when the size of its screen changes, so it stays on the screen and at the right or bottom edge.
+  // This also updates the position of the layer shell surface used for dragging, which the compositor moves when it's anchored to the right or bottom edge.
+  if (screen == popup_screen_ && isVisible()) {
+    UpdateMaximumSize();
+    Reposition();
   }
 
 }
@@ -326,6 +535,12 @@ void OSDPretty::paintEvent(QPaintEvent *e) {
 
   Q_UNUSED(e)
 
+#ifdef HAVE_LAYERSHELLQT
+  // The painted buffer is committed with the pending screen, anchors and margins, so mouse positions are relative to this position from now on.
+  layer_shell_committed_screen_ = popup_screen_;
+  layer_shell_committed_pos_ = layer_shell_pos_;
+#endif
+
   QPainter p(this);
   p.setRenderHint(QPainter::Antialiasing);
 
@@ -408,7 +623,7 @@ void OSDPretty::ShowMessage(const QString &summary, const QString &message, cons
     }
     else {
       if (!disable_duration()) {
-        timeout_->start();  // Restart the timer
+        timeout_->start(popup_duration_);  // Restart the timer
       }
     }
   }
@@ -440,13 +655,28 @@ void OSDPretty::FaderFinished() {
     hide();
   }
   else if (mode_ == Mode::Popup && !disable_duration()) {
-    timeout_->start();
+    timeout_->start(popup_duration_);
   }
 
 }
 
 void OSDPretty::FaderValueChanged(const qreal value) {
-  setWindowOpacity(value);
+  SetOpacity(value);
+}
+
+void OSDPretty::SetOpacity(const qreal opacity) {
+
+#ifdef HAVE_LAYERSHELLQT
+  // Window opacity is not supported on Wayland, so draw the OSD and its children with the opacity instead.
+  if (opacity_effect_) {
+    opacity_effect_->setOpacity(opacity);
+    opacity_effect_->setEnabled(opacity < 1.0);
+    return;
+  }
+#endif
+
+  setWindowOpacity(opacity);
+
 }
 
 void OSDPretty::UpdateMaximumSize() {
@@ -480,7 +710,7 @@ void OSDPretty::Reposition() {
   // Work out where to place the OSD.  -1 for x or y means "on the right or bottom edge".
   if (popup_screen_) {
 
-    QRect geometry = popup_screen_->availableGeometry();
+    QRect geometry = PopupGeometry(popup_screen_);
 
     int x = popup_pos_.x() < 0 ? geometry.right() + 1 - width() : geometry.left() + popup_pos_.x();
     int y = popup_pos_.y() < 0 ? geometry.bottom() + 1 - height() : geometry.top() + popup_pos_.y();
@@ -490,7 +720,15 @@ void OSDPretty::Reposition() {
     // qMax() keeps the range valid if the OSD is still larger than the screen.
     x = qBound(geometry.left(), x, qMax(geometry.left(), geometry.right() + 1 - width()));
     y = qBound(geometry.top(), y, qMax(geometry.top(), geometry.bottom() + 1 - height()));
-    move(x, y);
+#ifdef HAVE_LAYERSHELLQT
+    if (layer_shell_window_) {
+      SetLayerShellPosition(popup_screen_, QPoint(x - geometry.left(), y - geometry.top()), popup_pos_.x() < 0, popup_pos_.y() < 0);
+    }
+    else
+#endif
+    {
+      move(x, y);
+    }
   }
 
   const bool transparency_available = IsTransparencyAvailable();
@@ -531,7 +769,7 @@ void OSDPretty::enterEvent(QEnterEvent *e) {
   Q_UNUSED(e)
 
   if (mode_ == Mode::Popup) {
-    setWindowOpacity(0.25);
+    SetOpacity(0.25);
   }
 
 }
@@ -540,7 +778,7 @@ void OSDPretty::leaveEvent(QEvent *e) {
 
   Q_UNUSED(e)
 
-  setWindowOpacity(1.0);
+  SetOpacity(1.0);
 
 }
 
@@ -550,6 +788,15 @@ void OSDPretty::mousePressEvent(QMouseEvent *e) {
     hide();
   }
   else {
+#ifdef HAVE_LAYERSHELLQT
+    // The global mouse position is not known for a layer shell surface, so drag by the position in the OSD.
+    if (layer_shell_window_) {
+      original_window_pos_ = layer_shell_pos_;
+      drag_start_pos_ = e->position().toPoint();
+      layer_shell_dragging_ = true;
+      return;
+    }
+#endif
     original_window_pos_ = pos();
     drag_start_pos_ = e->globalPosition().toPoint();
   }
@@ -557,6 +804,55 @@ void OSDPretty::mousePressEvent(QMouseEvent *e) {
 }
 
 void OSDPretty::mouseMoveEvent(QMouseEvent *e) {
+
+#ifdef HAVE_LAYERSHELLQT
+  if (mode_ == Mode::Draggable && layer_shell_window_) {
+    if (!layer_shell_dragging_) return;
+    // The mouse position is relative to the position of the surface which was last committed, not to a position or screen which is not committed yet.
+    QScreen *screen = popup_screen_ ? popup_screen_.data() : current_screen();
+    if (!screen) return;
+    QScreen *committed_screen = layer_shell_committed_screen_ ? layer_shell_committed_screen_.data() : screen;
+    const QPoint global_pos = PopupGeometry(committed_screen).topLeft() + layer_shell_committed_pos_ + e->position().toPoint();
+
+    // When dragged to another screen, update the size limits for it first, so the OSD fits on it before it is kept within its bounds.
+    QScreen *new_screen = QGuiApplication::screenAt(global_pos);
+    if (new_screen && new_screen != screen) {
+      popup_screen_ = new_screen;
+      popup_screen_name_ = new_screen->name();
+      UpdateMaximumSize();
+      layout()->activate();
+      resize(sizeHint());
+    }
+    else {
+      new_screen = screen;
+    }
+
+    const QRect geometry = PopupGeometry(new_screen);
+    QPoint new_pos = global_pos - drag_start_pos_ - geometry.topLeft();
+    new_pos.setX(qBound(0, new_pos.x(), qMax(0, geometry.width() - width())));
+    new_pos.setY(qBound(0, new_pos.y(), qMax(0, geometry.height() - height())));
+
+    // Snap to center
+    const int snap_x = geometry.width() / 2 - width() / 2;
+    if (new_pos.x() > snap_x - kSnapProximity && new_pos.x() < snap_x + kSnapProximity) {
+      new_pos.setX(snap_x);
+    }
+
+    if (new_screen == screen) {
+      SetLayerShellPosition(screen, new_pos, false, false);
+    }
+    else {
+      // The surface is created again on the other screen, and the mouse positions the compositor sends for it after this depend on the compositor, so end the drag here.
+      // The OSD is shown under the mouse on the other screen, where it can be dragged further.
+      // Save the position like when the drag ends, at the edges as -1, so it doesn't depend on the size of the preview.
+      layer_shell_dragging_ = false;
+      popup_pos_ = LayerShellPopupPos(geometry, new_pos);
+      RecreateLayerShellSurface();
+      Q_EMIT PositionChanged();
+    }
+    return;
+  }
+#endif
 
   if (mode_ == Mode::Draggable) {
     QPoint delta = e->globalPosition().toPoint() - drag_start_pos_;
@@ -595,6 +891,20 @@ void OSDPretty::mouseMoveEvent(QMouseEvent *e) {
 void OSDPretty::mouseReleaseEvent(QMouseEvent *e) {
 
   Q_UNUSED(e)
+
+#ifdef HAVE_LAYERSHELLQT
+  if (mode_ == Mode::Draggable && layer_shell_window_) {
+    if (!layer_shell_dragging_) return;
+    layer_shell_dragging_ = false;
+    QScreen *screen = popup_screen_ ? popup_screen_.data() : current_screen();
+    if (!screen) return;
+    popup_screen_ = screen;
+    popup_screen_name_ = screen->name();
+    popup_pos_ = LayerShellPopupPos(PopupGeometry(screen), layer_shell_pos_);
+    Q_EMIT PositionChanged();
+    return;
+  }
+#endif
 
   if (current_screen() && mode_ == Mode::Draggable) {
     popup_screen_ = current_screen();
@@ -654,7 +964,7 @@ void OSDPretty::set_foreground_color(const QRgb color) {
 }
 
 void OSDPretty::set_popup_duration(const int msec) {
-  timeout_->setInterval(msec);
+  popup_duration_ = std::chrono::milliseconds(msec);
 }
 
 void OSDPretty::set_font(const QFont &font) {
