@@ -763,6 +763,8 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
   }
 
   if (query_type_ == Type::FavouriteAlbums || query_type_ == Type::SearchAlbums) {
+    // The total number of albums is in every reply, so set it here, otherwise the progress stays at 0.
+    albums_total_ = albums_total;
     albums_received_ += albums_received;
     Q_EMIT UpdateProgress(query_id_, GetProgress(albums_received_, albums_total_));
   }
@@ -1033,7 +1035,10 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
     Q_EMIT SongsAvailable(query_id_, available_songs);
   }
 
-  if (query_type_ == Type::FavouriteSongs || query_type_ == Type::SearchSongs) {
+  // Replies for the songs of an album, like when fetching the albums of searched songs, have the total number of songs in the album, their progress is updated by album instead.
+  if ((query_type_ == Type::FavouriteSongs || query_type_ == Type::SearchSongs) && album_requested.album_id.isEmpty()) {
+    // The total number of songs is in every reply, so set it here, otherwise the progress stays at 0.
+    songs_total_ = songs_total;
     songs_received_ += songs_received;
     Q_EMIT UpdateProgress(query_id_, GetProgress(songs_received_, songs_total_));
   }
