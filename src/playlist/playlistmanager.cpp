@@ -136,6 +136,39 @@ void PlaylistManager::PlaylistLoaded() {
 
 }
 
+void PlaylistManager::SavePendingPlaylistsAsync() {
+
+  for (const Data &data : std::as_const(playlists_)) {
+    Playlist *playlist = data.p;
+    if (playlist->is_restoring()) {
+      playlists_restoring_ << playlist;
+      QObject::connect(playlist, &Playlist::RestoreDone, this, [this, playlist]() {
+        playlist->SavePending();
+        PendingPlaylistSaved(playlist);
+      }, Qt::SingleShotConnection);
+      QObject::connect(playlist, &QObject::destroyed, this, [this, playlist]() { PendingPlaylistSaved(playlist); }, Qt::SingleShotConnection);
+    }
+    else {
+      playlist->SavePending();
+    }
+  }
+
+  if (playlists_restoring_.isEmpty()) {
+    Q_EMIT PendingPlaylistsSaved();
+  }
+
+}
+
+void PlaylistManager::PendingPlaylistSaved(Playlist *playlist) {
+
+  if (!playlists_restoring_.remove(playlist)) return;
+
+  if (playlists_restoring_.isEmpty()) {
+    Q_EMIT PendingPlaylistsSaved();
+  }
+
+}
+
 QList<Playlist*> PlaylistManager::GetAllPlaylists() const {
 
   QList<Playlist*> result;

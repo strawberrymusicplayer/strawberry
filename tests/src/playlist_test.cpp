@@ -2041,6 +2041,81 @@ TEST_F(PlaylistTest, RestoreClearsUndoStack) {
 
 }
 
+// Regression test: changes waiting for the save timer must be saved by SavePending() when exiting, since the timer would fire after the playlist backend exited.
+TEST_F(PlaylistTest, SavePendingSavesScheduledChanges) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+
+  SharedPtr<Database> database = std::make_shared<Database>(nullptr, nullptr, temp_dir.filePath(u"strawberry.db"_s));
+  SharedPtr<PlaylistBackend> playlist_backend = std::make_shared<PlaylistBackend>(database, tagreader_client_, nullptr);
+
+  const int playlist_id = playlist_backend->CreatePlaylist(u"Pending"_s, QString());
+  ASSERT_NE(-1, playlist_id);
+
+  {
+    Playlist playlist(nullptr, nullptr, playlist_backend, nullptr, tagreader_client_, playlist_id);
+    WaitForRestoreFinished(&playlist);
+
+    // Adding the item only starts the save timer.
+    playlist.InsertItems(PlaylistItemPtrList() << MakeStreamItem(u"Added"_s));
+    ASSERT_TRUE(playlist_backend->GetPlaylistItems(playlist_id).isEmpty());
+
+    // The save is queued to the playlist backend, process the events once, long before the save timer fires.
+    playlist.SavePending();
+    QCoreApplication::processEvents();
+
+    const PlaylistItemPtrList items = playlist_backend->GetPlaylistItems(playlist_id);
+    ASSERT_EQ(1, items.count());
+    EXPECT_EQ(u"Added"_s, items.first()->OriginalMetadata().title());
+  }
+
+  database->Close();
+
+}
+
+// Regression test: changes made while the playlist is restored must not be saved before the restored items are inserted, saving the playlist replaces the saved items.
+TEST_F(PlaylistTest, SavePendingWhileRestoringKeepsRestoredItems) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+
+  SharedPtr<Database> database = std::make_shared<Database>(nullptr, nullptr, temp_dir.filePath(u"strawberry.db"_s));
+  SharedPtr<PlaylistBackend> playlist_backend = std::make_shared<PlaylistBackend>(database, tagreader_client_, nullptr);
+
+  const int playlist_id = playlist_backend->CreatePlaylist(u"Restored"_s, QString());
+  ASSERT_NE(-1, playlist_id);
+  PlaylistItemSaveDataList items_save_data;
+  items_save_data << MakeStreamItem(u"Restored1"_s)->CreateSaveData() << MakeStreamItem(u"Restored2"_s)->CreateSaveData();
+  playlist_backend->SavePlaylist(playlist_id, items_save_data, -1, nullptr);
+
+  {
+    // The restore starts in the constructor, but the restored items are only inserted from the event loop.
+    Playlist playlist(nullptr, nullptr, playlist_backend, nullptr, tagreader_client_, playlist_id);
+    ASSERT_TRUE(playlist.is_restoring());
+
+    playlist.InsertItems(PlaylistItemPtrList() << MakeStreamItem(u"Added"_s));
+    playlist.SavePending();
+
+    WaitForRestoreFinished(&playlist);
+    ASSERT_FALSE(playlist.is_restoring());
+    ASSERT_EQ(3, playlist.rowCount(QModelIndex()));
+
+    // The change is saved with the restored items, the save is queued to the playlist backend.
+    playlist.SavePending();
+    QCoreApplication::processEvents();
+
+    const PlaylistItemPtrList items = playlist_backend->GetPlaylistItems(playlist_id);
+    ASSERT_EQ(3, items.count());
+    EXPECT_EQ(u"Restored1"_s, items.at(0)->OriginalMetadata().title());
+    EXPECT_EQ(u"Restored2"_s, items.at(1)->OriginalMetadata().title());
+    EXPECT_EQ(u"Added"_s, items.at(2)->OriginalMetadata().title());
+  }
+
+  database->Close();
+
+}
+
 // Regression test: removing the items that are not queued (used when repopulating a dynamic playlist) must clear the undo stack when every item is removed, since the items are removed without undo.
 TEST_F(PlaylistTest, RemoveItemsNotInQueueClearsUndoStackWhenRemovingAll) {
 

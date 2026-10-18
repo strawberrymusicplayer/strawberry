@@ -360,8 +360,16 @@ void Application::Exit() {
   QObject::connect(&*collection(), &CollectionManager::ExitFinished, this, &Application::ExitReceived);
   collection()->Exit();
 
+  // The playlists are saved by a timer, save the changes made just before exiting before the playlist backend exits.
+  // Playlists still being restored are saved when they are restored, so the playlist backend exits after that.
   QObject::connect(&*playlist_backend(), &PlaylistBackend::ExitFinished, this, &Application::ExitReceived);
-  playlist_backend()->ExitAsync();
+  if (p_->playlist_manager_) {
+    QObject::connect(&*playlist_manager(), &PlaylistManager::PendingPlaylistsSaved, this, [this]() { playlist_backend()->ExitAsync(); }, Qt::SingleShotConnection);
+    playlist_manager()->SavePendingPlaylistsAsync();
+  }
+  else {
+    playlist_backend()->ExitAsync();
+  }
 
   QObject::connect(&*albumcover_loader(), &AlbumCoverLoader::ExitFinished, this, &Application::ExitReceived);
   albumcover_loader()->ExitAsync();
