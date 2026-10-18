@@ -1889,6 +1889,39 @@ jobs:
           fetch-depth: 0
           submodules: recursive
 
+      - name: Checkout strawberry-msvc-build-tools
+        uses: actions/checkout@v7
+        with:
+          repository: strawberrymusicplayer/strawberry-msvc-build-tools
+          path: strawberry-msvc-build-tools
+
+      - name: Set Qt Installer Framework variables
+        shell: bash
+        run: |
+          echo "qtifw_path=c:/strawberry_qtifw_${{matrix.arch}}" >> $GITHUB_ENV
+          echo "qtifw_qt_version=$(grep '^QT_VERSION=' strawberry-msvc-build-tools/StrawberryPackageVersions.txt | cut -d '=' -f 2)" >> $GITHUB_ENV
+          echo "qtifw_version=$(grep '^QT_IFW_VERSION=' strawberry-msvc-build-tools/StrawberryPackageVersions.txt | cut -d '=' -f 2)" >> $GITHUB_ENV
+
+      - name: Restore Qt Installer Framework
+        id: restore-qtifw
+        uses: actions/cache/restore@v6
+        with:
+          path: ${{env.qtifw_path}}
+          key: qtifw-${{matrix.arch}}-${{env.qtifw_version}}-qt-${{env.qtifw_qt_version}}-${{hashFiles('strawberry-msvc-build-tools/StrawberryQtIFWBuild.ps1')}}
+
+      - name: Build Qt Installer Framework
+        if: steps.restore-qtifw.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: ./strawberry-msvc-build-tools/StrawberryQtIFWBuild.ps1 -arch ${{matrix.arch}} -downloads_path c:/qtifw_downloads -build_path c:/qtifw_build -install_path ${{env.qtifw_path}}
+
+      # Saved right away, so the Qt Installer Framework does not have to be built again when a later step fails.
+      - name: Save Qt Installer Framework
+        if: steps.restore-qtifw.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: ${{env.qtifw_path}}
+          key: ${{steps.restore-qtifw.outputs.cache-primary-key}}
+
       - name: Create Build Environment
         shell: cmd
         run: cmake -E make_directory build
@@ -2087,6 +2120,11 @@ jobs:
         shell: cmd
         working-directory: build
         run: makensis strawberry.nsi
+
+      - name: Create Qt installer
+        shell: pwsh
+        working-directory: build
+        run: ./strawberry-qtifw.ps1 -binarycreator ${{env.qtifw_path}}/bin/binarycreator.exe
 
       - name: Set Upload path
         id: set-upload-path

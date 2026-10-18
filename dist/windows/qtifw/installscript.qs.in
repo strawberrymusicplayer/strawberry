@@ -1,0 +1,177 @@
+/*
+ * Strawberry Music Player
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
+ *
+ * Strawberry is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Strawberry is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+var product_name = "@QTIFW_PRODUCT_NAME@";
+var vc_redist = "@QTIFW_VC_REDIST@";
+var nsis_uninstall_key = "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\@QTIFW_NSIS_UNINSTALL_KEY@";
+
+// Use the same registry keys as the NSIS installer (Capabilities.nsh), so both installers replace each others file associations.
+var capabilities_name = "Strawberry Music Player";
+var capabilities_progid = "Strawberry Music Player";
+var capabilities_path = "SOFTWARE\\Clients\\Media\\Strawberry";
+var classes_path = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes";
+
+// Video containers (.mp4, .webm, .asf) are not registered, Strawberry would be offered as the default program for videos.
+var media_types = [
+  [".mp3", "MP3 Audio File"],
+  [".mp2", "MP2 Audio File"],
+  [".flac", "FLAC Audio File"],
+  [".ogg", "OGG Audio File"],
+  [".oga", "OGG Audio File"],
+  [".opus", "Opus Audio File"],
+  [".spx", "OGG Speex Audio File"],
+  [".m4a", "MP4 Audio File"],
+  [".aac", "AAC Audio File"],
+  [".wma", "WMA Audio File"],
+  [".wav", "WAV Audio File"],
+  [".aif", "AIFF Audio File"],
+  [".aiff", "AIFF Audio File"],
+  [".aifc", "AIFF Audio File"],
+  [".wv", "WavPack Audio File"],
+  [".ape", "Monkey's Audio File"],
+  [".mpc", "Musepack Audio File"],
+  [".tta", "TrueAudio Audio File"],
+  [".tak", "TAK Audio File"],
+  [".mka", "Matroska Audio File"],
+  [".ac3", "AC3 Audio File"],
+  [".dts", "DTS Audio File"],
+  [".dsf", "DSF Audio File"],
+  [".dsd", "DSDIFF Audio File"],
+  [".dff", "DSDIFF Audio File"],
+  [".spc", "SNES SPC700 Audio File"],
+  [".vgm", "VGM Audio File"],
+  [".mod", "MOD Module Music File"],
+  [".s3m", "S3M Module Music File"],
+  [".xm", "XM Module Music File"],
+  [".it", "IT Module Music File"],
+  [".pls", "PLS Audio File"],
+  [".m3u", "M3U Audio File"],
+  [".m3u8", "M3U8 Playlist"],
+  [".xspf", "XSPF Audio File"],
+  [".asx", "Windows Media Audio/Video playlist"],
+  [".wpl", "Windows Media Playlist"],
+  [".cue", "CUE Sheet"]
+];
+
+function Component()
+{
+}
+
+function quotePowerShell(str)
+{
+  return "'" + str.replace(/'/g, "''") + "'";
+}
+
+// Writes a registry value, the GlobalConfig operation removes it again on uninstallation.
+// QSettings uses "Default" for the default value of a key.
+function addRegistryValue(key, name, value)
+{
+  component.addElevatedOperation("GlobalConfig", key, name, value);
+}
+
+// Returns the uninstaller of a Strawberry installation made with the NSIS installer.
+function findNSISUninstaller()
+{
+  // Strawberry 1.2.30 and older wrote the uninstall key to the 32-bit registry view.
+  var registry_views = ["/reg:64", "/reg:32"];
+  for (var i = 0; i < registry_views.length; ++i) {
+    var result = installer.execute("reg", ["query", nsis_uninstall_key, "/v", "UninstallString", registry_views[i]]);
+    if (result.length < 2 || result[1] != 0) {
+      continue;
+    }
+    var match = /UninstallString\s+REG_SZ\s+(.+)/.exec(result[0]);
+    if (match) {
+      var uninstaller = match[1].trim().replace(/^"|"$/g, "");
+      if (installer.fileExists(uninstaller)) {
+        return uninstaller;
+      }
+    }
+  }
+  return "";
+}
+
+Component.prototype.createOperations = function()
+{
+  var target_dir = installer.value("TargetDir").replace(/\//g, "\\");
+  var strawberry_exe = target_dir + "\\strawberry.exe";
+  var strawberry_icon = target_dir + "\\strawberry.ico";
+
+  // Remove a previous installation made with the NSIS installer before installing the files.
+  // _?= makes the uninstaller wait until it is done instead of copying itself to a temporary directory, it can not be quoted, so the uninstaller is started with PowerShell.
+  if (installer.isInstaller()) {
+    var nsis_uninstaller = findNSISUninstaller();
+    if (nsis_uninstaller !== "") {
+      var nsis_install_dir = nsis_uninstaller.substring(0, nsis_uninstaller.lastIndexOf("\\"));
+      component.addElevatedOperation("Execute", "powershell.exe", "-NoProfile", "-NonInteractive", "-Command",
+        "$p = Start-Process -FilePath " + quotePowerShell(nsis_uninstaller) + " -ArgumentList " + quotePowerShell("/S _?=" + nsis_install_dir) + " -Wait -PassThru; " +
+        "if ($p.ExitCode -eq 0) { Remove-Item -LiteralPath " + quotePowerShell(nsis_uninstaller) + " -Force }; exit $p.ExitCode",
+        "errormessage=The previous version of " + product_name + " was not removed.");
+    }
+  }
+
+  component.createOperations();
+
+  if (vc_redist !== "") {
+    // The runtime installer checks the installed version itself, it returns 1638 when the same or a newer version is already installed.
+    var vc_redist_path = target_dir + "\\" + vc_redist;
+    component.addElevatedOperation("Execute", "{0,1638,1641,3010}", vc_redist_path, "/install", installer.isCommandLineInstance() ? "/quiet" : "/passive", "/norestart", "errormessage=Failed to install the Visual C++ Runtime, " + product_name + " might not start.");
+    component.addElevatedOperation("Execute", "cmd.exe", "/c", "del", "/f", "/q", vc_redist_path);
+  }
+
+  // Start menu shortcuts.
+  var start_menu_dir = installer.value("AllUsersStartMenuProgramsPath").replace(/\//g, "\\") + "\\" + product_name;
+  component.addElevatedOperation("CreateShortcut", strawberry_exe, start_menu_dir + "\\" + product_name + ".lnk", "workingDirectory=" + target_dir, "iconPath=" + strawberry_icon, "description=" + product_name);
+  component.addElevatedOperation("CreateShortcut", target_dir + "\\" + installer.value("MaintenanceToolName") + ".exe", start_menu_dir + "\\Uninstall.lnk", "--start-uninstaller", "workingDirectory=" + target_dir, "description=Uninstall " + product_name);
+
+  // Removing the registry values leaves the keys created for them, remove the keys Strawberry owns on uninstallation.
+  // This operation is added before the registry values, so it is undone after them.
+  component.addElevatedOperation("Execute", "cmd.exe", "/c", "exit", "0",
+    "UNDOEXECUTE", "powershell.exe", "-NoProfile", "-NonInteractive", "-Command",
+    "Remove-Item -Path " + quotePowerShell("Registry::" + classes_path + "\\" + capabilities_progid + ".AssocFile.*") + " -Recurse -Force -ErrorAction SilentlyContinue; " +
+    "Remove-Item -LiteralPath " + quotePowerShell("Registry::HKEY_LOCAL_MACHINE\\" + capabilities_path) + " -Recurse -Force -ErrorAction SilentlyContinue; " +
+    "Remove-Item -LiteralPath " + quotePowerShell("Registry::" + classes_path + "\\tidal") + " -Recurse -Force -ErrorAction SilentlyContinue; exit 0");
+
+  // Register Strawberry with Default Programs.
+  addRegistryValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\RegisteredApplications", capabilities_name, capabilities_path + "\\Capabilities");
+  addRegistryValue("HKEY_LOCAL_MACHINE\\" + capabilities_path, "Default", capabilities_name);
+  addRegistryValue("HKEY_LOCAL_MACHINE\\" + capabilities_path, "LocalizedString", "Strawberry");
+  addRegistryValue("HKEY_LOCAL_MACHINE\\" + capabilities_path, "DefaultIcon/Default", strawberry_icon);
+  addRegistryValue("HKEY_LOCAL_MACHINE\\" + capabilities_path, "Capabilities/ApplicationName", "Strawberry");
+  addRegistryValue("HKEY_LOCAL_MACHINE\\" + capabilities_path, "Capabilities/ApplicationDescription", capabilities_name);
+
+  for (var i = 0; i < media_types.length; ++i) {
+    var extension = media_types[i][0];
+    var description = media_types[i][1];
+    var progid = capabilities_progid + ".AssocFile" + extension.toUpperCase();
+    var progid_key = classes_path + "\\" + progid;
+    addRegistryValue("HKEY_LOCAL_MACHINE\\" + capabilities_path, "Capabilities/FileAssociations/" + extension, progid);
+    addRegistryValue(progid_key, "Default", description);
+    addRegistryValue(progid_key, "DefaultIcon/Default", strawberry_icon);
+    addRegistryValue(progid_key, "shell/Default", "Play");
+    addRegistryValue(progid_key, "shell/open/Default", "&Open");
+    addRegistryValue(progid_key, "shell/open/command/Default", "\"" + strawberry_exe + "\" \"%1\"");
+    addRegistryValue(progid_key, "shell/play/Default", "&Play");
+    addRegistryValue(progid_key, "shell/play/command/Default", "\"" + strawberry_exe + "\" \"%L\"");
+  }
+
+  // Tidal URL scheme.
+  addRegistryValue(classes_path + "\\tidal", "Default", "URL:tidal");
+  addRegistryValue(classes_path + "\\tidal", "URL Protocol", "");
+  addRegistryValue(classes_path + "\\tidal", "shell/open/command/Default", "\"" + strawberry_exe + "\" \"%1\"");
+}

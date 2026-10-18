@@ -1,0 +1,86 @@
+/*
+ * Strawberry Music Player
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
+ *
+ * Strawberry is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Strawberry is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+// Fixed name of the uninstall registry key, so a previous installation can be found.
+var product_uuid = "@QTIFW_PRODUCT_UUID@";
+var uninstall_key = "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\" + product_uuid;
+
+function Controller()
+{
+  installer.setValue("ProductUUID", product_uuid);
+
+  // Install for all users like the NSIS installer: Start menu shortcuts and the uninstall entry go to the all users locations.
+  installer.setValue("AllUsers", "true");
+
+  // There is only one forced component, and the Start menu directory is fixed.
+  installer.setDefaultPageVisible(QInstaller.ComponentSelection, false);
+  installer.setDefaultPageVisible(QInstaller.StartMenuSelection, false);
+}
+
+function readRegistryValue(key, name)
+{
+  var result = installer.execute("reg", ["query", key, "/v", name, "/reg:64"]);
+  if (result.length < 2 || result[1] != 0) {
+    return "";
+  }
+  var match = new RegExp(name + "\\s+REG_SZ\\s+(.+)").exec(result[0]);
+  return match ? match[1].trim() : "";
+}
+
+Controller.prototype.IntroductionPageCallback = function()
+{
+  var product_name = installer.value("ProductName");
+
+  // Strawberry can not be updated or removed while it is running.
+  while (installer.isProcessRunning("strawberry.exe")) {
+    var result = QMessageBox.warning("strawberry.running", product_name, "Strawberry is running, close it and click Retry to continue.", QMessageBox.Retry | QMessageBox.Cancel);
+    if (result != QMessageBox.Retry) {
+      gui.rejectWithoutPrompt();
+      return;
+    }
+  }
+
+  if (!installer.isInstaller()) {
+    return;
+  }
+
+  // The installer can not install into a directory with an existing installation, remove the previous version first and install to the same directory.
+  var install_location = readRegistryValue(uninstall_key, "InstallLocation");
+  if (install_location === "") {
+    return;
+  }
+  var maintenance_tool = install_location + "\\" + installer.value("MaintenanceToolName") + ".exe";
+  if (!installer.fileExists(maintenance_tool)) {
+    return;
+  }
+
+  if (QMessageBox.question("strawberry.installed", product_name, product_name + " is already installed.\n\nClick OK to remove the previous version or Cancel to cancel this upgrade.", QMessageBox.Ok | QMessageBox.Cancel) != QMessageBox.Ok) {
+    gui.rejectWithoutPrompt();
+    return;
+  }
+
+  installer.execute(maintenance_tool, ["purge", "--confirm-command"]);
+  if (installer.fileExists(maintenance_tool)) {
+    QMessageBox.critical("strawberry.notremoved", product_name, "The previous version of " + product_name + " was not removed, the installation is cancelled.", QMessageBox.Ok);
+    gui.rejectWithoutPrompt();
+    return;
+  }
+
+  installer.setValue("TargetDir", install_location);
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+  <DisplayName>@QTIFW_PRODUCT_NAME@</DisplayName>
+  <Description>Strawberry is a music player and music collection organizer.</Description>
+  <Version>@STRAWBERRY_VERSION_PACKAGE@</Version>
+  <ReleaseDate>@QTIFW_RELEASE_DATE@</ReleaseDate>
+  <ForcedInstallation>true</ForcedInstallation>
+  <RequiresAdminRights>true</RequiresAdminRights>
+  <Script>installscript.qs</Script>
+  <Licenses>
+    <License name="GNU General Public License v3.0" file="COPYING" />
+  </Licenses>
+</Package>

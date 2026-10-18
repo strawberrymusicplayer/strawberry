@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+  <Name>@QTIFW_PRODUCT_NAME@</Name>
+  <Version>@STRAWBERRY_VERSION_PACKAGE@</Version>
+  <Title>@QTIFW_PRODUCT_NAME@ @STRAWBERRY_VERSION_DISPLAY@</Title>
+  <Publisher>Jonas Kvinge</Publisher>
+  <ProductUrl>https://www.strawberrymusicplayer.org/</ProductUrl>
+  <InstallerApplicationIcon>strawberry</InstallerApplicationIcon>
+  <InstallerWindowIcon>strawberry.png</InstallerWindowIcon>
+  <WizardStyle>Modern</WizardStyle>
+  <TargetDir>@ApplicationsDirX64@/@QTIFW_PRODUCT_NAME@</TargetDir>
+  <StartMenuDir>@QTIFW_PRODUCT_NAME@</StartMenuDir>
+  <MaintenanceToolName>StrawberryMaintenanceTool</MaintenanceToolName>
+  <AllowSpaceInPath>true</AllowSpaceInPath>
+  <AllowNonAsciiCharacters>true</AllowNonAsciiCharacters>
+  <RemoveTargetDir>true</RemoveTargetDir>
+  <RunProgram>@TargetDir@/strawberry.exe</RunProgram>
+  <RunProgramDescription>Start @QTIFW_PRODUCT_NAME@</RunProgramDescription>
+  <ControlScript>controlscript.qs</ControlScript>
+</Installer>
