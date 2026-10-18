@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,6 +43,7 @@ class QShowEvent;
 class TaskManager;
 class TagReaderClient;
 class DeviceManager;
+class CollectionDirectoryModel;
 class PlaylistManager;
 class PlaylistBackend;
 class Playlist;
@@ -61,7 +62,8 @@ class PlaylistListContainer : public QWidget {
             const SharedPtr<TagReaderClient> tagreader_client,
             const SharedPtr<PlaylistManager> playlist_manager,
             const SharedPtr<PlaylistBackend> playlist_backend,
-            const SharedPtr<DeviceManager> device_manager);
+            const SharedPtr<DeviceManager> device_manager,
+            CollectionDirectoryModel *collection_directory_model);
 
   void ReloadSettings();
 
@@ -113,6 +115,7 @@ class PlaylistListContainer : public QWidget {
   SharedPtr<PlaylistManager> playlist_manager_;
   SharedPtr<PlaylistBackend> playlist_backend_;
   SharedPtr<DeviceManager> device_manager_;
+  CollectionDirectoryModel *collection_directory_model_;
 
   Ui_PlaylistListContainer *ui_;
   QMenu *menu_;

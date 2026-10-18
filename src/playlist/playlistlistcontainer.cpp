@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -68,6 +68,7 @@ using namespace Qt::Literals::StringLiterals;
 
 PlaylistListContainer::PlaylistListContainer(QWidget *parent)
     : QWidget(parent),
+      collection_directory_model_(nullptr),
       ui_(new Ui_PlaylistListContainer),
       menu_(nullptr),
       action_new_folder_(new QAction(this)),
@@ -124,13 +125,15 @@ void PlaylistListContainer::Init(const SharedPtr<TaskManager> task_manager,
                                  const SharedPtr<TagReaderClient> tagreader_client,
                                  const SharedPtr<PlaylistManager> playlist_manager,
                                  const SharedPtr<PlaylistBackend> playlist_backend,
-                                 const SharedPtr<DeviceManager> device_manager) {
+                                 const SharedPtr<DeviceManager> device_manager,
+                                 CollectionDirectoryModel *collection_directory_model) {
 
   task_manager_ = task_manager;
   tagreader_client_ = tagreader_client;
   playlist_manager_ = playlist_manager;
   playlist_backend_ = playlist_backend;
   device_manager_ = device_manager;
+  collection_directory_model_ = collection_directory_model;
 
   QObject::connect(&*playlist_manager, &PlaylistManager::PlaylistAdded, this, &PlaylistListContainer::AddPlaylist);
   QObject::connect(&*playlist_manager, &PlaylistManager::PlaylistFavorited, this, &PlaylistListContainer::PlaylistFavoriteStateChanged);
@@ -408,6 +411,7 @@ void PlaylistListContainer::CopyToDevice() {
     // Reuse the organize dialog, but set the detail about the playlist name
     if (!organize_dialog_) {
       organize_dialog_ = make_unique<OrganizeDialog>(task_manager_, tagreader_client_, nullptr, this);
+      organize_dialog_->SetCollectionDirectoryModel(collection_directory_model_);
     }
     organize_dialog_->SetDestinationModel(device_manager_->connected_devices_model(), true);
     organize_dialog_->SetCopy(true);

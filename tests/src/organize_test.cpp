@@ -23,6 +23,11 @@
 
 #include <QSet>
 #include <QString>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QIODevice>
+#include <QTemporaryDir>
 #include <QStringList>
 #include <QUrl>
 
@@ -231,6 +236,93 @@ TEST(OrganizeTest, ComputeNewSongsFilenamesIgnoresCase) {
   ASSERT_EQ(2, new_songs_info.count());
   EXPECT_EQ(u"Song.mp3"_s, new_songs_info[0].new_filename_);
   EXPECT_EQ(u"song(2).mp3"_s, new_songs_info[1].new_filename_);
+
+}
+
+// The innermost collection directory containing the file is used, and none for files outside them.
+TEST(OrganizeTest, OriginalRootIsInnermostDirectory) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString root_path = QFileInfo(temp_dir.path()).canonicalFilePath();
+  const QString outer_root = root_path + u"/Music"_s;
+  const QString inner_root = root_path + u"/Music/Archive"_s;
+  ASSERT_TRUE(QDir().mkpath(inner_root + u"/Album"_s));
+  ASSERT_TRUE(QDir().mkpath(outer_root + u"/Album"_s));
+  ASSERT_TRUE(QDir().mkpath(root_path + u"/Downloads/Album"_s));
+  const QStringList filenames = QStringList() << inner_root + u"/Album/01.flac"_s << outer_root + u"/Album/01.flac"_s << root_path + u"/Downloads/Album/01.flac"_s;
+  for (const QString &filename : filenames) {
+    QFile file(filename);
+    ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+    file.close();
+  }
+
+  const QStringList roots = QStringList() << outer_root << inner_root;
+  EXPECT_EQ(inner_root, Organize::OriginalRoot(roots, inner_root + u"/Album/01.flac"_s));
+  EXPECT_EQ(outer_root, Organize::OriginalRoot(roots, outer_root + u"/Album/01.flac"_s));
+  EXPECT_TRUE(Organize::OriginalRoot(roots, root_path + u"/Downloads/Album/01.flac"_s).isEmpty());
+
+}
+
+#ifndef Q_OS_WIN32
+// A collection directory linked from inside another collection directory is used for the files in it, not the directory containing the link, which would allow removing the linked directory.
+TEST(OrganizeTest, OriginalRootResolvesLinks) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString root_path = QFileInfo(temp_dir.path()).canonicalFilePath();
+  const QString library_root = root_path + u"/library"_s;
+  const QString external_root = root_path + u"/external/collection"_s;
+  ASSERT_TRUE(QDir().mkpath(library_root));
+  ASSERT_TRUE(QDir().mkpath(external_root + u"/Album"_s));
+  ASSERT_TRUE(QFile::link(root_path + u"/external"_s, library_root + u"/linked"_s));
+  QFile file(external_root + u"/Album/01.flac"_s);
+  ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+  file.close();
+
+  const QStringList roots = QStringList() << library_root << external_root;
+  EXPECT_EQ(external_root, Organize::OriginalRoot(roots, library_root + u"/linked/collection/Album/01.flac"_s));
+
+}
+#endif
+
+#ifndef Q_OS_WIN32
+// A song which is a link to a file in the outer collection directory gets the root of the link, otherwise moving it could remove the inner collection directory.
+TEST(OrganizeTest, OriginalRootOfLinkedSongIsDirectoryOfLink) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString root_path = QFileInfo(temp_dir.path()).canonicalFilePath();
+  const QString outer_root = root_path + u"/Music"_s;
+  const QString inner_root = root_path + u"/Music/Archive"_s;
+  ASSERT_TRUE(QDir().mkpath(inner_root));
+  QFile file(outer_root + u"/original.flac"_s);
+  ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+  file.close();
+  ASSERT_TRUE(QFile::link(outer_root + u"/original.flac"_s, inner_root + u"/01.flac"_s));
+
+  const QStringList roots = QStringList() << outer_root << inner_root;
+  EXPECT_EQ(inner_root, Organize::OriginalRoot(roots, inner_root + u"/01.flac"_s));
+
+}
+#endif
+
+// Directories which only differ in case are different directories on case-sensitive filesystems.
+TEST(OrganizeTest, OriginalRootRespectsCaseSensitiveFilesystem) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString root_path = QFileInfo(temp_dir.path()).canonicalFilePath();
+  ASSERT_TRUE(QDir().mkpath(root_path + u"/Music"_s));
+  if (QFileInfo::exists(root_path + u"/music"_s)) {
+    GTEST_SKIP() << "The filesystem is case-insensitive";
+  }
+  ASSERT_TRUE(QDir().mkpath(root_path + u"/music/Album"_s));
+  QFile file(root_path + u"/music/Album/01.flac"_s);
+  ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+  file.close();
+
+  EXPECT_TRUE(Organize::OriginalRoot(QStringList() << root_path + u"/Music"_s, root_path + u"/music/Album/01.flac"_s).isEmpty());
 
 }
 
