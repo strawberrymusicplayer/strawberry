@@ -172,6 +172,11 @@ OSDPretty::OSDPretty(const Mode mode, QWidget *parent)
 
   ui_->setupUi(this);
 
+  // Let the mouse events through to the OSD, the rich text labels accept mouse moves, so the OSD could not be dragged by its text.
+  ui_->icon->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+  ui_->summary->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+  ui_->message->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+
 #ifdef Q_OS_WIN32
   // Don't show the window in the taskbar.  Qt::ToolTip does this too, but it adds an extra ugly shadow.
   int ex_style = GetWindowLong(reinterpret_cast<HWND>(winId()), GWL_EXSTYLE);
