@@ -29,6 +29,9 @@
 #include <QList>
 #include <QByteArray>
 #include <QString>
+#include <QStringList>
+#include <QFileInfo>
+#include <QTemporaryDir>
 #include <QCryptographicHash>
 #include <QThread>
 #include <QEventLoop>
@@ -3271,6 +3274,78 @@ TEST(TagReaderGMETest, VGMPlaybackLength) {
   EXPECT_EQ(10000ULL, length);
 
   EXPECT_FALSE(GME::VGM::GetPlaybackLength(pack(0), pack(0), length));
+
+}
+
+// Regression test: non-ASCII titles in SPC files were garbled, since they were decoded as Latin-1 twice.
+TEST(TagReaderGMETest, SPCNonASCIIStrings) {
+
+  QByteArray data(0x10200, '\0');
+  data.replace(0, 33, "SNES-SPC700 Sound File Data v0.30");
+  const auto set_field = [&data](const int offset, const QByteArray &value) { data.replace(offset, static_cast<int>(value.size()), value); };
+  set_field(GME::SPC::SONG_TITLE_OFFSET, "Caf\xe9");
+  set_field(GME::SPC::GAME_TITLE_OFFSET, "Gr\xfc\xdf" "e");
+  set_field(GME::SPC::ARTIST_OFFSET, "Bj\xf6rk");
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString filename = temp_dir.filePath(u"test.spc"_s);
+  QFile file(filename);
+  ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+  ASSERT_EQ(data.size(), file.write(data));
+  file.close();
+
+  Song song;
+  ASSERT_TRUE(GME::ReadFile(QFileInfo(filename), &song).success());
+  EXPECT_EQ(u"Café"_s, song.title());
+  EXPECT_EQ(u"Grüße"_s, song.album());
+  EXPECT_EQ(u"Björk"_s, song.artist());
+
+}
+
+// Regression test: non-ASCII titles in VGM files were garbled, since they were decoded as UTF-16, then encoded as UTF-8 and decoded as Latin-1.
+TEST(TagReaderGMETest, VGMNonASCIIStrings) {
+
+  const auto pack = [](const quint32 value) {
+    QByteArray bytes(4, '\0');
+    for (int i = 0; i < 4; ++i) bytes[i] = static_cast<char>((value >> (8 * i)) & 0xFF);
+    return bytes;
+  };
+
+  // The GD3 strings are UTF-16LE, each terminated by a null character, in the order title, title (Japanese), album, album (Japanese), system, system (Japanese), artist, artist (Japanese), date, dumper and notes.
+  const QStringList strings = { u"Café"_s, u"カフェ"_s, u"Grüße"_s, QString(), QString(), QString(), u"Björk"_s, QString(), u"1994/01/01"_s, QString(), QString() };
+  QByteArray gd3_strings;
+  for (const QString &string : strings) {
+    for (const QChar c : string) {
+      gd3_strings.append(static_cast<char>(c.unicode() & 0xFF));
+      gd3_strings.append(static_cast<char>(c.unicode() >> 8));
+    }
+    gd3_strings.append(2, '\0');
+  }
+
+  QByteArray data(0x40, '\0');
+  data.replace(0, 4, "Vgm ");
+  data.replace(GME::VGM::SAMPLE_COUNT, 4, pack(441000));
+  data.replace(GME::VGM::GD3_TAG_PTR, 4, pack(static_cast<quint32>(data.size() - GME::VGM::GD3_TAG_PTR)));
+  data.append("Gd3 ");
+  data.append(pack(0x100));
+  data.append(pack(static_cast<quint32>(gd3_strings.size())));
+  data.append(gd3_strings);
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString filename = temp_dir.filePath(u"test.vgm"_s);
+  QFile file(filename);
+  ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+  ASSERT_EQ(data.size(), file.write(data));
+  file.close();
+
+  Song song;
+  ASSERT_TRUE(GME::ReadFile(QFileInfo(filename), &song).success());
+  EXPECT_EQ(u"Café"_s, song.title());
+  EXPECT_EQ(u"Grüße"_s, song.album());
+  EXPECT_EQ(u"Björk"_s, song.artist());
+  EXPECT_EQ(1994, song.year());
 
 }
 
