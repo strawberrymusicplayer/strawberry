@@ -42,8 +42,11 @@
 #include <QCoreApplication>
 #include <QString>
 #include <QStringList>
+#include <QVariant>
 #include <QTemporaryDir>
 #include <QThread>
+#include <QSqlDatabase>
+#include <QSqlQuery>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -54,6 +57,7 @@
 #include "collection/collectionmanager.h"
 #include "collection/collectiondirectory.h"
 #include "collection/collectionwatcher.h"
+#include "core/filesystemwatcherinterface.h"
 #include "constants/collectionsettings.h"
 #include "core/settings.h"
 
@@ -63,6 +67,27 @@ using std::make_shared;
 // clazy:excludeall=non-pod-global-static,returning-void-expression
 
 namespace {
+
+// Sets a collection setting, and removes it again when it goes out of scope, also when a test returns early because an assertion failed, the settings are shared by all the tests.
+class ScopedCollectionSetting {
+ public:
+  explicit ScopedCollectionSetting(const char *key, const QVariant &value) : key_(key) {
+    Settings s;
+    s.beginGroup(CollectionSettings::kSettingsGroup);
+    s.setValue(key_, value);
+    s.endGroup();
+  }
+  ~ScopedCollectionSetting() {
+    Settings s;
+    s.beginGroup(CollectionSettings::kSettingsGroup);
+    s.remove(key_);
+    s.endGroup();
+  }
+
+ private:
+  Q_DISABLE_COPY_MOVE(ScopedCollectionSetting)
+  const char *key_;
+};
 
 class CollectionWatcherTest : public ::testing::Test {
  protected:
@@ -1421,6 +1446,531 @@ TEST_F(CollectionWatcherTest, MediaFileMovedToAnotherDirectoryIsFoundByFingerpri
   ASSERT_TRUE(moved_song_ids.contains(new_filename2));
   EXPECT_EQ(song_ids.value(old_filename), moved_song_ids.value(new_filename));
   EXPECT_EQ(song_ids.value(old_filename2), moved_song_ids.value(new_filename2));
+
+}
+
+// When the file system watcher lost changes, the collection is scanned, so a new directory is found before the next full scan.
+TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowFindsNewDirectory) {
+
+  // Not in the temporary directory, which is often a tmpfs, which the collection watcher ignores.
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"01.mp3"_s)));
+  ASSERT_TRUE(QFile::setPermissions(temp_dir.filePath(u"01.mp3"_s), QFile::ReadOwner | QFile::WriteOwner | QFile::ReadUser | QFile::WriteUser));
+
+  // Without monitoring, the new directory is only found by the scan for the overflow, not by the file system watcher.
+  const ScopedCollectionSetting monitor_disabled(CollectionSettings::kMonitor, false);
+
+  backend_->AddDirectory(temp_dir.path());
+  CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+  watcher.ReloadSettingsAsync();
+  QCoreApplication::processEvents();
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+  CollectionDirectory dir;
+  dir.id = 1;
+  dir.path = temp_dir.path();
+  watcher.AddDirectory(dir, CollectionSubdirectoryList());
+  ASSERT_EQ(1, backend_->GetAllSongs().count());
+
+  // The modification times are in seconds, the collection directory needs a new one to be scanned again.
+  QThread::sleep(1);
+  ASSERT_TRUE(QDir(temp_dir.path()).mkdir(u"New album"_s));
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"New album/01.mp3"_s)));
+
+  QSignalSpy spy_new_or_updated(&watcher, &CollectionWatcher::NewOrUpdatedSongs);
+  ASSERT_TRUE(QMetaObject::invokeMethod(&watcher, "FileSystemWatcherOverflow"));
+  ASSERT_TRUE(spy_new_or_updated.wait(10000));
+
+  QStringList filenames;
+  const SongList songs = backend_->GetAllSongs();
+  for (const Song &song : songs) {
+    filenames << song.url().toLocalFile();
+  }
+  filenames.sort();
+  EXPECT_EQ(QStringList() << temp_dir.filePath(u"01.mp3"_s) << temp_dir.filePath(u"New album/01.mp3"_s), filenames);
+
+}
+
+// When the file system watcher lost changes, a changed file in a directory which wasn't changed itself is also found.
+TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowFindsChangedFile) {
+
+  // Not in the temporary directory, which is often a tmpfs, which the collection watcher ignores.
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString filename = temp_dir.filePath(u"01.mp3"_s);
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, filename));
+  ASSERT_TRUE(QFile::setPermissions(filename, QFile::ReadOwner | QFile::WriteOwner | QFile::ReadUser | QFile::WriteUser));
+
+  // Without monitoring, the changed file is only found by the scan for the overflow, not by the file system watcher.
+  const ScopedCollectionSetting monitor_disabled(CollectionSettings::kMonitor, false);
+
+  backend_->AddDirectory(temp_dir.path());
+  CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+  watcher.ReloadSettingsAsync();
+  QCoreApplication::processEvents();
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&watcher, &CollectionWatcher::SongsMTimeUpdated, &*backend_, &CollectionBackend::UpdateMTimesOnly);
+  QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+  CollectionDirectory dir;
+  dir.id = 1;
+  dir.path = temp_dir.path();
+  watcher.AddDirectory(dir, CollectionSubdirectoryList());
+  ASSERT_EQ(1, backend_->GetAllSongs().count());
+  const QDateTime directory_mtime = QFileInfo(temp_dir.path()).lastModified();
+
+  // Changing a file in place doesn't change the modification time of the directory.
+  QFile file(filename);
+  ASSERT_TRUE(file.open(QIODevice::ReadWrite));
+  const QDateTime file_mtime = QDateTime::currentDateTime().addSecs(10);
+  ASSERT_TRUE(file.setFileTime(file_mtime, QFileDevice::FileModificationTime));
+  file.close();
+  ASSERT_EQ(directory_mtime, QFileInfo(temp_dir.path()).lastModified());
+
+  QSignalSpy spy_new_or_updated(&watcher, &CollectionWatcher::NewOrUpdatedSongs);
+  QSignalSpy spy_touched(&watcher, &CollectionWatcher::SongsMTimeUpdated);
+  ASSERT_TRUE(QMetaObject::invokeMethod(&watcher, "FileSystemWatcherOverflow"));
+  QSignalSpy spy_compilations(&watcher, &CollectionWatcher::CompilationsNeedUpdating);
+  // The rescan of the changed paths and the scan for the overflow.
+  ASSERT_TRUE(spy_compilations.wait(10000));
+  if (spy_compilations.count() < 2) {
+    ASSERT_TRUE(spy_compilations.wait(10000));
+  }
+
+  EXPECT_GT(spy_new_or_updated.count() + spy_touched.count(), 0);
+  const SongList songs = backend_->GetAllSongs();
+  ASSERT_EQ(1, songs.count());
+  EXPECT_EQ(file_mtime.toSecsSinceEpoch(), songs.first().mtime());
+
+}
+
+// When the scan for the overflow is stopped, it's done again when the rescan is resumed.
+TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowScanStoppedIsDoneAgain) {
+
+  // Not in the temporary directory, which is often a tmpfs, which the collection watcher ignores.
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"01.mp3"_s)));
+  ASSERT_TRUE(QFile::setPermissions(temp_dir.filePath(u"01.mp3"_s), QFile::ReadOwner | QFile::WriteOwner | QFile::ReadUser | QFile::WriteUser));
+
+  // Without monitoring, the new directory is only found by the scan for the overflow, not by the file system watcher.
+  const ScopedCollectionSetting monitor_disabled(CollectionSettings::kMonitor, false);
+
+  backend_->AddDirectory(temp_dir.path());
+  CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+  watcher.ReloadSettingsAsync();
+  QCoreApplication::processEvents();
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+  CollectionDirectory dir;
+  dir.id = 1;
+  dir.path = temp_dir.path();
+  watcher.AddDirectory(dir, CollectionSubdirectoryList());
+  ASSERT_EQ(1, backend_->GetAllSongs().count());
+
+  // The modification times are in seconds, the collection directory needs a new one to be scanned again.
+  QThread::sleep(1);
+  ASSERT_TRUE(QDir(temp_dir.path()).mkdir(u"New album"_s));
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"New album/01.mp3"_s)));
+
+  // Stop the scan for the overflow when it starts, like the user stopping the scan, there are no changed paths, so it's the only scan.
+  QMetaObject::Connection stop_connection = QObject::connect(&watcher, &CollectionWatcher::ScanStarted, &watcher, &CollectionWatcher::Stop, Qt::DirectConnection);
+  QSignalSpy spy_scan_started(&watcher, &CollectionWatcher::ScanStarted);
+  QSignalSpy spy_compilations(&watcher, &CollectionWatcher::CompilationsNeedUpdating);
+  ASSERT_TRUE(QMetaObject::invokeMethod(&watcher, "FileSystemWatcherOverflow"));
+  // The rescan of the changed paths and the scan for the overflow.
+  ASSERT_TRUE(spy_compilations.wait(10000));
+  if (spy_compilations.count() < 2) {
+    ASSERT_TRUE(spy_compilations.wait(10000));
+  }
+  QObject::disconnect(stop_connection);
+  ASSERT_EQ(1, spy_scan_started.count());
+  EXPECT_EQ(1, backend_->GetAllSongs().count());
+
+  // Resuming the rescan does the scan for the overflow again.
+  watcher.SetRescanPaused(false);
+  EXPECT_EQ(2, backend_->GetAllSongs().count());
+
+}
+
+// When a watched directory is deleted and created again while the file system watcher overflows, the removal of its watch is lost too, it's watched again after the overflow.
+TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowWatchesRecreatedDirectory) {
+
+  QFile max_queued_events_file(u"/proc/sys/fs/inotify/max_queued_events"_s);
+  const int max_queued_events = max_queued_events_file.open(QIODevice::ReadOnly) ? max_queued_events_file.readAll().trimmed().toInt() : -1;
+  if (max_queued_events <= 0 || max_queued_events > 100000) {
+    GTEST_SKIP() << "Can't overflow the inotify event queue, max_queued_events is" << max_queued_events;
+  }
+
+  // Not in the temporary directory, which is often a tmpfs, which the collection watcher ignores.
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  QDir root(temp_dir.path());
+  ASSERT_TRUE(root.mkdir(u"Album"_s));
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"Album/01.mp3"_s)));
+
+  backend_->AddDirectory(temp_dir.path());
+  CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&watcher, &CollectionWatcher::SongsDeleted, &*backend_, &CollectionBackend::DeleteSongs);
+  QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+  CollectionDirectory dir;
+  dir.id = 1;
+  dir.path = temp_dir.path();
+  watcher.AddDirectory(dir, CollectionSubdirectoryList());
+  ASSERT_EQ(1, backend_->GetAllSongs().count());
+
+  // Fill the event queue before the events are read, so the events for deleting the directory and creating it again are lost.
+  // The changes alternate between two files, the kernel only merges an event with the same event before it.
+  const QStringList filenames_to_change = QStringList() << temp_dir.filePath(u"a.jpg"_s) << temp_dir.filePath(u"b.jpg"_s);
+  for (const QString &filename : filenames_to_change) {
+    QFile file(filename);
+    ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+  }
+  for (int i = 0; i < max_queued_events; ++i) {
+    const QFileDevice::Permissions permissions = (i / 2) % 2 == 0 ? (QFile::ReadOwner | QFile::WriteOwner) : (QFile::ReadOwner | QFile::WriteOwner | QFile::ReadGroup);
+    ASSERT_TRUE(QFile::setPermissions(filenames_to_change.value(i % 2), permissions));
+  }
+  ASSERT_TRUE(QDir(temp_dir.filePath(u"Album"_s)).removeRecursively());
+  ASSERT_TRUE(root.mkdir(u"Album"_s));
+
+  // The rescan of the changed paths and the scan for the overflow.
+  QSignalSpy spy_compilations(&watcher, &CollectionWatcher::CompilationsNeedUpdating);
+  ASSERT_TRUE(spy_compilations.wait(10000));
+  if (spy_compilations.count() < 2) {
+    ASSERT_TRUE(spy_compilations.wait(10000));
+  }
+
+  // A file added to the directory created again is found by watching it.
+  QSignalSpy spy_new_or_updated(&watcher, &CollectionWatcher::NewOrUpdatedSongs);
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"Album/02.mp3"_s)));
+  ASSERT_TRUE(spy_new_or_updated.wait(10000));
+  QStringList filenames;
+  const SongList songs = backend_->GetAllSongs();
+  for (const Song &song : songs) {
+    filenames << song.url().toLocalFile();
+  }
+  EXPECT_TRUE(filenames.contains(temp_dir.filePath(u"Album/02.mp3"_s)));
+
+}
+
+// Adding the watches again after the file system watcher overflowed doesn't overflow it again, even with more watched directories than events fit in the event queue.
+TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowWithManyDirectoriesDoesNotOverflowAgain) {
+
+  QFile max_queued_events_file(u"/proc/sys/fs/inotify/max_queued_events"_s);
+  const int max_queued_events = max_queued_events_file.open(QIODevice::ReadOnly) ? max_queued_events_file.readAll().trimmed().toInt() : -1;
+  if (max_queued_events <= 0 || max_queued_events > 100000) {
+    GTEST_SKIP() << "Can't overflow the inotify event queue, max_queued_events is" << max_queued_events;
+  }
+
+  // Not in the temporary directory, which is often a tmpfs, which the collection watcher ignores.
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  QDir root(temp_dir.path());
+  for (int i = 0; i <= max_queued_events; ++i) {
+    ASSERT_TRUE(root.mkdir(QString::number(i)));
+  }
+
+  backend_->AddDirectory(temp_dir.path());
+  CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+  QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+  CollectionDirectory dir;
+  dir.id = 1;
+  dir.path = temp_dir.path();
+  watcher.AddDirectory(dir, CollectionSubdirectoryList());
+
+  FileSystemWatcherInterface *fs_watcher = watcher.findChild<FileSystemWatcherInterface*>();
+  ASSERT_TRUE(fs_watcher);
+  QSignalSpy spy_overflow(fs_watcher, &FileSystemWatcherInterface::Overflow);
+  QSignalSpy spy_compilations(&watcher, &CollectionWatcher::CompilationsNeedUpdating);
+  ASSERT_TRUE(QMetaObject::invokeMethod(&watcher, "FileSystemWatcherOverflow"));
+
+  // The rescan of the changed paths and the scan for the overflow.
+  ASSERT_TRUE(spy_compilations.wait(30000));
+  if (spy_compilations.count() < 2) {
+    ASSERT_TRUE(spy_compilations.wait(30000));
+  }
+  QCoreApplication::processEvents();
+  EXPECT_EQ(0, spy_overflow.count());
+
+}
+
+// When the rescan is paused after the overflow, the scan for it is done when the rescan is resumed.
+TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowScanWaitsForPausedRescan) {
+
+  // Not in the temporary directory, which is often a tmpfs, which the collection watcher ignores.
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"01.mp3"_s)));
+  ASSERT_TRUE(QFile::setPermissions(temp_dir.filePath(u"01.mp3"_s), QFile::ReadOwner | QFile::WriteOwner | QFile::ReadUser | QFile::WriteUser));
+
+  // Without monitoring, the new directory is only found by the scan for the overflow, not by the file system watcher.
+  const ScopedCollectionSetting monitor_disabled(CollectionSettings::kMonitor, false);
+
+  backend_->AddDirectory(temp_dir.path());
+  CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+  watcher.ReloadSettingsAsync();
+  QCoreApplication::processEvents();
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+  CollectionDirectory dir;
+  dir.id = 1;
+  dir.path = temp_dir.path();
+  watcher.AddDirectory(dir, CollectionSubdirectoryList());
+  ASSERT_EQ(1, backend_->GetAllSongs().count());
+
+  // The modification times are in seconds, the collection directory needs a new one to be scanned again.
+  QThread::sleep(1);
+  ASSERT_TRUE(QDir(temp_dir.path()).mkdir(u"New album"_s));
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"New album/01.mp3"_s)));
+
+  // The rescan timer is started before the rescan is paused.
+  QSignalSpy spy_scan_started(&watcher, &CollectionWatcher::ScanStarted);
+  QSignalSpy spy_compilations(&watcher, &CollectionWatcher::CompilationsNeedUpdating);
+  ASSERT_TRUE(QMetaObject::invokeMethod(&watcher, "FileSystemWatcherOverflow"));
+  watcher.SetRescanPaused(true);
+  ASSERT_TRUE(spy_compilations.wait(10000));
+  EXPECT_EQ(0, spy_scan_started.count());
+  EXPECT_EQ(1, backend_->GetAllSongs().count());
+
+  watcher.SetRescanPaused(false);
+  EXPECT_EQ(2, backend_->GetAllSongs().count());
+
+}
+
+// A song which the scan for the overflow marks unavailable was last seen when the scan started, so it's not expired right away because it was last seen long ago.
+TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowScanUpdatesLastSeen) {
+
+  // Not in the temporary directory, which is often a tmpfs, which the collection watcher ignores.
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  const QStringList filenames = QStringList() << u"01.mp3"_s << u"02.mp3"_s;
+  for (const QString &filename : filenames) {
+    ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(filename)));
+    ASSERT_TRUE(QFile::setPermissions(temp_dir.filePath(filename), QFile::ReadOwner | QFile::WriteOwner | QFile::ReadUser | QFile::WriteUser));
+  }
+
+  // Without monitoring, the deleted file is only found by the scan for the overflow, not by the file system watcher.
+  const ScopedCollectionSetting monitor_disabled(CollectionSettings::kMonitor, false);
+
+  backend_->AddDirectory(temp_dir.path());
+  CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+  watcher.ReloadSettingsAsync();
+  QCoreApplication::processEvents();
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&watcher, &CollectionWatcher::SongsUnavailable, &*backend_, &CollectionBackend::MarkSongsUnavailable);
+  QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+  QObject::connect(&watcher, &CollectionWatcher::UpdateLastSeen, &*backend_, &CollectionBackend::UpdateLastSeen);
+  CollectionDirectory dir;
+  dir.id = 1;
+  dir.path = temp_dir.path();
+  watcher.AddDirectory(dir, CollectionSubdirectoryList());
+  ASSERT_EQ(2, backend_->GetAllSongs().count());
+
+  // The songs were last seen long ago.
+  {
+    QSqlDatabase db(database_->Connect());
+    QSqlQuery q(db);
+    ASSERT_TRUE(q.exec(QStringLiteral("UPDATE %1 SET lastseen = 1").arg(QLatin1String(CollectionManager::kSongsTable))));
+  }
+
+  ASSERT_TRUE(QFile::remove(temp_dir.filePath(u"02.mp3"_s)));
+
+  const qint64 scan_time = QDateTime::currentSecsSinceEpoch();
+  QSignalSpy spy_compilations(&watcher, &CollectionWatcher::CompilationsNeedUpdating);
+  ASSERT_TRUE(QMetaObject::invokeMethod(&watcher, "FileSystemWatcherOverflow"));
+  // The rescan of the changed paths and the scan for the overflow.
+  ASSERT_TRUE(spy_compilations.wait(10000));
+  if (spy_compilations.count() < 2) {
+    ASSERT_TRUE(spy_compilations.wait(10000));
+  }
+
+  const SongList songs = backend_->GetAllSongs();
+  ASSERT_EQ(2, songs.count());
+  for (const Song &song : songs) {
+    EXPECT_EQ(song.url().toLocalFile() == temp_dir.filePath(u"02.mp3"_s), song.unavailable()) << song.url().toLocalFile().toStdString();
+    EXPECT_GE(song.lastseen(), scan_time) << song.url().toLocalFile().toStdString();
+  }
+
+}
+
+// A song which the rescan of a path changed before the overflow marks unavailable was last seen when the scans started too, the path is rescanned before the scan for the overflow.
+TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowUpdatesLastSeenBeforeRescanningChangedPaths) {
+
+  // Not in the temporary directory, which is often a tmpfs, which the collection watcher ignores.
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  const QStringList filenames = QStringList() << u"01.mp3"_s << u"02.mp3"_s;
+  for (const QString &filename : filenames) {
+    ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(filename)));
+    ASSERT_TRUE(QFile::setPermissions(temp_dir.filePath(filename), QFile::ReadOwner | QFile::WriteOwner | QFile::ReadUser | QFile::WriteUser));
+  }
+
+  backend_->AddDirectory(temp_dir.path());
+  CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&watcher, &CollectionWatcher::SongsUnavailable, &*backend_, &CollectionBackend::MarkSongsUnavailable);
+  QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+  QObject::connect(&watcher, &CollectionWatcher::UpdateLastSeen, &*backend_, &CollectionBackend::UpdateLastSeen);
+  CollectionDirectory dir;
+  dir.id = 1;
+  dir.path = temp_dir.path();
+  watcher.AddDirectory(dir, CollectionSubdirectoryList());
+  ASSERT_EQ(2, backend_->GetAllSongs().count());
+
+  // The songs were last seen long ago.
+  {
+    QSqlDatabase db(database_->Connect());
+    QSqlQuery q(db);
+    ASSERT_TRUE(q.exec(QStringLiteral("UPDATE %1 SET lastseen = 1").arg(QLatin1String(CollectionManager::kSongsTable))));
+  }
+
+  // The deletion is reported by the file system watcher, so the directory is queued for rescanning before the overflow.
+  FileSystemWatcherInterface *fs_watcher = watcher.findChild<FileSystemWatcherInterface*>();
+  ASSERT_TRUE(fs_watcher);
+  QSignalSpy spy_path_changed(fs_watcher, &FileSystemWatcherInterface::PathChanged);
+  ASSERT_TRUE(QFile::remove(temp_dir.filePath(u"02.mp3"_s)));
+  ASSERT_TRUE(spy_path_changed.wait(5000));
+
+  const qint64 scan_time = QDateTime::currentSecsSinceEpoch();
+  QSignalSpy spy_compilations(&watcher, &CollectionWatcher::CompilationsNeedUpdating);
+  ASSERT_TRUE(QMetaObject::invokeMethod(&watcher, "FileSystemWatcherOverflow"));
+  // The rescan of the changed paths and the scan for the overflow.
+  ASSERT_TRUE(spy_compilations.wait(10000));
+  if (spy_compilations.count() < 2) {
+    ASSERT_TRUE(spy_compilations.wait(10000));
+  }
+
+  const SongList songs = backend_->GetAllSongs();
+  ASSERT_EQ(2, songs.count());
+  for (const Song &song : songs) {
+    EXPECT_EQ(song.url().toLocalFile() == temp_dir.filePath(u"02.mp3"_s), song.unavailable()) << song.url().toLocalFile().toStdString();
+    EXPECT_GE(song.lastseen(), scan_time) << song.url().toLocalFile().toStdString();
+  }
+
+}
+
+// A watched directory which didn't exist when the file system watcher overflowed, but was created again before the scan for the overflow, is watched again.
+TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowWatchesDirectoryCreatedAgainBeforeScan) {
+
+  QFile max_queued_events_file(u"/proc/sys/fs/inotify/max_queued_events"_s);
+  const int max_queued_events = max_queued_events_file.open(QIODevice::ReadOnly) ? max_queued_events_file.readAll().trimmed().toInt() : -1;
+  if (max_queued_events <= 0 || max_queued_events > 100000) {
+    GTEST_SKIP() << "Can't overflow the inotify event queue, max_queued_events is" << max_queued_events;
+  }
+
+  // Not in the temporary directory, which is often a tmpfs, which the collection watcher ignores.
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  QDir root(temp_dir.path());
+  ASSERT_TRUE(root.mkdir(u"Album"_s));
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"Album/01.mp3"_s)));
+  const QStringList filenames_to_change = QStringList() << temp_dir.filePath(u"a.jpg"_s) << temp_dir.filePath(u"b.jpg"_s);
+  for (const QString &filename : filenames_to_change) {
+    QFile file(filename);
+    ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+  }
+
+  backend_->AddDirectory(temp_dir.path());
+  CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&watcher, &CollectionWatcher::SongsDeleted, &*backend_, &CollectionBackend::DeleteSongs);
+  QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+  CollectionDirectory dir;
+  dir.id = 1;
+  dir.path = temp_dir.path();
+  watcher.AddDirectory(dir, CollectionSubdirectoryList());
+  ASSERT_EQ(1, backend_->GetAllSongs().count());
+
+  // Fill the event queue before the events are read, so the events for deleting the directory are lost.
+  // The changes alternate between two files, the kernel only merges an event with the same event before it.
+  for (int i = 0; i < max_queued_events; ++i) {
+    const QFileDevice::Permissions permissions = (i / 2) % 2 == 0 ? (QFile::ReadOwner | QFile::WriteOwner) : (QFile::ReadOwner | QFile::WriteOwner | QFile::ReadGroup);
+    ASSERT_TRUE(QFile::setPermissions(filenames_to_change.value(i % 2), permissions));
+  }
+  ASSERT_TRUE(QDir(temp_dir.filePath(u"Album"_s)).removeRecursively());
+
+  // The directory doesn't exist when the overflow is handled, it's created again before the scan for the overflow.
+  FileSystemWatcherInterface *fs_watcher = watcher.findChild<FileSystemWatcherInterface*>();
+  ASSERT_TRUE(fs_watcher);
+  QSignalSpy spy_overflow(fs_watcher, &FileSystemWatcherInterface::Overflow);
+  QSignalSpy spy_compilations(&watcher, &CollectionWatcher::CompilationsNeedUpdating);
+  ASSERT_TRUE(spy_overflow.wait(5000));
+  ASSERT_TRUE(root.mkdir(u"Album"_s));
+
+  // The rescan of the changed paths and the scan for the overflow.
+  ASSERT_TRUE(spy_compilations.wait(10000));
+  if (spy_compilations.count() < 2) {
+    ASSERT_TRUE(spy_compilations.wait(10000));
+  }
+
+  // A file added to the directory created again is found by watching it.
+  QSignalSpy spy_new_or_updated(&watcher, &CollectionWatcher::NewOrUpdatedSongs);
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"Album/02.mp3"_s)));
+  ASSERT_TRUE(spy_new_or_updated.wait(10000));
+  QStringList filenames;
+  const SongList songs = backend_->GetAllSongs();
+  for (const Song &song : songs) {
+    filenames << song.url().toLocalFile();
+  }
+  EXPECT_TRUE(filenames.contains(temp_dir.filePath(u"Album/02.mp3"_s)));
+
+}
+
+// After the scan for the overflow, the songs which are available again were last seen now, and the unavailable songs are expired like after the incremental scan.
+TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowScanUpdatesLastSeenAndExpiresAfterScan) {
+
+  // Not in the temporary directory, which is often a tmpfs, which the collection watcher ignores.
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  const QStringList filenames = QStringList() << u"01.mp3"_s << u"02.mp3"_s;
+  for (const QString &filename : filenames) {
+    ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(filename)));
+    ASSERT_TRUE(QFile::setPermissions(temp_dir.filePath(filename), QFile::ReadOwner | QFile::WriteOwner | QFile::ReadUser | QFile::WriteUser));
+  }
+
+  // Without monitoring, the changes are only found by the scan for the overflow, not by the file system watcher.
+  const ScopedCollectionSetting monitor_disabled(CollectionSettings::kMonitor, false);
+  const ScopedCollectionSetting expire_unavailable_songs(CollectionSettings::kExpireUnavailableSongs, 1);
+
+  backend_->AddDirectory(temp_dir.path());
+  CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+  watcher.ReloadSettingsAsync();
+  QCoreApplication::processEvents();
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&watcher, &CollectionWatcher::SongsUnavailable, &*backend_, &CollectionBackend::MarkSongsUnavailable);
+  // Like CollectionManager, songs which are restored without changes are marked available again.
+  QObject::connect(&watcher, &CollectionWatcher::SongsReadded, &*backend_, &CollectionBackend::MarkSongsUnavailable);
+  QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+  QObject::connect(&watcher, &CollectionWatcher::UpdateLastSeen, &*backend_, &CollectionBackend::UpdateLastSeen);
+  CollectionDirectory dir;
+  dir.id = 1;
+  dir.path = temp_dir.path();
+  watcher.AddDirectory(dir, CollectionSubdirectoryList());
+  ASSERT_EQ(2, backend_->GetAllSongs().count());
+
+  // Both songs were unavailable since long ago, 01.mp3 is available again, 02.mp3 is still deleted.
+  {
+    QSqlDatabase db(database_->Connect());
+    QSqlQuery q(db);
+    ASSERT_TRUE(q.exec(QStringLiteral("UPDATE %1 SET unavailable = 1, lastseen = 1").arg(QLatin1String(CollectionManager::kSongsTable))));
+  }
+  ASSERT_TRUE(QFile::remove(temp_dir.filePath(u"02.mp3"_s)));
+
+  const qint64 scan_time = QDateTime::currentSecsSinceEpoch();
+  QSignalSpy spy_compilations(&watcher, &CollectionWatcher::CompilationsNeedUpdating);
+  ASSERT_TRUE(QMetaObject::invokeMethod(&watcher, "FileSystemWatcherOverflow"));
+  // The rescan of the changed paths and the scan for the overflow.
+  ASSERT_TRUE(spy_compilations.wait(10000));
+  if (spy_compilations.count() < 2) {
+    ASSERT_TRUE(spy_compilations.wait(10000));
+  }
+
+  const SongList songs = backend_->GetAllSongs();
+  ASSERT_EQ(1, songs.count());
+  EXPECT_EQ(temp_dir.filePath(u"01.mp3"_s), songs.first().url().toLocalFile());
+  EXPECT_FALSE(songs.first().unavailable());
+  EXPECT_GE(songs.first().lastseen(), scan_time);
 
 }
 
