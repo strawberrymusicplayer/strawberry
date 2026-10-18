@@ -45,7 +45,10 @@ using namespace Qt::Literals::StringLiterals;
 PlexBaseRequest::PlexBaseRequest(PlexService *service, const SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),
       service_(service),
-      network_(network) {}
+      network_(network),
+      server_url_(service->server_url()),
+      server_machine_identifier_(service->server_machine_identifier()),
+      token_(service->server_token()) {}
 
 QUrl PlexBaseRequest::CreateUrl(const QString &ressource_path, const ParamList &params_provided) const {
 
@@ -62,9 +65,8 @@ QUrl PlexBaseRequest::CreateUrl(const QString &ressource_path, const ParamList &
 
 }
 
-QNetworkReply *PlexBaseRequest::CreateGetRequest(const QString &ressource_path, const ParamList &params_provided) const {
+QNetworkRequest PlexBaseRequest::CreateNetworkRequest(const QUrl &url) const {
 
-  const QUrl url = CreateUrl(ressource_path, params_provided);
   QNetworkRequest network_request(url);
 
   if (url.scheme() == "https"_L1 && !verify_certificate()) {
@@ -75,14 +77,33 @@ QNetworkReply *PlexBaseRequest::CreateGetRequest(const QString &ressource_path, 
 
   network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   network_request.setTransferTimeout(QNetworkRequest::DefaultTransferTimeoutConstant);
-  network_request.setRawHeader("Accept", "application/json");
   network_request.setRawHeader("X-Plex-Client-Identifier", client_id().toUtf8());
   network_request.setRawHeader("X-Plex-Token", token().toUtf8());
+
+  return network_request;
+
+}
+
+QNetworkReply *PlexBaseRequest::CreateGetRequest(const QString &ressource_path, const ParamList &params_provided) const {
+
+  QNetworkRequest network_request = CreateNetworkRequest(CreateUrl(ressource_path, params_provided));
+  network_request.setRawHeader("Accept", "application/json");
 
   QNetworkReply *reply = network_->get(network_request);
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &PlexBaseRequest::HandleSSLErrors);
 
   return reply;
+
+}
+
+QNetworkReply *PlexBaseRequest::CreateImageRequest(const QUrl &url) const {
+
+  QNetworkRequest network_request = CreateNetworkRequest(url);
+  // The token is sent in a header, don't send it to another server.
+  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::SameOriginRedirectPolicy);
+
+  // SSL errors are not reported as errors of the request, covers are optional, the failed reply is only logged, the certificate is still verified.
+  return network_->get(network_request);
 
 }
 

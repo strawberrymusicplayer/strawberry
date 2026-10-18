@@ -25,6 +25,9 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QList>
+#include <QQueue>
+#include <QHash>
+#include <QUrl>
 #include <QSet>
 #include <QVariant>
 #include <QString>
@@ -47,6 +50,16 @@ class PlexRequest : public PlexBaseRequest {
 
   void GetLibrarySections();
 
+  // The cover URLs and the cache filenames, these don't need a request, so they can be tested.
+  // Returns the image ID from the thumb path of a Plex cover URL, which is used in the cache filename, or an empty string if it's not a Plex cover URL.
+  static QString CoverImageId(const QUrl &cover_url);
+  // Returns the cover URL for the thumb path on the server, without a query, so it never includes an access token.
+  static QUrl CoverUrl(const QUrl &server_url, const QString &thumb);
+  // Updates a saved cover URL to the current server, for a cover which was not downloaded, or a downloaded cover which is not in the cache anymore.
+  static QUrl CoverUrlForServer(const QUrl &cover_url, const QUrl &server_url);
+  // Returns the cache directory for the covers of the server, each server has its own directory, since different servers can have the same thumb paths.
+  static QString CoverCacheDir(const QString &server_machine_identifier, const QUrl &server_url);
+
   qint64 newest_updated_at() const { return newest_updated_at_; }
   bool incremental() const { return incremental_; }
   QStringList rejected_song_ids() const { return QStringList(rejected_song_ids_.cbegin(), rejected_song_ids_.cend()); }
@@ -67,6 +80,17 @@ class PlexRequest : public PlexBaseRequest {
   void RejectSong(const QString &song_id, const QString &reason, const QJsonObject &object_metadata);
 
   void SongsFinishCheck();
+
+  struct AlbumCoverRequest {
+    QString image_id;
+    QUrl url;
+    QString filename;
+  };
+  void GetAlbumCovers();
+  void AddAlbumCoverRequest(const Song &song);
+  void FlushAlbumCoverRequests();
+  void AlbumCoverReceived(QNetworkReply *reply, const AlbumCoverRequest &request);
+
   void FinishCheck();
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
@@ -81,6 +105,13 @@ class PlexRequest : public PlexBaseRequest {
   int songs_requests_active_;
   int songs_total_;
   int songs_received_;
+
+  bool album_covers_started_;
+  QQueue<AlbumCoverRequest> album_cover_requests_queue_;
+  QHash<QString, QStringList> album_covers_requests_sent_;
+  int album_covers_requests_active_;
+  int album_covers_requested_;
+  int album_covers_received_;
 
   SongMap songs_;
   QSet<QString> rejected_song_ids_;  // Songs the server counts, but which could not be parsed.
