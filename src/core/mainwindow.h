@@ -316,6 +316,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   void SetToggleScrobblingIcon(const bool value);
 
+  bool IsActivePlaylistCurrentRow(const int row) const;
+
 #ifdef HAVE_DBUS
   void UpdateTaskbarProgress(const bool visible, const double progress = 0);
 #endif
