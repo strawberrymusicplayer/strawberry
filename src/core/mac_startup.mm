@@ -213,7 +213,18 @@ QDebug operator<<(QDebug dbg, NSObject *object) {
   Q_UNUSED(notification);
 
   // Always show notifications, even if Strawberry is in the foreground.
+#if defined(MAC_OS_VERSION_11_0) && (MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_11_0)
   completionHandler(UNNotificationPresentationOptionBanner | UNNotificationPresentationOptionList);
+#else
+  // UNNotificationPresentationOptionBanner and UNNotificationPresentationOptionList require macOS 11.
+  // Older versions use UNNotificationPresentationOptionAlert instead, which is deprecated since macOS 11.
+  if (@available(macOS 11.0, *)) {
+    completionHandler(UNNotificationPresentationOptionBanner | UNNotificationPresentationOptionList);
+  }
+  else {
+    completionHandler(UNNotificationPresentationOptionAlert);
+  }
+#endif
 
 }
 
