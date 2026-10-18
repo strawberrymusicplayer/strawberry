@@ -151,6 +151,9 @@ endif()
 if(HAVE_SPOTIFY)
   add_test_file(src/spotifyfavoriterequest_test.cpp false)
 endif()
+if(LINUX)
+  add_test_file(src/filesystemwatcherinotify_test.cpp false)
+endif()
 
 add_custom_target(run_strawberry_tests COMMAND ${CMAKE_CTEST_COMMAND} -V DEPENDS strawberry_tests)
 

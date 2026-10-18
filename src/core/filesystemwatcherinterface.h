@@ -38,6 +38,8 @@ class FileSystemWatcherInterface : public QObject {
 
  Q_SIGNALS:
   void PathChanged(const QString &path);
+  // Emitted when changes were lost, because there were too many at once, the watched paths need to be scanned to find them.
+  void Overflow();
 };
 
 #endif  // FILESYSTEMWATCHERINTERFACE_H

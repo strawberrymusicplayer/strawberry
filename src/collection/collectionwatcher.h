@@ -191,6 +191,7 @@ class CollectionWatcher : public QObject {
   void ReloadSettings();
   void Exit();
   void DirectoryChanged(const QString &subdir);
+  void FileSystemWatcherOverflow();
   void IncrementalScanCheck();
   void IncrementalScanNow();
   void FullScanNow();
@@ -215,6 +216,7 @@ class CollectionWatcher : public QObject {
   static qint64 ArtAutomaticMtime(const QUrl &art_automatic);
   void AddWatch(const CollectionDirectory &dir, const QString &path);
   void RemoveWatch(const CollectionDirectory &dir, const CollectionSubdirectory &subdir);
+  void RestoreWatches();
   static quint64 GetMtimeForPath(const QString &path);
   static QString ReadSyncedLyricsFromLrc(const QString &lrc_file);
   static void SetLyricsFromStorage(Song *song, const Song &matching_song, const QString &lrc_file);
@@ -299,6 +301,8 @@ class CollectionWatcher : public QObject {
   QTimer *periodic_scan_timer_;
   QMap<int, QStringList> rescan_queue_;  // dir id -> list of subdirs to be scanned
   bool rescan_paused_;
+  // Set when the file system watcher lost changes, all directories are scanned after rescanning the changed paths.
+  bool overflow_scan_pending_;
 
   int total_watches_;
 
