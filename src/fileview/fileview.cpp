@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -498,7 +499,8 @@ void FileView::keyPressEvent(QKeyEvent *e) {
       break;
     case Qt::Key_Enter:
     case Qt::Key_Return:
-      ItemDoubleClick(ui_->list->currentIndex());
+      // The index must be from the view which is shown, since ItemDoubleClick() uses the model of that view.
+      ItemDoubleClick(tree_view_active_ ? ui_->tree->currentIndex() : ui_->list->currentIndex());
       break;
     default:
       break;
