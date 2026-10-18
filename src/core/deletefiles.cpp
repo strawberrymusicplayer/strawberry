@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,8 +61,10 @@ void DeleteFiles::Start(const SongList &songs) {
   task_id_ = task_manager_->StartTask(tr("Deleting files"));
   task_manager_->SetTaskBlocksCollectionScans(task_id_);
 
-  thread_ = new QThread(this);
+  // The thread has no parent, it's deleted in the original thread when it finished, since this can be deleted before the thread finished.
+  thread_ = new QThread;
   QObject::connect(thread_, &QThread::started, this, &DeleteFiles::ProcessSomeFiles);
+  QObject::connect(thread_, &QThread::finished, thread_, &QThread::deleteLater);
 
   moveToThread(thread_);
   thread_->start();
@@ -105,12 +107,12 @@ void DeleteFiles::ProcessSomeFiles() {
 
     Q_EMIT Finished(songs_with_errors_, log);
 
-    // Move back to the original thread so deleteLater() can get called in the main thread's event loop
+    // Stop this thread, then move back to the original thread so deleteLater() can get called in the main thread's event loop.
+    // This can be deleted as soon as deleteLater() is called, so don't use it after that.
+    thread_->quit();
+    thread_ = nullptr;
     moveToThread(original_thread_);
     deleteLater();
-
-    // Stop this thread
-    thread_->quit();
     return;
   }
 
