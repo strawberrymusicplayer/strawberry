@@ -89,6 +89,10 @@ FileView::FileView(QWidget *parent)
   QObject::connect(undo_stack_, &QUndoStack::canUndoChanged, ui_->back, &FileView::setEnabled);
   QObject::connect(undo_stack_, &QUndoStack::canRedoChanged, ui_->forward, &FileView::setEnabled);
 
+  // The back and forward mouse buttons in the list.
+  QObject::connect(ui_->list, &FileViewList::Back, undo_stack_, &QUndoStack::undo);
+  QObject::connect(ui_->list, &FileViewList::Forward, undo_stack_, &QUndoStack::redo);
+
   QObject::connect(ui_->list, &FileViewList::activated, this, &FileView::ItemActivated);
   QObject::connect(ui_->list, &FileViewList::doubleClicked, this, &FileView::ItemDoubleClick);
   QObject::connect(ui_->list, &FileViewList::AddToPlaylist, this, &FileView::AddToPlaylist);
