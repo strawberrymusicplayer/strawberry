@@ -65,6 +65,8 @@ QVariant FilterTree::DataFromColumn(const FilterColumn filter_column, const Song
       return song.track();
     case FilterColumn::Year:
       return song.year();
+    case FilterColumn::OriginalYear:
+      return song.effective_originalyear();
     case FilterColumn::Length:
       return song.length_nanosec();
     case FilterColumn::Samplerate:
