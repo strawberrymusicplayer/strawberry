@@ -43,6 +43,7 @@
 #cmakedefine HAVE_PLEX
 #cmakedefine HAVE_JELLYFIN
 #cmakedefine HAVE_DISCORD_RPC
+#cmakedefine HAVE_NETWORKREMOTE
 
 #cmakedefine HAVE_TAGLIB_DSFFILE
 #cmakedefine HAVE_TAGLIB_DSDIFFFILE
