@@ -41,6 +41,7 @@ enum class FilterColumn {
   URL,
   Track,
   Year,
+  OriginalYear,
   Samplerate,
   Bitdepth,
   Bitrate,

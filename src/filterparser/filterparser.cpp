@@ -100,6 +100,7 @@ const QMap<QString, FilterColumn> &GetFilterColumnsMap() {
     filter_columns_map.insert(u"url"_s, FilterColumn::URL);
     filter_columns_map.insert(u"track"_s, FilterColumn::Track);
     filter_columns_map.insert(u"year"_s, FilterColumn::Year);
+    filter_columns_map.insert(u"originalyear"_s, FilterColumn::OriginalYear);
     filter_columns_map.insert(u"samplerate"_s, FilterColumn::Samplerate);
     filter_columns_map.insert(u"bitdepth"_s, FilterColumn::Bitdepth);
     filter_columns_map.insert(u"bitrate"_s, FilterColumn::Bitrate);
@@ -137,6 +138,7 @@ const QMap<FilterColumn, ColumnType> &GetColumnTypesMap() {
     column_types_map.insert(FilterColumn::URL, ColumnType::Text);
     column_types_map.insert(FilterColumn::Track, ColumnType::Int);
     column_types_map.insert(FilterColumn::Year, ColumnType::Int);
+    column_types_map.insert(FilterColumn::OriginalYear, ColumnType::Int);
     column_types_map.insert(FilterColumn::Samplerate, ColumnType::Int);
     column_types_map.insert(FilterColumn::Bitdepth, ColumnType::Int);
     column_types_map.insert(FilterColumn::Bitrate, ColumnType::Int);

@@ -117,4 +117,28 @@ TEST(FilterParserTest, HyphenAtStartOfTermNegates) {
   EXPECT_TRUE(Accepts(u"bar OR-foo"_s, SongWithTitle(u"Baz"_s)));
 }
 
+Song SongWithYears(const int year, const int originalyear) {
+  Song song;
+  song.set_year(year);
+  song.set_originalyear(originalyear);
+  return song;
+}
+
+TEST(FilterParserTest, OriginalYear) {
+  EXPECT_TRUE(Accepts(u"originalyear:1971"_s, SongWithYears(2011, 1971)));
+  EXPECT_FALSE(Accepts(u"originalyear:2011"_s, SongWithYears(2011, 1971)));
+  EXPECT_FALSE(Accepts(u"year:1971"_s, SongWithYears(2011, 1971)));
+  // Without an original year, it's the year.
+  EXPECT_TRUE(Accepts(u"originalyear:2011"_s, SongWithYears(2011, -1)));
+}
+
+TEST(FilterParserTest, UnknownYear) {
+  // "Search for this" uses this for the songs without a year, which have year -1 or 0.
+  EXPECT_TRUE(Accepts(u"year:<=0"_s, SongWithYears(-1, -1)));
+  EXPECT_TRUE(Accepts(u"year:<=0"_s, SongWithYears(0, -1)));
+  EXPECT_FALSE(Accepts(u"year:<=0"_s, SongWithYears(2011, -1)));
+  EXPECT_TRUE(Accepts(u"originalyear:<=0"_s, SongWithYears(-1, -1)));
+  EXPECT_FALSE(Accepts(u"originalyear:<=0"_s, SongWithYears(-1, 1971)));
+}
+
 }  // namespace
