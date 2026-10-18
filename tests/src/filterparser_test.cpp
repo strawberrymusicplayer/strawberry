@@ -94,4 +94,27 @@ TEST(FilterParserTest, QuotedValueWithoutEscapes) {
 
 }
 
+Song SongWithArtist(const QString &artist) {
+  Song song;
+  song.set_artist(artist);
+  return song;
+}
+
+TEST(FilterParserTest, HyphenInsideTermIsPartOfValue) {
+  EXPECT_TRUE(Accepts(u"blink-182"_s, SongWithArtist(u"blink-182"_s)));
+  EXPECT_TRUE(Accepts(u"artist:blink-182"_s, SongWithArtist(u"blink-182"_s)));
+  EXPECT_FALSE(Accepts(u"blink-182"_s, SongWithArtist(u"blink"_s)));
+  EXPECT_FALSE(Accepts(u"artist:blink-182"_s, SongWithArtist(u"blink"_s)));
+}
+
+TEST(FilterParserTest, HyphenAtStartOfTermNegates) {
+  EXPECT_TRUE(Accepts(u"-foo"_s, SongWithTitle(u"Bar"_s)));
+  EXPECT_FALSE(Accepts(u"-foo"_s, SongWithTitle(u"Foo"_s)));
+  EXPECT_TRUE(Accepts(u"bar -foo"_s, SongWithTitle(u"Bar"_s)));
+  EXPECT_FALSE(Accepts(u"bar -foo"_s, SongWithTitle(u"Bar Foo"_s)));
+  EXPECT_FALSE(Accepts(u"bar (-foo)"_s, SongWithTitle(u"Bar Foo"_s)));
+  EXPECT_FALSE(Accepts(u"bar OR-foo"_s, SongWithTitle(u"Foo"_s)));
+  EXPECT_TRUE(Accepts(u"bar OR-foo"_s, SongWithTitle(u"Baz"_s)));
+}
+
 }  // namespace

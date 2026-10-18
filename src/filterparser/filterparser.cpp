@@ -345,7 +345,8 @@ FilterTree *FilterParser::parseSearchTerm() {
         prefix.clear();  // Prefix isn't allowed here - let's ignore it
         previous_char_operator = true;
       }
-      else if (iter_->isSpace() || *iter_ == u'(' || *iter_ == u')' || *iter_ == u'-') {
+      else if (iter_->isSpace() || *iter_ == u'(' || *iter_ == u')') {
+        // A '-' only negates at the start of a search term, which is handled by parseSearchExpression(), inside a search term it's part of the value, for example in blink-182.
         break;
       }
       else if (buf_.isEmpty()) {
