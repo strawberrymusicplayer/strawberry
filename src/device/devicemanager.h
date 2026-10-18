@@ -160,6 +160,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   void CloseDevices();
   void CloseListers();
   void CloseBackend();
+  void CloseFailedDevice(SharedPtr<ConnectedDevice> connected_device);
 
  private:
   const SharedPtr<TaskManager> task_manager_;
@@ -183,6 +184,9 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   QThreadPool thread_pool_;
 
   QList<QObject*> wait_for_exit_;
+
+  // Devices which failed to connect, kept until they are closed.
+  QList<SharedPtr<ConnectedDevice>> failed_devices_;
 };
 
 template<typename T>
