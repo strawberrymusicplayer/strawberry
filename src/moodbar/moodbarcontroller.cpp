@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,6 @@
 #include "moodbarloader.h"
 #include "moodbarpipeline.h"
 
-using std::make_shared;
 
 MoodbarController::MoodbarController(const SharedPtr<Player> player, const SharedPtr<MoodbarLoader> moodbar_loader, QObject *parent)
     : QObject(parent),
@@ -116,11 +115,7 @@ void MoodbarController::GenerateMoodbar(const Song &song) {
       MoodbarPipelinePtr pipeline = load_result.pipeline;
       Q_ASSERT(pipeline);
       const QUrl url = song.url();
-      SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
-      *connection = QObject::connect(&*pipeline, &MoodbarPipeline::Finished, this, [this, connection, pipeline, url]() {
-        AsyncLoadComplete(pipeline, url);
-        QObject::disconnect(*connection);
-      });
+      pipeline->NotifyFinished(this, [this, pipeline, url]() { AsyncLoadComplete(pipeline, url); });
       break;
   }
 

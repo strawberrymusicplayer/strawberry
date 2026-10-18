@@ -1,6 +1,7 @@
 /*
  * Strawberry Music Player
  * Copyright 2026, Strawberry contributors
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +33,6 @@
 #include "waveform/waveformloader.h"
 #include "waveform/waveformpipeline.h"
 
-using std::make_shared;
 
 WaveformController::WaveformController(const SharedPtr<PlayerInterface> player, const SharedPtr<WaveformLoader> waveform_loader, QObject *parent)
     : QObject(parent),
@@ -114,11 +114,7 @@ void WaveformController::GenerateWaveform(const Song &song) {
       WaveformPipelinePtr pipeline = load_result.pipeline;
       Q_ASSERT(pipeline);
       const QUrl url = song.url();
-      SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
-      *connection = QObject::connect(&*pipeline, &WaveformPipeline::Finished, this, [this, connection, pipeline, url]() {
-        AsyncLoadComplete(pipeline, url);
-        QObject::disconnect(*connection);
-      });
+      pipeline->NotifyFinished(this, [this, pipeline, url]() { AsyncLoadComplete(pipeline, url); });
       break;
   }
 
