@@ -2949,11 +2949,12 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
     app_->player()->SetVolume(static_cast<uint>(qBound(0, static_cast<int>(app_->player()->GetVolume()) + options.volume_modifier(), 100)));
   }
 
+  // Seek to the start instead of wrapping around when the position is negative.
   if (options.seek_to() != -1) {
-    app_->player()->SeekTo(static_cast<quint64>(options.seek_to()));
+    app_->player()->SeekTo(static_cast<quint64>(std::max(0, options.seek_to())));
   }
   else if (options.seek_by() != 0) {
-    app_->player()->SeekTo(static_cast<quint64>(app_->player()->engine()->position_nanosec() / kNsecPerSec + options.seek_by()));
+    app_->player()->SeekTo(static_cast<quint64>(std::max<qint64>(0, app_->player()->engine()->position_nanosec() / kNsecPerSec + options.seek_by())));
   }
 
   if (options.play_track_at() != -1) app_->player()->PlayAt(options.play_track_at(), false, 0, EngineBase::TrackChangeType::Manual, Playlist::AutoScroll::Maybe, true);
