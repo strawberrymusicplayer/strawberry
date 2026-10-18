@@ -352,8 +352,10 @@ void Application::Exit() {
                  << &*streaming_services()
                  << &*radio_services()->radio_backend();
 
+  // The tagreader exits after the collection, which saves the playcounts, ratings and lyrics deferred for the playing song when exiting.
+  // Reading files is not needed anymore, so a large number of queued reads doesn't delay the writes and exiting.
+  tagreader_client()->AbortReads();
   QObject::connect(&*tagreader_client(), &TagReaderClient::ExitFinished, this, &Application::ExitReceived);
-  tagreader_client()->ExitAsync();
 
   QObject::connect(&*collection(), &CollectionManager::ExitFinished, this, &Application::ExitReceived);
   collection()->Exit();
@@ -383,6 +385,11 @@ void Application::ExitReceived() {
   qLog(Debug) << obj << "successfully exited.";
 
   wait_for_exit_.removeAll(obj);
+
+  if (obj == &*collection()) {
+    tagreader_client()->ExitAsync();
+  }
+
   if (wait_for_exit_.isEmpty()) {
     database()->Close();
     QObject::connect(&*database(), &Database::ExitFinished, this, &Application::ExitFinished);

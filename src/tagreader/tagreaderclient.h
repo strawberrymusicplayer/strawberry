@@ -56,6 +56,8 @@ class TagReaderClient : public QObject {
   explicit TagReaderClient(QObject *parent = nullptr);
 
   void Start();
+  // Stops processing the requests reading files when the application starts exiting, the requests writing to files are still processed until the tagreader exits.
+  void AbortReads();
   void ExitAsync();
 
   using SaveOption = SaveTagsOption;
@@ -101,6 +103,7 @@ class TagReaderClient : public QObject {
   TagReaderRequestPtr DequeueRequest();
   void ProcessRequestsAsync();
   void ProcessRequest(TagReaderRequestPtr request);
+  static bool IsWriteRequest(TagReaderRequestPtr request);
 
  Q_SIGNALS:
   void ExitFinished();
@@ -121,7 +124,10 @@ class TagReaderClient : public QObject {
   QMutex mutex_write_;
   TagReaderTagLib tagreader_;
   TagReaderGME gmereader_;
+  // Set when exiting, the requests reading files are dropped, but the requests writing to files are still processed, so changes to the tags are not lost.
   std::atomic<bool> abort_;
+  // Set when the tagreader exited and moved back to the original thread.
+  std::atomic<bool> exited_;
   std::atomic<bool> processing_;
 };
 

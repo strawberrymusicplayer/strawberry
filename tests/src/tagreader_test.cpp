@@ -35,6 +35,7 @@
 #include <QCryptographicHash>
 #include <QThread>
 #include <QEventLoop>
+#include <QSemaphore>
 
 #include <taglib/tstring.h>
 #include <taglib/asffile.h>
@@ -51,6 +52,7 @@
 #include "core/logging.h"
 #include "core/song.h"
 #include "tagreader/tagreaderclient.h"
+#include "tagreader/tagreadertaglib.h"
 
 #include "test_utils.h"
 
@@ -3346,6 +3348,88 @@ TEST(TagReaderGMETest, VGMNonASCIIStrings) {
   EXPECT_EQ(u"Grüße"_s, song.album());
   EXPECT_EQ(u"Björk"_s, song.artist());
   EXPECT_EQ(1994, song.year());
+
+}
+
+TEST_F(TagReaderTest, TestExitWritesQueuedRequests) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+
+  // Block the tagreader thread, and queue the exit before the requests, so Exit() runs before the requests are processed, and has to write them itself.
+  QSemaphore blocker;
+  QMetaObject::invokeMethod(tagreader_client_, [&blocker]() { blocker.acquire(); }, Qt::QueuedConnection);
+
+  // Wait for the exit without an event loop, since the queued ProcessRequests() is moved to this thread with the tagreader, and would otherwise process the requests here.
+  QSemaphore exit_finished;
+  QObject::connect(tagreader_client_, &TagReaderClient::ExitFinished, tagreader_client_, [&exit_finished]() { exit_finished.release(); }, Qt::DirectConnection);
+  tagreader_client_->ExitAsync();
+
+  TagReaderReadFileReplyPtr read_reply = tagreader_client_->ReadFileAsync(r.fileName());
+  TagReaderReplyPtr playcount_reply = tagreader_client_->SaveSongPlaycountAsync(r.fileName(), 42);
+  TagReaderReplyPtr lyrics_reply = tagreader_client_->SaveSongLyricsAsync(r.fileName(), u"Lyrics saved when exiting"_s);
+
+  blocker.release();
+  ASSERT_TRUE(exit_finished.tryAcquire(1, 10000));
+
+  // Reading the file is not needed anymore when exiting, but the changes to the tags are written.
+  EXPECT_FALSE(read_reply->finished());
+  EXPECT_TRUE(playcount_reply->finished());
+  EXPECT_TRUE(playcount_reply->success());
+  EXPECT_TRUE(lyrics_reply->finished());
+  EXPECT_TRUE(lyrics_reply->success());
+
+  Song song;
+  ASSERT_TRUE(TagReaderTagLib().ReadFile(r.fileName(), &song).success());
+  EXPECT_EQ(42U, song.playcount());
+  EXPECT_EQ(u"Lyrics saved when exiting"_s, song.lyrics());
+
+}
+
+TEST_F(TagReaderTest, TestAbortReadsKeepsWrites) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+
+  // Block the tagreader thread, so both requests are queued when the reads are aborted.
+  QSemaphore blocker;
+  QMetaObject::invokeMethod(tagreader_client_, [&blocker]() { blocker.acquire(); }, Qt::QueuedConnection);
+
+  tagreader_client_->AbortReads();
+  TagReaderReadFileReplyPtr read_reply = tagreader_client_->ReadFileAsync(r.fileName());
+  TagReaderReplyPtr playcount_reply = tagreader_client_->SaveSongPlaycountAsync(r.fileName(), 5);
+
+  QEventLoop loop;
+  QObject::connect(&*playcount_reply, &TagReaderReply::Finished, &loop, &QEventLoop::quit);
+  blocker.release();
+  loop.exec();
+
+  // The reads are dropped when the application starts exiting, before the tagreader exits, but the writes are still processed.
+  EXPECT_FALSE(read_reply->finished());
+  EXPECT_TRUE(playcount_reply->finished());
+  EXPECT_TRUE(playcount_reply->success());
+
+}
+
+TEST_F(TagReaderTest, TestRequestsAfterExit) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+
+  QEventLoop loop;
+  QObject::connect(tagreader_client_, &TagReaderClient::ExitFinished, &loop, &QEventLoop::quit);
+  tagreader_client_->ExitAsync();
+  loop.exec();
+
+  // Requests made after exiting, from the thread the tagreader moved back to, for example when a write finished during exiting and the file is read again.
+  // Reading is not done, writing is done directly.
+  TagReaderReadFileReplyPtr read_reply = tagreader_client_->ReadFileAsync(r.fileName());
+  TagReaderReplyPtr playcount_reply = tagreader_client_->SaveSongPlaycountAsync(r.fileName(), 9);
+
+  EXPECT_FALSE(read_reply->finished());
+  EXPECT_TRUE(playcount_reply->finished());
+  EXPECT_TRUE(playcount_reply->success());
+
+  Song song;
+  ASSERT_TRUE(TagReaderTagLib().ReadFile(r.fileName(), &song).success());
+  EXPECT_EQ(9U, song.playcount());
 
 }
 
