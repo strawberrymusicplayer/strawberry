@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +16,8 @@
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+#include <algorithm>
 
 #include <QString>
 #include <QFile>
@@ -62,12 +64,21 @@ QString TemporaryFile::GenerateFilename(const QString &filename_pattern) const {
 
   QString filename = filename_pattern;
 
-  Q_FOREVER {
-    const int i = static_cast<int>(filename.indexOf(u'X'));
-    if (i == -1) break;
+  // Only replace the last run of X characters in the file name, the directory can also contain X characters, like a home directory of a user named Xavier.
+  // A backslash is only a directory separator on Windows, elsewhere it can be part of the file name.
+#ifdef Q_OS_WIN32
+  const qsizetype filename_start = std::max(filename.lastIndexOf(u'/'), filename.lastIndexOf(u'\\')) + 1;
+#else
+  const qsizetype filename_start = filename.lastIndexOf(u'/') + 1;
+#endif
+  const qsizetype template_end = filename.lastIndexOf(u'X');
+  if (template_end < filename_start) {
+    return filename;
+  }
+
+  for (qsizetype i = template_end; i >= filename_start && filename.at(i) == u'X'; --i) {
     const qint64 index = QRandomGenerator::global()->bounded(0, random_chars.length());
-    const QChar random_char = random_chars.at(index);
-    filename[i] = random_char;
+    filename[i] = random_chars.at(index);
   }
 
   return filename;
