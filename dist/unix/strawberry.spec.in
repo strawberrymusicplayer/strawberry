@@ -60,6 +60,14 @@ BuildRequires:  hicolor-icon-theme
 BuildRequires:  cmake(KDSingleApplication-qt6)
 %endif
 
+# LayerShellQt for Qt 6 is not available on openSUSE Leap 15, Mageia 9 and RHEL.
+%if (!0%{?suse_version} || 0%{?suse_version} >= 1600) && (!0%{?mageia} || 0%{?mageia} >= 10) && !0%{?rhel}
+BuildRequires:  cmake(LayerShellQt)
+BuildRequires:  pkgconfig(wayland-client)
+%else
+%global cmake_layershellqt -DENABLE_LAYERSHELLQT=OFF
+%endif
+
 %if 0%{?suse_version}
 BuildRequires:  update-desktop-files
 BuildRequires:  appstream-glib
@@ -116,7 +124,7 @@ Features:
 %setup -qn %{name}-@STRAWBERRY_VERSION_PACKAGE@
 
 %build
-%cmake --log-level=DEBUG -DBUILD_WERROR=ON
+%cmake --log-level=DEBUG -DBUILD_WERROR=ON %{?cmake_layershellqt}
 %if "%{?_vendor}" == "openmandriva"
 %make_build
 %else
