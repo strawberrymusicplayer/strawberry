@@ -74,6 +74,11 @@ class GstEnginePipelineTest {
   static void DeviceWarmupElapsed(GstEnginePipeline &pipeline) {
     pipeline.DeviceWarmupElapsed(pipeline.device_warmup_generation_.load());
   }
+
+  // Sets whether the pipeline is buffering, like a buffering message from the queue does.
+  static void SetBuffering(GstEnginePipeline &pipeline, const bool buffering) {
+    pipeline.buffering_ = buffering;
+  }
 };
 
 namespace {
@@ -362,6 +367,36 @@ TEST(GstEnginePipelineTest, CancelledWarmupIsNotPending) {
   ProcessEventsFor(1700);
   EXPECT_EQ(GST_STATE_PAUSED, pipeline.state());
   EXPECT_TRUE(pipeline.play_pending());
+  EXPECT_TRUE(WaitFor([&pipeline]() { return pipeline.state() == GST_STATE_PLAYING; }));
+
+}
+
+// Regression test: a buffering message from the queue while waiting for the warm-up made playback not pending, although the warm-up still starts playback, so pausing then was ignored, this made CancelledWarmupIsNotPending fail when the buffering finished after the preroll.
+TEST(GstEnginePipelineTest, WarmupIsPendingWhileBuffering) {
+
+  GstStartup::Initialize();
+
+  TemporaryResource res(u":/audio/strawberry.wav"_s);
+  ASSERT_TRUE(res.open());
+  const QUrl url = QUrl::fromLocalFile(res.fileName());
+
+  GstEnginePipeline pipeline;
+  pipeline.set_output_device(u"fakesink"_s, QVariant());
+  pipeline.set_device_warmup_duration_ms(2000);
+  QString error;
+  ASSERT_TRUE(pipeline.InitFromUrl(url, url, url.toEncoded(), 0, 0, 0.0, error)) << error.toStdString();
+
+  // Wait until the pipeline is prerolled, waiting for the warm-up, and no longer buffering.
+  pipeline.Play(false, 0);
+  ASSERT_TRUE(WaitFor([&pipeline]() { return pipeline.state() == GST_STATE_PAUSED && pipeline.play_pending(); }));
+
+  // Buffering while waiting for the warm-up, playback is still pending, the events are not processed in between, so no buffering message changes it.
+  GstEnginePipelineTest::SetBuffering(pipeline, true);
+  EXPECT_TRUE(pipeline.play_pending());
+
+  // The warm-up starts playback.
+  GstEnginePipelineTest::SetBuffering(pipeline, false);
+  GstEnginePipelineTest::DeviceWarmupElapsed(pipeline);
   EXPECT_TRUE(WaitFor([&pipeline]() { return pipeline.state() == GST_STATE_PLAYING; }));
 
 }

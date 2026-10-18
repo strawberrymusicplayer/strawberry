@@ -2446,7 +2446,10 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::Play(const bool pause, const qu
 
 bool GstEnginePipeline::play_pending() const {
 
-  return !buffering_.load() && (device_warmup_pending_.load() || device_warmup_waiting_.load() || pending_state_.load() == GST_STATE_PLAYING || (target_state_.load() == GST_STATE_PLAYING && state() != GST_STATE_PLAYING));
+  // The audio device warm-up starts playback when it elapses, also while buffering, so playback is pending while waiting for it, also when buffering.
+  if (device_warmup_pending_.load() || device_warmup_waiting_.load()) return true;
+
+  return !buffering_.load() && (pending_state_.load() == GST_STATE_PLAYING || (target_state_.load() == GST_STATE_PLAYING && state() != GST_STATE_PLAYING));
 
 }
 
