@@ -168,6 +168,7 @@ Playlist::Playlist(const SharedPtr<TaskManager> task_manager,
       ignore_sorting_(false),
       undo_stack_(new QUndoStack(this)),
       special_type_(special_type),
+      restoring_(false),
       cancel_restore_(false),
       scrobbled_(false),
       scrobble_point_(-1),
@@ -1977,9 +1978,22 @@ void Playlist::ScheduleSaveItem(const PlaylistItemPtr &item) {
 
 }
 
+void Playlist::SavePending() {
+
+  if (!timer_save_->isActive()) return;
+
+  timer_save_->stop();
+  Save();
+
+}
+
 void Playlist::Save() {
 
   if (!playlist_backend_ || is_loading_) return;
+
+  // Saving the playlist replaces the saved items, so saving before the saved items are restored would lose them.
+  // The changes are kept pending, and saved when the playlist is restored, unless the restored items are not inserted because the playlist was cleared.
+  if (restoring_ && !cancel_restore_) return;
 
   // The items are snapshotted here, on the playlist's own thread, rather than handing the items themselves to the database thread:
   // saving is asynchronous and the model keeps mutating the items (inline tag edits, collection updates, stream metadata) while it runs.
@@ -2030,6 +2044,7 @@ void Playlist::Restore() {
   current_virtual_index_ = -1;
   endResetModel();
 
+  restoring_ = true;
   cancel_restore_ = false;
   QFuture<PlaylistItemPtrList> future = QtConcurrent::run(&PlaylistBackend::GetPlaylistItems, playlist_backend_, id_);
   QFutureWatcher<PlaylistItemPtrList> *watcher = new QFutureWatcher<PlaylistItemPtrList>(this);
@@ -2053,7 +2068,11 @@ void Playlist::ItemsLoaded() {
   PlaylistItemPtrList items = watcher->result();
   watcher->deleteLater();
 
-  if (cancel_restore_) return;
+  if (cancel_restore_) {
+    restoring_ = false;
+    Q_EMIT RestoreDone();
+    return;
+  }
 
   // Backend returns empty elements for collection items which it couldn't match (because they got deleted); we don't need those
   QMutableListIterator<PlaylistItemPtr> it(items);
@@ -2070,6 +2089,12 @@ void Playlist::ItemsLoaded() {
   InsertItemsWithoutUndo(items, 0);
   is_loading_ = false;
   undo_stack_->clear();
+  restoring_ = false;
+
+  // Changes made while restoring were not saved, save them with the restored items.
+  if (save_all_ || save_last_played_ || !save_item_uuids_.isEmpty()) {
+    timer_save_->start();
+  }
 
   const PlaylistBackend::Playlist playlist = playlist_backend_->GetPlaylist(id_);
 
@@ -2105,6 +2130,8 @@ void Playlist::ItemsLoaded() {
   }
 
   Q_EMIT PlaylistLoaded();
+
+  Q_EMIT RestoreDone();
 
 }
 

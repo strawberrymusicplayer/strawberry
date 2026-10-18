@@ -206,6 +206,8 @@ class Playlist : public QAbstractListModel {
 
   bool stop_after_current() const;
   bool is_dynamic() const { return static_cast<bool>(dynamic_playlist_); }
+  // True while the saved items are loaded, the playlist is not saved until they are inserted.
+  bool is_restoring() const { return restoring_; }
   int dynamic_history_length() const;
 
   QString special_type() const { return special_type_; }
@@ -306,6 +308,10 @@ class Playlist : public QAbstractListModel {
 
   void ReloadItem(const QPersistentModelIndex &idx, PlaylistItemPtr item, const bool saved = false, const quint64 save_generation = -1, const Song &fallback_metadata = Song());
 
+  // Saves the changes waiting for the save timer now, used when exiting, since the timer would fire after the playlist backend exited.
+  // Changes made while restoring are saved when the playlist is restored, wait for RestoreDone() when is_restoring() is true.
+  void SavePending();
+
  public Q_SLOTS:
   void set_current_row(const int i, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll::Maybe, const bool is_stopping = false, const bool force_inform = false);
   void Paused();
@@ -337,6 +343,8 @@ class Playlist : public QAbstractListModel {
 
  Q_SIGNALS:
   void RestoreFinished();
+  // Emitted when restoring finished or was cancelled.
+  void RestoreDone();
   void PlaylistLoaded();
   void CurrentSongChanged(const Song &metadata);
   void CurrentSongMetadataChanged(const Song &metadata);
@@ -481,6 +489,7 @@ class Playlist : public QAbstractListModel {
   QString special_type_;
 
   // Cancel async restore if songs are already replaced
+  bool restoring_;
   bool cancel_restore_;
 
   bool scrobbled_;
