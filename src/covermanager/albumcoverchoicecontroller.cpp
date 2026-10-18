@@ -23,6 +23,7 @@
 
 #include <utility>
 #include <memory>
+#include <optional>
 
 #include <QtGlobal>
 #include <QGuiApplication>
@@ -863,14 +864,26 @@ QUrl AlbumCoverChoiceController::SaveCoverAutomatic(Song *song, const AlbumCover
 
 void AlbumCoverChoiceController::SaveEmbeddedCoverFinished(TagReaderReplyPtr reply, Song song, const bool art_embedded) {
 
-  if (!cover_save_tasks_.contains(song)) return;
-  cover_save_tasks_.removeAll(song);
-
-  if (reply->success()) {
-    SaveArtEmbeddedToSong(&song, art_embedded);
+  std::optional<bool> last_art_embedded;
+  {
+    QMutexLocker l(&mutex_cover_save_tasks_);
+    // Only remove this save, saves to the same song can overlap, like when removing a cover right after setting it.
+    if (!cover_save_tasks_.removeOne(song)) return;
+    // The covers are saved in order, so the last successful save decides whether the song has an embedded cover, it is applied when the last pending save to the song finished, also when that save failed.
+    if (reply->success()) {
+      cover_save_results_.insert(song, art_embedded);
+    }
+    if (!cover_save_tasks_.contains(song) && cover_save_results_.contains(song)) {
+      last_art_embedded = cover_save_results_.take(song);
+    }
   }
-  else {
+
+  if (!reply->success()) {
     Q_EMIT Error(tr("Could not save cover to file %1.").arg(song.url().toLocalFile()));
+  }
+
+  if (last_art_embedded.has_value()) {
+    SaveArtEmbeddedToSong(&song, last_art_embedded.value());
   }
 
   Q_EMIT EmbeddedCoverSaved(song, reply->success());
