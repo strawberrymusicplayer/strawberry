@@ -33,6 +33,7 @@ constexpr char kAlbum[] = "album_enable";
 constexpr char kTechnicalData[] = "technical_data_enable";
 constexpr char kSongLyrics[] = "song_lyrics_enable";
 constexpr char kSyncedLyrics[] = "synced_lyrics_enable";
+constexpr char kSyncedLyricsClickToSeek[] = "synced_lyrics_click_to_seek";
 constexpr char kSearchCover[] = "search_cover_enable";
 constexpr char kSearchLyrics[] = "search_lyrics_enable";
 
@@ -53,6 +54,7 @@ constexpr bool kDefaultAlbum = true;
 constexpr bool kDefaultTechnicalData = false;
 constexpr bool kDefaultSongLyrics = true;
 constexpr bool kDefaultSyncedLyrics = true;
+constexpr bool kDefaultSyncedLyricsClickToSeek = false;
 constexpr bool kDefaultSyncedLyricsBold = true;
 constexpr bool kDefaultSyncedLyricsItalic = false;
 constexpr bool kDefaultSyncedLyricsSystemColor = true;
