@@ -26,6 +26,7 @@
 
 #include <QObject>
 #include <QDialog>
+#include <QFuture>
 #include <QList>
 #include <QString>
 
@@ -94,6 +95,9 @@ class TrackSelectionDialog : public QDialog {
   const SharedPtr<TagReaderClient> tagreader_client_;
 
   QList<Data> data_;
+
+  // Saving the tags in the background, it's waited for when this is deleted, since it uses this, and the files are not left partially written.
+  QFuture<void> save_future_;
 
   QPushButton *previous_button_;
   QPushButton *next_button_;
