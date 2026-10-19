@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,12 +29,15 @@
 
 #include "core/song.h"
 #include "core/songloader.h"
+#include "core/metatypes.h"
 #include "collection/collectiondirectory.h"
 
 class MetatypesEnvironment : public ::testing::Environment {
  public:
   MetatypesEnvironment() = default;
   void SetUp() override {
+    // The same types as the application, with Qt 6.4, the types used with QMetaObject::invokeMethod() and Q_ARG() in a queued call need to be registered, otherwise the call fails.
+    RegisterMetaTypes();
     qRegisterMetaType<CollectionDirectory>("CollectionDirectory");
     qRegisterMetaType<CollectionDirectoryList>("CollectionDirectoryList");
     qRegisterMetaType<CollectionSubdirectory>("CollectionSubdirectory");
