@@ -62,6 +62,7 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog *dialog, QWidget *parent
   checkboxes_[QLatin1String(kTechnicalData)] = ui_->checkbox_technical_data;
   checkboxes_[QLatin1String(kSongLyrics)] = ui_->checkbox_song_lyrics;
   checkboxes_[QLatin1String(kSyncedLyrics)] = ui_->checkbox_synced_lyrics;
+  checkboxes_[QLatin1String(kSyncedLyricsClickToSeek)] = ui_->checkbox_synced_lyrics_click_to_seek;
   checkboxes_[QLatin1String(kSearchCover)] = ui_->checkbox_search_cover;
   checkboxes_[QLatin1String(kSearchLyrics)] = ui_->checkbox_search_lyrics;
 
@@ -281,5 +282,6 @@ void ContextSettingsPage::UpdateSyncedLyricsNotHighlighted() {
 void ContextSettingsPage::UpdateSyncedLyricsStyleEnabled() {
 
   ui_->groupbox_synced_lyrics_style->setEnabled(ui_->checkbox_song_lyrics->isChecked() && ui_->checkbox_synced_lyrics->isChecked());
+  ui_->checkbox_synced_lyrics_click_to_seek->setEnabled(ui_->checkbox_song_lyrics->isChecked() && ui_->checkbox_synced_lyrics->isChecked());
 
 }
