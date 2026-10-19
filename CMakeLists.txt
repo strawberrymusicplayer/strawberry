@@ -587,6 +587,7 @@ set(SOURCES
   src/engine/audiodevicelister.cpp
   src/engine/gststartup.cpp
   src/engine/gstengine.cpp
+  src/engine/streammetadataparser.cpp
   src/engine/gstenginepipeline.cpp
   src/engine/gstbusmessageevent.cpp
 
@@ -917,6 +918,7 @@ set(HEADERS
   src/engine/enginebase.h
   src/engine/audiodevicelisters.h
   src/engine/gstengine.h
+  src/engine/streammetadataparser.h
   src/engine/gstenginepipeline.h
 
   src/analyzer/analyzerbase.h

@@ -75,6 +75,7 @@
 #include "gstenginepipeline.h"
 #include "gstbusmessageevent.h"
 #include "gstbufferconsumer.h"
+#include "streammetadataparser.h"
 
 #ifdef HAVE_SPOTIFY
 #  include "constants/spotifysettings.h"
@@ -1993,34 +1994,7 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
   engine_metadata.bitrate = static_cast<int>(ParseUIntTag(taglist, GST_TAG_BITRATE) / 1000);
   engine_metadata.lyrics = ParseStrTag(taglist, GST_TAG_LYRICS);
 
-  if (!engine_metadata.title.isEmpty() && engine_metadata.artist.isEmpty() && engine_metadata.album.isEmpty()) {
-    QStringList title_splitted;
-    if (engine_metadata.title.contains(" - "_L1)) {
-      title_splitted = engine_metadata.title.split(u" - "_s);
-    }
-    else if (engine_metadata.title.contains(u'~')) {
-      title_splitted = engine_metadata.title.split(u'~');
-    }
-    if (!title_splitted.isEmpty() && title_splitted.count() >= 2) {
-      int i = 0;
-      for (const QString &title_part : std::as_const(title_splitted)) {
-        ++i;
-        switch (i) {
-          case 1:
-            engine_metadata.artist = title_part.trimmed();
-            break;
-          case 2:
-            engine_metadata.title = title_part.trimmed();
-            break;
-          case 3:
-            engine_metadata.album = title_part.trimmed();
-            break;
-          default:
-            break;
-        }
-      }
-    }
-  }
+  StreamMetadataParser::Parse(engine_metadata);
 
   gst_tag_list_unref(taglist);
 
