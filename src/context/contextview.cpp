@@ -962,6 +962,8 @@ bool ContextView::eventFilter(QObject *watched, QEvent *event) {
       const std::optional<qsizetype> line = SyncedLyricsLineAt(position);
       if (!line || *line != press.line) break;
 
+      // Return keyboard focus to the view so playback keys reach MainWindow instead of QTextEdit.
+      setFocus(Qt::MouseFocusReason);
       Q_EMIT SyncedLyricsLineClicked(*line);
       break;
     }
