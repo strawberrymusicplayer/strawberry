@@ -24,6 +24,20 @@ class EngineMetadata;
 
 namespace StreamMetadataParser {
 
+/**
+ * Parses stream metadata in place.
+ *
+ * A trimmed title beginning with `{` or `[` is treated as a JSON candidate.
+ * For a valid JSON object, a nonempty trimmed string `title` is preferred over a nonempty trimmed string `name`.
+ * The selected title replaces `metadata.title`, and trimmed string `artist` and `album` values fill only empty fields.
+ * Existing nonempty artist and album values and all other metadata fields are preserved.
+ * Other JSON keys, including `duration` and `type`, are ignored.
+ * Valid arrays and objects without a usable title or name are left unchanged and are not delimiter-split.
+ * Malformed JSON candidates fall back to legacy parsing, which runs only when title is nonempty and artist and album are empty.
+ * Legacy parsing prefers ` - ` over `~` and, when at least two parts are present, uses up to the first three parts as artist, title, and album.
+ *
+ * @param metadata Metadata to parse and update in place.
+ */
 void Parse(EngineMetadata &metadata);
 
 }  // namespace StreamMetadataParser

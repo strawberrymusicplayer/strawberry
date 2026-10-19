@@ -32,6 +32,9 @@ using namespace Qt::Literals::StringLiterals;
 
 namespace {
 
+/**
+ * Creates metadata with sentinel values in every field for preservation checks.
+ */
 EngineMetadata MakeMetadata() {
   EngineMetadata metadata;
   metadata.type = EngineMetadata::Type::Next;
@@ -53,6 +56,9 @@ EngineMetadata MakeMetadata() {
   return metadata;
 }
 
+/**
+ * Creates sentinel metadata with artist and album cleared for fill-in tests.
+ */
 EngineMetadata MakeMetadataWithEmptyTags() {
   EngineMetadata metadata = MakeMetadata();
   metadata.artist.clear();
@@ -60,6 +66,9 @@ EngineMetadata MakeMetadataWithEmptyTags() {
   return metadata;
 }
 
+/**
+ * Checks every metadata field, including fields unrelated to stream parsing.
+ */
 void ExpectMetadataEqual(const EngineMetadata &actual, const EngineMetadata &expected) {
   EXPECT_EQ(actual.type, expected.type);
   EXPECT_EQ(actual.media_url, expected.media_url);
