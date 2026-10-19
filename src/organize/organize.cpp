@@ -134,6 +134,8 @@ void Organize::Start() {
   thread_ = new QThread;
   QObject::connect(thread_, &QThread::started, this, &Organize::ProcessSomeFiles);
   QObject::connect(thread_, &QThread::finished, thread_, &QThread::deleteLater);
+  // This is deleted when the thread finished, not when processing finished, since the thread still uses this when the slot processing the files returns, deleting it in the original thread before that crashes.
+  QObject::connect(thread_, &QThread::finished, this, &QObject::deleteLater);
 
   QObject::connect(transcoder_, &Transcoder::JobComplete, this, &Organize::FileTranscoded);
   QObject::connect(transcoder_, &Transcoder::LogLine, this, &Organize::LogLine);
@@ -180,13 +182,11 @@ void Organize::ProcessSomeFiles() {
 
     Q_EMIT Finished(files_with_errors_, log_, success);
 
-    // Stop this thread, then move back to the original thread so deleteLater() can get called in the main thread's event loop.
-    // This can be deleted as soon as deleteLater() is called, so don't use it after that.
+    // Stop this thread, then move back to the original thread, this is deleted there when the thread finished.
     finished_ = true;
     thread_->quit();
     thread_ = nullptr;
     moveToThread(original_thread_);
-    deleteLater();
     return;
   }
 
