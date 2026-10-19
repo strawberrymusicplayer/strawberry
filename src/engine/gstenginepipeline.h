@@ -334,6 +334,10 @@ class GstEnginePipeline : public QObject {
   QByteArray gst_url_;
   mutable QMutex mutex_url_;
 
+  // The tags of the current stream, since a tag message can have only some of the tags, like only the bitrate.
+  // The metadata is parsed from a copy, so the artist and album parsed from the title are not kept.
+  EngineMetadata raw_stream_metadata_;
+
   QUrl next_media_url_;
   QUrl next_stream_url_;
   QByteArray next_gst_url_;
