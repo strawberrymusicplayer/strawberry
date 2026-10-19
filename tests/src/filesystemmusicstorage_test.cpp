@@ -26,6 +26,8 @@
 #include <QFileInfo>
 #include <QIODevice>
 #include <QTemporaryDir>
+#include <QStorageInfo>
+#include <QScopeGuard>
 
 #include "core/song.h"
 #include "core/musicstorage.h"
@@ -308,5 +310,184 @@ TEST_F(FilesystemMusicStorageTest, MoveKeepsDirectoryOutsideOriginalRootLinkedFr
 
 }
 #endif
+
+// A song moved to another filesystem is copied, then the original is removed.
+TEST_F(FilesystemMusicStorageTest, MoveToOtherFilesystem) {
+
+  QTemporaryDir other_temp_dir(u"/dev/shm/strawberry_test-XXXXXX"_s);
+  if (!other_temp_dir.isValid() || QStorageInfo(other_temp_dir.path()).rootPath() == QStorageInfo(root_path_).rootPath()) {
+    GTEST_SKIP() << "No other filesystem for the source.";
+  }
+
+  const QString source_path = other_temp_dir.filePath(u"Album"_s);
+  ASSERT_TRUE(QDir().mkpath(source_path));
+  ASSERT_TRUE(CreateFile(source_path + u"/01.flac"_s, QByteArray("song data")));
+  const QFile::Permissions permissions = QFile::ReadOwner | QFile::WriteOwner | QFile::ReadUser | QFile::WriteUser | QFile::ReadGroup;
+  ASSERT_TRUE(QFile::setPermissions(source_path + u"/01.flac"_s, permissions));
+  // Not all permissions are supported on all platforms, so compare with the permissions the source has.
+  const QFile::Permissions source_permissions = QFile::permissions(source_path + u"/01.flac"_s);
+
+  MusicStorage::CopyJob job;
+  job.source_ = source_path + u"/01.flac"_s;
+  job.original_root_ = other_temp_dir.path();
+  job.destination_ = u"Artist/Album/01.flac"_s;
+  job.remove_original_ = true;
+  FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+  QString error_text;
+  ASSERT_TRUE(storage.CopyToStorage(job, error_text)) << error_text.toStdString();
+
+  EXPECT_EQ(QByteArray("song data"), ReadFile(root_path_ + u"/Artist/Album/01.flac"_s));
+  EXPECT_EQ(source_permissions, QFile::permissions(root_path_ + u"/Artist/Album/01.flac"_s));
+  EXPECT_FALSE(QFile::exists(source_path + u"/01.flac"_s));
+  EXPECT_FALSE(QFileInfo::exists(source_path));
+  // No temporary file of the copy is left.
+  EXPECT_EQ(QStringList() << u"01.flac"_s, QDir(root_path_ + u"/Artist/Album"_s).entryList(QDir::AllEntries | QDir::Hidden | QDir::NoDotAndDotDot));
+
+}
+
+// A link on the same filesystem as the destination is renamed, also when the file it links to is on another filesystem, it's not replaced with a copy of the file.
+TEST_F(FilesystemMusicStorageTest, MoveLinkToFileOnOtherFilesystem) {
+
+  QTemporaryDir other_temp_dir(u"/dev/shm/strawberry_test-XXXXXX"_s);
+  if (!other_temp_dir.isValid() || QStorageInfo(other_temp_dir.path()).rootPath() == QStorageInfo(root_path_).rootPath()) {
+    GTEST_SKIP() << "No other filesystem for the linked file.";
+  }
+
+  const QString target_filename = other_temp_dir.filePath(u"01.flac"_s);
+  ASSERT_TRUE(CreateFile(target_filename, QByteArray("song data")));
+  ASSERT_TRUE(QFile::link(target_filename, source_path_ + u"/Album/01.flac"_s));
+
+  MusicStorage::CopyJob job;
+  job.source_ = source_path_ + u"/Album/01.flac"_s;
+  job.original_root_ = source_path_;
+  job.destination_ = u"Artist/Album/01.flac"_s;
+  job.remove_original_ = true;
+  FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+  QString error_text;
+  ASSERT_TRUE(storage.CopyToStorage(job, error_text)) << error_text.toStdString();
+
+  const QFileInfo dest_fileinfo(root_path_ + u"/Artist/Album/01.flac"_s);
+  EXPECT_TRUE(dest_fileinfo.isSymLink());
+  EXPECT_EQ(target_filename, dest_fileinfo.symLinkTarget());
+  EXPECT_TRUE(QFile::exists(target_filename));
+  EXPECT_FALSE(QFileInfo(source_path_ + u"/Album/01.flac"_s).isSymLink());
+
+}
+
+// A copied song and its cover are copied to temporary files which are renamed, the source is kept, and no temporary file is left.
+TEST_F(FilesystemMusicStorageTest, CopyKeepsSourceAndPermissions) {
+
+  const QString filename = source_path_ + u"/Album/01.flac"_s;
+  const QString cover_filename = source_path_ + u"/Album/cover.jpg"_s;
+  ASSERT_TRUE(CreateFile(filename, QByteArray("song data")));
+  ASSERT_TRUE(CreateFile(cover_filename, QByteArray("cover data")));
+  const QFile::Permissions permissions = QFile::ReadOwner | QFile::WriteOwner | QFile::ReadUser | QFile::WriteUser | QFile::ReadGroup;
+  ASSERT_TRUE(QFile::setPermissions(filename, permissions));
+  // Not all permissions are supported on all platforms, so compare with the permissions the source has.
+  const QFile::Permissions source_permissions = QFile::permissions(filename);
+
+  MusicStorage::CopyJob job;
+  job.source_ = filename;
+  job.destination_ = u"Artist/Album/01.flac"_s;
+  job.albumcover_ = true;
+  job.cover_source_ = cover_filename;
+  job.cover_dest_ = u"Artist/Album/cover.jpg"_s;
+  FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+  QString error_text;
+  ASSERT_TRUE(storage.CopyToStorage(job, error_text)) << error_text.toStdString();
+
+  EXPECT_EQ(QByteArray("song data"), ReadFile(root_path_ + u"/Artist/Album/01.flac"_s));
+  EXPECT_EQ(source_permissions, QFile::permissions(root_path_ + u"/Artist/Album/01.flac"_s));
+  EXPECT_EQ(QByteArray("cover data"), ReadFile(root_path_ + u"/Artist/Album/cover.jpg"_s));
+  EXPECT_TRUE(QFile::exists(filename));
+  EXPECT_TRUE(QFile::exists(cover_filename));
+  EXPECT_EQ(QStringList() << u"01.flac"_s << u"cover.jpg"_s, QDir(root_path_ + u"/Artist/Album"_s).entryList(QDir::AllEntries | QDir::Hidden | QDir::NoDotAndDotDot, QDir::Name));
+
+  // Copying again doesn't replace the copy.
+  ASSERT_TRUE(CreateFile(filename, QByteArray("other song data")));
+  EXPECT_FALSE(storage.CopyToStorage(job, error_text));
+  EXPECT_EQ(QByteArray("song data"), ReadFile(root_path_ + u"/Artist/Album/01.flac"_s));
+
+}
+
+// The filename is made from the tags, so it can be as long as the filesystem allows, the temporary file for copying it must not have a longer name.
+TEST_F(FilesystemMusicStorageTest, CopyLongFilename) {
+
+  const QString filename = source_path_ + u"/Album/01.flac"_s;
+  ASSERT_TRUE(CreateFile(filename, QByteArray("song data")));
+  // 250 bytes, the names are limited to 255 bytes on most filesystems.
+  const QString long_filename = QString(80, QChar(0x97F3)) + u"long.flac"_s + QString(1, u'x');
+  ASSERT_EQ(250, long_filename.toUtf8().size());
+
+  MusicStorage::CopyJob job;
+  job.source_ = filename;
+  job.destination_ = u"Artist/Album/"_s + long_filename;
+  FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+  QString error_text;
+  ASSERT_TRUE(storage.CopyToStorage(job, error_text)) << error_text.toStdString();
+
+  EXPECT_EQ(QByteArray("song data"), ReadFile(root_path_ + u"/Artist/Album/"_s + long_filename));
+  EXPECT_EQ(QStringList() << long_filename, QDir(root_path_ + u"/Artist/Album"_s).entryList(QDir::AllEntries | QDir::Hidden | QDir::NoDotAndDotDot));
+
+}
+
+// When the song can't be renamed, and it's copied instead, but the original can't be removed, the copy is removed, and the original is kept.
+TEST_F(FilesystemMusicStorageTest, MoveFromReadOnlyDirectoryKeepsOriginal) {
+
+  const QString filename = source_path_ + u"/Album/01.flac"_s;
+  ASSERT_TRUE(CreateFile(filename, QByteArray("song data")));
+  const QString album_path = source_path_ + u"/Album"_s;
+  const QFile::Permissions album_permissions = QFile::permissions(album_path);
+  ASSERT_TRUE(QFile::setPermissions(album_path, QFile::ReadOwner | QFile::ExeOwner | QFile::ReadUser | QFile::ExeUser));
+  const auto restore_permissions = qScopeGuard([&album_path, album_permissions]() { QFile::setPermissions(album_path, album_permissions); });
+  {
+    QFile file(album_path + u"/test"_s);
+    if (file.open(QIODevice::WriteOnly)) {
+      file.remove();
+      GTEST_SKIP() << "The directory is still writable, the test is running as root.";
+    }
+  }
+
+  MusicStorage::CopyJob job;
+  job.source_ = filename;
+  job.original_root_ = source_path_;
+  job.destination_ = u"Artist/Album/01.flac"_s;
+  job.remove_original_ = true;
+  FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+  QString error_text;
+  EXPECT_FALSE(storage.CopyToStorage(job, error_text));
+
+  EXPECT_EQ(QByteArray("song data"), ReadFile(filename));
+  EXPECT_EQ(QStringList(), QDir(root_path_ + u"/Artist/Album"_s).entryList(QDir::AllEntries | QDir::Hidden | QDir::NoDotAndDotDot));
+
+}
+
+// A song is never moved over an existing file, also not over a link to a file which doesn't exist, which is not seen as an existing destination before moving.
+TEST_F(FilesystemMusicStorageTest, MoveDoesNotReplaceExistingLink) {
+
+#ifdef Q_OS_WIN
+  GTEST_SKIP() << "QFile::link() creates a shortcut with the .lnk suffix on Windows, not a link at the destination.";
+#endif
+
+  const QString filename = source_path_ + u"/Album/01.flac"_s;
+  ASSERT_TRUE(CreateFile(filename, QByteArray("song data")));
+  const QString dest_filename = root_path_ + u"/Artist/Album/01.flac"_s;
+  ASSERT_TRUE(QDir().mkpath(root_path_ + u"/Artist/Album"_s));
+  ASSERT_TRUE(QFile::link(temp_dir_.filePath(u"missing.flac"_s), dest_filename));
+
+  MusicStorage::CopyJob job;
+  job.source_ = filename;
+  job.original_root_ = source_path_;
+  job.destination_ = u"Artist/Album/01.flac"_s;
+  job.remove_original_ = true;
+  FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+  QString error_text;
+  EXPECT_FALSE(storage.CopyToStorage(job, error_text));
+
+  EXPECT_EQ(QByteArray("song data"), ReadFile(filename));
+  EXPECT_TRUE(QFileInfo(dest_filename).isSymLink());
+  EXPECT_EQ(QStringList() << u"01.flac"_s, QDir(root_path_ + u"/Artist/Album"_s).entryList(QDir::AllEntries | QDir::Hidden | QDir::System | QDir::NoDotAndDotDot));
+
+}
 
 }  // namespace
