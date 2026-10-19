@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -84,6 +84,15 @@ void AlbumCoverLoader::ExitAsync() {
 void AlbumCoverLoader::Exit() {
 
   Q_ASSERT(QThread::currentThread() == thread());
+
+  // Don't keep loading remote covers after exiting, the replies are aborted, they're finished then.
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    QObject::disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+
   moveToThread(original_thread_);
   Q_EMIT ExitFinished();
 
@@ -195,7 +204,7 @@ void AlbumCoverLoader::ProcessTasks() {
   TaskPtr task;
   {
     QMutexLocker l(&mutex_load_image_async_);
-    if (tasks_.isEmpty()) {
+    if (tasks_.isEmpty() || stop_requested_) {
       if (timer_process_tasks_->isActive()) {
         timer_process_tasks_->stop();
       }
@@ -219,6 +228,8 @@ void AlbumCoverLoader::ProcessTask(TaskPtr task) {
   }
 
   while (!task->success && !task->options.types.isEmpty()) {
+    // Exiting while the task was processed, don't start loading another image, which can be a remote URL.
+    if (stop_requested_) return;
     const AlbumCoverLoaderOptions::Type type = task->options.types.takeFirst();
     const LoadImageResult result = LoadImage(task, type);
     if (result.status == LoadImageResult::Status::Async) {
@@ -232,6 +243,8 @@ void AlbumCoverLoader::ProcessTask(TaskPtr task) {
     }
     ClearImage(task);
   }
+
+  if (stop_requested_) return;
 
   if (!task->success && !task->options.default_cover.isEmpty()) {
     LoadLocalFileImage(task, AlbumCoverLoaderResult::Type::None, task->options.default_cover);
@@ -259,6 +272,9 @@ void AlbumCoverLoader::FinishTask(TaskPtr task, const AlbumCoverLoaderResult::Ty
       task->album_cover.image = QImage();
     }
   }
+
+  // Exiting while the image was loaded, the receivers can be deleted already.
+  if (stop_requested_) return;
 
   Q_EMIT AlbumCoverLoaded(task->id, AlbumCoverLoaderResult(task->success, task->result_type, task->album_cover, image_scaled, task->art_manual_updated, task->art_automatic_updated));
 
@@ -411,6 +427,7 @@ AlbumCoverLoader::LoadImageResult AlbumCoverLoader::LoadRemoteUrlImage(TaskPtr t
   QNetworkRequest network_request(cover_url);
   network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   QNetworkReply *reply = network_->get(network_request);
+  replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, task, result_type, cover_url]() { LoadRemoteImageFinished(reply, task, result_type, cover_url); });
 
   return LoadImageResult(result_type, LoadImageResult::Status::Async);
@@ -419,7 +436,11 @@ AlbumCoverLoader::LoadImageResult AlbumCoverLoader::LoadRemoteUrlImage(TaskPtr t
 
 void AlbumCoverLoader::LoadRemoteImageFinished(QNetworkReply *reply, TaskPtr task, const AlbumCoverLoaderResult::Type result_type, const QUrl &cover_url) {
 
+  replies_.removeAll(reply);
   reply->deleteLater();
+
+  // Exiting, the receivers can be deleted already, so don't finish the task, or request a redirect.
+  if (stop_requested_) return;
 
   QVariant redirect = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
   if (redirect.isValid() && redirect.metaType().id() == QMetaType::QUrl) {
@@ -434,6 +455,7 @@ void AlbumCoverLoader::LoadRemoteImageFinished(QNetworkReply *reply, TaskPtr tas
     network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
     network_request.setUrl(redirect_url);
     QNetworkReply *redirected_reply = network_->get(network_request);
+    replies_ << redirected_reply;
     QObject::connect(redirected_reply, &QNetworkReply::finished, this, [this, redirected_reply, task, result_type, redirect_url]() { LoadRemoteImageFinished(redirected_reply, task, result_type, redirect_url); });
     return;
   }
