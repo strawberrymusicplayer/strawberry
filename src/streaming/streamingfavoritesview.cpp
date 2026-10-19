@@ -227,7 +227,8 @@ void StreamingFavoritesView::ArtistsFinished(const SongMap &songs, const QString
   }
   else {
     ui_->artists_collection->ShowCollection();
-    service_->artists_collection_backend()->UpdateSongsBySongIDAsync(songs);
+    // When some of the songs could not be fetched, the songs missing from the results are kept, they are not removed from the favorites.
+    service_->artists_collection_backend()->UpdateSongsBySongIDAsync(songs, error.isEmpty());
   }
 
 }
@@ -258,7 +259,8 @@ void StreamingFavoritesView::AlbumsFinished(const SongMap &songs, const QString 
   }
   else {
     ui_->albums_collection->ShowCollection();
-    service_->albums_collection_backend()->UpdateSongsBySongIDAsync(songs);
+    // When some of the songs could not be fetched, the songs missing from the results are kept, they are not removed from the favorites.
+    service_->albums_collection_backend()->UpdateSongsBySongIDAsync(songs, error.isEmpty());
   }
 
 }
@@ -289,7 +291,8 @@ void StreamingFavoritesView::SongsFinished(const SongMap &songs, const QString &
   }
   else {
     ui_->songs_collection->ShowCollection();
-    service_->songs_collection_backend()->UpdateSongsBySongIDAsync(songs);
+    // When some of the songs could not be fetched, the songs missing from the results are kept, they are not removed from the favorites.
+    service_->songs_collection_backend()->UpdateSongsBySongIDAsync(songs, error.isEmpty());
   }
 
 }

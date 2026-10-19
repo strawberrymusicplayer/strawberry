@@ -29,6 +29,7 @@
 #include <QItemSelectionModel>
 #include <QList>
 #include <QMap>
+#include <QSet>
 #include <QString>
 #include <QUrl>
 
@@ -94,6 +95,10 @@ class PlaylistManager : public PlaylistManagerInterface {
   PlaylistParser *parser() const override { return parser_; }
   PlaylistContainer *playlist_container() const override { return playlist_container_; }
 
+  // Saves the changes of the playlists waiting to be saved, before the playlist backend exits.
+  // Playlists still being restored are saved when they are restored, PendingPlaylistsSaved() is emitted when all playlists are saved.
+  void SavePendingPlaylistsAsync();
+
  public Q_SLOTS:
   void New(const QString &name, const SongList &songs = SongList(), const QString &special_type = QString()) override;
   void Load(const QString &filename) override;
@@ -144,6 +149,9 @@ class PlaylistManager : public PlaylistManagerInterface {
   void SetActivePaused() override;
   void SetActiveStopped() override;
 
+ Q_SIGNALS:
+  void PendingPlaylistsSaved();
+
  private Q_SLOTS:
   void OneOfPlaylistsChanged();
   void UpdateSummaryText();
@@ -155,6 +163,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   Playlist *AddPlaylist(const int id, const QString &name, const QString &special_type, const QString &ui_path, const bool favorite);
   // Shows the file dialog for saving a playlist, and returns the file name, or an empty string if it was cancelled.
   QString GetSaveFileName(const QString &filename, const QString &filters, QString *selected_filter) const;
+  void PendingPlaylistSaved(Playlist *playlist);
 
  private:
   struct Data {
@@ -177,6 +186,9 @@ class PlaylistManager : public PlaylistManagerInterface {
 
   // key = id
   QMap<int, Data> playlists_;
+
+  // Playlists being restored when saving the pending changes when exiting.
+  QSet<Playlist*> playlists_restoring_;
 
   int current_;
   int active_;

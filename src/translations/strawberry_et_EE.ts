@@ -2246,6 +2246,60 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
   </context>
   <context>
+    <name>LyricsTab</name>
+    <message>
+      <source>Complete lyrics automatically</source>
+      <translation>Täida laulusõnad automaatselt</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>Laulusõnad</translation>
+    </message>
+  </context>
+  <context>
+    <name>SongEditor</name>
+    <message>
+      <source>(different across multiple songs)</source>
+      <translation>(erinev eri lugude puhul)</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>Laulusõnad</translation>
+    </message>
+    <message>
+      <source>Previous</source>
+      <translation>Eelmine</translation>
+    </message>
+    <message>
+      <source>Next</source>
+      <translation>Järgmine</translation>
+    </message>
+    <message>
+      <source>Saving tracks</source>
+      <translation>Lugude salvestamine</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1</source>
+      <translation>Metaandmete salvestamine faili „%1“ ei õnnestunud</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1: %2</source>
+      <translation>Metaandmete salvestamine faili „%1“ ei õnnestunud: %2</translation>
+    </message>
+    <message>
+      <source>Loading tracks</source>
+      <translation>Radade laadimine</translation>
+    </message>
+    <message>
+      <source>loading...</source>
+      <translation>laadimine...</translation>
+    </message>
+    <message>
+      <source>Not found.</source>
+      <translation>Ei leitud.</translation>
+    </message>
+  </context>
+  <context>
     <name>TagEditor</name>
     <message>
       <source>Edit track information</source>

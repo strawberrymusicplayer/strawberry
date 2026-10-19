@@ -26,6 +26,7 @@
 #include <QString>
 #include <QUrl>
 #include <QThread>
+#include <QCoreApplication>
 #include <QSignalSpy>
 
 #include "engine/gststartup.h"
@@ -67,6 +68,44 @@ TEST(WaveformPipelineTest, DecodesWavToMagicBlob) {
   const QByteArray data = pipeline.data();
   EXPECT_GT(data.size(), 16);
   EXPECT_EQ(data.left(4), QByteArray("SWVF"));
+
+}
+
+// Regression test: a request for a pipeline which finished before the request connected to Finished never got the result.
+TEST(WaveformPipelineTest, NotifyFinishedCallsBackOnce) {
+
+  GstStartup::Initialize();
+
+  TemporaryResource res(u":/audio/strawberry.wav"_s);
+  ASSERT_TRUE(res.open());
+  const QUrl url = QUrl::fromLocalFile(res.fileName());
+
+  WaveformPipeline pipeline(url);
+  QSignalSpy spy(&pipeline, &WaveformPipeline::Finished);
+
+  QObject context;
+  int calls_before = 0;
+  int calls_after = 0;
+  pipeline.NotifyFinished(&context, [&calls_before]() { ++calls_before; });
+
+  QThread worker_thread;
+  pipeline.moveToThread(&worker_thread);
+  worker_thread.start();
+
+  QMetaObject::invokeMethod(&pipeline, &WaveformPipeline::Start, Qt::QueuedConnection);
+
+  const bool finished = spy.wait(10000);
+  worker_thread.quit();
+  worker_thread.wait();
+  ASSERT_TRUE(finished);
+
+  // Registering after the pipeline finished still calls back.
+  pipeline.NotifyFinished(&context, [&calls_after]() { ++calls_after; });
+  QCoreApplication::processEvents();
+  QCoreApplication::processEvents();
+
+  EXPECT_EQ(1, calls_before);
+  EXPECT_EQ(1, calls_after);
 
 }
 

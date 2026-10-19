@@ -35,6 +35,8 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
+#include <QSet>
+#include <QUrl>
 #include <QPalette>
 #include <QFont>
 #include <QKeySequence>
@@ -121,23 +123,29 @@ void TrackSelectionDialog::Init(const SongList &songs) {
 
 }
 
-void TrackSelectionDialog::FetchTagProgress(const Song &original_song, const QString &progress) {
+QList<int> TrackSelectionDialog::RowsForSong(const Song &song) const {
 
-  // Find the item with this filename
-  int row = -1;
+  // The same file can be selected more than once, for example when it's in the playlist twice, all its rows get the results.
+  QList<int> rows;
   for (int i = 0; i < data_.count(); ++i) {
-    if (data_[i].original_song_.url() == original_song.url()) {
-      row = i;
-      break;
+    if (data_[i].original_song_.url() == song.url()) {
+      rows << i;
     }
   }
 
-  if (row == -1) return;
+  return rows;
 
-  data_[row].progress_string_ = progress;
+}
+
+void TrackSelectionDialog::FetchTagProgress(const Song &original_song, const QString &progress) {
+
+  const QList<int> rows = RowsForSong(original_song);
+  for (const int row : rows) {
+    data_[row].progress_string_ = progress;
+  }
 
   // If it's the current item, update the display
-  if (ui_->song_list->currentIndex().row() == row) {
+  if (rows.contains(ui_->song_list->currentIndex().row())) {
     UpdateStack();
   }
 
@@ -145,27 +153,19 @@ void TrackSelectionDialog::FetchTagProgress(const Song &original_song, const QSt
 
 void TrackSelectionDialog::FetchTagFinished(const Song &original_song, const SongList &songs_guessed, const QString &error) {
 
-  // Find the item with this filename
-  int row = -1;
-  for (int i = 0; i < data_.count(); ++i) {
-    if (data_[i].original_song_.url() == original_song.url()) {
-      row = i;
-      break;
-    }
+  const QList<int> rows = RowsForSong(original_song);
+  for (const int row : rows) {
+    // Set the color back to black
+    ui_->song_list->item(row)->setForeground(palette().text());
+
+    // Add the results to the list
+    data_[row].pending_ = false;
+    data_[row].error_string_ = error;
+    data_[row].results_ = songs_guessed;
   }
 
-  if (row == -1) return;
-
-  // Set the color back to black
-  ui_->song_list->item(row)->setForeground(palette().text());
-
-  // Add the results to the list
-  data_[row].pending_ = false;
-  data_[row].error_string_ = error;
-  data_[row].results_ = songs_guessed;
-
   // If it's the current item, update the display
-  if (ui_->song_list->currentIndex().row() == row) {
+  if (rows.contains(ui_->song_list->currentIndex().row())) {
     UpdateStack();
   }
 
@@ -261,7 +261,12 @@ void TrackSelectionDialog::ResultSelected() {
   if (song_row == -1) return;
 
   const int result_index = ui_->results->currentItem()->data(0, Qt::UserRole).toInt();
-  data_[song_row].selected_result_ = result_index;
+
+  // All rows of the same file get the same result, so the rows can't have different results for the file.
+  const QList<int> rows = RowsForSong(data_.value(song_row).original_song_);
+  for (const int row : rows) {
+    data_[row].selected_result_ = result_index;
+  }
 
 }
 
@@ -278,11 +283,14 @@ void TrackSelectionDialog::SetLoading(const QString &message) {
 
 void TrackSelectionDialog::SaveData(const QList<Data> &_data) const {
 
+  // A file selected more than once is only written once.
+  QSet<QUrl> saved_urls;
   for (int i = 0; i < _data.count(); ++i) {
     const Data &ref = _data[i];
-    if (ref.pending_ || ref.results_.isEmpty() || ref.selected_result_ == -1) {
+    if (ref.pending_ || ref.results_.isEmpty() || ref.selected_result_ == -1 || saved_urls.contains(ref.original_song_.url())) {
       continue;
     }
+    saved_urls << ref.original_song_.url();
 
     const Song &new_metadata = ref.results_[ref.selected_result_];
 
@@ -321,10 +329,13 @@ void TrackSelectionDialog::accept() {
 
   QDialog::accept();
 
+  // A file selected more than once is only chosen once.
+  QSet<QUrl> chosen_urls;
   for (const Data &tag_data : std::as_const(data_)) {
-    if (tag_data.pending_ || tag_data.results_.isEmpty() || tag_data.selected_result_ == -1) {
+    if (tag_data.pending_ || tag_data.results_.isEmpty() || tag_data.selected_result_ == -1 || chosen_urls.contains(tag_data.original_song_.url())) {
       continue;
     }
+    chosen_urls << tag_data.original_song_.url();
 
     const Song &new_metadata = tag_data.results_[tag_data.selected_result_];
 

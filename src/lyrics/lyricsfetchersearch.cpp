@@ -43,10 +43,12 @@ constexpr int kGoodLyricsLength = 60;
 constexpr float kHighScore = 2.5;
 }  // namespace
 
-LyricsFetcherSearch::LyricsFetcherSearch(const quint64 id, const LyricsSearchRequest &request, QObject *parent)
+LyricsFetcherSearch::LyricsFetcherSearch(const quint64 id, const LyricsSearchRequest &request, const bool search, const bool synced, QObject *parent)
     : QObject(parent),
       id_(id),
       request_(request),
+      search_(search),
+      synced_(synced),
       timer_search_early_timeout_(new QTimer(this)),
       timer_search_timeout_(new QTimer(this)),
       cancel_requested_(false),
@@ -85,6 +87,8 @@ void LyricsFetcherSearch::Start(SharedPtr<LyricsProviders> lyrics_providers) {
 
   for (LyricsProvider *provider : std::as_const(lyrics_providers_sorted)) {
     if (!provider->is_enabled() || (provider->authentication_required() && !provider->authenticated())) continue;
+    // Only the providers with synchronized lyrics when searching for synchronized lyrics.
+    if (synced_ && !provider->synced_lyrics()) continue;
     QObject::connect(provider, &LyricsProvider::SearchFinished, this, &LyricsFetcherSearch::ProviderSearchFinished);
     const int id = lyrics_providers->NextId();
     const bool success = provider->StartSearchAsync(id, request_);
@@ -108,7 +112,13 @@ void LyricsFetcherSearch::ProviderSearchFinished(const int id, const LyricsSearc
   if (!pending_requests_.contains(id)) return;
   LyricsProvider *provider = pending_requests_.take(id);
 
-  LyricsSearchResults results_copy(results);
+  // Only the lyrics with synchronized lyrics when searching for synchronized lyrics, so the highest score is also only for those.
+  LyricsSearchResults results_copy;
+  for (const LyricsSearchResult &result : results) {
+    if (!synced_ || !result.synced_lyrics.isEmpty()) {
+      results_copy << result;
+    }
+  }
   float higest_score = 0.0;
   for (int i = 0; i < results_copy.size(); ++i) {
     results_copy[i].provider = provider->name();
@@ -133,7 +143,8 @@ void LyricsFetcherSearch::ProviderSearchFinished(const int id, const LyricsSearc
   std::stable_sort(results_.begin(), results_.end(), LyricsSearchResultCompareScore);
 
   if (!pending_requests_.isEmpty()) {
-    if (!results_.isEmpty() && higest_score >= kHighScore) {  // Highest score, no need to wait for other providers.
+    // When searching all providers, wait for all of them.
+    if (!search_ && !results_.isEmpty() && higest_score >= kHighScore) {  // Highest score, no need to wait for other providers.
       qLog(Debug) << "Got lyrics with high score from" << results_.last().provider << "for" << request_.artist << request_.title << "score" << results_.last().score << "finishing search.";
       FinishSearch();
     }
@@ -148,8 +159,8 @@ void LyricsFetcherSearch::EarlyTimeout() {
 
   if (finished_) return;
 
-  // Wait for the hard timeout if no provider has produced results yet.
-  if (results_.isEmpty()) return;
+  // Wait for the hard timeout if no provider has produced results yet, or when searching all providers.
+  if (search_ || results_.isEmpty()) return;
 
   qLog(Debug) << "Lyrics search for" << request_.artist << request_.album << request_.title << "finishing at early timeout with" << results_.size() << "result(s) from" << pending_requests_.size() << "still-pending provider(s)";
 
@@ -182,7 +193,14 @@ void LyricsFetcherSearch::FinishSearch() {
     timer_search_timeout_->stop();
   }
 
-  if (results_.isEmpty()) {
+  // Set before emitting, since the receiver can delete this search.
+  finished_ = true;
+
+  if (search_) {
+    qLog(Debug) << "Found" << results_.size() << "lyrics for" << request_.artist << request_.title;
+    Q_EMIT SearchFinished(id_, results_);
+  }
+  else if (results_.isEmpty()) {
     qLog(Debug) << "No lyrics for" << request_.artist << request_.title;
     Q_EMIT LyricsFetched(id_);
   }
@@ -190,10 +208,6 @@ void LyricsFetcherSearch::FinishSearch() {
     qLog(Debug) << "Using lyrics from" << results_.last().provider << "for" << request_.artist << request_.title << "with score" << results_.last().score;
     Q_EMIT LyricsFetched(id_, results_.constLast());
   }
-
-  Q_EMIT SearchFinished(id_, results_);
-
-  finished_ = true;
 
 }
 

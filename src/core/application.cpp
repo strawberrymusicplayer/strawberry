@@ -352,14 +352,24 @@ void Application::Exit() {
                  << &*streaming_services()
                  << &*radio_services()->radio_backend();
 
+  // The tagreader exits after the collection, which saves the playcounts, ratings and lyrics deferred for the playing song when exiting.
+  // Reading files is not needed anymore, so a large number of queued reads doesn't delay the writes and exiting.
+  tagreader_client()->AbortReads();
   QObject::connect(&*tagreader_client(), &TagReaderClient::ExitFinished, this, &Application::ExitReceived);
-  tagreader_client()->ExitAsync();
 
   QObject::connect(&*collection(), &CollectionManager::ExitFinished, this, &Application::ExitReceived);
   collection()->Exit();
 
+  // The playlists are saved by a timer, save the changes made just before exiting before the playlist backend exits.
+  // Playlists still being restored are saved when they are restored, so the playlist backend exits after that.
   QObject::connect(&*playlist_backend(), &PlaylistBackend::ExitFinished, this, &Application::ExitReceived);
-  playlist_backend()->ExitAsync();
+  if (p_->playlist_manager_) {
+    QObject::connect(&*playlist_manager(), &PlaylistManager::PendingPlaylistsSaved, this, [this]() { playlist_backend()->ExitAsync(); }, Qt::SingleShotConnection);
+    playlist_manager()->SavePendingPlaylistsAsync();
+  }
+  else {
+    playlist_backend()->ExitAsync();
+  }
 
   QObject::connect(&*albumcover_loader(), &AlbumCoverLoader::ExitFinished, this, &Application::ExitReceived);
   albumcover_loader()->ExitAsync();
@@ -383,6 +393,11 @@ void Application::ExitReceived() {
   qLog(Debug) << obj << "successfully exited.";
 
   wait_for_exit_.removeAll(obj);
+
+  if (obj == &*collection()) {
+    tagreader_client()->ExitAsync();
+  }
+
   if (wait_for_exit_.isEmpty()) {
     database()->Close();
     QObject::connect(&*database(), &Database::ExitFinished, this, &Application::ExitFinished);

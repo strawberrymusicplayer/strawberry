@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -146,5 +146,12 @@ quint64 TaskManager::GetTaskProgress(int id) {
     if (!tasks_.contains(id)) return 0;
     return tasks_.value(id).progress;
   }
+
+}
+
+bool TaskManager::BlocksCollectionScans() {
+
+  QMutexLocker l(&mutex_);
+  return std::any_of(tasks_.cbegin(), tasks_.cend(), [](const Task &task) { return task.blocks_collection_scans; });
 
 }

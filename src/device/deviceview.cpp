@@ -228,6 +228,7 @@ void DeviceView::Init(const SharedPtr<TaskManager> task_manager,
   properties_dialog_->Init(device_manager_);
 
   organize_dialog_ = make_unique<OrganizeDialog>(task_manager, tagreader_client, nullptr, this);
+  organize_dialog_->SetCollectionDirectoryModel(collection_directory_model);
   organize_dialog_->SetDestinationModel(collection_directory_model);
 
 }
@@ -455,6 +456,19 @@ void DeviceView::Organize() {
   for (const Song &song : songs) {
     filenames << song.url().toLocalFile();
   }
+
+  // Empty directories left by moving the songs are removed inside the directories of the devices they are on.
+  QStringList source_roots;
+  const QModelIndexList selected_indexes = selectionModel()->selectedRows();
+  for (const QModelIndex &selected_index : selected_indexes) {
+    const QModelIndex device_index = FindParentDevice(selected_index);
+    if (!device_index.isValid()) continue;
+    SharedPtr<MusicStorage> storage = device_index.data(MusicStorage::Role_Storage).value<SharedPtr<MusicStorage>>();
+    if (storage && !storage->LocalPath().isEmpty() && !source_roots.contains(storage->LocalPath())) {
+      source_roots << storage->LocalPath();
+    }
+  }
+  organize_dialog_->SetSourceRoots(source_roots);
 
   organize_dialog_->SetCopy(true);
   organize_dialog_->SetFilenames(filenames);

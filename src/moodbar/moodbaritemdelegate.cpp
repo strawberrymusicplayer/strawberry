@@ -50,7 +50,6 @@
 
 #include "constants/moodbarsettings.h"
 
-using std::make_shared;
 
 MoodbarItemDelegate::Data::Data() : state_(State::None), reload_(false) {}
 
@@ -170,11 +169,7 @@ void MoodbarItemDelegate::StartLoadingData(const QUrl &url, const bool has_cue, 
     case MoodbarLoader::LoadStatus::WillLoadAsync:
       MoodbarPipelinePtr pipeline = load_result.pipeline;
       Q_ASSERT(pipeline);
-      SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
-      *connection = QObject::connect(&*pipeline, &MoodbarPipeline::Finished, this, [this, connection, url, pipeline]() {
-        DataLoaded(url, pipeline);
-        QObject::disconnect(*connection);
-      });
+      pipeline->NotifyFinished(this, [this, url, pipeline]() { DataLoaded(url, pipeline); });
       break;
   }
 

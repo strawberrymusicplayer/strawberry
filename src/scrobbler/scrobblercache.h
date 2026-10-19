@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,6 +58,7 @@ class ScrobblerCache : public QObject {
   QTimer *timer_flush_;
   QString filename_;
   bool loaded_;
+  bool dirty_;
   QList<ScrobblerCacheItemPtr> scrobbler_cache_;
 };
 

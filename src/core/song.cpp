@@ -182,6 +182,7 @@ const QStringList Song::kTextSearchColumns = QStringList()      << u"title"_s
 
 const QStringList Song::kIntSearchColumns = QStringList()       << u"track"_s
                                                                 << u"year"_s
+                                                                << u"originalyear"_s
                                                                 << u"samplerate"_s
                                                                 << u"bitdepth"_s
                                                                 << u"bitrate"_s;

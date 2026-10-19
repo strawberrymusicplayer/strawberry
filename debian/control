@@ -25,6 +25,8 @@ Build-Depends: debhelper-compat (= 12),
                qt6-tools-dev-tools,
                qt6-l10n-tools,
                libkdsingleapplication-qt6-dev,
+               liblayershellqtinterface-dev,
+               libwayland-dev,
                libgstreamer1.0-dev,
                libgstreamer-plugins-base1.0-dev,
                libcdio-dev,
@@ -33,7 +35,12 @@ Build-Depends: debhelper-compat (= 12),
                libchromaprint-dev,
                libfftw3-dev,
                libebur128-dev,
-               libsparsehash-dev
+               libsparsehash-dev,
+               libgtest-dev <!nocheck>,
+               libgmock-dev <!nocheck>,
+               libqt6sql6-sqlite <!nocheck>,
+               gstreamer1.0-plugins-base <!nocheck>,
+               gstreamer1.0-plugins-good <!nocheck>
 Standards-Version: 4.7.0
 
 Package: strawberry

@@ -69,7 +69,11 @@ CollectionManager::CollectionManager(const SharedPtr<Database> database,
       save_ratings_to_files_(false),
       save_lyrics_to_files_(false),
       abort_sync_playcount_and_rating_(false),
-      sync_playcount_and_rating_pending_(false) {
+      sync_playcount_and_rating_pending_(false),
+      lyrics_saves_running_(0),
+      exiting_(false),
+      pending_song_saves_saved_(false),
+      backend_exiting_(false) {
 
   setObjectName(QLatin1String(QObject::metaObject()->className()));
 
@@ -120,6 +124,9 @@ void CollectionManager::Init() {
 
   watcher_thread_->start(QThread::IdlePriority);
 
+  QObject::connect(&*task_manager_, &TaskManager::PauseCollectionWatchers, this, &CollectionManager::UpdateWatcherPaused);
+  QObject::connect(&*task_manager_, &TaskManager::ResumeCollectionWatchers, this, &CollectionManager::UpdateWatcherPaused);
+
   QObject::connect(&*backend_, &CollectionBackend::Error, this, &CollectionManager::Error);
   QObject::connect(&*backend_, &CollectionBackend::DirectoryAdded, watcher_, &CollectionWatcher::AddDirectory);
   QObject::connect(&*backend_, &CollectionBackend::DirectoryDeleted, watcher_, &CollectionWatcher::RemoveDirectory);
@@ -145,6 +152,48 @@ void CollectionManager::Init() {
 
 void CollectionManager::Exit() {
 
+  exiting_ = true;
+
+  // Abort syncing playcounts and ratings to the files, and wait for it before saving the deferred playcounts and ratings.
+  // The sync writes the songs read when it started, which could overwrite them with older values.
+  sync_playcount_and_rating_pending_ = false;
+  if (sync_playcount_and_rating_future_.isRunning()) {
+    abort_sync_playcount_and_rating_ = true;
+    QFutureWatcher<void> *sync_watcher = new QFutureWatcher<void>(this);
+    QObject::connect(sync_watcher, &QFutureWatcher<void>::finished, this, [this, sync_watcher]() {
+      sync_watcher->deleteLater();
+      SavePendingSongSavesAndExit();
+    });
+    sync_watcher->setFuture(sync_playcount_and_rating_future_);
+    return;
+  }
+
+  SavePendingSongSavesAndExit();
+
+}
+
+void CollectionManager::SavePendingSongSavesAndExit() {
+
+  pending_song_saves_saved_ = true;
+
+  // Save the playcounts, ratings and lyrics deferred for the playing song, playback is not stopped when exiting without fadeout.
+  // The tagreader exits after the collection, so these are saved.
+  current_song_url_ = QUrl();
+  if (!pending_song_saves_.isEmpty()) {
+    SavePendingSongSaves();
+  }
+
+  // The backend exits when the lyrics are saved, since their storage type is updated in the backend.
+  if (lyrics_saves_running_ == 0) {
+    ExitBackendAndWatcher();
+  }
+
+}
+
+void CollectionManager::ExitBackendAndWatcher() {
+
+  backend_exiting_ = true;
+
   wait_for_exit_ << &*backend_ << watcher_;
 
   QObject::disconnect(&*backend_, nullptr, watcher_, nullptr);
@@ -156,16 +205,6 @@ void CollectionManager::Exit() {
   watcher_->Abort();
   watcher_->ExitAsync();
 
-  // Abort syncing playcounts and ratings to the files, and wait for it, it uses this object and the backend.
-  sync_playcount_and_rating_pending_ = false;
-  if (sync_playcount_and_rating_future_.isRunning()) {
-    abort_sync_playcount_and_rating_ = true;
-    QFutureWatcher<void> *sync_watcher = new QFutureWatcher<void>(this);
-    wait_for_exit_ << sync_watcher;
-    QObject::connect(sync_watcher, &QFutureWatcher<void>::finished, this, &CollectionManager::ExitReceived);
-    sync_watcher->setFuture(sync_playcount_and_rating_future_);
-  }
-
 }
 
 void CollectionManager::ExitReceived() {
@@ -174,7 +213,32 @@ void CollectionManager::ExitReceived() {
   QObject::disconnect(obj, nullptr, this, nullptr);
   qLog(Debug) << obj << "successfully exited.";
   wait_for_exit_.removeAll(obj);
-  if (wait_for_exit_.isEmpty()) Q_EMIT ExitFinished();
+  CheckExitFinished();
+
+}
+
+void CollectionManager::CheckExitFinished() {
+
+  // Lyrics can still be saved after the backend started exiting, when they were changed in the backend just before.
+  if (backend_exiting_ && wait_for_exit_.isEmpty() && lyrics_saves_running_ == 0) {
+    Q_EMIT ExitFinished();
+  }
+
+}
+
+void CollectionManager::LyricsSaveFinished() {
+
+  --lyrics_saves_running_;
+
+  // The backend exits when the deferred saves are started and the lyrics are saved.
+  if (pending_song_saves_saved_ && lyrics_saves_running_ == 0) {
+    if (backend_exiting_) {
+      CheckExitFinished();
+    }
+    else {
+      ExitBackendAndWatcher();
+    }
+  }
 
 }
 
@@ -193,9 +257,12 @@ void CollectionManager::Rescan(const SongList &songs) {
 
 }
 
-void CollectionManager::PauseWatcher() { watcher_->SetRescanPausedAsync(true); }
+void CollectionManager::UpdateWatcherPaused() {
 
-void CollectionManager::ResumeWatcher() { watcher_->SetRescanPausedAsync(false); }
+  // The pause and resume signals from the task manager can be received in another order than they were emitted from different threads, so the current state is used, not the signal, otherwise the collection watcher could be resumed while another delete or organize is still running.
+  watcher_->SetRescanPausedAsync(task_manager_->BlocksCollectionScans());
+
+}
 
 void CollectionManager::ReloadSettings() {
 
@@ -232,6 +299,9 @@ void CollectionManager::Stopped() {
 }
 
 void CollectionManager::SyncPlaycountAndRatingToFilesAsync() {
+
+  // Exit() waited for the sync, it must not be started again, it uses this object and the backend.
+  if (exiting_) return;
 
   if (sync_playcount_and_rating_future_.isRunning()) {
     // The running sync might have read the songs before they changed, so sync again when it finishes.
@@ -436,31 +506,37 @@ void CollectionManager::SaveLyricsToFile(const Song &song) {
 
   if (song.lyrics_storage_type() == Song::StorageType::Tag) {
     const QString lyrics = song.lyrics();
+    ++lyrics_saves_running_;
     TagReaderReplyPtr reply = tagreader_client_->SaveSongLyricsAsync(filename, lyrics);
     SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
     *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, filename, song_id, lyrics, connection]() {
       QObject::disconnect(*connection);
-      if (!reply->success()) {
-        qLog(Error) << "Could not save lyrics to" << filename << reply->error();
-        return;
+      if (reply->success()) {
+        // The lyrics are in the tags now, update where they are stored, unless they were changed in the meantime.
+        backend_->UpdateSongLyricsStorageTypeAsync(song_id, false, lyrics, Song::StorageType::Database, Song::StorageType::Tag);
       }
-      // The lyrics are in the tags now, update where they are stored, unless they were changed in the meantime.
-      backend_->UpdateSongLyricsStorageTypeAsync(song_id, false, lyrics, Song::StorageType::Database, Song::StorageType::Tag);
+      else {
+        qLog(Error) << "Could not save lyrics to" << filename << reply->error();
+      }
+      LyricsSaveFinished();
     }, Qt::QueuedConnection);
   }
 
   if (song.synced_lyrics_storage_type() == Song::StorageType::Tag) {
     const QString synced_lyrics = song.synced_lyrics();
+    ++lyrics_saves_running_;
     TagReaderReplyPtr reply = tagreader_client_->SaveSongSyncedLyricsAsync(filename, synced_lyrics);
     SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
     *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, filename, song_id, synced_lyrics, connection]() {
       QObject::disconnect(*connection);
-      if (!reply->success()) {
-        qLog(Error) << "Could not save synchronized lyrics to" << filename << reply->error();
-        return;
+      if (reply->success()) {
+        // The synchronized lyrics are in the tags now, update where they are stored, unless they were changed in the meantime.
+        backend_->UpdateSongLyricsStorageTypeAsync(song_id, true, synced_lyrics, Song::StorageType::Database, Song::StorageType::Tag);
       }
-      // The synchronized lyrics are in the tags now, update where they are stored, unless they were changed in the meantime.
-      backend_->UpdateSongLyricsStorageTypeAsync(song_id, true, synced_lyrics, Song::StorageType::Database, Song::StorageType::Tag);
+      else {
+        qLog(Error) << "Could not save synchronized lyrics to" << filename << reply->error();
+      }
+      LyricsSaveFinished();
     }, Qt::QueuedConnection);
   }
 
@@ -491,12 +567,14 @@ void CollectionManager::SavePendingSongSaves() {
     }
     if (pending_song_save->save_lyrics) {
       // Check the lyrics against the collection outside the GUI thread, and save them when that is done.
+      ++lyrics_saves_running_;
       QFuture<Song> future = QtConcurrent::run([backend = backend_, song = pending_song_save->song]() { return CurrentLyricsToSave(backend, song); });
       QFutureWatcher<Song> *watcher = new QFutureWatcher<Song>(this);
       QObject::connect(watcher, &QFutureWatcher<Song>::finished, this, [this, watcher]() {
         const Song song = watcher->result();
         watcher->deleteLater();
         SaveLyricsToFile(song);
+        LyricsSaveFinished();
       });
       watcher->setFuture(future);
     }

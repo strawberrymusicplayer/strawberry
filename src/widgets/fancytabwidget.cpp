@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2018, Vikram Ambrose <ambroseworks@gmail.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -346,14 +346,19 @@ void FancyTabWidget::paintEvent(QPaintEvent *pe) {
     }
 
     // Draw the translucent png graphics over the gradient fill
+    // Repeat it horizontally too, the sidebar with labels is wider than the graphics.
     if (!background_pixmap_.isNull()) {
       QRect pixmap_rect(background_pixmap_.rect());
       pixmap_rect.moveTo(backgroundRect.topLeft());
 
       while (pixmap_rect.top() < backgroundRect.bottom()) {
-        QRect source_rect(pixmap_rect.intersected(backgroundRect));
-        source_rect.moveTo(0, 0);
-        p.drawPixmap(pixmap_rect.topLeft(), background_pixmap_, source_rect);
+        pixmap_rect.moveLeft(backgroundRect.left());
+        while (pixmap_rect.left() < backgroundRect.right()) {
+          QRect source_rect(pixmap_rect.intersected(backgroundRect));
+          source_rect.moveTo(0, 0);
+          p.drawPixmap(pixmap_rect.topLeft(), background_pixmap_, source_rect);
+          pixmap_rect.moveLeft(pixmap_rect.right() + 1);
+        }
         pixmap_rect.moveTop(pixmap_rect.bottom() - 10);
       }
     }

@@ -1,16 +1,9 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.25)
 
 project(strawberry C CXX)
 
 if(APPLE)
   enable_language(OBJC OBJCXX)
-endif()
-
-if(POLICY CMP0054)
-  cmake_policy(SET CMP0054 NEW)
-endif()
-if(POLICY CMP0074)
-  cmake_policy(SET CMP0074 NEW)
 endif()
 
 include(CheckCXXCompilerFlag)
@@ -261,6 +254,25 @@ if(X11_FOUND)
   unset(CMAKE_REQUIRED_LIBRARIES)
 endif()
 
+if(UNIX AND NOT APPLE)
+  find_package(LayerShellQt 6.0 CONFIG)
+  pkg_check_modules(WAYLAND_CLIENT IMPORTED_TARGET wayland-client)
+  # Check for QWaylandApplication (Qt 6.5 or newer compiled with Wayland), Qt 6.5 is also needed to use layer shell for only some windows.
+  set(CMAKE_REQUIRED_FLAGS "-std=c++17")
+  set(CMAKE_REQUIRED_LIBRARIES Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui)
+  check_cxx_source_compiles("
+    #include <QGuiApplication>
+    int main() {
+      (void)qApp->nativeInterface<QNativeInterface::QWaylandApplication>();
+      return 0;
+    }
+    "
+    HAVE_QWAYLANDAPPLICATION
+  )
+  unset(CMAKE_REQUIRED_FLAGS)
+  unset(CMAKE_REQUIRED_LIBRARIES)
+endif()
+
 find_package(KDSingleApplication-qt${QT_VERSION_MAJOR} 1.1.0 REQUIRED)
 
 if(APPLE)
@@ -333,6 +345,11 @@ if(UNIX AND NOT APPLE)
   )
   optional_component(LIBSECRET ON "Credentials: libsecret backend"
     DEPENDS "libsecret" LIBSECRET_FOUND
+  )
+  optional_component(LAYERSHELLQT ON "OSD Pretty on Wayland: LayerShellQt"
+    DEPENDS "LayerShellQt" LayerShellQt_FOUND
+    DEPENDS "wayland-client" WAYLAND_CLIENT_FOUND
+    DEPENDS "QWaylandApplication" HAVE_QWAYLANDAPPLICATION
   )
 endif()
 
@@ -430,6 +447,42 @@ if(NOT CMAKE_CROSSCOMPILING)
     "
     QT_SQLITE_TEST
   )
+  # Check that the Qt sqlite driver uses the same sqlite library as strawberry, since strawberry uses the sqlite functions on the database connections opened by Qt.
+  # An auto extension registered with the sqlite library linked to strawberry is only run for connections opened with that library, not when Qt has its own sqlite library.
+  if(QT_SQLITE_TEST)
+    set(CMAKE_REQUIRED_LIBRARIES Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Sql PkgConfig::SQLITE)
+    check_cxx_source_runs("
+      #include <sqlite3.h>
+      #include <QCoreApplication>
+      #include <QSqlDatabase>
+      #include <QSqlQuery>
+      static bool extension_loaded = false;
+      static int TestExtension(sqlite3 *db, char **error, const struct sqlite3_api_routines *api) {
+        (void)db;
+        (void)error;
+        (void)api;
+        extension_loaded = true;
+        return SQLITE_OK;
+      }
+      int main(int argc, char *argv[]) {
+        QCoreApplication app(argc, argv);
+        if (sqlite3_auto_extension(reinterpret_cast<void(*)(void)>(TestExtension)) != SQLITE_OK) return 1;
+        QSqlDatabase db = QSqlDatabase::addDatabase(\"QSQLITE\");
+        db.setDatabaseName(\":memory:\");
+        if (!db.open()) return 1;
+        QSqlQuery q(db);
+        if (!q.exec(\"SELECT 1;\")) return 1;
+        return extension_loaded ? 0 : 1;
+      }
+      "
+      QT_SQLITE_SAME_LIBRARY_TEST
+    )
+    if(NOT QT_SQLITE_SAME_LIBRARY_TEST)
+      message(FATAL_ERROR "The Qt sqlite driver is not using the same sqlite library as strawberry (${SQLITE_LINK_LIBRARIES}), Qt is probably built with its own sqlite library instead of the system sqlite library. Strawberry uses sqlite functions on the database connections opened by Qt, which requires the same sqlite library.")
+    endif()
+  endif()
+  unset(CMAKE_REQUIRED_FLAGS)
+  unset(CMAKE_REQUIRED_LIBRARIES)
 endif()
 
 add_executable(strawberry)
@@ -790,8 +843,12 @@ set(SOURCES
   src/widgets/ratingpainter.cpp
   src/widgets/resizabletextedit.cpp
 
-  src/tageditor/tageditor.cpp
-  src/tageditor/trackselectiondialog.cpp
+  src/songeditor/songeditor.cpp
+  src/songeditor/tageditor.cpp
+  src/songeditor/lyricstab.cpp
+  src/songeditor/trackselectiondialog.cpp
+  src/songeditor/lyricssearchdialog.cpp
+  src/songeditor/lyricseditor.cpp
 
   src/osd/osdbase.cpp
   src/osd/osdpretty.cpp
@@ -1096,8 +1153,12 @@ set(HEADERS
   src/widgets/forcescrollperpixel.h
   src/widgets/resizabletextedit.h
 
-  src/tageditor/tageditor.h
-  src/tageditor/trackselectiondialog.h
+  src/songeditor/songeditor.h
+  src/songeditor/tageditor.h
+  src/songeditor/lyricstab.h
+  src/songeditor/trackselectiondialog.h
+  src/songeditor/lyricssearchdialog.h
+  src/songeditor/lyricseditor.h
 
   src/osd/osdbase.h
   src/osd/osdpretty.h
@@ -1220,8 +1281,6 @@ set(UI
   src/dialogs/aboutdialog.ui
   src/dialogs/errordialog.ui
   src/dialogs/console.ui
-  src/tageditor/tageditor.ui
-  src/tageditor/trackselectiondialog.ui
   src/dialogs/addstreamdialog.ui
   src/dialogs/userpassdialog.ui
   src/dialogs/messagedialog.ui
@@ -1229,6 +1288,12 @@ set(UI
 
   src/widgets/trackslider.ui
   src/widgets/loginstatewidget.ui
+
+  src/songeditor/tageditor.ui
+  src/songeditor/lyricstab.ui
+  src/songeditor/lyricseditor.ui
+  src/songeditor/trackselectiondialog.ui
+  src/songeditor/lyricssearchdialog.ui
 
   src/osd/osdpretty.ui
 
@@ -1702,6 +1767,7 @@ add_subdirectory(src)
 add_subdirectory(dist)
 
 if(TARGET GTest::gtest AND TARGET GTest::gmock AND Qt${QT_VERSION_MAJOR}Test_FOUND)
+  enable_testing()
   add_subdirectory(tests)
 endif()
 
@@ -1719,9 +1785,11 @@ if(HAVE_TRANSLATIONS)
   endif()
 endif()
 
+# The API credentials directory is before the source directory, so a header generated from the credentials set in CMake is used instead of an existing src/apicredentials.h.
 target_include_directories(strawberry_lib PUBLIC
   ${CMAKE_SOURCE_DIR}
   ${CMAKE_BINARY_DIR}
+  ${API_CREDENTIALS_INCLUDE_DIR}
   ${CMAKE_SOURCE_DIR}/src
   ${CMAKE_BINARY_DIR}/src
 )
@@ -1763,6 +1831,7 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${HAVE_GSTFASTSPECTRUM}>:PkgConfig::FFTW3>
   $<$<BOOL:${HAVE_EBUR128}>:PkgConfig::LIBEBUR128>
   $<$<BOOL:${HAVE_X11_GLOBALSHORTCUTS}>:X11::X11_xcb>
+  $<$<BOOL:${HAVE_LAYERSHELLQT}>:LayerShellQt::Interface PkgConfig::WAYLAND_CLIENT>
   $<$<BOOL:${HAVE_GIO}>:PkgConfig::GIO>
   $<$<BOOL:${HAVE_GIO_UNIX}>:PkgConfig::GIO_UNIX>
   $<$<BOOL:${HAVE_AUDIOCD}>:PkgConfig::LIBCDIO>

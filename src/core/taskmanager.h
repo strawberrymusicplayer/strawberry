@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -68,10 +68,13 @@ class TaskManager : public QObject {
   void IncreaseTaskProgress(const int id, const quint64 progress, const quint64 max = 0);
   void SetTaskFinished(const int id);
   quint64 GetTaskProgress(const int id);
+  // Returns true while a task which blocks collection scans is running.
+  bool BlocksCollectionScans();
 
  Q_SIGNALS:
   void TasksChanged();
 
+  // The signals can be emitted from different threads, so they can be received in another order than the tasks were started and finished, use BlocksCollectionScans() for the current state.
   void PauseCollectionWatchers();
   void ResumeCollectionWatchers();
 

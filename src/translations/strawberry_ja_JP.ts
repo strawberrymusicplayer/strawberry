@@ -2246,6 +2246,60 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
   </context>
   <context>
+    <name>LyricsTab</name>
+    <message>
+      <source>Complete lyrics automatically</source>
+      <translation>歌詞を自動的に完成させる</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>歌詞</translation>
+    </message>
+  </context>
+  <context>
+    <name>SongEditor</name>
+    <message>
+      <source>(different across multiple songs)</source>
+      <translation>(複数の曲で異なります)</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>歌詞</translation>
+    </message>
+    <message>
+      <source>Previous</source>
+      <translation>前へ</translation>
+    </message>
+    <message>
+      <source>Next</source>
+      <translation>次へ</translation>
+    </message>
+    <message>
+      <source>Saving tracks</source>
+      <translation>トラックの保存中</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1</source>
+      <translation>メタデータを %1に書き込めませんでした</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1: %2</source>
+      <translation>メタデータを%1: %2に書き込めませんでした</translation>
+    </message>
+    <message>
+      <source>Loading tracks</source>
+      <translation>トラックの読み込み中</translation>
+    </message>
+    <message>
+      <source>loading...</source>
+      <translation>読み込んでいます…</translation>
+    </message>
+    <message>
+      <source>Not found.</source>
+      <translation>見つかりませんでした。</translation>
+    </message>
+  </context>
+  <context>
     <name>TagEditor</name>
     <message>
       <source>Edit track information</source>

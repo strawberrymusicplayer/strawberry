@@ -66,7 +66,9 @@ void BusyIndicator::Init(const QString &text) {
   layout->addSpacing(6);
   layout->addWidget(label_);
 
-  set_text(text);
+  // set_text() doesn't change anything when the text is empty, since the label is already empty, so the empty label wouldn't be hidden, and the word wrapping label would take up space.
+  label_->setText(text);
+  label_->setVisible(!text.isEmpty());
 
 }
 

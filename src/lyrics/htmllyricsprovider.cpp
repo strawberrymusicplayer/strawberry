@@ -40,7 +40,7 @@
 using namespace Qt::Literals::StringLiterals;
 
 HtmlLyricsProvider::HtmlLyricsProvider(const QString &name, const bool enabled, const QString &start_tag, const QString &end_tag, const QString &lyrics_start, const bool multiple, const SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : LyricsProvider(name, enabled, false, network, parent),
+    : LyricsProvider(name, enabled, false, false, network, parent),
       start_tag_(start_tag),
       end_tag_(end_tag),
       lyrics_start_(lyrics_start),

@@ -25,6 +25,7 @@
 
 #include "includes/scoped_ptr.h"
 #include "core/song.h"
+#include "constants/timeconstants.h"
 #include "filterparser/filterparser.h"
 #include "filterparser/filtertree.h"
 
@@ -91,6 +92,94 @@ TEST(FilterParserTest, QuotedValueWithoutEscapes) {
 
   EXPECT_TRUE(Accepts(u"title:\"foo bar\""_s, SongWithTitle(u"Foo Bar"_s)));
   EXPECT_FALSE(Accepts(u"title:\"foo bar\""_s, SongWithTitle(u"Foo"_s)));
+
+}
+
+Song SongWithArtist(const QString &artist) {
+  Song song;
+  song.set_artist(artist);
+  return song;
+}
+
+TEST(FilterParserTest, HyphenInsideTermIsPartOfValue) {
+  EXPECT_TRUE(Accepts(u"blink-182"_s, SongWithArtist(u"blink-182"_s)));
+  EXPECT_TRUE(Accepts(u"artist:blink-182"_s, SongWithArtist(u"blink-182"_s)));
+  EXPECT_FALSE(Accepts(u"blink-182"_s, SongWithArtist(u"blink"_s)));
+  EXPECT_FALSE(Accepts(u"artist:blink-182"_s, SongWithArtist(u"blink"_s)));
+}
+
+TEST(FilterParserTest, HyphenAtStartOfTermNegates) {
+  EXPECT_TRUE(Accepts(u"-foo"_s, SongWithTitle(u"Bar"_s)));
+  EXPECT_FALSE(Accepts(u"-foo"_s, SongWithTitle(u"Foo"_s)));
+  EXPECT_TRUE(Accepts(u"bar -foo"_s, SongWithTitle(u"Bar"_s)));
+  EXPECT_FALSE(Accepts(u"bar -foo"_s, SongWithTitle(u"Bar Foo"_s)));
+  EXPECT_FALSE(Accepts(u"bar (-foo)"_s, SongWithTitle(u"Bar Foo"_s)));
+  EXPECT_FALSE(Accepts(u"bar OR-foo"_s, SongWithTitle(u"Foo"_s)));
+  EXPECT_TRUE(Accepts(u"bar OR-foo"_s, SongWithTitle(u"Baz"_s)));
+}
+
+Song SongWithYears(const int year, const int originalyear) {
+  Song song;
+  song.set_year(year);
+  song.set_originalyear(originalyear);
+  return song;
+}
+
+TEST(FilterParserTest, OriginalYear) {
+  EXPECT_TRUE(Accepts(u"originalyear:1971"_s, SongWithYears(2011, 1971)));
+  EXPECT_FALSE(Accepts(u"originalyear:2011"_s, SongWithYears(2011, 1971)));
+  EXPECT_FALSE(Accepts(u"year:1971"_s, SongWithYears(2011, 1971)));
+  // Without an original year, it's the year.
+  EXPECT_TRUE(Accepts(u"originalyear:2011"_s, SongWithYears(2011, -1)));
+}
+
+TEST(FilterParserTest, UnknownYear) {
+  // "Search for this" uses this for the songs without a year, which have year -1 or 0.
+  EXPECT_TRUE(Accepts(u"year:<=0"_s, SongWithYears(-1, -1)));
+  EXPECT_TRUE(Accepts(u"year:<=0"_s, SongWithYears(0, -1)));
+  EXPECT_FALSE(Accepts(u"year:<=0"_s, SongWithYears(2011, -1)));
+  EXPECT_TRUE(Accepts(u"originalyear:<=0"_s, SongWithYears(-1, -1)));
+  EXPECT_FALSE(Accepts(u"originalyear:<=0"_s, SongWithYears(-1, 1971)));
+}
+
+Song SongWithLength(const qint64 length_nanosec) {
+  Song song;
+  song.set_length_nanosec(length_nanosec);
+  return song;
+}
+
+TEST(FilterParserTest, LengthMatchesShownLength) {
+
+  // 3:45.6 is shown as 3:45.
+  const Song song = SongWithLength((225 * kNsecPerSec) + (600 * kNsecPerMsec));
+  EXPECT_TRUE(Accepts(u"length:3:45"_s, song));
+  EXPECT_TRUE(Accepts(u"length:=225"_s, song));
+  EXPECT_FALSE(Accepts(u"length:3:46"_s, song));
+  EXPECT_FALSE(Accepts(u"length:!=3:45"_s, song));
+
+}
+
+TEST(FilterParserTest, LengthComparisons) {
+
+  const Song song = SongWithLength((225 * kNsecPerSec) + (600 * kNsecPerMsec));
+  EXPECT_TRUE(Accepts(u"length:>=3:45"_s, song));
+  EXPECT_TRUE(Accepts(u"length:<=3:45"_s, song));
+  EXPECT_FALSE(Accepts(u"length:>3:45"_s, song));
+  EXPECT_FALSE(Accepts(u"length:<3:45"_s, song));
+  EXPECT_TRUE(Accepts(u"length:<3:46"_s, song));
+  EXPECT_TRUE(Accepts(u"length:>3:44"_s, song));
+  EXPECT_TRUE(Accepts(u"length:<1:00:00"_s, song));
+
+}
+
+TEST(FilterParserTest, UnknownLength) {
+
+  // An unknown length is -1, which is shown as an empty length, it's not 0.
+  const Song song = SongWithLength(-1);
+  EXPECT_FALSE(Accepts(u"length:0"_s, song));
+  EXPECT_FALSE(Accepts(u"length:0:00"_s, song));
+  EXPECT_TRUE(Accepts(u"length:<0"_s, song));
+  EXPECT_TRUE(Accepts(u"length:0"_s, SongWithLength(500 * kNsecPerMsec)));
 
 }
 

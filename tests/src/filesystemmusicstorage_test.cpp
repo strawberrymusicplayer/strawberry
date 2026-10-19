@@ -65,6 +65,7 @@ class FilesystemMusicStorageTest : public ::testing::Test {
   bool MoveSong(const QString &filename, const QString &cover_filename) {
     MusicStorage::CopyJob job;
     job.source_ = source_path_ + u"/Album/"_s + filename;
+    job.original_root_ = source_path_;
     job.destination_ = u"Artist/Album/"_s + filename;
     job.remove_original_ = true;
     job.albumcover_ = true;
@@ -163,6 +164,7 @@ TEST_F(FilesystemMusicStorageTest, MoveTranscodedRemovesOriginal) {
   MusicStorage::CopyJob job;
   job.source_ = transcoded_filename;
   job.original_source_ = original_filename;
+  job.original_root_ = source_path_;
   job.destination_ = u"Artist/Album/01.mp3"_s;
   job.remove_original_ = true;
   job.albumcover_ = true;
@@ -221,5 +223,90 @@ TEST_F(FilesystemMusicStorageTest, MoveInSameDirectoryWithOverwriteKeepsCover) {
   EXPECT_TRUE(QFile::exists(cover_filename));
 
 }
+
+TEST_F(FilesystemMusicStorageTest, MoveRemovesEmptyDirectoriesUpToOriginalRoot) {
+
+  // Reorganizing inside the collection directory removes the old empty directories, but not the collection directory itself, or the empty directories above it.
+  ASSERT_TRUE(QDir(source_path_).removeRecursively());
+  const QString original_filename = root_path_ + u"/Old Artist/Old Album/01.flac"_s;
+  ASSERT_TRUE(QDir().mkpath(QFileInfo(original_filename).path()));
+  ASSERT_TRUE(CreateFile(original_filename));
+
+  MusicStorage::CopyJob job;
+  job.source_ = original_filename;
+  job.original_root_ = root_path_;
+  job.destination_ = u"Artist/Album/01.flac"_s;
+  job.remove_original_ = true;
+  FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+  QString error_text;
+  ASSERT_TRUE(storage.CopyToStorage(job, error_text));
+
+  EXPECT_TRUE(QFile::exists(root_path_ + u"/Artist/Album/01.flac"_s));
+  EXPECT_FALSE(QDir(root_path_ + u"/Old Artist"_s).exists());
+  EXPECT_TRUE(QDir(root_path_).exists());
+
+  // Moving the last song out of the collection directory leaves the collection directory and the empty directories above it.
+  const QString destination_path = temp_dir_.filePath(u"destination"_s);
+  ASSERT_TRUE(QDir().mkpath(destination_path));
+  MusicStorage::CopyJob job_out;
+  job_out.source_ = root_path_ + u"/Artist/Album/01.flac"_s;
+  job_out.original_root_ = root_path_;
+  job_out.destination_ = u"01.flac"_s;
+  job_out.remove_original_ = true;
+  FilesystemMusicStorage storage_out(Song::Source::Collection, destination_path);
+  ASSERT_TRUE(storage_out.CopyToStorage(job_out, error_text));
+
+  EXPECT_TRUE(QFile::exists(destination_path + u"/01.flac"_s));
+  EXPECT_FALSE(QDir(root_path_ + u"/Artist"_s).exists());
+  EXPECT_TRUE(QDir(root_path_).exists());
+  EXPECT_TRUE(QDir(temp_dir_.path()).exists());
+
+}
+
+TEST_F(FilesystemMusicStorageTest, MoveWithoutOriginalRootKeepsDirectories) {
+
+  // A file outside the collection and device directories, like one in the downloads directory, doesn't remove any directories.
+  const QString original_filename = source_path_ + u"/Album/01.flac"_s;
+  ASSERT_TRUE(CreateFile(original_filename));
+
+  MusicStorage::CopyJob job;
+  job.source_ = original_filename;
+  job.destination_ = u"Artist/Album/01.flac"_s;
+  job.remove_original_ = true;
+  FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+  QString error_text;
+  ASSERT_TRUE(storage.CopyToStorage(job, error_text));
+
+  EXPECT_TRUE(QFile::exists(root_path_ + u"/Artist/Album/01.flac"_s));
+  EXPECT_FALSE(QFile::exists(original_filename));
+  EXPECT_TRUE(QDir(source_path_ + u"/Album"_s).exists());
+
+}
+
+#ifndef Q_OS_WIN32
+TEST_F(FilesystemMusicStorageTest, MoveKeepsDirectoryOutsideOriginalRootLinkedFromInside) {
+
+  // The album directory is outside the source root, but linked from inside it, so it's not removed.
+  const QString external_path = temp_dir_.filePath(u"external"_s);
+  ASSERT_TRUE(QDir().mkpath(external_path + u"/Album"_s));
+  ASSERT_TRUE(QFile::link(external_path, source_path_ + u"/linked"_s));
+  const QString original_filename = source_path_ + u"/linked/Album/01.flac"_s;
+  ASSERT_TRUE(CreateFile(original_filename));
+
+  MusicStorage::CopyJob job;
+  job.source_ = original_filename;
+  job.original_root_ = source_path_;
+  job.destination_ = u"Artist/Album/01.flac"_s;
+  job.remove_original_ = true;
+  FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+  QString error_text;
+  ASSERT_TRUE(storage.CopyToStorage(job, error_text));
+
+  EXPECT_TRUE(QFile::exists(root_path_ + u"/Artist/Album/01.flac"_s));
+  EXPECT_FALSE(QFile::exists(external_path + u"/Album/01.flac"_s));
+  EXPECT_TRUE(QDir(external_path + u"/Album"_s).exists());
+
+}
+#endif
 
 }  // namespace

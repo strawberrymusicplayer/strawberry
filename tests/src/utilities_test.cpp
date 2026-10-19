@@ -30,6 +30,8 @@
 #include <QRegularExpression>
 #include <QTemporaryDir>
 #include <QFile>
+#include <QFileInfo>
+#include <QDir>
 #include <QtDebug>
 
 #include "test_utils.h"
@@ -43,6 +45,7 @@
 #include "utilities/transliterate.h"
 #include "utilities/textencodingutils.h"
 #include "utilities/coverutils.h"
+#include "utilities/fileutils.h"
 #include "core/logging.h"
 #include "core/temporaryfile.h"
 
@@ -516,3 +519,46 @@ TEST(UtilitiesTest, CoverFilenameFromId) {
   EXPECT_LT(jellyfin_filename.length(), 255);
 
 }
+
+#ifndef Q_OS_WIN32
+// Regression test: removing a directory followed the links to directories in it, so the files in the directories they link to were removed too.
+TEST(UtilitiesTest, RemoveRecursiveDoesNotFollowLinks) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QDir root(temp_dir.path());
+
+  // A directory outside the directory being removed, which a link points to.
+  ASSERT_TRUE(root.mkpath(u"outside/subdir"_s));
+  const QString outside_file = root.filePath(u"outside/file.txt"_s);
+  const QString outside_subdir_file = root.filePath(u"outside/subdir/file.txt"_s);
+  for (const QString &filename : {outside_file, outside_subdir_file}) {
+    QFile file(filename);
+    ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+    file.write("data");
+  }
+
+  // The directory being removed, with a file, a subdirectory, a link to the outside directory and a broken link.
+  ASSERT_TRUE(root.mkpath(u"remove/subdir"_s));
+  {
+    QFile file(root.filePath(u"remove/subdir/file.txt"_s));
+    ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+    file.write("data");
+  }
+  ASSERT_TRUE(QFile::link(root.filePath(u"outside"_s), root.filePath(u"remove/link"_s)));
+  ASSERT_TRUE(QFile::link(root.filePath(u"missing"_s), root.filePath(u"remove/broken_link"_s)));
+
+  EXPECT_TRUE(Utilities::RemoveRecursive(root.filePath(u"remove"_s)));
+  EXPECT_FALSE(QFileInfo::exists(root.filePath(u"remove"_s)));
+  EXPECT_TRUE(QFile::exists(outside_file));
+  EXPECT_TRUE(QFile::exists(outside_subdir_file));
+
+  // Removing a link to a directory only removes the link.
+  ASSERT_TRUE(QFile::link(root.filePath(u"outside"_s), root.filePath(u"link"_s)));
+  EXPECT_TRUE(Utilities::RemoveRecursive(root.filePath(u"link"_s)));
+  EXPECT_FALSE(QFileInfo(root.filePath(u"link"_s)).isSymLink());
+  EXPECT_TRUE(QFile::exists(outside_file));
+  EXPECT_TRUE(QFile::exists(outside_subdir_file));
+
+}
+#endif

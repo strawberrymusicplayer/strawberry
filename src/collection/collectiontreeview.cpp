@@ -553,6 +553,11 @@ void CollectionTreeView::SearchForThis() {
         item = item->children.constFirst();
       }
 
+      // Songs without a year are grouped together with songs with year 0 or less, so search for those instead of the year itself.
+      const auto year_search = [](const QString &column, const int year) {
+        return year > 0 ? QStringLiteral("%1:%2").arg(column, QString::number(year)) : QStringLiteral("%1:<=0").arg(column);
+      };
+
       switch (group_by) {
         case CollectionModel::GroupBy::AlbumArtist:
           search = u"albumartist:"_s + FilterParser::QuoteValue(item->metadata.effective_albumartist());
@@ -566,17 +571,17 @@ void CollectionTreeView::SearchForThis() {
           break;
         case CollectionModel::GroupBy::YearAlbum:
         case CollectionModel::GroupBy::YearAlbumDisc:
-          search = QStringLiteral("year:%1 album:").arg(item->metadata.year()) + FilterParser::QuoteValue(item->metadata.album());
+          search = year_search(u"year"_s, item->metadata.year()) + u" album:"_s + FilterParser::QuoteValue(item->metadata.album());
           break;
         case CollectionModel::GroupBy::OriginalYearAlbum:
         case CollectionModel::GroupBy::OriginalYearAlbumDisc:
-          search = QStringLiteral("year:%1 album:").arg(item->metadata.effective_originalyear()) + FilterParser::QuoteValue(item->metadata.album());
+          search = year_search(u"originalyear"_s, item->metadata.effective_originalyear()) + u" album:"_s + FilterParser::QuoteValue(item->metadata.album());
           break;
         case CollectionModel::GroupBy::Year:
-          search = QStringLiteral("year:%1").arg(item->metadata.year());
+          search = year_search(u"year"_s, item->metadata.year());
           break;
         case CollectionModel::GroupBy::OriginalYear:
-          search = QStringLiteral("year:%1").arg(item->metadata.effective_originalyear());
+          search = year_search(u"originalyear"_s, item->metadata.effective_originalyear());
           break;
         case CollectionModel::GroupBy::Genre:
           search = u"genre:"_s + FilterParser::QuoteValue(item->metadata.genre());

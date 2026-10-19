@@ -29,9 +29,13 @@
 #include <QList>
 #include <QByteArray>
 #include <QString>
+#include <QStringList>
+#include <QFileInfo>
+#include <QTemporaryDir>
 #include <QCryptographicHash>
 #include <QThread>
 #include <QEventLoop>
+#include <QSemaphore>
 
 #include <taglib/tstring.h>
 #include <taglib/asffile.h>
@@ -48,6 +52,7 @@
 #include "core/logging.h"
 #include "core/song.h"
 #include "tagreader/tagreaderclient.h"
+#include "tagreader/tagreadertaglib.h"
 
 #include "test_utils.h"
 
@@ -3271,6 +3276,160 @@ TEST(TagReaderGMETest, VGMPlaybackLength) {
   EXPECT_EQ(10000ULL, length);
 
   EXPECT_FALSE(GME::VGM::GetPlaybackLength(pack(0), pack(0), length));
+
+}
+
+// Regression test: non-ASCII titles in SPC files were garbled, since they were decoded as Latin-1 twice.
+TEST(TagReaderGMETest, SPCNonASCIIStrings) {
+
+  QByteArray data(0x10200, '\0');
+  data.replace(0, 33, "SNES-SPC700 Sound File Data v0.30");
+  const auto set_field = [&data](const int offset, const QByteArray &value) { data.replace(offset, static_cast<int>(value.size()), value); };
+  set_field(GME::SPC::SONG_TITLE_OFFSET, "Caf\xe9");
+  set_field(GME::SPC::GAME_TITLE_OFFSET, "Gr\xfc\xdf" "e");
+  set_field(GME::SPC::ARTIST_OFFSET, "Bj\xf6rk");
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString filename = temp_dir.filePath(u"test.spc"_s);
+  QFile file(filename);
+  ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+  ASSERT_EQ(data.size(), file.write(data));
+  file.close();
+
+  Song song;
+  ASSERT_TRUE(GME::ReadFile(QFileInfo(filename), &song).success());
+  EXPECT_EQ(u"Café"_s, song.title());
+  EXPECT_EQ(u"Grüße"_s, song.album());
+  EXPECT_EQ(u"Björk"_s, song.artist());
+
+}
+
+// Regression test: non-ASCII titles in VGM files were garbled, since they were decoded as UTF-16, then encoded as UTF-8 and decoded as Latin-1.
+TEST(TagReaderGMETest, VGMNonASCIIStrings) {
+
+  const auto pack = [](const quint32 value) {
+    QByteArray bytes(4, '\0');
+    for (int i = 0; i < 4; ++i) bytes[i] = static_cast<char>((value >> (8 * i)) & 0xFF);
+    return bytes;
+  };
+
+  // The GD3 strings are UTF-16LE, each terminated by a null character, in the order title, title (Japanese), album, album (Japanese), system, system (Japanese), artist, artist (Japanese), date, dumper and notes.
+  const QStringList strings = { u"Café"_s, u"カフェ"_s, u"Grüße"_s, QString(), QString(), QString(), u"Björk"_s, QString(), u"1994/01/01"_s, QString(), QString() };
+  QByteArray gd3_strings;
+  for (const QString &string : strings) {
+    for (const QChar c : string) {
+      gd3_strings.append(static_cast<char>(c.unicode() & 0xFF));
+      gd3_strings.append(static_cast<char>(c.unicode() >> 8));
+    }
+    gd3_strings.append(2, '\0');
+  }
+
+  QByteArray data(0x40, '\0');
+  data.replace(0, 4, "Vgm ");
+  data.replace(GME::VGM::SAMPLE_COUNT, 4, pack(441000));
+  data.replace(GME::VGM::GD3_TAG_PTR, 4, pack(static_cast<quint32>(data.size() - GME::VGM::GD3_TAG_PTR)));
+  data.append("Gd3 ");
+  data.append(pack(0x100));
+  data.append(pack(static_cast<quint32>(gd3_strings.size())));
+  data.append(gd3_strings);
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString filename = temp_dir.filePath(u"test.vgm"_s);
+  QFile file(filename);
+  ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+  ASSERT_EQ(data.size(), file.write(data));
+  file.close();
+
+  Song song;
+  ASSERT_TRUE(GME::ReadFile(QFileInfo(filename), &song).success());
+  EXPECT_EQ(u"Café"_s, song.title());
+  EXPECT_EQ(u"Grüße"_s, song.album());
+  EXPECT_EQ(u"Björk"_s, song.artist());
+  EXPECT_EQ(1994, song.year());
+
+}
+
+TEST_F(TagReaderTest, TestExitWritesQueuedRequests) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+
+  // Block the tagreader thread, and queue the exit before the requests, so Exit() runs before the requests are processed, and has to write them itself.
+  QSemaphore blocker;
+  QMetaObject::invokeMethod(tagreader_client_, [&blocker]() { blocker.acquire(); }, Qt::QueuedConnection);
+
+  // Wait for the exit without an event loop, since the queued ProcessRequests() is moved to this thread with the tagreader, and would otherwise process the requests here.
+  QSemaphore exit_finished;
+  QObject::connect(tagreader_client_, &TagReaderClient::ExitFinished, tagreader_client_, [&exit_finished]() { exit_finished.release(); }, Qt::DirectConnection);
+  tagreader_client_->ExitAsync();
+
+  TagReaderReadFileReplyPtr read_reply = tagreader_client_->ReadFileAsync(r.fileName());
+  TagReaderReplyPtr playcount_reply = tagreader_client_->SaveSongPlaycountAsync(r.fileName(), 42);
+  TagReaderReplyPtr lyrics_reply = tagreader_client_->SaveSongLyricsAsync(r.fileName(), u"Lyrics saved when exiting"_s);
+
+  blocker.release();
+  ASSERT_TRUE(exit_finished.tryAcquire(1, 10000));
+
+  // Reading the file is not needed anymore when exiting, but the changes to the tags are written.
+  EXPECT_FALSE(read_reply->finished());
+  EXPECT_TRUE(playcount_reply->finished());
+  EXPECT_TRUE(playcount_reply->success());
+  EXPECT_TRUE(lyrics_reply->finished());
+  EXPECT_TRUE(lyrics_reply->success());
+
+  Song song;
+  ASSERT_TRUE(TagReaderTagLib().ReadFile(r.fileName(), &song).success());
+  EXPECT_EQ(42U, song.playcount());
+  EXPECT_EQ(u"Lyrics saved when exiting"_s, song.lyrics());
+
+}
+
+TEST_F(TagReaderTest, TestAbortReadsKeepsWrites) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+
+  // Block the tagreader thread, so both requests are queued when the reads are aborted.
+  QSemaphore blocker;
+  QMetaObject::invokeMethod(tagreader_client_, [&blocker]() { blocker.acquire(); }, Qt::QueuedConnection);
+
+  tagreader_client_->AbortReads();
+  TagReaderReadFileReplyPtr read_reply = tagreader_client_->ReadFileAsync(r.fileName());
+  TagReaderReplyPtr playcount_reply = tagreader_client_->SaveSongPlaycountAsync(r.fileName(), 5);
+
+  QEventLoop loop;
+  QObject::connect(&*playcount_reply, &TagReaderReply::Finished, &loop, &QEventLoop::quit);
+  blocker.release();
+  loop.exec();
+
+  // The reads are dropped when the application starts exiting, before the tagreader exits, but the writes are still processed.
+  EXPECT_FALSE(read_reply->finished());
+  EXPECT_TRUE(playcount_reply->finished());
+  EXPECT_TRUE(playcount_reply->success());
+
+}
+
+TEST_F(TagReaderTest, TestRequestsAfterExit) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+
+  QEventLoop loop;
+  QObject::connect(tagreader_client_, &TagReaderClient::ExitFinished, &loop, &QEventLoop::quit);
+  tagreader_client_->ExitAsync();
+  loop.exec();
+
+  // Requests made after exiting, from the thread the tagreader moved back to, for example when a write finished during exiting and the file is read again.
+  // Reading is not done, writing is done directly.
+  TagReaderReadFileReplyPtr read_reply = tagreader_client_->ReadFileAsync(r.fileName());
+  TagReaderReplyPtr playcount_reply = tagreader_client_->SaveSongPlaycountAsync(r.fileName(), 9);
+
+  EXPECT_FALSE(read_reply->finished());
+  EXPECT_TRUE(playcount_reply->finished());
+  EXPECT_TRUE(playcount_reply->success());
+
+  Song song;
+  ASSERT_TRUE(TagReaderTagLib().ReadFile(r.fileName(), &song).success());
+  EXPECT_EQ(9U, song.playcount());
 
 }
 

@@ -58,6 +58,7 @@
 #include <QTextCharFormat>
 
 #include "core/song.h"
+#include "core/iconloader.h"
 #include "core/settings.h"
 #include "core/player.h"
 #include "engine/enginebase.h"
@@ -92,6 +93,8 @@ ContextView::ContextView(QWidget *parent)
       action_show_data_(nullptr),
       action_show_lyrics_(nullptr),
       action_search_lyrics_(nullptr),
+      menu_playing_(new QMenu(this)),
+      action_edit_lyrics_(nullptr),
       layout_container_(new QVBoxLayout()),
       widget_scrollarea_(new QWidget(this)),
       layout_scrollarea_(new QVBoxLayout()),
@@ -214,6 +217,9 @@ ContextView::ContextView(QWidget *parent)
   textedit_play_lyrics_->setFrameShape(QFrame::NoFrame);
   // The active synchronized lyrics line is marked by changing the formatting, which should not end up in an undo stack.
   textedit_play_lyrics_->document()->setUndoRedoEnabled(false);
+  // The lyrics have their own context menu with the text actions, so editing the lyrics is added to it.
+  textedit_play_lyrics_->setContextMenuPolicy(Qt::CustomContextMenu);
+  QObject::connect(textedit_play_lyrics_, &QWidget::customContextMenuRequested, this, &ContextView::LyricsContextMenu);
   textedit_play_lyrics_->hide();
 
   layout_play_->setContentsMargins(0, 0, 0, 0);
@@ -304,14 +310,38 @@ void ContextView::dropEvent(QDropEvent *e) {
 
 }
 
+void ContextView::ActionEditLyrics() {
+
+  if (song_playing_.is_valid()) {
+    Q_EMIT EditLyrics(song_playing_);
+  }
+
+}
+
 void ContextView::contextMenuEvent(QContextMenuEvent *e) {
 
   if (menu_options_ && widget_stacked_->currentWidget() == widget_stop_) {
     menu_options_->popup(mapToGlobal(e->pos()));
   }
+  // The lyrics of the playing song can be edited when the song can be edited.
+  else if (menu_playing_ && song_playing_.is_valid() && song_playing_.IsEditable()) {
+    menu_playing_->popup(mapToGlobal(e->pos()));
+  }
   else {
     QWidget::contextMenuEvent(e);
   }
+
+}
+
+void ContextView::LyricsContextMenu(const QPoint &pos) {
+
+  QMenu *menu = textedit_play_lyrics_->createStandardContextMenu(pos);
+  menu->setAttribute(Qt::WA_DeleteOnClose);
+  if (action_edit_lyrics_ && song_playing_.is_valid() && song_playing_.IsEditable()) {
+    menu->addSeparator();
+    menu->addAction(action_edit_lyrics_);
+  }
+  menu->popup(textedit_play_lyrics_->viewport()->mapToGlobal(pos));
 
 }
 
@@ -338,6 +368,10 @@ void ContextView::AddActions() {
   menu_options_->addAction(action_show_lyrics_);
   menu_options_->addAction(action_search_lyrics_);
   menu_options_->addSeparator();
+
+  action_edit_lyrics_ = new QAction(IconLoader::Load(u"view-media-lyrics"_s), tr("Edit lyrics..."), this);
+  menu_playing_->addAction(action_edit_lyrics_);
+  QObject::connect(action_edit_lyrics_, &QAction::triggered, this, &ContextView::ActionEditLyrics);
 
   ReloadSettings();
 
@@ -688,7 +722,7 @@ void ContextView::SetLyricsText() {
     synced_lyrics_line_ = -1;
     synced_lyrics_shown_.clear();
     timer_synced_lyrics_->stop();
-    textedit_play_lyrics_->clear();
+    textedit_play_lyrics_->Clear();
     textedit_play_lyrics_->hide();
     return;
   }
@@ -748,7 +782,7 @@ void ContextView::SetLyricsText() {
   }
 
   if (text.isEmpty()) {
-    textedit_play_lyrics_->clear();
+    textedit_play_lyrics_->Clear();
     textedit_play_lyrics_->hide();
   }
   else {
@@ -774,7 +808,7 @@ void ContextView::SetSyncedLyricsText(const QString &provider) {
 
   // One block per line, so the block number is the line number when marking the active line.
   // Characters which insertText() turns into a new block are replaced, otherwise the block numbers would no longer match the lines.
-  textedit_play_lyrics_->clear();
+  textedit_play_lyrics_->Clear();
   QTextCursor cursor(textedit_play_lyrics_->document());
   const QTextCharFormat char_format;
   for (qsizetype i = 0; i < synced_lyrics_lines_.size(); ++i) {

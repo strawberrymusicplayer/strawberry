@@ -178,6 +178,12 @@ void DeviceManager::CloseDevices() {
     QObject::connect(&*device_info->device_, &ConnectedDevice::destroyed, this, &DeviceManager::DeviceDestroyed);
     device_info->device_->Close();
   }
+  // Devices which failed to connect are already closing, wait until they are deleted.
+  for (const SharedPtr<ConnectedDevice> &failed_device : std::as_const(failed_devices_)) {
+    if (wait_for_exit_.contains(&*failed_device)) continue;
+    wait_for_exit_ << &*failed_device;
+    QObject::connect(&*failed_device, &ConnectedDevice::destroyed, this, &DeviceManager::DeviceDestroyed);
+  }
   if (wait_for_exit_.isEmpty()) CloseListers();
 
 }
@@ -668,7 +674,8 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
   bool result = connected_device->Init();
   if (!result) {
     qLog(Warning) << "Could not connect to device" << device_url.toString();
-    return connected_device;
+    CloseFailedDevice(connected_device);
+    return SharedPtr<ConnectedDevice>();
   }
   device_info->device_ = connected_device;
 
@@ -686,6 +693,22 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
   connected_device->ConnectAsync();
 
   return connected_device;
+
+}
+
+void DeviceManager::CloseFailedDevice(SharedPtr<ConnectedDevice> connected_device) {
+
+  // The collection backend of the device lives in the database thread, and can have queued queries, like counting the songs.
+  // Close the device, which moves the backend back to this thread after the queued queries, and keep the device until then, instead of deleting it while a query can still use the backend.
+  failed_devices_ << connected_device;
+  ConnectedDevice *failed_device = &*connected_device;
+  QObject::connect(failed_device, &ConnectedDevice::DeviceCloseFinished, this, [this, failed_device]() {
+    // Delete the device after it finished emitting the signal.
+    QMetaObject::invokeMethod(this, [this, failed_device]() {
+      failed_devices_.removeIf([failed_device](const SharedPtr<ConnectedDevice> &device) { return &*device == failed_device; });
+    }, Qt::QueuedConnection);
+  });
+  connected_device->Close();
 
 }
 
@@ -713,17 +736,23 @@ void DeviceManager::DeviceCloseFinished(const QString &id) {
 
   device_info->device_.reset();
 
+  // Unmounting and forgetting only apply to this close, the device info is kept while the device is still attached or remembered, so a later close must not unmount or forget the device again.
+  const bool unmount = device_info->unmount_;
+  const bool forget = device_info->forget_;
+  device_info->unmount_ = false;
+  device_info->forget_ = false;
+
   QModelIndex idx = ItemToIndex(device_info);
   if (!idx.isValid()) return;
 
   Q_EMIT DeviceDisconnected(idx);
   Q_EMIT dataChanged(idx, idx);
 
-  if (device_info->unmount_ && device_info->BestBackend() && device_info->BestBackend()->lister_) {
+  if (unmount && device_info->BestBackend() && device_info->BestBackend()->lister_) {
     device_info->BestBackend()->lister_->UnmountDeviceAsync(device_info->BestBackend()->unique_id_);
   }
 
-  if (device_info->forget_) {
+  if (forget) {
     RemoveFromDB(device_info, idx);
   }
 

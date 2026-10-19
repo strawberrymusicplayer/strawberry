@@ -593,7 +593,7 @@
              <enum>QLayout::SetMinimumSize</enum>
             </property>
             <item>
-             <layout class="QHBoxLayout" name="layout_albumart">
+             <layout class="QHBoxLayout" name="layout_albumart" stretch="0,1">
               <property name="sizeConstraint">
                <enum>QLayout::SetMinimumSize</enum>
               </property>
@@ -635,6 +635,12 @@
                 </item>
                 <item>
                  <widget class="QPushButton" name="tags_art_button">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
                   <property name="accessibleName">
                    <string>MenuPopupToolButton</string>
                   </property>
@@ -1307,175 +1313,6 @@
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="tab_lyrics">
-           <attribute name="title">
-            <string>Lyrics</string>
-           </attribute>
-           <layout class="QVBoxLayout" name="verticalLayout_7">
-            <property name="sizeConstraint">
-             <enum>QLayout::SetMaximumSize</enum>
-            </property>
-            <item>
-             <widget class="TextEdit" name="lyrics">
-              <property name="has_reset_button" stdset="0">
-               <bool>true</bool>
-              </property>
-              <property name="has_clear_button" stdset="0">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="layout_lyrics_storage">
-              <item>
-               <widget class="QLabel" name="label_lyrics_storage">
-                <property name="text">
-                 <string>Save lyrics to</string>
-                </property>
-                <property name="buddy">
-                 <cstring>lyrics_storage</cstring>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="lyrics_storage">
-                <property name="accessibleName">
-                 <string>Save lyrics to</string>
-                </property>
-                <property name="accessibleDescription">
-                 <string>Where the lyrics are saved: the collection database only or the tags of the file</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="spacer_lyrics_storage">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_lyrics">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>1</width>
-                <height>1</height>
-               </size>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="buddy">
-               <cstring>lyrics</cstring>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="fetch_lyrics">
-              <property name="text">
-               <string>Complete lyrics automatically</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="lyrics_fetch_status">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="tab_synced_lyrics">
-           <attribute name="title">
-            <string>Synced lyrics</string>
-           </attribute>
-           <layout class="QVBoxLayout" name="layout_synced_lyrics">
-            <property name="sizeConstraint">
-             <enum>QLayout::SetMaximumSize</enum>
-            </property>
-            <item>
-             <widget class="TextEdit" name="synced_lyrics">
-              <property name="toolTip">
-               <string>Lyrics in LRC format, one line per timestamp, e.g. [01:23.45]Lyrics line</string>
-              </property>
-              <property name="has_reset_button" stdset="0">
-               <bool>true</bool>
-              </property>
-              <property name="has_clear_button" stdset="0">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="layout_synced_lyrics_storage">
-              <item>
-               <widget class="QLabel" name="label_synced_lyrics_storage">
-                <property name="text">
-                 <string>Save synced lyrics to</string>
-                </property>
-                <property name="buddy">
-                 <cstring>synced_lyrics_storage</cstring>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="synced_lyrics_storage">
-                <property name="accessibleName">
-                 <string>Save synced lyrics to</string>
-                </property>
-                <property name="accessibleDescription">
-                 <string>Where the synchronized lyrics are saved: the collection database only, the tags of the file or an LRC file next to it</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="spacer_synced_lyrics_storage">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_synced_lyrics">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>1</width>
-                <height>1</height>
-               </size>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="buddy">
-               <cstring>synced_lyrics</cstring>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
          </widget>
         </widget>
        </item>
@@ -1564,11 +1401,6 @@
   <tabstop>compilation</tabstop>
   <tabstop>fetch_tag</tabstop>
   <tabstop>comment</tabstop>
-  <tabstop>lyrics</tabstop>
-  <tabstop>lyrics_storage</tabstop>
-  <tabstop>fetch_lyrics</tabstop>
-  <tabstop>synced_lyrics</tabstop>
-  <tabstop>synced_lyrics_storage</tabstop>
  </tabstops>
  <resources>
   <include location="../../data/data.qrc"/>

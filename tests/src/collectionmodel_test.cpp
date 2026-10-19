@@ -41,6 +41,8 @@
 #include <QScrollBar>
 #include <QTreeView>
 #include <QTemporaryDir>
+#include <QThreadPool>
+#include <QRecursiveMutex>
 #include <QtDebug>
 
 #include "includes/scoped_ptr.h"
@@ -594,6 +596,32 @@ TEST_F(CollectionModelTest, FilterModeChangedWhileLoadingDoesNotAddOldResults) {
   ASSERT_TRUE(filter_mode_changed);
   // None of the songs are duplicates.
   EXPECT_EQ(0, model_->song_nodes().count());
+
+}
+
+// The songs are loaded in a thread pool, the model can be deleted while they are loaded, the loading must not use the model.
+TEST_F(CollectionModelTest, DeletedWhileLoading) {
+
+  UseDatabaseFile();
+  AddSong(u"Title 1"_s, u"Artist 1"_s, u"Album 1"_s, 1);
+  Drain();
+
+  // Hold the database lock, so the songs are still loaded when the model is deleted.
+  QRecursiveMutex *mutex = backend_->db()->Mutex();
+  mutex->lock();
+
+  // The model is reset when the songs are loaded.
+  QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
+  model_->SetGroupBy(model_->GetGroupBy());
+  const bool loading = WaitForResets(&spy_reset, 1, 5000);
+
+  model_.reset();
+  mutex->unlock();
+  ASSERT_TRUE(loading);
+
+  // Wait for the loading to finish, it uses the backend, which is kept until then.
+  QThreadPool::globalInstance()->waitForDone();
+  QCoreApplication::processEvents();
 
 }
 

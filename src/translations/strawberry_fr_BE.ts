@@ -2246,6 +2246,60 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
   </context>
   <context>
+    <name>LyricsTab</name>
+    <message>
+      <source>Complete lyrics automatically</source>
+      <translation>Compléter les paroles automatiquement</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>Paroles</translation>
+    </message>
+  </context>
+  <context>
+    <name>SongEditor</name>
+    <message>
+      <source>(different across multiple songs)</source>
+      <translation>(différent entre plusieurs morceaux)</translation>
+    </message>
+    <message>
+      <source>Lyrics</source>
+      <translation>Paroles</translation>
+    </message>
+    <message>
+      <source>Previous</source>
+      <translation>Précédent</translation>
+    </message>
+    <message>
+      <source>Next</source>
+      <translation>Suivant</translation>
+    </message>
+    <message>
+      <source>Saving tracks</source>
+      <translation>Sauvegarde des pistes</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1</source>
+      <translation>Impossible d&apos;écrire les métadonnées vers %1</translation>
+    </message>
+    <message>
+      <source>Could not write metadata to %1: %2</source>
+      <translation>Impossible d&apos;écrire les métadonnées vers %1: %2</translation>
+    </message>
+    <message>
+      <source>Loading tracks</source>
+      <translation>Chargement des pistes</translation>
+    </message>
+    <message>
+      <source>loading...</source>
+      <translation>chargement...</translation>
+    </message>
+    <message>
+      <source>Not found.</source>
+      <translation>Non trouvé</translation>
+    </message>
+  </context>
+  <context>
     <name>TagEditor</name>
     <message>
       <source>Edit track information</source>

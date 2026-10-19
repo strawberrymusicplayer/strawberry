@@ -144,6 +144,7 @@ CollectionWatcher::CollectionWatcher(const Song::Source source,
       rescan_timer_(new QTimer(this)),
       periodic_scan_timer_(new QTimer(this)),
       rescan_paused_(false),
+      overflow_scan_pending_(false),
       total_watches_(0),
       cue_parser_(new CueParser(tagreader_client, backend, this)),
       last_scan_time_(0) {
@@ -161,6 +162,7 @@ CollectionWatcher::CollectionWatcher(const Song::Source source,
   ReloadSettings();
 
   QObject::connect(fs_watcher_, &FileSystemWatcherInterface::PathChanged, this, &CollectionWatcher::DirectoryChanged, Qt::UniqueConnection);
+  QObject::connect(fs_watcher_, &FileSystemWatcherInterface::Overflow, this, &CollectionWatcher::FileSystemWatcherOverflow, Qt::UniqueConnection);
   QObject::connect(rescan_timer_, &QTimer::timeout, this, &CollectionWatcher::RescanPathsNow);
   QObject::connect(periodic_scan_timer_, &QTimer::timeout, this, &CollectionWatcher::IncrementalScanCheck);
 
@@ -1850,10 +1852,55 @@ void CollectionWatcher::DirectoryChanged(const QString &subdir) {
 
 }
 
+void CollectionWatcher::FileSystemWatcherOverflow() {
+
+  // Changes were lost, so new directories and files would be missed until the next scan, find them by scanning all directories.
+  qLog(Debug) << "Changes were lost, scanning the collection";
+
+  RestoreWatches();
+
+  overflow_scan_pending_ = true;
+  if (!rescan_paused_) rescan_timer_->start();
+
+}
+
+void CollectionWatcher::RestoreWatches() {
+
+  if (!monitor_) return;
+
+  // A watched directory which was deleted and created again lost its watch, but the removal of the watch was lost too, so it's still registered, add all the watches again.
+  // The watches are not removed first, removing them would give an event for each of them, which could overflow the event queue again.
+  QStringList existing_paths;
+  QStringList removed_paths;
+  const QStringList paths = subdir_mapping_.keys();
+  for (const QString &path : paths) {
+    if (QFile::exists(path)) {
+      existing_paths << path;
+    }
+    else {
+      removed_paths << path;
+    }
+  }
+  fs_watcher_->RemovePaths(removed_paths);
+  fs_watcher_->AddPaths(existing_paths);
+
+}
+
 void CollectionWatcher::RescanPathsNow() {
 
   // Stopping a scan only stops the scan which was running, otherwise all the changed paths queued after it are thrown away without being scanned.
   CancelStop();
+
+  // The scan for the overflow doesn't update when the songs were last seen, the songs which are still available are seen now, otherwise a song marked unavailable by the scans could be expired right away, because it was last seen long ago.
+  // This is done before the changed paths are rescanned, they can also mark songs unavailable.
+  const bool overflow_scan = overflow_scan_pending_ && !rescan_paused_;
+  if (overflow_scan) {
+    // A directory which didn't exist when the file system watcher overflowed could have been created again since then, the scan only adds watches for new directories.
+    RestoreWatches();
+    for (const CollectionDirectory &dir : std::as_const(watched_dirs_)) {
+      Q_EMIT UpdateLastSeen(dir.id, 0);
+    }
+  }
 
   const QList<int> dir_ids = rescan_queue_.keys();
   for (const int dir_id : dir_ids) {
@@ -1886,6 +1933,22 @@ void CollectionWatcher::RescanPathsNow() {
   rescan_queue_.clear();
 
   Q_EMIT CompilationsNeedUpdating();
+
+  // Scan all directories to find the changes which were lost when the file system watcher overflowed.
+  // Not an incremental scan, which skips directories with an unchanged modification time, so changes to files in them would be missed, the files are still only read again when they changed.
+  // The rescan timer could already be running when the rescan was paused, then the scan is done when it's resumed.
+  if (overflow_scan && !stop_or_abort_requested()) {
+    PerformScan(false, false);
+    // When the scan was stopped, not all directories were scanned, so it's done again with the next rescan.
+    overflow_scan_pending_ = stop_or_abort_requested();
+    // The scan doesn't update when the songs were last seen or expire unavailable songs, like the incremental scan does, but it counts as the last scan, so the periodic scan which does is not done for a day.
+    // Songs which were available again were not updated before the scan either.
+    if (!overflow_scan_pending_) {
+      for (const CollectionDirectory &dir : std::as_const(watched_dirs_)) {
+        Q_EMIT UpdateLastSeen(dir.id, expire_unavailable_songs_days_);
+      }
+    }
+  }
 
 }
 
@@ -1969,7 +2032,7 @@ void CollectionWatcher::SetRescanPausedAsync(bool pause) {
 void CollectionWatcher::SetRescanPaused(bool pause) {
 
   rescan_paused_ = pause;
-  if (!rescan_paused_ && !rescan_queue_.isEmpty()) RescanPathsNow();
+  if (!rescan_paused_ && (!rescan_queue_.isEmpty() || overflow_scan_pending_)) RescanPathsNow();
 
 }
 

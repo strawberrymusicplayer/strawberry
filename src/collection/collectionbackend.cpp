@@ -798,11 +798,11 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
 
 }
 
-void CollectionBackend::UpdateSongsBySongIDAsync(const SongMap &new_songs) {
-  QMetaObject::invokeMethod(this, "UpdateSongsBySongID", Qt::QueuedConnection, Q_ARG(SongMap, new_songs));
+void CollectionBackend::UpdateSongsBySongIDAsync(const SongMap &new_songs, const bool delete_missing_songs) {
+  QMetaObject::invokeMethod(this, "UpdateSongsBySongID", Qt::QueuedConnection, Q_ARG(SongMap, new_songs), Q_ARG(bool, delete_missing_songs));
 }
 
-void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
+void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs, const bool delete_missing_songs) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -873,8 +873,8 @@ void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
     }
   }
 
-  // Delete songs
-  const QList old_songs_list = old_songs.values();
+  // Delete songs, unless some of the songs could not be fetched, then the songs missing from new_songs can still exist.
+  const QList old_songs_list = delete_missing_songs ? old_songs.values() : QList<Song>();
   for (const Song &old_song : old_songs_list) {
     if (!new_songs.contains(old_song.song_id())) {
       {
@@ -1701,7 +1701,13 @@ void CollectionBackend::UpdateEmbeddedAlbumArt(const QString &effective_albumart
 
   {
     SqlQuery q(db);
-    q.prepare(QStringLiteral("UPDATE %1 SET art_embedded = :art_embedded, art_unset = 0 WHERE effective_albumartist = :effective_albumartist AND album = :album AND unavailable = 0").arg(songs_table_));
+    // Removing the embedded cover keeps art_unset, since deleting and unsetting a cover removes the embedded cover after the cover is unset.
+    if (art_embedded) {
+      q.prepare(QStringLiteral("UPDATE %1 SET art_embedded = :art_embedded, art_unset = 0 WHERE effective_albumartist = :effective_albumartist AND album = :album AND unavailable = 0").arg(songs_table_));
+    }
+    else {
+      q.prepare(QStringLiteral("UPDATE %1 SET art_embedded = :art_embedded WHERE effective_albumartist = :effective_albumartist AND album = :album AND unavailable = 0").arg(songs_table_));
+    }
     q.BindValue(u":art_embedded"_s, art_embedded ? 1 : 0);
     q.BindValue(u":effective_albumartist"_s, effective_albumartist);
     q.BindValue(u":album"_s, album);
@@ -2216,6 +2222,57 @@ void CollectionBackend::UpdateSongRatingAsync(const int id, const float rating, 
 
 void CollectionBackend::UpdateSongsRatingAsync(const QList<int> &ids, const float rating, const bool save_tags) {
   QMetaObject::invokeMethod(this, "UpdateSongsRating", Qt::QueuedConnection, Q_ARG(QList<int>, ids), Q_ARG(float, rating), Q_ARG(bool, save_tags));
+}
+
+void CollectionBackend::UpdateSongsLyricsAsync(const SongList &lyrics_songs, const SongList &synced_lyrics_songs) {
+  QMetaObject::invokeMethod(this, "UpdateSongsLyrics", Qt::QueuedConnection, Q_ARG(SongList, lyrics_songs), Q_ARG(SongList, synced_lyrics_songs));
+}
+
+void CollectionBackend::UpdateSongsLyrics(const SongList &lyrics_songs, const SongList &synced_lyrics_songs) {
+
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  // Only update the columns of the changed lyrics, so other changes to the songs since they were loaded, like the playcount or the other lyrics, are not overwritten.
+  // One transaction for all songs, instead of one for each song.
+  ScopedTransaction transaction(&db);
+
+  QStringList song_ids;
+  for (const bool synced : {false, true}) {
+    const SongList &songs = synced ? synced_lyrics_songs : lyrics_songs;
+    for (const Song &song : songs) {
+      if (song.id() == -1) continue;
+      SqlQuery q(db);
+      if (synced) {
+        q.prepare(QStringLiteral("UPDATE %1 SET synced_lyrics = :lyrics, synced_lyrics_storage_type = :storage_type, lrc_mtime = :lrc_mtime WHERE ROWID = :id").arg(songs_table_));
+        q.BindStringValue(u":lyrics"_s, song.synced_lyrics());
+        q.BindValue(u":storage_type"_s, static_cast<int>(song.synced_lyrics_storage_type()));
+        q.BindValue(u":lrc_mtime"_s, song.lrc_mtime());
+      }
+      else {
+        q.prepare(QStringLiteral("UPDATE %1 SET lyrics = :lyrics, lyrics_storage_type = :storage_type WHERE ROWID = :id").arg(songs_table_));
+        q.BindStringValue(u":lyrics"_s, song.lyrics());
+        q.BindValue(u":storage_type"_s, static_cast<int>(song.lyrics_storage_type()));
+      }
+      q.BindValue(u":id"_s, song.id());
+      if (!q.Exec()) {
+        db_->ReportErrors(q);
+        // The transaction was rolled back, the updates after this would be committed one by one without being notified.
+        if (!transaction.active()) return;
+        continue;
+      }
+      const QString song_id = QString::number(song.id());
+      if (!song_ids.contains(song_id)) song_ids << song_id;
+    }
+  }
+
+  if (!transaction.Commit()) return;
+
+  if (song_ids.isEmpty()) return;
+
+  const SongList changed_songs = GetSongsById(song_ids, db);
+  if (!changed_songs.isEmpty()) Q_EMIT SongsChanged(changed_songs);
+
 }
 
 void CollectionBackend::UpdateSongLyrics(const int id, const bool synced_lyrics, const QString &lyrics, const int storage_type, const bool only_if_empty, const bool save_tags) {

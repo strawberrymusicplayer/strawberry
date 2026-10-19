@@ -22,6 +22,7 @@
 #define WAVEFORMPIPELINE_H
 
 #include <atomic>
+#include <functional>
 
 #include <glib.h>
 #include <glib-object.h>
@@ -48,6 +49,10 @@ class WaveformPipeline : public QObject {
 
   bool success() const { return success_; }
   const QByteArray &data() const { return data_; }
+
+  // Calls the callback once in the thread of the context object when the pipeline finished, also when it finished already.
+  // Connecting to Finished directly misses the signal when the pipeline finished before connecting.
+  void NotifyFinished(QObject *context, const std::function<void()> &callback);
 
   Q_INVOKABLE void Start();
 
@@ -81,6 +86,7 @@ class WaveformPipeline : public QObject {
   bool success_;
   std::atomic<bool> running_;
   std::atomic<bool> error_received_;
+  std::atomic<bool> finished_;
   QByteArray data_;
 };
 

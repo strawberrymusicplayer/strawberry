@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@
 #include <QList>
 #include <QListWidgetItem>
 #include <QMap>
+#include <QHash>
 #include <QMultiMap>
 #include <QQueue>
 #include <QString>
@@ -196,7 +197,7 @@ class AlbumCoverManager : public QMainWindow {
   void UpdateCoverInList(AlbumItem *album_item, const QUrl &cover);
   void UpdateExportStatus(const int exported, const int skipped, const int max);
 
-  void SaveEmbeddedCoverFinished(TagReaderReplyPtr reply, AlbumItem *album_item, const QUrl &url, const bool art_embedded);
+  void SaveEmbeddedCoverFinished(TagReaderReplyPtr reply, AlbumItem *album_item, const QUrl &url, bool art_embedded);
 
  private:
   Ui_CoverManager *ui_;
@@ -239,6 +240,7 @@ class AlbumCoverManager : public QMainWindow {
   int jobs_;
 
   QMultiMap<AlbumItem*, QUrl> cover_save_tasks_;
+  QHash<AlbumItem*, bool> cover_save_results_;
 
   QListWidgetItem *all_artists_;
 

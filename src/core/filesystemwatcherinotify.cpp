@@ -70,15 +70,30 @@ void FileSystemWatcherInotify::AddPaths(const QStringList &paths) {
   }
 
   for (const QString &path : paths) {
-    if (wd_from_path_.contains(path)) {
-      qLog(Warning) << "Already watching path" << path;
-      continue;
-    }
+    // Adding a path which is already watched adds the watch again, which doesn't change anything when it's the same directory, otherwise the directory was deleted or moved and created again, but the events for it were lost, so it's watched again.
     const QByteArray encoded_path = QFile::encodeName(path);
     const int result = ::inotify_add_watch(inotify_fd_, encoded_path.constData(), (IN_CREATE | IN_ATTRIB | IN_MODIFY | IN_CLOSE_WRITE | IN_MOVE | IN_MOVE_SELF | IN_DELETE | IN_DELETE_SELF));
     if (result == -1) {
       qLog(Error) << "Failed to add inotify watch for path" << path << strerror(errno);
       continue;
+    }
+    if (wd_from_path_.contains(path)) {
+      const int old_wd = wd_from_path_.value(path);
+      if (old_wd == result) {
+        continue;
+      }
+      // The old watch is for the directory which was moved away, or it was already removed by the kernel, which gives EINVAL.
+      // When it was given to another path already, the directory was moved to that path, for example when two directories were swapped, then it's still used.
+      if (path_from_wd_.value(old_wd) == path) {
+        if (::inotify_rm_watch(inotify_fd_, old_wd) == -1 && errno != EINVAL) {
+          qLog(Error) << "Failed to remove inotify watch for watch descriptor" << old_wd << "path" << path << strerror(errno);
+        }
+        path_from_wd_.remove(old_wd);
+      }
+    }
+    // The watch was for another path, the directory was moved here, so the other path is not watched anymore until it's added again.
+    if (path_from_wd_.contains(result) && path_from_wd_.value(result) != path) {
+      wd_from_path_.remove(path_from_wd_.value(result));
     }
     path_from_wd_.insert(result, path);
     wd_from_path_.insert(path, result);
@@ -154,9 +169,14 @@ void FileSystemWatcherInotify::InotifyRead() {
   char *const end = pos + read_buffer_size;
 
   QMap<int, inotify_event*> events;
+  bool overflow = false;
   while (pos < end) {
     inotify_event *event = reinterpret_cast<inotify_event*>(pos);
-    if (events.contains(event->wd)) {
+    // The kernel's event queue overflowed, the events after it are lost, the watch descriptor is -1, so it's not for a path.
+    if ((event->mask & IN_Q_OVERFLOW) != 0) {
+      overflow = true;
+    }
+    else if (events.contains(event->wd)) {
       events[event->wd]->mask |= event->mask;
     }
     else {
@@ -195,6 +215,11 @@ void FileSystemWatcherInotify::InotifyRead() {
     if (!ignored || self_gone) {
       Q_EMIT PathChanged(path);
     }
+  }
+
+  if (overflow) {
+    qLog(Warning) << "inotify event queue overflowed, changes were lost";
+    Q_EMIT Overflow();
   }
 
 }

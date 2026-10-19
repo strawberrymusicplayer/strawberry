@@ -74,7 +74,9 @@ class CollectionFilter;
 class AlbumCoverChoiceController;
 class CommandlineOptions;
 class DeviceViewContainer;
+class SongEditor;
 class TagEditor;
+class LyricsEditor;
 class Equalizer;
 class ErrorDialog;
 class FileView;
@@ -174,6 +176,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void RescanSongs();
   void EditTracks();
   void TagEditorAccepted();
+  void EditLyrics();
+  void EditSongLyrics(const Song &song);
+  void LyricsEditorAccepted();
   void RenumberTracks();
   void SelectionSetValue();
   void EditValue();
@@ -244,6 +249,11 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void ShowTranscodeDialog();
   SettingsDialog *CreateSettingsDialog();
   TagEditor *CreateTagEditor();
+  LyricsEditor *CreateLyricsEditor();
+  // Gets the selected songs in the current playlist which can be edited, returns false when there are none.
+  bool GetSelectedPlaylistSongs(SongList *songs, PlaylistItemPtrList *items) const;
+  // Updates the playlist items of the songs saved by the tag editor or the lyrics editor.
+  void UpdateEditedPlaylistItems(SongEditor *song_editor, Playlist *playlist);
   void OpenSettingsDialog();
   void OpenSettingsDialogAtPage(const SettingsDialog::Page page);
 
@@ -306,6 +316,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   void SetToggleScrobblingIcon(const bool value);
 
+  bool IsActivePlaylistCurrentRow(const int row) const;
+
 #ifdef HAVE_DBUS
   void UpdateTaskbarProgress(const bool visible, const double progress = 0);
 #endif
@@ -333,6 +345,10 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QPointer<Playlist> tag_editor_playlist_;
   // The playlist of the songs set while the dialog was loading or saving the previous songs.
   QPointer<Playlist> tag_editor_pending_playlist_;
+  Lazy<LyricsEditor> lyrics_editor_;
+  QPointer<Playlist> lyrics_editor_playlist_;
+  // The playlist of the songs set while the lyrics editor was loading or saving the previous songs.
+  QPointer<Playlist> lyrics_editor_pending_playlist_;
   AlbumCoverChoiceController *album_cover_choice_controller_;
 
   GlobalShortcutsManager *globalshortcuts_manager_;
@@ -399,6 +415,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QAction *playlist_queue_;
   QAction *playlist_queue_play_next_;
   QAction *playlist_skip_;
+  QAction *playlist_edit_lyrics_;
   QMenu *playlist_add_to_another_menu_;
   QList<QAction*> playlistitem_actions_;
   QAction *playlistitem_actions_separator_;

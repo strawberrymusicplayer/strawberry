@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 
 #include <utility>
 #include <memory>
+#include <optional>
 
 #include <QtGlobal>
 #include <QGuiApplication>
@@ -63,6 +64,7 @@
 #include "utilities/mimeutils.h"
 #include "utilities/coveroptions.h"
 #include "utilities/coverutils.h"
+#include "utilities/imageutils.h"
 #include "utilities/screenutils.h"
 #include "core/logging.h"
 #include "core/song.h"
@@ -551,13 +553,18 @@ void AlbumCoverChoiceController::SaveArtEmbeddedToSong(Song *song, const bool ar
   if (!song->is_valid()) return;
 
   song->set_art_embedded(art_embedded);
-  song->set_art_unset(false);
+  // Removing the embedded cover when the cover is unset should not reset art_unset.
+  if (art_embedded) {
+    song->set_art_unset(false);
+  }
 
   if (song->source() == Song::Source::Collection) {
     collection_backend_->UpdateEmbeddedAlbumArtAsync(song->effective_albumartist(), song->album(), art_embedded);
   }
 
-  if (*song == current_albumcover_loader_->last_song()) {
+  // The embedded cover is only removed when deleting the cover, which already reloads the current cover with the cover cleared or unset.
+  // The song here was copied before that, so reloading it would restore the deleted cover state.
+  if (art_embedded && *song == current_albumcover_loader_->last_song()) {
     current_albumcover_loader_->LoadAlbumCover(*song);
   }
 
@@ -623,9 +630,7 @@ void AlbumCoverChoiceController::ClearAlbumCoverForSong(Song *song) {
     collection_backend_->ClearAlbumArtAsync(song->effective_albumartist(), song->album(), false);
   }
 
-  if (*song == current_albumcover_loader_->last_song()) {
-    current_albumcover_loader_->LoadAlbumCover(*song);
-  }
+  LoadCurrentAlbumCover(*song);
 
 }
 
@@ -642,8 +647,27 @@ void AlbumCoverChoiceController::UnsetAlbumCoverForSong(Song *song) {
     collection_backend_->UnsetAlbumArtAsync(song->effective_albumartist(), song->album());
   }
 
-  if (*song == current_albumcover_loader_->last_song()) {
-    current_albumcover_loader_->LoadAlbumCover(*song);
+  LoadCurrentAlbumCover(*song);
+
+}
+
+void AlbumCoverChoiceController::LoadCurrentAlbumCover(const Song &song) {
+
+  const Song &current_song = current_albumcover_loader_->last_song();
+
+  if (song == current_song) {
+    current_albumcover_loader_->LoadAlbumCover(song);
+    return;
+  }
+
+  // The cover is changed for the whole album in the collection, so also reload it when another song from the album is the current song, like when the cover is changed from the album cover manager.
+  if (song.source() == Song::Source::Collection && current_song.is_valid() && current_song.source() == song.source() && current_song.effective_albumartist() == song.effective_albumartist() && current_song.album() == song.album()) {
+    Song album_song = current_song;
+    album_song.set_art_unset(song.art_unset());
+    album_song.set_art_embedded(song.art_embedded());
+    album_song.set_art_automatic(song.art_automatic());
+    album_song.set_art_manual(song.art_manual());
+    current_albumcover_loader_->LoadAlbumCover(album_song);
   }
 
 }
@@ -708,6 +732,17 @@ QUrl AlbumCoverChoiceController::SaveCoverToFileAutomatic(const Song::Source sou
 
 void AlbumCoverChoiceController::SaveCoverEmbeddedToCollectionSongs(const Song &song, const AlbumCoverImageResult &result) {
 
+  // Empty cover data removes the embedded cover, so a result with only an image, like an image dropped on the cover, is encoded first, otherwise the existing embedded covers would be removed instead.
+  if (result.image_data.isEmpty() && !result.image.isNull()) {
+    const QByteArray image_data = ImageUtils::SaveImageToJpegData(result.image);
+    if (image_data.isEmpty()) {
+      qLog(Error) << "Could not encode the cover image for" << song.url();
+      return;
+    }
+    SaveCoverEmbeddedToCollectionSongs(song, QString(), image_data, u"image/jpeg"_s);
+    return;
+  }
+
   SaveCoverEmbeddedToCollectionSongs(song, QString(), result.image_data, result.mime_type);
 
 }
@@ -747,7 +782,7 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedToSong(const Song &song, const
 
   QMutexLocker l(&mutex_cover_save_tasks_);
   cover_save_tasks_.append(song);
-  const bool art_embedded = !image_data.isNull();
+  const bool art_embedded = !cover_filename.isEmpty() || !image_data.isEmpty();
   TagReaderReplyPtr reply = tagreader_client_->SaveCoverAsync(song.url().toLocalFile(), SaveTagCoverData(cover_filename, image_data, mime_type));
   SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
   *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, song, art_embedded, connection]() {
@@ -829,14 +864,28 @@ QUrl AlbumCoverChoiceController::SaveCoverAutomatic(Song *song, const AlbumCover
 
 void AlbumCoverChoiceController::SaveEmbeddedCoverFinished(TagReaderReplyPtr reply, Song song, const bool art_embedded) {
 
-  if (!cover_save_tasks_.contains(song)) return;
-  cover_save_tasks_.removeAll(song);
-
-  if (reply->success()) {
-    SaveArtEmbeddedToSong(&song, art_embedded);
+  std::optional<bool> last_art_embedded;
+  {
+    QMutexLocker l(&mutex_cover_save_tasks_);
+    // Only remove this save, saves to the same song can overlap, like when removing a cover right after setting it.
+    if (!cover_save_tasks_.removeOne(song)) return;
+    // The covers are saved in order, so the last successful save decides whether the song has an embedded cover, it is applied when the last pending save to the song finished, also when that save failed.
+    if (reply->success()) {
+      cover_save_results_.insert(song, art_embedded);
+    }
+    if (!cover_save_tasks_.contains(song) && cover_save_results_.contains(song)) {
+      last_art_embedded = cover_save_results_.take(song);
+    }
   }
-  else {
+
+  if (!reply->success()) {
     Q_EMIT Error(tr("Could not save cover to file %1.").arg(song.url().toLocalFile()));
   }
+
+  if (last_art_embedded.has_value()) {
+    SaveArtEmbeddedToSong(&song, last_art_embedded.value());
+  }
+
+  Q_EMIT EmbeddedCoverSaved(song, reply->success());
 
 }

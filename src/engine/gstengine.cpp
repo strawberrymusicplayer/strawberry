@@ -167,6 +167,16 @@ EngineBase::State GstEngine::state() const {
     return delayed_state_;
   }
 
+  // Paused while playback was waiting to start, also when the pipeline reached PLAYING before the pause is applied, so unpausing resumes it.
+  if (current_pipeline_ && current_pipeline_->paused_before_playing()) {
+    return State::Paused;
+  }
+
+  // Report playback that is waiting for the pipeline to preroll or the audio device to warm up as playing, so pausing pauses it, instead of unpausing it.
+  if (current_pipeline_ && current_pipeline_->state() != GST_STATE_PLAYING && current_pipeline_->play_pending()) {
+    return State::Playing;
+  }
+
   return actual_state();
 
 }
@@ -395,6 +405,19 @@ void GstEngine::Pause() {
     return;
   }
 
+  // Already paused while playback was waiting to start.
+  if (current_pipeline_->paused_before_playing()) {
+    return;
+  }
+
+  // Playback is waiting for the pipeline to preroll or the audio device to warm up, so hold it, otherwise it starts playing when it is ready.
+  if (current_pipeline_->state() != GST_STATE_PLAYING && current_pipeline_->play_pending()) {
+    current_pipeline_->PauseBeforePlaying();
+    Q_EMIT StateChanged(State::Paused);
+    StopTimers();
+    return;
+  }
+
   if (current_pipeline_->state() == GST_STATE_PLAYING) {
     if (fadeout_pause_enabled_ && !AnyExclusivePipelineActive()) {
       StartFadeoutPause();
@@ -417,6 +440,14 @@ void GstEngine::Unpause() {
     delayed_state_ = State::Playing;
     delayed_state_pause_ = false;
     Q_EMIT StateChanged(State::Playing);
+    return;
+  }
+
+  // Paused while playback was waiting to start, so let it start.
+  if (current_pipeline_->paused_before_playing()) {
+    current_pipeline_->UnpauseBeforePlaying();
+    Q_EMIT StateChanged(State::Playing);
+    StartTimers();
     return;
   }
 
@@ -808,11 +839,14 @@ void GstEngine::PlayDone(const GstStateChangeReturn state_change_return, const b
     return;
   }
 
-  if (!pause) {
+  // Paused before the pipeline finished starting, so playback is held until unpaused.
+  const bool paused = pause || current_pipeline_->paused_before_playing();
+
+  if (!paused) {
     StartTimers();
   }
 
-  Q_EMIT StateChanged(pause ? State::Paused : State::Playing);
+  Q_EMIT StateChanged(paused ? State::Paused : State::Playing);
 
   // We've successfully started playing a media stream with this URL
   Q_EMIT ValidSongRequested(stream_url_);

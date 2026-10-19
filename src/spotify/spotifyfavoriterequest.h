@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,8 @@
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
+#include <QStringList>
+#include <QQueue>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -49,6 +51,13 @@ class SpotifyFavoriteRequest : public SpotifyBaseRequest {
     FavoriteType_Albums,
     FavoriteType_Songs
   };
+
+  struct FavoriteBatch {
+    QStringList ids;
+    SongList songs;
+  };
+
+  static QList<FavoriteBatch> SplitFavorites(const FavoriteType type, const SongList &songs);
 
  Q_SIGNALS:
   void ArtistsAdded(SongList);
@@ -74,12 +83,24 @@ class SpotifyFavoriteRequest : public SpotifyBaseRequest {
   void RemoveSongs(const SongMap &songs);
 
  private:
+  struct QueuedRequest {
+    bool remove;
+    FavoriteType type;
+    FavoriteBatch batch;
+  };
+
   static QString FavoriteText(const FavoriteType type);
+  void FlushRequests();
+  static qsizetype MaxIds(const FavoriteType type);
+  static QString FavoriteId(const FavoriteType type, const Song &song);
   void AddFavorites(const FavoriteType type, const SongList &songs);
   void AddFavoritesRequest(const FavoriteType type, const QString &ids_list, const QByteArray &json_data, const SongList &songs);
   void RemoveFavorites(const FavoriteType type, const SongList &songs);
   void RemoveFavorites(const FavoriteType type, const QString &id, const SongList &songs);
   void RemoveFavoritesRequest(const FavoriteType type, const QString &ids_list, const QByteArray &json_data, const SongList &songs);
+
+  QQueue<QueuedRequest> requests_queue_;
+  bool request_active_;
 };
 
 #endif  // SPOTIFYFAVORITEREQUEST_H

@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -87,6 +88,10 @@ FileView::FileView(QWidget *parent)
 
   QObject::connect(undo_stack_, &QUndoStack::canUndoChanged, ui_->back, &FileView::setEnabled);
   QObject::connect(undo_stack_, &QUndoStack::canRedoChanged, ui_->forward, &FileView::setEnabled);
+
+  // The back and forward mouse buttons in the list.
+  QObject::connect(ui_->list, &FileViewList::Back, undo_stack_, &QUndoStack::undo);
+  QObject::connect(ui_->list, &FileViewList::Forward, undo_stack_, &QUndoStack::redo);
 
   QObject::connect(ui_->list, &FileViewList::activated, this, &FileView::ItemActivated);
   QObject::connect(ui_->list, &FileViewList::doubleClicked, this, &FileView::ItemDoubleClick);
@@ -476,16 +481,34 @@ void FileView::RemoveRootButtonClicked() {
 
   if (path.isEmpty()) return;
 
-  const QString clean_path = QDir::cleanPath(path);
-
   // Check if this path or any parent is a configured root
   for (const QString &root : std::as_const(tree_root_paths_)) {
-    const QString clean_root = QDir::cleanPath(root);
-    if (clean_path == clean_root || clean_path.startsWith(clean_root + QDir::separator())) {
+    if (PathIsInsideRoot(path, root)) {
       RemoveTreeRootPath(root);
       return;
     }
   }
+
+}
+
+bool FileView::PathIsInsideRoot(const QString &path, const QString &root) {
+
+  // QDir::cleanPath() uses '/' as separator on all platforms, also on Windows.
+  const QString clean_path = QDir::cleanPath(path);
+  const QString clean_root = QDir::cleanPath(root);
+  if (clean_path.isEmpty() || clean_root.isEmpty()) return false;
+
+#ifdef Q_OS_WIN32
+  constexpr Qt::CaseSensitivity case_sensitivity = Qt::CaseInsensitive;
+#else
+  constexpr Qt::CaseSensitivity case_sensitivity = Qt::CaseSensitive;
+#endif
+
+  if (clean_path.compare(clean_root, case_sensitivity) == 0) return true;
+
+  // A root directory like / or C:/ already ends with a separator.
+  const QString root_prefix = clean_root.endsWith(u'/') ? clean_root : clean_root + u'/';
+  return clean_path.startsWith(root_prefix, case_sensitivity);
 
 }
 
@@ -498,7 +521,8 @@ void FileView::keyPressEvent(QKeyEvent *e) {
       break;
     case Qt::Key_Enter:
     case Qt::Key_Return:
-      ItemDoubleClick(ui_->list->currentIndex());
+      // The index must be from the view which is shown, since ItemDoubleClick() uses the model of that view.
+      ItemDoubleClick(tree_view_active_ ? ui_->tree->currentIndex() : ui_->list->currentIndex());
       break;
     default:
       break;

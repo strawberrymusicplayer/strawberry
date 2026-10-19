@@ -187,6 +187,35 @@ TEST_F(CollectionBackendTest, AddOrUpdateSongsStopsWhenTransactionEnded) {
 }
 
 // Test adding a single song to the database, then getting various information back about it.
+// Regression test: when some of the songs of a streaming service could not be fetched, the songs missing from the results were deleted.
+TEST_F(CollectionBackendTest, UpdateSongsBySongIDKeepsMissingSongs) {
+
+  SongMap songs;
+  for (const QString &title : QStringList{u"First"_s, u"Second"_s, u"Third"_s}) {
+    Song song(Song::Source::Tidal);
+    song.set_song_id(title);
+    song.set_title(title);
+    song.set_url(QUrl(u"tidal:"_s + title));
+    song.set_directory_id(0);
+    songs.insert(song.song_id(), song);
+  }
+  backend_->UpdateSongsBySongID(songs);
+  ASSERT_EQ(3, backend_->GetAllSongs().count());
+
+  // Only the first song was fetched, the others are kept.
+  SongMap fetched_songs;
+  fetched_songs.insert(u"First"_s, songs.value(u"First"_s));
+  backend_->UpdateSongsBySongID(fetched_songs, false);
+  EXPECT_EQ(3, backend_->GetAllSongs().count());
+
+  // All songs were fetched, the songs no longer there are deleted.
+  backend_->UpdateSongsBySongID(fetched_songs);
+  const SongList all_songs = backend_->GetAllSongs();
+  ASSERT_EQ(1, all_songs.count());
+  EXPECT_EQ(u"First"_s, all_songs.first().song_id());
+
+}
+
 class SingleSong : public CollectionBackendTest {
  protected:
   void SetUp() override {
@@ -311,6 +340,27 @@ TEST_F(SingleSong, GetSongById) {
   EXPECT_EQ(song_.artist(), song.artist());
   EXPECT_EQ(song_.title(), song.title());
   EXPECT_EQ(1, song.id());
+
+}
+
+// Regression test: deleting and unsetting a cover removes the embedded cover after the cover is unset, which reset art_unset, so the cover was detected or fetched again.
+TEST_F(SingleSong, UpdateEmbeddedAlbumArtKeepsArtUnset) {
+
+  song_.set_art_embedded(true);
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  backend_->UnsetAlbumArt(song_.effective_albumartist(), song_.album());
+  backend_->UpdateEmbeddedAlbumArt(song_.effective_albumartist(), song_.album(), false);
+  Song song = backend_->GetSongById(1);
+  EXPECT_FALSE(song.art_embedded());
+  EXPECT_TRUE(song.art_unset());
+
+  // Embedding a cover sets the cover again.
+  backend_->UpdateEmbeddedAlbumArt(song_.effective_albumartist(), song_.album(), true);
+  song = backend_->GetSongById(1);
+  EXPECT_TRUE(song.art_embedded());
+  EXPECT_FALSE(song.art_unset());
 
 }
 

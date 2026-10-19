@@ -47,6 +47,9 @@ class DiscordRPC : public QObject {
 
   bool IsConnected() const { return state_ == State::Connected; }
 
+ Q_SIGNALS:
+  void Ready();
+
  private Q_SLOTS:
   void OnConnected();
   void OnDisconnected();

@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
+#include <QPointer>
 #include <QtEvents>
 
 #include "includes/scoped_ptr.h"
@@ -49,6 +50,7 @@ class QCloseEvent;
 
 class TaskManager;
 class CollectionBackend;
+class CollectionDirectoryModel;
 class OrganizeErrorDialog;
 class Ui_OrganizeDialog;
 
@@ -65,6 +67,12 @@ class OrganizeDialog : public QDialog {
   ~OrganizeDialog() override;
 
   void SetDestinationModel(QAbstractItemModel *model, const bool devices = false);
+
+  // Empty directories left by moving songs are only removed inside the collection directories, the source roots, and the destination.
+  // The collection directories are used for every source, so songs moved from the collection to a device are also cleaned up.
+  void SetCollectionDirectoryModel(CollectionDirectoryModel *collection_directory_model);
+  // The device directories of the songs, when they are not in the collection.
+  void SetSourceRoots(const QStringList &source_roots);
 
   // These functions return true if any songs were actually added to the dialog.
   // SetSongs returns immediately, SetUrls and SetFilenames load the songs in the background.
@@ -129,6 +137,9 @@ class OrganizeDialog : public QDialog {
   ScopedPtr<OrganizeErrorDialog> error_dialog_;
 
   bool devices_;
+
+  QPointer<CollectionDirectoryModel> collection_directory_model_;
+  QStringList source_roots_;
 };
 
 #endif  // ORGANISEDIALOG_H

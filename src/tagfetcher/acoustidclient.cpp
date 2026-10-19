@@ -38,6 +38,7 @@
 #include <QJsonParseError>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QTimer>
 #include <QJsonObject>
 #include <QJsonValue>
 
@@ -57,6 +58,8 @@ using namespace Qt::Literals::StringLiterals;
 namespace {
 constexpr char kUrl[] = "https://api.acoustid.org/v2/lookup";
 constexpr int kDefaultTimeout = 5000;  // msec
+// AcoustID allows 3 requests per second.
+constexpr int kRequestsDelay = 400;  // msec
 
 QString CompiledApiKey() {
 #ifdef ACOUSTID_API_KEY
@@ -91,7 +94,14 @@ bool AcoustidClient::HasCompiledApiKey() {
 AcoustidClient::AcoustidClient(SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),
       network_(network),
-      timeouts_(new NetworkTimeouts(kDefaultTimeout, this)) {}
+      timeouts_(new NetworkTimeouts(kDefaultTimeout, this)),
+      timer_flush_requests_(new QTimer(this)) {
+
+  timer_flush_requests_->setInterval(kRequestsDelay);
+  timer_flush_requests_->setSingleShot(true);
+  QObject::connect(timer_flush_requests_, &QTimer::timeout, this, &AcoustidClient::FlushRequests);
+
+}
 
 AcoustidClient::~AcoustidClient() {
 
@@ -122,22 +132,45 @@ bool AcoustidClient::Start(const int id, const QString &fingerprint, const int d
 
   QUrlQuery url_query;
   url_query.setQueryItems(params);
-  const QByteArray data = url_query.toString(QUrl::FullyEncoded).toUtf8();
-  QNetworkRequest network_request(QUrl(QString::fromLatin1(kUrl)));
-  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  network_request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
   qLog(Debug) << "AcoustID request ID" << id << "duration(s)" << duration_secs << "fingerprint length" << fingerprint.size();
-  QNetworkReply *reply = network_->post(network_request, data);
-  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id]() { RequestFinished(reply, id); });
-  requests_[id] = reply;
 
-  timeouts_->AddReply(reply);
+  // A request with the same ID replaces the previous one.
+  Cancel(id);
+  pending_requests_.enqueue(PendingRequest{id, url_query.toString(QUrl::FullyEncoded).toUtf8()});
+
+  // The timer is active for the delay after the last request was sent.
+  if (!timer_flush_requests_->isActive()) {
+    FlushRequests();
+  }
 
   return true;
 
 }
 
+void AcoustidClient::FlushRequests() {
+
+  if (pending_requests_.isEmpty()) return;
+
+  const PendingRequest pending_request = pending_requests_.dequeue();
+  const int id = pending_request.id;
+
+  QNetworkRequest network_request(QUrl(QString::fromLatin1(kUrl)));
+  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  network_request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
+  QNetworkReply *reply = network_->post(network_request, pending_request.data);
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id]() { RequestFinished(reply, id); });
+  requests_[id] = reply;
+
+  timeouts_->AddReply(reply);
+
+  // Wait before sending the next request, also when it's started later.
+  timer_flush_requests_->start();
+
+}
+
 void AcoustidClient::Cancel(const int id) {
+
+  pending_requests_.removeIf([id](const PendingRequest &pending_request) { return pending_request.id == id; });
 
   if (requests_.contains(id)) {
     QNetworkReply *reply = requests_.take(id);
@@ -149,6 +182,9 @@ void AcoustidClient::Cancel(const int id) {
 }
 
 void AcoustidClient::CancelAll() {
+
+  // The timer is kept active, so a new request is still sent after the delay.
+  pending_requests_.clear();
 
   const QList<QNetworkReply*> replies = requests_.values();
   requests_.clear();

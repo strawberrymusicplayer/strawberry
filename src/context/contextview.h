@@ -52,6 +52,7 @@ class QHideEvent;
 class QTimer;
 class QDragEnterEvent;
 class QDropEvent;
+class QPoint;
 
 class ResizableTextEdit;
 class CollectionView;
@@ -104,12 +105,16 @@ class ContextView : public QWidget {
  Q_SIGNALS:
   void AlbumEnabledChanged();
   void SaveLyrics(const Song &song, const QString &lyrics, const QString &synced_lyrics);
+  // Opens the lyrics editor for the song.
+  void EditLyrics(const Song &song);
 
  private Q_SLOTS:
   void ActionShowAlbum();
   void ActionShowData();
   void ActionShowLyrics();
   void ActionSearchLyrics();
+  void ActionEditLyrics();
+  void LyricsContextMenu(const QPoint &pos);
   void UpdateNoSong();
   void FadeStopFinished();
   void UpdateLyrics(const quint64 id, const LyricsSearchResult &result);
@@ -137,6 +142,9 @@ class ContextView : public QWidget {
   QAction *action_show_data_;
   QAction *action_show_lyrics_;
   QAction *action_search_lyrics_;
+  // The menu while a song is playing.
+  QMenu *menu_playing_;
+  QAction *action_edit_lyrics_;
 
   QVBoxLayout *layout_container_;
   QWidget *widget_scrollarea_;

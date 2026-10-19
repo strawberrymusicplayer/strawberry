@@ -36,6 +36,7 @@
 #include <QString>
 #include <QUrl>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/signalchecker.h"
 #include "engine/gstpadutils.h"
@@ -47,6 +48,7 @@
 
 using namespace Qt::Literals::StringLiterals;
 using std::make_unique;
+using std::make_shared;
 
 namespace {
 constexpr int kBands = 128;
@@ -59,7 +61,29 @@ MoodbarPipeline::MoodbarPipeline(const QUrl &url, QObject *parent)
       convert_element_(nullptr),
       success_(false),
       running_(false),
-      error_received_(false) {}
+      error_received_(false),
+      finished_(false) {}
+
+void MoodbarPipeline::NotifyFinished(QObject *context, const std::function<void()> &callback) {
+
+  // The callback is only called once, it can be called both by the signal and below when the pipeline finished while connecting.
+  SharedPtr<bool> called = make_shared<bool>(false);
+  SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
+  const auto call_once = [called, connection, callback]() {
+    if (*called) return;
+    *called = true;
+    QObject::disconnect(*connection);
+    callback();
+  };
+
+  *connection = QObject::connect(this, &MoodbarPipeline::Finished, context, call_once);
+
+  // The finished flag is set before the signal is emitted, so when it is not set here, the signal is emitted after connecting.
+  if (finished_.load()) {
+    QMetaObject::invokeMethod(context, call_once, Qt::QueuedConnection);
+  }
+
+}
 
 MoodbarPipeline::~MoodbarPipeline() {
 
@@ -118,6 +142,7 @@ void MoodbarPipeline::Start() {
   if (!decodebin || !convert_element || !spectrum || !fakesink) {
     gst_object_unref(GST_OBJECT(pipeline_));
     pipeline_ = nullptr;
+    finished_ = true;
     Q_EMIT Finished(false);
     return;
   }
@@ -127,6 +152,7 @@ void MoodbarPipeline::Start() {
     qLog(Error) << "Failed to link elements";
     gst_object_unref(GST_OBJECT(pipeline_));
     pipeline_ = nullptr;
+    finished_ = true;
     Q_EMIT Finished(false);
     return;
   }
@@ -310,6 +336,12 @@ void MoodbarPipeline::Finish(const bool success) {
     builder_.reset();
   }
 
+  // Without data, there is no moodbar to show or save.
+  if (data_.isEmpty()) {
+    success_ = false;
+  }
+
+  finished_ = true;
   Q_EMIT Finished(success_);
 
 }

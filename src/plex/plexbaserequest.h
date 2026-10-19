@@ -28,6 +28,7 @@
 #include <QVariant>
 #include <QString>
 #include <QUrl>
+#include <QNetworkRequest>
 #include <QSslError>
 #include <QJsonObject>
 
@@ -53,12 +54,15 @@ class PlexBaseRequest : public QObject {
 
   QUrl CreateUrl(const QString &ressource_path, const ParamList &params_provided) const;
   QNetworkReply *CreateGetRequest(const QString &ressource_path, const ParamList &params_provided) const;
+  // Requests an image from the server, the token is sent in a header, so it's not part of the URL.
+  QNetworkReply *CreateImageRequest(const QUrl &url) const;
   JsonObjectResult ParseJsonObject(QNetworkReply *reply);
 
   virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
 
-  QUrl server_url() const { return service_->server_url(); }
-  QString token() const { return service_->server_token(); }
+  QUrl server_url() const { return server_url_; }
+  QString server_machine_identifier() const { return server_machine_identifier_; }
+  QString token() const { return token_; }
   QString client_id() const { return service_->client_id(); }
   bool verify_certificate() const { return service_->verify_certificate(); }
   bool download_album_covers() const { return service_->download_album_covers(); }
@@ -67,8 +71,14 @@ class PlexBaseRequest : public QObject {
   void HandleSSLErrors(const QList<QSslError> &ssl_errors);
 
  private:
+  QNetworkRequest CreateNetworkRequest(const QUrl &url) const;
+
   PlexService *service_;
   SharedPtr<NetworkAccessManager> network_;
+  // The server and its token when the request was created, the server can be changed in the settings while the request is running, the token must not be sent to another server.
+  const QUrl server_url_;
+  const QString server_machine_identifier_;
+  const QString token_;
 };
 
 #endif  // PLEXBASEREQUEST_H
