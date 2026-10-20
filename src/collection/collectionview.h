@@ -138,6 +138,8 @@ class CollectionView : public CollectionTreeView {
   QAction *action_delete_files_;
 
   ScopedPtr<OrganizeDialog> organize_dialog_;
+  // Copying to a device has its own dialog without the collection backend, so the paths in the collection are not changed to the device when the original files are deleted.
+  ScopedPtr<OrganizeDialog> copy_to_device_dialog_;
   ScopedPtr<TagEditor> tag_editor_;
   ScopedPtr<LyricsEditor> lyrics_editor_;
 
