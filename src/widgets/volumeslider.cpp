@@ -19,6 +19,8 @@
 *                                                                         *
 ***************************************************************************/
 
+#include <algorithm>
+
 #include <QSlider>
 #include <QHash>
 #include <QString>
@@ -50,6 +52,15 @@
 
 using namespace Qt::Literals::StringLiterals;
 
+namespace {
+// The native size of the volumeslider-gradient.png artwork, and the position of the volume track in it.
+// The artwork is scaled to the widget width when it's drawn.
+constexpr int kArtworkWidth = 112;
+constexpr int kArtworkHeight = 36;
+constexpr int kArtworkTrackLeft = 6;
+constexpr int kArtworkTrackRight = 104;
+}  // namespace
+
 VolumeSlider::VolumeSlider(QWidget *parent, const uint max)
     : SliderSlider(Qt::Horizontal, parent, static_cast<int>(max)),
       wheel_accumulator_(0),
@@ -57,7 +68,8 @@ VolumeSlider::VolumeSlider(QWidget *parent, const uint max)
       anim_enter_(false),
       anim_count_(0),
       timer_anim_(new QTimer(this)),
-      pixmap_inset_(drawVolumePixmap()) {
+      pixmap_inset_(drawVolumePixmap(kArtworkWidth)),
+      gradient_mask_(u":/pictures/volumeslider-gradient.png"_s) {
 
   setFocusPolicy(Qt::NoFocus);
 
@@ -66,7 +78,7 @@ VolumeSlider::VolumeSlider(QWidget *parent, const uint max)
   previous_theme_highlight_color_ = palette().color(QPalette::Highlight);
 
   drawVolumeSliderHandle();
-  generateGradient();
+  generateGradient(kArtworkWidth);
 
   setMinimumWidth(pixmap_inset_.width());
   setMinimumHeight(pixmap_inset_.height());
@@ -111,23 +123,34 @@ void VolumeSlider::paintEvent(QPaintEvent *e) {
 
   QPainter p(this);
 
-  const int padding = 7;
-  const int offset = static_cast<int>(static_cast<double>((width() - 2 * padding) * value()) / qMax(1, maximum()));
+  // The gradient and inset pixmaps are generated at the widget width, so the fill and the handle reach the end of the track at 100% volume with any widget width.
+  // The artwork has a fixed native size of 112x36.
 
   // If theme changed since last paintEvent, redraw the volume pixmap with new theme colors
-  if (previous_theme_text_color_ != palette().color(QPalette::WindowText)) {
-    pixmap_inset_ = drawVolumePixmap();
+  if (pixmap_inset_.width() != width() || previous_theme_text_color_ != palette().color(QPalette::WindowText)) {
+    pixmap_inset_ = drawVolumePixmap(width());
     previous_theme_text_color_ = palette().color(QPalette::WindowText);
   }
 
+  // The handle doesn't depend on the widget width, so it's only redrawn when the highlight color changed.
   if (previous_theme_highlight_color_ != palette().color(QPalette::Highlight)) {
+    generateGradient(width());
     drawVolumeSliderHandle();
     previous_theme_highlight_color_ = palette().color(QPalette::Highlight);
   }
+  else if (pixmap_gradient_.width() != width()) {
+    generateGradient(width());
+  }
 
-  p.drawPixmap(0, 0, pixmap_gradient_, 0, 0, offset + padding, 0);
+  // The fill and the handle both end at the same position in the track.
+  const int track_left = trackLeft();
+  const int offset = track_left + static_cast<int>(static_cast<double>((trackRight() - track_left) * value()) / qMax(1, maximum()));
+
+  p.drawPixmap(0, 0, pixmap_gradient_, 0, 0, offset, 0);
   p.drawPixmap(0, 0, pixmap_inset_);
-  p.drawPixmap(offset - handle_pixmaps_.value(0).width() / 2 + padding, 0, handle_pixmaps_[anim_count_]);
+  // The handle is kept inside the widget, since it's wider than the space before and after the track, so it would be clipped at 0% and 100%.
+  const int handle_width = handle_pixmaps_.value(0).width();
+  p.drawPixmap(std::clamp(offset - handle_width / 2, 0, qMax(0, width() - handle_width)), 0, handle_pixmaps_[anim_count_]);
 
   // Draw percentage number, or "Muted" in its place when muted
   QStyleOptionViewItem opt;
@@ -142,11 +165,24 @@ void VolumeSlider::paintEvent(QPaintEvent *e) {
 
 }
 
-void VolumeSlider::generateGradient() {
+int VolumeSlider::trackLeft() const {
 
-  const QImage mask(u":/pictures/volumeslider-gradient.png"_s);
+  return qRound(static_cast<double>(kArtworkTrackLeft * width()) / kArtworkWidth);
 
-  QImage gradient_image(mask.size(), QImage::Format_ARGB32_Premultiplied);
+}
+
+int VolumeSlider::trackRight() const {
+
+  return qRound(static_cast<double>(kArtworkTrackRight * width()) / kArtworkWidth);
+
+}
+
+void VolumeSlider::generateGradient(const int pixmap_width) {
+
+  // Scale the fixed-size mask to the widget width, so the gradient fill covers the whole slider.
+  const QImage scaled_mask = pixmap_width > 0 && pixmap_width != gradient_mask_.width() ? gradient_mask_.scaled(pixmap_width, gradient_mask_.height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation) : gradient_mask_;
+
+  QImage gradient_image(scaled_mask.size(), QImage::Format_ARGB32_Premultiplied);
   QPainter p(&gradient_image);
 
   QLinearGradient gradient(gradient_image.rect().topLeft(), gradient_image.rect().topRight());
@@ -155,7 +191,7 @@ void VolumeSlider::generateGradient() {
   p.fillRect(gradient_image.rect(), QBrush(gradient));
 
   p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-  p.drawImage(0, 0, mask);
+  p.drawImage(0, 0, scaled_mask);
   p.end();
 
   pixmap_gradient_ = QPixmap::fromImage(gradient_image);
@@ -179,12 +215,13 @@ void VolumeSlider::slotAnimTimer() {
 
 void VolumeSlider::paletteChange(const QPalette &palette) {
   Q_UNUSED(palette)
-  generateGradient();
+  generateGradient(width());
 }
 
-QPixmap VolumeSlider::drawVolumePixmap() const {
+QPixmap VolumeSlider::drawVolumePixmap(const int pixmap_width) const {
 
-  QPixmap pixmap(112, 36);
+  const int width_scaled = pixmap_width > 0 ? pixmap_width : kArtworkWidth;
+  QPixmap pixmap(width_scaled, kArtworkHeight);
   pixmap.fill(Qt::transparent);
   QPainter painter(&pixmap);
   QPen pen(palette().color(QPalette::WindowText), 0.3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
@@ -192,13 +229,18 @@ QPixmap VolumeSlider::drawVolumePixmap() const {
 
   painter.setRenderHint(QPainter::Antialiasing);
   painter.setRenderHint(QPainter::SmoothPixmapTransform);
+
+  // Scale the fixed-size artwork horizontally to the widget width.
+  const qreal scale = static_cast<qreal>(width_scaled) / kArtworkWidth;
+  auto scale_x = [scale](const int x) { return qRound(scale * x); };
+
   // Draw volume control pixmap
   QPolygon poly;
-  poly << QPoint(6, 21) << QPoint(104, 21) << QPoint(104, 7) << QPoint(6, 16) << QPoint(6, 21);
+  poly << QPoint(scale_x(kArtworkTrackLeft), 21) << QPoint(scale_x(kArtworkTrackRight), 21) << QPoint(scale_x(kArtworkTrackRight), 7) << QPoint(scale_x(kArtworkTrackLeft), 16) << QPoint(scale_x(kArtworkTrackLeft), 21);
   QPainterPath path;
   path.addPolygon(poly);
   painter.drawPolygon(poly);
-  painter.drawLine(6, 29, 104, 29);
+  painter.drawLine(scale_x(kArtworkTrackLeft), 29, scale_x(kArtworkTrackRight), 29);
 
   // Return QPixmap
   return pixmap;
@@ -289,7 +331,11 @@ void VolumeSlider::contextMenuEvent(QContextMenuEvent *e) {
 }
 
 void VolumeSlider::slideEvent(QMouseEvent *e) {
-  QSlider::setValue(QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x(), width() - 2));
+
+  // The position is mapped to the same track as the handle is drawn on, so the handle follows the mouse.
+  const int track_left = trackLeft();
+  QSlider::setValue(QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x() - track_left, trackRight() - track_left));
+
 }
 
 void VolumeSlider::mousePressEvent(QMouseEvent *e) {
