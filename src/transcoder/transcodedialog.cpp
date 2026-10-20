@@ -31,16 +31,16 @@
 #include <QMainWindow>
 #include <QAbstractItemModel>
 #include <QtAlgorithms>
-#include <QDir>
-#include <QFileInfo>
 #include <QList>
+#include <QSet>
 #include <QMap>
-#include <QDirIterator>
-#include <QFileDialog>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QSet>
+#include <QDir>
+#include <QFileInfo>
+#include <QDirIterator>
+#include <QFileDialog>
 #include <QIcon>
 #include <QDateTime>
 #include <QComboBox>
@@ -502,9 +502,13 @@ QString TranscodeDialog::UniqueFilePath(const QString &filepath, UsedFilePaths &
 
   // The directory is only resolved once, since all the paths which are tried are in the same directory.
   const QFileInfo fileinfo(filepath);
-  const QString directory = ResolvedDirectory(fileinfo.path());
-  const auto key = [&directory](const QString &filename) { return QString(directory + QLatin1Char('/') + filename).toCaseFolded(); };
-  const auto is_used = [&used_filepaths, &fileinfo, &key](const QString &filename) { return used_filepaths.keys.contains(key(filename)) || QFileInfo::exists(fileinfo.path() + QLatin1Char('/') + filename); };
+  const QString directory = Transcoder::OutputDirectory(filepath);
+  const auto key = [&directory](const QString &filename) { return Transcoder::OutputKey(directory, filename); };
+  // Symbolic links are never used, also dangling links, since they could point to the output file of another file.
+  const auto is_used = [&used_filepaths, &fileinfo, &key](const QString &filename) {
+    const QFileInfo fileinfo_used(fileinfo.path() + QLatin1Char('/') + filename);
+    return used_filepaths.keys.contains(key(filename)) || fileinfo_used.exists() || fileinfo_used.isSymLink();
+  };
 
   QString unique_filepath = filepath;
   QString filename = fileinfo.fileName();
@@ -528,20 +532,8 @@ QString TranscodeDialog::UniqueFilePath(const QString &filepath, UsedFilePaths &
 
 QString TranscodeDialog::FilePathKey(const QString &filepath) {
 
-  const QFileInfo fileinfo(filepath);
-
-  // The paths are compared case-insensitively, since the destination can be on a case-insensitive filesystem.
-  return QString(ResolvedDirectory(fileinfo.path()) + QLatin1Char('/') + fileinfo.fileName()).toCaseFolded();
-
-}
-
-QString TranscodeDialog::ResolvedDirectory(const QString &path) {
-
-  // The directory is resolved, since the input files can be given with redundant "." or ".." components, or through symbolic links, then the output paths are written differently.
-  // The symbolic links are resolved before the ".." components are removed, since ".." after a symbolic link is the parent of the target of the link.
-  // The path is only cleaned when the directory doesn't exist, then it doesn't contain symbolic links which could be resolved either.
-  const QString canonical_path = QFileInfo(path).canonicalFilePath();
-  return canonical_path.isEmpty() ? QDir::cleanPath(path) : canonical_path;
+  // The same keys as the transcoder, so the outputs are compared the same way.
+  return Transcoder::OutputKey(filepath);
 
 }
 
