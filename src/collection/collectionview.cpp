@@ -316,15 +316,15 @@ void CollectionView::RescanSongs() {
 
 void CollectionView::CopyToDevice() {
 
-  if (!organize_dialog_) {
-    organize_dialog_ = make_unique<OrganizeDialog>(task_manager_, tagreader_client_, nullptr, this);
-    organize_dialog_->SetCollectionDirectoryModel(collection_model()->directory_model());
+  if (!copy_to_device_dialog_) {
+    copy_to_device_dialog_ = make_unique<OrganizeDialog>(task_manager_, tagreader_client_, nullptr, this);
+    copy_to_device_dialog_->SetCollectionDirectoryModel(collection_model()->directory_model());
   }
 
-  organize_dialog_->SetDestinationModel(device_manager_->connected_devices_model(), true);
-  organize_dialog_->SetCopy(true);
-  organize_dialog_->SetSongs(GetSelectedSongs());
-  organize_dialog_->show();
+  copy_to_device_dialog_->SetDestinationModel(device_manager_->connected_devices_model(), true);
+  copy_to_device_dialog_->SetCopy(true);
+  copy_to_device_dialog_->SetSongs(GetSelectedSongs());
+  copy_to_device_dialog_->show();
 
 }
 
