@@ -572,6 +572,8 @@ bool GstEnginePipeline::Finish() {
 
 bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 beginning_offset_nanosec, const qint64 end_offset_nanosec, const double ebur128_loudness_normalizing_gain_db, QString &error) {
 
+  raw_stream_metadata_ = EngineMetadata();
+
   {
     QMutexLocker l(&mutex_url_);
     media_url_ = media_url;
@@ -1835,6 +1837,8 @@ void GstEnginePipeline::StreamStatusMessageReceived(GstMessage *msg) {
 
 void GstEnginePipeline::StreamStartMessageReceived() {
 
+  raw_stream_metadata_ = EngineMetadata();
+
   // Atomically claim the "next URL has started" transition. If two streaming threads observe the same start they'd otherwise both promote next→current.
   bool expected = true;
   if (!next_uri_set_.compare_exchange_strong(expected, false)) {
@@ -1986,19 +1990,33 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
   GstTagList *taglist = nullptr;
   gst_message_parse_tag(msg, &taglist);
 
-  EngineMetadata engine_metadata;
+  if (gst_tag_list_get_tag_size(taglist, GST_TAG_TITLE) > 0) {
+    raw_stream_metadata_.title = ParseStrTag(taglist, GST_TAG_TITLE);
+  }
+  if (gst_tag_list_get_tag_size(taglist, GST_TAG_ARTIST) > 0) {
+    raw_stream_metadata_.artist = ParseStrTag(taglist, GST_TAG_ARTIST);
+  }
+  if (gst_tag_list_get_tag_size(taglist, GST_TAG_COMMENT) > 0) {
+    raw_stream_metadata_.comment = ParseStrTag(taglist, GST_TAG_COMMENT);
+  }
+  if (gst_tag_list_get_tag_size(taglist, GST_TAG_ALBUM) > 0) {
+    raw_stream_metadata_.album = ParseStrTag(taglist, GST_TAG_ALBUM);
+  }
+  if (gst_tag_list_get_tag_size(taglist, GST_TAG_BITRATE) > 0) {
+    raw_stream_metadata_.bitrate = static_cast<int>(ParseUIntTag(taglist, GST_TAG_BITRATE) / 1000);
+  }
+  if (gst_tag_list_get_tag_size(taglist, GST_TAG_LYRICS) > 0) {
+    raw_stream_metadata_.lyrics = ParseStrTag(taglist, GST_TAG_LYRICS);
+  }
+
+  EngineMetadata engine_metadata = raw_stream_metadata_;
+  if (engine_metadata.bitrate < 0) engine_metadata.bitrate = 0;
   engine_metadata.type = EngineMetadata::Type::Current;
   {
     QMutexLocker l(&mutex_url_);
     engine_metadata.media_url = media_url_;
     engine_metadata.stream_url = stream_url_;
   }
-  engine_metadata.title = ParseStrTag(taglist, GST_TAG_TITLE);
-  engine_metadata.artist = ParseStrTag(taglist, GST_TAG_ARTIST);
-  engine_metadata.comment = ParseStrTag(taglist, GST_TAG_COMMENT);
-  engine_metadata.album = ParseStrTag(taglist, GST_TAG_ALBUM);
-  engine_metadata.bitrate = static_cast<int>(ParseUIntTag(taglist, GST_TAG_BITRATE) / 1000);
-  engine_metadata.lyrics = ParseStrTag(taglist, GST_TAG_LYRICS);
 
   StreamMetadataParser::Parse(engine_metadata);
 
