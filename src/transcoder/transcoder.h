@@ -68,7 +68,8 @@ class Transcoder : public QObject {
   int max_threads() const { return max_threads_; }
   void set_max_threads(int count) { max_threads_ = count; }
 
-  static QString GetFile(const QString &input, const TranscoderPreset &preset, const QString &output = QString());
+  // Returns an output filename which is not an existing file, or the output of a queued or running job.
+  QString GetFile(const QString &input, const TranscoderPreset &preset, const QString &output = QString()) const;
   void AddJob(const QString &input, const TranscoderPreset &preset, const QString &output);
 
   QMap<QString, float> GetProgress() const;
@@ -102,7 +103,9 @@ class Transcoder : public QObject {
           parent_(parent),
           pipeline_(nullptr),
           convert_element_(nullptr),
-          finished_posted_(false) {}
+          output_existed_(false),
+          finished_posted_(false),
+          success_(false) {}
     ~JobState();
 
     void PostFinished(const bool success);
@@ -113,7 +116,11 @@ class Transcoder : public QObject {
     Transcoder *parent_;
     GstElement *pipeline_;
     GstElement *convert_element_;
+    // The output file existed before the job started, then it's not removed when the job fails, since it might not have been written.
+    bool output_existed_;
     std::atomic<bool> finished_posted_;
+    // The result of the job, set before the finished event is posted.
+    std::atomic<bool> success_;
 
    private:
     Q_DISABLE_COPY(JobState)
@@ -142,6 +149,9 @@ class Transcoder : public QObject {
 
   StartJobStatus MaybeStartNextJob();
   bool StartJob(const Job &job);
+  bool OutputUsedByJob(const QString &output) const;
+  // Removes the output file of a job which failed or was canceled, the pipeline must be stopped, so the file is closed.
+  static void RemovePartialOutput(const QString &output, const bool output_existed);
 
   GstElement *CreateElement(const QString &factory_name, GstElement *bin = nullptr, const QString &name = QString());
   GstElement *CreateElementForMimeType(GstElementFactoryListType element_type, const QString &mime_type, GstElement *bin = nullptr);

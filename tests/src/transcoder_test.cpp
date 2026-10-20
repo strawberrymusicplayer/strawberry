@@ -31,6 +31,8 @@
 #include <QDir>
 #include <QSignalSpy>
 #include <QCoreApplication>
+#include <QFile>
+#include <QFileInfo>
 
 #include "includes/shared_ptr.h"
 #include "engine/gststartup.h"
@@ -43,11 +45,12 @@ using namespace Qt::Literals::StringLiterals;
 class TranscoderTest {
  public:
   // Adds a running job without starting a pipeline, it gets an empty pipeline, so it can be finished like a real job.
-  static quint64 AddRunningJob(Transcoder &transcoder, const QString &input) {
+  static quint64 AddRunningJob(Transcoder &transcoder, const QString &input, const QString &output = QString(), const bool output_existed = false) {
     Transcoder::Job job;
     job.input = input;
-    job.output = input + u".out"_s;
+    job.output = output.isEmpty() ? input + u".out"_s : output;
     SharedPtr<Transcoder::JobState> state = make_shared<Transcoder::JobState>(++transcoder.next_job_id_, job, &transcoder);
+    state->output_existed_ = output_existed;
     state->pipeline_ = gst_pipeline_new(nullptr);
     transcoder.current_jobs_ << state;
     return state->id_;
@@ -65,6 +68,8 @@ class TranscoderTest {
   static void PostFinishedEvent(Transcoder &transcoder, const quint64 job_id, const bool success) {
     QCoreApplication::postEvent(&transcoder, new Transcoder::JobFinishedEvent(job_id, success));
   }
+
+  static void Cancel(Transcoder &transcoder) { transcoder.Cancel(); }
 
   static int RunningJobs(const Transcoder &transcoder) {
     return static_cast<int>(transcoder.current_jobs_.count());
@@ -201,6 +206,184 @@ TEST(TranscoderTest, OutputFilePathNotExistingFile) {
 
   TranscodeDialog::UsedFilePaths used_filepaths;
   EXPECT_EQ(temp_dir.filePath(u"01-1.mp3"_s), TranscodeDialog::UniqueFilePath(filepath, used_filepaths));
+
+}
+
+// Creates a file, like the output file written by a job.
+bool CreateFile(const QString &filename) {
+  QFile file(filename);
+  if (!file.open(QIODevice::WriteOnly)) return false;
+  file.write("partial");
+  file.close();
+  return true;
+}
+
+// Regression test: the partially written output file of a job which failed was kept.
+TEST(TranscoderTest, FailedJobRemovesOutput) {
+
+  GstStartup::Initialize();
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString output = temp_dir.filePath(u"01.mp3"_s);
+
+  Transcoder transcoder;
+  const quint64 job_id = TranscoderTest::AddRunningJob(transcoder, u"01.flac"_s, output);
+  ASSERT_TRUE(CreateFile(output));
+  TranscoderTest::PostFinished(transcoder, job_id, false);
+  QCoreApplication::sendPostedEvents(&transcoder);
+
+  EXPECT_FALSE(QFile::exists(output));
+
+}
+
+TEST(TranscoderTest, SuccessfulJobKeepsOutput) {
+
+  GstStartup::Initialize();
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString output = temp_dir.filePath(u"01.mp3"_s);
+
+  Transcoder transcoder;
+  const quint64 job_id = TranscoderTest::AddRunningJob(transcoder, u"01.flac"_s, output);
+  ASSERT_TRUE(CreateFile(output));
+  TranscoderTest::PostFinished(transcoder, job_id, true);
+  QCoreApplication::sendPostedEvents(&transcoder);
+
+  EXPECT_TRUE(QFile::exists(output));
+
+}
+
+// Regression test: the partially written output files of the running jobs were kept when transcoding was canceled.
+TEST(TranscoderTest, CanceledJobRemovesOutput) {
+
+  GstStartup::Initialize();
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString output = temp_dir.filePath(u"01.mp3"_s);
+
+  Transcoder transcoder;
+  TranscoderTest::AddRunningJob(transcoder, u"01.flac"_s, output);
+  ASSERT_TRUE(CreateFile(output));
+  TranscoderTest::Cancel(transcoder);
+
+  EXPECT_FALSE(QFile::exists(output));
+  EXPECT_EQ(0, TranscoderTest::RunningJobs(transcoder));
+
+}
+
+// An output file which existed before the job started is not removed, since the job might have failed before writing it.
+TEST(TranscoderTest, FailedJobKeepsOutputWhichExisted) {
+
+  GstStartup::Initialize();
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString output = temp_dir.filePath(u"01.mp3"_s);
+  ASSERT_TRUE(CreateFile(output));
+
+  Transcoder transcoder;
+  const quint64 job_id = TranscoderTest::AddRunningJob(transcoder, u"01.flac"_s, output, true);
+  TranscoderTest::PostFinished(transcoder, job_id, false);
+  QCoreApplication::sendPostedEvents(&transcoder);
+
+  EXPECT_TRUE(QFile::exists(output));
+
+}
+
+// Regression test: a job which finished successfully, but its finished event was not handled yet when transcoding was canceled, was handled as canceled, so its output file was removed.
+TEST(TranscoderTest, CancelKeepsOutputOfJobWhichFinished) {
+
+  GstStartup::Initialize();
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString finished_output = temp_dir.filePath(u"01.mp3"_s);
+  const QString failed_output = temp_dir.filePath(u"02.mp3"_s);
+
+  Transcoder transcoder;
+  const quint64 finished_job_id = TranscoderTest::AddRunningJob(transcoder, u"01.flac"_s, finished_output);
+  const quint64 failed_job_id = TranscoderTest::AddRunningJob(transcoder, u"02.flac"_s, failed_output);
+  ASSERT_TRUE(CreateFile(finished_output));
+  ASSERT_TRUE(CreateFile(failed_output));
+  TranscoderTest::PostFinished(transcoder, finished_job_id, true);
+  TranscoderTest::PostFinished(transcoder, failed_job_id, false);
+  TranscoderTest::Cancel(transcoder);
+  QCoreApplication::sendPostedEvents(&transcoder);
+
+  EXPECT_TRUE(QFile::exists(finished_output));
+  EXPECT_FALSE(QFile::exists(failed_output));
+
+}
+
+// A symbolic link at the output path existed before the job started, like a dangling symbolic link, so it's not removed.
+TEST(TranscoderTest, FailedJobKeepsSymbolicLink) {
+
+#ifdef Q_OS_WIN
+  GTEST_SKIP() << "QFile::link() creates a shortcut with the .lnk suffix on Windows, not a link at the output path.";
+#endif
+
+  GstStartup::Initialize();
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString target = temp_dir.filePath(u"target.mp3"_s);
+  const QString output = temp_dir.filePath(u"01.mp3"_s);
+  ASSERT_TRUE(QFile::link(target, output));
+
+  Transcoder transcoder;
+  const quint64 job_id = TranscoderTest::AddRunningJob(transcoder, u"01.flac"_s, output);
+  ASSERT_TRUE(CreateFile(target));
+  TranscoderTest::PostFinished(transcoder, job_id, false);
+  QCoreApplication::sendPostedEvents(&transcoder);
+
+  EXPECT_TRUE(QFileInfo(output).isSymLink());
+
+}
+
+// Regression test: only existing files were checked when choosing the output filename, so files with the same name, like tracks from different albums, were transcoded to the same output file.
+TEST(TranscoderTest, GetFileNotUsedByAnotherJob) {
+
+#if !defined(Q_OS_UNIX) || defined(Q_OS_MACOS)
+  GTEST_SKIP() << "The cache location is only set with XDG_CACHE_HOME on Unix, except macOS.";
+#endif
+
+  GstStartup::Initialize();
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QByteArray cache_home = qgetenv("XDG_CACHE_HOME");
+  qputenv("XDG_CACHE_HOME", temp_dir.path().toLocal8Bit());
+
+  TranscoderPreset preset;
+  preset.extension_ = u"mp3"_s;
+
+  Transcoder transcoder;
+  const QString first_output = transcoder.GetFile(u"/music/album1/01.flac"_s, preset);
+  transcoder.AddJob(u"/music/album1/01.flac"_s, preset, first_output);
+  const QString second_output = transcoder.GetFile(u"/music/album2/01.flac"_s, preset);
+  TranscoderTest::AddRunningJob(transcoder, u"/music/album2/01.flac"_s, second_output);
+  // The first job is queued, and the second job is running.
+  const QString third_output = transcoder.GetFile(u"/music/album3/01.flac"_s, preset);
+  // The output can be on a case-insensitive filesystem.
+  const QString fourth_output = transcoder.GetFile(u"/music/album4/Track.flac"_s, preset);
+  transcoder.AddJob(u"/music/album4/Track.flac"_s, preset, fourth_output);
+  const QString fifth_output = transcoder.GetFile(u"/music/album5/track.flac"_s, preset);
+
+  if (cache_home.isNull()) {
+    qunsetenv("XDG_CACHE_HOME");
+  }
+  else {
+    qputenv("XDG_CACHE_HOME", cache_home);
+  }
+
+  EXPECT_TRUE(first_output.startsWith(temp_dir.path()));
+  EXPECT_NE(first_output, second_output);
+  EXPECT_NE(first_output, third_output);
+  EXPECT_NE(second_output, third_output);
+  EXPECT_NE(0, fifth_output.compare(fourth_output, Qt::CaseInsensitive));
 
 }
 

@@ -34,6 +34,7 @@
 #include <QCoreApplication>
 #include <QByteArray>
 #include <QDir>
+#include <QFile>
 #include <QFileInfo>
 #include <QList>
 #include <QMap>
@@ -188,6 +189,8 @@ void Transcoder::JobState::PostFinished(const bool success) {
   // Only post the first result, a pipeline can post more than one error message, or an error message and end of stream.
   if (finished_posted_.exchange(true)) return;
 
+  success_ = success;
+
   if (success) {
     Q_EMIT parent_->LogLine(tr("Successfully written %1").arg(QDir::toNativeSeparators(job_.output)));
   }
@@ -284,7 +287,7 @@ Song::FileType Transcoder::PickBestFormat(const QList<Song::FileType> &supported
 
 }
 
-QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset, const QString &output) {
+QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset, const QString &output) const {
 
   QFileInfo fileinfo_output;
 
@@ -300,15 +303,15 @@ QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset
     fileinfo_output.setFile(temp_dir + QLatin1Char('/') + filename);
   }
 
-  // Never overwrite existing files
-  if (fileinfo_output.exists()) {
+  // Never overwrite existing files, or the output files of other jobs, which might not be written yet.
+  if (fileinfo_output.exists() || OutputUsedByJob(fileinfo_output.filePath())) {
     QString path = fileinfo_output.path();
     QString filename = fileinfo_output.completeBaseName();
     QString suffix = fileinfo_output.suffix();
     for (int i = 0; i < 1000000; ++i) {
       QString new_filename = QStringLiteral("%1/%2-%3.%4").arg(path, filename, QString::number(i), suffix);
       fileinfo_output.setFile(new_filename);
-      if (!fileinfo_output.exists()) {
+      if (!fileinfo_output.exists() && !OutputUsedByJob(fileinfo_output.filePath())) {
         break;
       }
 
@@ -316,6 +319,15 @@ QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset
   }
 
   return fileinfo_output.filePath();
+
+}
+
+bool Transcoder::OutputUsedByJob(const QString &output) const {
+
+  // The paths are compared case-insensitively, since the output can be on a case-insensitive filesystem.
+  const auto is_output = [&output](const QString &job_output) { return job_output.compare(output, Qt::CaseInsensitive) == 0; };
+
+  return std::any_of(queued_jobs_.cbegin(), queued_jobs_.cend(), [&is_output](const Job &job) { return is_output(job.output); }) || std::any_of(current_jobs_.cbegin(), current_jobs_.cend(), [&is_output](const SharedPtr<JobState> &state) { return is_output(state->job_.output); });
 
 }
 
@@ -422,6 +434,7 @@ void Transcoder::JobState::ReportError(GstMessage *msg) const {
 bool Transcoder::StartJob(const Job &job) {
 
   SharedPtr<JobState> state = make_shared<JobState>(++next_job_id_, job, this);
+  state->output_existed_ = QFileInfo::exists(job.output);
 
   Q_EMIT LogLine(tr("Starting %1").arg(QDir::toNativeSeparators(job.input)));
 
@@ -518,6 +531,7 @@ bool Transcoder::event(QEvent *e) {
 
     QString input = (*it)->job_.input;
     QString output = (*it)->job_.output;
+    const bool output_existed = (*it)->output_existed_;
 
     // Remove event handlers from the gstreamer pipeline, so they don't get called after the pipeline is shutting down
     {
@@ -530,6 +544,10 @@ bool Transcoder::event(QEvent *e) {
 
     // Remove it from the list - this will also destroy the GStreamer pipeline
     current_jobs_.erase(it);
+
+    if (!finished_event->success_) {
+      RemovePartialOutput(output, output_existed);
+    }
 
     // Emit the finished signal
     Q_EMIT JobComplete(input, output, finished_event->success_);
@@ -571,6 +589,28 @@ void Transcoder::Cancel() {
 
     // Remove the job, this destroys the GStreamer pipeline too
     it = current_jobs_.erase(it);
+
+    // The job might have finished successfully before it was stopped, then the finished event is ignored, but the output is complete.
+    if (!state->finished_posted_ || !state->success_) {
+      RemovePartialOutput(state->job_.output, state->output_existed_);
+    }
+  }
+
+}
+
+void Transcoder::RemovePartialOutput(const QString &output, const bool output_existed) {
+
+  // An output file which existed before might not have been written, when the job failed before the file was opened.
+  if (output_existed || output.isEmpty() || !QFileInfo::exists(output)) return;
+
+  // The job doesn't create symbolic links, so a symbolic link existed before, like a dangling symbolic link to the output file.
+  if (QFileInfo(output).isSymLink()) return;
+
+  if (QFile::remove(output)) {
+    qLog(Debug) << "Removed partial output file" << output;
+  }
+  else {
+    qLog(Error) << "Failed to remove partial output file" << output;
   }
 
 }
