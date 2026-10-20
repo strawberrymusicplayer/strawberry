@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,8 @@
 #include <QSet>
 #include <QList>
 #include <QUrl>
+#include <QModelIndex>
+#include <QModelIndexList>
 
 #include "core/song.h"
 #include "filterparser/filtertree.h"
@@ -41,6 +43,9 @@ class CollectionFilter : public QSortFilterProxyModel {
 
   void SetFilterString(const QString &filter_string);
   QString filter_string() const { return filter_string_; }
+
+  // Returns the songs below the indexes of this model which are not hidden by the filter.
+  SongList GetChildSongs(const QModelIndexList &indexes) const;
 
  protected:
   bool filterAcceptsRow(const int source_row, const QModelIndex &source_parent) const override;
