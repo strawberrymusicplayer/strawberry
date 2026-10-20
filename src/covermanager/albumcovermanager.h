@@ -81,6 +81,8 @@ class AlbumItem : public QListWidgetItem {
 class AlbumCoverManager : public QMainWindow {
   Q_OBJECT
 
+  friend class AlbumCoverManagerTest;
+
  public:
   explicit AlbumCoverManager(const SharedPtr<NetworkAccessManager> network,
                              const SharedPtr<CollectionBackend> collection_backend,
@@ -127,7 +129,8 @@ class AlbumCoverManager : public QMainWindow {
     Role_Filetype,
     Role_CuePath,
     Role_ImageData,
-    Role_Image
+    Role_Image,
+    Role_CoverLoaded
   };
 
   enum class HideCovers {
@@ -151,6 +154,8 @@ class AlbumCoverManager : public QMainWindow {
 
   void QueueAlbumCoverLoad(AlbumItem *album_item);
   void LoadAlbumCoverAsync(AlbumItem *album_item);
+  // Cancels loading the thumbnail of the album, a thumbnail which was loaded before the cover was changed would show the old cover.
+  void CancelAlbumCoverLoading(AlbumItem *album_item);
 
   void UpdateStatusText();
   bool ShouldHide(const AlbumItem &album_item, const QString &filter, const HideCovers hide_covers) const;
@@ -161,6 +166,7 @@ class AlbumCoverManager : public QMainWindow {
   SongList GetSongsInAlbums(const QModelIndexList &indexes) const;
   SongMimeData *GetMimeDataForAlbums(const QModelIndexList &indexes) const;
 
+  // Until the thumbnail is loaded, the album is checked for a cover instead of the thumbnail.
   bool ItemHasCover(const AlbumItem &album_item) const;
 
  Q_SIGNALS:
@@ -176,6 +182,8 @@ class AlbumCoverManager : public QMainWindow {
   void ExportCovers();
   void AlbumCoverFetched(const quint64 id, const AlbumCoverImageResult &result, const CoverSearchStatistics &statistics);
   void CancelRequests();
+  // Aborts fetching and exporting covers, the thumbnails are still loaded, since whether the albums have covers is only known when they are loaded.
+  void AbortRequests();
 
   // On the context menu
   void FetchSingleCover();
