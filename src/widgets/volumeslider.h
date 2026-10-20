@@ -26,6 +26,7 @@
 #include <QObject>
 #include <QList>
 #include <QPixmap>
+#include <QImage>
 #include <QPalette>
 #include <QColor>
 
@@ -71,8 +72,12 @@ class VolumeSlider : public SliderSlider {
   VolumeSlider(const VolumeSlider&);
   VolumeSlider &operator=(const VolumeSlider&);
 
-  void generateGradient();
-  QPixmap drawVolumePixmap() const;
+  // The start and the end of the volume track in the widget, the artwork is scaled to the widget width.
+  int trackLeft() const;
+  int trackRight() const;
+
+  void generateGradient(const int pixmap_width);
+  QPixmap drawVolumePixmap(const int pixmap_width) const;
   void drawVolumeSliderHandle();
 
   int wheel_accumulator_;
@@ -85,6 +90,8 @@ class VolumeSlider : public SliderSlider {
 
   QPixmap pixmap_inset_;
   QPixmap pixmap_gradient_;
+  // The mask for the gradient at the native artwork size, it's only loaded once, since the gradient is generated again when the widget is resized.
+  const QImage gradient_mask_;
 
   QColor previous_theme_text_color_;
   QColor previous_theme_highlight_color_;
