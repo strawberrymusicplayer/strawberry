@@ -71,8 +71,8 @@ class VolumeSlider : public SliderSlider {
   VolumeSlider(const VolumeSlider&);
   VolumeSlider &operator=(const VolumeSlider&);
 
-  void generateGradient();
-  QPixmap drawVolumePixmap() const;
+  void generateGradient(const int width);
+  QPixmap drawVolumePixmap(const int width) const;
   void drawVolumeSliderHandle();
 
   int wheel_accumulator_;
