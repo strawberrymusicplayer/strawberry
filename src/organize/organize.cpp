@@ -245,6 +245,12 @@ void Organize::ProcessSomeFiles() {
         qLog(Debug) << "Transcoding with" << preset.name_;
 
         task.transcoded_filename_ = transcoder_->GetFile(task.song_info_.song_.url().toLocalFile(), preset);
+        if (task.transcoded_filename_.isEmpty()) {
+          files_with_errors_ << task.song_info_.song_.url().toLocalFile();
+          log_ << tr("Could not create a temporary directory for transcoding %1").arg(QDir::toNativeSeparators(task.song_info_.song_.url().toLocalFile()));
+          tasks_complete_++;
+          continue;
+        }
         task.new_extension_ = preset.extension_;
         task.new_filetype_ = dest_type;
         tasks_transcoding_[task.song_info_.song_.url().toLocalFile()] = task;

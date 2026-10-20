@@ -32,13 +32,15 @@
 
 #include <QObject>
 #include <QList>
+#include <QSet>
+#include <QHash>
 #include <QMap>
 #include <QMetaType>
-#include <QSet>
 #include <QString>
 #include <QEvent>
 
 #include "includes/shared_ptr.h"
+#include "includes/scoped_ptr.h"
 #include "core/song.h"
 
 struct TranscoderPreset {
@@ -53,6 +55,8 @@ struct TranscoderPreset {
 };
 Q_DECLARE_METATYPE(TranscoderPreset)
 
+class QTemporaryDir;
+
 class Transcoder : public QObject {
   Q_OBJECT
 
@@ -60,6 +64,7 @@ class Transcoder : public QObject {
 
  public:
   explicit Transcoder(QObject *parent = nullptr, const QString &settings_postfix = QLatin1String(""));
+  ~Transcoder() override;
 
   static TranscoderPreset PresetForFileType(const Song::FileType filetype);
   static QList<TranscoderPreset> GetAllPresets();
@@ -68,8 +73,20 @@ class Transcoder : public QObject {
   int max_threads() const { return max_threads_; }
   void set_max_threads(int count) { max_threads_ = count; }
 
-  static QString GetFile(const QString &input, const TranscoderPreset &preset, const QString &output = QString());
+  // Returns an output filename in the cache directory of this transcoder, which is not an existing file, or the output of a queued or running job.
+  // Only this transcoder uses the directory, so the outputs of other transcoders are never used either.
+  // Returns an empty filename when the directory couldn't be created.
+  QString GetFile(const QString &input, const TranscoderPreset &preset);
   void AddJob(const QString &input, const TranscoderPreset &preset, const QString &output);
+
+  // Returns the absolute directory with the symbolic links resolved, and the redundant "." and ".." components removed, also when it doesn't exist yet.
+  static QString ResolvedDirectory(const QString &path);
+  // Returns the absolute resolved directory of the output.
+  static QString OutputDirectory(const QString &output);
+  // Returns the key for comparing outputs, the same output written differently gets the same key.
+  static QString OutputKey(const QString &output);
+  // Returns the key for comparing outputs for a filename in a directory from OutputDirectory().
+  static QString OutputKey(const QString &output_directory, const QString &filename);
 
   QMap<QString, float> GetProgress() const;
   qint64 QueuedJobsCount() const { return queued_jobs_.count(); }
@@ -91,18 +108,27 @@ class Transcoder : public QObject {
   struct Job {
     QString input;
     QString output;
+    // The key from OutputKey() when the job was added, the same key is released, also if the resolved output directory changed.
+    QString output_key;
     TranscoderPreset preset;
   };
 
   // State held by a job and shared across gstreamer callbacks - lives in the job's thread.
   struct JobState {
+    enum class Result {
+      None,
+      Success,
+      Failure,
+    };
+
     explicit JobState(const quint64 id, const Job &job, Transcoder *parent)
         : id_(id),
           job_(job),
           parent_(parent),
           pipeline_(nullptr),
           convert_element_(nullptr),
-          finished_posted_(false) {}
+          output_existed_(false),
+          result_(Result::None) {}
     ~JobState();
 
     void PostFinished(const bool success);
@@ -113,7 +139,10 @@ class Transcoder : public QObject {
     Transcoder *parent_;
     GstElement *pipeline_;
     GstElement *convert_element_;
-    std::atomic<bool> finished_posted_;
+    // The output file existed before the job started, then it's not removed when the job fails, since it might not have been written.
+    bool output_existed_;
+    // The result of the job, set when the finished event is posted, it's one atomic value, so the result is never seen as posted before the success is set.
+    std::atomic<Result> result_;
 
    private:
     Q_DISABLE_COPY(JobState)
@@ -142,6 +171,12 @@ class Transcoder : public QObject {
 
   StartJobStatus MaybeStartNextJob();
   bool StartJob(const Job &job);
+  bool OutputUsedByJob(const QString &output) const;
+  QString CacheDirectory();
+  void ReserveOutput(const QString &output_key);
+  void ReleaseOutput(const QString &output_key);
+  // Removes the output file of a job which failed or was canceled, the pipeline must be stopped, so the file is closed.
+  static void RemovePartialOutput(const QString &output, const bool output_existed);
 
   GstElement *CreateElement(const QString &factory_name, GstElement *bin = nullptr, const QString &name = QString());
   GstElement *CreateElementForMimeType(GstElementFactoryListType element_type, const QString &mime_type, GstElement *bin = nullptr);
@@ -155,9 +190,15 @@ class Transcoder : public QObject {
 
   int max_threads_;
   quint64 next_job_id_;
+  // The directory for the output files when no output is given, it's declared before the jobs, so it's removed after the jobs are stopped.
+  ScopedPtr<QTemporaryDir> cache_dir_;
   QList<Job> queued_jobs_;
   JobStateList current_jobs_;
   QString settings_postfix_;
+  // The number of queued and running jobs for each output, by OutputKey().
+  QHash<QString, int> used_outputs_;
+  // The next number to try for each output, so all the numbers are not tried again for each file with the same name.
+  QHash<QString, int> next_output_numbers_;
 };
 
 #endif  // TRANSCODER_H
