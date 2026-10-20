@@ -48,6 +48,7 @@
 #include "core/mimedata.h"
 #include "filterparser/filterparser.h"
 #include "collectionmodel.h"
+#include "collectionfilter.h"
 #include "collectionfilterwidget.h"
 #include "collectionitem.h"
 #include "collectionitemdelegate.h"
@@ -640,6 +641,11 @@ void CollectionTreeView::scrollTo(const QModelIndex &idx, ScrollHint hint) {
 SongList CollectionTreeView::GetSelectedSongs() const {
 
   if (!filter_model() || !collection_model_ || !selectionModel()) return SongList();
+
+  // Songs hidden by the search are not included, like when dragging the selection to the playlist, since the user doesn't see them.
+  if (const CollectionFilter *collection_filter = qobject_cast<const CollectionFilter*>(filter_model())) {
+    return collection_filter->GetChildSongs(selectionModel()->selectedIndexes());
+  }
 
   const QModelIndexList selected_indexes = filter_model()->mapSelectionToSource(selectionModel()->selection()).indexes();
   return collection_model_->GetChildSongs(selected_indexes);
