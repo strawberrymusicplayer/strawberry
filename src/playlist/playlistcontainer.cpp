@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -118,7 +118,7 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
 
   // Connections
   QObject::connect(ui_->tab_bar, &PlaylistTabBar::currentChanged, this, &PlaylistContainer::Save);
-  QObject::connect(ui_->tab_bar, &PlaylistTabBar::Save, this, &PlaylistContainer::SaveCurrentPlaylist);
+  QObject::connect(ui_->tab_bar, &PlaylistTabBar::Save, this, &PlaylistContainer::SavePlaylist);
 
   // set up timer for delayed filter updates
   filter_timer_->setSingleShot(true);
@@ -374,8 +374,8 @@ void PlaylistContainer::LoadPlaylist() {
 
 void PlaylistContainer::SavePlaylist(const int id) {
 
-  // Use the tab name as the suggested name
-  QString suggested_name = ui_->tab_bar->tabText(ui_->tab_bar->currentIndex());
+  // Use the tab name as the suggested name, the playlist can be another than the current playlist when it's saved from the tab bar.
+  const QString suggested_name = ui_->tab_bar->tabText(id == -1 ? ui_->tab_bar->currentIndex() : ui_->tab_bar->index_of(id));
 
   manager_->SaveWithUI(id, suggested_name);
 
