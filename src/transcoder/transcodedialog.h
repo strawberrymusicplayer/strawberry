@@ -26,11 +26,11 @@
 
 #include <QObject>
 #include <QDialog>
-#include <QBasicTimer>
-#include <QString>
-#include <QStringList>
 #include <QSet>
 #include <QHash>
+#include <QString>
+#include <QStringList>
+#include <QBasicTimer>
 
 class QWidget;
 class QMainWindow;
@@ -79,7 +79,6 @@ class TranscodeDialog : public QDialog {
   void UpdateProgress();
   static QString TrimPath(const QString &path);
   QString GetOutputFileName(const QString &input, const QString &input_import_dir, const TranscoderPreset &preset, UsedFilePaths &used_output_filepaths) const;
-  static QString ResolvedDirectory(const QString &path);
 
  private Q_SLOTS:
   void Add();
