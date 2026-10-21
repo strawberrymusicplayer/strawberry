@@ -21,6 +21,9 @@
 
 #include <gst/gst.h>
 
+#include <initializer_list>
+#include <utility>
+
 #include <QtGlobal>
 
 #ifndef Q_OS_WIN32
@@ -38,6 +41,8 @@
 #include <QCoreApplication>
 #include <QElapsedTimer>
 #include <QFile>
+#include <QList>
+#include <QMutexLocker>
 
 #include "engine/gststartup.h"
 #include "engine/gstenginepipeline.h"
@@ -79,6 +84,70 @@ class GstEnginePipelineTest {
   static void SetBuffering(GstEnginePipeline &pipeline, const bool buffering) {
     pipeline.buffering_ = buffering;
   }
+
+  /**
+   * Collects every MetadataFound bundle emitted by pipeline in metadata.
+   * Keep metadata alive until this connection is disconnected, normally when pipeline is destroyed.
+   */
+  static void CaptureMetadata(GstEnginePipeline &pipeline, QList<EngineMetadata> &metadata) {
+    QObject::connect(&pipeline, &GstEnginePipeline::MetadataFound, &pipeline, [&metadata](const int, const EngineMetadata &bundle) { metadata.append(bundle); });
+  }
+
+  /**
+   * Builds and synchronously dispatches a synthetic GST_MESSAGE_TAG containing strings and, when nonnegative, bitrate.
+   * String values are UTF-8 encoded, bitrate is in bits per second, zero is included, and a negative value omits the bitrate tag.
+   * The message takes ownership of its tag list and is unreferenced after dispatch.
+   * @param pipeline Pipeline whose bus-message handler receives the synthetic message.
+   * @param strings String tags to include in the message.
+   * @param bitrate Bitrate in bits per second, or a negative value to omit the tag.
+   */
+  static void DispatchTags(GstEnginePipeline &pipeline, const std::initializer_list<std::pair<const char *, QString>> &strings = {}, const int bitrate = -1) {
+    GstTagList *tags = gst_tag_list_new_empty();
+    for (const auto &[tag, value] : strings) {
+      const QByteArray utf8 = value.toUtf8();
+      gst_tag_list_add(tags, GST_TAG_MERGE_REPLACE, tag, utf8.isNull() ? "" : utf8.constData(), nullptr);
+    }
+    if (bitrate >= 0) gst_tag_list_add(tags, GST_TAG_MERGE_REPLACE, GST_TAG_BITRATE, static_cast<guint>(bitrate), nullptr);
+
+    // gst_message_new_tag() takes ownership of the tag list; HandleBusMessage() does not own the message.
+    GstMessage *message = gst_message_new_tag(nullptr, tags);
+    pipeline.HandleBusMessage(message);
+    gst_message_unref(message);
+  }
+
+  /**
+   * Dispatches and unreferences a synthetic GST_MESSAGE_STREAM_START to exercise stream transition and metadata-reset handling.
+   * This calls the handler directly and does not start playback or create a real stream.
+   */
+  static void DispatchStreamStart(GstEnginePipeline &pipeline) {
+    GstMessage *message = gst_message_new_stream_start(nullptr);
+    pipeline.HandleBusMessage(message);
+    gst_message_unref(message);
+  }
+
+  /**
+   * Sets the current URLs reported with metadata while holding the pipeline's URL mutex.
+   * This only prepares synthetic-test state and does not initialize the pipeline or start playback.
+   */
+  static void SetCurrentUrls(GstEnginePipeline &pipeline, const QUrl &media_url, const QUrl &stream_url) {
+    QMutexLocker lock(&pipeline.mutex_url_);
+    pipeline.media_url_ = media_url;
+    pipeline.stream_url_ = stream_url;
+  }
+
+  /**
+   * Prepares next-track URLs and the GStreamer URI under the next-URL mutex, then marks the URI pending for stream-start promotion.
+   * This simulates queued gapless state without preloading a pipeline or starting playback.
+   */
+  static void SetNextUrlsAndMarkSet(GstEnginePipeline &pipeline, const QUrl &media_url, const QUrl &stream_url) {
+    {
+      QMutexLocker lock(&pipeline.mutex_next_url_);
+      pipeline.next_media_url_ = media_url;
+      pipeline.next_stream_url_ = stream_url;
+      pipeline.next_gst_url_ = stream_url.toEncoded();
+    }
+    pipeline.next_uri_set_ = true;
+  }
 };
 
 namespace {
@@ -108,6 +177,213 @@ void ProcessEventsFor(const int duration_msec) {
   while (timer.elapsed() < duration_msec) {
     ProcessEvents();
   }
+}
+
+TEST(GstEnginePipelineTest, PartialTagUpdatesPreserveMetadataAndExplicitTagsWin) {
+
+  GstStartup::Initialize();
+
+  const QUrl media_url(u"https://example.test/media"_s);
+  const QUrl stream_url(u"https://example.test/stream"_s);
+
+  QList<EngineMetadata> forward_metadata;
+  GstEnginePipeline forward_pipeline;
+  GstEnginePipelineTest::SetCurrentUrls(forward_pipeline, media_url, stream_url);
+  GstEnginePipelineTest::CaptureMetadata(forward_pipeline, forward_metadata);
+
+  GstEnginePipelineTest::DispatchTags(forward_pipeline, {{GST_TAG_ARTIST, u"Explicit Artist"_s}, {GST_TAG_ALBUM, u"Explicit Album"_s}});
+  GstEnginePipelineTest::DispatchTags(forward_pipeline, {{GST_TAG_TITLE, uR"({"title":"JSON Title","artist":"JSON Artist","album":"JSON Album"})"_s}});
+
+  ASSERT_EQ(2, forward_metadata.size());
+  EXPECT_EQ(u"JSON Title"_s, forward_metadata[1].title);
+  EXPECT_EQ(u"Explicit Artist"_s, forward_metadata[1].artist);
+  EXPECT_EQ(u"Explicit Album"_s, forward_metadata[1].album);
+  EXPECT_EQ(EngineMetadata::Type::Current, forward_metadata[1].type);
+  EXPECT_EQ(media_url, forward_metadata[1].media_url);
+  EXPECT_EQ(stream_url, forward_metadata[1].stream_url);
+
+  QList<EngineMetadata> reverse_metadata;
+  GstEnginePipeline reverse_pipeline;
+  GstEnginePipelineTest::SetCurrentUrls(reverse_pipeline, media_url, stream_url);
+  GstEnginePipelineTest::CaptureMetadata(reverse_pipeline, reverse_metadata);
+
+  GstEnginePipelineTest::DispatchTags(reverse_pipeline, {{GST_TAG_TITLE, uR"({"title":"JSON Title","artist":"JSON Artist","album":"JSON Album"})"_s}});
+  GstEnginePipelineTest::DispatchTags(reverse_pipeline, {{GST_TAG_ARTIST, u"Explicit Artist"_s}, {GST_TAG_ALBUM, u"Explicit Album"_s}});
+  GstEnginePipelineTest::DispatchTags(reverse_pipeline, {{GST_TAG_COMMENT, u"Station comment"_s}, {GST_TAG_LYRICS, u"Lyrics"_s}}, 128000);
+
+  ASSERT_EQ(3, reverse_metadata.size());
+  const EngineMetadata &metadata = reverse_metadata[2];
+  EXPECT_EQ(u"JSON Title"_s, metadata.title);
+  EXPECT_EQ(u"Explicit Artist"_s, metadata.artist);
+  EXPECT_EQ(u"Explicit Album"_s, metadata.album);
+  EXPECT_EQ(u"Station comment"_s, metadata.comment);
+  EXPECT_EQ(u"Lyrics"_s, metadata.lyrics);
+  EXPECT_EQ(128, metadata.bitrate);
+  EXPECT_EQ(EngineMetadata::Type::Current, metadata.type);
+  EXPECT_EQ(media_url, metadata.media_url);
+  EXPECT_EQ(stream_url, metadata.stream_url);
+
+  GstEnginePipelineTest::DispatchTags(reverse_pipeline, {}, 192001);
+  ASSERT_EQ(4, reverse_metadata.size());
+  EXPECT_EQ(u"JSON Title"_s, reverse_metadata[3].title);
+  EXPECT_EQ(u"Explicit Artist"_s, reverse_metadata[3].artist);
+  EXPECT_EQ(u"Explicit Album"_s, reverse_metadata[3].album);
+  EXPECT_EQ(u"Station comment"_s, reverse_metadata[3].comment);
+  EXPECT_EQ(u"Lyrics"_s, reverse_metadata[3].lyrics);
+  EXPECT_EQ(192, reverse_metadata[3].bitrate);
+
+  GstEnginePipelineTest::DispatchTags(reverse_pipeline, {}, 0);
+  GstEnginePipelineTest::DispatchTags(reverse_pipeline);
+  ASSERT_EQ(6, reverse_metadata.size());
+  EXPECT_EQ(reverse_metadata[4].title, reverse_metadata[5].title);
+  EXPECT_EQ(reverse_metadata[4].artist, reverse_metadata[5].artist);
+  EXPECT_EQ(reverse_metadata[4].album, reverse_metadata[5].album);
+  EXPECT_EQ(reverse_metadata[4].comment, reverse_metadata[5].comment);
+  EXPECT_EQ(reverse_metadata[4].lyrics, reverse_metadata[5].lyrics);
+  EXPECT_EQ(0, reverse_metadata[4].bitrate);
+  EXPECT_EQ(0, reverse_metadata[5].bitrate);
+  EXPECT_EQ(EngineMetadata::Type::Current, reverse_metadata[5].type);
+  EXPECT_EQ(media_url, reverse_metadata[5].media_url);
+  EXPECT_EQ(stream_url, reverse_metadata[5].stream_url);
+
+}
+
+TEST(GstEnginePipelineTest, ReplacedTitlesReparseJsonAndLegacyMetadata) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, uR"({"title":"First title","artist":"First artist","album":"First album"})"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, uR"({"title":"Second title","artist":"Second artist","album":"Second album"})"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"A - T - Album"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"B - U - Other"_s}});
+
+  ASSERT_EQ(4, metadata.size());
+  EXPECT_EQ(u"First title"_s, metadata[0].title);
+  EXPECT_EQ(u"First artist"_s, metadata[0].artist);
+  EXPECT_EQ(u"First album"_s, metadata[0].album);
+  EXPECT_EQ(u"Second title"_s, metadata[1].title);
+  EXPECT_EQ(u"Second artist"_s, metadata[1].artist);
+  EXPECT_EQ(u"Second album"_s, metadata[1].album);
+  EXPECT_EQ(u"T"_s, metadata[2].title);
+  EXPECT_EQ(u"A"_s, metadata[2].artist);
+  EXPECT_EQ(u"Album"_s, metadata[2].album);
+  EXPECT_EQ(u"U"_s, metadata[3].title);
+  EXPECT_EQ(u"B"_s, metadata[3].artist);
+  EXPECT_EQ(u"Other"_s, metadata[3].album);
+
+}
+
+TEST(GstEnginePipelineTest, StreamStartResetsMetadataOnOrdinaryAndGaplessPaths) {
+
+  GstStartup::Initialize();
+
+  const QUrl current_media_url(u"https://example.test/current-media"_s);
+  const QUrl current_stream_url(u"https://example.test/current-stream"_s);
+  QList<EngineMetadata> ordinary_metadata;
+  GstEnginePipeline ordinary_pipeline;
+  GstEnginePipelineTest::SetCurrentUrls(ordinary_pipeline, current_media_url, current_stream_url);
+  GstEnginePipelineTest::CaptureMetadata(ordinary_pipeline, ordinary_metadata);
+
+  GstEnginePipelineTest::DispatchTags(ordinary_pipeline, {{GST_TAG_TITLE, uR"({"title":"Old title","artist":"JSON old artist","album":"JSON old album"})"_s}, {GST_TAG_ARTIST, u"Explicit old artist"_s}, {GST_TAG_ALBUM, u"Explicit old album"_s}, {GST_TAG_COMMENT, u"Old comment"_s}, {GST_TAG_LYRICS, u"Old lyrics"_s}}, 256000);
+  // This is the ordinary first STREAM_START path: there is no initialized GstPipeline and no next URI to promote.
+  GstEnginePipelineTest::DispatchStreamStart(ordinary_pipeline);
+  GstEnginePipelineTest::DispatchTags(ordinary_pipeline, {{GST_TAG_TITLE, uR"({"title":"New title","artist":"New artist","album":"New album"})"_s}});
+
+  ASSERT_EQ(2, ordinary_metadata.size());
+  EXPECT_EQ(u"New title"_s, ordinary_metadata[1].title);
+  EXPECT_EQ(u"New artist"_s, ordinary_metadata[1].artist);
+  EXPECT_EQ(u"New album"_s, ordinary_metadata[1].album);
+  EXPECT_TRUE(ordinary_metadata[1].comment.isEmpty());
+  EXPECT_TRUE(ordinary_metadata[1].lyrics.isEmpty());
+  EXPECT_EQ(0, ordinary_metadata[1].bitrate);
+  EXPECT_EQ(EngineMetadata::Type::Current, ordinary_metadata[1].type);
+  EXPECT_EQ(current_media_url, ordinary_metadata[1].media_url);
+  EXPECT_EQ(current_stream_url, ordinary_metadata[1].stream_url);
+
+  const QUrl next_media_url(u"https://example.test/next-media"_s);
+  const QUrl next_stream_url(u"https://example.test/next-stream"_s);
+  QList<EngineMetadata> gapless_metadata;
+  GstEnginePipeline gapless_pipeline;
+  GstEnginePipelineTest::SetCurrentUrls(gapless_pipeline, current_media_url, current_stream_url);
+  GstEnginePipelineTest::CaptureMetadata(gapless_pipeline, gapless_metadata);
+
+  GstEnginePipelineTest::DispatchTags(gapless_pipeline, {{GST_TAG_TITLE, uR"({"title":"Old title","artist":"JSON old artist","album":"JSON old album"})"_s}, {GST_TAG_ARTIST, u"Explicit old artist"_s}, {GST_TAG_ALBUM, u"Explicit old album"_s}, {GST_TAG_COMMENT, u"Old comment"_s}, {GST_TAG_LYRICS, u"Old lyrics"_s}}, 256000);
+  GstEnginePipelineTest::SetNextUrlsAndMarkSet(gapless_pipeline, next_media_url, next_stream_url);
+  GstEnginePipelineTest::DispatchStreamStart(gapless_pipeline);
+  GstEnginePipelineTest::DispatchTags(gapless_pipeline, {{GST_TAG_TITLE, uR"({"title":"Gapless title","artist":"Gapless artist","album":"Gapless album"})"_s}});
+
+  ASSERT_EQ(2, gapless_metadata.size());
+  EXPECT_EQ(u"Gapless title"_s, gapless_metadata[1].title);
+  EXPECT_EQ(u"Gapless artist"_s, gapless_metadata[1].artist);
+  EXPECT_EQ(u"Gapless album"_s, gapless_metadata[1].album);
+  EXPECT_TRUE(gapless_metadata[1].comment.isEmpty());
+  EXPECT_TRUE(gapless_metadata[1].lyrics.isEmpty());
+  EXPECT_EQ(0, gapless_metadata[1].bitrate);
+  EXPECT_EQ(EngineMetadata::Type::Current, gapless_metadata[1].type);
+  EXPECT_EQ(next_media_url, gapless_metadata[1].media_url);
+  EXPECT_EQ(next_stream_url, gapless_metadata[1].stream_url);
+
+}
+
+TEST(GstEnginePipelineTest, InitFromUrlResetsRetainedMetadata) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  pipeline.set_output_device(u"fakesink"_s, QVariant());
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, uR"({"title":"Old title","artist":"JSON old artist","album":"JSON old album"})"_s}, {GST_TAG_ARTIST, u"Explicit old artist"_s}, {GST_TAG_ALBUM, u"Explicit old album"_s}, {GST_TAG_COMMENT, u"Old comment"_s}, {GST_TAG_LYRICS, u"Old lyrics"_s}}, 256000);
+
+  TemporaryResource res(u":/audio/strawberry.wav"_s);
+  ASSERT_TRUE(res.open());
+  const QUrl url = QUrl::fromLocalFile(res.fileName());
+  QString error;
+  ASSERT_TRUE(pipeline.InitFromUrl(url, url, url.toEncoded(), 0, 0, 0.0, error)) << error.toStdString();
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, uR"({"title":"New title","artist":"New artist","album":"New album"})"_s}});
+
+  ASSERT_EQ(1, metadata.size());
+  EXPECT_EQ(u"New title"_s, metadata[0].title);
+  EXPECT_EQ(u"New artist"_s, metadata[0].artist);
+  EXPECT_EQ(u"New album"_s, metadata[0].album);
+  EXPECT_TRUE(metadata[0].comment.isEmpty());
+  EXPECT_TRUE(metadata[0].lyrics.isEmpty());
+  EXPECT_EQ(0, metadata[0].bitrate);
+  EXPECT_EQ(EngineMetadata::Type::Current, metadata[0].type);
+  EXPECT_EQ(url, metadata[0].media_url);
+  EXPECT_EQ(url, metadata[0].stream_url);
+
+}
+
+TEST(GstEnginePipelineTest, WhitespaceTagsClearValuesButAbsentTagsRetainThem) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, uR"({"title":"JSON title","artist":"JSON artist","album":"JSON album"})"_s}, {GST_TAG_ARTIST, u"Explicit artist"_s}, {GST_TAG_ALBUM, u"Explicit album"_s}});
+  // GStreamer omits zero-length string tags, so whitespace represents present values that ParseStrTag trims to empty.
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u" "_s}, {GST_TAG_ALBUM, u" \t "_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline);
+
+  ASSERT_EQ(3, metadata.size());
+  EXPECT_EQ(u"Explicit artist"_s, metadata[0].artist);
+  EXPECT_EQ(u"Explicit album"_s, metadata[0].album);
+  EXPECT_EQ(u"JSON title"_s, metadata[1].title);
+  EXPECT_EQ(u"JSON artist"_s, metadata[1].artist);
+  EXPECT_EQ(u"JSON album"_s, metadata[1].album);
+  EXPECT_EQ(metadata[1].title, metadata[2].title);
+  EXPECT_EQ(metadata[1].artist, metadata[2].artist);
+  EXPECT_EQ(metadata[1].album, metadata[2].album);
+  EXPECT_EQ(EngineMetadata::Type::Current, metadata[2].type);
+
 }
 
 // Regression test: pausing while playback was waiting for the audio device warm-up was ignored, and the warm-up timer then started playback anyway.
