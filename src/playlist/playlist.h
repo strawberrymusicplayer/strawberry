@@ -308,6 +308,8 @@ class Playlist : public QAbstractListModel {
 
   void ReloadItem(const QPersistentModelIndex &idx, PlaylistItemPtr item, const bool saved = false, const quint64 save_generation = -1, const Song &fallback_metadata = Song());
 
+  void Shuffle(const PlaylistSequence::ShuffleMode shuffle_mode = PlaylistSequence::ShuffleMode::All);
+
   // Saves the changes waiting for the save timer now, used when exiting, since the timer would fire after the playlist backend exited.
   // Changes made while restoring are saved when the playlist is restored, wait for RestoreDone() when is_restoring() is true.
   void SavePending();
@@ -325,7 +327,6 @@ class Playlist : public QAbstractListModel {
   void Clear();
   void RemoveDuplicateSongs();
   void RemoveUnavailableSongs();
-  void Shuffle();
 
   void ShuffleModeChanged(const PlaylistSequence::ShuffleMode shuffle_mode);
 
@@ -396,6 +397,8 @@ class Playlist : public QAbstractListModel {
   QList<int> ItemRows(const PlaylistItem *item) const;
   // Must be called whenever items_ is changed.
   void InvalidateItemRows();
+
+  int ReshuffleIndices(QList<int>& virtual_items, const PlaylistSequence::ShuffleMode shuffle_mode, const bool album_keep_track_order);
 
   void RemoveItemsNotInQueue();
 
