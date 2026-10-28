@@ -192,6 +192,7 @@ void Player::LoadVolume() {
   s.endGroup();
 
   SetVolume(volume);
+  timer_save_volume_->stop();
 
 }
 
