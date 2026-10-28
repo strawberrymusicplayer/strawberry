@@ -88,6 +88,7 @@ class Equalizer : public QDialog {
   EqualizerSlider *AddSlider(const QString &label);
   void LoadDefaultPresets();
   void AddPreset(const QString &name, const Params &params);
+  void LoadPreset(const QString &name);
   void ReloadSettings();
   void SetParams(const Params &params);
   void SaveCurrentParams() const;

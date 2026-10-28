@@ -143,20 +143,15 @@ void Equalizer::ReloadSettings() {
   ui_->slider_label_layout->setEnabled(ui_->enable_stereo_balancer->isChecked());
   ui_->stereo_balance_slider->setEnabled(ui_->enable_stereo_balancer->isChecked());
 
-  const int stereo_balance = s.value(kStereoBalance, 0).toInt();
-  ui_->stereo_balance_slider->setValue(stereo_balance);
-  StereoBalanceSliderChanged(stereo_balance);
+  ui_->stereo_balance_slider->setValue(s.value(kStereoBalance, 0).toInt());
 
-  // Read before selecting the preset, which saves the values of the preset as the current values.
-  const QVariant current_params = s.value(kCurrentParams);
-
-  PresetChanged(selected_preset);
+  // The preset which is shown is loaded, also when the selected preset isn't found, like the default selected preset "custom", which is not the name of the "Custom" preset.
+  LoadPreset(ui_->preset->itemData(ui_->preset->currentIndex()).toString());
 
   // Changes which were not saved to the preset before quitting are still used, without changing the preset.
-  // Selecting the preset saved the values of the preset as the current values, so the restored values are saved again to keep them for the next start.
+  const QVariant current_params = s.value(kCurrentParams);
   if (current_params.isValid()) {
     SetParams(current_params.value<Equalizer::Params>());
-    SaveCurrentParams();
   }
 
 }
@@ -208,12 +203,18 @@ void Equalizer::PresetChanged(const QString &name) {
       SaveCurrentPreset();
     }
   }
-  last_preset_ = name;
 
-  SetParams(presets_.value(name));
-
+  LoadPreset(name);
   EqualizerParametersChangedSlot();
   Save();
+
+}
+
+void Equalizer::LoadPreset(const QString &name) {
+
+  // Only sets the values of the preset, the values are not saved, and the player is not notified, when loading the settings the player reads the values.
+  last_preset_ = name;
+  SetParams(presets_.value(name));
 
 }
 
