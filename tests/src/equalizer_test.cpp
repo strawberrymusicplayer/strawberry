@@ -26,6 +26,8 @@
 #include <QComboBox>
 #include <QTimer>
 #include <QString>
+#include <QStringList>
+#include <QSignalSpy>
 #include <QTest>
 
 #include "core/settings.h"
@@ -223,7 +225,7 @@ TEST_F(EqualizerTest, EscapeWithoutChangesDoesNotAsk) {
 }
 
 // Regression test: changes which were not saved to the preset were lost when quitting with the dialog open, since quitting doesn't close the dialog.
-// They are also kept after quitting again without changing them, the selected preset saved its values as the current values when starting.
+// They are also kept after quitting again without changing them.
 TEST_F(EqualizerTest, UnsavedChangesAreKeptAfterQuitting) {
 
   int preset_gain = 0;
@@ -247,13 +249,49 @@ TEST_F(EqualizerTest, UnsavedChangesAreKeptAfterQuitting) {
 
 }
 
-// Selecting another preset still uses the values of that preset after a restart.
+// Regression test: loading the settings when starting saved them again, also the values of the preset as the current values.
+TEST_F(EqualizerTest, StartingDoesNotSaveSettings) {
+
+  {
+    Equalizer equalizer;
+  }
+
+  Settings s;
+  s.beginGroup(u"Equalizer"_s);
+  EXPECT_EQ(QStringList(), s.allKeys());
+  s.endGroup();
+
+}
+
+// Regression test: without a selected preset in the settings, the preset which is shown was not loaded, so the changes to it were lost without asking to save them when selecting another preset.
+TEST_F(EqualizerTest, ChangedDefaultPresetAsksToSaveWhenSelectingAnotherPreset) {
+
+  Equalizer equalizer;
+  equalizer.show();
+  ASSERT_EQ(u"Custom"_s, PresetComboBox(&equalizer)->currentText());
+  SetFirstGain(&equalizer, 77);
+  AcceptSaveDialogs();
+
+  SelectPreset(&equalizer, u"Rock"_s);
+
+  EXPECT_EQ(1, save_dialog_count_);
+  EXPECT_EQ(77, PresetParams(&equalizer, u"Custom"_s).gain[0]);
+
+}
+
+// Selecting another preset still uses the values of that preset after a restart, also when the current values of the previous preset were saved, and the player is notified about the values.
 TEST_F(EqualizerTest, SelectedPresetValuesAreUsedAfterRestart) {
 
   {
     Equalizer equalizer;
     SelectPreset(&equalizer, u"Zero"_s);
+    // Changing the values saves them as the current values, they are changed back so selecting another preset doesn't ask to save the preset.
+    SetFirstGain(&equalizer, 55);
+    SetFirstGain(&equalizer, 0);
+    QSignalSpy parameters_changed_spy(&equalizer, &Equalizer::EqualizerParametersChanged);
     SelectPreset(&equalizer, u"Rock"_s);
+    ASSERT_EQ(1, parameters_changed_spy.count());
+    EXPECT_EQ(PresetParams(&equalizer, u"Rock"_s).gain[0], parameters_changed_spy.first().at(1).value<QList<int>>().value(0));
   }
 
   Equalizer equalizer;
