@@ -144,9 +144,8 @@ void SmartPlaylistsModel::Init() {
     s.endArray();
 
     version = static_cast<int>(default_smart_playlists_.count());
+    s.setValue(collection_backend_->songs_table() + u"_version"_s, version);
   }
-
-  s.setValue(collection_backend_->songs_table() + u"_version"_s, version);
 
   const int count = s.beginReadArray(collection_backend_->songs_table());
   for (int i = 0; i < count; ++i) {
