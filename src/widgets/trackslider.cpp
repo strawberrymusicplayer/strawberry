@@ -230,10 +230,12 @@ void TrackSlider::SetSeekbarMode(const SeekbarMode seekbar_mode) {
   seekbar_mode_ = seekbar_mode;
 
   // The seekbar mode is the single source of truth, persisted here so the controllers (which gate generation on it) and the next startup agree on what to show.
-  Settings s;
-  s.beginGroup(SeekbarSettings::kSettingsGroup);
-  s.setValue(QLatin1String(SeekbarSettings::kMode), static_cast<int>(seekbar_mode));
-  s.endGroup();
+  if (seekbar_mode != LoadSeekbarMode()) {
+    Settings s;
+    s.beginGroup(SeekbarSettings::kSettingsGroup);
+    s.setValue(QLatin1String(SeekbarSettings::kMode), static_cast<int>(seekbar_mode));
+    s.endGroup();
+  }
 
   // Both proxy styles drive the slider's vertical size policy in NextState() (MinimumExpanding when shown, Fixed when hidden), and the last writer wins.
   // So disable the inactive proxy first and enable the active one last — otherwise switching to a mode would leave the just-disabled proxy's Fixed policy in force and the visualization would render too small.
