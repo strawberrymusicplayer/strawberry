@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2013-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2013-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -198,14 +198,8 @@ void BackendSettingsPage::Load() {
   ui_->radiobutton_ebur128_loudness_normalization->setChecked(s.value(kEBUR128LoudnessNormalization, kDefaultEBUR128LoudnessNormalization).toBool());
   ui_->stickyslider_ebur128_target_level->setValue(static_cast<int>(s.value(kEBUR128TargetLevelLUFS, kDefaultEBUR128TargetLevelLUFS).toDouble() * 10));
 
-#ifdef HAVE_ALSA
-  bool fade_default = false;
-#else
-  bool fade_default = true;
-#endif
-
-  ui_->checkbox_fadeout_stop->setChecked(s.value(kFadeoutEnabled, fade_default).toBool());
-  ui_->checkbox_fadeout_cross->setChecked(s.value(kCrossfadeEnabled, fade_default).toBool());
+  ui_->checkbox_fadeout_stop->setChecked(s.value(kFadeoutEnabled, kDefaultFadeoutEnabled).toBool());
+  ui_->checkbox_fadeout_cross->setChecked(s.value(kCrossfadeEnabled, kDefaultCrossfadeEnabled).toBool());
   ui_->checkbox_fadeout_auto->setChecked(s.value(kAutoCrossfadeEnabled, kDefaultAutoCrossfadeEnabled).toBool());
   ui_->checkbox_fadeout_samealbum->setChecked(s.value(kNoCrossfadeSameAlbum, kDefaultNoCrossfadeSameAlbum).toBool());
   ui_->checkbox_fadeout_pauseresume->setChecked(s.value(kFadeoutPauseEnabled, kDefaultFadeoutPauseEnabled).toBool());

@@ -95,7 +95,10 @@ TrackSelectionDialog::TrackSelectionDialog(const SharedPtr<TagReaderClient> tagr
 }
 
 TrackSelectionDialog::~TrackSelectionDialog() {
+
+  save_future_.waitForFinished();
   delete ui_;
+
 }
 
 void TrackSelectionDialog::Init(const SongList &songs) {
@@ -319,10 +322,10 @@ void TrackSelectionDialog::accept() {
     SetLoading(tr("Saving tracks") + QStringLiteral("..."));
 
     // Save tags in the background
-    QFuture<void> future = QtConcurrent::run(&TrackSelectionDialog::SaveData, this, data_);
+    save_future_ = QtConcurrent::run(&TrackSelectionDialog::SaveData, this, data_);
     QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
     QObject::connect(watcher, &QFutureWatcher<void>::finished, this, &TrackSelectionDialog::AcceptFinished);
-    watcher->setFuture(future);
+    watcher->setFuture(save_future_);
 
     return;
   }

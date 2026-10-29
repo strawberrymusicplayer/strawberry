@@ -26,12 +26,16 @@
 #include "gtest_include.h"
 
 #include <QString>
+#include <QFile>
+#include <QTemporaryDir>
+#include <QDir>
 #include <QSignalSpy>
 #include <QCoreApplication>
 
 #include "includes/shared_ptr.h"
 #include "engine/gststartup.h"
 #include "transcoder/transcoder.h"
+#include "transcoder/transcodedialog.h"
 
 using std::make_shared;
 using namespace Qt::Literals::StringLiterals;
@@ -115,6 +119,88 @@ TEST(TranscoderTest, LateFinishedEventDoesNotFinishNextJob) {
   ASSERT_EQ(2, spy.count());
   EXPECT_EQ(u"second"_s, spy.at(1).at(0).toString());
   EXPECT_TRUE(spy.at(1).at(2).toBool());
+
+}
+
+// Regression test: only existing files were checked when choosing the output filenames, so files with the same name, like tracks from different albums, were transcoded to the same output file.
+TEST(TranscoderTest, OutputFilePathNotUsedByAnotherJob) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString filepath = temp_dir.filePath(u"01.mp3"_s);
+
+  TranscodeDialog::UsedFilePaths used_filepaths;
+  EXPECT_EQ(filepath, TranscodeDialog::UniqueFilePath(filepath, used_filepaths));
+  EXPECT_EQ(temp_dir.filePath(u"01-1.mp3"_s), TranscodeDialog::UniqueFilePath(filepath, used_filepaths));
+  EXPECT_EQ(temp_dir.filePath(u"01-2.mp3"_s), TranscodeDialog::UniqueFilePath(filepath, used_filepaths));
+
+  // The paths are compared case-insensitively, since the destination can be on a case-insensitive filesystem.
+  EXPECT_EQ(temp_dir.filePath(u"01-3.MP3"_s), TranscodeDialog::UniqueFilePath(temp_dir.filePath(u"01.MP3"_s), used_filepaths));
+
+}
+
+// The numbers continue after the last number used for the path, and existing files are still not used.
+TEST(TranscoderTest, OutputFilePathNumbersContinue) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString filepath = temp_dir.filePath(u"01.mp3"_s);
+
+  TranscodeDialog::UsedFilePaths used_filepaths;
+  EXPECT_EQ(filepath, TranscodeDialog::UniqueFilePath(filepath, used_filepaths));
+  EXPECT_EQ(temp_dir.filePath(u"01-1.mp3"_s), TranscodeDialog::UniqueFilePath(filepath, used_filepaths));
+  EXPECT_EQ(2, used_filepaths.next_numbers.value(TranscodeDialog::FilePathKey(filepath)));
+
+  QFile file(temp_dir.filePath(u"01-2.mp3"_s));
+  ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+  file.close();
+  EXPECT_EQ(temp_dir.filePath(u"01-3.mp3"_s), TranscodeDialog::UniqueFilePath(filepath, used_filepaths));
+  EXPECT_EQ(4, used_filepaths.next_numbers.value(TranscodeDialog::FilePathKey(filepath)));
+
+  // The numbers before the next number are not tried again.
+  used_filepaths.keys.remove(TranscodeDialog::FilePathKey(temp_dir.filePath(u"01-1.mp3"_s)));
+  EXPECT_EQ(temp_dir.filePath(u"01-4.mp3"_s), TranscodeDialog::UniqueFilePath(filepath, used_filepaths));
+
+}
+
+// The same output file can be written differently, like when the input files are given with redundant "." components, or through a symbolic link.
+TEST(TranscoderTest, OutputFilePathNotUsedByAnotherJobWrittenDifferently) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  ASSERT_TRUE(QDir(temp_dir.path()).mkdir(u"music"_s));
+
+  TranscodeDialog::UsedFilePaths used_filepaths;
+  EXPECT_EQ(temp_dir.filePath(u"music/01.mp3"_s), TranscodeDialog::UniqueFilePath(temp_dir.filePath(u"music/01.mp3"_s), used_filepaths));
+  EXPECT_EQ(temp_dir.filePath(u"music/./01-1.mp3"_s), TranscodeDialog::UniqueFilePath(temp_dir.filePath(u"music/./01.mp3"_s), used_filepaths));
+  EXPECT_EQ(temp_dir.filePath(u"music/../music/01-2.mp3"_s), TranscodeDialog::UniqueFilePath(temp_dir.filePath(u"music/../music/01.mp3"_s), used_filepaths));
+
+#ifndef Q_OS_WIN32
+  ASSERT_TRUE(QFile::link(temp_dir.filePath(u"music"_s), temp_dir.filePath(u"link"_s)));
+  EXPECT_EQ(temp_dir.filePath(u"link/01-3.mp3"_s), TranscodeDialog::UniqueFilePath(temp_dir.filePath(u"link/01.mp3"_s), used_filepaths));
+
+  // ".." after a symbolic link is the parent of the target of the link, not the directory containing the link.
+  ASSERT_TRUE(QDir(temp_dir.path()).mkpath(u"other/album"_s));
+  ASSERT_TRUE(QFile::link(temp_dir.filePath(u"other/album"_s), temp_dir.filePath(u"music/album"_s)));
+  EXPECT_EQ(temp_dir.filePath(u"other/02.mp3"_s), TranscodeDialog::UniqueFilePath(temp_dir.filePath(u"other/02.mp3"_s), used_filepaths));
+  EXPECT_EQ(temp_dir.filePath(u"music/album/../02-1.mp3"_s), TranscodeDialog::UniqueFilePath(temp_dir.filePath(u"music/album/../02.mp3"_s), used_filepaths));
+  EXPECT_EQ(temp_dir.filePath(u"music/03.mp3"_s), TranscodeDialog::UniqueFilePath(temp_dir.filePath(u"music/03.mp3"_s), used_filepaths));
+  EXPECT_EQ(temp_dir.filePath(u"music/album/../03.mp3"_s), TranscodeDialog::UniqueFilePath(temp_dir.filePath(u"music/album/../03.mp3"_s), used_filepaths));
+#endif
+
+}
+
+TEST(TranscoderTest, OutputFilePathNotExistingFile) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString filepath = temp_dir.filePath(u"01.mp3"_s);
+  QFile file(filepath);
+  ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+  file.close();
+
+  TranscodeDialog::UsedFilePaths used_filepaths;
+  EXPECT_EQ(temp_dir.filePath(u"01-1.mp3"_s), TranscodeDialog::UniqueFilePath(filepath, used_filepaths));
 
 }
 

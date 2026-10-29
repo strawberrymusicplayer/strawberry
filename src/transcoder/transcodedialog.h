@@ -29,6 +29,8 @@
 #include <QBasicTimer>
 #include <QString>
 #include <QStringList>
+#include <QSet>
+#include <QHash>
 
 class QWidget;
 class QMainWindow;
@@ -51,6 +53,19 @@ class TranscodeDialog : public QDialog {
   void SetFilenames(const QStringList &filenames);
   void SetImportFilenames(const QStringList &filenames, const QString &import_dir);
 
+  // The output paths used by the files which are transcoded.
+  struct UsedFilePaths {
+    // The keys from FilePathKey().
+    QSet<QString> keys;
+    // The next number to add to each output path which was used, so the numbers which are used are not tried again for each file.
+    QHash<QString, int> next_numbers;
+  };
+
+  // Returns the file path, or the file path with a number added when the file exists or the path is used by another output file, and adds the returned path to the used paths.
+  static QString UniqueFilePath(const QString &filepath, UsedFilePaths &used_filepaths);
+  // Returns a key which is the same for paths to the same file, also when they are written differently.
+  static QString FilePathKey(const QString &filepath);
+
  protected:
   void showEvent(QShowEvent *e) override;
   void closeEvent(QCloseEvent *e) override;
@@ -63,7 +78,8 @@ class TranscodeDialog : public QDialog {
   void UpdateStatusText();
   void UpdateProgress();
   static QString TrimPath(const QString &path);
-  QString GetOutputFileName(const QString &input, const QString &input_import_dir, const TranscoderPreset &preset) const;
+  QString GetOutputFileName(const QString &input, const QString &input_import_dir, const TranscoderPreset &preset, UsedFilePaths &used_output_filepaths) const;
+  static QString ResolvedDirectory(const QString &path);
 
  private Q_SLOTS:
   void Add();

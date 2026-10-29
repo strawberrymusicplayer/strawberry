@@ -110,13 +110,21 @@ SongEditor::SongEditor(const SharedPtr<TagReaderClient> tagreader_client,
       lyrics_requests_count_(0),
       lyrics_search_type_(LyricsSearchType::Both),
       songs_generation_(0),
-      save_lyrics_to_tags_(CollectionSettings::kDefaultSaveLyrics) {
+      save_lyrics_to_tags_(CollectionSettings::kDefaultSaveLyrics),
+      stop_loading_(false) {
 
   QObject::connect(lyrics_fetcher_, &LyricsFetcher::LyricsFetched, this, &SongEditor::UpdateLyrics);
 
   // Don't open the dialog again with the songs set while loading or saving when the dialog was closed.
   QObject::connect(this, &QDialog::rejected, this, &SongEditor::ClearPendingSongs);
   QObject::connect(this, &QDialog::rejected, this, &SongEditor::CancelFetchLyrics);
+
+}
+
+SongEditor::~SongEditor() {
+
+  stop_loading_ = true;
+  load_future_.waitForFinished();
 
 }
 
@@ -545,6 +553,8 @@ QList<SongEditor::Data> SongEditor::LoadData(const SongList &songs) const {
   QList<Data> ret;
 
   for (qsizetype i = 0; i < songs.count(); ++i) {
+    // The dialog is deleted, for example when quitting, so don't read the remaining files.
+    if (stop_loading_) break;
     const Song &song = songs.at(i);
     if (!song.IsEditable()) continue;
     // Streams have no file to reload the tags from, their metadata is applied to the playlist item.
@@ -611,10 +621,10 @@ bool SongEditor::SetSongs(const SongList &s, const PlaylistItemPtrList &items) {
   }
 
   // Reload tags in the background
-  QFuture<QList<Data>> future = QtConcurrent::run(&SongEditor::LoadData, this, s);
+  load_future_ = QtConcurrent::run(&SongEditor::LoadData, this, s);
   QFutureWatcher<QList<Data>> *watcher = new QFutureWatcher<QList<Data>>(this);
   QObject::connect(watcher, &QFutureWatcher<QList<Data>>::finished, this, &SongEditor::SetSongsFinished);
-  watcher->setFuture(future);
+  watcher->setFuture(load_future_);
 
   return true;
 

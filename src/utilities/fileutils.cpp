@@ -237,29 +237,38 @@ bool CopyFileContents(const QString &source, const QString &destination) {
     return false;
   }
 
+  return CopyFileContents(&source_file, &destination_file);
+
+}
+
+bool CopyFileContents(QFile *source_file, QFile *destination_file) {
+
+  const QString source = source_file->fileName();
+  const QString destination = destination_file->fileName();
+
   constexpr qint64 kChunkSize = 64 * 1024;
   for (;;) {
-    const QByteArray chunk = source_file.read(kChunkSize);
+    const QByteArray chunk = source_file->read(kChunkSize);
     if (chunk.isEmpty()) break;
-    if (destination_file.write(chunk) != chunk.size()) {
-      qLog(Error) << "Failed to write to" << destination << ":" << destination_file.errorString();
+    if (destination_file->write(chunk) != chunk.size()) {
+      qLog(Error) << "Failed to write to" << destination << ":" << destination_file->errorString();
       return false;
     }
   }
 
-  if (source_file.error() != QFileDevice::NoError) {
-    qLog(Error) << "Failed to read from" << source << ":" << source_file.errorString();
+  if (source_file->error() != QFileDevice::NoError) {
+    qLog(Error) << "Failed to read from" << source << ":" << source_file->errorString();
     return false;
   }
 
   // Flush and surface any error from closing (e.g. the remote write failing on commit).
-  if (!destination_file.flush()) {
-    qLog(Error) << "Failed to flush" << destination << ":" << destination_file.errorString();
+  if (!destination_file->flush()) {
+    qLog(Error) << "Failed to flush" << destination << ":" << destination_file->errorString();
     return false;
   }
 
   // flush() only pushes the data into the OS; force it out to the underlying storage so that deferred write-back failures (common on network/FUSE-backed filesystems such as GVFS) are reported here rather than being silently lost when the file is closed.
-  const int handle = destination_file.handle();
+  const int handle = destination_file->handle();
   if (handle != -1) {
 #ifdef Q_OS_UNIX
     if (fsync(handle) != 0) {

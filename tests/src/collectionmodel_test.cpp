@@ -54,6 +54,7 @@
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionfilter.h"
+#include "collection/collectiontreeview.h"
 
 using namespace Qt::Literals::StringLiterals;
 using std::make_unique;
@@ -62,6 +63,20 @@ using std::make_shared;
 // clazy:excludeall=non-pod-global-static,returning-void-expression
 
 namespace {
+
+// Makes the collection model of the view settable, it's set by the subclasses of the view.
+class TestCollectionTreeView : public CollectionTreeView {
+ public:
+  explicit TestCollectionTreeView(CollectionModel *collection_model) {
+    SetCollectionModel(collection_model);
+    setModel(collection_model->filter());
+  }
+
+ protected:
+  QString EmptyTitleText() const override { return QString(); }
+  QString EmptyText() const override { return QString(); }
+  void EmptyClicked() override {}
+};
 
 class CollectionModelTest : public ::testing::Test {
  public:
@@ -844,6 +859,39 @@ TEST_F(CollectionModelTest, BulkUpdatePreservesViewState) {
 
   // The view was not thrown back to the top (a model reset would do that).
   EXPECT_GT(view.verticalScrollBar()->value(), 0);
+
+}
+
+// Regression test: actions on the selection, like deleting or organizing the files, used the songs of the selected containers in the collection model, including songs hidden by the search.
+TEST_F(CollectionModelTest, SelectedSongsExcludeSongsHiddenByFilter) {
+
+  AddSong(u"Matching"_s, u"Artist"_s, u"Album"_s, 123);
+  AddSong(u"Hidden"_s, u"Artist"_s, u"Album"_s, 123);
+
+  TestCollectionTreeView view(&*model_);
+  collection_filter_->SetFilterString(u"matching"_s);
+
+  const auto artist_index = [this]() {
+    for (int row = 0; row < collection_filter_->rowCount(QModelIndex()); ++row) {
+      const QModelIndex idx = collection_filter_->index(row, 0, QModelIndex());
+      if (idx.data().toString() == u"Artist"_s) return idx;
+    }
+    return QModelIndex();
+  };
+
+  // Select the artist, the only artist shown by the search.
+  ASSERT_TRUE(artist_index().isValid());
+  view.selectionModel()->select(artist_index(), QItemSelectionModel::ClearAndSelect);
+
+  const SongList songs = view.GetSelectedSongs();
+  ASSERT_EQ(1, songs.count());
+  EXPECT_EQ(u"Matching"_s, songs.first().title());
+
+  // Without a search, all songs of the artist are included.
+  collection_filter_->SetFilterString(QString());
+  ASSERT_TRUE(artist_index().isValid());
+  view.selectionModel()->select(artist_index(), QItemSelectionModel::ClearAndSelect);
+  EXPECT_EQ(2, view.GetSelectedSongs().count());
 
 }
 

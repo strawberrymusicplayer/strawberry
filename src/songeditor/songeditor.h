@@ -24,10 +24,13 @@
 
 #include "config.h"
 
+#include <atomic>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QAbstractItemModel>
 #include <QDialog>
+#include <QFuture>
 #include <QVariant>
 #include <QString>
 #include <QList>
@@ -72,6 +75,7 @@ class SongEditor : public QDialog {
                       const SharedPtr<CollectionBackend> collection_backend,
                       const SharedPtr<LyricsProviders> lyrics_providers,
                       QWidget *parent = nullptr);
+  ~SongEditor() override;
 
   // Returns false when the songs are not set yet, since the dialog is still loading or saving the previous songs.
   // They are set when it's finished then, and PendingSongsSet is emitted.
@@ -271,6 +275,10 @@ class SongEditor : public QDialog {
 
   // Default for new lyrics from the collection settings, read before loading the songs.
   bool save_lyrics_to_tags_;
+
+  // Loading the songs in the background, it's stopped and waited for when this is deleted, since it uses this.
+  QFuture<QList<Data>> load_future_;
+  std::atomic<bool> stop_loading_;
 };
 
 #endif  // SONGEDITOR_H

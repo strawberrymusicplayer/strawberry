@@ -25,6 +25,7 @@
 #include <QString>
 
 class QIODevice;
+class QFile;
 
 namespace Utilities {
 
@@ -34,6 +35,8 @@ bool CopyRecursive(const QString &source, const QString &destination);
 bool RemoveRecursive(const QString &path);
 bool FilenameOnGVFS(const QString &filename);
 bool CopyFileContents(const QString &source, const QString &destination);
+// Copies the contents of the open source file to the open destination file, and writes it to the storage, so write errors are reported, also the deferred ones.
+bool CopyFileContents(QFile *source_file, QFile *destination_file);
 
 // Returns true when the existing directories are the same directory on the filesystem, also when their paths differ in case or links.
 bool IsSameDirectory(const QString &directory1, const QString &directory2);

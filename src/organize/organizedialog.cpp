@@ -104,6 +104,9 @@ OrganizeDialog::OrganizeDialog(const SharedPtr<TaskManager> task_manager,
       task_manager_(task_manager),
       tagreader_client_(tagreader_client),
       collection_backend_(collection_backend),
+      stop_loading_songs_(false),
+      songs_generation_(0),
+      loading_songs_(false),
       total_size_(0),
       devices_(false) {
 
@@ -170,7 +173,13 @@ OrganizeDialog::OrganizeDialog(const SharedPtr<TaskManager> task_manager,
 }
 
 OrganizeDialog::~OrganizeDialog() {
+
+  stop_loading_songs_ = true;
+  for (QFuture<SongList> &future : songs_futures_) {
+    future.waitForFinished();
+  }
   delete ui_;
+
 }
 
 void OrganizeDialog::SetCollectionDirectoryModel(CollectionDirectoryModel *collection_directory_model) {
@@ -366,6 +375,8 @@ void OrganizeDialog::SaveSettings() {
 
 bool OrganizeDialog::SetSongs(const SongList &songs) {
 
+  ++songs_generation_;
+  loading_songs_ = false;
   total_size_ = 0;
   songs_.clear();
 
@@ -382,11 +393,6 @@ bool OrganizeDialog::SetSongs(const SongList &songs) {
   ui_->free_space->set_additional_bytes(total_size_);
   UpdatePreviews();
   SetLoadingSongs(false);
-
-  if (songs_future_.isRunning()) {
-    songs_future_.cancel();
-  }
-  songs_future_ = QFuture<SongList>();
 
   return !songs_.isEmpty();
 
@@ -407,13 +413,18 @@ bool OrganizeDialog::SetUrls(const QList<QUrl> &urls) {
 
 bool OrganizeDialog::SetFilenames(const QStringList &filenames) {
 
-  songs_future_ = QtConcurrent::run(&OrganizeDialog::LoadSongsBlocking, this, filenames);
+  const QFuture<SongList> future = QtConcurrent::run(&OrganizeDialog::LoadSongsBlocking, this, filenames);
+  songs_futures_ << future;
+  const quint64 songs_generation = ++songs_generation_;
   QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>(this);
-  QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [this, watcher]() {
-    SetSongs(watcher->result());
+  QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [this, watcher, songs_generation]() {
     watcher->deleteLater();
+    songs_futures_.removeIf([](const QFuture<SongList> &songs_future) { return songs_future.isFinished(); });
+    // Other songs were set while loading these.
+    if (songs_generation != songs_generation_) return;
+    SetSongs(watcher->result());
   });
-  watcher->setFuture(songs_future_);
+  watcher->setFuture(future);
 
   SetLoadingSongs(true);
   return true;
@@ -421,6 +432,8 @@ bool OrganizeDialog::SetFilenames(const QStringList &filenames) {
 }
 
 void OrganizeDialog::SetLoadingSongs(const bool loading) {
+
+  loading_songs_ = loading;
 
   if (loading) {
     ui_->preview_stack->setCurrentWidget(ui_->loading_page);
@@ -438,7 +451,8 @@ SongList OrganizeDialog::LoadSongsBlocking(const QStringList &filenames) const {
   SongList songs;
 
   QStringList filenames_copy = filenames;
-  while (!filenames_copy.isEmpty()) {
+  // The dialog is deleted, for example when quitting, so don't read the remaining files.
+  while (!filenames_copy.isEmpty() && !stop_loading_songs_) {
     const QString filename = filenames_copy.takeFirst();
 
     // If it's a directory, add all the files inside.
@@ -503,7 +517,7 @@ Organize::NewSongInfoList OrganizeDialog::ComputeNewSongsFilenames(const SongLis
 
 void OrganizeDialog::UpdatePreviews() {
 
-  if (songs_future_.isRunning()) {
+  if (loading_songs_) {
     return;
   }
 

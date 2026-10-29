@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -100,6 +100,22 @@ QMimeData *CollectionFilter::mimeData(const QModelIndexList &indexes) const {
   data->name_for_new_playlist_ = Song::GetNameForNewPlaylist(data->songs);
 
   return data;
+
+}
+
+SongList CollectionFilter::GetChildSongs(const QModelIndexList &indexes) const {
+
+  CollectionModel *collection_model = qobject_cast<CollectionModel*>(sourceModel());
+  if (!collection_model) return SongList();
+
+  QSet<int> song_ids;
+  QList<QUrl> urls;
+  SongList songs;
+  for (const QModelIndex &idx : indexes) {
+    GetChildSongs(collection_model->IndexToItem(mapToSource(idx)), song_ids, urls, songs);
+  }
+
+  return songs;
 
 }
 

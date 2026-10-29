@@ -21,6 +21,13 @@
 
 #include <QString>
 #include <QUrl>
+#include <QFile>
+#include <QFileInfo>
+#include <QFileDevice>
+#include <QIODevice>
+#include <QDateTime>
+#include <QTemporaryDir>
+#include <QThreadPool>
 #include <QListWidget>
 #include <QStackedWidget>
 #include <QTreeWidget>
@@ -141,6 +148,59 @@ TEST(TrackSelectionDialogTest, OriginalTagsSelectedForFileSelectedTwice) {
   QSignalSpy spy_song_chosen(&dialog, &TrackSelectionDialog::SongChosen);
   dialog.accept();
   EXPECT_EQ(0, spy_song_chosen.count());
+
+}
+
+// Deleting the dialog while the tags are saved in the background, for example when quitting, waits for all the tags to be written.
+TEST(TrackSelectionDialogTest, DeletingWhileSavingWritesAllTags) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  SharedPtr<TagReaderClient> tagreader_client = make_shared<TagReaderClient>();
+
+  SongList songs;
+  for (int i = 0; i < 50; ++i) {
+    const QString filename = temp_dir.filePath(QStringLiteral("%1.mp3").arg(i));
+    ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, filename));
+    ASSERT_TRUE(QFile::setPermissions(filename, QFile::ReadOwner | QFile::WriteOwner));
+    Song song(Song::Source::LocalFile);
+    ASSERT_TRUE(tagreader_client->ReadFileBlocking(filename, &song).success());
+    songs << song;
+  }
+
+  // The files have an old modification time, to see which files were saved when the dialog was deleted.
+  const QDateTime old_mtime = QDateTime::currentDateTimeUtc().addDays(-1);
+  for (const Song &song : std::as_const(songs)) {
+    QFile file(song.url().toLocalFile());
+    ASSERT_TRUE(file.open(QIODevice::ReadWrite));
+    ASSERT_TRUE(file.setFileTime(old_mtime, QFileDevice::FileModificationTime));
+  }
+
+  TrackSelectionDialog *dialog = new TrackSelectionDialog(tagreader_client);
+  dialog->set_save_on_close(true);
+  dialog->Init(songs);
+  for (const Song &song : std::as_const(songs)) {
+    Song guessed_song(song);
+    guessed_song.set_title(u"Guessed title"_s);
+    dialog->FetchTagFinished(song, SongList() << guessed_song);
+  }
+  dialog->accept();
+  delete dialog;
+
+  // All the files were saved when deleting the dialog returned, this is checked first, since saving would continue while the tags are read.
+  int files_saved = 0;
+  for (const Song &song : std::as_const(songs)) {
+    if (QFileInfo(song.url().toLocalFile()).lastModified() > old_mtime) ++files_saved;
+  }
+  EXPECT_EQ(songs.count(), files_saved);
+
+  // The pool thread can still finish its own bookkeeping after saving finished.
+  EXPECT_TRUE(QThreadPool::globalInstance()->waitForDone(10000));
+  for (const Song &song : std::as_const(songs)) {
+    Song saved_song(Song::Source::LocalFile);
+    ASSERT_TRUE(tagreader_client->ReadFileBlocking(song.url().toLocalFile(), &saved_song).success());
+    EXPECT_EQ(u"Guessed title"_s, saved_song.title());
+  }
 
 }
 

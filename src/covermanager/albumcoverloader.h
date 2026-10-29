@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,10 +22,13 @@
 
 #include "config.h"
 
+#include <atomic>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QMutex>
 #include <QSet>
+#include <QList>
 #include <QHash>
 #include <QQueue>
 #include <QByteArray>
@@ -50,8 +53,8 @@ class AlbumCoverLoader : public QObject {
  public:
   explicit AlbumCoverLoader(const SharedPtr<TagReaderClient> tagreader_client, QObject *parent = nullptr);
 
+  // Stops loading covers, tasks not finished yet are not finished, and new tasks are not processed.
   void ExitAsync();
-  void Stop() { stop_requested_ = true; }
 
   quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const Song &song);
   quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const bool art_embedded, const QUrl &art_automatic, const QUrl &art_manual, const bool art_unset, const QUrl &song_url = QUrl(), const Song::Source song_source = Song::Source::Unknown);
@@ -130,9 +133,11 @@ class AlbumCoverLoader : public QObject {
   const SharedPtr<TagReaderClient> tagreader_client_;
   const SharedPtr<NetworkAccessManager> network_;
   QTimer *timer_process_tasks_;
-  bool stop_requested_;
+  std::atomic<bool> stop_requested_;
   QMutex mutex_load_image_async_;
   QQueue<TaskPtr> tasks_;
+  // The replies of the remote covers being loaded, they're aborted when exiting.
+  QList<QNetworkReply*> replies_;
   quint64 load_image_async_id_;
   QThread *original_thread_;
 };

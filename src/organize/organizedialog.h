@@ -24,6 +24,8 @@
 
 #include "config.h"
 
+#include <atomic>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QDialog>
@@ -128,7 +130,13 @@ class OrganizeDialog : public QDialog {
 
   OrganizeFormat format_;
 
-  QFuture<SongList> songs_future_;
+  // Loading the songs in the background, they're stopped and waited for when this is deleted, since they use this.
+  // The finished ones are removed, so the songs they loaded are not kept.
+  QList<QFuture<SongList>> songs_futures_;
+  std::atomic<bool> stop_loading_songs_;
+  // Changed when songs are set, so the songs loaded for files set before are not used.
+  quint64 songs_generation_;
+  bool loading_songs_;
   SongList songs_;
   Organize::NewSongInfoList new_songs_info_;
   quint64 total_size_;

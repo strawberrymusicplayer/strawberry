@@ -413,4 +413,42 @@ TEST_F(SongEditorTest, LyricsEditorRevertsLyricsNotWrittenToTags) {
 
 }
 
+// Deleting the dialog while the songs are loaded in the background, for example when quitting, stops loading them, and waits for it to stop.
+TEST_F(SongEditorTest, DeletingWhileLoadingStopsLoading) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+
+  // Reading all the songs takes as long as loading them.
+  SongList songs;
+  for (int i = 0; i < 2000; ++i) {
+    const QString filename = temp_dir.filePath(QStringLiteral("%1.mp3").arg(i));
+    ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, filename));
+    ASSERT_TRUE(QFile::setPermissions(filename, QFile::ReadOwner | QFile::WriteOwner | QFile::ReadUser | QFile::WriteUser));
+  }
+  QElapsedTimer timer_read;
+  timer_read.start();
+  for (int i = 0; i < 2000; ++i) {
+    Song song(Song::Source::LocalFile);
+    ASSERT_TRUE(tagreader_client_->ReadFileBlocking(temp_dir.filePath(QStringLiteral("%1.mp3").arg(i)), &song).success());
+    ASSERT_TRUE(song.IsEditable());
+    songs << song;
+  }
+  const qint64 read_msec = timer_read.elapsed();
+
+  ASSERT_TRUE(QThreadPool::globalInstance()->waitForDone(10000));
+  LyricsEditor *editor = new LyricsEditor(tagreader_client_, collection_backend_, lyrics_providers_);
+  ASSERT_TRUE(editor->SetSongs(songs));
+  QElapsedTimer timer_delete;
+  timer_delete.start();
+  delete editor;
+  const qint64 delete_msec = timer_delete.elapsed();
+
+  // Only the file being read when it was deleted is read.
+  EXPECT_LT(delete_msec, read_msec / 4) << "Reading the songs took " << read_msec << " ms.";
+  // The pool thread can still finish its own bookkeeping after the loading finished.
+  EXPECT_TRUE(QThreadPool::globalInstance()->waitForDone(10000));
+
+}
+
 }  // namespace

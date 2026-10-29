@@ -32,6 +32,7 @@
 #include <QAbstractItemModel>
 #include <QtAlgorithms>
 #include <QDir>
+#include <QFileInfo>
 #include <QList>
 #include <QMap>
 #include <QDirIterator>
@@ -39,6 +40,7 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
+#include <QSet>
 #include <QIcon>
 #include <QDateTime>
 #include <QComboBox>
@@ -242,11 +244,13 @@ void TranscodeDialog::Start() {
   TranscoderPreset preset = ui_->format->itemData(ui_->format->currentIndex()).value<TranscoderPreset>();
 
   // Add jobs to the transcoder
+  // The output files are written later, so the output paths used by the other jobs are kept, otherwise files with the same name, like tracks from different albums, would overwrite each other.
+  UsedFilePaths used_output_filepaths;
   for (int i = 0; i < file_model->rowCount(); ++i) {
     const QString input_filepath = file_model->index(i, 0).data(Qt::UserRole).toString();
     const QString input_import_dir = ui_->preserve_dir_structure->isChecked() ? file_model->index(i, 2).data(Qt::UserRole).toString() : QString();
     if (input_filepath.isEmpty()) continue;
-    const QString output_filepath = GetOutputFileName(input_filepath, input_import_dir, preset);
+    const QString output_filepath = GetOutputFileName(input_filepath, input_import_dir, preset, used_output_filepaths);
     if (output_filepath.isEmpty()) continue;
     transcoder_->AddJob(input_filepath, preset, output_filepath);
   }
@@ -462,7 +466,7 @@ QString TranscodeDialog::TrimPath(const QString &path) {
   return path.section(u'/', -1, -1, QString::SectionSkipEmpty);
 }
 
-QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const QString &input_import_dir, const TranscoderPreset &preset) const {
+QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const QString &input_import_dir, const TranscoderPreset &preset, UsedFilePaths &used_output_filepaths) const {
 
   QString destination_path = ui_->destination->itemData(ui_->destination->currentIndex()).toString();
   QString output_filepath;
@@ -490,16 +494,54 @@ QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const 
 
   if (output_filepath.isEmpty()) return QString();
 
-  if (QFileInfo::exists(output_filepath)) {
-    QFileInfo fileinfo(output_filepath);
-    const QString original_filename = fileinfo.completeBaseName();
-    for (int i = 1; fileinfo.exists() && i < 1000000; ++i) {
-      fileinfo.setFile(QStringLiteral("%1/%2-%3.%4").arg(fileinfo.path(), original_filename, QString::number(i), fileinfo.suffix()));
+  return UniqueFilePath(output_filepath, used_output_filepaths);
+
+}
+
+QString TranscodeDialog::UniqueFilePath(const QString &filepath, UsedFilePaths &used_filepaths) {
+
+  // The directory is only resolved once, since all the paths which are tried are in the same directory.
+  const QFileInfo fileinfo(filepath);
+  const QString directory = ResolvedDirectory(fileinfo.path());
+  const auto key = [&directory](const QString &filename) { return QString(directory + QLatin1Char('/') + filename).toCaseFolded(); };
+  const auto is_used = [&used_filepaths, &fileinfo, &key](const QString &filename) { return used_filepaths.keys.contains(key(filename)) || QFileInfo::exists(fileinfo.path() + QLatin1Char('/') + filename); };
+
+  QString unique_filepath = filepath;
+  QString filename = fileinfo.fileName();
+  if (is_used(filename)) {
+    // Start with the number after the last number used for this path, otherwise all the numbers would be tried again for each file with the same name.
+    const QString original_key = key(filename);
+    int i = used_filepaths.next_numbers.value(original_key, 1);
+    for (; i < 1000000; ++i) {
+      filename = QStringLiteral("%1-%2.%3").arg(fileinfo.completeBaseName(), QString::number(i), fileinfo.suffix());
+      if (!is_used(filename)) break;
     }
-    output_filepath = fileinfo.filePath();
+    used_filepaths.next_numbers.insert(original_key, i + 1);
+    unique_filepath = fileinfo.path() + QLatin1Char('/') + filename;
   }
 
-  return output_filepath;
+  used_filepaths.keys.insert(key(filename));
+
+  return unique_filepath;
+
+}
+
+QString TranscodeDialog::FilePathKey(const QString &filepath) {
+
+  const QFileInfo fileinfo(filepath);
+
+  // The paths are compared case-insensitively, since the destination can be on a case-insensitive filesystem.
+  return QString(ResolvedDirectory(fileinfo.path()) + QLatin1Char('/') + fileinfo.fileName()).toCaseFolded();
+
+}
+
+QString TranscodeDialog::ResolvedDirectory(const QString &path) {
+
+  // The directory is resolved, since the input files can be given with redundant "." or ".." components, or through symbolic links, then the output paths are written differently.
+  // The symbolic links are resolved before the ".." components are removed, since ".." after a symbolic link is the parent of the target of the link.
+  // The path is only cleaned when the directory doesn't exist, then it doesn't contain symbolic links which could be resolved either.
+  const QString canonical_path = QFileInfo(path).canonicalFilePath();
+  return canonical_path.isEmpty() ? QDir::cleanPath(path) : canonical_path;
 
 }
 
