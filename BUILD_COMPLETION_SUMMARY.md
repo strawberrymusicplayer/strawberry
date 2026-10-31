@@ -247,3 +247,16 @@ The implementation demonstrates proper Qt/Android integration, GStreamer audio b
 - Comprehensive documentation for future builders
 - Signed APK ready for emulator/device testing
 - Build environment fully documented
+
+## Post-Deployment Fixes
+
+### Issue #1: Duplicate Icon on Playlist Toolbar (FIXED)
+**Commit:** 7d4d7e6e9
+**Problem:** Both "Add file" and "Load playlist" buttons showed the same icon
+**Solution:** Changed "Add file" icon from `document-open` to `list-add` for visual distinction
+
+### Issue #2: Android File Picker Cancel (EXPECTED BEHAVIOR)
+**Status:** Not a bug - standard Android behavior
+**Solution:** Users press the back button (hardware or navigation bar) to cancel the file picker
+- This is how Android's native file picker works
+- No code changes needed
