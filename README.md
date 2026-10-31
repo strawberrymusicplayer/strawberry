@@ -143,6 +143,11 @@ Tap a playlist to open its editor, then tap **Playlists** again to return to the
 The editor displays the current playlist's name in a larger, centered heading above its toolbar.
 Playback controls and the seek bar remain at the bottom when switching views.
 The player bar's **Menu** button provides access to the application menus, including settings.
+On Android, use **Playlist > Add file** to open the file picker; the duplicate **Music > Open file** entry is omitted.
+Use the footer's **Previous track**, **Play/Pause**, **Stop**, and **Next track** buttons; their duplicate Music-menu entries are omitted on Android.
+The footer's speaker-with-cross button toggles Strawberry's mute state; its Music-menu entry is omitted on Android.
+**Love track** is available through the optional footer button enabled in Scrobbler settings, rather than the Android Music menu.
+The **Music** submenu, including **Quit**, is omitted from the Android footer menu.
 Settings breadcrumbs wrap on narrow screens.
 Fourth-level settings titles start on a separate line below the parent breadcrumb.
 Settings pages share compact section buttons with current values for grouped settings.

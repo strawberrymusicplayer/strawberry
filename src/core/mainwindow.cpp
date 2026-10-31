@@ -1358,7 +1358,15 @@ void MainWindow::SetupAndroidLayout() {
   ui_->layout_player_controls_container->insertWidget(0, ui_->track_slider);
   ui_->track_slider->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
 
+  auto *mute_button = new QToolButton(ui_->player_controls);
+  ui_->action_mute->setIcon(style()->standardIcon(QStyle::SP_MediaVolumeMuted));
+  mute_button->setDefaultAction(ui_->action_mute);
+  mute_button->setIconSize(ui_->pause_play_button->iconSize());
+  mute_button->setAccessibleName(tr("Mute"));
+  ui_->layout_player_controls->addWidget(mute_button);
+
   QMenu *menu = new QMenu(this);
+  ui_->menuBar->removeAction(ui_->menu_music->menuAction());
   menu->addActions(ui_->menuBar->actions());
   QToolButton *menu_button = new QToolButton(ui_->player_controls);
   menu_button->setIcon(IconLoader::Load(u"configure"_s));
@@ -1369,7 +1377,7 @@ void MainWindow::SetupAndroidLayout() {
   ui_->layout_player_controls->addWidget(menu_button);
   ui_->menuBar->hide();
 
-  for (QToolButton *button : {ui_->back_button, ui_->pause_play_button, ui_->stop_button, ui_->forward_button, ui_->button_love, menu_button}) {
+  for (QToolButton *button : {ui_->back_button, ui_->pause_play_button, ui_->stop_button, ui_->forward_button, ui_->button_love, mute_button, menu_button}) {
     button->setMinimumSize(48, 48);
   }
 
@@ -1432,6 +1440,9 @@ void MainWindow::ReloadSettings() {
   s.beginGroup(BackendSettings::kSettingsGroup);
   bool volume_control = s.value(BackendSettings::kVolumeControl, BackendSettings::kDefaultVolumeControl).toBool();
   s.endGroup();
+#ifdef Q_OS_ANDROID
+  ui_->action_mute->setEnabled(volume_control);
+#endif
   if (volume_control != ui_->volume->isEnabled()) {
     ui_->volume->SetEnabled(volume_control);
     if (volume_control) {
