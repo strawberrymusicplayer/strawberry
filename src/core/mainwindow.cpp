@@ -706,6 +706,7 @@ MainWindow::MainWindow(Application *app,
   playlist_actions.new_playlist = ui_->action_new_playlist;
   playlist_actions.load_playlist = ui_->action_load_playlist;
   playlist_actions.save_playlist = ui_->action_save_playlist;
+  playlist_actions.add_file = ui_->action_add_file;
   playlist_actions.clear_playlist = ui_->action_clear_playlist;
   playlist_actions.next_playlist = ui_->action_next_playlist;
   // These aren't associated to a button but to the main window

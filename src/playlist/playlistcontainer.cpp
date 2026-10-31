@@ -91,7 +91,7 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
 
 #ifdef Q_OS_ANDROID
   QHBoxLayout *buttons = new QHBoxLayout;
-  for (QToolButton *button : {ui_->create_new, ui_->load, ui_->save}) {
+  for (QToolButton *button : {ui_->create_new, ui_->load, ui_->save, ui_->add_file}) {
     ui_->horizontalLayout->removeWidget(button);
     button->setMinimumSize(48, 48);
     buttons->addWidget(button);
@@ -171,6 +171,7 @@ void PlaylistContainer::SetActions(const Actions &actions) {
   ui_->create_new->setDefaultAction(actions.new_playlist);
   ui_->load->setDefaultAction(actions.load_playlist);
   ui_->save->setDefaultAction(actions.save_playlist);
+  ui_->add_file->setDefaultAction(actions.add_file);
 #ifdef Q_OS_ANDROID
   toolbar_menu_->addAction(actions.clear_playlist);
   toolbar_menu_->addSeparator();
@@ -291,6 +292,7 @@ void PlaylistContainer::ReloadSettings() {
   ui_->create_new->setIconSize(QSize(iconsize, iconsize));
   ui_->load->setIconSize(QSize(iconsize, iconsize));
   ui_->save->setIconSize(QSize(iconsize, iconsize));
+  ui_->add_file->setIconSize(QSize(iconsize, iconsize));
   ui_->clear->setIconSize(QSize(iconsize, iconsize));
   ui_->undo->setIconSize(QSize(iconsize, iconsize));
   ui_->redo->setIconSize(QSize(iconsize, iconsize));
