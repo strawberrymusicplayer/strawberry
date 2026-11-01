@@ -1369,8 +1369,11 @@ void MainWindow::SetupAndroidLayout() {
   QMenu *menu = new QMenu(this);
   ui_->menuBar->removeAction(ui_->menu_music->menuAction());
   menu->addActions(ui_->menuBar->actions());
-  // Remove "Add file" from the footer menu since it's available as a toolbar button in the playlist editor
-  menu->removeAction(ui_->action_add_file);
+  // Remove items not applicable to Android
+  menu->removeAction(ui_->action_add_file);       // Available as toolbar button in playlist editor
+  menu->removeAction(ui_->action_open_cd);        // No CD drives on Android devices
+  menu->removeAction(ui_->action_console);        // Debug feature, not typical mobile UX
+  menu->removeAction(ui_->action_toggle_show_sidebar); // Sidebar is hidden on Android
   QToolButton *menu_button = new QToolButton(ui_->player_controls);
   menu_button->setIcon(IconLoader::Load(u"configure"_s));
   menu_button->setToolTip(tr("Menu"));
