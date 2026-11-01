@@ -1364,7 +1364,15 @@ void MainWindow::SetupAndroidLayout() {
   mute_button->setDefaultAction(ui_->action_mute);
   mute_button->setIconSize(ui_->pause_play_button->iconSize());
   mute_button->setAccessibleName(tr("Mute"));
+  mute_button->setAutoRaise(true);
   ui_->layout_player_controls->addWidget(mute_button);
+
+  auto *love_button = new QToolButton(ui_->player_controls);
+  love_button->setDefaultAction(ui_->action_love);
+  love_button->setIconSize(ui_->pause_play_button->iconSize());
+  love_button->setAccessibleName(tr("Love"));
+  love_button->setAutoRaise(true);
+  ui_->layout_player_controls->addWidget(love_button);
 
   QMenu *menu = new QMenu(this);
   ui_->menuBar->removeAction(ui_->menu_music->menuAction());
@@ -1374,6 +1382,13 @@ void MainWindow::SetupAndroidLayout() {
   menu->removeAction(ui_->action_open_cd);        // No CD drives on Android devices
   menu->removeAction(ui_->action_console);        // Debug feature, not typical mobile UX
   menu->removeAction(ui_->action_toggle_show_sidebar); // Sidebar is hidden on Android
+  
+  // Add back Music menu items that are important for Android
+  menu->insertAction(menu->actions().first(), ui_->action_open_file);
+  menu->insertSeparator(menu->actions().at(1));
+  menu->addSeparator();
+  menu->addAction(ui_->action_quit);
+  
   QToolButton *menu_button = new QToolButton(ui_->player_controls);
   menu_button->setIcon(IconLoader::Load(u"configure"_s));
   menu_button->setToolTip(tr("Menu"));
@@ -1383,7 +1398,7 @@ void MainWindow::SetupAndroidLayout() {
   ui_->layout_player_controls->addWidget(menu_button);
   ui_->menuBar->hide();
 
-  for (QToolButton *button : {ui_->back_button, ui_->pause_play_button, ui_->stop_button, ui_->forward_button, ui_->button_love, mute_button, menu_button}) {
+  for (QToolButton *button : {ui_->back_button, ui_->pause_play_button, ui_->stop_button, ui_->forward_button, love_button, mute_button, menu_button}) {
     button->setMinimumSize(48, 48);
   }
 
