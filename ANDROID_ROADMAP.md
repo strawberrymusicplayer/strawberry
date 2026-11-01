@@ -156,3 +156,25 @@ This covers most of what item 5 asks for without changing how the player works.
   The existing `FileViewList` slots already implement these actions, so only the touch trigger and dialog are new.
 
 **Next steps:** Verify the album flow on the emulator with "Open in new playlist" selected, then add the long-press dialog for folders after item 2 is done.
+
+## 7. Rename a playlist by tapping its name in the playlist view
+
+**Status:** Planned
+
+**Goal:** Tapping the playlist name above the playlist view lets the user edit it in place; confirming saves the new name.
+
+**Assessment:**
+- Feasible, small to medium change.
+  The name is a `QLabel` created in `MainWindow::SetupAndroidLayout()`, and renaming already exists: `PlaylistManager::Rename()` stores the name in the database and emits `PlaylistRenamed`, which already updates this label and the Playlists overview.
+- Fits Android design: editing a title in place is a common pattern.
+  Prefer inline editing over a dialog: replace the label with a `QLineEdit` (same font, text selected) while editing, which opens the on-screen keyboard and keeps the user in context.
+  This also avoids depending on dialog taps, which still need verification (see item 2).
+- A plain label doesn't look tappable.
+  Add a visual hint, such as a small rename (pencil) icon next to the name, and set an accessible name ("Rename playlist") so the action is discoverable and announced by screen readers.
+- Editing behavior:
+  - The keyboard's Done/Enter key saves; Back first hides the keyboard, as usual on Android, and leaving the field without confirming cancels the edit.
+  - An empty or whitespace-only name is rejected and restores the previous name.
+  - The previous name is shown again if the playlist changes while editing (for example when another playlist is opened).
+- Renaming isn't part of the playlist's undo stack (the undo stack covers the songs in a playlist, not its name), so it can't be undone with the undo button of item 3; typing the old name back is the way to revert.
+
+**Approach:** Replace the title `QLabel` with a small widget that switches between a tappable name (with rename icon) and a `QLineEdit`, calls `PlaylistManager::Rename()` for the current playlist on confirm, and keeps updating from `CurrentChanged` and `PlaylistRenamed` as the label does now.
