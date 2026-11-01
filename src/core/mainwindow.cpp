@@ -1360,9 +1360,6 @@ void MainWindow::SetupAndroidLayout() {
   ui_->track_slider->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
 
   // On Android, rearrange the player controls for mobile layout
-  // Move the love button widget to be visible
-  ui_->layout_player_controls->addWidget(ui_->widget_love);
-
   // Create mute button with proper styling to match other buttons
   auto *mute_button = new QToolButton(ui_->player_controls);
   ui_->action_mute->setIcon(style()->standardIcon(QStyle::SP_MediaVolumeMuted));
@@ -1371,6 +1368,14 @@ void MainWindow::SetupAndroidLayout() {
   mute_button->setAccessibleName(tr("Mute"));
   mute_button->setAutoRaise(true);
   ui_->layout_player_controls->addWidget(mute_button);
+
+  // Create love button with proper styling to match other buttons
+  auto *love_button = new QToolButton(ui_->player_controls);
+  love_button->setDefaultAction(ui_->action_love);
+  love_button->setIconSize(ui_->pause_play_button->iconSize());
+  love_button->setAccessibleName(tr("Love"));
+  love_button->setAutoRaise(true);
+  ui_->layout_player_controls->addWidget(love_button);
 
   QMenu *menu = new QMenu(this);
   ui_->menuBar->removeAction(ui_->menu_music->menuAction());
@@ -1381,6 +1386,11 @@ void MainWindow::SetupAndroidLayout() {
   menu->removeAction(ui_->action_console);        // Debug feature, not typical mobile UX
   menu->removeAction(ui_->action_toggle_show_sidebar); // Sidebar is hidden on Android
   
+  // Remove entire Playlist menu section (duplicates features in left Playlists tab)
+  if (QAction *playlist_menu_action = ui_->menu_playlist->menuAction()) {
+    menu->removeAction(playlist_menu_action);
+  }
+  
   // Add back Music menu items that are important for Android
   menu->insertAction(menu->actions().first(), ui_->action_open_file);
   menu->insertSeparator(menu->actions().at(1));
@@ -1388,15 +1398,16 @@ void MainWindow::SetupAndroidLayout() {
   menu->addAction(ui_->action_quit);
   
   QToolButton *menu_button = new QToolButton(ui_->player_controls);
-  menu_button->setIcon(IconLoader::Load(u"configure"_s));
+  menu_button->setIcon(style()->standardIcon(QStyle::SP_FileDialogDetailedView));
   menu_button->setToolTip(tr("Menu"));
   menu_button->setAccessibleName(tr("Menu"));
   menu_button->setPopupMode(QToolButton::InstantPopup);
   menu_button->setMenu(menu);
+  menu_button->setAutoRaise(true);
   ui_->layout_player_controls->addWidget(menu_button);
   ui_->menuBar->hide();
 
-  for (QToolButton *button : {ui_->back_button, ui_->pause_play_button, ui_->stop_button, ui_->forward_button, mute_button, menu_button}) {
+  for (QToolButton *button : {ui_->back_button, ui_->pause_play_button, ui_->stop_button, ui_->forward_button, love_button, mute_button, menu_button}) {
     button->setMinimumSize(48, 48);
   }
 
