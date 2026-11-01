@@ -75,14 +75,16 @@ Both actions can be undone and redone.
 - Put the long-press detection in a small helper class that is built on all platforms but only used by `PlaylistView` on Android, so its timing and cancellation can be tested by the desktop test suite (`tests/src/`).
 - Show a small modal `QDialog` with buttons that removes the selection (one undo macro) or calls `Playlist::Clear()`.
 
-## 3. Undo and redo buttons replace the wrench menu
+## 3. Remove the wrench button; undo and redo buttons take its place
 
 **Status:** Planned (after item 2)
 
 **Problem:** The wrench ("More") button in the playlist toolbar opens a menu with Clear playlist, Undo and Redo.
 Tapping an item in this menu closes it without running the action, so these actions are unreachable by touch.
 
-**Goal:** Remove the wrench button and show Undo and Redo as icon buttons in the playlist toolbar.
+**Goal:**
+- Delete the wrench ("More") button and its menu from the playlist view on Android; no menu button remains in the playlist toolbar.
+- Show Undo and Redo as icon buttons in the playlist toolbar instead.
 
 **Assessment:**
 - Feasible.
