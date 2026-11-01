@@ -1369,6 +1369,8 @@ void MainWindow::SetupAndroidLayout() {
   QMenu *menu = new QMenu(this);
   ui_->menuBar->removeAction(ui_->menu_music->menuAction());
   menu->addActions(ui_->menuBar->actions());
+  // Remove "Add file" from the footer menu since it's available as a toolbar button in the playlist editor
+  menu->removeAction(ui_->action_add_file);
   QToolButton *menu_button = new QToolButton(ui_->player_controls);
   menu_button->setIcon(IconLoader::Load(u"configure"_s));
   menu_button->setToolTip(tr("Menu"));
