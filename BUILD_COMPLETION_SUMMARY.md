@@ -230,8 +230,19 @@ adb install -r build/android-build/strawberry-signed.apk
 2. **Gradle Daemon Caching**
    - Issue: Gradle daemon caches configuration
    - Workaround: Use `./gradlew --stop` before rebuilds
+   - **IMPORTANT:** Must stop daemon BEFORE modifying gradle.properties
 
-3. **riscv64 ABI Warnings**
+3. **gradle.properties Regeneration During Build**
+   - Issue: Qt's `androiddeployqt` tool may regenerate `build/android-build/gradle.properties` during the build, overwriting manual changes
+   - Symptom: "Failed to find Platform SDK with path: platforms;android-37" error even after fixing gradle.properties
+   - Workaround: 
+     - Modify gradle.properties to match installed SDK versions (e.g., android-34)
+     - Add `android.suppressUnsupportedCompileSdk=34` flag
+     - **Critical:** Run `./gradlew --stop` to clear daemon cache
+     - Rebuild: `cmake --build . --parallel $(nproc)`
+   - Reference: See ANDROID_TROUBLESHOOTING.md for detailed troubleshooting
+
+4. **riscv64 ABI Warnings**
    - Issue: NDK 27.2 reports invalid riscv64 ABI in metadata
    - Impact: None - warnings only, ARM64 build succeeds
    - Workaround: None needed - expected in current NDK
