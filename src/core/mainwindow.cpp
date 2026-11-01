@@ -69,9 +69,11 @@
 #include <QLayout>
 #include <QSize>
 #include <QSplitter>
+#include <QScrollArea>
 #include <QStackedWidget>
 #include <QTabBar>
 #include <QToolButton>
+#include <QVBoxLayout>
 #include <QCheckBox>
 #include <QClipboard>
 #include <QShowEvent>
@@ -495,8 +497,9 @@ MainWindow::MainWindow(Application *app,
   ui_->tabs->AddTab(radio_view_, u"radios"_s, IconLoader::Load(u"radio"_s, true, 0, 32), tr("Radios"));
   ui_->tabs->AddTab(device_view_, u"devices"_s, IconLoader::Load(u"device"_s, true, 0, 32), tr("Devices"));
 #ifdef Q_OS_ANDROID
+  ui_->tabs->AddTab(CreateAndroidToolsPage(), u"tools"_s, IconLoader::Load(u"configure"_s, true, 0, 32), tr("Tools"));
   QWidget *settings_tab = new QWidget(ui_->tabs);
-  ui_->tabs->AddTab(settings_tab, u"settings"_s, IconLoader::Load(u"configure"_s, true, 0, 32), tr("Settings"));
+  ui_->tabs->AddTab(settings_tab, u"settings"_s, IconLoader::Load(u"system-run"_s, true, 0, 32), tr("Settings"));
 #endif
 #ifdef HAVE_SUBSONIC
   ui_->tabs->AddTab(subsonic_view_, u"subsonic"_s, IconLoader::Load(u"subsonic"_s, true, 0, 32), tr("Subsonic"));
@@ -1377,39 +1380,50 @@ void MainWindow::SetupAndroidLayout() {
   love_button->setAutoRaise(true);
   ui_->layout_player_controls->addWidget(love_button);
 
-  QMenu *menu = new QMenu(this);
-  ui_->menuBar->removeAction(ui_->menu_music->menuAction());
-  menu->addActions(ui_->menuBar->actions());
-  // Remove items not applicable to Android
-  menu->removeAction(ui_->action_add_file);       // Available as toolbar button in playlist editor
-  menu->removeAction(ui_->action_open_cd);        // No CD drives on Android devices
-  menu->removeAction(ui_->action_console);        // Debug feature, not typical mobile UX
-  menu->removeAction(ui_->action_toggle_show_sidebar); // Sidebar is hidden on Android
-  
-  // Remove entire Playlist menu section (duplicates features in left Playlists tab)
-  if (QAction *playlist_menu_action = ui_->menu_playlist->menuAction()) {
-    menu->removeAction(playlist_menu_action);
-  }
-  
-  // Add back Music menu items that are important for Android
-  menu->insertAction(menu->actions().first(), ui_->action_open_file);
-  menu->insertSeparator(menu->actions().at(1));
-  menu->addSeparator();
-  menu->addAction(ui_->action_quit);
-  
-  QToolButton *menu_button = new QToolButton(ui_->player_controls);
-  menu_button->setIcon(style()->standardIcon(QStyle::SP_FileDialogDetailedView));
-  menu_button->setToolTip(tr("Menu"));
-  menu_button->setAccessibleName(tr("Menu"));
-  menu_button->setPopupMode(QToolButton::InstantPopup);
-  menu_button->setMenu(menu);
-  menu_button->setAutoRaise(true);
-  ui_->layout_player_controls->addWidget(menu_button);
+  // Menu bar actions are reachable through the Tools and Settings sidebar tabs and the playlist editor on Android.
   ui_->menuBar->hide();
 
-  for (QToolButton *button : {ui_->back_button, ui_->pause_play_button, ui_->stop_button, ui_->forward_button, love_button, mute_button, menu_button}) {
+  for (QToolButton *button : {ui_->back_button, ui_->pause_play_button, ui_->stop_button, ui_->forward_button, love_button, mute_button}) {
     button->setMinimumSize(48, 48);
   }
+
+}
+
+QWidget *MainWindow::CreateAndroidToolsPage() {
+
+  QScrollArea *page = new QScrollArea(ui_->tabs);
+  page->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  page->setWidgetResizable(true);
+  page->setFrameShape(QFrame::NoFrame);
+
+  QWidget *contents = new QWidget(page);
+  auto *layout = new QVBoxLayout(contents);
+  layout->setSpacing(8);
+  page->setWidget(contents);
+
+  const auto add_section = [this, contents, layout](const QString &title, const QList<QAction*> &actions) {
+    QLabel *heading = new QLabel(title, contents);
+    QFont heading_font = heading->font();
+    heading_font.setBold(true);
+    heading->setFont(heading_font);
+    heading->setWordWrap(true);
+    layout->addWidget(heading);
+    for (QAction *action : actions) {
+      QToolButton *button = new QToolButton(contents);
+      button->setDefaultAction(action);
+      button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+      button->setIconSize(QSize(32, 32));
+      button->setMinimumHeight(56);
+      button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+      layout->addWidget(button);
+    }
+  };
+
+  add_section(tr("Tools"), { ui_->action_cover_manager, ui_->action_equalizer, ui_->action_transcoder });
+  add_section(tr("Collection"), { ui_->action_update_collection, ui_->action_full_collection_scan, ui_->action_stop_collection_scan });
+  layout->addStretch();
+
+  return page;
 
 }
 #endif
@@ -3494,6 +3508,10 @@ SettingsDialog *MainWindow::CreateSettingsDialog() {
 
   // Settings
   QObject::connect(settings_dialog, &SettingsDialog::ReloadSettings, this, &MainWindow::ReloadAllSettings);
+
+#ifdef Q_OS_ANDROID
+  settings_dialog->AddAndroidHelpCategory({ ui_->action_about_strawberry, ui_->action_about_qt });
+#endif
 
   // Allows custom notification preview
   QObject::connect(settings_dialog, &SettingsDialog::NotificationPreview, this, &MainWindow::HandleNotificationPreview);

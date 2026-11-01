@@ -113,6 +113,7 @@ class SettingsDialog : public QDialog {
   void OpenAtPage(const Page page);
 #ifdef Q_OS_ANDROID
   void OpenOverview();
+  void AddAndroidHelpCategory(const QList<QAction*> &actions);
   void OpenAndroidSubpage(QWidget *content, const QString &title);
   void CloseAndroidSubpage();
   bool IsAndroidPageActive(const SettingsPage *page) const;

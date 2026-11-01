@@ -55,6 +55,7 @@
 #include <QShowEvent>
 #include <QCloseEvent>
 #ifdef Q_OS_ANDROID
+#  include <QAction>
 #  include <QBackingStore>
 #  include <QEvent>
 #  include <QKeyEvent>
@@ -570,6 +571,52 @@ void SettingsDialog::OpenOverview() {
   SetAndroidTitle();
   SetAndroidNavigationPage(android_categories_page_);
   show();
+
+}
+
+void SettingsDialog::AddAndroidHelpCategory(const QList<QAction*> &actions) {
+
+  QScrollArea *help_page = new QScrollArea(android_navigation_);
+  help_page->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  help_page->setWidgetResizable(true);
+  help_page->setFrameShape(QFrame::NoFrame);
+  help_page->setBackgroundRole(QPalette::Window);
+  help_page->setAutoFillBackground(true);
+  help_page->viewport()->setBackgroundRole(QPalette::Window);
+  help_page->viewport()->setAutoFillBackground(true);
+  QWidget *help_contents = new QWidget(help_page);
+  help_contents->setBackgroundRole(QPalette::Window);
+  help_contents->setAutoFillBackground(true);
+  auto *help_layout = new QVBoxLayout(help_contents);
+  help_layout->setContentsMargins(0, 0, 0, 0);
+  help_layout->setSpacing(8);
+  help_page->setWidget(help_contents);
+
+  for (QAction *action : actions) {
+    QPushButton *button = new QPushButton(action->icon(), action->iconText(), help_contents);
+    button->setMinimumHeight(56);
+    button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    help_layout->addWidget(button);
+    QObject::connect(button, &QPushButton::clicked, action, &QAction::trigger);
+  }
+  help_layout->addStretch();
+  android_navigation_->addWidget(help_page);
+
+  QPushButton *help_button = new QPushButton(IconLoader::Load(u"help-hint"_s), tr("Help"), android_categories_page_);
+  help_button->setIconSize(QSize(32, 32));
+  help_button->setMinimumHeight(64);
+  help_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+  // Insert above the trailing stretch of the overview.
+  auto *categories_layout = qobject_cast<QVBoxLayout*>(android_categories_page_->layout());
+  categories_layout->insertWidget(categories_layout->count() - 1, help_button);
+  QObject::connect(help_button, &QPushButton::clicked, this, [this, help_page]() {
+    android_current_category_page_ = help_page;
+    SetAndroidTitle(tr("Help"));
+    SetAndroidNavigationPage(help_page);
+    ui_->buttonBox->hide();
+  });
+
+  SetAndroidNavigationPage(android_navigation_->currentWidget());
 
 }
 #endif

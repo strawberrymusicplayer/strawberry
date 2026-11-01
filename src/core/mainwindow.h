@@ -308,6 +308,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void SaveSettings();
 #ifdef Q_OS_ANDROID
   void SetupAndroidLayout();
+  QWidget *CreateAndroidToolsPage();
 #endif
 
   static void ApplyAddBehaviour(const BehaviourSettings::AddBehaviour b, MimeData *mimedata);
