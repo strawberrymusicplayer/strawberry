@@ -302,6 +302,27 @@ cmake ..
    adb logcat | grep -E "GStreamer|gstreamer"
    ```
 
+### Crackling or Clicking Audio on the Emulator
+
+**Symptoms:**
+- Playback sounds like fast soft clicks instead of a clean tone.
+
+**Cause:** The emulator's audio path to the host, not Strawberry.
+The same file sounds identical in another Android player, and `adb shell dumpsys media.audio_flinger` reports no underruns for the Strawberry track.
+Test audio quality on a real device.
+
+---
+
+### Widgets Don't Update Until Something Else Repaints
+
+**Symptoms:**
+- Rows added to or removed from a playlist only appear after tapping Play, opening a menu or switching tabs.
+- Other parts of the window, such as the track count, do update.
+
+**Cause:** Before Qt 6.9.2, `QRhiBackingStore::flush()` scales the flush region by the device pixel ratio twice (QTBUG-128794), so partial updates are uploaded to the wrong part of the window texture.
+`src/main.cpp` sets `QT_WIDGETS_RHI=1` on Android for these Qt versions, which flushes through QRhi from the widget repaint manager with the correct coordinates.
+Don't remove it unless the Android Qt kit is 6.9.2 or newer.
+
 ---
 
 ## Deployment Issues

@@ -212,6 +212,14 @@ int main(int argc, char *argv[]) {
   QGuiApplication::setDesktopFileName(u"org.strawberrymusicplayer.strawberry"_s);
   QGuiApplication::setQuitOnLastWindowClosed(false);
 
+#if defined(Q_OS_ANDROID) && QT_VERSION < QT_VERSION_CHECK(6, 9, 2)
+  // Before Qt 6.9.2 (QTBUG-128794), QRhiBackingStore::flush() scales the already scaled flush region by the device pixel ratio again, so partial widget updates are uploaded to the wrong part of the window texture and never appear on screen.
+  // Flushing through QRhi directly from the widget repaint manager uses the correct coordinates.
+  if (!qEnvironmentVariableIsSet("QT_WIDGETS_RHI")) {
+    qputenv("QT_WIDGETS_RHI", "1");
+  }
+#endif
+
   QApplication a(argc, argv);
 
 #ifdef Q_OS_LINUX
