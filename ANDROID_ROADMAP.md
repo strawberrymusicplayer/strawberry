@@ -137,3 +137,22 @@ These items are not yet planned in detail; the assessment is a first impression 
 - A feasible approach that fits Android is a temporary "Now playing" playlist that songs are played from when tapped outside a playlist, kept separate from the user's own playlists, similar to how Android music apps play a tapped song in the context of its album or list.
 
 **Next steps:** Decide what the user experience should be (what happens with Next and Previous, and whether the user's playlists stay untouched), check how the current settings behave on Android, and then decide between configuring existing behavior and a temporary playlist.
+
+## 6. Create a playlist from a folder or album in one go
+
+**Status:** To investigate
+
+**Goal:** Turn an album from the Collection tab or a folder from the Files tab into a new playlist (named after the album or folder) with one action, and optionally start playing it.
+This covers most of what item 5 asks for without changing how the player works.
+
+**First findings:**
+- Albums: already supported, through a setting.
+  Double-tapping an album or artist in the Collection tab adds all its songs (`AutoExpandingTreeView::ItemDoubleClicked()`), and the double-click behavior settings decide what happens: with "Open in new playlist" (`AddBehaviour::OpenInNew`) it creates a new playlist named after the album (`Song::GetNameForNewPlaylist()`), and the play setting can start playback right away.
+  Needs verification on Android: the Behavior settings page, double-tap in the collection tree, and that the collection can be filled (adding a collection directory through the system picker, fixed together with Add file).
+- Folders: only partly supported.
+  In the Files tab, double-tapping a folder only opens it; adding a whole folder as a new playlist ("Open in new playlist", named after the folder) is only available in the context menu, which isn't reachable by touch (taps on `QMenu` items don't work, see item 3, and long press doesn't open context menus).
+  The playlist toolbar's Add folder action (`MainWindow::AddFolder()`) isn't shown on Android and always appends to the current playlist.
+- Feasible approach that fits Android: reuse the long-press helper and button dialog of item 2 for folders in the Files tab (and optionally albums in the Collection tab), with "Open in new playlist", "Append to current playlist" and "Replace current playlist".
+  The existing `FileViewList` slots already implement these actions, so only the touch trigger and dialog are new.
+
+**Next steps:** Verify the album flow on the emulator with "Open in new playlist" selected, then add the long-press dialog for folders after item 2 is done.
