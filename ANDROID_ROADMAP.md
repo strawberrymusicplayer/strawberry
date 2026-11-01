@@ -20,12 +20,64 @@ This suggests the player is muted when it isn't.
 - `QStyle::SP_MediaVolume` is the matching unmuted icon from the same style, so both states look consistent.
 - Fits Android design: Material media controls show the current state (`volume_up` / `volume_off`).
 - Also update the accessible name ("Mute" / "Unmute") so screen readers announce the action the button performs.
+- Initialization order matters: the constructor calls `MuteChanged()` with the initial state before `SetupAndroidLayout()` runs, and `SetupAndroidLayout()` then sets the muted icon unconditionally.
+  Without changing that, the app would always start with the muted icon.
 
-**Approach:** In `MuteChanged()` (Android only), set `SP_MediaVolume` or `SP_MediaVolumeMuted` and the matching accessible name; set the initial icon where the mute button is created in `MainWindow`.
+**Approach:** In `MuteChanged()` (Android only), set `SP_MediaVolume` or `SP_MediaVolumeMuted` and the matching accessible name.
+In `SetupAndroidLayout()`, replace the hardcoded muted icon with the icon for the player's current mute state.
 
-## 2. Undo and redo buttons replace the wrench menu
+## 2. Long press on a song to remove it or clear the playlist
 
 **Status:** Planned
+
+**Problem:** On Android, there is no touch way to remove songs from a playlist; desktop uses the Delete key or the context menu.
+
+**Goal:** Long-pressing a song opens a small dialog with "Remove song", "Clear playlist" and "Cancel".
+Both actions can be undone and redone.
+
+**Behavior:**
+- If the pressed song is part of a selection of several songs, "Remove" removes all selected songs (shown as "Remove N songs"); otherwise it removes only the pressed song.
+- Removing the song that is playing keeps it playing until it ends, as on desktop, after which playback continues with the next song in the playlist.
+- One Undo restores everything that one dialog action removed.
+
+**Assessment:**
+- Feasible.
+  Long press isn't delivered as a context-menu event to widgets on Android, so `PlaylistView` needs its own detection: start a timer on press, cancel it when the finger moves beyond the touch slop or is released, and open the dialog when it fires.
+  Use the system long-press timeout (`ViewConfiguration.getLongPressTimeout()`, 400 ms by default on current Android and adjustable in the accessibility settings) instead of a hardcoded value.
+- The press must not trigger the playlist's other touch behavior, set up in `playlistcontainer.ui` and `PlaylistView::ReloadSettings()`:
+  - Dragging rows (`dragEnabled`, `DragDrop`): moving slightly during the press must not start a drag once the long press has fired.
+  - Inline editing (`SelectedClicked` edit trigger, only enabled when the playlist setting "Edit metadata inline" is on; off by default): releasing on an already selected row must not open the editor.
+  - Selection (`ExtendedSelection`): the long press must not change the existing selection, so "Remove N songs" applies to what the user selected.
+  - Scrolling and select-and-play.
+- Undo and redo are mostly supported already: removing rows (`Playlist::removeRows()`) and clearing (`Playlist::Clear()`) push `PlaylistUndoCommandRemoveItems` onto the playlist's undo stack.
+  Two gaps need handling:
+  - `PlaylistView::RemoveSelected()` calls `removeRows()` once per contiguous range, so removing a selection with gaps creates several undo steps.
+    Wrap the removal in `QUndoStack::beginMacro()` / `endMacro()` so it is one step.
+  - Removing or clearing more than 500 songs (`kUndoItemLimit`) can't be undone and clears the undo history.
+    The dialog should ask for confirmation in that case.
+- Fit with Android design: good.
+  Long press for item actions is a standard Android gesture, and a simple dialog with a few actions matches Material dialogs.
+  Show the song title (or the number of selected songs) in the dialog and keep the pressed row highlighted, so it is clear what the action applies to.
+- Taps on `QMenu` items don't trigger actions on Android (see item 3), so the dialog must use buttons, not a menu.
+  Verify that taps on `QDialog` / `QMessageBox` buttons work before building on them.
+- Long press is a hidden gesture; Material advises not making it the only way to reach an action.
+  After item 3 removes the toolbar menu, it is the only touch path to Clear playlist; consider a later swipe-to-remove or a selection mode as a discoverable alternative.
+
+**Approach:**
+- Long-press handling in `PlaylistView`, which doesn't change any existing touch behavior because Qt's drag, selection collapse and edit trigger only act on move or release, not on press (see `QAbstractItemViewPrivate::extendedSelectionCommand()`):
+  1. On press, start the long-press timer and pass the press on to `QTreeView` as before.
+     A press on an unselected row selects it immediately; a press on an already selected row leaves the selection unchanged until release.
+  2. If the finger moves beyond the touch slop or is released before the timeout, cancel the timer; the press then behaves exactly as it does now (tap, drag-select, drag and drop, double tap to play).
+  3. When the timer fires, swallow the remaining move and release events of that press instead of passing them to `QTreeView`, reset the view with `setState(QAbstractItemView::NoState)`, and open the dialog.
+     Because the release never reaches `QTreeView`, a multi-selection isn't collapsed to the pressed row, no drag starts and the `SelectedClicked` editor doesn't open.
+- Verify on the emulator whether the release is still delivered to the view once the modal dialog is open; resetting the view state covers the case where it isn't.
+- Skip long-press detection on the rating column, which rates on press; the column is hidden on Android by default.
+- Put the long-press detection in a small helper class that is built on all platforms but only used by `PlaylistView` on Android, so its timing and cancellation can be tested by the desktop test suite (`tests/src/`).
+- Show a small modal `QDialog` with buttons that removes the selection (one undo macro) or calls `Playlist::Clear()`.
+
+## 3. Undo and redo buttons replace the wrench menu
+
+**Status:** Planned (after item 2)
 
 **Problem:** The wrench ("More") button in the playlist toolbar opens a menu with Clear playlist, Undo and Redo.
 Tapping an item in this menu closes it without running the action, so these actions are unreachable by touch.
@@ -37,38 +89,12 @@ Tapping an item in this menu closes it without running the action, so these acti
   `PlaylistContainer` already creates the `undo` and `redo` tool buttons and their actions from the playlist's `QUndoStack`; Android currently hides them and adds the actions to the menu instead.
   The undo/redo actions are recreated per playlist, which the existing buttons already handle through `setDefaultAction()`.
 - Disabled buttons give immediate feedback when there is nothing to undo or redo, which the menu didn't.
+- Depends on item 2: Clear playlist is only reachable by touch through this menu (it isn't on the Tools page), and moves to the long-press dialog.
 - Fit with Android design: acceptable, with one point of attention.
   The toolbar then has six 48 dp buttons (New, Load, Save, Add, Undo, Redo); Material guidance recommends a few actions in a bar with the rest in an overflow menu.
   The playlist pane is about 336 dp wide on a typical phone, so six buttons fit, but leave little room on narrow screens.
-  Verify on a small screen; if they don't fit, wrap the row rather than reintroducing a menu.
-- Clear playlist moves from this menu to the long-press dialog of item 3, so it stays reachable.
-  Item 2 should therefore ship together with or after item 3.
+  Verify on a small screen, with a large system font size, and with the largest playlist button icon size from the appearance settings; if they don't fit, wrap the row rather than reintroducing a menu.
 - The underlying bug (touch taps on `QMenu` items don't trigger actions) remains and can affect other menus, such as the playlist context menu.
-  Investigate it separately; item 3 must not rely on a `QMenu`.
+  Investigate it separately.
 
 **Approach:** On Android, stop creating `toolbar_menu_` and the menu button, move `ui_->undo` and `ui_->redo` into the Android button row with a 48 dp minimum size, and remove the actions that were added to the menu in `SetActions()` and `SetPlaylist()`.
-
-## 3. Long press on a song to remove it or clear the playlist
-
-**Status:** Planned
-
-**Problem:** On Android, there is no touch way to remove a single song from a playlist; desktop uses the Delete key or the context menu.
-
-**Goal:** Long-pressing a song opens a small dialog with "Remove song", "Clear playlist" and "Cancel".
-Both actions can be undone and redone.
-
-**Assessment:**
-- Feasible.
-  Long press isn't delivered as a context-menu event to widgets on Android, so `PlaylistView` needs its own detection: start a timer (about 500 ms, the Android default) on press, cancel it when the finger moves beyond the touch slop or is released, and open the dialog when it fires.
-  The press that triggered the dialog must not also start a drag, select-and-play or a scroll.
-- Undo and redo are already supported: removing songs (`Playlist::removeRows()`) and clearing (`Playlist::Clear()`) push `PlaylistUndoCommandRemoveItems` onto the playlist's undo stack, so the toolbar buttons of item 2 can undo them.
-  Exception: clearing a playlist with more than 500 songs (`kUndoItemLimit`) can't be undone and clears the undo history; the dialog should ask for confirmation in that case.
-- Fit with Android design: good.
-  Long press for item actions is a standard Android gesture, and a simple dialog with a few actions matches Material dialogs.
-  Show the song title in the dialog and highlight the pressed row, so it is clear which song the action applies to.
-  Use a dialog with buttons, not a `QMenu` (see item 2).
-- Long press is a hidden gesture; Material advises not making it the only way to reach an action.
-  The Clear playlist action stays reachable without it only if the toolbar or another screen offers it; consider a later swipe-to-remove or a selection mode as a discoverable alternative.
-
-**Approach:** Add Android-only long-press detection to `PlaylistView` (mouse/touch press, move and release handling with a single-shot timer), and a small modal `QDialog` (or `QMessageBox` with custom buttons) that removes the pressed row through the playlist filter model or calls `Playlist::Clear()`.
-Add a test for the long-press timing and cancellation where it can run without a device.
