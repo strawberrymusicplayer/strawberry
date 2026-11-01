@@ -20,11 +20,13 @@
  */
 
 #include <utility>
+#include <algorithm>
 #include <chrono>
 
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
+#include <QList>
 #include <QTimer>
 #include <QVariant>
 #include <QString>
@@ -94,8 +96,11 @@ void FancyTabWidget::LoadSettings(const QString &settings_group) {
 
   Settings s;
   s.beginGroup(settings_group);
+  // Resolve tabs in the order they were added, since tabs_ is a hash and a new tab can request the same index as a saved one.
+  QList<FancyTabData*> tabs_in_order = tabs_.values();
+  std::sort(tabs_in_order.begin(), tabs_in_order.end(), [](const FancyTabData *a, const FancyTabData *b) { return a->index() < b->index(); });
   QMultiMap<int, FancyTabData*> tabs;
-  for (FancyTabData *tab : std::as_const(tabs_)) {
+  for (FancyTabData *tab : std::as_const(tabs_in_order)) {
     int idx = s.value(u"tab_"_s + tab->name(), tab->index()).toInt();
     while (tabs.contains(idx)) { ++idx; }
     tabs.insert(idx, tab);

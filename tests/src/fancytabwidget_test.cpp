@@ -36,6 +36,7 @@
 
 #include "widgets/fancytabwidget.h"
 #include "widgets/fancytabbar.h"
+#include "core/settings.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -162,5 +163,38 @@ TEST(FancyTabWidgetTest, ClickingActiveTabFindsContentWidget) {
   tabs.setCurrentIndex(tabs.IndexOfTab(other_view));
   tabs.setCurrentIndex(pages_index);
   EXPECT_EQ(pages->currentWidget(), list_page);
+
+}
+
+// Regression test: a newly added tab without a saved position can request the same index as a tab with a saved position.
+// The tabs are stored in a hash, so the collision was resolved in an arbitrary order, and the new Android Tools tab sometimes ended up after Settings.
+TEST(FancyTabWidgetTest, LoadSettingsResolvesCollisionsInAddOrder) {
+
+  const QString settings_group = u"FancyTabWidgetTest"_s;
+  {
+    Settings s;
+    s.beginGroup(settings_group);
+    s.setValue(u"tab_settings"_s, 8);
+    s.endGroup();
+  }
+
+  // The hash order depends on the widget addresses, so repeat with new widgets to catch an arbitrary order.
+  for (int attempt = 0; attempt < 20; ++attempt) {
+    FancyTabWidget tabs;
+    for (int i = 0; i < 8; ++i) {
+      tabs.AddTab(new QWidget, u"tab%1"_s.arg(i), QIcon(), u"Tab %1"_s.arg(i));
+    }
+    QWidget *tools_view = new QWidget;
+    QWidget *settings_view = new QWidget;
+    tabs.AddTab(tools_view, u"tools"_s, QIcon(), u"Tools"_s);
+    tabs.AddTab(settings_view, u"settings"_s, QIcon(), u"Settings"_s);
+    tabs.LoadSettings(settings_group);
+
+    EXPECT_EQ(tabs.IndexOfTab(tools_view), 8);
+    EXPECT_EQ(tabs.IndexOfTab(settings_view), 9);
+  }
+
+  Settings s;
+  s.remove(settings_group);
 
 }
