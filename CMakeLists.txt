@@ -583,6 +583,7 @@ qt_add_executable(strawberry)
 
 if(ANDROID)
   set_property(TARGET strawberry PROPERTY QT_ANDROID_TARGET_SDK_VERSION 34)
+  set_property(TARGET strawberry PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
 endif()
 
 if(APPLE)
@@ -1462,6 +1463,10 @@ if(APPLE)
 else()
   list(APPEND SOURCES src/systemtrayicon/qtsystemtrayicon.cpp src/widgets/searchfield_qt.cpp src/widgets/searchfield_qt_private.cpp)
   list(APPEND HEADERS src/systemtrayicon/qtsystemtrayicon.h src/widgets/searchfield_qt_private.h)
+endif()
+
+if(ANDROID)
+  list(APPEND SOURCES src/core/androidstorage.cpp)
 endif()
 
 if(WIN32)

@@ -110,6 +110,9 @@
 #include "core/settings.h"
 #include "core/player.h"
 #include "core/appearance.h"
+#ifdef Q_OS_ANDROID
+#  include "core/androidstorage.h"
+#endif
 #include "utilities/envutils.h"
 #include "utilities/filemanagerutils.h"
 #include "utilities/screenutils.h"
@@ -2871,10 +2874,30 @@ void MainWindow::AddFile() {
   s.beginGroup(MainWindowSettings::kSettingsGroup);
   QString directory = s.value(MainWindowSettings::kAddMediaPath, QDir::currentPath()).toString();
 
-  PlaylistParser parser(app_->tagreader_client(), app_->collection_backend());
-
   // Show dialog
+#ifdef Q_OS_ANDROID
+  // The Android file dialog returns content:// document URIs, which need to be mapped to file paths for the tag reader and the engine.
+  // Qt maps the name filters to MIME types with an incomplete MIME database on Android, which disables the music files in the picker, so no filter is used.
+  const QList<QUrl> selected_urls = QFileDialog::getOpenFileUrls(this, tr("Add file"), QUrl::fromLocalFile(directory));
+  if (selected_urls.isEmpty()) return;
+  QStringList filenames;
+  QStringList unresolved;
+  for (const QUrl &selected_url : selected_urls) {
+    const QString path = AndroidStorage::LocalPathForUrl(selected_url);
+    if (path.isEmpty()) {
+      unresolved << selected_url.toDisplayString();
+    }
+    else {
+      filenames << path;
+    }
+  }
+  if (!unresolved.isEmpty()) {
+    ShowErrorDialog(tr("These files are not stored on this device and can't be added: %1").arg(unresolved.join(", "_L1)));
+  }
+#else
+  PlaylistParser parser(app_->tagreader_client(), app_->collection_backend());
   const QStringList filenames = QFileDialog::getOpenFileNames(this, tr("Add file"), directory, QStringLiteral("%1 (%2);;%3;;%4").arg(tr("Music"), QLatin1String(kFileFilter), parser.filters(PlaylistParser::Type::Load), tr(kAllFilesFilterSpec)));
+#endif
 
   if (filenames.isEmpty()) return;
 
@@ -2902,8 +2925,18 @@ void MainWindow::AddFolder() {
   QString directory = s.value(MainWindowSettings::kAddFolderPath, QDir::currentPath()).toString();
 
   // Show dialog
+#ifdef Q_OS_ANDROID
+  const QUrl selected_url = QFileDialog::getExistingDirectoryUrl(this, tr("Add folder"), QUrl::fromLocalFile(directory));
+  if (selected_url.isEmpty()) return;
+  directory = AndroidStorage::LocalPathForUrl(selected_url);
+  if (directory.isEmpty()) {
+    ShowErrorDialog(tr("This folder is not stored on this device and can't be added: %1").arg(selected_url.toDisplayString()));
+    return;
+  }
+#else
   directory = QFileDialog::getExistingDirectory(this, tr("Add folder"), directory);
   if (directory.isEmpty()) return;
+#endif
 
   // Save last used directory
   s.setValue(MainWindowSettings::kAddFolderPath, directory);

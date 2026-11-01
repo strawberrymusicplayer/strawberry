@@ -111,6 +111,9 @@
 #include "core/application.h"
 #include "core/metatypes.h"
 #include "core/mainwindow.h"
+#ifdef Q_OS_ANDROID
+#  include "core/androidstorage.h"
+#endif
 
 #ifdef Q_OS_MACOS
 #  include "systemtrayicon/macsystemtrayicon.h"
@@ -426,6 +429,8 @@ int main(int argc, char *argv[]) {
 #endif
 #ifndef Q_OS_ANDROID
   QObject::connect(&single_app, &KDSingleApplication::messageReceived, &w, QOverload<const QByteArray&>::of(&MainWindow::CommandlineOptionsReceived));
+#else
+  AndroidStorage::RequestAudioPermission();
 #endif
 
   int ret = QCoreApplication::exec();
