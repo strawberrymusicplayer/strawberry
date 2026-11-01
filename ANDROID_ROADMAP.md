@@ -100,3 +100,40 @@ Tapping an item in this menu closes it without running the action, so these acti
   Investigate it separately.
 
 **Approach:** On Android, stop creating `toolbar_menu_` and the menu button, move `ui_->undo` and `ui_->redo` into the Android button row with a 48 dp minimum size, and remove the actions that were added to the menu in `SetActions()` and `SetPlaylist()`.
+
+## Future items
+
+These items are not yet planned in detail; the assessment is a first impression that needs further investigation.
+
+## 4. Fix the equalizer view and make the equalizer work
+
+**Status:** To investigate
+
+**Problem:** The equalizer view (Tools > Equalizer) doesn't display properly on Android, and it is unknown whether the equalizer has any effect on playback.
+
+**Goal:** A usable equalizer page on a phone screen, and an equalizer that audibly changes playback.
+
+**First findings:**
+- The equalizer likely doesn't work on Android.
+  `GstEnginePipeline` creates the `equalizer-nbands` element from the GStreamer `equalizer` plugin when the equalizer is enabled, but that plugin isn't among the plugins linked into the Android build (`build/gstreamer_android.c`).
+- Worse, the pipeline returns an error when the element can't be created, so enabling the equalizer probably stops all playback, not just the equalizer.
+  The stereo balancer (`audiopanorama`, from the `audiofx` plugin) and ReplayGain (`rgvolume`, from the `replaygain` plugin) are missing in the same way.
+- Fixing this means adding the `equalizer`, `audiofx` and `replaygain` plugins to the Android GStreamer build, or at least hiding or disabling these options when the elements aren't available, so they can't break playback.
+- The view itself still needs to be examined on the emulator; the equalizer's vertical band sliders are likely too wide for a phone in portrait orientation.
+  It should follow the Android design principles in `CLAUDE.md`, for example a full-page editor instead of a floating dialog.
+
+**Next steps:** Reproduce on the emulator (open the view, enable the equalizer, start playback and check logcat for pipeline errors), then decide between adding the plugins and guarding the options, and redesign the view.
+
+## 5. Explore playing a song outside a playlist
+
+**Status:** To explore
+
+**Question:** Can a song be played directly, for example from the Collection or Files tab, without it being added to a playlist?
+
+**First findings:**
+- Strawberry's `Player` always plays from the current playlist: the current track, Next, Previous, repeat and shuffle all come from the playlist.
+  Playing a song without any playlist would need a change to that core design and is probably not worth it.
+- Existing behavior settings (Settings > Behavior) already cover similar needs: double-clicking a song in the collection can append it, add it to the queue, replace the current playlist (`AddBehaviour::Load`) or open it in a new playlist, and optionally start playing it (`PlayBehaviour`).
+- A feasible approach that fits Android is a temporary "Now playing" playlist that songs are played from when tapped outside a playlist, kept separate from the user's own playlists, similar to how Android music apps play a tapped song in the context of its album or list.
+
+**Next steps:** Decide what the user experience should be (what happens with Next and Previous, and whether the user's playlists stay untouched), check how the current settings behave on Android, and then decide between configuring existing behavior and a temporary playlist.
