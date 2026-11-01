@@ -1,8 +1,8 @@
-# Android Build Successfully Configured - November 1, 2024
+# Android Build Successfully Configured - November 1, 2026
 
 ## Summary
 
-After extensive troubleshooting, the Android build pipeline is now **fully working** and produces a signed APK. The main issue was a mismatch between CMake configuration paths and Qt's Android build expectations.
+After extensive troubleshooting, the Android build pipeline is now **fully working** and produces an APK (unsigned; sign it before installing). The main issue was a mismatch between CMake configuration paths and Qt's Android build expectations.
 
 ## The Working Build Command
 
@@ -30,8 +30,8 @@ cmake -S .. -B . \
 # Build (using 4 parallel jobs to reduce CPU usage)
 cmake --build . -j 4
 
-# The signed APK will be at:
-# build/android-build/build/outputs/apk/release/strawberry-release.apk
+# The unsigned APK will be at:
+# build/android-build/build/outputs/apk/release/android-build-release-unsigned.apk
 ```
 
 ## Key Requirements
@@ -40,10 +40,11 @@ cmake --build . -j 4
 - **API Level**: android-34 (Android 14)
 - **Build Tools**: 36.1.0
 - **NDK**: 27.2.12479018
-- **minSdk**: 23 (Android 5.8 / API 23)
+- **minSdk** (manifest): 23, but native code is built for API 34 (see below)
 - **targetSdk**: 34 (Android 14)
 
-The build compiles with API 34 but runs on Android 12+ (minSdk=31 is set by Qt, allowing Android 12 devices).
+The manifest declares `minSdkVersion` 23 (`qtMinSdkVersion` in `build/android-build/gradle.properties`), but the native library is compiled with `ANDROID_PLATFORM=android-34`, so in practice the app needs Android 14 (API 34) or newer.
+To support older devices, lower `ANDROID_PLATFORM` (Qt 6.7 needs at least API 28).
 
 ### CMake Critical Variables
 All of these **must** be set correctly:
@@ -94,11 +95,11 @@ cmake --build . -j 4
 
 ### Manual Installation to Emulator
 ```bash
-# Install the signed APK
-adb install -r build/android-build/build/outputs/apk/release/strawberry-release.apk
+# The build produces an unsigned release APK; sign it first (zipalign + apksigner, see ANDROID_EMULATOR_TESTING.md step 2)
+adb install -r /tmp/strawberry-signed.apk
 
 # Launch the app
-adb shell am start -n org.qtproject.example.strawberry/.MainActivity
+adb shell monkey -p org.qtproject.example.strawberry 1
 ```
 
 ### Get Logs
@@ -110,13 +111,13 @@ adb logcat | grep strawberry
 
 - [x] CMake configures without errors
 - [x] Build completes successfully
-- [x] APK is signed and ready to install
+- [x] APK can be signed with the debug keystore and installed
 - [x] APK installs to emulator without errors
 - [x] App launches and runs
 - [x] "Add file" button works in playlist editor
 - [x] "Add file" NOT in footer settings menu (feature removed in commit d18157bed)
 
-## File Locations (November 1, 2024)
+## File Locations (November 1, 2026)
 
 | File | Purpose |
 |------|---------|

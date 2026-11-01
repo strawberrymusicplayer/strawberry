@@ -97,8 +97,7 @@ After a successful build:
 
 | File | Purpose |
 |------|---------|
-| `build/android-strawberry/build/outputs/apk/debug/strawberry-debug.apk` | Debug APK (for testing) |
-| `build/android-strawberry/build/outputs/apk/release/strawberry-release.apk` | Release APK (for distribution) |
+| `build/android-build/build/outputs/apk/release/android-build-release-unsigned.apk` | Unsigned release APK (sign before installing, see ANDROID_EMULATOR_TESTING.md) |
 | `build/android-strawberry-deployment-settings.json` | Qt deployment configuration |
 
 ## Common Tasks
@@ -116,7 +115,9 @@ cmake --build . --target strawberry_make_apk
 
 ### Install on device
 ```bash
-adb install -r build/android-strawberry/build/outputs/apk/debug/strawberry-debug.apk
+# Sign the APK first (see ANDROID_EMULATOR_TESTING.md), then:
+adb install -r /tmp/strawberry-signed.apk
+adb shell monkey -p org.qtproject.example.strawberry 1
 ```
 
 ### View app logs
@@ -151,10 +152,10 @@ source ~/.bashrc
 |----------|---------------|---------|
 | `CMAKE_BUILD_TYPE` | `Release` | Build optimization level |
 | `ANDROID_ABI` | `arm64-v8a` | Target processor architecture |
-| `ANDROID_PLATFORM` | `android-28` | Minimum Android API level |
-| `DQT_CHAINLOAD_TOOLCHAIN_FILE` | NDK toolchain path | Android build tools |
-| `DQT_HOST_PATH` | `~/Qt/6.7.3/gcc_64` | Host compiler for code generation |
-| `DANDROID_SDK_ROOT` | `~/Android/Sdk` | Android SDK location |
+| `ANDROID_PLATFORM` | `android-34` | NDK API level for native code (the effective minimum Android version) |
+| `QT_CHAINLOAD_TOOLCHAIN_FILE` | NDK toolchain path | Android build tools |
+| `QT_HOST_PATH` | `~/Qt/6.7.3/gcc_64` | Host compiler for code generation |
+| `ANDROID_SDK_ROOT` | `~/Android/Sdk` | Android SDK location |
 | `GSTREAMER_ROOT_ANDROID` | GStreamer arm64 path | Audio/video libraries |
 
 See **ANDROID_BUILD_GUIDE.md** → Configuration Parameters for full explanations.
@@ -216,7 +217,7 @@ Please consider:
 - **OS:** Ubuntu/Kubuntu
 - **Qt:** 6.7.3 with android_arm64_v8a variant
 - **Android NDK:** 27.2.12479018
-- **Android SDK:** API 28-33
+- **Android SDK:** compileSdk/targetSdk 34, build-tools 36.1.0
 - **GStreamer:** 1.28.8 (universal Android package)
 - **CMake:** 3.28+
 - **Build Tools:** Ninja
@@ -224,7 +225,7 @@ Please consider:
 **Known Limitations:**
 - ARM64 (arm64-v8a) architecture only in these docs
   - armv7, x86, x86_64 can be built by adjusting ANDROID_ABI
-- Minimum Android 9 (API 28) - can lower by adjusting ANDROID_PLATFORM
+- Native code is built with `ANDROID_PLATFORM=android-34`, so the app needs Android 14+ in practice, even though the manifest declares minSdk 23; lower `ANDROID_PLATFORM` (Qt 6.7 needs at least API 28) to support older devices
 - GStreamer static libraries cannot be dynamically linked to avoid linker issues
   - Pre-built libgstreamer_android.so must be used or rebuilt with same NDK
 

@@ -59,15 +59,19 @@ Install command complete in [time] ms
 
 The app package name is: **`org.qtproject.example.strawberry`**
 
-**Important:** Do NOT use standard `adb shell am start` - it often fails to find the activity.
-
-**Instead, use monkey to launch:**
+The simplest way to launch it is with monkey, which doesn't need the activity name:
 
 ```bash
 adb shell monkey -p org.qtproject.example.strawberry 1
 ```
 
-Then wait 3-5 seconds for the app to fully load and render the UI.
+`am start` also works, but only with Qt's activity class (there is no `.MainActivity`):
+
+```bash
+adb shell am start -n org.qtproject.example.strawberry/org.qtproject.qt.android.bindings.QtActivity
+```
+
+Then wait 20-30 seconds for the app to fully load and render the UI.
 
 ### 5. Take Screenshots
 
@@ -86,26 +90,23 @@ file /tmp/screenshot.png  # Verify it's a real PNG
 
 ### 6. Interact with the App
 
-#### Tap the Menu Button
+#### Open the Tools Tab or Settings
 
-The menu button is typically at the bottom-right area of the player controls (around coordinate 625, 1438):
+The footer no longer has a menu button.
+Tap the **Tools** tab in the left sidebar to reach Cover Manager, Equalizer, Transcoder, and the collection actions.
+Tap the **Settings** tab for the settings overview, including the **Help** page with About Strawberry and About Qt.
+See [Key Coordinates](#key-coordinates) for where to tap:
 
 ```bash
-adb shell input tap 625 1438
+adb shell input tap 90 1740   # Tools
+adb shell input tap 90 1915   # Settings
 ```
 
-This opens the footer menu showing:
-- Playlist items
-- Tools items
-- Help items
-- Open File (added back)
-- Quit (added back)
-
-#### Take Screenshot of Menu
+#### Take Screenshot of the Tools Page
 
 ```bash
 adb shell screencap -p /sdcard/screenshot.png
-adb pull /sdcard/screenshot.png /tmp/menu-screenshot.png
+adb pull /sdcard/screenshot.png /tmp/tools-screenshot.png
 ```
 
 ## Complete One-Liner Build → Deploy → Test
@@ -121,7 +122,7 @@ APK_SIGNED="/tmp/strawberry-signed.apk" && \
 ~/Android/Sdk/build-tools/35.0.0/apksigner sign --ks ~/.android/debug.keystore --ks-pass pass:android --out "$APK_SIGNED" "$APK_ALIGNED" && \
 adb install -r "$APK_SIGNED" && \
 adb shell monkey -p org.qtproject.example.strawberry 1 && \
-sleep 5 && \
+sleep 30 && \
 adb shell screencap -p /sdcard/screenshot.png && \
 adb pull /sdcard/screenshot.png /tmp/strawberry-screenshot.png && \
 echo "✅ APK deployed and screenshot saved to /tmp/strawberry-screenshot.png"
@@ -145,13 +146,15 @@ Failure [INSTALL_PARSE_FAILED_NO_CERTIFICATES: Failed to collect certificates...
 Error: Activity class {org.qtproject.example.strawberry/.MainActivity} does not exist.
 ```
 
-**Solution:** Use `adb shell monkey` instead - it reliably launches the app even when the activity class name can't be resolved directly.
+**Solution:** The app has no `MainActivity`; Qt's activity is `org.qtproject.qt.android.bindings.QtActivity`.
+Use `adb shell monkey -p org.qtproject.example.strawberry 1`, or `am start` with the full Qt activity name shown in step 4.
+`adb shell cmd package resolve-activity --brief org.qtproject.example.strawberry` prints the launchable activity.
 
 ### Blank Screen After Launch
 
 **Problem:** App starts but shows only a blank grey/white screen.
 
-**Solution:** Wait 3-5 seconds longer. The Qt rendering pipeline on Android can be slow to initialize. The UI should appear after this delay.
+**Solution:** Wait longer. Startup on the emulator can take 20-30 seconds, and the layout may briefly look different (extra sidebar tabs, missing player controls) before it settles.
 
 ### Emulator Crashes or Restarts
 
@@ -164,77 +167,64 @@ Error: Activity class {org.qtproject.example.strawberry/.MainActivity} does not 
 
 ## Key Coordinates
 
-These are approximate touchscreen coordinates for the Android 16 emulator at default resolution:
+Approximate touchscreen coordinates for the Android 16 emulator at 1080x2400 (check with `adb shell wm size`):
 
-- **Menu button (player footer):** `625 1438` (bottom-right area)
-- **Play button:** `120 1438`
-- **Pause button:** `120 1438` (same position as play when paused)
-- **Stop button:** `175 1438`
-- **Next button:** `285 1438`
-- **Love button (♥):** `625 1438` (appears after our recent changes)
+- **Previous button:** `62 2200`
+- **Play/Pause button:** `192 2200`
+- **Stop button:** `310 2200`
+- **Next button:** `468 2200`
+- **Mute button:** `888 2200`
+- **Love button:** `1016 2200`
+- **Tools sidebar tab:** `90 1740`
+- **Settings sidebar tab:** `90 1915`
 
-To find exact coordinates, take a screenshot and note the pixel position of UI elements.
+Sidebar positions shift when streaming service tabs are enabled.
+`adb input tap` uses device pixels; if your image viewer scales screenshots down, scale the measured coordinates back up (for example ×1.2 for a 900 px wide preview).
 
-## Player Footer Buttons (After Recent Changes)
+## Player Footer Buttons
 
-Updated Android player footer now includes:
+The Android player footer includes:
 
 1. ⏮ Back/Previous
 2. ▶ Play/Pause
 3. ⏹ Stop
 4. ⏭ Forward/Next
 5. 🔊 Volume/Mute
-6. ❤️ Love/Favorite (newly added)
-7. ✏️ Edit/Pencil icon
-8. ⋮ Menu/Settings (opens popup menu)
+6. ❤️ Love/Favorite
 
-## Menu Contents (Footer Popup)
+## Tools Sidebar Tab
 
-After tapping the menu button, the following items appear:
+The footer menu has been replaced by a **Tools** sidebar tab, which shows these buttons on one page:
 
-### Playlist Section
-- Add Folder
-- Add Stream
-- Shuffle Mode
-- Repeat Mode
-- New Playlist
-- Save Playlist
-- Load Playlist
-- Save All Playlists
-- Jump
-- Clear Playlist
-- Shuffle
-- Remove Duplicates
-- Remove Unavailable
-
-### Tools Section
+### Tools
 - Cover Manager
 - Equalizer
-- Transcoder
-- Update Collection
-- Full Collection Scan
-- Settings
+- Transcode Music
 
-### Help Section
-- About Strawberry
-- About Qt
+### Collection
+- Update changed collection folders
+- Do a full collection rescan
+- Stop collection scan
 
-### Music Section (Newly Added)
-- Open File
-- Quit
+## Settings Help Page
+
+The Settings overview (Settings sidebar tab) has a **Help** button below the categories.
+It opens **Settings > Help** with About Strawberry and About Qt; Back returns to the overview.
+
+Add file is in the playlist editor toolbar, and Quit is omitted on Android.
 
 ## Performance Notes
 
 - **Build time:** ~6-8 minutes (with `-j 4` parallelism)
 - **APK size:** 28 MB
 - **Installation time:** ~2-5 seconds
-- **App startup time:** 3-5 seconds until UI is visible
+- **App startup time:** 20-30 seconds until the UI has settled
 - **Signing + alignment:** ~1 second
 
 ## Next Steps for Improvements
 
 - [ ] Document how to add breakpoints and debug via Android Studio
-- [ ] Test on real Android 12+ device (minSdk=31)
+- [ ] Test on a real Android 14+ device (native code is built for API 34)
 - [ ] Profile memory usage on low-RAM devices
 - [ ] Test with actual music library (add test music files to emulator)
-- [ ] Verify all menu items work correctly on actual emulator
+- [ ] Verify all Tools and Help actions work correctly on a real device

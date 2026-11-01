@@ -142,12 +142,14 @@ On Android, the left navigation shows one view at a time. **Playlists** shows sa
 Tap a playlist to open its editor, then tap **Playlists** again to return to the list.
 The editor displays the current playlist's name in a larger, centered heading above its toolbar.
 Playback controls and the seek bar remain at the bottom when switching views.
-The player bar's **Menu** button provides access to the application menus, including settings.
-On Android, use **Playlist > Add file** to open the file picker; the duplicate **Music > Open file** entry is omitted.
-Use the footer's **Previous track**, **Play/Pause**, **Stop**, and **Next track** buttons; their duplicate Music-menu entries are omitted on Android.
-The footer's speaker-with-cross button toggles Strawberry's mute state; its Music-menu entry is omitted on Android.
-**Love track** is available through the optional footer button enabled in Scrobbler settings, rather than the Android Music menu.
-The **Music** submenu, including **Quit**, is omitted from the Android footer menu.
+Android has no application menu; its actions are available from the sidebar, the player bar, and the playlist editor.
+The **Tools** sidebar tab lists Cover Manager, Equalizer, Transcoder, and collection update, full rescan, and stop scan on one page.
+The **Settings** sidebar tab opens the settings overview, which also has a **Help** page with About Strawberry and About Qt.
+Use the playlist editor's **Add file** button to open the file picker.
+Use the footer's **Previous track**, **Play/Pause**, **Stop**, and **Next track** buttons for playback.
+The footer's speaker-with-cross button toggles Strawberry's mute state.
+The footer's heart button marks the current track as loved (**Love track**).
+**Quit** is omitted on Android; close the app through the system's app switcher.
 Settings breadcrumbs wrap on narrow screens.
 Fourth-level settings titles start on a separate line below the parent breadcrumb.
 Settings pages share compact section buttons with current values for grouped settings.

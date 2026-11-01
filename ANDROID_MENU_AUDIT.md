@@ -1,4 +1,10 @@
-# Android Footer Settings Menu Cleanup - November 1, 2024
+# Android Footer Settings Menu Cleanup - November 1, 2026
+
+> **Superseded:** The footer menu button has since been removed on Android.
+> Cover Manager, Equalizer, Transcoder, and collection update/full rescan/stop scan now live on the **Tools** sidebar tab.
+> About Strawberry and About Qt are on the **Help** page of the Settings overview.
+> Open file is available as **Add file** in the playlist editor, and Quit is omitted.
+> The rest of this document describes the menu as it was at the time of the audit.
 
 ## Overview
 

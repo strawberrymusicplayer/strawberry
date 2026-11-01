@@ -184,9 +184,10 @@ cmake --build . --target strawberry_make_apk --parallel $(nproc)
 ```
 
 **Build Output Locations:**
-- APK file: `build/android-strawberry-deployment-settings.json` directory
-- Main executable: `build/strawberry` (or similar)
-- Deployment bundle: `build/android-strawberry/` (contains APK and dependencies)
+- APK file: `build/android-build/build/outputs/apk/release/android-build-release-unsigned.apk` (unsigned)
+- Deployment settings: `build/android-strawberry-deployment-settings.json`
+- Native library: `build/libstrawberry_arm64-v8a.so`
+- Deployment bundle: `build/android-build/` (Gradle project with the APK and its dependencies)
 
 **Typical Build Time:** 10-30 minutes depending on CPU cores and disk speed
 
@@ -197,8 +198,8 @@ The build produces an Android APK file ready for deployment:
 ```
 [100%] Built target strawberry_make_apk
 ...
-APK: build/android-strawberry/build/outputs/apk/debug/strawberry-debug.apk
-(or release variant depending on CMAKE_BUILD_TYPE)
+Android package built successfully ...
+  -- File: .../build/android-build/build/outputs/apk/release/android-build-release-unsigned.apk
 ```
 
 ## Deploying to Emulator or Device
@@ -226,14 +227,12 @@ adb devices
 ### 3. Install APK
 
 ```bash
-# Install APK (overwrites previous version)
-adb install -r build/android-strawberry/build/outputs/apk/debug/strawberry-debug.apk
+# The build produces an unsigned release APK; sign it first (zipalign + apksigner, see ANDROID_EMULATOR_TESTING.md step 2)
+# Install the signed APK (overwrites previous version)
+adb install -r /tmp/strawberry-signed.apk
 
-# Or release variant if built with CMAKE_BUILD_TYPE=Release
-adb install -r build/android-strawberry/build/outputs/apk/release/strawberry-release.apk
-
-# Launch app
-adb shell am start -n org.qtproject.example.strawberry/.MainActivity
+# Launch app (the activity is org.qtproject.qt.android.bindings.QtActivity, not .MainActivity)
+adb shell monkey -p org.qtproject.example.strawberry 1
 ```
 
 ### 4. View Application Logs

@@ -1,6 +1,6 @@
 # Strawberry Android Build - Completion Summary
 
-**Date:** November 1, 2024  
+**Date:** November 1, 2026  
 **Status:** ✅ **COMPLETE - APK BUILT AND DEPLOYED**
 
 ## Overview
@@ -179,10 +179,10 @@ cmake --build build --target strawberry_make_apk --parallel $(nproc)
 
 # Sign the APK
 /home/wouter/Android/Sdk/build-tools/35.0.0/apksigner sign \
-  -ks ~/.android/debug.keystore \
-  -ks-key-alias androiddebugkey \
-  -ks-pass pass:android \
-  -key-pass pass:android \
+  --ks ~/.android/debug.keystore \
+  --ks-key-alias androiddebugkey \
+  --ks-pass pass:android \
+  --key-pass pass:android \
   --out build/android-build/strawberry-signed.apk \
   build/android-build/build/outputs/apk/release/android-build-release-unsigned.apk
 

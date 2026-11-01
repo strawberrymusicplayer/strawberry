@@ -50,11 +50,12 @@ cmake --build . --target strawberry_make_apk --parallel $(nproc)
 # Start emulator
 emulator -avd <name> &
 
-# Wait for boot, then install
-adb install -r build/android-strawberry/build/outputs/apk/debug/strawberry-debug.apk
+# The build produces an unsigned release APK; sign it first (zipalign + apksigner, see ANDROID_EMULATOR_TESTING.md step 2)
+# Wait for boot, then install the signed APK
+adb install -r /tmp/strawberry-signed.apk
 
 # Launch
-adb shell am start -n org.qtproject.example.strawberry/.MainActivity
+adb shell monkey -p org.qtproject.example.strawberry 1
 ```
 
 ## Common Issues
@@ -122,8 +123,8 @@ cmake --build build --parallel $(nproc)
 # Find it
 find build -name "*.apk" -type f
 
-# Usually at:
-# build/android-strawberry/build/outputs/apk/debug/strawberry-debug.apk
+# Usually at (unsigned):
+# build/android-build/build/outputs/apk/release/android-build-release-unsigned.apk
 ```
 
 ## Useful Commands

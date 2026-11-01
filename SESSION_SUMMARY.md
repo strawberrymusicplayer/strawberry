@@ -1,5 +1,9 @@
 # Strawberry Android Build Session - Summary
 
+> **Historical log.** Paths and launch commands below were expectations at the time and turned out to be wrong.
+> The APK is built unsigned at `build/android-build/build/outputs/apk/release/android-build-release-unsigned.apk` and the app is launched with `adb shell monkey -p org.qtproject.example.strawberry 1`.
+> See ANDROID_EMULATOR_TESTING.md for the current procedure.
+
 **Session Date:** October 31, 2026
 **Objective:** Add "Add file" button to Strawberry Android app playlist editor, document build process
 
