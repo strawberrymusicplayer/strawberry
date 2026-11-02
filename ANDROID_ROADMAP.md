@@ -7,7 +7,7 @@ Status values: Planned, In progress, Done.
 
 ## 1. Mute button shows the current state
 
-**Status:** Planned
+**Status:** Done
 
 **Problem:** The Android mute button in the player controls always shows the muted icon (`QStyle::SP_MediaVolumeMuted`, a speaker with a red cross), even when playback isn't muted.
 This suggests the player is muted when it isn't.
@@ -20,11 +20,16 @@ This suggests the player is muted when it isn't.
 - `QStyle::SP_MediaVolume` is the matching unmuted icon from the same style, so both states look consistent.
 - Fits Android design: Material media controls show the current state (`volume_up` / `volume_off`).
 - Also update the accessible name ("Mute" / "Unmute") so screen readers announce the action the button performs.
-- Initialization order matters: the constructor calls `MuteChanged()` with the initial state before `SetupAndroidLayout()` runs, and `SetupAndroidLayout()` then sets the muted icon unconditionally.
-  Without changing that, the app would always start with the muted icon.
+- Initialization order matters: the constructor calls `MuteChanged()` with the initial state before `SetupAndroidLayout()` creates the Android mute button.
+  `SetupAndroidLayout()` must therefore initialize the new button from the player's current mute state.
 
 **Approach:** In `MuteChanged()` (Android only), set `SP_MediaVolume` or `SP_MediaVolumeMuted` and the matching accessible name.
-In `SetupAndroidLayout()`, replace the hardcoded muted icon with the icon for the player's current mute state.
+In `SetupAndroidLayout()`, initialize the icon and accessible name from the player's current mute state.
+
+**Validation (2026-11-02):** Built, deployed and tested on the Android emulator.
+The icon switches correctly in both directions.
+Captured PCM from the emulator's own host audio stream while playing test tones: unmuted output measured about -25 dBFS RMS, while muted output measured below -102 dBFS RMS; unmuting restored the original level.
+Android AudioFlinger's signal power history retains older non-silent entries during mute, so those entries alone must not be interpreted as current audio output.
 
 ## 2. Long press on a song to remove it or clear the playlist
 

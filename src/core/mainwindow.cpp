@@ -1367,13 +1367,14 @@ void MainWindow::SetupAndroidLayout() {
 
   // On Android, rearrange the player controls for mobile layout
   // Create mute button with proper styling to match other buttons
-  auto *mute_button = new QToolButton(ui_->player_controls);
-  ui_->action_mute->setIcon(style()->standardIcon(QStyle::SP_MediaVolumeMuted));
-  mute_button->setDefaultAction(ui_->action_mute);
-  mute_button->setIconSize(ui_->pause_play_button->iconSize());
-  mute_button->setAccessibleName(tr("Mute"));
-  mute_button->setAutoRaise(true);
-  ui_->layout_player_controls->addWidget(mute_button);
+  android_mute_button_ = new QToolButton(ui_->player_controls);
+  android_mute_button_->setDefaultAction(ui_->action_mute);
+  android_mute_button_->setIconSize(ui_->pause_play_button->iconSize());
+  android_mute_button_->setAutoRaise(true);
+  ui_->layout_player_controls->addWidget(android_mute_button_);
+  const bool muted = app_->player()->is_muted();
+  ui_->action_mute->setIcon(style()->standardIcon(muted ? QStyle::SP_MediaVolumeMuted : QStyle::SP_MediaVolume));
+  android_mute_button_->setAccessibleName(muted ? tr("Unmute") : tr("Mute"));
 
   // Create love button with proper styling to match other buttons
   auto *love_button = new QToolButton(ui_->player_controls);
@@ -1386,7 +1387,7 @@ void MainWindow::SetupAndroidLayout() {
   // Menu bar actions are reachable through the Tools and Settings sidebar tabs and the playlist editor on Android.
   ui_->menuBar->hide();
 
-  for (QToolButton *button : {ui_->back_button, ui_->pause_play_button, ui_->stop_button, ui_->forward_button, love_button, mute_button}) {
+  for (QToolButton *button : {ui_->back_button, ui_->pause_play_button, ui_->stop_button, ui_->forward_button, love_button, android_mute_button_}) {
     button->setMinimumSize(48, 48);
   }
 
@@ -1868,6 +1869,12 @@ void MainWindow::SendNowPlaying() {
 void MainWindow::MuteChanged(const bool mute) {
 
   ui_->action_mute->setChecked(mute);
+#ifdef Q_OS_ANDROID
+  if (android_mute_button_) {
+    ui_->action_mute->setIcon(style()->standardIcon(mute ? QStyle::SP_MediaVolumeMuted : QStyle::SP_MediaVolume));
+    android_mute_button_->setAccessibleName(mute ? tr("Unmute") : tr("Mute"));
+  }
+#endif
   systemtrayicon_->MuteButtonStateChanged(mute);
   ui_->volume->SetMuted(mute);
 
