@@ -40,8 +40,10 @@
 #include <QTimeLine>
 #include <QFileDialog>
 #include <QLabel>
-#include <QMenu>
 #include <QHBoxLayout>
+#ifdef Q_OS_ANDROID
+#  include <QGridLayout>
+#endif
 #include <QKeySequence>
 #include <QToolButton>
 #include <QUndoStack>
@@ -90,27 +92,25 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
   ui_->setupUi(this);
 
 #ifdef Q_OS_ANDROID
-  QHBoxLayout *buttons = new QHBoxLayout;
-  for (QToolButton *button : {ui_->create_new, ui_->load, ui_->save, ui_->add_file}) {
+  android_buttons_ = new QGridLayout;
+  android_buttons_->setContentsMargins(0, 0, 0, 0);
+  android_buttons_->setSpacing(0);
+  for (QToolButton *button : {ui_->create_new, ui_->load, ui_->save, ui_->add_file, ui_->undo, ui_->redo}) {
     ui_->horizontalLayout->removeWidget(button);
     button->setMinimumSize(48, 48);
-    buttons->addWidget(button);
+    button->setToolButtonStyle(Qt::ToolButtonIconOnly);
   }
-  toolbar_menu_ = new QMenu(this);
-  QToolButton *menu_button = new QToolButton(ui_->toolbar);
-  menu_button->setIcon(IconLoader::Load(u"configure"_s));
-  menu_button->setToolTip(tr("More"));
-  menu_button->setAccessibleName(tr("More"));
-  menu_button->setMinimumSize(48, 48);
-  menu_button->setPopupMode(QToolButton::InstantPopup);
-  menu_button->setMenu(toolbar_menu_);
-  buttons->addWidget(menu_button);
+  ui_->undo->setEnabled(false);
+  ui_->redo->setEnabled(false);
+  ui_->undo->setAccessibleName(tr("Undo"));
+  ui_->redo->setAccessibleName(tr("Redo"));
   ui_->clear->hide();
-  ui_->undo->hide();
-  ui_->redo->hide();
   ui_->line->hide();
+  ui_->toolbar->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
+  ui_->toolbar->installEventFilter(this);
   ui_->horizontalLayout->setDirection(QBoxLayout::TopToBottom);
-  ui_->horizontalLayout->insertLayout(0, buttons);
+  ui_->horizontalLayout->insertLayout(0, android_buttons_);
+  UpdateAndroidToolbar();
 #endif
 
   no_matches_label_ = new QLabel(ui_->playlist);
@@ -172,10 +172,7 @@ void PlaylistContainer::SetActions(const Actions &actions) {
   ui_->load->setDefaultAction(actions.load_playlist);
   ui_->save->setDefaultAction(actions.save_playlist);
   ui_->add_file->setDefaultAction(actions.add_file);
-#ifdef Q_OS_ANDROID
-  toolbar_menu_->addAction(actions.clear_playlist);
-  toolbar_menu_->addSeparator();
-#else
+#ifndef Q_OS_ANDROID
   ui_->clear->setDefaultAction(actions.clear_playlist);
 #endif
 
@@ -192,6 +189,9 @@ void PlaylistContainer::SetActions(const Actions &actions) {
   QObject::connect(actions.close_playlist, &QAction::triggered, &*ui_->tab_bar, &PlaylistTabBar::CloseCurrentTab);
   QObject::connect(&*ui_->tab_bar, &PlaylistTabBar::LastTabCloseRequested, this, &PlaylistContainer::LastTabCloseRequested);
   QObject::connect(actions.save_all_playlists, &QAction::triggered, &*manager_, &PlaylistManager::SaveAllPlaylists);
+#ifdef Q_OS_ANDROID
+  UpdateAndroidToolbar();
+#endif
 
 }
 
@@ -274,8 +274,7 @@ void PlaylistContainer::SetViewModel(Playlist *playlist, const int scroll_positi
   ui_->undo->setDefaultAction(undo_);
   ui_->redo->setDefaultAction(redo_);
 #ifdef Q_OS_ANDROID
-  toolbar_menu_->addAction(undo_);
-  toolbar_menu_->addAction(redo_);
+  UpdateAndroidToolbar();
 #endif
 
   Q_EMIT UndoRedoActionsChanged(undo_, redo_);
@@ -315,6 +314,9 @@ void PlaylistContainer::ReloadSettings() {
 #endif
 
   ui_->toolbar->setVisible(show_toolbar);
+#ifdef Q_OS_ANDROID
+  UpdateAndroidToolbar();
+#endif
 
   if (!show_toolbar) ui_->search_field->clear();
 
@@ -323,6 +325,24 @@ void PlaylistContainer::ReloadSettings() {
 bool PlaylistContainer::SearchFieldHasFocus() const {
   return ui_->toolbar->isVisible() && ui_->search_field->hasFocus();
 }
+
+#ifdef Q_OS_ANDROID
+void PlaylistContainer::UpdateAndroidToolbar() {
+
+  const QList<QToolButton *> buttons = {ui_->create_new, ui_->load, ui_->save, ui_->add_file, ui_->undo, ui_->redo};
+  int button_width = 48;
+  for (QToolButton *button : buttons) button_width = qMax(button_width, button->sizeHint().width());
+  const int columns = qBound(1, ui_->toolbar->contentsRect().width() / button_width, static_cast<int>(buttons.count()));
+  if (columns == android_button_columns_) return;
+  android_button_columns_ = columns;
+  while (QLayoutItem *item = android_buttons_->takeAt(0)) delete item;
+  for (int i = 0; i < buttons.count(); ++i) {
+    android_buttons_->addWidget(buttons[i], i / columns, i % columns);
+    android_buttons_->setColumnStretch(i, i < columns ? 1 : 0);
+  }
+
+}
+#endif
 
 void PlaylistContainer::FocusSearchField() {
   if (ui_->toolbar->isVisible()) ui_->search_field->setFocus();
@@ -579,6 +599,9 @@ void PlaylistContainer::SelectionChanged() {
 
 bool PlaylistContainer::eventFilter(QObject *objectWatched, QEvent *event) {
 
+#ifdef Q_OS_ANDROID
+  if (objectWatched == ui_->toolbar && event->type() == QEvent::Resize) UpdateAndroidToolbar();
+#endif
   if (objectWatched == ui_->search_field) {
     if (event->type() == QEvent::KeyPress) {
       QKeyEvent *e = static_cast<QKeyEvent*>(event);

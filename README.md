@@ -146,6 +146,9 @@ Android has no application menu; its actions are available from the sidebar, the
 The **Tools** sidebar tab lists Cover Manager, Equalizer, Transcoder, and collection update, full rescan, and stop scan on one page.
 The **Settings** sidebar tab opens the settings overview, which also has a **Help** page with About Strawberry and About Qt.
 Use the playlist editor's **Add file** button to open the file picker.
+On Android, long-press a playlist song to remove the selection or clear the playlist.
+The playlist toolbar has dedicated **Undo** and **Redo** buttons instead of a menu; its buttons wrap onto additional rows when needed.
+Removing more than 500 songs requires confirmation and cannot be undone.
 Use the footer's **Previous track**, **Play/Pause**, **Stop**, and **Next track** buttons for playback.
 The footer's speaker-with-cross button toggles Strawberry's mute state.
 The footer's heart button marks the current track as loved (**Love track**).

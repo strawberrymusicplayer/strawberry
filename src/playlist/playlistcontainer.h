@@ -32,7 +32,7 @@
 class QTimer;
 class QTimeLine;
 class QLabel;
-class QMenu;
+class QGridLayout;
 class QAction;
 class QEvent;
 class QKeyEvent;
@@ -125,11 +125,15 @@ class PlaylistContainer : public QWidget {
  private:
   void UpdateActiveIcon(const QIcon &icon);
   void RepositionNoMatchesLabel(bool force = false);
+#ifdef Q_OS_ANDROID
+  void UpdateAndroidToolbar();
+#endif
 
  private:
   Ui_PlaylistContainer *ui_;
 #ifdef Q_OS_ANDROID
-  QMenu *toolbar_menu_;
+  QGridLayout *android_buttons_ = nullptr;
+  int android_button_columns_ = 0;
 #endif
 
   SharedPtr<PlaylistManager> manager_;

@@ -103,10 +103,12 @@ Both actions can be undone and redone when removing at most 500 songs.
 Both test binaries built successfully; all eight long-press tests and 14 focused playlist removal regressions passed, including both previously unexecuted playlist-view tests.
 See `CLAUDE.md` for the native build location, isolated KDSingleApplication dependency, configuration options, and test commands.
 This was a focused run, not the full native test suite.
+**Confirmation:** Item 2 is complete and confirmed by emulator interaction, captured playback audio, and the 22 focused native tests above.
+It has not yet been verified on a physical Android device.
 
 ## 3. Remove the wrench button; undo and redo buttons take its place
 
-**Status:** Planned (after item 2)
+**Status:** Done
 
 **Problem:** The wrench ("More") button in the playlist toolbar opens a menu with Clear playlist, Undo and Redo.
 Tapping an item in this menu closes it without running the action, so these actions are unreachable by touch.
@@ -128,7 +130,24 @@ Tapping an item in this menu closes it without running the action, so these acti
 - The underlying bug (touch taps on `QMenu` items don't trigger actions) remains and can affect other menus, such as the playlist context menu.
   Investigate it separately.
 
-**Approach:** On Android, stop creating `toolbar_menu_` and the menu button, move `ui_->undo` and `ui_->redo` into the Android button row with a 48 dp minimum size, and remove the actions that were added to the menu in `SetActions()` and `SetPlaylist()`.
+**Approach:** On Android, stop creating `toolbar_menu_` and the menu button, move `ui_->undo` and `ui_->redo` into the Android button row with a 48 dp minimum size, and remove the actions that were added to the menu in `SetActions()` and `SetViewModel()`.
+Use an adaptive grid to wrap the six icon-only buttons when the available toolbar width cannot accommodate one row.
+Recalculate the columns on toolbar resize, action replacement, and appearance settings reload.
+Keep the existing per-playlist `QUndoStack` actions, tooltips, shortcuts, and enabled states; add stable accessible names for Undo and Redo.
+Desktop toolbar behavior is unchanged.
+
+**Validation (2026-11-03):**
+- Android APK and native test binaries built successfully; all 22 focused native playlist removal and long-press regression tests passed.
+- Deployed to the emulator and confirmed that the wrench/menu button is gone and Undo/Redo are visible.
+  Both are disabled for a freshly loaded empty playlist.
+- Real touch input verified Remove -> Undo -> Redo and Clear -> Undo -> Redo, restoring the three-track fixture afterward.
+  Switching playlists and returning preserves the correct playlist's history and rebinds the buttons.
+- At 320 dp screen width, with Android system font scale 2.0 and the maximum playlist icon size of 64 dp, the buttons wrap into two rows and remain visible.
+  Touch Undo and Redo also work in this configuration, and the wrapped layout persists after app restart.
+  Restored the original display and icon settings afterward.
+- At an extreme 274 dp width, the whole application window clips horizontally, including the footer and playlist columns.
+  This is a separate whole-window minimum-width limitation; the adaptive toolbar does not remove that limitation.
+- Not yet verified on a physical Android device.
 
 ## Future items
 
