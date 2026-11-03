@@ -208,7 +208,7 @@ The following items are initial assessments that need further investigation.
 
 ## 5. Explore playing a song outside a playlist
 
-**Status:** To explore
+**Status:** Investigated; Android Files, Collection song, and album playback verified; UX decision pending
 
 **Question:** Can a song be played directly, for example from the Collection or Files tab, without it being added to a playlist?
 
@@ -219,6 +219,41 @@ The following items are initial assessments that need further investigation.
 - A feasible approach that fits Android is a temporary "Now playing" playlist that songs are played from when tapped outside a playlist, kept separate from the user's own playlists, similar to how Android music apps play a tapped song in the context of its album or list.
 
 **Next steps:** Decide what the user experience should be (what happens with Next and Previous, and whether the user's playlists stay untouched), check how the current settings behave on Android, and then decide between configuring existing behavior and a temporary playlist.
+
+**Code investigation:**
+- Collection double-clicks and Files file double-clicks both emit playlist MIME data with `from_doubleclick_` set.
+  `MainWindow::AddToPlaylist()` applies the same Behavior settings to both.
+- Existing "Open in new playlist" plus "Always start playing" can protect the contents of existing playlists without modifying the playback engine.
+  Each activation creates another ordinary database-backed playlist; this is not a temporary playback session.
+  Append and Enqueue modify the current playlist; Replace clears it before inserting songs.
+- `Player::NextItem()` obtains the next row and repeat state from the active playlist, confirming that direct engine playback alone would bypass required navigation behavior.
+- Android Behavior already exposes the playlist action and playback choices as full-page editors using the existing settings controls.
+  This was traced in code, not newly verified with collection/files playback on the emulator.
+- Recommendation: verify Open in new playlist + Always first.
+  If repeated playlist creation is undesirable, use one separately identified, reusable Now playing playlist rather than a playlist-free engine path.
+  Decide whether Next/Previous traverse only the selected songs or the surrounding album/folder, and whether the session survives restarting.
+  No playback behavior or user settings were changed during this investigation.
+
+**Android emulator verification:**
+- Opened Settings > General > Behavior > Double clicking songs.
+  Selected Open in new playlist and Always start playing, applied the settings, and reopened the page to confirm they persisted.
+- Double-tapped an owned generated WAV in the Files tab.
+  It created a separate, one-track playlist named after the file path and started playback without a separate Play action.
+  Captured the emulator's own audio immediately after a controlled Files activation: approximately 467 RMS, confirming actual tone output.
+  An explicit Stop/Play baseline was approximately 461 RMS.
+- Repeated activation produced two separate playlists with the same file-path name, confirming that this setting does not reuse a Now playing session.
+  Existing playlists remained listed; the initially empty playlist stayed empty.
+- Early coordinate-driven captures were silent or near-silent and were not accepted as audio verification.
+  The accepted run included before/after screenshots of the Files activation and immediate emulator-stream capture.
+- Restored the original Append and Never start playing settings and confirmed them in the Behavior page.
+  Stopped playback, emptied both owned test playlists, and removed the generated device WAV.
+  The two empty test playlists remain; they were not deleted.
+- Subsequently verified Collection playback using an owned two-track WAV album with ID3 artist/album/title tags.
+  Double-tapping the album created a two-track playlist named "Strawberry Verification - Android Test Album" and automatically produced approximately 395 RMS audible output.
+  Double-tapping Probe 1 created a separate one-track playlist with the same artist/album-derived name and automatically produced approximately 338 RMS.
+  No separate Play action was used for either accepted capture.
+- Deleted both owned Collection test playlists using the new bin, removed only the test collection directory and generated audio, and restored Append/Never settings.
+  Physical-device testing remains item 9.
 
 ## 6. Create a playlist from a folder or album in one go
 
@@ -238,6 +273,9 @@ This covers most of what item 5 asks for without changing how the player works.
   The existing `FileViewList` slots already implement these actions, so only the touch trigger and dialog are new.
 
 **Next steps:** Verify the album flow on the emulator with "Open in new playlist" selected, then add the long-press dialog for folders after item 2 is done.
+
+**Album verification:** The Collection system-folder picker, tagged album scanning, album double-tap, artist/album-derived playlist name, both tracks, and automatic audible playback are now verified on the emulator (see item 5).
+The Files folder long-press flow remains to be implemented.
 
 ## 7. Rename a playlist by tapping its name in the playlist view
 
@@ -263,7 +301,7 @@ This covers most of what item 5 asks for without changing how the player works.
 
 ## 8. Fix playlist deletion and use bin icons for delete buttons
 
-**Status:** To investigate
+**Status:** Playlist bin fixed and emulator verified; remaining icon audit and edge-case verification pending
 
 **Problem:** The playlist delete button (currently a red cross) is reported not to work on Android.
 Delete buttons should consistently use a bin icon rather than a cross.
@@ -280,6 +318,27 @@ Delete buttons should consistently use a bin icon rather than a cross.
 - Verify deletion, cancellation of any confirmation, selection changes, and persistence after restarting the app.
   Confirm that deleting a playlist does not delete its music files.
 - Inventory the remaining delete buttons and replace cross icons with bins while preserving their existing behavior.
+
+**Implemented and verified:**
+- The Android list shows all open playlists, but the old Delete action only unfavorited an open playlist.
+  Its favorite-state callback added it back to the list, making the action appear to do nothing.
+- With the user's approval, the Android bin now deletes the playlist itself, with confirmation, and removes its list entry through `PlaylistDeleted`.
+  Desktop favorite-list behavior is unchanged.
+- Added a compact asynchronous confirmation popup with a red cancel cross and green confirmation checkmark side by side, each with a 64 dp touch target.
+  Its transparent modal host spans the usable window so Android delivers touch input correctly and blocks underlying controls and shortcuts.
+  Nested event loops and compact top-level Android dialogs did not respond reliably to emulator taps and were not accepted as working solutions.
+  The question names the selected playlist and explicitly states that music files will not be deleted.
+- Deleting the last open playlist creates an empty replacement first.
+  The manager now handles closed playlists and avoids emitting deletion twice for non-favorite playlists already removed by Close.
+- Verified the bin icon, cancellation, confirmed deletion of an owned empty test playlist, selection moving to another playlist, and absence after application restart.
+  Focused native playlist regressions pass.
+- Rechecked the final compact popup: red-cross and Android Back cancellation preserve the temporary playlist; green-check confirmation removes it.
+  Background navigation taps and the New playlist shortcut are blocked while confirmation is open.
+  At 320 dp width the question wraps, both icons remain visible, and touch cancellation works.
+  Removed both temporary empty playlists, confirmed their absence after restart, and restored the original emulator display size.
+- Verified deleting the generated one-track Collection playlist left both source WAVs present with identical SHA-256 hashes before and after deletion.
+- Remaining: verify last-playlist replacement and favorite/closed/multiple-playlist cases in isolation, and complete the app-wide delete-icon audit.
+  Unrelated user playlists were not deleted to test the last-playlist case.
 
 ## 9. Verify Android changes on a physical device
 
@@ -343,3 +402,14 @@ Keep this visual update Android-only.
 - All six native equalizer regression tests pass, including numeric gain rounding, preamp conversion, and the mute endpoint.
   Formatting/whitespace checks pass.
 - Physical-device validation remains tracked in item 9.
+
+## 11. Remove the Collection setting for context-menu file deletion
+
+**Status:** Planned
+
+**Goal:** Remove "Enable delete files in the right click context menu" from Settings > General > Collection.
+
+**Next steps:**
+- Remove the setting's UI and inspect its load/save logic and context-menu action wiring.
+- Ensure the removed option cannot leave file-deletion actions enabled by a previously saved value.
+- Verify the Collection settings page and context menu, preserving playlist-only deletion and unrelated settings.

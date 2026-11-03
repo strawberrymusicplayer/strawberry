@@ -467,12 +467,21 @@ bool PlaylistManager::Close(const int id) {
 
 void PlaylistManager::Delete(const int id) {
 
+  if (!playlists_.contains(id)) {
+    playlist_backend_->RemovePlaylist(id);
+    Q_EMIT PlaylistDeleted(id);
+    return;
+  }
+  const bool favorite = playlists_.value(id).p->is_favorite();
   if (!Close(id)) {
     return;
   }
 
-  playlist_backend_->RemovePlaylist(id);
-  Q_EMIT PlaylistDeleted(id);
+  // Close already deletes non-favorite playlists.
+  if (favorite) {
+    playlist_backend_->RemovePlaylist(id);
+    Q_EMIT PlaylistDeleted(id);
+  }
 
 }
 
