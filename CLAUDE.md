@@ -19,6 +19,43 @@ Qt Creator build configs already exist under `build/Qt_Sys-{Release,RelWithDebIn
 
 Useful CMake options: `-DBUILD_WERROR=ON`, `-DENABLE_DEBUG_OUTPUT=ON`.
 
+### Separate native test build
+
+The local Linux Debug test build is in `build/native/`, configured with system GCC, Qt 6.4.2, ICU, and GStreamer.
+The existing `build/` remains the Android build; do not reconfigure it for Linux.
+Both build directories and the local dependencies below are ignored by Git.
+
+KDSingleApplication 1.1.0 is built statically for Qt 6 and installed only in `build/native-deps/install/`, since Ubuntu 24.04's package is older than the required version.
+To recreate that dependency:
+
+```bash
+git clone --depth 1 --branch v1.1.0 https://github.com/KDAB/KDSingleApplication.git build/native-deps/KDSingleApplication
+cmake -S build/native-deps/KDSingleApplication -B build/native-deps/kdsingleapplication-build \
+  -DKDSingleApplication_QT6=ON -DKDSingleApplication_STATIC=ON \
+  -DKDSingleApplication_EXAMPLES=OFF -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX="$PWD/build/native-deps/install"
+cmake --build build/native-deps/kdsingleapplication-build --parallel 2
+cmake --install build/native-deps/kdsingleapplication-build
+```
+
+The native test configuration disables optional integrations whose development dependencies are not installed on this host.
+These are local cache settings, not changes to the project's defaults or Android configuration:
+
+```bash
+cmake -S . -B build/native -DCMAKE_BUILD_TYPE=Debug \
+  -DCMAKE_PREFIX_PATH="$PWD/build/native-deps/install" \
+  -DENABLE_PULSE=OFF -DENABLE_CHROMAPRINT=OFF -DENABLE_SONGTRACKING=OFF \
+  -DENABLE_TAGFETCHER=OFF -DENABLE_LIBSECRET=OFF -DENABLE_LAYERSHELLQT=OFF \
+  -DENABLE_AUDIOCD=OFF -DENABLE_MTP=OFF -DENABLE_GPOD=OFF \
+  -DENABLE_GSTFASTSPECTRUM=OFF -DENABLE_EBUR128=OFF \
+  -DENABLE_QPA_QPLATFORMNATIVEINTERFACE=OFF -DENABLE_STREAMTAGREADER=OFF
+cmake --build build/native --target playlist_test longpresshandler_test --parallel 2
+QT_QPA_PLATFORM=offscreen ctest --test-dir build/native \
+  -R '^(playlist_test|longpresshandler_test)$' --output-on-failure
+```
+
+Rerun configuration after installing additional optional dependencies and explicitly enable the corresponding features if desired.
+
 ### Tests
 
 Tests are built only when GTest, GMock, and Qt6 Test are found (`tests/` is added conditionally). They are `EXCLUDE_FROM_ALL`, so build them explicitly:
