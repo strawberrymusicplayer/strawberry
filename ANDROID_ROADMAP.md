@@ -226,3 +226,23 @@ This covers most of what item 5 asks for without changing how the player works.
 - Renaming isn't part of the playlist's undo stack (the undo stack covers the songs in a playlist, not its name), so it can't be undone with the undo button of item 3; typing the old name back is the way to revert.
 
 **Approach:** Replace the title `QLabel` with a small widget that switches between a tappable name (with rename icon) and a `QLineEdit`, calls `PlaylistManager::Rename()` for the current playlist on confirm, and keeps updating from `CurrentChanged` and `PlaylistRenamed` as the label does now.
+
+## 8. Fix playlist deletion and use bin icons for delete buttons
+
+**Status:** To investigate
+
+**Problem:** The playlist delete button (currently a red cross) is reported not to work on Android.
+Delete buttons should consistently use a bin icon rather than a cross.
+
+**Goal:**
+- Make the playlist delete button work reliably with touch input.
+- Replace its red cross with a bin icon and audit all delete buttons across the app for the same icon convention.
+- Keep close, cancel, and clear-search controls distinct: a cross that only closes a view or dismisses input is not a delete button.
+
+**Next steps:**
+- Reproduce the playlist deletion failure on the emulator and trace the selected playlist, action connection, and persistence.
+  Establish whether the existing action deletes the playlist or only removes it from favorites, and ensure the label and behavior agree.
+- Reuse the app's existing themed bin icon where available, keeping tooltips and accessible names explicit about what is deleted.
+- Verify deletion, cancellation of any confirmation, selection changes, and persistence after restarting the app.
+  Confirm that deleting a playlist does not delete its music files.
+- Inventory the remaining delete buttons and replace cross icons with bins while preserving their existing behavior.
