@@ -99,6 +99,11 @@ Both actions can be undone and redone when removing at most 500 songs.
   Both changed test sources pass a syntax check with the Android build toolchain.
   The full native playlist suite could not be run because native CMake configuration is blocked by missing ICU development dependencies; the two playlist-view regression tests remain unexecuted.
 
+**Native follow-up (2026-11-03):** Resolved the native dependency blockers and configured the separate Linux Debug build in `build/native/`.
+Both test binaries built successfully; all eight long-press tests and 14 focused playlist removal regressions passed, including both previously unexecuted playlist-view tests.
+See `CLAUDE.md` for the native build location, isolated KDSingleApplication dependency, configuration options, and test commands.
+This was a focused run, not the full native test suite.
+
 ## 3. Remove the wrench button; undo and redo buttons take its place
 
 **Status:** Planned (after item 2)

@@ -56,6 +56,16 @@ QT_QPA_PLATFORM=offscreen ctest --test-dir build/native \
 
 Rerun configuration after installing additional optional dependencies and explicitly enable the corresponding features if desired.
 
+Validation on 2026-11-03: both native test binaries built successfully.
+All eight long-press tests and 14 playlist removal regressions passed, including both new playlist-view tests.
+To rerun that focused selection:
+
+```bash
+QT_QPA_PLATFORM=offscreen \
+  GTEST_FILTER='LongPressHandlerTest.*:PlaylistTest.ViewRemoval*:PlaylistTest.ScatteredRemovalIsOneUndoStep:PlaylistTest.RemoveRowsAfterRemovedCurrentKeepsPosition:PlaylistTest.RemoveManyRowsKeepsCurrentItem:PlaylistTest.RemoveCurrent*' \
+  ctest --test-dir build/native -R '^(playlist_test|longpresshandler_test)$' --output-on-failure
+```
+
 ### Tests
 
 Tests are built only when GTest, GMock, and Qt6 Test are found (`tests/` is added conditionally). They are `EXCLUDE_FROM_ALL`, so build them explicitly:
