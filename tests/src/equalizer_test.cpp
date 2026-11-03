@@ -18,6 +18,7 @@
 
 #include "gtest_include.h"
 
+#include <cmath>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QLabel>
@@ -116,5 +117,44 @@ TEST_F(EqualizerTest, EnableAndBalanceSettingsPersistWithoutClosing) {
   EXPECT_FLOAT_EQ(-0.75F, restored.stereo_balance());
   restored.findChild<QCheckBox *>(u"enable_stereo_balancer"_s)->setChecked(false);
   EXPECT_FLOAT_EQ(0.0F, restored.stereo_balance());
+
+}
+
+TEST_F(EqualizerTest, EditableDecibelsRoundToExistingEngineSteps) {
+
+  EqualizerSlider band(u"600 Hz"_s);
+  QSignalSpy changes(&band, &EqualizerSlider::ValueChanged);
+  band.set_gain_db(1.0);
+  EXPECT_EQ(8, band.value());
+  EXPECT_NEAR(0.96, band.gain_db(), 0.001);
+  EXPECT_EQ(1, changes.count());
+  band.set_gain_db(-1.0);
+  EXPECT_EQ(-4, band.value());
+  EXPECT_NEAR(-0.96, band.gain_db(), 0.001);
+  band.set_gain_db(-24.0);
+  EXPECT_EQ(-100, band.value());
+  band.set_gain_db(12.0);
+  EXPECT_EQ(100, band.value());
+  band.set_gain_db(0.0);
+  EXPECT_EQ(0, band.value());
+
+}
+
+TEST_F(EqualizerTest, EditablePreampUsesLinearMultiplierAndRetainsMute) {
+
+  EqualizerSlider preamp(u"Pre-amp"_s, nullptr, true);
+  preamp.set_gain_db(-6.0);
+  EXPECT_EQ(-50, preamp.value());
+  EXPECT_NEAR(-6.0206, preamp.gain_db(), 0.001);
+  preamp.set_gain_db(6.02);
+  EXPECT_EQ(100, preamp.value());
+  preamp.set_gain_db(-41.0);
+  EXPECT_EQ(-100, preamp.value());
+  EXPECT_TRUE(std::isinf(preamp.gain_db()));
+  EXPECT_LT(preamp.gain_db(), 0.0);
+  preamp.set_gain_db(-40.0);
+  EXPECT_EQ(-99, preamp.value());
+  preamp.set_gain_db(0.0);
+  EXPECT_EQ(0, preamp.value());
 
 }

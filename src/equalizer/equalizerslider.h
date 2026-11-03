@@ -28,8 +28,9 @@
 #include <QString>
 
 class Ui_EqualizerSlider;
+class QDoubleSpinBox;
 
-// Contains the slider and the label
+// Gain control and label; Android uses an editable dB box.
 class EqualizerSlider : public QWidget {
   Q_OBJECT
 
@@ -39,6 +40,8 @@ class EqualizerSlider : public QWidget {
 
   int value() const;
   void set_value(const int value);
+  double gain_db() const;
+  void set_gain_db(double gain);
 
  Q_SIGNALS:
   void ValueChanged(const int value);
@@ -49,6 +52,9 @@ class EqualizerSlider : public QWidget {
  private:
   Ui_EqualizerSlider *ui_;
   const bool preamp_;
+#ifdef Q_OS_ANDROID
+  QDoubleSpinBox *gain_editor_ = nullptr;
+#endif
 };
 
 #endif  // EQUALISERSLIDER_H

@@ -295,3 +295,51 @@ Delete buttons should consistently use a bin icon rather than a cross.
   Record the device, Android version, and audio output route used.
 - Check narrow-screen and large-font usability, and persistence after an application restart.
 - Record results and any device-specific issues here; emulator results alone do not close this item.
+
+## 10. Make the Android equalizer clearer and more attractive
+
+**Status:** Done (emulator verified)
+
+**Goal:** Provide a compact equalizer screen with clear sections and editable dB values in a wrapping band grid.
+Keep this visual update Android-only.
+
+**Implemented:**
+- Grouped sound presets, preamp, bass, midrange, treble, and stereo controls into rounded, theme-colored sections.
+- Replaced the Android gain sliders with editable bold blue dB boxes between up/down arrow buttons, with black frequency labels underneath.
+  Arrows use the app's navigation icons with auto-raised, icon-only buttons like the playback Love control.
+  Larger blue numbers and smaller regular-weight black dB units are separate; compact controls allow up to four bands per row, wrapping for narrower widths.
+  The focused number has a light-blue rounded box, and selected digits retain their blue text instead of changing to black.
+  Positive gains show a plus sign in green, negative gains a minus sign in red, and zero remains blue; selection retains the gain color.
+  Band controls wrap into additional rows when needed instead of requiring horizontal scrolling.
+  Arrow buttons have 48-pixel touch targets and change gain by approximately 1 dB, rounded to the existing engine steps.
+  The boxes display the actual quantized gain; preamp retains its linear multiplier and Muted endpoint.
+  Enter commits an edited value without closing the equalizer.
+- Reduced section spacing and box padding.
+  Section headings and frequency labels remain black even when equalizer controls are disabled, as requested.
+- Stereo balance retains its horizontal slider with a block-shaped handle and a distinct disabled appearance.
+- Replaced the desktop-style scrollbars with slim, theme-highlight-colored indicators without arrow buttons on the main screen and preset choices, retaining swipe scrolling.
+- Replaced the large preset area with a compact selector, disk Save icon, and bin Delete icon.
+  The selector opens the existing full-page list with a New option.
+  New copies the current curve and asks for a unique name; saving creates it.
+  With the user's approval, edits now retain the selected named preset and show an asterisk until the disk button saves over it.
+  Edits remain live and are retained as a draft across restarts, with a Custom backup; selecting another preset does not overwrite the previous saved curve.
+  Custom remains protected from deletion.
+- Pre-amp, Bass, Midrange, Treble, and Stereo balance are foldouts.
+  The top Sections selector offers All expanded, All collapsed, and One section at a time.
+  The first-time default is All collapsed; the mode and each section's open state are remembered.
+- Moved Enable equalizer above the presets, with a larger bold label, a 28-pixel checkbox, and a 56-pixel minimum touch-row height.
+- Matched the Settings header's bold 18-point title and Back button, including its 32-pixel arrow icon and 48-pixel minimum height.
+- Preserved edge-Back-safe slider insets, wrapping labels, full-page preset navigation, and existing audio processing/live-save behavior.
+  Desktop controls are unchanged.
+
+**Verified:**
+- Built and installed the updated Android APK and inspected the active and disabled controls on the emulator.
+- At 320 dp width with system font scale configured to 2.0, reached the final 16 kHz and stereo controls, opened preset choices and the Save editor, and returned with the header Back button.
+- Dragged stereo balance to both endpoints without closing the editor.
+- Rechecked wrapping gain controls at 320 dp width and reached the final controls by dragging the slim scrollbar.
+  Confirmed the preset screen uses the same arrow-free scrollbar.
+- Verified arrow adjustment, typed negative dB entry, Enter keeping the editor open, and persistence of the edited Custom gain after restarting.
+- Verified foldout toggles and exclusive-section mode, New preset creation from the current curve, disk saving to the selected preset, persistence after restarting, and bin deletion of the temporary test preset.
+- All six native equalizer regression tests pass, including numeric gain rounding, preamp conversion, and the mute endpoint.
+  Formatting/whitespace checks pass.
+- Physical-device validation remains tracked in item 9.

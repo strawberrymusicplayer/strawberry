@@ -40,6 +40,7 @@ class QLabel;
 class QPushButton;
 class QScrollArea;
 class QStackedWidget;
+class QToolButton;
 #endif
 
 class EqualizerSlider;
@@ -108,6 +109,13 @@ class Equalizer : public QDialog {
   void AndroidBack();
   void UpdateAndroidPreset();
   void SetAndroidPage(QWidget *page, const QString &title);
+  void ShowAndroidFoldoutModes();
+  void UpdateAndroidFoldouts();
+  void SaveAndroidFoldouts();
+  QList<QToolButton *> android_sections_;
+  QList<QWidget *> android_section_contents_;
+  QPushButton *android_foldout_mode_ = nullptr;
+  int android_foldout_mode_index_ = 1;
   QStackedWidget *android_pages_ = nullptr;
   QScrollArea *android_main_ = nullptr;
   QLabel *android_title_ = nullptr;

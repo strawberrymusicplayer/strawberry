@@ -77,6 +77,60 @@ constexpr char kEnableStereoBalancer[] = "enable_stereo_balancer";
 constexpr char kStereoBalance[] = "stereo_balance";
 constexpr char kCustom[] = "custom";
 const char *kGainText[] = { "60", "170", "310", "600", "1k", "3k", "6k", "12k", "14k", "16k" };
+#ifdef Q_OS_ANDROID
+const QString kAndroidScrollBarStyle =
+    u"QScrollBar:vertical { width: 8px; margin: 0px; background: transparent; }"
+     "QScrollBar::handle:vertical { min-height: 48px; border-radius: 4px; background: palette(highlight); }"
+     "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0px; }"
+     "QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: transparent; }"_s;
+
+class AndroidEqualizerBandLayout : public QLayout {
+ public:
+  ~AndroidEqualizerBandLayout() override {
+    while (QLayoutItem *item = takeAt(0)) delete item;
+  }
+
+  void addItem(QLayoutItem *item) override { items_.append(item); }
+  int count() const override { return static_cast<int>(items_.count()); }
+  QLayoutItem *itemAt(const int index) const override { return items_.value(index); }
+  QLayoutItem *takeAt(const int index) override { return index >= 0 && index < count() ? items_.takeAt(index) : nullptr; }
+  bool hasHeightForWidth() const override { return true; }
+  int heightForWidth(const int width) const override { return Arrange(QRect(0, 0, width, 0), false); }
+  QSize sizeHint() const override { return minimumSize(); }
+  QSize minimumSize() const override {
+    QSize size;
+    for (QLayoutItem *item : items_) size = size.expandedTo(item->minimumSize());
+    return size;
+  }
+  void setGeometry(const QRect &rect) override {
+    QLayout::setGeometry(rect);
+    Arrange(rect, true);
+  }
+
+ private:
+  int Arrange(const QRect &rect, const bool apply) const {
+    int cell_width = 1;
+    int cell_height = 0;
+    for (QLayoutItem *item : items_) {
+      const QSize size = item->minimumSize();
+      cell_width = std::max(cell_width, size.width());
+      cell_height = std::max(cell_height, size.height());
+    }
+    const int gap = 4;
+    const int columns = std::clamp((rect.width() + gap) / (cell_width + gap), 1, 4);
+    const int width = (rect.width() - (columns - 1) * gap) / columns;
+    if (apply) {
+      for (int i = 0; i < count(); ++i) {
+        items_.at(i)->setGeometry(QRect(rect.x() + (i % columns) * (width + gap), rect.y() + (i / columns) * (cell_height + gap), width, cell_height));
+      }
+    }
+    const int rows = (count() + columns - 1) / columns;
+    return rows ? rows * cell_height + (rows - 1) * gap : 0;
+  }
+
+  QList<QLayoutItem *> items_;
+};
+#endif
 }  // namespace
 
 Equalizer::Equalizer(QWidget *parent)
@@ -102,7 +156,14 @@ Equalizer::Equalizer(QWidget *parent)
   ui_->slider_container->layout()->addWidget(line);
 #endif
 
-  for (int i = 0; i < kBands; ++i) gain_[i] = AddSlider(QString::fromLatin1(kGainText[i]));
+  for (int i = 0; i < kBands; ++i) {
+#ifdef Q_OS_ANDROID
+    const QString frequency = QString::fromLatin1(kGainText[i]);
+    gain_[i] = AddSlider(i < 4 ? tr("%1 Hz").arg(frequency) : tr("%1 kHz").arg(frequency.chopped(1)));
+#else
+    gain_[i] = AddSlider(QString::fromLatin1(kGainText[i]));
+#endif
+  }
 #ifdef Q_OS_ANDROID
   SetupAndroidLayout();
 #endif
@@ -135,6 +196,9 @@ void Equalizer::ReloadSettings() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
+#ifdef Q_OS_ANDROID
+  const QVariant pending_params = s.value("android_current_params");
+#endif
 
   presets_.clear();
   ui_->preset->clear();
@@ -161,7 +225,13 @@ void Equalizer::ReloadSettings() {
   if (selected_index != -1) ui_->preset->setCurrentIndex(selected_index);
 
   ui_->enable_equalizer->setChecked(s.value(kEnabled, false).toBool());
+#ifdef Q_OS_ANDROID
+  ui_->slider_container->setEnabled(true);
+  preamp_->setEnabled(ui_->enable_equalizer->isChecked());
+  for (EqualizerSlider *band : gain_) band->setEnabled(ui_->enable_equalizer->isChecked());
+#else
   ui_->slider_container->setEnabled(ui_->enable_equalizer->isChecked());
+#endif
 
   ui_->enable_stereo_balancer->setChecked(s.value(kEnableStereoBalancer, false).toBool());
 #ifdef Q_OS_ANDROID
@@ -176,6 +246,18 @@ void Equalizer::ReloadSettings() {
   StereoBalanceSliderChanged(stereo_balance);
 
   PresetChanged(selected_preset);
+#ifdef Q_OS_ANDROID
+  if (pending_params.isValid()) {
+    const Params params = pending_params.value<Params>();
+    loading_ = true;
+    preamp_->set_value(params.preamp);
+    for (int i = 0; i < kBands; ++i) gain_[i]->set_value(params.gain[i]);
+    loading_ = false;
+    Q_EMIT EqualizerParametersChanged(preamp_value(), gain_values());
+    UpdateAndroidPreset();
+    Save();
+  }
+#endif
 
 }
 
@@ -248,7 +330,10 @@ void Equalizer::PresetChanged(const QString &name) {
 void Equalizer::SavePreset() {
 
 #ifdef Q_OS_ANDROID
-  ShowAndroidPresetEditor(false);
+  const QString name = ui_->preset->currentData().toString();
+  AddPreset(name, current_params());
+  UpdateAndroidPreset();
+  Save();
 #else
   QString name = SaveCurrentPreset();
   if (!name.isEmpty()) {
@@ -377,7 +462,12 @@ void Equalizer::StereoBalanceSliderChanged(const int value) {
 void Equalizer::EqualizerEnabledChangedSlot(const bool enabled) {
 
   Q_EMIT EqualizerEnabledChanged(enabled);
+#ifdef Q_OS_ANDROID
+  preamp_->setEnabled(enabled);
+  for (EqualizerSlider *band : gain_) band->setEnabled(enabled);
+#else
   ui_->slider_container->setEnabled(enabled);
+#endif
   Save();
 
 }
@@ -387,7 +477,11 @@ void Equalizer::EqualizerParametersChangedSlot() {
   if (loading_) return;
 #ifdef Q_OS_ANDROID
   // Preset loading emits the same parameter signal but must not replace the chosen preset.
-  if (android_pages_ && current_params() != presets_.value(last_preset_)) SaveCurrentPreset();
+  if (android_pages_ && current_params() != presets_.value(last_preset_)) {
+    AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Custom")), current_params());
+    Save();
+    UpdateAndroidPreset();
+  }
 #endif
   Q_EMIT EqualizerParametersChanged(preamp_value(), gain_values());
 
@@ -411,6 +505,9 @@ void Equalizer::Save() {
   s.setValue(kEnabled, ui_->enable_equalizer->isChecked());
   s.setValue(kEnableStereoBalancer, ui_->enable_stereo_balancer->isChecked());
   s.setValue(kStereoBalance, ui_->stereo_balance_slider->value());
+#ifdef Q_OS_ANDROID
+  s.setValue("android_current_params", QVariant::fromValue(current_params()));
+#endif
 
 }
 
@@ -418,6 +515,10 @@ void Equalizer::closeEvent(QCloseEvent *e) {
 
   Q_UNUSED(e)
 
+#ifdef Q_OS_ANDROID
+  Save();
+  return;
+#endif
   const QString name = ui_->preset->itemData(ui_->preset->currentIndex()).toString();
   if (!presets_.contains(name)) return;
 
@@ -443,8 +544,14 @@ void Equalizer::SetupAndroidLayout() {
   android_title_ = new QLabel(tr("Tools > Equalizer"), this);
   android_title_->setWordWrap(true);
   android_title_->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
+  QFont title_font = android_title_->font();
+  title_font.setPointSize(18);
+  title_font.setBold(true);
+  android_title_->setFont(title_font);
   QPushButton *back = new QPushButton(tr("Back"), this);
-  back->setMinimumSize(48, 48);
+  back->setIcon(IconLoader::Load(u"go-previous"_s));
+  back->setIconSize(QSize(32, 32));
+  back->setMinimumHeight(48);
   navigation->addWidget(android_title_, 1);
   navigation->addWidget(back);
   root->addLayout(navigation);
@@ -453,41 +560,113 @@ void Equalizer::SetupAndroidLayout() {
   android_main_ = new QScrollArea(android_pages_);
   android_main_->setWidgetResizable(true);
   android_main_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  android_main_->setFrameShape(QFrame::NoFrame);
+  android_main_->setStyleSheet(u"QSlider::groove:horizontal { height: 6px; border-radius: 3px; background: palette(mid); }"
+                               "QSlider::sub-page:horizontal { border-radius: 3px; background: palette(highlight); }"
+                               "QSlider::handle:horizontal { width: 24px; margin: -9px 0; border-radius: 2px; background: palette(highlight); }"
+                               "QSlider::sub-page:horizontal:disabled, QSlider::handle:horizontal:disabled { background: palette(mid); }"_s);
   QScroller::grabGesture(android_main_->viewport(), QScroller::LeftMouseButtonGesture);
-  android_main_->verticalScrollBar()->setStyleSheet(u"QScrollBar:vertical { width: 24px; }"_s);
+  android_main_->verticalScrollBar()->setStyleSheet(kAndroidScrollBarStyle);
   QWidget *content = new QWidget;
   QVBoxLayout *controls = new QVBoxLayout(content);
   // Keep slider endpoints outside Android's edge-Back gesture region.
-  controls->setContentsMargins(32, 6, 32, 6);
+  controls->setContentsMargins(24, 8, 24, 8);
+  controls->setSpacing(8);
   controls->setSizeConstraint(QLayout::SetMinimumSize);
-  android_preset_ = new AndroidSettingsButton<QPushButton>(content);
-  android_preset_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-  UpdateAndroidPreset();
-  controls->addWidget(android_preset_);
-  QHBoxLayout *preset_actions = new QHBoxLayout;
-  for (QToolButton *button : {ui_->preset_save, ui_->preset_del}) {
-    button->setMinimumSize(48, 48);
-    button->setAccessibleName(button->toolTip());
-    preset_actions->addWidget(button);
-  }
-  controls->addLayout(preset_actions);
-  ui_->enable_equalizer->setMinimumHeight(48);
+  ui_->enable_equalizer->setMinimumHeight(56);
+  QFont enable_font = ui_->enable_equalizer->font();
+  enable_font.setBold(true);
+  enable_font.setPointSizeF(enable_font.pointSizeF() * 1.2);
+  ui_->enable_equalizer->setFont(enable_font);
+  ui_->enable_equalizer->setStyleSheet(u"QCheckBox::indicator { width: 28px; height: 28px; }"_s);
   controls->addWidget(ui_->enable_equalizer);
   QLabel *restart = new QLabel(ui_->enable_equalizer->toolTip(), content);
   restart->setWordWrap(true);
   controls->addWidget(restart);
+  QHBoxLayout *preset_section = new QHBoxLayout;
+  controls->addLayout(preset_section);
+  android_preset_ = new AndroidSettingsButton<QPushButton>(content);
+  android_preset_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  UpdateAndroidPreset();
+  preset_section->addWidget(android_preset_);
+  for (QToolButton *button : {ui_->preset_save, ui_->preset_del}) {
+    button->setMinimumSize(48, 48);
+    button->setAccessibleName(button->toolTip());
+    button->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    button->setAutoRaise(true);
+    button->setIconSize(QSize(28, 28));
+    preset_section->addWidget(button);
+  }
+  android_foldout_mode_ = new AndroidSettingsButton<QPushButton>(content);
+  QVBoxLayout *mode_layout = new QVBoxLayout(android_foldout_mode_);
+  QLabel *mode_label = new QLabel(tr("Sections"), android_foldout_mode_);
+  mode_label->setAttribute(Qt::WA_TransparentForMouseEvents);
+  mode_label->setWordWrap(true);
+  mode_layout->addWidget(mode_label);
+  controls->addWidget(android_foldout_mode_);
+  Settings foldout_settings;
+  foldout_settings.beginGroup(kSettingsGroup);
+  android_foldout_mode_index_ = qBound(0, foldout_settings.value("android_foldout_mode", 1).toInt(), 2);
+  const auto add_foldout = [this, &foldout_settings](QVBoxLayout *parent, const QString &title) {
+    QFrame *card = new QFrame;
+    card->setObjectName(u"equalizerFoldout"_s);
+    card->setStyleSheet(u"QFrame#equalizerFoldout { background: palette(base); border: 1px solid palette(mid); border-radius: 12px; }"_s);
+    QVBoxLayout *outer = new QVBoxLayout(card);
+    outer->setContentsMargins(8, 4, 8, 4);
+    QToolButton *heading = new QToolButton(card);
+    heading->setText(title);
+    heading->setCheckable(true);
+    heading->setChecked(foldout_settings.value(u"android_section_%1"_s.arg(android_sections_.count()), android_foldout_mode_index_ == 0).toBool());
+    heading->setAutoRaise(true);
+    heading->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    heading->setMinimumHeight(48);
+    heading->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    QFont font = heading->font();
+    font.setBold(true);
+    heading->setFont(font);
+    heading->setAccessibleName(title);
+    QWidget *body = new QWidget(card);
+    QVBoxLayout *inner = new QVBoxLayout(body);
+    inner->setContentsMargins(0, 0, 0, 0);
+    outer->addWidget(heading);
+    outer->addWidget(body);
+    android_sections_.append(heading);
+    android_section_contents_.append(body);
+    QObject::connect(heading, &QToolButton::clicked, this, [this, heading](const bool open) {
+      if (open && android_foldout_mode_index_ == 2) {
+        for (QToolButton *other : android_sections_) if (other != heading) other->setChecked(false);
+      }
+      UpdateAndroidFoldouts();
+      SaveAndroidFoldouts();
+    });
+    parent->addWidget(card);
+    return inner;
+  };
   QLayout *slider_layout = ui_->slider_container->layout();
   while (QLayoutItem *item = slider_layout->takeAt(0)) delete item;
   delete slider_layout;
   QVBoxLayout *sliders = new QVBoxLayout(ui_->slider_container);
   sliders->setContentsMargins(0, 0, 0, 0);
-  sliders->addWidget(preamp_);
-  for (EqualizerSlider *slider : gain_) sliders->addWidget(slider);
+  sliders->setSpacing(8);
+  add_foldout(sliders, tr("Pre-amp"))->addWidget(preamp_);
+  QVBoxLayout *bass = add_foldout(sliders, tr("Bass"));
+  QVBoxLayout *midrange = add_foldout(sliders, tr("Midrange"));
+  QVBoxLayout *treble = add_foldout(sliders, tr("Treble"));
+  AndroidEqualizerBandLayout *bass_bands = new AndroidEqualizerBandLayout;
+  AndroidEqualizerBandLayout *midrange_bands = new AndroidEqualizerBandLayout;
+  AndroidEqualizerBandLayout *treble_bands = new AndroidEqualizerBandLayout;
+  bass->addLayout(bass_bands);
+  midrange->addLayout(midrange_bands);
+  treble->addLayout(treble_bands);
+  for (int i = 0; i < kBands; ++i) {
+    (i < 3 ? bass_bands : i < 6 ? midrange_bands : treble_bands)->addWidget(gain_[i]);
+  }
   controls->addWidget(ui_->slider_container);
+  QVBoxLayout *stereo = add_foldout(controls, tr("Stereo balance"));
   ui_->enable_stereo_balancer->setMinimumHeight(48);
-  controls->addWidget(ui_->enable_stereo_balancer);
-  controls->addLayout(ui_->slider_label_layout);
-  controls->addWidget(ui_->stereo_balance_slider);
+  stereo->addWidget(ui_->enable_stereo_balancer);
+  stereo->addLayout(ui_->slider_label_layout);
+  stereo->addWidget(ui_->stereo_balance_slider);
   ui_->stereo_balance_slider->setMinimumHeight(48);
   ui_->stereo_balance_slider->setAccessibleName(tr("Balance"));
   controls->addStretch();
@@ -498,6 +677,8 @@ void Equalizer::SetupAndroidLayout() {
   ui_->line->hide();
   QObject::connect(back, &QPushButton::clicked, this, &Equalizer::AndroidBack);
   QObject::connect(android_preset_, &QPushButton::clicked, this, &Equalizer::ShowAndroidPresets);
+  QObject::connect(android_foldout_mode_, &QPushButton::clicked, this, &Equalizer::ShowAndroidFoldoutModes);
+  UpdateAndroidFoldouts();
 
 }
 
@@ -512,11 +693,8 @@ void Equalizer::UpdateAndroidPreset() {
   }
   delete android_preset_->layout();
   QVBoxLayout *layout = new QVBoxLayout(android_preset_);
-  QLabel *title = new QLabel(tr("Preset") + u" >"_s, android_preset_);
-  title->setAttribute(Qt::WA_TransparentForMouseEvents);
-  title->setWordWrap(true);
-  layout->addWidget(title);
-  QLabel *value = new QLabel(ui_->preset->currentText(), android_preset_);
+  const bool edited = presets_.value(ui_->preset->currentData().toString()) != current_params();
+  QLabel *value = new QLabel(tr("Preset: %1").arg(ui_->preset->currentText()) + (edited ? u" *"_s : QString()) + u" >"_s, android_preset_);
   value->setAttribute(Qt::WA_TransparentForMouseEvents);
   value->setTextFormat(Qt::PlainText);
   value->setWordWrap(true);
@@ -528,7 +706,9 @@ void Equalizer::UpdateAndroidPreset() {
   value->setPalette(palette);
   layout->addWidget(value);
   android_preset_->setAccessibleName(tr("Preset") + u": "_s + ui_->preset->currentText());
-  ui_->preset_del->setEnabled(ui_->preset->currentData().toString() != QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Custom")));
+  const QString selected = ui_->preset->currentData().toString();
+  ui_->preset_del->setEnabled(selected != QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Custom")));
+  ui_->preset_save->setEnabled(edited || selected == QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Custom")));
 
 }
 
@@ -540,15 +720,72 @@ void Equalizer::SetAndroidPage(QWidget *page, const QString &title) {
 
 }
 
+void Equalizer::UpdateAndroidFoldouts() {
+
+  const QStringList modes{tr("All expanded"), tr("All collapsed"), tr("One section at a time")};
+  android_foldout_mode_->findChild<QLabel *>()->setText(tr("Sections: %1").arg(modes.at(android_foldout_mode_index_)) + u" >"_s);
+  for (int i = 0; i < android_sections_.count(); ++i) {
+    const bool open = android_sections_.at(i)->isChecked();
+    android_sections_.at(i)->setArrowType(open ? Qt::DownArrow : Qt::RightArrow);
+    android_section_contents_.at(i)->setVisible(open);
+  }
+
+}
+
+void Equalizer::SaveAndroidFoldouts() {
+
+  Settings settings;
+  settings.beginGroup(kSettingsGroup);
+  settings.setValue("android_foldout_mode", android_foldout_mode_index_);
+  for (int i = 0; i < android_sections_.count(); ++i) settings.setValue(u"android_section_%1"_s.arg(i), android_sections_.at(i)->isChecked());
+
+}
+
+void Equalizer::ShowAndroidFoldoutModes() {
+
+  QWidget *page = new QWidget;
+  QVBoxLayout *layout = new QVBoxLayout(page);
+  const QStringList modes{tr("All expanded"), tr("All collapsed"), tr("One section at a time")};
+  for (int i = 0; i < modes.count(); ++i) {
+    QRadioButton *choice = new AndroidSettingsButton<QRadioButton>(page);
+    QVBoxLayout *row = new QVBoxLayout(choice);
+    QLabel *label = new QLabel(modes.at(i), choice);
+    label->setWordWrap(true);
+    label->setAttribute(Qt::WA_TransparentForMouseEvents);
+    row->addWidget(label);
+    choice->setAccessibleName(modes.at(i));
+    choice->setChecked(i == android_foldout_mode_index_);
+    choice->setStyleSheet(u"QRadioButton::indicator { width: 0px; height: 0px; } QRadioButton:checked { background: palette(highlight); color: palette(highlighted-text); }"_s);
+    layout->addWidget(choice);
+    QObject::connect(choice, &QRadioButton::clicked, this, [this, i]() {
+      android_foldout_mode_index_ = i;
+      for (int section = 0; section < android_sections_.count(); ++section) android_sections_.at(section)->setChecked(i == 0);
+      UpdateAndroidFoldouts();
+      SaveAndroidFoldouts();
+      AndroidBack();
+    });
+  }
+  layout->addStretch();
+  SetAndroidPage(page, tr("Sections"));
+
+}
+
 void Equalizer::ShowAndroidPresets() {
 
   QScrollArea *area = new QScrollArea;
   area->setWidgetResizable(true);
   area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   QScroller::grabGesture(area->viewport(), QScroller::LeftMouseButtonGesture);
-  area->verticalScrollBar()->setStyleSheet(u"QScrollBar:vertical { width: 24px; }"_s);
+  area->verticalScrollBar()->setStyleSheet(kAndroidScrollBarStyle);
   QWidget *content = new QWidget;
   QVBoxLayout *layout = new QVBoxLayout(content);
+  QPushButton *create = new QPushButton(tr("New"), content);
+  create->setMinimumHeight(48);
+  layout->addWidget(create);
+  QObject::connect(create, &QPushButton::clicked, this, [this]() {
+    AndroidBack();
+    ShowAndroidPresetEditor(false);
+  });
   QWidget *selected_choice = nullptr;
   for (int i = 0; i < ui_->preset->count(); ++i) {
     const QString name = ui_->preset->itemData(i).toString();
@@ -595,7 +832,7 @@ void Equalizer::ShowAndroidPresetEditor(const bool remove) {
   label->setTextFormat(Qt::PlainText);
   label->setWordWrap(true);
   layout->addWidget(label);
-  QLineEdit *edit = new QLineEdit(ui_->preset->currentText(), page);
+  QLineEdit *edit = new QLineEdit(page);
   edit->setMinimumHeight(48);
   edit->setAccessibleName(tr("Name"));
   edit->setVisible(!remove);
@@ -622,6 +859,10 @@ void Equalizer::ShowAndroidPresetEditor(const bool remove) {
       const QString entered = edit->text().trimmed();
       if (entered.isEmpty()) {
         error->setText(tr("Enter a preset name."));
+        return;
+      }
+      if (presets_.contains(entered)) {
+        error->setText(tr("A preset with this name already exists."));
         return;
       }
       const QSignalBlocker blocker(ui_->preset);
