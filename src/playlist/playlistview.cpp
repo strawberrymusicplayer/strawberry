@@ -59,8 +59,17 @@
 #include <QtEvents>
 #include <QDrag>
 #include <QSignalBlocker>
+#include <QUndoStack>
 #ifdef Q_OS_ANDROID
+#  include <QCoreApplication>
+#  include <QDialog>
+#  include <QJniObject>
+#  include <QLabel>
+#  include <QPushButton>
 #  include <QScreen>
+#  include <QShortcut>
+#  include <QVBoxLayout>
+#  include "widgets/longpresshandler.h"
 #endif
 
 #include "includes/qt_blurimage.h"
@@ -185,6 +194,18 @@ PlaylistView::PlaylistView(QWidget *parent)
   QObject::connect(fade_animation_, &QTimeLine::valueChanged, this, &PlaylistView::FadePreviousBackgroundImage);
   fade_animation_->setDirection(QTimeLine::Direction::Backward);  // 1.0 -> 0.0
 
+#ifdef Q_OS_ANDROID
+  const int long_press_interval = QJniObject::callStaticMethod<jint>("android/view/ViewConfiguration", "getLongPressTimeout", "()I");
+  const QJniObject configuration = QJniObject::callStaticObjectMethod("android/view/ViewConfiguration", "get", "(Landroid/content/Context;)Landroid/view/ViewConfiguration;", QNativeInterface::QAndroidApplication::context().object());
+  const int touch_slop = qRound(configuration.callMethod<jint>("getScaledTouchSlop", "()I") / devicePixelRatioF());
+  long_press_ = new LongPressHandler(long_press_interval, touch_slop, this);
+  viewport()->installEventFilter(this);
+  QObject::connect(long_press_, &LongPressHandler::LongPressed, this, &PlaylistView::ShowAndroidSongActions);
+  QObject::connect(qApp, &QApplication::applicationStateChanged, this, [this](const Qt::ApplicationState state) {
+    if (state != Qt::ApplicationActive) CancelAndroidSongActions();
+  });
+#endif
+
 }
 
 PlaylistView::~PlaylistView() {
@@ -265,6 +286,15 @@ void PlaylistView::SetItemDelegates() {
 
 void PlaylistView::setModel(QAbstractItemModel *m) {
 
+#ifdef Q_OS_ANDROID
+  CancelAndroidSongActions();
+  if (model()) {
+    QObject::disconnect(model(), &QAbstractItemModel::layoutAboutToBeChanged, this, &PlaylistView::CancelAndroidSongActions);
+    QObject::disconnect(model(), &QAbstractItemModel::rowsAboutToBeInserted, this, &PlaylistView::CancelAndroidSongActions);
+    QObject::disconnect(model(), &QAbstractItemModel::rowsAboutToBeRemoved, this, &PlaylistView::CancelAndroidSongActions);
+    QObject::disconnect(model(), &QAbstractItemModel::modelAboutToBeReset, this, &PlaylistView::CancelAndroidSongActions);
+  }
+#endif
   if (model()) {
     // Stop hovering the rating while the hovered index of the old model is still valid, the old playlist can be deleted after switching to another one.
     if (rating_delegate_) {
@@ -284,6 +314,12 @@ void PlaylistView::setModel(QAbstractItemModel *m) {
 
   QTreeView::setModel(m);
 
+#ifdef Q_OS_ANDROID
+  QObject::connect(model(), &QAbstractItemModel::layoutAboutToBeChanged, this, &PlaylistView::CancelAndroidSongActions);
+  QObject::connect(model(), &QAbstractItemModel::rowsAboutToBeInserted, this, &PlaylistView::CancelAndroidSongActions);
+  QObject::connect(model(), &QAbstractItemModel::rowsAboutToBeRemoved, this, &PlaylistView::CancelAndroidSongActions);
+  QObject::connect(model(), &QAbstractItemModel::modelAboutToBeReset, this, &PlaylistView::CancelAndroidSongActions);
+#endif
   QObject::connect(model(), &QAbstractItemModel::dataChanged, this, &PlaylistView::InvalidateCachedCurrentPixmap);
   // Stop hovering the rating before the rows change, while the hovered index is still valid, otherwise the hover is painted on the row it moved to, or the cursor is not reset when the row is removed.
   QObject::connect(model(), &QAbstractItemModel::layoutAboutToBeChanged, this, &PlaylistView::RatingHoverOut);
@@ -295,6 +331,9 @@ void PlaylistView::setModel(QAbstractItemModel *m) {
 
 void PlaylistView::SetPlaylist(Playlist *playlist) {
 
+#ifdef Q_OS_ANDROID
+  CancelAndroidSongActions();
+#endif
   if (playlist_) {
     QObject::disconnect(playlist_, &Playlist::MaybeAutoscroll, this, &PlaylistView::MaybeAutoscroll);
     QObject::disconnect(playlist_, &Playlist::destroyed, this, &PlaylistView::PlaylistDestroyed);
@@ -756,6 +795,9 @@ void PlaylistView::StartGlowing() {
 }
 
 void PlaylistView::hideEvent(QHideEvent *e) {
+#ifdef Q_OS_ANDROID
+  CancelAndroidSongActions();
+#endif
   glow_timer_.stop();
   QTreeView::hideEvent(e);
 }
@@ -847,6 +889,10 @@ void PlaylistView::RemoveSelected() {
     return;
   }
 
+  const int count = static_cast<int>(selectionModel()->selectedRows().count());
+  const bool undoable = playlist_ && count <= Playlist::kUndoItemLimit;
+  if (undoable) playlist_->undo_stack()->beginMacro(tr("remove %n songs", "", count));
+
   // Store the last selected row, which is the last in the list
   int last_row = selection.last().top();
 
@@ -857,6 +903,9 @@ void PlaylistView::RemoveSelected() {
     if (range.top() < last_row) rows_removed += range.height();
     model()->removeRows(range.top(), range.height(), range.parent());
   }
+
+  if (undoable) playlist_->undo_stack()->endMacro();
+  else if (playlist_) playlist_->undo_stack()->clear();
 
   int new_row = last_row - rows_removed;
   // Index of the first column for the row to select
@@ -953,6 +1002,12 @@ void PlaylistView::closeEditor(QWidget *editor, const QAbstractItemDelegate::End
 
 void PlaylistView::mouseMoveEvent(QMouseEvent *event) {
 
+#ifdef Q_OS_ANDROID
+  if (long_press_->Move(event->pos())) {
+    event->accept();
+    return;
+  }
+#endif
   // Check whether rating section is locked by user or not
   if (!rating_locked_) {
     QModelIndex idx = indexAt(event->pos());
@@ -982,6 +1037,13 @@ void PlaylistView::leaveEvent(QEvent *e) {
 
 void PlaylistView::mousePressEvent(QMouseEvent *event) {
 
+#ifdef Q_OS_ANDROID
+  long_press_->Release();
+  const QModelIndex pressed_index = indexAt(event->pos());
+  if (event->button() == Qt::LeftButton && playlist_ && pressed_index.isValid() && pressed_index.column() != static_cast<int>(Playlist::Column::Rating)) {
+    long_press_->Press(event->pos());
+  }
+#endif
   if (editTriggers() & QAbstractItemView::NoEditTriggers) {
     QTreeView::mousePressEvent(event);
     return;
@@ -1032,8 +1094,121 @@ void PlaylistView::mousePressEvent(QMouseEvent *event) {
 
 }
 
+void PlaylistView::mouseReleaseEvent(QMouseEvent *event) {
+
+#ifdef Q_OS_ANDROID
+  if (long_press_->Release()) {
+    setState(QAbstractItemView::NoState);
+    event->accept();
+    return;
+  }
+#endif
+  QTreeView::mouseReleaseEvent(event);
+
+}
+
+#ifdef Q_OS_ANDROID
+void PlaylistView::CancelAndroidSongActions() {
+
+  if (long_press_) long_press_->Cancel();
+  if (android_song_actions_ && android_song_actions_->isVisible()) android_song_actions_->reject();
+
+}
+
+void PlaylistView::ShowAndroidSongActions(const QPoint position) {
+
+  setState(QAbstractItemView::NoState);
+  const QModelIndex index = indexAt(position);
+  if (!playlist_ || !index.isValid() || !isVisible()) return;
+
+  if (!selectionModel()->isRowSelected(index.row(), index.parent())) {
+    selectionModel()->setCurrentIndex(index, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+  }
+  const int count = static_cast<int>(selectionModel()->selectedRows().count());
+  QDialog *dialog = new QDialog(this);
+  android_song_actions_ = dialog;
+  dialog->setAttribute(Qt::WA_DeleteOnClose);
+  dialog->setWindowTitle(tr("Playlist actions"));
+  // Positioned native dialogs receive offset touch coordinates on Android; keep this window at the screen origin.
+  dialog->setWindowState(Qt::WindowFullScreen);
+  QVBoxLayout *layout = new QVBoxLayout(dialog);
+  layout->addStretch();
+  const QString title_text = count == 1 ? index.siblingAtColumn(static_cast<int>(Playlist::Column::Title)).data().toString() : tr("%n songs selected", "", count);
+  QLabel *title = new QLabel(title_text, dialog);
+  title->setTextFormat(Qt::PlainText);
+  title->setWordWrap(true);
+  layout->addWidget(title);
+  QPushButton *remove = new QPushButton(count == 1 ? tr("Remove song") : tr("Remove %n songs", "", count), dialog);
+  QPushButton *clear = new QPushButton(tr("Clear playlist"), dialog);
+  QPushButton *confirm = new QPushButton(tr("Remove songs"), dialog);
+  QPushButton *cancel = new QPushButton(tr("Cancel"), dialog);
+  for (QPushButton *button : {remove, clear, confirm, cancel}) {
+    button->setMinimumHeight(48);
+    button->setAutoDefault(false);
+    layout->addWidget(button);
+  }
+  confirm->hide();
+  layout->addStretch();
+  QShortcut *back = new QShortcut(dialog);
+  back->setKeys({QKeySequence(Qt::Key_Back), QKeySequence(Qt::Key_Escape)});
+  QObject::connect(back, &QShortcut::activated, dialog, [dialog, title, title_text, remove, clear, confirm]() {
+    if (confirm->isVisible()) {
+      confirm->hide();
+      QObject::disconnect(confirm, &QPushButton::clicked, dialog, nullptr);
+      title->setText(title_text);
+      remove->show();
+      clear->show();
+    }
+    else {
+      dialog->reject();
+    }
+  });
+  QObject::connect(cancel, &QPushButton::clicked, dialog, &QDialog::reject);
+  QObject::connect(selectionModel(), &QItemSelectionModel::selectionChanged, dialog, [dialog]() {
+    if (dialog->isVisible()) dialog->reject();
+  });
+  QObject::connect(playlist_, &QObject::destroyed, dialog, &QDialog::reject);
+  const auto perform = [this, dialog](const bool clear_playlist) {
+    // Close before modifying the model, whose change signals cancel any pending actions.
+    android_song_actions_.clear();
+    dialog->accept();
+    if (clear_playlist) {
+      const bool undoable = playlist_->rowCount() <= Playlist::kUndoItemLimit;
+      if (undoable) playlist_->undo_stack()->beginMacro(tr("Clear playlist"));
+      playlist_->Clear();
+      if (undoable) playlist_->undo_stack()->endMacro();
+    }
+    else {
+      RemoveSelected();
+    }
+  };
+  const auto choose = [this, dialog, title, remove, clear, confirm, count, perform](const bool clear_playlist) {
+    const int removed_count = clear_playlist ? playlist_->rowCount() : count;
+    if (removed_count <= Playlist::kUndoItemLimit) {
+      perform(clear_playlist);
+      return;
+    }
+    title->setText(tr("Removing %n songs cannot be undone and will clear the undo history. Continue?", "", removed_count));
+    remove->hide();
+    clear->hide();
+    confirm->setText(clear_playlist ? tr("Clear playlist") : tr("Remove %n songs", "", removed_count));
+    confirm->show();
+    QObject::connect(confirm, &QPushButton::clicked, dialog, [perform, clear_playlist]() { perform(clear_playlist); });
+  };
+  QObject::connect(remove, &QPushButton::clicked, dialog, [choose]() { choose(false); });
+  QObject::connect(clear, &QPushButton::clicked, dialog, [choose]() { choose(true); });
+  dialog->open();
+  dialog->activateWindow();
+  dialog->setFocus(Qt::OtherFocusReason);
+
+}
+#endif
+
 void PlaylistView::scrollContentsBy(const int dx, const int dy) {
 
+#ifdef Q_OS_ANDROID
+  if (long_press_) long_press_->Cancel();
+#endif
   if (dx != 0) {
     InvalidateCachedCurrentPixmap();
   }
@@ -1464,6 +1639,11 @@ void PlaylistView::resizeEvent(QResizeEvent *e) {
 
 bool PlaylistView::eventFilter(QObject *object, QEvent *event) {
 
+#ifdef Q_OS_ANDROID
+  if (object == viewport() && (event->type() == QEvent::TouchCancel || event->type() == QEvent::UngrabMouse)) {
+    if (long_press_) long_press_->Cancel();
+  }
+#endif
   if (event->type() == QEvent::Enter && (object == horizontalScrollBar() || object == verticalScrollBar())) {
     return false;  // clazy:exclude=base-class-event
   }

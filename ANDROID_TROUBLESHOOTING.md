@@ -325,6 +325,21 @@ Don't remove it unless the Android Qt kit is 6.9.2 or newer.
 
 ---
 
+### Tapping a Positioned Dialog Activates the Wrong Button
+
+**Symptoms:**
+- A small native `QDialog` is drawn in the expected position, but tapping one button activates another or does nothing.
+- Reproduced with playlist song actions on the Qt 6.7.3 Android emulator: tapping Remove could activate Cancel.
+
+**Workaround:**
+Use a full-screen modal action page at the screen origin instead of a positioned native popup.
+Keep confirmation controls on that same page.
+`PlaylistView::ShowAndroidSongActions()` uses this approach, with touch targets at least 48 logical pixels high.
+Validate actual touch input; a screenshot alone cannot establish that the hit regions match the displayed buttons.
+The action page also explicitly activates and focuses its window after opening; without this, Back and Escape can be ignored even though touch input works.
+
+---
+
 ## Deployment Issues
 
 ### "adb: command not found"

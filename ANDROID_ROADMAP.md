@@ -33,12 +33,12 @@ Android AudioFlinger's signal power history retains older non-silent entries dur
 
 ## 2. Long press on a song to remove it or clear the playlist
 
-**Status:** Planned
+**Status:** Done
 
 **Problem:** On Android, there is no touch way to remove songs from a playlist; desktop uses the Delete key or the context menu.
 
-**Goal:** Long-pressing a song opens a small dialog with "Remove song", "Clear playlist" and "Cancel".
-Both actions can be undone and redone.
+**Goal:** Long-pressing a song opens an action page with "Remove song", "Clear playlist" and "Cancel".
+Both actions can be undone and redone when removing at most 500 songs.
 
 **Behavior:**
 - If the pressed song is part of a selection of several songs, "Remove" removes all selected songs (shown as "Remove N songs"); otherwise it removes only the pressed song.
@@ -56,15 +56,16 @@ Both actions can be undone and redone.
   - Scrolling and select-and-play.
 - Undo and redo are mostly supported already: removing rows (`Playlist::removeRows()`) and clearing (`Playlist::Clear()`) push `PlaylistUndoCommandRemoveItems` onto the playlist's undo stack.
   Two gaps need handling:
-  - `PlaylistView::RemoveSelected()` calls `removeRows()` once per contiguous range, so removing a selection with gaps creates several undo steps.
-    Wrap the removal in `QUndoStack::beginMacro()` / `endMacro()` so it is one step.
+  - Existing removal commands merge, including across separate user actions.
+    Wrap each action in `QUndoStack::beginMacro()` / `endMacro()` so one Undo restores exactly that action, including a selection with gaps.
   - Removing or clearing more than 500 songs (`kUndoItemLimit`) can't be undone and clears the undo history.
-    The dialog should ask for confirmation in that case.
+    Confirm before either action and enforce the limit against the total selection, not each contiguous range.
 - Fit with Android design: good.
-  Long press for item actions is a standard Android gesture, and a simple dialog with a few actions matches Material dialogs.
-  Show the song title (or the number of selected songs) in the dialog and keep the pressed row highlighted, so it is clear what the action applies to.
+  Long press for item actions is a standard Android gesture.
+  Show the song title (or the number of selected songs) and keep the pressed row highlighted, so it is clear what the action applies to.
 - Taps on `QMenu` items don't trigger actions on Android (see item 3), so the dialog must use buttons, not a menu.
-  Verify that taps on `QDialog` / `QMessageBox` buttons work before building on them.
+  Emulator testing also found offset touch coordinates in a small positioned native `QDialog`: tapping Remove could activate Cancel.
+  Use a full-screen modal action page at the screen origin, with buttons at least 48 logical pixels high and oversized-removal confirmation on the same page.
 - Long press is a hidden gesture; Material advises not making it the only way to reach an action.
   After item 3 removes the toolbar menu, it is the only touch path to Clear playlist; consider a later swipe-to-remove or a selection mode as a discoverable alternative.
 
@@ -78,7 +79,25 @@ Both actions can be undone and redone.
 - Verify on the emulator whether the release is still delivered to the view once the modal dialog is open; resetting the view state covers the case where it isn't.
 - Skip long-press detection on the rating column, which rates on press; the column is hidden on Android by default.
 - Put the long-press detection in a small helper class that is built on all platforms but only used by `PlaylistView` on Android, so its timing and cancellation can be tested by the desktop test suite (`tests/src/`).
-- Show a small modal `QDialog` with buttons that removes the selection (one undo macro) or calls `Playlist::Clear()`.
+- Cancel pending detection on scrolling, interrupted touches, app deactivation, hiding, or model changes.
+  Dismiss the action page if the playlist or selection changes so its actions cannot apply to stale rows.
+- Show a full-screen modal `QDialog` with buttons that removes the selection (one undo macro) or calls `Playlist::Clear()` (also one undo macro when undoable).
+  Activate and focus the page after opening it so keyboard navigation reaches the modal window.
+  Back or Escape dismisses the action page; from an oversized-removal confirmation it returns one level to the action choices without changing the playlist.
+
+**Validation (2026-11-02):**
+- Built and packaged the Android app, signed it, and deployed it to the emulator.
+- All eight focused long-press helper tests pass, covering the configured timeout, short taps, movement within/beyond touch slop, cancellation, one-shot firing, and release suppression.
+- Verified Remove, Clear, Cancel, Undo and Redo with real emulator touch/key input; removing several selected songs is restored by one Undo.
+- Verified Back and Escape dismiss the action page, Back from an oversized-removal confirmation returns to the choices without modifying the playlist, and switching away from the app cancels the open page.
+- Verified the exact undo boundary: removing 500 songs needs no warning and can be undone; Remove and Clear both warn for 501 songs, and Cancel preserves the playlist.
+  Confirmed both Remove and Clear of 501 songs empty the playlist and clear undo history.
+- With a fresh three-song playlist using local filesystem URLs, captured the emulator's own audio stream and analyzed power at the fixture tone frequencies.
+  The 440 Hz song remained dominant before and immediately after removing its playing row, then the expected next song's 660 Hz tone became dominant after the track boundary.
+  Stopped playback and restored the removed song afterward.
+- Added playlist-view regression tests for separate undo steps and the total undo limit for scattered selections.
+  Both changed test sources pass a syntax check with the Android build toolchain.
+  The full native playlist suite could not be run because native CMake configuration is blocked by missing ICU development dependencies; the two playlist-view regression tests remain unexecuted.
 
 ## 3. Remove the wrench button; undo and redo buttons take its place
 

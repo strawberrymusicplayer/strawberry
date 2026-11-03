@@ -42,6 +42,7 @@
 #include <QStyleOption>
 #include <QPoint>
 #include <QBasicTimer>
+#include <QPointer>
 
 #include "core/song.h"
 #include "covermanager/albumcoverloaderresult.h"
@@ -74,6 +75,10 @@ class PlaylistHeader;
 class PlaylistProxyStyle;
 class DynamicPlaylistControls;
 class RatingItemDelegate;
+#ifdef Q_OS_ANDROID
+class LongPressHandler;
+class QDialog;
+#endif
 
 #ifdef HAVE_MOODBAR
 class MoodbarLoader;
@@ -136,6 +141,7 @@ class PlaylistView : public QTreeView {
   void timerEvent(QTimerEvent *event) override;
   void mouseMoveEvent(QMouseEvent *event) override;
   void mousePressEvent(QMouseEvent *event) override;
+  void mouseReleaseEvent(QMouseEvent *event) override;
   void leaveEvent(QEvent *e) override;
   void paintEvent(QPaintEvent *event) override;
   void dragMoveEvent(QDragMoveEvent *event) override;
@@ -187,6 +193,10 @@ class PlaylistView : public QTreeView {
   void RestoreHeaderState();
 #ifdef Q_OS_ANDROID
   void UpdatePortraitColumns();
+  void ShowAndroidSongActions(const QPoint position);
+  void CancelAndroidSongActions();
+  LongPressHandler *long_press_ = nullptr;
+  QPointer<QDialog> android_song_actions_;
   bool portrait_columns_ = false;
 #endif
 

@@ -34,6 +34,8 @@
 #include "collection/collectionplaylistitem.h"
 #include "playlist/playlist.h"
 #include "playlist/playlistbackend.h"
+#include "playlist/playlistfilter.h"
+#include "playlist/playlistview.h"
 #include "playlist/songplaylistitem.h"
 #include "queue/queue.h"
 #include "smartplaylists/playlistgenerator.h"
@@ -2332,6 +2334,60 @@ TEST_F(PlaylistTest, ScatteredRemovalIsOneUndoStep) {
   EXPECT_EQ(u"Four"_s, TitleAt(playlist_, 3));
   EXPECT_EQ(u"Five"_s, TitleAt(playlist_, 4));
   EXPECT_EQ(1, two_p.row());
+
+}
+
+TEST_F(PlaylistTest, ViewRemovalKeepsSeparateActionsInSeparateUndoSteps) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s) << MakeMockItemP(u"Three"_s) << MakeMockItemP(u"Four"_s) << MakeMockItemP(u"Five"_s));
+  PlaylistView view;
+  view.SetItemDelegates();
+  view.setSelectionMode(QAbstractItemView::ExtendedSelection);
+  view.setSelectionBehavior(QAbstractItemView::SelectRows);
+  view.setModel(playlist_.filter());
+  view.SetPlaylist(&playlist_);
+  view.selectionModel()->select(view.model()->index(0, 0), QItemSelectionModel::Select | QItemSelectionModel::Rows);
+  view.selectionModel()->select(view.model()->index(2, 0), QItemSelectionModel::Select | QItemSelectionModel::Rows);
+  view.RemoveSelected();
+  ASSERT_EQ(3, playlist_.rowCount());
+  EXPECT_EQ(u"Two"_s, TitleAt(playlist_, 0));
+  EXPECT_EQ(u"Four"_s, TitleAt(playlist_, 1));
+
+  view.selectionModel()->select(view.model()->index(2, 0), QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+  view.RemoveSelected();
+  ASSERT_EQ(2, playlist_.rowCount());
+  playlist_.undo_stack()->undo();
+  ASSERT_EQ(3, playlist_.rowCount());
+  EXPECT_EQ(u"Five"_s, TitleAt(playlist_, 2));
+  playlist_.undo_stack()->undo();
+  ASSERT_EQ(5, playlist_.rowCount());
+  EXPECT_EQ(u"One"_s, TitleAt(playlist_, 0));
+  EXPECT_EQ(u"Three"_s, TitleAt(playlist_, 2));
+  playlist_.undo_stack()->redo();
+  EXPECT_EQ(3, playlist_.rowCount());
+
+}
+
+TEST_F(PlaylistTest, ViewRemovalHonorsTotalUndoLimitForScatteredRows) {
+
+  PlaylistItemPtrList items;
+  for (int i = 0; i < (Playlist::kUndoItemLimit + 1) * 2; ++i) {
+    items << MakeMockItemP(QString::number(i));
+  }
+  playlist_.InsertItems(items);
+  PlaylistView view;
+  view.SetItemDelegates();
+  view.setSelectionMode(QAbstractItemView::ExtendedSelection);
+  view.setSelectionBehavior(QAbstractItemView::SelectRows);
+  view.setModel(playlist_.filter());
+  view.SetPlaylist(&playlist_);
+  for (int row = 0; row < view.model()->rowCount(); row += 2) {
+    view.selectionModel()->select(view.model()->index(row, 0), QItemSelectionModel::Select | QItemSelectionModel::Rows);
+  }
+  view.RemoveSelected();
+  EXPECT_EQ(Playlist::kUndoItemLimit + 1, playlist_.rowCount());
+  EXPECT_FALSE(playlist_.undo_stack()->canUndo());
+  EXPECT_FALSE(playlist_.undo_stack()->canRedo());
 
 }
 
