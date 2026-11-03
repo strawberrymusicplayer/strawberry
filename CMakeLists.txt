@@ -267,6 +267,9 @@ if(ANDROID)
     audioconvert
     audioresample
     volume
+    equalizer
+    audiofx
+    replaygain
     opensles
     flac
     mpg123

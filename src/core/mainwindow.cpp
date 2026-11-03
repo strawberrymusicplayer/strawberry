@@ -3525,8 +3525,15 @@ void MainWindow::ShowCoverManager() {
 
 void MainWindow::ShowEqualizer() {
 
+#ifdef Q_OS_ANDROID
+  equalizer_->setGeometry(geometry());
+#endif
   equalizer_->show();
   equalizer_->raise();
+#ifdef Q_OS_ANDROID
+  equalizer_->activateWindow();
+  equalizer_->setFocus(Qt::OtherFocusReason);
+#endif
 
 }
 

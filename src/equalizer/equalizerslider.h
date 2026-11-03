@@ -34,7 +34,7 @@ class EqualizerSlider : public QWidget {
   Q_OBJECT
 
  public:
-  explicit EqualizerSlider(const QString &label, QWidget *parent = nullptr);
+  explicit EqualizerSlider(const QString &label, QWidget *parent = nullptr, bool preamp = false);
   ~EqualizerSlider() override;
 
   int value() const;
@@ -48,6 +48,7 @@ class EqualizerSlider : public QWidget {
 
  private:
   Ui_EqualizerSlider *ui_;
+  const bool preamp_;
 };
 
 #endif  // EQUALISERSLIDER_H

@@ -149,28 +149,62 @@ Desktop toolbar behavior is unchanged.
   This is a separate whole-window minimum-width limitation; the adaptive toolbar does not remove that limitation.
 - Not yet verified on a physical Android device.
 
-## Future items
-
-These items are not yet planned in detail; the assessment is a first impression that needs further investigation.
-
 ## 4. Fix the equalizer view and make the equalizer work
 
-**Status:** To investigate
+**Status:** Done
 
 **Problem:** The equalizer view (Tools > Equalizer) doesn't display properly on Android, and it is unknown whether the equalizer has any effect on playback.
 
 **Goal:** A usable equalizer page on a phone screen, and an equalizer that audibly changes playback.
 
-**First findings:**
-- The equalizer likely doesn't work on Android.
-  `GstEnginePipeline` creates the `equalizer-nbands` element from the GStreamer `equalizer` plugin when the equalizer is enabled, but that plugin isn't among the plugins linked into the Android build (`build/gstreamer_android.c`).
-- Worse, the pipeline returns an error when the element can't be created, so enabling the equalizer probably stops all playback, not just the equalizer.
-  The stereo balancer (`audiopanorama`, from the `audiofx` plugin) and ReplayGain (`rgvolume`, from the `replaygain` plugin) are missing in the same way.
-- Fixing this means adding the `equalizer`, `audiofx` and `replaygain` plugins to the Android GStreamer build, or at least hiding or disabling these options when the elements aren't available, so they can't break playback.
-- The view itself still needs to be examined on the emulator; the equalizer's vertical band sliders are likely too wide for a phone in portrait orientation.
-  It should follow the Android design principles in `CLAUDE.md`, for example a full-page editor instead of a floating dialog.
+**Implemented:**
+- Added the missing Android GStreamer `equalizer`, `audiofx`, and `replaygain` plugins.
+  The generated registration source now includes all three plugins.
+- Replaced the clipped vertical-slider dialog on Android with a full-page, scrollable editor containing horizontal sliders, a breadcrumb, and a Back button.
+  Use the main window's usable geometry rather than `WindowFullScreen`: the latter extends the editor beneath the native activity bars and makes the final controls unreachable.
+  Slider endpoints are inset from Android's edge-Back gesture region; otherwise dragging from the left endpoint closes the editor.
+  Gain labels wrap and use bold theme-colored text.
+- Preset choices, saving, and deletion use full-page subscreens rather than popup dialogs.
+  Choices retain checked state and the theme's selection colors; preset values use bold theme-colored text.
+  Opening the choices scrolls the selected preset into view.
+  Preset deletion uses a bin icon, and Custom cannot be deleted because it holds live edits.
+- With the user's approval, slider edits are saved automatically in Custom without overwriting named presets.
+  Equalizer edits remain live; they do not use the Settings dialog's Apply/Cancel semantics.
+- Corrected the preamp gain label to match the engine's existing linear multiplier.
+  Its endpoints are mute and approximately +6 dB, not the bands' -24/+12 dB range.
+  The engine's actual gain mapping is unchanged.
 
-**Next steps:** Reproduce on the emulator (open the view, enable the equalizer, start playback and check logcat for pipeline errors), then decide between adding the plugins and guarding the options, and redesign the view.
+**Verified:**
+- Built, installed, and opened the APK on the ARM64 Android emulator.
+- Scrolled to the 16 kHz and balance controls, and reached and selected the final Zero preset.
+- Captured the emulator's own audio while playing a generated stereo 600 Hz tone.
+  On the final APK after an application restart, changing from Classical to Full Treble reduced RMS from approximately 796 to 329, a 7.66 dB reduction.
+  Returning to Classical restored approximately 796 RMS, within 0.01 dB of the baseline, without restarting playback.
+- Verified actual stereo balancing with touch drags.
+  Full left and full right produced approximately 1,500-1,600 RMS in the selected channel and less than 0.2 RMS in the other, exceeding 40 dB channel separation.
+  Returning near the center restored approximately equal left/right output, and the editor stayed open across both endpoint drags.
+- At 320 dp width with Android system font scale set to 2.0, the final band and balance controls remain reachable, and the complete preset-choice flow remains touch usable.
+  Restored the original display size and font scale afterward.
+- Verified visible empty-name validation, named-preset saving, Back cancellation of an unsaved name, and cancellation of preset deletion.
+  Custom selection and values survived an application restart, and the saved named preset retained its original values after further edits.
+  Confirmed deletion of the temporary named preset and verified that Custom's disabled delete button cannot open the deletion flow.
+- Four native equalizer regression tests pass, covering live signals, a complete preset update, preamp labels, and enabled/balance setting persistence.
+  The 22 focused playlist/long-press regression tests also pass.
+
+- Emptied only the temporary test playlists and removed both generated device WAV files and the temporary named preset.
+  Restored flat Custom gains with equalizer and stereo balancing disabled.
+  Verified the restored settings after a fresh launch and installed the final APK without incremental-install dependencies.
+
+**Validation notes and limits:**
+- Some early coordinate-driven audio checks were near-silent, so they were not accepted as evidence.
+  Restarted the emulator with the user's approval, checked the generated file against its device copy, and repeated the final tests with a fresh fixture and explicit F7/F6 Stop/Play controls.
+  The controlled final-APK tests above confirm repeatable playback and the live equalizer effect after application restart.
+- ReplayGain linkage and generated registration were checked; tagged-track loudness behavior was not part of this equalizer test.
+- Not yet verified on a physical Android device.
+
+## Future items
+
+The following items are initial assessments that need further investigation.
 
 ## 5. Explore playing a song outside a playlist
 
@@ -246,3 +280,18 @@ Delete buttons should consistently use a bin icon rather than a cross.
 - Verify deletion, cancellation of any confirmation, selection changes, and persistence after restarting the app.
   Confirm that deleting a playlist does not delete its music files.
 - Inventory the remaining delete buttons and replace cross icons with bins while preserving their existing behavior.
+
+## 9. Verify Android changes on a physical device
+
+**Status:** Planned
+
+**Goal:** Confirm the emulator-verified changes on a physical Android phone before considering hardware validation complete.
+
+**Next steps:**
+- Verify mute, playlist long-press actions, cancellation, Undo/Redo, and toolbar usability.
+- Verify equalizer scrolling, preset selection, saving, deletion, Custom persistence, and one-level Back navigation.
+  Check slider endpoint drags with system gesture navigation enabled.
+- Confirm the equalizer changes actual audio output, restores the baseline when reverted, and balances left/right channels correctly.
+  Record the device, Android version, and audio output route used.
+- Check narrow-screen and large-font usability, and persistence after an application restart.
+- Record results and any device-specific issues here; emulator results alone do not close this item.
