@@ -387,6 +387,9 @@ Keep this visual update Android-only.
   The top Sections selector offers All expanded, All collapsed, and One section at a time.
   The first-time default is All collapsed; the mode and each section's open state are remembered.
 - Moved Enable equalizer above the presets, with a larger bold label, a 28-pixel checkbox, and a 56-pixel minimum touch-row height.
+- Disabled gain controls provide an "Enable equalizer first" tooltip.
+  Android also shows an inline explanation while disabled because touch-only tooltip presentation is unreliable.
+- Preset and Collapse behaviour of sections labels sit above their selector buttons; buttons show only the selected value, without trailing navigation markers.
 - Matched the Settings header's bold 18-point title and Back button, including its 32-pixel arrow icon and 48-pixel minimum height.
 - Preserved edge-Back-safe slider insets, wrapping labels, full-page preset navigation, and existing audio processing/live-save behavior.
   Desktop controls are unchanged.
@@ -413,3 +416,16 @@ Keep this visual update Android-only.
 - Remove the setting's UI and inspect its load/save logic and context-menu action wiring.
 - Ensure the removed option cannot leave file-deletion actions enabled by a previously saved value.
 - Verify the Collection settings page and context menu, preserving playlist-only deletion and unrelated settings.
+
+## 12. Import and export equalizer settings as JSON
+
+**Status:** Planned
+
+**Goal:** Provide a location in Tools > Equalizer to store and retrieve equalizer settings as JSON files, with Import and Export actions.
+
+**Next steps:**
+- Add a discoverable import/export area and let the user choose where to save or open JSON files using the Android system document picker.
+- Define a versioned JSON format covering named presets, the selected preset and unsaved curve, preamp, band gains, and equalizer/stereo-balance settings.
+- Decide whether importing merges with or replaces existing presets, with explicit handling of duplicate names and confirmation before overwriting.
+- Validate the complete file before applying changes; report unsupported formats, invalid values, and file-access errors without losing existing settings.
+- Verify export/import round trips, cancellation, persistence after restart, and compatibility with Android document-provider URLs.

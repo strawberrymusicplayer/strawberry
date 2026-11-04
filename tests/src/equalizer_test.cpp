@@ -140,6 +140,29 @@ TEST_F(EqualizerTest, EditableDecibelsRoundToExistingEngineSteps) {
 
 }
 
+TEST_F(EqualizerTest, DisabledGainControlsExplainHowToEnableThem) {
+
+  Equalizer equalizer;
+  QCheckBox *enabled = equalizer.findChild<QCheckBox *>(u"enable_equalizer"_s);
+  ASSERT_NE(nullptr, enabled);
+  const QList<EqualizerSlider *> sliders = equalizer.findChildren<EqualizerSlider *>();
+  ASSERT_EQ(Equalizer::kBands + 1, sliders.count());
+  for (const EqualizerSlider *slider : sliders) {
+    EXPECT_FALSE(slider->isEnabled());
+    EXPECT_EQ(u"Enable equalizer first"_s, slider->toolTip());
+  }
+  enabled->setChecked(true);
+  for (const EqualizerSlider *slider : sliders) {
+    EXPECT_TRUE(slider->isEnabled());
+    EXPECT_TRUE(slider->toolTip().isEmpty());
+  }
+  enabled->setChecked(false);
+  for (const EqualizerSlider *slider : sliders) {
+    EXPECT_EQ(u"Enable equalizer first"_s, slider->toolTip());
+  }
+
+}
+
 TEST_F(EqualizerTest, EditablePreampUsesLinearMultiplierAndRetainsMute) {
 
   EqualizerSlider preamp(u"Pre-amp"_s, nullptr, true);

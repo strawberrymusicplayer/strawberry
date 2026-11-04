@@ -580,12 +580,23 @@ void Equalizer::SetupAndroidLayout() {
   ui_->enable_equalizer->setFont(enable_font);
   ui_->enable_equalizer->setStyleSheet(u"QCheckBox::indicator { width: 28px; height: 28px; }"_s);
   controls->addWidget(ui_->enable_equalizer);
+  QLabel *disabled_hint = new QLabel(tr("Enable equalizer first to adjust the gain controls."), content);
+  disabled_hint->setWordWrap(true);
+  disabled_hint->setVisible(!ui_->enable_equalizer->isChecked());
+  controls->addWidget(disabled_hint);
+  QObject::connect(ui_->enable_equalizer, &QCheckBox::toggled, disabled_hint, [disabled_hint](const bool enabled) {
+    disabled_hint->setVisible(!enabled);
+  });
   QLabel *restart = new QLabel(ui_->enable_equalizer->toolTip(), content);
   restart->setWordWrap(true);
   controls->addWidget(restart);
+  QLabel *preset_label = new QLabel(tr("Preset"), content);
+  preset_label->setWordWrap(true);
+  controls->addWidget(preset_label);
   QHBoxLayout *preset_section = new QHBoxLayout;
   controls->addLayout(preset_section);
   android_preset_ = new AndroidSettingsButton<QPushButton>(content);
+  preset_label->setBuddy(android_preset_);
   android_preset_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   UpdateAndroidPreset();
   preset_section->addWidget(android_preset_);
@@ -597,12 +608,22 @@ void Equalizer::SetupAndroidLayout() {
     button->setIconSize(QSize(28, 28));
     preset_section->addWidget(button);
   }
-  android_foldout_mode_ = new AndroidSettingsButton<QPushButton>(content);
-  QVBoxLayout *mode_layout = new QVBoxLayout(android_foldout_mode_);
-  QLabel *mode_label = new QLabel(tr("Sections"), android_foldout_mode_);
-  mode_label->setAttribute(Qt::WA_TransparentForMouseEvents);
+  QLabel *mode_label = new QLabel(tr("Collapse behaviour of sections"), content);
   mode_label->setWordWrap(true);
-  mode_layout->addWidget(mode_label);
+  controls->addWidget(mode_label);
+  android_foldout_mode_ = new AndroidSettingsButton<QPushButton>(content);
+  mode_label->setBuddy(android_foldout_mode_);
+  QVBoxLayout *mode_layout = new QVBoxLayout(android_foldout_mode_);
+  QLabel *mode_value = new QLabel(android_foldout_mode_);
+  mode_value->setAttribute(Qt::WA_TransparentForMouseEvents);
+  mode_value->setWordWrap(true);
+  QFont mode_font = mode_value->font();
+  mode_font.setBold(true);
+  mode_value->setFont(mode_font);
+  QPalette mode_palette = mode_value->palette();
+  mode_palette.setColor(QPalette::WindowText, mode_palette.color(QPalette::Link));
+  mode_value->setPalette(mode_palette);
+  mode_layout->addWidget(mode_value);
   controls->addWidget(android_foldout_mode_);
   Settings foldout_settings;
   foldout_settings.beginGroup(kSettingsGroup);
@@ -694,7 +715,7 @@ void Equalizer::UpdateAndroidPreset() {
   delete android_preset_->layout();
   QVBoxLayout *layout = new QVBoxLayout(android_preset_);
   const bool edited = presets_.value(ui_->preset->currentData().toString()) != current_params();
-  QLabel *value = new QLabel(tr("Preset: %1").arg(ui_->preset->currentText()) + (edited ? u" *"_s : QString()) + u" >"_s, android_preset_);
+  QLabel *value = new QLabel(ui_->preset->currentText() + (edited ? u" *"_s : QString()), android_preset_);
   value->setAttribute(Qt::WA_TransparentForMouseEvents);
   value->setTextFormat(Qt::PlainText);
   value->setWordWrap(true);
@@ -723,7 +744,8 @@ void Equalizer::SetAndroidPage(QWidget *page, const QString &title) {
 void Equalizer::UpdateAndroidFoldouts() {
 
   const QStringList modes{tr("All expanded"), tr("All collapsed"), tr("One section at a time")};
-  android_foldout_mode_->findChild<QLabel *>()->setText(tr("Sections: %1").arg(modes.at(android_foldout_mode_index_)) + u" >"_s);
+  android_foldout_mode_->findChild<QLabel *>()->setText(modes.at(android_foldout_mode_index_));
+  android_foldout_mode_->setAccessibleName(tr("Collapse behaviour of sections") + u": "_s + modes.at(android_foldout_mode_index_));
   for (int i = 0; i < android_sections_.count(); ++i) {
     const bool open = android_sections_.at(i)->isChecked();
     android_sections_.at(i)->setArrowType(open ? Qt::DownArrow : Qt::RightArrow);
@@ -766,7 +788,7 @@ void Equalizer::ShowAndroidFoldoutModes() {
     });
   }
   layout->addStretch();
-  SetAndroidPage(page, tr("Sections"));
+  SetAndroidPage(page, tr("Collapse behaviour of sections"));
 
 }
 

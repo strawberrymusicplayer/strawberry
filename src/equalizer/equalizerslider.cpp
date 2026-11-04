@@ -30,6 +30,7 @@
 #include <QFont>
 #include <QFontMetrics>
 #include <QPalette>
+#include <QEvent>
 #ifdef Q_OS_ANDROID
 #  include <QDoubleSpinBox>
 #  include <QKeyEvent>
@@ -180,11 +181,21 @@ EqualizerSlider::EqualizerSlider(const QString &label, QWidget *parent, const bo
 #endif
 
   QObject::connect(ui_->slider, &QSlider::valueChanged, this, &EqualizerSlider::OnValueChanged);
+  setToolTip(isEnabled() ? QString() : tr("Enable equalizer first"));
 
 }
 
 EqualizerSlider::~EqualizerSlider() {
   delete ui_;
+}
+
+void EqualizerSlider::changeEvent(QEvent *event) {
+
+  QWidget::changeEvent(event);
+  if (event->type() == QEvent::EnabledChange) {
+    setToolTip(isEnabled() ? QString() : tr("Enable equalizer first"));
+  }
+
 }
 
 void EqualizerSlider::OnValueChanged(const int value) {

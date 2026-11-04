@@ -49,6 +49,9 @@ class EqualizerSlider : public QWidget {
  public Q_SLOTS:
   void OnValueChanged(const int value);
 
+ protected:
+  void changeEvent(QEvent *event) override;
+
  private:
   Ui_EqualizerSlider *ui_;
   const bool preamp_;
