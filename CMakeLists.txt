@@ -930,6 +930,7 @@ set(SOURCES
   src/widgets/lineedit.cpp
   src/widgets/linetextedit.cpp
   src/widgets/longpresshandler.cpp
+  src/widgets/playlistactionhandler.cpp
   src/widgets/multiloadingindicator.cpp
   src/widgets/playingwidget.cpp
   src/widgets/renametablineedit.cpp
@@ -1240,6 +1241,7 @@ set(HEADERS
   src/widgets/lineedit.h
   src/widgets/linetextedit.h
   src/widgets/longpresshandler.h
+  src/widgets/playlistactionhandler.h
   src/widgets/multiloadingindicator.h
   src/widgets/playingwidget.h
   src/widgets/renametablineedit.h

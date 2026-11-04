@@ -43,11 +43,14 @@
 #include "core/musicstorage.h"
 #include "core/deletefiles.h"
 #include "core/settings.h"
+#include "core/mimedata.h"
+#include "core/logging.h"
 #include "utilities/filemanagerutils.h"
 #include "collectionmanager.h"
 #include "collectionbackend.h"
 #include "collectiondirectorymodel.h"
 #include "collectionmodel.h"
+#include "collectionitem.h"
 #include "collectionview.h"
 #include "device/devicemanager.h"
 #include "device/devicestatefiltermodel.h"
@@ -57,6 +60,9 @@
 #include "organize/organizedialog.h"
 #include "organize/organizeerrordialog.h"
 #include "constants/collectionsettings.h"
+#ifdef Q_OS_ANDROID
+#  include "widgets/playlistactionhandler.h"
+#endif
 
 using std::make_unique;
 using namespace Qt::Literals::StringLiterals;
@@ -78,6 +84,24 @@ CollectionView::CollectionView(QWidget *parent)
       delete_files_(false) {
 
   setObjectName(QLatin1String(QObject::metaObject()->className()));
+
+#ifdef Q_OS_ANDROID
+  auto *actions = new PlaylistActionHandler(this, tr("Collection"),
+      [](const QModelIndex &index) {
+        return index.data(CollectionModel::Role_Type).value<CollectionItem::Type>() == CollectionItem::Type::Container &&
+               CollectionModel::IsAlbumGroupBy(index.data(CollectionModel::Role_ContainerType).value<CollectionModel::GroupBy>());
+      },
+      [this](const QModelIndex &index) {
+        QMimeData *data = model()->mimeData({index});
+        MimeData *songs = qobject_cast<MimeData *>(data);
+        if (!songs) {
+          qLog(Error) << "Cannot create playlist from album: collection returned invalid MIME data";
+          delete data;
+        }
+        return songs;
+      });
+  QObject::connect(actions, &PlaylistActionHandler::AddToPlaylist, this, &CollectionView::AddToPlaylistSignal);
+#endif
 
 }
 

@@ -55,6 +55,9 @@
 #include "fileviewtreeitem.h"
 #include "ui_fileview.h"
 #include "organize/organizeerrordialog.h"
+#ifdef Q_OS_ANDROID
+#  include "widgets/playlistactionhandler.h"
+#endif
 
 using std::make_unique;
 using namespace Qt::Literals::StringLiterals;
@@ -122,6 +125,25 @@ FileView::FileView(QWidget *parent)
   filter_list_ << filter.split(u' ');
 
   ReloadSettings();
+
+#ifdef Q_OS_ANDROID
+  for (QAbstractItemView *view : {static_cast<QAbstractItemView *>(ui_->list), static_cast<QAbstractItemView *>(ui_->tree)}) {
+    const auto path_for_index = [](const QModelIndex &index) {
+      if (const auto *model = qobject_cast<const QFileSystemModel *>(index.model())) return model->filePath(index);
+      return index.data(FileViewTreeModel::Role_FilePath).toString();
+    };
+    auto *actions = new PlaylistActionHandler(view, tr("Files"),
+        [path_for_index](const QModelIndex &index) { return QFileInfo(path_for_index(index)).isDir(); },
+        [path_for_index](const QModelIndex &index) {
+          const QString path = path_for_index(index);
+          MimeData *data = new MimeData;
+          data->setUrls({QUrl::fromLocalFile(path)});
+          data->name_for_new_playlist_ = QDir(path).dirName();
+          return data;
+        });
+    QObject::connect(actions, &PlaylistActionHandler::AddToPlaylist, this, &FileView::AddToPlaylist);
+  }
+#endif
 
 }
 

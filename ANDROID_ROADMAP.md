@@ -280,26 +280,34 @@ The following items are initial assessments that need further investigation.
 
 ## 6. Create a playlist from a folder or album in one go
 
-**Status:** To investigate
+**Status:** Done (Android emulator verified; physical-device testing remains item 9)
 
 **Goal:** Turn an album from the Collection tab or a folder from the Files tab into a new playlist (named after the album or folder) with one action, and optionally start playing it.
-This covers most of what item 5 asks for without changing how the player works.
 
-**First findings:**
-- Albums: already supported, through a setting.
-  Double-tapping an album or artist in the Collection tab adds all its songs (`AutoExpandingTreeView::ItemDoubleClicked()`), and the double-click behavior settings decide what happens: with "Open in new playlist" (`AddBehaviour::OpenInNew`) it creates a new playlist named after the album (`Song::GetNameForNewPlaylist()`), and the play setting can start playback right away.
-  Needs verification on Android: the Behavior settings page, double-tap in the collection tree, and that the collection can be filled (adding a collection directory through the system picker, fixed together with Add file).
-- Folders: only partly supported.
-  In the Files tab, double-tapping a folder only opens it; adding a whole folder as a new playlist ("Open in new playlist", named after the folder) is only available in the context menu, which isn't reachable by touch (taps on `QMenu` items don't work, see item 3, and long press doesn't open context menus).
-  The playlist toolbar's Add folder action (`MainWindow::AddFolder()`) isn't shown on Android and always appends to the current playlist.
-- Feasible approach that fits Android: reuse the long-press helper and button dialog of item 2 for folders in the Files tab (and optionally albums in the Collection tab), with "Open in new playlist", "Append to current playlist" and "Replace current playlist".
-  The existing `FileViewList` slots already implement these actions, so only the touch trigger and dialog are new.
+**Implemented:**
+- Long-press a folder in either Files view mode, or an album in Collection, to open a touch-friendly action page.
+  Choose Create saved playlist without starting playback, Create and play, or Back.
+- Folder playlists use the folder name; Collection playlists retain the existing artist/album-derived naming.
+  Only the held folder or album is used, not other selected rows.
+- Reused the existing long-press detector, MIME data, folder loader, and playlist creation logic.
+  Explicit playback choices override menu preferences, and these playlists retain their tracks after restarting.
+  Temporary Now playing and other playlists are not replaced.
+- The page shows its Files/Collection breadcrumb, hides the underlying controls, and supports Android Back without creating anything.
+  Scrolling, dragging, hiding the view, and invalidating the source cancel pending actions.
+  Android's touch-cancellation event when opening a native window stops the gesture without dismissing the open action page.
+  Desktop controls and behavior remain unchanged.
 
-**Next steps:** Add explicit long-press actions for creating saved playlists from folders and albums.
-After item 5, Android double-tapping an album plays it in the reusable temporary Now playing session, rather than creating a saved playlist; desktop settings remain unchanged.
-
-**Album verification:** The Collection system-folder picker, tagged album scanning, album double-tap, artist/album-derived playlist name, both tracks, and automatic audible playback are now verified on the emulator (see item 5).
-The Files folder long-press flow remains to be implemented.
+**Verified:**
+- Built, installed, and tested the Android APK using owned two-track tagged WAV fixtures.
+  Files list creation produced a named two-track playlist without playback (captured audio RMS 0).
+- Files tree Create and play produced a separate named two-track playlist and audible output (approximately 467 RMS).
+  Collection album Create and play produced the artist/album-named playlist with both tracks and approximately 467 RMS.
+- All three saved playlists restored both tracks after force-stop/relaunch; Now playing remained empty.
+  Android Back and touch Back cancel without creating a playlist, and album actions reopen after returning.
+- Eleven native action-handler tests cover explicit playback flags, held-item identity, normal taps, movement/scroll cancellation, Back, invalidated items, hiding, and Android touch cancellation.
+  Existing playlist, long-press, and Files navigation tests also pass.
+- Removed the three owned verification playlists and audio fixtures, restored Files list mode and the initially empty Collection, and verified the original eleven playlist entries remain.
+  Source WAV hashes were unchanged before cleanup.
 
 ## 7. Rename a playlist by tapping its name in the playlist view
 
@@ -372,6 +380,7 @@ Delete buttons should consistently use a bin icon rather than a cross.
 
 **Next steps:**
 - Verify mute, playlist long-press actions, cancellation, Undo/Redo, and toolbar usability.
+- Verify folder/album saved-playlist creation with and without playback, both Files view modes, Back cancellation, and track persistence after restart.
 - Verify equalizer scrolling, preset selection, saving, deletion, Custom persistence, and one-level Back navigation.
   Check slider endpoint drags with system gesture navigation enabled.
 - Confirm the equalizer changes actual audio output, restores the baseline when reverted, and balances left/right channels correctly.
@@ -453,3 +462,15 @@ Keep this visual update Android-only.
 - Decide whether importing merges with or replaces existing presets, with explicit handling of duplicate names and confirmation before overwriting.
 - Validate the complete file before applying changes; report unsupported formats, invalid values, and file-access errors without losing existing settings.
 - Verify export/import round trips, cancellation, persistence after restart, and compatibility with Android document-provider URLs.
+
+## 13. Explore using Android's file picker for Files
+
+**Status:** Planned
+
+**Goal:** Investigate replacing the app's desktop-style Files browser with Android's native file picker on Android.
+
+**Next steps:**
+- Compare native file and folder selection with the current Files tab, including multiple-file selection and whole-folder playback or saved-playlist creation.
+- Check Storage Access Framework document-provider URLs, persistent access permissions, and reopening music after an application restart.
+- Define how the Files entry launches the picker and returns to the app, preserving cancellation and the distinction between temporary Now playing and saved playlists.
+- Verify local and provider-backed storage on the emulator and a physical device; leave desktop browsing unchanged.
