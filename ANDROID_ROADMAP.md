@@ -208,7 +208,7 @@ The following items are initial assessments that need further investigation.
 
 ## 5. Explore playing a song outside a playlist
 
-**Status:** Investigated; Android Files, Collection song, and album playback verified; UX decision pending
+**Status:** Done (Android emulator verified; physical-device testing remains item 9)
 
 **Question:** Can a song be played directly, for example from the Collection or Files tab, without it being added to a playlist?
 
@@ -218,9 +218,32 @@ The following items are initial assessments that need further investigation.
 - Existing behavior settings (Settings > Behavior) already cover similar needs: double-clicking a song in the collection can append it, add it to the queue, replace the current playlist (`AddBehaviour::Load`) or open it in a new playlist, and optionally start playing it (`PlayBehaviour`).
 - A feasible approach that fits Android is a temporary "Now playing" playlist that songs are played from when tapped outside a playlist, kept separate from the user's own playlists, similar to how Android music apps play a tapped song in the context of its album or list.
 
-**Next steps:** Decide what the user experience should be (what happens with Next and Previous, and whether the user's playlists stay untouched), check how the current settings behave on Android, and then decide between configuring existing behavior and a temporary playlist.
+**Chosen behavior and implementation:**
+- Android double-tapping a Collection song or album, or a file in Files, replaces one reusable "Now playing" playlist and starts playback.
+  Only the activated song(s) are included; activating a single song does not add its surrounding album or folder.
+  Next/Previous, repeat, and shuffle stay within this selection using the existing player.
+- A dedicated internal playlist type identifies the session, not its display name.
+  An ordinary saved playlist named "Now playing" is not reused or modified.
+  The session is created on demand, reused across activations, and recreated if deleted.
+- The playlist identity can persist, but its tracks, last-played position, and undo history are not restored after an application restart.
+  Session contents are not saved to the playlist database.
+  Late file-loader results from a replaced session are ignored.
+- Explicit menu actions for adding music to saved playlists retain their existing behavior.
+  Desktop playback behavior and stored preferences are unchanged.
+- Android Settings > General > Behavior explains this flow instead of offering the now-inapplicable song double-click destination/playback choices.
 
-**Code investigation:**
+**Verification of the final Now playing implementation:**
+- Built and deployed the Android APK.
+  Files activation produced automatic audible output (approximately 374 RMS); repeated activation retained a single Now playing entry and one track.
+- Activated an owned, tagged two-track Collection album: the same Now playing entry contained both tracks and automatically produced approximately 345 RMS.
+  Activating one song replaced those tracks with just that song and automatically produced approximately 467 RMS.
+- Confirmed the Now playing editor is empty after a force-stop/relaunch, while the entry remains available for reuse.
+  Removed the generated device files and test Collection directory and restored the initially empty Collection.
+- All 85 native playlist tests pass, including four new tests for session persistence, identity reuse and ordinary-playlist preservation, selected-only navigation, name retention, and stale loader results.
+  The manager tests cover reopening a closed favorite session and recreation after deletion.
+  A navigation tap closed a disposable emulator test playlist during verification; the user confirmed it could be discarded.
+
+**Initial code investigation (before implementation):**
 - Collection double-clicks and Files file double-clicks both emit playlist MIME data with `from_doubleclick_` set.
   `MainWindow::AddToPlaylist()` applies the same Behavior settings to both.
 - Existing "Open in new playlist" plus "Always start playing" can protect the contents of existing playlists without modifying the playback engine.
@@ -234,7 +257,7 @@ The following items are initial assessments that need further investigation.
   Decide whether Next/Previous traverse only the selected songs or the surrounding album/folder, and whether the session survives restarting.
   No playback behavior or user settings were changed during this investigation.
 
-**Android emulator verification:**
+**Earlier Android settings verification (before implementation):**
 - Opened Settings > General > Behavior > Double clicking songs.
   Selected Open in new playlist and Always start playing, applied the settings, and reopened the page to confirm they persisted.
 - Double-tapped an owned generated WAV in the Files tab.
@@ -272,7 +295,8 @@ This covers most of what item 5 asks for without changing how the player works.
 - Feasible approach that fits Android: reuse the long-press helper and button dialog of item 2 for folders in the Files tab (and optionally albums in the Collection tab), with "Open in new playlist", "Append to current playlist" and "Replace current playlist".
   The existing `FileViewList` slots already implement these actions, so only the touch trigger and dialog are new.
 
-**Next steps:** Verify the album flow on the emulator with "Open in new playlist" selected, then add the long-press dialog for folders after item 2 is done.
+**Next steps:** Add explicit long-press actions for creating saved playlists from folders and albums.
+After item 5, Android double-tapping an album plays it in the reusable temporary Now playing session, rather than creating a saved playlist; desktop settings remain unchanged.
 
 **Album verification:** The Collection system-folder picker, tagged album scanning, album double-tap, artist/album-derived playlist name, both tracks, and automatic audible playback are now verified on the emulator (see item 5).
 The Files folder long-press flow remains to be implemented.

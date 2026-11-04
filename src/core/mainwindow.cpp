@@ -98,6 +98,7 @@
 #include "includes/shared_ptr.h"
 #include "core/commandlineoptions.h"
 #include "core/mimedata.h"
+#include "core/songmimedata.h"
 #include "core/iconloader.h"
 #include "core/taskmanager.h"
 #include "core/song.h"
@@ -2265,8 +2266,21 @@ void MainWindow::AddToPlaylist(QMimeData *q_mimedata) {
       // Do nothing
     }
     else if (mimedata->from_doubleclick_) {
-      ApplyAddBehaviour(doubleclick_addmode_, mimedata);
-      ApplyPlayBehaviour(doubleclick_playmode_, mimedata);
+#ifdef Q_OS_ANDROID
+      if (qobject_cast<SongMimeData *>(mimedata) || mimedata->hasUrls()) {
+        app_->playlist_manager()->SelectNowPlaying();
+        mimedata->clear_first_ = true;
+        mimedata->play_now_ = true;
+        mimedata->enqueue_now_ = false;
+        mimedata->enqueue_next_now_ = false;
+        mimedata->open_in_new_playlist_ = false;
+      }
+      else
+#endif
+      {
+        ApplyAddBehaviour(doubleclick_addmode_, mimedata);
+        ApplyPlayBehaviour(doubleclick_playmode_, mimedata);
+      }
     }
     else {
       ApplyPlayBehaviour(menu_playmode_, mimedata);

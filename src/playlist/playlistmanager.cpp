@@ -244,6 +244,25 @@ void PlaylistManager::New(const QString &name, const SongList &songs, const QStr
 
 }
 
+void PlaylistManager::SelectNowPlaying() {
+
+  for (auto it = playlists_.cbegin(); it != playlists_.cend(); ++it) {
+    if (it->p->is_now_playing()) {
+      SetCurrentPlaylist(it.key());
+      return;
+    }
+  }
+  const PlaylistBackend::PlaylistList playlists = playlist_backend_->GetAllPlaylists();
+  for (const PlaylistBackend::Playlist &playlist : playlists) {
+    if (playlist.special_type == QLatin1String(Playlist::kNowPlayingType)) {
+      SetCurrentOrOpen(playlist.id);
+      return;
+    }
+  }
+  New(tr("Now playing"), SongList(), QLatin1String(Playlist::kNowPlayingType));
+
+}
+
 void PlaylistManager::Load(const QString &filename) {
 
   QFileInfo fileinfo(filename);

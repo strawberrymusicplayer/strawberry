@@ -88,6 +88,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   bool IsPlaylistFavorite(const int index) const { return playlists_[index].p->is_favorite(); }
 
   void Init(PlaylistSequence *sequence, PlaylistContainer *playlist_container);
+  void SelectNowPlaying();
 
   SharedPtr<CollectionBackend> collection_backend() const override { return collection_backend_; }
   SharedPtr<PlaylistBackend> playlist_backend() const override { return playlist_backend_; }

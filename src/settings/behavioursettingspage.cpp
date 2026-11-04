@@ -161,6 +161,13 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
     combo->setMinimumContentsLength(12);
   }
   for (QGroupBox *group : findChildren<QGroupBox*>()) {
+    if (group == ui_->groupbox_doubleclickaddmode) {
+      QLabel *explanation = new QLabel(tr("Double-tapping songs or albums in Collection or files in Files replaces the temporary Now playing playlist and starts playback. Other playlists are unchanged. Now playing starts empty when the app restarts."), this);
+      explanation->setWordWrap(true);
+      delete ui_->layout_behavioursettingspage->replaceWidget(group, explanation);
+      group->hide();
+      continue;
+    }
     auto *controls_layout = qobject_cast<QBoxLayout*>(group->layout());
     if (!controls_layout) continue;
 

@@ -91,6 +91,8 @@ class Playlist : public QAbstractListModel {
   friend class PlaylistTest;
 
  public:
+  static constexpr char kNowPlayingType[] = "android-now-playing";
+
   explicit Playlist(const SharedPtr<TaskManager> task_manager,
                     const SharedPtr<UrlHandlers> url_handlers,
                     const SharedPtr<PlaylistBackend> playlist_backend,
@@ -102,6 +104,8 @@ class Playlist : public QAbstractListModel {
                     QObject *parent = nullptr);
 
   ~Playlist() override;
+
+  bool is_now_playing() const { return special_type_ == QLatin1String(kNowPlayingType); }
 
   void SkipTracks(const QModelIndexList &source_indexes);
 
@@ -342,6 +346,8 @@ class Playlist : public QAbstractListModel {
   void AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result);
 
  Q_SIGNALS:
+  void NowPlayingReset();
+
   void RestoreFinished();
   // Emitted when restoring finished or was cancelled.
   void RestoreDone();

@@ -32,11 +32,17 @@
 #include "core/database.h"
 #include "core/taskmanager.h"
 #include "collection/collectionplaylistitem.h"
+#include "collection/collectionbackend.h"
+#include "covermanager/albumcoverloader.h"
+#include "covermanager/currentalbumcoverloader.h"
 #include "playlist/playlist.h"
 #include "playlist/playlistbackend.h"
+#include "playlist/playlistcontainer.h"
+#include "playlist/playlistmanager.h"
 #include "playlist/playlistfilter.h"
 #include "playlist/playlistview.h"
 #include "playlist/songplaylistitem.h"
+#include "playlist/songloaderinserter.h"
 #include "queue/queue.h"
 #include "smartplaylists/playlistgenerator.h"
 #include "tagreader/tagreaderclient.h"
@@ -2040,6 +2046,143 @@ TEST_F(PlaylistTest, RestoreClearsUndoStack) {
   }
 
   database->Close();
+
+}
+
+TEST_F(PlaylistTest, NowPlayingStartsEmptyAndDoesNotSaveSessionContents) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  SharedPtr<Database> database = std::make_shared<Database>(nullptr, nullptr, temp_dir.filePath(u"strawberry.db"_s));
+  SharedPtr<PlaylistBackend> backend = std::make_shared<PlaylistBackend>(database, tagreader_client_, nullptr);
+  const QString type = QLatin1String(Playlist::kNowPlayingType);
+  const int id = backend->CreatePlaylist(u"Now playing"_s, type);
+  ASSERT_NE(-1, id);
+
+  {
+    Playlist session(nullptr, nullptr, backend, nullptr, tagreader_client_, id, type);
+    session.set_sequence(&sequence_);
+    WaitForRestoreFinished(&session);
+    ASSERT_TRUE(session.is_now_playing());
+    ASSERT_EQ(0, session.rowCount());
+    session.InsertItems(PlaylistItemPtrList() << MakeStreamItem(u"Temporary"_s));
+    session.set_current_row(0);
+    session.SavePending();
+    QCoreApplication::processEvents();
+    EXPECT_EQ(1, session.rowCount());
+    EXPECT_TRUE(backend->GetPlaylistItems(id).isEmpty());
+    EXPECT_EQ(-1, backend->GetPlaylist(id).last_played);
+  }
+  {
+    Playlist restarted(nullptr, nullptr, backend, nullptr, tagreader_client_, id, type);
+    WaitForRestoreFinished(&restarted);
+    EXPECT_EQ(0, restarted.rowCount());
+    EXPECT_FALSE(restarted.undo_stack()->canUndo());
+    EXPECT_FALSE(restarted.current_index().isValid());
+  }
+  database->Close();
+
+}
+
+TEST_F(PlaylistTest, NowPlayingReusesIdentityWithoutChangingOrdinaryPlaylists) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  SharedPtr<Database> database = std::make_shared<Database>(nullptr, nullptr, temp_dir.filePath(u"strawberry.db"_s));
+  auto tasks = std::make_shared<TaskManager>();
+  auto collection = std::make_shared<CollectionBackend>();
+  collection->Init(database, tasks, Song::Source::Collection, u"songs"_s);
+  auto backend = std::make_shared<PlaylistBackend>(database, tagreader_client_, collection);
+  auto covers = std::make_shared<AlbumCoverLoader>(tagreader_client_);
+  auto current_cover = std::make_shared<CurrentAlbumCoverLoader>(covers);
+  {
+    PlaylistContainer container;
+    PlaylistManager manager(tasks, tagreader_client_, nullptr, backend, collection, current_cover);
+    manager.Init(&sequence_, &container);
+    WaitForRestoreFinished(manager.current());
+    const int ordinary_id = manager.current_id();
+    manager.Rename(ordinary_id, u"Now playing"_s);
+    manager.current()->InsertItems(PlaylistItemPtrList() << MakeStreamItem(u"Keep me"_s));
+
+    manager.SelectNowPlaying();
+    const int session_id = manager.current_id();
+    ASSERT_NE(ordinary_id, session_id);
+    EXPECT_TRUE(manager.current()->is_now_playing());
+    manager.current()->InsertItems(PlaylistItemPtrList() << MakeStreamItem(u"Temporary"_s));
+    const int count = manager.playlist_ids().count();
+    manager.SetCurrentPlaylist(ordinary_id);
+    manager.SelectNowPlaying();
+    EXPECT_EQ(session_id, manager.current_id());
+    EXPECT_EQ(count, manager.playlist_ids().count());
+    EXPECT_EQ(1, manager.current()->rowCount());
+    EXPECT_EQ(u"Keep me"_s, TitleAt(*manager.playlist(ordinary_id), 0));
+    EXPECT_FALSE(manager.playlist(ordinary_id)->is_now_playing());
+
+    manager.Favorite(session_id, true);
+    ASSERT_TRUE(manager.Close(session_id));
+    manager.SelectNowPlaying();
+    EXPECT_EQ(session_id, manager.current_id());
+    EXPECT_EQ(0, manager.current()->rowCount());
+    manager.Delete(session_id);
+    manager.SelectNowPlaying();
+    EXPECT_TRUE(manager.current()->is_now_playing());
+    EXPECT_EQ(count, manager.playlist_ids().count());
+    EXPECT_EQ(u"Keep me"_s, TitleAt(*manager.playlist(ordinary_id), 0));
+  }
+  covers->ExitAsync();
+  QCoreApplication::processEvents();
+  database->Close();
+
+}
+
+TEST_F(PlaylistTest, NowPlayingIgnoresStoredSongsAndKeepsItsNameWhenReplacingSelection) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  SharedPtr<Database> database = std::make_shared<Database>(nullptr, nullptr, temp_dir.filePath(u"strawberry.db"_s));
+  SharedPtr<PlaylistBackend> backend = std::make_shared<PlaylistBackend>(database, tagreader_client_, nullptr);
+  const QString type = QLatin1String(Playlist::kNowPlayingType);
+  const int id = backend->CreatePlaylist(u"Now playing"_s, type);
+  ASSERT_NE(-1, id);
+  backend->SavePlaylist(id, PlaylistItemSaveDataList() << MakeStreamItem(u"Old session"_s)->CreateSaveData(), 0, nullptr);
+  {
+    Playlist session(nullptr, nullptr, backend, nullptr, tagreader_client_, id, type);
+    session.set_sequence(&sequence_);
+    WaitForRestoreFinished(&session);
+    ASSERT_EQ(0, session.rowCount());
+    QSignalSpy reset(&session, &Playlist::NowPlayingReset);
+    QSignalSpy rename(&session, &Playlist::Rename);
+    QSignalSpy play(&session, &Playlist::PlayRequested);
+    session.InsertItems(PlaylistItemPtrList() << MakeStreamItem(u"Previous selection"_s));
+    session.Clear();
+    EXPECT_EQ(1, reset.count());
+    const Song song = MakeStreamItem(u"Selected song"_s)->OriginalMetadata();
+    session.InsertSongsOrCollectionItems(SongList() << song, u"File playlist title"_s, -1, true);
+    ASSERT_EQ(1, session.rowCount());
+    EXPECT_EQ(u"Selected song"_s, TitleAt(session, 0));
+    EXPECT_EQ(0, rename.count());
+    EXPECT_EQ(1, play.count());
+    session.set_current_row(0);
+    EXPECT_EQ(-1, session.next_row());
+    EXPECT_EQ(-1, session.previous_row());
+  }
+  QSignalSpy ordinary_reset(&playlist_, &Playlist::NowPlayingReset);
+  playlist_.Clear();
+  EXPECT_EQ(0, ordinary_reset.count());
+  database->Close();
+
+}
+
+TEST_F(PlaylistTest, ReplacingNowPlayingDiscardsLateSongLoaderResults) {
+
+  Playlist session(nullptr, nullptr, nullptr, nullptr, tagreader_client_, 1, QLatin1String(Playlist::kNowPlayingType));
+  session.set_sequence(&sequence_);
+  SongLoaderInserter loader(nullptr, tagreader_client_, nullptr, nullptr);
+  loader.Load(&session, -1, false, false, false, QList<QUrl>() << QUrl(u"udp://127.0.0.1:1234"_s));
+  ASSERT_EQ(1, session.rowCount());
+  session.Clear();
+  loader.PreloadFinished();
+  EXPECT_EQ(0, session.rowCount());
 
 }
 
