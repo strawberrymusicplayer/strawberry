@@ -477,3 +477,15 @@ Keep this visual update Android-only.
 - Check Storage Access Framework document-provider URLs, persistent access permissions, and reopening music after an application restart.
 - Define how the Files entry launches the picker and returns to the app, preserving cancellation and the distinction between temporary Now playing and saved playlists.
 - Verify local and provider-backed storage on the emulator and a physical device; leave desktop browsing unchanged.
+
+## 14. Keep the side menu visible when opening Settings
+
+**Status:** Planned
+
+**Goal:** Keep the Android app's side menu visible and usable when opening Settings.
+
+**Next steps:**
+- Integrate Settings into the main navigation without hiding or replacing the side menu.
+- Preserve Settings breadcrumbs, one-level Back navigation, and Apply/OK/Cancel semantics.
+- Define how switching sidebar tabs handles unapplied edits so changes are not silently saved or discarded.
+- Verify sidebar navigation, narrow-screen usability, and returning to the previous app context; leave desktop Settings unchanged.
