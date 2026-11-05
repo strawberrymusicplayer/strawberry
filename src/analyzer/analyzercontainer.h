@@ -63,7 +63,7 @@ class AnalyzerContainer : public QWidget {
  private:
   void Load();
   void Save();
-  void SaveFramerate(const int framerate);
+  void SaveFramerate();
   template<typename T>
   void AddAnalyzerType();
   void AddFramerate(const QString &name, const int framerate);
@@ -98,7 +98,10 @@ void AnalyzerContainer::AddAnalyzerType() {
   group_->addAction(action);
   action->setCheckable(true);
   actions_ << action;
-  QObject::connect(action, &QAction::triggered, [this, id]() { ChangeAnalyzer(id); });
+  QObject::connect(action, &QAction::triggered, [this, id]() {
+    ChangeAnalyzer(id);
+    Save();
+  });
 }
 
 #endif  // ANALYZERCONTAINER_H

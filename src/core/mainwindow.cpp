@@ -642,7 +642,7 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(ui_->action_auto_complete_tags, &QAction::triggered, this, &MainWindow::AutoCompleteTags);
 #endif
   QObject::connect(ui_->action_settings, &QAction::triggered, this, &MainWindow::OpenSettingsDialog);
-  QObject::connect(ui_->action_toggle_show_sidebar, &QAction::toggled, this, &MainWindow::ToggleSidebar);
+  QObject::connect(ui_->action_toggle_show_sidebar, &QAction::triggered, this, &MainWindow::ToggleSidebar);
   QObject::connect(ui_->action_about_strawberry, &QAction::triggered, this, &MainWindow::ShowAboutDialog);
   QObject::connect(ui_->action_about_qt, &QAction::triggered, qApp, &QApplication::aboutQt);
   QObject::connect(ui_->action_shuffle, &QAction::triggered, &*app_->playlist_manager(), &PlaylistManager::ShuffleCurrent);
@@ -805,7 +805,7 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(album_cover_choice_controller_->delete_cover_action(), &QAction::triggered, this, &MainWindow::DeleteCover);
   QObject::connect(album_cover_choice_controller_->show_cover_action(), &QAction::triggered, this, &MainWindow::ShowCover);
   QObject::connect(album_cover_choice_controller_->search_cover_auto_action(), &QAction::triggered, this, &MainWindow::SearchCoverAutomatically);
-  QObject::connect(album_cover_choice_controller_->search_cover_auto_action(), &QAction::toggled, this, &MainWindow::ToggleSearchCoverAuto);
+  QObject::connect(album_cover_choice_controller_->search_cover_auto_action(), &QAction::triggered, this, &MainWindow::ToggleSearchCoverAuto);
 
   // Devices connections
   QObject::connect(device_view_->view(), &DeviceView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
@@ -1177,6 +1177,7 @@ MainWindow::MainWindow(Application *app,
   bool show_sidebar = settings.value(MainWindowSettings::kShowSidebar, MainWindowSettings::kDefaultShowSidebar).toBool();
   ui_->sidebar_layout->setVisible(show_sidebar);
   ui_->action_toggle_show_sidebar->setChecked(show_sidebar);
+  TabSwitched();
 
   QShortcut *close_window_shortcut = new QShortcut(this);
   close_window_shortcut->setKey(Qt::CTRL | Qt::SHIFT | Qt::Key_W);

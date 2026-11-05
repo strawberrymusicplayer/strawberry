@@ -95,6 +95,7 @@ class StreamingSearchView : public QWidget {
   SongList SelectedSongs();
 
   void SetSearchType(const StreamingService::SearchType type);
+  void ApplyGroupBy(const CollectionModel::Grouping g);
 
   int SearchAsync(const QString &query, const StreamingService::SearchType type);
   void SearchAsync(const int id, const QString &query, const StreamingService::SearchType type);

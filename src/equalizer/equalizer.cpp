@@ -142,11 +142,9 @@ void Equalizer::ReloadSettings() {
   ui_->slider_label_layout->setEnabled(ui_->enable_stereo_balancer->isChecked());
   ui_->stereo_balance_slider->setEnabled(ui_->enable_stereo_balancer->isChecked());
 
-  const int stereo_balance = s.value(kStereoBalance, 0).toInt();
-  ui_->stereo_balance_slider->setValue(stereo_balance);
-  StereoBalanceSliderChanged(stereo_balance);
+  ui_->stereo_balance_slider->setValue(s.value(kStereoBalance, 0).toInt());
 
-  PresetChanged(selected_preset);
+  LoadPreset(selected_preset);
 
 }
 
@@ -197,6 +195,14 @@ void Equalizer::PresetChanged(const QString &name) {
       SaveCurrentPreset();
     }
   }
+
+  LoadPreset(name);
+  Save();
+
+}
+
+void Equalizer::LoadPreset(const QString &name) {
+
   last_preset_ = name;
 
   const Params p = presets_.value(name);
@@ -207,7 +213,6 @@ void Equalizer::PresetChanged(const QString &name) {
   loading_ = false;
 
   EqualizerParametersChangedSlot();
-  Save();
 
 }
 

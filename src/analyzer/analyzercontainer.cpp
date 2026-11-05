@@ -95,7 +95,10 @@ AnalyzerContainer::AnalyzerContainer(QWidget *parent)
   AddAnalyzerType<RainbowDashAnalyzer>();
   AddAnalyzerType<NyanCatAnalyzer>();
 
-  disable_action_ = context_menu_->addAction(tr("No analyzer"), this, &AnalyzerContainer::DisableAnalyzer);
+  disable_action_ = context_menu_->addAction(tr("No analyzer"), this, [this]() {
+    DisableAnalyzer();
+    Save();
+  });
   disable_action_->setCheckable(true);
   group_->addAction(disable_action_);
 
@@ -137,8 +140,6 @@ void AnalyzerContainer::DisableAnalyzer() {
   delete current_analyzer_;
   current_analyzer_ = nullptr;
 
-  Save();
-
 }
 
 void AnalyzerContainer::ChangeAnalyzer(const int id) {
@@ -159,8 +160,6 @@ void AnalyzerContainer::ChangeAnalyzer(const int id) {
 
   layout()->addWidget(current_analyzer_);
 
-  Save();
-
 }
 
 void AnalyzerContainer::ChangeFramerate(int new_framerate) {
@@ -173,7 +172,8 @@ void AnalyzerContainer::ChangeFramerate(int new_framerate) {
     // notify the current analyzer that the framerate has changed
     current_analyzer_->framerateChanged();
   }
-  SaveFramerate(new_framerate);
+  // For now, framerate is common for all analyzers. Maybe each analyzer should have its own framerate?
+  current_framerate_ = new_framerate;
 
 }
 
@@ -219,10 +219,8 @@ void AnalyzerContainer::Load() {
 
 }
 
-void AnalyzerContainer::SaveFramerate(const int framerate) {
+void AnalyzerContainer::SaveFramerate() {
 
-  // For now, framerate is common for all analyzers. Maybe each analyzer should have its own framerate?
-  current_framerate_ = framerate;
   Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue(kSettingsFramerate, current_framerate_);
@@ -245,6 +243,9 @@ void AnalyzerContainer::AddFramerate(const QString &name, const int framerate) {
   group_framerate_->addAction(action);
   framerate_list_ << framerate;
   action->setCheckable(true);
-  QObject::connect(action, &QAction::triggered, this, [this, framerate]() { ChangeFramerate(framerate); } );
+  QObject::connect(action, &QAction::triggered, this, [this, framerate]() {
+    ChangeFramerate(framerate);
+    SaveFramerate();
+  });
 
 }
