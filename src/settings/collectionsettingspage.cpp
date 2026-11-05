@@ -181,8 +181,6 @@ void CollectionSettingsPage::Load() {
   ui_->checkbox_overwrite_playcount->setChecked(s.value(kOverwritePlaycount, kDefaultOverwritePlaycount).toBool());
   ui_->checkbox_overwrite_rating->setChecked(s.value(kOverwriteRating, kDefaultOverwriteRating).toBool());
 
-  ui_->checkbox_delete_files->setChecked(s.value(kDeleteFiles, kDefaultDeleteFiles).toBool());
-
   s.endGroup();
 
   DiskCacheEnable(ui_->checkbox_disk_cache->checkState());
@@ -229,8 +227,6 @@ void CollectionSettingsPage::Save() {
   s.setValue(kSaveLyrics, ui_->checkbox_save_lyrics->isChecked());
   s.setValue(kOverwritePlaycount, ui_->checkbox_overwrite_playcount->isChecked());
   s.setValue(kOverwriteRating, ui_->checkbox_overwrite_rating->isChecked());
-
-  s.setValue(kDeleteFiles, ui_->checkbox_delete_files->isChecked());
 
   s.endGroup();
 

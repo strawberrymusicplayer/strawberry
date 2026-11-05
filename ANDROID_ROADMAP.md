@@ -451,14 +451,15 @@ Keep this visual update Android-only.
 
 ## 11. Remove the Collection setting for context-menu file deletion
 
-**Status:** Planned
+**Status:** Done
 
 **Goal:** Remove "Enable delete files in the right click context menu" from Settings > General > Collection.
 
-**Next steps:**
-- Remove the setting's UI and inspect its load/save logic and context-menu action wiring.
-- Ensure the removed option cannot leave file-deletion actions enabled by a previously saved value.
-- Verify the Collection settings page and context menu, preserving playlist-only deletion and unrelated settings.
+**Implemented and verified:**
+- Removed the Collection checkbox and its settings load/save path and constants.
+- Removed the CollectionView "Delete from disk" context-menu action and its execution path. A legacy `delete_files` value is no longer read, so it cannot enable the action.
+- Kept the separate Playlist delete-files setting and action unchanged.
+- Android app target builds successfully; the full native suite passes (54/54).
 
 ## 12. Import and export equalizer settings as JSON
 
