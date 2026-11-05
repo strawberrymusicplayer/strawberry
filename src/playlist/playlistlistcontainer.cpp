@@ -582,9 +582,6 @@ void PlaylistListContainer::Delete() {
   QObject::connect(cancel, &QPushButton::clicked, overlay, &QDialog::reject);
   QObject::connect(overlay, &QDialog::accepted, this, [this, ids, folders_to_delete]() {
     for (const int id : ids) {
-      if (playlist_manager_->IsPlaylistOpen(id) && playlist_manager_->playlist_ids().count() == 1) {
-        playlist_manager_->New(tr("Playlist"));
-      }
       playlist_manager_->Delete(id);
     }
     for (const QPersistentModelIndex &idx : folders_to_delete) {

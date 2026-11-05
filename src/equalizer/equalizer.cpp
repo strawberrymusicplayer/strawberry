@@ -141,10 +141,7 @@ Equalizer::Equalizer(QWidget *parent)
   ui_->setupUi(this);
 
   // Icons
-  ui_->preset_del->setIcon(IconLoader::Load(u"list-remove"_s));
-#ifdef Q_OS_ANDROID
-  ui_->preset_del->setIcon(style()->standardIcon(QStyle::SP_TrashIcon));
-#endif
+  ui_->preset_del->setIcon(IconLoader::Load(u"edit-delete"_s));
   ui_->preset_save->setIcon(IconLoader::Load(u"document-save"_s));
 
   preamp_ = AddSlider(tr("Pre-amp"), true);

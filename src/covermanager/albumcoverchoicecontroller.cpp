@@ -111,7 +111,7 @@ AlbumCoverChoiceController::AlbumCoverChoiceController(QWidget *parent)
   cover_from_url_ = new QAction(IconLoader::Load(u"download"_s), tr("Load cover from URL..."), this);
   search_for_cover_ = new QAction(IconLoader::Load(u"search"_s), tr("Search for album covers..."), this);
   unset_cover_ = new QAction(IconLoader::Load(u"list-remove"_s), tr("Unset cover"), this);
-  delete_cover_ = new QAction(IconLoader::Load(u"list-remove"_s), tr("Delete cover"), this);
+  delete_cover_ = new QAction(IconLoader::Load(u"edit-delete"_s), tr("Delete cover"), this);
   clear_cover_ = new QAction(IconLoader::Load(u"list-remove"_s), tr("Clear cover"), this);
   separator1_ = new QAction(this);
   separator1_->setSeparator(true);

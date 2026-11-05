@@ -2084,6 +2084,61 @@ TEST_F(PlaylistTest, NowPlayingStartsEmptyAndDoesNotSaveSessionContents) {
 
 }
 
+TEST_F(PlaylistTest, DeleteHandlesOpenClosedAndLastPlaylists) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  SharedPtr<Database> database = std::make_shared<Database>(nullptr, nullptr, temp_dir.filePath(u"strawberry.db"_s));
+  SharedPtr<PlaylistBackend> backend = std::make_shared<PlaylistBackend>(database, tagreader_client_, nullptr);
+  auto tasks = std::make_shared<TaskManager>();
+  auto collection = std::make_shared<CollectionBackend>();
+  collection->Init(database, tasks, Song::Source::Collection, u"songs"_s);
+  auto covers = std::make_shared<AlbumCoverLoader>(tagreader_client_);
+  auto current_cover = std::make_shared<CurrentAlbumCoverLoader>(covers);
+  {
+    PlaylistContainer container;
+    PlaylistManager manager(tasks, tagreader_client_, nullptr, backend, collection, current_cover);
+    manager.Init(&sequence_, &container);
+    WaitForRestoreFinished(manager.current());
+    const int first_id = manager.current_id();
+    QSignalSpy deleted(&manager, &PlaylistManager::PlaylistDeleted);
+
+    manager.New(u"Open favorite"_s);
+    const int open_favorite_id = manager.current_id();
+    manager.Favorite(open_favorite_id, true);
+    manager.Delete(open_favorite_id);
+    EXPECT_FALSE(manager.IsPlaylistOpen(open_favorite_id));
+    EXPECT_EQ(-1, backend->GetPlaylist(open_favorite_id).id);
+    ASSERT_EQ(1, deleted.count());
+    EXPECT_EQ(open_favorite_id, deleted.at(0).at(0).toInt());
+
+    manager.New(u"Closed favorite"_s);
+    const int closed_favorite_id = manager.current_id();
+    manager.Favorite(closed_favorite_id, true);
+    ASSERT_TRUE(manager.Close(closed_favorite_id));
+    EXPECT_FALSE(manager.IsPlaylistOpen(closed_favorite_id));
+    manager.Delete(closed_favorite_id);
+    EXPECT_EQ(-1, backend->GetPlaylist(closed_favorite_id).id);
+    ASSERT_EQ(2, deleted.count());
+    EXPECT_EQ(closed_favorite_id, deleted.at(1).at(0).toInt());
+
+    ASSERT_TRUE(manager.IsPlaylistOpen(first_id));
+    ASSERT_EQ(1, manager.playlist_ids().count());
+    manager.Delete(first_id);
+    EXPECT_FALSE(manager.IsPlaylistOpen(first_id));
+    EXPECT_EQ(-1, backend->GetPlaylist(first_id).id);
+    ASSERT_EQ(1, manager.playlist_ids().count());
+    EXPECT_NE(first_id, manager.current_id());
+    EXPECT_EQ(manager.current_id(), manager.active_id());
+    ASSERT_EQ(3, deleted.count());
+    EXPECT_EQ(first_id, deleted.at(2).at(0).toInt());
+  }
+  covers->ExitAsync();
+  QCoreApplication::processEvents();
+  database->Close();
+
+}
+
 TEST_F(PlaylistTest, NowPlayingReusesIdentityWithoutChangingOrdinaryPlaylists) {
 
   QTemporaryDir temp_dir;

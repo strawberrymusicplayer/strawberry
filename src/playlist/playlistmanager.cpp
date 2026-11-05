@@ -492,6 +492,9 @@ void PlaylistManager::Delete(const int id) {
     return;
   }
   const bool favorite = playlists_.value(id).p->is_favorite();
+  if (playlists_.count() == 1) {
+    New(tr("Playlist"));
+  }
   if (!Close(id)) {
     return;
   }

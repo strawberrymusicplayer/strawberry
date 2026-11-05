@@ -333,7 +333,7 @@ The following items are initial assessments that need further investigation.
 
 ## 8. Fix playlist deletion and use bin icons for delete buttons
 
-**Status:** Playlist bin fixed and emulator verified; remaining icon audit and edge-case verification pending
+**Status:** Done (Android emulator verified; physical-device verification remains item 9)
 
 **Problem:** The playlist delete button (currently a red cross) is reported not to work on Android.
 Delete buttons should consistently use a bin icon rather than a cross.
@@ -369,8 +369,11 @@ Delete buttons should consistently use a bin icon rather than a cross.
   At 320 dp width the question wraps, both icons remain visible, and touch cancellation works.
   Removed both temporary empty playlists, confirmed their absence after restart, and restored the original emulator display size.
 - Verified deleting the generated one-track Collection playlist left both source WAVs present with identical SHA-256 hashes before and after deletion.
-- Remaining: verify last-playlist replacement and favorite/closed/multiple-playlist cases in isolation, and complete the app-wide delete-icon audit.
-  Unrelated user playlists were not deleted to test the last-playlist case.
+**Completion (2026-11-05):**
+- Moved last-playlist replacement into `PlaylistManager::Delete()`, so every caller keeps one open playlist without Android-specific setup.
+- Added `DeleteHandlesOpenClosedAndLastPlaylists`, covering deletion of open and closed favorites, database removal, one deletion signal per playlist, and replacement of the final open playlist.
+- Audited delete icons across the app. Actual delete actions use the bin icon; `list-remove` remains on close, unset, clear, and remove-from-list actions.
+- The complete native playlist test binary passes. Physical-device verification remains tracked in item 9.
 
 ## 9. Verify Android changes on a physical device
 
