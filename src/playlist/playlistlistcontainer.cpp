@@ -46,6 +46,7 @@
 #include <QContextMenuEvent>
 #include <QMimeData>
 #ifdef Q_OS_ANDROID
+#  include <QFont>
 #  include <QStyle>
 #  include <QPushButton>
 #  include <QDialog>
@@ -142,11 +143,18 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
 
   QObject::connect(ui_->tree, &PlaylistListView::ItemsSelectedChanged, this, &PlaylistListContainer::ItemsSelectedChanged);
 #ifdef Q_OS_ANDROID
+  QFont playlist_font = ui_->tree->font();
+  playlist_font.setPointSizeF(14.4);
+  ui_->tree->setFont(playlist_font);
+  ui_->tree->setStyleSheet(QStringLiteral(
+      "QTreeView::item { min-height: 40px; padding: 4px 12px; }"
+      "QTreeView::item:selected { background: palette(highlight); color: palette(highlighted-text); }"));
   QObject::connect(ui_->tree, &PlaylistListView::clicked, this, &PlaylistListContainer::ItemDoubleClicked);
   ui_->tree->setMinimumHeight(48);
   for (QToolButton *button : {ui_->new_folder, ui_->remove, ui_->save_playlist}) {
     button->setMinimumSize(48, 48);
   }
+  ui_->save_playlist->hide();
 #else
   QObject::connect(ui_->tree, &PlaylistListView::doubleClicked, this, &PlaylistListContainer::ItemDoubleClicked);
 #endif
@@ -226,7 +234,11 @@ void PlaylistListContainer::showEvent(QShowEvent *e) {
     action_copy_to_device_->setIcon(IconLoader::Load(u"device"_s));
 #endif
 
+#ifdef Q_OS_ANDROID
+    model_->SetIcons(QIcon(), IconLoader::Load(u"folder"_s));
+#else
     model_->SetIcons(IconLoader::Load(u"view-media-playlist"_s), IconLoader::Load(u"folder"_s));
+#endif
 
     // Apply these icons to items that have already been created.
     RecursivelySetIcons(model_->invisibleRootItem());

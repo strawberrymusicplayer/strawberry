@@ -139,8 +139,12 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
   ui_->tab_bar->setExpanding(false);
   ui_->tab_bar->setMovable(true);
 
+#ifdef Q_OS_ANDROID
+  ui_->tab_bar->hide();
+#else
   QObject::connect(tab_bar_animation_, &QTimeLine::frameChanged, this, &PlaylistContainer::SetTabBarHeight);
   ui_->tab_bar->setMaximumHeight(0);
+#endif
 
   // Connections
   QObject::connect(ui_->tab_bar, &PlaylistTabBar::currentChanged, this, &PlaylistContainer::Save);
@@ -495,11 +499,16 @@ void PlaylistContainer::Save() {
 
 void PlaylistContainer::SetTabBarVisible(const bool visible) {
 
+#ifdef Q_OS_ANDROID
+  Q_UNUSED(visible);
+  ui_->tab_bar->hide();
+#else
   if (tab_bar_visible_ == visible) return;
   tab_bar_visible_ = visible;
 
   tab_bar_animation_->setDirection(visible ? QTimeLine::Forward : QTimeLine::Backward);
   tab_bar_animation_->start();
+#endif
 
 }
 

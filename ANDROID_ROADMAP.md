@@ -311,7 +311,7 @@ The following items are initial assessments that need further investigation.
 
 ## 7. Rename a playlist by tapping its name in the playlist view
 
-**Status:** Planned
+**Status:** Done (Android emulator verified; physical-device verification remains item 9)
 
 **Goal:** Tapping the playlist name above the playlist view lets the user edit it in place; confirming saves the new name.
 
@@ -321,15 +321,22 @@ The following items are initial assessments that need further investigation.
 - Fits Android design: editing a title in place is a common pattern.
   Prefer inline editing over a dialog: replace the label with a `QLineEdit` (same font, text selected) while editing, which opens the on-screen keyboard and keeps the user in context.
   This also avoids depending on dialog taps, which still need verification (see item 2).
-- A plain label doesn't look tappable.
-  Add a visual hint, such as a small rename (pencil) icon next to the name, and set an accessible name ("Rename playlist") so the action is discoverable and announced by screen readers.
+- Keep the title free of a rename icon; the title itself is the touch target, with an accessible name and tooltip for assistive technology.
 - Editing behavior:
   - The keyboard's Done/Enter key saves; Back first hides the keyboard, as usual on Android, and leaving the field without confirming cancels the edit.
   - An empty or whitespace-only name is rejected and restores the previous name.
   - The previous name is shown again if the playlist changes while editing (for example when another playlist is opened).
 - Renaming isn't part of the playlist's undo stack (the undo stack covers the songs in a playlist, not its name), so it can't be undone with the undo button of item 3; typing the old name back is the way to revert.
 
-**Approach:** Replace the title `QLabel` with a small widget that switches between a tappable name (with rename icon) and a `QLineEdit`, calls `PlaylistManager::Rename()` for the current playlist on confirm, and keeps updating from `CurrentChanged` and `PlaylistRenamed` as the label does now.
+**Approach:** Replace the title label with a compact Android header containing a left-aligned, tappable playlist name and a Settings-style Back button on the right. Tapping the name switches to a `QLineEdit`; confirming calls `PlaylistManager::Rename()` and the title continues to update from `CurrentChanged` and `PlaylistRenamed`.
+
+**Implemented and verified:**
+- The playlist name is left-aligned, bold 18 pt, and opens an inline editor without a rename icon. Enter saves a trimmed non-empty name; an empty name or leaving without confirming cancels.
+- A Settings-style Back button sits on the right with a 32 px arrow and 48 px minimum height. It returns to the Playlists overview and retains the selected playlist.
+- Android hides the per-playlist tab strip; playlists are opened and switched from the Playlists overview. Desktop tabs are unchanged.
+- Removed the Save playlist diskette from the Android overview toolbar. The export action remains available from the existing context menu; desktop controls are unchanged.
+- The Android overview uses 14.4 pt playlist names without playlist icons, with compact rows and gray separators across the full list width; folder icons remain.
+- The Android app target and APK build successfully. Emulator verification confirmed inline rename updates the title and overview, the tab strip and diskette button are absent, and Back returns to the selected playlist in the overview.
 
 ## 8. Fix playlist deletion and use bin icons for delete buttons
 
