@@ -505,8 +505,11 @@ MainWindow::MainWindow(Application *app,
   ui_->tabs->AddTab(device_view_, u"devices"_s, IconLoader::Load(u"device"_s, true, 0, 32), tr("Devices"));
 #ifdef Q_OS_ANDROID
   ui_->tabs->AddTab(CreateAndroidToolsPage(), u"tools"_s, IconLoader::Load(u"configure"_s, true, 0, 32), tr("Tools"));
-  QWidget *settings_tab = new QWidget(ui_->tabs);
-  ui_->tabs->AddTab(settings_tab, u"settings"_s, IconLoader::Load(u"system-run"_s, true, 0, 32), tr("Settings"));
+  android_settings_tab_ = new QWidget(ui_->tabs);
+  auto *settings_layout = new QVBoxLayout(android_settings_tab_);
+  settings_layout->setContentsMargins(0, 0, 0, 0);
+  settings_layout->setSpacing(0);
+  ui_->tabs->AddTab(android_settings_tab_, u"settings"_s, IconLoader::Load(u"system-run"_s, true, 0, 32), tr("Settings"));
 #endif
 #ifdef HAVE_SUBSONIC
   ui_->tabs->AddTab(subsonic_view_, u"subsonic"_s, IconLoader::Load(u"subsonic"_s, true, 0, 32), tr("Subsonic"));
@@ -1137,15 +1140,15 @@ MainWindow::MainWindow(Application *app,
 
   ui_->tabs->setCurrentIndex(settings.value(FancyTabWidget::kCurrentTab, 1).toInt());
 #ifdef Q_OS_ANDROID
-  const auto previous_tab_index = make_shared<int>(ui_->tabs->currentIndex());
-  const int settings_tab_index = ui_->tabs->IndexOfTab(settings_tab);
-  QObject::connect(ui_->tabs, &FancyTabWidget::CurrentTabChanged, this, [this, previous_tab_index, settings_tab_index](const int index) {
+  const int settings_tab_index = ui_->tabs->IndexOfTab(android_settings_tab_);
+  android_previous_tab_index_ = ui_->tabs->currentIndex();
+  if (android_previous_tab_index_ == settings_tab_index) android_previous_tab_index_ = ui_->tabs->IndexOfTab(collection_view_);
+  QObject::connect(ui_->tabs, &FancyTabWidget::CurrentTabChanged, this, [this, settings_tab_index](const int index) {
     if (index == settings_tab_index) {
-      ui_->tabs->setCurrentIndex(*previous_tab_index);
       OpenSettingsDialog();
     }
     else {
-      *previous_tab_index = index;
+      android_previous_tab_index_ = index;
     }
   });
 #endif
@@ -1165,6 +1168,7 @@ MainWindow::MainWindow(Application *app,
 
 #ifdef Q_OS_ANDROID
   SetupAndroidLayout();
+  if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(android_settings_tab_)) OpenSettingsDialog();
 #endif
 
   // Reload pretty OSD to avoid issues with fonts
@@ -1482,12 +1486,28 @@ QWidget *MainWindow::CreateAndroidToolsPage() {
     heading->setWordWrap(true);
     layout->addWidget(heading);
     for (QAction *action : actions) {
+      QString button_text = action->text();
+      if (action == ui_->action_update_collection) button_text = tr("Update collection");
+      else if (action == ui_->action_full_collection_scan) button_text = tr("Full collection scan");
+      else if (action == ui_->action_stop_collection_scan) button_text = tr("Stop scan");
+
       QToolButton *button = new QToolButton(contents);
       button->setDefaultAction(action);
+      button->setText(button_text);
+      button->setAccessibleName(action->text());
+      if (button_text != action->text()) {
+        QObject::connect(action, &QAction::changed, button, [button, button_text]() {
+          button->setText(button_text);
+        });
+      }
       button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
       button->setIconSize(QSize(32, 32));
-      button->setMinimumHeight(56);
+      button->setMinimumHeight(72);
       button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+      QFont button_font = button->font();
+      button_font.setPointSizeF(button_font.pointSizeF() * 1.15);
+      button->setFont(button_font);
+      button->setStyleSheet(u"text-align: left; padding-left: 24px;"_s);
       layout->addWidget(button);
     }
   };
@@ -3336,32 +3356,32 @@ void MainWindow::AddFilesToTranscoder() {
 }
 
 void MainWindow::OpenCollectionSettingsDialog() {
-  settings_dialog_->OpenAtPage(SettingsDialog::Page::Collection);
+  OpenSettingsDialogAtPage(SettingsDialog::Page::Collection);
 }
 
 void MainWindow::OpenServiceSettingsDialog(const Song::Source source) {
 
   switch (source) {
     case Song::Source::Collection:
-      settings_dialog_->OpenAtPage(SettingsDialog::Page::Collection);
+      OpenSettingsDialogAtPage(SettingsDialog::Page::Collection);
       break;
     case Song::Source::Subsonic:
-      settings_dialog_->OpenAtPage(SettingsDialog::Page::Subsonic);
+      OpenSettingsDialogAtPage(SettingsDialog::Page::Subsonic);
       break;
     case Song::Source::Tidal:
-      settings_dialog_->OpenAtPage(SettingsDialog::Page::Tidal);
+      OpenSettingsDialogAtPage(SettingsDialog::Page::Tidal);
       break;
     case Song::Source::Qobuz:
-      settings_dialog_->OpenAtPage(SettingsDialog::Page::Qobuz);
+      OpenSettingsDialogAtPage(SettingsDialog::Page::Qobuz);
       break;
     case Song::Source::Spotify:
-      settings_dialog_->OpenAtPage(SettingsDialog::Page::Spotify);
+      OpenSettingsDialogAtPage(SettingsDialog::Page::Spotify);
       break;
     case Song::Source::Plex:
-      settings_dialog_->OpenAtPage(SettingsDialog::Page::Plex);
+      OpenSettingsDialogAtPage(SettingsDialog::Page::Plex);
       break;
     case Song::Source::Jellyfin:
-      settings_dialog_->OpenAtPage(SettingsDialog::Page::Jellyfin);
+      OpenSettingsDialogAtPage(SettingsDialog::Page::Jellyfin);
       break;
     default:
       break;
@@ -3633,12 +3653,24 @@ SettingsDialog *MainWindow::CreateSettingsDialog() {
                                                        globalshortcuts_manager_,
 #endif
                                                        osd_,
-                                                       this);
+                                                       this
+#ifdef Q_OS_ANDROID
+                                                       , android_settings_tab_
+#endif
+                                                       );
 
   // Settings
   QObject::connect(settings_dialog, &SettingsDialog::ReloadSettings, this, &MainWindow::ReloadAllSettings);
 
 #ifdef Q_OS_ANDROID
+  settings_dialog->setWindowFlags(Qt::Widget);
+  settings_dialog->setMinimumSize(0, 0);
+  settings_dialog->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  android_settings_tab_->layout()->addWidget(settings_dialog);
+  QObject::connect(settings_dialog, &QDialog::finished, this, [this]() {
+    android_settings_overview_on_open_ = true;
+    if (android_previous_tab_index_ >= 0) ui_->tabs->setCurrentIndex(android_previous_tab_index_);
+  });
   settings_dialog->AddAndroidHelpCategory({ ui_->action_about_strawberry, ui_->action_about_qt });
 #endif
 
@@ -3652,7 +3684,14 @@ SettingsDialog *MainWindow::CreateSettingsDialog() {
 void MainWindow::OpenSettingsDialog() {
 
 #ifdef Q_OS_ANDROID
-  settings_dialog_->OpenOverview();
+  const int settings_tab_index = ui_->tabs->IndexOfTab(android_settings_tab_);
+  if (ui_->tabs->currentIndex() != settings_tab_index) {
+    ui_->tabs->setCurrentIndex(settings_tab_index);
+    return;
+  }
+  if (android_settings_overview_on_open_) settings_dialog_->OpenOverview();
+  else settings_dialog_->show();
+  android_settings_overview_on_open_ = false;
 #else
   settings_dialog_->show();
 #endif
@@ -3661,7 +3700,14 @@ void MainWindow::OpenSettingsDialog() {
 }
 
 void MainWindow::OpenSettingsDialogAtPage(const SettingsDialog::Page page) {
+#ifdef Q_OS_ANDROID
+  const int settings_tab_index = ui_->tabs->IndexOfTab(android_settings_tab_);
+  if (ui_->tabs->currentIndex() != settings_tab_index) ui_->tabs->setCurrentIndex(settings_tab_index);
+#endif
   settings_dialog_->OpenAtPage(page);
+#ifdef Q_OS_ANDROID
+  android_settings_overview_on_open_ = false;
+#endif
 }
 
 TagEditor *MainWindow::CreateTagEditor() {

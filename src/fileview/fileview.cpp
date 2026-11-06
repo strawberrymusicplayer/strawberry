@@ -161,7 +161,7 @@ FileView::FileView(QWidget *parent)
   android_layout->addWidget(select_folder);
 
   QFont button_font = select_files->font();
-  button_font.setPointSizeF(button_font.pointSizeF() * 1.75);
+  button_font.setPointSizeF(button_font.pointSizeF() * 1.15);
   select_files->setFont(button_font);
   select_folder->setFont(button_font);
 

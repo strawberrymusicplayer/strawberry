@@ -169,6 +169,7 @@ class SettingsDialog : public QDialog {
   QWidget *android_categories_page_;
   QMap<Page, QWidget*> android_category_pages_;
   QWidget *android_current_category_page_;
+  bool android_settings_loaded_;
   struct AndroidSubpage {
     QScrollArea *area;
     QWidget *content_parent;

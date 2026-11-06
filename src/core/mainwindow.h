@@ -333,6 +333,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   Ui_MainWindow *ui_;
 #ifdef Q_OS_ANDROID
   QToolButton *android_mute_button_ = nullptr;
+  QWidget *android_settings_tab_ = nullptr;
+  int android_previous_tab_index_ = -1;
+  bool android_settings_overview_on_open_ = true;
 #endif
 #ifdef Q_OS_WIN32
   Windows7ThumbBar *thumbbar_;

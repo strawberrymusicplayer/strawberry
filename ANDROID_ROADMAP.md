@@ -488,12 +488,26 @@ Keep this visual update Android-only.
 
 ## 14. Keep the side menu visible when opening Settings
 
-**Status:** Planned
+**Status:** Done (Android emulator verified; narrow-screen and physical-device testing remain)
 
 **Goal:** Keep the Android app's side menu visible and usable when opening Settings.
 
+**Verified:**
+- Settings opens inside the existing sidebar tab, leaving the sidebar visible.
+- Breadcrumbs and Back navigate one level at a time; root Back returns to the previous sidebar tab.
+- Switching tabs keeps pending edits. Apply commits without leaving Settings, and Cancel discards edits and returns to the previous tab.
+- The 115% Settings and Tools button text and existing larger icons fit on the tested emulator screen.
+
+**Remaining validation:**
+- Verify narrow-screen and physical-device behavior; leave desktop Settings unchanged.
+
+## 17. Make Android checkboxes touch-friendly
+
+**Status:** Planned
+
+**Goal:** Review Android checkbox sizes and touch targets throughout the app, using the controls in Tools > Equalizer as the reference: a 28 x 28 px indicator in a 56 px row.
+
 **Next steps:**
-- Integrate Settings into the main navigation without hiding or replacing the side menu.
-- Preserve Settings breadcrumbs, one-level Back navigation, and Apply/OK/Cancel semantics.
-- Define how switching sidebar tabs handles unapplied edits so changes are not silently saved or discarded.
-- Verify sidebar navigation, narrow-screen usability, and returning to the previous app context; leave desktop Settings unchanged.
+- Inventory Android checkbox controls in Settings, Tools, and other Android pages; identify indicators or rows that are difficult to tap.
+- Match the Equalizer checkbox indicator and row sizing where practical, while preserving accessibility state and the existing desktop controls.
+- Verify each affected checkbox with touch input on a narrow screen and at larger system font sizes.

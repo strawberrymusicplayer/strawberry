@@ -157,7 +157,8 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 #ifdef Q_OS_ANDROID
       , android_navigation_(nullptr),
       android_categories_page_(nullptr),
-      android_current_category_page_(nullptr)
+      android_current_category_page_(nullptr),
+      android_settings_loaded_(false)
 #endif
       {
 
@@ -232,6 +233,12 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
   categories_layout->setSpacing(8);
   android_navigation_->addWidget(android_categories_page_);
   const QStringList category_icon_names = {u"strawberry"_s, u"view-choose"_s, u"applications-internet"_s};
+  const auto style_navigation_button = [](QPushButton *button) {
+    QFont font = button->font();
+    font.setPointSizeF(font.pointSizeF() * 1.15);
+    button->setFont(font);
+    button->setStyleSheet(u"text-align: left; padding-left: 24px;"_s);
+  };
 
   QTreeWidgetItem *root = ui_->list->invisibleRootItem();
   for (int i = 0; i < root->childCount(); ++i) {
@@ -259,6 +266,7 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
     }
     category_button->setMinimumHeight(64);
     category_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    style_navigation_button(category_button);
     categories_layout->addWidget(category_button);
     QObject::connect(category_button, &QPushButton::clicked, this, [this, category_page, category]() {
       android_current_category_page_ = category_page;
@@ -273,8 +281,10 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
       if (page_it == pages_.cend()) continue;
 
       QPushButton *page_button = new QPushButton(item->icon(0), item->text(0), category_contents);
-      page_button->setMinimumHeight(56);
-      page_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+      page_button->setIconSize(QSize(32, 32));
+      page_button->setMinimumHeight(64);
+      page_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+      style_navigation_button(page_button);
       category_layout->addWidget(page_button);
       android_category_pages_.insert(page_it.key(), category_page);
       QObject::connect(page_button, &QPushButton::clicked, this, [this, item, category_page]() {
@@ -366,6 +376,9 @@ bool SettingsDialog::event(QEvent *event) {
 void SettingsDialog::showEvent(QShowEvent *e) {
 
   if (!e->spontaneous()) {
+#ifdef Q_OS_ANDROID
+    if (!android_settings_loaded_) {
+#endif
     LoadGeometry();
     // Load settings
     loading_settings_ = true;
@@ -374,6 +387,10 @@ void SettingsDialog::showEvent(QShowEvent *e) {
       page.page_->Load();
     }
     loading_settings_ = false;
+  #ifdef Q_OS_ANDROID
+    android_settings_loaded_ = true;
+    }
+  #endif
   }
 
   QDialog::showEvent(e);
@@ -399,6 +416,9 @@ void SettingsDialog::accept() {
   }
   Q_EMIT ReloadSettings();
 
+#ifdef Q_OS_ANDROID
+  android_settings_loaded_ = false;
+#endif
   SaveGeometry();
 
   QDialog::accept();
@@ -415,6 +435,9 @@ void SettingsDialog::reject() {
   for (const PageData &page : pages) {
     page.page_->Reject();
   }
+#ifdef Q_OS_ANDROID
+  android_settings_loaded_ = false;
+#endif
   SaveGeometry();
 
   QDialog::reject();
@@ -424,6 +447,7 @@ void SettingsDialog::reject() {
 void SettingsDialog::LoadGeometry() {
 
 #ifdef Q_OS_ANDROID
+  if (parentWidget() != mainwindow_) return;
   setGeometry(mainwindow_->geometry());
   return;
 #else
@@ -596,6 +620,10 @@ void SettingsDialog::AddAndroidHelpCategory(const QList<QAction*> &actions) {
     QPushButton *button = new QPushButton(action->icon(), action->iconText(), help_contents);
     button->setMinimumHeight(56);
     button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    QFont font = button->font();
+    font.setPointSizeF(font.pointSizeF() * 1.15);
+    button->setFont(font);
+    button->setStyleSheet(u"text-align: left; padding-left: 24px;"_s);
     help_layout->addWidget(button);
     QObject::connect(button, &QPushButton::clicked, action, &QAction::trigger);
   }
@@ -606,6 +634,10 @@ void SettingsDialog::AddAndroidHelpCategory(const QList<QAction*> &actions) {
   help_button->setIconSize(QSize(32, 32));
   help_button->setMinimumHeight(64);
   help_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+  QFont help_font = help_button->font();
+  help_font.setPointSizeF(help_font.pointSizeF() * 1.15);
+  help_button->setFont(help_font);
+  help_button->setStyleSheet(u"text-align: left; padding-left: 24px;"_s);
   // Insert above the trailing stretch of the overview.
   auto *categories_layout = qobject_cast<QVBoxLayout*>(android_categories_page_->layout());
   categories_layout->insertWidget(categories_layout->count() - 1, help_button);
