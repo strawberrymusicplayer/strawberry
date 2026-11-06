@@ -59,6 +59,10 @@ TEST_F(EqualizerTest, SlidersKeepEngineGainRangeAndEmitLiveChanges) {
   EXPECT_EQ(u"12 dB"_s, sliders.at(1)->findChild<QLabel *>(u"gain"_s)->text());
   sliders.at(1)->set_value(-100);
   EXPECT_EQ(u"-24 dB"_s, sliders.at(1)->findChild<QLabel *>(u"gain"_s)->text());
+  sliders.at(1)->set_value(-33);
+  EXPECT_EQ(u"-7.92 dB"_s, sliders.at(1)->findChild<QLabel *>(u"gain"_s)->text());
+  sliders.at(1)->set_value(7);
+  EXPECT_EQ(u"0.84 dB"_s, sliders.at(1)->findChild<QLabel *>(u"gain"_s)->text());
 
 }
 

@@ -46,15 +46,26 @@
 #include "equalizerslider.h"
 #include "ui_equalizerslider.h"
 
+namespace {
+constexpr int kPreampMutedValue = -100;
+}  // namespace
+
 #ifdef Q_OS_ANDROID
 namespace {
-class AndroidGainSpinBox : public QDoubleSpinBox {
+constexpr char kGainPositiveColor[] = "#008000";
+constexpr char kGainNegativeColor[] = "#ff0000";
+constexpr char kGainZeroColor[] = "#0000ff";
+constexpr char kGainSelectionColor[] = "#e0f2ff";
+constexpr char kGainFocusBorderColor[] = "#87cefa";
+}  // namespace
+
+// Editable dB value, colored by the sign of the gain.
+class EqualizerGainSpinBox : public QDoubleSpinBox {
  public:
-  explicit AndroidGainSpinBox(QWidget *parent) : QDoubleSpinBox(parent) {
+  explicit EqualizerGainSpinBox(QWidget *parent) : QDoubleSpinBox(parent) {
     lineEdit()->setStyleSheet(QStringLiteral(
-        "QLineEdit { background: transparent; border: 1px solid transparent; border-radius: 8px;"
-        " selection-background-color: #e0f2ff; }"
-        "QLineEdit:focus, QLineEdit[gainSelected=\"true\"] { background: #e0f2ff; border-color: #87cefa; }"));
+        "QLineEdit { background: transparent; border: 1px solid transparent; border-radius: 8px; selection-background-color: %1; }"
+        "QLineEdit:focus, QLineEdit[gainSelected=\"true\"] { background: %1; border-color: %2; }").arg(QLatin1String(kGainSelectionColor), QLatin1String(kGainFocusBorderColor)));
     QObject::connect(lineEdit(), &QLineEdit::selectionChanged, this, [this]() {
       lineEdit()->setProperty("gainSelected", lineEdit()->hasSelectedText());
       lineEdit()->style()->unpolish(lineEdit());
@@ -71,11 +82,11 @@ class AndroidGainSpinBox : public QDoubleSpinBox {
   }
 
   void UpdateColor() {
-    const QColor color = value() > 0 ? QColor(QStringLiteral("#008000")) : value() < 0 ? QColor(Qt::red) : QColor(Qt::blue);
+    const QColor color(QLatin1String(value() > 0 ? kGainPositiveColor : value() < 0 ? kGainNegativeColor : kGainZeroColor));
     QPalette palette = lineEdit()->palette();
     palette.setColor(QPalette::All, QPalette::Text, color);
     palette.setColor(QPalette::All, QPalette::HighlightedText, color);
-    palette.setColor(QPalette::All, QPalette::Highlight, QColor(QStringLiteral("#e0f2ff")));
+    palette.setColor(QPalette::All, QPalette::Highlight, QColor(QLatin1String(kGainSelectionColor)));
     lineEdit()->setPalette(palette);
   }
 
@@ -94,7 +105,6 @@ class AndroidGainSpinBox : public QDoubleSpinBox {
     QDoubleSpinBox::keyPressEvent(event);
   }
 };
-}  // namespace
 #endif
 
 EqualizerSlider::EqualizerSlider(const QString &label, QWidget *parent, const bool preamp)
@@ -117,7 +127,7 @@ EqualizerSlider::EqualizerSlider(const QString &label, QWidget *parent, const bo
   ui_->verticalLayout->removeWidget(ui_->band);
   ui_->verticalLayout->removeWidget(ui_->gain);
   ui_->verticalLayout->setSpacing(4);
-  gain_editor_ = new AndroidGainSpinBox(this);
+  gain_editor_ = new EqualizerGainSpinBox(this);
   gain_editor_->setDecimals(2);
   gain_editor_->setRange(preamp_ ? -41.0 : -24.0, preamp_ ? 20.0 * std::log10(2.0) : 12.0);
   gain_editor_->setSingleStep(1.0);
@@ -200,25 +210,16 @@ void EqualizerSlider::changeEvent(QEvent *event) {
 
 void EqualizerSlider::OnValueChanged(const int value) {
 
-  // Converting % to dB as per GstEnginePipeline::UpdateEqualizer():
-  float gain = (static_cast<int>(value) < 0) ? static_cast<float>(value) * static_cast<float>(0.24) : static_cast<float>(value) * static_cast<float>(0.12);
-
-  if (preamp_) {
-    if (value == -100) {
-      ui_->gain->setText(tr("Muted"));
-    }
-    else {
-      const double gain_db = 20.0 * std::log10((value + 100) * 0.01);
-      ui_->gain->setText(tr("%1 dB").arg(std::round(gain_db * 10.0) / 10.0));
-    }
+  // The conversion to dB matches GstEnginePipeline::UpdateEqualizer().
+  const double gain = gain_db();
+  if (preamp_ && value == kPreampMutedValue) {
+    ui_->gain->setText(tr("Muted"));
   }
   else {
-    ui_->gain->setText(tr("%1 dB").arg(gain));
+    ui_->gain->setText(tr("%1 dB").arg(preamp_ ? std::round(gain * 10.0) / 10.0 : gain));
   }
 #ifdef Q_OS_ANDROID
-  const QSignalBlocker blocker(gain_editor_);
-  gain_editor_->setValue(value == -100 && preamp_ ? gain_editor_->minimum() : gain_db());
-  static_cast<AndroidGainSpinBox *>(gain_editor_)->UpdateColor();
+  UpdateGainEditor();
 #endif
   Q_EMIT ValueChanged(value);
 
@@ -235,7 +236,7 @@ void EqualizerSlider::set_value(const int value) {
 double EqualizerSlider::gain_db() const {
 
   if (preamp_) {
-    return value() == -100 ? -std::numeric_limits<double>::infinity() : 20.0 * std::log10((value() + 100) * 0.01);
+    return value() == kPreampMutedValue ? -std::numeric_limits<double>::infinity() : 20.0 * std::log10((value() + 100) * 0.01);
   }
   return value() * (value() < 0 ? 0.24 : 0.12);
 
@@ -243,13 +244,22 @@ double EqualizerSlider::gain_db() const {
 
 void EqualizerSlider::set_gain_db(const double gain) {
 
-  const int engine_value = preamp_ ? (gain <= -41.0 ? -100 : qRound(100.0 * std::pow(10.0, gain / 20.0)) - 100)
+  const int engine_value = preamp_ ? (gain <= -41.0 ? kPreampMutedValue : qRound(100.0 * std::pow(10.0, gain / 20.0)) - 100)
                                    : qRound(gain / (gain < 0 ? 0.24 : 0.12));
   set_value(engine_value);
 #ifdef Q_OS_ANDROID
-  const QSignalBlocker blocker(gain_editor_);
-  gain_editor_->setValue(preamp_ && value() == -100 ? gain_editor_->minimum() : gain_db());
-  static_cast<AndroidGainSpinBox *>(gain_editor_)->UpdateColor();
+  // An unchanged engine value emits no change, but the editor must still show the rounded gain.
+  UpdateGainEditor();
 #endif
 
 }
+
+#ifdef Q_OS_ANDROID
+void EqualizerSlider::UpdateGainEditor() {
+
+  const QSignalBlocker blocker(gain_editor_);
+  gain_editor_->setValue(preamp_ && value() == kPreampMutedValue ? gain_editor_->minimum() : gain_db());
+  gain_editor_->UpdateColor();
+
+}
+#endif

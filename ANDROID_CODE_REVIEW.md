@@ -6,6 +6,17 @@ The review covered the build files, manifest, and all 74 changed source files (a
 Each point is resolved separately: fix, build (Android and native), test, and commit.
 Status values: Open, Done, Won't fix (with a reason).
 
+## Resuming work
+
+Handoff notes for continuing in a new session:
+
+- Next: finish the emulator check of point 8, then continue with point 9; points 21 and 22 were found during testing.
+- Build Android with `cmake --build build --target strawberry_make_apk --parallel 5` (the plain `all` target can race in the APK copy step).
+- Build and run native tests in `build/native` (see `CLAUDE.md`).
+- Deploy: zipalign and sign with the debug keystore, `adb install -r`, launch with `adb shell monkey -p org.qtproject.example.strawberry 1` (see `ANDROID_EMULATOR_TESTING.md`).
+- The emulator became very slow (low memory, display lagging minutes behind); reboot it before UI testing.
+- Test music is in `/sdcard/Music/StrawberryTest`; the release APK is not debuggable, so check settings through the UI.
+
 ## Correctness and safety
 
 ### 1. Detect failed JNI calls and consolidate JNI lookups
@@ -106,11 +117,17 @@ Status values: Open, Done, Won't fix (with a reason).
 
 ### 8. Simplify the equalizer gain control
 
-**Status:** Open
+**Status:** In progress (code committed; emulator check pending)
 
-- `EqualizerSlider::OnValueChanged()` duplicates the dB conversion of `gain_db()`.
-- `gain_editor_` is stored as `QDoubleSpinBox *` and cast with `static_cast<AndroidGainSpinBox *>`; store the actual type.
-- The gain colors are scattered hex literals; give them named constants without changing the requested appearance.
+- `EqualizerSlider::OnValueChanged()` duplicated the dB conversion of `gain_db()`.
+- `gain_editor_` was stored as `QDoubleSpinBox *` and cast with `static_cast<AndroidGainSpinBox *>`.
+- The gain colors were scattered hex literals.
+
+**Done so far:**
+- `OnValueChanged()` uses `gain_db()`; the Android editor update is shared in `UpdateGainEditor()`; `gain_editor_` has the real type `EqualizerGainSpinBox`; colors and the preamp mute value are named constants.
+- Added fractional dB label checks; all 7 native equalizer tests pass and the Android APK builds.
+
+**Remaining:** on the emulator, enable the equalizer, open Bass, and check the up/down arrows and the green/red/blue gain colors; then restore the gain to 0 and disable the equalizer again.
 
 ### 9. Stop rebuilding the equalizer preset button
 
