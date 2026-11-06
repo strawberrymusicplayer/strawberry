@@ -1,9 +1,41 @@
 # Strawberry Android Roadmap
 
-Planned Android UI changes, in priority order.
+Planned Android changes; the order of work is listed under Current priority order.
 Each item lists the assessment of feasibility and fit with Android design, and the planned approach.
 
 Status values: Planned, In progress, Done.
+
+## Current priority order
+
+Work through these items in this order.
+Each item is completed one point at a time: fix, test, and commit each point separately.
+
+1. **Item 18:** Review the Android changes for coding best practices.
+2. **Item 19:** Audit all app functionality for Android compatibility.
+3. The remaining open items: 13, 15, 16, 17, 12, and finally 9 (physical-device verification, which needs a device).
+
+## 18. Review the Android changes for coding best practices
+
+**Status:** In progress
+
+**Goal:** Review every Android-related change in this fork, compared with upstream Strawberry, against coding best practices and identify where it can be improved.
+
+**Approach:**
+- Review the complete diff against the upstream merge base: correctness, duplication, platform guards, ownership and thread affinity, Qt conventions, readability, test coverage, and consistency with the project code style.
+- Record the improvement points in `ANDROID_CODE_REVIEW.md` and commit that list before changing any code.
+- Resolve the points one at a time; build, test, and commit each point separately, and mark it as done in the list.
+
+## 19. Audit all app functionality for Android compatibility
+
+**Status:** Planned
+
+**Goal:** Check every feature of the app and determine whether it works on Android as currently implemented.
+
+**Approach:**
+- Inventory the features per subsystem (playback, collection, playlists, devices, streaming services, scrobbling, covers, lyrics, settings, desktop integration, and so on).
+- For each feature, determine whether it works, is not applicable, or needs changes on Android, using the code and emulator testing.
+- Record the points that need changes in `ANDROID_FEATURE_AUDIT.md` and commit that list.
+- Resolve the points one at a time; test and commit each point separately, and mark it as done in the list.
 
 ## 1. Mute button shows the current state
 
