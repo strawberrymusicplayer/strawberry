@@ -52,11 +52,12 @@ Status values: Open, Done, Won't fix (with a reason).
 
 ### 4. Correct copyright headers of new files
 
-**Status:** Open
+**Status:** Done
 
-- `longpresshandler`, `playlistactionhandler`, and their tests were written in this fork but name the upstream maintainer as copyright holder.
-- `androidstorage` and `androidsettingspage` have no copyright line.
-- Fix: use the correct author for all new files.
+- `longpresshandler`, `playlistactionhandler`, and their tests were written in this fork but named the upstream maintainer as copyright holder.
+
+**Resolved:**
+- At the owner's request, removed the incorrect lines without adding a name; all new files now carry only the GPL notice, like `androidstorage` and `androidsettingspage`.
 
 ### 5. Keep desktop behavior unchanged
 
