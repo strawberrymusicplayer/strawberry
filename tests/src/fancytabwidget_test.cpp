@@ -30,9 +30,13 @@
 #include <QPixmapCache>
 #include <QSet>
 #include <QRgb>
+#include <QStackedWidget>
+#include <QTabBar>
+#include <QTest>
 
 #include "widgets/fancytabwidget.h"
 #include "widgets/fancytabbar.h"
+#include "core/settings.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -88,5 +92,109 @@ TEST(FancyTabWidgetTest, BackgroundPixmapFillsWideSidebar) {
   EXPECT_GT(ColorsInColumn(image, column(background_pixmap.width() / 2), top, bottom), 1);
   EXPECT_GT(ColorsInColumn(image, column(background_pixmap.width() + 5), top, bottom), 1);
   EXPECT_GT(ColorsInColumn(image, column(sidebar_width - 5), top, bottom), 1);
+
+}
+
+// FancyTabWidget wraps each content widget in its own page, so widget(), currentWidget() and setCurrentWidget() never match the content widget passed to AddTab().
+// Code that looks up a tab by its content widget must use IndexOfTab().
+TEST(FancyTabWidgetTest, ContentWidgetIsWrappedInPage) {
+
+  FancyTabWidget tabs;
+  QWidget *first_view = new QWidget;
+  QWidget *second_view = new QWidget;
+  tabs.AddTab(first_view, u"first"_s, QIcon(), u"First"_s);
+  tabs.AddTab(second_view, u"second"_s, QIcon(), u"Second"_s);
+  ASSERT_TRUE(tabs.EnableTab(first_view));
+  ASSERT_TRUE(tabs.EnableTab(second_view));
+
+  const int second_index = tabs.IndexOfTab(second_view);
+  ASSERT_GE(second_index, 0);
+  EXPECT_NE(tabs.widget(second_index), second_view);
+  EXPECT_TRUE(tabs.widget(second_index)->isAncestorOf(second_view));
+  EXPECT_EQ(tabs.indexOf(second_view), -1);
+
+  tabs.setCurrentIndex(second_index);
+  EXPECT_EQ(tabs.currentIndex(), tabs.IndexOfTab(second_view));
+  EXPECT_NE(tabs.currentWidget(), second_view);
+
+}
+
+// Regression test: on Android, tapping the already active Playlists tab must return from the playlist editor to the playlist list.
+// The main window compared the wrapper page with the content widget, so the comparison always failed and the editor stayed open.
+TEST(FancyTabWidgetTest, ClickingActiveTabFindsContentWidget) {
+
+  FancyTabWidget tabs;
+  QWidget *other_view = new QWidget;
+  QStackedWidget *pages = new QStackedWidget;
+  QWidget *list_page = new QWidget;
+  QWidget *editor_page = new QWidget;
+  pages->addWidget(list_page);
+  pages->addWidget(editor_page);
+  tabs.AddTab(other_view, u"other"_s, QIcon(), u"Other"_s);
+  tabs.AddTab(pages, u"playlists"_s, QIcon(), u"Playlists"_s);
+  ASSERT_TRUE(tabs.EnableTab(other_view));
+  ASSERT_TRUE(tabs.EnableTab(pages));
+  tabs.SetMode(FancyTabWidget::Mode::LargeSidebar);
+
+  // Same lookups as MainWindow::SetupAndroidLayout().
+  QObject::connect(tabs.tabBar(), &QTabBar::tabBarClicked, &tabs, [&tabs, pages, list_page](const int index) {
+    if (index == tabs.IndexOfTab(pages)) pages->setCurrentWidget(list_page);
+  });
+  QObject::connect(&tabs, &QTabWidget::currentChanged, &tabs, [&tabs, pages, list_page]() {
+    if (tabs.currentIndex() == tabs.IndexOfTab(pages)) pages->setCurrentWidget(list_page);
+  });
+
+  tabs.resize(600, 600);
+  tabs.show();
+  QCoreApplication::processEvents();
+
+  const int pages_index = tabs.IndexOfTab(pages);
+  ASSERT_GE(pages_index, 0);
+  tabs.setCurrentIndex(pages_index);
+  pages->setCurrentWidget(editor_page);
+
+  // Click the tab which is already active.
+  QTest::mouseClick(tabs.tabBar(), Qt::LeftButton, Qt::NoModifier, tabs.tabBar()->tabRect(pages_index).center());
+  EXPECT_EQ(tabs.currentIndex(), pages_index);
+  EXPECT_EQ(pages->currentWidget(), list_page);
+
+  // Switching to another tab and back also shows the list.
+  pages->setCurrentWidget(editor_page);
+  tabs.setCurrentIndex(tabs.IndexOfTab(other_view));
+  tabs.setCurrentIndex(pages_index);
+  EXPECT_EQ(pages->currentWidget(), list_page);
+
+}
+
+// Regression test: a newly added tab without a saved position can request the same index as a tab with a saved position.
+// The tabs are stored in a hash, so the collision was resolved in an arbitrary order, and the new Android Tools tab sometimes ended up after Settings.
+TEST(FancyTabWidgetTest, LoadSettingsResolvesCollisionsInAddOrder) {
+
+  const QString settings_group = u"FancyTabWidgetTest"_s;
+  {
+    Settings s;
+    s.beginGroup(settings_group);
+    s.setValue(u"tab_settings"_s, 8);
+    s.endGroup();
+  }
+
+  // The hash order depends on the widget addresses, so repeat with new widgets to catch an arbitrary order.
+  for (int attempt = 0; attempt < 20; ++attempt) {
+    FancyTabWidget tabs;
+    for (int i = 0; i < 8; ++i) {
+      tabs.AddTab(new QWidget, u"tab%1"_s.arg(i), QIcon(), u"Tab %1"_s.arg(i));
+    }
+    QWidget *tools_view = new QWidget;
+    QWidget *settings_view = new QWidget;
+    tabs.AddTab(tools_view, u"tools"_s, QIcon(), u"Tools"_s);
+    tabs.AddTab(settings_view, u"settings"_s, QIcon(), u"Settings"_s);
+    tabs.LoadSettings(settings_group);
+
+    EXPECT_EQ(tabs.IndexOfTab(tools_view), 8);
+    EXPECT_EQ(tabs.IndexOfTab(settings_view), 9);
+  }
+
+  Settings s;
+  s.remove(settings_group);
 
 }

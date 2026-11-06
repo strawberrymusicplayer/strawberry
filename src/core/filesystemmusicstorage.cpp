@@ -83,7 +83,7 @@ bool RenameFile(const QString &source, const QString &destination) {
 #else
   const QByteArray source_path = QFile::encodeName(source);
   const QByteArray destination_path = QFile::encodeName(destination);
-#  if defined(Q_OS_LINUX) && defined(RENAME_NOREPLACE)
+#  if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID) && defined(RENAME_NOREPLACE)
   if (::renameat2(AT_FDCWD, source_path.constData(), AT_FDCWD, destination_path.constData(), RENAME_NOREPLACE) == 0) return true;
   // EINVAL when the filesystem doesn't support it.
   if (errno != EINVAL) return false;

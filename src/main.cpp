@@ -79,7 +79,9 @@
 #include "utilities/envutils.h"
 #include "utilities/styleutils.h"
 
-#include <kdsingleapplication.h>
+#ifndef Q_OS_ANDROID
+#  include <kdsingleapplication.h>
+#endif
 
 #ifdef Q_OS_UNIX
   #include "core/unixsignalwatcher.h"
@@ -109,6 +111,9 @@
 #include "core/application.h"
 #include "core/metatypes.h"
 #include "core/mainwindow.h"
+#ifdef Q_OS_ANDROID
+#  include "core/androidstorage.h"
+#endif
 
 #ifdef Q_OS_MACOS
 #  include "systemtrayicon/macsystemtrayicon.h"
@@ -167,10 +172,13 @@ int main(int argc, char *argv[]) {
     // Only start a core application now, so we can check if there's another instance without requiring an X server.
     // This MUST be done before parsing the commandline options so QTextCodec gets the right system locale for filenames.
     QCoreApplication core_app(argc, argv);
+#ifndef Q_OS_ANDROID
     KDSingleApplication single_app(QCoreApplication::applicationName().toLower(), KDSingleApplication::Option::IncludeUsernameInSocketName);
+#endif
     // Parse commandline options - need to do this before starting the full QApplication, so it works without an X server
     if (!options.Parse()) return 1;
     logging::SetLevels(options.log_levels());
+#ifndef Q_OS_ANDROID
     if (!single_app.isPrimaryInstance()) {
       if (options.is_empty()) {
         qLog(Info) << "Strawberry is already running - activating existing window (1)";
@@ -180,6 +188,7 @@ int main(int argc, char *argv[]) {
       }
       return 0;
     }
+#endif
   }
 
 #ifdef Q_OS_MACOS
@@ -203,6 +212,14 @@ int main(int argc, char *argv[]) {
   QGuiApplication::setDesktopFileName(u"org.strawberrymusicplayer.strawberry"_s);
   QGuiApplication::setQuitOnLastWindowClosed(false);
 
+#if defined(Q_OS_ANDROID) && QT_VERSION < QT_VERSION_CHECK(6, 9, 2)
+  // Before Qt 6.9.2 (QTBUG-128794), QRhiBackingStore::flush() scales the already scaled flush region by the device pixel ratio again, so partial widget updates are uploaded to the wrong part of the window texture and never appear on screen.
+  // Flushing through QRhi directly from the widget repaint manager uses the correct coordinates.
+  if (!qEnvironmentVariableIsSet("QT_WIDGETS_RHI")) {
+    qputenv("QT_WIDGETS_RHI", "1");
+  }
+#endif
+
   QApplication a(argc, argv);
 
 #ifdef Q_OS_LINUX
@@ -214,6 +231,7 @@ int main(int argc, char *argv[]) {
   }
 #endif
 
+#ifndef Q_OS_ANDROID
   KDSingleApplication single_app(QCoreApplication::applicationName().toLower(), KDSingleApplication::Option::IncludeUsernameInSocketName);
   if (!single_app.isPrimaryInstance()) {
     if (options.is_empty()) {
@@ -224,6 +242,7 @@ int main(int argc, char *argv[]) {
     }
     return 0;
   }
+#endif
 
   QThread::currentThread()->setObjectName(u"Main"_s);
 
@@ -416,7 +435,11 @@ int main(int argc, char *argv[]) {
   QObject::connect(&mpris2, &Mpris2::RaiseMainWindow, &w, &MainWindow::Raise);
   QObject::connect(&mpris2, &Mpris2::ExitApplication, &w, &MainWindow::Exit);
 #endif
+#ifndef Q_OS_ANDROID
   QObject::connect(&single_app, &KDSingleApplication::messageReceived, &w, QOverload<const QByteArray&>::of(&MainWindow::CommandlineOptionsReceived));
+#else
+  AndroidStorage::RequestAudioPermission();
+#endif
 
   int ret = QCoreApplication::exec();
 

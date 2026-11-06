@@ -38,9 +38,11 @@ class QWidget;
 class QTreeWidgetItem;
 class QComboBox;
 class QScrollArea;
+class QStackedWidget;
 class QAbstractButton;
 class QShowEvent;
 class QCloseEvent;
+class QKeyEvent;
 
 class Player;
 class AudioDeviceListers;
@@ -109,8 +111,19 @@ class SettingsDialog : public QDialog {
   bool is_loading_settings() const { return loading_settings_; }
 
   void OpenAtPage(const Page page);
+#ifdef Q_OS_ANDROID
+  void OpenOverview();
+  void AddAndroidHelpCategory(const QList<QAction*> &actions);
+  void OpenAndroidSubpage(QWidget *content, const QString &title);
+  void CloseAndroidSubpage();
+  bool IsAndroidPageActive(const SettingsPage *page) const;
+#endif
 
  protected:
+#ifdef Q_OS_ANDROID
+  bool event(QEvent *event) override;
+  void keyPressEvent(QKeyEvent *event) override;
+#endif
   void showEvent(QShowEvent *e) override;
   void closeEvent(QCloseEvent *e) override;
 
@@ -148,6 +161,23 @@ class SettingsDialog : public QDialog {
   Ui_SettingsDialog *ui_;
   bool loading_settings_;
   QMap<Page, PageData> pages_;
+#ifdef Q_OS_ANDROID
+  void SetAndroidNavigationPage(QWidget *page);
+  void AndroidBack();
+  void SetAndroidTitle(const QString &category = QString(), const QString &page = QString(), const QString &subpage = QString());
+  QStackedWidget *android_navigation_;
+  QWidget *android_categories_page_;
+  QMap<Page, QWidget*> android_category_pages_;
+  QWidget *android_current_category_page_;
+  struct AndroidSubpage {
+    QScrollArea *area;
+    QWidget *content_parent;
+    QScrollArea *parent_area;
+    int parent_scroll_value;
+    QString title;
+  };
+  QList<AndroidSubpage> android_subpages_;
+#endif
 };
 
 #endif  // SETTINGSDIALOG_H

@@ -66,8 +66,11 @@ void SongLoaderInserter::Load(Playlist *destination, const int row, const bool p
   signal_ = signal;
 
   QObject::connect(destination, &Playlist::destroyed, this, &SongLoaderInserter::DestinationDestroyed);
+  QObject::connect(destination, &Playlist::NowPlayingReset, this, &SongLoaderInserter::DestinationDestroyed);
   QObject::connect(this, &SongLoaderInserter::PreloadFinished, this, &SongLoaderInserter::InsertSongs);
-  QObject::connect(this, &SongLoaderInserter::EffectiveLoadFinished, destination, &Playlist::UpdateItems);
+  QObject::connect(this, &SongLoaderInserter::EffectiveLoadFinished, destination, [this](const SongList &songs) {
+    if (destination_) destination_->UpdateItems(songs);
+  });
 
   for (const QUrl &url : urls) {
     SongLoader *loader = new SongLoader(url_handlers_, collection_backend_, tagreader_client_, this);

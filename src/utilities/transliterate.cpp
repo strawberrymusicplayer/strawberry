@@ -22,7 +22,11 @@
 #include <cstdio>
 #include <string>
 
-#include <unicode/translit.h>
+#include "config.h"
+
+#ifdef HAVE_ICU
+#  include <unicode/translit.h>
+#endif
 
 #include <QByteArray>
 #include <QString>
@@ -34,6 +38,7 @@ namespace Utilities {
 
 QString Transliterate(const QString &accented_str) {
 
+#ifdef HAVE_ICU
   static thread_local ScopedPtr<icu::Transliterator> transliterator;
   if (!transliterator) {
     UErrorCode errorcode = U_ZERO_ERROR;
@@ -50,6 +55,9 @@ QString Transliterate(const QString &accented_str) {
   ustring.toUTF8String(unaccented_str);
 
   return QString::fromStdString(unaccented_str);
+#else
+  return accented_str;
+#endif
 
 }  // Transliterate
 

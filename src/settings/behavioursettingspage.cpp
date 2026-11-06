@@ -31,29 +31,40 @@
 #include <QDir>
 #include <QLocale>
 #include <QSettings>
+#include <QVBoxLayout>
+#include <QButtonGroup>
+#include <QPushButton>
+#include <QWidget>
+#include <QPoint>
+#include <QRect>
 #include <QSystemTrayIcon>
 #include <QCheckBox>
 #include <QRadioButton>
 #include <QSpinBox>
 #include <QComboBox>
+#include <QAbstractItemView>
 #include <QGroupBox>
+#include <QLabel>
+#include <QBoxLayout>
+#include <QPalette>
+#include <QFont>
 
 #include "constants/behavioursettings.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "settings/settingspage.h"
+#include "settings/settingsdialog.h"
+#include "settings/androidsettingspage.h"
 #include "behavioursettingspage.h"
 #include "ui_behavioursettingspage.h"
 
 using namespace Qt::Literals::StringLiterals;
 using namespace BehaviourSettings;
 
-class SettingsDialog;
-
 #ifdef HAVE_TRANSLATIONS
 namespace {
 bool LocaleAwareCompare(const QString &a, const QString &b) {
-  return a.localeAwareCompare(b) < 0;
+  return a.toCaseFolded().localeAwareCompare(b.toCaseFolded()) < 0;
 }
 }  // namespace
 #endif
@@ -71,6 +82,13 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
   ui_->checkbox_showtrayicon->hide();
   ui_->checkbox_trayicon_progress->hide();
   ui_->groupbox_startup->hide();
+#endif
+
+#ifdef Q_OS_ANDROID
+  ui_->checkbox_showtrayicon->hide();
+  ui_->checkbox_keeprunning->hide();
+  ui_->checkbox_trayicon_progress->hide();
+  ui_->checkbox_playingwidget->hide();
 #endif
 
 #if !defined(HAVE_DBUS) || defined(Q_OS_MACOS)
@@ -133,6 +151,135 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
 
   ui_->combobox_doubleclickplaylistaddmode->setItemData(0, static_cast<int>(PlaylistAddBehaviour::Play));
   ui_->combobox_doubleclickplaylistaddmode->setItemData(1, static_cast<int>(PlaylistAddBehaviour::Enqueue));
+
+#ifdef Q_OS_ANDROID
+  for (QLabel *label : findChildren<QLabel*>()) {
+    label->setWordWrap(true);
+  }
+  for (QComboBox *combo : findChildren<QComboBox*>()) {
+    combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+    combo->setMinimumContentsLength(12);
+  }
+  for (QGroupBox *group : findChildren<QGroupBox*>()) {
+    if (group == ui_->groupbox_doubleclickaddmode) {
+      QLabel *explanation = new QLabel(tr("Double-tapping songs or albums in Collection or files in Files replaces the temporary Now playing playlist and starts playback. Other playlists are unchanged. Now playing starts empty when the app restarts."), this);
+      explanation->setWordWrap(true);
+      delete ui_->layout_behavioursettingspage->replaceWidget(group, explanation);
+      group->hide();
+      continue;
+    }
+    auto *controls_layout = qobject_cast<QBoxLayout*>(group->layout());
+    if (!controls_layout) continue;
+
+    const QString title = group->title();
+    group->setAccessibleName(title);
+    group->setTitle(QString());
+    controls_layout->setDirection(QBoxLayout::TopToBottom);
+    controls_layout->setAlignment(Qt::AlignTop);
+    auto *button = new AndroidSettingsButton<QPushButton>(this);
+    button->setMinimumHeight(48);
+    button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    button->setAccessibleName(title);
+    button->setProperty("androidSettingsNavigation", true);
+    auto *button_layout = new QVBoxLayout(button);
+    auto *caption = new QLabel(title + u" >"_s, button);
+    caption->setWordWrap(true);
+    caption->setAttribute(Qt::WA_TransparentForMouseEvents);
+    button_layout->addWidget(caption);
+    auto *summary = new QLabel(button);
+    QFont summary_font = summary->font();
+    summary_font.setBold(true);
+    summary->setFont(summary_font);
+    summary->setForegroundRole(QPalette::Link);
+    summary->setWordWrap(true);
+    summary->setAttribute(Qt::WA_TransparentForMouseEvents);
+    button_layout->addWidget(summary);
+    delete ui_->layout_behavioursettingspage->replaceWidget(group, button);
+    group->hide();
+    button->setVisible(group != ui_->groupbox_language || group->isEnabled());
+    const auto combos = group->findChildren<QComboBox*>();
+    auto update_summary = [group, combos, summary, button]() {
+      QStringList values;
+      for (QComboBox *combo : combos) values << combo->currentText();
+      for (QRadioButton *radio : group->findChildren<QRadioButton*>()) {
+        if (radio->isChecked() && !radio->text().isEmpty()) values << QString(radio->text()).remove(u'&');
+      }
+      for (QSpinBox *spin : group->findChildren<QSpinBox*>()) values << spin->text();
+      summary->setText(values.join(u"\n"_s));
+      button->setAccessibleDescription(summary->text());
+    };
+    for (QComboBox *combo : combos) {
+      const int position = controls_layout->indexOf(combo);
+      auto *choices = new QWidget(group);
+      auto *choices_layout = new QVBoxLayout(choices);
+      choices_layout->setContentsMargins(0, 0, 0, 0);
+      if (combos.size() > 1) {
+        auto *heading = new QLabel(combo == ui_->combobox_doubleclickaddmode ? tr("Playlist action") : tr("Playback"), choices);
+        QFont heading_font = heading->font();
+        heading_font.setBold(true);
+        heading->setFont(heading_font);
+        heading->setWordWrap(true);
+        choices_layout->addWidget(heading);
+      }
+      auto *choice_group = new QButtonGroup(choices);
+      for (int i = 0; i < combo->count(); ++i) {
+        auto *choice = new AndroidSettingsButton<QRadioButton>(choices);
+        choice->setMinimumHeight(48);
+        choice->setAccessibleName(combo->itemText(i));
+        auto *choice_layout = new QVBoxLayout(choice);
+        choice_layout->setContentsMargins(8, 8, 8, 8);
+        auto *label = new QLabel(combo->itemText(i), choice);
+        label->setWordWrap(true);
+        label->setAttribute(Qt::WA_TransparentForMouseEvents);
+        choice_layout->addWidget(label);
+        choice_group->addButton(choice, i);
+        choice->setChecked(combo->currentIndex() == i);
+        QObject::connect(combo, &QComboBox::currentIndexChanged, choice, [choice, i](int index) {
+          choice->setChecked(index == i);
+        });
+        QObject::connect(choice, &QRadioButton::clicked, this, [this, combo, i, combos]() {
+          combo->setCurrentIndex(i);
+          if (combos.size() == 1) this->dialog()->CloseAndroidSubpage();
+        });
+        choices_layout->addWidget(choice);
+      }
+      combo->hide();
+      controls_layout->insertWidget(position, choices);
+      QObject::connect(combo, &QComboBox::currentIndexChanged, this, update_summary);
+    }
+    if (group == ui_->groupbox_language) {
+      controls_layout->removeWidget(ui_->label_language);
+      controls_layout->insertWidget(0, ui_->label_language);
+    }
+    for (QRadioButton *radio : group->findChildren<QRadioButton*>()) {
+      radio->setStyleSheet(u"QRadioButton::indicator { image: none; border: none; background: transparent; width: 0px; height: 0px; }"_s);
+      radio->setAutoFillBackground(true);
+      auto update_highlight = [radio](bool checked) {
+        radio->setBackgroundRole(checked ? QPalette::Highlight : QPalette::Window);
+        radio->setForegroundRole(checked ? QPalette::HighlightedText : QPalette::WindowText);
+        for (QLabel *label : radio->findChildren<QLabel*>()) {
+          label->setForegroundRole(checked ? QPalette::HighlightedText : QPalette::WindowText);
+        }
+      };
+      QObject::connect(radio, &QRadioButton::toggled, radio, update_highlight);
+      update_highlight(radio->isChecked());
+      QObject::connect(radio, &QRadioButton::toggled, this, update_summary);
+      if (combos.isEmpty()) {
+        radio->setMinimumHeight(48);
+        QObject::connect(radio, &QRadioButton::clicked, this, [this]() {
+          this->dialog()->CloseAndroidSubpage();
+        });
+      }
+    }
+    for (QSpinBox *spin : group->findChildren<QSpinBox*>()) {
+      QObject::connect(spin, &QSpinBox::valueChanged, this, update_summary);
+    }
+    update_summary();
+    QObject::connect(button, &QPushButton::clicked, this, [this, group, title]() {
+      this->dialog()->OpenAndroidSubpage(group, title);
+    });
+  }
+#endif
 
 }
 

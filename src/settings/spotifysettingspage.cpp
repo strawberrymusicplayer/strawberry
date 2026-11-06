@@ -213,7 +213,7 @@ void SpotifySettingsPage::LogoutClicked() {
 
 void SpotifySettingsPage::LoginSuccess() {
 
-  if (!isVisible()) return;
+  if (!IsActive()) return;
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedIn);
   ui_->button_login->setEnabled(true);
 
@@ -221,7 +221,7 @@ void SpotifySettingsPage::LoginSuccess() {
 
 void SpotifySettingsPage::LoginFailure(const QString &failure_reason) {
 
-  if (!isVisible()) return;
+  if (!IsActive()) return;
   QMessageBox::warning(this, tr("Authentication failed"), failure_reason);
   ui_->button_login->setEnabled(true);
 

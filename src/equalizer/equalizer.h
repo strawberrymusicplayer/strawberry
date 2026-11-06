@@ -34,6 +34,14 @@
 
 class QWidget;
 class QCloseEvent;
+class QKeyEvent;
+#ifdef Q_OS_ANDROID
+class QLabel;
+class QPushButton;
+class QScrollArea;
+class QStackedWidget;
+class QToolButton;
+#endif
 
 class EqualizerSlider;
 class Ui_Equalizer;
@@ -73,6 +81,9 @@ class Equalizer : public QDialog {
 
  protected:
   void closeEvent(QCloseEvent *e) override;
+#ifdef Q_OS_ANDROID
+  void keyPressEvent(QKeyEvent *event) override;
+#endif
 
  private Q_SLOTS:
   void StereoBalancerEnabledChangedSlot(const bool enabled);
@@ -86,11 +97,30 @@ class Equalizer : public QDialog {
   void Save();
 
  private:
-  EqualizerSlider *AddSlider(const QString &label);
+  EqualizerSlider *AddSlider(const QString &label, bool preamp = false);
   void LoadDefaultPresets();
   void AddPreset(const QString &name, const Params &params);
   void ReloadSettings();
   QString SaveCurrentPreset();
+#ifdef Q_OS_ANDROID
+  void SetupAndroidLayout();
+  void ShowAndroidPresets();
+  void ShowAndroidPresetEditor(bool remove);
+  void AndroidBack();
+  void UpdateAndroidPreset();
+  void SetAndroidPage(QWidget *page, const QString &title);
+  void ShowAndroidFoldoutModes();
+  void UpdateAndroidFoldouts();
+  void SaveAndroidFoldouts();
+  QList<QToolButton *> android_sections_;
+  QList<QWidget *> android_section_contents_;
+  QPushButton *android_foldout_mode_ = nullptr;
+  int android_foldout_mode_index_ = 1;
+  QStackedWidget *android_pages_ = nullptr;
+  QScrollArea *android_main_ = nullptr;
+  QLabel *android_title_ = nullptr;
+  QPushButton *android_preset_ = nullptr;
+#endif
 
  private:
   Ui_Equalizer *ui_;

@@ -19,8 +19,14 @@
 
 #include <optional>
 
-#include <uchardet.h>
-#include <unicode/ucnv.h>
+#include "config.h"
+
+#ifdef HAVE_UCHARDET
+#  include <uchardet.h>
+#endif
+#ifdef HAVE_ICU
+#  include <unicode/ucnv.h>
+#endif
 
 #include <QByteArray>
 #include <QString>
@@ -65,6 +71,7 @@ namespace Utilities {
 
 QByteArray TextEncodingFromData(const QByteArray &data) {
 
+#ifdef HAVE_UCHARDET
   uchardet_t ucd = uchardet_new();
   if (!ucd) {
     return QByteArray();
@@ -76,6 +83,10 @@ QByteArray TextEncodingFromData(const QByteArray &data) {
   uchardet_data_end(ucd);
 
   return QByteArray(uchardet_get_charset(ucd));
+#else
+  Q_UNUSED(data);
+  return {};
+#endif
 
 }
 
@@ -103,6 +114,7 @@ QString TextFromData(const QByteArray &data) {
     return utf8_text;
   }
 
+#if defined(HAVE_UCHARDET) && defined(HAVE_ICU)
   // Detect the encoding with uchardet, Qt only supports the Unicode encodings and Latin-1 on all platforms, so use ICU to convert other encodings.
   const QByteArray encoding_name = TextEncodingFromData(data);
   if (encoding_name.isEmpty()) {
@@ -129,6 +141,9 @@ QString TextFromData(const QByteArray &data) {
   }
 
   return text;
+#else
+  return QString::fromLatin1(data);
+#endif
 
 }
 

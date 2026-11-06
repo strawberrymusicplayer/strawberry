@@ -57,7 +57,6 @@ constexpr char kSaveRatings[] = "save_ratings";
 constexpr char kSaveLyrics[] = "save_lyrics";
 constexpr char kOverwritePlaycount[] = "overwrite_playcount";
 constexpr char kOverwriteRating[] = "overwrite_rating";
-constexpr char kDeleteFiles[] = "delete_files";
 constexpr char kLastPath[] = "last_path";
 
 constexpr bool kDefaultStartupScan = true;
@@ -81,7 +80,6 @@ constexpr bool kDefaultSaveRatings = false;
 constexpr bool kDefaultSaveLyrics = false;
 constexpr bool kDefaultOverwritePlaycount = false;
 constexpr bool kDefaultOverwriteRating = false;
-constexpr bool kDefaultDeleteFiles = false;
 
 }  // namespace CollectionSettings
 

@@ -79,6 +79,13 @@ function(optional_component name default description)
     endforeach()
     set(text "${description} (missing ${deplist_text})")
 
+    if(ANDROID)
+      set(${option_variable} OFF CACHE BOOL "${description}" FORCE)
+      set(summary_willnotbuild "${summary_willnotbuild};${text} (disabled on Android)" PARENT_SCOPE)
+      message(STATUS "${text}; disabling on Android")
+      return()
+    endif()
+
     set(summary_willnotbuild "${summary_willnotbuild};${text}" PARENT_SCOPE)
 
     message(FATAL_ERROR "${text}, to disable this optional feature, pass -D${option_variable}=OFF to CMake")

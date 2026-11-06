@@ -29,6 +29,20 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
+if(ANDROID)
+  if(NOT GStreamer_ROOT_DIR AND DEFINED ENV{GSTREAMER_ROOT_ANDROID})
+    set(GStreamer_ROOT_DIR "$ENV{GSTREAMER_ROOT_ANDROID}" CACHE PATH "Android GStreamer SDK root")
+  endif()
+  if(GStreamer_ROOT_DIR)
+    list(APPEND CMAKE_MODULE_PATH "${GStreamer_ROOT_DIR}/share/cmake")
+    set(ENV{PKG_CONFIG_PATH} "${GStreamer_ROOT_DIR}/lib/pkgconfig:${GStreamer_ROOT_DIR}/lib/gstreamer-1.0/pkgconfig")
+    set(ENV{PKG_CONFIG_LIBDIR} "${GStreamer_ROOT_DIR}/lib/pkgconfig:${GStreamer_ROOT_DIR}/lib/gstreamer-1.0/pkgconfig")
+    set(GStreamer_USE_STATIC_LIBS ON)
+    set(GSTREAMER_JAVA_SRC_DIR "${CMAKE_BINARY_DIR}/android-build/src")
+    set(GSTREAMER_ASSETS_DIR "${CMAKE_BINARY_DIR}/android-build/assets")
+  endif()
+endif()
+
 if(CMAKE_BUILD_TYPE MATCHES "Release")
   add_definitions(-DNDEBUG)
   set(ENABLE_DEBUG_OUTPUT_DEFAULT OFF)
@@ -158,12 +172,36 @@ find_package(Backtrace)
 if(Backtrace_FOUND)
   set(HAVE_BACKTRACE ON)
 endif()
+if(ANDROID)
+  if(DEFINED ENV{GSTREAMER_ROOT_ANDROID})
+    set(ANDROID_GSTREAMER_ROOT "$ENV{GSTREAMER_ROOT_ANDROID}" CACHE PATH "Android GStreamer SDK root")
+  elseif(GStreamer_ROOT_DIR)
+    set(ANDROID_GSTREAMER_ROOT "${GStreamer_ROOT_DIR}" CACHE PATH "Android GStreamer SDK root")
+  endif()
+endif()
+
+if(ANDROID AND ANDROID_GSTREAMER_ROOT)
+  if(NOT OPENSSL_ROOT_DIR)
+    set(OPENSSL_ROOT_DIR "${ANDROID_GSTREAMER_ROOT}" CACHE PATH "Android OpenSSL root directory")
+  endif()
+  if(NOT OPENSSL_INCLUDE_DIR)
+    set(OPENSSL_INCLUDE_DIR "${ANDROID_GSTREAMER_ROOT}/include" CACHE PATH "Android OpenSSL include directory")
+  endif()
+  if(NOT OPENSSL_CRYPTO_LIBRARY)
+    set(OPENSSL_CRYPTO_LIBRARY "${ANDROID_GSTREAMER_ROOT}/lib/libcrypto.a" CACHE FILEPATH "Android OpenSSL crypto library")
+  endif()
+endif()
 find_package(OpenSSL COMPONENTS Crypto CONFIG)
 if(NOT OpenSSL_FOUND)
   find_package(OpenSSL COMPONENTS Crypto REQUIRED)
 endif()
-find_package(ICU COMPONENTS uc i18n REQUIRED)
-if(UNIX AND NOT APPLE)
+if(ANDROID)
+  find_package(ICU COMPONENTS uc i18n QUIET)
+else()
+  find_package(ICU COMPONENTS uc i18n REQUIRED)
+endif()
+set(HAVE_ICU ${ICU_FOUND})
+if(UNIX AND NOT APPLE AND NOT ANDROID)
   if(LINUX)
     find_package(ALSA REQUIRED)
   else()
@@ -187,8 +225,13 @@ pkg_check_modules(GSTREAMER_APP REQUIRED IMPORTED_TARGET gstreamer-app-1.0)
 pkg_check_modules(GSTREAMER_TAG REQUIRED IMPORTED_TARGET gstreamer-tag-1.0)
 pkg_check_modules(GSTREAMER_PBUTILS REQUIRED IMPORTED_TARGET gstreamer-pbutils-1.0)
 pkg_check_modules(SQLITE REQUIRED IMPORTED_TARGET sqlite3>=3.9)
-pkg_check_modules(UCHARDET REQUIRED IMPORTED_TARGET uchardet)
-if(UNIX AND NOT APPLE)
+if(ANDROID)
+  pkg_check_modules(UCHARDET IMPORTED_TARGET uchardet)
+else()
+  pkg_check_modules(UCHARDET REQUIRED IMPORTED_TARGET uchardet)
+endif()
+set(HAVE_UCHARDET ${UCHARDET_FOUND})
+if(UNIX AND NOT APPLE AND NOT ANDROID)
   pkg_check_modules(LIBPULSE IMPORTED_TARGET libpulse)
   pkg_check_modules(LIBSECRET IMPORTED_TARGET libsecret-1)
 endif()
@@ -209,6 +252,58 @@ else()
   pkg_check_modules(TAGLIB REQUIRED IMPORTED_TARGET taglib>=1.12)
 endif()
 
+if(ANDROID)
+  find_package(GStreamerMobile REQUIRED COMPONENTS
+    api_base
+    api_audio
+    api_app
+    api_tag
+    api_pbutils
+    api_plugins_base
+    coreelements
+    typefindfunctions
+    playback
+    autodetect
+    audioconvert
+    audioresample
+    volume
+    equalizer
+    audiofx
+    replaygain
+    opensles
+    flac
+    mpg123
+    opus
+    vorbis
+    wavparse
+    id3demux
+    isomp4
+    matroska
+  )
+  target_link_options(GStreamerMobile PRIVATE "-Wl,--allow-multiple-definition")
+  set(GSTREAMER_APP_STATIC_LIBRARY "${ANDROID_GSTREAMER_ROOT}/lib/libgstapp-1.0.a")
+  set(GSTREAMER_PBUTILS_STATIC_LIBRARY "${ANDROID_GSTREAMER_ROOT}/lib/libgstpbutils-1.0.a")
+  if(NOT EXISTS "${GSTREAMER_APP_STATIC_LIBRARY}" OR NOT EXISTS "${GSTREAMER_PBUTILS_STATIC_LIBRARY}")
+    message(FATAL_ERROR "GStreamer app and pbutils static libraries are required for Android")
+  endif()
+  set(STRAWBERRY_GSTREAMER_LINK_TARGETS
+    ${GSTREAMER_APP_STATIC_LIBRARY}
+    ${GSTREAMER_PBUTILS_STATIC_LIBRARY}
+    GStreamer::mobile
+  )
+else()
+  set(STRAWBERRY_GSTREAMER_LINK_TARGETS
+    PkgConfig::GLIB
+    PkgConfig::GOBJECT
+    PkgConfig::GSTREAMER
+    PkgConfig::GSTREAMER_BASE
+    PkgConfig::GSTREAMER_AUDIO
+    PkgConfig::GSTREAMER_APP
+    PkgConfig::GSTREAMER_TAG
+    PkgConfig::GSTREAMER_PBUTILS
+  )
+endif()
+
 find_package(GTest)
 
 pkg_check_modules(LIBSPARSEHASH IMPORTED_TARGET libsparsehash)
@@ -222,7 +317,7 @@ endif()
 set(QT_DEFAULT_MAJOR_VERSION ${QT_VERSION_MAJOR})
 set(QT_COMPONENTS Core Concurrent Gui Widgets Network Sql)
 set(QT_OPTIONAL_COMPONENTS GuiPrivate LinguistTools Test)
-if(UNIX AND NOT APPLE)
+if(UNIX AND NOT APPLE AND NOT ANDROID)
   list(APPEND QT_OPTIONAL_COMPONENTS DBus)
 endif()
 set(QT_NO_PRIVATE_MODULE_WARNING ON)
@@ -254,7 +349,7 @@ if(X11_FOUND)
   unset(CMAKE_REQUIRED_LIBRARIES)
 endif()
 
-if(UNIX AND NOT APPLE)
+if(UNIX AND NOT APPLE AND NOT ANDROID)
   find_package(LayerShellQt 6.0 CONFIG)
   pkg_check_modules(WAYLAND_CLIENT IMPORTED_TARGET wayland-client)
   # Check for QWaylandApplication (Qt 6.5 or newer compiled with Wayland), Qt 6.5 is also needed to use layer shell for only some windows.
@@ -273,7 +368,9 @@ if(UNIX AND NOT APPLE)
   unset(CMAKE_REQUIRED_LIBRARIES)
 endif()
 
-find_package(KDSingleApplication-qt${QT_VERSION_MAJOR} 1.1.0 REQUIRED)
+if(NOT ANDROID)
+  find_package(KDSingleApplication-qt${QT_VERSION_MAJOR} 1.1.0 REQUIRED)
+endif()
 
 if(APPLE)
   find_library(SPARKLE Sparkle)
@@ -301,7 +398,7 @@ if(APPLE OR WIN32)
   endif()
 endif()
 
-if(UNIX AND NOT APPLE)
+if(UNIX AND NOT APPLE AND NOT ANDROID)
   optional_component(ALSA ON "ALSA integration"
     DEPENDS "alsa" ALSA_FOUND
   )
@@ -326,7 +423,7 @@ optional_component(TAGFETCHER ON "Tag fetcher"
   DEPENDS "chromaprint" HAVE_CHROMAPRINT
 )
 
-if(UNIX AND NOT APPLE)
+if(UNIX AND NOT APPLE AND NOT ANDROID)
   optional_component(X11_GLOBALSHORTCUTS ON "X11 global shortcuts"
     DEPENDS "X11" X11_FOUND
     DEPENDS "QX11Application" HAVE_QX11APPLICATION
@@ -353,7 +450,7 @@ if(UNIX AND NOT APPLE)
   )
 endif()
 
-if(NOT APPLE)
+if(NOT APPLE AND NOT ANDROID)
   optional_component(GIO ON "Devices: GIO device backend"
     DEPENDS "libgio" GIO_FOUND
   )
@@ -485,7 +582,12 @@ if(NOT CMAKE_CROSSCOMPILING)
   unset(CMAKE_REQUIRED_LIBRARIES)
 endif()
 
-add_executable(strawberry)
+qt_add_executable(strawberry)
+
+if(ANDROID)
+  set_property(TARGET strawberry PROPERTY QT_ANDROID_TARGET_SDK_VERSION 34)
+  set_property(TARGET strawberry PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
+endif()
 
 if(APPLE)
   set_target_properties(strawberry PROPERTIES MACOSX_BUNDLE TRUE)
@@ -789,6 +891,7 @@ set(SOURCES
 
   src/settings/settingsdialog.cpp
   src/settings/settingspage.cpp
+  src/settings/androidsettingspage.cpp
   src/settings/settingsitemdelegate.cpp
   src/settings/behavioursettingspage.cpp
   src/settings/collectionsettingspage.cpp
@@ -826,6 +929,8 @@ set(SOURCES
   src/widgets/groupediconview.cpp
   src/widgets/lineedit.cpp
   src/widgets/linetextedit.cpp
+  src/widgets/longpresshandler.cpp
+  src/widgets/playlistactionhandler.cpp
   src/widgets/multiloadingindicator.cpp
   src/widgets/playingwidget.cpp
   src/widgets/renametablineedit.cpp
@@ -1098,6 +1203,7 @@ set(HEADERS
 
   src/settings/settingsdialog.h
   src/settings/settingspage.h
+  src/settings/androidsettingspage.h
   src/settings/settingsitemdelegate.h
   src/settings/behavioursettingspage.h
   src/settings/collectionsettingspage.h
@@ -1134,6 +1240,8 @@ set(HEADERS
   src/widgets/groupediconview.h
   src/widgets/lineedit.h
   src/widgets/linetextedit.h
+  src/widgets/longpresshandler.h
+  src/widgets/playlistactionhandler.h
   src/widgets/multiloadingindicator.h
   src/widgets/playingwidget.h
   src/widgets/renametablineedit.h
@@ -1362,6 +1470,10 @@ if(APPLE)
 else()
   list(APPEND SOURCES src/systemtrayicon/qtsystemtrayicon.cpp src/widgets/searchfield_qt.cpp src/widgets/searchfield_qt_private.cpp)
   list(APPEND HEADERS src/systemtrayicon/qtsystemtrayicon.h src/widgets/searchfield_qt_private.h)
+endif()
+
+if(ANDROID)
+  list(APPEND SOURCES src/core/androidstorage.cpp)
 endif()
 
 if(WIN32)
@@ -1796,19 +1908,16 @@ if(SINGLEAPPLICATION_INCLUDE_DIRS)
   target_include_directories(strawberry_lib SYSTEM PUBLIC ${SINGLEAPPLICATION_INCLUDE_DIRS})
 endif()
 
+if(ANDROID AND ANDROID_GSTREAMER_ROOT)
+  target_link_directories(strawberry_lib PUBLIC "${ANDROID_GSTREAMER_ROOT}/lib")
+endif()
+
 target_link_libraries(strawberry_lib PUBLIC
   ${CMAKE_THREAD_LIBS_INIT}
   $<$<BOOL:${HAVE_BACKTRACE}>:${Backtrace_LIBRARIES}>
   OpenSSL::Crypto
-  PkgConfig::GLIB
-  PkgConfig::GOBJECT
   PkgConfig::SQLITE
-  PkgConfig::GSTREAMER
-  PkgConfig::GSTREAMER_BASE
-  PkgConfig::GSTREAMER_AUDIO
-  PkgConfig::GSTREAMER_APP
-  PkgConfig::GSTREAMER_TAG
-  PkgConfig::GSTREAMER_PBUTILS
+  ${STRAWBERRY_GSTREAMER_LINK_TARGETS}
   ${TAGLIB_LIBRARIES}
   Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Concurrent
@@ -1818,9 +1927,6 @@ target_link_libraries(strawberry_lib PUBLIC
   Qt${QT_VERSION_MAJOR}::Sql
   $<$<BOOL:${HAVE_DBUS}>:Qt${QT_VERSION_MAJOR}::DBus>
   $<$<BOOL:${HAVE_QPA_QPLATFORMNATIVEINTERFACE}>:Qt${QT_VERSION_MAJOR}::GuiPrivate>
-  ICU::uc
-  ICU::i18n
-  PkgConfig::UCHARDET
   $<$<BOOL:${HAVE_STREAMTAGREADER}>:PkgConfig::LIBSPARSEHASH>
   $<$<BOOL:${HAVE_ALSA}>:ALSA::ALSA>
   $<$<BOOL:${HAVE_PULSE}>:PkgConfig::LIBPULSE>
@@ -1838,8 +1944,18 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${HAVE_QTSPARKLE}>:qtsparkle-qt${QT_VERSION_MAJOR}::qtsparkle>
   $<$<BOOL:${WIN32}>:dsound dwmapi advapi32 ${GETOPT_LIBRARIES}>
   $<$<BOOL:${MSVC}>:WindowsApp>
-  KDAB::kdsingleapplication
 )
+
+if(NOT ANDROID)
+  target_link_libraries(strawberry_lib PUBLIC KDAB::kdsingleapplication)
+endif()
+
+if(HAVE_ICU)
+  target_link_libraries(strawberry_lib PUBLIC ICU::uc ICU::i18n)
+endif()
+if(HAVE_UCHARDET)
+  target_link_libraries(strawberry_lib PUBLIC PkgConfig::UCHARDET)
+endif()
 
 if(APPLE)
   target_link_libraries(strawberry_lib PUBLIC
@@ -1861,7 +1977,11 @@ endif()
 
 target_link_libraries(strawberry PUBLIC strawberry_lib)
 
-if(NOT APPLE)
+if(ANDROID AND ANDROID_GSTREAMER_ROOT)
+  target_link_directories(strawberry PRIVATE "${ANDROID_GSTREAMER_ROOT}/lib")
+endif()
+
+if(NOT APPLE AND NOT ANDROID)
   install(TARGETS strawberry RUNTIME DESTINATION bin)
 endif()
 

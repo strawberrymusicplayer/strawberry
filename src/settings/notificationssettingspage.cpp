@@ -44,6 +44,9 @@
 #include <QToolTip>
 #include <QtEvents>
 #include <QSettings>
+#ifdef Q_OS_ANDROID
+#include <QVBoxLayout>
+#endif
 
 #include "core/iconloader.h"
 #include "core/settings.h"
@@ -69,7 +72,11 @@ NotificationsSettingsPage::NotificationsSettingsPage(SettingsDialog *dialog, OSD
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(u"help-hint"_s, true, 0, 32));
 
+#ifdef Q_OS_ANDROID
+  pretty_popup_->SetMessage(tr("OSD Preview"), QString(), QImage(u":/pictures/cdcase.png"_s));
+#else
   pretty_popup_->SetMessage(tr("OSD Preview"), tr("Drag to reposition"), QImage(u":/pictures/cdcase.png"_s));
+#endif
 
   ui_->notifications_bg_preset->setItemData(0, QColor(OSDPrettySettings::kPresetBlue), Qt::DecorationRole);
   ui_->notifications_bg_preset->setItemData(1, QColor(OSDPrettySettings::kPresetRed), Qt::DecorationRole);
@@ -118,6 +125,32 @@ NotificationsSettingsPage::NotificationsSettingsPage(SettingsDialog *dialog, OSD
   ui_->notifications_native->setEnabled(osd_->SupportsNativeNotifications());
   ui_->notifications_tray->setEnabled(osd_->SupportsTrayPopups());
   ui_->notifications_pretty->setEnabled(osd_->SupportsOSDPretty());
+
+#ifdef Q_OS_ANDROID
+  menu->setTitle(tr("Insert variable"));
+  ui_->notifications_exp_chooser1->setAccessibleName(tr("Insert variable into summary"));
+  ui_->notifications_exp_chooser2->setAccessibleName(tr("Insert variable into body"));
+  ui_->notifications_native->setVisible(osd_->SupportsNativeNotifications());
+  ui_->notifications_tray->setVisible(osd_->SupportsTrayPopups());
+  ui_->notifications_pretty->setVisible(osd_->SupportsOSDPretty());
+  ui_->notifications_pretty_group->setVisible(osd_->SupportsOSDPretty());
+  auto *preview = new QPushButton(tr("Preview"), ui_->notifications_pretty_group);
+  ui_->layout_notifications_pretty_group->addWidget(preview, 4, 0, 1, 3);
+  QObject::connect(preview, &QPushButton::clicked, this, [this]() {
+    auto *content = new QWidget(this);
+    content->setProperty("androidTransientSubpage", true);
+    auto *layout = new QVBoxLayout(content);
+    layout->setAlignment(Qt::AlignTop);
+    auto *image = new QLabel(content);
+    const QPixmap pixmap = pretty_popup_->grab();
+    const int width = qMax(1, this->dialog()->width() - 48);
+    image->setPixmap(pixmap.scaledToWidth(width * pixmap.devicePixelRatio(), Qt::SmoothTransformation));
+    image->setMinimumWidth(0);
+    image->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
+    layout->addWidget(image);
+    this->dialog()->OpenAndroidSubpage(content, tr("Preview"));
+  });
+#endif
 
   QObject::connect(ui_->notifications_pretty, &QRadioButton::toggled, this, &NotificationsSettingsPage::UpdatePopupVisible);
 
@@ -289,7 +322,11 @@ void NotificationsSettingsPage::PrettyOpacityChanged(int value) {
 
 void NotificationsSettingsPage::UpdatePopupVisible() {
 
+#ifdef Q_OS_ANDROID
+  pretty_popup_->hide();
+#else
   pretty_popup_->setVisible(isVisible() && ui_->notifications_pretty->isChecked());
+#endif
 
 }
 

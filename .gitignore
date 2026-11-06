@@ -1,4 +1,5 @@
 /build
+/build-android
 /bin
 /CMakeLists.txt.user
 /.qtcreator

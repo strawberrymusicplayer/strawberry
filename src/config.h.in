@@ -26,6 +26,8 @@
 #cmakedefine HAVE_SPARKLE
 #cmakedefine HAVE_QTSPARKLE
 #cmakedefine HAVE_CHROMAPRINT
+#cmakedefine HAVE_ICU
+#cmakedefine HAVE_UCHARDET
 #cmakedefine HAVE_SONGTRACKING
 #cmakedefine HAVE_TAGFETCHER
 #cmakedefine HAVE_MOODBAR

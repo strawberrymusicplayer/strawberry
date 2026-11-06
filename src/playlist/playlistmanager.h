@@ -88,6 +88,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   bool IsPlaylistFavorite(const int index) const { return playlists_[index].p->is_favorite(); }
 
   void Init(PlaylistSequence *sequence, PlaylistContainer *playlist_container);
+  void SelectNowPlaying();
 
   SharedPtr<CollectionBackend> collection_backend() const override { return collection_backend_; }
   SharedPtr<PlaylistBackend> playlist_backend() const override { return playlist_backend_; }
@@ -156,10 +157,11 @@ class PlaylistManager : public PlaylistManagerInterface {
   void OneOfPlaylistsChanged();
   void UpdateSummaryText();
   void UpdateCollectionSongs(const SongList &songs);
-  void ItemsLoadedForSavePlaylist(const QString &playlist_name, const SongList &songs, const QString &filename, const PlaylistSettings::PathType path_type);
+  void ItemsLoadedForSavePlaylist(const QString &playlist_name, const SongList &songs, const QString &filename, const PlaylistSettings::PathType path_type, const QString &extension);
   void PlaylistLoaded();
 
  private:
+  void SaveWithFormat(const int id, const QString &playlist_name, const QString &filename, const PlaylistSettings::PathType path_type, const QString &extension);
   Playlist *AddPlaylist(const int id, const QString &name, const QString &special_type, const QString &ui_path, const bool favorite);
   // Shows the file dialog for saving a playlist, and returns the file name, or an empty string if it was cancelled.
   QString GetSaveFileName(const QString &filename, const QString &filters, QString *selected_filter) const;

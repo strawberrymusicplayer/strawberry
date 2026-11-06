@@ -171,7 +171,7 @@ void QobuzSettingsPage::LogoutClicked() {
 
 void QobuzSettingsPage::LoginSuccess() {
 
-  if (!isVisible()) return;
+  if (!IsActive()) return;
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedIn);
   ui_->button_login->setEnabled(true);
 
@@ -179,7 +179,7 @@ void QobuzSettingsPage::LoginSuccess() {
 
 void QobuzSettingsPage::LoginFailure(const QString &failure_reason) {
 
-  if (!isVisible()) return;
+  if (!IsActive()) return;
   QMessageBox::warning(this, tr("Authentication failed"), failure_reason);
   ui_->button_login->setEnabled(true);
 

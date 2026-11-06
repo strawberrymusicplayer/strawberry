@@ -29,6 +29,9 @@
 #include <QKeySequence>
 #include <QCheckBox>
 #include <QSettings>
+#ifdef Q_OS_ANDROID
+#  include <QScrollArea>
+#endif
 
 #include "core/settings.h"
 #include "utilities/screenutils.h"
@@ -38,6 +41,22 @@
 MessageDialog::MessageDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_MessageDialog), parent_(parent) {
 
   ui_->setupUi(this);
+
+#ifdef Q_OS_ANDROID
+  ui_->horizontalLayout->setDirection(QBoxLayout::TopToBottom);
+  ui_->label_logo->setAlignment(Qt::AlignCenter);
+  ui_->label_text->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+  ui_->label_text->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
+
+  QScrollArea *scroll_area = new QScrollArea(this);
+  scroll_area->setWidgetResizable(true);
+  scroll_area->setFrameShape(QFrame::NoFrame);
+  ui_->layout_right->removeWidget(ui_->label_text);
+  scroll_area->setWidget(ui_->label_text);
+  ui_->layout_right->insertWidget(0, scroll_area, 1);
+  ui_->verticalLayout->addWidget(ui_->checkbox_do_not_show_message_again);
+  ui_->verticalLayout->addWidget(ui_->buttonBox);
+#endif
 
   setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
 
@@ -59,6 +78,9 @@ void MessageDialog::ShowMessage(const QString &title, const QString &message, co
   }
 
   ui_->label_text->setText(message);
+#ifdef Q_OS_ANDROID
+  showMaximized();
+#else
   ui_->label_text->adjustSize();
   adjustSize();
   setMinimumWidth(520);
@@ -68,6 +90,7 @@ void MessageDialog::ShowMessage(const QString &title, const QString &message, co
   }
 
   show();
+#endif
 
 }
 

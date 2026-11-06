@@ -67,6 +67,9 @@ class PlaylistListContainer : public QWidget {
 
   void ReloadSettings();
 
+ Q_SIGNALS:
+  void PlaylistActivated();
+
  protected:
   void showEvent(QShowEvent *e) override;
   void contextMenuEvent(QContextMenuEvent *e) override;

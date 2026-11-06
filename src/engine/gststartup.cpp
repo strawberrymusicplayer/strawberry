@@ -29,6 +29,10 @@
 #include <QString>
 #include <QDir>
 #include <QFile>
+#ifdef Q_OS_ANDROID
+#  include <QJniObject>
+#  include <QtCore/qcoreapplication_platform.h>
+#endif
 
 #include "core/logging.h"
 #include "core/standardpaths.h"
@@ -45,6 +49,14 @@ using namespace Qt::Literals::StringLiterals;
 namespace GstStartup {
 
 void Initialize() {
+
+#ifdef Q_OS_ANDROID
+  QJniObject::callStaticMethod<void>(
+      "org/freedesktop/gstreamer/GStreamer",
+      "init",
+      "(Landroid/content/Context;)V",
+      QNativeInterface::QAndroidApplication::context());
+#endif
 
   SetEnvironment();
 

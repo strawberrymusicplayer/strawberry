@@ -41,6 +41,19 @@ constexpr int kDragHoverTimeout = 500;
 
 PlaylistListView::PlaylistListView(QWidget *parent) : AutoExpandingTreeView(parent) {}
 
+void PlaylistListView::drawRow(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+
+  AutoExpandingTreeView::drawRow(painter, option, index);
+
+#ifdef Q_OS_ANDROID
+  painter->save();
+  painter->setPen(palette().color(QPalette::Mid));
+  painter->drawLine(0, option.rect.bottom(), viewport()->width(), option.rect.bottom());
+  painter->restore();
+#endif
+
+}
+
 void PlaylistListView::paintEvent(QPaintEvent *event) {
 
   if (model()->rowCount() <= 0) {

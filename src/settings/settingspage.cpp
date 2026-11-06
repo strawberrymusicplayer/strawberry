@@ -42,6 +42,14 @@ SettingsPage::SettingsPage(SettingsDialog *dialog, QWidget *parent)
       ui_widget_(nullptr),
       changed_(false) {}
 
+bool SettingsPage::IsActive() const {
+#ifdef Q_OS_ANDROID
+  return isVisible() || dialog_->IsAndroidPageActive(this);
+#else
+  return isVisible();
+#endif
+}
+
 void SettingsPage::Init(QWidget *ui_widget) {
 
   if (!ui_widget) return;

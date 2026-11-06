@@ -95,6 +95,9 @@ class Ui_MainWindow;
 class StreamingLibraryView;
 class StreamingFavoritesView;
 class SmartPlaylistsViewContainer;
+#ifdef Q_OS_ANDROID
+class QToolButton;
+#endif
 #ifdef Q_OS_WIN32
 class Windows7ThumbBar;
 #endif
@@ -306,6 +309,10 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
  private:
   void SaveSettings();
+#ifdef Q_OS_ANDROID
+  void SetupAndroidLayout();
+  QWidget *CreateAndroidToolsPage();
+#endif
 
   static void ApplyAddBehaviour(const BehaviourSettings::AddBehaviour b, MimeData *mimedata);
   void ApplyPlayBehaviour(const BehaviourSettings::PlayBehaviour b, MimeData *mimedata) const;
@@ -324,6 +331,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
  private:
   Ui_MainWindow *ui_;
+#ifdef Q_OS_ANDROID
+  QToolButton *android_mute_button_ = nullptr;
+#endif
 #ifdef Q_OS_WIN32
   Windows7ThumbBar *thumbbar_;
 #endif

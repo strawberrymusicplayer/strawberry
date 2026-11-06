@@ -19,6 +19,7 @@
  *
  */
 
+#include "config.h"
 #include "gtest_include.h"
 
 #include <QByteArray>
@@ -222,7 +223,11 @@ TEST(UtilitiesTest, Random) {
 
 TEST(UtilitiesTest, Transliterate) {
 
+#ifdef HAVE_ICU
   ASSERT_EQ(Utilities::Transliterate(u"ÆØÅ"_s), u"AEOA"_s);
+#else
+  ASSERT_EQ(Utilities::Transliterate(u"ÆØÅ"_s), u"ÆØÅ"_s);
+#endif
 
 }
 
@@ -358,9 +363,13 @@ TEST(UtilitiesTest, TextFromData) {
 
   // Cyrillic text in windows-1251.
   const QString windows1251_text = Utilities::TextFromData(QByteArray("REM GENRE Punk\r\nREM DATE 2007\r\nPERFORMER \"\xc3\xf0\xe0\xe6\xe4\xe0\xed\xf1\xea\xe0\xff \xce\xe1\xee\xf0\xee\xed\xe0\"\r\nTITLE \"\xc7\xe0\xf7\xe5\xec \xf1\xed\xff\xf2\xf1\xff \xf1\xed\xfb\"\r\nFILE \"\xc3\xf0\xe0\xe6\xe4\xe0\xed\xf1\xea\xe0\xff \xce\xe1\xee\xf0\xee\xed\xe0 - \xc7\xe0\xf7\xe5\xec \xf1\xed\xff\xf2\xf1\xff \xf1\xed\xfb.flac\" WAVE\r\n  TRACK 01 AUDIO\r\n    TITLE \"\xcc\xfb \xe8\xe4\xb8\xec\"\r\n    INDEX 01 00:00:00\r\n"));
+#if defined(HAVE_ICU) && defined(HAVE_UCHARDET)
   EXPECT_TRUE(windows1251_text.contains(u"PERFORMER \"Гражданская Оборона\""_s));
   EXPECT_TRUE(windows1251_text.contains(u"FILE \"Гражданская Оборона - Зачем снятся сны.flac\" WAVE"_s));
   EXPECT_TRUE(windows1251_text.contains(u"TITLE \"Мы идём\""_s));
+#else
+  EXPECT_FALSE(windows1251_text.isEmpty());
+#endif
 
   // German text in ISO-8859-1.
   const QString latin1_text = Utilities::TextFromData(QByteArray("PERFORMER \"Die \xc4rzte\"\r\nTITLE \"Ger\xe4usch\"\r\nFILE \"Die \xc4rzte - Ger\xe4usch.flac\" WAVE\r\n  TRACK 01 AUDIO\r\n    TITLE \"Unrockbar\"\r\n  TRACK 02 AUDIO\r\n    TITLE \"Nichts in der Welt\"\r\n  TRACK 03 AUDIO\r\n    TITLE \"Dein Vampyr\"\r\n"));

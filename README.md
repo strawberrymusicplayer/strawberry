@@ -136,6 +136,48 @@ Also install GStreamer plugins **base**, **good**, and optionally **bad**, **ugl
 
 For building on Windows with Visual Studio 2022/2026, see: :point_right: https://github.com/strawberrymusicplayer/strawberry-msvc-build-tools
 
+### Android layout
+
+On Android, the left navigation shows one view at a time. **Playlists** shows saved and open playlists.
+Tap a playlist to open its editor, then tap **Playlists** again to return to the list.
+The editor displays the current playlist's name in a larger, centered heading above its toolbar.
+Playback controls and the seek bar remain at the bottom when switching views.
+Android has no application menu; its actions are available from the sidebar, the player bar, and the playlist editor.
+The **Tools** sidebar tab lists Cover Manager, Equalizer, Transcoder, and collection update, full rescan, and stop scan on one page.
+The **Settings** sidebar tab opens the settings overview, which also has a **Help** page with About Strawberry and About Qt.
+Use the playlist editor's **Add file** button to open the file picker.
+On Android, long-press a playlist song to remove the selection or clear the playlist.
+The playlist toolbar has dedicated **Undo** and **Redo** buttons instead of a menu; its buttons wrap onto additional rows when needed.
+Removing more than 500 songs requires confirmation and cannot be undone.
+Use the footer's **Previous track**, **Play/Pause**, **Stop**, and **Next track** buttons for playback.
+The footer's speaker-with-cross button toggles Strawberry's mute state.
+The footer's heart button marks the current track as loved (**Love track**).
+**Quit** is omitted on Android; close the app through the system's app switcher.
+Settings breadcrumbs wrap on narrow screens.
+Fourth-level settings titles start on a separate line below the parent breadcrumb.
+Settings pages share compact section buttons with current values for grouped settings.
+Current values are bold and use the theme's link color to distinguish them from setting titles.
+Larger sections show a short summary; their full controls remain together in a dedicated editor.
+Passwords and other text-entry credentials, including editable server URLs, are never included in section summaries.
+The desktop-only **Show playing widget** setting is hidden on Android.
+Unsupported notification types and their desktop popup options are also hidden.
+Pretty OSD has an explicit Preview subscreen on Android rather than a draggable overlay.
+Dropdown editors open after a completed tap, not when starting a swipe.
+Each button opens a full-page editor or choice list, including Language, rather than a popup.
+Dropdown choices and settings-menu actions open another subscreen using the original options.
+Single-choice lists return to their parent after selection; related choices stay together on one screen.
+Transcoding formats and manual proxy configuration have their own editors.
+Section headings above related choices are bold to distinguish them from the options.
+Selected options use the theme highlight and matching text color without visible radio circles.
+Back returns one level without selecting a new choice and preserves the parent's scroll position.
+Changes remain pending until Apply or OK; Cancel discards unapplied changes.
+Headings, options, and help text wrap to fit narrow screens without horizontal scrolling.
+The playlist editor puts Clear, Undo, and Redo in its **More** menu to keep the toolbar compact.
+In portrait orientation, the editor shows only track number, title, artist, and album; landscape restores the full column layout.
+Playlist export uses Android's document picker and preserves the selected playlist format separately from the document URI.
+Tracks in exported Android documents use absolute paths because document providers do not expose a normal filesystem directory for relative paths.
+The desktop layout is unchanged.
+
 ---
 
 ## :package: Packaging status

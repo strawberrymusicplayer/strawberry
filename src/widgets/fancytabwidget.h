@@ -74,6 +74,8 @@ class FancyTabWidget : public QTabWidget {
   void AddSpacer();
   void AddBottomWidget(QWidget *widget_view);
   void SetBackgroundPixmap(const QPixmap &pixmap);
+  // Content widgets passed to AddTab() are wrapped in a page, so widget(), currentWidget() and setCurrentWidget() never match them.
+  // Use this to get the tab index of a content widget.
   int IndexOfTab(QWidget *widget);
 
   static QColor DefaultTabbarBgColor();

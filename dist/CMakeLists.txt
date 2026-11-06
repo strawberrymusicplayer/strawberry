@@ -40,7 +40,7 @@ if(WIN32)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry.nsi.in ${CMAKE_BINARY_DIR}/strawberry.nsi @ONLY)
 endif()
 
-if(UNIX AND NOT APPLE)
+if(UNIX AND NOT APPLE AND NOT ANDROID)
   install(FILES ../data/icons/48x48/strawberry.png DESTINATION share/icons/hicolor/48x48/apps/)
   install(FILES ../data/icons/64x64/strawberry.png DESTINATION share/icons/hicolor/64x64/apps/)
   install(FILES ../data/icons/128x128/strawberry.png DESTINATION share/icons/hicolor/128x128/apps/)

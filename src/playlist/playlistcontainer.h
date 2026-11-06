@@ -32,6 +32,7 @@
 class QTimer;
 class QTimeLine;
 class QLabel;
+class QGridLayout;
 class QAction;
 class QEvent;
 class QKeyEvent;
@@ -56,6 +57,7 @@ class PlaylistContainer : public QWidget {
     QAction *new_playlist = nullptr;
     QAction *load_playlist = nullptr;
     QAction *save_playlist = nullptr;
+    QAction *add_file = nullptr;
     QAction *clear_playlist = nullptr;
     QAction *next_playlist = nullptr;
     QAction *previous_playlist = nullptr;
@@ -123,9 +125,16 @@ class PlaylistContainer : public QWidget {
  private:
   void UpdateActiveIcon(const QIcon &icon);
   void RepositionNoMatchesLabel(bool force = false);
+#ifdef Q_OS_ANDROID
+  void UpdateAndroidToolbar();
+#endif
 
  private:
   Ui_PlaylistContainer *ui_;
+#ifdef Q_OS_ANDROID
+  QGridLayout *android_buttons_ = nullptr;
+  int android_button_columns_ = 0;
+#endif
 
   SharedPtr<PlaylistManager> manager_;
   QAction *undo_;

@@ -66,6 +66,8 @@ class SettingsPage : public QWidget {
 
   // The dialog that this page belongs to.
   SettingsDialog *dialog() const { return dialog_; }
+  // Includes Android editors temporarily displayed outside their source page.
+  bool IsActive() const;
 
   void set_changed() { changed_ = true; }
 

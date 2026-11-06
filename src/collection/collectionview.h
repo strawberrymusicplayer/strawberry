@@ -103,8 +103,6 @@ class CollectionView : public CollectionTreeView {
   void ShowInBrowser() const;
   void ShowInVarious();
   void NoShowInVarious();
-  void Delete();
-  void DeleteFilesFinished(const SongList &songs_with_errors, const QStringList &log);
 
  private:
   void SetShowInVarious(const bool on);
@@ -135,15 +133,12 @@ class CollectionView : public CollectionTreeView {
   QAction *action_show_in_browser_;
   QAction *action_show_in_various_;
   QAction *action_no_show_in_various_;
-  QAction *action_delete_files_;
 
   ScopedPtr<OrganizeDialog> organize_dialog_;
   // Copying to a device has its own dialog without the collection backend, so the paths in the collection are not changed to the device when the original files are deleted.
   ScopedPtr<OrganizeDialog> copy_to_device_dialog_;
   ScopedPtr<TagEditor> tag_editor_;
   ScopedPtr<LyricsEditor> lyrics_editor_;
-
-  bool delete_files_;
 };
 
 #endif  // COLLECTIONVIEW_H

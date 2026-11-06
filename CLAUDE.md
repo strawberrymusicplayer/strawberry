@@ -19,6 +19,53 @@ Qt Creator build configs already exist under `build/Qt_Sys-{Release,RelWithDebIn
 
 Useful CMake options: `-DBUILD_WERROR=ON`, `-DENABLE_DEBUG_OUTPUT=ON`.
 
+### Separate native test build
+
+The local Linux Debug test build is in `build/native/`, configured with system GCC, Qt 6.4.2, ICU, and GStreamer.
+The existing `build/` remains the Android build; do not reconfigure it for Linux.
+Both build directories and the local dependencies below are ignored by Git.
+
+KDSingleApplication 1.1.0 is built statically for Qt 6 and installed only in `build/native-deps/install/`, since Ubuntu 24.04's package is older than the required version.
+To recreate that dependency:
+
+```bash
+git clone --depth 1 --branch v1.1.0 https://github.com/KDAB/KDSingleApplication.git build/native-deps/KDSingleApplication
+cmake -S build/native-deps/KDSingleApplication -B build/native-deps/kdsingleapplication-build \
+  -DKDSingleApplication_QT6=ON -DKDSingleApplication_STATIC=ON \
+  -DKDSingleApplication_EXAMPLES=OFF -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX="$PWD/build/native-deps/install"
+cmake --build build/native-deps/kdsingleapplication-build --parallel 2
+cmake --install build/native-deps/kdsingleapplication-build
+```
+
+The native test configuration disables optional integrations whose development dependencies are not installed on this host.
+These are local cache settings, not changes to the project's defaults or Android configuration:
+
+```bash
+cmake -S . -B build/native -DCMAKE_BUILD_TYPE=Debug \
+  -DCMAKE_PREFIX_PATH="$PWD/build/native-deps/install" \
+  -DENABLE_PULSE=OFF -DENABLE_CHROMAPRINT=OFF -DENABLE_SONGTRACKING=OFF \
+  -DENABLE_TAGFETCHER=OFF -DENABLE_LIBSECRET=OFF -DENABLE_LAYERSHELLQT=OFF \
+  -DENABLE_AUDIOCD=OFF -DENABLE_MTP=OFF -DENABLE_GPOD=OFF \
+  -DENABLE_GSTFASTSPECTRUM=OFF -DENABLE_EBUR128=OFF \
+  -DENABLE_QPA_QPLATFORMNATIVEINTERFACE=OFF -DENABLE_STREAMTAGREADER=OFF
+cmake --build build/native --target playlist_test longpresshandler_test --parallel 2
+QT_QPA_PLATFORM=offscreen ctest --test-dir build/native \
+  -R '^(playlist_test|longpresshandler_test)$' --output-on-failure
+```
+
+Rerun configuration after installing additional optional dependencies and explicitly enable the corresponding features if desired.
+
+Validation on 2026-11-03: both native test binaries built successfully.
+All eight long-press tests and 14 playlist removal regressions passed, including both new playlist-view tests.
+To rerun that focused selection:
+
+```bash
+QT_QPA_PLATFORM=offscreen \
+  GTEST_FILTER='LongPressHandlerTest.*:PlaylistTest.ViewRemoval*:PlaylistTest.ScatteredRemovalIsOneUndoStep:PlaylistTest.RemoveRowsAfterRemovedCurrentKeepsPosition:PlaylistTest.RemoveManyRowsKeepsCurrentItem:PlaylistTest.RemoveCurrent*' \
+  ctest --test-dir build/native -R '^(playlist_test|longpresshandler_test)$' --output-on-failure
+```
+
 ### Tests
 
 Tests are built only when GTest, GMock, and Qt6 Test are found (`tests/` is added conditionally). They are `EXCLUDE_FROM_ALL`, so build them explicitly:
@@ -68,6 +115,41 @@ Smart-pointer aliases live in `src/includes/`: `SharedPtr<T>` (= `std::shared_pt
 - `device/` — USB/MTP/iPod device support (libmtp, libgpod, GIO, UDisks2).
 - `settings/`, `dialogs/`, `widgets/`, `context/`, `analyzer/`, `moodbar/`, `waveform/`, `equalizer/` — UI.
 - `mpris2/`, `globalshortcuts/`, `osd/`, `systemtrayicon/`, `discord/` — desktop integration (D-Bus, native notifications, etc.).
+
+### Main window sidebar tabs
+
+The sidebar (`ui_->tabs`) is a `FancyTabWidget` (`src/widgets/fancytabwidget.h`). `AddTab()` wraps every content widget in its own page (`FancyTabData::page()`), and that page is what is inserted into the `QTabWidget`. So `widget(index)`, `currentWidget()`, `indexOf(content)` and `setCurrentWidget(content)` never match the content widget passed to `AddTab()`. Always look tabs up with `IndexOfTab(content)` and compare/set by index (`currentIndex() == IndexOfTab(content)`, `setCurrentIndex(IndexOfTab(content))`). Ignoring this broke returning from the Android playlist editor to the playlist list when tapping the active Playlists tab; `FancyTabWidgetTest.ClickingActiveTabFindsContentWidget` in `tests/src/fancytabwidget_test.cpp` guards against it.
+
+### Hierarchical navigation
+
+When adding or changing hierarchical menus or navigation flows anywhere in the app:
+
+- Make the current location clear at every level. Use a breadcrumb or an equivalent platform-appropriate hierarchy indicator when the parent is not otherwise obvious (for example, `Settings > General > Behavior`).
+- Back returns exactly one level to the parent; it closes or exits the flow only from its root.
+- Show only the active level or page. Hide or remove inactive content so controls from a previous level cannot remain visible or interactive behind the current one.
+- Preserve the parent context when returning, including selection or scroll position where practical.
+- Keep navigation controls discoverable and usable with the input method and screen size of the target platform.
+
+The Android Settings overview and its category/page navigation are an example of this pattern.
+
+### Android build principles
+
+Apply these UI principles when building or changing hierarchical menus and dropdown-style choices anywhere in the Android app, not just Settings. Follow the shared hierarchical navigation rules above as well.
+
+- Use compact navigation buttons showing the setting title and current value instead of dropdown popups. Keep simple on/off controls directly on the parent page where appropriate.
+- Display current values in bold using the theme's link text color; leave titles and button backgrounds unchanged. Summarize related settings compactly, with full details in their editor. Never include passwords or text-entry credentials in summaries.
+- Open choices in a full-page subscreen within the existing navigation hierarchy, not a floating dialog. Keep related choices together on one subscreen.
+- Show choices as tappable rows without visible radio circles or bullets. Use the theme's highlight background and matching highlighted-text color for the selected row, retaining the checked state for accessibility rather than imposing a fixed green.
+- Keep the parent breadcrumb visible and start the fourth-level title on a separate line. Allow titles, values, and choices to wrap on narrow screens.
+- Return to the parent after selecting a single choice. For related choices, remain on the subscreen so each can be edited. Back alone must not select a different choice.
+- Restore the parent's selection and scroll position when returning, and keep inactive controls hidden and non-interactive.
+- Preserve the flow's save semantics. In Settings, edits remain pending until Apply or OK, and Cancel discards unapplied changes.
+- Keep these Android adaptations platform-guarded; do not replace existing Windows or Linux controls.
+
+The Android General > Behavior page is the reference implementation.
+`SettingsDialog::AddPage()` applies the shared `AndroidSettingsPage` adapter to other settings pages, retaining their original controls, combo models, and load/save logic.
+Reuse this adapter instead of creating parallel Android settings forms.
+An editor temporarily reparents its controls; use `SettingsPage::IsActive()` rather than `isVisible()` when guarding asynchronous results for the active settings flow.
 
 ### Optional features
 

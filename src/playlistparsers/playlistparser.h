@@ -71,7 +71,7 @@ class PlaylistParser : public QObject {
 
   SongList LoadFromFile(const QString &filename) const;
   SongList LoadFromDevice(QIODevice *device, const QString &path_hint = QString(), const QDir &dir_hint = QDir()) const;
-  void Save(const QString &playlist_name, const SongList &songs, const QString &filename, const PlaylistSettings::PathType) const;
+  void Save(const QString &playlist_name, const SongList &songs, const QString &filename, const PlaylistSettings::PathType, const QString &extension = QString()) const;
 
  Q_SIGNALS:
   void Error(const QString &error) const;

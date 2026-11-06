@@ -48,6 +48,9 @@
 #include "core/iconloader.h"
 #include "core/standardpaths.h"
 #include "core/settings.h"
+#ifdef Q_OS_ANDROID
+#  include "core/androidstorage.h"
+#endif
 #include "utilities/strutils.h"
 #include "collection/collectionmanager.h"
 #include "collection/collectionbackend.h"
@@ -178,8 +181,6 @@ void CollectionSettingsPage::Load() {
   ui_->checkbox_overwrite_playcount->setChecked(s.value(kOverwritePlaycount, kDefaultOverwritePlaycount).toBool());
   ui_->checkbox_overwrite_rating->setChecked(s.value(kOverwriteRating, kDefaultOverwriteRating).toBool());
 
-  ui_->checkbox_delete_files->setChecked(s.value(kDeleteFiles, kDefaultDeleteFiles).toBool());
-
   s.endGroup();
 
   DiskCacheEnable(ui_->checkbox_disk_cache->checkState());
@@ -227,8 +228,6 @@ void CollectionSettingsPage::Save() {
   s.setValue(kOverwritePlaycount, ui_->checkbox_overwrite_playcount->isChecked());
   s.setValue(kOverwriteRating, ui_->checkbox_overwrite_rating->isChecked());
 
-  s.setValue(kDeleteFiles, ui_->checkbox_delete_files->isChecked());
-
   s.endGroup();
 
   for (const CollectionDirectory &dir : collection_directory_model_->directories()) {
@@ -251,7 +250,20 @@ void CollectionSettingsPage::AddDirectory() {
   s.beginGroup(kSettingsGroup);
 
   QString path = s.value(kLastPath, StandardPaths::WritableLocation(StandardPaths::StandardLocation::MusicLocation)).toString();
+#ifdef Q_OS_ANDROID
+  // The Android file dialog returns a content:// tree URI, the collection scans file system paths.
+  const QUrl selected_url = QFileDialog::getExistingDirectoryUrl(this, tr("Add directory..."), QUrl::fromLocalFile(path));
+  if (selected_url.isEmpty()) return;
+  path = AndroidStorage::LocalPathForUrl(selected_url);
+  if (path.isEmpty()) {
+    QMessageBox messagebox(QMessageBox::Critical, tr("Invalid collection directory"), tr("Can't add directory %1, it is not stored on this device.").arg(selected_url.toDisplayString()));
+    (void)messagebox.exec();
+    return;
+  }
+  path = QDir::cleanPath(path);
+#else
   path = QDir::cleanPath(QFileDialog::getExistingDirectory(this, tr("Add directory..."), path));
+#endif
 
   if (!path.isEmpty()) {
     const QByteArray filesystemtype = QStorageInfo(QFileInfo(path).canonicalFilePath()).fileSystemType();

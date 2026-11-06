@@ -1511,7 +1511,7 @@ void Playlist::InsertSongs(const SongList &songs, const int pos, const bool play
 
 void Playlist::InsertSongsOrCollectionItems(const SongList &songs, const QString &playlist_name, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next, const bool signal) {
 
-  if (!playlist_name.isEmpty()) {
+  if (!playlist_name.isEmpty() && !is_now_playing()) {
     Q_EMIT Rename(id_, playlist_name);
   }
 
@@ -1943,7 +1943,7 @@ void Playlist::ScheduleSave() {
 
 void Playlist::ForceScheduleSave() {
 
-  if (!playlist_backend_) return;
+  if (!playlist_backend_ || is_now_playing()) return;
 
   save_all_ = true;
   save_last_played_ = false;
@@ -1954,7 +1954,7 @@ void Playlist::ForceScheduleSave() {
 
 void Playlist::ScheduleSaveLastPlayed() {
 
-  if (is_loading_ || !playlist_backend_) return;
+  if (is_loading_ || !playlist_backend_ || is_now_playing()) return;
 
   // A pending full save already writes the last played row, so there is nothing to add.
   if (!save_all_) {
@@ -1967,7 +1967,7 @@ void Playlist::ScheduleSaveLastPlayed() {
 
 void Playlist::ScheduleSaveItem(const PlaylistItemPtr &item) {
 
-  if (is_loading_ || !playlist_backend_ || !item) return;
+  if (is_loading_ || !playlist_backend_ || !item || is_now_playing()) return;
 
   // A pending full save already covers this row, so there is nothing to add.
   if (!save_all_) {
@@ -1989,7 +1989,7 @@ void Playlist::SavePending() {
 
 void Playlist::Save() {
 
-  if (!playlist_backend_ || is_loading_) return;
+  if (!playlist_backend_ || is_loading_ || is_now_playing()) return;
 
   // Saving the playlist replaces the saved items, so saving before the saved items are restored would lose them.
   // The changes are kept pending, and saved when the playlist is restored, unless the restored items are not inserted because the playlist was cleared.
@@ -2034,6 +2034,14 @@ void Playlist::Save() {
 void Playlist::Restore() {
 
   if (!playlist_backend_) return;
+  if (is_now_playing()) {
+    QTimer::singleShot(0, this, [this]() {
+      Q_EMIT RestoreFinished();
+      Q_EMIT PlaylistLoaded();
+      Q_EMIT RestoreDone();
+    });
+    return;
+  }
 
   beginResetModel();
   items_.clear();
@@ -2383,6 +2391,8 @@ int Playlist::IndexByUuId(const QUuid &uuid) const {
 }
 
 void Playlist::Clear() {
+
+  if (is_now_playing()) Q_EMIT NowPlayingReset();
 
   // If loading songs from session restore async, don't insert them
   cancel_restore_ = true;
