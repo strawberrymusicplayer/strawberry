@@ -39,6 +39,8 @@
 #include <QSpacerItem>
 #include <QtEvents>
 #ifdef Q_OS_ANDROID
+#  include <QFont>
+#  include <QLabel>
 #  include <QPushButton>
 #  include <QVBoxLayout>
 #endif
@@ -135,17 +137,34 @@ FileView::FileView(QWidget *parent)
   auto *android_layout = new QVBoxLayout(android_page);
   android_layout->setContentsMargins(24, 24, 24, 24);
   android_layout->setSpacing(12);
-  android_layout->addStretch();
 
-  auto *select_files = new QPushButton(IconLoader::Load(u"document-open"_s), tr("Choose files"), android_page);
-  select_files->setMinimumHeight(48);
+  auto *description = new QLabel(tr("Choose files to replace the 'Now playing' playlist with the selected tracks and start playback. Choose a folder to load its supported music files into the 'Now playing' playlist. Your Collection will not be changed."), android_page);
+  description->setWordWrap(true);
+  description->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+  QFont description_font = description->font();
+  description_font.setPointSizeF(description_font.pointSizeF() * 1.25);
+  description->setFont(description_font);
+  android_layout->addWidget(description);
+
+  auto *select_files = new QPushButton(IconLoader::Load(u"document-new"_s), tr("Choose files"), android_page);
+  select_files->setIconSize(QSize(28, 28));
+  select_files->setMinimumHeight(56);
+  select_files->setStyleSheet(u"text-align: left; padding-left: 24px;"_s);
   QObject::connect(select_files, &QPushButton::clicked, this, &FileView::SelectFiles);
   android_layout->addWidget(select_files);
 
-  auto *select_folder = new QPushButton(IconLoader::Load(u"folder-open"_s), tr("Choose folder"), android_page);
-  select_folder->setMinimumHeight(48);
+  auto *select_folder = new QPushButton(IconLoader::Load(u"folder"_s), tr("Choose folder"), android_page);
+  select_folder->setIconSize(QSize(28, 28));
+  select_folder->setMinimumHeight(56);
+  select_folder->setStyleSheet(u"text-align: left; padding-left: 24px;"_s);
   QObject::connect(select_folder, &QPushButton::clicked, this, &FileView::SelectFolder);
   android_layout->addWidget(select_folder);
+
+  QFont button_font = select_files->font();
+  button_font.setPointSizeF(button_font.pointSizeF() * 1.75);
+  select_files->setFont(button_font);
+  select_folder->setFont(button_font);
+
   android_layout->addStretch();
 
   ui_->view_stack->addWidget(android_page);
