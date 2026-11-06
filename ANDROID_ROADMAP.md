@@ -476,13 +476,19 @@ Keep this visual update Android-only.
 
 ## 13. Explore using Android's file picker for Files
 
-**Status:** Planned
+**Status:** In progress
 
 **Goal:** Investigate replacing the app's desktop-style Files browser with Android's native file picker on Android.
 
+**Initial findings:**
+- Android's existing Add file and Add folder actions already use Qt file dialogs that return SAF document URLs; these actions are separate from the Files tab.
+- `AndroidStorage::LocalPathForUrl()` resolves external-storage documents, raw Downloads documents, and MediaStore items when they have a local path. It returns an empty path for other content providers.
+- The Files tab is based on local filesystem models, and this flow does not persist SAF URI permissions. Replacing the browser is therefore not a drop-in picker change for every document provider.
+- Emulator check: Add file opens Android DocumentsUI with Recent, Audio, Images, Videos, and Documents entry points. Cancel returns to the unchanged playlist; no file was selected.
+
 **Next steps:**
 - Compare native file and folder selection with the current Files tab, including multiple-file selection and whole-folder playback or saved-playlist creation.
-- Check Storage Access Framework document-provider URLs, persistent access permissions, and reopening music after an application restart.
+- Test file and folder selection from shared storage, Downloads, and a document provider; check which URIs resolve to local paths and whether access survives an application restart.
 - Define how the Files entry launches the picker and returns to the app, preserving cancellation and the distinction between temporary Now playing and saved playlists.
 - Verify local and provider-backed storage on the emulator and a physical device; leave desktop browsing unchanged.
 
@@ -500,6 +506,30 @@ Keep this visual update Android-only.
 
 **Remaining validation:**
 - Verify narrow-screen and physical-device behavior; leave desktop Settings unchanged.
+
+## 15. Clarify the Collection empty-state action
+
+**Status:** Planned
+
+**Problem:** The Android Collection empty state says "Click here to add some music", but tapping it opens Settings rather than an add-music flow.
+
+**Goal:** Make the Collection empty-state action and its text agree, so users know how to add music and the tap leads to the expected place.
+
+**Next steps:**
+- Verify the tap behavior from the Collection content area with an empty collection and confirm why it opens Settings.
+- Decide whether the action should open the relevant Collection settings, start adding a music folder directly, or use different explanatory text.
+- Verify Back returns to Collection and that the chosen flow can add a folder and populate the collection; preserve existing Collection behavior on desktop.
+
+## 16. Verify Smart Playlists on Android
+
+**Status:** Planned
+
+**Goal:** Confirm that Smart Playlists are discoverable and their common workflows are usable on Android.
+
+**Next steps:**
+- Verify opening Smart Playlists from the sidebar and returning to the previous context.
+- Verify creating, editing, saving, and activating a Smart Playlist, including touch targets and narrow-screen behavior.
+- Confirm saved Smart Playlists and their rules persist after an application restart; leave desktop behavior unchanged.
 
 ## 17. Make Android checkboxes touch-friendly
 
