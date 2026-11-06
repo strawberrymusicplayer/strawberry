@@ -103,6 +103,11 @@ class Equalizer : public QDialog {
   void ReloadSettings();
   QString SaveCurrentPreset();
 #ifdef Q_OS_ANDROID
+  // The values are stored in the settings.
+  enum class AndroidFoldoutMode { AllExpanded = 0, AllCollapsed = 1, OneAtATime = 2 };
+  // The values are part of the settings keys for the open sections, in the order the sections are shown.
+  enum class AndroidSection { Preamp = 0, Bass = 1, Midrange = 2, Treble = 3, StereoBalance = 4 };
+  static QString AndroidFoldoutModeName(const AndroidFoldoutMode mode);
   void SetupAndroidLayout();
   void ShowAndroidPresets();
   void ShowAndroidPresetEditor(bool remove);
@@ -115,7 +120,7 @@ class Equalizer : public QDialog {
   QList<QToolButton *> android_sections_;
   QList<QWidget *> android_section_contents_;
   QPushButton *android_foldout_mode_ = nullptr;
-  int android_foldout_mode_index_ = 1;
+  AndroidFoldoutMode android_foldout_mode_value_ = AndroidFoldoutMode::AllCollapsed;
   QStackedWidget *android_pages_ = nullptr;
   QScrollArea *android_main_ = nullptr;
   QLabel *android_title_ = nullptr;

@@ -22,6 +22,8 @@
 #include "config.h"
 
 #include <algorithm>
+#include <array>
+#include <utility>
 
 #include <QtGlobal>
 #include <QWidget>
@@ -78,6 +80,15 @@ constexpr char kStereoBalance[] = "stereo_balance";
 constexpr char kCustom[] = "custom";
 const char *kGainText[] = { "60", "170", "310", "600", "1k", "3k", "6k", "12k", "14k", "16k" };
 #ifdef Q_OS_ANDROID
+constexpr char kAndroidCurrentParams[] = "android_current_params";
+constexpr char kAndroidFoldoutMode[] = "android_foldout_mode";
+constexpr char kAndroidSectionOpenPrefix[] = "android_section_";
+constexpr char kCustomPreset[] = QT_TRANSLATE_NOOP("Equalizer", "Custom");
+
+QString AndroidSectionOpenKey(const int section) {
+  return QLatin1String(kAndroidSectionOpenPrefix) + QString::number(section);
+}
+
 const QString kAndroidScrollBarStyle =
     u"QScrollBar:vertical { width: 8px; margin: 0px; background: transparent; }"
      "QScrollBar::handle:vertical { min-height: 48px; border-radius: 4px; background: palette(highlight); }"
@@ -194,7 +205,7 @@ void Equalizer::ReloadSettings() {
   Settings s;
   s.beginGroup(kSettingsGroup);
 #ifdef Q_OS_ANDROID
-  const QVariant pending_params = s.value("android_current_params");
+  const QVariant pending_params = s.value(kAndroidCurrentParams);
 #endif
 
   presets_.clear();
@@ -344,7 +355,7 @@ void Equalizer::SavePreset() {
 QString Equalizer::SaveCurrentPreset() {
 
 #ifdef Q_OS_ANDROID
-  const QString name = QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Custom"));
+  const QString name = QLatin1String(kCustomPreset);
   const QSignalBlocker blocker(ui_->preset);
   AddPreset(name, current_params());
   last_preset_ = name;
@@ -475,7 +486,7 @@ void Equalizer::EqualizerParametersChangedSlot() {
 #ifdef Q_OS_ANDROID
   // Preset loading emits the same parameter signal but must not replace the chosen preset.
   if (android_pages_ && current_params() != presets_.value(last_preset_)) {
-    AddPreset(QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Custom")), current_params());
+    AddPreset(QLatin1String(kCustomPreset), current_params());
     Save();
     UpdateAndroidPreset();
   }
@@ -503,7 +514,7 @@ void Equalizer::Save() {
   s.setValue(kEnableStereoBalancer, ui_->enable_stereo_balancer->isChecked());
   s.setValue(kStereoBalance, ui_->stereo_balance_slider->value());
 #ifdef Q_OS_ANDROID
-  s.setValue("android_current_params", QVariant::fromValue(current_params()));
+  s.setValue(kAndroidCurrentParams, QVariant::fromValue(current_params()));
 #endif
 
 }
@@ -624,8 +635,9 @@ void Equalizer::SetupAndroidLayout() {
   controls->addWidget(android_foldout_mode_);
   Settings foldout_settings;
   foldout_settings.beginGroup(kSettingsGroup);
-  android_foldout_mode_index_ = qBound(0, foldout_settings.value("android_foldout_mode", 1).toInt(), 2);
-  const auto add_foldout = [this, &foldout_settings](QVBoxLayout *parent, const QString &title) {
+  android_foldout_mode_value_ = static_cast<AndroidFoldoutMode>(qBound(static_cast<int>(AndroidFoldoutMode::AllExpanded), foldout_settings.value(kAndroidFoldoutMode, static_cast<int>(AndroidFoldoutMode::AllCollapsed)).toInt(), static_cast<int>(AndroidFoldoutMode::OneAtATime)));
+  const auto add_foldout = [this, &foldout_settings](QVBoxLayout *parent, const AndroidSection section, const QString &title) {
+    Q_ASSERT(android_sections_.count() == static_cast<int>(section));
     QFrame *card = new QFrame;
     card->setObjectName(u"equalizerFoldout"_s);
     card->setStyleSheet(u"QFrame#equalizerFoldout { background: palette(base); border: 1px solid palette(mid); border-radius: 12px; }"_s);
@@ -634,7 +646,7 @@ void Equalizer::SetupAndroidLayout() {
     QToolButton *heading = new QToolButton(card);
     heading->setText(title);
     heading->setCheckable(true);
-    heading->setChecked(foldout_settings.value(u"android_section_%1"_s.arg(android_sections_.count()), android_foldout_mode_index_ == 0).toBool());
+    heading->setChecked(foldout_settings.value(AndroidSectionOpenKey(static_cast<int>(section)), android_foldout_mode_value_ == AndroidFoldoutMode::AllExpanded).toBool());
     heading->setAutoRaise(true);
     heading->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     heading->setMinimumHeight(48);
@@ -651,7 +663,7 @@ void Equalizer::SetupAndroidLayout() {
     android_sections_.append(heading);
     android_section_contents_.append(body);
     QObject::connect(heading, &QToolButton::clicked, this, [this, heading](const bool open) {
-      if (open && android_foldout_mode_index_ == 2) {
+      if (open && android_foldout_mode_value_ == AndroidFoldoutMode::OneAtATime) {
         for (QToolButton *other : android_sections_) if (other != heading) other->setChecked(false);
       }
       UpdateAndroidFoldouts();
@@ -666,10 +678,10 @@ void Equalizer::SetupAndroidLayout() {
   QVBoxLayout *sliders = new QVBoxLayout(ui_->slider_container);
   sliders->setContentsMargins(0, 0, 0, 0);
   sliders->setSpacing(8);
-  add_foldout(sliders, tr("Pre-amp"))->addWidget(preamp_);
-  QVBoxLayout *bass = add_foldout(sliders, tr("Bass"));
-  QVBoxLayout *midrange = add_foldout(sliders, tr("Midrange"));
-  QVBoxLayout *treble = add_foldout(sliders, tr("Treble"));
+  add_foldout(sliders, AndroidSection::Preamp, tr("Pre-amp"))->addWidget(preamp_);
+  QVBoxLayout *bass = add_foldout(sliders, AndroidSection::Bass, tr("Bass"));
+  QVBoxLayout *midrange = add_foldout(sliders, AndroidSection::Midrange, tr("Midrange"));
+  QVBoxLayout *treble = add_foldout(sliders, AndroidSection::Treble, tr("Treble"));
   AndroidEqualizerBandLayout *bass_bands = new AndroidEqualizerBandLayout;
   AndroidEqualizerBandLayout *midrange_bands = new AndroidEqualizerBandLayout;
   AndroidEqualizerBandLayout *treble_bands = new AndroidEqualizerBandLayout;
@@ -680,7 +692,7 @@ void Equalizer::SetupAndroidLayout() {
     (i < 3 ? bass_bands : i < 6 ? midrange_bands : treble_bands)->addWidget(gain_[i]);
   }
   controls->addWidget(ui_->slider_container);
-  QVBoxLayout *stereo = add_foldout(controls, tr("Stereo balance"));
+  QVBoxLayout *stereo = add_foldout(controls, AndroidSection::StereoBalance, tr("Stereo balance"));
   ui_->enable_stereo_balancer->setMinimumHeight(48);
   stereo->addWidget(ui_->enable_stereo_balancer);
   stereo->addLayout(ui_->slider_label_layout);
@@ -725,8 +737,8 @@ void Equalizer::UpdateAndroidPreset() {
   layout->addWidget(value);
   android_preset_->setAccessibleName(tr("Preset") + u": "_s + ui_->preset->currentText());
   const QString selected = ui_->preset->currentData().toString();
-  ui_->preset_del->setEnabled(selected != QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Custom")));
-  ui_->preset_save->setEnabled(edited || selected == QStringLiteral(QT_TRANSLATE_NOOP("Equalizer", "Custom")));
+  ui_->preset_del->setEnabled(selected != QLatin1String(kCustomPreset));
+  ui_->preset_save->setEnabled(edited || selected == QLatin1String(kCustomPreset));
 
 }
 
@@ -738,11 +750,25 @@ void Equalizer::SetAndroidPage(QWidget *page, const QString &title) {
 
 }
 
+QString Equalizer::AndroidFoldoutModeName(const AndroidFoldoutMode mode) {
+
+  switch (mode) {
+    case AndroidFoldoutMode::AllExpanded:
+      return tr("All expanded");
+    case AndroidFoldoutMode::AllCollapsed:
+      return tr("All collapsed");
+    case AndroidFoldoutMode::OneAtATime:
+      return tr("One section at a time");
+  }
+  return QString();
+
+}
+
 void Equalizer::UpdateAndroidFoldouts() {
 
-  const QStringList modes{tr("All expanded"), tr("All collapsed"), tr("One section at a time")};
-  android_foldout_mode_->findChild<QLabel *>()->setText(modes.at(android_foldout_mode_index_));
-  android_foldout_mode_->setAccessibleName(tr("Collapse behaviour of sections") + u": "_s + modes.at(android_foldout_mode_index_));
+  const QString mode_name = AndroidFoldoutModeName(android_foldout_mode_value_);
+  android_foldout_mode_->findChild<QLabel *>()->setText(mode_name);
+  android_foldout_mode_->setAccessibleName(tr("Collapse behaviour of sections") + u": "_s + mode_name);
   for (int i = 0; i < android_sections_.count(); ++i) {
     const bool open = android_sections_.at(i)->isChecked();
     android_sections_.at(i)->setArrowType(open ? Qt::DownArrow : Qt::RightArrow);
@@ -755,8 +781,8 @@ void Equalizer::SaveAndroidFoldouts() {
 
   Settings settings;
   settings.beginGroup(kSettingsGroup);
-  settings.setValue("android_foldout_mode", android_foldout_mode_index_);
-  for (int i = 0; i < android_sections_.count(); ++i) settings.setValue(u"android_section_%1"_s.arg(i), android_sections_.at(i)->isChecked());
+  settings.setValue(kAndroidFoldoutMode, static_cast<int>(android_foldout_mode_value_));
+  for (int i = 0; i < android_sections_.count(); ++i) settings.setValue(AndroidSectionOpenKey(i), android_sections_.at(i)->isChecked());
 
 }
 
@@ -764,21 +790,22 @@ void Equalizer::ShowAndroidFoldoutModes() {
 
   QWidget *page = new QWidget;
   QVBoxLayout *layout = new QVBoxLayout(page);
-  const QStringList modes{tr("All expanded"), tr("All collapsed"), tr("One section at a time")};
-  for (int i = 0; i < modes.count(); ++i) {
+  constexpr std::array modes = {AndroidFoldoutMode::AllExpanded, AndroidFoldoutMode::AllCollapsed, AndroidFoldoutMode::OneAtATime};
+  for (const AndroidFoldoutMode mode : modes) {
+    const QString mode_name = AndroidFoldoutModeName(mode);
     QRadioButton *choice = new AndroidSettingsButton<QRadioButton>(page);
     QVBoxLayout *row = new QVBoxLayout(choice);
-    QLabel *label = new QLabel(modes.at(i), choice);
+    QLabel *label = new QLabel(mode_name, choice);
     label->setWordWrap(true);
     label->setAttribute(Qt::WA_TransparentForMouseEvents);
     row->addWidget(label);
-    choice->setAccessibleName(modes.at(i));
-    choice->setChecked(i == android_foldout_mode_index_);
+    choice->setAccessibleName(mode_name);
+    choice->setChecked(mode == android_foldout_mode_value_);
     choice->setStyleSheet(u"QRadioButton::indicator { width: 0px; height: 0px; } QRadioButton:checked { background: palette(highlight); color: palette(highlighted-text); }"_s);
     layout->addWidget(choice);
-    QObject::connect(choice, &QRadioButton::clicked, this, [this, i]() {
-      android_foldout_mode_index_ = i;
-      for (int section = 0; section < android_sections_.count(); ++section) android_sections_.at(section)->setChecked(i == 0);
+    QObject::connect(choice, &QRadioButton::clicked, this, [this, mode]() {
+      android_foldout_mode_value_ = mode;
+      for (QToolButton *section : std::as_const(android_sections_)) section->setChecked(mode == AndroidFoldoutMode::AllExpanded);
       UpdateAndroidFoldouts();
       SaveAndroidFoldouts();
       AndroidBack();

@@ -92,12 +92,17 @@ Status values: Open, Done, Won't fix (with a reason).
 
 ### 7. Name the equalizer settings keys and modes
 
-**Status:** Open
+**Status:** Done
 
-- The settings keys `android_current_params`, `android_foldout_mode`, and `android_section_%1` are inline literals; the section keys depend on section order.
-- The foldout mode is a bare `0`/`1`/`2` integer, and its display names are listed twice.
-- `QT_TRANSLATE_NOOP("Equalizer", "Custom")` is repeated five times.
-- Fix: named constants, an enum for the foldout mode, and stable section keys (keeping existing saved values readable).
+- The settings keys `android_current_params`, `android_foldout_mode`, and `android_section_%1` were inline literals; the section keys depended on section order.
+- The foldout mode was a bare `0`/`1`/`2` integer, and its display names were listed twice.
+- `QT_TRANSLATE_NOOP("Equalizer", "Custom")` was repeated in the Android code.
+
+**Resolved:**
+- Named constants for the keys and the Custom preset; `AndroidFoldoutMode` and `AndroidSection` enums with fixed values keep the stored settings and keys unchanged.
+- One `AndroidFoldoutModeName()` provides the display names; the choice page iterates over the modes.
+- Native equalizer tests pass.
+  On the emulator, the saved mode loaded, One section at a time closed Bass when Treble opened, and the mode and open section persisted after a restart; the original All collapsed state was restored afterwards.
 
 ### 8. Simplify the equalizer gain control
 
@@ -202,3 +207,10 @@ Status values: Open, Done, Won't fix (with a reason).
 
 - After Cancel (or OK) from a settings page, reopening Settings shows the overview with the Apply, Cancel, and OK buttons still visible.
   `SettingsDialog::OpenOverview()` does not hide the button box, unlike the other overview and category paths.
+
+### 22. Show the equalizer values in the link color
+
+**Status:** Open
+
+- The Android equalizer's Preset and Collapse behaviour of sections buttons show their values in bold black, while Settings shows values in the bold link color, as the Android guidelines require.
+  Resolve together with point 12.
