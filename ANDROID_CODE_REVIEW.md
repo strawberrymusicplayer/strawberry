@@ -61,11 +61,16 @@ Status values: Open, Done, Won't fix (with a reason).
 
 ### 5. Keep desktop behavior unchanged
 
-**Status:** Open
+**Status:** Done
 
-- The playlist toolbar now shows an Add file button on all platforms (`playlistcontainer.ui`), and `action_add_file` uses the `list-add` icon everywhere.
+- The playlist toolbar showed an Add file button on all platforms (`playlistcontainer.ui`), and `action_add_file` used the `list-add` icon everywhere.
 - `mainwindow.ui` adds the Remove duplicates and Remove unavailable actions to the playlist widget on all platforms.
-- Fix: guard these Android adaptations, as the project rules require, unless the desktop change is intentional.
+
+**Resolved:**
+- With the owner's approval, the Add file button and `list-add` icon are Android-only; the desktop again uses the upstream `document-open` icon without the toolbar button.
+- The playlist widget actions are kept: they keep the shortcuts working while the Android menu bar is hidden and do not change the desktop, where the same actions are already in the menus.
+- Added `PlaylistTest.DesktopPlaylistToolbarHasNoAddFileButton`; the full native playlist test passes.
+  The Android playlist editor still shows the Add file button.
 
 ## Build configuration
 

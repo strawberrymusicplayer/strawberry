@@ -58,6 +58,8 @@
 #include <QIODevice>
 #include <QSet>
 #include <QSignalSpy>
+#include <QAction>
+#include <QToolButton>
 #include <QStringList>
 #include <QPersistentModelIndex>
 #include <QTemporaryDir>
@@ -2697,3 +2699,32 @@ TEST_F(PlaylistTest, UpdateItemMetadataAfterRowsChanged) {
 }
 
 }  // namespace
+
+TEST_F(PlaylistTest, DesktopPlaylistToolbarHasNoAddFileButton) {
+
+  PlaylistContainer container;
+  QAction new_playlist, load_playlist, save_playlist, add_file, clear_playlist, next_playlist, previous_playlist, last_playlist, active_playlist, close_playlist, save_all_playlists;
+  PlaylistContainer::Actions actions;
+  actions.new_playlist = &new_playlist;
+  actions.load_playlist = &load_playlist;
+  actions.save_playlist = &save_playlist;
+  actions.add_file = &add_file;
+  actions.clear_playlist = &clear_playlist;
+  actions.next_playlist = &next_playlist;
+  actions.previous_playlist = &previous_playlist;
+  actions.last_playlist = &last_playlist;
+  actions.active_playlist = &active_playlist;
+  actions.close_playlist = &close_playlist;
+  actions.save_all_playlists = &save_all_playlists;
+  container.SetActions(actions);
+
+  QToolButton *add_file_button = container.findChild<QToolButton*>(u"add_file"_s);
+  ASSERT_NE(nullptr, add_file_button);
+  EXPECT_EQ(&add_file, add_file_button->defaultAction());
+#ifdef Q_OS_ANDROID
+  EXPECT_TRUE(add_file_button->isVisibleTo(&container));
+#else
+  EXPECT_FALSE(add_file_button->isVisibleTo(&container));
+#endif
+
+}

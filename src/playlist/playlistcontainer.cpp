@@ -111,6 +111,9 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
   ui_->horizontalLayout->setDirection(QBoxLayout::TopToBottom);
   ui_->horizontalLayout->insertLayout(0, android_buttons_);
   UpdateAndroidToolbar();
+#else
+  // The Android playlist editor has no menu bar, desktop adds files through the menus.
+  ui_->add_file->hide();
 #endif
 
   no_matches_label_ = new QLabel(ui_->playlist);

@@ -603,7 +603,11 @@ MainWindow::MainWindow(Application *app,
 
   // Playlist
 
+#ifdef Q_OS_ANDROID
   ui_->action_add_file->setIcon(IconLoader::Load(u"list-add"_s));
+#else
+  ui_->action_add_file->setIcon(IconLoader::Load(u"document-open"_s));
+#endif
   ui_->action_add_folder->setIcon(IconLoader::Load(u"document-open-folder"_s));
   ui_->action_add_stream->setIcon(IconLoader::Load(u"document-open-remote"_s));
   ui_->action_shuffle_mode->setIcon(IconLoader::Load(u"media-playlist-shuffle"_s));
