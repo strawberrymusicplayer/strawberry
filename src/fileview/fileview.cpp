@@ -38,6 +38,10 @@
 #include <QFileDialog>
 #include <QSpacerItem>
 #include <QtEvents>
+#ifdef Q_OS_ANDROID
+#  include <QPushButton>
+#  include <QVBoxLayout>
+#endif
 
 #include "constants/appearancesettings.h"
 #include "constants/filefilterconstants.h"
@@ -47,6 +51,9 @@
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "core/mimedata.h"
+#ifdef Q_OS_ANDROID
+#  include "core/androidstorage.h"
+#endif
 #include "dialogs/deleteconfirmationdialog.h"
 #include "fileview.h"
 #include "fileviewlist.h"
@@ -55,9 +62,6 @@
 #include "fileviewtreeitem.h"
 #include "ui_fileview.h"
 #include "organize/organizeerrordialog.h"
-#ifdef Q_OS_ANDROID
-#  include "widgets/playlistactionhandler.h"
-#endif
 
 using std::make_unique;
 using namespace Qt::Literals::StringLiterals;
@@ -127,21 +131,29 @@ FileView::FileView(QWidget *parent)
   ReloadSettings();
 
 #ifdef Q_OS_ANDROID
-  for (QAbstractItemView *view : {static_cast<QAbstractItemView *>(ui_->list), static_cast<QAbstractItemView *>(ui_->tree)}) {
-    const auto path_for_index = [](const QModelIndex &index) {
-      if (const auto *model = qobject_cast<const QFileSystemModel *>(index.model())) return model->filePath(index);
-      return index.data(FileViewTreeModel::Role_FilePath).toString();
-    };
-    auto *actions = new PlaylistActionHandler(view, tr("Files"),
-        [path_for_index](const QModelIndex &index) { return QFileInfo(path_for_index(index)).isDir(); },
-        [path_for_index](const QModelIndex &index) {
-          const QString path = path_for_index(index);
-          MimeData *data = new MimeData;
-          data->setUrls({QUrl::fromLocalFile(path)});
-          data->name_for_new_playlist_ = QDir(path).dirName();
-          return data;
-        });
-    QObject::connect(actions, &PlaylistActionHandler::AddToPlaylist, this, &FileView::AddToPlaylist);
+  auto *android_page = new QWidget(ui_->view_stack);
+  auto *android_layout = new QVBoxLayout(android_page);
+  android_layout->setContentsMargins(24, 24, 24, 24);
+  android_layout->setSpacing(12);
+  android_layout->addStretch();
+
+  auto *select_files = new QPushButton(IconLoader::Load(u"document-open"_s), tr("Choose files"), android_page);
+  select_files->setMinimumHeight(48);
+  QObject::connect(select_files, &QPushButton::clicked, this, &FileView::SelectFiles);
+  android_layout->addWidget(select_files);
+
+  auto *select_folder = new QPushButton(IconLoader::Load(u"folder-open"_s), tr("Choose folder"), android_page);
+  select_folder->setMinimumHeight(48);
+  QObject::connect(select_folder, &QPushButton::clicked, this, &FileView::SelectFolder);
+  android_layout->addWidget(select_folder);
+  android_layout->addStretch();
+
+  ui_->view_stack->addWidget(android_page);
+  ui_->view_stack->setCurrentWidget(android_page);
+
+  const QList<QWidget *> controls{ui_->back, ui_->forward, ui_->up, ui_->home, ui_->path, ui_->add_tree_root, ui_->remove_tree_root, ui_->toggle_view};
+  for (QWidget *control : controls) {
+    control->hide();
   }
 #endif
 
@@ -295,6 +307,61 @@ void FileView::ItemDoubleClick(const QModelIndex &idx) {
 
 }
 
+#ifdef Q_OS_ANDROID
+void FileView::SelectFiles() {
+
+  QString music_path = QStandardPaths::writableLocation(QStandardPaths::MusicLocation);
+  if (music_path.isEmpty()) music_path = QDir::homePath();
+
+  const QList<QUrl> selected_urls = QFileDialog::getOpenFileUrls(this, tr("Choose files"), QUrl::fromLocalFile(music_path));
+  if (selected_urls.isEmpty()) return;
+
+  QList<QUrl> local_urls;
+  QStringList unresolved;
+  for (const QUrl &selected_url : selected_urls) {
+    const QString path = AndroidStorage::LocalPathForUrl(selected_url);
+    if (path.isEmpty()) {
+      unresolved << selected_url.toDisplayString();
+    }
+    else {
+      local_urls << QUrl::fromLocalFile(QDir::cleanPath(path));
+    }
+  }
+
+  if (!unresolved.isEmpty()) {
+    QMessageBox::warning(this, tr("Some files are not accessible"), tr("Could not access: %1").arg(unresolved.join(", "_L1)));
+  }
+  if (local_urls.isEmpty()) return;
+
+  auto *mimedata = new MimeData;
+  mimedata->from_doubleclick_ = true;
+  mimedata->setUrls(local_urls);
+  Q_EMIT AddToPlaylist(mimedata);
+
+}
+
+void FileView::SelectFolder() {
+
+  QString music_path = QStandardPaths::writableLocation(QStandardPaths::MusicLocation);
+  if (music_path.isEmpty()) music_path = QDir::homePath();
+
+  const QUrl selected_url = QFileDialog::getExistingDirectoryUrl(this, tr("Choose folder"), QUrl::fromLocalFile(music_path));
+  if (selected_url.isEmpty()) return;
+
+  const QString path = AndroidStorage::LocalPathForUrl(selected_url);
+  if (path.isEmpty()) {
+    QMessageBox::warning(this, tr("Folder is not accessible"), tr("Could not access: %1").arg(selected_url.toDisplayString()));
+    return;
+  }
+
+  auto *mimedata = new MimeData;
+  mimedata->from_doubleclick_ = true;
+  mimedata->setUrls({QUrl::fromLocalFile(QDir::cleanPath(path))});
+  Q_EMIT AddToPlaylist(mimedata);
+
+}
+#endif
+
 
 FileView::UndoCommand::UndoCommand(FileView *view, const QString &new_path) : view_(view) {
 
@@ -352,6 +419,10 @@ void FileView::DeleteFinished(const SongList &songs_with_errors, const QStringLi
 void FileView::showEvent(QShowEvent *e) {
 
   QWidget::showEvent(e);
+
+#ifdef Q_OS_ANDROID
+  return;
+#endif
 
   if (model_) return;
 

@@ -98,6 +98,10 @@ class FileView : public QWidget {
   void AddRootButtonClicked();
   void RemoveRootButtonClicked();
   void UpdateViewModeUI();
+#ifdef Q_OS_ANDROID
+  void SelectFiles();
+  void SelectFolder();
+#endif
 
  private:
   class UndoCommand : public QUndoCommand {
