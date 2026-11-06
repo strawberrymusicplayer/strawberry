@@ -38,11 +38,17 @@ Status values: Open, Done, Won't fix (with a reason).
 
 ### 3. Remove unreachable code and preprocessor slips
 
-**Status:** Open
+**Status:** Done
 
-- `Equalizer::closeEvent()` and `FileView::showEvent()` use `#ifdef Q_OS_ANDROID return; #endif`, leaving unreachable code on Android; use `#ifndef`/`#else` instead.
-- `SettingsDialog::showEvent()` has misindented `#ifdef` blocks around the settings-load guard.
-- `transliterate.cpp` includes `config.h` twice.
+- `Equalizer::closeEvent()` and `FileView::showEvent()` used `#ifdef Q_OS_ANDROID return; #endif`, leaving unreachable code on Android.
+- `SettingsDialog::showEvent()` had misindented `#ifdef` blocks around the settings-load guard.
+- `transliterate.cpp` included `config.h` twice.
+
+**Resolved:**
+- Both functions use `#ifndef`/`#else` blocks; `SettingsDialog::showEvent()` computes one `load_settings` condition per platform.
+- Removed the duplicate include.
+- Native equalizer and utilities tests pass.
+  On the emulator, an unapplied Behavior edit survived switching to Files and back, and Cancel discarded it.
 
 ### 4. Correct copyright headers of new files
 
@@ -175,3 +181,12 @@ Status values: Open, Done, Won't fix (with a reason).
 
 - The manifest still uses the Qt template ID `org.qtproject.example.strawberry`, and `android:allowBackup="true"` backs up the settings and database.
 - Changing the ID makes the app install separately from existing installations; this needs the owner's decision before changing it.
+
+## Found during testing
+
+### 21. Hide the dialog buttons on the Settings overview after Cancel
+
+**Status:** Open
+
+- After Cancel (or OK) from a settings page, reopening Settings shows the overview with the Apply, Cancel, and OK buttons still visible.
+  `SettingsDialog::OpenOverview()` does not hide the button box, unlike the other overview and category paths.

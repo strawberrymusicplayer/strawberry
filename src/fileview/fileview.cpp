@@ -431,10 +431,8 @@ void FileView::showEvent(QShowEvent *e) {
 
   QWidget::showEvent(e);
 
-#ifdef Q_OS_ANDROID
-  return;
-#endif
-
+  // Android uses the system picker instead of the file system models.
+#ifndef Q_OS_ANDROID
   if (model_) return;
 
   model_ = new QFileSystemModel(this);
@@ -458,6 +456,7 @@ void FileView::showEvent(QShowEvent *e) {
   ChangeFilePathWithoutUndo(QDir::homePath());
 
   if (!lazy_set_path_.isEmpty()) ChangeFilePathWithoutUndo(lazy_set_path_);
+#endif
 
 }
 

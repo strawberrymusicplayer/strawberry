@@ -22,8 +22,6 @@
 #include <cstdio>
 #include <string>
 
-#include "config.h"
-
 #ifdef HAVE_ICU
 #  include <unicode/translit.h>
 #endif

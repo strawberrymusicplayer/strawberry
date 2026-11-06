@@ -514,14 +514,14 @@ void Equalizer::closeEvent(QCloseEvent *e) {
 
 #ifdef Q_OS_ANDROID
   Save();
-  return;
-#endif
+#else
   const QString name = ui_->preset->itemData(ui_->preset->currentIndex()).toString();
   if (!presets_.contains(name)) return;
 
   if (presets_[name] == current_params()) return;
 
   SavePreset();
+#endif
 
 }
 

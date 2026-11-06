@@ -375,10 +375,13 @@ bool SettingsDialog::event(QEvent *event) {
 
 void SettingsDialog::showEvent(QShowEvent *e) {
 
-  if (!e->spontaneous()) {
 #ifdef Q_OS_ANDROID
-    if (!android_settings_loaded_) {
+  // Android Settings is shown again on each tab switch; keep pending edits until Apply, OK or Cancel.
+  const bool load_settings = !e->spontaneous() && !android_settings_loaded_;
+#else
+  const bool load_settings = !e->spontaneous();
 #endif
+  if (load_settings) {
     LoadGeometry();
     // Load settings
     loading_settings_ = true;
@@ -387,10 +390,9 @@ void SettingsDialog::showEvent(QShowEvent *e) {
       page.page_->Load();
     }
     loading_settings_ = false;
-  #ifdef Q_OS_ANDROID
+#ifdef Q_OS_ANDROID
     android_settings_loaded_ = true;
-    }
-  #endif
+#endif
   }
 
   QDialog::showEvent(e);
