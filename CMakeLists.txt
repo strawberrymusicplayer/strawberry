@@ -30,7 +30,10 @@ endif()
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 if(ANDROID)
-  if(NOT GStreamer_ROOT_DIR AND DEFINED ENV{GSTREAMER_ROOT_ANDROID})
+  # GStreamer_ROOT_DIR is the variable used by the GStreamer SDK's own CMake modules; ANDROID_GSTREAMER_ROOT is accepted from older build directories.
+  if(NOT GStreamer_ROOT_DIR AND ANDROID_GSTREAMER_ROOT)
+    set(GStreamer_ROOT_DIR "${GStreamer_ROOT_DIR}" CACHE PATH "Android GStreamer SDK root")
+  elseif(NOT GStreamer_ROOT_DIR AND DEFINED ENV{GSTREAMER_ROOT_ANDROID})
     set(GStreamer_ROOT_DIR "$ENV{GSTREAMER_ROOT_ANDROID}" CACHE PATH "Android GStreamer SDK root")
   endif()
   if(GStreamer_ROOT_DIR)
@@ -172,23 +175,15 @@ find_package(Backtrace)
 if(Backtrace_FOUND)
   set(HAVE_BACKTRACE ON)
 endif()
-if(ANDROID)
-  if(DEFINED ENV{GSTREAMER_ROOT_ANDROID})
-    set(ANDROID_GSTREAMER_ROOT "$ENV{GSTREAMER_ROOT_ANDROID}" CACHE PATH "Android GStreamer SDK root")
-  elseif(GStreamer_ROOT_DIR)
-    set(ANDROID_GSTREAMER_ROOT "${GStreamer_ROOT_DIR}" CACHE PATH "Android GStreamer SDK root")
-  endif()
-endif()
-
-if(ANDROID AND ANDROID_GSTREAMER_ROOT)
+if(ANDROID AND GStreamer_ROOT_DIR)
   if(NOT OPENSSL_ROOT_DIR)
-    set(OPENSSL_ROOT_DIR "${ANDROID_GSTREAMER_ROOT}" CACHE PATH "Android OpenSSL root directory")
+    set(OPENSSL_ROOT_DIR "${GStreamer_ROOT_DIR}" CACHE PATH "Android OpenSSL root directory")
   endif()
   if(NOT OPENSSL_INCLUDE_DIR)
-    set(OPENSSL_INCLUDE_DIR "${ANDROID_GSTREAMER_ROOT}/include" CACHE PATH "Android OpenSSL include directory")
+    set(OPENSSL_INCLUDE_DIR "${GStreamer_ROOT_DIR}/include" CACHE PATH "Android OpenSSL include directory")
   endif()
   if(NOT OPENSSL_CRYPTO_LIBRARY)
-    set(OPENSSL_CRYPTO_LIBRARY "${ANDROID_GSTREAMER_ROOT}/lib/libcrypto.a" CACHE FILEPATH "Android OpenSSL crypto library")
+    set(OPENSSL_CRYPTO_LIBRARY "${GStreamer_ROOT_DIR}/lib/libcrypto.a" CACHE FILEPATH "Android OpenSSL crypto library")
   endif()
 endif()
 find_package(OpenSSL COMPONENTS Crypto CONFIG)
@@ -280,9 +275,8 @@ if(ANDROID)
     isomp4
     matroska
   )
-  target_link_options(GStreamerMobile PRIVATE "-Wl,--allow-multiple-definition")
-  set(GSTREAMER_APP_STATIC_LIBRARY "${ANDROID_GSTREAMER_ROOT}/lib/libgstapp-1.0.a")
-  set(GSTREAMER_PBUTILS_STATIC_LIBRARY "${ANDROID_GSTREAMER_ROOT}/lib/libgstpbutils-1.0.a")
+  set(GSTREAMER_APP_STATIC_LIBRARY "${GStreamer_ROOT_DIR}/lib/libgstapp-1.0.a")
+  set(GSTREAMER_PBUTILS_STATIC_LIBRARY "${GStreamer_ROOT_DIR}/lib/libgstpbutils-1.0.a")
   if(NOT EXISTS "${GSTREAMER_APP_STATIC_LIBRARY}" OR NOT EXISTS "${GSTREAMER_PBUTILS_STATIC_LIBRARY}")
     message(FATAL_ERROR "GStreamer app and pbutils static libraries are required for Android")
   endif()
@@ -891,7 +885,6 @@ set(SOURCES
 
   src/settings/settingsdialog.cpp
   src/settings/settingspage.cpp
-  src/settings/androidsettingspage.cpp
   src/settings/settingsitemdelegate.cpp
   src/settings/behavioursettingspage.cpp
   src/settings/collectionsettingspage.cpp
@@ -1203,7 +1196,6 @@ set(HEADERS
 
   src/settings/settingsdialog.h
   src/settings/settingspage.h
-  src/settings/androidsettingspage.h
   src/settings/settingsitemdelegate.h
   src/settings/behavioursettingspage.h
   src/settings/collectionsettingspage.h
@@ -1473,7 +1465,8 @@ else()
 endif()
 
 if(ANDROID)
-  list(APPEND SOURCES src/core/androidstorage.cpp)
+  list(APPEND SOURCES src/core/androidstorage.cpp src/settings/androidsettingspage.cpp)
+  list(APPEND HEADERS src/settings/androidsettingspage.h)
 endif()
 
 if(WIN32)
@@ -1908,8 +1901,8 @@ if(SINGLEAPPLICATION_INCLUDE_DIRS)
   target_include_directories(strawberry_lib SYSTEM PUBLIC ${SINGLEAPPLICATION_INCLUDE_DIRS})
 endif()
 
-if(ANDROID AND ANDROID_GSTREAMER_ROOT)
-  target_link_directories(strawberry_lib PUBLIC "${ANDROID_GSTREAMER_ROOT}/lib")
+if(ANDROID AND GStreamer_ROOT_DIR)
+  target_link_directories(strawberry_lib PUBLIC "${GStreamer_ROOT_DIR}/lib")
 endif()
 
 target_link_libraries(strawberry_lib PUBLIC
@@ -1977,8 +1970,8 @@ endif()
 
 target_link_libraries(strawberry PUBLIC strawberry_lib)
 
-if(ANDROID AND ANDROID_GSTREAMER_ROOT)
-  target_link_directories(strawberry PRIVATE "${ANDROID_GSTREAMER_ROOT}/lib")
+if(ANDROID AND GStreamer_ROOT_DIR)
+  target_link_directories(strawberry PRIVATE "${GStreamer_ROOT_DIR}/lib")
 endif()
 
 if(NOT APPLE AND NOT ANDROID)

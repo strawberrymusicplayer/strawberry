@@ -76,11 +76,17 @@ Status values: Open, Done, Won't fix (with a reason).
 
 ### 6. Clean up the Android CMake configuration
 
-**Status:** Open
+**Status:** Done
 
-- The GStreamer SDK root is resolved twice, as `GStreamer_ROOT_DIR` and `ANDROID_GSTREAMER_ROOT`, from the same environment variable.
-- `androidsettingspage.cpp`/`.h` are built on every platform although they are entirely wrapped in `#ifdef Q_OS_ANDROID`; `androidstorage.cpp` is correctly added only for Android.
-- `-Wl,--allow-multiple-definition` hides duplicate symbols; document why it is needed or remove it if the build no longer requires it.
+- The GStreamer SDK root was resolved twice, as `GStreamer_ROOT_DIR` and `ANDROID_GSTREAMER_ROOT`, with different precedence.
+- `androidsettingspage.cpp`/`.h` were built on every platform although they are entirely wrapped in `#ifdef Q_OS_ANDROID`.
+- `-Wl,--allow-multiple-definition` hid duplicate symbols when linking `libgstreamer_android.so`.
+
+**Resolved:**
+- Only `GStreamer_ROOT_DIR`, the variable used by the GStreamer SDK's CMake modules, remains; an existing `ANDROID_GSTREAMER_ROOT` cache value or `GSTREAMER_ROOT_ANDROID` environment variable still sets it.
+- The settings adapter is added to the sources only for Android, like `androidstorage.cpp`.
+- Removed the linker flag: `libgstreamer_android.so` links without duplicate-symbol errors, GStreamer initializes on the emulator, and the test folder plays.
+  The native desktop build still succeeds.
 
 ## Structure and duplication
 
