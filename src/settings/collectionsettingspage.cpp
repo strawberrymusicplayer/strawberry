@@ -254,13 +254,13 @@ void CollectionSettingsPage::AddDirectory() {
   // The Android file dialog returns a content:// tree URI, the collection scans file system paths.
   const QUrl selected_url = QFileDialog::getExistingDirectoryUrl(this, tr("Add directory..."), QUrl::fromLocalFile(path));
   if (selected_url.isEmpty()) return;
-  path = AndroidStorage::LocalPathForUrl(selected_url);
+  QStringList unresolved;
+  path = AndroidStorage::LocalPathsForUrls({selected_url}, &unresolved).value(0);
   if (path.isEmpty()) {
-    QMessageBox messagebox(QMessageBox::Critical, tr("Invalid collection directory"), tr("Can't add directory %1, it is not stored on this device.").arg(selected_url.toDisplayString()));
+    QMessageBox messagebox(QMessageBox::Critical, tr("Invalid collection directory"), AndroidStorage::UnresolvedMessage(unresolved));
     (void)messagebox.exec();
     return;
   }
-  path = QDir::cleanPath(path);
 #else
   path = QDir::cleanPath(QFileDialog::getExistingDirectory(this, tr("Add directory..."), path));
 #endif

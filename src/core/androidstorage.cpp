@@ -19,6 +19,7 @@
 #include <jni.h>
 
 #include <QCoreApplication>
+#include <QDir>
 #include <QJniEnvironment>
 #include <QJniObject>
 #include <QString>
@@ -168,6 +169,28 @@ QString LocalPathForUrl(const QUrl &url) {
   }
 
   return path;
+
+}
+
+QStringList LocalPathsForUrls(const QList<QUrl> &urls, QStringList *unresolved) {
+
+  QStringList paths;
+  for (const QUrl &url : urls) {
+    const QString path = LocalPathForUrl(url);
+    if (path.isEmpty()) {
+      if (unresolved) unresolved->append(url.toDisplayString());
+    }
+    else {
+      paths << QDir::cleanPath(path);
+    }
+  }
+  return paths;
+
+}
+
+QString UnresolvedMessage(const QStringList &unresolved) {
+
+  return QCoreApplication::translate("AndroidStorage", "Not stored on this device, so it can't be used: %1").arg(unresolved.join(", "_L1));
 
 }
 

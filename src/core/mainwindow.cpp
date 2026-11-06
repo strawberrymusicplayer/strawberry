@@ -2989,19 +2989,10 @@ void MainWindow::AddFile() {
   // Qt maps the name filters to MIME types with an incomplete MIME database on Android, which disables the music files in the picker, so no filter is used.
   const QList<QUrl> selected_urls = QFileDialog::getOpenFileUrls(this, tr("Add file"), QUrl::fromLocalFile(directory));
   if (selected_urls.isEmpty()) return;
-  QStringList filenames;
   QStringList unresolved;
-  for (const QUrl &selected_url : selected_urls) {
-    const QString path = AndroidStorage::LocalPathForUrl(selected_url);
-    if (path.isEmpty()) {
-      unresolved << selected_url.toDisplayString();
-    }
-    else {
-      filenames << path;
-    }
-  }
+  const QStringList filenames = AndroidStorage::LocalPathsForUrls(selected_urls, &unresolved);
   if (!unresolved.isEmpty()) {
-    ShowErrorDialog(tr("These files are not stored on this device and can't be added: %1").arg(unresolved.join(", "_L1)));
+    ShowErrorDialog(AndroidStorage::UnresolvedMessage(unresolved));
   }
 #else
   PlaylistParser parser(app_->tagreader_client(), app_->collection_backend());
@@ -3037,9 +3028,10 @@ void MainWindow::AddFolder() {
 #ifdef Q_OS_ANDROID
   const QUrl selected_url = QFileDialog::getExistingDirectoryUrl(this, tr("Add folder"), QUrl::fromLocalFile(directory));
   if (selected_url.isEmpty()) return;
-  directory = AndroidStorage::LocalPathForUrl(selected_url);
+  QStringList unresolved;
+  directory = AndroidStorage::LocalPathsForUrls({selected_url}, &unresolved).value(0);
   if (directory.isEmpty()) {
-    ShowErrorDialog(tr("This folder is not stored on this device and can't be added: %1").arg(selected_url.toDisplayString()));
+    ShowErrorDialog(AndroidStorage::UnresolvedMessage(unresolved));
     return;
   }
 #else

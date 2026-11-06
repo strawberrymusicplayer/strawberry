@@ -101,6 +101,8 @@ class FileView : public QWidget {
 #ifdef Q_OS_ANDROID
   void SelectFiles();
   void SelectFolder();
+  static QUrl AndroidPickerStartUrl();
+  void PlayPickerSelection(const QList<QUrl> &selected_urls);
 #endif
 
  private:

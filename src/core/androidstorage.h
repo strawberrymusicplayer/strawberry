@@ -19,7 +19,9 @@
 #ifndef ANDROIDSTORAGE_H
 #define ANDROIDSTORAGE_H
 
+#include <QList>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 
 namespace AndroidStorage {
@@ -29,6 +31,13 @@ void RequestAudioPermission();
 
 // Android file dialogs return content:// document URIs; returns the file system path behind such a URI, or an empty string when it has none.
 QString LocalPathForUrl(const QUrl &url);
+
+// Returns the cleaned file system paths of the URLs from an Android file dialog.
+// URLs without a file system path are added to unresolved as display strings.
+QStringList LocalPathsForUrls(const QList<QUrl> &urls, QStringList *unresolved);
+
+// The message to show for dialog selections without a file system path.
+QString UnresolvedMessage(const QStringList &unresolved);
 
 }  // namespace AndroidStorage
 

@@ -26,11 +26,15 @@ Status values: Open, Done, Won't fix (with a reason).
 
 ### 2. Share the content-URI picker resolution
 
-**Status:** Open
+**Status:** Done
 
-- `MainWindow::AddFile()`, `MainWindow::AddFolder()`, `FileView::SelectFiles()`, `FileView::SelectFolder()`, and `CollectionSettingsPage::AddDirectory()` each repeat the loop that maps picker URLs to local paths and collects unresolved ones.
-- Their error reporting differs (`ShowErrorDialog`, `QMessageBox::warning`, `QMessageBox::Critical`) and so does the wording.
-- Fix: add one `AndroidStorage` helper that resolves a list of URLs, returning the paths and the unresolved URLs, and use consistent messages.
+- `MainWindow::AddFile()`, `MainWindow::AddFolder()`, `FileView::SelectFiles()`, `FileView::SelectFolder()`, and `CollectionSettingsPage::AddDirectory()` each repeated the loop that maps picker URLs to local paths and collects unresolved ones, with different wording.
+
+**Resolved:**
+- Added `AndroidStorage::LocalPathsForUrls()`, which returns cleaned paths and the unresolved URLs, and `AndroidStorage::UnresolvedMessage()`; all five callers use them.
+  Each caller keeps its existing dialog type.
+- `FileView` shares the picker start directory and the Now playing hand-off between its file and folder actions.
+- Emulator: Files > Choose files and Choose folder resolved a single file and the test folder (three tracks) and started playback.
 
 ### 3. Remove unreachable code and preprocessor slips
 
