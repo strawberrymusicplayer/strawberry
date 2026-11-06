@@ -334,6 +334,9 @@ class GstEnginePipeline : public QObject {
   QByteArray gst_url_;
   mutable QMutex mutex_url_;
 
+  // Accumulated raw tags; emitted metadata is parsed from a copy to avoid persisting derived values.
+  EngineMetadata raw_stream_metadata_;
+
   QUrl next_media_url_;
   QUrl next_stream_url_;
   QByteArray next_gst_url_;
