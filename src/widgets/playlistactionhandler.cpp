@@ -27,13 +27,7 @@
 #include <QPushButton>
 #include <QScrollBar>
 #include <QShortcut>
-#include <QStyleHints>
 #include <QVBoxLayout>
-
-#ifdef Q_OS_ANDROID
-#  include <QJniObject>
-#  include <QCoreApplication>
-#endif
 
 #include "core/mimedata.h"
 #include "longpresshandler.h"
@@ -46,14 +40,7 @@ PlaylistActionHandler::PlaylistActionHandler(QAbstractItemView *view, const QStr
       eligible_(std::move(eligible)),
       create_mimedata_(std::move(create_mimedata)) {
 
-  int interval = QApplication::styleHints()->mousePressAndHoldInterval();
-  int distance = QApplication::startDragDistance();
-#ifdef Q_OS_ANDROID
-  interval = QJniObject::callStaticMethod<jint>("android/view/ViewConfiguration", "getLongPressTimeout", "()I");
-  const QJniObject configuration = QJniObject::callStaticObjectMethod("android/view/ViewConfiguration", "get", "(Landroid/content/Context;)Landroid/view/ViewConfiguration;", QNativeInterface::QAndroidApplication::context().object());
-  distance = qRound(configuration.callMethod<jint>("getScaledTouchSlop", "()I") / view_->devicePixelRatioF());
-#endif
-  long_press_ = new LongPressHandler(interval, distance, this);
+  long_press_ = new LongPressHandler(LongPressHandler::PlatformInterval(), LongPressHandler::PlatformDragDistance(view_->devicePixelRatioF()), this);
   view_->installEventFilter(this);
   view_->viewport()->installEventFilter(this);
   QObject::connect(long_press_, &LongPressHandler::LongPressed, this, &PlaylistActionHandler::ShowActions);

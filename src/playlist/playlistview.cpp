@@ -61,9 +61,7 @@
 #include <QSignalBlocker>
 #include <QUndoStack>
 #ifdef Q_OS_ANDROID
-#  include <QCoreApplication>
 #  include <QDialog>
-#  include <QJniObject>
 #  include <QLabel>
 #  include <QPushButton>
 #  include <QScreen>
@@ -195,10 +193,7 @@ PlaylistView::PlaylistView(QWidget *parent)
   fade_animation_->setDirection(QTimeLine::Direction::Backward);  // 1.0 -> 0.0
 
 #ifdef Q_OS_ANDROID
-  const int long_press_interval = QJniObject::callStaticMethod<jint>("android/view/ViewConfiguration", "getLongPressTimeout", "()I");
-  const QJniObject configuration = QJniObject::callStaticObjectMethod("android/view/ViewConfiguration", "get", "(Landroid/content/Context;)Landroid/view/ViewConfiguration;", QNativeInterface::QAndroidApplication::context().object());
-  const int touch_slop = qRound(configuration.callMethod<jint>("getScaledTouchSlop", "()I") / devicePixelRatioF());
-  long_press_ = new LongPressHandler(long_press_interval, touch_slop, this);
+  long_press_ = new LongPressHandler(LongPressHandler::PlatformInterval(), LongPressHandler::PlatformDragDistance(devicePixelRatioF()), this);
   viewport()->installEventFilter(this);
   QObject::connect(long_press_, &LongPressHandler::LongPressed, this, &PlaylistView::ShowAndroidSongActions);
   QObject::connect(qApp, &QApplication::applicationStateChanged, this, [this](const Qt::ApplicationState state) {

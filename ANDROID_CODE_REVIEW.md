@@ -8,14 +8,21 @@ Status values: Open, Done, Won't fix (with a reason).
 
 ## Correctness and safety
 
-### 1. Check JNI exceptions and consolidate JNI calls
+### 1. Detect failed JNI calls and consolidate JNI lookups
 
-**Status:** Open
+**Status:** Done
 
-- `AndroidStorage`, `GstStartup::Initialize()` (`GStreamer.init`), `PlaylistView`, and `PlaylistActionHandler` call Java methods without checking for exceptions.
-  A pending Java exception (for example a `SecurityException` from a content resolver query, or `GStreamer.init` failing) aborts the app on the next JNI call.
-- The `ViewConfiguration` long-press timeout and touch-slop lookup is duplicated in `PlaylistView` and `PlaylistActionHandler`.
-- Fix: check and clear exceptions with `QJniEnvironment::checkAndClearExceptions()` and log failures; move the `ViewConfiguration` lookup into one Android helper.
+- Qt 6.7's `QJniObject` already clears and prints Java exceptions after each call, so a pending exception cannot abort the app.
+  A failed call does, however, return a default value that callers did not distinguish from success.
+- `GStreamer.init` failures were only printed as a generic Qt warning, and a failed `checkSelfPermission` returned 0, which equals `PERMISSION_GRANTED`.
+- The `ViewConfiguration` long-press timeout and touch-slop lookup was duplicated in `PlaylistView` and `PlaylistActionHandler`.
+
+**Resolved:**
+- `GstStartup::Initialize()` and `AndroidStorage::RequestAudioPermission()` call through `QJniEnvironment`, check for exceptions, and log failures; a failed permission check still requests the permission.
+- `LongPressHandler::PlatformInterval()` and `PlatformDragDistance()` provide the Android values with a Qt style-hint fallback; both callers use them.
+- Added `LongPressHandlerTest.PlatformValuesFallBackToStyleHints`.
+  Native long-press, playlist action, and playlist tests pass.
+  On the emulator, GStreamer initializes without errors and long-pressing songs in Now playing opens the song actions.
 
 ### 2. Share the content-URI picker resolution
 

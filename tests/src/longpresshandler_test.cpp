@@ -19,8 +19,10 @@
 
 #include "gtest_include.h"
 
+#include <QGuiApplication>
 #include <QPoint>
 #include <QSignalSpy>
+#include <QStyleHints>
 #include <QTest>
 
 #include "widgets/longpresshandler.h"
@@ -121,5 +123,12 @@ TEST(LongPressHandlerTest, UsesConfiguredTimeout) {
   EXPECT_TRUE(spy.isEmpty());
   ASSERT_TRUE(spy.wait(1000));
   EXPECT_TRUE(handler.Release());
+
+}
+
+TEST(LongPressHandlerTest, PlatformValuesFallBackToStyleHints) {
+
+  EXPECT_EQ(QGuiApplication::styleHints()->mousePressAndHoldInterval(), LongPressHandler::PlatformInterval());
+  EXPECT_EQ(QGuiApplication::styleHints()->startDragDistance(), LongPressHandler::PlatformDragDistance(2.0));
 
 }

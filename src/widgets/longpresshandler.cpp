@@ -19,6 +19,14 @@
 
 #include <utility>
 
+#include <QtGlobal>
+#include <QGuiApplication>
+#include <QStyleHints>
+#ifdef Q_OS_ANDROID
+#  include <QJniObject>
+#  include <QtCore/qcoreapplication_platform.h>
+#endif
+
 #include "longpresshandler.h"
 
 LongPressHandler::LongPressHandler(const int interval, const int drag_distance, QObject *parent)
@@ -32,6 +40,30 @@ LongPressHandler::LongPressHandler(const int interval, const int drag_distance, 
     triggered_ = true;
     Q_EMIT LongPressed(position_);
   });
+
+}
+
+int LongPressHandler::PlatformInterval() {
+
+#ifdef Q_OS_ANDROID
+  const int interval = QJniObject::callStaticMethod<jint>("android/view/ViewConfiguration", "getLongPressTimeout", "()I");
+  if (interval > 0) return interval;
+#endif
+  return QGuiApplication::styleHints()->mousePressAndHoldInterval();
+
+}
+
+int LongPressHandler::PlatformDragDistance(const qreal device_pixel_ratio) {
+
+#ifdef Q_OS_ANDROID
+  const QJniObject configuration = QJniObject::callStaticObjectMethod("android/view/ViewConfiguration", "get", "(Landroid/content/Context;)Landroid/view/ViewConfiguration;", QNativeInterface::QAndroidApplication::context().object());
+  // Android reports the touch slop in physical pixels.
+  const int touch_slop = configuration.isValid() ? configuration.callMethod<jint>("getScaledTouchSlop", "()I") : 0;
+  if (touch_slop > 0 && device_pixel_ratio > 0) return qRound(touch_slop / device_pixel_ratio);
+#else
+  Q_UNUSED(device_pixel_ratio)
+#endif
+  return QGuiApplication::styleHints()->startDragDistance();
 
 }
 

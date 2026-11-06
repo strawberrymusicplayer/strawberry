@@ -30,6 +30,10 @@ class LongPressHandler : public QObject {
  public:
   explicit LongPressHandler(const int interval, const int drag_distance, QObject *parent = nullptr);
 
+  // The platform's long-press timeout in milliseconds, and the movement in device-independent pixels that cancels a press.
+  static int PlatformInterval();
+  static int PlatformDragDistance(const qreal device_pixel_ratio);
+
   void Press(const QPoint &position);
   bool Move(const QPoint &position);
   bool Release();

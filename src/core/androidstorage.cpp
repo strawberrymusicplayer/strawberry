@@ -105,8 +105,18 @@ void RequestAudioPermission() {
   QNativeInterface::QAndroidApplication::runOnAndroidMainThread([permission]() {
     QJniObject activity = Context();
     if (!activity.isValid()) return;
-    if (activity.callMethod<jint>("checkSelfPermission", "(Ljava/lang/String;)I", QJniObject::fromString(permission).object<jstring>()) == kPermissionGranted) return;
     QJniEnvironment env;
+    // A failed QJniObject call returns 0, which equals PERMISSION_GRANTED, so call through QJniEnvironment to detect the failure.
+    const jmethodID check_permission = env.findMethod(activity.objectClass(), "checkSelfPermission", "(Ljava/lang/String;)I");
+    const QJniObject permission_string = QJniObject::fromString(permission);
+    const jint state = check_permission ? env->CallIntMethod(activity.object(), check_permission, permission_string.object<jstring>()) : kPermissionGranted;
+    if (!check_permission || env.checkAndClearExceptions()) {
+      // Android shows no prompt when the permission was already granted, so requesting it is safe.
+      qLog(Error) << "Could not check permission" << permission << "- requesting it";
+    }
+    else if (state == kPermissionGranted) {
+      return;
+    }
     jobjectArray permissions = NewStringArray(env, QStringList() << permission);
     activity.callMethod<void>("requestPermissions", "([Ljava/lang/String;I)V", permissions, kPermissionRequestCode);
     env->DeleteLocalRef(permissions);
