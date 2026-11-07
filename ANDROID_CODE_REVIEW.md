@@ -16,6 +16,7 @@ Handoff notes for continuing in a new session:
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
 - Deploy: zipalign and sign with the debug keystore, `adb install -r`, launch with `adb shell monkey -p org.qtproject.example.strawberry 1` (see `ANDROID_EMULATOR_TESTING.md`).
 - Start the emulator with `emulator -avd Medium_Phone_API_36.1 -no-snapshot-load -no-boot-anim -memory 4096 -gpu host -crash-report-mode never -no-metrics`; `-gpu swiftshader_indirect` is too slow, and a pending crash-report dialog blocks booting.
+  The host GPU emulation can still segfault after a long session (`null ctx` errors in the log); just start it again.
 - Write each screenshot to a new file name and view it only after the capture command has finished; viewing it in parallel shows the previous screenshot, which looks like display lag.
 - Screenshots are shown at 900×2000 while the screen is 1080×2400; multiply coordinates read from a screenshot by 1.2 for `adb shell input tap`.
 - Test music is in `/sdcard/Music/StrawberryTest`; the release APK is not debuggable, so check settings through the UI.
@@ -300,3 +301,17 @@ Handoff notes for continuing in a new session:
 
 **Resolved:**
 - The equalizer set a palette color on its value labels, which showed black under the page's style sheet; the shared `ValueButton` uses the `Link` foreground role like Settings, and the emulator now shows the values in the link color.
+
+### 24. Keep pages beside the left tab bar
+
+**Status:** Open
+
+- Some pages cover the left tab bar instead of sharing the screen with it like the sidebar tabs (Settings, Tools, Playlists).
+  These pages open as separate top-level windows sized to the whole main window or screen:
+  - Equalizer: `MainWindow::ShowEqualizer()` sets its geometry to the main window's.
+  - Song and collection action page (with Remove song): `ActionDialog::SetupPage()` uses `Qt::WindowFullScreen`.
+  - Probably also the cover manager and transcoder, opened from Tools as separate windows; check on the emulator.
+- While these pages are open, the tab bar is hidden or unreachable.
+  Show them in the content area beside the bar instead, either as pages in the tab's content stack (as Settings does with `android_settings_tab_`) or with geometry limited to the content area.
+  Keep Back returning exactly one level, and leave the confirmation overlay from point 16 covering the full window, since it is modal.
+- Afterwards, check that Back, the Android keyboard, and rotation still work on each page.
