@@ -10,11 +10,11 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: point 9; points 21 and 22 were found during testing.
+- Next: point 10; points 21-23 were found during testing.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 5` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
 - Deploy: zipalign and sign with the debug keystore, `adb install -r`, launch with `adb shell monkey -p org.qtproject.example.strawberry 1` (see `ANDROID_EMULATOR_TESTING.md`).
-- The emulator display lags 20-60 seconds behind input; wait before each screenshot, and cold-boot it (`emulator -avd Medium_Phone_API_36.1 -no-snapshot-load -memory 4096`) if it gets slower.
+- The app's screen lags 30 seconds to over two minutes behind input (point 23), although taps are handled immediately; wait before each screenshot and check `adb shell top` before blaming the emulator.
 - Test music is in `/sdcard/Music/StrawberryTest`; the release APK is not debuggable, so check settings through the UI.
 
 ## Correctness and safety
@@ -131,10 +131,14 @@ Handoff notes for continuing in a new session:
 
 ### 9. Stop rebuilding the equalizer preset button
 
-**Status:** Open
+**Status:** Done
 
-- `Equalizer::UpdateAndroidPreset()` deletes and recreates the button layout and label on every gain change; `UpdateAndroidFoldouts()` finds its label with `findChild`.
-- Fix: keep the value labels as members and update their text.
+- `Equalizer::UpdateAndroidPreset()` deleted and recreated the button layout and label on every gain change; `UpdateAndroidFoldouts()` found its label with `findChild`.
+
+**Resolved:**
+- `AddAndroidValueLabel()` creates the bold, link-colored value label of both buttons once; `android_preset_value_` and `android_foldout_mode_label_` keep them, and the update functions only set the text.
+- The Android APK builds and the native equalizer test passes.
+  On the emulator, selecting Classical and raising 60 Hz showed "Classical *" right away; selecting Custom and disabling the equalizer restored the original state.
 
 ### 10. Share the Android page header
 
@@ -231,3 +235,10 @@ Handoff notes for continuing in a new session:
 
 - The Android equalizer's Preset and Collapse behaviour of sections buttons show their values in bold black, while Settings shows values in the bold link color, as the Android guidelines require.
   Resolve together with point 12.
+
+### 23. Screen updates reach the display late
+
+**Status:** Open
+
+- On the emulator, the app's screen often stays unchanged for 30 seconds to over two minutes after a tap, while the app itself is idle (0% CPU) and has already handled the input; the status bar clock keeps updating.
+- Investigate together with point 17: the frame is probably rendered but not flushed until a later update.

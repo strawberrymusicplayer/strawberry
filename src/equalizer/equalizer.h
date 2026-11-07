@@ -120,11 +120,13 @@ class Equalizer : public QDialog {
   QList<QToolButton *> android_sections_;
   QList<QWidget *> android_section_contents_;
   QPushButton *android_foldout_mode_ = nullptr;
+  QLabel *android_foldout_mode_label_ = nullptr;
   AndroidFoldoutMode android_foldout_mode_value_ = AndroidFoldoutMode::AllCollapsed;
   QStackedWidget *android_pages_ = nullptr;
   QScrollArea *android_main_ = nullptr;
   QLabel *android_title_ = nullptr;
   QPushButton *android_preset_ = nullptr;
+  QLabel *android_preset_value_ = nullptr;
 #endif
 
  private:

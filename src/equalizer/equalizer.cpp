@@ -141,6 +141,24 @@ class AndroidEqualizerBandLayout : public QLayout {
 
   QList<QLayoutItem *> items_;
 };
+
+QLabel *AddAndroidValueLabel(QPushButton *button) {
+
+  QVBoxLayout *layout = new QVBoxLayout(button);
+  QLabel *value = new QLabel(button);
+  value->setAttribute(Qt::WA_TransparentForMouseEvents);
+  value->setTextFormat(Qt::PlainText);
+  value->setWordWrap(true);
+  QFont font = value->font();
+  font.setBold(true);
+  value->setFont(font);
+  QPalette palette = value->palette();
+  palette.setColor(QPalette::WindowText, palette.color(QPalette::Link));
+  value->setPalette(palette);
+  layout->addWidget(value);
+  return value;
+
+}
 #endif
 }  // namespace
 
@@ -606,6 +624,7 @@ void Equalizer::SetupAndroidLayout() {
   android_preset_ = new AndroidSettingsButton<QPushButton>(content);
   preset_label->setBuddy(android_preset_);
   android_preset_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  android_preset_value_ = AddAndroidValueLabel(android_preset_);
   UpdateAndroidPreset();
   preset_section->addWidget(android_preset_);
   for (QToolButton *button : {ui_->preset_save, ui_->preset_del}) {
@@ -621,17 +640,7 @@ void Equalizer::SetupAndroidLayout() {
   controls->addWidget(mode_label);
   android_foldout_mode_ = new AndroidSettingsButton<QPushButton>(content);
   mode_label->setBuddy(android_foldout_mode_);
-  QVBoxLayout *mode_layout = new QVBoxLayout(android_foldout_mode_);
-  QLabel *mode_value = new QLabel(android_foldout_mode_);
-  mode_value->setAttribute(Qt::WA_TransparentForMouseEvents);
-  mode_value->setWordWrap(true);
-  QFont mode_font = mode_value->font();
-  mode_font.setBold(true);
-  mode_value->setFont(mode_font);
-  QPalette mode_palette = mode_value->palette();
-  mode_palette.setColor(QPalette::WindowText, mode_palette.color(QPalette::Link));
-  mode_value->setPalette(mode_palette);
-  mode_layout->addWidget(mode_value);
+  android_foldout_mode_label_ = AddAndroidValueLabel(android_foldout_mode_);
   controls->addWidget(android_foldout_mode_);
   Settings foldout_settings;
   foldout_settings.beginGroup(kSettingsGroup);
@@ -714,27 +723,9 @@ void Equalizer::SetupAndroidLayout() {
 
 void Equalizer::UpdateAndroidPreset() {
 
-  if (!android_preset_) return;
-  if (QLayout *old_layout = android_preset_->layout()) {
-    while (QLayoutItem *item = old_layout->takeAt(0)) {
-      delete item->widget();
-      delete item;
-    }
-  }
-  delete android_preset_->layout();
-  QVBoxLayout *layout = new QVBoxLayout(android_preset_);
+  if (!android_preset_value_) return;
   const bool edited = presets_.value(ui_->preset->currentData().toString()) != current_params();
-  QLabel *value = new QLabel(ui_->preset->currentText() + (edited ? u" *"_s : QString()), android_preset_);
-  value->setAttribute(Qt::WA_TransparentForMouseEvents);
-  value->setTextFormat(Qt::PlainText);
-  value->setWordWrap(true);
-  QFont font = value->font();
-  font.setBold(true);
-  value->setFont(font);
-  QPalette palette = value->palette();
-  palette.setColor(QPalette::WindowText, palette.color(QPalette::Link));
-  value->setPalette(palette);
-  layout->addWidget(value);
+  android_preset_value_->setText(ui_->preset->currentText() + (edited ? u" *"_s : QString()));
   android_preset_->setAccessibleName(tr("Preset") + u": "_s + ui_->preset->currentText());
   const QString selected = ui_->preset->currentData().toString();
   ui_->preset_del->setEnabled(selected != QLatin1String(kCustomPreset));
@@ -767,7 +758,7 @@ QString Equalizer::AndroidFoldoutModeName(const AndroidFoldoutMode mode) {
 void Equalizer::UpdateAndroidFoldouts() {
 
   const QString mode_name = AndroidFoldoutModeName(android_foldout_mode_value_);
-  android_foldout_mode_->findChild<QLabel *>()->setText(mode_name);
+  android_foldout_mode_label_->setText(mode_name);
   android_foldout_mode_->setAccessibleName(tr("Collapse behaviour of sections") + u": "_s + mode_name);
   for (int i = 0; i < android_sections_.count(); ++i) {
     const bool open = android_sections_.at(i)->isChecked();
