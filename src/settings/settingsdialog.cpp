@@ -567,6 +567,7 @@ void SettingsDialog::OpenOverview() {
   while (!android_subpages_.isEmpty()) CloseAndroidSubpage();
   SetAndroidTitle();
   SetAndroidNavigationPage(android_categories_page_);
+  ui_->buttonBox->hide();
   show();
 
 }

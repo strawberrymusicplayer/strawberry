@@ -10,7 +10,7 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: point 12 (share the value buttons and choice rows; resolve point 22 with it); point 21 was also found during testing.
+- Next: point 12 (share the value buttons and choice rows; resolve point 22 with it).
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 5` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
 - Deploy: zipalign and sign with the debug keystore, `adb install -r`, launch with `adb shell monkey -p org.qtproject.example.strawberry 1` (see `ANDROID_EMULATOR_TESTING.md`).
@@ -237,10 +237,15 @@ Handoff notes for continuing in a new session:
 
 ### 21. Hide the dialog buttons on the Settings overview after Cancel
 
-**Status:** Open
+**Status:** Done
 
 - After Cancel (or OK) from a settings page, reopening Settings shows the overview with the Apply, Cancel, and OK buttons still visible.
   `SettingsDialog::OpenOverview()` does not hide the button box, unlike the other overview and category paths.
+
+**Resolved:**
+- `OpenOverview()` hides the button box.
+- The Android APK and the native build succeed.
+  On the emulator, the bug reproduced with the previous APK; with the fix, reopening Settings after Cancel and after OK from Behavior shows the overview without the buttons.
 
 ### 22. Show the equalizer values in the link color
 
