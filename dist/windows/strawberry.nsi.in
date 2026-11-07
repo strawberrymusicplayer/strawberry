@@ -467,7 +467,7 @@ Section "Strawberry" Strawberry
   File "libspeex.dll"
   File "pcre2-8.dll"
   File "pcre2-16.dll"
-  File "z.dll"
+  File "libz.dll"
   File "tiff.dll"
 !endif
 !ifdef debug
@@ -477,7 +477,7 @@ Section "Strawberry" Strawberry
   File "libspeexd.dll"
   File "pcre2-8d.dll"
   File "pcre2-16d.dll"
-  File "zd.dll"
+  File "libzd.dll"
   File "tiffd.dll"
 !endif
 
@@ -1007,7 +1007,7 @@ Section "Uninstall"
   Delete "$INSTDIR\libspeex.dll"
   Delete "$INSTDIR\pcre2-8.dll"
   Delete "$INSTDIR\pcre2-16.dll"
-  Delete "$INSTDIR\z.dll"
+  Delete "$INSTDIR\libz.dll"
   Delete "$INSTDIR\tiff.dll"
 !endif
 !ifdef debug
@@ -1017,7 +1017,7 @@ Section "Uninstall"
   Delete "$INSTDIR\libspeexd.dll"
   Delete "$INSTDIR\pcre2-8d.dll"
   Delete "$INSTDIR\pcre2-16d.dll"
-  Delete "$INSTDIR\zd.dll"
+  Delete "$INSTDIR\libzd.dll"
   Delete "$INSTDIR\tiffd.dll"
 !endif
 
