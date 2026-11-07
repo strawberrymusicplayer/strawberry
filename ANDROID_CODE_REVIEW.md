@@ -11,6 +11,7 @@ Status values: Open, Done, Won't fix (with a reason).
 Handoff notes for continuing in a new session:
 
 - Next: point 12 (share the value buttons and choice rows; resolve point 22 with it).
+  Point 23 (moving Android blocks into `*_android.cpp` files) comes after points 10–19.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 5` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
 - Deploy: zipalign and sign with the debug keystore, `adb install -r`, launch with `adb shell monkey -p org.qtproject.example.strawberry 1` (see `ANDROID_EMULATOR_TESTING.md`).
@@ -223,6 +224,24 @@ Handoff notes for continuing in a new session:
 
 - The `content` scheme check is repeated in `PlaylistManager::SaveWithUI()` and `PlaylistParser::Save()`.
 - `PlaylistParser::Save()` checks `flush()` but not the result of closing a document.
+
+### 23. Move large Android blocks into `*_android.cpp` files
+
+**Status:** Open
+
+- Large `#ifdef Q_OS_ANDROID` blocks in shared files make them harder to read and cause more conflicts when merging upstream.
+  Approximate lines inside Android guards: `equalizer.cpp` 580, `settingsdialog.cpp` 380, `mainwindow.cpp` 330, `playlistview.cpp` 210.
+- Do this after points 10–19, so the code that gets moved has already been cleaned up.
+
+**Plan:**
+1. Do one file at a time, in this order: `mainwindow.cpp`, `settingsdialog.cpp`, `equalizer.cpp`, `playlistview.cpp`.
+   - Move whole Android-only functions and large blocks into `mainwindow_android.cpp` (and similarly named files) as private member functions or free helpers.
+   - In the shared file, leave a single guarded call, for example `#ifdef Q_OS_ANDROID` `SetupAndroidUi();` `#endif`.
+   - Add the new files under an Android condition in `CMakeLists.txt`, in the same way the existing platform files (`_win.cpp`, `.mm`) are selected.
+   - Leave small one-line guards where they are; moving them only adds more indirection.
+2. Check each step: build the Android APK and `build/native`, run the focused native tests, and spot-check on the emulator.
+   The main thing to confirm is that the desktop build is unchanged in behavior.
+3. Afterwards, merge upstream to confirm that the shared files conflict less.
 
 ## Needs a decision
 
