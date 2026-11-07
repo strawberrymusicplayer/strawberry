@@ -18,13 +18,19 @@
 
 #include "androidwidgets.h"
 
+#include <QAbstractButton>
 #include <QCoreApplication>
 #include <QFont>
+#include <QFrame>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QPalette>
 #include <QPushButton>
+#include <QScrollArea>
 #include <QSize>
+#include <QSizePolicy>
 #include <QString>
+#include <QVBoxLayout>
 
 #include "core/iconloader.h"
 
@@ -34,6 +40,7 @@ namespace AndroidWidgets {
 
 namespace {
 constexpr int kPageTitlePointSize = 18;
+constexpr qreal kNavigationTextScale = 1.15;
 }
 
 void SetPageTitleFont(QWidget *widget) {
@@ -63,6 +70,46 @@ QHBoxLayout *CreatePageHeader(QLabel *title, QPushButton *back) {
   header->addWidget(title, 1);
   header->addWidget(back);
   return header;
+
+}
+
+void StyleNavigationButton(QAbstractButton *button, const int minimum_height) {
+
+  QFont font = button->font();
+  font.setPointSizeF(font.pointSizeF() * kNavigationTextScale);
+  button->setFont(font);
+  button->setStyleSheet(u"text-align: left; padding-left: 24px;"_s);
+  button->setMinimumHeight(minimum_height);
+  button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+}
+
+void SetWindowBackground(QScrollArea *area) {
+
+  area->setBackgroundRole(QPalette::Window);
+  area->setAutoFillBackground(true);
+  area->viewport()->setBackgroundRole(QPalette::Window);
+  area->viewport()->setAutoFillBackground(true);
+
+}
+
+ScrollPage CreateScrollPage(QWidget *parent) {
+
+  QScrollArea *area = new QScrollArea(parent);
+  area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  area->setWidgetResizable(true);
+  area->setFrameShape(QFrame::NoFrame);
+  SetWindowBackground(area);
+
+  QWidget *contents = new QWidget(area);
+  contents->setBackgroundRole(QPalette::Window);
+  contents->setAutoFillBackground(true);
+  QVBoxLayout *layout = new QVBoxLayout(contents);
+  layout->setContentsMargins(0, 0, 0, 0);
+  layout->setSpacing(8);
+  area->setWidget(contents);
+
+  return {area, contents, layout};
 
 }
 

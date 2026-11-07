@@ -25,9 +25,12 @@
 
 #ifdef Q_OS_ANDROID
 
+class QAbstractButton;
 class QHBoxLayout;
 class QLabel;
 class QPushButton;
+class QScrollArea;
+class QVBoxLayout;
 class QWidget;
 
 // Shared building blocks for the Android page layouts.
@@ -41,6 +44,21 @@ void SetPageTitleFont(QWidget *widget);
 QPushButton *CreateBackButton(QWidget *parent);
 // Returns a row with the breadcrumb title, which takes the free space, followed by the Back button.
 QHBoxLayout *CreatePageHeader(QLabel *title, QPushButton *back);
+
+// Styles a full-width navigation button: larger, left-aligned text with a fixed height.
+void StyleNavigationButton(QAbstractButton *button, int minimum_height);
+
+// Fills the scroll area and its viewport with the window color.
+void SetWindowBackground(QScrollArea *area);
+
+struct ScrollPage {
+  QScrollArea *area;
+  QWidget *contents;
+  QVBoxLayout *layout;
+};
+
+// Returns a vertically scrolling, window-colored page whose contents use a margin-free vertical layout.
+ScrollPage CreateScrollPage(QWidget *parent);
 
 }  // namespace AndroidWidgets
 

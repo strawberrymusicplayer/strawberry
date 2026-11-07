@@ -135,6 +135,10 @@ using namespace Qt::Literals::StringLiterals;
 namespace {
 constexpr char kSettingsGroup[] = "SettingsDialog";
 constexpr char kGeometry[] = "geometry";
+#ifdef Q_OS_ANDROID
+constexpr int kAndroidCategoryButtonHeight = 64;
+constexpr int kAndroidHelpButtonHeight = 56;
+#endif
 }
 
 SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
@@ -234,40 +238,21 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
   categories_layout->setSpacing(8);
   android_navigation_->addWidget(android_categories_page_);
   const QStringList category_icon_names = {u"strawberry"_s, u"view-choose"_s, u"applications-internet"_s};
-  const auto style_navigation_button = [](QPushButton *button) {
-    QFont font = button->font();
-    font.setPointSizeF(font.pointSizeF() * 1.15);
-    button->setFont(font);
-    button->setStyleSheet(u"text-align: left; padding-left: 24px;"_s);
-  };
 
   QTreeWidgetItem *root = ui_->list->invisibleRootItem();
   for (int i = 0; i < root->childCount(); ++i) {
     QTreeWidgetItem *category = root->child(i);
-    QScrollArea *category_page = new QScrollArea(android_navigation_);
-    category_page->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    category_page->setWidgetResizable(true);
-    category_page->setFrameShape(QFrame::NoFrame);
-    category_page->setBackgroundRole(QPalette::Window);
-    category_page->setAutoFillBackground(true);
-    category_page->viewport()->setBackgroundRole(QPalette::Window);
-    category_page->viewport()->setAutoFillBackground(true);
-    QWidget *category_contents = new QWidget(category_page);
-    category_contents->setBackgroundRole(QPalette::Window);
-    category_contents->setAutoFillBackground(true);
-    auto *category_layout = new QVBoxLayout(category_contents);
-    category_layout->setContentsMargins(0, 0, 0, 0);
-    category_layout->setSpacing(8);
-    category_page->setWidget(category_contents);
+    const AndroidWidgets::ScrollPage scroll_page = AndroidWidgets::CreateScrollPage(android_navigation_);
+    QScrollArea *category_page = scroll_page.area;
+    QWidget *category_contents = scroll_page.contents;
+    QVBoxLayout *category_layout = scroll_page.layout;
 
     QPushButton *category_button = new QPushButton(category->text(0), android_categories_page_);
     if (i < category_icon_names.size()) {
       category_button->setIcon(IconLoader::Load(category_icon_names.at(i)));
-      category_button->setIconSize(QSize(32, 32));
+      category_button->setIconSize(QSize(AndroidWidgets::kNavigationIconSize, AndroidWidgets::kNavigationIconSize));
     }
-    category_button->setMinimumHeight(64);
-    category_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    style_navigation_button(category_button);
+    AndroidWidgets::StyleNavigationButton(category_button, kAndroidCategoryButtonHeight);
     categories_layout->addWidget(category_button);
     QObject::connect(category_button, &QPushButton::clicked, this, [this, category_page, category]() {
       android_current_category_page_ = category_page;
@@ -282,10 +267,8 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
       if (page_it == pages_.cend()) continue;
 
       QPushButton *page_button = new QPushButton(item->icon(0), item->text(0), category_contents);
-      page_button->setIconSize(QSize(32, 32));
-      page_button->setMinimumHeight(64);
-      page_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-      style_navigation_button(page_button);
+      page_button->setIconSize(QSize(AndroidWidgets::kNavigationIconSize, AndroidWidgets::kNavigationIconSize));
+      AndroidWidgets::StyleNavigationButton(page_button, kAndroidCategoryButtonHeight);
       category_layout->addWidget(page_button);
       android_category_pages_.insert(page_it.key(), category_page);
       QObject::connect(page_button, &QPushButton::clicked, this, [this, item, category_page]() {
@@ -515,10 +498,7 @@ void SettingsDialog::AddPage(const Page id, SettingsPage *page, QTreeWidgetItem 
   area->setWidgetResizable(true);
   area->setFrameShape(QFrame::NoFrame);
 #ifdef Q_OS_ANDROID
-  area->setBackgroundRole(QPalette::Window);
-  area->setAutoFillBackground(true);
-  area->viewport()->setBackgroundRole(QPalette::Window);
-  area->viewport()->setAutoFillBackground(true);
+  AndroidWidgets::SetWindowBackground(area);
 #endif
 #ifndef Q_OS_ANDROID
   area->setMinimumWidth(page->layout()->minimumSize().width());
@@ -593,44 +573,21 @@ void SettingsDialog::OpenOverview() {
 
 void SettingsDialog::AddAndroidHelpCategory(const QList<QAction*> &actions) {
 
-  QScrollArea *help_page = new QScrollArea(android_navigation_);
-  help_page->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  help_page->setWidgetResizable(true);
-  help_page->setFrameShape(QFrame::NoFrame);
-  help_page->setBackgroundRole(QPalette::Window);
-  help_page->setAutoFillBackground(true);
-  help_page->viewport()->setBackgroundRole(QPalette::Window);
-  help_page->viewport()->setAutoFillBackground(true);
-  QWidget *help_contents = new QWidget(help_page);
-  help_contents->setBackgroundRole(QPalette::Window);
-  help_contents->setAutoFillBackground(true);
-  auto *help_layout = new QVBoxLayout(help_contents);
-  help_layout->setContentsMargins(0, 0, 0, 0);
-  help_layout->setSpacing(8);
-  help_page->setWidget(help_contents);
+  const AndroidWidgets::ScrollPage scroll_page = AndroidWidgets::CreateScrollPage(android_navigation_);
+  QScrollArea *help_page = scroll_page.area;
 
   for (QAction *action : actions) {
-    QPushButton *button = new QPushButton(action->icon(), action->iconText(), help_contents);
-    button->setMinimumHeight(56);
-    button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    QFont font = button->font();
-    font.setPointSizeF(font.pointSizeF() * 1.15);
-    button->setFont(font);
-    button->setStyleSheet(u"text-align: left; padding-left: 24px;"_s);
-    help_layout->addWidget(button);
+    QPushButton *button = new QPushButton(action->icon(), action->iconText(), scroll_page.contents);
+    AndroidWidgets::StyleNavigationButton(button, kAndroidHelpButtonHeight);
+    scroll_page.layout->addWidget(button);
     QObject::connect(button, &QPushButton::clicked, action, &QAction::trigger);
   }
-  help_layout->addStretch();
+  scroll_page.layout->addStretch();
   android_navigation_->addWidget(help_page);
 
   QPushButton *help_button = new QPushButton(IconLoader::Load(u"help-hint"_s), tr("Help"), android_categories_page_);
-  help_button->setIconSize(QSize(32, 32));
-  help_button->setMinimumHeight(64);
-  help_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-  QFont help_font = help_button->font();
-  help_font.setPointSizeF(help_font.pointSizeF() * 1.15);
-  help_button->setFont(help_font);
-  help_button->setStyleSheet(u"text-align: left; padding-left: 24px;"_s);
+  help_button->setIconSize(QSize(AndroidWidgets::kNavigationIconSize, AndroidWidgets::kNavigationIconSize));
+  AndroidWidgets::StyleNavigationButton(help_button, kAndroidCategoryButtonHeight);
   // Insert above the trailing stretch of the overview.
   auto *categories_layout = qobject_cast<QVBoxLayout*>(android_categories_page_->layout());
   categories_layout->insertWidget(categories_layout->count() - 1, help_button);

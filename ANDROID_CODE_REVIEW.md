@@ -10,12 +10,13 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: point 11 (add its helpers to `src/widgets/androidwidgets.cpp`); points 21 and 22 were found during testing.
+- Next: point 12 (share the value buttons and choice rows; resolve point 22 with it); point 21 was also found during testing.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 5` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
 - Deploy: zipalign and sign with the debug keystore, `adb install -r`, launch with `adb shell monkey -p org.qtproject.example.strawberry 1` (see `ANDROID_EMULATOR_TESTING.md`).
 - Start the emulator with `emulator -avd Medium_Phone_API_36.1 -no-snapshot-load -no-boot-anim -memory 4096 -gpu host -crash-report-mode never -no-metrics`; `-gpu swiftshader_indirect` is too slow, and a pending crash-report dialog blocks booting.
 - Write each screenshot to a new file name and view it only after the capture command has finished; viewing it in parallel shows the previous screenshot, which looks like display lag.
+- Screenshots are shown at 900×2000 while the screen is 1080×2400; multiply coordinates read from a screenshot by 1.2 for `adb shell input tap`.
 - Test music is in `/sdcard/Music/StrawberryTest`; the release APK is not debuggable, so check settings through the UI.
 
 ## Correctness and safety
@@ -155,11 +156,17 @@ Handoff notes for continuing in a new session:
 
 ### 11. Share the large Android navigation buttons
 
-**Status:** Open
+**Status:** Done
 
 - Left-aligned buttons with 115% text and 24-pixel padding are built separately in the Tools page, the Files page, and the Settings categories and Help page.
 - The scroll area with a window-colored background is repeated three times in `SettingsDialog`.
-- Fix: shared helpers next to the page header.
+
+**Resolved:**
+- Added `AndroidWidgets::StyleNavigationButton()`, which takes the minimum height so each page keeps its button size (Tools 72, Settings 64, Help and Files 56), plus `SetWindowBackground()` and `CreateScrollPage()`.
+  The Settings category and Help pages use `CreateScrollPage()`, and the settings page scroll areas use `SetWindowBackground()`.
+- The Tools page keeps its own scroll area because it uses the style's default margins without a window-filled background.
+- The Android APK and the native desktop build succeed.
+  On the emulator, the Tools, Files, Settings overview, General, Help, and Behavior pages look unchanged.
 
 ### 12. Share the value buttons and choice rows
 

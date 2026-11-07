@@ -55,6 +55,7 @@
 #include "core/mimedata.h"
 #ifdef Q_OS_ANDROID
 #  include "core/androidstorage.h"
+#  include "widgets/androidwidgets.h"
 #endif
 #include "dialogs/deleteconfirmationdialog.h"
 #include "fileview.h"
@@ -67,6 +68,13 @@
 
 using std::make_unique;
 using namespace Qt::Literals::StringLiterals;
+
+#ifdef Q_OS_ANDROID
+namespace {
+constexpr int kAndroidPickerIconSize = 28;
+constexpr int kAndroidPickerButtonHeight = 56;
+}  // namespace
+#endif
 
 FileView::FileView(QWidget *parent)
     : QWidget(parent),
@@ -147,23 +155,16 @@ FileView::FileView(QWidget *parent)
   android_layout->addWidget(description);
 
   auto *select_files = new QPushButton(IconLoader::Load(u"document-new"_s), tr("Choose files"), android_page);
-  select_files->setIconSize(QSize(28, 28));
-  select_files->setMinimumHeight(56);
-  select_files->setStyleSheet(u"text-align: left; padding-left: 24px;"_s);
+  select_files->setIconSize(QSize(kAndroidPickerIconSize, kAndroidPickerIconSize));
+  AndroidWidgets::StyleNavigationButton(select_files, kAndroidPickerButtonHeight);
   QObject::connect(select_files, &QPushButton::clicked, this, &FileView::SelectFiles);
   android_layout->addWidget(select_files);
 
   auto *select_folder = new QPushButton(IconLoader::Load(u"folder"_s), tr("Choose folder"), android_page);
-  select_folder->setIconSize(QSize(28, 28));
-  select_folder->setMinimumHeight(56);
-  select_folder->setStyleSheet(u"text-align: left; padding-left: 24px;"_s);
+  select_folder->setIconSize(QSize(kAndroidPickerIconSize, kAndroidPickerIconSize));
+  AndroidWidgets::StyleNavigationButton(select_folder, kAndroidPickerButtonHeight);
   QObject::connect(select_folder, &QPushButton::clicked, this, &FileView::SelectFolder);
   android_layout->addWidget(select_folder);
-
-  QFont button_font = select_files->font();
-  button_font.setPointSizeF(button_font.pointSizeF() * 1.15);
-  select_files->setFont(button_font);
-  select_folder->setFont(button_font);
 
   android_layout->addStretch();
 

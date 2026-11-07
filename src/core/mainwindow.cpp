@@ -275,6 +275,9 @@ using namespace Qt::Literals::StringLiterals;
 namespace {
 const int kTrackSliderUpdateTimeMs = 200;
 const int kTrackPositionUpdateTimeMs = 1000;
+#ifdef Q_OS_ANDROID
+constexpr int kAndroidToolButtonHeight = 72;
+#endif
 
 // Returns the playlist the index belongs to, which is not necessarily the current playlist when a reply arrives, or nullptr when the row or the playlist was removed.
 Playlist *PlaylistOfIndex(const QPersistentModelIndex &idx) {
@@ -1500,13 +1503,8 @@ QWidget *MainWindow::CreateAndroidToolsPage() {
         });
       }
       button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-      button->setIconSize(QSize(32, 32));
-      button->setMinimumHeight(72);
-      button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-      QFont button_font = button->font();
-      button_font.setPointSizeF(button_font.pointSizeF() * 1.15);
-      button->setFont(button_font);
-      button->setStyleSheet(u"text-align: left; padding-left: 24px;"_s);
+      button->setIconSize(QSize(AndroidWidgets::kNavigationIconSize, AndroidWidgets::kNavigationIconSize));
+      AndroidWidgets::StyleNavigationButton(button, kAndroidToolButtonHeight);
       layout->addWidget(button);
     }
   };
