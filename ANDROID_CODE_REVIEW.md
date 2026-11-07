@@ -10,11 +10,11 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: finish the emulator check of point 8, then continue with point 9; points 21 and 22 were found during testing.
+- Next: point 9; points 21 and 22 were found during testing.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 5` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
 - Deploy: zipalign and sign with the debug keystore, `adb install -r`, launch with `adb shell monkey -p org.qtproject.example.strawberry 1` (see `ANDROID_EMULATOR_TESTING.md`).
-- The emulator became very slow (low memory, display lagging minutes behind); reboot it before UI testing.
+- The emulator display lags 20-60 seconds behind input; wait before each screenshot, and cold-boot it (`emulator -avd Medium_Phone_API_36.1 -no-snapshot-load -memory 4096`) if it gets slower.
 - Test music is in `/sdcard/Music/StrawberryTest`; the release APK is not debuggable, so check settings through the UI.
 
 ## Correctness and safety
@@ -117,17 +117,17 @@ Handoff notes for continuing in a new session:
 
 ### 8. Simplify the equalizer gain control
 
-**Status:** In progress (code committed; emulator check pending)
+**Status:** Done
 
 - `EqualizerSlider::OnValueChanged()` duplicated the dB conversion of `gain_db()`.
 - `gain_editor_` was stored as `QDoubleSpinBox *` and cast with `static_cast<AndroidGainSpinBox *>`.
 - The gain colors were scattered hex literals.
 
-**Done so far:**
+**Resolved:**
 - `OnValueChanged()` uses `gain_db()`; the Android editor update is shared in `UpdateGainEditor()`; `gain_editor_` has the real type `EqualizerGainSpinBox`; colors and the preamp mute value are named constants.
 - Added fractional dB label checks; all 7 native equalizer tests pass and the Android APK builds.
-
-**Remaining:** on the emulator, enable the equalizer, open Bass, and check the up/down arrows and the green/red/blue gain colors; then restore the gain to 0 and disable the equalizer again.
+- On the emulator, the Bass up arrow gave +0.96 in green, the down arrow −0.96 in red, and 0.00 stayed blue; disabling the equalizer greyed out the arrows.
+  The gains were restored to 0 and the equalizer disabled afterwards.
 
 ### 9. Stop rebuilding the equalizer preset button
 
