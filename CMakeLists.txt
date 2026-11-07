@@ -975,7 +975,6 @@ set(HEADERS
   src/engine/enginebase.h
   src/engine/audiodevicelisters.h
   src/engine/gstengine.h
-  src/engine/streammetadataparser.h
   src/engine/gstenginepipeline.h
 
   src/analyzer/analyzerbase.h
