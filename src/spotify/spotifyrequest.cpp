@@ -755,23 +755,28 @@ void SpotifyRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_a
         }
         QJsonObject obj_artist = value.toObject();
         if (obj_artist.isEmpty() || !obj_artist.contains("id"_L1) || !obj_artist.contains("name"_L1)) continue;
-        if (artist.artist_id.isEmpty() || artist.artist_id == artist_artist.artist_id) {
-          artist.artist_id = obj_artist["id"_L1].toString();
+        const QString artist_id = obj_artist["id"_L1].toString();
+        // The first listed artist is used, unless the requested artist is listed too, so every listed artist is compared with the requested artist.
+        const bool is_requested_artist = !artist_artist.artist_id.isEmpty() && artist_id == artist_artist.artist_id;
+        if (artist.artist_id.isEmpty() || is_requested_artist) {
+          artist.artist_id = artist_id;
           artist.artist = obj_artist["name"_L1].toString();
+          album.genre.clear();
           if (obj_artist.contains("genres"_L1) && obj_artist["genres"_L1].isArray()) {
             const QJsonArray array_genres = obj_artist["genres"_L1].toArray();
             if (!array_genres.isEmpty()) {
               album.genre = array_genres.first().toString();
             }
           }
-          if (artist.artist_id == artist_artist.artist_id) {
-            artist_matches = true;
-            break;
-          }
+        }
+        if (is_requested_artist) {
+          artist_matches = true;
+          break;
         }
       }
+      // Albums by other artists are skipped, but the other albums in the reply are still processed.
       if (!artist_matches && (type_ == Type::FavouriteArtists || type_ == Type::SearchArtists)) {
-        return;
+        continue;
       }
     }
 
