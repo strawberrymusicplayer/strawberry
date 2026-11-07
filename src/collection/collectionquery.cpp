@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -95,6 +95,18 @@ void CollectionQuery::AddWhere(const QString &column, const QVariant &value, con
 void CollectionQuery::AddCompilationRequirement(const bool compilation) {
   // The unary + is added to prevent sqlite from using the index idx_comp_artist.
   where_clauses_ << QStringLiteral("+compilation_effective = %1").arg(compilation ? 1 : 0);
+
+}
+
+void CollectionQuery::AddAlbumRequirement(const QString &effective_albumartist, const QString &album) {
+
+  if (effective_albumartist.isEmpty()) {
+    where_clauses_ << QLatin1String(kNoAlbumArtistWhereClause);
+  }
+  else {
+    AddWhere(u"effective_albumartist"_s, effective_albumartist);
+  }
+  AddWhere(u"album"_s, album);
 
 }
 

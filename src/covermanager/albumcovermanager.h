@@ -249,6 +249,7 @@ class AlbumCoverManager : public QMainWindow {
 
   QMultiMap<AlbumItem*, QUrl> cover_save_tasks_;
   QHash<AlbumItem*, bool> cover_save_results_;
+  QHash<AlbumItem*, QList<QUrl>> cover_saved_urls_;
 
   QListWidgetItem *all_artists_;
 
