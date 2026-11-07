@@ -332,11 +332,11 @@ Don't remove it unless the Android Qt kit is 6.9.2 or newer.
 - Reproduced with playlist song actions on the Qt 6.7.3 Android emulator: tapping Remove could activate Cancel.
 
 **Workaround:**
-Use a full-screen modal action page at the screen origin instead of a positioned native popup.
+Use a frameless, modal window that covers the app window instead of a positioned native popup.
 Keep confirmation controls on that same page.
-`PlaylistView::ShowAndroidSongActions()` uses this approach, with touch targets at least 48 logical pixels high.
+`ActionDialog` (`src/widgets/actiondialog.h`) implements this for the song actions, collection actions, and playlist deletion, with touch targets at least 48 logical pixels high.
 Validate actual touch input; a screenshot alone cannot establish that the hit regions match the displayed buttons.
-The action page also explicitly activates and focuses its window after opening; without this, Back and Escape can be ignored even though touch input works.
+The dialog also explicitly activates and focuses its window after opening, and again when releasing a long-press reactivates the main window; without this, Back and Escape are ignored even though touch input works.
 
 ---
 

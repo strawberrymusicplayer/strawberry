@@ -61,12 +61,9 @@
 #include <QSignalBlocker>
 #include <QUndoStack>
 #ifdef Q_OS_ANDROID
-#  include <QDialog>
-#  include <QLabel>
 #  include <QPushButton>
 #  include <QScreen>
-#  include <QShortcut>
-#  include <QVBoxLayout>
+#  include "widgets/actiondialog.h"
 #  include "widgets/longpresshandler.h"
 #endif
 
@@ -1120,45 +1117,12 @@ void PlaylistView::ShowAndroidSongActions(const QPoint position) {
     selectionModel()->setCurrentIndex(index, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
   }
   const int count = static_cast<int>(selectionModel()->selectedRows().count());
-  QDialog *dialog = new QDialog(this);
+  const QString title = count == 1 ? index.siblingAtColumn(static_cast<int>(Playlist::Column::Title)).data().toString() : tr("%n songs selected", "", count);
+  ActionDialog *dialog = new ActionDialog(this, tr("Playlist actions"), title, ActionDialog::TitlePosition::AboveButtons);
   android_song_actions_ = dialog;
-  dialog->setAttribute(Qt::WA_DeleteOnClose);
-  dialog->setWindowTitle(tr("Playlist actions"));
-  // Positioned native dialogs receive offset touch coordinates on Android; keep this window at the screen origin.
-  dialog->setWindowState(Qt::WindowFullScreen);
-  QVBoxLayout *layout = new QVBoxLayout(dialog);
-  layout->addStretch();
-  const QString title_text = count == 1 ? index.siblingAtColumn(static_cast<int>(Playlist::Column::Title)).data().toString() : tr("%n songs selected", "", count);
-  QLabel *title = new QLabel(title_text, dialog);
-  title->setTextFormat(Qt::PlainText);
-  title->setWordWrap(true);
-  layout->addWidget(title);
-  QPushButton *remove = new QPushButton(count == 1 ? tr("Remove song") : tr("Remove %n songs", "", count), dialog);
-  QPushButton *clear = new QPushButton(tr("Clear playlist"), dialog);
-  QPushButton *confirm = new QPushButton(tr("Remove songs"), dialog);
-  QPushButton *cancel = new QPushButton(tr("Cancel"), dialog);
-  for (QPushButton *button : {remove, clear, confirm, cancel}) {
-    button->setMinimumHeight(48);
-    button->setAutoDefault(false);
-    layout->addWidget(button);
-  }
-  confirm->hide();
-  layout->addStretch();
-  QShortcut *back = new QShortcut(dialog);
-  back->setKeys({QKeySequence(Qt::Key_Back), QKeySequence(Qt::Key_Escape)});
-  QObject::connect(back, &QShortcut::activated, dialog, [dialog, title, title_text, remove, clear, confirm]() {
-    if (confirm->isVisible()) {
-      confirm->hide();
-      QObject::disconnect(confirm, &QPushButton::clicked, dialog, nullptr);
-      title->setText(title_text);
-      remove->show();
-      clear->show();
-    }
-    else {
-      dialog->reject();
-    }
-  });
-  QObject::connect(cancel, &QPushButton::clicked, dialog, &QDialog::reject);
+  QPushButton *remove = dialog->AddButton(count == 1 ? tr("Remove song") : tr("Remove %n songs", "", count));
+  QPushButton *clear = dialog->AddButton(tr("Clear playlist"));
+  dialog->AddCancelButton(tr("Cancel"));
   QObject::connect(selectionModel(), &QItemSelectionModel::selectionChanged, dialog, [dialog]() {
     if (dialog->isVisible()) dialog->reject();
   });
@@ -1177,24 +1141,17 @@ void PlaylistView::ShowAndroidSongActions(const QPoint position) {
       RemoveSelected();
     }
   };
-  const auto choose = [this, dialog, title, remove, clear, confirm, count, perform](const bool clear_playlist) {
+  const auto choose = [this, dialog, count, perform](const bool clear_playlist) {
     const int removed_count = clear_playlist ? playlist_->rowCount() : count;
     if (removed_count <= Playlist::kUndoItemLimit) {
       perform(clear_playlist);
       return;
     }
-    title->setText(tr("Removing %n songs cannot be undone and will clear the undo history. Continue?", "", removed_count));
-    remove->hide();
-    clear->hide();
-    confirm->setText(clear_playlist ? tr("Clear playlist") : tr("Remove %n songs", "", removed_count));
-    confirm->show();
-    QObject::connect(confirm, &QPushButton::clicked, dialog, [perform, clear_playlist]() { perform(clear_playlist); });
+    dialog->AskConfirmation(tr("Removing %n songs cannot be undone and will clear the undo history. Continue?", "", removed_count), clear_playlist ? tr("Clear playlist") : tr("Remove %n songs", "", removed_count), [perform, clear_playlist]() { perform(clear_playlist); });
   };
   QObject::connect(remove, &QPushButton::clicked, dialog, [choose]() { choose(false); });
   QObject::connect(clear, &QPushButton::clicked, dialog, [choose]() { choose(true); });
-  dialog->open();
-  dialog->activateWindow();
-  dialog->setFocus(Qt::OtherFocusReason);
+  dialog->Open();
 
 }
 #endif

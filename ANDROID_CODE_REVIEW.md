@@ -10,7 +10,7 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: point 16 (share the Android action and confirmation dialogs).
+- Next: point 17 (remove redundant rendering workarounds).
   Point 23 (moving Android blocks into `*_android.cpp` files) comes after points 10–19.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 5` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
@@ -223,10 +223,24 @@ Handoff notes for continuing in a new session:
 
 ### 16. Share the Android action and confirmation dialogs
 
-**Status:** Open
+**Status:** Done
 
 - The playlist deletion overlay in `PlaylistListContainer::Delete()` (about 100 lines, including custom-painted icons) and the full-screen action dialogs in `PlaylistView` and `PlaylistActionHandler` each implement full-screen layout, Back-key handling, and 48-pixel buttons.
 - Fix: one reusable dialog class for these flows.
+
+**Resolved:**
+- Added `ActionDialog` in `src/widgets/`, built on all platforms so it can be tested natively.
+  It is a frameless, application-modal window that covers the parent's window and follows its geometry, deletes itself when closed, and handles Back and Escape.
+  It has two presentations: an action page with 48-pixel buttons (title at the top or above the buttons), and the approved compact confirmation with the red cross and green checkmark over a translucent backdrop.
+- `AskConfirmation()` provides the second step of the song actions (more than `kUndoItemLimit` songs): it replaces the actions with the question and a confirm button, and Back returns to the actions.
+- `PlaylistDeleteDialog` and the three hand-built layouts are gone; `PlaylistView`, `PlaylistActionHandler`, and `PlaylistListContainer` only add their buttons and connect their actions.
+- The action pages now cover the app window below the status bar instead of the whole screen, like the deletion confirmation; touch input stays correct because the window is still at the window origin.
+- Found during testing: Back after a long-press did nothing, also with the previous APK, because releasing the finger reactivated the main window.
+  The dialog now reactivates itself while it is visible, and Back closes the song actions right after the long-press.
+- Added `ActionDialogTest` (13 tests); the native action dialog, playlist action handler, and playlist tests pass, and the Android APK and native desktop build succeed.
+- On the emulator, the song actions open on long-press, Back and Cancel keep the song, and Remove song removes it (restored with Undo).
+  The playlist deletion confirmation looks unchanged, blocks background taps, Back and the cross cancel it, and the checkmark deleted a temporary folder.
+  The collection actions were not checked on the emulator because its collection is empty; the native handler tests cover them.
 
 ### 17. Remove redundant rendering workarounds
 

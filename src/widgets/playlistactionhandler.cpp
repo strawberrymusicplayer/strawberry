@@ -20,15 +20,12 @@
 
 #include <QAbstractItemView>
 #include <QApplication>
-#include <QDialog>
-#include <QLabel>
 #include <QMouseEvent>
 #include <QPushButton>
 #include <QScrollBar>
-#include <QShortcut>
-#include <QVBoxLayout>
 
 #include "core/mimedata.h"
+#include "actiondialog.h"
 #include "longpresshandler.h"
 #include "playlistactionhandler.h"
 
@@ -94,31 +91,11 @@ void PlaylistActionHandler::ShowActions() {
 
   if (!view_->isVisible() || !index_.isValid() || index_.model() != view_->model() || !eligible_(index_)) return;
   const QPersistentModelIndex index = index_;
-  QDialog *dialog = new QDialog(view_);
+  ActionDialog *dialog = new ActionDialog(view_, tr("Playlist actions"), tr("%1 > %2").arg(section_, index.data().toString()), ActionDialog::TitlePosition::Top);
   dialog_ = dialog;
-  dialog->setAttribute(Qt::WA_DeleteOnClose);
-  dialog->setWindowTitle(tr("Playlist actions"));
-  // Android positioned native dialogs receive offset touch coordinates.
-  dialog->setWindowState(Qt::WindowFullScreen);
-  QVBoxLayout *layout = new QVBoxLayout(dialog);
-  QLabel *title = new QLabel(tr("%1 > %2").arg(section_, index.data().toString()), dialog);
-  title->setTextFormat(Qt::PlainText);
-  title->setWordWrap(true);
-  layout->addWidget(title);
-  layout->addStretch();
-  QPushButton *create = new QPushButton(tr("Create saved playlist"), dialog);
-  QPushButton *play = new QPushButton(tr("Create and play"), dialog);
-  QPushButton *back = new QPushButton(tr("Back"), dialog);
-  for (QPushButton *button : {create, play, back}) {
-    button->setMinimumHeight(48);
-    button->setAutoDefault(false);
-    layout->addWidget(button);
-  }
-  layout->addStretch();
-  QShortcut *shortcut = new QShortcut(dialog);
-  shortcut->setKeys({QKeySequence(Qt::Key_Back), QKeySequence(Qt::Key_Escape)});
-  QObject::connect(shortcut, &QShortcut::activated, dialog, &QDialog::reject);
-  QObject::connect(back, &QPushButton::clicked, dialog, &QDialog::reject);
+  QPushButton *create = dialog->AddButton(tr("Create saved playlist"));
+  QPushButton *play = dialog->AddButton(tr("Create and play"));
+  dialog->AddCancelButton(tr("Back"));
   QObject::connect(view_->model(), &QAbstractItemModel::modelAboutToBeReset, dialog, &QDialog::reject);
   QObject::connect(view_->model(), &QAbstractItemModel::rowsAboutToBeRemoved, dialog, &QDialog::reject);
   QObject::connect(view_->model(), &QObject::destroyed, dialog, &QDialog::reject);
@@ -135,8 +112,6 @@ void PlaylistActionHandler::ShowActions() {
   };
   QObject::connect(create, &QPushButton::clicked, dialog, [perform]() { perform(false); });
   QObject::connect(play, &QPushButton::clicked, dialog, [perform]() { perform(true); });
-  dialog->open();
-  dialog->activateWindow();
-  dialog->setFocus(Qt::OtherFocusReason);
+  dialog->Open();
 
 }

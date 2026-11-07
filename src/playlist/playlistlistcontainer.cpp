@@ -48,13 +48,7 @@
 #ifdef Q_OS_ANDROID
 #  include <QFont>
 #  include <QStyle>
-#  include <QPushButton>
 #  include <QDialog>
-#  include <QVBoxLayout>
-#  include <QLabel>
-#  include <QPainterPath>
-#  include <QPalette>
-#  include <QKeyEvent>
 #endif
 
 #include "core/iconloader.h"
@@ -68,6 +62,9 @@
 #include "playlistmanager.h"
 #include "ui_playlistlistcontainer.h"
 #include "organize/organizedialog.h"
+#ifdef Q_OS_ANDROID
+#  include "widgets/actiondialog.h"
+#endif
 #include "constants/appearancesettings.h"
 #ifndef Q_OS_WIN32
 #  include "device/devicemanager.h"
@@ -77,26 +74,6 @@
 using std::make_unique;
 using namespace Qt::Literals::StringLiterals;
 
-#ifdef Q_OS_ANDROID
-namespace {
-
-class PlaylistDeleteDialog : public QDialog {
- public:
-  using QDialog::QDialog;
-
- protected:
-  void keyPressEvent(QKeyEvent *event) override {
-    if (event->key() == Qt::Key_Back || event->key() == Qt::Key_Escape) {
-      reject();
-      event->accept();
-      return;
-    }
-    QDialog::keyPressEvent(event);
-  }
-};
-
-}  // namespace
-#endif
 
 PlaylistListContainer::PlaylistListContainer(QWidget *parent)
     : QWidget(parent),
@@ -520,23 +497,6 @@ void PlaylistListContainer::Delete() {
   }
 
 #ifdef Q_OS_ANDROID
-  QDialog *overlay = new PlaylistDeleteDialog(this, Qt::FramelessWindowHint);
-  overlay->setAttribute(Qt::WA_DeleteOnClose);
-  overlay->setAttribute(Qt::WA_TranslucentBackground);
-  overlay->setWindowModality(Qt::ApplicationModal);
-  overlay->setWindowTitle(tr("Delete playlists"));
-  overlay->setGeometry(window()->geometry());
-  overlay->setAutoFillBackground(true);
-  QPalette overlay_palette = overlay->palette();
-  overlay_palette.setColor(QPalette::Window, QColor(0, 0, 0, 80));
-  overlay->setPalette(overlay_palette);
-  QVBoxLayout *overlay_layout = new QVBoxLayout(overlay);
-  QWidget *confirmation = new QWidget(overlay);
-  confirmation->setAutoFillBackground(true);
-  confirmation->setPalette(palette());
-  QVBoxLayout *confirmation_layout = new QVBoxLayout(confirmation);
-  confirmation_layout->setContentsMargins(20, 20, 20, 16);
-  confirmation_layout->setSpacing(16);
   QString question;
   if (ids.count() == 1) {
     const QStandardItem *item = model_->PlaylistById(*ids.cbegin());
@@ -548,51 +508,8 @@ void PlaylistListContainer::Delete() {
   else {
     question = tr("Are you sure you want to delete %1 playlists? Music files will not be deleted.").arg(ids.count());
   }
-  QLabel *warning = new QLabel(question, confirmation);
-  warning->setTextFormat(Qt::PlainText);
-  warning->setWordWrap(true);
-  confirmation_layout->addWidget(warning);
-  const auto action_icon = [](const bool accept) {
-    QPixmap pixmap(48, 48);
-    pixmap.fill(Qt::transparent);
-    QPainter painter(&pixmap);
-    painter.setRenderHint(QPainter::Antialiasing);
-    painter.setPen(QPen(accept ? QColor(u"#16803c"_s) : QColor(u"#d32f2f"_s), 5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-    if (accept) {
-      QPainterPath path;
-      path.moveTo(9, 25);
-      path.lineTo(20, 36);
-      path.lineTo(39, 12);
-      painter.drawPath(path);
-    }
-    else {
-      painter.drawLine(12, 12, 36, 36);
-      painter.drawLine(36, 12, 12, 36);
-    }
-    return QIcon(pixmap);
-  };
-  QPushButton *confirm = new QPushButton(confirmation);
-  QPushButton *cancel = new QPushButton(confirmation);
-  confirm->setIcon(action_icon(true));
-  confirm->setAccessibleName(tr("Delete playlist"));
-  confirm->setToolTip(tr("Delete"));
-  cancel->setIcon(action_icon(false));
-  cancel->setAccessibleName(tr("Cancel"));
-  cancel->setToolTip(tr("Cancel"));
-  QHBoxLayout *actions = new QHBoxLayout;
-  actions->addStretch();
-  for (QPushButton *button : {cancel, confirm}) {
-    button->setFixedSize(64, 64);
-    button->setIconSize(QSize(48, 48));
-    button->setFlat(true);
-    button->setAutoDefault(false);
-    actions->addWidget(button);
-  }
-  actions->addStretch();
-  confirmation_layout->addLayout(actions);
-  QObject::connect(confirm, &QPushButton::clicked, overlay, &QDialog::accept);
-  QObject::connect(cancel, &QPushButton::clicked, overlay, &QDialog::reject);
-  QObject::connect(overlay, &QDialog::accepted, this, [this, ids, folders_to_delete]() {
+  ActionDialog *confirmation = ActionDialog::CreateConfirmation(this, tr("Delete playlists"), question, tr("Delete playlist"));
+  QObject::connect(confirmation, &QDialog::accepted, this, [this, ids, folders_to_delete]() {
     for (const int id : ids) {
       playlist_manager_->Delete(id);
     }
@@ -600,12 +517,7 @@ void PlaylistListContainer::Delete() {
       if (idx.isValid()) model_->removeRow(idx.row(), idx.parent());
     }
   });
-  confirmation->setFixedWidth(qMin(360, window()->width() - 32));
-  confirmation->adjustSize();
-  overlay_layout->addWidget(confirmation, 0, Qt::AlignCenter);
-  overlay->show();
-  overlay->raise();
-  cancel->setFocus();
+  confirmation->Open();
   return;
 #else
   // Make sure the user really wants to unfavorite all these playlists.

@@ -910,6 +910,7 @@ set(SOURCES
   src/dialogs/messagedialog.cpp
   src/dialogs/saveplaylistsdialog.cpp
 
+  src/widgets/actiondialog.cpp
   src/widgets/autoexpandingtreeview.cpp
   src/widgets/busyindicator.cpp
   src/widgets/clickablelabel.cpp
@@ -1223,6 +1224,7 @@ set(HEADERS
   src/dialogs/messagedialog.h
   src/dialogs/saveplaylistsdialog.h
 
+  src/widgets/actiondialog.h
   src/widgets/autoexpandingtreeview.h
   src/widgets/busyindicator.h
   src/widgets/clickablelabel.h
