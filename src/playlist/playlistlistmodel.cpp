@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -87,25 +87,24 @@ void PlaylistListModel::RowsInserted(const QModelIndex &parent, const int start,
 
 void PlaylistListModel::AddRowMappings(const QModelIndex &begin, const QModelIndex &end) {
 
-  const QString parent_path = ItemPath(itemFromIndex(begin));
-
   for (int i = begin.row(); i <= end.row(); ++i) {
     const QModelIndex index = begin.sibling(i, 0);
     QStandardItem *item = itemFromIndex(index);
-    AddRowItem(item, parent_path);
+    AddRowItem(item);
   }
 
 }
 
-void PlaylistListModel::AddRowItem(QStandardItem *item, const QString &parent_path) {
+void PlaylistListModel::AddRowItem(QStandardItem *item) {
 
   switch (item->data(Role_Type).toInt()) {
     case Type_Playlist:{
       const int id = item->data(Role_PlaylistId).toInt();
 
       playlists_by_id_[id] = item;
+      // The path is taken from the playlist itself, the rows can be folders with subfolders, so the playlists can be in different folders.
       if (dropping_rows_) {
-        Q_EMIT PlaylistPathChanged(id, parent_path);
+        Q_EMIT PlaylistPathChanged(id, ItemPath(item));
       }
 
       break;
@@ -114,7 +113,7 @@ void PlaylistListModel::AddRowItem(QStandardItem *item, const QString &parent_pa
     case Type_Folder:
       for (int j = 0; j < item->rowCount(); ++j) {
         QStandardItem *child_item = item->child(j);
-        AddRowItem(child_item, parent_path);
+        AddRowItem(child_item);
       }
       break;
 
