@@ -47,6 +47,9 @@ class UrlHandlers;
 class PlaylistManager;
 class AnalyzerContainer;
 class Equalizer;
+#if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
+class SleepInhibitor;
+#endif
 
 class Player : public PlayerInterface {
   Q_OBJECT
@@ -151,6 +154,9 @@ class Player : public PlayerInterface {
   AnalyzerContainer *analyzer_;
   SharedPtr<Equalizer> equalizer_;
   QTimer *timer_save_volume_;
+#if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
+  SleepInhibitor *sleep_inhibitor_;
+#endif
 
   bool playlists_loaded_;
   bool play_requested_;

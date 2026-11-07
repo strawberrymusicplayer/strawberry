@@ -49,6 +49,9 @@
 #include "core/urlhandlers.h"
 #include "core/urlhandler.h"
 #include "core/enginemetadata.h"
+#if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
+#  include "core/sleepinhibitor.h"
+#endif
 #include "utilities/strutils.h"
 
 #include "engine/enginebase.h"
@@ -85,6 +88,9 @@ Player::Player(const SharedPtr<TaskManager> task_manager, const SharedPtr<UrlHan
       analyzer_(nullptr),
       equalizer_(nullptr),
       timer_save_volume_(new QTimer(this)),
+#if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
+      sleep_inhibitor_(new SleepInhibitor(this)),
+#endif
       playlists_loaded_(false),
       play_requested_(false),
       pause_(false),
@@ -162,6 +168,9 @@ void Player::ReloadSettings() {
   menu_previousmode_ = static_cast<BehaviourSettings::PreviousBehaviour>(s.value(BehaviourSettings::kMenuPreviousMode, static_cast<int>(BehaviourSettings::kDefaultMenuPreviousMode)).toInt());
   seek_step_sec_ = s.value(BehaviourSettings::kSeekStepSec, BehaviourSettings::kDefaultSeekStepSec).toInt();
   volume_increment_ = s.value(BehaviourSettings::kVolumeIncrement, BehaviourSettings::kDefaultVolumeIncrement).toUInt();
+#if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
+  sleep_inhibitor_->SetEnabled(s.value(BehaviourSettings::kInhibitSleep, BehaviourSettings::kDefaultInhibitSleep).toBool());
+#endif
   s.endGroup();
 
   engine_->ReloadSettings();
@@ -702,6 +711,10 @@ void Player::EngineStateChanged(const EngineBase::State state) {
   else if (state == EngineBase::State::Empty || state == EngineBase::State::Idle) {
     nb_errors_received_ = 0;
   }
+
+#if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
+  sleep_inhibitor_->SetPlaying(state == EngineBase::State::Playing);
+#endif
 
   switch (state) {
     case EngineBase::State::Paused:

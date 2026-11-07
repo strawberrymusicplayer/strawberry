@@ -75,6 +75,7 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
 
 #if !defined(HAVE_DBUS) || defined(Q_OS_MACOS)
   ui_->checkbox_taskbar_progress->hide();
+  ui_->checkbox_inhibit_sleep->hide();
 #endif
 
 #ifdef HAVE_TRANSLATIONS
@@ -161,6 +162,7 @@ void BehaviourSettingsPage::Load() {
 
 #if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
   ui_->checkbox_taskbar_progress->setChecked(s.value(kTaskbarProgress, kDefaultTaskbarProgress).toBool());
+  ui_->checkbox_inhibit_sleep->setChecked(s.value(kInhibitSleep, kDefaultInhibitSleep).toBool());
 #endif
 
   ui_->checkbox_resumeplayback->setChecked(s.value(kResumePlayback, kDefaultResumePlayback).toBool());
@@ -231,6 +233,7 @@ void BehaviourSettingsPage::Save() {
   s.setValue(kTrayIconProgress, ui_->checkbox_trayicon_progress->isChecked());
 #if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
   s.setValue(kTaskbarProgress, ui_->checkbox_taskbar_progress->isChecked());
+  s.setValue(kInhibitSleep, ui_->checkbox_inhibit_sleep->isChecked());
 #endif
   s.setValue(kResumePlayback, ui_->checkbox_resumeplayback->isChecked());
   s.setValue(kPlayingWidget, ui_->checkbox_playingwidget->isChecked());
