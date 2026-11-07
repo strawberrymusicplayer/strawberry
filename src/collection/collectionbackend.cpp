@@ -1638,6 +1638,10 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
     if (!filetype.isEmpty()) {
       key.append(filetype);
     }
+    // Songs from CUE sheets are listed as a separate album, the cover can't be embedded in them like for the songs in their own files, and the album only has the CUE sheet of its first song.
+    if (!key.isEmpty() && !album_info.cue_path.isEmpty()) {
+      key.append(u"-cue"_s);
+    }
 
     if (key.isEmpty()) continue;
 
@@ -1769,8 +1773,12 @@ void CollectionBackend::UpdateEmbeddedAlbumArtByUrls(const QList<QUrl> &urls, co
   QSqlDatabase db(db_->Connect());
 
   // Only the songs in the files the cover was saved to are updated, the album can have songs in other files, like copies of the album in another file type.
+  // Each URL is only used once, the songs of a CUE sheet share the URL of the file, and GetSongsByUrl() already returns all of them.
   SongList songs;
+  QList<QUrl> unique_urls;
   for (const QUrl &url : urls) {
+    if (unique_urls.contains(url)) continue;
+    unique_urls << url;
     songs << GetSongsByUrl(url);
   }
   if (songs.isEmpty()) return;
