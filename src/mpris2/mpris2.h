@@ -92,6 +92,9 @@ class Mpris2 : public QObject {
                   const SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader,
                   QObject *parent = nullptr);
 
+  // Returns the position in nanoseconds to seek to for a seek by the offset in microseconds from a D-Bus client, limited to the start and the end of the song.
+  static quint64 SeekPositionNanosec(const qint64 position_nanosec, const qint64 length_nanosec, const qint64 offset_usec);
+
   // These properties are exposed over D-Bus, where change notification is done through the org.freedesktop.DBus.Properties.PropertiesChanged signal emitted by EmitNotification, so the dynamic properties have no Qt NOTIFY signal.
 
   // org.mpris.MediaPlayer2 MPRIS 2.0 Root interface

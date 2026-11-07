@@ -163,6 +163,10 @@ endif()
 if(LINUX)
   add_test_file(src/filesystemwatcherinotify_test.cpp false)
 endif()
+if(HAVE_MPRIS2)
+  add_test_file(src/mpris2_test.cpp false)
+  target_link_libraries(mpris2_test PRIVATE Qt${QT_VERSION_MAJOR}::DBus)
+endif()
 
 add_custom_target(run_strawberry_tests COMMAND ${CMAKE_CTEST_COMMAND} -V DEPENDS strawberry_tests)
 

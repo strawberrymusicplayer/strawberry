@@ -97,6 +97,7 @@ class Player : public PlayerInterface {
   void VolumeUp() override;
   void VolumeDown() override;
   void SeekTo(const quint64 seconds) override;
+  void SeekToNanosec(const quint64 nanosec);
   void SeekForward() override;
   void SeekBackward() override;
 
@@ -143,8 +144,6 @@ class Player : public PlayerInterface {
   void UnPause();
 
   void SetMuted(const bool mute);
-
-  void SeekToNanosec(const quint64 nanosec);
 
  private:
   const SharedPtr<TaskManager> task_manager_;
