@@ -54,7 +54,7 @@
 #include "core/settings.h"
 #include "settings/settingspage.h"
 #include "settings/settingsdialog.h"
-#include "settings/androidsettingspage.h"
+#include "widgets/androidwidgets.h"
 #include "behavioursettingspage.h"
 #include "ui_behavioursettingspage.h"
 
@@ -176,37 +176,21 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
     group->setTitle(QString());
     controls_layout->setDirection(QBoxLayout::TopToBottom);
     controls_layout->setAlignment(Qt::AlignTop);
-    auto *button = new AndroidSettingsButton<QPushButton>(this);
-    button->setMinimumHeight(48);
-    button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    button->setAccessibleName(title);
-    button->setProperty("androidSettingsNavigation", true);
-    auto *button_layout = new QVBoxLayout(button);
-    auto *caption = new QLabel(title + u" >"_s, button);
-    caption->setWordWrap(true);
-    caption->setAttribute(Qt::WA_TransparentForMouseEvents);
-    button_layout->addWidget(caption);
-    auto *summary = new QLabel(button);
-    QFont summary_font = summary->font();
-    summary_font.setBold(true);
-    summary->setFont(summary_font);
-    summary->setForegroundRole(QPalette::Link);
-    summary->setWordWrap(true);
-    summary->setAttribute(Qt::WA_TransparentForMouseEvents);
-    button_layout->addWidget(summary);
+    auto *button = new AndroidWidgets::ValueButton(title, this);
     delete ui_->layout_behavioursettingspage->replaceWidget(group, button);
     group->hide();
     button->setVisible(group != ui_->groupbox_language || group->isEnabled());
     const auto combos = group->findChildren<QComboBox*>();
-    auto update_summary = [group, combos, summary, button]() {
+    const auto radios = group->findChildren<QRadioButton*>();
+    const auto spins = group->findChildren<QSpinBox*>();
+    auto update_summary = [combos, radios, spins, button]() {
       QStringList values;
       for (QComboBox *combo : combos) values << combo->currentText();
-      for (QRadioButton *radio : group->findChildren<QRadioButton*>()) {
-        if (radio->isChecked() && !radio->text().isEmpty()) values << QString(radio->text()).remove(u'&');
+      for (QRadioButton *radio : radios) {
+        if (radio->isChecked()) values << QString(radio->text()).remove(u'&');
       }
-      for (QSpinBox *spin : group->findChildren<QSpinBox*>()) values << spin->text();
-      summary->setText(values.join(u"\n"_s));
-      button->setAccessibleDescription(summary->text());
+      for (QSpinBox *spin : spins) values << spin->text();
+      button->SetValue(values.join(u"\n"_s));
     };
     for (QComboBox *combo : combos) {
       const int position = controls_layout->indexOf(combo);
@@ -223,15 +207,7 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
       }
       auto *choice_group = new QButtonGroup(choices);
       for (int i = 0; i < combo->count(); ++i) {
-        auto *choice = new AndroidSettingsButton<QRadioButton>(choices);
-        choice->setMinimumHeight(48);
-        choice->setAccessibleName(combo->itemText(i));
-        auto *choice_layout = new QVBoxLayout(choice);
-        choice_layout->setContentsMargins(8, 8, 8, 8);
-        auto *label = new QLabel(combo->itemText(i), choice);
-        label->setWordWrap(true);
-        label->setAttribute(Qt::WA_TransparentForMouseEvents);
-        choice_layout->addWidget(label);
+        QRadioButton *choice = AndroidWidgets::CreateChoiceRow(combo->itemText(i), choices);
         choice_group->addButton(choice, i);
         choice->setChecked(combo->currentIndex() == i);
         QObject::connect(combo, &QComboBox::currentIndexChanged, choice, [choice, i](int index) {
@@ -251,27 +227,17 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
       controls_layout->removeWidget(ui_->label_language);
       controls_layout->insertWidget(0, ui_->label_language);
     }
-    for (QRadioButton *radio : group->findChildren<QRadioButton*>()) {
-      radio->setStyleSheet(u"QRadioButton::indicator { image: none; border: none; background: transparent; width: 0px; height: 0px; }"_s);
-      radio->setAutoFillBackground(true);
-      auto update_highlight = [radio](bool checked) {
-        radio->setBackgroundRole(checked ? QPalette::Highlight : QPalette::Window);
-        radio->setForegroundRole(checked ? QPalette::HighlightedText : QPalette::WindowText);
-        for (QLabel *label : radio->findChildren<QLabel*>()) {
-          label->setForegroundRole(checked ? QPalette::HighlightedText : QPalette::WindowText);
-        }
-      };
-      QObject::connect(radio, &QRadioButton::toggled, radio, update_highlight);
-      update_highlight(radio->isChecked());
+    for (QRadioButton *radio : radios) {
+      AndroidWidgets::StyleChoiceRow(radio, nullptr);
       QObject::connect(radio, &QRadioButton::toggled, this, update_summary);
       if (combos.isEmpty()) {
-        radio->setMinimumHeight(48);
+        radio->setMinimumHeight(AndroidWidgets::kMinimumTouchSize);
         QObject::connect(radio, &QRadioButton::clicked, this, [this]() {
           this->dialog()->CloseAndroidSubpage();
         });
       }
     }
-    for (QSpinBox *spin : group->findChildren<QSpinBox*>()) {
+    for (QSpinBox *spin : spins) {
       QObject::connect(spin, &QSpinBox::valueChanged, this, update_summary);
     }
     update_summary();

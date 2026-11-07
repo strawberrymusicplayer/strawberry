@@ -37,10 +37,12 @@ class QCloseEvent;
 class QKeyEvent;
 #ifdef Q_OS_ANDROID
 class QLabel;
-class QPushButton;
 class QScrollArea;
 class QStackedWidget;
 class QToolButton;
+namespace AndroidWidgets {
+class ValueButton;
+}
 #endif
 
 class EqualizerSlider;
@@ -119,14 +121,12 @@ class Equalizer : public QDialog {
   void SaveAndroidFoldouts();
   QList<QToolButton *> android_sections_;
   QList<QWidget *> android_section_contents_;
-  QPushButton *android_foldout_mode_ = nullptr;
-  QLabel *android_foldout_mode_label_ = nullptr;
+  AndroidWidgets::ValueButton *android_foldout_mode_ = nullptr;
   AndroidFoldoutMode android_foldout_mode_value_ = AndroidFoldoutMode::AllCollapsed;
   QStackedWidget *android_pages_ = nullptr;
   QScrollArea *android_main_ = nullptr;
   QLabel *android_title_ = nullptr;
-  QPushButton *android_preset_ = nullptr;
-  QLabel *android_preset_value_ = nullptr;
+  AndroidWidgets::ValueButton *android_preset_ = nullptr;
 #endif
 
  private:

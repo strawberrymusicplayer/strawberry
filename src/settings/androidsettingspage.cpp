@@ -63,35 +63,14 @@
 #include "androidsettingspage.h"
 #include "settingsdialog.h"
 #include "settingspage.h"
+#include "widgets/androidwidgets.h"
 
 using namespace Qt::Literals::StringLiterals;
 
 namespace {
 
-QLabel *AddLabel(QBoxLayout *layout, const QString &text, bool value = false) {
-  auto *label = new QLabel(text, layout->parentWidget());
-  label->setWordWrap(true);
-  label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
-  label->setTextFormat(Qt::PlainText);
-  label->setAttribute(Qt::WA_TransparentForMouseEvents);
-  QFont font = label->font();
-  font.setBold(value);
-  label->setFont(font);
-  if (value) label->setForegroundRole(QPalette::Link);
-  layout->addWidget(label);
-  return label;
-}
-
-QPushButton *NavigationButton(QWidget *parent, const QString &title, QLabel **summary = nullptr) {
-  auto *button = new AndroidSettingsButton<QPushButton>(parent);
-  button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-  button->setAccessibleName(title);
-  button->setProperty("androidSettingsNavigation", true);
-  auto *layout = new QVBoxLayout(button);
-  AddLabel(layout, title + u" >"_s);
-  if (summary) *summary = AddLabel(layout, QString(), true);
-  return button;
-}
+using AndroidWidgets::AddButtonLabel;
+using AndroidWidgets::ValueButton;
 
 bool FindControlLabel(QLayout *layout, QWidget *control, QString &title) {
   for (int i = 0; i < layout->count(); ++i) {
@@ -124,17 +103,12 @@ class ChoicePresentation : public QObject {
   ChoicePresentation(QAbstractButton *button, bool radio) : QObject(button), button_(button), radio_(radio) {
     auto *layout = new QVBoxLayout(button);
     layout->setContentsMargins(radio ? 8 : 28, 8, 8, 8);
-    label_ = AddLabel(layout, QString(button->text()).remove(u'&'));
+    label_ = AddButtonLabel(layout, QString(button->text()).remove(u'&'));
     button->setMinimumWidth(0);
     button->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
     button->setMinimumHeight(48);
-    if (radio) {
-      button->setAutoFillBackground(true);
-      button->setStyleSheet(u"QRadioButton::indicator { image: none; border: none; background: transparent; width: 0px; height: 0px; }"_s);
-      QObject::connect(button, &QAbstractButton::toggled, this, [this]() { Update(); });
-    }
+    if (radio) AndroidWidgets::StyleChoiceRow(static_cast<QRadioButton*>(button), label_);
     button->installEventFilter(this);
-    Update();
   }
 
  protected:
@@ -175,16 +149,6 @@ class ChoicePresentation : public QObject {
   }
 
  private:
-  void Update() {
-    if (!radio_) return;
-    const bool checked = button_->isChecked();
-    button_->setBackgroundRole(checked ? QPalette::Highlight : QPalette::Window);
-    label_->setForegroundRole(checked ? QPalette::HighlightedText : QPalette::WindowText);
-    QFont font = label_->font();
-    font.setBold(checked);
-    label_->setFont(font);
-  }
-
   QAbstractButton *button_;
   QLabel *label_;
   bool radio_;
@@ -271,7 +235,7 @@ class ComboPresentation : public QObject {
     choices->setItemDelegate(new ChoiceDelegate(choices));
     choices->setCurrentIndex(combo_->model()->index(combo_->currentIndex(), combo_->modelColumn(), combo_->rootModelIndex()));
     layout->addWidget(choices);
-    if (combo_->count() == 0) AddLabel(layout, SettingsDialog::tr("No options available"));
+    if (combo_->count() == 0) AddButtonLabel(layout, SettingsDialog::tr("No options available"));
     QObject::connect(choices, &QListView::clicked, this, [this](const QModelIndex &index) {
       if (!index.flags().testFlag(Qt::ItemIsEnabled) || !index.flags().testFlag(Qt::ItemIsSelectable)) return;
       combo_->setCurrentIndex(index.row());
@@ -326,13 +290,13 @@ class MenuPresentation : public QObject {
     layout->setAlignment(Qt::AlignTop);
     for (QAction *action : menu->actions()) {
       if (!action->isVisible() || action->isSeparator()) continue;
-      auto *choice = new AndroidSettingsButton<QPushButton>(content);
+      auto *choice = new AndroidWidgets::LayoutButton<QPushButton>(content);
       choice->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
       choice->setEnabled(action->isEnabled());
       choice->setCheckable(action->isCheckable());
       choice->setChecked(action->isChecked());
       auto *row = new QVBoxLayout(choice);
-      AddLabel(row, QString(action->text()).remove(u'&') + (action->menu() ? u" >"_s : QString()));
+      AddButtonLabel(row, QString(action->text()).remove(u'&') + (action->menu() ? u" >"_s : QString()));
       choice->setAccessibleName(action->text());
       choice->setAccessibleDescription(action->toolTip());
       if (action->isChecked()) {
@@ -355,7 +319,7 @@ class MenuPresentation : public QObject {
         if (!button_action) Q_EMIT button_->triggered(action);
       });
     }
-    if (layout->isEmpty()) AddLabel(layout, SettingsDialog::tr("No options available"));
+    if (layout->isEmpty()) AddButtonLabel(layout, SettingsDialog::tr("No options available"));
     QString title = menu->title();
     if (title.isEmpty()) title = button_->toolTip();
     if (title.isEmpty()) title = ControlTitle(button_);
@@ -368,7 +332,7 @@ class MenuPresentation : public QObject {
 
 void AdaptLayout(QLayout *layout, SettingsPage *page);
 
-void Summarize(const QList<QPointer<QWidget>> &controls, QLabel *summary, QPushButton *button) {
+void Summarize(const QList<QPointer<QWidget>> &controls, ValueButton *button) {
   QStringList values;
   QHash<QString, int> rows;
   const auto add_value = [&values, &rows](QWidget *control, const QString &value) {
@@ -408,9 +372,7 @@ void Summarize(const QList<QPointer<QWidget>> &controls, QLabel *summary, QPushB
   if (total) values << SettingsDialog::tr("%1 of %2 enabled").arg(enabled).arg(total);
   QStringList visible_values = values.mid(0, 3);
   if (values.size() > 3) visible_values << SettingsDialog::tr("%n more setting(s)", nullptr, values.size() - 3);
-  summary->setText(visible_values.join(u"\n"_s));
-  summary->setVisible(!values.isEmpty());
-  button->setAccessibleDescription(values.join(u"\n"_s));
+  button->SetValue(visible_values.join(u"\n"_s), values.join(u"\n"_s));
 }
 
 class SectionPresentation : public QObject {
@@ -433,13 +395,12 @@ class SectionPresentation : public QObject {
     }
     auto *layout = new QVBoxLayout(section);
     layout->setContentsMargins(0, 0, 0, 0);
-    QLabel *summary = nullptr;
-    auto *button = NavigationButton(section, title, &summary);
+    auto *button = new ValueButton(title, section);
     layout->addWidget(button);
     QList<QPointer<QWidget>> controls;
     for (QWidget *control : content_->findChildren<QWidget*>()) controls << control;
     // Editors are temporarily reparented out of their source section during navigation.
-    update_ = [controls, summary, button]() { Summarize(controls, summary, button); };
+    update_ = [controls, button]() { Summarize(controls, button); };
     auto update = [this]() { update_(); };
     for (const QPointer<QWidget> &control : controls) {
       if (qobject_cast<QComboBox*>(control.data()) || qobject_cast<QAbstractSpinBox*>(control.data()) ||
@@ -539,7 +500,7 @@ void AdaptWidget(QWidget *widget, SettingsPage *page) {
     tabs->tabBar()->hide();
     for (int i = 0; i < tabs->count(); ++i) {
       if (tabs->widget(i)->layout()) AdaptLayout(tabs->widget(i)->layout(), page);
-      auto *button = NavigationButton(overview, tabs->tabText(i));
+      auto *button = new ValueButton(tabs->tabText(i), overview);
       button->setEnabled(tabs->isTabEnabled(i));
       layout->addWidget(button);
       QObject::connect(button, &QPushButton::clicked, page, [page, tabs, i]() {

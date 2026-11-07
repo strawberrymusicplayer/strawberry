@@ -19,6 +19,7 @@
 #include "androidwidgets.h"
 
 #include <QAbstractButton>
+#include <QBoxLayout>
 #include <QCoreApplication>
 #include <QFont>
 #include <QFrame>
@@ -26,6 +27,7 @@
 #include <QLabel>
 #include <QPalette>
 #include <QPushButton>
+#include <QRadioButton>
 #include <QScrollArea>
 #include <QSize>
 #include <QSizePolicy>
@@ -110,6 +112,73 @@ ScrollPage CreateScrollPage(QWidget *parent) {
   area->setWidget(contents);
 
   return {area, contents, layout};
+
+}
+
+ValueButton::ValueButton(const QString &title, QWidget *parent) : LayoutButton<QPushButton>(parent) {
+
+  setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+  QVBoxLayout *layout = new QVBoxLayout(this);
+  if (!title.isEmpty()) {
+    setAccessibleName(title);
+    AddButtonLabel(layout, title + u" >"_s);
+  }
+  value_ = AddButtonLabel(layout, QString());
+  QFont font = value_->font();
+  font.setBold(true);
+  value_->setFont(font);
+  // A foreground role, unlike a palette color, is kept when a style sheet applies to an ancestor.
+  value_->setForegroundRole(QPalette::Link);
+  value_->hide();
+
+}
+
+void ValueButton::SetValue(const QString &value, const QString &description) {
+
+  value_->setText(value);
+  value_->setVisible(!value.isEmpty());
+  setAccessibleDescription(description.isEmpty() ? value : description);
+
+}
+
+QLabel *AddButtonLabel(QBoxLayout *layout, const QString &text) {
+
+  QLabel *label = new QLabel(text, layout->parentWidget());
+  label->setWordWrap(true);
+  label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
+  label->setTextFormat(Qt::PlainText);
+  label->setAttribute(Qt::WA_TransparentForMouseEvents);
+  layout->addWidget(label);
+  return label;
+
+}
+
+void StyleChoiceRow(QRadioButton *button, QLabel *label) {
+
+  button->setStyleSheet(u"QRadioButton::indicator { image: none; border: none; background: transparent; width: 0px; height: 0px; }"_s);
+  button->setAutoFillBackground(true);
+  QWidget *text = label ? static_cast<QWidget*>(label) : button;
+  const auto update = [button, text](const bool checked) {
+    button->setBackgroundRole(checked ? QPalette::Highlight : QPalette::Window);
+    text->setForegroundRole(checked ? QPalette::HighlightedText : QPalette::WindowText);
+    QFont font = text->font();
+    font.setBold(checked);
+    text->setFont(font);
+  };
+  QObject::connect(button, &QRadioButton::toggled, text, update);
+  update(button->isChecked());
+
+}
+
+QRadioButton *CreateChoiceRow(const QString &text, QWidget *parent) {
+
+  LayoutButton<QRadioButton> *choice = new LayoutButton<QRadioButton>(parent);
+  choice->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+  choice->setAccessibleName(text);
+  QVBoxLayout *layout = new QVBoxLayout(choice);
+  layout->setContentsMargins(8, 8, 8, 8);
+  StyleChoiceRow(choice, AddButtonLabel(layout, text));
+  return choice;
 
 }
 

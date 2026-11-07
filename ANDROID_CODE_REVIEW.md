@@ -10,7 +10,7 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: point 12 (share the value buttons and choice rows; resolve point 22 with it).
+- Next: point 13 (one wrapping layout).
   Point 23 (moving Android blocks into `*_android.cpp` files) comes after points 10–19.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 5` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
@@ -171,10 +171,16 @@ Handoff notes for continuing in a new session:
 
 ### 12. Share the value buttons and choice rows
 
-**Status:** Open
+**Status:** Done
 
 - Compact buttons with a bold, link-colored value and full-page choice rows with the highlight color are implemented separately in `Equalizer`, `BehaviourSettingsPage`, and `AndroidSettingsPage`, with slightly different styling code.
-- Fix: one implementation used by all three, preserving the documented appearance.
+
+**Resolved:**
+- `AndroidWidgets` now provides `LayoutButton` (formerly `AndroidSettingsButton`), `ValueButton` with an optional "title >" caption and `SetValue()`, `AddButtonLabel()`, `StyleChoiceRow()`, and `CreateChoiceRow()`; all three use them.
+- At the owner's request, selected choice rows are bold everywhere, as on the generic settings pages, and the equalizer keeps its titles as labels above value-only buttons.
+- The Android APK builds and the native equalizer test passes.
+  On the emulator, the equalizer Preset and Collapse behaviour values are bold and link-colored, and its choice rows are highlighted and bold at the 48 dp row height used by Settings.
+  The Behavior summaries, On startup and combo choice pages, and Backend summaries look unchanged; a changed On startup choice updated the summary and Cancel restored it.
 
 ### 13. Use one wrapping layout
 
@@ -269,7 +275,10 @@ Handoff notes for continuing in a new session:
 
 ### 22. Show the equalizer values in the link color
 
-**Status:** Open
+**Status:** Done
 
 - The Android equalizer's Preset and Collapse behaviour of sections buttons show their values in bold black, while Settings shows values in the bold link color, as the Android guidelines require.
   Resolve together with point 12.
+
+**Resolved:**
+- The equalizer set a palette color on its value labels, which showed black under the page's style sheet; the shared `ValueButton` uses the `Link` foreground role like Settings, and the emulator now shows the values in the link color.

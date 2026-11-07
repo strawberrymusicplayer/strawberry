@@ -23,34 +23,7 @@
 #include <QtGlobal>
 
 #ifdef Q_OS_ANDROID
-#include <QEvent>
-#include <QLayout>
-#include <QPushButton>
-#include <QSize>
-
 class SettingsPage;
-
-template<typename Base>
-class AndroidSettingsButton : public Base {
- public:
-  explicit AndroidSettingsButton(QWidget *parent) : Base(parent) {}
-
-  QSize sizeHint() const override { return this->layout()->totalSizeHint().expandedTo(QSize(0, 48)); }
-  QSize minimumSizeHint() const override { return this->layout()->totalMinimumSize().expandedTo(QSize(0, 48)); }
-  bool hasHeightForWidth() const override { return true; }
-  int heightForWidth(int width) const override { return qMax(48, this->layout()->totalHeightForWidth(width)); }
-
- protected:
-  bool hitButton(const QPoint &position) const override { return this->rect().contains(position); }
-
-  bool event(QEvent *event) override {
-    const bool handled = Base::event(event);
-    if (this->layout() && (event->type() == QEvent::LayoutRequest || event->type() == QEvent::Resize || event->type() == QEvent::FontChange)) {
-      this->setMinimumHeight(heightForWidth(this->width()));
-    }
-    return handled;
-  }
-};
 
 namespace AndroidSettingsPage {
 void Adapt(SettingsPage *page);

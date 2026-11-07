@@ -57,7 +57,6 @@
 #  include <QStackedWidget>
 #  include <QStyle>
 #  include <QTimer>
-#  include "settings/androidsettingspage.h"
 #  include "widgets/androidwidgets.h"
 #endif
 
@@ -142,24 +141,6 @@ class AndroidEqualizerBandLayout : public QLayout {
 
   QList<QLayoutItem *> items_;
 };
-
-QLabel *AddAndroidValueLabel(QPushButton *button) {
-
-  QVBoxLayout *layout = new QVBoxLayout(button);
-  QLabel *value = new QLabel(button);
-  value->setAttribute(Qt::WA_TransparentForMouseEvents);
-  value->setTextFormat(Qt::PlainText);
-  value->setWordWrap(true);
-  QFont font = value->font();
-  font.setBold(true);
-  value->setFont(font);
-  QPalette palette = value->palette();
-  palette.setColor(QPalette::WindowText, palette.color(QPalette::Link));
-  value->setPalette(palette);
-  layout->addWidget(value);
-  return value;
-
-}
 #endif
 }  // namespace
 
@@ -611,10 +592,9 @@ void Equalizer::SetupAndroidLayout() {
   controls->addWidget(preset_label);
   QHBoxLayout *preset_section = new QHBoxLayout;
   controls->addLayout(preset_section);
-  android_preset_ = new AndroidSettingsButton<QPushButton>(content);
+  android_preset_ = new AndroidWidgets::ValueButton(QString(), content);
+  android_preset_->setAccessibleName(tr("Preset"));
   preset_label->setBuddy(android_preset_);
-  android_preset_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-  android_preset_value_ = AddAndroidValueLabel(android_preset_);
   UpdateAndroidPreset();
   preset_section->addWidget(android_preset_);
   for (QToolButton *button : {ui_->preset_save, ui_->preset_del}) {
@@ -628,9 +608,9 @@ void Equalizer::SetupAndroidLayout() {
   QLabel *mode_label = new QLabel(tr("Collapse behaviour of sections"), content);
   mode_label->setWordWrap(true);
   controls->addWidget(mode_label);
-  android_foldout_mode_ = new AndroidSettingsButton<QPushButton>(content);
+  android_foldout_mode_ = new AndroidWidgets::ValueButton(QString(), content);
+  android_foldout_mode_->setAccessibleName(tr("Collapse behaviour of sections"));
   mode_label->setBuddy(android_foldout_mode_);
-  android_foldout_mode_label_ = AddAndroidValueLabel(android_foldout_mode_);
   controls->addWidget(android_foldout_mode_);
   Settings foldout_settings;
   foldout_settings.beginGroup(kSettingsGroup);
@@ -713,10 +693,9 @@ void Equalizer::SetupAndroidLayout() {
 
 void Equalizer::UpdateAndroidPreset() {
 
-  if (!android_preset_value_) return;
+  if (!android_preset_) return;
   const bool edited = presets_.value(ui_->preset->currentData().toString()) != current_params();
-  android_preset_value_->setText(ui_->preset->currentText() + (edited ? u" *"_s : QString()));
-  android_preset_->setAccessibleName(tr("Preset") + u": "_s + ui_->preset->currentText());
+  android_preset_->SetValue(ui_->preset->currentText() + (edited ? u" *"_s : QString()));
   const QString selected = ui_->preset->currentData().toString();
   ui_->preset_del->setEnabled(selected != QLatin1String(kCustomPreset));
   ui_->preset_save->setEnabled(edited || selected == QLatin1String(kCustomPreset));
@@ -747,9 +726,7 @@ QString Equalizer::AndroidFoldoutModeName(const AndroidFoldoutMode mode) {
 
 void Equalizer::UpdateAndroidFoldouts() {
 
-  const QString mode_name = AndroidFoldoutModeName(android_foldout_mode_value_);
-  android_foldout_mode_label_->setText(mode_name);
-  android_foldout_mode_->setAccessibleName(tr("Collapse behaviour of sections") + u": "_s + mode_name);
+  android_foldout_mode_->SetValue(AndroidFoldoutModeName(android_foldout_mode_value_));
   for (int i = 0; i < android_sections_.count(); ++i) {
     const bool open = android_sections_.at(i)->isChecked();
     android_sections_.at(i)->setArrowType(open ? Qt::DownArrow : Qt::RightArrow);
@@ -774,15 +751,8 @@ void Equalizer::ShowAndroidFoldoutModes() {
   constexpr std::array modes = {AndroidFoldoutMode::AllExpanded, AndroidFoldoutMode::AllCollapsed, AndroidFoldoutMode::OneAtATime};
   for (const AndroidFoldoutMode mode : modes) {
     const QString mode_name = AndroidFoldoutModeName(mode);
-    QRadioButton *choice = new AndroidSettingsButton<QRadioButton>(page);
-    QVBoxLayout *row = new QVBoxLayout(choice);
-    QLabel *label = new QLabel(mode_name, choice);
-    label->setWordWrap(true);
-    label->setAttribute(Qt::WA_TransparentForMouseEvents);
-    row->addWidget(label);
-    choice->setAccessibleName(mode_name);
+    QRadioButton *choice = AndroidWidgets::CreateChoiceRow(mode_name, page);
     choice->setChecked(mode == android_foldout_mode_value_);
-    choice->setStyleSheet(u"QRadioButton::indicator { width: 0px; height: 0px; } QRadioButton:checked { background: palette(highlight); color: palette(highlighted-text); }"_s);
     layout->addWidget(choice);
     QObject::connect(choice, &QRadioButton::clicked, this, [this, mode]() {
       android_foldout_mode_value_ = mode;
@@ -816,25 +786,9 @@ void Equalizer::ShowAndroidPresets() {
   QWidget *selected_choice = nullptr;
   for (int i = 0; i < ui_->preset->count(); ++i) {
     const QString name = ui_->preset->itemData(i).toString();
-    QRadioButton *choice = new AndroidSettingsButton<QRadioButton>(content);
-    choice->setStyleSheet(u"QRadioButton::indicator { image: none; border: none; background: transparent; width: 0px; height: 0px; }"_s);
-    choice->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    QVBoxLayout *row = new QVBoxLayout(choice);
-    QLabel *label = new QLabel(ui_->preset->itemText(i), choice);
-    label->setAttribute(Qt::WA_TransparentForMouseEvents);
-    label->setTextFormat(Qt::PlainText);
-    label->setWordWrap(true);
-    row->addWidget(label);
-    choice->setAccessibleName(ui_->preset->itemText(i));
+    QRadioButton *choice = AndroidWidgets::CreateChoiceRow(ui_->preset->itemText(i), content);
     choice->setChecked(i == ui_->preset->currentIndex());
-    if (choice->isChecked()) {
-      selected_choice = choice;
-      choice->setAutoFillBackground(true);
-      QPalette palette = choice->palette();
-      palette.setColor(QPalette::Window, palette.color(QPalette::Highlight));
-      palette.setColor(QPalette::WindowText, palette.color(QPalette::HighlightedText));
-      choice->setPalette(palette);
-    }
+    if (choice->isChecked()) selected_choice = choice;
     layout->addWidget(choice);
     QObject::connect(choice, &QRadioButton::clicked, this, [this, name]() {
       ui_->preset->setCurrentIndex(ui_->preset->findData(name));
