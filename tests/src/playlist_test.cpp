@@ -1449,6 +1449,34 @@ TEST_F(PlaylistTest, MoveNonContiguousRowsToAnotherPlaylist) {
 
 }
 
+// Regression test: moving songs within a playlist didn't send PlaylistChanged, so MPRIS didn't update whether there is a next or previous song.
+TEST_F(PlaylistTest, MoveSendsPlaylistChanged) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s) << MakeMockItemP(u"Three"_s));
+  ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
+
+  // The last song is playing, so there is no next song.
+  playlist_.set_current_row(2);
+  ASSERT_EQ(-1, playlist_.next_row());
+
+  // Drag the playing song to the top, now there is a next song.
+  QSignalSpy spy(&playlist_, &Playlist::PlaylistChanged);
+  ScopedPtr<QMimeData> mimedata(playlist_.mimeData(QModelIndexList() << playlist_.index(2, 0)));
+  ASSERT_TRUE(mimedata);
+  ASSERT_TRUE(playlist_.dropMimeData(mimedata.get(), Qt::MoveAction, 0, 0, QModelIndex()));
+  ASSERT_EQ(u"Three"_s, playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_NE(-1, playlist_.next_row());
+  EXPECT_GE(spy.count(), 1);
+
+  // Undoing the move puts the playing song last again.
+  spy.clear();
+  playlist_.undo_stack()->undo();
+  ASSERT_EQ(u"Three"_s, playlist_.data(playlist_.index(2, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(-1, playlist_.next_row());
+  EXPECT_GE(spy.count(), 1);
+
+}
+
 // Regression test: undoing a move within a playlist must keep persistent indexes on the same items, including unmoved items that end up at one of the restored rows.
 TEST_F(PlaylistTest, UndoMoveKeepsPersistentIndexesOnSameItems) {
 

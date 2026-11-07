@@ -245,6 +245,8 @@ class Mpris2 : public QObject {
   void ActivePlaylistChanged(Playlist *playlist);
   void QueueActivePlaylistNotification();
   void EmitActivePlaylistChanged();
+  void QueueCapabilitiesNotification();
+  void EmitQueuedCapabilities();
   void PlaylistItemsAdded(const int playlist_id, const QList<QUuid> &track_ids, const QUuid &after_track_id);
   void PlaylistItemsRemoved(const int playlist_id, const QList<QUuid> &track_ids);
   void PlaylistItemMetadataChanged(const int playlist_id, const QUuid &track_id);
@@ -266,6 +268,8 @@ class Mpris2 : public QObject {
 
   static QUuid GetTrackObjectPathUuid(const QDBusObjectPath &track_object_path);
 
+  void EmitCapabilities();
+
  private:
   const SharedPtr<Player> player_;
   const SharedPtr<PlaylistManager> playlist_manager_;
@@ -276,6 +280,7 @@ class Mpris2 : public QObject {
   // The active playlist last notified, the playlist manager emits ActiveChanged also when the active playlist did not change.
   int active_playlist_id_;
   bool active_playlist_notification_pending_;
+  bool capabilities_notification_pending_;
 };
 
 #endif  // MPRIS2_H

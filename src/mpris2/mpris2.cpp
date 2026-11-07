@@ -121,7 +121,8 @@ Mpris2::Mpris2(const SharedPtr<Player> player,
       playlist_manager_(playlist_manager),
       current_albumcover_loader_(current_albumcover_loader),
       active_playlist_id_(-1),
-      active_playlist_notification_pending_(false) {
+      active_playlist_notification_pending_(false),
+      capabilities_notification_pending_(false) {
 
   new Mpris2Root(this);
   new Mpris2TrackList(this);
@@ -192,11 +193,7 @@ void Mpris2::AllPlaylistsLoaded() {
 
   qLog(Debug) << "MPRIS2: All playlists loaded, emitting MPRIS2 notifications";
 
-  EmitNotification(u"CanPlay"_s);
-  EmitNotification(u"CanPause"_s);
-  EmitNotification(u"CanGoNext"_s, CanGoNext());
-  EmitNotification(u"CanGoPrevious"_s, CanGoPrevious());
-  EmitNotification(u"CanSeek"_s, CanSeek());
+  EmitCapabilities();
 
   // The active playlist can be set before its songs are restored, and restoring them doesn't notify the added songs, so replace the track list now that they are loaded.
   // Playback is resumed after this, so notify when control returns to the event loop, when the resumed song is selected.
@@ -222,7 +219,14 @@ void Mpris2::VolumeChanged() {
   EmitNotification(u"Volume"_s);
 }
 
-void Mpris2::ShuffleModeChanged() { EmitNotification(u"Shuffle"_s); }
+void Mpris2::ShuffleModeChanged() {
+
+  EmitNotification(u"Shuffle"_s);
+
+  // The next and previous songs depend on the shuffle mode, the playlists are reshuffled by their own connections to the sequence, which can run after this.
+  QueueCapabilitiesNotification();
+
+}
 
 void Mpris2::RepeatModeChanged() {
 
@@ -470,11 +474,7 @@ QDBusObjectPath Mpris2::current_track_id(const QUuid &current_row) const {
 void Mpris2::CurrentSongChanged(const Song &song) {
 
   AlbumCoverLoaded(song);
-  EmitNotification(u"CanPlay"_s);
-  EmitNotification(u"CanPause"_s);
-  EmitNotification(u"CanGoNext"_s, CanGoNext());
-  EmitNotification(u"CanGoPrevious"_s, CanGoPrevious());
-  EmitNotification(u"CanSeek"_s, CanSeek());
+  EmitCapabilities();
 
 }
 
@@ -936,6 +936,12 @@ void Mpris2::PlaylistChangedSlot(Playlist *playlist) {
 
   Q_EMIT PlaylistChanged(mpris_playlist);
 
+  // Songs are added, removed or reordered, so songs can be played, or there can be a next or previous song now.
+  // This is for all changes, the items added and removed signals are only sent for some, and the queue and album shuffle are updated after the songs are added, so notify when control returns to the event loop.
+  if (playlist == playlist_manager_->active()) {
+    QueueCapabilitiesNotification();
+  }
+
 }
 
 void Mpris2::PlaylistCollectionChanged() {
@@ -971,5 +977,34 @@ void Mpris2::EmitActivePlaylistChanged() {
 
   // The track list is the one of the active playlist.
   EmitTrackListReplaced();
+
+  // The songs which can be played, and the next and previous songs are those of the active playlist.
+  EmitCapabilities();
+
+}
+
+void Mpris2::QueueCapabilitiesNotification() {
+
+  // Only once when it's queued again before that, like when songs are added in several steps.
+  if (capabilities_notification_pending_) return;
+  capabilities_notification_pending_ = true;
+  QMetaObject::invokeMethod(this, &Mpris2::EmitQueuedCapabilities, Qt::QueuedConnection);
+
+}
+
+void Mpris2::EmitQueuedCapabilities() {
+
+  capabilities_notification_pending_ = false;
+  EmitCapabilities();
+
+}
+
+void Mpris2::EmitCapabilities() {
+
+  EmitNotification(u"CanPlay"_s);
+  EmitNotification(u"CanPause"_s);
+  EmitNotification(u"CanGoNext"_s, CanGoNext());
+  EmitNotification(u"CanGoPrevious"_s, CanGoPrevious());
+  EmitNotification(u"CanSeek"_s, CanSeek());
 
 }
