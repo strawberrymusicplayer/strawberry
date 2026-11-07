@@ -231,10 +231,11 @@ Handoff notes for continuing in a new session:
 
 - Large `#ifdef Q_OS_ANDROID` blocks in shared files make them harder to read and cause more conflicts when merging upstream.
   Approximate lines inside Android guards: `equalizer.cpp` 580, `settingsdialog.cpp` 380, `mainwindow.cpp` 330, `playlistview.cpp` 210.
+  Upstream commits to these files since 2023 (up to the merge base): `mainwindow.cpp` 152, `playlistview.cpp` 49, `settingsdialog.cpp` 24, `equalizer.cpp` 15.
 - Do this after points 10–19, so the code that gets moved has already been cleaned up.
 
 **Plan:**
-1. Do one file at a time, in this order: `mainwindow.cpp`, `settingsdialog.cpp`, `equalizer.cpp`, `playlistview.cpp`.
+1. Do one file at a time, ordered by how often upstream changes the file, because that is where moving the code saves the most conflicts: `mainwindow.cpp`, `playlistview.cpp`, `settingsdialog.cpp`, `equalizer.cpp`.
    - Move whole Android-only functions and large blocks into `mainwindow_android.cpp` (and similarly named files) as private member functions or free helpers.
    - In the shared file, leave a single guarded call, for example `#ifdef Q_OS_ANDROID` `SetupAndroidUi();` `#endif`.
    - Add the new files under an Android condition in `CMakeLists.txt`, in the same way the existing platform files (`_win.cpp`, `.mm`) are selected.
