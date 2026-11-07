@@ -10,7 +10,7 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: point 13 (one wrapping layout).
+- Next: point 14 (extract the Android playlist header from `MainWindow`).
   Point 23 (moving Android blocks into `*_android.cpp` files) comes after points 10–19.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 5` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
@@ -184,10 +184,15 @@ Handoff notes for continuing in a new session:
 
 ### 13. Use one wrapping layout
 
-**Status:** Open
+**Status:** Done
 
 - `AndroidEqualizerBandLayout` and `PlaylistContainer::UpdateAndroidToolbar()` both implement a wrapping grid by hand.
-- Fix: one reusable flow layout in `src/widgets/`, built on all platforms and covered by a native unit test.
+
+**Resolved:**
+- Added `GridFlowLayout` in `src/widgets/`, built on all platforms: equally sized cells, as many columns as fit (optionally limited), stretched to fill each row, with the height following from the width; hidden items are skipped.
+- The equalizer bands use it with 4-pixel spacing and at most four columns; the playlist toolbar uses it without spacing, which removes `UpdateAndroidToolbar()`, its resize event filter, and the stored column count.
+- Added `GridFlowLayoutTest` (7 tests); the native grid, equalizer, and playlist tests pass, and the Android APK and native desktop build succeed.
+  On the emulator, the Bass bands fill three columns and the Treble bands four, as before, and the Now playing toolbar shows its six buttons in one evenly spaced row.
 
 ### 14. Extract the Android playlist header from MainWindow
 

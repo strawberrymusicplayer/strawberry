@@ -58,6 +58,7 @@
 #  include <QStyle>
 #  include <QTimer>
 #  include "widgets/androidwidgets.h"
+#  include "widgets/gridflowlayout.h"
 #endif
 
 #include "core/iconloader.h"
@@ -84,6 +85,8 @@ constexpr char kAndroidCurrentParams[] = "android_current_params";
 constexpr char kAndroidFoldoutMode[] = "android_foldout_mode";
 constexpr char kAndroidSectionOpenPrefix[] = "android_section_";
 constexpr char kCustomPreset[] = QT_TRANSLATE_NOOP("Equalizer", "Custom");
+constexpr int kAndroidBandSpacing = 4;
+constexpr int kAndroidMaximumBandColumns = 4;
 
 QString AndroidSectionOpenKey(const int section) {
   return QLatin1String(kAndroidSectionOpenPrefix) + QString::number(section);
@@ -94,53 +97,6 @@ const QString kAndroidScrollBarStyle =
      "QScrollBar::handle:vertical { min-height: 48px; border-radius: 4px; background: palette(highlight); }"
      "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0px; }"
      "QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: transparent; }"_s;
-
-class AndroidEqualizerBandLayout : public QLayout {
- public:
-  ~AndroidEqualizerBandLayout() override {
-    while (QLayoutItem *item = takeAt(0)) delete item;
-  }
-
-  void addItem(QLayoutItem *item) override { items_.append(item); }
-  int count() const override { return static_cast<int>(items_.count()); }
-  QLayoutItem *itemAt(const int index) const override { return items_.value(index); }
-  QLayoutItem *takeAt(const int index) override { return index >= 0 && index < count() ? items_.takeAt(index) : nullptr; }
-  bool hasHeightForWidth() const override { return true; }
-  int heightForWidth(const int width) const override { return Arrange(QRect(0, 0, width, 0), false); }
-  QSize sizeHint() const override { return minimumSize(); }
-  QSize minimumSize() const override {
-    QSize size;
-    for (QLayoutItem *item : items_) size = size.expandedTo(item->minimumSize());
-    return size;
-  }
-  void setGeometry(const QRect &rect) override {
-    QLayout::setGeometry(rect);
-    Arrange(rect, true);
-  }
-
- private:
-  int Arrange(const QRect &rect, const bool apply) const {
-    int cell_width = 1;
-    int cell_height = 0;
-    for (QLayoutItem *item : items_) {
-      const QSize size = item->minimumSize();
-      cell_width = std::max(cell_width, size.width());
-      cell_height = std::max(cell_height, size.height());
-    }
-    const int gap = 4;
-    const int columns = std::clamp((rect.width() + gap) / (cell_width + gap), 1, 4);
-    const int width = (rect.width() - (columns - 1) * gap) / columns;
-    if (apply) {
-      for (int i = 0; i < count(); ++i) {
-        items_.at(i)->setGeometry(QRect(rect.x() + (i % columns) * (width + gap), rect.y() + (i / columns) * (cell_height + gap), width, cell_height));
-      }
-    }
-    const int rows = (count() + columns - 1) / columns;
-    return rows ? rows * cell_height + (rows - 1) * gap : 0;
-  }
-
-  QList<QLayoutItem *> items_;
-};
 #endif
 }  // namespace
 
@@ -661,9 +617,9 @@ void Equalizer::SetupAndroidLayout() {
   QVBoxLayout *bass = add_foldout(sliders, AndroidSection::Bass, tr("Bass"));
   QVBoxLayout *midrange = add_foldout(sliders, AndroidSection::Midrange, tr("Midrange"));
   QVBoxLayout *treble = add_foldout(sliders, AndroidSection::Treble, tr("Treble"));
-  AndroidEqualizerBandLayout *bass_bands = new AndroidEqualizerBandLayout;
-  AndroidEqualizerBandLayout *midrange_bands = new AndroidEqualizerBandLayout;
-  AndroidEqualizerBandLayout *treble_bands = new AndroidEqualizerBandLayout;
+  GridFlowLayout *bass_bands = new GridFlowLayout(kAndroidBandSpacing, kAndroidMaximumBandColumns);
+  GridFlowLayout *midrange_bands = new GridFlowLayout(kAndroidBandSpacing, kAndroidMaximumBandColumns);
+  GridFlowLayout *treble_bands = new GridFlowLayout(kAndroidBandSpacing, kAndroidMaximumBandColumns);
   bass->addLayout(bass_bands);
   midrange->addLayout(midrange_bands);
   treble->addLayout(treble_bands);

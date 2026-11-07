@@ -41,9 +41,6 @@
 #include <QFileDialog>
 #include <QLabel>
 #include <QHBoxLayout>
-#ifdef Q_OS_ANDROID
-#  include <QGridLayout>
-#endif
 #include <QKeySequence>
 #include <QToolButton>
 #include <QUndoStack>
@@ -63,6 +60,9 @@
 #include "playlistparsers/playlistparser.h"
 #include "ui_playlistcontainer.h"
 #include "widgets/searchfield.h"
+#ifdef Q_OS_ANDROID
+#  include "widgets/gridflowlayout.h"
+#endif
 #include "constants/appearancesettings.h"
 #include "constants/playlistsettings.h"
 
@@ -92,13 +92,12 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
   ui_->setupUi(this);
 
 #ifdef Q_OS_ANDROID
-  android_buttons_ = new QGridLayout;
-  android_buttons_->setContentsMargins(0, 0, 0, 0);
-  android_buttons_->setSpacing(0);
+  GridFlowLayout *android_buttons = new GridFlowLayout;
   for (QToolButton *button : {ui_->create_new, ui_->load, ui_->save, ui_->add_file, ui_->undo, ui_->redo}) {
     ui_->horizontalLayout->removeWidget(button);
     button->setMinimumSize(48, 48);
     button->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    android_buttons->addWidget(button);
   }
   ui_->undo->setEnabled(false);
   ui_->redo->setEnabled(false);
@@ -107,10 +106,8 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
   ui_->clear->hide();
   ui_->line->hide();
   ui_->toolbar->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
-  ui_->toolbar->installEventFilter(this);
   ui_->horizontalLayout->setDirection(QBoxLayout::TopToBottom);
-  ui_->horizontalLayout->insertLayout(0, android_buttons_);
-  UpdateAndroidToolbar();
+  ui_->horizontalLayout->insertLayout(0, android_buttons);
 #else
   // The Android playlist editor has no menu bar, desktop adds files through the menus.
   ui_->add_file->hide();
@@ -196,9 +193,6 @@ void PlaylistContainer::SetActions(const Actions &actions) {
   QObject::connect(actions.close_playlist, &QAction::triggered, &*ui_->tab_bar, &PlaylistTabBar::CloseCurrentTab);
   QObject::connect(&*ui_->tab_bar, &PlaylistTabBar::LastTabCloseRequested, this, &PlaylistContainer::LastTabCloseRequested);
   QObject::connect(actions.save_all_playlists, &QAction::triggered, &*manager_, &PlaylistManager::SaveAllPlaylists);
-#ifdef Q_OS_ANDROID
-  UpdateAndroidToolbar();
-#endif
 
 }
 
@@ -280,9 +274,6 @@ void PlaylistContainer::SetViewModel(Playlist *playlist, const int scroll_positi
 
   ui_->undo->setDefaultAction(undo_);
   ui_->redo->setDefaultAction(redo_);
-#ifdef Q_OS_ANDROID
-  UpdateAndroidToolbar();
-#endif
 
   Q_EMIT UndoRedoActionsChanged(undo_, redo_);
 
@@ -321,9 +312,6 @@ void PlaylistContainer::ReloadSettings() {
 #endif
 
   ui_->toolbar->setVisible(show_toolbar);
-#ifdef Q_OS_ANDROID
-  UpdateAndroidToolbar();
-#endif
 
   if (!show_toolbar) ui_->search_field->clear();
 
@@ -332,24 +320,6 @@ void PlaylistContainer::ReloadSettings() {
 bool PlaylistContainer::SearchFieldHasFocus() const {
   return ui_->toolbar->isVisible() && ui_->search_field->hasFocus();
 }
-
-#ifdef Q_OS_ANDROID
-void PlaylistContainer::UpdateAndroidToolbar() {
-
-  const QList<QToolButton *> buttons = {ui_->create_new, ui_->load, ui_->save, ui_->add_file, ui_->undo, ui_->redo};
-  int button_width = 48;
-  for (QToolButton *button : buttons) button_width = qMax(button_width, button->sizeHint().width());
-  const int columns = qBound(1, ui_->toolbar->contentsRect().width() / button_width, static_cast<int>(buttons.count()));
-  if (columns == android_button_columns_) return;
-  android_button_columns_ = columns;
-  while (QLayoutItem *item = android_buttons_->takeAt(0)) delete item;
-  for (int i = 0; i < buttons.count(); ++i) {
-    android_buttons_->addWidget(buttons[i], i / columns, i % columns);
-    android_buttons_->setColumnStretch(i, i < columns ? 1 : 0);
-  }
-
-}
-#endif
 
 void PlaylistContainer::FocusSearchField() {
   if (ui_->toolbar->isVisible()) ui_->search_field->setFocus();
@@ -611,9 +581,6 @@ void PlaylistContainer::SelectionChanged() {
 
 bool PlaylistContainer::eventFilter(QObject *objectWatched, QEvent *event) {
 
-#ifdef Q_OS_ANDROID
-  if (objectWatched == ui_->toolbar && event->type() == QEvent::Resize) UpdateAndroidToolbar();
-#endif
   if (objectWatched == ui_->search_field) {
     if (event->type() == QEvent::KeyPress) {
       QKeyEvent *e = static_cast<QKeyEvent*>(event);

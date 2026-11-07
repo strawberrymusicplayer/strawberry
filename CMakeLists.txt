@@ -919,6 +919,7 @@ set(SOURCES
   src/widgets/favoritewidget.cpp
   src/widgets/forcescrollperpixel.cpp
   src/widgets/freespacebar.cpp
+  src/widgets/gridflowlayout.cpp
   src/widgets/groupediconview.cpp
   src/widgets/lineedit.cpp
   src/widgets/linetextedit.cpp
