@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -70,6 +70,10 @@ class CollectionQuery : public SqlQuery {
   void SetIncludeUnavailable(const bool include_unavailable) { include_unavailable_ = include_unavailable; }
   void SetLimit(const int limit) { limit_ = limit; }
   void AddCompilationRequirement(const bool compilation);
+  void AddAlbumRequirement(const QString &effective_albumartist, const QString &album);
+
+  // Matches the songs of albums without an album artist, these are compilations or albums without an artist, they are listed like that by CollectionBackend::GetAlbums().
+  static constexpr char kNoAlbumArtistWhereClause[] = "(compilation_effective = 1 OR effective_albumartist = '')";
 
  private:
   QString GetInnerQuery() const;

@@ -29,11 +29,13 @@
 #include <QAction>
 #include <QPushButton>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 #include <QImage>
 #include <QColor>
 #include <QList>
 #include <QListWidgetItem>
+#include <QSignalSpy>
 
 #include "includes/shared_ptr.h"
 #include "core/database.h"
@@ -41,6 +43,8 @@
 #include "core/taskmanager.h"
 #include "core/networkaccessmanager.h"
 #include "tagreader/tagreaderclient.h"
+#include "tagreader/tagreaderreply.h"
+#include "tagreader/tagreaderresult.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmanager.h"
 #include "covermanager/albumcoverloader.h"
@@ -107,6 +111,16 @@ class AlbumCoverManagerTest : public ::testing::Test {
   }
 
   void SetContextMenuItems(const QList<QListWidgetItem*> &items) { cover_manager_->context_menu_items_ = items; }
+
+  // Starts a save of an embedded cover for the album, like when saving the cover to the files of the album.
+  void StartEmbeddedCoverSave(AlbumItem *album_item, const QUrl &url) { cover_manager_->cover_save_tasks_.insert(album_item, url); }
+
+  // Finishes a save of an embedded cover started for the album, like the tag reader does when the cover was saved or saving it failed.
+  void FinishEmbeddedCoverSave(AlbumItem *album_item, const QUrl &url, const bool success) {
+    TagReaderReplyPtr reply = TagReaderReply::Create<TagReaderReply>(url.toLocalFile());
+    reply->set_result(TagReaderResult(success ? TagReaderResult::ErrorCode::Success : TagReaderResult::ErrorCode::FileOpenError));
+    cover_manager_->SaveEmbeddedCoverFinished(reply, album_item, url, true);
+  }
   void UnsetCover() { cover_manager_->UnsetCover(); }
   void ClearCover() { cover_manager_->ClearCover(); }
   void DeleteCover() { cover_manager_->DeleteCover(); }
@@ -121,6 +135,7 @@ class AlbumCoverManagerTest : public ::testing::Test {
   static constexpr int kRoleArtAutomatic = AlbumCoverManager::Role_ArtAutomatic;
   static constexpr int kRoleArtManual = AlbumCoverManager::Role_ArtManual;
   static constexpr int kRoleArtUnset = AlbumCoverManager::Role_ArtUnset;
+  static constexpr int kRoleAlbum = AlbumCoverManager::Role_Album;
 
   QMainWindow mainwindow_;
   SharedPtr<TagReaderClient> tagreader_client_;
@@ -280,6 +295,68 @@ TEST_F(AlbumCoverManagerTest, RemovingCoverWhileThumbnailIsLoadingUpdatesAlbumsW
   SetContextMenuItems(QList<QListWidgetItem*>() << album_item);
   UnsetCover();
   EXPECT_EQ(u"1"_s, AlbumsWithoutCover());
+
+}
+
+// Regression test: embedding a cover in one copy of an album also marked the songs of the copy in another file type as having an embedded cover, the cover manager lists the copies as separate albums.
+TEST_F(AlbumCoverManagerTest, EmbeddedCoverOnlyUpdatesSongsOfTheAlbumFiles) {
+
+  collection_backend_->AddDirectory(u"/tmp"_s);
+  SongList songs;
+  int i = 0;
+  for (const QString &extension : {u"flac"_s, u"mp3"_s}) {
+    for (const QString &artist : {u"Artist 1"_s, u"Artist 2"_s}) {
+      Song song(Song::Source::Collection);
+      song.set_directory_id(1);
+      song.set_mtime(1);
+      song.set_ctime(1);
+      song.set_filesize(1);
+      song.set_title(QStringLiteral("Title %1").arg(++i));
+      song.set_artist(artist);
+      song.set_album(u"Album"_s);
+      song.set_compilation(true);
+      song.set_url(QUrl::fromLocalFile(QStringLiteral("/tmp/%1.%2").arg(i).arg(extension)));
+      songs << song;
+    }
+  }
+  // A third FLAC song, saving the cover to this file fails.
+  Song failed_song = songs[0];
+  failed_song.set_title(u"Title 5"_s);
+  failed_song.set_artist(u"Artist 3"_s);
+  failed_song.set_url(QUrl::fromLocalFile(u"/tmp/5.flac"_s));
+  songs << failed_song;
+  collection_backend_->AddOrUpdateSongs(songs);
+
+  // The FLAC copy of the compilation, as it's listed in the cover manager.
+  AlbumItem *flac = AddAlbum();
+  flac->setData(kRoleAlbum, u"Album"_s);
+  flac->urls = QList<QUrl>() << songs[0].url() << songs[1].url() << songs[4].url();
+
+  // All the saves are started before any of them finish, like when saving the cover, and the failed save finishes between the successful ones.
+  QSignalSpy changed_spy(&*collection_backend_, &CollectionBackend::SongsChanged);
+  for (const QUrl &url : std::as_const(flac->urls)) {
+    StartEmbeddedCoverSave(flac, url);
+  }
+  FinishEmbeddedCoverSave(flac, songs[0].url(), true);
+  FinishEmbeddedCoverSave(flac, songs[4].url(), false);
+  FinishEmbeddedCoverSave(flac, songs[1].url(), true);
+  ASSERT_TRUE(changed_spy.wait(5000));
+
+  // One update for the files the cover was saved to.
+  ASSERT_EQ(1, changed_spy.count());
+  QStringList changed_titles;
+  const SongList changed_songs = changed_spy.first().first().value<SongList>();
+  for (const Song &song : changed_songs) {
+    changed_titles << song.title();
+  }
+  changed_titles.sort();
+  EXPECT_EQ(QStringList() << u"Title 1"_s << u"Title 2"_s, changed_titles);
+
+  EXPECT_TRUE(collection_backend_->GetSongById(1).art_embedded());
+  EXPECT_TRUE(collection_backend_->GetSongById(2).art_embedded());
+  EXPECT_FALSE(collection_backend_->GetSongById(3).art_embedded());
+  EXPECT_FALSE(collection_backend_->GetSongById(4).art_embedded());
+  EXPECT_FALSE(collection_backend_->GetSongById(5).art_embedded());
 
 }
 

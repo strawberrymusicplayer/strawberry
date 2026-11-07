@@ -142,7 +142,7 @@ class AlbumCoverChoiceController : public QWidget {
   quint64 SearchCoverAutomatically(const Song &song);
 
   // Saves the chosen cover as manual cover path of this song in collection.
-  void SaveArtEmbeddedToSong(Song *song, const bool art_embedded);
+  void SaveArtEmbeddedToSong(Song *song, const bool art_embedded, const QList<QUrl> &urls = QList<QUrl>());
   void SaveArtAutomaticToSong(Song *song, const QUrl &art_automatic);
   void SaveArtManualToSong(Song *song, const QUrl &art_manual);
   void ClearAlbumCoverForSong(Song *song);

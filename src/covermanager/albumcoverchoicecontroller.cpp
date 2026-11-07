@@ -548,7 +548,7 @@ void AlbumCoverChoiceController::AlbumCoverFetched(const quint64 id, const Album
 
 }
 
-void AlbumCoverChoiceController::SaveArtEmbeddedToSong(Song *song, const bool art_embedded) {
+void AlbumCoverChoiceController::SaveArtEmbeddedToSong(Song *song, const bool art_embedded, const QList<QUrl> &urls) {
 
   if (!song->is_valid()) return;
 
@@ -559,7 +559,13 @@ void AlbumCoverChoiceController::SaveArtEmbeddedToSong(Song *song, const bool ar
   }
 
   if (song->source() == Song::Source::Collection) {
-    collection_backend_->UpdateEmbeddedAlbumArtAsync(song->effective_albumartist(), song->album(), art_embedded);
+    // With the URLs of the files the cover was saved to, only the songs in those files are updated, instead of all the songs of the album.
+    if (urls.isEmpty()) {
+      collection_backend_->UpdateEmbeddedAlbumArtAsync(song->effective_albumartist(), song->album(), art_embedded);
+    }
+    else {
+      collection_backend_->UpdateEmbeddedAlbumArtByUrlsAsync(urls, art_embedded);
+    }
   }
 
   // The embedded cover is only removed when deleting the cover, which already reloads the current cover with the cover cleared or unset.
@@ -882,8 +888,9 @@ void AlbumCoverChoiceController::SaveEmbeddedCoverFinished(TagReaderReplyPtr rep
     Q_EMIT Error(tr("Could not save cover to file %1.").arg(song.url().toLocalFile()));
   }
 
+  // Only the songs in the file of this song are updated, the cover is saved to each file of the album separately, and an album without an album artist also matches the compilations with the same album name.
   if (last_art_embedded.has_value()) {
-    SaveArtEmbeddedToSong(&song, last_art_embedded.value());
+    SaveArtEmbeddedToSong(&song, last_art_embedded.value(), QList<QUrl>() << song.url());
   }
 
   Q_EMIT EmbeddedCoverSaved(song, reply->success());

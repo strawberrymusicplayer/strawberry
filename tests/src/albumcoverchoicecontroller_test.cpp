@@ -174,6 +174,62 @@ TEST_F(AlbumCoverChoiceControllerTest, EmbeddingCoverFromFileSetsArtEmbedded) {
 
 }
 
+// Regression test: when the cover was embedded in a song without an artist, the songs of the album were updated by album artist and album, which also updated the compilations with the same album name, although their files were not changed.
+TEST_F(AlbumCoverChoiceControllerTest, EmbeddingCoverOnlyUpdatesSongsInTheFile) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString filename = temp_dir.filePath(u"song.mp3"_s);
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, filename));
+  ASSERT_TRUE(QFile::setPermissions(filename, QFile::ReadOwner | QFile::WriteOwner | QFile::ReadUser | QFile::WriteUser));
+
+  Song song(Song::Source::LocalFile);
+  ASSERT_TRUE(tagreader_client_->ReadFileBlocking(filename, &song).success());
+  ASSERT_TRUE(song.save_embedded_cover_supported());
+  collection_backend_->AddDirectory(temp_dir.path());
+  song.set_source(Song::Source::Collection);
+  song.set_directory_id(1);
+  song.set_artist(QString());
+  song.set_albumartist(QString());
+  song.set_album(u"Album"_s);
+  song.set_compilation(false);
+  song.set_art_embedded(false);
+
+  // A compilation with the same album name, its file is not changed.
+  Song compilation_song = song;
+  compilation_song.set_title(u"Compilation title"_s);
+  compilation_song.set_artist(u"Other artist"_s);
+  compilation_song.set_compilation(true);
+  compilation_song.set_art_unset(true);
+  compilation_song.set_url(QUrl::fromLocalFile(temp_dir.filePath(u"compilation.mp3"_s)));
+  collection_backend_->AddOrUpdateSongs(SongList() << song << compilation_song);
+  ASSERT_EQ(2, collection_backend_->GetAllSongs().count());
+  ASSERT_EQ(1, collection_backend_->GetSongsByUrl(compilation_song.url()).count());
+
+  AlbumCoverChoiceController controller;
+  controller.Init(make_shared<NetworkAccessManager>(), tagreader_client_, collection_backend_, albumcover_loader_, make_shared<CurrentAlbumCoverLoader>(albumcover_loader_), make_shared<CoverProviders>(), make_shared<StreamingServices>());
+  QSignalSpy spy_embedded_cover_saved(&controller, &AlbumCoverChoiceController::EmbeddedCoverSaved);
+
+  const QByteArray blue_image_data = ImageUtils::SaveImageToJpegData(CreateImage(Qt::blue));
+  ASSERT_FALSE(blue_image_data.isEmpty());
+  controller.SaveCoverEmbeddedToSong(song, QString(), blue_image_data, u"image/jpeg"_s);
+  ASSERT_TRUE(WaitFor([&spy_embedded_cover_saved]() { return spy_embedded_cover_saved.count() == 1; }));
+  EXPECT_TRUE(spy_embedded_cover_saved.first().at(1).toBool());
+  EXPECT_TRUE(HasEmbeddedCoverColor(filename, Qt::blue));
+  ASSERT_TRUE(WaitFor([this, &song]() { return collection_backend_->GetSongsByUrl(song.url()).value(0).art_embedded(); }));
+
+  // The collection is updated asynchronously, give it time to apply a wrong update.
+  QElapsedTimer timer;
+  timer.start();
+  while (timer.elapsed() < 500) {
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 50);
+  }
+  const Song stored_compilation_song = collection_backend_->GetSongsByUrl(compilation_song.url()).value(0);
+  EXPECT_FALSE(stored_compilation_song.art_embedded());
+  EXPECT_TRUE(stored_compilation_song.art_unset());
+
+}
+
 // Regression test: when saves to the same song overlapped, like when removing a cover right after setting it, the first save that finished removed both saves, so the result of the last save was ignored and the song was stored with the embedded cover of the first save.
 TEST_F(AlbumCoverChoiceControllerTest, OverlappingSavesKeepResultOfLastSave) {
 

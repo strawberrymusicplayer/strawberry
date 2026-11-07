@@ -340,6 +340,7 @@ void AlbumCoverManager::CancelRequests() {
   cover_loading_tasks_.clear();
   cover_save_tasks_.clear();
   cover_save_results_.clear();
+  cover_saved_urls_.clear();
 
   AbortRequests();
 
@@ -1195,6 +1196,9 @@ void AlbumCoverManager::SaveEmbeddedCoverFinished(TagReaderReplyPtr reply, Album
   // The covers are saved in order, so the last successful save decides whether the album has an embedded cover, it is applied when the last pending save to the album finished, also when that save failed.
   if (reply->success()) {
     cover_save_results_.insert(album_item, art_embedded);
+    if (!cover_saved_urls_[album_item].contains(url)) {
+      cover_saved_urls_[album_item] << url;
+    }
   }
   else {
     Q_EMIT Error(tr("Could not save cover to file %1.").arg(url.toLocalFile()));
@@ -1204,13 +1208,14 @@ void AlbumCoverManager::SaveEmbeddedCoverFinished(TagReaderReplyPtr reply, Album
     return;
   }
   art_embedded = cover_save_results_.take(album_item);
+  const QList<QUrl> saved_urls = cover_saved_urls_.take(album_item);
 
   album_item->setData(Role_ArtEmbedded, art_embedded);
   if (art_embedded) {
     album_item->setData(Role_ArtUnset, false);
   }
   Song song = AlbumItemAsSong(album_item);
-  album_cover_choice_controller_->SaveArtEmbeddedToSong(&song, art_embedded);
+  album_cover_choice_controller_->SaveArtEmbeddedToSong(&song, art_embedded, saved_urls);
   LoadAlbumCoverAsync(album_item);
 
 }

@@ -1688,6 +1688,38 @@ CollectionBackend::Album CollectionBackend::GetAlbumArt(const QString &effective
 
 }
 
+QString CollectionBackend::AlbumWhereClause(const QString &effective_albumartist) {
+
+  // Albums without an album artist are compilations or albums without an artist, they are listed like that by GetAlbums(), so the cover manager updates them without an album artist.
+  if (effective_albumartist.isEmpty()) {
+    return QLatin1String(CollectionQuery::kNoAlbumArtistWhereClause) + " AND album = :album"_L1;
+  }
+
+  return u"effective_albumartist = :effective_albumartist AND album = :album"_s;
+
+}
+
+SongList CollectionBackend::GetAlbumSongsForArtUpdate(const QSqlDatabase &db, const QString &effective_albumartist, const QString &album) {
+
+  SongList songs;
+
+  CollectionQuery q(db, songs_table_);
+  q.SetColumnSpec(Song::kRowIdColumnSpec);
+  q.AddAlbumRequirement(effective_albumartist, album);
+  if (!q.Exec()) {
+    ReportErrors(q);
+    return songs;
+  }
+  while (q.Next()) {
+    Song song(source_);
+    song.InitFromQuery(q, true);
+    songs << song;
+  }
+
+  return songs;
+
+}
+
 void CollectionBackend::UpdateEmbeddedAlbumArtAsync(const QString &effective_albumartist, const QString &album, const bool art_embedded) {
 
   QMetaObject::invokeMethod(this, "UpdateEmbeddedAlbumArt", Qt::QueuedConnection, Q_ARG(QString, effective_albumartist), Q_ARG(QString, album), Q_ARG(bool, art_embedded));
@@ -1703,13 +1735,13 @@ void CollectionBackend::UpdateEmbeddedAlbumArt(const QString &effective_albumart
     SqlQuery q(db);
     // Removing the embedded cover keeps art_unset, since deleting and unsetting a cover removes the embedded cover after the cover is unset.
     if (art_embedded) {
-      q.prepare(QStringLiteral("UPDATE %1 SET art_embedded = :art_embedded, art_unset = 0 WHERE effective_albumartist = :effective_albumartist AND album = :album AND unavailable = 0").arg(songs_table_));
+      q.prepare(QStringLiteral("UPDATE %1 SET art_embedded = :art_embedded, art_unset = 0 WHERE %2 AND unavailable = 0").arg(songs_table_, AlbumWhereClause(effective_albumartist)));
     }
     else {
-      q.prepare(QStringLiteral("UPDATE %1 SET art_embedded = :art_embedded WHERE effective_albumartist = :effective_albumartist AND album = :album AND unavailable = 0").arg(songs_table_));
+      q.prepare(QStringLiteral("UPDATE %1 SET art_embedded = :art_embedded WHERE %2 AND unavailable = 0").arg(songs_table_, AlbumWhereClause(effective_albumartist)));
     }
     q.BindValue(u":art_embedded"_s, art_embedded ? 1 : 0);
-    q.BindValue(u":effective_albumartist"_s, effective_albumartist);
+    if (!effective_albumartist.isEmpty()) q.BindValue(u":effective_albumartist"_s, effective_albumartist);
     q.BindValue(u":album"_s, album);
     if (!q.Exec()) {
       db_->ReportErrors(q);
@@ -1717,26 +1749,62 @@ void CollectionBackend::UpdateEmbeddedAlbumArt(const QString &effective_albumart
     }
   }
 
-  SongList songs;
-  {
-    CollectionQuery q(db, songs_table_);
-    q.SetColumnSpec(Song::kRowIdColumnSpec);
-    q.AddWhere(u"effective_albumartist"_s, effective_albumartist);
-    q.AddWhere(u"album"_s, album);
-    if (!q.Exec()) {
-      ReportErrors(q);
-      return;
-    }
-    while (q.Next()) {
-      Song song(source_);
-      song.InitFromQuery(q, true);
-      songs << song;
-    }
-  }
-
+  const SongList songs = GetAlbumSongsForArtUpdate(db, effective_albumartist, album);
   if (!songs.isEmpty()) {
     Q_EMIT SongsChanged(songs);
   }
+
+}
+
+void CollectionBackend::UpdateEmbeddedAlbumArtByUrlsAsync(const QList<QUrl> &urls, const bool art_embedded) {
+
+  QMetaObject::invokeMethod(this, [this, urls, art_embedded]() { UpdateEmbeddedAlbumArtByUrls(urls, art_embedded); }, Qt::QueuedConnection);
+
+}
+
+void CollectionBackend::UpdateEmbeddedAlbumArtByUrls(const QList<QUrl> &urls, const bool art_embedded) {
+
+  // The songs are read and updated while holding the lock, so the songs sent with SongsChanged are not changed by another thread in between.
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  // Only the songs in the files the cover was saved to are updated, the album can have songs in other files, like copies of the album in another file type.
+  SongList songs;
+  for (const QUrl &url : urls) {
+    songs << GetSongsByUrl(url);
+  }
+  if (songs.isEmpty()) return;
+
+  {
+    SqlQuery q(db);
+    // Removing the embedded cover keeps art_unset, like in UpdateEmbeddedAlbumArt().
+    if (art_embedded) {
+      q.prepare(QStringLiteral("UPDATE %1 SET art_embedded = 1, art_unset = 0 WHERE ROWID = :id").arg(songs_table_));
+    }
+    else {
+      q.prepare(QStringLiteral("UPDATE %1 SET art_embedded = 0 WHERE ROWID = :id").arg(songs_table_));
+    }
+
+    ScopedTransaction transaction(&db);
+    for (const Song &song : std::as_const(songs)) {
+      q.BindValue(u":id"_s, song.id());
+      if (!q.Exec()) {
+        db_->ReportErrors(q);
+        return;
+      }
+    }
+    // The updates are rolled back when committing fails, the songs are not changed then.
+    if (!transaction.Commit()) return;
+  }
+
+  for (Song &song : songs) {
+    song.set_art_embedded(art_embedded);
+    if (art_embedded) {
+      song.set_art_unset(false);
+    }
+  }
+
+  Q_EMIT SongsChanged(songs);
 
 }
 
@@ -1753,9 +1821,9 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &effective_albumartis
 
   {
     SqlQuery q(db);
-    q.prepare(QStringLiteral("UPDATE %1 SET art_manual = :art_manual, art_unset = 0 WHERE effective_albumartist = :effective_albumartist AND album = :album AND unavailable = 0").arg(songs_table_));
+    q.prepare(QStringLiteral("UPDATE %1 SET art_manual = :art_manual, art_unset = 0 WHERE %2 AND unavailable = 0").arg(songs_table_, AlbumWhereClause(effective_albumartist)));
     q.BindValue(u":art_manual"_s, art_manual.isValid() ? art_manual.toString(QUrl::FullyEncoded) : ""_L1);
-    q.BindValue(u":effective_albumartist"_s, effective_albumartist);
+    if (!effective_albumartist.isEmpty()) q.BindValue(u":effective_albumartist"_s, effective_albumartist);
     q.BindValue(u":album"_s, album);
     if (!q.Exec()) {
       db_->ReportErrors(q);
@@ -1763,23 +1831,7 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &effective_albumartis
     }
   }
 
-  SongList songs;
-  {
-    CollectionQuery q(db, songs_table_);
-    q.SetColumnSpec(Song::kRowIdColumnSpec);
-    q.AddWhere(u"effective_albumartist"_s, effective_albumartist);
-    q.AddWhere(u"album"_s, album);
-    if (!q.Exec()) {
-      ReportErrors(q);
-      return;
-    }
-    while (q.Next()) {
-      Song song(source_);
-      song.InitFromQuery(q, true);
-      songs << song;
-    }
-  }
-
+  const SongList songs = GetAlbumSongsForArtUpdate(db, effective_albumartist, album);
   if (!songs.isEmpty()) {
     Q_EMIT SongsChanged(songs);
   }
@@ -1799,8 +1851,8 @@ void CollectionBackend::UnsetAlbumArt(const QString &effective_albumartist, cons
 
   {
     SqlQuery q(db);
-    q.prepare(QStringLiteral("UPDATE %1 SET art_unset = 1, art_manual = '', art_automatic = '', art_embedded = 0 WHERE effective_albumartist = :effective_albumartist AND album = :album AND unavailable = 0").arg(songs_table_));
-    q.BindValue(u":effective_albumartist"_s, effective_albumartist);
+    q.prepare(QStringLiteral("UPDATE %1 SET art_unset = 1, art_manual = '', art_automatic = '', art_embedded = 0 WHERE %2 AND unavailable = 0").arg(songs_table_, AlbumWhereClause(effective_albumartist)));
+    if (!effective_albumartist.isEmpty()) q.BindValue(u":effective_albumartist"_s, effective_albumartist);
     q.BindValue(u":album"_s, album);
     if (!q.Exec()) {
       db_->ReportErrors(q);
@@ -1808,23 +1860,7 @@ void CollectionBackend::UnsetAlbumArt(const QString &effective_albumartist, cons
     }
   }
 
-  SongList songs;
-  {
-    CollectionQuery q(db, songs_table_);
-    q.SetColumnSpec(Song::kRowIdColumnSpec);
-    q.AddWhere(u"effective_albumartist"_s, effective_albumartist);
-    q.AddWhere(u"album"_s, album);
-    if (!q.Exec()) {
-      ReportErrors(q);
-      return;
-    }
-    while (q.Next()) {
-      Song song(source_);
-      song.InitFromQuery(q, true);
-      songs << song;
-    }
-  }
-
+  const SongList songs = GetAlbumSongsForArtUpdate(db, effective_albumartist, album);
   if (!songs.isEmpty()) {
     Q_EMIT SongsChanged(songs);
   }
@@ -1844,9 +1880,9 @@ void CollectionBackend::ClearAlbumArt(const QString &effective_albumartist, cons
 
   {
     SqlQuery q(db);
-    q.prepare(QStringLiteral("UPDATE %1 SET art_embedded = 0, art_automatic = '', art_manual = '', art_unset = :art_unset WHERE effective_albumartist = :effective_albumartist AND album = :album AND unavailable = 0").arg(songs_table_));
+    q.prepare(QStringLiteral("UPDATE %1 SET art_embedded = 0, art_automatic = '', art_manual = '', art_unset = :art_unset WHERE %2 AND unavailable = 0").arg(songs_table_, AlbumWhereClause(effective_albumartist)));
     q.BindValue(u":art_unset"_s, art_unset ? 1 : 0);
-    q.BindValue(u":effective_albumartist"_s, effective_albumartist);
+    if (!effective_albumartist.isEmpty()) q.BindValue(u":effective_albumartist"_s, effective_albumartist);
     q.BindValue(u":album"_s, album);
     if (!q.Exec()) {
       db_->ReportErrors(q);
@@ -1854,23 +1890,7 @@ void CollectionBackend::ClearAlbumArt(const QString &effective_albumartist, cons
     }
   }
 
-  SongList songs;
-  {
-    CollectionQuery q(db, songs_table_);
-    q.SetColumnSpec(Song::kRowIdColumnSpec);
-    q.AddWhere(u"effective_albumartist"_s, effective_albumartist);
-    q.AddWhere(u"album"_s, album);
-    if (!q.Exec()) {
-      ReportErrors(q);
-      return;
-    }
-    while (q.Next()) {
-      Song song(source_);
-      song.InitFromQuery(q, true);
-      songs << song;
-    }
-  }
-
+  const SongList songs = GetAlbumSongsForArtUpdate(db, effective_albumartist, album);
   if (!songs.isEmpty()) {
     Q_EMIT SongsChanged(songs);
   }

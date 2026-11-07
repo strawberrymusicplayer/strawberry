@@ -196,6 +196,7 @@ class CollectionBackend : public CollectionBackendInterface {
   AlbumList GetAlbumsByArtist(const QString &artist, const CollectionFilterOptions &opt = CollectionFilterOptions()) override;
 
   void UpdateEmbeddedAlbumArtAsync(const QString &effective_albumartist, const QString &album, const bool art_embedded) override;
+  void UpdateEmbeddedAlbumArtByUrlsAsync(const QList<QUrl> &urls, const bool art_embedded);
   void UpdateManualAlbumArtAsync(const QString &effective_albumartist, const QString &album, const QUrl &art_manual) override;
   void UnsetAlbumArtAsync(const QString &effective_albumartist, const QString &album) override;
   void ClearAlbumArtAsync(const QString &effective_albumartist, const QString &album, const bool art_unset) override;
@@ -269,6 +270,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void DeleteSubdirs(const CollectionSubdirectoryList &subdirs);
   void CompilationsNeedUpdating();
   void UpdateEmbeddedAlbumArt(const QString &effective_albumartist, const QString &album, const bool art_embedded);
+  void UpdateEmbeddedAlbumArtByUrls(const QList<QUrl> &urls, const bool art_embedded);
   void UpdateManualAlbumArt(const QString &effective_albumartist, const QString &album, const QUrl &art_manual);
   void UnsetAlbumArt(const QString &effective_albumartist, const QString &album);
   void ClearAlbumArt(const QString &effective_albumartist, const QString &album, const bool art_unset);
@@ -325,6 +327,8 @@ class CollectionBackend : public CollectionBackendInterface {
   };
 
   bool UpdateCompilations(const QSqlDatabase &db, SongList &changed_songs, const QUrl &url, const bool compilation_detected);
+  static QString AlbumWhereClause(const QString &effective_albumartist);
+  SongList GetAlbumSongsForArtUpdate(const QSqlDatabase &db, const QString &effective_albumartist, const QString &album);
   AlbumList GetAlbums(const QString &artist, const QString &album_artist, const bool compilation_required = false, const CollectionFilterOptions &opt = CollectionFilterOptions());
   AlbumList GetAlbums(const QString &artist, const bool compilation_required, const CollectionFilterOptions &opt = CollectionFilterOptions());
   CollectionSubdirectoryList SubdirsInDirectory(const int id, QSqlDatabase &db);
