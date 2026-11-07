@@ -96,6 +96,7 @@ class StreamingLibraryView;
 class StreamingFavoritesView;
 class SmartPlaylistsViewContainer;
 #ifdef Q_OS_ANDROID
+class QStackedWidget;
 class QToolButton;
 #endif
 #ifdef Q_OS_WIN32
@@ -332,6 +333,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
  private:
   Ui_MainWindow *ui_;
 #ifdef Q_OS_ANDROID
+  QStackedWidget *android_playlist_pages_ = nullptr;
   QToolButton *android_mute_button_ = nullptr;
   QWidget *android_settings_tab_ = nullptr;
   int android_previous_tab_index_ = -1;

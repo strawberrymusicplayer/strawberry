@@ -10,7 +10,7 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: point 14 (extract the Android playlist header from `MainWindow`).
+- Next: point 15 (share the mute button state update).
   Point 23 (moving Android blocks into `*_android.cpp` files) comes after points 10–19.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 5` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
@@ -196,10 +196,17 @@ Handoff notes for continuing in a new session:
 
 ### 14. Extract the Android playlist header from MainWindow
 
-**Status:** Open
+**Status:** Done
 
 - `MainWindow::SetupAndroidLayout()` builds the playlist header and rename editor with many lambdas, tracks state in an `editingPlaylistId` dynamic property, and finds the playlist page stack with `findChild` by object name.
-- Fix: a small widget class for the header and rename editor, with the page stack kept as a member; add a native test for renaming and cancellation.
+
+**Resolved:**
+- Added `PlaylistTitleHeader` in `src/widgets/` (upstream already has a `PlaylistHeader` for the column header), built on all platforms so it can be tested natively; the Android title font and Back button stay behind a guard.
+  It knows nothing about `PlaylistManager`: `MainWindow` passes the current playlist with `SetPlaylist()`, connects `RenameRequested` to `PlaylistManager::Rename()`, and `BackClicked` to the page stack, which is now the member `android_playlist_pages_`.
+  `SetupAndroidLayout()` shrinks by about 80 lines, and the unused `QLineEdit` include is gone.
+- Added `PlaylistTitleHeaderTest` (8 tests): trimmed rename, empty and unchanged names, cancelling by leaving the editor or switching playlists, and Back.
+  The Android APK and the native desktop build succeed.
+- On the emulator, the header looks unchanged; renaming Playlist 9 updated the title and overview, an unconfirmed edit followed by Back was discarded and returned to the overview with the playlist still selected, and the original name was restored afterwards.
 
 ### 15. Share the mute button state update
 

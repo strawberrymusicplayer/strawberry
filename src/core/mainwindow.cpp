@@ -68,7 +68,6 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLayout>
-#include <QLineEdit>
 #include <QSize>
 #include <QSplitter>
 #include <QPushButton>
@@ -117,6 +116,7 @@
 #ifdef Q_OS_ANDROID
 #  include "core/androidstorage.h"
 #  include "widgets/androidwidgets.h"
+#  include "widgets/playlisttitleheader.h"
 #endif
 #include "utilities/envutils.h"
 #include "utilities/filemanagerutils.h"
@@ -495,11 +495,10 @@ MainWindow::MainWindow(Application *app,
   ui_->tabs->AddTab(collection_view_, u"collection"_s, IconLoader::Load(u"library-music"_s, true, 0, 32), tr("Collection"));
   ui_->tabs->AddTab(queue_view_, u"queue"_s, IconLoader::Load(u"footsteps"_s, true, 0, 32), tr("Queue"));
 #ifdef Q_OS_ANDROID
-  QStackedWidget *playlist_pages = new QStackedWidget(ui_->tabs);
-  playlist_pages->setObjectName(u"android_playlist_pages"_s);
-  playlist_pages->addWidget(playlist_list_);
-  playlist_pages->addWidget(ui_->playlist_layout);
-  ui_->tabs->AddTab(playlist_pages, u"playlists"_s, IconLoader::Load(u"view-media-playlist"_s, true, 0, 32), tr("Playlists"));
+  android_playlist_pages_ = new QStackedWidget(ui_->tabs);
+  android_playlist_pages_->addWidget(playlist_list_);
+  android_playlist_pages_->addWidget(ui_->playlist_layout);
+  ui_->tabs->AddTab(android_playlist_pages_, u"playlists"_s, IconLoader::Load(u"view-media-playlist"_s, true, 0, 32), tr("Playlists"));
 #else
   ui_->tabs->AddTab(playlist_list_, u"playlists"_s, IconLoader::Load(u"view-media-playlist"_s, true, 0, 32), tr("Playlists"));
 #endif
@@ -1329,102 +1328,32 @@ void MainWindow::SetupAndroidLayout() {
   ui_->line_6->hide();
   ui_->layout_right->setContentsMargins(0, 0, 0, 0);
 
-  QStackedWidget *playlist_pages = findChild<QStackedWidget*>(u"android_playlist_pages"_s);
-  QWidget *playlist_header = new QWidget(ui_->playlist_layout);
-  playlist_header->setFixedHeight(56);
-  auto *playlist_header_layout = new QHBoxLayout(playlist_header);
-  playlist_header_layout->setContentsMargins(0, 0, 0, 0);
-  playlist_header_layout->setSpacing(0);
-  QPushButton *playlist_back = AndroidWidgets::CreateBackButton(playlist_header);
-  playlist_back->setAccessibleName(tr("Back to playlists"));
-  playlist_back->setToolTip(tr("Back to playlists"));
-  QStackedWidget *playlist_title = new QStackedWidget(ui_->playlist_layout);
-  playlist_title->setFixedHeight(56);
-  playlist_title->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
-  QPushButton *playlist_name = new QPushButton(playlist_title);
-  playlist_name->setMinimumHeight(48);
-  playlist_name->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
-  playlist_name->setAutoDefault(false);
-  playlist_name->setFlat(true);
-  playlist_name->setStyleSheet(u"text-align: left; padding-left: 8px;"_s);
-  playlist_name->setAccessibleName(tr("Rename playlist"));
-  playlist_name->setToolTip(tr("Rename playlist"));
-  QLineEdit *playlist_name_editor = new QLineEdit(playlist_title);
-  playlist_name_editor->setMinimumHeight(48);
-  playlist_name_editor->setProperty("editingPlaylistId", -1);
-  playlist_title->addWidget(playlist_name);
-  playlist_title->addWidget(playlist_name_editor);
-  AndroidWidgets::SetPageTitleFont(playlist_name);
-  playlist_name_editor->setFont(playlist_name->font());
-  playlist_header_layout->addWidget(playlist_title, 1);
-  playlist_header_layout->addWidget(playlist_back);
+  PlaylistTitleHeader *playlist_header = new PlaylistTitleHeader(ui_->playlist_layout);
   ui_->layout_right->insertWidget(0, playlist_header);
-  QObject::connect(playlist_back, &QPushButton::clicked, this, [this, playlist_pages]() {
-    playlist_pages->setCurrentWidget(playlist_list_);
+  QObject::connect(playlist_header, &PlaylistTitleHeader::BackClicked, this, [this]() {
+    android_playlist_pages_->setCurrentWidget(playlist_list_);
   });
-  const auto cancel_playlist_rename = [playlist_title, playlist_name, playlist_name_editor]() {
-    playlist_name_editor->setProperty("editingPlaylistId", -1);
-    playlist_title->setCurrentWidget(playlist_name);
-    playlist_name->setFocus(Qt::OtherFocusReason);
-  };
-  QObject::connect(playlist_name, &QPushButton::clicked, this, [this, playlist_title, playlist_name_editor]() {
+  QObject::connect(playlist_header, &PlaylistTitleHeader::RenameRequested, &*app_->playlist_manager(), &PlaylistManager::Rename);
+  const auto update_playlist_header = [this, playlist_header]() {
     Playlist *playlist = app_->playlist_manager()->current();
-    if (!playlist) return;
-    playlist_name_editor->setProperty("editingPlaylistId", playlist->id());
-    playlist_name_editor->setText(app_->playlist_manager()->GetPlaylistName(playlist->id()));
-    playlist_title->setCurrentWidget(playlist_name_editor);
-    playlist_name_editor->selectAll();
-    playlist_name_editor->setFocus(Qt::OtherFocusReason);
-  });
-  const auto save_playlist_rename = [this, playlist_name_editor, cancel_playlist_rename]() {
-    const int playlist_id = playlist_name_editor->property("editingPlaylistId").toInt();
-    if (playlist_id < 0) return;
-    Playlist *playlist = app_->playlist_manager()->current();
-    if (!playlist || playlist->id() != playlist_id) {
-      cancel_playlist_rename();
-      return;
-    }
-    const QString new_name = playlist_name_editor->text().trimmed();
-    if (new_name.isEmpty()) {
-      cancel_playlist_rename();
-      return;
-    }
-    if (new_name != app_->playlist_manager()->GetPlaylistName(playlist_id)) {
-      app_->playlist_manager()->Rename(playlist_id, new_name);
-    }
-    cancel_playlist_rename();
+    playlist_header->SetPlaylist(playlist ? playlist->id() : -1, playlist ? app_->playlist_manager()->GetPlaylistName(playlist->id()) : QString());
   };
-  QObject::connect(playlist_name_editor, &QLineEdit::returnPressed, this, save_playlist_rename);
-  QObject::connect(playlist_name_editor, &QLineEdit::editingFinished, this, [playlist_name_editor, cancel_playlist_rename]() {
-    if (playlist_name_editor->property("editingPlaylistId").toInt() >= 0) cancel_playlist_rename();
+  update_playlist_header();
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentChanged, this, update_playlist_header);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::PlaylistRenamed, this, update_playlist_header);
+  // FancyTabWidget wraps android_playlist_pages_ in its own page, so compare tab indexes from IndexOfTab() instead of widgets.
+  QObject::connect(ui_->tabs->tabBar(), &QTabBar::tabBarClicked, this, [this](const int index) {
+    if (index == ui_->tabs->IndexOfTab(android_playlist_pages_)) android_playlist_pages_->setCurrentWidget(playlist_list_);
   });
-  const auto update_playlist_name = [this, playlist_name]() {
-    if (Playlist *playlist = app_->playlist_manager()->current()) {
-      playlist_name->setText(app_->playlist_manager()->GetPlaylistName(playlist->id()));
-    }
-    else playlist_name->setText(QString());
-  };
-  update_playlist_name();
-  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentChanged, this, [this, playlist_name_editor, cancel_playlist_rename, update_playlist_name]() {
-    Playlist *playlist = app_->playlist_manager()->current();
-    const int editing_playlist_id = playlist_name_editor->property("editingPlaylistId").toInt();
-    if (editing_playlist_id >= 0 && (!playlist || playlist->id() != editing_playlist_id)) cancel_playlist_rename();
-    update_playlist_name();
+  QObject::connect(playlist_list_, &PlaylistListContainer::PlaylistActivated, this, [this]() {
+    android_playlist_pages_->setCurrentWidget(ui_->playlist_layout);
   });
-  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::PlaylistRenamed, this, update_playlist_name);
-  // FancyTabWidget wraps playlist_pages in its own page, so compare tab indexes from IndexOfTab() instead of widgets.
-  QObject::connect(ui_->tabs->tabBar(), &QTabBar::tabBarClicked, this, [this, playlist_pages](const int index) {
-    if (index == ui_->tabs->IndexOfTab(playlist_pages)) playlist_pages->setCurrentWidget(playlist_list_);
+  QObject::connect(ui_->action_new_playlist, &QAction::triggered, this, [this]() {
+    ui_->tabs->setCurrentIndex(ui_->tabs->IndexOfTab(android_playlist_pages_));
+    android_playlist_pages_->setCurrentWidget(ui_->playlist_layout);
   });
-  QObject::connect(playlist_list_, &PlaylistListContainer::PlaylistActivated, this, [this, playlist_pages]() {
-    playlist_pages->setCurrentWidget(ui_->playlist_layout);
-  });
-  QObject::connect(ui_->action_new_playlist, &QAction::triggered, this, [this, playlist_pages]() {
-    ui_->tabs->setCurrentIndex(ui_->tabs->IndexOfTab(playlist_pages));
-    playlist_pages->setCurrentWidget(ui_->playlist_layout);
-  });
-  QObject::connect(ui_->tabs, &QTabWidget::currentChanged, this, [this, playlist_pages]() {
-    if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(playlist_pages)) playlist_pages->setCurrentWidget(playlist_list_);
+  QObject::connect(ui_->tabs, &QTabWidget::currentChanged, this, [this]() {
+    if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(android_playlist_pages_)) android_playlist_pages_->setCurrentWidget(playlist_list_);
   });
 
   ui_->tabs->SetMode(FancyTabWidget::Mode::LargeSidebar);
