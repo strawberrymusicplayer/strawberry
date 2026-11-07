@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2020-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -76,6 +77,8 @@ class SmartPlaylistSearchTermWidget : public QWidget {
   void Grab();
 
  private:
+  QWidget *ValuePage(const SmartPlaylistSearchTerm::Type type, const SmartPlaylistSearchTerm::Operator op) const;
+
   Ui_SmartPlaylistSearchTermWidget *ui_;
   SharedPtr<CollectionBackend> collection_backend_;
 

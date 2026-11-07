@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2020-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -128,34 +129,9 @@ void SmartPlaylistSearchTermWidget::FieldChanged(int index) {
   }
 
   // Show the correct value editor
-  QWidget *page = nullptr;
+  // The operators are kept when changing between fields of the same type, like between two date fields, so the editor depends on the operator too.
   const SmartPlaylistSearchTerm::Operator op = ui_->op->currentData().value<SmartPlaylistSearchTerm::Operator>();
-  switch (type) {
-    case SmartPlaylistSearchTerm::Type::Time:
-      page = ui_->page_time;
-      break;
-    case SmartPlaylistSearchTerm::Type::Number:
-      page = ui_->page_number;
-      break;
-    case SmartPlaylistSearchTerm::Type::Date:
-      page = ui_->page_date;
-      break;
-    case SmartPlaylistSearchTerm::Type::Text:
-      if (op == SmartPlaylistSearchTerm::Operator::Empty || op == SmartPlaylistSearchTerm::Operator::NotEmpty) {
-        page = ui_->page_empty;
-      }
-      else {
-        page = ui_->page_text;
-      }
-      break;
-    case SmartPlaylistSearchTerm::Type::Rating:
-      page = ui_->page_rating;
-      break;
-    case SmartPlaylistSearchTerm::Type::Invalid:
-      page = nullptr;
-      break;
-  }
-  ui_->value_stack->setCurrentWidget(page);
+  ui_->value_stack->setCurrentWidget(ValuePage(type, op));
 
   // Maybe set a tag completer
   switch (field) {
@@ -194,6 +170,36 @@ void SmartPlaylistSearchTermWidget::FieldChanged(int index) {
 
 }
 
+QWidget *SmartPlaylistSearchTermWidget::ValuePage(const SmartPlaylistSearchTerm::Type type, const SmartPlaylistSearchTerm::Operator op) const {
+
+  switch (type) {
+    case SmartPlaylistSearchTerm::Type::Time:
+      return ui_->page_time;
+    case SmartPlaylistSearchTerm::Type::Number:
+      return ui_->page_number;
+    case SmartPlaylistSearchTerm::Type::Date:
+      if (op == SmartPlaylistSearchTerm::Operator::NumericDate || op == SmartPlaylistSearchTerm::Operator::NumericDateNot) {
+        return ui_->page_date_numeric;
+      }
+      if (op == SmartPlaylistSearchTerm::Operator::RelativeDate) {
+        return ui_->page_date_relative;
+      }
+      return ui_->page_date;
+    case SmartPlaylistSearchTerm::Type::Text:
+      if (op == SmartPlaylistSearchTerm::Operator::Empty || op == SmartPlaylistSearchTerm::Operator::NotEmpty) {
+        return ui_->page_empty;
+      }
+      return ui_->page_text;
+    case SmartPlaylistSearchTerm::Type::Rating:
+      return ui_->page_rating;
+    case SmartPlaylistSearchTerm::Type::Invalid:
+      break;
+  }
+
+  return nullptr;
+
+}
+
 void SmartPlaylistSearchTermWidget::OpChanged(int idx) {
 
   Q_UNUSED(idx);
@@ -202,32 +208,9 @@ void SmartPlaylistSearchTermWidget::OpChanged(int idx) {
   // This uses the operatorss index in the combobox to get its enum value
   const SmartPlaylistSearchTerm::Operator op = ui_->op->currentData().value<SmartPlaylistSearchTerm::Operator>();
 
-  // We need to change the page only in the following case
-  if ((ui_->value_stack->currentWidget() == ui_->page_text) || (ui_->value_stack->currentWidget() == ui_->page_empty)) {
-    QWidget *page = nullptr;
-    if (op == SmartPlaylistSearchTerm::Operator::Empty || op == SmartPlaylistSearchTerm::Operator::NotEmpty) {
-      page = ui_->page_empty;
-    }
-    else {
-      page = ui_->page_text;
-    }
-    ui_->value_stack->setCurrentWidget(page);
-  }
-  else if (
-      (ui_->value_stack->currentWidget() == ui_->page_date) ||
-      (ui_->value_stack->currentWidget() == ui_->page_date_numeric) ||
-      (ui_->value_stack->currentWidget() == ui_->page_date_relative)
-      ) {
-    QWidget *page = nullptr;
-    if (op == SmartPlaylistSearchTerm::Operator::NumericDate || op == SmartPlaylistSearchTerm::Operator::NumericDateNot) {
-      page = ui_->page_date_numeric;
-    }
-    else if (op == SmartPlaylistSearchTerm::Operator::RelativeDate) {
-      page = ui_->page_date_relative;
-    }
-    else {
-      page = ui_->page_date;
-    }
+  // The operators are replaced when the field changes to another type, then this is called before current_field_type_ is updated, and FieldChanged() shows the editor afterwards.
+  QWidget *page = ValuePage(current_field_type_, op);
+  if (page) {
     ui_->value_stack->setCurrentWidget(page);
   }
 
