@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -60,36 +60,6 @@ void RadioBackend::Exit() {
 
 }
 
-void RadioBackend::AddChannelsAsync(const RadioChannelList &channels) {
-  QMetaObject::invokeMethod(this, "AddChannels", Qt::QueuedConnection, Q_ARG(RadioChannelList, channels));
-}
-
-void RadioBackend::AddChannels(const RadioChannelList &channels) {
-
-  QMutexLocker l(db_->Mutex());
-  QSqlDatabase db(db_->Connect());
-  ScopedTransaction t(&db);
-
-  SqlQuery q(db);
-  q.prepare(u"INSERT INTO radio_channels (source, name, url, thumbnail_url) VALUES (:source, :name, :url, :thumbnail_url)"_s);
-
-  for (const RadioChannel &channel : channels) {
-    q.BindValue(u":source"_s, static_cast<int>(channel.source));
-    q.BindValue(u":name"_s, channel.name);
-    q.BindValue(u":url"_s, channel.url);
-    q.BindValue(u":thumbnail_url"_s, channel.thumbnail_url);
-    if (!q.Exec()) {
-      db_->ReportErrors(q);
-      return;
-    }
-  }
-
-  t.Commit();
-
-  Q_EMIT NewChannels(channels);
-
-}
-
 void RadioBackend::GetChannelsAsync() {
 
   QMetaObject::invokeMethod(this, &RadioBackend::GetChannels, Qt::QueuedConnection);
@@ -123,20 +93,42 @@ void RadioBackend::GetChannels() {
 
 }
 
-void RadioBackend::DeleteChannelsAsync() {
-  QMetaObject::invokeMethod(this, &RadioBackend::DeleteChannels, Qt::QueuedConnection);
+void RadioBackend::ReplaceChannelsAsync(const Song::Source source, const RadioChannelList &channels) {
+  QMetaObject::invokeMethod(this, [this, source, channels]() { ReplaceChannels(source, channels); }, Qt::QueuedConnection);
 }
 
-void RadioBackend::DeleteChannels() {
+void RadioBackend::ReplaceChannels(const Song::Source source, const RadioChannelList &channels) {
 
-  QMutexLocker l(db_->Mutex());
-  QSqlDatabase db(db_->Connect());
+  {
+    QMutexLocker l(db_->Mutex());
+    QSqlDatabase db(db_->Connect());
+    // The channels are replaced in one transaction, so the old channels are kept when the new channels can't be stored.
+    ScopedTransaction t(&db);
 
-  SqlQuery q(db);
-  q.prepare(u"DELETE FROM radio_channels"_s);
+    SqlQuery q_delete(db);
+    q_delete.prepare(u"DELETE FROM radio_channels WHERE source = :source"_s);
+    q_delete.BindValue(u":source"_s, static_cast<int>(source));
+    if (!q_delete.Exec()) {
+      db_->ReportErrors(q_delete);
+      return;
+    }
 
-  if (!q.Exec()) {
-    db_->ReportErrors(q);
+    SqlQuery q_insert(db);
+    q_insert.prepare(u"INSERT INTO radio_channels (source, name, url, thumbnail_url) VALUES (:source, :name, :url, :thumbnail_url)"_s);
+    for (const RadioChannel &channel : channels) {
+      q_insert.BindValue(u":source"_s, static_cast<int>(source));
+      q_insert.BindValue(u":name"_s, channel.name);
+      q_insert.BindValue(u":url"_s, channel.url);
+      q_insert.BindValue(u":thumbnail_url"_s, channel.thumbnail_url);
+      if (!q_insert.Exec()) {
+        db_->ReportErrors(q_insert);
+        return;
+      }
+    }
+
+    t.Commit();
   }
+
+  GetChannels();
 
 }

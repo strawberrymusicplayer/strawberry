@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -109,16 +109,14 @@ void RadioServices::ReloadSettings() {
 
 void RadioServices::GetChannels() {
 
-  model_->Reset();
   backend_->GetChannelsAsync();
 
 }
 
 void RadioServices::RefreshChannels() {
 
+  // The stored channels are only replaced when a service sends its new channels, so they are kept when a service can't be reached.
   channels_refresh_ = true;
-  model_->Reset();
-  backend_->DeleteChannelsAsync();
 
   for (RadioService *service : std::as_const(services_)) {
     service->GetChannels();
@@ -128,13 +126,17 @@ void RadioServices::RefreshChannels() {
 
 void RadioServices::GotChannelsFromBackend(const RadioChannelList &channels) {
 
+  // The backend always sends all the stored channels, so the model is replaced.
+  model_->Reset();
+  model_->AddChannels(channels);
+
   if (channels.isEmpty()) {
+    // Get the channels from the services when none are stored, only once, so they are not requested again when the services can't be reached.
     if (!channels_refresh_) {
       RefreshChannels();
     }
   }
   else {
-    model_->AddChannels(channels);
     channels_refresh_ = false;
   }
 
@@ -145,6 +147,9 @@ void RadioServices::GotChannelsFromService(const RadioChannelList &channels) {
   RadioService *service = qobject_cast<RadioService*>(sender());
   if (!service) return;
 
-  backend_->AddChannelsAsync(channels);
+  // The services send no channels when getting them failed, then the stored channels of the service are kept.
+  if (channels.isEmpty()) return;
+
+  backend_->ReplaceChannelsAsync(service->source(), channels);
 
 }
