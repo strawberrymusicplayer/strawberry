@@ -1376,9 +1376,7 @@ void MainWindow::SetupAndroidLayout() {
   android_mute_button_->setIconSize(ui_->pause_play_button->iconSize());
   android_mute_button_->setAutoRaise(true);
   ui_->layout_player_controls->addWidget(android_mute_button_);
-  const bool muted = app_->player()->is_muted();
-  ui_->action_mute->setIcon(style()->standardIcon(muted ? QStyle::SP_MediaVolumeMuted : QStyle::SP_MediaVolume));
-  android_mute_button_->setAccessibleName(muted ? tr("Unmute") : tr("Mute"));
+  UpdateAndroidMuteButton(app_->player()->is_muted());
 
   // Create love button with proper styling to match other buttons
   auto *love_button = new QToolButton(ui_->player_controls);
@@ -1885,15 +1883,24 @@ void MainWindow::MuteChanged(const bool mute) {
 
   ui_->action_mute->setChecked(mute);
 #ifdef Q_OS_ANDROID
-  if (android_mute_button_) {
-    ui_->action_mute->setIcon(style()->standardIcon(mute ? QStyle::SP_MediaVolumeMuted : QStyle::SP_MediaVolume));
-    android_mute_button_->setAccessibleName(mute ? tr("Unmute") : tr("Mute"));
-  }
+  UpdateAndroidMuteButton(mute);
 #endif
   systemtrayicon_->MuteButtonStateChanged(mute);
   ui_->volume->SetMuted(mute);
 
 }
+
+#ifdef Q_OS_ANDROID
+void MainWindow::UpdateAndroidMuteButton(const bool mute) {
+
+  // The button is created in SetupAndroidLayout(), after the first MuteChanged() call.
+  if (!android_mute_button_) return;
+
+  ui_->action_mute->setIcon(style()->standardIcon(mute ? QStyle::SP_MediaVolumeMuted : QStyle::SP_MediaVolume));
+  android_mute_button_->setAccessibleName(mute ? tr("Unmute") : tr("Mute"));
+
+}
+#endif
 
 void MainWindow::SongChanged(const Song &song) {
 

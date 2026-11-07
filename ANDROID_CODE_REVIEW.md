@@ -10,7 +10,7 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: point 15 (share the mute button state update).
+- Next: point 16 (share the Android action and confirmation dialogs).
   Point 23 (moving Android blocks into `*_android.cpp` files) comes after points 10–19.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 5` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
@@ -210,9 +210,15 @@ Handoff notes for continuing in a new session:
 
 ### 15. Share the mute button state update
 
-**Status:** Open
+**Status:** Done
 
 - The mute icon and accessible name are set in both `SetupAndroidLayout()` and `MuteChanged()`; use one helper.
+
+**Resolved:**
+- Added `MainWindow::UpdateAndroidMuteButton()`, used by both.
+  Both calls stay because the first `MuteChanged()` in the constructor runs before `SetupAndroidLayout()` creates the button; the helper returns early until then.
+- The Android APK and the native desktop build succeed.
+  On the emulator, the button starts with the volume icon (upstream does not persist mute), switches to the muted icon when tapped, and back when tapped again.
 
 ### 16. Share the Android action and confirmation dialogs
 

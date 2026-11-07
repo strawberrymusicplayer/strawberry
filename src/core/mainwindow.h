@@ -313,6 +313,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 #ifdef Q_OS_ANDROID
   void SetupAndroidLayout();
   QWidget *CreateAndroidToolsPage();
+  void UpdateAndroidMuteButton(const bool mute);
 #endif
 
   static void ApplyAddBehaviour(const BehaviourSettings::AddBehaviour b, MimeData *mimedata);
