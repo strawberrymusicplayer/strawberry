@@ -223,9 +223,10 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       set_state_async_in_progress_(0),
       set_state_request_generation_(0) {
 
-  guint version_major = 0, version_minor = 0;
-  gst_plugins_base_version(&version_major, &version_minor, nullptr, nullptr);
-  playbin3_support_ = QVersionNumber::compare(QVersionNumber(static_cast<int>(version_major), static_cast<int>(version_minor)), QVersionNumber(1, 24)) >= 0;
+  guint version_major = 0, version_minor = 0, version_micro = 0;
+  gst_plugins_base_version(&version_major, &version_minor, &version_micro, nullptr);
+  // The earlier 1.24 releases have races and deadlocks in playbin3, decodebin3, parsebin and urisourcebin, which were fixed up to 1.24.11, playback could stall during preroll.
+  playbin3_support_ = QVersionNumber::compare(QVersionNumber(static_cast<int>(version_major), static_cast<int>(version_minor), static_cast<int>(version_micro)), QVersionNumber(1, 24, 11)) >= 0;
   volume_full_range_support_ = QVersionNumber::compare(QVersionNumber(static_cast<int>(version_major), static_cast<int>(version_minor)), QVersionNumber(1, 24)) >= 0;
 
   // A single thread, so gst_element_set_state() calls for this pipeline are always applied in the order they were requested.
