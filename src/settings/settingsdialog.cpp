@@ -77,6 +77,7 @@
 #include "settingsdialog.h"
 #include "settingspage.h"
 #include "androidsettingspage.h"
+#include "widgets/androidwidgets.h"
 #include "settingsitemdelegate.h"
 #include "behavioursettingspage.h"
 #include "collectionsettingspage.h"
@@ -301,18 +302,8 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
   }
   categories_layout->addStretch();
 
-  auto *header = new QHBoxLayout;
-  QPushButton *back_button = new QPushButton(tr("Back"), this);
-  back_button->setIcon(IconLoader::Load(u"go-previous"_s));
-  back_button->setIconSize(QSize(32, 32));
-  back_button->setMinimumHeight(48);
-  QFont title_font = ui_->title->font();
-  title_font.setPointSize(18);
-  title_font.setBold(true);
-  ui_->title->setFont(title_font);
-  ui_->title->setWordWrap(true);
-  header->addWidget(ui_->title, 1);
-  header->addWidget(back_button);
+  QPushButton *back_button = AndroidWidgets::CreateBackButton(this);
+  QHBoxLayout *header = AndroidWidgets::CreatePageHeader(ui_->title, back_button);
   ui_->layout->removeWidget(ui_->title);
   ui_->layout->removeWidget(ui_->line_2);
   ui_->line_2->hide();

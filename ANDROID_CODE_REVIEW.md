@@ -10,11 +10,12 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: point 10; points 21-23 were found during testing.
+- Next: point 11 (add its helpers to `src/widgets/androidwidgets.cpp`); points 21 and 22 were found during testing.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 5` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
 - Deploy: zipalign and sign with the debug keystore, `adb install -r`, launch with `adb shell monkey -p org.qtproject.example.strawberry 1` (see `ANDROID_EMULATOR_TESTING.md`).
-- The app's screen lags 30 seconds to over two minutes behind input (point 23), although taps are handled immediately; wait before each screenshot and check `adb shell top` before blaming the emulator.
+- Start the emulator with `emulator -avd Medium_Phone_API_36.1 -no-snapshot-load -no-boot-anim -memory 4096 -gpu host -crash-report-mode never -no-metrics`; `-gpu swiftshader_indirect` is too slow, and a pending crash-report dialog blocks booting.
+- Write each screenshot to a new file name and view it only after the capture command has finished; viewing it in parallel shows the previous screenshot, which looks like display lag.
 - Test music is in `/sdcard/Music/StrawberryTest`; the release APK is not debuggable, so check settings through the UI.
 
 ## Correctness and safety
@@ -142,10 +143,15 @@ Handoff notes for continuing in a new session:
 
 ### 10. Share the Android page header
 
-**Status:** Open
+**Status:** Done
 
-- The breadcrumb title (bold, 18 pt) with a Back button (32-pixel `go-previous` icon, 48-pixel height) is built separately in `MainWindow::SetupAndroidLayout()`, `Equalizer::SetupAndroidLayout()`, and the `SettingsDialog` constructor.
-- Fix: one shared factory or widget, with shared touch-size constants.
+- The breadcrumb title (bold, 18 pt) with a Back button (32-pixel `go-previous` icon, 48-pixel height) was built separately in `MainWindow::SetupAndroidLayout()`, `Equalizer::SetupAndroidLayout()`, and the `SettingsDialog` constructor.
+
+**Resolved:**
+- Added the Android-only `src/widgets/androidwidgets.cpp` with `AndroidWidgets::SetPageTitleFont()`, `CreateBackButton()`, `CreatePageHeader()`, and the shared `kMinimumTouchSize` and `kNavigationIconSize` constants.
+  The equalizer and settings headers use `CreatePageHeader()`; the playlist header, whose title is a rename button, uses the title font and Back button.
+- The Android APK builds; the native equalizer and playlist tests pass.
+  On the emulator, the Equalizer, Settings, and Now playing headers look unchanged, and the playlist Back button returns to the playlist list.
 
 ### 11. Share the large Android navigation buttons
 
@@ -235,10 +241,3 @@ Handoff notes for continuing in a new session:
 
 - The Android equalizer's Preset and Collapse behaviour of sections buttons show their values in bold black, while Settings shows values in the bold link color, as the Android guidelines require.
   Resolve together with point 12.
-
-### 23. Screen updates reach the display late
-
-**Status:** Open
-
-- On the emulator, the app's screen often stays unchanged for 30 seconds to over two minutes after a tap, while the app itself is idle (0% CPU) and has already handled the input; the status bar clock keeps updating.
-- Investigate together with point 17: the frame is probably rendered but not flushed until a later update.

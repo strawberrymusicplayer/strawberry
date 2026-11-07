@@ -1465,7 +1465,7 @@ else()
 endif()
 
 if(ANDROID)
-  list(APPEND SOURCES src/core/androidstorage.cpp src/settings/androidsettingspage.cpp)
+  list(APPEND SOURCES src/core/androidstorage.cpp src/settings/androidsettingspage.cpp src/widgets/androidwidgets.cpp)
   list(APPEND HEADERS src/settings/androidsettingspage.h)
 endif()
 

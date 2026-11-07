@@ -58,6 +58,7 @@
 #  include <QStyle>
 #  include <QTimer>
 #  include "settings/androidsettingspage.h"
+#  include "widgets/androidwidgets.h"
 #endif
 
 #include "core/iconloader.h"
@@ -566,21 +567,10 @@ void Equalizer::SetupAndroidLayout() {
   QVBoxLayout *root = new QVBoxLayout(this);
   root->setSizeConstraint(QLayout::SetNoConstraint);
   setMinimumSize(0, 0);
-  QHBoxLayout *navigation = new QHBoxLayout;
   android_title_ = new QLabel(tr("Tools > Equalizer"), this);
-  android_title_->setWordWrap(true);
   android_title_->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
-  QFont title_font = android_title_->font();
-  title_font.setPointSize(18);
-  title_font.setBold(true);
-  android_title_->setFont(title_font);
-  QPushButton *back = new QPushButton(tr("Back"), this);
-  back->setIcon(IconLoader::Load(u"go-previous"_s));
-  back->setIconSize(QSize(32, 32));
-  back->setMinimumHeight(48);
-  navigation->addWidget(android_title_, 1);
-  navigation->addWidget(back);
-  root->addLayout(navigation);
+  QPushButton *back = AndroidWidgets::CreateBackButton(this);
+  root->addLayout(AndroidWidgets::CreatePageHeader(android_title_, back));
   android_pages_ = new QStackedWidget(this);
   root->addWidget(android_pages_);
   android_main_ = new QScrollArea(android_pages_);

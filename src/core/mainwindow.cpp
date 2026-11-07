@@ -116,6 +116,7 @@
 #include "core/appearance.h"
 #ifdef Q_OS_ANDROID
 #  include "core/androidstorage.h"
+#  include "widgets/androidwidgets.h"
 #endif
 #include "utilities/envutils.h"
 #include "utilities/filemanagerutils.h"
@@ -1331,10 +1332,7 @@ void MainWindow::SetupAndroidLayout() {
   auto *playlist_header_layout = new QHBoxLayout(playlist_header);
   playlist_header_layout->setContentsMargins(0, 0, 0, 0);
   playlist_header_layout->setSpacing(0);
-  QPushButton *playlist_back = new QPushButton(tr("Back"), playlist_header);
-  playlist_back->setIcon(IconLoader::Load(u"go-previous"_s));
-  playlist_back->setIconSize(QSize(32, 32));
-  playlist_back->setMinimumHeight(48);
+  QPushButton *playlist_back = AndroidWidgets::CreateBackButton(playlist_header);
   playlist_back->setAccessibleName(tr("Back to playlists"));
   playlist_back->setToolTip(tr("Back to playlists"));
   QStackedWidget *playlist_title = new QStackedWidget(ui_->playlist_layout);
@@ -1353,11 +1351,8 @@ void MainWindow::SetupAndroidLayout() {
   playlist_name_editor->setProperty("editingPlaylistId", -1);
   playlist_title->addWidget(playlist_name);
   playlist_title->addWidget(playlist_name_editor);
-  QFont playlist_name_font = playlist_name->font();
-  playlist_name_font.setPointSize(18);
-  playlist_name_font.setBold(true);
-  playlist_name->setFont(playlist_name_font);
-  playlist_name_editor->setFont(playlist_name_font);
+  AndroidWidgets::SetPageTitleFont(playlist_name);
+  playlist_name_editor->setFont(playlist_name->font());
   playlist_header_layout->addWidget(playlist_title, 1);
   playlist_header_layout->addWidget(playlist_back);
   ui_->layout_right->insertWidget(0, playlist_header);
