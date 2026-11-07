@@ -53,6 +53,9 @@ class SpotifyRequest : public SpotifyBaseRequest {
   void Process();
   void Search(const int query_id, const QString &search_text);
 
+  // Returns the cursor for the next page of followed artists, which are paged with a cursor instead of an offset, or an empty string when it's the last page.
+  static QString NextArtistsCursor(const QJsonObject &object_artists);
+
  private:
   struct Artist {
     QString artist_id;
@@ -69,6 +72,8 @@ class SpotifyRequest : public SpotifyBaseRequest {
     Request() : offset(0), limit(0) {}
     int offset;
     int limit;
+    // The cursor for the next page of followed artists.
+    QString after;
   };
   struct ArtistAlbumsRequest {
     ArtistAlbumsRequest() : offset(0), limit(0) {}
@@ -103,7 +108,7 @@ class SpotifyRequest : public SpotifyBaseRequest {
  private Q_SLOTS:
   void FlushRequests();
 
-  void ArtistsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
+  void ArtistsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested, const QString &after_requested);
 
   void AlbumsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
   void AlbumsReceived(QNetworkReply *reply, const SpotifyRequest::Artist &artist_artist, const int limit_requested, const int offset_requested);
@@ -129,7 +134,7 @@ class SpotifyRequest : public SpotifyBaseRequest {
   void AlbumsSearch();
   void SongsSearch();
 
-  void AddArtistsRequest(const int offset = 0, const int limit = 0);
+  void AddArtistsRequest(const int offset = 0, const int limit = 0, const QString &after = QString());
   void AddArtistsSearchRequest(const int offset = 0);
   void FlushArtistsRequests();
   void AddAlbumsRequest(const int offset = 0, const int limit = 0);
@@ -139,7 +144,7 @@ class SpotifyRequest : public SpotifyBaseRequest {
   void AddSongsSearchRequest(const int offset = 0);
   void FlushSongsRequests();
 
-  void ArtistsFinishCheck(const int limit, const int offset, const int artists_received);
+  void ArtistsFinishCheck(const int limit, const int offset, const int artists_received, const QString &after_requested, const QString &after_next);
   void AlbumsFinishCheck(const Artist &artist, const int limit, const int offset, const int albums_total, const int albums_received);
   void SongsFinishCheck(const Artist &artist, const Album &album, const int limit, const int offset, const int songs_total, const int songs_received);
 
