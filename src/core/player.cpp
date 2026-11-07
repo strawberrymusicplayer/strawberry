@@ -480,6 +480,10 @@ void Player::NextItem(const EngineBase::TrackChangeFlags change, const Playlist:
 
   int i = active_playlist->next_row(ignore_repeat_track);
   if (i == -1) {
+    Q_EMIT PlaylistDone();
+    i = active_playlist->next_row(ignore_repeat_track);
+  }
+  if (i == -1) {
     playlist_manager_->active()->set_current_row(i);
     playlist_manager_->active()->reset_last_played();
     Q_EMIT PlaylistFinished();
@@ -586,7 +590,12 @@ void Player::PlayPause(const quint64 offset_nanosec, const Playlist::AutoScroll 
       pause_time_ = QDateTime();
       play_offset_nanosec_ = offset_nanosec;
       playlist_manager_->SetActivePlaylist(playlist_manager_->current_id());
-      if (playlist_manager_->active()->rowCount() == 0) break;
+      if (playlist_manager_->active()->rowCount() == 0) {
+        Q_EMIT PlaylistDone();
+        const int next_row = playlist_manager_->active()->next_row();
+        if (next_row != -1) PlayAt(next_row, false, offset_nanosec, EngineBase::TrackChangeType::First, autoscroll, true);
+        break;
+      }
       int i = playlist_manager_->active()->current_row();
       if (i == -1) i = playlist_manager_->active()->last_played_row();
       if (i == -1) i = 0;

@@ -74,6 +74,8 @@ class CollectionFilterWidget : public QWidget {
   void AddMenuAction(QAction *action);
   // Adds a tool button between the search field and the options button, with the same style and icon size as the options button.
   void AddButton(QToolButton *button);
+  // Adds a tool button after the options button, with the same style and icon size as the options button.
+  void AppendButton(QToolButton *button);
 
   void SetSettingsGroup(const QString &group);
   void SetSettingsPrefix(const QString &prefix);

@@ -70,6 +70,8 @@ class PlaylistSequence : public QWidget {
   int half_playing_time_s() const { return half_playing_time_s_; }
   int percent_interest_song() const { return percent_interest_song_; }
 
+  static QIcon AddDesaturatedIcon(const QIcon &icon);
+
  public Q_SLOTS:
   void SetRepeatMode(const PlaylistSequence::RepeatMode mode);
   void SetShuffleMode(const PlaylistSequence::ShuffleMode mode);
@@ -88,7 +90,6 @@ class PlaylistSequence : public QWidget {
  private:
   void Load();
   void Save();
-  static QIcon AddDesaturatedIcon(const QIcon &icon);
   static QPixmap DesaturatedPixmap(const QPixmap &pixmap);
 
  private:
