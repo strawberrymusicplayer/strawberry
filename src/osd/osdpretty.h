@@ -131,6 +131,7 @@ class OSDPretty : public QWidget {
   void InitLayerShell();
   void SetLayerShellPosition(QScreen *screen, const QPoint &pos, const bool right_edge, const bool bottom_edge);
   void RecreateLayerShellSurface();
+  void RecreatePlatformWindow();
   QPoint LayerShellPopupPos(const QRect &geometry, const QPoint &pos) const;
 #endif
   QRect PopupGeometry(QScreen *screen) const;

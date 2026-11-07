@@ -326,13 +326,7 @@ void OSDPretty::RecreateLayerShellSurface() {
   QWidget::setVisible(false);
 
   // Also create the platform window again, so it gets a new surface, otherwise the compositor can keep sending mouse positions relative to the surface on the other screen.
-  // The layer shell is only set for the platform window when the layer shell window is created, so create that again too.
-  delete layer_shell_window_;
-  layer_shell_window_ = nullptr;
-  if (windowHandle()) {
-    windowHandle()->destroy();
-  }
-  InitLayerShell();
+  RecreatePlatformWindow();
 
   QWidget::setVisible(true);
   fading_enabled_ = fading_enabled;
@@ -346,6 +340,18 @@ void OSDPretty::RecreateLayerShellSurface() {
   if (fader_running) {
     SetOpacity(fader_->currentValue());
   }
+
+}
+
+void OSDPretty::RecreatePlatformWindow() {
+
+  // Destroy the platform window and its backing store, and create the window again.
+  // The layer shell is only set for the platform window when the layer shell window is created, so create that again too.
+  // The layer shell window is a child of the window destroyed here, so delete it first.
+  delete layer_shell_window_;
+  layer_shell_window_ = nullptr;
+  destroy();
+  InitLayerShell();
 
 }
 
@@ -649,7 +655,18 @@ void OSDPretty::setVisible(bool visible) {
     fader_->start();
   }
   else {
+#ifdef HAVE_LAYERSHELLQT
+    const bool was_visible = isVisible();
+#endif
     QWidget::setVisible(visible);
+#ifdef HAVE_LAYERSHELLQT
+    // KWin keeps the buffers of a hidden layer shell surface until it renders again, which it doesn't while the screen is off.
+    // Qt's Wayland backing store waits without a timeout when all its buffers are in use by the compositor, so showing and fading the OSD several times while the screen is off blocks the main thread until the screen is turned on.
+    // Create the platform window and its backing store again when the OSD is hidden, so it gets new buffers the next time it is shown.
+    if (was_visible && !visible && layer_shell_window_) {
+      RecreatePlatformWindow();
+    }
+#endif
   }
 
 }
