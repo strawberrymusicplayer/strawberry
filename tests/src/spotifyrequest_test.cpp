@@ -28,6 +28,7 @@
 #include <QString>
 #include <QStringList>
 #include <QSet>
+#include <QMap>
 #include <QUrl>
 #include <QUrlQuery>
 #include <QTimer>
@@ -84,13 +85,27 @@ class FakeNetworkReply : public QNetworkReply {
   qint64 pos_;
 };
 
-// Answers the Spotify API requests: 12 followed artists in pages of 5 with a cursor and without an offset, like the me/following endpoint, and no albums for the artists.
+// Answers the Spotify API requests: the followed artists in pages of 5 with a cursor and without an offset, like the me/following endpoint, the replies set for a path, and no albums for the other artists.
 class FakeSpotifyNetworkAccessManager : public NetworkAccessManager {
  public:
-  static constexpr int kArtistsTotal = 12;
   static constexpr int kArtistsPageSize = 5;
 
+  int artists_total = 12;
+  // Replies for the paths ending with the key.
+  QMap<QString, QByteArray> replies;
   QList<QUrl> requested_urls;
+
+  // Returns the IDs of the albums the songs were requested for.
+  QStringList AlbumSongsRequested() const {
+    QStringList album_ids;
+    static const QRegularExpression regex_album_songs(u"/albums/([^/]+)/tracks$"_s);
+    for (const QUrl &url : requested_urls) {
+      const QRegularExpressionMatch match = regex_album_songs.match(url.path());
+      if (match.hasMatch()) album_ids << match.captured(1);
+    }
+    album_ids.sort();
+    return album_ids;
+  }
 
  protected:
   QNetworkReply *createRequest(const Operation op, const QNetworkRequest &network_request, QIODevice *outgoing_data) override {
@@ -102,6 +117,11 @@ class FakeSpotifyNetworkAccessManager : public NetworkAccessManager {
     requested_urls << url;
 
     QByteArray data = "{}";
+    for (QMap<QString, QByteArray>::const_iterator it = replies.constBegin(); it != replies.constEnd(); ++it) {
+      if (url.path().endsWith(it.key())) {
+        return new FakeNetworkReply(network_request, it.value(), this);
+      }
+    }
     if (url.path().endsWith("/me/following"_L1)) {
       data = FollowingPage(QUrlQuery(url).queryItemValue(u"after"_s));
     }
@@ -115,10 +135,10 @@ class FakeSpotifyNetworkAccessManager : public NetworkAccessManager {
 
  private:
   // The cursor is the ID of the last artist of the previous page.
-  static QByteArray FollowingPage(const QString &after) {
+  QByteArray FollowingPage(const QString &after) const {
 
     const int first = after.isEmpty() ? 0 : after.mid(6).toInt() + 1;
-    const int last = qMin(first + kArtistsPageSize, kArtistsTotal) - 1;
+    const int last = qMin(first + kArtistsPageSize, artists_total) - 1;
 
     QJsonArray items;
     for (int i = first; i <= last; ++i) {
@@ -132,9 +152,9 @@ class FakeSpotifyNetworkAccessManager : public NetworkAccessManager {
     QJsonObject cursors;
     QJsonObject artists;
     artists["items"_L1] = items;
-    artists["total"_L1] = kArtistsTotal;
+    artists["total"_L1] = artists_total;
     artists["limit"_L1] = kArtistsPageSize;
-    if (last < kArtistsTotal - 1) {
+    if (last < artists_total - 1) {
       cursors["after"_L1] = QStringLiteral("artist%1").arg(last);
       artists["next"_L1] = QStringLiteral("https://api.spotify.com/v1/me/following?type=artist&after=artist%1&limit=%2").arg(last).arg(kArtistsPageSize);
     }
@@ -177,21 +197,25 @@ TEST(SpotifyRequestTest, NoNextArtistsCursorOnLastPage) {
 
 }
 
+// Lets the service use a fake session, the test settings are in a temporary directory, so the access token is not saved anywhere.
+// The session is cleared without client credentials, so custom credentials are set, then the test doesn't depend on the credentials compiled in.
+void SetFakeSpotifySession() {
+
+  Settings s;
+  s.beginGroup(QLatin1String(SpotifySettings::kSettingsGroup));
+  s.setValue(QLatin1String(SpotifySettings::kUseCustomApiCredentials), true);
+  s.setValue(QLatin1String(SpotifySettings::kClientId), u"client_id"_s);
+  s.setValue(QLatin1String(SpotifySettings::kClientSecret), u"client_secret"_s);
+  s.setValue(u"token_type"_s, u"Bearer"_s);
+  s.setValue(u"access_token"_s, u"token"_s);
+  s.endGroup();
+
+}
+
 // Regression test: the next pages of followed artists were requested with an offset, which the me/following endpoint ignores, and the replies were rejected since they don't have an offset, so only the first 20 artists were received.
 TEST(SpotifyRequestTest, FollowedArtistsArePagedWithCursor) {
 
-  // The test settings are in a temporary directory, so the access token is not saved anywhere.
-  // The session is cleared without client credentials, so custom credentials are set, then the test doesn't depend on the credentials compiled in.
-  {
-    Settings s;
-    s.beginGroup(QLatin1String(SpotifySettings::kSettingsGroup));
-    s.setValue(QLatin1String(SpotifySettings::kUseCustomApiCredentials), true);
-    s.setValue(QLatin1String(SpotifySettings::kClientId), u"client_id"_s);
-    s.setValue(QLatin1String(SpotifySettings::kClientSecret), u"client_secret"_s);
-    s.setValue(u"token_type"_s, u"Bearer"_s);
-    s.setValue(u"access_token"_s, u"token"_s);
-    s.endGroup();
-  }
+  SetFakeSpotifySession();
 
   SharedPtr<TaskManager> task_manager = make_shared<TaskManager>();
   SharedPtr<MemoryDatabase> database = make_shared<MemoryDatabase>(task_manager);
@@ -222,8 +246,35 @@ TEST(SpotifyRequestTest, FollowedArtistsArePagedWithCursor) {
   // All three pages are requested with the cursor from the previous page, and the requests stop after the last page.
   EXPECT_EQ(QStringList() << QString() << u"artist4"_s << u"artist9"_s, following_afters);
   // The albums are requested for all the artists from all the pages.
-  EXPECT_EQ(FakeSpotifyNetworkAccessManager::kArtistsTotal, artist_album_ids.count());
+  EXPECT_EQ(network->artists_total, artist_album_ids.count());
   EXPECT_FALSE(spy.first().value(2).toString().contains(u"Offset"_s)) << spy.first().value(2).toString().toStdString();
+
+}
+
+// Regression test: an album by another artist ended the processing of the reply, so the next albums of the artist were lost, and only the first listed artist was compared, so albums where the artist is listed after another artist were skipped.
+TEST(SpotifyRequestTest, ArtistAlbumsByOtherArtistsAreSkipped) {
+
+  SetFakeSpotifySession();
+
+  SharedPtr<TaskManager> task_manager = make_shared<TaskManager>();
+  SharedPtr<MemoryDatabase> database = make_shared<MemoryDatabase>(task_manager);
+  SharedPtr<FakeSpotifyNetworkAccessManager> network = make_shared<FakeSpotifyNetworkAccessManager>();
+  network->artists_total = 1;
+  network->replies.insert(u"/artists/artist0/albums"_s, R"({"items": [)"
+                                                        R"({"id": "other", "name": "Other", "images": [], "artists": [{"id": "artist9", "name": "Artist 9"}]},)"
+                                                        R"({"id": "featured", "name": "Featured", "images": [], "artists": [{"id": "artist9", "name": "Artist 9"}, {"id": "artist0", "name": "Artist 0"}]},)"
+                                                        R"({"id": "own", "name": "Own", "images": [], "artists": [{"id": "artist0", "name": "Artist 0"}]})"
+                                                        R"(], "limit": 50, "offset": 0, "total": 3, "next": null})");
+  SpotifyService service(task_manager, database, network, nullptr);
+  ASSERT_TRUE(service.authenticated());
+
+  SpotifyRequest request(&service, network, SpotifyRequest::Type::FavouriteArtists, nullptr);
+  QSignalSpy spy(&request, &SpotifyRequest::Results);
+  request.Process();
+  ASSERT_TRUE(spy.wait(30000));
+
+  // The songs are requested for the albums of the artist, also the one listing the artist after another artist, and not for the album by the other artist.
+  EXPECT_EQ(QStringList() << u"featured"_s << u"own"_s, network->AlbumSongsRequested());
 
 }
 
