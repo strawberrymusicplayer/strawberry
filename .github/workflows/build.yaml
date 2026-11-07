@@ -1245,9 +1245,13 @@ jobs:
         if: steps.set-upload-path.outputs.upload_path != ''
         run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{steps.set-upload-path.outputs.upload_path}}
 
+      - name: Create checksum
+        if: steps.set-upload-path.outputs.upload_path != ''
+        run: for i in Strawberry-*.AppImage; do sha256sum "${i}" > "${i}.sha256sum"; done
+
       - name: rsync
         if: steps.set-upload-path.outputs.upload_path != ''
-        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var Strawberry-*.AppImage ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{steps.set-upload-path.outputs.upload_path}}/
+        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var Strawberry-*.AppImage Strawberry-*.AppImage.sha256sum ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{steps.set-upload-path.outputs.upload_path}}/
 
 
   build-freebsd:
@@ -1498,9 +1502,14 @@ jobs:
         if: steps.set-upload-path.outputs.upload_path != ''
         run: ssh -i ~/.ssh/strawberry_upload -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{steps.set-upload-path.outputs.upload_path}}
 
+      - name: Create checksum
+        if: steps.set-upload-path.outputs.upload_path != ''
+        working-directory: build
+        run: for i in *.dmg; do shasum -a 256 "${i}" > "${i}.sha256sum"; done
+
       - name: rsync
         if: steps.set-upload-path.outputs.upload_path != ''
-        run: rsync -e "ssh -i ~/.ssh/strawberry_upload -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/*.dmg ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{steps.set-upload-path.outputs.upload_path}}/
+        run: rsync -e "ssh -i ~/.ssh/strawberry_upload -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/*.dmg build/*.dmg.sha256sum ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{steps.set-upload-path.outputs.upload_path}}/
 
 
   build-windows-mingw:
@@ -1739,9 +1748,15 @@ jobs:
         if: steps.set-upload-path.outputs.upload_path != ''
         run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{steps.set-upload-path.outputs.upload_path}}
 
+      - name: Create checksum
+        if: steps.set-upload-path.outputs.upload_path != ''
+        shell: bash
+        working-directory: build
+        run: for i in StrawberrySetup*.exe; do sha256sum "${i}" > "${i}.sha256sum"; done
+
       - name: rsync
         if: steps.set-upload-path.outputs.upload_path != ''
-        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/StrawberrySetup*.exe ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{steps.set-upload-path.outputs.upload_path}}/
+        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/StrawberrySetup*.exe build/StrawberrySetup*.exe.sha256sum ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{steps.set-upload-path.outputs.upload_path}}/
 
 
   build-windows-msvc:
@@ -2112,10 +2127,16 @@ jobs:
         shell: bash
         run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{steps.set-upload-path.outputs.upload_path}}
 
+      - name: Create checksum
+        if: steps.set-upload-path.outputs.upload_path != ''
+        shell: bash
+        working-directory: build
+        run: for i in StrawberrySetup*.exe; do sha256sum "${i}" > "${i}.sha256sum"; done
+
       - name: rsync
         if: steps.set-upload-path.outputs.upload_path != ''
         shell: bash
-        run: rsync -e "/c/ProgramData/chocolatey/lib/rsync/tools/bin/ssh.exe -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/StrawberrySetup*.exe ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{steps.set-upload-path.outputs.upload_path}}/
+        run: rsync -e "/c/ProgramData/chocolatey/lib/rsync/tools/bin/ssh.exe -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/StrawberrySetup*.exe build/StrawberrySetup*.exe.sha256sum ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{steps.set-upload-path.outputs.upload_path}}/
 
 
   upload:
@@ -2143,6 +2164,11 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           path: artifacts
+      - name: Create checksums
+        run: |
+          for i in $(find artifacts -type f ! -name '*.sha256sum'); do
+            (cd "$(dirname "${i}")" && sha256sum "$(basename "${i}")" > "$(basename "${i}").sha256sum")
+          done
       - name: SSH Setup
         uses: shimataro/ssh-key-action@v2
         with:
@@ -2195,6 +2221,11 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           path: artifacts
+      - name: Create checksums
+        run: |
+          for i in $(find artifacts -type f ! -name '*.sha256sum'); do
+            (cd "$(dirname "${i}")" && sha256sum "$(basename "${i}")" > "$(basename "${i}").sha256sum")
+          done
       - name: Add artifacts to release
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -2204,7 +2235,7 @@ jobs:
           files=()
           for i in $(find artifacts -type f); do
             filename=$(basename $i)
-            if [[ ${filenames[@]} =~ ${filename} ]]; then
+            if printf '%s\n' "${filenames[@]}" | grep -qxF "${filename}"; then
               echo "Skipping duplicate file: ${filename}"
               continue
             fi
