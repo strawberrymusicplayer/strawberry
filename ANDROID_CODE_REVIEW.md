@@ -10,8 +10,9 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: points 24, 25, and 26 (found during testing); the decision in point 20 is still open.
-  Points 1–19, 21–23 are done.
+- Next: points 25, 26, and 27 (found during testing); the decision in point 20 is still open.
+  Points 1–19, 21–24 are done.
+- A physical phone may be connected over USB as well; set `ANDROID_SERIAL=emulator-5554` so `adb` commands only reach the emulator.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 4` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
 - Deploy: zipalign and sign with the debug keystore, `adb install -r`, launch with `adb shell monkey -p org.qtproject.example.strawberry 1` (see `ANDROID_EMULATOR_TESTING.md`).
@@ -372,7 +373,7 @@ Handoff notes for continuing in a new session:
 
 ### 24. Keep pages beside the left tab bar
 
-**Status:** Open
+**Status:** Done
 
 - Some pages cover the left tab bar instead of sharing the screen with it like the sidebar tabs (Settings, Tools, Playlists).
   These pages open as separate top-level windows sized to the whole main window or screen:
@@ -383,6 +384,23 @@ Handoff notes for continuing in a new session:
   Show them in the content area beside the bar instead, either as pages in the tab's content stack (as Settings does with `android_settings_tab_`) or with geometry limited to the content area.
   Keep Back returning exactly one level, and leave the confirmation overlay from point 16 covering the full window, since it is modal.
 - Afterwards, check that Back, the Android keyboard, and rotation still work on each page.
+
+**Resolved:**
+- Limiting the windows' geometry to the content area was not used: Android delivers offset touches to positioned windows (see point 16), and a separate window would still have to follow tab changes.
+- The Tools tab is a stack of the tool list and the opened tool.
+  `MainWindow::ShowAndroidTool()` (in `mainwindow_android.cpp`) embeds the cover manager, equalizer, and transcoder there as child widgets; the cover manager and transcoder get a "Tools > …" breadcrumb with a Back button, while the equalizer keeps its own header.
+  Closing a tool (Back, its Back or Close button) returns to the list, and tapping the Tools tab closes the open tool, like the Playlists tab returns to its list.
+  `ShowCoverManager()`, `ShowEqualizer()`, and `ShowTranscodeDialog()` call it from a single guarded line; the equalizer is no longer application-modal, and `~MainWindow()` detaches it again because the player shares its ownership.
+  The cover manager and transcoder only restore and center their geometry while they are windows.
+- An `ActionDialog` action page inside a tab is now a child of that tab's page, covering only the content beside the tab bar; switching tabs cancels it.
+  Outside a tab, and for the compact confirmation from point 16, it still covers the whole window as a modal window.
+  Added `ActionDialogTest.PageInsideATabCoversOnlyTheTabPage`, `BackRejectsThePageInsideATab`, and `ConfirmationInsideATabStillCoversTheWindow`.
+- The Android APK, the native desktop build, and the native action dialog, equalizer, playlist, long-press, and tab widget tests succeed.
+  On the emulator, the three tools and the song actions in Now playing show beside the tab bar.
+  Back returned one level at a time (equalizer preset list, equalizer, Tools list), Close and the header Back buttons returned to the list, tapping the Tools tab closed an open tool, switching tabs closed the song actions, and Remove song still worked.
+  In landscape the cover manager stays beside the tab bar, and its search field receives keyboard input.
+- With the emulator's hardware keyboard, Gboard shows a floating toolbar instead of the keyboard, and while it is shown Back does not reach the app; the equalizer's existing preset name field behaves the same.
+  Check Back with the on-screen keyboard on a phone.
 
 ### 25. Lay out the Settings value buttons like the equalizer's
 
@@ -405,3 +423,12 @@ Handoff notes for continuing in a new session:
   Tapping Tools first can also be ignored when tapped about 15 seconds after the launch, but works after 25 seconds.
 - Found while testing point 23; the APK from point 16 behaves the same in a side-by-side check (cold start, wait 25 seconds, one tap), so it is not caused by moving the code.
 - Likely causes to check: the lazy creation of `SettingsDialog` on the first `OpenSettingsDialog()` call returning to the previous tab, or touches arriving while startup work still blocks the event loop.
+
+### 27. Back in the playlist editor quits the app
+
+**Status:** Open
+
+- In the Playlists tab, the hardware Back key in an open playlist quits the app instead of returning to the playlist list, as the header's Back button does.
+  Nothing handles `Qt::Key_Back` there, so it reaches the main window, which closes (the process exits cleanly).
+- Found while testing point 24; the playlist editor code was not changed by it.
+- Check the other sidebar tabs for the same problem: at their root, Back should leave the app only as the Android convention expects.
