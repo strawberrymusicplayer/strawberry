@@ -101,6 +101,13 @@ class PlaylistManagerTest : public ::testing::Test {
     database_->Close();
   }
 
+  // Creates the playlist manager again, which restores the open playlists from the database like when starting.
+  void RestartPlaylistManager() {
+    playlist_manager_.reset();
+    playlist_manager_ = std::make_unique<PlaylistManager>(task_manager_, tagreader_client_, make_shared<UrlHandlers>(), playlist_backend_, collection_backend_, current_albumcover_loader_);
+    playlist_manager_->Init(&sequence_, &playlist_container_);
+  }
+
   static void WaitForRestoreFinished(Playlist *playlist, const int timeout_ms = 5000) {
     if (!playlist->is_restoring()) return;
     QEventLoop loop;
@@ -581,6 +588,69 @@ TEST_F(PlaylistManagerTest, ClosedPlaylistIsKeptUntilNewestSaveIsDone) {
 
   ASSERT_TRUE(QTest::qWaitFor([&opened_playlist]() { return opened_playlist != nullptr; }, 5000));
   EXPECT_EQ(playlist, opened_playlist);
+
+}
+
+// Regression test: the playlist created on the first run was not counted, so it was never reported that the playlists were loaded.
+TEST_F(PlaylistManagerTest, AllPlaylistsLoadedIsSentOnFirstRun) {
+
+  QSignalSpy spy(&*playlist_manager_, &PlaylistManager::AllPlaylistsLoaded);
+  ASSERT_EQ(1, playlist_manager_->GetAllPlaylists().count());
+  EXPECT_EQ(0, spy.count());
+
+  ASSERT_TRUE(spy.wait(5000));
+  EXPECT_EQ(1, spy.count());
+
+}
+
+// Regression test: a playlist cleared while restoring never reported that it was loaded.
+TEST_F(PlaylistManagerTest, AllPlaylistsLoadedIsSentWhenRestoringPlaylistIsCleared) {
+
+  playlist_manager_->New(u"Second"_s);
+  const int id = playlist_manager_->current_id();
+  RestartPlaylistManager();
+  QSignalSpy spy(&*playlist_manager_, &PlaylistManager::AllPlaylistsLoaded);
+
+  Playlist *playlist = playlist_manager_->playlist(id);
+  ASSERT_TRUE(playlist->is_restoring());
+  playlist->Clear();
+
+  ASSERT_TRUE(spy.wait(5000));
+  EXPECT_EQ(1, spy.count());
+
+}
+
+// Regression test: a playlist closed while restoring was deleted without reporting that it was loaded.
+TEST_F(PlaylistManagerTest, AllPlaylistsLoadedIsSentWhenRestoringPlaylistIsClosed) {
+
+  playlist_manager_->New(u"Second"_s);
+  const int id = playlist_manager_->current_id();
+  RestartPlaylistManager();
+  QSignalSpy spy(&*playlist_manager_, &PlaylistManager::AllPlaylistsLoaded);
+
+  ASSERT_TRUE(playlist_manager_->playlist(id)->is_restoring());
+  ASSERT_TRUE(playlist_manager_->Close(id));
+
+  ASSERT_TRUE(spy.wait(5000));
+  EXPECT_EQ(1, spy.count());
+
+}
+
+// Regression test: a closed favorite playlist removed while restoring was deleted without reporting that it was loaded.
+TEST_F(PlaylistManagerTest, AllPlaylistsLoadedIsSentWhenClosedRestoringPlaylistIsRemoved) {
+
+  playlist_manager_->New(u"Second"_s);
+  const int id = playlist_manager_->current_id();
+  playlist_manager_->Favorite(id, true);
+  RestartPlaylistManager();
+  QSignalSpy spy(&*playlist_manager_, &PlaylistManager::AllPlaylistsLoaded);
+
+  ASSERT_TRUE(playlist_manager_->playlist(id)->is_restoring());
+  ASSERT_TRUE(playlist_manager_->Close(id));
+  playlist_manager_->Favorite(id, false);
+
+  ASSERT_TRUE(spy.wait(5000));
+  EXPECT_EQ(1, spy.count());
 
 }
 

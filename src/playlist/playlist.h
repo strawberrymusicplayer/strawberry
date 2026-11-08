@@ -354,7 +354,6 @@ class Playlist : public QAbstractListModel {
   void RestoreFinished();
   // Emitted when restoring finished or was cancelled.
   void RestoreDone();
-  void PlaylistLoaded();
   void CurrentSongChanged(const Song &metadata);
   void CurrentSongMetadataChanged(const Song &metadata);
   void EditingFinished(const int playlist_id, const QModelIndex idx);

@@ -83,7 +83,6 @@ PlaylistManager::PlaylistManager(const SharedPtr<TaskManager> task_manager,
       playlist_container_(nullptr),
       current_(-1),
       active_(-1),
-      playlists_loading_(0),
       save_sequence_(0) {
 
   setObjectName(QLatin1String(QObject::metaObject()->className()));
@@ -115,25 +114,33 @@ void PlaylistManager::Init(PlaylistSequence *sequence, PlaylistContainer *playli
 
   const PlaylistBackend::PlaylistList playlists = playlist_backend_->GetAllOpenPlaylists();
   for (const PlaylistBackend::Playlist &p : playlists) {
-    ++playlists_loading_;
-    Playlist *ret = AddPlaylist(p.id, p.name, p.special_type, p.ui_path, p.favorite);
-    QObject::connect(ret, &Playlist::PlaylistLoaded, this, &PlaylistManager::PlaylistLoaded);
+    AddPlaylist(p.id, p.name, p.special_type, p.ui_path, p.favorite);
   }
 
   // If no playlist exists then make a new one
   if (playlists_.isEmpty()) New(tr("Playlist"));
 
+  // A restore can be cancelled and a playlist can be deleted while it's restoring, both have to count as loaded, since playback and the command-line options wait for all the playlists.
+  for (const Data &data : std::as_const(playlists_)) {
+    Playlist *playlist = data.p;
+    if (!playlist->is_restoring()) continue;
+    playlists_loading_ << playlist;
+    QObject::connect(playlist, &Playlist::RestoreDone, this, [this, playlist]() { PlaylistLoadingFinished(playlist); }, Qt::SingleShotConnection);
+  }
+
   Q_EMIT PlaylistManagerInitialized();
+
+  if (playlists_loading_.isEmpty()) {
+    Q_EMIT AllPlaylistsLoaded();
+  }
 
 }
 
-void PlaylistManager::PlaylistLoaded() {
+void PlaylistManager::PlaylistLoadingFinished(Playlist *playlist) {
 
-  Playlist *playlist = qobject_cast<Playlist*>(sender());
-  if (!playlist) return;
-  QObject::disconnect(playlist, &Playlist::PlaylistLoaded, this, &PlaylistManager::PlaylistLoaded);
-  --playlists_loading_;
-  if (playlists_loading_ == 0) {
+  if (!playlists_loading_.remove(playlist)) return;
+
+  if (playlists_loading_.isEmpty()) {
     Q_EMIT AllPlaylistsLoaded();
   }
 
@@ -479,6 +486,7 @@ bool PlaylistManager::ClosePlaylist(const int id, const bool delete_playlist) {
     // The pending changes are not saved, the playlist is removed.
     playlist_backend_->RemovePlaylistAsync(id);
     Q_EMIT PlaylistDeleted(id);
+    PlaylistLoadingFinished(data.p);
     delete data.p;
   }
   else {
@@ -574,6 +582,7 @@ void PlaylistManager::DeleteClosedPlaylist(const int id) {
   // When exiting, the playlist being deleted counts as saved, so the removal has to be queued before.
   const ClosedPlaylist closed_playlist = closed_playlists_.take(id);
   QObject::disconnect(closed_playlist.restore_done_connection);
+  PlaylistLoadingFinished(closed_playlist.playlist);
   delete closed_playlist.playlist;
 
 }
