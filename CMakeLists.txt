@@ -248,6 +248,8 @@ else()
 endif()
 
 if(ANDROID)
+  # GLib's OpenSSL TLS backend for HTTPS streams in souphttpsrc; ca_certificates bundles the CA certificates it verifies against.
+  set(G_IO_MODULES openssl)
   find_package(GStreamerMobile REQUIRED COMPONENTS
     api_base
     api_audio
@@ -281,6 +283,11 @@ if(ANDROID)
     apetag
     isomp4
     matroska
+    # HTTP and HTTPS streams, with ICY stream titles and HLS playlists.
+    soup
+    icydemux
+    hls
+    ca_certificates
   )
   set(GSTREAMER_APP_STATIC_LIBRARY "${GStreamer_ROOT_DIR}/lib/libgstapp-1.0.a")
   set(GSTREAMER_PBUTILS_STATIC_LIBRARY "${GStreamer_ROOT_DIR}/lib/libgstpbutils-1.0.a")
