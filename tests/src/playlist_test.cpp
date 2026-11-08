@@ -45,6 +45,7 @@
 
 #include <QtDebug>
 #include <QMimeData>
+#include <QUrl>
 #include <QByteArray>
 #include <QDataStream>
 #include <QIODevice>
@@ -2467,6 +2468,80 @@ TEST_F(PlaylistTest, UpdateItemMetadataAfterRowsChanged) {
   EXPECT_FALSE(playlist_.UpdateItemMetadata(item_e, changed_metadata(item_e, u"E2"_s), false));
   // Neither is a null item.
   EXPECT_FALSE(playlist_.UpdateItemMetadata(PlaylistItemPtr(), changed_metadata(item_e, u"E3"_s), false));
+
+}
+
+// The Playlists panel uses this to not drop rows on the playlist they were dragged from, it compared with the playing playlist before, so nothing could be dropped on it.
+TEST_F(PlaylistTest, IsDraggedFromThisPlaylist) {
+
+  Playlist other_playlist(nullptr, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  other_playlist.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"Other"_s));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s));
+
+  ScopedPtr<QMimeData> own_mimedata(playlist_.mimeData(QModelIndexList() << playlist_.index(0, 0)));
+  ASSERT_TRUE(own_mimedata);
+  EXPECT_TRUE(playlist_.IsDraggedFromThisPlaylist(own_mimedata.get()));
+  EXPECT_FALSE(other_playlist.IsDraggedFromThisPlaylist(own_mimedata.get()));
+
+  ScopedPtr<QMimeData> other_mimedata(other_playlist.mimeData(QModelIndexList() << other_playlist.index(0, 0)));
+  ASSERT_TRUE(other_mimedata);
+  EXPECT_FALSE(playlist_.IsDraggedFromThisPlaylist(other_mimedata.get()));
+
+  // Songs or files dragged from elsewhere are not playlist rows.
+  QMimeData url_mimedata;
+  url_mimedata.setUrls(QList<QUrl>() << QUrl::fromLocalFile(u"/tmp/song.flac"_s));
+  EXPECT_FALSE(playlist_.IsDraggedFromThisPlaylist(&url_mimedata));
+
+}
+
+// Reading the dragged rows is shared with checking the source playlist, rows dragged from another playlist are still copied.
+TEST_F(PlaylistTest, CopyRowsFromAnotherPlaylistAfterReadingSource) {
+
+  Playlist other_playlist(nullptr, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  other_playlist.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"Destination"_s));
+
+  ScopedPtr<QMimeData> mimedata(other_playlist.mimeData(QModelIndexList() << other_playlist.index(1, 0)));
+  ASSERT_TRUE(mimedata);
+  ASSERT_FALSE(playlist_.IsDraggedFromThisPlaylist(mimedata.get()));
+  ASSERT_TRUE(playlist_.dropMimeData(mimedata.get(), Qt::CopyAction, -1, 0, QModelIndex()));
+
+  ASSERT_EQ(2, playlist_.rowCount(QModelIndex()));
+  EXPECT_EQ(u"Two"_s, playlist_.data(playlist_.index(1, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(2, other_playlist.rowCount(QModelIndex()));
+
+}
+
+// Regression test: playlist rows without the process ID were taken as dragged in this process, the pointer to the source playlist could be from another instance, and was used.
+TEST_F(PlaylistTest, DropOfRowsWithoutProcessIdIsRejected) {
+
+  Playlist other_playlist(nullptr, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  other_playlist.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"A"_s));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s));
+
+  // The pointers are valid here, so the test doesn't crash if the data is used.
+  const auto rows_data_without_pid = [](const Playlist *source_playlist) {
+    QByteArray rows_data;
+    QDataStream stream(&rows_data, QIODevice::WriteOnly);
+    stream.writeRawData(reinterpret_cast<const char*>(&source_playlist), sizeof(&source_playlist));
+    stream << (QList<int>() << 0);
+    return rows_data;
+  };
+
+  QMimeData other_mimedata;
+  other_mimedata.setData(QLatin1String(Playlist::kRowsMimetype), rows_data_without_pid(&other_playlist));
+  EXPECT_FALSE(playlist_.dropMimeData(&other_mimedata, Qt::CopyAction, -1, 0, QModelIndex()));
+  EXPECT_EQ(1, playlist_.rowCount(QModelIndex()));
+
+  QMimeData own_mimedata;
+  own_mimedata.setData(QLatin1String(Playlist::kRowsMimetype), rows_data_without_pid(&playlist_));
+  EXPECT_FALSE(playlist_.IsDraggedFromThisPlaylist(&own_mimedata));
+
+  // Data which ends in the pointer is rejected too.
+  QMimeData truncated_mimedata;
+  truncated_mimedata.setData(QLatin1String(Playlist::kRowsMimetype), rows_data_without_pid(&other_playlist).left(2));
+  EXPECT_FALSE(playlist_.dropMimeData(&truncated_mimedata, Qt::CopyAction, -1, 0, QModelIndex()));
+  EXPECT_EQ(1, playlist_.rowCount(QModelIndex()));
 
 }
 

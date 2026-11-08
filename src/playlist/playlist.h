@@ -290,6 +290,9 @@ class Playlist : public QAbstractListModel {
   Qt::DropActions supportedDropActions() const override;
   QMimeData *mimeData(const QModelIndexList &indexes) const override;
   bool dropMimeData(const QMimeData *data, Qt::DropAction action, const int row, const int column, const QModelIndex &parent_index) override;
+
+  // Returns true if the data are rows dragged from this playlist.
+  bool IsDraggedFromThisPlaylist(const QMimeData *data) const;
   void sort(const int sort_column_number, const Qt::SortOrder sort_order) override;
   bool removeRows(const int row, const int count, const QModelIndex &parent = QModelIndex()) override;
   bool RemoveItemWithSignal(PlaylistItemPtr item);

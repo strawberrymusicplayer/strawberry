@@ -136,6 +136,23 @@ QHash<const PlaylistItem*, int> FirstRowsOfItems(const PlaylistItemPtrList &item
 
 }
 
+// Reads the playlist rows dragged from a playlist, the source playlist is only valid when the process ID is the ID of this process.
+// Returns false if the data is incomplete, Playlist::mimeData() always writes the process ID, so data without it could be from another instance, and the source playlist is not valid.
+bool ReadRowsMimeData(const QMimeData *data, Playlist **source_playlist, QList<int> *source_rows, qint64 *pid) {
+
+  QDataStream stream(data->data(QLatin1String(Playlist::kRowsMimetype)));
+  if (stream.readRawData(reinterpret_cast<char*>(source_playlist), sizeof(*source_playlist)) != static_cast<int>(sizeof(*source_playlist))) {
+    return false;
+  }
+  stream >> *source_rows;
+  if (stream.status() != QDataStream::Ok) {
+    return false;
+  }
+
+  return stream.readRawData(reinterpret_cast<char*>(pid), sizeof(*pid)) == static_cast<int>(sizeof(*pid));
+
+}
+
 }  // namespace
 
 Playlist::Playlist(const SharedPtr<TaskManager> task_manager,
@@ -1066,17 +1083,8 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
     QList<int> source_rows;
     Playlist *source_playlist = nullptr;
     qint64 pid = 0;
-    qint64 own_pid = QCoreApplication::applicationPid();
-
-    QDataStream stream(data->data(QLatin1String(kRowsMimetype)));
-    stream.readRawData(reinterpret_cast<char*>(&source_playlist), sizeof(&source_playlist));
-    stream >> source_rows;
-    if (!stream.atEnd()) {
-      stream.readRawData(reinterpret_cast<char*>(&pid), sizeof(pid));
-    }
-    else {
-      pid = own_pid;
-    }
+    const qint64 own_pid = QCoreApplication::applicationPid();
+    if (!ReadRowsMimeData(data, &source_playlist, &source_rows, &pid)) return false;
 
     std::stable_sort(source_rows.begin(), source_rows.end());  // Make sure we take them in order
 
@@ -1113,6 +1121,19 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
   }
 
   return true;
+
+}
+
+bool Playlist::IsDraggedFromThisPlaylist(const QMimeData *data) const {
+
+  if (!data->hasFormat(QLatin1String(kRowsMimetype))) return false;
+
+  Playlist *source_playlist = nullptr;
+  QList<int> source_rows;
+  qint64 pid = 0;
+  if (!ReadRowsMimeData(data, &source_playlist, &source_rows, &pid)) return false;
+
+  return source_playlist == this && pid == QCoreApplication::applicationPid();
 
 }
 
