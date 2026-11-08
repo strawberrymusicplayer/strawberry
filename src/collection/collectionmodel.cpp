@@ -120,15 +120,15 @@ CollectionModel::CollectionModel(const SharedPtr<CollectionBackend> backend, con
 
   icon_disk_cache_->setCacheDirectory(StandardPaths::WritableLocation(StandardPaths::StandardLocation::CacheLocation) + u'/' + QLatin1String(kPixmapDiskCacheDir) + u'-' + Song::TextForSource(backend_->source()));
 
-  QObject::connect(&*backend_, &CollectionBackend::SongsAdded, this, &CollectionModel::AddReAddOrUpdate);
-  QObject::connect(&*backend_, &CollectionBackend::SongsChanged, this, &CollectionModel::AddReAddOrUpdate);
+  QObject::connect(&*backend_, &CollectionBackend::SongsAdded, this, &CollectionModel::SongsAddedOrChanged);
+  QObject::connect(&*backend_, &CollectionBackend::SongsChanged, this, &CollectionModel::SongsAddedOrChanged);
   QObject::connect(&*backend_, &CollectionBackend::SongsDeleted, this, &CollectionModel::RemoveSongs);
   QObject::connect(&*backend_, &CollectionBackend::DatabaseReset, this, &CollectionModel::ScheduleReset);
   QObject::connect(&*backend_, &CollectionBackend::TotalSongCountUpdated, this, &CollectionModel::TotalSongCountUpdatedSlot);
   QObject::connect(&*backend_, &CollectionBackend::TotalArtistCountUpdated, this, &CollectionModel::TotalArtistCountUpdatedSlot);
   QObject::connect(&*backend_, &CollectionBackend::TotalAlbumCountUpdated, this, &CollectionModel::TotalAlbumCountUpdatedSlot);
   QObject::connect(&*backend_, &CollectionBackend::SongsStatisticsChanged, this, &CollectionModel::AddReAddOrUpdate);
-  QObject::connect(&*backend_, &CollectionBackend::SongsRatingChanged, this, &CollectionModel::AddReAddOrUpdate);
+  QObject::connect(&*backend_, &CollectionBackend::SongsRatingChanged, this, &CollectionModel::SongsRatingChangedSlot);
   QObject::connect(&*backend_, &CollectionBackend::SongsLyricsChanged, this, &CollectionModel::AddReAddOrUpdate);
 
   backend_->UpdateTotalSongCountAsync();
@@ -425,7 +425,41 @@ void CollectionModel::AddReAddOrUpdate(const SongList &songs) {
 
 }
 
+void CollectionModel::SongsAddedOrChanged(const SongList &songs) {
+
+  // Whether a song is a duplicate depends on the other songs in the collection, so the songs need to be loaded again.
+  // The requested options are checked too, since this update is applied after a pending change to the duplicates view.
+  if (options_active_.filter_options.filter_mode() == CollectionFilterOptions::FilterMode::Duplicates || options_current_.filter_options.filter_mode() == CollectionFilterOptions::FilterMode::Duplicates) {
+    ScheduleReset();
+    return;
+  }
+
+  AddReAddOrUpdate(songs);
+
+}
+
+void CollectionModel::SongsRatingChangedSlot(const SongList &songs) {
+
+  // A song removed from the duplicates view by the minimum rating isn't known anymore, so the songs need to be loaded again when it's rated higher.
+  // Without a minimum rating the rating can't change which songs are shown, so the view isn't reloaded.
+  // The requested options are checked too, since this update is applied after a pending change to the duplicates view.
+  const auto duplicates_with_min_rating = [](const CollectionFilterOptions &filter_options) { return filter_options.filter_mode() == CollectionFilterOptions::FilterMode::Duplicates && filter_options.min_rating() >= 0.0F; };
+  if (duplicates_with_min_rating(options_active_.filter_options) || duplicates_with_min_rating(options_current_.filter_options)) {
+    ScheduleReset();
+    return;
+  }
+
+  AddReAddOrUpdate(songs);
+
+}
+
 void CollectionModel::RemoveSongs(const SongList &songs) {
+
+  // Removing a song can leave the song it duplicated without a duplicate.
+  if (options_active_.filter_options.filter_mode() == CollectionFilterOptions::FilterMode::Duplicates) {
+    ScheduleReset();
+    return;
+  }
 
   ScheduleRemoveSongs(songs);
 
@@ -452,7 +486,8 @@ void CollectionModel::ScheduleUpdate(const CollectionModelUpdate::Type type, con
 
 void CollectionModel::ScheduleReset() {
 
-  if (!updates_.isEmpty() && updates_.constFirst().type == CollectionModelUpdate::Type::Reset) return;
+  // Only a reset last in the queue can be used for this one, updates queued after a reset contain older songs than it loads, and need a new reset after them.
+  if (!updates_.isEmpty() && updates_.constLast().type == CollectionModelUpdate::Type::Reset) return;
 
   ScheduleUpdate(CollectionModelUpdate::Type::Reset);
 
@@ -627,10 +662,18 @@ void CollectionModel::AddReAddOrUpdateSongsInternal(const SongList &songs) {
 
   for (const Song &new_song : songs) {
     if (!song_nodes_.contains(new_song.id())) {
-      songs_added << new_song;
+      // A song which isn't shown in the duplicates view isn't a duplicate, the view is reloaded when that can change.
+      if (options_active_.filter_options.filter_mode() != CollectionFilterOptions::FilterMode::Duplicates) {
+        songs_added << new_song;
+      }
       continue;
     }
     const Song old_song = song_nodes_.value(new_song.id())->metadata;
+    // The song was changed so it's no longer included by the filter, like when the rating was lowered or the missing tags were added.
+    if (!options_active_.filter_options.Matches(new_song)) {
+      songs_removed << old_song;
+      continue;
+    }
     bool container_key_changed = false;
     bool has_unique_album_identifier_1 = false;
     bool has_unique_album_identifier_2 = false;
