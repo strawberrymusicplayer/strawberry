@@ -151,7 +151,10 @@ void DiscordRichPresence::SendPresenceUpdate() {
 
   const qint64 start_timestamp = activity_.start_timestamp - activity_.seek_secs;
   presence.start_timestamp = start_timestamp;
-  presence.end_timestamp = start_timestamp + activity_.length_secs;
+  // Streams have no length, the end time would be the start time, then Discord shows the stream as ended, without an end time the time elapsed is shown instead.
+  if (activity_.length_secs > 0) {
+    presence.end_timestamp = start_timestamp + activity_.length_secs;
+  }
 
   discord_rpc_->UpdatePresence(presence);
 
