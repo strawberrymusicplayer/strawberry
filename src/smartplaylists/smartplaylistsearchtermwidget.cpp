@@ -51,7 +51,7 @@ SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(SharedPtr<Collectio
       overlay_(nullptr),
       animation_(new QPropertyAnimation(this, "overlay_opacity", this)),
       active_(true),
-      initialized_(false),
+      setting_term_(false),
       current_field_type_(SmartPlaylistSearchTerm::Type::Invalid) {
 
   ui_->setupUi(this);
@@ -294,6 +294,9 @@ float SmartPlaylistSearchTermWidget::overlay_opacity() const {
 
 void SmartPlaylistSearchTermWidget::SetTerm(const SmartPlaylistSearchTerm &term) {
 
+  // The range values are set one at a time, so they can be out of order in between.
+  setting_term_ = true;
+
   ui_->field->setCurrentIndex(ui_->field->findData(QVariant::fromValue(term.field_)));
   ui_->op->setCurrentIndex(ui_->op->findData(QVariant::fromValue(term.operator_)));
 
@@ -338,6 +341,8 @@ void SmartPlaylistSearchTermWidget::SetTerm(const SmartPlaylistSearchTerm &term)
     case SmartPlaylistSearchTerm::Type::Invalid:
       break;
   }
+
+  setting_term_ = false;
 
 }
 
@@ -386,13 +391,8 @@ SmartPlaylistSearchTerm SmartPlaylistSearchTermWidget::Term() const {
 
 void SmartPlaylistSearchTermWidget::RelativeValueChanged() {
 
-  // Don't check for validity when creating the widget
-  if (!initialized_) {
-    initialized_ = true;
-    return;
-  }
-  // Explain the user why he can't proceed
-  if (ui_->value_date_numeric1->value() >= ui_->value_date_numeric2->value()) {
+  // Explain to the user why they can't proceed, but not while the term is set, the first value is set before the second one.
+  if (!setting_term_ && ui_->value_date_numeric1->value() >= ui_->value_date_numeric2->value()) {
     QMessageBox::warning(this, u"Strawberry"_s, tr("The second value must be greater than the first one!"));
   }
   // Emit the signal in any case, so the Next button will be disabled
