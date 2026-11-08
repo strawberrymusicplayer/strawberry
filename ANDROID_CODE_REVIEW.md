@@ -10,8 +10,8 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: point 23 (moving Android blocks into `*_android.cpp` files), continuing with `equalizer.cpp`; `mainwindow.cpp`, `playlistview.cpp`, and `settingsdialog.cpp` are done.
-  Points 24, 25, and 26 (found during testing) and the decision in point 20 are still open.
+- Next: points 24, 25, and 26 (found during testing); the decision in point 20 is still open.
+  Points 1–19, 21–23 are done.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 4` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
 - Deploy: zipalign and sign with the debug keystore, `adb install -r`, launch with `adb shell monkey -p org.qtproject.example.strawberry 1` (see `ANDROID_EMULATOR_TESTING.md`).
@@ -291,7 +291,7 @@ Handoff notes for continuing in a new session:
 
 ### 23. Move large Android blocks into `*_android.cpp` files
 
-**Status:** Open
+**Status:** Done
 
 - Large `#ifdef Q_OS_ANDROID` blocks in shared files make them harder to read and cause more conflicts when merging upstream.
   Approximate lines inside Android guards: `equalizer.cpp` 580, `settingsdialog.cpp` 380, `mainwindow.cpp` 330, `playlistview.cpp` 210.
@@ -328,6 +328,14 @@ Handoff notes for continuing in a new session:
   The includes only the moved code used are removed, and the Android headers that remain are guarded.
   The Android APK, the native desktop build, and the native playlist, long-press, and tab widget tests succeed.
   On the emulator, Settings > General > Behavior and its Previous subpage show the right breadcrumbs, and hardware Back returned one level at a time to the overview and then to the previous tab.
+- `equalizer.cpp`: done.
+  `SetupAndroidLayout()` and the other Android-only functions moved unchanged to `src/equalizer/equalizer_android.cpp`, with the constants and helpers only they use.
+  `kAndroidCurrentParams` and `kCustomPreset`, which both files use, are now private class constants in `equalizer.h`; the Android file names the `Equalizer` settings group itself, so upstream's constant is untouched.
+  The short guards in the constructor, `ReloadSettings()`, the preset functions, `Save()`, and `closeEvent()` stay in place; `equalizer.cpp` has about 380 fewer lines.
+  The Android APK, the native desktop build, and the native equalizer, playlist, long-press, and tab widget tests succeed.
+  On the emulator, the equalizer looks unchanged; choosing "All expanded" for the collapse behaviour persisted after closing and reopening it (restored afterwards).
+- Merge check: a trial merge with `git merge-tree` against `upstream/master` (45 commits after the merge base, including changes to `mainwindow.cpp`, `playlistview.cpp`, and `CMakeLists.txt`) gives the same result before and after this point: only an unrelated conflict in `tests/CMakeLists.txt`.
+  These upstream changes do not touch the moved code, so the reduction in conflicts will only show with later upstream changes near the Android code.
 
 ## Needs a decision
 
