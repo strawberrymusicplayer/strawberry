@@ -296,6 +296,30 @@ QString NumberWithTotal(const int number, const QString &previous_value) {
 
 }
 
+// The pictures which are used as the cover, the other pictures, like the back cover, are kept when the cover is changed or removed.
+bool IsCoverPicture(const TagLib::FLAC::Picture::Type type) {
+  return type == TagLib::FLAC::Picture::FrontCover || type == TagLib::FLAC::Picture::Other;
+}
+
+// Returns copies of the pictures which are not the cover, to add them again after all pictures are removed.
+// Single pictures are not removed with XiphComment::removePicture(), its picture list already deletes the picture, so it's deleted twice.
+TagLib::List<TagLib::FLAC::Picture*> CopyOtherPictures(const TagLib::List<TagLib::FLAC::Picture*> &pictures) {
+
+  TagLib::List<TagLib::FLAC::Picture*> other_pictures;
+  for (const TagLib::FLAC::Picture *picture : pictures) {
+    if (!IsCoverPicture(picture->type())) {
+      other_pictures.append(new TagLib::FLAC::Picture(picture->render()));
+    }
+  }
+
+  return other_pictures;
+
+}
+
+bool IsCoverPicture(const TagLib::ID3v2::AttachedPictureFrame::Type type) {
+  return type == TagLib::ID3v2::AttachedPictureFrame::FrontCover || type == TagLib::ID3v2::AttachedPictureFrame::Other;
+}
+
 }  // namespace
 
 class FileRefFactory {
@@ -745,7 +769,15 @@ void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QSt
     }
   }
 
-  if (map.contains(kID3v2_CoverArt) && song->url().isLocalFile()) song->set_art_embedded(true);
+  if (map.contains(kID3v2_CoverArt) && song->url().isLocalFile()) {
+    for (TagLib::ID3v2::Frame *frame : std::as_const(map[kID3v2_CoverArt])) {
+      const TagLib::ID3v2::AttachedPictureFrame *picture = dynamic_cast<const TagLib::ID3v2::AttachedPictureFrame*>(frame);
+      if (picture && IsCoverPicture(picture->type()) && !picture->picture().isEmpty()) {
+        song->set_art_embedded(true);
+        break;
+      }
+    }
+  }
 
   if (map.contains(kID3v2_BPM)) song->set_bpm(TagLibStringToQString(map[kID3v2_BPM].front()->toString()).trimmed().toFloat());
   if (map.contains(kID3v2_Mood)) song->set_mood(map[kID3v2_Mood].front()->toString());
@@ -1946,15 +1978,22 @@ TagReaderResult TagReaderTagLib::LoadEmbeddedCover(const QString &filename, QByt
 
 QByteArray TagReaderTagLib::LoadEmbeddedCover(TagLib::ID3v2::Tag *tag) const {
 
+  // The front cover is preferred, like for FLAC pictures, other pictures, like the back cover, are not the cover.
   const TagLib::ID3v2::FrameList apic_frames = tag->frameListMap()[kID3v2_CoverArt];
-  if (apic_frames.isEmpty()) {
+  const TagLib::ID3v2::AttachedPictureFrame *cover_picture = nullptr;
+  for (TagLib::ID3v2::Frame *frame : apic_frames) {
+    const TagLib::ID3v2::AttachedPictureFrame *picture = dynamic_cast<const TagLib::ID3v2::AttachedPictureFrame*>(frame);
+    if (!picture || picture->picture().isEmpty() || !IsCoverPicture(picture->type())) continue;
+    if (picture->type() == TagLib::ID3v2::AttachedPictureFrame::FrontCover) {
+      cover_picture = picture;
+      break;
+    }
+    if (!cover_picture) cover_picture = picture;
+  }
+  if (!cover_picture) {
     return QByteArray();
   }
-  TagLib::ID3v2::AttachedPictureFrame *picture = dynamic_cast<TagLib::ID3v2::AttachedPictureFrame*>(apic_frames.front());
-  if (!picture) {
-    return QByteArray();
-  }
-  return QByteArray(reinterpret_cast<const char*>(picture->picture().data()), picture->picture().size());
+  return QByteArray(reinterpret_cast<const char*>(cover_picture->picture().data()), cover_picture->picture().size());
 
 }
 
@@ -1977,7 +2016,11 @@ void TagReaderTagLib::SetEmbeddedCover(TagLib::FLAC::File *flac_file, TagLib::Og
 
   (void)vorbis_comment;
 
+  const TagLib::List<TagLib::FLAC::Picture*> other_pictures = CopyOtherPictures(flac_file->pictureList());
   flac_file->removePictures();
+  for (TagLib::FLAC::Picture *picture : other_pictures) {
+    flac_file->addPicture(picture);
+  }
 
   if (!data.isEmpty()) {
     TagLib::FLAC::Picture *picture = new TagLib::FLAC::Picture();
@@ -1991,7 +2034,11 @@ void TagReaderTagLib::SetEmbeddedCover(TagLib::FLAC::File *flac_file, TagLib::Og
 
 void TagReaderTagLib::SetEmbeddedCover(TagLib::Ogg::XiphComment *vorbis_comment, const QByteArray &data, const QString &mimetype) const {
 
+  const TagLib::List<TagLib::FLAC::Picture*> other_pictures = CopyOtherPictures(vorbis_comment->pictureList());
   vorbis_comment->removeAllPictures();
+  for (TagLib::FLAC::Picture *picture : other_pictures) {
+    vorbis_comment->addPicture(picture);
+  }
 
   if (!data.isEmpty()) {
     TagLib::FLAC::Picture *picture = new TagLib::FLAC::Picture();
@@ -2005,11 +2052,13 @@ void TagReaderTagLib::SetEmbeddedCover(TagLib::Ogg::XiphComment *vorbis_comment,
 
 void TagReaderTagLib::SetEmbeddedCover(TagLib::ID3v2::Tag *tag, const QByteArray &data, const QString &mimetype) const {
 
-  // Remove existing covers
-  TagLib::ID3v2::FrameList apiclist = tag->frameListMap()[kID3v2_CoverArt];
-  for (TagLib::ID3v2::FrameList::ConstIterator it = apiclist.begin(); it != apiclist.end(); ++it) {
-    TagLib::ID3v2::AttachedPictureFrame *frame = dynamic_cast<TagLib::ID3v2::AttachedPictureFrame*>(*it);
-    tag->removeFrame(frame, true);
+  // Remove the existing covers, other pictures, like the back cover, are kept.
+  const TagLib::ID3v2::FrameList apiclist = tag->frameListMap()[kID3v2_CoverArt];
+  for (TagLib::ID3v2::Frame *frame : apiclist) {
+    const TagLib::ID3v2::AttachedPictureFrame *picture = dynamic_cast<const TagLib::ID3v2::AttachedPictureFrame*>(frame);
+    if (!picture || IsCoverPicture(picture->type())) {
+      tag->removeFrame(frame, true);
+    }
   }
 
   if (!data.isEmpty()) {
