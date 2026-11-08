@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2014, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ class DirectSoundAudioDeviceLister : public AudioDeviceLister {
     EngineDeviceList devices;
   };
 
-  static BOOL CALLBACK EnumerateCallback(LPGUID guid, LPCSTR description, LPCSTR module, LPVOID state_voidptr);
+  static BOOL CALLBACK EnumerateCallback(LPGUID guid, LPCWSTR description, LPCWSTR module, LPVOID state_voidptr);
 };
 
 #endif  // DIRECTSOUNDAUDIODEVICELISTER_H

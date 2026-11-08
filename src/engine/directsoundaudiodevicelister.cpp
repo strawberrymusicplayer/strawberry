@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2014, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,18 +39,18 @@ DirectSoundAudioDeviceLister::DirectSoundAudioDeviceLister() : AudioDeviceLister
 
 EngineDeviceList DirectSoundAudioDeviceLister::ListDevices() {
   State state;
-  DirectSoundEnumerateA(&DirectSoundAudioDeviceLister::EnumerateCallback, &state);
+  DirectSoundEnumerateW(&DirectSoundAudioDeviceLister::EnumerateCallback, &state);
   return state.devices;
 }
 
-BOOL CALLBACK DirectSoundAudioDeviceLister::EnumerateCallback(LPGUID guid, LPCSTR description, LPCSTR module, LPVOID state_voidptr) {
+BOOL CALLBACK DirectSoundAudioDeviceLister::EnumerateCallback(LPGUID guid, LPCWSTR description, LPCWSTR module, LPVOID state_voidptr) {
 
   Q_UNUSED(module);
 
   State *state = reinterpret_cast<State*>(state_voidptr);
 
   EngineDevice device;
-  device.description = QString::fromLatin1(description);
+  device.description = QString::fromWCharArray(description);
   if (guid) device.value = QUuid(*guid).toString();
   device.iconname = device.GuessIconName();
   state->devices.append(device);
