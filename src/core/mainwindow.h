@@ -317,6 +317,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void SetToggleScrobblingIcon(const bool value);
 
   bool IsActivePlaylistCurrentRow(const int row) const;
+  QModelIndex PlaylistMenuIndex() const;
 
 #ifdef HAVE_DBUS
   void UpdateTaskbarProgress(const bool visible, const double progress = 0);
@@ -422,7 +423,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QAction *playlist_rescan_songs_;
   QAction *playlist_fetch_metadata_;
 
-  QModelIndex playlist_menu_index_;
+  // Persistent, so it follows the row when rows change while the menu is open, like when a dynamic playlist removes the history.
+  QPersistentModelIndex playlist_menu_index_;
 
   QTimer *track_position_timer_;
   QTimer *track_slider_timer_;

@@ -63,6 +63,7 @@
 #include <QErrorMessage>
 #include <QColor>
 #include <QFrame>
+#include <QItemSelection>
 #include <QItemSelectionModel>
 #include <QLabel>
 #include <QLayout>
@@ -2385,19 +2386,34 @@ bool MainWindow::IsActivePlaylistCurrentRow(const int row) const {
 
 }
 
+QModelIndex MainWindow::PlaylistMenuIndex() const {
+
+  // The row can have been removed while the menu was open, or another playlist can be the current playlist, the index stays valid for its own playlist.
+  if (!playlist_menu_index_.isValid() || playlist_menu_index_.model() != app_->playlist_manager()->current()) return QModelIndex();
+
+  return playlist_menu_index_;
+
+}
+
 void MainWindow::PlaylistPlay() {
 
-  if (playlist_menu_index_.isValid() && IsActivePlaylistCurrentRow(playlist_menu_index_.row())) {
+  const QModelIndex menu_index = PlaylistMenuIndex();
+  if (menu_index.isValid() && IsActivePlaylistCurrentRow(menu_index.row())) {
     app_->player()->PlayPause(0, Playlist::AutoScroll::Never);
   }
   else {
-    PlayIndex(playlist_menu_index_, Playlist::AutoScroll::Never);
+    PlayIndex(menu_index, Playlist::AutoScroll::Never);
   }
 
 }
 
 void MainWindow::PlaylistStopAfter() {
-  app_->playlist_manager()->current()->StopAfter(playlist_menu_index_.row());
+
+  const QModelIndex menu_index = PlaylistMenuIndex();
+  if (!menu_index.isValid()) return;
+
+  app_->playlist_manager()->current()->StopAfter(menu_index.row());
+
 }
 
 void MainWindow::RescanSongs() {
@@ -2643,8 +2659,11 @@ void MainWindow::SongSaveComplete(TagReaderReplyPtr reply, const QPersistentMode
 
 void MainWindow::SelectionSetValue() {
 
-  Playlist::Column column = static_cast<Playlist::Column>(playlist_menu_index_.column());
-  QVariant column_value = app_->playlist_manager()->current()->data(playlist_menu_index_);
+  const QModelIndex menu_index = PlaylistMenuIndex();
+  if (!menu_index.isValid()) return;
+
+  Playlist::Column column = static_cast<Playlist::Column>(menu_index.column());
+  QVariant column_value = app_->playlist_manager()->current()->data(menu_index);
 
   const QModelIndexList proxy_indexes = ui_->playlist->view()->selectionModel()->selectedRows();
   for (const QModelIndex &proxy_index : proxy_indexes) {
@@ -2812,7 +2831,7 @@ void MainWindow::PlaylistClearCurrent() {
 
 void MainWindow::PlaylistEditFinished(const int playlist_id, const QModelIndex &idx) {
 
-  if (app_->playlist_manager()->current() && playlist_id == app_->playlist_manager()->current()->id() && idx == playlist_menu_index_) {
+  if (app_->playlist_manager()->current() && playlist_id == app_->playlist_manager()->current()->id() && playlist_menu_index_ == idx) {
     SelectionSetValue();
   }
 
@@ -3447,7 +3466,7 @@ void MainWindow::PlaylistCurrentChanged(const QModelIndex &proxy_current) {
 
   // If the user moves the current index using the keyboard and then presses
   // F2, we don't want that editing the last column that was right clicked on.
-  if (source_current != playlist_menu_index_) playlist_menu_index_ = QModelIndex();
+  if (playlist_menu_index_ != source_current) playlist_menu_index_ = QPersistentModelIndex();
 
 }
 
@@ -3714,32 +3733,84 @@ void MainWindow::PlaylistDelete() {
 
   if (!delete_files_) return;
 
+  const int playlist_id = app_->playlist_manager()->current()->id();
   SongList selected_songs;
   QStringList files;
-  bool is_current_item = false;
+  // The selected rows are kept as persistent indexes, they can change while the confirmation is shown, and the selection too, when the playing track is selected.
+  QList<QPersistentModelIndex> selected_source_indexes;
   const QModelIndexList proxy_indexes = ui_->playlist->view()->selectionModel()->selectedRows();
   for (const QModelIndex &proxy_idx : proxy_indexes) {
     QModelIndex source_idx = app_->playlist_manager()->current()->filter()->mapToSource(proxy_idx);
+    if (!source_idx.isValid()) continue;
+    selected_source_indexes << QPersistentModelIndex(source_idx);
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_idx.row());
     if (!item || !item->EffectiveMetadata().url().isLocalFile()) continue;
     QString filename = item->EffectiveMetadata().url().toLocalFile();
     if (files.contains(filename)) continue;
     selected_songs << item->EffectiveMetadata();
     files << filename;
-    if (item == app_->player()->GetCurrentItem()) is_current_item = true;
   }
   if (selected_songs.isEmpty()) return;
 
   if (DeleteConfirmationDialog::warning(files) != QDialogButtonBox::Yes) return;
 
-  if (app_->player()->GetState() == EngineBase::State::Playing && app_->playlist_manager()->current() == app_->playlist_manager()->active() && app_->playlist_manager()->current()->rowCount() == selected_songs.count()) {
-    app_->player()->Stop();
-  }
+  // The confirmed rows which still exist are removed, the song playing can have changed while the confirmation was shown.
+  // The rows are only removed if the playlist is still the current playlist, they are removed from the view.
+  Playlist *playlist = app_->playlist_manager()->playlist(playlist_id);
+  if (playlist && playlist == app_->playlist_manager()->current()) {
+    QList<int> removed_proxy_rows;
+    // Confirmed rows which the filter hides now, like after their metadata was updated, their files are deleted too.
+    QList<QPersistentModelIndex> hidden_source_indexes;
+    bool is_current_item = false;
+    for (const QPersistentModelIndex &source_idx : std::as_const(selected_source_indexes)) {
+      if (!source_idx.isValid()) continue;
+      // The playing row is compared by row, the item of the row can have been replaced while the confirmation was shown, like when the metadata was loaded.
+      // This is checked before the row is skipped when the filter hides it, the file is deleted anyway.
+      if (IsActivePlaylistCurrentRow(source_idx.row())) {
+        is_current_item = true;
+      }
+      const QModelIndex proxy_idx = playlist->filter()->mapFromSource(source_idx);
+      if (proxy_idx.isValid()) {
+        removed_proxy_rows << proxy_idx.row();
+      }
+      else {
+        hidden_source_indexes << source_idx;
+      }
+    }
+    const int removed_count = static_cast<int>(removed_proxy_rows.count() + hidden_source_indexes.count());
 
-  ui_->playlist->view()->RemoveSelected();
+    // Consecutive rows are selected as one range, so they are removed together.
+    std::sort(removed_proxy_rows.begin(), removed_proxy_rows.end());
+    QItemSelection removed_selection;
+    for (qsizetype i = 0; i < removed_proxy_rows.count();) {
+      qsizetype last = i;
+      while (last + 1 < removed_proxy_rows.count() && removed_proxy_rows[last + 1] == removed_proxy_rows[last] + 1) ++last;
+      removed_selection.select(playlist->filter()->index(removed_proxy_rows[i], 0), playlist->filter()->index(removed_proxy_rows[last], 0));
+      i = last + 1;
+    }
 
-  if (app_->player()->GetState() == EngineBase::State::Playing && is_current_item) {
-    app_->player()->Next();
+    if (app_->player()->GetState() == EngineBase::State::Playing && playlist == app_->playlist_manager()->active() && playlist->rowCount() == removed_count) {
+      app_->player()->Stop();
+    }
+
+    if (!removed_selection.isEmpty()) {
+      ui_->playlist->view()->selectionModel()->select(removed_selection, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+      ui_->playlist->view()->RemoveSelected();
+    }
+
+    // The view can only remove the rows it shows, the hidden rows are removed from the playlist, from the last row, so the other rows don't move.
+    QList<int> hidden_source_rows;
+    for (const QPersistentModelIndex &source_idx : std::as_const(hidden_source_indexes)) {
+      if (source_idx.isValid()) hidden_source_rows << source_idx.row();
+    }
+    std::sort(hidden_source_rows.begin(), hidden_source_rows.end(), std::greater<int>());
+    for (const int source_row : std::as_const(hidden_source_rows)) {
+      playlist->removeRows(source_row, 1, QModelIndex());
+    }
+
+    if (app_->player()->GetState() == EngineBase::State::Playing && is_current_item) {
+      app_->player()->Next();
+    }
   }
 
   SharedPtr<MusicStorage> storage = make_shared<FilesystemMusicStorage>(Song::Source::LocalFile, u"/"_s);
