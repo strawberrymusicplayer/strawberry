@@ -126,14 +126,11 @@ void Equalizer::SetupAndroidLayout() {
   QLabel *restart = new QLabel(ui_->enable_equalizer->toolTip(), content);
   restart->setWordWrap(true);
   controls->addWidget(restart);
-  QLabel *preset_label = new QLabel(tr("Preset"), content);
-  preset_label->setWordWrap(true);
-  controls->addWidget(preset_label);
+  const AndroidWidgets::LabeledValueButton preset = AndroidWidgets::CreateLabeledValueButton(tr("Preset"), content);
+  controls->addWidget(preset.label);
   QHBoxLayout *preset_section = new QHBoxLayout;
   controls->addLayout(preset_section);
-  android_preset_ = new AndroidWidgets::ValueButton(QString(), content);
-  android_preset_->setAccessibleName(tr("Preset"));
-  preset_label->setBuddy(android_preset_);
+  android_preset_ = preset.button;
   UpdateAndroidPreset();
   preset_section->addWidget(android_preset_);
   for (QToolButton *button : {ui_->preset_save, ui_->preset_del}) {
@@ -144,12 +141,9 @@ void Equalizer::SetupAndroidLayout() {
     button->setIconSize(QSize(28, 28));
     preset_section->addWidget(button);
   }
-  QLabel *mode_label = new QLabel(tr("Collapse behaviour of sections"), content);
-  mode_label->setWordWrap(true);
-  controls->addWidget(mode_label);
-  android_foldout_mode_ = new AndroidWidgets::ValueButton(QString(), content);
-  android_foldout_mode_->setAccessibleName(tr("Collapse behaviour of sections"));
-  mode_label->setBuddy(android_foldout_mode_);
+  const AndroidWidgets::LabeledValueButton foldout_mode = AndroidWidgets::CreateLabeledValueButton(tr("Collapse behaviour of sections"), content);
+  controls->addWidget(foldout_mode.label);
+  android_foldout_mode_ = foldout_mode.button;
   controls->addWidget(android_foldout_mode_);
   Settings foldout_settings;
   foldout_settings.beginGroup(kSettingsGroup);

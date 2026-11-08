@@ -190,8 +190,11 @@ void BehaviourSettingsPage::SetupAndroidLayout() {
     group->setTitle(QString());
     controls_layout->setDirection(QBoxLayout::TopToBottom);
     controls_layout->setAlignment(Qt::AlignTop);
-    auto *button = new AndroidWidgets::ValueButton(title, this);
+    const AndroidWidgets::LabeledValueButton labeled = AndroidWidgets::CreateLabeledValueButton(title, this);
+    AndroidWidgets::ValueButton *button = labeled.button;
+    const int group_position = ui_->layout_behavioursettingspage->indexOf(group);
     delete ui_->layout_behavioursettingspage->replaceWidget(group, button);
+    ui_->layout_behavioursettingspage->insertWidget(group_position, labeled.label);
     group->hide();
     button->setVisible(group != ui_->groupbox_language || group->isEnabled());
     const auto combos = group->findChildren<QComboBox*>();

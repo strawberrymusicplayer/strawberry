@@ -145,7 +145,7 @@ The Android Settings overview and its category/page navigation are an example of
 
 Apply these UI principles when building or changing hierarchical menus and dropdown-style choices anywhere in the Android app, not just Settings. Follow the shared hierarchical navigation rules above as well.
 
-- Use compact navigation buttons showing the setting title and current value instead of dropdown popups. Keep simple on/off controls directly on the parent page where appropriate.
+- Use compact navigation buttons instead of dropdown popups: show the setting title as a wrapping label above the button and only the current value inside it, as the equalizer does (`AndroidWidgets::CreateLabeledValueButton()`). Navigation-only buttons without a value keep their title in the button. Keep simple on/off controls directly on the parent page where appropriate.
 - Display current values in bold using the theme's link text color; leave titles and button backgrounds unchanged. Summarize related settings compactly, with full details in their editor. Never include passwords or text-entry credentials in summaries.
 - Open choices in a full-page subscreen within the existing navigation hierarchy, not a floating dialog. Keep related choices together on one subscreen.
 - Show choices as tappable rows without visible radio circles or bullets. Use the theme's highlight background and matching highlighted-text color for the selected row, retaining the checked state for accessibility rather than imposing a fixed green.

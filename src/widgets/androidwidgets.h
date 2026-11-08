@@ -28,6 +28,7 @@
 #include <QEvent>
 #include <QLayout>
 #include <QPoint>
+#include <QPointer>
 #include <QPushButton>
 #include <QSize>
 #include <QString>
@@ -73,8 +74,12 @@ class LayoutButton : public Base {
   }
 };
 
+struct LabeledValueButton;
+LabeledValueButton CreateLabeledValueButton(const QString &title, QWidget *parent);
+
 // A compact button that opens a choice or editor subpage.
 // It shows an optional "title >" caption followed by the current value in bold, in the theme's link color.
+// Buttons showing a setting's value have no caption; they are labeled as in CreateLabeledValueButton().
 class ValueButton : public LayoutButton<QPushButton> {
  public:
   // Without a title only the value is shown; the caller then labels the button, for example with a buddy label.
@@ -83,9 +88,24 @@ class ValueButton : public LayoutButton<QPushButton> {
   // Shows the value, or hides it when empty; the description, which defaults to the value, is exposed to accessibility.
   void SetValue(const QString &value, const QString &description = QString());
 
+  // Also shows or hides the title label from CreateLabeledValueButton().
+  void setVisible(const bool visible) override;
+
  private:
+  friend LabeledValueButton CreateLabeledValueButton(const QString &title, QWidget *parent);
+
   QLabel *value_;
+  QPointer<QLabel> title_label_;
 };
+
+// A value button without a caption and the wrapping label showing its title, as in the equalizer; the caller places the label above the button.
+struct LabeledValueButton {
+  QLabel *label;
+  ValueButton *button;
+};
+
+// The label is the button's buddy and names it for accessibility; it is shown and hidden together with the button.
+LabeledValueButton CreateLabeledValueButton(const QString &title, QWidget *parent);
 
 // Adds a wrapping, plain-text label that lets clicks pass through to the button containing it.
 QLabel *AddButtonLabel(QBoxLayout *layout, const QString &text);

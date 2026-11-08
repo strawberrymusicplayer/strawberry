@@ -332,12 +332,12 @@ class MenuPresentation : public QObject {
 
 void AdaptLayout(QLayout *layout, SettingsPage *page);
 
-void Summarize(const QList<QPointer<QWidget>> &controls, ValueButton *button) {
+void Summarize(const QList<QPointer<QWidget>> &controls, const QString &section_title, ValueButton *button) {
   QStringList values;
   QHash<QString, int> rows;
-  const auto add_value = [&values, &rows](QWidget *control, const QString &value) {
+  const auto add_value = [&values, &rows, &section_title](QWidget *control, const QString &value) {
     const QString title = ControlTitle(control);
-    if (title == SettingsDialog::tr("Options")) values << value;
+    if (title == SettingsDialog::tr("Options") || title == section_title) values << value;
     else if (rows.contains(title)) values[rows.value(title)] += u' ' + value;
     else {
       rows.insert(title, values.size());
@@ -372,6 +372,8 @@ void Summarize(const QList<QPointer<QWidget>> &controls, ValueButton *button) {
   if (total) values << SettingsDialog::tr("%1 of %2 enabled").arg(enabled).arg(total);
   QStringList visible_values = values.mid(0, 3);
   if (values.size() > 3) visible_values << SettingsDialog::tr("%n more setting(s)", nullptr, values.size() - 3);
+  // The button has no caption, so it must not be empty.
+  if (values.isEmpty()) visible_values << SettingsDialog::tr("Edit");
   button->SetValue(visible_values.join(u"\n"_s), values.join(u"\n"_s));
 }
 
@@ -395,12 +397,23 @@ class SectionPresentation : public QObject {
     }
     auto *layout = new QVBoxLayout(section);
     layout->setContentsMargins(0, 0, 0, 0);
-    auto *button = new ValueButton(title, section);
+    // A checkable group's own title, next to its checkbox, already labels the button.
+    auto *group = qobject_cast<QGroupBox*>(section);
+    ValueButton *button = nullptr;
+    if (group && group->isCheckable()) {
+      button = new ValueButton(QString(), section);
+      button->setAccessibleName(title);
+    }
+    else {
+      const AndroidWidgets::LabeledValueButton labeled = AndroidWidgets::CreateLabeledValueButton(title, section);
+      layout->addWidget(labeled.label);
+      button = labeled.button;
+    }
     layout->addWidget(button);
     QList<QPointer<QWidget>> controls;
     for (QWidget *control : content_->findChildren<QWidget*>()) controls << control;
     // Editors are temporarily reparented out of their source section during navigation.
-    update_ = [controls, button]() { Summarize(controls, button); };
+    update_ = [controls, title, button]() { Summarize(controls, title, button); };
     auto update = [this]() { update_(); };
     for (const QPointer<QWidget> &control : controls) {
       if (qobject_cast<QComboBox*>(control.data()) || qobject_cast<QAbstractSpinBox*>(control.data()) ||

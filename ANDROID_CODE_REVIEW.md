@@ -10,8 +10,8 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: points 25, 26, and 27 (found during testing); the decision in point 20 is still open.
-  Points 1–19, 21–24 are done.
+- Next: points 26 and 27 (found during testing); the decision in point 20 is still open.
+  Points 1–19, 21–25 are done.
 - A physical phone may be connected over USB as well; set `ANDROID_SERIAL=emulator-5554` so `adb` commands only reach the emulator.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 4` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
@@ -404,7 +404,7 @@ Handoff notes for continuing in a new session:
 
 ### 25. Lay out the Settings value buttons like the equalizer's
 
-**Status:** Open
+**Status:** Done
 
 - The equalizer shows each setting's title as a word-wrapped label above the button, and the button shows only the bold, link-colored current value (`Equalizer::SetupAndroidLayout()`: `ValueButton(QString(), ...)` with a buddy `QLabel`).
   Settings puts the "title >" caption and the value together inside the button (`ValueButton(title, ...)` in `AndroidSettingsPage` and `BehaviourSettingsPage`).
@@ -414,6 +414,17 @@ Handoff notes for continuing in a new session:
   Keep the label hidden whenever the button is hidden, for example for the Language group.
 - Navigation-only buttons without a value, such as the Settings overview categories, keep their title in the button.
 - Afterwards, check on the emulator that long titles and values wrap on narrow screens, that summaries still update after edits and Cancel, and that the parent's scroll position is still restored on return.
+
+**Resolved:**
+- `AndroidWidgets::CreateLabeledValueButton()` creates a caption-less `ValueButton` and its wrapping title label, which is the button's buddy and names it for accessibility; `ValueButton::setVisible()` shows and hides the label with the button.
+  The equalizer, the Behavior page, and the adapter's group sections use it.
+- On the Behavior page the label is inserted above the button in the page layout, so the hidden Language button also hides its label.
+- In the adapter, a checkable group keeps its own title beside its checkbox as the label, so the title is not repeated.
+  Summary lines whose control is labeled only by the section title no longer repeat it, and a section with nothing to summarize (for example Music folders, which holds a list) shows "Edit" so the button is not empty.
+- Navigation-only buttons (Settings categories, tab overviews, menus) keep their title in the button.
+- The Android APK and the native desktop build succeed, and the native equalizer test passes.
+  On the emulator, Behavior, Backend, and Collection show the titles above the buttons with the wrapped, link-colored values; choosing Show maximized updated the summary, and Cancel discarded it.
+  These pages fit on the emulator's screen, so the unchanged scroll-position restore could not be exercised here.
 
 ### 26. Ignored first tab tap after a cold start
 

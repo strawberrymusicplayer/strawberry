@@ -143,6 +143,26 @@ void ValueButton::SetValue(const QString &value, const QString &description) {
 
 }
 
+void ValueButton::setVisible(const bool visible) {
+
+  LayoutButton<QPushButton>::setVisible(visible);
+  if (title_label_) title_label_->setVisible(visible);
+
+}
+
+LabeledValueButton CreateLabeledValueButton(const QString &title, QWidget *parent) {
+
+  QLabel *label = new QLabel(title, parent);
+  label->setWordWrap(true);
+  label->setTextFormat(Qt::PlainText);
+  ValueButton *button = new ValueButton(QString(), parent);
+  button->setAccessibleName(title);
+  button->title_label_ = label;
+  label->setBuddy(button);
+  return LabeledValueButton{ label, button };
+
+}
+
 QLabel *AddButtonLabel(QBoxLayout *layout, const QString &text) {
 
   QLabel *label = new QLabel(text, layout->parentWidget());
