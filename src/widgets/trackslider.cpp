@@ -376,8 +376,13 @@ void TrackSlider::SetValue(const int elapsed, const int total) {
 void TrackSlider::UpdateTimes(const int elapsed) {
 
   ui_->elapsed->setText(Utilities::PrettyTime(elapsed));
+  // Streams have no length, the remaining time would be the time elapsed, counting up as a negative time, so no time is shown, like for the length in the playlist.
+  if (ui_->slider->maximum() <= 0) {
+    ui_->remaining->clear();
+    slider_maximum_value_ = 0;
+  }
   // Update normally if showing remaining time
-  if (show_remaining_time_) {
+  else if (show_remaining_time_) {
     ui_->remaining->setText(QLatin1Char('-') + Utilities::PrettyTime(static_cast<int>(ui_->slider->maximum() / kMsecPerSec) - elapsed));
   }
   else {
