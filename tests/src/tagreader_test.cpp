@@ -25,6 +25,9 @@
 #include <string>
 
 #include <QFile>
+#include <QImage>
+#include <QColor>
+#include <QBuffer>
 #include <QPair>
 #include <QList>
 #include <QByteArray>
@@ -54,6 +57,9 @@
 #include <taglib/wavpackfile.h>
 #include <taglib/apetag.h>
 #include <taglib/apeitem.h>
+#include <taglib/attachedpictureframe.h>
+#include <taglib/flacpicture.h>
+#include <taglib/vorbisfile.h>
 
 #include "core/logging.h"
 #include "core/song.h"
@@ -3083,6 +3089,215 @@ TEST_F(TagReaderTest, TestEmptyCoverRemovesCover) {
   EXPECT_FALSE(ReadCoverFromFile(r.fileName()).isNull());
 
   EXPECT_TRUE(WriteCoverToFile(r.fileName(), SaveTagCoverData()).success());
+  EXPECT_TRUE(ReadCoverFromFile(r.fileName()).isNull());
+
+}
+
+constexpr char kBackCoverData[] = "back cover";
+
+TagLib::FLAC::Picture *CreateBackCoverPicture() {
+
+  TagLib::FLAC::Picture *picture = new TagLib::FLAC::Picture();
+  picture->setType(TagLib::FLAC::Picture::BackCover);
+  picture->setMimeType("image/png");
+  picture->setData(TagLib::ByteVector(kBackCoverData));
+  return picture;
+
+}
+
+int BackCoverCount(const TagLib::List<TagLib::FLAC::Picture*> &pictures) {
+
+  int count = 0;
+  for (const TagLib::FLAC::Picture *picture : pictures) {
+    if (picture->type() == TagLib::FLAC::Picture::BackCover && picture->data() == TagLib::ByteVector(kBackCoverData)) ++count;
+  }
+  return count;
+
+}
+
+int ID3v2BackCoverCount(const QString &filename) {
+
+  TagLib::MPEG::File file(TagLibFileName(filename).data());
+  if (!file.isValid() || !file.ID3v2Tag()) return -1;
+  int count = 0;
+  const TagLib::ID3v2::FrameList frames = file.ID3v2Tag()->frameList("APIC");
+  for (TagLib::ID3v2::Frame *frame : frames) {
+    const TagLib::ID3v2::AttachedPictureFrame *picture = dynamic_cast<const TagLib::ID3v2::AttachedPictureFrame*>(frame);
+    if (picture && picture->type() == TagLib::ID3v2::AttachedPictureFrame::BackCover && picture->picture() == TagLib::ByteVector(kBackCoverData)) ++count;
+  }
+  return count;
+
+}
+
+// Setting and removing the cover only replaces the front cover, the other pictures, like the back cover, are kept.
+TEST_F(TagReaderTest, TestMP3AudioFileCoverKeepsOtherPictures) {
+
+  TemporaryResource r(u":/audio/strawberry.mp3"_s);
+  const QString cover_filename = u":/pictures/strawberry.png"_s;
+  QImage original_image;
+  ASSERT_TRUE(original_image.load(cover_filename));
+
+  {
+    TagLib::MPEG::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    TagLib::ID3v2::AttachedPictureFrame *frame = new TagLib::ID3v2::AttachedPictureFrame();
+    frame->setType(TagLib::ID3v2::AttachedPictureFrame::BackCover);
+    frame->setMimeType("image/png");
+    frame->setPicture(TagLib::ByteVector(kBackCoverData));
+    file.ID3v2Tag(true)->addFrame(frame);
+    ASSERT_TRUE(file.save());
+  }
+
+  // The front cover is read, not the back cover before it.
+  ASSERT_TRUE(WriteCoverToFile(r.fileName(), cover_filename).success());
+  EXPECT_EQ(1, ID3v2BackCoverCount(r.fileName()));
+  EXPECT_EQ(original_image, ReadCoverFromFile(r.fileName()));
+  EXPECT_TRUE(ReadSongFromFile(r.fileName()).art_embedded());
+
+  ASSERT_TRUE(WriteCoverToFile(r.fileName(), SaveTagCoverData()).success());
+  EXPECT_EQ(1, ID3v2BackCoverCount(r.fileName()));
+  EXPECT_TRUE(ReadCoverFromFile(r.fileName()).isNull());
+  EXPECT_FALSE(ReadSongFromFile(r.fileName()).art_embedded());
+
+}
+
+// Returns a small PNG image in one color, to tell pictures apart.
+QByteArray ColorPNGData(const QColor &color) {
+
+  QImage image(8, 8, QImage::Format_RGB32);
+  image.fill(color);
+  QByteArray data;
+  QBuffer buffer(&data);
+  buffer.open(QIODevice::WriteOnly);
+  image.save(&buffer, "PNG");
+  return data;
+
+}
+
+void AddID3v2Picture(TagLib::ID3v2::Tag *tag, const TagLib::ID3v2::AttachedPictureFrame::Type type, const QByteArray &data) {
+
+  TagLib::ID3v2::AttachedPictureFrame *frame = new TagLib::ID3v2::AttachedPictureFrame();
+  frame->setType(type);
+  frame->setMimeType("image/png");
+  frame->setPicture(TagLib::ByteVector(data.constData(), static_cast<uint>(data.size())));
+  tag->addFrame(frame);
+
+}
+
+// The front cover is preferred over a picture of type other before it, a picture of type other is used when there's no front cover.
+TEST_F(TagReaderTest, TestMP3AudioFileCoverPrefersFrontCoverOverOther) {
+
+  TemporaryResource r(u":/audio/strawberry.mp3"_s);
+
+  {
+    TagLib::MPEG::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    AddID3v2Picture(file.ID3v2Tag(true), TagLib::ID3v2::AttachedPictureFrame::Other, ColorPNGData(Qt::red));
+    AddID3v2Picture(file.ID3v2Tag(true), TagLib::ID3v2::AttachedPictureFrame::FrontCover, ColorPNGData(Qt::blue));
+    ASSERT_TRUE(file.save());
+  }
+  QImage image = ReadCoverFromFile(r.fileName());
+  ASSERT_FALSE(image.isNull());
+  EXPECT_EQ(QColor(Qt::blue), image.pixelColor(0, 0));
+
+  {
+    TagLib::MPEG::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    const TagLib::ID3v2::FrameList frames = file.ID3v2Tag()->frameList("APIC");
+    for (TagLib::ID3v2::Frame *frame : frames) {
+      const TagLib::ID3v2::AttachedPictureFrame *picture = dynamic_cast<const TagLib::ID3v2::AttachedPictureFrame*>(frame);
+      if (picture && picture->type() == TagLib::ID3v2::AttachedPictureFrame::FrontCover) file.ID3v2Tag()->removeFrame(frame);
+    }
+    ASSERT_TRUE(file.save());
+  }
+  image = ReadCoverFromFile(r.fileName());
+  ASSERT_FALSE(image.isNull());
+  EXPECT_EQ(QColor(Qt::red), image.pixelColor(0, 0));
+  EXPECT_TRUE(ReadSongFromFile(r.fileName()).art_embedded());
+
+}
+
+// An empty front cover is not embedded art, it can't be loaded.
+TEST_F(TagReaderTest, TestMP3AudioFileEmptyFrontCoverIsNotEmbeddedArt) {
+
+  TemporaryResource r(u":/audio/strawberry.mp3"_s);
+
+  {
+    TagLib::MPEG::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    AddID3v2Picture(file.ID3v2Tag(true), TagLib::ID3v2::AttachedPictureFrame::FrontCover, QByteArray());
+    ASSERT_TRUE(file.save());
+  }
+  {
+    TagLib::MPEG::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    ASSERT_EQ(1U, file.ID3v2Tag()->frameList("APIC").size());
+  }
+
+  EXPECT_FALSE(ReadSongFromFile(r.fileName()).art_embedded());
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileCoverKeepsOtherPictures) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  const QString cover_filename = u":/pictures/strawberry.png"_s;
+  QImage original_image;
+  ASSERT_TRUE(original_image.load(cover_filename));
+
+  {
+    TagLib::FLAC::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    file.addPicture(CreateBackCoverPicture());
+    ASSERT_TRUE(file.save());
+  }
+
+  ASSERT_TRUE(WriteCoverToFile(r.fileName(), cover_filename).success());
+  {
+    TagLib::FLAC::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    EXPECT_EQ(1, BackCoverCount(file.pictureList()));
+  }
+  EXPECT_EQ(original_image, ReadCoverFromFile(r.fileName()));
+
+  ASSERT_TRUE(WriteCoverToFile(r.fileName(), SaveTagCoverData()).success());
+  {
+    TagLib::FLAC::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    EXPECT_EQ(1, BackCoverCount(file.pictureList()));
+  }
+  EXPECT_TRUE(ReadCoverFromFile(r.fileName()).isNull());
+
+}
+
+TEST_F(TagReaderTest, TestOggVorbisAudioFileCoverKeepsOtherPictures) {
+
+  TemporaryResource r(u":/audio/strawberry.ogg"_s);
+  const QString cover_filename = u":/pictures/strawberry.png"_s;
+  QImage original_image;
+  ASSERT_TRUE(original_image.load(cover_filename));
+
+  {
+    TagLib::Ogg::Vorbis::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    file.tag()->addPicture(CreateBackCoverPicture());
+    ASSERT_TRUE(file.save());
+  }
+
+  ASSERT_TRUE(WriteCoverToFile(r.fileName(), cover_filename).success());
+  {
+    TagLib::Ogg::Vorbis::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    EXPECT_EQ(1, BackCoverCount(file.tag()->pictureList()));
+  }
+  EXPECT_EQ(original_image, ReadCoverFromFile(r.fileName()));
+
+  ASSERT_TRUE(WriteCoverToFile(r.fileName(), SaveTagCoverData()).success());
+  {
+    TagLib::Ogg::Vorbis::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    EXPECT_EQ(1, BackCoverCount(file.tag()->pictureList()));
+  }
   EXPECT_TRUE(ReadCoverFromFile(r.fileName()).isNull());
 
 }
