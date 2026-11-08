@@ -28,6 +28,7 @@
 #include <QSignalSpy>
 #include <QUrl>
 #include <QStringList>
+#include <QDateTime>
 #include <QSqlQuery>
 #include <QSqlDatabase>
 #include <QThread>
@@ -766,6 +767,45 @@ TEST_F(SingleSong, MarkSongsUnavailable) {
 
   CollectionBackend::AlbumList albums = backend_->GetAllAlbums();
   EXPECT_EQ(0, albums.size());
+
+}
+
+// A song which becomes unavailable is last seen now, so it's expired by when it became unavailable, a song which was already unavailable keeps when it was last seen.
+TEST_F(SingleSong, MarkSongsUnavailableUpdatesLastSeen) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  {
+    QSqlDatabase db(database_->Connect());
+    QSqlQuery q(db);
+    ASSERT_TRUE(q.exec(QStringLiteral("UPDATE %1 SET lastseen = 1").arg(QLatin1String(CollectionManager::kSongsTable))));
+  }
+
+  const qint64 time = QDateTime::currentSecsSinceEpoch();
+  Song song = backend_->GetSongById(1);
+  ASSERT_TRUE(song.is_valid());
+  backend_->MarkSongsUnavailable(SongList() << song);
+  song = backend_->GetSongById(1);
+  EXPECT_TRUE(song.unavailable());
+  EXPECT_GE(song.lastseen(), time);
+
+  // Marking it unavailable again doesn't change when it was last seen.
+  {
+    QSqlDatabase db(database_->Connect());
+    QSqlQuery q(db);
+    ASSERT_TRUE(q.exec(QStringLiteral("UPDATE %1 SET lastseen = 2").arg(QLatin1String(CollectionManager::kSongsTable))));
+  }
+  backend_->MarkSongsUnavailable(SongList() << song);
+  song = backend_->GetSongById(1);
+  EXPECT_TRUE(song.unavailable());
+  EXPECT_EQ(2, song.lastseen());
+
+  // Neither does marking it available, the scan updates it for available songs.
+  backend_->MarkSongsUnavailable(SongList() << song, false);
+  song = backend_->GetSongById(1);
+  EXPECT_FALSE(song.unavailable());
+  EXPECT_EQ(2, song.lastseen());
 
 }
 

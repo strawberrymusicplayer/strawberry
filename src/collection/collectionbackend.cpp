@@ -1010,12 +1010,24 @@ void CollectionBackend::MarkSongsUnavailable(const SongList &songs, const bool u
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
+  // Songs are expired by when they were last seen, which is only updated for available songs after a scan.
+  // A song which becomes unavailable is last seen now, otherwise the scan which marks it unavailable expires it right away when the previous scan was long ago, for example when Strawberry wasn't started for a long time and the drive with the music isn't mounted yet.
+  // A song which was already unavailable keeps when it was last seen.
   SqlQuery query(db);
-  query.prepare(QStringLiteral("UPDATE %1 SET unavailable = %2 WHERE ROWID = :id").arg(songs_table_).arg(static_cast<int>(unavailable)));
+  if (unavailable) {
+    query.prepare(QStringLiteral("UPDATE %1 SET lastseen = CASE WHEN unavailable = 0 THEN :lastseen ELSE lastseen END, unavailable = 1 WHERE ROWID = :id").arg(songs_table_));
+  }
+  else {
+    query.prepare(QStringLiteral("UPDATE %1 SET unavailable = 0 WHERE ROWID = :id").arg(songs_table_));
+  }
 
+  const qint64 lastseen = QDateTime::currentSecsSinceEpoch();
   ScopedTransaction transaction(&db);
   for (const Song &song : songs) {
     query.BindValue(u":id"_s, song.id());
+    if (unavailable) {
+      query.BindValue(u":lastseen"_s, lastseen);
+    }
     if (!query.Exec()) {
       db_->ReportErrors(query);
       return;
