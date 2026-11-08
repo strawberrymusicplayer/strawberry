@@ -258,7 +258,7 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine
   current_pipeline_ = pipeline;
 
   if (old_pipeline) {
-    if (crossfade && !old_pipeline->exclusive_mode() && !AnyExclusivePipelineActive() && !fadeout_pipelines_.contains(old_pipeline->id())) {
+    if (crossfade && old_pipeline->fading_enabled() && !old_pipeline->exclusive_mode() && !AnyExclusivePipelineActive() && !fadeout_pipelines_.contains(old_pipeline->id())) {
       StartFadeout(old_pipeline);
     }
     else {
@@ -364,7 +364,7 @@ void GstEngine::Stop(const bool stop_after) {
   }
 
   if (current_pipeline_) {
-    if (fadeout_enabled_ && !stop_after && !AnyExclusivePipelineActive()) {
+    if (fadeout_enabled_ && !stop_after && current_pipeline_->fading_enabled() && !AnyExclusivePipelineActive()) {
       GstEnginePipelinePtr old_pipeline = current_pipeline_;
       current_pipeline_ = GstEnginePipelinePtr();
       StartFadeout(old_pipeline);
@@ -419,7 +419,7 @@ void GstEngine::Pause() {
   }
 
   if (current_pipeline_->state() == GST_STATE_PLAYING) {
-    if (fadeout_pause_enabled_ && !AnyExclusivePipelineActive()) {
+    if (fadeout_pause_enabled_ && current_pipeline_->fading_enabled() && !AnyExclusivePipelineActive()) {
       StartFadeoutPause();
     }
     else {

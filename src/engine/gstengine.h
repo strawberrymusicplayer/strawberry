@@ -52,6 +52,8 @@ class TaskManager;
 class GstEngine : public EngineBase, public GstBufferConsumer {
   Q_OBJECT
 
+  friend class GstEngineTest;
+
  public:
   explicit GstEngine(SharedPtr<TaskManager> task_manager, QObject *parent = nullptr);
   ~GstEngine() override;
