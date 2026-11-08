@@ -29,11 +29,6 @@
 #include <QString>
 #include <QDir>
 #include <QFile>
-#ifdef Q_OS_ANDROID
-#  include <QJniEnvironment>
-#  include <QJniObject>
-#  include <QtCore/qcoreapplication_platform.h>
-#endif
 
 #include "core/logging.h"
 #include "core/standardpaths.h"
@@ -52,16 +47,7 @@ namespace GstStartup {
 void Initialize() {
 
 #ifdef Q_OS_ANDROID
-  // Call through QJniEnvironment to detect a Java exception, which QJniObject would only print as a generic warning.
-  QJniEnvironment env;
-  jclass gstreamer_class = env.findClass("org/freedesktop/gstreamer/GStreamer");
-  jmethodID gstreamer_init = gstreamer_class ? env.findStaticMethod(gstreamer_class, "init", "(Landroid/content/Context;)V") : nullptr;
-  if (gstreamer_init) {
-    env->CallStaticVoidMethod(gstreamer_class, gstreamer_init, QNativeInterface::QAndroidApplication::context().object());
-  }
-  if (!gstreamer_init || env.checkAndClearExceptions()) {
-    qLog(Error) << "Could not initialize GStreamer for Android, audio playback may not work";
-  }
+  InitializeAndroid();
 #endif
 
   SetEnvironment();

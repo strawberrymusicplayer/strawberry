@@ -20,9 +20,14 @@
 #ifndef GSTSTARTUP_H
 #define GSTSTARTUP_H
 
+#include <QtGlobal>
+
 namespace GstStartup {
 void Initialize();
 void SetEnvironment();
+#ifdef Q_OS_ANDROID
+void InitializeAndroid();
+#endif
 }  // namespace GstStartup
 
 #endif  // GSTSTARTUP_H
