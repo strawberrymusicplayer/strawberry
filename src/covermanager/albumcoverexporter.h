@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,12 +55,11 @@ class AlbumCoverExporter : public QObject {
  Q_SIGNALS:
   void AlbumCoversExportUpdate(const int exported, const int skipped, const int all);
 
- private Q_SLOTS:
-  void CoverExported();
-  void CoverSkipped();
-
  private:
   void AddJobsToPool();
+  void CoverExported(const int export_id);
+  void CoverSkipped(const int export_id);
+  void CoverFinished();
 
   const SharedPtr<TagReaderClient> tagreader_client_;
 
@@ -69,6 +69,8 @@ class AlbumCoverExporter : public QObject {
   QQueue<CoverExportRunnable*> requests_;
   QThreadPool *thread_pool_;
 
+  int export_id_;
+  int running_;
   int exported_;
   int skipped_;
   int all_;
