@@ -650,6 +650,9 @@ void Player::RestartOrPrevious() {
 
 void Player::Stop(const bool stop_after) {
 
+  // A play request waiting for the playlists to be loaded is older than this request.
+  play_requested_ = false;
+
   engine_->Stop(stop_after);
   playlist_manager_->active()->set_current_row(-1);
   playlist_manager_->active()->reset_played_indexes();
@@ -988,7 +991,14 @@ void Player::SetMuted(const bool mute) {
 
 }
 
-void Player::Pause() { engine_->Pause(); }
+void Player::Pause() {
+
+  // A play request waiting for the playlists to be loaded is older than this request.
+  play_requested_ = false;
+
+  engine_->Pause();
+
+}
 
 void Player::Play(const quint64 offset_nanosec) {
 

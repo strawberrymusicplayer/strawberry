@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -65,9 +65,10 @@ void SongLoaderInserter::Load(Playlist *destination, const int row, const bool p
   enqueue_next_ = enqueue_next;
   signal_ = signal;
 
-  QObject::connect(destination, &Playlist::destroyed, this, &SongLoaderInserter::DestinationDestroyed);
+  QObject::connect(destination, &Playlist::destroyed, this, &SongLoaderInserter::ReleaseDestination);
+  QObject::connect(destination, &Playlist::PendingInsertsCancelled, this, &SongLoaderInserter::ReleaseDestination);
   QObject::connect(this, &SongLoaderInserter::PreloadFinished, this, &SongLoaderInserter::InsertSongs);
-  QObject::connect(this, &SongLoaderInserter::EffectiveLoadFinished, destination, &Playlist::UpdateItems);
+  QObject::connect(this, &SongLoaderInserter::EffectiveLoadFinished, this, &SongLoaderInserter::UpdateItems);
 
   for (const QUrl &url : urls) {
     SongLoader *loader = new SongLoader(url_handlers_, collection_backend_, tagreader_client_, this);
@@ -116,7 +117,8 @@ void SongLoaderInserter::LoadAudioCD(Playlist *destination, const int row, const
   enqueue_next_ = enqueue_next;
 
   // The tracks are inserted and updated later, so stop using the playlist if it is closed while the audio CD is loading.
-  QObject::connect(destination, &Playlist::destroyed, this, &SongLoaderInserter::DestinationDestroyed);
+  QObject::connect(destination, &Playlist::destroyed, this, &SongLoaderInserter::ReleaseDestination);
+  QObject::connect(destination, &Playlist::PendingInsertsCancelled, this, &SongLoaderInserter::ReleaseDestination);
 
   SongLoader *loader = new SongLoader(url_handlers_, collection_backend_, tagreader_client_, this);
   QObject::connect(loader, &SongLoader::AudioCDTracksLoaded, this, &SongLoaderInserter::AudioCDTracksLoadedSlot);
@@ -144,7 +146,7 @@ void SongLoaderInserter::LoadAudioCD(Playlist *destination, const int row, const
 
 }
 
-void SongLoaderInserter::DestinationDestroyed() { destination_ = nullptr; }
+void SongLoaderInserter::ReleaseDestination() { destination_ = nullptr; }
 
 void SongLoaderInserter::AudioCDTracksLoadedSlot() {
 
@@ -186,6 +188,15 @@ void SongLoaderInserter::InsertSongs() {
   // Insert songs (that haven't been completely loaded) to allow user to see and play them while not loaded completely
   if (destination_) {
     destination_->InsertSongsOrCollectionItems(songs_, playlist_name_, row_, play_now_, enqueue_, enqueue_next_, signal_);
+  }
+
+}
+
+void SongLoaderInserter::UpdateItems(const SongList &songs) {
+
+  // Not after the load was cancelled, a song with the same URL in the new items would get the metadata from this load.
+  if (destination_) {
+    destination_->UpdateItems(songs);
   }
 
 }

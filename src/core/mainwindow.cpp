@@ -1582,9 +1582,9 @@ void MainWindow::PlaylistsLoaded() {
 
   playlists_loaded_ = true;
 
-  if (options_.has_value()) {
-    CommandlineOptionsReceived(options_.value());
-    options_.reset();
+  const QList<CommandlineOptions> pending_options = std::exchange(pending_options_, QList<CommandlineOptions>());
+  for (const CommandlineOptions &options : pending_options) {
+    CommandlineOptionsReceived(options);
   }
 
   app_->player()->PlaylistsLoaded();
@@ -2857,7 +2857,8 @@ void MainWindow::CommandlineOptionsReceived(const QByteArray &string_options) {
 void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
 
   if (!playlists_loaded_) {
-    options_ = options;
+    // Another instance can send options before the playlists are loaded, keep them all and handle them in the order they were received.
+    pending_options_ << options;
     return;
   }
 

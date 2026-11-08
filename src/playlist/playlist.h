@@ -351,6 +351,7 @@ class Playlist : public QAbstractListModel {
   void AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result);
 
  Q_SIGNALS:
+  void PendingInsertsCancelled();
   void RestoreFinished();
   // Emitted when restoring finished or was cancelled.
   void RestoreDone();
