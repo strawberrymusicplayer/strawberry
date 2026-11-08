@@ -26,6 +26,7 @@
 
 #include <QMap>
 #include <QString>
+#include <QDateTime>
 #include <QStringList>
 #include <QUrl>
 #include <QThread>
@@ -198,6 +199,22 @@ class CollectionModelTest : public ::testing::Test {
     song.set_url(QUrl(u"file:///tmp/"_s + filename));
     song.set_filesize(1);
     return song;
+  }
+
+  // The songs shown by the filter.
+  SongList VisibleSongs(const QModelIndex &parent = QModelIndex()) const {
+    SongList songs;
+    for (int row = 0; row < collection_filter_->rowCount(parent); ++row) {
+      const QModelIndex idx = collection_filter_->index(row, 0, parent);
+      const CollectionItem *item = model_->IndexToItem(collection_filter_->mapToSource(idx));
+      if (item->type == CollectionItem::Type::Song) {
+        songs << item->metadata;
+      }
+      else {
+        songs << VisibleSongs(idx);
+      }
+    }
+    return songs;
   }
 
   CollectionItem *ItemForSongId(const int id) {
@@ -604,35 +621,6 @@ TEST_F(CollectionModelTest, LargeBatchProducesSingleLayoutChange) {
 // folding it in would tear the model down mid-layout-change and leave the begin/end signals of either transaction unbalanced.
 // NOTE: data preservation across the Reset cannot be checked here - the reload runs on a worker thread, which opens its own connection to the :memory: test DB and so sees it empty;
 // against a real file DB that reload restores the full collection, which is why a dropped trailing update is not actually lost in production.
-TEST_F(CollectionModelTest, FilterModeChangedWhileLoadingDoesNotAddOldResults) {
-
-  UseDatabaseFile();
-  AddSong(u"Title 1"_s, u"Artist 1"_s, u"Album 1"_s, 1);
-  AddSong(u"Title 2"_s, u"Artist 2"_s, u"Album 2"_s, 1);
-  Drain();
-  ASSERT_EQ(2, model_->song_nodes().count());
-
-  // Change the filter mode while the songs are loaded for the reset, the songs loaded for the old filter mode should not be added.
-  bool filter_mode_changed = false;
-  QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
-  const QMetaObject::Connection connection = QObject::connect(&*model_, &CollectionModel::modelReset, &*model_, [this, &filter_mode_changed]() {
-    if (filter_mode_changed) return;
-    filter_mode_changed = true;
-    model_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
-  });
-  model_->SetGroupBy(model_->GetGroupBy());
-  // The reload, and the reload for the changed filter mode.
-  EXPECT_TRUE(WaitForResets(&spy_reset, 4));
-  Drain();
-  // The model is reset when it's deleted after the test, when the captured variables are gone.
-  QObject::disconnect(connection);
-
-  ASSERT_TRUE(filter_mode_changed);
-  // None of the songs are duplicates.
-  EXPECT_EQ(0, model_->song_nodes().count());
-
-}
-
 // The songs are loaded in a thread pool, the model can be deleted while they are loaded, the loading must not use the model.
 TEST_F(CollectionModelTest, DeletedWhileLoading) {
 
@@ -914,93 +902,244 @@ TEST_F(CollectionModelTest, SelectedSongsExcludeSongsHiddenByFilter) {
 
 }
 
-// Regression test: the untagged view added tagged songs, and kept songs after the missing tags were added.
-TEST_F(CollectionModelTest, UntaggedViewFollowsSongChanges) {
+// Regression test: changing a filter reloaded the songs, which collapsed the view.
+TEST_F(CollectionModelTest, FilterChangesDoNotResetModel) {
 
-  UseDatabaseFile();
-  model_->SetFilterMode(CollectionFilterOptions::FilterMode::Untagged);
+  AddSong(u"Title 1"_s, u"Artist 1"_s, u"Album 1"_s, 1);
+  AddSong(u"Title 2"_s, u"Artist 2"_s, u"Album 2"_s, 1);
+  Drain();
+  QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
+
+  collection_filter_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
+  EXPECT_EQ(0, VisibleSongs().count());
+  collection_filter_->SetFilterMode(CollectionFilterOptions::FilterMode::All);
+  EXPECT_EQ(2, VisibleSongs().count());
+  collection_filter_->SetFilterMinRating(0.5F);
+  EXPECT_EQ(0, VisibleSongs().count());
+  collection_filter_->SetFilterMinRating(-1.0F);
+  EXPECT_EQ(2, VisibleSongs().count());
   Drain();
 
-  model_->AddReAddOrUpdate(SongList() << MakeSongWithId(1, u"Artist"_s, u"Album"_s));
-  Drain();
-  EXPECT_EQ(0, model_->song_nodes().count());
-
-  model_->AddReAddOrUpdate(SongList() << MakeSongWithId(2, u"Artist"_s, QString()));
-  Drain();
-  EXPECT_EQ(1, model_->song_nodes().count());
-
-  model_->AddReAddOrUpdate(SongList() << MakeSongWithId(2, u"Artist"_s, u"Album"_s));
-  Drain();
-  EXPECT_EQ(0, model_->song_nodes().count());
+  EXPECT_EQ(0, spy_reset.count());
+  EXPECT_EQ(2, model_->song_nodes().count());
 
 }
 
-// Regression test: a song stayed in the minimum rating view after its rating was lowered.
-TEST_F(CollectionModelTest, MinRatingViewFollowsRatingChanges) {
+TEST_F(CollectionModelTest, UntaggedFilterFollowsSongChanges) {
 
-  UseDatabaseFile();
-  model_->SetFilterMinRating(0.5F);
+  collection_filter_->SetFilterMode(CollectionFilterOptions::FilterMode::Untagged);
+
+  model_->AddReAddOrUpdate(SongList() << MakeSongWithId(1, u"Artist"_s, u"Album"_s));
   Drain();
+  EXPECT_EQ(0, VisibleSongs().count());
+
+  model_->AddReAddOrUpdate(SongList() << MakeSongWithId(2, u"Artist"_s, QString()));
+  Drain();
+  EXPECT_EQ(1, VisibleSongs().count());
+
+  // The missing tag is added.
+  model_->AddReAddOrUpdate(SongList() << MakeSongWithId(2, u"Artist"_s, u"Album"_s));
+  Drain();
+  EXPECT_EQ(0, VisibleSongs().count());
+
+  collection_filter_->SetFilterMode(CollectionFilterOptions::FilterMode::All);
+  EXPECT_EQ(2, VisibleSongs().count());
+
+}
+
+TEST_F(CollectionModelTest, MinRatingFilterFollowsRatingChanges) {
+
+  collection_filter_->SetFilterMinRating(0.5F);
 
   Song song = MakeSongWithId(1, u"Artist"_s, u"Album"_s);
   song.set_rating(0.8F);
   model_->AddReAddOrUpdate(SongList() << song);
   Drain();
-  EXPECT_EQ(1, model_->song_nodes().count());
+  EXPECT_EQ(1, VisibleSongs().count());
 
   song.set_rating(0.2F);
   model_->AddReAddOrUpdate(SongList() << song);
   Drain();
-  EXPECT_EQ(0, model_->song_nodes().count());
+  EXPECT_EQ(0, VisibleSongs().count());
+  // The containers of the song are hidden too.
+  EXPECT_EQ(0, collection_filter_->rowCount(QModelIndex()));
 
   song.set_rating(0.8F);
   model_->AddReAddOrUpdate(SongList() << song);
   Drain();
-  EXPECT_EQ(1, model_->song_nodes().count());
+  EXPECT_EQ(1, VisibleSongs().count());
 
 }
 
-// Regression test: the duplicates view showed every added song, and didn't change when a song stopped being a duplicate.
-TEST_F(CollectionModelTest, DuplicatesViewFollowsCollectionChanges) {
+// Updates of more songs are applied with one layout change, instead of a change for each song.
+TEST_F(CollectionModelTest, MinRatingFilterFollowsBulkUpdates) {
 
-  UseDatabaseFile();
+  SongList songs = MakeSongs(1200, u"bulk"_s);
+  for (qsizetype i = 0; i < songs.count(); ++i) {
+    songs[i].set_id(static_cast<int>(i) + 1);
+    songs[i].set_rating(0.8F);
+  }
+  collection_filter_->SetFilterMinRating(0.5F);
+  model_->AddReAddOrUpdate(songs);
+  Drain();
+  ASSERT_EQ(1200, VisibleSongs().count());
+
+  for (Song &song : songs) {
+    song.set_rating(0.2F);
+  }
+  model_->AddReAddOrUpdate(songs);
+  Drain();
+
+  EXPECT_EQ(0, VisibleSongs().count());
+
+}
+
+TEST_F(CollectionModelTest, MaxAgeFilter) {
+
+  Song old_song = MakeSongWithId(1, u"Artist"_s, u"Album"_s);
+  old_song.set_ctime(1);
+  Song new_song = MakeSongWithId(2, u"Artist"_s, u"Album"_s);
+  new_song.set_ctime(QDateTime::currentSecsSinceEpoch());
+  model_->AddReAddOrUpdate(SongList() << old_song << new_song);
+  Drain();
+  ASSERT_EQ(2, VisibleSongs().count());
+
+  collection_filter_->SetFilterMaxAge(3600);
+
+  ASSERT_EQ(1, VisibleSongs().count());
+  EXPECT_EQ(2, VisibleSongs().first().id());
+
+}
+
+// Regression test: a song passing the age limit was hidden when filtered again, while its divider stayed since that's only updated with the songs.
+TEST_F(CollectionModelTest, MaxAgeFilterKeepsSongAndDividerInSync) {
+
+  Song song = MakeSongWithId(1, u"Artist"_s, u"Album"_s);
+  song.set_ctime(QDateTime::currentSecsSinceEpoch());
+  model_->AddReAddOrUpdate(SongList() << song);
+  Drain();
+
+  collection_filter_->SetFilterMaxAge(3);
+  ASSERT_EQ(1, VisibleSongs().count());
+  ASSERT_EQ(2, collection_filter_->rowCount(QModelIndex()));
+
+  QThread::sleep(4);
+  collection_filter_->SetFilterString(u"artist"_s);
+  collection_filter_->SetFilterString(QString());
+
+  EXPECT_EQ(1, VisibleSongs().count());
+  EXPECT_EQ(2, collection_filter_->rowCount(QModelIndex()));
+
+}
+
+// Whether a song is a duplicate depends on the other songs in the collection.
+TEST_F(CollectionModelTest, DuplicatesFilterFollowsCollectionChanges) {
+
   AddSong(u"Title 1"_s, u"Artist 1"_s, u"Album 1"_s, 1);
   AddSong(u"Title 2"_s, u"Artist 2"_s, u"Album 2"_s, 1);
   Drain();
-  model_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
-  Drain();
-  ASSERT_EQ(0, model_->song_nodes().count());
+  collection_filter_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
+  ASSERT_EQ(0, VisibleSongs().count());
 
   backend_->AddOrUpdateSongs(SongList() << MakeSongForDirectory(u"Unique"_s, u"Artist 3"_s, u"Album 3"_s, u"unique"_s));
   Drain();
-  EXPECT_EQ(0, model_->song_nodes().count());
+  EXPECT_EQ(0, VisibleSongs().count());
 
   backend_->AddOrUpdateSongs(SongList() << MakeSongForDirectory(u"Title 1"_s, u"Artist 1"_s, u"Album 1"_s, u"duplicate"_s));
   Drain();
-  ASSERT_EQ(2, model_->song_nodes().count());
+  ASSERT_EQ(2, VisibleSongs().count());
 
   // Changing a tag can make both songs stop being duplicates.
-  const Song original_song = model_->song_nodes().first()->metadata;
+  const Song original_song = VisibleSongs().first();
   Song changed_song = original_song;
   changed_song.set_title(u"Changed"_s);
   backend_->AddOrUpdateSongs(SongList() << changed_song);
   Drain();
-  EXPECT_EQ(0, model_->song_nodes().count());
+  EXPECT_EQ(0, VisibleSongs().count());
 
   backend_->AddOrUpdateSongs(SongList() << original_song);
   Drain();
-  ASSERT_EQ(2, model_->song_nodes().count());
+  ASSERT_EQ(2, VisibleSongs().count());
 
-  backend_->DeleteSongs(SongList() << model_->song_nodes().first()->metadata);
+  backend_->DeleteSongs(SongList() << VisibleSongs().first());
   Drain();
-  EXPECT_EQ(0, model_->song_nodes().count());
+  EXPECT_EQ(0, VisibleSongs().count());
 
 }
 
-// Regression test: a duplicate removed by the minimum rating didn't come back when it was rated higher again.
-TEST_F(CollectionModelTest, DuplicatesViewWithMinRatingFollowsRatingChanges) {
+TEST_F(CollectionModelTest, DuplicatesFilterIgnoresSongsWithoutTags) {
 
-  UseDatabaseFile();
+  model_->AddReAddOrUpdate(SongList() << MakeSongWithId(1, u"Artist"_s, QString()) << MakeSongWithId(2, u"Artist"_s, QString()));
+  Drain();
+
+  collection_filter_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
+
+  EXPECT_EQ(0, VisibleSongs().count());
+
+}
+
+// Regression test: an unavailable song can be added to the model by an update, and made the available song with the same tags a duplicate.
+TEST_F(CollectionModelTest, DuplicatesFilterIgnoresUnavailableSongs) {
+
+  Song available = MakeSongWithId(1, u"Artist"_s, u"Album"_s);
+  Song unavailable = MakeSongWithId(2, u"Artist"_s, u"Album"_s);
+  unavailable.set_unavailable(true);
+  model_->AddReAddOrUpdate(SongList() << available << unavailable);
+  Drain();
+
+  collection_filter_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
+  EXPECT_EQ(0, VisibleSongs().count());
+
+  // The song becomes available, which only updates its metadata.
+  unavailable.set_unavailable(false);
+  model_->AddReAddOrUpdate(SongList() << unavailable);
+  Drain();
+  EXPECT_EQ(2, VisibleSongs().count());
+
+}
+
+// Regression test: the songs restored by the watcher still had the unavailable flag, so they were not counted as duplicates.
+TEST_F(CollectionModelTest, DuplicatesFilterIncludesRestoredSongs) {
+
+  AddSong(u"Title"_s, u"Artist"_s, u"Album"_s, 1);
+  backend_->AddOrUpdateSongs(SongList() << MakeSongForDirectory(u"Title"_s, u"Artist"_s, u"Album"_s, u"duplicate"_s));
+  Drain();
+  collection_filter_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
+  ASSERT_EQ(2, VisibleSongs().count());
+
+  Song song = VisibleSongs().first();
+  backend_->MarkSongsUnavailable(SongList() << song);
+  Drain();
+  ASSERT_EQ(0, VisibleSongs().count());
+
+  song.set_unavailable(true);
+  backend_->MarkSongsUnavailable(SongList() << song, false);
+  Drain();
+
+  EXPECT_EQ(2, VisibleSongs().count());
+
+}
+
+// Statistics aren't used by the filters, the songs shown stay the same when they change.
+TEST_F(CollectionModelTest, DuplicatesFilterKeepsSongsWhenStatisticsChange) {
+
+  Song song1 = MakeSongWithId(1, u"Artist"_s, u"Album"_s);
+  Song song2 = MakeSongWithId(2, u"Artist"_s, u"Album"_s);
+  model_->AddReAddOrUpdate(SongList() << song1 << song2);
+  Drain();
+  collection_filter_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
+  ASSERT_EQ(2, VisibleSongs().count());
+
+  song1.set_playcount(5);
+  model_->AddReAddOrUpdate(SongList() << song1);
+  Drain();
+  EXPECT_EQ(2, VisibleSongs().count());
+
+}
+
+// A duplicate hidden by the minimum rating is shown again when it's rated higher, also when updates of the song are mixed.
+TEST_F(CollectionModelTest, DuplicatesFilterWithMinRatingFollowsRatingChanges) {
+
   Song song1 = MakeSongForDirectory(u"Title"_s, u"Artist"_s, u"Album"_s, u"one"_s);
   Song song2 = MakeSongForDirectory(u"Title"_s, u"Artist"_s, u"Album"_s, u"two"_s);
   song1.set_rating(0.8F);
@@ -1008,152 +1147,110 @@ TEST_F(CollectionModelTest, DuplicatesViewWithMinRatingFollowsRatingChanges) {
   AddSong(song1);
   backend_->AddOrUpdateSongs(SongList() << song2);
   Drain();
-  model_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
-  model_->SetFilterMinRating(0.5F);
-  Drain();
-  ASSERT_EQ(2, model_->song_nodes().count());
-  const int id = model_->song_nodes().first()->metadata.id();
+  collection_filter_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
+  collection_filter_->SetFilterMinRating(0.5F);
+  ASSERT_EQ(2, VisibleSongs().count());
+  const int id = VisibleSongs().first().id();
 
   backend_->UpdateSongRating(id, 0.2F);
   Drain();
-  ASSERT_EQ(1, model_->song_nodes().count());
+  ASSERT_EQ(1, VisibleSongs().count());
 
   backend_->UpdateSongRating(id, 0.8F);
   Drain();
-  EXPECT_EQ(2, model_->song_nodes().count());
-
-}
-
-// Regression test: rating changes received while the change to the duplicates view was pending were applied after the reload, and the song removed by the first one wasn't added back by the next one.
-TEST_F(CollectionModelTest, DuplicatesViewPendingFollowsRatingChanges) {
-
-  UseDatabaseFile();
-  Song song1 = MakeSongForDirectory(u"Title"_s, u"Artist"_s, u"Album"_s, u"one"_s);
-  Song song2 = MakeSongForDirectory(u"Title"_s, u"Artist"_s, u"Album"_s, u"two"_s);
-  song1.set_rating(0.8F);
-  song2.set_rating(0.8F);
-  AddSong(song1);
-  backend_->AddOrUpdateSongs(SongList() << song2);
-  Drain();
-  model_->SetFilterMinRating(0.5F);
-  Drain();
-  ASSERT_EQ(2, model_->song_nodes().count());
-  const int id = model_->song_nodes().first()->metadata.id();
-
-  model_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
-  backend_->UpdateSongRating(id, 0.2F);
-  backend_->UpdateSongRating(id, 0.8F);
-  Drain();
-
-  EXPECT_EQ(2, model_->song_nodes().count());
-
-}
-
-// Regression test: songs changed while the change to the duplicates view was pending were applied after the reload, and the song removed by the first one wasn't added back by the next one.
-TEST_F(CollectionModelTest, DuplicatesViewPendingFollowsSongChanges) {
-
-  UseDatabaseFile();
-  Song song1 = MakeSongForDirectory(u"Title"_s, u"Artist"_s, u"Album"_s, u"one"_s);
-  Song song2 = MakeSongForDirectory(u"Title"_s, u"Artist"_s, u"Album"_s, u"two"_s);
-  song1.set_rating(0.8F);
-  song2.set_rating(0.8F);
-  AddSong(song1);
-  backend_->AddOrUpdateSongs(SongList() << song2);
-  Drain();
-  model_->SetFilterMinRating(0.5F);
-  Drain();
-  ASSERT_EQ(2, model_->song_nodes().count());
-  Song song = model_->song_nodes().first()->metadata;
-
-  model_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
-  song.set_rating(0.2F);
-  backend_->AddOrUpdateSongs(SongList() << song);
-  song.set_rating(0.8F);
-  backend_->AddOrUpdateSongs(SongList() << song);
-  Drain();
-
-  EXPECT_EQ(2, model_->song_nodes().count());
-
-}
-
-// Regression test: a reset was coalesced with one before an update, so the older song in the update was applied after the reload.
-TEST_F(CollectionModelTest, DuplicatesViewDoesNotApplyOlderUpdatesAfterReload) {
-
-  UseDatabaseFile();
-  Song song1 = MakeSongForDirectory(u"Title"_s, u"Artist"_s, u"Album"_s, u"one"_s);
-  Song song2 = MakeSongForDirectory(u"Title"_s, u"Artist"_s, u"Album"_s, u"two"_s);
-  song1.set_rating(0.8F);
-  song2.set_rating(0.8F);
-  AddSong(song1);
-  backend_->AddOrUpdateSongs(SongList() << song2);
-  Drain();
-  model_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
-  model_->SetFilterMinRating(0.5F);
-  Drain();
-  ASSERT_EQ(2, model_->song_nodes().count());
-  const int id = model_->song_nodes().first()->metadata.id();
+  EXPECT_EQ(2, VisibleSongs().count());
 
   backend_->UpdateSongRating(id, 0.2F);
   backend_->IncrementPlayCount(id);
   backend_->UpdateSongRating(id, 0.8F);
   Drain();
-
-  EXPECT_EQ(2, model_->song_nodes().count());
+  EXPECT_EQ(2, VisibleSongs().count());
 
 }
 
-// Regression test: only a reset first in the queue was coalesced, so each change queued another reload behind an update.
-TEST_F(CollectionModelTest, QueuedResetsAreCoalescedBehindUpdates) {
+// Dividers are only shown when there's something shown below them, also when that changes.
+TEST_F(CollectionModelTest, SongFiltersKeepDividers) {
+
+  Song song_a = MakeSongWithId(1, u"Artist"_s, u"Album"_s);
+  Song song_z = MakeSongWithId(2, u"Zed"_s, u"Album"_s);
+  song_a.set_rating(0.8F);
+  song_z.set_rating(0.2F);
+  model_->AddReAddOrUpdate(SongList() << song_a << song_z);
+  Drain();
+
+  const auto top_level_rows = [this]() {
+    QStringList rows;
+    for (int row = 0; row < collection_filter_->rowCount(QModelIndex()); ++row) {
+      rows << collection_filter_->index(row, 0, QModelIndex()).data().toString();
+    }
+    return rows;
+  };
+  ASSERT_EQ(QStringList() << u"A"_s << u"Artist"_s << u"Z"_s << u"Zed"_s, top_level_rows());
+
+  collection_filter_->SetFilterMinRating(0.5F);
+  EXPECT_EQ(QStringList() << u"A"_s << u"Artist"_s, top_level_rows());
+
+  song_a.set_rating(0.2F);
+  song_z.set_rating(0.8F);
+  model_->AddReAddOrUpdate(SongList() << song_a << song_z);
+  Drain();
+  EXPECT_EQ(QStringList() << u"Z"_s << u"Zed"_s, top_level_rows());
+
+  // The search doesn't show dividers.
+  collection_filter_->SetFilterString(u"zed"_s);
+  EXPECT_EQ(QStringList() << u"Zed"_s, top_level_rows());
+
+}
+
+TEST_F(CollectionModelTest, SelectedSongsExcludeSongsHiddenBySongFilter) {
+
+  Song matching = MakeSongWithId(1, u"Artist"_s, u"Album"_s);
+  Song hidden = MakeSongWithId(2, u"Artist"_s, u"Album"_s);
+  matching.set_rating(0.8F);
+  hidden.set_rating(0.2F);
+  model_->AddReAddOrUpdate(SongList() << matching << hidden);
+  Drain();
+
+  TestCollectionTreeView view(&*model_);
+  collection_filter_->SetFilterMinRating(0.5F);
+
+  QModelIndex artist_index;
+  for (int row = 0; row < collection_filter_->rowCount(QModelIndex()); ++row) {
+    const QModelIndex idx = collection_filter_->index(row, 0, QModelIndex());
+    if (idx.data().toString() == u"Artist"_s) artist_index = idx;
+  }
+  ASSERT_TRUE(artist_index.isValid());
+  view.selectionModel()->select(artist_index, QItemSelectionModel::ClearAndSelect);
+
+  const SongList songs = view.GetSelectedSongs();
+  ASSERT_EQ(1, songs.count());
+  EXPECT_EQ(1, songs.first().id());
+
+}
+
+// A reset last in the queue is reused, but updates queued after a reset contain older songs than it loads.
+TEST_F(CollectionModelTest, OnlyQueuedResetsLastInQueueAreCoalesced) {
 
   UseDatabaseFile();
-  model_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
   Drain();
   QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
 
   model_->AddReAddOrUpdate(SongList() << MakeSongWithId(1, u"Artist"_s, u"Album"_s));
-  model_->SongsAddedOrChanged(SongList());
-  model_->SongsAddedOrChanged(SongList());
-  model_->SongsAddedOrChanged(SongList());
-  Drain();
-
+  model_->Reset();
+  model_->Reset();
+  model_->Reset();
   // One reload resets the model twice, when it starts and when the songs are loaded.
+  EXPECT_TRUE(WaitForResets(&spy_reset, 2));
+  Drain();
   EXPECT_EQ(2, spy_reset.count());
 
-}
-
-// Without a minimum rating, rating a song only updates it, it doesn't collapse the view.
-TEST_F(CollectionModelTest, DuplicatesViewIsNotReloadedForRatingWithoutMinRating) {
-
-  UseDatabaseFile();
-  AddSong(u"Title"_s, u"Artist"_s, u"Album"_s, 1);
-  backend_->AddOrUpdateSongs(SongList() << MakeSongForDirectory(u"Title"_s, u"Artist"_s, u"Album"_s, u"two"_s));
-  Drain();
-  model_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
-  Drain();
-  ASSERT_EQ(2, model_->song_nodes().count());
-  QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
-
-  backend_->UpdateSongRating(model_->song_nodes().first()->metadata.id(), 0.8F);
-  Drain();
-
-  EXPECT_EQ(0, spy_reset.count());
-  EXPECT_EQ(2, model_->song_nodes().count());
-
-}
-
-// The statistics of a song which isn't a duplicate don't add it, and don't reload the view.
-TEST_F(CollectionModelTest, DuplicatesViewIgnoresStatisticsOfOtherSongs) {
-
-  UseDatabaseFile();
-  model_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
-  Drain();
-  QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
-
+  spy_reset.clear();
+  model_->Reset();
   model_->AddReAddOrUpdate(SongList() << MakeSongWithId(1, u"Artist"_s, u"Album"_s));
+  model_->Reset();
+  EXPECT_TRUE(WaitForResets(&spy_reset, 3));
   Drain();
-
-  EXPECT_EQ(0, model_->song_nodes().count());
-  EXPECT_EQ(0, spy_reset.count());
+  EXPECT_GE(spy_reset.count(), 3);
 
 }
 

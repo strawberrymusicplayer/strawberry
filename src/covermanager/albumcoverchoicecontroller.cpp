@@ -71,7 +71,6 @@
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "tagreader/tagreaderclient.h"
-#include "collection/collectionfilteroptions.h"
 #include "collection/collectionbackend.h"
 #include "streaming/streamingservices.h"
 #include "streaming/streamingservice.h"
@@ -767,7 +766,7 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedToCollectionSongs(const Song &
 void AlbumCoverChoiceController::SaveCoverEmbeddedToCollectionSongs(const QString &effective_albumartist, const QString &effective_album, const QString &cover_filename, const QByteArray &image_data, const QString &mime_type) {
 
   QFuture<SongList> future = QtConcurrent::run([collection_backend = collection_backend_, effective_albumartist, effective_album]() {
-    const SongList songs = collection_backend->GetAlbumSongs(effective_albumartist, effective_album, CollectionFilterOptions());
+    const SongList songs = collection_backend->GetAlbumSongs(effective_albumartist, effective_album);
     // This is done in a concurrent thread so close the unique DB connection.
     collection_backend->Close();
     return songs;

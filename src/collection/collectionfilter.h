@@ -31,6 +31,7 @@
 #include <QModelIndexList>
 
 #include "core/song.h"
+#include "collectionfilteroptions.h"
 #include "filterparser/filtertree.h"
 
 class CollectionItem;
@@ -44,6 +45,13 @@ class CollectionFilter : public QSortFilterProxyModel {
   void SetFilterString(const QString &filter_string);
   QString filter_string() const { return filter_string_; }
 
+  void SetFilterMode(const CollectionFilterOptions::FilterMode filter_mode);
+  void SetFilterMaxAge(const int filter_max_age);
+  void SetFilterMinRating(const float filter_min_rating);
+
+  // Updates what depends on all the songs, like which songs are duplicates, when songs were added or removed, or data used by the filters was changed.
+  void SongsChanged();
+
   // Returns the songs below the indexes of this model which are not hidden by the filter.
   SongList GetChildSongs(const QModelIndexList &indexes) const;
 
@@ -53,10 +61,18 @@ class CollectionFilter : public QSortFilterProxyModel {
 
  private:
   void GetChildSongs(CollectionItem *item, QSet<int> &song_ids, QList<QUrl> &urls, SongList &songs) const;
+  bool HasSongFilter() const;
+  bool AcceptsSong(const Song &song, const QSet<int> &duplicate_song_ids) const;
+  void CalculateFilterData(QSet<int> *duplicate_song_ids, QSet<QString> *divider_keys) const;
+  void BeginRowsFilterChange();
+  void EndRowsFilterChange();
 
  private:
   QScopedPointer<FilterTree> filter_tree_;
   QString filter_string_;
+  CollectionFilterOptions filter_options_;
+  QSet<int> duplicate_song_ids_;
+  QSet<QString> visible_divider_keys_;
 };
 
 #endif  // COLLECTIONFILTER_H

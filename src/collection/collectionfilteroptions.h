@@ -20,6 +20,7 @@
 #ifndef COLLECTIONFILTEROPTIONS_H
 #define COLLECTIONFILTEROPTIONS_H
 
+#include <QtGlobal>
 #include <QString>
 
 #include "core/song.h"
@@ -29,10 +30,9 @@ class CollectionFilterOptions {
   explicit CollectionFilterOptions();
 
   // Filter mode:
-  // - use the all songs table
-  // - use the duplicated songs view; by duplicated we mean those songs for which the (artist, album, title) tuple is found more than once in the songs table
-  // - use the untagged songs view; by untagged we mean those for which at least one of the (artist, album, title) tags is empty
-  // Please note that additional filtering based on FTS table (the filter attribute) won't work in Duplicates and Untagged modes.
+  // - all songs
+  // - duplicated songs; by duplicated we mean those songs for which the (artist, album, title) tuple is found more than once in the collection, CollectionFilter finds these since it depends on the other songs
+  // - untagged songs; by untagged we mean those for which at least one of the (artist, album, title) tags is empty
   enum class FilterMode {
     All,
     Duplicates,
@@ -48,7 +48,8 @@ class CollectionFilterOptions {
     filter_mode_ = filter_mode;
     filter_text_.clear();
   }
-  void set_max_age(const int max_age) { max_age_ = max_age; }
+  // The songs are compared to the time the age was set, so the same songs match each time they're checked.
+  void set_max_age(const int max_age);
   void set_min_rating(const float min_rating) { min_rating_ = min_rating; }
   void set_filter_text(const QString &filter_text) {
     filter_mode_ = FilterMode::All;
@@ -60,6 +61,7 @@ class CollectionFilterOptions {
  private:
   FilterMode filter_mode_;
   int max_age_;
+  qint64 max_age_cutoff_;
   float min_rating_;
   QString filter_text_;
 };
