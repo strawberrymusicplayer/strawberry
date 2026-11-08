@@ -222,6 +222,8 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void SetFilterMinRating(const float filter_min_rating);
 
   void AddReAddOrUpdate(const SongList &songs);
+  void SongsAddedOrChanged(const SongList &songs);
+  void SongsRatingChangedSlot(const SongList &songs);
   void RemoveSongs(const SongList &songs);
 
   void ClearIconDiskCache();

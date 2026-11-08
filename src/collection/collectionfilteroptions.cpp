@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2023-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,8 @@
 CollectionFilterOptions::CollectionFilterOptions() : filter_mode_(FilterMode::All), max_age_(-1), min_rating_(-1.0F) {}
 
 bool CollectionFilterOptions::Matches(const Song &song) const {
+
+  if (filter_mode_ == FilterMode::Untagged && !song.artist().isEmpty() && !song.album().isEmpty() && !song.title().isEmpty()) return false;
 
   if (max_age_ != -1) {
     const qint64 cutoff = QDateTime::currentSecsSinceEpoch() - max_age_;
