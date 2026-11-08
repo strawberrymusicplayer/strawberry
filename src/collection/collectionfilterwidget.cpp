@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2022, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -185,13 +185,13 @@ void CollectionFilterWidget::Init(CollectionModel *model, CollectionFilter *filt
   const QList<QAction*> actions = filter_max_ages_.keys();
   for (QAction *action : actions) {
     const int filter_max_age = filter_max_ages_.value(action);
-    QObject::connect(action, &QAction::triggered, this, [this, filter_max_age]() { model_->SetFilterMaxAge(filter_max_age); } );
+    QObject::connect(action, &QAction::triggered, this, [this, filter_max_age]() { if (filter_) filter_->SetFilterMaxAge(filter_max_age); } );
   }
 
   const QList<QAction*> filter_actions = filter_min_rating_.keys();
   for (QAction *action : filter_actions) {
     const float filter_min_rate = filter_min_rating_.value(action);
-    QObject::connect(action, &QAction::triggered, this, [this, filter_min_rate]() { model_->SetFilterMinRating(filter_min_rate); } );
+    QObject::connect(action, &QAction::triggered, this, [this, filter_min_rate]() { if (filter_) filter_->SetFilterMinRating(filter_min_rate); } );
   }
 
   // Load settings
@@ -495,9 +495,9 @@ void CollectionFilterWidget::SetFilterMode(CollectionFilterOptions::FilterMode f
   ui_->search_field->clear();
   ui_->search_field->setEnabled(filter_mode == CollectionFilterOptions::FilterMode::All);
 
-  if (!model_) return;
+  if (!filter_) return;
 
-  model_->SetFilterMode(filter_mode);
+  filter_->SetFilterMode(filter_mode);
 
 }
 

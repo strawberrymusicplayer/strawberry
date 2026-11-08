@@ -64,7 +64,6 @@
 #include "core/settings.h"
 #include "core/songmimedata.h"
 #include "core/scopedflag.h"
-#include "collectionfilteroptions.h"
 #include "collectionquery.h"
 #include "collectionbackend.h"
 #include "collectiondirectorymodel.h"
@@ -100,6 +99,7 @@ CollectionModel::CollectionModel(const SharedPtr<CollectionBackend> backend, con
       total_album_count_(0),
       loading_(false),
       bulk_mode_(false),
+      filter_update_pending_(false),
       icon_disk_cache_(new QNetworkDiskCache(this)) {
 
   setObjectName(backend_->source() == Song::Source::Collection ? QLatin1String(QObject::metaObject()->className()) : QStringLiteral("%1%2").arg(Song::DescriptionForSource(backend_->source()), QLatin1String(QObject::metaObject()->className())));
@@ -120,15 +120,15 @@ CollectionModel::CollectionModel(const SharedPtr<CollectionBackend> backend, con
 
   icon_disk_cache_->setCacheDirectory(StandardPaths::WritableLocation(StandardPaths::StandardLocation::CacheLocation) + u'/' + QLatin1String(kPixmapDiskCacheDir) + u'-' + Song::TextForSource(backend_->source()));
 
-  QObject::connect(&*backend_, &CollectionBackend::SongsAdded, this, &CollectionModel::SongsAddedOrChanged);
-  QObject::connect(&*backend_, &CollectionBackend::SongsChanged, this, &CollectionModel::SongsAddedOrChanged);
+  QObject::connect(&*backend_, &CollectionBackend::SongsAdded, this, &CollectionModel::AddReAddOrUpdate);
+  QObject::connect(&*backend_, &CollectionBackend::SongsChanged, this, &CollectionModel::AddReAddOrUpdate);
   QObject::connect(&*backend_, &CollectionBackend::SongsDeleted, this, &CollectionModel::RemoveSongs);
   QObject::connect(&*backend_, &CollectionBackend::DatabaseReset, this, &CollectionModel::ScheduleReset);
   QObject::connect(&*backend_, &CollectionBackend::TotalSongCountUpdated, this, &CollectionModel::TotalSongCountUpdatedSlot);
   QObject::connect(&*backend_, &CollectionBackend::TotalArtistCountUpdated, this, &CollectionModel::TotalArtistCountUpdatedSlot);
   QObject::connect(&*backend_, &CollectionBackend::TotalAlbumCountUpdated, this, &CollectionModel::TotalAlbumCountUpdatedSlot);
   QObject::connect(&*backend_, &CollectionBackend::SongsStatisticsChanged, this, &CollectionModel::AddReAddOrUpdate);
-  QObject::connect(&*backend_, &CollectionBackend::SongsRatingChanged, this, &CollectionModel::SongsRatingChangedSlot);
+  QObject::connect(&*backend_, &CollectionBackend::SongsRatingChanged, this, &CollectionModel::AddReAddOrUpdate);
   QObject::connect(&*backend_, &CollectionBackend::SongsLyricsChanged, this, &CollectionModel::AddReAddOrUpdate);
 
   backend_->UpdateTotalSongCountAsync();
@@ -274,33 +274,6 @@ void CollectionModel::SetGroupBy(const Grouping g, const std::optional<bool> sep
 
 }
 
-void CollectionModel::SetFilterMode(const CollectionFilterOptions::FilterMode filter_mode) {
-
-  if (options_current_.filter_options.filter_mode() != filter_mode) {
-    options_current_.filter_options.set_filter_mode(filter_mode);
-    ScheduleReset();
-  }
-
-}
-
-void CollectionModel::SetFilterMaxAge(const int filter_max_age) {
-
-  if (options_current_.filter_options.max_age() != filter_max_age) {
-    options_current_.filter_options.set_max_age(filter_max_age);
-    ScheduleReset();
-  }
-
-}
-
-void CollectionModel::SetFilterMinRating(const float filter_min_rating) {
-
-  if (options_current_.filter_options.min_rating() != filter_min_rating) {
-    options_current_.filter_options.set_min_rating(filter_min_rating);
-    ScheduleReset();
-  }
-
-}
-
 QVariant CollectionModel::data(const QModelIndex &idx, const int role) const {
 
   return data(IndexToItem(idx), role);
@@ -425,41 +398,7 @@ void CollectionModel::AddReAddOrUpdate(const SongList &songs) {
 
 }
 
-void CollectionModel::SongsAddedOrChanged(const SongList &songs) {
-
-  // Whether a song is a duplicate depends on the other songs in the collection, so the songs need to be loaded again.
-  // The requested options are checked too, since this update is applied after a pending change to the duplicates view.
-  if (options_active_.filter_options.filter_mode() == CollectionFilterOptions::FilterMode::Duplicates || options_current_.filter_options.filter_mode() == CollectionFilterOptions::FilterMode::Duplicates) {
-    ScheduleReset();
-    return;
-  }
-
-  AddReAddOrUpdate(songs);
-
-}
-
-void CollectionModel::SongsRatingChangedSlot(const SongList &songs) {
-
-  // A song removed from the duplicates view by the minimum rating isn't known anymore, so the songs need to be loaded again when it's rated higher.
-  // Without a minimum rating the rating can't change which songs are shown, so the view isn't reloaded.
-  // The requested options are checked too, since this update is applied after a pending change to the duplicates view.
-  const auto duplicates_with_min_rating = [](const CollectionFilterOptions &filter_options) { return filter_options.filter_mode() == CollectionFilterOptions::FilterMode::Duplicates && filter_options.min_rating() >= 0.0F; };
-  if (duplicates_with_min_rating(options_active_.filter_options) || duplicates_with_min_rating(options_current_.filter_options)) {
-    ScheduleReset();
-    return;
-  }
-
-  AddReAddOrUpdate(songs);
-
-}
-
 void CollectionModel::RemoveSongs(const SongList &songs) {
-
-  // Removing a song can leave the song it duplicated without a duplicate.
-  if (options_active_.filter_options.filter_mode() == CollectionFilterOptions::FilterMode::Duplicates) {
-    ScheduleReset();
-    return;
-  }
 
   ScheduleRemoveSongs(songs);
 
@@ -565,6 +504,11 @@ void CollectionModel::ProcessUpdate() {
 
   if (updates_.isEmpty()) {
     timer_update_->stop();
+    // Most updates are changes of the statistics, which aren't used by the filters, so don't go through all songs for these.
+    if (filter_update_pending_) {
+      filter_update_pending_ = false;
+      filter_->SongsChanged();
+    }
   }
 
 }
@@ -662,18 +606,10 @@ void CollectionModel::AddReAddOrUpdateSongsInternal(const SongList &songs) {
 
   for (const Song &new_song : songs) {
     if (!song_nodes_.contains(new_song.id())) {
-      // A song which isn't shown in the duplicates view isn't a duplicate, the view is reloaded when that can change.
-      if (options_active_.filter_options.filter_mode() != CollectionFilterOptions::FilterMode::Duplicates) {
-        songs_added << new_song;
-      }
+      songs_added << new_song;
       continue;
     }
     const Song old_song = song_nodes_.value(new_song.id())->metadata;
-    // The song was changed so it's no longer included by the filter, like when the rating was lowered or the missing tags were added.
-    if (!options_active_.filter_options.Matches(new_song)) {
-      songs_removed << old_song;
-      continue;
-    }
     bool container_key_changed = false;
     bool has_unique_album_identifier_1 = false;
     bool has_unique_album_identifier_2 = false;
@@ -723,13 +659,12 @@ void CollectionModel::AddSongsInternal(const SongList &songs) {
   QList<CollectionItem*> insertion_order;
   for (const Song &song : songs) {
 
-    // Sanity check to make sure we don't add songs that are outside the user's filter
-    if (!options_active_.filter_options.Matches(song)) continue;
-
     if (song_nodes_.contains(song.id())) {
       qLog(Debug) << song.id() << song.title() << "already exists, skipping";
       continue;
     }
+
+    filter_update_pending_ = true;
 
     // Before we can add each song we need to make sure the required container items already exist in the tree.
     // These depend on which "group by" settings the user has on the collection.
@@ -798,6 +733,9 @@ void CollectionModel::UpdateSongsInternal(const SongList &songs) {
     const Song &old_song = item->metadata;
     const bool song_title_data_changed = IsSongTitleDataChanged(old_song, new_song);
     const bool art_changed = !old_song.IsArtEqual(new_song);
+    // The filter decides again if the song is shown when it's informed of the change.
+    const bool filter_data_changed = old_song.rating() != new_song.rating() || old_song.ctime() != new_song.ctime() || old_song.artist() != new_song.artist() || old_song.album() != new_song.album() || old_song.title() != new_song.title() || old_song.unavailable() != new_song.unavailable();
+    if (filter_data_changed) filter_update_pending_ = true;
     SetSongItemData(item, new_song);
     if (art_changed) {
       for (CollectionItem *parent = item->parent; parent != root_; parent = parent->parent) {
@@ -806,7 +744,7 @@ void CollectionModel::UpdateSongsInternal(const SongList &songs) {
         }
       }
     }
-    if (song_title_data_changed) {
+    if (song_title_data_changed || filter_data_changed) {
       qLog(Debug) << "Song metadata and title for" << new_song.id() << new_song.PrettyTitleWithArtist() << "changed, informing model";
       const QModelIndex idx = ItemToIndex(item);
       if (!idx.isValid()) continue;
@@ -839,6 +777,7 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
   QSet<CollectionItem*> parents;
   for (const Song &song : songs) {
     if (!song_nodes_.contains(song.id())) continue;
+    filter_update_pending_ = true;
     CollectionItem *node = song_nodes_.take(song.id());
     nodes_by_parent[node->parent] << node;
     if (node->parent != root_) parents << node->parent;
@@ -1045,21 +984,21 @@ CollectionItem *CollectionModel::CreateCompilationArtistNode(CollectionItem *par
 
 void CollectionModel::LoadSongsFromSqlAsync() {
 
-  QFuture<SongList> future = QtConcurrent::run(&CollectionModel::LoadSongsFromSql, backend_, options_active_.filter_options);
+  QFuture<SongList> future = QtConcurrent::run(&CollectionModel::LoadSongsFromSql, backend_);
   QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>(this);
   QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, &CollectionModel::LoadSongsFromSqlAsyncFinished);
   watcher->setFuture(future);
 
 }
 
-SongList CollectionModel::LoadSongsFromSql(const SharedPtr<CollectionBackend> backend, const CollectionFilterOptions &filter_options) {
+SongList CollectionModel::LoadSongsFromSql(const SharedPtr<CollectionBackend> backend) {
 
   SongList songs;
 
   {
     QMutexLocker l(backend->db()->Mutex());
     QSqlDatabase db(backend->db()->Connect());
-    CollectionQuery q(db, backend->songs_table(), filter_options);
+    CollectionQuery q(db, backend->songs_table());
     q.SetColumnSpec(u"%songs_table.ROWID, "_s + Song::kColumnSpec);
     if (q.Exec()) {
       while (q.Next()) {

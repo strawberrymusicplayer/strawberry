@@ -24,16 +24,20 @@
 
 #include "collectionfilteroptions.h"
 
-CollectionFilterOptions::CollectionFilterOptions() : filter_mode_(FilterMode::All), max_age_(-1), min_rating_(-1.0F) {}
+CollectionFilterOptions::CollectionFilterOptions() : filter_mode_(FilterMode::All), max_age_(-1), max_age_cutoff_(0), min_rating_(-1.0F) {}
+
+void CollectionFilterOptions::set_max_age(const int max_age) {
+
+  max_age_ = max_age;
+  max_age_cutoff_ = QDateTime::currentSecsSinceEpoch() - max_age;
+
+}
 
 bool CollectionFilterOptions::Matches(const Song &song) const {
 
   if (filter_mode_ == FilterMode::Untagged && !song.artist().isEmpty() && !song.album().isEmpty() && !song.title().isEmpty()) return false;
 
-  if (max_age_ != -1) {
-    const qint64 cutoff = QDateTime::currentSecsSinceEpoch() - max_age_;
-    if (song.ctime() <= cutoff) return false;
-  }
+  if (max_age_ != -1 && song.ctime() <= max_age_cutoff_) return false;
 
   if (min_rating_ >= 0.0F) {
     if (song.rating() <= min_rating_) return false;

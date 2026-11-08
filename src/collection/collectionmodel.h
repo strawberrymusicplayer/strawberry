@@ -50,7 +50,6 @@
 #include "covermanager/albumcoverloaderoptions.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "collectionmodelupdate.h"
-#include "collectionfilteroptions.h"
 #include "collectionitem.h"
 
 class QTimer;
@@ -141,7 +140,6 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
     bool sort_skip_articles_for_albums;
     bool use_sort_tags;
     bool separate_albums_by_grouping;
-    CollectionFilterOptions filter_options;
   };
 
   SharedPtr<CollectionBackend> backend() const { return backend_; }
@@ -217,13 +215,8 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void GroupingChanged(const CollectionModel::Grouping g, const bool separate_albums_by_grouping);
 
  public Q_SLOTS:
-  void SetFilterMode(const CollectionFilterOptions::FilterMode filter_mode);
-  void SetFilterMaxAge(const int filter_max_age);
-  void SetFilterMinRating(const float filter_min_rating);
 
   void AddReAddOrUpdate(const SongList &songs);
-  void SongsAddedOrChanged(const SongList &songs);
-  void SongsRatingChangedSlot(const SongList &songs);
   void RemoveSongs(const SongList &songs);
 
   void ClearIconDiskCache();
@@ -269,7 +262,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   void LoadSongsFromSqlAsync();
   // Runs in a thread pool, so it doesn't use the model, which can be deleted while the songs are loaded.
-  static SongList LoadSongsFromSql(const SharedPtr<CollectionBackend> backend, const CollectionFilterOptions &filter_options);
+  static SongList LoadSongsFromSql(const SharedPtr<CollectionBackend> backend);
 
   static QString DividerKey(const GroupBy group_by, const Song &song, const QString &sort_text);
   static QString DividerDisplayText(const GroupBy group_by, const QString &key);
@@ -316,6 +309,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   bool loading_;
   bool bulk_mode_;
+  bool filter_update_pending_;
 
   QQueue<CollectionModelUpdate> updates_;
 

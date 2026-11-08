@@ -21,7 +21,10 @@
 
 #include <algorithm>
 #include <functional>
+#include <utility>
 
+#include <QtGlobal>
+#include <QHash>
 #include <QSet>
 #include <QList>
 #include <QString>
@@ -46,7 +49,7 @@ CollectionFilter::CollectionFilter(QObject *parent) : QSortFilterProxyModel(pare
 
 bool CollectionFilter::filterAcceptsRow(const int source_row, const QModelIndex &source_parent) const {
 
-  if (filter_string_.isEmpty()) return true;
+  if (filter_string_.isEmpty() && !HasSongFilter()) return true;
 
   CollectionModel *model = qobject_cast<CollectionModel*>(sourceModel());
   if (!model) return false;
@@ -55,11 +58,138 @@ bool CollectionFilter::filterAcceptsRow(const int source_row, const QModelIndex 
   CollectionItem *item = model->IndexToItem(idx);
   if (!item) return false;
 
+  // Containers are shown when one of their songs is, by the recursive filtering.
+  if (item->type == CollectionItem::Type::Divider) {
+    return filter_string_.isEmpty() && visible_divider_keys_.contains(item->container_key);
+  }
   if (item->type != CollectionItem::Type::Song) {
     return item->type == CollectionItem::Type::LoadingIndicator;
   }
 
-  return item->metadata.is_valid() && filter_tree_ && filter_tree_->accept(item->metadata);
+  if (!item->metadata.is_valid() || !AcceptsSong(item->metadata, duplicate_song_ids_)) return false;
+
+  return filter_string_.isEmpty() || (filter_tree_ && filter_tree_->accept(item->metadata));
+
+}
+
+bool CollectionFilter::HasSongFilter() const {
+
+  return filter_options_.filter_mode() != CollectionFilterOptions::FilterMode::All || filter_options_.max_age() != -1 || filter_options_.min_rating() >= 0.0F;
+
+}
+
+bool CollectionFilter::AcceptsSong(const Song &song, const QSet<int> &duplicate_song_ids) const {
+
+  if (filter_options_.filter_mode() == CollectionFilterOptions::FilterMode::Duplicates && !duplicate_song_ids.contains(song.id())) return false;
+
+  return filter_options_.Matches(song);
+
+}
+
+void CollectionFilter::CalculateFilterData(QSet<int> *duplicate_song_ids, QSet<QString> *divider_keys) const {
+
+  duplicate_song_ids->clear();
+  divider_keys->clear();
+
+  CollectionModel *model = qobject_cast<CollectionModel*>(sourceModel());
+  if (!model || !HasSongFilter()) return;
+
+  const QList<CollectionItem*> song_nodes = model->song_nodes();
+
+  // Whether a song is a duplicate depends on the other songs, available songs are duplicates when they have the same artist, album and title, and none of these are empty.
+  if (filter_options_.filter_mode() == CollectionFilterOptions::FilterMode::Duplicates) {
+    QHash<QString, QList<int>> song_ids_by_key;
+    for (const CollectionItem *node : song_nodes) {
+      const Song &song = node->metadata;
+      if (song.unavailable() || song.artist().isEmpty() || song.album().isEmpty() || song.title().isEmpty()) continue;
+      song_ids_by_key[song.artist() + QChar(u'\0') + song.album() + QChar(u'\0') + song.title()] << song.id();
+    }
+    for (const QList<int> &song_ids : std::as_const(song_ids_by_key)) {
+      if (song_ids.count() < 2) continue;
+      for (const int song_id : song_ids) {
+        duplicate_song_ids->insert(song_id);
+      }
+    }
+  }
+
+  // A divider is shown when one of the top level items below it has a song that is shown.
+  for (const CollectionItem *node : song_nodes) {
+    if (!AcceptsSong(node->metadata, *duplicate_song_ids)) continue;
+    const CollectionItem *top_level_item = node;
+    while (top_level_item->parent && top_level_item->parent->parent) {
+      top_level_item = top_level_item->parent;
+    }
+    if (!top_level_item->divider_key.isEmpty()) {
+      divider_keys->insert(top_level_item->divider_key);
+    }
+  }
+
+}
+
+void CollectionFilter::BeginRowsFilterChange() {
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 13, 0)
+  beginFilterChange();
+#endif
+
+}
+
+void CollectionFilter::EndRowsFilterChange() {
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 13, 0)
+  endFilterChange(QSortFilterProxyModel::Direction::Rows);
+#else
+  invalidateRowsFilter();
+#endif
+
+}
+
+void CollectionFilter::SetFilterMode(const CollectionFilterOptions::FilterMode filter_mode) {
+
+  if (filter_options_.filter_mode() == filter_mode) return;
+
+  BeginRowsFilterChange();
+  filter_options_.set_filter_mode(filter_mode);
+  CalculateFilterData(&duplicate_song_ids_, &visible_divider_keys_);
+  EndRowsFilterChange();
+
+}
+
+void CollectionFilter::SetFilterMaxAge(const int filter_max_age) {
+
+  if (filter_options_.max_age() == filter_max_age) return;
+
+  BeginRowsFilterChange();
+  filter_options_.set_max_age(filter_max_age);
+  CalculateFilterData(&duplicate_song_ids_, &visible_divider_keys_);
+  EndRowsFilterChange();
+
+}
+
+void CollectionFilter::SetFilterMinRating(const float filter_min_rating) {
+
+  if (filter_options_.min_rating() == filter_min_rating) return;
+
+  BeginRowsFilterChange();
+  filter_options_.set_min_rating(filter_min_rating);
+  CalculateFilterData(&duplicate_song_ids_, &visible_divider_keys_);
+  EndRowsFilterChange();
+
+}
+
+void CollectionFilter::SongsChanged() {
+
+  if (!HasSongFilter()) return;
+
+  QSet<int> duplicate_song_ids;
+  QSet<QString> divider_keys;
+  CalculateFilterData(&duplicate_song_ids, &divider_keys);
+  if (duplicate_song_ids == duplicate_song_ids_ && divider_keys == visible_divider_keys_) return;
+
+  BeginRowsFilterChange();
+  duplicate_song_ids_ = duplicate_song_ids;
+  visible_divider_keys_ = divider_keys;
+  EndRowsFilterChange();
 
 }
 

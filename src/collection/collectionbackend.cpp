@@ -54,7 +54,6 @@
 
 #include "collectiondirectory.h"
 #include "collectionbackend.h"
-#include "collectionfilteroptions.h"
 #include "collectionquery.h"
 #include "collectiontask.h"
 
@@ -1082,7 +1081,12 @@ void CollectionBackend::MarkSongsUnavailable(const SongList &songs, const bool u
     Q_EMIT SongsDeleted(songs);
   }
   else {
-    Q_EMIT SongsAdded(songs);
+    // The songs were given as they were when unavailable, the receivers should get them as they are now.
+    SongList available_songs = songs;
+    for (Song &song : available_songs) {
+      song.set_unavailable(false);
+    }
+    Q_EMIT SongsAdded(available_songs);
   }
 
   UpdateTotalSongCountAsync();
@@ -1091,12 +1095,12 @@ void CollectionBackend::MarkSongsUnavailable(const SongList &songs, const bool u
 
 }
 
-QStringList CollectionBackend::GetAll(const QString &column, const CollectionFilterOptions &filter_options) {
+QStringList CollectionBackend::GetAll(const QString &column) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
-  CollectionQuery query(db, songs_table_, filter_options);
+  CollectionQuery query(db, songs_table_);
   query.SetColumnSpec(u"DISTINCT "_s + column);
   query.AddCompilationRequirement(false);
 
@@ -1113,25 +1117,25 @@ QStringList CollectionBackend::GetAll(const QString &column, const CollectionFil
 
 }
 
-QStringList CollectionBackend::GetAllArtists(const CollectionFilterOptions &opt) {
+QStringList CollectionBackend::GetAllArtists() {
 
-  return GetAll(u"artist"_s, opt);
+  return GetAll(u"artist"_s);
 
 }
 
-QStringList CollectionBackend::GetAllArtistsWithAlbums(const CollectionFilterOptions &opt) {
+QStringList CollectionBackend::GetAllArtistsWithAlbums() {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
   // Albums with 'albumartist' field set:
-  CollectionQuery query(db, songs_table_, opt);
+  CollectionQuery query(db, songs_table_);
   query.SetColumnSpec(u"DISTINCT albumartist"_s);
   query.AddCompilationRequirement(false);
   query.AddWhere(u"album"_s, ""_L1, u"!="_s);
 
   // Albums with no 'albumartist' (extract 'artist'):
-  CollectionQuery query2(db, songs_table_, opt);
+  CollectionQuery query2(db, songs_table_);
   query2.SetColumnSpec(u"DISTINCT artist"_s);
   query2.AddCompilationRequirement(false);
   query2.AddWhere(u"album"_s, ""_L1, u"!="_s);
@@ -1159,20 +1163,20 @@ QStringList CollectionBackend::GetAllArtistsWithAlbums(const CollectionFilterOpt
 
 }
 
-CollectionBackend::AlbumList CollectionBackend::GetAllAlbums(const CollectionFilterOptions &opt) {
-  return GetAlbums(QString(), false, opt);
+CollectionBackend::AlbumList CollectionBackend::GetAllAlbums() {
+  return GetAlbums(QString(), false);
 }
 
-CollectionBackend::AlbumList CollectionBackend::GetAlbumsByArtist(const QString &artist, const CollectionFilterOptions &opt) {
-  return GetAlbums(artist, false, opt);
+CollectionBackend::AlbumList CollectionBackend::GetAlbumsByArtist(const QString &artist) {
+  return GetAlbums(artist, false);
 }
 
-SongList CollectionBackend::GetArtistSongs(const QString &effective_albumartist, const CollectionFilterOptions &opt) {
+SongList CollectionBackend::GetArtistSongs(const QString &effective_albumartist) {
 
   QSqlDatabase db(db_->Connect());
   QMutexLocker l(db_->Mutex());
 
-  CollectionQuery query(db, songs_table_, opt);
+  CollectionQuery query(db, songs_table_);
   query.AddCompilationRequirement(false);
   query.AddWhere(u"effective_albumartist"_s, effective_albumartist);
 
@@ -1185,12 +1189,12 @@ SongList CollectionBackend::GetArtistSongs(const QString &effective_albumartist,
 
 }
 
-SongList CollectionBackend::GetAlbumSongs(const QString &effective_albumartist, const QString &album, const CollectionFilterOptions &opt) {
+SongList CollectionBackend::GetAlbumSongs(const QString &effective_albumartist, const QString &album) {
 
   QSqlDatabase db(db_->Connect());
   QMutexLocker l(db_->Mutex());
 
-  CollectionQuery query(db, songs_table_, opt);
+  CollectionQuery query(db, songs_table_);
   query.AddCompilationRequirement(false);
   query.AddWhere(u"effective_albumartist"_s, effective_albumartist);
   query.AddWhere(u"album"_s, album);
@@ -1204,12 +1208,12 @@ SongList CollectionBackend::GetAlbumSongs(const QString &effective_albumartist, 
 
 }
 
-SongList CollectionBackend::GetSongsByAlbum(const QString &album, const CollectionFilterOptions &opt) {
+SongList CollectionBackend::GetSongsByAlbum(const QString &album) {
 
   QSqlDatabase db(db_->Connect());
   QMutexLocker l(db_->Mutex());
 
-  CollectionQuery query(db, songs_table_, opt);
+  CollectionQuery query(db, songs_table_);
   query.AddCompilationRequirement(false);
   query.AddWhere(u"album"_s, album);
 
@@ -1523,16 +1527,16 @@ SongList CollectionBackend::GetSongsByFingerprint(const QString &fingerprint) {
 }
 
 
-CollectionBackend::AlbumList CollectionBackend::GetCompilationAlbums(const CollectionFilterOptions &opt) {
-  return GetAlbums(QString(), true, opt);
+CollectionBackend::AlbumList CollectionBackend::GetCompilationAlbums() {
+  return GetAlbums(QString(), true);
 }
 
-SongList CollectionBackend::GetCompilationSongs(const QString &album, const CollectionFilterOptions &opt) {
+SongList CollectionBackend::GetCompilationSongs(const QString &album) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
-  CollectionQuery query(db, songs_table_, opt);
+  CollectionQuery query(db, songs_table_);
   query.SetColumnSpec(u"%songs_table.ROWID, "_s + Song::kColumnSpec);
   query.AddCompilationRequirement(true);
   query.AddWhere(u"album"_s, album);
@@ -1655,12 +1659,12 @@ bool CollectionBackend::UpdateCompilations(const QSqlDatabase &db, SongList &cha
 
 }
 
-CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist, const bool compilation_required, const CollectionFilterOptions &opt) {
+CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist, const bool compilation_required) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
-  CollectionQuery query(db, songs_table_, opt);
+  CollectionQuery query(db, songs_table_);
   query.SetColumnSpec(u"url, filetype, cue_path, effective_albumartist, album, compilation_effective, art_embedded, art_automatic, art_manual, art_unset"_s);
   query.SetOrderBy(u"effective_albumartist, album, url"_s);
 
