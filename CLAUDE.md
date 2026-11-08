@@ -19,6 +19,8 @@ Qt Creator build configs already exist under `build/Qt_Sys-{Release,RelWithDebIn
 
 Useful CMake options: `-DBUILD_WERROR=ON`, `-DENABLE_DEBUG_OUTPUT=ON`.
 
+On this development machine, build with at most four parallel jobs (`--parallel 4`), for the Android APK and the native build alike, instead of `$(nproc)`.
+
 ### Separate native test build
 
 The local Linux Debug test build is in `build/native/`, configured with system GCC, Qt 6.4.2, ICU, and GStreamer.
