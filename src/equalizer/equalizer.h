@@ -105,6 +105,9 @@ class Equalizer : public QDialog {
   void ReloadSettings();
   QString SaveCurrentPreset();
 #ifdef Q_OS_ANDROID
+  // Used by both equalizer.cpp and equalizer_android.cpp, which implements the functions below.
+  static constexpr char kAndroidCurrentParams[] = "android_current_params";
+  static constexpr char kCustomPreset[] = QT_TRANSLATE_NOOP("Equalizer", "Custom");
   // The values are stored in the settings.
   enum class AndroidFoldoutMode { AllExpanded = 0, AllCollapsed = 1, OneAtATime = 2 };
   // The values are part of the settings keys for the open sections, in the order the sections are shown.
