@@ -85,7 +85,7 @@ class SmartPlaylistSearchTermWidget : public QWidget {
   SmartPlaylistSearchTermWidgetOverlay *overlay_;
   QPropertyAnimation *animation_;
   bool active_;
-  bool initialized_;
+  bool setting_term_;
 
   SmartPlaylistSearchTerm::Type current_field_type_;
 };
