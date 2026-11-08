@@ -3686,6 +3686,13 @@ void MainWindow::ShowConsole() {
 
 void MainWindow::keyPressEvent(QKeyEvent *e) {
 
+#ifdef Q_OS_ANDROID
+  if ((e->key() == Qt::Key_Back || e->key() == Qt::Key_Escape) && AndroidBack()) {
+    e->accept();
+    return;
+  }
+#endif
+
   if (e->key() == Qt::Key_Space) {
     app_->player()->PlayPause(0, Playlist::AutoScroll::Never);
     e->accept();

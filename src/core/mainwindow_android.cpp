@@ -335,3 +335,15 @@ void MainWindow::UpdateAndroidMuteButton(const bool mute) {
   android_mute_button_->setAccessibleName(mute ? tr("Unmute") : tr("Mute"));
 
 }
+
+bool MainWindow::AndroidBack() {
+
+  // Like the header's Back button, return from an open playlist to the playlist list.
+  if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(android_playlist_pages_) && android_playlist_pages_->currentWidget() != playlist_list_) {
+    android_playlist_pages_->setCurrentWidget(playlist_list_);
+    return true;
+  }
+
+  return false;
+
+}

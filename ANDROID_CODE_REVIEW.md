@@ -10,8 +10,8 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: points 26 and 27 (found during testing); the decision in point 20 is still open.
-  Points 1–19, 21–25 are done.
+- Next: point 26 (found during testing); the decision in point 20 is still open.
+  Points 1–19, 21–25, and 27 are done.
 - A physical phone may be connected over USB as well; set `ANDROID_SERIAL=emulator-5554` so `adb` commands only reach the emulator.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 4` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
@@ -437,9 +437,17 @@ Handoff notes for continuing in a new session:
 
 ### 27. Back in the playlist editor quits the app
 
-**Status:** Open
+**Status:** Done
 
 - In the Playlists tab, the hardware Back key in an open playlist quits the app instead of returning to the playlist list, as the header's Back button does.
   Nothing handles `Qt::Key_Back` there, so it reaches the main window, which closes (the process exits cleanly).
 - Found while testing point 24; the playlist editor code was not changed by it.
 - Check the other sidebar tabs for the same problem: at their root, Back should leave the app only as the Android convention expects.
+
+**Resolved:**
+- `MainWindow::keyPressEvent()` calls `MainWindow::AndroidBack()` (in `mainwindow_android.cpp`) from a single guarded block for Back and Escape that no page consumed.
+  In the Playlists tab with a playlist open, it returns to the playlist list like the header's Back button; elsewhere it returns false, so Back keeps its default behavior.
+- The other sidebar tabs have no deeper level that Back misses: Context, Collection, Queue, Smart playlists, Radios, Devices, and Files (which on Android shows only the two pickers) are single pages, so Back leaving the app there follows the Android convention.
+  Settings and Tools already handle Back themselves (points 21 and 24).
+- The Android APK and the native desktop build succeed, and the native playlist, long-press, and tab widget tests pass.
+  On the emulator, Back in Playlist 9 returned to the playlist list with Playlist 9 still selected, and Back on the list then left the app.
