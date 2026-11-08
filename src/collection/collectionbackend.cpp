@@ -60,6 +60,18 @@
 
 using namespace Qt::Literals::StringLiterals;
 
+namespace {
+
+// The path is the directory itself, or a path in it.
+bool PathInDirectory(const QString &path, const QString &directory_path) {
+
+  if (path == directory_path) return true;
+  return path.startsWith(directory_path.endsWith(u'/') ? directory_path : directory_path + u'/');
+
+}
+
+}  // namespace
+
 CollectionBackend::CollectionBackend(QObject *parent)
     : CollectionBackendInterface(parent),
       db_(nullptr),
@@ -542,6 +554,8 @@ void CollectionBackend::AddOrUpdateSubdirs(const CollectionSubdirectoryList &sub
   QSqlDatabase db(db_->Connect());
 
   // Prepare the queries once, and only bind the values for each subdirectory.
+  SqlQuery q_dir_path(db);
+  q_dir_path.prepare(QStringLiteral("SELECT path FROM %1 WHERE ROWID = :id").arg(dirs_table_));
   SqlQuery q_exists(db);
   q_exists.prepare(QStringLiteral("SELECT ROWID FROM %1 WHERE directory_id = :id AND path = :path").arg(subdirs_table_));
   SqlQuery q_update(db);
@@ -549,8 +563,27 @@ void CollectionBackend::AddOrUpdateSubdirs(const CollectionSubdirectoryList &sub
   SqlQuery q_insert(db);
   q_insert.prepare(QStringLiteral("INSERT INTO %1 (directory_id, path, mtime) VALUES (:id, :path, :mtime)").arg(subdirs_table_));
 
+  // Subdirectories are usually added in batches from the same directory, so remember the directory paths, the path is null when the directory doesn't exist.
+  QHash<int, QString> directory_paths;
+
   ScopedTransaction transaction(&db);
   for (const CollectionSubdirectory &subdir : subdirs) {
+
+    // A scan can finish after the directory is removed, then the subdirectories would be added for a directory which doesn't exist.
+    // The directory IDs are also reused, so another directory added before the scan finishes can have the same ID, the subdirectories would then be added for that directory.
+    // The subdirectories are found from the directory path, so they're only added when they're in the path of the directory with the ID.
+    QHash<int, QString>::const_iterator directory_it = directory_paths.constFind(subdir.directory_id);
+    if (directory_it == directory_paths.constEnd()) {
+      q_dir_path.BindValue(u":id"_s, subdir.directory_id);
+      if (!q_dir_path.Exec()) {
+        db_->ReportErrors(q_dir_path);
+        return;
+      }
+      directory_it = directory_paths.insert(subdir.directory_id, q_dir_path.next() ? q_dir_path.value(0).toString() : QString());
+      q_dir_path.finish();
+    }
+    if (directory_it.value().isNull() || !PathInDirectory(subdir.path, directory_it.value())) continue;
+
     // See if this subdirectory already exists in the database
     q_exists.BindValue(u":id"_s, subdir.directory_id);
     q_exists.BindValue(u":path"_s, subdir.path);

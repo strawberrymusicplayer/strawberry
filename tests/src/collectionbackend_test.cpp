@@ -69,6 +69,14 @@ class CollectionBackendTest : public ::testing::Test {
     return ret;
   }
 
+  static CollectionSubdirectory Subdir(const int directory_id, const QString &path) {
+    CollectionSubdirectory subdir;
+    subdir.directory_id = directory_id;
+    subdir.path = path;
+    subdir.mtime = 1;
+    return subdir;
+  }
+
   SharedPtr<Database> database_;
   ScopedPtr<CollectionBackend> backend_;
 };
@@ -117,6 +125,107 @@ TEST_F(CollectionBackendTest, RemoveDirectory) {
   dir = spy[0][0].value<CollectionDirectory>();
   EXPECT_EQ(u"/tmp"_s, dir.path);
   EXPECT_EQ(1, dir.id);
+
+}
+
+// Regression test: a scan finishing after the directory was removed added its subdirectories again, for a directory which doesn't exist.
+TEST_F(CollectionBackendTest, SubdirsForRemovedDirectoryAreNotAdded) {
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::DirectoryAdded);
+  backend_->AddDirectory(u"/music/removed"_s);
+  ASSERT_EQ(1, spy.count());
+  const CollectionDirectory removed_dir = spy.takeFirst().value(0).value<CollectionDirectory>();
+
+  backend_->RemoveDirectory(removed_dir);
+
+  // The scan of the removed directory finishes.
+  backend_->AddOrUpdateSubdirs(CollectionSubdirectoryList() << Subdir(removed_dir.id, u"/music/removed/album"_s));
+  EXPECT_TRUE(backend_->SubdirsInDirectory(removed_dir.id).isEmpty());
+
+  // The next directory gets the same ID, and has no subdirectories.
+  backend_->AddDirectory(u"/music/next"_s);
+  ASSERT_EQ(1, spy.count());
+  const CollectionDirectory next_dir = spy.takeFirst().value(0).value<CollectionDirectory>();
+  EXPECT_EQ(removed_dir.id, next_dir.id);
+  EXPECT_TRUE(backend_->SubdirsInDirectory(next_dir.id).isEmpty());
+
+}
+
+// Regression test: the directory IDs are reused, when another directory was added before the scan of the removed directory finished, the subdirectories were added for that directory.
+TEST_F(CollectionBackendTest, SubdirsForReplacedDirectoryAreNotAdded) {
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::DirectoryAdded);
+  backend_->AddDirectory(u"/music/removed"_s);
+  ASSERT_EQ(1, spy.count());
+  const CollectionDirectory removed_dir = spy.takeFirst().value(0).value<CollectionDirectory>();
+
+  backend_->RemoveDirectory(removed_dir);
+  backend_->AddDirectory(u"/music/next"_s);
+  ASSERT_EQ(1, spy.count());
+  const CollectionDirectory next_dir = spy.takeFirst().value(0).value<CollectionDirectory>();
+  ASSERT_EQ(removed_dir.id, next_dir.id);
+
+  // The scan of the removed directory finishes, its root subdirectory and a subdirectory, and a directory with the same start of the path is not in the directory either.
+  backend_->AddOrUpdateSubdirs(CollectionSubdirectoryList() << Subdir(removed_dir.id, u"/music/removed"_s) << Subdir(removed_dir.id, u"/music/removed/album"_s) << Subdir(removed_dir.id, u"/music/next2/album"_s));
+  EXPECT_TRUE(backend_->SubdirsInDirectory(next_dir.id).isEmpty());
+
+  // The scan of the next directory finishes, its root subdirectory and a subdirectory.
+  backend_->AddOrUpdateSubdirs(CollectionSubdirectoryList() << Subdir(next_dir.id, u"/music/next"_s) << Subdir(next_dir.id, u"/music/next/album"_s));
+  QStringList paths;
+  for (const CollectionSubdirectory &subdir : backend_->SubdirsInDirectory(next_dir.id)) {
+    paths << subdir.path;
+  }
+  paths.sort();
+  EXPECT_EQ(QStringList() << u"/music/next"_s << u"/music/next/album"_s, paths);
+
+}
+
+// A directory which is removed and added again gets the subdirectories of the scan that finishes after, they're in the same path.
+TEST_F(CollectionBackendTest, SubdirsForReaddedDirectoryAreAdded) {
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::DirectoryAdded);
+  backend_->AddDirectory(u"/music"_s);
+  ASSERT_EQ(1, spy.count());
+  const CollectionDirectory dir = spy.takeFirst().value(0).value<CollectionDirectory>();
+
+  backend_->RemoveDirectory(dir);
+  backend_->AddDirectory(u"/music"_s);
+  ASSERT_EQ(1, spy.count());
+  ASSERT_EQ(dir.id, spy.takeFirst().value(0).value<CollectionDirectory>().id);
+
+  backend_->AddOrUpdateSubdirs(CollectionSubdirectoryList() << Subdir(dir.id, u"/music/album"_s));
+  ASSERT_EQ(1, backend_->SubdirsInDirectory(dir.id).count());
+
+}
+
+// The subdirectories are still added for directories which exist, also in the same batch as subdirectories for a removed directory, and in the root directory.
+TEST_F(CollectionBackendTest, SubdirsForExistingDirectoryAreAdded) {
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::DirectoryAdded);
+  backend_->AddDirectory(u"/music/removed"_s);
+  backend_->AddDirectory(u"/music/kept"_s);
+  backend_->AddDirectory(u"/"_s);
+  ASSERT_EQ(3, spy.count());
+  const CollectionDirectory removed_dir = spy.at(0).value(0).value<CollectionDirectory>();
+  const CollectionDirectory kept_dir = spy.at(1).value(0).value<CollectionDirectory>();
+  const CollectionDirectory root_dir = spy.at(2).value(0).value<CollectionDirectory>();
+
+  backend_->RemoveDirectory(removed_dir);
+
+  CollectionSubdirectory kept_subdir = Subdir(kept_dir.id, u"/music/kept/album"_s);
+  backend_->AddOrUpdateSubdirs(CollectionSubdirectoryList() << Subdir(removed_dir.id, u"/music/removed/album"_s) << kept_subdir << Subdir(root_dir.id, u"/album"_s));
+
+  const CollectionSubdirectoryList kept_subdirs = backend_->SubdirsInDirectory(kept_dir.id);
+  ASSERT_EQ(1, kept_subdirs.count());
+  EXPECT_EQ(u"/music/kept/album"_s, kept_subdirs.first().path);
+  EXPECT_TRUE(backend_->SubdirsInDirectory(removed_dir.id).isEmpty());
+  EXPECT_EQ(1, backend_->SubdirsInDirectory(root_dir.id).count());
+
+  // Updating the mtime of an existing subdirectory still works.
+  kept_subdir.mtime = 2;
+  backend_->AddOrUpdateSubdirs(CollectionSubdirectoryList() << kept_subdir);
+  ASSERT_EQ(1, backend_->SubdirsInDirectory(kept_dir.id).count());
+  EXPECT_EQ(2, backend_->SubdirsInDirectory(kept_dir.id).first().mtime);
 
 }
 
