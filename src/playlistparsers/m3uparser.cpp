@@ -20,6 +20,7 @@
  */
 
 #include <algorithm>
+#include <cstring>
 
 #include <QObject>
 #include <QIODevice>
@@ -50,6 +51,11 @@
 using namespace Qt::Literals::StringLiterals;
 
 class CollectionBackendInterface;
+
+namespace {
+// Players ignore extended tags they don't know.
+constexpr char kCueTrackTag[] = "#EXTSTRAWBERRYTRACK:";
+}  // namespace
 
 M3UParser::M3UParser(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
     : ParserBase(tagreader_client, collection_backend, parent) {}
@@ -126,7 +132,10 @@ void M3UParser::ParsePlaylistData(QIODevice *device, const QDir &dir, QSet<QStri
   Q_FOREVER {
     if (line.startsWith(u'#')) {
       // Extended info or comment.
-      if (type == M3UType::EXTENDED && line.startsWith("#EXT"_L1)) {
+      if (type == M3UType::EXTENDED && line.startsWith(QLatin1String(kCueTrackTag))) {
+        current_metadata.track = line.mid(static_cast<qsizetype>(strlen(kCueTrackTag))).toInt();
+      }
+      else if (type == M3UType::EXTENDED && line.startsWith("#EXT"_L1)) {
         if (!ParseMetadata(line, &current_metadata)) {
           qLog(Warning) << "Failed to parse metadata: " << line;
         }
@@ -141,7 +150,7 @@ void M3UParser::ParsePlaylistData(QIODevice *device, const QDir &dir, QSet<QStri
         LoadNested(location, dir, ancestors, expanded, depth, collection_lookup, ret);
       }
       else {
-        Song song = LoadSong(location, 0, 0, dir, collection_lookup);
+        Song song = LoadSong(location, 0, current_metadata.track, dir, collection_lookup);
         if (!current_metadata.title.isEmpty()) {
           song.set_title(current_metadata.title);
         }
@@ -301,6 +310,11 @@ void M3UParser::Save(const QString &playlist_name, const SongList &songs, QIODev
       if (utf8 || (IsLatin1(meta) && !Latin1IsReadAsUtf8(meta))) {
         device->write(encode(meta));
       }
+    }
+    if (CueTrack(song) > 0) {
+      device->write(kCueTrackTag);
+      device->write(QByteArray::number(CueTrack(song)));
+      device->write("\n");
     }
     QString location = URLOrFilename(song.url(), dir, path_type);
     // Latin-1 can't represent every character, and Latin-1 that is also valid UTF-8 is read back as UTF-8, so percent encode those locations, so they can still be found.
