@@ -1917,6 +1917,59 @@ TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowWatchesDirectoryCreatedAg
 
 }
 
+// A song which the incremental scan on startup marks unavailable is last seen when it became unavailable, so it's not expired right away when Strawberry wasn't started for a long time, for example when the drive with the music isn't mounted yet.
+TEST_F(CollectionWatcherTest, StartupScanDoesNotExpireSongsLastSeenLongAgo) {
+
+  // Not in the temporary directory, which is often a tmpfs, which the collection watcher ignores.
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  const QStringList filenames = QStringList() << u"01.mp3"_s << u"02.mp3"_s;
+  for (const QString &filename : filenames) {
+    ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(filename)));
+    ASSERT_TRUE(QFile::setPermissions(temp_dir.filePath(filename), QFile::ReadOwner | QFile::WriteOwner | QFile::ReadUser | QFile::WriteUser));
+  }
+
+  backend_->AddDirectory(temp_dir.path());
+  ASSERT_EQ(2, ScanDirectoryToCollection(temp_dir.path()).new_or_updated);
+  ASSERT_EQ(2, backend_->GetAllSongs().count());
+
+  // The songs were last seen by a scan long ago, and the subdirectory is rescanned on startup.
+  {
+    QSqlDatabase db(database_->Connect());
+    QSqlQuery q(db);
+    ASSERT_TRUE(q.exec(QStringLiteral("UPDATE %1 SET lastseen = 1").arg(QLatin1String(CollectionManager::kSongsTable))));
+    ASSERT_TRUE(q.exec(QStringLiteral("UPDATE %1 SET mtime = 0").arg(QLatin1String(CollectionManager::kSubdirsTable))));
+  }
+  const CollectionSubdirectoryList subdirs = backend_->SubdirsInDirectory(1);
+  ASSERT_FALSE(subdirs.isEmpty());
+
+  ASSERT_TRUE(QFile::remove(temp_dir.filePath(u"02.mp3"_s)));
+
+  // The incremental scan on startup, with the default expiry of unavailable songs.
+  const qint64 scan_time = QDateTime::currentSecsSinceEpoch();
+  CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&watcher, &CollectionWatcher::SongsMTimeUpdated, &*backend_, &CollectionBackend::UpdateMTimesOnly);
+  QObject::connect(&watcher, &CollectionWatcher::SongsUnavailable, &*backend_, &CollectionBackend::MarkSongsUnavailable);
+  QObject::connect(&watcher, &CollectionWatcher::SongsReadded, &*backend_, &CollectionBackend::MarkSongsUnavailable);
+  QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+  QObject::connect(&watcher, &CollectionWatcher::UpdateLastSeen, &*backend_, &CollectionBackend::UpdateLastSeen);
+  QSignalSpy spy_last_seen(&watcher, &CollectionWatcher::UpdateLastSeen);
+  CollectionDirectory dir;
+  dir.id = 1;
+  dir.path = temp_dir.path();
+  watcher.AddDirectory(dir, subdirs);
+  ASSERT_EQ(1, spy_last_seen.count());
+
+  const SongList songs = backend_->GetAllSongs();
+  ASSERT_EQ(2, songs.count());
+  for (const Song &song : songs) {
+    EXPECT_EQ(song.url().toLocalFile() == temp_dir.filePath(u"02.mp3"_s), song.unavailable()) << song.url().toLocalFile().toStdString();
+    EXPECT_GE(song.lastseen(), scan_time) << song.url().toLocalFile().toStdString();
+  }
+
+}
+
 // After the scan for the overflow, the songs which are available again were last seen now, and the unavailable songs are expired like after the incremental scan.
 TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowScanUpdatesLastSeenAndExpiresAfterScan) {
 
