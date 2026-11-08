@@ -117,7 +117,8 @@ void DiscordRichPresence::CurrentSongChanged(const Song &song) {
   activity_.artist = song.artist();
   activity_.album = song.album();
 
-  if (!discord_rpc_) return;
+  // The presence is only shown while playing, the song can also change while paused or stopped, like the title of a stream.
+  if (!discord_rpc_ || player_->engine()->state() != EngineBase::State::Playing) return;
 
   SendPresenceUpdate();
 
@@ -172,6 +173,10 @@ void DiscordRichPresence::Seeked(const qint64 seek_microseconds) {
   if (!discord_rpc_) return;
 
   SetTimestamp(seek_microseconds / 1000000LL);
+
+  // When seeking while paused, the presence is sent with the position when playback is resumed, sending it now would show the song as playing.
+  if (player_->engine()->state() != EngineBase::State::Playing) return;
+
   SendPresenceUpdate();
 
 }
