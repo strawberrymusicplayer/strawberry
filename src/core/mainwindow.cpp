@@ -2973,6 +2973,9 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
         break;
     }
 
+    // The files are inserted and played asynchronously, after the saved playback would be resumed.
+    if (mimedata->play_now_) app_->player()->SkipResumePlayback();
+
     AddToPlaylist(mimedata);
   }
 

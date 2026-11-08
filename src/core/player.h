@@ -54,6 +54,8 @@ class SleepInhibitor;
 class Player : public PlayerInterface {
   Q_OBJECT
 
+  friend class PlayerTest;
+
  public:
   explicit Player(const SharedPtr<TaskManager> task_manager, const SharedPtr<UrlHandlers> url_handlers, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent = nullptr);
 
@@ -82,6 +84,8 @@ class Player : public PlayerInterface {
   void SaveVolume() override;
   void SavePlaybackStatus() override;
   void PlaylistsLoaded() override;
+  // Files that are loaded asynchronously will be played, so the saved playback shouldn't be resumed when the playlists are loaded.
+  void SkipResumePlayback() { skip_resume_playback_ = true; }
 
   void PlayAt(const int index, const bool pause, const quint64 offset_nanosec, EngineBase::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform = false) override;
   void PlayPause(const quint64 offset_nanosec = 0, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll::Always) override;
@@ -158,6 +162,7 @@ class Player : public PlayerInterface {
 #endif
 
   bool playlists_loaded_;
+  bool skip_resume_playback_;
   bool play_requested_;
 
   PlaylistItemPtr current_item_;
