@@ -11,7 +11,7 @@ Evidence: **Confirmed** means reproduced on the emulator; **Code** means derived
 
 - Enabled on Android: Subsonic, Tidal, Spotify, Qobuz, Plex, Jellyfin, Discord Rich Presence, moodbar, waveform, translations.
 - Disabled on Android: ALSA, PulseAudio, GIO, D-Bus, MPRIS2, UDisks2, KWallet, libsecret, Audio CD, MTP, iPod, Chromaprint, song tracking, tag fetcher, fast spectrum, EBU R128, global shortcuts, stream tag reader.
-- Statically linked GStreamer plugins at the time of the audit: `coreelements typefindfunctions playback autodetect audioconvert audioresample volume equalizer audiofx replaygain opensles flac mpg123 opus vorbis wavparse id3demux isomp4 matroska` (point 1 added `audioparsers ogg wavpack apetag`, point 19 added `androidmedia`).
+- Statically linked GStreamer plugins at the time of the audit: `coreelements typefindfunctions playback autodetect audioconvert audioresample volume equalizer audiofx replaygain opensles flac mpg123 opus vorbis wavparse id3demux isomp4 matroska` (point 1 added `audioparsers ogg wavpack apetag`, point 19 added `androidmedia`, point 3 added `soup icydemux hls` and GLib's OpenSSL TLS module).
   The GStreamer 1.28.8 Android SDK also provides, among others, `audioparsers ogg soup icydemux hls apetag wavpack libav androidmedia spectrum app lame wavenc voaacenc`; there is no Spotify plugin.
 - Merged manifest permissions: `INTERNET`, `ACCESS_NETWORK_STATE`, `READ_MEDIA_AUDIO`, `READ_EXTERNAL_STORAGE` (API ≤ 32); there is no service, foreground-service permission, or media session.
 - Shared OpenSSL libraries for Qt's TLS backend: none at the time of the audit; bundled from KDAB `android_openssl` since point 2.
@@ -25,7 +25,8 @@ Evidence: **Confirmed** means reproduced on the emulator; **Code** means derived
 | Playback | AAC/M4A | Works since point 19 (confirmed) | 19 |
 | Playback | WMA, APE, Musepack | Unsupported (no Android system decoder) | 19 |
 | Files | Music files with extensions Android does not classify as audio (`.wv`, likely `.ape`, `.mpc`, `.dsf`) | Invisible (confirmed for `.wv`) | 20 |
-| Playback | Internet radio and HTTP streams | Broken (code) | 3 |
+| Playback | Internet radio and HTTP(S) streams in MP3, Ogg Vorbis and FLAC, with ICY titles | Works since point 3 (confirmed) | 3 |
+| Playback | AAC radio streams (ADTS), and therefore most HLS streams | Broken (confirmed) | 21 |
 | Playback | Playback with the screen off or the app in the background | Broken (confirmed) | 4 |
 | Playback | Lock-screen and notification controls, headset buttons, audio focus, unplugging headphones | Missing | 4 |
 | Playback | Volume, mute, seek, equalizer, ReplayGain, stereo balance | Works (equalizer and mute verified earlier) | |
@@ -34,7 +35,7 @@ Evidence: **Confirmed** means reproduced on the emulator; **Code** means derived
 | Network | All HTTPS requests from Qt (radio lists, covers, lyrics, scrobbling, streaming APIs) | Works since point 2 (radio lists confirmed) | 2 |
 | Network | OAuth logins (Tidal, Qobuz, Spotify, Last.fm, ListenBrainz, cover providers) | Needs verification | 14 |
 | Network | Spotify playback | Not possible (no plugin) | 13 |
-| Network | Subsonic, Plex, Jellyfin | Blocked by point 3 | 3 |
+| Network | Subsonic, Plex, Jellyfin | Needs verification with a server; HTTP playback works since point 3 | 3 |
 | Network | Discord Rich Presence | Not applicable | 12 |
 | Collection | Adding folders, scanning, browsing, filters, grouping | Works | |
 | Collection | Automatic rescans when files change | Needs verification | 17 |
@@ -93,7 +94,7 @@ Covers, lyrics and the streaming services use the same Qt network stack and are 
 
 ### 3. Support HTTP and HTTPS streams in GStreamer
 
-**Status:** Open
+**Status:** Done
 
 **Evidence:** Code.
 No bundled plugin handles `http://` or `https://` URIs; `souphttpsrc` is in the `soup` plugin, which is not linked.
@@ -101,6 +102,13 @@ Internet radio, "Add stream", and Subsonic/Plex/Jellyfin playback therefore cann
 
 **Approach:** Add `soup`, `icydemux` (stream titles) and `hls` (HLS radio streams), make sure GLib's TLS backend (GIO OpenSSL module) is initialized for GStreamer, and test an HTTP and an HTTPS radio stream with ICY metadata.
 Depends on point 2 for loading the radio lists.
+
+**Resolved:** Added `soup`, `icydemux` and `hls` to the Android `GStreamerMobile` component list in `CMakeLists.txt`, together with the SDK's `ca_certificates` component and `G_IO_MODULES` set to `openssl`.
+The SDK then links and loads GLib's OpenSSL TLS module, bundles its CA certificate bundle as an APK asset, copies it to the app's files directory in `GStreamer.init()`, and makes it GLib's default TLS database; `libsoup` is linked statically into the `soup` plugin.
+On the emulator, Radio Paradise's HTTPS streams play in MP3 (with ICY metadata), chained Ogg Vorbis, and FLAC; a plain HTTP MP3 station from Radio Browser plays and shows its ICY title, and the Context tab loads the cover and lyrics for it.
+AAC streams reach the decoder but do not play; that is a decoder problem, recorded as point 21.
+HLS is bundled but not tested at run time, because HLS radio streams are almost always AAC.
+Subsonic, Plex and Jellyfin use the same HTTP source, but were not tested without a server.
 
 ### 4. Keep playing in the background and add media controls
 
@@ -284,3 +292,16 @@ The same file renamed to `.wav` is classified as `audio/x-wav`, is added, and pl
 This likely also affects other extensions Android does not know, such as `.ape`, `.mpc`, `.dsf` and `.dff`.
 
 **Approach:** Read such files through the content URIs of a picker-chosen folder, which grants access regardless of the MIME type, or document the limitation; decide together with point 9.
+
+### 21. AAC radio streams do not play
+
+**Status:** Open
+
+**Evidence:** Confirmed, found while resolving point 3.
+Internet radio usually sends AAC as ADTS frames, unlike the raw AAC in M4A files that point 19 verified.
+- SomaFM's AAC streams use MPEG-2 ADTS (`mpegversion=2`), which `amcaudiodec` does not accept: it only registers `audio/mpeg, mpegversion=4` (raw or ADTS), so GStreamer reports a missing MPEG-2 AAC decoder.
+- Radio Paradise's AAC streams use MPEG-4 ADTS; `amcaudiodec` accepts them and Android's `c2.android.aac.decoder` is created, but it produces no output, and playback stays at 0:00 until it is stopped.
+HLS radio streams are almost always AAC, so they are affected as well.
+
+**Approach:** Find out why the MPEG-4 ADTS input stalls (for example by letting `aacparse` convert ADTS to raw AAC with `codec_data`, which works for M4A), and accept MPEG-2 AAC by presenting it as MPEG-4, which is the same AAC bitstream.
+If that is not feasible, reconsider `libav` (`avdec_aac` accepts both) from point 19.
