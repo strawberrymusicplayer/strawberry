@@ -112,6 +112,7 @@
 #include "core/metatypes.h"
 #include "core/mainwindow.h"
 #ifdef Q_OS_ANDROID
+#  include "core/androidmediasession.h"
 #  include "core/androidstorage.h"
 #endif
 
@@ -405,6 +406,9 @@ int main(int argc, char *argv[]) {
 #endif
 #ifdef HAVE_DISCORD_RPC
   DiscordRichPresence discord_rich_presence(app.player(), app.playlist_manager());
+#endif
+#ifdef Q_OS_ANDROID
+  AndroidMediaSession android_media_session(app.player(), app.playlist_manager(), app.current_albumcover_loader());
 #endif
 
   // Window
