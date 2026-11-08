@@ -1684,12 +1684,15 @@ void MainWindow::SendNowPlaying() {
 
   // Send now playing to scrobble services
   Playlist *playlist = app_->playlist_manager()->active();
-  if (app_->scrobbler()->enabled() && playlist && playlist->current_item() && playlist->current_item()->EffectiveMetadata().is_metadata_good()) {
-    app_->scrobbler()->UpdateNowPlaying(playlist->current_item()->EffectiveMetadata());
-    ui_->action_love->setEnabled(true);
-    ui_->button_love->setEnabled(true);
-    systemtrayicon_->LoveStateChanged(true);
+  bool can_love = false;
+  if (app_->scrobbler()->enabled() && playlist && playlist->current_item()) {
+    const Song song = playlist->current_item()->EffectiveMetadata();
+    app_->scrobbler()->UpdateNowPlaying(song);
+    can_love = song.is_metadata_good();
   }
+  ui_->action_love->setEnabled(can_love);
+  ui_->button_love->setEnabled(can_love);
+  systemtrayicon_->LoveStateChanged(can_love);
 
 }
 
