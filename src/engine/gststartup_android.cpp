@@ -18,6 +18,10 @@
 
 // Android-only parts of GstStartup, kept apart from gststartup.cpp to reduce conflicts when merging upstream.
 
+#include <cstring>
+
+#include <gst/gst.h>
+
 #include <QJniEnvironment>
 #include <QJniObject>
 #include <QtCore/qcoreapplication_platform.h>
@@ -27,6 +31,16 @@
 #include "gststartup.h"
 
 namespace GstStartup {
+
+namespace {
+
+// The GStreamer factory type flags are macros with C-style casts.
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+constexpr GstElementFactoryListType kAudioDecoderType = GST_ELEMENT_FACTORY_TYPE_DECODER | GST_ELEMENT_FACTORY_TYPE_MEDIA_AUDIO;
+#pragma GCC diagnostic pop
+
+}  // namespace
 
 void InitializeAndroid() {
 
@@ -40,6 +54,22 @@ void InitializeAndroid() {
   if (!gstreamer_init || env.checkAndClearExceptions()) {
     qLog(Error) << "Could not initialize GStreamer for Android, audio playback may not work";
   }
+
+}
+
+void LowerAndroidMediaDecoderRanks() {
+
+  // androidmedia registers Android's software audio codecs with a rank above GStreamer's own decoders.
+  // Lower them below those, so they are only used for formats without a GStreamer decoder, such as AAC.
+  GList *decoders = gst_element_factory_list_get_elements(kAudioDecoderType, GST_RANK_NONE);
+  for (GList *item = decoders; item; item = item->next) {
+    GstPluginFeature *feature = static_cast<GstPluginFeature*>(item->data);
+    const gchar *plugin_name = gst_plugin_feature_get_plugin_name(feature);
+    if (plugin_name && strcmp(plugin_name, "androidmedia") == 0 && gst_plugin_feature_get_rank(feature) > GST_RANK_SECONDARY) {
+      gst_plugin_feature_set_rank(feature, GST_RANK_SECONDARY);
+    }
+  }
+  gst_plugin_feature_list_free(decoders);
 
 }
 

@@ -266,6 +266,8 @@ if(ANDROID)
     audiofx
     replaygain
     opensles
+    # Android's system codecs, used for formats without a GStreamer decoder in this list, such as AAC.
+    androidmedia
     # flacdec, mpg123audiodec and wavpackdec only accept framed input from the parsers in audioparsers.
     audioparsers
     ogg
