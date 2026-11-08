@@ -266,12 +266,17 @@ if(ANDROID)
     audiofx
     replaygain
     opensles
+    # flacdec, mpg123audiodec and wavpackdec only accept framed input from the parsers in audioparsers.
+    audioparsers
+    ogg
     flac
     mpg123
     opus
     vorbis
+    wavpack
     wavparse
     id3demux
+    apetag
     isomp4
     matroska
   )
