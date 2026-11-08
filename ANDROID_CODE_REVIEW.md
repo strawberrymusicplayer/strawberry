@@ -10,12 +10,12 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: point 23 (moving Android blocks into `*_android.cpp` files), starting with `mainwindow.cpp`; points 10–19 are done.
-  Points 24 and 25 (found during testing) and the decision in point 20 are still open.
+- Next: point 23 (moving Android blocks into `*_android.cpp` files), continuing with `playlistview.cpp`; `mainwindow.cpp` is done.
+  Points 24, 25, and 26 (found during testing) and the decision in point 20 are still open.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 4` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
 - Deploy: zipalign and sign with the debug keystore, `adb install -r`, launch with `adb shell monkey -p org.qtproject.example.strawberry 1` (see `ANDROID_EMULATOR_TESTING.md`).
-- Start the emulator with `emulator -avd Medium_Phone_API_36.1 -no-snapshot-load -no-boot-anim -memory 4096 -gpu host -crash-report-mode never -no-metrics`; `-gpu swiftshader_indirect` is too slow, and a pending crash-report dialog blocks booting.
+- Start the emulator with `~/Android/Sdk/emulator/emulator -avd Medium_Phone_API_36.1 -no-snapshot-load -no-boot-anim -memory 4096 -gpu host -crash-report-mode never -no-metrics`; `-gpu swiftshader_indirect` is too slow, and a pending crash-report dialog blocks booting.
   The host GPU emulation can still segfault after a long session (`null ctx` errors in the log); just start it again.
 - Write each screenshot to a new file name and view it only after the capture command has finished; viewing it in parallel shows the previous screenshot, which looks like display lag.
 - Screenshots are shown at 900×2000 while the screen is 1080×2400; multiply coordinates read from a screenshot by 1.2 for `adb shell input tap`.
@@ -308,6 +308,15 @@ Handoff notes for continuing in a new session:
    The main thing to confirm is that the desktop build is unchanged in behavior.
 3. Afterwards, merge upstream to confirm that the shared files conflict less.
 
+**Progress:**
+- `mainwindow.cpp`: done.
+  `SetupAndroidLayout()`, `CreateAndroidToolsPage()`, and `UpdateAndroidMuteButton()` moved unchanged to `src/core/mainwindow_android.cpp`, which `CMakeLists.txt` adds only for Android.
+  The Settings tab code moved there too, as `CreateAndroidSettingsTab()`, `SetupAndroidSettingsTab()`, `EmbedAndroidSettingsDialog()`, and `ShowAndroidSettingsDialog()`; each is called from a single guarded line at its original place, so the startup order is unchanged.
+  The includes only the Android code used are removed from `mainwindow.cpp`, which has about 180 fewer lines.
+  The short `#else` branches (file pickers, sidebar, double-click handling, status bar) stay in place.
+  The Android APK, the native desktop build, and the native playlist, long-press, and tab widget tests succeed.
+  On the emulator, the layout, the Tools page, and the Settings tab (overview with Help, Back returning to the previous tab) work as before.
+
 ## Needs a decision
 
 ### 20. Application ID and backup settings
@@ -367,3 +376,12 @@ Handoff notes for continuing in a new session:
   Keep the label hidden whenever the button is hidden, for example for the Language group.
 - Navigation-only buttons without a value, such as the Settings overview categories, keep their title in the button.
 - Afterwards, check on the emulator that long titles and values wrap on narrow screens, that summaries still update after edits and Cancel, and that the parent's scroll position is still restored on return.
+
+### 26. Ignored first tab tap after a cold start
+
+**Status:** Open
+
+- After a cold start, the first tap on the Settings tab does nothing; the next tap opens Settings.
+  Tapping Tools first can also be ignored when tapped about 15 seconds after the launch, but works after 25 seconds.
+- Found while testing point 23; the APK from point 16 behaves the same in a side-by-side check (cold start, wait 25 seconds, one tap), so it is not caused by moving the code.
+- Likely causes to check: the lazy creation of `SettingsDialog` on the first `OpenSettingsDialog()` call returning to the previous tab, or touches arriving while startup work still blocks the event loop.

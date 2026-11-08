@@ -56,7 +56,6 @@
 #include <QTimer>
 #include <QKeySequence>
 #include <QMenu>
-#include <QMenuBar>
 #include <QAction>
 #include <QActionGroup>
 #include <QShortcut>
@@ -65,17 +64,13 @@
 #include <QColor>
 #include <QFrame>
 #include <QItemSelectionModel>
-#include <QHBoxLayout>
 #include <QLabel>
 #include <QLayout>
 #include <QSize>
 #include <QSplitter>
-#include <QPushButton>
-#include <QScrollArea>
 #include <QStackedWidget>
 #include <QTabBar>
 #include <QToolButton>
-#include <QVBoxLayout>
 #include <QCheckBox>
 #include <QClipboard>
 #include <QShowEvent>
@@ -115,8 +110,6 @@
 #include "core/appearance.h"
 #ifdef Q_OS_ANDROID
 #  include "core/androidstorage.h"
-#  include "widgets/androidwidgets.h"
-#  include "widgets/playlisttitleheader.h"
 #endif
 #include "utilities/envutils.h"
 #include "utilities/filemanagerutils.h"
@@ -275,9 +268,6 @@ using namespace Qt::Literals::StringLiterals;
 namespace {
 const int kTrackSliderUpdateTimeMs = 200;
 const int kTrackPositionUpdateTimeMs = 1000;
-#ifdef Q_OS_ANDROID
-constexpr int kAndroidToolButtonHeight = 72;
-#endif
 
 // Returns the playlist the index belongs to, which is not necessarily the current playlist when a reply arrives, or nullptr when the row or the playlist was removed.
 Playlist *PlaylistOfIndex(const QPersistentModelIndex &idx) {
@@ -508,11 +498,7 @@ MainWindow::MainWindow(Application *app,
   ui_->tabs->AddTab(device_view_, u"devices"_s, IconLoader::Load(u"device"_s, true, 0, 32), tr("Devices"));
 #ifdef Q_OS_ANDROID
   ui_->tabs->AddTab(CreateAndroidToolsPage(), u"tools"_s, IconLoader::Load(u"configure"_s, true, 0, 32), tr("Tools"));
-  android_settings_tab_ = new QWidget(ui_->tabs);
-  auto *settings_layout = new QVBoxLayout(android_settings_tab_);
-  settings_layout->setContentsMargins(0, 0, 0, 0);
-  settings_layout->setSpacing(0);
-  ui_->tabs->AddTab(android_settings_tab_, u"settings"_s, IconLoader::Load(u"system-run"_s, true, 0, 32), tr("Settings"));
+  ui_->tabs->AddTab(CreateAndroidSettingsTab(), u"settings"_s, IconLoader::Load(u"system-run"_s, true, 0, 32), tr("Settings"));
 #endif
 #ifdef HAVE_SUBSONIC
   ui_->tabs->AddTab(subsonic_view_, u"subsonic"_s, IconLoader::Load(u"subsonic"_s, true, 0, 32), tr("Subsonic"));
@@ -1147,17 +1133,7 @@ MainWindow::MainWindow(Application *app,
 
   ui_->tabs->setCurrentIndex(settings.value(FancyTabWidget::kCurrentTab, 1).toInt());
 #ifdef Q_OS_ANDROID
-  const int settings_tab_index = ui_->tabs->IndexOfTab(android_settings_tab_);
-  android_previous_tab_index_ = ui_->tabs->currentIndex();
-  if (android_previous_tab_index_ == settings_tab_index) android_previous_tab_index_ = ui_->tabs->IndexOfTab(collection_view_);
-  QObject::connect(ui_->tabs, &FancyTabWidget::CurrentTabChanged, this, [this, settings_tab_index](const int index) {
-    if (index == settings_tab_index) {
-      OpenSettingsDialog();
-    }
-    else {
-      android_previous_tab_index_ = index;
-    }
-  });
+  SetupAndroidSettingsTab();
 #endif
   FancyTabWidget::Mode default_mode = FancyTabWidget::Mode::LargeSidebar;
   FancyTabWidget::Mode tab_mode = static_cast<FancyTabWidget::Mode>(settings.value(FancyTabWidget::kTabMode, static_cast<int>(default_mode)).toInt());
@@ -1318,132 +1294,6 @@ MainWindow::MainWindow(Application *app,
 MainWindow::~MainWindow() {
   delete ui_;
 }
-
-#ifdef Q_OS_ANDROID
-void MainWindow::SetupAndroidLayout() {
-
-  ui_->layout_centralWidget->insertWidget(0, ui_->tabs, 1);
-  ui_->layout_centralWidget->addWidget(ui_->player_controls_container);
-  ui_->splitter->hide();
-  ui_->line_6->hide();
-  ui_->layout_right->setContentsMargins(0, 0, 0, 0);
-
-  PlaylistTitleHeader *playlist_header = new PlaylistTitleHeader(ui_->playlist_layout);
-  ui_->layout_right->insertWidget(0, playlist_header);
-  QObject::connect(playlist_header, &PlaylistTitleHeader::BackClicked, this, [this]() {
-    android_playlist_pages_->setCurrentWidget(playlist_list_);
-  });
-  QObject::connect(playlist_header, &PlaylistTitleHeader::RenameRequested, &*app_->playlist_manager(), &PlaylistManager::Rename);
-  const auto update_playlist_header = [this, playlist_header]() {
-    Playlist *playlist = app_->playlist_manager()->current();
-    playlist_header->SetPlaylist(playlist ? playlist->id() : -1, playlist ? app_->playlist_manager()->GetPlaylistName(playlist->id()) : QString());
-  };
-  update_playlist_header();
-  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentChanged, this, update_playlist_header);
-  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::PlaylistRenamed, this, update_playlist_header);
-  // FancyTabWidget wraps android_playlist_pages_ in its own page, so compare tab indexes from IndexOfTab() instead of widgets.
-  QObject::connect(ui_->tabs->tabBar(), &QTabBar::tabBarClicked, this, [this](const int index) {
-    if (index == ui_->tabs->IndexOfTab(android_playlist_pages_)) android_playlist_pages_->setCurrentWidget(playlist_list_);
-  });
-  QObject::connect(playlist_list_, &PlaylistListContainer::PlaylistActivated, this, [this]() {
-    android_playlist_pages_->setCurrentWidget(ui_->playlist_layout);
-  });
-  QObject::connect(ui_->action_new_playlist, &QAction::triggered, this, [this]() {
-    ui_->tabs->setCurrentIndex(ui_->tabs->IndexOfTab(android_playlist_pages_));
-    android_playlist_pages_->setCurrentWidget(ui_->playlist_layout);
-  });
-  QObject::connect(ui_->tabs, &QTabWidget::currentChanged, this, [this]() {
-    if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(android_playlist_pages_)) android_playlist_pages_->setCurrentWidget(playlist_list_);
-  });
-
-  ui_->tabs->SetMode(FancyTabWidget::Mode::LargeSidebar);
-  ui_->tabs->setContextMenuPolicy(Qt::PreventContextMenu);
-
-  ui_->analyzer->hide();
-  ui_->volume->hide();
-  ui_->line_volume->hide();
-  ui_->playlist_summary->setMinimumWidth(0);
-  ui_->playlist_summary->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
-  ui_->playlist_summary->setWordWrap(true);
-  ui_->layout_status_bar_internal->removeWidget(ui_->track_slider);
-  ui_->layout_player_controls_container->insertWidget(0, ui_->track_slider);
-  ui_->track_slider->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
-
-  // On Android, rearrange the player controls for mobile layout
-  // Create mute button with proper styling to match other buttons
-  android_mute_button_ = new QToolButton(ui_->player_controls);
-  android_mute_button_->setDefaultAction(ui_->action_mute);
-  android_mute_button_->setIconSize(ui_->pause_play_button->iconSize());
-  android_mute_button_->setAutoRaise(true);
-  ui_->layout_player_controls->addWidget(android_mute_button_);
-  UpdateAndroidMuteButton(app_->player()->is_muted());
-
-  // Create love button with proper styling to match other buttons
-  auto *love_button = new QToolButton(ui_->player_controls);
-  love_button->setDefaultAction(ui_->action_love);
-  love_button->setIconSize(ui_->pause_play_button->iconSize());
-  love_button->setAccessibleName(tr("Love"));
-  love_button->setAutoRaise(true);
-  ui_->layout_player_controls->addWidget(love_button);
-
-  // Menu bar actions are reachable through the Tools and Settings sidebar tabs and the playlist editor on Android.
-  ui_->menuBar->hide();
-
-  for (QToolButton *button : {ui_->back_button, ui_->pause_play_button, ui_->stop_button, ui_->forward_button, love_button, android_mute_button_}) {
-    button->setMinimumSize(48, 48);
-  }
-
-}
-
-QWidget *MainWindow::CreateAndroidToolsPage() {
-
-  QScrollArea *page = new QScrollArea(ui_->tabs);
-  page->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  page->setWidgetResizable(true);
-  page->setFrameShape(QFrame::NoFrame);
-
-  QWidget *contents = new QWidget(page);
-  auto *layout = new QVBoxLayout(contents);
-  layout->setSpacing(8);
-  page->setWidget(contents);
-
-  const auto add_section = [this, contents, layout](const QString &title, const QList<QAction*> &actions) {
-    QLabel *heading = new QLabel(title, contents);
-    QFont heading_font = heading->font();
-    heading_font.setBold(true);
-    heading->setFont(heading_font);
-    heading->setWordWrap(true);
-    layout->addWidget(heading);
-    for (QAction *action : actions) {
-      QString button_text = action->text();
-      if (action == ui_->action_update_collection) button_text = tr("Update collection");
-      else if (action == ui_->action_full_collection_scan) button_text = tr("Full collection scan");
-      else if (action == ui_->action_stop_collection_scan) button_text = tr("Stop scan");
-
-      QToolButton *button = new QToolButton(contents);
-      button->setDefaultAction(action);
-      button->setText(button_text);
-      button->setAccessibleName(action->text());
-      if (button_text != action->text()) {
-        QObject::connect(action, &QAction::changed, button, [button, button_text]() {
-          button->setText(button_text);
-        });
-      }
-      button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-      button->setIconSize(QSize(AndroidWidgets::kNavigationIconSize, AndroidWidgets::kNavigationIconSize));
-      AndroidWidgets::StyleNavigationButton(button, kAndroidToolButtonHeight);
-      layout->addWidget(button);
-    }
-  };
-
-  add_section(tr("Tools"), { ui_->action_cover_manager, ui_->action_equalizer, ui_->action_transcoder });
-  add_section(tr("Collection"), { ui_->action_update_collection, ui_->action_full_collection_scan, ui_->action_stop_collection_scan });
-  layout->addStretch();
-
-  return page;
-
-}
-#endif
 
 void MainWindow::ReloadSettings() {
 
@@ -1889,18 +1739,6 @@ void MainWindow::MuteChanged(const bool mute) {
   ui_->volume->SetMuted(mute);
 
 }
-
-#ifdef Q_OS_ANDROID
-void MainWindow::UpdateAndroidMuteButton(const bool mute) {
-
-  // The button is created in SetupAndroidLayout(), after the first MuteChanged() call.
-  if (!android_mute_button_) return;
-
-  ui_->action_mute->setIcon(style()->standardIcon(mute ? QStyle::SP_MediaVolumeMuted : QStyle::SP_MediaVolume));
-  android_mute_button_->setAccessibleName(mute ? tr("Unmute") : tr("Mute"));
-
-}
-#endif
 
 void MainWindow::SongChanged(const Song &song) {
 
@@ -3588,15 +3426,7 @@ SettingsDialog *MainWindow::CreateSettingsDialog() {
   QObject::connect(settings_dialog, &SettingsDialog::ReloadSettings, this, &MainWindow::ReloadAllSettings);
 
 #ifdef Q_OS_ANDROID
-  settings_dialog->setWindowFlags(Qt::Widget);
-  settings_dialog->setMinimumSize(0, 0);
-  settings_dialog->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  android_settings_tab_->layout()->addWidget(settings_dialog);
-  QObject::connect(settings_dialog, &QDialog::finished, this, [this]() {
-    android_settings_overview_on_open_ = true;
-    if (android_previous_tab_index_ >= 0) ui_->tabs->setCurrentIndex(android_previous_tab_index_);
-  });
-  settings_dialog->AddAndroidHelpCategory({ ui_->action_about_strawberry, ui_->action_about_qt });
+  EmbedAndroidSettingsDialog(settings_dialog);
 #endif
 
   // Allows custom notification preview
@@ -3609,18 +3439,11 @@ SettingsDialog *MainWindow::CreateSettingsDialog() {
 void MainWindow::OpenSettingsDialog() {
 
 #ifdef Q_OS_ANDROID
-  const int settings_tab_index = ui_->tabs->IndexOfTab(android_settings_tab_);
-  if (ui_->tabs->currentIndex() != settings_tab_index) {
-    ui_->tabs->setCurrentIndex(settings_tab_index);
-    return;
-  }
-  if (android_settings_overview_on_open_) settings_dialog_->OpenOverview();
-  else settings_dialog_->show();
-  android_settings_overview_on_open_ = false;
+  ShowAndroidSettingsDialog();
 #else
   settings_dialog_->show();
-#endif
   settings_dialog_->raise();
+#endif
 
 }
 

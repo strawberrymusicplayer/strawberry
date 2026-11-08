@@ -311,8 +311,13 @@ class MainWindow : public QMainWindow, public PlatformInterface {
  private:
   void SaveSettings();
 #ifdef Q_OS_ANDROID
+  // Implemented in mainwindow_android.cpp.
   void SetupAndroidLayout();
   QWidget *CreateAndroidToolsPage();
+  QWidget *CreateAndroidSettingsTab();
+  void SetupAndroidSettingsTab();
+  void EmbedAndroidSettingsDialog(SettingsDialog *settings_dialog);
+  void ShowAndroidSettingsDialog();
   void UpdateAndroidMuteButton(const bool mute);
 #endif
 
