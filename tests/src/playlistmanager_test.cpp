@@ -24,6 +24,7 @@
 #include <QCoreApplication>
 #include <QElapsedTimer>
 #include <QEventLoop>
+#include <QFile>
 #include <QList>
 #include <QMimeData>
 #include <QModelIndex>
@@ -39,6 +40,7 @@
 #include "includes/scoped_ptr.h"
 #include "includes/shared_ptr.h"
 #include "core/database.h"
+#include "core/mimedata.h"
 #include "core/song.h"
 #include "core/taskmanager.h"
 #include "core/urlhandlers.h"
@@ -54,6 +56,7 @@
 #include "playlist/playlistsequence.h"
 #include "playlist/playlistfilter.h"
 #include "playlist/playlistview.h"
+#include "playlist/songloaderinserter.h"
 #include "tagreader/tagreaderclient.h"
 #include "mock_settingsprovider.h"
 
@@ -140,6 +143,41 @@ class PlaylistManagerTest : public ::testing::Test {
     playlist_manager_->Favorite(id, true);
     playlist->InsertItems(PlaylistItemPtrList() << MakeStreamItem(u"Added"_s));
     return id;
+  }
+
+  // Creates a local file outside the collection, which is loaded asynchronously when it's added to a playlist.
+  QUrl CreateLocalFile(const QString &filename) const {
+    const QString path = temp_dir_.filePath(filename);
+    QFile file(path);
+    EXPECT_TRUE(file.open(QIODevice::WriteOnly));
+    file.write("data");
+    return QUrl::fromLocalFile(path);
+  }
+
+  static void DropUrl(Playlist *playlist, const QUrl &url, const bool clear_first) {
+    MimeData mimedata(clear_first);
+    mimedata.setUrls(QList<QUrl>() << url);
+    playlist->dropMimeData(&mimedata, Qt::CopyAction, -1, 0, QModelIndex());
+  }
+
+  // Waits for the asynchronous loads to be done and for at least the given number of rows.
+  void WaitForLoadedUrls(Playlist *playlist, const int rows) const {
+    ASSERT_TRUE(QTest::qWaitFor([this, playlist, rows]() { return playlist->rowCount(QModelIndex()) >= rows && task_manager_->GetTasks().isEmpty(); }, 10000));
+    QTest::qWait(200);
+  }
+
+  // Adds a stream, and emits the loaded metadata of the same stream from an inserter, with the load cancelled first if requested, returning the resulting title.
+  QString TitleAfterLoadFinished(const bool cancel) {
+    WaitForOpenPlaylistsRestored();
+    Playlist *playlist = playlist_manager_->current();
+    playlist->InsertItems(PlaylistItemPtrList() << MakeStreamItem(u"Stream"_s));
+    SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, tagreader_client_, make_shared<UrlHandlers>(), collection_backend_);
+    inserter->Load(playlist, -1, false, false, false, QList<QUrl>());
+    if (cancel) Q_EMIT playlist->PendingInsertsCancelled();
+    Song loaded_song = playlist->item_at(0)->EffectiveMetadata();
+    loaded_song.set_title(u"Loaded"_s);
+    Q_EMIT inserter->EffectiveLoadFinished(SongList() << loaded_song);
+    return playlist->item_at(0)->EffectiveMetadata().title();
   }
 
   static PlaylistItemPtr MakeStreamItem(const QString &title) {
@@ -651,6 +689,51 @@ TEST_F(PlaylistManagerTest, AllPlaylistsLoadedIsSentWhenClosedRestoringPlaylistI
 
   ASSERT_TRUE(spy.wait(5000));
   EXPECT_EQ(1, spy.count());
+
+}
+
+// Regression test: URLs still being loaded when the playlist was replaced were inserted together with the new items.
+TEST_F(PlaylistManagerTest, ReplacingPlaylistCancelsUrlsBeingLoaded) {
+
+  WaitForOpenPlaylistsRestored();
+  Playlist *playlist = playlist_manager_->current();
+  const QUrl first_url = CreateLocalFile(u"first.mp3"_s);
+  const QUrl second_url = CreateLocalFile(u"second.mp3"_s);
+
+  DropUrl(playlist, first_url, true);
+  DropUrl(playlist, second_url, true);
+
+  WaitForLoadedUrls(playlist, 1);
+  ASSERT_EQ(1, playlist->rowCount(QModelIndex()));
+  EXPECT_EQ(second_url, playlist->item_at(0)->OriginalMetadata().url());
+
+}
+
+// Adding URLs without replacing the playlist doesn't cancel the URLs being loaded.
+TEST_F(PlaylistManagerTest, AppendingKeepsUrlsBeingLoaded) {
+
+  WaitForOpenPlaylistsRestored();
+  Playlist *playlist = playlist_manager_->current();
+
+  DropUrl(playlist, CreateLocalFile(u"first.mp3"_s), false);
+  DropUrl(playlist, CreateLocalFile(u"second.mp3"_s), false);
+
+  WaitForLoadedUrls(playlist, 2);
+  EXPECT_EQ(2, playlist->rowCount(QModelIndex()));
+
+}
+
+// Regression test: a cancelled load updated the items of the new load with the same URL.
+TEST_F(PlaylistManagerTest, CancelledLoadDoesNotUpdateItems) {
+
+  EXPECT_EQ(u"Stream"_s, TitleAfterLoadFinished(true));
+
+}
+
+// A load which isn't cancelled updates the items.
+TEST_F(PlaylistManagerTest, LoadUpdatesItems) {
+
+  EXPECT_EQ(u"Loaded"_s, TitleAfterLoadFinished(false));
 
 }
 

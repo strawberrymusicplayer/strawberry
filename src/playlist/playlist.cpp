@@ -1058,6 +1058,8 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
 
   if (const MimeData *mime_data = qobject_cast<const MimeData*>(data)) {
     if (mime_data->clear_first_) {
+      // URLs still being loaded were for the playlist being replaced, they would be inserted together with the new items.
+      Q_EMIT PendingInsertsCancelled();
       Clear();
     }
     play_now = mime_data->play_now_;
