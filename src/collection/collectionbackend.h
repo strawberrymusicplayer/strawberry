@@ -31,6 +31,7 @@
 #include <QObject>
 #include <QFileInfo>
 #include <QList>
+#include <QHash>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
@@ -261,6 +262,9 @@ class CollectionBackend : public CollectionBackendInterface {
   void AddDirectory(const QString &path);
   void RemoveDirectory(const CollectionDirectory &dir);
   void AddOrUpdateSongs(const SongList &songs);
+  // Like AddOrUpdateSongs(), for songs read by a scan, previous_songs are the songs in the collection which the updated songs were made from.
+  // The user set data changed in the collection since then, for example the play count while the song was played during the scan, is kept.
+  void AddOrUpdateScannedSongs(const SongList &songs, const SongList &previous_songs);
   void UpdateSongsBySongID(const SongMap &new_songs, const bool delete_missing_songs = true);
   void UpdateMTimesOnly(const SongList &songs);
   void DeleteSongs(const SongList &songs);
@@ -332,6 +336,9 @@ class CollectionBackend : public CollectionBackendInterface {
   AlbumList GetAlbums(const QString &artist, const QString &album_artist, const bool compilation_required = false, const CollectionFilterOptions &opt = CollectionFilterOptions());
   AlbumList GetAlbums(const QString &artist, const bool compilation_required, const CollectionFilterOptions &opt = CollectionFilterOptions());
   CollectionSubdirectoryList SubdirsInDirectory(const int id, QSqlDatabase &db);
+
+  // previous_songs are the songs which updated songs were made from, by song ID, the user set data changed in the database since then is kept.
+  void AddOrUpdateSongsInternal(const SongList &songs, const QHash<int, Song> &previous_songs);
 
   Song GetSongById(const int id, QSqlDatabase &db);
   SongList GetSongsById(const QStringList &ids, QSqlDatabase &db);

@@ -150,7 +150,7 @@ class CollectionWatcherTest : public ::testing::Test {
       watcher.ReloadSettingsAsync();
       QCoreApplication::processEvents();
     }
-    QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+    QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateScannedSongs);
     QObject::connect(&watcher, &CollectionWatcher::SongsMTimeUpdated, &*backend_, &CollectionBackend::UpdateMTimesOnly);
     QObject::connect(&watcher, &CollectionWatcher::SongsDeleted, &*backend_, &CollectionBackend::DeleteSongs);
     QObject::connect(&watcher, &CollectionWatcher::SongsUnavailable, &*backend_, &CollectionBackend::MarkSongsUnavailable);
@@ -1465,7 +1465,7 @@ TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowFindsNewDirectory) {
   CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
   watcher.ReloadSettingsAsync();
   QCoreApplication::processEvents();
-  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateScannedSongs);
   QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
   CollectionDirectory dir;
   dir.id = 1;
@@ -1509,7 +1509,7 @@ TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowFindsChangedFile) {
   CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
   watcher.ReloadSettingsAsync();
   QCoreApplication::processEvents();
-  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateScannedSongs);
   QObject::connect(&watcher, &CollectionWatcher::SongsMTimeUpdated, &*backend_, &CollectionBackend::UpdateMTimesOnly);
   QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
   CollectionDirectory dir;
@@ -1560,7 +1560,7 @@ TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowScanStoppedIsDoneAgain) {
   CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
   watcher.ReloadSettingsAsync();
   QCoreApplication::processEvents();
-  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateScannedSongs);
   QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
   CollectionDirectory dir;
   dir.id = 1;
@@ -1611,7 +1611,7 @@ TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowWatchesRecreatedDirectory
 
   backend_->AddDirectory(temp_dir.path());
   CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
-  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateScannedSongs);
   QObject::connect(&watcher, &CollectionWatcher::SongsDeleted, &*backend_, &CollectionBackend::DeleteSongs);
   QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
   CollectionDirectory dir;
@@ -1711,7 +1711,7 @@ TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowScanWaitsForPausedRescan)
   CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
   watcher.ReloadSettingsAsync();
   QCoreApplication::processEvents();
-  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateScannedSongs);
   QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
   CollectionDirectory dir;
   dir.id = 1;
@@ -1757,7 +1757,7 @@ TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowScanUpdatesLastSeen) {
   CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
   watcher.ReloadSettingsAsync();
   QCoreApplication::processEvents();
-  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateScannedSongs);
   QObject::connect(&watcher, &CollectionWatcher::SongsUnavailable, &*backend_, &CollectionBackend::MarkSongsUnavailable);
   QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
   QObject::connect(&watcher, &CollectionWatcher::UpdateLastSeen, &*backend_, &CollectionBackend::UpdateLastSeen);
@@ -1808,7 +1808,7 @@ TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowUpdatesLastSeenBeforeResc
 
   backend_->AddDirectory(temp_dir.path());
   CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
-  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateScannedSongs);
   QObject::connect(&watcher, &CollectionWatcher::SongsUnavailable, &*backend_, &CollectionBackend::MarkSongsUnavailable);
   QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
   QObject::connect(&watcher, &CollectionWatcher::UpdateLastSeen, &*backend_, &CollectionBackend::UpdateLastSeen);
@@ -1873,7 +1873,7 @@ TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowWatchesDirectoryCreatedAg
 
   backend_->AddDirectory(temp_dir.path());
   CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
-  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateScannedSongs);
   QObject::connect(&watcher, &CollectionWatcher::SongsDeleted, &*backend_, &CollectionBackend::DeleteSongs);
   QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
   CollectionDirectory dir;
@@ -1948,7 +1948,7 @@ TEST_F(CollectionWatcherTest, StartupScanDoesNotExpireSongsLastSeenLongAgo) {
   // The incremental scan on startup, with the default expiry of unavailable songs.
   const qint64 scan_time = QDateTime::currentSecsSinceEpoch();
   CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
-  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateScannedSongs);
   QObject::connect(&watcher, &CollectionWatcher::SongsMTimeUpdated, &*backend_, &CollectionBackend::UpdateMTimesOnly);
   QObject::connect(&watcher, &CollectionWatcher::SongsUnavailable, &*backend_, &CollectionBackend::MarkSongsUnavailable);
   QObject::connect(&watcher, &CollectionWatcher::SongsReadded, &*backend_, &CollectionBackend::MarkSongsUnavailable);
@@ -1967,6 +1967,53 @@ TEST_F(CollectionWatcherTest, StartupScanDoesNotExpireSongsLastSeenLongAgo) {
     EXPECT_EQ(song.url().toLocalFile() == temp_dir.filePath(u"02.mp3"_s), song.unavailable()) << song.url().toLocalFile().toStdString();
     EXPECT_GE(song.lastseen(), scan_time) << song.url().toLocalFile().toStdString();
   }
+
+}
+
+// The play count of a song played while a scan is running isn't reverted by the scan, which only updates the songs when it's finished, with the songs it read when it started.
+TEST_F(CollectionWatcherTest, ScanKeepsPlayCountChangedDuringScan) {
+
+  // Not in the temporary directory, which is often a tmpfs, which the collection watcher ignores.
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"01.mp3"_s)));
+  ASSERT_TRUE(QFile::setPermissions(temp_dir.filePath(u"01.mp3"_s), QFile::ReadOwner | QFile::WriteOwner | QFile::ReadUser | QFile::WriteUser));
+
+  backend_->AddDirectory(temp_dir.path());
+  ASSERT_EQ(1, ScanDirectoryToCollection(temp_dir.path()).new_or_updated);
+  SongList songs = backend_->GetAllSongs();
+  ASSERT_EQ(1, songs.count());
+  const int song_id = songs.first().id();
+  const QString title = songs.first().title();
+  ASSERT_FALSE(title.isEmpty());
+
+  // The song is rescanned with the title from the file, which differs from the collection.
+  {
+    QSqlDatabase db(database_->Connect());
+    QSqlQuery q(db);
+    ASSERT_TRUE(q.exec(QStringLiteral("UPDATE %1 SET title = 'Old title', mtime = 0").arg(QLatin1String(CollectionManager::kSongsTable))));
+    ASSERT_TRUE(q.exec(QStringLiteral("UPDATE %1 SET mtime = 0").arg(QLatin1String(CollectionManager::kSubdirsTable))));
+  }
+  const CollectionSubdirectoryList subdirs = backend_->SubdirsInDirectory(1);
+  ASSERT_FALSE(subdirs.isEmpty());
+
+  CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+  // The song is played after the scan read it, before the scan updates it.
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, [this, song_id]() { backend_->IncrementPlayCount(song_id); });
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateScannedSongs);
+  QObject::connect(&watcher, &CollectionWatcher::SongsMTimeUpdated, &*backend_, &CollectionBackend::UpdateMTimesOnly);
+  QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+  QSignalSpy spy_new_or_updated(&watcher, &CollectionWatcher::NewOrUpdatedSongs);
+  CollectionDirectory dir;
+  dir.id = 1;
+  dir.path = temp_dir.path();
+  watcher.AddDirectory(dir, subdirs);
+  ASSERT_EQ(1, spy_new_or_updated.count());
+
+  songs = backend_->GetAllSongs();
+  ASSERT_EQ(1, songs.count());
+  EXPECT_EQ(title, songs.first().title());
+  EXPECT_EQ(1U, songs.first().playcount());
 
 }
 
@@ -1990,7 +2037,7 @@ TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowScanUpdatesLastSeenAndExp
   CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
   watcher.ReloadSettingsAsync();
   QCoreApplication::processEvents();
-  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateScannedSongs);
   QObject::connect(&watcher, &CollectionWatcher::SongsUnavailable, &*backend_, &CollectionBackend::MarkSongsUnavailable);
   // Like CollectionManager, songs which are restored without changes are marked available again.
   QObject::connect(&watcher, &CollectionWatcher::SongsReadded, &*backend_, &CollectionBackend::MarkSongsUnavailable);

@@ -79,7 +79,8 @@ class CollectionWatcher : public QObject {
   void RescanSongsAsync(const SongList &songs);
 
  Q_SIGNALS:
-  void NewOrUpdatedSongs(const SongList &songs);
+  // previous_songs are the songs in the collection which the updated songs were made from, when the scan started, see CollectionBackend::AddOrUpdateScannedSongs().
+  void NewOrUpdatedSongs(const SongList &songs, const SongList &previous_songs);
   void SongsMTimeUpdated(const SongList &songs);
   void SongsDeleted(const SongList &songs);
   void SongsUnavailable(const SongList &songs, const bool unavailable = true);
@@ -135,6 +136,8 @@ class CollectionWatcher : public QObject {
     SongList deleted_songs;
     SongList readded_songs;
     SongList new_songs;
+    // The songs in the collection which the songs in new_songs that are already in the collection were made from.
+    SongList previous_songs;
     SongList touched_songs;
     // What changed for the songs in new_songs which are already in the collection, by song ID, for logging.
     QHash<int, QStringList> song_changes;

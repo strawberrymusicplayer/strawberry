@@ -2208,6 +2208,49 @@ void Song::MergeUserSetData(const Song &other, const bool merge_playcount, const
 
 }
 
+void Song::MergeUserSetDataChangedSince(const Song &previous_song, const Song &current_song) {
+
+  // The play statistics are changed independently, for example a skip only changes the skip count, so each one is copied when it was changed.
+  // A play count which wasn't changed keeps the play count of this song, which can be read from the file, like when the change was made before the song was read.
+  // For example, after the play statistics were reset, the play count is 0, so the play count read from the file is used, both when the reset was made before and while the song was read.
+  if (current_song.playcount() != previous_song.playcount()) {
+    set_playcount(current_song.playcount());
+  }
+  if (current_song.skipcount() != previous_song.skipcount()) {
+    set_skipcount(current_song.skipcount());
+  }
+  if (current_song.lastplayed() != previous_song.lastplayed()) {
+    set_lastplayed(current_song.lastplayed());
+  }
+
+  if (current_song.rating() != previous_song.rating()) {
+    set_rating(current_song.rating());
+  }
+
+  if (current_song.art_manual() != previous_song.art_manual() || current_song.art_unset() != previous_song.art_unset()) {
+    set_art_manual(current_song.art_manual());
+    set_art_unset(current_song.art_unset());
+  }
+
+  if (current_song.compilation_on() != previous_song.compilation_on() || current_song.compilation_off() != previous_song.compilation_off()) {
+    set_compilation_on(current_song.compilation_on());
+    set_compilation_off(current_song.compilation_off());
+  }
+
+  if (current_song.lyrics() != previous_song.lyrics() || current_song.lyrics_storage_type() != previous_song.lyrics_storage_type()) {
+    set_lyrics(current_song.lyrics());
+    set_lyrics_storage_type(current_song.lyrics_storage_type());
+  }
+
+  // Synchronized lyrics saved to an LRC file are saved with the LRC file's mtime, which is copied too, otherwise the LRC file looks changed to the next scan.
+  if (current_song.synced_lyrics() != previous_song.synced_lyrics() || current_song.synced_lyrics_storage_type() != previous_song.synced_lyrics_storage_type() || current_song.lrc_mtime() != previous_song.lrc_mtime()) {
+    set_synced_lyrics(current_song.synced_lyrics());
+    set_synced_lyrics_storage_type(current_song.synced_lyrics_storage_type());
+    set_lrc_mtime(current_song.lrc_mtime());
+  }
+
+}
+
 Song Song::SongWithEditedFields(const Song &original_song, const Song &edited_song, Song song) {
 
   if (edited_song.title() != original_song.title()) song.set_title(edited_song.title());
