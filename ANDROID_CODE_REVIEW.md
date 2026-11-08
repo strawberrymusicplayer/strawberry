@@ -10,7 +10,7 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: point 26 (found during testing); the decision in point 20 is still open.
+- Next: point 26 (found during testing), reproduced on the physical FP5 phone rather than the emulator (see its plan); the decision in point 20 is still open.
   Points 1–19, 21–25, and 27 are done.
 - A physical phone may be connected over USB as well; set `ANDROID_SERIAL=emulator-5554` so `adb` commands only reach the emulator.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 4` (the plain `all` target can race in the APK copy step).
@@ -442,6 +442,10 @@ Handoff notes for continuing in a new session:
     A pixel check of the selected tab can replace viewing the image, but it must first confirm that the main window is drawn (not the splash screen or launcher).
   - Repeated `am force-stop` and cold-start cycles crash the emulator's host GPU emulation (`null ctx`, segmentation fault) after a few runs.
     Reproduce this on the phone instead, or with a debug build that logs the tab bar's mouse and touch events and the `CurrentTabChanged` calls.
+- Plan (agreed with the owner): continue on the physical FP5 phone connected over USB.
+  Target it with `ANDROID_SERIAL` set to the phone's serial from `adb devices -l` instead of `emulator-5554`, and install the same signed test APK there.
+  Repeat cold starts with a single Settings (or Tools) tap at different delays after the window appears, and note which taps are ignored.
+  If it reproduces, add temporary logging of the tab bar's touch and mouse events and the `CurrentTabChanged` calls to find where the first tap is lost, then fix it and remove the logging.
 
 ### 27. Back in the playlist editor quits the app
 
