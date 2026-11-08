@@ -39,6 +39,7 @@
 
 #include "utilities/timeutils.h"
 #include "playlist/playlist.h"
+#include "playlist/playlistrowsmimedata.h"
 #include "queue.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -408,7 +409,17 @@ bool Queue::dropMimeData(const QMimeData *data, Qt::DropAction action, const int
 
     // The queue can only contain rows of its own playlist, rows dragged from another playlist or another instance are different songs, or don't exist here.
     // The pointer is only compared, it's not valid in another process.
-    if (pid != QCoreApplication::applicationPid() || playlist != sourceModel()) {
+    if (pid != QCoreApplication::applicationPid()) {
+      return false;
+    }
+
+    // The rows can have changed during the drag, use the rows of the dragged items now.
+    if (const PlaylistRowsMimeData *rows_mimedata = qobject_cast<const PlaylistRowsMimeData*>(data)) {
+      playlist = rows_mimedata->playlist();
+      source_rows = rows_mimedata->rows();
+    }
+
+    if (playlist != sourceModel()) {
       return false;
     }
 

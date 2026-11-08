@@ -2545,4 +2545,110 @@ TEST_F(PlaylistTest, DropOfRowsWithoutProcessIdIsRejected) {
 
 }
 
+// Returns the titles of the playlist, to compare the order.
+QStringList PlaylistTitles(const Playlist &playlist) {
+  QStringList titles;
+  for (int row = 0; row < playlist.rowCount(QModelIndex()); ++row) {
+    titles << playlist.data(playlist.index(row, static_cast<int>(Playlist::Column::Title))).toString();
+  }
+  return titles;
+}
+
+// Regression test: the dragged rows were the rows from when the drag started, a dynamic playlist removes the oldest history row when the track changes, so the song after the dragged song was copied.
+TEST_F(PlaylistTest, DropAfterRowsChangedCopiesDraggedSong) {
+
+  Playlist other_playlist(nullptr, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  other_playlist.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"A"_s) << MakeMockItemP(u"B"_s) << MakeMockItemP(u"C"_s));
+
+  ScopedPtr<QMimeData> mimedata(other_playlist.mimeData(QModelIndexList() << other_playlist.index(1, 0)));
+  ASSERT_TRUE(mimedata);
+  ASSERT_TRUE(other_playlist.removeRows(0, 1, QModelIndex()));
+
+  ASSERT_TRUE(playlist_.dropMimeData(mimedata.get(), Qt::CopyAction, -1, 0, QModelIndex()));
+  EXPECT_EQ(QStringList() << u"B"_s, PlaylistTitles(playlist_));
+
+}
+
+// Moving to another playlist after the rows changed moves the dragged song, and removes it from the source playlist, not the song after it.
+TEST_F(PlaylistTest, MoveToAnotherPlaylistAfterRowsChanged) {
+
+  Playlist other_playlist(nullptr, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  other_playlist.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"A"_s) << MakeMockItemP(u"B"_s) << MakeMockItemP(u"C"_s) << MakeMockItemP(u"D"_s));
+
+  ScopedPtr<QMimeData> mimedata(other_playlist.mimeData(QModelIndexList() << other_playlist.index(1, 0)));
+  ASSERT_TRUE(mimedata);
+  ASSERT_TRUE(other_playlist.removeRows(0, 1, QModelIndex()));
+
+  ASSERT_TRUE(playlist_.dropMimeData(mimedata.get(), Qt::MoveAction, -1, 0, QModelIndex()));
+  EXPECT_EQ(QStringList() << u"B"_s, PlaylistTitles(playlist_));
+  EXPECT_EQ(QStringList() << u"C"_s << u"D"_s, PlaylistTitles(other_playlist));
+
+}
+
+// Moving rows within the playlist after the rows changed moves the dragged song.
+TEST_F(PlaylistTest, MoveWithinPlaylistAfterRowsChanged) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"A"_s) << MakeMockItemP(u"B"_s) << MakeMockItemP(u"C"_s) << MakeMockItemP(u"D"_s) << MakeMockItemP(u"E"_s));
+
+  ScopedPtr<QMimeData> mimedata(playlist_.mimeData(QModelIndexList() << playlist_.index(3, 0)));
+  ASSERT_TRUE(mimedata);
+  ASSERT_TRUE(playlist_.removeRows(0, 1, QModelIndex()));
+
+  ASSERT_TRUE(playlist_.dropMimeData(mimedata.get(), Qt::MoveAction, 0, 0, QModelIndex()));
+  EXPECT_EQ(QStringList() << u"D"_s << u"B"_s << u"C"_s << u"E"_s, PlaylistTitles(playlist_));
+
+}
+
+// Regression test: a dragged row which was removed during the drag was still used, which accessed a row past the end of the playlist.
+TEST_F(PlaylistTest, DropOfRowRemovedDuringDragIsSkipped) {
+
+  Playlist other_playlist(nullptr, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  other_playlist.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"A"_s) << MakeMockItemP(u"B"_s) << MakeMockItemP(u"C"_s));
+
+  ScopedPtr<QMimeData> mimedata(other_playlist.mimeData(QModelIndexList() << other_playlist.index(0, 0) << other_playlist.index(2, 0)));
+  ASSERT_TRUE(mimedata);
+  ASSERT_TRUE(other_playlist.removeRows(2, 1, QModelIndex()));
+
+  ASSERT_TRUE(playlist_.dropMimeData(mimedata.get(), Qt::CopyAction, -1, 0, QModelIndex()));
+  EXPECT_EQ(QStringList() << u"A"_s, PlaylistTitles(playlist_));
+
+  // When all the dragged rows were removed, nothing is dropped.
+  ASSERT_TRUE(other_playlist.removeRows(0, 1, QModelIndex()));
+  EXPECT_FALSE(playlist_.dropMimeData(mimedata.get(), Qt::CopyAction, -1, 0, QModelIndex()));
+  EXPECT_EQ(QStringList() << u"A"_s, PlaylistTitles(playlist_));
+
+}
+
+// Rows dragged from a playlist which was closed during the drag are not dropped.
+TEST_F(PlaylistTest, DropAfterSourcePlaylistClosed) {
+
+  ScopedPtr<Playlist> other_playlist(new Playlist(nullptr, nullptr, nullptr, nullptr, tagreader_client_, 2));
+  other_playlist->InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"A"_s));
+
+  ScopedPtr<QMimeData> mimedata(other_playlist->mimeData(QModelIndexList() << other_playlist->index(0, 0)));
+  ASSERT_TRUE(mimedata);
+  other_playlist.reset();
+
+  EXPECT_FALSE(playlist_.IsDraggedFromThisPlaylist(mimedata.get()));
+  playlist_.dropMimeData(mimedata.get(), Qt::CopyAction, -1, 0, QModelIndex());
+  EXPECT_EQ(0, playlist_.rowCount(QModelIndex()));
+
+}
+
+// The queue also queues the dragged song after the rows changed, not the song which is in its row now.
+TEST_F(PlaylistTest, QueueDropAfterRowsChangedQueuesDraggedSong) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"A"_s) << MakeMockItemP(u"B"_s) << MakeMockItemP(u"C"_s) << MakeMockItemP(u"D"_s));
+
+  ScopedPtr<QMimeData> mimedata(playlist_.mimeData(QModelIndexList() << playlist_.index(2, 0)));
+  ASSERT_TRUE(mimedata);
+  ASSERT_TRUE(playlist_.removeRows(0, 1, QModelIndex()));
+
+  EXPECT_TRUE(playlist_.queue()->dropMimeData(mimedata.get(), Qt::CopyAction, -1, 0, QModelIndex()));
+  ASSERT_EQ(1, playlist_.queue()->rowCount(QModelIndex()));
+  EXPECT_TRUE(playlist_.queue()->ContainsSourceRow(1));
+  EXPECT_FALSE(playlist_.queue()->ContainsSourceRow(2));
+
+}
+
 }  // namespace
