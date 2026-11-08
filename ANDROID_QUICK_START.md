@@ -55,7 +55,7 @@ emulator -avd <name> &
 adb install -r /tmp/strawberry-signed.apk
 
 # Launch
-adb shell monkey -p org.qtproject.example.strawberry 1
+adb shell monkey -p nl.dewitweb.strawberryflavor 1
 ```
 
 ## Common Issues
@@ -137,10 +137,10 @@ cmake --build build --target strawberry_make_apk 2>&1 | tail -50
 adb logcat | grep strawberry
 
 # Check app version on device
-adb shell pm dump org.qtproject.example.strawberry | grep version
+adb shell pm dump nl.dewitweb.strawberryflavor | grep version
 
 # Uninstall app from device
-adb uninstall org.qtproject.example.strawberry
+adb uninstall nl.dewitweb.strawberryflavor
 ```
 
 ## Performance Tips

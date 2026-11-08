@@ -10,14 +10,14 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: only point 20 remains, which needs the owner's decision on the application ID and backups.
-  Points 1–19 and 21–27 are done.
+- All points (1–27) are done.
+- The application ID is `nl.dewitweb.strawberryflavor` since point 20; installations with the old Qt template ID `org.qtproject.example.strawberry` are a separate app and have to be uninstalled by hand.
 - On the FP5 phone (1224×2700), screenshots are shown at about 907×2000; multiply coordinates read from them by 1.35 for `adb shell input tap`.
   The app on the phone is signed with the same debug keystore, so `adb install -r --user 0` keeps its data; the phone also has a work profile, so pass `--user 0`.
 - A physical phone may be connected over USB as well; set `ANDROID_SERIAL=emulator-5554` so `adb` commands only reach the emulator.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 4` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
-- Deploy: zipalign and sign with the debug keystore, `adb install -r`, launch with `adb shell monkey -p org.qtproject.example.strawberry 1` (see `ANDROID_EMULATOR_TESTING.md`).
+- Deploy: zipalign and sign with the debug keystore, `adb install -r`, launch with `adb shell monkey -p nl.dewitweb.strawberryflavor 1` (see `ANDROID_EMULATOR_TESTING.md`).
 - Start the emulator with `~/Android/Sdk/emulator/emulator -avd Medium_Phone_API_36.1 -no-snapshot-load -no-boot-anim -memory 4096 -gpu host -crash-report-mode never -no-metrics`; `-gpu swiftshader_indirect` is too slow, and a pending crash-report dialog blocks booting.
   The host GPU emulation can still segfault after a long session (`null ctx` errors in the log); just start it again.
 - Write each screenshot to a new file name and view it only after the capture command has finished; viewing it in parallel shows the previous screenshot, which looks like display lag.
@@ -344,10 +344,18 @@ Handoff notes for continuing in a new session:
 
 ### 20. Application ID and backup settings
 
-**Status:** Open
+**Status:** Done
 
 - The manifest still uses the Qt template ID `org.qtproject.example.strawberry`, and `android:allowBackup="true"` backs up the settings and database.
 - Changing the ID makes the app install separately from existing installations; this needs the owner's decision before changing it.
+
+**Resolved:**
+- The owner chose the fork-specific ID `nl.dewitweb.strawberryflavor`; the `package` attribute in `android/AndroidManifest.xml` sets it, and `androiddeployqt` uses it as the Gradle `androidPackageName` and application ID.
+  No code refers to the package name, and the FileProvider authority follows `${applicationId}`.
+- Backups stay enabled, so Android can restore the settings, collection database, and playlists on a new device.
+- The new ID starts with empty app data; the old app is not migrated and has to be uninstalled separately once the new one is set up.
+- The adb commands in the Android documents use the new ID.
+- The APK reports package `nl.dewitweb.strawberryflavor`; on the emulator it installed alongside the old app, `resolve-activity` found `QtActivity`, and it started with an empty collection without errors.
 
 ## Found during testing
 

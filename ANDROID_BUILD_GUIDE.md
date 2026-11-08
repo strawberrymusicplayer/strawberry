@@ -93,10 +93,10 @@ If you have an existing working APK, you can extract its prebuilt shared library
 
 ```bash
 # Pull APK from emulator
-adb shell pm path org.qtproject.example.strawberry
+adb shell pm path nl.dewitweb.strawberryflavor
 # Note the path returned: package:/data/app/...
 
-adb pull "/data/app/~~.../org.qtproject.example.strawberry-.../base.apk" strawberry-working.apk
+adb pull "/data/app/~~.../nl.dewitweb.strawberryflavor-.../base.apk" strawberry-working.apk
 
 # Extract libgstreamer_android.so
 unzip strawberry-working.apk "lib/arm64-v8a/libgstreamer_android.so"
@@ -232,7 +232,7 @@ adb devices
 adb install -r /tmp/strawberry-signed.apk
 
 # Launch app (the activity is org.qtproject.qt.android.bindings.QtActivity, not .MainActivity)
-adb shell monkey -p org.qtproject.example.strawberry 1
+adb shell monkey -p nl.dewitweb.strawberryflavor 1
 ```
 
 ### 4. View Application Logs

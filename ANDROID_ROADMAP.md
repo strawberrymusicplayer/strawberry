@@ -10,13 +10,12 @@ Status values: Planned, In progress, Done.
 Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
-1. **Item 18:** Review the Android changes for coding best practices.
-2. **Item 19:** Audit all app functionality for Android compatibility.
-3. The remaining open items: 13, 15, 16, 17, 12, 20, and finally 9 (physical-device verification, which needs a device).
+1. **Item 19:** Audit all app functionality for Android compatibility.
+2. The remaining open items: 13, 15, 16, 17, 12, 20, and finally 9 (physical-device verification, which needs a device).
 
 ## 18. Review the Android changes for coding best practices
 
-**Status:** In progress
+**Status:** Done (all 27 points in `ANDROID_CODE_REVIEW.md` resolved)
 
 **Goal:** Review every Android-related change in this fork, compared with upstream Strawberry, against coding best practices and identify where it can be improved.
 

@@ -99,7 +99,7 @@ cmake --build . -j 4
 adb install -r /tmp/strawberry-signed.apk
 
 # Launch the app
-adb shell monkey -p org.qtproject.example.strawberry 1
+adb shell monkey -p nl.dewitweb.strawberryflavor 1
 ```
 
 ### Get Logs

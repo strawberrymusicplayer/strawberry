@@ -117,7 +117,7 @@ cmake --build . --target strawberry_make_apk
 ```bash
 # Sign the APK first (see ANDROID_EMULATOR_TESTING.md), then:
 adb install -r /tmp/strawberry-signed.apk
-adb shell monkey -p org.qtproject.example.strawberry 1
+adb shell monkey -p nl.dewitweb.strawberryflavor 1
 ```
 
 ### View app logs

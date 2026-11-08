@@ -57,18 +57,18 @@ Install command complete in [time] ms
 
 ### 4. Launch the App
 
-The app package name is: **`org.qtproject.example.strawberry`**
+The app package name is: **`nl.dewitweb.strawberryflavor`**
 
 The simplest way to launch it is with monkey, which doesn't need the activity name:
 
 ```bash
-adb shell monkey -p org.qtproject.example.strawberry 1
+adb shell monkey -p nl.dewitweb.strawberryflavor 1
 ```
 
 `am start` also works, but only with Qt's activity class (there is no `.MainActivity`):
 
 ```bash
-adb shell am start -n org.qtproject.example.strawberry/org.qtproject.qt.android.bindings.QtActivity
+adb shell am start -n nl.dewitweb.strawberryflavor/org.qtproject.qt.android.bindings.QtActivity
 ```
 
 Then wait 20-30 seconds for the app to fully load and render the UI.
@@ -121,7 +121,7 @@ APK_SIGNED="/tmp/strawberry-signed.apk" && \
 ~/Android/Sdk/build-tools/35.0.0/zipalign -v 4 "$APK_INPUT" "$APK_ALIGNED" && \
 ~/Android/Sdk/build-tools/35.0.0/apksigner sign --ks ~/.android/debug.keystore --ks-pass pass:android --out "$APK_SIGNED" "$APK_ALIGNED" && \
 adb install -r "$APK_SIGNED" && \
-adb shell monkey -p org.qtproject.example.strawberry 1 && \
+adb shell monkey -p nl.dewitweb.strawberryflavor 1 && \
 sleep 30 && \
 adb shell screencap -p /sdcard/screenshot.png && \
 adb pull /sdcard/screenshot.png /tmp/strawberry-screenshot.png && \
@@ -143,12 +143,12 @@ Failure [INSTALL_PARSE_FAILED_NO_CERTIFICATES: Failed to collect certificates...
 
 **Problem:**
 ```
-Error: Activity class {org.qtproject.example.strawberry/.MainActivity} does not exist.
+Error: Activity class {nl.dewitweb.strawberryflavor/.MainActivity} does not exist.
 ```
 
 **Solution:** The app has no `MainActivity`; Qt's activity is `org.qtproject.qt.android.bindings.QtActivity`.
-Use `adb shell monkey -p org.qtproject.example.strawberry 1`, or `am start` with the full Qt activity name shown in step 4.
-`adb shell cmd package resolve-activity --brief org.qtproject.example.strawberry` prints the launchable activity.
+Use `adb shell monkey -p nl.dewitweb.strawberryflavor 1`, or `am start` with the full Qt activity name shown in step 4.
+`adb shell cmd package resolve-activity --brief nl.dewitweb.strawberryflavor` prints the launchable activity.
 
 ### Blank Screen After Launch
 

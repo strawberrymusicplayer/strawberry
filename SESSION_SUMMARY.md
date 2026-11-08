@@ -1,7 +1,7 @@
 # Strawberry Android Build Session - Summary
 
 > **Historical log.** Paths and launch commands below were expectations at the time and turned out to be wrong.
-> The APK is built unsigned at `build/android-build/build/outputs/apk/release/android-build-release-unsigned.apk` and the app is launched with `adb shell monkey -p org.qtproject.example.strawberry 1`.
+> The APK is built unsigned at `build/android-build/build/outputs/apk/release/android-build-release-unsigned.apk` and the app is launched with `adb shell monkey -p nl.dewitweb.strawberryflavor 1`.
 > See ANDROID_EMULATOR_TESTING.md for the current procedure.
 
 **Session Date:** October 31, 2026
@@ -241,7 +241,7 @@ build/android-strawberry/build/outputs/apk/debug/strawberry-debug.apk
 
 3. **Launch and test:**
    ```bash
-   adb shell am start -n org.qtproject.example.strawberry/.MainActivity
+   adb shell am start -n nl.dewitweb.strawberryflavor/.MainActivity
    ```
 
 4. **Verify feature:**

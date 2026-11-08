@@ -246,7 +246,7 @@ libgstreamer_android.so is incompatible with the Android version or NDK version 
 **Solution:**
 1. Try extracting prebuilt .so from a known working APK:
    ```bash
-   adb pull /data/app/org.qtproject.example.strawberry-*/base.apk old.apk
+   adb pull /data/app/nl.dewitweb.strawberryflavor-*/base.apk old.apk
    unzip old.apk "lib/arm64-v8a/libgstreamer_android.so"
    cp lib/arm64-v8a/libgstreamer_android.so ~/Android/gstreamer-1.28.8/arm64/lib/
    ```
@@ -260,7 +260,7 @@ libgstreamer_android.so is incompatible with the Android version or NDK version 
 **Error Message:**
 ```
 GStreamer library libgstcoreelements not found
-Unable to load plugin '/data/data/org.qtproject.example.strawberry/lib/libgstcoreelements.so'
+Unable to load plugin '/data/data/nl.dewitweb.strawberryflavor/lib/libgstcoreelements.so'
 ```
 
 **Root Cause:**
