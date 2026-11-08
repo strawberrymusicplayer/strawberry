@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -94,7 +94,8 @@ void RadioView::contextMenuEvent(QContextMenuEvent *e) {
     QObject::connect(action_donate_, &QAction::triggered, this, &RadioView::Donate);
     menu_->addAction(action_donate_);
 
-    menu_->addAction(IconLoader::Load(u"view-refresh"_s), tr("Refresh channels"), this, &RadioView::GetChannels);
+    // Get the channels from the services, like the refresh button, not only from the database.
+    menu_->addAction(IconLoader::Load(u"view-refresh"_s), tr("Refresh channels"), this, &RadioView::RefreshChannels);
   }
 
   const bool channels_selected = !selectedIndexes().isEmpty();
