@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -190,7 +190,9 @@ void AlbumCoverSearcher::Search() {
     ui_->covers->setEnabled(false);
   }
   else {
-    fetcher_->Clear();
+    // Only abort this search, the fetcher is also used for the automatic cover search of the playing song, and for fetching the missing covers in the cover manager.
+    fetcher_->Cancel(id_);
+    id_ = 0;
     ui_->search->setText(tr("Search"));
     ui_->busy->hide();
     ui_->search->setEnabled(true);

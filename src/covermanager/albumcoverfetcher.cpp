@@ -103,6 +103,19 @@ void AlbumCoverFetcher::AddRequest(const CoverSearchRequest &req) {
 
 }
 
+void AlbumCoverFetcher::Cancel(const quint64 request_id) {
+
+  queued_requests_.removeIf([request_id](const CoverSearchRequest &request) { return request.id == request_id; });
+
+  // The search is taken first, so it's not reported if cancelling it finishes it.
+  if (active_requests_.contains(request_id)) {
+    AlbumCoverFetcherSearch *search = active_requests_.take(request_id);
+    search->Cancel();
+    search->deleteLater();
+  }
+
+}
+
 void AlbumCoverFetcher::Clear() {
 
   queued_requests_.clear();
