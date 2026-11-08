@@ -82,6 +82,13 @@ cmake --build build --target utilities_test
 
 Test sources live in `tests/src/*_test.cpp` and are registered in `tests/CMakeLists.txt` via `add_test_file(<source> <gui_required>)`. The second argument links `test_gui_main` (needs a GUI/QApplication) vs `test_main`. To add a test, drop the file in `tests/src/` and add an `add_test_file(...)` line. `lyrics_live_tests` hits real network endpoints and is intentionally excluded from the default run.
 
+### Visual checks and screenshots
+
+Keep screenshots to a minimum when verifying UI changes on the Android emulator, the desktop, or in a browser.
+Check only the screens a change affects, and prefer `adb`, log output, or tests wherever they can confirm the result.
+Every screenshot stays in the session context; after many visual checks the requests grow too large and fail with `408 Timed out reading request body`.
+If that happens, start a new session; retrying in the same one keeps failing.
+
 ## Code Style
 
 `clang-format` config is in `.clang-format` (LLVM-based, customized). Run it on changed files before committing. Notable: comments use long lines, one sentence per line, no 80-column wrapping.
