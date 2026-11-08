@@ -59,6 +59,7 @@ class GstEnginePipeline : public QObject {
   Q_OBJECT
 
   friend class GstEnginePipelineTest;
+  friend class GstEngineTest;
 
  public:
   explicit GstEnginePipeline(QObject *parent = nullptr);
@@ -88,6 +89,8 @@ class GstEnginePipeline : public QObject {
   void set_bs2b_enabled(const bool enabled);
   void set_strict_ssl_enabled(const bool enabled);
   void set_fading_enabled(const bool enabled);
+  // The fading element is only created when building the pipeline, without it fading has no effect on the volume.
+  bool fading_enabled() const { return fading_enabled_; }
 #ifdef HAVE_SPOTIFY
   void set_spotify_access_token(const QString &spotify_access_token);
   void set_spotify_bitrate(const SpotifySettings::Bitrate spotify_bitrate);
