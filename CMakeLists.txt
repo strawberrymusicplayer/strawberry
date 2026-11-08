@@ -32,7 +32,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 if(ANDROID)
   # GStreamer_ROOT_DIR is the variable used by the GStreamer SDK's own CMake modules; ANDROID_GSTREAMER_ROOT is accepted from older build directories.
   if(NOT GStreamer_ROOT_DIR AND ANDROID_GSTREAMER_ROOT)
-    set(GStreamer_ROOT_DIR "${GStreamer_ROOT_DIR}" CACHE PATH "Android GStreamer SDK root")
+    set(GStreamer_ROOT_DIR "${ANDROID_GSTREAMER_ROOT}" CACHE PATH "Android GStreamer SDK root")
   elseif(NOT GStreamer_ROOT_DIR AND DEFINED ENV{GSTREAMER_ROOT_ANDROID})
     set(GStreamer_ROOT_DIR "$ENV{GSTREAMER_ROOT_ANDROID}" CACHE PATH "Android GStreamer SDK root")
   endif()
