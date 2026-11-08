@@ -518,6 +518,7 @@ void QobuzService::GetArtists() {
     return;
   }
 
+  ResetArtistsRequest();
   artists_request_.reset(new QobuzRequest(this, url_handler_, network_, QobuzBaseRequest::Type::FavouriteArtists));
   QObject::connect(&*artists_request_, &QobuzRequest::Results, this, &QobuzService::ArtistsResultsReceived);
   QObject::connect(&*artists_request_, &QobuzRequest::UpdateStatus, this, &QobuzService::ArtistsUpdateStatusReceived);
@@ -567,6 +568,7 @@ void QobuzService::GetAlbums() {
     return;
   }
 
+  ResetAlbumsRequest();
   albums_request_.reset(new QobuzRequest(this, url_handler_, network_, QobuzBaseRequest::Type::FavouriteAlbums));
   QObject::connect(&*albums_request_, &QobuzRequest::Results, this, &QobuzService::AlbumsResultsReceived);
   QObject::connect(&*albums_request_, &QobuzRequest::UpdateStatus, this, &QobuzService::AlbumsUpdateStatusReceived);
@@ -616,6 +618,7 @@ void QobuzService::GetSongs() {
     return;
   }
 
+  ResetSongsRequest();
   songs_request_.reset(new QobuzRequest(this, url_handler_, network_, QobuzBaseRequest::Type::FavouriteSongs));
   QObject::connect(&*songs_request_, &QobuzRequest::Results, this, &QobuzService::SongsResultsReceived);
   QObject::connect(&*songs_request_, &QobuzRequest::UpdateStatus, this, &QobuzService::SongsUpdateStatusReceived);
