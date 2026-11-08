@@ -191,7 +191,8 @@ QDebug operator<<(QDebug dbg, NSObject *object) {
     int keyCode = (([event data1] & 0xFFFF0000) >> 16);
     int keyFlags = ([event data1] & 0x0000FFFF);
     int keyIsReleased = (((keyFlags & 0xFF00) >> 8)) == 0xB;
-    if (keyIsReleased) {
+    // The handler is only set while the global shortcuts are registered.
+    if (keyIsReleased && shortcut_handler_) {
       shortcut_handler_->MacMediaKeyPressed(keyCode);
       return YES;
     }
