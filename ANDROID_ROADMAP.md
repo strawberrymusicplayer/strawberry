@@ -11,7 +11,7 @@ Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
 1. **Item 19:** Audit all app functionality for Android compatibility.
-2. The remaining open items: 13, 15, 16, 17, 12, 20, and finally 9 (physical-device verification, which needs a device).
+2. The remaining open items: 13, 15, 16, 17, 12, 20, 21, and finally 9 (physical-device verification, which needs a device).
 
 ## 18. Review the Android changes for coding best practices
 
@@ -585,3 +585,15 @@ Keep this visual update Android-only.
 - Follow the Android hierarchical navigation rules: a compact button on the parent page opens a full-page editor with move up and move down actions for each tab.
 - Store the order in the existing `tab_<name>` keys that `FancyTabWidget::SaveSettings()` and `LoadSettings()` already use, so the order stays compatible with desktop.
 - Keep edits pending until Apply or OK, and apply the new order to the sidebar without restarting.
+
+## 21. Remove the sidebar scroll arrows
+
+**Status:** Planned
+
+**Problem:** The Android sidebar still shows the tab bar's scroll arrow buttons when the tabs overflow, a leftover from before the sidebar could be scrolled by dragging.
+
+**Goal:** Remove the scroll arrows on Android, so dragging is the only way to scroll the sidebar.
+
+**Next steps:**
+- Disable the scroll buttons on Android (`FancyTabWidget` calls `setUsesScrollButtons(true)` for every platform); keep them on desktop.
+- Verify in landscape, where the tabs overflow, that the arrows are gone, the full height is used for tabs, and every tab can still be reached by dragging and tapped.
