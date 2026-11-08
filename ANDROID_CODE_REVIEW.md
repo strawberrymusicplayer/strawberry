@@ -10,8 +10,10 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: point 26 (found during testing), reproduced on the physical FP5 phone rather than the emulator (see its plan); the decision in point 20 is still open.
-  Points 1–19, 21–25, and 27 are done.
+- Next: only point 20 remains, which needs the owner's decision on the application ID and backups.
+  Points 1–19 and 21–27 are done.
+- On the FP5 phone (1224×2700), screenshots are shown at about 907×2000; multiply coordinates read from them by 1.35 for `adb shell input tap`.
+  The app on the phone is signed with the same debug keystore, so `adb install -r --user 0` keeps its data; the phone also has a work profile, so pass `--user 0`.
 - A physical phone may be connected over USB as well; set `ANDROID_SERIAL=emulator-5554` so `adb` commands only reach the emulator.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 4` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
@@ -428,7 +430,7 @@ Handoff notes for continuing in a new session:
 
 ### 26. Ignored first tab tap after a cold start
 
-**Status:** Open
+**Status:** Done
 
 - After a cold start, the first tap on the Settings tab does nothing; the next tap opens Settings.
   Tapping Tools first can also be ignored when tapped about 15 seconds after the launch, but works after 25 seconds.
@@ -446,6 +448,19 @@ Handoff notes for continuing in a new session:
   Target it with `ANDROID_SERIAL` set to the phone's serial from `adb devices -l` instead of `emulator-5554`, and install the same signed test APK there.
   Repeat cold starts with a single Settings (or Tools) tap at different delays after the window appears, and note which taps are ignored.
   If it reproduces, add temporary logging of the tab bar's touch and mouse events and the `CurrentTabChanged` calls to find where the first tap is lost, then fix it and remove the logging.
+
+**Resolved:**
+- Cause: the "Sponsoring Strawberry" message, shown at every start until "Do not show this message again" is ticked (it was not ticked on the emulator either).
+  It was a separate maximized window that appeared about 2 seconds after the main window on the FP5, and later on the slower emulator, so a tab tap in that time landed on the message instead.
+  After OK, the first tab tap always worked; the Settings tab code was not involved.
+- At the owner's choice, the message stays, but appears before the main window can be used instead of popping up over it.
+  On Android, `MessageDialog` is now a page covering its parent's window as a child widget, following the window's size, with Back and Escape closing it, like the `ActionDialog` pages from point 24.
+  `MainWindow`'s constructor disables updates on Android until it is complete, since `show()` paints the window at once there; the first frame is the finished window with the message on top, instead of a half-built window.
+- Temporary `__android_log_print` logging confirmed that the message is painted in the first frame after construction; it was removed afterwards.
+- The Android APK and the native desktop build succeed.
+  On the FP5, taps on the Tools tab every 0.2 seconds from the launch never reached the main window, OK closed the message with Collection still selected, and the next Tools tap selected Tools.
+  Back closed the message without leaving the app, and the message followed a rotation to landscape.
+- Android shows a snapshot of the task as the starting window after `am force-stop`, so a stale frame of an earlier build can appear briefly at launch; press Home once with the new build running to refresh it before judging startup frames.
 
 ### 27. Back in the playlist editor quits the app
 
