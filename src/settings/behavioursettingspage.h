@@ -47,6 +47,10 @@ class BehaviourSettingsPage : public SettingsPage {
   void ShowTrayIconToggled(const bool on);
 
  private:
+#ifdef Q_OS_ANDROID
+  void SetupAndroidLayout();
+#endif
+
   Ui_BehaviourSettingsPage *ui_;
   QMap<QString, QString> language_map_;
 };

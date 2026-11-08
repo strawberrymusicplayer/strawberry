@@ -10,7 +10,7 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: point 18 (evaluate the Behaviour page's separate Android adapter).
+- Next: point 19 (small playlist-document cleanups).
   Point 23 (moving Android blocks into `*_android.cpp` files) comes after points 10–19.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 5` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
@@ -260,10 +260,21 @@ Handoff notes for continuing in a new session:
 
 ### 18. Evaluate the Behaviour page's separate Android adapter
 
-**Status:** Open
+**Status:** Done
 
 - `BehaviourSettingsPage` has its own Android adaptation of about 130 lines alongside the shared `AndroidSettingsPage` adapter.
 - Fix: move the remaining page-specific parts onto the shared adapter where behavior stays identical; otherwise document why the page differs.
+
+**Resolved:**
+- The shared adapter would change what the page shows, so at the owner's request the page keeps its own layout:
+  - A group with one combo box shows its choices directly on its subpage and returns on selection; the adapter shows the combo box there and opens a second subpage with the choices.
+  - Summaries show only the values; the adapter shows "Title: value", at most three lines, and "x of y enabled" for check boxes.
+  - The double-tap group is replaced by an explanation of the Android behavior, the language label moves to the top, and the two double-click choice lists get headings.
+- The Android block moved from the constructor into `BehaviourSettingsPage::SetupAndroidLayout()`, which documents these differences; `SettingsDialog::AddPage()` refers to it where it skips the adapter.
+- The combo choice rows moved to the shared `AndroidWidgets::AddComboChoiceRows()`, which keeps the rows and the combo box in sync.
+- The unused includes added for Android are removed, and the Android-only includes are guarded.
+- The Android APK and the native desktop build succeed.
+  On the emulator, the Behavior page looks unchanged; choosing "Restart song" for Previous closed the subpage and updated the summary, Cancel restored the original choice, and Back returned without errors.
 
 ### 19. Small playlist-document cleanups
 

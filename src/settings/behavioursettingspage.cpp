@@ -31,35 +31,38 @@
 #include <QDir>
 #include <QLocale>
 #include <QSettings>
-#include <QVBoxLayout>
-#include <QButtonGroup>
-#include <QPushButton>
-#include <QWidget>
-#include <QPoint>
-#include <QRect>
 #include <QSystemTrayIcon>
 #include <QCheckBox>
 #include <QRadioButton>
 #include <QSpinBox>
 #include <QComboBox>
-#include <QAbstractItemView>
 #include <QGroupBox>
-#include <QLabel>
-#include <QBoxLayout>
-#include <QPalette>
-#include <QFont>
+
+#ifdef Q_OS_ANDROID
+#  include <QBoxLayout>
+#  include <QButtonGroup>
+#  include <QFont>
+#  include <QLabel>
+#  include <QPushButton>
+#  include <QVBoxLayout>
+#  include <QWidget>
+#endif
 
 #include "constants/behavioursettings.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "settings/settingspage.h"
-#include "settings/settingsdialog.h"
-#include "widgets/androidwidgets.h"
+#ifdef Q_OS_ANDROID
+#  include "settings/settingsdialog.h"
+#  include "widgets/androidwidgets.h"
+#endif
 #include "behavioursettingspage.h"
 #include "ui_behavioursettingspage.h"
 
 using namespace Qt::Literals::StringLiterals;
 using namespace BehaviourSettings;
+
+class SettingsDialog;
 
 #ifdef HAVE_TRANSLATIONS
 namespace {
@@ -153,6 +156,17 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
   ui_->combobox_doubleclickplaylistaddmode->setItemData(1, static_cast<int>(PlaylistAddBehaviour::Enqueue));
 
 #ifdef Q_OS_ANDROID
+  SetupAndroidLayout();
+#endif
+
+}
+
+#ifdef Q_OS_ANDROID
+// This page keeps its own Android layout instead of the shared AndroidSettingsPage adapter, which SettingsDialog::AddPage() skips for it.
+// It is the reference for the Android settings guidelines: each group's choices are on a single subpage, rather than behind another subpage per combo box.
+// Summaries show only the values, the double-tap group is replaced by an explanation of its Android behavior, and desktop-only options are hidden.
+void BehaviourSettingsPage::SetupAndroidLayout() {
+
   for (QLabel *label : findChildren<QLabel*>()) {
     label->setWordWrap(true);
   }
@@ -205,19 +219,9 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
         heading->setWordWrap(true);
         choices_layout->addWidget(heading);
       }
-      auto *choice_group = new QButtonGroup(choices);
-      for (int i = 0; i < combo->count(); ++i) {
-        QRadioButton *choice = AndroidWidgets::CreateChoiceRow(combo->itemText(i), choices);
-        choice_group->addButton(choice, i);
-        choice->setChecked(combo->currentIndex() == i);
-        QObject::connect(combo, &QComboBox::currentIndexChanged, choice, [choice, i](int index) {
-          choice->setChecked(index == i);
-        });
-        QObject::connect(choice, &QRadioButton::clicked, this, [this, combo, i, combos]() {
-          combo->setCurrentIndex(i);
-          if (combos.size() == 1) this->dialog()->CloseAndroidSubpage();
-        });
-        choices_layout->addWidget(choice);
+      QButtonGroup *choice_group = AndroidWidgets::AddComboChoiceRows(combo, choices_layout);
+      if (combos.size() == 1) {
+        QObject::connect(choice_group, &QButtonGroup::idClicked, this, [this]() { dialog()->CloseAndroidSubpage(); });
       }
       combo->hide();
       controls_layout->insertWidget(position, choices);
@@ -232,9 +236,7 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
       QObject::connect(radio, &QRadioButton::toggled, this, update_summary);
       if (combos.isEmpty()) {
         radio->setMinimumHeight(AndroidWidgets::kMinimumTouchSize);
-        QObject::connect(radio, &QRadioButton::clicked, this, [this]() {
-          this->dialog()->CloseAndroidSubpage();
-        });
+        QObject::connect(radio, &QRadioButton::clicked, this, [this]() { dialog()->CloseAndroidSubpage(); });
       }
     }
     for (QSpinBox *spin : spins) {
@@ -242,12 +244,12 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
     }
     update_summary();
     QObject::connect(button, &QPushButton::clicked, this, [this, group, title]() {
-      this->dialog()->OpenAndroidSubpage(group, title);
+      dialog()->OpenAndroidSubpage(group, title);
     });
   }
-#endif
 
 }
+#endif  // Q_OS_ANDROID
 
 BehaviourSettingsPage::~BehaviourSettingsPage() {
   delete ui_;

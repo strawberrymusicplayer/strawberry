@@ -449,6 +449,7 @@ QTreeWidgetItem *SettingsDialog::AddCategory(const QString &name) {
 void SettingsDialog::AddPage(const Page id, SettingsPage *page, QTreeWidgetItem *parent) {
 
 #ifdef Q_OS_ANDROID
+  // The Behaviour page sets up its own Android layout; see BehaviourSettingsPage::SetupAndroidLayout().
   if (id != Page::Behaviour) AndroidSettingsPage::Adapt(page);
 #endif
   if (!parent) parent = ui_->list->invisibleRootItem();

@@ -34,6 +34,8 @@
 
 class QAbstractButton;
 class QBoxLayout;
+class QButtonGroup;
+class QComboBox;
 class QHBoxLayout;
 class QLabel;
 class QRadioButton;
@@ -95,6 +97,10 @@ void StyleChoiceRow(QRadioButton *button, QLabel *label);
 
 // Creates a choice row whose wrapping label shows the text.
 QRadioButton *CreateChoiceRow(const QString &text, QWidget *parent);
+
+// Adds a choice row for each item of the combo box to the layout and keeps the checked row and the combo box's current index in sync.
+// The returned group's idClicked() reports the chosen index after the combo box has been updated.
+QButtonGroup *AddComboChoiceRows(QComboBox *combo, QBoxLayout *layout);
 
 void SetPageTitleFont(QWidget *widget);
 QPushButton *CreateBackButton(QWidget *parent);

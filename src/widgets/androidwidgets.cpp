@@ -20,6 +20,8 @@
 
 #include <QAbstractButton>
 #include <QBoxLayout>
+#include <QButtonGroup>
+#include <QComboBox>
 #include <QCoreApplication>
 #include <QFont>
 #include <QFrame>
@@ -179,6 +181,24 @@ QRadioButton *CreateChoiceRow(const QString &text, QWidget *parent) {
   layout->setContentsMargins(8, 8, 8, 8);
   StyleChoiceRow(choice, AddButtonLabel(layout, text));
   return choice;
+
+}
+
+QButtonGroup *AddComboChoiceRows(QComboBox *combo, QBoxLayout *layout) {
+
+  QButtonGroup *group = new QButtonGroup(layout->parentWidget());
+  for (int i = 0; i < combo->count(); ++i) {
+    QRadioButton *choice = CreateChoiceRow(combo->itemText(i), layout->parentWidget());
+    group->addButton(choice, i);
+    choice->setChecked(combo->currentIndex() == i);
+    layout->addWidget(choice);
+  }
+  QObject::connect(combo, &QComboBox::currentIndexChanged, group, [group](const int index) {
+    if (QAbstractButton *choice = group->button(index)) choice->setChecked(true);
+  });
+  // Connected first, so the combo box is updated before the caller's idClicked() handlers run.
+  QObject::connect(group, &QButtonGroup::idClicked, combo, &QComboBox::setCurrentIndex);
+  return group;
 
 }
 
