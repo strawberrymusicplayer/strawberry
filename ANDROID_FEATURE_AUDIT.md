@@ -11,7 +11,7 @@ Evidence: **Confirmed** means reproduced on the emulator; **Code** means derived
 
 - Enabled on Android: Subsonic, Tidal, Spotify, Qobuz, Plex, Jellyfin, Discord Rich Presence, moodbar, waveform, translations.
 - Disabled on Android: ALSA, PulseAudio, GIO, D-Bus, MPRIS2, UDisks2, KWallet, libsecret, Audio CD, MTP, iPod, Chromaprint, song tracking, tag fetcher, fast spectrum, EBU R128, global shortcuts, stream tag reader.
-- Statically linked GStreamer plugins: `coreelements typefindfunctions playback autodetect audioconvert audioresample volume equalizer audiofx replaygain opensles flac mpg123 opus vorbis wavparse id3demux isomp4 matroska`.
+- Statically linked GStreamer plugins at the time of the audit: `coreelements typefindfunctions playback autodetect audioconvert audioresample volume equalizer audiofx replaygain opensles flac mpg123 opus vorbis wavparse id3demux isomp4 matroska` (point 1 added `audioparsers ogg wavpack apetag`).
   The GStreamer 1.28.8 Android SDK also provides, among others, `audioparsers ogg soup icydemux hls apetag wavpack libav androidmedia spectrum app lame wavenc voaacenc`; there is no Spotify plugin.
 - Merged manifest permissions: `INTERNET`, `ACCESS_NETWORK_STATE`, `READ_MEDIA_AUDIO`, `READ_EXTERNAL_STORAGE` (API ≤ 32); there is no service, foreground-service permission, or media session.
 
@@ -20,8 +20,9 @@ Evidence: **Confirmed** means reproduced on the emulator; **Code** means derived
 | Area | Feature | Verdict | Point |
 |------|---------|---------|-------|
 | Playback | WAV files | Works (confirmed) | |
-| Playback | FLAC, MP3, Ogg Vorbis, Opus | Broken (confirmed) | 1 |
-| Playback | AAC/M4A, WMA, APE, Musepack, WavPack | Broken (code) | 1 |
+| Playback | FLAC, MP3, Ogg Vorbis, Opus, WavPack | Works since point 1 (confirmed) | 1 |
+| Playback | AAC/M4A, WMA, APE, Musepack | Broken (code) | 19 |
+| Files | Music files with extensions Android does not classify as audio (`.wv`, likely `.ape`, `.mpc`, `.dsf`) | Invisible (confirmed for `.wv`) | 20 |
 | Playback | Internet radio and HTTP streams | Broken (code) | 3 |
 | Playback | Playback with the screen off or the app in the background | Broken (confirmed) | 4 |
 | Playback | Lock-screen and notification controls, headset buttons, audio focus, unplugging headphones | Missing | 4 |
@@ -57,21 +58,19 @@ Evidence: **Confirmed** means reproduced on the emulator; **Code** means derived
 
 ### 1. Bundle the GStreamer plugins needed for common audio formats
 
-**Status:** Open
+**Status:** Done
 
 **Evidence:** Confirmed.
 Playing generated test files on the emulator: WAV plays; FLAC, MP3, Ogg Vorbis and Opus fail with GStreamer "Missing decoder" errors (`audio/x-flac`, `audio/mpeg`, `audio/ogg`).
 The tag reader does read these files, so they are added to the playlist and only fail when played.
 
 **Cause:**
-- `flacdec` and `mpg123audiodec` need parsed input from `flacparse` and `mpegaudioparse`, which are in the `audioparsers` plugin.
+- `flacdec`, `mpg123audiodec` and `wavpackdec` need framed input from `flacparse`, `mpegaudioparse` and `wavpackparse`, which are in the `audioparsers` plugin.
 - Ogg Vorbis and Opus files need the `ogg` demuxer.
-- `isomp4` only demuxes M4A; there is no AAC decoder.
-  WMA, APE, Musepack and WavPack have no decoder either.
 
-**Approach:** Add `audioparsers` and `ogg` to the `GStreamerMobile` component list in `CMakeLists.txt`.
-For AAC, choose between `androidmedia` (Android's hardware/system codecs, no extra size) and `libav` (broad format support, larger APK); `apetag` and `wavpack` are cheap additions.
-Verify each format on the emulator, plus gapless playback and crossfading between formats.
+**Resolved:** Added `audioparsers`, `ogg`, `wavpack` and `apetag` (APE tags in MP3 and WavPack files) to the Android `GStreamerMobile` component list in `CMakeLists.txt`.
+On the emulator, FLAC, MP3, Ogg Vorbis, Opus and WavPack now play without decoder errors, including automatic transitions between tracks of different formats.
+AAC and the remaining formats are point 19; WavPack files are only visible to the app under an audio file extension (point 20).
 
 ### 2. Bundle OpenSSL so Qt can use HTTPS
 
@@ -250,3 +249,25 @@ Without a keychain backend, passwords and tokens are stored in the app's private
 On Android this file is only readable by the app, except on rooted devices or through backups (`allowBackup="true"`).
 
 **Approach:** At least exclude the settings file from Android backups; storing secrets in the Android Keystore is optional.
+
+### 19. Decode AAC and the remaining formats
+
+**Status:** Open
+
+**Evidence:** Code.
+`isomp4` only demuxes M4A; there is no AAC decoder, and WMA, APE and Musepack have no decoder either.
+
+**Approach:** Choose a decoder plugin.
+`androidmedia` uses Android's system codecs and adds little size, but registers its decoders with primary rank, so it would also take over MP3, FLAC and Opus decoding unless the ranks are lowered at startup.
+`libav` covers AAC, ALAC, WMA, APE and Musepack with well-tested software decoders, but links all of FFmpeg's codecs and makes the APK considerably larger.
+
+### 20. Music files that Android does not classify as audio are invisible
+
+**Status:** Open
+
+**Evidence:** Confirmed.
+A WavPack file (`.wv`) in a chosen folder is not added to the playlist: MediaStore classifies it as `application/octet-stream`, and with `READ_MEDIA_AUDIO` the app can only access audio files through file paths.
+The same file renamed to `.wav` is classified as `audio/x-wav`, is added, and plays.
+This likely also affects other extensions Android does not know, such as `.ape`, `.mpc`, `.dsf` and `.dff`.
+
+**Approach:** Read such files through the content URIs of a picker-chosen folder, which grants access regardless of the MIME type, or document the limitation; decide together with point 9.
