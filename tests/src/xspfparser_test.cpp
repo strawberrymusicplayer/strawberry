@@ -25,6 +25,7 @@
 #include <QByteArray>
 #include <QDir>
 #include <QString>
+#include <QUrl>
 
 #include "core/song.h"
 #include "playlistparsers/xspfparser.h"
@@ -42,6 +43,13 @@ ParserBase::LoadResult LoadXSPF(QByteArray data) {
   QBuffer buffer(&data);
   if (!buffer.open(QIODevice::ReadOnly)) return ParserBase::LoadResult();
   return parser.Load(&buffer, QString(), QDir::temp(), false);
+
+}
+
+QUrl LoadImage(const QByteArray &image) {
+
+  const ParserBase::LoadResult result = LoadXSPF("<playlist version=\"1\" xmlns=\"http://xspf.org/ns/0/\"><trackList><track><location>http://example.com/one.mp3</location><image>" + image + "</image></track></trackList></playlist>");
+  return result.songs.size() == 1 ? result.songs[0].art_manual() : QUrl();
 
 }
 
@@ -93,6 +101,37 @@ TEST(XSPFParserTest, PlaylistTitleAfterTrackList) {
   const ParserBase::LoadResult result = LoadXSPF(data);
   EXPECT_EQ(u"My Playlist"_s, result.playlist_name);
   ASSERT_EQ(1, result.songs.size());
+
+}
+
+// Regression test: a local image was loaded as a URL without a scheme, so the cover was never loaded.
+TEST(XSPFParserTest, ImageWithAbsolutePathIsLocalFile) {
+
+  const QUrl url = LoadImage("/music/cover.jpg");
+  EXPECT_TRUE(url.isLocalFile());
+  EXPECT_EQ(u"/music/cover.jpg"_s, url.toLocalFile());
+
+}
+
+// Images are saved relative to the playlist, depending on the playlist path setting.
+TEST(XSPFParserTest, ImageWithRelativePathIsResolvedFromPlaylist) {
+
+  EXPECT_EQ(QUrl::fromLocalFile(QDir::temp().absoluteFilePath(u"covers/cover.jpg"_s)), LoadImage("covers/cover.jpg"));
+  EXPECT_EQ(QUrl::fromLocalFile(QDir::cleanPath(QDir::temp().absoluteFilePath(u"../cover.jpg"_s))), LoadImage("../cover.jpg"));
+
+}
+
+// Saved filenames are percent encoded.
+TEST(XSPFParserTest, ImageFilenameIsDecoded) {
+
+  EXPECT_EQ(u"/music/a%b.jpg"_s, LoadImage("/music/a%25b.jpg").toLocalFile());
+
+}
+
+TEST(XSPFParserTest, ImageWithSchemeIsKept) {
+
+  EXPECT_EQ(QUrl(u"https://example.com/cover.jpg"_s), LoadImage("https://example.com/cover.jpg"));
+  EXPECT_EQ(QUrl(u"file:///music/cover.jpg"_s), LoadImage("file:///music/cover.jpg"));
 
 }
 
