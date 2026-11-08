@@ -56,8 +56,6 @@
 #include <QCloseEvent>
 #ifdef Q_OS_ANDROID
 #  include <QAction>
-#  include <QBackingStore>
-#  include <QEvent>
 #  include <QKeyEvent>
 #  include <QRadioButton>
 #  include <QScrollBar>
@@ -331,21 +329,6 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 SettingsDialog::~SettingsDialog() {
   delete ui_;
 }
-
-#ifdef Q_OS_ANDROID
-bool SettingsDialog::event(QEvent *event) {
-
-  const bool handled = QDialog::event(event);
-  if (event->type() == QEvent::UpdateRequest && isVisible()) {
-    if (QBackingStore *store = backingStore()) {
-      // Qt's Android RHI backing store scales partial flush regions twice on high-DPI screens.
-      store->flush(rect());
-    }
-  }
-  return handled;
-
-}
-#endif
 
 void SettingsDialog::showEvent(QShowEvent *e) {
 
@@ -775,9 +758,6 @@ void SettingsDialog::SetAndroidNavigationPage(QWidget *page) {
       page_widget->show();
     }
   }
-  page->repaint();
-  android_navigation_->repaint();
-  repaint();
 
 }
 

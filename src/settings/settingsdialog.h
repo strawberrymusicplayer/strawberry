@@ -121,7 +121,6 @@ class SettingsDialog : public QDialog {
 
  protected:
 #ifdef Q_OS_ANDROID
-  bool event(QEvent *event) override;
   void keyPressEvent(QKeyEvent *event) override;
 #endif
   void showEvent(QShowEvent *e) override;
