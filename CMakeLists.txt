@@ -691,6 +691,7 @@ set(SOURCES
   src/playlist/songplaylistitem.cpp
   src/playlist/streamplaylistitem.cpp
   src/playlist/playlistitemmimedata.cpp
+  src/playlist/playlistrowsmimedata.cpp
   src/playlist/playlistlistcontainer.cpp
   src/playlist/playlistlistmodel.cpp
   src/playlist/playlistlistsortfiltermodel.cpp
@@ -1024,6 +1025,7 @@ set(HEADERS
   src/playlist/playlistview.h
   src/playlist/playlistproxystyle.h
   src/playlist/playlistitemmimedata.h
+  src/playlist/playlistrowsmimedata.h
   src/playlist/songloaderinserter.h
   src/playlist/dynamicplaylistcontrols.h
 
