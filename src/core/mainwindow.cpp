@@ -1809,7 +1809,8 @@ void MainWindow::PlayIndex(const QModelIndex &idx, Playlist::AutoScroll autoscro
   }
 
   app_->playlist_manager()->SetActiveToCurrent();
-  app_->player()->PlayAt(row, false, 0, EngineBase::TrackChangeType::Manual, autoscroll, true);
+  // Playing the current song again is a new play, also for the scrobblers, like when double clicking it.
+  app_->player()->PlayAt(row, false, 0, EngineBase::TrackChangeType::Manual, autoscroll, true, true);
 
 }
 
