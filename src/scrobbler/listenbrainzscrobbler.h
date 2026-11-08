@@ -120,6 +120,8 @@ class ListenBrainzScrobbler : public ScrobblerService {
   QString client_secret_;
   bool api_credentials_initialized_;
   QString user_token_;
+  // The server rejected the user token, nothing is sent until the settings are reloaded, for example after the user token was changed.
+  bool user_token_rejected_;
   bool submitted_;
   Song song_playing_;
   bool scrobbled_;
