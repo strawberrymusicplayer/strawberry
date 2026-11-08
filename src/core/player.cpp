@@ -1044,6 +1044,9 @@ void Player::TogglePrettyOSD() {
 
 void Player::TrackAboutToEnd() {
 
+  // Playback stops when this track ended, so let it play to the end, without crossfading into the next track or preloading it.
+  if (playlist_manager_->active()->stop_after_current()) return;
+
   const bool has_next_row = playlist_manager_->active()->next_row() != -1;
   PlaylistItemPtr next_item;
 
