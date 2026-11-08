@@ -10,7 +10,7 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: point 23 (moving Android blocks into `*_android.cpp` files), continuing with `settingsdialog.cpp`; `mainwindow.cpp` and `playlistview.cpp` are done.
+- Next: point 23 (moving Android blocks into `*_android.cpp` files), continuing with `equalizer.cpp`; `mainwindow.cpp`, `playlistview.cpp`, and `settingsdialog.cpp` are done.
   Points 24, 25, and 26 (found during testing) and the decision in point 20 are still open.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 4` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
@@ -322,6 +322,12 @@ Handoff notes for continuing in a new session:
   The short guards with an early return (mouse move and release, event filter) and the one-line calls stay in place; `playlistview.cpp` keeps only the long-press handler include.
   The Android APK, the native desktop build, and the native playlist, long-press, and tab widget tests succeed.
   On the emulator, a playlist shows the portrait columns, and long-pressing a song in Now playing opened the song actions; Remove song removed it with Undo available.
+- `settingsdialog.cpp`: done.
+  The navigation setup from the constructor moved to `SetupAndroidNavigation()` in `src/settings/settingsdialog_android.cpp`, together with the Android-only functions (`OpenOverview()`, `AddAndroidHelpCategory()`, the subpage functions, `keyPressEvent()`, `AndroidBack()`, `SetAndroidNavigationPage()`, and `SetAndroidTitle()`), unchanged.
+  The short guards in `OpenAtPage()`, `showEvent()`, `accept()`, `reject()`, `LoadGeometry()`, `AddPage()`, and `CurrentItemChanged()` stay in place.
+  The includes only the moved code used are removed, and the Android headers that remain are guarded.
+  The Android APK, the native desktop build, and the native playlist, long-press, and tab widget tests succeed.
+  On the emulator, Settings > General > Behavior and its Previous subpage show the right breadcrumbs, and hardware Back returned one level at a time to the overview and then to the previous tab.
 
 ## Needs a decision
 

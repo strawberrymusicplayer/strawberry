@@ -161,6 +161,8 @@ class SettingsDialog : public QDialog {
   bool loading_settings_;
   QMap<Page, PageData> pages_;
 #ifdef Q_OS_ANDROID
+  // Implemented in settingsdialog_android.cpp.
+  void SetupAndroidNavigation();
   void SetAndroidNavigationPage(QWidget *page);
   void AndroidBack();
   void SetAndroidTitle(const QString &category = QString(), const QString &page = QString(), const QString &subpage = QString());
