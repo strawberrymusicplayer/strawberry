@@ -19,7 +19,7 @@ Qt Creator build configs already exist under `build/Qt_Sys-{Release,RelWithDebIn
 
 Useful CMake options: `-DBUILD_WERROR=ON`, `-DENABLE_DEBUG_OUTPUT=ON`.
 
-On this development machine, build with at most four parallel jobs (`--parallel 4`), for the Android APK and the native build alike, instead of `$(nproc)`.
+On this development machine, build with at most two parallel jobs (`--parallel 2`), for the Android APK and the native build alike, instead of `$(nproc)`.
 
 ### Separate native test build
 

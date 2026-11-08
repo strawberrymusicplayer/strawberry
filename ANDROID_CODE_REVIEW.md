@@ -15,7 +15,7 @@ Handoff notes for continuing in a new session:
 - On the FP5 phone (1224×2700), screenshots are shown at about 907×2000; multiply coordinates read from them by 1.35 for `adb shell input tap`.
   The app on the phone is signed with the same debug keystore, so `adb install -r --user 0` keeps its data; the phone also has a work profile, so pass `--user 0`.
 - A physical phone may be connected over USB as well; set `ANDROID_SERIAL=emulator-5554` so `adb` commands only reach the emulator.
-- Build Android with `cmake --build build --target strawberry_make_apk --parallel 4` (the plain `all` target can race in the APK copy step).
+- Build Android with `cmake --build build --target strawberry_make_apk --parallel 2` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
 - Deploy: zipalign and sign with the debug keystore, `adb install -r`, launch with `adb shell monkey -p nl.dewitweb.strawberryflavor 1` (see `ANDROID_EMULATOR_TESTING.md`).
 - Start the emulator with `~/Android/Sdk/emulator/emulator -avd Medium_Phone_API_36.1 -no-snapshot-load -no-boot-anim -memory 4096 -gpu host -crash-report-mode never -no-metrics`; `-gpu swiftshader_indirect` is too slow, and a pending crash-report dialog blocks booting.
