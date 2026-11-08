@@ -1160,6 +1160,11 @@ MainWindow::MainWindow(Application *app,
   // Reload playlist settings, for BG and glowing
   ui_->playlist->view()->ReloadSettings();
 
+#ifdef Q_OS_ANDROID
+  // On Android, showing the window paints it at once; paint it only when it is complete, so that a startup message is part of the first frame and taps cannot reach the window before it appears.
+  setUpdatesEnabled(false);
+#endif
+
 #ifdef Q_OS_MACOS  // Always show the mainwindow on startup for macOS
   show();
 #else
@@ -1285,6 +1290,10 @@ MainWindow::MainWindow(Application *app,
       }
     }
   }
+
+#ifdef Q_OS_ANDROID
+  setUpdatesEnabled(true);
+#endif
 
   qLog(Debug) << "Started" << QThread::currentThread();
   initialized_ = true;
