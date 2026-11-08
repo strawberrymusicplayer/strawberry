@@ -25,6 +25,7 @@
 #include <QDir>
 #include <QByteArray>
 #include <QString>
+#include <QRegularExpression>
 #include <QUrl>
 #include <QSettings>
 #include <QXmlStreamReader>
@@ -153,7 +154,11 @@ return_song:
     if (!title.isEmpty()) song.set_title(title);
     if (!artist.isEmpty()) song.set_artist(artist);
     if (!album.isEmpty()) song.set_album(album);
-    if (!art.isEmpty()) song.set_art_manual(QUrl(art));
+    if (!art.isEmpty()) {
+      // Local images are saved as filenames, which can be relative to the playlist, and a URL without a scheme is never loaded.
+      static const QRegularExpression regex_url_schema(u"^[a-z]{2,}:"_s, QRegularExpression::CaseInsensitiveOption);
+      song.set_art_manual(art.contains(regex_url_schema) ? QUrl(art) : QUrl::fromLocalFile(QDir::cleanPath(dir.absoluteFilePath(art))));
+    }
     if (nanosec > 0) song.set_length_nanosec(nanosec);
     if (track_num > 0) song.set_track(track_num);
   }
