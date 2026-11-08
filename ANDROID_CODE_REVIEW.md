@@ -10,7 +10,7 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: point 23 (moving Android blocks into `*_android.cpp` files), continuing with `playlistview.cpp`; `mainwindow.cpp` is done.
+- Next: point 23 (moving Android blocks into `*_android.cpp` files), continuing with `settingsdialog.cpp`; `mainwindow.cpp` and `playlistview.cpp` are done.
   Points 24, 25, and 26 (found during testing) and the decision in point 20 are still open.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 4` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
@@ -316,6 +316,12 @@ Handoff notes for continuing in a new session:
   The short `#else` branches (file pickers, sidebar, double-click handling, status bar) stay in place.
   The Android APK, the native desktop build, and the native playlist, long-press, and tab widget tests succeed.
   On the emulator, the layout, the Tools page, and the Settings tab (overview with Help, Back returning to the previous tab) work as before.
+- `playlistview.cpp`: done.
+  `UpdatePortraitColumns()`, `ShowAndroidSongActions()`, and `CancelAndroidSongActions()` moved unchanged to `src/playlist/playlistview_android.cpp`.
+  The long-press setup from the constructor, the model connections from `setModel()`, and the long-press start from `mousePressEvent()` moved there as `SetupAndroidLongPress()`, `DisconnectAndroidSongActions()`, `ConnectAndroidSongActions()`, and `PressAndroidLongPress()`.
+  The short guards with an early return (mouse move and release, event filter) and the one-line calls stay in place; `playlistview.cpp` keeps only the long-press handler include.
+  The Android APK, the native desktop build, and the native playlist, long-press, and tab widget tests succeed.
+  On the emulator, a playlist shows the portrait columns, and long-pressing a song in Now playing opened the song actions; Remove song removed it with Undo available.
 
 ## Needs a decision
 

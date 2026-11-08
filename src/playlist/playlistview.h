@@ -192,6 +192,11 @@ class PlaylistView : public QTreeView {
   void LoadHeaderState();
   void RestoreHeaderState();
 #ifdef Q_OS_ANDROID
+  // Implemented in playlistview_android.cpp.
+  void SetupAndroidLongPress();
+  void PressAndroidLongPress(const QMouseEvent *event);
+  void DisconnectAndroidSongActions();
+  void ConnectAndroidSongActions();
   void UpdatePortraitColumns();
   void ShowAndroidSongActions(const QPoint position);
   void CancelAndroidSongActions();
