@@ -14,6 +14,7 @@ Evidence: **Confirmed** means reproduced on the emulator; **Code** means derived
 - Statically linked GStreamer plugins at the time of the audit: `coreelements typefindfunctions playback autodetect audioconvert audioresample volume equalizer audiofx replaygain opensles flac mpg123 opus vorbis wavparse id3demux isomp4 matroska` (point 1 added `audioparsers ogg wavpack apetag`, point 19 added `androidmedia`).
   The GStreamer 1.28.8 Android SDK also provides, among others, `audioparsers ogg soup icydemux hls apetag wavpack libav androidmedia spectrum app lame wavenc voaacenc`; there is no Spotify plugin.
 - Merged manifest permissions: `INTERNET`, `ACCESS_NETWORK_STATE`, `READ_MEDIA_AUDIO`, `READ_EXTERNAL_STORAGE` (API ≤ 32); there is no service, foreground-service permission, or media session.
+- Shared OpenSSL libraries for Qt's TLS backend: none at the time of the audit; bundled from KDAB `android_openssl` since point 2.
 
 ## Feature inventory
 
@@ -30,10 +31,10 @@ Evidence: **Confirmed** means reproduced on the emulator; **Code** means derived
 | Playback | Volume, mute, seek, equalizer, ReplayGain, stereo balance | Works (equalizer and mute verified earlier) | |
 | Playback | Gapless playback, crossfade, fading, buffer settings | Works (code); verify after point 1 | |
 | Playback | Output and device selection, EBU R128 options in Backend settings | Needs review | 15 |
-| Network | All HTTPS requests from Qt (radio lists, covers, lyrics, scrobbling, streaming APIs) | Broken (confirmed) | 2 |
+| Network | All HTTPS requests from Qt (radio lists, covers, lyrics, scrobbling, streaming APIs) | Works since point 2 (radio lists confirmed) | 2 |
 | Network | OAuth logins (Tidal, Qobuz, Spotify, Last.fm, ListenBrainz, cover providers) | Needs verification | 14 |
 | Network | Spotify playback | Not possible (no plugin) | 13 |
-| Network | Subsonic, Plex, Jellyfin | Blocked by points 2 and 3 | 2, 3 |
+| Network | Subsonic, Plex, Jellyfin | Blocked by point 3 | 3 |
 | Network | Discord Rich Presence | Not applicable | 12 |
 | Collection | Adding folders, scanning, browsing, filters, grouping | Works | |
 | Collection | Automatic rescans when files change | Needs verification | 17 |
@@ -47,7 +48,7 @@ Evidence: **Confirmed** means reproduced on the emulator; **Code** means derived
 | Other views | Context menus in Radios, Smart playlists, Devices, Context, and Playlists list | Unreachable on touch | 5 |
 | UI | Error dialog | Broken layout (confirmed) | 6 |
 | UI | On-screen display popup | Needs change (confirmed) | 7 |
-| Tools | Cover manager, Equalizer | Works (cover downloads blocked by point 2) | |
+| Tools | Cover manager, Equalizer | Works | |
 | Tools | Transcoder | Broken (no encoders) | 10 |
 | Devices | Devices tab | Not applicable | 11 |
 | Visuals | Analyzer | Hidden on Android | |
@@ -75,7 +76,7 @@ AAC and the remaining formats are point 19; WavPack files are only visible to th
 
 ### 2. Bundle OpenSSL so Qt can use HTTPS
 
-**Status:** Open
+**Status:** Done
 
 **Evidence:** Confirmed.
 The emulator has internet access, but refreshing SomaFM and Radio Paradise (both HTTPS APIs) loads no channels.
@@ -84,6 +85,11 @@ The APK contains Qt's `libplugins_tls_qopensslbackend`, which loads `libssl`/`li
 **Impact:** Every HTTPS request made through Qt fails: radio channel lists, Radio Browser, cover providers, lyrics providers, scrobblers, and the Subsonic, Tidal, Qobuz, Spotify, Plex and Jellyfin APIs.
 
 **Approach:** Bundle the OpenSSL 3 libraries for Android (KDAB `android_openssl`, as recommended by Qt) through `QT_ANDROID_EXTRA_LIBS` on the strawberry target, then verify radio lists, cover search and lyrics on the emulator.
+
+**Resolved:** `CMakeLists.txt` adds `libcrypto_3.so` and `libssl_3.so` from a KDAB `android_openssl` checkout (`ANDROID_OPENSSL_ROOT`, OpenSSL 3.1.8) to `QT_ANDROID_EXTRA_LIBS`, and warns when they are missing; the build guides describe the sparse checkout.
+KDAB's `android_openssl.cmake` helper is not used, because it would replace the static `OpenSSL::Crypto` from the GStreamer SDK that Strawberry itself links.
+On the emulator, Qt loads both libraries and refreshing the radio channels now loads the SomaFM and Radio Paradise lists, without TLS errors in the log.
+Covers, lyrics and the streaming services use the same Qt network stack and are verified with their own points (3, 14).
 
 ### 3. Support HTTP and HTTPS streams in GStreamer
 
