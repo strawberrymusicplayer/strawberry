@@ -434,6 +434,14 @@ Handoff notes for continuing in a new session:
   Tapping Tools first can also be ignored when tapped about 15 seconds after the launch, but works after 25 seconds.
 - Found while testing point 23; the APK from point 16 behaves the same in a side-by-side check (cold start, wait 25 seconds, one tap), so it is not caused by moving the code.
 - Likely causes to check: the lazy creation of `SettingsDialog` on the first `OpenSettingsDialog()` call returning to the previous tab, or touches arriving while startup work still blocks the event loop.
+- Findings so far (while working on points 25 and 27):
+  - On a freshly booted emulator, the first install and launch took about 45 seconds to show the window; a Settings tap just after that was ignored, and the next tap worked.
+  - After a later cold start with a 40-second wait, the first Settings tap opened Settings at once.
+    The problem therefore depends on timing and is most likely tied to startup work, not to the Settings tab code.
+  - The release APK has no application logging in `logcat`, and `uiautomator dump` does not show the Qt widgets, so each attempt has to be checked from a screenshot.
+    A pixel check of the selected tab can replace viewing the image, but it must first confirm that the main window is drawn (not the splash screen or launcher).
+  - Repeated `am force-stop` and cold-start cycles crash the emulator's host GPU emulation (`null ctx`, segmentation fault) after a few runs.
+    Reproduce this on the phone instead, or with a debug build that logs the tab bar's mouse and touch events and the `CurrentTabChanged` calls.
 
 ### 27. Back in the playlist editor quits the app
 
