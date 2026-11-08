@@ -140,11 +140,7 @@ void DiscordRichPresence::SendPresenceUpdate() {
   presence.instance = false;
 
   if (!activity_.artist.isEmpty()) {
-    QString artist = activity_.artist;
-    if (artist.length() < 2) {  // Discord activity 2 char min. fix
-      artist.append(" "_L1);
-    }
-    presence.state = artist;
+    presence.state = activity_.artist;
   }
 
   if (!activity_.album.isEmpty()) {
