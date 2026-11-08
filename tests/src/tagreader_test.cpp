@@ -48,6 +48,12 @@
 #include <taglib/id3v2tag.h>
 #include <taglib/id3v2header.h>
 #include <taglib/popularimeterframe.h>
+#include <taglib/textidentificationframe.h>
+#include <taglib/flacfile.h>
+#include <taglib/xiphcomment.h>
+#include <taglib/wavpackfile.h>
+#include <taglib/apetag.h>
+#include <taglib/apeitem.h>
 
 #include "core/logging.h"
 #include "core/song.h"
@@ -3406,6 +3412,146 @@ TEST_F(TagReaderTest, TestAbortReadsKeepsWrites) {
   EXPECT_FALSE(read_reply->finished());
   EXPECT_TRUE(playcount_reply->finished());
   EXPECT_TRUE(playcount_reply->success());
+
+}
+
+// The track and disc totals are not stored in the song, saving the tags keeps them.
+TEST_F(TagReaderTest, TestMP3AudioFileSaveKeepsTrackAndDiscTotals) {
+
+  TemporaryResource r(u":/audio/strawberry.mp3"_s);
+
+  {
+    TagLib::MPEG::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    TagLib::ID3v2::Tag *tag = file.ID3v2Tag(true);
+    tag->removeFrames("TRCK");
+    tag->removeFrames("TPOS");
+    TagLib::ID3v2::TextIdentificationFrame *track_frame = new TagLib::ID3v2::TextIdentificationFrame("TRCK", TagLib::String::UTF8);
+    track_frame->setText("3/12");
+    tag->addFrame(track_frame);
+    TagLib::ID3v2::TextIdentificationFrame *disc_frame = new TagLib::ID3v2::TextIdentificationFrame("TPOS", TagLib::String::UTF8);
+    disc_frame->setText("1/2");
+    tag->addFrame(disc_frame);
+    ASSERT_TRUE(file.save());
+  }
+
+  Song song;
+  song.set_track(4);
+  song.set_disc(2);
+  ASSERT_TRUE(WriteSongToFile(song, r.fileName()).success());
+
+  {
+    TagLib::MPEG::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    TagLib::ID3v2::Tag *tag = file.ID3v2Tag();
+    ASSERT_TRUE(tag);
+    ASSERT_FALSE(tag->frameList("TRCK").isEmpty());
+    ASSERT_FALSE(tag->frameList("TPOS").isEmpty());
+    EXPECT_EQ(TagLib::String("4/12"), tag->frameList("TRCK").front()->toString());
+    EXPECT_EQ(TagLib::String("2/2"), tag->frameList("TPOS").front()->toString());
+  }
+
+  const Song song_read = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(4, song_read.track());
+  EXPECT_EQ(2, song_read.disc());
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileSaveKeepsTrackAndDiscTotals) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+
+  {
+    TagLib::FLAC::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    TagLib::Ogg::XiphComment *vorbis_comment = file.xiphComment(true);
+    vorbis_comment->addField("TRACKNUMBER", "3/12", true);
+    vorbis_comment->addField("DISCNUMBER", "1/2", true);
+    ASSERT_TRUE(file.save());
+  }
+
+  Song song;
+  song.set_track(4);
+  song.set_disc(2);
+  ASSERT_TRUE(WriteSongToFile(song, r.fileName()).success());
+
+  {
+    TagLib::FLAC::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    const TagLib::Ogg::FieldListMap fields = file.xiphComment()->fieldListMap();
+    EXPECT_EQ(TagLib::StringList("4/12"), fields["TRACKNUMBER"]);
+    EXPECT_EQ(TagLib::StringList("2/2"), fields["DISCNUMBER"]);
+  }
+
+  const Song song_read = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(4, song_read.track());
+  EXPECT_EQ(2, song_read.disc());
+
+}
+
+TEST_F(TagReaderTest, TestWavPackAudioFileSaveKeepsTrackAndDiscTotals) {
+
+  TemporaryResource r(u":/audio/strawberry.wv"_s);
+
+  {
+    TagLib::WavPack::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    TagLib::APE::Tag *tag = file.APETag(true);
+    tag->addValue("TRACK", "3/12", true);
+    tag->addValue("DISC", "1/2", true);
+    ASSERT_TRUE(file.save());
+  }
+
+  Song song;
+  song.set_track(4);
+  song.set_disc(2);
+  ASSERT_TRUE(WriteSongToFile(song, r.fileName()).success());
+
+  {
+    TagLib::WavPack::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    const TagLib::APE::ItemListMap items = file.APETag()->itemListMap();
+    EXPECT_EQ(TagLib::String("4/12"), items["TRACK"].toString());
+    EXPECT_EQ(TagLib::String("2/2"), items["DISC"].toString());
+  }
+
+  const Song song_read = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(4, song_read.track());
+  EXPECT_EQ(2, song_read.disc());
+
+}
+
+TEST_F(TagReaderTest, TestM4AAudioFileSaveKeepsTrackAndDiscTotals) {
+
+  TemporaryResource r(u":/audio/strawberry.m4a"_s);
+
+  {
+    TagLib::MP4::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    file.tag()->setItem("trkn", TagLib::MP4::Item(3, 12));
+    file.tag()->setItem("disk", TagLib::MP4::Item(1, 2));
+    ASSERT_TRUE(file.save());
+  }
+
+  Song song;
+  song.set_track(4);
+  song.set_disc(2);
+  ASSERT_TRUE(WriteSongToFile(song, r.fileName()).success());
+
+  {
+    TagLib::MP4::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    const TagLib::MP4::Item::IntPair track = file.tag()->item("trkn").toIntPair();
+    const TagLib::MP4::Item::IntPair disc = file.tag()->item("disk").toIntPair();
+    EXPECT_EQ(4, track.first);
+    EXPECT_EQ(12, track.second);
+    EXPECT_EQ(2, disc.first);
+    EXPECT_EQ(2, disc.second);
+  }
+
+  const Song song_read = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(4, song_read.track());
+  EXPECT_EQ(2, song_read.disc());
 
 }
 

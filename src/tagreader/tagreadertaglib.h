@@ -99,7 +99,8 @@ class TagReaderTagLib : public TagReaderBase {
   void ParseASFTags(TagLib::ASF::Tag *tag, QString *disc, QString *compilation, Song *song) const;
   void ParseASFAttribute(const TagLib::ASF::AttributeListMap &attributes_map, const char *attribute, QString *str) const;
 
-  bool SetID3v2Tag(TagLib::ID3v2::Tag *tag, const Song &song) const;
+  // The previous track number is the track number before Tag::setTrack(), to keep the total.
+  bool SetID3v2Tag(TagLib::ID3v2::Tag *tag, const Song &song, const QString &previous_track) const;
   void SetTextFrame(const char *id, const QString &value, TagLib::ID3v2::Tag *tag) const;
   void SetUserTextFrame(const QString &description, const QString &value, TagLib::ID3v2::Tag *tag) const;
   void SetUnsyncLyricsFrame(const QString &value, TagLib::ID3v2::Tag *tag) const;
@@ -112,8 +113,8 @@ class TagReaderTagLib : public TagReaderBase {
   static QString SynchedTextToLRC(const TagLib::ID3v2::SynchronizedLyricsFrame::SynchedTextList &synched_text);
   static std::optional<TagLib::ID3v2::SynchronizedLyricsFrame::SynchedTextList> LRCToSynchedText(const QString &lrc);
 
-  void SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment, const Song &song) const;
-  void SetAPETag(TagLib::APE::Tag *tag, const Song &song) const;
+  void SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment, const Song &song, const QString &previous_track) const;
+  void SetAPETag(TagLib::APE::Tag *tag, const Song &song, const QString &previous_track) const;
   void SetASFTag(TagLib::ASF::Tag *tag, const Song &song) const;
   void SetAsfAttribute(TagLib::ASF::Tag *tag, const char *attribute, const QString &value) const;
   void SetAsfAttribute(TagLib::ASF::Tag *tag, const char *attribute, const int value) const;

@@ -128,6 +128,7 @@ constexpr char kID3v2_AlbumArtistSort[] = "TSO2";
 constexpr char kID3v2_AlbumSort[] = "TSOA";
 constexpr char kID3v2_ArtistSort[] = "TSOP";
 constexpr char kID3v2_TitleSort[] = "TSOT";
+constexpr char kID3v2_Track[] = "TRCK";
 constexpr char kID3v2_Disc[] = "TPOS";
 constexpr char kID3v2_Composer[] = "TCOM";
 constexpr char kID3v2_ComposerSort[] = "TSOC";
@@ -174,6 +175,7 @@ constexpr char kVorbisComment_Grouping1[] = "GROUPING";
 constexpr char kVorbisComment_Grouping2[] = "CONTENT GROUP";
 constexpr char kVorbisComment_OriginalYear1[] = "ORIGINALDATE";
 constexpr char kVorbisComment_OriginalYear2[] = "ORIGINALYEAR";
+constexpr char kVorbisComment_Track[] = "TRACKNUMBER";
 constexpr char kVorbisComment_Disc[] = "DISCNUMBER";
 constexpr char kVorbisComment_Compilation[] = "COMPILATION";
 constexpr char kVorbisComment_CoverArt[] = "COVERART";
@@ -204,6 +206,7 @@ constexpr char kMP4_AlbumArtist[] = "aART";
 constexpr char kMP4_Composer[] = "\251wrt";
 constexpr char kMP4_Grouping[] = "\251grp";
 constexpr char kMP4_Lyrics[] = "\251lyr";
+constexpr char kMP4_Track[] = "trkn";
 constexpr char kMP4_Disc[] = "disk";
 constexpr char kMP4_Compilation[] = "cpil";
 constexpr char kMP4_CoverArt[] = "covr";
@@ -228,6 +231,7 @@ constexpr char kAPE_AlbumArtist[] = "ALBUM ARTIST";
 constexpr char kAPE_Composer[] = "COMPOSER";
 constexpr char kAPE_Performer[] = "PERFORMER";
 constexpr char kAPE_Grouping[] = "GROUPING";
+constexpr char kAPE_Track[] = "TRACK";
 constexpr char kAPE_Disc[] = "DISC";
 constexpr char kAPE_Compilation[] = "COMPILATION";
 constexpr char kAPE_CoverArt[] = "COVER ART (FRONT)";
@@ -269,6 +273,28 @@ constexpr char kASF_MusicBrainz_TrackId[] = "MusicBrainz/Release Track Id";
 constexpr char kASF_MusicBrainz_DiscId[] = "MusicBrainz/Disc Id";
 constexpr char kASF_MusicBrainz_ReleaseGroupId[] = "MusicBrainz/Release Group Id";
 constexpr char kASF_MusicBrainz_WorkId[] = "MusicBrainz/Work Id";
+
+// Returns the total of a track or disc number with a total, like "12" for "3/12", or an empty string when there's no total.
+QString NumberTotal(const QString &value) {
+
+  const qsizetype separator = value.indexOf(u'/');
+  if (separator == -1) return QString();
+
+  return value.mid(separator + 1).trimmed();
+
+}
+
+// Returns the track or disc number with the total of the previous value, since the total is not stored in the song, so saving the tags doesn't remove it.
+QString NumberWithTotal(const int number, const QString &previous_value) {
+
+  if (number <= 0) return QString();
+
+  const QString total = NumberTotal(previous_value);
+  if (total.isEmpty()) return QString::number(number);
+
+  return QString::number(number) + u'/' + total;
+
+}
 
 }  // namespace
 
@@ -1199,9 +1225,16 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     return TagReaderResult::ErrorCode::FileOpenError;
   }
 
+  // The track number with the total, which Tag::setTrack() removes, the total is written again with the track number for the tags which have it.
+  QString previous_track;
   if (save_tags) {
     // FileRef::tag() can return nullptr for files that open but have no tag container.
     if (TagLib::Tag *tag = fileref->tag()) {
+      // The properties of the file, not of the tag, which with TagLib 1 is not format aware for the tag of FileRef and only has the track number without the total.
+      const TagLib::PropertyMap properties = fileref->file()->properties();
+      if (properties.contains("TRACKNUMBER") && !properties["TRACKNUMBER"].isEmpty()) {
+        previous_track = TagLibStringToQString(properties["TRACKNUMBER"].front());
+      }
       tag->setTitle(song.title().isEmpty() ? TagLib::String() : QStringToTagLibString(song.title()));
       tag->setArtist(song.artist().isEmpty() ? TagLib::String() : QStringToTagLibString(song.artist()));
       tag->setAlbum(song.album().isEmpty() ? TagLib::String() : QStringToTagLibString(song.album()));
@@ -1218,7 +1251,7 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     TagLib::Ogg::XiphComment *vorbis_comment = file_flac->xiphComment(true);
     if (vorbis_comment) {
       if (save_tags) {
-        SetVorbisComments(vorbis_comment, song);
+        SetVorbisComments(vorbis_comment, song, previous_track);
       }
       if (save_playcount) {
         SetPlaycount(vorbis_comment, song.playcount());
@@ -1236,7 +1269,7 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     TagLib::APE::Tag *tag = file_wavpack->APETag(true);
     if (tag) {
       if (save_tags) {
-        SetAPETag(tag, song);
+        SetAPETag(tag, song, previous_track);
       }
       if (save_playcount) {
         SetPlaycount(tag, song.playcount());
@@ -1251,7 +1284,7 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     TagLib::APE::Tag *tag = file_ape->APETag(true);
     if (tag) {
       if (save_tags) {
-        SetAPETag(tag, song);
+        SetAPETag(tag, song, previous_track);
       }
       if (save_playcount) {
         SetPlaycount(tag, song.playcount());
@@ -1266,7 +1299,7 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     TagLib::APE::Tag *tag = file_mpc->APETag(true);
     if (tag) {
       if (save_tags) {
-        SetAPETag(tag, song);
+        SetAPETag(tag, song, previous_track);
       }
       if (save_playcount) {
         SetPlaycount(tag, song.playcount());
@@ -1280,7 +1313,7 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
   else if (TagLib::MPEG::File *file_mpeg = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
     TagLib::ID3v2::Tag *tag = file_mpeg->ID3v2Tag(true);
     if (tag) {
-      if (save_tags && !SetID3v2Tag(tag, song)) {
+      if (save_tags && !SetID3v2Tag(tag, song, previous_track)) {
         return TagReaderResult(TagReaderResult::ErrorCode::CustomError, QObject::tr("Synchronized lyrics are not valid LRC"));
       }
       if (save_playcount) {
@@ -1299,7 +1332,10 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     TagLib::MP4::Tag *tag = file_mp4->tag();
     if (tag) {
       if (save_tags) {
-        tag->setItem(kMP4_Disc, TagLib::MP4::Item(song.disc() <= 0 ? 0 : song.disc(), 0));
+        if (song.track() > 0) {
+          tag->setItem(kMP4_Track, TagLib::MP4::Item(song.track(), NumberTotal(previous_track).toInt()));
+        }
+        tag->setItem(kMP4_Disc, TagLib::MP4::Item(song.disc() <= 0 ? 0 : song.disc(), song.disc() <= 0 || !tag->item(kMP4_Disc).isValid() ? 0 : tag->item(kMP4_Disc).toIntPair().second));
         tag->setItem(kMP4_Composer, TagLib::StringList(QStringToTagLibString(song.composer())));
         tag->setItem(kMP4_Grouping, TagLib::StringList(QStringToTagLibString(song.grouping())));
         // Lyrics stored elsewhere are not written to the tags.
@@ -1327,7 +1363,7 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
   else if (TagLib::RIFF::WAV::File *file_wav = dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) {
     TagLib::ID3v2::Tag *tag = file_wav->ID3v2Tag();
     if (tag) {
-      if (save_tags && !SetID3v2Tag(tag, song)) {
+      if (save_tags && !SetID3v2Tag(tag, song, previous_track)) {
         return TagReaderResult(TagReaderResult::ErrorCode::CustomError, QObject::tr("Synchronized lyrics are not valid LRC"));
       }
       if (save_playcount) {
@@ -1345,7 +1381,7 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
   else if (TagLib::RIFF::AIFF::File *file_aiff = dynamic_cast<TagLib::RIFF::AIFF::File*>(fileref->file())) {
     TagLib::ID3v2::Tag *tag = file_aiff->tag();
     if (tag) {
-      if (save_tags && !SetID3v2Tag(tag, song)) {
+      if (save_tags && !SetID3v2Tag(tag, song, previous_track)) {
         return TagReaderResult(TagReaderResult::ErrorCode::CustomError, QObject::tr("Synchronized lyrics are not valid LRC"));
       }
       if (save_playcount) {
@@ -1381,7 +1417,7 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     if (TagLib::Ogg::XiphComment *vorbis_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
       if (vorbis_comment) {
         if (save_tags) {
-          SetVorbisComments(vorbis_comment, song);
+          SetVorbisComments(vorbis_comment, song, previous_track);
         }
         if (save_playcount) {
           SetPlaycount(vorbis_comment, song.playcount());
@@ -1410,9 +1446,11 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
 
 }
 
-bool TagReaderTagLib::SetID3v2Tag(TagLib::ID3v2::Tag *tag, const Song &song) const {
+bool TagReaderTagLib::SetID3v2Tag(TagLib::ID3v2::Tag *tag, const Song &song, const QString &previous_track) const {
 
-  SetTextFrame(kID3v2_Disc, song.disc() <= 0 ? QString() : QString::number(song.disc()), tag);
+  SetTextFrame(kID3v2_Track, NumberWithTotal(song.track(), previous_track), tag);
+  const TagLib::ID3v2::FrameList disc_frames = tag->frameList(kID3v2_Disc);
+  SetTextFrame(kID3v2_Disc, NumberWithTotal(song.disc(), disc_frames.isEmpty() ? QString() : TagLibStringToQString(disc_frames.front()->toString())), tag);
   SetTextFrame(kID3v2_Composer, song.composer().isEmpty() ? QString() : song.composer(), tag);
   SetTextFrame(kID3v2_ComposerSort, song.composersort().isEmpty() ? QString() : song.composersort(), tag);
   SetTextFrame(kID3v2_Grouping, song.grouping().isEmpty() ? QString() : song.grouping(), tag);
@@ -1646,14 +1684,18 @@ std::optional<TagLib::ID3v2::SynchronizedLyricsFrame::SynchedTextList> TagReader
 
 }
 
-void TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment, const Song &song) const {
+void TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment, const Song &song, const QString &previous_track) const {
+
+  const TagLib::Ogg::FieldListMap fields = vorbis_comment->fieldListMap();
+  const QString previous_disc = fields.contains(kVorbisComment_Disc) && !fields[kVorbisComment_Disc].isEmpty() ? TagLibStringToQString(fields[kVorbisComment_Disc].front()) : QString();
 
   vorbis_comment->addField(kVorbisComment_Composer, QStringToTagLibString(song.composer()), true);
   vorbis_comment->addField(kVorbisComment_ComposerSort, QStringToTagLibString(song.composersort()), true);
   vorbis_comment->addField(kVorbisComment_Performer, QStringToTagLibString(song.performer()), true);
   vorbis_comment->addField(kVorbisComment_PerformerSort, QStringToTagLibString(song.performersort()), true);
   vorbis_comment->addField(kVorbisComment_Grouping1, QStringToTagLibString(song.grouping()), true);
-  vorbis_comment->addField(kVorbisComment_Disc, QStringToTagLibString(song.disc() <= 0 ? QString() : QString::number(song.disc())), true);
+  vorbis_comment->addField(kVorbisComment_Track, QStringToTagLibString(NumberWithTotal(song.track(), previous_track)), true);
+  vorbis_comment->addField(kVorbisComment_Disc, QStringToTagLibString(NumberWithTotal(song.disc(), previous_disc)), true);
   vorbis_comment->addField(kVorbisComment_Compilation, QStringToTagLibString(song.compilation() ? u"1"_s : QString()), true);
 
   // Try to be coherent, the two forms are used but the first one is preferred
@@ -1678,10 +1720,14 @@ void TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment
 
 }
 
-void TagReaderTagLib::SetAPETag(TagLib::APE::Tag *tag, const Song &song) const {
+void TagReaderTagLib::SetAPETag(TagLib::APE::Tag *tag, const Song &song, const QString &previous_track) const {
+
+  const TagLib::APE::ItemListMap items = tag->itemListMap();
+  const QString previous_disc = items.contains(kAPE_Disc) ? TagLibStringToQString(items[kAPE_Disc].toString()) : QString();
 
   tag->setItem(kAPE_AlbumArtist, TagLib::APE::Item(kAPE_AlbumArtist, TagLib::StringList(QStringToTagLibString(song.albumartist()))));
-  tag->addValue(kAPE_Disc, QStringToTagLibString(song.disc() <= 0 ? QString() : QString::number(song.disc())), true);
+  tag->addValue(kAPE_Track, QStringToTagLibString(NumberWithTotal(song.track(), previous_track)), true);
+  tag->addValue(kAPE_Disc, QStringToTagLibString(NumberWithTotal(song.disc(), previous_disc)), true);
   tag->setItem(kAPE_Composer, TagLib::APE::Item(kAPE_Composer, TagLib::StringList(QStringToTagLibString(song.composer()))));
   tag->setItem(kAPE_Grouping, TagLib::APE::Item(kAPE_Grouping, TagLib::StringList(QStringToTagLibString(song.grouping()))));
   tag->setItem(kAPE_Performer, TagLib::APE::Item(kAPE_Performer, TagLib::StringList(QStringToTagLibString(song.performer()))));
