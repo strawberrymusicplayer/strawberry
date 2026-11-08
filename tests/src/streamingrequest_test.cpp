@@ -26,12 +26,14 @@
 
 #include <QObject>
 #include <QList>
+#include <QPointer>
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
 #include <QTimer>
 #include <QSignalSpy>
+#include <QTest>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -57,6 +59,11 @@
 #  include "qobuz/qobuzservice.h"
 #  include "qobuz/qobuzurlhandler.h"
 #  include "qobuz/qobuzrequest.h"
+#endif
+
+#ifdef HAVE_SPOTIFY
+#  include "constants/spotifysettings.h"
+#  include "spotify/spotifyservice.h"
 #endif
 
 using std::make_shared;
@@ -132,22 +139,122 @@ class FakeEmptyPageNetworkAccessManager : public NetworkAccessManager {
   }
 };
 
+// A reply which is finished by the test.
+class ControlledNetworkReply : public QNetworkReply {
+ public:
+  explicit ControlledNetworkReply(const QNetworkRequest &network_request, QObject *parent = nullptr) : QNetworkReply(parent), pos_(0) {
+    setRequest(network_request);
+    setUrl(network_request.url());
+    setOperation(QNetworkAccessManager::GetOperation);
+    open(QIODevice::ReadOnly | QIODevice::Unbuffered);
+  }
+
+  void abort() override {
+    if (isFinished()) return;
+    setError(QNetworkReply::OperationCanceledError, u"Operation canceled"_s);
+    setFinished(true);
+    Q_EMIT finished();
+  }
+
+  void Finish(const QByteArray &data) {
+    if (isFinished()) return;
+    data_ = data;
+    setAttribute(QNetworkRequest::HttpStatusCodeAttribute, 200);
+    setFinished(true);
+    Q_EMIT finished();
+  }
+
+  qint64 bytesAvailable() const override { return data_.size() - pos_ + QNetworkReply::bytesAvailable(); }
+
+ protected:
+  qint64 readData(char *data, const qint64 maxlen) override {
+    const qint64 len = qMin(maxlen, data_.size() - pos_);
+    if (len <= 0) return -1;
+    memcpy(data, data_.constData() + pos_, static_cast<size_t>(len));
+    pos_ += len;
+    return len;
+  }
+
+ private:
+  QByteArray data_;
+  qint64 pos_;
+};
+
+// Keeps the favourite songs requests open until the test finishes them.
+class FakeRefreshNetworkAccessManager : public NetworkAccessManager {
+ public:
+  QString songs_path;
+  QByteArray empty_page;
+  QList<QPointer<ControlledNetworkReply>> songs_replies;
+
+ protected:
+  QNetworkReply *createRequest(const Operation op, const QNetworkRequest &network_request, QIODevice *outgoing_data) override {
+
+    Q_UNUSED(op)
+    Q_UNUSED(outgoing_data)
+
+    if (!network_request.url().path().endsWith(songs_path)) {
+      return new FakeNetworkReply(network_request, "{}", this);
+    }
+
+    ControlledNetworkReply *reply = new ControlledNetworkReply(network_request, this);
+    songs_replies << reply;
+    return reply;
+
+  }
+};
+
+// Starts a favourite songs refresh, and when its request is sent, aborts it if abort is set, and starts a new refresh.
+// The reply of the first refresh is received before the event loop deletes the first request, like when it's received together with pressing abort and refresh.
+// Returns the errors of the results reported, the first reply is missing values, so its results have an error with "missing".
+template<typename T>
+QStringList RefreshAgain(T *service, const FakeRefreshNetworkAccessManager *network, const bool abort) {
+
+  QSignalSpy spy(service, &T::SongsResults);
+  service->GetSongs();
+  EXPECT_TRUE(QTest::qWaitFor([network]() { return network->songs_replies.count() == 1; }, 5000));
+  if (network->songs_replies.count() != 1) return QStringList();
+
+  if (abort) service->ResetSongsRequest();
+  service->GetSongs();
+  if (network->songs_replies.first()) network->songs_replies.first()->Finish(R"({"unexpected": true})");
+
+  // The new refresh sends its request and gets an empty page.
+  if (QTest::qWaitFor([network]() { return network->songs_replies.count() == 2; }, 3000)) {
+    if (network->songs_replies.last()) network->songs_replies.last()->Finish(network->empty_page);
+  }
+  spy.wait(3000);
+  // Results reported after the first are also received.
+  QTest::qWait(300);
+
+  QStringList errors;
+  for (const QList<QVariant> &arguments : std::as_const(spy)) {
+    errors << arguments.value(1).toString();
+  }
+  return errors;
+
+}
+
 #ifdef HAVE_TIDAL
+
+void SetFakeTidalSession() {
+
+  Settings s;
+  s.remove(QLatin1String(TidalSettings::kSettingsGroup));
+  s.beginGroup(QLatin1String(TidalSettings::kSettingsGroup));
+  s.setValue(QLatin1String(TidalSettings::kUseCustomClientId), true);
+  s.setValue(QLatin1String(TidalSettings::kClientId), u"client_id"_s);
+  s.setValue(u"token_type"_s, u"Bearer"_s);
+  s.setValue(u"access_token"_s, u"token"_s);
+  s.setValue(u"user_id"_s, 1);
+  s.endGroup();
+
+}
 
 // Regression test: an empty page didn't move the offset, so the same page was requested again, forever when the total counts songs which are not returned.
 TEST(StreamingRequestTest, TidalEmptyPageIsNotRequestedAgain) {
 
-  {
-    Settings s;
-    s.remove(QLatin1String(TidalSettings::kSettingsGroup));
-    s.beginGroup(QLatin1String(TidalSettings::kSettingsGroup));
-    s.setValue(QLatin1String(TidalSettings::kUseCustomClientId), true);
-    s.setValue(QLatin1String(TidalSettings::kClientId), u"client_id"_s);
-    s.setValue(u"token_type"_s, u"Bearer"_s);
-    s.setValue(u"access_token"_s, u"token"_s);
-    s.setValue(u"user_id"_s, 1);
-    s.endGroup();
-  }
+  SetFakeTidalSession();
 
   SharedPtr<TaskManager> task_manager = make_shared<TaskManager>();
   SharedPtr<MemoryDatabase> database = make_shared<MemoryDatabase>(task_manager);
@@ -176,22 +283,46 @@ TEST(StreamingRequestTest, TidalEmptyPageIsNotRequestedAgain) {
 
 }
 
+// Regression test: the aborted refresh was deleted later, but not disconnected, so its results were reported when its reply was received, and the new refresh was reset.
+TEST(StreamingRequestTest, TidalAbortedRefreshIsNotReported) {
+
+  SetFakeTidalSession();
+
+  SharedPtr<TaskManager> task_manager = make_shared<TaskManager>();
+  SharedPtr<MemoryDatabase> database = make_shared<MemoryDatabase>(task_manager);
+  SharedPtr<FakeRefreshNetworkAccessManager> network = make_shared<FakeRefreshNetworkAccessManager>();
+  network->songs_path = u"/favorites/tracks"_s;
+  network->empty_page = R"({"limit": 100, "offset": 0, "totalNumberOfItems": 0, "items": []})";
+
+  TidalService service(task_manager, database, network, make_shared<UrlHandlers>(), nullptr);
+  ASSERT_TRUE(service.authenticated());
+
+  const QStringList errors = RefreshAgain(&service, &*network, true);
+  ASSERT_EQ(1, errors.count()) << errors.join(u", "_s).toStdString();
+  EXPECT_FALSE(errors.first().contains(u"missing"_s)) << errors.first().toStdString();
+
+}
+
 #endif  // HAVE_TIDAL
 
 #ifdef HAVE_QOBUZ
 
+void SetFakeQobuzSession() {
+
+  Settings s;
+  s.remove(QLatin1String(QobuzSettings::kSettingsGroup));
+  s.beginGroup(QLatin1String(QobuzSettings::kSettingsGroup));
+  s.setValue(QLatin1String(QobuzSettings::kAppId), u"app_id"_s);
+  s.setValue(QLatin1String(QobuzSettings::kAppSecret), u"app_secret"_s);
+  s.setValue(QLatin1String(QobuzSettings::kUserAuthToken), u"token"_s);
+  s.endGroup();
+
+}
+
 // Regression test: an empty page didn't move the offset, so the same page was requested again, forever when the total counts songs which are not returned.
 TEST(StreamingRequestTest, QobuzEmptyPageIsNotRequestedAgain) {
 
-  {
-    Settings s;
-    s.remove(QLatin1String(QobuzSettings::kSettingsGroup));
-    s.beginGroup(QLatin1String(QobuzSettings::kSettingsGroup));
-    s.setValue(QLatin1String(QobuzSettings::kAppId), u"app_id"_s);
-    s.setValue(QLatin1String(QobuzSettings::kAppSecret), u"app_secret"_s);
-    s.setValue(QLatin1String(QobuzSettings::kUserAuthToken), u"token"_s);
-    s.endGroup();
-  }
+  SetFakeQobuzSession();
 
   SharedPtr<TaskManager> task_manager = make_shared<TaskManager>();
   SharedPtr<MemoryDatabase> database = make_shared<MemoryDatabase>(task_manager);
@@ -222,6 +353,66 @@ TEST(StreamingRequestTest, QobuzEmptyPageIsNotRequestedAgain) {
 
 }
 
+// Regression test: the aborted refresh was not disconnected when a new refresh replaced it, so its results were reported when its reply was received, and the new refresh was reset.
+TEST(StreamingRequestTest, QobuzAbortedRefreshIsNotReported) {
+
+  SetFakeQobuzSession();
+
+  SharedPtr<TaskManager> task_manager = make_shared<TaskManager>();
+  SharedPtr<MemoryDatabase> database = make_shared<MemoryDatabase>(task_manager);
+  SharedPtr<FakeRefreshNetworkAccessManager> network = make_shared<FakeRefreshNetworkAccessManager>();
+  network->songs_path = u"/favorite/getUserFavorites"_s;
+  network->empty_page = R"({"tracks": {"limit": 100, "offset": 0, "total": 0, "items": []}})";
+
+  QobuzService service(task_manager, database, network, make_shared<UrlHandlers>(), nullptr);
+  ASSERT_TRUE(service.authenticated());
+
+  // Starting a new refresh while the first is running replaces it, without aborting it first.
+  const QStringList errors = RefreshAgain(&service, &*network, false);
+  ASSERT_EQ(1, errors.count()) << errors.join(u", "_s).toStdString();
+  EXPECT_FALSE(errors.first().contains(u"missing"_s)) << errors.first().toStdString();
+
+}
+
 #endif  // HAVE_QOBUZ
+
+#ifdef HAVE_SPOTIFY
+
+// The session is cleared without client credentials, so custom credentials are set, then the test doesn't depend on the credentials compiled in.
+void SetFakeSpotifySession() {
+
+  Settings s;
+  s.remove(QLatin1String(SpotifySettings::kSettingsGroup));
+  s.beginGroup(QLatin1String(SpotifySettings::kSettingsGroup));
+  s.setValue(QLatin1String(SpotifySettings::kUseCustomApiCredentials), true);
+  s.setValue(QLatin1String(SpotifySettings::kClientId), u"client_id"_s);
+  s.setValue(QLatin1String(SpotifySettings::kClientSecret), u"client_secret"_s);
+  s.setValue(u"token_type"_s, u"Bearer"_s);
+  s.setValue(u"access_token"_s, u"token"_s);
+  s.endGroup();
+
+}
+
+// Regression test: the aborted refresh was deleted later, but not disconnected, so its results were reported when its reply was received, and the new refresh was reset.
+TEST(StreamingRequestTest, SpotifyAbortedRefreshIsNotReported) {
+
+  SetFakeSpotifySession();
+
+  SharedPtr<TaskManager> task_manager = make_shared<TaskManager>();
+  SharedPtr<MemoryDatabase> database = make_shared<MemoryDatabase>(task_manager);
+  SharedPtr<FakeRefreshNetworkAccessManager> network = make_shared<FakeRefreshNetworkAccessManager>();
+  network->songs_path = u"/me/tracks"_s;
+  network->empty_page = R"({"limit": 50, "offset": 0, "total": 0, "items": []})";
+
+  SpotifyService service(task_manager, database, network, nullptr);
+  ASSERT_TRUE(service.authenticated());
+
+  const QStringList errors = RefreshAgain(&service, &*network, true);
+  ASSERT_EQ(1, errors.count()) << errors.join(u", "_s).toStdString();
+  EXPECT_FALSE(errors.first().contains(u"missing"_s)) << errors.first().toStdString();
+
+}
+
+#endif  // HAVE_SPOTIFY
 
 }  // namespace
