@@ -154,6 +154,7 @@ class PlaylistManager : public PlaylistManagerInterface {
 
  private Q_SLOTS:
   void OneOfPlaylistsChanged();
+  void OneOfPlaylistsQueueChanged();
   void UpdateSummaryText();
   void UpdateCollectionSongs(const SongList &songs);
   void ItemsLoadedForSavePlaylist(const QString &playlist_name, const SongList &songs, const QString &filename, const PlaylistSettings::PathType path_type);

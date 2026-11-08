@@ -2651,4 +2651,23 @@ TEST_F(PlaylistTest, QueueDropAfterRowsChangedQueuesDraggedSong) {
 
 }
 
+// Regression test: only removing tracks from the queue was notified, so adding or moving them didn't update the next and previous track for MPRIS.
+TEST_F(PlaylistTest, QueueChangesAreNotified) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"A"_s) << MakeMockItemP(u"B"_s));
+  QSignalSpy spy(&playlist_, &Playlist::QueueChanged);
+
+  playlist_.queue()->ToggleTracks(QModelIndexList() << playlist_.index(0, 0) << playlist_.index(1, 0));
+  EXPECT_GE(spy.count(), 1);
+
+  spy.clear();
+  playlist_.queue()->MoveUp(1);
+  EXPECT_GE(spy.count(), 1);
+
+  spy.clear();
+  playlist_.queue()->Clear();
+  EXPECT_GE(spy.count(), 1);
+
+}
+
 }  // namespace

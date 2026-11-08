@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -120,6 +120,7 @@ class PlaylistManagerInterface : public QObject {
   void PlaylistFavorited(const int id, const bool favorite);
   void CurrentChanged(Playlist *new_playlist, const int scroll_position = 0);
   void ActiveChanged(Playlist *new_playlist);
+  void QueueChanged(Playlist *playlist);
 
   void Error(const QString &message);
   void SummaryTextChanged(const QString &summary);

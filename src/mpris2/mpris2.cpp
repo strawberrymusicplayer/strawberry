@@ -149,6 +149,7 @@ Mpris2::Mpris2(const SharedPtr<Player> player,
   QObject::connect(&*playlist_manager_, &PlaylistManager::AllPlaylistsLoaded, this, &Mpris2::AllPlaylistsLoaded);
   QObject::connect(&*playlist_manager_, &PlaylistManager::CurrentSongChanged, this, &Mpris2::CurrentSongChanged);
   QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistChanged, this, &Mpris2::PlaylistChangedSlot);
+  QObject::connect(&*playlist_manager_, &PlaylistManager::QueueChanged, this, &Mpris2::PlaylistQueueChanged);
   QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistAdded, this, &Mpris2::PlaylistCollectionChanged);
   QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistClosed, this, &Mpris2::PlaylistCollectionChanged);
   QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistDeleted, this, &Mpris2::PlaylistCollectionChanged);
@@ -938,6 +939,15 @@ void Mpris2::PlaylistChangedSlot(Playlist *playlist) {
 
   // Songs are added, removed or reordered, so songs can be played, or there can be a next or previous song now.
   // This is for all changes, the items added and removed signals are only sent for some, and the queue and album shuffle are updated after the songs are added, so notify when control returns to the event loop.
+  if (playlist == playlist_manager_->active()) {
+    QueueCapabilitiesNotification();
+  }
+
+}
+
+void Mpris2::PlaylistQueueChanged(Playlist *playlist) {
+
+  // A queued song is played next, so the queue decides if there is a next or previous song.
   if (playlist == playlist_manager_->active()) {
     QueueCapabilitiesNotification();
   }

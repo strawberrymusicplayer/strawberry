@@ -2771,6 +2771,8 @@ void Playlist::TracksEnqueued(const QModelIndex &parent_idx, const int begin, co
     Q_EMIT dataChanged(idx, idx);
   }
 
+  Q_EMIT QueueChanged();
+
 }
 
 void Playlist::QueueLayoutChanged() {
@@ -2779,6 +2781,8 @@ void Playlist::QueueLayoutChanged() {
     const QModelIndex idx = queue_->mapToSource(queue_->index(i, static_cast<int>(Column::Title)));
     Q_EMIT dataChanged(idx, idx);
   }
+
+  Q_EMIT QueueChanged();
 
 }
 

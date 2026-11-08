@@ -241,6 +241,7 @@ class Mpris2 : public QObject {
   void ShuffleModeChanged();
   void RepeatModeChanged();
   void PlaylistChangedSlot(Playlist *playlist);
+  void PlaylistQueueChanged(Playlist *playlist);
   void PlaylistCollectionChanged();
   void ActivePlaylistChanged(Playlist *playlist);
   void QueueActivePlaylistNotification();
