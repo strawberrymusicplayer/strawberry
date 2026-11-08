@@ -208,7 +208,9 @@ Playlist::Playlist(const SharedPtr<TaskManager> task_manager,
       auto_sort_(false),
       is_sorted_(false),
       sort_column_(Column::Title),
-      sort_order_(Qt::AscendingOrder) {
+      sort_order_(Qt::AscendingOrder),
+      closed_(false),
+      save_generation_(0) {
 
   undo_stack_->setUndoLimit(kUndoStackSize);
 
@@ -2028,6 +2030,12 @@ void Playlist::ScheduleSaveItem(const PlaylistItemPtr &item) {
 
 }
 
+bool Playlist::has_pending_save() const {
+
+  return timer_save_->isActive();
+
+}
+
 void Playlist::SavePending() {
 
   if (!timer_save_->isActive()) return;
@@ -2044,6 +2052,8 @@ void Playlist::Save() {
   // Saving the playlist replaces the saved items, so saving before the saved items are restored would lose them.
   // The changes are kept pending, and saved when the playlist is restored, unless the restored items are not inserted because the playlist was cleared.
   if (restoring_ && !cancel_restore_) return;
+
+  ++save_generation_;
 
   // The items are snapshotted here, on the playlist's own thread, rather than handing the items themselves to the database thread:
   // saving is asynchronous and the model keeps mutating the items (inline tag edits, collection updates, stream metadata) while it runs.
