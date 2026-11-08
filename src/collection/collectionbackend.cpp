@@ -658,6 +658,23 @@ void CollectionBackend::AddOrUpdateSongsAsync(const SongList &songs) {
 
 void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
 
+  AddOrUpdateSongsInternal(songs, QHash<int, Song>());
+
+}
+
+void CollectionBackend::AddOrUpdateScannedSongs(const SongList &songs, const SongList &previous_songs) {
+
+  QHash<int, Song> previous_songs_by_id;
+  for (const Song &previous_song : previous_songs) {
+    if (previous_song.id() != -1) previous_songs_by_id.insert(previous_song.id(), previous_song);
+  }
+
+  AddOrUpdateSongsInternal(songs, previous_songs_by_id);
+
+}
+
+void CollectionBackend::AddOrUpdateSongsInternal(const SongList &songs, const QHash<int, Song> &previous_songs) {
+
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
@@ -674,6 +691,10 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
   }
   SqlQuery q_song_exists(db);
   q_song_exists.prepare(QStringLiteral("SELECT ROWID FROM %1 WHERE ROWID = :id").arg(songs_table_));
+  SqlQuery q_current_song(db);
+  if (!previous_songs.isEmpty()) {
+    q_current_song.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE ROWID = :id").arg(Song::kRowIdColumnSpec, songs_table_));
+  }
   SqlQuery q_find_url(db);
   // The CUE sheet is matched too, the media file of a CUE sheet can also have a song for the whole media file, for example while the CUE sheet can't be read, which starts at the same position as the first CUE song.
   q_find_url.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND beginning = :beginning AND IFNULL(cue_path, '') = :cue_path ORDER BY unavailable ASC LIMIT 1").arg(Song::kRowIdColumnSpec, songs_table_));
@@ -720,24 +741,46 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
 
     if (song.id() != -1) {  // This song exists in the DB.
 
-      // Make sure it still exists
-      q_song_exists.BindValue(u":id"_s, song.id());
-      if (!q_song_exists.Exec()) {
-        db_->ReportErrors(q_song_exists);
-        if (!transaction.active()) return;
-        continue;
+      Song updated_song = song;
+
+      QHash<int, Song>::const_iterator previous_song_it = previous_songs.constFind(song.id());
+      if (previous_song_it == previous_songs.constEnd()) {
+        // Make sure it still exists
+        q_song_exists.BindValue(u":id"_s, song.id());
+        if (!q_song_exists.Exec()) {
+          db_->ReportErrors(q_song_exists);
+          if (!transaction.active()) return;
+          continue;
+        }
+        const bool song_exists = q_song_exists.next();
+        q_song_exists.finish();
+        if (!song_exists) continue;
       }
-      const bool song_exists = q_song_exists.next();
-      q_song_exists.finish();
-      if (!song_exists) continue;
+      else {
+        // The song was made from the previous song, which can be from long ago, a scan only updates the songs when it's finished.
+        // The current song is read in this transaction, so changes made since then, for example playing the song during the scan, are not reverted.
+        q_current_song.BindValue(u":id"_s, song.id());
+        if (!q_current_song.Exec()) {
+          db_->ReportErrors(q_current_song);
+          if (!transaction.active()) return;
+          continue;
+        }
+        Song current_song(source_);
+        if (q_current_song.next()) {
+          current_song.InitFromQuery(q_current_song, true);
+        }
+        q_current_song.finish();
+        if (!current_song.is_valid()) continue;
+        updated_song.MergeUserSetDataChangedSince(previous_song_it.value(), current_song);
+      }
 
       // Update
-      if (!update_song(song)) {
+      if (!update_song(updated_song)) {
         if (!transaction.active()) return;
         continue;
       }
 
-      changed_songs << song;
+      changed_songs << updated_song;
 
       continue;
 

@@ -20,6 +20,7 @@
  */
 
 #include <memory>
+#include <functional>
 
 #include "gtest_include.h"
 
@@ -806,6 +807,205 @@ TEST_F(SingleSong, MarkSongsUnavailableUpdatesLastSeen) {
   song = backend_->GetSongById(1);
   EXPECT_FALSE(song.unavailable());
   EXPECT_EQ(2, song.lastseen());
+
+}
+
+// A scan only updates the songs when it's finished, the user set data changed since the scan read the song, for example by playing the song during the scan, is kept.
+TEST_F(SingleSong, ScannedSongKeepsUserSetDataChangedDuringScan) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  const Song previous_song = backend_->GetSongById(1);
+  ASSERT_TRUE(previous_song.is_valid());
+
+  // Changed while the scan was running.
+  backend_->IncrementPlayCount(1);
+  backend_->UpdateSongRating(1, 0.8F);
+  {
+    QSqlDatabase db(database_->Connect());
+    QSqlQuery q(db);
+    ASSERT_TRUE(q.exec(QStringLiteral("UPDATE %1 SET art_manual = 'file:///cover.jpg', compilation_on = 1, lyrics = 'Lyrics', lyrics_storage_type = %2").arg(QLatin1String(CollectionManager::kSongsTable)).arg(static_cast<int>(Song::StorageType::Database))));
+  }
+
+  // The scan read new tags.
+  Song scanned_song(previous_song);
+  scanned_song.set_title(u"New title"_s);
+
+  QSignalSpy changed_spy(&*backend_, &CollectionBackend::SongsChanged);
+  backend_->AddOrUpdateScannedSongs(SongList() << scanned_song, SongList() << previous_song);
+
+  const Song song = backend_->GetSongById(1);
+  EXPECT_EQ(u"New title"_s, song.title());
+  EXPECT_EQ(1U, song.playcount());
+  EXPECT_GT(song.lastplayed(), 0);
+  EXPECT_FLOAT_EQ(0.8F, song.rating());
+  EXPECT_EQ(QUrl(u"file:///cover.jpg"_s), song.art_manual());
+  EXPECT_TRUE(song.compilation_on());
+  EXPECT_EQ(u"Lyrics"_s, song.lyrics());
+  EXPECT_EQ(Song::StorageType::Database, song.lyrics_storage_type());
+
+  // The models are updated with the kept data too.
+  ASSERT_EQ(1, changed_spy.count());
+  const SongList changed_songs = changed_spy[0][0].value<SongList>();
+  ASSERT_EQ(1, changed_songs.count());
+  EXPECT_EQ(1U, changed_songs[0].playcount());
+  EXPECT_FLOAT_EQ(0.8F, changed_songs[0].rating());
+
+}
+
+// Play statistics which were reset during the scan stay reset.
+TEST_F(SingleSong, ScannedSongKeepsPlayStatisticsResetDuringScan) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  {
+    QSqlDatabase db(database_->Connect());
+    QSqlQuery q(db);
+    ASSERT_TRUE(q.exec(QStringLiteral("UPDATE %1 SET playcount = 3, skipcount = 2, lastplayed = 100").arg(QLatin1String(CollectionManager::kSongsTable))));
+  }
+  const Song previous_song = backend_->GetSongById(1);
+  ASSERT_EQ(3U, previous_song.playcount());
+
+  backend_->ResetPlayStatistics(1);
+
+  Song scanned_song(previous_song);
+  scanned_song.set_title(u"New title"_s);
+  backend_->AddOrUpdateScannedSongs(SongList() << scanned_song, SongList() << previous_song);
+
+  const Song song = backend_->GetSongById(1);
+  EXPECT_EQ(u"New title"_s, song.title());
+  EXPECT_EQ(0U, song.playcount());
+  EXPECT_EQ(0U, song.skipcount());
+  EXPECT_LE(song.lastplayed(), 0);
+
+}
+
+// A skip during the scan only changes the skip count, the play count read from the file, when it's set to overwrite the play count, is kept.
+TEST_F(SingleSong, ScannedSongKeepsPlayCountFromFileWhenSkippedDuringScan) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  {
+    QSqlDatabase db(database_->Connect());
+    QSqlQuery q(db);
+    ASSERT_TRUE(q.exec(QStringLiteral("UPDATE %1 SET playcount = 3").arg(QLatin1String(CollectionManager::kSongsTable))));
+  }
+  const Song previous_song = backend_->GetSongById(1);
+  ASSERT_EQ(3U, previous_song.playcount());
+
+  backend_->IncrementSkipCount(1, 0.1F);
+
+  Song scanned_song(previous_song);
+  scanned_song.set_playcount(5);
+  backend_->AddOrUpdateScannedSongs(SongList() << scanned_song, SongList() << previous_song);
+
+  const Song song = backend_->GetSongById(1);
+  EXPECT_EQ(5U, song.playcount());
+  EXPECT_EQ(1U, song.skipcount());
+
+}
+
+// Play statistics changed during the scan end up like when they were changed before the scan read the song.
+// For example, after the play statistics were reset, the play count is 0, so the scan uses the play count read from the file.
+TEST_F(SingleSong, ScannedSongPlayStatisticsChangedDuringScanLikeBeforeScan) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  const auto set_statistics = [this]() {
+    QSqlDatabase db(database_->Connect());
+    QSqlQuery q(db);
+    return q.exec(QStringLiteral("UPDATE %1 SET playcount = 0, skipcount = 2, lastplayed = 100").arg(QLatin1String(CollectionManager::kSongsTable)));
+  };
+  // The scan reads the play count from the file, like CollectionWatcher does when the play count in the collection is 0, or when it's set to overwrite the play count.
+  const auto scanned_song = [](const Song &song_read) {
+    Song song(song_read);
+    song.set_title(u"New title"_s);
+    song.set_playcount(5);
+    return song;
+  };
+
+  const QList<std::function<void()>> changes = {
+    [this]() { backend_->ResetPlayStatistics(1); },
+    [this]() {
+      backend_->ResetPlayStatistics(1);
+      backend_->IncrementSkipCount(1, 0.1F);
+    },
+  };
+  for (qsizetype i = 0; i < changes.count(); ++i) {
+    SCOPED_TRACE(i);
+
+    // Changed before the scan read the song.
+    ASSERT_TRUE(set_statistics());
+    changes[i]();
+    Song previous_song = backend_->GetSongById(1);
+    backend_->AddOrUpdateScannedSongs(SongList() << scanned_song(previous_song), SongList() << previous_song);
+    const Song song_changed_before = backend_->GetSongById(1);
+    EXPECT_EQ(5U, song_changed_before.playcount());
+    EXPECT_LE(song_changed_before.lastplayed(), 0);
+
+    // Changed while the scan was running.
+    ASSERT_TRUE(set_statistics());
+    previous_song = backend_->GetSongById(1);
+    changes[i]();
+    backend_->AddOrUpdateScannedSongs(SongList() << scanned_song(previous_song), SongList() << previous_song);
+    const Song song_changed_during = backend_->GetSongById(1);
+    EXPECT_EQ(song_changed_before.playcount(), song_changed_during.playcount());
+    EXPECT_EQ(song_changed_before.skipcount(), song_changed_during.skipcount());
+    EXPECT_EQ(song_changed_before.lastplayed(), song_changed_during.lastplayed());
+  }
+
+}
+
+// The user set data which the scan read from the file, when it's set to overwrite the play count and rating, is stored when it wasn't changed during the scan.
+TEST_F(SingleSong, ScannedSongUserSetDataFromFile) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  const Song previous_song = backend_->GetSongById(1);
+  ASSERT_TRUE(previous_song.is_valid());
+
+  Song scanned_song(previous_song);
+  scanned_song.set_playcount(5);
+  scanned_song.set_rating(0.6F);
+  backend_->AddOrUpdateScannedSongs(SongList() << scanned_song, SongList() << previous_song);
+
+  const Song song = backend_->GetSongById(1);
+  EXPECT_EQ(5U, song.playcount());
+  EXPECT_FLOAT_EQ(0.6F, song.rating());
+
+}
+
+// Synchronized lyrics saved to an LRC file during the scan are kept with the LRC file's mtime, so the next scan doesn't see the LRC file as changed.
+TEST_F(SingleSong, ScannedSongKeepsSyncedLyricsSavedDuringScan) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  const Song previous_song = backend_->GetSongById(1);
+  ASSERT_TRUE(previous_song.is_valid());
+
+  // Saved to the LRC file while the scan was running.
+  Song lyrics_song(previous_song);
+  lyrics_song.set_synced_lyrics(u"[00:01.00]Lyrics"_s);
+  lyrics_song.set_synced_lyrics_storage_type(Song::StorageType::File);
+  lyrics_song.set_lrc_mtime(1234);
+  backend_->UpdateSongsLyrics(SongList(), SongList() << lyrics_song);
+  ASSERT_EQ(1234, backend_->GetSongById(1).lrc_mtime());
+
+  Song scanned_song(previous_song);
+  scanned_song.set_title(u"New title"_s);
+  backend_->AddOrUpdateScannedSongs(SongList() << scanned_song, SongList() << previous_song);
+
+  const Song song = backend_->GetSongById(1);
+  EXPECT_EQ(u"New title"_s, song.title());
+  EXPECT_EQ(u"[00:01.00]Lyrics"_s, song.synced_lyrics());
+  EXPECT_EQ(Song::StorageType::File, song.synced_lyrics_storage_type());
+  EXPECT_EQ(1234, song.lrc_mtime());
 
 }
 

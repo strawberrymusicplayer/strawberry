@@ -134,7 +134,7 @@ void CollectionManager::Init() {
   QObject::connect(&*backend_, &CollectionBackend::SongsStatisticsChanged, this, &CollectionManager::SongsPlaycountChanged);
   QObject::connect(&*backend_, &CollectionBackend::SongsLyricsChanged, this, &CollectionManager::SongsLyricsChanged);
 
-  QObject::connect(watcher_, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+  QObject::connect(watcher_, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateScannedSongs);
   QObject::connect(watcher_, &CollectionWatcher::SongsMTimeUpdated, &*backend_, &CollectionBackend::UpdateMTimesOnly);
   QObject::connect(watcher_, &CollectionWatcher::SongsDeleted, &*backend_, &CollectionBackend::DeleteSongs);
   QObject::connect(watcher_, &CollectionWatcher::SongsUnavailable, &*backend_, &CollectionBackend::MarkSongsUnavailable);
