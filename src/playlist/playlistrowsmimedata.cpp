@@ -41,7 +41,8 @@ PlaylistRowsMimeData::PlaylistRowsMimeData(Playlist *playlist, const QModelIndex
 
 Playlist *PlaylistRowsMimeData::playlist() const {
 
-  return playlist_;
+  // A closed favorite playlist still exists until it's saved.
+  return playlist_ && !playlist_->is_closed() ? playlist_.data() : nullptr;
 
 }
 

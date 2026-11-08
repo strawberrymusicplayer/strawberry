@@ -87,6 +87,10 @@ class PlaylistBackend : public QObject {
   void RenamePlaylist(const int id, const QString &new_name);
   void FavoritePlaylist(const int id, bool is_favorite);
   void RemovePlaylist(const int id);
+  // Removes the playlist after the saves which are queued before it, so a queued save of the playlist doesn't run after it's removed.
+  void RemovePlaylistAsync(const int id);
+  // Emits PlaylistSaved() after the saves which are queued before it are done.
+  void NotifyPlaylistSavedAsync(const int id, const quint64 sequence);
 
  public Q_SLOTS:
   void Exit();
@@ -96,6 +100,7 @@ class PlaylistBackend : public QObject {
 
  Q_SIGNALS:
   void ExitFinished();
+  void PlaylistSaved(const int id, const quint64 sequence);
 
  private:
   struct NewSongFromQueryState {

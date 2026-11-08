@@ -373,6 +373,21 @@ void PlaylistBackend::SavePlaylist(const int playlist_id, const PlaylistItemSave
 
   ScopedTransaction transaction(&db);
 
+  // The save is queued, the items of a playlist which was removed before it runs are not saved again.
+  {
+    SqlQuery q(db);
+    q.prepare(u"SELECT ROWID FROM playlists WHERE ROWID = :playlist"_s);
+    q.BindValue(u":playlist"_s, playlist_id);
+    if (!q.Exec()) {
+      database_->ReportErrors(q);
+      return;
+    }
+    if (!q.next()) {
+      qLog(Debug) << "Not saving removed playlist" << playlist_id;
+      return;
+    }
+  }
+
   // Clear the existing items in the playlist
   {
     SqlQuery q(db);
@@ -498,6 +513,18 @@ int PlaylistBackend::CreatePlaylist(const QString &name, const QString &special_
   }
 
   return q.lastInsertId().toInt();
+
+}
+
+void PlaylistBackend::RemovePlaylistAsync(const int id) {
+
+  QMetaObject::invokeMethod(this, [this, id]() { RemovePlaylist(id); }, Qt::QueuedConnection);
+
+}
+
+void PlaylistBackend::NotifyPlaylistSavedAsync(const int id, const quint64 sequence) {
+
+  QMetaObject::invokeMethod(this, [this, id, sequence]() { Q_EMIT PlaylistSaved(id, sequence); }, Qt::QueuedConnection);
 
 }
 

@@ -158,9 +158,21 @@ class PlaylistManager : public PlaylistManagerInterface {
   void UpdateCollectionSongs(const SongList &songs);
   void ItemsLoadedForSavePlaylist(const QString &playlist_name, const SongList &songs, const QString &filename, const PlaylistSettings::PathType path_type);
   void PlaylistLoaded();
+  void ClosedPlaylistSaved(const int id, const quint64 sequence);
 
  private:
   Playlist *AddPlaylist(const int id, const QString &name, const QString &special_type, const QString &ui_path, const bool favorite);
+  // Closes the playlist, and removes it when delete_playlist is true or it's not a favorite, otherwise its pending changes are saved.
+  bool ClosePlaylist(const int id, const bool delete_playlist);
+  // Connects the playlist to the playlist manager, and adds it to the open playlists.
+  void RegisterPlaylist(Playlist *playlist, const int id, const QString &name, const bool favorite);
+  // Disconnects the connections made by RegisterPlaylist(), the other connections, like saving the pending changes when exiting, are kept.
+  void UnregisterPlaylist(Playlist *playlist);
+  // Keeps a closed favorite playlist until its pending changes are saved, after it's restored when it's still restoring.
+  void KeepClosedPlaylistUntilSaved(const int id, Playlist *playlist);
+  void SaveClosedPlaylist(const int id, Playlist *playlist);
+  // Deletes the kept closed playlist without saving it, when it's removed.
+  void DeleteClosedPlaylist(const int id);
   // Shows the file dialog for saving a playlist, and returns the file name, or an empty string if it was cancelled.
   QString GetSaveFileName(const QString &filename, const QString &filters, QString *selected_filter) const;
   void PendingPlaylistSaved(Playlist *playlist);
@@ -193,6 +205,19 @@ class PlaylistManager : public PlaylistManagerInterface {
   int current_;
   int active_;
   int playlists_loading_;
+
+  // Closed favorite playlists, kept until their pending changes are saved, they are used again when they are opened before that.
+  struct ClosedPlaylist {
+    Playlist *playlist;
+    // The sequence of the save notification, 0 while the playlist is restoring.
+    quint64 save_sequence;
+    // The save generation of the playlist when the save notification was queued.
+    quint64 save_generation;
+    // The connection saving the playlist when it's restored, disconnected when it's opened again or removed before that.
+    QMetaObject::Connection restore_done_connection;
+  };
+  QMap<int, ClosedPlaylist> closed_playlists_;
+  quint64 save_sequence_;
 };
 
 #endif  // PLAYLISTMANAGER_H

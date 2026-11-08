@@ -293,6 +293,7 @@ void PlaylistView::setModel(QAbstractItemModel *m) {
 void PlaylistView::SetPlaylist(Playlist *playlist) {
 
   if (playlist_) {
+    QObject::disconnect(playlist_, &Playlist::RestoreFinished, this, &PlaylistView::JumpToLastPlayedTrack);
     QObject::disconnect(playlist_, &Playlist::MaybeAutoscroll, this, &PlaylistView::MaybeAutoscroll);
     QObject::disconnect(playlist_, &Playlist::destroyed, this, &PlaylistView::PlaylistDestroyed);
     QObject::disconnect(playlist_, &Playlist::QueueChanged, this, &PlaylistView::Update);
