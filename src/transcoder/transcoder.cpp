@@ -35,6 +35,7 @@
 #include <QList>
 #include <QMap>
 #include <QVariant>
+#include <QVariantMap>
 #include <QByteArray>
 #include <QString>
 #include <QStringList>
@@ -211,6 +212,8 @@ Transcoder::Transcoder(QObject *parent, const QString &settings_postfix)
   if (JobFinishedEvent::sEventType == -1)
     JobFinishedEvent::sEventType = QEvent::registerEventType();
 
+  MigrateSettings();
+
   // Initialize some settings for the lamemp3enc element.
   Settings s;
   s.beginGroup("Transcoder/lamemp3enc"_L1 + settings_postfix_);
@@ -274,7 +277,7 @@ TranscoderPreset Transcoder::PresetForFileType(const Song::FileType filetype) {
     case Song::FileType::MP4:
       return TranscoderPreset(filetype, u"M4A AAC"_s,                u"mp4"_s,  u"audio/mpeg, mpegversion=(int)4"_s, u"audio/mp4"_s);
     case Song::FileType::ASF:
-      return TranscoderPreset(filetype, u"Windows Media audio"_s,    u"wma"_s,  u"audio/x-wma"_s, u"video/x-ms-asf"_s);
+      return TranscoderPreset(filetype, u"Windows Media audio"_s,    u"wma"_s,  u"audio/x-wma, wmaversion=(int)2"_s, u"video/x-ms-asf"_s);
     case Song::FileType::ALAC:
       return TranscoderPreset(filetype, u"ALAC"_s,                   u"m4a"_s,  u"audio/x-alac"_s, u"audio/mp4"_s);
     default:
@@ -777,16 +780,84 @@ QMap<QString, float> Transcoder::GetProgress() const {
 
 }
 
-void Transcoder::SetElementProperties(const QString &name, GObject *object) {
+void Transcoder::MigrateSettings() {
+
+  // The WMA options were saved for the GStreamer 0.10 encoder "ffenc_wmav2", which is "avenc_wmav2" now.
+  // Settings which are already saved for the new encoder are kept, they are newer.
+  const QString legacy_prefix = u"ffenc_wmav2"_s;
+  const QString new_prefix = u"avenc_wmav2"_s;
 
   Settings s;
-  s.beginGroup("Transcoder/"_L1 + name + settings_postfix_);
+  s.beginGroup("Transcoder"_L1);
+  const QStringList groups = s.childGroups();
+  for (const QString &group : groups) {
+    if (!group.startsWith(legacy_prefix)) continue;
+    const QString new_group = new_prefix + group.mid(legacy_prefix.length());
+    s.beginGroup(group);
+    const QStringList keys = s.childKeys();
+    QVariantMap values;
+    for (const QString &key : keys) {
+      values.insert(key, s.value(key));
+    }
+    s.endGroup();
+    for (QVariantMap::const_iterator it = values.constBegin(); it != values.constEnd(); ++it) {
+      const QString new_key = new_group + u'/' + it.key();
+      if (!s.contains(new_key)) {
+        s.setValue(new_key, it.value());
+      }
+    }
+    s.remove(group);
+  }
+
+  // The transcode dialog saves the output format as the caps of the codec, the WMA caps have the version now, so the old caps would not match any format.
+  if (s.value("last_output_format"_L1).toString() == "audio/x-wma"_L1) {
+    s.setValue("last_output_format"_L1, PresetForFileType(Song::FileType::ASF).codec_mimetype_);
+  }
+
+  s.endGroup();
+
+}
+
+bool Transcoder::IsAACEncoder(GObject *object) {
+
+  if (!GST_IS_ELEMENT(object)) return false;
+
+  GstElementFactory *factory = gst_element_get_factory(GST_ELEMENT(object));
+  if (!factory || !gst_element_factory_list_is_type(factory, GST_ELEMENT_FACTORY_TYPE_AUDIO_ENCODER)) return false;
+
+  GstCaps *aac_caps = gst_caps_from_string(PresetForFileType(Song::FileType::MP4).codec_mimetype_.toUtf8().constData());
+  const bool is_aac_encoder = gst_element_factory_can_src_any_caps(factory, aac_caps);
+  gst_caps_unref(aac_caps);
+
+  return is_aac_encoder;
+
+}
+
+void Transcoder::SetElementProperties(const QString &name, GObject *object) {
+
+  // The AAC options are saved for faac, the other AAC encoders, like fdkaacenc, mfaacenc on Windows and atenc on macOS, only have the bitrate in common with it, the other options don't exist or have other meanings.
+  if (name != "faac"_L1 && IsAACEncoder(object)) {
+    SetElementPropertiesFromSettings(name, u"faac"_s, object, QStringList() << u"bitrate"_s);
+  }
+
+  SetElementPropertiesFromSettings(name, name, object);
+
+}
+
+void Transcoder::SetElementPropertiesFromSettings(const QString &name, const QString &settings_name, GObject *object, const QStringList &property_names) {
+
+  Settings s;
+  s.beginGroup("Transcoder/"_L1 + settings_name + settings_postfix_);
 
   guint properties_count = 0;
   GParamSpec **properties = g_object_class_list_properties(G_OBJECT_GET_CLASS(object), &properties_count);
 
   for (uint i = 0; i < properties_count; ++i) {
     GParamSpec *property = properties[i];
+
+    if (!property_names.isEmpty() && !property_names.contains(QString::fromUtf8(property->name))) {
+      continue;
+    }
 
     if (!s.contains(QString::fromUtf8(property->name))) {
       continue;

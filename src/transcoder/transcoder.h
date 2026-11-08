@@ -37,6 +37,7 @@
 #include <QMap>
 #include <QMetaType>
 #include <QString>
+#include <QStringList>
 #include <QEvent>
 
 #include "includes/shared_ptr.h"
@@ -67,6 +68,7 @@ class Transcoder : public QObject {
   ~Transcoder() override;
 
   static TranscoderPreset PresetForFileType(const Song::FileType filetype);
+  static void MigrateSettings();
   static QList<TranscoderPreset> GetAllPresets();
   static Song::FileType PickBestFormat(const QList<Song::FileType> &supported);
 
@@ -180,7 +182,9 @@ class Transcoder : public QObject {
 
   GstElement *CreateElement(const QString &factory_name, GstElement *bin = nullptr, const QString &name = QString());
   GstElement *CreateElementForMimeType(GstElementFactoryListType element_type, const QString &mime_type, GstElement *bin = nullptr);
+  static bool IsAACEncoder(GObject *object);
   void SetElementProperties(const QString &name, GObject *object);
+  void SetElementPropertiesFromSettings(const QString &name, const QString &settings_name, GObject *object, const QStringList &property_names = QStringList());
 
   static void NewPadCallback(GstElement *element, GstPad *pad, gpointer data);
   static GstBusSyncReply BusCallbackSync(GstBus *bus, GstMessage *msg, gpointer data);

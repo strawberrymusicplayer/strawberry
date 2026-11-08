@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +26,7 @@
 #include <QSlider>
 #include <QSettings>
 
+#include "transcoder.h"
 #include "transcoderoptionsinterface.h"
 #include "transcoderoptionsasf.h"
 #include "ui_transcoderoptionsasf.h"
@@ -32,7 +34,7 @@
 #include "core/settings.h"
 
 namespace {
-constexpr char kSettingsGroup[] = "Transcoder/ffenc_wmav2";
+constexpr char kSettingsGroup[] = "Transcoder/avenc_wmav2";
 constexpr char kBitrate[] = "bitrate";
 }
 
@@ -45,6 +47,9 @@ TranscoderOptionsASF::~TranscoderOptionsASF() {
 }
 
 void TranscoderOptionsASF::Load() {
+
+  // The options were saved under another name before.
+  Transcoder::MigrateSettings();
 
   Settings s;
   s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);
