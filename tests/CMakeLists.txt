@@ -170,6 +170,9 @@ if(HAVE_MPRIS2)
   add_test_file(src/mpris2_test.cpp false)
   target_link_libraries(mpris2_test PRIVATE Qt${QT_VERSION_MAJOR}::DBus)
 endif()
+if(HAVE_DISCORD_RPC)
+  add_test_file(src/discordrpc_test.cpp false)
+endif()
 
 add_custom_target(run_strawberry_tests COMMAND ${CMAKE_CTEST_COMMAND} -V DEPENDS strawberry_tests)
 

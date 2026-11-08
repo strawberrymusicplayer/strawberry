@@ -26,6 +26,7 @@
 #endif
 
 #include <QObject>
+#include <QChar>
 #include <QString>
 #include <QByteArray>
 #include <QLocalSocket>
@@ -46,6 +47,10 @@ constexpr int kReconnectMinDelayMs = 500;
 constexpr int kReconnectMaxDelayMs = 60000;
 constexpr int kRpcVersion = 1;
 constexpr size_t kMaxFrameSize = 64 * 1024;
+
+// Discord rejects the whole activity when a text is shorter or longer than this, the length is counted in UTF-16 code units, like the length of a QString.
+constexpr qsizetype kActivityTextMinLength = 2;
+constexpr qsizetype kActivityTextMaxLength = 128;
 }  // namespace
 
 DiscordRPC::DiscordRPC(const QString &application_id, QObject *parent)
@@ -411,10 +416,10 @@ QByteArray DiscordRPC::CreatePresenceMessage(const DiscordPresence &presence) {
     activity["name"_L1] = presence.name;
   }
   if (!presence.state.isEmpty()) {
-    activity["state"_L1] = presence.state;
+    activity["state"_L1] = ActivityText(presence.state);
   }
   if (!presence.details.isEmpty()) {
-    activity["details"_L1] = presence.details;
+    activity["details"_L1] = ActivityText(presence.details);
   }
 
   if (presence.start_timestamp > 0 || presence.end_timestamp > 0) {
@@ -435,13 +440,13 @@ QByteArray DiscordRPC::CreatePresenceMessage(const DiscordPresence &presence) {
       assets["large_image"_L1] = presence.large_image_key;
     }
     if (!presence.large_image_text.isEmpty()) {
-      assets["large_text"_L1] = presence.large_image_text;
+      assets["large_text"_L1] = ActivityText(presence.large_image_text);
     }
     if (!presence.small_image_key.isEmpty()) {
       assets["small_image"_L1] = presence.small_image_key;
     }
     if (!presence.small_image_text.isEmpty()) {
-      assets["small_text"_L1] = presence.small_image_text;
+      assets["small_text"_L1] = ActivityText(presence.small_image_text);
     }
     activity["assets"_L1] = assets;
   }
@@ -485,6 +490,27 @@ QByteArray DiscordRPC::CreatePresenceMessage(const DiscordPresence &presence) {
   QJsonDocument doc(obj);
 
   return doc.toJson(QJsonDocument::Compact);
+
+}
+
+QString DiscordRPC::ActivityText(const QString &text) {
+
+  QString activity_text = text;
+
+  // Long titles, artists and albums are cut with an ellipsis, without splitting a character which needs two UTF-16 code units.
+  if (activity_text.size() > kActivityTextMaxLength) {
+    qsizetype length = kActivityTextMaxLength - 1;
+    if (activity_text.at(length - 1).isHighSurrogate()) {
+      --length;
+    }
+    activity_text = activity_text.left(length) + QChar(0x2026);
+  }
+
+  while (activity_text.size() < kActivityTextMinLength) {
+    activity_text.append(u' ');
+  }
+
+  return activity_text;
 
 }
 
