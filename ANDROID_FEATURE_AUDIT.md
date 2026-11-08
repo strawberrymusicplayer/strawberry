@@ -13,7 +13,7 @@ Evidence: **Confirmed** means reproduced on the emulator; **Code** means derived
 - Disabled on Android: ALSA, PulseAudio, GIO, D-Bus, MPRIS2, UDisks2, KWallet, libsecret, Audio CD, MTP, iPod, Chromaprint, song tracking, tag fetcher, fast spectrum, EBU R128, global shortcuts, stream tag reader.
 - Statically linked GStreamer plugins at the time of the audit: `coreelements typefindfunctions playback autodetect audioconvert audioresample volume equalizer audiofx replaygain opensles flac mpg123 opus vorbis wavparse id3demux isomp4 matroska` (point 1 added `audioparsers ogg wavpack apetag`, point 19 added `androidmedia`, point 3 added `soup icydemux hls` and GLib's OpenSSL TLS module).
   The GStreamer 1.28.8 Android SDK also provides, among others, `audioparsers ogg soup icydemux hls apetag wavpack libav androidmedia spectrum app lame wavenc voaacenc`; there is no Spotify plugin.
-- Merged manifest permissions: `INTERNET`, `ACCESS_NETWORK_STATE`, `READ_MEDIA_AUDIO`, `READ_EXTERNAL_STORAGE` (API ≤ 32); there is no service, foreground-service permission, or media session.
+- Merged manifest permissions: `INTERNET`, `ACCESS_NETWORK_STATE`, `READ_MEDIA_AUDIO`, `READ_EXTERNAL_STORAGE` (API ≤ 32); there was no service, foreground-service permission, or media session at the time of the audit (point 4 added them).
 - Shared OpenSSL libraries for Qt's TLS backend: none at the time of the audit; bundled from KDAB `android_openssl` since point 2.
 
 ## Feature inventory
@@ -27,7 +27,8 @@ Evidence: **Confirmed** means reproduced on the emulator; **Code** means derived
 | Files | Music files with extensions Android does not classify as audio (`.wv`, likely `.ape`, `.mpc`, `.dsf`) | Invisible (confirmed for `.wv`) | 20 |
 | Playback | Internet radio and HTTP(S) streams in MP3, Ogg Vorbis and FLAC, with ICY titles | Works since point 3 (confirmed) | 3 |
 | Playback | AAC radio streams (ADTS), and therefore most HLS streams | Broken (confirmed) | 21 |
-| Playback | Playback with the screen off or the app in the background | Broken (confirmed) | 4 |
+| Playback | Playback with the screen off or the app in the background | Works since point 4 part 1 (confirmed) | 4 |
+| Playback | Media notification and lock-screen display of the current song | Works since point 4 part 1 (confirmed) | 4 |
 | Playback | Lock-screen and notification controls, headset buttons, audio focus, unplugging headphones | Missing | 4 |
 | Playback | Volume, mute, seek, equalizer, ReplayGain, stereo balance | Works (equalizer and mute verified earlier) | |
 | Playback | Gapless playback, crossfade, fading, buffer settings | Works (code); verify after point 1 | |
@@ -112,7 +113,7 @@ Subsonic, Plex and Jellyfin use the same HTTP source, but were not tested withou
 
 ### 4. Keep playing in the background and add media controls
 
-**Status:** Open
+**Status:** In progress (part 1, background playback and notification, done; part 2, media controls, and part 3, audio focus, open)
 
 **Evidence:** Confirmed.
 While a 6-minute track was playing, the app was sent to the background and the screen was turned off.
@@ -124,6 +125,15 @@ Android kept the process in the cached state (`procState 15`) and froze it after
 Forward play/pause, next, previous and seek from the session (lock screen, notification, headset and Bluetooth buttons) to `Player` through JNI, and publish the current song, cover and state from `Player`.
 Handle audio focus (pause or duck for calls and other apps) and `ACTION_AUDIO_BECOMING_NOISY` (pause when headphones are unplugged).
 This is the largest point; split it into service/notification, media session controls, and audio focus when implementing.
+
+**Resolved, part 1 (background playback and notification):** `AndroidMediaSession` (`src/core/androidmediasession.cpp`, created in `main.cpp` like `Mpris2`) publishes the current song, cover and playback state to `MediaSessionBridge.java`.
+The bridge owns a `MediaSession` and a media-style notification, and runs `PlaybackService`, a foreground service of type `mediaPlayback`, while a song is playing or paused; stopping playback or reaching the end of the playlist stops the service and removes the notification.
+The service stays in the foreground while paused, because Android 12 and later do not always allow starting a foreground service again from the background when playback resumes.
+The cover is the JPEG that `CurrentAlbumCoverLoader` saves for every loaded cover, decoded at most 512 pixels in size.
+The Java sources are in `android/java/`, not `android/src/`: `androiddeployqt` replaces the Gradle `src/` directory when the package source directory has one, which removes the GStreamer Java classes that `FindGStreamerMobile` copies there and makes the app crash at startup.
+On the emulator, with the app in the background and the screen off for three minutes, the process stays at `procState 4` (foreground service), is not frozen, and AudioFlinger's played frames keep increasing in real time; the media session shows the title, artist, album and embedded cover, and the system media player shows the cover.
+Track changes with Previous and Next keep the same service running.
+The notification has no buttons yet (part 2), and media notifications are exempt from the `POST_NOTIFICATIONS` permission, so it is not requested.
 
 ### 5. Make track and view actions reachable on touch
 

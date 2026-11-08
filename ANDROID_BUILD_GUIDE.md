@@ -208,6 +208,9 @@ cmake --build . --target strawberry_make_apk --parallel $(nproc)
 
 **Typical Build Time:** 10-30 minutes depending on CPU cores and disk speed
 
+**Android package sources:** `android/` is the Qt package source directory (`QT_ANDROID_PACKAGE_SOURCE_DIR`) and is copied into `build/android-build/`.
+Put the app's Java sources in `android/java/`, never in `android/src/`: when the package source directory has a `src/` directory, `androiddeployqt` replaces `build/android-build/src/`, which removes the GStreamer Java classes copied there and makes the app crash at startup ("Could not retrieve class org.freedesktop.gstreamer.GStreamer").
+
 ### 5. Expected Build Output
 
 The build produces an Android APK file ready for deployment:
