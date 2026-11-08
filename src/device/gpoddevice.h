@@ -95,9 +95,11 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   void AddTrackToModel(Itdb_Track *track, const QString &prefix);
   Itdb_Track *FindTrackInITunesDb(const QString &path, const QString &relative_to = QString()) const;
   void RemoveTrackFromITunesDb(Itdb_Track *track);
+  // Called with db_mutex_ locked, which is released while waiting.
+  virtual void WaitForDatabase();
 
  private:
-  void Start();
+  bool Start();
   void Finish(const bool success);
   bool WriteDatabase(QString &error_text);
 
