@@ -24,6 +24,7 @@
 #include <libmtp.h>
 #include <cstdint>
 #include <cstdlib>
+#include <memory>
 
 #include <QThread>
 #include <QMutex>
@@ -33,6 +34,7 @@
 #include <QString>
 #include <QUrl>
 
+#include "includes/scoped_ptr.h"
 #include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/musicstorage.h"
@@ -191,11 +193,17 @@ bool MtpDevice::CopyToStorage(const CopyJob &job, QString &error_text) {
   if (!connection_ || !connection_->is_valid()) return false;
 
   // Convert metadata
-  LIBMTP_track_t track;
-  job.metadata_.ToMTP(&track);
+  // Allocated by libmtp, which initializes the fields not set by ToMTP(), and frees the strings set by it.
+  ScopedPtr<LIBMTP_track_t, decltype(&LIBMTP_destroy_track_t)> track(LIBMTP_new_track_t(), &LIBMTP_destroy_track_t);
+  if (!track) {
+    error_text = tr("Could not allocate the MTP track");
+    qLog(Error) << error_text;
+    return false;
+  }
+  job.metadata_.ToMTP(&*track);
 
   // Send the file
-  int ret = LIBMTP_Send_Track_From_File(connection_->device(), job.source_.toUtf8().constData(), &track, ProgressCallback, &job);
+  int ret = LIBMTP_Send_Track_From_File(connection_->device(), job.source_.toUtf8().constData(), &*track, ProgressCallback, &job);
   if (ret != 0) {
     LIBMTP_error_struct *error = LIBMTP_Get_Errorstack(connection_->device());
     if (error) {
@@ -208,7 +216,7 @@ bool MtpDevice::CopyToStorage(const CopyJob &job, QString &error_text) {
 
   // Add it to our CollectionModel
   Song metadata_on_device(Song::Source::Device);
-  metadata_on_device.InitFromMTP(&track, url_.host());
+  metadata_on_device.InitFromMTP(&*track, url_.host());
   metadata_on_device.set_directory_id(1);
   metadata_on_device.set_artist(metadata_on_device.effective_albumartist());
   metadata_on_device.set_albumartist(""_L1);
