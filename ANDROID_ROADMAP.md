@@ -12,7 +12,7 @@ Each item is completed one point at a time: fix, test, and commit each point sep
 
 1. **Item 18:** Review the Android changes for coding best practices.
 2. **Item 19:** Audit all app functionality for Android compatibility.
-3. The remaining open items: 13, 15, 16, 17, 12, and finally 9 (physical-device verification, which needs a device).
+3. The remaining open items: 13, 15, 16, 17, 12, 20, and finally 9 (physical-device verification, which needs a device).
 
 ## 18. Review the Android changes for coding best practices
 
@@ -573,3 +573,16 @@ Keep this visual update Android-only.
 - Inventory Android checkbox controls in Settings, Tools, and other Android pages; identify indicators or rows that are difficult to tap.
 - Match the Equalizer checkbox indicator and row sizing where practical, while preserving accessibility state and the existing desktop controls.
 - Verify each affected checkbox with touch input on a narrow screen and at larger system font sizes.
+
+## 20. Arrange sidebar tabs from Settings
+
+**Status:** Planned
+
+**Problem:** On Android, dragging the sidebar scrolls it, so tabs can no longer be reordered by dragging as on desktop.
+
+**Goal:** Add a Settings page where users can change the order of the sidebar tabs and possibly hide tabs.
+
+**Next steps:**
+- Follow the Android hierarchical navigation rules: a compact button on the parent page opens a full-page editor with move up and move down actions for each tab.
+- Store the order in the existing `tab_<name>` keys that `FancyTabWidget::SaveSettings()` and `LoadSettings()` already use, so the order stays compatible with desktop.
+- Keep edits pending until Apply or OK, and apply the new order to the sidebar without restarting.

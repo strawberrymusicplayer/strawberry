@@ -24,10 +24,12 @@
 
 #include <QTabBar>
 #include <QString>
+#include <QPoint>
 
 class QEvent;
 class QMouseEvent;
 class QPaintEvent;
+class QPointingDevice;
 
 class FancyTabBar : public QTabBar {
   Q_OBJECT
@@ -39,14 +41,30 @@ class FancyTabBar : public QTabBar {
   QSize sizeHint() const override;
   int width() const;
 
+  // Dragging scrolls the tabs instead of moving them, and a tab is only selected when it is tapped without dragging.
+  void SetTouchScrolling(const bool enabled);
+  bool touch_scrolling() const { return touch_scrolling_; }
+
  protected:
   QSize tabSizeHint(const int index) const override;
   void leaveEvent(QEvent *event) override;
+  void mousePressEvent(QMouseEvent *event) override;
   void mouseMoveEvent(QMouseEvent *event) override;
+  void mouseReleaseEvent(QMouseEvent *event) override;
   void paintEvent(QPaintEvent *pe) override;
 
  private:
+  void ScrollBy(const int delta);
+
+ private:
   int mouseHoverTabIndex;
+  bool touch_scrolling_;
+  bool touch_pressed_;
+  bool touch_dragging_;
+  int touch_drag_distance_;
+  QPoint touch_press_position_;
+  QPoint touch_last_position_;
+  QPointingDevice *touch_scroll_device_;
 };
 
 #endif  // FANCYTABBAR_H

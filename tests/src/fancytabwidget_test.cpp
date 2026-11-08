@@ -29,6 +29,9 @@
 #include <QPixmap>
 #include <QPixmapCache>
 #include <QSet>
+#include <QList>
+#include <QPoint>
+#include <QRect>
 #include <QRgb>
 #include <QStackedWidget>
 #include <QTabBar>
@@ -196,5 +199,86 @@ TEST(FancyTabWidgetTest, LoadSettingsResolvesCollisionsInAddOrder) {
 
   Settings s;
   s.remove(settings_group);
+
+}
+
+namespace {
+
+// A sidebar with more tabs than fit, set up like on Android.
+class TouchScrollingTest : public ::testing::Test {
+ protected:
+  void SetUp() override {
+    for (int i = 0; i < 10; ++i) {
+      QWidget *view = new QWidget;
+      tabs_.AddTab(view, u"tab%1"_s.arg(i), QIcon(), u"Tab %1"_s.arg(i));
+      ASSERT_TRUE(tabs_.EnableTab(view));
+      views_ << view;
+    }
+    tabs_.SetMode(FancyTabWidget::Mode::LargeSidebar);
+    tabs_.setMovable(false);
+    tab_bar_ = qobject_cast<FancyTabBar*>(tabs_.tabBar());
+    ASSERT_TRUE(tab_bar_);
+    tab_bar_->SetTouchScrolling(true);
+    tabs_.resize(600, 250);
+    tabs_.show();
+    QCoreApplication::processEvents();
+    tabs_.setCurrentIndex(0);
+  }
+
+  FancyTabWidget tabs_;
+  FancyTabBar *tab_bar_ = nullptr;
+  QList<QWidget*> views_;
+};
+
+}  // namespace
+
+// Regression test: on Android, dragging the sidebar moved the tabs to another position instead of scrolling the tabs that don't fit.
+TEST_F(TouchScrollingTest, DragScrollsWithoutSelectingOrMovingTabs) {
+
+  ASSERT_GT(tab_bar_->sizeHint().height(), tab_bar_->height());
+
+  int clicks = 0;
+  QObject::connect(tab_bar_, &QTabBar::tabBarClicked, tab_bar_, [&clicks]() { ++clicks; });
+
+  const QRect first_tab_rect = tab_bar_->tabRect(0);
+  QPoint position = tab_bar_->tabRect(1).center();
+  QTest::mousePress(tab_bar_, Qt::LeftButton, Qt::NoModifier, position);
+  for (int i = 0; i < 5; ++i) {
+    position.ry() -= 20;
+    QTest::mouseMove(tab_bar_, position);
+  }
+  QTest::mouseRelease(tab_bar_, Qt::LeftButton, Qt::NoModifier, position);
+
+  EXPECT_LT(tab_bar_->tabRect(0).top(), first_tab_rect.top());
+  EXPECT_EQ(tabs_.currentIndex(), 0);
+  EXPECT_EQ(clicks, 0);
+  for (qsizetype i = 0; i < views_.count(); ++i) {
+    EXPECT_EQ(tabs_.IndexOfTab(views_[i]), i);
+  }
+
+  // Dragging back down scrolls back to the first tab.
+  QTest::mousePress(tab_bar_, Qt::LeftButton, Qt::NoModifier, position);
+  for (int i = 0; i < 10; ++i) {
+    position.ry() += 20;
+    QTest::mouseMove(tab_bar_, position);
+  }
+  QTest::mouseRelease(tab_bar_, Qt::LeftButton, Qt::NoModifier, position);
+  EXPECT_EQ(tab_bar_->tabRect(0).top(), first_tab_rect.top());
+  EXPECT_EQ(tabs_.currentIndex(), 0);
+
+}
+
+TEST_F(TouchScrollingTest, TapSelectsTab) {
+
+  int clicked_index = -1;
+  QObject::connect(tab_bar_, &QTabBar::tabBarClicked, tab_bar_, [&clicked_index](const int index) { clicked_index = index; });
+
+  const QPoint position = tab_bar_->tabRect(1).center();
+  QTest::mousePress(tab_bar_, Qt::LeftButton, Qt::NoModifier, position);
+  EXPECT_EQ(tabs_.currentIndex(), 0);
+  QTest::mouseRelease(tab_bar_, Qt::LeftButton, Qt::NoModifier, position);
+
+  EXPECT_EQ(clicked_index, 1);
+  EXPECT_EQ(tabs_.currentIndex(), 1);
 
 }

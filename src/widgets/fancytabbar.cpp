@@ -31,11 +31,16 @@
 #include <QLinearGradient>
 #include <QColor>
 #include <QPen>
+#include <QMouseEvent>
+#include <QWheelEvent>
+#include <QPointingDevice>
+#include <QInputDevice>
 
 #include "core/stylehelper.h"
 #include "fancytabbar.h"
 #include "fancytabwidget.h"
 #include "fancytabdata.h"
+#include "longpresshandler.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -45,9 +50,74 @@ constexpr int TabSize_LargeSidebarMinWidth = 70;
 
 FancyTabBar::FancyTabBar(QWidget *parent)
     : QTabBar(parent),
-      mouseHoverTabIndex(-1) {
+      mouseHoverTabIndex(-1),
+      touch_scrolling_(false),
+      touch_pressed_(false),
+      touch_dragging_(false),
+      touch_drag_distance_(0),
+      touch_scroll_device_(nullptr) {
 
   setMouseTracking(true);
+
+}
+
+void FancyTabBar::SetTouchScrolling(const bool enabled) {
+
+  touch_scrolling_ = enabled;
+  touch_pressed_ = false;
+  touch_dragging_ = false;
+
+  // QTabBar only scrolls by pixels for wheel events from a device with pixel precision.
+  if (enabled && !touch_scroll_device_) {
+    touch_scroll_device_ = new QPointingDevice(u"FancyTabBar touch scrolling"_s, 0, QInputDevice::DeviceType::TouchPad, QPointingDevice::PointerType::Finger, QInputDevice::Capability::Position | QInputDevice::Capability::PixelScroll, 1, 0, QString(), QPointingDeviceUniqueId(), this);
+  }
+
+}
+
+void FancyTabBar::ScrollBy(const int delta) {
+
+  if (delta == 0 || !touch_scroll_device_) return;
+
+  const QPointF position = rect().center();
+  QWheelEvent wheel_event(position, mapToGlobal(position), QPoint(0, delta), QPoint(0, delta), Qt::NoButton, Qt::NoModifier, Qt::NoScrollPhase, false, Qt::MouseEventSynthesizedByApplication, touch_scroll_device_);
+  QTabBar::wheelEvent(&wheel_event);
+
+}
+
+void FancyTabBar::mousePressEvent(QMouseEvent *event) {
+
+  if (!touch_scrolling_ || event->button() != Qt::LeftButton) {
+    QTabBar::mousePressEvent(event);
+    return;
+  }
+
+  // QTabBar selects the tab on press, so wait until release to know whether this is a tap or a drag.
+  touch_pressed_ = true;
+  touch_dragging_ = false;
+  touch_press_position_ = event->position().toPoint();
+  touch_last_position_ = touch_press_position_;
+  touch_drag_distance_ = LongPressHandler::PlatformDragDistance(devicePixelRatioF());
+  event->accept();
+
+}
+
+void FancyTabBar::mouseReleaseEvent(QMouseEvent *event) {
+
+  if (!touch_pressed_ || event->button() != Qt::LeftButton) {
+    QTabBar::mouseReleaseEvent(event);
+    return;
+  }
+
+  touch_pressed_ = false;
+  if (touch_dragging_) {
+    touch_dragging_ = false;
+    event->accept();
+    return;
+  }
+
+  QMouseEvent press_event(QEvent::MouseButtonPress, touch_press_position_, mapToGlobal(touch_press_position_), Qt::LeftButton, Qt::LeftButton, event->modifiers(), event->pointingDevice());
+  QTabBar::mousePressEvent(&press_event);
+  QTabBar::mouseReleaseEvent(event);
 
 }
 
@@ -145,6 +215,19 @@ void FancyTabBar::leaveEvent(QEvent *event) {
 }
 
 void FancyTabBar::mouseMoveEvent(QMouseEvent *event) {
+
+  if (touch_pressed_) {
+    const QPoint position = event->position().toPoint();
+    if (!touch_dragging_ && (position - touch_press_position_).manhattanLength() > touch_drag_distance_) {
+      touch_dragging_ = true;
+    }
+    if (touch_dragging_) {
+      ScrollBy(position.y() - touch_last_position_.y());
+      touch_last_position_ = position;
+    }
+    event->accept();
+    return;
+  }
 
   QPoint pos = event->pos();
 

@@ -75,7 +75,13 @@ FancyTabWidget::FancyTabWidget(QWidget *parent)
   FancyTabBar *tabBar = new FancyTabBar(this);
   setTabBar(tabBar);
   setTabPosition(QTabWidget::West);
+#ifdef Q_OS_ANDROID
+  // On a touch screen, a drag must scroll the sidebar; reordering tabs by dragging is unexpected.
+  setMovable(false);
+  tabBar->SetTouchScrolling(true);
+#else
   setMovable(true);
+#endif
   setElideMode(Qt::ElideNone);
   setUsesScrollButtons(true);
 

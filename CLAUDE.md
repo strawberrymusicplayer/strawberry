@@ -129,6 +129,9 @@ Smart-pointer aliases live in `src/includes/`: `SharedPtr<T>` (= `std::shared_pt
 
 The sidebar (`ui_->tabs`) is a `FancyTabWidget` (`src/widgets/fancytabwidget.h`). `AddTab()` wraps every content widget in its own page (`FancyTabData::page()`), and that page is what is inserted into the `QTabWidget`. So `widget(index)`, `currentWidget()`, `indexOf(content)` and `setCurrentWidget(content)` never match the content widget passed to `AddTab()`. Always look tabs up with `IndexOfTab(content)` and compare/set by index (`currentIndex() == IndexOfTab(content)`, `setCurrentIndex(IndexOfTab(content))`). Ignoring this broke returning from the Android playlist editor to the playlist list when tapping the active Playlists tab; `FancyTabWidgetTest.ClickingActiveTabFindsContentWidget` in `tests/src/fancytabwidget_test.cpp` guards against it.
 
+On Android the sidebar is not movable; `FancyTabBar::SetTouchScrolling()` makes a drag scroll the tabs, and a tab is only selected when it is tapped without dragging, on release rather than on press.
+`TouchScrollingTest` in the same test file covers this.
+
 ### Hierarchical navigation
 
 When adding or changing hierarchical menus or navigation flows anywhere in the app:
