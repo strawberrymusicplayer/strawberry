@@ -336,7 +336,7 @@ void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
     if (filename.isEmpty()) return;
     fileinfo.setFile(filename);
 
-    if (QUrl(filename).scheme() == "content"_L1) {
+    if (PlaylistParser::IsDocumentUrl(filename)) {
       document_extension = parser_->save_extension(last_save_filter);
       if (parser_->ParserForExtension(PlaylistParser::Type::Save, document_extension)) break;
       Q_EMIT Error(tr("Unknown file extension for playlist."));

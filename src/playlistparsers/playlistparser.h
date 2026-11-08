@@ -53,6 +53,9 @@ class PlaylistParser : public QObject {
 
   static const int kMagicSize;
 
+  // Returns true for an Android document provider URI, which is written in place instead of as a file in a directory.
+  static bool IsDocumentUrl(const QString &filename);
+
   QStringList file_extensions(const Type type) const;
   QString filters(const Type type) const;
 

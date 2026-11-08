@@ -266,12 +266,18 @@ SongList PlaylistParser::LoadFromDevice(QIODevice *device, const QString &path_h
 
 }
 
+bool PlaylistParser::IsDocumentUrl(const QString &filename) {
+
+  return QUrl(filename).scheme() == "content"_L1;
+
+}
+
 void PlaylistParser::Save(const QString &playlist_name, const SongList &songs, const QString &filename, const PlaylistSettings::PathType path_type, const QString &extension) const {
 
   QFileInfo fileinfo(filename);
   QDir dir(fileinfo.path());
 
-  const bool document = QUrl(filename).scheme() == "content"_L1;
+  const bool document = IsDocumentUrl(filename);
   if (!document && !dir.exists()) {
     qLog(Error) << "Directory" << dir.path() << "does not exist";
     Q_EMIT Error(tr("Directory %1 does not exist.").arg(dir.path()));
@@ -294,8 +300,14 @@ void PlaylistParser::Save(const QString &playlist_name, const SongList &songs, c
       return;
     }
     parser->Save(playlist_name, songs, &file, QDir(), PlaylistSettings::PathType::Absolute);
-    if (!file.flush()) {
-      Q_EMIT Error(tr("Failed to save %1: %2").arg(filename, file.errorString()));
+    // Check the writes before closing, because a successful close() clears an earlier error.
+    const bool written = file.flush() && file.error() == QFileDevice::NoError;
+    const QString write_error = file.errorString();
+    file.close();
+    if (!written || file.error() != QFileDevice::NoError) {
+      const QString error = written ? file.errorString() : write_error;
+      qLog(Error) << "Failed to save" << filename << error;
+      Q_EMIT Error(tr("Failed to save %1: %2").arg(filename, error));
     }
     return;
   }

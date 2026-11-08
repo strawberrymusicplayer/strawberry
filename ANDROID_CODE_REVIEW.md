@@ -10,8 +10,8 @@ Status values: Open, Done, Won't fix (with a reason).
 
 Handoff notes for continuing in a new session:
 
-- Next: point 19 (small playlist-document cleanups).
-  Point 23 (moving Android blocks into `*_android.cpp` files) comes after points 10–19.
+- Next: point 23 (moving Android blocks into `*_android.cpp` files), starting with `mainwindow.cpp`; points 10–19 are done.
+  Points 24 and 25 (found during testing) and the decision in point 20 are still open.
 - Build Android with `cmake --build build --target strawberry_make_apk --parallel 5` (the plain `all` target can race in the APK copy step).
 - Build and run native tests in `build/native` (see `CLAUDE.md`).
 - Deploy: zipalign and sign with the debug keystore, `adb install -r`, launch with `adb shell monkey -p org.qtproject.example.strawberry 1` (see `ANDROID_EMULATOR_TESTING.md`).
@@ -278,10 +278,16 @@ Handoff notes for continuing in a new session:
 
 ### 19. Small playlist-document cleanups
 
-**Status:** Open
+**Status:** Done
 
 - The `content` scheme check is repeated in `PlaylistManager::SaveWithUI()` and `PlaylistParser::Save()`.
 - `PlaylistParser::Save()` checks `flush()` but not the result of closing a document.
+
+**Resolved:**
+- Added `PlaylistParser::IsDocumentUrl()`, used by both.
+- The document save checks the write errors before closing, because a successful `QFileDevice::close()` clears an earlier error, and then checks the close; failures are logged and reported like those of the file save.
+- The Android APK and the native desktop build succeed, and the native playlist and M3U parser tests pass.
+  On the emulator, saving Playlist 9 through the system picker wrote the complete XSPF document to the test folder without errors; the file was removed afterwards.
 
 ### 23. Move large Android blocks into `*_android.cpp` files
 
