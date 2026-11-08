@@ -157,6 +157,7 @@ class CollectionWatcherTest : public ::testing::Test {
     // Like CollectionManager, songs which are restored without changes are marked available again.
     QObject::connect(&watcher, &CollectionWatcher::SongsReadded, &*backend_, &CollectionBackend::MarkSongsUnavailable);
     QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+    QObject::connect(&watcher, &CollectionWatcher::SubdirsDeleted, &*backend_, &CollectionBackend::DeleteSubdirs);
     QSignalSpy spy_new_or_updated(&watcher, &CollectionWatcher::NewOrUpdatedSongs);
     QSignalSpy spy_deleted(&watcher, &CollectionWatcher::SongsDeleted);
     QSignalSpy spy_unavailable(&watcher, &CollectionWatcher::SongsUnavailable);
@@ -1325,6 +1326,231 @@ TEST_F(CollectionWatcherTest, CollectionDirectoryInOtherCaseUsesCueSongs) {
   EXPECT_EQ(0, unchanged_scan.unavailable);
   EXPECT_EQ(0, unchanged_scan.touched);
   EXPECT_EQ(0, unchanged_scan.readded);
+
+}
+
+// Regression test: on case-insensitive filesystems, a directory renamed in another case was scanned as a new directory, while the old spelling still existed, so its songs were duplicated.
+TEST_F(CollectionWatcherTest, DirectoryRenamedInOtherCaseKeepsSongs) {
+
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  QDir root(temp_dir.path());
+  ASSERT_TRUE(root.mkdir(u"Abba"_s));
+  if (!QFileInfo::exists(temp_dir.filePath(u"ABBA"_s))) GTEST_SKIP() << "The filesystem is case-sensitive";
+  ASSERT_TRUE(root.mkdir(u"Abba/Album"_s));
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"Abba/01.mp3"_s)));
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"Abba/Album/02.mp3"_s)));
+
+  backend_->AddDirectory(temp_dir.path());
+  ASSERT_EQ(2, ScanDirectoryToCollection(temp_dir.path()).new_or_updated);
+  ASSERT_EQ(2, backend_->GetAllSongs().count());
+  {
+    QSqlDatabase db(database_->Connect());
+    QSqlQuery q(db);
+    ASSERT_TRUE(q.exec(QStringLiteral("UPDATE %1 SET playcount = 3").arg(QLatin1String(CollectionManager::kSongsTable))));
+  }
+
+  // Renamed through another name, some filesystems ignore renaming to the same name in another case.
+  ASSERT_TRUE(root.rename(u"Abba"_s, u"Abba.tmp"_s));
+  ASSERT_TRUE(root.rename(u"Abba.tmp"_s, u"ABBA"_s));
+  ASSERT_TRUE(root.entryList(QDir::Dirs | QDir::NoDotAndDotDot).contains(u"ABBA"_s));
+
+  // Like the incremental scan on startup, the subdirectories in the collection are scanned.
+  QStringList subdirectories;
+  const CollectionSubdirectoryList subdirs = backend_->SubdirsInDirectory(1);
+  for (const CollectionSubdirectory &subdir : subdirs) {
+    subdirectories << subdir.path;
+  }
+  ASSERT_TRUE(subdirectories.contains(temp_dir.filePath(u"Abba"_s)));
+  const ScanResult scan = ScanDirectoryToCollection(temp_dir.path(), false, subdirectories);
+  EXPECT_EQ(2, scan.new_or_updated);
+
+  // The songs are kept with the new spelling, with their play counts.
+  const SongList songs = backend_->GetAllSongs();
+  QStringList filenames;
+  for (const Song &song : songs) {
+    filenames << song.url().toLocalFile();
+    EXPECT_FALSE(song.unavailable()) << song.url().toLocalFile().toStdString();
+    EXPECT_EQ(3U, song.playcount()) << song.url().toLocalFile().toStdString();
+  }
+  filenames.sort();
+  EXPECT_EQ(QStringList() << temp_dir.filePath(u"ABBA/01.mp3"_s) << temp_dir.filePath(u"ABBA/Album/02.mp3"_s), filenames);
+
+  // The subdirectories have the new spelling too.
+  QStringList subdirectories_after;
+  const CollectionSubdirectoryList subdirs_after = backend_->SubdirsInDirectory(1);
+  for (const CollectionSubdirectory &subdir : subdirs_after) {
+    subdirectories_after << subdir.path;
+  }
+  EXPECT_FALSE(subdirectories_after.contains(temp_dir.filePath(u"Abba"_s)));
+  EXPECT_FALSE(subdirectories_after.contains(temp_dir.filePath(u"Abba/Album"_s)));
+  EXPECT_TRUE(subdirectories_after.contains(temp_dir.filePath(u"ABBA"_s)));
+  EXPECT_TRUE(subdirectories_after.contains(temp_dir.filePath(u"ABBA/Album"_s)));
+
+  // Scanning again changes nothing.
+  QStringList subdirectories_again;
+  for (const CollectionSubdirectory &subdir : subdirs_after) {
+    subdirectories_again << subdir.path;
+  }
+  const ScanResult unchanged_scan = ScanDirectoryToCollection(temp_dir.path(), false, subdirectories_again);
+  EXPECT_EQ(0, unchanged_scan.new_or_updated);
+  EXPECT_EQ(0, unchanged_scan.deleted);
+  EXPECT_EQ(0, unchanged_scan.unavailable);
+  EXPECT_EQ(2, backend_->GetAllSongs().count());
+
+}
+
+// Regression test: when a file was renamed in another case on a case-sensitive filesystem, and another file with the same name in a third case was added, both files were found as the song of the old name, and updated the same song, so one of them was missing.
+TEST_F(CollectionWatcherTest, FilesWithOtherSpellingsOfRenamedFileAreDifferentSongs) {
+
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"track.mp3"_s)));
+  if (QFileInfo::exists(temp_dir.filePath(u"TRACK.mp3"_s))) GTEST_SKIP() << "The filesystem is case-insensitive";
+
+  backend_->AddDirectory(temp_dir.path());
+  ASSERT_EQ(1, ScanDirectoryToCollection(temp_dir.path()).new_or_updated);
+  ASSERT_EQ(1, backend_->GetAllSongs().count());
+
+  ASSERT_TRUE(QFile::rename(temp_dir.filePath(u"track.mp3"_s), temp_dir.filePath(u"Track.mp3"_s)));
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"TRACK.mp3"_s)));
+
+  ScanDirectoryToCollection(temp_dir.path(), false, QStringList() << temp_dir.path());
+
+  // Both files are in the collection, each with its own song.
+  QStringList filenames;
+  QSet<int> song_ids;
+  int unavailable = 0;
+  const SongList songs = backend_->GetAllSongs();
+  for (const Song &song : songs) {
+    if (song.unavailable()) {
+      ++unavailable;
+      continue;
+    }
+    filenames << song.url().toLocalFile();
+    song_ids.insert(song.id());
+  }
+  filenames.sort();
+  EXPECT_EQ(QStringList() << temp_dir.filePath(u"TRACK.mp3"_s) << temp_dir.filePath(u"Track.mp3"_s), filenames);
+  EXPECT_EQ(2, song_ids.count());
+  // The song of the old name is not one of them, it's not known which one it is.
+  EXPECT_EQ(1, unavailable);
+
+}
+
+// Regression test: when a directory was renamed in another case on a case-sensitive filesystem, and another directory with the same name in a third case was added, the songs of the old name were found by both, and the same songs were updated twice, so the songs of one of them were missing.
+TEST_F(CollectionWatcherTest, DirectoriesWithOtherSpellingsOfRenamedDirectoryAreDifferent) {
+
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  QDir root(temp_dir.path());
+  ASSERT_TRUE(root.mkdir(u"artist"_s));
+  if (QFileInfo::exists(temp_dir.filePath(u"ARTIST"_s))) GTEST_SKIP() << "The filesystem is case-insensitive";
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"artist/track.mp3"_s)));
+
+  backend_->AddDirectory(temp_dir.path());
+  ASSERT_EQ(1, ScanDirectoryToCollection(temp_dir.path()).new_or_updated);
+
+  ASSERT_TRUE(root.rename(u"artist"_s, u"Artist"_s));
+  ASSERT_TRUE(root.mkdir(u"ARTIST"_s));
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"ARTIST/track.mp3"_s)));
+
+  QStringList subdirectories;
+  const CollectionSubdirectoryList subdirs = backend_->SubdirsInDirectory(1);
+  for (const CollectionSubdirectory &subdir : subdirs) {
+    subdirectories << subdir.path;
+  }
+  ScanDirectoryToCollection(temp_dir.path(), false, subdirectories);
+
+  // Both directories are in the collection, each with its own song, the song of the old name is not one of them.
+  QStringList filenames;
+  QSet<int> song_ids;
+  int unavailable = 0;
+  const SongList songs = backend_->GetAllSongs();
+  for (const Song &song : songs) {
+    if (song.unavailable()) {
+      ++unavailable;
+      continue;
+    }
+    filenames << song.url().toLocalFile();
+    song_ids.insert(song.id());
+  }
+  filenames.sort();
+  EXPECT_EQ(QStringList() << temp_dir.filePath(u"ARTIST/track.mp3"_s) << temp_dir.filePath(u"Artist/track.mp3"_s), filenames);
+  EXPECT_EQ(2, song_ids.count());
+  EXPECT_EQ(1, unavailable);
+
+}
+
+// Regression test: when two files whose names only differ in case were replaced by one file with a third spelling on a case-sensitive filesystem, both songs were found as the song of the new file, but only one was updated, the other one stayed available with the path of a file which doesn't exist.
+TEST_F(CollectionWatcherTest, FileWithOtherSpellingOfSeveralFilesIsNewSong) {
+
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"track.mp3"_s)));
+  if (QFileInfo::exists(temp_dir.filePath(u"TRACK.mp3"_s))) GTEST_SKIP() << "The filesystem is case-insensitive";
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"TRACK.mp3"_s)));
+
+  backend_->AddDirectory(temp_dir.path());
+  ASSERT_EQ(2, ScanDirectoryToCollection(temp_dir.path()).new_or_updated);
+
+  ASSERT_TRUE(QFile::rename(temp_dir.filePath(u"track.mp3"_s), temp_dir.filePath(u"Track.mp3"_s)));
+  ASSERT_TRUE(QFile::remove(temp_dir.filePath(u"TRACK.mp3"_s)));
+
+  ScanDirectoryToCollection(temp_dir.path(), false, QStringList() << temp_dir.path());
+
+  // It's not known which song the file is, so it's a new song, and both songs of the old names are removed.
+  QStringList filenames;
+  int unavailable = 0;
+  const SongList songs = backend_->GetAllSongs();
+  for (const Song &song : songs) {
+    if (song.unavailable()) {
+      ++unavailable;
+      continue;
+    }
+    filenames << song.url().toLocalFile();
+  }
+  EXPECT_EQ(QStringList() << temp_dir.filePath(u"Track.mp3"_s), filenames);
+  EXPECT_EQ(2, unavailable);
+
+}
+
+// Regression test: while the CUE sheet can't be read, the song used for the whole media file kept the old path when the media file was renamed in another case on a case-sensitive filesystem.
+TEST_F(CollectionWatcherTest, UnreadableCueSheetMediaFileRenamedInOtherCaseStoresNewPath) {
+
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  CreateAlbumWithCueSheet(temp_dir);
+  if (HasFatalFailure()) return;
+  if (QFileInfo::exists(temp_dir.filePath(u"cd1.mp3"_s))) GTEST_SKIP() << "The filesystem is case-insensitive";
+  backend_->AddDirectory(temp_dir.path());
+
+  const QString cue_filename = temp_dir.filePath(u"Album.cue"_s);
+  ScanDirectoryToCollection(temp_dir.path());
+
+  // Make the CUE sheet unreadable, the media files are used as songs for the whole media files.
+  const QFile::Permissions permissions = QFile::permissions(cue_filename);
+  ASSERT_TRUE(QFile::setPermissions(cue_filename, QFile::Permissions()));
+  {
+    QFile cue_file(cue_filename);
+    if (cue_file.open(QIODevice::ReadOnly)) {
+      QFile::setPermissions(cue_filename, permissions);
+      GTEST_SKIP() << "The CUE sheet can still be read, the test is probably running as root";
+    }
+  }
+  ScanDirectoryToCollection(temp_dir.path());
+
+  ASSERT_TRUE(QFile::rename(temp_dir.filePath(u"CD1.mp3"_s), temp_dir.filePath(u"cd1.mp3"_s)));
+  ScanDirectoryToCollection(temp_dir.path());
+  ASSERT_TRUE(QFile::setPermissions(cue_filename, permissions));
+
+  QStringList filenames;
+  const SongList songs = backend_->GetAllSongs();
+  for (const Song &song : songs) {
+    if (!song.unavailable()) filenames << song.url().toLocalFile();
+  }
+  filenames.sort();
+  EXPECT_EQ(QStringList() << temp_dir.filePath(u"CD2.mp3"_s) << temp_dir.filePath(u"cd1.mp3"_s), filenames);
 
 }
 
