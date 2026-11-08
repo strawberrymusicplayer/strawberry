@@ -37,6 +37,7 @@ rm -rf build
   -DOPENSSL_ROOT_DIR="${GSTREAMER_ROOT_ANDROID}" \
   -DOPENSSL_INCLUDE_DIR="${GSTREAMER_ROOT_ANDROID}/include" \
   -DOPENSSL_CRYPTO_LIBRARY="${GSTREAMER_ROOT_ANDROID}/lib/libcrypto.a" \
+  -DANDROID_OPENSSL_ROOT=~/Android/android_openssl \
   -S . -B build
 
 # Build (10-30 minutes depending on CPU)

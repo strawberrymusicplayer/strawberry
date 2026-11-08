@@ -109,6 +109,21 @@ file ~/Android/gstreamer-1.28.8/arm64/lib/libgstreamer_android.so
 # Should show: "ELF 64-bit LSB shared object, ARM aarch64"
 ```
 
+### 4. OpenSSL for Qt
+
+Qt's TLS backend loads `libssl_3.so` and `libcrypto_3.so` at run time; without them every HTTPS request fails (radio lists, covers, lyrics, scrobbling, streaming services).
+The GStreamer SDK only contains static OpenSSL libraries, so use Qt's recommended prebuilt libraries from KDAB.
+Only the `ssl_3/arm64-v8a` directory is needed:
+
+```bash
+cd ~/Android/
+git clone --depth 1 --filter=blob:none --sparse https://github.com/KDAB/android_openssl.git
+cd android_openssl
+git sparse-checkout set --no-cone '/*.cmake' '/*.md' '/LICENSE*' '/ssl_3/arm64-v8a/' '/ssl_3/include/'
+```
+
+Pass the checkout as `ANDROID_OPENSSL_ROOT` when configuring; CMake warns if the libraries are not found.
+
 ## Building Strawberry for Android
 
 ### 1. Clone Strawberry Repository
@@ -143,6 +158,7 @@ rm -rf build
   -DOPENSSL_ROOT_DIR="${GSTREAMER_ROOT_ANDROID}" \
   -DOPENSSL_INCLUDE_DIR="${GSTREAMER_ROOT_ANDROID}/include" \
   -DOPENSSL_CRYPTO_LIBRARY="${GSTREAMER_ROOT_ANDROID}/lib/libcrypto.a" \
+  -DANDROID_OPENSSL_ROOT=~/Android/android_openssl \
   -S . -B build
 ```
 
@@ -158,6 +174,7 @@ rm -rf build
 | `QT_HOST_PATH` | Qt gcc_64 | Host tools for code generation during cross-compile |
 | `ANDROID_SDK_ROOT` | Android Sdk path | SDK location (override Qt's hardcoded path) |
 | `GSTREAMER_ROOT_ANDROID` | GStreamer arm64 path | GStreamer libraries and headers |
+| `ANDROID_OPENSSL_ROOT` | KDAB `android_openssl` checkout | Shared OpenSSL libraries bundled for Qt's HTTPS support (also read from the environment) |
 
 ### 3. Expected CMake Output
 

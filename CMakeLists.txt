@@ -588,6 +588,19 @@ qt_add_executable(strawberry)
 if(ANDROID)
   set_property(TARGET strawberry PROPERTY QT_ANDROID_TARGET_SDK_VERSION 34)
   set_property(TARGET strawberry PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
+
+  # Qt's TLS backend loads libssl_3.so and libcrypto_3.so at run time, so they have to be bundled for HTTPS to work.
+  # ANDROID_OPENSSL_ROOT is a checkout of https://github.com/KDAB/android_openssl, as recommended by Qt.
+  if(NOT ANDROID_OPENSSL_ROOT AND DEFINED ENV{ANDROID_OPENSSL_ROOT})
+    set(ANDROID_OPENSSL_ROOT "$ENV{ANDROID_OPENSSL_ROOT}")
+  endif()
+  set(ANDROID_OPENSSL_ROOT "${ANDROID_OPENSSL_ROOT}" CACHE PATH "Android OpenSSL libraries (KDAB android_openssl checkout)")
+  set(ANDROID_OPENSSL_LIBRARIES "${ANDROID_OPENSSL_ROOT}/ssl_3/${CMAKE_ANDROID_ARCH_ABI}/libcrypto_3.so" "${ANDROID_OPENSSL_ROOT}/ssl_3/${CMAKE_ANDROID_ARCH_ABI}/libssl_3.so")
+  if(ANDROID_OPENSSL_ROOT AND EXISTS "${ANDROID_OPENSSL_ROOT}/ssl_3/${CMAKE_ANDROID_ARCH_ABI}/libssl_3.so")
+    set_property(TARGET strawberry APPEND PROPERTY QT_ANDROID_EXTRA_LIBS ${ANDROID_OPENSSL_LIBRARIES})
+  else()
+    message(WARNING "OpenSSL libraries for Android not found, HTTPS will not work. Set ANDROID_OPENSSL_ROOT to a checkout of https://github.com/KDAB/android_openssl.")
+  endif()
 endif()
 
 if(APPLE)
