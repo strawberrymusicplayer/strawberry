@@ -2189,8 +2189,6 @@ void Playlist::ItemsLoaded() {
     InvalidateDeletedSongs();
   }
 
-  Q_EMIT PlaylistLoaded();
-
   Q_EMIT RestoreDone();
 
 }

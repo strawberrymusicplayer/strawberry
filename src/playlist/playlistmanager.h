@@ -157,7 +157,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   void UpdateSummaryText();
   void UpdateCollectionSongs(const SongList &songs);
   void ItemsLoadedForSavePlaylist(const QString &playlist_name, const SongList &songs, const QString &filename, const PlaylistSettings::PathType path_type);
-  void PlaylistLoaded();
+  void PlaylistLoadingFinished(Playlist *playlist);
   void ClosedPlaylistSaved(const int id, const quint64 sequence);
 
  private:
@@ -202,9 +202,11 @@ class PlaylistManager : public PlaylistManagerInterface {
   // Playlists being restored when saving the pending changes when exiting.
   QSet<Playlist*> playlists_restoring_;
 
+  // Playlists being restored at startup, AllPlaylistsLoaded() is emitted when they are all done.
+  QSet<Playlist*> playlists_loading_;
+
   int current_;
   int active_;
-  int playlists_loading_;
 
   // Closed favorite playlists, kept until their pending changes are saved, they are used again when they are opened before that.
   struct ClosedPlaylist {
