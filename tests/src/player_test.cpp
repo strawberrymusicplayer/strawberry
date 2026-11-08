@@ -43,6 +43,7 @@
 #include "collection/collectionbackend.h"
 #include "collection/collectionmanager.h"
 #include "constants/backendsettings.h"
+#include "constants/behavioursettings.h"
 #include "covermanager/albumcoverloader.h"
 #include "covermanager/currentalbumcoverloader.h"
 #include "playlist/playlist.h"
@@ -72,6 +73,9 @@ class TestUrlHandler : public UrlHandler {
   bool load_asynchronously = false;
 };
 
+}  // namespace
+
+// At file scope, since it's a friend of Player.
 class PlayerTest : public ::testing::Test {
  protected:
   PlayerTest()
@@ -150,6 +154,33 @@ class PlayerTest : public ::testing::Test {
     url_handler_.started_urls.clear();
   }
 
+  bool PlaysPaused() const { return player_->pause_; }
+
+  // Saves that the playlist was playing when exiting, and enables resuming playback.
+  static void SavePlaybackStatus(const int playlist_id, const EngineBase::State state = EngineBase::State::Playing) {
+    Settings s;
+    s.beginGroup(BehaviourSettings::kSettingsGroup);
+    s.setValue(BehaviourSettings::kResumePlayback, true);
+    s.endGroup();
+    s.beginGroup("Player");
+    s.setValue("playback_state", static_cast<int>(state));
+    s.setValue("playback_playlist", playlist_id);
+    s.setValue("playback_position", 0);
+    s.endGroup();
+  }
+
+  static void RemoveResumeSettings() {
+    Settings s;
+    s.beginGroup(BehaviourSettings::kSettingsGroup);
+    s.remove(BehaviourSettings::kResumePlayback);
+    s.endGroup();
+    s.beginGroup("Player");
+    s.remove("playback_state");
+    s.remove("playback_playlist");
+    s.remove("playback_position");
+    s.endGroup();
+  }
+
   static void RemoveCrossfadeSettings() {
     Settings s;
     s.beginGroup(BackendSettings::kSettingsGroup);
@@ -173,6 +204,8 @@ class PlayerTest : public ::testing::Test {
   SharedPtr<PlaylistManager> playlist_manager_;
   SharedPtr<Player> player_;
 };
+
+namespace {
 
 // The next track is preloaded when the current track is about to end.
 TEST_F(PlayerTest, PreloadsNextTrack) {
@@ -226,6 +259,151 @@ TEST_F(PlayerTest, AutoCrossfadeKeepsPlayingUntilTrackEndedWhenStoppingAfterCurr
   EXPECT_FALSE(player_->GetCurrentItem());
   EXPECT_EQ(-1, playlist->current_row());
   EXPECT_FALSE(playlist->stop_after_current());
+  EXPECT_TRUE(url_handler_.started_urls.isEmpty());
+
+}
+
+// Regression test: playback was only resumed when the playlist that was playing was also the playlist shown when exiting.
+TEST_F(PlayerTest, ResumesPlaybackOnPlaylistWhichIsNotCurrent) {
+
+  const auto cleanup = qScopeGuard([]() { RemoveResumeSettings(); });
+  const int first_id = playlist_manager_->current_id();
+  playlist_manager_->New(u"Second"_s);
+  const int second_id = playlist_manager_->current_id();
+  playlist_manager_->playlist(second_id)->InsertItems(PlaylistItemPtrList() << MakeItem(u"other"_s));
+  playlist_manager_->SetCurrentPlaylist(first_id);
+  url_handler_.load_asynchronously = true;
+  SavePlaybackStatus(second_id);
+
+  player_->PlaylistsLoaded();
+
+  EXPECT_EQ(second_id, playlist_manager_->current_id());
+  EXPECT_EQ(second_id, playlist_manager_->active_id());
+  EXPECT_EQ(QList<QUrl>() << QUrl(u"test:other"_s), url_handler_.started_urls);
+
+}
+
+// Regression test: the saved playback replaced a playlist requested at startup, like with --play-playlist, which is handled before resuming.
+TEST_F(PlayerTest, DoesNotResumePlaybackOverRequestedPlaylist) {
+
+  const auto cleanup = qScopeGuard([]() { RemoveResumeSettings(); });
+  const int first_id = playlist_manager_->current_id();
+  playlist_manager_->New(u"Second"_s);
+  const int second_id = playlist_manager_->current_id();
+  playlist_manager_->playlist(second_id)->InsertItems(PlaylistItemPtrList() << MakeItem(u"other"_s));
+  url_handler_.load_asynchronously = true;
+  SavePlaybackStatus(first_id);
+
+  player_->PlayPlaylist(u"Second"_s);
+  player_->PlaylistsLoaded();
+
+  EXPECT_EQ(second_id, playlist_manager_->current_id());
+  EXPECT_EQ(second_id, playlist_manager_->active_id());
+  EXPECT_EQ(QList<QUrl>() << QUrl(u"test:other"_s), url_handler_.started_urls);
+
+  // The saved playback is used up, so it isn't resumed the next time either.
+  Settings s;
+  s.beginGroup("Player");
+  EXPECT_EQ(-1, s.value("playback_playlist").toInt());
+  s.endGroup();
+
+}
+
+// Regression test: an empty playlist requested at startup doesn't set the current item, so it was replaced by the saved playback.
+TEST_F(PlayerTest, DoesNotResumePlaybackOverRequestedEmptyPlaylist) {
+
+  const auto cleanup = qScopeGuard([]() { RemoveResumeSettings(); });
+  const int first_id = playlist_manager_->current_id();
+  playlist_manager_->New(u"Empty"_s);
+  const int empty_id = playlist_manager_->current_id();
+  url_handler_.load_asynchronously = true;
+  SavePlaybackStatus(first_id);
+
+  player_->PlayPlaylist(u"Empty"_s);
+  player_->PlaylistsLoaded();
+
+  EXPECT_EQ(empty_id, playlist_manager_->current_id());
+  EXPECT_EQ(empty_id, playlist_manager_->active_id());
+  EXPECT_TRUE(url_handler_.started_urls.isEmpty());
+
+}
+
+// A requested playlist which doesn't exist doesn't prevent resuming.
+TEST_F(PlayerTest, ResumesPlaybackWhenRequestedPlaylistIsNotFound) {
+
+  const auto cleanup = qScopeGuard([]() { RemoveResumeSettings(); });
+  url_handler_.load_asynchronously = true;
+  SavePlaybackStatus(playlist_manager_->current_id());
+
+  player_->PlayPlaylist(u"Missing"_s);
+  player_->PlaylistsLoaded();
+
+  EXPECT_EQ(QList<QUrl>() << QUrl(u"test:first"_s), url_handler_.started_urls);
+
+}
+
+// Regression test: starting with --play while the saved playback was paused left the track paused.
+TEST_F(PlayerTest, PlayRequestDoesNotResumePaused) {
+
+  const auto cleanup = qScopeGuard([]() { RemoveResumeSettings(); });
+  url_handler_.load_asynchronously = true;
+  SavePlaybackStatus(playlist_manager_->current_id(), EngineBase::State::Paused);
+
+  player_->Play();
+  player_->PlaylistsLoaded();
+
+  EXPECT_EQ(QList<QUrl>() << QUrl(u"test:first"_s), url_handler_.started_urls);
+  EXPECT_FALSE(PlaysPaused());
+
+}
+
+TEST_F(PlayerTest, ResumesPausedPlayback) {
+
+  const auto cleanup = qScopeGuard([]() { RemoveResumeSettings(); });
+  url_handler_.load_asynchronously = true;
+  SavePlaybackStatus(playlist_manager_->current_id(), EngineBase::State::Paused);
+
+  player_->PlaylistsLoaded();
+
+  EXPECT_EQ(QList<QUrl>() << QUrl(u"test:first"_s), url_handler_.started_urls);
+  EXPECT_TRUE(PlaysPaused());
+
+}
+
+// Regression test: the saved playback switched away from the playlist that files passed on the command line are inserted into and played from.
+TEST_F(PlayerTest, DoesNotResumePlaybackWhenFilesWillBePlayed) {
+
+  const auto cleanup = qScopeGuard([]() { RemoveResumeSettings(); });
+  const int first_id = playlist_manager_->current_id();
+  playlist_manager_->New(u"Second"_s);
+  const int second_id = playlist_manager_->current_id();
+  url_handler_.load_asynchronously = true;
+  SavePlaybackStatus(first_id);
+
+  player_->SkipResumePlayback();
+  player_->PlaylistsLoaded();
+
+  EXPECT_EQ(second_id, playlist_manager_->current_id());
+  EXPECT_TRUE(url_handler_.started_urls.isEmpty());
+
+  // The saved playback is used up, so it isn't resumed the next time either.
+  Settings s;
+  s.beginGroup("Player");
+  EXPECT_EQ(-1, s.value("playback_playlist").toInt());
+  s.endGroup();
+
+}
+
+// A playlist that isn't open anymore can't be resumed.
+TEST_F(PlayerTest, DoesNotResumePlaybackOnClosedPlaylist) {
+
+  const auto cleanup = qScopeGuard([]() { RemoveResumeSettings(); });
+  const int current_id = playlist_manager_->current_id();
+  SavePlaybackStatus(current_id + 1000);
+
+  player_->PlaylistsLoaded();
+
+  EXPECT_EQ(current_id, playlist_manager_->current_id());
   EXPECT_TRUE(url_handler_.started_urls.isEmpty());
 
 }

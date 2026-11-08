@@ -92,6 +92,7 @@ Player::Player(const SharedPtr<TaskManager> task_manager, const SharedPtr<UrlHan
       sleep_inhibitor_(new SleepInhibitor(this)),
 #endif
       playlists_loaded_(false),
+      skip_resume_playback_(false),
       play_requested_(false),
       pause_(false),
       stream_change_type_(EngineBase::TrackChangeType::First),
@@ -257,10 +258,14 @@ void Player::ResumePlayback() {
   const quint64 playback_position = s.value(kPlaybackPosition, 0).toULongLong();
   s.endGroup();
 
-  if (playback_playlist == playlist_manager_->current()->id()) {
-    // Set active to current to resume playback on correct playlist.
+  // A track or files requested at startup, like with --play-playlist, are handled before this and take priority over the saved playback.
+  // The playlist may have been closed since, or not be the one that was shown when exiting.
+  if (!current_item_ && !skip_resume_playback_ && playlist_manager_->IsPlaylistOpen(playback_playlist)) {
+    // Playing uses the current playlist, so make it current and active to resume playback on the correct playlist.
+    playlist_manager_->SetCurrentPlaylist(playback_playlist);
     playlist_manager_->SetActiveToCurrent();
-    if (playback_state == EngineBase::State::Playing) {
+    // A play request at startup resumes the saved track, but shouldn't leave it paused.
+    if (playback_state == EngineBase::State::Playing || play_requested_) {
       Play(playback_position * kNsecPerSec);
     }
     else if (playback_state == EngineBase::State::Paused) {
@@ -522,6 +527,9 @@ void Player::PlayPlaylistInternal(const EngineBase::TrackChangeFlags change, con
     qLog(Warning) << "Playlist '" << playlist_name << "' not found.";
     return;
   }
+
+  // An empty playlist doesn't set the current item, but it's still the requested playlist.
+  SkipResumePlayback();
 
   playlist_manager_->SetActivePlaylist(playlist->id());
   playlist_manager_->SetCurrentPlaylist(playlist->id());
