@@ -22,6 +22,7 @@
 
 #include "config.h"
 
+#include <QMap>
 #include <QQueue>
 #include <QVariant>
 #include <QString>
@@ -116,6 +117,7 @@ class OpenTidalCoverProvider : public JsonCoverProvider {
   void SendAlbumCoverRequest(SearchRequestPtr search_request, AlbumCoverRequestPtr albumcover_request);
   void AddArtworkRequest(SearchRequestPtr search_request, AlbumCoverRequestPtr albumcover_request, const QString &artwork_id);
   void SendArtworkRequest(SearchRequestPtr search_request, AlbumCoverRequestPtr albumcover_request, ArtworkRequestPtr artwork_request);
+  void FinishSearch(SearchRequestPtr search_request);
   void FinishAllSearches();
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
@@ -134,6 +136,7 @@ class OpenTidalCoverProvider : public JsonCoverProvider {
   bool api_credentials_initialized_;
   bool login_in_progress_;
   QDateTime last_login_attempt_;
+  QMap<int, SearchRequestPtr> search_requests_;
   QQueue<QueuedSearchRequestPtr> search_requests_queue_;
   QQueue<QueuedAlbumCoverRequestPtr> albumcover_requests_queue_;
   QQueue<QueuedArtworkRequestPtr> artwork_requests_queue_;

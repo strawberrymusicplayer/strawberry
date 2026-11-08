@@ -158,7 +158,9 @@ bool OpenTidalCoverProvider::StartSearch(const QString &artist, const QString &a
     return false;
   }
 
-  search_requests_queue_.enqueue(make_shared<QueuedSearchRequest>(make_shared<SearchRequest>(id, artist, album, title)));
+  SearchRequestPtr search_request = make_shared<SearchRequest>(id, artist, album, title);
+  search_requests_.insert(id, search_request);
+  search_requests_queue_.enqueue(make_shared<QueuedSearchRequest>(search_request));
 
   if (!timer_flush_requests_->isActive()) {
     timer_flush_requests_->start();
@@ -169,7 +171,33 @@ bool OpenTidalCoverProvider::StartSearch(const QString &artist, const QString &a
 }
 
 void OpenTidalCoverProvider::CancelSearch(const int id) {
-  Q_UNUSED(id);
+
+  if (!search_requests_.contains(id)) return;
+
+  // The search is finished without reporting the results, so replies received later are ignored, and don't add more requests.
+  SearchRequestPtr search_request = search_requests_.take(id);
+  search_request->finished = true;
+  search_request->albumcover_requests.clear();
+
+  // The requests are sent one at a time, the requests for the canceled search would otherwise still be sent before the requests for the next searches.
+  search_requests_queue_.removeIf([search_request](const QueuedSearchRequestPtr &queued_request) { return queued_request->search == search_request; });
+  albumcover_requests_queue_.removeIf([search_request](const QueuedAlbumCoverRequestPtr &queued_request) { return queued_request->search == search_request; });
+  artwork_requests_queue_.removeIf([search_request](const QueuedArtworkRequestPtr &queued_request) { return queued_request->search == search_request; });
+
+  if (search_requests_queue_.isEmpty() && albumcover_requests_queue_.isEmpty() && artwork_requests_queue_.isEmpty()) {
+    timer_flush_requests_->stop();
+  }
+
+}
+
+void OpenTidalCoverProvider::FinishSearch(SearchRequestPtr search_request) {
+
+  if (search_request->finished) return;
+
+  search_request->finished = true;
+  search_requests_.remove(search_request->id);
+  Q_EMIT SearchFinished(search_request->id, search_request->results);
+
 }
 
 void OpenTidalCoverProvider::FlushRequests() {
@@ -345,10 +373,12 @@ void OpenTidalCoverProvider::HandleSearchReply(QNetworkReply *reply, SearchReque
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
+  // The search was canceled, or finished when logging in failed.
+  if (search_request->finished) return;
+
   QScopeGuard search_finished = qScopeGuard([this, search_request]() {
-    if (!search_request->finished && search_request->albumcover_requests.isEmpty()) {
-      Q_EMIT SearchFinished(search_request->id, search_request->results);
-      search_request->finished = true;
+    if (search_request->albumcover_requests.isEmpty()) {
+      FinishSearch(search_request);
     }
   });
 
@@ -432,13 +462,15 @@ void OpenTidalCoverProvider::HandleAlbumCoverReply(QNetworkReply *reply, SearchR
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
+  // The search was canceled, or finished when logging in failed.
+  if (search_request->finished) return;
+
   QScopeGuard search_finished = qScopeGuard([this, search_request, albumcover_request]() {
     if (albumcover_request->artwork_requests.isEmpty()) {
       search_request->albumcover_requests.removeAll(albumcover_request);
     }
-    if (!search_request->finished && search_request->albumcover_requests.isEmpty()) {
-      Q_EMIT SearchFinished(search_request->id, search_request->results);
-      search_request->finished = true;
+    if (search_request->albumcover_requests.isEmpty()) {
+      FinishSearch(search_request);
     }
   });
 
@@ -518,14 +550,16 @@ void OpenTidalCoverProvider::HandleArtworkReply(QNetworkReply *reply, SearchRequ
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
+  // The search was canceled, or finished when logging in failed.
+  if (search_request->finished) return;
+
   QScopeGuard search_finished = qScopeGuard([this, search_request, albumcover_request, artwork_request]() {
     albumcover_request->artwork_requests.removeAll(artwork_request);
     if (albumcover_request->artwork_requests.isEmpty()) {
       search_request->albumcover_requests.removeAll(albumcover_request);
     }
-    if (!search_request->finished && search_request->albumcover_requests.isEmpty()) {
-      Q_EMIT SearchFinished(search_request->id, search_request->results);
-      search_request->finished = true;
+    if (search_request->albumcover_requests.isEmpty()) {
+      FinishSearch(search_request);
     }
   });
 
@@ -603,10 +637,7 @@ void OpenTidalCoverProvider::FinishAllSearches() {
 
   for (const SearchRequestPtr &search_request : std::as_const(search_requests)) {
     search_request->albumcover_requests.clear();
-    if (!search_request->finished) {
-      Q_EMIT SearchFinished(search_request->id, search_request->results);
-      search_request->finished = true;
-    }
+    FinishSearch(search_request);
   }
 
   timer_flush_requests_->stop();
