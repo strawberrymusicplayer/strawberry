@@ -737,4 +737,22 @@ TEST_F(PlaylistManagerTest, LoadUpdatesItems) {
 
 }
 
+// The queue of an open playlist is reported with the playlist, a closed playlist isn't used anymore.
+TEST_F(PlaylistManagerTest, QueueChangedIsOnlySentForOpenPlaylists) {
+
+  const int id = AddPlaylistWithPendingItem(true);
+  Playlist *playlist = playlist_manager_->playlist(id);
+  QSignalSpy spy(&*playlist_manager_, &PlaylistManager::QueueChanged);
+
+  Q_EMIT playlist->QueueChanged();
+  ASSERT_EQ(1, spy.count());
+  EXPECT_EQ(playlist, spy.first().at(0).value<Playlist*>());
+
+  ASSERT_TRUE(playlist_manager_->Close(id));
+  spy.clear();
+  Q_EMIT playlist->QueueChanged();
+  EXPECT_EQ(0, spy.count());
+
+}
+
 }  // namespace

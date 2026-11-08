@@ -234,6 +234,7 @@ void PlaylistManager::RegisterPlaylist(Playlist *playlist, const int id, const Q
   QObject::connect(playlist, &Playlist::CurrentSongChanged, this, &PlaylistManager::CurrentSongChanged);
   QObject::connect(playlist, &Playlist::CurrentSongMetadataChanged, this, &PlaylistManager::CurrentSongMetadataChanged);
   QObject::connect(playlist, &Playlist::PlaylistChanged, this, &PlaylistManager::OneOfPlaylistsChanged);
+  QObject::connect(playlist, &Playlist::QueueChanged, this, &PlaylistManager::OneOfPlaylistsQueueChanged);
   QObject::connect(playlist, &Playlist::PlaylistChanged, this, &PlaylistManager::UpdateSummaryText);
   QObject::connect(playlist, &Playlist::EditingFinished, this, &PlaylistManager::EditingFinished);
   QObject::connect(playlist, &Playlist::Error, this, &PlaylistManager::Error);
@@ -503,6 +504,7 @@ void PlaylistManager::UnregisterPlaylist(Playlist *playlist) {
   QObject::disconnect(playlist, &Playlist::CurrentSongChanged, this, &PlaylistManager::CurrentSongChanged);
   QObject::disconnect(playlist, &Playlist::CurrentSongMetadataChanged, this, &PlaylistManager::CurrentSongMetadataChanged);
   QObject::disconnect(playlist, &Playlist::PlaylistChanged, this, &PlaylistManager::OneOfPlaylistsChanged);
+  QObject::disconnect(playlist, &Playlist::QueueChanged, this, &PlaylistManager::OneOfPlaylistsQueueChanged);
   QObject::disconnect(playlist, &Playlist::PlaylistChanged, this, &PlaylistManager::UpdateSummaryText);
   QObject::disconnect(playlist, &Playlist::EditingFinished, this, &PlaylistManager::EditingFinished);
   QObject::disconnect(playlist, &Playlist::Error, this, &PlaylistManager::Error);
@@ -595,6 +597,10 @@ void PlaylistManager::Delete(const int id) {
 
 void PlaylistManager::OneOfPlaylistsChanged() {
   Q_EMIT PlaylistChanged(qobject_cast<Playlist*>(sender()));
+}
+
+void PlaylistManager::OneOfPlaylistsQueueChanged() {
+  Q_EMIT QueueChanged(qobject_cast<Playlist*>(sender()));
 }
 
 void PlaylistManager::SetCurrentPlaylist(const int id) {
