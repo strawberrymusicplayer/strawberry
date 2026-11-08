@@ -69,10 +69,11 @@ class M3UParser : public ParserBase {
   };
 
   struct Metadata {
-    Metadata() : length(-1) {}
+    Metadata() : length(-1), track(0) {}
     QString artist;
     QString title;
     qint64 length;
+    int track;
   };
 
   static bool ParseMetadata(const QString &line, Metadata *metadata);
