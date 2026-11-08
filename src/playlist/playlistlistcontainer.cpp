@@ -370,15 +370,19 @@ void PlaylistListContainer::ItemMimeDataDropped(const QModelIndex &proxy_idx, co
   const QModelIndex idx = proxy_->mapToSource(proxy_idx);
   if (!idx.isValid() || !idx.data(PlaylistListModel::Role_PlaylistId).isValid()) return;
 
-  // Drop playlist rows if type is playlist and it's not active, to prevent selfcopy
+  if (idx.data(PlaylistListModel::Role_Type).toInt() != PlaylistListModel::Type_Playlist) return;
+
   const int playlist_id = idx.data(PlaylistListModel::Role_PlaylistId).toInt();
-  if (idx.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist && playlist_id != playlist_manager_->active_id()) {
-    if (!playlist_manager_->IsPlaylistOpen(playlist_id)) {
-      QMessageBox::critical(this, tr("Copy songs to playlist"), tr("Playlist must be open first."));
-      return;
-    }
-    playlist_manager_->playlist(playlist_id)->dropMimeData(q_mimedata, Qt::CopyAction, -1, 0, QModelIndex());
+  if (!playlist_manager_->IsPlaylistOpen(playlist_id)) {
+    QMessageBox::critical(this, tr("Copy songs to playlist"), tr("Playlist must be open first."));
+    return;
   }
+
+  // Rows dropped on the playlist they were dragged from would be moved to the end, they are not copied to their own playlist.
+  Playlist *playlist = playlist_manager_->playlist(playlist_id);
+  if (!playlist || playlist->IsDraggedFromThisPlaylist(q_mimedata)) return;
+
+  playlist->dropMimeData(q_mimedata, Qt::CopyAction, -1, 0, QModelIndex());
 
 }
 
