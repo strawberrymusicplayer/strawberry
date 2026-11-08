@@ -113,7 +113,7 @@ EngineDeviceList MacOsAudioDeviceLister::ListDevices() {
 
     EngineDevice device;
     device.value = id;
-    device.description = QString::fromUtf8(CFStringGetCStringPtr(*device_name, CFStringGetSystemEncoding()));
+    device.description = QString::fromCFString(*device_name);
     if (device.description.isEmpty()) device.description = "Unknown device "_L1 + device.value.toString();
     device.iconname = device.GuessIconName();
     device_list.append(device);
