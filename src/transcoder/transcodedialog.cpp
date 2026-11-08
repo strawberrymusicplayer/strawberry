@@ -197,6 +197,9 @@ void TranscodeDialog::reject() {
 
 void TranscodeDialog::LoadGeometry() {
 
+  // Embedded as a page on Android, the parent's layout places it.
+  if (!isWindow()) return;
+
   Settings s;
   s.beginGroup(TranscoderSettings::kSettingsGroup);
   if (s.contains(kGeometry)) {

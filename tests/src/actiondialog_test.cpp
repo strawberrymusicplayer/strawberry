@@ -25,7 +25,9 @@
 #include <QPushButton>
 #include <QSignalSpy>
 #include <QString>
+#include <QTabWidget>
 #include <QTest>
+#include <QVBoxLayout>
 #include <QWidget>
 
 #include "widgets/actiondialog.h"
@@ -261,6 +263,74 @@ TEST_F(ActionDialogTest, ConfirmationAcceptsOnlyWithTheCheckmark) {
     EXPECT_EQ(rejected.count(), 1);
     EXPECT_EQ(cancelled_accept.count(), 0);
   }
+
+}
+
+TEST_F(ActionDialogTest, PageInsideATabCoversOnlyTheTabPage) {
+
+  QTabWidget tabs;
+  QWidget *page = new QWidget;
+  QWidget *other_page = new QWidget;
+  QVBoxLayout *layout = new QVBoxLayout(page);
+  QWidget *view = new QWidget(page);
+  layout->addWidget(view);
+  tabs.addTab(page, u"Playlist"_s);
+  tabs.addTab(other_page, u"Files"_s);
+  tabs.setGeometry(40, 30, 400, 600);
+  tabs.show();
+  EXPECT_TRUE(QTest::qWaitForWindowExposed(&tabs));
+
+  dialog_ = new ActionDialog(view, u"Actions"_s, u"Song"_s, ActionDialog::TitlePosition::Top);
+  dialog_->AddCancelButton(u"Cancel"_s);
+  dialog_->Open();
+  EXPECT_FALSE(dialog_->isWindow());
+  EXPECT_EQ(dialog_->parentWidget(), page);
+  EXPECT_EQ(dialog_->windowModality(), Qt::NonModal);
+  EXPECT_TRUE(dialog_->autoFillBackground());
+  EXPECT_EQ(dialog_->geometry(), page->rect());
+  tabs.resize(360, 500);
+  EXPECT_EQ(dialog_->geometry(), page->rect());
+
+  QSignalSpy rejected(dialog_.data(), &QDialog::rejected);
+  tabs.setCurrentWidget(other_page);
+  EXPECT_EQ(rejected.count(), 1);
+  QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+  EXPECT_TRUE(dialog_.isNull());
+
+}
+
+TEST_F(ActionDialogTest, BackRejectsThePageInsideATab) {
+
+  QTabWidget tabs;
+  QWidget *page = new QWidget;
+  tabs.addTab(page, u"Playlist"_s);
+  tabs.show();
+  tabs.activateWindow();
+  EXPECT_TRUE(QTest::qWaitForWindowActive(&tabs));
+
+  dialog_ = new ActionDialog(page, u"Actions"_s, u"Song"_s, ActionDialog::TitlePosition::Top);
+  dialog_->AddCancelButton(u"Cancel"_s);
+  dialog_->Open();
+  QSignalSpy rejected(dialog_.data(), &QDialog::rejected);
+  QTest::keyClick(dialog_->cancel_button(), Qt::Key_Back);
+  EXPECT_EQ(rejected.count(), 1);
+
+}
+
+TEST_F(ActionDialogTest, ConfirmationInsideATabStillCoversTheWindow) {
+
+  QTabWidget tabs;
+  QWidget *page = new QWidget;
+  tabs.addTab(page, u"Playlists"_s);
+  tabs.setGeometry(40, 30, 400, 600);
+  tabs.show();
+  EXPECT_TRUE(QTest::qWaitForWindowExposed(&tabs));
+
+  dialog_ = ActionDialog::CreateConfirmation(page, u"Delete playlists"_s, u"Delete it?"_s, u"Delete playlist"_s);
+  Open();
+  EXPECT_TRUE(dialog_->isWindow());
+  EXPECT_EQ(dialog_->windowModality(), Qt::ApplicationModal);
+  EXPECT_EQ(dialog_->geometry(), tabs.geometry());
 
 }
 

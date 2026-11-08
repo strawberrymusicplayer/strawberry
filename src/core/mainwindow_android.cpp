@@ -18,14 +18,19 @@
 
 // Android-only parts of MainWindow, kept apart from mainwindow.cpp to reduce conflicts when merging upstream.
 
+#include <functional>
+
 #include <QAction>
 #include <QDialog>
+#include <QEvent>
 #include <QFont>
 #include <QFrame>
+#include <QKeyEvent>
 #include <QLabel>
 #include <QLayout>
 #include <QList>
 #include <QObject>
+#include <QPushButton>
 #include <QScrollArea>
 #include <QSize>
 #include <QSizePolicy>
@@ -53,8 +58,40 @@
 #include "widgets/playlisttitleheader.h"
 
 namespace {
+
 constexpr int kAndroidToolButtonHeight = 72;
-}
+
+// Returns to the Tools list when an embedded tool closes, and closes the tool when Back or Escape reaches its page unhandled.
+class AndroidToolPageFilter : public QObject {
+ public:
+  explicit AndroidToolPageFilter(QWidget *page, QWidget *tool, std::function<void()> closed) : QObject(page), page_(page), tool_(tool), closed_(std::move(closed)) {
+    page_->installEventFilter(this);
+    tool_->installEventFilter(this);
+  }
+
+ protected:
+  bool eventFilter(QObject *object, QEvent *event) override {
+    // Unlike Hide, HideToParent is sent only when the tool itself is hidden, not when the Tools tab is.
+    if (object == tool_ && event->type() == QEvent::HideToParent) {
+      closed_();
+    }
+    else if (object == page_ && event->type() == QEvent::KeyPress) {
+      const int key = static_cast<QKeyEvent*>(event)->key();
+      if (key == Qt::Key_Back || key == Qt::Key_Escape) {
+        tool_->close();
+        return true;
+      }
+    }
+    return QObject::eventFilter(object, event);
+  }
+
+ private:
+  QWidget *page_;
+  QWidget *tool_;
+  std::function<void()> closed_;
+};
+
+}  // namespace
 
 void MainWindow::SetupAndroidLayout() {
 
@@ -133,7 +170,11 @@ void MainWindow::SetupAndroidLayout() {
 
 QWidget *MainWindow::CreateAndroidToolsPage() {
 
-  QScrollArea *page = new QScrollArea(ui_->tabs);
+  // The Tools tab shows the list of tools, or one tool opened from it as a subpage.
+  android_tools_pages_ = new QStackedWidget(ui_->tabs);
+  QScrollArea *page = new QScrollArea(android_tools_pages_);
+  android_tools_list_ = page;
+  android_tools_pages_->addWidget(page);
   page->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   page->setWidgetResizable(true);
   page->setFrameShape(QFrame::NoFrame);
@@ -176,7 +217,56 @@ QWidget *MainWindow::CreateAndroidToolsPage() {
   add_section(tr("Collection"), { ui_->action_update_collection, ui_->action_full_collection_scan, ui_->action_stop_collection_scan });
   layout->addStretch();
 
-  return page;
+  // Tapping the Tools tab returns to the list, like the Playlists tab.
+  QObject::connect(ui_->tabs->tabBar(), &QTabBar::tabBarClicked, this, [this](const int index) {
+    if (index == ui_->tabs->IndexOfTab(android_tools_pages_) && android_current_tool_) android_current_tool_->close();
+  });
+
+  return android_tools_pages_;
+
+}
+
+void MainWindow::ShowAndroidTool(QWidget *tool, const bool add_header) {
+
+  if (android_current_tool_ && android_current_tool_ != tool) {
+    android_current_tool_->close();
+    // The tool refused to close, for example to keep a running search.
+    if (android_current_tool_) return;
+  }
+
+  // Embed the tool in the Tools tab instead of showing it as a window over the tab bar.
+  QWidget *page = tool->parentWidget();
+  if (!page || android_tools_pages_->indexOf(page) < 0) {
+    page = new QWidget(android_tools_pages_);
+    auto *layout = new QVBoxLayout(page);
+    if (add_header) {
+      QLabel *title = new QLabel(tr("Tools > %1").arg(tool->windowTitle()), page);
+      title->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
+      QPushButton *back = AndroidWidgets::CreateBackButton(page);
+      QObject::connect(back, &QPushButton::clicked, tool, &QWidget::close);
+      layout->addLayout(AndroidWidgets::CreatePageHeader(title, back));
+    }
+    else {
+      layout->setContentsMargins(0, 0, 0, 0);
+    }
+    tool->setParent(page, Qt::Widget);
+    tool->setWindowModality(Qt::NonModal);
+    tool->setMinimumSize(0, 0);
+    tool->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    layout->addWidget(tool);
+    android_tools_pages_->addWidget(page);
+    new AndroidToolPageFilter(page, tool, [this, tool]() {
+      if (android_current_tool_ != tool) return;
+      android_current_tool_.clear();
+      android_tools_pages_->setCurrentWidget(android_tools_list_);
+    });
+  }
+
+  android_current_tool_ = tool;
+  ui_->tabs->setCurrentIndex(ui_->tabs->IndexOfTab(android_tools_pages_));
+  android_tools_pages_->setCurrentWidget(page);
+  tool->show();
+  tool->setFocus(Qt::OtherFocusReason);
 
 }
 

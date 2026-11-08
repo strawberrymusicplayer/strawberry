@@ -314,6 +314,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   // Implemented in mainwindow_android.cpp.
   void SetupAndroidLayout();
   QWidget *CreateAndroidToolsPage();
+  // Opens the tool as a subpage of the Tools tab; tools without their own breadcrumb header get one.
+  void ShowAndroidTool(QWidget *tool, const bool add_header);
   QWidget *CreateAndroidSettingsTab();
   void SetupAndroidSettingsTab();
   void EmbedAndroidSettingsDialog(SettingsDialog *settings_dialog);
@@ -342,6 +344,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QStackedWidget *android_playlist_pages_ = nullptr;
   QToolButton *android_mute_button_ = nullptr;
   QWidget *android_settings_tab_ = nullptr;
+  QStackedWidget *android_tools_pages_ = nullptr;
+  QWidget *android_tools_list_ = nullptr;
+  QPointer<QWidget> android_current_tool_;
   int android_previous_tab_index_ = -1;
   bool android_settings_overview_on_open_ = true;
 #endif

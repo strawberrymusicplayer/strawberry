@@ -1292,6 +1292,10 @@ MainWindow::MainWindow(Application *app,
 }
 
 MainWindow::~MainWindow() {
+#ifdef Q_OS_ANDROID
+  // The equalizer is embedded in the Tools tab, but the player shares ownership of it.
+  equalizer_->setParent(nullptr);
+#endif
   delete ui_;
 }
 
@@ -3383,21 +3387,22 @@ void MainWindow::ChangeCollectionFilterMode(QAction *action) {
 
 void MainWindow::ShowCoverManager() {
 
+#ifdef Q_OS_ANDROID
+  ShowAndroidTool(cover_manager_.get(), true);
+#else
   cover_manager_->show();
   cover_manager_->raise();
+#endif
 
 }
 
 void MainWindow::ShowEqualizer() {
 
 #ifdef Q_OS_ANDROID
-  equalizer_->setGeometry(geometry());
-#endif
+  ShowAndroidTool(&*equalizer_, false);
+#else
   equalizer_->show();
   equalizer_->raise();
-#ifdef Q_OS_ANDROID
-  equalizer_->activateWindow();
-  equalizer_->setFocus(Qt::OtherFocusReason);
 #endif
 
 }
@@ -3495,8 +3500,12 @@ void MainWindow::ShowAboutDialog() {
 
 void MainWindow::ShowTranscodeDialog() {
 
+#ifdef Q_OS_ANDROID
+  ShowAndroidTool(transcode_dialog_.get(), true);
+#else
   transcode_dialog_->show();
   transcode_dialog_->raise();
+#endif
 
 }
 

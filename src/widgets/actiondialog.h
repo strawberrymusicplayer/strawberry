@@ -31,9 +31,10 @@ class QBoxLayout;
 class QLabel;
 class QPushButton;
 
-// A modal touch dialog for action and confirmation flows, used on Android.
-// Android delivers offset touch coordinates to small positioned native dialogs, so the dialog is a frameless window that covers the parent's window:
-// either as an action page or as a translucent overlay around a compact confirmation.
+// A touch dialog for action and confirmation flows, used on Android.
+// Android delivers offset touch coordinates to small positioned native dialogs, so the dialog is never a small window:
+// an action page inside a tab covers that tab's page as a child widget, leaving the tab bar usable, and switching tabs cancels it;
+// otherwise the action page, like the translucent overlay around a compact confirmation, is a frameless modal window that covers the parent's window.
 // Back and Escape reject the dialog, or return from a confirmation step to the actions.
 // The dialog deletes itself when closed.
 class ActionDialog : public QDialog {
@@ -83,14 +84,15 @@ class ActionDialog : public QDialog {
   void SetupPage(const QString &title, const TitlePosition title_position);
   void SetupConfirmation(const QString &question, const QString &confirm_text);
   QPushButton *CreatePageButton(const QString &text);
-  // Covers the parent's window and fits the confirmation into it.
+  // Covers the host and fits the confirmation into it.
   void UpdateGeometry();
   void Back();
   void EndConfirmation();
   void Confirm();
 
   Style style_;
-  QWidget *window_;
+  // The tab page or window that the dialog covers.
+  QWidget *host_;
   QBoxLayout *layout_;
   QWidget *confirmation_;
   QLabel *title_;

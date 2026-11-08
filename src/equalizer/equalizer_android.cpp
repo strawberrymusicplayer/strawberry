@@ -79,7 +79,6 @@ const QString kAndroidScrollBarStyle =
 
 void Equalizer::SetupAndroidLayout() {
 
-  setWindowModality(Qt::ApplicationModal);
   QLayout *old_layout = layout();
   old_layout->removeItem(ui_->slider_label_layout);
   ui_->slider_label_layout->setParent(nullptr);

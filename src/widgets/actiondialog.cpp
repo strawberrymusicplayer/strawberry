@@ -31,6 +31,8 @@
 #include <QPixmap>
 #include <QPushButton>
 #include <QShortcut>
+#include <QStackedWidget>
+#include <QTabWidget>
 #include <QVBoxLayout>
 
 #include "actiondialog.h"
@@ -68,12 +70,27 @@ QIcon ConfirmationIcon(const bool confirm) {
 
 }
 
+// Returns the page of the tab widget containing the widget, or nullptr outside a tab widget.
+QWidget *TabPage(QWidget *widget, QTabWidget **tab_widget) {
+
+  for (QWidget *page = widget; page && page->parentWidget(); page = page->parentWidget()) {
+    QWidget *stack = page->parentWidget();
+    QTabWidget *tabs = qobject_cast<QTabWidget*>(stack->parentWidget());
+    if (tabs && qobject_cast<QStackedWidget*>(stack)) {
+      *tab_widget = tabs;
+      return page;
+    }
+  }
+  return nullptr;
+
+}
+
 }  // namespace
 
 ActionDialog::ActionDialog(QWidget *parent, const QString &window_title, const Style style)
     : QDialog(parent, Qt::FramelessWindowHint),
       style_(style),
-      window_(parent ? parent->window() : nullptr),
+      host_(parent ? parent->window() : nullptr),
       layout_(nullptr),
       confirmation_(nullptr),
       title_(nullptr),
@@ -84,7 +101,7 @@ ActionDialog::ActionDialog(QWidget *parent, const QString &window_title, const S
   setWindowTitle(window_title);
   // An application-modal window over the parent window receives both touch input at the right position and the Back key on Android.
   setWindowModality(Qt::ApplicationModal);
-  if (window_) window_->installEventFilter(this);
+  if (host_) host_->installEventFilter(this);
 
   QShortcut *back = new QShortcut(this);
   back->setKeys({QKeySequence(Qt::Key_Back), QKeySequence(Qt::Key_Escape)});
@@ -109,12 +126,12 @@ ActionDialog *ActionDialog::CreateConfirmation(QWidget *parent, const QString &w
 
 bool ActionDialog::eventFilter(QObject *object, QEvent *event) {
 
-  if (object == window_) {
+  if (object == host_) {
     if (event->type() == QEvent::Resize || event->type() == QEvent::Move) {
       UpdateGeometry();
     }
     // Releasing the touch that opened the dialog from a long press reactivates the parent window, which would then receive Back.
-    else if (event->type() == QEvent::WindowActivate && isVisible()) {
+    else if (event->type() == QEvent::WindowActivate && isWindow() && isVisible()) {
       activateWindow();
     }
   }
@@ -124,13 +141,25 @@ bool ActionDialog::eventFilter(QObject *object, QEvent *event) {
 
 void ActionDialog::UpdateGeometry() {
 
-  if (!window_) return;
-  if (confirmation_) confirmation_->setFixedWidth(qMin(kConfirmationMaximumWidth, window_->width() - 2 * kConfirmationWindowMargin));
-  setGeometry(window_->geometry());
+  if (!host_) return;
+  if (confirmation_) confirmation_->setFixedWidth(qMin(kConfirmationMaximumWidth, host_->width() - 2 * kConfirmationWindowMargin));
+  setGeometry(isWindow() ? host_->geometry() : host_->rect());
 
 }
 
 void ActionDialog::SetupPage(const QString &title, const TitlePosition title_position) {
+
+  // Inside a tab, cover only the tab's page, so that the tab bar stays usable; switching tabs cancels the page.
+  QTabWidget *tabs = nullptr;
+  if (QWidget *tab_page = TabPage(parentWidget(), &tabs)) {
+    if (host_) host_->removeEventFilter(this);
+    host_ = tab_page;
+    host_->installEventFilter(this);
+    setParent(tab_page, Qt::Widget);
+    setWindowModality(Qt::NonModal);
+    setAutoFillBackground(true);
+    QObject::connect(tabs, &QTabWidget::currentChanged, this, &QDialog::reject);
+  }
 
   title_text_ = title;
   title_ = new QLabel(title, this);
