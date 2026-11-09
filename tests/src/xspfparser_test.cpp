@@ -20,16 +20,23 @@
 #include "config.h"
 
 #include "gtest_include.h"
+#include "test_utils.h"
 
 #include <QBuffer>
 #include <QByteArray>
 #include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QPointer>
 #include <QString>
+#include <QTemporaryDir>
+#include <QThread>
 #include <QUrl>
 
 #include "core/song.h"
 #include "playlistparsers/xspfparser.h"
 #include "playlistparsers/parserbase.h"
+#include "tagreader/tagreaderclient.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -134,5 +141,186 @@ TEST(XSPFParserTest, ImageWithSchemeIsKept) {
   EXPECT_EQ(QUrl(u"file:///music/cover.jpg"_s), LoadImage("file:///music/cover.jpg"));
 
 }
+
+QByteArray SaveXSPF(const Song &song, const QDir &dir, const PlaylistSettings::PathType path_type) {
+
+  XSPFParser parser(nullptr, nullptr);
+  QByteArray data;
+  QBuffer buffer(&data);
+  if (!buffer.open(QIODevice::WriteOnly)) return QByteArray();
+  parser.Save(u"Playlist"_s, SongList() << song, &buffer, dir, path_type);
+  return data;
+
+}
+
+Song MakeSong(const QUrl &url) {
+
+  Song song(Song::Source::Stream);
+  song.Init(u"Title"_s, u"Artist"_s, u"Album"_s, 180000000000LL);
+  song.set_url(url);
+  return song;
+
+}
+
+QByteArray LoadLocationXml(const QByteArray &location) {
+  return QByteArray("<playlist version=\"1\" xmlns=\"http://xspf.org/ns/0/\"><trackList><track><location>" + location + "</location></track></trackList></playlist>");
+}
+
+// Regression test: the colon after the scheme was percent encoded, so the location was no longer a URL.
+TEST(XSPFParserTest, SaveUrlIsWrittenAsUrl) {
+
+  const QByteArray data = SaveXSPF(MakeSong(QUrl(u"http://example.com/a%20b.mp3"_s)), QDir::temp(), PlaylistSettings::PathType::Automatic);
+
+  EXPECT_TRUE(data.contains("<location>http://example.com/a%20b.mp3</location>")) << data.constData();
+
+}
+
+TEST(XSPFParserTest, SaveImageUrlIsWrittenAsUrl) {
+
+  Song song = MakeSong(QUrl(u"http://example.com/a.mp3"_s));
+  song.set_art_manual(QUrl(u"https://example.com/cover.jpg"_s));
+
+  const QByteArray data = SaveXSPF(song, QDir::temp(), PlaylistSettings::PathType::Automatic);
+
+  EXPECT_TRUE(data.contains("<image>https://example.com/cover.jpg</image>")) << data.constData();
+
+}
+
+TEST(XSPFParserTest, SaveAbsolutePathIsFileUrl) {
+
+  const QUrl url = QUrl::fromLocalFile(u"/music/a b#1.mp3"_s);
+
+  const QByteArray data = SaveXSPF(MakeSong(url), QDir::temp(), PlaylistSettings::PathType::Absolute);
+
+  EXPECT_TRUE(data.contains(QByteArray("<location>" + url.toEncoded() + "</location>"))) << data.constData();
+  EXPECT_TRUE(data.contains("a%20b%231.mp3")) << data.constData();
+
+}
+
+// Regression test: spaces were left unencoded, which isn't valid in a URI.
+TEST(XSPFParserTest, SaveRelativePathIsPercentEncoded) {
+
+  const QDir dir = QDir::temp();
+  const QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath(u"sub dir/ab:c.mp3"_s));
+
+  const QByteArray data = SaveXSPF(MakeSong(url), dir, PlaylistSettings::PathType::Relative);
+
+  EXPECT_TRUE(data.contains("<location>sub%20dir/ab%3Ac.mp3</location>")) << data.constData();
+
+}
+
+// Regression test: a relative file name looking like a URL was loaded as a URL when the file was missing.
+TEST(XSPFParserTest, SaveRelativePathLookingLikeUrlHasPathInFront) {
+
+  const QDir dir = QDir::temp();
+  Song song = MakeSong(QUrl::fromLocalFile(dir.absoluteFilePath(u"ab:c.mp3"_s)));
+  song.set_art_manual(QUrl::fromLocalFile(dir.absoluteFilePath(u"ab:c.jpg"_s)));
+
+  const QByteArray data = SaveXSPF(song, dir, PlaylistSettings::PathType::Relative);
+
+  EXPECT_TRUE(data.contains("<location>./ab%3Ac.mp3</location>")) << data.constData();
+  EXPECT_TRUE(data.contains("<image>./ab%3Ac.jpg</image>")) << data.constData();
+  EXPECT_EQ(QUrl::fromLocalFile(dir.absoluteFilePath(u"ab:c.jpg"_s)), LoadImage("./ab%3Ac.jpg"));
+
+}
+
+// A URL is not decoded when it's loaded, a decoded %2F would be a path separator.
+TEST(XSPFParserTest, LoadUrlIsKeptEncoded) {
+
+  const ParserBase::LoadResult result = LoadXSPF(LoadLocationXml("http://example.com/a%2Fb.mp3"));
+
+  ASSERT_EQ(1, result.songs.size());
+  EXPECT_EQ(QByteArray("http://example.com/a%2Fb.mp3"), result.songs[0].url().toEncoded());
+
+}
+
+// Playlists saved by older versions have the whole URL percent encoded, and % encoded twice.
+TEST(XSPFParserTest, LoadUrlSavedByOlderVersion) {
+
+  const ParserBase::LoadResult result = LoadXSPF(LoadLocationXml("http%3A//example.com/a%2520b.mp3"));
+
+  ASSERT_EQ(1, result.songs.size());
+  EXPECT_EQ(QByteArray("http://example.com/a%20b.mp3"), result.songs[0].url().toEncoded());
+
+}
+
+// Regression test: decoding a file URL before it was parsed made the rest of the path after %23 a fragment.
+TEST(XSPFParserTest, ImageFileUrlIsKeptEncoded) {
+
+  EXPECT_EQ(u"/music/a#b.jpg"_s, LoadImage("file:///music/a%23b.jpg").toLocalFile());
+
+}
+
+class XSPFParserFileTest : public ::testing::Test {
+ protected:
+  void SetUp() override {
+    tagreader_client_ = new TagReaderClient();
+    tagreader_client_thread_ = new QThread();
+    tagreader_client_->moveToThread(tagreader_client_thread_);
+    // The client has to be deleted by its own thread, which only happens as the thread finishes.
+    QObject::connect(tagreader_client_thread_, &QThread::finished, tagreader_client_, &QObject::deleteLater);
+    tagreader_client_thread_->start();
+  }
+
+  void TearDown() override {
+    const QPointer<TagReaderClient> tagreader_client(tagreader_client_);
+    tagreader_client_thread_->exit();
+    EXPECT_TRUE(tagreader_client_thread_->wait(5000));
+    EXPECT_TRUE(tagreader_client.isNull());
+    delete tagreader_client_thread_;
+  }
+
+  // Saves a playlist with the file, and returns the file the playlist loads back.
+  QString RoundTrip(const QDir &dir, const QString &song_path, const PlaylistSettings::PathType path_type) const {
+    XSPFParser parser(SharedPtr<TagReaderClient>(tagreader_client_, [](TagReaderClient *client) { Q_UNUSED(client) }), nullptr);
+    QByteArray data;
+    {
+      QBuffer buffer(&data);
+      if (!buffer.open(QIODevice::WriteOnly)) return QString();
+      parser.Save(u"Playlist"_s, SongList() << MakeSong(QUrl::fromLocalFile(song_path)), &buffer, dir, path_type);
+    }
+    QBuffer buffer(&data);
+    if (!buffer.open(QIODevice::ReadOnly)) return QString();
+    const ParserBase::LoadResult result = parser.Load(&buffer, QString(), dir, false);
+    return result.songs.size() == 1 ? QFileInfo(result.songs[0].url().toLocalFile()).canonicalFilePath() : QString();
+  }
+
+  QThread *tagreader_client_thread_ = nullptr;
+  TagReaderClient *tagreader_client_ = nullptr;
+};
+
+TEST_F(XSPFParserFileTest, FileNamesAreLoadedBack) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  TemporaryResource audio(u":/audio/strawberry.mp3"_s);
+  ASSERT_TRUE(audio.isOpen());
+  const QDir dir(tmp.path());
+
+  const QString song_path = tmp.filePath(u"a b#1 100%41 Ελληνικά.mp3"_s);
+  ASSERT_TRUE(QFile::copy(audio.fileName(), song_path));
+  const QString canonical_path = QFileInfo(song_path).canonicalFilePath();
+
+  EXPECT_EQ(canonical_path, RoundTrip(dir, song_path, PlaylistSettings::PathType::Relative));
+  EXPECT_EQ(canonical_path, RoundTrip(dir, song_path, PlaylistSettings::PathType::Absolute));
+
+}
+
+#ifndef Q_OS_WIN
+// Regression test: a relative file name which looks like a URL because of a colon was loaded as a URL.
+TEST_F(XSPFParserFileTest, FileNameWithColonIsLoadedBack) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  TemporaryResource audio(u":/audio/strawberry.mp3"_s);
+  ASSERT_TRUE(audio.isOpen());
+
+  const QString song_path = tmp.filePath(u"ab:c.mp3"_s);
+  ASSERT_TRUE(QFile::copy(audio.fileName(), song_path));
+
+  EXPECT_EQ(QFileInfo(song_path).canonicalFilePath(), RoundTrip(QDir(tmp.path()), song_path, PlaylistSettings::PathType::Relative));
+
+}
+#endif
 
 }  // namespace
