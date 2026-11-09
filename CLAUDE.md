@@ -20,6 +20,7 @@ Qt Creator build configs already exist under `build/Qt_Sys-{Release,RelWithDebIn
 Useful CMake options: `-DBUILD_WERROR=ON`, `-DENABLE_DEBUG_OUTPUT=ON`.
 
 On this development machine, build with at most two parallel jobs (`--parallel 2`), for the Android APK and the native build alike, instead of `$(nproc)`.
+The APK's Gradle step uses all cores by default; limit it too with `GRADLE_OPTS="-Dorg.gradle.workers.max=2"` (`androiddeployqt` regenerates `gradle.properties`, so set it in the environment).
 
 ### Separate native test build
 

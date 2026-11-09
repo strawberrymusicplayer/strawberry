@@ -211,6 +211,11 @@ cmake --build . --target strawberry_make_apk --parallel $(nproc)
 **Android package sources:** `android/` is the Qt package source directory (`QT_ANDROID_PACKAGE_SOURCE_DIR`) and is copied into `build/android-build/`.
 Put the app's Java sources in `android/java/`, never in `android/src/`: when the package source directory has a `src/` directory, `androiddeployqt` replaces `build/android-build/src/`, which removes the GStreamer Java classes copied there and makes the app crash at startup ("Could not retrieve class org.freedesktop.gstreamer.GStreamer").
 
+**Android SDK platform:** `androiddeployqt` compiles against the highest platform installed in the SDK.
+Android Gradle plugin 7.4.1, which Qt 6.7 uses, cannot resolve a platform installed as `android-37.0` (Gradle reports that it cannot find `platforms;android-37`).
+Either remove that platform, or build the `strawberry` target and run the `androiddeployqt` command from `build/CMakeFiles/strawberry_make_apk.dir/build.make` yourself, adding `--android-platform android-34`.
+Gradle uses one worker per CPU core; set `GRADLE_OPTS="-Dorg.gradle.workers.max=2"` to limit it.
+
 ### 5. Expected Build Output
 
 The build produces an Android APK file ready for deployment:
