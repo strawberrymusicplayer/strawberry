@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2017-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2017-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@
 
 #include "config.h"
 
+#include <QString>
+
 #include "audiodevicelister.h"
 #include "enginedevice.h"
 
@@ -31,6 +33,10 @@ class AlsaAudioDeviceLister : public AudioDeviceLister {
 
   bool Initialize() override { return true; }
   EngineDeviceList ListDevices() override;
+
+  // Returns the "hw" and "plughw" devices for a PCM device of a card.
+  // The value is named by the card ID, which doesn't change when cards are added or removed, the value with the card number is an alternative value.
+  static EngineDeviceList MakeDevices(const QString &description, const int card, const QString &card_id, const int device_number);
 
  private:
   Q_DISABLE_COPY(AlsaAudioDeviceLister)

@@ -29,6 +29,8 @@
 #include "includes/shared_ptr.h"
 #include "settingspage.h"
 
+class QComboBox;
+class EngineDevice;
 class SettingsDialog;
 class Ui_BackendSettingsPage;
 class Player;
@@ -36,6 +38,8 @@ class AudioDeviceListers;
 
 class BackendSettingsPage : public SettingsPage {
   Q_OBJECT
+
+  friend class BackendSettingsPageTest;
 
  public:
   explicit BackendSettingsPage(SettingsDialog *dialog, const SharedPtr<Player> player, const SharedPtr<AudioDeviceListers> audio_device_listers, QWidget *parent = nullptr);
@@ -72,6 +76,10 @@ class BackendSettingsPage : public SettingsPage {
   void SwitchALSADevices(const ALSAPluginType alsa_plugin_type);
 #endif
   void SelectDevice(const QString &device_new);
+  QVariant CurrentDevice() const;
+  static void AddDevice(QComboBox *combobox, const EngineDevice &device);
+  // Returns the index of the item for the device, which is the value or an alternative value of the device of the item, or -1.
+  static int FindDevice(const QComboBox *combobox, const QVariant &device, const bool visible_only);
 
  private:
   Ui_BackendSettingsPage *ui_;

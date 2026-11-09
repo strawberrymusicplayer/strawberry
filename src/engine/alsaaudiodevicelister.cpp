@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2017-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2017-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 #include <alsa/asoundlib.h>
 
 #include <QString>
+#include <QStringList>
 #include <QScopeGuard>
 
 #include <core/logging.h>
@@ -92,16 +93,8 @@ EngineDeviceList AlsaAudioDeviceLister::ListDevices() {
         continue;
       }
 
-      EngineDevice device;
-      device.description = QStringLiteral("%1 %2").arg(QString::fromUtf8(snd_ctl_card_info_get_name(cardinfo)), QString::fromUtf8(snd_pcm_info_get_name(pcminfo)));
-      device.iconname = device.GuessIconName();
-      device.card = card;
-      device.device = dev;
-
-      device.value = QStringLiteral("hw:%1,%2").arg(QString::fromUtf8(snd_ctl_card_info_get_id(cardinfo))).arg(dev);
-      devices.append(device);
-      device.value = QStringLiteral("plughw:%1,%2").arg(QString::fromUtf8(snd_ctl_card_info_get_id(cardinfo))).arg(dev);
-      devices.append(device);
+      const QString description = QStringLiteral("%1 %2").arg(QString::fromUtf8(snd_ctl_card_info_get_name(cardinfo)), QString::fromUtf8(snd_pcm_info_get_name(pcminfo)));
+      devices << MakeDevices(description, card, QString::fromUtf8(snd_ctl_card_info_get_id(cardinfo)), dev);
 
     }
   }
@@ -109,4 +102,24 @@ EngineDeviceList AlsaAudioDeviceLister::ListDevices() {
   snd_config_update_free_global();
 
   return devices;
+
+}
+
+EngineDeviceList AlsaAudioDeviceLister::MakeDevices(const QString &description, const int card, const QString &card_id, const int device_number) {
+
+  EngineDevice device;
+  device.description = description;
+  device.iconname = device.GuessIconName();
+  device.card = card;
+  device.device = device_number;
+
+  EngineDeviceList devices;
+  for (const QString &plugin : {u"hw"_s, u"plughw"_s}) {
+    device.value = QStringLiteral("%1:%2,%3").arg(plugin, card_id).arg(device_number);
+    device.alternative_values = QStringList() << QStringLiteral("%1:%2,%3").arg(plugin).arg(card).arg(device_number);
+    devices << device;
+  }
+
+  return devices;
+
 }

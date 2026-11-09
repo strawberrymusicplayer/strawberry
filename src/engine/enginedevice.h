@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include <QList>
 #include <QVariant>
 #include <QString>
+#include <QStringList>
 
 class EngineDevice {
  public:
@@ -30,6 +31,8 @@ class EngineDevice {
   QString GuessIconName() const;
   QString description;
   QVariant value;
+  // Other values for the same device, like "hw:0,0" for "hw:PCH,0" with ALSA.
+  QStringList alternative_values;
   QString iconname;
   int card;
   int device;
