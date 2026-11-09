@@ -123,6 +123,7 @@ add_test(NAME collectionmodel_test_scale_factor_2 COMMAND ${CMAKE_CURRENT_BINARY
 set_tests_properties(collectionmodel_test_scale_factor_2 PROPERTIES ENVIRONMENT QT_SCALE_FACTOR=2)
 add_test_file(src/collectionmanager_test.cpp true)
 add_test_file(src/playlist_test.cpp true)
+add_test_file(src/playlistview_test.cpp true)
 add_test_file(src/playlistmanager_test.cpp true)
 add_test_file(src/playlistlistmodel_test.cpp false)
 add_test_file(src/playlisttabbar_test.cpp true)
