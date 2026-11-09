@@ -157,6 +157,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   int total_album_count() const { return total_album_count_; }
 
   quint64 icon_disk_cache_size() { return static_cast<quint64>(icon_disk_cache_->cacheSize()); }
+  void SetIconDiskCacheDirectory(const QString &directory) { icon_disk_cache_->setCacheDirectory(directory); }
 
   const CollectionModel::Grouping GetGroupBy() const { return options_current_.group_by; }
   void SetGroupBy(const CollectionModel::Grouping g, const std::optional<bool> separate_albums_by_grouping = std::optional<bool>());
@@ -272,6 +273,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   QString AlbumIconPixmapCacheKey(const CollectionItem *item) const;
   static QUrl AlbumIconPixmapDiskCacheKey(const QString &cache_key);
   QVariant AlbumIcon(CollectionItem *item);
+  const QPixmap &NoCoverPixmap();
   void ClearItemPixmapCache(CollectionItem *item);
   static qint64 MaximumCacheSize(Settings *s, const char *size_id, const char *size_unit_id, const qint64 cache_size_default);
 
@@ -295,6 +297,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   QTimer *timer_update_;
 
   QPixmap pixmap_no_cover_;
+  qreal pixmap_no_cover_device_pixel_ratio_;
   QIcon icon_artist_;
 
   Options options_current_;

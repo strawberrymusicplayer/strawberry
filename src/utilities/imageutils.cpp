@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -103,9 +103,7 @@ QByteArray ImageUtils::FileToJpegData(const QString &filename) {
 
 QImage ImageUtils::ScaleImage(const QImage &image, const QSize desired_size, const qreal device_pixel_ratio, const bool pad) {
 
-  if (image.isNull() || (image.width() == desired_size.width() && image.height() == desired_size.height())) {
-    return image;
-  }
+  if (image.isNull()) return image;
 
   QSize scale_size(static_cast<int>(desired_size.width() * device_pixel_ratio), static_cast<int>(desired_size.height() * device_pixel_ratio));
 
