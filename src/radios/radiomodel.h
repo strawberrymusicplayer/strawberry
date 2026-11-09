@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -68,7 +68,8 @@ class RadioModel : public SimpleTreeModel<RadioItem> {
 
   QVariant data(const RadioItem *item, int role) const;
 
-  void Reset();
+  // Replaces the channels, only the services with changed channels are updated, so the rest of the tree is left as it is.
+  void SetChannels(const RadioChannelList &channels);
   void AddChannels(const RadioChannelList &channels);
   QList<Song::Source> sources() const { return container_nodes_.keys(); }
 
@@ -92,6 +93,9 @@ class RadioModel : public SimpleTreeModel<RadioItem> {
 
   const SharedPtr<AlbumCoverLoader> albumcover_loader_;
   RadioServices *const radio_services_;
+
+  void RemoveChannels(RadioItem *container);
+  bool HasChannels(const RadioItem *container, const RadioChannelList &channels) const;
 
   QMap<Song::Source, RadioItem*> container_nodes_;
   QList<RadioItem*> items_;

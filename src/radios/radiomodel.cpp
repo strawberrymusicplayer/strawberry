@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -147,16 +147,60 @@ QMimeData *RadioModel::mimeData(const QModelIndexList &indexes) const {
 
 }
 
-void RadioModel::Reset() {
+void RadioModel::SetChannels(const RadioChannelList &channels) {
 
-  beginResetModel();
-  container_nodes_.clear();
-  items_.clear();
-  pending_art_.clear();
-  pending_cache_keys_.clear();
-  delete root_;
-  root_ = new RadioItem(this);
-  endResetModel();
+  QMap<Song::Source, RadioChannelList> source_channels;
+  for (const RadioChannel &channel : channels) {
+    source_channels[channel.source] << channel;
+  }
+
+  const QList<Song::Source> sources = container_nodes_.keys();
+  for (const Song::Source source : sources) {
+    if (source_channels.contains(source)) continue;
+    RadioItem *container = container_nodes_.take(source);
+    RemoveChannels(container);
+    root_->DeleteNotify(container->row);
+  }
+
+  for (auto it = source_channels.constBegin(); it != source_channels.constEnd(); ++it) {
+    RadioItem *container = container_nodes_.value(it.key(), nullptr);
+    if (container) {
+      if (HasChannels(container, it.value())) continue;
+      RemoveChannels(container);
+    }
+    AddChannels(it.value());
+  }
+
+}
+
+void RadioModel::RemoveChannels(RadioItem *container) {
+
+  // Covers still being loaded must not be delivered to the deleted items.
+  for (auto it = pending_art_.begin(); it != pending_art_.end();) {
+    if (it.value().first->parent == container) {
+      pending_cache_keys_.remove(it.value().second);
+      it = pending_art_.erase(it);
+    }
+    else {
+      ++it;
+    }
+  }
+
+  items_.removeIf([container](const RadioItem *item) { return item->parent == container; });
+
+  container->ClearNotify();
+
+}
+
+bool RadioModel::HasChannels(const RadioItem *container, const RadioChannelList &channels) const {
+
+  if (container->children.count() != channels.count()) return false;
+
+  for (qsizetype i = 0; i < channels.count(); ++i) {
+    if (!(container->children[i]->channel == channels[i])) return false;
+  }
+
+  return true;
 
 }
 

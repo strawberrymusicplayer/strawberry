@@ -126,9 +126,8 @@ void RadioServices::RefreshChannels() {
 
 void RadioServices::GotChannelsFromBackend(const RadioChannelList &channels) {
 
-  // The backend always sends all the stored channels, so the model is replaced.
-  model_->Reset();
-  model_->AddChannels(channels);
+  // The backend sends all the stored channels every time a service is refreshed.
+  model_->SetChannels(channels);
 
   if (channels.isEmpty()) {
     // Get the channels from the services when none are stored, only once, so they are not requested again when the services can't be reached.
