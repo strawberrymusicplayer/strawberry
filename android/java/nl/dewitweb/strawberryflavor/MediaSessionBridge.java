@@ -22,10 +22,15 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioAttributes;
+import android.media.AudioFocusRequest;
+import android.media.AudioManager;
 import android.media.MediaMetadata;
 import android.media.session.MediaController;
 import android.media.session.MediaSession;
@@ -37,6 +42,7 @@ import android.os.SystemClock;
 import android.util.Log;
 
 // Publishes the current song and playback state from AndroidMediaSession (C++) to a MediaSession and a media notification, and runs PlaybackService while a song is playing or paused.
+// While playing, it holds audio focus and pauses when focus is lost or the audio output becomes noisy (headphones unplugged).
 // The public methods are called from the Qt thread; all state is only accessed on the Android main thread.
 public final class MediaSessionBridge {
 
@@ -66,6 +72,28 @@ public final class MediaSessionBridge {
   private static String album = "";
   private static Bitmap cover;
 
+  private static AudioManager audioManager;
+  private static AudioFocusRequest audioFocusRequest;
+  // True while a focus request is granted or delayed; a delayed request is granted later through onAudioFocusChange().
+  private static boolean audioFocusRequested = false;
+  // True while the app has audio focus, so not during a transient loss or before a delayed request is granted.
+  private static boolean audioFocusHeld = false;
+  // True while playback is paused because of a transient focus loss (or a delayed request), so it resumes when focus is gained.
+  private static boolean resumeOnFocusGain = false;
+  private static boolean noisyReceiverRegistered = false;
+
+  private static final AudioManager.OnAudioFocusChangeListener audioFocusListener = MediaSessionBridge::onAudioFocusChange;
+
+  private static final BroadcastReceiver noisyReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(final Context receiverContext, final Intent intent) {
+      if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction()) && state == STATE_PLAYING) {
+        resumeOnFocusGain = false;
+        nativePause();
+      }
+    }
+  };
+
   private static native void nativePlay();
   private static native void nativePause();
   private static native void nativeNext();
@@ -80,7 +108,14 @@ public final class MediaSessionBridge {
     final Context applicationContext = appContext.getApplicationContext();
     handler.post(() -> {
       context = applicationContext;
+      audioManager = context.getSystemService(AudioManager.class);
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        // Without setWillPauseWhenDucked(), Android ducks the volume itself when another app requests transient focus that allows ducking.
+        audioFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+          .setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())
+          .setAcceptsDelayedFocusGain(true)
+          .setOnAudioFocusChangeListener(audioFocusListener, handler)
+          .build();
         final NotificationChannel channel = new NotificationChannel(CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_LOW);
         channel.setShowBadge(false);
         context.getSystemService(NotificationManager.class).createNotificationChannel(channel);
@@ -98,6 +133,9 @@ public final class MediaSessionBridge {
 
         @Override
         public void onPause() {
+          // An explicit pause, also while already paused for a focus loss, cancels resuming when focus returns.
+          resumeOnFocusGain = false;
+          if (state != STATE_PLAYING) abandonAudioFocus();
           nativePause();
         }
 
@@ -118,6 +156,7 @@ public final class MediaSessionBridge {
 
         @Override
         public void onStop() {
+          resumeOnFocusGain = false;
           nativeStop();
         }
       }, handler);
@@ -155,7 +194,9 @@ public final class MediaSessionBridge {
 
     handler.post(() -> {
       if (session == null) return;
+      final int previousState = state;
       state = newState;
+      updateAudioFocus(previousState);
       final int sessionState = state == STATE_PLAYING ? PlaybackState.STATE_PLAYING : state == STATE_PAUSED ? PlaybackState.STATE_PAUSED : PlaybackState.STATE_STOPPED;
       session.setPlaybackState(new PlaybackState.Builder()
         .setState(sessionState, positionMsec, state == STATE_PLAYING ? 1.0F : 0.0F, SystemClock.elapsedRealtime())
@@ -218,6 +259,130 @@ public final class MediaSessionBridge {
       else if (ACTION_PREVIOUS.equals(action)) controls.skipToPrevious();
       else if (ACTION_NEXT.equals(action)) controls.skipToNext();
     });
+
+  }
+
+  private static void updateAudioFocus(final int previousState) {
+
+    if (state == STATE_PLAYING) {
+      registerNoisyReceiver();
+      // Only a new start of playback requests focus and ends a pause for focus loss.
+      // Repeated playing states (seeks, song changes, or a pause still on its way) must not take focus back from another app.
+      if (previousState != STATE_PLAYING) {
+        resumeOnFocusGain = false;
+        if (!audioFocusHeld) {
+          requestAudioFocus();
+        }
+      }
+      return;
+    }
+
+    unregisterNoisyReceiver();
+    // Keep the request while paused for a focus loss, so playback resumes when focus returns.
+    if (state == STATE_PAUSED && resumeOnFocusGain) {
+      // Focus may already have returned before this pause arrived.
+      if (audioFocusHeld) {
+        resumeOnFocusGain = false;
+        nativePlay();
+      }
+      return;
+    }
+    resumeOnFocusGain = false;
+    abandonAudioFocus();
+
+  }
+
+  @SuppressWarnings("deprecation")
+  private static void requestAudioFocus() {
+
+    final int result = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? audioManager.requestAudioFocus(audioFocusRequest) : audioManager.requestAudioFocus(audioFocusListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+    switch (result) {
+      case AudioManager.AUDIOFOCUS_REQUEST_GRANTED:
+        audioFocusRequested = true;
+        audioFocusHeld = true;
+        break;
+      case AudioManager.AUDIOFOCUS_REQUEST_DELAYED:
+        // For example during a phone call: pause now, and play when the delayed request is granted.
+        audioFocusRequested = true;
+        resumeOnFocusGain = true;
+        nativePause();
+        break;
+      default:
+        Log.w(TAG, "Audio focus request failed, pausing playback");
+        nativePause();
+        break;
+    }
+
+  }
+
+  @SuppressWarnings("deprecation")
+  private static void abandonAudioFocus() {
+
+    if (!audioFocusRequested) return;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      audioManager.abandonAudioFocusRequest(audioFocusRequest);
+    }
+    else {
+      audioManager.abandonAudioFocus(audioFocusListener);
+    }
+    audioFocusRequested = false;
+    audioFocusHeld = false;
+
+  }
+
+  private static void onAudioFocusChange(final int focusChange) {
+
+    Log.d(TAG, "Audio focus change: " + focusChange);
+    switch (focusChange) {
+      case AudioManager.AUDIOFOCUS_GAIN:
+        audioFocusHeld = true;
+        if (resumeOnFocusGain && state == STATE_PAUSED) {
+          resumeOnFocusGain = false;
+          nativePlay();
+        }
+        break;
+      case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+        // Android 8 and later duck the volume automatically; earlier versions leave it to the app, so pause instead.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) break;
+        // fall through
+      case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+        audioFocusHeld = false;
+        if (state == STATE_PLAYING) {
+          resumeOnFocusGain = true;
+          nativePause();
+        }
+        break;
+      case AudioManager.AUDIOFOCUS_LOSS:
+        // Another app started playing; do not resume automatically.
+        resumeOnFocusGain = false;
+        abandonAudioFocus();
+        if (state == STATE_PLAYING) nativePause();
+        break;
+      default:
+        break;
+    }
+
+  }
+
+  private static void registerNoisyReceiver() {
+
+    if (noisyReceiverRegistered) return;
+    final IntentFilter filter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+      context.registerReceiver(noisyReceiver, filter, null, handler, Context.RECEIVER_NOT_EXPORTED);
+    }
+    else {
+      context.registerReceiver(noisyReceiver, filter, null, handler);
+    }
+    noisyReceiverRegistered = true;
+
+  }
+
+  private static void unregisterNoisyReceiver() {
+
+    if (!noisyReceiverRegistered) return;
+    context.unregisterReceiver(noisyReceiver);
+    noisyReceiverRegistered = false;
 
   }
 
