@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,6 +38,10 @@ struct RadioChannel {
   QString country;
   QString tags;
   QString codec;
+
+  bool operator==(const RadioChannel &other) const {
+    return source == other.source && name == other.name && url == other.url && thumbnail_url == other.thumbnail_url && country == other.country && tags == other.tags && codec == other.codec;
+  }
 
   Song ToSong() const;
 };
