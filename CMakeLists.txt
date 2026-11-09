@@ -520,6 +520,7 @@ set(SOURCES
   src/core/networktimeouts.cpp
   src/core/networkproxyfactory.cpp
   src/core/settings.cpp
+  src/core/settingsmigration.cpp
   src/core/settingsprovider.cpp
   src/core/signalchecker.cpp
   src/core/song.cpp

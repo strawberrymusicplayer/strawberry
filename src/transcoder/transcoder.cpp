@@ -35,7 +35,6 @@
 #include <QList>
 #include <QMap>
 #include <QVariant>
-#include <QVariantMap>
 #include <QByteArray>
 #include <QString>
 #include <QStringList>
@@ -211,8 +210,6 @@ Transcoder::Transcoder(QObject *parent, const QString &settings_postfix)
 
   if (JobFinishedEvent::sEventType == -1)
     JobFinishedEvent::sEventType = QEvent::registerEventType();
-
-  MigrateSettings();
 
   // Initialize some settings for the lamemp3enc element.
   Settings s;
@@ -777,44 +774,6 @@ QMap<QString, float> Transcoder::GetProgress() const {
   }
 
   return ret;
-
-}
-
-void Transcoder::MigrateSettings() {
-
-  // The WMA options were saved for the GStreamer 0.10 encoder "ffenc_wmav2", which is "avenc_wmav2" now.
-  // Settings which are already saved for the new encoder are kept, they are newer.
-  const QString legacy_prefix = u"ffenc_wmav2"_s;
-  const QString new_prefix = u"avenc_wmav2"_s;
-
-  Settings s;
-  s.beginGroup("Transcoder"_L1);
-  const QStringList groups = s.childGroups();
-  for (const QString &group : groups) {
-    if (!group.startsWith(legacy_prefix)) continue;
-    const QString new_group = new_prefix + group.mid(legacy_prefix.length());
-    s.beginGroup(group);
-    const QStringList keys = s.childKeys();
-    QVariantMap values;
-    for (const QString &key : keys) {
-      values.insert(key, s.value(key));
-    }
-    s.endGroup();
-    for (QVariantMap::const_iterator it = values.constBegin(); it != values.constEnd(); ++it) {
-      const QString new_key = new_group + u'/' + it.key();
-      if (!s.contains(new_key)) {
-        s.setValue(new_key, it.value());
-      }
-    }
-    s.remove(group);
-  }
-
-  // The transcode dialog saves the output format as the caps of the codec, the WMA caps have the version now, so the old caps would not match any format.
-  if (s.value("last_output_format"_L1).toString() == "audio/x-wma"_L1) {
-    s.setValue("last_output_format"_L1, PresetForFileType(Song::FileType::ASF).codec_mimetype_);
-  }
-
-  s.endGroup();
 
 }
 

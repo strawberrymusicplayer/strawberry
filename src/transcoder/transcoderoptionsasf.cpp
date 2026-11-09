@@ -26,7 +26,6 @@
 #include <QSlider>
 #include <QSettings>
 
-#include "transcoder.h"
 #include "transcoderoptionsinterface.h"
 #include "transcoderoptionsasf.h"
 #include "ui_transcoderoptionsasf.h"
@@ -47,9 +46,6 @@ TranscoderOptionsASF::~TranscoderOptionsASF() {
 }
 
 void TranscoderOptionsASF::Load() {
-
-  // The options were saved under another name before.
-  Transcoder::MigrateSettings();
 
   Settings s;
   s.beginGroup(QLatin1String(kSettingsGroup) + settings_postfix_);

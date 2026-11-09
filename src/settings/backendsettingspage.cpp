@@ -130,17 +130,11 @@ void BackendSettingsPage::Load() {
   Settings s;
   s.beginGroup(kSettingsGroup);
 
-  if (s.contains(kOutputU)) {
-    output_current_ = s.value(kOutputU).toString();
-  }
-  else if (s.contains(kOutput)) {
+  if (s.contains(kOutput)) {
     output_current_ = s.value(kOutput).toString();
   }
 
-  if (s.contains(kDeviceU)) {
-    device_current_ = s.value(kDeviceU);
-  }
-  else if (s.contains(kDevice)) {
+  if (s.contains(kDevice)) {
     device_current_ = s.value(kDevice);
   }
 
@@ -402,20 +396,6 @@ void BackendSettingsPage::Save() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-
-  if (s.contains(kEngineU)) {
-    s.remove(kEngineU);
-  }
-  if (s.contains(kEngine)) {
-    s.remove(kEngine);
-  }
-
-  if (s.contains(kOutputU)) {
-    s.remove(kOutputU);
-  }
-  if (s.contains(kDeviceU)) {
-    s.remove(kDeviceU);
-  }
 
   s.setValue(kOutput, output_name);
   s.setValue(kDevice, device_value);

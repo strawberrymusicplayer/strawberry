@@ -257,13 +257,6 @@ void QobuzService::ReloadSettings() {
   user_id_ = s.value(QobuzSettings::kUserId).toLongLong();
   user_auth_token_ = s.value(QobuzSettings::kUserAuthToken).toString();
 
-  if (s.contains(QobuzSettings::kUsername)) {
-    s.remove(QobuzSettings::kUsername);
-  }
-  if (s.contains(QobuzSettings::kPassword)) {
-    s.remove(QobuzSettings::kPassword);
-  }
-
   s.endGroup();
 
 }

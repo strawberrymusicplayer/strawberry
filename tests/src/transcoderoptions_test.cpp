@@ -33,6 +33,7 @@
 #include <QVariant>
 
 #include "core/settings.h"
+#include "core/settingsmigration.h"
 #include "core/song.h"
 #include "transcoder/transcoder.h"
 #include "transcoder/transcodedialog.h"
@@ -153,6 +154,8 @@ TEST(TranscoderOptionsTest, LegacyWMABitrateIsMigrated) {
     s.setValue(u"Transcoder/ffenc_wmav2/bitrate"_s, 64000);
   }
 
+  SettingsMigration::Migrate();
+
   TranscoderOptionsASF options(nullptr);
   options.Load();
   QSlider *bitrate_slider = options.findChild<QSlider*>(u"bitrate_slider"_s);
@@ -186,7 +189,7 @@ TEST(TranscoderOptionsTest, LegacyWMABitrateDoesNotReplaceNewerBitrate) {
     s.setValue(u"Transcoder/avenc_wmav2/bitrate"_s, 96000);
   }
 
-  Transcoder::MigrateSettings();
+  SettingsMigration::Migrate();
 
   Settings s;
   s.beginGroup(u"Transcoder"_s);
@@ -241,6 +244,8 @@ TEST(TranscoderOptionsTest, LegacyWMAOutputFormatIsSelected) {
     Settings s;
     s.setValue(u"Transcoder/last_output_format"_s, u"audio/x-wma"_s);
   }
+
+  SettingsMigration::Migrate();
 
   TranscodeDialog dialog(nullptr, nullptr);
   QComboBox *combobox_format = dialog.findChild<QComboBox*>(u"format"_s);
