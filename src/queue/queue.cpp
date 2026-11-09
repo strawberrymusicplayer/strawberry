@@ -41,6 +41,7 @@
 #include "playlist/playlist.h"
 #include "playlist/playlistrowsmimedata.h"
 #include "queue.h"
+#include "queuerowsmimedata.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -350,14 +351,17 @@ Qt::DropActions Queue::supportedDropActions() const {
 
 QMimeData *Queue::mimeData(const QModelIndexList &indexes) const {
 
-  QMimeData *data = new QMimeData;
-
+  QModelIndexList row_indexes;
   QList<int> rows;
   for (const QModelIndex &idx : indexes) {
     if (idx.column() != 0) continue;
 
+    row_indexes << idx;
     rows << idx.row();
   }
+
+  // The rows are also kept as persistent indexes, the rows can change during the drag.
+  QMimeData *data = new QueueRowsMimeData(const_cast<Queue*>(this), row_indexes);
 
   QBuffer buf;
   if (buf.open(QIODevice::WriteOnly)) {
@@ -382,9 +386,17 @@ bool Queue::dropMimeData(const QMimeData *data, Qt::DropAction action, const int
   if (data->hasFormat(QLatin1String(kRowsMimetype))) {
     // Dragged from the queue
 
-    QList<int> proxy_rows;
-    QDataStream stream(data->data(QLatin1String(kRowsMimetype)));
-    stream >> proxy_rows;
+    // Only rows dragged from this queue can be moved, rows from the queue of another playlist or another instance are different songs, or don't exist here.
+    const QueueRowsMimeData *rows_mimedata = qobject_cast<const QueueRowsMimeData*>(data);
+    if (!rows_mimedata || rows_mimedata->queue() != this) {
+      return false;
+    }
+
+    // The rows of the dragged items now, the queue can have changed during the drag.
+    QList<int> proxy_rows = rows_mimedata->rows();
+    if (proxy_rows.isEmpty()) {
+      return false;
+    }
 
     // Make sure we take them in order
     std::stable_sort(proxy_rows.begin(), proxy_rows.end());
