@@ -703,7 +703,7 @@ void Player::PreviousItem(const EngineBase::TrackChangeFlags change) {
     QDateTime now = QDateTime::currentDateTime();
     if (last_pressed_previous_.isValid() && last_pressed_previous_.secsTo(now) >= 2) {
       last_pressed_previous_ = now;
-      PlayAt(playlist_manager_->active()->current_row(), false, 0, change, Playlist::AutoScroll::Always, false, true);
+      PlayAt(playlist_manager_->active()->current_row(), false, 0, change | EngineBase::TrackChangeType::Restart, Playlist::AutoScroll::Always, false, true);
       return;
     }
     last_pressed_previous_ = now;
@@ -842,7 +842,7 @@ void Player::PlayAt(const int index, const bool pause, const quint64 offset_nano
     nb_errors_received_ = 0;
   }
 
-  if (current_item_ && change & EngineBase::TrackChangeType::Manual && engine_->position_nanosec() != engine_->length_nanosec()) {
+  if (current_item_ && change & EngineBase::TrackChangeType::Manual && !(change & EngineBase::TrackChangeType::Restart) && engine_->position_nanosec() != engine_->length_nanosec()) {
     Q_EMIT TrackSkipped(current_item_);
   }
 

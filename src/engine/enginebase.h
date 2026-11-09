@@ -78,7 +78,8 @@ class EngineBase : public QObject {
     Scan = 0x08,
 
     // Any of:
-    SameAlbum = 0x10
+    SameAlbum = 0x10,
+    Restart = 0x20  // The current track is started again.
   };
   Q_DECLARE_FLAGS(TrackChangeFlags, TrackChangeType)
 
