@@ -77,6 +77,7 @@ constexpr char kCacheFile[] = "lastfmscrobbler.cache";
 constexpr char kSubscriber[] = "subscriber";
 constexpr char kUsername[] = "username";
 constexpr char kSessionKey[] = "session_key";
+constexpr char kReplySessionKeyProperty[] = "session_key";
 
 QString CompiledApiKey() {
 #ifdef LASTFM_API_KEY
@@ -374,7 +375,9 @@ QNetworkReply *LastFMScrobbler::CreateRequest(const ParamList &request_params) {
   url_query.addQueryItem(u"api_sig"_s, QString::fromLatin1(QUrl::toPercentEncoding(signature)));
   url_query.addQueryItem(u"format"_s, u"json"_s);
 
-  return CreatePostRequest(QUrl(QString::fromLatin1(kApiUrl)), url_query);
+  QNetworkReply *reply = CreatePostRequest(QUrl(QString::fromLatin1(kApiUrl)), url_query);
+  reply->setProperty(kReplySessionKeyProperty, session_key_);
+  return reply;
 
 }
 
@@ -390,6 +393,9 @@ JsonBaseRequest::JsonObjectResult LastFMScrobbler::ParseJsonObject(QNetworkReply
     result.http_status_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
   }
 
+  // A revoked session is reported with HTTP code 403 and an error in the reply.
+  bool session_rejected = reply->error() == QNetworkReply::AuthenticationRequiredError;
+
   const QByteArray data = reply->readAll();
   if (!data.isEmpty()) {
     QJsonParseError json_parse_error;
@@ -398,6 +404,7 @@ JsonBaseRequest::JsonObjectResult LastFMScrobbler::ParseJsonObject(QNetworkReply
       const QJsonObject json_object = json_document.object();
       if (json_object.contains("error"_L1) && json_object.contains("message"_L1)) {
         const int error = json_object["error"_L1].toInt();
+        if (error == static_cast<int>(ScrobbleErrorCode::InvalidSessionKey)) session_rejected = true;
         const QString message = json_object["message"_L1].toString();
         result.error_code = ErrorCode::APIError;
         result.error_message = QStringLiteral("%1 (%2)").arg(message, QString::number(error));
@@ -423,7 +430,8 @@ JsonBaseRequest::JsonObjectResult LastFMScrobbler::ParseJsonObject(QNetworkReply
     }
   }
 
-  if (reply->error() == QNetworkReply::AuthenticationRequiredError) {
+  // The session can have been replaced since the request was made, by logging in again.
+  if (session_rejected && reply->property(kReplySessionKeyProperty).toString() == session_key_) {
     ClearSession();
   }
 
