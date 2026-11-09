@@ -30,6 +30,9 @@
 #include <QLineEdit>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
+#include <QTabWidget>
+#include <QTabBar>
+#include <QPlainTextEdit>
 #include <QSizePolicy>
 #include <QString>
 
@@ -43,8 +46,6 @@
 #include "widgets/stretchheaderview.h"
 #include "lyricssearchdialog.h"
 #include "ui_lyricssearchdialog.h"
-
-using namespace Qt::Literals::StringLiterals;
 
 namespace {
 enum Column {
@@ -106,6 +107,15 @@ std::optional<LyricsSearchResult> LyricsSearchDialog::Exec(const Song &song, con
   ui_->album->setText(song.album());
   ui_->title->setText(song.title());
 
+  // Only the lyrics searched for have a tab, the tabs can only be switched when searching for both.
+  // Hiding the current tab makes the other tab current.
+  // A tab disabled for a result of the previous search is enabled again, the tabs are only disabled when searching for both.
+  ui_->lyrics_tabs->setTabEnabled(ui_->lyrics_tabs->indexOf(ui_->tab_lyrics), true);
+  ui_->lyrics_tabs->setTabEnabled(ui_->lyrics_tabs->indexOf(ui_->tab_synced_lyrics), true);
+  ui_->lyrics_tabs->setTabVisible(ui_->lyrics_tabs->indexOf(ui_->tab_lyrics), LyricsSearchTypeHasLyrics(search_type));
+  ui_->lyrics_tabs->setTabVisible(ui_->lyrics_tabs->indexOf(ui_->tab_synced_lyrics), LyricsSearchTypeHasSyncedLyrics(search_type));
+  ui_->lyrics_tabs->tabBar()->setVisible(search_type == LyricsSearchType::Both);
+
   Search();
 
   const int result = exec();
@@ -133,6 +143,7 @@ void LyricsSearchDialog::Search() {
   results_.clear();
   ui_->results->clear();
   ui_->lyrics->clear();
+  ui_->synced_lyrics->clear();
 
   id_ = lyrics_fetcher_->SearchForLyrics(albumartist_, ui_->artist->text(), ui_->album->text(), ui_->title->text(), duration_, search_type_ == LyricsSearchType::SyncedLyrics);
   SetSearching(true);
@@ -188,31 +199,23 @@ void LyricsSearchDialog::CurrentResultChanged(QTreeWidgetItem *current, QTreeWid
 
   Q_UNUSED(previous)
 
-  ui_->lyrics->clear();
   ui_->button_box->button(QDialogButtonBox::Ok)->setEnabled(current != nullptr && id_ == 0);
-  if (!current) return;
 
-  const qsizetype index = current->data(Column_Provider, Qt::UserRole).toLongLong();
-  if (index >= 0 && index < results_.size()) {
-    const LyricsSearchResult &result = results_.at(index);
-    switch (search_type_) {
-      case LyricsSearchType::Lyrics:
-        ui_->lyrics->setPlainText(result.lyrics);
-        break;
-      case LyricsSearchType::SyncedLyrics:
-        ui_->lyrics->setPlainText(result.synced_lyrics);
-        break;
-      case LyricsSearchType::Both:{
-        // Both are used, so show both.
-        QString text = result.lyrics;
-        if (!result.synced_lyrics.isEmpty()) {
-          if (!text.isEmpty()) text += u"\n\n"_s;
-          text += u"--- "_s + tr("Synchronized lyrics") + u" ---\n"_s + result.synced_lyrics;
-        }
-        ui_->lyrics->setPlainText(text);
-        break;
-      }
-    }
+  const qsizetype index = current ? current->data(Column_Provider, Qt::UserRole).toLongLong() : -1;
+  if (index < 0 || index >= results_.size()) {
+    ui_->lyrics->clear();
+    ui_->synced_lyrics->clear();
+    return;
+  }
+
+  const LyricsSearchResult &result = results_.at(index);
+  ui_->lyrics->setPlainText(result.lyrics);
+  ui_->synced_lyrics->setPlainText(result.synced_lyrics);
+
+  // The tab of the lyrics the result doesn't have is disabled, disabling the current tab makes the other tab current.
+  if (search_type_ == LyricsSearchType::Both) {
+    ui_->lyrics_tabs->setTabEnabled(ui_->lyrics_tabs->indexOf(ui_->tab_lyrics), !result.lyrics.isEmpty());
+    ui_->lyrics_tabs->setTabEnabled(ui_->lyrics_tabs->indexOf(ui_->tab_synced_lyrics), !result.synced_lyrics.isEmpty());
   }
 
 }

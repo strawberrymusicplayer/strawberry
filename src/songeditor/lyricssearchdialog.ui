@@ -107,10 +107,62 @@
        </property>
       </column>
      </widget>
-     <widget class="QPlainTextEdit" name="lyrics">
-      <property name="readOnly">
-       <bool>true</bool>
+     <widget class="QTabWidget" name="lyrics_tabs">
+      <property name="currentIndex">
+       <number>0</number>
       </property>
+      <widget class="QWidget" name="tab_lyrics">
+       <attribute name="title">
+        <string>Lyrics</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="layout_tab_lyrics">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QPlainTextEdit" name="lyrics">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_synced_lyrics">
+       <attribute name="title">
+        <string>Synchronized lyrics</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="layout_tab_synced_lyrics">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QPlainTextEdit" name="synced_lyrics">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </widget>
    </item>
