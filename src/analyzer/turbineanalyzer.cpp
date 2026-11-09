@@ -46,12 +46,9 @@ void TurbineAnalyzer::analyze(QPainter &p, const Scope &scope, const bool new_fr
   const uint hd2 = static_cast<uint>(height() / 2);
   const uint kMaxHeight = hd2 - 1;
 
-  QPainter canvas_painter(&canvas_);
-  canvas_.fill(palette().color(QPalette::Window));
-
   AnalyzerBase::interpolate(scope, scope_);
 
-  for (uint i = 0, x = 0, y = 0; i < static_cast<uint>(bands_); ++i, x += kColumnWidth + 1) {
+  for (uint i = 0; i < static_cast<uint>(bands_); ++i) {
     float h = static_cast<float>(std::min(log10(scope_[i] * 256.0) * F_ * 0.5, kMaxHeight * 1.0));
 
     if (h > bar_height_[i]) {
@@ -77,12 +74,28 @@ void TurbineAnalyzer::analyze(QPainter &p, const Scope &scope, const bool new_fr
         peak_height_[i] = std::max(0.0, std::max(bar_height_[i], peak_height_[i]));
       }
     }
+  }
 
+  DrawCanvas();
+  p.drawPixmap(0, 0, canvas_);
+
+}
+
+void TurbineAnalyzer::DrawCanvas() {
+
+  if (canvas_.isNull()) return;
+
+  const uint hd2 = static_cast<uint>(height() / 2);
+
+  canvas_.fill(palette().color(QPalette::Window));
+  QPainter canvas_painter(&canvas_);
+
+  for (uint i = 0, x = 0, y = 0; i < static_cast<uint>(bands_); ++i, x += kColumnWidth + 1) {
     y = hd2 - static_cast<uint>(bar_height_[i]);
     canvas_painter.drawPixmap(static_cast<int>(x + 1), static_cast<int>(y), barPixmap_, 0, static_cast<int>(y), -1, -1);
     canvas_painter.drawPixmap(static_cast<int>(x + 1), static_cast<int>(hd2), barPixmap_, 0, static_cast<int>(bar_height_[i]), -1, -1);
 
-    canvas_painter.setPen(fg_);
+    canvas_painter.setPen(palette().color(QPalette::Active, QPalette::Highlight));
     if (bar_height_[i] > 0) {
       canvas_painter.drawRect(static_cast<int>(x), static_cast<int>(y), kColumnWidth - 1, static_cast<int>(bar_height_[i]) * 2 - 1);
     }
@@ -94,7 +107,5 @@ void TurbineAnalyzer::analyze(QPainter &p, const Scope &scope, const bool new_fr
     y = hd2 + static_cast<uint>(peak_height_[i]);
     canvas_painter.drawLine(static_cast<int>(x), static_cast<int>(y), static_cast<int>(x2), static_cast<int>(y));
   }
-
-  p.drawPixmap(0, 0, canvas_);
 
 }

@@ -30,7 +30,10 @@
 #include <QPixmapCache>
 #include <QSet>
 #include <QRgb>
+#include <QColor>
+#include <QScopeGuard>
 
+#include "core/stylehelper.h"
 #include "widgets/fancytabwidget.h"
 #include "widgets/fancytabbar.h"
 
@@ -88,5 +91,37 @@ TEST(FancyTabWidgetTest, BackgroundPixmapFillsWideSidebar) {
   EXPECT_GT(ColorsInColumn(image, column(background_pixmap.width() / 2), top, bottom), 1);
   EXPECT_GT(ColorsInColumn(image, column(background_pixmap.width() + 5), top, bottom), 1);
   EXPECT_GT(ColorsInColumn(image, column(sidebar_width - 5), top, bottom), 1);
+
+}
+
+// Regression test: the cached background of the sidebar was kept when the base color of StyleHelper changed with the palette, so with a custom background color, which doesn't change with the palette, the sidebar kept the old border and shadow.
+TEST(FancyTabWidgetTest, BackgroundDrawnAgainWhenBaseColorChanges) {
+
+  QPixmapCache::clear();
+  // The base color is restored also when the test returns early.
+  const QScopeGuard restore_base_color([requested_base_color = StyleHelper::requestedBaseColor()]() { StyleHelper::setBaseColor(requested_base_color); });
+  StyleHelper::setBaseColor(QColor(0x30, 0x60, 0xC0));
+
+  FancyTabWidget tabs;
+  QWidget *view = new QWidget;
+  tabs.AddTab(view, u"collection"_s, QIcon(), u"Collection"_s);
+  ASSERT_TRUE(tabs.EnableTab(view));
+  tabs.SetMode(FancyTabWidget::Mode::LargeSidebar);
+  tabs.resize(600, 600);
+  tabs.show();
+  QCoreApplication::processEvents();
+
+  // The border is drawn in the last column of the sidebar, below the tab only the background is drawn.
+  const auto border_color = [&tabs]() {
+    const QImage image = tabs.grab().toImage();
+    const int x = static_cast<int>((tabs.tabBar()->width() - 1) * image.devicePixelRatio());
+    return QColor(image.pixel(x, image.height() - 2));
+  };
+
+  EXPECT_EQ(StyleHelper::borderColor().rgb(), border_color().rgb());
+
+  // The background color of the sidebar is kept, like a custom background color, only the base color changes.
+  StyleHelper::setBaseColor(QColor(0xC0, 0x40, 0x30));
+  EXPECT_EQ(StyleHelper::borderColor().rgb(), border_color().rgb());
 
 }

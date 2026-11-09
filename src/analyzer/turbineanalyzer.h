@@ -36,6 +36,9 @@ class TurbineAnalyzer : public BoomAnalyzer {
   void analyze(QPainter &p, const Scope &scope, const bool new_frame) override;
 
   static const char *kName;
+
+ protected:
+  void DrawCanvas() override;
 };
 
 #endif  // TURBINEANALYZER_H

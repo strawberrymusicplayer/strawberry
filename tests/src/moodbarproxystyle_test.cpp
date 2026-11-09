@@ -25,9 +25,13 @@
 
 #include <QByteArray>
 #include <QImage>
+#include <QPalette>
+#include <QColor>
 #include <QSlider>
 #include <QTimeLine>
 
+#include "core/settings.h"
+#include "constants/moodbarsettings.h"
 #include "moodbar/moodbarproxystyle.h"
 
 namespace {
@@ -63,6 +67,8 @@ class MoodbarProxyStyleTest : public ::testing::Test {
     // The style owns the fade timeline, delete it while the slider is still alive.
     style_.reset();
     slider_.reset();
+    // SetStyle() saves the style.
+    Settings().remove(QLatin1String(MoodbarSettings::kSettingsGroup));
   }
 
   // Moves the fade to the given time and keeps it there, the image is grabbed at the same point of the fade for each case.
@@ -83,6 +89,24 @@ class MoodbarProxyStyleTest : public ::testing::Test {
     GrabAt(600);
 
     style_->SetMoodbarData(next_data);
+    return GrabAt(600);
+
+  }
+
+  // Fades the moodbar in or out with the system palette style, which colors the moodbar with the palette, and returns the image while fading.
+  // The palette is set to the other palette before the fade, or while fading when change_while_fading is true.
+  QImage FadeWithPalette(const bool fade_in, const QPalette &other_palette, const bool change_while_fading) {
+
+    style_->SetStyle(MoodbarSettings::Style::SystemPalette);
+    if (!change_while_fading) slider_->setPalette(other_palette);
+    style_->SetMoodbarData(MoodbarData(false));
+    if (!fade_in) {
+      GrabAt(timeline_->duration());
+      style_->SetShowMoodbar(false);
+    }
+
+    GrabAt(fade_in ? 300 : 700);
+    if (change_while_fading) slider_->setPalette(other_palette);
     return GrabAt(600);
 
   }
@@ -109,6 +133,32 @@ TEST_F(MoodbarProxyStyleTest, QuickTrackChangeFadesToNewMoodbar) {
   ASSERT_NE(expected_image, previous_moodbar_image);
 
   EXPECT_EQ(expected_image, image);
+
+}
+
+// Regression test: the pixmaps of the fade were kept when the palette changed while fading, so the moodbar faded with the colors of the previous palette.
+TEST_F(MoodbarProxyStyleTest, PaletteChangeWhileFadingUsesNewPalette) {
+
+  QPalette other_palette(QColor(0x20, 0x20, 0x40));
+  other_palette.setColor(QPalette::Highlight, Qt::red);
+
+  for (const bool fade_in : {true, false}) {
+    TearDown();
+    SetUp();
+    const QImage image = FadeWithPalette(fade_in, other_palette, true);
+
+    TearDown();
+    SetUp();
+    const QImage expected_image = FadeWithPalette(fade_in, other_palette, false);
+
+    // The fade looks different with the previous palette.
+    TearDown();
+    SetUp();
+    const QImage previous_palette_image = FadeWithPalette(fade_in, slider_->palette(), false);
+    ASSERT_NE(expected_image, previous_palette_image) << "fade_in: " << fade_in;
+
+    EXPECT_EQ(expected_image, image) << "fade_in: " << fade_in;
+  }
 
 }
 

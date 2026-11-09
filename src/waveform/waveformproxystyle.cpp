@@ -174,6 +174,17 @@ bool WaveformProxyStyle::eventFilter(QObject *object, QEvent *event) {
         waveform_pixmap_dirty_ = true;
         break;
 
+      case QEvent::PaletteChange:
+        // The palette was changed, we've got to render a new pixmap.
+        waveform_pixmap_dirty_ = true;
+        // The pixmaps of a fade are drawn again with the new palette, the normal slider always, the waveform when there's waveform data to draw it.
+        // Without waveform data, the waveform fading out is kept, it can't be drawn again.
+        fade_source_ = QPixmap();
+        if (!data_.isEmpty()) {
+          fade_target_ = QPixmap();
+        }
+        break;
+
       default:
         break;
     }
@@ -247,7 +258,8 @@ void WaveformProxyStyle::Render(const ComplexControl control, const QStyleOption
       }
 
       if (fade_target_.isNull()) {
-        if (state_ == State::FadingToOn) {
+        // The waveform fading out is drawn again too when there's data for it, like after a palette change.
+        if (!data_.isEmpty()) {
           EnsureWaveformRendered();
         }
         // Fade towards the unplayed bars; the split need not animate during the crossfade (the live composite takes over once the fade completes).

@@ -41,6 +41,7 @@
 #include "moodbarpipeline.h"
 
 class QPainter;
+class QEvent;
 class MoodbarLoader;
 class PlaylistView;
 
@@ -51,6 +52,9 @@ class MoodbarItemDelegate : public QItemDelegate {
   explicit MoodbarItemDelegate(const SharedPtr<MoodbarLoader> moodbar_loader, PlaylistView *view, QObject *parent = nullptr);
 
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
+
+ protected:
+  bool eventFilter(QObject *object, QEvent *event) override;
 
  private Q_SLOTS:
   void ReloadSettings();

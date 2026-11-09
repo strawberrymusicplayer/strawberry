@@ -32,6 +32,7 @@
 
 class QMouseEvent;
 class QPaintEvent;
+class QEvent;
 
 class TrackSliderPopup : public QWidget {
   Q_OBJECT
@@ -46,6 +47,7 @@ class TrackSliderPopup : public QWidget {
 
  protected:
   void paintEvent(QPaintEvent *e) override;
+  void changeEvent(QEvent *e) override;
 
  private:
   void UpdatePixmap();
