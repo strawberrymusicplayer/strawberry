@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ constexpr char kAutoSort[] = "auto_sort";
 
 constexpr char kPathType[] = "path_type";
 
-constexpr char kEditMetadataInline[] = "editmetadatainline";
+constexpr char kEditMetadataInline[] = "edit_metadata_inline";
 constexpr char kWriteMetadata[] = "write_metadata";
 constexpr char kDeleteFiles[] = "delete_files";
 

@@ -142,18 +142,6 @@ void TidalSettingsPage::Save() {
   Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue(kEnabled, ui_->enable->isChecked());
-  if (s.contains(kOAuth)) {
-    s.remove(kOAuth);
-  }
-  if (s.contains(kApiToken)) {
-    s.remove(kApiToken);
-  }
-  if (s.contains(kUsername)) {
-    s.remove(kUsername);
-  }
-  if (s.contains(kPassword)) {
-    s.remove(kPassword);
-  }
   s.setValue(kClientId, ui_->client_id->text());
   s.setValue(kUseCustomClientId, ui_->checkbox_use_custom_client_id->isChecked());
   s.setValue(kQuality, ui_->quality->currentData().toString());

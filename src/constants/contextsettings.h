@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,15 +26,15 @@ namespace ContextSettings {
 
 constexpr char kSettingsGroup[] = "Context";
 
-constexpr char kSettingsTitleFmt[] = "TitleFmt";
-constexpr char kSettingsSummaryFmt[] = "SummaryFmt";
+constexpr char kSettingsTitleFmt[] = "title_fmt";
+constexpr char kSettingsSummaryFmt[] = "summary_fmt";
 
-constexpr char kAlbum[] = "AlbumEnable";
-constexpr char kTechnicalData[] = "TechnicalDataEnable";
-constexpr char kSongLyrics[] = "SongLyricsEnable";
-constexpr char kSyncedLyrics[] = "SyncedLyricsEnable";
-constexpr char kSearchCover[] = "SearchCoverEnable";
-constexpr char kSearchLyrics[] = "SearchLyricsEnable";
+constexpr char kAlbum[] = "album_enable";
+constexpr char kTechnicalData[] = "technical_data_enable";
+constexpr char kSongLyrics[] = "song_lyrics_enable";
+constexpr char kSyncedLyrics[] = "synced_lyrics_enable";
+constexpr char kSearchCover[] = "search_cover_enable";
+constexpr char kSearchLyrics[] = "search_lyrics_enable";
 
 constexpr char kFontHeadline[] = "font_headline";
 constexpr char kFontNormal[] = "font_normal";

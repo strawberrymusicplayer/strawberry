@@ -32,12 +32,12 @@ enum class Bitrate {
 constexpr char kSettingsGroup[] = "Spotify";
 
 constexpr char kEnabled[] = "enabled";
-constexpr char kSearchDelay[] = "searchdelay";
-constexpr char kArtistsSearchLimit[] = "artistssearchlimit";
-constexpr char kAlbumsSearchLimit[] = "albumssearchlimit";
-constexpr char kSongsSearchLimit[] = "songssearchlimit";
-constexpr char kFetchAlbums[] = "fetchalbums";
-constexpr char kDownloadAlbumCovers[] = "downloadalbumcovers";
+constexpr char kSearchDelay[] = "search_delay";
+constexpr char kArtistsSearchLimit[] = "artists_search_limit";
+constexpr char kAlbumsSearchLimit[] = "albums_search_limit";
+constexpr char kSongsSearchLimit[] = "songs_search_limit";
+constexpr char kFetchAlbums[] = "fetch_albums";
+constexpr char kDownloadAlbumCovers[] = "download_albumcovers";
 constexpr char kRemoveRemastered[] = "remove_remastered";
 constexpr char kBitrate[] = "bitrate";
 

@@ -75,6 +75,7 @@
 #include "core/logging.h"
 #include "core/standardpaths.h"
 #include "core/settings.h"
+#include "core/settingsmigration.h"
 
 #include "utilities/envutils.h"
 #include "utilities/styleutils.h"
@@ -239,6 +240,8 @@ int main(int argc, char *argv[]) {
 
   // Gnome on Ubuntu has menu icons disabled by default.  I think that's a bad idea, and makes some menus in Strawberry look confusing.
   QCoreApplication::setAttribute(Qt::AA_DontShowIconsInMenus, false);
+
+  SettingsMigration::Migrate();
 
   const QString default_style = QApplication::style() ? QApplication::style()->objectName() : QString();
   {

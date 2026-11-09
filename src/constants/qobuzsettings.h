@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,17 +29,15 @@ constexpr char kAppId[] = "app_id";
 constexpr char kAppSecret[] = "app_secret";
 constexpr char kPrivateKey[] = "private_key";
 constexpr char kFormat[] = "format";
-constexpr char kSearchDelay[] = "searchdelay";
-constexpr char kArtistsSearchLimit[] = "artistssearchlimit";
-constexpr char kAlbumsSearchLimit[] = "albumssearchlimit";
-constexpr char kSongsSearchLimit[] = "songssearchlimit";
-constexpr char kDownloadAlbumCovers[] = "downloadalbumcovers";
+constexpr char kSearchDelay[] = "search_delay";
+constexpr char kArtistsSearchLimit[] = "artists_search_limit";
+constexpr char kAlbumsSearchLimit[] = "albums_search_limit";
+constexpr char kSongsSearchLimit[] = "songs_search_limit";
+constexpr char kDownloadAlbumCovers[] = "download_albumcovers";
 constexpr char kRemoveRemastered[] = "remove_remastered";
 constexpr char kShowSearchAlbumQuality[] = "show_search_album_quality";
 constexpr char kShowSearchAlbumEdition[] = "show_search_album_edition";
 
-constexpr char kUsername[] = "username";
-constexpr char kPassword[] = "password";
 constexpr char kUserId[] = "user_id";
 constexpr char kCredentialsId[] = "credentials_id";
 constexpr char kDeviceId[] = "device_id";

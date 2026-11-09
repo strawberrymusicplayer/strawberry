@@ -68,7 +68,6 @@ class Transcoder : public QObject {
   ~Transcoder() override;
 
   static TranscoderPreset PresetForFileType(const Song::FileType filetype);
-  static void MigrateSettings();
   static QList<TranscoderPreset> GetAllPresets();
   static Song::FileType PickBestFormat(const QList<Song::FileType> &supported);
 

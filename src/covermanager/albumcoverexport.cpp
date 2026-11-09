@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,9 +39,9 @@ using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kSettingsGroup[] = "AlbumCoverExport";
-constexpr char kFileName[] = "fileName";
+constexpr char kFileName[] = "file_name";
 constexpr char kOverwrite[] = "overwrite";
-constexpr char kForceSize[] = "forceSize";
+constexpr char kForceSize[] = "force_size";
 constexpr char kWidth[] = "width";
 constexpr char kHeight[] = "height";
 constexpr char kExportDownloaded[] = "export_downloaded";
