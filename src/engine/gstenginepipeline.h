@@ -340,6 +340,14 @@ class GstEnginePipeline : public QObject {
   // The tags of the current stream, since a tag message can have only some of the tags, like only the bitrate.
   // The metadata is parsed from a copy, so the artist and album parsed from the title are not kept.
   EngineMetadata raw_stream_metadata_;
+  // Whether a message without a title has replaced the artist or album since the last new title.
+  bool raw_stream_artist_received_;
+  bool raw_stream_album_received_;
+  // Whether the title is parsed without the artist and album kept for it from the messages before it.
+  bool raw_stream_split_title_;
+  // The artist and album of the current song, including those parsed from the title.
+  QString parsed_stream_artist_;
+  QString parsed_stream_album_;
 
   QUrl next_media_url_;
   QUrl next_stream_url_;

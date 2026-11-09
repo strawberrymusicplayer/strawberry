@@ -170,6 +170,9 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
 #ifdef HAVE_SPOTIFY
       spotify_bitrate_(SpotifySettings::kDefaultBitrate),
 #endif
+      raw_stream_artist_received_(false),
+      raw_stream_album_received_(false),
+      raw_stream_split_title_(false),
       ebur128_loudness_normalizing_gain_db_(0.0),
       segment_start_(0),
       segment_start_received_(false),
@@ -1991,26 +1994,43 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
   GstTagList *taglist = nullptr;
   gst_message_parse_tag(msg, &taglist);
 
+  const bool has_title = gst_tag_list_get_tag_size(taglist, GST_TAG_TITLE) > 0;
   const bool has_artist = gst_tag_list_get_tag_size(taglist, GST_TAG_ARTIST) > 0;
   const bool has_album = gst_tag_list_get_tag_size(taglist, GST_TAG_ALBUM) > 0;
 
-  if (gst_tag_list_get_tag_size(taglist, GST_TAG_TITLE) > 0) {
+  bool title_changed = false;
+  if (has_title) {
     const QString title = ParseStrTag(taglist, GST_TAG_TITLE);
     // A new title is a new song, so the artist and album of the previous song are not kept when the message doesn't have them, then the title can be split again.
-    if (!raw_stream_metadata_.title.isEmpty() && title != raw_stream_metadata_.title) {
-      if (!has_artist) raw_stream_metadata_.artist.clear();
-      if (!has_album) raw_stream_metadata_.album.clear();
+    // An artist or album replaced by a message since the last title belongs to the new song, its title just came in a separate message.
+    title_changed = title != raw_stream_metadata_.title;
+    if (title_changed || has_artist || has_album) {
+      // The title of a message without an artist and album can still be split when an artist or album is kept from the messages before it.
+      // A title with an explicit artist or album is never split, also when it's the same title again.
+      raw_stream_split_title_ = !raw_stream_metadata_.title.isEmpty() && !has_artist && !has_album && (raw_stream_artist_received_ || raw_stream_album_received_);
+    }
+    if (!raw_stream_metadata_.title.isEmpty() && title_changed) {
+      if (!has_artist && !raw_stream_artist_received_) raw_stream_metadata_.artist.clear();
+      if (!has_album && !raw_stream_album_received_) raw_stream_metadata_.album.clear();
     }
     raw_stream_metadata_.title = title;
+    // The same title again, like with a bitrate update, is not the new song yet.
+    if (title_changed || has_artist) raw_stream_artist_received_ = false;
+    if (title_changed || has_album) raw_stream_album_received_ = false;
   }
   if (has_artist) {
-    raw_stream_metadata_.artist = ParseStrTag(taglist, GST_TAG_ARTIST);
+    const QString artist = ParseStrTag(taglist, GST_TAG_ARTIST);
+    // An artist which fills in an empty artist, or which is the artist already parsed from the title, completes the current song, also when it replaces a different artist received before it.
+    if (!has_title) raw_stream_artist_received_ = !parsed_stream_artist_.isEmpty() && artist != parsed_stream_artist_;
+    raw_stream_metadata_.artist = artist;
   }
   if (gst_tag_list_get_tag_size(taglist, GST_TAG_COMMENT) > 0) {
     raw_stream_metadata_.comment = ParseStrTag(taglist, GST_TAG_COMMENT);
   }
   if (has_album) {
-    raw_stream_metadata_.album = ParseStrTag(taglist, GST_TAG_ALBUM);
+    const QString album = ParseStrTag(taglist, GST_TAG_ALBUM);
+    if (!has_title) raw_stream_album_received_ = !parsed_stream_album_.isEmpty() && album != parsed_stream_album_;
+    raw_stream_metadata_.album = album;
   }
   if (gst_tag_list_get_tag_size(taglist, GST_TAG_BITRATE) > 0) {
     raw_stream_metadata_.bitrate = static_cast<int>(ParseUIntTag(taglist, GST_TAG_BITRATE) / 1000);
@@ -2028,7 +2048,22 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
     engine_metadata.stream_url = stream_url_;
   }
 
-  StreamMetadataParser::Parse(engine_metadata);
+  if (raw_stream_split_title_) {
+    EngineMetadata title_metadata;
+    title_metadata.title = raw_stream_metadata_.title;
+    StreamMetadataParser::Parse(title_metadata);
+    engine_metadata.title = title_metadata.title;
+    if (engine_metadata.artist.isEmpty()) engine_metadata.artist = title_metadata.artist;
+    if (engine_metadata.album.isEmpty()) engine_metadata.album = title_metadata.album;
+  }
+  else {
+    // The title is only parsed once, parsing the title from JSON again would split a title containing a separator.
+    StreamMetadataParser::Parse(engine_metadata);
+  }
+
+  // A value received for the next song is not the value of the current song, and it also stops the title from being split, which would lose the other value.
+  if (title_changed || (has_artist && !raw_stream_artist_received_)) parsed_stream_artist_ = engine_metadata.artist;
+  if (title_changed || (has_album && !raw_stream_album_received_)) parsed_stream_album_ = engine_metadata.album;
 
   gst_tag_list_unref(taglist);
 

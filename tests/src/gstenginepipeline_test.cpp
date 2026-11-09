@@ -297,6 +297,440 @@ TEST(GstEnginePipelineTest, NewTitleDoesNotKeepPreviousArtistAndAlbum) {
 
 }
 
+// Regression test: when the artist and album of the next song came before its title, in a separate message, the title cleared them.
+TEST(GstEnginePipelineTest, NewTitleKeepsArtistAndAlbumJustReceived) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"First"_s}, {GST_TAG_ARTIST, u"First Artist"_s}, {GST_TAG_ALBUM, u"First Album"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"Second Artist"_s}, {GST_TAG_ALBUM, u"Second Album"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"Second"_s}});
+
+  ASSERT_EQ(3, metadata.size());
+  EXPECT_EQ(u"Second"_s, metadata[2].title);
+  EXPECT_EQ(u"Second Artist"_s, metadata[2].artist);
+  EXPECT_EQ(u"Second Album"_s, metadata[2].album);
+
+}
+
+// A received artist and album only belong to the next title.
+TEST(GstEnginePipelineTest, ReceivedArtistAndAlbumAreOnlyKeptForOneTitle) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"First"_s}, {GST_TAG_ARTIST, u"First Artist"_s}, {GST_TAG_ALBUM, u"First Album"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"Second Artist"_s}, {GST_TAG_ALBUM, u"Second Album"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"Second"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"Third"_s}});
+
+  ASSERT_EQ(4, metadata.size());
+  EXPECT_EQ(u"Third"_s, metadata[3].title);
+  EXPECT_TRUE(metadata[3].artist.isEmpty());
+  EXPECT_TRUE(metadata[3].album.isEmpty());
+
+}
+
+// An artist and album sent again for the current song are not those of the next song.
+TEST(GstEnginePipelineTest, RepeatedArtistAndAlbumAreNotKeptForNewTitle) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"First"_s}, {GST_TAG_ARTIST, u"First Artist"_s}, {GST_TAG_ALBUM, u"First Album"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"First Artist"_s}, {GST_TAG_ALBUM, u"First Album"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"Second"_s}});
+
+  ASSERT_EQ(3, metadata.size());
+  EXPECT_TRUE(metadata[2].artist.isEmpty());
+  EXPECT_TRUE(metadata[2].album.isEmpty());
+
+}
+
+// An artist or album received after the title of a song belongs to that song.
+TEST(GstEnginePipelineTest, ArtistAndAlbumAfterTitleAreNotKeptForNewTitle) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"First"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"First Artist"_s}, {GST_TAG_ALBUM, u"First Album"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"Second"_s}});
+
+  ASSERT_EQ(3, metadata.size());
+  EXPECT_EQ(u"Second"_s, metadata[2].title);
+  EXPECT_TRUE(metadata[2].artist.isEmpty());
+  EXPECT_TRUE(metadata[2].album.isEmpty());
+
+}
+
+// The artist and album of the next title are parsed from it when the artist and album received belong to the previous title.
+TEST(GstEnginePipelineTest, ArtistAndAlbumAfterJsonTitleDoNotReplaceNextJsonTitle) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, uR"({"title":"First","artist":"First Artist","album":"First Album"})"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"First Artist"_s}, {GST_TAG_ALBUM, u"First Album"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, uR"({"title":"Second","artist":"Second Artist","album":"Second Album"})"_s}});
+
+  ASSERT_EQ(3, metadata.size());
+  EXPECT_EQ(u"Second"_s, metadata[2].title);
+  EXPECT_EQ(u"Second Artist"_s, metadata[2].artist);
+  EXPECT_EQ(u"Second Album"_s, metadata[2].album);
+
+}
+
+// An artist and album replacing those parsed from the current title belong to the next title.
+TEST(GstEnginePipelineTest, ArtistAndAlbumReplacingJsonTitleValuesAreKeptForNewTitle) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, uR"({"title":"First","artist":"First Artist","album":"First Album"})"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"Second Artist"_s}, {GST_TAG_ALBUM, u"Second Album"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"Second"_s}});
+
+  ASSERT_EQ(3, metadata.size());
+  EXPECT_EQ(u"Second"_s, metadata[2].title);
+  EXPECT_EQ(u"Second Artist"_s, metadata[2].artist);
+  EXPECT_EQ(u"Second Album"_s, metadata[2].album);
+
+}
+
+// A title with an artist and album in it is still split when the artist and album of the song came before it.
+TEST(GstEnginePipelineTest, NewTitleIsSplitWhenArtistAndAlbumAreKept) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"A - First - Album A"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"B"_s}, {GST_TAG_ALBUM, u"Album B"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"B - Second - Album B"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {}, 128000);
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"B - Second - Album B"_s}});
+
+  ASSERT_EQ(5, metadata.size());
+  EXPECT_EQ(u"Second"_s, metadata[2].title);
+  EXPECT_EQ(u"B"_s, metadata[2].artist);
+  EXPECT_EQ(u"Album B"_s, metadata[2].album);
+  // Also for the messages after the title.
+  EXPECT_EQ(u"Second"_s, metadata[3].title);
+  EXPECT_EQ(u"B"_s, metadata[3].artist);
+  EXPECT_EQ(u"Album B"_s, metadata[3].album);
+  // Also for the same title again.
+  EXPECT_EQ(u"Second"_s, metadata[4].title);
+
+}
+
+// The kept value wins over the one in the title, a value which wasn't kept comes from the title.
+TEST(GstEnginePipelineTest, SplitTitleOnlyFillsInMissingValues) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"A - First - Album A"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"Kept"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"B - Second - Album B"_s}});
+
+  ASSERT_EQ(3, metadata.size());
+  EXPECT_EQ(u"Second"_s, metadata[2].title);
+  EXPECT_EQ(u"Kept"_s, metadata[2].artist);
+  EXPECT_EQ(u"Album B"_s, metadata[2].album);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"A - First - Album A"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ALBUM, u"Kept"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"B - Second - Album B"_s}});
+
+  ASSERT_EQ(6, metadata.size());
+  EXPECT_EQ(u"Second"_s, metadata[5].title);
+  EXPECT_EQ(u"B"_s, metadata[5].artist);
+  EXPECT_EQ(u"Kept"_s, metadata[5].album);
+
+}
+
+// A title sent together with an artist or album is the real title, so it's not split, as always.
+TEST(GstEnginePipelineTest, TitleWithExplicitArtistOrAlbumIsNotSplit) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"A - First - Album A"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"B"_s}, {GST_TAG_ALBUM, u"Album B"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"C - Third"_s}, {GST_TAG_ARTIST, u"Explicit"_s}});
+
+  ASSERT_EQ(3, metadata.size());
+  EXPECT_EQ(u"C - Third"_s, metadata[2].title);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"A - First - Album A"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"B"_s}, {GST_TAG_ALBUM, u"Album B"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"D - Fourth"_s}, {GST_TAG_ALBUM, u"Explicit"_s}});
+
+  ASSERT_EQ(6, metadata.size());
+  EXPECT_EQ(u"D - Fourth"_s, metadata[5].title);
+
+}
+
+// An artist and album in separate messages are both kept, in either order, also when the first one stops the current title from being split.
+TEST(GstEnginePipelineTest, ArtistAndAlbumInSeparateMessagesAreBothKept) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"A - First - Album A"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"B"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ALBUM, u"Album B"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"Second"_s}});
+
+  ASSERT_EQ(4, metadata.size());
+  EXPECT_EQ(u"Second"_s, metadata[3].title);
+  EXPECT_EQ(u"B"_s, metadata[3].artist);
+  EXPECT_EQ(u"Album B"_s, metadata[3].album);
+
+  GstEnginePipeline reverse_pipeline;
+  QList<EngineMetadata> reverse_metadata;
+  GstEnginePipelineTest::CaptureMetadata(reverse_pipeline, reverse_metadata);
+
+  GstEnginePipelineTest::DispatchTags(reverse_pipeline, {{GST_TAG_TITLE, u"A - First - Album A"_s}});
+  GstEnginePipelineTest::DispatchTags(reverse_pipeline, {{GST_TAG_ALBUM, u"Album B"_s}});
+  GstEnginePipelineTest::DispatchTags(reverse_pipeline, {{GST_TAG_ARTIST, u"B"_s}});
+  GstEnginePipelineTest::DispatchTags(reverse_pipeline, {{GST_TAG_TITLE, u"Second"_s}});
+
+  ASSERT_EQ(4, reverse_metadata.size());
+  EXPECT_EQ(u"Second"_s, reverse_metadata[3].title);
+  EXPECT_EQ(u"B"_s, reverse_metadata[3].artist);
+  EXPECT_EQ(u"Album B"_s, reverse_metadata[3].album);
+
+}
+
+// The same title again doesn't lose what the current song's artist and album are, while the title can't be split.
+TEST(GstEnginePipelineTest, RepeatedTitleKeepsCurrentSongComparison) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"A - First - Album A"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"B"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"A - First - Album A"_s}}, 128000);
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ALBUM, u"Album B"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"Second"_s}});
+
+  ASSERT_EQ(5, metadata.size());
+  EXPECT_EQ(u"B"_s, metadata[4].artist);
+  EXPECT_EQ(u"Album B"_s, metadata[4].album);
+
+}
+
+// The same title again, like with a bitrate update, doesn't use up the artist and album received for the next title.
+TEST(GstEnginePipelineTest, RepeatedTitleKeepsReceivedArtistAndAlbum) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"First"_s}, {GST_TAG_ARTIST, u"First Artist"_s}, {GST_TAG_ALBUM, u"First Album"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"Second Artist"_s}, {GST_TAG_ALBUM, u"Second Album"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"First"_s}}, 128000);
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"Second"_s}});
+
+  ASSERT_EQ(4, metadata.size());
+  EXPECT_EQ(u"Second"_s, metadata[3].title);
+  EXPECT_EQ(u"Second Artist"_s, metadata[3].artist);
+  EXPECT_EQ(u"Second Album"_s, metadata[3].album);
+
+}
+
+// The same title again with an artist or album says that value belongs to the current title.
+TEST(GstEnginePipelineTest, RepeatedTitleWithArtistOrAlbumUsesUpOnlyThatValue) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"First"_s}, {GST_TAG_ARTIST, u"First Artist"_s}, {GST_TAG_ALBUM, u"First Album"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"Received Artist"_s}, {GST_TAG_ALBUM, u"Received Album"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"First"_s}, {GST_TAG_ARTIST, u"First Artist"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"Second"_s}});
+
+  ASSERT_EQ(4, metadata.size());
+  EXPECT_TRUE(metadata[3].artist.isEmpty());
+  EXPECT_EQ(u"Received Album"_s, metadata[3].album);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"First"_s}, {GST_TAG_ARTIST, u"First Artist"_s}, {GST_TAG_ALBUM, u"First Album"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"Received Artist"_s}, {GST_TAG_ALBUM, u"Received Album"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"First"_s}, {GST_TAG_ALBUM, u"First Album"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"Second"_s}});
+
+  ASSERT_EQ(8, metadata.size());
+  EXPECT_EQ(u"Received Artist"_s, metadata[7].artist);
+  EXPECT_TRUE(metadata[7].album.isEmpty());
+
+}
+
+// Only the value which was received is kept for the new title.
+TEST(GstEnginePipelineTest, ReceivedArtistAndAlbumAreKeptIndependently) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"First"_s}, {GST_TAG_ARTIST, u"First Artist"_s}, {GST_TAG_ALBUM, u"First Album"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"Second Artist"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"Second"_s}});
+
+  ASSERT_EQ(3, metadata.size());
+  EXPECT_EQ(u"Second Artist"_s, metadata[2].artist);
+  EXPECT_TRUE(metadata[2].album.isEmpty());
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"First"_s}, {GST_TAG_ARTIST, u"First Artist"_s}, {GST_TAG_ALBUM, u"First Album"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ALBUM, u"Second Album"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"Second"_s}});
+
+  ASSERT_EQ(6, metadata.size());
+  EXPECT_TRUE(metadata[5].artist.isEmpty());
+  EXPECT_EQ(u"Second Album"_s, metadata[5].album);
+
+}
+
+// The same title again with an explicit artist or album is not split, like a new title with an explicit artist or album.
+TEST(GstEnginePipelineTest, RepeatedTitleWithExplicitArtistOrAlbumIsNotSplit) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"First"_s}, {GST_TAG_ARTIST, u"A"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"B"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"B - Second"_s}});
+  ASSERT_EQ(3, metadata.size());
+  EXPECT_EQ(u"Second"_s, metadata[2].title);
+
+  // A bitrate update repeats the title without any explicit tags, so it's still split.
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"B - Second"_s}});
+  ASSERT_EQ(4, metadata.size());
+  EXPECT_EQ(u"Second"_s, metadata[3].title);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"B - Second"_s}, {GST_TAG_ARTIST, u"Explicit"_s}});
+  ASSERT_EQ(5, metadata.size());
+  EXPECT_EQ(u"B - Second"_s, metadata[4].title);
+  EXPECT_EQ(u"Explicit"_s, metadata[4].artist);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"First"_s}, {GST_TAG_ARTIST, u"A"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"B"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"B - Third"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"B - Third"_s}, {GST_TAG_ALBUM, u"Explicit"_s}});
+  ASSERT_EQ(9, metadata.size());
+  EXPECT_EQ(u"Third"_s, metadata[7].title);
+  EXPECT_EQ(u"B - Third"_s, metadata[8].title);
+
+}
+
+// An artist or album changed back to the value of the current song is not kept for the next song.
+TEST(GstEnginePipelineTest, ArtistAndAlbumChangedBackAreNotKeptForNewTitle) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"First"_s}, {GST_TAG_ARTIST, u"A"_s}, {GST_TAG_ALBUM, u"Album A"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"B"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"A"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ALBUM, u"Album B"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ALBUM, u"Album A"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"Second"_s}});
+
+  ASSERT_EQ(6, metadata.size());
+  EXPECT_EQ(u"Second"_s, metadata[5].title);
+  EXPECT_TRUE(metadata[5].artist.isEmpty()) << metadata[5].artist.toStdString();
+  EXPECT_TRUE(metadata[5].album.isEmpty()) << metadata[5].album.toStdString();
+
+}
+
+// The last different value received is the one kept for the next song.
+TEST(GstEnginePipelineTest, LastReceivedArtistAndAlbumAreKeptForNewTitle) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"First"_s}, {GST_TAG_ARTIST, u"A"_s}, {GST_TAG_ALBUM, u"Album A"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"B"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"C"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ALBUM, u"Album B"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ALBUM, u"Album C"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"Second"_s}});
+
+  ASSERT_EQ(6, metadata.size());
+  EXPECT_EQ(u"C"_s, metadata[5].artist);
+  EXPECT_EQ(u"Album C"_s, metadata[5].album);
+
+}
+
+// A title from JSON is only parsed once, so a separator in it is not split as an artist and title.
+TEST(GstEnginePipelineTest, SplitJsonTitleIsNotSplitAgain) {
+
+  GstStartup::Initialize();
+
+  QList<EngineMetadata> metadata;
+  GstEnginePipeline pipeline;
+  GstEnginePipelineTest::CaptureMetadata(pipeline, metadata);
+
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, u"First"_s}, {GST_TAG_ARTIST, u"A"_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_ARTIST, u"   "_s}});
+  GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, uR"({"title":"Love - Hate"})"_s}});
+
+  ASSERT_EQ(3, metadata.size());
+  EXPECT_EQ(u"Love - Hate"_s, metadata[2].title);
+  EXPECT_TRUE(metadata[2].artist.isEmpty()) << metadata[2].artist.toStdString();
+
+}
+
 TEST(GstEnginePipelineTest, StreamStartResetsMetadataOnOrdinaryAndGaplessPaths) {
 
   GstStartup::Initialize();
