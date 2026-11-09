@@ -82,7 +82,7 @@ void TurbineAnalyzer::analyze(QPainter &p, const Scope &scope, const bool new_fr
     canvas_painter.drawPixmap(static_cast<int>(x + 1), static_cast<int>(y), barPixmap_, 0, static_cast<int>(y), -1, -1);
     canvas_painter.drawPixmap(static_cast<int>(x + 1), static_cast<int>(hd2), barPixmap_, 0, static_cast<int>(bar_height_[i]), -1, -1);
 
-    canvas_painter.setPen(fg_);
+    canvas_painter.setPen(palette().color(QPalette::Active, QPalette::Highlight));
     if (bar_height_[i] > 0) {
       canvas_painter.drawRect(static_cast<int>(x), static_cast<int>(y), kColumnWidth - 1, static_cast<int>(bar_height_[i]) * 2 - 1);
     }

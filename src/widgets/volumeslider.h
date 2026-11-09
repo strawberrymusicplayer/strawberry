@@ -53,7 +53,7 @@ class VolumeSlider : public SliderSlider {
   void enterEvent(QEnterEvent *e) override;
   void leaveEvent(QEvent *e) override;
   void paintEvent(QPaintEvent *e) override;
-  virtual void paletteChange(const QPalette &palette);
+  void changeEvent(QEvent *e) override;
   void slideEvent(QMouseEvent *e) override;
   void contextMenuEvent(QContextMenuEvent *e) override;
   void mousePressEvent(QMouseEvent *e) override;
