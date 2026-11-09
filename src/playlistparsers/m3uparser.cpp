@@ -329,6 +329,10 @@ void M3UParser::Save(const QString &playlist_name, const SongList &songs, QIODev
         location = QString::fromLatin1(song.url().toEncoded());
       }
     }
+    // A line starting with # is a comment, so a relative file name starting with # needs a path in front of it.
+    if (location.startsWith(u'#')) {
+      location.prepend("./"_L1);
+    }
     device->write(encode(location));
     device->write("\n");
   }

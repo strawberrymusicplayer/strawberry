@@ -627,4 +627,60 @@ TEST_F(M3UParserTest, SaveM3UEncodedRelativePathCollision) {
 
 }
 
+// Regression test: a relative file name starting with # was written as it is, and read back as a comment.
+TEST_F(M3UParserTest, FileNameStartingWithHashIsLoaded) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  TemporaryResource audio(u":/audio/strawberry.mp3"_s);
+  ASSERT_TRUE(audio.isOpen());
+
+  const QString song_path = tmp.filePath(u"#1 track.mp3"_s);
+  ASSERT_TRUE(QFile::copy(audio.fileName(), song_path));
+
+  M3UParser parser = MakeParser();
+  const QString playlist_path = tmp.filePath(u"playlist.m3u8"_s);
+  const QByteArray data = SaveSingleFile(parser, playlist_path, song_path, PlaylistSettings::PathType::Relative);
+  EXPECT_TRUE(data.contains("\n./#1 track.mp3\n"));
+
+  const ParserBase::LoadResult result = Load(parser, playlist_path);
+  ASSERT_EQ(result.songs.size(), 1);
+  EXPECT_EQ(QFileInfo(result.songs[0].url().toLocalFile()).canonicalFilePath(), QFileInfo(song_path).canonicalFilePath());
+
+}
+
+// In an .m3u playlist, the # of a percent encoded location is encoded too.
+TEST_F(M3UParserTest, EncodedFileNameStartingWithHashIsLoaded) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  TemporaryResource audio(u":/audio/strawberry.mp3"_s);
+  ASSERT_TRUE(audio.isOpen());
+
+  const QString song_path = tmp.filePath(u"#Ελληνικά.mp3"_s);
+  ASSERT_TRUE(QFile::copy(audio.fileName(), song_path));
+
+  M3UParser parser = MakeParser();
+  const QString playlist_path = tmp.filePath(u"playlist.m3u"_s);
+  SaveSingleFile(parser, playlist_path, song_path, PlaylistSettings::PathType::Relative);
+
+  const ParserBase::LoadResult result = Load(parser, playlist_path);
+  ASSERT_EQ(result.songs.size(), 1);
+  EXPECT_EQ(QFileInfo(result.songs[0].url().toLocalFile()).canonicalFilePath(), QFileInfo(song_path).canonicalFilePath());
+
+}
+
+// Other relative file names are written as they are.
+TEST_F(M3UParserTest, FileNameWithHashInsideIsNotChanged) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  const M3UParser parser = MakeParser();
+
+  const QByteArray data = SaveSingleFile(parser, tmp.filePath(u"playlist.m3u8"_s), tmp.filePath(u"track #1.mp3"_s), PlaylistSettings::PathType::Relative);
+
+  EXPECT_TRUE(data.contains("\ntrack #1.mp3\n"));
+
+}
+
 }  // namespace
