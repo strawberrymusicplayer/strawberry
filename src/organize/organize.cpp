@@ -79,6 +79,8 @@ Organize::Organize(const SharedPtr<TaskManager> task_manager,
       transcoder_(new Transcoder(this)),
       process_files_timer_(new QTimer(this)),
       destination_(destination),
+      transcode_mode_(destination->GetTranscodeMode()),
+      transcode_format_(destination->GetTranscodeFormat()),
       format_(format),
       copy_(copy),
       overwrite_(overwrite),
@@ -176,7 +178,10 @@ void Organize::ProcessSomeFiles() {
     if (!success && !error_text.isEmpty()) {
       log_ << error_text;
     }
-    if (eject_after_) destination_->Eject();
+    // Ejecting uses the device model, which belongs to the original thread.
+    if (eject_after_) {
+      QMetaObject::invokeMethod(original_thread_, [destination = destination_]() { destination->Eject(); }, Qt::QueuedConnection);
+    }
 
     task_manager_->SetTaskFinished(task_id_);
 
@@ -495,21 +500,18 @@ Song::FileType Organize::CheckTranscode(const Song::FileType original_type) cons
 
   if (original_type == Song::FileType::Stream) return Song::FileType::Unknown;
 
-  const MusicStorage::TranscodeMode mode = destination_->GetTranscodeMode();
-  const Song::FileType format = destination_->GetTranscodeFormat();
-
-  switch (mode) {
+  switch (transcode_mode_) {
     case MusicStorage::TranscodeMode::Transcode_Never:
       return Song::FileType::Unknown;
 
     case MusicStorage::TranscodeMode::Transcode_Always:
-      if (original_type == format) return Song::FileType::Unknown;
-      return format;
+      if (original_type == transcode_format_) return Song::FileType::Unknown;
+      return transcode_format_;
 
     case MusicStorage::TranscodeMode::Transcode_Unsupported:
       if (supported_filetypes_.isEmpty() || supported_filetypes_.contains(original_type)) return Song::FileType::Unknown;
 
-      if (format != Song::FileType::Unknown) return format;
+      if (transcode_format_ != Song::FileType::Unknown) return transcode_format_;
 
       // The user hasn't visited the device properties page yet to set a preferred format for the device, so we have to pick the best available one.
       return Transcoder::PickBestFormat(supported_filetypes_);
