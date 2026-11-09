@@ -402,6 +402,41 @@ SongList DeviceView::GetSelectedSongs() const {
 
 }
 
+DeviceView::StorageSongsList DeviceView::GetSelectedSongsByStorage() const {
+
+  StorageSongsList storage_songs_list;
+  const QModelIndexList selected_merged_indexes = selectionModel()->selectedRows();
+  for (const QModelIndex &merged_index : selected_merged_indexes) {
+    const QModelIndex collection_index = MapToCollection(merged_index);
+    if (!collection_index.isValid()) continue;
+
+    const CollectionModel *collection = qobject_cast<const CollectionModel*>(collection_index.model());
+    if (!collection) continue;
+
+    const QModelIndex device_index = FindParentDevice(merged_index);
+    if (!device_index.isValid()) continue;
+
+    AddStorageSongs(&storage_songs_list, device_index.data(MusicStorage::Role_Storage).value<SharedPtr<MusicStorage>>(), collection->GetChildSongs(collection_index));
+  }
+  return storage_songs_list;
+
+}
+
+void DeviceView::AddStorageSongs(StorageSongsList *storage_songs_list, const SharedPtr<MusicStorage> &storage, const SongList &songs) {
+
+  if (!storage || songs.isEmpty()) return;
+
+  for (StorageSongs &storage_songs : *storage_songs_list) {
+    if (storage_songs.storage == storage) {
+      storage_songs.songs << songs;
+      return;
+    }
+  }
+
+  storage_songs_list->append(StorageSongs{storage, songs});
+
+}
+
 void DeviceView::Load() {
 
   QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
@@ -428,23 +463,19 @@ void DeviceView::OpenInNewPlaylist() {
 
 void DeviceView::Delete() {
 
-  QModelIndexList selected_indexes = selectedIndexes();
-
-  if (selected_indexes.isEmpty()) return;
-
-  // Take the device of the first selected item
-  QModelIndex device_index = FindParentDevice(selected_indexes[0]);
-  if (!device_index.isValid()) return;
+  const StorageSongsList storage_songs_list = GetSelectedSongsByStorage();
+  if (storage_songs_list.isEmpty()) return;
 
   if (QMessageBox::question(this, tr("Delete files"), tr("These files will be deleted from the device, are you sure you want to continue?"), QMessageBox::Yes, QMessageBox::Cancel) != QMessageBox::Yes) {
     return;
   }
 
-  SharedPtr<MusicStorage> storage = device_index.data(MusicStorage::Role_Storage).value<SharedPtr<MusicStorage>>();
-
-  DeleteFiles *delete_files = new DeleteFiles(task_manager_, storage, false);
-  QObject::connect(delete_files, &DeleteFiles::Finished, this, &DeviceView::DeleteFinished);
-  delete_files->Start(GetSelectedSongs());
+  // The selection can contain songs of more than one device, they are deleted from the device they are on.
+  for (const StorageSongs &storage_songs : storage_songs_list) {
+    DeleteFiles *delete_files = new DeleteFiles(task_manager_, storage_songs.storage, false);
+    QObject::connect(delete_files, &DeleteFiles::Finished, this, &DeviceView::DeleteFinished);
+    delete_files->Start(storage_songs.songs);
+  }
 
 }
 
