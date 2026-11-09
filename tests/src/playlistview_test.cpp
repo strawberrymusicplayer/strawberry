@@ -21,17 +21,21 @@
 
 #include "gtest_include.h"
 
+#include <QApplication>
 #include <QColor>
+#include <QPalette>
 #include <QImage>
 #include <QMetaObject>
 #include <QString>
 #include <QTest>
 #include <QTimeLine>
 #include <QUrl>
+#include <QItemSelectionModel>
 
 #include "core/settings.h"
 #include "core/song.h"
 #include "constants/appearancesettings.h"
+#include "constants/playlistsettings.h"
 #include "covermanager/albumcoverimageresult.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "playlist/playlist.h"
@@ -58,6 +62,7 @@ class PlaylistViewTest : public ::testing::Test {
 
   void TearDown() override {
     Settings().remove(QLatin1String(AppearanceSettings::kSettingsGroup));
+    Settings().remove(QLatin1String(PlaylistSettings::kSettingsGroup));
   }
 
   // The view needs a playlist when it's shown.
@@ -176,3 +181,62 @@ TEST_F(PlaylistViewTest, CoverChangedAgainBeforePaintKeepsFadingFromShownCover) 
 }
 
 }  // namespace
+
+// Regression test: the current track bar was created when the palette changed, also when the row height wasn't known yet, so the bar was created without pixmaps.
+// When the bar was disabled, the row height was set when the current row was drawn without the bar, so when the bar was enabled, it was drawn with the empty pixmaps.
+TEST_F(PlaylistViewTest, CurrentTrackBarDrawnAfterPaletteChange) {
+
+  {
+    Settings s;
+    s.beginGroup(PlaylistSettings::kSettingsGroup);
+    s.setValue(PlaylistSettings::kShowBars, false);
+    s.setValue(PlaylistSettings::kGlowEffect, false);
+    s.endGroup();
+  }
+
+  Playlist playlist(nullptr, nullptr, nullptr, nullptr, nullptr, 1);
+  playlist.InsertSongs(SongList() << MakeSong(u"Album"_s));
+  playlist.set_current_row(0);
+
+  const QPalette original_palette = QApplication::palette();
+  PlaylistView view;
+  // The bar is colored with the highlight color of the application palette.
+  QPalette palette = original_palette;
+  palette.setColor(QPalette::Highlight, Qt::red);
+  QApplication::setPalette(palette);
+
+  ShowView(&playlist, &view);
+  if (::testing::Test::HasFatalFailure()) {
+    QApplication::setPalette(original_palette);
+    return;
+  }
+
+  // The selection is drawn with the highlight color too.
+  view.selectionModel()->clear();
+
+  // Returns true when the current row has the color of the bar.
+  const auto row_has_bar = [&view, &playlist]() {
+    const QRect row_rect = view.visualRect(playlist.filter()->index(0, 0));
+    const QImage image = view.viewport()->grab().toImage();
+    const qreal device_pixel_ratio = image.devicePixelRatio();
+    const int y = static_cast<int>(row_rect.center().y() * device_pixel_ratio);
+    for (int x = 0; x < image.width(); ++x) {
+      if (IsRed(image.pixelColor(x, y))) return true;
+    }
+    return false;
+  };
+
+  EXPECT_FALSE(row_has_bar());
+
+  {
+    Settings s;
+    s.beginGroup(PlaylistSettings::kSettingsGroup);
+    s.setValue(PlaylistSettings::kShowBars, true);
+    s.endGroup();
+  }
+  view.ReloadSettings();
+  EXPECT_TRUE(row_has_bar());
+
+  QApplication::setPalette(original_palette);
+
+}

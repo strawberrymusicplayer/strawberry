@@ -175,6 +175,17 @@ bool MoodbarProxyStyle::eventFilter(QObject *object, QEvent *event) {
         moodbar_pixmap_dirty_ = true;
         break;
 
+      case QEvent::PaletteChange:
+        // The system palette style and the border use the palette colors.
+        moodbar_colors_dirty_ = true;
+        // The pixmaps of a fade are drawn again with the new palette, the normal slider always, the moodbar when there's moodbar data to draw it.
+        // Without moodbar data, the moodbar fading out is kept, it can't be drawn again.
+        fade_source_ = QPixmap();
+        if (!data_.isEmpty()) {
+          fade_target_ = QPixmap();
+        }
+        break;
+
       default:
         break;
     }
@@ -226,7 +237,8 @@ void MoodbarProxyStyle::Render(const ComplexControl control, const QStyleOptionS
       }
 
       if (fade_target_.isNull()) {
-        if (state_ == State::FadingToOn) {
+        // The moodbar fading out is drawn again too when there's data for it, like after a palette change.
+        if (!data_.isEmpty()) {
           EnsureMoodbarRendered(option);
         }
         fade_target_ = moodbar_pixmap_;

@@ -1397,6 +1397,21 @@ void PlaylistView::resizeEvent(QResizeEvent *e) {
 
 }
 
+void PlaylistView::changeEvent(QEvent *event) {
+
+  if (event->type() == QEvent::PaletteChange) {
+    // The current track bar is colored with the highlight color and the cached row is drawn with the palette text color.
+    // The bar is created again when it's drawn, when the row height is known.
+    currenttrack_bar_left_.clear();
+    currenttrack_bar_mid_.clear();
+    currenttrack_bar_right_.clear();
+    InvalidateCachedCurrentPixmap();
+  }
+
+  QTreeView::changeEvent(event);
+
+}
+
 bool PlaylistView::eventFilter(QObject *object, QEvent *event) {
 
   if (event->type() == QEvent::Enter && (object == horizontalScrollBar() || object == verticalScrollBar())) {

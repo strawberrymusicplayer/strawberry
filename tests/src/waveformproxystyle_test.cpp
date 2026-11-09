@@ -32,6 +32,7 @@
 #include <QImage>
 #include <QPainter>
 #include <QColor>
+#include <QPalette>
 #include <QCoreApplication>
 #include <QEventLoop>
 #include <QElapsedTimer>
@@ -389,5 +390,61 @@ TEST(WaveformProxyStyleTest, QuickTrackChangeFadesToNewWaveform) {
   ASSERT_NE(expected_image, previous_waveform_image);
 
   EXPECT_EQ(expected_image, image);
+
+}
+
+namespace {
+
+// Fades the waveform in or out, and returns the image while fading.
+// The palette is set to the other palette before the fade, or while fading when change_while_fading is true, the waveform is colored with the highlight color of the palette.
+QImage FadeWithPalette(const bool fade_in, const QPalette &other_palette, const bool change_while_fading) {
+
+  QSlider slider(Qt::Horizontal);
+  slider.resize(400, 30);
+  slider.show();
+  WaveformProxyStyle style(&slider);
+  QTimeLine *timeline = style.findChild<QTimeLine*>();
+  if (!timeline) return QImage();
+
+  const auto grab_at = [&slider, timeline](const int msec) {
+    if (timeline->state() == QTimeLine::State::Running) timeline->setPaused(true);
+    timeline->setCurrentTime(msec);
+    return slider.grab().toImage();
+  };
+
+  if (!change_while_fading) slider.setPalette(other_palette);
+  style.SetWaveformData(MakeTestBlob(WaveformBuilder::kWaveformBaseCount, -120, 120));
+  style.SetShowWaveform(true);
+  if (!fade_in) {
+    grab_at(timeline->duration());
+    style.SetShowWaveform(false);
+  }
+
+  grab_at(fade_in ? 300 : 700);
+  if (change_while_fading) slider.setPalette(other_palette);
+  return grab_at(600);
+
+}
+
+}  // namespace
+
+// Regression test: the pixmaps of the fade were kept when the palette changed while fading, so the waveform faded with the colors of the previous palette.
+TEST(WaveformProxyStyleTest, PaletteChangeWhileFadingUsesNewPalette) {
+
+  QPalette other_palette(QColor(0x20, 0x20, 0x40));
+  other_palette.setColor(QPalette::Highlight, Qt::red);
+
+  for (const bool fade_in : {true, false}) {
+    const QImage image = FadeWithPalette(fade_in, other_palette, true);
+    ASSERT_FALSE(image.isNull());
+
+    const QImage expected_image = FadeWithPalette(fade_in, other_palette, false);
+
+    // The fade looks different with the previous palette.
+    const QImage previous_palette_image = FadeWithPalette(fade_in, QSlider().palette(), false);
+    ASSERT_NE(expected_image, previous_palette_image) << "fade_in: " << fade_in;
+
+    EXPECT_EQ(expected_image, image) << "fade_in: " << fade_in;
+  }
 
 }
