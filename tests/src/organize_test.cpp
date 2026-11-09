@@ -21,7 +21,16 @@
 
 #include "gtest_include.h"
 
+#include <atomic>
+
+#include <QCoreApplication>
+#include <QElapsedTimer>
+#include <QEventLoop>
+#include <QList>
+#include <QMutex>
+#include <QMutexLocker>
 #include <QSet>
+#include <QThread>
 #include <QString>
 #include <QDir>
 #include <QFile>
@@ -31,16 +40,108 @@
 #include <QStringList>
 #include <QUrl>
 
+#include "includes/shared_ptr.h"
+#include "core/musicstorage.h"
 #include "core/song.h"
+#include "core/taskmanager.h"
 #include "organize/organize.h"
 #include "organize/organizeformat.h"
 #include "organize/organizedialog.h"
 
+using std::make_shared;
 using namespace Qt::Literals::StringLiterals;
 
 // clazy:excludeall=non-pod-global-static
 
 namespace {
+
+// A device, which records the threads the device model would be used from.
+class DeviceModelThreadStorage : public MusicStorage {
+ public:
+  Song::Source source() const override { return Song::Source::Device; }
+  TranscodeMode GetTranscodeMode() const override {
+    RecordThread();
+    return TranscodeMode::Transcode_Never;
+  }
+  Song::FileType GetTranscodeFormat() const override {
+    RecordThread();
+    return Song::FileType::Unknown;
+  }
+  bool CopyToStorage(const CopyJob &job, QString &error_text) override {
+    Q_UNUSED(error_text)
+    QMutexLocker l(&mutex_);
+    copied_cover_source_ = job.cover_source_;
+    copied = true;
+    return true;
+  }
+  bool DeleteFromStorage(const DeleteJob &job) override {
+    Q_UNUSED(job)
+    return true;
+  }
+  void Eject() override { eject_thread = QThread::currentThread(); }
+
+  QString copied_cover_source() const {
+    QMutexLocker l(&mutex_);
+    return copied_cover_source_;
+  }
+
+  QList<QThread*> transcode_settings_threads() const {
+    QMutexLocker l(&mutex_);
+    return transcode_settings_threads_;
+  }
+
+  std::atomic<bool> copied = false;
+  std::atomic<QThread*> eject_thread = nullptr;
+
+ private:
+  void RecordThread() const {
+    QMutexLocker l(&mutex_);
+    transcode_settings_threads_ << QThread::currentThread();
+  }
+
+  mutable QMutex mutex_;
+  mutable QList<QThread*> transcode_settings_threads_;
+  QString copied_cover_source_;
+};
+
+// Regression test: the transcode settings and ejecting used the device model of the GUI thread from the thread the songs are organized in.
+TEST(OrganizeTest, UsesDeviceModelOnOriginalThread) {
+
+  // Songs without a cover image file have the embedded cover loaded with the tag reader, which this test doesn't have.
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString cover_filename = temp_dir.filePath(u"cover.jpg"_s);
+  QFile cover_file(cover_filename);
+  ASSERT_TRUE(cover_file.open(QIODevice::WriteOnly));
+  cover_file.close();
+
+  Song song;
+  song.Init(u"Title"_s, u"Artist"_s, u"Album"_s, 123);
+  song.set_filetype(Song::FileType::FLAC);
+  song.set_url(QUrl::fromLocalFile(u"/nonexistent/song.flac"_s));
+  song.set_art_manual(QUrl::fromLocalFile(cover_filename));
+
+  const SharedPtr<DeviceModelThreadStorage> storage = make_shared<DeviceModelThreadStorage>();
+  Organize *organize = new Organize(make_shared<TaskManager>(), nullptr, storage, OrganizeFormat(), true, true, false, Organize::NewSongInfoList() << Organize::NewSongInfo(song, u"song.flac"_s, false), QStringList(), true, QString());
+  organize->Start();
+
+  QElapsedTimer timer;
+  timer.start();
+  while (!storage->eject_thread && timer.elapsed() < 10000) {
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 50);
+  }
+
+  ASSERT_NE(nullptr, storage->eject_thread.load()) << "Timed out waiting for the device to be ejected";
+  EXPECT_TRUE(storage->copied);
+  EXPECT_EQ(cover_filename, storage->copied_cover_source());
+  EXPECT_EQ(QThread::currentThread(), storage->eject_thread.load());
+  const QList<QThread*> threads = storage->transcode_settings_threads();
+  ASSERT_FALSE(threads.isEmpty());
+  for (const QThread *thread : threads) {
+    EXPECT_EQ(QThread::currentThread(), thread);
+  }
+
+}
 
 TEST(OrganizeTest, UniqueFilenames) {
 
