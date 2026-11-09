@@ -891,6 +891,20 @@ void Player::SeekTo(const quint64 seconds) {
 
 }
 
+void Player::SeekToMsec(const quint64 milliseconds) {
+
+  const qint64 length_nanosec = engine_->length_nanosec();
+
+  // If the length is 0 then either there is no song playing, or the song isn't seekable.
+  if (length_nanosec <= 0) {
+    return;
+  }
+
+  const quint64 length_msec = static_cast<quint64>(length_nanosec / kNsecPerMsec);
+  SeekToNanosec(milliseconds > length_msec ? static_cast<quint64>(length_nanosec) : milliseconds * kNsecPerMsec);
+
+}
+
 void Player::SeekToNanosec(const quint64 nanosec) {
 
   const qint64 length_nanosec = engine_->length_nanosec();

@@ -18,7 +18,9 @@
 
 #include <jni.h>
 
+#include <QCoreApplication>
 #include <QFile>
+#include <QMetaObject>
 #include <QJniEnvironment>
 #include <QJniObject>
 #include <QString>
@@ -74,12 +76,28 @@ QString CoverPath(const Song &song, const AlbumCoverLoaderResult &result) {
 
 }  // namespace
 
+QPointer<AndroidMediaSession> AndroidMediaSession::instance_;
+
 AndroidMediaSession::AndroidMediaSession(const SharedPtr<Player> player,
                                          const SharedPtr<PlaylistManager> playlist_manager,
                                          const SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader,
                                          QObject *parent)
     : QObject(parent),
       player_(player) {
+
+  instance_ = this;
+  const JNINativeMethod native_methods[] = {
+    {const_cast<char *>("nativePlay"), const_cast<char *>("()V"), reinterpret_cast<void *>(NativePlay)},
+    {const_cast<char *>("nativePause"), const_cast<char *>("()V"), reinterpret_cast<void *>(NativePause)},
+    {const_cast<char *>("nativeNext"), const_cast<char *>("()V"), reinterpret_cast<void *>(NativeNext)},
+    {const_cast<char *>("nativePrevious"), const_cast<char *>("()V"), reinterpret_cast<void *>(NativePrevious)},
+    {const_cast<char *>("nativeSeekTo"), const_cast<char *>("(J)V"), reinterpret_cast<void *>(NativeSeekTo)},
+    {const_cast<char *>("nativeStop"), const_cast<char *>("()V"), reinterpret_cast<void *>(NativeStop)},
+  };
+  QJniEnvironment env;
+  if (!env.registerNativeMethods(kBridgeClass, native_methods, static_cast<int>(sizeof(native_methods) / sizeof(native_methods[0])))) {
+    qLog(Error) << "Could not register MediaSessionBridge native methods";
+  }
 
   CallBridge("init", "(Landroid/content/Context;Ljava/lang/String;)V", QNativeInterface::QAndroidApplication::context().object(), QJniObject::fromString(tr("Playback")).object<jstring>());
 
@@ -88,6 +106,42 @@ AndroidMediaSession::AndroidMediaSession(const SharedPtr<Player> player,
   QObject::connect(&*playlist_manager, &PlaylistManager::CurrentSongChanged, this, &AndroidMediaSession::CurrentSongChanged);
   QObject::connect(&*current_albumcover_loader, &CurrentAlbumCoverLoader::AlbumCoverLoaded, this, &AndroidMediaSession::AlbumCoverLoaded);
 
+}
+
+void AndroidMediaSession::QueuePlayerCommand(PlayerCommand command) {
+
+  QCoreApplication *application = QCoreApplication::instance();
+  if (!application || !QMetaObject::invokeMethod(application, [command = std::move(command)]() {
+        if (instance_) command(instance_->player_.get());
+      }, Qt::QueuedConnection)) {
+    qLog(Error) << "Could not queue Android media session command";
+  }
+
+}
+
+void AndroidMediaSession::NativePlay(JNIEnv *, jclass) {
+  QueuePlayerCommand([](Player *player) { player->Play(); });
+}
+
+void AndroidMediaSession::NativePause(JNIEnv *, jclass) {
+  QueuePlayerCommand([](Player *player) { player->Pause(); });
+}
+
+void AndroidMediaSession::NativeNext(JNIEnv *, jclass) {
+  QueuePlayerCommand([](Player *player) { player->Next(); });
+}
+
+void AndroidMediaSession::NativePrevious(JNIEnv *, jclass) {
+  QueuePlayerCommand([](Player *player) { player->Previous(); });
+}
+
+void AndroidMediaSession::NativeSeekTo(JNIEnv *, jclass, const jlong position_msec) {
+  if (position_msec < 0) return;
+  QueuePlayerCommand([position_msec](Player *player) { player->SeekToMsec(static_cast<quint64>(position_msec)); });
+}
+
+void AndroidMediaSession::NativeStop(JNIEnv *, jclass) {
+  QueuePlayerCommand([](Player *player) { player->Stop(); });
 }
 
 void AndroidMediaSession::EngineStateChanged(const EngineBase::State state) {

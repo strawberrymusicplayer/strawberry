@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadata;
+import android.media.session.MediaController;
 import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
 import android.os.Build;
@@ -48,6 +49,10 @@ public final class MediaSessionBridge {
   private static final String TAG = "Strawberry";
   private static final String CHANNEL_ID = "playback";
   private static final int MAX_COVER_SIZE = 512;
+  static final String ACTION_PLAY = "nl.dewitweb.strawberryflavor.PLAY";
+  static final String ACTION_PAUSE = "nl.dewitweb.strawberryflavor.PAUSE";
+  static final String ACTION_PREVIOUS = "nl.dewitweb.strawberryflavor.PREVIOUS";
+  static final String ACTION_NEXT = "nl.dewitweb.strawberryflavor.NEXT";
 
   private static final Handler handler = new Handler(Looper.getMainLooper());
 
@@ -60,6 +65,13 @@ public final class MediaSessionBridge {
   private static String artist = "";
   private static String album = "";
   private static Bitmap cover;
+
+  private static native void nativePlay();
+  private static native void nativePause();
+  private static native void nativeNext();
+  private static native void nativePrevious();
+  private static native void nativeSeekTo(long positionMsec);
+  private static native void nativeStop();
 
   private MediaSessionBridge() {}
 
@@ -77,6 +89,38 @@ public final class MediaSessionBridge {
       contentIntent = launchIntent == null ? null : PendingIntent.getActivity(context, 0, launchIntent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
       session = new MediaSession(context, TAG);
       session.setSessionActivity(contentIntent);
+      session.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS | MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS);
+      session.setCallback(new MediaSession.Callback() {
+        @Override
+        public void onPlay() {
+          nativePlay();
+        }
+
+        @Override
+        public void onPause() {
+          nativePause();
+        }
+
+        @Override
+        public void onSkipToNext() {
+          nativeNext();
+        }
+
+        @Override
+        public void onSkipToPrevious() {
+          nativePrevious();
+        }
+
+        @Override
+        public void onSeekTo(final long positionMsec) {
+          nativeSeekTo(positionMsec);
+        }
+
+        @Override
+        public void onStop() {
+          nativeStop();
+        }
+      }, handler);
     });
 
   }
@@ -115,6 +159,8 @@ public final class MediaSessionBridge {
       final int sessionState = state == STATE_PLAYING ? PlaybackState.STATE_PLAYING : state == STATE_PAUSED ? PlaybackState.STATE_PAUSED : PlaybackState.STATE_STOPPED;
       session.setPlaybackState(new PlaybackState.Builder()
         .setState(sessionState, positionMsec, state == STATE_PLAYING ? 1.0F : 0.0F, SystemClock.elapsedRealtime())
+        .setActions(PlaybackState.ACTION_PLAY | PlaybackState.ACTION_PAUSE | PlaybackState.ACTION_PLAY_PAUSE |
+          PlaybackState.ACTION_SKIP_TO_NEXT | PlaybackState.ACTION_SKIP_TO_PREVIOUS | PlaybackState.ACTION_SEEK_TO | PlaybackState.ACTION_STOP)
         .build());
       session.setActive(state != STATE_STOPPED);
       if (state == STATE_STOPPED) {
@@ -142,11 +188,36 @@ public final class MediaSessionBridge {
       .setShowWhen(false)
       .setOngoing(true)
       .setVisibility(Notification.VISIBILITY_PUBLIC)
-      .setStyle(new Notification.MediaStyle().setMediaSession(session.getSessionToken()));
+      .addAction(android.R.drawable.ic_media_previous, "Previous", actionIntent(notificationContext, ACTION_PREVIOUS, 0))
+      .addAction(state == STATE_PLAYING ? android.R.drawable.ic_media_pause : android.R.drawable.ic_media_play,
+        state == STATE_PLAYING ? "Pause" : "Play",
+        actionIntent(notificationContext, state == STATE_PLAYING ? ACTION_PAUSE : ACTION_PLAY, 1))
+      .addAction(android.R.drawable.ic_media_next, "Next", actionIntent(notificationContext, ACTION_NEXT, 2))
+      .setStyle(new Notification.MediaStyle().setMediaSession(session.getSessionToken()).setShowActionsInCompactView(0, 1, 2));
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
       builder.setForegroundServiceBehavior(Notification.FOREGROUND_SERVICE_IMMEDIATE);
     }
     return builder.build();
+
+  }
+
+  private static PendingIntent actionIntent(final Context actionContext, final String action, final int requestCode) {
+
+    final Intent intent = new Intent(actionContext, MediaActionReceiver.class).setAction(action);
+    return PendingIntent.getBroadcast(actionContext, requestCode, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+  }
+
+  static void handleAction(final String action) {
+
+    handler.post(() -> {
+      if (session == null) return;
+      final MediaController.TransportControls controls = session.getController().getTransportControls();
+      if (ACTION_PLAY.equals(action)) controls.play();
+      else if (ACTION_PAUSE.equals(action)) controls.pause();
+      else if (ACTION_PREVIOUS.equals(action)) controls.skipToPrevious();
+      else if (ACTION_NEXT.equals(action)) controls.skipToNext();
+    });
 
   }
 

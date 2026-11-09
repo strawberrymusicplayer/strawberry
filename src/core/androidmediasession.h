@@ -19,6 +19,10 @@
 #ifndef ANDROIDMEDIASESSION_H
 #define ANDROIDMEDIASESSION_H
 
+#include <jni.h>
+
+#include <functional>
+#include <QPointer>
 #include <QObject>
 
 #include "includes/shared_ptr.h"
@@ -48,8 +52,19 @@ class AndroidMediaSession : public QObject {
   void AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result);
 
  private:
+  using PlayerCommand = std::function<void(Player *)>;
+
+  static void NativePlay(JNIEnv *env, jclass clazz);
+  static void NativePause(JNIEnv *env, jclass clazz);
+  static void NativeNext(JNIEnv *env, jclass clazz);
+  static void NativePrevious(JNIEnv *env, jclass clazz);
+  static void NativeSeekTo(JNIEnv *env, jclass clazz, jlong position_msec);
+  static void NativeStop(JNIEnv *env, jclass clazz);
+
+  static void QueuePlayerCommand(PlayerCommand command);
   void UpdatePlaybackState(const EngineBase::State state);
 
+  static QPointer<AndroidMediaSession> instance_;
   const SharedPtr<Player> player_;
 };
 
