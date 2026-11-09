@@ -714,6 +714,7 @@ set(SOURCES
   src/playlist/playlistundocommandshuffleitems.cpp
 
   src/queue/queue.cpp
+  src/queue/queuerowsmimedata.cpp
   src/queue/queueview.cpp
 
   src/playlistparsers/asxiniparser.cpp
@@ -1030,6 +1031,7 @@ set(HEADERS
   src/playlist/dynamicplaylistcontrols.h
 
   src/queue/queue.h
+  src/queue/queuerowsmimedata.h
   src/queue/queueview.h
 
   src/playlistparsers/asxiniparser.h

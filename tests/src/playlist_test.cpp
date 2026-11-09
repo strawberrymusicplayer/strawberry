@@ -2670,4 +2670,89 @@ TEST_F(PlaylistTest, QueueChangesAreNotified) {
 
 }
 
+// The source rows of the queue, in the order of the queue.
+QList<int> QueueSourceRows(const Queue *queue) {
+  QList<int> rows;
+  for (int row = 0; row < queue->rowCount(); ++row) {
+    rows << queue->mapToSource(queue->index(row, 0)).row();
+  }
+  return rows;
+}
+
+// Regression test: rows dragged in the queue were the rows when the drag started, so another song was moved when the queue had changed during the drag.
+TEST_F(PlaylistTest, QueueDragMovesDraggedItemWhenQueueChanged) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s) << MakeMockItemP(u"Three"_s));
+  Queue *queue = playlist_.queue();
+  queue->ToggleTracks(QModelIndexList() << playlist_.index(0, 0) << playlist_.index(1, 0) << playlist_.index(2, 0));
+  ASSERT_EQ(QList<int>() << 0 << 1 << 2, QueueSourceRows(queue));
+
+  const std::unique_ptr<QMimeData> mimedata(queue->mimeData(QModelIndexList() << queue->index(0, 0)));
+  queue->Move(QList<int>() << 2, 0);
+  ASSERT_EQ(QList<int>() << 2 << 0 << 1, QueueSourceRows(queue));
+
+  EXPECT_TRUE(queue->dropMimeData(mimedata.get(), Qt::MoveAction, -1, 0, QModelIndex()));
+
+  EXPECT_EQ(QList<int>() << 2 << 1 << 0, QueueSourceRows(queue));
+
+}
+
+TEST_F(PlaylistTest, QueueDragOfRemovedItemDoesNothing) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s) << MakeMockItemP(u"Three"_s));
+  Queue *queue = playlist_.queue();
+  queue->ToggleTracks(QModelIndexList() << playlist_.index(0, 0) << playlist_.index(1, 0) << playlist_.index(2, 0));
+
+  const std::unique_ptr<QMimeData> mimedata(queue->mimeData(QModelIndexList() << queue->index(0, 0)));
+  QList<int> removed_rows = QList<int>() << 0;
+  queue->Remove(removed_rows);
+  ASSERT_EQ(QList<int>() << 1 << 2, QueueSourceRows(queue));
+
+  EXPECT_FALSE(queue->dropMimeData(mimedata.get(), Qt::MoveAction, -1, 0, QModelIndex()));
+
+  EXPECT_EQ(QList<int>() << 1 << 2, QueueSourceRows(queue));
+
+}
+
+TEST_F(PlaylistTest, QueueDropOfRowsFromAnotherQueueIsIgnored) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s));
+  Queue *queue = playlist_.queue();
+  queue->ToggleTracks(QModelIndexList() << playlist_.index(0, 0) << playlist_.index(1, 0));
+
+  Queue other_queue(&playlist_);
+  other_queue.setSourceModel(&playlist_);
+  other_queue.ToggleTracks(QModelIndexList() << playlist_.index(0, 0) << playlist_.index(1, 0));
+  const std::unique_ptr<QMimeData> mimedata(other_queue.mimeData(QModelIndexList() << other_queue.index(1, 0)));
+
+  EXPECT_FALSE(queue->dropMimeData(mimedata.get(), Qt::MoveAction, 0, 0, QModelIndex()));
+
+  EXPECT_EQ(QList<int>() << 0 << 1, QueueSourceRows(queue));
+
+}
+
+// Regression test: rows from another instance were used without checking them, which crashed when they didn't exist here.
+TEST_F(PlaylistTest, QueueDropOfRowsFromAnotherInstanceIsIgnored) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s));
+  Queue *queue = playlist_.queue();
+  queue->ToggleTracks(QModelIndexList() << playlist_.index(0, 0));
+
+  const std::unique_ptr<QMimeData> own_mimedata(queue->mimeData(QModelIndexList() << queue->index(0, 0)));
+  QMimeData other_instance_mimedata;
+  const QString format = queue->mimeTypes().constFirst();
+  ASSERT_TRUE(own_mimedata->hasFormat(format));
+  QByteArray data;
+  {
+    QDataStream stream(&data, QIODevice::WriteOnly);
+    stream << (QList<int>() << 99);
+  }
+  other_instance_mimedata.setData(format, data);
+
+  EXPECT_FALSE(queue->dropMimeData(&other_instance_mimedata, Qt::MoveAction, 0, 0, QModelIndex()));
+
+  EXPECT_EQ(QList<int>() << 0, QueueSourceRows(queue));
+
+}
+
 }  // namespace
