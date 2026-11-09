@@ -7,6 +7,17 @@ Each point is resolved separately: fix, build (Android and native), test, and co
 Status values: Open, Done, Won't fix (with a reason).
 Evidence: **Confirmed** means reproduced on the emulator; **Code** means derived from the code or build files and still to be verified at runtime.
 
+## Resuming work
+
+Handoff notes for continuing in a new session (see also the notes in `ANDROID_CODE_REVIEW.md`):
+
+- Done: points 1, 2, 3, 19, and part 1 of point 4 (background playback service and media notification).
+- Next: point 4 part 2, media controls. Add a `MediaSession.Callback` to `MediaSessionBridge.java` (play, pause, next, previous, seek, stop), set the matching `PlaybackState` actions and notification buttons, and forward the callbacks to `Player` through JNI native methods registered from `AndroidMediaSession`; call `Player` on the Qt thread with `QMetaObject::invokeMethod`.
+  Then point 4 part 3, audio focus and `ACTION_AUDIO_BECOMING_NOISY`, followed by points 5 to 18 and 20 to 21 in order.
+- App Java sources go in `android/java/`, never `android/src/` (see `ANDROID_BUILD_GUIDE.md`).
+- Test files on the emulator: `/sdcard/Music/SessionTest/session_test.wav` (5 minutes, with title, artist, album and an embedded cover), `/sdcard/Music/StrawberryTest` (three 20-second WAV files), `/sdcard/Music/FormatTest` and `/sdcard/Music/LongTest`.
+- Check the media session and service without screenshots: `adb shell dumpsys media_session` and `adb shell dumpsys activity services nl.dewitweb.strawberryflavor`.
+
 ## Build configuration
 
 - Enabled on Android: Subsonic, Tidal, Spotify, Qobuz, Plex, Jellyfin, Discord Rich Presence, moodbar, waveform, translations.
