@@ -11,12 +11,14 @@ Evidence: **Confirmed** means reproduced on the emulator; **Code** means derived
 
 Handoff notes for continuing in a new session (see also the notes in `ANDROID_CODE_REVIEW.md`):
 
-- Done: points 1, 2, 3, 19, and parts 1 and 2 of point 4 (background playback, media notification, and media controls).
-- Next: point 4 part 3 (audio focus and `ACTION_AUDIO_BECOMING_NOISY`), followed by points 5 to 18 and 20 to 21 in order.
+- Done: points 1, 2, 3, 4 and 19.
+- Next: points 5 to 18 and 20 to 21, in order.
 - The SDK now has `android-37.0`, which Android Gradle plugin 7.4.1 cannot resolve; package the APK against `android-34` (see `ANDROID_BUILD_GUIDE.md`).
 - App Java sources go in `android/java/`, never `android/src/` (see `ANDROID_BUILD_GUIDE.md`).
 - Test files on the emulator: `/sdcard/Music/SessionTest/session_test1.wav` to `session_test3.wav` (5-minute untagged sine WAVs); the emulator data was reset on 2026-11-09, so the earlier test folders are gone.
 - Check the media session and service without screenshots: `adb shell dumpsys media_session` and `adb shell dumpsys activity services nl.dewitweb.strawberryflavor`.
+- Check audio focus with `adb shell dumpsys audio` (focus stack and focus event log); `adb emu gsm call 5551234` and `adb emu gsm cancel 5551234` simulate a phone call (transient focus loss).
+- A reinstall (`adb install -r`) or cold boot clears the playlist, and the file picker only works once the app has fully started; reload a test file through Files > Choose files.
 
 ## Build configuration
 
@@ -41,7 +43,7 @@ Handoff notes for continuing in a new session (see also the notes in `ANDROID_CO
 | Playback | Playback with the screen off or the app in the background | Works since point 4 part 1 (confirmed) | 4 |
 | Playback | Media notification and lock-screen display of the current song | Works since point 4 part 1 (confirmed) | 4 |
 | Playback | Lock-screen and notification controls, headset buttons | Works since point 4 part 2 (confirmed) | 4 |
-| Playback | Audio focus, unplugging headphones | Missing | 4 |
+| Playback | Audio focus, unplugging headphones | Works since point 4 part 3 (audio focus confirmed; unplugging verified up to the receiver) | 4 |
 | Playback | Volume, mute, seek, equalizer, ReplayGain, stereo balance | Works (equalizer and mute verified earlier) | |
 | Playback | Gapless playback, crossfade, fading, buffer settings | Works (code); verify after point 1 | |
 | Playback | Output and device selection, EBU R128 options in Backend settings | Needs review | 15 |
@@ -125,7 +127,7 @@ Subsonic, Plex and Jellyfin use the same HTTP source, but were not tested withou
 
 ### 4. Keep playing in the background and add media controls
 
-**Status:** In progress (parts 1 and 2 done; part 3, audio focus, open)
+**Status:** Done (in three parts)
 
 **Evidence:** Confirmed.
 While a 6-minute track was playing, the app was sent to the background and the screen was turned off.
@@ -137,6 +139,16 @@ Android kept the process in the cached state (`procState 15`) and froze it after
 Forward play/pause, next, previous and seek from the session (lock screen, notification, headset and Bluetooth buttons) to `Player` through JNI, and publish the current song, cover and state from `Player`.
 Handle audio focus (pause or duck for calls and other apps) and `ACTION_AUDIO_BECOMING_NOISY` (pause when headphones are unplugged).
 This is the largest point; split it into service/notification, media session controls, and audio focus when implementing.
+
+**Resolved, part 3 (audio focus and unplugging headphones):** `MediaSessionBridge.java` requests audio focus (`AUDIOFOCUS_GAIN`, media usage, delayed gain allowed) when playback starts, and abandons it when playback stops or the user pauses.
+A transient loss, such as a phone call, pauses playback and resumes it when focus returns; a permanent loss, when another app starts playing, pauses without resuming.
+Pressing Play while the focus request is delayed (during a call) pauses again and resumes after the call; Stop, or a pause from the media session, cancels the pending resume.
+Android 8 and later duck the volume themselves for transient losses that allow ducking; Android 7 and earlier pause instead.
+While playing, a receiver for `ACTION_AUDIO_BECOMING_NOISY` pauses playback when headphones are unplugged or a Bluetooth headset disconnects.
+Focus changes and the receiver use the existing `nativePlay()` and `nativePause()` methods, so the C++ side is unchanged.
+On the emulator (API 36): a simulated call pauses playback and resumes it after the call, also when the call ends after Play was pressed during it; Stop during a call stays stopped and releases focus; YouTube Music's audio preview (transient focus) pauses and resumes playback; Chrome playing a stream (permanent focus) pauses playback, which does not resume when Chrome stops; a notification sound only ducks the player (`dumpsys audio`).
+Unplugging could not be simulated: the emulator does not map `SW_HEADPHONE_INSERT` to a wired audio device, the shell may not send the protected broadcast, and the rootable AOSP image cannot run the ARM64 APK.
+`dumpsys activity broadcasts` confirms that the receiver is registered while playing and unregistered after a pause or stop; still to be checked by unplugging headphones on a device.
 
 **Resolved, part 2 (media controls):** `MediaSessionBridge.java` sets a `MediaSession.Callback` for play, pause, next, previous, seek and stop, and advertises these actions in the `PlaybackState`.
 `AndroidMediaSession` registers the matching JNI native methods and queues each command to `Player` on the Qt thread; seeking keeps millisecond precision through `Player::SeekToMsec()`.
