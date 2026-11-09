@@ -427,6 +427,7 @@ MainWindow::MainWindow(Application *app,
       playlistitem_actions_separator_(nullptr),
       playlist_rescan_songs_(nullptr),
       playlist_fetch_metadata_(nullptr),
+      playlist_menu_column_(-1),
       track_position_timer_(new QTimer(this)),
       track_slider_timer_(new QTimer(this)),
       metadata_queue_timer_(new QTimer(this)),
@@ -2157,6 +2158,7 @@ void MainWindow::ShowPlaylistContextMenu(const QPoint global_pos, const QModelIn
   }
 
   playlist_menu_index_ = source_index;
+  playlist_menu_column_ = source_index.column();
 
   const bool is_current_row = source_index.isValid() && IsActivePlaylistCurrentRow(source_index.row());
 
@@ -2699,7 +2701,7 @@ void MainWindow::EditValue() {
   if (!current.isValid()) return;
 
   // Edit the last column that was right-clicked on.  If nothing's ever been right clicked then look for the first editable column.
-  int column = playlist_menu_index_.column();
+  int column = playlist_menu_column_;
   if (column == -1) {
     for (int i = 0; i < ui_->playlist->view()->model()->columnCount(); ++i) {
       if (ui_->playlist->view()->isColumnHidden(i)) continue;
