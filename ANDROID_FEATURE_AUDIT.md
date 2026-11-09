@@ -11,11 +11,11 @@ Evidence: **Confirmed** means reproduced on the emulator; **Code** means derived
 
 Handoff notes for continuing in a new session (see also the notes in `ANDROID_CODE_REVIEW.md`):
 
-- Done: points 1, 2, 3, 19, and part 1 of point 4 (background playback service and media notification).
-- Next: point 4 part 2, media controls. Add a `MediaSession.Callback` to `MediaSessionBridge.java` (play, pause, next, previous, seek, stop), set the matching `PlaybackState` actions and notification buttons, and forward the callbacks to `Player` through JNI native methods registered from `AndroidMediaSession`; call `Player` on the Qt thread with `QMetaObject::invokeMethod`.
-  Then point 4 part 3, audio focus and `ACTION_AUDIO_BECOMING_NOISY`, followed by points 5 to 18 and 20 to 21 in order.
+- Done: points 1, 2, 3, 19, and parts 1 and 2 of point 4 (background playback, media notification, and media controls).
+- Next: point 4 part 3 (audio focus and `ACTION_AUDIO_BECOMING_NOISY`), followed by points 5 to 18 and 20 to 21 in order.
+- The SDK now has `android-37.0`, which Android Gradle plugin 7.4.1 cannot resolve; package the APK against `android-34` (see `ANDROID_BUILD_GUIDE.md`).
 - App Java sources go in `android/java/`, never `android/src/` (see `ANDROID_BUILD_GUIDE.md`).
-- Test files on the emulator: `/sdcard/Music/SessionTest/session_test.wav` (5 minutes, with title, artist, album and an embedded cover), `/sdcard/Music/StrawberryTest` (three 20-second WAV files), `/sdcard/Music/FormatTest` and `/sdcard/Music/LongTest`.
+- Test files on the emulator: `/sdcard/Music/SessionTest/session_test1.wav` to `session_test3.wav` (5-minute untagged sine WAVs); the emulator data was reset on 2026-11-09, so the earlier test folders are gone.
 - Check the media session and service without screenshots: `adb shell dumpsys media_session` and `adb shell dumpsys activity services nl.dewitweb.strawberryflavor`.
 
 ## Build configuration
@@ -40,7 +40,8 @@ Handoff notes for continuing in a new session (see also the notes in `ANDROID_CO
 | Playback | AAC radio streams (ADTS), and therefore most HLS streams | Broken (confirmed) | 21 |
 | Playback | Playback with the screen off or the app in the background | Works since point 4 part 1 (confirmed) | 4 |
 | Playback | Media notification and lock-screen display of the current song | Works since point 4 part 1 (confirmed) | 4 |
-| Playback | Lock-screen and notification controls, headset buttons, audio focus, unplugging headphones | Missing | 4 |
+| Playback | Lock-screen and notification controls, headset buttons | Works since point 4 part 2 (confirmed) | 4 |
+| Playback | Audio focus, unplugging headphones | Missing | 4 |
 | Playback | Volume, mute, seek, equalizer, ReplayGain, stereo balance | Works (equalizer and mute verified earlier) | |
 | Playback | Gapless playback, crossfade, fading, buffer settings | Works (code); verify after point 1 | |
 | Playback | Output and device selection, EBU R128 options in Backend settings | Needs review | 15 |
@@ -124,7 +125,7 @@ Subsonic, Plex and Jellyfin use the same HTTP source, but were not tested withou
 
 ### 4. Keep playing in the background and add media controls
 
-**Status:** In progress (part 1, background playback and notification, done; part 2, media controls, and part 3, audio focus, open)
+**Status:** In progress (parts 1 and 2 done; part 3, audio focus, open)
 
 **Evidence:** Confirmed.
 While a 6-minute track was playing, the app was sent to the background and the screen was turned off.
@@ -137,6 +138,12 @@ Forward play/pause, next, previous and seek from the session (lock screen, notif
 Handle audio focus (pause or duck for calls and other apps) and `ACTION_AUDIO_BECOMING_NOISY` (pause when headphones are unplugged).
 This is the largest point; split it into service/notification, media session controls, and audio focus when implementing.
 
+**Resolved, part 2 (media controls):** `MediaSessionBridge.java` sets a `MediaSession.Callback` for play, pause, next, previous, seek and stop, and advertises these actions in the `PlaybackState`.
+`AndroidMediaSession` registers the matching JNI native methods and queues each command to `Player` on the Qt thread; seeking keeps millisecond precision through `Player::SeekToMsec()`.
+The notification has Previous, Play/Pause and Next buttons; `MediaActionReceiver` forwards them to the session's transport controls, so every control path runs through the same callbacks.
+On the emulator (API 36), media keys (`cmd media_session dispatch` play, pause, play-pause, next, previous, stop) and the system media player's buttons and seek bar control playback, also with the app in the background and the screen off; play-pause resumes after stop, and the session republishes the position after a seek.
+Android 13 and later draw the system media player from the session actions instead of the notification buttons, so the button receiver could only be checked to be present (`dumpsys notification`, three actions); it is used on Android 12 and earlier.
+
 **Resolved, part 1 (background playback and notification):** `AndroidMediaSession` (`src/core/androidmediasession.cpp`, created in `main.cpp` like `Mpris2`) publishes the current song, cover and playback state to `MediaSessionBridge.java`.
 The bridge owns a `MediaSession` and a media-style notification, and runs `PlaybackService`, a foreground service of type `mediaPlayback`, while a song is playing or paused; stopping playback or reaching the end of the playlist stops the service and removes the notification.
 The service stays in the foreground while paused, because Android 12 and later do not always allow starting a foreground service again from the background when playback resumes.
@@ -144,7 +151,7 @@ The cover is the JPEG that `CurrentAlbumCoverLoader` saves for every loaded cove
 The Java sources are in `android/java/`, not `android/src/`: `androiddeployqt` replaces the Gradle `src/` directory when the package source directory has one, which removes the GStreamer Java classes that `FindGStreamerMobile` copies there and makes the app crash at startup.
 On the emulator, with the app in the background and the screen off for three minutes, the process stays at `procState 4` (foreground service), is not frozen, and AudioFlinger's played frames keep increasing in real time; the media session shows the title, artist, album and embedded cover, and the system media player shows the cover.
 Track changes with Previous and Next keep the same service running.
-The notification has no buttons yet (part 2), and media notifications are exempt from the `POST_NOTIFICATIONS` permission, so it is not requested.
+Media notifications are exempt from the `POST_NOTIFICATIONS` permission, so it is not requested.
 
 ### 5. Make track and view actions reachable on touch
 
