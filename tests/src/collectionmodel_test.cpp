@@ -31,6 +31,14 @@
 #include <QUrl>
 #include <QThread>
 #include <QSignalSpy>
+#include <QColor>
+#include <QGuiApplication>
+#include <QImage>
+#include <QPixmap>
+#include <QPixmapCache>
+#include <QNetworkDiskCache>
+#include <QNetworkCacheMetaData>
+#include <QScopeGuard>
 #include <QHash>
 #include <QSet>
 #include <QTimer>
@@ -55,6 +63,10 @@
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionfilter.h"
+#include "core/settings.h"
+#include "constants/collectionsettings.h"
+#include "covermanager/albumcoverloader.h"
+#include "tagreader/tagreaderclient.h"
 #include "collection/collectiontreeview.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -1251,6 +1263,119 @@ TEST_F(CollectionModelTest, OnlyQueuedResetsLastInQueueAreCoalesced) {
   EXPECT_TRUE(WaitForResets(&spy_reset, 3));
   Drain();
   EXPECT_GE(spy_reset.count(), 3);
+
+}
+
+// Regression test: the thumbnails were always 32 physical pixels, also with a higher device pixel ratio, and the device pixel ratio was not set on a thumbnail from the disk cache.
+TEST_F(CollectionModelTest, AlbumThumbnailKeepsAspectRatioAndUsesDevicePixelRatio) {
+
+  const auto expect_thumbnail = [](const QPixmap &pixmap) {
+    const qreal device_pixel_ratio = qGuiApp->devicePixelRatio();
+    const int size = static_cast<int>(CollectionModel::kPrettyCoverSize * device_pixel_ratio);
+    EXPECT_EQ(QSize(size, size), pixmap.size());
+    EXPECT_DOUBLE_EQ(device_pixel_ratio, pixmap.devicePixelRatio());
+    // The cover is three times as wide as it's high, so it's padded above and below.
+    const QImage image = pixmap.toImage();
+    EXPECT_EQ(0, image.pixelColor(size / 2, 0).alpha());
+    EXPECT_EQ(QColor(Qt::red), image.pixelColor(size / 2, size / 2));
+  };
+
+  ASSERT_TRUE(temp_dir_.isValid());
+  const QString cover_filename = temp_dir_.path() + u"/cover.png"_s;
+  QImage cover(300, 100, QImage::Format_ARGB32);
+  cover.fill(Qt::red);
+  ASSERT_TRUE(cover.save(cover_filename));
+
+  const QString disk_cache_enable_key = QLatin1String(CollectionSettings::kSettingsGroup) + u'/' + QLatin1String(CollectionSettings::kSettingsDiskCacheEnable);
+  const auto remove_disk_cache_enable = qScopeGuard([disk_cache_enable_key]() { Settings().remove(disk_cache_enable_key); });
+  Settings().setValue(disk_cache_enable_key, true);
+  QPixmapCache::clear();
+
+  model_ = make_unique<CollectionModel>(backend_, make_shared<AlbumCoverLoader>(SharedPtr<TagReaderClient>()));
+  collection_filter_ = model_->filter();
+  // The disk cache is in the temporary directory, the cache location is shared by the test processes on Windows and macOS.
+  const QString disk_cache_directory = temp_dir_.filePath(u"pixmapcache"_s);
+  model_->SetIconDiskCacheDirectory(disk_cache_directory);
+  model_->ReloadSettings();
+
+  Song song;
+  song.Init(u"Title"_s, u"Thumbnail artist"_s, u"Thumbnail album"_s, 123);
+  song.set_mtime(0);
+  song.set_ctime(0);
+  song.set_art_manual(QUrl::fromLocalFile(cover_filename));
+  AddSong(song);
+
+  QModelIndex artist_index;
+  for (int i = 0; i < model_->rowCount(QModelIndex()); ++i) {
+    const QModelIndex idx = model_->index(i, 0, QModelIndex());
+    if (!idx.data(CollectionModel::Role_IsDivider).toBool()) artist_index = idx;
+  }
+  ASSERT_TRUE(artist_index.isValid());
+  const QModelIndex album_index = model_->index(0, 0, artist_index);
+  ASSERT_TRUE(album_index.isValid());
+
+  // Thumbnails for another device pixel ratio are not used, they are loaded again and replaced.
+  const QString cache_key = Song::TextForSource(Song::Source::Collection) + u'/' + album_index.data(CollectionModel::Role_ContainerKey).toString();
+  QPixmap other_pixmap(CollectionModel::kPrettyCoverSize, CollectionModel::kPrettyCoverSize);
+  other_pixmap.setDevicePixelRatio(qGuiApp->devicePixelRatio() * 2);
+  QPixmapCache::insert(cache_key, other_pixmap);
+  {
+    QNetworkDiskCache disk_cache;
+    disk_cache.setCacheDirectory(disk_cache_directory);
+    QNetworkCacheMetaData disk_cache_metadata;
+    disk_cache_metadata.setSaveToDisk(true);
+    disk_cache_metadata.setUrl(QUrl(QString::fromLatin1(QUrl::toPercentEncoding(cache_key))));
+    disk_cache_metadata.setRawHeaders(QNetworkCacheMetaData::RawHeaderList() << qMakePair(QByteArray("collection-thumbnail"), cache_key.toUtf8()));
+    QIODevice *device = disk_cache.prepare(disk_cache_metadata);
+    ASSERT_NE(nullptr, device);
+    QImage other_image(CollectionModel::kPrettyCoverSize / 2, CollectionModel::kPrettyCoverSize / 2, QImage::Format_ARGB32);
+    other_image.fill(Qt::green);
+    other_image.save(device, "XPM");
+    disk_cache.insert(device);
+  }
+
+  // The first request starts loading the cover.
+  QSignalSpy spy_data_changed(&*model_, &CollectionModel::dataChanged);
+  album_index.data(Qt::DecorationRole);
+  QElapsedTimer timer;
+  timer.start();
+  while (spy_data_changed.isEmpty() && timer.elapsed() < 10000) spy_data_changed.wait(100);
+  ASSERT_FALSE(spy_data_changed.isEmpty());
+
+  expect_thumbnail(album_index.data(Qt::DecorationRole).value<QPixmap>());
+
+  // The thumbnail replaced the one for the other device pixel ratio in the disk cache in the temporary directory.
+  {
+    QNetworkDiskCache disk_cache;
+    disk_cache.setCacheDirectory(disk_cache_directory);
+    const std::unique_ptr<QIODevice> device(disk_cache.data(QUrl(QString::fromLatin1(QUrl::toPercentEncoding(cache_key)))));
+    ASSERT_TRUE(device);
+    QImage disk_image;
+    ASSERT_TRUE(disk_image.load(&*device, "XPM"));
+    EXPECT_EQ(static_cast<int>(CollectionModel::kPrettyCoverSize * qGuiApp->devicePixelRatio()), disk_image.width());
+  }
+
+  // Without the pixmap cache it comes from the disk cache, where it replaced the thumbnail for the other device pixel ratio.
+  QPixmapCache::clear();
+  expect_thumbnail(album_index.data(Qt::DecorationRole).value<QPixmap>());
+
+}
+
+TEST_F(CollectionModelTest, NoCoverThumbnailUsesDevicePixelRatio) {
+
+  AddSong(u"Title"_s, u"No cover artist"_s, u"No cover album"_s, 123);
+
+  QModelIndex artist_index;
+  for (int i = 0; i < model_->rowCount(QModelIndex()); ++i) {
+    const QModelIndex idx = model_->index(i, 0, QModelIndex());
+    if (!idx.data(CollectionModel::Role_IsDivider).toBool()) artist_index = idx;
+  }
+  ASSERT_TRUE(artist_index.isValid());
+
+  const QPixmap pixmap = model_->index(0, 0, artist_index).data(Qt::DecorationRole).value<QPixmap>();
+  ASSERT_FALSE(pixmap.isNull());
+  EXPECT_DOUBLE_EQ(qGuiApp->devicePixelRatio(), pixmap.devicePixelRatio());
+  EXPECT_EQ(static_cast<int>(CollectionModel::kPrettyCoverSize * qGuiApp->devicePixelRatio()), pixmap.width());
 
 }
 
