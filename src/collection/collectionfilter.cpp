@@ -128,7 +128,7 @@ void CollectionFilter::CalculateFilterData(QSet<int> *duplicate_song_ids, QSet<Q
 
 void CollectionFilter::BeginRowsFilterChange() {
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 13, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
   beginFilterChange();
 #endif
 
@@ -136,7 +136,7 @@ void CollectionFilter::BeginRowsFilterChange() {
 
 void CollectionFilter::EndRowsFilterChange() {
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 13, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
   endFilterChange(QSortFilterProxyModel::Direction::Rows);
 #else
   invalidateRowsFilter();
