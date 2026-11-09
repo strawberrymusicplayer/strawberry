@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QIODevice>
 #include <QDir>
+#include <QFileInfo>
 #include <QByteArray>
 #include <QString>
 #include <QRegularExpression>
@@ -43,6 +44,17 @@
 using namespace Qt::Literals::StringLiterals;
 
 class CollectionBackendInterface;
+
+namespace {
+
+bool HasUrlScheme(const QString &location) {
+
+  static const QRegularExpression regex_url_schema(u"^[a-z]{2,}:"_s, QRegularExpression::CaseInsensitiveOption);
+  return location.contains(regex_url_schema);
+
+}
+
+}  // namespace
 
 XSPFParser::XSPFParser(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
     : XMLParser(tagreader_client, collection_backend, parent) {}
@@ -85,6 +97,37 @@ ParserBase::LoadResult XSPFParser::Load(QIODevice *device, const QString &playli
 
 }
 
+QString XSPFParser::EncodeLocation(const QUrl &url, const QDir &dir, const PlaylistSettings::PathType path_type) {
+
+  if (!url.isLocalFile()) return QString::fromLatin1(url.toEncoded());
+
+  const QString location = URLOrFilename(url, dir, path_type);
+  if (QDir::isAbsolutePath(location)) return QString::fromLatin1(url.toEncoded());
+
+  // A colon must also be encoded here, or the first part of the path would be read as a URL scheme.
+  const QString encoded_location = QString::fromLatin1(QUrl::toPercentEncoding(location, "/"));
+
+  // Locations saved by older versions can be encoded URLs, so a path looking like a URL also needs a path in front of it, to be loaded as a file when the file is missing.
+  return HasUrlScheme(location) ? "./"_L1 + encoded_location : encoded_location;
+
+}
+
+QString XSPFParser::DecodeLocation(const QString &location, const QDir &dir) {
+
+  // A URL is kept encoded when it's loaded, decoding it here would change what an encoded character like %2F or %23 means.
+  if (HasUrlScheme(location)) return location;
+
+  const QString decoded_location = QUrl::fromPercentEncoding(location.toUtf8());
+
+  // Playlists saved by older versions have the whole URL encoded, so a decoded location can be a URL, but it can also be a file name containing a colon.
+  if (HasUrlScheme(decoded_location) && QFileInfo::exists(dir.absoluteFilePath(decoded_location))) {
+    return "./"_L1 + decoded_location;
+  }
+
+  return decoded_location;
+
+}
+
 Song XSPFParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool collection_lookup) const {
 
   QString platform, location, title, artist, album, art;
@@ -100,7 +143,7 @@ Song XSPFParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const boo
           platform = reader->readElementText().toLower();
         }
         else if (name == "location"_L1 || name == "url"_L1) {
-          location = QUrl::fromPercentEncoding(reader->readElementText().toUtf8());
+          location = DecodeLocation(reader->readElementText(), dir);
         }
         else if (name == "title"_L1) {
           title = reader->readElementText();
@@ -112,7 +155,7 @@ Song XSPFParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const boo
           album = reader->readElementText();
         }
         else if (name == "image"_L1) {
-          art = QUrl::fromPercentEncoding(reader->readElementText().toUtf8());
+          art = DecodeLocation(reader->readElementText(), dir);
         }
         else if (name == "duration"_L1) {  // in milliseconds.
           const QString duration = reader->readElementText();
@@ -156,8 +199,7 @@ return_song:
     if (!album.isEmpty()) song.set_album(album);
     if (!art.isEmpty()) {
       // Local images are saved as filenames, which can be relative to the playlist, and a URL without a scheme is never loaded.
-      static const QRegularExpression regex_url_schema(u"^[a-z]{2,}:"_s, QRegularExpression::CaseInsensitiveOption);
-      song.set_art_manual(art.contains(regex_url_schema) ? QUrl(art) : QUrl::fromLocalFile(QDir::cleanPath(dir.absoluteFilePath(art))));
+      song.set_art_manual(HasUrlScheme(art) ? QUrl(art) : QUrl::fromLocalFile(QDir::cleanPath(dir.absoluteFilePath(art))));
     }
     if (nanosec > 0) song.set_length_nanosec(nanosec);
     if (track_num > 0) song.set_track(track_num);
@@ -186,7 +228,7 @@ void XSPFParser::Save(const QString &playlist_name, const SongList &songs, QIODe
 
   StreamElement tracklist(u"trackList"_s, &writer);
   for (const Song &song : songs) {
-    QString filename_or_url = QString::fromLatin1(QUrl::toPercentEncoding(URLOrFilename(song.url(), dir, path_type), "/ "));
+    const QString filename_or_url = EncodeLocation(song.url(), dir, path_type);
 
     StreamElement track(u"track"_s, &writer);
     writer.writeTextElement("location"_L1, filename_or_url);
@@ -212,7 +254,7 @@ void XSPFParser::Save(const QString &playlist_name, const SongList &songs, QIODe
       const QUrl cover_url = song.art_manual().isEmpty() || !song.art_manual().isValid() ? song.art_automatic() : song.art_manual();
       // Ignore images that are in our resource bundle.
       if (!cover_url.isEmpty() && cover_url.isValid()) {
-        const QString cover_filename = QString::fromLatin1(QUrl::toPercentEncoding(URLOrFilename(cover_url, dir, path_type), "/ "));
+        const QString cover_filename = EncodeLocation(cover_url, dir, path_type);
         writer.writeTextElement("image"_L1, cover_filename);
       }
     }
