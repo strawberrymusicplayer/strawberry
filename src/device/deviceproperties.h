@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 #include <memory>
 
 #include <QObject>
+#include <QPointer>
 #include <QDialog>
 #include <QFuture>
 #include <QAbstractItemModel>
@@ -38,6 +39,7 @@
 
 class QWidget;
 
+class ConnectedDevice;
 class DeviceManager;
 class Ui_DeviceProperties;
 
@@ -57,6 +59,7 @@ class DeviceProperties : public QDialog {
  private:
   void UpdateHardwareInfo();
   void AddHardwareInfo(const int row, const QString &key, const QString &value);
+  void LoadTranscodeMode();
   void UpdateFormats();
 
  private Q_SLOTS:
@@ -71,6 +74,7 @@ class DeviceProperties : public QDialog {
   QPersistentModelIndex index_;
 
   bool updating_formats_;
+  QPointer<ConnectedDevice> formats_device_;  // The device the formats are loaded for, the formats are not changed by a scan or copy.
   QList<Song::FileType> supported_formats_;
 };
 

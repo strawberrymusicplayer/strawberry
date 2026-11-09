@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -125,7 +125,11 @@ void DeviceProperties::ShowDevice(const QModelIndex &idx) {
     }
   }
 
+  // The formats are loaded for this device, also when they are being loaded for the device shown before.
+  formats_device_.clear();
+
   UpdateHardwareInfo();
+  LoadTranscodeMode();
   UpdateFormats();
 
   show();
@@ -201,12 +205,8 @@ void DeviceProperties::UpdateHardwareInfo() {
 
 }
 
-void DeviceProperties::UpdateFormats() {
+void DeviceProperties::LoadTranscodeMode() {
 
-  DeviceLister *lister = device_manager_->GetLister(index_);
-  SharedPtr<ConnectedDevice> device = device_manager_->GetConnectedDevice(index_);
-
-  // Transcode mode
   MusicStorage::TranscodeMode mode = static_cast<MusicStorage::TranscodeMode>(index_.data(DeviceManager::Role_TranscodeMode).toInt());
   switch (mode) {
     case MusicStorage::TranscodeMode::Transcode_Always:
@@ -223,8 +223,16 @@ void DeviceProperties::UpdateFormats() {
       break;
   }
 
+}
+
+void DeviceProperties::UpdateFormats() {
+
+  DeviceLister *lister = device_manager_->GetLister(index_);
+  SharedPtr<ConnectedDevice> device = device_manager_->GetConnectedDevice(index_);
+
   // If there's no lister then the device is physically disconnected
   if (!lister) {
+    formats_device_.clear();
     ui_->formats_stack->setCurrentWidget(ui_->formats_page_not_connected);
     ui_->open_device->setEnabled(false);
     return;
@@ -233,12 +241,16 @@ void DeviceProperties::UpdateFormats() {
   // If there's a lister but no device then the user just needs to open the
   // device.  This will cause a rescan so we don't do it automatically.
   if (!device) {
+    formats_device_.clear();
     ui_->formats_stack->setCurrentWidget(ui_->formats_page_not_connected);
     ui_->open_device->setEnabled(true);
     return;
   }
 
-  if (!updating_formats_) {
+  // The model also changes for the progress of a scan or copy, loading the formats again then would replace the page with the choices the user is making.
+  if (!updating_formats_ && formats_device_ != device.get()) {
+    formats_device_ = device.get();
+
     // Get the device's supported formats list.  This takes a long time and it blocks, so do it in the background.
     supported_formats_.clear();
 
@@ -288,6 +300,12 @@ void DeviceProperties::UpdateFormatsFinished() {
   watcher->deleteLater();
 
   updating_formats_ = false;
+
+  // The dialog was opened for another device, or the device went away, while the formats were loaded.
+  if (!formats_device_) {
+    UpdateFormats();
+    return;
+  }
 
   if (!result) {
     supported_formats_.clear();
