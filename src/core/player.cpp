@@ -288,6 +288,10 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
     loading_async_.removeAll(result.media_url_);
   }
 
+  if (result.media_url_ == current_track_loading_url_) {
+    current_track_loading_url_.clear();
+  }
+
   // Might've been an async load, so check we're still on the same item
   const int current_row = playlist_manager_->active()->current_row();
   if (current_row == -1) {
@@ -418,6 +422,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 
       // We'll get called again later with either NoMoreTracks or TrackAvailable
       loading_async_ << result.media_url_;
+      if (is_current) current_track_loading_url_ = result.media_url_;
       break;
   }
 
@@ -563,6 +568,9 @@ bool Player::HandleStopAfter(const Playlist::AutoScroll autoscroll) {
 }
 
 void Player::TrackEnded() {
+
+  // It's the previous track which ended, the current track starts when it's loaded.
+  if (!current_track_loading_url_.isEmpty()) return;
 
   // The track played, so it's not a series of errors.
   nb_errors_received_ = 0;
@@ -827,6 +835,7 @@ void Player::PlayAt(const int index, const bool pause, const quint64 offset_nano
   pause_time_ = pause ? QDateTime::currentDateTime() : QDateTime();
   play_offset_nanosec_ = offset_nanosec;
   playing_start_position_ = -1;
+  current_track_loading_url_.clear();
 
   // The user chose to play a track, errors of earlier tracks don't count anymore.
   if (change & EngineBase::TrackChangeType::Manual || change & EngineBase::TrackChangeType::First) {
@@ -882,7 +891,10 @@ void Player::PlayAt(const int index, const bool pause, const quint64 offset_nano
     autoscroll_ = autoscroll;
 
     // It's already loading.
-    if (loading_async_.contains(url)) return;
+    if (loading_async_.contains(url)) {
+      current_track_loading_url_ = url;
+      return;
+    }
 
     UrlHandler *url_handler = url_handlers_->GetUrlHandler(url);
     HandleLoadResult(url_handler->StartLoading(url));
@@ -1051,6 +1063,9 @@ void Player::TogglePrettyOSD() {
 }
 
 void Player::TrackAboutToEnd() {
+
+  // It's the previous track which is about to end, the current track starts when it's loaded.
+  if (!current_track_loading_url_.isEmpty()) return;
 
   // Playback stops when this track ended, so let it play to the end, without crossfading into the next track or preloading it.
   if (playlist_manager_->active()->stop_after_current()) return;

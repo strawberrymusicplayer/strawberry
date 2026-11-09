@@ -138,7 +138,7 @@ class PlayerTest : public ::testing::Test {
     ASSERT_TRUE(QMetaObject::invokeMethod(&*player_, "TrackEnded", Qt::DirectConnection));
   }
 
-  // Enables auto crossfade, also between tracks of the same album, and starts playing the first track, which is loading until the end of the test.
+  // Enables auto crossfade, also between tracks of the same album, and starts playing the first track, which is treated as loaded without starting it in the engine.
   void PlayFirstTrackWithAutoCrossfade() {
     Settings s;
     s.beginGroup(BackendSettings::kSettingsGroup);
@@ -151,7 +151,18 @@ class PlayerTest : public ::testing::Test {
     url_handler_.load_asynchronously = true;
     player_->PlayAt(0, false, 0, EngineBase::TrackChangeType::Manual, Playlist::AutoScroll::Never, true);
     ASSERT_TRUE(player_->GetCurrentItem());
+    player_->current_track_loading_url_.clear();
     url_handler_.started_urls.clear();
+  }
+
+  void PlayTrackLoadingAsynchronously(const int row) {
+    url_handler_.load_asynchronously = true;
+    player_->PlayAt(row, false, 0, EngineBase::TrackChangeType::Manual, Playlist::AutoScroll::Never, true);
+    ASSERT_TRUE(player_->GetCurrentItem());
+  }
+
+  void LoadFailed(const QUrl &url) {
+    player_->HandleLoadResult(UrlHandler::LoadResult(url, UrlHandler::LoadResult::Type::Error));
   }
 
   bool PlaysPaused() const { return player_->pause_; }
@@ -213,6 +224,57 @@ TEST_F(PlayerTest, PreloadsNextTrack) {
   TrackAboutToEnd();
 
   EXPECT_EQ(QList<QUrl>() << QUrl(u"test:second"_s), url_handler_.started_urls);
+
+}
+
+// Regression test: the end of the previous track, which the engine plays until the track is loaded, was taken for the end of the track being loaded, which was skipped.
+TEST_F(PlayerTest, EndOfPreviousTrackDoesNotSkipLoadingTrack) {
+
+  PlayTrackLoadingAsynchronously(1);
+  url_handler_.started_urls.clear();
+
+  TrackEnded();
+
+  EXPECT_EQ(1, playlist_manager_->active()->current_row());
+  EXPECT_TRUE(player_->GetCurrentItem());
+  EXPECT_TRUE(url_handler_.started_urls.isEmpty());
+
+}
+
+// The track can already be loading when it's preloaded as the next track.
+TEST_F(PlayerTest, EndOfPreviousTrackDoesNotSkipTrackAlreadyLoading) {
+
+  PlayTrackLoadingAsynchronously(1);
+  PlayTrackLoadingAsynchronously(1);
+  url_handler_.started_urls.clear();
+
+  TrackEnded();
+
+  EXPECT_EQ(1, playlist_manager_->active()->current_row());
+  EXPECT_TRUE(url_handler_.started_urls.isEmpty());
+
+}
+
+TEST_F(PlayerTest, PreviousTrackAboutToEndDoesNotPreloadWhileLoading) {
+
+  PlayTrackLoadingAsynchronously(0);
+  url_handler_.started_urls.clear();
+
+  TrackAboutToEnd();
+
+  EXPECT_TRUE(url_handler_.started_urls.isEmpty());
+
+}
+
+// When the track finished loading, the end of a track is the end of that track again.
+TEST_F(PlayerTest, TrackEndedChangesTrackAfterLoadFinished) {
+
+  PlayTrackLoadingAsynchronously(0);
+  LoadFailed(QUrl(u"test:first"_s));
+
+  TrackEnded();
+
+  EXPECT_EQ(1, playlist_manager_->active()->current_row());
 
 }
 
