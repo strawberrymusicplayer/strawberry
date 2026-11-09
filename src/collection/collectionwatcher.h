@@ -207,9 +207,19 @@ class CollectionWatcher : public QObject {
   bool stop_requested() const;
   bool abort_requested() const;
   bool stop_or_abort_requested() const;
+  // Returns the key for finding the songs of a path with another spelling, in another Unicode normalization form or case, which can be the same file or directory on disk.
+  static QString SpellingKey(const QString &path);
+  // Returns true when the subdirectory of the collection directory exists on disk with this spelling.
+  // On a case-insensitive filesystem, a subdirectory which was renamed in another case also exists with the old spelling, which is another subdirectory now.
+  // The entries of the directories are cached in directory_entries.
+  static bool SubdirectoryExists(const QString &path, const QString &collection_path, QHash<QString, QStringList> *directory_entries);
+  // Returns the paths on disk with the spelling key of the path in every component, up to two, to know if there are several.
+  // The entries of the directories are cached in directory_entries.
+  static QStringList PathsOnDiskWithSpelling(const QString &path, QHash<QString, QStringList> *directory_entries);
   static QHash<QString, SongList> SongsByPath(const SongList &songs);
-  // The songs with the exact path, otherwise the songs found by the path in NFC, but not songs of another file on disk whose name only differs in Unicode normalization form.
-  static bool FindSongsByPath(const QHash<QString, SongList> &songs_by_path, const QString &path, const QSet<QString> &files_on_disk, SongList &songs_out);
+  // The songs with the exact path, otherwise the songs found by the spelling key of the path, but not songs of another file on disk whose name only differs in Unicode normalization form or case.
+  // The songs with another spelling are only used when there's only one media file on disk with that spelling key.
+  static bool FindSongsByPath(const QHash<QString, SongList> &songs_by_path, const QString &path, const QHash<QString, QStringList> &files_on_disk_by_spelling_key, SongList &songs_out);
   bool FindSongsByFingerprint(const QString &file, const QString &fingerprint, SongList &songs_out);
   static bool FindSongsByFingerprint(const QString &file, const SongList &songs, const QString &fingerprint, SongList &songs_out);
   inline static QString NoExtensionPart(const QString &fileName);
