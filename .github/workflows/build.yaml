@@ -1448,6 +1448,14 @@ jobs:
       - name: Build
         run: cmake --build build --config Release --parallel 4
 
+      - name: Build tests
+        run: cmake --build build --config Release --target build_tests --parallel 4
+
+      - name: Run tests
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: ctest --test-dir build --build-config Release --output-on-failure
+
       - name: Install
         working-directory: build
         run: make install
