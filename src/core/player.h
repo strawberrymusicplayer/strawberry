@@ -174,6 +174,7 @@ class Player : public PlayerInterface {
   int nb_errors_received_;
 
   QList<QUrl> loading_async_;
+  QUrl current_track_loading_url_;  // The current track is waiting for this URL to load, until then the engine is still playing the previous track.
   uint volume_;
   QDateTime last_pressed_previous_;
 
