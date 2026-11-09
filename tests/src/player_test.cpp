@@ -27,10 +27,12 @@
 #include <QList>
 #include <QMetaObject>
 #include <QScopeGuard>
+#include <QSignalSpy>
 #include <QString>
 #include <QTemporaryDir>
 #include <QThread>
 #include <QUrl>
+#include <QDateTime>
 
 #include "includes/shared_ptr.h"
 #include "core/database.h"
@@ -40,6 +42,7 @@
 #include "core/taskmanager.h"
 #include "core/urlhandler.h"
 #include "core/urlhandlers.h"
+#include "engine/enginebase.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmanager.h"
 #include "constants/backendsettings.h"
@@ -71,6 +74,48 @@ class TestUrlHandler : public UrlHandler {
 
   QList<QUrl> started_urls;
   bool load_asynchronously = false;
+};
+
+// Is in the middle of a track, an engine which doesn't play anything has the position at the end of the track.
+class TestEngine : public EngineBase {
+ public:
+  bool Init() override { return true; }
+  State state() const override { return State::Playing; }
+  bool Play(const bool pause, const quint64 offset_nanosec) override {
+    Q_UNUSED(pause)
+    Q_UNUSED(offset_nanosec)
+    return true;
+  }
+  void Stop(const bool stop_after = false) override { Q_UNUSED(stop_after) }
+  void Pause() override {}
+  void Unpause() override {}
+  void Seek(const quint64 offset_nanosec) override { Q_UNUSED(offset_nanosec) }
+  void SetVolumeSW(const uint percent) override { Q_UNUSED(percent) }
+  void SetMuteSW(const bool mute) override { Q_UNUSED(mute) }
+  qint64 position_nanosec() const override { return 1'000'000'000LL; }
+  qint64 length_nanosec() const override { return 10'000'000'000LL; }
+  OutputDetailsList GetOutputsList() const override { return OutputDetailsList(); }
+  bool ValidOutput(const QString &output) override {
+    Q_UNUSED(output)
+    return true;
+  }
+  QString DefaultOutput() const override { return QString(); }
+  bool CustomDeviceSupport(const QString &output) const override {
+    Q_UNUSED(output)
+    return false;
+  }
+  bool ALSADeviceSupport(const QString &output) const override {
+    Q_UNUSED(output)
+    return false;
+  }
+  bool ExclusiveModeSupport(const QString &output) const override {
+    Q_UNUSED(output)
+    return false;
+  }
+  bool FadingSupport(const QString &output) const override {
+    Q_UNUSED(output)
+    return false;
+  }
 };
 
 }  // namespace
@@ -166,6 +211,14 @@ class PlayerTest : public ::testing::Test {
   }
 
   bool PlaysPaused() const { return player_->pause_; }
+
+  // Previous restarts the current track when the last press is older than two seconds.
+  void UseRestartBehaviourWithLastPressed(const QDateTime &last_pressed) {
+    player_->engine_ = make_shared<TestEngine>();
+    player_->menu_previousmode_ = BehaviourSettings::PreviousBehaviour::Restart;
+    player_->last_pressed_previous_ = last_pressed;
+    url_handler_.load_asynchronously = true;
+  }
 
   // Saves that the playlist was playing when exiting, and enables resuming playback.
   static void SavePlaybackStatus(const int playlist_id, const EngineBase::State state = EngineBase::State::Playing) {
@@ -275,6 +328,34 @@ TEST_F(PlayerTest, TrackEndedChangesTrackAfterLoadFinished) {
   TrackEnded();
 
   EXPECT_EQ(1, playlist_manager_->active()->current_row());
+
+}
+
+// Regression test: restarting the current track with Previous counted as skipping it.
+TEST_F(PlayerTest, PreviousRestartingTrackDoesNotCountSkip) {
+
+  UseRestartBehaviourWithLastPressed(QDateTime::currentDateTime().addSecs(-10));
+  player_->PlayAt(0, false, 0, EngineBase::TrackChangeType::Manual, Playlist::AutoScroll::Never, true);
+  url_handler_.started_urls.clear();
+  QSignalSpy spy_skipped(&*player_, &Player::TrackSkipped);
+
+  player_->Previous();
+
+  EXPECT_EQ(0, spy_skipped.count());
+  EXPECT_EQ(0, playlist_manager_->active()->current_row());
+
+}
+
+// Going to another track with Previous is still a skip.
+TEST_F(PlayerTest, PreviousChangingTrackCountsSkip) {
+
+  UseRestartBehaviourWithLastPressed(QDateTime::currentDateTime());
+  player_->PlayAt(1, false, 0, EngineBase::TrackChangeType::Manual, Playlist::AutoScroll::Never, true);
+  QSignalSpy spy_skipped(&*player_, &Player::TrackSkipped);
+
+  player_->Previous();
+
+  EXPECT_EQ(1, spy_skipped.count());
 
 }
 
