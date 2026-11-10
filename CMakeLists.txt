@@ -825,7 +825,6 @@ set(SOURCES
   src/widgets/fancytabbar.cpp
   src/widgets/fancytabdata.cpp
   src/widgets/favoritewidget.cpp
-  src/widgets/forcescrollperpixel.cpp
   src/widgets/freespacebar.cpp
   src/widgets/groupediconview.cpp
   src/widgets/lineedit.cpp
@@ -1154,7 +1153,6 @@ set(HEADERS
   src/widgets/loginstatewidget.h
   src/widgets/searchfield.h
   src/widgets/ratingwidget.h
-  src/widgets/forcescrollperpixel.h
   src/widgets/resizabletextedit.h
 
   src/songeditor/songeditor.h

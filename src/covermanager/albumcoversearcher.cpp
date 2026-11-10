@@ -45,12 +45,13 @@
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QKeySequence>
+#include <QAbstractItemView>
+#include <QScrollBar>
 #include <QtEvents>
 
 #include "utilities/strutils.h"
 #include "utilities/mimeutils.h"
 #include "widgets/busyindicator.h"
-#include "widgets/forcescrollperpixel.h"
 #include "widgets/groupediconview.h"
 #include "widgets/searchfield.h"
 #include "albumcoversearcher.h"
@@ -134,7 +135,8 @@ AlbumCoverSearcher::AlbumCoverSearcher(const QIcon &no_cover_icon, const SharedP
   QObject::connect(ui_->search, &QPushButton::clicked, this, &AlbumCoverSearcher::Search);
   QObject::connect(ui_->covers, &GroupedIconView::doubleClicked, this, &AlbumCoverSearcher::CoverDoubleClicked);
 
-  new ForceScrollPerPixel(ui_->covers, this);
+  ui_->covers->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+  ui_->covers->verticalScrollBar()->setSingleStep(20);
 
   ui_->buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(QKeySequence::Close);
 

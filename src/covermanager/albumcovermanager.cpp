@@ -57,6 +57,8 @@
 #include <QPushButton>
 #include <QToolButton>
 #include <QKeySequence>
+#include <QAbstractItemView>
+#include <QScrollBar>
 #include <QSettings>
 #include <QFlags>
 #include <QSize>
@@ -75,7 +77,6 @@
 #include "utilities/imageutils.h"
 #include "utilities/mimeutils.h"
 #include "utilities/screenutils.h"
-#include "widgets/forcescrollperpixel.h"
 #include "widgets/searchfield.h"
 #include "tagreader/tagreaderclient.h"
 #include "collection/collectionbackend.h"
@@ -260,7 +261,8 @@ void AlbumCoverManager::Init() {
 
   cover_searcher_->Init(cover_fetcher_);
 
-  new ForceScrollPerPixel(ui_->albums, this);
+  ui_->albums->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+  ui_->albums->verticalScrollBar()->setSingleStep(20);
 
 }
 
