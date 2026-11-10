@@ -1,6 +1,6 @@
 /*
 Copyright (C) 2011 by Mike McQuaid
-Copyright (C) 2018-2024 by Jonas Kvinge <jonas@jkvinge.net>
+Copyright (C) 2018-2026 by Jonas Kvinge <jonas@jkvinge.net>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -206,20 +206,27 @@ void SearchField::setIconSize(const int iconsize) {
   Q_UNUSED(iconsize);
 }
 
-void SearchField::setText(const QString &text) {
+void SearchField::setText(const QString &new_text) {
 
   Q_ASSERT(pimpl);
 
   if (!pimpl) return;
 
+  const bool text_changed = new_text != text();
+
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-  [pimpl->nsSearchField setStringValue:fromQString(text)];
-  if (!text.isEmpty()) {
+  [pimpl->nsSearchField setStringValue:fromQString(new_text)];
+  if (!new_text.isEmpty()) {
     [pimpl->nsSearchField selectText:pimpl->nsSearchField];
     [[pimpl->nsSearchField currentEditor] setSelectedRange:NSMakeRange([[pimpl->nsSearchField stringValue] length], 0)];
   }
 
   [pool drain];
+
+  // AppKit only sends controlTextDidChange for changes made by the user, so textChanged is emitted here like QLineEdit does in the Qt implementation, otherwise filters set from code, like "Show in collection", are not applied.
+  if (text_changed) {
+    Q_EMIT textChanged(new_text);
+  }
 
 }
 
