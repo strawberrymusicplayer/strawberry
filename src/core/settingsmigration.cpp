@@ -151,9 +151,22 @@ void MigrateRenamedKeys(Settings &s) {
     const QString old_key = QString::fromLatin1(renamed_key.group) + u'/' + QString::fromLatin1(renamed_key.old_key);
     if (!s.contains(old_key)) continue;
     const QString new_key = QString::fromLatin1(renamed_key.group) + u'/' + QString::fromLatin1(renamed_key.new_key);
+    const bool case_only = old_key.compare(new_key, Qt::CaseInsensitive) == 0;
+    if (case_only) {
+      // Keys are not case sensitive on Windows, so contains() also finds a key which is already migrated, the key is only migrated when it's stored with the old spelling.
+      s.beginGroup(QString::fromLatin1(renamed_key.group));
+      const bool has_old_spelling = s.childKeys().contains(QString::fromLatin1(renamed_key.old_key), Qt::CaseSensitive);
+      s.endGroup();
+      if (!has_old_spelling) continue;
+    }
     const QVariant value = s.value(old_key);
     // The old key is removed first, since keys are not case sensitive on Windows, so a key only changing case would be removed after it was written.
     s.remove(old_key);
+#ifdef Q_OS_WIN
+    // With the INI format, QSettings keeps the old spelling for the pending change when the new key is written before the removal is synced.
+    // The registry removes the key immediately, and keys are case sensitive on other systems, so the removal is only synced separately when needed.
+    if (case_only && s.format() == QSettings::IniFormat) s.sync();
+#endif
     if (!s.contains(new_key)) s.setValue(new_key, value);
   }
 

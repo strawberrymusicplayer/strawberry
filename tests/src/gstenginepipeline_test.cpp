@@ -793,7 +793,7 @@ TEST(GstEnginePipelineTest, InitFromUrlResetsRetainedMetadata) {
   GstEnginePipelineTest::DispatchTags(pipeline, {{GST_TAG_TITLE, uR"({"title":"Old title","artist":"JSON old artist","album":"JSON old album"})"_s}, {GST_TAG_ARTIST, u"Explicit old artist"_s}, {GST_TAG_ALBUM, u"Explicit old album"_s}, {GST_TAG_COMMENT, u"Old comment"_s}, {GST_TAG_LYRICS, u"Old lyrics"_s}}, 256000);
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl url = QUrl::fromLocalFile(res.fileName());
   QString error;
   ASSERT_TRUE(pipeline.InitFromUrl(url, url, url.toEncoded(), 0, 0, 0.0, error)) << error.toStdString();
@@ -846,7 +846,7 @@ TEST(GstEnginePipelineTest, PauseDuringDeviceWarmupHoldsPlayback) {
   GstStartup::Initialize();
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl url = QUrl::fromLocalFile(res.fileName());
 
   GstEnginePipeline pipeline;
@@ -881,7 +881,7 @@ TEST(GstEnginePipelineTest, PauseDuringDirectStartHoldsPlayback) {
   GstStartup::Initialize();
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl url = QUrl::fromLocalFile(res.fileName());
 
   GstEnginePipeline pipeline;
@@ -911,7 +911,7 @@ TEST(GstEnginePipelineTest, PlayPendingUntilPlaying) {
   GstStartup::Initialize();
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl url = QUrl::fromLocalFile(res.fileName());
 
   for (const int device_warmup_duration_ms : {0, 300}) {
@@ -940,7 +940,7 @@ TEST(GstEnginePipelineTest, UnpauseBeforePauseIsAppliedResumesPlayback) {
   GstStartup::Initialize();
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl url = QUrl::fromLocalFile(res.fileName());
 
   GstEnginePipeline pipeline;
@@ -999,7 +999,7 @@ TEST(GstEnginePipelineTest, SupersededPlayingRequestIsNotPending) {
   GstStartup::Initialize();
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl url = QUrl::fromLocalFile(res.fileName());
 
   GstEnginePipeline pipeline;
@@ -1024,7 +1024,7 @@ TEST(GstEnginePipelineTest, StaleStateMessagesKeepPlaybackPending) {
   GstStartup::Initialize();
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl url = QUrl::fromLocalFile(res.fileName());
 
   GstEnginePipeline pipeline;
@@ -1071,7 +1071,7 @@ TEST(GstEnginePipelineTest, CancelledWarmupIsNotPending) {
   GstStartup::Initialize();
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl url = QUrl::fromLocalFile(res.fileName());
 
   GstEnginePipeline pipeline;
@@ -1108,7 +1108,7 @@ TEST(GstEnginePipelineTest, WarmupIsPendingWhileBuffering) {
   GstStartup::Initialize();
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl url = QUrl::fromLocalFile(res.fileName());
 
   GstEnginePipeline pipeline;
@@ -1138,7 +1138,7 @@ TEST(GstEnginePipelineTest, WarmupAfterQuickUnpauseResumesPlayback) {
   GstStartup::Initialize();
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl url = QUrl::fromLocalFile(res.fileName());
 
   GstEnginePipeline pipeline;

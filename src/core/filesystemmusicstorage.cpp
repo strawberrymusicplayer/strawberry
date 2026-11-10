@@ -123,25 +123,41 @@ bool CopyFileStaged(const QString &source, const QString &destination) {
   QFile source_file(source);
   if (!source_file.open(QIODevice::ReadOnly)) return false;
 
-  // The destination filename can be as long as the filesystem allows, so the temporary file has a short name, it's hidden in case it's left when copying is interrupted.
-  QTemporaryFile destination_file(QFileInfo(destination).absolutePath() + u"/.strawberry-XXXXXX"_s);
-  if (!destination_file.open()) return false;
+  // QTemporaryFile::rename() renames without checking the destination when the filesystem doesn't support links.
+  // QTemporaryFile keeps the file open until it's destroyed, also after close(), and on Windows an open file can't be renamed, so it's destroyed before renaming, and the temporary file is removed here when the copy fails.
+  QString temporary_filename;
+  {
+    // The destination filename can be as long as the filesystem allows, so the temporary file has a short name, it's hidden in case it's left when copying is interrupted.
+    QTemporaryFile destination_file(QFileInfo(destination).absolutePath() + u"/.strawberry-XXXXXX"_s);
+    if (!destination_file.open()) return false;
 
-  // The copy is also written to the storage before it's renamed, so a deferred write error, for example on a network filesystem, fails the copy, and the original is not removed when moving.
-  if (!Utilities::CopyFileContents(&source_file, &destination_file)) return false;
+    // Getting the filename creates the temporary file in the directory if it's unnamed.
+    temporary_filename = destination_file.fileName();
+    if (temporary_filename.isEmpty()) {
+      destination_file.remove();
+      return false;
+    }
 
-  // The permissions are set before the copy is renamed, so it doesn't have other permissions at the destination.
-  // Some filesystems, like FAT, exFAT and CIFS, can't set them, then the copy has the permissions of the filesystem, like QFile::copy() does.
-  if (!destination_file.setPermissions(source_file.permissions())) {
-    qLog(Warning) << "Could not set the permissions of" << destination << destination_file.errorString();
+    // The copy is also written to the storage before it's renamed, so a deferred write error, for example on a network filesystem, fails the copy, and the original is not removed when moving.
+    if (!Utilities::CopyFileContents(&source_file, &destination_file)) {
+      destination_file.remove();
+      return false;
+    }
+
+    // The temporary file is only kept when the copy is complete, it's removed by the destructor otherwise, also when remove() above fails because flushing the file failed again.
+    destination_file.setAutoRemove(false);
+
+    // The permissions are set before the copy is renamed, so it doesn't have other permissions at the destination.
+    // Some filesystems, like FAT, exFAT and CIFS, can't set them, then the copy has the permissions of the filesystem, like QFile::copy() does.
+    if (!destination_file.setPermissions(source_file.permissions())) {
+      qLog(Warning) << "Could not set the permissions of" << destination << destination_file.errorString();
+    }
   }
 
-  // QTemporaryFile::rename() renames without checking the destination when the filesystem doesn't support links.
-  // Getting the filename creates the temporary file in the directory if it's unnamed.
-  const QString temporary_filename = destination_file.fileName();
-  destination_file.close();
-  if (temporary_filename.isEmpty() || !RenameFile(temporary_filename, destination)) return false;
-  destination_file.setAutoRemove(false);
+  if (!RenameFile(temporary_filename, destination)) {
+    QFile::remove(temporary_filename);
+    return false;
+  }
 
   return true;
 

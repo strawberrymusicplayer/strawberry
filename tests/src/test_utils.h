@@ -25,7 +25,7 @@
 
 #include <QMetaType>
 #include <QModelIndex>
-#include <QTemporaryFile>
+#include <QFile>
 
 class QNetworkRequest;
 class QString;
@@ -60,11 +60,14 @@ void PrintTo(const ::QUrl &url, std::ostream &os);
 
 Q_DECLARE_METATYPE(QModelIndex)
 
-class TemporaryResource : public QTemporaryFile {
+// A temporary copy of a resource file, which is removed when the object is destroyed.
+// The file is not kept open, QTemporaryFile keeps its file open until it's destroyed, also after close(), and on Windows a file which is open can't be opened for writing or renamed elsewhere.
+class TemporaryResource : public QFile {
   Q_OBJECT
 
  public:
   explicit TemporaryResource(const QString &filename, QObject *parent = nullptr);
+  ~TemporaryResource() override;
 };
 
 class TestQObject : public QObject {

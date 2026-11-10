@@ -268,21 +268,24 @@ bool CopyFileContents(QFile *source_file, QFile *destination_file) {
   }
 
   // flush() only pushes the data into the OS; force it out to the underlying storage so that deferred write-back failures (common on network/FUSE-backed filesystems such as GVFS) are reported here rather than being silently lost when the file is closed.
+  // The destination is always a file in the filesystem, so it has a handle when it's open, on Windows getting the handle can fail, then the copy is not known to be written, and it fails, so the original is not removed when moving.
   const int handle = destination_file->handle();
-  if (handle != -1) {
+  if (handle == -1) {
+    qLog(Error) << "Failed to get the handle of" << destination << "to write it to storage";
+    return false;
+  }
 #ifdef Q_OS_UNIX
-    if (fsync(handle) != 0) {
-      qLog(Error) << "Failed to fsync" << destination << "to storage:" << strerror(errno);
-      return false;
-    }
+  if (fsync(handle) != 0) {
+    qLog(Error) << "Failed to fsync" << destination << "to storage:" << strerror(errno);
+    return false;
+  }
 #endif
 #ifdef Q_OS_WIN32
-    if (_commit(handle) != 0) {
-      qLog(Error) << "Failed to commit" << destination << "to storage";
-      return false;
-    }
-#endif
+  if (_commit(handle) != 0) {
+    qLog(Error) << "Failed to commit" << destination << "to storage";
+    return false;
   }
+#endif
 
   return true;
 

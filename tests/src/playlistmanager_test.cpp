@@ -23,6 +23,7 @@
 
 #include <QCoreApplication>
 #include <QElapsedTimer>
+#include <QEvent>
 #include <QEventLoop>
 #include <QFile>
 #include <QList>
@@ -34,6 +35,7 @@
 #include <QTemporaryDir>
 #include <QTest>
 #include <QThread>
+#include <QThreadPool>
 #include <QTimer>
 #include <QUrl>
 
@@ -720,6 +722,23 @@ TEST_F(PlaylistManagerTest, AppendingKeepsUrlsBeingLoaded) {
 
   WaitForLoadedUrls(playlist, 2);
   EXPECT_EQ(2, playlist->rowCount(QModelIndex()));
+
+}
+
+// Regression test: the inserter was deleted with deleteLater() from the loading thread, so when deferred deletes were processed before its queued signals, it was deleted before the songs were inserted.
+TEST_F(PlaylistManagerTest, LoadedUrlsAreInsertedWhenDeferredDeletesAreProcessedFirst) {
+
+  WaitForOpenPlaylistsRestored();
+  Playlist *playlist = playlist_manager_->current();
+
+  DropUrl(playlist, CreateLocalFile(u"song.mp3"_s), false);
+
+  // Wait for the loading thread to finish, without handling the signals it queued, then process the deferred deletes before them, like QTest::qWaitFor() does.
+  ASSERT_TRUE(QThreadPool::globalInstance()->waitForDone(10000));
+  QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+
+  WaitForLoadedUrls(playlist, 1);
+  EXPECT_EQ(1, playlist->rowCount(QModelIndex()));
 
 }
 

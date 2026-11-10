@@ -33,6 +33,8 @@
 #include <QImage>
 #include <QColor>
 #include <QElapsedTimer>
+#include <QEventLoop>
+#include <QTimer>
 #include <QSignalSpy>
 
 #include "includes/shared_ptr.h"
@@ -42,6 +44,7 @@
 #include "core/taskmanager.h"
 #include "core/networkaccessmanager.h"
 #include "tagreader/tagreaderclient.h"
+#include "tagreader/tagreaderloadcoverimagereply.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmanager.h"
 #include "covermanager/albumcoverloader.h"
@@ -92,9 +95,26 @@ class AlbumCoverChoiceControllerTest : public ::testing::Test {
   }
 
   // Returns true when the embedded cover of the file is mostly the color.
+  // The cover is loaded in the tagreader thread, after the cover being saved there, since loading it here at the same time can make the save fail on Windows, where TagLib can't open a file for writing while it's open elsewhere.
   bool HasEmbeddedCoverColor(const QString &filename, const QColor &color) const {
-    QImage image;
-    if (!tagreader_client_->LoadCoverImageBlocking(filename, image).success() || image.isNull()) return false;
+    // The Finished signal is queued to this thread, so it's not emitted before it's connected here.
+    TagReaderLoadCoverImageReplyPtr reply = tagreader_client_->LoadCoverImageAsync(filename);
+    // The wait is bounded, so the test fails instead of hanging when Finished is not emitted.
+    constexpr int kTimeoutMsec = 30000;
+    bool finished = false;
+    QEventLoop loop;
+    QObject::connect(&*reply, &TagReaderLoadCoverImageReply::Finished, &loop, [&loop, &finished]() {
+      finished = true;
+      loop.quit();
+    });
+    QTimer::singleShot(kTimeoutMsec, &loop, &QEventLoop::quit);
+    loop.exec();
+    if (!finished) {
+      ADD_FAILURE() << "Timed out loading the embedded cover of " << filename.toStdString();
+      return false;
+    }
+    const QImage image = reply->image();
+    if (!reply->success() || image.isNull()) return false;
     const QColor pixel = image.pixelColor(image.width() / 2, image.height() / 2);
     return qAbs(pixel.red() - color.red()) < 32 && qAbs(pixel.green() - color.green()) < 32 && qAbs(pixel.blue() - color.blue()) < 32;
   }
