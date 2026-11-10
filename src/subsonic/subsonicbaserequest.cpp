@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -156,13 +156,26 @@ JsonBaseRequest::JsonObjectResult SubsonicBaseRequest::ParseJsonObject(QNetworkR
           result.error_message = QStringLiteral("%1 (%2)").arg(message, QString::number(code));
         }
       }
-      else {
-        if (json_object.contains("subsonic-response"_L1) && json_object["subsonic-response"_L1].isObject()) {
-          result.json_object = json_object["subsonic-response"_L1].toObject();
+      else if (json_object.contains("subsonic-response"_L1) && json_object["subsonic-response"_L1].isObject()) {
+        // Subsonic servers send API errors, like a wrong password or a missing album, with HTTP status 200, as a "failed" status with an error object in the response.
+        const QJsonObject object_response = json_object["subsonic-response"_L1].toObject();
+        if (object_response["status"_L1].toString().compare("failed"_L1, Qt::CaseInsensitive) == 0) {
+          const QJsonObject object_error = object_response["error"_L1].toObject();
+          const QString message = object_error["message"_L1].toString();
+          result.error_code = ErrorCode::APIError;
+          if (object_error.contains("code"_L1)) {
+            result.error_message = QStringLiteral("%1 (%2)").arg(message.isEmpty() ? u"Unknown error"_s : message, QString::number(object_error["code"_L1].toInt()));
+          }
+          else {
+            result.error_message = message.isEmpty() ? u"Server reported a failure without an error message."_s : message;
+          }
         }
         else {
-          result.json_object = json_object;
+          result.json_object = object_response;
         }
+      }
+      else {
+        result.json_object = json_object;
       }
     }
     else {

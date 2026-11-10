@@ -350,7 +350,7 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
   }
 
   if (!json_object.contains("album"_L1)) {
-    Error(u"Json reply is missing albumList."_s, json_object);
+    Error(u"Json reply is missing album."_s, json_object);
     return;
   }
   const QJsonValue value_album = json_object["album"_L1];
