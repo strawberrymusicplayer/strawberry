@@ -669,6 +669,7 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+            libgnutls28-dev
             libxkbcommon-dev
             libwayland-dev
             libsparsehash-dev
