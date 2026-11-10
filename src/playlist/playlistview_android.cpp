@@ -94,11 +94,11 @@ void PlaylistView::UpdatePortraitColumns() {
   if (!header_state_restored_ || !screen()) return;
   const bool portrait = screen()->geometry().height() > screen()->geometry().width();
   const QSignalBlocker blocker(header_);
+  header_->setContextMenuPolicy(Qt::PreventContextMenu);
   if (!portrait) {
     if (portrait_columns_) {
       portrait_columns_ = false;
       header_->RestoreState(header_state_);
-      header_->setContextMenuPolicy(Qt::DefaultContextMenu);
       setHorizontalScrollBarPolicy(header_->is_stretch_enabled() ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
     }
     return;
@@ -108,7 +108,6 @@ void PlaylistView::UpdatePortraitColumns() {
     header_state_ = header_->SaveState();
     portrait_columns_ = true;
     header_->SetStretchEnabled(false);
-    header_->setContextMenuPolicy(Qt::PreventContextMenu);
     const QList<Playlist::Column> columns = {Playlist::Column::Track, Playlist::Column::Title, Playlist::Column::Artist, Playlist::Column::Album};
     for (int i = 0; i < header_->count(); ++i) {
       header_->setSectionHidden(i, !columns.contains(static_cast<Playlist::Column>(i)));
@@ -130,6 +129,7 @@ void PlaylistView::CancelAndroidSongActions() {
 
   if (long_press_) long_press_->Cancel();
   if (android_song_actions_ && android_song_actions_->isVisible()) android_song_actions_->reject();
+  header_->CancelAndroidActions();
 
 }
 

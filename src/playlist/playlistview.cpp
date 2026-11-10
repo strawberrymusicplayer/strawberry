@@ -403,6 +403,9 @@ void PlaylistView::ResetHeaderState() {
   set_initial_header_layout_ = true;
   header_state_ = header_->ResetState();
   RestoreHeaderState();
+#ifdef Q_OS_ANDROID
+  UpdatePortraitColumns();
+#endif
 
 }
 

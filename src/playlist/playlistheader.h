@@ -27,6 +27,9 @@
 #include <QObject>
 #include <QWidget>
 #include <QList>
+#ifdef Q_OS_ANDROID
+#include <QPointer>
+#endif
 
 #include "widgets/stretchheaderview.h"
 
@@ -34,6 +37,11 @@ class QMenu;
 class QAction;
 class QContextMenuEvent;
 class QEnterEvent;
+class QMouseEvent;
+#ifdef Q_OS_ANDROID
+class ActionDialog;
+class LongPressHandler;
+#endif
 
 class PlaylistView;
 
@@ -46,6 +54,13 @@ class PlaylistHeader : public StretchHeaderView {
   // QWidget
   void contextMenuEvent(QContextMenuEvent *e) override;
   void enterEvent(QEnterEvent *e) override;
+#ifdef Q_OS_ANDROID
+  void mousePressEvent(QMouseEvent *event) override;
+  void mouseMoveEvent(QMouseEvent *event) override;
+  void mouseReleaseEvent(QMouseEvent *event) override;
+  ActionDialog *CreateAndroidActions(QWidget *parent, const int section);
+  void CancelAndroidActions();
+#endif
 
  Q_SIGNALS:
   void SectionVisibilityChanged(const int logical_index, const bool visible);
@@ -61,6 +76,9 @@ class PlaylistHeader : public StretchHeaderView {
   void ResetColumns();
   void SetColumnAlignment(QAction *action);
   void ToggleRatingEditStatus();
+#ifdef Q_OS_ANDROID
+  void ShowAndroidActions(const QPoint position);
+#endif
 
  private:
   void AddColumnAction(const int index);
@@ -83,6 +101,10 @@ class PlaylistHeader : public StretchHeaderView {
   QAction *action_align_center_;
   QAction *action_align_right_;
   QList<QAction*> show_actions_;
+#ifdef Q_OS_ANDROID
+  LongPressHandler *long_press_ = nullptr;
+  QPointer<ActionDialog> android_actions_;
+#endif
 };
 
 #endif  // PLAYLISTHEADER_H
