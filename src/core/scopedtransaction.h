@@ -25,6 +25,7 @@
 #include "config.h"
 
 #include <QtGlobal>
+#include <QString>
 
 class QSqlDatabase;
 
@@ -45,10 +46,14 @@ class ScopedTransaction {
   // SQLite rolls back the whole transaction for some errors, like when the disk is full, instead of only the failed statement.
   bool active() const;
 
+  // The error when the transaction could not be started or committed, saved before it's rolled back, so the rollback doesn't replace it.
+  QString error() const { return error_; }
+
  private:
   QSqlDatabase *db_;
   bool started_;
   bool pending_;
+  QString error_;
 
   Q_DISABLE_COPY(ScopedTransaction)
 };

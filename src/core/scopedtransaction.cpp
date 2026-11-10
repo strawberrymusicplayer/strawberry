@@ -35,7 +35,8 @@ ScopedTransaction::ScopedTransaction(QSqlDatabase *db) : db_(db), started_(false
 
   started_ = db->transaction();
   if (!started_) {
-    qLog(Error) << "Could not start transaction:" << db->lastError().text();
+    error_ = db->lastError().text();
+    qLog(Error) << "Could not start transaction:" << error_;
   }
 
   // Only commit or roll back a transaction started here, not one started by someone else on the same connection.
@@ -79,7 +80,8 @@ bool ScopedTransaction::Commit() {
   pending_ = false;
 
   if (!db_->commit()) {
-    qLog(Error) << "Could not commit transaction:" << db_->lastError().text();
+    error_ = db_->lastError().text();
+    qLog(Error) << "Could not commit transaction:" << error_;
     db_->rollback();
     return false;
   }
