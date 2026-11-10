@@ -36,6 +36,10 @@
 #include "radioservice.h"
 #include "radiomimedata.h"
 #include "collection/collectionitemdelegate.h"
+#ifdef Q_OS_ANDROID
+#  include "core/logging.h"
+#  include "widgets/playlistactionhandler.h"
+#endif
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -53,6 +57,31 @@ RadioView::RadioView(QWidget *parent)
   SetExpandOnReset(false);
   setAttribute(Qt::WA_MacShowFocusRect, false);
   setSelectionMode(QAbstractItemView::ExtendedSelection);
+
+#ifdef Q_OS_ANDROID
+  const auto is_channel = [](const QModelIndex &index) { return index.data(RadioModel::Role_Type).value<RadioItem::Type>() == RadioItem::Type::Channel; };
+  auto *actions = new PlaylistActionHandler(this, tr("Radios > Channels"), {tr("Append to current playlist"), tr("Queue channel"), tr("Queue channel to play next")}, is_channel,
+      [this](const QModelIndex &index) {
+        QMimeData *data = model()->mimeData({index});
+        RadioMimeData *mimedata = qobject_cast<RadioMimeData *>(data);
+        if (!mimedata) {
+          qLog(Error) << "Cannot add radio channel: model returned invalid MIME data";
+          delete data;
+          return mimedata;
+        }
+        if (!mimedata->songs.isEmpty()) {
+          mimedata->name_for_new_playlist_ = mimedata->songs.first().title();
+        }
+        return mimedata;
+      });
+  QObject::connect(actions, &PlaylistActionHandler::AddToPlaylist, this, &RadioView::AddToPlaylistSignal);
+  const auto add_link = [actions](const QString &text, const int role) {
+    actions->AddAction(text, [role](const QModelIndex &index) { return index.data(role).toUrl().isValid(); },
+        [role](const QModelIndex &index) { QDesktopServices::openUrl(index.data(role).toUrl()); });
+  };
+  add_link(tr("Open homepage"), RadioModel::Role_Homepage);
+  add_link(tr("Donate"), RadioModel::Role_Donate);
+#endif
 
 }
 

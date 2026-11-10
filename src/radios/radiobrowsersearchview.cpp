@@ -38,6 +38,9 @@
 #include "radiobrowsersearchview.h"
 #include "radiobrowsersearchmodel.h"
 #include "radiomimedata.h"
+#ifdef Q_OS_ANDROID
+#  include "widgets/playlistactionhandler.h"
+#endif
 #include "ui_radiobrowsersearchview.h"
 
 using namespace std::chrono_literals;
@@ -101,6 +104,20 @@ RadioBrowserSearchView::RadioBrowserSearchView(QWidget *parent)
   QObject::connect(ui_->results, &QTreeView::doubleClicked, this, &RadioBrowserSearchView::ItemDoubleClicked);
   ui_->results->setContextMenuPolicy(Qt::CustomContextMenu);
   QObject::connect(ui_->results, &QTreeView::customContextMenuRequested, this, &RadioBrowserSearchView::ShowContextMenu);
+
+#ifdef Q_OS_ANDROID
+  const auto channel = [this](const QModelIndex &index) { return model_->ChannelForRow(sort_model_->mapToSource(index).row()); };
+  auto *actions = new PlaylistActionHandler(ui_->results, tr("Radios > Radio Browser"), {tr("Append to current playlist"), tr("Queue station"), tr("Queue station to play next")},
+      [channel](const QModelIndex &index) { return !channel(index).url.isEmpty(); },
+      [channel](const QModelIndex &index) {
+        const RadioChannel radio_channel = channel(index);
+        RadioMimeData *mimedata = new RadioMimeData;
+        mimedata->songs << radio_channel.ToSong();
+        mimedata->name_for_new_playlist_ = radio_channel.name;
+        return mimedata;
+      });
+  QObject::connect(actions, &PlaylistActionHandler::AddToPlaylist, this, &RadioBrowserSearchView::AddToPlaylist);
+#endif
 
 }
 
