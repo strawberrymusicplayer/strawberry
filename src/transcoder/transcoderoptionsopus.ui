@@ -44,8 +44,11 @@
        <property name="suffix">
         <string> kbps</string>
        </property>
+       <property name="minimum">
+        <number>6</number>
+       </property>
        <property name="maximum">
-        <number>320</number>
+        <number>510</number>
        </property>
        <property name="value">
         <number>128</number>
@@ -54,8 +57,82 @@
      </item>
     </layout>
    </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_bitrate_type">
+     <property name="text">
+      <string>Bitrate type</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QComboBox" name="bitrate_type"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_complexity">
+     <property name="text">
+      <string>Complexity</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QSpinBox" name="complexity">
+     <property name="maximum">
+      <number>10</number>
+     </property>
+     <property name="value">
+      <number>10</number>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_audio_type">
+     <property name="text">
+      <string>Optimize for</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QComboBox" name="audio_type"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_bandwidth">
+     <property name="text">
+      <string>Bandwidth</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QComboBox" name="bandwidth"/>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="label_frame_size">
+     <property name="text">
+      <string>Frame size</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QComboBox" name="frame_size"/>
+   </item>
+   <item row="6" column="0" colspan="2">
+    <widget class="QCheckBox" name="dtx">
+     <property name="text">
+      <string>Discontinuous transmission (DTX)</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>bitrate_slider</tabstop>
+  <tabstop>bitrate_spinbox</tabstop>
+  <tabstop>bitrate_type</tabstop>
+  <tabstop>complexity</tabstop>
+  <tabstop>audio_type</tabstop>
+  <tabstop>bandwidth</tabstop>
+  <tabstop>frame_size</tabstop>
+  <tabstop>dtx</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
