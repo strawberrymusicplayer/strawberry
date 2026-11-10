@@ -80,7 +80,7 @@ EngineDeviceList AsioAudioDeviceLister::ListDevices() {
     status = RegEnumKeyW(reg_key, i, key_name, sizeof(key_name) / sizeof(key_name[0]));
     if (status != ERROR_SUCCESS) break;  // Don't call GetDevice with a stale key_name on ERROR_NO_MORE_ITEMS / errors.
     EngineDevice device = GetDevice(reg_key, key_name);
-    if (device.value.isValid()) {
+    if (device.value().isValid()) {
       devices.append(device);
     }
   }
@@ -113,7 +113,7 @@ EngineDevice AsioAudioDeviceLister::GetDevice(HKEY reg_key, LPWSTR key_name) {
   }
 
   EngineDevice device;
-  device.value = clsid;
+  device.values << clsid;
   device.description = QString::fromWCharArray(key_name);
 
   const QString description = ReadRegistryString(sub_key, L"description");

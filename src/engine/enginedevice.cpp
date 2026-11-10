@@ -21,7 +21,7 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-EngineDevice::EngineDevice() : card(0), device(0) {}
+EngineDevice::EngineDevice() = default;
 
 QString EngineDevice::GuessIconName() const {
 

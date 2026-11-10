@@ -51,7 +51,7 @@ BOOL CALLBACK DirectSoundAudioDeviceLister::EnumerateCallback(LPGUID guid, LPCWS
 
   EngineDevice device;
   device.description = QString::fromWCharArray(description);
-  if (guid) device.value = QUuid(*guid).toString();
+  if (guid) device.values << QUuid(*guid).toString();
   device.iconname = device.GuessIconName();
   state->devices.append(device);
 

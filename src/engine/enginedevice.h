@@ -23,19 +23,17 @@
 #include <QList>
 #include <QVariant>
 #include <QString>
-#include <QStringList>
 
 class EngineDevice {
  public:
   explicit EngineDevice();
-  QString GuessIconName() const;
+
   QString description;
-  QVariant value;
-  // Other values for the same device, like "hw:0,0" for "hw:PCH,0" with ALSA.
-  QStringList alternative_values;
+  QVariantList values;
   QString iconname;
-  int card;
-  int device;
+
+  QVariant value() const { return values.value(0); }
+  QString GuessIconName() const;
 };
 using EngineDeviceList = QList<EngineDevice>;
 

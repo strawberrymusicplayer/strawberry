@@ -24,7 +24,7 @@
 #include <alsa/asoundlib.h>
 
 #include <QString>
-#include <QStringList>
+#include <QVariantList>
 #include <QScopeGuard>
 
 #include <core/logging.h>
@@ -110,13 +110,10 @@ EngineDeviceList AlsaAudioDeviceLister::MakeDevices(const QString &description, 
   EngineDevice device;
   device.description = description;
   device.iconname = device.GuessIconName();
-  device.card = card;
-  device.device = device_number;
 
   EngineDeviceList devices;
   for (const QString &plugin : {u"hw"_s, u"plughw"_s}) {
-    device.value = QStringLiteral("%1:%2,%3").arg(plugin, card_id).arg(device_number);
-    device.alternative_values = QStringList() << QStringLiteral("%1:%2,%3").arg(plugin).arg(card).arg(device_number);
+    device.values = QVariantList() << QStringLiteral("%1:%2,%3").arg(plugin, card_id).arg(device_number) << QStringLiteral("%1:%2,%3").arg(plugin).arg(card).arg(device_number);
     devices << device;
   }
 

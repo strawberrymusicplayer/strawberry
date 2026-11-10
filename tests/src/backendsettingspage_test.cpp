@@ -43,6 +43,17 @@
 using std::make_shared;
 using namespace Qt::Literals::StringLiterals;
 
+// The value which is saved is the first value, a device without values has no value.
+TEST(EngineDeviceTest, ValueIsFirstValue) {
+
+  EngineDevice device;
+  EXPECT_FALSE(device.value().isValid());
+
+  device.values << u"hw:PCH,0"_s << u"hw:0,0"_s;
+  EXPECT_EQ(QVariant(u"hw:PCH,0"_s), device.value());
+
+}
+
 // At file scope, since it's a friend of BackendSettingsPage.
 class BackendSettingsPageTest : public ::testing::Test {
  protected:
@@ -63,8 +74,7 @@ class BackendSettingsPageTest : public ::testing::Test {
   static void AddDevice(QComboBox *combobox, const QString &value, const QString &alternative_value) {
     EngineDevice device;
     device.description = value;
-    device.value = value;
-    device.alternative_values = QStringList() << alternative_value;
+    device.values << value << alternative_value;
     BackendSettingsPage::AddDevice(combobox, device);
   }
 
@@ -146,18 +156,38 @@ TEST_F(BackendSettingsPageTest, FindsDeviceByAlternativeValue) {
 
 }
 
-// No device is not the "Automatically select" or "Custom" item, or a device with an empty value.
+// No device is not the "Automatically select" or "Custom" item, a device with an empty value, or a device without values, like the default DirectSound device.
 TEST_F(BackendSettingsPageTest, DoesNotFindUnknownOrNoDevice) {
 
-  EngineDevice device;
-  device.description = u"Empty"_s;
-  device.value = QString();
-  AddDevice(device);
+  EngineDevice empty_device;
+  empty_device.description = u"Empty"_s;
+  empty_device.values << QString();
+  AddDevice(empty_device);
+
+  EngineDevice default_device;
+  default_device.description = u"Default device"_s;
+  AddDevice(default_device);
 
   EXPECT_EQ(-1, FindDevice(u"hw:2,0"_s));
   EXPECT_EQ(-1, FindDevice(u"hw:1,0"_s));
   EXPECT_EQ(-1, FindDevice(QString()));
   EXPECT_EQ(-1, FindDevice(QVariant()));
+
+}
+
+// A number, like the device ID on macOS, is the same device as the same number of another type, which the settings can return, but not as a string.
+TEST_F(BackendSettingsPageTest, FindsDeviceWithNonStringValue) {
+
+  EngineDevice device;
+  device.description = u"Speakers"_s;
+  device.values << 42U;
+  AddDevice(device);
+
+  const int index = FindDevice(42U);
+  ASSERT_NE(-1, index);
+  EXPECT_EQ(QVariant(42U), combobox_.itemData(index));
+  EXPECT_EQ(index, FindDevice(static_cast<qint64>(42)));
+  EXPECT_EQ(-1, FindDevice(u"42"_s));
 
 }
 

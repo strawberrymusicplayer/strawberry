@@ -22,7 +22,8 @@
 #include "gtest_include.h"
 
 #include <QString>
-#include <QStringList>
+#include <QVariant>
+#include <QVariantList>
 
 #include "engine/enginedevice.h"
 #include "engine/alsaaudiodevicelister.h"
@@ -31,22 +32,20 @@ using namespace Qt::Literals::StringLiterals;
 
 namespace {
 
-// The "hw" and "plughw" devices are named by the card ID, with the card and device number as alternative value.
+// The "hw" and "plughw" devices are saved with the card ID, the value with the card and device number selects the same device.
 TEST(AlsaAudioDeviceListerTest, DevicesHaveNameAndNumber) {
 
   const EngineDeviceList devices = AlsaAudioDeviceLister::MakeDevices(u"HDA Intel PCH ALC897 Analog"_s, 1, u"PCH"_s, 3);
   ASSERT_EQ(2, devices.count());
 
-  EXPECT_EQ(u"hw:PCH,3"_s, devices[0].value.toString());
-  EXPECT_EQ(QStringList() << u"hw:1,3"_s, devices[0].alternative_values);
-  EXPECT_EQ(u"plughw:PCH,3"_s, devices[1].value.toString());
-  EXPECT_EQ(QStringList() << u"plughw:1,3"_s, devices[1].alternative_values);
+  EXPECT_EQ(QVariantList() << u"hw:PCH,3"_s << u"hw:1,3"_s, devices[0].values);
+  EXPECT_EQ(QVariant(u"hw:PCH,3"_s), devices[0].value());
+  EXPECT_EQ(QVariantList() << u"plughw:PCH,3"_s << u"plughw:1,3"_s, devices[1].values);
+  EXPECT_EQ(QVariant(u"plughw:PCH,3"_s), devices[1].value());
 
   for (const EngineDevice &device : devices) {
     EXPECT_EQ(u"HDA Intel PCH ALC897 Analog"_s, device.description);
     EXPECT_EQ(u"intel"_s, device.iconname);
-    EXPECT_EQ(1, device.card);
-    EXPECT_EQ(3, device.device);
   }
 
 }

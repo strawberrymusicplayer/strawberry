@@ -78,7 +78,7 @@ class BackendSettingsPage : public SettingsPage {
   void SelectDevice(const QString &device_new);
   QVariant CurrentDevice() const;
   static void AddDevice(QComboBox *combobox, const EngineDevice &device);
-  // Returns the index of the item for the device, which is the value or an alternative value of the device of the item, or -1.
+  // Returns the index of the item for the device, which is one of the values of the device of the item, or -1.
   static int FindDevice(const QComboBox *combobox, const QVariant &device, const bool visible_only);
 
  private:

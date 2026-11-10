@@ -19,6 +19,7 @@
 
 #include "config.h"
 
+#include <algorithm>
 #include <utility>
 
 #include <QtGlobal>
@@ -62,8 +63,8 @@ using namespace BackendSettings;
 namespace {
 constexpr char kOutputAutomaticallySelect[] = "Automatically select";
 constexpr char kOutputCustom[] = "Custom";
-// The alternative values for the device of an item, like "hw:0,0" for "hw:PCH,0" with ALSA.
-constexpr int kDeviceAlternativeValuesRole = Qt::UserRole + 1;
+// All values for the device of an item, like "hw:PCH,0" and "hw:0,0" with ALSA, the item data is the first value, which is saved.
+constexpr int kDeviceValuesRole = Qt::UserRole + 1;
 static const QRegularExpression kRegex_ALSA_HW(u"^hw:.*"_s);
 static const QRegularExpression kRegex_ALSA_PlugHW(u"^plughw:.*"_s);
 #ifdef HAVE_ALSA
@@ -72,6 +73,12 @@ constexpr char kALSAPlugHW[] = "plughw:";
 static const QRegularExpression kRegex_ALSA_PCM_Card(u"^.*:.*CARD=.*"_s);
 static const QRegularExpression kRegex_ALSA_PCM_Dev(u"^.*:.*DEV=.*"_s);
 #endif
+
+bool ContainsDevice(const QVariantList &values, const QVariant &device) {
+  const bool device_is_string = device.metaType().id() == QMetaType::QString;
+  return std::any_of(values.begin(), values.end(), [&device, device_is_string](const QVariant &value) { return (value.metaType().id() == QMetaType::QString) == device_is_string && value == device; });
+}
+
 }  // namespace
 
 #ifdef __GNUC__
@@ -469,8 +476,8 @@ void BackendSettingsPage::DeviceSelectionChanged(int index) {
     ui_->lineedit_device->setEnabled(true);
     if (ui_->combobox_device->currentText() != QLatin1String(kOutputCustom)) {
       if (device.metaType().id() == QMetaType::QString) {
-        // An alternative value for the device, like "hw:0,0", is kept.
-        if (!ui_->combobox_device->itemData(index, kDeviceAlternativeValuesRole).toStringList().contains(ui_->lineedit_device->text())) {
+        // Another value for the device, like "hw:0,0", is kept.
+        if (!ContainsDevice(ui_->combobox_device->itemData(index, kDeviceValuesRole).toList(), ui_->lineedit_device->text())) {
           ui_->lineedit_device->setText(device.toString());
         }
       }
@@ -709,8 +716,8 @@ QVariant BackendSettingsPage::CurrentDevice() const {
 
   if (ui_->combobox_device->currentText() == QLatin1String(kOutputCustom)) return ui_->lineedit_device->text();
 
-  // An alternative value for the device, like "hw:0,0" for "hw:PCH,0", is kept, so the setting is not changed.
-  if (ui_->combobox_device->currentData(kDeviceAlternativeValuesRole).toStringList().contains(ui_->lineedit_device->text())) {
+  // Another value for the device, like "hw:0,0" for "hw:PCH,0", is kept, so the setting is not changed.
+  if (ContainsDevice(ui_->combobox_device->currentData(kDeviceValuesRole).toList(), ui_->lineedit_device->text())) {
     return ui_->lineedit_device->text();
   }
 
@@ -720,8 +727,8 @@ QVariant BackendSettingsPage::CurrentDevice() const {
 
 void BackendSettingsPage::AddDevice(QComboBox *combobox, const EngineDevice &device) {
 
-  combobox->addItem(IconLoader::Load(device.iconname), device.description, device.value);
-  combobox->setItemData(combobox->count() - 1, device.alternative_values, kDeviceAlternativeValuesRole);
+  combobox->addItem(IconLoader::Load(device.iconname), device.description, device.value());
+  combobox->setItemData(combobox->count() - 1, device.values, kDeviceValuesRole);
 
 }
 
@@ -733,8 +740,7 @@ int BackendSettingsPage::FindDevice(const QComboBox *combobox, const QVariant &d
   const QListView *view = qobject_cast<QListView*>(combobox->view());
   for (int i = 0; i < combobox->count(); ++i) {
     if (visible_only && view && view->isRowHidden(i)) continue;
-    if (combobox->itemData(i) == device) return i;
-    if (device.metaType().id() == QMetaType::QString && combobox->itemData(i, kDeviceAlternativeValuesRole).toStringList().contains(device.toString())) return i;
+    if (ContainsDevice(combobox->itemData(i, kDeviceValuesRole).toList(), device)) return i;
   }
 
   return -1;

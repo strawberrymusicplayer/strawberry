@@ -35,7 +35,7 @@ class AlsaAudioDeviceLister : public AudioDeviceLister {
   EngineDeviceList ListDevices() override;
 
   // Returns the "hw" and "plughw" devices for a PCM device of a card.
-  // The value is named by the card ID, which doesn't change when cards are added or removed, the value with the card number is an alternative value.
+  // The value which is saved is named by the card ID, which doesn't change when cards are added or removed, the value with the card number selects the same device.
   static EngineDeviceList MakeDevices(const QString &description, const int card, const QString &card_id, const int device_number);
 
  private:
