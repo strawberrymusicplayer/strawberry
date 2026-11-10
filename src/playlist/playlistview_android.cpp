@@ -40,6 +40,7 @@
 #include "playlist.h"
 #include "playlistfilter.h"
 #include "playlistheader.h"
+#include "playlistitem.h"
 #include "queue/queue.h"
 #include "widgets/actiondialog.h"
 #include "widgets/longpresshandler.h"
@@ -156,12 +157,16 @@ void PlaylistView::ShowAndroidSongActions(const QPoint position) {
     source_indexes << selected_source_index;
     if (selected_source_index.data(Playlist::Role_QueuePosition).toInt() != -1) ++queued_count;
   }
+  PlaylistItemPtr clicked_item = playlist_->item_at(source_index.row());
+  const bool show_in_collection = clicked_item && clicked_item->IsLocalCollectionItem() &&
+                                  clicked_item->EffectiveMetadata().id() != -1;
   QString queue_text = tr("Toggle queue status");
   if (queued_count == 0) queue_text = tr("Queue selected songs");
   else if (queued_count == source_indexes.count()) queue_text = tr("Remove selected songs from queue");
   QPushButton *stop_after = dialog->AddButton(tr("Stop after this track"));
   QPushButton *queue = dialog->AddButton(queue_text);
   QPushButton *queue_next = dialog->AddButton(tr("Queue selected tracks to play next"));
+  QPushButton *show_collection = show_in_collection ? dialog->AddButton(tr("Show in collection")) : nullptr;
   QPushButton *remove = dialog->AddButton(count == 1 ? tr("Remove song") : tr("Remove %n songs", "", count));
   QPushButton *clear = dialog->AddButton(tr("Clear playlist"));
   dialog->AddCancelButton(tr("Cancel"));
@@ -184,6 +189,13 @@ void PlaylistView::ShowAndroidSongActions(const QPoint position) {
     dialog->accept();
     if (playlist_ && !source_indexes.isEmpty()) playlist_->queue()->InsertFirst(source_indexes);
   });
+  if (show_collection) {
+    QObject::connect(show_collection, &QPushButton::clicked, dialog, [this, dialog]() {
+      android_song_actions_.clear();
+      dialog->accept();
+      Q_EMIT AndroidShowInCollectionRequested();
+    });
+  }
   const auto perform = [this, dialog](const bool clear_playlist) {
     // Close before modifying the model, whose change signals cancel any pending actions.
     android_song_actions_.clear();

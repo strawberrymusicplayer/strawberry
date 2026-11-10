@@ -782,6 +782,9 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(ui_->playlist->view(), &PlaylistView::PlayItem, this, &MainWindow::PlayIndex);
   QObject::connect(ui_->playlist->view(), &PlaylistView::PlayPause, &*app_->player(), &Player::PlayPause);
   QObject::connect(ui_->playlist->view(), &PlaylistView::ShowPlaylistContextMenu, this, &MainWindow::ShowPlaylistContextMenu);
+#ifdef Q_OS_ANDROID
+  QObject::connect(ui_->playlist->view(), &PlaylistView::AndroidShowInCollectionRequested, this, &MainWindow::ShowInCollection);
+#endif
   QObject::connect(ui_->playlist->view(), &PlaylistView::SeekForward, &*app_->player(), &Player::SeekForward);
   QObject::connect(ui_->playlist->view(), &PlaylistView::SeekBackward, &*app_->player(), &Player::SeekBackward);
   QObject::connect(ui_->playlist->view(), &PlaylistView::BackgroundPropertyChanged, this, &MainWindow::RefreshStyleSheet);
