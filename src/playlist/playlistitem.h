@@ -137,7 +137,7 @@ class PlaylistItem {
     CollectionId
   };
 
-  virtual QVariant DatabaseValue(const DatabaseColumn database_column) const { Q_UNUSED(database_column); return QVariant(QString()); }
+  virtual QVariant DatabaseValue(DatabaseColumn database_column) const { Q_UNUSED(database_column); return QVariant(QString()); }
   virtual Song DatabaseSongMetadata() const { return Song(); }
 
   Song stream_song_;

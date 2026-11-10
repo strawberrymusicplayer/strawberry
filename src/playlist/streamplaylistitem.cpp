@@ -54,7 +54,7 @@ bool StreamPlaylistItem::InitFromQuery(const SqlRow &query) {
 
 }
 
-QVariant StreamPlaylistItem::DatabaseValue(const DatabaseColumn column) const {
+QVariant StreamPlaylistItem::DatabaseValue(DatabaseColumn column) const {
   return PlaylistItem::DatabaseValue(column);
 }
 
