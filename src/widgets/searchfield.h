@@ -1,6 +1,6 @@
 /*
 Copyright (C) 2011 by Mike McQuaid
-Copyright (C) 2018-2024 by Jonas Kvinge <jonas@jkvinge.net>
+Copyright (C) 2018-2026 by Jonas Kvinge <jonas@jkvinge.net>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
