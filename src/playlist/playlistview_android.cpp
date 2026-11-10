@@ -38,7 +38,9 @@
 
 #include "playlistview.h"
 #include "playlist.h"
+#include "playlistfilter.h"
 #include "playlistheader.h"
+#include "queue/queue.h"
 #include "widgets/actiondialog.h"
 #include "widgets/longpresshandler.h"
 
@@ -143,6 +145,23 @@ void PlaylistView::ShowAndroidSongActions(const QPoint position) {
   const QString title = count == 1 ? index.siblingAtColumn(static_cast<int>(Playlist::Column::Title)).data().toString() : tr("%n songs selected", "", count);
   ActionDialog *dialog = new ActionDialog(this, tr("Playlist actions"), title, ActionDialog::TitlePosition::AboveButtons);
   android_song_actions_ = dialog;
+  const QModelIndex source_index = playlist_->filter()->mapToSource(index);
+  const QModelIndexList selected_indexes = selectionModel()->selectedRows();
+  QModelIndexList source_indexes;
+  source_indexes.reserve(selected_indexes.count());
+  int queued_count = 0;
+  for (const QModelIndex &selected_index : selected_indexes) {
+    const QModelIndex selected_source_index = playlist_->filter()->mapToSource(selected_index);
+    if (!selected_source_index.isValid()) continue;
+    source_indexes << selected_source_index;
+    if (selected_source_index.data(Playlist::Role_QueuePosition).toInt() != -1) ++queued_count;
+  }
+  QString queue_text = tr("Toggle queue status");
+  if (queued_count == 0) queue_text = tr("Queue selected songs");
+  else if (queued_count == source_indexes.count()) queue_text = tr("Remove selected songs from queue");
+  QPushButton *stop_after = dialog->AddButton(tr("Stop after this track"));
+  QPushButton *queue = dialog->AddButton(queue_text);
+  QPushButton *queue_next = dialog->AddButton(tr("Queue selected tracks to play next"));
   QPushButton *remove = dialog->AddButton(count == 1 ? tr("Remove song") : tr("Remove %n songs", "", count));
   QPushButton *clear = dialog->AddButton(tr("Clear playlist"));
   dialog->AddCancelButton(tr("Cancel"));
@@ -150,6 +169,21 @@ void PlaylistView::ShowAndroidSongActions(const QPoint position) {
     if (dialog->isVisible()) dialog->reject();
   });
   QObject::connect(playlist_, &QObject::destroyed, dialog, &QDialog::reject);
+  QObject::connect(stop_after, &QPushButton::clicked, dialog, [this, dialog, source_index]() {
+    android_song_actions_.clear();
+    dialog->accept();
+    if (playlist_ && source_index.isValid()) playlist_->StopAfter(source_index.row());
+  });
+  QObject::connect(queue, &QPushButton::clicked, dialog, [this, dialog, source_indexes]() {
+    android_song_actions_.clear();
+    dialog->accept();
+    if (playlist_ && !source_indexes.isEmpty()) playlist_->queue()->ToggleTracks(source_indexes);
+  });
+  QObject::connect(queue_next, &QPushButton::clicked, dialog, [this, dialog, source_indexes]() {
+    android_song_actions_.clear();
+    dialog->accept();
+    if (playlist_ && !source_indexes.isEmpty()) playlist_->queue()->InsertFirst(source_indexes);
+  });
   const auto perform = [this, dialog](const bool clear_playlist) {
     // Close before modifying the model, whose change signals cancel any pending actions.
     android_song_actions_.clear();

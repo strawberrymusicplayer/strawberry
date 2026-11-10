@@ -59,7 +59,7 @@ Handoff notes for continuing in a new session (see also the notes in `ANDROID_CO
 | Files | Other file dialogs (covers, playlist files, transcoder, background image) | Needs change | 8 |
 | Files | Writing tags, ratings, play counts, embedded covers; organizing and deleting files | Needs verification, likely blocked by scoped storage | 9 |
 | Playlists | Playing, removing, clearing, undo/redo, renaming, saved playlists | Works | |
-| Playlists | Queue, stop after, jump to current, sorting, columns, add to another playlist | Unreachable on touch | 5 |
+| Playlists | Queue, stop after, jump to current, sorting, columns, add to another playlist | Partially reachable: queue, queue next, and stop after are available by long press; remaining actions are unreachable | 5 |
 | Playlists | Smart playlists | Roadmap item 16 | |
 | Other views | Context menus in Radios, Smart playlists, Devices, Context, and Playlists list | Unreachable on touch | 5 |
 | UI | Error dialog | Broken layout (confirmed) | 6 |
@@ -167,16 +167,18 @@ Media notifications are exempt from the `POST_NOTIFICATIONS` permission, so it i
 
 ### 5. Make track and view actions reachable on touch
 
-**Status:** Open
+**Status:** In progress. The Playlist playback and queue slice is implemented and the Android library and APK build; device verification is pending.
 
-**Evidence:** Code, checked on the emulator for the playlist and collection views.
+**Slices:** Playlist playback and queue; remaining Playlist metadata and header actions; Collection; Playlists list and Smart Playlists; Radios, Context, and Devices.
+
+**Evidence:** The original context-menu gaps were checked on the emulator. This slice is code-verified and Android APK-built; device interaction testing remains pending.
 Qt does not turn a long press into a context menu event on Android, so actions that only exist in context menus cannot be reached:
-- Playlist: long press only offers "Remove" and "Clear playlist" (`playlistview_android.cpp`); queue, stop after this track, edit track information, show in collection, and column and sorting options are missing.
+- Playlist: long press offers "Stop after this track", queue/dequeue, queue selected tracks to play next, "Remove", and "Clear playlist" (`playlistview_android.cpp`). Edit track information, show in collection, jump to current, and column and sorting options are still missing.
 - Collection: long press on an album only offers "Create saved playlist" and "Create and play" (`collectionview.cpp`); add to queue, edit tags, lyrics editor, organize, copy to device, delete, and rescan are missing.
 - Radios (`radioview.cpp`, `radiobrowsersearchview.cpp`), Smart playlists (`smartplaylistsview.cpp`), Devices (`deviceview.cpp`), Context (`contextview.cpp`, `contextalbum.cpp`) and the Playlists list (`playlistlistcontainer.cpp`) only have desktop context menus.
 - The Queue tab is usable through its toolbar buttons (move, remove, clear), but songs can only be queued from the context menus above.
 
-**Approach:** Decide per view which actions are useful on Android, then extend the existing long-press `ActionDialog` pages instead of adding popup menus.
+**Approach:** Implement and verify the views in separate slices, extending the existing long-press `ActionDialog` pages instead of adding popup menus.
 Actions that depend on points 9 to 11 stay hidden until those are resolved.
 
 ### 6. Adapt the error dialog to Android
