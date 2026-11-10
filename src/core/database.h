@@ -65,13 +65,17 @@ class Database : public QObject {
   QSqlDatabase Connect();
   void Close();
   void ReportErrors(const SqlQuery &query);
+  void ReportError(const QString &error);
 
   QRecursiveMutex *Mutex() { return &mutex_; }
 
   void RecreateAttachedDb(const QString &database_name);
-  void ExecSchemaCommands(QSqlDatabase &db, const QString &schema, const int schema_version, const bool in_transaction = false);
+  bool ExecSchemaCommands(QSqlDatabase &db, const QString &schema, const int schema_version, QString &error, const bool in_transaction = false);
 
   int startup_schema_version() const { return startup_schema_version_; }
+
+  // The error when the database could not be opened, created or updated when it was constructed, or an empty string.
+  QString startup_error();
   int current_schema_version() const { return kSchemaVersion; }
 
   void AttachDatabase(const QString &database_name, const AttachedDatabase &database);
@@ -91,12 +95,14 @@ class Database : public QObject {
 
  private:
   static int SchemaVersion(QSqlDatabase *db);
-  void UpdateMainSchema(QSqlDatabase *db);
+  bool UpdateMainSchema(QSqlDatabase *db, QString &error);
+  // Only called from Connect(), which holds connect_mutex_.
+  void SetStartupError(const QSqlDatabase &db, const QString &error);
 
-  void ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filename, const int schema_version, const bool in_transaction = false);
-  void ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_tables, const QStringList &commands);
+  bool ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filename, const int schema_version, QString &error, const bool in_transaction = false);
+  bool ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_tables, const QStringList &commands, QString &error);
 
-  void UpdateDatabaseSchema(const int version, QSqlDatabase &db);
+  bool UpdateDatabaseSchema(const int version, QSqlDatabase &db, QString &error);
   void UrlEncodeFilenameColumn(const QString &table, QSqlDatabase &db);
   QStringList SongsTables(QSqlDatabase &db, const int schema_version);
   bool IntegrityCheck(const QSqlDatabase &db);
@@ -126,6 +132,9 @@ class Database : public QObject {
 
   // This is the schema version of Strawberry's DB from the app's last run.
   int startup_schema_version_;
+
+  // Protected by connect_mutex_.
+  QString startup_error_;
 
   QThread *original_thread_;
 };

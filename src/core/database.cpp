@@ -146,17 +146,35 @@ QSqlDatabase Database::Connect() {
 
   if (!db.open()) {
     Q_EMIT Error(u"Database: "_s + db.lastError().text());
+    SetStartupError(db, db.lastError().text());
     return db;
   }
 
-  if (db.tables().count() == 0) {
-    // Set up initial schema
-    qLog(Info) << "Creating initial database schema";
-    UpdateDatabaseSchema(0, db);
+  // A file which isn't a database, or is corrupt, can't be read, so it must not be set up as a new database.
+  int table_count = 0;
+  {
+    SqlQuery q(db);
+    if (!q.prepare(u"SELECT COUNT(*) FROM sqlite_master WHERE type='table'"_s) || !q.Exec() || !q.next()) {
+      SetStartupError(db, q.lastError().text());
+      return db;
+    }
+    table_count = q.value(0).toInt();
   }
 
-  if (SchemaVersion(&db) < kMinSupportedSchemaVersion) {
-    qFatal("Database schema too old.");
+  if (table_count == 0) {
+    // Set up initial schema
+    qLog(Info) << "Creating initial database schema";
+    QString error;
+    if (!UpdateDatabaseSchema(0, db, error)) {
+      SetStartupError(db, tr("Could not create the database: %1").arg(error));
+      return db;
+    }
+  }
+
+  const int schema_version = SchemaVersion(&db);
+  if (schema_version < kMinSupportedSchemaVersion) {
+    SetStartupError(db, tr("The database has schema version %1, which is too old to be updated, the oldest supported version is %2.").arg(schema_version).arg(kMinSupportedSchemaVersion));
+    return db;
   }
 
   // Attach external databases
@@ -172,12 +190,17 @@ QSqlDatabase Database::Connect() {
     q.BindValue(u":filename"_s, filename);
     q.BindValue(u":alias"_s, key);
     if (!q.Exec()) {
-      qFatal("Couldn't attach external database '%s'", key.toLatin1().constData());
+      SetStartupError(db, tr("Could not attach the database %1: %2").arg(key, q.lastError().text()));
+      return db;
     }
   }
 
   if (startup_schema_version_ == -1) {
-    UpdateMainSchema(&db);
+    QString error;
+    if (!UpdateMainSchema(&db, error)) {
+      SetStartupError(db, error);
+      return db;
+    }
   }
 
   // We might have to initialize the schema in some attached databases now, if they were deleted and don't match up with the main schema version.
@@ -191,7 +214,11 @@ QSqlDatabase Database::Connect() {
     q.prepare(QStringLiteral("SELECT ROWID FROM %1.sqlite_master WHERE type='table'").arg(key));
     if (!q.Exec() || !q.next()) {
       q.finish();
-      ExecSchemaCommandsFromFile(db, attached_databases_.value(key).schema_, 0);
+      QString error;
+      if (!ExecSchemaCommandsFromFile(db, attached_databases_.value(key).schema_, 0, error)) {
+        SetStartupError(db, tr("Could not create the database %1: %2").arg(key, error));
+        return db;
+      }
     }
   }
 
@@ -235,21 +262,46 @@ int Database::SchemaVersion(QSqlDatabase *db) {
 
 }
 
-void Database::UpdateMainSchema(QSqlDatabase *db) {
+bool Database::UpdateMainSchema(QSqlDatabase *db, QString &error) {
 
   int schema_version = SchemaVersion(db);
   startup_schema_version_ = schema_version;
 
   if (schema_version > kSchemaVersion) {
     qLog(Warning) << "The database schema (version" << schema_version << ") is newer than I was expecting";
-    return;
+    return true;
   }
   if (schema_version < kSchemaVersion) {
     // Update the schema
     for (int v = schema_version + 1; v <= kSchemaVersion; ++v) {
-      UpdateDatabaseSchema(v, *db);
+      QString update_error;
+      if (!UpdateDatabaseSchema(v, *db, update_error)) {
+        error = tr("Could not update the database to schema version %1: %2").arg(v).arg(update_error);
+        return false;
+      }
     }
   }
+
+  return true;
+
+}
+
+QString Database::startup_error() {
+
+  QMutexLocker l(&connect_mutex_);
+  return startup_error_;
+
+}
+
+void Database::SetStartupError(const QSqlDatabase &db, const QString &error) {
+
+  qLog(Error) << "Database" << db.databaseName() << error;
+
+  // The first error is the cause, the errors after it are caused by it.
+  if (startup_error_.isEmpty()) {
+    startup_error_ = tr("Strawberry can't use the database %1.").arg(QDir::toNativeSeparators(db.databaseName())) + u"\n\n"_s + error;
+  }
+
 }
 
 void Database::RecreateAttachedDb(const QString &database_name) {
@@ -325,7 +377,7 @@ void Database::DetachDatabase(const QString &database_name) {
 
 }
 
-void Database::UpdateDatabaseSchema(const int version, QSqlDatabase &db) {
+bool Database::UpdateDatabaseSchema(const int version, QSqlDatabase &db, QString &error) {
 
   QString filename;
   if (version == 0) {
@@ -336,7 +388,7 @@ void Database::UpdateDatabaseSchema(const int version, QSqlDatabase &db) {
     qLog(Debug) << "Applying database schema update" << version << "from" << filename;
   }
 
-  ExecSchemaCommandsFromFile(db, filename, version - 1);
+  return ExecSchemaCommandsFromFile(db, filename, version - 1, error);
 
 }
 
@@ -369,12 +421,14 @@ void Database::UrlEncodeFilenameColumn(const QString &table, QSqlDatabase &db) {
 
 }
 
-void Database::ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filename, const int schema_version, const bool in_transaction) {
+bool Database::ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filename, const int schema_version, QString &error, const bool in_transaction) {
 
   // Open and read the database schema
   QFile schema_file(filename);
   if (!schema_file.open(QIODevice::ReadOnly)) {
-    qFatal("Couldn't open schema file %s for reading: %s", filename.toUtf8().constData(), schema_file.errorString().toUtf8().constData());
+    qLog(Error) << "Couldn't open schema file" << filename << "for reading:" << schema_file.errorString();
+    error = QStringLiteral("%1: %2").arg(filename, schema_file.errorString());
+    return false;
   }
   QByteArray data = schema_file.readAll();
   QString schema = QString::fromUtf8(data);
@@ -382,11 +436,12 @@ void Database::ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filen
     schema = schema.replace("\r\n"_L1, "\n"_L1);
   }
   schema_file.close();
-  ExecSchemaCommands(db, schema, schema_version, in_transaction);
+
+  return ExecSchemaCommands(db, schema, schema_version, error, in_transaction);
 
 }
 
-void Database::ExecSchemaCommands(QSqlDatabase &db, const QString &schema, const int schema_version, const bool in_transaction) {
+bool Database::ExecSchemaCommands(QSqlDatabase &db, const QString &schema, const int schema_version, QString &error, const bool in_transaction) {
 
   // Run each command
   static const QRegularExpression regex_split_commands(u"; *\n\n"_s);
@@ -397,18 +452,29 @@ void Database::ExecSchemaCommands(QSqlDatabase &db, const QString &schema, const
   // Otherwise DROP TABLE commands on song tables may fail due to database locks.
   const QStringList song_tables(SongsTables(db, schema_version));
 
+  // On failure, the inner transaction is rolled back, an outer transaction is rolled back by the caller.
   if (!in_transaction) {
     ScopedTransaction inner_transaction(&db);
-    ExecSongTablesCommands(db, song_tables, commands);
-    inner_transaction.Commit();
+    // Without a transaction, the commands would change a transaction already open on the connection, which is not rolled back here.
+    if (!inner_transaction.started()) {
+      error = inner_transaction.error();
+      return false;
+    }
+    if (!ExecSongTablesCommands(db, song_tables, commands, error)) {
+      return false;
+    }
+    if (!inner_transaction.Commit()) {
+      error = inner_transaction.error();
+      return false;
+    }
+    return true;
   }
-  else {
-    ExecSongTablesCommands(db, song_tables, commands);
-  }
+
+  return ExecSongTablesCommands(db, song_tables, commands, error);
 
 }
 
-void Database::ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_tables, const QStringList &commands) {
+bool Database::ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_tables, const QStringList &commands, QString &error) {
 
   for (const QString &command : commands) {
     // There are now lots of "songs" tables that need to have the same schema: songs and device_*_songs.
@@ -419,22 +485,25 @@ void Database::ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_
         QString new_command(command);
         new_command.replace(QLatin1String(kMagicAllSongsTables), table);
         SqlQuery query(db);
-        query.prepare(new_command);
-        if (!query.Exec()) {
+        // When preparing fails, executing replaces the error with "No query".
+        if (!query.prepare(new_command) || !query.Exec()) {
           ReportErrors(query);
-          qFatal("Unable to update music collection database");
+          error = query.lastError().text();
+          return false;
         }
       }
     }
     else {
       SqlQuery query(db);
-      query.prepare(command);
-      if (!query.Exec()) {
+      if (!query.prepare(command) || !query.Exec()) {
         ReportErrors(query);
-        qFatal("Unable to update music collection database");
+        error = query.lastError().text();
+        return false;
       }
     }
   }
+
+  return true;
 
 }
 
@@ -481,6 +550,13 @@ void Database::ReportErrors(const SqlQuery &query) {
     Q_EMIT Error(tr("Unable to execute SQL query: %1").arg(sql_error.text()));
     Q_EMIT Error(tr("Failed SQL query: %1").arg(query.LastQuery()));
   }
+
+}
+
+void Database::ReportError(const QString &error) {
+
+  qLog(Error) << error;
+  Q_EMIT Error(error);
 
 }
 

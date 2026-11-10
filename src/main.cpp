@@ -108,6 +108,7 @@
 #include "core/networkproxyfactory.h"
 
 #include "core/application.h"
+#include "core/database.h"
 #include "core/metatypes.h"
 #include "core/mainwindow.h"
 
@@ -369,6 +370,13 @@ int main(int argc, char *argv[]) {
 #endif  // HAVE_TRANSLATIONS
 
   Application app;
+
+  const QString database_error = app.database()->startup_error();
+  if (!database_error.isEmpty()) {
+    QMessageBox::critical(nullptr, u"Strawberry Music Player"_s, database_error);
+    app.database()->Close();
+    return 1;
+  }
 
   // Network proxy
   QNetworkProxyFactory::setApplicationProxyFactory(NetworkProxyFactory::Instance());

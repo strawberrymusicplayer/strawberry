@@ -139,7 +139,10 @@ class ApplicationImpl {
         database_([app]() {
           Database *database = new Database(app->task_manager());
           app->MoveToNewThread(database);
-          QTimer::singleShot(30s, database, &Database::DoBackup);
+          // Strawberry quits when the database can't be used, it must not be backed up while the error is shown.
+          if (database->startup_error().isEmpty()) {
+            QTimer::singleShot(30s, database, &Database::DoBackup);
+          }
           return database;
         }),
         task_manager_([]() { return new TaskManager(); }),
@@ -283,6 +286,9 @@ Application::Application(QObject *parent)
   if (mo && strcmp(mo->className(), "QEventDispatcherGlib") != 0 && strcmp(mo->superClass()->className(), "QEventDispatcherGlib") != 0) {
     g_thread_ = g_thread_new(nullptr, Application::GLibMainLoopThreadFunc, nullptr);
   }
+
+  // When the database can't be used, nothing else is started, main() shows the error and quits.
+  if (!database()->startup_error().isEmpty()) return;
 
   audio_device_listers()->Init();
   collection()->Init();

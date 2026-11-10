@@ -603,6 +603,10 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
   if (first_time) {
     // We haven't stored this device in the database before
     device_info->database_id_ = backend_->AddDevice(device_info->SaveToDb());
+    // Without the database row and the device's tables, the device's songs can't be stored, the error is reported by the database.
+    if (device_info->database_id_ == -1) {
+      return SharedPtr<ConnectedDevice>();
+    }
   }
 
   // Get the device URLs
