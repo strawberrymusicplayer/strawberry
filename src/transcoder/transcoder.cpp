@@ -97,15 +97,9 @@ struct SuitableElement {
 
 };
 
-GstElement *Transcoder::CreateElementForMimeType(GstElementFactoryListType element_type, const QString &mime_type, GstElement *bin) {
+QString Transcoder::BestElementForMimeType(const GstElementFactoryListType element_type, const QString &mime_type, int *best_rank) {
 
-  if (mime_type.isEmpty()) return nullptr;
-
-  // HACK: Force mp4mux because it doesn't set any useful src caps
-  if (mime_type == "audio/mp4"_L1) {
-    Q_EMIT LogLine(QStringLiteral("Using '%1' (rank %2)").arg("mp4mux"_L1).arg(-1));
-    return CreateElement(u"mp4mux"_s, bin);
-  }
+  if (mime_type.isEmpty()) return QString();
 
   // Keep track of all the suitable elements we find and figure out which is the best at the end.
   QList<SuitableElement> suitable_elements_;
@@ -136,15 +130,35 @@ GstElement *Transcoder::CreateElementForMimeType(GstElementFactoryListType eleme
   gst_plugin_feature_list_free(features);
   gst_caps_unref(target_caps);
 
-  if (suitable_elements_.isEmpty()) return nullptr;
+  if (suitable_elements_.isEmpty()) return QString();
 
   // Sort by rank
   std::sort(suitable_elements_.begin(), suitable_elements_.end());
   const SuitableElement &best = suitable_elements_.last();
 
-  Q_EMIT LogLine(QStringLiteral("Using '%1' (rank %2)").arg(best.name_).arg(best.rank_));
+  if (best_rank) *best_rank = best.rank_;
 
-  if (best.name_ == "lamemp3enc"_L1) {
+  return best.name_;
+
+}
+
+GstElement *Transcoder::CreateElementForMimeType(GstElementFactoryListType element_type, const QString &mime_type, GstElement *bin) {
+
+  if (mime_type.isEmpty()) return nullptr;
+
+  // HACK: Force mp4mux because it doesn't set any useful src caps
+  if (mime_type == "audio/mp4"_L1) {
+    Q_EMIT LogLine(QStringLiteral("Using '%1' (rank %2)").arg("mp4mux"_L1).arg(-1));
+    return CreateElement(u"mp4mux"_s, bin);
+  }
+
+  int best_rank = 0;
+  const QString best_name = BestElementForMimeType(element_type, mime_type, &best_rank);
+  if (best_name.isEmpty()) return nullptr;
+
+  Q_EMIT LogLine(QStringLiteral("Using '%1' (rank %2)").arg(best_name).arg(best_rank));
+
+  if (best_name == "lamemp3enc"_L1) {
     // Special case: we need to add xingmux and id3v2mux to the pipeline when using lamemp3enc because it doesn't write the VBR or ID3v2 headers itself.
 
     Q_EMIT LogLine(u"Adding xingmux and id3v2mux to the pipeline"_s);
@@ -180,7 +194,7 @@ GstElement *Transcoder::CreateElementForMimeType(GstElementFactoryListType eleme
     return mp3bin;
   }
   else {
-    return CreateElement(best.name_, bin);
+    return CreateElement(best_name, bin);
   }
 
 }
@@ -220,6 +234,19 @@ Transcoder::Transcoder(QObject *parent, const QString &settings_postfix)
   }
   if (s.value(TranscoderSettings::LameMP3Settings::kCbr).isNull()) {
     s.setValue(TranscoderSettings::LameMP3Settings::kCbr, false);
+  }
+
+  s.endGroup();
+
+  // faac uses VBR by default, which ignores the bitrate, so the rate control and the bitrate the AAC options show by default are saved.
+  // The rate control wasn't saved before, so a bitrate saved before is used with ABR too.
+  s.beginGroup("Transcoder/faac"_L1 + settings_postfix_);
+
+  if (s.value(TranscoderSettings::FaacSettings::kRateControl).isNull()) {
+    s.setValue(TranscoderSettings::FaacSettings::kRateControl, TranscoderSettings::FaacSettings::kRateControlABR);
+  }
+  if (s.value(TranscoderSettings::FaacSettings::kBitrate).isNull()) {
+    s.setValue(TranscoderSettings::FaacSettings::kBitrate, TranscoderSettings::FaacSettings::kDefaultBitrate);
   }
 
   s.endGroup();

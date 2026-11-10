@@ -39,8 +39,12 @@ class TranscoderOptionsAAC : public TranscoderOptionsInterface {
   void Load() override;
   void Save() override;
 
+ private Q_SLOTS:
+  void RateControlChanged(const int index);
+
  private:
   Ui_TranscoderOptionsAAC *ui_;
+  bool faac_;
 };
 
 #endif  // TRANSCODEROPTIONSAAC_H

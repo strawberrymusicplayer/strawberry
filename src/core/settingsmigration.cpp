@@ -142,6 +142,7 @@ const char *const kRemovedKeys[] = {
   "Tidal/api_token",
   "Tidal/username",
   "Tidal/password",
+  "Transcoder/faac/profile",
 };
 
 void MigrateRenamedKeys(Settings &s) {

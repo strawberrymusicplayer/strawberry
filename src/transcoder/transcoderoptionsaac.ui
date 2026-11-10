@@ -15,13 +15,37 @@
   </property>
   <layout class="QFormLayout" name="formLayout">
    <item row="0" column="0">
+    <widget class="QLabel" name="label_rate_control">
+     <property name="text">
+      <string>Rate control</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QComboBox" name="rate_control">
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>Variable bitrate (VBR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Average bitrate (ABR)</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="1" column="0">
     <widget class="QLabel" name="label_1">
      <property name="text">
       <string>Bitrate</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1">
+   <item row="1" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QSlider" name="bitrate_slider">
@@ -60,36 +84,74 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_quality">
      <property name="text">
-      <string>Profile</string>
+      <string>Quality</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QComboBox" name="profile">
-     <property name="currentIndex">
-      <number>1</number>
+   <item row="2" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout_quality">
+     <item>
+      <widget class="QSlider" name="quality_slider">
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>1000</number>
+       </property>
+       <property name="value">
+        <number>100</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="quality_spinbox">
+       <property name="suffix">
+        <string> %</string>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>1000</number>
+       </property>
+       <property name="singleStep">
+        <number>10</number>
+       </property>
+       <property name="value">
+        <number>100</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Block type</string>
      </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QComboBox" name="shortctl">
      <item>
       <property name="text">
-       <string>Main profile (MAIN)</string>
+       <string>Normal block type</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>Low complexity profile (LC)</string>
+       <string>No short blocks</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>Scalable sampling rate profile (SSR)</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Long term prediction profile (LTP)</string>
+       <string>No long blocks</string>
       </property>
      </item>
     </widget>
@@ -111,38 +173,21 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Block type</string>
+   <item row="6" column="0" colspan="2">
+    <widget class="QLabel" name="encoder_info">
+     <property name="wordWrap">
+      <bool>true</bool>
      </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QComboBox" name="shortctl">
-     <item>
-      <property name="text">
-       <string>Normal block type</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>No short blocks</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>No long blocks</string>
-      </property>
-     </item>
     </widget>
    </item>
   </layout>
  </widget>
  <tabstops>
+  <tabstop>rate_control</tabstop>
   <tabstop>bitrate_slider</tabstop>
   <tabstop>bitrate_spinbox</tabstop>
-  <tabstop>profile</tabstop>
+  <tabstop>quality_slider</tabstop>
+  <tabstop>quality_spinbox</tabstop>
   <tabstop>shortctl</tabstop>
   <tabstop>tns</tabstop>
   <tabstop>midside</tabstop>
@@ -178,6 +223,38 @@
     <hint type="destinationlabel">
      <x>191</x>
      <y>29</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>quality_slider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>quality_spinbox</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>170</x>
+     <y>89</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>445</x>
+     <y>84</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>quality_spinbox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>quality_slider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>407</x>
+     <y>78</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>191</x>
+     <y>89</y>
     </hint>
    </hints>
   </connection>

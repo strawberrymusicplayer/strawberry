@@ -30,6 +30,9 @@
 #include <QStringList>
 #include <QSlider>
 #include <QComboBox>
+#include <QCheckBox>
+#include <QLabel>
+#include <QSpinBox>
 #include <QVariant>
 
 #include "core/settings.h"
@@ -66,6 +69,73 @@ class TranscoderTest {
 
 namespace {
 
+// The AAC options look up the encoder in the GStreamer registry when they're created, like in Strawberry, where GStreamer is initialized at startup.
+class GstEnvironment : public ::testing::Environment {
+ public:
+  void SetUp() override {
+    gst_init(nullptr, nullptr);
+  }
+};
+
+[[maybe_unused]] ::testing::Environment *const kGstEnvironment = ::testing::AddGlobalTestEnvironment(new GstEnvironment);
+
+// Changes the rank of an element, so the transcoder prefers it, the rank is restored when it goes out of scope.
+class ScopedElementRank {
+ public:
+  explicit ScopedElementRank(const QString &name, const guint rank) : feature_(gst_registry_lookup_feature(gst_registry_get(), name.toUtf8().constData())), previous_rank_(0) {
+    if (feature_) {
+      previous_rank_ = gst_plugin_feature_get_rank(feature_);
+      gst_plugin_feature_set_rank(feature_, rank);
+    }
+  }
+
+  ~ScopedElementRank() {
+    if (feature_) {
+      gst_plugin_feature_set_rank(feature_, previous_rank_);
+      gst_object_unref(feature_);
+    }
+  }
+
+  bool found() const { return feature_ != nullptr; }
+
+ private:
+  Q_DISABLE_COPY_MOVE(ScopedElementRank)
+
+  GstPluginFeature *feature_;
+  guint previous_rank_;
+};
+
+// Returns the names of the installed AAC encoders.
+QStringList AACEncoderNames() {
+
+  GstCaps *aac_caps = gst_caps_from_string(Transcoder::PresetForFileType(Song::FileType::MP4).codec_mimetype_.toUtf8().constData());
+  GList *factories = gst_element_factory_list_get_elements(GST_ELEMENT_FACTORY_TYPE_AUDIO_ENCODER, GST_RANK_NONE);
+  QStringList encoder_names;
+  for (GList *f = factories; f; f = g_list_next(f)) {
+    GstElementFactory *factory = GST_ELEMENT_FACTORY(f->data);
+    if (gst_element_factory_can_src_any_caps(factory, aac_caps)) {
+      encoder_names << QString::fromUtf8(GST_OBJECT_NAME(factory));
+    }
+  }
+  gst_plugin_feature_list_free(factories);
+  gst_caps_unref(aac_caps);
+
+  return encoder_names;
+
+}
+
+// Returns an AAC encoder other than faac which the transcoder can prefer, the FFmpeg encoders always have the lowest rank.
+QString OtherAACEncoderName() {
+
+  const QStringList encoder_names = AACEncoderNames();
+  for (const QString &encoder_name : encoder_names) {
+    if (encoder_name != "faac"_L1 && !encoder_name.startsWith("avenc"_L1)) return encoder_name;
+  }
+
+  return QString();
+
+}
+
 // Saves the bitrate like the options dialog.
 void SaveBitrate(TranscoderOptionsInterface *options, const int kbps) {
 
@@ -77,25 +147,35 @@ void SaveBitrate(TranscoderOptionsInterface *options, const int kbps) {
 
 }
 
-// The bitrate property has different types in different encoders and GStreamer versions, like gint, guint or gint64, so it's read as its own type and converted.
-qint64 EncoderBitrate(GstElement *encoder) {
+// Integer properties have different types in different encoders and GStreamer versions, like gint, guint or gint64, so they're read as their own type and converted, enums are read as their value.
+qint64 IntProperty(GstElement *element, const char *name) {
 
-  GParamSpec *property = g_object_class_find_property(G_OBJECT_GET_CLASS(encoder), "bitrate");
+  GParamSpec *property = g_object_class_find_property(G_OBJECT_GET_CLASS(element), name);
   if (!property) return -1;
 
   GValue value = G_VALUE_INIT;
   g_value_init(&value, property->value_type);
-  g_object_get_property(G_OBJECT(encoder), "bitrate", &value);
+  g_object_get_property(G_OBJECT(element), name, &value);
 
-  GValue int64_value = G_VALUE_INIT;
-  g_value_init(&int64_value, G_TYPE_INT64);
-  const qint64 bitrate = g_value_transform(&value, &int64_value) ? g_value_get_int64(&int64_value) : -1;
+  qint64 result = -1;
+  if (G_VALUE_HOLDS_ENUM(&value)) {
+    result = g_value_get_enum(&value);
+  }
+  else {
+    GValue int64_value = G_VALUE_INIT;
+    g_value_init(&int64_value, G_TYPE_INT64);
+    if (g_value_transform(&value, &int64_value)) result = g_value_get_int64(&int64_value);
+    g_value_unset(&int64_value);
+  }
 
-  g_value_unset(&int64_value);
   g_value_unset(&value);
 
-  return bitrate;
+  return result;
 
+}
+
+qint64 EncoderBitrate(GstElement *encoder) {
+  return IntProperty(encoder, "bitrate");
 }
 
 QString ElementName(GstElement *element) {
@@ -141,6 +221,260 @@ TEST(TranscoderOptionsTest, AACBitrateIsSetOnEncoder) {
   }
 
   EXPECT_EQ(96000, EncoderBitrate(encoder)) << "Encoder: " << ElementName(encoder).toStdString();
+  gst_object_unref(encoder);
+
+}
+
+// Selects the faac rate control like the options dialog, the first item is VBR and the second is ABR.
+void SelectAACRateControl(TranscoderOptionsInterface *options, const int index) {
+
+  QComboBox *rate_control = options->findChild<QComboBox*>(u"rate_control"_s);
+  ASSERT_NE(nullptr, rate_control);
+  rate_control->setCurrentIndex(index);
+
+}
+
+// Regression test: faac uses VBR by default, which ignores the bitrate, and the rate control was never set, so the bitrate had no effect.
+TEST(TranscoderOptionsTest, AACBitrateIsUsedByFaacWithABR) {
+
+  Settings().remove(u"Transcoder"_s);
+
+  // ABR is the default, so the bitrate is used without changing the rate control.
+  TranscoderOptionsAAC options(nullptr);
+  SaveBitrate(&options, 96);
+  if (::testing::Test::HasFatalFailure()) return;
+
+  GstElement *encoder = TranscoderTest::CreateElement(u"faac"_s);
+  if (!encoder) {
+    GTEST_SKIP() << "faac is not installed.";
+  }
+
+  EXPECT_EQ(2, IntProperty(encoder, "rate-control"));
+  EXPECT_EQ(96000, EncoderBitrate(encoder));
+  gst_object_unref(encoder);
+
+}
+
+// With VBR, faac uses the quality.
+TEST(TranscoderOptionsTest, AACQualityIsUsedByFaacWithVBR) {
+
+  Settings().remove(u"Transcoder"_s);
+
+  const ScopedElementRank faac_rank(u"faac"_s, GST_RANK_PRIMARY + 100);
+  if (!faac_rank.found()) {
+    GTEST_SKIP() << "faac is not installed.";
+  }
+
+  TranscoderOptionsAAC options(nullptr);
+  options.Load();
+  SelectAACRateControl(&options, 0);
+  if (::testing::Test::HasFatalFailure()) return;
+  QSlider *quality_slider = options.findChild<QSlider*>(u"quality_slider"_s);
+  ASSERT_NE(nullptr, quality_slider);
+  quality_slider->setValue(150);
+  options.Save();
+
+  GstElement *encoder = TranscoderTest::CreateElement(u"faac"_s);
+  if (!encoder) {
+    GTEST_SKIP() << "faac is not installed.";
+  }
+
+  EXPECT_EQ(1, IntProperty(encoder, "rate-control"));
+  EXPECT_EQ(150, IntProperty(encoder, "quality"));
+  gst_object_unref(encoder);
+
+}
+
+// Only the setting used by the rate control is enabled, also when the rate control is loaded.
+TEST(TranscoderOptionsTest, AACRateControlEnablesBitrateOrQuality) {
+
+  Settings().remove(u"Transcoder"_s);
+
+  const ScopedElementRank faac_rank(u"faac"_s, GST_RANK_PRIMARY + 100);
+  if (!faac_rank.found()) {
+    GTEST_SKIP() << "faac is not installed.";
+  }
+
+  TranscoderOptionsAAC options(nullptr);
+  options.Load();
+
+  // All options are shown when faac is the encoder.
+  EXPECT_FALSE(options.findChild<QComboBox*>(u"rate_control"_s)->isHidden());
+  EXPECT_FALSE(options.findChild<QComboBox*>(u"shortctl"_s)->isHidden());
+  EXPECT_FALSE(options.findChild<QCheckBox*>(u"tns"_s)->isHidden());
+  EXPECT_FALSE(options.findChild<QCheckBox*>(u"midside"_s)->isHidden());
+  EXPECT_TRUE(options.findChild<QLabel*>(u"encoder_info"_s)->isHidden());
+
+  QSlider *bitrate_slider = options.findChild<QSlider*>(u"bitrate_slider"_s);
+  QSpinBox *bitrate_spinbox = options.findChild<QSpinBox*>(u"bitrate_spinbox"_s);
+  QSlider *quality_slider = options.findChild<QSlider*>(u"quality_slider"_s);
+  QSpinBox *quality_spinbox = options.findChild<QSpinBox*>(u"quality_spinbox"_s);
+  ASSERT_NE(nullptr, bitrate_slider);
+  ASSERT_NE(nullptr, bitrate_spinbox);
+  ASSERT_NE(nullptr, quality_slider);
+  ASSERT_NE(nullptr, quality_spinbox);
+
+  EXPECT_TRUE(bitrate_slider->isEnabled());
+  EXPECT_TRUE(bitrate_spinbox->isEnabled());
+  EXPECT_FALSE(quality_slider->isEnabled());
+  EXPECT_FALSE(quality_spinbox->isEnabled());
+
+  SelectAACRateControl(&options, 0);
+  if (::testing::Test::HasFatalFailure()) return;
+  EXPECT_FALSE(bitrate_slider->isEnabled());
+  EXPECT_FALSE(bitrate_spinbox->isEnabled());
+  EXPECT_TRUE(quality_slider->isEnabled());
+  EXPECT_TRUE(quality_spinbox->isEnabled());
+  options.Save();
+
+  TranscoderOptionsAAC loaded_options(nullptr);
+  loaded_options.Load();
+  EXPECT_FALSE(loaded_options.findChild<QSlider*>(u"bitrate_slider"_s)->isEnabled());
+  EXPECT_TRUE(loaded_options.findChild<QSlider*>(u"quality_slider"_s)->isEnabled());
+
+}
+
+// Review: other AAC encoders only use the bitrate from the faac options, so the faac options are hidden, and the bitrate is used also when VBR was selected for faac.
+TEST(TranscoderOptionsTest, AACFaacOptionsAreHiddenForOtherEncoders) {
+
+  Settings().remove(u"Transcoder"_s);
+  {
+    Settings s;
+    s.setValue(u"Transcoder/faac/rate-control"_s, 1);
+  }
+
+  const QString encoder_name = OtherAACEncoderName();
+  if (encoder_name.isEmpty()) {
+    GTEST_SKIP() << "No AAC encoder other than faac and FFmpeg is installed.";
+  }
+  const ScopedElementRank encoder_rank(encoder_name, GST_RANK_PRIMARY + 100);
+
+  TranscoderOptionsAAC options(nullptr);
+  options.Load();
+
+  EXPECT_TRUE(options.findChild<QComboBox*>(u"rate_control"_s)->isHidden());
+  EXPECT_TRUE(options.findChild<QSlider*>(u"quality_slider"_s)->isHidden());
+  EXPECT_TRUE(options.findChild<QSpinBox*>(u"quality_spinbox"_s)->isHidden());
+  EXPECT_TRUE(options.findChild<QComboBox*>(u"shortctl"_s)->isHidden());
+  EXPECT_TRUE(options.findChild<QCheckBox*>(u"tns"_s)->isHidden());
+  EXPECT_TRUE(options.findChild<QCheckBox*>(u"midside"_s)->isHidden());
+
+  EXPECT_FALSE(options.findChild<QSlider*>(u"bitrate_slider"_s)->isHidden());
+  EXPECT_TRUE(options.findChild<QSlider*>(u"bitrate_slider"_s)->isEnabled());
+  EXPECT_TRUE(options.findChild<QSpinBox*>(u"bitrate_spinbox"_s)->isEnabled());
+
+  QLabel *encoder_info = options.findChild<QLabel*>(u"encoder_info"_s);
+  ASSERT_NE(nullptr, encoder_info);
+  EXPECT_FALSE(encoder_info->isHidden());
+  EXPECT_TRUE(encoder_info->text().contains(encoder_name)) << encoder_info->text().toStdString();
+
+}
+
+// The options page and the transcoder agree on the AAC encoder.
+TEST(TranscoderOptionsTest, BestElementIsTheEncoderUsed) {
+
+  const QString aac_caps = Transcoder::PresetForFileType(Song::FileType::MP4).codec_mimetype_;
+
+  GstElement *encoder = TranscoderTest::CreateEncoder(Song::FileType::MP4);
+  if (!encoder) {
+    GTEST_SKIP() << "No AAC encoder is installed.";
+  }
+  EXPECT_EQ(ElementName(encoder), Transcoder::BestElementForMimeType(GST_ELEMENT_FACTORY_TYPE_AUDIO_ENCODER, aac_caps));
+  gst_object_unref(encoder);
+
+  const ScopedElementRank faac_rank(u"faac"_s, GST_RANK_PRIMARY + 100);
+  if (faac_rank.found()) {
+    int rank = 0;
+    EXPECT_EQ(u"faac"_s, Transcoder::BestElementForMimeType(GST_ELEMENT_FACTORY_TYPE_AUDIO_ENCODER, aac_caps, &rank));
+    EXPECT_EQ(GST_RANK_PRIMARY + 100, rank);
+  }
+
+  EXPECT_TRUE(Transcoder::BestElementForMimeType(GST_ELEMENT_FACTORY_TYPE_AUDIO_ENCODER, QString()).isEmpty());
+
+}
+
+// The AAC profile was saved, but faac has no profile property, so it's removed.
+TEST(TranscoderOptionsTest, LegacyAACProfileIsRemoved) {
+
+  Settings().remove(u"Transcoder"_s);
+  {
+    Settings s;
+    s.setValue(u"Transcoder/faac/profile"_s, 2);
+    s.setValue(u"Transcoder/faac/bitrate"_s, 96000);
+  }
+
+  SettingsMigration::Migrate();
+
+  Settings s;
+  EXPECT_FALSE(s.contains(u"Transcoder/faac/profile"_s));
+  EXPECT_EQ(96000, s.value(u"Transcoder/faac/bitrate"_s).toInt());
+
+}
+
+// A bitrate saved before the rate control was saved is used by faac after upgrading, like the options dialog shows.
+TEST(TranscoderOptionsTest, LegacyAACBitrateIsUsedByFaac) {
+
+  Settings().remove(u"Transcoder"_s);
+  {
+    Settings s;
+    s.setValue(u"Transcoder/faac/bitrate"_s, 96000);
+  }
+
+  SettingsMigration::Migrate();
+
+  GstElement *encoder = TranscoderTest::CreateElement(u"faac"_s);
+  if (!encoder) {
+    GTEST_SKIP() << "faac is not installed.";
+  }
+
+  EXPECT_EQ(2, IntProperty(encoder, "rate-control"));
+  EXPECT_EQ(96000, EncoderBitrate(encoder));
+  gst_object_unref(encoder);
+
+}
+
+// Saved AAC options are kept when upgrading and when the transcoder saves the defaults.
+TEST(TranscoderOptionsTest, SavedAACRateControlIsKept) {
+
+  Settings().remove(u"Transcoder"_s);
+  {
+    Settings s;
+    s.setValue(u"Transcoder/faac/bitrate"_s, 96000);
+    s.setValue(u"Transcoder/faac/rate-control"_s, 1);
+  }
+
+  SettingsMigration::Migrate();
+  const Transcoder transcoder;
+
+  Settings s;
+  EXPECT_EQ(1, s.value(u"Transcoder/faac/rate-control"_s).toInt());
+  EXPECT_EQ(96000, s.value(u"Transcoder/faac/bitrate"_s).toInt());
+
+}
+
+// Without saved AAC options, faac uses the defaults the options show.
+TEST(TranscoderOptionsTest, AACDefaultsAreUsedByFaac) {
+
+  Settings().remove(u"Transcoder"_s);
+
+  // Review: without saved AAC options, faac used VBR, while the options show ABR with 320 kbps.
+  GstElement *encoder = TranscoderTest::CreateElement(u"faac"_s);
+  if (!encoder) {
+    GTEST_SKIP() << "faac is not installed.";
+  }
+
+  const ScopedElementRank faac_rank(u"faac"_s, GST_RANK_PRIMARY + 100);
+  TranscoderOptionsAAC options(nullptr);
+  options.Load();
+  QComboBox *rate_control = options.findChild<QComboBox*>(u"rate_control"_s);
+  QSlider *bitrate_slider = options.findChild<QSlider*>(u"bitrate_slider"_s);
+  ASSERT_NE(nullptr, rate_control);
+  ASSERT_NE(nullptr, bitrate_slider);
+
+  EXPECT_EQ(1, rate_control->currentIndex());
+  EXPECT_EQ(2, IntProperty(encoder, "rate-control"));
+  EXPECT_EQ(320, bitrate_slider->value());
+  EXPECT_EQ(320000, EncoderBitrate(encoder));
   gst_object_unref(encoder);
 
 }
@@ -208,18 +542,7 @@ TEST(TranscoderOptionsTest, AACBitrateIsSetOnAllAACEncoders) {
   SaveBitrate(&options, 96);
   if (::testing::Test::HasFatalFailure()) return;
 
-  gst_init(nullptr, nullptr);
-  GstCaps *aac_caps = gst_caps_from_string(Transcoder::PresetForFileType(Song::FileType::MP4).codec_mimetype_.toUtf8().constData());
-  GList *factories = gst_element_factory_list_get_elements(GST_ELEMENT_FACTORY_TYPE_AUDIO_ENCODER, GST_RANK_NONE);
-  QStringList encoder_names;
-  for (GList *f = factories; f; f = g_list_next(f)) {
-    GstElementFactory *factory = GST_ELEMENT_FACTORY(f->data);
-    if (gst_element_factory_can_src_any_caps(factory, aac_caps)) {
-      encoder_names << QString::fromUtf8(GST_OBJECT_NAME(factory));
-    }
-  }
-  gst_plugin_feature_list_free(factories);
-  gst_caps_unref(aac_caps);
+  const QStringList encoder_names = AACEncoderNames();
 
   if (encoder_names.isEmpty()) {
     GTEST_SKIP() << "No AAC encoder is installed.";
