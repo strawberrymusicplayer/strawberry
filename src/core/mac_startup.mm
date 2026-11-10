@@ -371,11 +371,15 @@ QKeySequence KeySequenceFromNSEvent(NSEvent *event) {
     if (c >= 0x20 && c <= 0x7e) {  // ASCII from space to ~
       key = c;
     }
-    else {
-      key = MapFunctionKey([event keyCode]);
+    else if ([str length] > 0) {
+      // Function keys, like F1 to F35, the arrow keys, Home and End, are sent as characters from the Unicode private use area, like NSF1FunctionKey, not as their virtual key code.
+      key = MapFunctionKey([str characterAtIndex:0]);
       if (key == 0) {
         return QKeySequence();
       }
+    }
+    else {
+      return QKeySequence();
     }
   }
 
