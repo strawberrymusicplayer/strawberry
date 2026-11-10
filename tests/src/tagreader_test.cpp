@@ -2509,7 +2509,7 @@ TEST_F(TagReaderTest, TestFLACAudioFileRating) {
 
   {
     Song song;
-    song.set_rating(0.4);
+    song.set_rating(0.4F);
     WriteSongRatingToFile(song, r.fileName());
   }
 
@@ -2526,7 +2526,7 @@ TEST_F(TagReaderTest, TestWavPackAudioFileRating) {
 
   {
     Song song;
-    song.set_rating(0.4);
+    song.set_rating(0.4F);
     WriteSongRatingToFile(song, r.fileName());
   }
 
@@ -2543,7 +2543,7 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileRating) {
 
   {
     Song song;
-    song.set_rating(0.4);
+    song.set_rating(0.4F);
     WriteSongRatingToFile(song, r.fileName());
   }
 
@@ -2560,7 +2560,7 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileRating) {
 
   {
     Song song;
-    song.set_rating(0.4);
+    song.set_rating(0.4F);
     WriteSongRatingToFile(song, r.fileName());
   }
 
@@ -2577,7 +2577,7 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileRating) {
 
   {
     Song song;
-    song.set_rating(0.4);
+    song.set_rating(0.4F);
     WriteSongRatingToFile(song, r.fileName());
   }
 
@@ -2594,7 +2594,7 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileRating) {
 
   {
     Song song;
-    song.set_rating(0.4);
+    song.set_rating(0.4F);
     WriteSongRatingToFile(song, r.fileName());
   }
 
@@ -2611,7 +2611,7 @@ TEST_F(TagReaderTest, TestASFAudioFileRating) {
 
   {
     Song song;
-    song.set_rating(0.4);
+    song.set_rating(0.4F);
     WriteSongRatingToFile(song, r.fileName());
   }
 
@@ -2829,7 +2829,7 @@ TEST_F(TagReaderTest, TestMP3AudioFileRating) {
 
   {
     Song song;
-    song.set_rating(0.4);
+    song.set_rating(0.4F);
     WriteSongRatingToFile(song, r.fileName());
   }
 
@@ -2878,7 +2878,7 @@ TEST_F(TagReaderTest, TestMP4AudioFileRating) {
 
   {
     Song song;
-    song.set_rating(0.4);
+    song.set_rating(0.4F);
     WriteSongRatingToFile(song, r.fileName());
   }
 
