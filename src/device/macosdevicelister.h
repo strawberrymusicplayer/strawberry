@@ -64,7 +64,7 @@ class MacOsDeviceLister : public DeviceLister {
 
 #ifdef HAVE_MTP
   struct MTPDevice {
-    MTPDevice() : capacity(0), free_space(0) {}
+    MTPDevice() : vendor_id(0), product_id(0), quirks(0), bus(0), address(0), capacity(0), free_space(0) {}
     QString vendor;
     QString product;
     quint16 vendor_id;
@@ -103,10 +103,17 @@ class MacOsDeviceLister : public DeviceLister {
 #endif  // HAVE_MTP
 
   bool IsCDDevice(const QString &serial) const;
+  QString BSDName(const QString &serial) const;
+#ifdef HAVE_MTP
+  MTPDevice MTPDeviceForSerial(const QString &serial) const;
+#endif
 
   DASessionRef loop_session_ = nullptr;
   std::atomic<CFRunLoopRef> run_loop_ = nullptr;
 
+  // The devices are added and removed by the DiskArbitration and IOKit callbacks on this object's thread, and read by DeviceManager on the GUI thread.
+  // devices_mutex_ protects them, it's never held while emitting signals, calling into DiskArbitration, IOKit or libmtp, or locking libmtp_mutex_.
+  mutable QMutex devices_mutex_;
   QMap<QString, QString> current_devices_;
 #ifdef HAVE_MTP
   QMap<QString, MTPDevice> mtp_devices_;
