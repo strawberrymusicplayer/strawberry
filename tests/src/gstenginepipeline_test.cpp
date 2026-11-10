@@ -977,7 +977,8 @@ TEST(GstEnginePipelineTest, UnpauseBeforePauseIsAppliedResumesPlayback) {
     g_main_context_iteration(nullptr, FALSE);
   }
   ASSERT_EQ(GST_STATE_PAUSED, pipeline.state());
-  EXPECT_TRUE(pipeline.play_pending());
+  // A buffering message processed with the state messages, which happens on slow machines, reports buffering instead of playback pending, playback is resumed when buffering finishes.
+  EXPECT_TRUE(pipeline.play_pending() || pipeline.is_buffering());
 
   // The pause is applied, then playback is resumed, and playback is pending until PLAYING is received, so pausing in between is not missed.
   bool always_pending = true;
