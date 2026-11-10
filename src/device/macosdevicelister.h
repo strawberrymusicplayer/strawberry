@@ -80,6 +80,7 @@ class MacOsDeviceLister : public DeviceLister {
 #endif  // HAVE_MTP
 
   void ExitAsync();
+  void UnmountDeviceAsync(const QString &id);
 
  public Q_SLOTS:
   void UnmountDevice(const QString &id);
