@@ -123,6 +123,10 @@ MacOsDeviceLister::~MacOsDeviceLister() {
   if (loop_session_) {
     CFRelease(loop_session_);
   }
+  const CFRunLoopRef run_loop = run_loop_.exchange(nullptr);
+  if (run_loop) {
+    CFRelease(run_loop);
+  }
 }
 
 bool MacOsDeviceLister::Init() {
@@ -161,13 +165,16 @@ bool MacOsDeviceLister::Init() {
   }
 #endif  // HAVE_MTP
 
-  run_loop_ = CFRunLoopGetCurrent();
+  // Retained, because ShutDown() can be called from another thread after this thread has finished, when the run loop of the thread is released.
+  const CFRunLoopRef run_loop = CFRunLoopGetCurrent();
+  CFRetain(run_loop);
+  run_loop_ = run_loop;
 
   // Register for disk mounts/unmounts.
   loop_session_ = DASessionCreate(kCFAllocatorDefault);
   DARegisterDiskAppearedCallback(loop_session_, kDADiskDescriptionMatchVolumeMountable, &DiskAddedCallback, reinterpret_cast<void*>(this));
   DARegisterDiskDisappearedCallback(loop_session_, nullptr, &DiskRemovedCallback, reinterpret_cast<void*>(this));
-  DASessionScheduleWithRunLoop(loop_session_, run_loop_, kCFRunLoopDefaultMode);
+  DASessionScheduleWithRunLoop(loop_session_, run_loop, kCFRunLoopDefaultMode);
 
   // Register for USB device connection/disconnection.
   IONotificationPortRef notification_port = IONotificationPortCreate(
@@ -210,9 +217,14 @@ bool MacOsDeviceLister::Init() {
   }
 
   CFRunLoopSourceRef io_source = IONotificationPortGetRunLoopSource(notification_port);
-  CFRunLoopAddSource(run_loop_, io_source, kCFRunLoopDefaultMode);
+  CFRunLoopAddSource(run_loop, io_source, kCFRunLoopDefaultMode);
 
-  CFRunLoopRun();
+  // ShutDown() was called before the run loop was set, so it could not stop it, don't run it.
+  // When ShutDown() is called after the run loop was set, it stops it, also if it's not running yet.
+  if (!shutdown_requested_.load()) {
+    CFRunLoopRun();
+  }
+
   return true;
 
 }
@@ -232,10 +244,14 @@ void MacOsDeviceLister::ExitAsync() {
 
 void MacOsDeviceLister::ShutDown() {
 
-  // Init() may not have run yet (and set run_loop_) if the thread has only just been started, or hasn't started at all.
+  // Init() may not have run yet (and set run_loop_) if the thread has only just been started, or hasn't started at all, Init() checks this flag after setting run_loop_, so it does not run the run loop.
+  shutdown_requested_ = true;
+
   const CFRunLoopRef run_loop = run_loop_.load();
   if (run_loop) {
-    CFRunLoopStop(run_loop);
+    // CFRunLoopStop() does nothing when the run loop is not running yet, the stop is reset when it starts running, so stop it from a block which the run loop runs, also when it starts running later.
+    CFRunLoopPerformBlock(run_loop, kCFRunLoopDefaultMode, ^{ CFRunLoopStop(run_loop); });
+    CFRunLoopWakeUp(run_loop);
   }
 
 }
