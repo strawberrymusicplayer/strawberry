@@ -522,6 +522,15 @@ void CollectionFilterWidget::AddButton(QToolButton *button) {
 
 }
 
+void CollectionFilterWidget::AppendButton(QToolButton *button) {
+
+  button->setAutoRaise(true);
+  button->setIconSize(ui_->options->iconSize());
+  ui_->horizontalLayout->addWidget(button);
+  buttons_ << button;
+
+}
+
 void CollectionFilterWidget::AddMenuAction(QAction *action) {
   collection_menu_->addAction(action);
 }

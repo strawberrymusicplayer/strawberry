@@ -673,6 +673,7 @@ set(SOURCES
   src/collection/collectiondirectorymodel.cpp
   src/collection/collectionfilteroptions.cpp
   src/collection/collectionfilterwidget.cpp
+  src/collection/collectionautoqueue.cpp
   src/collection/collectionfilter.cpp
   src/collection/collectionplaylistitem.cpp
   src/collection/collectionquery.cpp
@@ -1005,6 +1006,7 @@ set(HEADERS
   src/collection/collectionviewcontainer.h
   src/collection/collectiondirectorymodel.h
   src/collection/collectionfilterwidget.h
+  src/collection/collectionautoqueue.h
   src/collection/collectionfilter.h
   src/collection/savedgroupingmanager.h
   src/collection/groupbydialog.h
