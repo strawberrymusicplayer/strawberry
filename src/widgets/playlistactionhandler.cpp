@@ -29,10 +29,11 @@
 #include "longpresshandler.h"
 #include "playlistactionhandler.h"
 
-PlaylistActionHandler::PlaylistActionHandler(QAbstractItemView *view, const QString &section, Eligible eligible, CreateMimeData create_mimedata)
+PlaylistActionHandler::PlaylistActionHandler(QAbstractItemView *view, const QString &section, const Labels &labels, Eligible eligible, CreateMimeData create_mimedata)
     : QObject(view),
       view_(view),
       section_(section),
+      labels_(labels),
       eligible_(std::move(eligible)),
       create_mimedata_(std::move(create_mimedata)) {
 
@@ -93,9 +94,9 @@ void PlaylistActionHandler::ShowActions() {
   const QPersistentModelIndex index = index_;
   ActionDialog *dialog = new ActionDialog(view_, tr("Playlist actions"), tr("%1 > %2").arg(section_, index.data().toString()), ActionDialog::TitlePosition::Top);
   dialog_ = dialog;
-  QPushButton *add = dialog->AddButton(tr("Add album to current playlist"));
-  QPushButton *enqueue = dialog->AddButton(tr("Queue album"));
-  QPushButton *enqueue_next = dialog->AddButton(tr("Queue album to play next"));
+  QPushButton *add = dialog->AddButton(labels_.add);
+  QPushButton *enqueue = dialog->AddButton(labels_.enqueue);
+  QPushButton *enqueue_next = dialog->AddButton(labels_.enqueue_next);
   QPushButton *create = dialog->AddButton(tr("Create saved playlist"));
   QPushButton *play = dialog->AddButton(tr("Create and play"));
   dialog->AddCancelButton(tr("Back"));

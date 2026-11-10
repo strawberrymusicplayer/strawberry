@@ -39,7 +39,13 @@ class PlaylistActionHandler : public QObject {
   using Eligible = std::function<bool(const QModelIndex &)>;
   using CreateMimeData = std::function<MimeData *(const QModelIndex &)>;
 
-  explicit PlaylistActionHandler(QAbstractItemView *view, const QString &section, Eligible eligible, CreateMimeData create_mimedata);
+  struct Labels {
+    QString add;
+    QString enqueue;
+    QString enqueue_next;
+  };
+
+  explicit PlaylistActionHandler(QAbstractItemView *view, const QString &section, const Labels &labels, Eligible eligible, CreateMimeData create_mimedata);
 
  Q_SIGNALS:
   void AddToPlaylist(QMimeData *data);
@@ -53,6 +59,7 @@ class PlaylistActionHandler : public QObject {
 
   QAbstractItemView *view_;
   QString section_;
+  Labels labels_;
   Eligible eligible_;
   CreateMimeData create_mimedata_;
   LongPressHandler *long_press_;

@@ -79,7 +79,7 @@ CollectionView::CollectionView(QWidget *parent)
   setObjectName(QLatin1String(QObject::metaObject()->className()));
 
 #ifdef Q_OS_ANDROID
-  auto *actions = new PlaylistActionHandler(this, tr("Collection"),
+  auto *actions = new PlaylistActionHandler(this, tr("Collection"), {tr("Add album to current playlist"), tr("Queue album"), tr("Queue album to play next")},
       [](const QModelIndex &index) {
         return index.data(CollectionModel::Role_Type).value<CollectionItem::Type>() == CollectionItem::Type::Container &&
                CollectionModel::IsAlbumGroupBy(index.data(CollectionModel::Role_ContainerType).value<CollectionModel::GroupBy>());

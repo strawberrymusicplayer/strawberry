@@ -48,7 +48,7 @@ class PlaylistActionHandlerTest : public ::testing::Test {
     }
     view_.setModel(&model_);
     view_.resize(320, 240);
-    auto *handler = new PlaylistActionHandler(&view_, u"Collection"_s,
+    auto *handler = new PlaylistActionHandler(&view_, u"Collection"_s, {u"Add album to current playlist"_s, u"Queue album"_s, u"Queue album to play next"_s},
         [](const QModelIndex &index) { return index.row() != 1; },
         [this](const QModelIndex &index) {
           source_ = index;
