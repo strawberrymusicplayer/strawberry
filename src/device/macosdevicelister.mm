@@ -995,6 +995,25 @@ bool MacOsDeviceLister::AskForScan(const QString &serial) const {
   return !IsCDDevice(serial);
 }
 
+void MacOsDeviceLister::UnmountDeviceAsync(const QString &serial) {
+
+  // Init() blocks this object's thread in CFRunLoopRun(), so the base class's queued call to UnmountDevice() is never delivered.
+  // Run it on the CoreFoundation run loop instead, which also delivers the DiskArbitration callbacks for loop_session_.
+  // Init() sets the run loop before it registers for devices, so a device can't be unmounted before it's set.
+  const CFRunLoopRef run_loop = run_loop_.load();
+  if (!run_loop) {
+    qLog(Warning) << "Cannot unmount" << serial << "before the device lister is initialized";
+    return;
+  }
+
+  const QString id = serial;
+  CFRunLoopPerformBlock(run_loop, kCFRunLoopDefaultMode, ^{
+    UnmountDevice(id);
+  });
+  CFRunLoopWakeUp(run_loop);
+
+}
+
 void MacOsDeviceLister::UnmountDevice(const QString &serial) {
 
 #ifdef HAVE_MTP
@@ -1002,7 +1021,16 @@ void MacOsDeviceLister::UnmountDevice(const QString &serial) {
 #endif
 
   const QString bsd_name = BSDName(serial);
+  if (bsd_name.isEmpty()) {
+    qLog(Warning) << "Cannot unmount unknown device" << serial;
+    return;
+  }
+
   ScopedCFTypeRef<DADiskRef> disk(DADiskCreateFromBSDName(kCFAllocatorDefault, loop_session_, bsd_name.toLatin1().constData()));
+  if (!disk) {
+    qLog(Warning) << "Cannot unmount" << serial << bsd_name;
+    return;
+  }
 
   DADiskUnmount(disk, kDADiskUnmountOptionDefault, &DiskUnmountCallback, this);
 
