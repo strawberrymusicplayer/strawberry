@@ -147,6 +147,49 @@ TEST_F(PlaylistActionHandlerTest, CreateAndPlayStartsPlaybackExplicitly) {
 
 }
 
+TEST_F(PlaylistActionHandlerTest, AddToCurrentPlaylistDoesNotApplyUserPlaybackPreferences) {
+
+  QDialog *dialog = Hold();
+  ASSERT_NE(nullptr, dialog);
+  QPushButton *add = Button(dialog, u"Add album to current playlist"_s);
+  ASSERT_NE(nullptr, add);
+  QTest::mouseClick(add, Qt::LeftButton);
+  ASSERT_NE(nullptr, result_);
+  EXPECT_TRUE(result_->override_user_settings_);
+  EXPECT_FALSE(result_->open_in_new_playlist_);
+  EXPECT_FALSE(result_->play_now_);
+  EXPECT_FALSE(result_->enqueue_now_);
+  EXPECT_FALSE(result_->enqueue_next_now_);
+
+}
+
+TEST_F(PlaylistActionHandlerTest, QueueActionsSetExplicitQueueFlags) {
+
+  QDialog *dialog = Hold();
+  ASSERT_NE(nullptr, dialog);
+  QPushButton *enqueue = Button(dialog, u"Queue album"_s);
+  ASSERT_NE(nullptr, enqueue);
+  QTest::mouseClick(enqueue, Qt::LeftButton);
+  ASSERT_NE(nullptr, result_);
+  EXPECT_TRUE(result_->override_user_settings_);
+  EXPECT_FALSE(result_->play_now_);
+  EXPECT_TRUE(result_->enqueue_now_);
+  EXPECT_FALSE(result_->enqueue_next_now_);
+
+  result_.reset();
+  dialog = Hold();
+  ASSERT_NE(nullptr, dialog);
+  QPushButton *enqueue_next = Button(dialog, u"Queue album to play next"_s);
+  ASSERT_NE(nullptr, enqueue_next);
+  QTest::mouseClick(enqueue_next, Qt::LeftButton);
+  ASSERT_NE(nullptr, result_);
+  EXPECT_TRUE(result_->override_user_settings_);
+  EXPECT_FALSE(result_->play_now_);
+  EXPECT_FALSE(result_->enqueue_now_);
+  EXPECT_TRUE(result_->enqueue_next_now_);
+
+}
+
 TEST_F(PlaylistActionHandlerTest, BackDoesNotCreatePlaylistOrMoveParent) {
 
   const int scroll = view_.verticalScrollBar()->value();

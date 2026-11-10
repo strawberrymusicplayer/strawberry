@@ -167,16 +167,16 @@ Media notifications are exempt from the `POST_NOTIFICATIONS` permission, so it i
 
 ### 5. Make track and view actions reachable on touch
 
-**Status:** In progress. The Playlist queue, collection-navigation, and header-action slices are built. Queue and queue-next are emulator-tested; stop-after and show-in-collection still need interaction testing.
+**Status:** In progress. The Playlist queue, collection-navigation, header-action, and Collection playlist-action slices are built. Queue and queue-next are emulator-tested; stop-after and show-in-collection still need interaction testing. The new Collection actions pass native tests and the Android APK builds, but still need emulator interaction testing.
 
 **Slices:** Playlist queue; safe Playlist navigation actions; Playlist header actions; Collection; Playlists list and Smart Playlists; Radios, Context, and Devices. Defer Playlist tag and lyrics editing until point 9.
 
-**Evidence:** The original context-menu gaps were checked on the emulator. Queue and queue-next both added a test track to the queue on the emulator. Playlist header long-press opens the Android action page; ascending/descending sort, clear sorting, hide column, and reset columns were tested on the emulator. Stop-after and show-in-collection still need interaction testing.
+**Evidence:** The original context-menu gaps were checked on the emulator. Queue and queue-next both added a test track to the queue on the emulator. Playlist header long-press opens the Android action page; ascending/descending sort, clear sorting, hide column, and reset columns were tested on the emulator. Collection album long-press now offers adding the album to the current playlist, queuing it, queuing it to play next, and creating a saved playlist with or without immediate playback. Native tests cover the explicit queue flags; the Android APK builds against API 34. No emulator is currently connected to verify these new Collection actions by touch. Stop-after and show-in-collection still need interaction testing.
 Qt does not turn a long press into a context menu event on Android, so actions that only exist in context menus cannot be reached:
 - Playlist: long press offers "Stop after this track", queue/dequeue, queue selected tracks to play next, show in collection for collection-backed tracks, "Remove", and "Clear playlist" (`playlistview_android.cpp`). Long-press a column header for sorting, clearing sorting, hiding that column, and resetting columns; stretch is available in landscape. Tag and lyrics editing remains deferred to point 9; jump to current remains missing.
-- Collection: long press on an album only offers "Create saved playlist" and "Create and play" (`collectionview.cpp`); add to queue, edit tags, lyrics editor, organize, copy to device, delete, and rescan are missing.
+- Collection: long press on an album offers "Add album to current playlist", "Queue album", "Queue album to play next", "Create saved playlist", and "Create and play" (`playlistactionhandler.cpp`). Edit tags, lyrics editor, organize, copy to device, delete, and rescan remain missing.
 - Radios (`radioview.cpp`, `radiobrowsersearchview.cpp`), Smart playlists (`smartplaylistsview.cpp`), Devices (`deviceview.cpp`), Context (`contextview.cpp`, `contextalbum.cpp`) and the Playlists list (`playlistlistcontainer.cpp`) only have desktop context menus.
-- The Queue tab is usable through its toolbar buttons (move, remove, clear), but songs can only be queued from the context menus above.
+- The Queue tab is usable through its toolbar buttons (move, remove, clear); songs can be queued from the Playlist and Collection action pages or desktop context menus.
 
 **Approach:** Implement and verify the views in separate slices, extending the existing long-press `ActionDialog` pages instead of adding popup menus.
 Actions that depend on points 9 to 11 stay hidden until those are resolved.

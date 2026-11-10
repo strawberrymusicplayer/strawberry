@@ -93,25 +93,33 @@ void PlaylistActionHandler::ShowActions() {
   const QPersistentModelIndex index = index_;
   ActionDialog *dialog = new ActionDialog(view_, tr("Playlist actions"), tr("%1 > %2").arg(section_, index.data().toString()), ActionDialog::TitlePosition::Top);
   dialog_ = dialog;
+  QPushButton *add = dialog->AddButton(tr("Add album to current playlist"));
+  QPushButton *enqueue = dialog->AddButton(tr("Queue album"));
+  QPushButton *enqueue_next = dialog->AddButton(tr("Queue album to play next"));
   QPushButton *create = dialog->AddButton(tr("Create saved playlist"));
   QPushButton *play = dialog->AddButton(tr("Create and play"));
   dialog->AddCancelButton(tr("Back"));
   QObject::connect(view_->model(), &QAbstractItemModel::modelAboutToBeReset, dialog, &QDialog::reject);
   QObject::connect(view_->model(), &QAbstractItemModel::rowsAboutToBeRemoved, dialog, &QDialog::reject);
   QObject::connect(view_->model(), &QObject::destroyed, dialog, &QDialog::reject);
-  const auto perform = [this, dialog, index](const bool play_now) {
+  const auto perform = [this, dialog, index](const bool open_in_new_playlist, const bool play_now, const bool enqueue_now, const bool enqueue_next_now) {
     dialog_.clear();
     dialog->accept();
     if (!index.isValid() || index.model() != view_->model() || !eligible_(index)) return;
     MimeData *data = create_mimedata_(index);
     if (!data) return;
     data->override_user_settings_ = true;
-    data->open_in_new_playlist_ = true;
+    data->open_in_new_playlist_ = open_in_new_playlist;
     data->play_now_ = play_now;
+    data->enqueue_now_ = enqueue_now;
+    data->enqueue_next_now_ = enqueue_next_now;
     Q_EMIT AddToPlaylist(data);
   };
-  QObject::connect(create, &QPushButton::clicked, dialog, [perform]() { perform(false); });
-  QObject::connect(play, &QPushButton::clicked, dialog, [perform]() { perform(true); });
+  QObject::connect(add, &QPushButton::clicked, dialog, [perform]() { perform(false, false, false, false); });
+  QObject::connect(enqueue, &QPushButton::clicked, dialog, [perform]() { perform(false, false, true, false); });
+  QObject::connect(enqueue_next, &QPushButton::clicked, dialog, [perform]() { perform(false, false, false, true); });
+  QObject::connect(create, &QPushButton::clicked, dialog, [perform]() { perform(true, false, false, false); });
+  QObject::connect(play, &QPushButton::clicked, dialog, [perform]() { perform(true, true, false, false); });
   dialog->Open();
 
 }
