@@ -26,9 +26,13 @@
 #include <QMessageBox>
 
 #include "core/iconloader.h"
+#include "core/logging.h"
 #include "core/mimedata.h"
 #include "core/settings.h"
 #include "constants/appearancesettings.h"
+#ifdef Q_OS_ANDROID
+#  include "widgets/playlistactionhandler.h"
+#endif
 
 #include "smartplaylistsviewcontainer.h"
 #include "smartplaylistsmodel.h"
@@ -107,6 +111,21 @@ SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(const SharedPtr<Player>
   QObject::connect(ui_->view, &SmartPlaylistsView::ItemsSelectedChanged, this, &SmartPlaylistsViewContainer::ItemsSelectedChanged);
   QObject::connect(ui_->view, &SmartPlaylistsView::doubleClicked, this, &SmartPlaylistsViewContainer::ItemDoubleClicked);
   QObject::connect(ui_->view, &SmartPlaylistsView::ShowSmartPlaylistContextMenu, this, &SmartPlaylistsViewContainer::ShowSmartPlaylistContextMenu);
+
+#ifdef Q_OS_ANDROID
+  auto *actions = new PlaylistActionHandler(ui_->view, tr("Smart playlists"), {tr("Add smart playlist to current playlist"), tr("Queue smart playlist"), tr("Queue smart playlist to play next")},
+      [](const QModelIndex &index) { return index.isValid(); },
+      [this](const QModelIndex &index) {
+        QMimeData *data = ui_->view->model()->mimeData({index});
+        MimeData *mimedata = qobject_cast<MimeData *>(data);
+        if (!mimedata) {
+          qLog(Error) << "Cannot add smart playlist: model returned invalid MIME data";
+          delete data;
+        }
+        return mimedata;
+      });
+  QObject::connect(actions, &PlaylistActionHandler::AddToPlaylist, this, &SmartPlaylistsViewContainer::AddToPlaylist);
+#endif
 
   ReloadSettings();
 

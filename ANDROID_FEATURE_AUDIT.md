@@ -61,7 +61,9 @@ Handoff notes for continuing in a new session (see also the notes in `ANDROID_CO
 | Playlists | Playing, removing, clearing, undo/redo, renaming, saved playlists | Works | |
 | Playlists | Queue, stop after, edit tags and lyrics, show in collection, jump to current, sorting, columns, add to another playlist | Partially reachable: queue, queue next, stop after, and show in collection are available by long press; tag and lyrics editing depend on point 9 | 5 |
 | Playlists | Smart playlists | Roadmap item 16 | |
-| Other views | Context menus in Radios, Smart playlists, Devices, Context, and Playlists list | Unreachable on touch | 5 |
+| Other views | Smart playlists actions | Reachable by long press (built, needs emulator test) | 5 |
+| Other views | Playlists list actions | Reachable through the toolbar; save and copy to device depend on points 8 and 11 | 5 |
+| Other views | Context menus in Radios, Devices, and Context | Unreachable on touch | 5 |
 | UI | Error dialog | Broken layout (confirmed) | 6 |
 | UI | On-screen display popup | Needs change (confirmed) | 7 |
 | Tools | Cover manager, Equalizer | Works | |
@@ -167,7 +169,7 @@ Media notifications are exempt from the `POST_NOTIFICATIONS` permission, so it i
 
 ### 5. Make track and view actions reachable on touch
 
-**Status:** In progress. The Playlist queue, collection-navigation, header-action, and Collection playlist-action slices are built. Queue, queue-next, and all Collection album actions are emulator-tested; stop-after and show-in-collection still need interaction testing.
+**Status:** In progress. The Playlist queue, collection-navigation, header-action, Collection playlist-action, Playlists list, and Smart playlists slices are done or built. Queue, queue-next, and all Collection album actions are emulator-tested; stop-after, show-in-collection, and the Smart playlists actions still need interaction testing.
 
 **Slices:** Playlist queue; safe Playlist navigation actions; Playlist header actions; Collection; Playlists list and Smart Playlists; Radios, Context, and Devices. Defer Playlist tag and lyrics editing until point 9.
 
@@ -175,7 +177,9 @@ Media notifications are exempt from the `POST_NOTIFICATIONS` permission, so it i
 Qt does not turn a long press into a context menu event on Android, so actions that only exist in context menus cannot be reached:
 - Playlist: long press offers "Stop after this track", queue/dequeue, queue selected tracks to play next, show in collection for collection-backed tracks, "Remove", and "Clear playlist" (`playlistview_android.cpp`). Long-press a column header for sorting, clearing sorting, hiding that column, and resetting columns; stretch is available in landscape. Tag and lyrics editing remains deferred to point 9; jump to current remains missing.
 - Collection: long press on an album offers "Add album to current playlist", "Queue album", "Queue album to play next", "Create saved playlist", and "Create and play" (`playlistactionhandler.cpp`). Edit tags, lyrics editor, organize, copy to device, delete, and rescan remain missing.
-- Radios (`radioview.cpp`, `radiobrowsersearchview.cpp`), Smart playlists (`smartplaylistsview.cpp`), Devices (`deviceview.cpp`), Context (`contextview.cpp`, `contextalbum.cpp`) and the Playlists list (`playlistlistcontainer.cpp`) only have desktop context menus.
+- Smart playlists: long press offers adding the smart playlist to the current playlist, queuing it, queuing it to play next, and creating a saved playlist with or without immediate playback, through the same action page as Collection albums (`smartplaylistsviewcontainer.cpp`). New, edit, delete, and restore defaults stay on the toolbar; "Replace current playlist" is not offered, since clearing the playlist first achieves the same.
+- Playlists list (`playlistlistcontainer.cpp`): no change needed. New folder and delete are toolbar buttons, "Save playlist" needs a file dialog (point 8), and "Copy to device" depends on point 11.
+- Radios (`radioview.cpp`, `radiobrowsersearchview.cpp`), Devices (`deviceview.cpp`) and Context (`contextview.cpp`, `contextalbum.cpp`) only have desktop context menus.
 - The Queue tab is usable through its toolbar buttons (move, remove, clear); songs can be queued from the Playlist and Collection action pages or desktop context menus.
 
 **Approach:** Implement and verify the views in separate slices, extending the existing long-press `ActionDialog` pages instead of adding popup menus.
