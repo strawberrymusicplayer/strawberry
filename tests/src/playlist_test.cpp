@@ -54,6 +54,7 @@
 #include <QStringList>
 #include <QPersistentModelIndex>
 #include <QTemporaryDir>
+#include <QTemporaryFile>
 #include <QUndoStack>
 #include <QThread>
 #include <QEventLoop>

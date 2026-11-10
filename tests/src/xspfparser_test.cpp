@@ -116,7 +116,8 @@ TEST(XSPFParserTest, ImageWithAbsolutePathIsLocalFile) {
 
   const QUrl url = LoadImage("/music/cover.jpg");
   EXPECT_TRUE(url.isLocalFile());
-  EXPECT_EQ(u"/music/cover.jpg"_s, url.toLocalFile());
+  // On Windows, the path is on the drive of the playlist directory.
+  EXPECT_EQ(QDir::cleanPath(QDir::temp().absoluteFilePath(u"/music/cover.jpg"_s)), url.toLocalFile());
 
 }
 
@@ -131,7 +132,7 @@ TEST(XSPFParserTest, ImageWithRelativePathIsResolvedFromPlaylist) {
 // Saved filenames are percent encoded.
 TEST(XSPFParserTest, ImageFilenameIsDecoded) {
 
-  EXPECT_EQ(u"/music/a%b.jpg"_s, LoadImage("/music/a%25b.jpg").toLocalFile());
+  EXPECT_EQ(QDir::cleanPath(QDir::temp().absoluteFilePath(u"/music/a%b.jpg"_s)), LoadImage("/music/a%25b.jpg").toLocalFile());
 
 }
 
@@ -294,7 +295,7 @@ TEST_F(XSPFParserFileTest, FileNamesAreLoadedBack) {
   QTemporaryDir tmp;
   ASSERT_TRUE(tmp.isValid());
   TemporaryResource audio(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(audio.isOpen());
+  ASSERT_TRUE(QFile::exists(audio.fileName()));
   const QDir dir(tmp.path());
 
   const QString song_path = tmp.filePath(u"a b#1 100%41 Ελληνικά.mp3"_s);
@@ -313,7 +314,7 @@ TEST_F(XSPFParserFileTest, FileNameWithColonIsLoadedBack) {
   QTemporaryDir tmp;
   ASSERT_TRUE(tmp.isValid());
   TemporaryResource audio(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(audio.isOpen());
+  ASSERT_TRUE(QFile::exists(audio.fileName()));
 
   const QString song_path = tmp.filePath(u"ab:c.mp3"_s);
   ASSERT_TRUE(QFile::copy(audio.fileName(), song_path));

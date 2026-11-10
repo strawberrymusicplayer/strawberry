@@ -263,6 +263,8 @@ void SongLoaderInserter::AsyncLoad() {
   // Replace the partially-loaded items by the new ones, fully loaded.
   Q_EMIT EffectiveLoadFinished(songs);
 
-  deleteLater();
+  // This runs in a concurrent thread, the signals above are queued to the thread of this object, so deleteLater() is queued after them.
+  // Calling it from here could delete this object before the queued signals are handled, when deferred deletes are processed first, then the songs would not be inserted.
+  QMetaObject::invokeMethod(this, &SongLoaderInserter::deleteLater, Qt::QueuedConnection);
 
 }

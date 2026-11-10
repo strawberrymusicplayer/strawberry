@@ -24,6 +24,7 @@
 #include <gst/gst.h>
 #include <gst/pbutils/pbutils.h>
 
+#include <QFile>
 #include <QCoreApplication>
 #include <QElapsedTimer>
 #include <QEventLoop>
@@ -69,7 +70,7 @@ class GstEngineFadingTest : public ::testing::Test {
 
     GstStartup::Initialize();
 
-    ASSERT_TRUE(resource_.open());
+    ASSERT_TRUE(QFile::exists(resource_.fileName()));
     url_ = QUrl::fromLocalFile(resource_.fileName());
 
     engine_ = std::make_unique<GstEngine>(make_shared<TaskManager>());

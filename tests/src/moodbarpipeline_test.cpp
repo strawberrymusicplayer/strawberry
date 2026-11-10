@@ -22,6 +22,7 @@
 #include "gtest_include.h"
 #include "gmock_include.h"
 
+#include <QFile>
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
@@ -44,7 +45,7 @@ TEST(MoodbarPipelineTest, NotifyFinishedCallsBackOnce) {
   GstStartup::Initialize();
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl url = QUrl::fromLocalFile(res.fileName());
 
   MoodbarPipeline pipeline(url);

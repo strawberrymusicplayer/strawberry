@@ -328,6 +328,8 @@ TEST_F(CollectionWatcherTest, CueSheetWithSeveralMediaFiles) {
 
 }
 
+// Files can't be made unreadable with permissions on Windows.
+#ifndef Q_OS_WIN
 // A CUE sheet which can't be read makes the CUE songs unavailable, and the media files are used as songs for the whole media files.
 // When it can be read again, the CUE songs are restored, and the songs for the whole media files are not used anymore.
 TEST_F(CollectionWatcherTest, UnreadableCueSheetUsesMediaFilesUntilReadable) {
@@ -404,6 +406,7 @@ TEST_F(CollectionWatcherTest, UnreadableCueSheetUsesMediaFilesUntilReadable) {
   EXPECT_EQ(0, final_scan.readded);
 
 }
+#endif  // Q_OS_WIN
 
 // Regression test: when the CUE sheet was deleted after it was unreadable and readable again, the CUE song became the song for the whole media file, which conflicted with the unavailable song for the whole media file.
 TEST_F(CollectionWatcherTest, DeletedCueSheetAfterUnreadableReusesWholeFileSong) {

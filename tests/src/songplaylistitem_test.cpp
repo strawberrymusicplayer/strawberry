@@ -66,11 +66,17 @@ class SongPlaylistItemTest : public ::testing::TestWithParam<const char*> {
   ScopedPtr<SongPlaylistItem> item_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 };
 
-INSTANTIATE_TEST_SUITE_P(RealFiles, SongPlaylistItemTest, testing::Values(  // clazy:exclude=function-args-by-value,clazy-non-pod-global-static
+constexpr const char *kFilenames[] = {
     "normalfile.flac",
     "file with spaces.flac",
     "file with # hash.flac",
-    "file with ? question.flac"));
+#ifndef Q_OS_WIN
+    // A question mark is not allowed in filenames on Windows.
+    "file with ? question.flac",
+#endif
+};
+
+INSTANTIATE_TEST_SUITE_P(RealFiles, SongPlaylistItemTest, testing::ValuesIn(kFilenames));  // clazy:exclude=function-args-by-value,clazy-non-pod-global-static
 
 TEST_P(SongPlaylistItemTest, Url) {
   QUrl expected;

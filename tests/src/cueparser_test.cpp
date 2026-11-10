@@ -25,6 +25,7 @@
 #include <QBuffer>
 #include <QByteArray>
 #include <QDir>
+#include <QFile>
 #include <QFileInfo>
 #include <QMap>
 #include <QString>
@@ -73,7 +74,7 @@ class CueParserTest : public ::testing::Test {
 TEST_F(CueParserTest, RemWithoutValueKeepsHeader) {
 
   TemporaryResource audio(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(audio.isOpen());
+  ASSERT_TRUE(QFile::exists(audio.fileName()));
   const QFileInfo audio_info(audio.fileName());
 
   QByteArray cue;
@@ -108,8 +109,8 @@ TEST_F(CueParserTest, LoadByFileGroupsSongsByMediaFile) {
 
   TemporaryResource audio1(u":/audio/strawberry.mp3"_s);
   TemporaryResource audio2(u":/audio/strawberry.flac"_s);
-  ASSERT_TRUE(audio1.isOpen());
-  ASSERT_TRUE(audio2.isOpen());
+  ASSERT_TRUE(QFile::exists(audio1.fileName()));
+  ASSERT_TRUE(QFile::exists(audio2.fileName()));
   const QFileInfo audio1_info(audio1.fileName());
   const QFileInfo audio2_info(audio2.fileName());
   ASSERT_EQ(audio1_info.dir(), audio2_info.dir());
@@ -203,7 +204,7 @@ TEST_F(CueParserTest, MediaFiles) {
 TEST_F(CueParserTest, TracksWithMissingMediaFileAreSkipped) {
 
   TemporaryResource audio(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(audio.isOpen());
+  ASSERT_TRUE(QFile::exists(audio.fileName()));
   const QFileInfo audio_info(audio.fileName());
 
   QByteArray cue;
@@ -233,7 +234,7 @@ TEST_F(CueParserTest, TracksWithMissingMediaFileAreSkipped) {
 TEST_F(CueParserTest, TrackWithoutFileIsSkipped) {
 
   TemporaryResource audio(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(audio.isOpen());
+  ASSERT_TRUE(QFile::exists(audio.fileName()));
   const QFileInfo audio_info(audio.fileName());
 
   QByteArray cue;

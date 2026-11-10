@@ -22,6 +22,7 @@
 #include "gtest_include.h"
 #include "gmock_include.h"
 
+#include <QFile>
 #include <QByteArray>
 #include <QCoreApplication>
 #include <QString>
@@ -222,7 +223,7 @@ TEST(WaveformControllerTest, StaleUrlAsyncLoadCompleteDoesNotEmit) {
   ResetWaveformCache();
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl playing_url = QUrl::fromLocalFile(res.fileName());
 
   // The player reports a DIFFERENT current track than the one that was loading, simulating a song change while the pipeline was in flight.
@@ -263,7 +264,7 @@ TEST(WaveformControllerTest, NullCurrentItemAsyncLoadCompleteDoesNotEmit) {
   ResetWaveformCache();
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl playing_url = QUrl::fromLocalFile(res.fileName());
 
   // The player has no current item (nullptr), simulating a stop that races with pipeline completion.
@@ -394,7 +395,7 @@ TEST(WaveformControllerTest, ReloadSettingsDisabledMidAsyncDoesNotEmitData) {
   }
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl url = QUrl::fromLocalFile(res.fileName());
 
   SharedPtr<MockPlaylistItem> current_item = make_shared<MockPlaylistItem>();
