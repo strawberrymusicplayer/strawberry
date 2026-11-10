@@ -49,6 +49,12 @@ PlaylistActionHandler::PlaylistActionHandler(QAbstractItemView *view, const QStr
 
 }
 
+void PlaylistActionHandler::AddAction(const QString &text, Eligible available, Trigger trigger) {
+
+  extra_actions_ << ExtraAction{text, std::move(available), std::move(trigger)};
+
+}
+
 bool PlaylistActionHandler::eventFilter(QObject *object, QEvent *event) {
 
   if (event->type() == QEvent::Hide) Cancel();
@@ -92,13 +98,23 @@ void PlaylistActionHandler::ShowActions() {
 
   if (!view_->isVisible() || !index_.isValid() || index_.model() != view_->model() || !eligible_(index_)) return;
   const QPersistentModelIndex index = index_;
-  ActionDialog *dialog = new ActionDialog(view_, tr("Playlist actions"), tr("%1 > %2").arg(section_, index.data().toString()), ActionDialog::TitlePosition::Top);
+  ActionDialog *dialog = new ActionDialog(view_, tr("Playlist actions"), tr("%1 > %2").arg(section_, index.sibling(index.row(), 0).data().toString()), ActionDialog::TitlePosition::Top);
   dialog_ = dialog;
   QPushButton *add = dialog->AddButton(labels_.add);
   QPushButton *enqueue = dialog->AddButton(labels_.enqueue);
   QPushButton *enqueue_next = dialog->AddButton(labels_.enqueue_next);
   QPushButton *create = dialog->AddButton(tr("Create saved playlist"));
   QPushButton *play = dialog->AddButton(tr("Create and play"));
+  for (const ExtraAction &action : std::as_const(extra_actions_)) {
+    if (!action.available(index)) continue;
+    QPushButton *button = dialog->AddButton(action.text);
+    const Trigger trigger = action.trigger;
+    QObject::connect(button, &QPushButton::clicked, dialog, [this, dialog, index, trigger]() {
+      dialog_.clear();
+      dialog->accept();
+      if (index.isValid() && index.model() == view_->model() && eligible_(index)) trigger(index);
+    });
+  }
   dialog->AddCancelButton(tr("Back"));
   QObject::connect(view_->model(), &QAbstractItemModel::modelAboutToBeReset, dialog, &QDialog::reject);
   QObject::connect(view_->model(), &QAbstractItemModel::rowsAboutToBeRemoved, dialog, &QDialog::reject);

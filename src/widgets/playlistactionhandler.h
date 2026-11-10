@@ -21,6 +21,7 @@
 
 #include <functional>
 
+#include <QList>
 #include <QObject>
 #include <QPersistentModelIndex>
 #include <QPointer>
@@ -45,7 +46,12 @@ class PlaylistActionHandler : public QObject {
     QString enqueue_next;
   };
 
+  using Trigger = std::function<void(const QModelIndex &)>;
+
   explicit PlaylistActionHandler(QAbstractItemView *view, const QString &section, const Labels &labels, Eligible eligible, CreateMimeData create_mimedata);
+
+  // Adds an action below the playlist actions, shown only for items for which available returns true.
+  void AddAction(const QString &text, Eligible available, Trigger trigger);
 
  Q_SIGNALS:
   void AddToPlaylist(QMimeData *data);
@@ -54,6 +60,12 @@ class PlaylistActionHandler : public QObject {
   bool eventFilter(QObject *object, QEvent *event) override;
 
  private:
+  struct ExtraAction {
+    QString text;
+    Eligible available;
+    Trigger trigger;
+  };
+
   void Cancel();
   void ShowActions();
 
@@ -62,6 +74,7 @@ class PlaylistActionHandler : public QObject {
   Labels labels_;
   Eligible eligible_;
   CreateMimeData create_mimedata_;
+  QList<ExtraAction> extra_actions_;
   LongPressHandler *long_press_;
   QPersistentModelIndex index_;
   QPointer<QDialog> dialog_;

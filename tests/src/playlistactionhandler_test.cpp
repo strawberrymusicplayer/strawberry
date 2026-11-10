@@ -31,6 +31,7 @@
 #include <QStyleHints>
 #include <QTest>
 #include <QTouchEvent>
+#include <QTreeView>
 #include <QUrl>
 
 #include "core/mimedata.h"
@@ -48,7 +49,7 @@ class PlaylistActionHandlerTest : public ::testing::Test {
     }
     view_.setModel(&model_);
     view_.resize(320, 240);
-    auto *handler = new PlaylistActionHandler(&view_, u"Collection"_s, {u"Add album to current playlist"_s, u"Queue album"_s, u"Queue album to play next"_s},
+    handler_ = new PlaylistActionHandler(&view_, u"Collection"_s, {u"Add album to current playlist"_s, u"Queue album"_s, u"Queue album to play next"_s},
         [](const QModelIndex &index) { return index.row() != 1; },
         [this](const QModelIndex &index) {
           source_ = index;
@@ -57,7 +58,7 @@ class PlaylistActionHandlerTest : public ::testing::Test {
           data->setUrls({QUrl(u"file:///owned/album/song.wav"_s)});
           return data;
         });
-    QObject::connect(handler, &PlaylistActionHandler::AddToPlaylist, &view_, [this](QMimeData *data) {
+    QObject::connect(handler_, &PlaylistActionHandler::AddToPlaylist, &view_, [this](QMimeData *data) {
       result_.reset(qobject_cast<MimeData *>(data));
       ++emissions_;
     });
@@ -95,6 +96,7 @@ class PlaylistActionHandlerTest : public ::testing::Test {
   }
 
   int interval_ = 0;
+  PlaylistActionHandler *handler_ = nullptr;
   QStandardItemModel model_;
   QListView view_;
   QModelIndex source_;
@@ -304,5 +306,56 @@ TEST_F(PlaylistActionHandlerTest, TapAfterNativeTouchCancellationStillWorks) {
   EXPECT_EQ(1, clicked.count());
   EXPECT_EQ(nullptr, Dialog());
   EXPECT_EQ(0, emissions_);
+
+}
+
+TEST_F(PlaylistActionHandlerTest, ExtraActionRunsForHeldItem) {
+
+  QModelIndex triggered;
+  handler_->AddAction(u"Open homepage"_s, [](const QModelIndex &index) { return index.row() == 0; }, [&triggered](const QModelIndex &index) { triggered = index; });
+  QDialog *dialog = Hold();
+  ASSERT_NE(nullptr, dialog);
+  QPushButton *homepage = Button(dialog, u"Open homepage"_s);
+  ASSERT_NE(nullptr, homepage);
+  EXPECT_GE(homepage->minimumHeight(), 48);
+  QTest::mouseClick(homepage, Qt::LeftButton);
+  EXPECT_EQ(model_.index(0, 0), triggered);
+  EXPECT_EQ(nullptr, Dialog());
+  EXPECT_EQ(0, emissions_);
+
+}
+
+TEST_F(PlaylistActionHandlerTest, UnavailableExtraActionIsHidden) {
+
+  bool triggered = false;
+  handler_->AddAction(u"Donate"_s, [](const QModelIndex &) { return false; }, [&triggered](const QModelIndex &) { triggered = true; });
+  QDialog *dialog = Hold();
+  ASSERT_NE(nullptr, dialog);
+  EXPECT_EQ(nullptr, Button(dialog, u"Donate"_s));
+  EXPECT_NE(nullptr, Button(dialog, u"Create and play"_s));
+  QTest::keyClick(dialog, Qt::Key_Back);
+  EXPECT_FALSE(triggered);
+
+}
+
+TEST_F(PlaylistActionHandlerTest, TitleUsesFirstColumnOfHeldRow) {
+
+  QStandardItemModel model;
+  model.appendRow({new QStandardItem(u"Station"_s), new QStandardItem(u"Country"_s)});
+  QTreeView view;
+  view.setModel(&model);
+  view.resize(320, 240);
+  new PlaylistActionHandler(&view, u"Radios"_s, {u"Add"_s, u"Queue"_s, u"Queue next"_s}, [](const QModelIndex &) { return true; }, [](const QModelIndex &) { return new MimeData; });
+  view.show();
+  QCoreApplication::processEvents();
+  const QPoint position = view.visualRect(model.index(0, 1)).center();
+  QTest::mousePress(view.viewport(), Qt::LeftButton, Qt::NoModifier, position);
+  QTest::qWait(60);
+  QTest::mouseRelease(view.viewport(), Qt::LeftButton, Qt::NoModifier, position);
+  QDialog *dialog = view.findChild<QDialog *>();
+  ASSERT_NE(nullptr, dialog);
+  QLabel *title = dialog->findChild<QLabel *>();
+  ASSERT_NE(nullptr, title);
+  EXPECT_EQ(u"Radios > Station"_s, title->text());
 
 }
