@@ -27,6 +27,7 @@
 
 #include "transcoderoptionsinterface.h"
 
+class QComboBox;
 class Ui_TranscoderOptionsOpus;
 
 class TranscoderOptionsOpus : public TranscoderOptionsInterface {
@@ -38,6 +39,9 @@ class TranscoderOptionsOpus : public TranscoderOptionsInterface {
 
   void Load() override;
   void Save() override;
+
+ private:
+  static void SetCurrentData(QComboBox *combobox, const int value, const int default_value);
 
  private:
   Ui_TranscoderOptionsOpus *ui_;
