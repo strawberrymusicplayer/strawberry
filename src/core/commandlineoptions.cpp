@@ -63,18 +63,19 @@ using namespace Qt::Literals::StringLiterals;
 namespace {
 
 // The arguments are wide character strings on Windows.
+// The option structs are qualified with :: instead of struct, MSVC 14.44 declares a new struct in this namespace for "struct option_w" instead of using the global one.
 #if defined(Q_OS_WIN32) && defined(HAVE_GETOPT_WIN)
-using GetOptOption = struct getopt_win_option_w;
+using GetOptOption = ::getopt_win_option_w;
 int GetOptLong(const int argc, wchar_t **argv, const wchar_t *optstring, const GetOptOption *long_options) { return getopt_win_long_w(argc, argv, optstring, long_options, nullptr); }
 const wchar_t *GetOptArgument() { return getopt_win_optarg_w; }
 int GetOptIndex() { return getopt_win_optind; }
 #elif defined(Q_OS_WIN32)
-using GetOptOption = struct option_w;
+using GetOptOption = ::option_w;
 int GetOptLong(const int argc, wchar_t **argv, const wchar_t *optstring, const GetOptOption *long_options) { return getopt_long_w(argc, argv, optstring, long_options, nullptr); }
 const wchar_t *GetOptArgument() { return optarg_w; }
 int GetOptIndex() { return optind; }
 #else
-using GetOptOption = struct option;
+using GetOptOption = ::option;
 int GetOptLong(const int argc, char **argv, const char *optstring, const GetOptOption *long_options) { return getopt_long(argc, argv, optstring, long_options, nullptr); }
 const char *GetOptArgument() { return optarg; }
 int GetOptIndex() { return optind; }
