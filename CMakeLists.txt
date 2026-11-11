@@ -292,6 +292,15 @@ if(WIN32)
   else()
     message(FATAL_ERROR "Missing getopt")
   endif()
+  # getopt-win can be renamed to getopt_win, for example for MinGW, which has its own getopt.h, otherwise getopt.h is used.
+  get_target_property(GETOPT_INCLUDE_DIRS ${GETOPT_LIBRARIES} INTERFACE_INCLUDE_DIRECTORIES)
+  if(GETOPT_INCLUDE_DIRS)
+    set(CMAKE_REQUIRED_INCLUDES ${GETOPT_INCLUDE_DIRS})
+  endif()
+  # Check again on every configure, the result is cached, and the renamed package can be installed in the same place as the old one.
+  unset(HAVE_GETOPT_WIN CACHE)
+  check_include_files(getopt_win.h HAVE_GETOPT_WIN LANGUAGE CXX)
+  unset(CMAKE_REQUIRED_INCLUDES)
 endif()
 
 if(APPLE OR WIN32)

@@ -51,11 +51,34 @@
 #  include "engine/chromaprinter.h"
 #endif
 
-#include <getopt.h>
+#ifdef HAVE_GETOPT_WIN
+#  define GETOPT_WIN_NO_COMPAT_MACROS
+#  include <getopt_win.h>
+#else
+#  include <getopt.h>
+#endif
 
 using namespace Qt::Literals::StringLiterals;
 
 namespace {
+
+// The arguments are wide character strings on Windows.
+#if defined(Q_OS_WIN32) && defined(HAVE_GETOPT_WIN)
+using GetOptOption = struct getopt_win_option_w;
+int GetOptLong(const int argc, wchar_t **argv, const wchar_t *optstring, const GetOptOption *long_options) { return getopt_win_long_w(argc, argv, optstring, long_options, nullptr); }
+const wchar_t *GetOptArgument() { return getopt_win_optarg_w; }
+int GetOptIndex() { return getopt_win_optind; }
+#elif defined(Q_OS_WIN32)
+using GetOptOption = struct option_w;
+int GetOptLong(const int argc, wchar_t **argv, const wchar_t *optstring, const GetOptOption *long_options) { return getopt_long_w(argc, argv, optstring, long_options, nullptr); }
+const wchar_t *GetOptArgument() { return optarg_w; }
+int GetOptIndex() { return optind; }
+#else
+using GetOptOption = struct option;
+int GetOptLong(const int argc, char **argv, const char *optstring, const GetOptOption *long_options) { return getopt_long(argc, argv, optstring, long_options, nullptr); }
+const char *GetOptArgument() { return optarg; }
+int GetOptIndex() { return optind; }
+#endif
 
 constexpr char kHelpText[] =
     "%1: strawberry [%2] [%3]\n"
@@ -154,7 +177,7 @@ bool CommandlineOptions::Parse() {
 #  define OPTSTR(s) s
 #endif
 
-  static constexpr struct option kOptions[] = {
+  static constexpr GetOptOption kOptions[] = {
       { OPTSTR("help"), no_argument, nullptr, 'h' },
       { OPTSTR("play"), no_argument, nullptr, 'p' },
       { OPTSTR("play-pause"), no_argument, nullptr, 't' },
@@ -191,7 +214,8 @@ bool CommandlineOptions::Parse() {
   // Parse the arguments
   bool ok = false;
   Q_FOREVER {
-    int c = getopt_long(argc_, argv_, OPTSTR("hptusqrfv:c:alk:i:oyg:w:"), kOptions, nullptr);
+    const int c = GetOptLong(argc_, argv_, OPTSTR("hptusqrfv:c:alk:i:oyg:w:"), kOptions);
+    const auto *option_argument = GetOptArgument();
 
 #undef OPTSTR
 
@@ -265,11 +289,11 @@ bool CommandlineOptions::Parse() {
         break;
       case 'i':
         player_action_ = PlayerAction::PlayPlaylist;
-        playlist_name_ = OptArgToString(optarg);
+        playlist_name_ = OptArgToString(option_argument);
         break;
       case 'c':
         url_list_action_ = UrlListAction::CreateNew;
-        playlist_name_ = OptArgToString(optarg);
+        playlist_name_ = OptArgToString(option_argument);
         break;
       case 'a':
         url_list_action_ = UrlListAction::Append;
@@ -284,7 +308,7 @@ bool CommandlineOptions::Parse() {
         toggle_pretty_osd_ = true;
         break;
       case 'g':
-        language_ = OptArgToString(optarg);
+        language_ = OptArgToString(option_argument);
         break;
       case LongOptions::VolumeUp:
         volume_modifier_ = +4;
@@ -299,7 +323,7 @@ bool CommandlineOptions::Parse() {
         log_levels_ = u"3"_s;
         break;
       case LongOptions::LogLevels:
-        log_levels_ = OptArgToString(optarg);
+        log_levels_ = OptArgToString(option_argument);
         break;
       case LongOptions::Version:{
         QString version_text = QString::fromUtf8(kVersionText).arg(QLatin1String(STRAWBERRY_VERSION_DISPLAY));
@@ -307,27 +331,27 @@ bool CommandlineOptions::Parse() {
         std::exit(0);
       }
       case 'v':
-        set_volume_ = OptArgToString(optarg).toInt(&ok);
+        set_volume_ = OptArgToString(option_argument).toInt(&ok);
         if (!ok) set_volume_ = -1;
         break;
 
       case LongOptions::VolumeIncreaseBy:
-        volume_modifier_ = OptArgToString(optarg).toInt(&ok);
+        volume_modifier_ = OptArgToString(option_argument).toInt(&ok);
         if (!ok) volume_modifier_ = 0;
         break;
 
       case LongOptions::VolumeDecreaseBy:
-        volume_modifier_ = -OptArgToString(optarg).toInt(&ok);
+        volume_modifier_ = -OptArgToString(option_argument).toInt(&ok);
         if (!ok) volume_modifier_ = 0;
         break;
 
       case LongOptions::SeekTo:
-        seek_to_ = OptArgToString(optarg).toInt(&ok);
+        seek_to_ = OptArgToString(option_argument).toInt(&ok);
         if (!ok) seek_to_ = -1;
         break;
 
       case LongOptions::SeekBy:
-        seek_by_ = OptArgToString(optarg).toInt(&ok);
+        seek_by_ = OptArgToString(option_argument).toInt(&ok);
         if (!ok) seek_by_ = 0;
         break;
 
@@ -336,19 +360,19 @@ bool CommandlineOptions::Parse() {
         break;
 
       case 'k':
-        play_track_at_ = OptArgToString(optarg).toInt(&ok);
+        play_track_at_ = OptArgToString(option_argument).toInt(&ok);
         if (!ok) play_track_at_ = -1;
         break;
 
       case 'w':
-        window_size_ = OptArgToString(optarg);
+        window_size_ = OptArgToString(option_argument);
         player_action_ = PlayerAction::ResizeWindow;
         break;
 
       case LongOptions::CreateFingerPrint:{
 #ifdef HAVE_CHROMAPRINT
         gst_init(nullptr, nullptr);
-        Chromaprinter chromaprinter(OptArgToString(optarg));
+        Chromaprinter chromaprinter(OptArgToString(option_argument));
         const QString fingerprint = chromaprinter.CreateFingerprint();
         if (!fingerprint.isEmpty()) {
           std::cout << fingerprint.toLocal8Bit().toStdString() << std::endl;
@@ -364,7 +388,7 @@ bool CommandlineOptions::Parse() {
   }
 
   // Get any filenames or URLs following the arguments
-  for (int i = optind; i < argc_; ++i) {
+  for (int i = GetOptIndex(); i < argc_; ++i) {
     const QString value = DecodeName(argv_[i]);
     QFileInfo fileinfo(value);
     if (fileinfo.exists()) {
