@@ -59,7 +59,9 @@ class LyricsFetcherSearch : public QObject {
   void CancelRequests();
   void FinishSearch();
   static bool ProviderCompareOrder(LyricsProvider *a, LyricsProvider *b);
-  static bool LyricsSearchResultCompareScore(const LyricsSearchResult &a, const LyricsSearchResult &b);
+  // Returns true if a provider before the given provider in the order of the providers hasn't replied yet.
+  bool ProviderBeforePending(const QString &provider_name) const;
+  bool LyricsSearchResultBetter(const LyricsSearchResult &a, const LyricsSearchResult &b) const;
 
  private:
   quint64 id_;
@@ -69,6 +71,7 @@ class LyricsFetcherSearch : public QObject {
   QTimer *timer_search_early_timeout_;
   QTimer *timer_search_timeout_;
   LyricsSearchResults results_;
+  QMap<QString, int> provider_orders_;
   QMap<int, LyricsProvider*> pending_requests_;
   bool cancel_requested_;
   bool finished_;
