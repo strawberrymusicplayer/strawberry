@@ -11,8 +11,8 @@ Evidence: **Confirmed** means reproduced on the emulator; **Code** means derived
 
 Handoff notes for continuing in a new session (see also the notes in `ANDROID_CODE_REVIEW.md`):
 
-- Done: points 1, 2, 3, 4, 5 and 19.
-- Next: points 6 to 18 and 20 to 22, in order.
+- Done: points 1, 2, 3, 4, 5, 6 and 19.
+- Next: points 7 to 18 and 20 to 22, in order.
 - The SDK now has `android-37.0`, which Android Gradle plugin 7.4.1 cannot resolve; package the APK against `android-34` (see `ANDROID_BUILD_GUIDE.md`).
 - App Java sources go in `android/java/`, never `android/src/` (see `ANDROID_BUILD_GUIDE.md`).
 - Test files on the emulator: `/sdcard/Music/SessionTest/session_test1.wav` to `session_test3.wav` (5-minute untagged sine WAVs); the emulator data was reset on 2026-11-09, so the earlier test folders are gone.
@@ -192,12 +192,12 @@ Actions that depend on points 9 to 11 stay hidden until those are resolved.
 
 ### 6. Adapt the error dialog to Android
 
-**Status:** Open
+**Status:** Done
 
-**Evidence:** Confirmed.
-The playback error dialog (`ErrorDialog`) appears as a desktop window in the middle of the screen: its text is cut off on the right and it has no visible close button; only Back closes it.
+**Evidence:** Confirmed before the fix.
+The playback error dialog (`ErrorDialog`) appeared as a desktop window in the middle of the screen: its text was cut off on the right and it had no visible close button; only Back closed it.
 
-**Approach:** Show errors with `ActionDialog` (wrapped text and an OK button) on Android, or make the dialog full-width with wrapping text and a touch-sized close button.
+**Resolved:** On Android, `ErrorDialog::ShowMessage()` now shows the message in a page-style `ActionDialog` with wrapped text and a single OK button instead of the desktop dialog.
 
 ### 7. Replace or disable the on-screen display popup
 
