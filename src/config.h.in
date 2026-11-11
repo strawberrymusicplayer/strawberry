@@ -8,6 +8,7 @@
 #cmakedefine USE_INSTALL_PREFIX
 
 #cmakedefine HAVE_WINPTHREADS
+#cmakedefine HAVE_GETOPT_WIN
 
 #cmakedefine HAVE_BACKTRACE
 #cmakedefine HAVE_ALSA
