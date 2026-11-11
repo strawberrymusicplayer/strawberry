@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2017-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2017-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,6 @@
 #include <QString>
 #include <QStringList>
 
-class QCloseEvent;
 class Ui_ErrorDialog;
 
 class ErrorDialog : public QDialog {
@@ -43,9 +42,8 @@ class ErrorDialog : public QDialog {
  public Q_SLOTS:
   void ShowDialog();
   void ShowMessage(const QString &message);
-
- protected:
-  void closeEvent(QCloseEvent *e) override;
+  // Clears the messages when the dialog is closed, this is also called when it is closed with Escape, which does not send a close event.
+  void done(const int r) override;
 
  private:
   void UpdateContent();
