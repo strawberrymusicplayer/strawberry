@@ -1509,6 +1509,7 @@ endif()
 
 if(ANDROID)
   list(APPEND SOURCES src/core/androidmediasession.cpp src/core/androidstorage.cpp src/core/mainwindow_android.cpp src/engine/gststartup_android.cpp src/equalizer/equalizer_android.cpp src/playlist/playlistview_android.cpp src/settings/androidsettingspage.cpp src/settings/settingsdialog_android.cpp src/widgets/androidwidgets.cpp)
+  list(APPEND SOURCES src/core/androidstoragefileengine.cpp src/engine/gstqfilesrc.cpp src/tagreader/taglibfilestream_android.cpp)
   list(APPEND HEADERS src/core/androidmediasession.h src/settings/androidsettingspage.h)
 endif()
 
@@ -1984,6 +1985,8 @@ target_link_libraries(strawberry_lib PUBLIC
 
 if(NOT ANDROID)
   target_link_libraries(strawberry_lib PUBLIC KDAB::kdsingleapplication)
+else()
+  target_link_libraries(strawberry_lib PRIVATE Qt${QT_VERSION_MAJOR}::CorePrivate)
 endif()
 
 if(HAVE_ICU)

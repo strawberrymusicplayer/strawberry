@@ -37,7 +37,7 @@ Handoff notes for continuing in a new session (see also the notes in `ANDROID_CO
 | Playback | FLAC, MP3, Ogg Vorbis, Opus, WavPack | Works since point 1 (confirmed) | 1 |
 | Playback | AAC/M4A | Works since point 19 (confirmed) | 19 |
 | Playback | WMA, APE, Musepack | Unsupported (no Android system decoder) | 19 |
-| Files | Music files with extensions Android does not classify as audio (`.wv`, likely `.ape`, `.mpc`, `.dsf`) | Invisible (confirmed for `.wv`) | 20 |
+| Files | Music files with extensions Android does not classify as audio (`.wv`, likely `.ape`, `.mpc`, `.dsf`) | Retained local folder access; `.wv` verified | 20 |
 | Playback | Internet radio and HTTP(S) streams in MP3, Ogg Vorbis and FLAC, with ICY titles | Works since point 3 (confirmed) | 3 |
 | Playback | AAC radio streams (ADTS), and therefore most HLS streams | Broken (confirmed) | 21 |
 | Playback | Playback with the screen off or the app in the background | Works since point 4 part 1 (confirmed) | 4 |
@@ -93,7 +93,7 @@ The tag reader does read these files, so they are added to the playlist and only
 
 **Resolved:** Added `audioparsers`, `ogg`, `wavpack` and `apetag` (APE tags in MP3 and WavPack files) to the Android `GStreamerMobile` component list in `CMakeLists.txt`.
 On the emulator, FLAC, MP3, Ogg Vorbis, Opus and WavPack now play without decoder errors, including automatic transitions between tracks of different formats.
-AAC and the remaining formats are point 19; WavPack files are only visible to the app under an audio file extension (point 20).
+AAC and the remaining formats are point 19; point 20 subsequently enabled WavPack's original extension through retained local-folder grants.
 
 ### 2. Bundle OpenSSL so Qt can use HTTPS
 
@@ -379,14 +379,33 @@ Android has no system decoders for WMA, APE or Musepack; supporting those would 
 
 ### 20. Music files that Android does not classify as audio are invisible
 
-**Status:** Open
+**Status:** Done (retained read access for local external-storage documents)
 
 **Evidence:** Confirmed.
 A WavPack file (`.wv`) in a chosen folder is not added to the playlist: MediaStore classifies it as `application/octet-stream`, and with `READ_MEDIA_AUDIO` the app can only access audio files through file paths.
 The same file renamed to `.wav` is classified as `audio/x-wav`, is added, and plays.
 This likely also affects other extensions Android does not know, such as `.ape`, `.mpc`, `.dsf` and `.dff`.
 
-**Approach:** Read such files through the content URIs of a picker-chosen folder, which grants access regardless of the MIME type, or document the limitation; decide together with point 9.
+**Resolved:** Retain the picker's read grant and load Android's persisted document permissions before Collection startup.
+An Android-only, read-only Qt file-engine bridge maps covered local paths to their document URIs without changing Collection or playlist identity.
+Directory enumeration, file information and Qt readers use the grant; TagLib receives an owned descriptor opened through that bridge.
+A seekable GStreamer Qt file source serves playback, discovery, moodbar and waveform pipelines.
+Desktop behavior is unchanged, and point 9's prohibition on local-file editing remains in force.
+See [Android storage access](ANDROID_STORAGE.md) for the architecture, provider scope, lifecycle, build dependency and failure/recovery behavior.
+
+**Verification:** Built the Android APK and ran six focused native test binaries covering the bridge, recursive traversal, read-only behavior, special-character paths, TagLib, GStreamer decoding/seeking, Collection, song loading and visualizations.
+On the emulator, an owned 30-second WavPack fixture was classified as `application/octet-stream`, and a native-path read under the app UID returned permission denied.
+The existing persisted folder grant nevertheless allowed automatic Collection discovery with WavPack metadata, playback and a measured seek to 17 seconds.
+Playback also worked after app restarts without selecting the folder again.
+Moodbar generated 3000 RGB bytes and waveform generated a valid 4013-byte `SWVF` blob with 2000 buckets through the same grant.
+A nested WavPack file whose name contains spaces, `%`, `#` and Unicode was also discovered with valid metadata.
+Native tests caught and guard against premature directory filtering and reuse of a parent URI while recursing.
+
+**Limits:** This is not a generic cloud-provider filesystem or write-access implementation.
+Unselected folders remain subject to ordinary Android media permission, and supporting access does not add missing decoders.
+The emulator verification used an already-persisted folder grant; fresh individual-file grant acquisition, explicit revocation and removable storage were not separately exercised.
+Owned test files, nested directory, database records and generated caches were removed, all 16 pre-existing playlists were preserved, database integrity was checked and Normal seekbar mode was restored.
+Installed the final signed non-debuggable APK and verified ordinary MP3 playback, then left playback paused.
 
 ### 21. AAC radio streams do not play
 

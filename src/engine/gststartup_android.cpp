@@ -29,6 +29,7 @@
 #include "core/logging.h"
 
 #include "gststartup.h"
+#include "gstqfilesrc.h"
 
 namespace GstStartup {
 
@@ -55,6 +56,12 @@ void InitializeAndroid() {
     qLog(Error) << "Could not initialize GStreamer for Android, audio playback may not work";
   }
 
+}
+
+void RegisterAndroidFileSource() {
+  if (!RegisterGstQFileSource()) {
+    qLog(Fatal) << "Could not register Android document audio source";
+  }
 }
 
 void LowerAndroidMediaDecoderRanks() {

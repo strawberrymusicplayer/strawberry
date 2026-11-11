@@ -26,6 +26,11 @@
 
 namespace AndroidStorage {
 
+// Installs read-only path access through persisted local document grants, before collection startup.
+void InitializeFileAccess();
+void InstallDocumentFileEngine();
+QUrl DocumentUrlForPath(const QString &path);
+
 // Asks for read access to audio files in shared storage, which the collection, tag reader and GStreamer need to open files by path.
 void RequestAudioPermission();
 

@@ -108,6 +108,16 @@ add_test_file(src/concurrentrun_test.cpp false)
 add_test_file(src/mergedproxymodel_test.cpp false)
 add_test_file(src/sqlite_test.cpp false)
 add_test_file(src/gstenginepipeline_test.cpp false)
+if(NOT ANDROID)
+  add_test_file(src/androidstoragefileengine_test.cpp false)
+  target_sources(androidstoragefileengine_test PRIVATE ${CMAKE_SOURCE_DIR}/src/core/androidstoragefileengine.cpp)
+  target_link_libraries(androidstoragefileengine_test PRIVATE Qt${QT_VERSION_MAJOR}::CorePrivate)
+  add_test_file(src/gstqfilesrc_test.cpp false)
+  target_sources(gstqfilesrc_test PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/engine/gstqfilesrc.cpp
+    ${CMAKE_SOURCE_DIR}/src/tagreader/taglibfilestream_android.cpp
+  )
+endif()
 add_test_file(src/tagreader_test.cpp false)
 add_test_file(src/collectionbackend_test.cpp false)
 add_test_file(src/collectionwatcher_test.cpp false)

@@ -22,6 +22,8 @@
 #include <QDir>
 #include <QJniEnvironment>
 #include <QJniObject>
+#include <QMap>
+#include <QReadWriteLock>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
@@ -37,6 +39,15 @@ constexpr int kPermissionGranted = 0;
 constexpr int kPermissionRequestCode = 4711;
 constexpr char kExternalStorageAuthority[] = "com.android.externalstorage.documents";
 constexpr char kDownloadsAuthority[] = "com.android.providers.downloads.documents";
+
+struct DocumentGrant {
+  QUrl uri;
+  QString document_id;
+  bool tree;
+};
+
+QReadWriteLock grants_lock;
+QMap<QString, DocumentGrant> grants;
 
 QJniObject Context() {
   return QNativeInterface::QAndroidApplication::context();
@@ -95,9 +106,88 @@ QString DataColumnForUri(const QJniObject &uri) {
 
 }
 
+bool ReloadDocumentGrants() {
+
+  QJniEnvironment env;
+  const QJniObject resolver = Context().callObjectMethod("getContentResolver", "()Landroid/content/ContentResolver;");
+  const QJniObject permissions = resolver.callObjectMethod("getPersistedUriPermissions", "()Ljava/util/List;");
+  if (!permissions.isValid() || env.checkAndClearExceptions()) {
+    qLog(Error) << "Could not load persisted Android document permissions";
+    return false;
+  }
+  QMap<QString, DocumentGrant> updated;
+  const int count = permissions.callMethod<jint>("size");
+  for (int i = 0; i < count; ++i) {
+    const QJniObject permission = permissions.callObjectMethod("get", "(I)Ljava/lang/Object;", i);
+    if (!permission.callMethod<jboolean>("isReadPermission")) continue;
+    const QJniObject uri = permission.callObjectMethod("getUri", "()Landroid/net/Uri;");
+    if (uri.callObjectMethod<jstring>("getAuthority").toString() != QLatin1String(kExternalStorageAuthority)) continue;
+    const bool tree = QJniObject::callStaticMethod<jboolean>("android/provider/DocumentsContract", "isTreeUri", "(Landroid/net/Uri;)Z", uri.object());
+    const QString id = QJniObject::callStaticObjectMethod("android/provider/DocumentsContract", tree ? "getTreeDocumentId" : "getDocumentId", "(Landroid/net/Uri;)Ljava/lang/String;", uri.object()).toString();
+    const QString path = PathForExternalStorageDocument(id);
+    if (!path.isEmpty()) updated.insert(QDir::cleanPath(path), {QUrl(uri.callObjectMethod<jstring>("toString").toString()), id, tree});
+  }
+  if (env.checkAndClearExceptions()) {
+    qLog(Error) << "Could not read persisted Android document permissions";
+    return false;
+  }
+  QWriteLocker locker(&grants_lock);
+  grants = updated;
+  return true;
+
+}
+
+bool PreserveDocumentGrant(const QJniObject &uri) {
+
+  QJniEnvironment env;
+  const QJniObject resolver = Context().callObjectMethod("getContentResolver", "()Landroid/content/ContentResolver;");
+  // Retain read access only; Android local-file editing remains disabled.
+  const jmethodID take_permission = env.findMethod(resolver.objectClass(), "takePersistableUriPermission", "(Landroid/net/Uri;I)V");
+  if (take_permission) env->CallVoidMethod(resolver.object(), take_permission, uri.object(), 1);
+  if (!take_permission || env.checkAndClearExceptions()) {
+    qLog(Error) << "Could not retain Android document permission";
+    return false;
+  }
+  return ReloadDocumentGrants();
+
+}
+
 }  // namespace
 
 namespace AndroidStorage {
+
+void InitializeFileAccess() {
+
+  ReloadDocumentGrants();
+  InstallDocumentFileEngine();
+
+}
+
+QUrl DocumentUrlForPath(const QString &path) {
+
+  if (!path.startsWith(u'/')) return QUrl();
+  const QString cleaned = QDir::cleanPath(path);
+  QReadLocker locker(&grants_lock);
+  const DocumentGrant *best = nullptr;
+  QString root;
+  for (auto it = grants.cbegin(); it != grants.cend(); ++it) {
+    if ((cleaned == it.key() || (it->tree && cleaned.startsWith(it.key() + u'/'))) && it.key().size() > root.size()) {
+      root = it.key();
+      best = &it.value();
+    }
+  }
+  if (!best) return QUrl();
+  if (!best->tree) return best->uri;
+  QString id = best->document_id;
+  if (cleaned != root) {
+    if (!id.endsWith(u':')) id += u'/';
+    id += cleaned.mid(root.size() + 1);
+  }
+  const QJniObject tree_uri = QJniObject::callStaticObjectMethod("android/net/Uri", "parse", "(Ljava/lang/String;)Landroid/net/Uri;", QJniObject::fromString(best->uri.toString(QUrl::FullyEncoded)).object<jstring>());
+  const QJniObject document_uri = QJniObject::callStaticObjectMethod("android/provider/DocumentsContract", "buildDocumentUriUsingTree", "(Landroid/net/Uri;Ljava/lang/String;)Landroid/net/Uri;", tree_uri.object(), QJniObject::fromString(id).object<jstring>());
+  return QUrl(document_uri.callObjectMethod<jstring>("toString").toString());
+
+}
 
 void RequestAudioPermission() {
 
@@ -149,6 +239,7 @@ QString LocalPathForUrl(const QUrl &url) {
   QString path;
   if (authority == QLatin1String(kExternalStorageAuthority) && !document_id.isEmpty()) {
     path = PathForExternalStorageDocument(document_id);
+    if (!path.isEmpty() && !PreserveDocumentGrant(uri)) return QString();
   }
   else if (authority == QLatin1String(kDownloadsAuthority) && document_id.startsWith("raw:"_L1)) {
     path = document_id.mid(4);
@@ -190,7 +281,7 @@ QStringList LocalPathsForUrls(const QList<QUrl> &urls, QStringList *unresolved) 
 
 QString UnresolvedMessage(const QStringList &unresolved) {
 
-  return QCoreApplication::translate("AndroidStorage", "Not stored on this device, so it can't be used: %1").arg(unresolved.join(", "_L1));
+  return QCoreApplication::translate("AndroidStorage", "The selected item is not available as a local file or folder with retained access: %1. Select a folder or file stored on this device using Android's file picker.").arg(unresolved.join(", "_L1));
 
 }
 

@@ -56,6 +56,7 @@ void Initialize() {
   gst_pb_utils_init();
 
 #ifdef Q_OS_ANDROID
+  RegisterAndroidFileSource();
   LowerAndroidMediaDecoderRanks();
 #endif
 

@@ -203,6 +203,10 @@ All exclude `files/strawberry/strawberry.conf` (the `file` domain's `strawberry/
 Other app data remains eligible for backup.
 Update both rule files if the settings location changes.
 
+Android document access also requires matching Qt Core private headers (`Qt6::CorePrivate`).
+The read-only path bridge preserves picker-granted access for formats that Android does not classify as audio.
+See [Android storage access](ANDROID_STORAGE.md) for implementation details, permission lifecycle and regression checks.
+
 ```bash
 cd build
 

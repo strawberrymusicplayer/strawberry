@@ -223,6 +223,10 @@ int main(int argc, char *argv[]) {
 
   QApplication a(argc, argv);
 
+#ifdef Q_OS_ANDROID
+  AndroidStorage::InitializeFileAccess();
+#endif
+
 #ifdef Q_OS_LINUX
   if (Utilities::IsWSL()) {
     const QString message = u"Strawberry is not supported when running under the Windows Subsystem for Linux (WSL). Please use the native Windows version instead."_s;
