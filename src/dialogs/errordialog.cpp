@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2017-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2017-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +32,6 @@
 #include <QStyle>
 #include <QLabel>
 #include <QTextEdit>
-#include <QCloseEvent>
 
 #include "utilities/screenutils.h"
 
@@ -91,12 +90,12 @@ void ErrorDialog::ShowMessage(const QString &message) {
 
 }
 
-void ErrorDialog::closeEvent(QCloseEvent *e) {
+void ErrorDialog::done(const int r) {
 
   current_messages_.clear();
   UpdateContent();
 
-  QDialog::closeEvent(e);
+  QDialog::done(r);
 
 }
 
