@@ -479,6 +479,39 @@ TEST(TranscoderOptionsTest, AACDefaultsAreUsedByFaac) {
 
 }
 
+// Regression test: the transcoder saved the faac bitrate the AAC options show by default, and the saved faac bitrate is used by the other AAC encoders, so they used 320 kbps instead of their own default without the AAC options being saved.
+TEST(TranscoderOptionsTest, AACDefaultBitrateIsNotUsedByOtherEncoders) {
+
+  Settings().remove(u"Transcoder"_s);
+
+  const QString encoder_name = OtherAACEncoderName();
+  if (encoder_name.isEmpty()) {
+    GTEST_SKIP() << "No AAC encoder other than faac and FFmpeg is installed.";
+  }
+  const ScopedElementRank encoder_rank(encoder_name, GST_RANK_PRIMARY + 100);
+
+  GstElementFactory *factory = gst_element_factory_find(encoder_name.toUtf8().constData());
+  ASSERT_NE(nullptr, factory);
+  GstElement *default_encoder = gst_element_factory_create(factory, nullptr);
+  gst_object_unref(factory);
+  ASSERT_NE(nullptr, default_encoder);
+  gst_object_ref_sink(default_encoder);
+  const qint64 default_bitrate = EncoderBitrate(default_encoder);
+  gst_object_unref(default_encoder);
+  if (default_bitrate == 320000) {
+    GTEST_SKIP() << "The default bitrate of " << encoder_name.toStdString() << " is the AAC options default.";
+  }
+
+  GstElement *encoder = TranscoderTest::CreateEncoder(Song::FileType::MP4);
+  ASSERT_NE(nullptr, encoder);
+  EXPECT_EQ(encoder_name, ElementName(encoder));
+  EXPECT_EQ(default_bitrate, EncoderBitrate(encoder));
+  gst_object_unref(encoder);
+
+  EXPECT_FALSE(Settings().contains(u"Transcoder/faac/bitrate"_s));
+
+}
+
 // The WMA bitrate saved for the GStreamer 0.10 encoder name is kept when upgrading.
 TEST(TranscoderOptionsTest, LegacyWMABitrateIsMigrated) {
 
