@@ -19,6 +19,7 @@
 
 #include "gtest_include.h"
 
+#include <QList>
 #include <QRegularExpression>
 #include <QString>
 #include <QStringList>
@@ -26,6 +27,7 @@
 #include "core/settings.h"
 #include "core/song.h"
 #include "core/settingsmigration.h"
+#include "constants/albumcoverexportsettings.h"
 #include "constants/appearancesettings.h"
 #include "constants/backendsettings.h"
 #include "constants/behavioursettings.h"
@@ -33,8 +35,10 @@
 #include "constants/notificationssettings.h"
 #include "constants/jellyfinsettings.h"
 #include "constants/plexsettings.h"
+#include "constants/qobuzsettings.h"
 #include "constants/playlistsettings.h"
 #include "constants/scrobblersettings.h"
+#include "constants/spotifysettings.h"
 #include "constants/subsonicsettings.h"
 #include "constants/tidalsettings.h"
 
@@ -42,102 +46,104 @@ using namespace Qt::Literals::StringLiterals;
 
 namespace {
 
-struct RenamedKey {
+using SettingsMigration::RenamedKey;
+
+struct SettingsKey {
   const char *group;
-  const char *old_key;
-  const char *new_key;
+  const char *key;
 };
 
-const RenamedKey kRenamedKeys[] = {
-  {"Appearance", "use-custom-color-set", "use_custom_color_set"},
-  {"Appearance", "color-window", "color_window"},
-  {"Appearance", "color-window-text", "color_window_text"},
-  {"Appearance", "color-base", "color_base"},
-  {"Appearance", "color-alternate-base", "color_alternate_base"},
-  {"Appearance", "color-tooltip-base", "color_tooltip_base"},
-  {"Appearance", "color-tooltip-text", "color_tooltip_text"},
-  {"Appearance", "color-text", "color_text"},
-  {"Appearance", "color-button", "color_button"},
-  {"Appearance", "color-button-text", "color_button_text"},
-  {"Appearance", "color-bright-text", "color_bright_text"},
-  {"Appearance", "color-placeholder-text", "color_placeholder_text"},
-  {"Backend", "FadeoutEnabled", "fadeout_enabled"},
-  {"Backend", "CrossfadeEnabled", "crossfade_enabled"},
-  {"Backend", "AutoCrossfadeEnabled", "auto_crossfade_enabled"},
-  {"Backend", "NoCrossfadeSameAlbum", "no_crossfade_same_album"},
-  {"Backend", "FadeoutPauseEnabled", "fadeout_pause_enabled"},
-  {"Backend", "FadeoutDuration", "fadeout_duration"},
-  {"Backend", "FadeoutPauseDuration", "fadeout_pause_duration"},
-  {"Context", "TitleFmt", "title_fmt"},
-  {"Context", "SummaryFmt", "summary_fmt"},
-  {"Context", "AlbumEnable", "album_enable"},
-  {"Context", "TechnicalDataEnable", "technical_data_enable"},
-  {"Context", "SongLyricsEnable", "song_lyrics_enable"},
-  {"Context", "SyncedLyricsEnable", "synced_lyrics_enable"},
-  {"Context", "SearchCoverEnable", "search_cover_enable"},
-  {"Context", "SearchLyricsEnable", "search_lyrics_enable"},
-  {"OSD", "Behaviour", "behaviour"},
-  {"OSD", "Timeout", "timeout"},
-  {"OSD", "ShowOnVolumeChange", "show_on_volume_change"},
-  {"OSD", "ShowOnPlayModeChange", "show_on_play_mode_change"},
-  {"OSD", "ShowOnPausePlayback", "show_on_pause_playback"},
-  {"OSD", "ShowOnResumePlayback", "show_on_resume_playback"},
-  {"OSD", "ShowOnStreamTitleChange", "show_on_stream_title_change"},
-  {"OSD", "ShowArt", "show_art"},
-  {"OSD", "CustomTextEnabled", "custom_text_enabled"},
-  {"OSD", "CustomText1", "custom_text1"},
-  {"OSD", "CustomText2", "custom_text2"},
-  {"DiscordRPC", "StatusDisplayType", "status_display_type"},
-  {"AlbumCoverExport", "fileName", "file_name"},
-  {"AlbumCoverExport", "forceSize", "force_size"},
-  {"Behaviour", "keeprunning", "keep_running"},
-  {"Behaviour", "resumeplayback", "resume_playback"},
-  {"Behaviour", "startupbehaviour", "startup_behaviour"},
-  {"Jellyfin", "verifycertificate", "verify_certificate"},
-  {"Jellyfin", "downloadalbumcovers", "download_albumcovers"},
-  {"Jellyfin", "serversidescrobbling", "serverside_scrobbling"},
-  {"Plex", "verifycertificate", "verify_certificate"},
-  {"Plex", "downloadalbumcovers", "download_albumcovers"},
-  {"Plex", "clientid", "client_id"},
-  {"Qobuz", "downloadalbumcovers", "download_albumcovers"},
-  {"Qobuz", "searchdelay", "search_delay"},
-  {"Qobuz", "artistssearchlimit", "artists_search_limit"},
-  {"Qobuz", "albumssearchlimit", "albums_search_limit"},
-  {"Qobuz", "songssearchlimit", "songs_search_limit"},
-  {"Tidal", "downloadalbumcovers", "download_albumcovers"},
-  {"Tidal", "searchdelay", "search_delay"},
-  {"Tidal", "artistssearchlimit", "artists_search_limit"},
-  {"Tidal", "albumssearchlimit", "albums_search_limit"},
-  {"Tidal", "songssearchlimit", "songs_search_limit"},
-  {"Tidal", "fetchalbums", "fetch_albums"},
-  {"Tidal", "streamurl", "stream_url"},
-  {"Backend", "alsaplugin", "alsa_plugin"},
-  {"Backend", "bufferduration", "buffer_duration"},
-  {"Backend", "bufferhighwatermark", "buffer_high_watermark"},
-  {"Backend", "bufferlowwatermark", "buffer_low_watermark"},
-  {"Backend", "devicewarmupduration", "device_warmup_duration"},
-  {"Backend", "rgcompression", "rg_compression"},
-  {"Backend", "rgenabled", "rg_enabled"},
-  {"Backend", "rgfallbackgain", "rg_fallback_gain"},
-  {"Backend", "rgmode", "rg_mode"},
-  {"Backend", "rgpreamp", "rg_preamp"},
-  {"Behaviour", "showtrayicon", "show_tray_icon"},
-  {"Playlist", "editmetadatainline", "edit_metadata_inline"},
-  {"Subsonic", "usealbumidforalbumcovers", "use_album_id_for_albumcovers"},
-  {"Jellyfin", "deviceid", "device_id"},
-  {"Tidal", "coversize", "cover_size"},
-  {"Backend", "Output", "output"},
-  {"Backend", "Device", "device"},
-  {"Spotify", "downloadalbumcovers", "download_albumcovers"},
-  {"Spotify", "searchdelay", "search_delay"},
-  {"Spotify", "artistssearchlimit", "artists_search_limit"},
-  {"Spotify", "albumssearchlimit", "albums_search_limit"},
-  {"Spotify", "songssearchlimit", "songs_search_limit"},
-  {"Spotify", "fetchalbums", "fetch_albums"},
-  {"Subsonic", "verifycertificate", "verify_certificate"},
-  {"Subsonic", "downloadalbumcovers", "download_albumcovers"},
-  {"Subsonic", "serversidescrobbling", "serverside_scrobbling"},
-  {"Subsonic", "authmethod", "auth_method"},
+// The keys read by the code which renamed keys are moved to, the migration must move the old keys to exactly these keys.
+const SettingsKey kKeysReadByCode[] = {
+  {AppearanceSettings::kSettingsGroup, AppearanceSettings::kUseCustomColorSet},
+  {AppearanceSettings::kSettingsGroup, AppearanceSettings::kColorWindow},
+  {AppearanceSettings::kSettingsGroup, AppearanceSettings::kColorWindowText},
+  {AppearanceSettings::kSettingsGroup, AppearanceSettings::kColorBase},
+  {AppearanceSettings::kSettingsGroup, AppearanceSettings::kColorAlternateBase},
+  {AppearanceSettings::kSettingsGroup, AppearanceSettings::kColorToolTipBase},
+  {AppearanceSettings::kSettingsGroup, AppearanceSettings::kColorToolTipText},
+  {AppearanceSettings::kSettingsGroup, AppearanceSettings::kColorText},
+  {AppearanceSettings::kSettingsGroup, AppearanceSettings::kColorButton},
+  {AppearanceSettings::kSettingsGroup, AppearanceSettings::kColorButtonText},
+  {AppearanceSettings::kSettingsGroup, AppearanceSettings::kColorBrightText},
+  {AppearanceSettings::kSettingsGroup, AppearanceSettings::kColorPlaceholderText},
+  {BackendSettings::kSettingsGroup, BackendSettings::kFadeoutEnabled},
+  {BackendSettings::kSettingsGroup, BackendSettings::kCrossfadeEnabled},
+  {BackendSettings::kSettingsGroup, BackendSettings::kAutoCrossfadeEnabled},
+  {BackendSettings::kSettingsGroup, BackendSettings::kNoCrossfadeSameAlbum},
+  {BackendSettings::kSettingsGroup, BackendSettings::kFadeoutPauseEnabled},
+  {BackendSettings::kSettingsGroup, BackendSettings::kFadeoutDuration},
+  {BackendSettings::kSettingsGroup, BackendSettings::kFadeoutPauseDuration},
+  {ContextSettings::kSettingsGroup, ContextSettings::kSettingsTitleFmt},
+  {ContextSettings::kSettingsGroup, ContextSettings::kSettingsSummaryFmt},
+  {ContextSettings::kSettingsGroup, ContextSettings::kAlbum},
+  {ContextSettings::kSettingsGroup, ContextSettings::kTechnicalData},
+  {ContextSettings::kSettingsGroup, ContextSettings::kSongLyrics},
+  {ContextSettings::kSettingsGroup, ContextSettings::kSyncedLyrics},
+  {ContextSettings::kSettingsGroup, ContextSettings::kSearchCover},
+  {ContextSettings::kSettingsGroup, ContextSettings::kSearchLyrics},
+  {OSDSettings::kSettingsGroup, OSDSettings::kType},
+  {OSDSettings::kSettingsGroup, OSDSettings::kTimeout},
+  {OSDSettings::kSettingsGroup, OSDSettings::kShowOnVolumeChange},
+  {OSDSettings::kSettingsGroup, OSDSettings::kShowOnPlayModeChange},
+  {OSDSettings::kSettingsGroup, OSDSettings::kShowOnPausePlayback},
+  {OSDSettings::kSettingsGroup, OSDSettings::kShowOnResumePlayback},
+  {OSDSettings::kSettingsGroup, OSDSettings::kShowOnStreamTitleChange},
+  {OSDSettings::kSettingsGroup, OSDSettings::kShowArt},
+  {OSDSettings::kSettingsGroup, OSDSettings::kCustomTextEnabled},
+  {OSDSettings::kSettingsGroup, OSDSettings::kCustomText1},
+  {OSDSettings::kSettingsGroup, OSDSettings::kCustomText2},
+  {DiscordRPCSettings::kSettingsGroup, DiscordRPCSettings::kStatusDisplayType},
+  {AlbumCoverExportSettings::kSettingsGroup, AlbumCoverExportSettings::kFileName},
+  {AlbumCoverExportSettings::kSettingsGroup, AlbumCoverExportSettings::kForceSize},
+  {BehaviourSettings::kSettingsGroup, BehaviourSettings::kKeepRunning},
+  {BehaviourSettings::kSettingsGroup, BehaviourSettings::kResumePlayback},
+  {BehaviourSettings::kSettingsGroup, BehaviourSettings::kStartupBehaviour},
+  {JellyfinSettings::kSettingsGroup, JellyfinSettings::kVerifyCertificate},
+  {JellyfinSettings::kSettingsGroup, JellyfinSettings::kDownloadAlbumCovers},
+  {JellyfinSettings::kSettingsGroup, JellyfinSettings::kServerSideScrobbling},
+  {PlexSettings::kSettingsGroup, PlexSettings::kVerifyCertificate},
+  {PlexSettings::kSettingsGroup, PlexSettings::kDownloadAlbumCovers},
+  {PlexSettings::kSettingsGroup, PlexSettings::kClientId},
+  {QobuzSettings::kSettingsGroup, QobuzSettings::kDownloadAlbumCovers},
+  {QobuzSettings::kSettingsGroup, QobuzSettings::kSearchDelay},
+  {QobuzSettings::kSettingsGroup, QobuzSettings::kArtistsSearchLimit},
+  {QobuzSettings::kSettingsGroup, QobuzSettings::kAlbumsSearchLimit},
+  {QobuzSettings::kSettingsGroup, QobuzSettings::kSongsSearchLimit},
+  {TidalSettings::kSettingsGroup, TidalSettings::kDownloadAlbumCovers},
+  {TidalSettings::kSettingsGroup, TidalSettings::kSearchDelay},
+  {TidalSettings::kSettingsGroup, TidalSettings::kArtistsSearchLimit},
+  {TidalSettings::kSettingsGroup, TidalSettings::kAlbumsSearchLimit},
+  {TidalSettings::kSettingsGroup, TidalSettings::kSongsSearchLimit},
+  {TidalSettings::kSettingsGroup, TidalSettings::kFetchAlbums},
+  {TidalSettings::kSettingsGroup, TidalSettings::kStreamUrl},
+  {BackendSettings::kSettingsGroup, BackendSettings::kALSAPlugin},
+  {BackendSettings::kSettingsGroup, BackendSettings::kBufferDuration},
+  {BackendSettings::kSettingsGroup, BackendSettings::kBufferHighWatermark},
+  {BackendSettings::kSettingsGroup, BackendSettings::kBufferLowWatermark},
+  {BackendSettings::kSettingsGroup, BackendSettings::kDeviceWarmupDuration},
+  {BackendSettings::kSettingsGroup, BackendSettings::kRgCompression},
+  {BackendSettings::kSettingsGroup, BackendSettings::kRgEnabled},
+  {BackendSettings::kSettingsGroup, BackendSettings::kRgFallbackGain},
+  {BackendSettings::kSettingsGroup, BackendSettings::kRgMode},
+  {BackendSettings::kSettingsGroup, BackendSettings::kRgPreamp},
+  {BehaviourSettings::kSettingsGroup, BehaviourSettings::kShowTrayIcon},
+  {PlaylistSettings::kSettingsGroup, PlaylistSettings::kEditMetadataInline},
+  {SubsonicSettings::kSettingsGroup, SubsonicSettings::kUseAlbumIdForAlbumCovers},
+  {JellyfinSettings::kSettingsGroup, JellyfinSettings::kDeviceId},
+  {TidalSettings::kSettingsGroup, TidalSettings::kCoverSize},
+  {BackendSettings::kSettingsGroup, BackendSettings::kOutput},
+  {BackendSettings::kSettingsGroup, BackendSettings::kDevice},
+  {SpotifySettings::kSettingsGroup, SpotifySettings::kDownloadAlbumCovers},
+  {SpotifySettings::kSettingsGroup, SpotifySettings::kSearchDelay},
+  {SpotifySettings::kSettingsGroup, SpotifySettings::kArtistsSearchLimit},
+  {SpotifySettings::kSettingsGroup, SpotifySettings::kAlbumsSearchLimit},
+  {SpotifySettings::kSettingsGroup, SpotifySettings::kSongsSearchLimit},
+  {SpotifySettings::kSettingsGroup, SpotifySettings::kFetchAlbums},
+  {SubsonicSettings::kSettingsGroup, SubsonicSettings::kVerifyCertificate},
+  {SubsonicSettings::kSettingsGroup, SubsonicSettings::kDownloadAlbumCovers},
+  {SubsonicSettings::kSettingsGroup, SubsonicSettings::kServerSideScrobbling},
+  {SubsonicSettings::kSettingsGroup, SubsonicSettings::kAuthMethod},
 };
 
 QString Key(const char *group, const char *key) {
@@ -158,10 +164,13 @@ class SettingsMigrationTest : public ::testing::Test {
 
 TEST_F(SettingsMigrationTest, MovesEveryRenamedKey) {
 
+  const QList<RenamedKey> renamed_keys = SettingsMigration::RenamedKeys();
+  ASSERT_FALSE(renamed_keys.isEmpty());
+
   {
     Settings s;
     int i = 0;
-    for (const RenamedKey &renamed_key : kRenamedKeys) {
+    for (const RenamedKey &renamed_key : renamed_keys) {
       s.setValue(Key(renamed_key.group, renamed_key.old_key), ++i);
     }
   }
@@ -172,7 +181,7 @@ TEST_F(SettingsMigrationTest, MovesEveryRenamedKey) {
   // The stored spelling is checked, since keys are not case sensitive on Windows, so contains() finds the new key for a key only changing case.
   const QStringList all_keys = s.allKeys();
   int i = 0;
-  for (const RenamedKey &renamed_key : kRenamedKeys) {
+  for (const RenamedKey &renamed_key : renamed_keys) {
     ++i;
     EXPECT_FALSE(all_keys.contains(Key(renamed_key.group, renamed_key.old_key), Qt::CaseSensitive)) << renamed_key.old_key;
     EXPECT_EQ(i, s.value(Key(renamed_key.group, renamed_key.new_key)).toInt()) << renamed_key.new_key;
@@ -277,17 +286,30 @@ TEST_F(SettingsMigrationTest, DoesNotCreateScrobblerSources) {
 
 }
 
-// The keys read by the code are the keys the values are moved to.
-TEST(SettingsKeysTest, ConstantsAreTheMigratedKeys) {
+// Regression test: only some of the keys read by the code were checked against the keys the values are moved to, and only the key, not the group.
+// Every renamed key must be moved to a key read by the code, and every key read by the code must be in the list once, so a key added to only one of them, or with a typo, fails.
+TEST(SettingsKeysTest, RenamedKeysAreTheKeysReadByCode) {
 
-  const char *const keys[] = {AppearanceSettings::kUseCustomColorSet, AppearanceSettings::kColorWindow, AppearanceSettings::kColorPlaceholderText, BackendSettings::kFadeoutEnabled, BackendSettings::kNoCrossfadeSameAlbum, ContextSettings::kSettingsTitleFmt, ContextSettings::kSearchLyrics, OSDSettings::kType, OSDSettings::kTimeout, OSDSettings::kCustomText1, DiscordRPCSettings::kStatusDisplayType, BehaviourSettings::kKeepRunning, BehaviourSettings::kStartupBehaviour, PlexSettings::kClientId, PlexSettings::kVerifyCertificate, SubsonicSettings::kAuthMethod, SubsonicSettings::kServerSideScrobbling, TidalSettings::kStreamUrl, TidalSettings::kSearchDelay, TidalSettings::kArtistsSearchLimit, TidalSettings::kFetchAlbums, TidalSettings::kDownloadAlbumCovers, BackendSettings::kALSAPlugin, BackendSettings::kBufferHighWatermark, BackendSettings::kDeviceWarmupDuration, BackendSettings::kRgFallbackGain, BehaviourSettings::kShowTrayIcon, PlaylistSettings::kEditMetadataInline, SubsonicSettings::kUseAlbumIdForAlbumCovers, JellyfinSettings::kDeviceId, TidalSettings::kCoverSize, BackendSettings::kOutput, BackendSettings::kDevice};
-  for (const char *key : keys) {
-    bool found = false;
-    for (const RenamedKey &renamed_key : kRenamedKeys) {
-      if (QString::fromLatin1(renamed_key.new_key) == QString::fromLatin1(key)) found = true;
-    }
-    EXPECT_TRUE(found) << key;
-    EXPECT_TRUE(QString::fromLatin1(key).contains(QRegularExpression(u"^[a-z0-9]+(_[a-z0-9]+)*$"_s))) << key;
+  const QList<RenamedKey> renamed_keys = SettingsMigration::RenamedKeys();
+
+  QStringList migrated_keys;
+  for (const RenamedKey &renamed_key : renamed_keys) {
+    const QString key = Key(renamed_key.group, renamed_key.new_key);
+    EXPECT_FALSE(migrated_keys.contains(key)) << "Moved to twice: " << key.toStdString();
+    migrated_keys << key;
+    EXPECT_TRUE(QString::fromLatin1(renamed_key.new_key).contains(QRegularExpression(u"^[a-z0-9]+(_[a-z0-9]+)*$"_s))) << renamed_key.new_key;
+  }
+
+  QStringList keys_read_by_code;
+  for (const SettingsKey &settings_key : kKeysReadByCode) {
+    keys_read_by_code << Key(settings_key.group, settings_key.key);
+  }
+
+  for (const QString &key : std::as_const(migrated_keys)) {
+    EXPECT_TRUE(keys_read_by_code.contains(key)) << "Moved to a key not read by the code: " << key.toStdString();
+  }
+  for (const QString &key : std::as_const(keys_read_by_code)) {
+    EXPECT_TRUE(migrated_keys.contains(key)) << "Not moved to: " << key.toStdString();
   }
 
 }
