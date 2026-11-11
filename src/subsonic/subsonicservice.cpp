@@ -525,6 +525,9 @@ void SubsonicService::Scrobble(const QString &song_id, const bool submission, co
 
 void SubsonicService::ResetSongsRequest() {
 
+  // Aborting while the password is loading should not start the request when the password is loaded.
+  pending_get_songs_ = false;
+
   if (songs_request_) {
     QObject::disconnect(&*songs_request_, nullptr, this, nullptr);
     QObject::disconnect(this, nullptr, &*songs_request_, nullptr);
