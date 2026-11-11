@@ -32,6 +32,9 @@
 #include <QImage>
 #include <QPixmap>
 #include <QMovie>
+#ifdef Q_OS_ANDROID
+#  include <QPointer>
+#endif
 
 #include "includes/scoped_ptr.h"
 #include "includes/shared_ptr.h"
@@ -45,6 +48,10 @@ class QPaintEvent;
 class QResizeEvent;
 
 class AlbumCoverChoiceController;
+#ifdef Q_OS_ANDROID
+class ActionDialog;
+class LongPressHandler;
+#endif
 
 class ContextAlbum : public QWidget {
   Q_OBJECT
@@ -64,6 +71,12 @@ class ContextAlbum : public QWidget {
   void paintEvent(QPaintEvent *paint_event) override;
   void mouseDoubleClickEvent(QMouseEvent *e) override;
   void contextMenuEvent(QContextMenuEvent *e) override;
+#ifdef Q_OS_ANDROID
+  void mousePressEvent(QMouseEvent *e) override;
+  void mouseMoveEvent(QMouseEvent *e) override;
+  void mouseReleaseEvent(QMouseEvent *e) override;
+  void hideEvent(QHideEvent *e) override;
+#endif
 
  private:
   struct PreviousCover {
@@ -82,6 +95,10 @@ class ContextAlbum : public QWidget {
   void ScaleCover();
   void ScalePreviousCovers();
   void ScaleCovers();
+#ifdef Q_OS_ANDROID
+  void ShowAndroidActions();
+  void CancelAndroidActions();
+#endif
 
  Q_SIGNALS:
   void FadeStopFinished();
@@ -110,6 +127,10 @@ class ContextAlbum : public QWidget {
   ScopedPtr<QMovie> spinner_animation_;
   int desired_height_;
   Song song_playing_;
+#ifdef Q_OS_ANDROID
+  LongPressHandler *long_press_;
+  QPointer<ActionDialog> android_actions_;
+#endif
 };
 
 #endif  // CONTEXTALBUM_H

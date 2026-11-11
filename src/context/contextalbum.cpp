@@ -38,10 +38,21 @@
 #include <QContextMenuEvent>
 #include <QPaintEvent>
 #include <QResizeEvent>
+#ifdef Q_OS_ANDROID
+#  include <QAction>
+#  include <QApplication>
+#  include <QHideEvent>
+#  include <QMouseEvent>
+#  include <QPushButton>
+#endif
 
 #include "includes/shared_ptr.h"
 #include "utilities/imageutils.h"
 #include "covermanager/albumcoverchoicecontroller.h"
+#ifdef Q_OS_ANDROID
+#  include "widgets/actiondialog.h"
+#  include "widgets/longpresshandler.h"
+#endif
 
 #include "contextalbum.h"
 
@@ -87,6 +98,15 @@ ContextAlbum::ContextAlbum(QWidget *parent)
   timer_scale_->setSingleShot(true);
   timer_scale_->setInterval(kScaleDelayMs);
   QObject::connect(timer_scale_, &QTimer::timeout, this, &ContextAlbum::ScaleCovers);
+
+#ifdef Q_OS_ANDROID
+  long_press_ = new LongPressHandler(LongPressHandler::PlatformInterval(), LongPressHandler::PlatformDragDistance(devicePixelRatioF()), this);
+  setContextMenuPolicy(Qt::PreventContextMenu);
+  QObject::connect(long_press_, &LongPressHandler::LongPressed, this, &ContextAlbum::ShowAndroidActions);
+  QObject::connect(qApp, &QApplication::applicationStateChanged, this, [this](const Qt::ApplicationState state) {
+    if (state != Qt::ApplicationActive) CancelAndroidActions();
+  });
+#endif
 
 }
 
@@ -142,6 +162,77 @@ void ContextAlbum::contextMenuEvent(QContextMenuEvent *e) {
   }
 
 }
+
+#ifdef Q_OS_ANDROID
+void ContextAlbum::mousePressEvent(QMouseEvent *e) {
+
+  long_press_->Release();
+  if (e->button() == Qt::LeftButton && song_playing_.is_valid()) {
+    long_press_->Press(e->pos());
+  }
+  QWidget::mousePressEvent(e);
+
+}
+
+void ContextAlbum::mouseMoveEvent(QMouseEvent *e) {
+
+  if (long_press_->Move(e->pos())) {
+    e->accept();
+    return;
+  }
+  QWidget::mouseMoveEvent(e);
+
+}
+
+void ContextAlbum::mouseReleaseEvent(QMouseEvent *e) {
+
+  if (long_press_->Release()) {
+    e->accept();
+    return;
+  }
+  QWidget::mouseReleaseEvent(e);
+
+}
+
+void ContextAlbum::hideEvent(QHideEvent *e) {
+
+  CancelAndroidActions();
+  QWidget::hideEvent(e);
+
+}
+
+void ContextAlbum::CancelAndroidActions() {
+
+  long_press_->Cancel();
+  if (android_actions_ && android_actions_->isVisible()) android_actions_->reject();
+
+}
+
+void ContextAlbum::ShowAndroidActions() {
+
+  // Unlike the desktop menu, the actions are also offered without a cover, so a missing cover can be searched for.
+  if (!isVisible() || !song_playing_.is_valid() || !album_cover_choice_controller_) return;
+
+  ActionDialog *dialog = new ActionDialog(this, tr("Album cover"), tr("Context > Album cover"), ActionDialog::TitlePosition::Top);
+  // Loading and saving cover files needs a file dialog, which is not usable on Android yet.
+  const QList<QAction*> file_actions = { album_cover_choice_controller_->cover_from_file_action(), album_cover_choice_controller_->cover_to_file_action() };
+  const QList<QAction*> actions = menu_->actions();
+  for (QAction *action : actions) {
+    if (action->isSeparator() || !action->isVisible() || !action->isEnabled() || file_actions.contains(action)) continue;
+    const QString text = action->isCheckable() ? tr("%1: %2").arg(action->iconText(), action->isChecked() ? tr("On") : tr("Off")) : action->iconText();
+    QPushButton *button = dialog->AddButton(text);
+    const QPointer<QAction> target = action;
+    QObject::connect(button, &QPushButton::clicked, dialog, [dialog, target]() {
+      dialog->accept();
+      if (target) target->trigger();
+    });
+  }
+  dialog->AddCancelButton(tr("Back"));
+  android_actions_ = dialog;
+  dialog->Open();
+
+}
+#endif
 
 bool ContextAlbum::hasHeightForWidth() const {
 
