@@ -28,6 +28,14 @@
 #include <QUrl>
 #include <QSignalSpy>
 #include <QHostAddress>
+#include <QByteArray>
+#include <QHash>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QStringList>
+#include <QTcpSocket>
+#include <QUrlQuery>
 #include <QTcpServer>
 
 #include "includes/shared_ptr.h"
@@ -378,6 +386,121 @@ TEST_F(SubsonicServiceTest, ReloadSettingsKeepsRefreshWhenServerIsUnchanged) {
   service_->ResetSongsRequest();
 
   ASSERT_TRUE(WaitForCredentialsReply(credentials_manager_->DeletePasswordAsync(QLatin1String(SubsonicSettings::kCredentialsService))));
+
+}
+
+// A Subsonic server with albums with one song each, which can ignore the offset of the album list like some servers do.
+class FakeSubsonicServer : public QTcpServer {
+ public:
+  explicit FakeSubsonicServer(const int albums, const bool ignore_offset) : albums_(albums), ignore_offset_(ignore_offset), album_list_requests_(0) {
+    QObject::connect(this, &QTcpServer::newConnection, this, [this]() {
+      while (QTcpSocket *socket = nextPendingConnection()) {
+        QObject::connect(socket, &QTcpSocket::readyRead, socket, [this, socket]() { ReadRequests(socket); });
+        QObject::connect(socket, &QTcpSocket::disconnected, socket, &QObject::deleteLater);
+      }
+    });
+  }
+
+  int album_list_requests() const { return album_list_requests_; }
+  const QStringList &album_requests() const { return album_requests_; }
+
+ private:
+  void ReadRequests(QTcpSocket *socket) {
+
+    QByteArray &buffer = buffers_[socket];
+    buffer += socket->readAll();
+    qsizetype end = 0;
+    while ((end = buffer.indexOf("\r\n\r\n")) != -1) {
+      const QByteArray request_line = buffer.left(buffer.indexOf("\r\n"));
+      buffer.remove(0, end + 4);
+      const QUrl url(QString::fromLatin1(request_line.split(' ').value(1)));
+      const QByteArray data = QJsonDocument(QJsonObject{{u"subsonic-response"_s, Reply(url)}}).toJson(QJsonDocument::Compact);
+      socket->write("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: " + QByteArray::number(data.size()) + "\r\n\r\n" + data);
+    }
+
+  }
+
+  QJsonObject Reply(const QUrl &url) {
+
+    const QUrlQuery query(url);
+    QJsonObject response{{u"status"_s, u"ok"_s}, {u"version"_s, u"1.16.1"_s}};
+
+    if (url.path().endsWith("/getAlbumList2.view"_L1)) {
+      ++album_list_requests_;
+      const int size = query.queryItemValue(u"size"_s).toInt();
+      const int offset = ignore_offset_ ? 0 : query.queryItemValue(u"offset"_s).toInt();
+      QJsonArray albums;
+      for (int i = offset; i < albums_ && i < offset + size; ++i) {
+        albums << QJsonObject{{u"id"_s, QStringLiteral("album-%1").arg(i)}, {u"name"_s, QStringLiteral("Album %1").arg(i)}, {u"artist"_s, u"Artist"_s}};
+      }
+      response.insert(u"albumList2"_s, QJsonObject{{u"album"_s, albums}});
+    }
+    else if (url.path().endsWith("/getAlbum.view"_L1)) {
+      album_requests_ << query.queryItemValue(u"id"_s);
+      const QString album_id = query.queryItemValue(u"id"_s);
+      const QJsonObject song{{u"id"_s, QString(u"song-"_s + album_id)}, {u"title"_s, u"Song"_s}, {u"album"_s, album_id}, {u"artist"_s, u"Artist"_s}, {u"size"_s, 1000}, {u"suffix"_s, u"flac"_s}, {u"duration"_s, 60}, {u"type"_s, u"music"_s}};
+      response.insert(u"album"_s, QJsonObject{{u"id"_s, album_id}, {u"song"_s, QJsonArray{song}}});
+    }
+
+    return response;
+
+  }
+
+  const int albums_;
+  const bool ignore_offset_;
+  int album_list_requests_;
+  QStringList album_requests_;
+  QHash<QTcpSocket*, QByteArray> buffers_;
+};
+
+// Refreshes the collection from the server, returns the number of songs, or -1 when the refresh failed or timed out.
+int RefreshFromServer(SubsonicService *service, const SharedPtr<CredentialsManager> &credentials_manager, const FakeSubsonicServer &server) {
+
+  {
+    Settings s;
+    s.beginGroup(SubsonicSettings::kSettingsGroup);
+    s.setValue(SubsonicSettings::kUrl, QUrl(QStringLiteral("http://127.0.0.1:%1").arg(server.serverPort())));
+    s.setValue(SubsonicSettings::kDownloadAlbumCovers, false);
+    s.endGroup();
+  }
+
+  if (!WaitForCredentialsReply(credentials_manager->SavePasswordAsync(QLatin1String(SubsonicSettings::kCredentialsService), u"secret"_s))) return -1;
+  service->ReloadSettings();
+
+  QSignalSpy spy(service, &SubsonicService::SongsResults);
+  service->GetSongs();
+  const bool finished = spy.wait(20000);
+  service->ResetSongsRequest();
+
+  if (!WaitForCredentialsReply(credentials_manager->DeletePasswordAsync(QLatin1String(SubsonicSettings::kCredentialsService)))) return -1;
+
+  if (!finished || !spy.at(0).at(1).toString().isEmpty()) return -1;
+  return static_cast<int>(spy.at(0).at(0).value<SongMap>().count());
+
+}
+
+// Regression test: when the server ignored the offset of the album list, it sent the first page again for every page, and the next page was requested forever.
+TEST_F(SubsonicServiceTest, AlbumListPagingStopsWhenServerIgnoresOffset) {
+
+  FakeSubsonicServer server(600, true);
+  ASSERT_TRUE(server.listen(QHostAddress::LocalHost));
+
+  EXPECT_EQ(500, RefreshFromServer(&*service_, credentials_manager_, server));
+  EXPECT_EQ(2, server.album_list_requests());
+  EXPECT_EQ(500, server.album_requests().count());
+
+}
+
+// The album list is still requested page by page, until a page isn't full.
+TEST_F(SubsonicServiceTest, AlbumListIsPaged) {
+
+  FakeSubsonicServer server(1003, false);
+  ASSERT_TRUE(server.listen(QHostAddress::LocalHost));
+
+  EXPECT_EQ(1003, RefreshFromServer(&*service_, credentials_manager_, server));
+  EXPECT_EQ(3, server.album_list_requests());
+  EXPECT_EQ(1003, server.album_requests().count());
+  EXPECT_TRUE(server.album_requests().contains(u"album-1002"_s));
 
 }
 

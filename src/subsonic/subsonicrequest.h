@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -92,7 +92,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   void AddAlbumsRequest(const int offset = 0, const int size = 500);
   void FlushAlbumsRequests();
 
-  void AlbumsFinishCheck(const int offset = 0, const int size = 0, const int albums_received = 0);
+  void AlbumsFinishCheck(const int offset = 0, const int size = 0, const int albums_received = 0, const int albums_added = 0);
   void SongsFinishCheck();
 
   void AddAlbumSongsRequest(const QString &artist_id, const QString &album_id, const QString &album_artist, const int offset = 0);
