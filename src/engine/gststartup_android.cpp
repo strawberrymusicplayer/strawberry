@@ -30,6 +30,7 @@
 
 #include "gststartup.h"
 #include "gstqfilesrc.h"
+#include "gstaacdecoder.h"
 
 namespace GstStartup {
 
@@ -69,14 +70,22 @@ void LowerAndroidMediaDecoderRanks() {
   // androidmedia registers Android's software audio codecs with a rank above GStreamer's own decoders.
   // Lower them below those, so they are only used for formats without a GStreamer decoder, such as AAC.
   GList *decoders = gst_element_factory_list_get_elements(kAudioDecoderType, GST_RANK_NONE);
+  GstCaps *aac = gst_caps_from_string("audio/mpeg, mpegversion=(int)4, stream-format=(string)raw");
+  bool aac_registered = false;
   for (GList *item = decoders; item; item = item->next) {
     GstPluginFeature *feature = static_cast<GstPluginFeature*>(item->data);
     const gchar *plugin_name = gst_plugin_feature_get_plugin_name(feature);
+    if (!aac_registered && plugin_name && strcmp(plugin_name, "androidmedia") == 0 &&
+        gst_element_factory_can_sink_any_caps(GST_ELEMENT_FACTORY(feature), aac)) {
+      aac_registered = RegisterGstAacDecoder(gst_plugin_feature_get_name(feature));
+    }
     if (plugin_name && strcmp(plugin_name, "androidmedia") == 0 && gst_plugin_feature_get_rank(feature) > GST_RANK_SECONDARY) {
       gst_plugin_feature_set_rank(feature, GST_RANK_SECONDARY);
     }
   }
   gst_plugin_feature_list_free(decoders);
+  gst_caps_unref(aac);
+  if (!aac_registered) qLog(Error) << "Could not register Android ADTS AAC decoder";
 
 }
 

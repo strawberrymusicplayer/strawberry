@@ -39,7 +39,7 @@ Handoff notes for continuing in a new session (see also the notes in `ANDROID_CO
 | Playback | WMA, APE, Musepack | Unsupported (no Android system decoder) | 19 |
 | Files | Music files with extensions Android does not classify as audio (`.wv`, likely `.ape`, `.mpc`, `.dsf`) | Retained local folder access; `.wv` verified | 20 |
 | Playback | Internet radio and HTTP(S) streams in MP3, Ogg Vorbis and FLAC, with ICY titles | Works since point 3 (confirmed) | 3 |
-| Playback | AAC radio streams (ADTS), and therefore most HLS streams | Broken (confirmed) | 21 |
+| Playback | AAC radio streams (ADTS) and AAC HLS | Works since point 21 (emulator verified) | 21 |
 | Playback | Playback with the screen off or the app in the background | Works since point 4 part 1 (confirmed) | 4 |
 | Playback | Media notification and lock-screen display of the current song | Works since point 4 part 1 (confirmed) | 4 |
 | Playback | Lock-screen and notification controls, headset buttons | Works since point 4 part 2 (confirmed) | 4 |
@@ -409,16 +409,41 @@ Installed the final signed non-debuggable APK and verified ordinary MP3 playback
 
 ### 21. AAC radio streams do not play
 
-**Status:** Open
+**Status:** Done (Android emulator verified; physical-device verification remains roadmap item 9)
 
-**Evidence:** Confirmed, found while resolving point 3.
+**Original evidence:** Confirmed, found while resolving point 3.
 Internet radio usually sends AAC as ADTS frames, unlike the raw AAC in M4A files that point 19 verified.
 - SomaFM's AAC streams use MPEG-2 ADTS (`mpegversion=2`), which `amcaudiodec` does not accept: it only registers `audio/mpeg, mpegversion=4` (raw or ADTS), so GStreamer reports a missing MPEG-2 AAC decoder.
 - Radio Paradise's AAC streams use MPEG-4 ADTS; `amcaudiodec` accepts them and Android's `c2.android.aac.decoder` is created, but it produces no output, and playback stays at 0:00 until it is stopped.
 HLS radio streams are almost always AAC, so they are affected as well.
 
-**Approach:** Find out why the MPEG-4 ADTS input stalls (for example by letting `aacparse` convert ADTS to raw AAC with `codec_data`, which works for M4A), and accept MPEG-2 AAC by presenting it as MPEG-4, which is the same AAC bitstream.
-If that is not feasible, reconsider `libav` (`avdec_aac` accepts both) from point 19.
+**Resolved:** Android registers `strawberryadtsdecoder`, an ADTS-only decoder bin ranked above the direct Android audio decoders.
+Its pipeline is `aacparse -> raw AAC version adapter -> Android AAC decoder`.
+The adapter only accepts raw AAC, so the parser must remove ADTS headers and provide `codec_data` (AudioSpecificConfig); Android is no longer configured in the non-working ADTS mode.
+After that conversion, MPEG-2 AAC is presented as MPEG-4 AAC without changing its compressed audio payload or configuration.
+The Android codec is selected from the registered `androidmedia` factories accepting raw MPEG-4 AAC.
+Missing components or failed linking report errors instead of leaving an apparently working decoder.
+
+The wrapper does not accept raw AAC at its factory input, so M4A continues to use the ordinary Android decoder.
+The existing rank reduction for other Android audio decoders remains in place; MP3, FLAC, Opus, and the other bundled GStreamer decoders keep their precedence.
+No libav decoder was added to the APK, and desktop application builds do not register or compile this wrapper.
+
+HLS testing also exposed two missing bundle components, independent of the AAC decoding failure.
+Added `adaptivedemux2` for the streams-aware HLS demuxer required by the app's `playbin3` path and `mpegtsdemux` for AAC carried in MPEG transport streams.
+Retained the legacy `hls` plugin for the non-streams-aware discovery path.
+
+**Verification:**
+- On the emulator, Radio Paradise Beyond... 128k AAC, SomaFM Beat Blender 128k AAC, and Radio Paradise Beyond... 32k AAC+ all produced continuous Android audio output.
+  Android's codec configuration reported raw AAC packaging rather than ADTS; active AudioFlinger tracks had increasing PCM server-frame counters across three-second observations with no underruns.
+  The Radio Paradise playback clock advanced past 0:00.
+- An owned, locally served multi-segment AAC/MPEG-TS HLS fixture played through segment transitions, including discontinuities, with increasing output-frame counters and no underruns.
+  This verifies the bundled HLS/transport-stream/decoder path, not every public HLS service, live-window behavior, encryption, or bitrate switching.
+- An owned AAC M4A fixture and the existing MP3 test track still produced increasing PCM output on the emulator.
+- `gstaacdecoder_test` exercises real `decodebin3` autoplugging with generated MPEG-2 and MPEG-4 ADTS.
+  It verifies that the wrapper is selected, the downstream decoder receives raw MPEG-4 AAC with `codec_data`, every compressed payload byte is preserved after header removal, and decoding produces PCM.
+  A raw AAC case verifies that the wrapper is bypassed.
+  These native tests use the optional host libav encoder/decoder; they skip explicitly if that plugin is unavailable and do not add an Android libav dependency.
+- The focused native `gstaacdecoder_test`, `gstenginepipeline_test`, and `gstqfilesrc_test` suites passed.
 
 ### 22. Adapt the cover dialogs to Android
 

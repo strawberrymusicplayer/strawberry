@@ -197,6 +197,12 @@ The Android GStreamer bundle includes `spectrum` for moodbar generation and `app
 The app and pbutils API archives must remain linked into `GStreamerMobile`, not separately into Strawberry: duplicate static app API copies produce incompatible `GstAppSink` types at runtime.
 The `api_app` component alone does not register the `app` plugin.
 
+AAC radio uses the Android-only `strawberryadtsdecoder` wrapper: `aacparse` converts MPEG-2/MPEG-4 ADTS to raw AAC with `codec_data`, a caps adapter presents MPEG-2 AAC as MPEG-4, and the system AAC decoder produces PCM.
+Keep `audioparsers` and `androidmedia` bundled for this path.
+Raw AAC from M4A bypasses the wrapper, and the APK does not need libav.
+AAC HLS additionally needs `adaptivedemux2` (streams-aware HLS for `playbin3`) and `mpegtsdemux` (MPEG-TS segments); retain `hls` for legacy discovery.
+Bundling just `hls` is insufficient for the app's playback path.
+
 The package source directory also supplies Android backup XML rules.
 Keep the manifest references and both rule files together: Android 11 and earlier use `fullBackupContent`, while Android 12 and later use `dataExtractionRules` for cloud backup and device transfer.
 All exclude `files/strawberry/strawberry.conf` (the `file` domain's `strawberry/strawberry.conf` path), which contains credentials as well as ordinary preferences.
