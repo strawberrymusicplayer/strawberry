@@ -489,6 +489,11 @@ optional_component(TRANSLATIONS ON "Translations"
 optional_component(SUBSONIC ON "Streaming: Subsonic")
 optional_component(TIDAL ON "Streaming: Tidal")
 optional_component(SPOTIFY ON "Streaming: Spotify")
+
+if(ANDROID)
+  set(HAVE_SPOTIFY OFF)
+endif()
+
 optional_component(QOBUZ ON "Streaming: Qobuz")
 optional_component(PLEX ON "Streaming: Plex")
 optional_component(JELLYFIN ON "Streaming: Jellyfin")

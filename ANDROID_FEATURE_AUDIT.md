@@ -257,12 +257,12 @@ Without GIO, UDisks2, MTP and libgpod, no device lister can find devices on Andr
 
 ### 13. Spotify cannot play on Android
 
-**Status:** Open
+**Status:** Done
 
-**Evidence:** Code.
+**Evidence:** Code and Android build configuration.
 Spotify playback needs the GStreamer Spotify plugin, which is not part of the Android SDK.
 
-**Approach:** Disable `ENABLE_SPOTIFY` for Android, or hide its settings page, unless the plugin is built for Android separately.
+**Resolution:** Android now disables `HAVE_SPOTIFY` in `CMakeLists.txt`, which removes the unsupported Spotify service and hides the corresponding settings and tab path on Android unless a dedicated Android build of the plugin exists.
 
 ### 14. Verify OAuth logins
 

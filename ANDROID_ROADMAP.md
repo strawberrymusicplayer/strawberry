@@ -26,7 +26,7 @@ Each item is completed one point at a time: fix, test, and commit each point sep
 
 ## 19. Audit all app functionality for Android compatibility
 
-**Status:** In progress (audit recorded in `ANDROID_FEATURE_AUDIT.md`; points 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 and 19 done, the others open)
+**Status:** In progress (audit recorded in `ANDROID_FEATURE_AUDIT.md`; points 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 and 19 done, the others open)
 
 **Goal:** Check every feature of the app and determine whether it works on Android as currently implemented.
 
