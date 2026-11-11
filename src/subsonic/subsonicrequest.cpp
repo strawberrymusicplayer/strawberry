@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <cmath>
+
 #include <QObject>
 #include <QDir>
 #include <QMimeDatabase>
@@ -501,13 +503,15 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_object, c
     size = json_object["size"_L1].toInt();
   }
 
-  qint64 duration = 0;
+  // The duration is in seconds, some servers send it with decimals, which toInt() returns as 0.
+  double duration_sec = 0.0;
   if (json_object["duration"_L1].type() == QJsonValue::String) {
-    duration = json_object["duration"_L1].toString().toInt() * kNsecPerSec;
+    duration_sec = json_object["duration"_L1].toString().toDouble();
   }
   else {
-    duration = json_object["duration"_L1].toInt() * kNsecPerSec;
+    duration_sec = json_object["duration"_L1].toDouble();
   }
+  const qint64 duration = static_cast<qint64>(std::llround(duration_sec * static_cast<double>(kNsecPerSec)));
 
   int bitrate = 0;
   if (json_object.contains("bitRate"_L1)) {
