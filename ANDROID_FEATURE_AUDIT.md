@@ -301,12 +301,19 @@ No real accounts or tokens were used for the verification above.
 
 ### 15. Review the Backend settings page
 
-**Status:** Open
+**Status:** Done
 
 **Evidence:** Code.
 The page still shows output and device selection and the EBU R128 loudness normalization group, although Android only has the OpenSL ES sink (no device lister) and EBU R128 is disabled; the ALSA options are already compiled out.
 
-**Approach:** Hide output and device selection and the EBU R128 group on Android; keep ReplayGain, fading, buffer and gapless options.
+**Resolution:** Hide the Audio output group on Android, and hide EBU R128 when that feature is not compiled in.
+An unavailable EBU R128 option is loaded unchecked so it cannot remain selected behind the visible normalization controls.
+The original output/device loading and saving remain intact; ReplayGain, fading, buffering and the other backend options retain their original models and save semantics.
+Desktop controls are unchanged.
+
+**Validation (2026-11-11):** Native and Android builds pass; packaged, signed and installed the APK.
+Verified Settings > General > Backend on the emulator: no output/device editor, no EBU R128 editor, Buffer and Fading still available, and Audio normalization exposes Replay Gain with its metadata toggle.
+Returned and canceled Settings without applying test changes.
 
 ### 16. Moodbar and waveform cannot be generated
 

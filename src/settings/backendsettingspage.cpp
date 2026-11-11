@@ -87,6 +87,13 @@ BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, const SharedPtr
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(u"soundcard"_s, true, 0, 32));
 
+#ifdef Q_OS_ANDROID
+  ui_->groupbox_audio_output->hide();
+#ifndef HAVE_EBUR128
+  ui_->groupbox_ebur128->hide();
+#endif
+#endif
+
   ui_->label_replaygainpreamp->setMinimumWidth(QFontMetrics(ui_->label_replaygainpreamp->font()).horizontalAdvance(u"-WW.W dB"_s));
   ui_->label_replaygainfallbackgain->setMinimumWidth(QFontMetrics(ui_->label_replaygainfallbackgain->font()).horizontalAdvance(u"-WW.W dB"_s));
 
@@ -195,7 +202,11 @@ void BackendSettingsPage::Load() {
   ui_->checkbox_replaygaincompression->setChecked(s.value(kRgCompression, kDefaultRgCompression).toBool());
   ui_->stickyslider_replaygainfallbackgain->setValue(static_cast<int>(s.value(kRgFallbackGain, kDefaultRgFallbackGain).toDouble() * 10 + 600));
 
+#if defined(Q_OS_ANDROID) && !defined(HAVE_EBUR128)
+  ui_->radiobutton_ebur128_loudness_normalization->setChecked(false);
+#else
   ui_->radiobutton_ebur128_loudness_normalization->setChecked(s.value(kEBUR128LoudnessNormalization, kDefaultEBUR128LoudnessNormalization).toBool());
+#endif
   ui_->stickyslider_ebur128_target_level->setValue(static_cast<int>(s.value(kEBUR128TargetLevelLUFS, kDefaultEBUR128TargetLevelLUFS).toDouble() * 10));
 
   ui_->checkbox_fadeout_stop->setChecked(s.value(kFadeoutEnabled, kDefaultFadeoutEnabled).toBool());
