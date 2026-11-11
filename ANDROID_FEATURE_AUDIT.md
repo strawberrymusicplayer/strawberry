@@ -266,13 +266,25 @@ Spotify playback needs the GStreamer Spotify plugin, which is not part of the An
 
 ### 14. Verify OAuth logins
 
-**Status:** Open
+**Status:** In progress
 
-**Evidence:** Code; blocked by point 2.
-Tidal, Qobuz, Spotify, Last.fm, ListenBrainz and several cover providers open the system browser and wait for a redirect to a local HTTP server (`LocalRedirectServer`).
-While the browser is in front, Android may freeze the app (see point 4), and some flows expect the user to copy a code back.
+**Evidence:** Code and partial emulator verification (2026-11-11); HTTPS is available since point 2.
+- Tidal uses an external `tidal://login/auth` callback, not a local HTTP server. The Android manifest had no matching intent filter, and no Qt URL handler routed incoming intents to the service.
+- Qobuz, Last.fm, ListenBrainz and the Genius lyrics provider use `LocalRedirectServer`. OpenTidal covers use a client-credentials token exchange without a browser. Spotify is currently disabled on Android (point 13).
+- While the browser is in front and playback is stopped, Android may freeze the app; the playback foreground service from point 4 does not establish that idle authentication survives.
 
-**Approach:** After point 2, test each login on the emulator; if the redirect is lost, keep the app active during login or use an app link redirect.
+**Resolved slice:** Added a browsable Android intent filter for `tidal://login/auth` and registered a Qt URL handler that forwards incoming callbacks through the existing `AuthorizationUrlReceived` signal to Tidal's OAuth validation.
+Desktop behavior is unchanged.
+
+**Validation:** Built the Android target, packaged with API 34, signed and installed the APK on the emulator.
+An injected denial callback resolves to Strawberry and launches its activity both cold and while running; an unrelated `tidal://other/auth` link does not resolve to it.
+This confirms intent resolution and activity delivery, not a successful provider login or token exchange.
+Three native loopback regression tests pass, covering the providers' callback parameters, ignoring a favicon request, and receiving headers in fragments.
+Further touch verification was inconclusive because the emulator surface stopped refreshing reliably.
+
+**Remaining:** Verify real login, denial/cancellation, return to the active settings page, token exchange and persistence for Tidal, Qobuz, Last.fm, ListenBrainz and Genius.
+Test a delayed browser return with playback stopped to determine whether idle process freezing disrupts the loopback flows.
+These checks require provider accounts and, where applicable, configured API credentials; no real accounts or tokens were used for the tests above.
 
 ### 15. Review the Backend settings page
 
