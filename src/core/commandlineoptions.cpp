@@ -125,7 +125,7 @@ constexpr char kVersionText[] = "Strawberry %1";
 CommandlineOptions::CommandlineOptions(int argc, char **argv)
     : argc_(argc),
 #ifdef Q_OS_WIN32
-      argv_(CommandLineToArgvW(GetCommandLineW(), &argc)),
+      argv_(nullptr),
 #else
       argv_(argv),
 #endif
@@ -141,7 +141,20 @@ CommandlineOptions::CommandlineOptions(int argc, char **argv)
       log_levels_(QLatin1String(logging::kDefaultLogLevels)) {
 
 #ifdef Q_OS_WIN32
-  Q_UNUSED(argv);
+  // The arguments are read with the wide character API, so they are not converted to the ANSI code page.
+  // The count is taken from the same call, the count from main() is for the arguments split by the C runtime, which can differ, for example when it expands wildcards.
+  // Options which are received from another instance are not parsed, so the command line is only read when the arguments are given.
+  argc_ = 0;
+  if (argv) {
+    int wide_argc = 0;
+    argv_ = CommandLineToArgvW(GetCommandLineW(), &wide_argc);
+    if (argv_) {
+      argc_ = wide_argc;
+    }
+    else {
+      qLog(Error) << "Failed to read the command line arguments";
+    }
+  }
 #endif
 
 #ifdef Q_OS_MACOS
