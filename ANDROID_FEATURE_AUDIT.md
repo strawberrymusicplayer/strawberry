@@ -11,8 +11,8 @@ Evidence: **Confirmed** means reproduced on the emulator; **Code** means derived
 
 Handoff notes for continuing in a new session (see also the notes in `ANDROID_CODE_REVIEW.md`):
 
-- Done: points 1, 2, 3, 4, 5, 6, 7, 8 and 19.
-- Next: points 9 to 18 and 20 to 22, in order.
+- Done: points 1, 2, 3, 4, 5, 6, 7, 8, 9 and 10 and 19.
+- Next: points 11 to 18 and 20 to 22, in order.
 - The SDK now has `android-37.0`, which Android Gradle plugin 7.4.1 cannot resolve; package the APK against `android-34` (see `ANDROID_BUILD_GUIDE.md`).
 - App Java sources go in `android/java/`, never `android/src/` (see `ANDROID_BUILD_GUIDE.md`).
 - Test files on the emulator: `/sdcard/Music/SessionTest/session_test1.wav` to `session_test3.wav` (5-minute untagged sine WAVs); the emulator data was reset on 2026-11-09, so the earlier test folders are gone.
@@ -230,13 +230,12 @@ Local music files were still treated as editable by `Song::IsEditable()`, which 
 
 ### 10. Transcoder has no encoders
 
-**Status:** Open
+**Status:** Done
 
 **Evidence:** Code.
-The Tools tab offers the transcoder, but no encoder or muxer plugins are bundled, so every format fails.
+The Android build ships no encoder or muxer plugins, and the tool would fail on every conversion attempt.
 
-**Approach:** Decide whether transcoding is wanted on Android.
-If so, bundle the needed encoders (`lame`, `flac`, `opus`, `vorbis`, `ogg`, `wavenc`, `voaacenc`, `isomp4`) and write output through a picker-chosen folder (point 8); otherwise hide the transcoder and its settings page.
+**Resolution:** The Android UI now hides the transcoder action from the Tools tab, removes the playlist action, and omits the Transcoding settings page so the unsupported tool cannot be reached on Android.
 
 ### 11. Hide the Devices tab
 

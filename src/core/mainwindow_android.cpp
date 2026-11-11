@@ -161,6 +161,8 @@ void MainWindow::SetupAndroidLayout() {
 
   // Menu bar actions are reachable through the Tools and Settings sidebar tabs and the playlist editor on Android.
   ui_->menuBar->hide();
+  ui_->action_transcoder->setVisible(false);
+  ui_->action_add_files_to_transcoder->setVisible(false);
 
   for (QToolButton *button : {ui_->back_button, ui_->pause_play_button, ui_->stop_button, ui_->forward_button, love_button, android_mute_button_}) {
     button->setMinimumSize(48, 48);
@@ -213,7 +215,7 @@ QWidget *MainWindow::CreateAndroidToolsPage() {
     }
   };
 
-  add_section(tr("Tools"), { ui_->action_cover_manager, ui_->action_equalizer, ui_->action_transcoder });
+  add_section(tr("Tools"), { ui_->action_cover_manager, ui_->action_equalizer });
   add_section(tr("Collection"), { ui_->action_update_collection, ui_->action_full_collection_scan, ui_->action_stop_collection_scan });
   layout->addStretch();
 

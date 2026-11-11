@@ -161,7 +161,9 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 #ifdef HAVE_TAGFETCHER
   AddPage(Page::Acoustid, new AcoustidSettingsPage(this, this), general);
 #endif
+#ifndef Q_OS_ANDROID
   AddPage(Page::Transcoding, new TranscoderSettingsPage(this, this), general);
+#endif
   AddPage(Page::Proxy, new NetworkProxySettingsPage(this, this), general);
 
   QTreeWidgetItem *iface = AddCategory(tr("User interface"));
