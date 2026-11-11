@@ -238,15 +238,13 @@ Transcoder::Transcoder(QObject *parent, const QString &settings_postfix)
 
   s.endGroup();
 
-  // faac uses VBR by default, which ignores the bitrate, so the rate control and the bitrate the AAC options show by default are saved.
+  // faac uses VBR by default, which ignores the bitrate, so the rate control the AAC options show by default is saved.
   // The rate control wasn't saved before, so a bitrate saved before is used with ABR too.
+  // The bitrate is not saved here, since the other AAC encoders use the saved bitrate, they keep their own default until the bitrate is saved in the AAC options.
   s.beginGroup("Transcoder/faac"_L1 + settings_postfix_);
 
   if (s.value(TranscoderSettings::FaacSettings::kRateControl).isNull()) {
     s.setValue(TranscoderSettings::FaacSettings::kRateControl, TranscoderSettings::FaacSettings::kRateControlABR);
-  }
-  if (s.value(TranscoderSettings::FaacSettings::kBitrate).isNull()) {
-    s.setValue(TranscoderSettings::FaacSettings::kBitrate, TranscoderSettings::FaacSettings::kDefaultBitrate);
   }
 
   s.endGroup();
@@ -824,6 +822,11 @@ void Transcoder::SetElementProperties(const QString &name, GObject *object) {
   // The AAC options are saved for faac, the other AAC encoders, like fdkaacenc, mfaacenc on Windows and atenc on macOS, only have the bitrate in common with it, the other options don't exist or have other meanings.
   if (name != "faac"_L1 && IsAACEncoder(object)) {
     SetElementPropertiesFromSettings(name, u"faac"_s, object, QStringList() << u"bitrate"_s);
+  }
+
+  // faac uses the bitrate the AAC options show by default, a saved bitrate replaces it below.
+  if (name == "faac"_L1 && g_object_class_find_property(G_OBJECT_GET_CLASS(object), "bitrate")) {
+    g_object_set(object, "bitrate", static_cast<gint>(TranscoderSettings::FaacSettings::kDefaultBitrate), nullptr);
   }
 
   SetElementPropertiesFromSettings(name, name, object);
