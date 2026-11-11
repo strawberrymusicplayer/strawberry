@@ -5,6 +5,7 @@ add_dependencies(strawberry_tests build_tests)
 add_definitions(-DGTEST_USE_OWN_TR1_TUPLE=1)
 
 set(TESTUTILS-SOURCES
+  src/environmentvariablerestorer.cpp
   src/mock_networkaccessmanager.cpp
   src/mock_playlistitem.cpp
   src/test_utils.cpp
