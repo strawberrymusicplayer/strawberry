@@ -26,6 +26,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QLineEdit>
+#include <QPushButton>
 #include <QMessageBox>
 #include <QNetworkReply>
 #include <QNetworkRequest>
@@ -39,6 +40,10 @@
 #include "coverfromurldialog.h"
 #include "ui_coverfromurldialog.h"
 
+#ifdef Q_OS_ANDROID
+#  include "coverdialogpage_android.h"
+#endif
+
 using namespace Qt::Literals::StringLiterals;
 
 CoverFromURLDialog::CoverFromURLDialog(SharedPtr<NetworkAccessManager> network, QWidget *parent)
@@ -48,6 +53,21 @@ CoverFromURLDialog::CoverFromURLDialog(SharedPtr<NetworkAccessManager> network, 
 
   ui_->setupUi(this);
   ui_->busy->hide();
+
+#ifdef Q_OS_ANDROID
+  android_page_ = new CoverDialogPage(this);
+  QObject::connect(this, &QDialog::finished, this, [this]() {
+    if (pending_reply_) {
+      pending_reply_->disconnect(this);
+      pending_reply_->abort();
+      pending_reply_->deleteLater();
+      pending_reply_.clear();
+    }
+    ui_->busy->hide();
+    ui_->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+    last_album_cover_ = result() == QDialog::Accepted ? last_album_cover_ : AlbumCoverImageResult();
+  });
+#endif
 
 }
 
@@ -64,19 +84,31 @@ AlbumCoverImageResult CoverFromURLDialog::Exec() {
   QClipboard *clipboard = QApplication::clipboard();
   ui_->url->setText(clipboard->text());
 
+#ifdef Q_OS_ANDROID
+  android_page_->Exec();
+#else
   exec();
+#endif
   return last_album_cover_;
 
 }
 
 void CoverFromURLDialog::accept() {
 
+#ifdef Q_OS_ANDROID
+  if (pending_reply_) return;
+  ui_->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+  android_page_->ShowError(QString());
+#endif
   ui_->busy->show();
 
   QNetworkRequest network_request(QUrl::fromUserInput(ui_->url->text()));
   network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
 
   QNetworkReply *reply = network_->get(network_request);
+#ifdef Q_OS_ANDROID
+  pending_reply_ = reply;
+#endif
   QObject::connect(reply, &QNetworkReply::finished, this, &CoverFromURLDialog::LoadCoverFromURLFinished);
 
 }
@@ -89,8 +121,16 @@ void CoverFromURLDialog::LoadCoverFromURLFinished() {
   if (!reply) return;
   reply->deleteLater();
 
+#ifdef Q_OS_ANDROID
+  pending_reply_.clear();
+  ui_->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+#endif
   if (reply->error() != QNetworkReply::NoError) {
+#ifdef Q_OS_ANDROID
+    android_page_->ShowError(tr("The site you requested does not exist!"));
+#else
     QMessageBox::information(this, tr("Fetching cover error"), tr("The site you requested does not exist!"));
+#endif
     return;
   }
 
@@ -100,7 +140,11 @@ void CoverFromURLDialog::LoadCoverFromURLFinished() {
   result.mime_type = Utilities::MimeTypeFromData(result.image_data);
 
   if (result.image.isNull()) {
+#ifdef Q_OS_ANDROID
+    android_page_->ShowError(tr("The site you requested is not an image!"));
+#else
     QMessageBox::information(this, tr("Fetching cover error"), tr("The site you requested is not an image!"));
+#endif
   }
   else {
     last_album_cover_ = result;

@@ -222,8 +222,11 @@ void ContextAlbum::ShowAndroidActions() {
     const QString text = action->isCheckable() ? tr("%1: %2").arg(action->iconText(), action->isChecked() ? tr("On") : tr("Off")) : action->iconText();
     QPushButton *button = dialog->AddButton(text);
     const QPointer<QAction> target = action;
-    QObject::connect(button, &QPushButton::clicked, dialog, [dialog, target]() {
-      dialog->accept();
+    const bool opens_editor = action == album_cover_choice_controller_->cover_from_url_action() ||
+                              action == album_cover_choice_controller_->search_for_cover_action() ||
+                              action == album_cover_choice_controller_->show_cover_action();
+    QObject::connect(button, &QPushButton::clicked, dialog, [dialog, target, opens_editor]() {
+      if (!opens_editor) dialog->accept();
       if (target) target->trigger();
     });
   }

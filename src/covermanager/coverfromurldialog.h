@@ -27,6 +27,7 @@
 #include <QObject>
 #include <QDialog>
 #include <QString>
+#include <QPointer>
 
 #include "includes/shared_ptr.h"
 #include "albumcoverimageresult.h"
@@ -35,6 +36,8 @@ class QWidget;
 
 class NetworkAccessManager;
 class Ui_CoverFromURLDialog;
+class QNetworkReply;
+class CoverDialogPage;
 
 // Controller for a dialog which fetches covers from the given URL.
 class CoverFromURLDialog : public QDialog {
@@ -55,6 +58,10 @@ class CoverFromURLDialog : public QDialog {
   SharedPtr<NetworkAccessManager> network_;
   Ui_CoverFromURLDialog *ui_;
   AlbumCoverImageResult last_album_cover_;
+#ifdef Q_OS_ANDROID
+  CoverDialogPage *android_page_;
+  QPointer<QNetworkReply> pending_reply_;
+#endif
 };
 
 #endif  // COVERFROMURLDIALOG_H

@@ -84,6 +84,7 @@
 #include "currentalbumcoverloader.h"
 #ifdef Q_OS_ANDROID
 #  include "core/androidstorage.h"
+#  include "coverdialogpage_android.h"
 #endif
 
 using std::make_shared;
@@ -516,6 +517,11 @@ void AlbumCoverChoiceController::ShowCover(const Song &song, const QImage &image
 
 void AlbumCoverChoiceController::ShowCover(const Song &song, const QPixmap &pixmap) {
 
+#ifdef Q_OS_ANDROID
+  QString title = song.effective_albumartist();
+  if (!song.effective_album().isEmpty()) title += " - "_L1 + song.effective_album();
+  CoverDialogPage::ShowCover(this, tr("Album cover") + u"\n"_s + title, pixmap);
+#else
   QDialog *dialog = new QDialog(this);
   dialog->setAttribute(Qt::WA_DeleteOnClose, true);
 
@@ -552,6 +558,7 @@ void AlbumCoverChoiceController::ShowCover(const Song &song, const QPixmap &pixm
   dialog->setWindowTitle(title_text);
   dialog->setFixedSize(label->pixmap(Qt::ReturnByValue).size() / pixmap.devicePixelRatioF());
   dialog->show();
+#endif
 
 }
 

@@ -10,8 +10,8 @@ Status values: Planned, In progress, Done.
 Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
-1. **Item 19:** Audit all app functionality for Android compatibility.
-2. The remaining open items: 13, 15, 16, 17, 12, 20, 21, 22, 23, 24, and finally 9 (physical-device verification, which needs a device).
+1. **Item 13:** Explore using Android's file picker for Files.
+2. The remaining open items: 15, 16, 17, 12, 20, 21, 22, 23, 24, and finally 9 (physical-device verification, which needs a device).
 
 ## 18. Review the Android changes for coding best practices
 
@@ -26,7 +26,7 @@ Each item is completed one point at a time: fix, test, and commit each point sep
 
 ## 19. Audit all app functionality for Android compatibility
 
-**Status:** In progress (audit recorded in `ANDROID_FEATURE_AUDIT.md`; points 1–21 done, point 22 open; point 14 disables browser login pending roadmap item 24; point 18 excludes settings from backups without implementing Keystore storage)
+**Status:** Done (all 22 points in `ANDROID_FEATURE_AUDIT.md` resolved within their documented scope; physical-device verification remains item 9; point 14 disables browser login pending roadmap item 24; point 18 excludes settings from backups without implementing Keystore storage)
 
 **Goal:** Check every feature of the app and determine whether it works on Android as currently implemented.
 

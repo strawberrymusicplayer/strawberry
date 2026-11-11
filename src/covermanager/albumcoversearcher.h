@@ -50,6 +50,7 @@ class QKeyEvent;
 
 class AlbumCoverLoader;
 class Ui_AlbumCoverSearcher;
+class CoverDialogPage;
 
 class SizeOverlayDelegate : public QStyledItemDelegate {
   Q_OBJECT
@@ -103,6 +104,9 @@ class AlbumCoverSearcher : public QDialog {
 
   quint64 id_;
   QMap<quint64, QStandardItem*> cover_loading_tasks_;
+#ifdef Q_OS_ANDROID
+  CoverDialogPage *android_page_;
+#endif
 };
 
 #endif  // ALBUMCOVERSEARCHER_H

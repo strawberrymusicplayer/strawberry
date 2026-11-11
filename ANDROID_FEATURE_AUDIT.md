@@ -447,7 +447,7 @@ Retained the legacy `hls` plugin for the non-streams-aware discovery path.
 
 ### 22. Adapt the cover dialogs to Android
 
-**Status:** Open
+**Status:** Done (Android emulator verified; physical-device verification remains roadmap item 9)
 
 **Evidence:** Confirmed, found while resolving point 5.
 - "Load cover from URL" (`CoverFromURLDialog`) appears as a desktop dialog across the full width, over the sidebar, with small OK and Cancel buttons.
@@ -455,3 +455,29 @@ Retained the legacy `hls` plugin for the non-streams-aware discovery path.
 - The full-size cover (`AlbumCoverChoiceController::ShowCover()`) is a non-modal top-level window. Opened from the Context cover actions, Back closes it; opened by double-tapping the cover, it does not get focus, so Back closes the app, and it disappears behind the main window when that repaints, for example at the next track.
 
 **Approach:** Show these dialogs full-page within the current tab, like `ActionDialog`, with touch-sized buttons, and make the full-size cover a modal, focused page that Back closes.
+
+**Resolved:**
+- Android's shared `CoverDialogPage` adapter hosts the existing URL and search editors inside the active tab or cover-action page, retaining their original controls, result handling, and cover-saving logic.
+  Desktop dialogs remain unchanged.
+- Editors show a wrapping breadcrumb and touch-sized Back button.
+  Underlying controls are hidden while an editor is active; Back restores exactly the parent level, and changing tabs cancels the editor.
+  Reusable editors return to their original owner as hidden child widgets, rather than creating native Android windows.
+- Forms scroll independently of their OK/Cancel footer.
+  Search fields are stacked vertically, and the scroll area can shrink on short landscape pages without pushing the footer offscreen.
+  While the keyboard is visible, the page shrinks above it; Qt Android's native-pixel keyboard coordinates are converted to logical host coordinates.
+- URL errors appear inline rather than in another floating dialog.
+  Only OK is disabled during a download, so Cancel and Back remain usable.
+  Closing the editor aborts its pending reply and discards rejected results; closing search clears its pending result IDs so late results cannot alter a reopened editor.
+- The full-size viewer is an opaque, focused child page, not a separate non-modal native window.
+  Its image preserves aspect ratio during resizing and repainting, and Back returns to the cover actions or directly to Context, depending on how it was opened.
+
+**Validation:**
+- All eight native `CoverDialogPageTest` cases passed, including portrait and short-landscape footer bounds, nested action/editor Back navigation, tab-switch cancellation, reusable ownership, accepted/rejected results, and image repaint/aspect ratio.
+  The existing `actiondialog_test` and `albumcoverchoicecontroller_test` suites also passed.
+- The emulator verified both full-size entry paths, Back navigation, downloaded search results, a successful URL download, and inline rejection of non-image responses.
+  OK/Cancel remained visible above the software keyboard and on the landscape search page.
+- An owned delayed HTTP response confirmed that Cancel returns immediately to the action page and does not apply the eventual image.
+  The restored original album-cover checksum remained unchanged after the delayed response.
+  Existing playlists and Collection tracks were retained; playback was paused and automatic rotation restored after testing.
+- The signed, non-debuggable release APK was reinstalled without clearing app data.
+  Startup and playback from the existing playlist worked, and Context displayed the restored original artwork after restart.
