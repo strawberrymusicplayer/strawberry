@@ -39,12 +39,17 @@ THE SOFTWARE.
 
 using namespace Qt::Literals::StringLiterals;
 
+@class SearchFieldDelegate;
+
 class SearchFieldPrivate : public QObject {
 
  public:
 
-  explicit SearchFieldPrivate(SearchField *qSearchField, NSSearchField *nsSearchField)
-    : QObject(qSearchField), qSearchField(qSearchField), nsSearchField(nsSearchField) {}
+  // Takes over the references to the search field and the delegate from alloc.
+  explicit SearchFieldPrivate(SearchField *qSearchField, NSSearchField *nsSearchField, SearchFieldDelegate *delegate)
+    : QObject(qSearchField), qSearchField(qSearchField), nsSearchField(nsSearchField), delegate(delegate) {}
+
+  ~SearchFieldPrivate() override;
 
   void textDidChange(const QString &text) {
 
@@ -92,6 +97,7 @@ class SearchFieldPrivate : public QObject {
 
   QPointer<SearchField> qSearchField;
   NSSearchField *nsSearchField;
+  SearchFieldDelegate *delegate;
 };
 
 @interface SearchFieldDelegate : NSObject<NSTextFieldDelegate> {
@@ -144,6 +150,16 @@ class SearchFieldPrivate : public QObject {
 
 @end
 
+SearchFieldPrivate::~SearchFieldPrivate() {
+
+  // The search field doesn't retain its delegate, so it's removed before the delegate is released, the search field can still call it while it's destroyed.
+  // The window container keeps its own reference to the search field.
+  [nsSearchField setDelegate:nil];
+  [delegate release];
+  [nsSearchField release];
+
+}
+
 @interface QocoaSearchField : NSSearchField
 -(BOOL)performKeyEquivalent:(NSEvent*)event;
 @end
@@ -187,7 +203,7 @@ SearchField::SearchField(QWidget *parent) : QWidget(parent) {
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
   NSSearchField *search = [[QocoaSearchField alloc] init];
   SearchFieldDelegate *delegate = [[SearchFieldDelegate alloc] init];
-  pimpl = delegate->pimpl = new SearchFieldPrivate(this, search);
+  pimpl = delegate->pimpl = new SearchFieldPrivate(this, search, delegate);
   [search setDelegate:static_cast<id<NSSearchFieldDelegate>>(delegate)];
 
   setAttribute(Qt::WA_NativeWindow);
