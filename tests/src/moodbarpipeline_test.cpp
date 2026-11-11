@@ -65,6 +65,8 @@ TEST(MoodbarPipelineTest, NotifyFinishedCallsBackOnce) {
   worker_thread.quit();
   worker_thread.wait();
   ASSERT_TRUE(finished);
+  EXPECT_TRUE(pipeline.success());
+  EXPECT_EQ(3000, pipeline.data().size());
 
   // Registering after the pipeline finished still calls back.
   pipeline.NotifyFinished(&context, [&calls_after]() { ++calls_after; });

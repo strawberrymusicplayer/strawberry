@@ -73,7 +73,7 @@ Handoff notes for continuing in a new session (see also the notes in `ANDROID_CO
 | Tools | Transcoder | Broken (no encoders) | 10 |
 | Devices | Devices tab | Not applicable | 11 |
 | Visuals | Analyzer | Hidden on Android | |
-| Visuals | Moodbar and waveform | Broken (code) | 16 |
+| Visuals | Moodbar and waveform | Generation verified on emulator | 16 |
 | Desktop | System tray, keep running, global shortcuts, MPRIS, single instance | Not applicable; already hidden or disabled | |
 | Security | Passwords and tokens in app-private settings | Acceptable; noted | 18 |
 
@@ -317,13 +317,18 @@ Returned and canceled Settings without applying test changes.
 
 ### 16. Moodbar and waveform cannot be generated
 
-**Status:** Open
+**Status:** Done
 
-**Evidence:** Code.
-Without fast spectrum, the moodbar pipeline uses GStreamer's `spectrum` element, and the waveform pipeline uses `appsink`; neither the `spectrum` nor the `app` plugin is bundled.
-Both also depend on point 1 to decode the files.
+**Resolved:** Bundled the `spectrum` and `app` plugins.
+Linked the app and pbutils API archives into `GStreamerMobile`, retaining their entry points there rather than linking separate copies into Strawberry.
+The duplicate app API previously caused `gst_app_sink_set_callbacks` to reject the plugin's `GstAppSink` type, preventing waveform generation.
 
-**Approach:** Bundle `spectrum` and `app`, then verify both in the seek bar; otherwise hide their settings and track bar options on Android.
+**Verification:** Native moodbar and waveform pipeline regressions passed, checking a 3000-byte RGB result and a valid fixed-resolution waveform blob.
+Built and installed the Android APK and played a local MP3 in each seekbar mode.
+Both private caches were empty before testing: moodbar produced 3000 RGB bytes and waveform produced an `SWVF` version 1 blob with 2000 min/max buckets (4013 bytes) and nonzero amplitude.
+The corrected build generated waveform data without the appsink type assertion; its API symbols are imported from `GStreamerMobile`.
+Restored Normal seekbar mode after testing; no music files or playlists were added or removed, and sidecar saving remained disabled.
+This verifies generation and private-cache output, not sidecar writes to shared storage.
 
 ### 17. Verify automatic collection updates
 

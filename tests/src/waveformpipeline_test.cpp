@@ -30,6 +30,7 @@
 #include <QSignalSpy>
 
 #include "engine/gststartup.h"
+#include "waveform/waveformbuilder.h"
 #include "waveform/waveformpipeline.h"
 
 #include "test_utils.h"
@@ -68,6 +69,7 @@ TEST(WaveformPipelineTest, DecodesWavToMagicBlob) {
   const QByteArray data = pipeline.data();
   EXPECT_GT(data.size(), 16);
   EXPECT_EQ(data.left(4), QByteArray("SWVF"));
+  EXPECT_TRUE(WaveformBuilder::IsValidBlob(data));
 
 }
 

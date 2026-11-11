@@ -26,7 +26,7 @@ Each item is completed one point at a time: fix, test, and commit each point sep
 
 ## 19. Audit all app functionality for Android compatibility
 
-**Status:** In progress (audit recorded in `ANDROID_FEATURE_AUDIT.md`; points 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 and 19 done, the others open; point 14 disables browser login pending roadmap item 24)
+**Status:** In progress (audit recorded in `ANDROID_FEATURE_AUDIT.md`; points 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 and 19 done, the others open; point 14 disables browser login pending roadmap item 24)
 
 **Goal:** Check every feature of the app and determine whether it works on Android as currently implemented.
 

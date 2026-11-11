@@ -193,6 +193,10 @@ Successful configuration produces:
 
 ### 4. Build the Android APK
 
+The Android GStreamer bundle includes `spectrum` for moodbar generation and `app` for waveform decoding through `appsink`.
+The app and pbutils API archives must remain linked into `GStreamerMobile`, not separately into Strawberry: duplicate static app API copies produce incompatible `GstAppSink` types at runtime.
+The `api_app` component alone does not register the `app` plugin.
+
 ```bash
 cd build
 

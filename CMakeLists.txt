@@ -267,6 +267,8 @@ if(ANDROID)
     equalizer
     audiofx
     replaygain
+    spectrum
+    app
     opensles
     # Android's system codecs, used for formats without a GStreamer decoder in this list, such as AAC.
     androidmedia
@@ -294,11 +296,11 @@ if(ANDROID)
   if(NOT EXISTS "${GSTREAMER_APP_STATIC_LIBRARY}" OR NOT EXISTS "${GSTREAMER_PBUTILS_STATIC_LIBRARY}")
     message(FATAL_ERROR "GStreamer app and pbutils static libraries are required for Android")
   endif()
-  set(STRAWBERRY_GSTREAMER_LINK_TARGETS
-    ${GSTREAMER_APP_STATIC_LIBRARY}
-    ${GSTREAMER_PBUTILS_STATIC_LIBRARY}
-    GStreamer::mobile
+  # Keep API entry points and plugin GTypes in the same shared library.
+  target_link_libraries(GStreamerMobile PRIVATE
+    "-Wl,--whole-archive,${GSTREAMER_APP_STATIC_LIBRARY},${GSTREAMER_PBUTILS_STATIC_LIBRARY},--no-whole-archive"
   )
+  set(STRAWBERRY_GSTREAMER_LINK_TARGETS GStreamer::mobile)
 else()
   set(STRAWBERRY_GSTREAMER_LINK_TARGETS
     PkgConfig::GLIB
