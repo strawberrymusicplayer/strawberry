@@ -179,7 +179,6 @@ void CollectionFilterWidget::Init(CollectionModel *model, CollectionFilter *filt
 
   // Connect signals
   QObject::connect(model_, &CollectionModel::GroupingChanged, group_by_dialog_, &GroupByDialog::CollectionGroupingChanged);
-  QObject::connect(model_, &CollectionModel::GroupingChanged, this, &CollectionFilterWidget::GroupingChanged);
   QObject::connect(group_by_dialog_, &GroupByDialog::Accepted, model_, &CollectionModel::SetGroupBy);
 
   const QList<QAction*> actions = filter_max_ages_.keys();
@@ -211,7 +210,11 @@ void CollectionFilterWidget::Init(CollectionModel *model, CollectionFilter *filt
       model_->SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy::AlbumArtist, CollectionModel::GroupBy::AlbumDisc, CollectionModel::GroupBy::None), false);
     }
     s.endGroup();
+    CheckCurrentGrouping(model_->GetGroupBy());
   }
+
+  // GroupingChanged() saves the grouping, so connect it after restoring the grouping from the settings.
+  QObject::connect(model_, &CollectionModel::GroupingChanged, this, &CollectionFilterWidget::GroupingChanged);
 
 }
 

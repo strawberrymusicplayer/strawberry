@@ -237,13 +237,13 @@ void StreamingSearchView::ReloadSettings() {
 
   int group_by_version = s.value(kSearchGroupByVersion, 0).toInt();
   if (group_by_version == 1 && s.contains(kSearchGroupBy1) && s.contains(kSearchGroupBy2) && s.contains(kSearchGroupBy3)) {
-    SetGroupBy(CollectionModel::Grouping(
+    ApplyGroupBy(CollectionModel::Grouping(
         static_cast<CollectionModel::GroupBy>(s.value(kSearchGroupBy1, static_cast<int>(CollectionModel::GroupBy::AlbumArtist)).toInt()),
         static_cast<CollectionModel::GroupBy>(s.value(kSearchGroupBy2, static_cast<int>(CollectionModel::GroupBy::AlbumDisc)).toInt()),
         static_cast<CollectionModel::GroupBy>(s.value(kSearchGroupBy3, static_cast<int>(CollectionModel::GroupBy::None)).toInt())));
   }
   else {
-    SetGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy::AlbumArtist, CollectionModel::GroupBy::AlbumDisc, CollectionModel::GroupBy::None));
+    ApplyGroupBy(CollectionModel::Grouping(CollectionModel::GroupBy::AlbumArtist, CollectionModel::GroupBy::AlbumDisc, CollectionModel::GroupBy::None));
   }
   s.endGroup();
 
@@ -710,14 +710,7 @@ void StreamingSearchView::GroupByClicked(QAction *action) {
 
 void StreamingSearchView::SetGroupBy(const CollectionModel::Grouping g) {
 
-  // Clear requests: changing "group by" on the models will cause all the items to be removed/added again,
-  // so all the QModelIndex here will become invalid. New requests will be created for those
-  // songs when they will be displayed again anyway (when StreamingSearchItemDelegate::paint will call LazyLoadAlbumCover)
-  cover_loader_tasks_.clear();
-
-  // Update the models
-  front_model_->SetGroupBy(g, true);
-  back_model_->SetGroupBy(g, false);
+  ApplyGroupBy(g);
 
   // Save the setting
   Settings s;
@@ -727,6 +720,19 @@ void StreamingSearchView::SetGroupBy(const CollectionModel::Grouping g) {
   s.setValue(kSearchGroupBy2, static_cast<int>(g.second));
   s.setValue(kSearchGroupBy3, static_cast<int>(g.third));
   s.endGroup();
+
+}
+
+void StreamingSearchView::ApplyGroupBy(const CollectionModel::Grouping g) {
+
+  // Clear requests: changing "group by" on the models will cause all the items to be removed/added again,
+  // so all the QModelIndex here will become invalid. New requests will be created for those
+  // songs when they will be displayed again anyway (when StreamingSearchItemDelegate::paint will call LazyLoadAlbumCover)
+  cover_loader_tasks_.clear();
+
+  // Update the models
+  front_model_->SetGroupBy(g, true);
+  back_model_->SetGroupBy(g, false);
 
   // Make sure the correct action is checked.
   const QList<QAction*> actions = group_by_actions_->actions();
