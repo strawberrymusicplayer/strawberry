@@ -35,6 +35,9 @@
 #include <QCloseEvent>
 
 #include "utilities/screenutils.h"
+#ifdef Q_OS_ANDROID
+#  include "widgets/actiondialog.h"
+#endif
 
 #include "errordialog.h"
 #include "ui_errordialog.h"
@@ -81,6 +84,16 @@ void ErrorDialog::ShowMessage(const QString &message) {
 
   current_messages_ << message;
   UpdateContent();
+
+#ifdef Q_OS_ANDROID
+  const QString text = current_messages_.join(u"\n\n"_s);
+  current_messages_.clear();
+  UpdateContent();
+  auto *dialog = new ActionDialog(parentWidget() ? parentWidget() : this, tr("Error"), tr("Error"), ActionDialog::TitlePosition::Top);
+  dialog->AskConfirmation(text, tr("OK"), [dialog]() { dialog->accept(); });
+  dialog->Open();
+  return;
+#endif
 
   if (QApplication::activeWindow()) {
     ShowDialog();
