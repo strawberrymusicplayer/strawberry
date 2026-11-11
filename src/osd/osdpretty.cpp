@@ -622,7 +622,10 @@ void OSDPretty::ShowMessage(const QString &summary, const QString &message, cons
 
   SetMessage(summary, message, image);
 
-  if (isVisible() && mode_ == Mode::Popup) {
+  // The OSD is still visible while it fades out, but it is being hidden, so it is shown again like a hidden OSD.
+  const bool fading_out = fader_->state() == QTimeLine::Running && fader_->direction() == QTimeLine::Backward;
+
+  if (isVisible() && mode_ == Mode::Popup && !fading_out) {
     // The OSD is already visible, toggle or restart the timer
     if (toggle_mode()) {
       set_toggle_mode(false);
@@ -642,8 +645,16 @@ void OSDPretty::ShowMessage(const QString &summary, const QString &message, cons
     if (toggle_mode()) {
       set_toggle_mode(false);
     }
-    // The OSD is not visible, show it
-    show();
+    if (fading_out) {
+      // Fade in again from the current opacity, the timeout is started in FaderFinished.
+      // The timeout of the previous message is still running when the OSD was clicked, it would fade the OSD out again.
+      timeout_->stop();
+      fader_->setDirection(QTimeLine::Forward);
+    }
+    else {
+      // The OSD is not visible, show it
+      show();
+    }
   }
 
 }
@@ -655,6 +666,10 @@ void OSDPretty::setVisible(bool visible) {
     fader_->start();
   }
   else {
+    // Hiding the OSD again while it fades out hides it at once, stop the fade-out so it isn't taken for a visible OSD fading out.
+    if (!visible) {
+      fader_->stop();
+    }
 #ifdef HAVE_LAYERSHELLQT
     const bool was_visible = isVisible();
 #endif
