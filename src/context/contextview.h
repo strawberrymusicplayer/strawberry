@@ -31,6 +31,7 @@
 #include <QString>
 #include <QImage>
 #include <QColor>
+#include <QPoint>
 #include <QAction>
 
 #include "includes/shared_ptr.h"
@@ -73,6 +74,7 @@ class ContextView : public QWidget {
   bool album_enabled() const { return action_show_album_->isChecked(); }
 
  protected:
+  bool eventFilter(QObject *watched, QEvent *event) override;
   void showEvent(QShowEvent *e) override;
   void hideEvent(QHideEvent *e) override;
   void dragEnterEvent(QDragEnterEvent *e) override;
@@ -101,9 +103,18 @@ class ContextView : public QWidget {
   qsizetype SyncedLyricsLine(const qint64 position_msec) const;
   void UpdateSyncedLyricsLine(const qint64 position_msec);
   void UpdateFonts();
+  struct LyricsClick {
+    QPoint position;
+    qsizetype line;
+  };
+  std::optional<qsizetype> SyncedLyricsLineAt(const QPoint &position) const;
+  void CancelLyricsClick();
+  std::optional<quint64> SyncedLyricsSeekPosition(const qsizetype line) const;
+  void UpdateLyricsCursor(const QPoint &position);
 
  Q_SIGNALS:
   void AlbumEnabledChanged();
+  void SyncedLyricsLineClicked(qsizetype line);
   void SaveLyrics(const Song &song, const QString &lyrics, const QString &synced_lyrics);
   // Opens the lyrics editor for the song.
   void EditLyrics(const Song &song);
@@ -136,6 +147,8 @@ class ContextView : public QWidget {
   SharedPtr<Player> player_;
   LyricsFetcher *lyrics_fetcher_;
   QTimer *timer_synced_lyrics_;
+  std::optional<LyricsClick> lyrics_click_;
+  Qt::CursorShape lyrics_cursor_shape_ = Qt::IBeamCursor;
 
   QMenu *menu_options_;
   QAction *action_show_album_;
