@@ -11,7 +11,7 @@ Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
 1. **Item 19:** Audit all app functionality for Android compatibility.
-2. The remaining open items: 13, 15, 16, 17, 12, 20, 21, and finally 9 (physical-device verification, which needs a device).
+2. The remaining open items: 13, 15, 16, 17, 12, 20, 21, 22, and finally 9 (physical-device verification, which needs a device).
 
 ## 18. Review the Android changes for coding best practices
 
@@ -597,3 +597,17 @@ Keep this visual update Android-only.
 **Next steps:**
 - Disable the scroll buttons on Android (`FancyTabWidget` calls `setUsesScrollButtons(true)` for every platform); keep them on desktop.
 - Verify in landscape, where the tabs overflow, that the arrows are gone, the full height is used for tabs, and every tab can still be reached by dragging and tapped.
+
+## 22. Build and bundle a Spotify GStreamer plugin for Android
+
+**Status:** Planned
+
+**Problem:** Spotify playback requires a GStreamer plugin that is not included in the Android SDK, so Spotify is currently disabled on Android.
+
+**Goal:** Investigate building and bundling an Android-compatible Spotify GStreamer plugin to restore Spotify playback.
+
+**Next steps:**
+- Identify the plugin and its dependencies, and verify Android support, licensing, and compatibility with Strawberry's Spotify playback and authentication.
+- Cross-compile for the supported Android ABIs using the app's GStreamer toolchain, and package and register the plugin in the APK.
+- Re-enable Spotify only once the required plugin is available; preserve existing desktop behavior.
+- Verify login, playback, seeking, track transitions, and background playback on Android before marking this item done.
