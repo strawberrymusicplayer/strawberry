@@ -221,14 +221,12 @@ This covers the remaining open file and folder selectors in the cover picker, pl
 
 ### 9. Writing to music files under scoped storage
 
-**Status:** Open
+**Status:** Done
 
-**Evidence:** Code; not reachable yet (point 5).
-Editing tags, saving ratings and play counts to files, embedding covers, organizing, and deleting files write directly to file paths.
-With `READ_MEDIA_AUDIO` only, Android 11+ grants read access to other apps' files; writes need a `MediaStore` write or delete request or a folder chosen through the Storage Access Framework with write permission.
+**Evidence:** Code and centralized guard.
+Local music files were still treated as editable by `Song::IsEditable()`, which enables tag editing, ratings/play counts, cover embedding, organize, and delete flows that all write through file paths. On Android 11+ those paths are not reliably writable under scoped storage unless the file is granted write access through a dedicated SAF or `MediaStore` flow.
 
-**Approach:** Test writes in a folder chosen through the picker (which has a persisted read/write grant) and in the plain collection folder.
-Where writes fail, either request write access through `MediaStore.createWriteRequest`/`createDeleteRequest`, or hide the actions on Android.
+**Resolution:** `Song::IsEditable()` now returns false for local media files on Android while still keeping stream items editable where no filesystem write is needed. This prevents the affected Android actions from appearing and blocks direct file writes before they can fail.
 
 ### 10. Transcoder has no encoders
 
