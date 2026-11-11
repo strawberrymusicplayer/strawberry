@@ -25,6 +25,7 @@
 #include <windows.h>
 
 #include <QObject>
+#include <QMutex>
 #include <QString>
 #include <QUrl>
 #include <QImage>
@@ -40,6 +41,8 @@ class AlbumCoverLoaderResult;
 
 class WinSystemMediaTransportControls : public QObject {
   Q_OBJECT
+
+  friend class WinSystemMediaTransportControlsTest;
 
  public:
   explicit WinSystemMediaTransportControls(SharedPtr<Player> player, QObject *parent = nullptr);
@@ -60,6 +63,7 @@ class WinSystemMediaTransportControls : public QObject {
   void UpdateMetadata(const Song &song);
   void UpdateTimeline();
   void SetThumbnail(const QImage &image);
+  void SetThumbnailFromStream(const quint64 thumbnail_id, void *stream);
   void ClearThumbnail();
 
   SharedPtr<Player> player_;
@@ -75,6 +79,17 @@ class WinSystemMediaTransportControls : public QObject {
   QUrl current_song_url_;
   qint64 current_duration_nanosec_;
   QTimer *timeline_timer_;
+  // Increased for each new thumbnail, so a thumbnail which finishes storing after a newer one was set or cleared is ignored.
+  quint64 thumbnail_id_;
+
+  // Shared with the thumbnail store completion handlers, which run on another thread.
+  // The destructor closes it, a handler only queues a call to this object while it holds the mutex and it's open, so this object isn't destroyed while it's queued.
+  struct ThumbnailGate {
+    QMutex mutex;
+    bool open = true;
+  };
+  SharedPtr<ThumbnailGate> thumbnail_gate_;
+  void *thumbnail_store_operation_;  // __FIAsyncOperation_1_UINT32_t*, kept until the next thumbnail
 };
 
 #endif  // WINSYSTEMMEDIATRANSPORTCONTROLS_H
