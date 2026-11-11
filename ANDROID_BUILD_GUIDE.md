@@ -197,6 +197,12 @@ The Android GStreamer bundle includes `spectrum` for moodbar generation and `app
 The app and pbutils API archives must remain linked into `GStreamerMobile`, not separately into Strawberry: duplicate static app API copies produce incompatible `GstAppSink` types at runtime.
 The `api_app` component alone does not register the `app` plugin.
 
+The package source directory also supplies Android backup XML rules.
+Keep the manifest references and both rule files together: Android 11 and earlier use `fullBackupContent`, while Android 12 and later use `dataExtractionRules` for cloud backup and device transfer.
+All exclude `files/strawberry/strawberry.conf` (the `file` domain's `strawberry/strawberry.conf` path), which contains credentials as well as ordinary preferences.
+Other app data remains eligible for backup.
+Update both rule files if the settings location changes.
+
 ```bash
 cd build
 

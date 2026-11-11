@@ -75,7 +75,7 @@ Handoff notes for continuing in a new session (see also the notes in `ANDROID_CO
 | Visuals | Analyzer | Hidden on Android | |
 | Visuals | Moodbar and waveform | Generation verified on emulator | 16 |
 | Desktop | System tray, keep running, global shortcuts, MPRIS, single instance | Not applicable; already hidden or disabled | |
-| Security | Passwords and tokens in app-private settings | Acceptable; noted | 18 |
+| Security | Passwords and tokens in app-private settings | Settings excluded from Android backups | 18 |
 
 ## Points
 
@@ -345,13 +345,20 @@ This verifies live monitoring on the emulator, not all physical devices or backg
 
 ### 18. Credentials are stored in plain text
 
-**Status:** Open
+**Status:** Done (backup exclusion; Keystore storage not implemented)
 
-**Evidence:** Code.
-Without a keychain backend, passwords and tokens are stored in the app's private settings file.
-On Android this file is only readable by the app, except on rooted devices or through backups (`allowBackup="true"`).
+**Resolved:** The manifest references `backup_rules.xml` for Android 11 and earlier and `data_extraction_rules.xml` for Android 12 and later.
+Both exclude `strawberry/strawberry.conf` in the `file` domain, matching the app-private `files/strawberry/strawberry.conf` settings location verified on the emulator.
+The modern rules apply the exclusion to both cloud backups and device-to-device transfers.
+Backups remain enabled for other app data, including the collection database and playlists.
+The settings file contains ordinary preferences as well as credentials, so neither is restored through Android backup; users must reconfigure preferences and authenticate on a new device.
 
-**Approach:** At least exclude the settings file from Android backups; storing secrets in the Android Keystore is optional.
+**Verification:** Release APK packaging and its vital lint checks passed.
+Resolved the manifest resource IDs in the optimized APK and inspected the compiled XML: all three backup modes exclude the settings file, with no include-only rule that would suppress other app backups.
+Checked that database, database-backup and playlist paths are not excluded.
+Installed the signed non-debuggable APK over the existing installation and confirmed the app launches.
+The emulator's Backup Manager is disabled; no end-to-end backup/restore or device-transfer test was run and no backup-service settings were changed.
+Settings remain plain text inside the app sandbox; this does not protect rooted-device access, encrypt credentials, or remove copies already present in older backups.
 
 ### 19. Decode AAC and the remaining formats
 

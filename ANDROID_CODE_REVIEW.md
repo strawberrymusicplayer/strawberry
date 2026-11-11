@@ -352,7 +352,8 @@ Handoff notes for continuing in a new session:
 **Resolved:**
 - The owner chose the fork-specific ID `nl.dewitweb.strawberryflavor`; the `package` attribute in `android/AndroidManifest.xml` sets it, and `androiddeployqt` uses it as the Gradle `androidPackageName` and application ID.
   No code refers to the package name, and the FileProvider authority follows `${applicationId}`.
-- Backups stay enabled, so Android can restore the settings, collection database, and playlists on a new device.
+- Backups stay enabled for the collection database and playlists.
+  Feature audit point 18 subsequently excluded the credential-bearing settings file from legacy/cloud backups and device-to-device transfers; preferences and authentication must be configured again on a new device.
 - The new ID starts with empty app data; the old app is not migrated and has to be uninstalled separately once the new one is set up.
 - The adb commands in the Android documents use the new ID.
 - The APK reports package `nl.dewitweb.strawberryflavor`; on the emulator it installed alongside the old app, `resolve-activity` found `QtActivity`, and it started with an empty collection without errors.
