@@ -392,7 +392,7 @@ TEST_F(SubsonicServiceTest, ReloadSettingsKeepsRefreshWhenServerIsUnchanged) {
 // A Subsonic server with albums with one song each, which can ignore the offset of the album list like some servers do.
 class FakeSubsonicServer : public QTcpServer {
  public:
-  explicit FakeSubsonicServer(const int albums, const bool ignore_offset) : albums_(albums), ignore_offset_(ignore_offset), album_list_requests_(0) {
+  explicit FakeSubsonicServer(const int albums, const bool ignore_offset, const QJsonValue &song_duration = 60) : albums_(albums), ignore_offset_(ignore_offset), song_duration_(song_duration), album_list_requests_(0) {
     QObject::connect(this, &QTcpServer::newConnection, this, [this]() {
       while (QTcpSocket *socket = nextPendingConnection()) {
         QObject::connect(socket, &QTcpSocket::readyRead, socket, [this, socket]() { ReadRequests(socket); });
@@ -438,7 +438,7 @@ class FakeSubsonicServer : public QTcpServer {
     else if (url.path().endsWith("/getAlbum.view"_L1)) {
       album_requests_ << query.queryItemValue(u"id"_s);
       const QString album_id = query.queryItemValue(u"id"_s);
-      const QJsonObject song{{u"id"_s, QString(u"song-"_s + album_id)}, {u"title"_s, u"Song"_s}, {u"album"_s, album_id}, {u"artist"_s, u"Artist"_s}, {u"size"_s, 1000}, {u"suffix"_s, u"flac"_s}, {u"duration"_s, 60}, {u"type"_s, u"music"_s}};
+      const QJsonObject song{{u"id"_s, QString(u"song-"_s + album_id)}, {u"title"_s, u"Song"_s}, {u"album"_s, album_id}, {u"artist"_s, u"Artist"_s}, {u"size"_s, 1000}, {u"suffix"_s, u"flac"_s}, {u"duration"_s, song_duration_}, {u"type"_s, u"music"_s}};
       response.insert(u"album"_s, QJsonObject{{u"id"_s, album_id}, {u"song"_s, QJsonArray{song}}});
     }
 
@@ -448,13 +448,14 @@ class FakeSubsonicServer : public QTcpServer {
 
   const int albums_;
   const bool ignore_offset_;
+  const QJsonValue song_duration_;
   int album_list_requests_;
   QStringList album_requests_;
   QHash<QTcpSocket*, QByteArray> buffers_;
 };
 
 // Refreshes the collection from the server, returns the number of songs, or -1 when the refresh failed or timed out.
-int RefreshFromServer(SubsonicService *service, const SharedPtr<CredentialsManager> &credentials_manager, const FakeSubsonicServer &server) {
+int RefreshFromServer(SubsonicService *service, const SharedPtr<CredentialsManager> &credentials_manager, const FakeSubsonicServer &server, SongMap *songs = nullptr) {
 
   {
     Settings s;
@@ -475,6 +476,7 @@ int RefreshFromServer(SubsonicService *service, const SharedPtr<CredentialsManag
   if (!WaitForCredentialsReply(credentials_manager->DeletePasswordAsync(QLatin1String(SubsonicSettings::kCredentialsService)))) return -1;
 
   if (!finished || !spy.at(0).at(1).toString().isEmpty()) return -1;
+  if (songs) *songs = spy.at(0).at(0).value<SongMap>();
   return static_cast<int>(spy.at(0).at(0).value<SongMap>().count());
 
 }
@@ -501,6 +503,42 @@ TEST_F(SubsonicServiceTest, AlbumListIsPaged) {
   EXPECT_EQ(3, server.album_list_requests());
   EXPECT_EQ(1003, server.album_requests().count());
   EXPECT_TRUE(server.album_requests().contains(u"album-1002"_s));
+
+}
+
+// Regression test: the duration was read as an integer, so a duration with decimals, which some servers send, became 0.
+TEST_F(SubsonicServiceTest, FractionalDurationIsKept) {
+
+  FakeSubsonicServer server(1, false, 245.3);
+  ASSERT_TRUE(server.listen(QHostAddress::LocalHost));
+
+  SongMap songs;
+  ASSERT_EQ(1, RefreshFromServer(&*service_, credentials_manager_, server, &songs));
+  EXPECT_EQ(245'300'000'000LL, songs.first().length_nanosec());
+
+}
+
+// Some servers send the duration as a string, 4.1 seconds in nanoseconds is just below 4100000000 as a double, so it's rounded.
+TEST_F(SubsonicServiceTest, FractionalDurationStringIsKept) {
+
+  FakeSubsonicServer server(1, false, u"4.1"_s);
+  ASSERT_TRUE(server.listen(QHostAddress::LocalHost));
+
+  SongMap songs;
+  ASSERT_EQ(1, RefreshFromServer(&*service_, credentials_manager_, server, &songs));
+  EXPECT_EQ(4'100'000'000LL, songs.first().length_nanosec());
+
+}
+
+// Whole seconds, sent by most servers, are still read.
+TEST_F(SubsonicServiceTest, DurationIsRead) {
+
+  FakeSubsonicServer server(1, false, 60);
+  ASSERT_TRUE(server.listen(QHostAddress::LocalHost));
+
+  SongMap songs;
+  ASSERT_EQ(1, RefreshFromServer(&*service_, credentials_manager_, server, &songs));
+  EXPECT_EQ(60'000'000'000LL, songs.first().length_nanosec());
 
 }
 
