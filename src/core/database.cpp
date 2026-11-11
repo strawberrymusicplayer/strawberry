@@ -464,11 +464,8 @@ bool Database::ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filen
     error = QStringLiteral("%1: %2").arg(filename, schema_file.errorString());
     return false;
   }
-  QByteArray data = schema_file.readAll();
-  QString schema = QString::fromUtf8(data);
-  if (schema.contains("\r\n"_L1)) {
-    schema = schema.replace("\r\n"_L1, "\n"_L1);
-  }
+  const QByteArray data = schema_file.readAll();
+  const QString schema = QString::fromUtf8(data);
   schema_file.close();
 
   return ExecSchemaCommands(db, schema, schema_version, error, in_transaction);
@@ -477,9 +474,14 @@ bool Database::ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filen
 
 bool Database::ExecSchemaCommands(QSqlDatabase &db, const QString &schema, const int schema_version, QString &error, const bool in_transaction) {
 
+  // The schema files can have Windows line endings, for example when the sources are checked out on Windows, the commands are only split on Unix line endings.
+  // This is done here for all schemas, since the device schema is read by the device database backend.
+  QString schema_unix = schema;
+  schema_unix.replace("\r\n"_L1, "\n"_L1);
+
   // Run each command
   static const QRegularExpression regex_split_commands(u"; *\n\n"_s);
-  QStringList commands = schema.split(regex_split_commands);
+  QStringList commands = schema_unix.split(regex_split_commands);
 
   // We don't want this list to reflect possible DB schema changes, so we initialize it before executing any statements.
   // If no outer transaction is provided the song tables need to be queried before beginning an inner transaction!

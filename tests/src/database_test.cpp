@@ -147,6 +147,43 @@ TEST(DatabaseTest, NewDatabaseIsCreated) {
 
 }
 
+// Creates the tables of a device in a new database from the device schema, with Unix or Windows line endings, and returns the schema objects of the device.
+QString CreateDeviceTables(const QString &filename, const bool windows_line_endings) {
+
+  QFile schema_file(u":/schema/device-schema.sql"_s);
+  if (!schema_file.open(QIODevice::ReadOnly)) return QString();
+  QString schema = QString::fromUtf8(schema_file.readAll()).replace("\r\n"_L1, "\n"_L1);
+  schema.replace("%deviceid"_L1, u"1"_s);
+  if (windows_line_endings) {
+    schema.replace(u'\n', "\r\n"_L1);
+  }
+
+  {
+    Database database(nullptr, nullptr, filename);
+    if (!database.startup_error().isEmpty()) return QString();
+    QSqlDatabase db = database.Connect();
+    QString error;
+    const bool success = database.ExecSchemaCommands(db, schema, 0, error);
+    database.Close();
+    if (!success) return QString();
+  }
+
+  return QueryValue(filename, u"SELECT group_concat(type || ':' || name, ',') FROM (SELECT type, name FROM sqlite_master WHERE name LIKE 'device\\_1\\_%' ESCAPE '\\' ORDER BY name)"_s).toString();
+
+}
+
+// Regression test: the device schema was split into commands on Unix line endings only, so with Windows line endings only the first command was run.
+TEST(DatabaseTest, SchemaWithWindowsLineEndings) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+
+  const QString unix_objects = CreateDeviceTables(temp_dir.filePath(u"unix.db"_s), false);
+  ASSERT_GT(unix_objects.count(u','), 1) << unix_objects.toStdString();
+  EXPECT_EQ(unix_objects, CreateDeviceTables(temp_dir.filePath(u"windows.db"_s), true));
+
+}
+
 // Regression test: a file which isn't a database was set up as a new database, which failed and aborted Strawberry with qFatal().
 TEST(DatabaseTest, NotADatabaseIsAnError) {
 
