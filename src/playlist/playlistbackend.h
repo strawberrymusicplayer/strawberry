@@ -109,8 +109,8 @@ class PlaylistBackend : public QObject {
   };
 
   static QString PlaylistItemsQuery();
-  PlaylistItemPtr NewPlaylistItemFromQuery(const SqlRow &row, SharedPtr<NewSongFromQueryState> state);
-  Song NewSongFromQuery(const SqlRow &row, SharedPtr<NewSongFromQueryState> state);
+  static PlaylistItemPtr NewPlaylistItemFromQuery(const SqlRow &row);
+  void RestoreCueData(PlaylistItemPtrList &playlist_items);
   Song ReloadPlaylistItem(PlaylistItemPtr item) const;
   PlaylistItemPtr RestoreCueData(PlaylistItemPtr item, SharedPtr<NewSongFromQueryState> state);
 
