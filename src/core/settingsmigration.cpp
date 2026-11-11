@@ -19,6 +19,7 @@
 
 #include "config.h"
 
+#include <QList>
 #include <QString>
 #include <QStringList>
 #include <QVariant>
@@ -32,13 +33,9 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-namespace {
+using SettingsMigration::RenamedKey;
 
-struct RenamedKey {
-  const char *group;
-  const char *old_key;
-  const char *new_key;
-};
+namespace {
 
 const RenamedKey kRenamedKeys[] = {
   {"Appearance", "use-custom-color-set", "use_custom_color_set"},
@@ -259,6 +256,16 @@ void Migrate() {
   MigrateRemovedKeys(s);
   MigrateTranscoder(s);
   MigrateScrobblerSources(s);
+
+}
+
+QList<RenamedKey> RenamedKeys() {
+
+  QList<RenamedKey> renamed_keys;
+  for (const RenamedKey &renamed_key : kRenamedKeys) {
+    renamed_keys << renamed_key;
+  }
+  return renamed_keys;
 
 }
 

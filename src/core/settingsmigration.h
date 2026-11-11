@@ -20,11 +20,22 @@
 #ifndef SETTINGSMIGRATION_H
 #define SETTINGSMIGRATION_H
 
+#include <QList>
+
 namespace SettingsMigration {
+
+struct RenamedKey {
+  const char *group;
+  const char *old_key;
+  const char *new_key;
+};
 
 // Updates settings saved by previous versions: renamed keys are moved to their new keys and keys which are not used anymore are removed.
 // It must be called before the settings are read, settings which have been migrated are not migrated again.
 void Migrate();
+
+// Returns the keys which are moved to new keys, the tests check them against the keys read by the code.
+QList<RenamedKey> RenamedKeys();
 
 }  // namespace SettingsMigration
 
