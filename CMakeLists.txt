@@ -528,6 +528,10 @@ optional_component(STREAMTAGREADER ON "Stream tagreader"
 
 optional_component(DISCORD_RPC ON "Discord Rich Presence")
 
+if(ANDROID)
+  set(HAVE_DISCORD_RPC OFF)
+endif()
+
 if(HAVE_X11_GLOBALSHORTCUTS OR HAVE_KGLOBALACCEL_GLOBALSHORTCUTS OR APPLE OR WIN32)
   set(HAVE_GLOBALSHORTCUTS ON)
 endif()

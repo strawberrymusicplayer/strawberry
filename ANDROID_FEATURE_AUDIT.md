@@ -248,12 +248,12 @@ Without GIO, UDisks2, MTP and libgpod, no device lister can find devices on Andr
 
 ### 12. Disable Discord Rich Presence
 
-**Status:** Open
+**Status:** Done
 
-**Evidence:** Code.
+**Evidence:** Code and Android build configuration.
 `DiscordRichPresence` is created in `main.cpp` and configured on the Notifications settings page, but it talks to the Discord desktop client over a local IPC socket, which does not exist on Android.
 
-**Approach:** Disable `ENABLE_DISCORD_RPC` for Android builds, or hide its settings and skip creating it.
+**Resolution:** Android now disables `HAVE_DISCORD_RPC` in `CMakeLists.txt` and hides the Discord Rich Presence section in the Notifications settings page so the unsupported feature cannot be created or configured on Android.
 
 ### 13. Spotify cannot play on Android
 

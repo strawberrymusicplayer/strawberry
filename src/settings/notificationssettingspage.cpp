@@ -73,6 +73,7 @@ NotificationsSettingsPage::NotificationsSettingsPage(SettingsDialog *dialog, OSD
   setWindowIcon(IconLoader::Load(u"help-hint"_s, true, 0, 32));
 
 #ifdef Q_OS_ANDROID
+  ui_->groupbox_discord->hide();
   pretty_popup_->SetMessage(tr("OSD Preview"), QString(), QImage(u":/pictures/cdcase.png"_s));
 #else
   pretty_popup_->SetMessage(tr("OSD Preview"), tr("Drag to reposition"), QImage(u":/pictures/cdcase.png"_s));
