@@ -110,6 +110,9 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
   QObject::connect(action_save_playlist_, &QAction::triggered, this, &PlaylistListContainer::SavePlaylist);
 #ifndef Q_OS_WIN32
   QObject::connect(action_copy_to_device_, &QAction::triggered, this, &PlaylistListContainer::CopyToDevice);
+#ifdef Q_OS_ANDROID
+  action_copy_to_device_->setVisible(false);
+#endif
 #endif
   QObject::connect(model_, &PlaylistListModel::PlaylistPathChanged, this, &PlaylistListContainer::PlaylistPathChanged);
 

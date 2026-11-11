@@ -193,6 +193,9 @@ void CollectionView::AddContextMenuActions(QMenu *menu) {
 
   action_copy_to_device_->setDisabled(device_manager_->connected_devices_model()->rowCount() == 0);
   QObject::connect(device_manager_->connected_devices_model(), &DeviceStateFilterModel::IsEmptyChanged, action_copy_to_device_, &QAction::setDisabled);
+#ifdef Q_OS_ANDROID
+  action_copy_to_device_->setVisible(false);
+#endif
 
 }
 

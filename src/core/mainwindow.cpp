@@ -497,6 +497,7 @@ MainWindow::MainWindow(Application *app,
   ui_->tabs->AddTab(radio_view_, u"radios"_s, IconLoader::Load(u"radio"_s, true, 0, 32), tr("Radios"));
   ui_->tabs->AddTab(device_view_, u"devices"_s, IconLoader::Load(u"device"_s, true, 0, 32), tr("Devices"));
 #ifdef Q_OS_ANDROID
+  ui_->tabs->DisableTab(device_view_);
   ui_->tabs->AddTab(CreateAndroidToolsPage(), u"tools"_s, IconLoader::Load(u"configure"_s, true, 0, 32), tr("Tools"));
   ui_->tabs->AddTab(CreateAndroidSettingsTab(), u"settings"_s, IconLoader::Load(u"system-run"_s, true, 0, 32), tr("Settings"));
 #endif
@@ -975,6 +976,9 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(&*app_->device_manager(), &DeviceManager::DeviceError, this, &MainWindow::ShowErrorDialog);
   QObject::connect(app_->device_manager()->connected_devices_model(), &DeviceStateFilterModel::IsEmptyChanged, playlist_copy_to_device_, &QAction::setDisabled);
   playlist_copy_to_device_->setDisabled(app_->device_manager()->connected_devices_model()->rowCount() == 0);
+#ifdef Q_OS_ANDROID
+  playlist_copy_to_device_->setVisible(false);
+#endif
 
   QObject::connect(&*app_->scrobbler()->settings(), &ScrobblerSettingsService::ScrobblingEnabledChanged, this, &MainWindow::ScrobblingEnabledChanged);
   QObject::connect(&*app_->scrobbler()->settings(), &ScrobblerSettingsService::ScrobbleButtonVisibilityChanged, this, &MainWindow::ScrobbleButtonVisibilityChanged);

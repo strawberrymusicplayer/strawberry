@@ -239,12 +239,12 @@ The Android build ships no encoder or muxer plugins, and the tool would fail on 
 
 ### 11. Hide the Devices tab
 
-**Status:** Open
+**Status:** Done
 
 **Evidence:** Confirmed that the tab is shown; code for the cause.
 Without GIO, UDisks2, MTP and libgpod, no device lister can find devices on Android, so the tab is always empty.
 
-**Approach:** Hide the Devices tab and the "Copy to device" actions on Android.
+**Resolution:** The Devices tab is disabled on Android, and the "Copy to device" actions are hidden in the playlist and collection context flows so the unsupported feature cannot be reached.
 
 ### 12. Disable Discord Rich Presence
 
