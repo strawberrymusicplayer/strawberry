@@ -75,7 +75,8 @@ SubsonicRequest::SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *u
       album_covers_requests_active_(0),
       album_covers_requested_(0),
       album_covers_received_(0),
-      no_results_(false) {}
+      no_results_(false),
+      album_without_songs_received_(false) {}
 
 SubsonicRequest::~SubsonicRequest() {
 
@@ -118,6 +119,7 @@ void SubsonicRequest::Reset() {
   cover_urls_.clear();
   errors_.clear();
   no_results_ = false;
+  album_without_songs_received_ = false;
   AbortReplies(replies_);
   AbortReplies(album_cover_replies_);
 
@@ -235,8 +237,9 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
     }
     const QJsonObject object_album = value_album.toObject();
 
-    if (!object_album.contains("id"_L1) || !object_album.contains("artist"_L1)) {
-      Error(u"Invalid Json reply, album object in array is missing ID or artist."_s, object_album);
+    // The artist is optional in the Subsonic API.
+    if (!object_album.contains("id"_L1)) {
+      Error(u"Invalid Json reply, album object in array is missing ID."_s, object_album);
       continue;
     }
 
@@ -366,8 +369,9 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
   }
   const QJsonObject object_album = value_album.toObject();
 
+  // Albums without songs have no song array.
   if (!object_album.contains("song"_L1)) {
-    Error(u"Json album object does not contain song array."_s, object_album);
+    album_without_songs_received_ = true;
     return;
   }
   const QJsonValue value_songs = object_album["song"_L1];
@@ -376,6 +380,9 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
     return;
   }
   const QJsonArray array_songs = value_songs.toArray();
+  if (array_songs.isEmpty()) {
+    album_without_songs_received_ = true;
+  }
 
   qint64 created = 0;
   if (object_album.contains("created"_L1)) {
@@ -446,13 +453,9 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_object, c
   Q_UNUSED(artist_id_requested);
   Q_UNUSED(album_id_requested);
 
-  if (!json_object.contains("id"_L1) ||
-      !json_object.contains("title"_L1) ||
-      !json_object.contains("size"_L1) ||
-      !json_object.contains("suffix"_L1) ||
-      !json_object.contains("duration"_L1) ||
-      !json_object.contains("type"_L1)) {
-    Error(u"Invalid Json reply, song is missing one or more values."_s, json_object);
+  // The other values, like the size and duration, are optional in the Subsonic API.
+  if (!json_object.contains("id"_L1) || !json_object.contains("title"_L1)) {
+    Error(u"Invalid Json reply, song is missing ID or title."_s, json_object);
     return QString();
   }
 
@@ -842,7 +845,13 @@ void SubsonicRequest::FinishCheck() {
     }
     else {
       if (songs_.isEmpty() && errors_.isEmpty()) {
-        Q_EMIT Results(songs_, tr("Unknown error"));
+        // Albums without songs are a valid result, it's only unknown why there are no songs when no album was received.
+        if (album_without_songs_received_) {
+          Q_EMIT Results(SongMap(), QString());
+        }
+        else {
+          Q_EMIT Results(songs_, tr("Unknown error"));
+        }
       }
       else {
         Q_EMIT Results(songs_, Utilities::StringListToHTML(errors_));

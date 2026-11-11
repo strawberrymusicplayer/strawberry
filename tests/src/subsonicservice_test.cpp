@@ -404,6 +404,12 @@ class FakeSubsonicServer : public QTcpServer {
   int album_list_requests() const { return album_list_requests_; }
   const QStringList &album_requests() const { return album_requests_; }
 
+  // Leaves out values which are optional in the Subsonic API, like servers which don't send them.
+  void set_omitted_album_fields(const QStringList &fields) { omitted_album_fields_ = fields; }
+  void set_omitted_song_fields(const QStringList &fields) { omitted_song_fields_ = fields; }
+  void set_album_without_songs(const QString &album_id) { album_without_songs_ = album_id; }
+  void set_album_with_empty_song_array(const QString &album_id) { album_with_empty_song_array_ = album_id; }
+
  private:
   void ReadRequests(QTcpSocket *socket) {
 
@@ -414,9 +420,47 @@ class FakeSubsonicServer : public QTcpServer {
       const QByteArray request_line = buffer.left(buffer.indexOf("\r\n"));
       buffer.remove(0, end + 4);
       const QUrl url(QString::fromLatin1(request_line.split(' ').value(1)));
-      const QByteArray data = QJsonDocument(QJsonObject{{u"subsonic-response"_s, Reply(url)}}).toJson(QJsonDocument::Compact);
+      const QByteArray data = QJsonDocument(QJsonObject{{u"subsonic-response"_s, OmitFields(Reply(url))}}).toJson(QJsonDocument::Compact);
       socket->write("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: " + QByteArray::number(data.size()) + "\r\n\r\n" + data);
     }
+
+  }
+
+  QJsonObject OmitFields(QJsonObject response) const {
+
+    if (response.contains("albumList2"_L1)) {
+      QJsonArray albums;
+      const QJsonArray albums_reply = response["albumList2"_L1].toObject()["album"_L1].toArray();
+      for (const QJsonValue &value_album : albums_reply) {
+        QJsonObject object_album = value_album.toObject();
+        for (const QString &field : omitted_album_fields_) object_album.remove(field);
+        albums << object_album;
+      }
+      response.insert(u"albumList2"_s, QJsonObject{{u"album"_s, albums}});
+    }
+
+    if (response.contains("album"_L1)) {
+      QJsonObject object_album = response["album"_L1].toObject();
+      if (object_album["id"_L1].toString() == album_without_songs_) {
+        object_album.remove(u"song"_s);
+      }
+      else if (object_album["id"_L1].toString() == album_with_empty_song_array_) {
+        object_album.insert(u"song"_s, QJsonArray());
+      }
+      else {
+        QJsonArray songs;
+        const QJsonArray songs_reply = object_album["song"_L1].toArray();
+        for (const QJsonValue &value_song : songs_reply) {
+          QJsonObject object_song = value_song.toObject();
+          for (const QString &field : omitted_song_fields_) object_song.remove(field);
+          songs << object_song;
+        }
+        object_album.insert(u"song"_s, songs);
+      }
+      response.insert(u"album"_s, object_album);
+    }
+
+    return response;
 
   }
 
@@ -451,6 +495,10 @@ class FakeSubsonicServer : public QTcpServer {
   const QJsonValue song_duration_;
   int album_list_requests_;
   QStringList album_requests_;
+  QStringList omitted_album_fields_;
+  QStringList omitted_song_fields_;
+  QString album_without_songs_;
+  QString album_with_empty_song_array_;
   QHash<QTcpSocket*, QByteArray> buffers_;
 };
 
@@ -539,6 +587,88 @@ TEST_F(SubsonicServiceTest, DurationIsRead) {
   SongMap songs;
   ASSERT_EQ(1, RefreshFromServer(&*service_, credentials_manager_, server, &songs));
   EXPECT_EQ(60'000'000'000LL, songs.first().length_nanosec());
+
+}
+
+// Regression test: songs without values which are optional in the Subsonic API were skipped with an error.
+TEST_F(SubsonicServiceTest, SongWithoutOptionalValuesIsAdded) {
+
+  FakeSubsonicServer server(1, false);
+  ASSERT_TRUE(server.listen(QHostAddress::LocalHost));
+  server.set_omitted_song_fields(QStringList() << u"size"_s << u"suffix"_s << u"duration"_s << u"type"_s << u"album"_s << u"artist"_s);
+
+  EXPECT_EQ(1, RefreshFromServer(&*service_, credentials_manager_, server));
+
+}
+
+// Regression test: albums without an artist, which is optional in the Subsonic API, were skipped with an error.
+TEST_F(SubsonicServiceTest, AlbumWithoutArtistIsAdded) {
+
+  FakeSubsonicServer server(1, false);
+  ASSERT_TRUE(server.listen(QHostAddress::LocalHost));
+  server.set_omitted_album_fields(QStringList() << u"artist"_s);
+
+  EXPECT_EQ(1, RefreshFromServer(&*service_, credentials_manager_, server));
+  EXPECT_EQ(QStringList() << u"album-0"_s, server.album_requests());
+
+}
+
+// Regression test: an album without songs has no song array, which was an error.
+TEST_F(SubsonicServiceTest, AlbumWithoutSongsIsNotAnError) {
+
+  FakeSubsonicServer server(2, false);
+  ASSERT_TRUE(server.listen(QHostAddress::LocalHost));
+  server.set_album_without_songs(u"album-0"_s);
+
+  EXPECT_EQ(1, RefreshFromServer(&*service_, credentials_manager_, server));
+  EXPECT_EQ(2, server.album_requests().count());
+
+}
+
+// Review: a collection with only albums without songs is empty, not an unknown error.
+TEST_F(SubsonicServiceTest, CollectionWithAlbumWithoutSongsIsEmpty) {
+
+  FakeSubsonicServer server(1, false);
+  ASSERT_TRUE(server.listen(QHostAddress::LocalHost));
+  server.set_album_without_songs(u"album-0"_s);
+
+  EXPECT_EQ(0, RefreshFromServer(&*service_, credentials_manager_, server));
+  EXPECT_EQ(QStringList() << u"album-0"_s, server.album_requests());
+
+}
+
+// The same for an album with an empty song array.
+TEST_F(SubsonicServiceTest, CollectionWithAlbumWithEmptySongArrayIsEmpty) {
+
+  FakeSubsonicServer server(1, false);
+  ASSERT_TRUE(server.listen(QHostAddress::LocalHost));
+  server.set_album_with_empty_song_array(u"album-0"_s);
+
+  EXPECT_EQ(0, RefreshFromServer(&*service_, credentials_manager_, server));
+
+}
+
+// An album without songs doesn't hide the errors of the other albums.
+TEST_F(SubsonicServiceTest, AlbumWithoutSongsKeepsErrors) {
+
+  FakeSubsonicServer server(2, false);
+  ASSERT_TRUE(server.listen(QHostAddress::LocalHost));
+  server.set_album_without_songs(u"album-0"_s);
+  server.set_omitted_song_fields(QStringList() << u"title"_s);
+
+  EXPECT_EQ(-1, RefreshFromServer(&*service_, credentials_manager_, server));
+  EXPECT_EQ(2, server.album_requests().count());
+
+}
+
+// Songs without an ID or a title are still skipped.
+TEST_F(SubsonicServiceTest, SongWithoutTitleIsAnError) {
+
+  FakeSubsonicServer server(1, false);
+  ASSERT_TRUE(server.listen(QHostAddress::LocalHost));
+  server.set_omitted_song_fields(QStringList() << u"title"_s);
+
+  EXPECT_EQ(-1, RefreshFromServer(&*service_, credentials_manager_, server));
 
 }
 

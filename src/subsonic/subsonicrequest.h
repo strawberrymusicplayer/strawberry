@@ -138,6 +138,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   QMap<QString, QUrl> cover_urls_;
   QStringList errors_;
   bool no_results_;
+  bool album_without_songs_received_;
   QList<QNetworkReply*> replies_;
   QList<QNetworkReply*> album_cover_replies_;
 };
