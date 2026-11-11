@@ -697,11 +697,18 @@ void Database::BackupFile(const QString &filename) {
     return;
   }
 
-  // The copy gets the same permissions as the database, so a database which is only readable by the owner isn't copied to a file which other users can read.
-  // The copy is always writable by the owner, since SQLite can't copy a read-only database to a read-only file, and a read-only backup can't be replaced on Windows.
   {
     QFile temporary_file(temporary_filename);
-    if (!temporary_file.open(QIODevice::WriteOnly | QIODevice::NewOnly, QFile::permissions(filename) | QFile::WriteOwner)) {
+#ifdef Q_OS_WIN32
+    // On Windows, QFile::permissions() reports read and write access for other users, since NTFS permission lookup is off, and opening a file with permissions gives it an access control list allowing access for everyone.
+    // The copy is created without permissions instead, so it inherits the access control list of the directory, like the database.
+    const bool opened = temporary_file.open(QIODevice::WriteOnly | QIODevice::NewOnly);
+#else
+    // The copy gets the same permissions as the database, so a database which is only readable by the owner isn't copied to a file which other users can read.
+    // The copy is always writable by the owner, since SQLite can't copy a read-only database to a read-only file.
+    const bool opened = temporary_file.open(QIODevice::WriteOnly | QIODevice::NewOnly, QFile::permissions(filename) | QFile::WriteOwner);
+#endif
+    if (!opened) {
       qLog(Error) << "Failed to create temporary database backup" << temporary_filename << temporary_file.errorString();
       return;
     }

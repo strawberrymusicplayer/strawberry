@@ -34,10 +34,18 @@
 #include <QSqlQuery>
 #include <QElapsedTimer>
 #include <QMutexLocker>
+#include <QScopeGuard>
 
 #include <atomic>
 #include <chrono>
+#include <optional>
 #include <thread>
+
+#ifdef Q_OS_WIN32
+#  include <windows.h>
+#  include <aclapi.h>
+#  include <sddl.h>
+#endif
 
 #include "includes/shared_ptr.h"
 #include "core/database.h"
@@ -599,7 +607,68 @@ TEST(DatabaseTest, BackupOfReadOnlyDatabase) {
   EXPECT_FALSE(QFile::exists(filename + u".bak.tmp"_s));
 
 }
-#endif
+#else  // Q_OS_WIN32
+
+// Returns whether the file's access control list allows access for everyone, or nothing when it can't be read.
+std::optional<bool> AllowsEveryone(const QString &filename) {
+
+  PACL dacl = nullptr;
+  PSECURITY_DESCRIPTOR security_descriptor = nullptr;
+  if (GetNamedSecurityInfoW(reinterpret_cast<const wchar_t*>(filename.utf16()), SE_FILE_OBJECT, DACL_SECURITY_INFORMATION, nullptr, nullptr, &dacl, nullptr, &security_descriptor) != ERROR_SUCCESS) {
+    return std::nullopt;
+  }
+  const QScopeGuard security_descriptor_free([security_descriptor]() { LocalFree(security_descriptor); });
+
+  // Without an access control list, everyone has access.
+  if (!dacl) return true;
+
+  SID_IDENTIFIER_AUTHORITY world_authority = SECURITY_WORLD_SID_AUTHORITY;
+  PSID world_sid = nullptr;
+  if (!AllocateAndInitializeSid(&world_authority, 1, SECURITY_WORLD_RID, 0, 0, 0, 0, 0, 0, 0, &world_sid)) {
+    return std::nullopt;
+  }
+  const QScopeGuard world_sid_free([world_sid]() { FreeSid(world_sid); });
+
+  for (DWORD i = 0; i < dacl->AceCount; ++i) {
+    void *ace = nullptr;
+    if (!GetAce(dacl, i, &ace)) return std::nullopt;
+    const ACE_HEADER *ace_header = static_cast<const ACE_HEADER*>(ace);
+    if (ace_header->AceType != ACCESS_ALLOWED_ACE_TYPE) continue;
+    const ACCESS_ALLOWED_ACE *allowed_ace = static_cast<const ACCESS_ALLOWED_ACE*>(ace);
+    if (EqualSid(const_cast<DWORD*>(&allowed_ace->SidStart), world_sid)) return true;
+  }
+
+  return false;
+
+}
+
+// Regression test: the backup was created with the permissions reported for the database, which on Windows include other users, so the backup allowed access for everyone.
+TEST(DatabaseTest, BackupIsNotAccessibleByEveryone) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString filename = temp_dir.filePath(u"strawberry.db"_s);
+  ASSERT_TRUE(CreateDatabase(filename));
+
+  Database database(make_shared<TaskManager>(), nullptr, filename);
+  ASSERT_TRUE(database.startup_error().isEmpty()) << database.startup_error().toStdString();
+  database.DoBackup();
+  database.Close();
+
+  const QString backup_filename = filename + u".bak"_s;
+  ASSERT_TRUE(QFile::exists(backup_filename));
+  // A failed lookup must not be taken as no access, else the test passes without checking anything.
+  const std::optional<bool> database_allows_everyone = AllowsEveryone(filename);
+  const std::optional<bool> backup_allows_everyone = AllowsEveryone(backup_filename);
+  ASSERT_TRUE(database_allows_everyone.has_value()) << "The access control list of the database can't be read.";
+  ASSERT_TRUE(backup_allows_everyone.has_value()) << "The access control list of the backup can't be read.";
+
+  // The backup is accessible like the database, which inherits the access control list of the directory.
+  EXPECT_EQ(database_allows_everyone.value(), backup_allows_everyone.value());
+
+}
+
+#endif  // Q_OS_WIN32
 
 // A corrupt schema_version table makes reading the schema version fail, the corruption must still be reported.
 TEST(DatabaseTest, BackupOfCorruptSchemaVersionIsReported) {
