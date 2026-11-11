@@ -38,6 +38,7 @@
 
 #include "includes/shared_ptr.h"
 #include "utilities/cryptutils.h"
+#include "utilities/strutils.h"
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "core/settings.h"
@@ -215,8 +216,10 @@ void MusixmatchLyricsProvider::RequestUserToken() {
 
 MusixmatchLyricsProvider::JsonObjectResult MusixmatchLyricsProvider::ParseJsonObject(QNetworkReply *reply) {
 
+  // The error string of the reply contains the URL, the query of which has the app ID, the user token and the signature.
+
   if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
-    return JsonObjectResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error())));
+    return JsonObjectResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(Utilities::RedactUrls(reply->errorString(), reply->url()), QString::number(reply->error())));
   }
 
   JsonObjectResult result(ErrorCode::Success);
@@ -259,7 +262,7 @@ MusixmatchLyricsProvider::JsonObjectResult MusixmatchLyricsProvider::ParseJsonOb
   if (result.error_code != ErrorCode::APIError) {
     if (reply->error() != QNetworkReply::NoError) {
       result.error_code = ErrorCode::NetworkError;
-      result.error_message = QStringLiteral("%1 (%2)").arg(reply->errorString(), QString::number(reply->error()));
+      result.error_message = QStringLiteral("%1 (%2)").arg(Utilities::RedactUrls(reply->errorString(), reply->url()), QString::number(reply->error()));
     }
     else if (result.http_status_code != 200) {
       result.error_code = ErrorCode::HttpError;
