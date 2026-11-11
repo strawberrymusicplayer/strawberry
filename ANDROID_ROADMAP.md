@@ -11,7 +11,7 @@ Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
 1. **Item 19:** Audit all app functionality for Android compatibility.
-2. The remaining open items: 13, 15, 16, 17, 12, 20, 21, 22, and finally 9 (physical-device verification, which needs a device).
+2. The remaining open items: 13, 15, 16, 17, 12, 20, 21, 22, 23, and finally 9 (physical-device verification, which needs a device).
 
 ## 18. Review the Android changes for coding best practices
 
@@ -611,3 +611,17 @@ Keep this visual update Android-only.
 - Cross-compile for the supported Android ABIs using the app's GStreamer toolchain, and package and register the plugin in the APK.
 - Re-enable Spotify only once the required plugin is available; preserve existing desktop behavior.
 - Verify login, playback, seeking, track transitions, and background playback on Android before marking this item done.
+
+## 23. Investigate Discord Rich Presence support on Android
+
+**Status:** Planned
+
+**Problem:** Strawberry's Discord integration uses the desktop client's local IPC socket, which is not available on Android, so Rich Presence is currently disabled there.
+
+**Goal:** Investigate whether a supported Android integration can publish the current playback activity to Discord.
+
+**Next steps:**
+- Check Discord's supported Android APIs, SDK availability, account requirements, and platform policies; do not assume the desktop IPC implementation can be ported.
+- Assess authentication, privacy, background execution, and integration with Strawberry's playback lifecycle.
+- If a supported approach is feasible, implement it separately from the desktop backend and verify activity updates, pause/stop behavior, and logout on Android.
+- Keep the feature disabled until verified; document the limitation if no supported integration is available.
