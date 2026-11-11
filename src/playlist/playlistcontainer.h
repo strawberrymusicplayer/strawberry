@@ -36,6 +36,7 @@ class QAction;
 class QEvent;
 class QKeyEvent;
 class QResizeEvent;
+class QToolButton;
 
 class Playlist;
 class PlaylistManager;
@@ -141,6 +142,10 @@ class PlaylistContainer : public QWidget {
   QLabel *no_matches_label_;
 
   QTimer *filter_timer_;
+
+#ifdef Q_OS_ANDROID
+  QToolButton *android_jump_ = nullptr;
+#endif
 };
 
 #endif  // PLAYLISTCONTAINER_H

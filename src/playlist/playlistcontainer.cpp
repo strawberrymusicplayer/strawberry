@@ -92,8 +92,18 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
   ui_->setupUi(this);
 
 #ifdef Q_OS_ANDROID
+  // The desktop menu bar action to jump to the playing track is hidden on Android.
+  android_jump_ = new QToolButton(ui_->toolbar);
+  android_jump_->setIcon(IconLoader::Load(u"go-jump"_s));
+  android_jump_->setToolTip(tr("Jump to the currently playing track"));
+  android_jump_->setAccessibleName(android_jump_->toolTip());
+  android_jump_->setAutoRaise(true);
+  QObject::connect(android_jump_, &QToolButton::clicked, this, [this]() {
+    if (view()->playlist()) view()->JumpToCurrentlyPlayingTrack();
+  });
+
   GridFlowLayout *android_buttons = new GridFlowLayout;
-  for (QToolButton *button : {ui_->create_new, ui_->load, ui_->save, ui_->add_file, ui_->undo, ui_->redo}) {
+  for (QToolButton *button : {ui_->create_new, ui_->load, ui_->save, ui_->add_file, ui_->undo, ui_->redo, android_jump_}) {
     ui_->horizontalLayout->removeWidget(button);
     button->setMinimumSize(48, 48);
     button->setToolButtonStyle(Qt::ToolButtonIconOnly);
@@ -293,6 +303,9 @@ void PlaylistContainer::ReloadSettings() {
   ui_->clear->setIconSize(QSize(iconsize, iconsize));
   ui_->undo->setIconSize(QSize(iconsize, iconsize));
   ui_->redo->setIconSize(QSize(iconsize, iconsize));
+#ifdef Q_OS_ANDROID
+  android_jump_->setIconSize(QSize(iconsize, iconsize));
+#endif
   ui_->search_field->setIconSize(iconsize);
 
   s.beginGroup(PlaylistSettings::kSettingsGroup);
