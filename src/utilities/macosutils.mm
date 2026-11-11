@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,8 +17,13 @@
  *
  */
 
+#include <algorithm>
+#include <cerrno>
+#include <cstring>
+
 #include <QtGlobal>
 
+#include <limits.h>
 #include <sys/types.h>
 #include <sys/sysctl.h>
 #include <sys/resource.h>
@@ -41,21 +46,37 @@ qint32 GetMacOsVersion() {
 
 void IncreaseFDLimit() {
 
-  // Bump the soft limit for the number of file descriptors from the default of 256 to the maximum (usually 10240).
-  struct rlimit limit;
-  getrlimit(RLIMIT_NOFILE, &limit);
+  // Raise the soft limit for the number of file descriptors from the default of 256.
+  struct rlimit limit {};
+  if (getrlimit(RLIMIT_NOFILE, &limit) != 0) {
+    qLog(Error) << "Could not get the file descriptor limit:" << strerror(errno);
+    return;
+  }
 
-  // getrlimit() lies about the hard limit so we have to check sysctl.
-  int max_fd = 0;
-  size_t len = sizeof(max_fd);
-  sysctlbyname("kern.maxfilesperproc", &max_fd, &len, nullptr, 0);
+  // setrlimit() fails with EINVAL when the soft limit is above OPEN_MAX, even when kern.maxfilesperproc and the hard limit are higher.
+  rlim_t max_fd = OPEN_MAX;
+
+  // getrlimit() can report an unlimited hard limit, so the per process maximum is checked too.
+  int max_files_per_process = 0;
+  size_t len = sizeof(max_files_per_process);
+  if (sysctlbyname("kern.maxfilesperproc", &max_files_per_process, &len, nullptr, 0) == 0 && max_files_per_process > 0) {
+    max_fd = std::min(max_fd, static_cast<rlim_t>(max_files_per_process));
+  }
+  max_fd = std::min(max_fd, limit.rlim_max);
+
+  // Never lower the limit.
+  if (limit.rlim_cur >= max_fd) {
+    qLog(Debug) << "Max fd:" << static_cast<quint64>(limit.rlim_cur);
+    return;
+  }
 
   limit.rlim_cur = max_fd;
-  int ret = setrlimit(RLIMIT_NOFILE, &limit);
-
-  if (ret == 0) {
-    qLog(Debug) << "Max fd:" << max_fd;
+  if (setrlimit(RLIMIT_NOFILE, &limit) != 0) {
+    qLog(Error) << "Could not set the file descriptor limit to" << static_cast<quint64>(max_fd) << strerror(errno);
+    return;
   }
+
+  qLog(Debug) << "Max fd:" << static_cast<quint64>(max_fd);
 
 }
 
