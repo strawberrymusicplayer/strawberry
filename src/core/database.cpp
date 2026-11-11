@@ -22,6 +22,8 @@
 #include "config.h"
 
 #include <utility>
+#include <filesystem>
+#include <system_error>
 
 #include <sqlite3.h>
 
@@ -56,6 +58,23 @@ namespace {
 constexpr char kDatabaseFilename[] = "strawberry.db";
 constexpr int kMinSupportedSchemaVersion = 10;
 constexpr char kMagicAllSongsTables[] = "%allsongstables";
+// How long to wait for another connection to finish writing, before a query fails because the database is locked.
+constexpr int kBusyTimeoutMsec = 30000;
+
+// The backup is copied in steps, so the database isn't locked for writing during the whole copy.
+constexpr int kBackupStepPages = 1024;
+
+// A write from another connection restarts the copy, after this many restarts the rest is copied in one step, so the backup finishes while the collection is scanned.
+constexpr int kBackupMaxRestarts = 3;
+
+std::filesystem::path FilesystemPath(const QString &filename) {
+#ifdef Q_OS_WIN32
+  return std::filesystem::path(filename.toStdWString());
+#else
+  return std::filesystem::path(QFile::encodeName(filename).toStdString());
+#endif
+}
+
 }  // namespace
 
 int Database::sNextConnectionId = 1;
@@ -134,7 +153,7 @@ QSqlDatabase Database::Connect() {
   if (db.isOpen()) {
     return db;
   }
-  db.setConnectOptions(u"QSQLITE_BUSY_TIMEOUT=30000"_s);
+  db.setConnectOptions(QStringLiteral("QSQLITE_BUSY_TIMEOUT=%1").arg(kBusyTimeoutMsec));
   // qLog(Debug) << "Opened database with connection id" << connection_id;
 
   if (injected_database_name_.isNull()) {
@@ -258,6 +277,21 @@ int Database::SchemaVersion(QSqlDatabase *db) {
     }
     // Implicit invocation of ~SqlQuery() when leaving the scope to release any remaining database locks!
   }
+  return schema_version;
+
+}
+
+int Database::SchemaVersion(sqlite3 *connection) {
+
+  int schema_version = 0;
+  sqlite3_stmt *statement = nullptr;
+  if (sqlite3_prepare_v2(connection, "SELECT version FROM schema_version", -1, &statement, nullptr) == SQLITE_OK) {
+    if (sqlite3_step(statement) == SQLITE_ROW) {
+      schema_version = sqlite3_column_int(statement, 0);
+    }
+  }
+  sqlite3_finalize(statement);
+
   return schema_version;
 
 }
@@ -560,39 +594,43 @@ void Database::ReportError(const QString &error) {
 
 }
 
-bool Database::IntegrityCheck(const QSqlDatabase &db) {
+bool Database::IntegrityCheck(sqlite3 *connection) {
 
   qLog(Debug) << "Starting database integrity check";
   const int task_id = task_manager_->StartTask(tr("Integrity check"));
+  const QScopeGuard integrity_check_finish = qScopeGuard([this, task_id]() { task_manager_->SetTaskFinished(task_id); });
+
+  // Ask for 10 error messages at most.
+  sqlite3_stmt *statement = nullptr;
+  if (sqlite3_prepare_v2(connection, "PRAGMA integrity_check(10)", -1, &statement, nullptr) != SQLITE_OK) {
+    ReportError(u"Database integrity check failed: "_s + QString::fromUtf8(sqlite3_errmsg(connection)));
+    return false;
+  }
 
   bool ok = false;
-  // Ask for 10 error messages at most.
-  SqlQuery q(db);
-  q.prepare(u"PRAGMA integrity_check(10)"_s);
-  if (q.Exec()) {
-    bool error_reported = false;
-    while (q.next()) {
-      QString message = q.value(0).toString();
+  bool error_reported = false;
+  int ret = SQLITE_OK;
+  while ((ret = sqlite3_step(statement)) == SQLITE_ROW) {
+    const QString message = QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(statement, 0)));
 
-      // If no errors are found, a single row with the value "ok" is returned
-      if (message == "ok"_L1) {
-        ok = true;
-        break;
-      }
-      else {
-        if (!error_reported) {
-          Q_EMIT Error(tr("Database corruption detected."));
-        }
-        Q_EMIT Error(u"Database: "_s + message);
-        error_reported = true;
-      }
+    // If no errors are found, a single row with the value "ok" is returned
+    if (message == "ok"_L1) {
+      ok = true;
+      break;
     }
-  }
-  else {
-    ReportErrors(q);
+
+    if (!error_reported) {
+      Q_EMIT Error(tr("Database corruption detected."));
+    }
+    Q_EMIT Error(u"Database: "_s + message);
+    error_reported = true;
   }
 
-  task_manager_->SetTaskFinished(task_id);
+  if (ret != SQLITE_ROW && ret != SQLITE_DONE) {
+    ReportError(u"Database integrity check failed: "_s + QString::fromUtf8(sqlite3_errmsg(connection)));
+  }
+
+  sqlite3_finalize(statement);
 
   return ok;
 
@@ -604,13 +642,9 @@ void Database::DoBackup() {
 
   if (!db.isOpen()) return;
 
-  // Before we overwrite anything, make sure the database is not corrupt
-  QMutexLocker l(&mutex_);
-
-  const bool ok = IntegrityCheck(db);
-  if (ok && SchemaVersion(&db) == kSchemaVersion) {
-    BackupFile(db.databaseName());
-  }
+  // The database mutex is not held, since it would block the other threads, also the GUI thread, during the integrity check and the copy.
+  // SQLite locks the database while it's copied, and the schema version and integrity are checked on the copy.
+  BackupFile(db.databaseName());
 
 }
 
@@ -635,31 +669,56 @@ bool Database::OpenDatabase(const QString &filename, sqlite3 **connection) {
 void Database::BackupFile(const QString &filename) {
 
   qLog(Debug) << "Starting database backup";
-  QString dest_filename = QStringLiteral("%1.bak").arg(filename);
+  const QString backup_filename = QStringLiteral("%1.bak").arg(filename);
+  // The database is copied to a temporary file, which only replaces the backup when it passes the integrity check, so a corrupt database doesn't replace the backup.
+  const QString temporary_filename = QStringLiteral("%1.bak.tmp").arg(filename);
   const int task_id = task_manager_->StartTask(tr("Backing up database"));
 
   sqlite3 *source_connection = nullptr;
   sqlite3 *dest_connection = nullptr;
 
-  const QScopeGuard db_backup_finish = qScopeGuard([this, task_id, &source_connection, &dest_connection]() {
+  const QScopeGuard db_backup_finish = qScopeGuard([this, task_id, &source_connection, &dest_connection, &temporary_filename]() {
     if (source_connection) {
       sqlite3_close(source_connection);
     }
     if (dest_connection) {
       sqlite3_close(dest_connection);
     }
+    if (QFile::exists(temporary_filename)) {
+      QFile::remove(temporary_filename);
+    }
     task_manager_->SetTaskFinished(task_id);
   });
+
+  if (QFile::exists(temporary_filename) && !QFile::remove(temporary_filename)) {
+    qLog(Error) << "Failed to remove old temporary database backup" << temporary_filename;
+    return;
+  }
+
+  // The copy gets the same permissions as the database, so a database which is only readable by the owner isn't copied to a file which other users can read.
+  // The copy is always writable by the owner, since SQLite can't copy a read-only database to a read-only file, and a read-only backup can't be replaced on Windows.
+  {
+    QFile temporary_file(temporary_filename);
+    if (!temporary_file.open(QIODevice::WriteOnly | QIODevice::NewOnly, QFile::permissions(filename) | QFile::WriteOwner)) {
+      qLog(Error) << "Failed to create temporary database backup" << temporary_filename << temporary_file.errorString();
+      return;
+    }
+    temporary_file.close();
+  }
 
   bool success = OpenDatabase(filename, &source_connection);
   if (!success) {
     return;
   }
 
-  success = OpenDatabase(dest_filename, &dest_connection);
+  success = OpenDatabase(temporary_filename, &dest_connection);
   if (!success) {
     return;
   }
+
+  // Wait for writes from other connections like the other database connections do, instead of failing the backup.
+  sqlite3_busy_timeout(source_connection, kBusyTimeoutMsec);
+  sqlite3_busy_timeout(dest_connection, kBusyTimeoutMsec);
 
   sqlite3_backup *backup = sqlite3_backup_init(dest_connection, "main", source_connection, "main");
   if (!backup) {
@@ -668,17 +727,61 @@ void Database::BackupFile(const QString &filename) {
     return;
   }
 
+  // The database is locked for writing during each step, between the steps other connections can write to it.
   int ret = SQLITE_OK;
+  int restarts = 0;
+  int pages_copied = 0;
   do {
-    ret = sqlite3_backup_step(backup, 16);
+    ret = sqlite3_backup_step(backup, restarts < kBackupMaxRestarts ? kBackupStepPages : -1);
     const int page_count = sqlite3_backup_pagecount(backup);
-    task_manager_->SetTaskProgress(task_id, static_cast<quint64>(page_count - sqlite3_backup_remaining(backup)), static_cast<quint64>(page_count));
+    const int pages_copied_after_step = page_count - sqlite3_backup_remaining(backup);
+    if (ret == SQLITE_OK && pages_copied_after_step <= pages_copied) {
+      ++restarts;
+    }
+    pages_copied = pages_copied_after_step;
+    task_manager_->SetTaskProgress(task_id, static_cast<quint64>(pages_copied), static_cast<quint64>(page_count));
   } while (ret == SQLITE_OK);
+  sqlite3_backup_finish(backup);
 
   if (ret != SQLITE_DONE) {
-    qLog(Error) << "Database backup failed";
+    const int primary_result_code = ret & 0xFF;
+    if (primary_result_code == SQLITE_CORRUPT || primary_result_code == SQLITE_NOTADB) {
+      ReportError(u"Database backup failed, the database is corrupt: "_s + QString::fromUtf8(sqlite3_errstr(ret)));
+    }
+    else {
+      qLog(Error) << "Database backup failed:" << sqlite3_errstr(ret);
+    }
+    return;
   }
 
-  sqlite3_backup_finish(backup);
+  sqlite3_close(source_connection);
+  source_connection = nullptr;
+
+  // The pages are copied as they are, so the copy is corrupt if the database is.
+  // The integrity is checked first, since reading the schema version fails when the schema_version table is corrupt, and the corruption must be reported.
+  if (!IntegrityCheck(dest_connection)) {
+    qLog(Error) << "Database integrity check failed, the database backup is not replaced.";
+    return;
+  }
+
+  const int schema_version = SchemaVersion(dest_connection);
+  if (schema_version != kSchemaVersion) {
+    qLog(Error) << "Database schema version" << schema_version << "is not" << kSchemaVersion << ", the database backup is not replaced.";
+    return;
+  }
+
+  sqlite3_close(dest_connection);
+  dest_connection = nullptr;
+
+  // Replace the old backup in one step, so it's kept if the new backup can't be moved in place, or Strawberry is stopped.
+  // QFile::rename() doesn't replace an existing file, std::filesystem::rename() does, with rename() on Unix and MoveFileExW() on Windows.
+  std::error_code error_code;
+  std::filesystem::rename(FilesystemPath(temporary_filename), FilesystemPath(backup_filename), error_code);
+  if (error_code) {
+    qLog(Error) << "Failed to replace database backup" << backup_filename << "with" << temporary_filename << QString::fromStdString(error_code.message());
+    return;
+  }
+
+  qLog(Debug) << "Database backup finished";
 
 }

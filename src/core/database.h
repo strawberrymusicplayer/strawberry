@@ -105,7 +105,8 @@ class Database : public QObject {
   bool UpdateDatabaseSchema(const int version, QSqlDatabase &db, QString &error);
   void UrlEncodeFilenameColumn(const QString &table, QSqlDatabase &db);
   QStringList SongsTables(QSqlDatabase &db, const int schema_version);
-  bool IntegrityCheck(const QSqlDatabase &db);
+  static int SchemaVersion(sqlite3 *connection);
+  bool IntegrityCheck(sqlite3 *connection);
   void BackupFile(const QString &filename);
   static bool OpenDatabase(const QString &filename, sqlite3 **connection);
 
