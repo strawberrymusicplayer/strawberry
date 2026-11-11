@@ -56,6 +56,7 @@
 #include "organize/organizedialog.h"
 #include "constants/collectionsettings.h"
 #ifdef Q_OS_ANDROID
+#  include "collectionfilter.h"
 #  include "widgets/playlistactionhandler.h"
 #endif
 
@@ -94,6 +95,12 @@ CollectionView::CollectionView(QWidget *parent)
         return songs;
       });
   QObject::connect(actions, &PlaylistActionHandler::AddToPlaylist, this, &CollectionView::AddToPlaylistSignal);
+  // Like the desktop "Rescan song(s)" action, only offered when all songs of the album are editable local files.
+  actions->AddAction(tr("Rescan album"), [](const QModelIndex &index) { return index.data(CollectionModel::Role_Editable).toBool(); },
+      [this](const QModelIndex &index) {
+        const CollectionFilter *filter = qobject_cast<const CollectionFilter*>(index.model());
+        if (filter && collection_) collection_->Rescan(filter->GetChildSongs({index}));
+      });
 #endif
 
 }
