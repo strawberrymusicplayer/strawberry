@@ -27,6 +27,7 @@
 #include <QCheckBox>
 #include <QComboBox>
 #include <QLineEdit>
+#include <QLabel>
 #include <QPushButton>
 #include <QSpinBox>
 #include <QEvent>
@@ -52,6 +53,14 @@ QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *dialog, const SharedPtr<Qob
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(u"qobuz"_s, true, 0, 32));
+
+#ifdef Q_OS_ANDROID
+  ui_->button_login->hide();
+  ui_->button_fetch_api_credentials->hide();
+  auto *authentication_notice = new QLabel(tr("Browser authentication is currently unavailable on Android."), this);
+  authentication_notice->setWordWrap(true);
+  ui_->layout_qobuzsettingspage->insertWidget(1, authentication_notice);
+#endif
 
   QObject::connect(ui_->button_login, &QPushButton::clicked, this, &QobuzSettingsPage::LoginClicked);
   QObject::connect(ui_->login_state, &LoginStateWidget::LogoutClicked, this, &QobuzSettingsPage::LogoutClicked);

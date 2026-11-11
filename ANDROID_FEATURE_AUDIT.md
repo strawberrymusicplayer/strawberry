@@ -266,7 +266,7 @@ Spotify playback needs the GStreamer Spotify plugin, which is not part of the An
 
 ### 14. Verify OAuth logins
 
-**Status:** In progress
+**Status:** Done (browser login disabled on Android; restoration and verification deferred to roadmap item 24)
 
 **Evidence:** Code and partial emulator verification (2026-11-11); HTTPS is available since point 2.
 - Tidal uses an external `tidal://login/auth` callback, not a local HTTP server. The Android manifest had no matching intent filter, and no Qt URL handler routed incoming intents to the service.
@@ -282,9 +282,22 @@ This confirms intent resolution and activity delivery, not a successful provider
 Three native loopback regression tests pass, covering the providers' callback parameters, ignoring a favicon request, and receiving headers in fragments.
 Further touch verification was inconclusive because the emulator surface stopped refreshing reliably.
 
-**Remaining:** Verify real login, denial/cancellation, return to the active settings page, token exchange and persistence for Tidal, Qobuz, Last.fm, ListenBrainz and Genius.
-Test a delayed browser return with playback stopped to determine whether idle process freezing disrupts the loopback flows.
-These checks require provider accounts and, where applicable, configured API credentials; no real accounts or tokens were used for the tests above.
+**Resolution:** At the user's request, defer these browser-login features rather than claim that their verification is complete.
+Android hides the Tidal, Qobuz, Last.fm, ListenBrainz and Genius login buttons and shows an explanation.
+The authorization-code entry point in `OAuthenticator` and the independent Qobuz and Last.fm entry points explicitly report failure before opening a browser or starting a redirect listener.
+The Tidal intent filter and URL handler are removed until restoration, so the app no longer advertises an inactive login callback.
+Existing sessions, refresh/logout, ListenBrainz's manual user-token field, browserless client-credentials authentication and desktop behavior are retained.
+
+**Deferral validation (2026-11-11):** Native and Android builds pass; the signed APK is installed on the emulator.
+After an emulator restart, verified the Tidal and Qobuz pages, the Last.fm and ListenBrainz editors, and Genius's authentication editor: each explains that browser authentication is unavailable and has no login action.
+ListenBrainz still exposes its manual user-token field; Qobuz's credential-fetch action is hidden.
+Android no longer resolves the Tidal login intent to Strawberry.
+Two native authentication regressions verify browserless client-credentials token persistence/logout and explicit missing-secret failure; the three loopback tests still pass.
+The Android-only backend rejection test is included but has not been executed on Android.
+Exited Settings with Cancel without applying test changes.
+
+**Backlog:** Roadmap item 24 covers real login, denial/cancellation, retry, return to the active settings page, token exchange, persistence and delayed browser return with playback stopped.
+No real accounts or tokens were used for the verification above.
 
 ### 15. Review the Backend settings page
 

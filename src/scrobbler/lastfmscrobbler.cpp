@@ -191,6 +191,11 @@ void LastFMScrobbler::ClearSession() {
 
 void LastFMScrobbler::Authenticate() {
 
+#ifdef Q_OS_ANDROID
+  AuthError(tr("Browser authentication is currently unavailable on Android."));
+  return;
+#endif
+
   if (api_key_.isEmpty() || api_secret_.isEmpty()) {
     AuthError(tr("Missing Last.fm API key and/or API secret"));
     return;

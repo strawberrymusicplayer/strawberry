@@ -58,6 +58,17 @@ ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *dialog, const Share
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(u"scrobble"_s, true, 0, 32));
 
+#ifdef Q_OS_ANDROID
+  ui_->button_lastfm_login->hide();
+  ui_->button_listenbrainz_login->hide();
+  auto *lastfm_notice = new QLabel(tr("Browser authentication is currently unavailable on Android."), ui_->groupbox_lastfm);
+  lastfm_notice->setWordWrap(true);
+  ui_->layout_lastfm->addWidget(lastfm_notice);
+  auto *listenbrainz_notice = new QLabel(tr("Browser authentication is currently unavailable on Android. Enter your user token instead."), ui_->groupbox_listenbrainz);
+  listenbrainz_notice->setWordWrap(true);
+  ui_->layout_listenbrainz->addWidget(listenbrainz_notice);
+#endif
+
   // Last.fm
   QObject::connect(&*lastfmscrobbler_, &LastFMScrobbler::AuthenticationComplete, this, &ScrobblerSettingsPage::LastFM_AuthenticationComplete);
   QObject::connect(ui_->button_lastfm_login, &QPushButton::clicked, this, &ScrobblerSettingsPage::LastFM_Login);

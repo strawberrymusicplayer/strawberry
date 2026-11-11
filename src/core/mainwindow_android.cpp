@@ -21,7 +21,6 @@
 #include <functional>
 
 #include <QAction>
-#include <QDesktopServices>
 #include <QDialog>
 #include <QEvent>
 #include <QFont>
@@ -95,11 +94,6 @@ class AndroidToolPageFilter : public QObject {
 }  // namespace
 
 void MainWindow::SetupAndroidLayout() {
-
-#ifdef HAVE_TIDAL
-  // Qt forwards Android VIEW intents through QDesktopServices; the existing signal routes the callback to Tidal's OAuth state validation.
-  QDesktopServices::setUrlHandler(QStringLiteral("tidal"), this, "AuthorizationUrlReceived");
-#endif
 
   ui_->layout_centralWidget->insertWidget(0, ui_->tabs, 1);
   ui_->layout_centralWidget->addWidget(ui_->player_controls_container);

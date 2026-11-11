@@ -342,6 +342,13 @@ QUrl OAuthenticator::EffectiveRedirectUrl() const {
 
 void OAuthenticator::Authenticate() {
 
+#ifdef Q_OS_ANDROID
+  if (type_ == Type::Authorization_Code) {
+    Q_EMIT AuthenticationFinished(false, tr("Browser authentication is currently unavailable on Android."));
+    return;
+  }
+#endif
+
   if (client_id_.isEmpty()) {
     Q_EMIT AuthenticationFinished(false, tr("Missing client ID"));
     return;
@@ -448,6 +455,11 @@ void OAuthenticator::ExternalAuthorizationUrlReceived(const QUrl &request_url) {
 }
 
 void OAuthenticator::AuthorizationUrlReceived(const QUrl &request_url, const QUrl &redirect_url) {
+
+#ifdef Q_OS_ANDROID
+  Q_EMIT AuthenticationFinished(false, tr("Browser authentication is currently unavailable on Android."));
+  return;
+#endif
 
   if (!request_url.isValid()) {
     Q_EMIT AuthenticationFinished(false, tr("Received invalid reply from web browser."));

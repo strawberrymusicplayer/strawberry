@@ -53,6 +53,13 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, SharedPtr<TidalServ
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(u"tidal"_s, true, 0, 32));
 
+#ifdef Q_OS_ANDROID
+  ui_->button_login->hide();
+  auto *authentication_notice = new QLabel(tr("Browser authentication is currently unavailable on Android."), this);
+  authentication_notice->setWordWrap(true);
+  ui_->layout_tidalsettingspage->insertWidget(1, authentication_notice);
+#endif
+
   QObject::connect(ui_->checkbox_use_custom_client_id, &QCheckBox::toggled, ui_->client_id, &QLineEdit::setEnabled);
   QObject::connect(ui_->checkbox_use_custom_client_id, &QCheckBox::toggled, ui_->label_client_id, &QLabel::setEnabled);
 

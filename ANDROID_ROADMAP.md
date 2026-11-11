@@ -11,7 +11,7 @@ Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
 1. **Item 19:** Audit all app functionality for Android compatibility.
-2. The remaining open items: 13, 15, 16, 17, 12, 20, 21, 22, 23, and finally 9 (physical-device verification, which needs a device).
+2. The remaining open items: 13, 15, 16, 17, 12, 20, 21, 22, 23, 24, and finally 9 (physical-device verification, which needs a device).
 
 ## 18. Review the Android changes for coding best practices
 
@@ -26,7 +26,7 @@ Each item is completed one point at a time: fix, test, and commit each point sep
 
 ## 19. Audit all app functionality for Android compatibility
 
-**Status:** In progress (audit recorded in `ANDROID_FEATURE_AUDIT.md`; points 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 and 19 done, the others open)
+**Status:** In progress (audit recorded in `ANDROID_FEATURE_AUDIT.md`; points 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 and 19 done, the others open; point 14 disables browser login pending roadmap item 24)
 
 **Goal:** Check every feature of the app and determine whether it works on Android as currently implemented.
 
@@ -625,3 +625,18 @@ Keep this visual update Android-only.
 - Assess authentication, privacy, background execution, and integration with Strawberry's playback lifecycle.
 - If a supported approach is feasible, implement it separately from the desktop backend and verify activity updates, pause/stop behavior, and logout on Android.
 - Keep the feature disabled until verified; document the limitation if no supported integration is available.
+
+## 24. Restore and verify browser authentication on Android
+
+**Status:** Planned
+
+**Problem:** Browser login for Tidal, Qobuz, Last.fm, ListenBrainz and Genius is disabled on Android until its return flow and background lifecycle are verified.
+This is the deferred follow-up to feature audit point 14, not a claim that provider logins have passed.
+
+**Goal:** Restore supported browser-login flows without losing the callback while Android backgrounds or freezes an idle app.
+
+**Next steps:**
+- Restore Tidal's Android intent filter and Qt URL handler from commit `510bb5eb4`, checking callback routing, OAuth state validation, and return to the active settings page.
+- Test loopback redirects for Qobuz, Last.fm, ListenBrainz and Genius with playback stopped, including a delayed browser return and process recreation; implement a supported lifecycle or redirect solution where needed.
+- Verify real provider login and token exchange, denial/cancellation, retry, persistence after restart, refresh and logout using accounts entered directly by the tester.
+- Remove the Android browser-login guards and restore the buttons only after the corresponding flows pass; preserve desktop behavior, existing sessions, ListenBrainz's manual user-token option and browserless client-credentials authentication.

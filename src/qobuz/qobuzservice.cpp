@@ -280,6 +280,11 @@ void QobuzService::Authenticate(const QString &app_id, const QString &app_secret
 
 void QobuzService::Authenticate() {
 
+#ifdef Q_OS_ANDROID
+  LoginError(tr("Browser authentication is currently unavailable on Android."));
+  return;
+#endif
+
   if (app_id_.isEmpty()) {
     LoginError(tr("Missing app ID. Please fetch credentials first."));
     return;
