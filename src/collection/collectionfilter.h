@@ -22,6 +22,7 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QSortFilterProxyModel>
 #include <QScopedPointer>
 #include <QSet>
@@ -34,6 +35,7 @@
 #include "collectionfilteroptions.h"
 #include "filterparser/filtertree.h"
 
+class QTimer;
 class CollectionItem;
 
 class CollectionFilter : public QSortFilterProxyModel {
@@ -66,6 +68,10 @@ class CollectionFilter : public QSortFilterProxyModel {
   void CalculateFilterData(QSet<int> *duplicate_song_ids, QSet<QString> *divider_keys) const;
   void BeginRowsFilterChange();
   void EndRowsFilterChange();
+  // Starts the timer for when the next shown song becomes older than the age filter.
+  void ScheduleMaxAgeUpdate();
+  // Moves the age cutoff to the current time, and hides the songs which became older than the age, or shows songs again when the system clock was set back.
+  void MaxAgeUpdate();
 
  private:
   QScopedPointer<FilterTree> filter_tree_;
@@ -73,6 +79,7 @@ class CollectionFilter : public QSortFilterProxyModel {
   CollectionFilterOptions filter_options_;
   QSet<int> duplicate_song_ids_;
   QSet<QString> visible_divider_keys_;
+  QTimer *timer_max_age_;
 };
 
 #endif  // COLLECTIONFILTER_H

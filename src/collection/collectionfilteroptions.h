@@ -48,8 +48,11 @@ class CollectionFilterOptions {
     filter_mode_ = filter_mode;
     filter_text_.clear();
   }
-  // The songs are compared to the time the age was set, so the same songs match each time they're checked.
+  // The songs are compared to a cutoff time, so the same songs match each time they're checked.
+  // Setting the age sets the cutoff from the current time, CollectionFilter moves it forward when songs become older than the age.
   void set_max_age(const int max_age);
+  qint64 max_age_cutoff() const { return max_age_cutoff_; }
+  void set_max_age_cutoff(const qint64 max_age_cutoff) { max_age_cutoff_ = max_age_cutoff; }
   void set_min_rating(const float min_rating) { min_rating_ = min_rating; }
   void set_filter_text(const QString &filter_text) {
     filter_mode_ = FilterMode::All;

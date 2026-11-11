@@ -29,6 +29,8 @@
 #include <QList>
 #include <QString>
 #include <QUrl>
+#include <QDateTime>
+#include <QTimer>
 
 #include "core/song.h"
 #include "core/songmimedata.h"
@@ -39,11 +41,21 @@
 #include "collectionmodel.h"
 #include "collectionitem.h"
 
-CollectionFilter::CollectionFilter(QObject *parent) : QSortFilterProxyModel(parent) {
+namespace {
+// The age filter is checked again at least this often, since the timer doesn't run while the computer is suspended, and the system clock can be set back.
+constexpr qint64 kMaxAgeUpdateMaxIntervalSecs = 3600;
+}  // namespace
+
+CollectionFilter::CollectionFilter(QObject *parent)
+    : QSortFilterProxyModel(parent),
+      timer_max_age_(new QTimer(this)) {
 
   setSortLocaleAware(true);
   setDynamicSortFilter(true);
   setRecursiveFilteringEnabled(true);
+
+  timer_max_age_->setSingleShot(true);
+  QObject::connect(timer_max_age_, &QTimer::timeout, this, &CollectionFilter::MaxAgeUpdate);
 
 }
 
@@ -164,6 +176,76 @@ void CollectionFilter::SetFilterMaxAge(const int filter_max_age) {
   CalculateFilterData(&duplicate_song_ids_, &visible_divider_keys_);
   EndRowsFilterChange();
 
+  ScheduleMaxAgeUpdate();
+
+}
+
+void CollectionFilter::ScheduleMaxAgeUpdate() {
+
+  timer_max_age_->stop();
+
+  if (filter_options_.max_age() == -1) return;
+
+  CollectionModel *model = qobject_cast<CollectionModel*>(sourceModel());
+  if (!model) return;
+
+  // Find the oldest song which is newer than the cutoff, it's the next song to become older than the age.
+  qint64 next_ctime = -1;
+  const QList<CollectionItem*> song_nodes = model->song_nodes();
+  for (const CollectionItem *node : song_nodes) {
+    const qint64 ctime = node->metadata.ctime();
+    if (ctime > filter_options_.max_age_cutoff() && (next_ctime == -1 || ctime < next_ctime)) {
+      next_ctime = ctime;
+    }
+  }
+  // When no shown song becomes older than the age, the timer still runs, so songs are shown again when the system clock was set back.
+  if (next_ctime == -1) {
+    timer_max_age_->start(static_cast<int>(kMaxAgeUpdateMaxIntervalSecs * 1000));
+    return;
+  }
+
+  // The song is hidden when the cutoff reaches its time, one second is added since the timer can fire a little early.
+  const qint64 secs = std::clamp(next_ctime + filter_options_.max_age() - QDateTime::currentSecsSinceEpoch() + 1, static_cast<qint64>(0), kMaxAgeUpdateMaxIntervalSecs);
+  timer_max_age_->start(static_cast<int>(secs * 1000));
+
+}
+
+void CollectionFilter::MaxAgeUpdate() {
+
+  if (filter_options_.max_age() == -1) return;
+
+  CollectionModel *model = qobject_cast<CollectionModel*>(sourceModel());
+  if (!model) return;
+
+  const qint64 old_cutoff = filter_options_.max_age_cutoff();
+  const qint64 new_cutoff = QDateTime::currentSecsSinceEpoch() - filter_options_.max_age();
+
+  // Only filter again when songs are between the old and the new cutoff, the timer also fires when nothing changed after a suspend.
+  // The cutoff moves backward when the system clock is set back, then songs which were hidden are shown again.
+  const qint64 lower_cutoff = std::min(old_cutoff, new_cutoff);
+  const qint64 upper_cutoff = std::max(old_cutoff, new_cutoff);
+  bool songs_changed = false;
+  const QList<CollectionItem*> song_nodes = model->song_nodes();
+  for (const CollectionItem *node : song_nodes) {
+    const qint64 ctime = node->metadata.ctime();
+    if (ctime > lower_cutoff && ctime <= upper_cutoff) {
+      songs_changed = true;
+      break;
+    }
+  }
+
+  if (songs_changed) {
+    BeginRowsFilterChange();
+    filter_options_.set_max_age_cutoff(new_cutoff);
+    CalculateFilterData(&duplicate_song_ids_, &visible_divider_keys_);
+    EndRowsFilterChange();
+  }
+  else {
+    filter_options_.set_max_age_cutoff(new_cutoff);
+  }
+
+  ScheduleMaxAgeUpdate();
+
 }
 
 void CollectionFilter::SetFilterMinRating(const float filter_min_rating) {
@@ -180,6 +262,9 @@ void CollectionFilter::SetFilterMinRating(const float filter_min_rating) {
 void CollectionFilter::SongsChanged() {
 
   if (!HasSongFilter()) return;
+
+  // Added or changed songs can become older than the age before the song the timer was started for.
+  ScheduleMaxAgeUpdate();
 
   QSet<int> duplicate_song_ids;
   QSet<QString> divider_keys;
