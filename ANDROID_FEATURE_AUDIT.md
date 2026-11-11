@@ -332,12 +332,16 @@ This verifies generation and private-cache output, not sidecar writes to shared 
 
 ### 17. Verify automatic collection updates
 
-**Status:** Open
+**Status:** Done
 
-**Evidence:** Code.
-Collection monitoring uses `QFileSystemWatcher`, which may not report changes for shared storage on Android.
+**Verification:** With Collection monitoring enabled, added an owned MP3 test file to the existing `/storage/emulated/0/Music/SessionTest` collection folder while the emulator app was running.
+Within five seconds, the collection database contained the new track with `unavailable=0`.
+Removed the test file without rescanning or restarting the app; within five seconds the track had `unavailable=1`, matching the enabled "mark unavailable" setting.
+The Qt filesystem watcher therefore reports shared-storage additions and removals on this emulator; no startup/foreground rescan fallback was added.
 
-**Approach:** Add and remove a file in a collection folder on the emulator and check whether the collection updates without a manual rescan; if not, rely on rescans when the app starts or comes to the front.
+**Cleanup:** Removed only the owned unavailable test row while the app was stopped and checked database integrity.
+Existing collection roots, songs, media and monitoring settings were preserved, and the signed non-debuggable APK was restored and launched.
+This verifies live monitoring on the emulator, not all physical devices or background-process survival.
 
 ### 18. Credentials are stored in plain text
 
