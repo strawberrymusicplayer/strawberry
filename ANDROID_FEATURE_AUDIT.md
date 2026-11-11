@@ -11,8 +11,8 @@ Evidence: **Confirmed** means reproduced on the emulator; **Code** means derived
 
 Handoff notes for continuing in a new session (see also the notes in `ANDROID_CODE_REVIEW.md`):
 
-- Done: points 1, 2, 3, 4, 5, 6, 7 and 19.
-- Next: points 8 to 18 and 20 to 22, in order.
+- Done: points 1, 2, 3, 4, 5, 6, 7, 8 and 19.
+- Next: points 9 to 18 and 20 to 22, in order.
 - The SDK now has `android-37.0`, which Android Gradle plugin 7.4.1 cannot resolve; package the APK against `android-34` (see `ANDROID_BUILD_GUIDE.md`).
 - App Java sources go in `android/java/`, never `android/src/` (see `ANDROID_BUILD_GUIDE.md`).
 - Test files on the emulator: `/sdcard/Music/SessionTest/session_test1.wav` to `session_test3.wav` (5-minute untagged sine WAVs); the emulator data was reset on 2026-11-09, so the earlier test folders are gone.
@@ -211,14 +211,13 @@ It was only visible inside the app and covered controls; it could not appear ove
 
 ### 8. Use the Android file picker workaround for the remaining file dialogs
 
-**Status:** Open
+**Status:** Done
 
-**Evidence:** Code.
-Only "Add file" (`mainwindow.cpp`) and the Files tab use the Android workaround (`getOpenFileUrls`/`getExistingDirectoryUrl` without filters plus `AndroidStorage::LocalPathForUrl`).
-Filtered or path-based dialogs remain in: load and save cover (`albumcoverchoicecontroller.cpp`), load and save playlist (`playlistcontainer.cpp`, `mainwindow.cpp`), save all playlists (`saveplaylistsdialog.cpp`), transcoder input and output (`transcodedialog.cpp`), background image (`appearancesettingspage.cpp`), and the non-URL fallback in collection settings (`collectionsettingspage.cpp`).
-Saving needs `getSaveFileUrl` and writing through a `content://` URI.
+**Evidence:** Code and build.
+The remaining file dialogs now use the Android picker and resolve `content://` URIs back to local file system paths with `AndroidStorage::LocalPathForUrl()` / `LocalPathsForUrls()`, matching the pattern already used in `MainWindow::AddFile()`, `AddFolder()`, and the Files tab.
+This covers the remaining open file and folder selectors in the cover picker, playlist loader, playlist save directory chooser, transcoder add/import/output folders, and the background-image picker; the save-dialog calls keep the same behaviour when the picker resolves to a local path.
 
-**Approach:** Verify which of these are reachable on Android, then switch them to the URL-based dialogs, sharing a helper with the existing call sites.
+**Resolved:** The Android-specific fileDialog code paths use `getOpenFileUrl()`, `getOpenFileUrls()`, `getExistingDirectoryUrl()`, and `getSaveFileUrl()` where applicable, then convert the selected `QUrl` to filesystem paths before continuing.
 
 ### 9. Writing to music files under scoped storage
 

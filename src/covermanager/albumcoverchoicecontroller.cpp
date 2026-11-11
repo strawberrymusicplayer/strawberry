@@ -82,6 +82,9 @@
 #include "albumcoverimageresult.h"
 #include "coverfromurldialog.h"
 #include "currentalbumcoverloader.h"
+#ifdef Q_OS_ANDROID
+#  include "core/androidstorage.h"
+#endif
 
 using std::make_shared;
 using namespace Qt::Literals::StringLiterals;
@@ -189,8 +192,18 @@ AlbumCoverImageResult AlbumCoverChoiceController::LoadImageFromFile(Song *song) 
     return AlbumCoverImageResult();
   }
 
+#ifdef Q_OS_ANDROID
+  const QUrl selected_url = QFileDialog::getOpenFileUrl(this, tr("Load cover from disk"), QUrl::fromLocalFile(GetInitialPathForFileDialog(*song, QString())));
+  if (selected_url.isEmpty()) return AlbumCoverImageResult();
+  const QString cover_file = AndroidStorage::LocalPathForUrl(selected_url);
+  if (cover_file.isEmpty()) {
+    Q_EMIT Error(AndroidStorage::UnresolvedMessage(QStringList() << selected_url.toDisplayString()));
+    return AlbumCoverImageResult();
+  }
+#else
   QString cover_file = QFileDialog::getOpenFileName(this, tr("Load cover from disk"), GetInitialPathForFileDialog(*song, QString()), tr(kLoadImageFileFilter) + u";;"_s + tr(kAllFilesFilterSpec));
   if (cover_file.isEmpty()) return AlbumCoverImageResult();
+#endif
 
   QFile file(cover_file);
   if (!file.open(QIODevice::ReadOnly)) {
@@ -220,8 +233,20 @@ QUrl AlbumCoverChoiceController::LoadCoverFromFile(Song *song) {
 
   if (!song->url().isValid() || !song->url().isLocalFile() || song->effective_albumartist().isEmpty() || song->album().isEmpty()) return QUrl();
 
+#ifdef Q_OS_ANDROID
+  const QUrl selected_url = QFileDialog::getOpenFileUrl(this, tr("Load cover from disk"), QUrl::fromLocalFile(GetInitialPathForFileDialog(*song, QString()))); 
+  if (selected_url.isEmpty()) return QUrl();
+  const QString cover_file = AndroidStorage::LocalPathForUrl(selected_url);
+  if (cover_file.isEmpty()) {
+    Q_EMIT Error(AndroidStorage::UnresolvedMessage(QStringList() << selected_url.toDisplayString()));
+    return QUrl();
+  }
+#else
   QString cover_file = QFileDialog::getOpenFileName(this, tr("Load cover from disk"), GetInitialPathForFileDialog(*song, QString()), tr(kLoadImageFileFilter) + u";;"_s + tr(kAllFilesFilterSpec));
   if (cover_file.isEmpty() || QImage(cover_file).isNull()) return QUrl();
+#endif
+
+  if (QImage(cover_file).isNull()) return QUrl();
 
   switch (get_save_album_cover_type()) {
     case CoverOptions::CoverType::Embedded:
@@ -256,9 +281,18 @@ void AlbumCoverChoiceController::SaveCoverToFileManual(const Song &song, const A
   static const QRegularExpression regex_invalid_fat_characters(QLatin1String(kInvalidFatCharactersRegex), QRegularExpression::CaseInsensitiveOption);
   initial_file_name.remove(regex_invalid_fat_characters);
 
+#ifdef Q_OS_ANDROID
+  const QUrl save_url = QFileDialog::getSaveFileUrl(this, tr("Save album cover"), QUrl::fromLocalFile(GetInitialPathForFileDialog(song, initial_file_name)), tr(kSaveImageFileFilter) + u";;"_s + tr(kAllFilesFilterSpec));
+  if (save_url.isEmpty()) return;
+  QString save_filename = AndroidStorage::LocalPathForUrl(save_url);
+  if (save_filename.isEmpty()) {
+    Q_EMIT Error(AndroidStorage::UnresolvedMessage(QStringList() << save_url.toDisplayString()));
+    return;
+  }
+#else
   QString save_filename = QFileDialog::getSaveFileName(this, tr("Save album cover"), GetInitialPathForFileDialog(song, initial_file_name), tr(kSaveImageFileFilter) + u";;"_s + tr(kAllFilesFilterSpec));
-
   if (save_filename.isEmpty()) return;
+#endif
 
   QFileInfo fileinfo(save_filename);
   if (fileinfo.suffix().isEmpty()) {

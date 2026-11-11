@@ -52,6 +52,7 @@
 #include <QProgressBar>
 #include <QPushButton>
 #include <QTreeWidget>
+#include <QMessageBox>
 #include <QDialogButtonBox>
 #include <QSettings>
 #include <QTimerEvent>
@@ -60,6 +61,9 @@
 
 #include "core/iconloader.h"
 #include "core/settings.h"
+#ifdef Q_OS_ANDROID
+#  include "core/androidstorage.h"
+#endif
 #include "constants/filefilterconstants.h"
 #include "constants/transcodersettings.h"
 #include "utilities/screenutils.h"
@@ -339,11 +343,21 @@ void TranscodeDialog::AllJobsComplete() {
 
 void TranscodeDialog::Add() {
 
+#ifdef Q_OS_ANDROID
+  const QList<QUrl> selected_urls = QFileDialog::getOpenFileUrls(this, tr("Add files to transcode"), QUrl::fromLocalFile(last_add_dir_), QStringLiteral("%1 (%2);;%3").arg(tr("Music"), QLatin1String(kFileFilter), tr(kAllFilesFilterSpec)));
+  if (selected_urls.isEmpty()) return;
+  QStringList unresolved;
+  QStringList filenames = AndroidStorage::LocalPathsForUrls(selected_urls, &unresolved);
+  if (!unresolved.isEmpty()) {
+    QMessageBox::warning(this, tr("Not stored on this device"), AndroidStorage::UnresolvedMessage(unresolved));
+  }
+  if (filenames.isEmpty()) return;
+#else
   QStringList filenames = QFileDialog::getOpenFileNames(
       this, tr("Add files to transcode"), last_add_dir_,
       QStringLiteral("%1 (%2);;%3").arg(tr("Music"), QLatin1String(kFileFilter), tr(kAllFilesFilterSpec)));
-
   if (filenames.isEmpty()) return;
+#endif
 
   SetFilenames(filenames);
 
@@ -357,9 +371,19 @@ void TranscodeDialog::Add() {
 
 void TranscodeDialog::Import() {
 
+#ifdef Q_OS_ANDROID
+  const QUrl selected_url = QFileDialog::getExistingDirectoryUrl(this, tr("Open a directory to import music from"), QUrl::fromLocalFile(last_import_dir_));
+  if (selected_url.isEmpty()) return;
+  QStringList unresolved;
+  const QString path = AndroidStorage::LocalPathsForUrls({selected_url}, &unresolved).value(0);
+  if (path.isEmpty()) {
+    QMessageBox::warning(this, tr("Invalid directory"), AndroidStorage::UnresolvedMessage(unresolved));
+    return;
+  }
+#else
   QString path = QFileDialog::getExistingDirectory(this, tr("Open a directory to import music from"), last_import_dir_, QFileDialog::ShowDirsOnly);
-
   if (path.isEmpty()) return;
+#endif
 
   QStringList filenames;
 
@@ -441,25 +465,35 @@ void TranscodeDialog::AddDestination() {
 
   int index = ui_->destination->currentIndex();
   QString initial_dir = (!ui_->destination->itemData(index).isNull() ? ui_->destination->itemData(index).toString() : QDir::homePath());
+#ifdef Q_OS_ANDROID
+  const QUrl selected_url = QFileDialog::getExistingDirectoryUrl(this, tr("Add folder"), QUrl::fromLocalFile(initial_dir));
+  if (selected_url.isEmpty()) return;
+  QStringList unresolved;
+  QString dir = AndroidStorage::LocalPathsForUrls({selected_url}, &unresolved).value(0);
+  if (dir.isEmpty()) {
+    QMessageBox::warning(this, tr("Invalid directory"), AndroidStorage::UnresolvedMessage(unresolved));
+    return;
+  }
+#else
   QString dir = QFileDialog::getExistingDirectory(this, tr("Add folder"), initial_dir);
+  if (dir.isEmpty()) return;
+#endif
 
-  if (!dir.isEmpty()) {
-    // Keep only a finite number of items in the box.
-    while (ui_->destination->count() >= kMaxDestinationItems) {
-      ui_->destination->removeItem(1);  // The oldest folder item.
-    }
+  // Keep only a finite number of items in the box.
+  while (ui_->destination->count() >= kMaxDestinationItems) {
+    ui_->destination->removeItem(1);  // The oldest folder item.
+  }
 
-    QIcon icon = IconLoader::Load(u"folder"_s);
-    QVariant data_var = QVariant::fromValue(dir);
-    // Do not insert duplicates.
-    int duplicate_index = ui_->destination->findData(data_var);
-    if (duplicate_index == -1) {
-      ui_->destination->addItem(icon, dir, data_var);
-      ui_->destination->setCurrentIndex(ui_->destination->count() - 1);
-    }
-    else {
-      ui_->destination->setCurrentIndex(duplicate_index);
-    }
+  QIcon icon = IconLoader::Load(u"folder"_s);
+  QVariant data_var = QVariant::fromValue(dir);
+  // Do not insert duplicates.
+  int duplicate_index = ui_->destination->findData(data_var);
+  if (duplicate_index == -1) {
+    ui_->destination->addItem(icon, dir, data_var);
+    ui_->destination->setCurrentIndex(ui_->destination->count() - 1);
+  }
+  else {
+    ui_->destination->setCurrentIndex(duplicate_index);
   }
 
 }

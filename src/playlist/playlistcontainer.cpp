@@ -41,6 +41,7 @@
 #include <QFileDialog>
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QMessageBox>
 #include <QKeySequence>
 #include <QToolButton>
 #include <QUndoStack>
@@ -50,6 +51,9 @@
 #include "includes/shared_ptr.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
+#ifdef Q_OS_ANDROID
+#  include "core/androidstorage.h"
+#endif
 #include "filterparser/filterparser.h"
 #include "playlist.h"
 #include "playlisttabbar.h"
@@ -413,9 +417,18 @@ void PlaylistContainer::LoadPlaylist() {
   Settings s;
   s.beginGroup(kSettingsGroup);
   QString filename = s.value(kLastLoadPlaylist).toString();
+#ifdef Q_OS_ANDROID
+  const QUrl selected_url = QFileDialog::getOpenFileUrl(this, tr("Load playlist"), QUrl::fromLocalFile(filename), manager_->parser()->filters(PlaylistParser::Type::Load));
+  if (selected_url.isEmpty()) return;
+  filename = AndroidStorage::LocalPathForUrl(selected_url);
+  if (filename.isEmpty()) {
+    QMessageBox::warning(this, tr("Invalid playlist"), AndroidStorage::UnresolvedMessage(QStringList() << selected_url.toDisplayString()));
+    return;
+  }
+#else
   filename = QFileDialog::getOpenFileName(this, tr("Load playlist"), filename, manager_->parser()->filters(PlaylistParser::Type::Load));
-
   if (filename.isNull()) return;
+#endif
 
   s.setValue(kLastLoadPlaylist, filename);
 

@@ -47,6 +47,7 @@
 #include <QComboBox>
 #include <QSpinBox>
 #include <QSettings>
+#include <QMessageBox>
 
 #include "appearancesettingspage.h"
 #include "constants/appearancesettings.h"
@@ -55,6 +56,9 @@
 #include "core/iconloader.h"
 #include "core/stylehelper.h"
 #include "core/settings.h"
+#ifdef Q_OS_ANDROID
+#  include "core/androidstorage.h"
+#endif
 #include "core/appearance.h"
 #include "widgets/fancytabwidget.h"
 #include "settingspage.h"
@@ -599,8 +603,18 @@ void AppearanceSettingsPage::UpdateColorSelectorColor(QWidget *color_selector, c
 
 void AppearanceSettingsPage::SelectBackgroundImage() {
 
+#ifdef Q_OS_ANDROID
+  const QUrl selected_url = QFileDialog::getOpenFileUrl(this, tr("Select background image"), QUrl::fromLocalFile(background_image_filename_), tr(kLoadImageFileFilter) + u";;"_s + tr(kAllFilesFilterSpec));
+  if (selected_url.isEmpty()) return;
+  QString selected_filename = AndroidStorage::LocalPathForUrl(selected_url);
+  if (selected_filename.isEmpty()) {
+    QMessageBox::warning(this, tr("Invalid image"), AndroidStorage::UnresolvedMessage(QStringList() << selected_url.toDisplayString()));
+    return;
+  }
+#else
   QString selected_filename = QFileDialog::getOpenFileName(this, tr("Select background image"), background_image_filename_, tr(kLoadImageFileFilter) + u";;"_s + tr(kAllFilesFilterSpec));
   if (selected_filename.isEmpty()) return;
+#endif
   background_image_filename_ = selected_filename;
   ui_->background_image_filename->setText(background_image_filename_);
 
