@@ -21,6 +21,8 @@
 
 #include "gtest_include.h"
 
+#include <glib.h>
+
 #include <QByteArray>
 #include <QString>
 #include <QStringList>
@@ -35,6 +37,7 @@
 #include <QtDebug>
 
 #include "test_utils.h"
+#include "environmentvariablerestorer.h"
 #include "utilities/envutils.h"
 #include "utilities/strutils.h"
 #include "utilities/timeutils.h"
@@ -50,6 +53,12 @@
 #include "core/temporaryfile.h"
 
 using namespace Qt::Literals::StringLiterals;
+
+namespace {
+
+constexpr char kTestEnvironmentVariable[] = "STRAWBERRY_UTILITIES_TEST";
+
+}  // namespace
 
 TEST(UtilitiesTest, PrettyTimeDelta) {
 
@@ -98,6 +107,31 @@ TEST(UtilitiesTest, PrettySize) {
 TEST(UtilitiesTest, ColorToRgba) {
 
   ASSERT_EQ(Utilities::ColorToRgba(QColor(33, 22, 128)), u"rgba(33, 22, 128, 255)"_s);
+
+}
+
+// GLib and GStreamer read the environment with the wide character API on Windows, so characters outside the ANSI code page must be kept, for example in user names in paths.
+TEST(UtilitiesTest, SetEnvKeepsNonAsciiCharacters) {
+
+  const EnvironmentVariableRestorer restorer(kTestEnvironmentVariable);
+  const QString value = u"C:\\Users\\\u0141ukasz \u65E5\u672C\\gstreamer"_s;
+  Utilities::SetEnv(kTestEnvironmentVariable, value);
+  EXPECT_EQ(qEnvironmentVariable(kTestEnvironmentVariable), value);
+  EXPECT_EQ(Utilities::GetEnv(QLatin1String(kTestEnvironmentVariable)), value);
+  // GStreamer reads the environment through GLib.
+  const char *glib_value = g_getenv(kTestEnvironmentVariable);
+  ASSERT_NE(glib_value, nullptr);
+  EXPECT_EQ(QString::fromUtf8(glib_value), value);
+
+}
+
+// GetEnv() returns the value as it was set, qEnvironmentVariable() normalizes decomposed characters on macOS.
+TEST(UtilitiesTest, GetEnvKeepsDecomposedCharacters) {
+
+  const EnvironmentVariableRestorer restorer(kTestEnvironmentVariable);
+  const QString value = u"/Users/Rene\u0301/gstreamer"_s;
+  Utilities::SetEnv(kTestEnvironmentVariable, value);
+  EXPECT_EQ(Utilities::GetEnv(QLatin1String(kTestEnvironmentVariable)), value);
 
 }
 
