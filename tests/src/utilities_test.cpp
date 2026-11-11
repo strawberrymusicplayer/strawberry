@@ -372,6 +372,20 @@ TEST(UtilitiesTest, UrlForLog) {
 
 }
 
+// Regression test: the URL in the error string of a network reply is decoded, so a value with a space ended the URL, and the rest of the query was kept.
+TEST(UtilitiesTest, RedactUrlsWithReplyUrl) {
+
+  const QUrl url(u"https://example.com/ws/token.get?app_id=secret_id&model=Pixel%206&signature=secret_signature"_s);
+  const QString error_string = u"Error transferring %1 - server replied: Not Found"_s.arg(url.toDisplayString());
+  EXPECT_EQ(Utilities::RedactUrls(error_string, url), u"Error transferring https://example.com/ws/token.get - server replied: Not Found"_s);
+  // The URL in the error string is without the password.
+  const QUrl url_with_password(u"https://user:password@example.com/rest/ping.view?u=John%20Doe&t=secret_token"_s);
+  EXPECT_EQ(Utilities::RedactUrls(u"Error transferring %1 - server replied: Not Found"_s.arg(url_with_password.toDisplayString()), url_with_password), u"Error transferring https://example.com/rest/ping.view - server replied: Not Found"_s);
+  EXPECT_EQ(Utilities::RedactUrls(u"Host example.com not found, see https://other.example.com/x?t=1"_s, url), u"Host example.com not found, see https://other.example.com/x"_s);
+  EXPECT_EQ(Utilities::RedactUrls(u"https://user:pw@example.com/p?x=1"_s, QUrl()), u"https://example.com/p"_s);
+
+}
+
 TEST(UtilitiesTest, RedactUrls) {
 
   EXPECT_EQ(Utilities::RedactUrls(u"Unauthorized (401), URL: https://example.com/Audio/1/stream?api_key=token, Redirect to: (NULL)"_s), u"Unauthorized (401), URL: https://example.com/Audio/1/stream, Redirect to: (NULL)"_s);

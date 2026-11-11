@@ -307,4 +307,23 @@ QString RedactUrls(const QString &text) {
 
 }
 
+QString RedactUrls(const QString &text, const QUrl &url) {
+
+  QString result = text;
+
+  // Qt writes the URL decoded in the error string of a network reply, so a value in the query can have spaces, and the URL can't be found by looking for the end of it.
+  if (!url.isEmpty()) {
+    const QString redacted_url = UrlForLog(url);
+    const QStringList url_texts = QStringList() << url.toDisplayString() << url.toString() << url.toString(QUrl::FullyEncoded);
+    for (const QString &url_text : url_texts) {
+      if (!url_text.isEmpty() && url_text != redacted_url) {
+        result.replace(url_text, redacted_url);
+      }
+    }
+  }
+
+  return RedactUrls(result);
+
+}
+
 }  // namespace Utilities
