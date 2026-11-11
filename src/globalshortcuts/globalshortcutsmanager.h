@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,6 +54,12 @@ class GlobalShortcutsManager : public QWidget {
   };
 
   const QMap<QString, Shortcut> &shortcuts() const { return shortcuts_; }
+
+  // Qt reports the play/pause media key as Key_MediaTogglePlayPause on Windows, it's replaced with Key_MediaPlay, the key of the default Play/Pause shortcut, so the same key is always the same key sequence.
+  static QKeySequence NormalizeKeySequence(const QKeySequence &key_sequence);
+
+  // Returns the key sequences for the application wide shortcut of a normalized key sequence, with Key_MediaPlay it's also Key_MediaTogglePlayPause, so the play/pause key is caught in Strawberry windows on Windows.
+  static QList<QKeySequence> ApplicationKeySequences(const QKeySequence &key_sequence);
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
   static bool IsKGlobalAccelAvailable();

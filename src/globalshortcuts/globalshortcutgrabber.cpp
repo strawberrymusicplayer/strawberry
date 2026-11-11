@@ -32,6 +32,7 @@
 #include <QKeyEvent>
 
 #include "globalshortcutgrabber.h"
+#include "globalshortcutsmanager.h"
 #include "ui_globalshortcutgrabber.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -99,7 +100,8 @@ bool GlobalShortcutGrabber::event(QEvent *e) {
       ret_ = QKeySequence(static_cast<int>(ke->modifiers()));
     }
     else {
-      ret_ = QKeySequence(static_cast<int>(ke->modifiers() | ke->key()));
+      // The play/pause key is recorded as the key of the default Play/Pause shortcut, so another action which uses the same key is found.
+      ret_ = GlobalShortcutsManager::NormalizeKeySequence(QKeySequence(static_cast<int>(ke->modifiers() | ke->key())));
     }
 
     UpdateText();

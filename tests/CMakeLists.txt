@@ -223,6 +223,10 @@ endif()
 if(HAVE_DISCORD_RPC)
   add_test_file(src/discordrpc_test.cpp false)
 endif()
+if(HAVE_GLOBALSHORTCUTS)
+  add_test_file(src/globalshortcutgrabber_test.cpp true)
+  add_test_file(src/globalshortcutsmanager_test.cpp true)
+endif()
 
 add_custom_target(run_strawberry_tests COMMAND ${CMAKE_CTEST_COMMAND} -V DEPENDS strawberry_tests)
 

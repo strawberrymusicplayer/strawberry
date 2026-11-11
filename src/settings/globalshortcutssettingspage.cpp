@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -181,7 +181,7 @@ void GlobalShortcutsSettingsPage::Save() {
   const QList<Shortcut> shortcuts = shortcuts_.values();
   for (const Shortcut &shortcut : shortcuts) {
     shortcut.s.action->setShortcut(shortcut.key);
-    shortcut.s.shortcut->setKey(shortcut.key);
+    shortcut.s.shortcut->setKeys(GlobalShortcutsManager::ApplicationKeySequences(shortcut.key));
     s.setValue(shortcut.s.id, shortcut.key.toString());
   }
 
