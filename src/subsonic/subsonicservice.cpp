@@ -150,11 +150,18 @@ void SubsonicService::ReloadSettings() {
   Settings s;
   s.beginGroup(SubsonicSettings::kSettingsGroup);
 
+  const QUrl previous_server_url = server_url_;
+  const QString previous_username = username_;
   server_url_ = s.value(SubsonicSettings::kUrl).toUrl();
   username_ = s.value(SubsonicSettings::kUsername).toString();
   const bool enabled = s.value(SubsonicSettings::kEnabled, SubsonicSettings::kDefaultEnabled).toBool();
+  const bool configured = enabled && server_url_.isValid() && !username_.isEmpty();
+  const bool account_changed = server_url_ != previous_server_url || username_ != previous_username;
 
-  password_.clear();
+  // A running collection refresh can't continue with another server or user, or without a password, it's stopped instead of sending the next requests with the cleared password.
+  if (songs_request_ && (account_changed || !configured)) {
+    StopSongsRequest(tr("The Subsonic settings were changed while the collection was refreshed."));
+  }
 
   // Ignore replies from a previous reload.
   if (migrate_password_reply_) {
@@ -169,19 +176,31 @@ void SubsonicService::ReloadSettings() {
 
   // Migrate the password from the settings file to the credentials manager.
   // The old password is removed from the settings file when it is saved, if saving fails it is kept and migrated next time.
+  QString settings_password;
   if (s.contains(SubsonicSettings::kPassword)) {
-    password_ = QString::fromUtf8(QByteArray::fromBase64(s.value(SubsonicSettings::kPassword).toByteArray()));
-    if (password_.isEmpty()) {
+    settings_password = QString::fromUtf8(QByteArray::fromBase64(s.value(SubsonicSettings::kPassword).toByteArray()));
+    if (settings_password.isEmpty()) {
       s.remove(SubsonicSettings::kPassword);
     }
     else {
-      migrate_password_reply_ = credentials_manager_->SavePasswordAsync(QLatin1String(SubsonicSettings::kCredentialsService), password_);
+      migrate_password_reply_ = credentials_manager_->SavePasswordAsync(QLatin1String(SubsonicSettings::kCredentialsService), settings_password);
       QObject::connect(&*migrate_password_reply_, &CredentialsReply::Finished, this, &SubsonicService::MigratePasswordFinished);
     }
   }
 
+  if (!configured) {
+    password_.clear();
+  }
+  else if (!settings_password.isEmpty()) {
+    password_ = settings_password;
+  }
   // Only read the password when Subsonic is configured, since reading it can show a keyring password prompt.
-  if (password_.isEmpty() && enabled && server_url_.isValid() && !username_.isEmpty()) {
+  else {
+    // The current password is kept until the password is read, requests which are already running, like a collection refresh, would otherwise send an empty password when the settings are applied.
+    // It's only kept for the same server and user, since requests with the new server URL would send the password for the previous server to it.
+    if (account_changed) {
+      password_.clear();
+    }
     read_password_reply_ = credentials_manager_->ReadPasswordAsync(QLatin1String(SubsonicSettings::kCredentialsService));
     QObject::connect(&*read_password_reply_, &CredentialsReply::Finished, this, &SubsonicService::ReadPasswordFinished);
   }
@@ -223,8 +242,16 @@ void SubsonicService::ReadPasswordFinished() {
   if (read_password_reply_->success()) {
     password_ = read_password_reply_->password();
   }
+  else {
+    password_.clear();
+  }
 
   read_password_reply_.reset();
+
+  // A collection refresh which was kept running while the password was read again can't continue without a password.
+  if (songs_request_ && password_.isEmpty()) {
+    StopSongsRequest(tr("Missing username or password."));
+  }
 
   PasswordLoadFinished();
 
@@ -531,8 +558,17 @@ void SubsonicService::ResetSongsRequest() {
   if (songs_request_) {
     QObject::disconnect(&*songs_request_, nullptr, this, nullptr);
     QObject::disconnect(this, nullptr, &*songs_request_, nullptr);
+    // The replies are aborted now, the request is deleted later, and a reply which finished before could otherwise send the next requests with changed settings.
+    songs_request_->Reset();
     songs_request_.reset();
   }
+
+}
+
+void SubsonicService::StopSongsRequest(const QString &error) {
+
+  ResetSongsRequest();
+  Q_EMIT SongsResults(SongMap(), error);
 
 }
 
