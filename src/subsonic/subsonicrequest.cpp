@@ -169,7 +169,8 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
   --albums_requests_active_;
 
   int albums_received = 0;
-  const QScopeGuard finish_check = qScopeGuard([this, offset_requested, size_requested, &albums_received]() { AlbumsFinishCheck(offset_requested, size_requested, albums_received); });
+  int albums_added = 0;
+  const QScopeGuard finish_check = qScopeGuard([this, offset_requested, size_requested, &albums_received, &albums_added]() { AlbumsFinishCheck(offset_requested, size_requested, albums_received, albums_added); });
 
   if (finished_) return;
 
@@ -258,16 +259,18 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
     request.album_id = album_id;
     request.album_artist = artist;
     album_songs_requests_pending_.insert(album_id, request);
+    ++albums_added;
 
   }
 
 }
 
-void SubsonicRequest::AlbumsFinishCheck(const int offset, const int size, const int albums_received) {
+void SubsonicRequest::AlbumsFinishCheck(const int offset, const int size, const int albums_received, const int albums_added) {
 
   if (finished_) return;
 
-  if (albums_received > 0 && albums_received >= size) {
+  // The next page is only requested when the albums received were new, a server which ignores the offset sends the same albums again, and would be asked for the next page forever.
+  if (albums_received > 0 && albums_received >= size && albums_added > 0) {
     int offset_next = offset + albums_received;
     if (offset_next > 0) {
       AddAlbumsRequest(offset_next);
