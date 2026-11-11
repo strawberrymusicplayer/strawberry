@@ -504,6 +504,10 @@ bool OSDBase::SupportsTrayPopups() const {
 
 bool OSDBase::SupportsOSDPretty() {
 
+#ifdef Q_OS_ANDROID
+  return false;
+#endif
+
   // Wayland compositors don't let windows position themselves, there the OSD is shown as a layer shell surface, which not all compositors support.
   if (QGuiApplication::platformName().startsWith("wayland"_L1)) {
     return OSDPretty::IsLayerShellAvailable();
