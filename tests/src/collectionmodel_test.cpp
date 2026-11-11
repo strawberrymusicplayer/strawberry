@@ -1044,6 +1044,95 @@ TEST_F(CollectionModelTest, MaxAgeFilterKeepsSongAndDividerInSync) {
 
 }
 
+// Songs are hidden when they become older than the age while the filter is set, not only when the filter is set.
+TEST_F(CollectionModelTest, MaxAgeFilterHidesSongsWhenTheyBecomeOlder) {
+
+  // The artists of the songs have different dividers.
+  constexpr qint64 kCtime = 1000000;
+  Song first_expiring_song = MakeSongWithId(1, u"Beta"_s, u"Album"_s);
+  first_expiring_song.set_ctime(kCtime);
+  Song second_expiring_song = MakeSongWithId(3, u"Charlie"_s, u"Album"_s);
+  second_expiring_song.set_ctime(kCtime + 3);
+  Song new_song = MakeSongWithId(2, u"Artist"_s, u"Album"_s);
+  new_song.set_ctime(QDateTime::currentSecsSinceEpoch() + 3600);
+  model_->AddReAddOrUpdate(SongList() << first_expiring_song << second_expiring_song << new_song);
+  Drain();
+
+  // The age is set from the time after the songs were added, so the songs become older than the age about 2 and 5 seconds after the filter is set, however long adding them took.
+  collection_filter_->SetFilterMaxAge(static_cast<int>(QDateTime::currentSecsSinceEpoch() - kCtime + 2));
+  ASSERT_EQ(3, VisibleSongs().count());
+
+  QElapsedTimer timer;
+  timer.start();
+  while (VisibleSongs().count() == 3 && timer.elapsed() < 10000) {
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 50);
+  }
+  ASSERT_EQ(2, VisibleSongs().count());
+
+  // The timer is started again for the next song.
+  timer.restart();
+  while (VisibleSongs().count() == 2 && timer.elapsed() < 10000) {
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 50);
+  }
+  ASSERT_EQ(1, VisibleSongs().count());
+  EXPECT_EQ(2, VisibleSongs().first().id());
+  // The divider and the artist of the song which is still shown, the dividers of the hidden songs are hidden too.
+  EXPECT_EQ(2, collection_filter_->rowCount(QModelIndex()));
+
+}
+
+// The age filter is checked again while no song is shown, since songs are shown again when the system clock is set back.
+TEST_F(CollectionModelTest, MaxAgeFilterKeepsCheckingWhenNoSongIsShown) {
+
+  Song old_song = MakeSongWithId(1, u"Artist"_s, u"Album"_s);
+  old_song.set_ctime(1);
+  model_->AddReAddOrUpdate(SongList() << old_song);
+  Drain();
+
+  const QList<QTimer*> timers = collection_filter_->findChildren<QTimer*>(QString(), Qt::FindDirectChildrenOnly);
+  ASSERT_EQ(1, timers.count());
+  QTimer *timer_max_age = timers.first();
+  EXPECT_FALSE(timer_max_age->isActive());
+
+  collection_filter_->SetFilterMaxAge(3600);
+  ASSERT_EQ(0, VisibleSongs().count());
+  EXPECT_TRUE(timer_max_age->isActive());
+
+  collection_filter_->SetFilterMaxAge(-1);
+  EXPECT_FALSE(timer_max_age->isActive());
+
+}
+
+// A song added while the filter is set can become older than the age before the songs which were already shown.
+TEST_F(CollectionModelTest, MaxAgeFilterHidesAddedSongsWhenTheyBecomeOlder) {
+
+  Song new_song = MakeSongWithId(2, u"Artist 2"_s, u"Album"_s);
+  new_song.set_ctime(QDateTime::currentSecsSinceEpoch());
+  model_->AddReAddOrUpdate(SongList() << new_song);
+  Drain();
+
+  constexpr int kMaxAge = 60;
+  collection_filter_->SetFilterMaxAge(kMaxAge);
+  ASSERT_EQ(1, VisibleSongs().count());
+
+  // The song becomes older than the age about 5 seconds after it's added, which leaves time for adding it.
+  Song expiring_song = MakeSongWithId(1, u"Artist 1"_s, u"Album"_s);
+  expiring_song.set_ctime(QDateTime::currentSecsSinceEpoch() - kMaxAge + 5);
+  model_->AddReAddOrUpdate(SongList() << expiring_song);
+  Drain();
+  ASSERT_EQ(2, VisibleSongs().count());
+
+  QElapsedTimer timer;
+  timer.start();
+  while (VisibleSongs().count() != 1 && timer.elapsed() < 10000) {
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 50);
+  }
+
+  ASSERT_EQ(1, VisibleSongs().count());
+  EXPECT_EQ(2, VisibleSongs().first().id());
+
+}
+
 // Whether a song is a duplicate depends on the other songs in the collection.
 TEST_F(CollectionModelTest, DuplicatesFilterFollowsCollectionChanges) {
 
