@@ -212,10 +212,8 @@ PlaylistItemPtrList PlaylistBackend::GetPlaylistItems(const int playlist_id) {
     q.BindValue(u":playlist"_s, playlist_id);
     // Don't return early on errors, the connection must be closed below.
     if (q.Exec()) {
-      // It's probable that we'll have a few songs associated with the same CUE, so we're caching results of parsing CUEs
-      SharedPtr<NewSongFromQueryState> state_ptr = make_shared<NewSongFromQueryState>();
       while (q.next()) {
-        playlist_items << NewPlaylistItemFromQuery(SqlRow(q), state_ptr);
+        playlist_items << NewPlaylistItemFromQuery(SqlRow(q));
       }
     }
     else {
@@ -223,6 +221,8 @@ PlaylistItemPtrList PlaylistBackend::GetPlaylistItems(const int playlist_id) {
     }
 
   }
+
+  RestoreCueData(playlist_items);
 
   if (QThread::currentThread() != thread() && QThread::currentThread() != qApp->thread()) {
     Close();
@@ -234,7 +234,7 @@ PlaylistItemPtrList PlaylistBackend::GetPlaylistItems(const int playlist_id) {
 
 SongList PlaylistBackend::GetPlaylistSongs(const int playlist_id) {
 
-  SongList songs;
+  PlaylistItemPtrList playlist_items;
 
   {
     QMutexLocker l(database_->Mutex());
@@ -246,10 +246,8 @@ SongList PlaylistBackend::GetPlaylistSongs(const int playlist_id) {
     q.BindValue(u":playlist"_s, playlist_id);
     // Don't return early on errors, the connection must be closed below.
     if (q.Exec()) {
-      // It's probable that we'll have a few songs associated with the same CUE, so we're caching results of parsing CUEs
-      SharedPtr<NewSongFromQueryState> state_ptr = make_shared<NewSongFromQueryState>();
       while (q.next()) {
-        songs << NewSongFromQuery(SqlRow(q), state_ptr);
+        playlist_items << NewPlaylistItemFromQuery(SqlRow(q));
       }
     }
     else {
@@ -258,15 +256,23 @@ SongList PlaylistBackend::GetPlaylistSongs(const int playlist_id) {
 
   }
 
+  RestoreCueData(playlist_items);
+
   if (QThread::currentThread() != thread() && QThread::currentThread() != qApp->thread()) {
     Close();
+  }
+
+  SongList songs;
+  songs.reserve(playlist_items.count());
+  for (const PlaylistItemPtr &item : std::as_const(playlist_items)) {
+    songs << item->EffectiveMetadata();
   }
 
   return songs;
 
 }
 
-PlaylistItemPtr PlaylistBackend::NewPlaylistItemFromQuery(const SqlRow &row, SharedPtr<NewSongFromQueryState> state) {
+PlaylistItemPtr PlaylistBackend::NewPlaylistItemFromQuery(const SqlRow &row) {
 
   // The song tables get joined first
   const int playlist_row = static_cast<int>(Song::kRowIdColumns.count()) * kSongTableJoins;
@@ -275,13 +281,18 @@ PlaylistItemPtr PlaylistBackend::NewPlaylistItemFromQuery(const SqlRow &row, Sha
   PlaylistItemPtr item = PlaylistItem::NewFromSource(source, uuid);
   item->InitFromQuery(row);
 
-  return RestoreCueData(item, state);
+  return item;
 
 }
 
-Song PlaylistBackend::NewSongFromQuery(const SqlRow &row, SharedPtr<NewSongFromQueryState> state) {
+void PlaylistBackend::RestoreCueData(PlaylistItemPtrList &playlist_items) {
 
-  return NewPlaylistItemFromQuery(row, state)->EffectiveMetadata();
+  // The CUE sheets and tags are read after the database mutex is released, since reading them can take a while, and other threads, also the GUI thread, wait for the mutex.
+  // It's probable that we'll have a few songs associated with the same CUE, so we're caching results of parsing CUEs
+  SharedPtr<NewSongFromQueryState> state = make_shared<NewSongFromQueryState>();
+  for (PlaylistItemPtr &item : playlist_items) {
+    item = RestoreCueData(item, state);
+  }
 
 }
 
