@@ -55,6 +55,7 @@
 #include "core/player.h"
 #include "core/logging.h"
 #include "collection/collectionviewcontainer.h"
+#include "collection/collectionview.h"
 #include "playlist/playlist.h"
 #include "playlist/playlistlistcontainer.h"
 #include "playlist/playlistmanager.h"
@@ -112,6 +113,9 @@ void MainWindow::SetupAndroidLayout() {
   auto *header = new ScanTaskControls(app_->task_manager(), ui_->centralWidget);
   ui_->layout_centralWidget->insertWidget(0, ui_->tabs, 1);
   ui_->layout_centralWidget->insertWidget(0, header);
+  QFont collection_font = collection_view_->view()->font();
+  collection_font.setPointSizeF(qMax(16.0, collection_font.pointSizeF()));
+  collection_view_->view()->setFont(collection_font);
   ui_->layout_centralWidget->addWidget(ui_->player_controls_container);
   ui_->splitter->hide();
   ui_->line_6->hide();
