@@ -1190,36 +1190,36 @@ TEST_F(PlaylistTest, SortByAlbumOrYearKeepsTracksAscending) {
     return ret;
   };
 
-  const auto sort = [this](const Playlist::Column column, const Qt::SortOrder order) {
-    playlist_.sort(static_cast<int>(column), order);
-  };
-
   // Album "A" was released in 2000 (originally 1990), album "B" in 1995 (originally 1999), so year and original year order the albums oppositely.
   // "A 1-20" is disc 1, track 20, and "A 2-1" is disc 2, track 1: disc order must take priority over track order.
-  // The items are inserted in reverse order, so a sort that only compares the clicked column leaves them reversed.
-  playlist_.InsertItems(PlaylistItemPtrList()
-                        << make_item(u"B 1-2"_s, u"B"_s, 1995, 1999, 1, 2)
-                        << make_item(u"B 1-1"_s, u"B"_s, 1995, 1999, 1, 1)
-                        << make_item(u"A 2-1"_s, u"A"_s, 2000, 1990, 2, 1)
-                        << make_item(u"A 1-20"_s, u"A"_s, 2000, 1990, 1, 20)
-                        << make_item(u"A 1-1"_s, u"A"_s, 2000, 1990, 1, 1), -1);
+  // Every case starts from the same reversed order, so a sort that only compares the clicked column leaves the tracks reversed.
+  const auto sort_reversed = [this, &make_item](const Playlist::Column column, const Qt::SortOrder order) {
+    playlist_.Clear();
+    playlist_.InsertItems(PlaylistItemPtrList()
+                          << make_item(u"B 1-2"_s, u"B"_s, 1995, 1999, 1, 2)
+                          << make_item(u"B 1-1"_s, u"B"_s, 1995, 1999, 1, 1)
+                          << make_item(u"A 2-1"_s, u"A"_s, 2000, 1990, 2, 1)
+                          << make_item(u"A 1-20"_s, u"A"_s, 2000, 1990, 1, 20)
+                          << make_item(u"A 1-1"_s, u"A"_s, 2000, 1990, 1, 1), -1);
+    playlist_.sort(static_cast<int>(column), order);
+  };
 
   const QStringList album_a = QStringList() << u"A 1-1"_s << u"A 1-20"_s << u"A 2-1"_s;
   const QStringList album_b = QStringList() << u"B 1-1"_s << u"B 1-2"_s;
 
-  sort(Playlist::Column::Album, Qt::AscendingOrder);
+  sort_reversed(Playlist::Column::Album, Qt::AscendingOrder);
   EXPECT_EQ(album_a + album_b, titles());
-  sort(Playlist::Column::Album, Qt::DescendingOrder);
+  sort_reversed(Playlist::Column::Album, Qt::DescendingOrder);
   EXPECT_EQ(album_b + album_a, titles());
 
-  sort(Playlist::Column::Year, Qt::AscendingOrder);
+  sort_reversed(Playlist::Column::Year, Qt::AscendingOrder);
   EXPECT_EQ(album_b + album_a, titles());
-  sort(Playlist::Column::Year, Qt::DescendingOrder);
+  sort_reversed(Playlist::Column::Year, Qt::DescendingOrder);
   EXPECT_EQ(album_a + album_b, titles());
 
-  sort(Playlist::Column::OriginalYear, Qt::AscendingOrder);
+  sort_reversed(Playlist::Column::OriginalYear, Qt::AscendingOrder);
   EXPECT_EQ(album_a + album_b, titles());
-  sort(Playlist::Column::OriginalYear, Qt::DescendingOrder);
+  sort_reversed(Playlist::Column::OriginalYear, Qt::DescendingOrder);
   EXPECT_EQ(album_b + album_a, titles());
 
   // Two albums from the same year, previously in fully reversed order (albums Z..A, tracks n..1): sorting by year must put them in album order with tracks 1..n.
@@ -1232,7 +1232,7 @@ TEST_F(PlaylistTest, SortByAlbumOrYearKeepsTracksAscending) {
                         << make_item(u"Trust 1"_s, u"Who Can You Trust?"_s, 1996, 0, 1, 1)
                         << make_item(u"Hippie 1"_s, u"Trigger Hippie"_s, 1995, 0, 1, 1), -1);
 
-  sort(Playlist::Column::Year, Qt::AscendingOrder);
+  playlist_.sort(static_cast<int>(Playlist::Column::Year), Qt::AscendingOrder);
   EXPECT_EQ((QStringList() << u"Hippie 1"_s << u"Trust 1"_s << u"Trust 12"_s << u"B-Sides 1"_s << u"B-Sides 2"_s << u"B-Sides 20"_s), titles());
 
 }
