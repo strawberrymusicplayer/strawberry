@@ -798,6 +798,16 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
   Saved-playlist and landscape list gestures were also exercised without a crash.
 
 **Still open:**
+- FP5 feedback (2026-11-12): dragging in Collection still frequently selects rows instead of scrolling.
+  Treat this as an unresolved physical-device usability issue; emulator swipe checks alone are insufficient.
+- Replace implicit desktop-style Collection multiselection on Android with an explicit selection mode entered by a long press.
+  Show selection checkboxes only in that mode, with a selected-item count, clear batch actions and an obvious way to exit.
+  Outside selection mode, dragging must only scroll; ordinary taps retain artist/album and letter-group expansion without starting a multiselection.
+  In selection mode, tapping checkboxes selects items while dragging still scrolls, preserving selections across scrolling.
+  Back exits selection mode before leaving Collection.
+  Reconcile the existing album long-press action page with this entry gesture rather than assigning competing actions to the same long press.
+  Preserve the applicable playlist/queue batch actions and review artist/album descendant selection and duplicate-song handling.
+  Test slow and short drags, diagonal swipes, momentum-stop taps, long presses and cancellation on the FP5 and emulator; leave desktop selection unchanged.
 - Verify physical finger gestures and long-press actions on the FP5; the signed release has now been installed with the user's approval, preserving app data.
 - Extend the audit to general scrollable settings/dialog pages, nested scrolling and embedded controls; this list-specific change does not claim to resolve every scroll area.
 
