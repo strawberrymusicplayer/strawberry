@@ -11,7 +11,7 @@ Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
 1. **Item 25:** Add local NAS locations (user-requested priority; real-NAS testing remains open).
-2. The remaining open items: 13, 15, 16, 17, 12, 20, 21, 22, 23, 24, 26, and finally 9 (physical-device verification, which needs a device).
+2. The remaining open items: 13, 15, 16, 17, 12, 20, 21, 22, 23, 24, 26, 27, and finally 9 (physical-device verification, which needs a device).
 
 ## 18. Review the Android changes for coding best practices
 
@@ -753,3 +753,20 @@ This interaction needs an Android touch-friendly alternative, separate from the 
 - Keep the current location clear, make Back return one level, and restore the Collection selection and scroll position when returning.
 - Keep desktop controls unchanged.
 - Test each action, Back navigation, narrow screens and portrait/landscape layouts before marking this item done.
+
+## 27. Make Android screens scroll naturally with a finger
+
+**Status:** Planned
+
+**Problem:** On the FP5, screens show scrollbars but cannot consistently be scrolled by dragging with a finger.
+Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone.
+
+**Goal:** Make overflowing Android pages and lists scroll directly with touch, without requiring scrollbar manipulation.
+
+**Approach:**
+- Audit scrollable pages, settings, dialogs, album/song lists and nested scroll areas; identify surfaces missing touch scrolling and reuse existing touch-scrolling helpers where appropriate.
+- Support natural finger dragging and kinetic scrolling; retain a scroll-position indicator where useful rather than treating scrollbar removal as the fix.
+- Distinguish scrolling from taps, long presses, selection, reordering and slider gestures so a drag cannot accidentally activate an action.
+- Preserve navigation context and scroll positions, and avoid competing gestures in nested scroll areas.
+- Keep desktop mouse, wheel, keyboard and scrollbar behavior unchanged.
+- Verify on the FP5 and emulator in portrait and landscape, including long lists, nested pages, gesture cancellation and controls embedded in scrollable content.
