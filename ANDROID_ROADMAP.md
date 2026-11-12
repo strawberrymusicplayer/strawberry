@@ -714,6 +714,9 @@ Show a short VPN tip behind an information button; do not build external-access 
   Four native title-bar tests pass three consecutive runs, covering counting, percentages/ETA, finishing/stopping, multiple scans, idle/non-scan states, actual 240-pixel width, landscape layout and a 48-pixel minimum Stop touch height.
   The explicit width assertion caught a progress-bar minimum-width constraint; allowing it to shrink fixes the narrow layout.
   Emulator checks confirm title-bar scan/counting feedback in portrait and landscape, a working right-side Stop tap, and return to the idle app-name-only title bar without clearing the saved NAS location.
+  A subsequent restart exposed that the window could retain the desktop layout's initial width (575 logical pixels on a 411-pixel screen), placing Stop outside the visible screen; the earlier checks did not establish its visibility.
+  Android now resizes to the available screen after the initial show/layout event, when the desktop minimum-size constraints have been removed.
+  On-emulator geometry confirms a 411-pixel-wide window with Stop fully inside it, OCR confirms the visible Stop label, and tapping it cancels counting and hides the scan controls.
 
 **Still open (not claimed as verified):**
 - Real NAS/Synology testing: scanning a representative collection, cover loading, playback/seek/track transitions, responsiveness and connection counts for large collections, cancellation, permission changes, Wi-Fi loss/reconnect, and saved-location restoration on a physical phone.

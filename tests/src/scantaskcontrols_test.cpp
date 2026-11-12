@@ -80,7 +80,6 @@ TEST(ScanTaskControlsTest, KeepsStatusAndStopButtonUsableAtPhoneWidth) {
   const int scan = manager->StartTask(QStringLiteral("Updating collection"));
   manager->SetTaskDetail(scan, QStringLiteral("Processing"));
   manager->SetTaskCancellable(scan);
-  manager->SetTaskProgress(scan, 123456, 654321);
   controls.resize(240, controls.layout()->totalHeightForWidth(240));
   controls.show();
   QCoreApplication::processEvents();
@@ -89,6 +88,12 @@ TEST(ScanTaskControlsTest, KeepsStatusAndStopButtonUsableAtPhoneWidth) {
   auto *status = controls.findChild<QLabel*>(QStringLiteral("scan_status"));
   ASSERT_NE(stop, nullptr);
   ASSERT_NE(status, nullptr);
+  EXPECT_TRUE(controls.rect().contains(stop->geometry()));
+  EXPECT_TRUE(stop->isVisible());
+  manager->SetTaskProgress(scan, 123456, 654321);
+  QCoreApplication::processEvents();
+  controls.resize(240, controls.layout()->totalHeightForWidth(240));
+  QCoreApplication::processEvents();
   EXPECT_TRUE(status->wordWrap());
   const QRect status_rect(status->mapTo(&controls, QPoint()), status->size());
   EXPECT_TRUE(controls.rect().contains(stop->geometry()));

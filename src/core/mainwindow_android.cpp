@@ -32,6 +32,7 @@
 #include <QObject>
 #include <QPushButton>
 #include <QScrollArea>
+#include <QScreen>
 #include <QSize>
 #include <QSizePolicy>
 #include <QStackedWidget>
@@ -40,6 +41,7 @@
 #include <QTabBar>
 #include <QTabWidget>
 #include <QToolButton>
+#include <QTimer>
 #include <QVBoxLayout>
 #include <QWidget>
 #include <QCoreApplication>
@@ -181,6 +183,12 @@ void MainWindow::SetupAndroidLayout() {
   for (QToolButton *button : {ui_->back_button, ui_->pause_play_button, ui_->stop_button, ui_->forward_button, love_button, android_mute_button_}) {
     button->setMinimumSize(48, 48);
   }
+
+  // The desktop layout can enlarge the window before the Android controls replace it.
+  QTimer::singleShot(0, this, [this]() {
+    layout()->activate();
+    resize(screen()->availableGeometry().size());
+  });
 
 }
 
