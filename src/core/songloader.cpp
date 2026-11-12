@@ -42,6 +42,7 @@
 #include <QMutexLocker>
 
 #include "includes/shared_ptr.h"
+#include "utilities/strutils.h"
 #include "core/logging.h"
 #include "core/signalchecker.h"
 #include "core/song.h"
@@ -80,8 +81,9 @@ SongLoader::SongLoader(const SharedPtr<UrlHandlers> url_handlers,
       parser_(nullptr),
       state_(State::WaitingForType),
       timeout_(kDefaultTimeout),
-      fakesink_(nullptr),
+      typefind_(nullptr),
       buffer_probe_cb_id_(0),
+      end_of_stream_(false),
       success_(false) {
 
   if (sRawUriSchemes.isEmpty()) {
@@ -440,6 +442,7 @@ void SongLoader::Timeout() {
   if (!SetStateFinished()) return;
 
   success_ = false;
+  AddError(tr("Timed out loading %1.").arg(Utilities::UrlForLog(url_)));
   StopTypefind();
 
 }
@@ -455,7 +458,7 @@ void SongLoader::StopTypefind() {
   timeout_timer_->stop();
 
   if (success_ && parser_) {
-    qLog(Debug) << "Parsing" << url_ << "with" << parser_->name();
+    qLog(Debug) << "Parsing" << Utilities::UrlForLog(url_) << "with" << parser_->name();
 
     // Parse the playlist
     QBuffer buf(&buffer_);
@@ -468,7 +471,7 @@ void SongLoader::StopTypefind() {
 
   }
   else if (success_) {
-    qLog(Debug) << "Loading" << url_ << "as raw stream";
+    qLog(Debug) << "Loading" << Utilities::UrlForLog(url_) << "as raw stream";
 
     // It wasn't a playlist - just put the URL in as a stream
     AddAsRawStream();
@@ -480,7 +483,7 @@ void SongLoader::StopTypefind() {
 
 SongLoader::Result SongLoader::LoadRemote() {
 
-  qLog(Debug) << "Loading remote file" << url_;
+  qLog(Debug) << "Loading remote file" << Utilities::UrlForLog(url_);
 
   // It's not a local file so we have to fetch it to see what it is.
   // We use gstreamer to do this since it handles funky URLs for us (http://, ssh://, etc) and also has typefinder plugins.
@@ -496,7 +499,7 @@ SongLoader::Result SongLoader::LoadRemote() {
   // Create the source element automatically based on the URL
   GstElement *source = gst_element_make_from_uri(GST_URI_SRC, url_.toEncoded().constData(), nullptr, nullptr);
   if (!source) {
-    AddError(tr("Couldn't create GStreamer source element for %1").arg(url_.toString()));
+    AddError(tr("Couldn't create GStreamer source element for %1").arg(Utilities::UrlForLog(url_)));
     return Result::Error;
   }
   gst_bin_add(GST_BIN(&*pipeline), source);
@@ -506,20 +509,20 @@ SongLoader::Result SongLoader::LoadRemote() {
   // Create the other elements and link them up
   GstElement *typefind = gst_element_factory_make("typefind", nullptr);
   if (!typefind) {
-    AddError(tr("Couldn't create GStreamer typefind element for %1").arg(url_.toString()));
+    AddError(tr("Couldn't create GStreamer typefind element for %1").arg(Utilities::UrlForLog(url_)));
     return Result::Error;
   }
   gst_bin_add(GST_BIN(&*pipeline), typefind);
 
-  fakesink_ = gst_element_factory_make("fakesink", nullptr);
-  if (!fakesink_) {
-    AddError(tr("Couldn't create GStreamer fakesink element for %1").arg(url_.toString()));
+  GstElement *fakesink = gst_element_factory_make("fakesink", nullptr);
+  if (!fakesink) {
+    AddError(tr("Couldn't create GStreamer fakesink element for %1").arg(Utilities::UrlForLog(url_)));
     return Result::Error;
   }
-  gst_bin_add(GST_BIN(&*pipeline), fakesink_);
+  gst_bin_add(GST_BIN(&*pipeline), fakesink);
 
-  if (!gst_element_link_many(source, typefind, fakesink_, nullptr)) {
-    AddError(tr("Couldn't link GStreamer source, typefind and fakesink elements for %1").arg(url_.toString()));
+  if (!gst_element_link_many(source, typefind, fakesink, nullptr)) {
+    AddError(tr("Couldn't link GStreamer source, typefind and fakesink elements for %1").arg(Utilities::UrlForLog(url_)));
     return Result::Error;
   }
 
@@ -530,10 +533,12 @@ SongLoader::Result SongLoader::LoadRemote() {
     gst_object_unref(bus);
   }
 
-  // Add a probe to the sink so we can capture the data if it's a playlist
-  GstPad *pad = gst_element_get_static_pad(fakesink_, "sink");
+  // Add a probe to the typefind so we can capture the data if it's a playlist.
+  // The probe is before the typefind, since the typefind doesn't pass on the data when it can't find the type.
+  typefind_ = typefind;
+  GstPad *pad = gst_element_get_static_pad(typefind_, "sink");
   if (pad) {
-    buffer_probe_cb_id_ = gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, &DataReady, this, nullptr);
+    buffer_probe_cb_id_ = gst_pad_add_probe(pad, static_cast<GstPadProbeType>(GST_PAD_PROBE_TYPE_BUFFER | GST_PAD_PROBE_TYPE_EVENT_DOWNSTREAM), &DataReady, this, nullptr);
     gst_object_unref(pad);
   }
 
@@ -546,7 +551,8 @@ SongLoader::Result SongLoader::LoadRemote() {
   // Wait until loading is finished
   loop.exec();
 
-  return Result::Success;
+  // The error is added by what finished the loading.
+  return success_ ? Result::Success : Result::Error;
 
 }
 
@@ -580,6 +586,14 @@ GstPadProbeReturn SongLoader::DataReady(GstPad *pad, GstPadProbeInfo *info, gpoi
   SongLoader *instance = reinterpret_cast<SongLoader*>(self);
 
   if (instance->state_ == State::Finished) {
+    return GST_PAD_PROBE_OK;
+  }
+
+  if (GST_PAD_PROBE_INFO_TYPE(info) & GST_PAD_PROBE_TYPE_EVENT_DOWNSTREAM) {
+    // The typefind doesn't pass on the end of stream when it can't find the type.
+    if (GST_EVENT_TYPE(gst_pad_probe_info_get_event(info)) == GST_EVENT_EOS) {
+      instance->end_of_stream_ = true;
+    }
     return GST_PAD_PROBE_OK;
   }
 
@@ -635,20 +649,30 @@ void SongLoader::ErrorMessageReceived(GstMessage *msg) {
   gchar *debugs = nullptr;
 
   gst_message_parse_error(msg, &error, &debugs);
-  qLog(Error) << error->message;
-  qLog(Error) << debugs;
 
-  QString message_str = QString::fromUtf8(error->message);
+  // The messages can contain the URL, which can have credentials in the query.
+  const QString message_str = QString::fromUtf8(error->message);
+  qLog(Error) << Utilities::RedactUrls(message_str, url_);
+  qLog(Error) << Utilities::RedactUrls(QString::fromUtf8(debugs), url_);
 
   g_error_free(error);
   g_free(debugs);
 
-  if (message_str == QString::fromUtf8(gst_error_get_message(GST_STREAM_ERROR, GST_STREAM_ERROR_TYPE_NOT_FOUND)) && ChangeState(State::WaitingForType, State::WaitingForMagic)) {
+  if (message_str == QString::fromUtf8(gst_error_get_message(GST_STREAM_ERROR, GST_STREAM_ERROR_TYPE_NOT_FOUND))) {
+    // The typefind gives up before the end of the stream when it can't find the type in the first part of a large stream, and then stops the stream, so the rest of the data can't be received.
+    if (!end_of_stream_) {
+      StopTypefindAsync(false, tr("Could not load %1, the type is unknown.").arg(Utilities::UrlForLog(url_)));
+      return;
+    }
     // Don't give up - assume it's a playlist and see if one of our parsers can read it.
-    return;
+    // The whole stream was received before the error, so the data received is all the data.
+    if (ChangeState(State::WaitingForType, State::WaitingForMagic)) {
+      EndOfStreamReached();
+      return;
+    }
   }
 
-  StopTypefindAsync(false);
+  StopTypefindAsync(false, tr("Could not load %1: %2").arg(Utilities::UrlForLog(url_), Utilities::RedactUrls(message_str, url_)));
 
 }
 
@@ -673,7 +697,7 @@ void SongLoader::EndOfStreamReached() {
       break;
 
     case State::WaitingForType:
-      StopTypefindAsync(false);
+      StopTypefindAsync(false, tr("Could not load %1, it is empty.").arg(Utilities::UrlForLog(url_)));
       break;
   }
 
@@ -686,9 +710,9 @@ void SongLoader::MagicReady() {
   parser_ = playlist_parser_->ParserForMagic(buffer_, mime_type_);
 
   if (!parser_) {
-    qLog(Warning) << url_.toString() << "is text, but not a recognised playlist";
+    qLog(Warning) << Utilities::UrlForLog(url_) << "is text, but not a recognised playlist";
     // It doesn't look like a playlist, so just finish
-    StopTypefindAsync(false);
+    StopTypefindAsync(false, tr("Could not load %1, it is text, but not a recognised playlist.").arg(Utilities::UrlForLog(url_)));
     return;
   }
 
@@ -741,11 +765,15 @@ bool SongLoader::SetStateFinished() {
 
 }
 
-void SongLoader::StopTypefindAsync(const bool success) {
+void SongLoader::StopTypefindAsync(const bool success, const QString &error) {
 
   if (!SetStateFinished()) return;
 
   success_ = success;
+  // Only added when this finished the typefind, so an error which lost the race to finish it isn't added.
+  if (!error.isEmpty()) {
+    AddError(error);
+  }
 
   QMetaObject::invokeMethod(this, &SongLoader::StopTypefind, Qt::QueuedConnection);
 
@@ -774,8 +802,8 @@ void SongLoader::CleanupPipeline() {
 
     gst_element_set_state(&*pipeline_, GST_STATE_NULL);
 
-    if (fakesink_ && buffer_probe_cb_id_ != 0) {
-      GstPad *pad = gst_element_get_static_pad(fakesink_, "sink");
+    if (typefind_ && buffer_probe_cb_id_ != 0) {
+      GstPad *pad = gst_element_get_static_pad(typefind_, "sink");
       if (pad) {
         gst_pad_remove_probe(pad, buffer_probe_cb_id_);
         gst_object_unref(pad);
@@ -791,6 +819,8 @@ void SongLoader::CleanupPipeline() {
     }
 
     pipeline_.reset();
+    typefind_ = nullptr;
+    buffer_probe_cb_id_ = 0;
 
   }
 
