@@ -11,7 +11,7 @@ Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
 1. **Item 25:** Add local NAS locations (user-requested priority; real-NAS testing remains open).
-2. The remaining open items: 13, 15, 16, 17, 12, 20, 21, 22, 23, 24, 26, 27, and finally 9 (physical-device verification, which needs a device).
+2. The remaining open items: 13, 15, 16, 17, 12, 20, 21, 22, 23, 24, 26, 27, 28, and finally 9 (physical-device verification, which needs a device).
 
 ## 18. Review the Android changes for coding best practices
 
@@ -777,3 +777,22 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
 - Preserve navigation context and scroll positions, and avoid competing gestures in nested scroll areas.
 - Keep desktop mouse, wheel, keyboard and scrollbar behavior unchanged.
 - Verify on the FP5 and emulator in portrait and landscape, including long lists, nested pages, gesture cancellation and controls embedded in scrollable content.
+
+## 28. Design and add an alarm clock under Tools
+
+**Status:** Planned (requirements interview and UI design first)
+
+**Goal:** Let users create an alarm clock from Tools on Android.
+The feature set and screen design are not yet agreed.
+
+**Required first phase:**
+- Start with a dedicated chat to ask which features the user wants; do not assume requirements or begin implementation first.
+- Discuss options such as one or multiple alarms, one-off/repeating schedules, music sources, volume/fade-in, snooze, dismiss controls and fallback behavior when music is unavailable.
+  These are interview topics, not committed features.
+- Clarify expected behavior with the screen locked, the app in the background or closed, after a reboot, and without network access.
+- Use the answers to work out the appearance and navigation: Tools entry, alarm overview, create/edit flow and ringing screen, following the shared Android hierarchical navigation rules.
+- Present the proposed feature scope, screen layout and interactions in chat and obtain the user's approval before implementation.
+
+**After design approval:**
+- Assess Android alarm scheduling, permissions, background execution and audio-focus requirements against the agreed reliability expectations; explain platform limitations explicitly.
+- Implement and test the approved scope separately, including physical-device checks on the FP5.
