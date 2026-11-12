@@ -326,12 +326,20 @@ CollectionWatcher::ScanTransaction::ScanTransaction(CollectionWatcher *watcher, 
   }
 
   task_id_ = watcher_->task_manager_->StartTask(description);
+  // Stop() is mutex-protected; a queued request would wait behind the running scan.
+  cancellation_connection_ = QObject::connect(&*watcher_->task_manager_, &TaskManager::TaskCancellationRequested, watcher_,
+      [watcher, id = task_id_](int requested_id) {
+        if (requested_id == id) watcher->Stop();
+      }, Qt::DirectConnection);
+  watcher_->task_manager_->SetTaskDetail(task_id_, tr("Counting files..."));
+  watcher_->task_manager_->SetTaskCancellable(task_id_);
   Q_EMIT watcher_->ScanStarted(task_id_);
 
 }
 
 CollectionWatcher::ScanTransaction::~ScanTransaction() {
 
+  QObject::disconnect(cancellation_connection_);
   // If we're stopping then don't commit the transaction
   if (!watcher_->stop_or_abort_requested()) {
     CommitNewOrUpdatedSongs();
@@ -351,8 +359,17 @@ void CollectionWatcher::ScanTransaction::AddToProgress(const quint64 n) {
 void CollectionWatcher::ScanTransaction::AddToProgressMax(const quint64 n) {
 
   progress_max_ += n;
+  watcher_->task_manager_->SetTaskDetail(task_id_, tr("Reading music information"));
   watcher_->task_manager_->SetTaskProgress(task_id_, progress_, progress_max_);
 
+}
+
+void CollectionWatcher::ScanTransaction::CountEntry() {
+  ++counted_entries_;
+  if (!count_timer_.isValid() || count_timer_.elapsed() >= 250) {
+    watcher_->task_manager_->SetTaskDetail(task_id_, tr("Counting files: %1 entries found").arg(counted_entries_));
+    count_timer_.start();
+  }
 }
 
 void CollectionWatcher::ScanTransaction::LogChanges() const {
@@ -682,6 +699,7 @@ void CollectionWatcher::ScanTransaction::PublishNewNasSongs() {
 
 void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const QString &path, const CollectionSubdirectory &subdir, const quint64 files_count, ScanTransaction *t, const bool force_noincremental) {
 
+  if (stop_or_abort_requested()) return;
 #ifdef HAVE_NAS
   if (t->NetworkFailed()) return;
 #endif
@@ -2168,6 +2186,7 @@ void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mt
 
 quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &path) {
 
+  if (stop_or_abort_requested()) return 0;
 #ifdef HAVE_NAS
   if (t->NetworkFailed()) return 0;
 #endif
@@ -2198,6 +2217,7 @@ quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &
     if (stop_or_abort_requested()) break;
 
     const QString child_filepath = it.next();
+    t->CountEntry();
     const QFileInfo child_fileinfo(child_filepath);
 
     if (child_fileinfo.isDir()) {

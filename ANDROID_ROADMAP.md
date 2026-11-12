@@ -672,6 +672,10 @@ Show a short VPN tip behind an information button; do not build external-access 
   Cancellation or a failed NAS operation keeps already published additions but discards those pending changes.
   SMB folders use startup/manual collection scans, not native filesystem notifications.
   After editing an existing server/share/folder, run Full collection scan.
+- Android scan details below the updating-collection message show the counting phase and found-entry count, followed by processed/total entries and an approximate remaining time after sufficient scanning samples.
+  Counting itself has no reliable ETA because the total is not yet known, and NAS metadata requests can make it slow.
+  A touch-sized Stop scan button works during counting and metadata scanning; cancellation waits for the current operation and leaves already published new tracks intact.
+  The stopping state is explicit, and the next manual scan is still allowed.
 
 **Local validation:**
 - Native protocol tests cover authenticated listing/filtering, a complete 2 MiB read, seeking, read-only enforcement, missing files, TagLib metadata, GStreamer WAV discovery, actual collection scanning, wrong passwords, and interrupted/offline connections.
@@ -690,6 +694,11 @@ Show a short VPN tip behind an information button; do not build external-access 
   Repeated hardware Back checks also cover the NAS editor and location list.
   The final signed, non-debuggable release APK is installed on the emulator without clearing existing app data.
   The subsequent per-folder publication update builds and packages successfully but has deliberately not been installed while the user's real-NAS scan is running.
+- Native scan-controls tests cover unknown/estimated/finishing states, idempotent and task-scoped cancellation, a 240-pixel-wide layout and a minimum 48-pixel stop button.
+  Loopback scan tests also cover cancellation before counting from another thread, cancellation during counting and after a published folder, preservation of existing songs and a successful subsequent scan.
+  All three scan-controls tests and eleven NAS tests pass three consecutive runs; the complete collection-watcher suite passes.
+  The updated Android APK builds, packages and passes signature verification, without installation.
+  The new controls are Android-only; runtime checks on the user's device remain pending until the current scan can be left undisturbed.
 
 **Still open (not claimed as verified):**
 - Real NAS/Synology testing: scanning a representative collection, cover loading, playback/seek/track transitions, responsiveness and connection counts for large collections, cancellation, permission changes, Wi-Fi loss/reconnect, and saved-location restoration on a physical phone.

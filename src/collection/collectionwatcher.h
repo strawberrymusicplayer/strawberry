@@ -23,6 +23,7 @@
 #define COLLECTIONWATCHER_H
 
 #include "config.h"
+#include <QElapsedTimer>
 
 #include <QtGlobal>
 #include <QObject>
@@ -123,6 +124,7 @@ class CollectionWatcher : public QObject {
 
     void AddToProgress(const quint64 n = 1);
     void AddToProgressMax(const quint64 n);
+    void CountEntry();
 
     // Emits the signals for new & deleted songs etc and clears the lists. This causes the new stuff to be updated on UI.
     void CommitNewOrUpdatedSongs();
@@ -170,6 +172,9 @@ class CollectionWatcher : public QObject {
     int expire_unavailable_songs_days_;
 
     int task_id_;
+    QMetaObject::Connection cancellation_connection_;
+    quint64 counted_entries_ = 0;
+    QElapsedTimer count_timer_;
 
     quint64 progress_max_;
     quint64 progress_;

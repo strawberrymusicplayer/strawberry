@@ -22,6 +22,8 @@
 #include "config.h"
 
 #include <algorithm>
+#include <cmath>
+#include <limits>
 
 #include <QObject>
 #include <QMutex>
@@ -31,6 +33,42 @@
 #include "taskmanager.h"
 
 using namespace Qt::Literals::StringLiterals;
+
+int TaskManager::Task::EstimatedSecondsRemaining() const {
+  if (!progress_timer.isValid() || progress < 3 || progress_max <= progress || cancellation_requested) return -1;
+  const qint64 elapsed = progress_timer.elapsed();
+  if (elapsed < 5000) return -1;
+  const long double seconds = std::ceil(static_cast<long double>(elapsed) / 1000 * (progress_max - progress) / progress);
+  return static_cast<int>(std::min(seconds, static_cast<long double>(std::numeric_limits<int>::max())));
+}
+
+void TaskManager::SetTaskCancellable(int id) {
+  {
+    QMutexLocker lock(&mutex_);
+    if (!tasks_.contains(id)) return;
+    tasks_[id].cancellable = true;
+  }
+  Q_EMIT TasksChanged();
+}
+
+void TaskManager::SetTaskDetail(int id, const QString &detail) {
+  {
+    QMutexLocker lock(&mutex_);
+    if (!tasks_.contains(id) || tasks_[id].detail == detail) return;
+    tasks_[id].detail = detail;
+  }
+  Q_EMIT TasksChanged();
+}
+
+void TaskManager::RequestTaskCancellation(int id) {
+  {
+    QMutexLocker lock(&mutex_);
+    if (!tasks_.contains(id) || !tasks_[id].cancellable || tasks_[id].cancellation_requested) return;
+    tasks_[id].cancellation_requested = true;
+  }
+  Q_EMIT TaskCancellationRequested(id);
+  Q_EMIT TasksChanged();
+}
 
 TaskManager::TaskManager(QObject *parent) : QObject(parent), next_task_id_(1) {
 
@@ -92,6 +130,7 @@ void TaskManager::SetTaskProgress(const int id, const quint64 progress, const qu
 
     Task t = tasks_.value(id);
     t.progress = progress;
+    if (t.cancellable && max > 0 && !t.progress_timer.isValid()) t.progress_timer.start();
     if (max > 0) t.progress_max = max;
     tasks_[id] = t;
   }

@@ -63,6 +63,14 @@ NAS folders are rescanned through collection startup/manual scans; native filesy
 The scanner first counts the files, then publishes newly discovered tracks after each completed folder so the collection grows during a large scan.
 Changes to existing tracks, removals/unavailability, folder timestamps, and expiry are deferred until the entire scan succeeds.
 Cancelling a scan or losing the connection keeps new tracks from completed folders; pending changes to existing collection entries are discarded.
+Android shows scan details beneath the updating-collection message, with a **Stop scan** button available while counting and reading metadata.
+Counting reports the number of entries found, not a percentage or remaining time: the total is not known yet.
+On a NAS, counting still traverses the folder tree and performs network metadata operations, so it is not necessarily fast for a large collection.
+After counting, the display reports processed/total entries and estimates remaining scan time only after at least five seconds and three processed entries.
+The estimate excludes the counting phase and is approximate: file formats, network delays, folder sizes and final database/UI work can change completion time.
+Stopping requests cooperative cancellation; an in-flight SMB operation must return or time out before the scan finishes stopping.
+The button switches to a stopping message rather than claiming the operation has already stopped.
+Another manual scan can be started afterward.
 Configure a location in Settings > General > Collection > Music folders > NAS locations.
 Enter the server's local name/IP address, share, optional relative folder, and NAS account, then use **Check and use folder**.
 The successful check only adds a pending location: Apply/OK saves it, and Cancel discards unapplied changes.

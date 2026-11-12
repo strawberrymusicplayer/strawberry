@@ -34,6 +34,10 @@
 #include "core/taskmanager.h"
 #include "multiloadingindicator.h"
 #include "widgets/busyindicator.h"
+#ifdef Q_OS_ANDROID
+#  include <QVBoxLayout>
+#  include "scantaskcontrols_android.h"
+#endif
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -58,6 +62,11 @@ QSize MultiLoadingIndicator::sizeHint() const {
 
   const int width = kHorizontalPadding * 2 + spinner_->sizeHint().width() + kSpacing + fontMetrics().horizontalAdvance(text_);
   const int height = kVerticalPadding * 2 + qMax(spinner_->sizeHint().height(), fontMetrics().height());
+#ifdef Q_OS_ANDROID
+  if (scan_controls_ && !scan_controls_->isHidden()) {
+    return QSize(width, layout()->totalHeightForWidth(qMax(1, this->width())));
+  }
+#endif
 
   return QSize(width, height);
 
@@ -67,6 +76,14 @@ void MultiLoadingIndicator::SetTaskManager(SharedPtr<TaskManager> task_manager) 
 
   task_manager_ = task_manager;
   QObject::connect(&*task_manager_, &TaskManager::TasksChanged, this, &MultiLoadingIndicator::UpdateText);
+#ifdef Q_OS_ANDROID
+  scan_controls_ = new ScanTaskControls(task_manager_, this);
+  setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+  auto *layout = new QVBoxLayout(this);
+  layout->setContentsMargins(kHorizontalPadding, kVerticalPadding, kHorizontalPadding, kVerticalPadding);
+  layout->addSpacing(qMax(spinner_->sizeHint().height(), fontMetrics().height()));
+  layout->addWidget(scan_controls_);
+#endif
 
 }
 
@@ -113,7 +130,11 @@ void MultiLoadingIndicator::paintEvent(QPaintEvent *e) {
   const QRect text_rect(
       kHorizontalPadding + spinner_->sizeHint().width() + kSpacing, kVerticalPadding,
       width() - kHorizontalPadding * 2 - spinner_->sizeHint().width() - kSpacing,
+#ifdef Q_OS_ANDROID
+      qMax(spinner_->sizeHint().height(), fontMetrics().height()));
+#else
       height() - kVerticalPadding * 2);
+#endif
   p.drawText(text_rect, Qt::TextSingleLine | Qt::AlignLeft, fontMetrics().elidedText(text_, Qt::ElideRight, text_rect.width()));  // NOLINT(bugprone-suspicious-enum-usage)
 
 }

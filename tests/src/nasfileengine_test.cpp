@@ -25,6 +25,7 @@
 #include "tagreader/tagreadertaglib.h"
 #include "tagreader/tagreaderclient.h"
 #include <taglib/fileref.h>
+#include <thread>
 
 namespace {
 
@@ -89,7 +90,7 @@ class NasProtocolTest : public ::testing::Test {
   QProcess server_;
   Nas::Location location_;
 
-  enum class ScanEnd { Complete, Disconnect, Cancel };
+  enum class ScanEnd { Complete, Disconnect, Cancel, CancelCounting, CancelDuringCounting };
   void VerifyFolderPublishing(ScanEnd end) {
     const auto tasks = std::make_shared<TaskManager>();
     const auto database = std::make_shared<MemoryDatabase>(nullptr);
@@ -116,7 +117,26 @@ class NasProtocolTest : public ::testing::Test {
     QSignalSpy subdirs(&watcher, &CollectionWatcher::SubdirsDiscovered);
     int published = 0;
     int updated = 0;
-    QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &watcher, [&](const SongList &songs) {
+    bool stopped_while_counting = false;
+    const auto counting_connection = QObject::connect(&*tasks, &TaskManager::TasksChanged, &watcher, [&]() {
+      if (end != ScanEnd::CancelDuringCounting || stopped_while_counting) return;
+      const auto active = tasks->GetTasks();
+      if (active.isEmpty() || !active.first().detail.startsWith(QStringLiteral("Counting files:"))) return;
+      stopped_while_counting = true;
+      EXPECT_EQ(active.first().progress_max, 0);
+      tasks->RequestTaskCancellation(active.first().id);
+    });
+    const auto started_connection = QObject::connect(&watcher, &CollectionWatcher::ScanStarted, &watcher, [&](int id) {
+      if (end == ScanEnd::CancelCounting) {
+        const auto active = tasks->GetTasks();
+        ASSERT_EQ(active.size(), 1);
+        EXPECT_EQ(active.first().progress_max, 0);
+        EXPECT_TRUE(active.first().detail.contains(QStringLiteral("Counting")));
+        std::thread request([tasks, id]() { tasks->RequestTaskCancellation(id); });
+        request.join();
+      }
+    });
+    const auto published_connection = QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &watcher, [&](const SongList &songs) {
       ASSERT_EQ(songs.size(), 1);
       if (songs.first().id() != -1) {
         ++updated;
@@ -143,18 +163,31 @@ class NasProtocolTest : public ::testing::Test {
         server_.terminate();
         ASSERT_TRUE(server_.waitForFinished(3000));
       }
-      else if (published == 1 && end == ScanEnd::Cancel) watcher.Abort();
+      else if (published == 1 && end == ScanEnd::Cancel) {
+        tasks->RequestTaskCancellation(tasks->GetTasks().first().id);
+      }
     });
     CollectionDirectory directory;
     directory.id = 1;
     directory.path = location_.path();
     watcher.AddDirectory(directory, {});
     EXPECT_TRUE(tasks->GetTasks().isEmpty());
-    EXPECT_EQ(published, end == ScanEnd::Complete ? 2 : 1);
+    const bool stopped_counting = end == ScanEnd::CancelCounting || end == ScanEnd::CancelDuringCounting;
+    EXPECT_EQ(published, end == ScanEnd::Complete ? 2 : (stopped_counting ? 0 : 1));
     EXPECT_EQ(updated, end == ScanEnd::Complete ? 1 : 0);
     EXPECT_EQ(deleted.count() + unavailable.count(), end == ScanEnd::Complete ? 1 : 0);
     EXPECT_EQ(subdirs.count(), end == ScanEnd::Complete ? 1 : 0);
     EXPECT_EQ(expiry.count(), 0);
+    if (end == ScanEnd::CancelDuringCounting) EXPECT_TRUE(stopped_while_counting);
+    if (end == ScanEnd::Cancel || stopped_counting) {
+      QObject::disconnect(started_connection);
+      QObject::disconnect(published_connection);
+      QObject::disconnect(counting_connection);
+      QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend, &CollectionBackend::AddOrUpdateSongs);
+      watcher.AddDirectory(directory, {});
+      EXPECT_EQ(backend->GetAllSongs().size(), 4);
+      EXPECT_TRUE(tasks->GetTasks().isEmpty());
+    }
   }
 };
 
@@ -270,6 +303,14 @@ TEST_F(NasProtocolTest, DisconnectKeepsPublishedFoldersWithoutChangingExistingSo
 
 TEST_F(NasProtocolTest, CancellationKeepsPublishedFoldersWithoutChangingExistingSongs) {
   VerifyFolderPublishing(ScanEnd::Cancel);
+}
+
+TEST_F(NasProtocolTest, CanStopBeforeCountingWithoutChangingExistingSongs) {
+  VerifyFolderPublishing(ScanEnd::CancelCounting);
+}
+
+TEST_F(NasProtocolTest, CanStopDuringCountingWithoutChangingExistingSongs) {
+  VerifyFolderPublishing(ScanEnd::CancelDuringCounting);
 }
 
 }  // namespace
