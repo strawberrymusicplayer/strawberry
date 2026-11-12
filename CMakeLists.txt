@@ -1514,7 +1514,7 @@ else()
 endif()
 
 if(ANDROID)
-  list(APPEND SOURCES src/core/androidmediasession.cpp src/core/androidstorage.cpp src/core/mainwindow_android.cpp src/engine/gststartup_android.cpp src/equalizer/equalizer_android.cpp src/playlist/playlistview_android.cpp src/settings/androidsettingspage.cpp src/settings/settingsdialog_android.cpp src/widgets/androidwidgets.cpp)
+  list(APPEND SOURCES src/core/androidmediasession.cpp src/core/androidstorage.cpp src/core/mainwindow_android.cpp src/engine/gststartup_android.cpp src/equalizer/equalizer_android.cpp src/playlist/playlistview_android.cpp src/settings/androidsettingspage.cpp src/settings/settingsdialog_android.cpp src/widgets/androidwidgets.cpp src/widgets/listscrolling_android.cpp)
   list(APPEND SOURCES src/core/androidstoragefileengine.cpp src/engine/gstqfilesrc.cpp src/tagreader/taglibfilestream_android.cpp)
   list(APPEND SOURCES src/engine/gstaacdecoder.cpp)
   list(APPEND SOURCES src/covermanager/coverdialogpage_android.cpp)

@@ -114,6 +114,7 @@
 #ifdef Q_OS_ANDROID
 #  include "core/androidmediasession.h"
 #  include "core/androidstorage.h"
+#  include "widgets/listscrolling_android.h"
 #endif
 
 #ifdef Q_OS_MACOS
@@ -225,6 +226,7 @@ int main(int argc, char *argv[]) {
 
 #ifdef Q_OS_ANDROID
   AndroidStorage::InitializeFileAccess();
+  new AndroidListScrolling(&a);
 #endif
 
 #ifdef Q_OS_LINUX

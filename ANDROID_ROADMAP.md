@@ -763,7 +763,7 @@ This interaction needs an Android touch-friendly alternative, separate from the 
 
 ## 27. Make Android screens scroll naturally with a finger
 
-**Status:** Planned
+**Status:** In progress (list scrolling implemented and emulator-tested; general pages and FP5 verification remain open)
 
 **Problem:** On the FP5, screens show scrollbars but cannot consistently be scrolled by dragging with a finger.
 Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone.
@@ -777,6 +777,21 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
 - Preserve navigation context and scroll positions, and avoid competing gestures in nested scroll areas.
 - Keep desktop mouse, wheel, keyboard and scrollbar behavior unchanged.
 - Verify on the FP5 and emulator in portrait and landscape, including long lists, nested pages, gesture cancellation and controls embedded in scrollable content.
+
+**Implemented for lists:**
+- An Android-only application adapter enables Qt kinetic scrolling when item views are shown, including Collection, playlist/song lists and tables created later.
+  Lists scroll per pixel in both directions; scrollbars remain available as position indicators.
+  Desktop drag-and-drop/reordering gestures are disabled in these Android lists so dragging scrolls instead.
+- Headers and combo-box popups are excluded; desktop input behavior is unchanged.
+  The existing equalizer page scrolling remains unchanged.
+- Five native regression tests cover automatic setup/exclusions, swipes without clicks, tapping to stop momentum, subsequent normal taps, album long presses, auto-expanding tree rows and horizontal table scrolling.
+  The existing long-press and playlist-action suites also pass.
+- The signed release is installed on the emulator; swiping inside the Collection changes the visible artist rows without starting playback.
+  Saved-playlist and landscape list gestures were also exercised without a crash.
+
+**Still open:**
+- Verify physical finger gestures and long-press actions on the FP5; the signed release has now been installed with the user's approval, preserving app data.
+- Extend the audit to general scrollable settings/dialog pages, nested scrolling and embedded controls; this list-specific change does not claim to resolve every scroll area.
 
 ## 28. Design and add an alarm clock under Tools
 
