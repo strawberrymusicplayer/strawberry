@@ -717,6 +717,9 @@ Show a short VPN tip behind an information button; do not build external-access 
   A subsequent restart exposed that the window could retain the desktop layout's initial width (575 logical pixels on a 411-pixel screen), placing Stop outside the visible screen; the earlier checks did not establish its visibility.
   Android now resizes to the available screen after the initial show/layout event, when the desktop minimum-size constraints have been removed.
   On-emulator geometry confirms a 411-pixel-wide window with Stop fully inside it, OCR confirms the visible Stop label, and tapping it cancels counting and hides the scan controls.
+  A reported shutdown while repeatedly tapping Foo Fighters / One By One / All My Life remains unresolved: the captured crash stack ends in emulator EGL cleanup during process exit, without establishing the original reason for exiting.
+  Subsequent emulator attempts play that same NAS track, including repeated taps with and without a collection scan, without reproducing the shutdown; Discord by After Forever also reaches Android's playing state.
+  These checks do not confirm audible output, seeking or a complete track transition.
 
 **Still open (not claimed as verified):**
 - Real NAS/Synology testing: scanning a representative collection, cover loading, playback/seek/track transitions, responsiveness and connection counts for large collections, cancellation, permission changes, Wi-Fi loss/reconnect, and saved-location restoration on a physical phone.
