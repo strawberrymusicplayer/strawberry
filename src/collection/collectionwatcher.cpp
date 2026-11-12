@@ -359,7 +359,7 @@ void CollectionWatcher::ScanTransaction::AddToProgress(const quint64 n) {
 void CollectionWatcher::ScanTransaction::AddToProgressMax(const quint64 n) {
 
   progress_max_ += n;
-  watcher_->task_manager_->SetTaskDetail(task_id_, tr("Reading music information"));
+  watcher_->task_manager_->SetTaskDetail(task_id_, tr("Processing"));
   watcher_->task_manager_->SetTaskProgress(task_id_, progress_, progress_max_);
 
 }

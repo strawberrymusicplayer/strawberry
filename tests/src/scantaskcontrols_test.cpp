@@ -50,7 +50,7 @@ TEST(ScanTaskControlsTest, EstimatesOnlyAfterCountingAndCollectingScanSamples) {
   manager->SetTaskCancellable(scan);
   manager->SetTaskDetail(scan, QStringLiteral("Counting files..."));
   EXPECT_EQ(manager->GetTasks().first().EstimatedSecondsRemaining(), -1);
-  manager->SetTaskDetail(scan, QStringLiteral("Reading music information"));
+  manager->SetTaskDetail(scan, QStringLiteral("Processing"));
   manager->SetTaskProgress(scan, 2, 100);
   EXPECT_EQ(manager->GetTasks().first().EstimatedSecondsRemaining(), -1);
   manager->SetTaskProgress(scan, 25, 100);
@@ -62,7 +62,7 @@ TEST(ScanTaskControlsTest, EstimatesOnlyAfterCountingAndCollectingScanSamples) {
   auto *status = controls.findChild<QLabel*>(QStringLiteral("scan_status"));
   ASSERT_NE(status, nullptr);
   manager->SetTaskProgress(scan, 25, 100);
-  EXPECT_TRUE(status->text().contains(QStringLiteral(" - 25/100 - ")));
+  EXPECT_TRUE(status->text().contains(QStringLiteral("Processing - 25/100 - ")));
   EXPECT_FALSE(status->text().contains(QStringLiteral("entries")));
   EXPECT_TRUE(status->text().contains(QStringLiteral("Updating collection 25%")));
   EXPECT_EQ(controls.findChild<QProgressBar*>(QStringLiteral("scan_progress"))->value(), 25);
@@ -78,7 +78,7 @@ TEST(ScanTaskControlsTest, KeepsStatusAndStopButtonUsableAtPhoneWidth) {
   const auto manager = std::make_shared<TaskManager>();
   ScanTaskControls controls(manager);
   const int scan = manager->StartTask(QStringLiteral("Updating collection"));
-  manager->SetTaskDetail(scan, QStringLiteral("Reading music information"));
+  manager->SetTaskDetail(scan, QStringLiteral("Processing"));
   manager->SetTaskCancellable(scan);
   manager->SetTaskProgress(scan, 123456, 654321);
   controls.resize(240, controls.layout()->totalHeightForWidth(240));
