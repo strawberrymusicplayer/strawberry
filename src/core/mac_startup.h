@@ -45,6 +45,9 @@ void MacMain();
 void SetShortcutHandler(GlobalShortcutsBackendMacOS *handler);
 void SetApplicationHandler(PlatformInterface *handler);
 
+// Lets macOS terminate the application if it is waiting for the shutdown to finish before logging out, restarting or shutting down, returns false if it isn't.
+bool ReplyToApplicationShouldTerminate();
+
 void EnableFullScreen(const QWidget &main_window);
 
 QKeySequence KeySequenceFromNSEvent(NSEvent *event);
