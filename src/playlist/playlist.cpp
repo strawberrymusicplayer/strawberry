@@ -1915,15 +1915,13 @@ void Playlist::sort(const int sort_column_number, const Qt::SortOrder sort_order
     std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, column, order, std::placeholders::_1, std::placeholders::_2));
   };
 
-  if (sort_column_ == Column::Album || sort_column_ == Column::Year || sort_column_ == Column::OriginalYear) {
-    // When sorting by album or year, keep each album together and its tracks in disc/track order.
-    // The tie-breakers are always ascending: the sort direction applies to the album/year, not to the track numbers, so tracks never end up as n..1.
-    sort_by(Column::Track, Qt::AscendingOrder);
-    sort_by(Column::Disc, Qt::AscendingOrder);
-    if (sort_column_ != Column::Album) {
-      sort_by(Column::Album, Qt::AscendingOrder);
-    }
-  }
+  // Whatever column is sorted, songs that compare equal in it are kept together by album (album artist, then album) with the tracks in disc/track order.
+  // These tie-breakers are always ascending: the sort direction applies to the sorted column only, so an album never ends up as track n..1.
+  // The stable sorts run from the least to the most significant key, so the sorted column takes priority.
+  sort_by(Column::Track, Qt::AscendingOrder);
+  sort_by(Column::Disc, Qt::AscendingOrder);
+  sort_by(Column::Album, Qt::AscendingOrder);
+  sort_by(Column::AlbumArtist, Qt::AscendingOrder);
   sort_by(sort_column_, sort_order_);
 
   undo_stack_->push(new PlaylistUndoCommandSortItems(this, old_is_sorted, old_column, old_order, is_sorted_, sort_column_, sort_order_, new_items));
