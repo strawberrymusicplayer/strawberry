@@ -25,6 +25,10 @@
 #include <QObject>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
+#include <QNetworkInformation>
+#include <QHash>
+#include <QList>
+#include <QMetaObject>
 
 class QIODevice;
 class QNetworkReply;
@@ -34,9 +38,19 @@ class NetworkAccessManager : public QNetworkAccessManager {
 
  public:
   explicit NetworkAccessManager(QObject *parent = nullptr);
+  ~NetworkAccessManager() override;
 
  protected:
   QNetworkReply *createRequest(Operation op, const QNetworkRequest &network_request, QIODevice *outgoing_data) override;
+
+ private Q_SLOTS:
+  void ReachabilityChanged(const QNetworkInformation::Reachability reachability);
+  void ClearCacheIfIdle();
+  void ReplyDone(QObject *reply);
+
+ private:
+  QHash<QObject*, QList<QMetaObject::Connection>> running_replies_;
+  bool clear_cache_pending_;
 };
 
 #endif  // NETWORKACCESSMANAGER_H

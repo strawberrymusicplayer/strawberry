@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QtGlobal>
 #include <QIODevice>
 #include <QByteArray>
@@ -28,6 +30,9 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QNetworkInformation>
+#include <QObject>
+#include <QList>
+#include <QMetaObject>
 
 #include "utilities/useragent.h"
 #include "networkaccessmanager.h"
@@ -36,7 +41,8 @@
 using namespace Qt::Literals::StringLiterals;
 
 NetworkAccessManager::NetworkAccessManager(QObject *parent)
-    : QNetworkAccessManager(parent) {
+    : QNetworkAccessManager(parent),
+      clear_cache_pending_(false) {
 
   setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
   setCache(new ThreadSafeNetworkDiskCache(this));
@@ -46,16 +52,56 @@ NetworkAccessManager::NetworkAccessManager(QObject *parent)
   if (QNetworkInformation::loadDefaultBackend()) {
     QNetworkInformation *network_info = QNetworkInformation::instance();
     if (network_info) {
-      QObject::connect(network_info, &QNetworkInformation::reachabilityChanged, this, [this](QNetworkInformation::Reachability reachability) {
-        if (reachability == QNetworkInformation::Reachability::Online) {
-          // Clear connection cache to force reconnection after network becomes available
-          // This fixes issues after system suspend/resume
-          clearConnectionCache();
-          clearAccessCache();
-        }
-      });
+      QObject::connect(network_info, &QNetworkInformation::reachabilityChanged, this, &NetworkAccessManager::ReachabilityChanged);
     }
   }
+
+}
+
+NetworkAccessManager::~NetworkAccessManager() {
+
+  // QNetworkAccessManager's destructor deletes the replies, which would call ReplyDone() after this destructor.
+  for (const QList<QMetaObject::Connection> &connections : std::as_const(running_replies_)) {
+    for (const QMetaObject::Connection &connection : connections) {
+      QObject::disconnect(connection);
+    }
+  }
+
+}
+
+void NetworkAccessManager::ReachabilityChanged(const QNetworkInformation::Reachability reachability) {
+
+  if (reachability != QNetworkInformation::Reachability::Online) return;
+
+  // Clear the connection cache to force reconnecting after the network becomes available, this fixes issues after system suspend/resume.
+  // Clearing it stops the network thread, which also cancels the running requests, so wait until they are finished.
+  clear_cache_pending_ = true;
+  ClearCacheIfIdle();
+
+}
+
+void NetworkAccessManager::ClearCacheIfIdle() {
+
+  if (!clear_cache_pending_ || !running_replies_.isEmpty()) return;
+
+  clear_cache_pending_ = false;
+  clearAccessCache();
+
+}
+
+void NetworkAccessManager::ReplyDone(QObject *reply) {
+
+  if (!running_replies_.contains(reply)) return;
+
+  // A finished reply can still be deleted by QNetworkAccessManager's destructor, which would call this after this class' destructor.
+  // Only this class' connections are disconnected, QNetworkAccessManager has connections from the reply to the manager too.
+  const QList<QMetaObject::Connection> connections = running_replies_.take(reply);
+  for (const QMetaObject::Connection &connection : connections) {
+    QObject::disconnect(connection);
+  }
+
+  // This is connected before the receivers of the finished signal, so the cache is cleared before they can start new requests, which would postpone it again.
+  ClearCacheIfIdle();
 
 }
 
@@ -84,6 +130,12 @@ QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkR
     new_network_request.setTransferTimeout(QNetworkRequest::DefaultTransferTimeoutConstant);
   }
 
-  return QNetworkAccessManager::createRequest(op, new_network_request, outgoing_data);
+  QNetworkReply *reply = QNetworkAccessManager::createRequest(op, new_network_request, outgoing_data);
+  // A reply emits finished when it fails or is aborted too, but not when it is deleted while running.
+  QMetaObject::Connection finished_connection = QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { ReplyDone(reply); });
+  QMetaObject::Connection destroyed_connection = QObject::connect(reply, &QObject::destroyed, this, &NetworkAccessManager::ReplyDone);
+  running_replies_.insert(reply, QList<QMetaObject::Connection>{finished_connection, destroyed_connection});
+
+  return reply;
 
 }
