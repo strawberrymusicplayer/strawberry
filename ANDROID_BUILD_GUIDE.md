@@ -44,6 +44,11 @@ Qt requires both the Android cross-compile variant AND the host compiler tools:
 - **Android target:** `~/Qt/6.7.3/android_arm64_v8a/` (for ARM64 Android builds)
 - **Host tools:** `~/Qt/6.7.3/gcc_64/` (Linux host for generating code during cross-compile)
 
+## Android text readability
+
+On Android, Context lyrics use a minimum 20-point font for phone readability; larger configured fonts are retained.
+Other Context text and desktop typography are unchanged.
+
 ## NAS client dependency
 
 Android builds enable `ENABLE_NAS` by default.

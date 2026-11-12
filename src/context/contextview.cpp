@@ -595,6 +595,11 @@ void ContextView::UpdateFonts() {
   for (QTextEdit *e : std::as_const(textedit_play_)) {
     e->setFont(font_normal_);
   }
+#ifdef Q_OS_ANDROID
+  QFont lyrics_font = font_normal_;
+  lyrics_font.setPointSizeF(qMax(20.0, lyrics_font.pointSizeF()));
+  textedit_play_lyrics_->setFont(lyrics_font);
+#endif
 
 }
 
