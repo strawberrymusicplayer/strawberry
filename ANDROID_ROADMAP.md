@@ -11,7 +11,7 @@ Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
 1. **Item 25:** Add local NAS locations (user-requested priority; real-NAS testing remains open).
-2. The remaining open items: 13, 15, 16, 17, 12, 20, 21, 22, 23, 24, and finally 9 (physical-device verification, which needs a device).
+2. The remaining open items: 13, 15, 16, 17, 12, 20, 21, 22, 23, 24, 26, and finally 9 (physical-device verification, which needs a device).
 
 ## 18. Review the Android changes for coding best practices
 
@@ -729,3 +729,19 @@ Show a short VPN tip behind an information button; do not build external-access 
   Any dedicated Synology API integration would require a separate supported-API and authentication feasibility assessment, not an assumed QuickConnect workaround.
 
 **Reference:** [Synology: Which packages and services support QuickConnect?](https://kb.synology.com/en-global/DSM/tutorial/Which_services_support_QuickConnect)
+
+## 26. Replace the Collection wrench menu with Android-friendly actions
+
+**Status:** Planned
+
+**Problem:** Collection still has a wrench button that opens a desktop-style menu.
+This interaction needs an Android touch-friendly alternative, separate from the playlist wrench removal in item 3.
+
+**Goal:** Keep the Collection actions discoverable and usable on Android without a desktop-style popup.
+
+**Approach:**
+- Inventory the existing wrench-menu actions and preserve their behavior and availability.
+- Replace the Android popup with a clearly labelled, touch-sized entry opening a full-page action list within the existing navigation hierarchy.
+- Keep the current location clear, make Back return one level, and restore the Collection selection and scroll position when returning.
+- Keep desktop controls unchanged.
+- Test each action, Back navigation, narrow screens and portrait/landscape layouts before marking this item done.
