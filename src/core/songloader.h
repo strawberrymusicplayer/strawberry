@@ -141,7 +141,7 @@ class SongLoader : public QObject {
   bool IsPipelinePlaying();
   bool ChangeState(const State from, const State to);
   bool SetStateFinished();
-  void StopTypefindAsync(const bool success);
+  void StopTypefindAsync(const bool success, const QString &error = QString());
   void CleanupPipeline();
 
   void ScheduleTimeoutAsync();
@@ -170,8 +170,9 @@ class SongLoader : public QObject {
   int timeout_;
 
   SharedPtr<GstElement> pipeline_;
-  GstElement *fakesink_;
+  GstElement *typefind_;
   gulong buffer_probe_cb_id_;
+  std::atomic<bool> end_of_stream_;
 
   QThreadPool thread_pool_;
   // The errors are added from the thread loading the songs, which can be a concurrent thread, and from the thread of this object.
