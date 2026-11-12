@@ -44,6 +44,36 @@ Qt requires both the Android cross-compile variant AND the host compiler tools:
 - **Android target:** `~/Qt/6.7.3/android_arm64_v8a/` (for ARM64 Android builds)
 - **Host tools:** `~/Qt/6.7.3/gcc_64/` (Linux host for generating code during cross-compile)
 
+## NAS client dependency
+
+Android builds enable `ENABLE_NAS` by default.
+CMake fetches the SHA-256-pinned libsmb2 6.3 source archive and builds a position-independent static SMB2/SMB3 client with NTLM authentication, without Kerberos or example programs.
+The first configuration needs access to GitHub's source archive service.
+For an offline build, provide the extracted source directory through `-DFETCHCONTENT_SOURCE_DIR_STRAWBERRY_SMB2=/path/to/libsmb2-source`.
+Use `-DENABLE_NAS=OFF` to omit the dependency and Android NAS configuration UI.
+Desktop builds leave this option off by default.
+
+The dependency's copyright notice and LGPL 2.1 text are packaged under the APK's `assets/licenses/` directory.
+The pinned source URL and checksum are in [cmake/Nas.cmake](cmake/Nas.cmake); the source and build scripts must remain available when distributing a statically linked APK.
+
+NAS locations use read-only virtual paths for the existing collection scanner, Qt cover reads, TagLib metadata reads and GStreamer source.
+On Android, credentials and location details are encrypted with an Android Keystore AES-GCM key and saved atomically in the app's no-backup directory, not the regular settings file.
+Removing app data also removes those locations and their key.
+NAS folders are rescanned through collection startup/manual scans; native filesystem change notifications are not available for SMB.
+Configure a location in Settings > General > Collection > Music folders > NAS locations.
+Enter the server's local name/IP address, share, optional relative folder, and NAS account, then use **Check and use folder**.
+The successful check only adds a pending location: Apply/OK saves it, and Cancel discards unapplied changes.
+Remove a location using the normal **Remove folder** control.
+After editing an existing location's server/share/folder, run **Full collection scan** to refresh its contents; its virtual identifier and existing playlist URLs remain unchanged.
+Use a read-only NAS account as an additional server-side safeguard; SMB signing is required, but a locally signed SMB connection is not a promise of transport encryption.
+The `(i)` information page explains separately configured VPN access; the app does not set up remote access.
+
+For optional host SMB2 protocol tests, configure the separate native build with `-DENABLE_NAS=ON`, build `nasfileengine_test`, and run it with `STRAWBERRY_NAS_TEST_PYTHON` pointing to an interpreter containing `impacket`.
+The fixture binds only to loopback, uses generated files and dummy credentials, and is stopped by the test.
+It normalizes Impacket's command-specific error bodies to the SMB2 ERROR format required by MS-SMB2 2.2.2, preserving the original error status and normal packet signing.
+Without that interpreter setting, the protocol cases explicitly skip; validation-only cases still run.
+This fixture does not replace the real-NAS/Synology test that remains open under roadmap item 25.
+
 ## GStreamer Android SDK Setup
 
 ### 1. Download GStreamer Android SDK 1.28.8

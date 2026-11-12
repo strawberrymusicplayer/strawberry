@@ -60,6 +60,9 @@
 #include "core/filesystemwatcherinterface.h"
 #include "constants/collectionsettings.h"
 #include "core/settings.h"
+#ifdef HAVE_NAS
+#  include "core/nasfileengine.h"
+#endif
 
 using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
@@ -1973,5 +1976,38 @@ TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowScanUpdatesLastSeenAndExp
   EXPECT_GE(songs.first().lastseen(), scan_time);
 
 }
+
+#ifdef HAVE_NAS
+TEST_F(CollectionWatcherTest, OfflineNasDoesNotDeleteOrExpireExistingSongs) {
+  Nas::Install();
+  Nas::SetLocations({});
+  const QString path = QStringLiteral("/strawberry-nas/12345678-1234-1234-1234-123456789abc");
+  backend_->AddDirectory(path);
+  Song song;
+  song.Init(u"Existing NAS track"_s, u"Test artist"_s, u"Test album"_s, 1000000000);
+  song.set_source(Song::Source::Collection);
+  song.set_directory_id(1);
+  song.set_url(QUrl::fromLocalFile(path + u"/track.mp3"_s));
+  song.set_filetype(Song::FileType::MPEG);
+  backend_->AddOrUpdateSongs({song});
+  ASSERT_EQ(backend_->GetAllSongs().size(), 1);
+  const ScopedCollectionSetting startup_scan(CollectionSettings::kStartupScan, true);
+  const ScopedCollectionSetting expire_songs(CollectionSettings::kExpireUnavailableSongs, 1);
+  CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+  QSignalSpy deleted(&watcher, &CollectionWatcher::SongsDeleted);
+  QSignalSpy unavailable(&watcher, &CollectionWatcher::SongsUnavailable);
+  QSignalSpy last_seen(&watcher, &CollectionWatcher::UpdateLastSeen);
+  const quint64 before = Nas::FailureSerial();
+  CollectionDirectory dir;
+  dir.id = 1;
+  dir.path = path;
+  watcher.AddDirectory(dir, {});
+  EXPECT_GT(Nas::FailureSerial(), before);
+  EXPECT_EQ(deleted.count(), 0);
+  EXPECT_EQ(unavailable.count(), 0);
+  EXPECT_EQ(last_seen.count(), 0);
+  EXPECT_EQ(backend_->GetAllSongs().size(), 1);
+}
+#endif
 
 }  // namespace

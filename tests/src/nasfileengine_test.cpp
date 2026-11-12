@@ -1,0 +1,188 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+#include "gtest_include.h"
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QProcess>
+#include <QSignalSpy>
+#include <QTemporaryDir>
+#include <QUrl>
+#include <QUuid>
+#include <gst/gst.h>
+#include <gst/pbutils/pbutils.h>
+
+#include "core/nasfileengine.h"
+#include "core/memorydatabase.h"
+#include "core/taskmanager.h"
+#include "collection/collectionbackend.h"
+#include "collection/collectionmanager.h"
+#include "collection/collectionwatcher.h"
+#include "engine/gstqfilesrc.h"
+#include "engine/gststartup.h"
+#include "tagreader/taglibqfilestream.h"
+#include "tagreader/tagreadertaglib.h"
+#include "tagreader/tagreaderclient.h"
+#include <taglib/fileref.h>
+
+namespace {
+
+Nas::Location Location() {
+  return {QUuid::createUuid().toString(QUuid::WithoutBraces), QStringLiteral("127.0.0.1"), QStringLiteral("music"), QStringLiteral("album"), QStringLiteral("strawberry-test"), QStringLiteral("fixture-only"), QString()};
+}
+
+TEST(NasFileEngineTest, ValidatesPathsAndKeepsCredentialsOutOfLabels) {
+  auto location = Location();
+  EXPECT_TRUE(Nas::Validate(location).isEmpty());
+  EXPECT_FALSE(location.label().contains(location.password));
+  EXPECT_FALSE(location.label().contains(location.user));
+  location.folder = QStringLiteral("../escape");
+  EXPECT_FALSE(Nas::Validate(location).isEmpty());
+  location = Location();
+  location.server = QStringLiteral("smb://user:password@nas");
+  EXPECT_FALSE(Nas::Validate(location).isEmpty());
+  location = Location();
+  location.share = QStringLiteral("music/other");
+  EXPECT_FALSE(Nas::Validate(location).isEmpty());
+  location = Location();
+  location.user.clear();
+  EXPECT_FALSE(Nas::Validate(location).isEmpty());
+}
+
+TEST(NasFileEngineTest, UnknownLocationsFailRatherThanAccessingLocalFiles) {
+  Nas::Install();
+  Nas::SetLocations({});
+  const quint64 before = Nas::FailureSerial();
+  QFile file(Location().path() + QStringLiteral("/track.wav"));
+  EXPECT_FALSE(file.open(QIODevice::ReadOnly));
+  EXPECT_FALSE(file.errorString().isEmpty());
+  EXPECT_GT(Nas::FailureSerial(), before);
+}
+
+class NasProtocolTest : public ::testing::Test {
+ protected:
+  void SetUp() override {
+    const QString python = qEnvironmentVariable("STRAWBERRY_NAS_TEST_PYTHON");
+    if (python.isEmpty()) GTEST_SKIP() << "Set STRAWBERRY_NAS_TEST_PYTHON to an interpreter with impacket for loopback SMB2 integration tests";
+    const QString script = QFileInfo(QString::fromUtf8(__FILE__)).dir().absoluteFilePath(QStringLiteral("../data/nas_server.py"));
+    server_.start(python, {script});
+    ASSERT_TRUE(server_.waitForStarted(5000));
+    ASSERT_TRUE(server_.waitForReadyRead(10000)) << server_.readAllStandardError().constData();
+    bool ok;
+    const int port = server_.readLine().trimmed().toInt(&ok);
+    ASSERT_TRUE(ok);
+    ASSERT_GT(port, 0);
+    location_ = Location();
+    location_.server += u':' + QString::number(port);
+    Nas::Install();
+    Nas::SetLocations({location_});
+  }
+  void TearDown() override {
+    Nas::SetLocations({});
+    server_.closeWriteChannel();
+    if (server_.state() != QProcess::NotRunning && !server_.waitForFinished(3000)) {
+      server_.terminate();
+      if (!server_.waitForFinished(3000)) { server_.kill(); server_.waitForFinished(3000); }
+    }
+  }
+  QProcess server_;
+  Nas::Location location_;
+};
+
+TEST_F(NasProtocolTest, ListsReadsSeeksAndRejectsWrites) {
+  ASSERT_TRUE(Nas::Check(location_).isEmpty());
+  EXPECT_TRUE(QFileInfo(location_.path()).isDir());
+  const QStringList entries = QDir(location_.path()).entryList(QDir::Files | QDir::NoDotAndDotDot);
+  EXPECT_TRUE(entries.contains(QStringLiteral("track.wav")));
+  EXPECT_TRUE(entries.contains(QStringLiteral("bytes.bin")));
+  EXPECT_EQ(QDir(location_.path()).entryList({QStringLiteral("*.wav")}, QDir::Files), QStringList{QStringLiteral("track.wav")});
+  QFile file(location_.path() + QStringLiteral("/bytes.bin"));
+  ASSERT_TRUE(file.open(QIODevice::ReadOnly)) << file.errorString().toStdString();
+  EXPECT_EQ(file.size(), 2097152);
+  EXPECT_EQ(file.read(3), QByteArray::fromHex("000102"));
+  ASSERT_TRUE(file.seek(123456));
+  EXPECT_EQ(file.read(3), QByteArray::fromHex("404142"));
+  ASSERT_TRUE(file.seek(0));
+  const QByteArray all = file.readAll();
+  ASSERT_EQ(all.size(), 2097152);
+  EXPECT_EQ(all.mid(65535, 3), QByteArray::fromHex("ff0001"));
+  file.close();
+  EXPECT_FALSE(file.open(QIODevice::WriteOnly | QIODevice::Truncate));
+  EXPECT_FALSE(QFile::remove(file.fileName()));
+  EXPECT_EQ(QFileInfo(file.fileName()).size(), 2097152);
+  const quint64 before = Nas::FailureSerial();
+  EXPECT_FALSE(QFileInfo(location_.path() + QStringLiteral("/missing.wav")).exists());
+  EXPECT_EQ(Nas::FailureSerial(), before);
+  EXPECT_TRUE(Nas::Check(location_).isEmpty());
+  auto root = location_;
+  root.folder.clear();
+  Nas::SetLocations({root});
+  EXPECT_TRUE(QDir(root.path()).entryList(QDir::Files | QDir::NoDotAndDotDot).isEmpty());
+  EXPECT_EQ(QDir(root.path()).entryList(QDir::Dirs | QDir::NoDotAndDotDot), QStringList{QStringLiteral("album")});
+}
+
+TEST_F(NasProtocolTest, TagLibAndGStreamerReadNetworkWav) {
+  const QString path = location_.path() + QStringLiteral("/track.wav");
+  TagReaderTagLib reader;
+  Song song;
+  const TagReaderResult result = reader.ReadFile(path, &song);
+  ASSERT_TRUE(result.success()) << result.error_string().toStdString();
+  EXPECT_EQ(song.samplerate(), 8000);
+  TagLibQFileStream stream(path);
+  ASSERT_TRUE(stream.isOpen());
+  TagLib::FileRef ref(&stream);
+  ASSERT_FALSE(ref.isNull());
+  ASSERT_NE(ref.audioProperties(), nullptr);
+  EXPECT_EQ(ref.audioProperties()->sampleRate(), 8000);
+  GstStartup::Initialize();
+  ASSERT_TRUE(RegisterGstQFileSource());
+  GError *error = nullptr;
+  GstDiscoverer *discoverer = gst_discoverer_new(20 * GST_SECOND, &error);
+  ASSERT_NE(discoverer, nullptr);
+  GstDiscovererInfo *info = gst_discoverer_discover_uri(discoverer, QUrl::fromLocalFile(path).toEncoded().constData(), &error);
+  ASSERT_NE(info, nullptr);
+  EXPECT_EQ(gst_discoverer_info_get_result(info), GST_DISCOVERER_OK);
+  EXPECT_EQ(gst_discoverer_info_get_duration(info), GST_SECOND);
+  gst_discoverer_info_unref(info);
+  gst_object_unref(discoverer);
+  if (error) { ADD_FAILURE() << error->message; g_error_free(error); }
+}
+
+TEST_F(NasProtocolTest, CollectionScannerDiscoversNetworkTracks) {
+  const auto tasks = std::make_shared<TaskManager>();
+  const auto database = std::make_shared<MemoryDatabase>(nullptr);
+  const auto backend = std::make_shared<CollectionBackend>();
+  backend->Init(database, tasks, Song::Source::Collection, QLatin1String(CollectionManager::kSongsTable), QLatin1String(CollectionManager::kDirsTable), QLatin1String(CollectionManager::kSubdirsTable));
+  const auto reader = std::make_shared<TagReaderClient>();
+  CollectionWatcher watcher(Song::Source::Collection, tasks, reader, backend);
+  QSignalSpy discovered(&watcher, &CollectionWatcher::NewOrUpdatedSongs);
+  CollectionDirectory directory;
+  directory.id = 1;
+  directory.path = location_.path();
+  watcher.AddDirectory(directory, {});
+  ASSERT_EQ(discovered.count(), 1);
+  const SongList songs = discovered.at(0).at(0).value<SongList>();
+  ASSERT_EQ(songs.size(), 1);
+  EXPECT_EQ(songs.at(0).url(), QUrl::fromLocalFile(location_.path() + QStringLiteral("/track.wav")));
+  EXPECT_EQ(songs.at(0).samplerate(), 8000);
+}
+
+TEST_F(NasProtocolTest, WrongPasswordAndOfflineServerFailExplicitly) {
+  auto bad = location_;
+  bad.password = QStringLiteral("incorrect-fixture");
+  EXPECT_FALSE(Nas::Check(bad).isEmpty());
+  QFile interrupted(location_.path() + QStringLiteral("/bytes.bin"));
+  ASSERT_TRUE(interrupted.open(QIODevice::ReadOnly));
+  EXPECT_EQ(interrupted.read(3), QByteArray::fromHex("000102"));
+  const quint64 before = Nas::FailureSerial();
+  server_.terminate();
+  ASSERT_TRUE(server_.waitForFinished(3000));
+  interrupted.read(128 * 1024);
+  EXPECT_NE(interrupted.error(), QFile::NoError);
+  EXPECT_GT(Nas::FailureSerial(), before);
+  QFile file(location_.path() + QStringLiteral("/track.wav"));
+  EXPECT_FALSE(file.open(QIODevice::ReadOnly));
+  EXPECT_GT(Nas::FailureSerial(), before);
+}
+
+}  // namespace

@@ -131,6 +131,9 @@ class CollectionWatcher : public QObject {
     int dir_id() const { return dir_id_; }
     bool is_incremental() const { return incremental_; }
     bool ignores_mtime() const { return ignores_mtime_; }
+#ifdef HAVE_NAS
+    bool NetworkFailed() const;
+#endif
 
     SongList deleted_songs;
     SongList readded_songs;
@@ -180,6 +183,10 @@ class CollectionWatcher : public QObject {
 
     CollectionSubdirectoryList known_subdirs_;
     bool known_subdirs_dirty_;
+#ifdef HAVE_NAS
+    bool nas_transaction_ = false;
+    quint64 nas_failure_serial_ = 0;
+#endif
     // Indexes of known_subdirs_, so looking up a subdirectory doesn't go through all of them.
     // known_subdir_paths_ only has the subdirectories with a modification time, known_subdirs_by_parent_ has all of them, keyed by the parent path.
     QSet<QString> known_subdir_paths_;

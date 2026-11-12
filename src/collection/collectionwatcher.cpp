@@ -20,6 +20,9 @@
  */
 
 #include "config.h"
+#ifdef HAVE_NAS
+#  include "core/nasfileengine.h"
+#endif
 
 #include <algorithm>
 #include <utility>
@@ -309,6 +312,10 @@ CollectionWatcher::ScanTransaction::ScanTransaction(CollectionWatcher *watcher, 
       cached_songs_missing_loudness_characteristics_dirty_(true),
       known_subdirs_dirty_(true) {
 
+#ifdef HAVE_NAS
+  nas_transaction_ = Nas::IsPath(watcher->watched_dirs_.value(dir_id).path);
+  nas_failure_serial_ = Nas::FailureSerial();
+#endif
   QString description;
 
   if (watcher_->device_name_.isEmpty()) {
@@ -382,6 +389,10 @@ void CollectionWatcher::ScanTransaction::LogChanges() const {
 
 void CollectionWatcher::ScanTransaction::CommitNewOrUpdatedSongs() {
 
+#ifdef HAVE_NAS
+  // A failed network listing must never look like deleted files.
+  if (NetworkFailed()) return;
+#endif
   if (!deleted_subdirs.isEmpty()) {
     Q_EMIT watcher_->SubdirsDeleted(deleted_subdirs);
   }
@@ -636,8 +647,17 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
 
 }
 
+#ifdef HAVE_NAS
+bool CollectionWatcher::ScanTransaction::NetworkFailed() const {
+  return nas_transaction_ && Nas::FailureSerial() != nas_failure_serial_;
+}
+#endif
+
 void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const QString &path, const CollectionSubdirectory &subdir, const quint64 files_count, ScanTransaction *t, const bool force_noincremental) {
 
+#ifdef HAVE_NAS
+  if (t->NetworkFailed()) return;
+#endif
   // A renamed directory can be reached both from its own queued change notification and from its parent's vanished-child check below, so skip it if it was already scanned in this transaction to avoid deleting/adding its songs twice.
   if (t->HasScannedPath(path)) {
     t->AddToProgress(files_count);
@@ -647,6 +667,9 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
 
   const QFileInfo path_info(path);
   const qint64 path_mtime = path_info.exists() && path_info.lastModified().isValid() ? path_info.lastModified().toSecsSinceEpoch() : 0;
+#ifdef HAVE_NAS
+  if (t->NetworkFailed()) return;
+#endif
 
   if (path_info.isSymLink()) {
     const QString real_path = path_info.symLinkTarget();
@@ -701,6 +724,9 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   const CollectionSubdirectoryList previous_subdirs = t->GetImmediateSubdirs(path);
   for (const CollectionSubdirectory &prev_subdir : previous_subdirs) {
     if (!QFile::exists(prev_subdir.path) && prev_subdir.path != path) {
+#ifdef HAVE_NAS
+      if (t->NetworkFailed()) return;
+#endif
       ScanSubdirectory(dir, prev_subdir.path, prev_subdir, 0, t, true);
     }
   }
@@ -1734,6 +1760,9 @@ void CollectionWatcher::SetLyricsFromStorage(Song *song, const Song &matching_so
 
 void CollectionWatcher::AddWatch(const CollectionDirectory &dir, const QString &path) {
 
+#ifdef HAVE_NAS
+  if (Nas::IsPath(path)) return;
+#endif
   if (!QFile::exists(path)) return;
 
   fs_watcher_->AddPath(path);
@@ -1898,6 +1927,9 @@ void CollectionWatcher::RescanPathsNow() {
     // A directory which didn't exist when the file system watcher overflowed could have been created again since then, the scan only adds watches for new directories.
     RestoreWatches();
     for (const CollectionDirectory &dir : std::as_const(watched_dirs_)) {
+#ifdef HAVE_NAS
+      if (Nas::IsPath(dir.path)) continue;
+#endif
       Q_EMIT UpdateLastSeen(dir.id, 0);
     }
   }
@@ -1945,6 +1977,9 @@ void CollectionWatcher::RescanPathsNow() {
     // Songs which were available again were not updated before the scan either.
     if (!overflow_scan_pending_) {
       for (const CollectionDirectory &dir : std::as_const(watched_dirs_)) {
+#ifdef HAVE_NAS
+        if (Nas::IsPath(dir.path)) continue;
+#endif
         Q_EMIT UpdateLastSeen(dir.id, expire_unavailable_songs_days_);
       }
     }
@@ -2102,6 +2137,9 @@ void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mt
 
 quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &path) {
 
+#ifdef HAVE_NAS
+  if (t->NetworkFailed()) return 0;
+#endif
   const QFileInfo path_info(path);
   if (path_info.isSymLink()) {
     const QString real_path = path_info.symLinkTarget();

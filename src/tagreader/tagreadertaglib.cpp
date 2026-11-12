@@ -109,6 +109,10 @@
 #include "core/logging.h"
 #include "core/song.h"
 #include "core/filewriteguard.h"
+#ifdef HAVE_NAS
+#  include "core/nasfileengine.h"
+#  include "taglibqfilestream.h"
+#endif
 #include "utilities/lrcutils.h"
 #include "constants/timeconstants.h"
 
@@ -293,6 +297,9 @@ class TagLibFileRefFactory : public FileRefFactory {
   TagLibFileRefFactory() = default;
 
   TagLib::IOStream *GetReadOnlyStream(const QString &filename) override {
+#ifdef HAVE_NAS
+    if (Nas::IsPath(filename)) return new TagLibQFileStream(filename);
+#endif
 #if defined(Q_OS_ANDROID)
     return CreateAndroidTagLibStream(filename);
 #elif defined(Q_OS_WIN32)

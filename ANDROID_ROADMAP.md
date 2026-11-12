@@ -10,8 +10,8 @@ Status values: Planned, In progress, Done.
 Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
-1. **Item 13:** Explore using Android's file picker for Files.
-2. The remaining open items: 15, 16, 17, 12, 20, 21, 22, 23, 24, 25, and finally 9 (physical-device verification, which needs a device).
+1. **Item 25:** Add local NAS locations (user-requested priority; real-NAS testing remains open).
+2. The remaining open items: 13, 15, 16, 17, 12, 20, 21, 22, 23, 24, and finally 9 (physical-device verification, which needs a device).
 
 ## 18. Review the Android changes for coding best practices
 
@@ -643,21 +643,50 @@ This is the deferred follow-up to feature audit point 14, not a claim that provi
 
 ## 25. Add NAS network locations directly to the Android collection
 
-**Status:** Planned
+**Status:** In progress (local-network implementation built; real-NAS verification remains open)
 
-**Problem:** Collection directories currently require local filesystem paths.
-Users cannot add an SMB NAS share directly with its server, share, and credentials; a network document provider in Android's file picker is not sufficient for the existing collection scanner.
+**Problem:** Before this implementation, collection directories required local filesystem paths.
+Users could not add an SMB NAS share directly with its server, share, and credentials; a network document provider in Android's file picker was not sufficient for the existing collection scanner.
 
-**Goal:** Add a NAS music folder from within the app, browse and scan it into the collection, and play its tracks without first copying them to local storage.
+**Goal:** Add a NAS music folder from within the app, scan it into the collection, and play its tracks without first copying them to local storage.
+The first implementation uses manually entered SMB server/share/folder details and read-only access.
+Automatic NAS discovery, built-in VPN connectivity, QuickConnect and other remote-access backends are out of scope.
 
-**Next steps:**
-- Assess an Android-compatible SMB2/SMB3 client, licensing, packaging, and integration with collection scanning, tag reading, cover loading, playback, and seeking.
-  Reuse existing source abstractions where possible; preserve desktop mounted-folder behavior.
-- Provide touch-friendly server, share, folder, and authentication pages with the existing hierarchical navigation pattern.
-  Store credentials using platform-secure storage, exclude them from backups and logs, and do not enable legacy SMB1.
-- Handle unavailable servers, permission errors, interrupted scans, reconnects, and network changes explicitly.
-  Do not remove existing collection entries simply because a NAS is temporarily offline.
-- Verify browsing, scanning, playback, seeking, track transitions, cancellation, and saved-location restoration against a real NAS, including Synology, on local Wi-Fi and through a VPN.
+**Verification still open:** The user will create a real NAS test share later.
+Keep real-NAS/Synology verification open even after local protocol tests and Android builds pass.
+VPN connectivity cannot currently be tested and is not required for this local-network implementation.
+Show a short VPN tip behind an information button; do not build external-access setup into the app.
+
+**Implemented:**
+- Settings > General > Collection > Music folders > NAS locations provides full-page server/share/folder/account editors with an asynchronous connection check and explicit errors.
+  The information button opens a short VPN tip, including the warning not to expose SMB directly to the Internet.
+  Apply/OK saves pending locations; Cancel discards unapplied changes.
+- A SHA-256-pinned, statically linked libsmb2 6.3 client provides read-only SMB2/SMB3 access with signing required.
+  SMB1 and anonymous configuration are not offered.
+  The license texts ship in the APK; build/dependency details are in [ANDROID_BUILD_GUIDE.md](ANDROID_BUILD_GUIDE.md#nas-client-dependency).
+- Stable, credential-free virtual paths integrate with the existing collection scanner, QFile cover reads, a seekable TagLib stream, and the Android GStreamer QFile source.
+  Desktop mounted-folder behavior and controls remain unchanged; the dependency defaults off on desktop.
+- Location details and credentials are atomically encrypted using an Android Keystore AES-GCM key in the no-backup directory, not ordinary settings or playlist URLs.
+- Failed NAS file/listing operations prevent collection scan changes and expiry from being committed.
+  SMB folders use startup/manual collection scans, not native filesystem notifications.
+  After editing an existing server/share/folder, run Full collection scan.
+
+**Local validation:**
+- Native protocol tests cover authenticated listing/filtering, a complete 2 MiB read, seeking, read-only enforcement, missing files, TagLib metadata, GStreamer WAV discovery, actual collection scanning, wrong passwords, and interrupted/offline connections.
+  Folder-model tests cover labelled NAS removal and unchanged local-folder paths.
+  These suites and the existing QFile source tests passed three consecutive runs.
+- The full existing collection-watcher suite passes, including the new offline-NAS regression that retains existing songs without deleting, marking unavailable, or advancing expiry.
+- The Android application and APK build successfully with the Java credential vault and static client.
+  Emulator checks confirm the VPN information page, hierarchical navigation, masked account entry, explicit connection errors, a successful signed loopback connection, pending/Cancel semantics, and encrypted Apply persistence.
+  The loopback WAV appears in the Android collection database; after restarting the app, the saved location authenticates again without re-entering credentials.
+  Removing the test folder removes only its collection entries and leaves an encrypted empty location list.
+  Hardware Back from the information-only page exposed a Qt scroll-area focus crash; moving focus before detaching its content fixes that return path.
+  Repeated hardware Back checks also cover the NAS editor and location list.
+  The final signed, non-debuggable release APK is installed on the emulator without clearing existing app data.
+
+**Still open (not claimed as verified):**
+- Real NAS/Synology testing: scanning a representative collection, cover loading, playback/seek/track transitions, responsiveness and connection counts for large collections, cancellation, permission changes, Wi-Fi loss/reconnect, and saved-location restoration on a physical phone.
+  The loopback protocol fixture does not establish Synology or SMB3 interoperability.
 - Use an external Android VPN client rather than building a VPN into Strawberry.
   Document that OpenVPN requires a reachable, configured VPN server on the NAS or router, a client profile, and routing/firewall access to the NAS.
   An alternative such as Tailscale requires a reachable NAS peer or subnet router.

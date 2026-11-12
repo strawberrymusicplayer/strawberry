@@ -34,7 +34,7 @@ class CollectionSettingsDirectoryModel : public QStandardItemModel {
  public:
   explicit CollectionSettingsDirectoryModel(QObject *parent = nullptr);
 
-  void AddDirectory(const QString &path);
+  void AddDirectory(const QString &path, const QString &label = QString());
   void AddDirectories(const QStringList &paths);
   void RemoveDirectory(const QModelIndex &idx);
 

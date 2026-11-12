@@ -30,6 +30,9 @@
 
 #include "core/logging.h"
 #include "androidstorage.h"
+#ifdef HAVE_NAS
+#  include "nasfileengine.h"
+#endif
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -158,6 +161,10 @@ namespace AndroidStorage {
 
 void InitializeFileAccess() {
 
+#ifdef HAVE_NAS
+  QString nas_error;
+  Nas::Load(&nas_error);
+#endif
   ReloadDocumentGrants();
   InstallDocumentFileEngine();
 

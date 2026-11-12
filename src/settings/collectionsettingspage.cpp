@@ -50,6 +50,10 @@
 #include "core/settings.h"
 #ifdef Q_OS_ANDROID
 #  include "core/androidstorage.h"
+#  ifdef HAVE_NAS
+#    include "naspage_android.h"
+#    include "widgets/actiondialog.h"
+#  endif
 #endif
 #include "utilities/strutils.h"
 #include "collection/collectionmanager.h"
@@ -98,6 +102,20 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog,
 
   QObject::connect(ui_->add_directory, &QPushButton::clicked, this, &CollectionSettingsPage::AddDirectory);
   QObject::connect(ui_->remove_directory, &QPushButton::clicked, this, &CollectionSettingsPage::RemoveDirectory);
+#if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
+  nas_page_ = new NasPage(this, [this](const Nas::Location &location) {
+    if (!collectionsettings_directory_model_->paths().contains(location.path())) collectionsettings_directory_model_->AddDirectory(location.path(), location.label());
+    else {
+      for (int row = 0; row < collectionsettings_directory_model_->rowCount(); ++row) {
+        QStandardItem *item = collectionsettings_directory_model_->item(row);
+        if (item->data(Qt::UserRole).toString() == location.path()) item->setText(location.label());
+      }
+    }
+  });
+  auto *nas_button = new QPushButton(tr("NAS locations"), this);
+  ui_->layout_collection_folder_buttons->insertWidget(1, nas_button);
+  QObject::connect(nas_button, &QPushButton::clicked, nas_page_, &NasPage::Open);
+#endif
 
 #ifdef HAVE_SONGTRACKING
   QObject::connect(ui_->song_tracking, &QCheckBox::toggled, this, &CollectionSettingsPage::SongTrackingToggled);
@@ -130,6 +148,9 @@ CollectionSettingsPage::~CollectionSettingsPage() { delete ui_; }
 
 void CollectionSettingsPage::Load() {
 
+#if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
+  nas_page_->Load();
+#endif
   if (!initialized_model_) {
     if (ui_->list->selectionModel()) {
       QObject::disconnect(ui_->list->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &CollectionSettingsPage::CurrentRowChanged);
@@ -194,6 +215,15 @@ void CollectionSettingsPage::Load() {
 
 void CollectionSettingsPage::Save() {
 
+#if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
+  QString nas_error;
+  if (!nas_page_->Commit(collectionsettings_directory_model_->paths(), &nas_error)) {
+    auto *message = new ActionDialog(dialog()->parentWidget(), tr("NAS error"), nas_error, ActionDialog::TitlePosition::Top);
+    message->AddCancelButton(tr("Back"));
+    message->Open();
+    return;
+  }
+#endif
   Settings s;
 
   s.beginGroup(kSettingsGroup);

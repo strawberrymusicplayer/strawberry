@@ -223,6 +223,7 @@ void SettingsDialog::CloseAndroidSubpage() {
   if (android_subpages_.isEmpty()) return;
   const AndroidSubpage subpage = android_subpages_.takeLast();
   // Move focus before takeWidget() clears QScrollArea's internal widget pointer.
+  setFocus(Qt::OtherFocusReason);
   subpage.area->widget()->hide();
   QWidget *content = subpage.area->takeWidget();
   content->setParent(subpage.content_parent);

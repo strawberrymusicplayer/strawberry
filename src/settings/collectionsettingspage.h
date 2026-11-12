@@ -41,6 +41,8 @@ class CollectionDirectoryModel;
 class CollectionSettingsDirectoryModel;
 class Ui_CollectionSettingsPage;
 
+class NasPage;
+
 class CollectionSettingsPage : public SettingsPage {
   Q_OBJECT
 
@@ -79,6 +81,9 @@ class CollectionSettingsPage : public SettingsPage {
   CollectionSettingsDirectoryModel *collectionsettings_directory_model_;
   CollectionDirectoryModel *collection_directory_model_;
   bool initialized_model_;
+#if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
+  NasPage *nas_page_ = nullptr;
+#endif
 };
 
 #endif  // COLLECTIONSETTINGSPAGE_H
