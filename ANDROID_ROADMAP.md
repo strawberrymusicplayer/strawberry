@@ -586,17 +586,19 @@ Keep this visual update Android-only.
 - Store the order in the existing `tab_<name>` keys that `FancyTabWidget::SaveSettings()` and `LoadSettings()` already use, so the order stays compatible with desktop.
 - Keep edits pending until Apply or OK, and apply the new order to the sidebar without restarting.
 
-## 21. Remove the sidebar scroll arrows
+## 21. Remove the navigation/menu bar scroll arrows
 
 **Status:** Planned
 
 **Problem:** The Android sidebar still shows the tab bar's scroll arrow buttons when the tabs overflow, a leftover from before the sidebar could be scrolled by dragging.
+The user also requested removing these arrows from the navigation/menu bar when testing on the FP5; this is the same planned change, not a separate duplicate item.
 
 **Goal:** Remove the scroll arrows on Android, so dragging is the only way to scroll the sidebar.
 
 **Next steps:**
 - Disable the scroll buttons on Android (`FancyTabWidget` calls `setUsesScrollButtons(true)` for every platform); keep them on desktop.
 - Verify in landscape, where the tabs overflow, that the arrows are gone, the full height is used for tabs, and every tab can still be reached by dragging and tapped.
+- Check portrait and landscape on both the FP5 and emulator, preserving normal tab taps and avoiding accidental tab selection while scrolling.
 
 ## 22. Build and bundle a Spotify GStreamer plugin for Android
 
