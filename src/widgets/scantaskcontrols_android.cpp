@@ -3,7 +3,6 @@
 #include "scantaskcontrols_android.h"
 
 #include <QLabel>
-#include <QPushButton>
 #include <QTimer>
 #include <QStringList>
 #include <QVBoxLayout>
@@ -14,8 +13,7 @@
 
 ScanTaskControls::ScanTaskControls(SharedPtr<TaskManager> task_manager, QWidget *parent)
     : QWidget(parent), task_manager_(task_manager), status_(new QLabel(this)),
-      progress_(new QProgressBar(this)), details_(new QWidget(this)),
-      stop_(new QPushButton(tr("Stop"), this)), timer_(new QTimer(this)) {
+      progress_(new QProgressBar(this)), details_(new QWidget(this)), timer_(new QTimer(this)) {
   setObjectName(QStringLiteral("android_app_header"));
   auto *layout = new QHBoxLayout(this);
   layout->setContentsMargins(6, 4, 6, 4);
@@ -37,20 +35,10 @@ ScanTaskControls::ScanTaskControls(SharedPtr<TaskManager> task_manager, QWidget 
   progress_->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
   progress_->setMinimumWidth(0);
   progress_->setMaximumHeight(6);
-  stop_->setObjectName(QStringLiteral("stop_scan"));
-  stop_->setMinimumHeight(48);
-  stop_->setAutoDefault(false);
-  stop_->setAccessibleName(tr("Stop scan"));
   center->addWidget(status_);
   center->addWidget(progress_);
   layout->addWidget(details_, 1);
-  layout->addWidget(stop_);
   setMinimumHeight(56);
-  QObject::connect(stop_, &QPushButton::clicked, this, [this]() {
-    for (const TaskManager::Task &task : task_manager_->GetTasks()) {
-      if (task.cancellable) task_manager_->RequestTaskCancellation(task.id);
-    }
-  });
   QObject::connect(&*task_manager_, &TaskManager::TasksChanged, this, &ScanTaskControls::Refresh);
   timer_->setInterval(1000);
   QObject::connect(timer_, &QTimer::timeout, this, &ScanTaskControls::Refresh);
@@ -59,7 +47,6 @@ ScanTaskControls::ScanTaskControls(SharedPtr<TaskManager> task_manager, QWidget 
 
 void ScanTaskControls::Refresh() {
   QStringList details;
-  bool can_stop = false;
   int scans = 0;
   qint64 processed = 0;
   qint64 total = 0;
@@ -73,7 +60,6 @@ void ScanTaskControls::Refresh() {
     QString detail = task.detail;
     if (task.cancellation_requested) detail = tr("Stopping scan after the current operation...");
     else {
-      can_stop = true;
       if (task.progress_max > 0) {
         detail += tr(" - %1/%2").arg(task.progress).arg(task.progress_max);
         const int remaining = task.EstimatedSecondsRemaining();
@@ -86,9 +72,6 @@ void ScanTaskControls::Refresh() {
     details << name + u'\n' + detail;
   }
   status_->setText(details.join(u'\n'));
-  stop_->setEnabled(can_stop);
-  stop_->setAccessibleName(scans > 1 ? tr("Stop scans") : tr("Stop scan"));
-  stop_->setVisible(scans > 0);
   details_->setVisible(scans > 0);
   if (counting) progress_->setRange(0, 0);
   else {

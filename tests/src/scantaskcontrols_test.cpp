@@ -10,33 +10,33 @@
 #include "core/taskmanager.h"
 #include "widgets/scantaskcontrols_android.h"
 
-TEST(ScanTaskControlsTest, OnlyOffersCancellationForScanTasks) {
+TEST(ScanTaskControlsTest, ShowsScanStatusWithoutOfferingHeaderCancellation) {
   const auto manager = std::make_shared<TaskManager>();
   ScanTaskControls controls(manager);
   const int other = manager->StartTask(QStringLiteral("Other work"));
-  EXPECT_TRUE(controls.findChild<QPushButton*>(QStringLiteral("stop_scan"))->isHidden());
+  EXPECT_TRUE(controls.findChildren<QPushButton*>().isEmpty());
+  auto *progress = controls.findChild<QProgressBar*>(QStringLiteral("scan_progress"));
+  ASSERT_NE(progress, nullptr);
+  EXPECT_FALSE(progress->isVisibleTo(&controls));
   QSignalSpy cancelled(&*manager, &TaskManager::TaskCancellationRequested);
   manager->RequestTaskCancellation(other);
   EXPECT_EQ(cancelled.count(), 0);
   const int scan = manager->StartTask(QStringLiteral("Updating collection"));
   manager->SetTaskDetail(scan, QStringLiteral("Counting files: 123 entries found"));
   manager->SetTaskCancellable(scan);
-  EXPECT_FALSE(controls.findChild<QPushButton*>(QStringLiteral("stop_scan"))->isHidden());
-  auto *stop = controls.findChild<QPushButton*>(QStringLiteral("stop_scan"));
+  EXPECT_TRUE(progress->isVisibleTo(&controls));
   auto *status = controls.findChild<QLabel*>(QStringLiteral("scan_status"));
-  ASSERT_NE(stop, nullptr);
   ASSERT_NE(status, nullptr);
-  EXPECT_GE(stop->minimumHeight(), 48);
+  EXPECT_TRUE(controls.findChildren<QPushButton*>().isEmpty());
   EXPECT_TRUE(status->text().contains(QStringLiteral("123")));
-  stop->click();
+  manager->RequestTaskCancellation(scan);
   ASSERT_EQ(cancelled.count(), 1);
   EXPECT_EQ(cancelled.at(0).at(0).toInt(), scan);
-  EXPECT_FALSE(stop->isEnabled());
   EXPECT_TRUE(status->text().contains(QStringLiteral("Stopping")));
   manager->RequestTaskCancellation(scan);
   EXPECT_EQ(cancelled.count(), 1);
   manager->SetTaskFinished(scan);
-  EXPECT_TRUE(stop->isHidden());
+  EXPECT_FALSE(progress->isVisibleTo(&controls));
   EXPECT_FALSE(controls.findChild<QLabel*>(QStringLiteral("app_title"))->isHidden());
   EXPECT_EQ(manager->GetTasks().size(), 1);
   manager->RequestTaskCancellation(scan);
@@ -74,7 +74,7 @@ TEST(ScanTaskControlsTest, EstimatesOnlyAfterCountingAndCollectingScanSamples) {
   EXPECT_EQ(manager->GetTasks().first().EstimatedSecondsRemaining(), -1);
 }
 
-TEST(ScanTaskControlsTest, KeepsStatusAndStopButtonUsableAtPhoneWidth) {
+TEST(ScanTaskControlsTest, KeepsStatusReadableAtPhoneWidth) {
   const auto manager = std::make_shared<TaskManager>();
   ScanTaskControls controls(manager);
   const int scan = manager->StartTask(QStringLiteral("Updating collection"));
@@ -84,28 +84,21 @@ TEST(ScanTaskControlsTest, KeepsStatusAndStopButtonUsableAtPhoneWidth) {
   controls.show();
   QCoreApplication::processEvents();
   EXPECT_EQ(controls.width(), 240);
-  auto *stop = controls.findChild<QPushButton*>(QStringLiteral("stop_scan"));
   auto *status = controls.findChild<QLabel*>(QStringLiteral("scan_status"));
-  ASSERT_NE(stop, nullptr);
   ASSERT_NE(status, nullptr);
-  EXPECT_TRUE(controls.rect().contains(stop->geometry()));
-  EXPECT_TRUE(stop->isVisible());
+  EXPECT_TRUE(controls.findChildren<QPushButton*>().isEmpty());
   manager->SetTaskProgress(scan, 123456, 654321);
   QCoreApplication::processEvents();
   controls.resize(240, controls.layout()->totalHeightForWidth(240));
   QCoreApplication::processEvents();
   EXPECT_TRUE(status->wordWrap());
   const QRect status_rect(status->mapTo(&controls, QPoint()), status->size());
-  EXPECT_TRUE(controls.rect().contains(stop->geometry()));
   EXPECT_TRUE(controls.rect().contains(status_rect));
-  EXPECT_GT(stop->geometry().left(), status_rect.right());
   EXPECT_EQ(status->alignment(), Qt::AlignCenter);
-  EXPECT_LT(stop->width(), controls.width() / 2);
-  EXPECT_GE(stop->height(), 48);
   EXPECT_GE(status->height(), status->heightForWidth(status->width()));
   controls.resize(640, controls.layout()->totalHeightForWidth(640));
   QCoreApplication::processEvents();
-  EXPECT_GT(stop->geometry().left(), status->mapTo(&controls, status->rect().topRight()).x());
+  EXPECT_TRUE(controls.rect().contains(QRect(status->mapTo(&controls, QPoint()), status->size())));
   EXPECT_GE(status->height(), status->heightForWidth(status->width()));
   manager->RequestTaskCancellation(scan);
   EXPECT_TRUE(status->text().contains(QStringLiteral("current operation")));
@@ -120,19 +113,17 @@ TEST(ScanTaskControlsTest, ShowsUnknownProgressUntilAllScansHaveTotals) {
   manager->SetTaskCancellable(second);
   manager->SetTaskProgress(first, 50, 100);
   auto *progress = controls.findChild<QProgressBar*>(QStringLiteral("scan_progress"));
-  auto *stop = controls.findChild<QPushButton*>(QStringLiteral("stop_scan"));
   ASSERT_NE(progress, nullptr);
-  ASSERT_NE(stop, nullptr);
   EXPECT_EQ(progress->maximum(), 0);
   manager->SetTaskProgress(second, 100, 200);
   EXPECT_EQ(progress->maximum(), 100);
   EXPECT_EQ(progress->value(), 50);
-  EXPECT_EQ(stop->accessibleName(), QStringLiteral("Stop scans"));
   QSignalSpy cancelled(&*manager, &TaskManager::TaskCancellationRequested);
-  stop->click();
+  manager->RequestTaskCancellation(first);
+  manager->RequestTaskCancellation(second);
   EXPECT_EQ(cancelled.count(), 2);
   manager->SetTaskFinished(first);
-  EXPECT_FALSE(stop->isHidden());
+  EXPECT_TRUE(progress->isVisibleTo(&controls));
   manager->SetTaskFinished(second);
-  EXPECT_TRUE(stop->isHidden());
+  EXPECT_FALSE(progress->isVisibleTo(&controls));
 }

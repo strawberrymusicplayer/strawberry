@@ -54,6 +54,7 @@
 #include "core/application.h"
 #include "core/player.h"
 #include "core/logging.h"
+#include "core/taskmanager.h"
 #include "collection/collectionviewcontainer.h"
 #include "collection/collectionview.h"
 #include "playlist/playlist.h"
@@ -102,6 +103,12 @@ class AndroidToolPageFilter : public QObject {
 }  // namespace
 
 void MainWindow::SetupAndroidLayout() {
+
+  QObject::connect(ui_->action_stop_collection_scan, &QAction::triggered, this, [this]() {
+    for (const TaskManager::Task &task : app_->task_manager()->GetTasks()) {
+      if (task.cancellable) app_->task_manager()->RequestTaskCancellation(task.id);
+    }
+  });
 
   QNativeInterface::QAndroidApplication::runOnAndroidMainThread([]() {
     QJniEnvironment env;

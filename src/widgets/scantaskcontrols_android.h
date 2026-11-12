@@ -8,7 +8,6 @@
 #include "includes/shared_ptr.h"
 
 class QLabel;
-class QPushButton;
 class QTimer;
 class QProgressBar;
 class TaskManager;
@@ -25,7 +24,6 @@ class ScanTaskControls : public QWidget {
   QLabel *status_;
   QProgressBar *progress_;
   QWidget *details_;
-  QPushButton *stop_;
   QTimer *timer_;
 };
 

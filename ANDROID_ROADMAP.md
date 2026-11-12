@@ -674,11 +674,12 @@ Show a short VPN tip behind an information button; do not build external-access 
   Cancellation or a failed NAS operation keeps already published additions but discards those pending changes.
   SMB folders use startup/manual collection scans, not native filesystem notifications.
   After editing an existing server/share/folder, run Full collection scan.
-- Android's app-owned title bar shows the app name on the left, centered scan details/progress and a compact Stop button on the right (minimum 48 dp touch height).
+- Android's app-owned title bar shows the app name on the left and centered scan details/progress without a Stop button.
   It replaces the native action bar; idle shows only the app name, and the footer retains non-scan background task reporting without duplicating scans.
   Scan details show the counting phase and found-entry count, followed by processed/total entries and an approximate remaining time after sufficient scanning samples.
   Counting itself has no reliable ETA because the total is not yet known, and NAS metadata requests can make it slow.
-  A touch-sized Stop scan button works during counting and metadata scanning; cancellation waits for the current operation and leaves already published new tracks intact.
+  Stop scan is available under Tools > Collection, alongside the scan-start actions, rather than in the title bar to reduce accidental cancellation.
+  It works during counting and metadata scanning; cancellation waits for the current operation and leaves already published new tracks intact.
   The stopping state is explicit, and the next manual scan is still allowed.
 - NAS directory iterators reuse the file type, size and timestamps already returned by SMB listings, avoiding fresh authentication/stat requests for each listed entry.
   The snapshot lasts only for the active iterator on its thread, is invalidated by NAS location changes, and is not retained between scans.
@@ -724,6 +725,10 @@ Show a short VPN tip behind an information button; do not build external-access 
   These checks do not confirm audible output, seeking or a complete track transition.
 - Android Collection artist, album and song labels now use a minimum 16-point font, retaining larger existing fonts and leaving desktop fonts unchanged.
   The signed release is deployed; emulator OCR measures representative label glyphs at 33 pixels high instead of 24, with rows growing to fit in portrait and landscape.
+- Scan cancellation is now offered only through Tools > Collection > Stop scan on Android; the title bar is status-only.
+  The Tools action uses task-scoped cancellation, retaining the stopping message and idempotent requests.
+  The updated header tests pass, and the signed emulator release verifies stopping/restarting via Tools and that tapping the former title-bar Stop location no longer cancels counting.
+  This update has not been installed on the FP5, leaving its active scan undisturbed.
 
 **Still open (not claimed as verified):**
 - Real NAS/Synology testing: scanning a representative collection, cover loading, playback/seek/track transitions, responsiveness and connection counts for large collections, cancellation, permission changes, Wi-Fi loss/reconnect, and saved-location restoration on a physical phone.

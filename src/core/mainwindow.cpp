@@ -679,7 +679,9 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(ui_->action_jump, &QAction::triggered, ui_->playlist->view(), &PlaylistView::JumpToCurrentlyPlayingTrack);
   QObject::connect(ui_->action_update_collection, &QAction::triggered, &*app_->collection(), &CollectionManager::IncrementalScan);
   QObject::connect(ui_->action_full_collection_scan, &QAction::triggered, &*app_->collection(), &CollectionManager::FullScan);
+#ifndef Q_OS_ANDROID
   QObject::connect(ui_->action_stop_collection_scan, &QAction::triggered, &*app_->collection(), &CollectionManager::StopScan);
+#endif
   QObject::connect(ui_->action_add_files_to_transcoder, &QAction::triggered, this, &MainWindow::AddFilesToTranscoder);
   ui_->action_add_files_to_transcoder->setIcon(IconLoader::Load(u"tools-wizard"_s));
 
