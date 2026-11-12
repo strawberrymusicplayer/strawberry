@@ -62,7 +62,8 @@ TEST(ScanTaskControlsTest, EstimatesOnlyAfterCountingAndCollectingScanSamples) {
   auto *status = controls.findChild<QLabel*>(QStringLiteral("scan_status"));
   ASSERT_NE(status, nullptr);
   manager->SetTaskProgress(scan, 25, 100);
-  EXPECT_TRUE(status->text().contains(QStringLiteral("25 / 100")));
+  EXPECT_TRUE(status->text().contains(QStringLiteral(" - 25/100 - ")));
+  EXPECT_FALSE(status->text().contains(QStringLiteral("entries")));
   EXPECT_TRUE(status->text().contains(QStringLiteral("Updating collection 25%")));
   EXPECT_EQ(controls.findChild<QProgressBar*>(QStringLiteral("scan_progress"))->value(), 25);
   EXPECT_TRUE(status->text().contains(QStringLiteral("about")));

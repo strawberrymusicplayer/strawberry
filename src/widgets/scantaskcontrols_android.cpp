@@ -75,7 +75,7 @@ void ScanTaskControls::Refresh() {
     else {
       can_stop = true;
       if (task.progress_max > 0) {
-        detail += tr(" - %1 / %2 entries").arg(task.progress).arg(task.progress_max);
+        detail += tr(" - %1/%2").arg(task.progress).arg(task.progress_max);
         const int remaining = task.EstimatedSecondsRemaining();
         if (task.progress >= task.progress_max) detail += tr(" - finishing scan...");
         else detail += remaining < 0 ? tr(" - estimating time...") : tr(" - about %1 remaining").arg(Utilities::PrettyTime(remaining));
