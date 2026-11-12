@@ -809,9 +809,15 @@ The requested long-term scope includes all discussed output options: Bluetooth, 
 Do not silently reduce the roadmap to the user's Marantz or one protocol; assess each option separately and deliver feasible integrations in stages.
 Requested coverage is not a claim that every protocol can legally or technically carry arbitrary local/NAS music.
 
+**Initial target: Marantz NR1504**
+- The [official specification sheet](https://www.marantz.com/on/demandware.static/-/Library-Sites-marantz_europe_shared/default/dwc36a586d/archive-downloads/nr1504_en04.pdf) lists DLNA 1.5, Windows PlayTo and AirPlay.
+- Bluetooth requires the optional RX101 adapter; it is not built in.
+- Investigate DLNA/UPnP renderer control first for this model, with AirPlay as another candidate; actual Strawberry interoperability is not yet tested.
+- The specification's Spotify entry does not establish Spotify Connect support; the connection method observed by the user remains unverified.
+
 **First steps:**
-- Ask for the exact Marantz model and identify its supported protocols and how Spotify connects to it.
-  Spotify may use Spotify Connect; that does not establish support for arbitrary local/NAS audio or access to the same integration from Strawberry.
+- Verify the NR1504's available firmware, renderer capabilities and how Spotify currently connects to it.
+  Spotify connectivity does not establish support for arbitrary local/NAS audio or access to the same integration from Strawberry.
 - Assess supported options such as DLNA/UPnP renderers, HEOS, Chromecast or AirPlay against the actual device, available APIs, licensing and maintenance requirements.
   Record feasibility, limitations and validation requirements for every requested option, including Spotify Connect's service/content restrictions and Android's existing Bluetooth audio routing.
   Explicitly discuss any unsupported or restricted option with the user rather than promising universal compatibility.
