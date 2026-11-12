@@ -42,12 +42,16 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 #include <QWidget>
+#include <QCoreApplication>
+#include <QJniEnvironment>
+#include <QJniObject>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
 #include "core/application.h"
 #include "core/player.h"
+#include "core/logging.h"
 #include "collection/collectionviewcontainer.h"
 #include "playlist/playlist.h"
 #include "playlist/playlistlistcontainer.h"
@@ -56,6 +60,7 @@
 #include "widgets/androidwidgets.h"
 #include "widgets/fancytabwidget.h"
 #include "widgets/playlisttitleheader.h"
+#include "widgets/scantaskcontrols_android.h"
 
 namespace {
 
@@ -95,7 +100,16 @@ class AndroidToolPageFilter : public QObject {
 
 void MainWindow::SetupAndroidLayout() {
 
+  QNativeInterface::QAndroidApplication::runOnAndroidMainThread([]() {
+    QJniEnvironment env;
+    const QJniObject activity = QNativeInterface::QAndroidApplication::context();
+    const QJniObject bar = activity.callObjectMethod("getActionBar", "()Landroid/app/ActionBar;");
+    if (bar.isValid()) bar.callMethod<void>("hide");
+    if (env.checkAndClearExceptions()) qLog(Error) << "Could not hide the Android action bar";
+  });
+  auto *header = new ScanTaskControls(app_->task_manager(), ui_->centralWidget);
   ui_->layout_centralWidget->insertWidget(0, ui_->tabs, 1);
+  ui_->layout_centralWidget->insertWidget(0, header);
   ui_->layout_centralWidget->addWidget(ui_->player_controls_container);
   ui_->splitter->hide();
   ui_->line_6->hide();

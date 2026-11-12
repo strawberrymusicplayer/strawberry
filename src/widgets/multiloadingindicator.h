@@ -33,9 +33,6 @@ class QPaintEvent;
 
 class BusyIndicator;
 class TaskManager;
-#ifdef Q_OS_ANDROID
-class ScanTaskControls;
-#endif
 
 class MultiLoadingIndicator : public QWidget {
   Q_OBJECT
@@ -62,9 +59,6 @@ class MultiLoadingIndicator : public QWidget {
   BusyIndicator *spinner_;
   qint64 task_count_;
   QString text_;
-#ifdef Q_OS_ANDROID
-  ScanTaskControls *scan_controls_ = nullptr;
-#endif
 };
 
 #endif  // MULTILOADINGINDICATOR_H

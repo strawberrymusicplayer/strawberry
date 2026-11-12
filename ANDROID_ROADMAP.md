@@ -672,7 +672,9 @@ Show a short VPN tip behind an information button; do not build external-access 
   Cancellation or a failed NAS operation keeps already published additions but discards those pending changes.
   SMB folders use startup/manual collection scans, not native filesystem notifications.
   After editing an existing server/share/folder, run Full collection scan.
-- Android scan details below the updating-collection message show the counting phase and found-entry count, followed by processed/total entries and an approximate remaining time after sufficient scanning samples.
+- Android's app-owned title bar shows the app name on the left, centered scan details/progress and a compact Stop button on the right (minimum 48 dp touch height).
+  It replaces the native action bar; idle shows only the app name, and the footer retains non-scan background task reporting without duplicating scans.
+  Scan details show the counting phase and found-entry count, followed by processed/total entries and an approximate remaining time after sufficient scanning samples.
   Counting itself has no reliable ETA because the total is not yet known, and NAS metadata requests can make it slow.
   A touch-sized Stop scan button works during counting and metadata scanning; cancellation waits for the current operation and leaves already published new tracks intact.
   The stopping state is explicit, and the next manual scan is still allowed.
@@ -707,6 +709,11 @@ Show a short VPN tip behind an information button; do not build external-access 
   All thirteen NAS tests pass three consecutive runs.
   The full collection-watcher suite passes, and the optimized Android release APK builds, packages and passes signature verification without installation.
   This is a local protocol measurement, not a measured total-scan speedup on the user's NAS.
+- The signed, non-debuggable release APK containing per-folder publication, cancellation/ETA and metadata reuse is now installed on the emulator, preserving app data.
+  Scan status has moved to the app-owned title bar, replacing the native action bar and removing duplicate footer controls.
+  Four native title-bar tests pass three consecutive runs, covering counting, percentages/ETA, finishing/stopping, multiple scans, idle/non-scan states, actual 240-pixel width, landscape layout and a 48-pixel minimum Stop touch height.
+  The explicit width assertion caught a progress-bar minimum-width constraint; allowing it to shrink fixes the narrow layout.
+  Emulator checks confirm title-bar scan/counting feedback in portrait and landscape, a working right-side Stop tap, and return to the idle app-name-only title bar without clearing the saved NAS location.
 
 **Still open (not claimed as verified):**
 - Real NAS/Synology testing: scanning a representative collection, cover loading, playback/seek/track transitions, responsiveness and connection counts for large collections, cancellation, permission changes, Wi-Fi loss/reconnect, and saved-location restoration on a physical phone.

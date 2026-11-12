@@ -10,6 +10,7 @@
 class QLabel;
 class QPushButton;
 class QTimer;
+class QProgressBar;
 class TaskManager;
 
 class ScanTaskControls : public QWidget {
@@ -22,6 +23,8 @@ class ScanTaskControls : public QWidget {
   void Refresh();
   SharedPtr<TaskManager> task_manager_;
   QLabel *status_;
+  QProgressBar *progress_;
+  QWidget *details_;
   QPushButton *stop_;
   QTimer *timer_;
 };
