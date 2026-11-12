@@ -298,7 +298,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
  public Q_SLOTS:
   void CommandlineOptionsReceived(const QByteArray &string_options);
   void Raise();
-  void Exit();
+  void Exit() override;
 #if QT_CONFIG(sessionmanager)
   void CommitData(QSessionManager &manager);
 #endif

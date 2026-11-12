@@ -26,6 +26,8 @@
 #import <AppKit/NSNibDeclarations.h>
 #import <AppKit/NSViewController.h>
 
+#import <Foundation/NSAppleEventDescriptor.h>
+#import <Foundation/NSAppleEventManager.h>
 #import <Foundation/NSBundle.h>
 #import <Foundation/NSError.h>
 #import <Foundation/NSFileManager.h>
@@ -34,6 +36,8 @@
 #import <Foundation/NSThread.h>
 #import <Foundation/NSTimer.h>
 #import <Foundation/NSURL.h>
+
+#import <CoreServices/CoreServices.h>
 
 #import <IOKit/hidsystem/ev_keymap.h>
 
@@ -51,6 +55,8 @@
 #include <QDir>
 #include <QEvent>
 #include <QFile>
+#include <QMetaObject>
+#include <QThread>
 
 #include "includes/mac_delegate.h"
 #include "includes/scoped_cftyperef.h"
@@ -60,6 +66,23 @@
 #include "mac_startup.h"
 #include "globalshortcuts/globalshortcutsmanager.h"
 #include "globalshortcuts/globalshortcutsbackend-macos.h"
+
+namespace {
+
+// Set while macOS waits for the reply to the request to terminate for logging out, restarting or shutting down.
+bool terminate_reply_pending = false;
+
+// The quit Apple event has a quit reason when it is sent for logging out, restarting or shutting down, but not when quitting from the Dock.
+bool SessionEnding() {
+
+  NSAppleEventDescriptor *event = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
+  if (!event || [event eventClass] != kCoreEventClass || [event eventID] != kAEQuitApplication) return false;
+
+  return [event attributeDescriptorForKeyword:kAEQuitReason] != nil;
+
+}
+
+}  // namespace
 
 QDebug operator<<(QDebug dbg, NSObject *object) {
 
@@ -202,8 +225,30 @@ QDebug operator<<(QDebug dbg, NSObject *object) {
 }
 
 - (NSApplicationTerminateReply) applicationShouldTerminate:(NSApplication*) sender {
+
   Q_UNUSED(sender);
-  return NSTerminateNow;
+
+  // Without a running event loop, for example before the event loop has started or after it has exited, there is nothing to shut down through it.
+  if (!application_handler_ || QThread::currentThread()->loopLevel() == 0) {
+    return NSTerminateNow;
+  }
+
+  // Terminating now makes AppKit call exit() while the subsystems are still running, so the last playlist changes and the deferred tag writes are lost.
+  // Instead shut down like the quit action does.
+  PlatformInterface *application_handler = application_handler_;
+  QMetaObject::invokeMethod(qApp, [application_handler]() { application_handler->Exit(); }, Qt::QueuedConnection);
+
+  // Cancelling when logging out, restarting or shutting down would also cancel the logout, restart or shutdown.
+  // Instead the request is kept pending until the shutdown has finished, and the application is then terminated by ReplyToApplicationShouldTerminate().
+  // AppKit runs the run loop in the modal panel mode while waiting, Qt's event sources are also in that mode, so the shutdown runs meanwhile.
+  if (SessionEnding()) {
+    terminate_reply_pending = true;
+    return NSTerminateLater;
+  }
+
+  // Otherwise, like with Qt's own application delegate, cancel and quit the event loop when the shutdown has finished, so the application exits through main().
+  return NSTerminateCancel;
+
 }
 
 - (void) userNotificationCenter: (UNUserNotificationCenter*)center
@@ -289,6 +334,17 @@ void SetShortcutHandler(GlobalShortcutsBackendMacOS *handler) {
 
 void SetApplicationHandler(PlatformInterface *handler) {
   [NSApp SetApplicationHandler:handler];
+}
+
+bool ReplyToApplicationShouldTerminate() {
+
+  if (!terminate_reply_pending) return false;
+
+  terminate_reply_pending = false;
+  [NSApp replyToApplicationShouldTerminate:YES];
+
+  return true;
+
 }
 
 static int MapFunctionKey(int keycode) {

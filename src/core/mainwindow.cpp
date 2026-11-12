@@ -1575,6 +1575,12 @@ void MainWindow::CommitData(QSessionManager &session_manager) {
 void MainWindow::ExitFinished() {
 
   exit_ = true;
+
+#ifdef Q_OS_MACOS
+  // When macOS is waiting to log out, restart or shut down, it terminates the application now that the shutdown has finished.
+  if (mac::ReplyToApplicationShouldTerminate()) return;
+#endif
+
   QCoreApplication::quit();
 
 }
