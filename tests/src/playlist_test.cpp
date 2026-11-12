@@ -1167,7 +1167,7 @@ TEST_F(PlaylistTest, ClearingSortIndicatorStopsTrackingAsSortedWithoutReordering
 
 }
 
-// Regression test: whatever column is sorted (in either direction), songs that compare equal in it must stay together by album with their tracks in ascending disc/track order - the sort direction applies to the sorted column, not to the disc and track numbers.
+// Regression test: whatever column is sorted (in either direction), songs that compare equal in it must be ordered by album year, album artist and album, with each album's tracks in ascending disc/track order - the sort direction applies to the sorted column, not to these tie-breakers.
 TEST_F(PlaylistTest, SortKeepsAlbumsInTrackOrder) {
 
   const auto make_item = [](const QString &title, const QString &albumartist, const QString &album, const int year, const int originalyear, const int disc, const int track) {
@@ -1194,7 +1194,7 @@ TEST_F(PlaylistTest, SortKeepsAlbumsInTrackOrder) {
 
   // Album "A" was released in 2000 (originally 1990), album "B" in 1995 (originally 1999), so year and original year order the albums oppositely.
   // "A 1-20" is disc 1, track 20, and "A 2-1" is disc 2, track 1: disc order must take priority over track order.
-  // All songs share the same artist and genre, so sorting by those leaves only the tie-breakers to order them.
+  // All songs share the same artist, album artist and genre, so sorting by those leaves only the tie-breakers to order them: album year first, so B (1995) comes before A (2000).
   // Every case starts from the same reversed order, so a sort that only compares the sorted column leaves the tracks reversed.
   const auto sort_reversed = [this, &make_item](const Playlist::Column column, const Qt::SortOrder order) {
     playlist_.Clear();
@@ -1221,18 +1221,30 @@ TEST_F(PlaylistTest, SortKeepsAlbumsInTrackOrder) {
     { Playlist::Column::Year, Qt::DescendingOrder, album_a + album_b },
     { Playlist::Column::OriginalYear, Qt::AscendingOrder, album_a + album_b },
     { Playlist::Column::OriginalYear, Qt::DescendingOrder, album_b + album_a },
-    { Playlist::Column::Artist, Qt::AscendingOrder, album_a + album_b },
-    { Playlist::Column::Artist, Qt::DescendingOrder, album_a + album_b },
-    { Playlist::Column::AlbumArtist, Qt::AscendingOrder, album_a + album_b },
-    { Playlist::Column::AlbumArtist, Qt::DescendingOrder, album_a + album_b },
-    { Playlist::Column::Genre, Qt::AscendingOrder, album_a + album_b },
-    { Playlist::Column::Genre, Qt::DescendingOrder, album_a + album_b },
+    { Playlist::Column::Artist, Qt::AscendingOrder, album_b + album_a },
+    { Playlist::Column::Artist, Qt::DescendingOrder, album_b + album_a },
+    { Playlist::Column::AlbumArtist, Qt::AscendingOrder, album_b + album_a },
+    { Playlist::Column::AlbumArtist, Qt::DescendingOrder, album_b + album_a },
+    { Playlist::Column::Genre, Qt::AscendingOrder, album_b + album_a },
+    { Playlist::Column::Genre, Qt::DescendingOrder, album_b + album_a },
   };
 
   for (const auto &c : cases) {
     sort_reversed(c.column, c.order);
     EXPECT_EQ(c.expected, titles()) << "column " << Playlist::column_name(c.column).toStdString() << (c.order == Qt::AscendingOrder ? ", ascending" : ", descending");
   }
+
+  // The album year is the album's earliest year, not each track's own year: a compilation whose tracks have different years ("Hits", 1990 to 2005) must stay together with its tracks in order.
+  playlist_.Clear();
+  playlist_.InsertItems(PlaylistItemPtrList()
+                        << make_item(u"New 1"_s, u"Album Artist"_s, u"New"_s, 2000, 0, 1, 1)
+                        << make_item(u"Hits 3"_s, u"Various"_s, u"Hits"_s, 2005, 0, 1, 3)
+                        << make_item(u"Hits 2"_s, u"Various"_s, u"Hits"_s, 1990, 0, 1, 2)
+                        << make_item(u"Hits 1"_s, u"Various"_s, u"Hits"_s, 1998, 0, 1, 1)
+                        << make_item(u"Old 2"_s, u"Album Artist"_s, u"Old"_s, 1985, 0, 1, 2)
+                        << make_item(u"Old 1"_s, u"Album Artist"_s, u"Old"_s, 1985, 0, 1, 1), -1);
+  playlist_.sort(static_cast<int>(Playlist::Column::Genre), Qt::AscendingOrder);
+  EXPECT_EQ((QStringList() << u"Old 1"_s << u"Old 2"_s << u"Hits 1"_s << u"Hits 2"_s << u"Hits 3"_s << u"New 1"_s), titles());
 
   // Two albums with the same name by different album artists must not be interleaved (1, 1, 2, 2).
   playlist_.Clear();
