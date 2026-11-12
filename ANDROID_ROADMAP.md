@@ -676,6 +676,9 @@ Show a short VPN tip behind an information button; do not build external-access 
   Counting itself has no reliable ETA because the total is not yet known, and NAS metadata requests can make it slow.
   A touch-sized Stop scan button works during counting and metadata scanning; cancellation waits for the current operation and leaves already published new tracks intact.
   The stopping state is explicit, and the next manual scan is still allowed.
+- NAS directory iterators reuse the file type, size and timestamps already returned by SMB listings, avoiding fresh authentication/stat requests for each listed entry.
+  The snapshot lasts only for the active iterator on its thread, is invalidated by NAS location changes, and is not retained between scans.
+  Counting also reuses Qt's iterator-provided file information.
 
 **Local validation:**
 - Native protocol tests cover authenticated listing/filtering, a complete 2 MiB read, seeking, read-only enforcement, missing files, TagLib metadata, GStreamer WAV discovery, actual collection scanning, wrong passwords, and interrupted/offline connections.
@@ -699,6 +702,11 @@ Show a short VPN tip behind an information button; do not build external-access 
   All three scan-controls tests and eleven NAS tests pass three consecutive runs; the complete collection-watcher suite passes.
   The updated Android APK builds, packages and passes signature verification, without installation.
   The new controls are Android-only; runtime checks on the user's device remain pending until the current scan can be left undisturbed.
+- Metadata-request regression: inspecting 128 files without a listing snapshot makes 128 connection negotiations and 128 QUERY_INFO requests; inspecting them through a directory iterator makes two of each (98.4% fewer).
+  Tests also verify that a file-size change is seen after the iterator ends, an offline NAS reports a failure rather than cached success, changed location settings bypass old snapshots, and another thread performs its own fresh query.
+  All thirteen NAS tests pass three consecutive runs.
+  The full collection-watcher suite passes, and the optimized Android release APK builds, packages and passes signature verification without installation.
+  This is a local protocol measurement, not a measured total-scan speedup on the user's NAS.
 
 **Still open (not claimed as verified):**
 - Real NAS/Synology testing: scanning a representative collection, cover loading, playback/seek/track transitions, responsiveness and connection counts for large collections, cancellation, permission changes, Wi-Fi loss/reconnect, and saved-location restoration on a physical phone.

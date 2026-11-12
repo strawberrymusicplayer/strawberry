@@ -2218,7 +2218,7 @@ quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &
 
     const QString child_filepath = it.next();
     t->CountEntry();
-    const QFileInfo child_fileinfo(child_filepath);
+    const QFileInfo child_fileinfo = it.fileInfo();
 
     if (child_fileinfo.isDir()) {
       if (child_fileinfo.isSymLink()) {

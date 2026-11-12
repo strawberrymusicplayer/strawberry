@@ -11,6 +11,7 @@
 #include <QDateTime>
 #include <QDir>
 #include <QFileInfo>
+#include <QHash>
 #include <QReadWriteLock>
 #include <QRegularExpression>
 #include <QUrl>
@@ -37,7 +38,14 @@ namespace {
 const QString prefix = QStringLiteral("/strawberry-nas/");
 QReadWriteLock locations_lock;
 QList<Nas::Location> locations;
+quint64 locations_revision = 0;
 thread_local quint64 failure_serial = 0;
+struct DirectorySnapshot {
+  quint64 revision;
+  QHash<QString, smb2_stat_64> entries;
+};
+// Directory-listing metadata is valid only while its iterator is alive, not across scans.
+thread_local QList<const DirectorySnapshot*> directory_snapshots;
 
 struct ContextDeleter {
   void operator()(smb2_context *context) const { smb2_destroy_context(context); }
@@ -75,8 +83,9 @@ class Connection {
   QString error_;
 };
 
-std::optional<Nas::Location> Resolve(const QString &path, QString *remote) {
+std::optional<Nas::Location> Resolve(const QString &path, QString *remote, quint64 *revision = nullptr) {
   QReadLocker locker(&locations_lock);
+  if (revision) *revision = locations_revision;
   for (const Nas::Location &location : std::as_const(locations)) {
     const QString root = location.path();
     if (path == root || path.startsWith(root + u'/')) {
@@ -93,8 +102,11 @@ std::optional<Nas::Location> Resolve(const QString &path, QString *remote) {
 
 class NasIterator : public QAbstractFileEngineIterator {
  public:
-  NasIterator(const QString &path, const QStringList &entries, QDir::Filters filters, const QStringList &names)
-      : QAbstractFileEngineIterator(filters, names), path_(path), entries_(entries) {}
+  NasIterator(const QString &path, const QStringList &entries, DirectorySnapshot metadata, QDir::Filters filters, const QStringList &names)
+      : QAbstractFileEngineIterator(filters, names), path_(path), entries_(entries), metadata_(std::move(metadata)) {
+    directory_snapshots.append(&metadata_);
+  }
+  ~NasIterator() override { directory_snapshots.removeOne(&metadata_); }
   bool hasNext() const override { return index_ + 1 < entries_.size(); }
   QString next() override {
     ++index_;
@@ -106,6 +118,7 @@ class NasIterator : public QAbstractFileEngineIterator {
  private:
   QString path_;
   QStringList entries_;
+  DirectorySnapshot metadata_;
   qsizetype index_ = -1;
 };
 
@@ -117,7 +130,7 @@ class Engine : public QAbstractFileEngine {
     close();
     path_ = QDir::cleanPath(path);
     connection_.reset();
-    location_ = Resolve(path_, &remote_);
+    location_ = Resolve(path_, &remote_, &location_revision_);
     stat_.reset();
   }
   bool open(QIODevice::OpenMode mode, std::optional<QFile::Permissions>) override {
@@ -204,18 +217,22 @@ class Engine : public QAbstractFileEngine {
   }
   Iterator *beginEntryList(QDir::Filters filters, const QStringList &names) override {
     QStringList entries;
-    if (Stat()) {
+    DirectorySnapshot metadata{location_revision_, {}};
+    if (Stat() && Connect()) {
       smb2dir *dir = smb2_opendir(connection_->get(), remote_.toUtf8().constData());
       if (!dir) Fail(QFile::ReadError, QStringLiteral("Could not list NAS folder. Existing collection entries will be retained."));
       else {
         while (const smb2dirent *entry = smb2_readdir(connection_->get(), dir)) {
           const QString name = QString::fromUtf8(entry->name);
-          if (name != QStringLiteral(".") && name != QStringLiteral("..") && !name.contains(u'/') && !name.contains(u'\\') && entry->st.smb2_type != SMB2_TYPE_LINK) entries.append(name);
+          if (name != QStringLiteral(".") && name != QStringLiteral("..") && !name.contains(u'/') && !name.contains(u'\\') && entry->st.smb2_type != SMB2_TYPE_LINK) {
+            entries.append(name);
+            metadata.entries.insert(path_ + u'/' + name, entry->st);
+          }
         }
         smb2_closedir(connection_->get(), dir);
       }
     }
-    return new NasIterator(path_, entries, filters, names);
+    return new NasIterator(path_, entries, std::move(metadata), filters, names);
   }
 
  private:
@@ -236,6 +253,14 @@ class Engine : public QAbstractFileEngine {
   }
   bool Stat() const {
     if (stat_) return true;
+    for (auto it = directory_snapshots.crbegin(); it != directory_snapshots.crend(); ++it) {
+      if ((*it)->revision != location_revision_) continue;
+      const auto entry = (*it)->entries.constFind(path_);
+      if (entry != (*it)->entries.constEnd()) {
+        stat_ = entry.value();
+        return true;
+      }
+    }
     if (!Connect()) return false;
     smb2_stat_64 value = {};
     const int result = smb2_stat(connection_->get(), remote_.toUtf8().constData(), &value);
@@ -247,6 +272,7 @@ class Engine : public QAbstractFileEngine {
   QString path_;
   QString remote_;
   std::optional<Nas::Location> location_;
+  quint64 location_revision_ = 0;
   mutable std::unique_ptr<Connection> connection_;
   mutable std::optional<smb2_stat_64> stat_;
   smb2fh *file_ = nullptr;
@@ -281,6 +307,7 @@ QList<Location> Locations() {
 void SetLocations(const QList<Location> &value) {
   QWriteLocker locker(&locations_lock);
   locations = value;
+  ++locations_revision;
 }
 QString Validate(const Location &location) {
   const QRegularExpression id(QStringLiteral("^[a-f0-9-]{36}$"));

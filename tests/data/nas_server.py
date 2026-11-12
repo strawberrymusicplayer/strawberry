@@ -2,6 +2,7 @@
 """Optional loopback-only SMB2 fixture; requires impacket in the test interpreter."""
 
 import logging
+import json
 import shutil
 import signal
 import sys
@@ -34,10 +35,15 @@ with tempfile.TemporaryDirectory(prefix="strawberry-nas-test-") as root:
     server.getServer().daemon_threads = True
     server.setSMB2Support(True)
     server.addShare("music", root, readOnly="yes")
+    (directory / "bulk").mkdir()
+    for index in range(128):
+        (directory / "bulk" / f"entry-{index:03}.bin").write_bytes(b"fixture")
+    commands_seen = {}
     # Impacket can return normal command bodies for errors (including EOF).
     # MS-SMB2 2.2.2 requires an SMB2 ERROR body; leave signing and statuses unchanged.
-    def error_response(callback):
+    def error_response(command, callback):
         def invoke(*args):
+            commands_seen[command] = commands_seen.get(command, 0) + 1
             commands, packets, status = callback(*args)
             if status != 0:
                 return [smb3structs.SMB2Error()], None, status
@@ -48,12 +54,26 @@ with tempfile.TemporaryDirectory(prefix="strawberry-nas-test-") as root:
                     smb3structs.SMB2_QUERY_INFO, smb3structs.SMB2_CLOSE,
                     smb3structs.SMB2_QUERY_DIRECTORY):
         original = server.getServer().hookSmb2Command(command, None)
-        server.getServer().hookSmb2Command(command, error_response(original))
+        server.getServer().hookSmb2Command(command, error_response(command, original))
+    for command in (smb3structs.SMB2_NEGOTIATE, smb3structs.SMB2_SESSION_SETUP):
+        original = server.getServer().hookSmb2Command(command, None)
+        def count_connection(*args, command=command, callback=original):
+            commands_seen[command] = commands_seen.get(command, 0) + 1
+            return callback(*args)
+        server.getServer().hookSmb2Command(command, count_connection)
     # Owned fixture credentials, never real NAS credentials.
     server.addCredential("strawberry-test", 0, compute_lmhash("fixture-only"), compute_nthash("fixture-only"))
     threading.Thread(target=server.start, daemon=True).start()
     print(server.getServer().server_address[1], flush=True)
     try:
-        sys.stdin.buffer.read()
+        for line in sys.stdin:
+            if line.strip() == "stats":
+                print(json.dumps({
+                    "negotiate": commands_seen.get(smb3structs.SMB2_NEGOTIATE, 0),
+                    "query_info": commands_seen.get(smb3structs.SMB2_QUERY_INFO, 0),
+                }), flush=True)
+            elif line.strip() == "resize":
+                (directory / "bulk" / "entry-000.bin").write_bytes(b"changed fixture contents")
+                print("resized", flush=True)
     finally:
         server.stop()

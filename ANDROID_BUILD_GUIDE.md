@@ -66,6 +66,12 @@ Cancelling a scan or losing the connection keeps new tracks from completed folde
 Android shows scan details beneath the updating-collection message, with a **Stop scan** button available while counting and reading metadata.
 Counting reports the number of entries found, not a percentage or remaining time: the total is not known yet.
 On a NAS, counting still traverses the folder tree and performs network metadata operations, so it is not necessarily fast for a large collection.
+The SMB client now reuses the type, size and timestamps returned in each directory listing instead of opening a new authenticated connection to inspect every listed entry.
+This metadata is scoped to the active directory iterator and its thread, and is ignored after NAS location settings change.
+It is not a persistent or time-based cache: a later listing/scan obtains fresh information, and failed connections still block destructive scan changes.
+The counting pass also reuses Qt's iterator-provided file information.
+In the loopback regression, inspecting 128 files takes two connection negotiations and two QUERY_INFO requests instead of 128 of each.
+That measures metadata-request reduction, not a promise of equivalent total scan speedup: directory traversal, file opens and tag reads still require network traffic.
 After counting, the display reports processed/total entries and estimates remaining scan time only after at least five seconds and three processed entries.
 The estimate excludes the counting phase and is approximate: file formats, network delays, folder sizes and final database/UI work can change completion time.
 Stopping requests cooperative cancellation; an in-flight SMB operation must return or time out before the scan finishes stopping.

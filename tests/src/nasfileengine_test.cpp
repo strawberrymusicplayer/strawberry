@@ -2,11 +2,14 @@
 
 #include "gtest_include.h"
 #include <QDir>
+#include <QDirIterator>
 #include <QFile>
 #include <QFileInfo>
 #include <QProcess>
 #include <QSignalSpy>
 #include <QSet>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QTemporaryDir>
 #include <QUrl>
 #include <QUuid>
@@ -89,6 +92,22 @@ class NasProtocolTest : public ::testing::Test {
   }
   QProcess server_;
   Nas::Location location_;
+
+  QByteArray FixtureCommand(const QByteArray &command) {
+    server_.write(command + '\n');
+    if (!server_.waitForReadyRead(5000)) {
+      ADD_FAILURE() << "Fixture command did not respond";
+      return {};
+    }
+    return server_.readLine().trimmed();
+  }
+  QJsonObject CommandCounts() {
+    QJsonParseError error;
+    const QJsonDocument document = QJsonDocument::fromJson(FixtureCommand("stats"), &error);
+    EXPECT_EQ(error.error, QJsonParseError::NoError);
+    EXPECT_TRUE(document.isObject());
+    return document.object();
+  }
 
   enum class ScanEnd { Complete, Disconnect, Cancel, CancelCounting, CancelDuringCounting };
   void VerifyFolderPublishing(ScanEnd end) {
@@ -220,7 +239,7 @@ TEST_F(NasProtocolTest, ListsReadsSeeksAndRejectsWrites) {
   root.folder.clear();
   Nas::SetLocations({root});
   EXPECT_TRUE(QDir(root.path()).entryList(QDir::Files | QDir::NoDotAndDotDot).isEmpty());
-  EXPECT_EQ(QDir(root.path()).entryList(QDir::Dirs | QDir::NoDotAndDotDot), QStringList{QStringLiteral("album")});
+  EXPECT_EQ(QDir(root.path()).entryList(QDir::Dirs | QDir::NoDotAndDotDot), (QStringList{QStringLiteral("album"), QStringLiteral("bulk")}));
 }
 
 TEST_F(NasProtocolTest, TagLibAndGStreamerReadNetworkWav) {
@@ -311,6 +330,76 @@ TEST_F(NasProtocolTest, CanStopBeforeCountingWithoutChangingExistingSongs) {
 
 TEST_F(NasProtocolTest, CanStopDuringCountingWithoutChangingExistingSongs) {
   VerifyFolderPublishing(ScanEnd::CancelDuringCounting);
+}
+
+TEST_F(NasProtocolTest, DirectoryMetadataAvoidsPerEntryQueriesAndExpiresWithIterator) {
+  location_.folder = QStringLiteral("bulk");
+  Nas::SetLocations({location_});
+  const QString negotiate = QStringLiteral("negotiate");
+  const QString query_info = QStringLiteral("query_info");
+  const QJsonObject baseline_before = CommandCounts();
+  for (int i = 0; i < 128; ++i) {
+    EXPECT_EQ(QFileInfo(location_.path() + QStringLiteral("/entry-%1.bin").arg(i, 3, 10, QLatin1Char('0'))).size(), 7);
+  }
+  const QJsonObject baseline_after = CommandCounts();
+  const int baseline_connections = baseline_after.value(negotiate).toInt() - baseline_before.value(negotiate).toInt();
+  const int baseline_queries = baseline_after.value(query_info).toInt() - baseline_before.value(query_info).toInt();
+  EXPECT_EQ(baseline_connections, 128);
+  EXPECT_EQ(baseline_queries, 128);
+  const QJsonObject before = CommandCounts();
+  int found = 0;
+  {
+    QDirIterator entries(location_.path(), QDir::Files | QDir::NoDotAndDotDot);
+    while (entries.hasNext()) {
+      const QString path = entries.next();
+      const QFileInfo info(path);
+      EXPECT_TRUE(info.isFile());
+      EXPECT_TRUE(info.isReadable());
+      EXPECT_EQ(info.size(), 7);
+      EXPECT_TRUE(info.lastModified().isValid());
+      ++found;
+    }
+    EXPECT_EQ(found, 128);
+    const QJsonObject after = CommandCounts();
+    // Root/listing lookups only, not a fresh authenticated session/stat for every file.
+    const int connections = after.value(negotiate).toInt() - before.value(negotiate).toInt();
+    const int queries = after.value(query_info).toInt() - before.value(query_info).toInt();
+    EXPECT_LE(connections, 2);
+    EXPECT_LE(queries, 2);
+    qInfo("128-file metadata check: connections %d -> %d; QUERY_INFO %d -> %d",
+          baseline_connections, connections, baseline_queries, queries);
+  }
+  EXPECT_EQ(FixtureCommand("resize"), QByteArray("resized"));
+  const QJsonObject before_refresh = CommandCounts();
+  EXPECT_EQ(QFileInfo(location_.path() + QStringLiteral("/entry-000.bin")).size(), 24);
+  const QJsonObject after_refresh = CommandCounts();
+  EXPECT_GT(after_refresh.value(query_info).toInt(), before_refresh.value(query_info).toInt());
+  server_.closeWriteChannel();
+  ASSERT_TRUE(server_.waitForFinished(10000));
+  const quint64 failure = Nas::FailureSerial();
+  EXPECT_FALSE(QFileInfo(location_.path() + QStringLiteral("/entry-000.bin")).exists());
+  EXPECT_GT(Nas::FailureSerial(), failure);
+}
+
+TEST_F(NasProtocolTest, DirectoryMetadataDoesNotSurviveLocationChangesOrCrossThreads) {
+  location_.folder = QStringLiteral("bulk");
+  Nas::SetLocations({location_});
+  QDirIterator entries(location_.path(), QDir::Files | QDir::NoDotAndDotDot);
+  ASSERT_TRUE(entries.hasNext());
+  const QString path = entries.next();
+  const QJsonObject before = CommandCounts();
+  std::thread separate_reader([path]() { EXPECT_EQ(QFileInfo(path).size(), 7); });
+  separate_reader.join();
+  const QJsonObject after = CommandCounts();
+  EXPECT_GT(after.value(QStringLiteral("query_info")).toInt(), before.value(QStringLiteral("query_info")).toInt());
+  auto wrong_folder = location_;
+  wrong_folder.folder = QStringLiteral("missing-folder");
+  Nas::SetLocations({wrong_folder});
+  EXPECT_FALSE(QFileInfo(path).exists());
+  Nas::SetLocations({});
+  const quint64 failure = Nas::FailureSerial();
+  EXPECT_FALSE(QFileInfo(path).exists());
+  EXPECT_GT(Nas::FailureSerial(), failure);
 }
 
 }  // namespace
