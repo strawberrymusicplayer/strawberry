@@ -259,6 +259,26 @@ TEST_F(CollectionModelTest, CompilationAlbums) {
 
 }
 
+TEST_F(CollectionModelTest, DividerKeysMatchTheirArtistsThroughFilter) {
+  AddSong(u"Title"_s, u"Artist"_s, u"Album"_s, 123);
+  AddSong(u"Title"_s, u"Another artist"_s, u"Album"_s, 123);
+  AddSong(u"Title"_s, u"1artist"_s, u"Album"_s, 123);
+  AddSong(u"Title"_s, u"Foo"_s, u"Album"_s, 123);
+
+  QString divider_key;
+  for (int row = 0; row < collection_filter_->rowCount(); ++row) {
+    const QModelIndex index = collection_filter_->index(row, 0);
+    const QString key = index.data(CollectionModel::Role_DividerKey).toString();
+    if (index.data(CollectionModel::Role_IsDivider).toBool()) {
+      divider_key = key;
+      EXPECT_FALSE(key.isEmpty());
+    }
+    else {
+      EXPECT_EQ(key, divider_key);
+    }
+  }
+}
+
 TEST_F(CollectionModelTest, NumericHeaders) {
 
   AddSong(u"Title"_s, u"1artist"_s, u"Album"_s, 123);

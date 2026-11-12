@@ -110,6 +110,11 @@ add_test_file(src/sqlite_test.cpp false)
 add_test_file(src/collectionsettingsdirectorymodel_test.cpp true)
 add_test_file(src/gstenginepipeline_test.cpp false)
 if(NOT ANDROID)
+  add_test_file(src/collectionlettergroups_test.cpp true)
+  target_sources(collectionlettergroups_test PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/collection/collectionlettergroups_android.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/listscrolling_android.cpp
+  )
   add_test_file(src/listscrolling_test.cpp true)
   target_sources(listscrolling_test PRIVATE ${CMAKE_SOURCE_DIR}/src/widgets/listscrolling_android.cpp)
   add_test_file(src/scantaskcontrols_test.cpp true)

@@ -57,6 +57,7 @@
 #include "constants/collectionsettings.h"
 #ifdef Q_OS_ANDROID
 #  include "collectionfilter.h"
+#  include "collectionlettergroups_android.h"
 #  include "widgets/playlistactionhandler.h"
 #endif
 
@@ -80,6 +81,7 @@ CollectionView::CollectionView(QWidget *parent)
   setObjectName(QLatin1String(QObject::metaObject()->className()));
 
 #ifdef Q_OS_ANDROID
+  letter_groups_ = new CollectionLetterGroups(this);
   auto *actions = new PlaylistActionHandler(this, tr("Collection"), {tr("Add album to current playlist"), tr("Queue album"), tr("Queue album to play next")},
       [](const QModelIndex &index) {
         return index.data(CollectionModel::Role_Type).value<CollectionItem::Type>() == CollectionItem::Type::Container &&
@@ -140,6 +142,9 @@ void CollectionView::ReloadSettings() {
   Settings settings;
   settings.beginGroup(CollectionSettings::kSettingsGroup);
   SetAutoOpen(settings.value(CollectionSettings::kAutoOpen, CollectionSettings::kDefaultAutoOpen).toBool());
+#ifdef Q_OS_ANDROID
+  letter_groups_->SetEnabled(settings.value(CollectionSettings::kCollapsibleDividers, CollectionSettings::kDefaultCollapsibleDividers).toBool());
+#endif
   settings.endGroup();
 
 }

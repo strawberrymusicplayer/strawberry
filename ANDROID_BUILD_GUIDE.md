@@ -51,6 +51,14 @@ Other Context text and desktop typography are unchanged.
 Collection artist, album and song labels also use at least 20 points, with rows at least 48 device-independent pixels high.
 Tap a container row to expand or collapse it; using the small branch arrow is not required.
 
+On Android, tapping a letter divider hides or reveals all artists in that group without changing the expansion of their albums and songs.
+An arrow beside the divider indicates whether the group is open or closed.
+Settings > General > Collection > Display options > Allow collapsing letter groups controls this behavior and defaults to enabled.
+It requires Show dividers; disabling it immediately reveals hidden groups.
+As with other Settings options, Apply or OK saves the change, while Cancel discards unapplied changes.
+Groups start open after a collection reset or app restart; these temporary folds are not saved.
+Desktop Collection behavior is unchanged.
+
 ## NAS client dependency
 
 Android builds enable `ENABLE_NAS` by default.

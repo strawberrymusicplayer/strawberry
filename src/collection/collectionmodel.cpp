@@ -345,6 +345,9 @@ QVariant CollectionModel::data(CollectionItem *item, const int role) const {
     case Role_IsDivider:
       return item->type == CollectionItem::Type::Divider;
 
+    case Role_DividerKey:
+      return item->type == CollectionItem::Type::Divider ? item->container_key : item->divider_key;
+
     case Role_ContainerType:
       return static_cast<int>(container_group_by);
 

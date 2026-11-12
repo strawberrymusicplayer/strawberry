@@ -88,6 +88,12 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog,
       initialized_model_(false) {
 
   ui_->setupUi(this);
+#ifdef Q_OS_ANDROID
+  collapsible_dividers_ = new QCheckBox(tr("Allow collapsing letter groups"), this);
+  collapsible_dividers_->setObjectName(u"collapsible_dividers"_s);
+  ui_->layout_display->insertWidget(ui_->layout_display->indexOf(ui_->show_dividers) + 1, collapsible_dividers_);
+  QObject::connect(ui_->show_dividers, &QCheckBox::toggled, collapsible_dividers_, &QCheckBox::setEnabled);
+#endif
   ui_->list->setItemDelegate(new NativeSeparatorsDelegate(this));
 
   setWindowIcon(IconLoader::Load(u"library-music"_s, true, 0, 32));
@@ -184,6 +190,10 @@ void CollectionSettingsPage::Load() {
 
   ui_->auto_open->setChecked(s.value(kAutoOpen, kDefaultAutoOpen).toBool());
   ui_->show_dividers->setChecked(s.value(kShowDividers, kDefaultShowDividers).toBool());
+#ifdef Q_OS_ANDROID
+  collapsible_dividers_->setChecked(s.value(kCollapsibleDividers, kDefaultCollapsibleDividers).toBool());
+  collapsible_dividers_->setEnabled(ui_->show_dividers->isChecked());
+#endif
   ui_->pretty_covers->setChecked(s.value(kPrettyCovers, kDefaultPrettyCovers).toBool());
   ui_->various_artists->setChecked(s.value(kVariousArtists, kDefaultVariousArtists).toBool());
   ui_->checkbox_skip_articles_for_artists->setChecked(s.value(kSkipArticlesForArtists, kDefaultSkipArticlesForArtists).toBool());
@@ -240,6 +250,9 @@ void CollectionSettingsPage::Save() {
 
   s.setValue(kAutoOpen, ui_->auto_open->isChecked());
   s.setValue(kShowDividers, ui_->show_dividers->isChecked());
+#ifdef Q_OS_ANDROID
+  s.setValue(kCollapsibleDividers, collapsible_dividers_->isChecked());
+#endif
   s.setValue(kPrettyCovers, ui_->pretty_covers->isChecked());
   s.setValue(kVariousArtists, ui_->various_artists->isChecked());
   s.setValue(kSkipArticlesForArtists, ui_->checkbox_skip_articles_for_artists->isChecked());

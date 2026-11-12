@@ -51,6 +51,7 @@ class LyricsProviders;
 class TagEditor;
 class LyricsEditor;
 class OrganizeDialog;
+class CollectionLetterGroups;
 
 class CollectionView : public CollectionTreeView {
   Q_OBJECT
@@ -139,6 +140,9 @@ class CollectionView : public CollectionTreeView {
   ScopedPtr<OrganizeDialog> copy_to_device_dialog_;
   ScopedPtr<TagEditor> tag_editor_;
   ScopedPtr<LyricsEditor> lyrics_editor_;
+#ifdef Q_OS_ANDROID
+  CollectionLetterGroups *letter_groups_ = nullptr;
+#endif
 };
 
 #endif  // COLLECTIONVIEW_H
