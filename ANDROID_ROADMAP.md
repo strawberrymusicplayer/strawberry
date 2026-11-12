@@ -11,7 +11,7 @@ Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
 1. **Item 25:** Add local NAS locations (user-requested priority; real-NAS testing remains open).
-2. The remaining open items: 13, 15, 16, 17, 12, 20, 21, 22, 23, 24, 26, 27, 28, and finally 9 (physical-device verification, which needs a device).
+2. The remaining open items: 13, 15, 16, 17, 12, 20, 21, 22, 23, 24, 26, 27, 28, 29, and finally 9 (physical-device verification, which needs a device).
 
 ## 18. Review the Android changes for coding best practices
 
@@ -796,3 +796,27 @@ The feature set and screen design are not yet agreed.
 **After design approval:**
 - Assess Android alarm scheduling, permissions, background execution and audio-focus requirements against the agreed reliability expectations; explain platform limitations explicitly.
 - Implement and test the approved scope separately, including physical-device checks on the FP5.
+
+## 29. Investigate network playback to Marantz amplifiers and casting devices
+
+**Status:** Planned (device identification and protocol feasibility first)
+
+**Problem:** The app has no built-in network-output device picker or casting integration.
+The user can connect Spotify to their Marantz amplifier and wants a comparable way to select an amplifier from Strawberry.
+
+**Goal:** Explore playing Strawberry's local/NAS music through a network amplifier or casting receiver, with clear device selection and playback controls.
+The requested long-term scope includes all discussed output options: Bluetooth, DLNA/UPnP, HEOS, Chromecast, AirPlay and investigation of Spotify Connect.
+Do not silently reduce the roadmap to the user's Marantz or one protocol; assess each option separately and deliver feasible integrations in stages.
+Requested coverage is not a claim that every protocol can legally or technically carry arbitrary local/NAS music.
+
+**First steps:**
+- Ask for the exact Marantz model and identify its supported protocols and how Spotify connects to it.
+  Spotify may use Spotify Connect; that does not establish support for arbitrary local/NAS audio or access to the same integration from Strawberry.
+- Assess supported options such as DLNA/UPnP renderers, HEOS, Chromecast or AirPlay against the actual device, available APIs, licensing and maintenance requirements.
+  Record feasibility, limitations and validation requirements for every requested option, including Spotify Connect's service/content restrictions and Android's existing Bluetooth audio routing.
+  Explicitly discuss any unsupported or restricted option with the user rather than promising universal compatibility.
+- Agree the implementation order and design a shared device picker, active-output indication and return-to-phone behavior before implementation.
+- Determine whether the receiver can fetch the media directly or needs a phone-hosted stream, accounting for NAS authentication, codecs, seeking, transcoding and network reachability.
+  Never expose NAS credentials in receiver URLs or logs.
+- Assess discovery permissions, background playback, audio focus, volume control, queue ownership and device/network disconnection handling.
+- Implement only the agreed feasible scope, preserve existing phone/desktop output, and verify on the FP5 with the actual Marantz, including local/NAS tracks, pause/resume, seeking and track transitions.
