@@ -11,7 +11,7 @@ Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
 1. **Item 13:** Explore using Android's file picker for Files.
-2. The remaining open items: 15, 16, 17, 12, 20, 21, 22, 23, 24, and finally 9 (physical-device verification, which needs a device).
+2. The remaining open items: 15, 16, 17, 12, 20, 21, 22, 23, 24, 25, and finally 9 (physical-device verification, which needs a device).
 
 ## 18. Review the Android changes for coding best practices
 
@@ -640,3 +640,28 @@ This is the deferred follow-up to feature audit point 14, not a claim that provi
 - Test loopback redirects for Qobuz, Last.fm, ListenBrainz and Genius with playback stopped, including a delayed browser return and process recreation; implement a supported lifecycle or redirect solution where needed.
 - Verify real provider login and token exchange, denial/cancellation, retry, persistence after restart, refresh and logout using accounts entered directly by the tester.
 - Remove the Android browser-login guards and restore the buttons only after the corresponding flows pass; preserve desktop behavior, existing sessions, ListenBrainz's manual user-token option and browserless client-credentials authentication.
+
+## 25. Add NAS network locations directly to the Android collection
+
+**Status:** Planned
+
+**Problem:** Collection directories currently require local filesystem paths.
+Users cannot add an SMB NAS share directly with its server, share, and credentials; a network document provider in Android's file picker is not sufficient for the existing collection scanner.
+
+**Goal:** Add a NAS music folder from within the app, browse and scan it into the collection, and play its tracks without first copying them to local storage.
+
+**Next steps:**
+- Assess an Android-compatible SMB2/SMB3 client, licensing, packaging, and integration with collection scanning, tag reading, cover loading, playback, and seeking.
+  Reuse existing source abstractions where possible; preserve desktop mounted-folder behavior.
+- Provide touch-friendly server, share, folder, and authentication pages with the existing hierarchical navigation pattern.
+  Store credentials using platform-secure storage, exclude them from backups and logs, and do not enable legacy SMB1.
+- Handle unavailable servers, permission errors, interrupted scans, reconnects, and network changes explicitly.
+  Do not remove existing collection entries simply because a NAS is temporarily offline.
+- Verify browsing, scanning, playback, seeking, track transitions, cancellation, and saved-location restoration against a real NAS, including Synology, on local Wi-Fi and through a VPN.
+- Assess remote-access options separately from local SMB support.
+  Synology QuickConnect is not a generic SMB/WebDAV tunnel: Synology lists third-party applications and direct SMB, NFS, FTP, and WebDAV file access as unsupported.
+  Do not promise that entering a QuickConnect ID will work in Strawberry.
+  Prefer a VPN for reaching the NAS's private address; do not recommend exposing SMB directly to the Internet.
+  Any dedicated Synology API integration would require a separate supported-API and authentication feasibility assessment, not an assumed QuickConnect workaround.
+
+**Reference:** [Synology: Which packages and services support QuickConnect?](https://kb.synology.com/en-global/DSM/tutorial/Which_services_support_QuickConnect)
