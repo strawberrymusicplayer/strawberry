@@ -1167,6 +1167,55 @@ TEST_F(PlaylistTest, ClearingSortIndicatorStopsTrackingAsSortedWithoutReordering
 
 }
 
+// Regression test: sorting by year (in either direction) must keep each album's tracks in ascending track order - the sort direction applies to the year, not to the track numbers.
+TEST_F(PlaylistTest, SortByYearKeepsTracksAscending) {
+
+  const auto make_item = [](const QString &title, const QString &album, const int year, const int track) {
+    Song metadata;
+    metadata.Init(title, u"Artist"_s, album, 123);
+    metadata.set_year(year);
+    metadata.set_track(track);
+    MockPlaylistItem *ret = new MockPlaylistItem;
+    EXPECT_CALL(*ret, OriginalMetadata()).WillRepeatedly(Return(metadata));
+    return PlaylistItemPtr(ret);
+  };
+
+  playlist_.InsertItems(PlaylistItemPtrList()
+                        << make_item(u"Old 2"_s, u"Old"_s, 1995, 2)
+                        << make_item(u"New 20"_s, u"New"_s, 2002, 20)
+                        << make_item(u"Old 1"_s, u"Old"_s, 1995, 1)
+                        << make_item(u"New 1"_s, u"New"_s, 2002, 1)
+                        << make_item(u"New 3"_s, u"New"_s, 2002, 3), -1);
+
+  const auto titles = [this]() {
+    QStringList ret;
+    for (int row = 0; row < playlist_.rowCount(QModelIndex()); ++row) {
+      ret << playlist_.data(playlist_.index(row, static_cast<int>(Playlist::Column::Title))).toString();
+    }
+    return ret;
+  };
+
+  playlist_.sort(static_cast<int>(Playlist::Column::Year), Qt::AscendingOrder);
+  EXPECT_EQ((QStringList() << u"Old 1"_s << u"Old 2"_s << u"New 1"_s << u"New 3"_s << u"New 20"_s), titles());
+
+  playlist_.sort(static_cast<int>(Playlist::Column::Year), Qt::DescendingOrder);
+  EXPECT_EQ((QStringList() << u"New 1"_s << u"New 3"_s << u"New 20"_s << u"Old 1"_s << u"Old 2"_s), titles());
+
+  // Two albums from the same year, previously in fully reversed order (albums Z..A, tracks n..1): sorting by year must put them in album order with tracks 1..n.
+  playlist_.Clear();
+  playlist_.InsertItems(PlaylistItemPtrList()
+                        << make_item(u"B-Sides 20"_s, u"Who Can You Trust? / Beats & B-Sides"_s, 1996, 20)
+                        << make_item(u"B-Sides 2"_s, u"Who Can You Trust? / Beats & B-Sides"_s, 1996, 2)
+                        << make_item(u"B-Sides 1"_s, u"Who Can You Trust? / Beats & B-Sides"_s, 1996, 1)
+                        << make_item(u"Trust 12"_s, u"Who Can You Trust?"_s, 1996, 12)
+                        << make_item(u"Trust 1"_s, u"Who Can You Trust?"_s, 1996, 1)
+                        << make_item(u"Hippie 1"_s, u"Trigger Hippie"_s, 1995, 1), -1);
+
+  playlist_.sort(static_cast<int>(Playlist::Column::Year), Qt::AscendingOrder);
+  EXPECT_EQ((QStringList() << u"Hippie 1"_s << u"Trust 1"_s << u"Trust 12"_s << u"B-Sides 1"_s << u"B-Sides 2"_s << u"B-Sides 20"_s), titles());
+
+}
+
 // Regression test for #1690: "Automatically sort playlist when inserting songs" must not act as if the playlist were sorted by the (arbitrary) default column until the user has actually chosen a sort column by clicking a header.
 TEST_F(PlaylistTest, AutoSortDoesNothingUntilAColumnHasBeenSorted) {
 
