@@ -2,6 +2,7 @@
 """Optional loopback-only SMB2 fixture; requires impacket in the test interpreter."""
 
 import logging
+import shutil
 import signal
 import sys
 import tempfile
@@ -25,6 +26,10 @@ with tempfile.TemporaryDirectory(prefix="strawberry-nas-test-") as root:
         audio.setsampwidth(2)
         audio.setframerate(8000)
         audio.writeframes(b"\x00\x01" * 8000)
+    for album in ("first", "second"):
+        (directory / "album" / album).mkdir()
+        shutil.copyfile(directory / "album" / "track.wav",
+                        directory / "album" / album / "track.wav")
     server = SimpleSMBServer(listenAddress="127.0.0.1", listenPort=0)
     server.getServer().daemon_threads = True
     server.setSMB2Support(True)

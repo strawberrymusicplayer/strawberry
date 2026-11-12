@@ -438,8 +438,24 @@ void CollectionWatcher::ScanTransaction::CommitNewOrUpdatedSongs() {
   }
 
   if (!new_songs.isEmpty()) {
-    Q_EMIT watcher_->NewOrUpdatedSongs(new_songs);
+#ifdef HAVE_NAS
+    if (nas_published_song_count_ > 0) {
+      SongList pending_songs;
+      for (qsizetype i = 0; i < new_songs.size(); ++i) {
+        if (i < nas_published_song_count_ && new_songs.at(i).id() == -1) continue;
+        pending_songs << new_songs.at(i);
+      }
+      if (!pending_songs.isEmpty()) Q_EMIT watcher_->NewOrUpdatedSongs(pending_songs);
+    }
+    else
+#endif
+    {
+      Q_EMIT watcher_->NewOrUpdatedSongs(new_songs);
+    }
     new_songs.clear();
+#ifdef HAVE_NAS
+    nas_published_song_count_ = 0;
+#endif
     song_changes.clear();
   }
 
@@ -650,6 +666,17 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
 #ifdef HAVE_NAS
 bool CollectionWatcher::ScanTransaction::NetworkFailed() const {
   return nas_transaction_ && Nas::FailureSerial() != nas_failure_serial_;
+}
+
+void CollectionWatcher::ScanTransaction::PublishNewNasSongs() {
+  if (!nas_transaction_ || NetworkFailed() || watcher_->stop_or_abort_requested()) return;
+  SongList added;
+  for (qsizetype i = nas_published_song_count_; i < new_songs.size(); ++i) {
+    if (new_songs.at(i).id() == -1) added << new_songs.at(i);
+  }
+  // Retain the complete transaction for deletion reconciliation; publish only new tracks early.
+  nas_published_song_count_ = new_songs.size();
+  if (!added.isEmpty()) Q_EMIT watcher_->NewOrUpdatedSongs(added);
 }
 #endif
 
@@ -1141,6 +1168,10 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   else if (subdir.mtime != updated_subdir.mtime) {
     t->touched_subdirs << updated_subdir;
   }
+
+#ifdef HAVE_NAS
+  t->PublishNewNasSongs();
+#endif
 
   // Recurse into the new subdirs that we found
   for (const CollectionSubdirectory &my_new_subdir : std::as_const(my_new_subdirs)) {

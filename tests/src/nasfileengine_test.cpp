@@ -6,6 +6,7 @@
 #include <QFileInfo>
 #include <QProcess>
 #include <QSignalSpy>
+#include <QSet>
 #include <QTemporaryDir>
 #include <QUrl>
 #include <QUuid>
@@ -87,6 +88,74 @@ class NasProtocolTest : public ::testing::Test {
   }
   QProcess server_;
   Nas::Location location_;
+
+  enum class ScanEnd { Complete, Disconnect, Cancel };
+  void VerifyFolderPublishing(ScanEnd end) {
+    const auto tasks = std::make_shared<TaskManager>();
+    const auto database = std::make_shared<MemoryDatabase>(nullptr);
+    const auto backend = std::make_shared<CollectionBackend>();
+    backend->Init(database, tasks, Song::Source::Collection, QLatin1String(CollectionManager::kSongsTable), QLatin1String(CollectionManager::kDirsTable), QLatin1String(CollectionManager::kSubdirsTable));
+    backend->AddDirectory(location_.path());
+    Song existing;
+    existing.Init(QStringLiteral("Existing title"), QStringLiteral("Artist"), QStringLiteral("Album"), 1000000000);
+    existing.set_source(Song::Source::Collection);
+    existing.set_directory_id(1);
+    existing.set_url(QUrl::fromLocalFile(location_.path() + QStringLiteral("/track.wav")));
+    existing.set_filetype(Song::FileType::WAV);
+    existing.set_samplerate(16000);
+    Song missing = existing;
+    missing.set_url(QUrl::fromLocalFile(location_.path() + QStringLiteral("/missing.wav")));
+    backend->AddOrUpdateSongs({existing, missing});
+    ASSERT_EQ(backend->GetAllSongs().size(), 2);
+
+    const auto reader = std::make_shared<TagReaderClient>();
+    CollectionWatcher watcher(Song::Source::Collection, tasks, reader, backend);
+    QSignalSpy deleted(&watcher, &CollectionWatcher::SongsDeleted);
+    QSignalSpy unavailable(&watcher, &CollectionWatcher::SongsUnavailable);
+    QSignalSpy expiry(&watcher, &CollectionWatcher::UpdateLastSeen);
+    QSignalSpy subdirs(&watcher, &CollectionWatcher::SubdirsDiscovered);
+    int published = 0;
+    int updated = 0;
+    QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &watcher, [&](const SongList &songs) {
+      ASSERT_EQ(songs.size(), 1);
+      if (songs.first().id() != -1) {
+        ++updated;
+        EXPECT_EQ(end, ScanEnd::Complete);
+        EXPECT_EQ(published, 2);
+      }
+      else {
+        ++published;
+        // This is a live folder result, not a batch emitted by the transaction destructor.
+        const QList<TaskManager::Task> active = tasks->GetTasks();
+        ASSERT_EQ(active.size(), 1);
+        if (published == 1) EXPECT_LT(active.first().progress, active.first().progress_max);
+        EXPECT_EQ(deleted.count(), 0);
+        EXPECT_EQ(unavailable.count(), 0);
+        EXPECT_EQ(expiry.count(), 0);
+        EXPECT_EQ(subdirs.count(), 0);
+        for (const Song &song : backend->GetAllSongs()) {
+          if (song.url() == existing.url()) EXPECT_EQ(song.samplerate(), 16000);
+        }
+      }
+      backend->AddOrUpdateSongs(songs);
+      EXPECT_EQ(backend->GetAllSongs().size(), 2 + published);
+      if (published == 1 && end == ScanEnd::Disconnect) {
+        server_.terminate();
+        ASSERT_TRUE(server_.waitForFinished(3000));
+      }
+      else if (published == 1 && end == ScanEnd::Cancel) watcher.Abort();
+    });
+    CollectionDirectory directory;
+    directory.id = 1;
+    directory.path = location_.path();
+    watcher.AddDirectory(directory, {});
+    EXPECT_TRUE(tasks->GetTasks().isEmpty());
+    EXPECT_EQ(published, end == ScanEnd::Complete ? 2 : 1);
+    EXPECT_EQ(updated, end == ScanEnd::Complete ? 1 : 0);
+    EXPECT_EQ(deleted.count() + unavailable.count(), end == ScanEnd::Complete ? 1 : 0);
+    EXPECT_EQ(subdirs.count(), end == ScanEnd::Complete ? 1 : 0);
+    EXPECT_EQ(expiry.count(), 0);
+  }
 };
 
 TEST_F(NasProtocolTest, ListsReadsSeeksAndRejectsWrites) {
@@ -160,11 +229,17 @@ TEST_F(NasProtocolTest, CollectionScannerDiscoversNetworkTracks) {
   directory.id = 1;
   directory.path = location_.path();
   watcher.AddDirectory(directory, {});
-  ASSERT_EQ(discovered.count(), 1);
-  const SongList songs = discovered.at(0).at(0).value<SongList>();
-  ASSERT_EQ(songs.size(), 1);
-  EXPECT_EQ(songs.at(0).url(), QUrl::fromLocalFile(location_.path() + QStringLiteral("/track.wav")));
-  EXPECT_EQ(songs.at(0).samplerate(), 8000);
+  ASSERT_EQ(discovered.count(), 3);
+  QSet<QUrl> urls;
+  for (const QList<QVariant> &batch : discovered) {
+    const SongList songs = batch.at(0).value<SongList>();
+    ASSERT_EQ(songs.size(), 1);
+    urls.insert(songs.at(0).url());
+    EXPECT_EQ(songs.at(0).samplerate(), 8000);
+  }
+  EXPECT_EQ(urls, (QSet<QUrl>{QUrl::fromLocalFile(location_.path() + QStringLiteral("/track.wav")),
+                            QUrl::fromLocalFile(location_.path() + QStringLiteral("/first/track.wav")),
+                            QUrl::fromLocalFile(location_.path() + QStringLiteral("/second/track.wav"))}));
 }
 
 TEST_F(NasProtocolTest, WrongPasswordAndOfflineServerFailExplicitly) {
@@ -183,6 +258,18 @@ TEST_F(NasProtocolTest, WrongPasswordAndOfflineServerFailExplicitly) {
   QFile file(location_.path() + QStringLiteral("/track.wav"));
   EXPECT_FALSE(file.open(QIODevice::ReadOnly));
   EXPECT_GT(Nas::FailureSerial(), before);
+}
+
+TEST_F(NasProtocolTest, PublishesEachFolderBeforeFinishingAndDefersExistingChanges) {
+  VerifyFolderPublishing(ScanEnd::Complete);
+}
+
+TEST_F(NasProtocolTest, DisconnectKeepsPublishedFoldersWithoutChangingExistingSongs) {
+  VerifyFolderPublishing(ScanEnd::Disconnect);
+}
+
+TEST_F(NasProtocolTest, CancellationKeepsPublishedFoldersWithoutChangingExistingSongs) {
+  VerifyFolderPublishing(ScanEnd::Cancel);
 }
 
 }  // namespace

@@ -667,7 +667,9 @@ Show a short VPN tip behind an information button; do not build external-access 
 - Stable, credential-free virtual paths integrate with the existing collection scanner, QFile cover reads, a seekable TagLib stream, and the Android GStreamer QFile source.
   Desktop mounted-folder behavior and controls remain unchanged; the dependency defaults off on desktop.
 - Location details and credentials are atomically encrypted using an Android Keystore AES-GCM key in the no-backup directory, not ordinary settings or playlist URLs.
-- Failed NAS file/listing operations prevent collection scan changes and expiry from being committed.
+- After counting files, NAS scans publish newly discovered tracks per completed folder, making progress visible in the collection without waiting for the entire NAS tree.
+  Existing-track updates, deletions/unavailability, folder changes and expiry remain deferred until the full scan succeeds.
+  Cancellation or a failed NAS operation keeps already published additions but discards those pending changes.
   SMB folders use startup/manual collection scans, not native filesystem notifications.
   After editing an existing server/share/folder, run Full collection scan.
 
@@ -675,6 +677,10 @@ Show a short VPN tip behind an information button; do not build external-access 
 - Native protocol tests cover authenticated listing/filtering, a complete 2 MiB read, seeking, read-only enforcement, missing files, TagLib metadata, GStreamer WAV discovery, actual collection scanning, wrong passwords, and interrupted/offline connections.
   Folder-model tests cover labelled NAS removal and unchanged local-folder paths.
   These suites and the existing QFile source tests passed three consecutive runs.
+- Per-folder publication regressions verify that a folder's new track is in the backend while the scan task is still active and other folders remain.
+  Existing-track updates and missing-track removal are deferred until the final commit, without publishing additions twice.
+  Disconnect and cancellation cases keep completed-folder additions and leave existing songs, folder state and expiry unchanged.
+  All nine NAS tests pass three consecutive runs, and the complete collection-watcher suite still passes.
 - The full existing collection-watcher suite passes, including the new offline-NAS regression that retains existing songs without deleting, marking unavailable, or advancing expiry.
 - The Android application and APK build successfully with the Java credential vault and static client.
   Emulator checks confirm the VPN information page, hierarchical navigation, masked account entry, explicit connection errors, a successful signed loopback connection, pending/Cancel semantics, and encrypted Apply persistence.
@@ -683,6 +689,7 @@ Show a short VPN tip behind an information button; do not build external-access 
   Hardware Back from the information-only page exposed a Qt scroll-area focus crash; moving focus before detaching its content fixes that return path.
   Repeated hardware Back checks also cover the NAS editor and location list.
   The final signed, non-debuggable release APK is installed on the emulator without clearing existing app data.
+  The subsequent per-folder publication update builds and packages successfully but has deliberately not been installed while the user's real-NAS scan is running.
 
 **Still open (not claimed as verified):**
 - Real NAS/Synology testing: scanning a representative collection, cover loading, playback/seek/track transitions, responsiveness and connection counts for large collections, cancellation, permission changes, Wi-Fi loss/reconnect, and saved-location restoration on a physical phone.

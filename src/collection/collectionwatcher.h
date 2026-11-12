@@ -103,6 +103,7 @@ class CollectionWatcher : public QObject {
   // Each directory has one or more subdirectories, and any number of subdirectories can be scanned during one transaction.
   // ScanSubdirectory() adds its results to the members of this transaction class,
   // and they are "committed" through calls to the CollectionBackend in the transaction's dtor.
+  // NAS scans publish new tracks after each completed subdirectory, retaining existing-track changes until the final commit.
   // The transaction also caches the list of songs in this directory according to the collection.
   // Multiple calls to FindSongsInSubdirectory during one transaction will only result in one call to CollectionBackend::FindSongsInDirectory.
   class ScanTransaction {
@@ -133,6 +134,7 @@ class CollectionWatcher : public QObject {
     bool ignores_mtime() const { return ignores_mtime_; }
 #ifdef HAVE_NAS
     bool NetworkFailed() const;
+    void PublishNewNasSongs();
 #endif
 
     SongList deleted_songs;
@@ -186,6 +188,7 @@ class CollectionWatcher : public QObject {
 #ifdef HAVE_NAS
     bool nas_transaction_ = false;
     quint64 nas_failure_serial_ = 0;
+    qsizetype nas_published_song_count_ = 0;
 #endif
     // Indexes of known_subdirs_, so looking up a subdirectory doesn't go through all of them.
     // known_subdir_paths_ only has the subdirectories with a modification time, known_subdirs_by_parent_ has all of them, keyed by the parent path.

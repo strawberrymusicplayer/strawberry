@@ -60,6 +60,9 @@ NAS locations use read-only virtual paths for the existing collection scanner, Q
 On Android, credentials and location details are encrypted with an Android Keystore AES-GCM key and saved atomically in the app's no-backup directory, not the regular settings file.
 Removing app data also removes those locations and their key.
 NAS folders are rescanned through collection startup/manual scans; native filesystem change notifications are not available for SMB.
+The scanner first counts the files, then publishes newly discovered tracks after each completed folder so the collection grows during a large scan.
+Changes to existing tracks, removals/unavailability, folder timestamps, and expiry are deferred until the entire scan succeeds.
+Cancelling a scan or losing the connection keeps new tracks from completed folders; pending changes to existing collection entries are discarded.
 Configure a location in Settings > General > Collection > Music folders > NAS locations.
 Enter the server's local name/IP address, share, optional relative folder, and NAS account, then use **Check and use folder**.
 The successful check only adds a pending location: Apply/OK saves it, and Cancel discards unapplied changes.
