@@ -725,6 +725,9 @@ Show a short VPN tip behind an information button; do not build external-access 
   These checks do not confirm audible output, seeking or a complete track transition.
 - Android Collection artist, album and song labels now use a minimum 16-point font, retaining larger existing fonts and leaving desktop fonts unchanged.
   The signed release is deployed; emulator OCR measures representative label glyphs at 33 pixels high instead of 24, with rows growing to fit in portrait and landscape.
+  A subsequent readability update raises the minimum to 20 points and the row height to 48 device-independent pixels.
+  Emulator checks measure representative glyphs at 41 pixels high and approximately 128 physical pixels between artist rows; tapping the row text expands/collapses the artist without requiring the branch arrow.
+  This update and the larger Context lyrics are installed on the FP5 with approval, preserving app data.
 - Scan cancellation is now offered only through Tools > Collection > Stop scan on Android; the title bar is status-only.
   The Tools action uses task-scoped cancellation, retaining the stopping message and idempotent requests.
   The updated header tests pass, and the signed emulator release verifies stopping/restarting via Tools and that tapping the former title-bar Stop location no longer cancels counting.

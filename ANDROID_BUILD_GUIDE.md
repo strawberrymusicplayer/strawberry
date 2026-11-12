@@ -48,6 +48,8 @@ Qt requires both the Android cross-compile variant AND the host compiler tools:
 
 On Android, Context lyrics use a minimum 20-point font for phone readability; larger configured fonts are retained.
 Other Context text and desktop typography are unchanged.
+Collection artist, album and song labels also use at least 20 points, with rows at least 48 device-independent pixels high.
+Tap a container row to expand or collapse it; using the small branch arrow is not required.
 
 ## NAS client dependency
 

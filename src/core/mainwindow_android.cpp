@@ -121,8 +121,9 @@ void MainWindow::SetupAndroidLayout() {
   ui_->layout_centralWidget->insertWidget(0, ui_->tabs, 1);
   ui_->layout_centralWidget->insertWidget(0, header);
   QFont collection_font = collection_view_->view()->font();
-  collection_font.setPointSizeF(qMax(16.0, collection_font.pointSizeF()));
+  collection_font.setPointSizeF(qMax(20.0, collection_font.pointSizeF()));
   collection_view_->view()->setFont(collection_font);
+  collection_view_->view()->setStyleSheet(QStringLiteral("QTreeView::item { min-height: 48px; padding-top: 1px; }"));
   ui_->layout_centralWidget->addWidget(ui_->player_controls_container);
   ui_->splitter->hide();
   ui_->line_6->hide();
