@@ -658,6 +658,10 @@ Users cannot add an SMB NAS share directly with its server, share, and credentia
 - Handle unavailable servers, permission errors, interrupted scans, reconnects, and network changes explicitly.
   Do not remove existing collection entries simply because a NAS is temporarily offline.
 - Verify browsing, scanning, playback, seeking, track transitions, cancellation, and saved-location restoration against a real NAS, including Synology, on local Wi-Fi and through a VPN.
+- Use an external Android VPN client rather than building a VPN into Strawberry.
+  Document that OpenVPN requires a reachable, configured VPN server on the NAS or router, a client profile, and routing/firewall access to the NAS.
+  An alternative such as Tailscale requires a reachable NAS peer or subnet router.
+  Verify VPN disconnect/reconnect behavior and explain that a VPN supplies connectivity, not the SMB collection support implemented by this item.
 - Assess remote-access options separately from local SMB support.
   Synology QuickConnect is not a generic SMB/WebDAV tunnel: Synology lists third-party applications and direct SMB, NFS, FTP, and WebDAV file access as unsupported.
   Do not promise that entering a QuickConnect ID will work in Strawberry.
