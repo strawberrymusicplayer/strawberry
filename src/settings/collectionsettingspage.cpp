@@ -166,11 +166,13 @@ void CollectionSettingsPage::Load() {
   ui_->checkbox_skip_articles_for_albums->setChecked(s.value(kSkipArticlesForAlbums, kDefaultSkipArticlesForAlbums).toBool());
   ui_->checkbox_use_sort_tags->setChecked(s.value(kUseSortTags, kDefaultUseSortTags).toBool());
 
-  ui_->spinbox_cache_size->setValue(s.value(kSettingsCacheSize, kSettingsCacheSizeDefault).toInt());
   ui_->combobox_cache_size->setCurrentIndex(ui_->combobox_cache_size->findData(s.value(kSettingsCacheSizeUnit, static_cast<int>(kDefaultSettingsCacheSizeUnit)).toInt()));
+  CacheSizeUnitChanged(ui_->combobox_cache_size->currentIndex());
+  ui_->spinbox_cache_size->setValue(s.value(kSettingsCacheSize, kSettingsCacheSizeDefault).toInt());
   ui_->checkbox_disk_cache->setChecked(s.value(kSettingsDiskCacheEnable, kDefaultSettingsDiskCacheEnable).toBool());
-  ui_->spinbox_disk_cache_size->setValue(s.value(kSettingsDiskCacheSize, kSettingsDiskCacheSizeDefault).toInt());
   ui_->combobox_disk_cache_size->setCurrentIndex(ui_->combobox_disk_cache_size->findData(s.value(kSettingsDiskCacheSizeUnit, static_cast<int>(kDefaultSettingsDiskCacheSizeUnit)).toInt()));
+  DiskCacheSizeUnitChanged(ui_->combobox_disk_cache_size->currentIndex());
+  ui_->spinbox_disk_cache_size->setValue(s.value(kSettingsDiskCacheSize, kSettingsDiskCacheSizeDefault).toInt());
 
   ui_->checkbox_save_playcounts->setChecked(s.value(kSavePlayCounts, kDefaultSavePlayCounts).toBool());
   ui_->checkbox_save_ratings->setChecked(s.value(kSaveRatings, kDefaultSaveRatings).toBool());
