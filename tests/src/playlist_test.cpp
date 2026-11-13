@@ -83,7 +83,7 @@ class BlockingDynamicGenerator : public PlaylistGenerator {
   int GetDynamicFuture() override { return future_; }
 
   PlaylistItemPtrList Generate() override {
-    if (block_generate_) release_.acquire();
+    if (block_generate_) Acquire();
     return MakeItems(future_ + 1);
   }
 
@@ -92,17 +92,33 @@ class BlockingDynamicGenerator : public PlaylistGenerator {
     const int active = active_.fetchAndAddRelaxed(1) + 1;
     int max_active = max_active_.loadRelaxed();
     while (active > max_active && !max_active_.testAndSetRelaxed(max_active, active, max_active)) {}
-    release_.acquire();
+    Acquire();
     const PlaylistItemPtrList items = generate_more_empty_ ? PlaylistItemPtrList() : MakeItems(count);
     active_.fetchAndSubRelaxed(1);
     return items;
   }
 
   void Release(const int count) { release_.release(count); }
+
+  // Releases the requests still blocked, and doesn't block later ones, so no request is left blocked in a thread of the thread pool when a test returns early.
+  void ReleaseAll() {
+    released_all_.storeRelease(1);
+    const int waiting = waiting_.loadAcquire();
+    if (waiting > 0) release_.release(waiting);
+  }
   int requested() const { return requested_.loadRelaxed(); }
   int max_active() const { return max_active_.loadRelaxed(); }
 
  private:
+  void Acquire() {
+    // Counted as waiting before checking whether all are released, so ReleaseAll() either sees it waiting or it sees ReleaseAll().
+    waiting_.fetchAndAddOrdered(1);
+    if (released_all_.loadAcquire() == 0) {
+      release_.acquire();
+    }
+    waiting_.fetchAndSubOrdered(1);
+  }
+
   PlaylistItemPtrList MakeItems(const int count) {
     PlaylistItemPtrList items;
     for (int i = 0; i < count; ++i) {
@@ -123,6 +139,19 @@ class BlockingDynamicGenerator : public PlaylistGenerator {
   QAtomicInt active_;
   QAtomicInt max_active_;
   QAtomicInt next_;
+  QAtomicInt waiting_;
+  QAtomicInt released_all_;
+};
+
+// Releases all the requests of the generator when the test returns, also when an assertion fails before the test releases them.
+class GeneratorReleaser {
+ public:
+  explicit GeneratorReleaser(SharedPtr<BlockingDynamicGenerator> generator) : generator_(generator) {}
+  ~GeneratorReleaser() { generator_->ReleaseAll(); }
+
+ private:
+  Q_DISABLE_COPY_MOVE(GeneratorReleaser)
+  SharedPtr<BlockingDynamicGenerator> generator_;
 };
 
 // Declared at file scope (rather than inside the anonymous namespace below, where the TEST_F-generated fixture subclasses live) so that Playlist's "friend class PlaylistTest;" resolves to this exact class.
@@ -231,6 +260,15 @@ class PlaylistTest : public ::testing::Test {
       QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
     }
     return true;
+  }
+
+  // Starts a dynamic playlist, and advances it, so one more item is being generated, blocked in the generator.
+  static void StartDynamicPlaylistGeneratingMore(Playlist *playlist, SharedPtr<BlockingDynamicGenerator> generator, const int future) {
+    playlist->InsertSmartPlaylist(generator);
+    ASSERT_TRUE(WaitFor([playlist, future]() { return playlist->rowCount() == future + 1; }));
+    playlist->set_current_row(0);
+    playlist->set_current_row(1);
+    ASSERT_TRUE(WaitFor([&generator]() { return generator->requested() == 1; }));
   }
 
   // Forwards to the private Playlist::RemoveItemsNotInQueue(), which is otherwise only reachable through repopulating a dynamic playlist.
@@ -555,6 +593,7 @@ TEST_F(PlaylistTest, DynamicPlaylistAdvancingWhileGeneratingDoesNotGenerateTooMa
 
   constexpr int kFuture = 3;
   SharedPtr<BlockingDynamicGenerator> generator = std::make_shared<BlockingDynamicGenerator>(kFuture);
+  const GeneratorReleaser generator_releaser(generator);
   playlist.InsertSmartPlaylist(generator);
   ASSERT_TRUE(WaitFor([&playlist]() { return playlist.rowCount() == kFuture + 1; }));
   ASSERT_TRUE(playlist.is_dynamic());
@@ -603,6 +642,7 @@ TEST_F(PlaylistTest, DynamicPlaylistAdvancingWhileInitialGenerationDoesNotGenera
   // Inserting a dynamic playlist generates its future, which blocks in the generator.
   constexpr int kFuture = 3;
   SharedPtr<BlockingDynamicGenerator> generator = std::make_shared<BlockingDynamicGenerator>(kFuture, true);
+  const GeneratorReleaser generator_releaser(generator);
   playlist.InsertSmartPlaylist(generator);
   ASSERT_TRUE(playlist.is_dynamic());
   EXPECT_EQ(kFuture, DynamicItemsPending(playlist));
@@ -627,6 +667,7 @@ TEST_F(PlaylistTest, DynamicPlaylistReplacedWhileGeneratingDoesNotCountOldItems)
 
   constexpr int kFuture = 3;
   SharedPtr<BlockingDynamicGenerator> old_generator = std::make_shared<BlockingDynamicGenerator>(kFuture);
+  const GeneratorReleaser old_generator_releaser(old_generator);
   playlist.InsertSmartPlaylist(old_generator);
   ASSERT_TRUE(WaitFor([&playlist]() { return playlist.rowCount() == kFuture + 1; }));
 
@@ -637,6 +678,7 @@ TEST_F(PlaylistTest, DynamicPlaylistReplacedWhileGeneratingDoesNotCountOldItems)
 
   // Replacing the dynamic playlist does not count the item still being generated for the old one.
   SharedPtr<BlockingDynamicGenerator> new_generator = std::make_shared<BlockingDynamicGenerator>(kFuture);
+  const GeneratorReleaser new_generator_releaser(new_generator);
   playlist.InsertSmartPlaylist(new_generator);
   ASSERT_TRUE(WaitFor([&playlist]() { return playlist.rowCount() == 2 * (kFuture + 1); }));
   EXPECT_EQ(0, DynamicItemsPending(playlist));
@@ -644,15 +686,16 @@ TEST_F(PlaylistTest, DynamicPlaylistReplacedWhileGeneratingDoesNotCountOldItems)
   playlist.ExpandDynamicPlaylist();
   EXPECT_EQ(5, DynamicItemsPending(playlist));
 
-  // Finishing the old request does not change the count for the new dynamic playlist.
+  // Finishing the old request does not change the count for the new dynamic playlist, and its item is not inserted.
   old_generator->Release(1);
-  ASSERT_TRUE(WaitFor([&playlist]() { return playlist.rowCount() == 2 * (kFuture + 1) + 1; }));
+  ASSERT_TRUE(WaitFor([&task_manager]() { return task_manager->GetTasks().count() == 1; }));
   QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
   EXPECT_EQ(5, DynamicItemsPending(playlist));
+  EXPECT_EQ(2 * (kFuture + 1), playlist.rowCount());
 
   new_generator->Release(1);
   ASSERT_TRUE(WaitFor([&playlist]() { return DynamicItemsPending(playlist) == 0; }));
-  EXPECT_EQ(2 * (kFuture + 1) + 1 + 5, playlist.rowCount());
+  EXPECT_EQ(2 * (kFuture + 1) + 5, playlist.rowCount());
 
 }
 
@@ -665,6 +708,7 @@ TEST_F(PlaylistTest, DynamicPlaylistReplacedWhileGeneratingIsNotTurnedOffByOldEm
   // The old dynamic playlist has no more items.
   constexpr int kFuture = 3;
   SharedPtr<BlockingDynamicGenerator> old_generator = std::make_shared<BlockingDynamicGenerator>(kFuture, false, true);
+  const GeneratorReleaser old_generator_releaser(old_generator);
   playlist.InsertSmartPlaylist(old_generator);
   ASSERT_TRUE(WaitFor([&playlist]() { return playlist.rowCount() == kFuture + 1; }));
 
@@ -674,6 +718,7 @@ TEST_F(PlaylistTest, DynamicPlaylistReplacedWhileGeneratingIsNotTurnedOffByOldEm
   EXPECT_TRUE(WaitFor([&old_generator]() { return old_generator->requested() == 1; }));
 
   SharedPtr<BlockingDynamicGenerator> new_generator = std::make_shared<BlockingDynamicGenerator>(kFuture);
+  const GeneratorReleaser new_generator_releaser(new_generator);
   playlist.InsertSmartPlaylist(new_generator);
   ASSERT_TRUE(WaitFor([&playlist]() { return playlist.rowCount() == 2 * (kFuture + 1); }));
 
@@ -682,6 +727,75 @@ TEST_F(PlaylistTest, DynamicPlaylistReplacedWhileGeneratingIsNotTurnedOffByOldEm
   ASSERT_TRUE(WaitFor([&task_manager]() { return task_manager->GetTasks().isEmpty(); }));
   EXPECT_TRUE(playlist.is_dynamic());
   EXPECT_EQ(2 * (kFuture + 1), playlist.rowCount());
+
+}
+
+// Regression test: items still being generated when the playlist was cleared were inserted in the cleared playlist.
+TEST_F(PlaylistTest, DynamicPlaylistClearedWhileGeneratingDoesNotInsertOldItems) {
+
+  SharedPtr<TaskManager> task_manager = std::make_shared<TaskManager>();
+  Playlist playlist(task_manager, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  playlist.set_sequence(&sequence_);
+
+  constexpr int kFuture = 3;
+  SharedPtr<BlockingDynamicGenerator> generator = std::make_shared<BlockingDynamicGenerator>(kFuture);
+  const GeneratorReleaser generator_releaser(generator);
+  StartDynamicPlaylistGeneratingMore(&playlist, generator, kFuture);
+  if (HasFatalFailure()) return;
+
+  playlist.Clear();
+  ASSERT_EQ(0, playlist.rowCount());
+
+  generator->Release(1);
+  ASSERT_TRUE(WaitFor([&task_manager]() { return task_manager->GetTasks().isEmpty(); }));
+  EXPECT_EQ(0, playlist.rowCount());
+  EXPECT_FALSE(playlist.is_dynamic());
+
+}
+
+// Regression test: items still being generated when the dynamic playlist was turned off were inserted in the playlist which was no longer dynamic.
+TEST_F(PlaylistTest, DynamicPlaylistTurnedOffWhileGeneratingDoesNotInsertOldItems) {
+
+  SharedPtr<TaskManager> task_manager = std::make_shared<TaskManager>();
+  Playlist playlist(task_manager, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  playlist.set_sequence(&sequence_);
+
+  constexpr int kFuture = 3;
+  SharedPtr<BlockingDynamicGenerator> generator = std::make_shared<BlockingDynamicGenerator>(kFuture);
+  const GeneratorReleaser generator_releaser(generator);
+  StartDynamicPlaylistGeneratingMore(&playlist, generator, kFuture);
+  if (HasFatalFailure()) return;
+
+  playlist.TurnOffDynamicPlaylist();
+
+  generator->Release(1);
+  ASSERT_TRUE(WaitFor([&task_manager]() { return task_manager->GetTasks().isEmpty(); }));
+  EXPECT_EQ(kFuture + 1, playlist.rowCount());
+
+}
+
+// Regression test: items still being generated when the dynamic playlist was repopulated were inserted after the new items, so the future had more items than set.
+TEST_F(PlaylistTest, DynamicPlaylistRepopulatedWhileGeneratingDoesNotInsertOldItems) {
+
+  SharedPtr<TaskManager> task_manager = std::make_shared<TaskManager>();
+  Playlist playlist(task_manager, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  playlist.set_sequence(&sequence_);
+
+  constexpr int kFuture = 3;
+  SharedPtr<BlockingDynamicGenerator> generator = std::make_shared<BlockingDynamicGenerator>(kFuture);
+  const GeneratorReleaser generator_releaser(generator);
+  StartDynamicPlaylistGeneratingMore(&playlist, generator, kFuture);
+  if (HasFatalFailure()) return;
+
+  // The current item is kept, the new items are added after it.
+  playlist.RepopulateDynamicPlaylist();
+  const int rows_after_repopulate = 1 + kFuture + 1;
+  ASSERT_TRUE(WaitFor([&playlist, rows_after_repopulate]() { return playlist.rowCount() == rows_after_repopulate; }));
+
+  generator->Release(1);
+  ASSERT_TRUE(WaitFor([&task_manager]() { return task_manager->GetTasks().isEmpty(); }));
+  EXPECT_EQ(rows_after_repopulate, playlist.rowCount());
+  EXPECT_TRUE(playlist.is_dynamic());
 
 }
 
