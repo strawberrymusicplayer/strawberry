@@ -555,9 +555,16 @@ Keep this visual update Android-only.
   After restarting, choosing an M3U in Download that referenced the WavPack path loaded its metadata and started playback, without reselecting the music folder or the WavPack document.
   Android reported only the persisted read grant for that folder (`owned=0x0`, `persisted=0x1`), with no separate WavPack document grant.
   Test fixtures were removed afterward.
+- Selecting the dedicated Downloads entry in DocumentsUI exposed a remaining local-provider limitation.
+  A real local MP3 returned `content://com.android.providers.downloads.documents/document/msf%3A1000000065`.
+  Android retained its read permission, but Strawberry reported that it could not resolve a usable local path and did not import the track.
+  The same file selected through the device-storage entry loaded metadata and played successfully.
+  MediaStore listed its local path, so this is a Downloads URI-resolution gap rather than a missing file or decoder.
+  Do not claim that all local system-picker entry points work until this case is fixed and retested.
 
 **Next steps:**
-- Test the separate Downloads document provider and explicit rejection of unsupported providers rather than assuming generic document-provider support.
+- Fix and retest local Downloads-provider `msf:` document resolution, retaining read access and unchanged path identity across restarts.
+- Verify explicit rejection of unsupported providers rather than assuming generic document-provider support.
 - Verify mixed supported/unsupported individual-file selections and saving the resulting temporary playlist.
 - Verify the picker flows on the emulator and a physical device, including narrow-screen layouts.
 - Agree whether arbitrary document providers belong in this item's scope; supporting them would require more than the current local-path bridge.
