@@ -491,19 +491,29 @@ void CueParser::Save(const QString &playlist_name, const SongList &songs, QIODev
 // Looks for a track starting with one of the .cue's keywords.
 bool CueParser::TryMagic(const QByteArray &data) const {
 
-  QStringList splitted = QString::fromUtf8(data.constData()).split(u'\n');
+  // Only lines with the syntax of a CUE sheet, not just the words, a plain list of files without a header, like an M3U playlist, can have lines starting with them, for example "Tracks/01.flac", "Title Fight - Song.mp3" or "file:///music/song.mp3".
+  // FILE has the file and its type, TRACK the number and one of the track modes, and PERFORMER and TITLE a quoted value.
+  // Real CUE sheets have other file types than the standard ones too, like FLAC, but a file name like "File 01 Introduction" looks like FILE with a file and a type, so an unquoted file is only recognised with one of the standard file types.
+  static const QRegularExpression regex_cue_line(uR"(^(FILE\s+"[^"]*"\s+[a-z0-9]+|FILE\s+\S+\s+(BINARY|MOTOROLA|AIFF|WAVE|MP3)|TRACK\s+\d+\s+(AUDIO|CDG|MODE1/2048|MODE1/2352|MODE1_RAW|MODE2/2048|MODE2/2324|MODE2/2336|MODE2/2352|MODE2_RAW|CDI/2336|CDI/2352)|(PERFORMER|TITLE)\s+"[^"]*")$)"_s, QRegularExpression::CaseInsensitiveOption);
 
-  for (int i = 0; i < splitted.length(); i++) {
-    QString line = splitted.at(i).trimmed();
-    if (line.startsWith(QLatin1String(kPerformer), Qt::CaseInsensitive) ||
-        line.startsWith(QLatin1String(kTitle), Qt::CaseInsensitive) ||
-        line.startsWith(QLatin1String(kFile), Qt::CaseInsensitive) ||
-        line.startsWith(QLatin1String(kTrack), Qt::CaseInsensitive)) {
+  // Only the start of the data is checked, so the last line can be cut off, for example after long REM lines.
+  // A file name in a plain list can be cut off to look like a CUE line too, "File 01 Intro.mp3" to "File 01 Intro", so the last line is only recognised with a quoted value, which can be cut off, as FILE with an unquoted file and one of the file types, or as TRACK with a track mode.
+  static const QRegularExpression regex_last_cue_line(uR"(^((PERFORMER|TITLE)\s+"[^"]*"?|FILE\s+"[^"]*("(\s+[a-z0-9]+)?)?|FILE\s+\S+\s+(BINARY|MOTOROLA|AIFF|WAVE|MP3)|TRACK\s+\d+\s+(AUDIO|CDG|MODE1/2048|MODE1/2352|MODE1_RAW|MODE2/2048|MODE2/2324|MODE2/2336|MODE2/2352|MODE2_RAW|CDI/2336|CDI/2352))$)"_s, QRegularExpression::CaseInsensitiveOption);
+
+  // A CUE sheet is text, audio files can have a CUE sheet in their tags, for example the CUESHEET tag of FLAC files, near the start.
+  if (data.contains('\0')) {
+    return false;
+  }
+
+  // When the data ends with a complete line, the last line is empty.
+  const QStringList lines = QString::fromUtf8(data.constData(), data.size()).split(u'\n');
+  for (qsizetype i = 0; i < lines.size() - 1; ++i) {
+    if (regex_cue_line.match(lines.at(i).trimmed()).hasMatch()) {
       return true;
     }
   }
 
-  return false;
+  return regex_last_cue_line.match(lines.constLast().trimmed()).hasMatch();
 
 }
 
