@@ -70,6 +70,9 @@ Qt also reuses file engines while traversing subdirectories, so `setFileName()` 
 The bridge is read-only and does not permit tag editing, deletion or renaming through local aliases.
 Paths not covered by a grant keep their normal filesystem handling.
 Explicit document-URI save flows remain separate.
+On the emulator, the temporary Now playing playlist was exported through the editor's Save button and Android's native create-document picker to an XSPF document in Downloads.
+The exported document contained the original absolute song path and metadata; reopening it through Files > Choose files started playback, including after an app-process restart.
+Cancelling a subsequent save left the exported file unchanged.
 
 TagLib normally opens paths using the C runtime rather than `QFile`.
 [`taglibfilestream_android.cpp`](src/tagreader/taglibfilestream_android.cpp) opens the authorized `QFile`, duplicates its descriptor and transfers ownership of that duplicate to TagLib's read-only `FileStream`.

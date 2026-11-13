@@ -570,10 +570,17 @@ Keep this visual update Android-only.
   The M3U used a Downloads `raw:` URI, exercising that retained mapping too.
   The native document-bridge, GStreamer file-source and song-loader suites passed again; the final non-debuggable release was built, signature-verified and installed without clearing app data.
   The clean release also played the Downloads MP3; after deleting the owned fixtures, restarting with stale grants still reached the main window.
+- Verified exporting the temporary Now playing playlist through its editor's Save button and Android's native create-document picker.
+  Saving one MP3 as XSPF in Downloads produced valid XML with exactly one track, its metadata and the unchanged absolute local path.
+  Reopening that exported document through Files > Choose files restarted playback with matching metadata, including after stopping and explicitly relaunching the app process.
+  Cancelling a second save left the exported file unchanged.
+  The native XSPF parser suite, including explicit-format export without a filename extension, passed.
+  No application changes were needed for this flow.
+  The emulator's picker offered only local providers, so it could not establish generic-provider rejection or mixed supported/unsupported-provider behavior.
 
 **Next steps:**
 - Verify explicit rejection of unsupported providers rather than assuming generic document-provider support.
-- Verify mixed supported/unsupported individual-file selections and saving the resulting temporary playlist.
+- Verify mixed supported/unsupported individual-file selections using a suitable non-local document provider.
 - Verify the picker flows on the emulator and a physical device, including narrow-screen layouts.
 - Agree whether arbitrary document providers belong in this item's scope; supporting them would require more than the current local-path bridge.
 
