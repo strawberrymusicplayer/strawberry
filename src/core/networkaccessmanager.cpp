@@ -139,17 +139,18 @@ void NetworkAccessManager::ReplyDeleted(QObject *reply) {
 
 void NetworkAccessManager::ReplyFinished(QNetworkReply *reply) {
 
-  if (SavingAbandoned(reply)) {
+  if (SavingFinished(reply)) {
     CancelUnusedSavings();
   }
 
 }
 
-bool NetworkAccessManager::SavingAbandoned(QNetworkReply *reply) const {
+bool NetworkAccessManager::SavingFinished(QNetworkReply *reply) const {
 
   // With the later Qt versions, the saving is cancelled when the reply is deleted, cancelling it before could cancel another reply's saving of the URL then.
-  // A failed reply doesn't use its saving anymore, except when the data is compressed, it's written to the saving when it's read then.
-  return cancel_savings_of_finished_replies_ && reply->isFinished() && reply->error() != QNetworkReply::NoError && !reply->hasRawHeader("Content-Encoding");
+  // A finished reply doesn't use its saving anymore, it has saved the data in the cache when it got all of it, or it has failed, except when the data is compressed, it's written to the saving when it's read then.
+  // So a saving of the URL left by a reply which was deleted while it was saving is cancelled when the other replies with the URL have finished, and not kept as long as there are new replies with the URL.
+  return cancel_savings_of_finished_replies_ && reply->isFinished() && !reply->hasRawHeader("Content-Encoding");
 
 }
 
@@ -163,7 +164,7 @@ void NetworkAccessManager::CancelUnusedSavings() {
   reply_urls.reserve(replies_.count());
   for (QHash<QObject*, QMetaObject::Connection>::const_iterator it = replies_.constBegin(); it != replies_.constEnd(); ++it) {
     QNetworkReply *reply = static_cast<QNetworkReply*>(it.key());
-    if (!SavingAbandoned(reply)) {
+    if (!SavingFinished(reply)) {
       reply_urls << ThreadSafeNetworkDiskCache::CacheUrl(reply->url());
     }
   }

@@ -684,14 +684,40 @@ TEST_F(ThreadSafeNetworkDiskCacheNetworkTest, FailedReplyDoesNotKeepSavingOfDele
 
 }
 
-// A reply which has finished without an error can still use its saving, when the data is compressed, it's written to the saving when it's read.
-TEST_F(ThreadSafeNetworkDiskCacheNetworkTest, SucceededReplyKeepsSavingWithOlderQt) {
+// Regression test: before Qt 6.5.10, 6.8.5 and 6.9.2, the saving of a reply deleted while another reply with the URL was running was kept until there were no replies with the URL, so the URL wasn't saved again while it was requested again before the other reply was deleted.
+TEST_F(ThreadSafeNetworkDiskCacheNetworkTest, SucceededReplyCancelsSavingOfDeletedReplyWithOlderQt) {
+
+  SetCancelSavingsOfFinishedReplies(true);
+  QNetworkReply *reply1 = GetWithoutSaving();
+  std::unique_ptr<QNetworkReply> reply2(GetWithoutSaving());
+  ASSERT_TRUE(QTest::qWaitFor([this]() { return server_.held_count() == 2; }, 5000));
+  QPointer<QIODevice> device = PrepareSaving(&*network1_, server_.Url());
+  ASSERT_FALSE(device.isNull());
+
+  // The other reply with the URL can be the reply saving it.
+  delete reply1;
+  EXPECT_FALSE(device.isNull());
+
+  // A reply which has finished without an error has saved the data in the cache, so it isn't the reply saving it.
+  server_.Release();
+  ASSERT_TRUE(QTest::qWaitFor([&reply2]() { return reply2->isFinished(); }, 5000));
+  ASSERT_EQ(QNetworkReply::NoError, reply2->error()) << reply2->errorString().toStdString();
+  EXPECT_TRUE(device.isNull());
+
+}
+
+// A reply with compressed data which has finished without an error can still use its saving, the data is written to the saving when it's read.
+TEST_F(ThreadSafeNetworkDiskCacheNetworkTest, SucceededReplyWithCompressedDataKeepsSavingWithOlderQt) {
 
   SetCancelSavingsOfFinishedReplies(true);
   server_.Hold(false);
+  // qCompress() has the length before the zlib data.
+  server_.SetBody(qCompress(FakeHttpServer::Body()).mid(4));
+  server_.SetContentEncoding("deflate");
   std::unique_ptr<QNetworkReply> reply1(GetWithoutSaving());
   ASSERT_TRUE(QTest::qWaitFor([&reply1]() { return reply1->isFinished(); }, 5000));
   ASSERT_EQ(QNetworkReply::NoError, reply1->error());
+  ASSERT_TRUE(reply1->hasRawHeader("Content-Encoding"));
   QPointer<QIODevice> device = PrepareSaving(&*network1_, server_.Url());
   ASSERT_FALSE(device.isNull());
 
