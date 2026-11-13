@@ -51,6 +51,7 @@
 #include "core/signalchecker.h"
 #include "core/settings.h"
 #include "constants/transcodersettings.h"
+#include "engine/gstpadutils.h"
 #include "transcoder.h"
 
 using std::make_shared;
@@ -536,6 +537,10 @@ void Transcoder::NewPadCallback(GstElement *element, GstPad *pad, gpointer data)
   Q_UNUSED(element)
 
   JobState *state = reinterpret_cast<JobState*>(data);
+
+  // Only link the audio, not pads for video or subtitles, the audio converter can't take them.
+  if (!GstPadIsAudio(pad)) return;
+
   GstPad *const audiopad = gst_element_get_static_pad(state->convert_element_, "sink");
   if (!audiopad) return;
 
