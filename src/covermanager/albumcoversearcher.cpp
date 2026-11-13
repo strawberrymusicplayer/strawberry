@@ -192,16 +192,33 @@ void AlbumCoverSearcher::Search() {
     ui_->covers->setEnabled(false);
   }
   else {
-    // Only abort this search, the fetcher is also used for the automatic cover search of the playing song, and for fetching the missing covers in the cover manager.
-    fetcher_->Cancel(id_);
-    id_ = 0;
-    ui_->search->setText(tr("Search"));
-    ui_->busy->hide();
-    ui_->search->setEnabled(true);
-    ui_->artist->setEnabled(true);
-    ui_->album->setEnabled(true);
-    ui_->covers->setEnabled(true);
+    AbortSearch();
   }
+
+}
+
+void AlbumCoverSearcher::AbortSearch() {
+
+  // Only abort this search, the fetcher is also used for the automatic cover search of the playing song, and for fetching the missing covers in the cover manager.
+  fetcher_->Cancel(id_);
+  id_ = 0;
+  ui_->search->setText(tr("Search"));
+  ui_->busy->hide();
+  ui_->search->setEnabled(true);
+  ui_->artist->setEnabled(true);
+  ui_->album->setEnabled(true);
+  ui_->covers->setEnabled(true);
+
+}
+
+void AlbumCoverSearcher::done(const int r) {
+
+  // The dialog is reused, a search still running when it's closed would be taken as running when it's opened again, so the new search would abort it instead of starting.
+  if (id_ != 0) {
+    AbortSearch();
+  }
+
+  QDialog::done(r);
 
 }
 

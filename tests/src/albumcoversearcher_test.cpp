@@ -29,6 +29,7 @@
 #include <QPushButton>
 #include <QSignalSpy>
 #include <QTest>
+#include <QTimer>
 
 #include "includes/shared_ptr.h"
 #include "core/networkaccessmanager.h"
@@ -157,6 +158,30 @@ TEST_F(AlbumCoverSearcherTest, AbortedQueuedSearchIsNotStarted) {
   QTest::qWait(1500);
 
   EXPECT_EQ(5, provider_->started_ids_.count());
+
+}
+
+// Regression test: closing the dialog while a search was running left it running, so when the dialog was opened again, the new search aborted it instead of starting.
+TEST_F(AlbumCoverSearcherTest, ReopeningDuringSearchStartsNewSearch) {
+
+  AlbumCoverSearcher searcher(QIcon(), albumcover_loader_, nullptr);
+  searcher.Init(&*fetcher_);
+
+  // Opened and closed before the search finished.
+  QTimer::singleShot(0, &searcher, &AlbumCoverSearcher::reject);
+  searcher.Exec(u"Artist"_s, u"Album"_s);
+  ASSERT_EQ(1, provider_->started_ids_.count());
+  const int first_provider_id = provider_->started_ids_.first();
+  EXPECT_EQ(QList<int>() << first_provider_id, provider_->cancelled_ids_);
+
+  // Opened again.
+  qsizetype started_when_open = 0;
+  QTimer::singleShot(0, &searcher, [this, &searcher, &started_when_open]() {
+    started_when_open = provider_->started_ids_.count();
+    searcher.reject();
+  });
+  searcher.Exec(u"Other artist"_s, u"Other album"_s);
+  EXPECT_EQ(2, started_when_open);
 
 }
 

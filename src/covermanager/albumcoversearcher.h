@@ -82,6 +82,9 @@ class AlbumCoverSearcher : public QDialog {
 
   AlbumCoverImageResult Exec(const QString &artist, const QString &album);
 
+ public Q_SLOTS:
+  void done(const int r) override;
+
  protected:
   void keyPressEvent(QKeyEvent *e) override;
 
@@ -93,6 +96,8 @@ class AlbumCoverSearcher : public QDialog {
   void CoverDoubleClicked(const QModelIndex &idx);
 
  private:
+  void AbortSearch();
+
   Ui_AlbumCoverSearcher *ui_;
 
   const SharedPtr<AlbumCoverLoader> albumcover_loader_;
