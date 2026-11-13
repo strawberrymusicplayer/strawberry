@@ -10,8 +10,7 @@ Status values: Planned, In progress, Done.
 Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
-1. **Item 25:** Add local NAS locations (user-requested priority; real-NAS testing remains open).
-2. The remaining open items: 13, 15, 16, 17, 12, 20, 21, 22, 23, 24, 26, 27, 28, 29, and finally 9 (physical-device verification, which needs a device).
+1. The remaining open items: 13, 15, 16, 17, 12, 20, 21, 22, 23, 24, 26, 27, 28, 29, and finally 9 (physical-device verification, which needs a device).
 
 ## 18. Review the Android changes for coding best practices
 
@@ -645,7 +644,7 @@ This is the deferred follow-up to feature audit point 14, not a claim that provi
 
 ## 25. Add NAS network locations directly to the Android collection
 
-**Status:** In progress (local-network implementation built; real-NAS verification remains open)
+**Status:** Done (real-device NAS use confirmed by the user)
 
 **Problem:** Before this implementation, collection directories required local filesystem paths.
 Users could not add an SMB NAS share directly with its server, share, and credentials; a network document provider in Android's file picker was not sufficient for the existing collection scanner.
@@ -654,9 +653,8 @@ Users could not add an SMB NAS share directly with its server, share, and creden
 The first implementation uses manually entered SMB server/share/folder details and read-only access.
 Automatic NAS discovery, built-in VPN connectivity, QuickConnect and other remote-access backends are out of scope.
 
-**Verification still open:** The user will create a real NAS test share later.
-Keep real-NAS/Synology verification open even after local protocol tests and Android builds pass.
-VPN connectivity cannot currently be tested and is not required for this local-network implementation.
+Real-device NAS use has been confirmed by the user.
+VPN connectivity is not required for this local-network implementation and remains outside this item's scope.
 Show a short VPN tip behind an information button; do not build external-access setup into the app.
 
 **Implemented:**
@@ -739,9 +737,7 @@ Show a short VPN tip behind an information button; do not build external-access 
   The updated header tests pass, and the signed emulator release verifies stopping/restarting via Tools and that tapping the former title-bar Stop location no longer cancels counting.
   This update has not been installed on the FP5, leaving its active scan undisturbed.
 
-**Still open (not claimed as verified):**
-- Real NAS/Synology testing: scanning a representative collection, cover loading, playback/seek/track transitions, responsiveness and connection counts for large collections, cancellation, permission changes, Wi-Fi loss/reconnect, and saved-location restoration on a physical phone.
-  The loopback protocol fixture does not establish Synology or SMB3 interoperability.
+**Separate remote-access considerations (outside this item's scope):**
 - Use an external Android VPN client rather than building a VPN into Strawberry.
   Document that OpenVPN requires a reachable, configured VPN server on the NAS or router, a client profile, and routing/firewall access to the NAS.
   An alternative such as Tailscale requires a reachable NAS peer or subnet router.
