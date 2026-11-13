@@ -62,6 +62,12 @@ constexpr char kRem[] = "rem";
 constexpr char kGenre[] = "genre";
 constexpr char kDate[] = "date";
 constexpr char kDisc[] = "discnumber";
+
+// The tracks of a data file are ignored.
+bool IsDataFile(const QString &file_type) {
+  return file_type.compare("BINARY"_L1, Qt::CaseInsensitive) == 0 || file_type.compare("MOTOROLA"_L1, Qt::CaseInsensitive) == 0;
+}
+
 }  // namespace
 
 CueParser::CueParser(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
@@ -149,10 +155,15 @@ QList<CueParser::CueEntry> CueParser::ParseEntries(QIODevice *device, const QDir
     }
 
     // If this is a data file, all of its tracks will be ignored
-    bool valid_file = file_type.compare("BINARY"_L1, Qt::CaseInsensitive) != 0 && file_type.compare("MOTOROLA"_L1, Qt::CaseInsensitive) != 0;
+    bool valid_file = !IsDataFile(file_type);
 
     QString track_type;
     QString index;
+    bool index_01 = false;
+    // A FILE line in a track without INDEX 01, the track continues in this file when an INDEX follows, otherwise the track stays in the previous file, and the file is for the next TRACK.
+    bool has_pending_file = false;
+    QString pending_file;
+    QString pending_file_type;
     QString artist;
     QString composer;
     QString title;
@@ -182,6 +193,7 @@ QList<CueParser::CueEntry> CueParser::ParseEntries(QIODevice *device, const QDir
 
         // Clear the state
         track_type = index = artist = composer = title = date = genre = ""_L1;
+        index_01 = false;
 
         if (!line_additional.isEmpty()) {
           track_type = line_additional;
@@ -193,10 +205,25 @@ QList<CueParser::CueEntry> CueParser::ParseEntries(QIODevice *device, const QDir
         // We need the index's position field
         if (!line_additional.isEmpty()) {
 
+          // When the gaps are appended to the previous track, the TRACK line and the pregap with INDEX 00 are in the previous file, and the track starts with INDEX 01 after the FILE line, so the track continues in the new file.
+          // The pregap stays at the end of the previous file, so it's played with the previous track.
+          // Otherwise it's the first INDEX of the next TRACK in the new file.
+          if (has_pending_file) {
+            file = pending_file;
+            file_type = pending_file_type;
+            valid_file = !IsDataFile(file_type);
+            has_pending_file = false;
+            // The indices before are in the previous file.
+            index.clear();
+          }
+
           // If there's none "01" index, we'll just take the first one also, we'll take the "01" index even if it's the last one
           if (line_value == "01"_L1 || index.isEmpty()) {
 
             index = line_additional;
+          }
+          if (line_value == "01"_L1) {
+            index_01 = true;
           }
         }
       }
@@ -225,6 +252,13 @@ QList<CueParser::CueEntry> CueParser::ParseEntries(QIODevice *device, const QDir
         }
       }
       else if (line_name.compare(QLatin1String(kFile), Qt::CaseInsensitive) == 0) {
+        // A track without INDEX 01 can continue in the new file, which is known when an INDEX follows.
+        if (!index_01) {
+          has_pending_file = true;
+          pending_file = QDir::isAbsolutePath(line_value) ? line_value : dir.absoluteFilePath(line_value);
+          pending_file_type = splitted.size() > 2 ? splitted[2] : QString();
+          continue;
+        }
         break;
       }
 

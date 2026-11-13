@@ -27,6 +27,7 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+#include <QList>
 #include <QMap>
 #include <QString>
 #include <QStringList>
@@ -147,6 +148,166 @@ TEST_F(CueParserTest, LoadByFileGroupsSongsByMediaFile) {
   EXPECT_EQ(u"Third"_s, songs2[0].title());
   EXPECT_EQ(3, songs2[0].track());
   EXPECT_EQ(QUrl::fromLocalFile(audio2_info.absoluteFilePath()), songs2[0].url());
+
+}
+
+// Regression test: when the gaps are appended to the previous track, as EAC writes them for one file per track, the TRACK line and the pregap with INDEX 00 are in the previous file, so the track was only the pregap at the end of the previous file.
+TEST_F(CueParserTest, TrackWithPregapInPreviousFile) {
+
+  TemporaryResource audio1(u":/audio/strawberry.flac"_s);
+  TemporaryResource audio2(u":/audio/strawberry.flac"_s);
+  TemporaryResource audio3(u":/audio/strawberry.flac"_s);
+  const QFileInfo audio1_info(audio1.fileName());
+  const QFileInfo audio2_info(audio2.fileName());
+  const QFileInfo audio3_info(audio3.fileName());
+  ASSERT_TRUE(audio1_info.exists());
+  ASSERT_TRUE(audio2_info.exists());
+  ASSERT_TRUE(audio3_info.exists());
+  ASSERT_EQ(audio1_info.dir(), audio2_info.dir());
+  ASSERT_EQ(audio1_info.dir(), audio3_info.dir());
+
+  QByteArray cue;
+  cue += "TITLE \"Album\"\n";
+  cue += "FILE \"" + audio1_info.fileName().toUtf8() + "\" WAVE\n";
+  cue += "  TRACK 01 AUDIO\n";
+  cue += "    TITLE \"First\"\n";
+  cue += "    INDEX 01 00:00:00\n";
+  cue += "  TRACK 02 AUDIO\n";
+  cue += "    TITLE \"Second\"\n";
+  cue += "    PERFORMER \"Second Artist\"\n";
+  cue += "    INDEX 00 00:01:00\n";
+  cue += "FILE \"" + audio2_info.fileName().toUtf8() + "\" WAVE\n";
+  cue += "    INDEX 01 00:00:00\n";
+  cue += "  TRACK 03 AUDIO\n";
+  cue += "    TITLE \"Third\"\n";
+  cue += "    INDEX 00 00:01:00\n";
+  cue += "FILE \"" + audio3_info.fileName().toUtf8() + "\" WAVE\n";
+  cue += "    INDEX 01 00:00:00\n";
+
+  const QString cue_path = audio1_info.dir().filePath(u"album.cue"_s);
+  CueParser parser = MakeParser();
+
+  QBuffer buffer(&cue);
+  ASSERT_TRUE(buffer.open(QIODevice::ReadOnly));
+  const ParserBase::LoadResult result = parser.Load(&buffer, cue_path, audio1_info.dir(), false);
+  ASSERT_EQ(3, result.songs.size());
+
+  const QStringList titles = QStringList() << u"First"_s << u"Second"_s << u"Third"_s;
+  const QList<QFileInfo> audio_infos = QList<QFileInfo>() << audio1_info << audio2_info << audio3_info;
+  for (qsizetype i = 0; i < result.songs.size(); ++i) {
+    const Song &song = result.songs.at(i);
+    EXPECT_EQ(titles.at(i), song.title());
+    EXPECT_EQ(i + 1, song.track());
+    EXPECT_EQ(QUrl::fromLocalFile(audio_infos.at(i).absoluteFilePath()), song.url());
+    EXPECT_EQ(0, song.beginning_nanosec());
+    // Each track is the whole file, the pregap of the next track is played with the track.
+    EXPECT_GT(song.length_nanosec(), 1'500'000'000LL);
+  }
+  EXPECT_EQ(u"Second Artist"_s, result.songs.at(1).artist());
+
+  buffer.seek(0);
+  const QMap<QString, SongList> songs_by_file = parser.LoadByFile(&buffer, cue_path, audio1_info.dir(), false);
+  ASSERT_EQ(3, songs_by_file.count());
+  for (qsizetype i = 0; i < audio_infos.size(); ++i) {
+    const SongList songs = songs_by_file.value(audio_infos.at(i).absoluteFilePath());
+    ASSERT_EQ(1, songs.count());
+    EXPECT_EQ(titles.at(i), songs.first().title());
+  }
+
+  buffer.seek(0);
+  EXPECT_EQ(QStringList() << QDir::cleanPath(audio1_info.absoluteFilePath()) << QDir::cleanPath(audio2_info.absoluteFilePath()) << QDir::cleanPath(audio3_info.absoluteFilePath()), parser.MediaFiles(&buffer, audio1_info.dir()));
+
+}
+
+// Regression test: a track with only INDEX 00, followed by the FILE and TRACK of the next track, was dropped, since its index was taken as a pregap in the next file.
+TEST_F(CueParserTest, TrackWithOnlyIndex00BeforeNextFile) {
+
+  TemporaryResource audio1(u":/audio/strawberry.flac"_s);
+  TemporaryResource audio2(u":/audio/strawberry.flac"_s);
+  const QFileInfo audio1_info(audio1.fileName());
+  const QFileInfo audio2_info(audio2.fileName());
+  ASSERT_TRUE(audio1_info.exists());
+  ASSERT_TRUE(audio2_info.exists());
+  ASSERT_EQ(audio1_info.dir(), audio2_info.dir());
+
+  QByteArray cue;
+  cue += "FILE \"" + audio1_info.fileName().toUtf8() + "\" WAVE\n";
+  cue += "  TRACK 01 AUDIO\n";
+  cue += "    TITLE \"First\"\n";
+  cue += "    INDEX 00 00:00:00\n";
+  cue += "FILE \"" + audio2_info.fileName().toUtf8() + "\" WAVE\n";
+  cue += "  TRACK 02 AUDIO\n";
+  cue += "    TITLE \"Second\"\n";
+  cue += "    INDEX 01 00:00:00\n";
+
+  const QString cue_path = audio1_info.dir().filePath(u"album.cue"_s);
+  CueParser parser = MakeParser();
+
+  QBuffer buffer(&cue);
+  ASSERT_TRUE(buffer.open(QIODevice::ReadOnly));
+  const ParserBase::LoadResult result = parser.Load(&buffer, cue_path, audio1_info.dir(), false);
+  ASSERT_EQ(2, result.songs.size());
+  EXPECT_EQ(u"First"_s, result.songs.at(0).title());
+  EXPECT_EQ(QUrl::fromLocalFile(audio1_info.absoluteFilePath()), result.songs.at(0).url());
+  EXPECT_EQ(u"Second"_s, result.songs.at(1).title());
+  EXPECT_EQ(QUrl::fromLocalFile(audio2_info.absoluteFilePath()), result.songs.at(1).url());
+
+  buffer.seek(0);
+  EXPECT_EQ(QStringList() << QDir::cleanPath(audio1_info.absoluteFilePath()) << QDir::cleanPath(audio2_info.absoluteFilePath()), parser.MediaFiles(&buffer, audio1_info.dir()));
+
+}
+
+// An INDEX without a position after the FILE line is ignored, like other INDEX lines without a position, so the track stays in its own file.
+TEST_F(CueParserTest, IndexWithoutPositionAfterFileIsIgnored) {
+
+  TemporaryResource audio(u":/audio/strawberry.flac"_s);
+  const QFileInfo audio_info(audio.fileName());
+  ASSERT_TRUE(audio_info.exists());
+
+  QByteArray cue;
+  cue += "FILE \"" + audio_info.fileName().toUtf8() + "\" WAVE\n";
+  cue += "  TRACK 01 AUDIO\n";
+  cue += "    TITLE \"First\"\n";
+  cue += "    INDEX 00 00:00:00\n";
+  cue += "FILE \"second.flac\" WAVE\n";
+  cue += "    INDEX 01\n";
+
+  QBuffer buffer(&cue);
+  ASSERT_TRUE(buffer.open(QIODevice::ReadOnly));
+
+  CueParser parser = MakeParser();
+  const ParserBase::LoadResult result = parser.Load(&buffer, audio_info.dir().filePath(u"album.cue"_s), audio_info.dir(), false);
+  ASSERT_EQ(1, result.songs.size());
+  EXPECT_EQ(u"First"_s, result.songs.first().title());
+  EXPECT_EQ(QUrl::fromLocalFile(audio_info.absoluteFilePath()), result.songs.first().url());
+
+}
+
+// A track with the pregap in the previous file which is a data file is still loaded, the data file is only the previous file.
+TEST_F(CueParserTest, TrackWithPregapInPreviousDataFile) {
+
+  TemporaryResource audio(u":/audio/strawberry.flac"_s);
+  const QFileInfo audio_info(audio.fileName());
+  ASSERT_TRUE(audio_info.exists());
+
+  QByteArray cue;
+  cue += "FILE \"data.bin\" BINARY\n";
+  cue += "  TRACK 01 MODE1/2352\n";
+  cue += "    INDEX 01 00:00:00\n";
+  cue += "  TRACK 02 AUDIO\n";
+  cue += "    TITLE \"Audio\"\n";
+  cue += "    INDEX 00 00:01:00\n";
+  cue += "FILE \"" + audio_info.fileName().toUtf8() + "\" WAVE\n";
+  cue += "    INDEX 01 00:00:00\n";
+
+  QBuffer buffer(&cue);
+  ASSERT_TRUE(buffer.open(QIODevice::ReadOnly));
+
+  CueParser parser = MakeParser();
+  const ParserBase::LoadResult result = parser.Load(&buffer, audio_info.dir().filePath(u"album.cue"_s), audio_info.dir(), false);
+  ASSERT_EQ(1, result.songs.size());
+  EXPECT_EQ(u"Audio"_s, result.songs.first().title());
+  EXPECT_EQ(QUrl::fromLocalFile(audio_info.absoluteFilePath()), result.songs.first().url());
 
 }
 
