@@ -46,6 +46,7 @@
 
 #include "includes/shared_ptr.h"
 #include "core/memorydatabase.h"
+#include "core/song.h"
 #include "core/songloader.h"
 #include "core/urlhandlers.h"
 #include "tagreader/tagreaderclient.h"
@@ -135,6 +136,116 @@ TEST(SongLoaderTest, PlainM3UWithCueWordsIsLoaded) {
   ASSERT_EQ(2, songs.count());
   EXPECT_EQ(QUrl::fromLocalFile(temp_dir.filePath(u"Tracks/01.flac"_s)), songs.at(0).url());
   EXPECT_EQ(QUrl::fromLocalFile(temp_dir.filePath(u"Track 02.flac"_s)), songs.at(1).url());
+
+}
+
+// Loads the URL with a tagreader client, like SongLoaderInserter does, and returns the songs.
+SongList LoadWithTagReader(const SharedPtr<CollectionBackend> &collection_backend, const QUrl &url) {
+
+  SharedPtr<TagReaderClient> tagreader_client = make_shared<TagReaderClient>();
+  QThread tagreader_client_thread;
+  tagreader_client->moveToThread(&tagreader_client_thread);
+  tagreader_client_thread.start();
+
+  SongLoader loader(make_shared<UrlHandlers>(), collection_backend, tagreader_client);
+  SongLoader::Result result = loader.Load(url);
+  if (result == SongLoader::Result::BlockingLoadRequired) {
+    result = loader.LoadFilenamesBlocking();
+  }
+  if (result == SongLoader::Result::Success) {
+    loader.LoadMetadataBlocking();
+  }
+  tagreader_client_thread.quit();
+  tagreader_client_thread.wait();
+
+  EXPECT_EQ(SongLoader::Result::Success, result);
+  EXPECT_TRUE(loader.errors().isEmpty()) << loader.errors().join(u'\n').toStdString();
+
+  return loader.songs();
+
+}
+
+Song MakeCueSong(const QString &filename, const QString &cue_filename, const int track) {
+
+  Song song(Song::Source::Collection);
+  song.Init(u"Title %1"_s.arg(track), u"Artist"_s, u"Album"_s, (track - 1) * 1'000'000'000LL, track * 1'000'000'000LL);
+  song.set_directory_id(1);
+  song.set_url(QUrl::fromLocalFile(filename));
+  song.set_cue_path(cue_filename);
+  song.set_track(track);
+  song.set_filetype(Song::FileType::FLAC);
+  song.set_mtime(1);
+  song.set_ctime(1);
+  song.set_filesize(1);
+  return song;
+
+}
+
+// Regression test: a file with a CUE sheet in a directory was loaded as the first track of the CUE sheet in the collection, instead of all the tracks.
+TEST(SongLoaderTest, DirectoryWithCueSheetInCollectionLoadsAllTracks) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString filename = temp_dir.filePath(u"album.flac"_s);
+  const QString cue_filename = temp_dir.filePath(u"album.cue"_s);
+  const QString other_filename = temp_dir.filePath(u"other.flac"_s);
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.flac"_s, filename));
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.flac"_s, other_filename));
+  {
+    QFile file(cue_filename);
+    ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+    file.write(QByteArray("FILE \"album.flac\" WAVE\n  TRACK 01 AUDIO\n    INDEX 01 00:00:00\n  TRACK 02 AUDIO\n    INDEX 01 00:01:00\n  TRACK 03 AUDIO\n    INDEX 01 00:02:00\n"));
+    file.close();
+  }
+
+  SharedPtr<Database> database = make_shared<MemoryDatabase>(nullptr);
+  SharedPtr<CollectionBackend> collection_backend = make_shared<CollectionBackend>();
+  collection_backend->Init(database, nullptr, Song::Source::Collection, QLatin1String(CollectionManager::kSongsTable), QLatin1String(CollectionManager::kDirsTable), QLatin1String(CollectionManager::kSubdirsTable));
+  collection_backend->AddDirectory(temp_dir.path());
+  // In the reverse order, the tracks are loaded in the order of the CUE sheet.
+  collection_backend->AddOrUpdateSongs(SongList() << MakeCueSong(filename, cue_filename, 3) << MakeCueSong(filename, cue_filename, 2) << MakeCueSong(filename, cue_filename, 1));
+
+  const SongList songs = LoadWithTagReader(collection_backend, QUrl::fromLocalFile(temp_dir.path()));
+
+  // The tracks are in the place of the file, before the other file.
+  ASSERT_EQ(4, songs.count());
+  for (int i = 0; i < 3; ++i) {
+    EXPECT_EQ(QUrl::fromLocalFile(filename), songs.at(i).url());
+    EXPECT_EQ(u"Title %1"_s.arg(i + 1), songs.at(i).title());
+    EXPECT_EQ(i * 1'000'000'000LL, songs.at(i).beginning_nanosec());
+  }
+  EXPECT_EQ(QUrl::fromLocalFile(other_filename), songs.at(3).url());
+  EXPECT_FALSE(songs.at(3).has_cue());
+
+}
+
+// A file with a CUE sheet in the collection is loaded as the tracks in the collection.
+TEST(SongLoaderTest, FileWithCueSheetInCollectionLoadsAllTracks) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString filename = temp_dir.filePath(u"album.flac"_s);
+  const QString cue_filename = temp_dir.filePath(u"album.cue"_s);
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.flac"_s, filename));
+  {
+    QFile file(cue_filename);
+    ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+    file.write(QByteArray("FILE \"album.flac\" WAVE\n  TRACK 01 AUDIO\n    INDEX 01 00:00:00\n  TRACK 02 AUDIO\n    INDEX 01 00:01:00\n"));
+    file.close();
+  }
+
+  SharedPtr<Database> database = make_shared<MemoryDatabase>(nullptr);
+  SharedPtr<CollectionBackend> collection_backend = make_shared<CollectionBackend>();
+  collection_backend->Init(database, nullptr, Song::Source::Collection, QLatin1String(CollectionManager::kSongsTable), QLatin1String(CollectionManager::kDirsTable), QLatin1String(CollectionManager::kSubdirsTable));
+  collection_backend->AddDirectory(temp_dir.path());
+  collection_backend->AddOrUpdateSongs(SongList() << MakeCueSong(filename, cue_filename, 2) << MakeCueSong(filename, cue_filename, 1));
+
+  const SongList songs = LoadWithTagReader(collection_backend, QUrl::fromLocalFile(filename));
+
+  ASSERT_EQ(2, songs.count());
+  EXPECT_EQ(u"Title 1"_s, songs.at(0).title());
+  EXPECT_EQ(u"Title 2"_s, songs.at(1).title());
+  EXPECT_EQ(Song::Source::Collection, songs.at(1).source());
 
 }
 

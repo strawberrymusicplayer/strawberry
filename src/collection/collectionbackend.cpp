@@ -1423,7 +1423,8 @@ SongList CollectionBackend::GetSongsByUrl(const QUrl &url, const bool unavailabl
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND unavailable = :unavailable").arg(Song::kRowIdColumnSpec, songs_table_));
+  // In the order of the songs in the file, like the tracks of a CUE sheet.
+  q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND unavailable = :unavailable ORDER BY beginning").arg(Song::kRowIdColumnSpec, songs_table_));
   q.BindValue(u":url1"_s, url.toString());
   q.BindValue(u":url2"_s, url.toString(QUrl::FullyEncoded));
   q.BindValue(u":url3"_s, url.toEncoded(QUrl::FullyDecoded));

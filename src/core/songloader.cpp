@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <gst/gst.h>
 
@@ -249,27 +250,31 @@ SongLoader::Result SongLoader::LoadLocal(const QString &filename) {
   qLog(Debug) << "Loading local file" << filename;
 
   // Search in the database.
-  const QUrl url = QUrl::fromLocalFile(filename);
-
-  SongList songs = collection_backend_->GetSongsByUrl(url);
+  const SongList songs = CollectionSongs(filename);
   if (!songs.isEmpty()) {
     songs_ = songs;
     return Result::Success;
   }
 
-  const QString canonical_filepath = QFileInfo(filename).canonicalFilePath();
-  if (!canonical_filepath.isEmpty() && canonical_filepath != filename) {
-    const QUrl canonical_filepath_url = QUrl::fromLocalFile(canonical_filepath);
-    songs = collection_backend_->GetSongsByUrl(canonical_filepath_url);
-    if (!songs.isEmpty()) {
-      songs_ = songs;
-      return Result::Success;
-    }
-  }
-
   // It's not in the database, load it asynchronously.
   preload_func_ = std::bind(&SongLoader::LoadLocalAsync, this, filename);
   return Result::BlockingLoadRequired;
+
+}
+
+SongList SongLoader::CollectionSongs(const QString &filename) const {
+
+  const SongList songs = collection_backend_->GetSongsByUrl(QUrl::fromLocalFile(filename));
+  if (!songs.isEmpty()) {
+    return songs;
+  }
+
+  const QString canonical_filepath = QFileInfo(filename).canonicalFilePath();
+  if (!canonical_filepath.isEmpty() && canonical_filepath != filename) {
+    return collection_backend_->GetSongsByUrl(QUrl::fromLocalFile(canonical_filepath));
+  }
+
+  return SongList();
 
 }
 
@@ -417,6 +422,20 @@ void SongLoader::LoadLocalDirectory(const QString &filename) {
   }
 
   std::stable_sort(songs_.begin(), songs_.end(), CompareSongs);
+
+  // The files in the collection are loaded as their songs in the collection, in the place of the file, like single files, so a file with a CUE sheet is loaded as all the tracks of the CUE sheet, not as the first track only.
+  SongList songs;
+  songs.reserve(songs_.size());
+  for (const Song &song : std::as_const(songs_)) {
+    const SongList collection_songs = CollectionSongs(song.url().toLocalFile());
+    if (collection_songs.isEmpty()) {
+      songs << song;
+    }
+    else {
+      songs << collection_songs;
+    }
+  }
+  songs_ = songs;
 
   // Load the first song:
   // all songs will be loaded async, but we want the first one in our list to be fully loaded,
