@@ -120,6 +120,7 @@ class SongLoader : public QObject {
   };
 
   Result LoadLocal(const QString &filename);
+  SongList CollectionSongs(const QString &filename) const;
   SongLoader::Result LoadLocalAsync(const QString &filename);
   void EffectiveSongLoad(Song *song);
   Result LoadLocalPartial(const QString &filename);
