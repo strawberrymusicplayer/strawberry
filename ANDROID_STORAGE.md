@@ -15,8 +15,8 @@ This permission belongs to a `content://` document URI: converting that URI to `
 ## What users need to do
 
 Select the music folder through the Android picker when adding a Collection directory, using Add folder, or opening Files > Choose folder.
-Individual local external-storage documents selected through Add file or Files > Choose files also retain their own read grant.
-Previously persisted folder grants are loaded automatically when Strawberry starts; existing Collection entries and playlist URLs do not need migration.
+Individual local external-storage and Downloads documents selected through Add file or Files > Choose files also retain their own read grant.
+Previously persisted document and folder grants are loaded automatically when Strawberry starts; existing Collection entries and playlist URLs do not need migration.
 On Android, the Files tab offers system-picker buttons rather than the desktop filesystem browser.
 Cancelling the picker does not grant access or change the playlist.
 If uncommon files remain unavailable in an existing Collection, select that folder again through the picker, then update the Collection.
@@ -43,6 +43,15 @@ Folder matching is component-boundary aware and uses the longest matching grant.
 Cleaned paths outside the chosen folder are not covered; similarly named sibling directories are not covered.
 An individual document grant covers only that file.
 Document URIs are constructed with `DocumentsContract.buildDocumentUriUsingTree()`, preserving encoded spaces, percent signs, Unicode and other special characters.
+
+Local individual documents from `com.android.providers.downloads.documents` are supported too.
+For opaque IDs such as `msf:`, the resolver briefly opens the authorized document and reads its actual backing path through `/proc/self/fd/`.
+Only regular local backing files are accepted; pipes, missing paths and deleted targets are rejected.
+The descriptor is closed immediately; future reads use the original retained document URI.
+Existing `raw:` Downloads IDs retain their explicit path mapping and now retain read grants too.
+Opaque Downloads tree IDs are not resolved as folders.
+At startup, individual Downloads grants are reopened to rebuild their path mappings.
+Unavailable documents are logged and skipped without preventing other grants from loading.
 
 The bridge does not add a generic cloud-provider filesystem or download remote documents.
 Other existing picker-to-path conversions remain subject to their provider and Android permissions.
@@ -109,6 +118,13 @@ QT_QPA_PLATFORM=offscreen ctest --test-dir build/native \
 ```
 
 The native bridge test uses a mock document provider; it does not prove Android permission behavior.
+An emulator check through DocumentsUI's dedicated Downloads entry verified an `msf:` MP3 selection with metadata and playback.
+A separate Downloads WavPack document classified as `application/octet-stream` was selected once.
+After installing and starting the clean non-debuggable release, an M3U referring to its original local path loaded metadata and started playback without reselecting the WavPack file.
+Android reported only its persisted read permission (`owned=0x0`, `persisted=0x1`), with no covering folder grant.
+The M3U itself used a Downloads `raw:` document URI.
+Removing the owned fixtures and restarting with their stale grants still reached the main window.
+
 For Android verification, use a real picker-granted local folder and an owned `.wv` fixture:
 
 1. Confirm MediaStore classifies the fixture as non-audio and an ordinary native-path open under the app UID is denied.

@@ -517,10 +517,12 @@ Keep this visual update Android-only.
   Successful Files-tab selections replace the temporary Now playing playlist and start playback, without modifying a saved playlist or adding a Collection directory.
   Cancelling either picker returns without submitting a playlist change.
   The separate Add file and Add folder actions keep their existing playlist behavior.
-- `AndroidStorage::LocalPathForUrl()` now retains read grants for local external-storage documents, including folder descendants, and reloads them before Collection startup.
+- `AndroidStorage::LocalPathForUrl()` now retains read grants for local external-storage documents, including folder descendants, and individual local Downloads documents, and reloads them before Collection startup.
   The read-only path bridge supplies metadata, file enumeration and playback without copying music into app-private storage.
   See [Android storage access](ANDROID_STORAGE.md) for provider scope and permission lifecycle.
-- Raw Downloads and MediaStore URL conversions still depend on provider and Android permissions.
+- Opaque individual Downloads IDs resolve through the authorized descriptor's regular local backing file; raw Downloads IDs retain their explicit path mapping.
+  Downloads access uses retained read grants rather than assuming a converted filesystem path carries permission.
+  MediaStore URL conversions still depend on provider and Android permissions.
   Generic cloud/provider-backed documents without a usable local path are not supported; unresolved selections report an error.
   When only some selected items resolve, the error is shown and the resolvable items are submitted.
 
@@ -555,15 +557,21 @@ Keep this visual update Android-only.
   After restarting, choosing an M3U in Download that referenced the WavPack path loaded its metadata and started playback, without reselecting the music folder or the WavPack document.
   Android reported only the persisted read grant for that folder (`owned=0x0`, `persisted=0x1`), with no separate WavPack document grant.
   Test fixtures were removed afterward.
-- Selecting the dedicated Downloads entry in DocumentsUI exposed a remaining local-provider limitation.
+- Selecting the dedicated Downloads entry in DocumentsUI initially exposed a local-provider limitation.
   A real local MP3 returned `content://com.android.providers.downloads.documents/document/msf%3A1000000065`.
   Android retained its read permission, but Strawberry reported that it could not resolve a usable local path and did not import the track.
   The same file selected through the device-storage entry loaded metadata and played successfully.
-  MediaStore listed its local path, so this is a Downloads URI-resolution gap rather than a missing file or decoder.
-  Do not claim that all local system-picker entry points work until this case is fixed and retested.
+  MediaStore listed its local path, identifying a Downloads URI-resolution gap rather than a missing file or decoder.
+- Fixed and retested the Downloads gap using the provider-opened descriptor's actual backing path, without guessing opaque IDs.
+  A fresh `msf:` MP3 selection through the dedicated Downloads entry loaded one track with metadata and active playback.
+  A fresh individual Downloads WavPack grant also survived the clean release APK update and restart.
+  The file was classified as `application/octet-stream`; selecting an M3U referencing its unchanged local path loaded metadata and started playback without reselecting the WavPack document.
+  Android reported only persisted access (`owned=0x0`, `persisted=0x1`), and there was no covering folder grant.
+  The M3U used a Downloads `raw:` URI, exercising that retained mapping too.
+  The native document-bridge, GStreamer file-source and song-loader suites passed again; the final non-debuggable release was built, signature-verified and installed without clearing app data.
+  The clean release also played the Downloads MP3; after deleting the owned fixtures, restarting with stale grants still reached the main window.
 
 **Next steps:**
-- Fix and retest local Downloads-provider `msf:` document resolution, retaining read access and unchanged path identity across restarts.
 - Verify explicit rejection of unsupported providers rather than assuming generic document-provider support.
 - Verify mixed supported/unsupported individual-file selections and saving the resulting temporary playlist.
 - Verify the picker flows on the emulator and a physical device, including narrow-screen layouts.

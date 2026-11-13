@@ -35,6 +35,7 @@ QUrl DocumentUrlForPath(const QString &path);
 void RequestAudioPermission();
 
 // Android file dialogs return content:// document URIs; returns the file system path behind such a URI, or an empty string when it has none.
+// Retains read access for supported external-storage and Downloads documents.
 QString LocalPathForUrl(const QUrl &url);
 
 // Returns the cleaned file system paths of the URLs from an Android file dialog.

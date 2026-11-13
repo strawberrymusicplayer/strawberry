@@ -17,9 +17,11 @@
  */
 
 #include <jni.h>
+#include <sys/stat.h>
 
 #include <QCoreApplication>
 #include <QDir>
+#include <QFileInfo>
 #include <QJniEnvironment>
 #include <QJniObject>
 #include <QMap>
@@ -109,6 +111,29 @@ QString DataColumnForUri(const QJniObject &uri) {
 
 }
 
+QString PathForDownloadsDocument(const QJniObject &uri) {
+
+  QJniEnvironment env;
+  const QJniObject resolver = Context().callObjectMethod("getContentResolver", "()Landroid/content/ContentResolver;");
+  const QJniObject descriptor = resolver.callObjectMethod("openFileDescriptor", "(Landroid/net/Uri;Ljava/lang/String;)Landroid/os/ParcelFileDescriptor;", uri.object(), QJniObject::fromString(u"r"_s).object<jstring>());
+  if (env.checkAndClearExceptions() || !descriptor.isValid()) {
+    qLog(Error) << "Could not open Android Downloads document";
+    return QString();
+  }
+  // Resolve the provider's actual file, not its opaque document ID or display name.
+  const int fd = descriptor.callMethod<jint>("getFd");
+  struct stat info {};
+  const bool regular_file = fd >= 0 && fstat(fd, &info) == 0 && S_ISREG(info.st_mode);
+  const QString path = QFileInfo(QStringLiteral("/proc/self/fd/%1").arg(fd)).symLinkTarget();
+  descriptor.callMethod<void>("close");
+  if (env.checkAndClearExceptions() || !regular_file || !path.startsWith(u'/') || path.endsWith(" (deleted)"_L1)) {
+    qLog(Error) << "Android Downloads document has no usable local backing file";
+    return QString();
+  }
+  return path;
+
+}
+
 bool ReloadDocumentGrants() {
 
   QJniEnvironment env;
@@ -124,10 +149,14 @@ bool ReloadDocumentGrants() {
     const QJniObject permission = permissions.callObjectMethod("get", "(I)Ljava/lang/Object;", i);
     if (!permission.callMethod<jboolean>("isReadPermission")) continue;
     const QJniObject uri = permission.callObjectMethod("getUri", "()Landroid/net/Uri;");
-    if (uri.callObjectMethod<jstring>("getAuthority").toString() != QLatin1String(kExternalStorageAuthority)) continue;
+    const QString authority = uri.callObjectMethod<jstring>("getAuthority").toString();
+    if (authority != QLatin1String(kExternalStorageAuthority) && authority != QLatin1String(kDownloadsAuthority)) continue;
     const bool tree = QJniObject::callStaticMethod<jboolean>("android/provider/DocumentsContract", "isTreeUri", "(Landroid/net/Uri;)Z", uri.object());
     const QString id = QJniObject::callStaticObjectMethod("android/provider/DocumentsContract", tree ? "getTreeDocumentId" : "getDocumentId", "(Landroid/net/Uri;)Ljava/lang/String;", uri.object()).toString();
-    const QString path = PathForExternalStorageDocument(id);
+    QString path;
+    if (authority == QLatin1String(kExternalStorageAuthority)) path = PathForExternalStorageDocument(id);
+    else if (id.startsWith("raw:"_L1)) path = id.mid(4);
+    else if (!tree) path = PathForDownloadsDocument(uri);
     if (!path.isEmpty()) updated.insert(QDir::cleanPath(path), {QUrl(uri.callObjectMethod<jstring>("toString").toString()), id, tree});
   }
   if (env.checkAndClearExceptions()) {
@@ -248,11 +277,13 @@ QString LocalPathForUrl(const QUrl &url) {
     path = PathForExternalStorageDocument(document_id);
     if (!path.isEmpty() && !PreserveDocumentGrant(uri)) return QString();
   }
-  else if (authority == QLatin1String(kDownloadsAuthority) && document_id.startsWith("raw:"_L1)) {
-    path = document_id.mid(4);
+  else if (authority == QLatin1String(kDownloadsAuthority) && (document || tree)) {
+    if (document_id.startsWith("raw:"_L1)) path = document_id.mid(4);
+    else if (!tree) path = PathForDownloadsDocument(uri);
+    if (!path.isEmpty() && !PreserveDocumentGrant(uri)) return QString();
   }
   else {
-    // Media and downloads documents map to a MediaStore item, which knows the path of the file.
+    // Media documents map to a MediaStore item, which knows the path of the file.
     QJniObject media_uri = uri;
     if (document && QNativeInterface::QAndroidApplication::sdkVersion() >= 29) {
       media_uri = QJniObject::callStaticObjectMethod("android/provider/MediaStore", "getMediaUri", "(Landroid/content/Context;Landroid/net/Uri;)Landroid/net/Uri;", context.object(), uri.object());
