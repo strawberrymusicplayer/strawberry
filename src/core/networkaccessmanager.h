@@ -29,6 +29,7 @@
 #include <QHash>
 #include <QList>
 #include <QMetaObject>
+#include <QVersionNumber>
 
 class QIODevice;
 class QNetworkReply;
@@ -47,10 +48,23 @@ class NetworkAccessManager : public QNetworkAccessManager {
   void ReachabilityChanged(const QNetworkInformation::Reachability reachability);
   void ClearCacheIfIdle();
   void ReplyDone(QObject *reply);
+  void ReplyDeleted(QObject *reply);
 
  private:
+  // Qt 6.5.10, 6.8.5, 6.9.2 and later cancel the saving of a reply in the cache when the reply is deleted.
+  static bool QtCancelsSavingOfDeletedReply(const QVersionNumber &qt_version);
+  void ReplyFinished(QNetworkReply *reply);
+  bool SavingAbandoned(QNetworkReply *reply) const;
+  void CancelUnusedSavings();
+
+  friend class ThreadSafeNetworkDiskCacheNetworkTest;
+
   QHash<QObject*, QList<QMetaObject::Connection>> running_replies_;
+  // All the replies until they are deleted, with the connection to their destroyed signal.
+  QHash<QObject*, QMetaObject::Connection> replies_;
   bool clear_cache_pending_;
+  // Before Qt 6.5.10, 6.8.5 and 6.9.2, a reply which failed before it got all the data never cancels its saving in the cache, so it's cancelled when the reply has finished.
+  bool cancel_savings_of_finished_replies_;
 };
 
 #endif  // NETWORKACCESSMANAGER_H

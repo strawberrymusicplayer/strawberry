@@ -33,6 +33,9 @@
 #include <QObject>
 #include <QList>
 #include <QMetaObject>
+#include <QUrl>
+#include <QLibraryInfo>
+#include <QVersionNumber>
 
 #include "utilities/useragent.h"
 #include "networkaccessmanager.h"
@@ -42,7 +45,8 @@ using namespace Qt::Literals::StringLiterals;
 
 NetworkAccessManager::NetworkAccessManager(QObject *parent)
     : QNetworkAccessManager(parent),
-      clear_cache_pending_(false) {
+      clear_cache_pending_(false),
+      cancel_savings_of_finished_replies_(!QtCancelsSavingOfDeletedReply(QLibraryInfo::version())) {
 
   setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
   setCache(new ThreadSafeNetworkDiskCache(this));
@@ -65,6 +69,9 @@ NetworkAccessManager::~NetworkAccessManager() {
     for (const QMetaObject::Connection &connection : connections) {
       QObject::disconnect(connection);
     }
+  }
+  for (const QMetaObject::Connection &connection : std::as_const(replies_)) {
+    QObject::disconnect(connection);
   }
 
 }
@@ -105,6 +112,65 @@ void NetworkAccessManager::ReplyDone(QObject *reply) {
 
 }
 
+bool NetworkAccessManager::QtCancelsSavingOfDeletedReply(const QVersionNumber &qt_version) {
+
+  if (qt_version >= QVersionNumber(6, 10, 0)) return true;
+
+  switch (qt_version.minorVersion()) {
+    case 5:
+      return qt_version.microVersion() >= 10;
+    case 8:
+      return qt_version.microVersion() >= 5;
+    case 9:
+      return qt_version.microVersion() >= 2;
+    default:
+      return false;
+  }
+
+}
+
+void NetworkAccessManager::ReplyDeleted(QObject *reply) {
+
+  if (!replies_.remove(reply)) return;
+
+  CancelUnusedSavings();
+
+}
+
+void NetworkAccessManager::ReplyFinished(QNetworkReply *reply) {
+
+  if (SavingAbandoned(reply)) {
+    CancelUnusedSavings();
+  }
+
+}
+
+bool NetworkAccessManager::SavingAbandoned(QNetworkReply *reply) const {
+
+  // With the later Qt versions, the saving is cancelled when the reply is deleted, cancelling it before could cancel another reply's saving of the URL then.
+  // A failed reply doesn't use its saving anymore, except when the data is compressed, it's written to the saving when it's read then.
+  return cancel_savings_of_finished_replies_ && reply->isFinished() && reply->error() != QNetworkReply::NoError && !reply->hasRawHeader("Content-Encoding");
+
+}
+
+void NetworkAccessManager::CancelUnusedSavings() {
+
+  ThreadSafeNetworkDiskCache *disk_cache = qobject_cast<ThreadSafeNetworkDiskCache*>(cache());
+  if (!disk_cache) return;
+
+  // The replies in replies_ are still alive, each one is removed when it is deleted.
+  QList<QUrl> reply_urls;
+  reply_urls.reserve(replies_.count());
+  for (QHash<QObject*, QMetaObject::Connection>::const_iterator it = replies_.constBegin(); it != replies_.constEnd(); ++it) {
+    QNetworkReply *reply = static_cast<QNetworkReply*>(it.key());
+    if (!SavingAbandoned(reply)) {
+      reply_urls << ThreadSafeNetworkDiskCache::CacheUrl(reply->url());
+    }
+  }
+  disk_cache->CancelUnusedSavings(reply_urls);
+
+}
+
 QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkRequest &network_request, QIODevice *outgoing_data) {
 
   const QVariant user_agent_header = network_request.header(QNetworkRequest::UserAgentHeader);
@@ -132,9 +198,13 @@ QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkR
 
   QNetworkReply *reply = QNetworkAccessManager::createRequest(op, new_network_request, outgoing_data);
   // A reply emits finished when it fails or is aborted too, but not when it is deleted while running.
-  QMetaObject::Connection finished_connection = QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { ReplyDone(reply); });
+  QMetaObject::Connection finished_connection = QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() {
+    ReplyDone(reply);
+    ReplyFinished(reply);
+  });
   QMetaObject::Connection destroyed_connection = QObject::connect(reply, &QObject::destroyed, this, &NetworkAccessManager::ReplyDone);
   running_replies_.insert(reply, QList<QMetaObject::Connection>{finished_connection, destroyed_connection});
+  replies_.insert(reply, QObject::connect(reply, &QObject::destroyed, this, &NetworkAccessManager::ReplyDeleted));
 
   return reply;
 
