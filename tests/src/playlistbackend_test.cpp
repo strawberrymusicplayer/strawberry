@@ -31,6 +31,7 @@
 #include <QTemporaryDir>
 #include <QThread>
 #include <QUrl>
+#include <QUuid>
 
 #ifndef Q_OS_WIN32
 #  include <fcntl.h>
@@ -85,8 +86,8 @@ class PlaylistBackendTest : public ::testing::Test {
     database_->Close();
   }
 
-  // Saves a playlist with a song from a CUE sheet.
-  int SaveCueSongPlaylist(const QString &cue_path, const QString &audio_path) const {
+  // Saves a playlist with a song from a CUE sheet, with the user set data in user_set_data.
+  int SaveCueSongPlaylist(const QString &cue_path, const QString &audio_path, QUuid *uuid = nullptr, const Song &user_set_data = Song()) const {
 
     const int playlist_id = playlist_backend_->CreatePlaylist(u"CUE"_s, QString());
     if (playlist_id == -1) return -1;
@@ -97,9 +98,14 @@ class PlaylistBackendTest : public ::testing::Test {
     song.set_cue_path(cue_path);
     song.set_filetype(Song::FileType::FLAC);
     song.set_valid(true);
+    song.MergeUserSetData(user_set_data, false, false);
+    song.set_playcount(user_set_data.playcount());
+    song.set_rating(user_set_data.rating());
 
+    const PlaylistItemPtr item = make_shared<SongPlaylistItem>(song);
+    if (uuid) *uuid = item->uuid();
     PlaylistItemSaveDataList items_save_data;
-    items_save_data << make_shared<SongPlaylistItem>(song)->CreateSaveData();
+    items_save_data << item->CreateSaveData();
     playlist_backend_->SavePlaylist(playlist_id, items_save_data, -1, nullptr);
 
     return playlist_id;
@@ -133,6 +139,79 @@ TEST_F(PlaylistBackendTest, RestoresCueData) {
   const SongList songs = playlist_backend_->GetPlaylistSongs(playlist_id);
   ASSERT_EQ(1, songs.count());
   EXPECT_EQ(u"CUE title"_s, songs.first().title());
+
+}
+
+// Regression test: the restored item was replaced with a new item, which got a new ID, so the whole playlist was saved again every time it was loaded, and the play statistics, the rating and the cover set by the user were lost.
+TEST_F(PlaylistBackendTest, RestoredCueItemKeepsIdAndUserSetData) {
+
+  const QString cue_path = temp_dir_.filePath(u"album.cue"_s);
+  const QString audio_path = temp_dir_.filePath(u"album.flac"_s);
+  {
+    QFile cue_file(cue_path);
+    ASSERT_TRUE(cue_file.open(QIODevice::WriteOnly));
+    cue_file.write("FILE \"album.flac\" WAVE\n  TRACK 01 AUDIO\n    TITLE \"CUE title\"\n    INDEX 01 00:00:00\n");
+  }
+  Song user_set_data;
+  user_set_data.set_playcount(5);
+  user_set_data.set_skipcount(2);
+  user_set_data.set_lastplayed(1'700'000'000);
+  user_set_data.set_rating(0.8F);
+  user_set_data.set_art_manual(QUrl::fromLocalFile(temp_dir_.filePath(u"cover.jpg"_s)));
+  QUuid uuid;
+  const int playlist_id = SaveCueSongPlaylist(cue_path, audio_path, &uuid, user_set_data);
+  ASSERT_NE(-1, playlist_id);
+  ASSERT_FALSE(uuid.isNull());
+
+  const PlaylistItemPtrList items = playlist_backend_->GetPlaylistItems(playlist_id);
+  ASSERT_EQ(1, items.count());
+  const PlaylistItemPtr item = items.first();
+  EXPECT_EQ(uuid, item->uuid());
+  EXPECT_FALSE(item->uuid_generated());
+
+  const Song song = item->EffectiveMetadata();
+  EXPECT_EQ(u"CUE title"_s, song.title());
+  EXPECT_EQ(cue_path, song.cue_path());
+  EXPECT_EQ(5, song.playcount());
+  EXPECT_EQ(2, song.skipcount());
+  EXPECT_EQ(1'700'000'000, song.lastplayed());
+  EXPECT_FLOAT_EQ(0.8F, song.rating());
+  EXPECT_EQ(user_set_data.art_manual(), song.art_manual());
+
+}
+
+// Regression test: a saved play count of 0 and a saved rating of 0 or not set were replaced with the ones of the audio file, which all the tracks of the CUE sheet share.
+TEST_F(PlaylistBackendTest, RestoredCueItemKeepsZeroPlaycountAndRating) {
+
+  const QString cue_path = temp_dir_.filePath(u"album.cue"_s);
+  const QString audio_path = temp_dir_.filePath(u"album.flac"_s);
+  {
+    QFile cue_file(cue_path);
+    ASSERT_TRUE(cue_file.open(QIODevice::WriteOnly));
+    cue_file.write("FILE \"album.flac\" WAVE\n  TRACK 01 AUDIO\n    TITLE \"CUE title\"\n    INDEX 01 00:00:00\n");
+  }
+  // The copy of the resource file is read-only.
+  ASSERT_TRUE(QFile::setPermissions(audio_path, QFileDevice::ReadOwner | QFileDevice::WriteOwner));
+  ASSERT_TRUE(tagreader_client_->SaveSongPlaycountBlocking(audio_path, 7).success());
+  ASSERT_TRUE(tagreader_client_->SaveSongRatingBlocking(audio_path, 0.6F).success());
+  Song file_song;
+  ASSERT_TRUE(tagreader_client_->ReadFileBlocking(audio_path, &file_song).success());
+  ASSERT_EQ(7, file_song.playcount());
+  ASSERT_FLOAT_EQ(0.6F, file_song.rating());
+
+  Song user_set_data;
+  user_set_data.set_playcount(0);
+  user_set_data.set_rating(0.0F);
+  const int playlist_id = SaveCueSongPlaylist(cue_path, audio_path, nullptr, user_set_data);
+  ASSERT_NE(-1, playlist_id);
+
+  const PlaylistItemPtrList items = playlist_backend_->GetPlaylistItems(playlist_id);
+  ASSERT_EQ(1, items.count());
+  const Song song = items.first()->EffectiveMetadata();
+  EXPECT_EQ(u"CUE title"_s, song.title());
+  EXPECT_EQ(0, song.playcount());
+  // A rating of 0 is saved as not set.
+  EXPECT_FLOAT_EQ(-1.0F, song.rating());
 
 }
 
