@@ -54,7 +54,7 @@ class NetworkAccessManager : public QNetworkAccessManager {
   // Qt 6.5.10, 6.8.5, 6.9.2 and later cancel the saving of a reply in the cache when the reply is deleted.
   static bool QtCancelsSavingOfDeletedReply(const QVersionNumber &qt_version);
   void ReplyFinished(QNetworkReply *reply);
-  bool SavingAbandoned(QNetworkReply *reply) const;
+  bool SavingFinished(QNetworkReply *reply) const;
   void CancelUnusedSavings();
 
   friend class ThreadSafeNetworkDiskCacheNetworkTest;
