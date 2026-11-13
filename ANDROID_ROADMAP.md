@@ -577,11 +577,18 @@ Keep this visual update Android-only.
   The native XSPF parser suite, including explicit-format export without a filename extension, passed.
   No application changes were needed for this flow.
   The emulator's picker offered only local providers, so it could not establish generic-provider rejection or mixed supported/unsupported-provider behavior.
+- Repeated the local picker and export checks at a 320 x 640 dp portrait display (840 x 1680 pixels at 420 dpi).
+  The Files description wrapped, both picker buttons remained visible, and the sidebar could scroll to the required tabs.
+  Selecting an MP3 loaded metadata and started playback; the folder picker opened and could be cancelled.
+  The playlist editor's toolbar wrapped while keeping Save reachable.
+  Saving a one-track XSPF through the native picker and reopening it through Files both worked at this width.
+  Cancelling the file picker preserved playback.
+  The original emulator display configuration was restored and owned export fixtures were removed afterward.
 
 **Next steps:**
 - Verify explicit rejection of unsupported providers rather than assuming generic document-provider support.
 - Verify mixed supported/unsupported individual-file selections using a suitable non-local document provider.
-- Verify the picker flows on the emulator and a physical device, including narrow-screen layouts.
+- Verify the picker flows on a physical device; normal-width and 320 dp portrait emulator checks have passed.
 - Agree whether arbitrary document providers belong in this item's scope; supporting them would require more than the current local-path bridge.
 
 ## 14. Keep the side menu visible when opening Settings

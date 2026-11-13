@@ -73,6 +73,7 @@ Explicit document-URI save flows remain separate.
 On the emulator, the temporary Now playing playlist was exported through the editor's Save button and Android's native create-document picker to an XSPF document in Downloads.
 The exported document contained the original absolute song path and metadata; reopening it through Files > Choose files started playback, including after an app-process restart.
 Cancelling a subsequent save left the exported file unchanged.
+The same export/reopen flow also passed at 320 dp portrait width; the playlist toolbar wrapped and its Save action remained reachable.
 
 TagLib normally opens paths using the C runtime rather than `QFile`.
 [`taglibfilestream_android.cpp`](src/tagreader/taglibfilestream_android.cpp) opens the authorized `QFile`, duplicates its descriptor and transfers ownership of that duplicate to TagLib's read-only `FileStream`.
