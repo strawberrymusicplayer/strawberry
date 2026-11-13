@@ -31,6 +31,12 @@
 #  include <unistd.h>
 #endif
 
+#if !defined(Q_OS_WIN32) && !defined(Q_OS_MACOS)
+#  include <sys/types.h>
+#  include <sys/un.h>
+#  include <pwd.h>
+#endif
+
 #ifdef Q_OS_MACOS
 #  include <sys/resource.h>
 #  include <sys/sysctl.h>
@@ -63,6 +69,9 @@
 #include <QStyle>
 #include <QStyleHints>
 #include <QMessageBox>
+#if !defined(Q_OS_WIN32) && !defined(Q_OS_MACOS)
+#  include <QLocalSocket>
+#endif
 #ifdef HAVE_TRANSLATIONS
 #  include <QTranslator>
 #endif
@@ -140,6 +149,45 @@ using std::as_const;
 using std::make_unique;
 using std::make_shared;
 
+#if !defined(Q_OS_WIN32) && !defined(Q_OS_MACOS)
+namespace {
+
+// Checks if another instance is running, without becoming the primary instance, like KDSingleApplication does when there is no other instance.
+// The socket name is made like KDSingleApplication 1.2.1 makes it with IncludeUsernameInSocketName, if a later version makes it differently, this returns false.
+bool OtherInstanceRunning(const QString &name) {
+
+  constexpr int max_socket_name_length = sizeof(sockaddr_un::sun_path) - 1;
+  const qsizetype temp_path_length = QDir::cleanPath(QDir::tempPath()).length() + 1;
+  const QString prefix = u"kdsingleapp"_s;
+  const uid_t uid = ::getuid();
+  const struct passwd *pw = ::getpwuid(uid);
+  QString user_name = pw ? QString::fromUtf8(pw->pw_name) : QString::number(uid);
+  if (temp_path_length + prefix.length() + 1 + name.length() + 1 + user_name.length() > max_socket_name_length) {
+    user_name = QString::number(uid);
+  }
+  QString socket_name = prefix + u'-' + user_name + u'-' + name;
+  qsizetype full_socket_name_length = temp_path_length + socket_name.length();
+#if defined(Q_OS_LINUX) || defined(Q_OS_QNX)
+  // The abstract namespace is used.
+  full_socket_name_length += 1;
+#endif
+  if (full_socket_name_length > max_socket_name_length) {
+    socket_name.chop(full_socket_name_length - max_socket_name_length);
+  }
+
+  // The other instance ignores a connection without a message.
+  QLocalSocket socket;
+  socket.connectToServer(socket_name);
+  const bool connected = socket.waitForConnected(1000);
+  socket.abort();
+
+  return connected;
+
+}
+
+}  // namespace
+#endif
+
 int main(int argc, char *argv[]) {
 
 #ifdef Q_OS_MACOS
@@ -166,22 +214,28 @@ int main(int argc, char *argv[]) {
 
   CommandlineOptions options(argc, argv);
   {
-    // Only start a core application now, so we can check if there's another instance without requiring an X server.
+    // Only start a core application now, so the commandline options can be parsed, and sent to another instance, without requiring an X server.
     // This MUST be done before parsing the commandline options so QTextCodec gets the right system locale for filenames.
     QCoreApplication core_app(argc, argv);
-    KDSingleApplication single_app(QCoreApplication::applicationName().toLower(), KDSingleApplication::Option::IncludeUsernameInSocketName);
     // Parse commandline options - need to do this before starting the full QApplication, so it works without an X server
     if (!options.Parse()) return 1;
     logging::SetLevels(options.log_levels());
-    if (!single_app.isPrimaryInstance()) {
-      if (options.is_empty()) {
-        qLog(Info) << "Strawberry is already running - activating existing window (1)";
+    // Only check for another instance here when there is no display, the full QApplication can't be started then, or when another instance is running, so the options are sent to it also when the display can't be used.
+    // Otherwise it's only checked with the full QApplication below, since when this instance is the primary instance here, the messages another instance sends meanwhile are lost when this check ends.
+#if !defined(Q_OS_WIN32) && !defined(Q_OS_MACOS)
+    if ((qEnvironmentVariableIsEmpty("DISPLAY") && qEnvironmentVariableIsEmpty("WAYLAND_DISPLAY")) || OtherInstanceRunning(QCoreApplication::applicationName().toLower())) {
+      KDSingleApplication single_app(QCoreApplication::applicationName().toLower(), KDSingleApplication::Option::IncludeUsernameInSocketName);
+      if (!single_app.isPrimaryInstance()) {
+        if (options.is_empty()) {
+          qLog(Info) << "Strawberry is already running - activating existing window (1)";
+        }
+        if (!single_app.sendMessage(options.Serialize())) {
+          qLog(Error) << "Could not send message to primary instance.";
+        }
+        return 0;
       }
-      if (!single_app.sendMessage(options.Serialize())) {
-        qLog(Error) << "Could not send message to primary instance.";
-      }
-      return 0;
     }
+#endif
   }
 
 #ifdef Q_OS_MACOS
