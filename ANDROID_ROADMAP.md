@@ -10,7 +10,7 @@ Status values: Planned, In progress, Done.
 Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
-1. The remaining open items: 13, 15, 16, 17, 12, 20, 21, 22, 23, 24, 26, 27, 28, 29, and finally 9 (physical-device verification, which needs a device).
+1. The remaining open items: 15, 16, 17, 12, 20, 21, 22, 23, 24, 26, 27, 28, 29, and finally 9 (physical-device verification, which needs a device).
 
 ## 18. Review the Android changes for coding best practices
 
@@ -506,9 +506,12 @@ Keep this visual update Android-only.
 
 ## 13. Explore using Android's file picker for Files
 
-**Status:** In progress
+**Status:** Done (local-files scope; non-local provider checks deferred and physical-device verification remains item 9)
 
 **Goal:** Investigate replacing the app's desktop-style Files browser with Android's native file picker on Android.
+
+**Scope decision:** Keep this item limited to local files and folders.
+Arbitrary cloud/document-provider support is not part of this implementation.
 
 **Implemented:**
 - On Android, the Files tab already replaces desktop browsing controls with Choose files and Choose folder buttons that open the native system document picker.
@@ -585,11 +588,11 @@ Keep this visual update Android-only.
   Cancelling the file picker preserved playback.
   The original emulator display configuration was restored and owned export fixtures were removed afterward.
 
-**Next steps:**
+**Deferred follow-up checks:**
 - Verify explicit rejection of unsupported providers rather than assuming generic document-provider support.
 - Verify mixed supported/unsupported individual-file selections using a suitable non-local document provider.
 - Verify the picker flows on a physical device; normal-width and 320 dp portrait emulator checks have passed.
-- Agree whether arbitrary document providers belong in this item's scope; supporting them would require more than the current local-path bridge.
+- Supporting arbitrary document providers would be a separate feature requiring more than the current local-path bridge.
 
 ## 14. Keep the side menu visible when opening Settings
 
