@@ -56,6 +56,7 @@ jobs:
             gstreamer-plugins-base-devel
             gstreamer-plugins-base
             gstreamer-plugins-good
+            libsoup-3_0-0
             taglib-devel
             libicu-devel
             libuchardet-devel
@@ -388,6 +389,7 @@ jobs:
           hicolor-icon-theme
           gstreamer1.0-plugins-base
           gstreamer1.0-plugins-good
+          gstreamer1.0-soup
       - name: Remove files
         run: rm -rf /usr/lib64/qt6/lib/cmake/Qt6Sql/{Qt6QMYSQL*,Qt6QODBCD*,Qt6QPSQL*,Qt6QIBase*}
       - name: Checkout
