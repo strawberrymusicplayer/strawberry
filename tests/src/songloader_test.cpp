@@ -171,6 +171,15 @@ class SongLoaderRemoteTest : public ::testing::Test {
  protected:
   void SetUp() override {
     gst_init(nullptr, nullptr);
+    // The remote URLs are loaded with GStreamer, which needs an element for HTTP, and the typefinders, they are in plugins which aren't always installed when building.
+    if (!gst_uri_protocol_is_supported(GST_URI_SRC, "http")) {
+      GTEST_SKIP() << "There is no GStreamer element for HTTP.";
+    }
+    GstPluginFeature *typefinder = gst_registry_lookup_feature(gst_registry_get(), "audio/x-flac");
+    if (!typefinder) {
+      GTEST_SKIP() << "There are no GStreamer typefinders.";
+    }
+    gst_object_unref(typefinder);
     ASSERT_TRUE(server_.listen(QHostAddress::LocalHost));
   }
 
