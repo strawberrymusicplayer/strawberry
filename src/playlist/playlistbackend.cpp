@@ -50,7 +50,6 @@
 #include "tagreader/tagreaderclient.h"
 #include "playlistitem.h"
 #include "playlistitemsavedata.h"
-#include "songplaylistitem.h"
 #include "playlistbackend.h"
 #include "playlistparsers/cueparser.h"
 #include "smartplaylists/playlistgenerator.h"
@@ -354,8 +353,17 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, SharedPtr<
 
   for (const Song &from_list : std::as_const(songs)) {
     if (from_list.url().toEncoded() == song.url().toEncoded() && from_list.beginning_nanosec() == song.beginning_nanosec()) {
-      // We found a matching section; replace the input item with a new one containing CUE metadata
-      return make_shared<SongPlaylistItem>(from_list);
+      // We found a matching section, use the CUE metadata for the item.
+      // The item is kept, a new item would get a new ID, so the whole playlist would be saved again every time it's loaded.
+      // The play statistics, the rating and the cover set by the user are saved with the item, and not in the CUE sheet, so they are kept.
+      // The play count and the rating of the song from the CUE sheet are read from the audio file, which all the tracks share, so the saved ones are kept also when they are 0 or not set.
+      const Song saved_song = item->OriginalMetadata();
+      Song cue_song = from_list;
+      cue_song.MergeUserSetData(saved_song, false, false);
+      cue_song.set_playcount(saved_song.playcount());
+      cue_song.set_rating(saved_song.rating());
+      item->SetOriginalMetadata(cue_song);
+      return item;
     }
   }
 
