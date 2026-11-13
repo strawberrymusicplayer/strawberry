@@ -1556,31 +1556,60 @@ Song::FileType Song::FiletypeByDescription(const QString &text) {
 
 }
 
+QStringList Song::ExtensionsForFiletype(const FileType filetype) {
+
+  switch (filetype) {
+    case FileType::WAV:         return QStringList() << u"wav"_s << u"wave"_s;
+    case FileType::FLAC:        return QStringList() << u"flac"_s;
+    case FileType::WavPack:     return QStringList() << u"wavpack"_s << u"wv"_s;
+    case FileType::OggOpus:     return QStringList() << u"opus"_s;
+    case FileType::OggSpeex:    return QStringList() << u"speex"_s << u"spx"_s;
+    case FileType::MPEG:        return QStringList() << u"mp2"_s << u"mp3"_s;
+    case FileType::MP4:         return QStringList() << u"mp4"_s << u"m4a"_s << u"aac"_s;
+    case FileType::ASF:         return QStringList() << u"asf"_s << u"wma"_s;
+    case FileType::AIFF:        return QStringList() << u"aiff"_s << u"aif"_s << u"aifc"_s;
+    case FileType::MPC:         return QStringList() << u"mpc"_s << u"mp+"_s << u"mpp"_s;
+    case FileType::DSF:         return QStringList() << u"dsf"_s;
+    case FileType::DSDIFF:      return QStringList() << u"dsd"_s << u"dff"_s;
+    case FileType::APE:         return QStringList() << u"ape"_s;
+    case FileType::MOD:         return QStringList() << u"mod"_s << u"module"_s << u"nst"_s << u"wow"_s;
+    case FileType::S3M:         return QStringList() << u"s3m"_s;
+    case FileType::XM:          return QStringList() << u"xm"_s;
+    case FileType::IT:          return QStringList() << u"it"_s;
+    case FileType::SPC:         return QStringList() << u"spc"_s;
+    case FileType::VGM:         return QStringList() << u"vgm"_s;
+    default:                    return QStringList();
+  }
+
+}
+
 Song::FileType Song::FiletypeByExtension(const QString &ext) {
 
-  if (ext.compare("wav"_L1, Qt::CaseInsensitive) == 0 || ext.compare("wave"_L1, Qt::CaseInsensitive) == 0) return FileType::WAV;
-  if (ext.compare("flac"_L1, Qt::CaseInsensitive) == 0) return FileType::FLAC;
-  if (ext.compare("wavpack"_L1, Qt::CaseInsensitive) == 0 || ext.compare("wv"_L1, Qt::CaseInsensitive) == 0) return FileType::WavPack;
-  if (ext.compare("opus"_L1, Qt::CaseInsensitive) == 0) return FileType::OggOpus;
-  if (ext.compare("speex"_L1, Qt::CaseInsensitive) == 0 || ext.compare("spx"_L1, Qt::CaseInsensitive) == 0) return FileType::OggSpeex;
-  if (ext.compare("mp2"_L1, Qt::CaseInsensitive) == 0) return FileType::MPEG;
-  if (ext.compare("mp3"_L1, Qt::CaseInsensitive) == 0) return FileType::MPEG;
-  if (ext.compare("mp4"_L1, Qt::CaseInsensitive) == 0 || ext.compare("m4a"_L1, Qt::CaseInsensitive) == 0 || ext.compare("aac"_L1, Qt::CaseInsensitive) == 0) return FileType::MP4;
-  if (ext.compare("asf"_L1, Qt::CaseInsensitive) == 0 || ext.compare("wma"_L1, Qt::CaseInsensitive) == 0) return FileType::ASF;
-  if (ext.compare("aiff"_L1, Qt::CaseInsensitive) == 0 || ext.compare("aif"_L1, Qt::CaseInsensitive) == 0 || ext.compare("aifc"_L1, Qt::CaseInsensitive) == 0) return FileType::AIFF;
-  if (ext.compare("mpc"_L1, Qt::CaseInsensitive) == 0 || ext.compare("mp+"_L1, Qt::CaseInsensitive) == 0 || ext.compare("mpp"_L1, Qt::CaseInsensitive) == 0) return FileType::MPC;
-  if (ext.compare("dsf"_L1, Qt::CaseInsensitive) == 0) return FileType::DSF;
-  if (ext.compare("dsd"_L1, Qt::CaseInsensitive) == 0 || ext.compare("dff"_L1, Qt::CaseInsensitive) == 0) return FileType::DSDIFF;
-  if (ext.compare("ape"_L1, Qt::CaseInsensitive) == 0) return FileType::APE;
-  if (ext.compare("mod"_L1, Qt::CaseInsensitive) == 0 ||
-      ext.compare("module"_L1, Qt::CaseInsensitive) == 0 ||
-      ext.compare("nst"_L1, Qt::CaseInsensitive) == 0 ||
-      ext.compare("wow"_L1, Qt::CaseInsensitive) == 0) return FileType::MOD;
-  if (ext.compare("s3m"_L1, Qt::CaseInsensitive) == 0) return FileType::S3M;
-  if (ext.compare("xm"_L1, Qt::CaseInsensitive) == 0) return FileType::XM;
-  if (ext.compare("it"_L1, Qt::CaseInsensitive) == 0) return FileType::IT;
-  if (ext.compare("spc"_L1, Qt::CaseInsensitive) == 0) return FileType::SPC;
-  if (ext.compare("vgm"_L1, Qt::CaseInsensitive) == 0) return FileType::VGM;
+  static const QList<FileType> kFiletypesWithExtensions = QList<FileType>() << FileType::WAV
+                                                                            << FileType::FLAC
+                                                                            << FileType::WavPack
+                                                                            << FileType::OggOpus
+                                                                            << FileType::OggSpeex
+                                                                            << FileType::MPEG
+                                                                            << FileType::MP4
+                                                                            << FileType::ASF
+                                                                            << FileType::AIFF
+                                                                            << FileType::MPC
+                                                                            << FileType::DSF
+                                                                            << FileType::DSDIFF
+                                                                            << FileType::APE
+                                                                            << FileType::MOD
+                                                                            << FileType::S3M
+                                                                            << FileType::XM
+                                                                            << FileType::IT
+                                                                            << FileType::SPC
+                                                                            << FileType::VGM;
+
+  for (const FileType filetype : kFiletypesWithExtensions) {
+    if (ExtensionsForFiletype(filetype).contains(ext, Qt::CaseInsensitive)) {
+      return filetype;
+    }
+  }
 
   return FileType::Unknown;
 
