@@ -21,6 +21,9 @@
 
 #include "gtest_include.h"
 
+#include <QIcon>
+#include <QPixmap>
+#include <QSize>
 #include <QString>
 
 #include "core/settings.h"
@@ -56,6 +59,71 @@ class PlaylistTabBarTest : public ::testing::Test {
 
   PlaylistTabBar tab_bar_;
 };
+
+// Counts the tabs laid out, every tab is measured when the tabs are laid out.
+class CountingPlaylistTabBar : public PlaylistTabBar {
+ public:
+  int tab_size_hints() const { return tab_size_hints_; }
+  void reset_tab_size_hints() { tab_size_hints_ = 0; }
+
+ protected:
+  QSize tabSizeHint(const int index) const override {
+    ++tab_size_hints_;
+    return PlaylistTabBar::tabSizeHint(index);
+  }
+
+ private:
+  mutable int tab_size_hints_ = 0;
+};
+
+QIcon MakeIcon(const Qt::GlobalColor color) {
+  QPixmap pixmap(16, 16);
+  pixmap.fill(color);
+  return QIcon(pixmap);
+}
+
+// Regression test: setting the icon of the active playlist set the icon of every tab, which laid out all the tabs for every tab, so playing and pausing was slow with many playlists.
+TEST(PlaylistTabBarActiveIconTest, ChangingActiveIconDoesNotLayOutTabsForEveryTab) {
+
+  constexpr int kTabs = 50;
+  CountingPlaylistTabBar tab_bar;
+  for (int i = 0; i < kTabs; ++i) {
+    tab_bar.InsertTab(i + 1, i, u"Playlist %1"_s.arg(i + 1), false);
+  }
+  // The tabs are only laid out when the tab bar is visible.
+  tab_bar.show();
+
+  const QIcon play_icon = MakeIcon(Qt::green);
+  const QIcon pause_icon = MakeIcon(Qt::red);
+
+  // Laying out the tabs measures each tab twice, each change of the icons can lay out the tabs once.
+  tab_bar.reset_tab_size_hints();
+  tab_bar.SetActiveIcon(5, play_icon);
+  EXPECT_LE(tab_bar.tab_size_hints(), 2 * kTabs);
+
+  // Changing the icon of the tab with an icon doesn't lay out the tabs.
+  tab_bar.reset_tab_size_hints();
+  tab_bar.SetActiveIcon(5, pause_icon);
+  EXPECT_EQ(0, tab_bar.tab_size_hints());
+
+  tab_bar.reset_tab_size_hints();
+  tab_bar.SetActiveIcon(7, play_icon);
+  EXPECT_LE(tab_bar.tab_size_hints(), 4 * kTabs);
+
+  for (int i = 0; i < kTabs; ++i) {
+    EXPECT_EQ(i == tab_bar.index_of(7), !tab_bar.tabIcon(i).isNull()) << i;
+  }
+  EXPECT_EQ(play_icon.cacheKey(), tab_bar.tabIcon(tab_bar.index_of(7)).cacheKey());
+
+  // Stopped.
+  tab_bar.reset_tab_size_hints();
+  tab_bar.SetActiveIcon(7, QIcon());
+  EXPECT_LE(tab_bar.tab_size_hints(), 2 * kTabs);
+  for (int i = 0; i < kTabs; ++i) {
+    EXPECT_TRUE(tab_bar.tabIcon(i).isNull()) << i;
+  }
+
+}
 
 // Regression test: closing a tab which wasn't the current tab, like with its close button, switched to the tab left of it.
 TEST_F(PlaylistTabBarTest, ClosingOtherTabKeepsCurrentTab) {

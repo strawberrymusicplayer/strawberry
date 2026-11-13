@@ -299,13 +299,7 @@ void PlaylistContainer::ActiveStopped() { UpdateActiveIcon(QIcon()); }
 
 void PlaylistContainer::UpdateActiveIcon(const QIcon &icon) {
 
-  // Unset all existing icons
-  for (int i = 0; i < ui_->tab_bar->count(); ++i) {
-    ui_->tab_bar->setTabIcon(i, QIcon());
-  }
-
-  // Set our icon
-  if (!icon.isNull()) ui_->tab_bar->set_icon_by_id(manager_->active_id(), icon);
+  ui_->tab_bar->SetActiveIcon(manager_->active_id(), icon);
 
 }
 
