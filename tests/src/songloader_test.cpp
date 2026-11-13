@@ -27,6 +27,8 @@
 
 #include <QByteArray>
 #include <QFile>
+#include <QDir>
+#include <QThread>
 #include <QFuture>
 #include <QIODevice>
 #include <QString>
@@ -46,6 +48,7 @@
 #include "core/memorydatabase.h"
 #include "core/songloader.h"
 #include "core/urlhandlers.h"
+#include "tagreader/tagreaderclient.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmanager.h"
 
@@ -89,6 +92,49 @@ TEST(SongLoaderTest, ParserErrorsFromConcurrentThread) {
   const QStringList errors = future.result();
   ASSERT_EQ(1, errors.count());
   EXPECT_TRUE(errors.first().contains(u"unknownscheme://example/song.mp3"_s));
+
+}
+
+// Regression test: a plain M3U playlist without a header was taken as a CUE sheet when an entry started with one of the CUE words, so it was loaded without songs.
+TEST(SongLoaderTest, PlainM3UWithCueWordsIsLoaded) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  ASSERT_TRUE(QDir(temp_dir.path()).mkpath(u"Tracks"_s));
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.flac"_s, temp_dir.filePath(u"Tracks/01.flac"_s)));
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.flac"_s, temp_dir.filePath(u"Track 02.flac"_s)));
+  const QString filename = temp_dir.filePath(u"playlist.m3u"_s);
+  {
+    QFile file(filename);
+    ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+    file.write(QByteArray("Tracks/01.flac\nTrack 02.flac\n"));
+    file.close();
+  }
+
+  SharedPtr<Database> database = make_shared<MemoryDatabase>(nullptr);
+  SharedPtr<CollectionBackend> collection_backend = make_shared<CollectionBackend>();
+  collection_backend->Init(database, nullptr, Song::Source::Collection, QLatin1String(CollectionManager::kSongsTable), QLatin1String(CollectionManager::kDirsTable), QLatin1String(CollectionManager::kSubdirsTable));
+
+  // The songs get their URL when the files are read.
+  SharedPtr<TagReaderClient> tagreader_client = make_shared<TagReaderClient>();
+  QThread tagreader_client_thread;
+  tagreader_client->moveToThread(&tagreader_client_thread);
+  tagreader_client_thread.start();
+
+  SongLoader loader(make_shared<UrlHandlers>(), collection_backend, tagreader_client);
+  const SongLoader::Result result = loader.Load(QUrl::fromLocalFile(filename));
+  const SongLoader::Result blocking_result = result == SongLoader::Result::BlockingLoadRequired ? loader.LoadFilenamesBlocking() : result;
+  // Stop the thread before the assertions, which return from the test when they fail.
+  tagreader_client_thread.quit();
+  tagreader_client_thread.wait();
+  ASSERT_EQ(SongLoader::Result::BlockingLoadRequired, result);
+  EXPECT_EQ(SongLoader::Result::Success, blocking_result);
+  EXPECT_TRUE(loader.errors().isEmpty()) << loader.errors().join(u'\n').toStdString();
+
+  const SongList songs = loader.songs();
+  ASSERT_EQ(2, songs.count());
+  EXPECT_EQ(QUrl::fromLocalFile(temp_dir.filePath(u"Tracks/01.flac"_s)), songs.at(0).url());
+  EXPECT_EQ(QUrl::fromLocalFile(temp_dir.filePath(u"Track 02.flac"_s)), songs.at(1).url());
 
 }
 

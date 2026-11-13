@@ -311,6 +311,111 @@ TEST_F(CueParserTest, TrackWithPregapInPreviousDataFile) {
 
 }
 
+TEST_F(CueParserTest, TryMagicRecognisesCueSheets) {
+
+  CueParser parser = MakeParser();
+
+  // Like Exact Audio Copy writes it.
+  EXPECT_TRUE(parser.TryMagic("REM GENRE Rock\r\nREM DATE 1999\r\nREM DISCID 860B640B\r\nREM COMMENT \"ExactAudioCopy v1.6\"\r\nPERFORMER \"Artist\"\r\nTITLE \"Album\"\r\nFILE \"Album.flac\" WAVE\r\n  TRACK 01 AUDIO\r\n    INDEX 01 00:00:00\r\n"));
+  // Without quotes and in lower case.
+  EXPECT_TRUE(parser.TryMagic("performer Artist\ntitle Album\nfile album.wav wave\n  track 01 audio\n    index 01 00:00:00\n"));
+  EXPECT_TRUE(parser.TryMagic("TITLE \"Album\"\n"));
+  EXPECT_TRUE(parser.TryMagic("PERFORMER \"Artist\"\n"));
+  EXPECT_TRUE(parser.TryMagic("FILE album.bin BINARY\n"));
+  EXPECT_TRUE(parser.TryMagic("FILE \"Album.flac\" FLAC\n"));
+  EXPECT_FALSE(parser.TryMagic("FILE album.flac FLAC\n"));
+  EXPECT_TRUE(parser.TryMagic("  TRACK 02 MODE1/2352\n"));
+
+}
+
+// Only the start of the data is checked, so the line after long REM lines can be cut off.
+TEST_F(CueParserTest, TryMagicRecognisesCutOffLine) {
+
+  CueParser parser = MakeParser();
+
+  QByteArray data;
+  while (data.size() < 450) {
+    data += "REM COMMENT \"A long comment which fills the start of the CUE sheet\"\r\n";
+  }
+  data += "PERFORMER \"An artist with a very long name which doesn't fit in the start of the CUE sheet\"\r\nTITLE \"Album\"\r\n";
+  const QByteArray magic = data.left(512);
+  ASSERT_FALSE(magic.contains("TITLE"));
+  EXPECT_TRUE(parser.TryMagic(magic));
+
+  EXPECT_TRUE(parser.TryMagic("REM GENRE Rock\nTITLE \"Alb"));
+  EXPECT_TRUE(parser.TryMagic("REM GENRE Rock\nFILE \"Album.fl"));
+  EXPECT_TRUE(parser.TryMagic("REM GENRE Rock\nFILE \"Album.flac\" "));
+
+  // Complete lines at the end without a newline.
+  EXPECT_TRUE(parser.TryMagic("REM GENRE Rock\nTITLE \"Album\""));
+  EXPECT_TRUE(parser.TryMagic("REM GENRE Rock\nFILE \"Album.flac\" WAVE"));
+  EXPECT_TRUE(parser.TryMagic("REM GENRE Rock\nTRACK 01 AUDIO"));
+  EXPECT_TRUE(parser.TryMagic("REM GENRE Rock\nFILE album.wav WAVE"));
+  EXPECT_TRUE(parser.TryMagic("REM GENRE Rock\nFILE album.bin BINARY"));
+
+  // The start of the data ends right after an unquoted FILE line.
+  QByteArray unquoted_data;
+  while (unquoted_data.size() < 450) {
+    unquoted_data += "REM COMMENT \"A long comment which fills the start of the CUE sheet\"\r\n";
+  }
+  unquoted_data += "FILE album.wav WAVE";
+  EXPECT_TRUE(parser.TryMagic(unquoted_data));
+
+  // Only the last line can be cut off.
+  EXPECT_FALSE(parser.TryMagic("REM GENRE Rock\nTITLE \"Alb\n"));
+  EXPECT_FALSE(parser.TryMagic("TITLE \"Alb\nREM GENRE Rock"));
+
+}
+
+// Regression test: an audio file with a CUE sheet in its tags near the start was taken as a CUE sheet, so it was loaded without songs.
+TEST_F(CueParserTest, TryMagicDoesNotRecogniseAudioFileWithCueSheetTag) {
+
+  CueParser parser = MakeParser();
+
+  // A FLAC file with the STREAMINFO block, and a VORBIS_COMMENT block with a CUESHEET tag.
+  const QByteArray vendor = "reference libFLAC 1.4.3 20230623";
+  const QByteArray tag = "CUESHEET=REM GENRE Rock\r\nPERFORMER \"Artist\"\r\nTITLE \"Album\"\r\nFILE \"Album.flac\" WAVE\r\n  TRACK 01 AUDIO\r\n    INDEX 01 00:00:00\r\n";
+  QByteArray vorbis_comment;
+  vorbis_comment += QByteArray(1, static_cast<char>(vendor.size())) + QByteArray(3, '\0') + vendor;
+  vorbis_comment += QByteArray(1, '\1') + QByteArray(3, '\0');
+  vorbis_comment += QByteArray(1, static_cast<char>(tag.size())) + QByteArray(3, '\0') + tag;
+  QByteArray data = "fLaC";
+  data += QByteArray("\x00\x00\x00\x22", 4) + QByteArray(34, '\x11');
+  data += QByteArray(1, '\x84') + QByteArray(1, '\0') + QByteArray(1, '\0') + QByteArray(1, static_cast<char>(vorbis_comment.size())) + vorbis_comment;
+  ASSERT_LT(data.size(), 512);
+  ASSERT_TRUE(data.contains("\r\nTITLE \"Album\"\r\n"));
+
+  EXPECT_FALSE(parser.TryMagic(data));
+
+}
+
+// Regression test: a plain list of files without a header, like an M3U playlist, was taken as a CUE sheet when a line started with one of the CUE words, so it was loaded without songs.
+TEST_F(CueParserTest, TryMagicDoesNotRecognisePlainFileList) {
+
+  CueParser parser = MakeParser();
+
+  EXPECT_FALSE(parser.TryMagic("Tracks/01.flac\nTracks/02.flac\n"));
+  EXPECT_FALSE(parser.TryMagic("Title Fight/Song.mp3\n"));
+  EXPECT_FALSE(parser.TryMagic("Track 01.mp3\nTrack 02.mp3\n"));
+  EXPECT_FALSE(parser.TryMagic("Track 1 - Intro.mp3\n"));
+  EXPECT_FALSE(parser.TryMagic("Track 01 Intro.flac\n"));
+  EXPECT_FALSE(parser.TryMagic("file:///home/user/Music/song.mp3\n"));
+  EXPECT_FALSE(parser.TryMagic("File 01.mp3\n"));
+  EXPECT_FALSE(parser.TryMagic("Performer - Song.flac\n"));
+  EXPECT_FALSE(parser.TryMagic("/music/Title Track.ogg\nC:\\Music\\Track 01.mp3\n"));
+  // The start of a longer list, which can be cut off anywhere.
+  EXPECT_FALSE(parser.TryMagic("Tracks/01.flac\nTrack 01"));
+  EXPECT_FALSE(parser.TryMagic("Tracks/01.flac\nTitle Fight/So"));
+  EXPECT_FALSE(parser.TryMagic("Tracks/01.flac\nfile:///music/so"));
+  EXPECT_FALSE(parser.TryMagic("Tracks/01.flac\nTrack 01 I"));
+  EXPECT_FALSE(parser.TryMagic("Tracks/01.flac\nTrack 01 Intro"));
+  EXPECT_FALSE(parser.TryMagic("Tracks/01.flac\nFile 01 Intro"));
+  EXPECT_FALSE(parser.TryMagic("Tracks/01.flac\nFile 01 Introduction"));
+  EXPECT_FALSE(parser.TryMagic("File 01 Introduction\nTracks/01.flac\n"));
+  EXPECT_FALSE(parser.TryMagic("Track 01 Intro\nTracks/01.flac\n"));
+
+}
+
 // The media files of a CUE sheet can be found without loading the songs, data files and media files without tracks are not included.
 TEST_F(CueParserTest, MediaFiles) {
 
