@@ -530,13 +530,27 @@ Keep this visual update Android-only.
   That check used an existing folder grant, not a fresh individual-file grant.
 - On 2026-11-13, the native document-bridge, GStreamer file-source and song-loader test binaries passed.
   These tests do not establish Android picker UI behavior or fresh permission acquisition.
-- The same session's fresh UI checks were blocked: the emulator booted, but the installed app displayed a blank window after launch and a restart without clearing app data.
-  No new picker interaction or permission-lifecycle result is claimed from that attempt.
+- Fresh UI checks initially encountered a blank window and repeated host-GPU emulator exits with graphics-context errors.
+  A software-rendered emulator reached the main window after slow startup; temporary startup markers showed construction completing, and were removed afterward.
+- Through Files > Choose files, Android DocumentsUI accepted two selected local files and returned to Strawberry with playback active.
+  Android reported persisted read grants for both individual documents.
+- Selecting one MP3 produced exactly one track in Now playing with its metadata and active playback.
+  Cancelling either the file or folder picker preserved that one-track in-memory selection.
+- Files > Choose folder opened the native folder picker and Android's access confirmation.
+  Choosing SessionTest produced a five-track Now playing selection, matching its five supported audio files.
+  The 16 saved playlists and their contents remained unchanged; all 1603 Collection entries were retained.
+  Collection fields other than playback's skip count remained unchanged, and the database integrity check passed.
+  Back navigates up within DocumentsUI before cancelling at its root.
+  No physical-device or generic-provider result is claimed from these emulator checks.
+- Removed all temporary startup instrumentation, rebuilt and signature-verified the non-debuggable release APK, and installed it without clearing app data.
+  The clean release rendered successfully under software emulation, opened the native file picker and played a selected MP3 with metadata.
+  Android still reported persisted read grants for the newly selected individual files and folder after the app restart and APK update.
+  This does not independently prove uncommon-file access without reselecting a document after restart.
 
 **Next steps:**
-- Verify fresh single-file, multiple-file and folder selection through the Files tab, including nested music, cancellation and retention of access after restart.
+- Complete nested-folder selection checks and verify runtime access through freshly acquired grants after restart.
 - Test shared storage and Downloads separately; verify explicit rejection of unsupported providers rather than assuming generic document-provider support.
-- Check that saved playlists and Collection entries are unchanged, that Now playing receives only the intended supported tracks, and that saving the resulting temporary playlist still works.
+- Verify mixed supported/unsupported selections, nested-folder track counts, and saving the resulting temporary playlist.
 - Verify the picker flows on the emulator and a physical device, including narrow-screen layouts.
 - Agree whether arbitrary document providers belong in this item's scope; supporting them would require more than the current local-path bridge.
 

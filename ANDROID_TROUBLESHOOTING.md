@@ -325,6 +325,17 @@ Don't remove it unless the Android Qt kit is 6.9.2 or newer.
 
 ---
 
+### Emulator Shows a Blank Window or Exits with Graphics-Context Errors
+
+The host-GPU emulator can fail independently of the app.
+During Files picker checks with emulator 37.2.13, the host renderer repeatedly exited after reporting `error null ctx`; disabling Vulkan alone did not resolve it.
+The same AVD reached a working app and native document picker using `-gpu swiftshader -no-window -no-snapshot-load -no-snapshot-save`.
+Software rendering is much slower and is a diagnostic fallback, not the normal launch configuration.
+Allow startup to complete and check logs before treating a blank window as an application deadlock.
+Keep the Qt widget rendering workaround above intact, and do not clear app data to diagnose a renderer failure.
+
+---
+
 ### Tapping a Positioned Dialog Activates the Wrong Button
 
 **Symptoms:**
