@@ -168,7 +168,11 @@ QString CollectionView::EmptyTitleText() const {
 }
 
 QString CollectionView::EmptyText() const {
+#ifdef Q_OS_ANDROID
+  return tr("Tap here to open Collection settings and add music");
+#else
   return tr("Click here to add some music");
+#endif
 }
 
 void CollectionView::EmptyClicked() {

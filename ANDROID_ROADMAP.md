@@ -10,7 +10,7 @@ Status values: Planned, In progress, Done.
 Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
-1. The remaining open items: 15, 16, 17, 12, 20, 21, 22, 23, 24, 26, 27, 28, 29, and finally 9 (physical-device verification, which needs a device).
+1. The remaining open items: 16, 17, 12, 20, 21, 22, 23, 24, 26, 27, 28, 29, and finally 9 (physical-device verification, which needs a device).
 
 ## 18. Review the Android changes for coding best practices
 
@@ -611,16 +611,30 @@ Arbitrary cloud/document-provider support is not part of this implementation.
 
 ## 15. Clarify the Collection empty-state action
 
-**Status:** Planned
+**Status:** Done (Android emulator verified; physical-device verification remains item 9)
 
 **Problem:** The Android Collection empty state says "Click here to add some music", but tapping it opens Settings rather than an add-music flow.
 
 **Goal:** Make the Collection empty-state action and its text agree, so users know how to add music and the tap leads to the expected place.
 
-**Next steps:**
-- Verify the tap behavior from the Collection content area with an empty collection and confirm why it opens Settings.
-- Decide whether the action should open the relevant Collection settings, start adding a music folder directly, or use different explanatory text.
-- Verify Back returns to Collection and that the chosen flow can add a folder and populate the collection; preserve existing Collection behavior on desktop.
+**Implemented:**
+- Keep the existing action, as agreed: `CollectionView::EmptyClicked()` emits `ShowSettingsDialog`, which MainWindow connects to `OpenCollectionSettingsDialog()`, opening the Collection settings page rather than an unrelated settings overview.
+- Android now says "Tap here to open Collection settings and add music".
+  Empty-state title and action text wrap within the Android viewport so the explanation remains readable on narrow screens.
+  Desktop wording and rendering remain unchanged.
+
+**Validation:**
+- The native Collection model suite passed, including a new regression verifying that a tap on an empty Collection emits the settings signal and a tap on a populated Collection does not.
+  The native run also checks the unchanged desktop wording; the test has a separate Android wording expectation.
+- The Android application and signed release APK built successfully.
+- Used an isolated temporary Android user with a genuinely empty Collection, preserving the owner's existing Collection, playlists and settings.
+  The new action text rendered and tapping the empty Collection opened Settings > General > Collection.
+  Back followed the existing Settings hierarchy and returned to Collection.
+- From that page, opened Music folders > Add new folder, granted access to an owned one-MP3 folder through the native picker, returned and applied the settings.
+  Returning to Collection showed the fixture's artist instead of the empty state.
+- At 320 dp portrait width, verified that both the full empty-state title and the explanatory action wrap visibly.
+  Android text measurements use the active painter's font metrics, avoiding a clipped title when device font metrics differ from the default metrics.
+  Removed the temporary user and owned fixtures, and restored the original emulator display configuration.
 
 ## 16. Verify Smart Playlists on Android
 

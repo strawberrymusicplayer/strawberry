@@ -40,6 +40,7 @@
 #include <QItemSelectionModel>
 #include <QScrollBar>
 #include <QTreeView>
+#include <QTest>
 #include <QTemporaryDir>
 #include <QThreadPool>
 #include <QRecursiveMutex>
@@ -55,6 +56,7 @@
 #include "collection/collectionmodel.h"
 #include "collection/collectionfilter.h"
 #include "collection/collectiontreeview.h"
+#include "collection/collectionview.h"
 
 using namespace Qt::Literals::StringLiterals;
 using std::make_unique;
@@ -63,6 +65,34 @@ using std::make_shared;
 // clazy:excludeall=non-pod-global-static,returning-void-expression
 
 namespace {
+
+class EmptyCollectionView : public CollectionView {
+ public:
+  using CollectionView::EmptyText;
+};
+
+TEST(CollectionViewTest, EmptyCollectionOpensSettings) {
+
+  EmptyCollectionView view;
+  view.TotalSongCountUpdated(0);
+  QSignalSpy settings(&view, &CollectionView::ShowSettingsDialog);
+  view.resize(240, 480);
+  view.show();
+  QCoreApplication::processEvents();
+
+#ifdef Q_OS_ANDROID
+  EXPECT_EQ(u"Tap here to open Collection settings and add music"_s, view.EmptyText());
+#else
+  EXPECT_EQ(u"Click here to add some music"_s, view.EmptyText());
+#endif
+  QTest::mouseClick(view.viewport(), Qt::LeftButton, Qt::NoModifier, view.viewport()->rect().center());
+  EXPECT_EQ(1, settings.count());
+
+  view.TotalSongCountUpdated(1);
+  QTest::mouseClick(view.viewport(), Qt::LeftButton, Qt::NoModifier, view.viewport()->rect().center());
+  EXPECT_EQ(1, settings.count());
+
+}
 
 // Makes the collection model of the view settable, it's set by the subclasses of the view.
 class TestCollectionTreeView : public CollectionTreeView {
