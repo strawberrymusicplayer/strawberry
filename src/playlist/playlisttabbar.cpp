@@ -367,8 +367,20 @@ int PlaylistTabBar::id_of(const int index) const {
 
 }
 
-void PlaylistTabBar::set_icon_by_id(const int id, const QIcon &icon) {
-  setTabIcon(index_of(id), icon);
+void PlaylistTabBar::SetActiveIcon(const int id, const QIcon &icon) {
+
+  // Setting the icon of a tab to or from no icon lays out all the tabs again, so only the tabs with an icon are changed, setting it for every tab made playing and pausing slow with many playlists.
+  const int active_index = icon.isNull() ? -1 : index_of(id);
+  for (int i = 0; i < count(); ++i) {
+    if (i != active_index && !tabIcon(i).isNull()) {
+      setTabIcon(i, QIcon());
+    }
+  }
+
+  if (active_index != -1) {
+    setTabIcon(active_index, icon);
+  }
+
 }
 
 void PlaylistTabBar::RemoveTab(const int id) {

@@ -64,7 +64,8 @@ class PlaylistTabBar : public QTabBar {
 
   // Utility functions that use IDs rather than indexes
   void set_current_id(const int id);
-  void set_icon_by_id(const int id, const QIcon &icon);
+  // Sets the icon of the active playlist, and removes the icon from the other tabs, a null icon removes all the icons.
+  void SetActiveIcon(const int id, const QIcon &icon);
   void set_text_by_id(const int id, const QString &text);
 
   void RemoveTab(const int id);
