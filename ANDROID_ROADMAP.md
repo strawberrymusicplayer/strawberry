@@ -546,11 +546,19 @@ Keep this visual update Android-only.
   The clean release rendered successfully under software emulation, opened the native file picker and played a selected MP3 with metadata.
   Android still reported persisted read grants for the newly selected individual files and folder after the app restart and APK update.
   This does not independently prove uncommon-file access without reselecting a document after restart.
+- Follow-up emulator checks selected a fresh local folder containing an MP3 at its root, a second MP3 in a nested folder, and a text file.
+  Now playing contained exactly two tracks with four minutes total duration; the text file was not imported.
+  A local MP3 selected from a dedicated Download subfolder also produced one track and active playback.
+  This Downloads check used the external-storage provider, not the separate Downloads provider.
+- A fresh folder grant also survived an app restart with functional read access.
+  A WavPack fixture under that folder was classified by MediaStore as `application/octet-stream`.
+  After restarting, choosing an M3U in Download that referenced the WavPack path loaded its metadata and started playback, without reselecting the music folder or the WavPack document.
+  Android reported only the persisted read grant for that folder (`owned=0x0`, `persisted=0x1`), with no separate WavPack document grant.
+  Test fixtures were removed afterward.
 
 **Next steps:**
-- Complete nested-folder selection checks and verify runtime access through freshly acquired grants after restart.
-- Test shared storage and Downloads separately; verify explicit rejection of unsupported providers rather than assuming generic document-provider support.
-- Verify mixed supported/unsupported selections, nested-folder track counts, and saving the resulting temporary playlist.
+- Test the separate Downloads document provider and explicit rejection of unsupported providers rather than assuming generic document-provider support.
+- Verify mixed supported/unsupported individual-file selections and saving the resulting temporary playlist.
 - Verify the picker flows on the emulator and a physical device, including narrow-screen layouts.
 - Agree whether arbitrary document providers belong in this item's scope; supporting them would require more than the current local-path bridge.
 
