@@ -79,12 +79,84 @@ class TranscoderTest {
 
   static bool OutputUsedByJob(const Transcoder &transcoder, const QString &output) { return transcoder.OutputUsedByJob(output); }
 
+  // Adds a job with a pipeline with the audio converter, which the pads added by the decoder are linked to.
+  static SharedPtr<Transcoder::JobState> AddJobWithConverter(Transcoder &transcoder) {
+    Transcoder::Job job;
+    job.input = u"input.mkv"_s;
+    job.output = u"output.ogg"_s;
+    SharedPtr<Transcoder::JobState> state = make_shared<Transcoder::JobState>(++transcoder.next_job_id_, job, &transcoder);
+    state->pipeline_ = gst_pipeline_new(nullptr);
+    state->convert_element_ = gst_element_factory_make("audioconvert", nullptr);
+    gst_bin_add(GST_BIN(state->pipeline_), state->convert_element_);
+    return state;
+  }
+
+  static void NewPad(const SharedPtr<Transcoder::JobState> &state, GstPad *pad) { Transcoder::NewPadCallback(nullptr, pad, &*state); }
+
+  static GstPad *ConverterPeer(const SharedPtr<Transcoder::JobState> &state) {
+    GstPad *sinkpad = gst_element_get_static_pad(state->convert_element_, "sink");
+    GstPad *peer = gst_pad_get_peer(sinkpad);
+    gst_object_unref(sinkpad);
+    if (peer) gst_object_unref(peer);
+    return peer;
+  }
+
   static int RunningJobs(const Transcoder &transcoder) {
     return static_cast<int>(transcoder.current_jobs_.count());
   }
 };
 
 namespace {
+
+// Creates a source pad with the caps, like the pads decodebin adds.
+GstPad *NewSourcePad(const char *name, const char *caps_string) {
+  GstCaps *caps = gst_caps_from_string(caps_string);
+  GstPadTemplate *pad_template = gst_pad_template_new(name, GST_PAD_SRC, GST_PAD_ALWAYS, caps);
+  gst_caps_unref(caps);
+  GstPad *pad = gst_pad_new_from_template(pad_template, name);
+  gst_object_unref(pad_template);
+  return pad;
+}
+
+void CountCritical(const gchar *log_domain, GLogLevelFlags log_level, const gchar *message, gpointer user_data) {
+  Q_UNUSED(log_domain);
+  Q_UNUSED(log_level);
+  Q_UNUSED(message);
+  ++*static_cast<int*>(user_data);
+}
+
+// Regression test: the transcoder tried to link every pad the decoder added, a video pad after the audio pad caused a GStreamer critical warning when unlinking the audio pad.
+TEST(TranscoderTest, OnlyAudioPadIsLinked) {
+
+  GstStartup::Initialize();
+  if (!gst_element_factory_find("audioconvert")) {
+    GTEST_SKIP() << "The GStreamer audioconvert element is missing.";
+  }
+
+  Transcoder transcoder(nullptr);
+  const auto state = TranscoderTest::AddJobWithConverter(transcoder);
+
+  GstPad *audio_pad = NewSourcePad("audio", "audio/x-raw");
+  GstPad *video_pad = NewSourcePad("video", "video/x-raw");
+
+  TranscoderTest::NewPad(state, audio_pad);
+  EXPECT_EQ(audio_pad, TranscoderTest::ConverterPeer(state));
+
+  // A video pad added after the audio pad.
+  int criticals = 0;
+  const guint handler_id = g_log_set_handler("GStreamer", static_cast<GLogLevelFlags>(G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING), CountCritical, &criticals);
+  TranscoderTest::NewPad(state, video_pad);
+  g_log_remove_handler("GStreamer", handler_id);
+  EXPECT_EQ(audio_pad, TranscoderTest::ConverterPeer(state));
+  EXPECT_EQ(0, criticals);
+
+  GstPad *sinkpad = gst_element_get_static_pad(state->convert_element_, "sink");
+  gst_pad_unlink(audio_pad, sinkpad);
+  gst_object_unref(sinkpad);
+  gst_object_unref(audio_pad);
+  gst_object_unref(video_pad);
+
+}
 
 // Regression test: a pipeline posting two error messages posted two finished events, the second one could finish another job which was allocated at the address of the finished job, as failed.
 TEST(TranscoderTest, JobIsOnlyFinishedOnce) {
