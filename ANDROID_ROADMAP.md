@@ -730,7 +730,8 @@ Show a short VPN tip behind an information button; do not build external-access 
   This update and the larger Context lyrics are installed on the FP5 with approval, preserving app data.
 - Android letter dividers can hide/reveal their whole group while preserving artist/album expansion.
   Settings > General > Collection > Display options > Allow collapsing letter groups enables this by default and is available when Show dividers is on.
-  Disabling the option reveals every group; collection resets and app restarts also start with groups open.
+  Disabling the option reveals every group; collection resets and app restarts start with letter groups collapsed.
+  Newly discovered letter groups also start collapsed; manually opened groups remain open while browsing and reapplying settings.
   Seven native folding regressions and five finger-scrolling tests pass three consecutive runs, with five focused real-model regressions also passing.
   The signed Android build is verified on the emulator for whole-row folding, Apply and Cancel, and installed on the FP5 with approval without clearing app data.
 - Scan cancellation is now offered only through Tools > Collection > Stop scan on Android; the title bar is status-only.

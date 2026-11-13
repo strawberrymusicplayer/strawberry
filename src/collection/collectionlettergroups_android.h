@@ -34,6 +34,7 @@ class CollectionLetterGroups : public QObject {
   QTimer *update_timer_;
   QList<QMetaObject::Connection> connections_;
   QSet<QString> collapsed_;
+  QSet<QString> known_groups_;
   bool enabled_ = false;
 };
 

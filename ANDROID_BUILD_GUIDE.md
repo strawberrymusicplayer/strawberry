@@ -56,7 +56,8 @@ An arrow beside the divider indicates whether the group is open or closed.
 Settings > General > Collection > Display options > Allow collapsing letter groups controls this behavior and defaults to enabled.
 It requires Show dividers; disabling it immediately reveals hidden groups.
 As with other Settings options, Apply or OK saves the change, while Cancel discards unapplied changes.
-Groups start open after a collection reset or app restart; these temporary folds are not saved.
+Groups start collapsed after a collection reset or app restart, including letter groups added during scanning.
+Opening a group keeps it open while browsing and reapplying settings; these temporary folds are not saved.
 Desktop Collection behavior is unchanged.
 
 ## NAS client dependency

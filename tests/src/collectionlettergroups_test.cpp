@@ -42,6 +42,8 @@ class CollectionLetterGroupsTest : public ::testing::Test {
     view_.show();
     groups_.SetEnabled(true);
     QCoreApplication::processEvents();
+    Tap(0);
+    Tap(2);
   }
 
   void Tap(const int row) {
@@ -82,8 +84,23 @@ TEST_F(CollectionLetterGroupsTest, DisablingImmediatelyRevealsGroupsAndLeavesOrd
   Tap(1);
   EXPECT_TRUE(view_.isExpanded(proxy_.index(1, 0)));
   groups_.SetEnabled(true);
-  Tap(0);
   EXPECT_TRUE(view_.isRowHidden(1, QModelIndex()));
+}
+
+TEST_F(CollectionLetterGroupsTest, GroupsStartCollapsedAndReloadingSettingsPreservesOpenedGroups) {
+  groups_.SetEnabled(false);
+  groups_.SetEnabled(true);
+  EXPECT_TRUE(view_.isRowHidden(1, QModelIndex()));
+  EXPECT_TRUE(view_.isRowHidden(3, QModelIndex()));
+  Tap(0);
+  groups_.SetEnabled(true);
+  EXPECT_FALSE(view_.isRowHidden(1, QModelIndex()));
+  EXPECT_TRUE(view_.isRowHidden(3, QModelIndex()));
+  model_.appendRow(Item(QStringLiteral("C"), QStringLiteral("C"), true));
+  model_.appendRow(Item(QStringLiteral("Composer"), QStringLiteral("C")));
+  QCoreApplication::processEvents();
+  EXPECT_FALSE(view_.isRowHidden(1, QModelIndex()));
+  EXPECT_TRUE(view_.isRowHidden(5, QModelIndex()));
 }
 
 TEST_F(CollectionLetterGroupsTest, NewArtistsAndSortingRemainInTheirCollapsedGroup) {
@@ -139,6 +156,8 @@ TEST_F(CollectionLetterGroupsTest, ResetAndModelReplacementDiscardOldHiddenRows)
   model_.appendRow(Item(QStringLiteral("A"), QStringLiteral("A"), true));
   model_.appendRow(Item(QStringLiteral("Artist"), QStringLiteral("A")));
   QCoreApplication::processEvents();
+  EXPECT_TRUE(view_.isRowHidden(1, QModelIndex()));
+  Tap(0);
   EXPECT_FALSE(view_.isRowHidden(1, QModelIndex()));
   Tap(0);
   QStandardItemModel replacement;

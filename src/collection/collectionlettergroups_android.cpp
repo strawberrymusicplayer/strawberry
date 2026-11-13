@@ -58,6 +58,7 @@ CollectionLetterGroups::CollectionLetterGroups(QTreeView *view)
 }
 
 void CollectionLetterGroups::SetEnabled(const bool enabled) {
+  if (enabled_ != enabled) known_groups_.clear();
   enabled_ = enabled;
   if (!enabled_) collapsed_.clear();
   BindModel();
@@ -81,6 +82,7 @@ void CollectionLetterGroups::BindModel() {
   for (const QMetaObject::Connection &connection : std::as_const(connections_)) QObject::disconnect(connection);
   connections_.clear();
   collapsed_.clear();
+  known_groups_.clear();
   model_ = view_->model();
   if (!model_) return;
 
@@ -91,6 +93,7 @@ void CollectionLetterGroups::BindModel() {
   connections_ << QObject::connect(model_, &QAbstractItemModel::dataChanged, this, schedule);
   connections_ << QObject::connect(model_, &QAbstractItemModel::modelReset, this, [this]() {
     collapsed_.clear();
+    known_groups_.clear();
     update_timer_->start();
   });
   connections_ << QObject::connect(view_->selectionModel(), &QItemSelectionModel::currentChanged, this,
@@ -103,7 +106,12 @@ void CollectionLetterGroups::ApplyRows() {
   for (int row = 0; row < model_->rowCount(); ++row) {
     const QModelIndex index = model_->index(row, 0);
     if (index.data(CollectionModel::Role_IsDivider).toBool()) {
-      visible_dividers.insert(index.data(CollectionModel::Role_DividerKey).toString());
+      const QString key = index.data(CollectionModel::Role_DividerKey).toString();
+      visible_dividers.insert(key);
+      if (enabled_ && !known_groups_.contains(key)) {
+        known_groups_.insert(key);
+        collapsed_.insert(key);
+      }
     }
   }
   for (int row = 0; row < model_->rowCount(); ++row) {
