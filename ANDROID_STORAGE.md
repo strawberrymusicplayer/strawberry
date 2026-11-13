@@ -14,10 +14,11 @@ This permission belongs to a `content://` document URI: converting that URI to `
 
 ## What users need to do
 
-Select the music folder through the Android picker when adding a Collection directory or using Add folder.
-Individual files selected through Add file also retain their own read grant.
+Select the music folder through the Android picker when adding a Collection directory, using Add folder, or opening Files > Choose folder.
+Individual local external-storage documents selected through Add file or Files > Choose files also retain their own read grant.
 Previously persisted folder grants are loaded automatically when Strawberry starts; existing Collection entries and playlist URLs do not need migration.
-Merely browsing a path in Strawberry's Files tab does not grant SAF access.
+On Android, the Files tab offers system-picker buttons rather than the desktop filesystem browser.
+Cancelling the picker does not grant access or change the playlist.
 If uncommon files remain unavailable in an existing Collection, select that folder again through the picker, then update the Collection.
 
 Grants survive ordinary app restarts, device restarts and in-place APK updates.

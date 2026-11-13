@@ -510,17 +510,35 @@ Keep this visual update Android-only.
 
 **Goal:** Investigate replacing the app's desktop-style Files browser with Android's native file picker on Android.
 
-**Initial findings:**
-- Android's existing Add file and Add folder actions already use Qt file dialogs that return SAF document URLs; these actions are separate from the Files tab.
-- `AndroidStorage::LocalPathForUrl()` resolves external-storage documents, raw Downloads documents, and MediaStore items when they have a local path. It returns an empty path for other content providers.
-- The Files tab is based on local filesystem models, and this flow does not persist SAF URI permissions. Replacing the browser is therefore not a drop-in picker change for every document provider.
-- Emulator check: Add file opens Android DocumentsUI with Recent, Audio, Images, Videos, and Documents entry points. Cancel returns to the unchanged playlist; no file was selected.
+**Implemented:**
+- On Android, the Files tab already replaces desktop browsing controls with Choose files and Choose folder buttons that open the native system document picker.
+  Windows and Linux retain their existing filesystem browsers.
+- File selection supports multiple URLs; folder selection passes the chosen directory to the existing recursive song loader.
+  Successful Files-tab selections replace the temporary Now playing playlist and start playback, without modifying a saved playlist or adding a Collection directory.
+  Cancelling either picker returns without submitting a playlist change.
+  The separate Add file and Add folder actions keep their existing playlist behavior.
+- `AndroidStorage::LocalPathForUrl()` now retains read grants for local external-storage documents, including folder descendants, and reloads them before Collection startup.
+  The read-only path bridge supplies metadata, file enumeration and playback without copying music into app-private storage.
+  See [Android storage access](ANDROID_STORAGE.md) for provider scope and permission lifecycle.
+- Raw Downloads and MediaStore URL conversions still depend on provider and Android permissions.
+  Generic cloud/provider-backed documents without a usable local path are not supported; unresolved selections report an error.
+  When only some selected items resolve, the error is shown and the resolvable items are submitted.
+
+**Validation:**
+- Earlier emulator checks confirmed that Add file opens Android DocumentsUI and cancellation leaves the playlist unchanged.
+- Feature audit point 20 verified local folder-granted WavPack discovery, metadata, playback, seeking and access after an app restart on the emulator.
+  That check used an existing folder grant, not a fresh individual-file grant.
+- On 2026-11-13, the native document-bridge, GStreamer file-source and song-loader test binaries passed.
+  These tests do not establish Android picker UI behavior or fresh permission acquisition.
+- The same session's fresh UI checks were blocked: the emulator booted, but the installed app displayed a blank window after launch and a restart without clearing app data.
+  No new picker interaction or permission-lifecycle result is claimed from that attempt.
 
 **Next steps:**
-- Compare native file and folder selection with the current Files tab, including multiple-file selection and whole-folder playback or saved-playlist creation.
-- Test file and folder selection from shared storage, Downloads, and a document provider; check which URIs resolve to local paths and whether access survives an application restart.
-- Define how the Files entry launches the picker and returns to the app, preserving cancellation and the distinction between temporary Now playing and saved playlists.
-- Verify local and provider-backed storage on the emulator and a physical device; leave desktop browsing unchanged.
+- Verify fresh single-file, multiple-file and folder selection through the Files tab, including nested music, cancellation and retention of access after restart.
+- Test shared storage and Downloads separately; verify explicit rejection of unsupported providers rather than assuming generic document-provider support.
+- Check that saved playlists and Collection entries are unchanged, that Now playing receives only the intended supported tracks, and that saving the resulting temporary playlist still works.
+- Verify the picker flows on the emulator and a physical device, including narrow-screen layouts.
+- Agree whether arbitrary document providers belong in this item's scope; supporting them would require more than the current local-path bridge.
 
 ## 14. Keep the side menu visible when opening Settings
 
