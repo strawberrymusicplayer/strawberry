@@ -150,6 +150,24 @@ TEST_F(PlaylistParserCueTest, M3UTrackTagIsNotMetadata) {
 
 }
 
+// The metadata in the playlist doesn't replace the metadata of collection songs, like with the other playlist formats.
+TEST_F(PlaylistParserCueTest, M3UMetadataDoesNotReplaceCollectionMetadata) {
+
+  M3UParser parser(nullptr, backend_);
+  QByteArray data = "#EXTM3U\n#EXTINF:5,Other Artist - Other Title\n#EXTSTRAWBERRYTRACK:2\n/music/album.flac\n";
+  QBuffer buffer(&data);
+  ASSERT_TRUE(buffer.open(QIODevice::ReadOnly));
+
+  const SongList songs = parser.Load(&buffer, QString(), QDir(u"/music"_s), true).songs;
+
+  ASSERT_EQ(1, songs.count());
+  EXPECT_EQ(Song::Source::Collection, songs[0].source());
+  EXPECT_EQ(u"Artist"_s, songs[0].artist());
+  EXPECT_EQ(u"Title 2"_s, songs[0].title());
+  EXPECT_EQ(MakeCueSong(2).length_nanosec(), songs[0].length_nanosec());
+
+}
+
 // Other songs don't get anything added to the playlist.
 TEST_F(PlaylistParserCueTest, OtherSongsHaveNoTrack) {
 

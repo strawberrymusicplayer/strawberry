@@ -21,6 +21,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include "gtest_include.h"
 #include "gmock_include.h"
@@ -30,6 +31,7 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+#include <QList>
 #include <QString>
 #include <QTemporaryDir>
 #include <QThread>
@@ -582,6 +584,65 @@ QByteArray SaveStreamSong(const M3UParser &parser, const QString &playlist_path,
 
   if (!file.open(QIODevice::ReadOnly)) return QByteArray();
   return file.readAll();
+
+}
+
+// Regression test: a song without a title or an artist was saved as "Artist - " or " - ", and loaded back with the title "Artist -" or " -".
+TEST_F(M3UParserTest, SavedMetadataIsLoadedUnchanged) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  M3UParser parser = MakeParser();
+
+  const QList<std::pair<QString, QString>> artists_and_titles = {
+    { u"Artist"_s, u"Title"_s },
+    { QString(), QString() },
+    { u"Artist"_s, QString() },
+    { QString(), u"Title"_s },
+    { QString(), u"Title - Remastered"_s },
+    { QString(), u"Title -"_s },
+    { u"Artist"_s, u"Title -"_s },
+  };
+
+  for (const std::pair<QString, QString> &artist_and_title : artists_and_titles) {
+    const QString playlist_path = tmp.filePath(u"playlist.m3u8"_s);
+    SaveStreamSong(parser, playlist_path, artist_and_title.first, artist_and_title.second);
+    const ParserBase::LoadResult result = Load(parser, playlist_path);
+    ASSERT_EQ(result.songs.size(), 1);
+    EXPECT_EQ(result.songs[0].artist(), artist_and_title.first) << artist_and_title.first.toStdString() << " / " << artist_and_title.second.toStdString();
+    EXPECT_EQ(result.songs[0].title(), artist_and_title.second) << artist_and_title.first.toStdString() << " / " << artist_and_title.second.toStdString();
+  }
+
+}
+
+// Without an artist, only the title is saved, so other players don't show a " - " either.
+TEST_F(M3UParserTest, SaveWithoutArtistSavesOnlyTitle) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  const M3UParser parser = MakeParser();
+
+  EXPECT_TRUE(SaveStreamSong(parser, tmp.filePath(u"empty.m3u8"_s), QString(), QString()).contains("#EXTINF:0,\n"));
+  EXPECT_TRUE(SaveStreamSong(parser, tmp.filePath(u"title.m3u8"_s), QString(), u"Title"_s).contains("#EXTINF:0,Title\n"));
+  EXPECT_TRUE(SaveStreamSong(parser, tmp.filePath(u"separator.m3u8"_s), QString(), u"Title - Remastered"_s).contains("#EXTINF:0, - Title - Remastered\n"));
+
+}
+
+// Playlists saved before without a title or an artist are loaded without them.
+TEST_F(M3UParserTest, EmptyMetadataSavedBeforeIsLoadedEmpty) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  M3UParser parser = MakeParser();
+
+  const QString playlist_path = tmp.filePath(u"playlist.m3u8"_s);
+  ASSERT_TRUE(WriteFile(playlist_path, u"#EXTM3U\n#EXTINF:0, - \nhttps://example.com/stream/1\n#EXTINF:0,Artist - \nhttps://example.com/stream/2\n"_s));
+  const ParserBase::LoadResult result = Load(parser, playlist_path);
+  ASSERT_EQ(result.songs.size(), 2);
+  EXPECT_EQ(result.songs[0].artist(), QString());
+  EXPECT_EQ(result.songs[0].title(), QString());
+  EXPECT_EQ(result.songs[1].artist(), u"Artist"_s);
+  EXPECT_EQ(result.songs[1].title(), QString());
 
 }
 
