@@ -1579,9 +1579,13 @@ void MainWindow::ExitFinished() {
 #ifdef Q_OS_MACOS
   // When macOS is waiting to log out, restart or shut down, it terminates the application now that the shutdown has finished.
   if (mac::ReplyToApplicationShouldTerminate()) return;
-#endif
 
+  // On macOS, QCoreApplication::quit() asks AppKit to terminate the application, which goes through the application delegate, and the delegate starts the shutdown again.
+  // Quit the event loop directly instead, like Qt's application delegate does when the termination is accepted, so the application exits through main().
+  QCoreApplication::exit();
+#else
   QCoreApplication::quit();
+#endif
 
 }
 
