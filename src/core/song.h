@@ -531,6 +531,8 @@ class Song {
   static QString DomainForSource(const Source source);
   static QString TextForFiletype(const FileType filetype);
   static QString ExtensionForFiletype(const FileType filetype);
+  // The file extensions which FiletypeByExtension() recognises as the file type.
+  static QStringList ExtensionsForFiletype(const FileType filetype);
   static QIcon IconForFiletype(const FileType filetype);
 
   QString TextForSource() const { return TextForSource(source()); }

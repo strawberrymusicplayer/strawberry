@@ -21,16 +21,90 @@
 
 #include "config.h"
 
+#include <algorithm>
+
 #include <QObject>
 #include <QDataStream>
 #include <QVariant>
 #include <QString>
 #include <QUrl>
+#include <QStringList>
 
+#include "core/song.h"
 #include "smartplaylistsearchterm.h"
 #include "playlist/playlist.h"
 
 using namespace Qt::Literals::StringLiterals;
+
+namespace {
+
+const QList<Song::FileType> kFileTypes = QList<Song::FileType>() << Song::FileType::Unknown
+                                                                 << Song::FileType::WAV
+                                                                 << Song::FileType::FLAC
+                                                                 << Song::FileType::WavPack
+                                                                 << Song::FileType::OggFlac
+                                                                 << Song::FileType::OggVorbis
+                                                                 << Song::FileType::OggOpus
+                                                                 << Song::FileType::OggSpeex
+                                                                 << Song::FileType::MPEG
+                                                                 << Song::FileType::MP4
+                                                                 << Song::FileType::ASF
+                                                                 << Song::FileType::AIFF
+                                                                 << Song::FileType::MPC
+                                                                 << Song::FileType::TrueAudio
+                                                                 << Song::FileType::DSF
+                                                                 << Song::FileType::DSDIFF
+                                                                 << Song::FileType::PCM
+                                                                 << Song::FileType::APE
+                                                                 << Song::FileType::MOD
+                                                                 << Song::FileType::S3M
+                                                                 << Song::FileType::XM
+                                                                 << Song::FileType::IT
+                                                                 << Song::FileType::SPC
+                                                                 << Song::FileType::VGM
+                                                                 << Song::FileType::ALAC
+                                                                 << Song::FileType::CDDA
+                                                                 << Song::FileType::Stream;
+
+bool FiletypeTextMatches(const QString &text, const SmartPlaylistSearchTerm::Operator op, const QString &value) {
+
+  switch (op) {
+    case SmartPlaylistSearchTerm::Operator::Contains:
+    case SmartPlaylistSearchTerm::Operator::NotContains:
+      return text.contains(value, Qt::CaseInsensitive);
+    case SmartPlaylistSearchTerm::Operator::StartsWith:
+      return text.startsWith(value, Qt::CaseInsensitive);
+    case SmartPlaylistSearchTerm::Operator::EndsWith:
+      return text.endsWith(value, Qt::CaseInsensitive);
+    default:
+      return false;
+  }
+
+}
+
+// The file types are stored as numbers, so the text operators are applied to the name of the file type, as shown in the playlist, and to its file extensions, instead of to the number.
+QList<int> FiletypesMatching(const SmartPlaylistSearchTerm::Operator op, const QString &value) {
+
+  QList<int> filetypes;
+  for (const Song::FileType filetype : kFileTypes) {
+    // The extensions recognised as the file type, and the extension used when writing the file type.
+    // The file types without a file extension of their own, like PCM, CD audio and streams, get the extension of the unknown file type, which is not matched.
+    QStringList extensions = Song::ExtensionsForFiletype(filetype);
+    const QString write_extension = Song::ExtensionForFiletype(filetype);
+    if (write_extension != Song::ExtensionForFiletype(Song::FileType::Unknown)) {
+      extensions << write_extension;
+    }
+    const bool extension_matches = std::any_of(extensions.cbegin(), extensions.cend(), [op, &value](const QString &extension) { return FiletypeTextMatches(extension, op, value); });
+    if (extension_matches || FiletypeTextMatches(Song::TextForFiletype(filetype), op, value)) {
+      filetypes << static_cast<int>(filetype);
+    }
+  }
+
+  return filetypes;
+
+}
+
+}  // namespace
 
 SmartPlaylistSearchTerm::SmartPlaylistSearchTerm() : field_(Field::Title), operator_(Operator::Equals), datetype_(DateType::Hour) {}
 
@@ -47,6 +121,35 @@ QString SmartPlaylistSearchTerm::ToSql(QVariantList &bound_values) const {
   QString date = DateName(datetype_, true);
   const Type type = TypeOf(field_);
 
+  if (field_ == Field::Filetype) {
+    switch (operator_) {
+      case Operator::Contains:
+      case Operator::NotContains:
+      case Operator::StartsWith:
+      case Operator::EndsWith: {
+        const bool negate = operator_ == Operator::NotContains;
+        const QList<int> filetypes = FiletypesMatching(operator_, value_.toString());
+        if (filetypes.isEmpty()) {
+          return negate ? u"1 = 1"_s : u"0 = 1"_s;
+        }
+        QStringList placeholders;
+        for (const int filetype : filetypes) {
+          bound_values.append(filetype);
+          placeholders << u"?"_s;
+        }
+        return col + (negate ? " NOT IN ("_L1 : " IN ("_L1) + placeholders.join(", "_L1) + u')';
+      }
+      case Operator::Empty:
+        bound_values.append(static_cast<int>(Song::FileType::Unknown));
+        return col + " = ?"_L1;
+      case Operator::NotEmpty:
+        bound_values.append(static_cast<int>(Song::FileType::Unknown));
+        return col + " <> ?"_L1;
+      default:
+        break;
+    }
+  }
+
   // Compute the concrete value to bind, with field-specific preprocessing.
   QVariant value;
   if (field_ == Field::Filetype) {
@@ -58,7 +161,8 @@ QString SmartPlaylistSearchTerm::ToSql(QVariantList &bound_values) const {
   }
   else if (field_ == Field::Filepath) {
     // File paths are stored as encoded URLs in the database.
-    if (operator_ == Operator::StartsWith || operator_ == Operator::Equals) {
+    // A whole path, or the start of one, is turned into a URL like the stored URLs, other parts of a path are only encoded.
+    if (operator_ == Operator::StartsWith || operator_ == Operator::Equals || operator_ == Operator::NotEquals) {
       value = QString::fromUtf8(QUrl::fromLocalFile(value_.toString()).toEncoded());
     }
     else {

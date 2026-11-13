@@ -98,6 +98,7 @@ macro(add_test_file test_source gui_required)
 endmacro(add_test_file)
 
 add_test_file(src/utilities_test.cpp false)
+add_test_file(src/song_test.cpp false)
 add_test_file(src/diskutils_test.cpp false)
 add_test_file(src/database_test.cpp false)
 add_test_file(src/devicedatabasebackend_test.cpp false)
