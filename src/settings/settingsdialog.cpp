@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,7 +45,6 @@
 #include <QStackedWidget>
 #include <QSettings>
 #include <QShowEvent>
-#include <QCloseEvent>
 
 #include "core/settings.h"
 #include "core/player.h"
@@ -224,14 +223,6 @@ void SettingsDialog::showEvent(QShowEvent *e) {
   }
 
   QDialog::showEvent(e);
-
-}
-
-void SettingsDialog::closeEvent(QCloseEvent *e) {
-
-  Q_UNUSED(e)
-
-  SaveGeometry();
 
 }
 

@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,7 +40,6 @@ class QComboBox;
 class QScrollArea;
 class QAbstractButton;
 class QShowEvent;
-class QCloseEvent;
 
 class Player;
 class AudioDeviceListers;
@@ -112,7 +111,6 @@ class SettingsDialog : public QDialog {
 
  protected:
   void showEvent(QShowEvent *e) override;
-  void closeEvent(QCloseEvent *e) override;
 
  private:
   struct PageData {
