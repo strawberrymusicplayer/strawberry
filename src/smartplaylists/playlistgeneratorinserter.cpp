@@ -45,7 +45,8 @@ PlaylistGeneratorInserter::PlaylistGeneratorInserter(SharedPtr<TaskManager> task
       row_(0),
       play_now_(false),
       enqueue_(false),
-      enqueue_next_(false) {}
+      enqueue_next_(false),
+      cancelled_(false) {}
 
 PlaylistItemPtrList PlaylistGeneratorInserter::Generate(PlaylistGeneratorPtr generator, int dynamic_count) {
 
@@ -85,7 +86,7 @@ void PlaylistGeneratorInserter::Finished() {
   // The playlist turns off the dynamic playlist when no items were generated, only when it's still the same dynamic playlist.
   Q_EMIT Generated(items.isEmpty());
 
-  if (!items.isEmpty()) {
+  if (!cancelled_ && !items.isEmpty()) {
     destination_->InsertItems(items, row_, play_now_, enqueue_, enqueue_next_);
   }
 

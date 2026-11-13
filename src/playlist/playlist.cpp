@@ -1202,10 +1202,13 @@ void Playlist::InsertSmartPlaylist(PlaylistGeneratorPtr generator, const int pos
 
 void Playlist::ResetDynamicItemsPending() {
 
-  // Items still being generated for the previous dynamic playlist are not part of the future of the new one.
+  // Items still being generated for the previous dynamic playlist are not part of the future of the new one, and are not inserted when the dynamic playlist was cleared, turned off, repopulated or replaced.
   ++dynamic_generation_;
   dynamic_items_pending_ = 0;
   dynamic_items_queued_ = 0;
+  if (dynamic_inserter_) {
+    dynamic_inserter_->Cancel();
+  }
   dynamic_inserter_.clear();
 
 }

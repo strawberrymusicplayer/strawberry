@@ -46,6 +46,9 @@ class PlaylistGeneratorInserter : public QObject {
 
   void Load(Playlist *destination, const int row, const bool play_now, const bool enqueue, const bool enqueue_next, PlaylistGeneratorPtr generator, const int dynamic_count = 0);
 
+  // The generated items are not inserted, the generation itself can't be stopped.
+  void Cancel() { cancelled_ = true; }
+
  private:
   static PlaylistItemPtrList Generate(PlaylistGeneratorPtr generator, const int dynamic_count);
 
@@ -68,6 +71,7 @@ class PlaylistGeneratorInserter : public QObject {
   bool play_now_;
   bool enqueue_;
   bool enqueue_next_;
+  bool cancelled_;
 };
 
 #endif  // PLAYLISTGENERATORINSERTER_H
