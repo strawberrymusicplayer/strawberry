@@ -481,11 +481,10 @@ QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const 
   QString output_filepath;
   if (destination_path.isEmpty()) {
     // Keep the original path.
-    output_filepath = input_filepath.section(u'.', 0, -2) + u'.' + preset.extension_;
+    output_filepath = ReplaceExtension(input_filepath, preset.extension_);
   }
   else {
-    QString filename = TrimPath(input_filepath);
-    filename = filename.section(u'.', 0, -2);
+    const QString filename = ReplaceExtension(TrimPath(input_filepath), preset.extension_);
     // If checkbox for preserving import directory structure is checked validate the path exists
     if (ui_->preserve_dir_structure->isChecked()) {
       const QString path = destination_path + u'/' + input_import_dir;
@@ -493,17 +492,28 @@ QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const 
       if (!dir.exists()) {
         dir.mkpath(u"."_s);
       }
-      output_filepath = path + u'/' + filename + u'.' + preset.extension_;
+      output_filepath = path + u'/' + filename;
     }
     // Otherwise no modifications to the output path
     else {
-      output_filepath = destination_path + u'/' + filename + u'.' + preset.extension_;
+      output_filepath = destination_path + u'/' + filename;
     }
   }
 
   if (output_filepath.isEmpty()) return QString();
 
   return UniqueFilePath(output_filepath, used_output_filepaths);
+
+}
+
+QString TranscodeDialog::ReplaceExtension(const QString &filepath, const QString &extension) {
+
+  // Only a dot in the file name starts the extension, not a dot in a directory name, and a file name starting with a dot, like a hidden file, has no extension.
+  const qsizetype filename_start = filepath.lastIndexOf(u'/') + 1;
+  const qsizetype extension_start = filepath.lastIndexOf(u'.');
+  const QString filepath_without_extension = extension_start > filename_start ? filepath.left(extension_start) : filepath;
+
+  return filepath_without_extension + u'.' + extension;
 
 }
 

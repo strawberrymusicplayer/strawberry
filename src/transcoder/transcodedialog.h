@@ -65,6 +65,8 @@ class TranscodeDialog : public QDialog {
   static QString UniqueFilePath(const QString &filepath, UsedFilePaths &used_filepaths);
   // Returns a key which is the same for paths to the same file, also when they are written differently.
   static QString FilePathKey(const QString &filepath);
+  // Returns the file path with the extension of the file name replaced, or added when the file name has no extension.
+  static QString ReplaceExtension(const QString &filepath, const QString &extension);
 
  protected:
   void showEvent(QShowEvent *e) override;
