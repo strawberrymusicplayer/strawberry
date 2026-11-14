@@ -789,8 +789,8 @@ TEST_F(PlaylistTest, DynamicPlaylistRepopulatedWhileGeneratingDoesNotInsertOldIt
 
   // The current item is kept, the new items are added after it.
   playlist.RepopulateDynamicPlaylist();
-  const int rows_after_repopulate = 1 + kFuture + 1;
-  ASSERT_TRUE(WaitFor([&playlist, rows_after_repopulate]() { return playlist.rowCount() == rows_after_repopulate; }));
+  constexpr int rows_after_repopulate = 1 + kFuture + 1;
+  ASSERT_TRUE(WaitFor([&playlist]() { return playlist.rowCount() == rows_after_repopulate; }));
 
   generator->Release(1);
   ASSERT_TRUE(WaitFor([&task_manager]() { return task_manager->GetTasks().isEmpty(); }));
