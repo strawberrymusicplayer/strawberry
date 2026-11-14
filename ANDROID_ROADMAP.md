@@ -10,7 +10,7 @@ Status values: Planned, In progress, Done.
 Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
-1. The remaining open items: 16, 17, 12, 20, 21, 22, 23, 24, 26, 27, 28, 29, and finally 9 (physical-device verification, which needs a device).
+1. The remaining open items: 16, 20, 21, 22, 23, 24, 26, 27, 28, 29, and finally 9 (physical-device verification, which needs a device).
 
 ## 18. Review the Android changes for coding best practices
 
@@ -493,16 +493,33 @@ Keep this visual update Android-only.
 
 ## 12. Import and export equalizer settings as JSON
 
-**Status:** Planned
+**Status:** Done on Android (emulator verified; physical-device verification remains item 9; a desktop variant is to be done on a separate branch)
 
 **Goal:** Provide a location in Tools > Equalizer to store and retrieve equalizer settings as JSON files, with Import and Export actions.
 
-**Next steps:**
-- Add a discoverable import/export area and let the user choose where to save or open JSON files using the Android system document picker.
-- Define a versioned JSON format covering named presets, the selected preset and unsaved curve, preamp, band gains, and equalizer/stereo-balance settings.
-- Decide whether importing merges with or replaces existing presets, with explicit handling of duplicate names and confirmation before overwriting.
-- Validate the complete file before applying changes; report unsupported formats, invalid values, and file-access errors without losing existing settings.
-- Verify export/import round trips, cancellation, persistence after restart, and compatibility with Android document-provider URLs.
+**Decisions (agreed with the user, 2026-11-14):**
+- Importing merges: presets from the file are added to the existing ones.
+- Existing presets with the same name but a different curve are listed and replaced only after one explicit confirmation; identical presets need no confirmation.
+- Importing also applies the file's selected preset, current curve, equalizer on/off state and stereo balance.
+- This branch is Android-only; the desktop equalizer gets import/export on a separate branch.
+
+**Implementation:**
+- `EqualizerJson` (`src/equalizer/equalizerjson.h`) defines the versioned format: `format` `strawberry-equalizer`, `version` 1, `enabled`, `selected_preset`, `current` (preamp and ten gains), `stereo_balancer` (enabled and balance) and the named `presets`.
+  Values are the stored slider steps (-100 to 100), so round trips are exact.
+  The whole document is validated before anything changes: wrong format, newer versions, files over 1 MiB, missing or mistyped fields, out-of-range or fractional values, wrong band counts, empty or duplicate names and an unknown selected preset are rejected with a translated message.
+- `Equalizer::ExportState()` and `ImportState()` are platform-neutral; the import merges presets, selects the imported preset without loading its saved curve, applies the current curve and settings with one engine update, and saves.
+- Android: an "Import and export" navigation button below the preset row opens Tools > Equalizer > Import and export with Export to file, Import from file and a status line.
+  Export uses the system save picker, prefilled with `strawberry-equalizer.json`; import uses the open picker without a type filter, because providers may report JSON files with a generic type, and relies on validation instead.
+  Document-provider `content://` URLs are opened with `QFile`.
+  Conflicts open a fourth-level Replace presets page (breadcrumb continued on a new line, as in Settings) listing the presets; Cancel reports that nothing changed, and Back returns one level.
+  Equalizer Back navigation now returns exactly one level for nested pages.
+
+**Verification:**
+- Native tests: `equalizerjson_test` (round trip, 14 rejection cases leaving the state unchanged, conflict detection) and `EqualizerTest.ImportMergesPresetsAndAppliesStateWhichPersists` pass, together with the existing equalizer tests.
+- Emulator: export wrote valid JSON with all 19 presets and the settings; a cancelled picker changed nothing; a non-JSON file and a version 2 file were rejected with their messages; importing a conflicting file showed Replace presets listing Rock, Cancel and Back left everything unchanged, and Replace and import applied the preset, curve, enabled state and balance.
+  After a force-stop and an emulator restart, a new export contained exactly the imported presets, curve and settings.
+  Back navigation returned one level at a time, and no app crash occurred.
+- After rebuilding with fully encoded content URLs, export and a conflict-free import were rechecked on the emulator; the save picker opened in Documents.
 
 ## 13. Explore using Android's file picker for Files
 
