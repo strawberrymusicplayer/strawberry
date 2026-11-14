@@ -211,6 +211,18 @@ void Organize::ProcessSomeFiles() {
       continue;
     }
 
+    // The tracks of a CUE sheet are in one audio file, organizing them would copy the whole file for each track, or move it away from the other tracks and the CUE sheet, so they are skipped.
+    if (song.has_cue()) {
+      const QString filename = song.url().toLocalFile();
+      if (!cue_files_skipped_.contains(filename)) {
+        cue_files_skipped_ << filename;
+        files_with_errors_ << filename;
+        log_ << tr("The tracks of the CUE sheet %1 were not organized, the tracks of a CUE sheet can't be organized.").arg(QDir::toNativeSeparators(song.cue_path()));
+      }
+      tasks_complete_++;
+      continue;
+    }
+
     // Maybe this file is one that's been transcoded already?
     if (!task.transcoded_filename_.isEmpty()) {
       qLog(Debug) << "This file has already been transcoded";

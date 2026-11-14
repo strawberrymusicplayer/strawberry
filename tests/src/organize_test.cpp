@@ -39,6 +39,7 @@
 #include <QTemporaryDir>
 #include <QStringList>
 #include <QUrl>
+#include <QSignalSpy>
 
 #include "includes/shared_ptr.h"
 #include "core/musicstorage.h"
@@ -102,6 +103,33 @@ class DeviceModelThreadStorage : public MusicStorage {
   mutable QMutex mutex_;
   mutable QList<QThread*> transcode_settings_threads_;
   QString copied_cover_source_;
+};
+
+// Storage in the collection, which records the files copied to it.
+class CopyRecordingStorage : public MusicStorage {
+ public:
+  Song::Source source() const override { return Song::Source::Collection; }
+  TranscodeMode GetTranscodeMode() const override { return TranscodeMode::Transcode_Never; }
+  Song::FileType GetTranscodeFormat() const override { return Song::FileType::Unknown; }
+  bool CopyToStorage(const CopyJob &job, QString &error_text) override {
+    Q_UNUSED(error_text)
+    QMutexLocker l(&mutex_);
+    copied_sources_ << job.source_;
+    return true;
+  }
+  bool DeleteFromStorage(const DeleteJob &job) override {
+    Q_UNUSED(job)
+    return true;
+  }
+
+  QStringList copied_sources() const {
+    QMutexLocker l(&mutex_);
+    return copied_sources_;
+  }
+
+ private:
+  mutable QMutex mutex_;
+  QStringList copied_sources_;
 };
 
 // Regression test: the transcode settings and ejecting used the device model of the GUI thread from the thread the songs are organized in.
@@ -428,3 +456,46 @@ TEST(OrganizeTest, OriginalRootRespectsCaseSensitiveFilesystem) {
 }
 
 }  // namespace
+
+// Regression test: the tracks of a CUE sheet are in one audio file, organizing them copied the whole file for each track, or moved it after the first track, so the other tracks failed and the CUE sheet pointed at nothing.
+// They are skipped, and reported once for the audio file.
+TEST(OrganizeTest, SkipsTracksOfCueSheet) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString cover_filename = temp_dir.filePath(u"cover.jpg"_s);
+  QFile cover_file(cover_filename);
+  ASSERT_TRUE(cover_file.open(QIODevice::WriteOnly));
+  cover_file.close();
+
+  Organize::NewSongInfoList songs_info;
+  for (int track = 1; track <= 2; ++track) {
+    Song song;
+    song.Init(u"Title %1"_s.arg(track), u"Artist"_s, u"Album"_s, 123);
+    song.set_filetype(Song::FileType::FLAC);
+    song.set_url(QUrl::fromLocalFile(u"/nonexistent/album.flac"_s));
+    song.set_cue_path(u"/nonexistent/album.cue"_s);
+    song.set_track(track);
+    song.set_art_manual(QUrl::fromLocalFile(cover_filename));
+    songs_info << Organize::NewSongInfo(song, u"%1.flac"_s.arg(track), false);
+  }
+  Song song;
+  song.Init(u"Title"_s, u"Artist"_s, u"Other album"_s, 123);
+  song.set_filetype(Song::FileType::FLAC);
+  song.set_url(QUrl::fromLocalFile(u"/nonexistent/song.flac"_s));
+  song.set_art_manual(QUrl::fromLocalFile(cover_filename));
+  songs_info << Organize::NewSongInfo(song, u"song.flac"_s, false);
+
+  const SharedPtr<CopyRecordingStorage> storage = make_shared<CopyRecordingStorage>();
+  Organize *organize = new Organize(make_shared<TaskManager>(), nullptr, storage, OrganizeFormat(), true, true, false, songs_info, QStringList(), false, QString());
+  QSignalSpy spy_finished(organize, &Organize::Finished);
+  organize->Start();
+
+  ASSERT_TRUE(spy_finished.wait(10000)) << "Timed out waiting for organizing to finish";
+  EXPECT_EQ(QStringList() << u"/nonexistent/song.flac"_s, storage->copied_sources());
+  EXPECT_EQ(QStringList() << u"/nonexistent/album.flac"_s, spy_finished.first().at(0).toStringList());
+  const QStringList log = spy_finished.first().at(1).toStringList();
+  ASSERT_EQ(1, log.count());
+  EXPECT_TRUE(log.first().contains(QDir::toNativeSeparators(u"/nonexistent/album.cue"_s))) << log.first().toStdString();
+
+}
