@@ -430,7 +430,7 @@ Delete buttons should consistently use a bin icon rather than a cross.
 
 ## 10. Make the Android equalizer clearer and more attractive
 
-**Status:** Done (emulator verified)
+**Status:** Reopened (emulator flow verified; FP5 playback/list visibility reported unresolved)
 
 **Goal:** Provide a compact equalizer screen with clear sections and editable dB values in a wrapping band grid.
 Keep this visual update Android-only.
@@ -664,7 +664,9 @@ Arbitrary cloud/document-provider support is not part of this implementation.
   The model, search and query-generator test suites pass.
 - Built, signed, signature-verified and installed the Android release APK as an upgrade preserving application data.
 
-**Next item:** 17, Android checkbox touch targets.
+**FP5 feedback (2026-11-14):** Opening a smart playlist starts playback, but the user cannot view its generated track list and does not see the tracks in Queue; no error is shown.
+Investigate the generated playlist destination, navigation and queue semantics on the FP5.
+Clarify the desired list/queue behavior before changing playback or replacing an existing playlist, then add regression coverage and verify the complete flow on the emulator and FP5.
 
 ## 17. Make Android checkboxes touch-friendly
 
