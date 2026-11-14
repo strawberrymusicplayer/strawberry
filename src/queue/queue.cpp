@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <functional>
 #include <utility>
 
 #include <QObject>
@@ -506,22 +507,26 @@ QVariant Queue::headerData(int section, Qt::Orientation orientation, int role) c
 
 void Queue::Remove(QList<int> &proxy_rows) {
 
-  // Order the rows
-  std::stable_sort(proxy_rows.begin(), proxy_rows.end());
+  // Remove the rows in descending order so the remaining row numbers stay valid, removing contiguous rows together.
+  // The row removal signals update the playlist, so no layout change is emitted.
+  // Rows which don't exist are skipped first, so they don't make the rows next to them be skipped too.
+  const qsizetype row_count = source_indexes_.count();
+  proxy_rows.erase(std::remove_if(proxy_rows.begin(), proxy_rows.end(), [row_count](const int row) { return row < 0 || row >= row_count; }), proxy_rows.end());
+  std::sort(proxy_rows.begin(), proxy_rows.end(), std::greater<int>());
+  proxy_rows.erase(std::unique(proxy_rows.begin(), proxy_rows.end()), proxy_rows.end());
 
-  // Reflects immediately changes in the playlist
-  Q_EMIT layoutAboutToBeChanged();
-
-  int removed_rows = 0;
-  for (int row : proxy_rows) {
-    // After the first row, the row number needs to be updated
-    const int real_row = row - removed_rows;
-    beginRemoveRows(QModelIndex(), real_row, real_row);
-    source_indexes_.removeAt(real_row);
+  qsizetype i = 0;
+  while (i < proxy_rows.count()) {
+    const int last = proxy_rows[i];
+    int first = last;
+    ++i;
+    while (i < proxy_rows.count() && proxy_rows[i] == first - 1) {
+      first = proxy_rows[i];
+      ++i;
+    }
+    beginRemoveRows(QModelIndex(), first, last);
+    source_indexes_.remove(first, last - first + 1);
     endRemoveRows();
-    removed_rows++;
   }
-
-  Q_EMIT layoutChanged();
 
 }
