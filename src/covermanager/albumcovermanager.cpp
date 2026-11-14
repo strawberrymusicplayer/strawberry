@@ -24,6 +24,7 @@
 #include <algorithm>
 #include <utility>
 #include <chrono>
+#include <optional>
 #include <memory>
 
 #include <QObject>
@@ -981,10 +982,39 @@ void AlbumCoverManager::ClearCover() {
 
 void AlbumCoverManager::DeleteCover() {
 
-  for (QListWidgetItem *list_widget_item : std::as_const(context_menu_items_)) {
-    AlbumItem *album_item = static_cast<AlbumItem*>(list_widget_item);
-    Song song = AlbumItemAsSong(album_item);
-    album_cover_choice_controller_->DeleteCover(&song);
+  const QList<QListWidgetItem*> list_widget_items = context_menu_items_;
+  SongList songs;
+  std::optional<ConfirmedCoverFiles> confirmed_files;
+  Q_FOREVER {
+    songs.clear();
+    for (QListWidgetItem *list_widget_item : list_widget_items) {
+      songs << AlbumItemAsSong(static_cast<AlbumItem*>(list_widget_item));
+    }
+    // Ask once for all the albums, the cover files can be the user's own images.
+    confirmed_files = album_cover_choice_controller_->ConfirmDeleteCover(songs);
+    if (!confirmed_files) return;
+    // The albums are cleared when another artist is selected.
+    if (context_menu_items_ != list_widget_items) return;
+    // The covers can change while the user is asked, like when a fetched cover is saved, then the user is asked again about the new covers.
+    // Skipping only the changed albums is not enough, since an album can change to the cover of another album, which would then be deleted.
+    bool covers_changed = false;
+    for (qsizetype i = 0; i < list_widget_items.count(); ++i) {
+      if (!AlbumItemAsSong(static_cast<AlbumItem*>(list_widget_items.value(i))).IsArtEqual(songs.at(i))) {
+        covers_changed = true;
+        break;
+      }
+    }
+    if (!covers_changed) break;
+  }
+
+  // Albums can share a cover file, so none of the covers are deleted when a cover file of one of the albums changed.
+  if (!album_cover_choice_controller_->CanDeleteCovers(songs, *confirmed_files)) return;
+
+  for (qsizetype i = 0; i < list_widget_items.count(); ++i) {
+    AlbumItem *album_item = static_cast<AlbumItem*>(list_widget_items.value(i));
+    Song song = songs.at(i);
+    // The album keeps the cover when a cover file changed since the user was asked, or deleting it failed.
+    if (!album_cover_choice_controller_->DeleteCover(&song, false, *confirmed_files)) continue;
     // The thumbnail of the removed cover could still be loading.
     CancelAlbumCoverLoading(album_item);
     album_item->setData(Role_CoverLoaded, true);

@@ -774,6 +774,7 @@ set(SOURCES
   src/covermanager/coversearchstatisticsdialog.cpp
   src/covermanager/coverexportrunnable.cpp
   src/covermanager/currentalbumcoverloader.cpp
+  src/covermanager/confirmedcoverfiles.cpp
   src/covermanager/coverfromurldialog.cpp
   src/covermanager/jsoncoverprovider.cpp
   src/covermanager/lastfmcoverprovider.cpp

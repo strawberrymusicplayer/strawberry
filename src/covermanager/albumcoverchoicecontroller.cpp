@@ -39,9 +39,11 @@
 #include <QFileInfo>
 #include <QMimeData>
 #include <QSet>
+#include <QHash>
 #include <QList>
 #include <QVariant>
 #include <QString>
+#include <QStringList>
 #include <QRegularExpression>
 #include <QUrl>
 #include <QImage>
@@ -66,6 +68,7 @@
 #include "utilities/coverutils.h"
 #include "utilities/imageutils.h"
 #include "utilities/screenutils.h"
+#include "dialogs/deleteconfirmationdialog.h"
 #include "core/logging.h"
 #include "core/song.h"
 #include "core/iconloader.h"
@@ -369,9 +372,11 @@ void AlbumCoverChoiceController::ClearCover(Song *song) {
 
 }
 
-bool AlbumCoverChoiceController::DeleteCover(Song *song, const bool unset) {
+bool AlbumCoverChoiceController::DeleteCover(Song *song, const bool unset, const ConfirmedCoverFiles &confirmed_files) {
 
   if (!song->url().isValid() || !song->url().isLocalFile() || song->effective_albumartist().isEmpty() || song->album().isEmpty()) return false;
+
+  if (!CanDeleteCovers(SongList() << *song, confirmed_files)) return false;
 
   if (song->art_embedded() && song->save_embedded_cover_supported()) {
     SaveCoverEmbeddedToCollectionSongs(*song, AlbumCoverImageResult());
@@ -379,39 +384,19 @@ bool AlbumCoverChoiceController::DeleteCover(Song *song, const bool unset) {
 
   bool success = true;
 
-  if (song->art_automatic().isValid() && song->art_automatic().isLocalFile()) {
-    const QString art_automatic = song->art_automatic().toLocalFile();
-    QFile file(art_automatic);
-    if (file.exists()) {
-      if (file.remove()) {
-        song->clear_art_automatic();
-      }
-      else {
-        success = false;
-        qLog(Error) << "Failed to delete cover file" << art_automatic << file.errorString();
-        Q_EMIT Error(tr("Failed to delete cover file %1: %2").arg(art_automatic, file.errorString()));
-      }
-    }
-    else song->clear_art_automatic();
+  if (DeleteCoverFile(song->source(), song->art_automatic(), confirmed_files)) {
+    song->clear_art_automatic();
   }
-  else song->clear_art_automatic();
+  else {
+    success = false;
+  }
 
-  if (song->art_manual().isValid() && song->art_manual().isLocalFile()) {
-    const QString art_manual = song->art_manual().toLocalFile();
-    QFile file(art_manual);
-    if (file.exists()) {
-      if (file.remove()) {
-        song->clear_art_manual();
-      }
-      else {
-        success = false;
-        qLog(Error) << "Failed to delete cover file" << art_manual << file.errorString();
-        Q_EMIT Error(tr("Failed to delete cover file %1: %2").arg(art_manual, file.errorString()));
-      }
-    }
-    else song->clear_art_manual();
+  if (DeleteCoverFile(song->source(), song->art_manual(), confirmed_files)) {
+    song->clear_art_manual();
   }
-  else song->clear_art_manual();
+  else {
+    success = false;
+  }
 
   if (success) {
     if (unset) UnsetCover(song);
@@ -419,6 +404,125 @@ bool AlbumCoverChoiceController::DeleteCover(Song *song, const bool unset) {
   }
 
   return success;
+
+}
+
+bool AlbumCoverChoiceController::IsInCoverCache(const Song::Source source, const QString &filename) {
+
+  // The canonical path is empty when the cache directory doesn't exist, then every file would be in the cache.
+  const QString cache_dir = QDir(Song::ImageCacheDir(source)).canonicalPath();
+  if (cache_dir.isEmpty()) return false;
+
+  // The canonical path of the directory, so a cache file through a symbolic link to the cache directory is handled as a cache file.
+  // The filename itself is kept, since deleting a symbolic link deletes the link, not the file it links to.
+  const QFileInfo fileinfo(filename);
+  const QString canonical_filename = QDir(fileinfo.path()).canonicalPath() + u'/' + fileinfo.fileName();
+
+#ifdef Q_OS_WIN
+  constexpr Qt::CaseSensitivity case_sensitivity = Qt::CaseInsensitive;
+#else
+  constexpr Qt::CaseSensitivity case_sensitivity = Qt::CaseSensitive;
+#endif
+
+  return canonical_filename.startsWith(cache_dir + u'/', case_sensitivity);
+
+}
+
+QStringList AlbumCoverChoiceController::CoverFilesOutsideCache(const SongList &songs) {
+
+  QStringList filenames;
+  for (const Song &song : songs) {
+    for (const QUrl &url : {song.art_automatic(), song.art_manual()}) {
+      if (!url.isValid() || !url.isLocalFile()) continue;
+      const QString filename = url.toLocalFile();
+      if (!QFile::exists(filename) || filenames.contains(filename) || IsInCoverCache(song.source(), filename)) continue;
+      filenames << filename;
+    }
+  }
+
+  return filenames;
+
+}
+
+bool AlbumCoverChoiceController::CanDeleteCoverFile(const Song::Source source, const QString &filename, const ConfirmedCoverFiles &confirmed_files) {
+
+  // The cache is checked first, since checking the confirmed files reads the file.
+  return IsInCoverCache(source, filename) || confirmed_files.contains(filename);
+
+}
+
+bool AlbumCoverChoiceController::DeleteCoverFile(const Song::Source source, const QUrl &url, const ConfirmedCoverFiles &confirmed_files) {
+
+  if (!url.isValid() || !url.isLocalFile()) return true;
+
+  const QString filename = url.toLocalFile();
+  QFile file(filename);
+  if (!file.exists()) return true;
+
+  // The file can still change after DeleteCover() checked it, then it's kept, and the cover is not cleared.
+  if (!CanDeleteCoverFile(source, filename, confirmed_files)) {
+    qLog(Warning) << "Not deleting cover file" << filename << "which the user did not confirm deleting, or which changed since";
+    return false;
+  }
+
+  if (!file.remove()) {
+    qLog(Error) << "Failed to delete cover file" << filename << file.errorString();
+    Q_EMIT Error(tr("Failed to delete cover file %1: %2").arg(filename, file.errorString()));
+    return false;
+  }
+
+  return true;
+
+}
+
+bool AlbumCoverChoiceController::CanDeleteCovers(const SongList &songs, const ConfirmedCoverFiles &confirmed_files) {
+
+  QList<std::pair<Song, ConfirmedCoverFiles>> songs_confirmed_files;
+  songs_confirmed_files.reserve(songs.count());
+  for (const Song &song : songs) {
+    songs_confirmed_files << std::make_pair(song, confirmed_files);
+  }
+
+  return CanDeleteCovers(songs_confirmed_files);
+
+}
+
+bool AlbumCoverChoiceController::CanDeleteCovers(const QList<std::pair<Song, ConfirmedCoverFiles>> &songs) {
+
+  // A cover file which changed since the user confirmed deleting it is another cover, like a cover saved to the same file while the user was asked.
+  // The hash of the content of each file is only computed once, songs can share a large cover file.
+  QHash<QString, QByteArray> content_hashes;
+  for (const std::pair<Song, ConfirmedCoverFiles> &song_confirmed_files : songs) {
+    const Song &song = song_confirmed_files.first;
+    for (const QUrl &url : {song.art_automatic(), song.art_manual()}) {
+      if (!url.isValid() || !url.isLocalFile()) continue;
+      const QString filename = url.toLocalFile();
+      if (!QFile::exists(filename) || IsInCoverCache(song.source(), filename)) continue;
+      if (!content_hashes.contains(filename)) {
+        content_hashes.insert(filename, ConfirmedCoverFiles::ContentHash(filename));
+      }
+      if (!song_confirmed_files.second.contains(filename, content_hashes.value(filename))) {
+        qLog(Warning) << "Not deleting the cover, the cover file" << filename << "was not confirmed for deleting, or it changed since";
+        Q_EMIT Error(tr("The cover was not deleted, the cover file %1 changed since you confirmed deleting it.").arg(filename));
+        return false;
+      }
+    }
+  }
+
+  return true;
+
+}
+
+std::optional<ConfirmedCoverFiles> AlbumCoverChoiceController::ConfirmDeleteCover(const SongList &songs) {
+
+  const QStringList filenames = CoverFilesOutsideCache(songs);
+  // The files are recorded before asking, so a file changed while the user is asked is not deleted.
+  const ConfirmedCoverFiles confirmed_files(filenames);
+  if (!filenames.isEmpty() && DeleteConfirmationDialog::warning(filenames, this) != QDialogButtonBox::Yes) {
+    return std::nullopt;
+  }
+
+  return confirmed_files;
 
 }
 

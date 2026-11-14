@@ -24,6 +24,9 @@
 
 #include "config.h"
 
+#include <optional>
+#include <utility>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
@@ -34,6 +37,7 @@
 #include <QHash>
 #include <QByteArray>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 #include <QImage>
 #include <QMutex>
@@ -43,6 +47,7 @@
 #include "utilities/coveroptions.h"
 #include "albumcoverloaderoptions.h"
 #include "albumcoverimageresult.h"
+#include "confirmedcoverfiles.h"
 
 class QFileDialog;
 class QAction;
@@ -132,7 +137,27 @@ class AlbumCoverChoiceController : public QWidget {
   void ClearCover(Song *song);
 
   // Physically deletes associated album covers from disk.
-  bool DeleteCover(Song *song, const bool unset = false);
+  // The cover files outside the album cover cache directory are only deleted when they are in the confirmed files from ConfirmDeleteCover(), and unchanged since.
+  // When a cover file changed, nothing of the cover is deleted, and false is returned.
+  bool DeleteCover(Song *song, const bool unset = false, const ConfirmedCoverFiles &confirmed_files = ConfirmedCoverFiles());
+
+  // Returns the cover files which DeleteCover() deletes for the songs outside the album cover cache directory, like the album directory, since these can be the user's own images.
+  static QStringList CoverFilesOutsideCache(const SongList &songs);
+
+  // Asks the user to confirm deleting the cover files of the songs outside the album cover cache directory.
+  // Returns the files the user confirmed deleting, which can be none, or nothing when the user canceled.
+  std::optional<ConfirmedCoverFiles> ConfirmDeleteCover(const SongList &songs);
+
+  // Returns true when all of the cover files of the songs can be deleted, shows an error when a cover file changed since the user confirmed deleting it.
+  // Songs can share a cover file, so the covers of all songs are checked before deleting any of them, then none of them are deleted when one of the files changed.
+  bool CanDeleteCovers(const SongList &songs, const ConfirmedCoverFiles &confirmed_files);
+
+  // The same for songs with the cover files the user confirmed deleting for each of them, like the songs of the tag editor, where the cover of each song can be deleted separately.
+  // Each cover file is only read once, also when many songs share it.
+  bool CanDeleteCovers(const QList<std::pair<Song, ConfirmedCoverFiles>> &songs);
+
+  // Returns true when the cover file is in the album cover cache directory, or the user confirmed deleting it and it's unchanged since.
+  static bool CanDeleteCoverFile(const Song::Source source, const QString &filename, const ConfirmedCoverFiles &confirmed_files);
 
   // Shows the cover of given song in it's original size.
   void ShowCover(const Song &song, const QImage &image = QImage());
@@ -181,6 +206,8 @@ class AlbumCoverChoiceController : public QWidget {
   void LoadCurrentAlbumCover(const Song &song);
 
   static bool IsKnownImageExtension(const QString &suffix);
+  static bool IsInCoverCache(const Song::Source source, const QString &filename);
+  bool DeleteCoverFile(const Song::Source source, const QUrl &url, const ConfirmedCoverFiles &confirmed_files);
 
   SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader_;
   SharedPtr<NetworkAccessManager> network_;
