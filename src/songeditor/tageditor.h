@@ -109,6 +109,8 @@ class TagEditor : public SongEditor {
  private:
   Song *GetFirstSelected();
   void UpdateCover(const UpdateCoverAction cover_action, const AlbumCoverImageResult &cover_result = AlbumCoverImageResult());
+  // Restores the cover of the song when saving the new cover failed, the cover is not changed.
+  static void RestoreOriginalCover(Data *tag_data);
 
   void UpdateSummaryTab(const Song &song);
   void UpdateStatisticsTab(const Song &song);

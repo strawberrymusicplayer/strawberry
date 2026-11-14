@@ -34,16 +34,24 @@
 #include <QListWidget>
 #include <QTimer>
 #include <QTemporaryDir>
+#include <QStandardPaths>
 #include <QFile>
 #include <QFileInfo>
 #include <QUrl>
 #include <QString>
 #include <QSignalSpy>
 #include <QElapsedTimer>
+#include <QAction>
+#include <QImage>
+#include <QMimeData>
+#include <QDropEvent>
+#include <QCheckBox>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
+#include "utilities/imageutils.h"
 #include "tagreader/tagreaderclient.h"
+#include "tagreader/savetagcoverdata.h"
 #include "lyrics/lyricsprovider.h"
 #include "lyrics/lyricsproviders.h"
 #include "lyrics/lyricssearchrequest.h"
@@ -62,6 +70,7 @@
 #include "songeditor/lyricseditor.h"
 #include "songeditor/lyricssearchtype.h"
 #include "songeditor/lyricstab.h"
+#include "covermanager/albumcoverchoicecontroller.h"
 
 using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
@@ -113,6 +122,24 @@ class SongEditorTest : public ::testing::Test {
     Song song(Song::Source::LocalFile);
     if (!tagreader_client_->ReadFileBlocking(filename, &song).success()) return Song();
     return song;
+  }
+
+  // Drops the image on the cover of the tag editor with only the image, not the image data, like an image dropped from a browser.
+  static void DropImageOnCover(TagEditor *editor, const QImage &image) {
+    QMimeData mime_data;
+    mime_data.setImageData(image);
+    QWidget *tags_art = editor->findChild<QWidget*>(u"tags_art"_s);
+    ASSERT_NE(nullptr, tags_art);
+    // The drop goes to the widget which accepted entering the drag.
+#if QT_VERSION >= QT_VERSION_CHECK(6, 12, 0)
+    QDragEnterEvent drag_enter_event(QPointF(1, 1), Qt::CopyAction, &mime_data, Qt::LeftButton, Qt::NoModifier);
+#else
+    QDragEnterEvent drag_enter_event(QPoint(1, 1), Qt::CopyAction, &mime_data, Qt::LeftButton, Qt::NoModifier);
+#endif
+    QCoreApplication::sendEvent(tags_art, &drag_enter_event);
+    ASSERT_TRUE(drag_enter_event.isAccepted());
+    QDropEvent drop_event(QPointF(1, 1), Qt::CopyAction, &mime_data, Qt::LeftButton, Qt::NoModifier);
+    QCoreApplication::sendEvent(tags_art, &drop_event);
   }
 
   // Processes events until the condition is true, returns false on timeout.
@@ -221,6 +248,153 @@ TEST_F(SongEditorTest, TagEditorSavesTagsAndLyrics) {
 
   // The tag completers load their models from the collection backend in the background, wait for them before the backend is deleted.
   QThreadPool::globalInstance()->waitForDone();
+
+}
+
+// Regression test: an image dropped on the cover has no image data, and empty cover data removes the embedded cover, so the embedded cover was removed instead of replaced.
+TEST_F(SongEditorTest, TagEditorEmbedsDroppedCover) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  Song song = CreateSong(temp_dir);
+  ASSERT_TRUE(song.IsEditable());
+  ASSERT_TRUE(song.save_embedded_cover_supported());
+
+  // The song has an embedded cover, which is replaced by the dropped image.
+  QImage original_cover(11, 13, QImage::Format_RGB32);
+  original_cover.fill(Qt::blue);
+  ASSERT_TRUE(tagreader_client_->SaveCoverBlocking(song.url().toLocalFile(), SaveTagCoverData(QString(), ImageUtils::SaveImageToJpegData(original_cover), u"image/jpeg"_s)).success());
+  ASSERT_TRUE(tagreader_client_->ReadFileBlocking(song.url().toLocalFile(), &song).success());
+  ASSERT_TRUE(song.art_embedded());
+
+  SharedPtr<AlbumCoverLoader> albumcover_loader = make_shared<AlbumCoverLoader>(tagreader_client_);
+  TagEditor editor(make_shared<NetworkAccessManager>(), tagreader_client_, collection_backend_, albumcover_loader, make_shared<CurrentAlbumCoverLoader>(albumcover_loader), make_shared<CoverProviders>(), lyrics_providers_, make_shared<StreamingServices>());
+  ASSERT_TRUE(editor.SetSongs(SongList() << song));
+  ASSERT_TRUE(WaitFor([&editor]() { return editor.songs().count() == 1; }));
+
+  QCheckBox *checkbox_embedded_cover = editor.findChild<QCheckBox*>(u"checkbox_embedded_cover"_s);
+  ASSERT_NE(nullptr, checkbox_embedded_cover);
+  checkbox_embedded_cover->setChecked(true);
+
+  // A dropped image, for example from a browser, only has the image, not the image data.
+  QImage dropped_cover(37, 23, QImage::Format_RGB32);
+  dropped_cover.fill(Qt::red);
+  ASSERT_NE(dropped_cover.size(), original_cover.size());
+  ASSERT_NO_FATAL_FAILURE(DropImageOnCover(&editor, dropped_cover));
+
+  QSignalSpy spy_accepted(&editor, &QDialog::accepted);
+  QSignalSpy spy_error(&editor, &SongEditor::Error);
+  editor.accept();
+  ASSERT_TRUE(WaitFor([&spy_accepted]() { return spy_accepted.count() > 0; }));
+  EXPECT_EQ(0, spy_error.count());
+
+  QImage saved_cover;
+  ASSERT_TRUE(tagreader_client_->LoadCoverImageBlocking(song.url().toLocalFile(), saved_cover).success());
+  ASSERT_FALSE(saved_cover.isNull());
+  EXPECT_EQ(dropped_cover.size(), saved_cover.size());
+
+  QThreadPool::globalInstance()->waitForDone();
+
+}
+
+// A dropped image which can't be saved keeps the existing cover, the cover chosen in the editor was cleared when the image was dropped, and was saved like that.
+// The image is embedded, or saved to a file when the cover isn't embedded.
+// The cover is cleared first, which also clears the embedded and automatic cover in the editor.
+TEST_F(SongEditorTest, TagEditorKeepsCoverWhenDroppedCoverCantBeSaved) {
+
+  // The cover file is saved in the image cache, which is only redirected for the tests on Linux and BSD, keep it out of the users own cache on Windows and macOS.
+  QStandardPaths::setTestModeEnabled(true);
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  Song song = CreateSong(temp_dir);
+  ASSERT_TRUE(song.IsEditable());
+  ASSERT_TRUE(song.save_embedded_cover_supported());
+  ASSERT_FALSE(song.effective_albumartist().isEmpty());
+  ASSERT_FALSE(song.album().isEmpty());
+
+  QImage original_cover(11, 13, QImage::Format_RGB32);
+  original_cover.fill(Qt::blue);
+  ASSERT_TRUE(tagreader_client_->SaveCoverBlocking(song.url().toLocalFile(), SaveTagCoverData(QString(), ImageUtils::SaveImageToJpegData(original_cover), u"image/jpeg"_s)).success());
+  ASSERT_TRUE(tagreader_client_->ReadFileBlocking(song.url().toLocalFile(), &song).success());
+  ASSERT_TRUE(song.art_embedded());
+  const QUrl art_automatic = QUrl::fromLocalFile(temp_dir.filePath(u"automatic.jpg"_s));
+  const QUrl art_manual = QUrl::fromLocalFile(temp_dir.filePath(u"manual.jpg"_s));
+  song.set_art_automatic(art_automatic);
+  constexpr qint64 art_automatic_mtime = 1234567890000;
+  song.set_art_automatic_mtime(art_automatic_mtime);
+  song.set_art_manual(art_manual);
+  song.set_art_unset(true);
+
+  // A collection song, the collection is updated with the cover when saving.
+  collection_backend_->AddDirectory(temp_dir.path());
+  song.set_source(Song::Source::Collection);
+  song.set_directory_id(1);
+  collection_backend_->AddOrUpdateSongs(SongList() << song);
+  const SongList collection_songs = collection_backend_->GetAllSongs();
+  ASSERT_EQ(1, collection_songs.count());
+  song = collection_songs.first();
+  ASSERT_TRUE(song.art_embedded());
+  ASSERT_EQ(art_automatic, song.art_automatic());
+  ASSERT_EQ(art_automatic_mtime, song.art_automatic_mtime());
+  ASSERT_EQ(art_manual, song.art_manual());
+  ASSERT_TRUE(song.art_unset());
+
+  // JPEG images can't be wider than 65535 pixels.
+  QImage dropped_cover(70000, 1, QImage::Format_RGB32);
+  dropped_cover.fill(Qt::red);
+  ASSERT_TRUE(ImageUtils::SaveImageToJpegData(dropped_cover).isEmpty());
+
+  SharedPtr<AlbumCoverLoader> albumcover_loader = make_shared<AlbumCoverLoader>(tagreader_client_);
+
+  for (const bool embedded : {true, false}) {
+    SCOPED_TRACE(embedded ? "Embedded cover" : "Cover file");
+
+    TagEditor editor(make_shared<NetworkAccessManager>(), tagreader_client_, collection_backend_, albumcover_loader, make_shared<CurrentAlbumCoverLoader>(albumcover_loader), make_shared<CoverProviders>(), lyrics_providers_, make_shared<StreamingServices>());
+    ASSERT_TRUE(editor.SetSongs(SongList() << song));
+    ASSERT_TRUE(WaitFor([&editor]() { return editor.songs().count() == 1; }));
+
+    AlbumCoverChoiceController *album_cover_choice_controller = editor.findChild<AlbumCoverChoiceController*>();
+    ASSERT_NE(nullptr, album_cover_choice_controller);
+    QAction *clear_cover_action = album_cover_choice_controller->clear_cover_action();
+    ASSERT_TRUE(clear_cover_action->isEnabled());
+    clear_cover_action->trigger();
+    ASSERT_FALSE(editor.songs().first().art_embedded());
+    ASSERT_TRUE(editor.songs().first().art_automatic().isEmpty());
+
+    ASSERT_NO_FATAL_FAILURE(DropImageOnCover(&editor, dropped_cover));
+
+    // Changing the cover sets the checkbox from the song, so it's set after dropping the image.
+    QCheckBox *checkbox_embedded_cover = editor.findChild<QCheckBox*>(u"checkbox_embedded_cover"_s);
+    ASSERT_NE(nullptr, checkbox_embedded_cover);
+    checkbox_embedded_cover->setChecked(embedded);
+
+    QSignalSpy spy_accepted(&editor, &QDialog::accepted);
+    editor.accept();
+    ASSERT_TRUE(WaitFor([&spy_accepted]() { return spy_accepted.count() > 0; }));
+
+    // The songs of the editor update the playlist.
+    const Song editor_song = editor.songs().first();
+    EXPECT_TRUE(editor_song.art_embedded());
+    EXPECT_EQ(art_automatic, editor_song.art_automatic());
+    EXPECT_EQ(art_automatic_mtime, editor_song.art_automatic_mtime());
+    EXPECT_EQ(art_manual, editor_song.art_manual());
+    EXPECT_TRUE(editor_song.art_unset());
+    const Song collection_song = collection_backend_->GetSongById(song.id());
+    EXPECT_TRUE(collection_song.art_embedded());
+    EXPECT_EQ(art_automatic, collection_song.art_automatic());
+    EXPECT_EQ(art_automatic_mtime, collection_song.art_automatic_mtime());
+    EXPECT_EQ(art_manual, collection_song.art_manual());
+    EXPECT_TRUE(collection_song.art_unset());
+
+    QImage saved_cover;
+    ASSERT_TRUE(tagreader_client_->LoadCoverImageBlocking(song.url().toLocalFile(), saved_cover).success());
+    EXPECT_EQ(original_cover.size(), saved_cover.size());
+
+    QThreadPool::globalInstance()->waitForDone();
+  }
+
+  QStandardPaths::setTestModeEnabled(false);
 
 }
 

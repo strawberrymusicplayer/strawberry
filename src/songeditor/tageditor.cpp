@@ -881,6 +881,20 @@ void TagEditor::UpdateCover(const UpdateCoverAction cover_action, const AlbumCov
 
 }
 
+void TagEditor::RestoreOriginalCover(Data *tag_data) {
+
+  // UpdateCover() changed the cover when it was chosen, also a cover cleared or unset before choosing the new cover, so all of the cover is restored.
+  tag_data->current_.set_art_embedded(tag_data->original_.art_embedded());
+  tag_data->current_.set_art_automatic(tag_data->original_.art_automatic());
+  // Setting another automatic cover clears its modification time, and the collection watcher handles a changed modification time as a changed cover.
+  tag_data->current_.set_art_automatic_mtime(tag_data->original_.art_automatic_mtime());
+  tag_data->current_.set_art_manual(tag_data->original_.art_manual());
+  tag_data->current_.set_art_unset(tag_data->original_.art_unset());
+  // The cover is not changed, so writing the other tags must not handle it as a new cover either.
+  tag_data->cover_action_ = UpdateCoverAction::None;
+
+}
+
 void TagEditor::Save() {
 
   QMap<QString, QUrl> cover_urls;
@@ -946,11 +960,8 @@ void TagEditor::Save() {
               ref.current_.set_art_unset(false);
             }
             else {
-              // Saving the cover failed, UpdateCover() already cleared the cover when it was chosen, so restore the existing cover instead of clearing it.
-              ref.current_.set_art_manual(ref.original_.art_manual());
-              ref.current_.set_art_unset(ref.original_.art_unset());
-              // The cover is not changed, so writing the other tags must not handle it as a new cover either.
-              ref.cover_action_ = UpdateCoverAction::None;
+              // Saving the cover failed, so restore the existing cover instead of clearing it.
+              RestoreOriginalCover(&ref);
             }
           }
           break;
@@ -1008,14 +1019,26 @@ void TagEditor::Save() {
       if (ref.current_.lastplayed() <= 0) { ref.current_.set_lastplayed(-1); }
       ++save_tag_pending_;
       SaveTagCoverData save_tag_cover_data;
+      bool write_embedded_cover = save_embedded_cover;
       if (save_embedded_cover && ref.cover_action_ == UpdateCoverAction::New) {
-        if (!ref.cover_result_.image.isNull()) {
+        if (!ref.cover_result_.image_data.isEmpty()) {
+          save_tag_cover_data.cover_data = ref.cover_result_.image_data;
           save_tag_cover_data.cover_mimetype = ref.cover_result_.mime_type;
+        }
+        else if (!ref.cover_result_.image.isNull()) {
+          // Empty cover data removes the embedded cover, so an image without its data, like an image dropped on the cover, is encoded, otherwise the existing embedded cover would be removed instead.
+          save_tag_cover_data.cover_data = ImageUtils::SaveImageToJpegData(ref.cover_result_.image);
+          save_tag_cover_data.cover_mimetype = u"image/jpeg"_s;
+          if (save_tag_cover_data.cover_data.isEmpty()) {
+            qLog(Error) << "Could not encode the cover image for" << ref.current_.url();
+            // The existing embedded cover is kept, the cover is not changed.
+            write_embedded_cover = false;
+            RestoreOriginalCover(&ref);
+          }
         }
         else if (!embedded_cover_from_file.isEmpty()) {
           save_tag_cover_data.cover_filename = embedded_cover_from_file;
         }
-        save_tag_cover_data.cover_data = ref.cover_result_.image_data;
       }
 
       // Determine ID3v2 version based on user selection
@@ -1034,7 +1057,7 @@ void TagEditor::Save() {
       if (save_rating) {
         save_tags_options |= TagReaderClient::SaveOption::Rating;
       }
-      if (save_embedded_cover) {
+      if (write_embedded_cover) {
         save_tags_options |= TagReaderClient::SaveOption::Cover;
       }
       // Lyrics saved to the database or an LRC file do not depend on writing the tags, so they are still saved to the collection if writing the tags fails.
