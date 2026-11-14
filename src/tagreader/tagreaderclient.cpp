@@ -249,7 +249,24 @@ void TagReaderClient::ProcessRequest(TagReaderRequestPtr request) {
   }
 #endif  // HAVE_STREAMTAGREADER
   else if (TagReaderWriteFileRequestPtr write_file_request = dynamic_pointer_cast<TagReaderWriteFileRequest>(request)) {
-    result = WriteFileBlocking(write_file_request->filename, write_file_request->song, write_file_request->save_tags_options, write_file_request->save_tag_cover_data, write_file_request->tag_id3v2_version);
+    if (write_file_request->update_song) {
+      // The file is read and written under the same lock as the other writes, so a write from another thread in between is not overwritten with the tags read before it.
+      QMutexLocker l(&mutex_write_);
+      // Read without the values of a song, so the tags which are not in the file are not written.
+      Song song;
+      result = tagreader_.ReadFile(write_file_request->filename, &song);
+      if (result.success()) {
+        if (write_file_request->update_song(&song)) {
+          result = tagreader_.WriteFile(write_file_request->filename, song, write_file_request->save_tags_options, write_file_request->save_tag_cover_data, write_file_request->tag_id3v2_version);
+        }
+        else {
+          result = TagReaderResult(TagReaderResult::ErrorCode::Unsupported);
+        }
+      }
+    }
+    else {
+      result = WriteFileBlocking(write_file_request->filename, write_file_request->song, write_file_request->save_tags_options, write_file_request->save_tag_cover_data, write_file_request->tag_id3v2_version);
+    }
   }
   else if (TagReaderLoadCoverDataRequestPtr load_cover_data_request = dynamic_pointer_cast<TagReaderLoadCoverDataRequest>(request)) {
     QByteArray cover_data;
@@ -396,6 +413,24 @@ TagReaderReplyPtr TagReaderClient::WriteFileAsync(const QString &filename, const
   request->save_tags_options = save_tags_options;
   request->save_tag_cover_data = save_tag_cover_data;
   request->tag_id3v2_version = tag_id3v2_version;
+
+  EnqueueRequest(request);
+
+  return reply;
+
+}
+
+TagReaderReplyPtr TagReaderClient::UpdateFileAsync(const QString &filename, const std::function<bool(Song *song)> &update_song) {
+
+  Q_ASSERT(exited_ || QThread::currentThread() != thread());
+
+  TagReaderReplyPtr reply = TagReaderReply::Create<TagReaderReply>(filename);
+
+  TagReaderWriteFileRequestPtr request = TagReaderWriteFileRequest::Create(filename);
+  request->reply = reply;
+  request->filename = filename;
+  request->save_tags_options = SaveTagsOption::Tags;
+  request->update_song = update_song;
 
   EnqueueRequest(request);
 

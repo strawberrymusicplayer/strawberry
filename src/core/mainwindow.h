@@ -237,7 +237,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   void PlayingWidgetPositionChanged(const bool above_status_bar);
 
-  void SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx);
 
   void ShowCoverManager();
   void ShowEqualizer();

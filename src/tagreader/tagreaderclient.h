@@ -23,6 +23,7 @@
 #include "config.h"
 
 #include <atomic>
+#include <functional>
 
 #include <QObject>
 #include <QList>
@@ -76,6 +77,10 @@ class TagReaderClient : public QObject {
 
   TagReaderResult WriteFileBlocking(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options = SaveTagsOption::Tags, const SaveTagCoverData &save_tag_cover_data = SaveTagCoverData(), const TagID3v2Version tag_id3v2_version = TagID3v2Version::Default);
   [[nodiscard]] TagReaderReplyPtr WriteFileAsync(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options = SaveTagsOption::Tags, const SaveTagCoverData &save_tag_cover_data = SaveTagCoverData(), const TagID3v2Version tag_id3v2_version = TagID3v2Version::Default);
+  // Reads the tags from the file, changes them with update_song, and writes them, so only the changed tags are written, the other tags are kept as they are in the file.
+  // update_song is called in the tagreader thread, it returns false when the tags can't be changed, then the file is not written.
+  // The file is read when the request is processed, after the requests enqueued before, and the request is processed when exiting like the other writes.
+  [[nodiscard]] TagReaderReplyPtr UpdateFileAsync(const QString &filename, const std::function<bool(Song *song)> &update_song);
 
   TagReaderResult LoadCoverDataBlocking(const QString &filename, QByteArray &data);
   TagReaderResult LoadCoverImageBlocking(const QString &filename, QImage &image);
