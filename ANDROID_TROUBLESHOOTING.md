@@ -325,6 +325,14 @@ Don't remove it unless the Android Qt kit is 6.9.2 or newer.
 
 ---
 
+### Black Background After Rotating to Landscape
+
+On the FP5 in dark mode, the main background could remain at its old portrait width while list backgrounds resized normally.
+The Android main window and sidebar explicitly fill their backgrounds using the theme's `QPalette::Base` color.
+The FP5's `QPalette::Window` is black in dark mode, whereas `Base` matches the dark-grey list backgrounds; do not replace it with a fixed color.
+
+---
+
 ### Emulator Shows a Blank Window or Exits with Graphics-Context Errors
 
 The host-GPU emulator can fail independently of the app.

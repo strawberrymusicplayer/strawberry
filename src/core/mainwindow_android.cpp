@@ -30,6 +30,7 @@
 #include <QLayout>
 #include <QList>
 #include <QObject>
+#include <QPalette>
 #include <QPushButton>
 #include <QScrollArea>
 #include <QScreen>
@@ -103,6 +104,12 @@ class AndroidToolPageFilter : public QObject {
 }  // namespace
 
 void MainWindow::SetupAndroidLayout() {
+
+  // Android's Window color can be black in dark mode; match the list backgrounds using Base instead.
+  ui_->centralWidget->setBackgroundRole(QPalette::Base);
+  ui_->centralWidget->setAutoFillBackground(true);
+  ui_->tabs->setBackgroundRole(QPalette::Base);
+  ui_->tabs->setAutoFillBackground(true);
 
   QObject::connect(ui_->action_stop_collection_scan, &QAction::triggered, this, [this]() {
     for (const TaskManager::Task &task : app_->task_manager()->GetTasks()) {
