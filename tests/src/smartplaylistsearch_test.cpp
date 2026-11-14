@@ -256,4 +256,62 @@ TEST(SmartPlaylistSearchTermTest, FiletypeEqualsMatchesTheExtension) {
 
 }
 
+// Returns the lengths in nanoseconds of the songs matching the search term on the length, by running the SQL on songs with the lengths.
+QList<qint64> MatchingLengths(const SmartPlaylistSearchTerm &term, const QList<qint64> &lengths) {
+
+  QList<qint64> matching;
+  {
+    QSqlDatabase db = QSqlDatabase::addDatabase(u"QSQLITE"_s, u"smartplaylistsearchterm_length_test"_s);
+    db.setDatabaseName(u":memory:"_s);
+    if (!db.open()) return QList<qint64>() << -2;
+
+    QSqlQuery q(db);
+    q.exec(u"CREATE TABLE songs (length INTEGER)"_s);
+    for (const qint64 length : lengths) {
+      q.prepare(u"INSERT INTO songs (length) VALUES (?)"_s);
+      q.addBindValue(length);
+      q.exec();
+    }
+
+    QVariantList bound_values;
+    q.prepare(u"SELECT length FROM songs WHERE "_s + term.ToSql(bound_values) + u" ORDER BY rowid"_s);
+    for (const QVariant &value : std::as_const(bound_values)) {
+      q.addBindValue(value);
+    }
+    if (q.exec()) {
+      while (q.next()) {
+        matching << q.value(0).toLongLong();
+      }
+    }
+    else {
+      matching << -3;
+    }
+  }
+  QSqlDatabase::removeDatabase(u"smartplaylistsearchterm_length_test"_s);
+
+  return matching;
+
+}
+
+constexpr qint64 kNsecPerSec = 1000000000LL;
+
+// 2:59.5, 3:00, 3:00.7 and 3:01, shown as 2:59, 3:00, 3:00 and 3:01 in the playlist.
+const QList<qint64> kLengths = QList<qint64>() << 179 * kNsecPerSec + 500000000LL << 180 * kNsecPerSec << 180 * kNsecPerSec + 700000000LL << 181 * kNsecPerSec;
+
+// Regression test: the length in nanoseconds was compared with the whole seconds, so "equals" only matched songs with exactly that length, and "not equals" matched all songs.
+TEST(SmartPlaylistSearchTermTest, LengthEqualsComparesWholeSeconds) {
+
+  EXPECT_EQ(QList<qint64>() << kLengths[1] << kLengths[2], MatchingLengths(SmartPlaylistSearchTerm(SmartPlaylistSearchTerm::Field::Length, SmartPlaylistSearchTerm::Operator::Equals, 180), kLengths));
+  EXPECT_EQ(QList<qint64>() << kLengths[0] << kLengths[3], MatchingLengths(SmartPlaylistSearchTerm(SmartPlaylistSearchTerm::Field::Length, SmartPlaylistSearchTerm::Operator::NotEquals, 180), kLengths));
+
+}
+
+// "Greater than" and "less than" compare the length shown in the playlist too, a song shown as 3:00 is not longer than 3:00.
+TEST(SmartPlaylistSearchTermTest, LengthGreaterAndLessThanCompareWholeSeconds) {
+
+  EXPECT_EQ(QList<qint64>() << kLengths[3], MatchingLengths(SmartPlaylistSearchTerm(SmartPlaylistSearchTerm::Field::Length, SmartPlaylistSearchTerm::Operator::GreaterThan, 180), kLengths));
+  EXPECT_EQ(QList<qint64>() << kLengths[0], MatchingLengths(SmartPlaylistSearchTerm(SmartPlaylistSearchTerm::Field::Length, SmartPlaylistSearchTerm::Operator::LessThan, 180), kLengths));
+
+}
+
 }  // namespace

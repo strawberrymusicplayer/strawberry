@@ -218,8 +218,8 @@ QString SmartPlaylistSearchTerm::ToSql(QVariantList &bound_values) const {
     }
   }
   else if (type == Type::Time) {
-    // Convert seconds to nanoseconds
-    value_expr = u"CAST (? *1000000000 AS INTEGER)"_s;
+    // The length is stored in nanoseconds, the value is in whole seconds, compare the whole seconds of the length, which are the seconds shown in the playlist.
+    col = "("_L1 + col + " / 1000000000)"_L1;
   }
   else if (type == Type::Rating) {
     col = "CAST ((replace("_L1 + col + ", -1, 0) + 0.05) * 10 AS INTEGER)"_L1;
