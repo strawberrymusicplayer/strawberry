@@ -93,6 +93,22 @@ QT_QPA_PLATFORM=offscreen ctest --test-dir build/native \
   -R '^(qobuzservice_test|oauthenticator_test|localredirectserver_test)$' --output-on-failure
 ```
 
+## Experimental Spotify plugin registration
+
+The default-off registration probe accepts a separately cross-built `gst-plugin-spotify` static archive for the configured Android ABI:
+
+```bash
+cmake -S . -B build -DENABLE_ANDROID_SPOTIFY_PLUGIN_PROBE=ON \
+  -DANDROID_SPOTIFY_PLUGIN_ARCHIVE=/absolute/path/to/libgstspotify.a
+cmake --build build --target strawberry --parallel 2
+```
+
+The archive must target the same Android ABI and GStreamer SDK as the app.
+The probe registers `spotifyaudiosrc` in the app and logs the outcome under `StrawberrySpotifyProbe`.
+It does not enable the Spotify service or login, and does not verify TLS or playback.
+The archive and its dependency licensing and reproducible build are not yet integrated; do not distribute probe builds as Spotify-enabled releases.
+To restore the ordinary Android build, configure with `-DENABLE_ANDROID_SPOTIFY_PLUGIN_PROBE=OFF` and rebuild.
+
 ## NAS client dependency
 
 Android builds enable `ENABLE_NAS` by default.

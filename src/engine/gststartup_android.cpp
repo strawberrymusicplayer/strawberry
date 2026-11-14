@@ -22,6 +22,11 @@
 
 #include <gst/gst.h>
 
+#ifdef ANDROID_SPOTIFY_PLUGIN_PROBE
+#  include <android/log.h>
+extern "C" void gst_plugin_spotify_register();
+#endif
+
 #include <QJniEnvironment>
 #include <QJniObject>
 #include <QtCore/qcoreapplication_platform.h>
@@ -63,6 +68,18 @@ void RegisterAndroidFileSource() {
   if (!RegisterGstQFileSource()) {
     qLog(Fatal) << "Could not register Android document audio source";
   }
+#ifdef ANDROID_SPOTIFY_PLUGIN_PROBE
+  gst_plugin_spotify_register();
+  GstElementFactory *spotify_factory = gst_element_factory_find("spotifyaudiosrc");
+  if (!spotify_factory) {
+    qLog(Error) << "Experimental Spotify plugin registration failed";
+    __android_log_print(ANDROID_LOG_ERROR, "StrawberrySpotifyProbe", "Spotify plugin registration failed");
+  }
+  else {
+    __android_log_print(ANDROID_LOG_INFO, "StrawberrySpotifyProbe", "Spotify audio source registered");
+    gst_object_unref(spotify_factory);
+  }
+#endif
 }
 
 void LowerAndroidMediaDecoderRanks() {

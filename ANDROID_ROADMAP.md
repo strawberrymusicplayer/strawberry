@@ -778,7 +778,7 @@ The user also requested removing these arrows from the navigation/menu bar when 
 
 ## 22. Build and bundle a Spotify GStreamer plugin for Android
 
-**Status:** Investigating (arm64 plugin cross-build and isolated registration verified; app integration not started)
+**Status:** Investigating (arm64 plugin registration verified in an opt-in app probe; login and playback not implemented)
 
 **Problem:** Spotify playback requires a GStreamer plugin that is not included in the Android SDK, so Spotify is currently disabled on Android.
 
@@ -804,10 +804,14 @@ The user also requested removing these arrows from the navigation/menu bar when 
   Do not assume the bundled GLib CA configuration makes Spotify's Rust TLS trust work on Android.
 - The archive and probes are experimental session files, not a reproducible project build integration or a release-size measurement.
   No APK was modified or installed for this test.
+- A default-off Android registration probe now accepts a separately cross-built static archive and links it into Strawberry against the existing GStreamer shared library.
+  The experimental app registered `spotifyaudiosrc` on the emulator, and remained running; the Spotify service and login stayed disabled.
+  This debug-archive probe APK was approximately 46 MB, versus approximately 34 MB for the earlier normal APK; this is not a release-size benchmark.
+  Rust TLS trust, Spotify playback, reproducible dependency builds and distribution licensing remain unverified.
 
 **Next steps:**
 - Identify the plugin and its dependencies, and verify Android support, licensing, and compatibility with Strawberry's Spotify playback and authentication.
-- Cross-compile for the supported Android ABIs using the app's GStreamer toolchain, and package and register the plugin in the APK.
+- Reproducibly cross-compile for the supported Android ABIs using the app's GStreamer toolchain, and package and register the plugin in the APK with its dependency licensing.
 - Validate the Rust plugin's TLS trust-store integration rather than assuming it shares GLib's configured TLS backend.
 - Re-enable Spotify only once the required plugin is available; preserve existing desktop behavior.
 - Verify login, playback, seeking, track transitions, and background playback on Android before marking this item done.
