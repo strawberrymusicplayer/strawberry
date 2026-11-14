@@ -58,3 +58,30 @@ TEST(TranscodeDialogTest, FileAddedOnce) {
   EXPECT_EQ(QStringList() << u"/music/album.flac"_s << u"/music/song.flac"_s << u"/music/other.flac"_s, ListedFilenames(dialog));
 
 }
+
+TEST(TranscodeDialogTest, ReplaceExtension) {
+
+  EXPECT_EQ(u"/music/song.mp3"_s, TranscodeDialog::ReplaceExtension(u"/music/song.flac"_s, u"mp3"_s));
+  EXPECT_EQ(u"/music/song.live.mp3"_s, TranscodeDialog::ReplaceExtension(u"/music/song.live.flac"_s, u"mp3"_s));
+  EXPECT_EQ(u"song.mp3"_s, TranscodeDialog::ReplaceExtension(u"song.flac"_s, u"mp3"_s));
+
+}
+
+// Regression test: the part of the path after the last dot was removed, so the output path of a file without an extension was the name of a hidden file, or a path in another directory when a directory name had a dot.
+TEST(TranscodeDialogTest, ReplaceExtensionAddsExtensionToFileWithoutExtension) {
+
+  EXPECT_EQ(u"/music/song.mp3"_s, TranscodeDialog::ReplaceExtension(u"/music/song"_s, u"mp3"_s));
+  EXPECT_EQ(u"song.mp3"_s, TranscodeDialog::ReplaceExtension(u"song"_s, u"mp3"_s));
+  EXPECT_EQ(u"/music/Album Vol. 1/song.mp3"_s, TranscodeDialog::ReplaceExtension(u"/music/Album Vol. 1/song"_s, u"mp3"_s));
+  EXPECT_EQ(u"/music/Album Vol. 1/song.mp3"_s, TranscodeDialog::ReplaceExtension(u"/music/Album Vol. 1/song.flac"_s, u"mp3"_s));
+
+}
+
+// A file name starting with a dot, like a hidden file, keeps its name.
+TEST(TranscodeDialogTest, ReplaceExtensionKeepsHiddenFileName) {
+
+  EXPECT_EQ(u"/music/.song.mp3"_s, TranscodeDialog::ReplaceExtension(u"/music/.song"_s, u"mp3"_s));
+  EXPECT_EQ(u".song.mp3"_s, TranscodeDialog::ReplaceExtension(u".song"_s, u"mp3"_s));
+  EXPECT_EQ(u"/music/.song.mp3"_s, TranscodeDialog::ReplaceExtension(u"/music/.song.flac"_s, u"mp3"_s));
+
+}
