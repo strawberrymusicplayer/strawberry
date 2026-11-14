@@ -47,6 +47,9 @@ class ValueButton;
 
 class EqualizerSlider;
 class Ui_Equalizer;
+namespace EqualizerJson {
+struct State;
+}
 
 class Equalizer : public QDialog {
   Q_OBJECT
@@ -74,6 +77,11 @@ class Equalizer : public QDialog {
   QList<int> gain_values() const;
   Params current_params() const;
   float stereo_balance() const;
+
+  // The presets and settings for exporting to a file.
+  EqualizerJson::State ExportState() const;
+  // Merges the presets, replacing existing ones with the same name, then applies the selected preset, the current curve and the settings, and saves them.
+  void ImportState(const EqualizerJson::State &state);
 
  Q_SIGNALS:
   void StereoBalancerEnabledChanged(const bool enabled);

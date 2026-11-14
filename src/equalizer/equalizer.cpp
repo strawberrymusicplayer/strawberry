@@ -43,14 +43,15 @@
 #include <QComboBox>
 #include <QBoxLayout>
 #include <QSettings>
+#include <QSignalBlocker>
 #ifdef Q_OS_ANDROID
 #  include <QLabel>
-#  include <QSignalBlocker>
 #endif
 
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "equalizer.h"
+#include "equalizerjson.h"
 #include "equalizerslider.h"
 #include "ui_equalizer.h"
 
@@ -366,6 +367,44 @@ Equalizer::Params Equalizer::current_params() const {
 
 float Equalizer::stereo_balance() const {
   return qBound(-1.0F, static_cast<float>(ui_->stereo_balance_slider->value()) / 100.0F, 1.0F);
+}
+
+EqualizerJson::State Equalizer::ExportState() const {
+
+  EqualizerJson::State state;
+  state.presets = presets_;
+  state.selected_preset = ui_->preset->currentData().toString();
+  state.current = current_params();
+  state.enabled = is_equalizer_enabled();
+  state.stereo_balancer_enabled = is_stereo_balancer_enabled();
+  state.stereo_balance = ui_->stereo_balance_slider->value();
+  return state;
+
+}
+
+void Equalizer::ImportState(const EqualizerJson::State &state) {
+
+  for (auto it = state.presets.cbegin(); it != state.presets.cend(); ++it) AddPreset(it.key(), it.value());
+  ui_->enable_equalizer->setChecked(state.enabled);
+  ui_->enable_stereo_balancer->setChecked(state.stereo_balancer_enabled);
+  if (state.stereo_balancer_enabled) ui_->stereo_balance_slider->setValue(state.stereo_balance);
+  {
+    // Selecting the preset must not load its curve, which the imported current curve replaces.
+    const QSignalBlocker blocker(ui_->preset);
+    const int index = ui_->preset->findData(state.selected_preset);
+    if (index != -1) ui_->preset->setCurrentIndex(index);
+  }
+  last_preset_ = ui_->preset->currentData().toString();
+  loading_ = true;
+  preamp_->set_value(state.current.preamp);
+  for (int i = 0; i < kBands; ++i) gain_[i]->set_value(state.current.gain[i]);
+  loading_ = false;
+  EqualizerParametersChangedSlot();
+#ifdef Q_OS_ANDROID
+  UpdateAndroidPreset();
+#endif
+  Save();
+
 }
 
 void Equalizer::StereoBalancerEnabledChangedSlot(const bool enabled) {

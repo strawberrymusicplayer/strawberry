@@ -27,6 +27,7 @@
 
 #include "core/settings.h"
 #include "equalizer/equalizer.h"
+#include "equalizer/equalizerjson.h"
 #include "equalizer/equalizerslider.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -183,5 +184,52 @@ TEST_F(EqualizerTest, EditablePreampUsesLinearMultiplierAndRetainsMute) {
   EXPECT_EQ(-99, preamp.value());
   preamp.set_gain_db(0.0);
   EXPECT_EQ(0, preamp.value());
+
+}
+
+TEST_F(EqualizerTest, ImportMergesPresetsAndAppliesStateWhichPersists) {
+
+  EqualizerJson::State exported;
+  {
+    Equalizer equalizer;
+    exported = equalizer.ExportState();
+    EXPECT_TRUE(exported.presets.contains(u"Rock"_s));
+    EXPECT_EQ(u"Custom"_s, exported.selected_preset);
+  }
+
+  EqualizerJson::State imported;
+  imported.presets.insert(u"Rock"_s, Equalizer::Params(1, 1, 1, 1, 1, 1, 1, 1, 1, 1));
+  imported.presets.insert(u"Imported"_s, Equalizer::Params(10, 20, 30, 40, 50, 60, 70, 80, 90, 100, -20));
+  imported.selected_preset = u"Imported"_s;
+  imported.current = Equalizer::Params(-10, -20, -30, -40, -50, -60, -70, -80, -90, -100, 30);
+  imported.enabled = true;
+  imported.stereo_balancer_enabled = true;
+  imported.stereo_balance = 40;
+  {
+    Equalizer equalizer;
+    QSignalSpy parameters(&equalizer, &Equalizer::EqualizerParametersChanged);
+    QSignalSpy enabled(&equalizer, &Equalizer::EqualizerEnabledChanged);
+    equalizer.ImportState(imported);
+    ASSERT_EQ(1, parameters.count());
+    EXPECT_EQ(QList<int>({-10, -20, -30, -40, -50, -60, -70, -80, -90, -100}), parameters.first().at(1).value<QList<int>>());
+    EXPECT_EQ(30, parameters.first().at(0).toInt());
+    EXPECT_EQ(1, enabled.count());
+    EXPECT_EQ(u"Imported"_s, equalizer.findChild<QComboBox *>(u"preset"_s)->currentData().toString());
+  }
+
+  Equalizer restored;
+  const EqualizerJson::State state = restored.ExportState();
+  EXPECT_EQ(imported.presets.value(u"Rock"_s), state.presets.value(u"Rock"_s));
+  EXPECT_EQ(imported.presets.value(u"Imported"_s), state.presets.value(u"Imported"_s));
+  EXPECT_EQ(exported.presets.value(u"Techno"_s), state.presets.value(u"Techno"_s));
+  EXPECT_EQ(exported.presets.count() + 1, state.presets.count());
+  EXPECT_EQ(u"Imported"_s, state.selected_preset);
+  EXPECT_TRUE(state.enabled);
+  EXPECT_TRUE(state.stereo_balancer_enabled);
+  EXPECT_EQ(40, state.stereo_balance);
+#ifndef Q_OS_ANDROID
+  // The desktop equalizer restores the selected preset's saved curve; Android also retains the unsaved current curve.
+  EXPECT_EQ(imported.presets.value(u"Imported"_s), state.current);
+#endif
 
 }
