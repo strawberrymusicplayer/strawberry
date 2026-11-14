@@ -546,7 +546,7 @@ void Transcoder::NewPadCallback(GstElement *element, GstPad *pad, gpointer data)
 
   if (GST_PAD_IS_LINKED(audiopad)) {
     qLog(Debug) << "Audiopad is already linked, unlinking old pad";
-    gst_pad_unlink(audiopad, GST_PAD_PEER(audiopad));
+    GstUnlinkSinkPad(audiopad);
   }
 
   gst_pad_link(pad, audiopad);

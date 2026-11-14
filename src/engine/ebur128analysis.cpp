@@ -355,7 +355,7 @@ void EBUR128AnalysisImpl::NewPadCallback(GstElement *elt, GstPad *pad, gpointer 
 
   if (GST_PAD_IS_LINKED(audiopad)) {
     qLog(Warning) << "audiopad is already linked, unlinking old pad";
-    gst_pad_unlink(audiopad, GST_PAD_PEER(audiopad));
+    GstUnlinkSinkPad(audiopad);
   }
 
   gst_pad_link(pad, audiopad);

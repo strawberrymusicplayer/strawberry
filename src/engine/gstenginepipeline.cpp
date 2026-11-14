@@ -75,6 +75,7 @@
 #include "gstenginepipeline.h"
 #include "gstbusmessageevent.h"
 #include "gstbufferconsumer.h"
+#include "gstpadutils.h"
 #include "streammetadataparser.h"
 
 #ifdef HAVE_SPOTIFY
@@ -1397,7 +1398,7 @@ void GstEnginePipeline::PadAddedCallback(GstElement *element, GstPad *pad, gpoin
   // Link playbin's sink pad to audiobin's src pad.
   if (GST_PAD_IS_LINKED(audiopad)) {
     qLog(Warning) << instance->id() << "audiopad is already linked, unlinking old pad";
-    gst_pad_unlink(audiopad, GST_PAD_PEER(audiopad));
+    GstUnlinkSinkPad(audiopad);
   }
 
   gst_pad_link(pad, audiopad);
