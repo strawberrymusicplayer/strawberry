@@ -26,13 +26,13 @@ void SmartPlaylistsViewContainer::SetupAndroidBrowser() {
   auto *pages_layout = new QVBoxLayout(this);
   pages_layout->setContentsMargins(0, 0, 0, 0);
   pages_layout->addWidget(android_pages_);
-  auto *buttons = new GridFlowLayout(0, 3);
+  auto *buttons = new GridFlowLayout(0, 5);
   for (QToolButton *button : {ui_->new_, ui_->edit_, ui_->delete_, ui_->restore_}) {
     ui_->horizontalLayout->removeWidget(button);
     button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     button->setAutoRaise(true);
-    button->setMinimumSize(80, 64);
-    button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    button->setMinimumSize(48, 64);
+    button->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
     button->setAccessibleName(button->toolTip());
     buttons->addWidget(button);
   }
@@ -47,8 +47,8 @@ void SmartPlaylistsViewContainer::SetupAndroidBrowser() {
   play->setText(tr("Open"));
   play->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
   play->setAutoRaise(true);
-  play->setMinimumSize(80, 64);
-  play->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  play->setMinimumSize(48, 64);
+  play->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
   buttons->addWidget(play);
   if (QScreen *current_screen = screen()) {
     QObject::connect(current_screen, &QScreen::geometryChanged, this, [this]() { UpdateAndroidToolbarOrientation(); });

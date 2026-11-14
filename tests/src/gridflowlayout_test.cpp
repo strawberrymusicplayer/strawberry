@@ -138,9 +138,9 @@ TEST_F(GridFlowLayoutTest, TakesAndDeletesItems) {
 
 }
 
-TEST(GridFlowLayoutToolButtonTest, EqualCellsAlignButtonsWithDifferentLabels) {
+TEST(GridFlowLayoutToolButtonTest, SmartPlaylistButtonsFitOneRowWithTouchTargets) {
   QWidget container;
-  auto *layout = new GridFlowLayout(0, 3);
+  auto *layout = new GridFlowLayout(0, 5);
   container.setLayout(layout);
   QList<QToolButton*> buttons;
   for (const QString &text : {QStringLiteral("New"), QStringLiteral("Edit"), QStringLiteral("Delete"),
@@ -149,29 +149,28 @@ TEST(GridFlowLayoutToolButtonTest, EqualCellsAlignButtonsWithDifferentLabels) {
     button->setText(text);
     button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     button->setAutoRaise(true);
-    button->setMinimumSize(80, 64);
-    button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    button->setMinimumSize(48, 64);
+    button->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
     layout->addWidget(button);
     buttons.append(button);
   }
   buttons[1]->setEnabled(false);
   buttons[2]->setEnabled(false);
-  container.resize(360, 160);
+  container.resize(400, 160);
   container.show();
   QCoreApplication::processEvents();
   for (const Qt::ToolButtonStyle style : {Qt::ToolButtonIconOnly, Qt::ToolButtonTextUnderIcon}) {
     for (QToolButton *button : std::as_const(buttons)) button->setToolButtonStyle(style);
-    for (const int width : {360, 240}) {
+    for (const int width : {240, 320, 400, 800}) {
       layout->setGeometry(QRect(0, 0, width, layout->heightForWidth(width)));
-      const int columns = layout->ColumnsForWidth(width);
+      EXPECT_EQ(5, layout->ColumnsForWidth(width));
       for (int i = 0; i < buttons.size(); ++i) {
         EXPECT_EQ(buttons[0]->geometry().size(), buttons[i]->geometry().size());
-        EXPECT_GE(buttons[i]->width(), 80);
+        EXPECT_GE(buttons[i]->width(), 48);
         EXPECT_GE(buttons[i]->height(), 64);
-        if (i >= columns) {
-          EXPECT_EQ(buttons[i % columns]->x(), buttons[i]->x());
-        }
+        EXPECT_EQ(buttons[0]->y(), buttons[i]->y());
       }
     }
+    EXPECT_EQ(4, layout->ColumnsForWidth(239));
   }
 }

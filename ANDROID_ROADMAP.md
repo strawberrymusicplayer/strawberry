@@ -669,7 +669,8 @@ Investigate the generated playlist destination, navigation and queue semantics o
 Clarify the desired list/queue behavior before changing playback or replacing an existing playlist, then add regression coverage and verify the complete flow on the emulator and FP5.
 The user also reported that a restore-defaults confirmation appeared while trying to edit a smart playlist and the FP5 interface stopped responding while playback continued.
 The Android restore confirmation now uses the app's nonblocking, touch-compatible confirmation overlay instead of a desktop-style message box; the actual FP5 issue still needs verification, and the restore action must only run on explicit confirmation.
-Android toolbar actions are flat and aligned, with text labels in landscape and icon-only controls in portrait.
+Android toolbar actions are flat and aligned in one row when at least 240 dp is available, with text labels in landscape and icon-only controls in portrait.
+On narrower surfaces they wrap to preserve the minimum 48 dp touch targets.
 Accessible names distinguish Edit from Restore defaults in both orientations.
 On the emulator, Back dismissed the restore warning without restoring defaults, and the selected smart playlist's Edit button opened its editor.
 After installing the updated APK on the FP5, the user confirmed that Edit opens the editor and Back dismisses the restore warning without a freeze.
