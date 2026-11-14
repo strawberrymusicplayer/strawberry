@@ -20,8 +20,11 @@
 
 #include <utility>
 
+#include <QCoreApplication>
 #include <QList>
 #include <QRect>
+#include <QSizePolicy>
+#include <QToolButton>
 #include <QWidget>
 
 #include "widgets/gridflowlayout.h"
@@ -133,4 +136,42 @@ TEST_F(GridFlowLayoutTest, TakesAndDeletesItems) {
   EXPECT_EQ(5, layout->count());
   EXPECT_EQ(children_[1], layout->itemAt(0)->widget());
 
+}
+
+TEST(GridFlowLayoutToolButtonTest, EqualCellsAlignButtonsWithDifferentLabels) {
+  QWidget container;
+  auto *layout = new GridFlowLayout(0, 3);
+  container.setLayout(layout);
+  QList<QToolButton*> buttons;
+  for (const QString &text : {QStringLiteral("New"), QStringLiteral("Edit"), QStringLiteral("Delete"),
+                              QStringLiteral("Restore defaults"), QStringLiteral("Open")}) {
+    auto *button = new QToolButton(&container);
+    button->setText(text);
+    button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    button->setAutoRaise(true);
+    button->setMinimumSize(80, 64);
+    button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    layout->addWidget(button);
+    buttons.append(button);
+  }
+  buttons[1]->setEnabled(false);
+  buttons[2]->setEnabled(false);
+  container.resize(360, 160);
+  container.show();
+  QCoreApplication::processEvents();
+  for (const Qt::ToolButtonStyle style : {Qt::ToolButtonIconOnly, Qt::ToolButtonTextUnderIcon}) {
+    for (QToolButton *button : std::as_const(buttons)) button->setToolButtonStyle(style);
+    for (const int width : {360, 240}) {
+      layout->setGeometry(QRect(0, 0, width, layout->heightForWidth(width)));
+      const int columns = layout->ColumnsForWidth(width);
+      for (int i = 0; i < buttons.size(); ++i) {
+        EXPECT_EQ(buttons[0]->geometry().size(), buttons[i]->geometry().size());
+        EXPECT_GE(buttons[i]->width(), 80);
+        EXPECT_GE(buttons[i]->height(), 64);
+        if (i >= columns) {
+          EXPECT_EQ(buttons[i % columns]->x(), buttons[i]->x());
+        }
+      }
+    }
+  }
 }

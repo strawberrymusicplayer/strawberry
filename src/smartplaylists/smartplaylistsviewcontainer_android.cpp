@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+#include <QScreen>
+#include <QSizePolicy>
 #include <QStackedWidget>
 #include <QToolButton>
 #include <QVBoxLayout>
@@ -28,7 +30,9 @@ void SmartPlaylistsViewContainer::SetupAndroidBrowser() {
   for (QToolButton *button : {ui_->new_, ui_->edit_, ui_->delete_, ui_->restore_}) {
     ui_->horizontalLayout->removeWidget(button);
     button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    button->setAutoRaise(true);
     button->setMinimumSize(80, 64);
+    button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     button->setAccessibleName(button->toolTip());
     buttons->addWidget(button);
   }
@@ -36,13 +40,20 @@ void SmartPlaylistsViewContainer::SetupAndroidBrowser() {
   ui_->delete_->setText(tr("Delete"));
   ui_->restore_->setText(tr("Restore defaults"));
   auto *play = new QToolButton(browser);
+  android_open_ = play;
   play->setIcon(IconLoader::Load(u"media-playback-start"_s));
   play->setToolTip(tr("Open smart playlist"));
   play->setAccessibleName(play->toolTip());
   play->setText(tr("Open"));
   play->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+  play->setAutoRaise(true);
   play->setMinimumSize(80, 64);
+  play->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
   buttons->addWidget(play);
+  if (QScreen *current_screen = screen()) {
+    QObject::connect(current_screen, &QScreen::geometryChanged, this, [this]() { UpdateAndroidToolbarOrientation(); });
+  }
+  UpdateAndroidToolbarOrientation();
   delete ui_->horizontalLayout->takeAt(0);
   ui_->horizontalLayout->addLayout(buttons);
   QObject::connect(play, &QToolButton::clicked, this, [this]() {
@@ -51,6 +62,20 @@ void SmartPlaylistsViewContainer::SetupAndroidBrowser() {
   ui_->view->setStyleSheet(u"QListView::item { min-height: 48px; }"_s);
   ui_->view->setWordWrap(true);
   ui_->view->setDragEnabled(false);
+
+}
+
+void SmartPlaylistsViewContainer::UpdateAndroidToolbarOrientation() {
+
+  const QScreen *current_screen = screen();
+  if (!current_screen) return;
+  const QRect screen_geometry = current_screen->geometry();
+  const Qt::ToolButtonStyle style = screen_geometry.width() > screen_geometry.height()
+                                        ? Qt::ToolButtonTextUnderIcon
+                                        : Qt::ToolButtonIconOnly;
+  for (QToolButton *button : {ui_->new_, ui_->edit_, ui_->delete_, ui_->restore_, android_open_}) {
+    button->setToolButtonStyle(style);
+  }
 
 }
 

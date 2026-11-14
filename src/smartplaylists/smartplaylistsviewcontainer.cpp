@@ -106,7 +106,6 @@ SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(const SharedPtr<Player>
   ui_->new_->setDefaultAction(action_new_smart_playlist_);
 #ifdef Q_OS_ANDROID
   ui_->new_->setText(tr("New"));
-  ui_->new_->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 #endif
   ui_->edit_->setIcon(IconLoader::Load(u"edit-rename"_s));
   ui_->delete_->setIcon(IconLoader::Load(u"edit-delete"_s));
@@ -147,6 +146,9 @@ SmartPlaylistsView *SmartPlaylistsViewContainer::view() const { return ui_->view
 
 void SmartPlaylistsViewContainer::showEvent(QShowEvent *e) {
 
+#ifdef Q_OS_ANDROID
+  UpdateAndroidToolbarOrientation();
+#endif
   ItemsSelectedChanged();
 
   QWidget::showEvent(e);
@@ -164,6 +166,9 @@ void SmartPlaylistsViewContainer::ReloadSettings() {
   ui_->delete_->setIconSize(QSize(iconsize, iconsize));
   ui_->edit_->setIconSize(QSize(iconsize, iconsize));
   ui_->restore_->setIconSize(QSize(iconsize, iconsize));
+#ifdef Q_OS_ANDROID
+  android_open_->setIconSize(QSize(iconsize, iconsize));
+#endif
 
 }
 

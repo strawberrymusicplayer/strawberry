@@ -33,6 +33,7 @@ class QAction;
 class QShowEvent;
 #ifdef Q_OS_ANDROID
 class QStackedWidget;
+class QToolButton;
 class SmartPlaylistWizard;
 #endif
 
@@ -103,9 +104,11 @@ class SmartPlaylistsViewContainer : public QWidget {
  private:
 #ifdef Q_OS_ANDROID
   void SetupAndroidBrowser();
+  void UpdateAndroidToolbarOrientation();
   void OpenAndroidWizard(SmartPlaylistWizard *wizard);
   void ConfirmAndroidRestoreDefaults();
   QStackedWidget *android_pages_ = nullptr;
+  QToolButton *android_open_ = nullptr;
 #endif
   Ui_SmartPlaylistsViewContainer *ui_;
 

@@ -638,7 +638,7 @@ Arbitrary cloud/document-provider support is not part of this implementation.
 
 ## 16. Verify Smart Playlists on Android
 
-**Status:** Done (emulator verified)
+**Status:** In progress (FP5 playback and generated-list visibility need investigation)
 
 **Goal:** Confirm that Smart Playlists are discoverable and their common workflows are usable on Android.
 
@@ -669,9 +669,12 @@ Investigate the generated playlist destination, navigation and queue semantics o
 Clarify the desired list/queue behavior before changing playback or replacing an existing playlist, then add regression coverage and verify the complete flow on the emulator and FP5.
 The user also reported that a restore-defaults confirmation appeared while trying to edit a smart playlist and the FP5 interface stopped responding while playback continued.
 The Android restore confirmation now uses the app's nonblocking, touch-compatible confirmation overlay instead of a desktop-style message box; the actual FP5 issue still needs verification, and the restore action must only run on explicit confirmation.
-Android toolbar actions have text labels to distinguish Edit from Restore defaults.
+Android toolbar actions are flat and aligned, with text labels in landscape and icon-only controls in portrait.
+Accessible names distinguish Edit from Restore defaults in both orientations.
 On the emulator, Back dismissed the restore warning without restoring defaults, and the selected smart playlist's Edit button opened its editor.
 After installing the updated APK on the FP5, the user confirmed that Edit opens the editor and Back dismisses the restore warning without a freeze.
+The flat, orientation-aware toolbar has been checked on the emulator, but not yet on the FP5.
+The user also reported that only Newest tracks works; other smart playlists need further investigation.
 
 ## 17. Make Android checkboxes touch-friendly
 
