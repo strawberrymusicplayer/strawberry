@@ -54,6 +54,7 @@ class StreamingServices;
 class Appearance;
 class GlobalShortcutsManager;
 class SettingsPage;
+class FancyTabWidget;
 
 class Ui_SettingsDialog;
 
@@ -74,6 +75,9 @@ class SettingsDialog : public QDialog {
 #endif
                           OSDBase *osd,
                           QMainWindow *mainwindow,
+#ifdef Q_OS_ANDROID
+                          FancyTabWidget *sidebar,
+#endif
                           QWidget *parent = nullptr);
   ~SettingsDialog() override;
 
@@ -102,6 +106,9 @@ class SettingsDialog : public QDialog {
     Plex,
     Jellyfin,
     Radio,
+#ifdef Q_OS_ANDROID
+    Sidebar,
+#endif
   };
 
   enum Role {

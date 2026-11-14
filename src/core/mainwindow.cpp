@@ -495,9 +495,9 @@ MainWindow::MainWindow(Application *app,
   ui_->tabs->AddTab(smartplaylists_view_, u"smartplaylists"_s, IconLoader::Load(u"view-media-playlist"_s, true, 0, 32), tr("Smart playlists"));
   ui_->tabs->AddTab(file_view_, u"files"_s, IconLoader::Load(u"document-open"_s, true, 0, 32), tr("Files"));
   ui_->tabs->AddTab(radio_view_, u"radios"_s, IconLoader::Load(u"radio"_s, true, 0, 32), tr("Radios"));
+#ifndef Q_OS_ANDROID
   ui_->tabs->AddTab(device_view_, u"devices"_s, IconLoader::Load(u"device"_s, true, 0, 32), tr("Devices"));
-#ifdef Q_OS_ANDROID
-  ui_->tabs->DisableTab(device_view_);
+#else
   ui_->tabs->AddTab(CreateAndroidToolsPage(), u"tools"_s, IconLoader::Load(u"configure"_s, true, 0, 32), tr("Tools"));
   ui_->tabs->AddTab(CreateAndroidSettingsTab(), u"settings"_s, IconLoader::Load(u"system-run"_s, true, 0, 32), tr("Settings"));
 #endif
@@ -1471,6 +1471,9 @@ void MainWindow::ReloadSettings() {
 #endif
 
   ui_->tabs->ReloadSettings();
+#ifdef Q_OS_ANDROID
+  ui_->tabs->LoadAndroidSidebarSettings(QLatin1String(MainWindowSettings::kSettingsGroup));
+#endif
 
 }
 
@@ -3441,7 +3444,7 @@ SettingsDialog *MainWindow::CreateSettingsDialog() {
                                                        osd_,
                                                        this
 #ifdef Q_OS_ANDROID
-                                                       , android_settings_tab_
+                                                       , ui_->tabs, android_settings_tab_
 #endif
                                                        );
 

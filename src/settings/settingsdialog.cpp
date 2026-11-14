@@ -114,6 +114,10 @@
 
 #include "ui_settingsdialog.h"
 
+#ifdef Q_OS_ANDROID
+#  include "sidebarsettingspage_android.h"
+#endif
+
 using namespace Qt::Literals::StringLiterals;
 
 namespace {
@@ -134,6 +138,9 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 #endif
                                OSDBase *osd,
                                QMainWindow *mainwindow,
+#ifdef Q_OS_ANDROID
+                               FancyTabWidget *sidebar,
+#endif
                                QWidget *parent)
     : QDialog(parent),
       mainwindow_(mainwindow),
@@ -168,6 +175,9 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 
   QTreeWidgetItem *iface = AddCategory(tr("User interface"));
   AddPage(Page::Appearance, new AppearanceSettingsPage(this, appearance, this), iface);
+#ifdef Q_OS_ANDROID
+  AddPage(Page::Sidebar, new AndroidSidebarSettingsPage(this, sidebar, this), iface);
+#endif
   AddPage(Page::Context, new ContextSettingsPage(this, this), iface);
   AddPage(Page::Notifications, new NotificationsSettingsPage(this, osd, this), iface);
 
@@ -353,8 +363,8 @@ QTreeWidgetItem *SettingsDialog::AddCategory(const QString &name) {
 void SettingsDialog::AddPage(const Page id, SettingsPage *page, QTreeWidgetItem *parent) {
 
 #ifdef Q_OS_ANDROID
-  // The Behaviour page sets up its own Android layout; see BehaviourSettingsPage::SetupAndroidLayout().
-  if (id != Page::Behaviour) AndroidSettingsPage::Adapt(page);
+  // Behaviour and Sidebar provide their own Android layouts.
+  if (id != Page::Behaviour && id != Page::Sidebar) AndroidSettingsPage::Adapt(page);
 #endif
   if (!parent) parent = ui_->list->invisibleRootItem();
 

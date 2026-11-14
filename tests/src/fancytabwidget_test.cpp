@@ -98,6 +98,38 @@ TEST(FancyTabWidgetTest, BackgroundPixmapFillsWideSidebar) {
 
 }
 
+TEST(FancyTabWidgetTest, HiddenTabsDoNotReserveSpaceOrPaintTheirIcons) {
+
+  FancyTabWidget tabs;
+  QPixmap visible_icon(40, 40);
+  visible_icon.fill(Qt::red);
+  QPixmap hidden_icon(40, 40);
+  hidden_icon.fill(Qt::green);
+  QWidget *first = new QWidget;
+  QWidget *second = new QWidget;
+  tabs.AddTab(first, u"first"_s, QIcon(visible_icon), u"First"_s);
+  tabs.AddTab(second, u"second"_s, QIcon(hidden_icon), u"Second"_s);
+  tabs.EnableTab(first);
+  tabs.EnableTab(second);
+  tabs.SetMode(FancyTabWidget::Mode::IconsSidebar);
+  tabs.resize(400, 400);
+  tabs.show();
+  QCoreApplication::processEvents();
+  const int height = tabs.tabBar()->sizeHint().height();
+  tabs.setTabVisible(tabs.IndexOfTab(second), false);
+  QCoreApplication::processEvents();
+  EXPECT_LT(tabs.tabBar()->sizeHint().height(), height);
+  const QImage image = tabs.tabBar()->grab().toImage();
+  int hidden_pixels = 0;
+  for (int y = 0; y < image.height(); ++y) {
+    for (int x = 0; x < image.width(); ++x) {
+      if (image.pixelColor(x, y) == QColor(Qt::green)) ++hidden_pixels;
+    }
+  }
+  EXPECT_EQ(0, hidden_pixels);
+
+}
+
 // FancyTabWidget wraps each content widget in its own page, so widget(), currentWidget() and setCurrentWidget() never match the content widget passed to AddTab().
 // Code that looks up a tab by its content widget must use IndexOfTab().
 TEST(FancyTabWidgetTest, ContentWidgetIsWrappedInPage) {

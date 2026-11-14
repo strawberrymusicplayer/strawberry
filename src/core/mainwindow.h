@@ -349,7 +349,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QStackedWidget *android_tools_pages_ = nullptr;
   QWidget *android_tools_list_ = nullptr;
   QPointer<QWidget> android_current_tool_;
-  int android_previous_tab_index_ = -1;
+  QPointer<QWidget> android_previous_tab_;
   bool android_settings_overview_on_open_ = true;
 #endif
 #ifdef Q_OS_WIN32

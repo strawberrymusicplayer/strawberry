@@ -698,16 +698,42 @@ Arbitrary cloud/document-provider support is not part of this implementation.
 
 ## 20. Arrange sidebar tabs from Settings
 
-**Status:** Planned
+**Status:** Done (native widget tests and emulator verified)
 
 **Problem:** On Android, dragging the sidebar scrolls it, so tabs can no longer be reordered by dragging as on desktop.
 
-**Goal:** Add a Settings page where users can change the order of the sidebar tabs and possibly hide tabs.
+**Goal:** Add a Settings page where users can change the order of the sidebar tabs and hide optional tabs.
 
-**Next steps:**
-- Follow the Android hierarchical navigation rules: a compact button on the parent page opens a full-page editor with move up and move down actions for each tab.
-- Store the order in the existing `tab_<name>` keys that `FancyTabWidget::SaveSettings()` and `LoadSettings()` already use, so the order stays compatible with desktop.
-- Keep edits pending until Apply or OK, and apply the new order to the sidebar without restarting.
+**Implementation:**
+- Settings > User interface > Sidebar opens a full-page arrangement editor, retaining the sidebar, breadcrumb and one-level Back navigation.
+  Select a tab, move it up/down and toggle its visibility.
+  Labels and navigation buttons wrap on narrow screens.
+- Settings itself can move but cannot be hidden, so hidden tabs can always be restored.
+  Disabled streaming services remain listed in the editor with an explanation; arranging or showing one does not enable its service.
+  Unsupported Android Devices is not offered.
+- Keep order and visibility edits pending until Apply or OK.
+  Cancel discards unapplied changes, including changes made after Apply.
+  Back preserves the editor's selection and scroll position.
+- Store order in the existing `tab_<name>` keys and Android visibility in `tab_hidden_<name>`.
+  Retain positions and hidden preferences for disabled services, including when settings are saved during shutdown.
+  Desktop continues to use its original controls and ignores Android visibility preferences.
+- Apply without restarting or resetting the active Settings subpage.
+  Track the previous page by widget rather than index, and resolve the Settings index dynamically after reordering.
+  Closing Settings returns to a visible page; if only Settings remains, its overview stays available.
+- Hidden tabs do not contribute to custom sidebar sizing or painting.
+  This also avoids drawing their icons at empty tab rectangles.
+
+**Verification:**
+- Seven native sidebar-editor regressions cover pending edits, Apply/OK/Cancel, active-page preservation while Settings moves, protected Settings visibility, disabled-service re-enabling, restart reconstruction, desktop visibility isolation, hiding all optional tabs and narrow layout with a 150% Qt font.
+- An additional FancyTabWidget regression verifies hidden tabs reserve no sidebar height and paint no icons.
+  The sidebar editor, FancyTabWidget and Android checkbox suites pass together.
+- Built, signed, verified and installed the Android release upgrade.
+  On the emulator at 320 dp portrait width with system font scale set to 130%, moved and hid Queue, then cancelled and reopened to verify its original order and visibility.
+- Moved Context below Settings, hid it and applied: the current Sidebar settings page remained open and reported eight visible tabs.
+  Restarted the app and reopened the editor to verify Collection/Queue/Playlists remained first, with Context's reordered hidden preference retained.
+  Restored Context to its original first position and visibility through the editor, confirmed nine visible tabs, and restored emulator display/font defaults.
+
+**Next item:** 21, remove sidebar scroll arrows without losing touch scrolling.
 
 ## 21. Remove the navigation/menu bar scroll arrows
 

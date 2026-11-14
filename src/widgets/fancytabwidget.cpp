@@ -129,6 +129,16 @@ void FancyTabWidget::SaveSettings(const QString &settings_group) {
   }
   s.setValue(kCurrentTab, currentIndex());
 
+#ifdef Q_OS_ANDROID
+  // Only the sidebar editor saves tab positions, including slots for disabled services.
+  const QList<SidebarTab> ordered = AndroidSidebarTabs(settings_group);
+  for (FancyTabData *tab : std::as_const(tabs_)) {
+    if (tab->page() != currentWidget()) continue;
+    for (int i = 0; i < ordered.count(); ++i) {
+      if (ordered.at(i).name == tab->name()) s.setValue(kCurrentTab, i);
+    }
+  }
+#else
   for (FancyTabData *tab : std::as_const(tabs_)) {
     QString k = u"tab_"_s + tab->name();
     int idx = QTabWidget::indexOf(tab->page());
@@ -139,6 +149,7 @@ void FancyTabWidget::SaveSettings(const QString &settings_group) {
       s.setValue(k, idx);
     }
   }
+#endif
 
   s.endGroup();
 

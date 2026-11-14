@@ -319,15 +319,14 @@ QWidget *MainWindow::CreateAndroidSettingsTab() {
 void MainWindow::SetupAndroidSettingsTab() {
 
   // Selecting the Settings tab opens the settings dialog in it; closing the dialog returns to the tab that was open before.
-  const int settings_tab_index = ui_->tabs->IndexOfTab(android_settings_tab_);
-  android_previous_tab_index_ = ui_->tabs->currentIndex();
-  if (android_previous_tab_index_ == settings_tab_index) android_previous_tab_index_ = ui_->tabs->IndexOfTab(collection_view_);
-  QObject::connect(ui_->tabs, &FancyTabWidget::CurrentTabChanged, this, [this, settings_tab_index](const int index) {
-    if (index == settings_tab_index) {
+  android_previous_tab_ = ui_->tabs->currentWidget();
+  if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(android_settings_tab_)) android_previous_tab_ = ui_->tabs->widget(ui_->tabs->IndexOfTab(collection_view_));
+  QObject::connect(ui_->tabs, &FancyTabWidget::CurrentTabChanged, this, [this](const int index) {
+    if (index == ui_->tabs->IndexOfTab(android_settings_tab_)) {
       OpenSettingsDialog();
     }
     else {
-      android_previous_tab_index_ = index;
+      android_previous_tab_ = ui_->tabs->widget(index);
     }
   });
 
@@ -341,7 +340,18 @@ void MainWindow::EmbedAndroidSettingsDialog(SettingsDialog *settings_dialog) {
   android_settings_tab_->layout()->addWidget(settings_dialog);
   QObject::connect(settings_dialog, &QDialog::finished, this, [this]() {
     android_settings_overview_on_open_ = true;
-    if (android_previous_tab_index_ >= 0) ui_->tabs->setCurrentIndex(android_previous_tab_index_);
+    int previous = ui_->tabs->indexOf(android_previous_tab_);
+    if (previous < 0 || !ui_->tabs->isTabVisible(previous)) {
+      previous = -1;
+      for (int i = 0; i < ui_->tabs->count(); ++i) {
+        if (ui_->tabs->isTabVisible(i) && i != ui_->tabs->IndexOfTab(android_settings_tab_)) {
+          previous = i;
+          break;
+        }
+      }
+    }
+    if (previous >= 0) ui_->tabs->setCurrentIndex(previous);
+    else QTimer::singleShot(0, this, [this]() { settings_dialog_->OpenOverview(); });
   });
   settings_dialog->AddAndroidHelpCategory({ ui_->action_about_strawberry, ui_->action_about_qt });
 

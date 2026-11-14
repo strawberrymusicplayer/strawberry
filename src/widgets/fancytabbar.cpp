@@ -135,6 +135,7 @@ QSize FancyTabBar::sizeHint() const {
   QSize size;
   int h = 0;
   for (int i = 0; i < count(); ++i) {
+    if (!isTabVisible(i)) continue;
     if (tabSizeHint(i).width() > size.width()) size.setWidth(tabSizeHint(i).width());
     h += tabSizeHint(i).height();
   }
@@ -150,6 +151,7 @@ int FancyTabBar::width() const {
   if (tabWidget && (tabWidget->mode() == FancyTabWidget::Mode::LargeSidebar || tabWidget->mode() == FancyTabWidget::Mode::SmallSidebar)) {
     int w = 0;
     for (int i = 0; i < count(); ++i) {
+      if (!isTabVisible(i)) continue;
       if (tabSizeHint(i).width() > w) w = tabSizeHint(i).width();
     }
     return w;
@@ -175,6 +177,7 @@ QSize FancyTabBar::tabSizeHint(const int index) const {
     // If the text of any tab is wider than the set width then use that instead.
     int w = std::max(TabSize_LargeSidebarMinWidth, tabWidget->iconsize_largesidebar() + 22);
     for (int i = 0; i < count(); ++i) {
+      if (!isTabVisible(i)) continue;
       QRect rect = fm.boundingRect(QRect(0, 0, std::max(TabSize_LargeSidebarMinWidth, tabWidget->iconsize_largesidebar() + 22), height()), Qt::TextWordWrap, TabText(i));
       rect.setWidth(rect.width() + 10);
       if (rect.width() > w) w = rect.width();
@@ -256,6 +259,7 @@ void FancyTabBar::paintEvent(QPaintEvent *pe) {
   QStylePainter p(this);
 
   for (int index = 0; index < count(); ++index) {
+    if (!isTabVisible(index)) continue;
     const bool selected = tabWidget->currentIndex() == index;
     QRect tabrect = tabRect(index);
     QRect selectionRect = tabrect;

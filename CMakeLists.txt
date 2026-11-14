@@ -1522,6 +1522,8 @@ if(ANDROID)
   list(APPEND SOURCES src/widgets/scantaskcontrols_android.cpp)
   list(APPEND SOURCES src/collection/collectionlettergroups_android.cpp)
   list(APPEND HEADERS src/core/androidmediasession.h src/settings/androidsettingspage.h src/engine/gstaacdecoder.h)
+  list(APPEND SOURCES src/widgets/fancytabwidget_android.cpp src/settings/sidebarsettingspage_android.cpp)
+  list(APPEND HEADERS src/settings/sidebarsettingspage_android.h)
   list(APPEND HEADERS src/covermanager/coverdialogpage_android.h)
 endif()
 
