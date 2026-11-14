@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <QIODevice>
 #include <QFile>
 #include <QMessageBox>
@@ -43,6 +45,28 @@
 #include "ui_smartplaylistsearchtermwidget.h"
 
 using namespace Qt::Literals::StringLiterals;
+
+namespace {
+
+// Returns the playlist column of the values completed for the field, or nothing when the values of the field aren't completed.
+std::optional<Playlist::Column> TagCompleterColumn(const SmartPlaylistSearchTerm::Field field) {
+
+  switch (field) {
+    case SmartPlaylistSearchTerm::Field::Artist:          return Playlist::Column::Artist;
+    case SmartPlaylistSearchTerm::Field::ArtistSort:      return Playlist::Column::ArtistSort;
+    case SmartPlaylistSearchTerm::Field::Album:           return Playlist::Column::Album;
+    case SmartPlaylistSearchTerm::Field::AlbumSort:       return Playlist::Column::AlbumSort;
+    case SmartPlaylistSearchTerm::Field::AlbumArtist:     return Playlist::Column::AlbumArtist;
+    case SmartPlaylistSearchTerm::Field::AlbumArtistSort: return Playlist::Column::AlbumArtistSort;
+    case SmartPlaylistSearchTerm::Field::ComposerSort:    return Playlist::Column::ComposerSort;
+    case SmartPlaylistSearchTerm::Field::PerformerSort:   return Playlist::Column::PerformerSort;
+    case SmartPlaylistSearchTerm::Field::TitleSort:       return Playlist::Column::TitleSort;
+    default:                                              return std::nullopt;
+  }
+
+}
+
+}  // namespace
 
 SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(SharedPtr<CollectionBackend> collection_backend, QWidget *parent)
     : QWidget(parent),
@@ -134,36 +158,11 @@ void SmartPlaylistSearchTermWidget::FieldChanged(int index) {
   ui_->value_stack->setCurrentWidget(ValuePage(type, op));
 
   // Maybe set a tag completer
-  switch (field) {
-    case SmartPlaylistSearchTerm::Field::Artist:
-      new TagCompleter(collection_backend_, Playlist::Column::Artist, ui_->value_text);
-      break;
-    case SmartPlaylistSearchTerm::Field::ArtistSort:
-      new TagCompleter(collection_backend_, Playlist::Column::ArtistSort, ui_->value_text);
-      break;
-    case SmartPlaylistSearchTerm::Field::Album:
-      new TagCompleter(collection_backend_, Playlist::Column::Album, ui_->value_text);
-      break;
-    case SmartPlaylistSearchTerm::Field::AlbumSort:
-      new TagCompleter(collection_backend_, Playlist::Column::AlbumSort, ui_->value_text);
-      break;
-    case SmartPlaylistSearchTerm::Field::AlbumArtist:
-      new TagCompleter(collection_backend_, Playlist::Column::AlbumArtist, ui_->value_text);
-      break;
-    case SmartPlaylistSearchTerm::Field::AlbumArtistSort:
-      new TagCompleter(collection_backend_, Playlist::Column::AlbumArtistSort, ui_->value_text);
-      break;
-    case SmartPlaylistSearchTerm::Field::ComposerSort:
-      new TagCompleter(collection_backend_, Playlist::Column::ComposerSort, ui_->value_text);
-      break;
-    case SmartPlaylistSearchTerm::Field::PerformerSort:
-      new TagCompleter(collection_backend_, Playlist::Column::PerformerSort, ui_->value_text);
-      break;
-    case SmartPlaylistSearchTerm::Field::TitleSort:
-      new TagCompleter(collection_backend_, Playlist::Column::TitleSort, ui_->value_text);
-      break;
-    default:
-      ui_->value_text->setCompleter(nullptr);
+  // The completer of the previous field is deleted, so the completers don't add up, and the values of the previous field, when they are read last, don't replace the values of this field.
+  delete tag_completer_;
+  const std::optional<Playlist::Column> completer_column = TagCompleterColumn(field);
+  if (completer_column.has_value()) {
+    tag_completer_ = new TagCompleter(collection_backend_, completer_column.value(), ui_->value_text);
   }
 
   Q_EMIT Changed();

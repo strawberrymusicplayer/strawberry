@@ -25,6 +25,7 @@
 #include "config.h"
 
 #include <QWidget>
+#include <QPointer>
 #include <QPushButton>
 
 #include "includes/shared_ptr.h"
@@ -37,6 +38,7 @@ class QEnterEvent;
 class QResizeEvent;
 
 class CollectionBackend;
+class TagCompleter;
 class Ui_SmartPlaylistSearchTermWidget;
 class SmartPlaylistSearchTermWidgetOverlay;
 
@@ -81,6 +83,8 @@ class SmartPlaylistSearchTermWidget : public QWidget {
 
   Ui_SmartPlaylistSearchTermWidget *ui_;
   SharedPtr<CollectionBackend> collection_backend_;
+  // The completer of the value of the current field, it's replaced when the field changes.
+  QPointer<TagCompleter> tag_completer_;
 
   SmartPlaylistSearchTermWidgetOverlay *overlay_;
   QPropertyAnimation *animation_;
