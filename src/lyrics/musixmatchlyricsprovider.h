@@ -23,6 +23,7 @@
 #include "config.h"
 
 #include <QList>
+#include <QJsonObject>
 #include <QString>
 #include <QUrl>
 
@@ -53,11 +54,22 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
 
  private:
   struct LyricsSearchContext {
-    explicit LyricsSearchContext() : id(-1), token_retried(false) {}
+    explicit LyricsSearchContext() : id(-1), token_retried(false), track_id(0) {}
     int id;
     LyricsSearchRequest request;
     LyricsSearchResults results;
     bool token_retried;
+    // The track Musixmatch matched for the request, which can be a different track than requested.
+    qint64 track_id;
+    QString artist;
+    QString album;
+    QString title;
+  };
+
+  enum class ReplyResult {
+    Body,
+    Retried,
+    Finished
   };
 
   using LyricsSearchContextPtr = SharedPtr<LyricsSearchContext>;
@@ -67,6 +79,9 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
   void RequestUserToken();
   JsonObjectResult ParseJsonObject(QNetworkReply *reply);
   void SendLyricsRequest(LyricsSearchContextPtr search);
+  void SendTrackLyricsRequest(LyricsSearchContextPtr search);
+  // Returns Body with the body of the message of the reply, Retried when the request was sent again with a new user token, or Finished when there's nothing more for the search.
+  ReplyResult ParseReply(QNetworkReply *reply, LyricsSearchContextPtr search, QJsonObject &object_body);
   bool RetryLyricsRequestWithFreshToken(LyricsSearchContextPtr search);
   void EndSearch(LyricsSearchContextPtr search);
 
@@ -75,6 +90,7 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
 
  private Q_SLOTS:
   void HandleTokenReply(QNetworkReply *reply);
+  void HandleTrackReply(QNetworkReply *reply, MusixmatchLyricsProvider::LyricsSearchContextPtr search);
   void HandleLyricsReply(QNetworkReply *reply, MusixmatchLyricsProvider::LyricsSearchContextPtr search);
 
  private:

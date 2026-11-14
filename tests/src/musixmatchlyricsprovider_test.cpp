@@ -34,6 +34,9 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QVariant>
+#include <QByteArray>
+#include <QMap>
+#include <QSignalSpy>
 
 #include "includes/shared_ptr.h"
 #include "core/networkaccessmanager.h"
@@ -76,15 +79,60 @@ class NotFoundNetworkReply : public QNetworkReply {
   }
 };
 
+// A successful reply with JSON.
+class JsonNetworkReply : public QNetworkReply {
+ public:
+  explicit JsonNetworkReply(const QNetworkRequest &network_request, const QByteArray &data, QObject *parent = nullptr) : QNetworkReply(parent), data_(data) {
+    setRequest(network_request);
+    setUrl(network_request.url());
+    setOperation(QNetworkAccessManager::GetOperation);
+    open(QIODevice::ReadOnly | QIODevice::Unbuffered);
+    setAttribute(QNetworkRequest::HttpStatusCodeAttribute, 200);
+    QMetaObject::invokeMethod(this, [this]() {
+      setFinished(true);
+      Q_EMIT finished();
+    }, Qt::QueuedConnection);
+  }
+
+  void abort() override {}
+  qint64 bytesAvailable() const override { return data_.size() + QNetworkReply::bytesAvailable(); }
+
+ protected:
+  qint64 readData(char *data, const qint64 maxlen) override {
+    if (data_.isEmpty()) return -1;
+    const qint64 len = qMin(maxlen, static_cast<qint64>(data_.size()));
+    memcpy(data, data_.constData(), static_cast<size_t>(len));
+    data_.remove(0, len);
+    return len;
+  }
+
+ private:
+  QByteArray data_;
+};
+
+// Replies with the JSON for the endpoints which have it, and with Not Found for the others.
 class NotFoundNetworkAccessManager : public NetworkAccessManager {
  public:
   QList<QUrl> urls;
+  QMap<QString, QByteArray> json_replies;
+
+  QStringList Endpoints() const {
+    QStringList endpoints;
+    for (const QUrl &url : urls) {
+      endpoints << url.path().section(u'/', -1);
+    }
+    return endpoints;
+  }
 
  protected:
   QNetworkReply *createRequest(const Operation op, const QNetworkRequest &network_request, QIODevice *outgoing_data) override {
     Q_UNUSED(op)
     Q_UNUSED(outgoing_data)
     urls << network_request.url();
+    const QString endpoint = network_request.url().path().section(u'/', -1);
+    if (json_replies.contains(endpoint)) {
+      return new JsonNetworkReply(network_request, json_replies.value(endpoint), this);
+    }
     return new NotFoundNetworkReply(network_request, this);
   }
 };
@@ -162,6 +210,55 @@ TEST_F(MusixmatchLyricsProviderTest, FailedRequestErrorDoesNotContainCredentials
   EXPECT_FALSE(error_message.contains(QLatin1String(kClientId))) << error_message.toStdString();
   EXPECT_FALSE(error_message.contains(signature.trimmed())) << error_message.toStdString();
   EXPECT_FALSE(error_message.contains(u"signature"_s)) << error_message.toStdString();
+
+}
+
+constexpr char kTokenReply[] = R"({"message":{"header":{"status_code":200},"body":{"user_token":"token"}}})";
+
+// Regression test: the requested artist, album and title were used for the lyrics, but Musixmatch matches the track, so the lyrics always counted as a perfect match, also for a different track.
+TEST_F(MusixmatchLyricsProviderTest, LyricsHaveMatchedTrack) {
+
+  network_->json_replies.insert(u"token.get"_s, kTokenReply);
+  network_->json_replies.insert(u"matcher.track.get"_s, R"({"message":{"header":{"status_code":200},"body":{"track":{"track_id":1234,"track_name":"Other title","artist_name":"Other artist","album_name":"Other album","has_lyrics":1}}}})");
+  network_->json_replies.insert(u"track.lyrics.get"_s, R"({"message":{"header":{"status_code":200},"body":{"lyrics":{"lyrics_body":"Some lyrics"}}}})");
+
+  QSignalSpy spy(&*provider_, &LyricsProvider::SearchFinished);
+  LyricsSearchRequest request;
+  request.artist = u"Artist"_s;
+  request.album = u"Album"_s;
+  request.title = u"Title"_s;
+  ASSERT_TRUE(provider_->StartSearchAsync(1, request));
+  ASSERT_TRUE(spy.wait(5000));
+
+  EXPECT_EQ(QStringList() << u"token.get"_s << u"matcher.track.get"_s << u"track.lyrics.get"_s, network_->Endpoints());
+  EXPECT_EQ(u"1234"_s, QUrlQuery(network_->urls.last()).queryItemValue(u"track_id"_s));
+  EXPECT_TRUE(provider_->error_messages.isEmpty()) << provider_->error_messages.join(u", "_s).toStdString();
+
+  const LyricsSearchResults results = spy.first().at(1).value<LyricsSearchResults>();
+  ASSERT_EQ(1, results.count());
+  EXPECT_EQ(u"Other artist"_s, results.first().artist);
+  EXPECT_EQ(u"Other album"_s, results.first().album);
+  EXPECT_EQ(u"Other title"_s, results.first().title);
+  EXPECT_EQ(u"Some lyrics"_s, results.first().lyrics);
+
+}
+
+// The lyrics are not requested for a matched track without lyrics.
+TEST_F(MusixmatchLyricsProviderTest, MatchedTrackWithoutLyrics) {
+
+  network_->json_replies.insert(u"token.get"_s, kTokenReply);
+  network_->json_replies.insert(u"matcher.track.get"_s, R"({"message":{"header":{"status_code":200},"body":{"track":{"track_id":1234,"track_name":"Title","artist_name":"Artist","has_lyrics":0}}}})");
+
+  QSignalSpy spy(&*provider_, &LyricsProvider::SearchFinished);
+  LyricsSearchRequest request;
+  request.artist = u"Artist"_s;
+  request.title = u"Title"_s;
+  ASSERT_TRUE(provider_->StartSearchAsync(1, request));
+  ASSERT_TRUE(spy.wait(5000));
+
+  EXPECT_EQ(QStringList() << u"token.get"_s << u"matcher.track.get"_s, network_->Endpoints());
+  EXPECT_TRUE(spy.first().at(1).value<LyricsSearchResults>().isEmpty());
+  EXPECT_TRUE(provider_->error_messages.isEmpty()) << provider_->error_messages.join(u", "_s).toStdString();
 
 }
 
