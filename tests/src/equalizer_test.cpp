@@ -26,6 +26,7 @@
 #include <QComboBox>
 #include <QTimer>
 #include <QString>
+#include <QTest>
 
 #include "core/settings.h"
 #include "equalizer/equalizer.h"
@@ -99,6 +100,24 @@ class EqualizerTest : public ::testing::Test {
 
   static QStringList PresetNames(Equalizer *equalizer) { return equalizer->presets_.keys(); }
 
+  static Equalizer::Params PresetParams(Equalizer *equalizer, const QString &name) { return equalizer->presets_.value(name); }
+
+  // Accepts the dialog asking for the name of the preset with the suggested name, and counts how many times it was shown.
+  void AcceptSaveDialogs() {
+
+    QObject::connect(&dialog_timer_, &QTimer::timeout, &dialog_timer_, [this]() {
+      if (QInputDialog *dialog = qobject_cast<QInputDialog*>(QApplication::activeModalWidget())) {
+        ++save_dialog_count_;
+        dialog->accept();
+      }
+    });
+    dialog_timer_.start(10);
+
+  }
+
+  QTimer dialog_timer_;
+  int save_dialog_count_ = 0;
+
   EqualizerTranslator translator_;
 };
 
@@ -153,6 +172,93 @@ TEST_F(EqualizerTest, SavingPresetWithNewNameAddsPreset) {
   EXPECT_TRUE(PresetNames(&equalizer).contains(u"Mine"_s));
   EXPECT_EQ(preset_count + 1, PresetComboBox(&equalizer)->count());
   EXPECT_EQ(u"Mine"_s, PresetComboBox(&equalizer)->currentText());
+
+}
+
+// Regression test: Escape closed the dialog without asking to save the changed preset, only closing it with the title bar asked.
+TEST_F(EqualizerTest, EscapeAsksToSaveChangedPreset) {
+
+  Equalizer equalizer;
+  equalizer.show();
+  SelectPreset(&equalizer, u"Rock"_s);
+  SetFirstGain(&equalizer, 77);
+  AcceptSaveDialogs();
+
+  QTest::keyClick(&equalizer, Qt::Key_Escape);
+
+  EXPECT_EQ(1, save_dialog_count_);
+  EXPECT_EQ(77, PresetParams(&equalizer, u"Rock"_s).gain[0]);
+  EXPECT_FALSE(equalizer.isVisible());
+
+}
+
+TEST_F(EqualizerTest, CloseAsksToSaveChangedPreset) {
+
+  Equalizer equalizer;
+  equalizer.show();
+  SelectPreset(&equalizer, u"Rock"_s);
+  SetFirstGain(&equalizer, 77);
+  AcceptSaveDialogs();
+
+  equalizer.close();
+
+  EXPECT_EQ(1, save_dialog_count_);
+  EXPECT_EQ(77, PresetParams(&equalizer, u"Rock"_s).gain[0]);
+  EXPECT_FALSE(equalizer.isVisible());
+
+}
+
+TEST_F(EqualizerTest, EscapeWithoutChangesDoesNotAsk) {
+
+  Equalizer equalizer;
+  equalizer.show();
+  SelectPreset(&equalizer, u"Rock"_s);
+  AcceptSaveDialogs();
+
+  QTest::keyClick(&equalizer, Qt::Key_Escape);
+
+  EXPECT_EQ(0, save_dialog_count_);
+  EXPECT_FALSE(equalizer.isVisible());
+
+}
+
+// Regression test: changes which were not saved to the preset were lost when quitting with the dialog open, since quitting doesn't close the dialog.
+// They are also kept after quitting again without changing them, the selected preset saved its values as the current values when starting.
+TEST_F(EqualizerTest, UnsavedChangesAreKeptAfterQuitting) {
+
+  int preset_gain = 0;
+  {
+    Equalizer equalizer;
+    equalizer.show();
+    SelectPreset(&equalizer, u"Rock"_s);
+    preset_gain = PresetParams(&equalizer, u"Rock"_s).gain[0];
+    ASSERT_NE(55, preset_gain);
+    SetFirstGain(&equalizer, 55);
+  }
+
+  for (int restart = 1; restart <= 2; ++restart) {
+    SCOPED_TRACE(restart);
+    Equalizer equalizer;
+    EXPECT_EQ(u"Rock"_s, PresetComboBox(&equalizer)->currentText());
+    EXPECT_EQ(55, equalizer.current_params().gain[0]);
+    // The preset is not changed without asking.
+    EXPECT_EQ(preset_gain, PresetParams(&equalizer, u"Rock"_s).gain[0]);
+  }
+
+}
+
+// Selecting another preset still uses the values of that preset after a restart.
+TEST_F(EqualizerTest, SelectedPresetValuesAreUsedAfterRestart) {
+
+  {
+    Equalizer equalizer;
+    SelectPreset(&equalizer, u"Zero"_s);
+    SelectPreset(&equalizer, u"Rock"_s);
+  }
+
+  Equalizer equalizer;
+  EXPECT_EQ(u"Rock"_s, PresetComboBox(&equalizer)->currentText());
+  EXPECT_EQ(PresetParams(&equalizer, u"Rock"_s).gain[0], equalizer.current_params().gain[0]);
 
 }
 

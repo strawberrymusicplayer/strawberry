@@ -62,6 +62,7 @@ constexpr char kEnabled[] = "enabled";
 constexpr char kEnableStereoBalancer[] = "enable_stereo_balancer";
 constexpr char kStereoBalance[] = "stereo_balance";
 constexpr char kCustom[] = "custom";
+constexpr char kCurrentParams[] = "current_params";
 const char *kGainText[] = { "60", "170", "310", "600", "1k", "3k", "6k", "12k", "14k", "16k" };
 }  // namespace
 
@@ -146,7 +147,17 @@ void Equalizer::ReloadSettings() {
   ui_->stereo_balance_slider->setValue(stereo_balance);
   StereoBalanceSliderChanged(stereo_balance);
 
+  // Read before selecting the preset, which saves the values of the preset as the current values.
+  const QVariant current_params = s.value(kCurrentParams);
+
   PresetChanged(selected_preset);
+
+  // Changes which were not saved to the preset before quitting are still used, without changing the preset.
+  // Selecting the preset saved the values of the preset as the current values, so the restored values are saved again to keep them for the next start.
+  if (current_params.isValid()) {
+    SetParams(current_params.value<Equalizer::Params>());
+    SaveCurrentParams();
+  }
 
 }
 
@@ -199,12 +210,7 @@ void Equalizer::PresetChanged(const QString &name) {
   }
   last_preset_ = name;
 
-  const Params p = presets_.value(name);
-
-  loading_ = true;
-  preamp_->set_value(p.preamp);
-  for (int i = 0; i < kBands; ++i) gain_[i]->set_value(p.gain[i]);
-  loading_ = false;
+  SetParams(presets_.value(name));
 
   EqualizerParametersChangedSlot();
   Save();
@@ -337,6 +343,27 @@ void Equalizer::EqualizerParametersChangedSlot() {
   if (loading_) return;
   Q_EMIT EqualizerParametersChanged(preamp_value(), gain_values());
 
+  // The current values are saved also when they are not saved to the preset, since quitting doesn't ask to save the preset.
+  SaveCurrentParams();
+
+}
+
+void Equalizer::SaveCurrentParams() const {
+
+  Settings s;
+  s.beginGroup(kSettingsGroup);
+  s.setValue(kCurrentParams, QVariant::fromValue(current_params()));
+  s.endGroup();
+
+}
+
+void Equalizer::SetParams(const Params &params) {
+
+  loading_ = true;
+  preamp_->set_value(params.preamp);
+  for (int i = 0; i < kBands; ++i) gain_[i]->set_value(params.gain[i]);
+  loading_ = false;
+
 }
 
 void Equalizer::Save() {
@@ -360,16 +387,15 @@ void Equalizer::Save() {
 
 }
 
-void Equalizer::closeEvent(QCloseEvent *e) {
+void Equalizer::reject() {
 
-  Q_UNUSED(e)
-
+  // Closing the dialog with Escape, the title bar or the close shortcut asks to save the changes to the preset.
   const QString name = ui_->preset->itemData(ui_->preset->currentIndex()).toString();
-  if (!presets_.contains(name)) return;
+  if (presets_.contains(name) && presets_[name] != current_params()) {
+    SavePreset();
+  }
 
-  if (presets_[name] == current_params()) return;
-
-  SavePreset();
+  QDialog::reject();
 
 }
 
