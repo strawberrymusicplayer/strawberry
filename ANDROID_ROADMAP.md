@@ -805,7 +805,7 @@ The user also requested removing these arrows from the navigation/menu bar when 
 
 ## 22. Build and bundle a Spotify GStreamer plugin for Android
 
-**Status:** Investigating (arm64 plugin registration and Rust TLS trust verified in an opt-in app probe; login and playback not implemented)
+**Status:** Investigating (pinned arm64 archive build script; plugin registration and Rust TLS trust verified in an opt-in app probe; licence packaging, login and playback not implemented)
 
 **Problem:** Spotify playback requires a GStreamer plugin that is not included in the Android SDK, so Spotify is currently disabled on Android.
 
@@ -849,10 +849,14 @@ The user also requested removing these arrows from the navigation/menu bar when 
   As a negative control, pointing `SSL_CERT_FILE` at a file without certificates made librespot's HTTP client setup fail before connecting; the element reported a caught panic and the app stayed running.
   The patch was removed afterwards and the build reconfigured with the probe off.
   This verifies TLS trust in the app process, not a valid login or playback.
+- [dist/scripts/build-android-gst-plugin-spotify.sh](dist/scripts/build-android-gst-plugin-spotify.sh) now reproduces the archive build: SHA-256-pinned 0.14.4 source, Rust 1.85.0, cargo-c 0.10.13 and `--locked` crates, without debug information or local build paths.
+  It also outputs the plugin's MPL-2.0 licence, the linked crates with their declared licences (231 for arm64), and a build manifest with the archive checksum.
+  A release arm64 archive from the script (28 MB, versus 204 MB with debug information) registered `spotifyaudiosrc` in the app on the emulator, which stayed running; the probe APK was about 39 MB.
+  The build was then restored with the probe off.
 
 **Next steps:**
-- Identify the plugin and its dependencies, and verify Android support, licensing, and compatibility with Strawberry's Spotify playback and authentication.
-- Reproducibly cross-compile for the supported Android ABIs using the app's GStreamer toolchain, and package and register the plugin in the APK with its dependency licensing.
+- Package the full licence texts of the linked crates into the APK's `assets/licenses/` when the plugin is linked.
+- Build and register the archive for the other supported Android ABIs, if those are shipped.
 - Re-enable Spotify only once the required plugin is available; preserve existing desktop behavior.
 - Verify login, playback, seeking, track transitions, and background playback on Android before marking this item done.
 
