@@ -110,7 +110,9 @@ Missing or unreadable bundled certificates and setup failures are logged under `
 The probe does not enable the Spotify service or login, and does not itself verify TLS or playback.
 An isolated Android test of the pinned Rust TLS dependencies found no default roots on the emulator, but loaded 141 roots from a copy of the packaged GStreamer CA bundle when supplied as `SSL_CERT_FILE`.
 The app's GLib `CA_CERTIFICATES` setting does not by itself configure Rust.
-The app-level trust setup still needs Android runtime verification, including Rust root loading and a TLS connection, before it can be considered working.
+In the app process on the emulator, this setup let the plugin complete Spotify's HTTPS access-point lookup; Spotify then rejected a deliberately invalid token.
+Without usable roots, librespot's HTTP client setup fails before connecting.
+A valid login and playback have not been tested.
 The archive and its dependency licensing and reproducible build are not yet integrated; do not distribute probe builds as Spotify-enabled releases.
 To restore the ordinary Android build, configure with `-DENABLE_ANDROID_SPOTIFY_PLUGIN_PROBE=OFF` and rebuild.
 

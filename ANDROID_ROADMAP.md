@@ -805,7 +805,7 @@ The user also requested removing these arrows from the navigation/menu bar when 
 
 ## 22. Build and bundle a Spotify GStreamer plugin for Android
 
-**Status:** Investigating (arm64 plugin registration verified in an opt-in app probe; login and playback not implemented)
+**Status:** Investigating (arm64 plugin registration and Rust TLS trust verified in an opt-in app probe; login and playback not implemented)
 
 **Problem:** Spotify playback requires a GStreamer plugin that is not included in the Android SDK, so Spotify is currently disabled on Android.
 
@@ -843,11 +843,16 @@ The user also requested removing these arrows from the navigation/menu bar when 
   It preserves nonempty explicit Rust certificate overrides without validating them, and reports a missing or invalid bundled path or an empty override rather than registering the probe.
   Portable tests cover path selection and failure cases, and the changed Android sources pass a toolchain syntax check.
   The new setup has not yet been tested in an Android app process; verify Rust root loading and actual Spotify connections before claiming Spotify TLS works.
+- An uncommitted test patch in the probe APK then played a `spotifyaudiosrc` pipeline with a deliberately invalid access token inside the app process on the arm64-translating emulator.
+  With the bundled path in `SSL_CERT_FILE`, the app connected to a Spotify access point on port 4070 and Spotify rejected the login with "Bad credentials".
+  Port 4070 only comes from a successful HTTPS `apresolve.spotify.com` answer, because librespot's fallback is `ap.spotify.com:443`; the Rust TLS handshake therefore verified against the bundled roots.
+  As a negative control, pointing `SSL_CERT_FILE` at a file without certificates made librespot's HTTP client setup fail before connecting; the element reported a caught panic and the app stayed running.
+  The patch was removed afterwards and the build reconfigured with the probe off.
+  This verifies TLS trust in the app process, not a valid login or playback.
 
 **Next steps:**
 - Identify the plugin and its dependencies, and verify Android support, licensing, and compatibility with Strawberry's Spotify playback and authentication.
 - Reproducibly cross-compile for the supported Android ABIs using the app's GStreamer toolchain, and package and register the plugin in the APK with its dependency licensing.
-- Validate the Rust plugin's TLS trust-store integration rather than assuming it shares GLib's configured TLS backend.
 - Re-enable Spotify only once the required plugin is available; preserve existing desktop behavior.
 - Verify login, playback, seeking, track transitions, and background playback on Android before marking this item done.
 
