@@ -1013,6 +1013,8 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
   FP5 verification and a check with actual lyrics remain open.
 - FP5 feedback (2026-11-12): dragging in Collection still frequently selects rows instead of scrolling.
   Treat this as an unresolved physical-device usability issue; emulator swipe checks alone are insufficient.
+  A native probe confirms the current zero-delay list gesture sends a press to the view before the gesture is resolved, which can select a row immediately.
+  A trial 150 ms press delay prevented that early selection but delayed the existing album long-press action beyond its tested timing, so it was not adopted as a standalone fix.
 - Replace implicit desktop-style Collection multiselection on Android with an explicit selection mode entered by a long press.
   Show selection checkboxes only in that mode, with a selected-item count, clear batch actions and an obvious way to exit.
   Outside selection mode, dragging must only scroll; ordinary taps retain artist/album and letter-group expansion without starting a multiselection.

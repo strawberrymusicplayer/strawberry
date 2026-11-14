@@ -78,6 +78,7 @@ TEST(AndroidListScrollingTest, SwipingScrollsWithoutClickingAndTapsStillWork) {
   Swipe(view.viewport());
   EXPECT_GT(view.verticalScrollBar()->value(), 0);
   EXPECT_EQ(clicked.count(), 0);
+  EXPECT_FALSE(view.selectionModel()->hasSelection());
   EXPECT_EQ(QScroller::scroller(view.viewport())->state(), QScroller::Scrolling);
   QTest::mouseClick(view.viewport(), Qt::LeftButton, Qt::NoModifier, QPoint(100, 80));
   EXPECT_EQ(clicked.count(), 0);
