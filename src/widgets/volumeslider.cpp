@@ -213,9 +213,14 @@ void VolumeSlider::slotAnimTimer() {
 
 }
 
-void VolumeSlider::paletteChange(const QPalette &palette) {
-  Q_UNUSED(palette)
-  generateGradient(width());
+void VolumeSlider::changeEvent(QEvent *e) {
+
+  if (e->type() == QEvent::PaletteChange) {
+    generateGradient(width());
+  }
+
+  SliderSlider::changeEvent(e);
+
 }
 
 QPixmap VolumeSlider::drawVolumePixmap(const int pixmap_width) const {

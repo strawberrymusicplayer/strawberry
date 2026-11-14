@@ -1921,6 +1921,11 @@ void MainWindow::changeEvent(QEvent *e) {
   if (e->type() == QEvent::Show || e->type() == QEvent::WindowStateChange || e->type() == QEvent::WindowActivate) {
     CheckShowErrorDialog();
   }
+  else if (e->type() == QEvent::PaletteChange) {
+    // The sidebar colors are derived from the highlight color, recalculate them when the palette changes.
+    StyleHelper::setBaseColor(palette().color(QPalette::Active, QPalette::Highlight).darker());
+    ui_->tabs->ReloadSettings();
+  }
 
   QMainWindow::changeEvent(e);
 

@@ -170,7 +170,8 @@ bool WaveformProxyStyle::eventFilter(QObject *object, QEvent *event) {
   if (object == slider_) {
     switch (event->type()) {
       case QEvent::Resize:
-        // The widget was resized, we've got to render a new pixmap.
+      case QEvent::PaletteChange:
+        // The widget was resized or the palette was changed, we've got to render a new pixmap.
         waveform_pixmap_dirty_ = true;
         break;
 

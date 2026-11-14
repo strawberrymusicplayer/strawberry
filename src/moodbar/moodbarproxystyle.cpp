@@ -175,6 +175,11 @@ bool MoodbarProxyStyle::eventFilter(QObject *object, QEvent *event) {
         moodbar_pixmap_dirty_ = true;
         break;
 
+      case QEvent::PaletteChange:
+        // The system palette style and the border use the palette colors.
+        moodbar_colors_dirty_ = true;
+        break;
+
       default:
         break;
     }

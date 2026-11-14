@@ -39,6 +39,7 @@ class SonogramAnalyzer : public AnalyzerBase {
 
  protected:
   void resizeEvent(QResizeEvent *e) override;
+  void paletteChange() override;
   void analyze(QPainter &p, const Scope &s, const bool new_frame) override;
   void transform(Scope &scope) override;
   void demo(QPainter &p) override;

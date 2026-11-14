@@ -104,7 +104,7 @@ void BlockAnalyzer::resizeEvent(QResizeEvent *e) {
     yscale_[rows_] = 0;
 
     determineStep();
-    paletteChange(palette());
+    paletteChange();
   }
 
   drawBackground();
@@ -342,9 +342,7 @@ QColor ensureContrast(const QColor &bg, const QColor &fg, int amount) {
 
 }
 
-void BlockAnalyzer::paletteChange(const QPalette &_palette) {
-
-  Q_UNUSED(_palette)
+void BlockAnalyzer::paletteChange() {
 
   const QColor bg = palette().color(QPalette::Window);
   const QColor fg = ensureContrast(bg, palette().color(QPalette::Highlight));

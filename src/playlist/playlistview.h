@@ -145,6 +145,7 @@ class PlaylistView : public QTreeView {
   bool eventFilter(QObject *object, QEvent *event) override;
   void focusInEvent(QFocusEvent *event) override;
   void resizeEvent(QResizeEvent *event) override;
+  void changeEvent(QEvent *event) override;
 
   // QTreeView
   void drawTree(QPainter *painter, const QRegion &region) const;
