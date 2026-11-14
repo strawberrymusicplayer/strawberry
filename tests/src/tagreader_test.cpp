@@ -27,6 +27,9 @@
 
 #include <QFile>
 #include <QImage>
+#include <QDir>
+#include <QTemporaryFile>
+#include <QDataStream>
 #include <QColor>
 #include <QBuffer>
 #include <QPair>
@@ -61,6 +64,12 @@
 #include <taglib/attachedpictureframe.h>
 #include <taglib/flacpicture.h>
 #include <taglib/vorbisfile.h>
+#ifdef HAVE_TAGLIB_DSFFILE
+#  include <taglib/dsffile.h>
+#endif
+#ifdef HAVE_TAGLIB_DSDIFFFILE
+#  include <taglib/dsdifffile.h>
+#endif
 
 #include "core/logging.h"
 #include "core/song.h"
@@ -3834,5 +3843,231 @@ TEST_F(TagReaderTest, TestUpdateFile) {
   EXPECT_EQ(u"Title"_s, ReadSongFromFile(r.fileName()).title());
 
 }
+
+// Adds a cover in the old base64 encoded COVERART field, TagLib reads it as a picture of the Vorbis comment.
+void AddLegacyCoverArt(TagLib::Ogg::XiphComment *vorbis_comment) {
+  QFile cover_file(u":/pictures/strawberry.png"_s);
+  ASSERT_TRUE(cover_file.open(QIODevice::ReadOnly));
+  const QByteArray cover_data = cover_file.readAll().toBase64();
+  vorbis_comment->addField("COVERART", TagLib::String(cover_data.constData()), true);
+  vorbis_comment->addField("COVERARTMIME", "image/png", true);
+}
+
+// Regression test: removing the cover left the COVERARTMIME field of the cover in the old COVERART field.
+TEST_F(TagReaderTest, TestOggLegacyCoverArtRemoved) {
+
+  TemporaryResource r(u":/audio/strawberry.ogg"_s);
+  {
+    TagLib::Ogg::Vorbis::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    AddLegacyCoverArt(file.tag());
+    ASSERT_TRUE(file.save());
+  }
+  ASSERT_FALSE(ReadCoverFromFile(r.fileName()).isNull());
+
+  EXPECT_TRUE(WriteCoverToFile(r.fileName(), SaveTagCoverData()).success());
+  EXPECT_TRUE(ReadCoverFromFile(r.fileName()).isNull());
+  EXPECT_FALSE(ReadSongFromFile(r.fileName()).art_embedded());
+
+  TagLib::Ogg::Vorbis::File file(TagLibFileName(r.fileName()).data());
+  ASSERT_TRUE(file.isValid());
+  EXPECT_TRUE(file.tag()->pictureList().isEmpty());
+  EXPECT_FALSE(file.tag()->contains("COVERART"));
+  EXPECT_FALSE(file.tag()->contains("COVERARTMIME"));
+
+}
+
+// Regression test: the covers in the Vorbis comment of a FLAC file, like the cover in the old COVERART field, were not removed when the cover was removed or replaced, and other players show them.
+TEST_F(TagReaderTest, TestFLACVorbisCommentCoverRemoved) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  {
+    TagLib::FLAC::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    AddLegacyCoverArt(file.xiphComment(true));
+    ASSERT_TRUE(file.save());
+  }
+  {
+    TagLib::FLAC::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    ASSERT_TRUE(file.xiphComment());
+    ASSERT_EQ(1U, file.xiphComment()->pictureList().size());
+  }
+
+  // Replacing the cover saves it as a picture of the FLAC file, the old cover is removed.
+  EXPECT_TRUE(WriteCoverToFile(r.fileName(), u":/pictures/strawberry.png"_s).success());
+  {
+    TagLib::FLAC::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    EXPECT_EQ(1U, file.pictureList().size());
+    EXPECT_TRUE(!file.xiphComment() || file.xiphComment()->pictureList().isEmpty());
+    EXPECT_TRUE(!file.xiphComment() || !file.xiphComment()->contains("COVERARTMIME"));
+  }
+
+  EXPECT_TRUE(WriteCoverToFile(r.fileName(), SaveTagCoverData()).success());
+  {
+    TagLib::FLAC::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    EXPECT_TRUE(file.pictureList().isEmpty());
+    EXPECT_TRUE(!file.xiphComment() || file.xiphComment()->pictureList().isEmpty());
+  }
+
+}
+
+#if defined(HAVE_TAGLIB_DSFFILE) || defined(HAVE_TAGLIB_DSDIFFFILE)
+
+// Writes a file with one block of DSD silence, the size of the samples is 1 bit.
+constexpr quint32 kDSDSampleRate = 2822400;
+constexpr quint32 kDSDBlockSize = 4096;
+constexpr char kDSDSilence = 0x69;
+
+// Checks that saving keeps the ID3v2 version of the file, and that an explicit version is used.
+template <typename ID3v2VersionFunc>
+void CheckKeepsID3v2Version(TagReaderClient *tagreader_client, const QString &filename, ID3v2VersionFunc id3v2_version) {
+
+  const auto write_file = [tagreader_client, &filename](const Song &song, const TagID3v2Version tag_id3v2_version) {
+    TagReaderReplyPtr reply = tagreader_client->WriteFileAsync(filename, song, SaveTagsOption::Tags, SaveTagCoverData(), tag_id3v2_version);
+    QEventLoop loop;
+    QObject::connect(&*reply, &TagReaderReply::Finished, &loop, &QEventLoop::quit);
+    loop.exec();
+    return reply->result().success();
+  };
+
+  Song song;
+  song.set_title(u"Strawberry"_s);
+  ASSERT_TRUE(write_file(song, TagID3v2Version::V3));
+  ASSERT_EQ(3, id3v2_version());
+
+  song.set_artist(u"Strawberry Artist"_s);
+  EXPECT_TRUE(write_file(song, TagID3v2Version::Default));
+  EXPECT_EQ(3, id3v2_version());
+
+  EXPECT_TRUE(write_file(song, TagID3v2Version::V4));
+  EXPECT_EQ(4, id3v2_version());
+
+}
+
+#endif
+
+#ifdef HAVE_TAGLIB_DSFFILE
+
+QByteArray DSFFileData() {
+
+  QByteArray data;
+  QDataStream s(&data, QIODevice::WriteOnly);
+  s.setByteOrder(QDataStream::LittleEndian);
+  const quint64 data_chunk_size = 12 + (kDSDBlockSize * 2);
+  const quint64 file_size = 28 + 52 + data_chunk_size;
+  s.writeRawData("DSD ", 4);
+  s << quint64(28) << file_size << quint64(0);
+  s.writeRawData("fmt ", 4);
+  // Version, DSD raw, stereo, 2 channels, sample rate, bits per sample, samples, block size per channel, reserved.
+  s << quint64(52) << quint32(1) << quint32(0) << quint32(2) << quint32(2) << kDSDSampleRate << quint32(1) << quint64(kDSDBlockSize * 8) << kDSDBlockSize << quint32(0);
+  s.writeRawData("data", 4);
+  s << data_chunk_size;
+  data.append(QByteArray(kDSDBlockSize * 2, kDSDSilence));
+  return data;
+
+}
+
+// Regression test: DSF files were saved with ID3v2.4 tags, ID3v2.3 tags were converted.
+TEST_F(TagReaderTest, TestDSFKeepsID3v2VersionWhenSaving) {
+
+  QTemporaryFile temporary_file(QDir::tempPath() + u"/strawberry_test-XXXXXX.dsf"_s);
+  ASSERT_TRUE(temporary_file.open());
+  temporary_file.write(DSFFileData());
+  temporary_file.close();
+  const QString filename = temporary_file.fileName();
+  {
+    TagLib::DSF::File file(TagLibFileName(filename).data());
+    ASSERT_TRUE(file.isValid());
+  }
+
+  CheckKeepsID3v2Version(tagreader_client_, filename, [&filename]() {
+    TagLib::DSF::File file(TagLibFileName(filename).data());
+    return file.isValid() && file.tag() && !file.tag()->isEmpty() ? static_cast<int>(file.tag()->header()->majorVersion()) : 0;
+  });
+
+}
+
+#endif
+
+#ifdef HAVE_TAGLIB_DSDIFFFILE
+
+// Writes a chunk of a DSDIFF file, the chunks have an even size.
+void WriteDSDIFFChunk(QDataStream &s, const char *id, const QByteArray &chunk_data) {
+  s.writeRawData(id, 4);
+  s << quint64(chunk_data.size());
+  s.writeRawData(chunk_data.constData(), static_cast<int>(chunk_data.size()));
+  if (chunk_data.size() % 2 != 0) s << quint8(0);
+}
+
+QByteArray DSDIFFFileData() {
+
+  QByteArray fver;
+  QDataStream(&fver, QIODevice::WriteOnly) << quint32(0x01050000);
+
+  QByteArray fs;
+  QDataStream(&fs, QIODevice::WriteOnly) << kDSDSampleRate;
+  QByteArray chnl;
+  {
+    QDataStream s(&chnl, QIODevice::WriteOnly);
+    s << quint16(2);
+    s.writeRawData("SLFT", 4);
+    s.writeRawData("SRGT", 4);
+  }
+  QByteArray cmpr;
+  {
+    QDataStream s(&cmpr, QIODevice::WriteOnly);
+    s.writeRawData("DSD ", 4);
+    s << quint8(14);
+    s.writeRawData("not compressed", 14);
+  }
+  QByteArray prop;
+  {
+    QDataStream s(&prop, QIODevice::WriteOnly);
+    s.writeRawData("SND ", 4);
+    WriteDSDIFFChunk(s, "FS  ", fs);
+    WriteDSDIFFChunk(s, "CHNL", chnl);
+    WriteDSDIFFChunk(s, "CMPR", cmpr);
+  }
+
+  QByteArray form;
+  {
+    QDataStream s(&form, QIODevice::WriteOnly);
+    s.writeRawData("DSD ", 4);
+    WriteDSDIFFChunk(s, "FVER", fver);
+    WriteDSDIFFChunk(s, "PROP", prop);
+    WriteDSDIFFChunk(s, "DSD ", QByteArray(kDSDBlockSize * 2, kDSDSilence));
+  }
+
+  QByteArray data;
+  QDataStream s(&data, QIODevice::WriteOnly);
+  WriteDSDIFFChunk(s, "FRM8", form);
+  return data;
+
+}
+
+// Regression test: DSDIFF files were saved with ID3v2.4 tags, ID3v2.3 tags were converted.
+TEST_F(TagReaderTest, TestDSDIFFKeepsID3v2VersionWhenSaving) {
+
+  QTemporaryFile temporary_file(QDir::tempPath() + u"/strawberry_test-XXXXXX.dff"_s);
+  ASSERT_TRUE(temporary_file.open());
+  temporary_file.write(DSDIFFFileData());
+  temporary_file.close();
+  const QString filename = temporary_file.fileName();
+  {
+    TagLib::DSDIFF::File file(TagLibFileName(filename).data());
+    ASSERT_TRUE(file.isValid());
+  }
+
+  CheckKeepsID3v2Version(tagreader_client_, filename, [&filename]() {
+    TagLib::DSDIFF::File file(TagLibFileName(filename).data());
+    return file.isValid() && file.hasID3v2Tag() ? static_cast<int>(file.ID3v2Tag()->header()->majorVersion()) : 0;
+  });
+
+}
+
+#endif
 
 }  // namespace

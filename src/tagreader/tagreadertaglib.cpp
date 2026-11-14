@@ -179,6 +179,7 @@ constexpr char kVorbisComment_Track[] = "TRACKNUMBER";
 constexpr char kVorbisComment_Disc[] = "DISCNUMBER";
 constexpr char kVorbisComment_Compilation[] = "COMPILATION";
 constexpr char kVorbisComment_CoverArt[] = "COVERART";
+constexpr char kVorbisComment_CoverArtMime[] = "COVERARTMIME";
 constexpr char kVorbisComment_MetadataBlockPicture[] = "METADATA_BLOCK_PICTURE";
 constexpr char kVorbisComment_FMPS_Playcount[] = "FMPS_PLAYCOUNT";
 constexpr char kVorbisComment_FMPS_Rating[] = "FMPS_RATING";
@@ -448,6 +449,20 @@ bool TagReaderTagLib::SaveFile(TagLib::FileRef *fileref, const TagID3v2Version t
     return file_aiff->save(ID3v2VersionToSave(file_aiff->hasID3v2Tag() ? file_aiff->tag() : nullptr, tag_id3v2_version));
   }
 
+#ifdef HAVE_TAGLIB_DSFFILE
+  if (TagLib::DSF::File *file_dsf = dynamic_cast<TagLib::DSF::File*>(fileref->file())) {
+    // The tag of a DSF file is always an ID3v2 tag, a new tag has the header of an ID3v2.4 tag.
+    return file_dsf->save(ID3v2VersionToSave(file_dsf->tag(), tag_id3v2_version));
+  }
+#endif
+
+#ifdef HAVE_TAGLIB_DSDIFFFILE
+  if (TagLib::DSDIFF::File *file_dsdiff = dynamic_cast<TagLib::DSDIFF::File*>(fileref->file())) {
+    return file_dsdiff->save(TagLib::DSDIFF::File::AllTags, TagLib::File::StripOthers, ID3v2VersionToSave(file_dsdiff->hasID3v2Tag() ? file_dsdiff->ID3v2Tag() : nullptr, tag_id3v2_version));
+  }
+#endif
+
+  // TagLib can't save TrueAudio files with ID3v2.3 tags, they are saved with ID3v2.4.
   return fileref->save();
 
 }
@@ -2014,7 +2029,11 @@ QByteArray TagReaderTagLib::LoadEmbeddedCover(TagLib::APE::Tag *tag) const {
 
 void TagReaderTagLib::SetEmbeddedCover(TagLib::FLAC::File *flac_file, TagLib::Ogg::XiphComment *vorbis_comment, const QByteArray &data, const QString &mimetype) const {
 
-  (void)vorbis_comment;
+  // TagLib reads the cover in the old COVERART field, and in METADATA_BLOCK_PICTURE fields, as pictures of the Vorbis comment, which other players show as the cover too.
+  // Those covers are removed, the cover is saved as a picture of the FLAC file.
+  if (vorbis_comment) {
+    SetEmbeddedCover(vorbis_comment, QByteArray(), QString());
+  }
 
   const TagLib::List<TagLib::FLAC::Picture*> other_pictures = CopyOtherPictures(flac_file->pictureList());
   flac_file->removePictures();
@@ -2034,6 +2053,9 @@ void TagReaderTagLib::SetEmbeddedCover(TagLib::FLAC::File *flac_file, TagLib::Og
 
 void TagReaderTagLib::SetEmbeddedCover(TagLib::Ogg::XiphComment *vorbis_comment, const QByteArray &data, const QString &mimetype) const {
 
+  // TagLib reads the cover in the old COVERART field as a picture, which is removed below, the field with its MIME type is removed too.
+  RemoveLegacyCoverArt(vorbis_comment);
+
   const TagLib::List<TagLib::FLAC::Picture*> other_pictures = CopyOtherPictures(vorbis_comment->pictureList());
   vorbis_comment->removeAllPictures();
   for (TagLib::FLAC::Picture *picture : other_pictures) {
@@ -2047,6 +2069,13 @@ void TagReaderTagLib::SetEmbeddedCover(TagLib::Ogg::XiphComment *vorbis_comment,
     picture->setData(TagLib::ByteVector(data.constData(), static_cast<uint>(data.size())));
     vorbis_comment->addPicture(picture);
   }
+
+}
+
+void TagReaderTagLib::RemoveLegacyCoverArt(TagLib::Ogg::XiphComment *vorbis_comment) {
+
+  vorbis_comment->removeFields(kVorbisComment_CoverArt);
+  vorbis_comment->removeFields(kVorbisComment_CoverArtMime);
 
 }
 
