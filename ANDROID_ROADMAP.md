@@ -1006,6 +1006,8 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
   Saved-playlist and landscape list gestures were also exercised without a crash.
 
 **Still open:**
+- FP5 feedback (2026-11-14): the Context display still shows a scrollbar and cannot be scrolled by dragging the content with a finger.
+  Add natural touch dragging there and replace the desktop-style scrollbar with a suitable unobtrusive position indicator if needed; preserve links and other interactions.
 - FP5 feedback (2026-11-12): dragging in Collection still frequently selects rows instead of scrolling.
   Treat this as an unresolved physical-device usability issue; emulator swipe checks alone are insufficient.
 - Replace implicit desktop-style Collection multiselection on Android with an explicit selection mode entered by a long press.
@@ -1067,3 +1069,12 @@ Requested coverage is not a claim that every protocol can legally or technically
   Never expose NAS credentials in receiver URLs or logs.
 - Assess discovery permissions, background playback, audio focus, volume control, queue ownership and device/network disconnection handling.
 - Implement only the agreed feasible scope, preserve existing phone/desktop output, and verify on the FP5 with the actual Marantz, including local/NAS tracks, pause/resume, seeking and track transitions.
+
+## 30. Make Context collection statistics readable on Android
+
+**Status:** Planned
+
+**Problem:** On Android, the text displaying collection statistics on the Context page, including the total number of tracks, is too small to read comfortably.
+
+**Goal:** Make the collection statistics readable on phone screens, respecting Android font scaling and preserving the desktop appearance.
+Verify text size, wrapping and layout on the FP5 and emulator, including narrow screens and larger font settings.
