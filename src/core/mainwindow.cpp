@@ -96,6 +96,9 @@
 #include "core/commandlineoptions.h"
 #include "core/mimedata.h"
 #include "core/songmimedata.h"
+#ifdef Q_OS_ANDROID
+#  include "smartplaylists/playlistgeneratormimedata.h"
+#endif
 #include "core/iconloader.h"
 #include "core/taskmanager.h"
 #include "core/song.h"
@@ -2144,6 +2147,10 @@ void MainWindow::AddToPlaylist(QMimeData *q_mimedata) {
 
   if (!q_mimedata) return;
 
+#ifdef Q_OS_ANDROID
+  bool show_playlist = false;
+#endif
+
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     // Should we replace the flags with the user's preference?
     if (mimedata->override_user_settings_) {
@@ -2151,7 +2158,10 @@ void MainWindow::AddToPlaylist(QMimeData *q_mimedata) {
     }
     else if (mimedata->from_doubleclick_) {
 #ifdef Q_OS_ANDROID
-      if (qobject_cast<SongMimeData *>(mimedata) || mimedata->hasUrls()) {
+      // Android hides the double-click preferences, so opening songs or a smart playlist replaces Now playing and plays it.
+      const bool smart_playlist = qobject_cast<PlaylistGeneratorMimeData *>(mimedata);
+      if (qobject_cast<SongMimeData *>(mimedata) || mimedata->hasUrls() || smart_playlist) {
+        show_playlist = smart_playlist;
         app_->playlist_manager()->SelectNowPlaying();
         mimedata->clear_first_ = true;
         mimedata->play_now_ = true;
@@ -2177,6 +2187,10 @@ void MainWindow::AddToPlaylist(QMimeData *q_mimedata) {
   }
   app_->playlist_manager()->current()->dropMimeData(q_mimedata, Qt::CopyAction, -1, 0, QModelIndex());
   delete q_mimedata;
+
+#ifdef Q_OS_ANDROID
+  if (show_playlist) ShowAndroidCurrentPlaylist();
+#endif
 
 }
 

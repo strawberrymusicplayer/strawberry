@@ -156,10 +156,7 @@ void MainWindow::SetupAndroidLayout() {
   QObject::connect(playlist_list_, &PlaylistListContainer::PlaylistActivated, this, [this]() {
     android_playlist_pages_->setCurrentWidget(ui_->playlist_layout);
   });
-  QObject::connect(ui_->action_new_playlist, &QAction::triggered, this, [this]() {
-    ui_->tabs->setCurrentIndex(ui_->tabs->IndexOfTab(android_playlist_pages_));
-    android_playlist_pages_->setCurrentWidget(ui_->playlist_layout);
-  });
+  QObject::connect(ui_->action_new_playlist, &QAction::triggered, this, &MainWindow::ShowAndroidCurrentPlaylist);
   QObject::connect(ui_->tabs, &QTabWidget::currentChanged, this, [this]() {
     if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(android_playlist_pages_)) android_playlist_pages_->setCurrentWidget(playlist_list_);
   });
@@ -386,6 +383,14 @@ void MainWindow::UpdateAndroidMuteButton(const bool mute) {
 
   ui_->action_mute->setIcon(style()->standardIcon(mute ? QStyle::SP_MediaVolumeMuted : QStyle::SP_MediaVolume));
   android_mute_button_->setAccessibleName(mute ? tr("Unmute") : tr("Mute"));
+
+}
+
+void MainWindow::ShowAndroidCurrentPlaylist() {
+
+  // Switching tabs shows the playlist list, so open the current playlist's page afterwards.
+  ui_->tabs->setCurrentIndex(ui_->tabs->IndexOfTab(android_playlist_pages_));
+  android_playlist_pages_->setCurrentWidget(ui_->playlist_layout);
 
 }
 

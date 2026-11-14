@@ -321,6 +321,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void EmbedAndroidSettingsDialog(SettingsDialog *settings_dialog);
   void ShowAndroidSettingsDialog();
   void UpdateAndroidMuteButton(const bool mute);
+  void ShowAndroidCurrentPlaylist();
   // Handles Back that no page consumed by returning one level within the current tab; returns false at the tab's root.
   bool AndroidBack();
 #endif
