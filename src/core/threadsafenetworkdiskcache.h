@@ -31,11 +31,11 @@
 #include <QUrl>
 #include <QList>
 #include <QHash>
-#include <QPointer>
 #include <QNetworkCacheMetaData>
 
 class QIODevice;
 class QNetworkDiskCache;
+class ThreadSafeNetworkDiskCacheDevice;
 
 class ThreadSafeNetworkDiskCache : public QAbstractNetworkCache {
   Q_OBJECT
@@ -55,7 +55,7 @@ class ThreadSafeNetworkDiskCache : public QAbstractNetworkCache {
   // The URL the cache uses for the URL of a reply, QNetworkCacheMetaData removes the password and the fragment.
   static QUrl CacheUrl(const QUrl &url);
 
-  // Cancels the savings of the replies of the network access manager using this cache, for the URLs none of the replies in reply_urls has.
+  // Deletes the devices of the savings of the replies of the network access manager using this cache, for the URLs none of the replies in reply_urls has.
   // It's called when a reply is deleted or has finished with an error, with the URLs of the replies which can still use their saving.
   void CancelUnusedSavings(const QList<QUrl> &reply_urls);
 
@@ -63,21 +63,26 @@ class ThreadSafeNetworkDiskCache : public QAbstractNetworkCache {
   void clear() override;
 
  private:
+  // A saving of a URL, the reply writes to the device, which writes to the device of QNetworkDiskCache while the saving isn't cancelled.
   struct Saving {
-    QPointer<QIODevice> device;
+    QUrl url;
+    ThreadSafeNetworkDiskCacheDevice *device;
     // The cache of the network access manager with the reply saving the URL.
     ThreadSafeNetworkDiskCache *cache;
   };
 
   // Called with sMutex locked.
   static bool IsInserting(const QUrl &url);
+  static void CancelSaving(const QUrl &url);
   void CancelUnusedSavingsLocked(const QList<QUrl> &reply_urls);
 
   static QMutex sMutex;
   static int sInstances;
   static QNetworkDiskCache *sCache;
-  // The URLs being saved, with the devices they are saved with.
+  // The URLs being saved in QNetworkDiskCache.
   static QHash<QUrl, Saving> sInserting;
+  // The savings which were cancelled, their devices are kept for the replies, which can still be writing to them, until the replies are done.
+  static QList<Saving> sCancelled;
   QUrl prepare_failed_url_;
 };
 
