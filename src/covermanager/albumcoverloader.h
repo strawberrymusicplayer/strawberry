@@ -61,6 +61,7 @@ class AlbumCoverLoader : public QObject {
   quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const AlbumCoverImageResult &album_cover);
   quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const QImage &image);
 
+  // Cancels the tasks, also the remote covers being loaded for them, the cancelled tasks are not finished.
   void CancelTask(const quint64 id);
   void CancelTasks(const QSet<quint64> &ids);
 
@@ -71,10 +72,12 @@ class AlbumCoverLoader : public QObject {
  private:
   class Task {
    public:
-    explicit Task() : id(0), success(false), art_embedded(false), art_unset(false), song_source(Song::Source::Unknown), result_type(AlbumCoverLoaderResult::Type::None), redirects(0) {}
+    explicit Task() : id(0), success(false), cancelled(false), art_embedded(false), art_unset(false), song_source(Song::Source::Unknown), result_type(AlbumCoverLoaderResult::Type::None), redirects(0) {}
 
     quint64 id;
     bool success;
+    // Set on the thread of the loader when the task is cancelled while a remote cover is loaded.
+    bool cancelled;
 
     AlbumCoverLoaderOptions options;
 
@@ -128,6 +131,8 @@ class AlbumCoverLoader : public QObject {
   void StartProcessTasks();
   void ProcessTasks();
   void LoadRemoteImageFinished(QNetworkReply *reply, AlbumCoverLoader::TaskPtr task, const AlbumCoverLoaderResult::Type result_type, const QUrl &cover_url);
+  // Aborts the remote covers being loaded for the tasks.
+  void AbortRemoteImages(const QSet<quint64> &ids);
 
  private:
   const SharedPtr<TagReaderClient> tagreader_client_;
@@ -136,8 +141,8 @@ class AlbumCoverLoader : public QObject {
   std::atomic<bool> stop_requested_;
   QMutex mutex_load_image_async_;
   QQueue<TaskPtr> tasks_;
-  // The replies of the remote covers being loaded, they're aborted when exiting.
-  QList<QNetworkReply*> replies_;
+  // The replies of the remote covers being loaded with their tasks, they're aborted when exiting, or when the task is cancelled.
+  QHash<QNetworkReply*, TaskPtr> replies_;
   quint64 load_image_async_id_;
   QThread *original_thread_;
 };

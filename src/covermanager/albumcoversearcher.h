@@ -97,6 +97,8 @@ class AlbumCoverSearcher : public QDialog {
 
  private:
   void AbortSearch();
+  // Cancels loading the images of the results.
+  void CancelCoverLoadingTasks();
 
   Ui_AlbumCoverSearcher *ui_;
 
@@ -108,6 +110,8 @@ class AlbumCoverSearcher : public QDialog {
 
   quint64 id_;
   QMap<quint64, QStandardItem*> cover_loading_tasks_;
+  // The cover chosen when the dialog was accepted.
+  AlbumCoverImageResult accepted_result_;
 };
 
 #endif  // ALBUMCOVERSEARCHER_H

@@ -89,6 +89,7 @@ class GroupedIconView : public QListView {
   void resizeEvent(QResizeEvent *e) override;
 
   // QAbstractItemView
+  void doItemsLayout() override;
   void dataChanged(const QModelIndex &top_left, const QModelIndex &bottom_right, const QList<int> &roles = QList<int>()) override;
   QModelIndex indexAt(const QPoint &p) const override;
   void rowsInserted(const QModelIndex &parent, int start, int end) override;
@@ -127,6 +128,8 @@ class GroupedIconView : public QListView {
   int header_indent_;
   int item_indent_;
   QString header_text_;
+  // True while the positions are being updated, the size of the first item can update the layout of the list view, which updates the positions again.
+  bool laying_out_items_;
 };
 
 #endif  // GROUPEDICONVIEW_H
