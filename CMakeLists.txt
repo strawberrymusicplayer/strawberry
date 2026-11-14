@@ -806,6 +806,7 @@ set(SOURCES
   src/analyzer/rainbowanalyzer.cpp
 
   src/equalizer/equalizer.cpp
+  src/equalizer/equalizerjson.cpp
   src/equalizer/equalizerslider.cpp
 
   src/context/contextview.cpp
