@@ -35,6 +35,7 @@
 #include <QWheelEvent>
 #include <QPointingDevice>
 #include <QInputDevice>
+#include <QToolButton>
 
 #include "core/stylehelper.h"
 #include "fancytabbar.h"
@@ -66,6 +67,16 @@ void FancyTabBar::SetTouchScrolling(const bool enabled) {
   touch_scrolling_ = enabled;
   touch_pressed_ = false;
   touch_dragging_ = false;
+  // Qt's pixel-wheel range includes hidden arrow sizes, even after the buttons are polished.
+  for (QToolButton *button : findChildren<QToolButton*>(QString(), Qt::FindDirectChildrenOnly)) {
+    if (enabled) button->setFixedSize(0, 0);
+    else {
+      button->setMinimumSize(0, 0);
+      button->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+    }
+  }
+  setUsesScrollButtons(!enabled);
+  updateGeometry();
 
   // QTabBar only scrolls by pixels for wheel events from a device with pixel precision.
   if (enabled && !touch_scroll_device_) {
@@ -79,7 +90,8 @@ void FancyTabBar::ScrollBy(const int delta) {
   if (delta == 0 || !touch_scroll_device_) return;
 
   const QPointF position = rect().center();
-  QWheelEvent wheel_event(position, mapToGlobal(position), QPoint(0, delta), QPoint(0, delta), Qt::NoButton, Qt::NoModifier, Qt::NoScrollPhase, false, Qt::MouseEventSynthesizedByApplication, touch_scroll_device_);
+  const int scroll_delta = isRightToLeft() ? -delta : delta;
+  QWheelEvent wheel_event(position, mapToGlobal(position), QPoint(0, scroll_delta), QPoint(0, scroll_delta), Qt::NoButton, Qt::NoModifier, Qt::NoScrollPhase, false, Qt::MouseEventSynthesizedByApplication, touch_scroll_device_);
   QTabBar::wheelEvent(&wheel_event);
 
 }
@@ -142,6 +154,13 @@ QSize FancyTabBar::sizeHint() const {
   size.setHeight(h);
 
   return size;
+
+}
+
+QSize FancyTabBar::minimumSizeHint() const {
+
+  const QSize hint = QTabBar::minimumSizeHint();
+  return touch_scrolling_ ? QSize(hint.width(), 0) : hint;
 
 }
 

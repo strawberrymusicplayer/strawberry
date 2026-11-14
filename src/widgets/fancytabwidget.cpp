@@ -81,9 +81,9 @@ FancyTabWidget::FancyTabWidget(QWidget *parent)
   tabBar->SetTouchScrolling(true);
 #else
   setMovable(true);
+  setUsesScrollButtons(true);
 #endif
   setElideMode(Qt::ElideNone);
-  setUsesScrollButtons(true);
 
   QObject::connect(tabBar, &FancyTabBar::currentChanged, this, &FancyTabWidget::CurrentTabChangedSlot);
 

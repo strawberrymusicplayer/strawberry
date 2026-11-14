@@ -737,17 +737,33 @@ Arbitrary cloud/document-provider support is not part of this implementation.
 
 ## 21. Remove the navigation/menu bar scroll arrows
 
-**Status:** Planned
+**Status:** Implemented (native tests and emulator verified; FP5 check pending)
 
 **Problem:** The Android sidebar still shows the tab bar's scroll arrow buttons when the tabs overflow, a leftover from before the sidebar could be scrolled by dragging.
 The user also requested removing these arrows from the navigation/menu bar when testing on the FP5; this is the same planned change, not a separate duplicate item.
 
 **Goal:** Remove the scroll arrows on Android, so dragging is the only way to scroll the sidebar.
 
-**Next steps:**
-- Disable the scroll buttons on Android (`FancyTabWidget` calls `setUsesScrollButtons(true)` for every platform); keep them on desktop.
-- Verify in landscape, where the tabs overflow, that the arrows are gone, the full height is used for tabs, and every tab can still be reached by dragging and tapped.
-- Check portrait and landscape on both the FP5 and emulator, preserving normal tab taps and avoiding accidental tab selection while scrolling.
+**Implementation:**
+- Touch scrolling disables Qt's arrow buttons; desktop initialization retains them.
+  Keep the touch sidebar's minimum height small so disabling arrows does not force the entire tab list onto the screen.
+- Give the hidden arrow controls zero size while touch mode is active.
+  Qt's pixel-wheel range otherwise includes their stale geometry, preventing the last tab from being fully reached.
+  Leaving touch mode restores ordinary arrow sizing and behavior.
+- Keep tap-to-select and drag-without-selecting behavior.
+  Compensate Qt's wheel-direction inversion so vertical dragging works the same way in right-to-left layouts.
+
+**Verification:**
+- All ten FancyTabWidget/touch-scrolling tests and the seven sidebar-editor tests pass.
+  New regressions cover a small arrowless viewport, restoring desktop arrows, dragging to and tapping the last tab, and right-to-left drag direction.
+- Built, signed, verified and installed the Android release upgrade.
+  On the landscape emulator, checked actual widget geometry: both arrows were hidden and zero-sized, and the final tab occupied rows 150 through 215 in a 216-row viewport.
+  Dragging kept Radios selected; tapping the last row selected Settings.
+  Reverse dragging returned to the first tab without selecting it until tapped.
+- Restored portrait and confirmed the nine-tab sidebar fit without arrows.
+  Rotation, display and font settings were restored.
+  Temporary native geometry diagnostics were removed from the final build.
+- FP5 portrait/landscape confirmation remains pending: no physical device was connected.
 
 ## 22. Build and bundle a Spotify GStreamer plugin for Android
 

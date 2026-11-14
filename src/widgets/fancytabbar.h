@@ -39,9 +39,10 @@ class FancyTabBar : public QTabBar {
 
   QString TabText(const int index) const;
   QSize sizeHint() const override;
+  QSize minimumSizeHint() const override;
   int width() const;
 
-  // Dragging scrolls the tabs instead of moving them, and a tab is only selected when it is tapped without dragging.
+  // The sidebar scrolls by dragging without arrow buttons; tabs are selected only on a tap, not a drag.
   void SetTouchScrolling(const bool enabled);
   bool touch_scrolling() const { return touch_scrolling_; }
 

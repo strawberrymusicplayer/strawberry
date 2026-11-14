@@ -36,6 +36,7 @@
 #include <QStackedWidget>
 #include <QTabBar>
 #include <QTest>
+#include <QToolButton>
 
 #include "widgets/fancytabwidget.h"
 #include "widgets/fancytabbar.h"
@@ -312,5 +313,58 @@ TEST_F(TouchScrollingTest, TapSelectsTab) {
 
   EXPECT_EQ(clicked_index, 1);
   EXPECT_EQ(tabs_.currentIndex(), 1);
+
+}
+
+TEST_F(TouchScrollingTest, ArrowlessSidebarFitsSmallViewport) {
+
+  EXPECT_FALSE(tab_bar_->usesScrollButtons());
+  EXPECT_LT(tab_bar_->height(), tab_bar_->sizeHint().height());
+  EXPECT_LT(tab_bar_->minimumSizeHint().height(), 250);
+  for (QToolButton *button : tab_bar_->findChildren<QToolButton*>(QString(), Qt::FindDirectChildrenOnly)) {
+    EXPECT_FALSE(button->isVisible());
+    EXPECT_TRUE(button->size().isEmpty());
+  }
+  tab_bar_->SetTouchScrolling(false);
+  QCoreApplication::processEvents();
+  EXPECT_TRUE(tab_bar_->usesScrollButtons());
+  bool visible_arrow = false;
+  for (QToolButton *button : tab_bar_->findChildren<QToolButton*>(QString(), Qt::FindDirectChildrenOnly)) {
+    visible_arrow |= button->isVisible() && !button->size().isEmpty();
+  }
+  EXPECT_TRUE(visible_arrow);
+
+}
+
+TEST_F(TouchScrollingTest, LastTabCanBeReachedAndTappedWithoutArrows) {
+
+  QPoint position = tab_bar_->rect().center();
+  QTest::mousePress(tab_bar_, Qt::LeftButton, Qt::NoModifier, position);
+  for (int step = 0; step < 50; ++step) {
+    position.ry() -= 20;
+    QTest::mouseMove(tab_bar_, position);
+  }
+  QTest::mouseRelease(tab_bar_, Qt::LeftButton, Qt::NoModifier, position);
+  EXPECT_EQ(0, tabs_.currentIndex());
+  const QRect last = tab_bar_->tabRect(tab_bar_->count() - 1);
+  EXPECT_GE(last.top(), 0);
+  EXPECT_LE(last.bottom(), tab_bar_->height());  // Qt 6.4 includes the viewport edge in its scroll range.
+  QTest::mouseClick(tab_bar_, Qt::LeftButton, Qt::NoModifier, last.center());
+  EXPECT_EQ(tabs_.IndexOfTab(views_.last()), tabs_.currentIndex());
+
+}
+
+TEST_F(TouchScrollingTest, VerticalDragDirectionDoesNotReverseInRightToLeftLayout) {
+
+  tabs_.setLayoutDirection(Qt::RightToLeft);
+  QCoreApplication::processEvents();
+  const int first_top = tab_bar_->tabRect(0).top();
+  QPoint position = tab_bar_->rect().center();
+  QTest::mousePress(tab_bar_, Qt::LeftButton, Qt::NoModifier, position);
+  position.ry() -= 60;
+  QTest::mouseMove(tab_bar_, position);
+  QTest::mouseRelease(tab_bar_, Qt::LeftButton, Qt::NoModifier, position);
+  EXPECT_LT(tab_bar_->tabRect(0).top(), first_top);
+  EXPECT_EQ(0, tabs_.currentIndex());
 
 }
