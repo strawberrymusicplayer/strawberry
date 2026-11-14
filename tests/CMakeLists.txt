@@ -97,6 +97,7 @@ macro(add_test_file test_source gui_required)
 endmacro(add_test_file)
 
 add_test_file(src/utilities_test.cpp false)
+add_test_file(src/smartplaylistsmodel_test.cpp true)
 add_test_file(src/networkproxyfactory_test.cpp false)
 add_test_file(src/localredirectserver_test.cpp true)
 add_test_file(src/oauthenticator_test.cpp true)

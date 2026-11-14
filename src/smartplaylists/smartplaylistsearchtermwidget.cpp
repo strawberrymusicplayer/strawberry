@@ -157,7 +157,8 @@ void SmartPlaylistSearchTermWidget::FieldChanged(int index) {
   }
   ui_->value_stack->setCurrentWidget(page);
 
-  // Maybe set a tag completer
+#ifndef Q_OS_ANDROID
+  // Desktop completion popups cannot be used in the embedded Android editor.
   switch (field) {
     case SmartPlaylistSearchTerm::Field::Artist:
       new TagCompleter(collection_backend_, Playlist::Column::Artist, ui_->value_text);
@@ -189,6 +190,8 @@ void SmartPlaylistSearchTermWidget::FieldChanged(int index) {
     default:
       ui_->value_text->setCompleter(nullptr);
   }
+
+#endif
 
   Q_EMIT Changed();
 

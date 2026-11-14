@@ -74,6 +74,10 @@ SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(const SharedPtr<Player>
 
   ui_->setupUi(this);
 
+#ifdef Q_OS_ANDROID
+  SetupAndroidBrowser();
+#endif
+
   model_ = new SmartPlaylistsModel(collection_backend, this);
   ui_->view->setModel(model_);
 
@@ -237,7 +241,11 @@ void SmartPlaylistsViewContainer::NewSmartPlaylist() {
   wizard->setAttribute(Qt::WA_DeleteOnClose);
   QObject::connect(wizard, &SmartPlaylistWizard::accepted, this, &SmartPlaylistsViewContainer::NewSmartPlaylistFinished);
 
+#ifdef Q_OS_ANDROID
+  OpenAndroidWizard(wizard);
+#else
   wizard->show();
+#endif
 
 }
 
@@ -263,7 +271,11 @@ void SmartPlaylistsViewContainer::EditSmartPlaylist(const QModelIndex &idx) {
     model_->UpdateGenerator(edit_index, generator);
   });
 
+#ifdef Q_OS_ANDROID
+  OpenAndroidWizard(wizard);
+#else
   wizard->show();
+#endif
   wizard->SetGenerator(model_->CreateGenerator(idx));
 
 }

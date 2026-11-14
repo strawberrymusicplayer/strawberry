@@ -29,6 +29,10 @@
 #include <QString>
 #include <QVBoxLayout>
 #include <QScrollBar>
+#ifdef Q_OS_ANDROID
+#  include <QPushButton>
+#  include "smartplaylistwizard.h"
+#endif
 
 #include "includes/scoped_ptr.h"
 #include "includes/shared_ptr.h"
@@ -90,7 +94,16 @@ int SmartPlaylistQueryWizardPlugin::CreatePages(QWizard *wizard, int finish_page
 
   // Add an empty initial term
   search_page_->layout_ = static_cast<QVBoxLayout*>(search_page_->ui_->terms_scroll_area_content->layout());
+#ifdef Q_OS_ANDROID
+  search_page_->new_term_->hide();
+  delete search_page_->layout_->takeAt(0);
+  auto *add_term = new QPushButton(tr("Add search term"), search_page_);
+  add_term->setMinimumHeight(48);
+  QObject::connect(add_term, &QPushButton::clicked, this, &SmartPlaylistQueryWizardPlugin::AddSearchTerm);
+  search_page_->layout_->addWidget(add_term);
+#else
   search_page_->layout_->addWidget(search_page_->new_term_);
+#endif
   AddSearchTerm();
 
   // Ensure that the terms are scrolled to the bottom when a new one is added
@@ -225,6 +238,9 @@ void SmartPlaylistQueryWizardPlugin::AddSearchTerm() {
   search_page_->layout_->insertWidget(static_cast<int>(search_page_->terms_.count()), widget);
   search_page_->terms_ << widget;
 
+#ifdef Q_OS_ANDROID
+  if (auto *wizard = qobject_cast<SmartPlaylistWizard*>(search_page_->wizard())) wizard->AdaptAndroidControls(widget);
+#endif
   UpdateTermPreview();
 
 }

@@ -638,14 +638,33 @@ Arbitrary cloud/document-provider support is not part of this implementation.
 
 ## 16. Verify Smart Playlists on Android
 
-**Status:** Planned
+**Status:** Done (emulator verified)
 
 **Goal:** Confirm that Smart Playlists are discoverable and their common workflows are usable on Android.
 
-**Next steps:**
-- Verify opening Smart Playlists from the sidebar and returning to the previous context.
-- Verify creating, editing, saving, and activating a Smart Playlist, including touch targets and narrow-screen behavior.
-- Confirm saved Smart Playlists and their rules persist after an application restart; leave desktop behavior unchanged.
+**Implementation:**
+- Keep the browser and editor embedded under the Smart Playlists sidebar tab, with breadcrumbs, one-level Back navigation and the original browser selection and scroll context.
+  Only the active browser, wizard page or choice subscreen is interactive.
+- Reuse the existing wizard pages, controls, rule validation, previews and generator serialization.
+  Android uses wrapping, vertically arranged controls, scrolling pages, 48 dp minimum buttons and rows, and full-page choices instead of combo popups.
+  Text fields use the Android keyboard without desktop tag-completion popups.
+- Keep keyboard focus while validation updates the embedded wizard, and dismiss the keyboard before handling Back.
+  Remove application-wide event filters and control callbacks before destroying the editor.
+- Add an Open smart playlist toolbar action using the existing activation behavior, including the user's add/play preferences.
+  Desktop wizard layout and behavior remain unchanged.
+
+**Verification:**
+- Created a custom definition, edited its name and Artist rule, selected descending Album Artist sorting and a three-song limit, and saved it.
+  Reopened it after process replacement and verified its controls retained the definition.
+- Activated the saved definition and confirmed three generated tracks were added; started playback through the normal player control and confirmed Android's media session reported playing.
+- Verified full-name text entry, keyboard dismissal, Back to the browser without exiting the app, full-page field/search choices, and cancellation without modifying the saved definition.
+- At 320 dp portrait width, navigated through search, sorting and Finish, checked wrapping and reachable navigation, and verified a cancelled name edit did not replace the saved name.
+  Restored the emulator display configuration afterward.
+- Added a native model regression covering create, edit, reload and delete, including multiple rules, sorting, limits, name and dynamic mode.
+  The model, search and query-generator test suites pass.
+- Built, signed, signature-verified and installed the Android release APK as an upgrade preserving application data.
+
+**Next item:** 17, Android checkbox touch targets.
 
 ## 17. Make Android checkboxes touch-friendly
 
