@@ -48,6 +48,11 @@
 #include <QEventLoop>
 #include <QTimer>
 #include <QSignalSpy>
+#include <QApplication>
+#include <QMessageBox>
+#include <QAbstractButton>
+#include <QBuffer>
+#include <QImageReader>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -63,6 +68,7 @@
 #include "covermanager/currentalbumcoverloader.h"
 #include "covermanager/coverproviders.h"
 #include "covermanager/albumcoverchoicecontroller.h"
+#include "covermanager/albumcoverimageresult.h"
 #include "covermanager/albumcoverimageresult.h"
 #include "covermanager/confirmedcoverfiles.h"
 #include "streaming/streamingservices.h"
@@ -776,6 +782,123 @@ TEST_F(AlbumCoverChoiceControllerTest, CanDeleteCoversComparesSharedFileForEachS
   EXPECT_TRUE(QFile::exists(album_cover));
 
   database_->Close();
+
+}
+
+// Returns the contents of the file, or an empty byte array when it can't be read.
+QByteArray ReadFile(const QString &filename) {
+  QFile file(filename);
+  if (!file.open(QIODevice::ReadOnly)) return QByteArray();
+  return file.readAll();
+}
+
+// Answers the message boxes with the button while it exists, and counts them.
+class MessageBoxAnswer {
+ public:
+  explicit MessageBoxAnswer(const QMessageBox::StandardButton button) : shown_(0) {
+    timer_.setInterval(10);
+    QObject::connect(&timer_, &QTimer::timeout, &timer_, [this, button]() {
+      QMessageBox *message_box = qobject_cast<QMessageBox*>(QApplication::activeModalWidget());
+      if (!message_box || !message_box->button(button)) return;
+      ++shown_;
+      message_box->button(button)->click();
+    });
+    timer_.start();
+  }
+
+  int shown() const { return shown_; }
+
+ private:
+  QTimer timer_;
+  int shown_;
+};
+
+// Returns a cover with the image and the JPEG data of it.
+AlbumCoverImageResult JpegCoverResult(const QColor &color) {
+  QImage image(8, 8, QImage::Format_RGB32);
+  image.fill(color);
+  QByteArray data;
+  QBuffer buffer(&data);
+  buffer.open(QIODevice::WriteOnly);
+  image.save(&buffer, "JPG");
+  return AlbumCoverImageResult(QUrl(), u"image/jpeg"_s, data, image);
+}
+
+// Returns the format of the image in the file, or an empty string when it's not an image.
+QByteArray ImageFormat(const QString &filename) {
+  return QImageReader(filename).format();
+}
+
+// Regression test: ".jpg" was added to a file name without an extension after the file dialog asked about overwriting the file, so an existing file with the extension was overwritten without asking.
+TEST_F(AlbumCoverChoiceControllerTest, SaveCoverAsksBeforeOverwritingFileWithAddedExtension) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString existing_file = temp_dir.filePath(u"cover.jpg"_s);
+  ASSERT_TRUE(SaveImageFile(existing_file));
+  const QByteArray existing_data = ReadFile(existing_file);
+  ASSERT_FALSE(existing_data.isEmpty());
+
+  AlbumCoverChoiceController controller;
+  const AlbumCoverImageResult result = JpegCoverResult(Qt::blue);
+
+  {
+    MessageBoxAnswer answer(QMessageBox::No);
+    EXPECT_FALSE(controller.SaveCoverToChosenFile(temp_dir.filePath(u"cover"_s), result));
+    EXPECT_EQ(1, answer.shown());
+  }
+  EXPECT_EQ(existing_data, ReadFile(existing_file));
+
+  {
+    MessageBoxAnswer answer(QMessageBox::Yes);
+    EXPECT_TRUE(controller.SaveCoverToChosenFile(temp_dir.filePath(u"cover"_s), result));
+    EXPECT_EQ(1, answer.shown());
+  }
+  EXPECT_EQ(result.image_data, ReadFile(existing_file));
+
+  // Without an existing file, it's saved without asking.
+  {
+    MessageBoxAnswer answer(QMessageBox::No);
+    EXPECT_TRUE(controller.SaveCoverToChosenFile(temp_dir.filePath(u"new-cover"_s), result));
+    EXPECT_EQ(0, answer.shown());
+  }
+  EXPECT_EQ(result.image_data, ReadFile(temp_dir.filePath(u"new-cover.jpg"_s)));
+
+}
+
+// Regression test: the extension of an image format which can't be written was replaced with ".jpg" after the file dialog asked about overwriting the file, so an existing JPEG file was overwritten without asking.
+TEST_F(AlbumCoverChoiceControllerTest, SaveCoverKeepsChosenFileWithUnsupportedExtension) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString existing_file = temp_dir.filePath(u"cover.jpg"_s);
+  ASSERT_TRUE(SaveImageFile(existing_file));
+  const QByteArray existing_data = ReadFile(existing_file);
+
+  AlbumCoverChoiceController controller;
+  const AlbumCoverImageResult result = JpegCoverResult(Qt::blue);
+
+  MessageBoxAnswer answer(QMessageBox::No);
+  const QString chosen_file = temp_dir.filePath(u"cover.unsupported-format"_s);
+  EXPECT_TRUE(controller.SaveCoverToChosenFile(chosen_file, result));
+  EXPECT_EQ(0, answer.shown());
+  EXPECT_EQ(existing_data, ReadFile(existing_file));
+  // The cover is saved as JPEG to the chosen file.
+  EXPECT_EQ(result.image_data, ReadFile(chosen_file));
+
+}
+
+// The format is chosen by the last extension, a file name with more dots was taken as having an unsupported extension.
+TEST_F(AlbumCoverChoiceControllerTest, SaveCoverUsesLastExtension) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+
+  AlbumCoverChoiceController controller;
+  const QString chosen_file = temp_dir.filePath(u"cover.v2.png"_s);
+  EXPECT_TRUE(controller.SaveCoverToChosenFile(chosen_file, JpegCoverResult(Qt::blue)));
+  EXPECT_EQ("png", ImageFormat(chosen_file));
+  EXPECT_FALSE(QFile::exists(temp_dir.filePath(u"cover.v2.jpg"_s)));
 
 }
 

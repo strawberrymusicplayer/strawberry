@@ -121,6 +121,12 @@ class AlbumCoverChoiceController : public QWidget {
   // The image is supposed to be the cover of the given song's album.
   void SaveCoverToFileManual(const Song &song, const AlbumCoverImageResult &result);
 
+  // Saves the cover to the file chosen in the file dialog, which asked before overwriting it.
+  // Without a file extension, ".jpg" is added, and the user is asked before overwriting that file, since the file dialog didn't ask about it.
+  // With a file extension of an image format which can't be written, the cover is saved as JPEG to the chosen file, so a file the user wasn't asked about isn't overwritten.
+  // Returns false when the cover wasn't saved.
+  bool SaveCoverToChosenFile(const QString &filename, const AlbumCoverImageResult &result);
+
   // Downloads the cover from an URL given by user.
   // This returns the downloaded image or null image if something went wrong for example when user cancelled the dialog.
   void LoadCoverFromURL(Song *song);
