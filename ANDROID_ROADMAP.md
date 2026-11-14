@@ -807,7 +807,11 @@ The user also requested removing these arrows from the navigation/menu bar when 
 - A default-off Android registration probe now accepts a separately cross-built static archive and links it into Strawberry against the existing GStreamer shared library.
   The experimental app registered `spotifyaudiosrc` on the emulator, and remained running; the Spotify service and login stayed disabled.
   This debug-archive probe APK was approximately 46 MB, versus approximately 34 MB for the earlier normal APK; this is not a release-size benchmark.
-  Rust TLS trust, Spotify playback, reproducible dependency builds and distribution licensing remain unverified.
+  Spotify playback, reproducible dependency builds and distribution licensing remain unverified.
+- An isolated arm64 emulator probe using `rustls-native-certs` 0.8.2 and rustls 0.23.35 found zero certificates with neither `SSL_CERT_FILE` nor `SSL_CERT_DIR` set.
+  Pointing `SSL_CERT_FILE` at a copy of the GStreamer SDK's packaged CA bundle loaded 141 certificates, and a public HTTPS handshake succeeded.
+  A local test with a separate test CA verified that an unknown issuer and an incorrect hostname were rejected.
+  This tests the Rust TLS dependencies separately, not the plugin's app process: configure the app's trust path and verify actual Spotify connections before claiming Spotify TLS works.
 
 **Next steps:**
 - Identify the plugin and its dependencies, and verify Android support, licensing, and compatibility with Strawberry's Spotify playback and authentication.
