@@ -52,6 +52,7 @@
 #include <QIcon>
 #include <QRect>
 #include <QFileDialog>
+#include <QMessageBox>
 #include <QLabel>
 #include <QAction>
 #include <QActionGroup>
@@ -262,37 +263,55 @@ void AlbumCoverChoiceController::SaveCoverToFileManual(const Song &song, const A
 
   if (save_filename.isEmpty()) return;
 
+  SaveCoverToChosenFile(save_filename, result);
+
+}
+
+bool AlbumCoverChoiceController::SaveCoverToChosenFile(const QString &filename, const AlbumCoverImageResult &result) {
+
+  QString save_filename = filename;
   QFileInfo fileinfo(save_filename);
   if (fileinfo.suffix().isEmpty()) {
     save_filename.append(".jpg"_L1);
     fileinfo.setFile(save_filename);
+    // The file dialog only asked about overwriting the file without the extension.
+    if (fileinfo.exists()) {
+      const QMessageBox::StandardButton button = QMessageBox::question(this, tr("Save album cover"), tr("The file %1 already exists. Do you want to replace it?").arg(fileinfo.fileName()), QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+      if (button != QMessageBox::Yes) return false;
+    }
   }
 
-  if (!QImageWriter::supportedImageFormats().contains(fileinfo.completeSuffix().toUtf8().toLower())) {
-    save_filename = Utilities::PathWithoutFilenameExtension(save_filename) + ".jpg"_L1;
-    fileinfo.setFile(save_filename);
-  }
+  // The image format is chosen by the file extension, JPEG is used when that format can't be written, the file is kept, since the file dialog asked about overwriting it.
+  const QByteArray suffix = fileinfo.suffix().toUtf8().toLower();
+  const QByteArray format = QImageWriter::supportedImageFormats().contains(suffix) ? suffix : QByteArray("jpg");
 
-  if (result.is_jpeg() && fileinfo.completeSuffix().compare("jpg"_L1, Qt::CaseInsensitive) == 0) {
+  if (result.is_jpeg() && (format == "jpg" || format == "jpeg")) {
     QSaveFile file(save_filename);
     if (!file.open(QIODevice::WriteOnly)) {
       qLog(Error) << "Failed to open cover file" << save_filename << "for writing:" << file.errorString();
       Q_EMIT Error(tr("Failed to open cover file %1 for writing: %2").arg(save_filename, file.errorString()));
-      return;
+      return false;
     }
     // A short write is a failure too, QSaveFile discards the file if it is not committed, so an existing file is not left truncated.
     if (file.write(result.image_data) != result.image_data.size() || !file.commit()) {
       qLog(Error) << "Failed writing cover to file" << save_filename << file.errorString();
       Q_EMIT Error(tr("Failed writing cover to file %1: %2").arg(save_filename, file.errorString()));
-      return;
+      return false;
     }
+    return true;
   }
-  else {
-    if (!result.image.save(save_filename)) {
-      qLog(Error) << "Failed writing cover to file" << save_filename;
-      Q_EMIT Error(tr("Failed writing cover to file %1.").arg(save_filename));
-    }
+
+  QImage image = result.image;
+  if (image.isNull() && !result.image_data.isEmpty()) {
+    image.loadFromData(result.image_data);
   }
+  if (!image.save(save_filename, format.constData())) {
+    qLog(Error) << "Failed writing cover to file" << save_filename;
+    Q_EMIT Error(tr("Failed writing cover to file %1.").arg(save_filename));
+    return false;
+  }
+
+  return true;
 
 }
 
