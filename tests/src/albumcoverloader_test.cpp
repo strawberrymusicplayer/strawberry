@@ -34,6 +34,10 @@
 #include <QString>
 #include <QFile>
 #include <QSize>
+#include <QBuffer>
+#include <QTemporaryDir>
+#include <QHash>
+#include <QByteArray>
 
 #include "includes/shared_ptr.h"
 #include "covermanager/albumcoverloader.h"
@@ -161,6 +165,112 @@ TEST(AlbumCoverLoaderTest, CancelledRemoteCoverIsAborted) {
   ASSERT_TRUE(WaitFor([&spy_loaded]() { return spy_loaded.count() > 0; }));
   EXPECT_EQ(1, spy_loaded.count());
   EXPECT_EQ(other_id, spy_loaded.at(0).at(0).toULongLong());
+
+}
+
+// Replies to the requests for a path with a redirect to another path, and to the requests for cover.png with the image.
+class RedirectingServer : public QTcpServer {
+ public:
+  explicit RedirectingServer(QObject *parent = nullptr) : QTcpServer(parent), requests_(0) {
+    QObject::connect(this, &QTcpServer::newConnection, this, [this]() {
+      while (QTcpSocket *socket = nextPendingConnection()) {
+        QObject::connect(socket, &QTcpSocket::readyRead, socket, [this, socket]() { ReadyRead(socket); });
+      }
+    });
+  }
+
+  QUrl Url(const QString &path) const { return QUrl(u"http://127.0.0.1:%1%2"_s.arg(serverPort()).arg(path)); }
+  void AddRedirect(const QByteArray &path, const QByteArray &location) { redirects_.insert(path, location); }
+  int requests() const { return requests_; }
+
+ private:
+  void ReadyRead(QTcpSocket *socket) {
+    QByteArray &request = buffers_[socket];
+    request.append(socket->readAll());
+    while (request.contains("\r\n\r\n")) {
+      const QByteArray path = request.split(' ').value(1);
+      request.remove(0, request.indexOf("\r\n\r\n") + 4);
+      ++requests_;
+      if (redirects_.contains(path)) {
+        socket->write("HTTP/1.1 302 Found\r\nLocation: " + redirects_.value(path) + "\r\nContent-Length: 0\r\n\r\n");
+      }
+      else if (path == "/cover.png") {
+        QByteArray data;
+        QBuffer buffer(&data);
+        buffer.open(QIODevice::WriteOnly);
+        Image().save(&buffer, "PNG");
+        socket->write("HTTP/1.1 200 OK\r\nContent-Type: image/png\r\nContent-Length: " + QByteArray::number(data.size()) + "\r\n\r\n" + data);
+      }
+      else {
+        socket->write("HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n");
+      }
+    }
+  }
+
+  QHash<QByteArray, QByteArray> redirects_;
+  QHash<QTcpSocket*, QByteArray> buffers_;
+  int requests_;
+};
+
+AlbumCoverLoaderOptions ManualCoverOptions() {
+  return AlbumCoverLoaderOptions(AlbumCoverLoaderOptions::Option::OriginalImage, QSize(32, 32), 1.0, AlbumCoverLoaderOptions::Types() << AlbumCoverLoaderOptions::Type::Manual);
+}
+
+// A redirected cover is loaded from the URL it's redirected to.
+TEST(AlbumCoverLoaderTest, RedirectedRemoteCoverIsLoaded) {
+
+  RedirectingServer server;
+  ASSERT_TRUE(server.listen(QHostAddress::LocalHost));
+  server.AddRedirect("/redirect.png", "/cover.png");
+
+  AlbumCoverLoader loader(nullptr);
+  QSignalSpy spy_loaded(&loader, &AlbumCoverLoader::AlbumCoverLoaded);
+  loader.LoadImageAsync(ManualCoverOptions(), false, QUrl(), server.Url(u"/redirect.png"_s), false);
+  ASSERT_TRUE(WaitFor([&spy_loaded]() { return spy_loaded.count() > 0; }));
+
+  const AlbumCoverLoaderResult result = spy_loaded.at(0).at(1).value<AlbumCoverLoaderResult>();
+  EXPECT_TRUE(result.success);
+  EXPECT_EQ(Image().size(), result.album_cover.image.size());
+  EXPECT_EQ(2, server.requests());
+
+}
+
+// A redirect to another scheme is not followed, so a server can't redirect to a local file, which would be loaded as the cover.
+TEST(AlbumCoverLoaderTest, UnsafeRedirectIsNotFollowed) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString filename = temp_dir.filePath(u"local.png"_s);
+  ASSERT_TRUE(Image().save(filename, "PNG"));
+
+  RedirectingServer server;
+  ASSERT_TRUE(server.listen(QHostAddress::LocalHost));
+  server.AddRedirect("/redirect.png", QUrl::fromLocalFile(filename).toEncoded());
+
+  AlbumCoverLoader loader(nullptr);
+  QSignalSpy spy_loaded(&loader, &AlbumCoverLoader::AlbumCoverLoaded);
+  loader.LoadImageAsync(ManualCoverOptions(), false, QUrl(), server.Url(u"/redirect.png"_s), false);
+  ASSERT_TRUE(WaitFor([&spy_loaded]() { return spy_loaded.count() > 0; }));
+
+  EXPECT_FALSE(spy_loaded.at(0).at(1).value<AlbumCoverLoaderResult>().success);
+
+}
+
+// A redirect loop is stopped after a few redirects, instead of the 50 redirects QNetworkAccessManager follows by default.
+TEST(AlbumCoverLoaderTest, RedirectLoopIsLimited) {
+
+  RedirectingServer server;
+  ASSERT_TRUE(server.listen(QHostAddress::LocalHost));
+  server.AddRedirect("/loop.png", "/loop.png");
+
+  AlbumCoverLoader loader(nullptr);
+  QSignalSpy spy_loaded(&loader, &AlbumCoverLoader::AlbumCoverLoaded);
+  loader.LoadImageAsync(ManualCoverOptions(), false, QUrl(), server.Url(u"/loop.png"_s), false);
+  ASSERT_TRUE(WaitFor([&spy_loaded]() { return spy_loaded.count() > 0; }));
+
+  EXPECT_FALSE(spy_loaded.at(0).at(1).value<AlbumCoverLoaderResult>().success);
+  // The first request and 3 redirects.
+  EXPECT_EQ(4, server.requests());
 
 }
 

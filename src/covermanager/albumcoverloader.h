@@ -72,7 +72,7 @@ class AlbumCoverLoader : public QObject {
  private:
   class Task {
    public:
-    explicit Task() : id(0), success(false), cancelled(false), art_embedded(false), art_unset(false), song_source(Song::Source::Unknown), result_type(AlbumCoverLoaderResult::Type::None), redirects(0) {}
+    explicit Task() : id(0), success(false), cancelled(false), art_embedded(false), art_unset(false), song_source(Song::Source::Unknown), result_type(AlbumCoverLoaderResult::Type::None) {}
 
     quint64 id;
     bool success;
@@ -97,7 +97,6 @@ class AlbumCoverLoader : public QObject {
     AlbumCoverLoaderResult::Type result_type;
     QUrl art_manual_updated;
     QUrl art_automatic_updated;
-    int redirects;
   };
   using TaskPtr = SharedPtr<Task>;
 

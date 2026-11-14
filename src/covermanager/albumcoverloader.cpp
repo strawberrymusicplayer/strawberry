@@ -29,7 +29,6 @@
 #include <QList>
 #include <QHash>
 #include <QQueue>
-#include <QVariant>
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
@@ -445,6 +444,7 @@ AlbumCoverLoader::LoadImageResult AlbumCoverLoader::LoadRemoteUrlImage(TaskPtr t
 
   QNetworkRequest network_request(cover_url);
   network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  network_request.setMaximumRedirectsAllowed(kMaxRedirects);
   QNetworkReply *reply = network_->get(network_request);
   replies_.insert(reply, task);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, task, result_type, cover_url]() { LoadRemoteImageFinished(reply, task, result_type, cover_url); });
@@ -458,27 +458,9 @@ void AlbumCoverLoader::LoadRemoteImageFinished(QNetworkReply *reply, TaskPtr tas
   replies_.remove(reply);
   reply->deleteLater();
 
-  // Exiting, the receivers can be deleted already, so don't finish the task, or request a redirect.
+  // Exiting, the receivers can be deleted already, so don't finish the task.
   // A cancelled task is not finished either, nor are the other cover types loaded.
   if (stop_requested_ || task->cancelled) return;
-
-  QVariant redirect = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
-  if (redirect.isValid() && redirect.metaType().id() == QMetaType::QUrl) {
-    if (task->redirects++ >= kMaxRedirects) {
-      ClearImage(task);
-      ProcessTask(task);
-      return;
-    }
-    const QUrl redirect_url = redirect.toUrl();
-    qLog(Debug) << "Loading remote cover from redirected URL" << redirect_url;
-    QNetworkRequest network_request = reply->request();
-    network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-    network_request.setUrl(redirect_url);
-    QNetworkReply *redirected_reply = network_->get(network_request);
-    replies_.insert(redirected_reply, task);
-    QObject::connect(redirected_reply, &QNetworkReply::finished, this, [this, redirected_reply, task, result_type, redirect_url]() { LoadRemoteImageFinished(redirected_reply, task, result_type, redirect_url); });
-    return;
-  }
 
   if (reply->error() == QNetworkReply::NoError) {
     task->album_cover.image_data = reply->readAll();
