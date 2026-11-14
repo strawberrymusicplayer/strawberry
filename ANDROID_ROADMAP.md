@@ -638,7 +638,7 @@ Arbitrary cloud/document-provider support is not part of this implementation.
 
 ## 16. Verify Smart Playlists on Android
 
-**Status:** In progress (FP5 playback and generated-list visibility need investigation)
+**Status:** In progress (Open now replaces and shows Now playing; emulator verified, FP5 verification pending)
 
 **Goal:** Confirm that Smart Playlists are discoverable and their common workflows are usable on Android.
 
@@ -676,6 +676,16 @@ On the emulator, Back dismissed the restore warning without restoring defaults, 
 After installing the updated APK on the FP5, the user confirmed that Edit opens the editor and Back dismisses the restore warning without a freeze.
 The flat, orientation-aware toolbar has been checked on the emulator, but not yet on the FP5.
 The user also reported that only Newest tracks works; other smart playlists need further investigation.
+
+**Resolution of the Open behavior (2026-11-14):**
+- Cause: on Android, Open used the desktop double-click preferences, which Android hides and which default to Append and never play.
+  Every smart playlist silently appended its tracks to the end of whichever playlist was current, without playing or changing the view, so only an already visible playlist appeared to change.
+  The selected row was used correctly, and the generated SQL was not at fault: a native regression shows that all defaults except Ever played produce tracks for an unplayed library.
+- As agreed with the user, Open now behaves like double-tapping in Collection or Files: it replaces the Now playing playlist and starts playing it.
+  Afterwards it switches to the Playlists tab showing Now playing; Back returns to the playlist list.
+  Long-press actions keep their explicit add, queue and create-playlist behavior; desktop behavior is unchanged.
+- Emulator verification: 50 random tracks, Never played and Dynamic random mix each replaced Now playing (50, 20 and 20 tracks) and started playback, Back returned one level, another saved playlist kept its 60 tracks, and no crash occurred.
+- Still open: verify the flow and the flat toolbar on the FP5.
 
 ## 17. Make Android checkboxes touch-friendly
 
