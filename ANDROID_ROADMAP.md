@@ -668,14 +668,33 @@ Arbitrary cloud/document-provider support is not part of this implementation.
 
 ## 17. Make Android checkboxes touch-friendly
 
-**Status:** Planned
+**Status:** Done (native widget tests and emulator verified)
 
 **Goal:** Review Android checkbox sizes and touch targets throughout the app, using the controls in Tools > Equalizer as the reference: a 28 x 28 px indicator in a 56 px row.
 
-**Next steps:**
-- Inventory Android checkbox controls in Settings, Tools, and other Android pages; identify indicators or rows that are difficult to tap.
-- Match the Equalizer checkbox indicator and row sizing where practical, while preserving accessibility state and the existing desktop controls.
-- Verify each affected checkbox with touch input on a narrow screen and at larger system font sizes.
+**Implementation:**
+- Inventoried 173 checkbox declarations across 35 UI forms, including Settings, Equalizer, Smart Playlists, collection/song/cover dialogs and optional desktop-only tools.
+  Existing feature and platform guards remain unchanged.
+- Apply one shared Android presentation to ordinary checkboxes when they are polished or shown, covering dynamically created controls without separate per-page copies.
+  Indicators are 28 x 28 dp and rows are at least 56 dp high; labels wrap and the complete row is tappable.
+  Existing larger minimum heights are retained.
+- Preserve the original checkbox, text, checked/partial/disabled states, keyboard behavior, accessibility and signals.
+  Layout responds to font and right-to-left changes.
+  Settings and Equalizer reuse the same helper.
+- Give checkable section headings, such as proxy authentication, the same indicator size and a minimum 56 dp header target, while retaining native child enable/disable behavior.
+- Enable the adapter only on Android.
+  The portable helper is additionally compiled into its dedicated native test binary; desktop application controls are unchanged.
+
+**Verification:**
+- Seven native widget regressions check exact indicator/row dimensions, blank-row clicks, wrapped text at 150% Qt font size, right-to-left margins, disabled and tri-state behavior, keyboard/accessibility state, mnemonic display, cancelled/outside presses, idempotence, checkable headings and automatic adaptation of dynamic widgets.
+  The widget suite and the three adjacent Smart Playlist suites pass.
+- On the emulator at 320 dp portrait width with system font scale set to 130%, tapped the blank portion of the Equalizer enable row and verified its dependent controls became available.
+  Toggled it back to its original state.
+- On Settings > General > Behavior, tapped blank checkbox-row padding and verified the indicator changed.
+  Cancelled, reopened the page and confirmed the original indicator state was restored without applying changes.
+- Built and installed the Android release upgrade and restored the emulator's display and system font defaults.
+
+**Next item:** 20, sidebar arrangement from Settings.
 
 ## 20. Arrange sidebar tabs from Settings
 

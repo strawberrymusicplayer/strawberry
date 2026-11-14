@@ -19,21 +19,27 @@
 #include "androidwidgets.h"
 
 #include <QAbstractButton>
+#include <QApplication>
 #include <QBoxLayout>
 #include <QButtonGroup>
 #include <QComboBox>
+#include <QCheckBox>
 #include <QCoreApplication>
 #include <QFont>
 #include <QFrame>
 #include <QHBoxLayout>
+#include <QGroupBox>
 #include <QLabel>
 #include <QPalette>
+#include <QMouseEvent>
 #include <QPushButton>
 #include <QRadioButton>
 #include <QScrollArea>
 #include <QSize>
 #include <QSizePolicy>
 #include <QString>
+#include <QStyleOptionButton>
+#include <QStylePainter>
 #include <QVBoxLayout>
 
 #include "core/iconloader.h"
@@ -45,6 +51,163 @@ namespace AndroidWidgets {
 namespace {
 constexpr int kPageTitlePointSize = 18;
 constexpr qreal kNavigationTextScale = 1.15;
+
+class CheckBoxPresentation : public QObject {
+ public:
+  explicit CheckBoxPresentation(QCheckBox *check)
+      : QObject(check), check_(check), minimum_height_(qMax(kCheckBoxMinimumHeight, check->minimumHeight())) {
+    check->setStyleSheet(check->styleSheet() + u" QCheckBox::indicator { width: %1px; height: %1px; }"_s.arg(kCheckBoxIndicatorSize));
+    auto *layout = new QVBoxLayout(check);
+    label_ = AddButtonLabel(layout, DisplayText());
+    check->setMinimumWidth(0);
+    check->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
+    UpdateLayout();
+    check->installEventFilter(this);
+  }
+
+ protected:
+  bool eventFilter(QObject *, QEvent *event) override {
+    if (event->type() == QEvent::Resize || event->type() == QEvent::FontChange ||
+        event->type() == QEvent::LayoutRequest || event->type() == QEvent::LayoutDirectionChange) {
+      UpdateLayout();
+    }
+    else if (event->type() == QEvent::Paint) {
+      const QString text = DisplayText();
+      if (label_->text() != text) label_->setText(text);
+      QStyleOptionButton option;
+      option.initFrom(check_);
+      if (check_->isDown()) option.state |= QStyle::State_Sunken;
+      if (check_->checkState() == Qt::PartiallyChecked) option.state |= QStyle::State_NoChange;
+      else option.state |= check_->isChecked() ? QStyle::State_On : QStyle::State_Off;
+      QStylePainter painter(check_);
+      painter.drawControl(QStyle::CE_CheckBox, option);
+      return true;
+    }
+    else if (event->type() == QEvent::MouseButtonPress && check_->isEnabled()) {
+      auto *mouse = static_cast<QMouseEvent*>(event);
+      if (mouse->button() == Qt::LeftButton && check_->rect().contains(mouse->position().toPoint())) {
+        check_->setDown(true);
+        return true;
+      }
+    }
+    else if (event->type() == QEvent::MouseButtonRelease && check_->isEnabled()) {
+      auto *mouse = static_cast<QMouseEvent*>(event);
+      if (mouse->button() == Qt::LeftButton) {
+        const bool clicked = check_->isDown() && check_->rect().contains(mouse->position().toPoint());
+        check_->setDown(false);
+        if (clicked) check_->click();
+        return true;
+      }
+    }
+    return false;
+  }
+
+ private:
+  QString DisplayText() const {
+    QString text = check_->text();
+    for (qsizetype i = 0; i < text.size(); ++i) {
+      if (text.at(i) == u'&') text.remove(i, 1);
+    }
+    return text;
+  }
+
+  void UpdateLayout() {
+    const int indicator_margin = kCheckBoxIndicatorSize + 8;
+    check_->layout()->setContentsMargins(check_->isRightToLeft() ? 8 : indicator_margin, 8,
+                                        check_->isRightToLeft() ? indicator_margin : 8, 8);
+    check_->setMinimumHeight(qMax(minimum_height_, check_->layout()->totalHeightForWidth(check_->width())));
+  }
+
+  QCheckBox *check_;
+  QLabel *label_;
+  const int minimum_height_;
+};
+
+class CheckableGroupPresentation : public QObject {
+ public:
+  explicit CheckableGroupPresentation(QGroupBox *group) : QObject(group), group_(group), original_style_(group->styleSheet()) {
+    UpdateStyle();
+    group->installEventFilter(this);
+  }
+
+ protected:
+  bool eventFilter(QObject *, QEvent *event) override {
+    if (event->type() == QEvent::FontChange || event->type() == QEvent::LayoutDirectionChange) UpdateStyle();
+    else if (event->type() == QEvent::Hide || (event->type() == QEvent::EnabledChange && !group_->isEnabled())) pressed_ = false;
+    else if (event->type() == QEvent::MouseButtonPress && group_->isEnabled()) {
+      auto *mouse = static_cast<QMouseEvent*>(event);
+      if (mouse->button() == Qt::LeftButton && group_->rect().contains(mouse->position().toPoint()) && mouse->position().y() < header_height_) {
+        pressed_ = true;
+        group_->setFocus(Qt::MouseFocusReason);
+        return true;
+      }
+    }
+    else if (event->type() == QEvent::MouseButtonRelease && group_->isEnabled()) {
+      auto *mouse = static_cast<QMouseEvent*>(event);
+      if (mouse->button() == Qt::LeftButton && pressed_) {
+        pressed_ = false;
+        if (group_->rect().contains(mouse->position().toPoint()) && mouse->position().y() < header_height_) {
+          group_->setChecked(!group_->isChecked());
+          Q_EMIT group_->clicked(group_->isChecked());
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+
+ private:
+  void UpdateStyle() {
+    header_height_ = qMax(kCheckBoxMinimumHeight, group_->fontMetrics().height() + 28);
+    const QString style = original_style_ + u" QGroupBox[androidTouchGroupBox=\"true\"] { margin-top: %1px; } "
+        "QGroupBox[androidTouchGroupBox=\"true\"]::title { subcontrol-origin: margin; subcontrol-position: top %2; padding-top: 14px; padding-bottom: 14px; } "
+        "QGroupBox[androidTouchGroupBox=\"true\"]::indicator { width: %3px; height: %3px; }"_s.arg(header_height_).arg(group_->isRightToLeft() ? u"right"_s : u"left"_s).arg(kCheckBoxIndicatorSize);
+    if (group_->styleSheet() != style) group_->setStyleSheet(style);
+  }
+
+  QGroupBox *group_;
+  QString original_style_;
+  int header_height_ = kCheckBoxMinimumHeight;
+  bool pressed_ = false;
+};
+
+class CheckBoxAdapter : public QObject {
+ public:
+  explicit CheckBoxAdapter(QApplication *application) : QObject(application) {
+    application->installEventFilter(this);
+  }
+
+ protected:
+  bool eventFilter(QObject *object, QEvent *event) override {
+    if (event->type() == QEvent::Polish || event->type() == QEvent::Show) {
+      if (auto *check = qobject_cast<QCheckBox*>(object)) AdaptCheckBox(check);
+      else if (auto *group = qobject_cast<QGroupBox*>(object)) AdaptCheckableGroupBox(group);
+    }
+    return false;
+  }
+};
+}
+
+void InitializeCheckBoxes(QApplication *application) {
+
+  new CheckBoxAdapter(application);
+
+}
+
+void AdaptCheckBox(QCheckBox *check) {
+
+  if (check->property("androidTouchCheckBox").toBool()) return;
+  check->setProperty("androidTouchCheckBox", true);
+  new CheckBoxPresentation(check);
+
+}
+
+void AdaptCheckableGroupBox(QGroupBox *group) {
+
+  if (!group->isCheckable() || group->property("androidTouchGroupBox").toBool()) return;
+  group->setProperty("androidTouchGroupBox", true);
+  new CheckableGroupPresentation(group);
+
 }
 
 void SetPageTitleFont(QWidget *widget) {

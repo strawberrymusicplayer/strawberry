@@ -109,12 +109,11 @@ void Equalizer::SetupAndroidLayout() {
   controls->setContentsMargins(24, 8, 24, 8);
   controls->setSpacing(8);
   controls->setSizeConstraint(QLayout::SetMinimumSize);
-  ui_->enable_equalizer->setMinimumHeight(56);
+  AndroidWidgets::AdaptCheckBox(ui_->enable_equalizer);
   QFont enable_font = ui_->enable_equalizer->font();
   enable_font.setBold(true);
   enable_font.setPointSizeF(enable_font.pointSizeF() * 1.2);
   ui_->enable_equalizer->setFont(enable_font);
-  ui_->enable_equalizer->setStyleSheet(u"QCheckBox::indicator { width: 28px; height: 28px; }"_s);
   controls->addWidget(ui_->enable_equalizer);
   QLabel *disabled_hint = new QLabel(tr("Enable equalizer first to adjust the gain controls."), content);
   disabled_hint->setWordWrap(true);

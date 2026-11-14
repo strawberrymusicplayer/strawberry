@@ -132,7 +132,7 @@ void SmartPlaylistWizard::AdaptAndroidControls(QWidget *content) {
       label->setTextFormat(Qt::PlainText);
     }
     if (qobject_cast<QAbstractButton*>(widget) || qobject_cast<QLineEdit*>(widget) || qobject_cast<QAbstractSpinBox*>(widget)) {
-      widget->setMinimumHeight(48);
+      widget->setMinimumHeight(qMax(48, widget->minimumHeight()));
     }
     if (auto *tree = qobject_cast<QTreeView*>(widget)) {
       tree->setMinimumHeight(160);

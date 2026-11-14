@@ -497,7 +497,7 @@ void AdaptWidget(QWidget *widget, SettingsPage *page) {
     new ChoicePresentation(radio, true);
   }
   else if (auto *check = qobject_cast<QCheckBox*>(widget)) {
-    new ChoicePresentation(check, false);
+    AndroidWidgets::AdaptCheckBox(check);
   }
   else if (auto *tool = qobject_cast<QToolButton*>(widget); tool && tool->menu()) {
     new MenuPresentation(tool, page->dialog());

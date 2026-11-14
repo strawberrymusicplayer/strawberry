@@ -23,8 +23,6 @@
 
 #include <QtGlobal>
 
-#ifdef Q_OS_ANDROID
-
 #include <QEvent>
 #include <QLayout>
 #include <QPoint>
@@ -34,9 +32,12 @@
 #include <QString>
 
 class QAbstractButton;
+class QApplication;
 class QBoxLayout;
 class QButtonGroup;
 class QComboBox;
+class QCheckBox;
+class QGroupBox;
 class QHBoxLayout;
 class QLabel;
 class QRadioButton;
@@ -50,6 +51,12 @@ namespace AndroidWidgets {
 // Minimum height or width of touch targets, in device-independent pixels.
 constexpr int kMinimumTouchSize = 48;
 constexpr int kNavigationIconSize = 32;
+constexpr int kCheckBoxIndicatorSize = 28;
+constexpr int kCheckBoxMinimumHeight = 56;
+
+void InitializeCheckBoxes(QApplication *application);
+void AdaptCheckBox(QCheckBox *check);
+void AdaptCheckableGroupBox(QGroupBox *group);
 
 // A button sized by the layout of its child labels, so that wrapped text grows its height; the whole area is clickable.
 template<typename Base>
@@ -143,7 +150,5 @@ struct ScrollPage {
 ScrollPage CreateScrollPage(QWidget *parent);
 
 }  // namespace AndroidWidgets
-
-#endif  // Q_OS_ANDROID
 
 #endif  // ANDROIDWIDGETS_H
