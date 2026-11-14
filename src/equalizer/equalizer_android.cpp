@@ -22,8 +22,13 @@
 #include <utility>
 
 #include <QtGlobal>
+#include <QByteArray>
 #include <QCheckBox>
 #include <QDialog>
+#include <QDir>
+#include <QFile>
+#include <QFileDevice>
+#include <QFileDialog>
 #include <QFont>
 #include <QFrame>
 #include <QHBoxLayout>
@@ -33,6 +38,7 @@
 #include <QLayoutItem>
 #include <QLineEdit>
 #include <QObject>
+#include <QPointer>
 #include <QPushButton>
 #include <QRadioButton>
 #include <QScrollArea>
@@ -43,9 +49,12 @@
 #include <QSizePolicy>
 #include <QSlider>
 #include <QStackedWidget>
+#include <QStandardPaths>
 #include <QString>
+#include <QStringList>
 #include <QTimer>
 #include <QToolButton>
+#include <QUrl>
 #include <QVBoxLayout>
 #include <QWidget>
 
@@ -53,6 +62,7 @@
 #include "widgets/androidwidgets.h"
 #include "widgets/gridflowlayout.h"
 #include "equalizer.h"
+#include "equalizerjson.h"
 #include "equalizerslider.h"
 #include "ui_equalizer.h"
 
@@ -65,9 +75,21 @@ constexpr char kAndroidFoldoutMode[] = "android_foldout_mode";
 constexpr char kAndroidSectionOpenPrefix[] = "android_section_";
 constexpr int kAndroidBandSpacing = 4;
 constexpr int kAndroidMaximumBandColumns = 4;
+constexpr char kAndroidBreadcrumbProperty[] = "strawberry_breadcrumb";
+constexpr char kExportFileName[] = "strawberry-equalizer.json";
 
 QString AndroidSectionOpenKey(const int section) {
   return QLatin1String(kAndroidSectionOpenPrefix) + QString::number(section);
+}
+
+// Document provider URLs are content:// URLs, which QFile opens directly on Android.
+QString FileNameForUrl(const QUrl &url) {
+  return url.isLocalFile() ? url.toLocalFile() : url.toString(QUrl::FullyEncoded);
+}
+
+QString DocumentsPath() {
+  const QString documents = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+  return documents.isEmpty() ? QDir::homePath() : documents;
 }
 
 const QString kAndroidScrollBarStyle =
@@ -88,6 +110,7 @@ void Equalizer::SetupAndroidLayout() {
   root->setSizeConstraint(QLayout::SetNoConstraint);
   setMinimumSize(0, 0);
   android_title_ = new QLabel(tr("Tools > Equalizer"), this);
+  android_title_->setTextFormat(Qt::PlainText);
   android_title_->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
   QPushButton *back = AndroidWidgets::CreateBackButton(this);
   root->addLayout(AndroidWidgets::CreatePageHeader(android_title_, back));
@@ -140,6 +163,9 @@ void Equalizer::SetupAndroidLayout() {
     button->setIconSize(QSize(28, 28));
     preset_section->addWidget(button);
   }
+  AndroidWidgets::ValueButton *import_export = new AndroidWidgets::ValueButton(tr("Import and export"), content);
+  controls->addWidget(import_export);
+  QObject::connect(import_export, &QPushButton::clicked, this, &Equalizer::ShowAndroidImportExport);
   const AndroidWidgets::LabeledValueButton foldout_mode = AndroidWidgets::CreateLabeledValueButton(tr("Collapse behaviour of sections"), content);
   controls->addWidget(foldout_mode.label);
   android_foldout_mode_ = foldout_mode.button;
@@ -236,9 +262,12 @@ void Equalizer::UpdateAndroidPreset() {
 
 void Equalizer::SetAndroidPage(QWidget *page, const QString &title) {
 
+  // Like Settings, a fourth-level title starts on a separate line below its parent's breadcrumb.
+  const QString breadcrumb = android_title_->text() + (android_pages_->count() > 1 ? u"\n"_s : u" > "_s) + title;
+  page->setProperty(kAndroidBreadcrumbProperty, breadcrumb);
   android_pages_->addWidget(page);
   android_pages_->setCurrentWidget(page);
-  android_title_->setText(tr("Tools > Equalizer") + u" > "_s + title);
+  android_title_->setText(breadcrumb);
 
 }
 
@@ -393,6 +422,118 @@ void Equalizer::ShowAndroidPresetEditor(const bool remove) {
 
 }
 
+void Equalizer::ShowAndroidImportExport() {
+
+  QScrollArea *area = new QScrollArea;
+  area->setWidgetResizable(true);
+  area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  area->setFrameShape(QFrame::NoFrame);
+  QScroller::grabGesture(area->viewport(), QScroller::LeftMouseButtonGesture);
+  area->verticalScrollBar()->setStyleSheet(kAndroidScrollBarStyle);
+  QWidget *content = new QWidget;
+  QVBoxLayout *layout = new QVBoxLayout(content);
+  QLabel *description = new QLabel(tr("Export saves all presets and the equalizer settings to a JSON file. Import adds the presets from such a file to the existing presets and applies its settings."), content);
+  description->setWordWrap(true);
+  layout->addWidget(description);
+  QPushButton *export_button = new QPushButton(tr("Export to file"), content);
+  export_button->setMinimumHeight(48);
+  layout->addWidget(export_button);
+  QPushButton *import_button = new QPushButton(tr("Import from file"), content);
+  import_button->setMinimumHeight(48);
+  layout->addWidget(import_button);
+  QLabel *status = new QLabel(content);
+  status->setObjectName(u"equalizerImportExportStatus"_s);
+  status->setTextFormat(Qt::PlainText);
+  status->setWordWrap(true);
+  layout->addWidget(status);
+  layout->addStretch();
+  area->setWidget(content);
+  QObject::connect(export_button, &QPushButton::clicked, this, [this, status]() { ExportAndroidSettings(status); });
+  QObject::connect(import_button, &QPushButton::clicked, this, [this, status]() { ImportAndroidSettings(status); });
+  SetAndroidPage(area, tr("Import and export"));
+
+}
+
+void Equalizer::ExportAndroidSettings(QLabel *status) {
+
+  const QPointer<QLabel> status_label(status);
+  const QUrl url = QFileDialog::getSaveFileUrl(this, tr("Export equalizer settings"), QUrl::fromLocalFile(QDir(DocumentsPath()).filePath(QLatin1String(kExportFileName))), tr("JSON files (*.json)"));
+  if (url.isEmpty() || !status_label) return;
+
+  const EqualizerJson::State state = ExportState();
+  const QByteArray json = EqualizerJson::ToJson(state);
+  QFile file(FileNameForUrl(url));
+  if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate) || file.write(json) != json.size() || !file.flush()) {
+    status_label->setText(tr("Could not write the file: %1").arg(file.errorString()));
+    return;
+  }
+  file.close();
+  status_label->setText(tr("Exported %n preset(s) and the equalizer settings.", nullptr, static_cast<int>(state.presets.count())));
+
+}
+
+void Equalizer::ImportAndroidSettings(QLabel *status) {
+
+  const QPointer<QLabel> status_label(status);
+  // Without a name filter the picker also offers JSON files that providers report with a generic type; the contents are validated instead.
+  const QUrl url = QFileDialog::getOpenFileUrl(this, tr("Import equalizer settings"), QUrl::fromLocalFile(DocumentsPath()));
+  if (url.isEmpty() || !status_label) return;
+
+  QFile file(FileNameForUrl(url));
+  if (!file.open(QIODevice::ReadOnly)) {
+    status_label->setText(tr("Could not read the file: %1").arg(file.errorString()));
+    return;
+  }
+  const QByteArray json = file.read(EqualizerJson::kMaximumFileSize + 1);
+  if (file.error() != QFileDevice::NoError) {
+    status_label->setText(tr("Could not read the file: %1").arg(file.errorString()));
+    return;
+  }
+  file.close();
+
+  EqualizerJson::State state;
+  QString error;
+  if (!EqualizerJson::FromJson(json, &state, &error)) {
+    status_label->setText(tr("Nothing was imported. %1").arg(error));
+    return;
+  }
+  const QString imported = tr("Imported %n preset(s) and applied the equalizer settings.", nullptr, static_cast<int>(state.presets.count()));
+  const QStringList conflicts = EqualizerJson::ConflictingPresets(presets_, state.presets);
+  if (conflicts.isEmpty()) {
+    ImportState(state);
+    status_label->setText(imported);
+    return;
+  }
+
+  QStringList conflict_names;
+  conflict_names.reserve(conflicts.count());
+  for (const QString &name : conflicts) conflict_names << tr(qUtf8Printable(name));
+  QWidget *page = new QWidget;
+  QVBoxLayout *layout = new QVBoxLayout(page);
+  QLabel *question = new QLabel(tr("The file contains %n preset(s) that already exist with different settings. Importing replaces them:", nullptr, static_cast<int>(conflicts.count())) + u"\n\n"_s + conflict_names.join(u'\n'), page);
+  question->setTextFormat(Qt::PlainText);
+  question->setWordWrap(true);
+  layout->addWidget(question);
+  QPushButton *confirm = new QPushButton(tr("Replace and import"), page);
+  confirm->setMinimumHeight(48);
+  layout->addWidget(confirm);
+  QPushButton *cancel = new QPushButton(tr("Cancel"), page);
+  cancel->setMinimumHeight(48);
+  layout->addWidget(cancel);
+  layout->addStretch();
+  QObject::connect(cancel, &QPushButton::clicked, this, [this, status_label]() {
+    AndroidBack();
+    if (status_label) status_label->setText(tr("Import cancelled; nothing was changed."));
+  });
+  QObject::connect(confirm, &QPushButton::clicked, this, [this, state, status_label, imported]() {
+    ImportState(state);
+    AndroidBack();
+    if (status_label) status_label->setText(imported);
+  });
+  SetAndroidPage(page, tr("Replace presets"));
+
+}
+
 void Equalizer::AndroidBack() {
 
   if (android_pages_->currentWidget() == android_main_) {
@@ -400,10 +541,11 @@ void Equalizer::AndroidBack() {
     return;
   }
   QWidget *page = android_pages_->currentWidget();
-  android_pages_->setCurrentWidget(android_main_);
   android_pages_->removeWidget(page);
   page->deleteLater();
-  android_title_->setText(tr("Tools > Equalizer"));
+  QWidget *parent = android_pages_->widget(android_pages_->count() - 1);
+  android_pages_->setCurrentWidget(parent);
+  android_title_->setText(parent == android_main_ ? tr("Tools > Equalizer") : parent->property(kAndroidBreadcrumbProperty).toString());
 
 }
 

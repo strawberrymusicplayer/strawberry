@@ -124,6 +124,9 @@ class Equalizer : public QDialog {
   void SetupAndroidLayout();
   void ShowAndroidPresets();
   void ShowAndroidPresetEditor(bool remove);
+  void ShowAndroidImportExport();
+  void ExportAndroidSettings(QLabel *status);
+  void ImportAndroidSettings(QLabel *status);
   void AndroidBack();
   void UpdateAndroidPreset();
   void SetAndroidPage(QWidget *page, const QString &title);
