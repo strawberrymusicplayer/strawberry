@@ -42,6 +42,7 @@
 #include <QSize>
 #include <QFont>
 #include <QString>
+#include <QStringList>
 #include <QStringListModel>
 #include <QList>
 #include <QModelIndex>
@@ -142,25 +143,20 @@ class TextItemDelegate : public PlaylistDelegateBase {
   QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
 };
 
-class TagCompletionModel : public QStringListModel {
-  Q_OBJECT
-
- public:
-  explicit TagCompletionModel(SharedPtr<CollectionBackend> backend, const Playlist::Column column, QObject *parent = nullptr);
-
- private:
-  static QString database_column(const Playlist::Column column);
-};
-
+// Completes the values of a tag in the line edit with the values in the collection.
+// The values are read in another thread, the completer is set on the line edit when they are read.
 class TagCompleter : public QCompleter {
   Q_OBJECT
 
  public:
   explicit TagCompleter(SharedPtr<CollectionBackend> backend, const Playlist::Column column, QLineEdit *editor);
-  ~TagCompleter() override;
 
- private Q_SLOTS:
-  void ModelReady();
+  // Returns the values of the tag in the collection.
+  static QStringList Values(SharedPtr<CollectionBackend> backend, const Playlist::Column column);
+
+ private:
+  static QString DatabaseColumn(const Playlist::Column column);
+  void ValuesReady(const QStringList &values);
 
  private:
   QLineEdit *editor_;

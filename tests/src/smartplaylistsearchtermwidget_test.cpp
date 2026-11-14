@@ -32,9 +32,20 @@
 #include <QTimer>
 #include <QSignalSpy>
 #include <QThreadPool>
+#include <QThread>
+#include <QTemporaryDir>
+#include <QLineEdit>
+#include <QCompleter>
+#include <QAbstractItemModel>
+#include <QStringList>
+#include <QUrl>
 
 #include "includes/shared_ptr.h"
 #include "core/memorydatabase.h"
+#include "core/database.h"
+#include "core/song.h"
+#include "playlist/playlist.h"
+#include "playlist/playlistdelegates.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmanager.h"
 #include "smartplaylists/smartplaylistsearchterm.h"
@@ -231,3 +242,91 @@ TEST_F(SmartPlaylistSearchTermWidgetTest, SettingTermDoesNotWarnAboutRange) {
 }
 
 }  // namespace
+
+namespace {
+
+// The values are read in the global thread pool, from the database file, a memory database is empty in other threads.
+class TagCompleterTest : public ::testing::Test {
+ protected:
+  void SetUp() override {
+    ASSERT_TRUE(temp_dir_.isValid());
+    database_ = make_shared<Database>(nullptr, nullptr, temp_dir_.filePath(u"strawberry.db"_s));
+    collection_backend_ = make_shared<CollectionBackend>();
+    collection_backend_->Init(database_, nullptr, Song::Source::Collection, QLatin1String(CollectionManager::kSongsTable), QLatin1String(CollectionManager::kDirsTable), QLatin1String(CollectionManager::kSubdirsTable));
+    collection_backend_->AddDirectory(temp_dir_.path());
+    Song song(Song::Source::Collection);
+    song.Init(u"Title"_s, u"Artist"_s, u"Album"_s, 123);
+    song.set_url(QUrl::fromLocalFile(temp_dir_.filePath(u"song.flac"_s)));
+    song.set_directory_id(1);
+    song.set_filetype(Song::FileType::FLAC);
+    collection_backend_->AddOrUpdateSongs(SongList() << song);
+  }
+
+  void TearDown() override {
+    QThreadPool::globalInstance()->waitForDone();
+    database_->Close();
+  }
+
+  // Waits until the values are read and the completers got them.
+  static void WaitForCompleters() {
+    QThreadPool::globalInstance()->waitForDone();
+    QCoreApplication::processEvents();
+  }
+
+  static QStringList CompleterValues(const QLineEdit *line_edit) {
+    QStringList values;
+    if (!line_edit->completer() || !line_edit->completer()->model()) return values;
+    const QAbstractItemModel *model = line_edit->completer()->model();
+    for (int row = 0; row < model->rowCount(); ++row) {
+      values << model->index(row, 0).data().toString();
+    }
+    return values;
+  }
+
+  QTemporaryDir temp_dir_;
+  SharedPtr<Database> database_;
+  SharedPtr<CollectionBackend> collection_backend_;
+};
+
+}  // namespace
+
+// Regression test: the model of the values was created in the thread reading them, without an owner, so it was lost when the completer was deleted before the values were read.
+// The model is created in the thread of the completer, owned by it.
+TEST_F(TagCompleterTest, CompleterOwnsModel) {
+
+  QLineEdit line_edit;
+  TagCompleter *completer = new TagCompleter(collection_backend_, Playlist::Column::Artist, &line_edit);
+  WaitForCompleters();
+
+  ASSERT_EQ(completer, line_edit.completer());
+  ASSERT_NE(nullptr, completer->model());
+  EXPECT_EQ(completer, completer->model()->parent());
+  EXPECT_EQ(QThread::currentThread(), completer->model()->thread());
+  EXPECT_EQ(QStringList() << u"Artist"_s, CompleterValues(&line_edit));
+
+}
+
+// Regression test: a completer was added each time the field changed, they were kept until the widget was deleted, and the values of a previous field could replace the values of the current field.
+TEST_F(TagCompleterTest, SearchTermWidgetKeepsCompleterOfCurrentField) {
+
+  SmartPlaylistSearchTermWidget widget(collection_backend_, nullptr);
+  QLineEdit *value_text = widget.findChild<QLineEdit*>(u"value_text"_s);
+  ASSERT_NE(nullptr, value_text);
+
+  QComboBox *combobox_field = widget.findChild<QComboBox*>(u"field"_s);
+  ASSERT_NE(nullptr, combobox_field);
+  for (const SmartPlaylistSearchTerm::Field field : {SmartPlaylistSearchTerm::Field::Artist, SmartPlaylistSearchTerm::Field::Album, SmartPlaylistSearchTerm::Field::Artist, SmartPlaylistSearchTerm::Field::Album}) {
+    combobox_field->setCurrentIndex(combobox_field->findData(QVariant::fromValue(field)));
+  }
+  WaitForCompleters();
+
+  EXPECT_EQ(1, value_text->findChildren<TagCompleter*>().count());
+  EXPECT_EQ(QStringList() << u"Album"_s, CompleterValues(value_text));
+
+  // A field without completion has no completer.
+  combobox_field->setCurrentIndex(combobox_field->findData(QVariant::fromValue(SmartPlaylistSearchTerm::Field::Length)));
+  WaitForCompleters();
+  EXPECT_EQ(0, value_text->findChildren<TagCompleter*>().count());
+  EXPECT_EQ(nullptr, value_text->completer());
+
+}
