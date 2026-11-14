@@ -146,6 +146,8 @@ class TagReaderTagLib : public TagReaderBase {
 
   void SetEmbeddedCover(TagLib::FLAC::File *flac_file, TagLib::Ogg::XiphComment *vorbis_comment, const QByteArray &data, const QString &mimetype) const;
   void SetEmbeddedCover(TagLib::Ogg::XiphComment *vorbis_comment, const QByteArray &data, const QString &mimetype) const;
+  // Removes the old base64 encoded COVERART field and its COVERARTMIME field.
+  static void RemoveLegacyCoverArt(TagLib::Ogg::XiphComment *vorbis_comment);
   void SetEmbeddedCover(TagLib::ID3v2::Tag *tag, const QByteArray &data, const QString &mimetype) const;
   void SetEmbeddedCover(TagLib::MP4::File *aac_file, TagLib::MP4::Tag *tag, const QByteArray &data, const QString &mimetype) const;
 
