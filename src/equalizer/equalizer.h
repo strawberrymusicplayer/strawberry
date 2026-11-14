@@ -33,7 +33,6 @@
 #include <QString>
 
 class QWidget;
-class QCloseEvent;
 
 class EqualizerSlider;
 class Ui_Equalizer;
@@ -71,8 +70,8 @@ class Equalizer : public QDialog {
   void EqualizerEnabledChanged(const bool enabled);
   void EqualizerParametersChanged(const int preamp, const QList<int> &band_gains);
 
- protected:
-  void closeEvent(QCloseEvent *e) override;
+ public Q_SLOTS:
+  void reject() override;
 
  private Q_SLOTS:
   void StereoBalancerEnabledChangedSlot(const bool enabled);
@@ -90,6 +89,8 @@ class Equalizer : public QDialog {
   void LoadDefaultPresets();
   void AddPreset(const QString &name, const Params &params);
   void ReloadSettings();
+  void SetParams(const Params &params);
+  void SaveCurrentParams() const;
   QString SaveCurrentPreset();
 
  private:
