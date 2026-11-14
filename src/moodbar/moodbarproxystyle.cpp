@@ -108,6 +108,12 @@ void MoodbarProxyStyle::SetShowMoodbar(const bool show) {
 
   show_ = show;
 
+  // The slider shows the normal slider, or the waveform which sets the size when it's shown after this.
+  if (!show_) {
+    slider_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    slider_->updateGeometry();
+  }
+
   NextState();
 
   // Notify the controller so it starts or stops generating the current song's moodbar for the seekbar.
@@ -121,8 +127,11 @@ void MoodbarProxyStyle::NextState() {
 
   // While the regular slider should stay at the standard size (Fixed),
   // moodbars should use all available space (MinimumExpanding).
-  slider_->setSizePolicy(QSizePolicy::Expanding, visible ? QSizePolicy::MinimumExpanding : QSizePolicy::Fixed);
-  slider_->updateGeometry();
+  // The waveform is on the same slider, so only set the size when the moodbar is the seekbar mode, otherwise new moodbar data would shrink the waveform.
+  if (show_) {
+    slider_->setSizePolicy(QSizePolicy::Expanding, visible ? QSizePolicy::MinimumExpanding : QSizePolicy::Fixed);
+    slider_->updateGeometry();
+  }
 
   if ((visible && (state_ == State::MoodbarOn || state_ == State::FadingToOn)) || (!visible && (state_ == State::MoodbarOff || state_ == State::FadingToOff))) {
     return;

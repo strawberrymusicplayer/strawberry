@@ -66,7 +66,9 @@ WaveformProxyStyle::WaveformProxyStyle(QSlider *slider, QObject *parent)
 
   QObject::connect(fade_timeline_, &QTimeLine::valueChanged, this, &WaveformProxyStyle::FaderValueChanged);
 
-  // Seed show_ from QSettings and establish the initial size policy, mirroring how MoodbarProxyStyle normalizes the slider through ReloadSettings on creation.
+  // The waveform is not shown until it's enabled, so the slider starts at the size of the normal slider.
+  slider_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
   ReloadSettings();
 
 }
@@ -102,6 +104,12 @@ void WaveformProxyStyle::SetShowWaveform(const bool show) {
 
   show_ = show;
 
+  // The slider shows the normal slider, or the moodbar which sets the size when it's shown after this.
+  if (!show_) {
+    slider_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    slider_->updateGeometry();
+  }
+
   NextState();
 
   // Notify the controller so it starts or stops generating the current song's waveform for the seekbar.
@@ -114,8 +122,11 @@ void WaveformProxyStyle::NextState() {
   const bool visible = show_ && !data_.isEmpty();
 
   // While the regular slider should stay at the standard size (Fixed), the waveform should use all available space (MinimumExpanding) so it expands vertically when active (REN-03).
-  slider_->setSizePolicy(QSizePolicy::Expanding, visible ? QSizePolicy::MinimumExpanding : QSizePolicy::Fixed);
-  slider_->updateGeometry();
+  // The moodbar is on the same slider, so only set the size when the waveform is the seekbar mode, otherwise reloading the settings or new waveform data would shrink the moodbar.
+  if (show_) {
+    slider_->setSizePolicy(QSizePolicy::Expanding, visible ? QSizePolicy::MinimumExpanding : QSizePolicy::Fixed);
+    slider_->updateGeometry();
+  }
 
   if ((visible && (state_ == State::WaveformOn || state_ == State::FadingToOn)) || (!visible && (state_ == State::WaveformOff || state_ == State::FadingToOff))) {
     return;
