@@ -51,6 +51,7 @@
 #include <QIODevice>
 #include <QSet>
 #include <QSignalSpy>
+#include <QTest>
 #include <QStringList>
 #include <QPersistentModelIndex>
 #include <QTemporaryDir>
@@ -2943,6 +2944,119 @@ TEST_F(PlaylistTest, QueueRemove) {
     }
     EXPECT_EQ(5 - removal.remaining_rows.count(), removed_rows);
   }
+
+}
+
+// Writes the tags to the file, and returns the song read from the file.
+Song WriteAndReadFile(const SharedPtr<TagReaderClient> &tagreader_client, const QString &filename, const Song &song) {
+  if (!tagreader_client->WriteFileBlocking(filename, song).success()) return Song();
+  Song file_song;
+  if (!tagreader_client->ReadFileBlocking(filename, &file_song).success()) return Song();
+  return file_song;
+}
+
+// Regression test: editing a value in the playlist wrote all tags of the song in the playlist to the file, so tags changed in the file since the song was added, like in the tag editor, were written back with the old values.
+// The file is read first now, and only the edited value is written.
+TEST_F(PlaylistTest, EditWritesOnlyEditedValue) {
+
+  TemporaryResource resource(u":/audio/strawberry.mp3"_s);
+  Song song;
+  song.Init(u"Title"_s, u"Artist"_s, u"Album"_s, 123);
+  song.set_url(QUrl::fromLocalFile(resource.fileName()));
+  const Song playlist_song = WriteAndReadFile(tagreader_client_, resource.fileName(), song);
+  ASSERT_EQ(u"Album"_s, playlist_song.album());
+
+  PlaylistItemPtr item = std::make_shared<SongPlaylistItem>(playlist_song, false);
+  playlist_.InsertItems(PlaylistItemPtrList() << item, -1);
+
+  // The album is changed in the file after the song was added to the playlist.
+  Song changed_song = playlist_song;
+  changed_song.set_album(u"Changed album"_s);
+  ASSERT_EQ(u"Changed album"_s, WriteAndReadFile(tagreader_client_, resource.fileName(), changed_song).album());
+
+  ASSERT_TRUE(playlist_.setData(playlist_.index(0, static_cast<int>(Playlist::Column::Artist)), u"Edited artist"_s, Qt::EditRole));
+  // The song is read from the file when the edit was written.
+  ASSERT_TRUE(WaitFor([&item]() { return item->OriginalMetadata().album() == u"Changed album"_s; }));
+
+  Song file_song;
+  ASSERT_TRUE(tagreader_client_->ReadFileBlocking(resource.fileName(), &file_song).success());
+  EXPECT_EQ(u"Edited artist"_s, file_song.artist());
+  EXPECT_EQ(u"Changed album"_s, file_song.album());
+  EXPECT_EQ(u"Edited artist"_s, item->OriginalMetadata().artist());
+
+  // The artist is changed in the file again, a later edit doesn't write the written edit again.
+  Song changed_again_song = file_song;
+  changed_again_song.set_artist(u"Changed artist"_s);
+  ASSERT_EQ(u"Changed artist"_s, WriteAndReadFile(tagreader_client_, resource.fileName(), changed_again_song).artist());
+  ASSERT_TRUE(playlist_.setData(playlist_.index(0, static_cast<int>(Playlist::Column::Title)), u"Edited title"_s, Qt::EditRole));
+  ASSERT_TRUE(WaitFor([&item]() { return item->OriginalMetadata().artist() == u"Changed artist"_s; }));
+  ASSERT_TRUE(tagreader_client_->ReadFileBlocking(resource.fileName(), &file_song).success());
+  EXPECT_EQ(u"Changed artist"_s, file_song.artist());
+  EXPECT_EQ(u"Edited title"_s, file_song.title());
+
+}
+
+// The same when setting a value from elsewhere, like when renumbering the tracks, without finishing an edit in the playlist.
+TEST_F(PlaylistTest, SaveColumnValueWritesOnlyValue) {
+
+  TemporaryResource resource(u":/audio/strawberry.mp3"_s);
+  Song song;
+  song.Init(u"Title"_s, u"Artist"_s, u"Album"_s, 123);
+  song.set_url(QUrl::fromLocalFile(resource.fileName()));
+  song.set_track(1);
+  const Song playlist_song = WriteAndReadFile(tagreader_client_, resource.fileName(), song);
+  ASSERT_EQ(1, playlist_song.track());
+
+  PlaylistItemPtr item = std::make_shared<SongPlaylistItem>(playlist_song, false);
+  playlist_.InsertItems(PlaylistItemPtrList() << item, -1);
+
+  Song changed_song = playlist_song;
+  changed_song.set_title(u"Changed title"_s);
+  ASSERT_EQ(u"Changed title"_s, WriteAndReadFile(tagreader_client_, resource.fileName(), changed_song).title());
+
+  QSignalSpy spy_editing_finished(&playlist_, &Playlist::EditingFinished);
+  ASSERT_TRUE(playlist_.SaveColumnValue(playlist_.index(0, 0), Playlist::Column::Track, 7));
+  EXPECT_EQ(7, item->OriginalMetadata().track());
+  ASSERT_TRUE(WaitFor([&item]() { return item->OriginalMetadata().title() == u"Changed title"_s; }));
+
+  Song file_song;
+  ASSERT_TRUE(tagreader_client_->ReadFileBlocking(resource.fileName(), &file_song).success());
+  EXPECT_EQ(7, file_song.track());
+  EXPECT_EQ(u"Changed title"_s, file_song.title());
+  // Setting all selected songs to the edited value is done when an edit is finished, so it's not finished for these.
+  EXPECT_EQ(0, spy_editing_finished.count());
+
+}
+
+// Two edits right after each other, the file is read for the second edit before the first edit is written, the second write includes the first edit too.
+TEST_F(PlaylistTest, EditsRightAfterEachOtherAreBothWritten) {
+
+  TemporaryResource resource(u":/audio/strawberry.mp3"_s);
+  Song song;
+  song.Init(u"Title"_s, u"Artist"_s, u"Album"_s, 123);
+  song.set_url(QUrl::fromLocalFile(resource.fileName()));
+  const Song playlist_song = WriteAndReadFile(tagreader_client_, resource.fileName(), song);
+  ASSERT_TRUE(playlist_song.is_valid());
+
+  PlaylistItemPtr item = std::make_shared<SongPlaylistItem>(playlist_song, false);
+  playlist_.InsertItems(PlaylistItemPtrList() << item, -1);
+
+  ASSERT_TRUE(playlist_.setData(playlist_.index(0, static_cast<int>(Playlist::Column::Artist)), u"Edited artist"_s, Qt::EditRole));
+  ASSERT_TRUE(playlist_.setData(playlist_.index(0, static_cast<int>(Playlist::Column::Title)), u"Edited title"_s, Qt::EditRole));
+
+  // The edits are written, and the song is read from the file again.
+  ASSERT_TRUE(WaitFor([this, &resource]() {
+    Song file_song;
+    return tagreader_client_->ReadFileBlocking(resource.fileName(), &file_song).success() && file_song.title() == u"Edited title"_s;
+  }));
+  QTest::qWait(200);
+
+  Song file_song;
+  ASSERT_TRUE(tagreader_client_->ReadFileBlocking(resource.fileName(), &file_song).success());
+  EXPECT_EQ(u"Edited artist"_s, file_song.artist());
+  EXPECT_EQ(u"Edited title"_s, file_song.title());
+  EXPECT_EQ(u"Edited artist"_s, item->OriginalMetadata().artist());
+  EXPECT_EQ(u"Edited title"_s, item->OriginalMetadata().title());
 
 }
 

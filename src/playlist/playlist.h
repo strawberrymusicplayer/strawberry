@@ -24,6 +24,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QAbstractItemModel>
@@ -33,6 +35,7 @@
 #include <QFuture>
 #include <QList>
 #include <QMap>
+#include <QHash>
 #include <QSet>
 #include <QMultiMap>
 #include <QMultiHash>
@@ -315,7 +318,12 @@ class Playlist : public QAbstractListModel {
 
   void set_auto_sort(const bool auto_sort) { auto_sort_ = auto_sort; }
 
-  void ReloadItem(const QPersistentModelIndex &idx, PlaylistItemPtr item, const bool saved = false, const quint64 save_generation = -1, const Song &fallback_metadata = Song());
+  void ReloadItem(const QPersistentModelIndex &idx, PlaylistItemPtr item, const bool saved = false, const quint64 save_generation = -1, const Song &fallback_metadata = Song(), const bool editing_finished = true);
+
+  // Writes the value of the column to the file of the song in the row, like when renumbering tracks.
+  // The other tags are read from the file first, so tags changed in the file since the song was added to the playlist are not overwritten.
+  // Returns false when the song is not a local file, or the value can't be set for the column.
+  bool SaveColumnValue(const QModelIndex &idx, const Column column, const QVariant &value);
 
   // Saves the changes waiting for the save timer now, used when exiting, since the timer would fire after the playlist backend exited.
   // Changes made while restoring are saved when the playlist is restored, wait for RestoreDone() when is_restoring() is true.
@@ -421,15 +429,18 @@ class Playlist : public QAbstractListModel {
 
   void ClearCollectionItems();
 
-  void SaveItem(const QModelIndex &idx, PlaylistItemPtr item, const Song &song, const Song &pre_edit_metadata);
+  // Shows the edited song, and writes the edited values to the file, see SaveColumnValue().
+  // EditingFinished() is emitted for an edit in the playlist, not when the values are set from elsewhere.
+  void SaveItem(const QModelIndex &idx, PlaylistItemPtr item, const Column column, const QVariant &value, const Song &song, const Song &pre_edit_metadata, const bool editing_finished);
+  void SaveItemFileRead(const QPersistentModelIndex &idx, PlaylistItemPtr item, const quint64 save_generation, const Song &pre_edit_metadata, const bool editing_finished, const Song &file_song, const TagReaderResult &result);
 
  private Q_SLOTS:
   void TracksAboutToBeDequeued(const QModelIndex &idx, const int begin, const int end);
   void TracksDequeued();
   void TracksEnqueued(const QModelIndex &parent_idx, const int begin, const int end);
   void QueueLayoutChanged();
-  void SaveItemComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, PlaylistItemPtr item, const quint64 save_generation, const Song &pre_edit_metadata);
-  void ReloadItemComplete(const QPersistentModelIndex &idx, PlaylistItemPtr item, const Song &new_metadata, const bool saved, const quint64 save_generation, const Song &fallback_metadata);
+  void SaveItemComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, PlaylistItemPtr item, const quint64 save_generation, const Song &pre_edit_metadata, const bool editing_finished = true);
+  void ReloadItemComplete(const QPersistentModelIndex &idx, PlaylistItemPtr item, const Song &new_metadata, const bool saved, const quint64 save_generation, const Song &fallback_metadata, const bool editing_finished = true);
   void ItemsLoaded();
   void ForceScheduleSave();
   void ScheduleSaveItem(const PlaylistItemPtr &item);
@@ -519,6 +530,10 @@ class Playlist : public QAbstractListModel {
   Qt::SortOrder sort_order_;
   bool closed_;
   quint64 save_generation_;
+
+  // The edited values of each item which are not written to the file yet, with the save generation of the edit.
+  // Each write includes all of them, the file is read before writing, a write of an earlier edit can still be pending then.
+  QHash<const PlaylistItem*, QMap<Column, std::pair<QVariant, quint64>>> pending_column_values_;
 };
 
 #endif  // PLAYLIST_H
