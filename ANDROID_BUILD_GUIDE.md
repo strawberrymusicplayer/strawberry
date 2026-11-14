@@ -104,10 +104,13 @@ cmake --build build --target strawberry --parallel 2
 ```
 
 The archive must target the same Android ABI and GStreamer SDK as the app.
-The probe registers `spotifyaudiosrc` in the app and logs the outcome under `StrawberrySpotifyProbe`.
-It does not enable the Spotify service or login, and does not verify TLS or playback.
+After Android GStreamer initialization, the probe checks the `CA_CERTIFICATES` bundle for readable PEM certificates and sets `SSL_CERT_FILE` to that path before registering `spotifyaudiosrc`.
+If `SSL_CERT_FILE` or `SSL_CERT_DIR` is already set, the probe preserves the override rather than checking its contents; an empty override is reported as an error.
+Missing or unreadable bundled certificates and setup failures are logged under `StrawberrySpotifyProbe`, and prevent probe registration.
+The probe does not enable the Spotify service or login, and does not itself verify TLS or playback.
 An isolated Android test of the pinned Rust TLS dependencies found no default roots on the emulator, but loaded 141 roots from a copy of the packaged GStreamer CA bundle when supplied as `SSL_CERT_FILE`.
-The app's GLib `CA_CERTIFICATES` setting does not configure Rust; supplying and validating a Rust trust path inside the app is still required.
+The app's GLib `CA_CERTIFICATES` setting does not by itself configure Rust.
+The app-level trust setup still needs Android runtime verification, including Rust root loading and a TLS connection, before it can be considered working.
 The archive and its dependency licensing and reproducible build are not yet integrated; do not distribute probe builds as Spotify-enabled releases.
 To restore the ordinary Android build, configure with `-DENABLE_ANDROID_SPOTIFY_PLUGIN_PROBE=OFF` and rebuild.
 

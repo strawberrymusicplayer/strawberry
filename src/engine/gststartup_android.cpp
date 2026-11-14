@@ -24,6 +24,7 @@
 
 #ifdef ANDROID_SPOTIFY_PLUGIN_PROBE
 #  include <android/log.h>
+#  include "spotifytrust_android.h"
 extern "C" void gst_plugin_spotify_register();
 #endif
 
@@ -69,6 +70,19 @@ void RegisterAndroidFileSource() {
     qLog(Fatal) << "Could not register Android document audio source";
   }
 #ifdef ANDROID_SPOTIFY_PLUGIN_PROBE
+  QString trust_error;
+  const SpotifyTrust::Result trust_result = SpotifyTrust::Configure(trust_error);
+  if (trust_result == SpotifyTrust::Result::Error) {
+    qLog(Error) << "Experimental Spotify TLS setup failed:" << trust_error;
+    __android_log_print(ANDROID_LOG_ERROR, "StrawberrySpotifyProbe", "Spotify TLS setup failed: %s", qPrintable(trust_error));
+    return;
+  }
+  if (trust_result == SpotifyTrust::Result::ExistingOverride) {
+    __android_log_print(ANDROID_LOG_INFO, "StrawberrySpotifyProbe", "Using existing TLS certificate override (not validated)");
+  }
+  else {
+    __android_log_print(ANDROID_LOG_INFO, "StrawberrySpotifyProbe", "Using bundled TLS certificate path");
+  }
   gst_plugin_spotify_register();
   GstElementFactory *spotify_factory = gst_element_factory_find("spotifyaudiosrc");
   if (!spotify_factory) {
