@@ -379,7 +379,16 @@ void TranscodeDialog::Import() {
 
 void TranscodeDialog::SetFilenames(const QStringList &filenames) {
 
+  // The transcoder transcodes whole files, so a file is only added once, like the audio file of the tracks of a CUE sheet.
+  QSet<QString> added_filenames;
+  for (int i = 0; i < ui_->files->topLevelItemCount(); ++i) {
+    added_filenames << ui_->files->topLevelItem(i)->data(0, Qt::UserRole).toString();
+  }
+
   for (const QString &filename : filenames) {
+    if (added_filenames.contains(filename)) continue;
+    added_filenames << filename;
+
     QString name = filename.section(u'/', -1, -1);
     QString path = filename.section(u'/', 0, -2);
 
