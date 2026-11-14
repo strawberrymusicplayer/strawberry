@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,9 +61,7 @@ void PlaylistSettingsPage::Load() {
   ui_->checkbox_barscurrenttrack->setChecked(s.value(kShowBars, kDefaultShowBars).toBool());
 
   ui_->checkbox_glowcurrenttrack->setEnabled(ui_->checkbox_barscurrenttrack->isChecked());
-  if (ui_->checkbox_barscurrenttrack->isChecked()) {
-    ui_->checkbox_glowcurrenttrack->setChecked(s.value(kGlowEffect, kDefaultGlowEffect).toBool());
-  }
+  ui_->checkbox_glowcurrenttrack->setChecked(s.value(kGlowEffect, kDefaultGlowEffect).toBool());
 
   ui_->checkbox_warncloseplaylist->setChecked(s.value(kWarnClosePlaylist, kDefaultWarnClosePlaylist).toBool());
   ui_->checkbox_continueonerror->setChecked(s.value(kContinueOnError, kDefaultContinueOnError).toBool());
