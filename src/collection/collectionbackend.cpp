@@ -1194,10 +1194,9 @@ SongList CollectionBackend::GetAlbumSongs(const QString &effective_albumartist, 
   QSqlDatabase db(db_->Connect());
   QMutexLocker l(db_->Mutex());
 
+  // The album is matched like when the album art is updated, the songs of compilations are included, so the cover can be saved to them too.
   CollectionQuery query(db, songs_table_);
-  query.AddCompilationRequirement(false);
-  query.AddWhere(u"effective_albumartist"_s, effective_albumartist);
-  query.AddWhere(u"album"_s, album);
+  query.AddAlbumRequirement(effective_albumartist, album);
 
   SongList songs;
   if (!ExecCollectionQuery(&query, songs)) {

@@ -441,6 +441,19 @@ TEST_F(SingleSong, GetSongs) {
 
 }
 
+// Regression test: the songs of compilations were left out, so the embedded cover of a compilation couldn't be saved.
+TEST_F(SingleSong, GetAlbumSongsIncludesCompilation) {
+
+  song_.set_compilation(true);
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  const SongList songs = backend_->GetAlbumSongs(song_.effective_albumartist(), u"Album"_s);
+  ASSERT_EQ(1, songs.size());
+  EXPECT_TRUE(songs[0].is_compilation());
+
+}
+
 TEST_F(SingleSong, GetSongById) {
 
   AddDummySong();
