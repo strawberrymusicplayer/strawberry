@@ -180,6 +180,8 @@ class Organize : public QObject {
 
   QStringList files_with_errors_;
   QStringList log_;
+  // The audio files of the skipped CUE sheet tracks, they are reported once for each file.
+  QSet<QString> cue_files_skipped_;
 };
 
 #endif  // ORGANISE_H
