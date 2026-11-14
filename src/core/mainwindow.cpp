@@ -25,6 +25,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cmath>
+#include <optional>
 
 #include <algorithm>
 #include <utility>
@@ -3649,7 +3650,19 @@ void MainWindow::ClearCover() {
 }
 
 void MainWindow::DeleteCover() {
-  album_cover_choice_controller_->DeleteCover(&song_, true);
+
+  Song song = song_;
+  std::optional<ConfirmedCoverFiles> confirmed_files;
+  Q_FOREVER {
+    confirmed_files = album_cover_choice_controller_->ConfirmDeleteCover(SongList() << song);
+    if (!confirmed_files) return;
+    // The current song can change while the user is asked, then the cover of the song the user was asked about is deleted.
+    // When the cover of the album changed, like when a fetched cover was saved, the user is asked again about the new cover.
+    if (!song_.IsOnSameAlbum(song) || song_.IsArtEqual(song)) break;
+    song = song_;
+  }
+  album_cover_choice_controller_->DeleteCover(&song, true, *confirmed_files);
+
 }
 
 void MainWindow::ShowCover() {
