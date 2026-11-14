@@ -59,7 +59,8 @@ TrackSelectionDialog::TrackSelectionDialog(const SharedPtr<TagReaderClient> tagr
     : QDialog(parent),
       ui_(new Ui_TrackSelectionDialog),
       tagreader_client_(tagreader_client),
-      save_on_close_(false) {
+      save_on_close_(false),
+      saving_(false) {
 
   ui_->setupUi(this);
 
@@ -318,7 +319,10 @@ void TrackSelectionDialog::SaveData(const QList<Data> &_data) const {
 
 void TrackSelectionDialog::accept() {
 
+  if (saving_) return;
+
   if (save_on_close_) {
+    saving_ = true;
     SetLoading(tr("Saving tracks") + QStringLiteral("..."));
 
     // Save tags in the background
@@ -353,8 +357,18 @@ void TrackSelectionDialog::AcceptFinished() {
   if (!watcher) return;
   watcher->deleteLater();
 
+  saving_ = false;
   SetLoading(QString());
   QDialog::accept();
+
+}
+
+void TrackSelectionDialog::reject() {
+
+  // The dialog would be accepted when the tags are saved, also when it was closed and opened again for other songs.
+  if (saving_) return;
+
+  QDialog::reject();
 
 }
 

@@ -3513,6 +3513,13 @@ void MainWindow::AutoCompleteTags() {
 
 #ifdef HAVE_TAGFETCHER
 
+  // The dialog is accepted when it's done saving the tags of the songs it was opened for, which are reloaded then.
+  if (track_selection_dialog_ && track_selection_dialog_->saving()) {
+    track_selection_dialog_->raise();
+    track_selection_dialog_->activateWindow();
+    return;
+  }
+
   autocomplete_tag_items_.clear();
 
   // Create the tag fetching stuff if it hasn't been already

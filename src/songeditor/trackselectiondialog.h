@@ -48,6 +48,9 @@ class TrackSelectionDialog : public QDialog {
 
   void set_save_on_close(bool save_on_close) { save_on_close_ = save_on_close; }
 
+  // The tags are saved in the background after the dialog was accepted, it can't be closed or used for other songs until it's done.
+  bool saving() const { return saving_; }
+
   void Init(const SongList &songs);
 
  public Q_SLOTS:
@@ -56,6 +59,7 @@ class TrackSelectionDialog : public QDialog {
 
   // QDialog
   void accept() override;
+  void reject() override;
 
  Q_SIGNALS:
   void Error(const QString &error);
@@ -103,6 +107,7 @@ class TrackSelectionDialog : public QDialog {
   QPushButton *next_button_;
 
   bool save_on_close_;
+  bool saving_;
 };
 
 #endif  // TRACKSELECTIONDIALOG_H
