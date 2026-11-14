@@ -64,6 +64,7 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
   };
 
   void SetShortcut(const QString &id, const QKeySequence &key);
+  void UpdateShortcutOptions();
 
   void X11Warning();
 
