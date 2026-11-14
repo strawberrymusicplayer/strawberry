@@ -36,6 +36,7 @@
 #include <QEventLoop>
 #include <QElapsedTimer>
 #include <QStandardPaths>
+#include <QTimeLine>
 
 #include "test_utils.h"
 #include "core/settings.h"
@@ -334,5 +335,59 @@ TEST(WaveformProxyStyleTest, CustomColorChangesRenderedPixmap) {
     s.remove(WaveformSettings::kColor);
     s.endGroup();
   }
+
+}
+
+namespace {
+
+// Shows the first waveform, fades it out partly, then sets the next waveform, like a quick track change, and returns the image while fading.
+QImage QuickTrackChange(const QByteArray &first_data, const QByteArray &next_data) {
+
+  QSlider slider(Qt::Horizontal);
+  slider.resize(400, 30);
+  slider.show();
+  WaveformProxyStyle style(&slider);
+  style.SetShowWaveform(true);
+  QTimeLine *timeline = style.findChild<QTimeLine*>();
+  if (!timeline) return QImage();
+
+  // Moves the fade to the given time and keeps it there, the image is grabbed at the same point of the fade for each case.
+  const auto grab_at = [&slider, timeline](const int msec) {
+    if (timeline->state() == QTimeLine::State::Running) timeline->setPaused(true);
+    timeline->setCurrentTime(msec);
+    return slider.grab().toImage();
+  };
+
+  style.SetWaveformData(first_data);
+  // The fade is finished when the waveform is drawn at the end of the fade.
+  grab_at(timeline->duration());
+
+  style.SetWaveformData(QByteArray());
+  grab_at(600);
+
+  style.SetWaveformData(next_data);
+  return grab_at(600);
+
+}
+
+}  // namespace
+
+// Regression test: on a quick track change, the fade continued with the waveform of the previous song, and then jumped to the new one.
+TEST(WaveformProxyStyleTest, QuickTrackChangeFadesToNewWaveform) {
+
+  const QByteArray quiet_data = MakeTestBlob(WaveformBuilder::kWaveformBaseCount, -8, 8);
+  const QByteArray loud_data = MakeTestBlob(WaveformBuilder::kWaveformBaseCount, -120, 120);
+
+  const QImage image = QuickTrackChange(quiet_data, loud_data);
+  ASSERT_FALSE(image.isNull());
+
+  // The same fade, where the previous waveform is the same as the new one.
+  const QImage expected_image = QuickTrackChange(loud_data, loud_data);
+
+  // The other waveform looks different while fading at the same point.
+  const QImage previous_waveform_image = QuickTrackChange(quiet_data, quiet_data);
+  ASSERT_NE(expected_image, previous_waveform_image);
+
+  EXPECT_EQ(expected_image, image);
 
 }
