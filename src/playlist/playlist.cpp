@@ -521,7 +521,7 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
   if (!set_column_value(song, static_cast<Column>(idx.column()), value)) return false;
 
   if (song.url().isLocalFile()) {
-    SaveItem(idx, item, song, pre_edit_metadata);
+    SaveItem(idx, item, static_cast<Column>(idx.column()), value, song, pre_edit_metadata, true);
   }
   else if (song.is_stream()) {
     item->SetOriginalMetadata(song);
@@ -534,34 +534,51 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
 
 }
 
-void Playlist::SaveItem(const QModelIndex &idx, PlaylistItemPtr item, const Song &song, const Song &pre_edit_metadata) {
+bool Playlist::SaveColumnValue(const QModelIndex &idx, const Column column, const QVariant &value) {
+
+  const PlaylistItemPtr item = item_at(idx.row());
+  if (!item) return false;
+
+  const Song pre_edit_metadata = item->OriginalMetadata();
+  if (!pre_edit_metadata.url().isLocalFile()) return false;
+
+  Song song = pre_edit_metadata;
+  if (!set_column_value(song, column, value)) return false;
+
+  SaveItem(idx, item, column, value, song, pre_edit_metadata, false);
+
+  return true;
+
+}
+
+void Playlist::SaveItem(const QModelIndex &idx, PlaylistItemPtr item, const Column column, const QVariant &value, const Song &song, const Song &pre_edit_metadata, const bool editing_finished) {
 
   const int row = idx.row();
 
   // Show the edit immediately: otherwise the cell keeps displaying the pre-edit value (the view re-reads it right after the editor closes) until the write-then-reread round trip below completes asynchronously, which can take a perceptible moment and looks like the edit was reverted.
   UpdateItemMetadata(row, item, song, false);
-  Q_EMIT EditingFinished(id_, idx);
+  if (editing_finished) {
+    Q_EMIT EditingFinished(id_, idx);
+  }
 
   // Bump the item's save generation so a still-in-flight completion from an earlier edit to this same item can recognize (once it eventually completes) that it has been superseded, and avoid clobbering this newer edit with its own stale result.
   const quint64 save_generation = item->BumpSaveGeneration();
 
-  TagReaderReplyPtr reply = tagreader_client_->WriteFileAsync(song.url().toLocalFile(), song);
+  // The song of the playlist can be older than the file, like when the tags were changed in the tag editor or another program, so only the edited value is written, the other tags are read from the file when writing.
+  // The edits are written in order, each edit reads the file after the edits before it were written.
+  TagReaderReplyPtr reply = tagreader_client_->UpdateFileAsync(song.url().toLocalFile(), [column, value](Song *file_song) { return set_column_value(*file_song, column, value); });
   QPersistentModelIndex persistent_index = QPersistentModelIndex(idx);
   SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
-  *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, item, save_generation, pre_edit_metadata, connection]() {
-    SaveItemComplete(reply, persistent_index, item, save_generation, pre_edit_metadata);
+  *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, item, save_generation, pre_edit_metadata, editing_finished, connection]() {
+    SaveItemComplete(reply, persistent_index, item, save_generation, pre_edit_metadata, editing_finished);
     QObject::disconnect(*connection);
   }, Qt::QueuedConnection);
 
 }
 
-void Playlist::SaveItemComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, PlaylistItemPtr item, const quint64 save_generation, const Song &pre_edit_metadata) {
+void Playlist::SaveItemComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, PlaylistItemPtr item, const quint64 save_generation, const Song &pre_edit_metadata, const bool editing_finished) {
 
-  if (!idx.isValid()) return;
-
-  // A newer edit has already superseded this write (its own completion, still pending or already applied, is responsible for reconciling the item), so touching the item now would race it and could clobber the newer optimistic value with this stale write's outcome.
-  if (item->save_generation() != save_generation) return;
-
+  // Each write only has the value of its own edit, so a failed write is reported also when the row was removed, or a newer edit superseded it.
   if (!reply->success()) {
     if (reply->error().isEmpty()) {
       Q_EMIT Error(tr("Could not write metadata to %1").arg(reply->filename()));
@@ -569,30 +586,39 @@ void Playlist::SaveItemComplete(TagReaderReplyPtr reply, const QPersistentModelI
     else {
       Q_EMIT Error(tr("Could not write metadata to %1: %2").arg(reply->filename(), reply->error()));
     }
+  }
+
+  if (!idx.isValid()) return;
+
+  // A newer edit has already superseded this write (its own completion, still pending or already applied, is responsible for reconciling the item), so touching the item now would race it and could clobber the newer optimistic value with this stale write's outcome.
+  // The newer edit reloads the song from the file when its write completed, so the value of this edit is not shown then.
+  if (item->save_generation() != save_generation) return;
+
+  if (!reply->success()) {
     // Resync with the actual file contents rather than assuming pre_edit_metadata still matches what's on disk: with consecutive edits to the same item, pre_edit_metadata is whatever the previous (optimistic) edit left in place, which can itself be a value that was never successfully written (e.g. its own write is still in flight, or already failed but was ignored here due to the generation guard above). Reading the file collapses any such chain of unconfirmed edits to the genuine on-disk state. Only if that reload itself fails to read the file do we fall back to pre_edit_metadata as a last resort.
-    ReloadItem(idx, item, true, save_generation, pre_edit_metadata);
+    ReloadItem(idx, item, true, save_generation, pre_edit_metadata, editing_finished);
     return;
   }
 
   // Resync with the actual file contents: this confirms the value already shown optimistically by setData(), picking up any normalization the tag writer applied.
-  ReloadItem(idx, item, true, save_generation, Song());
+  ReloadItem(idx, item, true, save_generation, Song(), editing_finished);
 
 }
 
-void Playlist::ReloadItem(const QPersistentModelIndex &idx, PlaylistItemPtr item, const bool saved, const quint64 save_generation, const Song &fallback_metadata) {
+void Playlist::ReloadItem(const QPersistentModelIndex &idx, PlaylistItemPtr item, const bool saved, const quint64 save_generation, const Song &fallback_metadata, const bool editing_finished) {
 
   // For a plain (non-save-triggered) reload the caller has no meaningful generation to hand in, so snapshot the item's current one here at kick-off time: if some other edit bumps it before this reload completes, ReloadItemComplete's staleness check below will then correctly detect that and discard this now-stale result instead of clobbering the newer edit.
   const quint64 current_save_generation = saved ? save_generation : item->save_generation();
 
   const Song original_song = item->OriginalMetadata();
   if (!original_song.url().isLocalFile()) {
-    ReloadItemComplete(idx, item, Song(), saved, current_save_generation, fallback_metadata);
+    ReloadItemComplete(idx, item, Song(), saved, current_save_generation, fallback_metadata, editing_finished);
     return;
   }
 
   TagReaderReadFileReplyPtr reply = tagreader_client_->ReadFileAsync(original_song.url().toLocalFile(), original_song);
   SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
-  *connection = QObject::connect(&*reply, &TagReaderReadFileReply::Finished, this, [this, reply, idx, item, saved, current_save_generation, fallback_metadata, connection](const QString &filename, const Song &song, const TagReaderResult &result) {
+  *connection = QObject::connect(&*reply, &TagReaderReadFileReply::Finished, this, [this, reply, idx, item, saved, current_save_generation, fallback_metadata, editing_finished, connection](const QString &filename, const Song &song, const TagReaderResult &result) {
     Song new_metadata;
     if (result.success()) {
       new_metadata = song;
@@ -600,13 +626,13 @@ void Playlist::ReloadItem(const QPersistentModelIndex &idx, PlaylistItemPtr item
     else {
       qLog(Error) << "Could not reload file" << filename << result.error_string();
     }
-    ReloadItemComplete(idx, item, new_metadata, saved, current_save_generation, fallback_metadata);
+    ReloadItemComplete(idx, item, new_metadata, saved, current_save_generation, fallback_metadata, editing_finished);
     QObject::disconnect(*connection);
   }, Qt::QueuedConnection);
 
 }
 
-void Playlist::ReloadItemComplete(const QPersistentModelIndex &idx, PlaylistItemPtr item, const Song &new_metadata, const bool saved, const quint64 save_generation, const Song &fallback_metadata) {
+void Playlist::ReloadItemComplete(const QPersistentModelIndex &idx, PlaylistItemPtr item, const Song &new_metadata, const bool saved, const quint64 save_generation, const Song &fallback_metadata, const bool editing_finished) {
 
   if (!idx.isValid()) {
     return;
@@ -625,7 +651,7 @@ void Playlist::ReloadItemComplete(const QPersistentModelIndex &idx, PlaylistItem
     UpdateItemMetadata(idx.row(), item, fallback_metadata, false);
   }
 
-  if (saved) {
+  if (saved && editing_finished) {
     Q_EMIT EditingFinished(id_, idx);
   }
 

@@ -23,6 +23,7 @@
 #include "gmock_include.h"
 
 #include <string>
+#include <functional>
 
 #include <QFile>
 #include <QImage>
@@ -3791,6 +3792,46 @@ TEST_F(TagReaderTest, TestRequestsAfterExit) {
   Song song;
   ASSERT_TRUE(TagReaderTagLib().ReadFile(r.fileName(), &song).success());
   EXPECT_EQ(9U, song.playcount());
+
+}
+
+// Updating a file reads the tags from the file, and writes only the changed tags.
+TEST_F(TagReaderTest, TestUpdateFile) {
+
+  TemporaryResource r(u":/audio/strawberry.mp3"_s);
+  Song song;
+  song.set_title(u"Title"_s);
+  song.set_artist(u"Artist"_s);
+  song.set_composer(u"Composer"_s);
+  ASSERT_TRUE(WriteSongToFile(song, r.fileName()).success());
+
+  const auto update_file = [this, &r](const std::function<bool(Song *song)> &update_song) {
+    TagReaderReplyPtr reply = tagreader_client_->UpdateFileAsync(r.fileName(), update_song);
+    QEventLoop loop;
+    QObject::connect(&*reply, &TagReaderReply::Finished, &loop, &QEventLoop::quit);
+    loop.exec();
+    return reply->result();
+  };
+
+  // The update gets the tags of the file.
+  QString composer;
+  EXPECT_TRUE(update_file([&composer](Song *file_song) {
+    composer = file_song->composer();
+    file_song->set_artist(u"Updated artist"_s);
+    return true;
+  }).success());
+  EXPECT_EQ(u"Composer"_s, composer);
+  song = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"Updated artist"_s, song.artist());
+  EXPECT_EQ(u"Title"_s, song.title());
+  EXPECT_EQ(u"Composer"_s, song.composer());
+
+  // The file isn't written when the update can't change the tags.
+  EXPECT_FALSE(update_file([](Song *file_song) {
+    file_song->set_title(u"Not written"_s);
+    return false;
+  }).success());
+  EXPECT_EQ(u"Title"_s, ReadSongFromFile(r.fileName()).title());
 
 }
 
