@@ -337,6 +337,10 @@ void CollectionManager::SyncPlaycountAndRatingToFiles() {
   quint64 i = 0;
   for (const Song &song : songs) {
     if (abort_sync_playcount_and_rating_) break;
+    if (!CanSaveToFile(song)) {
+      task_manager_->SetTaskProgress(task_id, ++i, nb_songs);
+      continue;
+    }
     (void)tagreader_client_->SaveSongPlaycountBlocking(song.url().toLocalFile(), song.playcount());
     if (abort_sync_playcount_and_rating_) break;
     (void)tagreader_client_->SaveSongRatingBlocking(song.url().toLocalFile(), song.rating());
@@ -351,6 +355,7 @@ void CollectionManager::SongsPlaycountChanged(const SongList &songs, const bool 
   if (save_tags || save_playcounts_to_files_) {
     SongList songs_to_save_now;
     for (const Song &song : songs) {
+      if (!CanSaveToFile(song)) continue;
       if (IsCurrentSongSaveDeferred(song, current_song_url_)) {
         qLog(Debug) << "Deferring playcount save for currently playing file" << song.url().toLocalFile();
         if (pending_song_saves_.contains(song.url())) {
@@ -381,6 +386,7 @@ void CollectionManager::SongsRatingChanged(const SongList &songs, const bool sav
   if (save_tags || save_ratings_to_files_) {
     SongList songs_to_save_now;
     for (const Song &song : songs) {
+      if (!CanSaveToFile(song)) continue;
       if (IsCurrentSongSaveDeferred(song, current_song_url_)) {
         qLog(Debug) << "Deferring rating save for currently playing file" << song.url().toLocalFile();
         if (pending_song_saves_.contains(song.url())) {
@@ -428,7 +434,7 @@ void CollectionManager::SongsLyricsChanged(const SongList &songs, const bool sav
   for (const Song &song : songs) {
 
     // CUE tracks share one media file, so their lyrics are kept in the database, the tags would be for all tracks.
-    if (!song.url().isLocalFile() || song.has_cue()) continue;
+    if (!CanSaveToFile(song)) continue;
 
     // Only lyrics just saved to the database are written, and only when the file type can store them in the tags.
     // SaveLyricsToFile() saves all lyrics with the storage type set to the tags, so only the lyrics to save have it, the other lyrics in the song could already be stored in the tags.
@@ -539,6 +545,13 @@ void CollectionManager::SaveLyricsToFile(const Song &song) {
       LyricsSaveFinished();
     }, Qt::QueuedConnection);
   }
+
+}
+
+bool CollectionManager::CanSaveToFile(const Song &song) {
+
+  // CUE tracks share one media file, so their playcounts, ratings and lyrics are only kept in the database, the tags would be for all tracks of the file.
+  return song.url().isLocalFile() && !song.has_cue();
 
 }
 
