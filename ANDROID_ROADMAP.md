@@ -1083,3 +1083,12 @@ Requested coverage is not a claim that every protocol can legally or technically
 
 **Goal:** Make the collection statistics readable on phone screens, respecting Android font scaling and preserving the desktop appearance.
 Verify text size, wrapping and layout on the FP5 and emulator, including narrow screens and larger font settings.
+
+## 31. Fit the Now Playing cover in landscape Context
+
+**Status:** Planned
+
+**Problem:** In landscape orientation, the Now Playing cover on the Android Context page is too large to fit the screen.
+
+**Goal:** Adapt the cover size to the available landscape screen space while preserving its aspect ratio and image quality.
+Keep the remaining content and cover actions usable, preserve the portrait and desktop layouts, and verify on the FP5 and emulator.
