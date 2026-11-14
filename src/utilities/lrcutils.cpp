@@ -39,9 +39,9 @@ using namespace Qt::Literals::StringLiterals;
 
 std::optional<LRCLines> ParseLRC(const QString &lrc) {
 
-  // LRC lines can have multiple leading timestamps, e.g. "[00:12.34][01:23.45]Chorus line".
+  // LRC lines can have multiple leading timestamps, optionally followed by an arbitrary amount of horizontal whitespace, e.g. "[00:12.34][01:23.45] Chorus line".
   // Blank lines and LRC metadata tags such as "[ar:Artist]" are skipped, any other line without a timestamp makes the LRC invalid.
-  static const QRegularExpression regex_timestamp(u"^\\[(\\d+):(\\d{1,2})(?:[.:](\\d{1,3}))?\\]"_s);
+  static const QRegularExpression regex_timestamp(u"^\\[(\\d+):(\\d{1,2})(?:[.:](\\d{1,3}))?\\]\\s*"_s);
   static const QRegularExpression regex_offset(u"^\\[offset:\\s*([+-]?\\d+)\\s*\\]$"_s, QRegularExpression::CaseInsensitiveOption);
   static const QRegularExpression regex_metadata(u"^\\[[A-Za-z#]+:[^\\]]*\\]$"_s);
 
