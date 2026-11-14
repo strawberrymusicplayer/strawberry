@@ -340,11 +340,28 @@ void MusixmatchLyricsProvider::SendLyricsRequest(LyricsSearchContextPtr search) 
     << Param(u"q_artist"_s, search->request.artist)
     << Param(u"q_track"_s, search->request.title);
 
-  const QUrl url = SignedUrl(u"matcher.lyrics.get"_s, params);
+  // The track is matched first, the lyrics are for the matched track, which can be a different track than requested, so the lyrics are scored with the matched track.
+  const QUrl url = SignedUrl(u"matcher.track.get"_s, params);
+  QNetworkReply *reply = CreateAndroidGetRequest(url);
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, search]() { HandleTrackReply(reply, search); });
+
+  qLog(Debug) << "MusixmatchLyrics: Sending request for" << search->request.artist << search->request.title;
+
+}
+
+void MusixmatchLyricsProvider::SendTrackLyricsRequest(LyricsSearchContextPtr search) {
+
+  const ParamList params = ParamList()
+    << Param(u"app_id"_s, client_id_)
+    << Param(u"format"_s, u"json"_s)
+    << Param(u"usertoken"_s, user_token_)
+    << Param(u"track_id"_s, QString::number(search->track_id));
+
+  const QUrl url = SignedUrl(u"track.lyrics.get"_s, params);
   QNetworkReply *reply = CreateAndroidGetRequest(url);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, search]() { HandleLyricsReply(reply, search); });
 
-  qLog(Debug) << "MusixmatchLyrics: Sending request for" << search->request.artist << search->request.title;
+  qLog(Debug) << "MusixmatchLyrics: Sending lyrics request for" << search->artist << search->title;
 
 }
 
@@ -361,11 +378,9 @@ bool MusixmatchLyricsProvider::RetryLyricsRequestWithFreshToken(LyricsSearchCont
 
 }
 
-void MusixmatchLyricsProvider::HandleLyricsReply(QNetworkReply *reply, LyricsSearchContextPtr search) {
+MusixmatchLyricsProvider::ReplyResult MusixmatchLyricsProvider::ParseReply(QNetworkReply *reply, LyricsSearchContextPtr search, QJsonObject &object_body) {
 
-  QScopeGuard end_search = qScopeGuard([this, search]() { EndSearch(search); });
-
-  if (!replies_.contains(reply)) return;
+  if (!replies_.contains(reply)) return ReplyResult::Finished;
   replies_.removeAll(reply);
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
@@ -375,30 +390,29 @@ void MusixmatchLyricsProvider::HandleLyricsReply(QNetworkReply *reply, LyricsSea
   // The user token is bound to a single session and can expire or be rejected independently of app_id/secret - Musixmatch can signal this with an HTTP-level 401 (checked here, before the generic unsuccessful-result handling below) or with status_code 401 in the JSON response body (checked further down, once the body has parsed successfully). Retry exactly once with a freshly obtained token.
   if (json_object_result.http_status_code == 401) {
     if (RetryLyricsRequestWithFreshToken(search)) {
-      end_search.dismiss();
-      return;
+      return ReplyResult::Retried;
     }
     Error(u"Musixmatch user token was rejected again after renewal."_s);
-    return;
+    return ReplyResult::Finished;
   }
 
   if (!json_object_result.success()) {
     Error(json_object_result.error_message);
-    return;
+    return ReplyResult::Finished;
   }
 
   const QJsonObject &json_object = json_object_result.json_object;
-  if (json_object.isEmpty()) return;
+  if (json_object.isEmpty()) return ReplyResult::Finished;
 
   if (!json_object.contains("message"_L1) || !json_object["message"_L1].isObject()) {
     Error(u"Json reply is missing message object."_s, json_object);
-    return;
+    return ReplyResult::Finished;
   }
   const QJsonObject object_message = json_object["message"_L1].toObject();
 
   if (!object_message.contains("header"_L1) || !object_message["header"_L1].isObject()) {
     Error(u"Json reply message object is missing header."_s, object_message);
-    return;
+    return ReplyResult::Finished;
   }
   const QJsonObject object_header = object_message["header"_L1].toObject();
   const int status_code = object_header["status_code"_L1].toInt();
@@ -406,26 +420,76 @@ void MusixmatchLyricsProvider::HandleLyricsReply(QNetworkReply *reply, LyricsSea
   // The user token is bound to a single session and can expire or be rejected independently of app_id/secret - Musixmatch signals this with status_code 401 rather than an HTTP-level error. Retry exactly once with a freshly obtained token.
   if (status_code == 401) {
     if (RetryLyricsRequestWithFreshToken(search)) {
-      end_search.dismiss();
-      return;
+      return ReplyResult::Retried;
     }
     Error(u"Musixmatch user token was rejected again after renewal."_s);
-    return;
+    return ReplyResult::Finished;
   }
 
   // No match found for this artist/title - not an error.
-  if (status_code == 404) return;
+  if (status_code == 404) return ReplyResult::Finished;
 
   if (status_code != 200) {
     Error(QStringLiteral("Received status code %1.").arg(status_code));
-    return;
+    return ReplyResult::Finished;
   }
 
   if (!object_message.contains("body"_L1) || !object_message["body"_L1].isObject()) {
     // A track with no lyrics (or an unmatched query) returns an empty array body instead of an object - not an error.
+    return ReplyResult::Finished;
+  }
+  object_body = object_message["body"_L1].toObject();
+
+  return ReplyResult::Body;
+
+}
+
+void MusixmatchLyricsProvider::HandleTrackReply(QNetworkReply *reply, LyricsSearchContextPtr search) {
+
+  QScopeGuard end_search = qScopeGuard([this, search]() { EndSearch(search); });
+
+  QJsonObject object_body;
+  const ReplyResult reply_result = ParseReply(reply, search, object_body);
+  if (reply_result == ReplyResult::Retried) {
+    end_search.dismiss();
     return;
   }
-  const QJsonObject object_body = object_message["body"_L1].toObject();
+  if (reply_result != ReplyResult::Body) return;
+
+  if (!object_body.contains("track"_L1) || !object_body["track"_L1].isObject()) {
+    Error(u"Json body is missing track."_s, object_body);
+    return;
+  }
+  const QJsonObject object_track = object_body["track"_L1].toObject();
+
+  // The matched track has no lyrics - not an error.
+  if (object_track.contains("has_lyrics"_L1) && object_track["has_lyrics"_L1].toInt() == 0) return;
+
+  search->track_id = object_track["track_id"_L1].toInteger();
+  if (search->track_id <= 0) {
+    Error(u"Json track is missing track_id."_s, object_track);
+    return;
+  }
+  search->artist = object_track["artist_name"_L1].toString();
+  search->album = object_track["album_name"_L1].toString();
+  search->title = object_track["track_name"_L1].toString();
+
+  end_search.dismiss();
+  SendTrackLyricsRequest(search);
+
+}
+
+void MusixmatchLyricsProvider::HandleLyricsReply(QNetworkReply *reply, LyricsSearchContextPtr search) {
+
+  QScopeGuard end_search = qScopeGuard([this, search]() { EndSearch(search); });
+
+  QJsonObject object_body;
+  const ReplyResult reply_result = ParseReply(reply, search, object_body);
+  if (reply_result == ReplyResult::Retried) {
+    end_search.dismiss();
+    return;
+  }
+  if (reply_result != ReplyResult::Body) return;
 
   if (!object_body.contains("lyrics"_L1) || !object_body["lyrics"_L1].isObject()) {
     Error(u"Json body is missing lyrics."_s, object_body);
@@ -440,10 +504,11 @@ void MusixmatchLyricsProvider::HandleLyricsReply(QNetworkReply *reply, LyricsSea
   const QString lyrics_body = object_lyrics["lyrics_body"_L1].toString();
   if (lyrics_body.isEmpty()) return;
 
+  // The lyrics are scored with the track Musixmatch matched, not the requested track.
   LyricsSearchResult result;
-  result.artist = search->request.artist;
-  result.album = search->request.album;
-  result.title = search->request.title;
+  result.artist = search->artist;
+  result.album = search->album;
+  result.title = search->title;
   result.lyrics = lyrics_body;
   search->results.append(result);
 
