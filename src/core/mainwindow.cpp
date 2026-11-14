@@ -2644,32 +2644,17 @@ void MainWindow::RenumberTracks() {
     }
   }
 
+  Playlist *playlist = app_->playlist_manager()->current();
   for (const QModelIndex &proxy_index : std::as_const(indexes)) {
-    const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
+    const QModelIndex source_index = playlist->filter()->mapToSource(proxy_index);
     if (!source_index.isValid()) continue;
-    PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
+    PlaylistItemPtr item = playlist->item_at(source_index.row());
     if (!item) continue;
-    Song song = item->OriginalMetadata();
-    if (song.IsEditable()) {
-      song.set_track(track);
-      TagReaderReplyPtr reply = app_->tagreader_client()->WriteFileAsync(song.url().toLocalFile(), song);
-      QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
-      SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
-      *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, connection]() {
-        SongSaveComplete(reply, persistent_index);
-        QObject::disconnect(*connection);
-      }, Qt::QueuedConnection);
+    // Only the track number is written, the other tags are read from the file, the playlist can have older tags.
+    if (item->OriginalMetadata().IsEditable()) {
+      playlist->SaveColumnValue(source_index, Playlist::Column::Track, track);
     }
     ++track;
-  }
-
-}
-
-void MainWindow::SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx) {
-
-  Playlist *playlist = PlaylistOfIndex(idx);
-  if (reply->success() && playlist) {
-    playlist->ReloadItems(QList<int>() << idx.row());
   }
 
 }
@@ -2688,16 +2673,11 @@ void MainWindow::SelectionSetValue() {
     if (!source_index.isValid()) continue;
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (!item) continue;
-    Song song = item->OriginalMetadata();
+    const Song song = item->OriginalMetadata();
     if (!song.is_valid()) continue;
-    if (song.url().isLocalFile() && Playlist::set_column_value(song, column, column_value)) {
-      TagReaderReplyPtr reply = app_->tagreader_client()->WriteFileAsync(song.url().toLocalFile(), song);
-      QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
-      SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
-      *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, connection]() {
-        SongSaveComplete(reply, persistent_index);
-        QObject::disconnect(*connection);
-      }, Qt::QueuedConnection);
+    if (song.url().isLocalFile()) {
+      // Only the value is written, the other tags are read from the file, the playlist can have older tags.
+      app_->playlist_manager()->current()->SaveColumnValue(source_index, column, column_value);
     }
     else if (song.is_stream()) {
       app_->playlist_manager()->current()->setData(source_index.sibling(source_index.row(), static_cast<int>(column)), column_value, 0);
