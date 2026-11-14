@@ -104,6 +104,24 @@ cmake --build build --target strawberry --parallel 2
 ```
 
 The archive must target the same Android ABI and GStreamer SDK as the app.
+Build it with [dist/scripts/build-android-gst-plugin-spotify.sh](dist/scripts/build-android-gst-plugin-spotify.sh), which pins the gst-plugins-rs 0.14.4 source archive by SHA-256, requires Rust 1.85.0 and cargo-c 0.10.13, and builds with Cargo's `--locked` lockfile:
+
+```bash
+rustup toolchain install 1.85.0
+rustup target add --toolchain 1.85.0 aarch64-linux-android
+cargo +1.85.0 install --locked cargo-c --version 0.10.13
+dist/scripts/build-android-gst-plugin-spotify.sh \
+  --ndk ~/Android/Sdk/ndk/27.2.12479018 \
+  --gstreamer /path/to/gstreamer-1.28.8/arm64 \
+  --output /path/to/spotify-arm64
+```
+
+The script uses two parallel jobs by default (`--jobs N`), and the first build downloads the crates and takes about ten minutes on two cores.
+Besides `libgstspotify.a`, the output directory contains the plugin's MPL-2.0 licence, `gst-plugin-spotify-dependencies.txt` listing the crates linked into the archive with their declared licences, and `gst-plugin-spotify-build.txt` recording the source, toolchain, ABI and archive checksum.
+The release build omits debug information and remaps local build paths.
+The dependency list names licences but does not contain their full texts; collect those before any distribution.
+Bit-for-bit identical archives across machines have not been verified.
+A release arm64 archive built with this script registered `spotifyaudiosrc` in the app on the emulator; the probe APK was about 39 MB.
 After Android GStreamer initialization, the probe checks the `CA_CERTIFICATES` bundle for readable PEM certificates and sets `SSL_CERT_FILE` to that path before registering `spotifyaudiosrc`.
 If `SSL_CERT_FILE` or `SSL_CERT_DIR` is already set, the probe preserves the override rather than checking its contents; an empty override is reported as an error.
 Missing or unreadable bundled certificates and setup failures are logged under `StrawberrySpotifyProbe`, and prevent probe registration.
@@ -113,7 +131,7 @@ The app's GLib `CA_CERTIFICATES` setting does not by itself configure Rust.
 In the app process on the emulator, this setup let the plugin complete Spotify's HTTPS access-point lookup; Spotify then rejected a deliberately invalid token.
 Without usable roots, librespot's HTTP client setup fails before connecting.
 A valid login and playback have not been tested.
-The archive and its dependency licensing and reproducible build are not yet integrated; do not distribute probe builds as Spotify-enabled releases.
+Dependency licence texts are not yet packaged into the APK; do not distribute probe builds as Spotify-enabled releases.
 To restore the ordinary Android build, configure with `-DENABLE_ANDROID_SPOTIFY_PLUGIN_PROBE=OFF` and rebuild.
 
 ## NAS client dependency
