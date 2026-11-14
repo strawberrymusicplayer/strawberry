@@ -104,6 +104,10 @@ SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(const SharedPtr<Player>
   context_menu_selected_->addAction(action_restore_defaults_);
 
   ui_->new_->setDefaultAction(action_new_smart_playlist_);
+#ifdef Q_OS_ANDROID
+  ui_->new_->setText(tr("New"));
+  ui_->new_->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+#endif
   ui_->edit_->setIcon(IconLoader::Load(u"edit-rename"_s));
   ui_->delete_->setIcon(IconLoader::Load(u"edit-delete"_s));
   ui_->restore_->setIcon(IconLoader::Load(u"view-refresh"_s));
@@ -347,9 +351,13 @@ void SmartPlaylistsViewContainer::RestoreDefaultsFromContext() {
 
 void SmartPlaylistsViewContainer::RestoreDefaults() {
 
+#ifdef Q_OS_ANDROID
+  ConfirmAndroidRestoreDefaults();
+#else
   const QMessageBox::StandardButton messagebox_answer = QMessageBox::question(this, tr("Restore defaults"), tr("Are you sure you want to restore the default smart playlists? This will remove all custom smart playlists"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
   if (messagebox_answer == QMessageBox::Yes) {
     model_->RestoreDefaults();
   }
+#endif
 
 }

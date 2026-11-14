@@ -104,6 +104,7 @@ class SmartPlaylistsViewContainer : public QWidget {
 #ifdef Q_OS_ANDROID
   void SetupAndroidBrowser();
   void OpenAndroidWizard(SmartPlaylistWizard *wizard);
+  void ConfirmAndroidRestoreDefaults();
   QStackedWidget *android_pages_ = nullptr;
 #endif
   Ui_SmartPlaylistsViewContainer *ui_;

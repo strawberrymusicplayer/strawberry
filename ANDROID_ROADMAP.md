@@ -667,6 +667,10 @@ Arbitrary cloud/document-provider support is not part of this implementation.
 **FP5 feedback (2026-11-14):** Opening a smart playlist starts playback, but the user cannot view its generated track list and does not see the tracks in Queue; no error is shown.
 Investigate the generated playlist destination, navigation and queue semantics on the FP5.
 Clarify the desired list/queue behavior before changing playback or replacing an existing playlist, then add regression coverage and verify the complete flow on the emulator and FP5.
+The user also reported that a restore-defaults confirmation appeared while trying to edit a smart playlist and the FP5 interface stopped responding while playback continued.
+The Android restore confirmation now uses the app's nonblocking, touch-compatible confirmation overlay instead of a desktop-style message box; the actual FP5 issue still needs verification, and the restore action must only run on explicit confirmation.
+Android toolbar actions have text labels to distinguish Edit from Restore defaults.
+On the emulator, Back dismissed the restore warning without restoring defaults, and the selected smart playlist's Edit button opened its editor.
 
 ## 17. Make Android checkboxes touch-friendly
 
