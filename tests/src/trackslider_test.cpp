@@ -37,6 +37,13 @@
 #include "core/settings.h"
 #include "widgets/trackslider.h"
 
+#if defined(HAVE_MOODBAR) && defined(HAVE_WAVEFORM)
+#  include <QByteArray>
+#  include <QSizePolicy>
+#  include "moodbar/moodbarproxystyle.h"
+#  include "waveform/waveformproxystyle.h"
+#endif
+
 using namespace Qt::Literals::StringLiterals;
 
 namespace {
@@ -183,5 +190,81 @@ TEST_P(TrackSliderTest, UnknownLengthWhileHoveringHidesPopup) {
 }
 
 INSTANTIATE_TEST_SUITE_P(RemainingTimeAndLength, TrackSliderTest, ::testing::Values(true, false));
+
+#if defined(HAVE_MOODBAR) && defined(HAVE_WAVEFORM)
+
+class TrackSliderSeekbarModeTest : public ::testing::Test {
+ protected:
+  void SetUp() override {
+    track_slider_ = std::make_unique<TrackSlider>();
+    track_slider_->Init();
+    slider_ = track_slider_->findChild<TrackSliderSlider*>();
+    ASSERT_NE(nullptr, slider_);
+    ASSERT_NE(nullptr, track_slider_->moodbar_proxy_style());
+    ASSERT_NE(nullptr, track_slider_->waveform_proxy_style());
+  }
+
+  void TearDown() override {
+    track_slider_.reset();
+    Settings().remove(QLatin1String(SeekbarSettings::kSettingsGroup));
+  }
+
+  QSizePolicy::Policy VerticalPolicy() const { return slider_->sizePolicy().verticalPolicy(); }
+
+  std::unique_ptr<TrackSlider> track_slider_;
+  TrackSliderSlider *slider_ = nullptr;
+};
+
+// Regression test: both proxy styles set the size of the slider, reloading the settings of the waveform, like when pressing OK in the settings, shrank the shown moodbar to the size of the normal slider.
+TEST_F(TrackSliderSeekbarModeTest, WaveformDoesNotShrinkMoodbar) {
+
+  track_slider_->SetSeekbarMode(TrackSlider::SeekbarMode::Moodbar);
+  track_slider_->moodbar_proxy_style()->SetMoodbarData(QByteArray(30, 'x'));
+  ASSERT_EQ(QSizePolicy::MinimumExpanding, VerticalPolicy());
+
+  track_slider_->waveform_proxy_style()->ReloadSettings();
+  EXPECT_EQ(QSizePolicy::MinimumExpanding, VerticalPolicy());
+
+  track_slider_->waveform_proxy_style()->SetWaveformData(QByteArray());
+  EXPECT_EQ(QSizePolicy::MinimumExpanding, VerticalPolicy());
+
+}
+
+// New moodbar data while the waveform is shown doesn't shrink the waveform.
+TEST_F(TrackSliderSeekbarModeTest, MoodbarDoesNotShrinkWaveform) {
+
+  track_slider_->SetSeekbarMode(TrackSlider::SeekbarMode::Waveform);
+  track_slider_->waveform_proxy_style()->SetWaveformData(QByteArray(30, 'x'));
+  ASSERT_EQ(QSizePolicy::MinimumExpanding, VerticalPolicy());
+
+  track_slider_->moodbar_proxy_style()->SetMoodbarData(QByteArray());
+  EXPECT_EQ(QSizePolicy::MinimumExpanding, VerticalPolicy());
+
+}
+
+// Changing to the normal slider and between the moodbar and the waveform sets the size of the slider shown.
+TEST_F(TrackSliderSeekbarModeTest, ChangingSeekbarModeSetsSize) {
+
+  track_slider_->moodbar_proxy_style()->SetMoodbarData(QByteArray(30, 'x'));
+  track_slider_->waveform_proxy_style()->SetWaveformData(QByteArray(30, 'x'));
+
+  track_slider_->SetSeekbarMode(TrackSlider::SeekbarMode::Moodbar);
+  EXPECT_EQ(QSizePolicy::MinimumExpanding, VerticalPolicy());
+
+  track_slider_->SetSeekbarMode(TrackSlider::SeekbarMode::Normal);
+  EXPECT_EQ(QSizePolicy::Fixed, VerticalPolicy());
+
+  track_slider_->SetSeekbarMode(TrackSlider::SeekbarMode::Waveform);
+  EXPECT_EQ(QSizePolicy::MinimumExpanding, VerticalPolicy());
+
+  track_slider_->SetSeekbarMode(TrackSlider::SeekbarMode::Moodbar);
+  EXPECT_EQ(QSizePolicy::MinimumExpanding, VerticalPolicy());
+
+  track_slider_->SetSeekbarMode(TrackSlider::SeekbarMode::Normal);
+  EXPECT_EQ(QSizePolicy::Fixed, VerticalPolicy());
+
+}
+
+#endif  // defined(HAVE_MOODBAR) && defined(HAVE_WAVEFORM)
 
 }  // namespace
