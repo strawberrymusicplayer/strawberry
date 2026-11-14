@@ -830,7 +830,8 @@ This is the deferred follow-up to feature audit point 14, not a claim that provi
   The user also confirmed the automatic-save page works and its Apply/OK/Cancel buttons are gone.
   The user subsequently confirmed logout, fetching credentials without Apply, and a fresh login persisting after restart.
   The user also confirmed cancellation, a two-minute timeout, and successful retry after each on the FP5.
-  Provider denial still needs real-device verification before enabling this flow by default.
+  Qobuz did not offer the user a provider-denial option; real-provider denial remains unverified, although native tests cover a synthetic denial.
+  Keep the flow opt-in until that outstanding check is resolved.
 - Auto-save signal regressions pass with the Qobuz and OAuth suites.
   On the emulator, enabling Qobuz without Apply persisted across an app restart; its page and preferences editor hide Apply/OK/Cancel and Back returns one level, while Tidal still shows those buttons.
 
