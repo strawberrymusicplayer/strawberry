@@ -2857,18 +2857,19 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
 
   const qint64 duration_msec = duration_nanosec / kNsecPerMsec;
 
-  // If there's already another fader running then start from the same time that one was already at.
+  // If there's already another fader then start from the same time that one was already at.
+  // That fader can also be one which is not running yet, like the fade-in of a track which is not playing yet when Next is pressed again, its volume is already applied, so starting from the beginning of this fade would make the track audible.
   qint64 start_time = direction == QTimeLine::Direction::Forward ? 0 : duration_msec;
   SharedPtr<QTimeLine> old_fader;
   {
     QMutexLocker l(&mutex_fader_);
     old_fader = fader_;
   }
-  if (old_fader && old_fader->state() == QTimeLine::State::Running) {
+  if (old_fader) {
     if (duration_msec == old_fader->duration()) {
       start_time = old_fader->currentTime();
     }
-    else {
+    else if (old_fader->duration() > 0) {
       // Calculate the position in the new fader with the same value from the old fader, so no volume jumps appear
       qreal time = static_cast<qreal>(duration_msec) * (static_cast<qreal>(old_fader->currentTime()) / static_cast<qreal>(old_fader->duration()));
       start_time = qRound(time);
