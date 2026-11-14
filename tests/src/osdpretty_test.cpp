@@ -29,10 +29,17 @@
 #include <QList>
 #include <QTimer>
 #include <QGraphicsOpacityEffect>
+#include <QApplication>
+#include <QWidget>
+#include <QLabel>
+#include <QUrl>
 
+#include "includes/shared_ptr.h"
 #include "core/settings.h"
+#include "core/song.h"
 #include "constants/notificationssettings.h"
 #include "osd/osdpretty.h"
+#include "osd/osdbase.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -165,6 +172,68 @@ TEST_F(OSDPrettyTest, MessageAfterClickDuringFadeOutStopsPreviousTimeout) {
   // The timeout is started again when the OSD has faded back in.
   ASSERT_TRUE(WaitFor([this]() { return Opacity() >= 1.0; }));
   EXPECT_TRUE(WaitFor([popup_timer]() { return popup_timer->isActive(); }));
+
+}
+
+// Returns the text of the label of the pretty OSD.
+QString PrettyOSDText(const QString &label_name) {
+  const QList<QWidget*> widgets = QApplication::topLevelWidgets();
+  for (QWidget *widget : widgets) {
+    if (OSDPretty *osd_pretty = qobject_cast<OSDPretty*>(widget)) {
+      if (QLabel *label = osd_pretty->findChild<QLabel*>(label_name)) {
+        return label->text();
+      }
+    }
+  }
+  return QString();
+}
+
+Song HtmlSong() {
+  Song song;
+  song.Init(u"<i>Title</i>"_s, u"Artist & Co"_s, u"<b>Album</b>"_s, 123);
+  return song;
+}
+
+// Regression test: the summary was escaped for the type of notification in the settings, not for the pretty OSD shown in toggle mode, so the summary was shown as HTML there.
+TEST(OSDBaseTest, SummaryEscapedInToggleMode) {
+
+  // The type of notification is native without reloading the settings, where the summary isn't escaped.
+  OSDBase osd{SharedPtr<SystemTrayIcon>()};
+  const Song song = HtmlSong();
+  osd.SongChanged(song);
+  osd.AlbumCoverLoaded(song, QUrl(), QImage());
+
+  osd.SetPrettyOSDToggleMode(true);
+  osd.ReshowCurrentSong();
+
+  EXPECT_EQ(u"Artist &amp; Co - &lt;i&gt;Title&lt;/i&gt;"_s, PrettyOSDText(u"summary"_s));
+  EXPECT_EQ(u"&lt;b&gt;Album&lt;/b&gt;"_s, PrettyOSDText(u"message"_s));
+
+}
+
+// The pretty OSD is also shown when notifications are disabled and the song is shown again, like with the global shortcut.
+TEST(OSDBaseTest, SummaryAndMessageEscapedWhenDisabled) {
+
+  Settings s;
+  s.beginGroup(OSDSettings::kSettingsGroup);
+  s.setValue(OSDSettings::kType, static_cast<int>(OSDSettings::Type::Disabled));
+  s.setValue(OSDSettings::kCustomTextEnabled, false);
+  s.endGroup();
+
+  OSDBase osd{SharedPtr<SystemTrayIcon>()};
+  osd.ReloadSettings();
+  const Song song = HtmlSong();
+  osd.SongChanged(song);
+  osd.AlbumCoverLoaded(song, QUrl(), QImage());
+  osd.ReshowCurrentSong();
+
+  EXPECT_EQ(u"Artist &amp; Co - &lt;i&gt;Title&lt;/i&gt;"_s, PrettyOSDText(u"summary"_s));
+  EXPECT_EQ(u"&lt;b&gt;Album&lt;/b&gt;"_s, PrettyOSDText(u"message"_s));
+
+  s.beginGroup(OSDSettings::kSettingsGroup);
+  s.remove(OSDSettings::kType);
+  s.remove(OSDSettings::kCustomTextEnabled);
+  s.endGroup();
 
 }
 
