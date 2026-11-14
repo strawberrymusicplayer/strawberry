@@ -91,6 +91,10 @@ void WaveformProxyStyle::SetWaveformData(const QByteArray &data) {
 
   data_ = data;
   waveform_pixmap_dirty_ = true;  // Redraw next time
+
+  // The fade target is the waveform of the previous data, when the data changes while fading, like on a quick track change, the fade would continue with the previous waveform, and then jump to the new one.
+  fade_target_ = QPixmap();
+
   NextState();
   slider_->update();
 
