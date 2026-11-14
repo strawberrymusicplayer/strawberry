@@ -228,6 +228,12 @@ QString Equalizer::SaveCurrentPreset() {
     return QString();
   }
 
+  // The built-in presets are stored under their untranslated name and shown with the translated name, so a name which is shown for a preset saves that preset.
+  const int index = ui_->preset->findText(name);
+  if (index != -1) {
+    name = ui_->preset->itemData(index).toString();
+  }
+
   AddPreset(name, current_params());
   Save();
   return name;

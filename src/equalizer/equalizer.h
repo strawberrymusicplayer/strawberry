@@ -102,6 +102,8 @@ class Equalizer : public QDialog {
   EqualizerSlider *gain_[kBands]{};
 
   QMap<QString, Params> presets_;
+
+  friend class EqualizerTest;
 };
 Q_DECLARE_METATYPE(Equalizer::Params)
 
