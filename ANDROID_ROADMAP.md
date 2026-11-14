@@ -1092,3 +1092,17 @@ Verify text size, wrapping and layout on the FP5 and emulator, including narrow 
 
 **Goal:** Adapt the cover size to the available landscape screen space while preserving its aspect ratio and image quality.
 Keep the remaining content and cover actions usable, preserve the portrait and desktop layouts, and verify on the FP5 and emulator.
+
+## 32. Add Android Collection browsing tabs
+
+**Status:** Planned
+
+**Goal:** Add separate Artists, Albums and Songs lists and a Search tab to the Android Collection, similar to the Qobuz navigation.
+These browse and search the scanned local/NAS collection, not Qobuz favorites or its online catalog.
+Put compilation artists in an expandable letter group named Various.
+
+**Approach:**
+- Keep the desktop Collection unchanged and preserve existing collection data, settings, playlist actions and navigation.
+- Coordinate the new lists with item 27's touch scrolling and explicit selection-mode work.
+- Keep each tab's position and selection where practical; handle collection updates and filtering without duplicate tracks in playlist actions.
+- Verify browsing, search, Various, touch gestures and playlist actions on the emulator and FP5.
