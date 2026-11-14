@@ -38,6 +38,7 @@
 #include "constants/discogssettings.h"
 #include "constants/opentidalsettings.h"
 #include "covermanager/discogscoverprovider.h"
+#include "covermanager/musicbrainzcoverprovider.h"
 #include "covermanager/opentidalcoverprovider.h"
 
 using std::make_shared;
@@ -130,6 +131,8 @@ class ControlledNetworkAccessManager : public NetworkAccessManager {
   }
 };
 
+constexpr char kMusicbrainzReleases[] = R"({"releases": [{"id": "100", "title": "Album", "artist-credit": [{"artist": {"name": "Artist"}}]}]})";
+
 // The settings are cleared, and custom credentials are set, so the tests don't depend on the credentials compiled in.
 void SetCustomApiCredentials(const QString &settings_group, const QString &use_custom_api_credentials_key, const QString &client_id_key, const QString &client_secret_key) {
 
@@ -190,6 +193,63 @@ TEST(CoverProviderCancelTest, DiscogsCanceledReleasesAreNotSent) {
   ASSERT_EQ(2, queries.count()) << network->Paths().join(u", "_s).toStdString();
   EXPECT_TRUE(queries.last().contains(u"next artist"_s)) << queries.last().toStdString();
   EXPECT_EQ(0, spy.count());
+
+}
+
+// Regression test: canceling a search did nothing, its request was still sent before the requests for the next searches.
+TEST(CoverProviderCancelTest, MusicbrainzCanceledSearchIsNotSent) {
+
+  SharedPtr<ControlledNetworkAccessManager> network = make_shared<ControlledNetworkAccessManager>();
+  MusicbrainzCoverProvider provider(network);
+  QSignalSpy spy(&provider, &CoverProvider::SearchFinished);
+
+  ASSERT_TRUE(provider.StartSearch(u"Canceled Artist"_s, u"Canceled Album"_s, QString(), 1));
+  ASSERT_TRUE(provider.StartSearch(u"Next Artist"_s, u"Next Album"_s, QString(), 2));
+  provider.CancelSearch(1);
+
+  ASSERT_TRUE(QTest::qWaitFor([&network]() { return !network->replies.isEmpty(); }, 5000));
+  QTest::qWait(1500);
+
+  const QStringList queries = network->Queries();
+  ASSERT_EQ(1, queries.count()) << queries.join(u", "_s).toStdString();
+  EXPECT_TRUE(queries.first().contains(u"Next Artist"_s)) << queries.first().toStdString();
+  EXPECT_EQ(0, spy.count());
+
+}
+
+// Regression test: the reply for a canceled search was still handled, and the search reported its results.
+TEST(CoverProviderCancelTest, MusicbrainzReplyAfterCancelIsNotReported) {
+
+  SharedPtr<ControlledNetworkAccessManager> network = make_shared<ControlledNetworkAccessManager>();
+  MusicbrainzCoverProvider provider(network);
+  QSignalSpy spy(&provider, &CoverProvider::SearchFinished);
+
+  ASSERT_TRUE(provider.StartSearch(u"Artist"_s, u"Album"_s, QString(), 1));
+  ASSERT_TRUE(network->WaitForRequests(1));
+
+  provider.CancelSearch(1);
+  network->FinishReply(0, kMusicbrainzReleases);
+  QTest::qWait(200);
+
+  EXPECT_EQ(0, spy.count());
+
+}
+
+// A search which is not canceled reports its results.
+TEST(CoverProviderCancelTest, MusicbrainzSearchWithoutCancelIsFinished) {
+
+  SharedPtr<ControlledNetworkAccessManager> network = make_shared<ControlledNetworkAccessManager>();
+  MusicbrainzCoverProvider provider(network);
+  QSignalSpy spy(&provider, &CoverProvider::SearchFinished);
+
+  ASSERT_TRUE(provider.StartSearch(u"Artist"_s, u"Album"_s, QString(), 1));
+  ASSERT_TRUE(network->WaitForRequests(1));
+  network->FinishReply(0, kMusicbrainzReleases);
+
+  ASSERT_TRUE(QTest::qWaitFor([&spy]() { return !spy.isEmpty(); }, 5000));
+  ASSERT_EQ(1, spy.count());
+  EXPECT_EQ(1, spy.first().value(0).toInt());
+  EXPECT_EQ(1, spy.first().value(1).value<CoverProviderSearchResults>().count());
 
 }
 
