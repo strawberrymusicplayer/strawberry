@@ -43,7 +43,10 @@
 #include <QFile>
 #include <QList>
 #include <QMutexLocker>
+#include <QTimeLine>
+#include <QEasingCurve>
 
+#include "constants/timeconstants.h"
 #include "engine/gststartup.h"
 #include "engine/gstenginepipeline.h"
 
@@ -69,6 +72,16 @@ class GstEnginePipelineTest {
 
   static void StartPlaybackAfterWarmup(GstEnginePipeline &pipeline) {
     pipeline.StartPlaybackAfterWarmup();
+  }
+
+  static void StartFader(GstEnginePipeline &pipeline, const qint64 duration_msec, const QTimeLine::Direction direction) {
+    pipeline.StartFader(duration_msec * kNsecPerMsec, direction, QEasingCurve::Linear, false);
+  }
+
+  static double FaderVolume(const GstEnginePipeline &pipeline) {
+    gdouble volume = -1.0;
+    g_object_get(G_OBJECT(pipeline.volume_fading_), "volume", &volume, nullptr);
+    return volume;
   }
 
   static GstState TargetState(const GstEnginePipeline &pipeline) {
@@ -1247,5 +1260,42 @@ TEST(GstEnginePipelineTest, FailedStartupSeekStartsPlayback) {
 
 }
 #endif
+
+// Regression test: pressing Next again before the next track was playing started fading out that track from full volume, since its fade-in was not running yet, so the skipped track was audible.
+TEST(GstEnginePipelineTest, FaderContinuesFromFaderNotRunningYet) {
+
+  GstStartup::Initialize();
+
+  TemporaryResource res(u":/audio/strawberry.wav"_s);
+  ASSERT_TRUE(QFile::exists(res.fileName()));
+  const QUrl url = QUrl::fromLocalFile(res.fileName());
+
+  GstEnginePipeline pipeline;
+  pipeline.set_output_device(u"fakesink"_s, QVariant());
+  pipeline.set_fading_enabled(true);
+  QString error;
+  ASSERT_TRUE(pipeline.InitFromUrl(url, url, url.toEncoded(), 0, 0, 0.0, error)) << error.toStdString();
+
+  // The fade-in only runs when the pipeline is playing.
+  GstEnginePipelineTest::StartFader(pipeline, 2000, QTimeLine::Direction::Forward);
+  EXPECT_DOUBLE_EQ(0.0, GstEnginePipelineTest::FaderVolume(pipeline));
+
+  for (const qint64 duration_msec : {2000, 3000}) {
+    SCOPED_TRACE(duration_msec);
+    GstEnginePipelineTest::StartFader(pipeline, duration_msec, QTimeLine::Direction::Backward);
+    EXPECT_DOUBLE_EQ(0.0, GstEnginePipelineTest::FaderVolume(pipeline));
+  }
+
+  // The other way around, a fade-in replacing a fade-out which is not running yet continues from full volume.
+  GstEnginePipeline pipeline_fadeout;
+  pipeline_fadeout.set_output_device(u"fakesink"_s, QVariant());
+  pipeline_fadeout.set_fading_enabled(true);
+  ASSERT_TRUE(pipeline_fadeout.InitFromUrl(url, url, url.toEncoded(), 0, 0, 0.0, error)) << error.toStdString();
+  GstEnginePipelineTest::StartFader(pipeline_fadeout, 2000, QTimeLine::Direction::Backward);
+  EXPECT_DOUBLE_EQ(1.0, GstEnginePipelineTest::FaderVolume(pipeline_fadeout));
+  GstEnginePipelineTest::StartFader(pipeline_fadeout, 2000, QTimeLine::Direction::Forward);
+  EXPECT_DOUBLE_EQ(1.0, GstEnginePipelineTest::FaderVolume(pipeline_fadeout));
+
+}
 
 }  // namespace
