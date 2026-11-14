@@ -29,6 +29,7 @@
 #include <QStyleOptionViewItem>
 #include <QStandardItem>
 #include <QList>
+#include <QSet>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
@@ -165,23 +166,25 @@ AlbumCoverImageResult AlbumCoverSearcher::Exec(const QString &artist, const QStr
 
   if (exec() == QDialog::Rejected) return AlbumCoverImageResult();
 
-  QModelIndex selected = ui_->covers->currentIndex();
-  if (!selected.isValid() || !selected.data(Role_ImageFetchFinished).toBool())
-    return AlbumCoverImageResult();
+  // The result was taken when the dialog was closed.
+  return accepted_result_;
 
-  AlbumCoverImageResult result;
-  result.image_data = selected.data(Role_ImageData).toByteArray();
-  result.image = selected.data(Role_Image).value<QImage>();
-  result.mime_type = Utilities::MimeTypeFromData(result.image_data);
+}
 
-  return result;
+void AlbumCoverSearcher::CancelCoverLoadingTasks() {
+
+  // The loader would otherwise still load the images of the previous results, which are not shown anymore.
+  if (!cover_loading_tasks_.isEmpty()) {
+    albumcover_loader_->CancelTasks(QSet<quint64>(cover_loading_tasks_.keyBegin(), cover_loading_tasks_.keyEnd()));
+    cover_loading_tasks_.clear();
+  }
 
 }
 
 void AlbumCoverSearcher::Search() {
 
+  CancelCoverLoadingTasks();
   model_->clear();
-  cover_loading_tasks_.clear();
 
   if (ui_->album->isEnabled()) {
     id_ = fetcher_->SearchForCovers(ui_->artist->text(), ui_->album->text());
@@ -217,6 +220,24 @@ void AlbumCoverSearcher::done(const int r) {
   if (id_ != 0) {
     AbortSearch();
   }
+
+  // The chosen cover is taken before the results still loading are removed, removing the current row makes another row current.
+  accepted_result_ = AlbumCoverImageResult();
+  if (r == QDialog::Accepted) {
+    const QModelIndex selected = ui_->covers->currentIndex();
+    if (selected.isValid() && selected.data(Role_ImageFetchFinished).toBool()) {
+      accepted_result_.image_data = selected.data(Role_ImageData).toByteArray();
+      accepted_result_.image = selected.data(Role_Image).value<QImage>();
+      accepted_result_.mime_type = Utilities::MimeTypeFromData(accepted_result_.image_data);
+    }
+  }
+
+  // The images still loading are not used anymore, the results without an image are removed, since they can't be chosen, the dialog can be opened again without a new search.
+  for (QStandardItem *item : std::as_const(cover_loading_tasks_)) {
+    model_->removeRow(item->row());
+  }
+  CancelCoverLoadingTasks();
+  ui_->busy->hide();
 
   QDialog::done(r);
 

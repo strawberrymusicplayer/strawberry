@@ -30,6 +30,19 @@
 #include <QSignalSpy>
 #include <QTest>
 #include <QTimer>
+#include <QScopeGuard>
+#include <QWidget>
+#include <QUrl>
+#include <QImage>
+#include <QTemporaryDir>
+#include <QCoreApplication>
+#include <QEvent>
+#include <QAbstractItemView>
+#include <QAbstractItemModel>
+#include <QModelIndex>
+#include <QTcpServer>
+#include <QTcpSocket>
+#include <QHostAddress>
 
 #include "includes/shared_ptr.h"
 #include "core/networkaccessmanager.h"
@@ -37,6 +50,7 @@
 #include "covermanager/albumcoverloader.h"
 #include "covermanager/albumcoverfetcher.h"
 #include "covermanager/albumcoversearcher.h"
+#include "covermanager/albumcoverimageresult.h"
 #include "covermanager/coverprovider.h"
 #include "covermanager/coverproviders.h"
 
@@ -60,7 +74,7 @@ class FakeCoverProvider : public CoverProvider {
 
   void CancelSearch(const int id) override { cancelled_ids_ << id; }
 
-  void FinishSearch(const int id) { Q_EMIT SearchFinished(id, CoverProviderSearchResults()); }
+  void FinishSearch(const int id, const CoverProviderSearchResults &results = CoverProviderSearchResults()) { Q_EMIT SearchFinished(id, results); }
 
   QList<int> started_ids_;
   QList<int> cancelled_ids_;
@@ -182,6 +196,155 @@ TEST_F(AlbumCoverSearcherTest, ReopeningDuringSearchStartsNewSearch) {
   });
   searcher.Exec(u"Other artist"_s, u"Other album"_s);
   EXPECT_EQ(2, started_when_open);
+
+}
+
+// Regression test: a new search, or closing the dialog, did not cancel loading the images of the previous results, so the loader still loaded all of them.
+TEST_F(AlbumCoverSearcherTest, ThumbnailsAreCancelled) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  CoverProviderSearchResults results;
+  for (int i = 0; i < 3; ++i) {
+    const QString filename = temp_dir.filePath(u"cover%1.png"_s.arg(i));
+    QImage image(8, 8, QImage::Format_RGB32);
+    image.fill(Qt::red);
+    ASSERT_TRUE(image.save(filename, "PNG"));
+    CoverProviderSearchResult result;
+    result.artist = u"Artist"_s;
+    result.album = u"Album"_s;
+    result.image_url = QUrl::fromLocalFile(filename);
+    results << result;
+  }
+
+  AlbumCoverSearcher searcher(QIcon(), albumcover_loader_, nullptr);
+  searcher.Init(&*fetcher_);
+  QAbstractItemView *covers = searcher.findChild<QAbstractItemView*>(u"covers"_s);
+  ASSERT_NE(nullptr, covers);
+
+  // Shows the results of the search, only the queued call to the dialog is delivered, so the loader has not loaded the images yet.
+  const auto show_results = [this, &searcher, covers, &results]() {
+    ASSERT_FALSE(provider_->started_ids_.isEmpty());
+    provider_->FinishSearch(provider_->started_ids_.last(), results);
+    QCoreApplication::sendPostedEvents(&searcher, QEvent::MetaCall);
+    ASSERT_EQ(results.count(), covers->model()->rowCount());
+  };
+
+  QSignalSpy loaded_spy(&*albumcover_loader_, &AlbumCoverLoader::AlbumCoverLoaded);
+
+  // A new search, the dialog is kept open while the loader processes the tasks, closing the dialog cancels them too.
+  qsizetype loaded_when_open = -1;
+  QTimer::singleShot(0, &searcher, [&searcher, &show_results, &loaded_spy, &loaded_when_open]() {
+    const auto close_dialog = qScopeGuard([&searcher]() { searcher.reject(); });
+    show_results();
+    QPushButton *button_search = searcher.findChild<QPushButton*>(u"search"_s);
+    ASSERT_NE(nullptr, button_search);
+    button_search->click();
+    QTest::qWait(200);
+    loaded_when_open = loaded_spy.count();
+  });
+  searcher.Exec(u"Artist"_s, u"Album"_s);
+  EXPECT_EQ(0, loaded_when_open);
+
+  // Closing the dialog.
+  QTimer::singleShot(0, &searcher, [&searcher, &show_results]() {
+    const auto close_dialog = qScopeGuard([&searcher]() { searcher.reject(); });
+    show_results();
+  });
+  searcher.Exec(u"Artist"_s, u"Album"_s);
+  QTest::qWait(200);
+  EXPECT_EQ(0, loaded_spy.count());
+
+  // Opened again without searching, the cancelled images are not loading anymore.
+  QWidget *busy = searcher.findChild<QWidget*>(u"busy"_s);
+  ASSERT_NE(nullptr, busy);
+  bool busy_shown = true;
+  int rows_shown = -1;
+  QTimer::singleShot(0, &searcher, [&searcher, busy, &busy_shown, covers, &rows_shown]() {
+    busy_shown = busy->isVisible();
+    rows_shown = covers->model()->rowCount();
+    searcher.reject();
+  });
+  searcher.Exec(QString(), QString());
+  EXPECT_FALSE(busy_shown);
+  // The results without an image can't be chosen, so they are not shown.
+  EXPECT_EQ(0, rows_shown);
+
+  // The images of the results which are shown are loaded.
+  QTimer::singleShot(0, &searcher, [&searcher, &show_results, &loaded_spy, &results]() {
+    const auto close_dialog = qScopeGuard([&searcher]() { searcher.reject(); });
+    show_results();
+    QTRY_COMPARE_WITH_TIMEOUT(loaded_spy.count(), results.count(), 5000);
+  });
+  searcher.Exec(u"Artist"_s, u"Album"_s);
+  EXPECT_EQ(results.count(), loaded_spy.count());
+
+}
+
+// Regression test: removing the result still loading which was chosen when the dialog was closed made another result current, which was returned instead.
+TEST_F(AlbumCoverSearcherTest, ChosenResultStillLoadingIsNotReplaced) {
+
+  // The server accepts the request, but never replies, so the remote image is still loading.
+  QTcpServer server;
+  ASSERT_TRUE(server.listen(QHostAddress::LocalHost));
+  QList<QTcpSocket*> sockets;
+  QObject::connect(&server, &QTcpServer::newConnection, &server, [&server, &sockets]() {
+    while (server.hasPendingConnections()) sockets << server.nextPendingConnection();
+  });
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString loaded_filename = temp_dir.filePath(u"loaded.png"_s);
+  QImage loaded_image(8, 8, QImage::Format_RGB32);
+  loaded_image.fill(Qt::red);
+  ASSERT_TRUE(loaded_image.save(loaded_filename, "PNG"));
+  CoverProviderSearchResults results;
+  for (const QUrl &image_url : {QUrl::fromLocalFile(loaded_filename), QUrl(u"http://127.0.0.1:%1/loading.jpg"_s.arg(server.serverPort()))}) {
+    CoverProviderSearchResult result;
+    result.artist = u"Artist"_s;
+    result.album = u"Album"_s;
+    result.image_url = image_url;
+    results << result;
+  }
+
+  AlbumCoverSearcher searcher(QIcon(), albumcover_loader_, nullptr);
+  searcher.Init(&*fetcher_);
+  QAbstractItemView *covers = searcher.findChild<QAbstractItemView*>(u"covers"_s);
+  ASSERT_NE(nullptr, covers);
+
+  // Returns the row of the result which is loaded, or still loading.
+  const auto result_row = [covers](const bool loaded) {
+    for (int row = 0; row < covers->model()->rowCount(); ++row) {
+      const QModelIndex idx = covers->model()->index(row, 0);
+      if (idx.data(AlbumCoverSearcher::Role_ImageFetchFinished).toBool() == loaded) return idx;
+    }
+    return QModelIndex();
+  };
+
+  // The result still loading is chosen.
+  QTimer::singleShot(0, &searcher, [this, &searcher, covers, &results, &sockets, &result_row]() {
+    const auto close_dialog = qScopeGuard([&searcher]() { searcher.accept(); });
+    ASSERT_FALSE(provider_->started_ids_.isEmpty());
+    provider_->FinishSearch(provider_->started_ids_.last(), results);
+    ASSERT_TRUE(QTest::qWaitFor([&result_row, &sockets]() { return result_row(true).isValid() && !sockets.isEmpty(); }, 5000));
+    const QModelIndex loading_index = result_row(false);
+    ASSERT_TRUE(loading_index.isValid());
+    covers->setCurrentIndex(loading_index);
+  });
+  const AlbumCoverImageResult loading_result = searcher.Exec(u"Artist"_s, u"Album"_s);
+  EXPECT_TRUE(loading_result.image.isNull());
+  EXPECT_TRUE(loading_result.image_data.isEmpty());
+
+  // The loaded result is kept, and can be chosen when the dialog is opened again.
+  QTimer::singleShot(0, &searcher, [&searcher, covers, &result_row]() {
+    const auto close_dialog = qScopeGuard([&searcher]() { searcher.accept(); });
+    ASSERT_EQ(1, covers->model()->rowCount());
+    const QModelIndex loaded_index = result_row(true);
+    ASSERT_TRUE(loaded_index.isValid());
+    covers->setCurrentIndex(loaded_index);
+  });
+  const AlbumCoverImageResult loaded_result = searcher.Exec(QString(), QString());
+  EXPECT_EQ(loaded_image.size(), loaded_result.image.size());
 
 }
 
