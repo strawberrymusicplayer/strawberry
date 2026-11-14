@@ -108,7 +108,7 @@ void SettingsDialog::SetupAndroidNavigation() {
         ui_->list->setCurrentItem(item);
         CurrentItemChanged(item);
         SetAndroidNavigationPage(ui_->stacked_widget);
-        ui_->buttonBox->show();
+        UpdateAndroidPageButtons();
       });
     }
 
@@ -191,6 +191,11 @@ bool SettingsDialog::IsAndroidPageActive(const SettingsPage *page) const {
 
 }
 
+void SettingsDialog::UpdateAndroidPageButtons() {
+  const auto qobuz = pages_.constFind(Page::Qobuz);
+  ui_->buttonBox->setVisible(qobuz == pages_.cend() || qobuz->item_ != ui_->list->currentItem());
+}
+
 void SettingsDialog::OpenAndroidSubpage(QWidget *content, const QString &title) {
 
   auto *parent_area = android_subpages_.isEmpty() ? qobject_cast<QScrollArea*>(ui_->stacked_widget->currentWidget()) : android_subpages_.last().area;
@@ -232,7 +237,7 @@ void SettingsDialog::CloseAndroidSubpage() {
   subpage.area->deleteLater();
   if (android_subpages_.isEmpty()) {
     CurrentItemChanged(ui_->list->currentItem());
-    ui_->buttonBox->show();
+    UpdateAndroidPageButtons();
     SetAndroidNavigationPage(ui_->stacked_widget);
   }
   else {

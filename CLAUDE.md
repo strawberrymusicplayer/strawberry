@@ -156,7 +156,7 @@ Apply these UI principles when building or changing hierarchical menus and dropd
 - Keep the parent breadcrumb visible and start the fourth-level title on a separate line. Allow titles, values, and choices to wrap on narrow screens.
 - Return to the parent after selecting a single choice. For related choices, remain on the subscreen so each can be edited. Back alone must not select a different choice.
 - Restore the parent's selection and scroll position when returning, and keep inactive controls hidden and non-interactive.
-- Preserve the flow's save semantics. In Settings, edits remain pending until Apply or OK, and Cancel discards unapplied changes.
+- Preserve the flow's save semantics. Settings edits remain pending until Apply or OK and Cancel discards unapplied changes, except on the Android Qobuz page, where changes are saved automatically.
 - Keep these Android adaptations platform-guarded; do not replace existing Windows or Linux controls.
 
 The Android General > Behavior page is the reference implementation.

@@ -805,12 +805,32 @@ The user also requested removing these arrows from the navigation/menu bar when 
 
 ## 24. Restore and verify browser authentication on Android
 
-**Status:** Planned
+**Status:** In progress (Qobuz first; browser login remains disabled by default)
 
 **Problem:** Browser login for Tidal, Qobuz, Last.fm, ListenBrainz and Genius is disabled on Android until its return flow and background lifecycle are verified.
 This is the deferred follow-up to feature audit point 14, not a claim that provider logins have passed.
 
 **Goal:** Restore supported browser-login flows without losing the callback while Android backgrounds or freezes an idle app.
+
+**Qobuz implementation under validation:**
+- `ENABLE_ANDROID_QOBUZ_BROWSER_AUTH` is an explicit, default-off Android build option for testing this provider without enabling the other deferred logins.
+- A separate, non-sticky `shortService` foreground service keeps the stopped player's process alive for a bounded two-minute login attempt.
+  Success, failure, cancellation and timeout release it; cancellation/timeout close the listener and abort the outstanding login request.
+  It does not pretend that music is playing or reuse the media-playback notification.
+- An unguessable callback path binds the response to its login attempt.
+  Denials and responses without a fresh token report failure rather than reusing an existing session as a successful new login.
+  Qobuz may omit the user ID, which the integration does not require; such a response is accepted without retaining an earlier ID.
+- The Qobuz page offers Cancel login while waiting.
+  Android Qobuz settings save automatically, including fetched API credentials, without Apply, OK or Cancel; other settings pages retain their pending-edit behavior.
+  After process death, its pending-status marker explains that login was interrupted and must be retried; an old loopback listener cannot survive process recreation.
+  This marker contains no credentials, authorization codes or tokens.
+- Native authentication regressions and emulator lifecycle checks pass.
+  The remaining real-provider checks must pass before enabling Qobuz browser login by default.
+- On the FP5, the user confirmed Qobuz login persists after restarting when the fetched API credentials are first saved with Apply.
+  The user also confirmed the automatic-save page works and its Apply/OK/Cancel buttons are gone.
+  Logout and login persistence after fetching credentials using the new automatic-save flow still need real-device verification.
+- Auto-save signal regressions pass with the Qobuz and OAuth suites.
+  On the emulator, enabling Qobuz without Apply persisted across an app restart; its page and preferences editor hide Apply/OK/Cancel and Back returns one level, while Tidal still shows those buttons.
 
 **Next steps:**
 - Restore Tidal's Android intent filter and Qt URL handler from commit `510bb5eb4`, checking callback routing, OAuth state validation, and return to the active settings page.

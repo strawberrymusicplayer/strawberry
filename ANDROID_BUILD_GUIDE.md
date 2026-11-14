@@ -60,6 +60,39 @@ Groups start collapsed after a collection reset or app restart, including letter
 Opening a group keeps it open while browsing and reapplying settings; these temporary folds are not saved.
 Desktop Collection behavior is unchanged.
 
+## Experimental Qobuz browser authentication
+
+Qobuz browser login is disabled by default pending roadmap item 24's provider verification.
+To build a test APK using the existing Android build directory:
+
+```bash
+cmake -S . -B build -DENABLE_ANDROID_QOBUZ_BROWSER_AUTH=ON
+```
+
+Follow the normal APK packaging steps below, including `androiddeployqt`, so the new Java service and manifest are copied into the package.
+Running Gradle alone against an older package directory does not update those sources.
+This option does not restore Tidal, Last.fm, ListenBrainz, Genius or Spotify browser login.
+
+The test flow uses a separate Android `shortService`, not the playback service, to keep a stopped player's local callback server running.
+On Android, the Qobuz settings page saves changes automatically: choices are saved when changed, text fields when editing finishes, and fetched API credentials immediately.
+Its Apply, OK and Cancel buttons are hidden; Back returns to the parent without discarding those changes.
+Other settings pages retain their existing Apply/OK/Cancel behavior.
+Finish login within two minutes.
+Return to the Qobuz settings page to cancel; success, failure and timeout also stop the service.
+On Android 13 and newer, notification visibility depends on the system's notification settings, so use Recents to return if no notification is shown.
+If Android kills the process, the old listener cannot be resumed: the next Qobuz editor explains the interruption and offers a fresh attempt.
+Only a pending-status flag is stored for that recovery, not an authorization code or browser URL.
+
+Verify actual login/token exchange, denial, cancellation/retry, delayed return with playback stopped, restart persistence and logout before enabling the option by default.
+Enter credentials directly in the browser, never in chat or test logs.
+Portable callback and session regressions run with:
+
+```bash
+cmake --build build/native --target qobuzservice_test oauthenticator_test localredirectserver_test --parallel 2
+QT_QPA_PLATFORM=offscreen ctest --test-dir build/native \
+  -R '^(qobuzservice_test|oauthenticator_test|localredirectserver_test)$' --output-on-failure
+```
+
 ## NAS client dependency
 
 Android builds enable `ENABLE_NAS` by default.

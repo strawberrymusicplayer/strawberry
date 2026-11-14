@@ -45,6 +45,11 @@
         </activity>
 
         <service
+            android:name="nl.dewitweb.strawberryflavor.BrowserAuthenticationService"
+            android:exported="false"
+            android:foregroundServiceType="shortService" />
+
+        <service
             android:name="nl.dewitweb.strawberryflavor.PlaybackService"
             android:exported="false"
             android:foregroundServiceType="mediaPlayback" />

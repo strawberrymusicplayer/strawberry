@@ -57,8 +57,13 @@ LocalRedirectServer::~LocalRedirectServer() {
   if (isListening()) close();
 }
 
-bool LocalRedirectServer::Listen() {
+bool LocalRedirectServer::Listen(const QString &redirect_path) {
 
+  if (!redirect_path.isEmpty() && (!redirect_path.startsWith(u'/') || redirect_path.contains(u'?') || redirect_path.contains(u'#'))) {
+    error_ = tr("Invalid OAuth redirect path.");
+    return false;
+  }
+  redirect_path_ = redirect_path;
   if (!listen(QHostAddress::LocalHost, static_cast<quint16>(port_))) {
     success_ = false;
     error_ = errorString();
@@ -68,7 +73,7 @@ bool LocalRedirectServer::Listen() {
   url_.setScheme(u"http"_s);
   url_.setHost(u"localhost"_s);
   url_.setPort(serverPort());
-  url_.setPath(u"/"_s);
+  url_.setPath(redirect_path_.isEmpty() ? u"/"_s : redirect_path_);
   port_ = serverPort();
   QObject::connect(this, &QTcpServer::newConnection, this, &LocalRedirectServer::NewConnection);
 
@@ -159,9 +164,11 @@ void LocalRedirectServer::ReadyRead() {
 
 }
 
-bool LocalRedirectServer::IsRedirect(const QUrl &url) {
+bool LocalRedirectServer::IsRedirect(const QUrl &url) const {
 
   if (!url.isValid()) return false;
+  if (url.scheme() != url_.scheme() || url.authority() != url_.authority()) return false;
+  if (!redirect_path_.isEmpty() && url.path() != redirect_path_) return false;
 
   // OAuth redirects have the code or an error (OAuthenticator), Qobuz redirects have code_autorisation (QobuzService), and Last.fm redirects have the token (LastFMScrobbler).
   // Keep this in line with the parameters the users of this server read.
@@ -228,9 +235,6 @@ QUrl LocalRedirectServer::ParseUrlFromRequest(const QByteArray &request) const {
   const QByteArrayList request_line_parts = request_line.split(' ');
   if (request_line_parts.size() < 2) return QUrl();
   const QByteArray path = request_line_parts[1];
-  const QUrl base_url = url_;
-  const QUrl request_url(base_url.toString() + QString::fromLatin1(path.mid(1)), QUrl::StrictMode);
-
-  return request_url;
+  return url_.resolved(QUrl::fromEncoded(path, QUrl::StrictMode));
 
 }

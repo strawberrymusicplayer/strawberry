@@ -171,6 +171,7 @@ class SettingsDialog : public QDialog {
   // Implemented in settingsdialog_android.cpp.
   void SetupAndroidNavigation();
   void SetAndroidNavigationPage(QWidget *page);
+  void UpdateAndroidPageButtons();
   void AndroidBack();
   void SetAndroidTitle(const QString &category = QString(), const QString &page = QString(), const QString &subpage = QString());
   QStackedWidget *android_navigation_;

@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QMessageBox>
 
 #include "includes/shared_ptr.h"
 #include "settings/settingspage.h"
@@ -58,6 +59,14 @@ class QobuzSettingsPage : public SettingsPage {
   void ApiCredentialsFetchError(const QString &error);
 
  private:
+  void ShowAuthenticationMessage(QMessageBox::Icon icon, const QString &title, const QString &message);
+#ifdef Q_OS_ANDROID
+  void SetupAndroidAutoSave();
+  bool SaveAndroidSettings();
+  bool android_settings_loaded_ = false;
+  bool android_save_succeeded_ = true;
+#endif
+
   Ui_QobuzSettingsPage *ui_;
   const SharedPtr<QobuzService> service_;
   QobuzApiCredentialFetcher *api_credential_fetcher_;

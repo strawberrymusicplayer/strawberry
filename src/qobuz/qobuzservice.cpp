@@ -47,6 +47,9 @@
 #include "core/settings.h"
 #include "core/urlhandlers.h"
 #include "utilities/strutils.h"
+#ifdef Q_OS_ANDROID
+#include "utilities/randutils.h"
+#endif
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "qobuzservice.h"
@@ -157,6 +160,9 @@ QobuzService::QobuzService(const SharedPtr<TaskManager> task_manager,
 
 QobuzService::~QobuzService() {
 
+#ifdef Q_OS_ANDROID
+  StopAndroidAuthentication();
+#endif
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
     QObject::disconnect(reply, nullptr, this, nullptr);
@@ -280,7 +286,7 @@ void QobuzService::Authenticate(const QString &app_id, const QString &app_secret
 
 void QobuzService::Authenticate() {
 
-#ifdef Q_OS_ANDROID
+#if defined(Q_OS_ANDROID) && !defined(HAVE_ANDROID_QOBUZ_BROWSER_AUTH)
   LoginError(tr("Browser authentication is currently unavailable on Android."));
   return;
 #endif
@@ -305,27 +311,53 @@ void QobuzService::Authenticate() {
   }
 
   local_redirect_server_ = new LocalRedirectServer(this);
-  if (!local_redirect_server_->Listen()) {
-    LoginError(tr("Failed to start local server for OAuth redirect: %1").arg(local_redirect_server_->error()));
+#ifdef Q_OS_ANDROID
+  const bool listening = local_redirect_server_->Listen(u'/' + Utilities::CryptographicRandomString(32));
+#else
+  const bool listening = local_redirect_server_->Listen();
+#endif
+  if (!listening) {
+    const QString error = local_redirect_server_->error();
     local_redirect_server_->deleteLater();
     local_redirect_server_ = nullptr;
+    LoginError(tr("Failed to start local server for OAuth redirect: %1").arg(error));
     return;
   }
   QObject::connect(local_redirect_server_, &LocalRedirectServer::Finished, this, &QobuzService::OAuthRedirectReceived);
 
+#ifdef Q_OS_ANDROID
+  QString authentication_error;
+  if (!StartAndroidAuthentication(authentication_error)) {
+    LoginError(authentication_error);
+    return;
+  }
+#endif
+
   QUrl url(QString::fromLatin1(kOAuthSigninUrl));
   QUrlQuery url_query;
   url_query.addQueryItem(u"ext_app_id"_s, app_id_);
+#ifdef Q_OS_ANDROID
+  QUrl redirect_url(local_redirect_server_->url());
+  redirect_url.setHost(u"127.0.0.1"_s);
+  url_query.addQueryItem(u"redirect_url"_s, redirect_url.toString());
+#else
   url_query.addQueryItem(u"redirect_url"_s, QStringLiteral("http://127.0.0.1:%1").arg(local_redirect_server_->port()));
+#endif
   url.setQuery(url_query);
 
   const bool success = QDesktopServices::openUrl(url);
   if (!success) {
+#ifndef Q_OS_ANDROID
     qLog(Error) << "Qobuz: Failed to open URL" << url.toString();
-    LoginError(tr("Failed to open the web browser. Please open this URL manually: %1").arg(url.toString()));
+#endif
     local_redirect_server_->close();
     local_redirect_server_->deleteLater();
     local_redirect_server_ = nullptr;
+#ifdef Q_OS_ANDROID
+    LoginError(tr("Failed to open the web browser. Please try again."));
+#else
+    LoginError(tr("Failed to open the web browser. Please open this URL manually: %1").arg(url.toString()));
+#endif
     return;
   }
 
@@ -336,6 +368,9 @@ void QobuzService::Authenticate() {
 void QobuzService::OAuthRedirectReceived() {
 
   if (!local_redirect_server_) return;
+#ifdef Q_OS_ANDROID
+  if (!CheckAndroidAuthentication()) return;
+#endif
 
   LocalRedirectServer *server = local_redirect_server_;
   local_redirect_server_ = nullptr;
@@ -350,6 +385,14 @@ void QobuzService::OAuthRedirectReceived() {
   }
 
   const QUrlQuery url_query(request_url);
+
+  if (url_query.hasQueryItem(u"error_description"_s) || url_query.hasQueryItem(u"error"_s)) {
+    const QString error = url_query.hasQueryItem(u"error_description"_s)
+                              ? url_query.queryItemValue(u"error_description"_s, QUrl::FullyDecoded)
+                              : url_query.queryItemValue(u"error"_s, QUrl::FullyDecoded);
+    LoginError(error.isEmpty() ? tr("Browser authentication was denied.") : error);
+    return;
+  }
 
   QString code;
   if (url_query.hasQueryItem(u"code_autorisation"_s)) {
@@ -378,6 +421,9 @@ void QobuzService::OAuthRedirectReceived() {
   network_request.setRawHeader("X-App-Id", app_id_.toUtf8());
 
   QNetworkReply *reply = network_->get(network_request);
+#ifdef Q_OS_ANDROID
+  android_login_reply_ = reply;
+#endif
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &QobuzService::HandleLoginSSLErrors);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { HandleOAuthCallbackReply(reply); });
@@ -445,32 +491,48 @@ QJsonObject QobuzService::ParseLoginReply(QNetworkReply *reply, const QString &r
 
 void QobuzService::HandleOAuthCallbackReply(QNetworkReply *reply) {
 
+#ifdef Q_OS_ANDROID
+  if (android_login_reply_ != reply) {
+    qLog(Debug) << "Qobuz: Ignoring a stale browser login reply";
+    return;
+  }
+  if (!CheckAndroidAuthentication()) return;
+  android_login_reply_.clear();
+#endif
   const QJsonObject json_object = ParseLoginReply(reply, u"OAuth callback"_s);
   if (json_object.isEmpty()) return;
 
-  // The OAuth callback returns {token, userId} instead of the {user_auth_token, user: {id, device, credential}} format from /user/login.
-  if (json_object.contains("token"_L1)) {
-    user_auth_token_ = json_object["token"_L1].toString();
-  }
-  else if (json_object.contains("user_auth_token"_L1)) {
-    user_auth_token_ = json_object["user_auth_token"_L1].toString();
-  }
-
-  if (user_auth_token_.isEmpty()) {
-    LoginError(u"OAuth callback reply is missing token"_s, json_object);
+  const QString token = json_object.contains("token"_L1)
+                            ? json_object["token"_L1].toString()
+                            : json_object["user_auth_token"_L1].toString();
+  if (token.isEmpty()) {
+    LoginError(tr("OAuth callback reply is missing token"));
     return;
   }
 
-  if (json_object.contains("userId"_L1)) {
-    user_id_ = json_object["userId"_L1].toVariant().toLongLong();
-  }
+  bool valid_user_id = false;
+  const qint64 received_user_id = (json_object.contains("userId"_L1)
+                                      ? json_object["userId"_L1].toVariant()
+                                      : json_object["user"_L1].toObject()["id"_L1].toVariant()).toLongLong(&valid_user_id);
+  const qint64 user_id = valid_user_id && received_user_id > 0 ? received_user_id : -1;
 
   Settings s;
   s.beginGroup(QobuzSettings::kSettingsGroup);
-  s.setValue(QobuzSettings::kUserAuthToken, user_auth_token_);
-  s.setValue(QobuzSettings::kUserId, user_id_);
+  s.setValue(QobuzSettings::kUserAuthToken, token);
+  s.setValue(QobuzSettings::kUserId, user_id);
   s.endGroup();
 
+#ifdef Q_OS_ANDROID
+  s.sync();
+  if (s.status() != QSettings::NoError) {
+    LoginError(tr("Could not save the Qobuz login."));
+    return;
+  }
+  StopAndroidAuthentication();
+#endif
+
+  user_auth_token_ = token;
+  user_id_ = user_id;
   qLog(Debug) << "Qobuz: OAuth login successful" << "user id" << user_id_;
 
   Q_EMIT LoginFinished(true);
@@ -488,6 +550,9 @@ void QobuzService::HandleLoginSSLErrors(const QList<QSslError> &ssl_errors) {
 
 void QobuzService::ClearSession() {
 
+#ifdef Q_OS_ANDROID
+  StopAndroidAuthentication();
+#endif
   user_auth_token_.clear();
   user_id_ = -1;
 
@@ -769,6 +834,9 @@ void QobuzService::HandleStreamURLSuccess(const uint id, const QUrl &media_url, 
 
 void QobuzService::LoginError(const QString &error, const QVariant &debug) {
 
+#ifdef Q_OS_ANDROID
+  StopAndroidAuthentication();
+#endif
   qLog(Error) << "Qobuz:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
 

@@ -41,6 +41,10 @@
 #include "qobuz/qobuzservice.h"
 #include "qobuz/qobuzapicredentialfetcher.h"
 #include "constants/qobuzsettings.h"
+#ifdef Q_OS_ANDROID
+#include "core/browserauthentication_android.h"
+#include "widgets/actiondialog.h"
+#endif
 
 using namespace Qt::Literals::StringLiterals;
 using namespace QobuzSettings;
@@ -54,11 +58,20 @@ QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *dialog, const SharedPtr<Qob
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(u"qobuz"_s, true, 0, 32));
 
-#ifdef Q_OS_ANDROID
+#if defined(Q_OS_ANDROID) && !defined(HAVE_ANDROID_QOBUZ_BROWSER_AUTH)
   ui_->button_login->hide();
   ui_->button_fetch_api_credentials->hide();
   auto *authentication_notice = new QLabel(tr("Browser authentication is currently unavailable on Android."), this);
   authentication_notice->setWordWrap(true);
+  ui_->layout_qobuzsettingspage->insertWidget(1, authentication_notice);
+#elif defined(Q_OS_ANDROID)
+  ui_->app_secret->setEchoMode(QLineEdit::Password);
+  ui_->private_key->setEchoMode(QLineEdit::Password);
+  auto *authentication_notice = new QLabel(this);
+  authentication_notice->setWordWrap(true);
+  authentication_notice->setText(AndroidBrowserAuthentication::WasInterrupted(QStringLiteral("Qobuz"))
+      ? tr("The previous browser login was interrupted. Please try again.")
+      : tr("Finish browser login within two minutes. Return here to cancel or retry."));
   ui_->layout_qobuzsettingspage->insertWidget(1, authentication_notice);
 #endif
 
@@ -76,6 +89,9 @@ QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *dialog, const SharedPtr<Qob
   ui_->format->addItem(u"FLAC Hi-Res <= 96kHz"_s, 7);
   ui_->format->addItem(u"FLAC Hi-Res > 96kHz"_s, 27);
 
+#ifdef Q_OS_ANDROID
+  SetupAndroidAutoSave();
+#endif
 }
 
 QobuzSettingsPage::~QobuzSettingsPage() { delete ui_; }
@@ -89,6 +105,9 @@ void QobuzSettingsPage::showEvent(QShowEvent *e) {
 
 void QobuzSettingsPage::Load() {
 
+#ifdef Q_OS_ANDROID
+  android_settings_loaded_ = false;
+#endif
   Settings s;
   if (!s.contains(kSettingsGroup)) set_changed();
 
@@ -116,6 +135,9 @@ void QobuzSettingsPage::Load() {
 
   if (!Settings().childGroups().contains(QLatin1String(kSettingsGroup))) set_changed();
 
+#ifdef Q_OS_ANDROID
+  android_settings_loaded_ = true;
+#endif
 }
 
 void QobuzSettingsPage::Save() {
@@ -138,25 +160,45 @@ void QobuzSettingsPage::Save() {
   s.setValue(kShowSearchAlbumEdition, ui_->checkbox_show_search_album_edition->isChecked());
   s.endGroup();
 
+#ifdef Q_OS_ANDROID
+  s.sync();
+  android_save_succeeded_ = s.status() == QSettings::NoError;
+  if (!android_save_succeeded_) {
+    qLog(Error) << "Could not save Qobuz settings";
+    ShowAuthenticationMessage(QMessageBox::Critical, tr("Settings could not be saved"), tr("Could not save Qobuz settings. Please check storage access and try again."));
+  }
+#endif
 }
 
 void QobuzSettingsPage::LoginClicked() {
 
+#ifdef Q_OS_ANDROID
+  if (service_->AndroidAuthenticationInProgress()) {
+    service_->CancelAndroidAuthentication();
+    return;
+  }
+#endif
   if (ui_->app_id->text().isEmpty()) {
-    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing app id. Please fetch API credentials first."));
+    ShowAuthenticationMessage(QMessageBox::Critical, tr("Configuration incomplete"), tr("Missing app id. Please fetch API credentials first."));
     return;
   }
   if (ui_->app_secret->text().isEmpty()) {
-    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing app secret. Please fetch API credentials first."));
+    ShowAuthenticationMessage(QMessageBox::Critical, tr("Configuration incomplete"), tr("Missing app secret. Please fetch API credentials first."));
     return;
   }
   if (ui_->private_key->text().isEmpty()) {
-    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing private key. Please fetch API credentials first."));
+    ShowAuthenticationMessage(QMessageBox::Critical, tr("Configuration incomplete"), tr("Missing private key. Please fetch API credentials first."));
     return;
   }
 
+#ifdef Q_OS_ANDROID
+  if (!SaveAndroidSettings()) return;
+  ui_->button_login->setText(tr("Cancel login"));
+#endif
   service_->Authenticate(ui_->app_id->text(), ui_->app_secret->text(), ui_->private_key->text());
+#ifndef Q_OS_ANDROID
   ui_->button_login->setEnabled(false);
+#endif
 
 }
 
@@ -173,6 +215,9 @@ bool QobuzSettingsPage::eventFilter(QObject *object, QEvent *event) {
 void QobuzSettingsPage::LogoutClicked() {
 
   service_->ClearSession();
+#ifdef Q_OS_ANDROID
+  ui_->button_login->setText(tr("Login"));
+#endif
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
   ui_->button_login->setEnabled(true);
 
@@ -180,6 +225,10 @@ void QobuzSettingsPage::LogoutClicked() {
 
 void QobuzSettingsPage::LoginSuccess() {
 
+#ifdef Q_OS_ANDROID
+  ui_->button_login->setText(tr("Login"));
+  ui_->button_login->setEnabled(true);
+#endif
   if (!IsActive()) return;
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedIn);
   ui_->button_login->setEnabled(true);
@@ -188,8 +237,12 @@ void QobuzSettingsPage::LoginSuccess() {
 
 void QobuzSettingsPage::LoginFailure(const QString &failure_reason) {
 
+#ifdef Q_OS_ANDROID
+  ui_->button_login->setText(tr("Login"));
+  ui_->button_login->setEnabled(true);
+#endif
   if (!IsActive()) return;
-  QMessageBox::warning(this, tr("Authentication failed"), failure_reason);
+  ShowAuthenticationMessage(QMessageBox::Warning, tr("Authentication failed"), failure_reason);
   ui_->button_login->setEnabled(true);
 
 }
@@ -217,10 +270,20 @@ void QobuzSettingsPage::ApiCredentialsFetched(const QString &app_id, const QStri
   ui_->app_secret->setText(app_secret);
   ui_->private_key->setText(private_key);
 
+#ifdef Q_OS_ANDROID
+  if (!SaveAndroidSettings()) {
+    ui_->button_fetch_api_credentials->setEnabled(true);
+    ui_->button_fetch_api_credentials->setText(tr("Fetch API Credentials"));
+    return;
+  }
+#endif
   ui_->button_fetch_api_credentials->setEnabled(true);
   ui_->button_fetch_api_credentials->setText(tr("Fetch API Credentials"));
 
-  QMessageBox::information(this, tr("API credentials fetched"), tr("API credentials have been successfully fetched. Click Login to authenticate via your browser."));
+#ifdef Q_OS_ANDROID
+  if (!IsActive()) return;
+#endif
+  ShowAuthenticationMessage(QMessageBox::Information, tr("API credentials fetched"), tr("API credentials have been successfully fetched. Click Login to authenticate via your browser."));
 
 }
 
@@ -229,6 +292,23 @@ void QobuzSettingsPage::ApiCredentialsFetchError(const QString &error) {
   ui_->button_fetch_api_credentials->setEnabled(true);
   ui_->button_fetch_api_credentials->setText(tr("Fetch API Credentials"));
 
-  QMessageBox::warning(this, tr("Credential fetch failed"), error);
+#ifdef Q_OS_ANDROID
+  if (!IsActive()) return;
+#endif
+  ShowAuthenticationMessage(QMessageBox::Warning, tr("Credential fetch failed"), error);
+
+}
+
+void QobuzSettingsPage::ShowAuthenticationMessage(QMessageBox::Icon icon, const QString &title, const QString &message) {
+
+#ifdef Q_OS_ANDROID
+  Q_UNUSED(icon)
+  auto *notification = new ActionDialog(dialog()->parentWidget(), title, message, ActionDialog::TitlePosition::Top);
+  notification->AddCancelButton(tr("Close"));
+  notification->Open();
+#else
+  QMessageBox notification(icon, title, message, QMessageBox::Ok, this);
+  notification.exec();
+#endif
 
 }

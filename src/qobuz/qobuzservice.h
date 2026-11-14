@@ -37,6 +37,7 @@
 #include <QSslError>
 #include <QScopedPointer>
 #include <QSharedPointer>
+#include <QPointer>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -57,6 +58,9 @@ class QobuzStreamURLRequest;
 class CollectionBackend;
 class CollectionModel;
 class CollectionFilter;
+#ifdef Q_OS_ANDROID
+class AndroidBrowserAuthentication;
+#endif
 
 using QobuzRequestPtr = QScopedPointer<QobuzRequest, QScopedPointerDeleteLater>;
 
@@ -80,6 +84,10 @@ class QobuzService : public StreamingService {
   void ReloadSettings() override;
 
   void ClearSession();
+#ifdef Q_OS_ANDROID
+  bool AndroidAuthenticationInProgress() const;
+  void CancelAndroidAuthentication();
+#endif
   int Search(const QString &text, const SearchType type) override;
   void CancelSearch() override;
 
@@ -153,6 +161,13 @@ class QobuzService : public StreamingService {
   QJsonObject ParseLoginReply(QNetworkReply *reply, const QString &request_name);
   void SendSearch();
   void LoginError(const QString &error = QString(), const QVariant &debug = QVariant());
+#ifdef Q_OS_ANDROID
+  bool StartAndroidAuthentication(QString &error);
+  bool CheckAndroidAuthentication();
+  void StopAndroidAuthentication();
+  AndroidBrowserAuthentication *android_browser_authentication_ = nullptr;
+  QPointer<QNetworkReply> android_login_reply_;
+#endif
 
   const SharedPtr<NetworkAccessManager> network_;
   QobuzUrlHandler *url_handler_;

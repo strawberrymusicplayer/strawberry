@@ -453,7 +453,7 @@ void SettingsDialog::OpenAtPage(const Page page) {
   QTreeWidgetItem *item = pages_.value(page).item_;
   SetAndroidTitle(item->parent()->text(0), item->text(0));
   SetAndroidNavigationPage(ui_->stacked_widget);
-  ui_->buttonBox->show();
+  UpdateAndroidPageButtons();
 #endif
   show();
 

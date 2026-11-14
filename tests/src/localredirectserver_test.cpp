@@ -73,3 +73,40 @@ TEST(LocalRedirectServerTest, WaitsForCompleteHeaders) {
   EXPECT_TRUE(server.success());
 
 }
+
+TEST(LocalRedirectServerTest, RestrictsCallbacksToConfiguredPath) {
+
+  LocalRedirectServer server;
+  ASSERT_TRUE(server.Listen(u"/test-login-nonce"_s));
+  EXPECT_EQ(u"/test-login-nonce"_s, server.url().path());
+  QSignalSpy finished(&server, &LocalRedirectServer::Finished);
+  for (const QByteArray &path : {QByteArray("/?code=test-code"), QByteArray("/wrong?error=denied"),
+                                QByteArray("http://other.example/test-login-nonce?code=test-code")}) {
+    QTcpSocket socket;
+    socket.connectToHost(QHostAddress::LocalHost, server.port());
+    ASSERT_TRUE(socket.waitForConnected());
+    socket.write("GET " + path + " HTTP/1.1\r\nHost: localhost\r\n\r\n");
+    ASSERT_TRUE(QTest::qWaitFor([&socket]() { return socket.bytesAvailable() > 0; }));
+    EXPECT_TRUE(socket.readAll().startsWith("HTTP/1.0 404"));
+    EXPECT_TRUE(finished.isEmpty());
+    EXPECT_TRUE(server.isListening());
+  }
+  QTcpSocket callback;
+  callback.connectToHost(QHostAddress::LocalHost, server.port());
+  ASSERT_TRUE(callback.waitForConnected());
+  callback.write("GET /test-login-nonce?code=test-code HTTP/1.1\r\nHost: localhost\r\n\r\n");
+  ASSERT_TRUE(finished.wait(1000));
+  EXPECT_TRUE(server.success());
+
+}
+
+TEST(LocalRedirectServerTest, RejectsInvalidCallbackPath) {
+
+  for (const QString &path : {u"relative"_s, u"/?query"_s, u"/#fragment"_s}) {
+    LocalRedirectServer server;
+    EXPECT_FALSE(server.Listen(path));
+    EXPECT_FALSE(server.isListening());
+    EXPECT_FALSE(server.error().isEmpty());
+  }
+
+}
