@@ -48,6 +48,7 @@
 #include <QEventLoop>
 #include <QTimer>
 #include <QSignalSpy>
+#include <QScopeGuard>
 #include <QApplication>
 #include <QMessageBox>
 #include <QAbstractButton>
@@ -179,6 +180,71 @@ TEST_F(AlbumCoverChoiceControllerTest, EmbeddingImageOnlyResultReplacesCover) {
   // An image without the image data replaces the embedded cover.
   controller.SaveCoverEmbeddedToCollectionSongs(song, AlbumCoverImageResult(CreateImage(Qt::red)));
   EXPECT_TRUE(WaitFor([this, &filename]() { return HasEmbeddedCoverColor(filename, Qt::red); }));
+
+}
+
+// Regression test: the songs of the album were looked up without the compilations, so saving the embedded cover of a compilation song from the player did nothing.
+TEST_F(AlbumCoverChoiceControllerTest, EmbeddingCoverSavesToCompilationSongs) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+
+  // The songs of the album are read in another thread, which has its own database with the in-memory database, so the database is in a file.
+  // The in-memory database is deleted first, it reports all open connections when it's deleted.
+  collection_backend_.reset();
+  database_.reset();
+  database_ = make_shared<Database>(task_manager_, nullptr, temp_dir.filePath(u"strawberry.db"_s));
+  // Unlike the in-memory database, the connection isn't closed when the database is deleted, it's closed before the directory with the database file is removed, also when the test returns early.
+  const QScopeGuard close_database([this]() { database_->Close(); });
+  collection_backend_ = make_shared<CollectionBackend>();
+  collection_backend_->Init(database_, task_manager_, Song::Source::Collection, QLatin1String(CollectionManager::kSongsTable), QLatin1String(CollectionManager::kDirsTable), QLatin1String(CollectionManager::kSubdirsTable));
+  collection_backend_->AddDirectory(temp_dir.path());
+
+  SongList songs;
+  for (int i = 1; i <= 2; ++i) {
+    const QString filename = temp_dir.filePath(u"song%1.mp3"_s.arg(i));
+    ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, filename));
+    ASSERT_TRUE(QFile::setPermissions(filename, QFile::ReadOwner | QFile::WriteOwner | QFile::ReadUser | QFile::WriteUser));
+    Song song(Song::Source::LocalFile);
+    ASSERT_TRUE(tagreader_client_->ReadFileBlocking(filename, &song).success());
+    ASSERT_TRUE(song.save_embedded_cover_supported());
+    song.set_source(Song::Source::Collection);
+    song.set_directory_id(1);
+    song.set_title(u"Title %1"_s.arg(i));
+    song.set_artist(u"Artist %1"_s.arg(i));
+    song.set_albumartist(u"Various Artists"_s);
+    song.set_album(u"Compilation"_s);
+    song.set_compilation(true);
+    song.set_art_embedded(false);
+    songs << song;
+  }
+  collection_backend_->AddOrUpdateSongs(songs);
+  ASSERT_EQ(2, collection_backend_->GetAllSongs().count());
+  ASSERT_TRUE(collection_backend_->GetAllSongs().first().is_compilation());
+
+  AlbumCoverChoiceController controller;
+  controller.Init(make_shared<NetworkAccessManager>(), tagreader_client_, collection_backend_, albumcover_loader_, make_shared<CurrentAlbumCoverLoader>(albumcover_loader_), make_shared<CoverProviders>(), make_shared<StreamingServices>());
+  QSignalSpy spy_embedded_cover_saved(&controller, &AlbumCoverChoiceController::EmbeddedCoverSaved);
+
+  controller.SaveCoverEmbeddedToCollectionSongs(songs.first(), AlbumCoverImageResult(QUrl(), QString(), QByteArray(), CreateImage(Qt::blue)));
+  ASSERT_TRUE(WaitFor([&spy_embedded_cover_saved]() { return spy_embedded_cover_saved.count() == 2; }));
+  EXPECT_TRUE(spy_embedded_cover_saved.at(0).at(1).toBool());
+  EXPECT_TRUE(spy_embedded_cover_saved.at(1).at(1).toBool());
+  for (const Song &song : std::as_const(songs)) {
+    EXPECT_TRUE(HasEmbeddedCoverColor(song.url().toLocalFile(), Qt::blue)) << song.url().toLocalFile().toStdString();
+  }
+
+  // Removing the embedded cover removes it from the compilation songs too.
+  controller.SaveCoverEmbeddedToCollectionSongs(songs.first(), AlbumCoverImageResult());
+  ASSERT_TRUE(WaitFor([&spy_embedded_cover_saved]() { return spy_embedded_cover_saved.count() == 4; }));
+  EXPECT_TRUE(spy_embedded_cover_saved.at(2).at(1).toBool());
+  EXPECT_TRUE(spy_embedded_cover_saved.at(3).at(1).toBool());
+  // The files are read to check that they have no embedded cover, a failed read or a different cover doesn't pass.
+  for (const Song &song : std::as_const(songs)) {
+    Song read_song(Song::Source::LocalFile);
+    ASSERT_TRUE(tagreader_client_->ReadFileBlocking(song.url().toLocalFile(), &read_song).success()) << song.url().toLocalFile().toStdString();
+    EXPECT_FALSE(read_song.art_embedded()) << song.url().toLocalFile().toStdString();
+  }
 
 }
 
