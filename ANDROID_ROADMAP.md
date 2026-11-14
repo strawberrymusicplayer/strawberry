@@ -1006,8 +1006,10 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
   Saved-playlist and landscape list gestures were also exercised without a crash.
 
 **Still open:**
-- FP5 feedback (2026-11-14): the Context display still shows a scrollbar and cannot be scrolled by dragging the content with a finger.
-  Add natural touch dragging there and replace the desktop-style scrollbar with a suitable unobtrusive position indicator if needed; preserve links and other interactions.
+- FP5 feedback (2026-11-14): the Context display showed a scrollbar and could not be scrolled by dragging the content with a finger.
+  An Android-only adapter now scrolls the outer Context page from its content, cover and text areas and hides the desktop scrollbar.
+  Native tests cover dragging, taps and target destruction; in the landscape emulator a drag over the cover revealed the collection statistics below it.
+  FP5 verification and checks of the playing/lyrics state and cover long-press action remain open.
 - FP5 feedback (2026-11-12): dragging in Collection still frequently selects rows instead of scrolling.
   Treat this as an unresolved physical-device usability issue; emulator swipe checks alone are insufficient.
 - Replace implicit desktop-style Collection multiselection on Android with an explicit selection mode entered by a long press.

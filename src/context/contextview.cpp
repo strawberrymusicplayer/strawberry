@@ -72,6 +72,9 @@
 #include "lyrics/lyricssearchresult.h"
 #include "constants/contextsettings.h"
 #include "constants/timeconstants.h"
+#ifdef Q_OS_ANDROID
+#  include "widgets/scrollarea_android.h"
+#endif
 
 #include "contextview.h"
 #include "contextalbum.h"
@@ -221,6 +224,15 @@ ContextView::ContextView(QWidget *parent)
   textedit_play_lyrics_->setContextMenuPolicy(Qt::CustomContextMenu);
   QObject::connect(textedit_play_lyrics_, &QWidget::customContextMenuRequested, this, &ContextView::LyricsContextMenu);
   textedit_play_lyrics_->hide();
+
+#ifdef Q_OS_ANDROID
+  auto *touch_scrolling = new AndroidScrollArea(scrollarea_);
+  touch_scrolling->AddGestureTarget(widget_scrollarea_);
+  touch_scrolling->AddGestureTarget(widget_album_);
+  touch_scrolling->AddGestureTarget(textedit_top_->viewport());
+  touch_scrolling->AddGestureTarget(textedit_play_lyrics_->viewport());
+  scrollarea_->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+#endif
 
   layout_play_->setContentsMargins(0, 0, 0, 0);
   layout_play_->addWidget(widget_play_data_);
