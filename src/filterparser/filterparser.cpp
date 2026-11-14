@@ -340,7 +340,8 @@ FilterTree *FilterParser::parseSearchTerm() {
       if (*iter_ == u'"') {
         in_quotes = true;
       }
-      else if (column.isEmpty() && *iter_ == u':') {
+      // Only a known column is a column, otherwise the colon is part of the value, like in "12:30" or "re:zero", so the whole word is searched for.
+      else if (column.isEmpty() && *iter_ == u':' && GetFilterColumnsMap().contains(buf_.toLower())) {
         column = buf_.toLower();
         buf_.clear();
         prefix.clear();  // Prefix isn't allowed here - let's ignore it
