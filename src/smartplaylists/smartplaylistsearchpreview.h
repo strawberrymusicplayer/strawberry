@@ -47,6 +47,8 @@ class MoodbarLoader;
 class SmartPlaylistSearchPreview : public QWidget {
   Q_OBJECT
 
+  friend class SmartPlaylistSearchPreviewTest;
+
  public:
   explicit SmartPlaylistSearchPreview(QWidget *parent = nullptr);
   ~SmartPlaylistSearchPreview() override;
@@ -77,7 +79,9 @@ class SmartPlaylistSearchPreview : public QWidget {
   SharedPtr<CollectionBackend> collection_backend_;
   Playlist *model_;
 
+  // The search to run when the search running finishes, or when the widget is shown, it can be an invalid search, like when the last term was removed.
   SmartPlaylistSearch pending_search_;
+  bool search_pending_;
   SmartPlaylistSearch last_search_;
   PlaylistGeneratorPtr generator_;
 };
