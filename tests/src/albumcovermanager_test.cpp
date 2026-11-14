@@ -28,6 +28,8 @@
 #include <QLabel>
 #include <QAction>
 #include <QPushButton>
+#include <QProgressBar>
+#include <QStatusBar>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
@@ -61,6 +63,7 @@
 #include "covermanager/albumcoverloaderoptions.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "covermanager/albumcoverimageresult.h"
+#include "covermanager/coversearchstatistics.h"
 #include "covermanager/currentalbumcoverloader.h"
 #include "covermanager/coverproviders.h"
 #include "covermanager/albumcovermanager.h"
@@ -120,6 +123,17 @@ class AlbumCoverManagerTest : public ::testing::Test {
   qsizetype RunningThumbnailLoads() const { return cover_manager_->cover_loading_tasks_.count(); }
 
   void ClickAbort() { cover_manager_->abort_progress_->click(); }
+
+  void FetchAlbumCovers() { cover_manager_->FetchAlbumCovers(); }
+  void FetchSingleCover() { cover_manager_->FetchSingleCover(); }
+  // Finishes fetching one of the covers without finding a cover.
+  void FinishFetchingCoverNotFound() {
+    CoverSearchStatistics statistics;
+    statistics.missing_images_ = 1;
+    cover_manager_->AlbumCoverFetched(cover_manager_->cover_fetching_tasks_.firstKey(), AlbumCoverImageResult(), statistics);
+  }
+  int ProgressMaximum() const { return cover_manager_->progress_bar_->maximum(); }
+  QString StatusText() const { return cover_manager_->statusBar()->currentMessage(); }
 
   void StartThumbnailLoad(const quint64 id, AlbumItem *album_item) { cover_manager_->cover_loading_tasks_.insert(id, album_item); }
 
@@ -268,6 +282,48 @@ TEST_F(AlbumCoverManagerTest, AbortKeepsLoadingThumbnails) {
   ClickAbort();
   EXPECT_EQ(1, PendingThumbnailLoads());
   EXPECT_EQ(1, RunningThumbnailLoads());
+
+}
+
+// Regression test: aborting didn't reset the number of covers to fetch, so the next fetch counted the aborted covers too, and the progress never finished.
+TEST_F(AlbumCoverManagerTest, FetchingAfterAbortCountsOnlyNewCovers) {
+
+  AlbumItem *album_item1 = AddAlbum();
+  AlbumItem *album_item2 = AddAlbum();
+  SetAlbum(album_item1, u"Album 1"_s, Song::FileType::FLAC, QUrl::fromLocalFile(u"/music/album1/song.flac"_s));
+  SetAlbum(album_item2, u"Album 2"_s, Song::FileType::FLAC, QUrl::fromLocalFile(u"/music/album2/song.flac"_s));
+
+  FetchAlbumCovers();
+  ASSERT_EQ(2, ProgressMaximum());
+  FinishFetchingCoverNotFound();
+  ASSERT_TRUE(StatusText().contains(u"(1 failed)"_s)) << StatusText().toStdString();
+  ClickAbort();
+
+  FetchAlbumCovers();
+  EXPECT_EQ(2, ProgressMaximum());
+  EXPECT_TRUE(StatusText().contains(u"out of 2 (0 failed)"_s)) << StatusText().toStdString();
+
+  // Fetching the cover of one album after aborting only counts that cover.
+  ClickAbort();
+  SetContextMenuItems(QList<QListWidgetItem*>() << album_item1);
+  FetchSingleCover();
+  EXPECT_EQ(1, ProgressMaximum());
+  EXPECT_TRUE(StatusText().contains(u"out of 1"_s)) << StatusText().toStdString();
+
+}
+
+// Fetching the cover of an album while fetching the missing covers adds it to the covers being fetched.
+TEST_F(AlbumCoverManagerTest, FetchingSingleCoverWhileFetchingAddsToCount) {
+
+  AlbumItem *album_item1 = AddAlbum();
+  AlbumItem *album_item2 = AddAlbum();
+  SetAlbum(album_item1, u"Album 1"_s, Song::FileType::FLAC, QUrl::fromLocalFile(u"/music/album1/song.flac"_s));
+  SetAlbum(album_item2, u"Album 2"_s, Song::FileType::FLAC, QUrl::fromLocalFile(u"/music/album2/song.flac"_s));
+
+  FetchAlbumCovers();
+  SetContextMenuItems(QList<QListWidgetItem*>() << album_item1);
+  FetchSingleCover();
+  EXPECT_EQ(3, ProgressMaximum());
 
 }
 

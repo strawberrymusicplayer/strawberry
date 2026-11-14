@@ -601,6 +601,8 @@ bool AlbumCoverManager::ShouldHide(const AlbumItem &album_item, const QString &f
 
 void AlbumCoverManager::FetchAlbumCovers() {
 
+  StartFetching();
+
   for (int i = 0; i < ui_->albums->count(); ++i) {
     AlbumItem *album_item = static_cast<AlbumItem*>(ui_->albums->item(i));
     if (album_item->isHidden()) continue;
@@ -616,8 +618,17 @@ void AlbumCoverManager::FetchAlbumCovers() {
   progress_bar_->setMaximum(jobs_);
   progress_bar_->show();
   abort_progress_->show();
-  fetch_statistics_ = CoverSearchStatistics();
   UpdateStatusText();
+
+}
+
+void AlbumCoverManager::StartFetching() {
+
+  // The covers fetched before were finished or aborted, so the count and the statistics start from the beginning, otherwise the covers are added to the covers being fetched.
+  if (cover_fetching_tasks_.isEmpty()) {
+    jobs_ = 0;
+    fetch_statistics_ = CoverSearchStatistics();
+  }
 
 }
 
@@ -755,6 +766,8 @@ void AlbumCoverManager::ShowCover() {
 }
 
 void AlbumCoverManager::FetchSingleCover() {
+
+  StartFetching();
 
   for (QListWidgetItem *list_widget_item : std::as_const(context_menu_items_)) {
     AlbumItem *album_item = static_cast<AlbumItem*>(list_widget_item);
