@@ -526,6 +526,7 @@ set(SOURCES
   src/core/musicstorage.cpp
   src/core/networkaccessmanager.cpp
   src/core/threadsafenetworkdiskcache.cpp
+  src/core/threadsafenetworkdiskcachedevice.cpp
   src/core/networktimeouts.cpp
   src/core/networkproxyfactory.cpp
   src/core/settings.cpp
@@ -956,6 +957,7 @@ set(HEADERS
   src/core/multisortfilterproxy.h
   src/core/networkaccessmanager.h
   src/core/threadsafenetworkdiskcache.h
+  src/core/threadsafenetworkdiskcachedevice.h
   src/core/networktimeouts.h
   src/core/settings.h
   src/core/songloader.h

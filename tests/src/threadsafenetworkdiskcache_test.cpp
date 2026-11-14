@@ -215,10 +215,15 @@ TEST_F(ThreadSafeNetworkDiskCacheTest, ReplyCancelsItsSavingAfterOtherReplyWasRe
   cache1_->remove(kUrl);
   ASSERT_FALSE(device.isNull());
 
+  // The device is kept until the reply is done.
   cache1_->remove(kUrl);
-  EXPECT_TRUE(device.isNull());
+  EXPECT_FALSE(device.isNull());
 
   Save(&*cache2_, "cover");
+  EXPECT_EQ("cover", CachedData());
+
+  cache1_->CancelUnusedSavings(QList<QUrl>());
+  EXPECT_TRUE(device.isNull());
   EXPECT_EQ("cover", CachedData());
 
 }
@@ -230,11 +235,16 @@ TEST_F(ThreadSafeNetworkDiskCacheTest, ReplyCancelsItsSaving) {
   device->write("cov");
 
   cache1_->remove(kUrl);
-  EXPECT_TRUE(device.isNull());
+  EXPECT_FALSE(device.isNull());
   EXPECT_TRUE(CachedData().isEmpty());
 
   // Another reply can save it after it's cancelled.
   Save(&*cache2_, "cover");
+  EXPECT_EQ("cover", CachedData());
+
+  // The device is deleted when the network access manager has no reply with the URL anymore.
+  cache1_->CancelUnusedSavings(QList<QUrl>());
+  EXPECT_TRUE(device.isNull());
   EXPECT_EQ("cover", CachedData());
 
 }
@@ -258,7 +268,7 @@ TEST_F(ThreadSafeNetworkDiskCacheTest, ReplyCancelsItsSavingOfUrlWithFragment) {
   ASSERT_FALSE(device.isNull());
 
   cache1_->remove(url);
-  EXPECT_TRUE(device.isNull());
+  EXPECT_FALSE(device.isNull());
 
   Save(&*cache2_, "cover");
   EXPECT_EQ("cover", CachedData());
@@ -347,7 +357,8 @@ TEST_F(ThreadSafeNetworkDiskCacheTest, DeletedReplyDoesNotCancelSavingOfOtherCac
 }
 
 // From Qt 6.5.10, 6.8.5 and 6.9.2, the deleted reply cancels its saving itself, after the saving was cancelled when it was deleted, and another reply can have started saving the URL already.
-TEST_F(ThreadSafeNetworkDiskCacheTest, DeletedReplyCancellingDoesNotCancelOtherSaving) {
+// It can't be told apart from a reply of the other network access manager invalidating the URL, so the other saving is cancelled, but its device is kept for the reply still writing to it.
+TEST_F(ThreadSafeNetworkDiskCacheTest, DeletedReplyCancellingKeepsDeviceOfOtherSaving) {
 
   QPointer<QIODevice> device1 = cache1_->prepare(MetaData());
   ASSERT_FALSE(device1.isNull());
@@ -357,12 +368,50 @@ TEST_F(ThreadSafeNetworkDiskCacheTest, DeletedReplyCancellingDoesNotCancelOtherS
   ASSERT_FALSE(device2.isNull());
   device2->write("cov");
 
-  EXPECT_FALSE(cache1_->remove(kUrl));
+  EXPECT_TRUE(cache1_->remove(kUrl));
 
   ASSERT_FALSE(device2.isNull());
-  device2->write("er");
+  EXPECT_EQ(2, device2->write("er"));
   cache2_->insert(device2);
-  EXPECT_EQ("cover", CachedData());
+  EXPECT_TRUE(device2.isNull());
+  EXPECT_TRUE(CachedData().isEmpty());
+
+}
+
+// Regression test: a reply which doesn't save the URL removes it, for example when a POST invalidates it, or when the reply failed, which deleted the device of the reply saving the URL in the same network access manager, while the reply was still writing to it.
+TEST_F(ThreadSafeNetworkDiskCacheTest, RemoveKeepsDeviceOfReplySavingUrl) {
+
+  QPointer<QIODevice> device = cache1_->prepare(MetaData());
+  ASSERT_FALSE(device.isNull());
+  device->write("cov");
+
+  EXPECT_TRUE(cache1_->remove(kUrl));
+
+  // The data can be from before the URL was invalidated, so it's not cached.
+  ASSERT_FALSE(device.isNull());
+  EXPECT_EQ(2, device->write("er"));
+  cache1_->insert(device);
+  EXPECT_TRUE(device.isNull());
+  EXPECT_TRUE(CachedData().isEmpty());
+
+}
+
+// Regression test: removing the URL while a reply was saving it only cancelled the saving, so the data cached before was still used.
+TEST_F(ThreadSafeNetworkDiskCacheTest, RemoveWhileSavingRemovesCachedData) {
+
+  Save(&*cache1_, "old cover");
+  ASSERT_EQ("old cover", CachedData());
+
+  QPointer<QIODevice> device = cache1_->prepare(MetaData());
+  ASSERT_FALSE(device.isNull());
+
+  EXPECT_TRUE(cache2_->remove(kUrl));
+  EXPECT_TRUE(CachedData().isEmpty());
+  EXPECT_FALSE(cache1_->metaData(kUrl).isValid());
+
+  device->write("cover");
+  cache1_->insert(device);
+  EXPECT_TRUE(CachedData().isEmpty());
 
 }
 
@@ -400,6 +449,8 @@ class FakeHttpServer : public QTcpServer {
   void Hold(const bool hold) { hold_ = hold; }
   void SetBody(const QByteArray &body) { body_ = body; }
   void SetContentEncoding(const QByteArray &content_encoding) { content_encoding_ = content_encoding; }
+  // Replies to the requests with the method and path, for example "POST /lyrics.txt", with the response instead.
+  void SetResponse(const QByteArray &request, const QByteArray &response) { responses_.insert(request, response); }
 
   void Release() {
     const QList<QPointer<QTcpSocket>> held = held_;
@@ -410,11 +461,38 @@ class FakeHttpServer : public QTcpServer {
   }
 
  private:
+  // The size of the body of the request, from its headers.
+  static qsizetype ContentLength(const QByteArray &headers) {
+    const QList<QByteArray> lines = headers.split('\n');
+    for (const QByteArray &line : lines) {
+      if (line.toLower().startsWith("content-length:")) {
+        return line.mid(line.indexOf(':') + 1).trimmed().toLongLong();
+      }
+    }
+    return 0;
+  }
+
   void ReadyRead(QTcpSocket *socket) {
-    QByteArray &request = requests_[socket];
-    request.append(socket->readAll());
-    if (!request.contains("\r\n\r\n")) return;
-    request.clear();
+    QByteArray &buffer = requests_[socket];
+    buffer.append(socket->readAll());
+    // The body of a POST can arrive after its headers, it's read before the next request on the connection.
+    while (true) {
+      const qsizetype headers_end = buffer.indexOf("\r\n\r\n");
+      if (headers_end < 0) return;
+      const qsizetype request_size = headers_end + 4 + ContentLength(buffer.left(headers_end));
+      if (buffer.size() < request_size) return;
+      const QByteArray request = buffer.left(request_size);
+      buffer.remove(0, request_size);
+      HandleRequest(socket, request);
+    }
+  }
+
+  void HandleRequest(QTcpSocket *socket, const QByteArray &request) {
+    const QByteArray request_line = request.left(request.indexOf(' ', request.indexOf(' ') + 1));
+    if (responses_.contains(request_line)) {
+      socket->write(responses_.value(request_line));
+      return;
+    }
     const QByteArray body = body_;
     // Text is saved in a buffer in the cache, which isn't closed when it's deleted, so the reply isn't told.
     const QByteArray content_encoding_header = content_encoding_.isEmpty() ? QByteArray() : "Content-Encoding: " + content_encoding_ + "\r\n";
@@ -433,6 +511,7 @@ class FakeHttpServer : public QTcpServer {
   bool hold_;
   QList<QPointer<QTcpSocket>> held_;
   QHash<QTcpSocket*, QByteArray> requests_;
+  QHash<QByteArray, QByteArray> responses_;
 };
 
 }  // namespace
@@ -504,6 +583,9 @@ class ThreadSafeNetworkDiskCacheNetworkTest : public ::testing::Test {
     EXPECT_TRUE(QTest::qWaitFor([reply]() { return reply->isFinished() || reply->hasRawHeader("Content-Type"); }, 5000));
     return reply;
   }
+
+  QPointer<QNetworkReply> StartSavingGet();
+  void FinishSavingGet(QPointer<QNetworkReply> reply);
 
   void SetCancelSavingsOfFinishedReplies(const bool cancel) {
     network1_->cancel_savings_of_finished_replies_ = cancel;
@@ -813,4 +895,148 @@ TEST_F(ThreadSafeNetworkDiskCacheNetworkTest, DeleteFirstReplyWithManagerInOther
 
 TEST_F(ThreadSafeNetworkDiskCacheNetworkTest, DeleteSecondReplyWithManagerInOtherThread) {
   Run(true, Cancel::Delete, true);
+}
+
+// Regression test: a POST, PUT or DELETE invalidates the cached URL with remove(), which was taken as the reply saving the URL cancelling its saving when the reply saving it was in the same network access manager, so the saving was deleted while the reply was still writing to it.
+// The reply keeps saving, and the URL is not cached, since the data can be changed by the POST.
+TEST_F(ThreadSafeNetworkDiskCacheNetworkTest, PostDoesNotCancelSavingOfGet) {
+
+  QPointer<QNetworkReply> get_reply = network1_->get(QNetworkRequest(server_.Url()));
+  ASSERT_TRUE(QTest::qWaitFor([this]() { return server_.held_count() == 1; }, 5000));
+  ASSERT_TRUE(QTest::qWaitFor([&get_reply]() { return get_reply->bytesAvailable() >= FakeHttpServer::Body().size() / 2; }, 5000));
+
+  server_.Hold(false);
+  QNetworkRequest post_request(server_.Url());
+  post_request.setHeader(QNetworkRequest::ContentTypeHeader, u"text/plain"_s);
+  std::unique_ptr<QNetworkReply> post_reply(network1_->post(post_request, QByteArray("data")));
+  ASSERT_TRUE(QTest::qWaitFor([&post_reply]() { return post_reply->isFinished(); }, 5000));
+  EXPECT_EQ(QNetworkReply::NoError, post_reply->error());
+
+  server_.Release();
+  ASSERT_TRUE(QTest::qWaitFor([&get_reply]() { return get_reply->isFinished(); }, 5000));
+  EXPECT_EQ(QNetworkReply::NoError, get_reply->error()) << get_reply->errorString().toStdString();
+  EXPECT_EQ(FakeHttpServer::Body(), get_reply->readAll());
+  delete get_reply;
+  QCoreApplication::processEvents();
+
+  EXPECT_TRUE(CachedData().isEmpty());
+
+}
+
+// Regression test: a POST didn't remove the cached URL while another reply was saving it, so the data cached before the POST was still used.
+TEST_F(ThreadSafeNetworkDiskCacheNetworkTest, PostRemovesCachedUrlWhileSaving) {
+
+  // The URL is cached.
+  server_.Hold(false);
+  {
+    std::unique_ptr<QNetworkReply> reply(network1_->get(QNetworkRequest(server_.Url())));
+    ASSERT_TRUE(QTest::qWaitFor([&reply]() { return reply->isFinished(); }, 5000));
+    reply->readAll();
+  }
+  QCoreApplication::processEvents();
+  ASSERT_EQ(FakeHttpServer::Body(), CachedData());
+
+  // Another reply saves the URL.
+  server_.Hold(true);
+  QNetworkRequest network_request(server_.Url());
+  network_request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysNetwork);
+  QPointer<QNetworkReply> get_reply = network1_->get(network_request);
+  ASSERT_TRUE(QTest::qWaitFor([this]() { return server_.held_count() == 1; }, 5000));
+  ASSERT_TRUE(QTest::qWaitFor([&get_reply]() { return get_reply->bytesAvailable() >= FakeHttpServer::Body().size() / 2; }, 5000));
+
+  server_.Hold(false);
+  QNetworkRequest post_request(server_.Url());
+  post_request.setHeader(QNetworkRequest::ContentTypeHeader, u"text/plain"_s);
+  std::unique_ptr<QNetworkReply> post_reply(network1_->post(post_request, QByteArray("data")));
+  ASSERT_TRUE(QTest::qWaitFor([&post_reply]() { return post_reply->isFinished(); }, 5000));
+
+  // The data cached before the POST isn't used anymore.
+  EXPECT_TRUE(CachedData().isEmpty());
+  EXPECT_FALSE(network1_->cache()->metaData(server_.Url()).isValid());
+
+  server_.Release();
+  ASSERT_TRUE(QTest::qWaitFor([&get_reply]() { return get_reply->isFinished(); }, 5000));
+  EXPECT_EQ(QNetworkReply::NoError, get_reply->error()) << get_reply->errorString().toStdString();
+  delete get_reply;
+  QCoreApplication::processEvents();
+  EXPECT_TRUE(CachedData().isEmpty());
+
+}
+
+// Starts a GET of the URL of the server, which saves it in the cache, and returns when the first half of the data is saved.
+QPointer<QNetworkReply> ThreadSafeNetworkDiskCacheNetworkTest::StartSavingGet() {
+
+  QPointer<QNetworkReply> reply = network1_->get(QNetworkRequest(server_.Url()));
+  EXPECT_TRUE(QTest::qWaitFor([this]() { return server_.held_count() == 1; }, 5000));
+  EXPECT_TRUE(QTest::qWaitFor([&reply]() { return reply->bytesAvailable() >= FakeHttpServer::Body().size() / 2; }, 5000));
+  return reply;
+
+}
+
+// Finishes the GET, which still gets all the data, and checks that the URL isn't cached, the data can be from before the URL was removed.
+void ThreadSafeNetworkDiskCacheNetworkTest::FinishSavingGet(QPointer<QNetworkReply> reply) {
+
+  server_.Release();
+  ASSERT_TRUE(QTest::qWaitFor([&reply]() { return reply->isFinished(); }, 5000));
+  EXPECT_EQ(QNetworkReply::NoError, reply->error()) << reply->errorString().toStdString();
+  EXPECT_EQ(FakeHttpServer::Body(), reply->readAll());
+  delete reply;
+  QCoreApplication::processEvents();
+  EXPECT_TRUE(CachedData().isEmpty()) << CachedData().size();
+
+}
+
+// Regression test: a failed POST removes the URL again when it has finished, which deleted the device of the GET saving the URL.
+TEST_F(ThreadSafeNetworkDiskCacheNetworkTest, FailedPostDoesNotCancelSavingOfGet) {
+
+  QPointer<QNetworkReply> get_reply = StartSavingGet();
+  ASSERT_FALSE(get_reply.isNull());
+
+  server_.SetResponse("POST /lyrics.txt", "HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n");
+  QNetworkRequest post_request(server_.Url());
+  post_request.setHeader(QNetworkRequest::ContentTypeHeader, u"text/plain"_s);
+  std::unique_ptr<QNetworkReply> post_reply(network1_->post(post_request, QByteArray("data")));
+  ASSERT_TRUE(QTest::qWaitFor([&post_reply]() { return post_reply->isFinished(); }, 5000));
+  EXPECT_EQ(QNetworkReply::ContentNotFoundError, post_reply->error());
+
+  FinishSavingGet(get_reply);
+
+}
+
+// Regression test: a POST redirected with 307 is sent again to the redirect URL in the same reply, which invalidates the redirect URL, and deleted the device of the GET saving it.
+TEST_F(ThreadSafeNetworkDiskCacheNetworkTest, RedirectedPostDoesNotCancelSavingOfGet) {
+
+  QPointer<QNetworkReply> get_reply = StartSavingGet();
+  ASSERT_FALSE(get_reply.isNull());
+
+  server_.SetResponse("POST /redirect", "HTTP/1.1 307 Temporary Redirect\r\nLocation: /lyrics.txt\r\nContent-Length: 0\r\n\r\n");
+  server_.SetResponse("POST /lyrics.txt", "HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n");
+  QUrl post_url(server_.Url());
+  post_url.setPath(u"/redirect"_s);
+  QNetworkRequest post_request(post_url);
+  post_request.setHeader(QNetworkRequest::ContentTypeHeader, u"text/plain"_s);
+  std::unique_ptr<QNetworkReply> post_reply(network1_->post(post_request, QByteArray("data")));
+  ASSERT_TRUE(QTest::qWaitFor([&post_reply]() { return post_reply->isFinished(); }, 5000));
+  EXPECT_EQ(QNetworkReply::NoError, post_reply->error()) << post_reply->errorString().toStdString();
+  EXPECT_EQ(server_.Url(), post_reply->url());
+
+  FinishSavingGet(get_reply);
+
+}
+
+// Regression test: a GET of the URL which failed without data removes the URL, which deleted the device of the other GET saving it in the same network access manager.
+TEST_F(ThreadSafeNetworkDiskCacheNetworkTest, FailedGetDoesNotCancelSavingOfOtherGet) {
+
+  QPointer<QNetworkReply> get_reply = StartSavingGet();
+  ASSERT_FALSE(get_reply.isNull());
+
+  server_.SetResponse("GET /lyrics.txt", "HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n");
+  QNetworkRequest network_request(server_.Url());
+  network_request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysNetwork);
+  std::unique_ptr<QNetworkReply> failed_reply(network1_->get(network_request));
+  ASSERT_TRUE(QTest::qWaitFor([&failed_reply]() { return failed_reply->isFinished(); }, 5000));
+  EXPECT_EQ(QNetworkReply::ContentNotFoundError, failed_reply->error());
+
+  FinishSavingGet(get_reply);
+
 }

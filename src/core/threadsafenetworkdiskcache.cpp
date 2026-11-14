@@ -23,7 +23,6 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QCoreApplication>
 #include <QIODevice>
 #include <QMutex>
 #include <QNetworkDiskCache>
@@ -32,10 +31,10 @@
 #include <QUrl>
 #include <QList>
 #include <QHash>
-#include <QPointer>
 
 #include "standardpaths.h"
 #include "threadsafenetworkdiskcache.h"
+#include "threadsafenetworkdiskcachedevice.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -43,6 +42,7 @@ QMutex ThreadSafeNetworkDiskCache::sMutex;
 int ThreadSafeNetworkDiskCache::sInstances = 0;
 QNetworkDiskCache *ThreadSafeNetworkDiskCache::sCache = nullptr;
 QHash<QUrl, ThreadSafeNetworkDiskCache::Saving> ThreadSafeNetworkDiskCache::sInserting;
+QList<ThreadSafeNetworkDiskCache::Saving> ThreadSafeNetworkDiskCache::sCancelled;
 
 ThreadSafeNetworkDiskCache::ThreadSafeNetworkDiskCache(QObject *parent) : QAbstractNetworkCache(parent) {
 
@@ -65,14 +65,12 @@ ThreadSafeNetworkDiskCache::~ThreadSafeNetworkDiskCache() {
   QMutexLocker l(&sMutex);
   --sInstances;
 
+  // The replies of the network access manager are deleted before its cache.
+  CancelUnusedSavingsLocked(QList<QUrl>());
+
   if (sCache && sInstances == 0) {
     sCache->deleteLater();
     sCache = nullptr;
-    sInserting.clear();
-  }
-  else {
-    // The replies of the network access manager are deleted before its cache.
-    CancelUnusedSavingsLocked(QList<QUrl>());
   }
 
 }
@@ -91,14 +89,32 @@ void ThreadSafeNetworkDiskCache::insert(QIODevice *device) {
 
   QMutexLocker l(&sMutex);
 
+  // The reply is done with the device, like with QNetworkDiskCache, the device is deleted.
   for (QHash<QUrl, Saving>::iterator it = sInserting.begin(); it != sInserting.end(); ++it) {
     if (it.value().device == device) {
+      ThreadSafeNetworkDiskCacheDevice *saving_device = it.value().device;
+      const QUrl url = it.key();
       sInserting.erase(it);
-      break;
+      if (saving_device->cache_device()) {
+        sCache->insert(saving_device->cache_device());
+      }
+      else {
+        // Before Qt 6.6, QNetworkDiskCache deletes the device when expiring the cache, the saving is still in QNetworkDiskCache, it's removed so that it isn't removed instead of the cached data or the next saving of the URL.
+        sCache->remove(url);
+      }
+      delete saving_device;
+      return;
     }
   }
 
-  sCache->insert(device);
+  // The saving was cancelled, the data isn't cached.
+  for (QList<Saving>::iterator it = sCancelled.begin(); it != sCancelled.end(); ++it) {
+    if (it->device == device) {
+      delete it->device;
+      sCancelled.erase(it);
+      return;
+    }
+  }
 
 }
 
@@ -113,12 +129,12 @@ QIODevice *ThreadSafeNetworkDiskCache::prepare(const QNetworkCacheMetaData &meta
 
   prepare_failed_url_.clear();
 
-  // The replies cancel the saving with remove(), which cancels the first saving of the URL, also when it's another reply's, and deletes its device while that reply is still writing to it.
-  // So only one reply at a time saves a URL, the cache is shared by all the network access managers, so this is for all of them.
+  // QNetworkDiskCache cancels the first saving of the URL it finds with remove(), so only one reply at a time saves a URL, the cache is shared by all the network access managers, so this is for all of them.
   if (!IsInserting(metaData.url())) {
-    QIODevice *device = sCache->prepare(metaData);
-    if (device) {
-      sInserting.insert(metaData.url(), Saving{device, this});
+    QIODevice *cache_device = sCache->prepare(metaData);
+    if (cache_device) {
+      ThreadSafeNetworkDiskCacheDevice *device = new ThreadSafeNetworkDiskCacheDevice(cache_device, &sMutex);
+      sInserting.insert(metaData.url(), Saving{metaData.url(), device, this});
       return device;
     }
   }
@@ -136,14 +152,21 @@ bool ThreadSafeNetworkDiskCache::IsInserting(const QUrl &url) {
   if (it == sInserting.end()) return false;
 
   // Before Qt 6.6, QNetworkDiskCache deletes the device of a saving when expiring the cache, without the reply calling insert() or remove(), so the URL isn't being saved anymore.
-  // The saving without a device is still there, it's removed so that it isn't removed instead of the next saving of the URL.
-  if (it.value().device.isNull()) {
-    sInserting.erase(it);
-    sCache->remove(url);
+  // The saving without a device is still in QNetworkDiskCache, it's removed so that it isn't removed instead of the next saving of the URL, or of the cached data.
+  if (!it.value().device->cache_device()) {
+    CancelSaving(url);
     return false;
   }
 
   return true;
+
+}
+
+void ThreadSafeNetworkDiskCache::CancelSaving(const QUrl &url) {
+
+  // The reply can still be writing to the device, it's kept until the reply is done.
+  sCancelled << sInserting.take(url);
+  sCache->remove(url);
 
 }
 
@@ -168,16 +191,16 @@ bool ThreadSafeNetworkDiskCache::remove(const QUrl &url) {
     return sCache->remove(cache_url);
   }
 
-  // A reply deleted while saving the URL cancels the saving after its saving was cancelled by CancelUnusedSavings(), when the URL can be saved by another network access manager's reply already.
-  const QHash<QUrl, Saving>::const_iterator it = sInserting.constFind(cache_url);
-  if (it != sInserting.constEnd() && it.value().cache != this && !it.value().device.isNull()) {
-    return false;
+  // The reply saving the URL cancels its saving with remove(), but so do the other replies with the URL, a POST, PUT or DELETE invalidating it, and a reply which failed, which can't be told apart.
+  // So the saving is cancelled, the data can be from before the invalidation, but the device is kept for the reply saving the URL.
+  bool removed = false;
+  if (IsInserting(cache_url)) {
+    CancelSaving(cache_url);
+    removed = true;
   }
 
-  // Otherwise it's the reply saving the URL cancelling it, or the URL isn't being saved.
-  sInserting.remove(cache_url);
-
-  return sCache->remove(cache_url);
+  // The cached data is removed too, QNetworkDiskCache only removes the saving when there is one.
+  return sCache->remove(cache_url) || removed;
 
 }
 
@@ -196,12 +219,23 @@ void ThreadSafeNetworkDiskCache::CancelUnusedSavings(const QList<QUrl> &reply_ur
 void ThreadSafeNetworkDiskCache::CancelUnusedSavingsLocked(const QList<QUrl> &reply_urls) {
 
   // Before Qt 6.5.10, 6.8.5 and 6.9.2, a reply deleted while saving a URL doesn't cancel the saving, so the URL wouldn't be saved again.
-  // Only one reply of a network access manager saves a URL, so when none of the replies which can still use their saving has the URL, the saving isn't used anymore.
+  // The replies don't tell the cache when they are done with a cancelled saving either.
+  // A saving is used by a reply of the network access manager with the URL, so when none of the replies which can still use their saving has the URL, the saving isn't used anymore.
   for (QHash<QUrl, Saving>::iterator it = sInserting.begin(); it != sInserting.end();) {
     if (it.value().cache == this && !reply_urls.contains(it.key())) {
-      // The saving is the only saving of the URL, so it's the saving which is removed.
       sCache->remove(it.key());
+      delete it.value().device;
       it = sInserting.erase(it);
+    }
+    else {
+      ++it;
+    }
+  }
+
+  for (QList<Saving>::iterator it = sCancelled.begin(); it != sCancelled.end();) {
+    if (it->cache == this && !reply_urls.contains(it->url)) {
+      delete it->device;
+      it = sCancelled.erase(it);
     }
     else {
       ++it;
