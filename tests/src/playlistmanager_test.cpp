@@ -55,6 +55,7 @@
 #include "playlist/playlistcontainer.h"
 #include "playlist/playlistitem.h"
 #include "playlist/playlistmanager.h"
+#include "smartplaylists/playlistgenerator.h"
 #include "playlist/playlistsequence.h"
 #include "playlist/playlistfilter.h"
 #include "playlist/playlistview.h"
@@ -708,6 +709,56 @@ TEST_F(PlaylistManagerTest, ReplacingPlaylistCancelsUrlsBeingLoaded) {
   WaitForLoadedUrls(playlist, 1);
   ASSERT_EQ(1, playlist->rowCount(QModelIndex()));
   EXPECT_EQ(second_url, playlist->item_at(0)->OriginalMetadata().url());
+
+}
+
+// Regression test: URLs still being loaded when the playlist was cleared were inserted in the cleared playlist.
+TEST_F(PlaylistManagerTest, ClearingPlaylistCancelsUrlsBeingLoaded) {
+
+  WaitForOpenPlaylistsRestored();
+  Playlist *playlist = playlist_manager_->current();
+
+  DropUrl(playlist, CreateLocalFile(u"first.mp3"_s), false);
+  playlist_manager_->ClearCurrent();
+
+  // Wait for the loading thread to finish, the task is only added when it has started, then handle the signals it queued.
+  ASSERT_TRUE(QThreadPool::globalInstance()->waitForDone(10000));
+  QTest::qWait(200);
+  EXPECT_EQ(0, playlist->rowCount(QModelIndex()));
+
+  // URLs added after clearing are inserted.
+  DropUrl(playlist, CreateLocalFile(u"second.mp3"_s), false);
+  WaitForLoadedUrls(playlist, 1);
+  EXPECT_EQ(1, playlist->rowCount(QModelIndex()));
+
+}
+
+// Regression test: the items of a smart playlist still being generated when the playlist was cleared were inserted in the cleared playlist.
+TEST_F(PlaylistManagerTest, ClearingPlaylistCancelsSmartPlaylistBeingGenerated) {
+
+  // Generates a stream item, without a collection.
+  class StreamGenerator : public PlaylistGenerator {
+   public:
+    Type type() const override { return Type::Query; }
+    void Load(const QByteArray &data) override { Q_UNUSED(data) }
+    QByteArray Save() const override { return QByteArray(); }
+    PlaylistItemPtrList Generate() override { return PlaylistItemPtrList() << MakeStreamItem(u"Generated"_s); }
+  };
+
+  WaitForOpenPlaylistsRestored();
+  Playlist *playlist = playlist_manager_->current();
+
+  playlist->InsertSmartPlaylist(make_shared<StreamGenerator>());
+  playlist_manager_->ClearCurrent();
+
+  // Wait for the generating thread to finish, then handle the signals it queued.
+  ASSERT_TRUE(QThreadPool::globalInstance()->waitForDone(10000));
+  QTest::qWait(200);
+  EXPECT_EQ(0, playlist->rowCount(QModelIndex()));
+
+  // A smart playlist inserted after clearing is inserted.
+  playlist->InsertSmartPlaylist(make_shared<StreamGenerator>());
+  ASSERT_TRUE(QTest::qWaitFor([playlist]() { return playlist->rowCount(QModelIndex()) == 1; }, 10000));
 
 }
 

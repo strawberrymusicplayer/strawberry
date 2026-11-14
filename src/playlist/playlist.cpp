@@ -1084,8 +1084,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
 
   if (const MimeData *mime_data = qobject_cast<const MimeData*>(data)) {
     if (mime_data->clear_first_) {
-      // URLs still being loaded were for the playlist being replaced, they would be inserted together with the new items.
-      Q_EMIT PendingInsertsCancelled();
+      // Clear() cancels the URLs still being loaded for the playlist being replaced, they would be inserted together with the new items.
       Clear();
     }
     play_now = mime_data->play_now_;
@@ -1220,6 +1219,8 @@ void Playlist::InsertSmartPlaylist(PlaylistGeneratorPtr generator, const int pos
   else {
     inserter = new PlaylistGeneratorInserter(task_manager_, collection_backend_, this);
     QObject::connect(inserter, &PlaylistGeneratorInserter::Error, this, &Playlist::Error);
+    // The dynamic inserter is cancelled when the dynamic playlist is turned off.
+    QObject::connect(this, &Playlist::PendingInsertsCancelled, inserter, &PlaylistGeneratorInserter::Cancel);
   }
 
   inserter->Load(this, pos, play_now, enqueue, enqueue_next, generator);
@@ -2475,6 +2476,9 @@ void Playlist::Clear() {
 
   // If loading songs from session restore async, don't insert them
   cancel_restore_ = true;
+
+  // URLs and smart playlists still being loaded are not inserted in the cleared playlist.
+  Q_EMIT PendingInsertsCancelled();
 
   const int count = static_cast<int>(items_.count());
 
