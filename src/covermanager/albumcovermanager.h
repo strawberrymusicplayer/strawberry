@@ -157,6 +157,7 @@ class AlbumCoverManager : public QMainWindow {
   // Cancels loading the thumbnail of the album, a thumbnail which was loaded before the cover was changed would show the old cover.
   void CancelAlbumCoverLoading(AlbumItem *album_item);
 
+  void StartFetching();
   void UpdateStatusText();
   bool ShouldHide(const AlbumItem &album_item, const QString &filter, const HideCovers hide_covers) const;
   void SaveAndSetCover(AlbumItem *album_item, const AlbumCoverImageResult &result);
