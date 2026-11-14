@@ -33,6 +33,8 @@
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QSignalSpy>
+#include <QTest>
+#include <QDialog>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -201,6 +203,63 @@ TEST(TrackSelectionDialogTest, DeletingWhileSavingWritesAllTags) {
     ASSERT_TRUE(tagreader_client->ReadFileBlocking(song.url().toLocalFile(), &saved_song).success());
     EXPECT_EQ(u"Guessed title"_s, saved_song.title());
   }
+
+}
+
+// Starts saving the tags of a song with a guessed result, the file doesn't exist, so saving fails, but the dialog is still accepted when it's done.
+void AcceptWithSaving(TrackSelectionDialog *dialog, const QString &path) {
+
+  const Song song = SongWithFile(path, u"Title"_s);
+  dialog->set_save_on_close(true);
+  dialog->Init(SongList() << song);
+  dialog->FetchTagFinished(song, SongList() << SongWithFile(path, u"Guessed title"_s));
+  dialog->show();
+  dialog->accept();
+
+}
+
+// Regression test: the dialog could be closed while the tags were saved, and it was accepted when they were saved, also when it was opened again for other songs in the meantime, which closed it.
+TEST(TrackSelectionDialogTest, RejectWhileSavingIsIgnored) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  TrackSelectionDialog dialog(make_shared<TagReaderClient>());
+  QSignalSpy spy_accepted(&dialog, &QDialog::accepted);
+  QSignalSpy spy_rejected(&dialog, &QDialog::rejected);
+
+  AcceptWithSaving(&dialog, temp_dir.filePath(u"missing.mp3"_s));
+  ASSERT_TRUE(dialog.saving());
+  dialog.reject();
+  EXPECT_TRUE(dialog.isVisible());
+  EXPECT_EQ(0, spy_rejected.count());
+
+  ASSERT_TRUE(QTest::qWaitFor([&spy_accepted]() { return !spy_accepted.isEmpty(); }, 10000));
+  EXPECT_FALSE(dialog.saving());
+  EXPECT_FALSE(dialog.isVisible());
+  EXPECT_EQ(0, spy_rejected.count());
+
+  // It can be closed again when the tags are saved.
+  dialog.show();
+  dialog.reject();
+  EXPECT_EQ(1, spy_rejected.count());
+
+}
+
+// Regression test: accepting the dialog again while the tags were saved started saving them again, and the dialog was accepted twice.
+TEST(TrackSelectionDialogTest, AcceptWhileSavingIsIgnored) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  TrackSelectionDialog dialog(make_shared<TagReaderClient>());
+  QSignalSpy spy_accepted(&dialog, &QDialog::accepted);
+
+  AcceptWithSaving(&dialog, temp_dir.filePath(u"missing.mp3"_s));
+  dialog.accept();
+
+  ASSERT_TRUE(QTest::qWaitFor([&spy_accepted]() { return !spy_accepted.isEmpty(); }, 10000));
+  ASSERT_TRUE(QThreadPool::globalInstance()->waitForDone(10000));
+  QTest::qWait(100);
+  EXPECT_EQ(1, spy_accepted.count());
 
 }
 
