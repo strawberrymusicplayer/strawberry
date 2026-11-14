@@ -142,6 +142,7 @@ AlbumCoverManager::AlbumCoverManager(const SharedPtr<NetworkAccessManager> netwo
       progress_bar_(new QProgressBar(this)),
       abort_progress_(new QPushButton(this)),
       jobs_(0),
+      next_cover_save_id_(0),
       all_artists_(nullptr) {
 
   ui_->setupUi(this);
@@ -341,9 +342,10 @@ void AlbumCoverManager::CancelRequests() {
   albumcover_loader_->CancelTasks(QSet<quint64>(cover_loading_tasks_.keyBegin(), cover_loading_tasks_.keyEnd()));
   cover_loading_pending_.clear();
   cover_loading_tasks_.clear();
-  cover_save_tasks_.clear();
-  cover_save_results_.clear();
-  cover_saved_urls_.clear();
+  // The covers being saved are still saved, and the collection is updated, but the albums are cleared.
+  for (CoverSave &cover_save : cover_saves_) {
+    cover_save.album_item = nullptr;
+  }
 
   AbortRequests();
 
@@ -903,16 +905,7 @@ void AlbumCoverManager::SaveImageToAlbums(Song *song, const AlbumCoverImageResul
   for (QListWidgetItem *list_widget_item : std::as_const(context_menu_items_)) {
     AlbumItem *album_item = static_cast<AlbumItem*>(list_widget_item);
     if (SaveEmbeddedCover(album_item)) {
-      for (const QUrl &url : std::as_const(album_item->urls)) {
-        const bool art_embedded = !result.image_data.isEmpty();
-        TagReaderReplyPtr reply = tagreader_client_->SaveCoverAsync(url.toLocalFile(), SaveTagCoverData(result.image_data, result.mime_type));
-        SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
-        *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, album_item, url, art_embedded, connection]() {
-          SaveEmbeddedCoverFinished(reply, album_item, url, art_embedded);
-          QObject::disconnect(*connection);
-        });
-        cover_save_tasks_.insert(album_item, url);
-      }
+      SaveEmbeddedCoverToFiles(album_item, SaveTagCoverData(result.image_data, result.mime_type), !result.image_data.isEmpty());
       continue;
     }
     Song current_song = AlbumItemAsSong(album_item);
@@ -1109,15 +1102,7 @@ void AlbumCoverManager::SaveAndSetCover(AlbumItem *album_item, const AlbumCoverI
   if (SaveEmbeddedCover(album_item)) {
     // The cover is embedded from the cover file or from the image data.
     const bool art_embedded = (result.cover_url.isValid() && result.cover_url.isLocalFile()) || !result.image_data.isEmpty();
-    for (const QUrl &url : urls) {
-      TagReaderReplyPtr reply = tagreader_client_->SaveCoverAsync(url.toLocalFile(), SaveTagCoverData(result.cover_url.isValid() ? result.cover_url.toLocalFile() : QString(), result.image_data, result.mime_type));
-      SharedPtr<QMetaObject::Connection> connection = std::make_shared<QMetaObject::Connection>();
-      *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, album_item, url, art_embedded, connection]() {
-        SaveEmbeddedCoverFinished(reply, album_item, url, art_embedded);
-        QObject::disconnect(*connection);
-      });
-      cover_save_tasks_.insert(album_item, url);
-    }
+    SaveEmbeddedCoverToFiles(album_item, SaveTagCoverData(result.cover_url.isValid() ? result.cover_url.toLocalFile() : QString(), result.image_data, result.mime_type), art_embedded);
   }
   else {
     const QString albumartist = album_item->data(Role_AlbumArtist).toString();
@@ -1233,38 +1218,66 @@ bool AlbumCoverManager::ItemHasCover(const AlbumItem &album_item) const {
 
 }
 
-void AlbumCoverManager::SaveEmbeddedCoverFinished(TagReaderReplyPtr reply, AlbumItem *album_item, const QUrl &url, bool art_embedded) {
+quint64 AlbumCoverManager::AddCoverSave(AlbumItem *album_item, const bool art_embedded) {
 
-  // Only remove this save, QMultiMap::remove() removes all saves to the same file, saves to the same file can overlap.
-  QMultiMap<AlbumItem*, QUrl>::iterator it = cover_save_tasks_.find(album_item, url);
-  if (it == cover_save_tasks_.end()) {
-    return;
+  const quint64 id = ++next_cover_save_id_;
+  CoverSave &cover_save = cover_saves_[id];
+  cover_save.album_item = album_item;
+  cover_save.song = AlbumItemAsSong(album_item);
+  cover_save.art_embedded = art_embedded;
+  cover_save.pending_urls = album_item->urls;
+
+  return id;
+
+}
+
+void AlbumCoverManager::SaveEmbeddedCoverToFiles(AlbumItem *album_item, const SaveTagCoverData &save_tag_cover_data, const bool art_embedded) {
+
+  const quint64 id = AddCoverSave(album_item, art_embedded);
+  const QList<QUrl> urls = album_item->urls;
+  for (const QUrl &url : urls) {
+    TagReaderReplyPtr reply = tagreader_client_->SaveCoverAsync(url.toLocalFile(), save_tag_cover_data);
+    SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
+    *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, id, url, connection]() {
+      SaveEmbeddedCoverFinished(reply, id, url);
+      QObject::disconnect(*connection);
+    });
   }
-  cover_save_tasks_.erase(it);
 
-  // The covers are saved in order, so the last successful save decides whether the album has an embedded cover, it is applied when the last pending save to the album finished, also when that save failed.
+}
+
+void AlbumCoverManager::SaveEmbeddedCoverFinished(TagReaderReplyPtr reply, const quint64 id, const QUrl &url) {
+
+  const QHash<quint64, CoverSave>::iterator it = cover_saves_.find(id);
+  if (it == cover_saves_.end()) return;
+  CoverSave &cover_save = it.value();
+
+  // Only remove this save, the same file can be listed more than once.
+  cover_save.pending_urls.removeOne(url);
+
   if (reply->success()) {
-    cover_save_results_.insert(album_item, art_embedded);
-    if (!cover_saved_urls_[album_item].contains(url)) {
-      cover_saved_urls_[album_item] << url;
+    if (!cover_save.saved_urls.contains(url)) {
+      cover_save.saved_urls << url;
     }
   }
   else {
     Q_EMIT Error(tr("Could not save cover to file %1.").arg(url.toLocalFile()));
   }
 
-  if (cover_save_tasks_.contains(album_item) || !cover_save_results_.contains(album_item)) {
-    return;
-  }
-  art_embedded = cover_save_results_.take(album_item);
-  const QList<QUrl> saved_urls = cover_saved_urls_.take(album_item);
+  // The result is applied when all the files were saved, for the files the cover was saved to.
+  if (!cover_save.pending_urls.isEmpty()) return;
+  const CoverSave finished_cover_save = cover_saves_.take(id);
+  if (finished_cover_save.saved_urls.isEmpty()) return;
 
-  album_item->setData(Role_ArtEmbedded, art_embedded);
-  if (art_embedded) {
+  Song song = finished_cover_save.song;
+  album_cover_choice_controller_->SaveArtEmbeddedToSong(&song, finished_cover_save.art_embedded, finished_cover_save.saved_urls);
+
+  AlbumItem *album_item = finished_cover_save.album_item;
+  if (!album_item) return;
+  album_item->setData(Role_ArtEmbedded, finished_cover_save.art_embedded);
+  if (finished_cover_save.art_embedded) {
     album_item->setData(Role_ArtUnset, false);
   }
-  Song song = AlbumItemAsSong(album_item);
-  album_cover_choice_controller_->SaveArtEmbeddedToSong(&song, art_embedded, saved_urls);
   LoadAlbumCoverAsync(album_item);
 
 }

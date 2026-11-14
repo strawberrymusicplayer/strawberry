@@ -151,21 +151,32 @@ class AlbumCoverManagerTest : public ::testing::Test {
 
   void SetContextMenuItems(const QList<QListWidgetItem*> &items) { cover_manager_->context_menu_items_ = items; }
 
-  // Starts a save of an embedded cover for the album, like when saving the cover to the files of the album.
-  void StartEmbeddedCoverSave(AlbumItem *album_item, const QUrl &url) { cover_manager_->cover_save_tasks_.insert(album_item, url); }
+  // Starts saving an embedded cover to the files of the album, without saving it in the files.
+  quint64 StartEmbeddedCoverSave(AlbumItem *album_item) { return cover_manager_->AddCoverSave(album_item, true); }
 
-  // Finishes a save of an embedded cover started for the album, like the tag reader does when the cover was saved or saving it failed.
-  void FinishEmbeddedCoverSave(AlbumItem *album_item, const QUrl &url, const bool success) {
+  // Finishes saving the embedded cover to one of the files, like the tag reader does when the cover was saved or saving it failed.
+  void FinishEmbeddedCoverSave(const quint64 id, const QUrl &url, const bool success) {
     TagReaderReplyPtr reply = TagReaderReply::Create<TagReaderReply>(url.toLocalFile());
     reply->set_result(TagReaderResult(success ? TagReaderResult::ErrorCode::Success : TagReaderResult::ErrorCode::FileOpenError));
-    cover_manager_->SaveEmbeddedCoverFinished(reply, album_item, url, true);
+    cover_manager_->SaveEmbeddedCoverFinished(reply, id, url);
+  }
+  // Clears the albums, like when another artist is selected.
+  void ClearAlbums() {
+    cover_manager_->findChild<QListWidget*>(u"albums"_s)->clear();
+    cover_manager_->context_menu_items_.clear();
+    cover_manager_->CancelRequests();
   }
   void SetSaveEmbeddedCover() { cover_manager_->album_cover_choice_controller_->set_save_embedded_cover_override(true); }
   void SaveImageToAlbums(const AlbumCoverImageResult &result) {
     Song song = cover_manager_->GetFirstSelectedAsSong();
     cover_manager_->SaveImageToAlbums(&song, result);
   }
-  bool CoverIsBeingEmbedded(AlbumItem *album_item) const { return cover_manager_->cover_save_tasks_.contains(album_item); }
+  bool CoverIsBeingEmbedded(AlbumItem *album_item) const {
+    for (const AlbumCoverManager::CoverSave &cover_save : std::as_const(cover_manager_->cover_saves_)) {
+      if (cover_save.album_item == album_item) return true;
+    }
+    return false;
+  }
   static void SetAlbum(AlbumItem *album_item, const QString &album, const Song::FileType filetype, const QUrl &url) {
     album_item->setData(AlbumCoverManager::Role_AlbumArtist, u"Artist"_s);
     album_item->setData(AlbumCoverManager::Role_Album, album);
@@ -447,12 +458,10 @@ TEST_F(AlbumCoverManagerTest, EmbeddedCoverOnlyUpdatesSongsOfTheAlbumFiles) {
 
   // All the saves are started before any of them finish, like when saving the cover, and the failed save finishes between the successful ones.
   QSignalSpy changed_spy(&*collection_backend_, &CollectionBackend::SongsChanged);
-  for (const QUrl &url : std::as_const(flac_album_item->urls)) {
-    StartEmbeddedCoverSave(flac_album_item, url);
-  }
-  FinishEmbeddedCoverSave(flac_album_item, songs[0].url(), true);
-  FinishEmbeddedCoverSave(flac_album_item, songs[4].url(), false);
-  FinishEmbeddedCoverSave(flac_album_item, songs[1].url(), true);
+  const quint64 id = StartEmbeddedCoverSave(flac_album_item);
+  FinishEmbeddedCoverSave(id, songs[0].url(), true);
+  FinishEmbeddedCoverSave(id, songs[4].url(), false);
+  FinishEmbeddedCoverSave(id, songs[1].url(), true);
   ASSERT_TRUE(changed_spy.wait(5000));
 
   // One update for the files the cover was saved to.
@@ -470,6 +479,72 @@ TEST_F(AlbumCoverManagerTest, EmbeddedCoverOnlyUpdatesSongsOfTheAlbumFiles) {
   EXPECT_FALSE(collection_backend_->GetSongById(3).art_embedded());
   EXPECT_FALSE(collection_backend_->GetSongById(4).art_embedded());
   EXPECT_FALSE(collection_backend_->GetSongById(5).art_embedded());
+
+}
+
+// Regression test: selecting another artist cleared the covers being saved, so when they were saved, the collection wasn't updated, and the files had an embedded cover which wasn't used.
+TEST_F(AlbumCoverManagerTest, EmbeddedCoverSavedAfterArtistChangedUpdatesCollection) {
+
+  collection_backend_->AddDirectory(u"/tmp"_s);
+  SongList songs;
+  for (int i = 1; i <= 2; ++i) {
+    Song song(Song::Source::Collection);
+    song.set_directory_id(1);
+    song.set_mtime(1);
+    song.set_ctime(1);
+    song.set_filesize(1);
+    song.set_title(QStringLiteral("Title %1").arg(i));
+    song.set_artist(u"Artist"_s);
+    song.set_album(u"Album"_s);
+    song.set_url(QUrl::fromLocalFile(QStringLiteral("/tmp/%1.flac").arg(i)));
+    songs << song;
+  }
+  collection_backend_->AddOrUpdateSongs(songs);
+
+  AlbumItem *album_item = AddAlbum();
+  album_item->setData(kRoleAlbum, u"Album"_s);
+  album_item->urls = QList<QUrl>() << songs[0].url() << songs[1].url();
+
+  QSignalSpy changed_spy(&*collection_backend_, &CollectionBackend::SongsChanged);
+  const quint64 id = StartEmbeddedCoverSave(album_item);
+  FinishEmbeddedCoverSave(id, songs[0].url(), true);
+
+  // Another artist is selected, which deletes the album item, while the cover is still saved to the second file.
+  ClearAlbums();
+  FinishEmbeddedCoverSave(id, songs[1].url(), true);
+  ASSERT_TRUE(changed_spy.wait(5000));
+
+  EXPECT_TRUE(collection_backend_->GetSongById(1).art_embedded());
+  EXPECT_TRUE(collection_backend_->GetSongById(2).art_embedded());
+
+}
+
+// When the cover couldn't be saved to any of the files, the songs are not marked as having an embedded cover.
+TEST_F(AlbumCoverManagerTest, EmbeddedCoverNotSavedToAnyFileDoesNotUpdateCollection) {
+
+  collection_backend_->AddDirectory(u"/tmp"_s);
+  Song song(Song::Source::Collection);
+  song.set_directory_id(1);
+  song.set_mtime(1);
+  song.set_ctime(1);
+  song.set_filesize(1);
+  song.set_title(u"Title"_s);
+  song.set_artist(u"Artist"_s);
+  song.set_album(u"Album"_s);
+  song.set_url(QUrl::fromLocalFile(u"/tmp/1.flac"_s));
+  collection_backend_->AddOrUpdateSongs(SongList() << song);
+
+  AlbumItem *album_item = AddAlbum();
+  album_item->setData(kRoleAlbum, u"Album"_s);
+  album_item->urls = QList<QUrl>() << song.url();
+
+  QSignalSpy changed_spy(&*collection_backend_, &CollectionBackend::SongsChanged);
+  FinishEmbeddedCoverSave(StartEmbeddedCoverSave(album_item), song.url(), false);
+  EXPECT_FALSE(changed_spy.wait(500));
+
+  EXPECT_FALSE(collection_backend_->GetSongById(1).art_embedded());
+  EXPECT_FALSE(album_item->data(kRoleArtEmbedded).toBool());
+  EXPECT_FALSE(CoverIsBeingEmbedded(album_item));
 
 }
 
