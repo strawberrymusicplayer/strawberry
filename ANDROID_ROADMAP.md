@@ -671,6 +671,7 @@ The user also reported that a restore-defaults confirmation appeared while tryin
 The Android restore confirmation now uses the app's nonblocking, touch-compatible confirmation overlay instead of a desktop-style message box; the actual FP5 issue still needs verification, and the restore action must only run on explicit confirmation.
 Android toolbar actions have text labels to distinguish Edit from Restore defaults.
 On the emulator, Back dismissed the restore warning without restoring defaults, and the selected smart playlist's Edit button opened its editor.
+After installing the updated APK on the FP5, the user confirmed that Edit opens the editor and Back dismisses the restore warning without a freeze.
 
 ## 17. Make Android checkboxes touch-friendly
 
