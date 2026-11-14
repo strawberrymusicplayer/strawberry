@@ -2888,4 +2888,62 @@ TEST_F(PlaylistTest, QueueDropOfRowsFromAnotherInstanceIsIgnored) {
 
 }
 
+// Regression test: rows were removed one by one inside a layout change, rows which don't exist made the rows next to them be skipped, and duplicate rows removed another row.
+TEST_F(PlaylistTest, QueueRemove) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"0"_s) << MakeMockItemP(u"1"_s) << MakeMockItemP(u"2"_s) << MakeMockItemP(u"3"_s) << MakeMockItemP(u"4"_s));
+
+  Queue *queue = playlist_.queue();
+  const auto queued_source_rows = [queue]() {
+    QList<int> rows;
+    for (int i = 0; i < queue->rowCount(QModelIndex()); ++i) {
+      rows << queue->mapToSource(queue->index(i, 0)).row();
+    }
+    return rows;
+  };
+  const auto reset_queue = [this, queue]() {
+    queue->Clear();
+    QModelIndexList source_indexes;
+    for (int i = 0; i < playlist_.rowCount(QModelIndex()); ++i) {
+      source_indexes << playlist_.index(i, 0);
+    }
+    queue->ToggleTracks(source_indexes);
+  };
+
+  struct Removal {
+    const char *description;
+    QList<int> rows;
+    QList<int> remaining_rows;
+    // Rows next to each other are removed together.
+    qsizetype removals;
+  };
+  const QList<Removal> removals = {
+    {"Rows not in order", {3, 0, 1}, {2, 4}, 2},
+    {"Duplicate rows", {1, 1, 3}, {0, 2, 4}, 2},
+    {"A row after the last row", {5, 4}, {0, 1, 2, 3}, 1},
+    {"A row before the first row", {0, -1}, {1, 2, 3, 4}, 1},
+    {"Only rows which don't exist", {-1, 5}, {0, 1, 2, 3, 4}, 0},
+  };
+  for (const Removal &removal : removals) {
+    SCOPED_TRACE(removal.description);
+    reset_queue();
+    ASSERT_EQ(QList<int>() << 0 << 1 << 2 << 3 << 4, queued_source_rows());
+    QSignalSpy spy_layout_changed(queue, &Queue::layoutChanged);
+    QSignalSpy spy_rows_removed(queue, &Queue::rowsRemoved);
+    QList<int> rows = removal.rows;
+    queue->Remove(rows);
+    EXPECT_EQ(removal.remaining_rows, queued_source_rows());
+    EXPECT_EQ(0, spy_layout_changed.count());
+    EXPECT_EQ(removal.removals, spy_rows_removed.count());
+    // Each removal signal is for rows which were removed.
+    qsizetype removed_rows = 0;
+    for (const QList<QVariant> &arguments : std::as_const(spy_rows_removed)) {
+      EXPECT_LE(arguments.at(1).toInt(), arguments.at(2).toInt());
+      removed_rows += arguments.at(2).toInt() - arguments.at(1).toInt() + 1;
+    }
+    EXPECT_EQ(5 - removal.remaining_rows.count(), removed_rows);
+  }
+
+}
+
 }  // namespace
