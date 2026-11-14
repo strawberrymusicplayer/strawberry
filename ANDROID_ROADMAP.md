@@ -1017,6 +1017,8 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
   Saved-playlist and landscape list gestures were also exercised without a crash.
 
 **Still open:**
+- User feedback (2026-11-14): the Tools screen cannot be scrolled by dragging its content.
+  Add touch dragging to the Tools overview and verify that scrolling does not activate a tool accidentally, on the FP5 and emulator in portrait and landscape.
 - FP5 feedback (2026-11-14): the Context display showed a scrollbar and could not be scrolled by dragging the content with a finger.
   An Android-only adapter now scrolls the outer Context page from its content, cover and text areas and hides the desktop scrollbar.
   Native tests cover dragging, taps and target destruction; in the landscape emulator a drag over the cover revealed the collection statistics below it.
