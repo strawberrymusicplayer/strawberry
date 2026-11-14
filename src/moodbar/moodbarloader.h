@@ -35,6 +35,7 @@
 class QThread;
 class QByteArray;
 class QNetworkDiskCache;
+class QAbstractNetworkCache;
 
 class MoodbarLoader : public QObject {
   Q_OBJECT
@@ -69,6 +70,11 @@ class MoodbarLoader : public QObject {
   void ReloadSettings();
 
   LoadResult Load(const QUrl &url, const bool has_cue);
+
+  // Saves the moodbar data of the file in the cache, the saving is cancelled when the data isn't written.
+  static bool SaveToCache(QAbstractNetworkCache *cache, const QString &filename, const QByteArray &data);
+  // Saves the moodbar data in the mood file, which is replaced when all the data is written.
+  static bool SaveMoodFile(const QString &mood_filename, const QByteArray &data);
 
  private:
   static QStringList MoodFilenames(const QString &song_filename);

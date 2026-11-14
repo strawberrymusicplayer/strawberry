@@ -31,6 +31,7 @@
 #include <QIODevice>
 #include <QDir>
 #include <QFile>
+#include <QSaveFile>
 #include <QFileInfo>
 #include <QAbstractNetworkCache>
 #include <QNetworkDiskCache>
@@ -201,6 +202,63 @@ MoodbarLoader::LoadResult MoodbarLoader::Load(const QUrl &url, const bool has_cu
 
 }
 
+bool MoodbarLoader::SaveToCache(QAbstractNetworkCache *cache, const QString &filename, const QByteArray &data) {
+
+  if (data.isEmpty()) return false;
+
+  QNetworkCacheMetaData disk_cache_metadata;
+  disk_cache_metadata.setSaveToDisk(true);
+  disk_cache_metadata.setUrl(CacheUrlEntry(filename));
+  // Qt 6 now ignores any entry without headers, so add a fake header.
+  disk_cache_metadata.setRawHeaders(QNetworkCacheMetaData::RawHeaderList() << qMakePair(QByteArray("moodbar"), QByteArray("moodbar")));
+
+  QIODevice *device_cache_file = cache->prepare(disk_cache_metadata);
+  if (!device_cache_file) return false;
+
+  if (device_cache_file->write(data) != data.size()) {
+    // The saving is kept by the cache until it's inserted or removed, and the data is incomplete.
+    qLog(Error) << "Error writing moodbar data for" << filename << "to the cache" << device_cache_file->errorString();
+    cache->remove(disk_cache_metadata.url());
+    return false;
+  }
+
+  cache->insert(device_cache_file);
+
+  return true;
+
+}
+
+bool MoodbarLoader::SaveMoodFile(const QString &mood_filename, const QByteArray &data) {
+
+  // The mood file is written to a temporary file which replaces it when all the data is written, so a mood file which is partially written is never loaded.
+  QSaveFile mood_file(mood_filename);
+  if (!mood_file.open(QIODevice::WriteOnly)) {
+    qLog(Error) << "Error opening mood file" << mood_filename << "for writing:" << mood_file.errorString();
+    return false;
+  }
+
+  // The data is flushed before committing, before Qt 6.10 commit() ignored errors when flushing the buffered data, and replaced the mood file with the partially written data.
+  // The temporary file is removed when it's not committed.
+  if (mood_file.write(data) != data.size() || !mood_file.flush()) {
+    qLog(Error) << "Error writing to mood file" << mood_filename << mood_file.errorString();
+    return false;
+  }
+
+  if (!mood_file.commit()) {
+    qLog(Error) << "Error saving mood file" << mood_filename << mood_file.errorString();
+    return false;
+  }
+
+#ifdef Q_OS_WIN32
+  if (!SetFileAttributes(reinterpret_cast<LPCTSTR>(mood_filename.utf16()), FILE_ATTRIBUTE_HIDDEN)) {
+    qLog(Warning) << "Error setting hidden attribute for file" << mood_filename;
+  }
+#endif
+
+  return true;
+
+}
+
 void MoodbarLoader::MaybeTakeNextRequest() {
 
   Q_ASSERT(QThread::currentThread() == qApp->thread());
@@ -229,40 +287,11 @@ void MoodbarLoader::RequestFinished(MoodbarPipelinePtr pipeline, const QUrl &url
 
     qLog(Info) << "Moodbar data generated successfully for" << filename;
 
-    // Save the data in the cache
-    QNetworkCacheMetaData disk_cache_metadata;
-    disk_cache_metadata.setSaveToDisk(true);
-    disk_cache_metadata.setUrl(CacheUrlEntry(filename));
-    // Qt 6 now ignores any entry without headers, so add a fake header.
-    disk_cache_metadata.setRawHeaders(QNetworkCacheMetaData::RawHeaderList() << qMakePair(QByteArray("moodbar"), QByteArray("moodbar")));
-
-    QIODevice *device_cache_file = cache_->prepare(disk_cache_metadata);
-    if (device_cache_file) {
-      const qint64 data_written = device_cache_file->write(pipeline->data());
-      if (data_written > 0) {
-        cache_->insert(device_cache_file);
-      }
-    }
+    SaveToCache(cache_, filename, pipeline->data());
 
     // Save the data alongside the original as well if we're configured to.
     if (save_) {
-      QStringList mood_filenames = MoodFilenames(url.toLocalFile());
-      const QString mood_filename(mood_filenames[0]);
-      QFile mood_file(mood_filename);
-      if (mood_file.open(QIODevice::WriteOnly)) {
-        if (mood_file.write(pipeline->data()) <= 0) {
-          qLog(Error) << "Error writing to mood file" << mood_filename << mood_file.errorString();
-        }
-        mood_file.close();
-#ifdef Q_OS_WIN32
-        if (!SetFileAttributes(reinterpret_cast<LPCTSTR>(mood_filename.utf16()), FILE_ATTRIBUTE_HIDDEN)) {
-          qLog(Warning) << "Error setting hidden attribute for file" << mood_filename;
-        }
-#endif
-      }
-      else {
-        qLog(Error) << "Error opening mood file" << mood_filename << "for writing:" << mood_file.errorString();
-      }
+      SaveMoodFile(MoodFilenames(filename).constFirst(), pipeline->data());
     }
   }
 
