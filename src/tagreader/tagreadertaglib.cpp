@@ -184,7 +184,6 @@ constexpr char kVorbisComment_FMPS_Playcount[] = "FMPS_PLAYCOUNT";
 constexpr char kVorbisComment_FMPS_Rating[] = "FMPS_RATING";
 constexpr char kVorbisComment_Lyrics[] = "LYRICS";
 constexpr char kVorbisComment_UnsyncedLyrics[] = "UNSYNCEDLYRICS";
-constexpr char kVorbisComment_SyncedLyrics[] = "SYNCEDLYRICS";
 constexpr char kVorbisComment_BPM[] = "BPM";
 constexpr char kVorbisComment_Mood[] = "MOOD";
 constexpr char kVorbisComment_Initial_Key[] = "INITIALKEY";
@@ -903,9 +902,10 @@ void TagReaderTagLib::ParseVorbisComments(const TagLib::Ogg::FieldListMap &map, 
   }
   if (map.contains(kVorbisComment_FMPS_Rating) && song->rating() <= 0) song->set_rating(TagLibStringToQString(map[kVorbisComment_FMPS_Rating].front()).trimmed().toFloat());
 
-  if (map.contains(kVorbisComment_Lyrics)) SetLyricsFromTag(song, TagLibStringToQString(map[kVorbisComment_Lyrics].front()));
-  else if (map.contains(kVorbisComment_UnsyncedLyrics)) SetLyricsFromTag(song, TagLibStringToQString(map[kVorbisComment_UnsyncedLyrics].front()));
-  if (map.contains(kVorbisComment_SyncedLyrics)) SetSyncedLyricsFromTag(song, TagLibStringToQString(map[kVorbisComment_SyncedLyrics].front()));
+  // TODO: XIPH Comment "LYRICS" could contain either synced or unsynced lyrics; determine content if desired or fall back to using the dedicated UNSYNCEDLYRICS otherwise.
+  if (map.contains(kVorbisComment_Lyrics)) SetSyncedLyricsFromTag(song, TagLibStringToQString(map[kVorbisComment_Lyrics].front()));
+  if (map.contains(kVorbisComment_UnsyncedLyrics)) SetLyricsFromTag(song, TagLibStringToQString(map[kVorbisComment_UnsyncedLyrics].front()));
+  // NOTE:NOBUG: removed "SYNCEDLYRICS", as it does not appear to be a real XIPH Vorbis comment type.
 
   if (map.contains(kVorbisComment_BPM)) song->set_bpm(TagLibStringToQString(map[kVorbisComment_BPM].front()).toFloat());
   if (map.contains(kVorbisComment_Mood)) song->set_mood(map[kVorbisComment_Mood].front());
@@ -2499,8 +2499,7 @@ TagReaderResult TagReaderTagLib::SaveSongRating(const QString &filename, const f
 
 void TagReaderTagLib::SetLyrics(TagLib::Ogg::XiphComment *vorbis_comment, const QString &lyrics) const {
 
-  vorbis_comment->addField(kVorbisComment_Lyrics, QStringToTagLibString(lyrics), true);
-  vorbis_comment->removeFields(kVorbisComment_UnsyncedLyrics);
+  vorbis_comment->addField(kVorbisComment_UnsyncedLyrics, QStringToTagLibString(lyrics), true);
 
 }
 
@@ -2524,7 +2523,7 @@ void TagReaderTagLib::SetLyrics(TagLib::ASF::Tag *tag, const QString &lyrics) co
 
 void TagReaderTagLib::SetSyncedLyrics(TagLib::Ogg::XiphComment *vorbis_comment, const QString &synced_lyrics) const {
 
-  vorbis_comment->addField(kVorbisComment_SyncedLyrics, QStringToTagLibString(synced_lyrics), true);
+  vorbis_comment->addField(kVorbisComment_Lyrics, QStringToTagLibString(synced_lyrics), true);
 
 }
 
