@@ -1299,6 +1299,129 @@ TEST_F(PlaylistTest, ClearingSortIndicatorStopsTrackingAsSortedWithoutReordering
 
 }
 
+// Regression test: whatever column is sorted (in either direction), songs that compare equal in it must be ordered by album year, album artist and album, with each album's tracks in ascending disc/track order - the sort direction applies to the sorted column, not to these tie-breakers.
+TEST_F(PlaylistTest, SortKeepsAlbumsInTrackOrder) {
+
+  const auto make_item = [](const QString &title, const QString &albumartist, const QString &album, const int year, const int originalyear, const int disc, const int track) {
+    Song metadata;
+    metadata.Init(title, u"Artist"_s, album, 123);
+    metadata.set_albumartist(albumartist);
+    metadata.set_genre(u"Genre"_s);
+    metadata.set_year(year);
+    metadata.set_originalyear(originalyear);
+    metadata.set_disc(disc);
+    metadata.set_track(track);
+    MockPlaylistItem *ret = new MockPlaylistItem;
+    EXPECT_CALL(*ret, OriginalMetadata()).WillRepeatedly(Return(metadata));
+    return PlaylistItemPtr(ret);
+  };
+
+  const auto titles = [this]() {
+    QStringList ret;
+    for (int row = 0; row < playlist_.rowCount(QModelIndex()); ++row) {
+      ret << playlist_.data(playlist_.index(row, static_cast<int>(Playlist::Column::Title))).toString();
+    }
+    return ret;
+  };
+
+  // Album "A" was released in 2000 (originally 1990), album "B" in 1995 (originally 1999), so year and original year order the albums oppositely.
+  // "A 1-20" is disc 1, track 20, and "A 2-1" is disc 2, track 1: disc order must take priority over track order.
+  // All songs share the same artist, album artist and genre, so sorting by those leaves only the tie-breakers to order them: album year first, so B (1995) comes before A (2000).
+  // Every case starts from the same reversed order, so a sort that only compares the sorted column leaves the tracks reversed.
+  const auto sort_reversed = [this, &make_item](const Playlist::Column column, const Qt::SortOrder order) {
+    playlist_.Clear();
+    playlist_.InsertItems(PlaylistItemPtrList()
+                          << make_item(u"B 1-2"_s, u"Album Artist"_s, u"B"_s, 1995, 1999, 1, 2)
+                          << make_item(u"B 1-1"_s, u"Album Artist"_s, u"B"_s, 1995, 1999, 1, 1)
+                          << make_item(u"A 2-1"_s, u"Album Artist"_s, u"A"_s, 2000, 1990, 2, 1)
+                          << make_item(u"A 1-20"_s, u"Album Artist"_s, u"A"_s, 2000, 1990, 1, 20)
+                          << make_item(u"A 1-1"_s, u"Album Artist"_s, u"A"_s, 2000, 1990, 1, 1), -1);
+    playlist_.sort(static_cast<int>(column), order);
+  };
+
+  const QStringList album_a = QStringList() << u"A 1-1"_s << u"A 1-20"_s << u"A 2-1"_s;
+  const QStringList album_b = QStringList() << u"B 1-1"_s << u"B 1-2"_s;
+
+  const struct {
+    Playlist::Column column;
+    Qt::SortOrder order;
+    QStringList expected;
+  } cases[] = {
+    { Playlist::Column::Album, Qt::AscendingOrder, album_a + album_b },
+    { Playlist::Column::Album, Qt::DescendingOrder, album_b + album_a },
+    { Playlist::Column::Year, Qt::AscendingOrder, album_b + album_a },
+    { Playlist::Column::Year, Qt::DescendingOrder, album_a + album_b },
+    { Playlist::Column::OriginalYear, Qt::AscendingOrder, album_a + album_b },
+    { Playlist::Column::OriginalYear, Qt::DescendingOrder, album_b + album_a },
+    { Playlist::Column::Artist, Qt::AscendingOrder, album_b + album_a },
+    { Playlist::Column::Artist, Qt::DescendingOrder, album_b + album_a },
+    { Playlist::Column::AlbumArtist, Qt::AscendingOrder, album_b + album_a },
+    { Playlist::Column::AlbumArtist, Qt::DescendingOrder, album_b + album_a },
+    { Playlist::Column::Genre, Qt::AscendingOrder, album_b + album_a },
+    { Playlist::Column::Genre, Qt::DescendingOrder, album_b + album_a },
+  };
+
+  for (const auto &c : cases) {
+    sort_reversed(c.column, c.order);
+    EXPECT_EQ(c.expected, titles()) << "column " << Playlist::column_name(c.column).toStdString() << (c.order == Qt::AscendingOrder ? ", ascending" : ", descending");
+  }
+
+  // The album year is the album's earliest year, not each track's own year: a compilation whose tracks have different years ("Hits", 1990 to 2005) must stay together with its tracks in order.
+  playlist_.Clear();
+  playlist_.InsertItems(PlaylistItemPtrList()
+                        << make_item(u"New 1"_s, u"Album Artist"_s, u"New"_s, 2000, 0, 1, 1)
+                        << make_item(u"Hits 3"_s, u"Various"_s, u"Hits"_s, 2005, 0, 1, 3)
+                        << make_item(u"Hits 2"_s, u"Various"_s, u"Hits"_s, 1990, 0, 1, 2)
+                        << make_item(u"Hits 1"_s, u"Various"_s, u"Hits"_s, 1998, 0, 1, 1)
+                        << make_item(u"Old 2"_s, u"Album Artist"_s, u"Old"_s, 1985, 0, 1, 2)
+                        << make_item(u"Old 1"_s, u"Album Artist"_s, u"Old"_s, 1985, 0, 1, 1), -1);
+  playlist_.sort(static_cast<int>(Playlist::Column::Genre), Qt::AscendingOrder);
+  EXPECT_EQ((QStringList() << u"Old 1"_s << u"Old 2"_s << u"Hits 1"_s << u"Hits 2"_s << u"Hits 3"_s << u"New 1"_s), titles());
+
+  // Two albums with the same name by different album artists must not be interleaved (1, 1, 2, 2).
+  playlist_.Clear();
+  playlist_.InsertItems(PlaylistItemPtrList()
+                        << make_item(u"Y 2"_s, u"Y"_s, u"Greatest Hits"_s, 2000, 0, 1, 2)
+                        << make_item(u"Y 1"_s, u"Y"_s, u"Greatest Hits"_s, 2000, 0, 1, 1)
+                        << make_item(u"X 2"_s, u"X"_s, u"Greatest Hits"_s, 2000, 0, 1, 2)
+                        << make_item(u"X 1"_s, u"X"_s, u"Greatest Hits"_s, 2000, 0, 1, 1), -1);
+  playlist_.sort(static_cast<int>(Playlist::Column::Year), Qt::AscendingOrder);
+  EXPECT_EQ((QStringList() << u"X 1"_s << u"X 2"_s << u"Y 1"_s << u"Y 2"_s), titles());
+
+  // Two albums from the same year, previously in fully reversed order (albums Z..A, tracks n..1): sorting by year must put them in album order with tracks 1..n.
+  playlist_.Clear();
+  playlist_.InsertItems(PlaylistItemPtrList()
+                        << make_item(u"B-Sides 20"_s, u"Morcheeba"_s, u"Who Can You Trust? / Beats & B-Sides"_s, 1996, 0, 1, 20)
+                        << make_item(u"B-Sides 2"_s, u"Morcheeba"_s, u"Who Can You Trust? / Beats & B-Sides"_s, 1996, 0, 1, 2)
+                        << make_item(u"B-Sides 1"_s, u"Morcheeba"_s, u"Who Can You Trust? / Beats & B-Sides"_s, 1996, 0, 1, 1)
+                        << make_item(u"Trust 12"_s, u"Morcheeba"_s, u"Who Can You Trust?"_s, 1996, 0, 1, 12)
+                        << make_item(u"Trust 1"_s, u"Morcheeba"_s, u"Who Can You Trust?"_s, 1996, 0, 1, 1)
+                        << make_item(u"Hippie 1"_s, u"Morcheeba"_s, u"Trigger Hippie"_s, 1995, 0, 1, 1), -1);
+  playlist_.sort(static_cast<int>(Playlist::Column::Year), Qt::AscendingOrder);
+  EXPECT_EQ((QStringList() << u"Hippie 1"_s << u"Trust 1"_s << u"Trust 12"_s << u"B-Sides 1"_s << u"B-Sides 2"_s << u"B-Sides 20"_s), titles());
+
+}
+
+// A playlist that has never been sorted keeps the order its songs were added in (e.g. a hand-made playlist), even when an album's tracks are not in 1..n order.
+TEST_F(PlaylistTest, UnsortedPlaylistKeepsManualOrder) {
+
+  const auto make_item = [](const QString &title, const int track) {
+    Song metadata;
+    metadata.Init(title, u"Artist"_s, u"Album"_s, 123);
+    metadata.set_track(track);
+    MockPlaylistItem *ret = new MockPlaylistItem;
+    EXPECT_CALL(*ret, OriginalMetadata()).WillRepeatedly(Return(metadata));
+    return PlaylistItemPtr(ret);
+  };
+
+  playlist_.InsertItems(PlaylistItemPtrList() << make_item(u"Three"_s, 3) << make_item(u"One"_s, 1) << make_item(u"Two"_s, 2), -1);
+  EXPECT_FALSE(IsSorted());
+  EXPECT_EQ(u"Three"_s, playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(u"One"_s, playlist_.data(playlist_.index(1, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(u"Two"_s, playlist_.data(playlist_.index(2, static_cast<int>(Playlist::Column::Title))));
+
+}
+
 // Regression test for #1690: "Automatically sort playlist when inserting songs" must not act as if the playlist were sorted by the (arbitrary) default column until the user has actually chosen a sort column by clicking a header.
 TEST_F(PlaylistTest, AutoSortDoesNothingUntilAColumnHasBeenSorted) {
 

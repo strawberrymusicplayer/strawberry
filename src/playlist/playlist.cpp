@@ -1914,15 +1914,35 @@ void Playlist::sort(const int sort_column_number, const Qt::SortOrder sort_order
     begin += current_item_index_.row() + 1;
   }
 
-  if (sort_column_ == Column::Album) {
-    // When sorting by album, also take into account discs and tracks.
-    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column::Track, sort_order_, std::placeholders::_1, std::placeholders::_2));
-    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column::Disc, sort_order_, std::placeholders::_1, std::placeholders::_2));
-    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column::Album, sort_order_, std::placeholders::_1, std::placeholders::_2));
+  const auto sort_by = [&begin, &new_items](const Column column, const Qt::SortOrder order) {
+    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, column, order, std::placeholders::_1, std::placeholders::_2));
+  };
+
+  // Whatever column is sorted, songs that compare equal in it are ordered by album year, album artist and album, with each album's tracks in disc/track order.
+  // These tie-breakers are always ascending: the sort direction applies to the sorted column only, so an album never ends up as track n..1.
+  // The stable sorts run from the least to the most significant key, so the sorted column takes priority.
+  sort_by(Column::Track, Qt::AscendingOrder);
+  sort_by(Column::Disc, Qt::AscendingOrder);
+  sort_by(Column::Album, Qt::AscendingOrder);
+  sort_by(Column::AlbumArtist, Qt::AscendingOrder);
+
+  // The album year is the earliest year of any of the album's tracks, rather than each track's own year, so albums whose tracks have different years (e.g. compilations) are not split up.
+  QHash<QString, int> album_years;
+  QHash<const PlaylistItem*, QString> album_keys;
+  for (PlaylistItemPtrList::iterator it = begin; it != new_items.end(); ++it) {
+    const Song &song = (*it)->EffectiveMetadata();
+    const QString album_key = song.playlist_effective_albumartistsort().toLower() + QLatin1Char('\n') + song.effective_albumsort().toLower();
+    album_keys.insert(&**it, album_key);
+    if (song.year() > 0) {
+      int &album_year = album_years[album_key];
+      if (album_year == 0 || song.year() < album_year) album_year = song.year();
+    }
   }
-  else {
-    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, sort_column_, sort_order_, std::placeholders::_1, std::placeholders::_2));
-  }
+  std::stable_sort(begin, new_items.end(), [&album_years, &album_keys](const PlaylistItemPtr &a, const PlaylistItemPtr &b) {
+    return album_years.value(album_keys.value(&*a)) < album_years.value(album_keys.value(&*b));
+  });
+
+  sort_by(sort_column_, sort_order_);
 
   undo_stack_->push(new PlaylistUndoCommandSortItems(this, old_is_sorted, old_column, old_order, is_sorted_, sort_column_, sort_order_, new_items));
 
