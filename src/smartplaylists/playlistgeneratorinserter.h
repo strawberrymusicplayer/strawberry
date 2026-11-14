@@ -43,6 +43,7 @@ class PlaylistGeneratorInserter : public QObject {
 
  public:
   explicit PlaylistGeneratorInserter(SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackend> collection_backend, QObject *parent);
+  ~PlaylistGeneratorInserter() override;
 
   void Load(Playlist *destination, const int row, const bool play_now, const bool enqueue, const bool enqueue_next, PlaylistGeneratorPtr generator, const int dynamic_count = 0);
 

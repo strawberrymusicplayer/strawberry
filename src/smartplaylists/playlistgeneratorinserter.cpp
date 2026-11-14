@@ -48,6 +48,16 @@ PlaylistGeneratorInserter::PlaylistGeneratorInserter(SharedPtr<TaskManager> task
       enqueue_next_(false),
       cancelled_(false) {}
 
+PlaylistGeneratorInserter::~PlaylistGeneratorInserter() {
+
+  // The inserter is deleted with the playlist, like when the playlist is closed while the items are generated, then the task is not finished by Finished().
+  // A task which was already finished is ignored by the task manager.
+  if (task_id_ != -1) {
+    task_manager_->SetTaskFinished(task_id_);
+  }
+
+}
+
 PlaylistItemPtrList PlaylistGeneratorInserter::Generate(PlaylistGeneratorPtr generator, int dynamic_count) {
 
   if (dynamic_count > 0) {

@@ -799,6 +799,24 @@ TEST_F(PlaylistTest, DynamicPlaylistRepopulatedWhileGeneratingDoesNotInsertOldIt
 
 }
 
+// Regression test: the task for loading the smart playlist was not finished when the playlist was deleted while the items were generated, like when closing the playlist, so it stayed in the status bar.
+TEST_F(PlaylistTest, DeletingPlaylistWhileGeneratingFinishesTask) {
+
+  SharedPtr<TaskManager> task_manager = std::make_shared<TaskManager>();
+  std::unique_ptr<Playlist> playlist = std::make_unique<Playlist>(task_manager, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  playlist->set_sequence(&sequence_);
+
+  constexpr int kFuture = 3;
+  SharedPtr<BlockingDynamicGenerator> generator = std::make_shared<BlockingDynamicGenerator>(kFuture, true);
+  const GeneratorReleaser generator_releaser(generator);
+  playlist->InsertSmartPlaylist(generator);
+  ASSERT_EQ(1, task_manager->GetTasks().count());
+
+  playlist.reset();
+  EXPECT_TRUE(task_manager->GetTasks().isEmpty());
+
+}
+
 TEST_F(PlaylistTest, Clear) {
 
   playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s) << MakeMockItemP(u"Three"_s));
