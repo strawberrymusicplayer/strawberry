@@ -828,7 +828,8 @@ This is the deferred follow-up to feature audit point 14, not a claim that provi
   The remaining real-provider checks must pass before enabling Qobuz browser login by default.
 - On the FP5, the user confirmed Qobuz login persists after restarting when the fetched API credentials are first saved with Apply.
   The user also confirmed the automatic-save page works and its Apply/OK/Cancel buttons are gone.
-  Logout and login persistence after fetching credentials using the new automatic-save flow still need real-device verification.
+  The user subsequently confirmed logout, fetching credentials without Apply, and a fresh login persisting after restart.
+  Provider denial and cancellation/retry still need real-device verification before enabling this flow by default.
 - Auto-save signal regressions pass with the Qobuz and OAuth suites.
   On the emulator, enabling Qobuz without Apply persisted across an app restart; its page and preferences editor hide Apply/OK/Cancel and Back returns one level, while Tidal still shows those buttons.
 
