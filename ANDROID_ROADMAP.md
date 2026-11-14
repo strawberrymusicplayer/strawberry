@@ -767,7 +767,7 @@ The user also requested removing these arrows from the navigation/menu bar when 
 
 ## 22. Build and bundle a Spotify GStreamer plugin for Android
 
-**Status:** Investigating (prerequisites identified; Android plugin build not started)
+**Status:** Investigating (arm64 plugin cross-build and isolated registration verified; app integration not started)
 
 **Problem:** Spotify playback requires a GStreamer plugin that is not included in the Android SDK, so Spotify is currently disabled on Android.
 
@@ -781,6 +781,18 @@ The user also requested removing these arrows from the navigation/menu bar when 
 - [Upstream authentication requirements](https://github.com/GStreamer/gst-plugins-rs/blob/0.14.4/audio/spotify/README.md) include Spotify Premium and an access token with the `streaming` scope.
 - Bundling the plugin alone will not restore Android login: shared `OAuthenticator` currently rejects browser authentication both when starting it and when receiving its callback.
   Item 24 must also be addressed and verified before enabling usable Spotify login/playback.
+
+**Cross-build investigation:**
+- Cross-built the upstream 0.14.4 source at commit `95a7172f82d0ec816e4e89111a762c24d5c47b22` with its lockfile, Rust 1.85.0, cargo-c 0.10.13, the Android arm64 target, NDK 27.2 and the GStreamer 1.28.8 Android SDK.
+  The debug static archive exports `gst_plugin_spotify_register` and `gst_plugin_spotify_get_desc`.
+- An isolated Android link probe linked that archive against the existing `libgstreamer_android.so` without bundling another GStreamer API.
+  An arm64 probe running through the x86-64 emulator's native translation registered the plugin and found `spotifyaudiosrc`, reporting version `0.14.4-95a7172`.
+  The standalone probe suppressed the app's built-in static plugin initialization, which requires an Android Java VM, so this is not a test of registration inside the app or of playback.
+- The locked Spotify dependency tree uses `rustls-native-certs` 0.8.2, whose Unix backend probes filesystem certificate locations or honors `SSL_CERT_FILE` and `SSL_CERT_DIR`.
+  The app's GStreamer TLS setup instead uses `CA_CERTIFICATES` for GLib; these are separate mechanisms.
+  Do not assume the bundled GLib CA configuration makes Spotify's Rust TLS trust work on Android.
+- The archive and probes are experimental session files, not a reproducible project build integration or a release-size measurement.
+  No APK was modified or installed for this test.
 
 **Next steps:**
 - Identify the plugin and its dependencies, and verify Android support, licensing, and compatibility with Strawberry's Spotify playback and authentication.
