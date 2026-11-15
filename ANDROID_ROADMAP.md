@@ -10,7 +10,8 @@ Status values: Planned, In progress, Done.
 Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
-1. The remaining open items: 16, 20, 21, 22, 23, 24, 26, 27, 28, 29, and finally 9 (physical-device verification, which needs a device).
+1. The remaining open items: 16, 21, 22, 24, 26, 27, 28, 29, and finally 9 (physical-device verification, which needs a device).
+   Item 23 is investigated and blocked on licensing; item 20 is done.
 
 ## 18. Review the Android changes for coding best practices
 
@@ -865,17 +866,29 @@ The user also requested removing these arrows from the navigation/menu bar when 
 
 ## 23. Investigate Discord Rich Presence support on Android
 
-**Status:** Planned
+**Status:** Investigated; blocked on licensing (feature stays disabled on Android)
 
 **Problem:** Strawberry's Discord integration uses the desktop client's local IPC socket, which is not available on Android, so Rich Presence is currently disabled there.
 
 **Goal:** Investigate whether a supported Android integration can publish the current playback activity to Discord.
 
-**Next steps:**
-- Check Discord's supported Android APIs, SDK availability, account requirements, and platform policies; do not assume the desktop IPC implementation can be ported.
-- Assess authentication, privacy, background execution, and integration with Strawberry's playback lifecycle.
-- If a supported approach is feasible, implement it separately from the desktop backend and verify activity updates, pause/stop behavior, and logout on Android.
-- Keep the feature disabled until verified; document the limitation if no supported integration is available.
+**Findings (2026-11-15):**
+- The only supported Android route is Discord's [Social SDK](https://docs.discord.com/developers/discord-social-sdk/core-concepts/mobile), generally available on Android 7.0+ with a standalone C++ API usable from Strawberry's NDK build.
+- Since Social SDK 1.10 (August 2026), [Rich Presence without authentication](https://docs.discord.com/developers/discord-social-sdk/development-guides/setting-rich-presence.md#rich-presence-without-authentication) works on Android when the Discord app is installed and signed in, as on desktop.
+  It needs only a registered application ID; no account linking, OAuth tokens or credentials would be stored by Strawberry.
+  The activity types include Listening, which suits music playback.
+- The transport between the SDK and the Discord Android app is not publicly documented, so it cannot be implemented independently like the desktop IPC backend.
+- The SDK is a proprietary per-application download from the Developer Portal, licensed under the [Social SDK Terms](https://support-dev.discord.com/hc/en-us/articles/30225844245271-Discord-Social-SDK-Terms) as non-sublicensable and not published to a public package repository.
+  Linking it into Strawberry, which is GPL-3.0 without a linking exception, would produce an APK that cannot be distributed in compliance with the GPL; this is an engineering assessment, not legal advice.
+  Other GPL Android apps that use it, such as a [GameNative fork](https://github.com/johnuberbacher/GameNative-Discord-RPC/blob/master/app/libs/README-discord-social-sdk.md), keep the SDK out of the repository and make it an optional build-time drop-in.
+- Testing would also require a Discord developer application, the downloaded SDK, and the Discord app installed and signed in on the test device.
+
+**Decision:** Keep Discord Rich Presence disabled on Android and do not add the proprietary SDK to the repository or distributed APKs.
+
+**Possible follow-up (only if requested):**
+- An off-by-default, local-build-only option that links a separately downloaded SDK, for personal builds that are not distributed.
+  It would need the user's own Discord application ID, a per-device opt-in (presence is visible to Discord friends), Listening activity updates driven by the existing playback signals, and clearing the activity on pause/stop.
+- Revisit if Discord documents the Android RPC transport or releases the SDK under a GPL-compatible licence.
 
 ## 24. Restore and verify browser authentication on Android
 
