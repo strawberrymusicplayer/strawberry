@@ -20,10 +20,13 @@
 
 #include "config.h"
 
+#include <QDialog>
 #include <QMenu>
 #include <QToolButton>
 
 #include "collectionfilterwidget.h"
+#include "collectionmodel.h"
+#include "groupbydialog.h"
 #include "ui_collectionfilterwidget.h"
 #include "widgets/androidwidgets.h"
 #include "widgets/menupage_android.h"
@@ -41,5 +44,10 @@ void CollectionFilterWidget::SetupAndroidOptions() {
 
   MenuPage *page = new MenuPage(collection_menu_, this);
   QObject::connect(ui_->options, &QToolButton::clicked, page, &MenuPage::Open);
+
+  // Choosing Advanced grouping checks it; show the unchanged grouping again when its page is cancelled.
+  QObject::connect(group_by_dialog_, &QDialog::rejected, this, [this]() {
+    if (model_) CheckCurrentGrouping(model_->GetGroupBy());
+  });
 
 }

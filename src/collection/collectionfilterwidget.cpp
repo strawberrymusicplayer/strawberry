@@ -58,6 +58,9 @@
 #include "widgets/searchfield.h"
 #include "constants/collectionsettings.h"
 #include "constants/appearancesettings.h"
+#ifdef Q_OS_ANDROID
+#  include "collectiondialogpages_android.h"
+#endif
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -381,7 +384,11 @@ void CollectionFilterWidget::SaveGroupBy() {
 
   if (!model_) return;
 
+#ifdef Q_OS_ANDROID
+  const QString name = CollectionDialogPages::GetText(this, tr("Grouping Name"), tr("Grouping name:"));
+#else
   const QString name = QInputDialog::getText(this, tr("Grouping Name"), tr("Grouping name:"));
+#endif
   if (name.isEmpty()) return;
 
   qLog(Debug) << "Saving current grouping to" << name;
@@ -412,7 +419,11 @@ void CollectionFilterWidget::ShowGroupingManager() {
   }
 
   groupings_manager_->UpdateModel();
+#ifdef Q_OS_ANDROID
+  CollectionDialogPages::Show(groupings_manager_);
+#else
   groupings_manager_->show();
+#endif
 
 }
 
@@ -438,7 +449,11 @@ void CollectionFilterWidget::FocusOnFilter(QKeyEvent *event) {
 void CollectionFilterWidget::GroupByClicked(QAction *action) {
 
   if (action->property("group_by").isNull()) {
+#ifdef Q_OS_ANDROID
+    CollectionDialogPages::Show(group_by_dialog_);
+#else
     group_by_dialog_->show();
+#endif
     return;
   }
 

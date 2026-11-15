@@ -152,6 +152,13 @@ if(NOT ANDROID)
   endif()
   add_test_file(src/coverdialogpage_test.cpp true)
   target_sources(coverdialogpage_test PRIVATE ${CMAKE_SOURCE_DIR}/src/covermanager/coverdialogpage_android.cpp)
+  add_test_file(src/collectiondialogpages_test.cpp true)
+  target_sources(collectiondialogpages_test PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/collection/collectiondialogpages_android.cpp
+    ${CMAKE_SOURCE_DIR}/src/covermanager/coverdialogpage_android.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/androidwidgets.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/scrollarea_android.cpp
+  )
   add_test_file(src/gstaacdecoder_test.cpp false)
   target_sources(gstaacdecoder_test PRIVATE ${CMAKE_SOURCE_DIR}/src/engine/gstaacdecoder.cpp)
   add_test_file(src/spotifytrust_test.cpp false)
