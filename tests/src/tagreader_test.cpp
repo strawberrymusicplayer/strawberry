@@ -28,7 +28,6 @@
 #include <QFile>
 #include <QImage>
 #include <QDir>
-#include <QTemporaryFile>
 #include <QDataStream>
 #include <QColor>
 #include <QBuffer>
@@ -3973,10 +3972,7 @@ QByteArray DSFFileData() {
 // Regression test: DSF files were saved with ID3v2.4 tags, ID3v2.3 tags were converted.
 TEST_F(TagReaderTest, TestDSFKeepsID3v2VersionWhenSaving) {
 
-  QTemporaryFile temporary_file(QDir::tempPath() + u"/strawberry_test-XXXXXX.dsf"_s);
-  ASSERT_TRUE(temporary_file.open());
-  temporary_file.write(DSFFileData());
-  temporary_file.close();
+  TemporaryDataFile temporary_file(u"dsf"_s, DSFFileData());
   const QString filename = temporary_file.fileName();
   {
     TagLib::DSF::File file(TagLibFileName(filename).data());
@@ -4051,10 +4047,7 @@ QByteArray DSDIFFFileData() {
 // Regression test: DSDIFF files were saved with ID3v2.4 tags, ID3v2.3 tags were converted.
 TEST_F(TagReaderTest, TestDSDIFFKeepsID3v2VersionWhenSaving) {
 
-  QTemporaryFile temporary_file(QDir::tempPath() + u"/strawberry_test-XXXXXX.dff"_s);
-  ASSERT_TRUE(temporary_file.open());
-  temporary_file.write(DSDIFFFileData());
-  temporary_file.close();
+  TemporaryDataFile temporary_file(u"dff"_s, DSDIFFFileData());
   const QString filename = temporary_file.fileName();
   {
     TagLib::DSDIFF::File file(TagLibFileName(filename).data());

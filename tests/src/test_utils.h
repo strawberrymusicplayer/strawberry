@@ -70,6 +70,15 @@ class TemporaryResource : public QFile {
   ~TemporaryResource() override;
 };
 
+// A temporary file with the given data, which is removed when the object is destroyed, the file is not kept open like with TemporaryResource.
+class TemporaryDataFile : public QFile {
+  Q_OBJECT
+
+ public:
+  explicit TemporaryDataFile(const QString &extension, const QByteArray &data, QObject *parent = nullptr);
+  ~TemporaryDataFile() override;
+};
+
 class TestQObject : public QObject {
   Q_OBJECT
 
