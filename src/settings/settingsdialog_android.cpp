@@ -44,6 +44,7 @@
 
 #include "core/iconloader.h"
 #include "widgets/androidwidgets.h"
+#include "widgets/scrollarea_android.h"
 #include "settingsdialog.h"
 #include "settingspage.h"
 #include "ui_settingsdialog.h"
@@ -62,12 +63,10 @@ void SettingsDialog::SetupAndroidNavigation() {
   android_navigation_->setMinimumWidth(0);
   android_navigation_->setBackgroundRole(QPalette::Window);
   android_navigation_->setAutoFillBackground(true);
-  android_categories_page_ = new QWidget(android_navigation_);
-  android_categories_page_->setBackgroundRole(QPalette::Window);
-  android_categories_page_->setAutoFillBackground(true);
-  auto *categories_layout = new QVBoxLayout(android_categories_page_);
-  categories_layout->setContentsMargins(0, 0, 0, 0);
-  categories_layout->setSpacing(8);
+  const AndroidWidgets::ScrollPage categories_scroll_page = AndroidWidgets::CreateScrollPage(android_navigation_);
+  android_categories_page_ = categories_scroll_page.area;
+  QWidget *categories_contents = categories_scroll_page.contents;
+  android_categories_layout_ = categories_scroll_page.layout;
   android_navigation_->addWidget(android_categories_page_);
   const QStringList category_icon_names = {u"strawberry"_s, u"view-choose"_s, u"applications-internet"_s};
 
@@ -79,13 +78,13 @@ void SettingsDialog::SetupAndroidNavigation() {
     QWidget *category_contents = scroll_page.contents;
     QVBoxLayout *category_layout = scroll_page.layout;
 
-    QPushButton *category_button = new QPushButton(category->text(0), android_categories_page_);
+    QPushButton *category_button = new QPushButton(category->text(0), categories_contents);
     if (i < category_icon_names.size()) {
       category_button->setIcon(IconLoader::Load(category_icon_names.at(i)));
       category_button->setIconSize(QSize(AndroidWidgets::kNavigationIconSize, AndroidWidgets::kNavigationIconSize));
     }
     AndroidWidgets::StyleNavigationButton(category_button, kAndroidCategoryButtonHeight);
-    categories_layout->addWidget(category_button);
+    android_categories_layout_->addWidget(category_button);
     QObject::connect(category_button, &QPushButton::clicked, this, [this, category_page, category]() {
       android_current_category_page_ = category_page;
       SetAndroidTitle(category->text(0));
@@ -115,7 +114,7 @@ void SettingsDialog::SetupAndroidNavigation() {
     category_layout->addStretch();
     android_navigation_->addWidget(category_page);
   }
-  categories_layout->addStretch();
+  android_categories_layout_->addStretch();
 
   QPushButton *back_button = AndroidWidgets::CreateBackButton(this);
   QHBoxLayout *header = AndroidWidgets::CreatePageHeader(ui_->title, back_button);
@@ -165,12 +164,11 @@ void SettingsDialog::AddAndroidHelpCategory(const QList<QAction*> &actions) {
   scroll_page.layout->addStretch();
   android_navigation_->addWidget(help_page);
 
-  QPushButton *help_button = new QPushButton(IconLoader::Load(u"help-hint"_s), tr("Help"), android_categories_page_);
+  QPushButton *help_button = new QPushButton(IconLoader::Load(u"help-hint"_s), tr("Help"), android_categories_layout_->parentWidget());
   help_button->setIconSize(QSize(AndroidWidgets::kNavigationIconSize, AndroidWidgets::kNavigationIconSize));
   AndroidWidgets::StyleNavigationButton(help_button, kAndroidCategoryButtonHeight);
   // Insert above the trailing stretch of the overview.
-  auto *categories_layout = qobject_cast<QVBoxLayout*>(android_categories_page_->layout());
-  categories_layout->insertWidget(categories_layout->count() - 1, help_button);
+  android_categories_layout_->insertWidget(android_categories_layout_->count() - 1, help_button);
   QObject::connect(help_button, &QPushButton::clicked, this, [this, help_page]() {
     android_current_category_page_ = help_page;
     SetAndroidTitle(tr("Help"));
@@ -329,6 +327,11 @@ void SettingsDialog::SetAndroidNavigationPage(QWidget *page) {
     if (QWidget *page_widget = scroll_area->widget()) {
       page_widget->show();
     }
+  }
+
+  // Pages and subpages scroll by finger; enabling it again for a page that was shown before does nothing.
+  if (auto *scroll_area = qobject_cast<QScrollArea*>(page == ui_->stacked_widget ? ui_->stacked_widget->currentWidget() : page)) {
+    AndroidScrollArea::EnableForContents(scroll_area);
   }
 
 }

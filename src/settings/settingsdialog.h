@@ -55,6 +55,9 @@ class Appearance;
 class GlobalShortcutsManager;
 class SettingsPage;
 class FancyTabWidget;
+#ifdef Q_OS_ANDROID
+class QVBoxLayout;
+#endif
 
 class Ui_SettingsDialog;
 
@@ -176,6 +179,7 @@ class SettingsDialog : public QDialog {
   void SetAndroidTitle(const QString &category = QString(), const QString &page = QString(), const QString &subpage = QString());
   QStackedWidget *android_navigation_;
   QWidget *android_categories_page_;
+  QVBoxLayout *android_categories_layout_;
   QMap<Page, QWidget*> android_category_pages_;
   QWidget *android_current_category_page_;
   bool android_settings_loaded_;

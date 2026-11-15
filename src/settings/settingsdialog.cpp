@@ -149,6 +149,7 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 #ifdef Q_OS_ANDROID
       , android_navigation_(nullptr),
       android_categories_page_(nullptr),
+      android_categories_layout_(nullptr),
       android_current_category_page_(nullptr),
       android_settings_loaded_(false)
 #endif
