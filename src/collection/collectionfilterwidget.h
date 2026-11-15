@@ -113,6 +113,9 @@ class CollectionFilterWidget : public QWidget {
  private:
   static QAction *CreateGroupByAction(const QString &text, QObject *parent, const CollectionModel::Grouping grouping);
   void CheckCurrentGrouping(const CollectionModel::Grouping g);
+#ifdef Q_OS_ANDROID
+  void SetupAndroidOptions();
+#endif
 
  private:
   Ui_CollectionFilterWidget *ui_;

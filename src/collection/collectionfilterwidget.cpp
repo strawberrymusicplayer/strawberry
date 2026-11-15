@@ -151,6 +151,9 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
 
   QObject::connect(ui_->search_field, &SearchField::textChanged, this, &CollectionFilterWidget::FilterTextChanged);
   QObject::connect(ui_->options, &QToolButton::clicked, ui_->options, &QToolButton::showMenu);
+#ifdef Q_OS_ANDROID
+  SetupAndroidOptions();
+#endif
 
   ReloadSettings();
 
