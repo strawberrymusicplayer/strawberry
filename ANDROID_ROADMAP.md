@@ -656,7 +656,7 @@ Arbitrary cloud/document-provider support is not part of this implementation.
 
 ## 16. Verify Smart Playlists on Android
 
-**Status:** In progress (Open now replaces and shows Now playing; emulator verified, FP5 verification pending)
+**Status:** Done (all default generators and Open behavior verified on the FP5 after the full collection scan; populated saved playlist preserved; broader device verification remains item 9)
 
 **Goal:** Confirm that Smart Playlists are discoverable and their common workflows are usable on Android.
 
@@ -707,6 +707,13 @@ The user also reported that only Newest tracks works; other smart playlists need
   Back returned to the playlist list after opening Dynamic random mix.
   The toolbar was icon-only in portrait and showed five labelled actions in one row in landscape.
   The collection scan was still in progress during this check; other generators and saved-playlist preservation were not rechecked on the FP5.
+- Additional FP5 verification (2026-11-15, while the collection scan was at 49%): All tracks opened 2,455 tracks; Never played, Last played and Most played each opened 20 tracks; Ever played opened one track.
+  Each generated list appeared under Now playing and Open started playback; playback was paused after each check.
+  Playlist 1 remained present but contained zero tracks, so preservation of a populated saved playlist could not be verified on this device.
+  Repeat the generator checks and verify a populated saved playlist after the collection scan completes.
+- Final FP5 verification (2026-11-15, after the full collection scan): Open started playback for All tracks (3,152), Newest tracks (20), 50 random tracks (50), Ever played (1), Never played (20), Last played (20), Most played (20), Favourite tracks (20), Least favourite tracks (20), and Dynamic random mix (20).
+  A temporary saved 50-track playlist retained all 50 tracks after opening the generators; it was removed after the check.
+  Now playing was restored to its original single 3:20 track and left stopped.
 
 ## 17. Make Android checkboxes touch-friendly
 
