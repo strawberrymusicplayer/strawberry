@@ -140,6 +140,7 @@ if(NOT ANDROID)
   target_sources(menupage_test PRIVATE
     ${CMAKE_SOURCE_DIR}/src/widgets/menupage_android.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/androidwidgets.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/scrollarea_android.cpp
   )
   add_test_file(src/scrollarea_test.cpp true)
   target_sources(scrollarea_test PRIVATE ${CMAKE_SOURCE_DIR}/src/widgets/scrollarea_android.cpp)

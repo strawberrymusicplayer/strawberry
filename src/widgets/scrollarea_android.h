@@ -16,6 +16,9 @@ class AndroidScrollArea : public QObject {
   explicit AndroidScrollArea(QScrollArea *area);
   void AddGestureTarget(QWidget *target);
 
+  // Scrolls the area by dragging its contents, including the buttons in it, which still activate when tapped.
+  static AndroidScrollArea *EnableForContents(QScrollArea *area);
+
  protected:
   bool eventFilter(QObject *object, QEvent *event) override;
 

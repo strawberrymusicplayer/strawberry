@@ -4,10 +4,12 @@
 
 #include <QAction>
 #include <QActionGroup>
+#include <QApplication>
 #include <QCoreApplication>
 #include <QKeyEvent>
 #include <QLabel>
 #include <QMenu>
+#include <QMouseEvent>
 #include <QPushButton>
 #include <QRadioButton>
 #include <QScrollArea>
@@ -225,6 +227,54 @@ TEST_F(MenuPageTest, LeavingOrTappingTabClosesPage) {
   QCoreApplication::processEvents();
   EXPECT_EQ(page.depth(), 0);
   EXPECT_TRUE(owner_->isVisible());
+}
+
+TEST_F(MenuPageTest, SwipingOverButtonsScrollsWithoutActivating) {
+  window_.resize(360, 300);
+  for (int i = 0; i < 20; ++i) menu_->addAction(QStringLiteral("Action %1").arg(i));
+  MenuPage page(menu_, owner_);
+  page.Open();
+  QCoreApplication::processEvents();
+  QSignalSpy triggered(menu_, &QMenu::triggered);
+
+  QScrollArea *area = nullptr;
+  for (QScrollArea *candidate : page.findChildren<QScrollArea*>()) {
+    if (candidate->isVisible()) area = candidate;
+  }
+  ASSERT_NE(area, nullptr);
+  QAbstractButton *button = FindButton(&page, QStringLiteral("Action 0 >"));
+  ASSERT_NE(button, nullptr);
+  ASSERT_GT(area->verticalScrollBar()->maximum(), 0);
+
+  const QPoint start = button->rect().center();
+  QTest::mousePress(button, Qt::LeftButton, Qt::NoModifier, start);
+  for (int i = 1; i <= 8; ++i) {
+    QTest::qWait(20);
+    const QPoint position = start - QPoint(0, i * 18);
+    QMouseEvent move(QEvent::MouseMove, position, button->mapToGlobal(position), Qt::NoButton, Qt::LeftButton, Qt::NoModifier);
+    QApplication::sendEvent(button, &move);
+  }
+  QTest::mouseRelease(button, Qt::LeftButton, Qt::NoModifier, start - QPoint(0, 144));
+  QTest::qWait(100);
+
+  EXPECT_GT(area->verticalScrollBar()->value(), 0);
+  EXPECT_EQ(triggered.count(), 0);
+  EXPECT_EQ(page.depth(), 1);
+}
+
+TEST_F(MenuPageTest, RefreshesValuesWhenShownAgainAfterBeingCovered) {
+  MenuPage page(menu_, owner_);
+  page.Open();
+  QCoreApplication::processEvents();
+  ASSERT_EQ(ButtonText(FindButton(&page, QStringLiteral("Show"))), QStringLiteral("Show all songs"));
+
+  // Another page, such as a dialog opened by a choice, covers the menu page and changes a value.
+  page.hide();
+  show_duplicates_->setChecked(true);
+  page.show();
+  QCoreApplication::processEvents();
+  EXPECT_EQ(page.depth(), 1);
+  EXPECT_EQ(ButtonText(FindButton(&page, QStringLiteral("Show"))), QStringLiteral("Show only duplicates"));
 }
 
 TEST_F(MenuPageTest, ReturningRestoresParentScrollPosition) {

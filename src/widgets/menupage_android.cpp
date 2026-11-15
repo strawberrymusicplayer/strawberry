@@ -10,6 +10,7 @@
 #include <QCheckBox>
 #include <QCoreApplication>
 #include <QEvent>
+#include <QHideEvent>
 #include <QKeyEvent>
 #include <QLabel>
 #include <QMenu>
@@ -18,6 +19,7 @@
 #include <QRadioButton>
 #include <QScrollArea>
 #include <QScrollBar>
+#include <QShowEvent>
 #include <QStringList>
 #include <QTabBar>
 #include <QTimer>
@@ -25,6 +27,7 @@
 
 #include "widgets/androidwidgets.h"
 #include "widgets/fancytabwidget.h"
+#include "widgets/scrollarea_android.h"
 
 namespace {
 
@@ -110,6 +113,7 @@ void MenuPage::Close() {
   if (depth() == 0) return;
 
   levels_.clear();
+  stale_ = false;
   QObject::disconnect(tab_clicked_);
   if (host_) host_->removeEventFilter(this);
   for (const QPointer<QWidget> &child : std::as_const(hidden_)) {
@@ -166,6 +170,7 @@ void MenuPage::ShowLevel() {
   if (level.menu) AddMenuRows(level.menu, page.layout);
   else AddChoiceRows(level.choices, page.layout);
   page.layout->addStretch();
+  AndroidScrollArea::EnableForContents(area_);
   layout_->addWidget(area_, 1);
   area_->show();
 
@@ -309,5 +314,23 @@ void MenuPage::keyPressEvent(QKeyEvent *event) {
   }
 
   QWidget::keyPressEvent(event);
+
+}
+
+void MenuPage::showEvent(QShowEvent *event) {
+
+  QWidget::showEvent(event);
+  if (stale_ && depth() > 0) {
+    stale_ = false;
+    if (area_) levels_.last().scroll = area_->verticalScrollBar()->value();
+    ShowLevel();
+  }
+
+}
+
+void MenuPage::hideEvent(QHideEvent *event) {
+
+  QWidget::hideEvent(event);
+  if (depth() > 0) stale_ = true;
 
 }

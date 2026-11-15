@@ -11,10 +11,12 @@
 
 class QAction;
 class QEvent;
+class QHideEvent;
 class QKeyEvent;
 class QLabel;
 class QMenu;
 class QScrollArea;
+class QShowEvent;
 class QVBoxLayout;
 
 // Shows a menu as full-page navigation in the current sidebar tab, instead of a desktop popup.
@@ -36,6 +38,8 @@ class MenuPage : public QWidget {
  protected:
   bool eventFilter(QObject *object, QEvent *event) override;
   void keyPressEvent(QKeyEvent *event) override;
+  void showEvent(QShowEvent *event) override;
+  void hideEvent(QHideEvent *event) override;
 
  private:
   struct Level {
@@ -64,6 +68,8 @@ class MenuPage : public QWidget {
   QLabel *title_;
   QVBoxLayout *layout_;
   QPointer<QScrollArea> area_;
+  // Set while another page covers this one, whose actions may change the shown values.
+  bool stale_ = false;
 };
 
 #endif  // MENUPAGE_ANDROID_H

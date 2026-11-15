@@ -2,6 +2,7 @@
 
 #include "scrollarea_android.h"
 
+#include <QAbstractButton>
 #include <QEvent>
 #include <QScrollArea>
 #include <QScrollBar>
@@ -13,6 +14,15 @@
 
 AndroidScrollArea::AndroidScrollArea(QScrollArea *area) : QObject(area), area_(area) {
   AddGestureTarget(area->viewport());
+}
+
+AndroidScrollArea *AndroidScrollArea::EnableForContents(QScrollArea *area) {
+  auto *scrolling = new AndroidScrollArea(area);
+  if (QWidget *contents = area->widget()) {
+    scrolling->AddGestureTarget(contents);
+    for (QAbstractButton *button : contents->findChildren<QAbstractButton*>()) scrolling->AddGestureTarget(button);
+  }
+  return scrolling;
 }
 
 void AndroidScrollArea::AddGestureTarget(QWidget *target) {
