@@ -66,6 +66,7 @@
 #include "widgets/fancytabwidget.h"
 #include "widgets/playlisttitleheader.h"
 #include "widgets/scantaskcontrols_android.h"
+#include "widgets/scrollarea_android.h"
 
 namespace {
 
@@ -256,6 +257,7 @@ QWidget *MainWindow::CreateAndroidToolsPage() {
   add_section(tr("Tools"), { ui_->action_cover_manager, ui_->action_equalizer });
   add_section(tr("Collection"), { ui_->action_update_collection, ui_->action_full_collection_scan, ui_->action_stop_collection_scan });
   layout->addStretch();
+  AndroidScrollArea::EnableForContents(page);
 
   // Tapping the Tools tab returns to the list, like the Playlists tab.
   QObject::connect(ui_->tabs->tabBar(), &QTabBar::tabBarClicked, this, [this](const int index) {

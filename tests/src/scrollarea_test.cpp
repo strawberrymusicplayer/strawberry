@@ -12,6 +12,7 @@
 #include <QSignalSpy>
 #include <QTest>
 #include <QTextEdit>
+#include <QToolButton>
 #include <QVBoxLayout>
 
 #include "widgets/scrollarea_android.h"
@@ -105,4 +106,35 @@ TEST(AndroidScrollAreaTest, DestroyedGestureTargetDoesNotLeaveDanglingScroller) 
   QCoreApplication::processEvents();
   Swipe(second);
   EXPECT_GT(area.verticalScrollBar()->value(), 0);
+}
+
+TEST(AndroidScrollAreaTest, EnableForContentsScrollsFromButtonsWithoutActivatingThem) {
+  QScrollArea area;
+  area.setWidgetResizable(true);
+  QWidget *content = new QWidget;
+  QVBoxLayout *layout = new QVBoxLayout(content);
+  QList<QToolButton*> buttons;
+  for (int i = 0; i < 8; ++i) {
+    QToolButton *button = new QToolButton;
+    button->setText(QStringLiteral("Tool %1").arg(i));
+    button->setFixedSize(300, 72);
+    layout->addWidget(button);
+    buttons << button;
+  }
+  area.setWidget(content);
+  AndroidScrollArea::EnableForContents(&area);
+  area.resize(320, 240);
+  area.show();
+  QCoreApplication::processEvents();
+  QSignalSpy clicked(buttons.at(1), &QToolButton::clicked);
+
+  Swipe(buttons.at(1));
+  EXPECT_GT(area.verticalScrollBar()->value(), 0);
+  EXPECT_EQ(clicked.count(), 0);
+  QScroller::scroller(buttons.at(1))->stop();
+  area.verticalScrollBar()->setValue(0);
+  // Tap later than the double-click interval, as a quick second press would be a double click.
+  QTest::qWait(QApplication::doubleClickInterval() + 50);
+  QTest::mouseClick(buttons.at(1), Qt::LeftButton);
+  EXPECT_EQ(clicked.count(), 1);
 }
