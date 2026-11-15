@@ -164,6 +164,11 @@ void MainWindow::SetupAndroidLayout() {
 
   ui_->tabs->SetMode(FancyTabWidget::Mode::LargeSidebar);
   ui_->tabs->setContextMenuPolicy(Qt::PreventContextMenu);
+  // The tallest tab page's minimum height plus the header and player controls exceeds a landscape phone screen.
+  // Ignore it so the window and player controls stay on screen and overflowing pages scroll instead of being clipped.
+  QSizePolicy tabs_size_policy = ui_->tabs->sizePolicy();
+  tabs_size_policy.setVerticalPolicy(QSizePolicy::Ignored);
+  ui_->tabs->setSizePolicy(tabs_size_policy);
 
   ui_->analyzer->hide();
   ui_->volume->hide();
