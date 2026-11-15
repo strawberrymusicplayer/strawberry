@@ -52,6 +52,7 @@ class TagEditor;
 class LyricsEditor;
 class OrganizeDialog;
 class CollectionLetterGroups;
+class CollectionSelection;
 
 class CollectionView : public CollectionTreeView {
   Q_OBJECT
@@ -73,6 +74,11 @@ class CollectionView : public CollectionTreeView {
 
   int TotalArtists() const { return total_artist_count_; }
   int TotalAlbums() const { return total_album_count_; }
+
+#ifdef Q_OS_ANDROID
+  QWidget *CreateAndroidSelectionToolbar(QWidget *parent);
+  bool AndroidSelectionBack();
+#endif
 
  public Q_SLOTS:
   void TotalArtistCountUpdated(const int count);
@@ -142,6 +148,7 @@ class CollectionView : public CollectionTreeView {
   ScopedPtr<LyricsEditor> lyrics_editor_;
 #ifdef Q_OS_ANDROID
   CollectionLetterGroups *letter_groups_ = nullptr;
+  CollectionSelection *selection_ = nullptr;
 #endif
 };
 

@@ -56,9 +56,7 @@
 #include "organize/organizedialog.h"
 #include "constants/collectionsettings.h"
 #ifdef Q_OS_ANDROID
-#  include "collectionfilter.h"
 #  include "collectionlettergroups_android.h"
-#  include "widgets/playlistactionhandler.h"
 #endif
 
 using std::make_unique;
@@ -82,27 +80,6 @@ CollectionView::CollectionView(QWidget *parent)
 
 #ifdef Q_OS_ANDROID
   letter_groups_ = new CollectionLetterGroups(this);
-  auto *actions = new PlaylistActionHandler(this, tr("Collection"), {tr("Add album to current playlist"), tr("Queue album"), tr("Queue album to play next")},
-      [](const QModelIndex &index) {
-        return index.data(CollectionModel::Role_Type).value<CollectionItem::Type>() == CollectionItem::Type::Container &&
-               CollectionModel::IsAlbumGroupBy(index.data(CollectionModel::Role_ContainerType).value<CollectionModel::GroupBy>());
-      },
-      [this](const QModelIndex &index) {
-        QMimeData *data = model()->mimeData({index});
-        MimeData *songs = qobject_cast<MimeData *>(data);
-        if (!songs) {
-          qLog(Error) << "Cannot create playlist from album: collection returned invalid MIME data";
-          delete data;
-        }
-        return songs;
-      });
-  QObject::connect(actions, &PlaylistActionHandler::AddToPlaylist, this, &CollectionView::AddToPlaylistSignal);
-  // Like the desktop "Rescan song(s)" action, only offered when all songs of the album are editable local files.
-  actions->AddAction(tr("Rescan album"), [](const QModelIndex &index) { return index.data(CollectionModel::Role_Editable).toBool(); },
-      [this](const QModelIndex &index) {
-        const CollectionFilter *filter = qobject_cast<const CollectionFilter*>(index.model());
-        if (filter && collection_) collection_->Rescan(filter->GetChildSongs({index}));
-      });
 #endif
 
 }

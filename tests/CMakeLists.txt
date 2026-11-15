@@ -136,6 +136,14 @@ if(NOT ANDROID)
   )
   add_test_file(src/listscrolling_test.cpp true)
   target_sources(listscrolling_test PRIVATE ${CMAKE_SOURCE_DIR}/src/widgets/listscrolling_android.cpp)
+  add_test_file(src/collectionselection_test.cpp true)
+  qt_wrap_cpp(COLLECTION-SELECTION-TEST-MOC ${CMAKE_SOURCE_DIR}/src/collection/collectionselection_android.h)
+  target_sources(collectionselection_test PRIVATE
+    ${COLLECTION-SELECTION-TEST-MOC}
+    ${CMAKE_SOURCE_DIR}/src/collection/collectionselection_android.cpp
+    ${CMAKE_SOURCE_DIR}/src/collection/collectionlettergroups_android.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/listscrolling_android.cpp
+  )
   add_test_file(src/menupage_test.cpp true)
   target_sources(menupage_test PRIVATE
     ${CMAKE_SOURCE_DIR}/src/widgets/menupage_android.cpp

@@ -1111,7 +1111,7 @@ The streaming views share the filter widget and add their own Configure action.
 
 ## 27. Make Android screens scroll naturally with a finger
 
-**Status:** In progress (lists, Tools, Settings and Context scroll by finger and were verified on the FP5 in landscape; Collection selection mode and the remaining audit are open)
+**Status:** In progress (lists, Tools, Settings and Context scroll by finger; explicit Collection selection mode implemented; physical-finger verification and the remaining audit are open)
 
 **Problem:** On the FP5, screens show scrollbars but cannot consistently be scrolled by dragging with a finger.
 Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone.
@@ -1161,20 +1161,38 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
   The cause of the earlier observation remains unknown.
 - These FP5 gestures were injected through adb, not performed by a person; physical finger usability remains to be checked.
 
+**Explicit Collection selection mode (2026-11-15):**
+- Android Collection no longer delivers speculative mouse presses to the tree view, so a press cannot select a row before Qt resolves a scrolling gesture.
+  Ordinary taps still expand artists, albums and letter groups; double taps do not invoke desktop playback actions.
+- Long press on an artist, album or song enters selection mode and selects that item.
+  Checkboxes appear only in this mode, alongside a selected-item count, Actions and Done.
+  Tap a checkbox to toggle an item; tap an artist/album name to expand it, or a song row to toggle it.
+  Dragging and momentum-stop taps do not change the selection.
+  Back or Done clears the selection and exits the mode; Back from the action page returns to the selection.
+- Actions retain add-to-playlist, queue, queue-next, create-saved-playlist and create-and-play, and offer rescan when every selected item is editable.
+  Selected artists/albums include their filtered descendant songs; checkmarks indicate explicitly selected items, not inherited selections.
+  Redundant selected descendants are removed before requesting songs, and the existing collection MIME-data path deduplicates song IDs.
+  Model resets exit selection mode, removed rows close an open action page, and hiding/backgrounding cancels a pending long press.
+  Desktop selection and the other lists' long-press actions are unchanged.
+- Eleven native selection regressions pass, covering presses/taps, slow/short/diagonal drags, momentum stopping, cancellation, Back/Done/reset, letter groups, every playlist-action flag, invalid MIME data, and rescan availability.
+  A real Collection model regression verifies descendant expansion, deduplication and filtering.
+  Related list-scrolling, letter-group, long-press and playlist-action suites pass.
+  The Android APK builds, packages and is installed on the emulator, preserving its data.
+- Emulator checks with adb-injected gestures exercised long-press entry, a second checked row, scrolling while retaining the selected-item count, the batch-action page and rotation.
+  Verification found that returning from Actions or leaving selection could restore focus to the search box and open the keyboard.
+  Focus now returns explicitly to the tree.
+  On the final APK, Back from Actions retained the selection in portrait; after rotation, Back exited selection in landscape and left the player controls visible.
+  Android reported the keyboard hidden after both Back steps, and no app crash was recorded.
+  Physical-finger verification on the FP5 is still outstanding.
+
 **Still open:**
 - FP5 feedback (2026-11-14): confirm the Context lyrics scrolling and cover long press with a physical finger.
 - FP5 feedback (2026-11-12): dragging in Collection still frequently selects rows instead of scrolling.
   Treat this as an unresolved physical-device usability issue; emulator swipe checks alone are insufficient.
-  A native probe confirms the current zero-delay list gesture sends a press to the view before the gesture is resolved, which can select a row immediately.
+  A native probe confirmed the previous zero-delay list gesture sent a press to the view before the gesture was resolved, which could select a row immediately.
   A trial 150 ms press delay prevented that early selection but delayed the existing album long-press action beyond its tested timing, so it was not adopted as a standalone fix.
-- Replace implicit desktop-style Collection multiselection on Android with an explicit selection mode entered by a long press.
-  Show selection checkboxes only in that mode, with a selected-item count, clear batch actions and an obvious way to exit.
-  Outside selection mode, dragging must only scroll; ordinary taps retain artist/album and letter-group expansion without starting a multiselection.
-  In selection mode, tapping checkboxes selects items while dragging still scrolls, preserving selections across scrolling.
-  Back exits selection mode before leaving Collection.
-  Reconcile the existing album long-press action page with this entry gesture rather than assigning competing actions to the same long press.
-  Preserve the applicable playlist/queue batch actions and review artist/album descendant selection and duplicate-song handling.
-  Test slow and short drags, diagonal swipes, momentum-stop taps, long presses and cancellation on the FP5 and emulator; leave desktop selection unchanged.
+- Verify the new Collection selection mode with a physical finger on the FP5, including slow/short/diagonal drags, momentum-stop taps, long presses, cancellation and Back.
+  The FP5 disconnected before deployment of this change; native regressions alone cannot establish physical-finger usability.
 - Verify physical finger gestures and long-press actions on the FP5; the signed release has now been installed with the user's approval, preserving app data.
 - Extend the audit to general scrollable settings/dialog pages, nested scrolling and embedded controls; this list-specific change does not claim to resolve every scroll area.
 - `AndroidScrollArea::EnableForContents()` makes a scroll area scroll when its contents or buttons are dragged, without activating a button; it is used by Tools, Settings, Context, the menu pages and the Collection options pages.

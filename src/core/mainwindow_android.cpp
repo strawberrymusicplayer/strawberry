@@ -408,6 +408,8 @@ void MainWindow::ShowAndroidCurrentPlaylist() {
 
 bool MainWindow::AndroidBack() {
 
+  if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(collection_view_) && collection_view_->view()->AndroidSelectionBack()) return true;
+
   // Like the header's Back button, return from an open playlist to the playlist list.
   if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(android_playlist_pages_) && android_playlist_pages_->currentWidget() != playlist_list_) {
     android_playlist_pages_->setCurrentWidget(playlist_list_);
