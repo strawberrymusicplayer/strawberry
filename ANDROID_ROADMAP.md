@@ -1081,7 +1081,7 @@ The streaming views share the filter widget and add their own Configure action.
 
 ## 27. Make Android screens scroll naturally with a finger
 
-**Status:** In progress (list scrolling implemented and emulator-tested; general pages and FP5 verification remain open)
+**Status:** In progress (lists, Tools, Settings and Context scroll by finger and were verified on the FP5 in landscape; Collection selection mode and the remaining audit are open)
 
 **Problem:** On the FP5, screens show scrollbars but cannot consistently be scrolled by dragging with a finger.
 Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone.
@@ -1107,20 +1107,26 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
 - The signed release is installed on the emulator; swiping inside the Collection changes the visible artist rows without starting playback.
   Saved-playlist and landscape list gestures were also exercised without a crash.
 
+**Tools, Settings and Context pages (FP5, Android 15, 2026-11-15):**
+- Landscape clipping: the sidebar tab stack required the minimum height of its tallest page (the streaming favorites, 321 dp).
+  With the header and player controls the window needed 489 dp, while the landscape FP5 offers 380 dp, so the window stayed taller than the screen.
+  Its bottom, including the player controls, was clipped, and the Tools and Settings pages had no scroll range.
+  `MainWindow` now ignores that vertical minimum on Android; the window fits the screen in both orientations, also when rotated while running, and the player controls stay visible.
+- Half-speed scrolling: `AndroidScrollArea` grabbed the gesture on the scrolled contents and their buttons as well as on the viewport.
+  Qt maps the finger to the target's coordinates, and those targets move while scrolling, so a 167 dp swipe scrolled about 80 dp and jittered.
+  The gesture is now grabbed on the viewport only; drags from contents, buttons and text views still reach it, a drag does not click a button, and Qt does not start scrolling on a slider.
+  A native test with fixed screen positions reproduced the problem (83 of 200 px) and now passes.
+- The Settings overview was a plain page; it is now a scroll page, and every Settings page and subpage scrolls by finger.
+- Verified on the FP5 in landscape with the final build: Tools and General > Behavior followed a slow 300 px drag almost exactly (295 to 300 px), also when it started on the Equalizer tool or on value buttons, which did not open.
+  A tap still opened the value's editor, and Back returned one level with the page's scroll position.
+  The Context page scrolled 1:1 when dragged from the cover with no song playing.
+- Checked with an intermediate build, which already scrolled by finger at reduced speed: the Settings overview, the Streaming category, Help and the On startup choice subpage.
+  Drags starting on category and choice buttons did not open or select them, taps opened them, and Back kept the overview's scroll position.
+- Not yet checked on the FP5: portrait (the lists fit there), the cover long press and actual lyrics while playing, and the Collection options and menu pages, which use the same helper.
+- Observed once: after scrolling the sidebar to its end, a tap on Tools selected Queue and scrolled the sidebar back; a repeated attempt selected Tools correctly, and it was not reproduced.
+
 **Still open:**
-- User feedback (2026-11-14): the Tools screen cannot be scrolled by dragging its content.
-  Add touch dragging to the Tools overview and verify that scrolling does not activate a tool accidentally, on the FP5 and emulator in portrait and landscape.
-  Done for gestures (2026-11-15): the Tools overview uses `AndroidScrollArea::EnableForContents()`, and a native test drags from tool buttons without activating them.
-  On the emulator in landscape, the overview's lower section was cut off without a scroll bar, and dragging over either a button or a heading did not scroll it; a drag over a button did not open the tool.
-  This suggests the page receives more height than is visible, so it has no scroll range; the same clipping was seen on the landscape Settings overview.
-  Investigate that layout before considering the Tools or Settings scrolling resolved; in portrait the list fits on the emulator, and Qt does not apply Android's font scale, so the FP5 overflow could not be reproduced.
-- User feedback (2026-11-14): the Settings screen also cannot be scrolled by dragging its content.
-  Verify touch scrolling on the Settings overview and its category and settings pages without accidentally activating controls, on the FP5 and emulator in portrait and landscape.
-- FP5 feedback (2026-11-14): the Context display showed a scrollbar and could not be scrolled by dragging the content with a finger.
-  An Android-only adapter now scrolls the outer Context page from its content, cover and text areas and hides the desktop scrollbar.
-  Native tests cover dragging, taps and target destruction; in the landscape emulator a drag over the cover revealed the collection statistics below it.
-  While playing on the emulator, a drag revealed the "No lyrics found" message and a subsequent cover long press opened the cover actions.
-  FP5 verification and a check with actual lyrics remain open.
+- FP5 feedback (2026-11-14): verify the Context page with a playing song and actual lyrics on the FP5, including the cover long press.
 - FP5 feedback (2026-11-12): dragging in Collection still frequently selects rows instead of scrolling.
   Treat this as an unresolved physical-device usability issue; emulator swipe checks alone are insufficient.
   A native probe confirms the current zero-delay list gesture sends a press to the view before the gesture is resolved, which can select a row immediately.
@@ -1135,7 +1141,7 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
   Test slow and short drags, diagonal swipes, momentum-stop taps, long presses and cancellation on the FP5 and emulator; leave desktop selection unchanged.
 - Verify physical finger gestures and long-press actions on the FP5; the signed release has now been installed with the user's approval, preserving app data.
 - Extend the audit to general scrollable settings/dialog pages, nested scrolling and embedded controls; this list-specific change does not claim to resolve every scroll area.
-- `AndroidScrollArea::EnableForContents()` (item 26) makes a scroll area scroll when its contents or buttons are dragged, without activating a button; it is used by the Collection options pages and is a candidate for the Tools and Settings pages above.
+- `AndroidScrollArea::EnableForContents()` makes a scroll area scroll when its contents or buttons are dragged, without activating a button; it is used by Tools, Settings, Context, the menu pages and the Collection options pages.
 
 ## 28. Design and add an alarm clock under Tools
 
