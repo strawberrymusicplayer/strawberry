@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QThread>
 #include <QMutex>
+#include <QReadWriteLock>
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
@@ -220,6 +221,7 @@ void TagReaderClient::ProcessRequest(TagReaderRequestPtr request) {
   TagReaderResult result;
 
   if (TagReaderIsMediaFileRequestPtr is_media_file_request = dynamic_pointer_cast<TagReaderIsMediaFileRequest>(request)) {
+    QReadLocker l(&lock_files_);
     result = tagreader_.IsMediaFile(is_media_file_request->filename);
     if (result.error_code == TagReaderResult::ErrorCode::FileOpenError || result.error_code == TagReaderResult::ErrorCode::Unsupported) {
       result = gmereader_.IsMediaFile(is_media_file_request->filename);
@@ -251,7 +253,7 @@ void TagReaderClient::ProcessRequest(TagReaderRequestPtr request) {
   else if (TagReaderWriteFileRequestPtr write_file_request = dynamic_pointer_cast<TagReaderWriteFileRequest>(request)) {
     if (write_file_request->update_song) {
       // The file is read and written under the same lock as the other writes, so a write from another thread in between is not overwritten with the tags read before it.
-      QMutexLocker l(&mutex_write_);
+      QWriteLocker l(&lock_files_);
       // Read without the values of a song, so the tags which are not in the file are not written.
       Song song;
       result = tagreader_.ReadFile(write_file_request->filename, &song);
@@ -318,6 +320,7 @@ bool TagReaderClient::IsMediaFileBlocking(const QString &filename) const {
 
   Q_ASSERT(QThread::currentThread() != thread());
 
+  QReadLocker l(&lock_files_);
   return tagreader_.IsMediaFile(filename).success() || gmereader_.IsMediaFile(filename).success();
 
 }
@@ -340,6 +343,7 @@ TagReaderReplyPtr TagReaderClient::IsMediaFileAsync(const QString &filename) {
 
 TagReaderResult TagReaderClient::ReadFileBlocking(const QString &filename, Song *song) {
 
+  QReadLocker l(&lock_files_);
   const TagReaderResult result = tagreader_.ReadFile(filename, song);
   if (result.error_code == TagReaderResult::ErrorCode::FileOpenError || result.error_code == TagReaderResult::ErrorCode::Unsupported) {
     return gmereader_.ReadFile(filename, song);
@@ -395,7 +399,7 @@ TagReaderReadStreamReplyPtr TagReaderClient::ReadStreamAsync(const QUrl &url, co
 
 TagReaderResult TagReaderClient::WriteFileBlocking(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options, const SaveTagCoverData &save_tag_cover_data, const TagID3v2Version tag_id3v2_version) {
 
-  QMutexLocker l(&mutex_write_);
+  QWriteLocker l(&lock_files_);
   return tagreader_.WriteFile(filename, song, save_tags_options, save_tag_cover_data, tag_id3v2_version);
 
 }
@@ -440,6 +444,7 @@ TagReaderReplyPtr TagReaderClient::UpdateFileAsync(const QString &filename, cons
 
 TagReaderResult TagReaderClient::LoadCoverDataBlocking(const QString &filename, QByteArray &data) {
 
+  QReadLocker l(&lock_files_);
   return tagreader_.LoadEmbeddedCover(filename, data);
 
 }
@@ -491,7 +496,7 @@ TagReaderLoadCoverImageReplyPtr TagReaderClient::LoadCoverImageAsync(const QStri
 
 TagReaderResult TagReaderClient::SaveCoverBlocking(const QString &filename, const SaveTagCoverData &save_tag_cover_data) {
 
-  QMutexLocker l(&mutex_write_);
+  QWriteLocker l(&lock_files_);
   return tagreader_.SaveEmbeddedCover(filename, save_tag_cover_data);
 
 }
@@ -532,7 +537,7 @@ TagReaderReplyPtr TagReaderClient::SaveSongPlaycountAsync(const QString &filenam
 
 TagReaderResult TagReaderClient::SaveSongPlaycountBlocking(const QString &filename, const uint playcount) {
 
-  QMutexLocker l(&mutex_write_);
+  QWriteLocker l(&lock_files_);
   return tagreader_.SaveSongPlaycount(filename, playcount);
 
 }
@@ -553,7 +558,7 @@ void TagReaderClient::SaveSongsPlaycountAsync(const SongList &songs) {
 
 TagReaderResult TagReaderClient::SaveSongRatingBlocking(const QString &filename, const float rating) {
 
-  QMutexLocker l(&mutex_write_);
+  QWriteLocker l(&lock_files_);
   return tagreader_.SaveSongRating(filename, rating);
 
 }
@@ -591,7 +596,7 @@ void TagReaderClient::SaveSongsRatingAsync(const SongList &songs) {
 
 TagReaderResult TagReaderClient::SaveSongLyricsBlocking(const QString &filename, const QString &lyrics) {
 
-  QMutexLocker l(&mutex_write_);
+  QWriteLocker l(&lock_files_);
   return tagreader_.SaveSongLyrics(filename, lyrics);
 
 }
@@ -616,7 +621,7 @@ TagReaderReplyPtr TagReaderClient::SaveSongLyricsAsync(const QString &filename, 
 
 TagReaderResult TagReaderClient::SaveSongSyncedLyricsBlocking(const QString &filename, const QString &synced_lyrics) {
 
-  QMutexLocker l(&mutex_write_);
+  QWriteLocker l(&lock_files_);
   return tagreader_.SaveSongSyncedLyrics(filename, synced_lyrics);
 
 }
