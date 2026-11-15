@@ -23,6 +23,8 @@
 #include <QLayout>
 #include <QPointer>
 #include <QPushButton>
+#include <QScrollArea>
+#include <QScrollBar>
 #include <QSignalSpy>
 #include <QString>
 #include <QTabWidget>
@@ -75,7 +77,7 @@ class ActionDialogTest : public ::testing::Test {
     return dialog_;
   }
 
-  int Index(QWidget *widget) const { return dialog_->layout()->indexOf(widget); }
+  int Y(QWidget *widget) const { return widget->mapTo(dialog_, QPoint()).y(); }
 
   QWidget parent_;
   QPointer<ActionDialog> dialog_;
@@ -93,9 +95,9 @@ TEST_F(ActionDialogTest, PageListsTitleActionsAndCancelInOrder) {
   EXPECT_EQ(dialog_->title_label()->textFormat(), Qt::PlainText);
   EXPECT_TRUE(dialog_->isVisible());
   EXPECT_TRUE(dialog_->testAttribute(Qt::WA_DeleteOnClose));
-  EXPECT_LT(Index(dialog_->title_label()), Index(remove_));
-  EXPECT_LT(Index(remove_), Index(clear_));
-  EXPECT_LT(Index(clear_), Index(cancel_));
+  EXPECT_LT(Y(dialog_->title_label()), Y(remove_));
+  EXPECT_LT(Y(remove_), Y(clear_));
+  EXPECT_LT(Y(clear_), Y(cancel_));
   EXPECT_FALSE(dialog_->confirm_button()->isVisible());
   for (QPushButton *button : {remove_, clear_, cancel_}) {
     EXPECT_GE(button->minimumHeight(), 48);
@@ -107,11 +109,64 @@ TEST_F(ActionDialogTest, PageListsTitleActionsAndCancelInOrder) {
 TEST_F(ActionDialogTest, TitleCanBeShownAtTheTop) {
 
   CreatePage(ActionDialog::TitlePosition::Top);
-  EXPECT_EQ(Index(dialog_->title_label()), 0);
+  EXPECT_LT(Y(dialog_->title_label()), Y(remove_));
 
   delete dialog_;
   CreatePage(ActionDialog::TitlePosition::AboveButtons);
-  EXPECT_EQ(Index(dialog_->title_label()) + 1, Index(remove_));
+  EXPECT_LT(Y(dialog_->title_label()), Y(remove_));
+
+}
+
+TEST_F(ActionDialogTest, ManyActionsScrollWithoutShrinkingInLandscape) {
+
+  parent_.resize(700, 250);
+  dialog_ = new ActionDialog(&parent_, u"Actions"_s, u"Context > Album cover"_s, ActionDialog::TitlePosition::Top);
+  QList<QPushButton*> buttons;
+  for (int i = 0; i < 7; ++i) buttons << dialog_->AddButton(QString::number(i));
+  cancel_ = dialog_->AddCancelButton(u"Back"_s);
+  Open();
+  QCoreApplication::processEvents();
+
+  QScrollArea *scroll = dialog_->findChild<QScrollArea*>();
+  ASSERT_NE(scroll, nullptr);
+  EXPECT_GT(scroll->verticalScrollBar()->maximum(), 0);
+  EXPECT_TRUE(dialog_->title_label()->isVisible());
+  EXPECT_TRUE(cancel_->isVisible());
+  EXPECT_GE(cancel_->height(), 48);
+  const QRect title_rect(dialog_->title_label()->mapTo(dialog_, QPoint()), dialog_->title_label()->size());
+  const QRect back_rect(cancel_->mapTo(dialog_, QPoint()), cancel_->size());
+  const QRect scroll_rect(scroll->mapTo(dialog_, QPoint()), scroll->size());
+  EXPECT_LT(title_rect.right(), back_rect.left());
+  EXPECT_LT(back_rect.bottom(), scroll_rect.top());
+  EXPECT_LE(dialog_->width() - back_rect.right(), 16);
+  for (QPushButton *button : buttons) EXPECT_GE(button->height(), 48);
+
+  scroll->verticalScrollBar()->setValue(scroll->verticalScrollBar()->maximum());
+  QCoreApplication::processEvents();
+  EXPECT_EQ(cancel_->mapTo(dialog_, QPoint()), back_rect.topLeft());
+  EXPECT_TRUE(cancel_->isVisible());
+  EXPECT_TRUE(scroll->viewport()->rect().contains(buttons.last()->mapTo(scroll->viewport(), buttons.last()->rect().center())));
+  QSignalSpy clicked(buttons.last(), &QPushButton::clicked);
+  QTest::mouseClick(buttons.last(), Qt::LeftButton);
+  EXPECT_EQ(clicked.count(), 1);
+
+}
+
+TEST_F(ActionDialogTest, HeaderBackReturnsFromConfirmationBeforeClosing) {
+
+  CreatePage(ActionDialog::TitlePosition::Top);
+  Confirm();
+  QSignalSpy rejected(dialog_.data(), &QDialog::rejected);
+  cancel_->click();
+  EXPECT_EQ(rejected.count(), 0);
+  EXPECT_TRUE(dialog_->isVisible());
+  EXPECT_FALSE(dialog_->is_confirming());
+  EXPECT_EQ(dialog_->title_label()->text(), u"Song"_s);
+  EXPECT_TRUE(remove_->isVisible());
+  EXPECT_EQ(confirmations_, 0);
+
+  cancel_->click();
+  EXPECT_EQ(rejected.count(), 1);
 
 }
 
@@ -148,8 +203,7 @@ TEST_F(ActionDialogTest, ConfirmationReplacesActions) {
   EXPECT_TRUE(dialog_->confirm_button()->isVisible());
   EXPECT_EQ(dialog_->confirm_button()->text(), u"Remove all"_s);
   EXPECT_TRUE(cancel_->isVisible());
-  EXPECT_LT(Index(clear_), Index(dialog_->confirm_button()));
-  EXPECT_LT(Index(dialog_->confirm_button()), Index(cancel_));
+  EXPECT_LT(Y(dialog_->confirm_button()), Y(cancel_));
 
 }
 

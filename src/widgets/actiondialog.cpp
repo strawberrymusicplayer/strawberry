@@ -20,6 +20,7 @@
 
 #include <QColor>
 #include <QEvent>
+#include <QFrame>
 #include <QHBoxLayout>
 #include <QIcon>
 #include <QKeySequence>
@@ -30,12 +31,18 @@
 #include <QPen>
 #include <QPixmap>
 #include <QPushButton>
+#include <QScrollArea>
 #include <QShortcut>
 #include <QStackedWidget>
 #include <QTabWidget>
 #include <QVBoxLayout>
 
 #include "actiondialog.h"
+
+#ifdef Q_OS_ANDROID
+#  include "androidwidgets.h"
+#  include "scrollarea_android.h"
+#endif
 
 namespace {
 
@@ -92,6 +99,8 @@ ActionDialog::ActionDialog(QWidget *parent, const QString &window_title, const S
       style_(style),
       host_(parent ? parent->window() : nullptr),
       layout_(nullptr),
+      page_layout_(nullptr),
+      header_(nullptr),
       confirmation_(nullptr),
       title_(nullptr),
       confirm_(nullptr),
@@ -170,17 +179,30 @@ void ActionDialog::SetupPage(const QString &title, const TitlePosition title_pos
   confirm_->hide();
   QObject::connect(confirm_, &QPushButton::clicked, this, &ActionDialog::Confirm);
 
-  layout_ = new QVBoxLayout(this);
+  page_layout_ = new QVBoxLayout(this);
   if (title_position == TitlePosition::Top) {
-    layout_->addWidget(title_);
-    layout_->addStretch();
+    header_ = new QHBoxLayout;
+    header_->addWidget(title_, 1);
+    page_layout_->addLayout(header_);
   }
-  else {
-    layout_->addStretch();
-    layout_->addWidget(title_);
-  }
+
+  QScrollArea *scroll = new QScrollArea(this);
+  scroll->setFrameShape(QFrame::NoFrame);
+  scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  scroll->setWidgetResizable(true);
+  scroll->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
+  QWidget *contents = new QWidget(scroll);
+  layout_ = new QVBoxLayout(contents);
+  layout_->setContentsMargins(0, 0, 0, 0);
+  layout_->addStretch();
+  if (title_position == TitlePosition::AboveButtons) layout_->addWidget(title_);
   layout_->addWidget(confirm_);
   layout_->addStretch();
+  scroll->setWidget(contents);
+#ifdef Q_OS_ANDROID
+  AndroidScrollArea::EnableForContents(scroll);
+#endif
+  page_layout_->addWidget(scroll, 1);
   UpdateGeometry();
 
 }
@@ -258,9 +280,22 @@ QPushButton *ActionDialog::AddButton(const QString &text) {
 QPushButton *ActionDialog::AddCancelButton(const QString &text) {
 
   Q_ASSERT(style_ == Style::Page);
-  cancel_ = CreatePageButton(text);
-  layout_->insertWidget(layout_->indexOf(confirm_) + 1, cancel_);
-  QObject::connect(cancel_, &QPushButton::clicked, this, &QDialog::reject);
+  if (header_) {
+#ifdef Q_OS_ANDROID
+    cancel_ = AndroidWidgets::CreateBackButton(this);
+    cancel_->setText(text);
+    cancel_->setAutoDefault(false);
+#else
+    cancel_ = CreatePageButton(text);
+#endif
+    header_->addWidget(cancel_);
+    QObject::connect(cancel_, &QPushButton::clicked, this, &ActionDialog::Back);
+  }
+  else {
+    cancel_ = CreatePageButton(text);
+    page_layout_->addWidget(cancel_);
+    QObject::connect(cancel_, &QPushButton::clicked, this, &QDialog::reject);
+  }
   return cancel_;
 
 }

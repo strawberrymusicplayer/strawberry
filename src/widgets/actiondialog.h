@@ -28,6 +28,7 @@
 #include <QString>
 
 class QBoxLayout;
+class QHBoxLayout;
 class QLabel;
 class QPushButton;
 
@@ -58,10 +59,10 @@ class ActionDialog : public QDialog {
   QPushButton *cancel_button() const { return cancel_; }
   bool is_confirming() const { return static_cast<bool>(confirm_action_); }
 
-  // Adds an action button to the page, above the confirm and cancel buttons.
+  // Adds an action button to the page, above the confirm button.
   QPushButton *AddButton(const QString &text);
 
-  // Adds the button that rejects the page; it stays visible during a confirmation step.
+  // Adds the Back button in a top title header, or a cancel button below the actions otherwise.
   QPushButton *AddCancelButton(const QString &text);
 
   // Replaces the page's actions with the question and a confirm button that runs the action; Back returns to the actions.
@@ -94,6 +95,8 @@ class ActionDialog : public QDialog {
   // The tab page or window that the dialog covers.
   QWidget *host_;
   QBoxLayout *layout_;
+  QBoxLayout *page_layout_;
+  QHBoxLayout *header_;
   QWidget *confirmation_;
   QLabel *title_;
   QPushButton *confirm_;
