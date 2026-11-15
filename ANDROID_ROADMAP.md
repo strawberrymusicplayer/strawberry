@@ -936,6 +936,15 @@ This is the deferred follow-up to feature audit point 14, not a claim that provi
 - Auto-save signal regressions pass with the Qobuz and OAuth suites.
   On the emulator, enabling Qobuz without Apply persisted across an app restart; its page and preferences editor hide Apply/OK/Cancel and Back returns one level, while Tidal still shows those buttons.
 
+**Tidal deferred (2026-11-15):**
+- The Android settings page labels Tidal as not implemented yet and offers a button to request support at https://github.com/dewitweb/strawberryflavor/issues.
+  The button opens a new-issue draft, without submitting an issue.
+  Login, API credentials and playback preferences are hidden; the Enable toggle remains available to control sidebar visibility.
+  Desktop settings are unchanged.
+- Real-provider testing is blocked by the lack of compatible application credentials; a personal Tidal account is not an application client ID.
+  The placeholder APK compiled and packaged successfully; installation and on-device verification of this page remain outstanding.
+  The unfinished experimental OAuth work is not part of this placeholder change.
+
 **Next steps:**
 - FP5 feedback: Back dismissed Tidal's missing-client-ID message, but tapping its OK button did not.
   Tidal's configuration and authentication errors now use the same Android-safe, full-page message with a Close button as Qobuz; desktop message boxes are unchanged.

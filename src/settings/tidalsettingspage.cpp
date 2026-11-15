@@ -31,6 +31,8 @@
 #include <QSpinBox>
 #include <QMessageBox>
 #include <QEvent>
+#include <QDesktopServices>
+#include <QUrl>
 
 #include "includes/shared_ptr.h"
 #include "settingsdialog.h"
@@ -58,9 +60,19 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, SharedPtr<TidalServ
 
 #ifdef Q_OS_ANDROID
   ui_->button_login->hide();
-  auto *authentication_notice = new QLabel(tr("Browser authentication is currently unavailable on Android."), this);
+  ui_->groupbox_api_credentials->hide();
+  ui_->groupbox_preferences->hide();
+  ui_->login_state->hide();
+  auto *authentication_notice = new QLabel(tr("Tidal support is not implemented yet on Android. If you would like this feature, please request it on GitHub."), this);
   authentication_notice->setWordWrap(true);
   ui_->layout_tidalsettingspage->insertWidget(1, authentication_notice);
+  auto *request_support = new QPushButton(tr("Request Tidal support on GitHub"), this);
+  ui_->layout_tidalsettingspage->insertWidget(2, request_support);
+  QObject::connect(request_support, &QPushButton::clicked, this, [this]() {
+    if (!QDesktopServices::openUrl(QUrl(QStringLiteral("https://github.com/dewitweb/strawberryflavor/issues/new?title=Android%3A%20Tidal%20support")))) {
+      ShowAuthenticationMessage(QMessageBox::Warning, tr("Could not open GitHub"), tr("Please visit https://github.com/dewitweb/strawberryflavor/issues to request Tidal support."));
+    }
+  });
 #endif
 
   QObject::connect(ui_->checkbox_use_custom_client_id, &QCheckBox::toggled, ui_->client_id, &QLineEdit::setEnabled);
