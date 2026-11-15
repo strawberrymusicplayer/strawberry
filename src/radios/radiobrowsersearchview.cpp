@@ -296,7 +296,7 @@ void RadioBrowserSearchView::AddSelectedToPlaylist() {
 
 }
 
-void RadioBrowserSearchView::ShowContextMenu(const QPoint &pos) {
+void RadioBrowserSearchView::ShowContextMenu(const QPoint pos) {
 
   if (!context_menu_) {
     context_menu_ = new QMenu(this);

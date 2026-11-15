@@ -273,7 +273,7 @@ void OSDPretty::InitLayerShell() {
 
 }
 
-void OSDPretty::SetLayerShellPosition(QScreen *screen, const QPoint &pos, const bool right_edge, const bool bottom_edge) {
+void OSDPretty::SetLayerShellPosition(QScreen *screen, const QPoint pos, const bool right_edge, const bool bottom_edge) {
 
   layer_shell_pos_ = pos;
 
@@ -355,7 +355,7 @@ void OSDPretty::RecreatePlatformWindow() {
 
 }
 
-QPoint OSDPretty::LayerShellPopupPos(const QRect &geometry, const QPoint &pos) const {
+QPoint OSDPretty::LayerShellPopupPos(const QRect geometry, const QPoint pos) const {
 
   // -1 means the right or bottom edge, like current_pos(), so the OSD stays at the edge when its size changes.
   return QPoint(pos.x() >= geometry.width() - width() ? -1 : pos.x(), pos.y() >= geometry.height() - height() ? -1 : pos.y());
