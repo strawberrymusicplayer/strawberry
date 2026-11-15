@@ -98,6 +98,8 @@ OAuthenticator::OAuthenticator(const SharedPtr<NetworkAccessManager> network, QO
       use_local_redirect_server_(true),
       port_type_(PortType::SetToRedirectURL),
       use_pkce_(true),
+      android_browser_authentication_enabled_(false),
+      authorization_pending_(false),
       expires_in_(0LL),
       login_time_(0LL),
       user_id_(0),
@@ -194,6 +196,12 @@ void OAuthenticator::set_use_pkce(const bool use_pkce) {
 
 }
 
+void OAuthenticator::set_android_browser_authentication_enabled(const bool enabled) {
+
+  android_browser_authentication_enabled_ = enabled;
+
+}
+
 QByteArray OAuthenticator::authorization_header() const {
 
   if (token_type_.isEmpty() || access_token_.isEmpty()) {
@@ -238,6 +246,7 @@ void OAuthenticator::LoadSession() {
 
 void OAuthenticator::ClearSession() {
 
+  CancelAuthentication();
   token_type_.clear();
   access_token_.clear();
   refresh_token_.clear();
@@ -342,8 +351,10 @@ QUrl OAuthenticator::EffectiveRedirectUrl() const {
 
 void OAuthenticator::Authenticate() {
 
+  CancelAuthentication();
+
 #ifdef Q_OS_ANDROID
-  if (type_ == Type::Authorization_Code) {
+  if (type_ == Type::Authorization_Code && !android_browser_authentication_enabled_) {
     Q_EMIT AuthenticationFinished(false, tr("Browser authentication is currently unavailable on Android."));
     return;
   }
@@ -422,11 +433,41 @@ void OAuthenticator::Authenticate() {
   QUrl url(authorize_url_);
   url.setQuery(url_query);
 
+  authorization_pending_ = true;
   const bool success = QDesktopServices::openUrl(url);
   if (!success) {
+#ifdef Q_OS_ANDROID
+    CancelAuthentication();
+    Q_EMIT AuthenticationFinished(false, tr("Failed to open the web browser."));
+#else
     QMessageBox messagebox(QMessageBox::Information, tr("Authentication"), tr("Please open this URL in your browser") + QStringLiteral(":<br /><a href=\"%1\">%1</a>").arg(url.toString()), QMessageBox::Ok);
     messagebox.setTextFormat(Qt::RichText);
     messagebox.exec();
+#endif
+  }
+
+}
+
+void OAuthenticator::CancelAuthentication() {
+
+  authorization_pending_ = false;
+  state_.clear();
+  code_verifier_.clear();
+  code_challenge_.clear();
+
+  if (local_redirect_server_) {
+    QObject::disconnect(&*local_redirect_server_, nullptr, this, nullptr);
+    local_redirect_server_->close();
+    local_redirect_server_.reset();
+  }
+
+  if (authorization_reply_) {
+    QNetworkReply *reply = authorization_reply_;
+    authorization_reply_.clear();
+    replies_.removeAll(reply);
+    QObject::disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
   }
 
 }
@@ -441,7 +482,10 @@ void OAuthenticator::RedirectArrived() {
     AuthorizationUrlReceived(local_redirect_server_->request_url(), EffectiveRedirectUrl());
   }
   else {
-    Q_EMIT AuthenticationFinished(false, local_redirect_server_->error());
+    const QString error = local_redirect_server_->error();
+    CancelAuthentication();
+    Q_EMIT AuthenticationFinished(false, error);
+    return;
   }
 
   local_redirect_server_.reset();
@@ -457,21 +501,59 @@ void OAuthenticator::ExternalAuthorizationUrlReceived(const QUrl &request_url) {
 void OAuthenticator::AuthorizationUrlReceived(const QUrl &request_url, const QUrl &redirect_url) {
 
 #ifdef Q_OS_ANDROID
-  Q_EMIT AuthenticationFinished(false, tr("Browser authentication is currently unavailable on Android."));
-  return;
+  if (!android_browser_authentication_enabled_) {
+    Q_EMIT AuthenticationFinished(false, tr("Browser authentication is currently unavailable on Android."));
+    return;
+  }
 #endif
 
-  if (!request_url.isValid()) {
-    Q_EMIT AuthenticationFinished(false, tr("Received invalid reply from web browser."));
+  const auto reject = [this](const QString &error) {
+    CancelAuthentication();
+    Q_EMIT AuthenticationFinished(false, error);
+  };
+
+  if (!authorization_pending_) {
+    reject(tr("Received an unexpected authorization response."));
     return;
   }
 
+  if (!request_url.isValid()) {
+    reject(tr("Received invalid reply from web browser."));
+    return;
+  }
+
+  if (!use_local_redirect_server_) {
+    QUrl callback_url = request_url;
+    callback_url.setQuery(QString());
+    callback_url.setFragment(QString());
+    QUrl expected_url = redirect_url;
+    expected_url.setQuery(QString());
+    expected_url.setFragment(QString());
+    if (callback_url != expected_url) {
+      reject(tr("Received authorization response for an unexpected redirect URL."));
+      return;
+    }
+  }
+
   if (!request_url.hasQuery()) {
-    Q_EMIT AuthenticationFinished(false, tr("Redirect URL is missing query."));
+    reject(tr("Redirect URL is missing query."));
     return;
   }
 
   QUrlQuery url_query(request_url);
+
+  if (!url_query.hasQueryItem(u"state"_s)) {
+    reject(tr("Request URL is missing state!"));
+    return;
+  }
+
+  if (url_query.queryItemValue(u"state"_s) != state_) {
+    reject(tr("Request URL has wrong state."));
+    return;
+  }
+
+  authorization_pending_ = false;
+  state_.clear();
 
   if (url_query.hasQueryItem(u"error_description"_s)) {
     Q_EMIT AuthenticationFinished(false, url_query.queryItemValue(u"error_description"_s, QUrl::FullyDecoded));
@@ -485,16 +567,6 @@ void OAuthenticator::AuthorizationUrlReceived(const QUrl &request_url, const QUr
 
   if (!url_query.hasQueryItem(u"code"_s)) {
     Q_EMIT AuthenticationFinished(false, tr("Request URL is missing code!"));
-    return;
-  }
-
-  if (!url_query.hasQueryItem(u"state"_s)) {
-    Q_EMIT AuthenticationFinished(false, tr("Request URL is missing state!"));
-    return;
-  }
-
-  if (url_query.queryItemValue(u"state"_s) != state_) {
-    Q_EMIT AuthenticationFinished(false, tr("Request URL has wrong state %1 != %2").arg(url_query.queryItemValue(u"state"_s), state_));
     return;
   }
 
@@ -556,7 +628,8 @@ void OAuthenticator::RequestAccessToken(const QString &code, const QUrl &redirec
 
   std::sort(params.begin(), params.end());
 
-  CreateAccessTokenRequest(params, false);
+  QNetworkReply *reply = CreateAccessTokenRequest(params, false);
+  if (!code.isEmpty()) authorization_reply_ = reply;
 
 }
 
@@ -597,6 +670,7 @@ void OAuthenticator::HandleSSLErrors(const QList<QSslError> &ssl_errors) {
 void OAuthenticator::AccessTokenRequestFinished(QNetworkReply *reply, const bool refresh_token) {
 
   if (!replies_.contains(reply)) return;
+  if (authorization_reply_ == reply) authorization_reply_.clear();
   replies_.removeAll(reply);
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();

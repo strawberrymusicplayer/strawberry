@@ -523,6 +523,9 @@ if(ANDROID)
   optional_component(ANDROID_QOBUZ_BROWSER_AUTH OFF "Experimental Android Qobuz browser authentication"
     DEPENDS "Qobuz" HAVE_QOBUZ
   )
+  optional_component(ANDROID_TIDAL_BROWSER_AUTH OFF "Experimental Android Tidal browser authentication"
+    DEPENDS "Tidal" HAVE_TIDAL
+  )
 endif()
 optional_component(PLEX ON "Streaming: Plex")
 optional_component(JELLYFIN ON "Streaming: Jellyfin")
@@ -1552,6 +1555,9 @@ if(ANDROID)
   if(HAVE_QOBUZ)
     list(APPEND SOURCES src/qobuz/qobuzservice_android.cpp src/settings/qobuzsettingspage_android.cpp src/settings/qobuzautosave.cpp)
     list(APPEND HEADERS src/settings/qobuzautosave.h)
+  endif()
+  if(HAVE_ANDROID_TIDAL_BROWSER_AUTH)
+    list(APPEND SOURCES src/tidal/tidalservice_android.cpp)
   endif()
   list(APPEND SOURCES src/widgets/fancytabwidget_android.cpp src/settings/sidebarsettingspage_android.cpp)
   list(APPEND HEADERS src/settings/sidebarsettingspage_android.h)

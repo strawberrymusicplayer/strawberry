@@ -28,6 +28,7 @@
 #include <QUrl>
 #include <QScopedPointer>
 #include <QSharedPointer>
+#include <QPointer>
 #include <QSslError>
 
 #include "includes/shared_ptr.h"
@@ -66,6 +67,7 @@ class OAuthenticator : public QObject {
   void set_use_local_redirect_server(const bool use_local_redirect_server);
   void set_port_type(const PortType port_type);
   void set_use_pkce(const bool use_pkce);
+  void set_android_browser_authentication_enabled(const bool enabled);
 
   QString token_type() const { return token_type_; }
   QString access_token() const { return access_token_; }
@@ -77,6 +79,7 @@ class OAuthenticator : public QObject {
   QByteArray authorization_header() const;
 
   void Authenticate();
+  void CancelAuthentication();
   void ClearSession();
   void LoadSession();
   void ExternalAuthorizationUrlReceived(const QUrl &request_url);
@@ -126,8 +129,10 @@ class OAuthenticator : public QObject {
   bool use_local_redirect_server_;
   PortType port_type_;
   bool use_pkce_;
+  bool android_browser_authentication_enabled_;
 
   QString state_;
+  bool authorization_pending_;
 
   QString code_verifier_;
   QString code_challenge_;
@@ -144,6 +149,7 @@ class OAuthenticator : public QObject {
   qint64 refresh_retry_interval_;
 
   QList<QNetworkReply*> replies_;
+  QPointer<QNetworkReply> authorization_reply_;
 };
 
 #endif  // OAUTHENTICATOR_H

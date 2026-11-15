@@ -950,7 +950,9 @@ This is the deferred follow-up to feature audit point 14, not a claim that provi
   Desktop settings are unchanged.
 - Real-provider testing is blocked by the lack of compatible application credentials; a personal Tidal account is not an application client ID.
   The placeholder APK compiled and packaged successfully; installation and on-device verification of this page remain outstanding.
-  The unfinished experimental OAuth work is not part of this placeholder change.
+- An experimental Tidal browser-auth implementation is available behind the default-off `ENABLE_ANDROID_TIDAL_BROWSER_AUTH` option.
+  The Android app target compiles with the option enabled, and native OAuth tests cover callback state validation, denial, token exchange and cancellation.
+  The settings page remains a placeholder, so this does not expose a usable Tidal login flow; real authentication, callback delivery and token exchange remain unverified.
 
 **Next steps:**
 - FP5 feedback: Back dismissed Tidal's missing-client-ID message, but tapping its OK button did not.

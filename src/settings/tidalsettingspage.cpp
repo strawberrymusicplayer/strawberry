@@ -205,14 +205,20 @@ void TidalSettingsPage::LoginClicked() {
     return;
   }
   Q_EMIT Authorize(client_id);
+#ifndef Q_OS_ANDROID
   ui_->button_login->setEnabled(false);
+#endif
 
 }
 
 bool TidalSettingsPage::eventFilter(QObject *object, QEvent *event) {
 
   if (object == dialog() && event->type() == QEvent::Enter) {
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_TIDAL_BROWSER_AUTH)
+    if (!service_->AndroidAuthenticationInProgress()) ui_->button_login->setEnabled(true);
+#else
     ui_->button_login->setEnabled(true);
+#endif
   }
 
   return SettingsPage::eventFilter(object, event);

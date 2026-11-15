@@ -34,6 +34,7 @@ class QEvent;
 class TidalService;
 class SettingsDialog;
 class Ui_TidalSettingsPage;
+class QPushButton;
 
 class TidalSettingsPage : public SettingsPage {
   Q_OBJECT

@@ -44,6 +44,7 @@
 #cmakedefine HAVE_SPOTIFY
 #cmakedefine HAVE_QOBUZ
 #cmakedefine HAVE_ANDROID_QOBUZ_BROWSER_AUTH
+#cmakedefine HAVE_ANDROID_TIDAL_BROWSER_AUTH
 #cmakedefine HAVE_PLEX
 #cmakedefine HAVE_JELLYFIN
 #cmakedefine HAVE_DISCORD_RPC
