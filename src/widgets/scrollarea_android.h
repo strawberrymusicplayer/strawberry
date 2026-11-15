@@ -3,28 +3,15 @@
 #ifndef SCROLLAREA_ANDROID_H
 #define SCROLLAREA_ANDROID_H
 
-#include <QObject>
-#include <QList>
+class QAbstractScrollArea;
 
-class QEvent;
-class QScrollArea;
-class QScroller;
-class QWidget;
+namespace AndroidScrollArea {
 
-class AndroidScrollArea : public QObject {
- public:
-  explicit AndroidScrollArea(QScrollArea *area);
-  void AddGestureTarget(QWidget *target);
+// Scrolls the area by dragging anywhere in it, including its buttons, which still activate when tapped.
+// The gesture is grabbed on the viewport, which stays in place: a scroller on a widget that moves with the scrolled contents follows its own movement and scrolls only about half as far as the finger.
+// Drags that start on the contents, nested text views or buttons reach the viewport's gesture as well.
+void EnableForContents(QAbstractScrollArea *area);
 
-  // Scrolls the area by dragging its contents, including the buttons in it, which still activate when tapped.
-  static AndroidScrollArea *EnableForContents(QScrollArea *area);
-
- protected:
-  bool eventFilter(QObject *object, QEvent *event) override;
-
- private:
-  QScrollArea *area_;
-  QList<QScroller*> scrollers_;
-};
+}  // namespace AndroidScrollArea
 
 #endif

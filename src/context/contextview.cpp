@@ -226,11 +226,7 @@ ContextView::ContextView(QWidget *parent)
   textedit_play_lyrics_->hide();
 
 #ifdef Q_OS_ANDROID
-  auto *touch_scrolling = new AndroidScrollArea(scrollarea_);
-  touch_scrolling->AddGestureTarget(widget_scrollarea_);
-  touch_scrolling->AddGestureTarget(widget_album_);
-  touch_scrolling->AddGestureTarget(textedit_top_->viewport());
-  touch_scrolling->AddGestureTarget(textedit_play_lyrics_->viewport());
+  AndroidScrollArea::EnableForContents(scrollarea_);
   scrollarea_->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 #endif
 
