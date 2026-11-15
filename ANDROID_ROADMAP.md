@@ -937,7 +937,11 @@ This is the deferred follow-up to feature audit point 14, not a claim that provi
   On the emulator, enabling Qobuz without Apply persisted across an app restart; its page and preferences editor hide Apply/OK/Cancel and Back returns one level, while Tidal still shows those buttons.
 
 **Next steps:**
-- Restore Tidal's Android intent filter and Qt URL handler from commit `510bb5eb4`, checking callback routing, OAuth state validation, and return to the active settings page.
+- Tidal's Android intent filter and Qt URL handler have been restored from commit `510bb5eb4`.
+  The Android source compiled and the APK packaged; `aapt` confirmed the `tidal://login/auth` VIEW/BROWSABLE filter is present.
+  Packaging used the installed Android API 34 compile SDK because the configured `android-37` platform path is missing (the installed API 37 directory is named `android-37.0`).
+  Actual intent delivery on Android, OAuth state validation through this callback, and return to the active Settings page remain unverified.
+  The Android OAuth start and callback guards remain in place, so this does not enable Tidal browser login.
 - Test loopback redirects for Qobuz, Last.fm, ListenBrainz and Genius with playback stopped, including a delayed browser return and process recreation; implement a supported lifecycle or redirect solution where needed.
 - Verify real provider login and token exchange, denial/cancellation, retry, persistence after restart, refresh and logout using accounts entered directly by the tester.
 - Remove the Android browser-login guards and restore the buttons only after the corresponding flows pass; preserve desktop behavior, existing sessions, ListenBrainz's manual user-token option and browserless client-credentials authentication.

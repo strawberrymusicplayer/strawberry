@@ -21,6 +21,7 @@
 #include <functional>
 
 #include <QAction>
+#include <QDesktopServices>
 #include <QDialog>
 #include <QEvent>
 #include <QFont>
@@ -105,6 +106,10 @@ class AndroidToolPageFilter : public QObject {
 }  // namespace
 
 void MainWindow::SetupAndroidLayout() {
+
+#ifdef HAVE_TIDAL
+  QDesktopServices::setUrlHandler(QStringLiteral("tidal"), this, "AuthorizationUrlReceived");
+#endif
 
   // Android's Window color can be black in dark mode; match the list backgrounds using Base instead.
   ui_->centralWidget->setBackgroundRole(QPalette::Base);
