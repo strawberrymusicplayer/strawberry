@@ -703,7 +703,10 @@ The user also reported that only Newest tracks works; other smart playlists need
   Afterwards it switches to the Playlists tab showing Now playing; Back returns to the playlist list.
   Long-press actions keep their explicit add, queue and create-playlist behavior; desktop behavior is unchanged.
 - Emulator verification: 50 random tracks, Never played and Dynamic random mix each replaced Now playing (50, 20 and 20 tracks) and started playback, Back returned one level, another saved playlist kept its 60 tracks, and no crash occurred.
-- Still open: verify the flow and the flat toolbar on the FP5.
+- FP5 verification (2026-11-15): 50 random tracks, Never played and Dynamic random mix opened Now playing with 50, 20 and 20 tracks respectively and started playback.
+  Back returned to the playlist list after opening Dynamic random mix.
+  The toolbar was icon-only in portrait and showed five labelled actions in one row in landscape.
+  The collection scan was still in progress during this check; other generators and saved-playlist preservation were not rechecked on the FP5.
 
 ## 17. Make Android checkboxes touch-friendly
 
@@ -1122,11 +1125,17 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
   The Context page scrolled 1:1 when dragged from the cover with no song playing.
 - Checked with an intermediate build, which already scrolled by finger at reduced speed: the Settings overview, the Streaming category, Help and the On startup choice subpage.
   Drags starting on category and choice buttons did not open or select them, taps opened them, and Back kept the overview's scroll position.
-- Not yet checked on the FP5: portrait (the lists fit there), the cover long press and actual lyrics while playing, and the Collection options and menu pages, which use the same helper.
-- Observed once: after scrolling the sidebar to its end, a tap on Tools selected Queue and scrolled the sidebar back; a repeated attempt selected Tools correctly, and it was not reproduced.
+- Final-build follow-up on the FP5: simulated portrait swipes scrolled actual lyrics while a song was playing, and a simulated cover long press opened the Album cover page.
+  The portrait Streaming category and Behavior page fit on screen, so those swipes did not establish scrolling on them.
+  In landscape, the Settings overview and Streaming category scrolled, Help opened, and Back returned to the overview with its position preserved.
+- Still not checked on the FP5: Collection options and menu pages, which use the same helper.
+- Observed once: after scrolling the sidebar to its end, a tap on Tools selected Queue and scrolled the sidebar back.
+  On the final-build follow-up, alternating taps between Tools and Settings selected the intended page five times, but did not reproduce the original exact gesture sequence.
+  The cause of the earlier observation remains unknown.
+- These FP5 gestures were injected through adb, not performed by a person; physical finger usability remains to be checked.
 
 **Still open:**
-- FP5 feedback (2026-11-14): verify the Context page with a playing song and actual lyrics on the FP5, including the cover long press.
+- FP5 feedback (2026-11-14): confirm the Context lyrics scrolling and cover long press with a physical finger.
 - FP5 feedback (2026-11-12): dragging in Collection still frequently selects rows instead of scrolling.
   Treat this as an unresolved physical-device usability issue; emulator swipe checks alone are insufficient.
   A native probe confirms the current zero-delay list gesture sends a press to the view before the gesture is resolved, which can select a row immediately.
