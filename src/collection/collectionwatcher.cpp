@@ -471,16 +471,15 @@ SongList CollectionWatcher::ScanTransaction::FindSongsInSubdirectory(const QStri
   if (cached_songs_dirty_) {
     const SongList songs = watcher_->backend_->FindSongsInDirectory(dir_id_);
     for (const Song &song : songs) {
-      // Key by the NFC-normalized parent directory so a file that differs only in Unicode normalization (NFC vs NFD) between disk and database still matches
-      const QString p = song.url().toLocalFile().normalized(QString::NormalizationForm_C).section(u'/', 0, -2);
-      cached_songs_.insert(p, song);
+      // Keyed by the spelling key of the parent directory, so a directory that differs only in Unicode normalization (NFC vs NFD) or case between disk and database still matches.
+      cached_songs_.insert(SpellingKey(song.url().toLocalFile().section(u'/', 0, -2)), song);
     }
     cached_songs_dirty_ = false;
   }
 
-  const QString nfc_path = path.normalized(QString::NormalizationForm_C);
-  if (cached_songs_.contains(nfc_path)) {
-    return cached_songs_.values(nfc_path);
+  const QString path_key = SpellingKey(path);
+  if (cached_songs_.contains(path_key)) {
+    return cached_songs_.values(path_key);
   }
 
   return SongList();
@@ -647,7 +646,9 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   t->MarkPathScanned(path);
 
   const QFileInfo path_info(path);
-  const qint64 path_mtime = path_info.exists() && path_info.lastModified().isValid() ? path_info.lastModified().toSecsSinceEpoch() : 0;
+  // A subdirectory which was renamed in another case still exists with the old spelling on a case-insensitive filesystem, but it's scanned as removed, the subdirectory with the new spelling is scanned as new, and finds the songs.
+  const bool path_exists = SubdirectoryExists(path, dir.path, &t->directory_entries_);
+  const qint64 path_mtime = path_exists && path_info.lastModified().isValid() ? path_info.lastModified().toSecsSinceEpoch() : 0;
 
   if (path_info.isSymLink()) {
     const QString real_path = path_info.symLinkTarget();
@@ -701,13 +702,13 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   // If one has been removed, "rescan" it to get the deleted songs
   const CollectionSubdirectoryList previous_subdirs = t->GetImmediateSubdirs(path);
   for (const CollectionSubdirectory &prev_subdir : previous_subdirs) {
-    if (!QFile::exists(prev_subdir.path) && prev_subdir.path != path) {
+    if (prev_subdir.path != path && !SubdirectoryExists(prev_subdir.path, dir.path, &t->directory_entries_)) {
       ScanSubdirectory(dir, prev_subdir.path, prev_subdir, 0, t, true);
     }
   }
 
   // First we "quickly" get a list of the files in the directory that we think might be music.  While we're here, we also look for new subdirectories and possible album artwork.
-  if (path_info.exists()) {
+  if (path_exists) {
     QDirIterator it(path, QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
     while (it.hasNext()) {
 
@@ -765,8 +766,9 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   if (stop_or_abort_requested()) return;
 
   // Ask the database for a list of files in this directory
-  // FindSongsInSubdirectory() finds the songs by the directory in NFC, the songs of another directory on disk whose name only differs in Unicode normalization form are not included.
+  // FindSongsInSubdirectory() finds the songs by the spelling key of the directory, the songs of another directory on disk whose name only differs in Unicode normalization form or case are not included.
   // The songs of another spelling of this directory are, also with the difference in a parent directory, the directories are compared with every component resolved to the names on disk.
+  // The songs of a directory which was renamed in another case are found by the scan of the new spelling, the scan of the old spelling, which is scanned as removed, only has the songs of the old spelling.
   SongList songs_in_db;
   {
     QHash<QString, bool> same_directory;
@@ -781,11 +783,23 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
       }
       QHash<QString, bool>::const_iterator it = same_directory.constFind(song_directory);
       if (it == same_directory.constEnd()) {
-        // A directory which isn't on disk with this spelling is not another directory.
-        bool same = !QFileInfo::exists(song_directory);
-        if (!same) {
+        bool same = false;
+        if (!path_exists) {
+          // A directory which isn't on disk with this spelling either is not another directory, its songs are removed too.
+          same = !QFileInfo::exists(song_directory);
+        }
+        else {
           if (path_on_disk.isEmpty()) path_on_disk = OnDiskFilename(QDir::cleanPath(path), &t->directory_entries_);
-          same = OnDiskFilename(QDir::cleanPath(song_directory), &t->directory_entries_) == path_on_disk;
+          if (QFileInfo::exists(song_directory)) {
+            // Another spelling of the same directory on disk, on a case-insensitive filesystem, or with another Unicode normalization form.
+            same = OnDiskFilename(QDir::cleanPath(song_directory), &t->directory_entries_) == path_on_disk;
+          }
+          else {
+            // A directory which isn't on disk with this spelling anymore, for example renamed in another case on a case-sensitive filesystem, is this directory when this is its only spelling on disk.
+            // When there are several, for example "Artist" and "ARTIST" after "artist" was renamed, it's not known which one it is, so its songs are used for neither, otherwise both would update the same songs.
+            const QStringList paths_on_disk = PathsOnDiskWithSpelling(QDir::cleanPath(song_directory), &t->directory_entries_);
+            same = paths_on_disk.count() == 1 && paths_on_disk.first() == path_on_disk;
+          }
         }
         it = same_directory.insert(song_directory, same);
       }
@@ -802,7 +816,12 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   QHash<QString, QMap<QString, SongList>> loaded_cue_sheets;
 
   // Now compare the list from the database with the list of files on disk
-  const QSet<QString> files_on_disk_set(initial_files_on_disk.constBegin(), initial_files_on_disk.constEnd());
+  // The media files on disk by their spelling key, for finding the songs with another spelling of the path.
+  QHash<QString, QStringList> files_on_disk_by_spelling_key;
+  files_on_disk_by_spelling_key.reserve(initial_files_on_disk.count());
+  for (const QString &file : std::as_const(initial_files_on_disk)) {
+    files_on_disk_by_spelling_key[SpellingKey(file)] << file;
+  }
   // The media files which are kept, the media files which are removed or couldn't be read are not added.
   QSet<QString> valid_files_on_disk;
   valid_files_on_disk.reserve(initial_files_on_disk.count());
@@ -819,7 +838,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
     const QString new_cue = cue_sheets.value(PathKey(file));
 
     SongList matching_songs;
-    if (FindSongsByPath(songs_in_db_by_path, file, files_on_disk_set, matching_songs)) {  // Found matching song in DB by path.
+    if (FindSongsByPath(songs_in_db_by_path, file, files_on_disk_by_spelling_key, matching_songs)) {  // Found matching song in DB by path.
 
       for (const Song &song : std::as_const(matching_songs)) {
         matched_song_files.insert(song.id(), file);
@@ -926,7 +945,10 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
       // Watch out for CUE songs which have their mtime equal to qMax(media_file_mtime, cue_sheet_mtime)
       // The LRC file's mtime is stored separately, so an added, changed or deleted LRC file is detected regardless of how its mtime compares to the media file's.
       const bool changed_lrc = matching_song.lrc_mtime() != lrc_mtime;
-      bool changed = (matching_song.mtime() != qMax(fileinfo.lastModified().toSecsSinceEpoch(), matching_song_cue_mtime)) || cue_deleted || cue_added || cue_changed || cue_readable_again || cue_songs_unavailable || changed_lrc;
+      // A song found with another spelling of the path than the media file, for example after a directory was renamed in another case on a case-insensitive filesystem, gets the new path stored.
+      // Spellings which only differ in Unicode normalization form are kept, the database and the filesystem can use different normalization forms.
+      const bool changed_path = matching_song.url().toLocalFile().normalized(QString::NormalizationForm_C) != file.normalized(QString::NormalizationForm_C);
+      bool changed = (matching_song.mtime() != qMax(fileinfo.lastModified().toSecsSinceEpoch(), matching_song_cue_mtime)) || cue_deleted || cue_added || cue_changed || cue_readable_again || cue_songs_unavailable || changed_lrc || changed_path;
 
       // Also want to look to see whether the album art has changed, the cover file's mtime is stored separately like for LRC files, so a cover file replaced with the same name is detected too.
       const QUrl art_automatic = ArtForSong(file, album_art);
@@ -1107,7 +1129,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   updated_subdir.mtime = path_mtime;
   updated_subdir.path = path;
 
-  if (!path_info.exists() && updated_subdir.path != dir.path) {
+  if (!path_exists && updated_subdir.path != dir.path) {
     t->deleted_subdirs << updated_subdir;
   }
   else if (subdir.directory_id == -1) {
@@ -1122,6 +1144,61 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
     if (stop_or_abort_requested()) return;
     ScanSubdirectory(dir, my_new_subdir.path, my_new_subdir, 0, t, true);
   }
+
+}
+
+QString CollectionWatcher::SpellingKey(const QString &path) {
+
+  return path.normalized(QString::NormalizationForm_C).toCaseFolded();
+
+}
+
+bool CollectionWatcher::SubdirectoryExists(const QString &path, const QString &collection_path, QHash<QString, QStringList> *directory_entries) {
+
+  if (!QFileInfo::exists(path)) return false;
+
+  // The collection directory itself can be spelled differently than on disk, only the names below it are compared.
+  // A root directory, like "/" or "C:/", already ends with a slash.
+  const auto directory_prefix = [](const QString &directory_path) { return directory_path.endsWith(u'/') ? directory_path : directory_path + u'/'; };
+  const QString clean_path = QDir::cleanPath(path);
+  const QString clean_collection_path = QDir::cleanPath(collection_path);
+  if (clean_path == clean_collection_path || !clean_path.startsWith(directory_prefix(clean_collection_path))) return true;
+
+  const QString path_on_disk = OnDiskPath(clean_path, directory_entries);
+  const QString collection_path_on_disk = OnDiskPath(clean_collection_path, directory_entries);
+  if (!path_on_disk.startsWith(directory_prefix(collection_path_on_disk))) return true;
+
+  // Names which only differ in Unicode normalization form are the same, the filesystem and Qt can use different normalization forms.
+  return path_on_disk.mid(collection_path_on_disk.length()).normalized(QString::NormalizationForm_C) == clean_path.mid(clean_collection_path.length()).normalized(QString::NormalizationForm_C);
+
+}
+
+QStringList CollectionWatcher::PathsOnDiskWithSpelling(const QString &path, QHash<QString, QStringList> *directory_entries) {
+
+  // Only up to two paths are returned, more are not needed to know that there are several.
+  const QFileInfo fileinfo(path);
+  const QString name = fileinfo.fileName();
+  const QString parent = fileinfo.absolutePath();
+  if (name.isEmpty() || parent == path) return QStringList() << path;
+
+  const QStringList parents_on_disk = QDir(parent).isRoot() ? QStringList() << parent : PathsOnDiskWithSpelling(parent, directory_entries);
+  const QString name_key = SpellingKey(name);
+  QStringList paths_on_disk;
+  for (const QString &parent_on_disk : parents_on_disk) {
+    QHash<QString, QStringList>::const_iterator it = directory_entries->constFind(parent_on_disk);
+    if (it == directory_entries->constEnd()) {
+      it = directory_entries->insert(parent_on_disk, QDir(parent_on_disk).entryList(QDir::AllEntries | QDir::Hidden | QDir::System | QDir::NoDotAndDotDot));
+    }
+    const QString parent_prefix = parent_on_disk.endsWith(u'/') ? parent_on_disk : parent_on_disk + QLatin1Char('/');
+    for (const QString &entry : it.value()) {
+      if (SpellingKey(entry) == name_key) {
+        paths_on_disk << parent_prefix + entry;
+        if (paths_on_disk.count() > 1) return paths_on_disk;
+      }
+    }
+  }
+
+  return paths_on_disk;
 
 }
 
@@ -1413,9 +1490,10 @@ void CollectionWatcher::UseMediaFileWhileCueSheetUnreadable(const QString &file,
     qLog(Warning) << "The CUE sheet" << cue_songs_in_db.first().cue_path() << "can't be read, using" << file << "as a single song until it can be read";
   }
 
-  // The song for the whole media file is already used, only update it when the media file, the LRC file or the album art changed, like in the normal scan.
+  // The song for the whole media file is already used, only update it when the media file, its path, the LRC file or the album art changed, like in the normal scan.
   const Song file_song_in_db = file_songs_in_db.isEmpty() ? Song() : file_songs_in_db.first();
-  if (file_song_in_db.is_valid() && !t->ignores_mtime() && !file_song_in_db.unavailable() && file_song_in_db.mtime() == fileinfo.lastModified().toSecsSinceEpoch()) {
+  const bool changed_path = file_song_in_db.is_valid() && file_song_in_db.url().toLocalFile().normalized(QString::NormalizationForm_C) != file.normalized(QString::NormalizationForm_C);
+  if (file_song_in_db.is_valid() && !t->ignores_mtime() && !file_song_in_db.unavailable() && !changed_path && file_song_in_db.mtime() == fileinfo.lastModified().toSecsSinceEpoch()) {
     const bool changed_lrc = file_song_in_db.lrc_mtime() != Utilities::FileMtimeMsec(lrc_file);
     const bool changed_art = file_song_in_db.art_automatic() != art_automatic || (!file_song_in_db.art_automatic().isEmpty() && !file_song_in_db.art_automatic_is_valid()) || file_song_in_db.art_automatic_mtime() != ArtAutomaticMtime(art_automatic);
     bool missing_fingerprint = false;
@@ -1771,24 +1849,27 @@ void CollectionWatcher::RemoveDirectory(const CollectionDirectory &dir) {
 
 QHash<QString, SongList> CollectionWatcher::SongsByPath(const SongList &songs) {
 
-  // Keyed on the NFC-normalized path so a file that differs only in Unicode normalization (NFC vs NFD) between disk and database still matches, instead of being treated as a new file and duplicated.
+  // Keyed on the spelling key of the path so a file that differs only in Unicode normalization (NFC vs NFD) or case between disk and database still matches, instead of being treated as a new file and duplicated.
   // The songs for each path keep the order of the list, several songs can share a path with a CUE sheet.
   QHash<QString, SongList> songs_by_path;
   songs_by_path.reserve(songs.count());
   for (const Song &song : songs) {
-    songs_by_path[song.url().toLocalFile().normalized(QString::NormalizationForm_C)] << song;
+    songs_by_path[SpellingKey(song.url().toLocalFile())] << song;
   }
 
   return songs_by_path;
 
 }
 
-bool CollectionWatcher::FindSongsByPath(const QHash<QString, SongList> &songs_by_path, const QString &path, const QSet<QString> &files_on_disk, SongList &songs_out) {
+bool CollectionWatcher::FindSongsByPath(const QHash<QString, SongList> &songs_by_path, const QString &path, const QHash<QString, QStringList> &files_on_disk_by_spelling_key, SongList &songs_out) {
 
   // The songs with the exact path are used when there are any.
-  // Otherwise a song with another spelling of the path is the same file when that spelling is not another file on disk, for example when the database and the filesystem use different Unicode normalization forms.
-  const SongList songs = songs_by_path.value(path.normalized(QString::NormalizationForm_C));
+  // Otherwise a song with another spelling of the path is the same file when that spelling is not another file on disk, for example when the database and the filesystem use different Unicode normalization forms, or a directory was renamed in another case on a case-insensitive filesystem.
+  const QString spelling_key = SpellingKey(path);
+  const QStringList files_on_disk = files_on_disk_by_spelling_key.value(spelling_key);
+  const SongList songs = songs_by_path.value(spelling_key);
   SongList other_spelling_songs;
+  QSet<QString> other_spelling_song_files;
   for (const Song &song : songs) {
     const QString song_file = song.url().toLocalFile();
     if (song_file == path) {
@@ -1796,9 +1877,13 @@ bool CollectionWatcher::FindSongsByPath(const QHash<QString, SongList> &songs_by
     }
     else if (!files_on_disk.contains(song_file)) {
       other_spelling_songs << song;
+      other_spelling_song_files.insert(song_file);
     }
   }
-  if (songs_out.isEmpty()) {
+  // When several media files on disk have another spelling of the song's path, for example "Track.mp3" and "TRACK.mp3" on a case-sensitive filesystem after "track.mp3" was renamed, it's not known which one the song is, so it's used for neither, otherwise both would update the same song.
+  // The same when the songs with another spelling are from several media files, for example "track.mp3" and "TRACK.mp3" when only "Track.mp3" is on disk now.
+  // The songs of one media file, which can be several with a CUE sheet, are still used together.
+  if (songs_out.isEmpty() && files_on_disk.count() <= 1 && other_spelling_song_files.count() <= 1) {
     songs_out << other_spelling_songs;
   }
 
