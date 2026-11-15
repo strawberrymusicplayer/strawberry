@@ -1038,7 +1038,7 @@ Show a short VPN tip behind an information button; do not build external-access 
 
 ## 26. Replace the Collection wrench menu with Android-friendly actions
 
-**Status:** In progress (display options page done and emulator verified; grouping dialogs still open as desktop dialogs)
+**Status:** Done (emulator verified; streaming-view and physical-device checks remain)
 
 **Problem:** Collection still has a wrench button that opens a desktop-style menu.
 This interaction needs an Android touch-friendly alternative, separate from the playlist wrench removal in item 3.
@@ -1066,9 +1066,18 @@ The streaming views share the filter widget and add their own Configure action.
 - On the emulator, Options opened the page; choosing a grouping returned with the new value, Back from a choice page kept the value, Back from the root and tapping the tab returned to the list, Configure collection opened Settings > General > Collection, and the page fit and scrolled in landscape.
   The original grouping and rotation settings were restored afterwards.
 
-**Next steps:**
-- Host the Save current grouping name prompt, Manage saved groupings and Advanced grouping dialogs as pages within this hierarchy instead of desktop dialogs.
+- The options and choice pages scroll by dragging their contents or buttons; a drag does not activate a button.
+  The options page refreshes its values when shown again after a page opened from it.
+- Save current grouping, Manage saved groupings and Advanced grouping open as pages in the Collection tab (`src/collection/collectiondialogpages_android.cpp`) instead of desktop dialogs, with a breadcrumb and Back.
+  The name prompt keeps its OK button above the on-screen keyboard.
+  Advanced grouping shows its three levels as labelled value buttons whose choices open as a page; Back there keeps the level unchanged.
+  Cancelling Advanced grouping shows the unchanged grouping again instead of leaving Advanced grouping as the value.
+- Native `collectiondialogpages_test` covers the grouping levels, choosing and Back on choice pages, reopening, and the name prompt's OK/Back.
+- On the emulator, a grouping was saved through the prompt, appeared in the saved grouping manager page and was removed again; the Group by choices scrolled by finger to Advanced grouping, whose third level was changed through its choice page and then cancelled, leaving the original grouping.
+
+**Remaining checks:**
 - Check the streaming views' options page once a streaming service is configured.
+- Verify finger scrolling and the pages on the FP5 (item 9).
 
 ## 27. Make Android screens scroll naturally with a finger
 
@@ -1122,6 +1131,7 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
   Test slow and short drags, diagonal swipes, momentum-stop taps, long presses and cancellation on the FP5 and emulator; leave desktop selection unchanged.
 - Verify physical finger gestures and long-press actions on the FP5; the signed release has now been installed with the user's approval, preserving app data.
 - Extend the audit to general scrollable settings/dialog pages, nested scrolling and embedded controls; this list-specific change does not claim to resolve every scroll area.
+- `AndroidScrollArea::EnableForContents()` (item 26) makes a scroll area scroll when its contents or buttons are dragged, without activating a button; it is used by the Collection options pages and is a candidate for the Tools and Settings pages above.
 
 ## 28. Design and add an alarm clock under Tools
 
