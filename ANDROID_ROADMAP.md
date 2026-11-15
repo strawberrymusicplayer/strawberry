@@ -10,8 +10,8 @@ Status values: Planned, In progress, Done.
 Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
-1. The remaining open items: 16, 21, 22, 24, 26, 27, 28, 29, and finally 9 (physical-device verification, which needs a device).
-   Item 23 is investigated and blocked on licensing; item 20 is done.
+1. The remaining open items: 16, 21, 22, 24, 27, 28, 29, and finally 9 (physical-device verification, which needs a device).
+   Item 23 is investigated and blocked on licensing; items 20 and 26 are done.
 
 ## 18. Review the Android changes for coding best practices
 
