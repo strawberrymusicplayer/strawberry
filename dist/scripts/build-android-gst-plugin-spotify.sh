@@ -1,7 +1,7 @@
 #!/bin/sh
 # Cross-builds the gst-plugin-spotify static archive for Strawberry's experimental Android Spotify plugin probe.
 # The source archive, Rust toolchain and cargo-c versions are pinned; Cargo.lock pins all crates (--locked).
-# Output: libgstspotify.a, the plugin's licence, a linked-dependency licence inventory and a build manifest.
+# Output: libgstspotify.a, a build manifest, and licenses/ with the licence texts and a list of all crates linked into the archive.
 
 set -eu
 
@@ -27,7 +27,7 @@ Options:
   --debug            Build the debug profile instead of release
   --jobs N           Parallel jobs (default 2)
 
-Requires rustup (toolchain ${RUST_VERSION} with the Android target), cargo-c ${CARGO_C_VERSION}, curl, git, pkg-config and sha256sum.
+Requires rustup (toolchain ${RUST_VERSION} with the Android target), cargo-c ${CARGO_C_VERSION}, curl, git, jq, pkg-config and sha256sum.
 EOF
 }
 
@@ -73,7 +73,7 @@ fail() {
   exit 1
 }
 
-for tool in rustup curl git pkg-config sha256sum tar; do
+for tool in rustup curl git jq pkg-config sha256sum tar; do
   command -v "${tool}" >/dev/null 2>&1 || fail "${tool} not found in PATH"
 done
 
@@ -141,11 +141,62 @@ cargo cbuild --locked ${profile_arg} -p gst-plugin-spotify --target "${triple}" 
 archive="${CARGO_TARGET_DIR}/${triple}/${profile}/libgstspotify.a"
 [ -f "${archive}" ] || fail "build did not produce ${archive}"
 cp "${archive}" "${output}/libgstspotify.a"
-cp "${source_dir}/audio/spotify/LICENSE-MPL-2.0" "${output}/gst-plugin-spotify-LICENSE-MPL-2.0"
+
+licenses="${output}/licenses"
+rm -rf "${licenses}"
+mkdir -p "${licenses}/gst-plugin-spotify-${SOURCE_VERSION}"
+cp "${source_dir}/audio/spotify/LICENSE-MPL-2.0" "${licenses}/gst-plugin-spotify-${SOURCE_VERSION}/"
 
 # Crates linked into the archive for the target; build scripts and proc macros only run on the host.
 cargo tree --locked -p gst-plugin-spotify --target "${triple}" -e normal,no-proc-macro --prefix none --format '{p} | {l}' \
-  | sed -e 's/ (\*)$//' -e "s# (${source_dir}[^)]*)##" -e 's/ | $/ | see the licence file in the crate source/' | sort -u > "${output}/gst-plugin-spotify-dependencies.txt"
+  | sed -e 's/ (\*)$//' -e "s# (${source_dir}[^)]*)##" -e 's/ | $/ | see the licence file in the crate source/' | sort -u > "${licenses}/gst-plugin-spotify-dependencies.txt"
+
+# Some published crates omit their licence file; use the upstream file from the commit recorded in the crate.
+upstream_license() {
+  case "$1" in
+    governor-0.10.2) echo "https://raw.githubusercontent.com/boinkor-net/governor/b28d8b0c123714082fca5275941d8d557f7bf66a/LICENSE 2248fdedb215c73b6431d4c0419c6476c0aa19621fa94041aa7c5a3ce952e5cc" ;;
+    librespot-*-0.8.0) echo "https://raw.githubusercontent.com/librespot-org/librespot/d36f9f1907e8cc9d68a93f8ebc6b627b1bf7267d/LICENSE b6e979ad38c429c5811e9eb6930040a984619786f55ebc60660db05df5325ed6" ;;
+    symphonia-0.5.5|symphonia-*-0.5.5) echo "https://raw.githubusercontent.com/pdeljanov/Symphonia/6d533f26150953a882a6a111ebd13f0abf7129d5/LICENSE c76f740d1521b9bed9ca7a04ad526c310493c62621b1341d623b431736533b30" ;;
+  esac
+}
+
+metadata="${work}/metadata.json"
+cargo metadata --locked --format-version 1 --filter-platform "${triple}" > "${metadata}"
+rm -f "${work}/missing-licenses.txt"
+cargo tree --locked -p gst-plugin-spotify --target "${triple}" -e normal,no-proc-macro --prefix none --format '{p}' \
+  | sed 's/ (.*//' | sort -u | while read -r name version; do
+  [ "${name}" = gst-plugin-spotify ] && continue
+  version="${version#v}"
+  manifest="$(jq -r --arg n "${name}" --arg v "${version}" 'first(.packages[] | select(.name == $n and .version == $v) | .manifest_path)' "${metadata}")"
+  [ -n "${manifest}" ] && [ "${manifest}" != null ] || fail "no metadata for ${name} ${version}"
+  crate_dir="$(dirname "${manifest}")"
+  destination="${licenses}/${name}-${version}"
+  mkdir -p "${destination}"
+  find "${crate_dir}" -maxdepth 1 \( -type f -o -type l \) \( -iname 'licen[cs]e*' -o -iname 'copying*' -o -iname 'notice*' -o -iname 'copyright*' -o -iname 'unlicense*' -o -iname 'mpl-*' -o -iname 'lgpl-*' \) \
+    -exec cp -L {} "${destination}/" \;
+  if [ -z "$(ls -A "${destination}")" ]; then
+    upstream="$(upstream_license "${name}-${version}")"
+    if [ -z "${upstream}" ]; then
+      echo "${name} ${version}" >> "${work}/missing-licenses.txt"
+      continue
+    fi
+    url="${upstream% *}"
+    sha256="${upstream#* }"
+    cached="${work}/upstream-licenses/${sha256}"
+    if [ ! -f "${cached}" ]; then
+      mkdir -p "${work}/upstream-licenses"
+      curl -fsSL --retry 3 -o "${cached}.part" "${url}"
+      mv "${cached}.part" "${cached}"
+    fi
+    echo "${sha256}  ${cached}" | sha256sum -c --status || fail "checksum mismatch for ${url}"
+    cp "${cached}" "${destination}/LICENSE"
+  fi
+done
+if [ -s "${work}/missing-licenses.txt" ]; then
+  missing="$(cat "${work}/missing-licenses.txt")"
+  rm -f "${work}/missing-licenses.txt"
+  fail "no licence text found for: ${missing}"
+fi
 
 archive_sha256="$(sha256sum "${output}/libgstspotify.a" | cut -d' ' -f1)"
 cat > "${output}/gst-plugin-spotify-build.txt" <<EOF

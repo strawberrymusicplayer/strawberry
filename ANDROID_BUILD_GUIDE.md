@@ -117,9 +117,11 @@ dist/scripts/build-android-gst-plugin-spotify.sh \
 ```
 
 The script uses two parallel jobs by default (`--jobs N`), and the first build downloads the crates and takes about ten minutes on two cores.
-Besides `libgstspotify.a`, the output directory contains the plugin's MPL-2.0 licence, `gst-plugin-spotify-dependencies.txt` listing the crates linked into the archive with their declared licences, and `gst-plugin-spotify-build.txt` recording the source, toolchain, ABI and archive checksum.
+Besides `libgstspotify.a`, the output directory contains `gst-plugin-spotify-build.txt`, recording the source, toolchain, ABI and archive checksum, and a `licenses/` directory.
+That directory lists the crates linked into the archive with their declared licences in `gst-plugin-spotify-dependencies.txt`, and holds the licence and notice files of the plugin and every linked crate.
+Where a published crate omits its licence file (governor, librespot and Symphonia), the script downloads it from the upstream commit recorded in the crate, pinned by SHA-256; it fails if any linked crate is left without a licence text.
+With the probe enabled, CMake requires that directory next to the archive and copies it into the APK under `assets/licenses/gst-plugin-spotify/`.
 The release build omits debug information and remaps local build paths.
-The dependency list names licences but does not contain their full texts; collect those before any distribution.
 Bit-for-bit identical archives across machines have not been verified.
 A release arm64 archive built with this script registered `spotifyaudiosrc` in the app on the emulator; the probe APK was about 39 MB.
 After Android GStreamer initialization, the probe checks the `CA_CERTIFICATES` bundle for readable PEM certificates and sets `SSL_CERT_FILE` to that path before registering `spotifyaudiosrc`.
@@ -131,7 +133,7 @@ The app's GLib `CA_CERTIFICATES` setting does not by itself configure Rust.
 In the app process on the emulator, this setup let the plugin complete Spotify's HTTPS access-point lookup; Spotify then rejected a deliberately invalid token.
 Without usable roots, librespot's HTTP client setup fails before connecting.
 A valid login and playback have not been tested.
-Dependency licence texts are not yet packaged into the APK; do not distribute probe builds as Spotify-enabled releases.
+Spotify login and playback, and a review of the bundled licence obligations, are still outstanding; do not distribute probe builds as Spotify-enabled releases.
 To restore the ordinary Android build, configure with `-DENABLE_ANDROID_SPOTIFY_PLUGIN_PROBE=OFF` and rebuild.
 
 ## NAS client dependency
