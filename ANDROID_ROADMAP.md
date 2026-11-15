@@ -10,8 +10,8 @@ Status values: Planned, In progress, Done.
 Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
-1. The remaining open items: 16, 21, 22, 24, 27, 28, 29, and finally 9 (physical-device verification, which needs a device).
-   Item 23 is investigated and blocked on licensing; items 20 and 26 are done.
+1. The remaining open items: 22, 24, 27, 28, 29, 30, 31, 32, and finally 9 (physical-device verification, which needs a device).
+   Item 23 is investigated and blocked on licensing; items 16, 20, 21 and 26 are done.
 
 ## 18. Review the Android changes for coding best practices
 
@@ -786,7 +786,7 @@ The user also reported that only Newest tracks works; other smart playlists need
 
 ## 21. Remove the navigation/menu bar scroll arrows
 
-**Status:** Implemented (native tests and emulator verified; FP5 check pending)
+**Status:** Done (native tests, emulator and FP5 verified)
 
 **Problem:** The Android sidebar still shows the tab bar's scroll arrow buttons when the tabs overflow, a leftover from before the sidebar could be scrolled by dragging.
 The user also requested removing these arrows from the navigation/menu bar when testing on the FP5; this is the same planned change, not a separate duplicate item.
@@ -812,7 +812,11 @@ The user also requested removing these arrows from the navigation/menu bar when 
 - Restored portrait and confirmed the nine-tab sidebar fit without arrows.
   Rotation, display and font settings were restored.
   Temporary native geometry diagnostics were removed from the final build.
-- FP5 portrait/landscape confirmation remains pending: no physical device was connected.
+- Verified on the FP5 (Android 15, 2026-11-15) with the installed final build, using adb-injected gestures.
+  In portrait the ten-tab sidebar showed no arrows.
+  In landscape no arrows were shown; dragging the sidebar reached Settings, fully visible, while Playlists stayed selected.
+  Tapping Settings selected it, and dragging back to Context left the Settings page shown.
+  Rotation was restored afterwards.
 
 ## 22. Build and bundle a Spotify GStreamer plugin for Android
 
