@@ -41,6 +41,9 @@
 #include "core/settings.h"
 #include "tidal/tidalservice.h"
 #include "widgets/loginstatewidget.h"
+#ifdef Q_OS_ANDROID
+#include "widgets/actiondialog.h"
+#endif
 
 using namespace Qt::Literals::StringLiterals;
 using namespace TidalSettings;
@@ -186,7 +189,7 @@ void TidalSettingsPage::LoginClicked() {
   const QString client_id = use_custom_client_id ? ui_->client_id->text() : TidalService::CompiledClientId();
 
   if (client_id.isEmpty()) {
-    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing Tidal client ID."));
+    ShowAuthenticationMessage(QMessageBox::Critical, tr("Configuration incomplete"), tr("Missing Tidal client ID."));
     return;
   }
   Q_EMIT Authorize(client_id);
@@ -223,7 +226,21 @@ void TidalSettingsPage::LoginSuccess() {
 void TidalSettingsPage::LoginFailure(const QString &failure_reason) {
 
   if (!IsActive()) return;
-  QMessageBox::warning(this, tr("Authentication failed"), failure_reason);
+  ShowAuthenticationMessage(QMessageBox::Warning, tr("Authentication failed"), failure_reason);
   ui_->button_login->setEnabled(true);
+
+}
+
+void TidalSettingsPage::ShowAuthenticationMessage(QMessageBox::Icon icon, const QString &title, const QString &message) {
+
+#ifdef Q_OS_ANDROID
+  Q_UNUSED(icon)
+  auto *notification = new ActionDialog(dialog()->parentWidget(), title, message, ActionDialog::TitlePosition::Top);
+  notification->AddCancelButton(tr("Close"));
+  notification->Open();
+#else
+  QMessageBox notification(icon, title, message, QMessageBox::Ok, this);
+  notification.exec();
+#endif
 
 }

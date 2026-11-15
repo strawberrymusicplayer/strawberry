@@ -192,6 +192,21 @@ TEST_F(ActionDialogTest, CancelButtonRejectsThePage) {
 
 }
 
+TEST_F(ActionDialogTest, NotificationCloseButtonDismissesWithoutActions) {
+
+  dialog_ = new ActionDialog(&parent_, u"Configuration incomplete"_s, u"Missing Tidal client ID."_s, ActionDialog::TitlePosition::Top);
+  cancel_ = dialog_->AddCancelButton(u"Close"_s);
+  Open();
+  QSignalSpy rejected(dialog_.data(), &QDialog::rejected);
+
+  EXPECT_TRUE(cancel_->isVisible());
+  EXPECT_GE(cancel_->height(), 48);
+  QTest::mouseClick(cancel_, Qt::LeftButton);
+  EXPECT_EQ(rejected.count(), 1);
+  EXPECT_FALSE(dialog_->isVisible());
+
+}
+
 TEST_F(ActionDialogTest, ConfirmationReplacesActions) {
 
   CreatePage();

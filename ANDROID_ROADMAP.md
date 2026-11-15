@@ -937,6 +937,9 @@ This is the deferred follow-up to feature audit point 14, not a claim that provi
   On the emulator, enabling Qobuz without Apply persisted across an app restart; its page and preferences editor hide Apply/OK/Cancel and Back returns one level, while Tidal still shows those buttons.
 
 **Next steps:**
+- FP5 feedback: Back dismissed Tidal's missing-client-ID message, but tapping its OK button did not.
+  Tidal's configuration and authentication errors now use the same Android-safe, full-page message with a Close button as Qobuz; desktop message boxes are unchanged.
+  Native action-page tests cover tapping Close on a notification without action buttons.
 - Tidal's Android intent filter and Qt URL handler have been restored from commit `510bb5eb4`.
   The Android source compiled and the APK packaged; `aapt` confirmed the `tidal://login/auth` VIEW/BROWSABLE filter is present.
   Packaging used the installed Android API 34 compile SDK because the configured `android-37` platform path is missing (the installed API 37 directory is named `android-37.0`).
