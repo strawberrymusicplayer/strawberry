@@ -820,7 +820,7 @@ The user also requested removing these arrows from the navigation/menu bar when 
 
 ## 22. Build and bundle a Spotify GStreamer plugin for Android
 
-**Status:** Investigating (pinned arm64 archive build with bundled licences; plugin registration and Rust TLS trust verified in an opt-in app probe; login and playback not implemented)
+**Status:** Investigating (pinned arm64 archive, dependency inventory and source bundle reviewed; plugin registration and Rust TLS trust verified in an opt-in app probe; login and playback await item 24)
 
 **Problem:** Spotify playback requires a GStreamer plugin that is not included in the Android SDK, so Spotify is currently disabled on Android.
 
@@ -868,18 +868,22 @@ The user also requested removing these arrows from the navigation/menu bar when 
   It also outputs the plugin's MPL-2.0 licence, the linked crates with their declared licences (231 for arm64), and a build manifest with the archive checksum.
   A release arm64 archive from the script (28 MB, versus 204 MB with debug information) registered `spotifyaudiosrc` in the app on the emulator, which stayed running; the probe APK was about 39 MB.
   The build was then restored with the probe off.
-- The script now also collects the licence and notice files of the plugin and all 230 linked crates (416 files, about 150 KB compressed); for governor, librespot and Symphonia, whose published crates omit them, it downloads the files from the recorded upstream commits pinned by SHA-256.
+- The script collects the licence and notice files of the plugin and all 230 linked crates, including nested third-party notices while preserving their paths; for governor, librespot and Symphonia, whose published crates omit root licence files, it downloads the files from the recorded upstream commits pinned by SHA-256.
   With the probe enabled, CMake requires these licences next to the archive and bundles them under `assets/licenses/gst-plugin-spotify/`.
-  The emulator APK contained all licence files and still registered `spotifyaudiosrc`.
+  The earlier emulator APK contained the then-collected licence files and still registered `spotifyaudiosrc`; the expanded nested-notice bundle has not yet been packaged into an APK.
+- The build script now also emits `gst-plugin-spotify-source.tar.gz`, containing the pinned upstream source archive, package source directories for every target-specific crate in the linked dependency tree, and the generated licence inventory and texts.
+  The arm64 source bundle built successfully (21 MB compressed) and includes all 230 dependency source directories; keep it with its build manifest and publish it alongside any corresponding APK so recipients can obtain the source.
 - A technical review of the pinned manifests and MPL-2.0 terms confirms that `gst-plugin-spotify` and the linked Symphonia crates are MPL-2.0; librespot 0.8.0 is MIT, not MPL-2.0.
   An APK containing licence texts alone is not enough for distributing the MPL-covered executable: recipients must also be told how to obtain the corresponding source in a reasonable and timely way, and source-form notices and MPL terms must be preserved.
-  The full transitive dependency inventory and the release source-delivery process still need review; this is not legal clearance to distribute the probe.
+  The arm64 inventory (231 entries, 25 distinct expressions) was reviewed: it contains nine MPL-2.0 entries including the plugin, a dual-licensed LGPL-3.0-or-later/MPL-2.0 crate, Unicode-3.0 and CDLA-Permissive-2.0 dependencies, and otherwise permissive terms; it has no GPL-only expression.
+  The `webpki` crate lacks a Cargo license field but its ISC-style license and nested Chromium/BetterTLS notices are now included in the bundle.
+  This technical review is not legal clearance; the release source-delivery location and process remain unset.
 
 **Next steps:**
-- Complete the transitive dependency and release source-delivery review described in the Android build guide before any distribution.
-- Build and register the archive for the other supported Android ABIs, if those are shipped.
-- Re-enable Spotify only once the required plugin is available; preserve existing desktop behavior.
-- Verify login, playback, seeking, track transitions, and background playback on Android before marking this item done.
+- Set up a durable release source-delivery location and attach the generated source bundle, manifest and licence inventory to any APK distribution.
+- The project currently configures and packages arm64-v8a only; build and register additional ABI archives only if the Android distribution expands to ship them.
+- Keep Spotify disabled on Android until item 24 restores browser authentication and the release build integrates the plugin; preserve existing desktop behavior.
+- After item 24, verify login, playback, seeking, track transitions, and background playback on Android before marking this item done.
 
 ## 23. Investigate Discord Rich Presence support on Android
 

@@ -1,7 +1,7 @@
 #!/bin/sh
 # Cross-builds the gst-plugin-spotify static archive for Strawberry's experimental Android Spotify plugin probe.
 # The source archive, Rust toolchain and cargo-c versions are pinned; Cargo.lock pins all crates (--locked).
-# Output: libgstspotify.a, a build manifest, and licenses/ with the licence texts and a list of all crates linked into the archive.
+# Output: libgstspotify.a, a build manifest, licences, and a source bundle for the plugin and linked crates.
 
 set -eu
 
@@ -162,6 +162,10 @@ upstream_license() {
 
 metadata="${work}/metadata.json"
 cargo metadata --locked --format-version 1 --filter-platform "${triple}" > "${metadata}"
+source_bundle="${work}/source-bundle"
+rm -rf "${source_bundle}"
+mkdir -p "${source_bundle}/crates"
+cp "${tarball}" "${source_bundle}/gst-plugins-rs-${SOURCE_VERSION}.tar.gz"
 rm -f "${work}/missing-licenses.txt"
 cargo tree --locked -p gst-plugin-spotify --target "${triple}" -e normal,no-proc-macro --prefix none --format '{p}' \
   | sed 's/ (.*//' | sort -u | while read -r name version; do
@@ -172,8 +176,18 @@ cargo tree --locked -p gst-plugin-spotify --target "${triple}" -e normal,no-proc
   crate_dir="$(dirname "${manifest}")"
   destination="${licenses}/${name}-${version}"
   mkdir -p "${destination}"
-  find "${crate_dir}" -maxdepth 1 \( -type f -o -type l \) \( -iname 'licen[cs]e*' -o -iname 'copying*' -o -iname 'notice*' -o -iname 'copyright*' -o -iname 'unlicense*' -o -iname 'mpl-*' -o -iname 'lgpl-*' \) \
-    -exec cp -L {} "${destination}/" \;
+  cp -a "${crate_dir}" "${source_bundle}/crates/${name}-${version}"
+  find "${crate_dir}" \( -type f -o -type l \) \( -iname 'licen[cs]e*' -o -iname 'copying*' -o -iname 'notice*' -o -iname 'copyright*' -o -iname 'unlicense*' -o -iname 'mpl-*' -o -iname 'lgpl-*' \) \
+    -exec sh -c '
+      source=$1
+      destination=$2
+      shift 2
+      for path do
+        relative=${path#"$source"/}
+        mkdir -p "$destination/$(dirname "$relative")"
+        cp -L "$path" "$destination/$relative"
+      done
+    ' sh "${crate_dir}" "${destination}" {} +
   if [ -z "$(ls -A "${destination}")" ]; then
     upstream="$(upstream_license "${name}-${version}")"
     if [ -z "${upstream}" ]; then
@@ -198,6 +212,10 @@ if [ -s "${work}/missing-licenses.txt" ]; then
   fail "no licence text found for: ${missing}"
 fi
 
+cp -a "${licenses}" "${source_bundle}/licenses"
+source_bundle_archive="${output}/gst-plugin-spotify-source.tar.gz"
+tar -czf "${source_bundle_archive}" -C "${work}" source-bundle
+source_bundle_sha256="$(sha256sum "${source_bundle_archive}" | cut -d' ' -f1)"
 archive_sha256="$(sha256sum "${output}/libgstspotify.a" | cut -d' ' -f1)"
 cat > "${output}/gst-plugin-spotify-build.txt" <<EOF
 source: ${SOURCE_URL}
@@ -209,7 +227,10 @@ profile: ${profile}
 ndk: $(basename "${ndk}")
 gstreamer: $(pkg-config --modversion gstreamer-1.0)
 archive_sha256: ${archive_sha256}
+source_bundle: $(basename "${source_bundle_archive}")
+source_bundle_sha256: ${source_bundle_sha256}
 EOF
 
 echo "Built ${output}/libgstspotify.a (${archive_sha256})"
+echo "Built ${source_bundle_archive} (${source_bundle_sha256})"
 echo "Configure Strawberry with -DENABLE_ANDROID_SPOTIFY_PLUGIN_PROBE=ON -DANDROID_SPOTIFY_PLUGIN_ARCHIVE=${output}/libgstspotify.a"

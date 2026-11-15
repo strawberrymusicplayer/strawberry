@@ -118,8 +118,10 @@ dist/scripts/build-android-gst-plugin-spotify.sh \
 
 The script uses two parallel jobs by default (`--jobs N`), and the first build downloads the crates and takes about ten minutes on two cores.
 Besides `libgstspotify.a`, the output directory contains `gst-plugin-spotify-build.txt`, recording the source, toolchain, ABI and archive checksum, and a `licenses/` directory.
-That directory lists the crates linked into the archive with their declared licences in `gst-plugin-spotify-dependencies.txt`, and holds the licence and notice files of the plugin and every linked crate.
+That directory lists the crates linked into the archive with their declared licences in `gst-plugin-spotify-dependencies.txt`, and holds the licence and notice files of the plugin and every linked crate, preserving nested paths for bundled third-party notices.
 Where a published crate omits its licence file (governor, librespot and Symphonia), the script downloads it from the upstream commit recorded in the crate, pinned by SHA-256; it fails if any linked crate is left without a licence text.
+It also creates `gst-plugin-spotify-source.tar.gz`, containing the checksum-pinned upstream source archive, the complete source directories for every crate in the target-specific linked dependency tree, and the generated licence inventory and texts.
+For a release, make this source bundle available to recipients alongside the APK or through a durable download URL, and retain the generated build manifest with it; the APK's licence texts alone are not a substitute.
 With the probe enabled, CMake requires that directory next to the archive and copies it into the APK under `assets/licenses/gst-plugin-spotify/`.
 The release build omits debug information and remaps local build paths.
 Bit-for-bit identical archives across machines have not been verified.
@@ -142,12 +144,14 @@ The pinned `gst-plugin-spotify` 0.14.4 manifest declares MPL-2.0. The linked Sym
 Under [MPL-2.0 sections 3.1–3.4](https://www.mozilla.org/en-US/MPL/2.0/), distributing the plugin in executable form requires making its corresponding source form available and telling recipients how to obtain it by reasonable means in a timely manner. Source-form distributions must be under MPL-2.0, and the covered software's license notices must not be removed or altered.
 Including licence texts in the APK does not, by itself, provide the corresponding source or explain how to obtain it. Before any Spotify-enabled release:
 
-- Publish or otherwise provide the exact plugin and MPL-covered Symphonia source corresponding to the shipped archive, including any modifications, under MPL-2.0; identify that source and provide recipients a practical way to obtain it.
+- Publish or otherwise provide the generated source bundle corresponding to the shipped archive, including any modifications, under the applicable terms; identify that source and provide recipients a practical way to obtain it.
 - Preserve the applicable MPL notices and include the MIT notice for librespot. Keep the generated licence bundle with the release.
 - Review every entry in `gst-plugin-spotify-dependencies.txt` and its declared licence, as well as the actual files and notices shipped by the build. The generated inventory and licence texts are evidence for review, not an automated compatibility determination.
-- Record the source revision, archive checksum, licence inventory and source-delivery location for each released ABI.
+- Record the source revision, archive and source-bundle checksums, licence inventory and source-delivery location for each released ABI.
 
-The manifests and the official MPL text are technical review references, not legal advice or a distribution approval. Spotify-enabled distribution remains blocked until the full dependency review and source-delivery process are completed.
+The pinned arm64 release build was technically reviewed: the inventory has 231 entries and 25 distinct declared expressions. It includes the plugin and eight Symphonia crates under MPL-2.0; `priority-queue` is offered under LGPL-3.0-or-later or MPL-2.0, so the MPL option is available. The ICU data crates use Unicode-3.0, `webpki-roots` uses CDLA-Permissive-2.0, and `webpki` has no Cargo license field but its source contains an ISC-style license plus nested Chromium and BetterTLS notices. Those notices are now included at their original relative paths. The remaining expressions are permissive MIT, Apache, BSD, ISC, BSL, Zlib, 0BSD or Unlicense terms and their combinations; the inventory has no GPL-only expression.
+
+The inventory review is a technical check, not legal advice or distribution approval. The source bundle can now be generated, but no release source-delivery location or distribution has been set up; Spotify-enabled distribution remains blocked until recipients can obtain the exact source and the release process preserves the required notices.
 
 ## NAS client dependency
 
