@@ -431,7 +431,7 @@ Delete buttons should consistently use a bin icon rather than a cross.
 
 ## 10. Make the Android equalizer clearer and more attractive
 
-**Status:** Reopened (emulator flow verified; FP5 playback/list visibility reported unresolved)
+**Status:** Done (emulator flow verified; user reports playback continues on the FP5 and is unaware of a list-visibility issue; further physical-device verification remains item 9)
 
 **Goal:** Provide a compact equalizer screen with clear sections and editable dB values in a wrapping band grid.
 Keep this visual update Android-only.
