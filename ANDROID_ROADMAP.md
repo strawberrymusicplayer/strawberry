@@ -1038,7 +1038,7 @@ Show a short VPN tip behind an information button; do not build external-access 
 
 ## 26. Replace the Collection wrench menu with Android-friendly actions
 
-**Status:** Planned
+**Status:** In progress (display options page done and emulator verified; grouping dialogs still open as desktop dialogs)
 
 **Problem:** Collection still has a wrench button that opens a desktop-style menu.
 This interaction needs an Android touch-friendly alternative, separate from the playlist wrench removal in item 3.
@@ -1051,6 +1051,24 @@ This interaction needs an Android touch-friendly alternative, separate from the 
 - Keep the current location clear, make Back return one level, and restore the Collection selection and scroll position when returning.
 - Keep desktop controls unchanged.
 - Test each action, Back navigation, narrow screens and portrait/landscape layouts before marking this item done.
+
+**Inventory:** The menu holds Group by (predefined, saved and Advanced grouping choices), Save current grouping, Manage saved groupings, Filter by age, Filter by rating, the Collection's Show all songs/only duplicates/only untagged choices, and Configure collection.
+The streaming views share the filter widget and add their own Configure action.
+
+**Implemented (2026-11-15):**
+- On Android the wrench button is labelled Options and opens `MenuPage` (`src/widgets/menupage_android.cpp`), which shows the existing menu as a page in the sidebar tab with a `Collection > Display options` breadcrumb.
+  Group by, Filter by age, Filter by rating and Show are titled value buttons with the current choice; they open full-page choice rows, and choosing returns to the parent with the new value.
+  Save current grouping, Manage saved groupings and Configure collection are navigation buttons; they close the page before triggering the unchanged action.
+- Back returns one level and closes the page from its root, without choosing; leaving or tapping the Collection tab closes it.
+  The Collection list is hidden, not recreated, so its selection and scroll position are kept; the options page restores its own scroll position on return.
+  Disabled menus, such as grouping while showing duplicates, are shown disabled.
+- Native `menupage_test` covers values, choosing, Back key/Escape, closing before actions, disabled menus, tab changes and scroll restoration.
+- On the emulator, Options opened the page; choosing a grouping returned with the new value, Back from a choice page kept the value, Back from the root and tapping the tab returned to the list, Configure collection opened Settings > General > Collection, and the page fit and scrolled in landscape.
+  The original grouping and rotation settings were restored afterwards.
+
+**Next steps:**
+- Host the Save current grouping name prompt, Manage saved groupings and Advanced grouping dialogs as pages within this hierarchy instead of desktop dialogs.
+- Check the streaming views' options page once a streaming service is configured.
 
 ## 27. Make Android screens scroll naturally with a finger
 
