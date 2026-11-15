@@ -175,6 +175,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>The file %1 already exists. Do you want to replace it?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Failed to open cover file %1 for writing: %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -188,6 +192,10 @@
     </message>
     <message>
         <source>Failed to delete cover file %1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The cover was not deleted, the cover file %1 changed since you confirmed deleting it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -983,6 +991,10 @@
         <source>Volume Increment</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Prevent the system from sleeping while playing</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CDDASongLoader</name>
@@ -1184,6 +1196,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Support for synchronized lyrics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Support for synchronized lyrics from LRC files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Saving playcounts and ratings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1319,10 +1339,6 @@ If there are no matches then it will use the largest image in the directory.</so
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Song playcounts and ratings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Save playcounts to song tags when possible</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1356,6 +1372,18 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
         <source>Are you sure you want to write song playcounts and ratings to file for all songs in your collection?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Song playcounts, ratings and lyrics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lyrics found automatically are saved to the song tags when possible, otherwise they are saved to the collection database only. This is also the default for new lyrics in the tag editor.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save lyrics to song tags when possible</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1414,6 +1442,10 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
         <source>Edit tracks information...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit lyrics...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1660,6 +1692,54 @@ If there are no matches then it will use the largest image in the directory.</so
         <source>Add song albumsort tag</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Show synchronized lyrics when available, with the current line highlighted during playback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Synchronized lyrics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Seek to a synchronized lyrics line by clicking it, the right-click menu can always seek to a line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Seek by clicking a synchronized lyrics line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Currently playing lyrics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bold</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Italic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use system text color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text color:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose the text color for the current synchronized lyrics line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Currently playing lyrics color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The currently playing line is not highlighted.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ContextView</name>
@@ -1684,6 +1764,10 @@ If there are no matches then it will use the largest image in the directory.</so
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Seek to line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Show album cover</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1697,6 +1781,10 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
         <source>Automatically search for song lyrics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit lyrics...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1978,6 +2066,30 @@ If there are no matches then it will use the largest image in the directory.</so
 <context>
     <name>Database</name>
     <message>
+        <source>Could not create the database: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The database has schema version %1, which is too old to be updated, the oldest supported version is %2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not attach the database %1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not create the database %1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not update the database to schema version %1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Strawberry can&apos;t use the database %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Unable to execute SQL query: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2017,6 +2129,17 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>DeleteFiles</name>
     <message>
         <source>Deleting files</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DeviceDatabaseBackend</name>
+    <message>
+        <source>Could not add the device %1 to the database, the transaction could not be started: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not add the device %1 to the database, the changes could not be saved: %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2241,330 +2364,6 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
         <source>Turn off</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TagEditor</name>
-    <message>
-        <source>Edit track information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Summary</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Date created</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Art Automatic</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Date modified</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Art Embedded</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Last played</source>
-        <comment>A playlist&apos;s tag.</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>File type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Length</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Play count</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bit depth</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>EBU R 128 integrated loudness</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bit rate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Skip count</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sample rate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Filename</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Art Unset</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>File size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Art Manual</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>EBU R 128 loudness range</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reset play counts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Tags</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>MenuPopupToolButton</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Change art</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Embedded cover</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Disc</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Grouping</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Album artist</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Year</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Title</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Artist</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Composer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Complete tags automatically</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Genre</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Comment</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Performer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Compilation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Track</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rating</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Lyrics</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Complete lyrics automatically</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>(different across multiple songs)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Different art across multiple songs.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Saving tracks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Loading tracks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 songs selected.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>kbps</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unknown</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Yes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>None</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cover is unset.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cover from embedded image.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cover from %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cover art not set</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Album cover editing is only available for collection songs.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cover changed: Will be cleared when saved.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cover changed: Will be unset when saved.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cover changed: Will be deleted when saved.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cover changed: Will set new when saved.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Never</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reset song play statistics</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to reset this song&apos;s play statistics?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>loading...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Not found.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Could not write metadata to %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Could not write metadata to %1: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ID3v2 version:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>2.3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>2.4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Performer sort</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Title sort</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Album artist sort</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Artist sort</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Album sort</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Composer sort</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2887,6 +2686,10 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
         <source>Writing database failed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not remove original file %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3522,6 +3325,10 @@ Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>The user token was rejected, check it in the ListenBrainz settings: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Unable to scrobble %1 - %2 because of error: %3</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3562,6 +3369,64 @@ Do you want to continue?</source>
     </message>
     <message>
         <source>Expires on %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LyricsEditor</name>
+    <message>
+        <source>Lyrics Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LyricsSearchDialog</name>
+    <message>
+        <source>Search for lyrics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Artist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Provider</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lyrics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Synchronized lyrics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search for synchronized lyrics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Searching...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No synchronized lyrics found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No lyrics found.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3617,6 +3482,81 @@ Do you want to continue?</source>
     </message>
     <message>
         <source>Client secret</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LyricsTab</name>
+    <message>
+        <source>Save lyrics to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Where the lyrics are saved: the collection database only or the tags of the file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search for</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Whether to search for lyrics, synchronized lyrics or both</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the best lyrics found for each selected song which is missing them</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Complete lyrics automatically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search all lyrics providers and choose the lyrics to use</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search for lyrics...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LRC file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save synced lyrics to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Where the synchronized lyrics are saved: the collection database only, the tags of the file or an LRC file next to it</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save the synchronized lyrics to the collection database only, to the tags of the file or to an LRC file next to it</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save the lyrics to the collection database only or to the tags of the file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lyrics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Synced lyrics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Both lyrics and synced lyrics</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3991,6 +3931,10 @@ Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Edit lyrics...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Rescan song(s)...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4212,6 +4156,17 @@ Do you want to continue?</source>
     </message>
     <message>
         <source>MTP device not found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MtpDevice</name>
+    <message>
+        <source>Could not allocate the MTP track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not remove original file %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4695,6 +4650,14 @@ Do you want to continue?</source>
         <source>Organizing files</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The tracks of the CUE sheet %1 were not organized, the tracks of a CUE sheet can&apos;t be organized.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not create a temporary directory for transcoding %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>OrganizeDialog</name>
@@ -4857,11 +4820,19 @@ Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>There were problems copying the songs.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>There were problems copying some songs.  The following files could not be copied:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Error deleting songs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There were problems deleting the songs.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4912,6 +4883,13 @@ Do you want to continue?</source>
     <message>
         <source>Could not write metadata to %1: %2</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>add %n songs</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
     <message>
         <source>Title</source>
@@ -5253,6 +5231,10 @@ Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>%1 already exists. Do you want to replace it?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Unknown playlist extension</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5296,6 +5278,10 @@ Do you want to continue?</source>
     </message>
     <message>
         <source>Failed to open %1 for writing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to save %1: %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5577,6 +5563,13 @@ Are you sure you want to continue?</source>
         <source>Retrieving songs...</source>
         <translation type="unfinished"></translation>
     </message>
+    <message numerus="yes">
+        <source>Retrieving album covers for %n album(s)...</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
 </context>
 <context>
     <name>PlexService</name>
@@ -5826,11 +5819,23 @@ Are you sure you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Destination %1 is outside of %2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Failed to create directory %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Destination file %1 exists, but not allowed to overwrite.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not move file %1 to %2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not remove original file %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6156,6 +6161,26 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not open cover %1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cover %1 is empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not load cover image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not convert cover image to JPEG</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Synchronized lyrics are not valid LRC</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6976,6 +7001,13 @@ Are you sure you want to continue?</source>
     </message>
 </context>
 <context>
+    <name>SleepInhibitor</name>
+    <message>
+        <source>Playing music</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SmartPlaylistQuerySearchPage</name>
     <message>
         <source>Form</source>
@@ -7253,6 +7285,81 @@ Are you sure you want to continue?</source>
     </message>
 </context>
 <context>
+    <name>SongEditor</name>
+    <message>
+        <source>(different across multiple songs)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lyrics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Synced lyrics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid synchronized lyrics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The synchronized lyrics for %1 are not valid LRC. Lyric lines must start with a timestamp, for example [01:23.45]. Only blank lines and metadata tags such as [ar:Artist] can be without one.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Saving tracks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not write synchronized lyrics to LRC file for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not write metadata to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not write metadata to %1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading tracks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The song already has lyrics.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selected songs already have lyrics.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>loading... (%1 of %2)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Found lyrics for %1 of %2 songs.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SongLoader</name>
     <message>
         <source>Preload function was not set for blocking operation.</source>
@@ -7275,6 +7382,10 @@ Are you sure you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Timed out loading %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Couldn&apos;t create GStreamer source element for %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7288,6 +7399,22 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not load %1, the type is unknown.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not load %1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not load %1, it is empty.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not load %1, it is text, but not a recognised playlist.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7658,6 +7785,10 @@ Are you sure you want to continue?</source>
 <context>
     <name>SubsonicService</name>
     <message>
+        <source>The Subsonic settings were changed while the collection was refreshed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Server URL is invalid.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7788,6 +7919,294 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TagEditor</name>
+    <message>
+        <source>Edit track information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date created</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Art Automatic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date modified</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Art Embedded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last played</source>
+        <comment>A playlist&apos;s tag.</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Length</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bit depth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>EBU R 128 integrated loudness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bit rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skip count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sample rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Art Unset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Art Manual</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>EBU R 128 loudness range</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset play counts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MenuPopupToolButton</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change art</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Embedded cover</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Grouping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Album artist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Artist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Composer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Complete tags automatically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Genre</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Performer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Compilation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Different art across multiple songs.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 songs selected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>kbps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cover is unset.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cover from embedded image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cover from %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cover art not set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Album cover editing is only available for collection songs.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cover changed: Will be cleared when saved.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cover changed: Will be unset when saved.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cover changed: Will be deleted when saved.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cover changed: Will set new when saved.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Never</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The cover file %1 was not deleted, it changed since you confirmed deleting it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to delete cover file %1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset song play statistics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to reset this song&apos;s play statistics?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ID3v2 version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>2.3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>2.4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Performer sort</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Title sort</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Album artist sort</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Artist sort</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Album sort</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Composer sort</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8281,26 +8700,6 @@ Are you sure you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Profile</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Main profile (MAIN)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Low complexity profile (LC)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Scalable sampling rate profile (SSR)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Long term prediction profile (LTP)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Use temporal noise shaping</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8322,6 +8721,30 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source>No long blocks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rate control</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Variable bitrate (VBR)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Average bitrate (ABR)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quality</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> %</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The AAC encoder %1 only uses the bitrate.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8431,6 +8854,86 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source> kbps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bitrate type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Complexity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Optimize for</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bandwidth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frame size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discontinuous transmission (DTX)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Constant bitrate (CBR)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Variable bitrate (VBR)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Constrained variable bitrate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Music</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Voice</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Low delay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Automatic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Full band (20 kHz)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Super wide band (12 kHz)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wide band (8 kHz)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Medium band (6 kHz)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Narrow band (4 kHz)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>2.5 ms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 ms</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
