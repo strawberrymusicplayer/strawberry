@@ -133,8 +133,21 @@ The app's GLib `CA_CERTIFICATES` setting does not by itself configure Rust.
 In the app process on the emulator, this setup let the plugin complete Spotify's HTTPS access-point lookup; Spotify then rejected a deliberately invalid token.
 Without usable roots, librespot's HTTP client setup fails before connecting.
 A valid login and playback have not been tested.
-Spotify login and playback, and a review of the bundled licence obligations, are still outstanding; do not distribute probe builds as Spotify-enabled releases.
+Spotify login and playback remain outstanding; do not distribute probe builds as Spotify-enabled releases.
 To restore the ordinary Android build, configure with `-DENABLE_ANDROID_SPOTIFY_PLUGIN_PROBE=OFF` and rebuild.
+
+### Spotify plugin distribution licensing
+
+The pinned `gst-plugin-spotify` 0.14.4 manifest declares MPL-2.0. The linked Symphonia 0.5.5 crates also declare MPL-2.0, while librespot 0.8.0 declares MIT; do not treat librespot as MPL-covered.
+Under [MPL-2.0 sections 3.1–3.4](https://www.mozilla.org/en-US/MPL/2.0/), distributing the plugin in executable form requires making its corresponding source form available and telling recipients how to obtain it by reasonable means in a timely manner. Source-form distributions must be under MPL-2.0, and the covered software's license notices must not be removed or altered.
+Including licence texts in the APK does not, by itself, provide the corresponding source or explain how to obtain it. Before any Spotify-enabled release:
+
+- Publish or otherwise provide the exact plugin and MPL-covered Symphonia source corresponding to the shipped archive, including any modifications, under MPL-2.0; identify that source and provide recipients a practical way to obtain it.
+- Preserve the applicable MPL notices and include the MIT notice for librespot. Keep the generated licence bundle with the release.
+- Review every entry in `gst-plugin-spotify-dependencies.txt` and its declared licence, as well as the actual files and notices shipped by the build. The generated inventory and licence texts are evidence for review, not an automated compatibility determination.
+- Record the source revision, archive checksum, licence inventory and source-delivery location for each released ABI.
+
+The manifests and the official MPL text are technical review references, not legal advice or a distribution approval. Spotify-enabled distribution remains blocked until the full dependency review and source-delivery process are completed.
 
 ## NAS client dependency
 
