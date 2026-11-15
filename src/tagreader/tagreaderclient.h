@@ -31,6 +31,7 @@
 #include <QString>
 #include <QImage>
 #include <QMutex>
+#include <QReadWriteLock>
 
 #include "core/song.h"
 
@@ -125,8 +126,9 @@ class TagReaderClient : public QObject {
   QThread *original_thread_;
   QQueue<TagReaderRequestPtr> requests_;
   mutable QMutex mutex_requests_;
-  // Held while writing tags, the blocking functions are also called from other threads than the queued requests, and two writes to the same file at once can corrupt it.
-  QMutex mutex_write_;
+  // Locked for writing while writing tags, and for reading while reading files, the blocking functions are also called from other threads than the queued requests.
+  // Two writes to the same file at once can corrupt it, and on Windows a file which is open for reading can't be opened for writing, and the other way around, so a read at the same time makes the write fail.
+  mutable QReadWriteLock lock_files_;
   TagReaderTagLib tagreader_;
   TagReaderGME gmereader_;
   // Set when exiting, the requests reading files are dropped, but the requests writing to files are still processed, so changes to the tags are not lost.
