@@ -805,7 +805,7 @@ The user also requested removing these arrows from the navigation/menu bar when 
 
 ## 22. Build and bundle a Spotify GStreamer plugin for Android
 
-**Status:** Investigating (pinned arm64 archive build script; plugin registration and Rust TLS trust verified in an opt-in app probe; licence packaging, login and playback not implemented)
+**Status:** Investigating (pinned arm64 archive build with bundled licences; plugin registration and Rust TLS trust verified in an opt-in app probe; login and playback not implemented)
 
 **Problem:** Spotify playback requires a GStreamer plugin that is not included in the Android SDK, so Spotify is currently disabled on Android.
 
@@ -853,9 +853,12 @@ The user also requested removing these arrows from the navigation/menu bar when 
   It also outputs the plugin's MPL-2.0 licence, the linked crates with their declared licences (231 for arm64), and a build manifest with the archive checksum.
   A release arm64 archive from the script (28 MB, versus 204 MB with debug information) registered `spotifyaudiosrc` in the app on the emulator, which stayed running; the probe APK was about 39 MB.
   The build was then restored with the probe off.
+- The script now also collects the licence and notice files of the plugin and all 230 linked crates (416 files, about 150 KB compressed); for governor, librespot and Symphonia, whose published crates omit them, it downloads the files from the recorded upstream commits pinned by SHA-256.
+  With the probe enabled, CMake requires these licences next to the archive and bundles them under `assets/licenses/gst-plugin-spotify/`.
+  The emulator APK contained all licence files and still registered `spotifyaudiosrc`.
 
 **Next steps:**
-- Package the full licence texts of the linked crates into the APK's `assets/licenses/` when the plugin is linked.
+- Review the bundled licence obligations (MPL-2.0 source availability for the plugin, librespot and Symphonia) before any distribution.
 - Build and register the archive for the other supported Android ABIs, if those are shipped.
 - Re-enable Spotify only once the required plugin is available; preserve existing desktop behavior.
 - Verify login, playback, seeking, track transitions, and background playback on Android before marking this item done.
