@@ -1110,6 +1110,10 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
 **Still open:**
 - User feedback (2026-11-14): the Tools screen cannot be scrolled by dragging its content.
   Add touch dragging to the Tools overview and verify that scrolling does not activate a tool accidentally, on the FP5 and emulator in portrait and landscape.
+  Done for gestures (2026-11-15): the Tools overview uses `AndroidScrollArea::EnableForContents()`, and a native test drags from tool buttons without activating them.
+  On the emulator in landscape, the overview's lower section was cut off without a scroll bar, and dragging over either a button or a heading did not scroll it; a drag over a button did not open the tool.
+  This suggests the page receives more height than is visible, so it has no scroll range; the same clipping was seen on the landscape Settings overview.
+  Investigate that layout before considering the Tools or Settings scrolling resolved; in portrait the list fits on the emulator, and Qt does not apply Android's font scale, so the FP5 overflow could not be reproduced.
 - User feedback (2026-11-14): the Settings screen also cannot be scrolled by dragging its content.
   Verify touch scrolling on the Settings overview and its category and settings pages without accidentally activating controls, on the FP5 and emulator in portrait and landscape.
 - FP5 feedback (2026-11-14): the Context display showed a scrollbar and could not be scrolled by dragging the content with a finger.
