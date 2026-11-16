@@ -266,7 +266,10 @@ void CollectionManager::UpdateWatcherPaused() {
 
 void CollectionManager::ReloadSettings() {
 
-  watcher_->ReloadSettingsAsync();
+  if (watcher_) {
+    watcher_->ReloadSettingsAsync();
+  }
+
   model_->ReloadSettings();
 
   Settings s;
