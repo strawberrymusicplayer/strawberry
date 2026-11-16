@@ -121,3 +121,9 @@ void TestQObject::Emit() {
 void TestQObject::Invoke() {
   ++invoked_;
 }
+
+TestUrlHandler::TestUrlHandler(QObject *parent) : QObject(parent) {}
+
+void TestUrlHandler::OpenUrl(const QUrl &url) {
+  urls_ << url;
+}
