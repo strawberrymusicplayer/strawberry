@@ -73,8 +73,10 @@ RainbowAnalyzer::RainbowAnalyzer(const RainbowType rbtype, QWidget *parent)
   cat_dash_[1] = QPixmap(u":/pictures/rainbowdash.png"_s);
   memset(history_, 0, sizeof(history_));
 
+  // The pen width is rounded down to whole pixels.
+  const int pen_width = kRainbowHeight[rainbowtype_] / kRainbowBands;
   for (int i = 0; i < kRainbowBands; ++i) {
-    colors_[i] = QPen(QColor::fromHsv(i * 255 / kRainbowBands, 255, 255), kRainbowHeight[rainbowtype_] / kRainbowBands, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);  // NOLINT(bugprone-integer-division)
+    colors_[i] = QPen(QColor::fromHsv(i * 255 / kRainbowBands, 255, 255), pen_width, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);
 
     // pow constants computed so that
     // | band_scale(0) | ~= .5 and | band_scale(5) | ~= 32
