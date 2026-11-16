@@ -85,8 +85,18 @@ class CDDADevice : public ConnectedDevice {
   void SongLoadingFinished();
 
  private:
+  enum class MediaState {
+    Unknown,
+    NoMedia,
+    MediaReady
+  };
+
+  MediaState GetMediaState() const;
+
+ private:
   CDDASongLoader cdda_song_loader_;
   CdIo_t *cdio_;
+  MediaState media_state_;
   QTimer *timer_disc_changed_;
 };
 
