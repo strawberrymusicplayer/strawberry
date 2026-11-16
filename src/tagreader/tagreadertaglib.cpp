@@ -918,9 +918,28 @@ void TagReaderTagLib::ParseVorbisComments(const TagLib::Ogg::FieldListMap &map, 
   }
   if (map.contains(kVorbisComment_FMPS_Rating) && song->rating() <= 0) song->set_rating(TagLibStringToQString(map[kVorbisComment_FMPS_Rating].front()).trimmed().toFloat());
 
-  if (map.contains(kVorbisComment_Lyrics)) SetLyricsFromTag(song, TagLibStringToQString(map[kVorbisComment_Lyrics].front()));
-  else if (map.contains(kVorbisComment_UnsyncedLyrics)) SetLyricsFromTag(song, TagLibStringToQString(map[kVorbisComment_UnsyncedLyrics].front()));
+  // When reading into an existing song, lyrics read from the tags before are cleared, since LYRICS can have changed between plain and synchronized lyrics, or the fields can have been removed.
+  if (song->lyrics_storage_type() == Song::StorageType::Tag) {
+    song->set_lyrics(QString());
+    song->set_lyrics_storage_type(Song::StorageType::None);
+  }
+  if (song->synced_lyrics_storage_type() == Song::StorageType::Tag) {
+    song->set_synced_lyrics(QString());
+    song->set_synced_lyrics_storage_type(Song::StorageType::None);
+  }
+
+  // LYRICS can contain either synchronized or plain lyrics, synchronized lyrics in it take precedence over SYNCEDLYRICS and UNSYNCEDLYRICS takes precedence over plain lyrics in it.
   if (map.contains(kVorbisComment_SyncedLyrics)) SetSyncedLyricsFromTag(song, TagLibStringToQString(map[kVorbisComment_SyncedLyrics].front()));
+  if (map.contains(kVorbisComment_Lyrics)) {
+    const QString lyrics = TagLibStringToQString(map[kVorbisComment_Lyrics].front());
+    if (IsSyncedLyrics(lyrics)) {
+      SetSyncedLyricsFromTag(song, lyrics);
+    }
+    else {
+      SetLyricsFromTag(song, lyrics);
+    }
+  }
+  if (map.contains(kVorbisComment_UnsyncedLyrics)) SetLyricsFromTag(song, TagLibStringToQString(map[kVorbisComment_UnsyncedLyrics].front()));
 
   if (map.contains(kVorbisComment_BPM)) song->set_bpm(TagLibStringToQString(map[kVorbisComment_BPM].front()).toFloat());
   if (map.contains(kVorbisComment_Mood)) song->set_mood(map[kVorbisComment_Mood].front());
@@ -1297,8 +1316,8 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     is_flac = true;
     TagLib::Ogg::XiphComment *vorbis_comment = file_flac->xiphComment(true);
     if (vorbis_comment) {
-      if (save_tags) {
-        SetVorbisComments(vorbis_comment, song, previous_track);
+      if (save_tags && !SetVorbisComments(vorbis_comment, song, previous_track)) {
+        return TagReaderResult(TagReaderResult::ErrorCode::CustomError, QObject::tr("Synchronized lyrics are not valid LRC"));
       }
       if (save_playcount) {
         SetPlaycount(vorbis_comment, song.playcount());
@@ -1463,8 +1482,8 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
   if (!is_flac) {
     if (TagLib::Ogg::XiphComment *vorbis_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
       if (vorbis_comment) {
-        if (save_tags) {
-          SetVorbisComments(vorbis_comment, song, previous_track);
+        if (save_tags && !SetVorbisComments(vorbis_comment, song, previous_track)) {
+          return TagReaderResult(TagReaderResult::ErrorCode::CustomError, QObject::tr("Synchronized lyrics are not valid LRC"));
         }
         if (save_playcount) {
           SetPlaycount(vorbis_comment, song.playcount());
@@ -1681,6 +1700,21 @@ void TagReaderTagLib::SetSyncedLyricsFromTag(Song *song, const QString &synced_l
 
 }
 
+bool TagReaderTagLib::IsSyncedLyrics(const QString &lyrics) {
+
+  const std::optional<Utilities::LRCLines> lrc_lines = Utilities::ParseLRC(lyrics);
+  return lrc_lines.has_value() && !lrc_lines->isEmpty();
+
+}
+
+bool TagReaderTagLib::HasPlainLyrics(const TagLib::Ogg::XiphComment *vorbis_comment) {
+
+  const TagLib::Ogg::FieldListMap &map = vorbis_comment->fieldListMap();
+  const TagLib::Ogg::FieldListMap::ConstIterator it = map.find(kVorbisComment_Lyrics);
+  return it != map.end() && !it->second.isEmpty() && !IsSyncedLyrics(TagLibStringToQString(it->second.front()));
+
+}
+
 bool TagReaderTagLib::IsSupportedSyncLyricsFrame(const TagLib::ID3v2::SynchronizedLyricsFrame *frame) {
 
   return frame && frame->timestampFormat() == TagLib::ID3v2::SynchronizedLyricsFrame::AbsoluteMilliseconds && (frame->type() == TagLib::ID3v2::SynchronizedLyricsFrame::Lyrics || frame->type() == TagLib::ID3v2::SynchronizedLyricsFrame::Other);
@@ -1731,7 +1765,7 @@ std::optional<TagLib::ID3v2::SynchronizedLyricsFrame::SynchedTextList> TagReader
 
 }
 
-void TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment, const Song &song, const QString &previous_track) const {
+bool TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment, const Song &song, const QString &previous_track) const {
 
   const TagLib::Ogg::FieldListMap fields = vorbis_comment->fieldListMap();
   const QString previous_disc = fields.contains(kVorbisComment_Disc) && !fields[kVorbisComment_Disc].isEmpty() ? TagLibStringToQString(fields[kVorbisComment_Disc].front()) : QString();
@@ -1758,12 +1792,14 @@ void TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment
   if (WriteLyricsToTags(song.lyrics_storage_type())) {
     SetLyrics(vorbis_comment, song.lyrics());
   }
-  if (WriteLyricsToTags(song.synced_lyrics_storage_type())) {
-    SetSyncedLyrics(vorbis_comment, song.synced_lyrics());
+  if (WriteLyricsToTags(song.synced_lyrics_storage_type()) && !SetSyncedLyrics(vorbis_comment, song.synced_lyrics())) {
+    return false;
   }
   if (!song.musicbrainz_recording_id().isEmpty()) {
     vorbis_comment->addField(kVorbisComment_MusicBrainz_TackId, QStringToTagLibString(song.musicbrainz_recording_id()), true);
   }
+
+  return true;
 
 }
 
@@ -2528,8 +2564,12 @@ TagReaderResult TagReaderTagLib::SaveSongRating(const QString &filename, const f
 
 void TagReaderTagLib::SetLyrics(TagLib::Ogg::XiphComment *vorbis_comment, const QString &lyrics) const {
 
-  vorbis_comment->addField(kVorbisComment_Lyrics, QStringToTagLibString(lyrics), true);
-  vorbis_comment->removeFields(kVorbisComment_UnsyncedLyrics);
+  vorbis_comment->addField(kVorbisComment_UnsyncedLyrics, QStringToTagLibString(lyrics), true);
+
+  // Plain lyrics in LYRICS are replaced by UNSYNCEDLYRICS, synchronized lyrics in it are left alone.
+  if (HasPlainLyrics(vorbis_comment)) {
+    vorbis_comment->removeFields(kVorbisComment_Lyrics);
+  }
 
 }
 
@@ -2551,9 +2591,24 @@ void TagReaderTagLib::SetLyrics(TagLib::ASF::Tag *tag, const QString &lyrics) co
 
 }
 
-void TagReaderTagLib::SetSyncedLyrics(TagLib::Ogg::XiphComment *vorbis_comment, const QString &synced_lyrics) const {
+bool TagReaderTagLib::SetSyncedLyrics(TagLib::Ogg::XiphComment *vorbis_comment, const QString &synced_lyrics) const {
 
-  vorbis_comment->addField(kVorbisComment_SyncedLyrics, QStringToTagLibString(synced_lyrics), true);
+  // LYRICS which is not valid LRC is read back as plain lyrics, so do not save it.
+  const std::optional<Utilities::LRCLines> lrc_lines = Utilities::ParseLRC(synced_lyrics);
+  if (!lrc_lines.has_value()) {
+    qLog(Error) << "Synchronized lyrics are not valid LRC, not saving tags";
+    return false;
+  }
+
+  // Synchronized lyrics are written to LYRICS, so move plain lyrics in it to UNSYNCEDLYRICS instead of overwriting them, unless UNSYNCEDLYRICS already has the lyrics which are read.
+  if (HasPlainLyrics(vorbis_comment) && !vorbis_comment->contains(kVorbisComment_UnsyncedLyrics)) {
+    vorbis_comment->addField(kVorbisComment_UnsyncedLyrics, vorbis_comment->fieldListMap()[kVorbisComment_Lyrics].front(), true);
+  }
+  vorbis_comment->removeFields(kVorbisComment_SyncedLyrics);
+  // LRC without lines, such as only whitespace, clears the synchronized lyrics.
+  vorbis_comment->addField(kVorbisComment_Lyrics, lrc_lines->isEmpty() ? TagLib::String() : QStringToTagLibString(synced_lyrics), true);
+
+  return true;
 
 }
 
@@ -2610,8 +2665,14 @@ TagReaderResult TagReaderTagLib::SaveLyricsToFile(const QString &filename, const
   TagLib::ID3v2::Tag *id3v2_tag = nullptr;
   if (TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
     if (TagLib::Ogg::XiphComment *vorbis_comment = flac_file->xiphComment(true)) {
-      if (synced) SetSyncedLyrics(vorbis_comment, lyrics);
-      else SetLyrics(vorbis_comment, lyrics);
+      if (synced) {
+        if (!SetSyncedLyrics(vorbis_comment, lyrics)) {
+          return TagReaderResult(TagReaderResult::ErrorCode::CustomError, QObject::tr("Synchronized lyrics are not valid LRC"));
+        }
+      }
+      else {
+        SetLyrics(vorbis_comment, lyrics);
+      }
     }
   }
   else if (TagLib::WavPack::File *wavpack_file = dynamic_cast<TagLib::WavPack::File*>(fileref->file())) {
@@ -2633,8 +2694,14 @@ TagReaderResult TagReaderTagLib::SaveLyricsToFile(const QString &filename, const
     }
   }
   else if (TagLib::Ogg::XiphComment *vorbis_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
-    if (synced) SetSyncedLyrics(vorbis_comment, lyrics);
-    else SetLyrics(vorbis_comment, lyrics);
+    if (synced) {
+      if (!SetSyncedLyrics(vorbis_comment, lyrics)) {
+        return TagReaderResult(TagReaderResult::ErrorCode::CustomError, QObject::tr("Synchronized lyrics are not valid LRC"));
+      }
+    }
+    else {
+      SetLyrics(vorbis_comment, lyrics);
+    }
   }
   else if (TagLib::MPEG::File *mpeg_file = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
     id3v2 = true;
