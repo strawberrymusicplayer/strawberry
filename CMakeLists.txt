@@ -1388,9 +1388,11 @@ if(WIN32)
     src/engine/mmaudiodevicelister.cpp
     src/engine/asioaudiodevicelister.cpp
     src/core/windows7thumbbar.cpp
+    src/device/win32devicelister.cpp
   )
   list(APPEND HEADERS
     src/core/windows7thumbbar.h
+    src/device/win32devicelister.h
   )
 endif()
 
@@ -1852,7 +1854,7 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${HAVE_MTP}>:PkgConfig::LIBMTP>
   $<$<BOOL:${HAVE_GPOD}>:PkgConfig::LIBGPOD PkgConfig::GDK_PIXBUF>
   $<$<BOOL:${HAVE_QTSPARKLE}>:qtsparkle-qt${QT_VERSION_MAJOR}::qtsparkle>
-  $<$<BOOL:${WIN32}>:dsound dwmapi advapi32 ${GETOPT_LIBRARIES}>
+  $<$<BOOL:${WIN32}>:dsound dwmapi advapi32 cfgmgr32 ${GETOPT_LIBRARIES}>
   $<$<BOOL:${MSVC}>:WindowsApp>
   KDAB::kdsingleapplication
 )
