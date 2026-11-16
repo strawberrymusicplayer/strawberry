@@ -99,6 +99,7 @@ std::optional<LRCLines> ParseLRC(const QString &lrc) {
       if (regex_metadata.match(trimmed).hasMatch()) continue;
       return std::nullopt;
     }
+    text = text.trimmed();
     text_size += text.size() * times.size();
     if (text_size > max_text_size) {
       return std::nullopt;

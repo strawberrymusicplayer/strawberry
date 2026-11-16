@@ -453,6 +453,16 @@ TEST(UtilitiesTest, ParseLRC) {
     ASSERT_EQ(lrc_lines->at(5).text, u"Chorus"_s);
   }
 
+  { // Whitespace between the timestamps and the text, and at the end of the text, is not part of the text
+    const std::optional<Utilities::LRCLines> lrc_lines = Utilities::ParseLRC(u"[00:01.00] Line one \n[00:02.00][00:03.00]\tLine two\n[00:04.00] "_s);
+    ASSERT_TRUE(lrc_lines.has_value());
+    ASSERT_EQ(lrc_lines->count(), 4);
+    ASSERT_EQ(lrc_lines->at(0).text, u"Line one"_s);
+    ASSERT_EQ(lrc_lines->at(1).text, u"Line two"_s);
+    ASSERT_EQ(lrc_lines->at(2).text, u"Line two"_s);
+    ASSERT_TRUE(lrc_lines->at(3).text.isEmpty());
+  }
+
   { // Lines ending with only CR (classic Mac OS)
     const std::optional<Utilities::LRCLines> lrc_lines = Utilities::ParseLRC(u"[00:01.00]Line one\r[00:02.00]Line two"_s);
     ASSERT_TRUE(lrc_lines.has_value());
