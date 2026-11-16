@@ -25,6 +25,9 @@
 
 #include <QMetaType>
 #include <QModelIndex>
+#include <QObject>
+#include <QList>
+#include <QUrl>
 #include <QFile>
 
 class QNetworkRequest;
@@ -97,6 +100,22 @@ class TestQObject : public QObject {
 
  private:
   int invoked_;
+};
+
+// Records the URLs opened with QDesktopServices::openUrl() when set with QDesktopServices::setUrlHandler().
+class TestUrlHandler : public QObject {
+  Q_OBJECT
+
+ public:
+  explicit TestUrlHandler(QObject *parent = nullptr);
+
+  QList<QUrl> urls() const { return urls_; }
+
+ public Q_SLOTS:
+  void OpenUrl(const QUrl &url);
+
+ private:
+  QList<QUrl> urls_;
 };
 
 #endif  // TEST_UTILS_H
