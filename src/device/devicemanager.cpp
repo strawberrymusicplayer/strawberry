@@ -77,6 +77,9 @@
 #ifdef Q_OS_MACOS
 #  include "macosdevicelister.h"
 #endif
+#ifdef Q_OS_WIN32
+#  include "win32devicelister.h"
+#endif
 #ifdef HAVE_GPOD
 #  include "gpoddevice.h"
 #endif
@@ -130,6 +133,9 @@ DeviceManager::DeviceManager(const SharedPtr<TaskManager> task_manager,
 #endif
 #ifdef Q_OS_MACOS
   AddLister(new MacOsDeviceLister);
+#endif
+#ifdef Q_OS_WIN32
+  AddLister(new Win32DeviceLister);
 #endif
 
 #ifdef HAVE_AUDIOCD
@@ -560,12 +566,22 @@ void DeviceManager::PhysicalDeviceRemoved(const QString &id) {
 void DeviceManager::PhysicalDeviceChanged(const QString &id) {
 
   DeviceLister *lister = qobject_cast<DeviceLister*>(sender());
-  Q_UNUSED(lister);
+  if (!lister) return;
 
   DeviceInfo *device_info = FindDeviceById(id);
   if (!device_info) return;
 
-  // TODO
+  // Refresh the name, capacity and icon if they come from this lister, but keep them for devices saved in the database, the user can change the name and icon of those.
+  const DeviceInfo::Backend *backend = device_info->BestBackend();
+  if (device_info->database_id_ == -1 && backend && backend->lister_ == lister && backend->unique_id_ == id) {
+    device_info->friendly_name_ = lister->MakeFriendlyName(id);
+    device_info->size_ = lister->DeviceCapacity(id);
+    device_info->LoadIcon(lister->DeviceIcons(id), device_info->friendly_name_);
+  }
+
+  // Free space is read from the lister, so this also updates it for saved devices.
+  const QModelIndex idx = ItemToIndex(device_info);
+  if (idx.isValid()) Q_EMIT dataChanged(idx, idx);
 
 }
 
