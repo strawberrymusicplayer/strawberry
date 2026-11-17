@@ -30,6 +30,8 @@
 
 #ifdef Q_OS_WIN32
 #  include <io.h>
+#  include <cstring>
+#  include <windows.h>
 #endif
 
 #include <QByteArray>
@@ -143,6 +145,54 @@ bool RemoveLink(const QString &path) {
   return QFile::remove(path) || QDir().rmdir(path);
 }
 
+#ifdef Q_OS_WIN32
+enum class DirectoryIdResult {
+  NotDirectory,
+  Unavailable,
+  Available,
+};
+
+// Gets the volume serial number and the 128-bit file ID of the existing directory, the links in the path are followed.
+// The 64-bit file index is not used, it's not unique on ReFS.
+DirectoryIdResult GetDirectoryId(const QString &directory, FILE_ID_INFO *file_id_info) {
+
+  // A shortcut is resolved like Qt does for the file information, CreateFileW() would open the shortcut file itself.
+  // The target of a broken shortcut is empty, it can't be opened.
+  const QFileInfo fileinfo(directory);
+  const QString path = fileinfo.isShortcut() ? fileinfo.symLinkTarget() : directory;
+
+  // Opened without access, so it doesn't conflict with other handles, the backup semantics flag is needed to open a directory.
+  // When it can't be opened, it's not known whether it's a directory, for example a path longer than MAX_PATH can't be opened without the long path prefix.
+  const HANDLE handle = ::CreateFileW(reinterpret_cast<const wchar_t*>(QDir::toNativeSeparators(path).utf16()), 0, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, nullptr, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, nullptr);
+  if (handle == INVALID_HANDLE_VALUE) return DirectoryIdResult::Unavailable;
+
+  FILE_BASIC_INFO basic_info {};
+  if (::GetFileInformationByHandleEx(handle, FileBasicInfo, &basic_info, sizeof(basic_info)) == 0) {
+    ::CloseHandle(handle);
+    return DirectoryIdResult::Unavailable;
+  }
+  if ((basic_info.FileAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0) {
+    ::CloseHandle(handle);
+    return DirectoryIdResult::NotDirectory;
+  }
+
+  const bool success = ::GetFileInformationByHandleEx(handle, FileIdInfo, file_id_info, sizeof(FILE_ID_INFO)) != 0;
+  ::CloseHandle(handle);
+  if (!success) return DirectoryIdResult::Unavailable;
+
+  // A file ID of all zeros or all ones is not a valid file ID, so it doesn't identify the directory.
+  FILE_ID_128 zero_file_id {};
+  FILE_ID_128 invalid_file_id {};
+  std::memset(invalid_file_id.Identifier, 0xFF, sizeof(invalid_file_id.Identifier));
+  if (std::memcmp(&file_id_info->FileId, &zero_file_id, sizeof(FILE_ID_128)) == 0 || std::memcmp(&file_id_info->FileId, &invalid_file_id, sizeof(FILE_ID_128)) == 0) {
+    return DirectoryIdResult::Unavailable;
+  }
+
+  return DirectoryIdResult::Available;
+
+}
+#endif
+
 }  // namespace
 
 bool IsSameDirectory(const QString &directory1, const QString &directory2) {
@@ -154,9 +204,21 @@ bool IsSameDirectory(const QString &directory1, const QString &directory2) {
   if (::stat(QFile::encodeName(directory1).constData(), &stat1) != 0 || ::stat(QFile::encodeName(directory2).constData(), &stat2) != 0) return false;
   return S_ISDIR(stat1.st_mode) && stat1.st_dev == stat2.st_dev && stat1.st_ino == stat2.st_ino;
 #else
-  // The canonical paths have the case of the directories on the filesystem.
-  const QString canonical_directory1 = QFileInfo(directory1).canonicalFilePath();
-  return !canonical_directory1.isEmpty() && canonical_directory1 == QFileInfo(directory2).canonicalFilePath();
+#  ifdef Q_OS_WIN32
+  // Compare the directories by their volume serial number and file ID, the canonical paths keep the case of the paths and link targets, not the case of the directories on the filesystem.
+  FILE_ID_INFO file_id_info1 {};
+  FILE_ID_INFO file_id_info2 {};
+  const DirectoryIdResult result1 = GetDirectoryId(directory1, &file_id_info1);
+  const DirectoryIdResult result2 = GetDirectoryId(directory2, &file_id_info2);
+  if (result1 == DirectoryIdResult::NotDirectory || result2 == DirectoryIdResult::NotDirectory) return false;
+  if (result1 == DirectoryIdResult::Available && result2 == DirectoryIdResult::Available) {
+    return file_id_info1.VolumeSerialNumber == file_id_info2.VolumeSerialNumber && std::memcmp(&file_id_info1.FileId, &file_id_info2.FileId, sizeof(FILE_ID_128)) == 0;
+  }
+  // When the filesystem has no file IDs, or the directories can't be opened, the canonical paths are compared.
+#  endif
+  const QFileInfo fileinfo1(directory1);
+  const QString canonical_directory1 = fileinfo1.canonicalFilePath();
+  return fileinfo1.isDir() && !canonical_directory1.isEmpty() && canonical_directory1 == QFileInfo(directory2).canonicalFilePath();
 #endif
 
 }

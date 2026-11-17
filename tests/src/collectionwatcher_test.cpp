@@ -20,6 +20,9 @@
 #include "config.h"
 
 #include <memory>
+#include <future>
+#include <thread>
+#include <chrono>
 
 #include <algorithm>
 #include <cmath>
@@ -44,6 +47,8 @@
 #include <QStringList>
 #include <QVariant>
 #include <QTemporaryDir>
+#include <QProcess>
+#include <QProcessEnvironment>
 #include <QThread>
 #include <QSqlDatabase>
 #include <QSqlQuery>
@@ -157,6 +162,7 @@ class CollectionWatcherTest : public ::testing::Test {
     // Like CollectionManager, songs which are restored without changes are marked available again.
     QObject::connect(&watcher, &CollectionWatcher::SongsReadded, &*backend_, &CollectionBackend::MarkSongsUnavailable);
     QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+    QObject::connect(&watcher, &CollectionWatcher::SubdirsDeleted, &*backend_, &CollectionBackend::DeleteSubdirs);
     QSignalSpy spy_new_or_updated(&watcher, &CollectionWatcher::NewOrUpdatedSongs);
     QSignalSpy spy_deleted(&watcher, &CollectionWatcher::SongsDeleted);
     QSignalSpy spy_unavailable(&watcher, &CollectionWatcher::SongsUnavailable);
@@ -1495,6 +1501,365 @@ TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowFindsNewDirectory) {
 
 }
 
+#ifdef Q_OS_UNIX
+// Regression test: a link to a directory above it was scanned again and again through the link, up to the limit of links in a path, which added the songs many times.
+TEST_F(CollectionWatcherTest, LinkToParentDirectoryIsNotScanned) {
+
+  // Not in the temporary directory, which is often a tmpfs, which the collection watcher ignores.
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString collection_path = temp_dir.filePath(u"Music"_s);
+  ASSERT_TRUE(QDir().mkpath(collection_path + u"/Album"_s));
+  ASSERT_TRUE(QDir().mkpath(temp_dir.filePath(u"Other/A"_s)));
+  ASSERT_TRUE(QDir().mkpath(temp_dir.filePath(u"Other/B"_s)));
+  for (const QString &filename : QStringList{collection_path + u"/Album/01.mp3"_s, temp_dir.filePath(u"Other/A/02.mp3"_s), temp_dir.filePath(u"Other/B/03.mp3"_s)}) {
+    ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, filename));
+    MakeReadable(filename);
+  }
+  // Links to the directories above the songs.
+  ASSERT_TRUE(QFile::link(temp_dir.path(), collection_path + u"/Album/Up"_s));
+  ASSERT_TRUE(QFile::link(collection_path + u"/Album"_s, collection_path + u"/Album/Self"_s));
+  // Links to directories outside the collection, which are scanned, A and B link to each other.
+  ASSERT_TRUE(QFile::link(temp_dir.filePath(u"Other/A"_s), collection_path + u"/A"_s));
+  ASSERT_TRUE(QFile::link(temp_dir.filePath(u"Other/B"_s), temp_dir.filePath(u"Other/A/B"_s)));
+  ASSERT_TRUE(QFile::link(temp_dir.filePath(u"Other/A"_s), temp_dir.filePath(u"Other/B/A"_s)));
+
+  backend_->AddDirectory(collection_path);
+  const ScanResult result = ScanDirectoryToCollection(collection_path);
+  EXPECT_EQ(3, result.new_or_updated);
+
+  QStringList filenames;
+  const SongList songs = backend_->GetAllSongs();
+  for (const Song &song : songs) {
+    filenames << song.url().toLocalFile();
+  }
+  filenames.sort();
+  EXPECT_EQ(QStringList() << collection_path + u"/A/02.mp3"_s << collection_path + u"/A/B/03.mp3"_s << collection_path + u"/Album/01.mp3"_s, filenames);
+
+}
+
+// The collection directory is a link, so the directory the link in it points to is only above the collection directory with the links resolved.
+TEST_F(CollectionWatcherTest, LinkToParentDirectoryOfLinkedCollectionIsNotScanned) {
+
+  // Not in the temporary directory, which is often a tmpfs, which the collection watcher ignores.
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  ASSERT_TRUE(QDir().mkpath(temp_dir.filePath(u"Data/Music/Album"_s)));
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"Data/Music/Album/01.mp3"_s)));
+  MakeReadable(temp_dir.filePath(u"Data/Music/Album/01.mp3"_s));
+  const QString collection_path = temp_dir.filePath(u"Music"_s);
+  ASSERT_TRUE(QFile::link(temp_dir.filePath(u"Data/Music"_s), collection_path));
+  ASSERT_TRUE(QFile::link(temp_dir.filePath(u"Data"_s), temp_dir.filePath(u"Data/Music/Album/Up"_s)));
+
+  backend_->AddDirectory(collection_path);
+  const ScanResult result = ScanDirectoryToCollection(collection_path);
+  EXPECT_EQ(1, result.new_or_updated);
+  EXPECT_EQ(1, backend_->GetAllSongs().count());
+
+}
+
+// Regression test: the collection directory is a link to the directory it's in, it was not scanned, since it's a link to a directory above it.
+TEST_F(CollectionWatcherTest, CollectionDirectoryLinkToParentDirectoryIsScanned) {
+
+  // Not in the temporary directory, which is often a tmpfs, which the collection watcher ignores.
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  ASSERT_TRUE(QDir().mkpath(temp_dir.filePath(u"Album"_s)));
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"Album/01.mp3"_s)));
+  MakeReadable(temp_dir.filePath(u"Album/01.mp3"_s));
+  const QString collection_path = temp_dir.filePath(u"Library"_s);
+  ASSERT_TRUE(QFile::link(temp_dir.path(), collection_path));
+
+  backend_->AddDirectory(collection_path);
+  const ScanResult result = ScanDirectoryToCollection(collection_path);
+  EXPECT_EQ(1, result.new_or_updated);
+
+  const SongList songs = backend_->GetAllSongs();
+  ASSERT_EQ(1, songs.count());
+  EXPECT_EQ(collection_path + u"/Album/01.mp3"_s, songs.first().url().toLocalFile());
+
+}
+
+// Regression test: a subdirectory in a link to a directory above it, which was saved before, is not a link itself, so it was scanned again, its songs are removed instead.
+TEST_F(CollectionWatcherTest, SavedSubdirectoryInLinkToParentDirectoryIsRemoved) {
+
+  // Not in the temporary directory, which is often a tmpfs, which the collection watcher ignores.
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString collection_path = temp_dir.filePath(u"Music"_s);
+  ASSERT_TRUE(QDir().mkpath(collection_path + u"/Album"_s));
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, collection_path + u"/Album/01.mp3"_s));
+  MakeReadable(collection_path + u"/Album/01.mp3"_s);
+  ASSERT_TRUE(QFile::link(temp_dir.path(), collection_path + u"/Album/Up"_s));
+  const QString linked_album_path = collection_path + u"/Album/Up/Music/Album"_s;
+
+  // The songs in the link were saved by a version which scanned it, it's scanned like a collection directory, since that's not checked.
+  backend_->AddDirectory(collection_path);
+  ScanDirectoryToCollection(linked_album_path);
+  ASSERT_EQ(1, backend_->GetAllSongs().count());
+
+  const ScanResult result = ScanDirectoryToCollection(collection_path, false, QStringList() << collection_path << linked_album_path);
+  EXPECT_EQ(1, result.new_or_updated);
+  // Like a deleted file, the song is deleted or marked unavailable, depending on the settings.
+  EXPECT_EQ(1, result.deleted + result.unavailable);
+
+  QStringList available_filenames;
+  const SongList songs = backend_->GetAllSongs();
+  for (const Song &song : songs) {
+    if (!song.unavailable()) available_filenames << song.url().toLocalFile();
+  }
+  EXPECT_EQ(QStringList() << collection_path + u"/Album/01.mp3"_s, available_filenames);
+
+  // The subdirectory is removed, so it's not watched anymore.
+  const CollectionSubdirectoryList subdirs = backend_->SubdirsInDirectory(1);
+  for (const CollectionSubdirectory &subdir : subdirs) {
+    EXPECT_FALSE(subdir.path.startsWith(collection_path + u"/Album/Up"_s)) << subdir.path.toStdString();
+  }
+
+}
+
+// Regression test: when a link to a directory outside the collection was replaced by a link to a directory above it, only the directory with the link was changed, and the known subdirectory in it was not scanned, so its songs and subdirectories were kept.
+TEST_F(CollectionWatcherTest, LinkReplacedByLinkToParentDirectoryRemovesSavedSubdirectories) {
+
+  // Not in the temporary directory, which is often a tmpfs, which the collection watcher ignores.
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString collection_path = temp_dir.filePath(u"Music"_s);
+  ASSERT_TRUE(QDir().mkpath(collection_path));
+  ASSERT_TRUE(QDir().mkpath(temp_dir.filePath(u"Other/Album"_s)));
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, temp_dir.filePath(u"Other/Album/01.mp3"_s)));
+  MakeReadable(temp_dir.filePath(u"Other/Album/01.mp3"_s));
+  const QString link_path = collection_path + u"/External"_s;
+  ASSERT_TRUE(QFile::link(temp_dir.filePath(u"Other"_s), link_path));
+
+  backend_->AddDirectory(collection_path);
+  ScanDirectoryToCollection(collection_path);
+  ASSERT_EQ(1, backend_->GetAllSongs().count());
+  ASSERT_EQ(3, backend_->SubdirsInDirectory(1).count());
+
+  ASSERT_TRUE(QFile::remove(link_path));
+  ASSERT_TRUE(QFile::link(temp_dir.path(), link_path));
+
+  // Only the changed directory is scanned, not the saved subdirectories.
+  const ScopedCollectionSetting startup_scan_disabled(CollectionSettings::kStartupScan, false);
+  CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+  watcher.ReloadSettingsAsync();
+  QCoreApplication::processEvents();
+  QObject::connect(&watcher, &CollectionWatcher::SongsDeleted, &*backend_, &CollectionBackend::DeleteSongs);
+  QObject::connect(&watcher, &CollectionWatcher::SongsUnavailable, &*backend_, &CollectionBackend::MarkSongsUnavailable);
+  QObject::connect(&watcher, &CollectionWatcher::SubdirsDeleted, &*backend_, &CollectionBackend::DeleteSubdirs);
+  CollectionDirectory dir;
+  dir.id = 1;
+  dir.path = collection_path;
+  watcher.AddDirectory(dir, backend_->SubdirsInDirectory(1));
+  ASSERT_TRUE(QMetaObject::invokeMethod(&watcher, "DirectoryChanged", Q_ARG(QString, collection_path)));
+  ASSERT_TRUE(QMetaObject::invokeMethod(&watcher, "RescanPathsNow"));
+
+  int unavailable = 0;
+  const SongList songs = backend_->GetAllSongs();
+  for (const Song &song : songs) {
+    if (song.unavailable()) ++unavailable;
+  }
+  // Like a deleted file, the song is deleted or marked unavailable, depending on the settings.
+  EXPECT_EQ(songs.count(), unavailable);
+  const CollectionSubdirectoryList subdirs = backend_->SubdirsInDirectory(1);
+  ASSERT_EQ(1, subdirs.count());
+  EXPECT_EQ(collection_path, subdirs.first().path);
+
+}
+
+// Regression test: a saved subdirectory in a link to a directory above it got the same watch as the directory it is, so removing it also removed the watch of that directory, and changes to it were not found anymore.
+TEST_F(CollectionWatcherTest, RemovedSubdirectoryInLinkToParentDirectoryKeepsWatch) {
+
+  // Not in the temporary directory, which is often a tmpfs, which the collection watcher ignores.
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString collection_path = temp_dir.filePath(u"Music"_s);
+  const QString album_path = collection_path + u"/Album"_s;
+  ASSERT_TRUE(QDir().mkpath(album_path));
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, album_path + u"/01.mp3"_s));
+  MakeReadable(album_path + u"/01.mp3"_s);
+  ASSERT_TRUE(QFile::link(temp_dir.path(), album_path + u"/Up"_s));
+
+  // The subdirectory in the link was saved by a version which scanned it, it's watched after the album directory, which it is.
+  // The directories are saved with their modification times, so only the subdirectory in the link is scanned, like at startup.
+  backend_->AddDirectory(collection_path);
+  ScanDirectoryToCollection(collection_path);
+  const QStringList subdir_paths = QStringList() << collection_path << album_path << album_path + u"/Up/Music/Album"_s;
+  CollectionSubdirectoryList subdirs;
+  for (const QString &path : subdir_paths) {
+    CollectionSubdirectory subdir;
+    subdir.directory_id = 1;
+    subdir.path = path;
+    subdir.mtime = QFileInfo(path).lastModified().toSecsSinceEpoch();
+    subdirs << subdir;
+  }
+  backend_->AddOrUpdateSubdirs(subdirs);
+
+  CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateScannedSongs);
+  QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+  QObject::connect(&watcher, &CollectionWatcher::SubdirsDeleted, &*backend_, &CollectionBackend::DeleteSubdirs);
+  CollectionDirectory dir;
+  dir.id = 1;
+  dir.path = collection_path;
+  watcher.AddDirectory(dir, subdirs);
+  ASSERT_EQ(1, backend_->GetAllSongs().count());
+
+  // A file added to the album directory is found by watching it.
+  QSignalSpy spy_new_or_updated(&watcher, &CollectionWatcher::NewOrUpdatedSongs);
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, album_path + u"/02.mp3"_s));
+  MakeReadable(album_path + u"/02.mp3"_s);
+  ASSERT_TRUE(spy_new_or_updated.wait(10000));
+  QStringList filenames;
+  const SongList songs = backend_->GetAllSongs();
+  for (const Song &song : songs) {
+    filenames << song.url().toLocalFile();
+  }
+  EXPECT_TRUE(filenames.contains(album_path + u"/02.mp3"_s));
+
+}
+
+// Regression test: after the file system watcher overflowed, a saved subdirectory in a link to a directory above it was watched again, so removing it also removed the watch of the directory it is.
+TEST_F(CollectionWatcherTest, OverflowWithSubdirectoryInLinkToParentDirectoryKeepsWatch) {
+
+  // Not in the temporary directory, which is often a tmpfs, which the collection watcher ignores.
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString collection_path = temp_dir.filePath(u"Music"_s);
+  const QString album_path = collection_path + u"/Album"_s;
+  ASSERT_TRUE(QDir().mkpath(album_path));
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, album_path + u"/01.mp3"_s));
+  MakeReadable(album_path + u"/01.mp3"_s);
+  ASSERT_TRUE(QFile::link(temp_dir.path(), album_path + u"/Up"_s));
+
+  // The subdirectory in the link was saved by a version which scanned it.
+  backend_->AddDirectory(collection_path);
+  ScanDirectoryToCollection(collection_path);
+  const QStringList subdir_paths = QStringList() << collection_path << album_path << album_path + u"/Up/Music/Album"_s;
+  CollectionSubdirectoryList subdirs;
+  for (const QString &path : subdir_paths) {
+    CollectionSubdirectory subdir;
+    subdir.directory_id = 1;
+    subdir.path = path;
+    subdir.mtime = QFileInfo(path).lastModified().toSecsSinceEpoch();
+    subdirs << subdir;
+  }
+  backend_->AddOrUpdateSubdirs(subdirs);
+  ASSERT_EQ(1, backend_->GetAllSongs().count());
+
+  // Without the scan at startup, the subdirectory in the link is still there when the watches are added again after the overflow, and it's removed by the scan for the overflow.
+  const ScopedCollectionSetting startup_scan_disabled(CollectionSettings::kStartupScan, false);
+  CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+  watcher.ReloadSettingsAsync();
+  QCoreApplication::processEvents();
+  QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateScannedSongs);
+  QObject::connect(&watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+  QObject::connect(&watcher, &CollectionWatcher::SubdirsDeleted, &*backend_, &CollectionBackend::DeleteSubdirs);
+  CollectionDirectory dir;
+  dir.id = 1;
+  dir.path = collection_path;
+  watcher.AddDirectory(dir, subdirs);
+  ASSERT_TRUE(QMetaObject::invokeMethod(&watcher, "FileSystemWatcherOverflow"));
+  ASSERT_TRUE(QMetaObject::invokeMethod(&watcher, "RescanPathsNow"));
+  QCoreApplication::processEvents();
+  ASSERT_EQ(2, backend_->SubdirsInDirectory(1).count());
+
+  // A file added to the album directory is found by watching it.
+  QSignalSpy spy_new_or_updated(&watcher, &CollectionWatcher::NewOrUpdatedSongs);
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, album_path + u"/02.mp3"_s));
+  MakeReadable(album_path + u"/02.mp3"_s);
+  ASSERT_TRUE(spy_new_or_updated.wait(10000));
+  QStringList filenames;
+  const SongList songs = backend_->GetAllSongs();
+  for (const Song &song : songs) {
+    filenames << song.url().toLocalFile();
+  }
+  EXPECT_TRUE(filenames.contains(album_path + u"/02.mp3"_s));
+
+}
+
+// Regression test: with the collection in the root directory, the directories above the path were checked up to the root directory, which is its own parent, so it never stopped.
+TEST_F(CollectionWatcherTest, LinkCheckStopsAtRootDirectoryCollection) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  ASSERT_TRUE(QDir().mkpath(temp_dir.filePath(u"Album"_s)));
+  ASSERT_TRUE(QFile::link(temp_dir.path(), temp_dir.filePath(u"Album/Up"_s)));
+  const QString root_path = QDir::rootPath();
+
+  // Checked in another thread, so the test fails instead of hanging when it doesn't stop, the thread is left running then.
+  const auto check = [root_path](const QString &path) {
+    auto result = std::make_shared<std::promise<bool>>();
+    std::future<bool> future = result->get_future();
+    std::thread([result, root_path, path]() { result->set_value(CollectionWatcher::IsInsideLinkToParentDirectory(root_path, path)); }).detach();
+    return future;
+  };
+
+  std::future<bool> album = check(temp_dir.filePath(u"Album"_s));
+  ASSERT_EQ(std::future_status::ready, album.wait_for(std::chrono::seconds(10)));
+  EXPECT_FALSE(album.get());
+
+  std::future<bool> linked_album = check(temp_dir.filePath(u"Album/Up/Album"_s));
+  ASSERT_EQ(std::future_status::ready, linked_album.wait_for(std::chrono::seconds(10)));
+  EXPECT_TRUE(linked_album.get());
+
+  // The collection directory itself is not checked.
+  std::future<bool> root = check(root_path);
+  ASSERT_EQ(std::future_status::ready, root.wait_for(std::chrono::seconds(10)));
+  EXPECT_FALSE(root.get());
+
+}
+
+// When a link to a directory above it changes, the subdirectories in it which were saved before are not changed themselves, they're also removed.
+TEST_F(CollectionWatcherTest, ChangedLinkToParentDirectoryRemovesSavedSubdirectories) {
+
+  // Not in the temporary directory, which is often a tmpfs, which the collection watcher ignores.
+  QTemporaryDir temp_dir(QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s));
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString collection_path = temp_dir.filePath(u"Music"_s);
+  ASSERT_TRUE(QDir().mkpath(collection_path + u"/Album"_s));
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, collection_path + u"/Album/01.mp3"_s));
+  MakeReadable(collection_path + u"/Album/01.mp3"_s);
+  const QString link_path = collection_path + u"/Up"_s;
+  ASSERT_TRUE(QFile::link(temp_dir.path(), link_path));
+
+  // The songs and subdirectories in the link were saved by a version which scanned it, it's scanned like a collection directory, since that's not checked.
+  backend_->AddDirectory(collection_path);
+  ScanDirectoryToCollection(link_path + u"/Music"_s);
+  CollectionSubdirectory link_subdir;
+  link_subdir.directory_id = 1;
+  link_subdir.path = link_path;
+  backend_->AddOrUpdateSubdirs(CollectionSubdirectoryList() << link_subdir);
+  ASSERT_EQ(1, backend_->GetAllSongs().count());
+
+  // Only the changed directory is scanned, not the saved subdirectories.
+  const ScopedCollectionSetting startup_scan_disabled(CollectionSettings::kStartupScan, false);
+  CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+  watcher.ReloadSettingsAsync();
+  QCoreApplication::processEvents();
+  QObject::connect(&watcher, &CollectionWatcher::SongsDeleted, &*backend_, &CollectionBackend::DeleteSongs);
+  QObject::connect(&watcher, &CollectionWatcher::SongsUnavailable, &*backend_, &CollectionBackend::MarkSongsUnavailable);
+  QObject::connect(&watcher, &CollectionWatcher::SubdirsDeleted, &*backend_, &CollectionBackend::DeleteSubdirs);
+  CollectionDirectory dir;
+  dir.id = 1;
+  dir.path = collection_path;
+  watcher.AddDirectory(dir, backend_->SubdirsInDirectory(1));
+  ASSERT_TRUE(QMetaObject::invokeMethod(&watcher, "DirectoryChanged", Q_ARG(QString, link_path)));
+  ASSERT_TRUE(QMetaObject::invokeMethod(&watcher, "RescanPathsNow"));
+
+  int unavailable = 0;
+  const SongList songs = backend_->GetAllSongs();
+  for (const Song &song : songs) {
+    if (song.unavailable()) ++unavailable;
+  }
+  // Like a deleted file, the song is deleted or marked unavailable, depending on the settings.
+  EXPECT_EQ(songs.count(), unavailable);
+  EXPECT_TRUE(backend_->SubdirsInDirectory(1).isEmpty());
+
+}
+#endif
+
 // When the file system watcher lost changes, a changed file in a directory which wasn't changed itself is also found.
 TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowFindsChangedFile) {
 
@@ -2076,5 +2441,82 @@ TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowScanUpdatesLastSeenAndExp
   EXPECT_GE(songs.first().lastseen(), scan_time);
 
 }
+
+#ifdef Q_OS_LINUX
+
+// The tests of case-insensitive filesystems run in a case-insensitive directory given by this environment variable.
+// CollectionWatcherTest.CaseInsensitiveFilesystem runs them on a case-insensitive tmpfs, mounted in a user and mount namespace, so it doesn't need root.
+constexpr char kCaseInsensitiveDirEnv[] = "STRAWBERRY_TEST_CASE_INSENSITIVE_DIR";
+
+class CollectionWatcherCaseInsensitiveTest : public ::testing::Test {
+ protected:
+  void SetUp() override {
+    const QString case_insensitive_path = qEnvironmentVariable(kCaseInsensitiveDirEnv);
+    if (case_insensitive_path.isEmpty()) {
+      GTEST_SKIP() << "Runs on a case-insensitive filesystem from CollectionWatcherTest.CaseInsensitiveFilesystem.";
+    }
+    // The files are created in a directory of their own, which is removed afterwards, so nothing else in the directory is changed.
+    temp_dir_ = std::make_unique<QTemporaryDir>(case_insensitive_path + u"/strawberry_test-XXXXXX"_s);
+    ASSERT_TRUE(temp_dir_->isValid());
+    ASSERT_TRUE(QDir().mkpath(temp_dir_->filePath(u"Data/Music/Album"_s)));
+    // Make sure the directory really is case-insensitive.
+    ASSERT_TRUE(QFileInfo(temp_dir_->filePath(u"DATA/MUSIC/ALBUM"_s)).isDir());
+  }
+
+  std::unique_ptr<QTemporaryDir> temp_dir_;
+};
+
+// Regression test: the target of the link has another case than the directory, so the canonical path of the target, which keeps its case, was not found in the paths of the directories above the link.
+TEST_F(CollectionWatcherCaseInsensitiveTest, LinkToParentDirectoryInOtherCase) {
+
+  const QString collection_path = temp_dir_->filePath(u"Data/Music"_s);
+  const QString album_path = collection_path + u"/Album"_s;
+  ASSERT_TRUE(QFile::link(temp_dir_->filePath(u"data"_s), album_path + u"/Up"_s));
+  ASSERT_TRUE(QFile::link(temp_dir_->filePath(u"data/music/album"_s), album_path + u"/Self"_s));
+  ASSERT_TRUE(QFileInfo(album_path + u"/Up"_s).isDir());
+  ASSERT_TRUE(QFileInfo(album_path + u"/Self"_s).isDir());
+
+  EXPECT_TRUE(CollectionWatcher::IsInsideLinkToParentDirectory(collection_path, album_path + u"/Up"_s));
+  EXPECT_TRUE(CollectionWatcher::IsInsideLinkToParentDirectory(collection_path, album_path + u"/Up/Music/Album"_s));
+  EXPECT_TRUE(CollectionWatcher::IsInsideLinkToParentDirectory(collection_path, album_path + u"/Self"_s));
+  EXPECT_FALSE(CollectionWatcher::IsInsideLinkToParentDirectory(collection_path, album_path));
+
+}
+
+// Runs the tests of case-insensitive filesystems on a case-insensitive tmpfs, which Linux supports since 6.13, in a user and mount namespace.
+TEST(CollectionWatcherCaseInsensitiveFilesystemTest, CaseInsensitiveFilesystem) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const QString mount_path = temp_dir.filePath(u"case-insensitive"_s);
+  ASSERT_TRUE(QDir().mkpath(mount_path));
+  // The tmpfs is only mounted in the namespace, so it's gone when the process in it exits.
+  // A directory is case-insensitive when it's empty and the casefold flag is set on it.
+  const QString script = u"mount -t tmpfs -o casefold tmpfs \"$1\" && mkdir \"$1/music\" && chattr +F \"$1/music\" || exit 77\n"_s
+                         u"%1=\"$1/music\" exec \"$2\" --gtest_color=no --gtest_filter=CollectionWatcherCaseInsensitiveTest.*"_s.arg(QLatin1String(kCaseInsensitiveDirEnv));
+  QProcess process;
+  process.setProcessChannelMode(QProcess::MergedChannels);
+  // The tests are run in one process, also when this test is run in shards.
+  QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
+  environment.remove(u"GTEST_TOTAL_SHARDS"_s);
+  environment.remove(u"GTEST_SHARD_INDEX"_s);
+  environment.remove(u"GTEST_SHARD_STATUS_FILE"_s);
+  process.setProcessEnvironment(environment);
+  process.start(u"unshare"_s, QStringList() << u"--user"_s << u"--map-root-user"_s << u"--mount"_s << u"sh"_s << u"-c"_s << script << u"sh"_s << mount_path << QCoreApplication::applicationFilePath());
+  if (!process.waitForStarted()) {
+    GTEST_SKIP() << "unshare is not available.";
+  }
+  ASSERT_TRUE(process.waitForFinished(60000));
+  const QByteArray output = process.readAll();
+  // unshare fails when user namespaces are not allowed, and the script exits with 77 when a case-insensitive tmpfs is not supported.
+  if (process.exitCode() == 77 || !output.contains("CollectionWatcherCaseInsensitiveTest")) {
+    GTEST_SKIP() << "No case-insensitive filesystem: " << output.toStdString();
+  }
+  EXPECT_EQ(0, process.exitCode()) << output.toStdString();
+  EXPECT_TRUE(output.contains("[  PASSED  ] 1 test.")) << output.toStdString();
+
+}
+
+#endif  // Q_OS_LINUX
 
 }  // namespace
