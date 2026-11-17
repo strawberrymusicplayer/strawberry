@@ -32,6 +32,7 @@
 #include <QThread>
 #include <QtConcurrentRun>
 #include <QAbstractItemModel>
+#include <QPersistentModelIndex>
 #include <QDir>
 #include <QList>
 #include <QVariant>
@@ -358,7 +359,10 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
 
     case MusicStorage::Role_Storage:
       if (!device_info->device_ && device_info->database_id_ != -1) {
-        const_cast<DeviceManager*>(this)->Connect(device_info);
+        // Connect() can show a warning, while the device can be removed from the model, so the device it returns is used.
+        const SharedPtr<ConnectedDevice> connected_device = const_cast<DeviceManager*>(this)->Connect(device_info);
+        if (!connected_device) return QVariant();
+        return QVariant::fromValue<SharedPtr<MusicStorage>>(connected_device);
       }
       if (!device_info->device_) return QVariant();
       return QVariant::fromValue<SharedPtr<MusicStorage>>(device_info->device_);
@@ -368,13 +372,19 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
       if (!device_info->device_) {
         if (device_info->database_id_ == -1 && !device_info->BestBackend()->lister_->DeviceNeedsMount(device_info->BestBackend()->unique_id_)) {
           if (device_info->BestBackend()->lister_->AskForScan(device_info->BestBackend()->unique_id_)) {
+            // The device can be removed from the model, which deletes it, while the dialog is open.
+            const QPersistentModelIndex persistent_idx(idx);
             ScopedPtr<QMessageBox> dialog(new QMessageBox(QMessageBox::Information, tr("Connect device"), tr("This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time."), QMessageBox::Cancel));
             QPushButton *pushbutton = dialog->addButton(tr("Connect device"), QMessageBox::AcceptRole);
             dialog->exec();
             if (dialog->clickedButton() != pushbutton) return QVariant();
+            if (!persistent_idx.isValid()) return QVariant();
           }
         }
-        const_cast<DeviceManager*>(this)->Connect(device_info);
+        // Connect() can show a warning, while the device can be removed from the model, so the device it returns is used.
+        const SharedPtr<ConnectedDevice> connected_device = const_cast<DeviceManager*>(this)->Connect(device_info);
+        if (!connected_device) return QVariant();
+        return QVariant::fromValue<SharedPtr<MusicStorage>>(connected_device);
       }
       if (!device_info->device_) return QVariant();
       return QVariant::fromValue<SharedPtr<MusicStorage>>(device_info->device_);
@@ -629,6 +639,10 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
   const QList<QUrl> urls = device_info->BestBackend()->lister_->MakeDeviceUrls(device_info->BestBackend()->unique_id_);
   if (urls.isEmpty()) return SharedPtr<ConnectedDevice>();
 
+  // The device can be removed from the model, which deletes it, while a warning is shown.
+  const QPersistentModelIndex persistent_idx = ItemToIndex(device_info);
+  bool warning_shown = false;
+
   // Take the first URL that we have a handler for
   QUrl device_url;
   for (const QUrl &url : urls) {
@@ -643,6 +657,7 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
     // If we get here it means that this URL scheme wasn't supported.
     // If it was "ipod" or "mtp" then the user compiled out support and the device won't work properly.
     if (url.scheme() == "mtp"_L1 || url.scheme() == "gphoto2"_L1) {
+      warning_shown = true;
       if (QMessageBox::critical(nullptr, tr("This device will not work properly"),
           tr("This is an MTP device, but you compiled Strawberry without libmtp support.") + u"  "_s +
           tr("If you continue, this device will work slowly and songs copied to it may not work."),
@@ -651,6 +666,7 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
     }
 
     if (url.scheme() == "ipod"_L1) {
+      warning_shown = true;
       if (QMessageBox::critical(nullptr, tr("This device will not work properly"),
           tr("This is an iPod, but you compiled Strawberry without libgpod support.") + "  "_L1 +
           tr("If you continue, this device will work slowly and songs copied to it may not work."),
@@ -669,6 +685,13 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
 
     Q_EMIT DeviceError(tr("This type of device is not supported: %1").arg(url_strings.join(", "_L1)));
     return SharedPtr<ConnectedDevice>();
+  }
+
+  if (warning_shown) {
+    if (!persistent_idx.isValid()) return SharedPtr<ConnectedDevice>();
+    // The device can also have been connected or disconnected meanwhile.
+    if (device_info->device_) return device_info->device_;
+    if (!device_info->BestBackend() || !device_info->BestBackend()->lister_) return SharedPtr<ConnectedDevice>();
   }
 
   QMetaObject meta_object = device_classes_.value(device_url.scheme());
