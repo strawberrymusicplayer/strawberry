@@ -10,7 +10,7 @@ Status values: Planned, In progress, Done.
 Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
-1. The remaining open items: 22, 24, 27, 28, 29, 30, 31, 32, and finally 9 (physical-device verification, which needs a device).
+1. The remaining open items: 22, 24, 27, 28, 29, 30, 31, 32, 33, and finally 9 (physical-device verification, which needs a device).
    Item 23 is investigated and blocked on licensing; items 16, 20, 21 and 26 are done.
 
 ## 18. Review the Android changes for coding best practices
@@ -1286,3 +1286,16 @@ Put compilation artists in an expandable letter group named Various.
 - Coordinate the new lists with item 27's touch scrolling and explicit selection-mode work.
 - Keep each tab's position and selection where practical; handle collection updates and filtering without duplicate tracks in playlist actions.
 - Verify browsing, search, Various, touch gestures and playlist actions on the emulator and FP5.
+
+## 33. Make the Cover Manager usable on Android
+
+**Status:** Planned
+
+**Problem:** The user reports that Tools > Cover Manager is not functional in the current Android layout. This supersedes the earlier "Works" assessment in [the feature audit](./ANDROID_FEATURE_AUDIT.md) for the current layout.
+
+**Goal:** Make it possible to browse album covers and use the existing cover actions by touch on a phone, without changing the desktop layout.
+
+**Approach:**
+- Reproduce the issue on the FP5 and emulator. Identify which controls are clipped, unreachable, or fail to respond to touch.
+- Adapt the Android layout so album browsing, scrolling, and cover actions fit the available screen space. Reuse the existing cover-management logic.
+- Verify browsing and cover actions on the FP5 and emulator in portrait and landscape, including Back navigation.
