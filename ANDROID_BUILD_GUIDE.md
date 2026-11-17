@@ -71,7 +71,7 @@ cmake -S . -B build -DENABLE_ANDROID_QOBUZ_BROWSER_AUTH=ON
 
 Follow the normal APK packaging steps below, including `androiddeployqt`, so the new Java service and manifest are copied into the package.
 Running Gradle alone against an older package directory does not update those sources.
-This option does not restore Tidal, Last.fm, ListenBrainz, Genius or Spotify browser login.
+This option does not enable Tidal, Last.fm, ListenBrainz, Genius or Spotify browser login.
 
 The test flow uses a separate Android `shortService`, not the playback service, to keep a stopped player's local callback server running.
 On Android, the Qobuz settings page saves changes automatically: choices are saved when changed, text fields when editing finishes, and fetched API credentials immediately.
@@ -91,6 +91,28 @@ Portable callback and session regressions run with:
 cmake --build build/native --target qobuzservice_test oauthenticator_test localredirectserver_test --parallel 2
 QT_QPA_PLATFORM=offscreen ctest --test-dir build/native \
   -R '^(qobuzservice_test|oauthenticator_test|localredirectserver_test)$' --output-on-failure
+```
+
+## Experimental Last.fm browser authentication
+
+Last.fm browser login is disabled by default while roadmap item 24 is being validated. Enable it for a test build with:
+
+```bash
+cmake -S . -B build -DENABLE_ANDROID_LASTFM_BROWSER_AUTH=ON
+```
+
+Repackage the APK using the normal Android build steps. In Settings > General > Scrobbler > Last.fm, start login and return within two minutes to cancel or retry.
+The flow uses a separate foreground service and a fresh loopback callback path; it does not depend on playback.
+If the build has no bundled Last.fm credentials, follow the link on the page to [register an app with Last.fm](https://www.last.fm/api/account/create).
+Enter its API key as Client ID and its shared secret as Client secret. These identify the app, not the listener.
+Go back one level and tap Apply before starting login; settings retain their Apply/OK/Cancel behavior.
+An interrupted process cannot resume its old listener and must start a fresh login.
+Provider login and session persistence were confirmed on the FP5. Denial, delayed return and process recreation during login remain unverified. Enter credentials only in the app or browser, not in chat or test logs.
+Portable Last.fm callback and session regressions can be run with:
+
+```bash
+cmake --build build/native --target lastfmscrobbler_test localredirectserver_test --parallel 2
+QT_QPA_PLATFORM=offscreen ctest --test-dir build/native -R '^(lastfmscrobbler_test|localredirectserver_test)$' --output-on-failure
 ```
 
 ## Experimental Spotify plugin registration

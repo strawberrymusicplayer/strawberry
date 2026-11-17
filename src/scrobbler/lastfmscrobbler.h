@@ -25,6 +25,7 @@
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
+#include <QPointer>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -38,6 +39,9 @@ class QNetworkReply;
 class ScrobblerSettingsService;
 class NetworkAccessManager;
 class LocalRedirectServer;
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_LASTFM_BROWSER_AUTH)
+class AndroidBrowserAuthentication;
+#endif
 
 class LastFMScrobbler : public ScrobblerService {
   Q_OBJECT
@@ -67,6 +71,11 @@ class LastFMScrobbler : public ScrobblerService {
   QString username() const { return username_; }
 
   void Authenticate();
+  void CancelAuthentication();
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_LASTFM_BROWSER_AUTH)
+  bool AndroidAuthenticationInProgress() const;
+  void CancelAndroidAuthentication();
+#endif
   void UpdateNowPlaying(const Song &song) override;
   void ClearPlaying() override;
   void Scrobble(const Song &song) override;
@@ -129,11 +138,18 @@ class LastFMScrobbler : public ScrobblerService {
   static QString ErrorString(const ScrobbleErrorCode error);
   void SendScrobbleRequests();
   void CheckScrobblePrevSong();
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_LASTFM_BROWSER_AUTH)
+  bool StartAndroidAuthentication(QString &error);
+  bool CheckAndroidAuthentication();
+  void StopAndroidAuthentication();
+  AndroidBrowserAuthentication *android_browser_authentication_ = nullptr;
+#endif
 
  protected:
   const SharedPtr<NetworkAccessManager> network_;
   ScrobblerCache *cache_;
   LocalRedirectServer *local_redirect_server_;
+  QPointer<QNetworkReply> authentication_reply_;
 
   bool enabled_;
   bool prefer_albumartist_;

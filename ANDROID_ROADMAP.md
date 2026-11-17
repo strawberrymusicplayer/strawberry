@@ -954,6 +954,15 @@ This is the deferred follow-up to feature audit point 14, not a claim that provi
   The Android app target compiles with the option enabled, and native OAuth tests cover callback state validation, denial, token exchange and cancellation.
   The settings page remains a placeholder, so this does not expose a usable Tidal login flow; real authentication, callback delivery and token exchange remain unverified.
 
+**Last.fm implementation under validation:**
+- `ENABLE_ANDROID_LASTFM_BROWSER_AUTH` is a default-off build option. It uses the bounded browser-auth foreground service and a fresh random loopback callback path for each attempt.
+  Cancellation, timeout, failure and logout stop the listener and abort the pending session exchange.
+- The Android scrobbler settings provide login and cancellation when the option is enabled. Apply Last.fm API credential changes before starting login; other settings likewise retain their Apply/OK/Cancel behavior.
+- FP5 validation (2026-11-17): the opt-in APK installed and launched successfully. Applying the API credentials on the parent Scrobbler page opened Last.fm's authorization page. The browser initially appeared to stall after Allow access, but the user subsequently reported being signed in to Strawberry.
+- The user confirmed that Strawberry remained signed in after fully closing and reopening it on the FP5.
+- Denial, delayed return, and process recreation during an active login attempt remain unverified. Keep Last.fm browser login opt-in.
+- Native `lastfmscrobbler_test` and `localredirectserver_test` both pass.
+
 **Next steps:**
 - FP5 feedback: Back dismissed Tidal's missing-client-ID message, but tapping its OK button did not.
   Tidal's configuration and authentication errors now use the same Android-safe, full-page message with a Close button as Qobuz; desktop message boxes are unchanged.
@@ -963,7 +972,7 @@ This is the deferred follow-up to feature audit point 14, not a claim that provi
   Packaging used the installed Android API 34 compile SDK because the configured `android-37` platform path is missing (the installed API 37 directory is named `android-37.0`).
   Actual intent delivery on Android, OAuth state validation through this callback, and return to the active Settings page remain unverified.
   The Android OAuth start and callback guards remain in place, so this does not enable Tidal browser login.
-- Test loopback redirects for Qobuz, Last.fm, ListenBrainz and Genius with playback stopped, including a delayed browser return and process recreation; implement a supported lifecycle or redirect solution where needed.
+- Test loopback redirects for Last.fm, ListenBrainz and Genius with playback stopped, including a delayed browser return and process recreation; implement a supported lifecycle or redirect solution where needed.
 - Verify real provider login and token exchange, denial/cancellation, retry, persistence after restart, refresh and logout using accounts entered directly by the tester.
 - Remove the Android browser-login guards and restore the buttons only after the corresponding flows pass; preserve desktop behavior, existing sessions, ListenBrainz's manual user-token option and browserless client-credentials authentication.
 
