@@ -26,6 +26,7 @@
 #include <cstdint>
 #include <cstring>
 #include <cmath>
+#include <mutex>
 #include <algorithm>
 #include <limits>
 
@@ -182,6 +183,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       next_beginning_offset_nanosec_(-1),
       next_end_offset_nanosec_(-1),
       ignore_next_seek_(false),
+      track_changes_(0),
       ignore_tags_(false),
       pipeline_connected_(false),
       pipeline_active_(false),
@@ -189,6 +191,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       current_state_(GST_STATE_NULL),
       pending_state_(GST_STATE_NULL),
       pending_seek_nanosec_(-1),
+      pending_seek_track_changes_(-1),
       pending_seek_ready_previous_state_(GST_STATE_NULL),
       last_known_position_ns_(0),
       next_uri_set_(false),
@@ -1414,9 +1417,10 @@ void GstEnginePipeline::PadAddedCallback(GstElement *element, GstPad *pad, gpoin
 
   instance->pipeline_connected_ = true;
   if (instance->pipeline_active_.load()) {
-    const qint64 pending_seek = instance->pending_seek_nanosec_.exchange(-1);
+    int expected_track_changes = -1;
+    const qint64 pending_seek = instance->TakePendingSeek(&expected_track_changes);
     if (pending_seek != -1) {
-      QMetaObject::invokeMethod(instance, [instance, pending_seek]() { instance->Seek(pending_seek); }, Qt::QueuedConnection);
+      QMetaObject::invokeMethod(instance, [instance, pending_seek, expected_track_changes]() { instance->Seek(pending_seek, expected_track_changes); }, Qt::QueuedConnection);
     }
   }
 
@@ -1664,6 +1668,12 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
   const qint64 end_offset = instance->end_offset_nanosec_.load();
   if (end_offset > 0 && end_time > end_offset) {
     if (instance->HasMatchingNextUrl() && instance->next_beginning_offset_nanosec_.load() == end_offset) {
+      // A seek which is being submitted is for the current section, the next buffer is checked again after it.
+      std::unique_lock<QMutex> seek_section_lock(instance->mutex_seek_section_, std::try_to_lock);
+      if (!seek_section_lock.owns_lock()) {
+        return GST_PAD_PROBE_OK;
+      }
+
       // The "next" song is actually the next segment of this file - so cheat and keep on playing, but just tell the Engine we've moved on.
       // Promote next URL+offset to current under both locks so observers see a consistent (URL, offset) pair.
       {
@@ -1676,6 +1686,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
         instance->next_gst_url_.clear();
         instance->next_beginning_offset_nanosec_.store(0);
         instance->next_end_offset_nanosec_.store(0);
+        ++instance->track_changes_;
       }
 
       // The stream continues, so there is no stream start which ends the transition.
@@ -1865,6 +1876,7 @@ void GstEnginePipeline::StreamStartMessageReceived() {
     end_offset_nanosec_.store(next_end_offset_nanosec_.load());
     next_beginning_offset_nanosec_.store(0);
     next_end_offset_nanosec_.store(0);
+    ++track_changes_;
   }
 
   // The new track may have a different sample rate, which makes the sink renegotiate in place and can reset the device stream volume/mute (the audio goes silent, or unmutes, while playback continues).
@@ -2462,7 +2474,7 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::Play(const bool pause, const qu
 
   if (offset_nanosec != 0) {
     // Preroll paused so we can seek to the offset while the pipeline is prerolling, then transition to the requested state once the seek completes (pending_state_ carries it).
-    pending_seek_nanosec_ = static_cast<qint64>(offset_nanosec);
+    SetPendingSeek(static_cast<qint64>(offset_nanosec), -1);
     if (!pause) {
       pending_state_ = GST_STATE_PLAYING;
     }
@@ -2573,7 +2585,14 @@ void GstEnginePipeline::DeviceWarmupElapsed(const quint64 device_warmup_generati
 
 }
 
-bool GstEnginePipeline::Seek(const qint64 nanosec) {
+bool GstEnginePipeline::Seek(const qint64 nanosec, const int expected_track_changes) {
+
+  // The buffer probe doesn't move on to the next section until the seek is submitted, so the seek can't be applied to the next section.
+  QMutexLocker seek_section_locker(&mutex_seek_section_);
+  if (expected_track_changes >= 0 && track_changes_.load() != expected_track_changes) {
+    qLog(Debug) << "Not seeking to" << nanosec << "the track changed since the seek was requested";
+    return true;
+  }
 
   if (ignore_next_seek_.load()) {
     ignore_next_seek_ = false;
@@ -2582,7 +2601,7 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
 
   if (next_uri_set_.load() || next_uri_reset_.load()) {
     qLog(Debug) << "Seek to" << nanosec << "requested, but next uri is set, adding to pending seek to revert next uri.";
-    pending_seek_nanosec_ = nanosec;
+    SetPendingSeek(nanosec, expected_track_changes);
     if (!next_uri_need_reset_.load() && !next_uri_reset_.load()) {
       next_uri_need_reset_ = true;
       pending_seek_ready_previous_state_ = state();
@@ -2593,16 +2612,17 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
 
   if (!pipeline_connected_.load() || !pipeline_active_.load()) {
     qLog(Debug) << "Seek to" << nanosec << "requested, but pipeline is not active, adding to pending seek.";
-    pending_seek_nanosec_ = nanosec;
+    SetPendingSeek(nanosec, expected_track_changes);
     return true;
   }
 
-  pending_seek_nanosec_ = -1;
+  SetPendingSeek(-1, -1);
   last_known_position_ns_.store(nanosec);
 
   qLog(Debug) << "Seeking to" << nanosec;
 
   const bool success = gst_element_seek_simple(pipeline_, GST_FORMAT_TIME, GST_SEEK_FLAG_FLUSH, nanosec);
+  seek_section_locker.unlock();
 
   if (success) {
     qLog(Debug) << "Seek succeeded";
@@ -2626,17 +2646,34 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
 
 }
 
-void GstEnginePipeline::SeekAsync(const qint64 nanosec) {
+void GstEnginePipeline::SeekAsync(const qint64 nanosec, const int expected_track_changes) {
 
-  QMetaObject::invokeMethod(this, [this, nanosec]() { Seek(nanosec); }, Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, [this, nanosec, expected_track_changes]() { Seek(nanosec, expected_track_changes); }, Qt::QueuedConnection);
 
 }
 
-void GstEnginePipeline::SeekDelayed(const qint64 nanosec) {
+void GstEnginePipeline::SeekDelayed(const qint64 nanosec, const int expected_track_changes) {
 
-  QMetaObject::invokeMethod(this, [this, nanosec]() {
-    QTimer::singleShot(100, this, [this, nanosec]() { Seek(nanosec); });
+  QMetaObject::invokeMethod(this, [this, nanosec, expected_track_changes]() {
+    QTimer::singleShot(100, this, [this, nanosec, expected_track_changes]() { Seek(nanosec, expected_track_changes); });
   }, Qt::QueuedConnection);
+
+}
+
+void GstEnginePipeline::SetPendingSeek(const qint64 nanosec, const int expected_track_changes) {
+
+  QMutexLocker l(&mutex_pending_seek_);
+  pending_seek_track_changes_ = expected_track_changes;
+  pending_seek_nanosec_ = nanosec;
+
+}
+
+qint64 GstEnginePipeline::TakePendingSeek(int *expected_track_changes) {
+
+  QMutexLocker l(&mutex_pending_seek_);
+  *expected_track_changes = pending_seek_track_changes_;
+  pending_seek_track_changes_ = -1;
+  return pending_seek_nanosec_.exchange(-1);
 
 }
 
@@ -2657,13 +2694,19 @@ void GstEnginePipeline::ProcessPendingSeek(const GstState state) {
     }
     pending_seek_ready_previous_state_ = GST_STATE_NULL;
     next_uri_reset_ = false;
-    SeekDelayed(pending_seek_nanosec_.load());
+    int expected_track_changes = -1;
+    const qint64 pending_seek = TakePendingSeek(&expected_track_changes);
+    if (pending_seek != -1) {
+      SeekDelayed(pending_seek, expected_track_changes);
+    }
   }
   else {
-    SeekAsync(pending_seek_nanosec_.load());
+    int expected_track_changes = -1;
+    const qint64 pending_seek = TakePendingSeek(&expected_track_changes);
+    if (pending_seek != -1) {
+      SeekAsync(pending_seek, expected_track_changes);
+    }
   }
-
-  pending_seek_nanosec_ = -1;
 
 }
 

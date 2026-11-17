@@ -184,6 +184,9 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   QTimer *seek_timer_;
   bool waiting_to_seek_;
   quint64 seek_pos_;
+  // The pipeline and its track the waiting seek is for, it's not applied to another pipeline or track.
+  int seek_pipeline_id_;
+  int seek_track_changes_;
 
   int timer_id_;
 

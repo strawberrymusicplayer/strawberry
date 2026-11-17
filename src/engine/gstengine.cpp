@@ -110,6 +110,8 @@ GstEngine::GstEngine(SharedPtr<TaskManager> task_manager, QObject *parent)
       seek_timer_(new QTimer(this)),
       waiting_to_seek_(false),
       seek_pos_(0),
+      seek_pipeline_id_(-1),
+      seek_track_changes_(0),
       timer_id_(-1),
       has_faded_out_to_pause_(false),
       scope_chunk_(0),
@@ -476,6 +478,8 @@ void GstEngine::Seek(const quint64 offset_nanosec) {
   if (!current_pipeline_) return;
 
   seek_pos_ = beginning_offset_nanosec_ + offset_nanosec;
+  seek_pipeline_id_ = current_pipeline_->id();
+  seek_track_changes_ = current_pipeline_->track_changes();
   waiting_to_seek_ = true;
 
   if (!seek_timer_->isActive()) {
@@ -821,7 +825,14 @@ void GstEngine::SeekNow() {
 
   if (!current_pipeline_) return;
 
-  if (!current_pipeline_->Seek(static_cast<qint64>(seek_pos_))) {
+  // The seek was for the previous track, when another track was loaded or the pipeline moved on to the next track while the seek was waiting.
+  if (current_pipeline_->id() != seek_pipeline_id_ || current_pipeline_->track_changes() != seek_track_changes_) {
+    qLog(Debug) << "Not seeking, the track changed since the seek was requested";
+    return;
+  }
+
+  // The pipeline checks the track again, it can move on to the next section of a multipart file on the streaming thread.
+  if (!current_pipeline_->Seek(static_cast<qint64>(seek_pos_), seek_track_changes_)) {
     qLog(Warning) << "Seek failed";
   }
 
