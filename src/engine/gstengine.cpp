@@ -121,7 +121,9 @@ GstEngine::GstEngine(SharedPtr<TaskManager> task_manager, QObject *parent)
       discovery_discovered_cb_id_(-1),
       delayed_state_(State::Empty),
       delayed_state_pause_(false),
-      delayed_state_offset_nanosec_(0) {
+      delayed_state_offset_nanosec_(0),
+      play_request_id_(0),
+      pause_request_id_(0) {
 
   seek_timer_->setSingleShot(true);
   seek_timer_->setInterval(kSeekDelayNanosec / kNsecPerMsec);
@@ -178,6 +180,11 @@ EngineBase::State GstEngine::state() const {
   // Report playback that is waiting for the pipeline to preroll or the audio device to warm up as playing, so pausing pauses it, instead of unpausing it.
   if (current_pipeline_ && current_pipeline_->state() != GST_STATE_PLAYING && current_pipeline_->play_pending()) {
     return State::Playing;
+  }
+
+  // Paused before or while the pipeline is reset for a seek, the state is READY until the pipeline prerolled again, so unpausing resumes it.
+  if (current_pipeline_ && current_pipeline_->paused_during_seek_reset()) {
+    return State::Paused;
   }
 
   return actual_state();
@@ -308,13 +315,21 @@ bool GstEngine::Play(const bool pause, const quint64 offset_nanosec) {
     return false;
   }
 
-  if (current_pipeline_->state() == GstState::GST_STATE_PLAYING) {
+  // While the pipeline is reset for a seek, the state can still be PLAYING from before the reset, so the request is applied by the pipeline after the reset, otherwise the state from before the seek is restored over it, like over a request to start paused.
+  // Also an offset, like the start of a CUE section of the next track, the seek of the engine can wait for the seek delay, and the pipeline then resumes playback before the offset.
+  if (current_pipeline_->state() == GstState::GST_STATE_PLAYING && !current_pipeline_->seek_reset_pending()) {
     if (offset_nanosec != 0 || beginning_offset_nanosec_ != 0) {
+      // The completion of an older request to play is replaced by this.
+      ++play_request_id_;
       Seek(offset_nanosec);
-      PlayDone(GST_STATE_CHANGE_SUCCESS, false, current_pipeline_->id());
+      PlayDone(GST_STATE_CHANGE_SUCCESS, false, current_pipeline_->id(), true);
     }
     return true;
   }
+
+  // A seek which waits for the seek delay is older than this request, which starts from its own offset, otherwise it replaces that offset when the delay elapsed, like during a seek reset.
+  // Also when this request is delayed for an exclusive pipeline, a seek while it is delayed changes the offset it starts from instead.
+  waiting_to_seek_ = false;
 
   if (OldExclusivePipelineActive()) {
     qLog(Debug) << "Delaying play because a exclusive pipeline is already active...";
@@ -334,12 +349,20 @@ bool GstEngine::Play(const bool pause, const quint64 offset_nanosec) {
   delayed_state_pause_ = false;
   delayed_state_offset_nanosec_ = 0;
 
+  // An older request to play on the same pipeline is replaced by this, its state change can finish after this one, like when this one is deferred while the next uri is reset.
+  const int play_request_id = ++play_request_id_;
+  // A pause or unpause before the state change finished, like while a deferred request waits for the next uri to be reset, already reported the newer state.
+  const int pause_request_id = pause_request_id_;
   QFutureWatcher<GstStateChangeReturn> *watcher = new QFutureWatcher<GstStateChangeReturn>(this);
   const int pipeline_id = current_pipeline_->id();
-  QObject::connect(watcher, &QFutureWatcher<GstStateChangeReturn>::finished, this, [this, watcher, pipeline_id, pause]() {
+  QObject::connect(watcher, &QFutureWatcher<GstStateChangeReturn>::finished, this, [this, watcher, pipeline_id, pause, play_request_id, pause_request_id]() {
     const GstStateChangeReturn ret = watcher->result();
     watcher->deleteLater();
-    PlayDone(ret, pause, pipeline_id);
+    if (play_request_id != play_request_id_) {
+      qLog(Debug) << "Not reporting the state change of pipeline" << pipeline_id << "a newer request to play was made";
+      return;
+    }
+    PlayDone(ret, pause, pipeline_id, pause_request_id == pause_request_id_);
   });
   QFuture<GstStateChangeReturn> future = current_pipeline_->Play(pause, beginning_offset_nanosec_ + offset_nanosec);
   watcher->setFuture(future);
@@ -394,6 +417,7 @@ void GstEngine::Pause() {
     const bool changed = delayed_state_ != State::Paused;
     delayed_state_ = State::Paused;
     delayed_state_pause_ = true;
+    ++pause_request_id_;
     if (changed) {
       Q_EMIT StateChanged(State::Paused);
     }
@@ -416,12 +440,14 @@ void GstEngine::Pause() {
   // Playback is waiting for the pipeline to preroll or the audio device to warm up, so hold it, otherwise it starts playing when it is ready.
   if (current_pipeline_->state() != GST_STATE_PLAYING && current_pipeline_->play_pending()) {
     current_pipeline_->PauseBeforePlaying();
+    ++pause_request_id_;
     Q_EMIT StateChanged(State::Paused);
     StopTimers();
     return;
   }
 
   if (current_pipeline_->state() == GST_STATE_PLAYING) {
+    ++pause_request_id_;
     if (fadeout_pause_enabled_ && current_pipeline_->fading_enabled() && !AnyExclusivePipelineActive()) {
       StartFadeoutPause();
     }
@@ -442,6 +468,7 @@ void GstEngine::Unpause() {
   if (delayed_state_ == State::Paused) {
     delayed_state_ = State::Playing;
     delayed_state_pause_ = false;
+    ++pause_request_id_;
     Q_EMIT StateChanged(State::Playing);
     return;
   }
@@ -449,12 +476,14 @@ void GstEngine::Unpause() {
   // Paused while playback was waiting to start, so let it start.
   if (current_pipeline_->paused_before_playing()) {
     current_pipeline_->UnpauseBeforePlaying();
+    ++pause_request_id_;
     Q_EMIT StateChanged(State::Playing);
     StartTimers();
     return;
   }
 
-  if (current_pipeline_->state() == GST_STATE_PAUSED) {
+  // Also when paused during a seek reset, the pipeline then starts playback after the reset.
+  if (current_pipeline_->state() == GST_STATE_PAUSED || current_pipeline_->paused_during_seek_reset()) {
 
     // Check if we faded out last time. If yes, fade in no matter what the settings say.
     // If we pause with fadeout, deactivate fadeout and resume playback, the player would be muted if not faded in.
@@ -465,6 +494,7 @@ void GstEngine::Unpause() {
     }
 
     current_pipeline_->SetState(GST_STATE_PLAYING);
+    ++pause_request_id_;
 
     Q_EMIT StateChanged(State::Playing);
 
@@ -476,6 +506,12 @@ void GstEngine::Unpause() {
 void GstEngine::Seek(const quint64 offset_nanosec) {
 
   if (!current_pipeline_) return;
+
+  // Playback is waiting for an exclusive pipeline to finish, so it starts from this position, the seek is newer than the offset playback was requested from.
+  if (delayed_state_ == State::Playing || delayed_state_ == State::Paused) {
+    delayed_state_offset_nanosec_ = offset_nanosec;
+    return;
+  }
 
   seek_pos_ = beginning_offset_nanosec_ + offset_nanosec;
   seek_pipeline_id_ = current_pipeline_->id();
@@ -838,7 +874,7 @@ void GstEngine::SeekNow() {
 
 }
 
-void GstEngine::PlayDone(const GstStateChangeReturn state_change_return, const bool pause, const int pipeline_id) {
+void GstEngine::PlayDone(const GstStateChangeReturn state_change_return, const bool pause, const int pipeline_id, const bool report_state) {
 
   if (!current_pipeline_ || pipeline_id != current_pipeline_->id()) {
     return;
@@ -851,14 +887,17 @@ void GstEngine::PlayDone(const GstStateChangeReturn state_change_return, const b
     return;
   }
 
-  // Paused before the pipeline finished starting, so playback is held until unpaused.
-  const bool paused = pause || current_pipeline_->paused_before_playing();
+  // A pause or unpause after the request to play already reported the state, and started or stopped the timers.
+  if (report_state) {
+    // Paused before the pipeline finished starting, so playback is held until unpaused.
+    const bool paused = pause || current_pipeline_->paused_before_playing();
 
-  if (!paused) {
-    StartTimers();
+    if (!paused) {
+      StartTimers();
+    }
+
+    Q_EMIT StateChanged(paused ? State::Paused : State::Playing);
   }
-
-  Q_EMIT StateChanged(paused ? State::Paused : State::Playing);
 
   // We've successfully started playing a media stream with this URL
   Q_EMIT ValidSongRequested(stream_url_);
@@ -999,7 +1038,11 @@ GstEnginePipelinePtr GstEngine::CreatePipeline() {
   pipeline->set_buffer_duration_nanosec(buffer_duration_nanosec_);
   pipeline->set_buffer_low_watermark(buffer_low_watermark_);
   pipeline->set_buffer_high_watermark(buffer_high_watermark_);
-  pipeline->set_device_warmup_duration_ms(current_pipeline_ ? 0 : device_warmup_duration_ms_);
+  // The audio device is already active when the current pipeline is playing, so the warm-up is skipped for starting playback, it is still used when the pipeline opens the device again, like after a seek reset.
+  // Not when the current pipeline is only prerolled, like when paused, the device has been idle, and the output can be suspended, or it is still warming up, like for unpausing.
+  // A pipeline which was only loaded, and not started, did not open the device.
+  const bool device_open = current_pipeline_ && current_pipeline_->state() == GST_STATE_PLAYING;
+  pipeline->set_device_warmup_duration_ms(device_open ? 0 : device_warmup_duration_ms_, device_warmup_duration_ms_);
   pipeline->set_proxy_settings(proxy_address_, proxy_authentication_, proxy_user_, proxy_pass_);
   pipeline->set_channels(channels_enabled_, channels_);
   pipeline->set_bs2b_enabled(bs2b_enabled_);

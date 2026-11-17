@@ -864,7 +864,7 @@ TEST(GstEnginePipelineTest, PauseDuringDeviceWarmupHoldsPlayback) {
 
   GstEnginePipeline pipeline;
   pipeline.set_output_device(u"fakesink"_s, QVariant());
-  pipeline.set_device_warmup_duration_ms(500);
+  pipeline.set_device_warmup_duration_ms(500, 500);
   QString error;
   ASSERT_TRUE(pipeline.InitFromUrl(url, url, url.toEncoded(), 0, 0, 0.0, error)) << error.toStdString();
 
@@ -899,7 +899,7 @@ TEST(GstEnginePipelineTest, PauseDuringDirectStartHoldsPlayback) {
 
   GstEnginePipeline pipeline;
   pipeline.set_output_device(u"fakesink"_s, QVariant());
-  pipeline.set_device_warmup_duration_ms(0);
+  pipeline.set_device_warmup_duration_ms(0, 0);
   QString error;
   ASSERT_TRUE(pipeline.InitFromUrl(url, url, url.toEncoded(), 0, 0, 0.0, error)) << error.toStdString();
 
@@ -930,7 +930,7 @@ TEST(GstEnginePipelineTest, PlayPendingUntilPlaying) {
   for (const int device_warmup_duration_ms : {0, 300}) {
     GstEnginePipeline pipeline;
     pipeline.set_output_device(u"fakesink"_s, QVariant());
-    pipeline.set_device_warmup_duration_ms(device_warmup_duration_ms);
+    pipeline.set_device_warmup_duration_ms(device_warmup_duration_ms, device_warmup_duration_ms);
     QString error;
     ASSERT_TRUE(pipeline.InitFromUrl(url, url, url.toEncoded(), 0, 0, 0.0, error)) << error.toStdString();
 
@@ -958,7 +958,7 @@ TEST(GstEnginePipelineTest, UnpauseBeforePauseIsAppliedResumesPlayback) {
 
   GstEnginePipeline pipeline;
   pipeline.set_output_device(u"fakesink"_s, QVariant());
-  pipeline.set_device_warmup_duration_ms(0);
+  pipeline.set_device_warmup_duration_ms(0, 0);
   QString error;
   ASSERT_TRUE(pipeline.InitFromUrl(url, url, url.toEncoded(), 0, 0, 0.0, error)) << error.toStdString();
 
@@ -1017,7 +1017,7 @@ TEST(GstEnginePipelineTest, SupersededPlayingRequestIsNotPending) {
 
   GstEnginePipeline pipeline;
   pipeline.set_output_device(u"fakesink"_s, QVariant());
-  pipeline.set_device_warmup_duration_ms(0);
+  pipeline.set_device_warmup_duration_ms(0, 0);
   QString error;
   ASSERT_TRUE(pipeline.InitFromUrl(url, url, url.toEncoded(), 0, 0, 0.0, error)) << error.toStdString();
 
@@ -1042,7 +1042,7 @@ TEST(GstEnginePipelineTest, StaleStateMessagesKeepPlaybackPending) {
 
   GstEnginePipeline pipeline;
   pipeline.set_output_device(u"fakesink"_s, QVariant());
-  pipeline.set_device_warmup_duration_ms(0);
+  pipeline.set_device_warmup_duration_ms(0, 0);
   QString error;
   ASSERT_TRUE(pipeline.InitFromUrl(url, url, url.toEncoded(), 0, 0, 0.0, error)) << error.toStdString();
 
@@ -1089,7 +1089,7 @@ TEST(GstEnginePipelineTest, CancelledWarmupIsNotPending) {
 
   GstEnginePipeline pipeline;
   pipeline.set_output_device(u"fakesink"_s, QVariant());
-  pipeline.set_device_warmup_duration_ms(2000);
+  pipeline.set_device_warmup_duration_ms(2000, 2000);
   QString error;
   ASSERT_TRUE(pipeline.InitFromUrl(url, url, url.toEncoded(), 0, 0, 0.0, error)) << error.toStdString();
 
@@ -1126,7 +1126,7 @@ TEST(GstEnginePipelineTest, WarmupIsPendingWhileBuffering) {
 
   GstEnginePipeline pipeline;
   pipeline.set_output_device(u"fakesink"_s, QVariant());
-  pipeline.set_device_warmup_duration_ms(2000);
+  pipeline.set_device_warmup_duration_ms(2000, 2000);
   QString error;
   ASSERT_TRUE(pipeline.InitFromUrl(url, url, url.toEncoded(), 0, 0, 0.0, error)) << error.toStdString();
 
@@ -1157,7 +1157,7 @@ TEST(GstEnginePipelineTest, WarmupAfterQuickUnpauseResumesPlayback) {
   GstEnginePipeline pipeline;
   pipeline.set_output_device(u"fakesink"_s, QVariant());
   // The warm-up timers don't elapse during the test, the test elapses the warm-up itself, so it controls the order of the state messages.
-  pipeline.set_device_warmup_duration_ms(600000);
+  pipeline.set_device_warmup_duration_ms(600000, 600000);
   QString error;
   ASSERT_TRUE(pipeline.InitFromUrl(url, url, url.toEncoded(), 0, 0, 0.0, error)) << error.toStdString();
 
@@ -1238,7 +1238,7 @@ TEST(GstEnginePipelineTest, FailedStartupSeekStartsPlayback) {
     const QUrl url(QString::fromLatin1(gst_url));
     GstEnginePipeline pipeline;
     pipeline.set_output_device(u"fakesink"_s, QVariant());
-    pipeline.set_device_warmup_duration_ms(0);
+    pipeline.set_device_warmup_duration_ms(0, 0);
     QString error;
     ASSERT_TRUE(pipeline.InitFromUrl(url, url, gst_url, 0, 0, 0.0, error)) << error.toStdString();
 
