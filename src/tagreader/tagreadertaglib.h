@@ -110,7 +110,7 @@ class TagReaderTagLib : public TagReaderBase {
   static void SetLyricsFromTag(Song *song, const QString &lyrics);
   static void SetSyncedLyricsFromTag(Song *song, const QString &synced_lyrics);
   static bool IsSyncedLyrics(const QString &lyrics);
-  static bool HasPlainLyrics(const TagLib::Ogg::XiphComment *vorbis_comment);
+  static bool HasPlainLyrics(const TagLib::Ogg::XiphComment *vorbis_comment, const char *field);
   static bool IsSupportedSyncLyricsFrame(const TagLib::ID3v2::SynchronizedLyricsFrame *frame);
   static QString SynchedTextToLRC(const TagLib::ID3v2::SynchronizedLyricsFrame::SynchedTextList &synched_text);
   static std::optional<TagLib::ID3v2::SynchronizedLyricsFrame::SynchedTextList> LRCToSynchedText(const QString &lrc);

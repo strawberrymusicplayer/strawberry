@@ -2736,6 +2736,104 @@ TEST_F(TagReaderTest, TestFLACAudioFileSyncedLyricsWithOnlyWhitespaceClearLyrics
 
 }
 
+TEST_F(TagReaderTest, TestFLACAudioFileSyncedLyricsFieldWithPlainLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  // The test file has plain lyrics in LYRICS, which take precedence, an empty value removes them.
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "");
+  SetFLACVorbisCommentField(r.fileName(), "SYNCEDLYRICS", "strawberry lyrics");
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"strawberry lyrics"_s, song.lyrics());
+  EXPECT_EQ(Song::StorageType::Tag, song.lyrics_storage_type());
+  EXPECT_TRUE(song.synced_lyrics().isEmpty());
+  EXPECT_EQ(Song::StorageType::None, song.synced_lyrics_storage_type());
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFilePlainLyricsFieldTakesPrecedenceOverPlainSyncedLyricsField) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "new lyrics");
+  SetFLACVorbisCommentField(r.fileName(), "SYNCEDLYRICS", "old lyrics");
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"new lyrics"_s, song.lyrics());
+  EXPECT_TRUE(song.synced_lyrics().isEmpty());
+
+}
+
+// Regression test: SYNCEDLYRICS which is not valid LRC was read as synchronized lyrics, which then made saving any tag fail.
+TEST_F(TagReaderTest, TestFLACAudioFileSavingTagsWithPlainSyncedLyricsField) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  // The test file has plain lyrics in LYRICS, which take precedence, an empty value removes them.
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "");
+  SetFLACVorbisCommentField(r.fileName(), "SYNCEDLYRICS", "strawberry lyrics");
+
+  Song song = ReadSongFromFile(r.fileName());
+  song.set_title(u"new title"_s);
+  EXPECT_TRUE(WriteSongToFile(song, r.fileName()).success());
+
+  const Song song_reread = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"new title"_s, song_reread.title());
+  EXPECT_EQ(u"strawberry lyrics"_s, song_reread.lyrics());
+  EXPECT_TRUE(song_reread.synced_lyrics().isEmpty());
+
+  const TagLib::Ogg::FieldListMap fields = FLACVorbisCommentFields(r.fileName());
+  EXPECT_EQ(TagLib::StringList("strawberry lyrics"), fields["UNSYNCEDLYRICS"]);
+  EXPECT_FALSE(fields.contains("SYNCEDLYRICS"));
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileClearingLyricsRemovesPlainSyncedLyricsField) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  // The test file has plain lyrics in LYRICS, which take precedence, an empty value removes them.
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "");
+  SetFLACVorbisCommentField(r.fileName(), "SYNCEDLYRICS", "strawberry lyrics");
+
+  EXPECT_TRUE(SaveLyricsToFile(QString(), r.fileName()).success());
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_TRUE(song.lyrics().isEmpty());
+  EXPECT_FALSE(FLACVorbisCommentFields(r.fileName()).contains("SYNCEDLYRICS"));
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileSavingSyncedLyricsKeepsPlainLyricsFromSyncedLyricsField) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  // The test file has plain lyrics in LYRICS, which take precedence, an empty value removes them.
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "");
+  SetFLACVorbisCommentField(r.fileName(), "SYNCEDLYRICS", "strawberry lyrics");
+
+  EXPECT_TRUE(SaveSyncedLyricsToFile(u"[00:01.00]Line one"_s, r.fileName()).success());
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"[00:01.00]Line one"_s, song.synced_lyrics());
+  EXPECT_EQ(u"strawberry lyrics"_s, song.lyrics());
+
+  const TagLib::Ogg::FieldListMap fields = FLACVorbisCommentFields(r.fileName());
+  EXPECT_EQ(TagLib::StringList("strawberry lyrics"), fields["UNSYNCEDLYRICS"]);
+  EXPECT_FALSE(fields.contains("SYNCEDLYRICS"));
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileSavingSyncedLyricsKeepsPlainLyricsFromLyricsFieldOverSyncedLyricsField) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "new lyrics");
+  SetFLACVorbisCommentField(r.fileName(), "SYNCEDLYRICS", "old lyrics");
+
+  EXPECT_TRUE(SaveSyncedLyricsToFile(u"[00:01.00]Line one"_s, r.fileName()).success());
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"[00:01.00]Line one"_s, song.synced_lyrics());
+  EXPECT_EQ(u"new lyrics"_s, song.lyrics());
+
+}
+
 TEST_F(TagReaderTest, TestWavPackAudioFileSyncedLyrics) {
 
   TemporaryResource r(u":/audio/strawberry.wv"_s);

@@ -929,7 +929,16 @@ void TagReaderTagLib::ParseVorbisComments(const TagLib::Ogg::FieldListMap &map, 
   }
 
   // LYRICS can contain either synchronized or plain lyrics, synchronized lyrics in it take precedence over SYNCEDLYRICS and UNSYNCEDLYRICS takes precedence over plain lyrics in it.
-  if (map.contains(kVorbisComment_SyncedLyrics)) SetSyncedLyricsFromTag(song, TagLibStringToQString(map[kVorbisComment_SyncedLyrics].front()));
+  // SYNCEDLYRICS which is not valid LRC is read as plain lyrics, with the lowest precedence, since it can't be saved back as synchronized lyrics.
+  if (map.contains(kVorbisComment_SyncedLyrics)) {
+    const QString synced_lyrics = TagLibStringToQString(map[kVorbisComment_SyncedLyrics].front());
+    if (IsSyncedLyrics(synced_lyrics)) {
+      SetSyncedLyricsFromTag(song, synced_lyrics);
+    }
+    else {
+      SetLyricsFromTag(song, synced_lyrics);
+    }
+  }
   if (map.contains(kVorbisComment_Lyrics)) {
     const QString lyrics = TagLibStringToQString(map[kVorbisComment_Lyrics].front());
     if (IsSyncedLyrics(lyrics)) {
@@ -1707,10 +1716,10 @@ bool TagReaderTagLib::IsSyncedLyrics(const QString &lyrics) {
 
 }
 
-bool TagReaderTagLib::HasPlainLyrics(const TagLib::Ogg::XiphComment *vorbis_comment) {
+bool TagReaderTagLib::HasPlainLyrics(const TagLib::Ogg::XiphComment *vorbis_comment, const char *field) {
 
   const TagLib::Ogg::FieldListMap &map = vorbis_comment->fieldListMap();
-  const TagLib::Ogg::FieldListMap::ConstIterator it = map.find(kVorbisComment_Lyrics);
+  const TagLib::Ogg::FieldListMap::ConstIterator it = map.find(field);
   return it != map.end() && !it->second.isEmpty() && !IsSyncedLyrics(TagLibStringToQString(it->second.front()));
 
 }
@@ -2566,9 +2575,12 @@ void TagReaderTagLib::SetLyrics(TagLib::Ogg::XiphComment *vorbis_comment, const 
 
   vorbis_comment->addField(kVorbisComment_UnsyncedLyrics, QStringToTagLibString(lyrics), true);
 
-  // Plain lyrics in LYRICS are replaced by UNSYNCEDLYRICS, synchronized lyrics in it are left alone.
-  if (HasPlainLyrics(vorbis_comment)) {
+  // Plain lyrics in LYRICS and SYNCEDLYRICS are replaced by UNSYNCEDLYRICS, synchronized lyrics in them are left alone.
+  if (HasPlainLyrics(vorbis_comment, kVorbisComment_Lyrics)) {
     vorbis_comment->removeFields(kVorbisComment_Lyrics);
+  }
+  if (HasPlainLyrics(vorbis_comment, kVorbisComment_SyncedLyrics)) {
+    vorbis_comment->removeFields(kVorbisComment_SyncedLyrics);
   }
 
 }
@@ -2601,8 +2613,11 @@ bool TagReaderTagLib::SetSyncedLyrics(TagLib::Ogg::XiphComment *vorbis_comment, 
   }
 
   // Synchronized lyrics are written to LYRICS, so move plain lyrics in it to UNSYNCEDLYRICS instead of overwriting them, unless UNSYNCEDLYRICS already has the lyrics which are read.
-  if (HasPlainLyrics(vorbis_comment) && !vorbis_comment->contains(kVorbisComment_UnsyncedLyrics)) {
-    vorbis_comment->addField(kVorbisComment_UnsyncedLyrics, vorbis_comment->fieldListMap()[kVorbisComment_Lyrics].front(), true);
+  // Plain lyrics in SYNCEDLYRICS, which is removed, are moved the same way, after LYRICS, since plain lyrics in LYRICS are read first.
+  for (const char *field : {kVorbisComment_Lyrics, kVorbisComment_SyncedLyrics}) {
+    if (HasPlainLyrics(vorbis_comment, field) && !vorbis_comment->contains(kVorbisComment_UnsyncedLyrics)) {
+      vorbis_comment->addField(kVorbisComment_UnsyncedLyrics, vorbis_comment->fieldListMap()[field].front(), true);
+    }
   }
   vorbis_comment->removeFields(kVorbisComment_SyncedLyrics);
   // LRC without lines, such as only whitespace, clears the synchronized lyrics.
