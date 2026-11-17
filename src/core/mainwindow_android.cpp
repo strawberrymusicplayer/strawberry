@@ -194,20 +194,19 @@ void MainWindow::SetupAndroidLayout() {
   ui_->layout_player_controls->addWidget(android_mute_button_);
   UpdateAndroidMuteButton(app_->player()->is_muted());
 
-  // Create love button with proper styling to match other buttons
-  auto *love_button = new QToolButton(ui_->player_controls);
-  love_button->setDefaultAction(ui_->action_love);
-  love_button->setIconSize(ui_->pause_play_button->iconSize());
-  love_button->setAccessibleName(tr("Love"));
-  love_button->setAutoRaise(true);
-  ui_->layout_player_controls->addWidget(love_button);
+  // Move the existing container so the saved Love visibility setting still applies.
+  ui_->layout_player_controls->removeWidget(ui_->widget_love);
+  ui_->layout_player_controls->addWidget(ui_->widget_love);
+  ui_->line_love->hide();
+  ui_->button_love->setIconSize(ui_->pause_play_button->iconSize());
+  ui_->button_love->setAccessibleName(tr("Love"));
 
   // Menu bar actions are reachable through the Tools and Settings sidebar tabs and the playlist editor on Android.
   ui_->menuBar->hide();
   ui_->action_transcoder->setVisible(false);
   ui_->action_add_files_to_transcoder->setVisible(false);
 
-  for (QToolButton *button : {ui_->back_button, ui_->pause_play_button, ui_->stop_button, ui_->forward_button, love_button, android_mute_button_}) {
+  for (QToolButton *button : {ui_->back_button, ui_->pause_play_button, ui_->stop_button, ui_->forward_button, ui_->button_love, android_mute_button_}) {
     button->setMinimumSize(48, 48);
   }
 
