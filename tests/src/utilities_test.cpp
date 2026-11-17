@@ -49,6 +49,7 @@
 #include "utilities/textencodingutils.h"
 #include "utilities/coverutils.h"
 #include "utilities/fileutils.h"
+#include "utilities/cddautils.h"
 #include "core/logging.h"
 #include "core/temporaryfile.h"
 
@@ -620,3 +621,44 @@ TEST(UtilitiesTest, RemoveRecursiveDoesNotFollowLinks) {
 
 }
 #endif
+
+TEST(UtilitiesTest, CDDAUrlFromUnixDevice) {
+
+  const QUrl url = Utilities::CDDAUrlFromDevice(u"/dev/sr0"_s);
+  EXPECT_TRUE(url.isValid());
+  EXPECT_EQ(u"cdda:///dev/sr0"_s, url.toString());
+  EXPECT_EQ(u"/dev/sr0"_s, Utilities::CDDADeviceFromUrlPath(url.path()));
+  // Only a path which is a drive is a Windows drive.
+  EXPECT_EQ(u"/D:/cdrom"_s, Utilities::CDDADeviceFromUrlPath(u"/D:/cdrom"_s));
+
+}
+
+// Regression test: the Windows device was the host of the URL, which made the URL invalid, with an empty path, so the default drive was used for all drives.
+TEST(UtilitiesTest, CDDAUrlFromWindowsDevice) {
+
+  const QUrl url_d = Utilities::CDDAUrlFromDevice(u"\\\\.\\D:"_s);
+  EXPECT_TRUE(url_d.isValid());
+  EXPECT_EQ(u"cdda:///D:"_s, url_d.toString());
+  EXPECT_EQ(u"D:"_s, Utilities::CDDADeviceFromUrlPath(url_d.path()));
+
+  const QUrl url_e = Utilities::CDDAUrlFromDevice(u"\\\\.\\E:"_s);
+  EXPECT_NE(url_d, url_e);
+  EXPECT_EQ(u"E:"_s, Utilities::CDDADeviceFromUrlPath(url_e.path()));
+
+  EXPECT_EQ(url_d, Utilities::CDDAUrlFromDevice(u"D:"_s));
+
+}
+
+// The URL of a track is the URL of the device with the track number, the device is the path without it, like GstEngine gets it.
+TEST(UtilitiesTest, CDDADeviceFromTrackUrl) {
+
+  for (const QString &device : {u"/dev/sr0"_s, u"\\\\.\\D:"_s}) {
+    const QUrl device_url = Utilities::CDDAUrlFromDevice(device);
+    const QUrl track_url(u"cdda://%1/%2"_s.arg(device_url.path(), QString::number(3)));
+    ASSERT_TRUE(track_url.isValid()) << device.toStdString();
+    QStringList path = track_url.path().split(u'/');
+    EXPECT_EQ(u"3"_s, path.takeLast());
+    EXPECT_EQ(Utilities::CDDADeviceFromUrlPath(device_url.path()), Utilities::CDDADeviceFromUrlPath(path.join(u'/')));
+  }
+
+}
