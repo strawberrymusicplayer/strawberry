@@ -70,6 +70,9 @@ class GstEnginePipeline : public QObject {
   // Globally unique across all pipelines.
   int id() const { return id_.load(); }
 
+  // Counts the changes to the next track in this pipeline, in gapless playback and between the sections of a multipart file, so a seek for the previous track can be recognized.
+  int track_changes() const { return track_changes_.load(); }
+
   // Call these setters before Init
   void set_output_device(const QString &output, const QVariant &device);
   void set_playbin3_enabled(const bool playbin3_enabled);
@@ -109,7 +112,8 @@ class GstEnginePipeline : public QObject {
   // Control the music playback
   Q_INVOKABLE QFuture<GstStateChangeReturn> SetState(const GstState state);
   Q_INVOKABLE QFuture<GstStateChangeReturn> Play(const bool pause, const quint64 offset_nanosec);
-  Q_INVOKABLE bool Seek(const qint64 nanosec);
+  // When the expected track changes are given, the seek is only applied when the pipeline is still at that track.
+  Q_INVOKABLE bool Seek(const qint64 nanosec, const int expected_track_changes = -1);
 
   // Playback is started, but waits for the pipeline to preroll, the seek to the offset or the audio device warm-up before going to PLAYING.
   bool play_pending() const;
@@ -117,8 +121,8 @@ class GstEnginePipeline : public QObject {
   bool paused_before_playing() const { return paused_before_playing_.load(); }
   void PauseBeforePlaying();
   void UnpauseBeforePlaying();
-  void SeekAsync(const qint64 nanosec);
-  void SeekDelayed(const qint64 nanosec);
+  void SeekAsync(const qint64 nanosec, const int expected_track_changes = -1);
+  void SeekDelayed(const qint64 nanosec, const int expected_track_changes = -1);
 
   void SetVolume(const uint volume_percent);
   void SetMute(const bool mute);
@@ -237,6 +241,9 @@ class GstEnginePipeline : public QObject {
   void FaderFudgeFinished(const quint64 fader_generation);
 
   void ProcessPendingSeek(const GstState state);
+  // The pending seek is stored and taken with the track changes it's for, so it's not applied to another track when it's retried.
+  void SetPendingSeek(const qint64 nanosec, const int expected_track_changes);
+  qint64 TakePendingSeek(int *expected_track_changes);
   // Handles a request queued by SetStateAsync(). Not a slot: SetStateAsync() posts it as a functor, so the call is checked at compile time instead of resolved by name at runtime.
   void SetStateAsyncSlot(const GstState state, const quint64 state_request_generation);
 
@@ -375,6 +382,11 @@ class GstEnginePipeline : public QObject {
   // Set temporarily when moving to the next contiguous section in a multipart file.
   std::atomic<bool> ignore_next_seek_;
 
+  std::atomic<int> track_changes_;
+  // Held while a seek is checked and submitted, the buffer probe doesn't move on to the next section of a multipart file meanwhile.
+  // The buffer probe only tries to lock it, a flushing seek waits for the streaming thread, which would deadlock if the buffer probe waited for the seek.
+  QMutex mutex_seek_section_;
+
   // Set temporarily when switching out the decode bin, so metadata doesn't get sent while the Player still thinks it's playing the last song
   std::atomic<bool> ignore_tags_;
 
@@ -394,6 +406,9 @@ class GstEnginePipeline : public QObject {
 
   std::atomic<GstState> pending_state_;
   std::atomic<qint64> pending_seek_nanosec_;
+  // Set and taken together with the pending seek, under the mutex, -1 when it's not checked.
+  QMutex mutex_pending_seek_;
+  int pending_seek_track_changes_;
   std::atomic<GstState> pending_seek_ready_previous_state_;
 
   // We can only use gst_element_query_position() when the pipeline is in PAUSED nor PLAYING state.
