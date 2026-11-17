@@ -43,63 +43,47 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
 
   bool has_compiled_api_credentials() const override;
   bool supports_custom_api_credentials() const override { return true; }
-  QString api_credentials_id_label() const override { return tr("App ID"); }
-  QString api_credentials_secret_label() const override { return tr("Signature secret"); }
+  bool api_credentials_use_secret() const override { return false; }
+  QString api_credentials_id_label() const override { return tr("API key"); }
   QString api_credentials_settings_group() const override;
   QString api_credentials_use_custom_key() const override;
   QString api_credentials_id_key() const override;
-  QString api_credentials_secret_key() const override;
 
   void ReloadSettings() override;
 
  private:
   struct LyricsSearchContext {
-    explicit LyricsSearchContext() : id(-1), token_retried(false), track_id(0) {}
+    explicit LyricsSearchContext() : id(-1), commontrack_id(0) {}
     int id;
     LyricsSearchRequest request;
     LyricsSearchResults results;
-    bool token_retried;
-    // The track Musixmatch matched for the request, which can be a different track than requested.
-    qint64 track_id;
+    // The track Musixmatch matched for the request, which can be a different track than requested, the lyrics are shared by all the tracks with the same common track ID.
+    qint64 commontrack_id;
     QString artist;
     QString album;
     QString title;
   };
 
-  enum class ReplyResult {
-    Body,
-    Retried,
-    Finished
-  };
-
   using LyricsSearchContextPtr = SharedPtr<LyricsSearchContext>;
 
-  QUrl SignedUrl(const QString &endpoint, const ParamList &params) const;
-  QNetworkReply *CreateAndroidGetRequest(const QUrl &url);
-  void RequestUserToken();
+  QNetworkReply *CreateApiRequest(const QString &endpoint, const ParamList &params);
   JsonObjectResult ParseJsonObject(QNetworkReply *reply);
+  void SendTrackRequest(LyricsSearchContextPtr search);
   void SendLyricsRequest(LyricsSearchContextPtr search);
-  void SendTrackLyricsRequest(LyricsSearchContextPtr search);
-  // Returns Body with the body of the message of the reply, Retried when the request was sent again with a new user token, or Finished when there's nothing more for the search.
-  ReplyResult ParseReply(QNetworkReply *reply, LyricsSearchContextPtr search, QJsonObject &object_body);
-  bool RetryLyricsRequestWithFreshToken(LyricsSearchContextPtr search);
+  // Returns true with the body of the message of the reply, false when there's nothing more for the search.
+  bool ParseReply(QNetworkReply *reply, QJsonObject &object_body);
   void EndSearch(LyricsSearchContextPtr search);
 
  protected Q_SLOTS:
   void StartSearch(const int id, const LyricsSearchRequest &request) override;
 
  private Q_SLOTS:
-  void HandleTokenReply(QNetworkReply *reply);
   void HandleTrackReply(QNetworkReply *reply, MusixmatchLyricsProvider::LyricsSearchContextPtr search);
   void HandleLyricsReply(QNetworkReply *reply, MusixmatchLyricsProvider::LyricsSearchContextPtr search);
 
  private:
   QList<LyricsSearchContextPtr> requests_search_;
-  QList<LyricsSearchContextPtr> pending_token_requests_;
-  QString client_id_;
-  QString client_secret_;
-  QString user_token_;
-  bool requesting_user_token_;
+  QString api_key_;
 
   Q_DISABLE_COPY_MOVE(MusixmatchLyricsProvider)
 };

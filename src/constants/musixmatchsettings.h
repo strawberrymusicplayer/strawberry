@@ -23,8 +23,7 @@
 namespace MusixmatchSettings {
 
 constexpr char kUseCustomApiCredentials[] = "use_custom_api_credentials";
-constexpr char kClientId[] = "client_id";
-constexpr char kClientSecret[] = "client_secret";
+constexpr char kApiKey[] = "api_key";
 
 }  // namespace MusixmatchSettings
 
