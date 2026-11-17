@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,6 +37,7 @@
 
 #include "cddalister.h"
 #include "core/logging.h"
+#include "utilities/cddautils.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -117,7 +118,7 @@ QString CDDALister::MakeFriendlyName(const QString &id) {
 }
 
 QList<QUrl> CDDALister::MakeDeviceUrls(const QString &id) {
-  return QList<QUrl>() << QUrl(u"cdda://"_s + id);
+  return QList<QUrl>() << Utilities::CDDAUrlFromDevice(id);
 }
 
 void CDDALister::UnmountDevice(const QString &id) {

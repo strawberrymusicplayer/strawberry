@@ -56,6 +56,7 @@
 #include "core/enginemetadata.h"
 #include "constants/timeconstants.h"
 #include "utilities/strutils.h"
+#include "utilities/cddautils.h"
 #include "enginebase.h"
 #include "gsturl.h"
 #include "gstengine.h"
@@ -900,7 +901,7 @@ GstUrl GstEngine::FixupUrl(const QUrl &url) {
       // We keep the device in mind, and we will set it later using SourceSetupCallback
       QStringList path = url.path().split(u'/');
       str = QStringLiteral("cdda://%1").arg(path.takeLast());
-      gst_url.source_device = path.join(u'/');
+      gst_url.source_device = Utilities::CDDADeviceFromUrlPath(path.join(u'/'));
     }
     gst_url.url = str.toUtf8();
   }

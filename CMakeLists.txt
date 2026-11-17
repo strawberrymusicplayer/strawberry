@@ -570,6 +570,7 @@ set(SOURCES
   src/utilities/threadutils.cpp
   src/utilities/timeutils.cpp
   src/utilities/lrcutils.cpp
+  src/utilities/cddautils.cpp
   src/utilities/transliterate.cpp
   src/utilities/xmlutils.cpp
   src/utilities/filemanagerutils.cpp

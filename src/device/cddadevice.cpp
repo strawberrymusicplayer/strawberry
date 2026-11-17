@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@
 
 #include "includes/shared_ptr.h"
 #include "core/logging.h"
+#include "utilities/cddautils.h"
 #include "collection/collectionmodel.h"
 #include "cddasongloader.h"
 #include "connecteddevice.h"
@@ -85,7 +86,7 @@ CDDADevice::~CDDADevice() {
 bool CDDADevice::Init() {
 
   if (!cdio_) {
-    cdio_ = cdio_open(url_.path().toLocal8Bit().constData(), DRIVER_DEVICE);
+    cdio_ = cdio_open(Utilities::CDDADeviceFromUrlPath(url_.path()).toLocal8Bit().constData(), DRIVER_DEVICE);
     if (!cdio_) return false;
   }
 
