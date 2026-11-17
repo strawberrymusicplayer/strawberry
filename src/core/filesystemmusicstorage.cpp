@@ -69,6 +69,90 @@ bool FilesHaveSameContents(const QString &filename1, const QString &filename2) {
 
 }
 
+enum class FileIdentity {
+  Different,
+  Same,
+  Unknown,
+};
+
+// Returns whether the paths are the same directory entry, like paths which only differ in case on case-insensitive filesystems, like FAT, exFAT and CIFS.
+// QFileInfo treats paths as case-sensitive on Linux and BSD, also on case-insensitive filesystems, so it doesn't find that they're the same file.
+// The paths are not compared as strings, since the filesystem can fold the case differently than Qt, for example "ß" and "SS" are the same on Linux casefold filesystems.
+// Unknown is returned when the directory can't be read, or it can't be found which entries the names are.
+FileIdentity CompareFiles(const QString &filename1, const QString &filename2) {
+
+#ifdef Q_OS_UNIX
+  // The entries themselves are compared, a symbolic link is another entry than the file it links to.
+  struct stat stat1 {};
+  struct stat stat2 {};
+  if (::lstat(QFile::encodeName(filename1).constData(), &stat1) != 0 || ::lstat(QFile::encodeName(filename2).constData(), &stat2) != 0) return FileIdentity::Different;
+  if (stat1.st_dev != stat2.st_dev || stat1.st_ino != stat2.st_ino) return FileIdentity::Different;
+
+  // The same file can still be separate hard links, which are only the same entry when they're in the same directory.
+  // Only the directory of the file itself is compared, since a case-insensitive directory can contain a case-sensitive directory.
+  const QFileInfo fileinfo1(filename1);
+  const QFileInfo fileinfo2(filename2);
+  struct stat dir_stat1 {};
+  struct stat dir_stat2 {};
+  if (::stat(QFile::encodeName(fileinfo1.absolutePath()).constData(), &dir_stat1) != 0 || ::stat(QFile::encodeName(fileinfo2.absolutePath()).constData(), &dir_stat2) != 0) return FileIdentity::Unknown;
+  if (dir_stat1.st_dev != dir_stat2.st_dev || dir_stat1.st_ino != dir_stat2.st_ino) return FileIdentity::Different;
+
+  const QString name1 = fileinfo1.fileName();
+  const QString name2 = fileinfo2.fileName();
+  if (name1 == name2) return FileIdentity::Same;
+
+  // Without hard links, the file has only one entry, so both names are that entry, the directory is only listed for hard links, since that's slow for large directories, especially on network filesystems.
+  if (stat1.st_nlink == 1) return FileIdentity::Same;
+
+  // The file is in the directory, so when it's empty, the directory couldn't be read.
+  const QString dir_path = fileinfo1.absolutePath();
+  const QStringList entries = QDir(dir_path).entryList(QDir::AllEntries | QDir::Hidden | QDir::System | QDir::NoDotAndDotDot);
+  if (entries.isEmpty()) return FileIdentity::Unknown;
+
+  // The entries for the file, which are several when there are hard links to it.
+  QStringList file_entries;
+  for (const QString &entry : entries) {
+    struct stat entry_stat {};
+    if (::lstat(QFile::encodeName(dir_path + u'/' + entry).constData(), &entry_stat) == 0 && entry_stat.st_dev == stat1.st_dev && entry_stat.st_ino == stat1.st_ino) {
+      file_entries << entry;
+    }
+  }
+
+  // Returns the entry which the name is, the name itself when it's in the directory, like on a case-sensitive filesystem.
+  // On a case-insensitive filesystem, the name can be in another case than the entry, then it's the only entry for the file, or with hard links, the only one which Qt finds to only differ in case.
+  // Returns an empty string when it can't be found.
+  const auto entry_for_name = [&entries, &file_entries](const QString &name) {
+    if (entries.contains(name)) return name;
+    if (file_entries.count() == 1) return file_entries.first();
+    QStringList same_name_entries;
+    for (const QString &entry : std::as_const(file_entries)) {
+      if (entry.compare(name, Qt::CaseInsensitive) == 0) same_name_entries << entry;
+    }
+    return same_name_entries.count() == 1 ? same_name_entries.first() : QString();
+  };
+  const QString entry1 = entry_for_name(name1);
+  const QString entry2 = entry_for_name(name2);
+  if (entry1.isEmpty() || entry2.isEmpty()) return FileIdentity::Unknown;
+  return entry1 == entry2 ? FileIdentity::Same : FileIdentity::Different;
+#else
+  // QFileInfo compares paths case-insensitively on Windows and macOS when the filesystem is case-insensitive.
+  return QFileInfo(filename1) == QFileInfo(filename2) ? FileIdentity::Same : FileIdentity::Different;
+#endif
+
+}
+
+// Renames the file to another name of the same directory entry, which changes the case of the name, when the filesystem keeps the case of the new name.
+// QFile::rename() fails for names which Qt doesn't find to only differ in case, and RenameFile() fails since the destination exists.
+bool RenameToSameEntry(const QString &source, const QString &destination) {
+
+#ifdef Q_OS_UNIX
+  return ::rename(QFile::encodeName(source).constData(), QFile::encodeName(destination).constData()) == 0;
+#else
+  return QFile::rename(source, destination);
+#endif
+
+}
+
 // Renames the file, without copying it when it can't be renamed, like QFile::rename() does, which writes to the destination directly.
 bool RenameFile(const QString &source, const QString &destination) {
 
@@ -218,8 +302,22 @@ bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job, QString &error_te
     cover_dest = QFileInfo(root_ + QLatin1Char('/') + job.cover_dest_);
   }
 
-  // Don't do anything if the destination is the same as the source
-  if (src == dest) return true;
+  // Don't do anything if the destination is the source
+  if (QDir::cleanPath(src.absoluteFilePath()) == QDir::cleanPath(dest.absoluteFilePath())) return true;
+
+  // When only the case of the path changes on a case-insensitive filesystem, the destination is the source, so it's not removed for overwriting.
+  // The file is renamed when moving, which changes the case, there's nothing to copy when copying, but the cover is still copied.
+  const FileIdentity dest_identity = CompareFiles(src.absoluteFilePath(), dest.absoluteFilePath());
+  if (dest_identity == FileIdentity::Unknown) {
+    error_text = QObject::tr("Could not find whether %1 is the same file as %2.").arg(dest.absoluteFilePath(), src.absoluteFilePath());
+    qLog(Error) << error_text;
+    return false;
+  }
+  const bool dest_is_src = dest_identity == FileIdentity::Same;
+
+  // Don't do anything if the destination is the source through another path, like a link to it.
+  // Since Qt 6.13, QFileInfo also finds that paths which only differ in case are the same file on case-insensitive filesystems, these are the same entry, which is handled below.
+  if (src == dest && !dest_is_src) return true;
 
   // The destination is made from the tags, so make sure it doesn't point outside the root directory.
   const QString root_path = QDir::cleanPath(QDir(root_).absolutePath());
@@ -241,27 +339,35 @@ bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job, QString &error_te
   }
 
   // The cover is not copied when it's already the cover in the destination directory, otherwise overwriting would remove it.
-  if (!cover_src.filePath().isEmpty() && cover_src == cover_dest) {
-    cover_src = QFileInfo();
-    cover_dest = QFileInfo();
+  if (!cover_src.filePath().isEmpty()) {
+    const FileIdentity cover_dest_identity = cover_src == cover_dest ? FileIdentity::Same : CompareFiles(cover_src.absoluteFilePath(), cover_dest.absoluteFilePath());
+    if (cover_dest_identity == FileIdentity::Unknown) {
+      error_text = QObject::tr("Could not find whether %1 is the same file as %2.").arg(cover_dest.absoluteFilePath(), cover_src.absoluteFilePath());
+      qLog(Error) << error_text;
+      return false;
+    }
+    if (cover_dest_identity == FileIdentity::Same) {
+      cover_src = QFileInfo();
+      cover_dest = QFileInfo();
+    }
   }
 
   // Remove the destination file if it exists, and we want to overwrite
   if (job.overwrite_) {
-    if (dest.exists()) QFile::remove(dest.absoluteFilePath());
+    if (dest.exists() && !dest_is_src) QFile::remove(dest.absoluteFilePath());
     if (!cover_dest.filePath().isEmpty() && cover_dest.exists()) QFile::remove(cover_dest.absoluteFilePath());
   }
 
   // Copy or move
   bool result = true;
   if (job.remove_original_) {
-    if (dest.exists() && !job.overwrite_) {
+    if (dest.exists() && !dest_is_src && !job.overwrite_) {
       result = false;
       error_text = QObject::tr("Destination file %1 exists, but not allowed to overwrite.").arg(dest.absoluteFilePath());
       qLog(Error) << error_text;
     }
     else {
-      result = MoveSongFile(src.absoluteFilePath(), dest.absoluteFilePath());
+      result = dest_is_src ? RenameToSameEntry(src.absoluteFilePath(), dest.absoluteFilePath()) : MoveSongFile(src.absoluteFilePath(), dest.absoluteFilePath());
       if (!result) {
         error_text = QObject::tr("Could not move file %1 to %2.").arg(src.absoluteFilePath(), dest.absoluteFilePath());
         qLog(Error) << error_text;
@@ -298,16 +404,19 @@ bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job, QString &error_te
     }
   }
   else {
-    if (dest.exists() && !job.overwrite_) {
-      result = false;
-      error_text = QObject::tr("Destination file %1 exists, but not allowed to overwrite").arg(dest.absoluteFilePath());
-      qLog(Error) << error_text;
-    }
-    else {
-      result = CopyFileStaged(src.absoluteFilePath(), dest.absoluteFilePath());
-      if (!result) {
-        error_text = QObject::tr("Could not copy file %1 to %2.").arg(src.absoluteFilePath(), dest.absoluteFilePath());
+    // There's nothing to copy when only the case changes, since the destination is the song itself.
+    if (!dest_is_src) {
+      if (dest.exists() && !job.overwrite_) {
+        result = false;
+        error_text = QObject::tr("Destination file %1 exists, but not allowed to overwrite").arg(dest.absoluteFilePath());
         qLog(Error) << error_text;
+      }
+      else {
+        result = CopyFileStaged(src.absoluteFilePath(), dest.absoluteFilePath());
+        if (!result) {
+          error_text = QObject::tr("Could not copy file %1 to %2.").arg(src.absoluteFilePath(), dest.absoluteFilePath());
+          qLog(Error) << error_text;
+        }
       }
     }
     if ((!cover_dest.exists() || job.overwrite_) && !cover_src.filePath().isEmpty() && !cover_dest.filePath().isEmpty()) {

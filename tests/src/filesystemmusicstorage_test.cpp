@@ -17,6 +17,15 @@
  *
  */
 
+#include <memory>
+
+#include <QtGlobal>
+
+#ifdef Q_OS_UNIX
+#  include <sys/stat.h>
+#  include <unistd.h>
+#endif
+
 #include "gtest_include.h"
 
 #include <QByteArray>
@@ -28,6 +37,10 @@
 #include <QTemporaryDir>
 #include <QStorageInfo>
 #include <QScopeGuard>
+#include <QCoreApplication>
+#include <QProcess>
+#include <QProcessEnvironment>
+#include <QStringList>
 
 #include "core/song.h"
 #include "core/musicstorage.h"
@@ -487,6 +500,547 @@ TEST_F(FilesystemMusicStorageTest, MoveDoesNotReplaceExistingLink) {
   EXPECT_EQ(QByteArray("song data"), ReadFile(filename));
   EXPECT_TRUE(QFileInfo(dest_filename).isSymLink());
   EXPECT_EQ(QStringList() << u"01.flac"_s, QDir(root_path_ + u"/Artist/Album"_s).entryList(QDir::AllEntries | QDir::Hidden | QDir::System | QDir::NoDotAndDotDot));
+
+}
+
+// On a case-sensitive filesystem, a destination which only differs in case is another file, which is overwritten.
+TEST_F(FilesystemMusicStorageTest, MoveWithOverwriteReplacesFileWithOtherCase) {
+
+  // Only the case of a file in the collection directory is changed, since directories above it can be on other filesystems.
+  ASSERT_TRUE(CreateFile(root_path_ + u"/case"_s));
+  if (QFile::exists(root_path_ + u"/CASE"_s)) {
+    GTEST_SKIP() << "The filesystem is not case-sensitive.";
+  }
+  ASSERT_TRUE(QFile::remove(root_path_ + u"/case"_s));
+
+  ASSERT_TRUE(QDir().mkpath(root_path_ + u"/Artist/Album"_s));
+  ASSERT_TRUE(CreateFile(root_path_ + u"/Artist/Album/Song.flac"_s, QByteArray("new data")));
+  ASSERT_TRUE(CreateFile(root_path_ + u"/Artist/Album/song.flac"_s, QByteArray("old data")));
+
+  MusicStorage::CopyJob job;
+  job.source_ = root_path_ + u"/Artist/Album/Song.flac"_s;
+  job.original_root_ = root_path_;
+  job.destination_ = u"Artist/Album/song.flac"_s;
+  job.overwrite_ = true;
+  job.remove_original_ = true;
+  FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+  QString error_text;
+  EXPECT_TRUE(storage.CopyToStorage(job, error_text)) << error_text.toStdString();
+
+  EXPECT_EQ(QByteArray("new data"), ReadFile(root_path_ + u"/Artist/Album/song.flac"_s));
+  EXPECT_EQ(QStringList() << u"song.flac"_s, QDir(root_path_ + u"/Artist/Album"_s).entryList(QDir::AllEntries | QDir::Hidden | QDir::NoDotAndDotDot));
+
+}
+
+// A destination which is a link to the same file under another name is overwritten.
+TEST_F(FilesystemMusicStorageTest, MoveWithOverwriteReplacesHardLinkToSameFile) {
+
+#ifndef Q_OS_UNIX
+  GTEST_SKIP() << "Hard links are created with link().";
+#else
+  ASSERT_TRUE(CreateFile(source_path_ + u"/Album/01.flac"_s, QByteArray("song data")));
+  ASSERT_TRUE(QDir().mkpath(root_path_ + u"/Artist/Album"_s));
+  ASSERT_EQ(0, ::link(QFile::encodeName(source_path_ + u"/Album/01.flac"_s).constData(), QFile::encodeName(root_path_ + u"/Artist/Album/01.flac"_s).constData()));
+
+  MusicStorage::CopyJob job;
+  job.source_ = source_path_ + u"/Album/01.flac"_s;
+  job.original_root_ = source_path_;
+  job.destination_ = u"Artist/Album/01.flac"_s;
+  job.overwrite_ = true;
+  job.remove_original_ = true;
+  FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+  QString error_text;
+  EXPECT_TRUE(storage.CopyToStorage(job, error_text)) << error_text.toStdString();
+
+  EXPECT_EQ(QByteArray("song data"), ReadFile(root_path_ + u"/Artist/Album/01.flac"_s));
+  EXPECT_FALSE(QFile::exists(source_path_ + u"/Album/01.flac"_s));
+#endif
+
+}
+
+#ifdef Q_OS_UNIX
+// The source is a link to the destination, so the destination is the file itself, it's not removed for overwriting.
+TEST_F(FilesystemMusicStorageTest, MoveLinkToItsTargetKeepsFile) {
+
+  ASSERT_TRUE(QDir().mkpath(root_path_ + u"/Artist/Album"_s));
+  ASSERT_TRUE(CreateFile(root_path_ + u"/Artist/Album/song.flac"_s, QByteArray("song data")));
+  ASSERT_TRUE(QFile::link(root_path_ + u"/Artist/Album/song.flac"_s, root_path_ + u"/Artist/Album/link.flac"_s));
+
+  MusicStorage::CopyJob job;
+  job.source_ = root_path_ + u"/Artist/Album/link.flac"_s;
+  job.original_root_ = root_path_;
+  job.destination_ = u"Artist/Album/song.flac"_s;
+  job.overwrite_ = true;
+  job.remove_original_ = true;
+  FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+  QString error_text;
+  EXPECT_TRUE(storage.CopyToStorage(job, error_text));
+
+  EXPECT_EQ(QByteArray("song data"), ReadFile(root_path_ + u"/Artist/Album/song.flac"_s));
+  EXPECT_FALSE(QFileInfo(root_path_ + u"/Artist/Album/song.flac"_s).isSymLink());
+
+}
+#endif
+
+#ifdef Q_OS_UNIX
+// Hard links which only differ in case on a case-sensitive filesystem, Song.flac is the source and song.flac the destination.
+class FilesystemMusicStorageHardLinkWithOtherCaseTest : public FilesystemMusicStorageTest {
+ protected:
+  void SetUp() override {
+    FilesystemMusicStorageTest::SetUp();
+    // Only the case of a file in the collection directory is changed, since directories above it can be on other filesystems.
+    ASSERT_TRUE(CreateFile(root_path_ + u"/case"_s));
+    if (QFile::exists(root_path_ + u"/CASE"_s)) {
+      GTEST_SKIP() << "The filesystem is not case-sensitive.";
+    }
+    ASSERT_TRUE(QFile::remove(root_path_ + u"/case"_s));
+    ASSERT_TRUE(QDir().mkpath(root_path_ + u"/Artist/Album"_s));
+    ASSERT_TRUE(CreateFile(SourceFilename(), QByteArray("song data")));
+    ASSERT_EQ(0, ::link(QFile::encodeName(SourceFilename()).constData(), QFile::encodeName(DestinationFilename()).constData()));
+  }
+
+  QString SourceFilename() const { return root_path_ + u"/Artist/Album/Song.flac"_s; }
+  QString DestinationFilename() const { return root_path_ + u"/Artist/Album/song.flac"_s; }
+
+  bool CopySong(const bool remove_original, const bool overwrite) {
+    MusicStorage::CopyJob job;
+    job.source_ = SourceFilename();
+    job.original_root_ = root_path_;
+    job.destination_ = u"Artist/Album/song.flac"_s;
+    job.overwrite_ = overwrite;
+    job.remove_original_ = remove_original;
+    FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+    QString error_text;
+    return storage.CopyToStorage(job, error_text);
+  }
+
+  static ino_t Inode(const QString &filename) {
+    struct stat file_stat {};
+    if (::stat(QFile::encodeName(filename).constData(), &file_stat) != 0) return 0;
+    return file_stat.st_ino;
+  }
+
+  QStringList AlbumEntries() const {
+    return QDir(root_path_ + u"/Artist/Album"_s).entryList(QDir::AllEntries | QDir::Hidden | QDir::System | QDir::NoDotAndDotDot, QDir::Name);
+  }
+};
+
+// Regression test: the hard links were taken as the same directory entry, so copying reported success without copying.
+TEST_F(FilesystemMusicStorageHardLinkWithOtherCaseTest, CopyWithoutOverwriteFails) {
+
+  EXPECT_FALSE(CopySong(false, false));
+
+}
+
+// Regression test: the hard links were taken as the same directory entry, so the destination was left linked to the source.
+TEST_F(FilesystemMusicStorageHardLinkWithOtherCaseTest, CopyWithOverwriteReplacesDestination) {
+
+  EXPECT_TRUE(CopySong(false, true));
+
+  EXPECT_EQ(QByteArray("song data"), ReadFile(DestinationFilename()));
+  EXPECT_NE(Inode(SourceFilename()), Inode(DestinationFilename()));
+
+}
+
+// Regression test: the hard links were taken as the same directory entry, so the source was not moved.
+TEST_F(FilesystemMusicStorageHardLinkWithOtherCaseTest, MoveWithOverwriteReplacesDestination) {
+
+  EXPECT_TRUE(CopySong(true, true));
+
+  EXPECT_EQ(QByteArray("song data"), ReadFile(DestinationFilename()));
+  EXPECT_EQ(QStringList() << u"song.flac"_s, AlbumEntries());
+
+}
+
+// Regression test: the directory can be searched but not read, so it was not found that the hard links are separate entries, and copying reported success without copying.
+TEST_F(FilesystemMusicStorageHardLinkWithOtherCaseTest, CopyFailsWhenDirectoryCanNotBeRead) {
+
+  if (::geteuid() == 0) {
+    GTEST_SKIP() << "Root can read the directory.";
+  }
+
+  const QString album_path = root_path_ + u"/Artist/Album"_s;
+  ASSERT_EQ(0, ::chmod(QFile::encodeName(album_path).constData(), S_IWUSR | S_IXUSR));
+  const auto restore_permissions = qScopeGuard([album_path]() { ::chmod(QFile::encodeName(album_path).constData(), S_IRWXU); });
+
+  EXPECT_FALSE(CopySong(false, true));
+
+  EXPECT_EQ(Inode(SourceFilename()), Inode(DestinationFilename()));
+
+}
+
+// The cover is not removed for overwriting when it can't be found whether the destination is the cover itself.
+TEST_F(FilesystemMusicStorageHardLinkWithOtherCaseTest, CopyFailsWhenCoverDirectoryCanNotBeRead) {
+
+  if (::geteuid() == 0) {
+    GTEST_SKIP() << "Root can read the directory.";
+  }
+
+  const QString album_path = root_path_ + u"/Artist/Album"_s;
+  ASSERT_TRUE(CreateFile(album_path + u"/Cover.jpg"_s, QByteArray("cover data")));
+  ASSERT_EQ(0, ::link(QFile::encodeName(album_path + u"/Cover.jpg"_s).constData(), QFile::encodeName(album_path + u"/cover.jpg"_s).constData()));
+  ASSERT_TRUE(CreateFile(source_path_ + u"/Album/other.flac"_s));
+  ASSERT_EQ(0, ::chmod(QFile::encodeName(album_path).constData(), S_IWUSR | S_IXUSR));
+  const auto restore_permissions = qScopeGuard([album_path]() { ::chmod(QFile::encodeName(album_path).constData(), S_IRWXU); });
+
+  MusicStorage::CopyJob job;
+  job.source_ = source_path_ + u"/Album/other.flac"_s;
+  job.destination_ = u"Artist/Album/other.flac"_s;
+  job.overwrite_ = true;
+  job.albumcover_ = true;
+  job.cover_source_ = album_path + u"/Cover.jpg"_s;
+  job.cover_dest_ = u"Artist/Album/cover.jpg"_s;
+  FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+  QString error_text;
+  EXPECT_FALSE(storage.CopyToStorage(job, error_text));
+
+  EXPECT_EQ(Inode(album_path + u"/Cover.jpg"_s), Inode(album_path + u"/cover.jpg"_s));
+
+}
+
+// Hard links in directories which only differ in case are separate entries, also when the filenames are the same.
+TEST_F(FilesystemMusicStorageHardLinkWithOtherCaseTest, CopyWithOverwriteReplacesHardLinkInDirectoryWithOtherCase) {
+
+  const QString other_album_path = root_path_ + u"/artist/album"_s;
+  ASSERT_TRUE(QDir().mkpath(other_album_path));
+  ASSERT_EQ(0, ::link(QFile::encodeName(SourceFilename()).constData(), QFile::encodeName(other_album_path + u"/Song.flac"_s).constData()));
+
+  MusicStorage::CopyJob job;
+  job.source_ = SourceFilename();
+  job.destination_ = u"artist/album/Song.flac"_s;
+  job.overwrite_ = true;
+  FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+  QString error_text;
+  EXPECT_TRUE(storage.CopyToStorage(job, error_text)) << error_text.toStdString();
+
+  EXPECT_EQ(QByteArray("song data"), ReadFile(other_album_path + u"/Song.flac"_s));
+  EXPECT_NE(Inode(SourceFilename()), Inode(other_album_path + u"/Song.flac"_s));
+
+}
+#endif
+
+// The tests of case-insensitive filesystems run in a case-insensitive directory given by this environment variable.
+// FilesystemMusicStorageTest.CaseInsensitiveFilesystem runs them on a case-insensitive tmpfs, mounted in a user and mount namespace, so it doesn't need root.
+constexpr char kCaseInsensitiveDirEnv[] = "STRAWBERRY_TEST_CASE_INSENSITIVE_DIR";
+
+class FilesystemMusicStorageCaseInsensitiveTest : public FilesystemMusicStorageTest {
+ protected:
+  void SetUp() override {
+    const QString case_insensitive_path = qEnvironmentVariable(kCaseInsensitiveDirEnv);
+    if (case_insensitive_path.isEmpty()) {
+      GTEST_SKIP() << "Runs on a case-insensitive filesystem from FilesystemMusicStorageTest.CaseInsensitiveFilesystem.";
+    }
+    // The files are created in a directory of their own, which is removed afterwards, so nothing else in the directory is changed.
+    case_insensitive_temp_dir_ = std::make_unique<QTemporaryDir>(case_insensitive_path + u"/strawberry_test-XXXXXX"_s);
+    ASSERT_TRUE(case_insensitive_temp_dir_->isValid());
+    root_path_ = case_insensitive_temp_dir_->path();
+    ASSERT_TRUE(QDir().mkpath(root_path_ + u"/the artist/the album"_s));
+    ASSERT_TRUE(CreateFile(root_path_ + u"/the artist/the album/01 song.flac"_s, QByteArray("song data")));
+    ASSERT_TRUE(CreateFile(root_path_ + u"/the artist/the album/cover.jpg"_s, QByteArray("cover data")));
+    // Make sure the directory really is case-insensitive.
+    ASSERT_TRUE(QFile::exists(root_path_ + u"/THE ARTIST/THE ALBUM/01 SONG.FLAC"_s));
+  }
+
+  // Organizes the song to the same path, where only the case is changed.
+  bool OrganizeWithOtherCase(const bool remove_original, const bool overwrite = true, const QString &destination = u"The Artist/The Album/01 Song.flac"_s, const QString &source = u"the artist/the album/01 song.flac"_s, const QString &cover_destination = u"The Artist/The Album/Cover.jpg"_s) {
+    MusicStorage::CopyJob job;
+    job.source_ = root_path_ + u'/' + source;
+    job.original_root_ = root_path_;
+    job.destination_ = destination;
+    job.overwrite_ = overwrite;
+    job.remove_original_ = remove_original;
+    job.albumcover_ = true;
+    job.cover_source_ = root_path_ + u"/the artist/the album/cover.jpg"_s;
+    job.cover_dest_ = cover_destination;
+    FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+    QString error_text;
+    const bool success = storage.CopyToStorage(job, error_text);
+    EXPECT_TRUE(error_text.isEmpty()) << error_text.toStdString();
+    return success;
+  }
+
+  QStringList AlbumEntries() const {
+    return QDir(root_path_ + u"/the artist/the album"_s).entryList(QDir::AllEntries | QDir::Hidden | QDir::System | QDir::NoDotAndDotDot, QDir::Name);
+  }
+
+#ifdef Q_OS_UNIX
+  // Returns true when hard links can be created in the directory, which is not possible on all case-insensitive filesystems, for example FAT.
+  bool CanCreateHardLinks() const {
+    const QString probe_filename = root_path_ + u"/hard-link-probe"_s;
+    const QString probe_link_filename = root_path_ + u"/hard-link-probe-link"_s;
+    if (!CreateFile(probe_filename)) return false;
+    const bool success = ::link(QFile::encodeName(probe_filename).constData(), QFile::encodeName(probe_link_filename).constData()) == 0;
+    QFile::remove(probe_link_filename);
+    QFile::remove(probe_filename);
+    return success;
+  }
+
+  // Returns true when symbolic links can be created in the directory, which is not possible on all case-insensitive filesystems, for example FAT.
+  bool CanCreateSymbolicLinks() const {
+    const QString probe_link_filename = root_path_ + u"/symbolic-link-probe"_s;
+    const bool success = QFile::link(root_path_ + u"/the artist"_s, probe_link_filename);
+    QFile::remove(probe_link_filename);
+    return success;
+  }
+#endif
+
+  std::unique_ptr<QTemporaryDir> case_insensitive_temp_dir_;
+};
+
+// Regression test: the destination was removed for overwriting, which was the song itself, and then it could not be moved.
+TEST_F(FilesystemMusicStorageCaseInsensitiveTest, MoveChangingOnlyCaseKeepsSong) {
+
+  EXPECT_TRUE(OrganizeWithOtherCase(true));
+
+  EXPECT_EQ(QByteArray("song data"), ReadFile(root_path_ + u"/The Artist/The Album/01 Song.flac"_s));
+  EXPECT_EQ(QByteArray("cover data"), ReadFile(root_path_ + u"/The Artist/The Album/cover.jpg"_s));
+  // Whether the case of the filename changes depends on the filesystem, a case-insensitive tmpfs can keep the old name, so the names are compared in lowercase.
+  QStringList entries = AlbumEntries();
+  for (QString &entry : entries) entry = entry.toLower();
+  EXPECT_EQ(QStringList() << u"01 song.flac"_s << u"cover.jpg"_s, entries);
+
+}
+
+// Regression test: only the case of the directories changes, the filename is the same.
+TEST_F(FilesystemMusicStorageCaseInsensitiveTest, MoveChangingOnlyCaseOfDirectoriesKeepsSong) {
+
+  EXPECT_TRUE(OrganizeWithOtherCase(true, true, u"The Artist/The Album/01 song.flac"_s));
+
+  EXPECT_EQ(QByteArray("song data"), ReadFile(root_path_ + u"/The Artist/The Album/01 song.flac"_s));
+  EXPECT_EQ(2, AlbumEntries().count());
+
+}
+
+// The destination is the song itself, so it's not a file which would be overwritten.
+TEST_F(FilesystemMusicStorageCaseInsensitiveTest, MoveChangingOnlyCaseWithoutOverwrite) {
+
+  EXPECT_TRUE(OrganizeWithOtherCase(true, false));
+
+  EXPECT_EQ(QByteArray("song data"), ReadFile(root_path_ + u"/The Artist/The Album/01 Song.flac"_s));
+  EXPECT_EQ(2, AlbumEntries().count());
+
+}
+
+// Regression test: the destination was removed for overwriting, which was the song itself.
+TEST_F(FilesystemMusicStorageCaseInsensitiveTest, CopyChangingOnlyCaseKeepsSong) {
+
+  EXPECT_TRUE(OrganizeWithOtherCase(false));
+
+  EXPECT_EQ(QByteArray("song data"), ReadFile(root_path_ + u"/the artist/the album/01 song.flac"_s));
+  EXPECT_EQ(QByteArray("cover data"), ReadFile(root_path_ + u"/the artist/the album/cover.jpg"_s));
+  EXPECT_EQ(QStringList() << u"01 song.flac"_s << u"cover.jpg"_s, AlbumEntries());
+
+}
+
+// Regression test: the source has another case than the name in the directory, and the destination has the same case, so the destination was taken as another file and removed for overwriting.
+TEST_F(FilesystemMusicStorageCaseInsensitiveTest, MoveWithSourceInOtherCaseKeepsSong) {
+
+  EXPECT_TRUE(OrganizeWithOtherCase(true, true, u"the artist/the album/01 song.flac"_s, u"The Artist/The Album/01 Song.flac"_s));
+
+  EXPECT_EQ(QByteArray("song data"), ReadFile(root_path_ + u"/the artist/the album/01 song.flac"_s));
+  EXPECT_EQ(2, AlbumEntries().count());
+
+}
+
+// Regression test: copying the song to itself returned before the cover was copied.
+TEST_F(FilesystemMusicStorageCaseInsensitiveTest, CopyChangingOnlyCaseCopiesCover) {
+
+  EXPECT_TRUE(OrganizeWithOtherCase(false, false, u"The Artist/The Album/01 Song.flac"_s, u"the artist/the album/01 song.flac"_s, u"The Artist/The Album/folder.jpg"_s));
+
+  EXPECT_EQ(QByteArray("song data"), ReadFile(root_path_ + u"/the artist/the album/01 song.flac"_s));
+  EXPECT_EQ(QByteArray("cover data"), ReadFile(root_path_ + u"/the artist/the album/folder.jpg"_s));
+  EXPECT_EQ(QStringList() << u"01 song.flac"_s << u"cover.jpg"_s << u"folder.jpg"_s, AlbumEntries());
+
+}
+
+#ifdef Q_OS_UNIX
+// Regression test: a case-insensitive directory can contain a case-sensitive directory, the hard links in it were taken as the same entry, since the case of the directory changes, so copying reported success without copying.
+TEST_F(FilesystemMusicStorageCaseInsensitiveTest, CopyToHardLinkInCaseSensitiveDirectory) {
+
+  if (!CanCreateHardLinks()) {
+    GTEST_SKIP() << "Hard links can't be created on the filesystem.";
+  }
+
+  const QString album_path = root_path_ + u"/Album"_s;
+  ASSERT_TRUE(QDir().mkpath(album_path));
+  // The casefold flag can only be removed from an empty directory.
+  if (QProcess::execute(u"chattr"_s, QStringList() << u"-F"_s << album_path) != 0) {
+    GTEST_SKIP() << "The casefold flag could not be removed.";
+  }
+  ASSERT_TRUE(CreateFile(album_path + u"/Song.flac"_s, QByteArray("song data")));
+  ASSERT_EQ(0, ::link(QFile::encodeName(album_path + u"/Song.flac"_s).constData(), QFile::encodeName(album_path + u"/song.flac"_s).constData()));
+
+  MusicStorage::CopyJob job;
+  job.source_ = album_path + u"/Song.flac"_s;
+  job.destination_ = u"album/song.flac"_s;
+  job.overwrite_ = true;
+  FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+  QString error_text;
+  EXPECT_TRUE(storage.CopyToStorage(job, error_text)) << error_text.toStdString();
+
+  struct stat source_stat {};
+  struct stat destination_stat {};
+  ASSERT_EQ(0, ::stat(QFile::encodeName(album_path + u"/Song.flac"_s).constData(), &source_stat));
+  ASSERT_EQ(0, ::stat(QFile::encodeName(album_path + u"/song.flac"_s).constData(), &destination_stat));
+  EXPECT_NE(source_stat.st_ino, destination_stat.st_ino);
+
+}
+#endif
+
+// Regression test: the paths were compared case-insensitively by Qt first, which doesn't find that "ß" and "SS" are the same, which Linux does, so the song was removed for overwriting.
+TEST_F(FilesystemMusicStorageCaseInsensitiveTest, MoveToNameWithOtherCaseFoldingKeepsSong) {
+
+  ASSERT_TRUE(CreateFile(root_path_ + u"/the artist/the album/Straße.flac"_s, QByteArray("other song data")));
+  if (!QFile::exists(root_path_ + u"/the artist/the album/STRASSE.flac"_s)) {
+    GTEST_SKIP() << "The filesystem doesn't fold \"ß\" to \"SS\".";
+  }
+
+  MusicStorage::CopyJob job;
+  job.source_ = root_path_ + u"/the artist/the album/Straße.flac"_s;
+  job.original_root_ = root_path_;
+  job.destination_ = u"the artist/the album/STRASSE.flac"_s;
+  job.overwrite_ = true;
+  job.remove_original_ = true;
+  FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+  QString error_text;
+  EXPECT_TRUE(storage.CopyToStorage(job, error_text)) << error_text.toStdString();
+
+  EXPECT_EQ(QByteArray("other song data"), ReadFile(root_path_ + u"/the artist/the album/STRASSE.flac"_s));
+  EXPECT_EQ(3, AlbumEntries().count());
+
+}
+
+#ifdef Q_OS_UNIX
+// Regression test: the link was taken as the song itself, since the link and the song are the same file, and the name of the link in another case is not in the directory, so the song was replaced by the link.
+TEST_F(FilesystemMusicStorageCaseInsensitiveTest, MoveLinkInOtherCaseToItsTargetKeepsSong) {
+
+  if (!CanCreateSymbolicLinks()) {
+    GTEST_SKIP() << "Symbolic links can't be created on the filesystem.";
+  }
+
+  const QString album_path = root_path_ + u"/the artist/the album"_s;
+  ASSERT_TRUE(QFile::link(album_path + u"/01 song.flac"_s, album_path + u"/link.flac"_s));
+
+  MusicStorage::CopyJob job;
+  job.source_ = album_path + u"/LINK.flac"_s;
+  job.original_root_ = root_path_;
+  job.destination_ = u"the artist/the album/01 song.flac"_s;
+  job.remove_original_ = true;
+  FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+  QString error_text;
+  storage.CopyToStorage(job, error_text);
+
+  EXPECT_EQ(QByteArray("song data"), ReadFile(album_path + u"/01 song.flac"_s));
+  EXPECT_FALSE(QFileInfo(album_path + u"/01 song.flac"_s).isSymLink());
+
+}
+
+// Regression test: the hard link was taken as the song itself, since the name of the hard link in another case is not in the directory, so copying reported success without copying.
+TEST_F(FilesystemMusicStorageCaseInsensitiveTest, CopyToHardLinkInOtherCaseWithoutOverwriteFails) {
+
+  if (!CanCreateHardLinks()) {
+    GTEST_SKIP() << "Hard links can't be created on the filesystem.";
+  }
+
+  const QString album_path = root_path_ + u"/the artist/the album"_s;
+  ASSERT_EQ(0, ::link(QFile::encodeName(album_path + u"/01 song.flac"_s).constData(), QFile::encodeName(album_path + u"/backup.flac"_s).constData()));
+
+  MusicStorage::CopyJob job;
+  job.source_ = album_path + u"/01 song.flac"_s;
+  job.destination_ = u"the artist/the album/BACKUP.flac"_s;
+  FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+  QString error_text;
+  EXPECT_FALSE(storage.CopyToStorage(job, error_text));
+
+}
+
+// Regression test: the hard link was taken as the song itself, so it was not replaced by a copy.
+TEST_F(FilesystemMusicStorageCaseInsensitiveTest, CopyToHardLinkInOtherCaseWithOverwriteReplacesIt) {
+
+  if (!CanCreateHardLinks()) {
+    GTEST_SKIP() << "Hard links can't be created on the filesystem.";
+  }
+
+  const QString album_path = root_path_ + u"/the artist/the album"_s;
+  ASSERT_EQ(0, ::link(QFile::encodeName(album_path + u"/01 song.flac"_s).constData(), QFile::encodeName(album_path + u"/backup.flac"_s).constData()));
+
+  MusicStorage::CopyJob job;
+  job.source_ = album_path + u"/01 song.flac"_s;
+  job.destination_ = u"the artist/the album/BACKUP.flac"_s;
+  job.overwrite_ = true;
+  FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+  QString error_text;
+  EXPECT_TRUE(storage.CopyToStorage(job, error_text)) << error_text.toStdString();
+
+  struct stat song_stat {};
+  struct stat backup_stat {};
+  ASSERT_EQ(0, ::stat(QFile::encodeName(album_path + u"/01 song.flac"_s).constData(), &song_stat));
+  ASSERT_EQ(0, ::stat(QFile::encodeName(album_path + u"/BACKUP.flac"_s).constData(), &backup_stat));
+  EXPECT_NE(song_stat.st_ino, backup_stat.st_ino);
+  EXPECT_EQ(QByteArray("song data"), ReadFile(album_path + u"/BACKUP.flac"_s));
+
+}
+
+// With hard links, it can't be found which entry a name is, when Qt doesn't find that it only differs in case, then the job fails instead of taking it as the song itself.
+TEST_F(FilesystemMusicStorageCaseInsensitiveTest, CopyToHardLinkWithOtherCaseFoldingFails) {
+
+  if (!CanCreateHardLinks()) {
+    GTEST_SKIP() << "Hard links can't be created on the filesystem.";
+  }
+
+  const QString album_path = root_path_ + u"/the artist/the album"_s;
+  ASSERT_EQ(0, ::link(QFile::encodeName(album_path + u"/01 song.flac"_s).constData(), QFile::encodeName(album_path + u"/Straße.flac"_s).constData()));
+  if (!QFile::exists(album_path + u"/STRASSE.flac"_s)) {
+    GTEST_SKIP() << "The filesystem doesn't fold \"ß\" to \"SS\".";
+  }
+
+  MusicStorage::CopyJob job;
+  job.source_ = album_path + u"/01 song.flac"_s;
+  job.destination_ = u"the artist/the album/STRASSE.flac"_s;
+  job.overwrite_ = true;
+  FilesystemMusicStorage storage(Song::Source::Collection, root_path_);
+  QString error_text;
+  EXPECT_FALSE(storage.CopyToStorage(job, error_text));
+  EXPECT_FALSE(error_text.isEmpty());
+
+  EXPECT_EQ(QByteArray("song data"), ReadFile(album_path + u"/01 song.flac"_s));
+
+}
+#endif
+
+// Runs the tests of case-insensitive filesystems on a case-insensitive tmpfs, which Linux supports since 6.13, in a user and mount namespace.
+TEST_F(FilesystemMusicStorageTest, CaseInsensitiveFilesystem) {
+
+#ifdef Q_OS_LINUX
+  const QString mount_path = temp_dir_.filePath(u"case-insensitive"_s);
+  ASSERT_TRUE(QDir().mkpath(mount_path));
+  // The tmpfs is only mounted in the namespace, so it's gone when the process in it exits.
+  // A directory is case-insensitive when it's empty and the casefold flag is set on it.
+  const QString script = u"mount -t tmpfs -o casefold tmpfs \"$1\" && mkdir \"$1/music\" && chattr +F \"$1/music\" || exit 77\n"_s
+                         u"%1=\"$1/music\" exec \"$2\" --gtest_color=no --gtest_filter=FilesystemMusicStorageCaseInsensitiveTest.*"_s.arg(QLatin1String(kCaseInsensitiveDirEnv));
+  QProcess process;
+  process.setProcessChannelMode(QProcess::MergedChannels);
+  // The tests are run in one process, also when this test is run in shards.
+  QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
+  environment.remove(u"GTEST_TOTAL_SHARDS"_s);
+  environment.remove(u"GTEST_SHARD_INDEX"_s);
+  environment.remove(u"GTEST_SHARD_STATUS_FILE"_s);
+  process.setProcessEnvironment(environment);
+  process.start(u"unshare"_s, QStringList() << u"--user"_s << u"--map-root-user"_s << u"--mount"_s << u"sh"_s << u"-c"_s << script << u"sh"_s << mount_path << QCoreApplication::applicationFilePath());
+  if (!process.waitForStarted()) {
+    GTEST_SKIP() << "unshare is not available.";
+  }
+  ASSERT_TRUE(process.waitForFinished(60000));
+  const QByteArray output = process.readAll();
+  // unshare fails when user namespaces are not allowed, and the script exits with 77 when a case-insensitive tmpfs is not supported.
+  if (process.exitCode() == 77 || !output.contains("FilesystemMusicStorageCaseInsensitiveTest")) {
+    GTEST_SKIP() << "No case-insensitive filesystem: " << output.toStdString();
+  }
+  EXPECT_EQ(0, process.exitCode()) << output.toStdString();
+  EXPECT_TRUE(output.contains("[  PASSED  ] 12 tests.")) << output.toStdString();
+#else
+  GTEST_SKIP() << "Case-insensitive tmpfs is only supported on Linux.";
+#endif
 
 }
 
