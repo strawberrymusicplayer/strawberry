@@ -782,7 +782,6 @@ set(SOURCES
   src/covermanager/musicbrainzcoverprovider.cpp
   src/covermanager/discogscoverprovider.cpp
   src/covermanager/deezercoverprovider.cpp
-  src/covermanager/musixmatchcoverprovider.cpp
   src/covermanager/opentidalcoverprovider.cpp
 
   src/lyrics/lyricsproviders.cpp
@@ -1095,7 +1094,6 @@ set(HEADERS
   src/covermanager/musicbrainzcoverprovider.h
   src/covermanager/discogscoverprovider.h
   src/covermanager/deezercoverprovider.h
-  src/covermanager/musixmatchcoverprovider.h
   src/covermanager/opentidalcoverprovider.h
 
   src/lyrics/lyricsproviders.h

@@ -73,8 +73,6 @@ Files: src/core/main.h
        src/covermanager/qobuzcoverprovider.h
        src/covermanager/spotifycoverprovider.cpp
        src/covermanager/spotifycoverprovider.h
-       src/covermanager/musixmatchcoverprovider.cpp
-       src/covermanager/musixmatchcoverprovider.h
        src/globalshortcuts/globalshortcutsbackend-kglobalaccel.cpp
        src/globalshortcuts/globalshortcutsbackend-kglobalaccel.h
        src/globalshortcuts/globalshortcutsbackend-x11.cpp
