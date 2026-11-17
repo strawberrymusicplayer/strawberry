@@ -588,6 +588,7 @@ set(SOURCES
   src/credentialsmanager/credentialsbackendsettings.cpp
 
   src/tagreader/tagreaderclient.cpp
+  src/tagreader/tagreaderfilelocks.cpp
   src/tagreader/tagreaderresult.cpp
   src/tagreader/tagreaderbase.cpp
   src/tagreader/tagreadertaglib.cpp
