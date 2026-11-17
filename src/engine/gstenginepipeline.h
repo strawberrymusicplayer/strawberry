@@ -86,7 +86,7 @@ class GstEnginePipeline : public QObject {
   void set_buffer_duration_nanosec(const quint64 duration_nanosec);
   void set_buffer_low_watermark(const double value);
   void set_buffer_high_watermark(const double value);
-  void set_device_warmup_duration_ms(const int duration_ms);
+  void set_device_warmup_duration_ms(const int duration_ms, const int reopen_duration_ms);
   void set_proxy_settings(const QString &address, const bool authentication, const QString &user, const QString &pass);
   void set_channels(const bool enabled, const int channels);
   void set_bs2b_enabled(const bool enabled);
@@ -121,8 +121,10 @@ class GstEnginePipeline : public QObject {
   bool paused_before_playing() const { return paused_before_playing_.load(); }
   void PauseBeforePlaying();
   void UnpauseBeforePlaying();
-  void SeekAsync(const qint64 nanosec, const int expected_track_changes = -1);
-  void SeekDelayed(const qint64 nanosec, const int expected_track_changes = -1);
+  // Paused while the pipeline is reset for a seek, the state is READY until it prerolled again, unpausing starts playback after the reset.
+  bool paused_during_seek_reset() const;
+  // The pipeline is reset for a seek, and not prerolled again yet, the state can still be PLAYING from before the reset.
+  bool seek_reset_pending() const { return seek_reset_preroll_pending_.load(); }
 
   void SetVolume(const uint volume_percent);
   void SetMute(const bool mute);
@@ -190,9 +192,10 @@ class GstEnginePipeline : public QObject {
   void ReapplyMute();
   double PercentToInternalVolume(const uint volume_percent) const;
   uint InternalVolumeToPercent(const double volume_internal) const;
-  void SetStateAsync(const GstState state);
+  // A pause for buffering doesn't replace the request to play after a seek, buffering can finish and leave the request to the seek before the pause is applied.
+  void SetStateAsync(const GstState state, const bool buffering_pause = false);
   // Applies a state without counting as a newer request, so it does not invalidate async requests queued in the meantime (see SetState() and SetStateAsyncSlot()).
-  QFuture<GstStateChangeReturn> ApplyState(const GstState state);
+  QFuture<GstStateChangeReturn> ApplyState(const GstState state, const bool buffering_pause = false);
   void StartPlaybackAfterWarmup();
   void DeviceWarmupElapsed(const quint64 device_warmup_generation);
   void EmitFinishedIfQuiescent();
@@ -219,6 +222,7 @@ class GstEnginePipeline : public QObject {
   void ElementMessageReceived(GstMessage *msg);
   void StateChangedMessageReceived(GstMessage *msg);
   void BufferingMessageReceived(GstMessage *msg);
+  void FinishBuffering();
   void StreamStatusMessageReceived(GstMessage *msg);
   void StreamStartMessageReceived();
 
@@ -243,9 +247,18 @@ class GstEnginePipeline : public QObject {
   void ProcessPendingSeek(const GstState state);
   // The pending seek is stored and taken with the track changes it's for, so it's not applied to another track when it's retried.
   void SetPendingSeek(const qint64 nanosec, const int expected_track_changes);
-  qint64 TakePendingSeek(int *expected_track_changes);
+  // Sets the pending seek, and requests the next uri to be reset when that is not requested yet, returns true when it is requested now.
+  bool SetPendingSeekForNextUriReset(const qint64 nanosec, const int expected_track_changes);
+  // The seek is not taken while it waits for the next uri to be reset when keep_for_next_uri_reset is set.
+  qint64 TakePendingSeek(int *expected_track_changes, int *seek_generation, const bool keep_for_next_uri_reset = false);
+  void SeekAsync(const qint64 nanosec, const int expected_track_changes, const int seek_generation);
+  void SeekDelayed(const qint64 nanosec, const int expected_track_changes, const int seek_generation);
+  void QueuePendingSeek();
+  void SeekIfNotReplaced(const qint64 nanosec, const int expected_track_changes, const int seek_generation);
+  void ApplyPendingStateAfterSeek();
+  void ApplyPendingStateAfterSkippedSeek();
   // Handles a request queued by SetStateAsync(). Not a slot: SetStateAsync() posts it as a functor, so the call is checked at compile time instead of resolved by name at runtime.
-  void SetStateAsyncSlot(const GstState state, const quint64 state_request_generation);
+  void SetStateAsyncSlot(const GstState state, const quint64 state_request_generation, const bool buffering_pause);
 
  private Q_SLOTS:
   void SetStateFinishedSlot(const GstState state, const GstStateChangeReturn state_change_return);
@@ -283,12 +296,26 @@ class GstEnginePipeline : public QObject {
 
   // Audio device (DAC) warm-up delay in milliseconds inserted between preroll (PAUSED) and playback (PLAYING); 0 disables it.
   int device_warmup_duration_ms_;
+  // The warm-up delay used after going to READY closed the audio device, also when the warm-up is skipped for starting playback.
+  int device_warmup_reopen_duration_ms_;
   // Set for a fresh non-paused start with a warm-up delay configured, so the first time the pipeline reaches PAUSED we wait before going to PLAYING.  One-shot per Play().
   std::atomic<bool> device_warmup_pending_;
   // Bumped by every SetState() call so a scheduled warm-up timer can detect that a newer transition (e.g. the user paused/stopped, or a newer start) superseded it and skip resuming playback.
   std::atomic<quint64> device_warmup_generation_;
   // Set while the warm-up timer is waiting to start playback.
   std::atomic<bool> device_warmup_waiting_;
+  // Set when the warm-up elapsed while buffering, so playback is started when buffering finished.
+  std::atomic<bool> device_warmup_elapsed_while_buffering_;
+  // Set while a seek which is queued after prerolling for the warm-up is going to start playback after the warm-up.
+  std::atomic<bool> device_warmup_after_seek_;
+  // Set while the pending state is the request to resume playback when buffering, which started while playing, finished.
+  std::atomic<bool> pending_state_from_buffering_;
+  // Changed by every request to seek, so a queued seek which a newer request replaced is not applied.
+  std::atomic<int> seek_generation_;
+  // The number of seeks which are taken to queue them, but not applied yet.
+  std::atomic<int> queued_seeks_;
+  // Changed by every buffering message, so buffering which a new source finished is not finished when a newer buffering message was received before.
+  std::atomic<quint64> buffering_generation_;
   // Set when paused while playback was waiting to start, so playback is held when it would otherwise start.
   std::atomic<bool> paused_before_playing_;
   // Set when playback would have started while paused_before_playing_ was set, so it is started when unpaused.
@@ -410,6 +437,8 @@ class GstEnginePipeline : public QObject {
   QMutex mutex_pending_seek_;
   int pending_seek_track_changes_;
   std::atomic<GstState> pending_seek_ready_previous_state_;
+  // The pipeline goes to READY for a seek reset, and did not preroll again yet.
+  std::atomic<bool> seek_reset_preroll_pending_;
 
   // We can only use gst_element_query_position() when the pipeline is in PAUSED nor PLAYING state.
   // Whenever we get a new position (e.g. after a correct call to gst_element_query_position() or after a seek), we store it here so that we can use it when using gst_element_query_position() is not possible.
@@ -488,6 +517,8 @@ class GstEnginePipeline : public QObject {
   // Only SetState() bumps it: a request applied from SetStateAsyncSlot() goes through ApplyState() instead, since anything queued after it is by definition newer and must still be applied.
   // Guarded by mutex_set_state_async_, so that reading it and queueing the request it is snapshotted for cannot be interleaved with a bump.
   quint64 set_state_request_generation_;
+  // The generation of the request to go to READY for reverting the next uri for a seek, so a newer request made while going to READY is not overridden when the pipeline is resumed.
+  quint64 pending_seek_ready_state_request_generation_;
   QMutex mutex_set_state_async_;
 
   // Running gst_element_set_state() calls for this pipeline.
