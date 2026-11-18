@@ -515,7 +515,12 @@ optional_component(TIDAL ON "Streaming: Tidal")
 optional_component(SPOTIFY ON "Streaming: Spotify")
 
 if(ANDROID)
-  set(HAVE_SPOTIFY OFF)
+  option(ENABLE_ANDROID_SPOTIFY "Enable experimental Spotify login and playback on Android" OFF)
+  if(NOT ENABLE_ANDROID_SPOTIFY)
+    set(HAVE_SPOTIFY OFF)
+  elseif(NOT HAVE_SPOTIFY OR NOT ENABLE_ANDROID_SPOTIFY_PLUGIN_PROBE)
+    message(FATAL_ERROR "ENABLE_ANDROID_SPOTIFY requires ENABLE_SPOTIFY and ENABLE_ANDROID_SPOTIFY_PLUGIN_PROBE")
+  endif()
 endif()
 
 optional_component(QOBUZ ON "Streaming: Qobuz")
@@ -1880,6 +1885,9 @@ if(HAVE_TIDAL)
 endif()
 
 if(HAVE_SPOTIFY)
+  if(ANDROID)
+    list(APPEND SOURCES src/spotify/spotifyservice_android.cpp)
+  endif()
   list(APPEND SOURCES
     src/spotify/spotifyservice.cpp
     src/spotify/spotifybaserequest.cpp

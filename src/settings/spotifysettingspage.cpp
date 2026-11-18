@@ -46,6 +46,9 @@
 #include "spotify/spotifyservice.h"
 #include "widgets/loginstatewidget.h"
 #include "constants/spotifysettings.h"
+#ifdef Q_OS_ANDROID
+#include "widgets/actiondialog.h"
+#endif
 
 using namespace Qt::Literals::StringLiterals;
 using namespace SpotifySettings;
@@ -75,7 +78,25 @@ SpotifySettingsPage::SpotifySettingsPage(SettingsDialog *dialog, const SharedPtr
   QObject::connect(&*service_, &StreamingService::LoginFailure, this, &SpotifySettingsPage::LoginFailure);
   QObject::connect(&*service_, &StreamingService::LoginSuccess, this, &SpotifySettingsPage::LoginSuccess);
 
+#ifdef Q_OS_ANDROID
+  ui_->checkbox_use_custom_api_credentials->hide();
+  ui_->label_client_secret->hide();
+  ui_->client_secret->hide();
+  auto *cancel_login = new QPushButton(tr("Cancel login"), this);
+  cancel_login->hide();
+  ui_->layout_spotifysettingspage->addWidget(cancel_login);
+  QObject::connect(cancel_login, &QPushButton::clicked, &*service_, &SpotifyService::CancelAndroidAuthentication);
+  QObject::connect(&*service_, &SpotifyService::LoginFinished, this, [this, cancel_login]() {
+    cancel_login->hide();
+    ui_->button_login->setEnabled(true);
+    ui_->login_state->SetLoggedIn(service_->authenticated() ? LoginStateWidget::State::LoggedIn : LoginStateWidget::State::LoggedOut);
+  });
+  QObject::connect(ui_->button_login, &QPushButton::clicked, this, [this, cancel_login]() {
+    cancel_login->setVisible(service_->AndroidAuthenticationInProgress());
+  });
+#else
   dialog->installEventFilter(this);
+#endif
 
   ui_->bitrate->addItem(u"96 kbit/s"_s, static_cast<int>(Bitrate::Bitrate96));
   ui_->bitrate->addItem(u"160 kbit/s"_s, static_cast<int>(Bitrate::Bitrate160));
@@ -116,6 +137,13 @@ SpotifySettingsPage::~SpotifySettingsPage() { delete ui_; }
 
 void SpotifySettingsPage::showEvent(QShowEvent *e) {
 
+#ifdef Q_OS_ANDROID
+  if (service_->AndroidAuthenticationInProgress()) {
+    ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoginInProgress);
+    SettingsPage::showEvent(e);
+    return;
+  }
+#endif
   ui_->login_state->SetLoggedIn(service_->authenticated() ? LoginStateWidget::State::LoggedIn : LoginStateWidget::State::LoggedOut);
   SettingsPage::showEvent(e);
 
@@ -127,6 +155,7 @@ void SpotifySettingsPage::Load() {
   s.beginGroup(kSettingsGroup);
   ui_->enable->setChecked(s.value(kEnabled, kDefaultEnabled).toBool());
 
+#ifndef Q_OS_ANDROID
   if (service_->HasCompiledCredentials()) {
     ui_->checkbox_use_custom_api_credentials->setVisible(true);
     const bool use_custom_api_credentials = s.value(kUseCustomApiCredentials, false).toBool();
@@ -143,8 +172,9 @@ void SpotifySettingsPage::Load() {
     ui_->label_client_id->setEnabled(true);
     ui_->label_client_secret->setEnabled(true);
   }
-  ui_->client_id->setText(s.value(kClientId).toString());
   ui_->client_secret->setText(s.value(kClientSecret).toString());
+#endif
+  ui_->client_id->setText(s.value(kClientId).toString());
 
   ui_->searchdelay->setValue(s.value(kSearchDelay, kDefaultSearchDelay).toInt());
   ui_->artistssearchlimit->setValue(s.value(kArtistsSearchLimit, kDefaultArtistsSearchLimit).toInt());
@@ -170,9 +200,11 @@ void SpotifySettingsPage::Save() {
   Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue(kEnabled, ui_->enable->isChecked());
-  s.setValue(kUseCustomApiCredentials, ui_->checkbox_use_custom_api_credentials->isChecked());
   s.setValue(kClientId, ui_->client_id->text());
+#ifndef Q_OS_ANDROID
+  s.setValue(kUseCustomApiCredentials, ui_->checkbox_use_custom_api_credentials->isChecked());
   s.setValue(kClientSecret, ui_->client_secret->text());
+#endif
   s.setValue(kSearchDelay, ui_->searchdelay->value());
   s.setValue(kArtistsSearchLimit, ui_->artistssearchlimit->value());
   s.setValue(kAlbumsSearchLimit, ui_->albumssearchlimit->value());
@@ -187,9 +219,22 @@ void SpotifySettingsPage::Save() {
 
 void SpotifySettingsPage::LoginClicked() {
 
+#ifdef Q_OS_ANDROID
+  Settings s;
+  s.beginGroup(kSettingsGroup);
+  if (s.value(kClientId).toString().trimmed() != ui_->client_id->text().trimmed()) {
+    LoginFailure(tr("Apply your Spotify client ID before logging in."));
+    return;
+  }
   Q_EMIT Authorize();
-
+  if (service_->AndroidAuthenticationInProgress()) {
+    ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoginInProgress);
+    ui_->button_login->setEnabled(false);
+  }
+#else
+  Q_EMIT Authorize();
   ui_->button_login->setEnabled(false);
+#endif
 
 }
 
@@ -222,7 +267,13 @@ void SpotifySettingsPage::LoginSuccess() {
 void SpotifySettingsPage::LoginFailure(const QString &failure_reason) {
 
   if (!IsActive()) return;
+#ifdef Q_OS_ANDROID
+  auto *notification = new ActionDialog(dialog()->parentWidget(), tr("Authentication failed"), failure_reason, ActionDialog::TitlePosition::Top);
+  notification->AddCancelButton(tr("Close"));
+  notification->Open();
+#else
   QMessageBox::warning(this, tr("Authentication failed"), failure_reason);
+#endif
   ui_->button_login->setEnabled(true);
 
 }

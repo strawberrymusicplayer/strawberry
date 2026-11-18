@@ -5,10 +5,12 @@
 
 set -eu
 
-SOURCE_VERSION=0.14.4
-SOURCE_URL="https://codeload.github.com/GStreamer/gst-plugins-rs/tar.gz/refs/tags/${SOURCE_VERSION}"
-SOURCE_SHA256=8fbc5e0f95fba4d51bb1efcca41db359e84300e200d6bf980c3f44c0692b7986
-RUST_VERSION=1.85.0
+SOURCE_VERSION=0.15.4
+SOURCE_TAG="${SOURCE_VERSION}+fixup"
+SOURCE_ARCHIVE_NAME="gst-plugins-rs-${SOURCE_VERSION}-fixup"
+SOURCE_URL="https://codeload.github.com/GStreamer/gst-plugins-rs/tar.gz/refs/tags/${SOURCE_TAG}"
+SOURCE_SHA256=a6ba44b371e4a6a9c2a28fef6beea06b8478f79d0f37a13bfba1ba1a02a57b6a
+RUST_VERSION=1.92.0
 CARGO_C_VERSION=0.10.13
 
 usage() {
@@ -101,14 +103,14 @@ output="$(cd "${output}" && pwd)"
 mkdir -p "${work}"
 work="$(cd "${work}" && pwd)"
 
-tarball="${work}/gst-plugins-rs-${SOURCE_VERSION}.tar.gz"
+tarball="${work}/${SOURCE_ARCHIVE_NAME}.tar.gz"
 if [ ! -f "${tarball}" ] || ! echo "${SOURCE_SHA256}  ${tarball}" | sha256sum -c --status; then
   curl -fL --retry 3 -o "${tarball}.part" "${SOURCE_URL}"
   mv "${tarball}.part" "${tarball}"
 fi
 echo "${SOURCE_SHA256}  ${tarball}" | sha256sum -c --status || fail "checksum mismatch for ${tarball}"
 
-source_dir="${work}/gst-plugins-rs-${SOURCE_VERSION}"
+source_dir="${work}/${SOURCE_ARCHIVE_NAME}"
 rm -rf "${source_dir}"
 tar -xzf "${tarball}" -C "${work}"
 [ -f "${source_dir}/Cargo.lock" ] || fail "unexpected source layout in ${tarball}"
@@ -154,7 +156,7 @@ cargo tree --locked -p gst-plugin-spotify --target "${triple}" -e normal,no-proc
 # Some published crates omit their licence file; use the upstream file from the commit recorded in the crate.
 upstream_license() {
   case "$1" in
-    governor-0.10.2) echo "https://raw.githubusercontent.com/boinkor-net/governor/b28d8b0c123714082fca5275941d8d557f7bf66a/LICENSE 2248fdedb215c73b6431d4c0419c6476c0aa19621fa94041aa7c5a3ce952e5cc" ;;
+    governor-0.10.4) echo "https://raw.githubusercontent.com/boinkor-net/governor/9f3a79dd47dd32acd589c562b8d4fefe99b93372/LICENSE 2248fdedb215c73b6431d4c0419c6476c0aa19621fa94041aa7c5a3ce952e5cc" ;;
     librespot-*-0.8.0) echo "https://raw.githubusercontent.com/librespot-org/librespot/d36f9f1907e8cc9d68a93f8ebc6b627b1bf7267d/LICENSE b6e979ad38c429c5811e9eb6930040a984619786f55ebc60660db05df5325ed6" ;;
     symphonia-0.5.5|symphonia-*-0.5.5) echo "https://raw.githubusercontent.com/pdeljanov/Symphonia/6d533f26150953a882a6a111ebd13f0abf7129d5/LICENSE c76f740d1521b9bed9ca7a04ad526c310493c62621b1341d623b431736533b30" ;;
   esac

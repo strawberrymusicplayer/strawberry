@@ -882,8 +882,8 @@ The user also requested removing these arrows from the navigation/menu bar when 
 **Next steps:**
 - Set up a durable release source-delivery location and attach the generated source bundle, manifest and licence inventory to any APK distribution.
 - The project currently configures and packages arm64-v8a only; build and register additional ABI archives only if the Android distribution expands to ship them.
-- Keep Spotify disabled on Android until item 24 restores browser authentication and the release build integrates the plugin; preserve existing desktop behavior.
-- After item 24, verify login, playback, seeking, track transitions, and background playback on Android before marking this item done.
+- Keep Spotify disabled in normal Android builds. The default-off `ENABLE_ANDROID_SPOTIFY` option requires the plugin probe and enables a local test with a Spotify developer app's client ID, PKCE, and a direct loopback redirect. It does not depend on the Last.fm login work.
+- Verify Spotify login, callback, playback, seeking, track transitions, and background playback on Android before marking this item done.
 
 ## 23. Investigate Discord Rich Presence support on Android
 

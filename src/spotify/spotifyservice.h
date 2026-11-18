@@ -44,6 +44,9 @@ class CollectionBackend;
 class CollectionModel;
 class CollectionFilter;
 class OAuthenticator;
+#ifdef Q_OS_ANDROID
+class AndroidBrowserAuthentication;
+#endif
 
 using SpotifyRequestPtr = QScopedPointer<SpotifyRequest, QScopedPointerDeleteLater>;
 
@@ -97,6 +100,10 @@ class SpotifyService : public StreamingService {
 
  public Q_SLOTS:
   void Authenticate();
+#ifdef Q_OS_ANDROID
+  bool AndroidAuthenticationInProgress() const;
+  void CancelAndroidAuthentication();
+#endif
   void ClearSession();
   void AccessTokenRejected(const QByteArray &authorization_header);
   void GetArtists() override;
@@ -126,6 +133,11 @@ class SpotifyService : public StreamingService {
 
  private:
   void SendSearch();
+#ifdef Q_OS_ANDROID
+  bool StartAndroidAuthentication(QString &error);
+  void StopAndroidAuthentication();
+  AndroidBrowserAuthentication *android_browser_authentication_ = nullptr;
+#endif
 
  private:
   const SharedPtr<NetworkAccessManager> network_;

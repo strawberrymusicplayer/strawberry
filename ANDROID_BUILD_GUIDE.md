@@ -126,12 +126,12 @@ cmake --build build --target strawberry --parallel 2
 ```
 
 The archive must target the same Android ABI and GStreamer SDK as the app.
-Build it with [dist/scripts/build-android-gst-plugin-spotify.sh](dist/scripts/build-android-gst-plugin-spotify.sh), which pins the gst-plugins-rs 0.14.4 source archive by SHA-256, requires Rust 1.85.0 and cargo-c 0.10.13, and builds with Cargo's `--locked` lockfile:
+Build it with [dist/scripts/build-android-gst-plugin-spotify.sh](dist/scripts/build-android-gst-plugin-spotify.sh), which pins the gst-plugins-rs 0.15.4+fixup source archive by SHA-256, requires Rust 1.92.0 and cargo-c 0.10.13, and builds with Cargo's `--locked` lockfile:
 
 ```bash
-rustup toolchain install 1.85.0
-rustup target add --toolchain 1.85.0 aarch64-linux-android
-cargo +1.85.0 install --locked cargo-c --version 0.10.13
+rustup toolchain install 1.92.0
+rustup target add --toolchain 1.92.0 aarch64-linux-android
+cargo +1.92.0 install --locked cargo-c --version 0.10.13
 dist/scripts/build-android-gst-plugin-spotify.sh \
   --ndk ~/Android/Sdk/ndk/27.2.12479018 \
   --gstreamer /path/to/gstreamer-1.28.8/arm64 \
@@ -156,13 +156,23 @@ An isolated Android test of the pinned Rust TLS dependencies found no default ro
 The app's GLib `CA_CERTIFICATES` setting does not by itself configure Rust.
 In the app process on the emulator, this setup let the plugin complete Spotify's HTTPS access-point lookup; Spotify then rejected a deliberately invalid token.
 Without usable roots, librespot's HTTP client setup fails before connecting.
-A valid login and playback have not been tested.
-Spotify login and playback remain outstanding; do not distribute probe builds as Spotify-enabled releases.
+The experimental service below authenticated on the FP5, but playback with plugin 0.15.4 still failed with "track is not available".
+Both plugin 0.14.4 and 0.15.4 use librespot 0.8.0, which already includes the extended-metadata endpoint change; upgrading the plugin alone did not resolve this failure.
+The generic error does not establish whether the cause is an account-specific audio-key restriction or another track-loading failure.
+Playback, seeking, track transitions, and background playback remain unverified; do not distribute probe builds as Spotify-enabled releases.
 To restore the ordinary Android build, configure with `-DENABLE_ANDROID_SPOTIFY_PLUGIN_PROBE=OFF` and rebuild.
+
+### Experimental Spotify login and playback on the FP5
+
+For a local test build, enable `-DENABLE_ANDROID_SPOTIFY=ON` in addition to the plugin probe and its archive. Both options are off by default. To turn the probe off again, also set `-DENABLE_ANDROID_SPOTIFY=OFF`.
+Register a Web API app in the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard), and add an accepted loopback Redirect URI, for example `http://127.0.0.1:8080/`.
+Strawberry binds an available loopback port and includes it in the authorization request; Spotify permits dynamic ports for loopback redirects.
+Use a Premium account authorized for the app in Development Mode. On the phone, enter the app's Client ID in Settings > Streaming > Spotify, tap Apply, then Login. Do not enter a client secret; Android uses PKCE.
+Complete authorization within two minutes, then switch back to Strawberry. This build is for verifying the callback and playback, not for public distribution.
 
 ### Spotify plugin distribution licensing
 
-The pinned `gst-plugin-spotify` 0.14.4 manifest declares MPL-2.0. The linked Symphonia 0.5.5 crates also declare MPL-2.0, while librespot 0.8.0 declares MIT; do not treat librespot as MPL-covered.
+The pinned `gst-plugin-spotify` 0.15.4 manifest declares MPL-2.0. The linked Symphonia 0.5.5 crates also declare MPL-2.0, while librespot 0.8.0 declares MIT; do not treat librespot as MPL-covered.
 Under [MPL-2.0 sections 3.1–3.4](https://www.mozilla.org/en-US/MPL/2.0/), distributing the plugin in executable form requires making its corresponding source form available and telling recipients how to obtain it by reasonable means in a timely manner. Source-form distributions must be under MPL-2.0, and the covered software's license notices must not be removed or altered.
 Including licence texts in the APK does not, by itself, provide the corresponding source or explain how to obtain it. Before any Spotify-enabled release:
 
