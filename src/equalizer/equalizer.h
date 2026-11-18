@@ -33,6 +33,7 @@
 #include <QString>
 
 class QWidget;
+class QTimer;
 
 class EqualizerSlider;
 class Ui_Equalizer;
@@ -72,6 +73,8 @@ class Equalizer : public QDialog {
 
  public Q_SLOTS:
   void reject() override;
+  // Saves the changes which are saved after a delay now.
+  void SavePending();
 
  private Q_SLOTS:
   void StereoBalancerEnabledChangedSlot(const bool enabled);
@@ -91,12 +94,17 @@ class Equalizer : public QDialog {
   void LoadPreset(const QString &name);
   void ReloadSettings();
   void SetParams(const Params &params);
-  void SaveCurrentParams() const;
+  void SaveCurrentParams();
+  void SaveLater();
   QString SaveCurrentPreset();
 
  private:
   Ui_Equalizer *ui_;
   bool loading_;
+
+  QTimer *save_timer_;
+  bool save_pending_;
+  bool save_current_params_pending_;
 
   QString last_preset_;
 

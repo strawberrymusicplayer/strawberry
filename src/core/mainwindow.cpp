@@ -1512,6 +1512,7 @@ void MainWindow::SaveSettings() {
   ui_->tabs->SaveSettings(QLatin1String(MainWindowSettings::kSettingsGroup));
   ui_->playlist->view()->SaveSettings();
   app_->scrobbler()->WriteCache();
+  equalizer_->SavePending();
 
   Settings s;
   s.beginGroup(MainWindowSettings::kSettingsGroup);
