@@ -397,7 +397,8 @@ void SettingsDialog::AddPage(const Page id, SettingsPage *page, QTreeWidgetItem 
   area->setWidgetResizable(true);
   area->setFrameShape(QFrame::NoFrame);
 #ifdef Q_OS_ANDROID
-  AndroidWidgets::SetWindowBackground(area);
+  AndroidWidgets::SetPageBackground(area);
+  page->setBackgroundRole(QPalette::Base);
 #endif
 #ifndef Q_OS_ANDROID
   area->setMinimumWidth(page->layout()->minimumSize().width());

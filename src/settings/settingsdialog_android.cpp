@@ -58,10 +58,11 @@ constexpr int kAndroidHelpButtonHeight = 56;
 
 void SettingsDialog::SetupAndroidNavigation() {
 
+  setBackgroundRole(QPalette::Base);
   setAutoFillBackground(true);
   android_navigation_ = new QStackedWidget(this);
   android_navigation_->setMinimumWidth(0);
-  android_navigation_->setBackgroundRole(QPalette::Window);
+  android_navigation_->setBackgroundRole(QPalette::Base);
   android_navigation_->setAutoFillBackground(true);
   const AndroidWidgets::ScrollPage categories_scroll_page = AndroidWidgets::CreateScrollPage(android_navigation_);
   android_categories_page_ = categories_scroll_page.area;
@@ -129,7 +130,7 @@ void SettingsDialog::SetupAndroidNavigation() {
   ui_->layout->insertWidget(1, android_navigation_);
   ui_->list->hide();
   ui_->stacked_widget->setMinimumWidth(0);
-  ui_->stacked_widget->setBackgroundRole(QPalette::Window);
+  ui_->stacked_widget->setBackgroundRole(QPalette::Base);
   ui_->stacked_widget->setAutoFillBackground(true);
   ui_->buttonBox->setMinimumWidth(0);
   ui_->buttonBox->hide();
@@ -200,6 +201,8 @@ void SettingsDialog::OpenAndroidSubpage(QWidget *content, const QString &title) 
   auto *area = new QScrollArea;
   area->setWidgetResizable(true);
   area->setFrameShape(QFrame::NoFrame);
+  AndroidWidgets::SetPageBackground(area);
+  content->setBackgroundRole(QPalette::Base);
   android_subpages_.append({area, content->parentWidget(), parent_area, parent_area->verticalScrollBar()->value(), title});
   area->setWidget(content);
   android_navigation_->addWidget(area);

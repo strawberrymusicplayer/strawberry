@@ -7,6 +7,8 @@
 #include <QCheckBox>
 #include <QGroupBox>
 #include <QLabel>
+#include <QPalette>
+#include <QScrollArea>
 #include <QSignalSpy>
 #include <QStyle>
 #include <QStyleOptionButton>
@@ -171,5 +173,26 @@ TEST(AndroidWidgetsTest, ApplicationAdapterCoversDynamicallyCreatedControls) {
   group.setCheckable(true);
   group.ensurePolished();
   EXPECT_TRUE(group.property("androidTouchGroupBox").toBool());
+
+}
+
+TEST(AndroidWidgetsTest, ScrollPageUsesBaseBackgroundEvenWhenWindowIsBlack) {
+
+  QWidget parent;
+  QPalette palette = parent.palette();
+  palette.setColor(QPalette::Window, Qt::black);
+  palette.setColor(QPalette::Base, QColor(48, 48, 48));
+  parent.setPalette(palette);
+  const AndroidWidgets::ScrollPage page = AndroidWidgets::CreateScrollPage(&parent);
+  page.area->resize(320, 240);
+  page.area->show();
+  parent.show();
+  QApplication::processEvents();
+
+  for (QWidget *widget : {static_cast<QWidget*>(page.area), page.area->viewport(), page.contents}) {
+    const QImage image = widget->grab().toImage();
+    ASSERT_FALSE(image.isNull());
+    EXPECT_EQ(QColor(48, 48, 48), image.pixelColor(image.width() / 2, image.height() / 2));
+  }
 
 }

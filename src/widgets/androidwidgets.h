@@ -137,8 +137,8 @@ QHBoxLayout *CreatePageHeader(QLabel *title, QPushButton *back);
 // Styles a full-width navigation button: larger, left-aligned text with a fixed height.
 void StyleNavigationButton(QAbstractButton *button, int minimum_height);
 
-// Fills the scroll area and its viewport with the window color.
-void SetWindowBackground(QScrollArea *area);
+// Fills the scroll area and its viewport with the Base color, matching the main Android pages.
+void SetPageBackground(QScrollArea *area);
 
 struct ScrollPage {
   QScrollArea *area;
@@ -146,7 +146,7 @@ struct ScrollPage {
   QVBoxLayout *layout;
 };
 
-// Returns a vertically scrolling, window-colored page whose contents use a margin-free vertical layout.
+// Returns a vertically scrolling, Base-colored page whose contents use a margin-free vertical layout.
 ScrollPage CreateScrollPage(QWidget *parent);
 
 }  // namespace AndroidWidgets

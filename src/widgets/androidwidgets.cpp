@@ -251,11 +251,11 @@ void StyleNavigationButton(QAbstractButton *button, const int minimum_height) {
 
 }
 
-void SetWindowBackground(QScrollArea *area) {
+void SetPageBackground(QScrollArea *area) {
 
-  area->setBackgroundRole(QPalette::Window);
+  area->setBackgroundRole(QPalette::Base);
   area->setAutoFillBackground(true);
-  area->viewport()->setBackgroundRole(QPalette::Window);
+  area->viewport()->setBackgroundRole(QPalette::Base);
   area->viewport()->setAutoFillBackground(true);
 
 }
@@ -266,10 +266,10 @@ ScrollPage CreateScrollPage(QWidget *parent) {
   area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   area->setWidgetResizable(true);
   area->setFrameShape(QFrame::NoFrame);
-  SetWindowBackground(area);
+  SetPageBackground(area);
 
   QWidget *contents = new QWidget(area);
-  contents->setBackgroundRole(QPalette::Window);
+  contents->setBackgroundRole(QPalette::Base);
   contents->setAutoFillBackground(true);
   QVBoxLayout *layout = new QVBoxLayout(contents);
   layout->setContentsMargins(0, 0, 0, 0);
