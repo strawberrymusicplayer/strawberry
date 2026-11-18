@@ -34,6 +34,8 @@
 #include <QString>
 #include <QStringList>
 #include <QTemporaryDir>
+#include <QThread>
+#include <QThreadPool>
 #include <QUrl>
 #include <QVariantMap>
 
@@ -101,6 +103,10 @@ class TestDevice : public ConnectedDevice {
  public:
   using ConnectedDevice::ConnectedDevice;
 
+  ~TestDevice() override {
+    if (deleted_in_thread) *deleted_in_thread = QThread::currentThread();
+  }
+
   bool Init() override { return true; }
   bool CopyToStorage(const CopyJob &job, QString &error_text) override {
     Q_UNUSED(job)
@@ -113,11 +119,18 @@ class TestDevice : public ConnectedDevice {
   }
   bool GetSupportedFiletypes(QList<Song::FileType> *ret) override {
     ++format_requests;
+    while (block_formats && block_formats->load()) {
+      QThread::msleep(10);
+    }
     *ret << Song::FileType::FLAC << Song::FileType::MPEG;
     return true;
   }
 
   std::atomic<int> format_requests = 0;
+  // Loading the formats waits while this is set, like for a device which takes long to reply.
+  std::atomic<bool> *block_formats = nullptr;
+  // Set to the thread the device is deleted in.
+  std::atomic<QThread*> *deleted_in_thread = nullptr;
 };
 
 class DevicePropertiesTest : public ::testing::Test {
@@ -150,6 +163,8 @@ class DevicePropertiesTest : public ::testing::Test {
     info->transcode_format_ = Song::FileType::FLAC;
     info->backends_ << DeviceInfo::Backend(&lister_, u"test"_s);
     device_ = make_shared<TestDevice>(QUrl(u"test:device"_s), &lister_, u"test"_s, &*device_manager_, task_manager_, database_, tagreader_client_, albumcover_loader_, database_id, false);
+    device_->block_formats = &block_formats_;
+    device_->deleted_in_thread = &device_deleted_in_thread_;
     info->device_ = device_;
 
     dialog_ = std::make_unique<DeviceProperties>();
@@ -158,6 +173,10 @@ class DevicePropertiesTest : public ::testing::Test {
   }
 
   void TearDown() override {
+    // Loading the formats is not left waiting when a test failed, and it's finished, so the device is not deleted after this test.
+    block_formats_ = false;
+    QThreadPool::globalInstance()->waitForDone();
+    QCoreApplication::processEvents();
     dialog_.reset();
     DeviceInfo *info = device_manager_->GetDevice(index_);
     info->device_.reset();
@@ -202,6 +221,9 @@ class DevicePropertiesTest : public ::testing::Test {
   TestLister lister_;
   SharedPtr<TestDevice> device_;
   std::unique_ptr<DeviceProperties> dialog_;
+  // Kept here, not in the test, so they outlive the device also when a test failed.
+  std::atomic<bool> block_formats_ = false;
+  std::atomic<QThread*> device_deleted_in_thread_ = nullptr;
 };
 
 // Regression test: every change of the device in the model set the saved choices again, and replaced the page with the choices with the loading page.
@@ -246,6 +268,26 @@ TEST_F(DevicePropertiesTest, OpeningDialogLoadsSavedChoices) {
   EXPECT_TRUE(RadioButton(u"transcode_all"_s)->isChecked());
   ASSERT_TRUE(WaitFor([this]() { return device_->format_requests.load() == 2 && FormatsLoaded(); }));
   EXPECT_EQ(saved_format, FormatComboBox()->currentText());
+
+}
+
+// Regression test: when the device was closed while its formats were loaded, the thread-pool thread loading them had the last reference to the device, so the device was deleted in that thread instead of its own.
+TEST_F(DevicePropertiesTest, DeviceClosedWhileLoadingFormatsIsDeletedInItsThread) {
+
+  TestDevice *device = &*device_;
+  block_formats_ = true;
+
+  dialog_->ShowDevice(index_);
+  ASSERT_TRUE(WaitFor([device]() { return device->format_requests.load() == 1; }));
+
+  // The device is closed, so loading the formats has the last reference.
+  device_manager_->GetDevice(index_)->device_.reset();
+  device_.reset();
+  ASSERT_EQ(nullptr, device_deleted_in_thread_.load());
+  block_formats_ = false;
+
+  ASSERT_TRUE(WaitFor([this]() { return device_deleted_in_thread_.load() != nullptr; }));
+  EXPECT_EQ(QThread::currentThread(), device_deleted_in_thread_.load());
 
 }
 
