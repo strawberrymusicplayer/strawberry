@@ -22,9 +22,12 @@
 #include "config.h"
 
 #include <functional>
+#include <optional>
 #include <utility>
 
 #include <QtGlobal>
+#include <QMetaObject>
+#include <QList>
 #include <QWidget>
 #include <QDialog>
 #include <QtConcurrentRun>
@@ -58,6 +61,13 @@
 #include "ui_deviceproperties.h"
 
 using namespace Qt::Literals::StringLiterals;
+
+namespace {
+
+// The supported formats, or nothing when they could not be loaded.
+using SupportedFormatsResult = std::optional<QList<Song::FileType>>;
+
+}  // namespace
 
 DeviceProperties::DeviceProperties(QWidget *parent)
     : QDialog(parent),
@@ -252,11 +262,18 @@ void DeviceProperties::UpdateFormats() {
     formats_device_ = device.get();
 
     // Get the device's supported formats list.  This takes a long time and it blocks, so do it in the background.
-    supported_formats_.clear();
-
-    QFuture<bool> future = QtConcurrent::run(&ConnectedDevice::GetSupportedFiletypes, device, &supported_formats_);
-    QFutureWatcher<bool> *watcher = new QFutureWatcher<bool>(this);
-    QObject::connect(watcher, &QFutureWatcher<bool>::finished, this, &DeviceProperties::UpdateFormatsFinished);
+    // The formats are returned instead of written to this dialog, which can be deleted before the formats are loaded.
+    QFuture<SupportedFormatsResult> future = QtConcurrent::run([device]() mutable {
+      QList<Song::FileType> supported_formats;
+      const bool success = device->GetSupportedFiletypes(&supported_formats);
+      // The reference to the device is released in the thread of the device, it's the last one when the device was closed while the formats were loaded, and the device must not be deleted in this thread-pool thread.
+      // It's released when the call runs, not when the call is deleted, before Qt 6.6 this thread can delete the call after it ran.
+      ConnectedDevice *device_context = &*device;
+      QMetaObject::invokeMethod(device_context, [device = std::move(device)]() mutable { device.reset(); }, Qt::QueuedConnection);
+      return success ? SupportedFormatsResult(supported_formats) : SupportedFormatsResult();
+    });
+    QFutureWatcher<SupportedFormatsResult> *watcher = new QFutureWatcher<SupportedFormatsResult>(this);
+    QObject::connect(watcher, &QFutureWatcher<SupportedFormatsResult>::finished, this, &DeviceProperties::UpdateFormatsFinished);
     watcher->setFuture(future);
 
     ui_->formats_stack->setCurrentWidget(ui_->formats_page_loading);
@@ -295,8 +312,8 @@ void DeviceProperties::OpenDevice() { device_manager_->Connect(index_); }
 
 void DeviceProperties::UpdateFormatsFinished() {
 
-  QFutureWatcher<bool> *watcher = static_cast<QFutureWatcher<bool>*>(sender());
-  bool result = watcher->result();
+  QFutureWatcher<SupportedFormatsResult> *watcher = static_cast<QFutureWatcher<SupportedFormatsResult>*>(sender());
+  const SupportedFormatsResult result = watcher->result();
   watcher->deleteLater();
 
   updating_formats_ = false;
@@ -307,9 +324,7 @@ void DeviceProperties::UpdateFormatsFinished() {
     return;
   }
 
-  if (!result) {
-    supported_formats_.clear();
-  }
+  supported_formats_ = result.value_or(QList<Song::FileType>());
 
   // Hide widgets if there are no supported types
   ui_->supported_formats_container->setVisible(!supported_formats_.isEmpty());
