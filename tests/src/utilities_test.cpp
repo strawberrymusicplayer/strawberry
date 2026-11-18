@@ -464,6 +464,18 @@ TEST(UtilitiesTest, ParseLRC) {
     ASSERT_TRUE(lrc_lines->at(3).text.isEmpty());
   }
 
+  { // Timestamps separated by whitespace are all parsed, and not kept in the text
+    const std::optional<Utilities::LRCLines> lrc_lines = Utilities::ParseLRC(u"[00:01.00] [00:02.00]\t[00:03.00] Chorus"_s);
+    ASSERT_TRUE(lrc_lines.has_value());
+    ASSERT_EQ(lrc_lines->count(), 3);
+    ASSERT_EQ(lrc_lines->at(0).time, 1000u);
+    ASSERT_EQ(lrc_lines->at(1).time, 2000u);
+    ASSERT_EQ(lrc_lines->at(2).time, 3000u);
+    for (const Utilities::LRCLine &lrc_line : *lrc_lines) {
+      ASSERT_EQ(lrc_line.text, u"Chorus"_s);
+    }
+  }
+
   { // Lines ending with only CR (classic Mac OS)
     const std::optional<Utilities::LRCLines> lrc_lines = Utilities::ParseLRC(u"[00:01.00]Line one\r[00:02.00]Line two"_s);
     ASSERT_TRUE(lrc_lines.has_value());
