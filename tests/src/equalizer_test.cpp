@@ -24,7 +24,12 @@
 #include <QTranslator>
 #include <QInputDialog>
 #include <QComboBox>
+#include <QSlider>
+#include <QElapsedTimer>
+#include <QEventLoop>
 #include <QTimer>
+#include <QThread>
+#include <QVariant>
 #include <QString>
 #include <QStringList>
 #include <QSignalSpy>
@@ -101,6 +106,36 @@ class EqualizerTest : public ::testing::Test {
   }
 
   static QStringList PresetNames(Equalizer *equalizer) { return equalizer->presets_.keys(); }
+
+  // A precise timer, the remaining time of a coarse timer with a long interval is not exact.
+  static void SetSaveDelay(Equalizer *equalizer, const int msec) {
+    equalizer->save_timer_->setTimerType(Qt::PreciseTimer);
+    equalizer->save_timer_->setInterval(msec);
+  }
+  static bool SaveTimerActive(Equalizer *equalizer) { return equalizer->save_timer_->isActive(); }
+  static int SaveTimerRemainingTime(Equalizer *equalizer) { return equalizer->save_timer_->remainingTime(); }
+
+  static void SetStereoBalance(Equalizer *equalizer, const int value) { equalizer->findChild<QSlider*>(u"stereo_balance_slider"_s)->setValue(value); }
+
+  static QVariant SavedValue(const QString &key) {
+    Settings s;
+    s.beginGroup(u"Equalizer"_s);
+    const QVariant value = s.value(key);
+    s.endGroup();
+    return value;
+  }
+
+  // Processes events until the condition is true, returns false on timeout.
+  template <typename Condition>
+  static bool WaitFor(Condition condition) {
+    QElapsedTimer timer;
+    timer.start();
+    while (!condition()) {
+      if (timer.elapsed() > 5000) return false;
+      QCoreApplication::processEvents(QEventLoop::AllEvents, 50);
+    }
+    return true;
+  }
 
   static Equalizer::Params PresetParams(Equalizer *equalizer, const QString &name) { return equalizer->presets_.value(name); }
 
@@ -297,6 +332,100 @@ TEST_F(EqualizerTest, SelectedPresetValuesAreUsedAfterRestart) {
   Equalizer equalizer;
   EXPECT_EQ(u"Rock"_s, PresetComboBox(&equalizer)->currentText());
   EXPECT_EQ(PresetParams(&equalizer, u"Rock"_s).gain[0], equalizer.current_params().gain[0]);
+
+}
+
+// Regression test: moving a slider saved the settings for every step, which wrote the settings file for every step.
+TEST_F(EqualizerTest, SliderStepsAreSavedAfterDelay) {
+
+  Equalizer equalizer;
+  QElapsedTimer timer;
+  timer.start();
+  for (int value = 1; value <= 10; ++value) {
+    SetFirstGain(&equalizer, value);
+    SetStereoBalance(&equalizer, value);
+  }
+  // Not saved for every step.
+  if (timer.elapsed() < 400) {
+    EXPECT_FALSE(SavedValue(u"current_params"_s).isValid());
+    EXPECT_FALSE(SavedValue(u"stereo_balance"_s).isValid());
+  }
+
+  // Saved after the delay, with the last values.
+  ASSERT_TRUE(WaitFor([]() { return SavedValue(u"current_params"_s).isValid() && SavedValue(u"stereo_balance"_s).isValid(); }));
+  EXPECT_EQ(10, SavedValue(u"current_params"_s).value<Equalizer::Params>().gain[0]);
+  EXPECT_EQ(10, SavedValue(u"stereo_balance"_s).toInt());
+
+}
+
+// The steps which were not saved yet are saved when the equalizer is deleted, like when quitting.
+TEST_F(EqualizerTest, PendingSliderStepsAreSavedWhenDeleted) {
+
+  {
+    Equalizer equalizer;
+    SetFirstGain(&equalizer, 44);
+    SetStereoBalance(&equalizer, 33);
+  }
+
+  EXPECT_EQ(44, SavedValue(u"current_params"_s).value<Equalizer::Params>().gain[0]);
+  EXPECT_EQ(33, SavedValue(u"stereo_balance"_s).toInt());
+
+}
+
+// The steps which were not saved yet are saved when quitting, also when the equalizer is not deleted then.
+TEST_F(EqualizerTest, PendingSliderStepsAreSavedWhenQuitting) {
+
+  Equalizer equalizer;
+  SetFirstGain(&equalizer, 22);
+  ASSERT_FALSE(SavedValue(u"current_params"_s).isValid());
+
+  ASSERT_TRUE(QMetaObject::invokeMethod(QCoreApplication::instance(), "aboutToQuit", Qt::DirectConnection));
+
+  EXPECT_EQ(22, SavedValue(u"current_params"_s).value<Equalizer::Params>().gain[0]);
+
+}
+
+// The steps which were not saved yet are saved when the dialog is closed, which doesn't delete it, also when saving them to the preset was cancelled.
+TEST_F(EqualizerTest, PendingSliderStepsAreSavedWhenClosed) {
+
+  Equalizer equalizer;
+  equalizer.show();
+  SelectPreset(&equalizer, u"Rock"_s);
+  SetFirstGain(&equalizer, 88);
+  ASSERT_FALSE(SavedValue(u"current_params"_s).isValid());
+
+  // Cancel saving the changes to the preset.
+  QTimer timer;
+  QObject::connect(&timer, &QTimer::timeout, &timer, [&timer]() {
+    if (QInputDialog *dialog = qobject_cast<QInputDialog*>(QApplication::activeModalWidget())) {
+      timer.stop();
+      dialog->reject();
+    }
+  });
+  timer.start(10);
+  equalizer.close();
+  ASSERT_FALSE(equalizer.isVisible());
+
+  EXPECT_EQ(88, SavedValue(u"current_params"_s).value<Equalizer::Params>().gain[0]);
+
+}
+
+// The delay is counted from the last step, so the changes are not saved while a slider is still moving.
+TEST_F(EqualizerTest, SliderStepRestartsSaveDelay) {
+
+  Equalizer equalizer;
+  // A delay which doesn't elapse during the test, so only the restart is checked, events are not processed either.
+  SetSaveDelay(&equalizer, 3600 * 1000);
+
+  SetFirstGain(&equalizer, 1);
+  ASSERT_TRUE(SaveTimerActive(&equalizer));
+  QThread::msleep(50);
+  const int remaining_time = SaveTimerRemainingTime(&equalizer);
+  ASSERT_LT(remaining_time, 3600 * 1000);
+
+  SetFirstGain(&equalizer, 2);
+  EXPECT_GT(SaveTimerRemainingTime(&equalizer), remaining_time);
+  EXPECT_FALSE(SavedValue(u"current_params"_s).isValid());
 
 }
 

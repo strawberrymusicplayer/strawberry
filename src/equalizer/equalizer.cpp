@@ -43,6 +43,8 @@
 #include <QComboBox>
 #include <QBoxLayout>
 #include <QSettings>
+#include <QTimer>
+#include <QCoreApplication>
 
 #include "core/iconloader.h"
 #include "core/settings.h"
@@ -64,14 +66,24 @@ constexpr char kStereoBalance[] = "stereo_balance";
 constexpr char kCustom[] = "custom";
 constexpr char kCurrentParams[] = "current_params";
 const char *kGainText[] = { "60", "170", "310", "600", "1k", "3k", "6k", "12k", "14k", "16k" };
+constexpr int kSaveDelayMs = 500;
 }  // namespace
 
 Equalizer::Equalizer(QWidget *parent)
     : QDialog(parent),
       ui_(new Ui_Equalizer),
-      loading_(false) {
+      loading_(false),
+      save_timer_(new QTimer(this)),
+      save_pending_(false),
+      save_current_params_pending_(false) {
 
   ui_->setupUi(this);
+
+  save_timer_->setSingleShot(true);
+  save_timer_->setInterval(kSaveDelayMs);
+  QObject::connect(save_timer_, &QTimer::timeout, this, &Equalizer::SavePending);
+  QObject::connect(qApp, &QCoreApplication::aboutToQuit, this, &Equalizer::SavePending);
+  QObject::connect(this, &QDialog::finished, this, &Equalizer::SavePending);
 
   // Icons
   ui_->preset_del->setIcon(IconLoader::Load(u"list-remove"_s));
@@ -104,6 +116,7 @@ Equalizer::Equalizer(QWidget *parent)
 }
 
 Equalizer::~Equalizer() {
+  SavePending();
   delete ui_;
 }
 
@@ -327,7 +340,8 @@ void Equalizer::StereoBalanceSliderChanged(const int value) {
   Q_UNUSED(value)
 
   Q_EMIT StereoBalanceChanged(stereo_balance());
-  Save();
+  save_pending_ = true;
+  SaveLater();
 
 }
 
@@ -345,11 +359,33 @@ void Equalizer::EqualizerParametersChangedSlot() {
   Q_EMIT EqualizerParametersChanged(preamp_value(), gain_values());
 
   // The current values are saved also when they are not saved to the preset, since quitting doesn't ask to save the preset.
-  SaveCurrentParams();
+  save_current_params_pending_ = true;
+  SaveLater();
 
 }
 
-void Equalizer::SaveCurrentParams() const {
+void Equalizer::SaveLater() {
+
+  save_timer_->start();
+
+}
+
+void Equalizer::SavePending() {
+
+  save_timer_->stop();
+
+  if (save_pending_) {
+    Save();
+  }
+  if (save_current_params_pending_) {
+    SaveCurrentParams();
+  }
+
+}
+
+void Equalizer::SaveCurrentParams() {
+
+  save_current_params_pending_ = false;
 
   Settings s;
   s.beginGroup(kSettingsGroup);
@@ -368,6 +404,8 @@ void Equalizer::SetParams(const Params &params) {
 }
 
 void Equalizer::Save() {
+
+  save_pending_ = false;
 
   Settings s;
   s.beginGroup(kSettingsGroup);
