@@ -21,6 +21,7 @@
 
 #include "config.h"
 
+#include <algorithm>
 #include <utility>
 #include <functional>
 #include <memory>
@@ -370,7 +371,8 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
     case MusicStorage::Role_StorageForceConnect:
       if (!device_info->BestBackend()) return QVariant();
       if (!device_info->device_) {
-        if (device_info->database_id_ == -1 && !device_info->BestBackend()->lister_->DeviceNeedsMount(device_info->BestBackend()->unique_id_)) {
+        // A device which is not attached has no lister, Connect() doesn't connect it.
+        if (device_info->database_id_ == -1 && device_info->BestBackend()->lister_ && !device_info->BestBackend()->lister_->DeviceNeedsMount(device_info->BestBackend()->unique_id_)) {
           if (device_info->BestBackend()->lister_->AskForScan(device_info->BestBackend()->unique_id_)) {
             // The device can be removed from the model, which deletes it, while the dialog is open.
             const QPersistentModelIndex persistent_idx(idx);
@@ -564,7 +566,8 @@ void DeviceManager::PhysicalDeviceRemoved(const QString &id) {
       }
     }
 
-    if (device_info->backends_.isEmpty()) {
+    // The other backends can be without a lister, like backends of a device which was forgotten, which were not attached, then the device is not attached any more either.
+    if (std::none_of(device_info->backends_.cbegin(), device_info->backends_.cend(), [](const DeviceInfo::Backend &backend) { return backend.lister_ != nullptr; })) {
       beginRemoveRows(ItemToIndex(root_), idx.row(), idx.row());
       root_->Delete(device_info->row);
       endRemoveRows();

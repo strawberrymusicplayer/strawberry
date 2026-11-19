@@ -222,4 +222,33 @@ TEST_F(DeviceManagerTest, DeviceRemovedWhileAskingIsNotConnected) {
 
 }
 
+// Regression test: when a forgotten device had a backend which was not attached, removing the attached backend kept the device without a lister, and connecting it crashed.
+TEST_F(DeviceManagerTest, ForgottenDeviceIsRemovedWithLastAttachedBackend) {
+
+  DeviceInfo *device_info = device_manager_->GetDevice(index_);
+  ASSERT_TRUE(device_info);
+  device_info->backends_ = QList<DeviceInfo::Backend>() << DeviceInfo::Backend(nullptr, u"other"_s) << DeviceInfo::Backend(&lister_, u"test"_s);
+
+  QMetaObject::invokeMethod(&*device_manager_, "PhysicalDeviceRemoved", Qt::DirectConnection, Q_ARG(QString, u"test"_s));
+
+  EXPECT_FALSE(index_.isValid());
+
+}
+
+// Regression test: connecting a device which was never saved and which has no lister crashed, it is not attached, so it is not connected.
+TEST_F(DeviceManagerTest, ConnectingNewDeviceWithoutListerDoesNothing) {
+
+  DeviceInfo *device_info = device_manager_->GetDevice(index_);
+  ASSERT_TRUE(device_info);
+  device_info->backends_ = QList<DeviceInfo::Backend>() << DeviceInfo::Backend(nullptr, u"test"_s);
+  ConnectWhenAsked([]() {});
+
+  const QVariant storage = device_manager_->data(index_, MusicStorage::Role_StorageForceConnect);
+
+  EXPECT_FALSE(asked_);
+  EXPECT_FALSE(storage.value<SharedPtr<MusicStorage>>());
+  EXPECT_TRUE(index_.isValid());
+
+}
+
 }  // namespace
