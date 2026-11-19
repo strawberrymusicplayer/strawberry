@@ -988,8 +988,7 @@ void DeviceManager::Unmount(const QModelIndex &idx) {
   DeviceInfo *device_info = IndexToItem(idx);
   if (!device_info) return;
 
-  if (device_info->database_id_ != -1 && !device_info->device_) return;
-
+  // A saved device which is attached but not connected is unmounted by its lister too.
   if (device_info->device_) {
     device_info->unmount_ = true;
     Disconnect(device_info, idx);

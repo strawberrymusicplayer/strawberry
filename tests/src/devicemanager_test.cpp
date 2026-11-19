@@ -97,8 +97,10 @@ class TestLister : public DeviceLister {
     return QList<QUrl>();
   }
   void UpdateDeviceFreeSpace(const QString &id) override { Q_UNUSED(id) }
+  void UnmountDevice(const QString &id) override { unmounted_ids << id; }
 
   std::atomic<int> connect_requests = 0;
+  QStringList unmounted_ids;
 
  protected:
   bool Init() override { return true; }
@@ -247,6 +249,37 @@ TEST_F(DeviceManagerTest, ConnectingNewDeviceWithoutListerDoesNothing) {
 
   EXPECT_FALSE(asked_);
   EXPECT_FALSE(storage.value<SharedPtr<MusicStorage>>());
+  EXPECT_TRUE(index_.isValid());
+
+}
+
+// Regression test: safely removing a saved device which was attached, but not connected, did nothing.
+TEST_F(DeviceManagerTest, SafelyRemovingSavedDeviceUnmountsIt) {
+
+  DeviceInfo *device_info = device_manager_->GetDevice(index_);
+  ASSERT_TRUE(device_info);
+  device_info->database_id_ = 1;
+  ASSERT_FALSE(device_info->device_);
+
+  device_manager_->Unmount(index_);
+
+  EXPECT_TRUE(WaitFor([this]() { return !lister_.unmounted_ids.isEmpty(); }));
+  EXPECT_EQ(QStringList() << u"test"_s, lister_.unmounted_ids);
+
+}
+
+// A device which is not attached has nothing to unmount.
+TEST_F(DeviceManagerTest, SafelyRemovingDeviceWithoutListerDoesNothing) {
+
+  DeviceInfo *device_info = device_manager_->GetDevice(index_);
+  ASSERT_TRUE(device_info);
+  device_info->database_id_ = 1;
+  device_info->backends_ = QList<DeviceInfo::Backend>() << DeviceInfo::Backend(nullptr, u"test"_s);
+
+  device_manager_->Unmount(index_);
+  QCoreApplication::processEvents();
+
+  EXPECT_TRUE(lister_.unmounted_ids.isEmpty());
   EXPECT_TRUE(index_.isValid());
 
 }
