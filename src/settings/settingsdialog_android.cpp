@@ -101,7 +101,22 @@ void SettingsDialog::SetupAndroidNavigation() {
       QPushButton *page_button = new QPushButton(item->icon(0), item->text(0), category_contents);
       page_button->setIconSize(QSize(AndroidWidgets::kNavigationIconSize, AndroidWidgets::kNavigationIconSize));
       AndroidWidgets::StyleNavigationButton(page_button, kAndroidCategoryButtonHeight);
-      category_layout->addWidget(page_button);
+      if (IsAndroidStreamingPage(page_it.key()) && page_it.key() != Page::Radio) {
+        auto *status = new QLabel(page_it.key() == Page::Spotify ? tr("Tested but not working") : tr("Not tested"), category_contents);
+        status->setWordWrap(true);
+        status->setMinimumWidth(0);
+        QFont status_font = status->font();
+        status_font.setPointSizeF(std::max(8.0, status_font.pointSizeF() * 0.85));
+        status->setFont(status_font);
+        page_button->setAccessibleDescription(status->text());
+        auto *row = new QHBoxLayout;
+        row->addWidget(page_button, 2);
+        row->addWidget(status, 1);
+        category_layout->addLayout(row);
+      }
+      else {
+        category_layout->addWidget(page_button);
+      }
       android_category_pages_.insert(page_it.key(), category_page);
       QObject::connect(page_button, &QPushButton::clicked, this, [this, item, category_page]() {
         android_current_category_page_ = category_page;

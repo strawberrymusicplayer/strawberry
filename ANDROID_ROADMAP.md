@@ -915,6 +915,10 @@ The user also requested removing these arrows from the navigation/menu bar when 
 
 **Status:** In progress (Qobuz first; browser login remains disabled by default)
 
+Android Settings > Streaming shows a small playback-testing status beside each service: Spotify is "Tested but not working"; Subsonic, Tidal, Qobuz, Plex and Jellyfin are "Not tested".
+Radios are tested and working, so their button has no status label.
+Successful sign-in alone does not establish working playback.
+
 **Problem:** Browser login for Tidal, Qobuz, Last.fm, ListenBrainz and Genius is disabled on Android until its return flow and background lifecycle are verified.
 This is the deferred follow-up to feature audit point 14, not a claim that provider logins have passed.
 
