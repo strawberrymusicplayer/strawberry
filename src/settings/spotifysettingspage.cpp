@@ -220,10 +220,11 @@ void SpotifySettingsPage::Save() {
 void SpotifySettingsPage::LoginClicked() {
 
 #ifdef Q_OS_ANDROID
+  ui_->client_id->clearFocus();
   Settings s;
   s.beginGroup(kSettingsGroup);
   if (s.value(kClientId).toString().trimmed() != ui_->client_id->text().trimmed()) {
-    LoginFailure(tr("Apply your Spotify client ID before logging in."));
+    LoginFailure(tr("Finish editing your Spotify client ID before logging in."));
     return;
   }
   Q_EMIT Authorize();

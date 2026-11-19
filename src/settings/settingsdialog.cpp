@@ -219,6 +219,7 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 
 #ifdef Q_OS_ANDROID
   SetupAndroidNavigation();
+  SetupAndroidStreamingSettings(streaming_services);
 #endif
 
   // List box

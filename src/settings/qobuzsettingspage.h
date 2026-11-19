@@ -43,6 +43,9 @@ class QobuzSettingsPage : public SettingsPage {
 
   void Load() override;
   void Save() override;
+#ifdef Q_OS_ANDROID
+  void ResetAndroidSettings() override;
+#endif
 
   bool eventFilter(QObject *object, QEvent *event) override;
 

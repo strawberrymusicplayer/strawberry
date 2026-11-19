@@ -929,7 +929,9 @@ This is the deferred follow-up to feature audit point 14, not a claim that provi
   Denials and responses without a fresh token report failure rather than reusing an existing session as a successful new login.
   Qobuz may omit the user ID, which the integration does not require; such a response is accepted without retaining an earlier ID.
 - The Qobuz page offers Cancel login while waiting.
-  Android Qobuz settings save automatically, including fetched API credentials, without Apply, OK or Cancel; other settings pages retain their pending-edit behavior.
+  Android Streaming settings save automatically, including fetched Qobuz API credentials, without Apply, OK or Cancel.
+  Switches and choices save immediately; text saves when editing finishes.
+  Each account-based service has a confirmed Reset service action that signs out and clears its saved credentials and preferences; other settings pages retain their pending-edit behavior.
   After process death, its pending-status marker explains that login was interrupted and must be retried; an old loopback listener cannot survive process recreation.
   This marker contains no credentials, authorization codes or tokens.
 - Native authentication regressions and emulator lifecycle checks pass.
@@ -941,7 +943,8 @@ This is the deferred follow-up to feature audit point 14, not a claim that provi
   Qobuz did not offer the user a provider-denial option; real-provider denial remains unverified, although native tests cover a synthetic denial.
   Keep the flow opt-in until that outstanding check is resolved.
 - Auto-save signal regressions pass with the Qobuz and OAuth suites.
-  On the emulator, enabling Qobuz without Apply persisted across an app restart; its page and preferences editor hide Apply/OK/Cancel and Back returns one level, while Tidal still shows those buttons.
+  On the emulator, enabling Qobuz without Apply persisted across an app restart; its page and preferences editor hide Apply/OK/Cancel and Back returns one level.
+  This save-button behavior now applies to all Android Streaming pages, including Radio.
 
 **Tidal deferred (2026-11-15):**
 - The Android settings page labels Tidal as not implemented yet and offers a button to request support at https://github.com/dewitweb/strawberryflavor/issues.

@@ -173,6 +173,8 @@ class SettingsDialog : public QDialog {
 #ifdef Q_OS_ANDROID
   // Implemented in settingsdialog_android.cpp.
   void SetupAndroidNavigation();
+  void SetupAndroidStreamingSettings(const SharedPtr<StreamingServices> streaming_services);
+  static bool IsAndroidStreamingPage(Page page);
   void SetAndroidNavigationPage(QWidget *page);
   void UpdateAndroidPageButtons();
   void AndroidBack();

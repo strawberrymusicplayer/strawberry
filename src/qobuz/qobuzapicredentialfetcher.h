@@ -35,6 +35,7 @@ class QobuzApiCredentialFetcher : public QObject {
 
  public:
   explicit QobuzApiCredentialFetcher(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  ~QobuzApiCredentialFetcher() override;
 
   void FetchApiCredentials();
 

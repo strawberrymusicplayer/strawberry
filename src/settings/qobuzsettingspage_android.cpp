@@ -2,13 +2,13 @@
 
 #include "qobuzsettingspage.h"
 
-#include "qobuzautosave.h"
+#include "streamingautosave_android.h"
 #include "settingsdialog.h"
 #include "ui_qobuzsettingspage.h"
 
 void QobuzSettingsPage::SetupAndroidAutoSave() {
 
-  ConnectQobuzAutoSave(this, ui_, [this]() {
+  ConnectStreamingAutoSave(this, this, [this]() {
     if (android_settings_loaded_ && !dialog()->is_loading_settings()) SaveAndroidSettings();
   });
 

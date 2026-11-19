@@ -191,8 +191,11 @@ bool SettingsDialog::IsAndroidPageActive(const SettingsPage *page) const {
 }
 
 void SettingsDialog::UpdateAndroidPageButtons() {
-  const auto qobuz = pages_.constFind(Page::Qobuz);
-  ui_->buttonBox->setVisible(qobuz == pages_.cend() || qobuz->item_ != ui_->list->currentItem());
+  for (auto it = pages_.cbegin(); it != pages_.cend(); ++it) {
+    if (it->item_ != ui_->list->currentItem()) continue;
+    ui_->buttonBox->setVisible(!IsAndroidStreamingPage(it.key()));
+    return;
+  }
 }
 
 void SettingsDialog::OpenAndroidSubpage(QWidget *content, const QString &title) {

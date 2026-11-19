@@ -42,6 +42,9 @@ class JellyfinSettingsPage : public SettingsPage {
 
   void Load() override;
   void Save() override;
+#ifdef Q_OS_ANDROID
+  void ResetAndroidSettings() override;
+#endif
 
  private Q_SLOTS:
   void TestClicked();

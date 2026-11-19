@@ -309,7 +309,7 @@ void SpotifyService::Authenticate() {
 #ifdef Q_OS_ANDROID
   if (AndroidAuthenticationInProgress() || authenticated()) return;
   QString error;
-  if (client_id_.isEmpty()) error = tr("Apply your Spotify client ID in Settings before logging in.");
+  if (client_id_.isEmpty()) error = tr("Enter your Spotify client ID in Settings before logging in.");
   else if (StartAndroidAuthentication(error)) {
     oauth_->Authenticate();
     return;

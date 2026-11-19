@@ -59,6 +59,9 @@ class SettingsPage : public QWidget {
   virtual bool IsEnabled() const { return true; }
 
   virtual void Load() = 0;
+#ifdef Q_OS_ANDROID
+  virtual void ResetAndroidSettings() { Load(); }
+#endif
 
   void Accept();
   void Reject();
