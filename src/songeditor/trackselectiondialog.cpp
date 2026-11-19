@@ -35,6 +35,7 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
+#include <QList>
 #include <QSet>
 #include <QUrl>
 #include <QPalette>
@@ -129,10 +130,11 @@ void TrackSelectionDialog::Init(const SongList &songs) {
 
 QList<int> TrackSelectionDialog::RowsForSong(const Song &song) const {
 
-  // The same file can be selected more than once, for example when it's in the playlist twice, all its rows get the results.
+  // The same song can be selected more than once, for example when it's in the playlist twice, all its rows get the results.
+  // Songs of a CUE sheet have the same file, they are told apart by where they begin in it.
   QList<int> rows;
   for (int i = 0; i < data_.count(); ++i) {
-    if (data_[i].original_song_.url() == song.url()) {
+    if (data_[i].original_song_.url() == song.url() && data_[i].original_song_.beginning_nanosec() == song.beginning_nanosec()) {
       rows << i;
     }
   }
@@ -336,13 +338,14 @@ void TrackSelectionDialog::accept() {
 
   QDialog::accept();
 
-  // A file selected more than once is only chosen once.
-  QSet<QUrl> chosen_urls;
+  // A song selected more than once is only chosen once, songs of a CUE sheet have the same file, but are different songs.
+  QList<std::pair<QUrl, qint64>> chosen_songs;
   for (const Data &tag_data : std::as_const(data_)) {
-    if (tag_data.pending_ || tag_data.results_.isEmpty() || tag_data.selected_result_ == -1 || chosen_urls.contains(tag_data.original_song_.url())) {
+    const std::pair<QUrl, qint64> chosen_song(tag_data.original_song_.url(), tag_data.original_song_.beginning_nanosec());
+    if (tag_data.pending_ || tag_data.results_.isEmpty() || tag_data.selected_result_ == -1 || chosen_songs.contains(chosen_song)) {
       continue;
     }
-    chosen_urls << tag_data.original_song_.url();
+    chosen_songs << chosen_song;
 
     const Song &new_metadata = tag_data.results_[tag_data.selected_result_];
 

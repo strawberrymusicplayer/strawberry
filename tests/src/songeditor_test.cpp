@@ -259,6 +259,76 @@ TEST_F(SongEditorTest, TagEditorSavesTagsAndLyrics) {
 
 }
 
+#ifdef HAVE_TAGFETCHER
+// Regression test: a fetched tag result was only applied to the first row with the song, so when the song was in another row too, saving that row wrote the old values back.
+TEST_F(SongEditorTest, TagEditorAppliesFetchedTagsToAllRowsWithSong) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  const Song song = CreateSong(temp_dir);
+  ASSERT_TRUE(song.IsEditable());
+
+  SharedPtr<AlbumCoverLoader> albumcover_loader = make_shared<AlbumCoverLoader>(tagreader_client_);
+  TagEditor editor(make_shared<NetworkAccessManager>(), tagreader_client_, collection_backend_, albumcover_loader, make_shared<CurrentAlbumCoverLoader>(albumcover_loader), make_shared<CoverProviders>(), lyrics_providers_, make_shared<StreamingServices>());
+
+  // The same song is in two rows, like a song which is twice in a playlist.
+  ASSERT_TRUE(editor.SetSongs(SongList() << song << song));
+  ASSERT_TRUE(WaitFor([&editor]() { return editor.songs().count() == 2; }));
+  // The track selection dialog of the tag fetcher has a song list with the same name.
+  QListWidget *song_list = nullptr;
+  const QList<QListWidget*> song_lists = editor.findChildren<QListWidget*>(u"song_list"_s);
+  for (QListWidget *list : song_lists) {
+    if (list->window() == &editor) song_list = list;
+  }
+  LineEdit *title = editor.findChild<LineEdit*>(u"title"_s);
+  TextEdit *comment = editor.findChild<TextEdit*>(u"comment"_s);
+  ASSERT_NE(nullptr, song_list);
+  ASSERT_NE(nullptr, title);
+  ASSERT_NE(nullptr, comment);
+  ASSERT_EQ(2, song_list->count());
+  song_list->setCurrentRow(1);
+  ASSERT_EQ(1, song_list->currentRow());
+
+  Song new_metadata = song;
+  new_metadata.set_title(u"Fetched title"_s);
+  new_metadata.set_artist(u"Fetched artist"_s);
+  new_metadata.set_album(u"Fetched album"_s);
+  new_metadata.set_track(7);
+  new_metadata.set_year(2001);
+  ASSERT_TRUE(QMetaObject::invokeMethod(&editor, "FetchTagSongChosen", Qt::DirectConnection, Q_ARG(Song, song), Q_ARG(Song, new_metadata)));
+
+  for (const Song &editor_song : editor.songs()) {
+    EXPECT_EQ(u"Fetched title"_s, editor_song.title());
+    EXPECT_EQ(u"Fetched artist"_s, editor_song.artist());
+    EXPECT_EQ(u"Fetched album"_s, editor_song.album());
+    EXPECT_EQ(7, editor_song.track());
+    EXPECT_EQ(2001, editor_song.year());
+  }
+  // The selected row is the second, so the values shown are updated.
+  EXPECT_EQ(u"Fetched title"_s, title->text());
+
+  // Another change to both rows, so both rows are saved.
+  song_list->selectAll();
+  comment->setPlainText(u"New comment"_s);
+
+  QSignalSpy spy_accepted(&editor, &QDialog::accepted);
+  QSignalSpy spy_error(&editor, &SongEditor::Error);
+  editor.accept();
+  ASSERT_TRUE(WaitFor([&spy_accepted]() { return spy_accepted.count() > 0; }));
+  EXPECT_EQ(0, spy_error.count());
+
+  Song saved_song(Song::Source::LocalFile);
+  ASSERT_TRUE(tagreader_client_->ReadFileBlocking(song.url().toLocalFile(), &saved_song).success());
+  EXPECT_EQ(u"Fetched title"_s, saved_song.title());
+  EXPECT_EQ(u"Fetched artist"_s, saved_song.artist());
+  EXPECT_EQ(u"Fetched album"_s, saved_song.album());
+  EXPECT_EQ(u"New comment"_s, saved_song.comment());
+
+  QThreadPool::globalInstance()->waitForDone();
+
+}
+#endif
+
 // Regression test: an image dropped on the cover has no image data, and empty cover data removes the embedded cover, so the embedded cover was removed instead of replaced.
 TEST_F(SongEditorTest, TagEditorEmbedsDroppedCover) {
 
