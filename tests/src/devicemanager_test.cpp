@@ -31,10 +31,13 @@
 #include <QEventLoop>
 #include <QMessageBox>
 #include <QModelIndex>
+#include <QMutexLocker>
+#include <QMutex>
 #include <QAbstractButton>
 #include <QList>
 #include <QMetaObject>
 #include <QPersistentModelIndex>
+#include <QSignalSpy>
 #include <QString>
 #include <QTemporaryDir>
 #include <QTimer>
@@ -48,6 +51,7 @@
 #include "core/musicstorage.h"
 #include "core/taskmanager.h"
 #include "covermanager/albumcoverloader.h"
+#include "device/connecteddevice.h"
 #include "device/devicedatabasebackend.h"
 #include "device/deviceinfo.h"
 #include "device/devicelister.h"
@@ -56,6 +60,13 @@
 
 using std::make_shared;
 using namespace Qt::Literals::StringLiterals;
+
+// Declared at file scope so that DeviceManager's "friend class DeviceManagerTestAccess;" resolves to this class.
+class DeviceManagerTestAccess {
+ public:
+  // The device manager owns the lister, and starts it in its own thread.
+  static void AddLister(DeviceManager &device_manager, DeviceLister *lister) { device_manager.AddLister(lister); }
+};
 
 namespace {
 
@@ -94,16 +105,60 @@ class TestLister : public DeviceLister {
   QList<QUrl> MakeDeviceUrls(const QString &id) override {
     Q_UNUSED(id)
     ++connect_requests;
-    return QList<QUrl>();
+    return urls;
   }
   void UpdateDeviceFreeSpace(const QString &id) override { Q_UNUSED(id) }
   void UnmountDevice(const QString &id) override { unmounted_ids << id; }
 
   std::atomic<int> connect_requests = 0;
   QStringList unmounted_ids;
+  QList<QUrl> urls;
 
  protected:
   bool Init() override { return true; }
+};
+
+// The order of the requests to a lister which runs in its own thread, the lister is deleted by the device manager, the order is kept.
+struct ListerEvents {
+  QMutex mutex;
+  QStringList events;
+  QStringList Events() {
+    QMutexLocker l(&mutex);
+    return events;
+  }
+};
+
+class EventsLister : public TestLister {
+ public:
+  explicit EventsLister(const SharedPtr<ListerEvents> &lister_events) : lister_events_(lister_events) {}
+  void UnmountDevice(const QString &id) override {
+    QMutexLocker l(&lister_events_->mutex);
+    lister_events_->events << u"unmount "_s + id;
+  }
+  void ShutDown() override {
+    QMutexLocker l(&lister_events_->mutex);
+    lister_events_->events << u"shutdown"_s;
+  }
+
+ private:
+  SharedPtr<ListerEvents> lister_events_;
+};
+
+// A device which is connected without a real device.
+class TestDevice : public ConnectedDevice {
+ public:
+  using ConnectedDevice::ConnectedDevice;
+
+  bool Init() override { return true; }
+  bool CopyToStorage(const CopyJob &job, QString &error_text) override {
+    Q_UNUSED(job)
+    Q_UNUSED(error_text)
+    return true;
+  }
+  bool DeleteFromStorage(const DeleteJob &job) override {
+    Q_UNUSED(job)
+    return true;
+  }
 };
 
 class DeviceManagerTest : public ::testing::Test {
@@ -183,6 +238,21 @@ class DeviceManagerTest : public ::testing::Test {
       }
     });
     timer->start(10);
+  }
+
+  // Connects the device, and closes it to unmount it, like safely removing it does when the device has been closed.
+  SharedPtr<TestDevice> ConnectTestDevice() {
+    DeviceInfo *device_info = device_manager_->GetDevice(index_);
+    if (!device_info) return SharedPtr<TestDevice>();
+    device_info->database_id_ = 1;
+    SharedPtr<TestDevice> device = make_shared<TestDevice>(QUrl(u"test:device"_s), &lister_, u"test"_s, &*device_manager_, task_manager_, database_, tagreader_client_, albumcover_loader_, 1, false);
+    device_info->device_ = device;
+    device_info->unmount_ = true;
+    return device;
+  }
+
+  void DeviceCloseFinished() {
+    QMetaObject::invokeMethod(&*device_manager_, "DeviceCloseFinished", Qt::DirectConnection, Q_ARG(QString, u"test"_s));
   }
 
   QTemporaryDir temp_dir_;
@@ -281,6 +351,204 @@ TEST_F(DeviceManagerTest, SafelyRemovingDeviceWithoutListerDoesNothing) {
 
   EXPECT_TRUE(lister_.unmounted_ids.isEmpty());
   EXPECT_TRUE(index_.isValid());
+
+}
+
+// Regression test: safely removing a device while files were copied to it unmounted it in the middle of copying, the copy keeps the device.
+TEST_F(DeviceManagerTest, DeviceInUseIsUnmountedWhenNoLongerUsed) {
+
+  SharedPtr<TestDevice> device = ConnectTestDevice();
+  ASSERT_TRUE(device);
+  // The device is held by the copy, like Organize holds it.
+  SharedPtr<MusicStorage> copy_destination = device;
+  device.reset();
+
+  DeviceCloseFinished();
+  QCoreApplication::processEvents();
+  EXPECT_FALSE(device_manager_->GetDevice(index_)->device_);
+  EXPECT_TRUE(lister_.unmounted_ids.isEmpty());
+
+  // The copy finished.
+  copy_destination.reset();
+  EXPECT_TRUE(WaitFor([this]() { return !lister_.unmounted_ids.isEmpty(); }));
+  EXPECT_EQ(QStringList() << u"test"_s, lister_.unmounted_ids);
+
+}
+
+// Regression test: safely removing the device again while it was still used unmounted it right away.
+TEST_F(DeviceManagerTest, RemovingDeviceInUseAgainDoesNotUnmountIt) {
+
+  SharedPtr<TestDevice> device = ConnectTestDevice();
+  ASSERT_TRUE(device);
+  SharedPtr<MusicStorage> copy_destination = device;
+  device.reset();
+  DeviceCloseFinished();
+
+  device_manager_->Unmount(index_);
+  QCoreApplication::processEvents();
+  EXPECT_TRUE(lister_.unmounted_ids.isEmpty());
+
+  // It is unmounted once when the copy finished.
+  copy_destination.reset();
+  EXPECT_TRUE(WaitFor([this]() { return !lister_.unmounted_ids.isEmpty(); }));
+  QCoreApplication::processEvents();
+  EXPECT_EQ(QStringList() << u"test"_s, lister_.unmounted_ids);
+
+}
+
+// Regression test: the device could be connected again while it was still used after it was closed to unmount it, and the new device was unmounted when the old one was no longer used.
+TEST_F(DeviceManagerTest, DeviceInUseIsNotConnectedAgainBeforeUnmounting) {
+
+  SharedPtr<TestDevice> device = ConnectTestDevice();
+  ASSERT_TRUE(device);
+  SharedPtr<MusicStorage> copy_destination = device;
+  device.reset();
+  DeviceCloseFinished();
+
+  const int connect_requests = lister_.connect_requests;
+  EXPECT_FALSE(device_manager_->Connect(index_));
+  EXPECT_EQ(connect_requests, lister_.connect_requests);
+
+  // It can be connected again when it was unmounted.
+  copy_destination.reset();
+  EXPECT_TRUE(WaitFor([this]() { return !lister_.unmounted_ids.isEmpty(); }));
+  device_manager_->Connect(index_);
+  EXPECT_EQ(connect_requests + 1, lister_.connect_requests);
+
+}
+
+// Regression test: exiting while a device which was safely removed was still used closed the listers before the device was unmounted, so it was not unmounted.
+TEST_F(DeviceManagerTest, ExitWaitsForDeviceInUseToUnmount) {
+
+  SharedPtr<TestDevice> device = ConnectTestDevice();
+  ASSERT_TRUE(device);
+  SharedPtr<MusicStorage> copy_destination = device;
+  device.reset();
+  DeviceCloseFinished();
+
+  QSignalSpy exit_finished_spy(&*device_manager_, &DeviceManager::ExitFinished);
+  device_manager_->Exit();
+  QElapsedTimer timer;
+  timer.start();
+  while (timer.elapsed() < 1000 && exit_finished_spy.isEmpty()) {
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 50);
+  }
+  EXPECT_TRUE(exit_finished_spy.isEmpty());
+
+  // The copy finished, the device is unmounted, then exiting finishes.
+  copy_destination.reset();
+  EXPECT_TRUE(WaitFor([&exit_finished_spy]() { return !exit_finished_spy.isEmpty(); }));
+  EXPECT_EQ(QStringList() << u"test"_s, lister_.unmounted_ids);
+
+}
+
+// Regression test: a saved device which was safely removed while it was still used, and then removed and attached again, was unmounted when the old device was no longer used, and could not be connected until then.
+TEST_F(DeviceManagerTest, DeviceAttachedAgainIsNotUnmountedByOlderRemoval) {
+
+  QObject::connect(&lister_, SIGNAL(DeviceRemoved(QString)), &*device_manager_, SLOT(PhysicalDeviceRemoved(QString)));
+
+  SharedPtr<TestDevice> device = ConnectTestDevice();
+  ASSERT_TRUE(device);
+  SharedPtr<MusicStorage> copy_destination = device;
+  device.reset();
+  DeviceCloseFinished();
+
+  // The device is removed, and attached again.
+  Q_EMIT lister_.DeviceRemoved(u"test"_s);
+  DeviceInfo *device_info = device_manager_->GetDevice(index_);
+  ASSERT_TRUE(device_info);
+  ASSERT_EQ(1, device_info->backends_.count());
+  ASSERT_EQ(nullptr, device_info->backends_[0].lister_);
+  device_info->backends_[0].lister_ = &lister_;
+
+  const int connect_requests = lister_.connect_requests;
+  device_manager_->Connect(index_);
+  EXPECT_EQ(connect_requests + 1, lister_.connect_requests);
+
+  copy_destination.reset();
+  QCoreApplication::processEvents();
+  EXPECT_TRUE(lister_.unmounted_ids.isEmpty());
+
+}
+
+// Regression test: exiting before the device which was safely removed was closed, while it was still used, closed the listers before the unmount was requested.
+TEST_F(DeviceManagerTest, ExitBeforeCloseFinishedUnmountsBeforeClosingListers) {
+
+  SharedPtr<ListerEvents> lister_events = make_shared<ListerEvents>();
+  EventsLister *events_lister = new EventsLister(lister_events);
+  DeviceManagerTestAccess::AddLister(*device_manager_, events_lister);
+
+  SharedPtr<TestDevice> device = ConnectTestDevice();
+  ASSERT_TRUE(device);
+  device_manager_->GetDevice(index_)->backends_ = QList<DeviceInfo::Backend>() << DeviceInfo::Backend(events_lister, u"test"_s);
+  SharedPtr<MusicStorage> copy_destination = device;
+  device.reset();
+
+  QSignalSpy exit_finished_spy(&*device_manager_, &DeviceManager::ExitFinished);
+  device_manager_->Exit();
+  DeviceCloseFinished();
+
+  copy_destination.reset();
+  EXPECT_TRUE(WaitFor([&exit_finished_spy]() { return !exit_finished_spy.isEmpty(); }));
+  EXPECT_EQ(QStringList() << u"unmount test"_s << u"shutdown"_s, lister_events->Events());
+
+}
+
+// Regression test: the device could be connected while the warning for the device was shown, after it was closed to unmount it, and the new device was unmounted when the old one was no longer used.
+TEST_F(DeviceManagerTest, DeviceInUseIsNotConnectedAfterWarning) {
+
+  DeviceInfo *device_info = device_manager_->GetDevice(index_);
+  ASSERT_TRUE(device_info);
+  device_info->database_id_ = 1;
+  // The first URL shows the warning, the second can be connected.
+  lister_.urls = QList<QUrl>() << QUrl(u"gphoto2://test"_s) << QUrl::fromLocalFile(temp_dir_.path());
+
+  SharedPtr<MusicStorage> copy_destination;
+  ConnectWhenAsked([this, &copy_destination]() {
+    SharedPtr<TestDevice> device = ConnectTestDevice();
+    copy_destination = device;
+    DeviceCloseFinished();
+  });
+  EXPECT_FALSE(device_manager_->Connect(index_));
+  EXPECT_TRUE(asked_);
+  EXPECT_FALSE(device_manager_->GetDevice(index_)->device_);
+
+  copy_destination.reset();
+  EXPECT_TRUE(WaitFor([this]() { return !lister_.unmounted_ids.isEmpty(); }));
+
+}
+
+// Regression test: the device could be connected again while it was reported as disconnected, before the unmount was pending, and that was unmounted when the old device was no longer used.
+TEST_F(DeviceManagerTest, DeviceInUseIsNotConnectedWhenReportedDisconnected) {
+
+  SharedPtr<TestDevice> device = ConnectTestDevice();
+  ASSERT_TRUE(device);
+  SharedPtr<MusicStorage> copy_destination = device;
+  device.reset();
+
+  const int connect_requests = lister_.connect_requests;
+  bool reported = false;
+  QObject::connect(&*device_manager_, &DeviceManager::DeviceDisconnected, &*device_manager_, [this, &reported]() {
+    reported = true;
+    device_manager_->Connect(index_);
+  });
+  DeviceCloseFinished();
+  EXPECT_TRUE(reported);
+  EXPECT_EQ(connect_requests, lister_.connect_requests);
+
+}
+
+// A device which is not used any more is unmounted when it is closed.
+TEST_F(DeviceManagerTest, DeviceNotInUseIsUnmountedWhenClosed) {
+
+  SharedPtr<TestDevice> device = ConnectTestDevice();
+  ASSERT_TRUE(device);
+  device.reset();
+
+  DeviceCloseFinished();
+
+  EXPECT_TRUE(WaitFor([this]() { return !lister_.unmounted_ids.isEmpty(); }));
+  EXPECT_EQ(QStringList() << u"test"_s, lister_.unmounted_ids);
 
 }
 
