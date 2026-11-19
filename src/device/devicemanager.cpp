@@ -34,6 +34,7 @@
 #include <QtConcurrentRun>
 #include <QAbstractItemModel>
 #include <QPersistentModelIndex>
+#include <QPointer>
 #include <QDir>
 #include <QList>
 #include <QVariant>
@@ -192,6 +193,12 @@ void DeviceManager::CloseDevices() {
     wait_for_exit_ << &*failed_device;
     QObject::connect(&*failed_device, &ConnectedDevice::destroyed, this, &DeviceManager::DeviceDestroyed);
   }
+  // Devices which are unmounted when they are no longer used are already closed, wait until they are deleted, so the listers are closed after the unmount was requested.
+  for (const PendingUnmount &pending_unmount : std::as_const(pending_unmounts_)) {
+    if (!pending_unmount.connected_device || wait_for_exit_.contains(pending_unmount.connected_device.data())) continue;
+    wait_for_exit_ << pending_unmount.connected_device.data();
+    QObject::connect(pending_unmount.connected_device.data(), &ConnectedDevice::destroyed, this, &DeviceManager::DeviceDestroyed);
+  }
   if (wait_for_exit_.isEmpty()) CloseListers();
 
 }
@@ -244,6 +251,9 @@ void DeviceManager::DeviceDestroyed() {
 
   ConnectedDevice *connected_device = static_cast<ConnectedDevice*>(sender());
   if (!wait_for_exit_.contains(connected_device) || !backend_) return;
+
+  // The unmount of a device which was closed to unmount it, after exiting started, is requested before the listers are closed, otherwise it is requested on a lister which was already closed.
+  FinishPendingUnmount(connected_device);
 
   wait_for_exit_.removeAll(connected_device);
   if (wait_for_exit_.isEmpty()) CloseListers();
@@ -534,6 +544,16 @@ void DeviceManager::PhysicalDeviceRemoved(const QString &id) {
 
   qLog(Info) << "Device removed:" << id;
 
+  // A device which is unmounted when it is no longer used is not attached any more, so when it is attached again, that is not unmounted.
+  for (QHash<ConnectedDevice*, PendingUnmount>::iterator it = pending_unmounts_.begin(); it != pending_unmounts_.end();) {
+    if (it->lister == lister && it->unique_id == id) {
+      it = pending_unmounts_.erase(it);
+    }
+    else {
+      ++it;
+    }
+  }
+
   DeviceInfo *device_info = FindDeviceById(id);
   if (!device_info) return;
 
@@ -619,6 +639,11 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
     return device_info->device_;
   }
 
+  if (UnmountPending(device_info)) {  // Still used after it was closed to unmount it
+    qLog(Info) << "Not connecting" << device_info->friendly_name_ << "it is unmounted when it is no longer used";
+    return SharedPtr<ConnectedDevice>();
+  }
+
   if (!device_info->BestBackend() || !device_info->BestBackend()->lister_) {  // Not physically connected
     return SharedPtr<ConnectedDevice>();
   }
@@ -695,6 +720,8 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
     // The device can also have been connected or disconnected meanwhile.
     if (device_info->device_) return device_info->device_;
     if (!device_info->BestBackend() || !device_info->BestBackend()->lister_) return SharedPtr<ConnectedDevice>();
+    // Or closed to unmount it, while it is still used.
+    if (UnmountPending(device_info)) return SharedPtr<ConnectedDevice>();
   }
 
   QMetaObject meta_object = device_classes_.value(device_url.scheme());
@@ -780,7 +807,8 @@ void DeviceManager::DeviceCloseFinished(const QString &id) {
   DeviceInfo *device_info = FindDeviceById(id);
   if (!device_info) return;
 
-  device_info->device_.reset();
+  // The device can still be used, like for copying or deleting files, it is kept until then.
+  SharedPtr<ConnectedDevice> connected_device = std::move(device_info->device_);
 
   // Unmounting and forgetting only apply to this close, the device info is kept while the device is still attached or remembered, so a later close must not unmount or forget the device again.
   const bool unmount = device_info->unmount_;
@@ -791,15 +819,48 @@ void DeviceManager::DeviceCloseFinished(const QString &id) {
   QModelIndex idx = ItemToIndex(device_info);
   if (!idx.isValid()) return;
 
+  // The unmount is pending before the device is reported as disconnected, otherwise it can be connected again while it is reported, and that is unmounted when the old device is no longer used.
+  if (unmount && device_info->BestBackend() && device_info->BestBackend()->lister_) {
+    DeviceLister *lister = device_info->BestBackend()->lister_;
+    const QString unique_id = device_info->BestBackend()->unique_id_;
+    // Files can still be copied to the device or deleted from it, so it is unmounted when the device was deleted, which is right away when it is not used any more, otherwise it is unmounted in the middle of copying.
+    if (connected_device) {
+      // Until then, the device is not connected again, and removing it again doesn't unmount it right away, otherwise the device is unmounted while it is still used.
+      ConnectedDevice *pending_device = &*connected_device;
+      pending_unmounts_.insert(pending_device, PendingUnmount{connected_device.get(), lister, unique_id});
+      QObject::connect(pending_device, &QObject::destroyed, this, [this, pending_device]() { FinishPendingUnmount(pending_device); });
+    }
+    else {
+      lister->UnmountDeviceAsync(unique_id);
+    }
+  }
+
   Q_EMIT DeviceDisconnected(idx);
   Q_EMIT dataChanged(idx, idx);
 
-  if (unmount && device_info->BestBackend() && device_info->BestBackend()->lister_) {
-    device_info->BestBackend()->lister_->UnmountDeviceAsync(device_info->BestBackend()->unique_id_);
-  }
-
   if (forget) {
     RemoveFromDB(device_info, idx);
+  }
+
+}
+
+bool DeviceManager::UnmountPending(const DeviceInfo *device_info) const {
+
+  return std::any_of(pending_unmounts_.cbegin(), pending_unmounts_.cend(), [device_info](const PendingUnmount &pending_unmount) {
+    return std::any_of(device_info->backends_.cbegin(), device_info->backends_.cend(), [&pending_unmount](const DeviceInfo::Backend &backend) {
+      return backend.unique_id_ == pending_unmount.unique_id;
+    });
+  });
+
+}
+
+void DeviceManager::FinishPendingUnmount(ConnectedDevice *connected_device) {
+
+  // The pointer is only used as a key, the device is deleted.
+  // The device was removed while it was used, then the unmount is not pending any more, and a device attached after that is not unmounted.
+  const PendingUnmount pending_unmount = pending_unmounts_.take(connected_device);
+  if (pending_unmount.lister) {
+    pending_unmount.lister->UnmountDeviceAsync(pending_unmount.unique_id);
   }
 
 }
@@ -992,6 +1053,10 @@ void DeviceManager::Unmount(const QModelIndex &idx) {
   if (device_info->device_) {
     device_info->unmount_ = true;
     Disconnect(device_info, idx);
+  }
+  // The device is already unmounted when it is no longer used.
+  else if (UnmountPending(device_info)) {
+    return;
   }
   else if (device_info->BestBackend() && device_info->BestBackend()->lister_) {
     device_info->BestBackend()->lister_->UnmountDeviceAsync(device_info->BestBackend()->unique_id_);

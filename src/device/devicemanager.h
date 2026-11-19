@@ -29,7 +29,9 @@
 #include <QThreadPool>
 #include <QAbstractItemModel>
 #include <QList>
+#include <QHash>
 #include <QMap>
+#include <QPointer>
 #include <QMultiMap>
 #include <QVariant>
 #include <QString>
@@ -59,6 +61,8 @@ class DeviceStateFilterModel;
 
 class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   Q_OBJECT
+
+  friend class DeviceManagerTestAccess;
 
  public:
   explicit DeviceManager(const SharedPtr<TaskManager> task_manager,
@@ -156,6 +160,8 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   DeviceDatabaseBackend::Device InfoToDatabaseDevice(const DeviceInfo &info) const;
 
   void RemoveFromDB(DeviceInfo *device_info, const QModelIndex &idx);
+  bool UnmountPending(const DeviceInfo *device_info) const;
+  void FinishPendingUnmount(ConnectedDevice *connected_device);
 
   void CloseDevices();
   void CloseListers();
@@ -187,6 +193,15 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
 
   // Devices which failed to connect, kept until they are closed.
   QList<SharedPtr<ConnectedDevice>> failed_devices_;
+
+  // A device which was closed to unmount it, but is still used, like for copying files, it is unmounted when it was deleted.
+  struct PendingUnmount {
+    QPointer<ConnectedDevice> connected_device;
+    QPointer<DeviceLister> lister;
+    QString unique_id;
+  };
+  // The devices are not owned here, the key is only used to find the unmount when the device was deleted.
+  QHash<ConnectedDevice*, PendingUnmount> pending_unmounts_;
 };
 
 template<typename T>
