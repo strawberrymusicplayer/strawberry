@@ -9,11 +9,10 @@ set(SPOTIFY_CLIENT_ID "" CACHE STRING "Spotify OAuth client ID")
 set(SPOTIFY_CLIENT_SECRET "" CACHE STRING "Spotify OAuth client secret")
 set(GENIUS_CLIENT_ID "" CACHE STRING "Genius OAuth client ID")
 set(GENIUS_CLIENT_SECRET "" CACHE STRING "Genius OAuth client secret")
-set(MUSIXMATCH_APP_ID "" CACHE STRING "Musixmatch Android app_id")
-set(MUSIXMATCH_APP_SECRET "" CACHE STRING "Musixmatch Android HMAC-SHA1 signature secret")
 set(DISCOGS_CLIENT_ID "" CACHE STRING "Discogs consumer key")
 set(DISCOGS_CLIENT_SECRET "" CACHE STRING "Discogs consumer secret")
 set(TIDAL_CLIENT_ID "" CACHE STRING "Tidal OAuth client ID")
+set(MUSIXMATCH_API_KEY "" CACHE STRING "Musixmatch API key")
 
 mark_as_advanced(
   ACOUSTID_API_KEY
@@ -27,16 +26,15 @@ mark_as_advanced(
   SPOTIFY_CLIENT_SECRET
   GENIUS_CLIENT_ID
   GENIUS_CLIENT_SECRET
-  MUSIXMATCH_APP_ID
-  MUSIXMATCH_APP_SECRET
   DISCOGS_CLIENT_ID
   DISCOGS_CLIENT_SECRET
   TIDAL_CLIENT_ID
+  MUSIXMATCH_API_KEY
 )
 
 # True when any of the credentials is set, then an existing src/apicredentials.h is not used.
 set(api_credentials_given OFF)
-foreach(api_credential ACOUSTID_API_KEY LASTFM_API_KEY LASTFM_SHARED_SECRET LISTENBRAINZ_CLIENT_ID LISTENBRAINZ_CLIENT_SECRET OPENTIDAL_CLIENT_ID OPENTIDAL_CLIENT_SECRET SPOTIFY_CLIENT_ID SPOTIFY_CLIENT_SECRET GENIUS_CLIENT_ID GENIUS_CLIENT_SECRET MUSIXMATCH_APP_ID MUSIXMATCH_APP_SECRET DISCOGS_CLIENT_ID DISCOGS_CLIENT_SECRET TIDAL_CLIENT_ID)
+foreach(api_credential ACOUSTID_API_KEY LASTFM_API_KEY LASTFM_SHARED_SECRET LISTENBRAINZ_CLIENT_ID LISTENBRAINZ_CLIENT_SECRET OPENTIDAL_CLIENT_ID OPENTIDAL_CLIENT_SECRET SPOTIFY_CLIENT_ID SPOTIFY_CLIENT_SECRET GENIUS_CLIENT_ID GENIUS_CLIENT_SECRET DISCOGS_CLIENT_ID DISCOGS_CLIENT_SECRET TIDAL_CLIENT_ID MUSIXMATCH_API_KEY)
   if(NOT "${${api_credential}}" STREQUAL "")
     set(api_credentials_given ON)
   endif()
@@ -97,11 +95,10 @@ _encrypt_api_credential(SPOTIFY_CLIENT_ID)
 _encrypt_api_credential(SPOTIFY_CLIENT_SECRET)
 _encrypt_api_credential(GENIUS_CLIENT_ID)
 _encrypt_api_credential(GENIUS_CLIENT_SECRET)
-_encrypt_api_credential(MUSIXMATCH_APP_ID)
-_encrypt_api_credential(MUSIXMATCH_APP_SECRET)
 _encrypt_api_credential(DISCOGS_CLIENT_ID)
 _encrypt_api_credential(DISCOGS_CLIENT_SECRET)
 _encrypt_api_credential(TIDAL_CLIENT_ID)
+_encrypt_api_credential(MUSIXMATCH_API_KEY)
 
 option(CREATE_SOURCE_API_CREDENTIALS "Generate src/apicredentials.h into the source tree instead of the build tree (needed so it lands in the release source tarball)" OFF)
 
