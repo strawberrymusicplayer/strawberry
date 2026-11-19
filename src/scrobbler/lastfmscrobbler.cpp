@@ -407,6 +407,7 @@ JsonBaseRequest::JsonObjectResult LastFMScrobbler::ParseJsonObject(QNetworkReply
         if (error == static_cast<int>(ScrobbleErrorCode::InvalidSessionKey)) session_rejected = true;
         const QString message = json_object["message"_L1].toString();
         result.error_code = ErrorCode::APIError;
+        result.api_error = error;
         result.error_message = QStringLiteral("%1 (%2)").arg(message, QString::number(error));
       }
       else {
@@ -557,6 +558,8 @@ void LastFMScrobbler::SendScrobbleRequests() {
   for (int ii = 0; ii < all_cache_items.count(); ii++) {
     ScrobblerCacheItemPtr cache_item = all_cache_items.at(ii);
     if (cache_item->sent) continue;
+    // An item of a rejected request is sent alone, so only the item which was rejected is dropped.
+    if (cache_item->error && cache_items_sent.count() > 0) break;
     cache_item->sent = true;
     cache_items_sent << cache_item;
     params << Param(u"%1[%2]"_s.arg(u"artist"_s).arg(i), prefer_albumartist_ ? cache_item->metadata.effective_albumartist() : cache_item->metadata.artist);
@@ -573,7 +576,7 @@ void LastFMScrobbler::SendScrobbleRequests() {
       params << Param(u"%1[%2]"_s.arg("trackNumber"_L1).arg(i), QString::number(cache_item->metadata.track));
     }
     ++i;
-    if (cache_items_sent.count() >= kScrobblesPerRequest) break;
+    if (cache_items_sent.count() >= kScrobblesPerRequest || cache_item->error) break;
   }
 
   if (cache_items_sent.count() <= 0) return;
@@ -596,6 +599,22 @@ void LastFMScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCac
 
   const JsonObjectResult json_object_result = ParseJsonObject(reply);
   if (!json_object_result.success()) {
+    // A request can be rejected because of one of its items, then the items are sent alone, and only the item which was rejected is dropped, otherwise the same items are sent again, and no later scrobbles are sent.
+    if (json_object_result.error_code == ErrorCode::APIError && IsItemRejected(json_object_result.api_error)) {
+      if (cache_items.count() == 1) {
+        const ScrobbleMetadata &metadata = cache_items.first()->metadata;
+        Error(tr("Unable to scrobble %1 - %2 because of error: %3").arg(metadata.effective_albumartist(), metadata.title, json_object_result.error_message));
+        cache_->Flush(cache_items);
+      }
+      else {
+        Error(json_object_result.error_message);
+        cache_->SetError(cache_items);
+        cache_->ClearSent(cache_items);
+      }
+      submit_error_ = false;
+      Start();
+      return;
+    }
     Error(json_object_result.error_message);
     cache_->ClearSent(cache_items);
     submit_error_ = true;
@@ -742,6 +761,19 @@ void LastFMScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCac
   }
 
   Start();
+
+}
+
+bool LastFMScrobbler::IsItemRejected(const int api_error) {
+
+  // Only errors which one item can cause, other errors, like a wrong API key or secret, or an invalid session, are for all items, they would all be dropped.
+  switch (static_cast<ScrobbleErrorCode>(api_error)) {
+    case ScrobbleErrorCode::InvalidParameters:
+    case ScrobbleErrorCode::InvalidResourceSpecified:
+      return true;
+    default:
+      return false;
+  }
 
 }
 

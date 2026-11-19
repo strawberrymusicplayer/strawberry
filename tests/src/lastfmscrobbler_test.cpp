@@ -36,6 +36,8 @@
 #include <QTest>
 #include <QTimer>
 #include <QUrl>
+#include <QMap>
+#include <QStringList>
 
 #include "includes/shared_ptr.h"
 #include "core/networkaccessmanager.h"
@@ -56,6 +58,9 @@ constexpr char kCacheFile[] = "lastfmscrobbler.cache";
 constexpr char kInvalidSessionKeyReply[] = R"({"error": 9, "message": "Invalid session key - Please re-authenticate"})";
 constexpr char kServiceOfflineReply[] = R"({"error": 11, "message": "Service Offline"})";
 constexpr char kNowPlayingReply[] = R"({"nowplaying": {}})";
+constexpr char kInvalidParametersReply[] = R"({"error": 6, "message": "Invalid parameters"})";
+constexpr char kInvalidApiKeyReply[] = R"({"error": 10, "message": "Invalid API key"})";
+constexpr char kScrobbleAcceptedReply[] = R"({"scrobbles": {"@attr": {"accepted": 1, "ignored": 0}, "scrobble": {"artist": {"#text": "Artist"}, "album": {"#text": "Album"}, "albumArtist": {"#text": ""}, "track": {"#text": "Title"}, "timestamp": "1", "ignoredMessage": {"code": "0", "#text": ""}}}})";
 
 // A reply which is finished by the test.
 class ControlledNetworkReply : public QNetworkReply {
@@ -108,6 +113,25 @@ class ControlledNetworkReply : public QNetworkReply {
 class ControlledNetworkAccessManager : public NetworkAccessManager {
  public:
   QList<QPointer<ControlledNetworkReply>> replies;
+  QList<QByteArray> request_bodies;
+
+  // The titles of the tracks in the request, empty when it is not a request to scrobble.
+  QStringList ScrobbledTitles(const qsizetype i) const {
+    // The names of the parameters are percent encoded too.
+    QMap<QString, QString> params;
+    const QList<QByteArray> encoded_params = request_bodies.value(i).split('&');
+    for (const QByteArray &encoded_param : encoded_params) {
+      const qsizetype separator = encoded_param.indexOf('=');
+      if (separator == -1) continue;
+      params.insert(QUrl::fromPercentEncoding(encoded_param.left(separator)), QUrl::fromPercentEncoding(encoded_param.mid(separator + 1)));
+    }
+    if (params.value(u"method"_s) != "track.scrobble"_L1) return QStringList();
+    QStringList titles;
+    for (int track = 0; params.contains(u"track[%1]"_s.arg(track)); ++track) {
+      titles << params.value(u"track[%1]"_s.arg(track));
+    }
+    return titles;
+  }
 
   bool WaitForRequests(const qsizetype count, const int timeout_ms = 5000) const {
     return QTest::qWaitFor([this, count]() { return replies.count() >= count; }, timeout_ms) && replies.count() == count;
@@ -120,7 +144,7 @@ class ControlledNetworkAccessManager : public NetworkAccessManager {
  protected:
   QNetworkReply *createRequest(const Operation op, const QNetworkRequest &network_request, QIODevice *outgoing_data) override {
     Q_UNUSED(op)
-    Q_UNUSED(outgoing_data)
+    request_bodies << (outgoing_data ? outgoing_data->readAll() : QByteArray());
     ControlledNetworkReply *reply = new ControlledNetworkReply(network_request, this);
     replies << reply;
     return reply;
@@ -174,11 +198,30 @@ class LastFMScrobblerTest : public ::testing::Test {
     QStandardPaths::setTestModeEnabled(false);
   }
 
-  static Song MakeSong() {
+  static Song MakeSong(const QString &title = u"Title"_s) {
     Song song(Song::Source::LocalFile);
-    song.Init(u"Title"_s, u"Artist"_s, u"Album"_s, 180'000'000'000LL);
-    song.set_url(QUrl(u"file:///music/title.mp3"_s));
+    song.Init(title, u"Artist"_s, u"Album"_s, 180'000'000'000LL);
+    song.set_url(QUrl(u"file:///music/%1.mp3"_s.arg(title)));
     return song;
+  }
+
+  // Plays and scrobbles the song, while a request to scrobble is waiting for its reply, or after an error, the scrobble is only added to the cache.
+  void AddScrobble(const QString &title) {
+    const Song song = MakeSong(title);
+    const qsizetype requests = network_->replies.count();
+    scrobbler_->UpdateNowPlaying(song);
+    ASSERT_TRUE(network_->WaitForRequests(requests + 1));
+    network_->FinishReply(requests, 200, QByteArray(kNowPlayingReply));
+    scrobbler_->Scrobble(song);
+    QCoreApplication::processEvents();
+  }
+
+  // Sends the next request to scrobble, and returns its titles.
+  QStringList SendNextScrobbles() {
+    const qsizetype requests = network_->replies.count();
+    FireRetryTimer();
+    if (!network_->WaitForRequests(requests + 1)) return QStringList();
+    return network_->ScrobbledTitles(requests);
   }
 
   // Scrobbles the song, request 0 is now playing, request 1 is the scrobble.
@@ -307,6 +350,78 @@ TEST_F(LastFMScrobblerTest, UnauthorizedClearsSession) {
   QCoreApplication::processEvents();
 
   EXPECT_FALSE(scrobbler_->authenticated());
+
+}
+
+// Regression test: when a request was rejected because of one of its scrobbles, the same scrobbles were sent again, and later scrobbles were never sent.
+TEST_F(LastFMScrobblerTest, RejectedScrobbleDoesNotBlockLaterScrobbles) {
+
+  // The first request fails, so the next scrobbles are sent together with it.
+  AddScrobble(u"A"_s);
+  if (HasFatalFailure()) return;
+  ASSERT_EQ(QStringList() << u"A"_s, network_->ScrobbledTitles(1));
+  network_->FinishReply(1, 503, QByteArray(kServiceOfflineReply));
+  QCoreApplication::processEvents();
+  AddScrobble(u"B"_s);
+  if (HasFatalFailure()) return;
+  AddScrobble(u"C"_s);
+  if (HasFatalFailure()) return;
+  QSignalSpy spy_error(&*scrobbler_, &ScrobblerService::ErrorMessage);
+
+  QStringList titles = SendNextScrobbles();
+  if (HasFatalFailure()) return;
+  ASSERT_EQ(QStringList() << u"A"_s << u"B"_s << u"C"_s, titles);
+  network_->FinishReply(network_->replies.count() - 1, 400, QByteArray(kInvalidParametersReply));
+  QCoreApplication::processEvents();
+
+  // The scrobbles are sent one by one, the scrobble which is rejected is dropped.
+  titles = SendNextScrobbles();
+  if (HasFatalFailure()) return;
+  ASSERT_EQ(QStringList() << u"A"_s, titles);
+  network_->FinishReply(network_->replies.count() - 1, 400, QByteArray(kInvalidParametersReply));
+  QCoreApplication::processEvents();
+  ASSERT_FALSE(spy_error.isEmpty());
+  EXPECT_TRUE(spy_error.last().at(0).toString().contains(u" - A "_s)) << spy_error.last().at(0).toString().toStdString();
+
+  titles = SendNextScrobbles();
+  if (HasFatalFailure()) return;
+  ASSERT_EQ(QStringList() << u"B"_s, titles);
+  network_->FinishReply(network_->replies.count() - 1, 200, QByteArray(kScrobbleAcceptedReply));
+  QCoreApplication::processEvents();
+
+  titles = SendNextScrobbles();
+  if (HasFatalFailure()) return;
+  ASSERT_EQ(QStringList() << u"C"_s, titles);
+  network_->FinishReply(network_->replies.count() - 1, 200, QByteArray(kScrobbleAcceptedReply));
+  QCoreApplication::processEvents();
+
+  // A later scrobble is sent right away.
+  AddScrobble(u"D"_s);
+  if (HasFatalFailure()) return;
+  ASSERT_TRUE(network_->WaitForRequests(network_->replies.count()));
+  EXPECT_EQ(QStringList() << u"D"_s, network_->ScrobbledTitles(network_->replies.count() - 1));
+
+}
+
+// An error which is not caused by one scrobble keeps all the scrobbles, they are sent again together.
+TEST_F(LastFMScrobblerTest, ErrorForAllScrobblesKeepsThem) {
+
+  AddScrobble(u"A"_s);
+  if (HasFatalFailure()) return;
+  network_->FinishReply(1, 503, QByteArray(kServiceOfflineReply));
+  QCoreApplication::processEvents();
+  AddScrobble(u"B"_s);
+  if (HasFatalFailure()) return;
+
+  QStringList titles = SendNextScrobbles();
+  if (HasFatalFailure()) return;
+  ASSERT_EQ(QStringList() << u"A"_s << u"B"_s, titles);
+  network_->FinishReply(network_->replies.count() - 1, 403, QByteArray(kInvalidApiKeyReply));
+  QCoreApplication::processEvents();
+
+  titles = SendNextScrobbles();
+  if (HasFatalFailure()) return;
+  EXPECT_EQ(QStringList() << u"A"_s << u"B"_s, titles);
 
 }
 
