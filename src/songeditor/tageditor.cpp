@@ -1264,6 +1264,10 @@ void TagEditor::FetchTag() {
     if (!song.is_valid()) {
       continue;
     }
+    // The same song can be in several rows, the result is applied to all of them, so it is only fetched once.
+    if (std::any_of(songs.cbegin(), songs.cend(), [&song](const Song &fetch_song) { return fetch_song.url() == song.url() && fetch_song.beginning_nanosec() == song.beginning_nanosec(); })) {
+      continue;
+    }
     songs << song;
   }
 
@@ -1284,26 +1288,32 @@ void TagEditor::FetchTagSongChosen(const Song &original_song, const Song &new_me
 
   const QUrl url = original_song.url();
 
-  // Find the song with this URL, not the local filename, which is empty for all streams.
-  auto data_it = std::find_if(data_.begin(), data_.end(), [&url](const Data &d) {
-    return d.original_.url() == url;
-  });
-  if (data_it == data_.end()) {
+  // The song is found by its URL, not the local filename, which is empty for all streams, and by where it begins in the file, for songs of a CUE sheet.
+  // The same song can be in several rows, the result is applied to all of them, otherwise saving another row writes the old values back.
+  bool found = false;
+  bool selected = false;
+  const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
+  for (int row = 0; row < data_.count(); ++row) {
+    Data &tag_data = data_[row];
+    if (tag_data.original_.url() != url || tag_data.original_.beginning_nanosec() != original_song.beginning_nanosec()) continue;
+    found = true;
+    tag_data.current_.set_title(new_metadata.title());
+    tag_data.current_.set_artist(new_metadata.artist());
+    tag_data.current_.set_album(new_metadata.album());
+    tag_data.current_.set_track(new_metadata.track());
+    tag_data.current_.set_year(new_metadata.year());
+    if (std::any_of(sel.cbegin(), sel.cend(), [row](const QModelIndex &idx) { return idx.row() == row; })) {
+      selected = true;
+    }
+  }
+
+  if (!found) {
     qLog(Warning) << "Could not find song with URL" << url;
     return;
   }
 
-  // Update song data
-  data_it->current_.set_title(new_metadata.title());
-  data_it->current_.set_artist(new_metadata.artist());
-  data_it->current_.set_album(new_metadata.album());
-  data_it->current_.set_track(new_metadata.track());
-  data_it->current_.set_year(new_metadata.year());
-
-  // Is it currently being displayed in the UI?
-  if (ui_->song_list->currentRow() == std::distance(data_.begin(), data_it)) {
-    // Yes! Additionally, update UI
-    const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
+  // The values shown are updated when one of the rows is selected.
+  if (selected) {
     UpdateUI(sel);
   }
 

@@ -37,6 +37,7 @@
 #include <QDialog>
 
 #include "includes/shared_ptr.h"
+#include "constants/timeconstants.h"
 #include "core/song.h"
 #include "tagreader/tagreaderclient.h"
 #include "songeditor/trackselectiondialog.h"
@@ -81,6 +82,43 @@ TEST(TrackSelectionDialogTest, ResultsForFileSelectedTwice) {
 
   EXPECT_EQ(dialog.palette().text(), song_list->item(0)->foreground());
   EXPECT_EQ(dialog.palette().text(), song_list->item(2)->foreground());
+
+}
+
+Song SongOfCueSheet(const QString &filename, const QString &title, const qint64 beginning_nanosec) {
+  Song song = SongWithFile(filename, title);
+  song.set_beginning_nanosec(beginning_nanosec);
+  return song;
+}
+
+// Regression test: songs of a CUE sheet have the same file, the results of one song were also shown for the other songs, and only the first song was chosen.
+TEST(TrackSelectionDialogTest, SongsOfCueSheetHaveTheirOwnResults) {
+
+  TrackSelectionDialog dialog(make_shared<TagReaderClient>());
+  QListWidget *song_list = dialog.findChild<QListWidget*>(u"song_list"_s);
+  QStackedWidget *stacked_widget = dialog.findChild<QStackedWidget*>(u"stacked_widget"_s);
+  ASSERT_TRUE(song_list);
+  ASSERT_TRUE(stacked_widget);
+
+  const Song first_song = SongOfCueSheet(u"/music/album.flac"_s, u"First"_s, 0);
+  const Song second_song = SongOfCueSheet(u"/music/album.flac"_s, u"Second"_s, 180 * kNsecPerSec);
+  dialog.Init(SongList() << first_song << second_song);
+
+  dialog.FetchTagFinished(first_song, SongList() << SongOfCueSheet(u"/music/album.flac"_s, u"First guess"_s, 0));
+  song_list->setCurrentRow(0);
+  EXPECT_EQ(u"results_page"_s, stacked_widget->currentWidget()->objectName());
+  song_list->setCurrentRow(1);
+  EXPECT_EQ(u"loading_page"_s, stacked_widget->currentWidget()->objectName());
+
+  dialog.FetchTagFinished(second_song, SongList() << SongOfCueSheet(u"/music/album.flac"_s, u"Second guess"_s, 180 * kNsecPerSec));
+
+  QSignalSpy spy_song_chosen(&dialog, &TrackSelectionDialog::SongChosen);
+  dialog.accept();
+  ASSERT_EQ(2, spy_song_chosen.count());
+  EXPECT_EQ(0, spy_song_chosen.at(0).at(0).value<Song>().beginning_nanosec());
+  EXPECT_EQ(u"First guess"_s, spy_song_chosen.at(0).at(1).value<Song>().title());
+  EXPECT_EQ(180 * kNsecPerSec, spy_song_chosen.at(1).at(0).value<Song>().beginning_nanosec());
+  EXPECT_EQ(u"Second guess"_s, spy_song_chosen.at(1).at(1).value<Song>().title());
 
 }
 
