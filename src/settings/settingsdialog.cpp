@@ -104,6 +104,9 @@
 #  include "jellyfin/jellyfinservice.h"
 #  include "jellyfinsettingspage.h"
 #endif
+#ifdef HAVE_NETWORKREMOTE
+#   include "networkremotesettingspage.h"
+#endif
 
 #include "radiosettingspage.h"
 
@@ -151,6 +154,9 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 #endif
   AddPage(Page::Transcoding, new TranscoderSettingsPage(this, this), general);
   AddPage(Page::Proxy, new NetworkProxySettingsPage(this, this), general);
+#ifdef HAVE_NETWORKREMOTE
+  AddPage(Page::NetworkRemote, new NetworkRemoteSettingsPage(this, this), general);
+#endif
 
   QTreeWidgetItem *iface = AddCategory(tr("User interface"));
   AddPage(Page::Appearance, new AppearanceSettingsPage(this, appearance, this), iface);
