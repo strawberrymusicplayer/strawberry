@@ -10,7 +10,7 @@ Status values: Planned, In progress, Done.
 Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
-1. The remaining open items: 22, 24, 27, 28, 29, 30, 31, 32, 33, and finally 9 (physical-device verification, which needs a device).
+1. The remaining open items: 22, 24, 27, 28, 29, 30, 31, 32, 33, 34, and finally 9 (physical-device verification, which needs a device).
    Item 23 is investigated and blocked on licensing; items 16, 20, 21 and 26 are done.
 
 ## 18. Review the Android changes for coding best practices
@@ -1315,3 +1315,17 @@ Put compilation artists in an expandable letter group named Various.
 - Reproduce the issue on the FP5 and emulator. Identify which controls are clipped, unreachable, or fail to respond to touch.
 - Adapt the Android layout so album browsing, scrolling, and cover actions fit the available screen space. Reuse the existing cover-management logic.
 - Verify browsing and cover actions on the FP5 and emulator in portrait and landscape, including Back navigation.
+
+## 34. Monitor NAS collection changes and catch up after reconnecting
+
+**Status:** Planned
+
+**Goal:** While collection monitoring is enabled, use SMB change notifications to detect changes on configured NAS folders and update the collection.
+After a connection interruption, catch up on changes missed while disconnected without discarding existing entries if the NAS remains unavailable.
+
+**Approach:**
+- Keep NAS monitoring separate from local filesystem watching, and honor collection monitoring, startup-update and scan-cancellation settings.
+- Handle unsupported notifications, reconnects, notification overflow, changed NAS settings, and app shutdown explicitly; avoid leaking credentials.
+- Reconcile all folders after missed notifications, including in-place file changes that may not change a folder's modification time.
+- Verify additions, modifications, removals, disconnection and reconnection, including changes made while offline, using a notification-capable SMB server and the existing collection safety regressions.
+- Verify Android lifecycle behavior and document that the app cannot monitor while it is not running.
