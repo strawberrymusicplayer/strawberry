@@ -76,6 +76,8 @@ with tempfile.TemporaryDirectory(prefix="strawberry-nas-test-") as temporary:
     # "queue" reports the "event" commands like a real server, which queues the changes
     # for a handle from its first request on, also while no request is pending.
     events = {"count": 0}
+    # The path reported by change notifications, relative to the watched folder.
+    notified = {"name": "new.wav"}
     handles = {}
     unsupported_notify = server.getServer().hookSmb2Command(smb3structs.SMB2_CHANGE_NOTIFY, None)
     def change_notify(connId, smbServer, recvPacket):
@@ -106,7 +108,7 @@ with tempfile.TemporaryDirectory(prefix="strawberry-nas-test-") as temporary:
                 return [response], None, 0x0000010C
             info = smb3structs.FILE_NOTIFY_INFORMATION()
             info["Action"] = 1
-            info["FileName"] = "new.wav".encode("utf-16le")
+            info["FileName"] = notified["name"].replace("/", "\\").encode("utf-16le")
             info["FileNameLength"] = len(info["FileName"])
             response["Buffer"] = info.getData()
             response["OutputBufferLength"] = len(response["Buffer"])
@@ -130,6 +132,9 @@ with tempfile.TemporaryDirectory(prefix="strawberry-nas-test-") as temporary:
                 notify["once"] = len(words) > 2 and words[2] == "once"
                 notify["mode"] = words[1]
                 print("notify", flush=True)
+            elif line.startswith("name "):
+                notified["name"] = line[len("name "):].strip()
+                print("name", flush=True)
             elif line.strip() == "event":
                 events["count"] += 1
                 print("event", flush=True)

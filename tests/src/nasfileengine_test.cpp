@@ -481,8 +481,11 @@ TEST_F(NasProtocolTest, ChangeWaitReportsChangesOverflowAndUnsupportedServers) {
   EXPECT_EQ(watcher.Wait(5000), Nas::WatchResult::Unsupported);
   EXPECT_FALSE(watcher.IsOpen());
   EXPECT_EQ(FixtureCommand("notify change"), QByteArray("notify"));
+  EXPECT_EQ(FixtureCommand("name first/new.wav"), QByteArray("name"));
   ASSERT_TRUE(watcher.Open());
-  EXPECT_EQ(watcher.Wait(5000), Nas::WatchResult::Changed);
+  QStringList changes;
+  EXPECT_EQ(watcher.Wait(5000, nullptr, &changes), Nas::WatchResult::Changed);
+  EXPECT_EQ(changes, QStringList{QStringLiteral("first/new.wav")});
   EXPECT_EQ(FixtureCommand("notify overflow"), QByteArray("notify"));
   EXPECT_EQ(watcher.Wait(5000), Nas::WatchResult::Overflow);
   EXPECT_TRUE(watcher.IsOpen());

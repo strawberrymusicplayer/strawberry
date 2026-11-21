@@ -7,6 +7,7 @@
 #include <memory>
 #include <QList>
 #include <QString>
+#include <QStringList>
 
 namespace Nas {
 
@@ -46,13 +47,23 @@ class ChangeWatcher {
   bool IsOpen() const;
   // Blocks until the server reports a change, timeout_ms elapses or *cancel becomes true; cancellation is checked every 100 ms.
   // After Timeout and Cancelled the request stays pending, so the next call continues waiting for it.
-  WatchResult Wait(int timeout_ms, std::atomic_bool *cancel = nullptr);
+  // For Changed, *changes gets the changed paths relative to the folder with '/' separators, it's empty when the server didn't name them.
+  WatchResult Wait(int timeout_ms, std::atomic_bool *cancel = nullptr, QStringList *changes = nullptr);
 
  private:
   Q_DISABLE_COPY_MOVE(ChangeWatcher)
   void Close();
   struct Private;
   std::unique_ptr<Private> d_;
+};
+// Keeps the metadata of NAS folders listed on this thread while it's alive, so inspecting their files doesn't open a session per file.
+class ListingScope {
+ public:
+  ListingScope();
+  ~ListingScope();
+
+ private:
+  Q_DISABLE_COPY_MOVE(ListingScope)
 };
 // Maps a CHANGE_NOTIFY completion status (an NT status code) to a watch result.
 WatchResult NotifyResult(quint32 status);

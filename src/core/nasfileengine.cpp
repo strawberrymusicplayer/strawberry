@@ -50,8 +50,9 @@ struct DirectorySnapshot {
   quint64 revision;
   QHash<QString, smb2_stat_64> entries;
 };
-// Directory-listing metadata is valid only while its iterator is alive, not across scans.
-thread_local QList<const DirectorySnapshot*> directory_snapshots;
+// Directory-listing metadata is valid only while its iterator is alive or a ListingScope retains it, not across scans.
+thread_local QList<std::shared_ptr<const DirectorySnapshot>> directory_snapshots;
+thread_local QList<QList<std::shared_ptr<const DirectorySnapshot>>> retained_snapshots;
 
 struct ContextDeleter {
   void operator()(smb2_context *context) const { smb2_destroy_context(context); }
@@ -157,10 +158,13 @@ std::optional<Nas::Location> Resolve(const QString &path, QString *remote, quint
 class NasIterator : public QAbstractFileEngineIterator {
  public:
   NasIterator(const QString &path, const QStringList &entries, DirectorySnapshot metadata, QDir::Filters filters, const QStringList &names)
-      : QAbstractFileEngineIterator(filters, names), path_(path), entries_(entries), metadata_(std::move(metadata)) {
-    directory_snapshots.append(&metadata_);
+      : QAbstractFileEngineIterator(filters, names), path_(path), entries_(entries), metadata_(std::make_shared<const DirectorySnapshot>(std::move(metadata))) {
+    directory_snapshots.append(metadata_);
   }
-  ~NasIterator() override { directory_snapshots.removeOne(&metadata_); }
+  ~NasIterator() override {
+    directory_snapshots.removeOne(metadata_);
+    if (!retained_snapshots.isEmpty()) retained_snapshots.last().append(metadata_);
+  }
   bool hasNext() const override { return index_ + 1 < entries_.size(); }
   QString next() override {
     ++index_;
@@ -172,7 +176,7 @@ class NasIterator : public QAbstractFileEngineIterator {
  private:
   QString path_;
   QStringList entries_;
-  DirectorySnapshot metadata_;
+  std::shared_ptr<const DirectorySnapshot> metadata_;
   qsizetype index_ = -1;
 };
 
@@ -307,13 +311,20 @@ class Engine : public QAbstractFileEngine {
   }
   bool Stat() const {
     if (stat_) return true;
-    for (auto it = directory_snapshots.crbegin(); it != directory_snapshots.crend(); ++it) {
-      if ((*it)->revision != location_revision_) continue;
-      const auto entry = (*it)->entries.constFind(path_);
-      if (entry != (*it)->entries.constEnd()) {
-        stat_ = entry.value();
-        return true;
+    const auto find = [this](const QList<std::shared_ptr<const DirectorySnapshot>> &snapshots) {
+      for (auto it = snapshots.crbegin(); it != snapshots.crend(); ++it) {
+        if ((*it)->revision != location_revision_) continue;
+        const auto entry = (*it)->entries.constFind(path_);
+        if (entry != (*it)->entries.constEnd()) {
+          stat_ = entry.value();
+          return true;
+        }
       }
+      return false;
+    };
+    if (find(directory_snapshots)) return true;
+    for (auto it = retained_snapshots.crbegin(); it != retained_snapshots.crend(); ++it) {
+      if (find(*it)) return true;
     }
     if (!Connect()) return false;
     smb2_stat_64 value = {};
@@ -348,8 +359,31 @@ struct WatchState {
   bool echo_pending = false;
   quint32 status = SMB2_STATUS_SUCCESS;
   std::optional<Nas::WatchResult> result;
+  QStringList changes;
   smb2_file_id file_id = {};
 };
+
+// Parses FILE_NOTIFY_INFORMATION entries, returns no paths when any entry is malformed or leaves the folder.
+QStringList NotifiedPaths(const uint8_t *data, const quint32 length) {
+  QStringList paths;
+  const auto read32 = [data](const quint32 offset) { return static_cast<quint32>(data[offset]) | static_cast<quint32>(data[offset + 1]) << 8 | static_cast<quint32>(data[offset + 2]) << 16 | static_cast<quint32>(data[offset + 3]) << 24; };
+  quint32 offset = 0;
+  while (offset <= length && length - offset >= 12) {
+    const quint32 next = read32(offset);
+    const quint32 name_length = read32(offset + 8);
+    if (name_length == 0 || name_length % 2 != 0 || name_length > length - offset - 12 || (next != 0 && (next < 12 + name_length || next > length - offset))) return {};
+    QString name(static_cast<qsizetype>(name_length / 2), Qt::Uninitialized);
+    for (quint32 i = 0; i < name_length / 2; ++i) {
+      name[i] = QChar(static_cast<char16_t>(data[offset + 12 + i * 2] | data[offset + 13 + i * 2] << 8));
+    }
+    name.replace(u'\\', u'/');
+    if (name.startsWith(u'/') || name.contains(u'\0') || name.split(u'/').contains(QStringLiteral(".."))) return {};
+    paths.append(name);
+    if (next == 0) return paths;
+    offset += next;
+  }
+  return {};
+}
 
 void WatchCreated(smb2_context*, int status, void *command_data, void *private_data) {
   WatchState *state = static_cast<WatchState*>(private_data);
@@ -364,11 +398,14 @@ void WatchCreated(smb2_context*, int status, void *command_data, void *private_d
   state->opened = true;
 }
 
-void WatchNotified(smb2_context*, int status, void*, void *private_data) {
+void WatchNotified(smb2_context*, int status, void *command_data, void *private_data) {
   WatchState *state = static_cast<WatchState*>(private_data);
   if (state->result) return;
   state->status = static_cast<quint32>(status);
   state->result = Nas::NotifyResult(state->status);
+  // The output buffer is only valid during this callback.
+  const smb2_change_notify_reply *reply = static_cast<smb2_change_notify_reply*>(command_data);
+  state->changes = state->status == SMB2_STATUS_SUCCESS && reply && reply->output_buffer_length > 0 ? NotifiedPaths(reply->output, reply->output_buffer_length) : QStringList();
 }
 
 void WatchEchoed(smb2_context*, int status, void*, void *private_data) {
@@ -516,7 +553,10 @@ bool ChangeWatcher::Open(std::atomic_bool *cancel) {
   }
   return true;
 }
-WatchResult ChangeWatcher::Wait(const int timeout_ms, std::atomic_bool *cancel) {
+ListingScope::ListingScope() { retained_snapshots.emplace_back(); }
+ListingScope::~ListingScope() { retained_snapshots.removeLast(); }
+WatchResult ChangeWatcher::Wait(const int timeout_ms, std::atomic_bool *cancel, QStringList *changes) {
+  if (changes) changes->clear();
   const auto cancelled = [cancel]() { return cancel && cancel->load(); };
   if (cancelled()) return WatchResult::Cancelled;
   if (!IsOpen()) return WatchResult::Disconnected;
@@ -559,6 +599,8 @@ WatchResult ChangeWatcher::Wait(const int timeout_ms, std::atomic_bool *cancel) 
     }
   }
   const WatchResult result = *state.result;
+  if (changes && result == WatchResult::Changed) *changes = state.changes;
+  state.changes.clear();
   if (result != WatchResult::Changed) {
     qLog(Warning) << "NAS change notification ended with result" << static_cast<int>(result) << "and status" << QStringLiteral("0x%1").arg(state.status, 8, 16, QLatin1Char('0'));
   }

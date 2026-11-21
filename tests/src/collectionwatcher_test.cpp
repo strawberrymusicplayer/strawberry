@@ -38,6 +38,8 @@
 #include <QSignalSpy>
 #include <QHash>
 #include <QImage>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QSet>
 #include <QCoreApplication>
 #include <QString>
@@ -2059,9 +2061,15 @@ class CollectionWatcherNasTest : public CollectionWatcherTest {
     ASSERT_TRUE(server_.waitForReadyRead(5000));
     server_.readLine();
   }
+  // The number of sessions the fixture has negotiated.
+  int FixtureSessions() {
+    server_.write("stats\n");
+    if (!server_.waitForReadyRead(5000)) return -1;
+    return QJsonDocument::fromJson(server_.readLine()).object().value(u"negotiate"_s).toInt(-1);
+  }
 
   // Scans the NAS folder like a new collection directory, with the watcher connected to the collection backend like CollectionManager does.
-  void StartWatcher() {
+  void StartWatcher(const int songs = 3) {
     watcher_ = std::make_unique<CollectionWatcher>(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
     CollectionWatcher *watcher = watcher_.get();
     QObject::connect(watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
@@ -2077,7 +2085,7 @@ class CollectionWatcherNasTest : public CollectionWatcherTest {
     dir.path = location_.path();
     QSignalSpy scanned(watcher, &CollectionWatcher::CompilationsNeedUpdating);
     watcher->AddDirectory(dir, {});
-    ASSERT_EQ(3, backend_->GetAllSongs().count());
+    ASSERT_EQ(songs, backend_->GetAllSongs().count());
     // The monitor reconciles the folder once its handle is open, the tests change the files after that.
     ASSERT_TRUE(WaitForScans(scanned, 2, 10000));
   }
@@ -2136,6 +2144,7 @@ TEST_F(CollectionWatcherNasTest, NotifiedAdditionIsScanned) {
   FixtureCommand("notify hold");
   StartWatcher();
   ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/new.wav"_s)));
+  FixtureCommand("name first/new.wav");
   FixtureCommand("notify change once");
   EXPECT_TRUE(WaitForSong(u"first/new.wav"_s, [](const Song &song) { return song.is_valid() && !song.unavailable(); }, 20000));
   EXPECT_EQ(4, backend_->GetAllSongs().count());
@@ -2145,9 +2154,29 @@ TEST_F(CollectionWatcherNasTest, NotifiedRemovalIsScanned) {
   FixtureCommand("notify hold");
   StartWatcher();
   ASSERT_TRUE(QFile::remove(root_.filePath(u"album/second/track.wav"_s)));
+  FixtureCommand("name second/track.wav");
   FixtureCommand("notify change once");
   EXPECT_TRUE(WaitForSong(u"second/track.wav"_s, [](const Song &song) { return !song.is_valid() || song.unavailable(); }, 20000));
   EXPECT_TRUE(NasSong(u"first/track.wav"_s).is_valid());
+}
+
+// A notification rescans only the notified folder, with the metadata of its listing instead of a session per known file.
+TEST_F(CollectionWatcherNasTest, NotifiedRescanReusesListing) {
+  for (int i = 0; i < 16; ++i) {
+    ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/copy-%1.wav"_s.arg(i))));
+  }
+  FixtureCommand("notify queue");
+  StartWatcher(19);
+  const int sessions = FixtureSessions();
+  ASSERT_GE(sessions, 0);
+  // Not reported, the notification only names the folder "first", so a change here is not scanned.
+  ChangeInPlace(u"second/track.wav"_s);
+  ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/new.wav"_s)));
+  FixtureCommand("name first/new.wav");
+  FixtureCommand("event");
+  EXPECT_TRUE(WaitForSong(u"first/new.wav"_s, [](const Song &song) { return song.is_valid() && !song.unavailable(); }, 20000));
+  EXPECT_LT(FixtureSessions() - sessions, 16);
+  EXPECT_EQ(8000, NasSong(u"second/track.wav"_s).samplerate());
 }
 
 // After lost notifications, all folders are scanned, so an in-place change which only changed the size of a file is found.
@@ -2212,6 +2241,7 @@ TEST_F(CollectionWatcherNasTest, CancelledScanIsRetried) {
   });
   QSignalSpy scanned(watcher_.get(), &CollectionWatcher::CompilationsNeedUpdating);
   ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/new.wav"_s)));
+  FixtureCommand("name first/new.wav");
   FixtureCommand("event");
   ASSERT_TRUE(WaitForScans(scanned, 1, 10000));
   EXPECT_NE(-1, cancelled_task);

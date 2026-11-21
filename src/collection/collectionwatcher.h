@@ -27,6 +27,7 @@
 #ifdef HAVE_NAS
 #  include <atomic>
 #  include <memory>
+#  include <mutex>
 #  include <thread>
 #endif
 
@@ -253,6 +254,10 @@ class CollectionWatcher : public QObject {
     std::atomic_bool scan_pending = false;
     // Set when changes may have been missed, the monitor reconciles the directory once the NAS can be reached.
     std::atomic_bool catch_up = false;
+    // The notified paths relative to the directory, or a full scan when a notification didn't name them.
+    std::mutex changes_mutex;
+    QSet<QString> changed_paths;
+    bool full_scan = false;
     std::thread thread;
   };
   // catch_up_allowed enables reconciling once the first handle is opened, like the update on startup.
@@ -261,6 +266,8 @@ class CollectionWatcher : public QObject {
   void StopNasMonitors();
   void RestartNasMonitors();
   void ScanNasDirectory(const int dir_id);
+  // Rescans the known folders containing the changed paths, returns false like ScanDirectoryNow().
+  bool ScanNasPathsNow(const CollectionDirectory &dir, const QStringList &changed_paths);
 #endif
 
   // Returns the CUE sheets of a directory by the media files they have songs for, without loading the songs.
