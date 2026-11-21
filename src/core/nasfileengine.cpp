@@ -4,11 +4,14 @@
 
 #include <algorithm>
 #include <cerrno>
+#include <cstring>
 #include <fcntl.h>
 #include <memory>
 #include <optional>
+#include <poll.h>
 #include <utility>
 #include <QDateTime>
+#include <QDeadlineTimer>
 #include <QDir>
 #include <QFileInfo>
 #include <QHash>
@@ -19,6 +22,7 @@
 #include <private/qabstractfileengine_p.h>
 #include <smb2/smb2.h>
 #include <smb2/libsmb2.h>
+#include <smb2/libsmb2-raw.h>
 
 #include "logging.h"
 
@@ -37,6 +41,7 @@ using namespace Qt::Literals::StringLiterals;
 namespace {
 
 const QString prefix = QStringLiteral("/strawberry-nas/");
+constexpr int kTimeoutSeconds = 8;
 QReadWriteLock locations_lock;
 QList<Nas::Location> locations;
 quint64 locations_revision = 0;
@@ -59,7 +64,7 @@ class Connection {
       Fail(QObject::tr("Could not allocate NAS connection"));
       return;
     }
-    smb2_set_timeout(context_.get(), 8);
+    smb2_set_timeout(context_.get(), kTimeoutSeconds);
     smb2_set_version(context_.get(), SMB2_VERSION_ANY);
     smb2_set_security_mode(context_.get(), SMB2_NEGOTIATE_SIGNING_ENABLED | SMB2_NEGOTIATE_SIGNING_REQUIRED);
     smb2_set_sign(context_.get(), 1);
@@ -292,6 +297,44 @@ class Handler : public QAbstractFileEngineHandler {
   }
 };
 
+constexpr quint32 kStatusNotifyEnumDir = 0x0000010C;
+constexpr int kWatchSliceMs = 100;
+constexpr qint64 kWatchEchoMs = 15000;
+
+struct WatchState {
+  bool opened = false;
+  bool echo_pending = false;
+  quint32 status = SMB2_STATUS_SUCCESS;
+  std::optional<Nas::WatchResult> result;
+  smb2_file_id file_id = {};
+};
+
+void WatchCreated(smb2_context*, int status, void *command_data, void *private_data) {
+  WatchState *state = static_cast<WatchState*>(private_data);
+  if (state->result) return;
+  if (static_cast<quint32>(status) != SMB2_STATUS_SUCCESS) {
+    // A missing or unreadable folder cannot be watched; the caller reconciles it like a lost connection.
+    state->status = static_cast<quint32>(status);
+    state->result = Nas::WatchResult::Disconnected;
+    return;
+  }
+  std::memcpy(state->file_id, static_cast<smb2_create_reply*>(command_data)->file_id, SMB2_FD_SIZE);
+  state->opened = true;
+}
+
+void WatchNotified(smb2_context*, int status, void*, void *private_data) {
+  WatchState *state = static_cast<WatchState*>(private_data);
+  if (state->result) return;
+  state->status = static_cast<quint32>(status);
+  state->result = Nas::NotifyResult(state->status);
+}
+
+void WatchEchoed(smb2_context*, int status, void*, void *private_data) {
+  WatchState *state = static_cast<WatchState*>(private_data);
+  state->echo_pending = false;
+  if (status < 0 && !state->result) state->result = Nas::WatchResult::Disconnected;
+}
+
 }  // namespace
 
 namespace Nas {
@@ -355,6 +398,81 @@ QString Check(const Location &location) {
   if (!dir) return QObject::tr("Could not open the NAS folder. Check the folder and read permissions.");
   smb2_closedir(connection.get(), dir);
   return {};
+}
+WatchResult NotifyResult(const quint32 status) {
+  switch (status) {
+    case SMB2_STATUS_SUCCESS: return WatchResult::Changed;
+    case kStatusNotifyEnumDir: return WatchResult::Overflow;
+    case SMB2_STATUS_NOT_SUPPORTED:
+    case SMB2_STATUS_INVALID_DEVICE_REQUEST:
+    case SMB2_STATUS_NOT_IMPLEMENTED:
+    case SMB2_STATUS_INVALID_PARAMETER: return WatchResult::Unsupported;
+    // Lost sessions, closed handles, request timeouts, shutdown and any other failure.
+    default: return WatchResult::Disconnected;
+  }
+}
+WatchResult WaitForChange(const Location &location, const int timeout_ms, std::atomic_bool *cancel) {
+  const auto cancelled = [cancel]() { return cancel && cancel->load(); };
+  if (cancelled()) return WatchResult::Cancelled;
+  if (!Validate(location).isEmpty()) return WatchResult::Disconnected;
+  const QDeadlineTimer deadline(std::max(0, timeout_ms));
+  // Declared before the connection: destroying the context reports still pending requests to these callbacks.
+  WatchState state;
+  Connection connection(location);
+  if (cancelled()) return WatchResult::Cancelled;
+  smb2_context *context = connection.get();
+  if (!context) return WatchResult::Disconnected;
+  const QByteArray folder = location.folder.toUtf8();
+  smb2_create_request create = {};
+  create.requested_oplock_level = SMB2_OPLOCK_LEVEL_NONE;
+  create.impersonation_level = SMB2_IMPERSONATION_IMPERSONATION;
+  create.desired_access = SMB2_FILE_LIST_DIRECTORY | SMB2_FILE_READ_ATTRIBUTES;
+  create.file_attributes = SMB2_FILE_ATTRIBUTE_DIRECTORY;
+  create.share_access = SMB2_FILE_SHARE_READ | SMB2_FILE_SHARE_WRITE | SMB2_FILE_SHARE_DELETE;
+  create.create_disposition = SMB2_FILE_OPEN;
+  create.create_options = SMB2_FILE_DIRECTORY_FILE;
+  create.name = folder.constData();
+  smb2_pdu *pdu = smb2_cmd_create_async(context, &create, WatchCreated, &state);
+  if (!pdu) return WatchResult::Disconnected;
+  smb2_queue_pdu(context, pdu);
+  bool notifying = false;
+  QDeadlineTimer echo(kWatchEchoMs);
+  while (!state.result) {
+    if (cancelled()) return WatchResult::Cancelled;
+    if (deadline.hasExpired()) return WatchResult::Timeout;
+    if (state.opened && !notifying) {
+      smb2_change_notify_request request = {};
+      request.flags = SMB2_CHANGE_NOTIFY_WATCH_TREE;
+      const uint32_t max_read = smb2_get_max_read_size(context);
+      request.output_buffer_length = max_read == 0 ? 65536 : std::min<uint32_t>(65536, max_read);
+      std::memcpy(request.file_id, state.file_id, SMB2_FD_SIZE);
+      request.completion_filter = SMB2_CHANGE_NOTIIFY_FILE_NOTIFY_CHANGE_FILE_NAME | SMB2_CHANGE_NOTIIFY_FILE_NOTIFY_CHANGE_DIR_NAME | SMB2_CHANGE_NOTIIFY_FILE_NOTIFY_CHANGE_ATTRIBUTES | SMB2_CHANGE_NOTIIFY_FILE_NOTIFY_CHANGE_SIZE | SMB2_CHANGE_NOTIIFY_FILE_NOTIFY_CHANGE_LAST_WRITE | SMB2_CHANGE_NOTIIFY_FILE_NOTIFY_CHANGE_CREATION;
+      // Only the notification may outlive the request timeout; periodic echoes keep the 8 s rule for detecting a lost connection.
+      smb2_set_timeout(context, 0);
+      pdu = smb2_cmd_change_notify_async(context, &request, WatchNotified, &state);
+      smb2_set_timeout(context, kTimeoutSeconds);
+      if (!pdu) return WatchResult::Disconnected;
+      smb2_queue_pdu(context, pdu);
+      notifying = true;
+      echo.setRemainingTime(kWatchEchoMs);
+    }
+    if (notifying && !state.echo_pending && echo.hasExpired()) {
+      if (smb2_echo_async(context, WatchEchoed, &state) < 0) return WatchResult::Disconnected;
+      state.echo_pending = true;
+      echo.setRemainingTime(kWatchEchoMs);
+    }
+    pollfd descriptor = {smb2_get_fd(context), static_cast<short>(smb2_which_events(context)), 0};
+    const int slice = static_cast<int>(std::min<qint64>(kWatchSliceMs, deadline.remainingTime()));
+    if (poll(&descriptor, 1, slice) < 0 && errno != EINTR) return WatchResult::Disconnected;
+    // Also called without events so that libsmb2 expires timed-out requests.
+    if (smb2_service(context, descriptor.revents) < 0) {
+      state.result = WatchResult::Disconnected;
+    }
+  }
+  if (*state.result != WatchResult::Changed) {
+    qLog(Warning) << "NAS change notification ended with result" << static_cast<int>(*state.result) << "and status" << QStringLiteral("0x%1").arg(state.status, 8, 16, QLatin1Char('0'));
+  }
+  return *state.result;
 }
 
 #ifdef Q_OS_ANDROID

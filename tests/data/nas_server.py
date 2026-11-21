@@ -8,6 +8,7 @@ import signal
 import sys
 import tempfile
 import threading
+import time
 import wave
 from pathlib import Path
 
@@ -61,6 +62,30 @@ with tempfile.TemporaryDirectory(prefix="strawberry-nas-test-") as root:
             commands_seen[command] = commands_seen.get(command, 0) + 1
             return callback(*args)
         server.getServer().hookSmb2Command(command, count_connection)
+    # CHANGE_NOTIFY is unsupported by impacket unless a test selects another reply.
+    notify = {"mode": "unsupported"}
+    release = threading.Event()
+    unsupported_notify = server.getServer().hookSmb2Command(smb3structs.SMB2_CHANGE_NOTIFY, None)
+    def change_notify(connId, smbServer, recvPacket):
+        mode = notify["mode"]
+        if mode == "hold":
+            release.wait(10)
+        elif mode in ("change", "overflow"):
+            time.sleep(0.2)
+            response = smb3structs.SMB2ChangeNotify_Response()
+            response["OutputBufferOffset"] = 0x48
+            if mode == "overflow":
+                response["Buffer"] = b""
+                return [response], None, 0x0000010C
+            info = smb3structs.FILE_NOTIFY_INFORMATION()
+            info["Action"] = 1
+            info["FileName"] = "new.wav".encode("utf-16le")
+            info["FileNameLength"] = len(info["FileName"])
+            response["Buffer"] = info.getData()
+            response["OutputBufferLength"] = len(response["Buffer"])
+            return [response], None, 0
+        return unsupported_notify(connId, smbServer, recvPacket)
+    server.getServer().hookSmb2Command(smb3structs.SMB2_CHANGE_NOTIFY, change_notify)
     # Owned fixture credentials, never real NAS credentials.
     server.addCredential("strawberry-test", 0, compute_lmhash("fixture-only"), compute_nthash("fixture-only"))
     threading.Thread(target=server.start, daemon=True).start()
@@ -72,6 +97,9 @@ with tempfile.TemporaryDirectory(prefix="strawberry-nas-test-") as root:
                     "negotiate": commands_seen.get(smb3structs.SMB2_NEGOTIATE, 0),
                     "query_info": commands_seen.get(smb3structs.SMB2_QUERY_INFO, 0),
                 }), flush=True)
+            elif line.startswith("notify "):
+                notify["mode"] = line.split()[1]
+                print("notify", flush=True)
             elif line.strip() == "resize":
                 (directory / "bulk" / "entry-000.bin").write_bytes(b"changed fixture contents")
                 print("resized", flush=True)

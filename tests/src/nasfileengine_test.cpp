@@ -28,7 +28,11 @@
 #include "tagreader/tagreadertaglib.h"
 #include "tagreader/tagreaderclient.h"
 #include <taglib/fileref.h>
+#include <atomic>
+#include <chrono>
+#include <future>
 #include <thread>
+#include <QElapsedTimer>
 
 namespace {
 
@@ -74,6 +78,34 @@ TEST(NasFileEngineTest, UnknownLocationsFailRatherThanAccessingLocalFiles) {
   EXPECT_FALSE(file.open(QIODevice::ReadOnly));
   EXPECT_FALSE(file.errorString().isEmpty());
   EXPECT_GT(Nas::FailureSerial(), before);
+}
+
+TEST(NasFileEngineTest, NotifyStatusesDistinguishUnsupportedOverflowAndDisconnects) {
+  EXPECT_EQ(Nas::NotifyResult(0x00000000), Nas::WatchResult::Changed);
+  EXPECT_EQ(Nas::NotifyResult(0x0000010C), Nas::WatchResult::Overflow);
+  EXPECT_EQ(Nas::NotifyResult(0xC00000BB), Nas::WatchResult::Unsupported);
+  EXPECT_EQ(Nas::NotifyResult(0xC0000010), Nas::WatchResult::Unsupported);
+  EXPECT_EQ(Nas::NotifyResult(0xC0000002), Nas::WatchResult::Unsupported);
+  EXPECT_EQ(Nas::NotifyResult(0xC00000C9), Nas::WatchResult::Disconnected);
+  EXPECT_EQ(Nas::NotifyResult(0xC0000203), Nas::WatchResult::Disconnected);
+  EXPECT_EQ(Nas::NotifyResult(0xC00000B5), Nas::WatchResult::Disconnected);
+  EXPECT_EQ(Nas::NotifyResult(0xFFFFFFFF), Nas::WatchResult::Disconnected);
+}
+
+TEST(NasFileEngineTest, ChangeWaitStopsWhenCancelledOrUnreachable) {
+  std::atomic_bool cancel = true;
+  QElapsedTimer timer;
+  timer.start();
+  EXPECT_EQ(Nas::WaitForChange(Location(), 10000, &cancel), Nas::WatchResult::Cancelled);
+  EXPECT_LT(timer.elapsed(), 100);
+  auto offline = Location();
+  offline.server += QStringLiteral(":1");
+  cancel = false;
+  timer.restart();
+  EXPECT_EQ(Nas::WaitForChange(offline, 10000, &cancel), Nas::WatchResult::Disconnected);
+  EXPECT_LT(timer.elapsed(), 9000);
+  offline.folder = QStringLiteral("../escape");
+  EXPECT_EQ(Nas::WaitForChange(offline, 10000, nullptr), Nas::WatchResult::Disconnected);
 }
 
 class NasProtocolTest : public ::testing::Test {
@@ -412,6 +444,39 @@ TEST_F(NasProtocolTest, DirectoryMetadataDoesNotSurviveLocationChangesOrCrossThr
   const quint64 failure = Nas::FailureSerial();
   EXPECT_FALSE(QFileInfo(path).exists());
   EXPECT_GT(Nas::FailureSerial(), failure);
+}
+
+TEST_F(NasProtocolTest, ChangeWaitReportsChangesOverflowAndUnsupportedServers) {
+  EXPECT_EQ(Nas::WaitForChange(location_, 5000, nullptr), Nas::WatchResult::Unsupported);
+  EXPECT_EQ(FixtureCommand("notify change"), QByteArray("notify"));
+  EXPECT_EQ(Nas::WaitForChange(location_, 5000, nullptr), Nas::WatchResult::Changed);
+  EXPECT_EQ(FixtureCommand("notify overflow"), QByteArray("notify"));
+  EXPECT_EQ(Nas::WaitForChange(location_, 5000, nullptr), Nas::WatchResult::Overflow);
+  auto missing = location_;
+  missing.folder = QStringLiteral("missing-folder");
+  EXPECT_EQ(Nas::WaitForChange(missing, 5000, nullptr), Nas::WatchResult::Disconnected);
+}
+
+TEST_F(NasProtocolTest, ChangeWaitHonoursTimeoutCancellationAndDisconnects) {
+  EXPECT_EQ(FixtureCommand("notify hold"), QByteArray("notify"));
+  QElapsedTimer timer;
+  timer.start();
+  EXPECT_EQ(Nas::WaitForChange(location_, 300, nullptr), Nas::WatchResult::Timeout);
+  EXPECT_LT(timer.elapsed(), 3000);
+  std::atomic_bool cancel = false;
+  auto cancelled = std::async(std::launch::async, [this, &cancel]() { return Nas::WaitForChange(location_, 20000, &cancel); });
+  EXPECT_EQ(cancelled.wait_for(std::chrono::milliseconds(500)), std::future_status::timeout);
+  timer.restart();
+  cancel = true;
+  EXPECT_EQ(cancelled.get(), Nas::WatchResult::Cancelled);
+  EXPECT_LT(timer.elapsed(), 500);
+  auto disconnected = std::async(std::launch::async, [this]() { return Nas::WaitForChange(location_, 20000, nullptr); });
+  EXPECT_EQ(disconnected.wait_for(std::chrono::milliseconds(500)), std::future_status::timeout);
+  timer.restart();
+  server_.terminate();
+  ASSERT_TRUE(server_.waitForFinished(3000));
+  EXPECT_EQ(disconnected.get(), Nas::WatchResult::Disconnected);
+  EXPECT_LT(timer.elapsed(), 5000);
 }
 
 }  // namespace
