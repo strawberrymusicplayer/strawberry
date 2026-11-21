@@ -2035,15 +2035,16 @@ class CollectionWatcherNasTest : public CollectionWatcherTest {
     CollectionWatcherTest::TearDown();
   }
 
-  void StartServer() {
+  // A port of 0 starts the server on a new port, which changes the NAS location.
+  void StartServer(const int port = 0) {
     const QString script = QFileInfo(QString::fromUtf8(__FILE__)).dir().absoluteFilePath(u"../data/nas_server.py"_s);
-    server_.start(python_, {script, root_.path()});
+    server_.start(python_, {script, root_.path(), QString::number(port)});
     ASSERT_TRUE(server_.waitForStarted(5000));
     ASSERT_TRUE(server_.waitForReadyRead(10000)) << server_.readAllStandardError().constData();
     bool ok = false;
-    const int port = server_.readLine().trimmed().toInt(&ok);
+    port_ = server_.readLine().trimmed().toInt(&ok);
     ASSERT_TRUE(ok);
-    location_.server = u"127.0.0.1:"_s + QString::number(port);
+    location_.server = u"127.0.0.1:"_s + QString::number(port_);
     Nas::SetLocations({location_});
   }
   void StopServer() {
@@ -2074,8 +2075,21 @@ class CollectionWatcherNasTest : public CollectionWatcherTest {
     CollectionDirectory dir;
     dir.id = 1;
     dir.path = location_.path();
+    QSignalSpy scanned(watcher, &CollectionWatcher::CompilationsNeedUpdating);
     watcher->AddDirectory(dir, {});
     ASSERT_EQ(3, backend_->GetAllSongs().count());
+    // The monitor reconciles the folder once its handle is open, the tests change the files after that.
+    ASSERT_TRUE(WaitForScans(scanned, 2, 10000));
+  }
+
+  bool WaitForScans(const QSignalSpy &scanned, const qsizetype count, const int timeout_ms) {
+    QElapsedTimer timer;
+    timer.start();
+    while (scanned.count() < count && timer.elapsed() < timeout_ms) {
+      QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+      QThread::msleep(50);
+    }
+    return scanned.count() >= count;
   }
 
   // Returns the song of the file below the NAS folder, or an invalid song.
@@ -2113,6 +2127,7 @@ class CollectionWatcherNasTest : public CollectionWatcherTest {
   QString python_;
   QTemporaryDir root_{QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s)};
   QProcess server_;
+  int port_ = 0;
   Nas::Location location_;
   std::unique_ptr<CollectionWatcher> watcher_;
 };
@@ -2183,6 +2198,44 @@ TEST_F(CollectionWatcherNasTest, ReconnectReconcilesWithoutDeletingSongs) {
   AvailableSongs(&unavailable_songs);
   EXPECT_EQ(0, unavailable_songs);
   EXPECT_EQ(4, backend_->GetAllSongs().count());
+}
+
+// A notified scan which is cancelled is retried, its results were discarded.
+TEST_F(CollectionWatcherNasTest, CancelledScanIsRetried) {
+  FixtureCommand("notify queue");
+  StartWatcher();
+  int cancelled_task = -1;
+  QObject::connect(watcher_.get(), &CollectionWatcher::ScanStarted, watcher_.get(), [this, &cancelled_task](const int task_id) {
+    if (cancelled_task != -1) return;
+    cancelled_task = task_id;
+    task_manager_->RequestTaskCancellation(task_id);
+  });
+  QSignalSpy scanned(watcher_.get(), &CollectionWatcher::CompilationsNeedUpdating);
+  ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/new.wav"_s)));
+  FixtureCommand("event");
+  ASSERT_TRUE(WaitForScans(scanned, 1, 10000));
+  EXPECT_NE(-1, cancelled_task);
+  EXPECT_FALSE(NasSong(u"first/new.wav"_s).is_valid());
+  EXPECT_TRUE(WaitForSong(u"first/new.wav"_s, [](const Song &song) { return song.is_valid() && !song.unavailable(); }, 20000));
+}
+
+// A NAS which can't be reached when monitoring is enabled again is reconciled once it can.
+TEST_F(CollectionWatcherNasTest, RestartReconcilesOfflineNas) {
+  FixtureCommand("notify queue");
+  StartWatcher();
+  {
+    const ScopedCollectionSetting monitor_disabled(CollectionSettings::kMonitor, false);
+    watcher_->ReloadSettingsAsync();
+    QCoreApplication::processEvents();
+  }
+  StopServer();
+  ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/offline.wav"_s)));
+  watcher_->ReloadSettingsAsync();
+  QCoreApplication::processEvents();
+  // The same port, so the location doesn't change and only the restarted monitor can reconcile.
+  QThread::msleep(1000);
+  StartServer(port_);
+  EXPECT_TRUE(WaitForSong(u"first/offline.wav"_s, [](const Song &song) { return song.is_valid(); }, 30000));
 }
 #endif
 

@@ -243,7 +243,8 @@ class CollectionWatcher : public QObject {
   static QString ReadSyncedLyricsFromLrc(const QString &lrc_file);
   static void SetLyricsFromStorage(Song *song, const Song &matching_song, const QString &lrc_file);
   void PerformScan(const bool incremental, const bool ignore_mtimes);
-  void ScanDirectoryNow(const CollectionDirectory &dir, const bool incremental, const bool ignore_mtimes);
+  // Returns false if the scan was stopped or couldn't reach the NAS, its results are then incomplete.
+  bool ScanDirectoryNow(const CollectionDirectory &dir, const bool incremental, const bool ignore_mtimes);
 #ifdef HAVE_NAS
   // Each monitored NAS directory has a thread which waits for SMB change notifications and requests scans on the watcher's thread.
   struct NasMonitor {
@@ -254,7 +255,7 @@ class CollectionWatcher : public QObject {
     std::atomic_bool catch_up = false;
     std::thread thread;
   };
-  // catch_up_allowed enables reconciling after reconnecting when the first connection failed, like the update on startup.
+  // catch_up_allowed enables reconciling once the first handle is opened, like the update on startup.
   std::shared_ptr<NasMonitor> StartNasMonitor(const CollectionDirectory &dir, const bool catch_up_allowed);
   void StopNasMonitor(const int dir_id);
   void StopNasMonitors();

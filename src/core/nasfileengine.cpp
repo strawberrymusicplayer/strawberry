@@ -335,6 +335,13 @@ void WatchEchoed(smb2_context*, int status, void*, void *private_data) {
   if (status < 0 && !state->result) state->result = Nas::WatchResult::Disconnected;
 }
 
+// Waits up to slice_ms for the connection, also called without events so that libsmb2 expires timed-out requests.
+bool ServiceWatch(smb2_context *context, const int slice_ms) {
+  pollfd descriptor = {smb2_get_fd(context), static_cast<short>(smb2_which_events(context)), 0};
+  if (poll(&descriptor, 1, slice_ms) < 0 && errno != EINTR) return false;
+  return smb2_service(context, descriptor.revents) >= 0;
+}
+
 }  // namespace
 
 namespace Nas {
@@ -411,18 +418,35 @@ WatchResult NotifyResult(const quint32 status) {
     default: return WatchResult::Disconnected;
   }
 }
-WatchResult WaitForChange(const Location &location, const int timeout_ms, std::atomic_bool *cancel) {
-  const auto cancelled = [cancel]() { return cancel && cancel->load(); };
-  if (cancelled()) return WatchResult::Cancelled;
-  if (!Validate(location).isEmpty()) return WatchResult::Disconnected;
-  const QDeadlineTimer deadline(std::max(0, timeout_ms));
-  // Declared before the connection: destroying the context reports still pending requests to these callbacks.
+struct ChangeWatcher::Private {
+  explicit Private(const Location &l) : location(l) {}
+  Location location;
+  // Declared before the connection: destroying the context reports still pending requests to the callbacks.
   WatchState state;
-  Connection connection(location);
-  if (cancelled()) return WatchResult::Cancelled;
-  smb2_context *context = connection.get();
-  if (!context) return WatchResult::Disconnected;
-  const QByteArray folder = location.folder.toUtf8();
+  std::unique_ptr<Connection> connection;
+  bool notifying = false;
+  QDeadlineTimer echo;
+};
+ChangeWatcher::ChangeWatcher(const Location &location) : d_(std::make_unique<Private>(location)) {}
+ChangeWatcher::~ChangeWatcher() = default;
+bool ChangeWatcher::IsOpen() const { return d_->connection && d_->state.opened; }
+void ChangeWatcher::Close() {
+  d_->connection.reset();
+  d_->state = WatchState();
+  d_->notifying = false;
+}
+bool ChangeWatcher::Open(std::atomic_bool *cancel) {
+  const auto cancelled = [cancel]() { return cancel && cancel->load(); };
+  Close();
+  if (cancelled() || !Validate(d_->location).isEmpty()) return false;
+  d_->connection = std::make_unique<Connection>(d_->location);
+  smb2_context *context = d_->connection->get();
+  if (cancelled() || !context) {
+    Close();
+    return false;
+  }
+  WatchState &state = d_->state;
+  const QByteArray folder = d_->location.folder.toUtf8();
   smb2_create_request create = {};
   create.requested_oplock_level = SMB2_OPLOCK_LEVEL_NONE;
   create.impersonation_level = SMB2_IMPERSONATION_IMPERSONATION;
@@ -433,14 +457,38 @@ WatchResult WaitForChange(const Location &location, const int timeout_ms, std::a
   create.create_options = SMB2_FILE_DIRECTORY_FILE;
   create.name = folder.constData();
   smb2_pdu *pdu = smb2_cmd_create_async(context, &create, WatchCreated, &state);
-  if (!pdu) return WatchResult::Disconnected;
+  if (!pdu) {
+    Close();
+    return false;
+  }
   smb2_queue_pdu(context, pdu);
-  bool notifying = false;
-  QDeadlineTimer echo(kWatchEchoMs);
+  // The create request keeps the 8 s timeout, libsmb2 reports its expiry to WatchCreated.
+  while (!state.opened && !state.result) {
+    if (cancelled()) {
+      Close();
+      return false;
+    }
+    if (!ServiceWatch(context, kWatchSliceMs)) state.result = WatchResult::Disconnected;
+  }
+  if (!state.opened) {
+    qLog(Warning) << "NAS change notification folder could not be opened, status" << QStringLiteral("0x%1").arg(state.status, 8, 16, QLatin1Char('0'));
+    Close();
+    return false;
+  }
+  return true;
+}
+WatchResult ChangeWatcher::Wait(const int timeout_ms, std::atomic_bool *cancel) {
+  const auto cancelled = [cancel]() { return cancel && cancel->load(); };
+  if (cancelled()) return WatchResult::Cancelled;
+  if (!IsOpen()) return WatchResult::Disconnected;
+  const QDeadlineTimer deadline(std::max(0, timeout_ms));
+  smb2_context *context = d_->connection->get();
+  WatchState &state = d_->state;
   while (!state.result) {
+    // A pending request is kept on Cancelled and Timeout, the next call continues waiting for it.
     if (cancelled()) return WatchResult::Cancelled;
     if (deadline.hasExpired()) return WatchResult::Timeout;
-    if (state.opened && !notifying) {
+    if (!d_->notifying) {
       smb2_change_notify_request request = {};
       request.flags = SMB2_CHANGE_NOTIFY_WATCH_TREE;
       const uint32_t max_read = smb2_get_max_read_size(context);
@@ -449,30 +497,38 @@ WatchResult WaitForChange(const Location &location, const int timeout_ms, std::a
       request.completion_filter = SMB2_CHANGE_NOTIIFY_FILE_NOTIFY_CHANGE_FILE_NAME | SMB2_CHANGE_NOTIIFY_FILE_NOTIFY_CHANGE_DIR_NAME | SMB2_CHANGE_NOTIIFY_FILE_NOTIFY_CHANGE_ATTRIBUTES | SMB2_CHANGE_NOTIIFY_FILE_NOTIFY_CHANGE_SIZE | SMB2_CHANGE_NOTIIFY_FILE_NOTIFY_CHANGE_LAST_WRITE | SMB2_CHANGE_NOTIIFY_FILE_NOTIFY_CHANGE_CREATION;
       // Only the notification may outlive the request timeout; periodic echoes keep the 8 s rule for detecting a lost connection.
       smb2_set_timeout(context, 0);
-      pdu = smb2_cmd_change_notify_async(context, &request, WatchNotified, &state);
+      smb2_pdu *pdu = smb2_cmd_change_notify_async(context, &request, WatchNotified, &state);
       smb2_set_timeout(context, kTimeoutSeconds);
-      if (!pdu) return WatchResult::Disconnected;
+      if (!pdu) {
+        state.result = WatchResult::Disconnected;
+        break;
+      }
       smb2_queue_pdu(context, pdu);
-      notifying = true;
-      echo.setRemainingTime(kWatchEchoMs);
+      d_->notifying = true;
+      d_->echo.setRemainingTime(kWatchEchoMs);
     }
-    if (notifying && !state.echo_pending && echo.hasExpired()) {
-      if (smb2_echo_async(context, WatchEchoed, &state) < 0) return WatchResult::Disconnected;
+    if (!state.echo_pending && d_->echo.hasExpired()) {
+      if (smb2_echo_async(context, WatchEchoed, &state) < 0) {
+        state.result = WatchResult::Disconnected;
+        break;
+      }
       state.echo_pending = true;
-      echo.setRemainingTime(kWatchEchoMs);
+      d_->echo.setRemainingTime(kWatchEchoMs);
     }
-    pollfd descriptor = {smb2_get_fd(context), static_cast<short>(smb2_which_events(context)), 0};
-    const int slice = static_cast<int>(std::min<qint64>(kWatchSliceMs, deadline.remainingTime()));
-    if (poll(&descriptor, 1, slice) < 0 && errno != EINTR) return WatchResult::Disconnected;
-    // Also called without events so that libsmb2 expires timed-out requests.
-    if (smb2_service(context, descriptor.revents) < 0) {
+    if (!ServiceWatch(context, static_cast<int>(std::min<qint64>(kWatchSliceMs, deadline.remainingTime())))) {
       state.result = WatchResult::Disconnected;
     }
   }
-  if (*state.result != WatchResult::Changed) {
-    qLog(Warning) << "NAS change notification ended with result" << static_cast<int>(*state.result) << "and status" << QStringLiteral("0x%1").arg(state.status, 8, 16, QLatin1Char('0'));
+  const WatchResult result = *state.result;
+  if (result != WatchResult::Changed) {
+    qLog(Warning) << "NAS change notification ended with result" << static_cast<int>(result) << "and status" << QStringLiteral("0x%1").arg(state.status, 8, 16, QLatin1Char('0'));
   }
-  return *state.result;
+  // The handle stays open, the next call requests the following changes on it, which the server queues meanwhile.
+  state.result.reset();
+  state.status = SMB2_STATUS_SUCCESS;
+  d_->notifying = false;
+  if (result == WatchResult::Disconnected || result == WatchResult::Unsupported) Close();
+  return result;
 }
 
 #ifdef Q_OS_ANDROID

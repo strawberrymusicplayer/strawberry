@@ -96,16 +96,20 @@ TEST(NasFileEngineTest, ChangeWaitStopsWhenCancelledOrUnreachable) {
   std::atomic_bool cancel = true;
   QElapsedTimer timer;
   timer.start();
-  EXPECT_EQ(Nas::WaitForChange(Location(), 10000, &cancel), Nas::WatchResult::Cancelled);
+  Nas::ChangeWatcher cancelled(Location());
+  EXPECT_FALSE(cancelled.Open(&cancel));
+  EXPECT_EQ(cancelled.Wait(10000, &cancel), Nas::WatchResult::Cancelled);
   EXPECT_LT(timer.elapsed(), 100);
   auto offline = Location();
   offline.server += QStringLiteral(":1");
   cancel = false;
   timer.restart();
-  EXPECT_EQ(Nas::WaitForChange(offline, 10000, &cancel), Nas::WatchResult::Disconnected);
+  Nas::ChangeWatcher unreachable(offline);
+  EXPECT_FALSE(unreachable.Open(&cancel));
+  EXPECT_EQ(unreachable.Wait(10000, &cancel), Nas::WatchResult::Disconnected);
   EXPECT_LT(timer.elapsed(), 9000);
   offline.folder = QStringLiteral("../escape");
-  EXPECT_EQ(Nas::WaitForChange(offline, 10000, nullptr), Nas::WatchResult::Disconnected);
+  EXPECT_FALSE(Nas::ChangeWatcher(offline).Open());
 }
 
 class NasProtocolTest : public ::testing::Test {
@@ -447,30 +451,56 @@ TEST_F(NasProtocolTest, DirectoryMetadataDoesNotSurviveLocationChangesOrCrossThr
 }
 
 TEST_F(NasProtocolTest, ChangeWaitReportsChangesOverflowAndUnsupportedServers) {
-  EXPECT_EQ(Nas::WaitForChange(location_, 5000, nullptr), Nas::WatchResult::Unsupported);
+  Nas::ChangeWatcher watcher(location_);
+  ASSERT_TRUE(watcher.Open());
+  EXPECT_EQ(watcher.Wait(5000), Nas::WatchResult::Unsupported);
+  EXPECT_FALSE(watcher.IsOpen());
   EXPECT_EQ(FixtureCommand("notify change"), QByteArray("notify"));
-  EXPECT_EQ(Nas::WaitForChange(location_, 5000, nullptr), Nas::WatchResult::Changed);
+  ASSERT_TRUE(watcher.Open());
+  EXPECT_EQ(watcher.Wait(5000), Nas::WatchResult::Changed);
   EXPECT_EQ(FixtureCommand("notify overflow"), QByteArray("notify"));
-  EXPECT_EQ(Nas::WaitForChange(location_, 5000, nullptr), Nas::WatchResult::Overflow);
+  EXPECT_EQ(watcher.Wait(5000), Nas::WatchResult::Overflow);
+  EXPECT_TRUE(watcher.IsOpen());
   auto missing = location_;
   missing.folder = QStringLiteral("missing-folder");
-  EXPECT_EQ(Nas::WaitForChange(missing, 5000, nullptr), Nas::WatchResult::Disconnected);
+  Nas::ChangeWatcher missing_watcher(missing);
+  EXPECT_FALSE(missing_watcher.Open());
+  EXPECT_EQ(missing_watcher.Wait(5000), Nas::WatchResult::Disconnected);
+}
+
+// A change made after a timeout, or between a reported change and the next wait, is reported on the same handle and connection.
+TEST_F(NasProtocolTest, ChangeWaitKeepsTheHandleBetweenWaits) {
+  EXPECT_EQ(FixtureCommand("notify queue"), QByteArray("notify"));
+  Nas::ChangeWatcher watcher(location_);
+  ASSERT_TRUE(watcher.Open());
+  const QJsonObject opened = CommandCounts();
+  EXPECT_EQ(watcher.Wait(300), Nas::WatchResult::Timeout);
+  EXPECT_EQ(FixtureCommand("event"), QByteArray("event"));
+  EXPECT_EQ(watcher.Wait(5000), Nas::WatchResult::Changed);
+  EXPECT_EQ(FixtureCommand("event"), QByteArray("event"));
+  EXPECT_EQ(watcher.Wait(5000), Nas::WatchResult::Changed);
+  EXPECT_EQ(watcher.Wait(300), Nas::WatchResult::Timeout);
+  const QJsonObject waited = CommandCounts();
+  EXPECT_EQ(waited.value(QStringLiteral("negotiate")), opened.value(QStringLiteral("negotiate")));
+  EXPECT_EQ(waited.value(QStringLiteral("create")), opened.value(QStringLiteral("create")));
 }
 
 TEST_F(NasProtocolTest, ChangeWaitHonoursTimeoutCancellationAndDisconnects) {
   EXPECT_EQ(FixtureCommand("notify hold"), QByteArray("notify"));
   QElapsedTimer timer;
   timer.start();
-  EXPECT_EQ(Nas::WaitForChange(location_, 300, nullptr), Nas::WatchResult::Timeout);
+  Nas::ChangeWatcher watcher(location_);
+  ASSERT_TRUE(watcher.Open());
+  EXPECT_EQ(watcher.Wait(300), Nas::WatchResult::Timeout);
   EXPECT_LT(timer.elapsed(), 3000);
   std::atomic_bool cancel = false;
-  auto cancelled = std::async(std::launch::async, [this, &cancel]() { return Nas::WaitForChange(location_, 20000, &cancel); });
+  auto cancelled = std::async(std::launch::async, [&watcher, &cancel]() { return watcher.Wait(20000, &cancel); });
   EXPECT_EQ(cancelled.wait_for(std::chrono::milliseconds(500)), std::future_status::timeout);
   timer.restart();
   cancel = true;
   EXPECT_EQ(cancelled.get(), Nas::WatchResult::Cancelled);
   EXPECT_LT(timer.elapsed(), 500);
-  auto disconnected = std::async(std::launch::async, [this]() { return Nas::WaitForChange(location_, 20000, nullptr); });
+  auto disconnected = std::async(std::launch::async, [&watcher]() { return watcher.Wait(20000); });
   EXPECT_EQ(disconnected.wait_for(std::chrono::milliseconds(500)), std::future_status::timeout);
   timer.restart();
   server_.terminate();

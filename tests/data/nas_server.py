@@ -3,6 +3,7 @@
 
 An optional argument names a directory to share instead of a temporary one, so a
 test can change the files directly and restart the server on the same files.
+A second optional argument selects the port, so a restarted server is the same NAS.
 """
 
 import logging
@@ -39,7 +40,7 @@ with tempfile.TemporaryDirectory(prefix="strawberry-nas-test-") as temporary:
             (directory / "album" / album).mkdir()
             shutil.copyfile(directory / "album" / "track.wav",
                             directory / "album" / album / "track.wav")
-    server = SimpleSMBServer(listenAddress="127.0.0.1", listenPort=0)
+    server = SimpleSMBServer(listenAddress="127.0.0.1", listenPort=int(sys.argv[2]) if len(sys.argv) > 2 else 0)
     server.getServer().daemon_threads = True
     server.setSMB2Support(True)
     server.addShare("music", root, readOnly="yes")
@@ -72,9 +73,21 @@ with tempfile.TemporaryDirectory(prefix="strawberry-nas-test-") as temporary:
     # CHANGE_NOTIFY is unsupported by impacket unless a test selects another reply.
     # "once" after a mode replies once with it, then holds the next requests.
     notify = {"mode": "unsupported", "once": False}
+    # "queue" reports the "event" commands like a real server, which queues the changes
+    # for a handle from its first request on, also while no request is pending.
+    events = {"count": 0}
+    handles = {}
     unsupported_notify = server.getServer().hookSmb2Command(smb3structs.SMB2_CHANGE_NOTIFY, None)
     def change_notify(connId, smbServer, recvPacket):
         mode = notify["mode"]
+        if mode == "queue":
+            handle = smb3structs.SMB2ChangeNotify(recvPacket["Data"])["FileID"].getData()
+            seen = handles.setdefault(handle, events["count"])
+            deadline = time.monotonic() + 30
+            while events["count"] == seen and time.monotonic() < deadline:
+                time.sleep(0.05)
+            handles[handle] = events["count"]
+            mode = "change"
         if mode == "hold":
             # A held request is answered with the next selected mode, or unsupported after 10 s.
             deadline = time.monotonic() + 10
@@ -110,12 +123,16 @@ with tempfile.TemporaryDirectory(prefix="strawberry-nas-test-") as temporary:
                 print(json.dumps({
                     "negotiate": commands_seen.get(smb3structs.SMB2_NEGOTIATE, 0),
                     "query_info": commands_seen.get(smb3structs.SMB2_QUERY_INFO, 0),
+                    "create": commands_seen.get(smb3structs.SMB2_CREATE, 0),
                 }), flush=True)
             elif line.startswith("notify "):
                 words = line.split()
                 notify["once"] = len(words) > 2 and words[2] == "once"
                 notify["mode"] = words[1]
                 print("notify", flush=True)
+            elif line.strip() == "event":
+                events["count"] += 1
+                print("event", flush=True)
             elif line.strip() == "resize":
                 (directory / "bulk" / "entry-000.bin").write_bytes(b"changed fixture contents")
                 print("resized", flush=True)

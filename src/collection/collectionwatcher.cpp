@@ -118,7 +118,8 @@ const QStringList &ValidImageExtensions() {
 }
 
 #ifdef HAVE_NAS
-constexpr std::chrono::milliseconds kNasWatchTimeout = 60s;
+// A timeout keeps the request pending, it only bounds how long the monitor takes to notice a requested catch-up or changed NAS settings.
+constexpr std::chrono::milliseconds kNasWatchTimeout = 5s;
 constexpr std::chrono::milliseconds kNasChangeDelay = 3s;
 constexpr std::chrono::milliseconds kNasMinRetryDelay = 5s;
 constexpr std::chrono::milliseconds kNasMaxRetryDelay = 5min;
@@ -2151,13 +2152,19 @@ std::shared_ptr<CollectionWatcher::NasMonitor> CollectionWatcher::StartNasMonito
     bool polling = false;
     std::chrono::milliseconds retry_delay = kNasMinRetryDelay;
     std::optional<Nas::Location> last_location;
+    // Kept open between waits, so the server queues the changes made while no request is pending.
+    std::unique_ptr<Nas::ChangeWatcher> watcher;
     const auto retry_later = [m, &retry_delay]() {
       const bool not_cancelled = NasMonitorSleep(m->cancel, retry_delay);
       retry_delay = std::min(retry_delay * 2, kNasMaxRetryDelay);
       return not_cancelled;
     };
     while (!m->cancel) {
-      if (m->catch_up.exchange(false)) reconcile = true;
+      if (m->catch_up.exchange(false)) {
+        // A scan was stopped or couldn't reach the NAS, it's retried with the back-off.
+        reconcile = true;
+        if (!retry_later()) break;
+      }
       const std::optional<Nas::Location> location = NasLocationForPath(path);
       if (!location) {
         if (!retry_later()) break;
@@ -2166,9 +2173,11 @@ std::shared_ptr<CollectionWatcher::NasMonitor> CollectionWatcher::StartNasMonito
       if (last_location && !SameNasLocation(*last_location, *location)) {
         qLog(Debug) << "NAS location for" << path << "changed";
         reconcile = true;
+        watcher.reset();
       }
       last_location = location;
-      if (reconcile) {
+      // Without an open handle, the reconcile is done once a handle is opened again.
+      if (reconcile && (polling || watcher)) {
         // Reconcile only once the folder can be listed again, a scan while the NAS can't be reached changes nothing anyway.
         if (!Nas::Check(*location).isEmpty()) {
           if (!retry_later()) break;
@@ -2177,7 +2186,6 @@ std::shared_ptr<CollectionWatcher::NasMonitor> CollectionWatcher::StartNasMonito
         qLog(Debug) << "NAS" << location->label() << "reachable again, reconciling" << path;
         connected_once = true;
         reconcile = false;
-        retry_delay = kNasMinRetryDelay;
         request_scan();
       }
       if (polling) {
@@ -2185,9 +2193,26 @@ std::shared_ptr<CollectionWatcher::NasMonitor> CollectionWatcher::StartNasMonito
         request_scan();
         continue;
       }
-      const Nas::WatchResult result = Nas::WaitForChange(*location, static_cast<int>(kNasWatchTimeout.count()), &m->cancel);
-      if (result != Nas::WatchResult::Disconnected && result != Nas::WatchResult::Cancelled) {
+      if (!watcher) {
+        std::unique_ptr<Nas::ChangeWatcher> opened = std::make_unique<Nas::ChangeWatcher>(*location);
+        if (!opened->Open(&m->cancel)) {
+          if (m->cancel) break;
+          qLog(Debug) << "NAS" << location->label() << "can't be watched, retrying in" << retry_delay.count() / 1000 << "seconds";
+          if (!retry_later()) break;
+          continue;
+        }
+        watcher = std::move(opened);
+        retry_delay = kNasMinRetryDelay;
+        // Changes made before the handle was opened aren't notified, unless the NAS couldn't be reached since the start and there was no update on startup.
+        if (reconcile || connected_once || catch_up_allowed) {
+          qLog(Debug) << "Watching NAS" << location->label() << "again, reconciling" << path;
+          request_scan();
+        }
         connected_once = true;
+        reconcile = false;
+      }
+      const Nas::WatchResult result = watcher->Wait(static_cast<int>(kNasWatchTimeout.count()), &m->cancel);
+      if (result == Nas::WatchResult::Changed || result == Nas::WatchResult::Overflow) {
         retry_delay = kNasMinRetryDelay;
       }
       switch (result) {
@@ -2203,11 +2228,12 @@ std::shared_ptr<CollectionWatcher::NasMonitor> CollectionWatcher::StartNasMonito
         case Nas::WatchResult::Unsupported:
           qLog(Info) << "NAS" << location->label() << "doesn't support change notifications, checking for changes every" << std::chrono::duration_cast<std::chrono::minutes>(polling_interval).count() << "minutes";
           polling = true;
+          watcher.reset();
           break;
         case Nas::WatchResult::Disconnected:
+          // Only a lost connection is reconnected, the new handle reconciles the changes made in between.
           qLog(Debug) << "NAS" << location->label() << "disconnected, retrying in" << retry_delay.count() / 1000 << "seconds";
-          // Changes made while disconnected are missed, unless the NAS couldn't be reached since the start and there was no update on startup.
-          if (connected_once || catch_up_allowed) reconcile = true;
+          watcher.reset();
           if (!retry_later()) return;
           break;
         case Nas::WatchResult::Timeout:
@@ -2250,7 +2276,8 @@ void CollectionWatcher::RestartNasMonitors() {
   StopNasMonitors();
   if (!monitor_) return;
   for (const CollectionDirectory &dir : std::as_const(watched_dirs_)) {
-    if (Nas::IsPath(dir.path)) StartNasMonitor(dir, false);
+    // A NAS which can't be reached now is reconciled once it can, as changes may have been missed while it wasn't monitored.
+    if (Nas::IsPath(dir.path)) StartNasMonitor(dir, true);
   }
 
 }
@@ -2276,7 +2303,10 @@ void CollectionWatcher::ScanNasDirectory(const int dir_id) {
   // The files are only read again when their modification time or size changed, and a NAS which can't be reached changes nothing.
   const CollectionDirectory dir = watched_dirs_.value(dir_id);
   qLog(Debug) << "Scanning NAS directory" << dir.path << "for changes";
-  ScanDirectoryNow(dir, false, false);
+  if (!ScanDirectoryNow(dir, false, false)) {
+    // The results of a stopped scan or one which couldn't reach the NAS are discarded, the monitor retries it.
+    monitor->catch_up = true;
+  }
 
   Q_EMIT CompilationsNeedUpdating();
 
@@ -2418,7 +2448,7 @@ void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mt
 
 }
 
-void CollectionWatcher::ScanDirectoryNow(const CollectionDirectory &dir, const bool incremental, const bool ignore_mtimes) {
+bool CollectionWatcher::ScanDirectoryNow(const CollectionDirectory &dir, const bool incremental, const bool ignore_mtimes) {
 
   ScanTransaction transaction(this, dir.id, incremental, ignore_mtimes);
   CollectionSubdirectoryList subdirs = transaction.GetAllSubdirs();
@@ -2441,6 +2471,12 @@ void CollectionWatcher::ScanDirectoryNow(const CollectionDirectory &dir, const b
     if (stop_or_abort_requested()) break;
     ScanSubdirectory(dir, subdir.path, subdir, subdir_files_count[subdir.path], &transaction);
   }
+
+#ifdef HAVE_NAS
+  return !stop_or_abort_requested() && !transaction.NetworkFailed();
+#else
+  return !stop_or_abort_requested();
+#endif
 
 }
 

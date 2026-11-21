@@ -4,6 +4,7 @@
 #define NASFILEENGINE_H
 
 #include <atomic>
+#include <memory>
 #include <QList>
 #include <QString>
 
@@ -30,10 +31,27 @@ quint64 FailureSerial();
 QString ConnectionError(const QString &detail);
 QString Validate(const Location &location);
 QString Check(const Location &location);
-// Blocks until the server reports a change anywhere below the location's folder, timeout_ms elapses or *cancel becomes true.
-// Each call uses its own connection, so Overflow and Disconnected mean changes may have been missed and the folder needs a full reconcile.
-// Cancellation is checked every 100 ms while waiting; connection setup keeps the 8 s timeout.
-WatchResult WaitForChange(const Location &location, int timeout_ms, std::atomic_bool *cancel = nullptr);
+// Watches a location's folder for changes anywhere below it, on its own connection.
+// The folder handle and connection stay open between waits, so the server queues changes made while no request is pending and none are lost between two waits.
+// Overflow and Disconnected mean changes may have been missed and the folder needs a full reconcile; after Disconnected and Unsupported the watcher is closed.
+class ChangeWatcher {
+ public:
+  explicit ChangeWatcher(const Location &location);
+  ~ChangeWatcher();
+  // Connects and opens the folder, returns false if it can't be opened or *cancel becomes true; connection setup keeps the 8 s timeout.
+  // Changes made before the folder was opened are not reported.
+  bool Open(std::atomic_bool *cancel = nullptr);
+  bool IsOpen() const;
+  // Blocks until the server reports a change, timeout_ms elapses or *cancel becomes true; cancellation is checked every 100 ms.
+  // After Timeout and Cancelled the request stays pending, so the next call continues waiting for it.
+  WatchResult Wait(int timeout_ms, std::atomic_bool *cancel = nullptr);
+
+ private:
+  Q_DISABLE_COPY_MOVE(ChangeWatcher)
+  void Close();
+  struct Private;
+  std::unique_ptr<Private> d_;
+};
 // Maps a CHANGE_NOTIFY completion status (an NT status code) to a watch result.
 WatchResult NotifyResult(quint32 status);
 QString DisplayName(const QString &path);
