@@ -4,6 +4,7 @@
 
 #include <utility>
 #include <QFutureWatcher>
+#include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
@@ -103,6 +104,19 @@ void NasPage::Edit(const Nas::Location &location) {
   QLineEdit *folder = field(tr("Folder within the share (optional)"), location.folder);
   QLineEdit *user = field(tr("Username"), location.user);
   QLineEdit *password = field(tr("Password"), location.password, true);
+  auto *password_row = new QHBoxLayout;
+  layout->insertLayout(layout->indexOf(password), password_row);
+  layout->removeWidget(password);
+  password_row->addWidget(password, 1);
+  auto *show_password = new QPushButton(QStringLiteral("\U0001F441"));
+  show_password->setCheckable(true);
+  show_password->setMinimumSize(48, 48);
+  show_password->setAccessibleName(tr("Show password"));
+  password_row->addWidget(show_password);
+  QObject::connect(show_password, &QPushButton::toggled, password, [password, show_password](const bool visible) {
+    password->setEchoMode(visible ? QLineEdit::Normal : QLineEdit::Password);
+    show_password->setAccessibleName(visible ? tr("Hide password") : tr("Show password"));
+  });
   QLineEdit *domain = field(tr("Domain (optional)"), location.domain);
   QLabel *error = Label(QString(), layout);
   Label(tr("Use a NAS account with read-only access. The folder is saved and added to the collection when it has been checked."), layout);
