@@ -712,6 +712,10 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
     }
   }
 
+#ifdef HAVE_NAS
+  // Like in ScanNasDirectory(), suspending stops the update of a NAS directory, the started monitors catch up with the changed folders.
+  if (Nas::IsPath(dir.path)) nas_scan_running_ = true;
+#endif
   CancelStop();
 
   watched_dirs_[dir.id] = dir;
@@ -758,6 +762,9 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
       }
     }
   }
+#ifdef HAVE_NAS
+  nas_scan_running_ = false;
+#endif
 
   Q_EMIT CompilationsNeedUpdating();
 
@@ -2134,7 +2141,7 @@ void CollectionWatcher::RescanPathsNow() {
 }
 
 #ifdef HAVE_NAS
-std::shared_ptr<CollectionWatcher::NasMonitor> CollectionWatcher::StartNasMonitor(const CollectionDirectory &dir, const bool catch_up_allowed) {
+std::shared_ptr<CollectionWatcher::NasMonitor> CollectionWatcher::StartNasMonitor(const CollectionDirectory &dir, const bool catch_up_allowed, const bool changed_folders_catch_up) {
 
   StopNasMonitor(dir.id);
   if (nas_suspended_) return nullptr;
@@ -2150,10 +2157,10 @@ std::shared_ptr<CollectionWatcher::NasMonitor> CollectionWatcher::StartNasMonito
   const QString path = dir.path;
   const std::chrono::milliseconds polling_interval = std::chrono::minutes(nas_polling_minutes_);
   // Only the request crosses to the watcher's thread, the scan runs there, one at a time.
-  const std::function<void(const QStringList&)> request_scan = [this, m, dir_id](const QStringList &changes) {
+  const auto request_scan = [this, m, dir_id](const QStringList &changes, const bool changed_folders_only = false) {
     {
       const std::lock_guard<std::mutex> lock(m->changes_mutex);
-      if (changes.isEmpty()) m->full_scan = true;
+      if (changes.isEmpty()) (changed_folders_only ? m->changed_folders_scan : m->full_scan) = true;
       for (const QString &change : changes) m->changed_paths.insert(change);
     }
     if (!m->scan_pending.exchange(true)) {
@@ -2162,7 +2169,7 @@ std::shared_ptr<CollectionWatcher::NasMonitor> CollectionWatcher::StartNasMonito
   };
 
   // The location is looked up again for each connection, so changed NAS settings are used, the credentials are never logged.
-  m->thread = std::thread([m, path, polling_interval, catch_up_allowed, request_scan]() {
+  m->thread = std::thread([m, path, polling_interval, catch_up_allowed, changed_folders_catch_up, request_scan]() {
     bool connected_once = false;
     bool reconcile = false;
     bool polling = false;
@@ -2221,8 +2228,10 @@ std::shared_ptr<CollectionWatcher::NasMonitor> CollectionWatcher::StartNasMonito
         retry_delay = kNasMinRetryDelay;
         // Changes made before the handle was opened aren't notified, unless the NAS couldn't be reached since the start and there was no update on startup.
         if (reconcile || connected_once || catch_up_allowed) {
-          qLog(Debug) << "Watching NAS" << location->label() << "again, reconciling" << path;
-          request_scan({});
+          // The first catch-up after resuming only scans the folders whose modification time changed, an in-place change waits for the next full reconcile.
+          const bool changed_folders_only = changed_folders_catch_up && !reconcile && !connected_once;
+          qLog(Debug) << "Watching NAS" << location->label() << "again," << (changed_folders_only ? "scanning changed folders of" : "reconciling") << path;
+          request_scan({}, changed_folders_only);
         }
         connected_once = true;
         reconcile = false;
@@ -2306,13 +2315,13 @@ qsizetype CollectionWatcher::CancelNasMonitors() {
 
 }
 
-void CollectionWatcher::RestartNasMonitors() {
+void CollectionWatcher::RestartNasMonitors(const bool changed_folders_catch_up) {
 
   StopNasMonitors();
   if (!monitor_ || nas_suspended_) return;
   for (const CollectionDirectory &dir : std::as_const(watched_dirs_)) {
     // A NAS which can't be reached now is reconciled once it can, as changes may have been missed while it wasn't monitored.
-    if (Nas::IsPath(dir.path)) StartNasMonitor(dir, true);
+    if (Nas::IsPath(dir.path)) StartNasMonitor(dir, true, changed_folders_catch_up);
   }
 
 }
@@ -2331,25 +2340,44 @@ void CollectionWatcher::ScanNasDirectory(const int dir_id) {
   // Changes found after this are scanned again after this scan.
   monitor->scan_pending = false;
   bool full_scan = false;
+  bool changed_folders_scan = false;
   QStringList changed_paths;
   {
     const std::lock_guard<std::mutex> lock(monitor->changes_mutex);
     full_scan = monitor->full_scan;
+    changed_folders_scan = monitor->changed_folders_scan;
     changed_paths = monitor->changed_paths.values();
     monitor->full_scan = false;
+    monitor->changed_folders_scan = false;
     monitor->changed_paths.clear();
   }
   // Already scanned with an earlier request.
-  if (!full_scan && changed_paths.isEmpty()) return;
+  if (!full_scan && !changed_folders_scan && changed_paths.isEmpty()) return;
 
+  // Set before CancelStop(), so suspending from another thread either stops this scan or finds its monitor cancelled below.
+  nas_scan_running_ = true;
   // Like RescanPathsNow(), a stopped scan only stops the scan which was running.
   CancelStop();
+  // Scans requested before the monitor was cancelled are skipped, the started monitor catches up.
+  if (monitor->cancel) {
+    nas_scan_running_ = false;
+    return;
+  }
 
   // Not incremental, every folder is entered, since a changed file doesn't necessarily change the modification time of its folder.
   // The files are only read again when their modification time or size changed, and a NAS which can't be reached changes nothing.
   const CollectionDirectory dir = watched_dirs_.value(dir_id);
   qLog(Debug) << "Scanning NAS directory" << dir.path << "for changes" << (full_scan ? QStringList() : changed_paths);
-  if (!(full_scan ? ScanDirectoryNow(dir, false, false) : ScanNasPathsNow(dir, changed_paths))) {
+  bool scanned = true;
+  if (full_scan) {
+    scanned = ScanDirectoryNow(dir, false, false);
+  }
+  else {
+    if (changed_folders_scan) scanned = ScanDirectoryNow(dir, true, false);
+    if (scanned && !changed_paths.isEmpty()) scanned = ScanNasPathsNow(dir, changed_paths);
+  }
+  nas_scan_running_ = false;
+  if (!scanned) {
     // The results of a stopped scan or one which couldn't reach the NAS are discarded, the monitor retries it.
     monitor->catch_up = true;
   }
@@ -2360,6 +2388,11 @@ void CollectionWatcher::ScanNasDirectory(const int dir_id) {
 
 void CollectionWatcher::SetNasMonitorsSuspendedAsync(const bool suspended) {
 
+  // Suspending cancels the monitors and stops a running NAS scan at once, while the watcher's thread may be busy with it.
+  if (suspended) {
+    CancelNasMonitors();
+    if (nas_scan_running_) Stop();
+  }
   QMetaObject::invokeMethod(this, [this, suspended]() { SetNasMonitorsSuspended(suspended); }, Qt::QueuedConnection);
 
 }
@@ -2373,8 +2406,8 @@ bool CollectionWatcher::SetNasMonitorsSuspended(const bool suspended) {
     StopNasMonitors();
   }
   else {
-    // Changes made while suspended aren't notified, so the started monitors reconcile their directories.
-    RestartNasMonitors();
+    // Changes made while suspended aren't notified, so the started monitors scan the folders whose modification time changed, like the update on startup.
+    RestartNasMonitors(true);
   }
   return true;
 

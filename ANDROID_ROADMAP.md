@@ -1331,5 +1331,6 @@ After a connection interruption, catch up on changes missed while disconnected w
 - Verify Android lifecycle behavior and document that the app cannot monitor while it is not running.
 
 **Android lifecycle:** Nothing is monitored while the app is not in the foreground.
-The NAS monitors stop when the app is hidden or suspended and start again when it is active, then reconcile the changes made meanwhile.
-Stopping cancels the monitors at once; a scan which is running continues, and the monitors start again after it finished.
+The NAS monitors stop when the app is hidden or suspended and start again when it is active, then scan the folders whose modification time changed meanwhile, like the update on startup.
+Stopping cancels the monitors and stops a running NAS scan at once, scans already requested are skipped, so the monitors start again within seconds.
+An in-place tag edit made while the app is hidden, which doesn't change its folder's modification time, is found by the next full reconcile, after an overflow, a changed location, a reconnect or a manual full scan.

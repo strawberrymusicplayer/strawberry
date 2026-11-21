@@ -8,6 +8,7 @@ A second optional argument selects the port, so a restarted server is the same N
 
 import logging
 import json
+import os
 import shutil
 import signal
 import sys
@@ -40,6 +41,10 @@ with tempfile.TemporaryDirectory(prefix="strawberry-nas-test-") as temporary:
             (directory / "album" / album).mkdir()
             shutil.copyfile(directory / "album" / "track.wav",
                             directory / "album" / album / "track.wav")
+        # Folders changed later in the same second would look unchanged to a scan of only the changed folders.
+        created_time = time.time() - 60
+        for folder in ("album", "album/first", "album/second"):
+            os.utime(directory / folder, (created_time, created_time))
     server = SimpleSMBServer(listenAddress="127.0.0.1", listenPort=int(sys.argv[2]) if len(sys.argv) > 2 else 0)
     server.getServer().daemon_threads = True
     server.setSMB2Support(True)

@@ -202,8 +202,9 @@ On Android, credentials and location details are encrypted with an Android Keyst
 Removing app data also removes those locations and their key.
 NAS folders are rescanned through collection startup/manual scans and, while collection monitoring is enabled, through SMB change notifications; native filesystem change notifications are not available for SMB.
 A notification rescans only the folders containing the changed paths; an overflow, a reconnect or a notification without usable paths reconciles the whole NAS folder.
-Nothing is monitored while the app is not in the foreground: Android stops the NAS monitors when the app is hidden or suspended and starts them again when it is active, then they reconcile the changes made meanwhile.
-The monitors are cancelled at once, a running scan continues, and the monitors start again after it finished.
+Nothing is monitored while the app is not in the foreground: Android stops the NAS monitors when the app is hidden or suspended and starts them again when it is active, then they scan the folders whose modification time changed meanwhile, like the update on startup.
+The monitors and a running NAS scan are stopped at once, scans already requested are skipped, and the monitors start again within seconds.
+An in-place tag edit made while the app is hidden, which doesn't change its folder's modification time, is found by the next full reconcile, after an overflow, a changed location, a reconnect or a manual full scan.
 Monitor stops and starts are logged with the `StrawberryNas` logcat tag.
 The scanner first counts the files, then publishes newly discovered tracks after each completed folder so the collection grows during a large scan.
 Changes to existing tracks, removals/unavailability, folder timestamps, and expiry are deferred until the entire scan succeeds.

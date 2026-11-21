@@ -86,7 +86,7 @@ class CollectionWatcher : public QObject {
   void RescanSongsAsync(const SongList &songs);
 
 #ifdef HAVE_NAS
-  // Stops the NAS monitors while suspended, they reconcile their directories when they are started again.
+  // Stops the NAS monitors and a running NAS scan while suspended, they catch up with the changed folders when they are started again.
   void SetNasMonitorsSuspendedAsync(const bool suspended);
 #endif
 
@@ -263,13 +263,16 @@ class CollectionWatcher : public QObject {
     std::mutex changes_mutex;
     QSet<QString> changed_paths;
     bool full_scan = false;
+    // The catch-up after resuming, which like the update on startup only enters the folders whose modification time changed.
+    bool changed_folders_scan = false;
     std::thread thread;
   };
   // catch_up_allowed enables reconciling once the first handle is opened, like the update on startup.
-  std::shared_ptr<NasMonitor> StartNasMonitor(const CollectionDirectory &dir, const bool catch_up_allowed);
+  // changed_folders_catch_up makes that first catch-up scan only the folders whose modification time changed.
+  std::shared_ptr<NasMonitor> StartNasMonitor(const CollectionDirectory &dir, const bool catch_up_allowed, const bool changed_folders_catch_up = false);
   void StopNasMonitor(const int dir_id);
   void StopNasMonitors();
-  void RestartNasMonitors();
+  void RestartNasMonitors(const bool changed_folders_catch_up = false);
   void ScanNasDirectory(const int dir_id);
   // Rescans the known folders containing the changed paths, returns false like ScanDirectoryNow().
   bool ScanNasPathsNow(const CollectionDirectory &dir, const QStringList &changed_paths);
@@ -373,6 +376,8 @@ class CollectionWatcher : public QObject {
   // Guards changing nas_monitors_ on the watcher's thread against CancelNasMonitors() on other threads.
   std::mutex nas_monitors_mutex_;
   bool nas_suspended_ = false;
+  // Set while a NAS directory is scanned or updated when it is added, so suspending stops the scan from another thread.
+  std::atomic_bool nas_scan_running_ = false;
   // NAS directories whose scan was requested while rescanning was paused.
   QSet<int> nas_paused_scans_;
 #endif

@@ -2266,6 +2266,47 @@ TEST_F(CollectionWatcherNasTest, SuspendedMonitorsCatchUpWhenResumed) {
   EXPECT_TRUE(WaitForSong(u"first/background.wav"_s, [](const Song &song) { return song.is_valid() && !song.unavailable(); }, 20000));
 }
 
+// Suspending while a scan runs stops it, so the monitors start again promptly instead of after the whole scan.
+TEST_F(CollectionWatcherNasTest, SuspendDuringScanResumesPromptly) {
+  FixtureCommand("notify hold");
+  StartWatcher();
+  bool suspended = false;
+  QObject::connect(watcher_.get(), &CollectionWatcher::ScanStarted, watcher_.get(), [this, &suspended](const int) {
+    if (suspended) return;
+    suspended = true;
+    // Like hiding the app and showing it again while the scan runs, the change made meanwhile is found by the catch-up.
+    QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/background.wav"_s));
+    watcher_->SetNasMonitorsSuspendedAsync(true);
+    watcher_->SetNasMonitorsSuspendedAsync(false);
+  });
+  // Only found if the reconcile which is stopped runs to the end.
+  ChangeInPlace(u"second/track.wav"_s);
+  FixtureCommand("notify overflow once");
+  EXPECT_TRUE(WaitForSong(u"first/background.wav"_s, [](const Song &song) { return song.is_valid() && !song.unavailable(); }, 20000));
+  EXPECT_TRUE(suspended);
+  EXPECT_EQ(8000, NasSong(u"second/track.wav"_s).samplerate());
+}
+
+// The catch-up after resuming only scans the folders whose modification time changed, like the update on startup.
+TEST_F(CollectionWatcherNasTest, ResumeCatchUpScansOnlyChangedFolders) {
+  for (int i = 0; i < 16; ++i) {
+    ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/second/copy-%1.wav"_s.arg(i))));
+  }
+  FixtureCommand("notify queue");
+  StartWatcher(19);
+  watcher_->SetNasMonitorsSuspendedAsync(true);
+  QCoreApplication::processEvents();
+  const int sessions = FixtureSessions();
+  ASSERT_GE(sessions, 0);
+  // An in-place change made while suspended waits for the next full reconcile.
+  ChangeInPlace(u"second/track.wav"_s);
+  ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/background.wav"_s)));
+  watcher_->SetNasMonitorsSuspendedAsync(false);
+  EXPECT_TRUE(WaitForSong(u"first/background.wav"_s, [](const Song &song) { return song.is_valid() && !song.unavailable(); }, 20000));
+  EXPECT_LT(FixtureSessions() - sessions, 16);
+  EXPECT_EQ(8000, NasSong(u"second/track.wav"_s).samplerate());
+}
+
 // A NAS which can't be reached when monitoring is enabled again is reconciled once it can.
 TEST_F(CollectionWatcherNasTest, RestartReconcilesOfflineNas) {
   FixtureCommand("notify queue");
