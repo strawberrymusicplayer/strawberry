@@ -61,6 +61,11 @@
 #include "constants/collectionsettings.h"
 #include "core/settings.h"
 #ifdef HAVE_NAS
+#  include <functional>
+#  include <QElapsedTimer>
+#  include <QEventLoop>
+#  include <QProcess>
+#  include <QUuid>
 #  include "core/nasfileengine.h"
 #endif
 
@@ -2007,6 +2012,177 @@ TEST_F(CollectionWatcherTest, OfflineNasDoesNotDeleteOrExpireExistingSongs) {
   EXPECT_EQ(unavailable.count(), 0);
   EXPECT_EQ(last_seen.count(), 0);
   EXPECT_EQ(backend_->GetAllSongs().size(), 1);
+}
+
+// Monitors a NAS folder served by the loopback SMB2 fixture, whose files the tests change directly.
+class CollectionWatcherNasTest : public CollectionWatcherTest {
+ protected:
+  void SetUp() override {
+    python_ = qEnvironmentVariable("STRAWBERRY_NAS_TEST_PYTHON");
+    if (python_.isEmpty()) GTEST_SKIP() << "Set STRAWBERRY_NAS_TEST_PYTHON to an interpreter with impacket for loopback SMB2 integration tests";
+    CollectionWatcherTest::SetUp();
+    ASSERT_TRUE(root_.isValid());
+    location_ = {QUuid::createUuid().toString(QUuid::WithoutBraces), QString(), u"music"_s, u"album"_s, u"strawberry-test"_s, u"fixture-only"_s, QString()};
+    Nas::Install();
+    StartServer();
+    backend_->AddDirectory(location_.path());
+  }
+  void TearDown() override {
+    if (python_.isEmpty()) return;
+    watcher_.reset();
+    StopServer();
+    Nas::SetLocations({});
+    CollectionWatcherTest::TearDown();
+  }
+
+  void StartServer() {
+    const QString script = QFileInfo(QString::fromUtf8(__FILE__)).dir().absoluteFilePath(u"../data/nas_server.py"_s);
+    server_.start(python_, {script, root_.path()});
+    ASSERT_TRUE(server_.waitForStarted(5000));
+    ASSERT_TRUE(server_.waitForReadyRead(10000)) << server_.readAllStandardError().constData();
+    bool ok = false;
+    const int port = server_.readLine().trimmed().toInt(&ok);
+    ASSERT_TRUE(ok);
+    location_.server = u"127.0.0.1:"_s + QString::number(port);
+    Nas::SetLocations({location_});
+  }
+  void StopServer() {
+    server_.closeWriteChannel();
+    if (server_.state() != QProcess::NotRunning && !server_.waitForFinished(3000)) {
+      server_.terminate();
+      if (!server_.waitForFinished(3000)) { server_.kill(); server_.waitForFinished(3000); }
+    }
+  }
+  void FixtureCommand(const QByteArray &command) {
+    server_.write(command + '\n');
+    ASSERT_TRUE(server_.waitForReadyRead(5000));
+    server_.readLine();
+  }
+
+  // Scans the NAS folder like a new collection directory, with the watcher connected to the collection backend like CollectionManager does.
+  void StartWatcher() {
+    watcher_ = std::make_unique<CollectionWatcher>(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+    CollectionWatcher *watcher = watcher_.get();
+    QObject::connect(watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateSongs);
+    QObject::connect(watcher, &CollectionWatcher::SongsMTimeUpdated, &*backend_, &CollectionBackend::UpdateMTimesOnly);
+    QObject::connect(watcher, &CollectionWatcher::SongsDeleted, &*backend_, &CollectionBackend::DeleteSongs);
+    QObject::connect(watcher, &CollectionWatcher::SongsUnavailable, &*backend_, &CollectionBackend::MarkSongsUnavailable);
+    QObject::connect(watcher, &CollectionWatcher::SongsReadded, &*backend_, &CollectionBackend::MarkSongsUnavailable);
+    QObject::connect(watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+    QObject::connect(watcher, &CollectionWatcher::SubdirsMTimeUpdated, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+    QObject::connect(watcher, &CollectionWatcher::SubdirsDeleted, &*backend_, &CollectionBackend::DeleteSubdirs);
+    CollectionDirectory dir;
+    dir.id = 1;
+    dir.path = location_.path();
+    watcher->AddDirectory(dir, {});
+    ASSERT_EQ(3, backend_->GetAllSongs().count());
+  }
+
+  // Returns the song of the file below the NAS folder, or an invalid song.
+  Song NasSong(const QString &relative_path) const {
+    const SongList songs = backend_->GetAllSongs();
+    for (const Song &song : songs) {
+      if (song.url().toLocalFile() == location_.path() + u'/' + relative_path) return song;
+    }
+    return Song();
+  }
+
+  // Waits until the monitor has changed the song, processing the scans it requests.
+  bool WaitForSong(const QString &relative_path, const std::function<bool(const Song &song)> &condition, const int timeout_ms) {
+    QElapsedTimer timer;
+    timer.start();
+    while (timer.elapsed() < timeout_ms) {
+      QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+      if (condition(NasSong(relative_path))) return true;
+      QThread::msleep(50);
+    }
+    return false;
+  }
+
+  // Changes the file in place with a different size, keeping the modification times of the file and its folder.
+  void ChangeInPlace(const QString &relative_path) {
+    const QString filename = root_.filePath(u"album/"_s + relative_path);
+    const QString folder = QFileInfo(filename).path();
+    const QDateTime file_mtime = QFileInfo(filename).lastModified();
+    const QDateTime folder_mtime = QFileInfo(folder).lastModified();
+    WriteWavFile(filename, 7, 1);
+    SetModificationTime(filename, file_mtime);
+    ASSERT_EQ(folder_mtime, QFileInfo(folder).lastModified());
+  }
+
+  QString python_;
+  QTemporaryDir root_{QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s)};
+  QProcess server_;
+  Nas::Location location_;
+  std::unique_ptr<CollectionWatcher> watcher_;
+};
+
+TEST_F(CollectionWatcherNasTest, NotifiedAdditionIsScanned) {
+  FixtureCommand("notify hold");
+  StartWatcher();
+  ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/new.wav"_s)));
+  FixtureCommand("notify change once");
+  EXPECT_TRUE(WaitForSong(u"first/new.wav"_s, [](const Song &song) { return song.is_valid() && !song.unavailable(); }, 20000));
+  EXPECT_EQ(4, backend_->GetAllSongs().count());
+}
+
+TEST_F(CollectionWatcherNasTest, NotifiedRemovalIsScanned) {
+  FixtureCommand("notify hold");
+  StartWatcher();
+  ASSERT_TRUE(QFile::remove(root_.filePath(u"album/second/track.wav"_s)));
+  FixtureCommand("notify change once");
+  EXPECT_TRUE(WaitForSong(u"second/track.wav"_s, [](const Song &song) { return !song.is_valid() || song.unavailable(); }, 20000));
+  EXPECT_TRUE(NasSong(u"first/track.wav"_s).is_valid());
+}
+
+// After lost notifications, all folders are scanned, so an in-place change which only changed the size of a file is found.
+TEST_F(CollectionWatcherNasTest, OverflowReconcilesInPlaceChanges) {
+  FixtureCommand("notify hold");
+  StartWatcher();
+  ASSERT_EQ(8000, NasSong(u"first/track.wav"_s).samplerate());
+  ChangeInPlace(u"first/track.wav"_s);
+  FixtureCommand("notify overflow once");
+  EXPECT_TRUE(WaitForSong(u"first/track.wav"_s, [](const Song &song) { return song.samplerate() == 44100; }, 20000));
+}
+
+// Without change notifications, the folder is scanned at the interval of the setting, at least one minute.
+TEST_F(CollectionWatcherNasTest, UnsupportedNotificationsFallBackToPolling) {
+  const ScopedCollectionSetting polling(CollectionSettings::kNasPollingMinutes, 1);
+  StartWatcher();
+  ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/second/new.wav"_s)));
+  QElapsedTimer timer;
+  timer.start();
+  EXPECT_TRUE(WaitForSong(u"second/new.wav"_s, [](const Song &song) { return song.is_valid(); }, 90000));
+  EXPECT_GE(timer.elapsed(), 50000);
+}
+
+// Changes made while the NAS can't be reached are found after reconnecting, and nothing is deleted while it's away.
+TEST_F(CollectionWatcherNasTest, ReconnectReconcilesWithoutDeletingSongs) {
+  FixtureCommand("notify hold");
+  StartWatcher();
+  QSignalSpy deleted(watcher_.get(), &CollectionWatcher::SongsDeleted);
+  QSignalSpy unavailable(watcher_.get(), &CollectionWatcher::SongsUnavailable);
+  server_.terminate();
+  ASSERT_TRUE(server_.waitForFinished(3000));
+  ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/offline.wav"_s)));
+  ChangeInPlace(u"second/track.wav"_s);
+  // The monitor notices the disconnect, and retries without scanning while the NAS is away.
+  QElapsedTimer timer;
+  timer.start();
+  while (timer.elapsed() < 3000) {
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+    QThread::msleep(50);
+  }
+  EXPECT_EQ(3, backend_->GetAllSongs().count());
+  StartServer();
+  EXPECT_TRUE(WaitForSong(u"first/offline.wav"_s, [](const Song &song) { return song.is_valid(); }, 30000));
+  EXPECT_TRUE(WaitForSong(u"second/track.wav"_s, [](const Song &song) { return song.samplerate() == 44100; }, 5000));
+  EXPECT_EQ(0, deleted.count());
+  EXPECT_EQ(0, unavailable.count());
+  int unavailable_songs = 0;
+  AvailableSongs(&unavailable_songs);
+  EXPECT_EQ(0, unavailable_songs);
+  EXPECT_EQ(4, backend_->GetAllSongs().count());
 }
 #endif
 

@@ -59,6 +59,7 @@ constexpr char kSaveLyrics[] = "save_lyrics";
 constexpr char kOverwritePlaycount[] = "overwrite_playcount";
 constexpr char kOverwriteRating[] = "overwrite_rating";
 constexpr char kLastPath[] = "last_path";
+constexpr char kNasPollingMinutes[] = "nas_polling_minutes";
 
 constexpr bool kDefaultStartupScan = true;
 constexpr bool kDefaultMonitor = true;
@@ -82,6 +83,9 @@ constexpr bool kDefaultSaveRatings = false;
 constexpr bool kDefaultSaveLyrics = false;
 constexpr bool kDefaultOverwritePlaycount = false;
 constexpr bool kDefaultOverwriteRating = false;
+constexpr int kDefaultNasPollingMinutes = 10;
+constexpr int kMinNasPollingMinutes = 1;
+constexpr int kMaxNasPollingMinutes = 1440;
 
 }  // namespace CollectionSettings
 

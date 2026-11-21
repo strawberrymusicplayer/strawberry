@@ -3,6 +3,10 @@ add_custom_target(build_tests WORKING_DIRECTORY ${CURRENT_BINARY_DIR})
 add_dependencies(strawberry_tests build_tests)
 
 add_definitions(-DGTEST_USE_OWN_TR1_TUPLE=1)
+# strawberry_lib is linked privately, its headers have members which depend on this, so the tests need it too.
+if(ENABLE_NAS)
+  add_definitions(-DHAVE_NAS)
+endif()
 
 set(TESTUTILS-SOURCES
   src/mock_networkaccessmanager.cpp

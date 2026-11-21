@@ -24,6 +24,11 @@
 
 #include "config.h"
 #include <QElapsedTimer>
+#ifdef HAVE_NAS
+#  include <atomic>
+#  include <memory>
+#  include <thread>
+#endif
 
 #include <QtGlobal>
 #include <QObject>
@@ -137,6 +142,7 @@ class CollectionWatcher : public QObject {
 #ifdef HAVE_NAS
     bool NetworkFailed() const;
     void PublishNewNasSongs();
+    bool nas_transaction() const { return nas_transaction_; }
 #endif
 
     SongList deleted_songs;
@@ -237,6 +243,24 @@ class CollectionWatcher : public QObject {
   static QString ReadSyncedLyricsFromLrc(const QString &lrc_file);
   static void SetLyricsFromStorage(Song *song, const Song &matching_song, const QString &lrc_file);
   void PerformScan(const bool incremental, const bool ignore_mtimes);
+  void ScanDirectoryNow(const CollectionDirectory &dir, const bool incremental, const bool ignore_mtimes);
+#ifdef HAVE_NAS
+  // Each monitored NAS directory has a thread which waits for SMB change notifications and requests scans on the watcher's thread.
+  struct NasMonitor {
+    std::atomic_bool cancel = false;
+    // Set while a scan is requested and not started yet, so requests don't pile up while a scan runs.
+    std::atomic_bool scan_pending = false;
+    // Set when changes may have been missed, the monitor reconciles the directory once the NAS can be reached.
+    std::atomic_bool catch_up = false;
+    std::thread thread;
+  };
+  // catch_up_allowed enables reconciling after reconnecting when the first connection failed, like the update on startup.
+  std::shared_ptr<NasMonitor> StartNasMonitor(const CollectionDirectory &dir, const bool catch_up_allowed);
+  void StopNasMonitor(const int dir_id);
+  void StopNasMonitors();
+  void RestartNasMonitors();
+  void ScanNasDirectory(const int dir_id);
+#endif
 
   // Returns the CUE sheets of a directory by the media files they have songs for, without loading the songs.
   // A CUE sheet can have songs for several media files, and it's not necessarily named after them.
@@ -321,6 +345,13 @@ class CollectionWatcher : public QObject {
   bool overflow_scan_pending_;
 
   int total_watches_;
+
+#ifdef HAVE_NAS
+  int nas_polling_minutes_ = 0;
+  QMap<int, std::shared_ptr<NasMonitor>> nas_monitors_;
+  // NAS directories whose scan was requested while rescanning was paused.
+  QSet<int> nas_paused_scans_;
+#endif
 
   CueParser *cue_parser_;
 

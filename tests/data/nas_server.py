@@ -1,5 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Optional loopback-only SMB2 fixture; requires impacket in the test interpreter."""
+"""Optional loopback-only SMB2 fixture; requires impacket in the test interpreter.
+
+An optional argument names a directory to share instead of a temporary one, so a
+test can change the files directly and restart the server on the same files.
+"""
 
 import logging
 import json
@@ -19,24 +23,27 @@ from impacket.smbserver import SimpleSMBServer
 
 logging.disable(logging.CRITICAL)
 signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))
-with tempfile.TemporaryDirectory(prefix="strawberry-nas-test-") as root:
+with tempfile.TemporaryDirectory(prefix="strawberry-nas-test-") as temporary:
+    root = sys.argv[1] if len(sys.argv) > 1 else temporary
     directory = Path(root)
-    (directory / "album").mkdir()
-    (directory / "album" / "bytes.bin").write_bytes(bytes(range(256)) * 8192)
-    with wave.open(str(directory / "album" / "track.wav"), "wb") as audio:
-        audio.setnchannels(1)
-        audio.setsampwidth(2)
-        audio.setframerate(8000)
-        audio.writeframes(b"\x00\x01" * 8000)
-    for album in ("first", "second"):
-        (directory / "album" / album).mkdir()
-        shutil.copyfile(directory / "album" / "track.wav",
-                        directory / "album" / album / "track.wav")
+    created = not (directory / "album").exists()
+    (directory / "album").mkdir(exist_ok=True)
+    if created:
+        (directory / "album" / "bytes.bin").write_bytes(bytes(range(256)) * 8192)
+        with wave.open(str(directory / "album" / "track.wav"), "wb") as audio:
+            audio.setnchannels(1)
+            audio.setsampwidth(2)
+            audio.setframerate(8000)
+            audio.writeframes(b"\x00\x01" * 8000)
+        for album in ("first", "second"):
+            (directory / "album" / album).mkdir()
+            shutil.copyfile(directory / "album" / "track.wav",
+                            directory / "album" / album / "track.wav")
     server = SimpleSMBServer(listenAddress="127.0.0.1", listenPort=0)
     server.getServer().daemon_threads = True
     server.setSMB2Support(True)
     server.addShare("music", root, readOnly="yes")
-    (directory / "bulk").mkdir()
+    (directory / "bulk").mkdir(exist_ok=True)
     for index in range(128):
         (directory / "bulk" / f"entry-{index:03}.bin").write_bytes(b"fixture")
     commands_seen = {}
@@ -63,14 +70,21 @@ with tempfile.TemporaryDirectory(prefix="strawberry-nas-test-") as root:
             return callback(*args)
         server.getServer().hookSmb2Command(command, count_connection)
     # CHANGE_NOTIFY is unsupported by impacket unless a test selects another reply.
-    notify = {"mode": "unsupported"}
-    release = threading.Event()
+    # "once" after a mode replies once with it, then holds the next requests.
+    notify = {"mode": "unsupported", "once": False}
     unsupported_notify = server.getServer().hookSmb2Command(smb3structs.SMB2_CHANGE_NOTIFY, None)
     def change_notify(connId, smbServer, recvPacket):
         mode = notify["mode"]
         if mode == "hold":
-            release.wait(10)
-        elif mode in ("change", "overflow"):
+            # A held request is answered with the next selected mode, or unsupported after 10 s.
+            deadline = time.monotonic() + 10
+            while notify["mode"] == "hold" and time.monotonic() < deadline:
+                time.sleep(0.05)
+            mode = notify["mode"]
+        if mode in ("change", "overflow"):
+            if notify["once"]:
+                notify["mode"] = "hold"
+                notify["once"] = False
             time.sleep(0.2)
             response = smb3structs.SMB2ChangeNotify_Response()
             response["OutputBufferOffset"] = 0x48
@@ -98,7 +112,9 @@ with tempfile.TemporaryDirectory(prefix="strawberry-nas-test-") as root:
                     "query_info": commands_seen.get(smb3structs.SMB2_QUERY_INFO, 0),
                 }), flush=True)
             elif line.startswith("notify "):
-                notify["mode"] = line.split()[1]
+                words = line.split()
+                notify["once"] = len(words) > 2 and words[2] == "once"
+                notify["mode"] = words[1]
                 print("notify", flush=True)
             elif line.strip() == "resize":
                 (directory / "bulk" / "entry-000.bin").write_bytes(b"changed fixture contents")
