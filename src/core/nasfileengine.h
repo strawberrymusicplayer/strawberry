@@ -23,6 +23,8 @@ struct Location {
 void Install();
 bool IsPath(const QString &path);
 quint64 FailureSerial();
+// Maps a libsmb2 connect error to a fixed user message that never contains the library text.
+QString ConnectionError(const QString &detail);
 QString Validate(const Location &location);
 QString Check(const Location &location);
 QString DisplayName(const QString &path);

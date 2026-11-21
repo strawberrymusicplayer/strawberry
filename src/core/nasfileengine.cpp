@@ -29,6 +29,7 @@
 #  include <QJsonDocument>
 #  include <QJsonObject>
 #  include <QCoreApplication>
+#  include <android/log.h>
 #endif
 
 using namespace Qt::Literals::StringLiterals;
@@ -66,8 +67,13 @@ class Connection {
     smb2_set_password(context_.get(), location.password.toUtf8().constData());
     smb2_set_domain(context_.get(), location.domain.toUtf8().constData());
     if (smb2_connect_share(context_.get(), location.server.toUtf8().constData(), location.share.toUtf8().constData(), location.user.toUtf8().constData()) < 0) {
-      // The library error may contain authentication details; never log it.
-      Fail(QObject::tr("Could not connect to NAS. Check the address, share, account, network and SMB signing support."));
+      // libsmb2 connect errors hold NT status names, strerror text, the server and the share, never the password.
+      const QString detail = QString::fromUtf8(smb2_get_error(context_.get()));
+      qLog(Error) << "libsmb2:" << detail;
+#ifdef Q_OS_ANDROID
+      __android_log_write(ANDROID_LOG_ERROR, "StrawberryNas", detail.toUtf8().constData());
+#endif
+      Fail(Nas::ConnectionError(detail));
     }
   }
   smb2_context *get() const { return error_.isEmpty() ? context_.get() : nullptr; }
@@ -299,6 +305,27 @@ QString DisplayName(const QString &path) {
 }
 bool IsPath(const QString &path) { return path.startsWith(prefix); }
 quint64 FailureSerial() { return failure_serial; }
+QString ConnectionError(const QString &detail) {
+  const auto has = [&detail](const QStringList &needles) {
+    return std::any_of(needles.cbegin(), needles.cend(), [&detail](const QString &needle) { return detail.contains(needle, Qt::CaseInsensitive); });
+  };
+  if (has({u"LOGON_FAILURE"_s, u"ACCESS_DENIED"_s, u"WRONG_PASSWORD"_s, u"PASSWORD_EXPIRED"_s, u"ACCOUNT_"_s, u"Authentication failed"_s})) {
+    return QObject::tr("Could not connect to NAS: wrong user name or password, or no access to the share.");
+  }
+  if (has({u"BAD_NETWORK_NAME"_s})) {
+    return QObject::tr("Could not connect to NAS: the share does not exist.");
+  }
+  if (has({u"Can not resolve"_s, u"Invalid address"_s})) {
+    return QObject::tr("Could not connect to NAS: the address could not be found.");
+  }
+  if (has({u"refused"_s, u"Timeout"_s, u"timed out"_s, u"unreachable"_s, u"Socket connect failed"_s, u"Connect failed with errno"_s, u"POLLHUP"_s})) {
+    return QObject::tr("Could not connect to NAS: it cannot be reached. Check the network and that port 445 is open.");
+  }
+  if (has({u"Signing"_s, u"signature"_s, u"Negotiate"_s, u"NOT_SUPPORTED"_s})) {
+    return QObject::tr("Could not connect to NAS: SMB signing or the SMB version is not supported. Enable SMB2 or later with signing on the NAS.");
+  }
+  return QObject::tr("Could not connect to NAS. Check the address, share, account, network and SMB signing support.");
+}
 void Install() { static const Handler handler; }
 QList<Location> Locations() {
   QReadLocker locker(&locations_lock);

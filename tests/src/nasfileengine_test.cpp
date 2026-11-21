@@ -54,6 +54,18 @@ TEST(NasFileEngineTest, ValidatesPathsAndKeepsCredentialsOutOfLabels) {
   EXPECT_FALSE(Nas::Validate(location).isEmpty());
 }
 
+TEST(NasFileEngineTest, ConnectionErrorsGiveFixedHintsWithoutLibraryText) {
+  const QString login = Nas::ConnectionError(QStringLiteral("Session setup failed with (0xc000006d) STATUS_LOGON_FAILURE"));
+  const QString share = Nas::ConnectionError(QStringLiteral("Tree Connect failed with (0xc00000cc) STATUS_BAD_NETWORK_NAME. secret-share"));
+  const QString network = Nas::ConnectionError(QStringLiteral("smb2_service: socket error Connection refused(111) while connecting."));
+  const QString signing = Nas::ConnectionError(QStringLiteral("Signing requested but server does not support signing."));
+  const QString unknown = Nas::ConnectionError(QStringLiteral("something unexpected"));
+  EXPECT_EQ(QSet<QString>({login, share, network, signing, unknown}).size(), 5);
+  EXPECT_FALSE(share.contains(QStringLiteral("secret-share")));
+  EXPECT_FALSE(login.contains(QStringLiteral("STATUS_")));
+  EXPECT_FALSE(unknown.contains(QStringLiteral("unexpected")));
+}
+
 TEST(NasFileEngineTest, UnknownLocationsFailRatherThanAccessingLocalFiles) {
   Nas::Install();
   Nas::SetLocations({});
