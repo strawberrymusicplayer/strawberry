@@ -1977,7 +1977,7 @@ if(ENABLE_NAS)
   target_compile_definitions(strawberry_lib PUBLIC HAVE_NAS)
   target_link_libraries(strawberry_lib PUBLIC smb2 PRIVATE Qt${QT_VERSION_MAJOR}::CorePrivate)
   if(ANDROID)
-    target_sources(strawberry_lib PRIVATE src/settings/naspage_android.cpp)
+    target_sources(strawberry_lib PRIVATE src/settings/naspage_android.cpp src/collection/collectionwatcher_android.cpp)
   endif()
 endif()
 

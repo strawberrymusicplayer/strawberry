@@ -212,6 +212,9 @@ CollectionWatcher::CollectionWatcher(const Song::Source source,
   QObject::connect(fs_watcher_, &FileSystemWatcherInterface::Overflow, this, &CollectionWatcher::FileSystemWatcherOverflow, Qt::UniqueConnection);
   QObject::connect(rescan_timer_, &QTimer::timeout, this, &CollectionWatcher::RescanPathsNow);
   QObject::connect(periodic_scan_timer_, &QTimer::timeout, this, &CollectionWatcher::IncrementalScanCheck);
+#if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
+  FollowApplicationState();
+#endif
 
 }
 
@@ -2134,9 +2137,13 @@ void CollectionWatcher::RescanPathsNow() {
 std::shared_ptr<CollectionWatcher::NasMonitor> CollectionWatcher::StartNasMonitor(const CollectionDirectory &dir, const bool catch_up_allowed) {
 
   StopNasMonitor(dir.id);
+  if (nas_suspended_) return nullptr;
 
   const std::shared_ptr<NasMonitor> monitor = std::make_shared<NasMonitor>();
-  nas_monitors_.insert(dir.id, monitor);
+  {
+    const std::lock_guard<std::mutex> lock(nas_monitors_mutex_);
+    nas_monitors_.insert(dir.id, monitor);
+  }
 
   NasMonitor *m = monitor.get();
   const int dir_id = dir.id;
@@ -2260,7 +2267,11 @@ std::shared_ptr<CollectionWatcher::NasMonitor> CollectionWatcher::StartNasMonito
 
 void CollectionWatcher::StopNasMonitor(const int dir_id) {
 
-  const std::shared_ptr<NasMonitor> monitor = nas_monitors_.take(dir_id);
+  std::shared_ptr<NasMonitor> monitor;
+  {
+    const std::lock_guard<std::mutex> lock(nas_monitors_mutex_);
+    monitor = nas_monitors_.take(dir_id);
+  }
   if (!monitor) return;
   monitor->cancel = true;
   if (monitor->thread.joinable()) monitor->thread.join();
@@ -2270,8 +2281,12 @@ void CollectionWatcher::StopNasMonitor(const int dir_id) {
 void CollectionWatcher::StopNasMonitors() {
 
   // All are cancelled first, so they stop at the same time.
-  const QList<std::shared_ptr<NasMonitor>> monitors = nas_monitors_.values();
-  nas_monitors_.clear();
+  QList<std::shared_ptr<NasMonitor>> monitors;
+  {
+    const std::lock_guard<std::mutex> lock(nas_monitors_mutex_);
+    monitors = nas_monitors_.values();
+    nas_monitors_.clear();
+  }
   for (const std::shared_ptr<NasMonitor> &monitor : monitors) {
     monitor->cancel = true;
   }
@@ -2281,10 +2296,20 @@ void CollectionWatcher::StopNasMonitors() {
 
 }
 
+qsizetype CollectionWatcher::CancelNasMonitors() {
+
+  const std::lock_guard<std::mutex> lock(nas_monitors_mutex_);
+  for (const std::shared_ptr<NasMonitor> &monitor : std::as_const(nas_monitors_)) {
+    monitor->cancel = true;
+  }
+  return nas_monitors_.size();
+
+}
+
 void CollectionWatcher::RestartNasMonitors() {
 
   StopNasMonitors();
-  if (!monitor_) return;
+  if (!monitor_ || nas_suspended_) return;
   for (const CollectionDirectory &dir : std::as_const(watched_dirs_)) {
     // A NAS which can't be reached now is reconciled once it can, as changes may have been missed while it wasn't monitored.
     if (Nas::IsPath(dir.path)) StartNasMonitor(dir, true);
@@ -2330,6 +2355,28 @@ void CollectionWatcher::ScanNasDirectory(const int dir_id) {
   }
 
   Q_EMIT CompilationsNeedUpdating();
+
+}
+
+void CollectionWatcher::SetNasMonitorsSuspendedAsync(const bool suspended) {
+
+  QMetaObject::invokeMethod(this, [this, suspended]() { SetNasMonitorsSuspended(suspended); }, Qt::QueuedConnection);
+
+}
+
+bool CollectionWatcher::SetNasMonitorsSuspended(const bool suspended) {
+
+  // Runs on the watcher's thread like starting and stopping the monitors elsewhere, so changes requested while monitors stop are applied in order.
+  if (suspended == nas_suspended_) return false;
+  nas_suspended_ = suspended;
+  if (suspended) {
+    StopNasMonitors();
+  }
+  else {
+    // Changes made while suspended aren't notified, so the started monitors reconcile their directories.
+    RestartNasMonitors();
+  }
+  return true;
 
 }
 

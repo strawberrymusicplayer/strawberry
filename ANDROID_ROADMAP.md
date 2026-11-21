@@ -1318,7 +1318,7 @@ Put compilation artists in an expandable letter group named Various.
 
 ## 34. Monitor NAS collection changes and catch up after reconnecting
 
-**Status:** Planned
+**Status:** In progress (SMB change monitoring with polling fallback, reconnect and overflow reconciles, cancellable connecting, rescans of only the notified folders, and stopping monitors in the background implemented and verified with the loopback SMB server and the Android emulator; real-NAS verification is open)
 
 **Goal:** While collection monitoring is enabled, use SMB change notifications to detect changes on configured NAS folders and update the collection.
 After a connection interruption, catch up on changes missed while disconnected without discarding existing entries if the NAS remains unavailable.
@@ -1329,3 +1329,7 @@ After a connection interruption, catch up on changes missed while disconnected w
 - Reconcile all folders after missed notifications, including in-place file changes that may not change a folder's modification time.
 - Verify additions, modifications, removals, disconnection and reconnection, including changes made while offline, using a notification-capable SMB server and the existing collection safety regressions.
 - Verify Android lifecycle behavior and document that the app cannot monitor while it is not running.
+
+**Android lifecycle:** Nothing is monitored while the app is not in the foreground.
+The NAS monitors stop when the app is hidden or suspended and start again when it is active, then reconcile the changes made meanwhile.
+Stopping cancels the monitors at once; a scan which is running continues, and the monitors start again after it finished.

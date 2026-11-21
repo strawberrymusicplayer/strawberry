@@ -2249,6 +2249,23 @@ TEST_F(CollectionWatcherNasTest, CancelledScanIsRetried) {
   EXPECT_TRUE(WaitForSong(u"first/new.wav"_s, [](const Song &song) { return song.is_valid() && !song.unavailable(); }, 20000));
 }
 
+// Suspended monitors, like on Android in the background, notice nothing, and catch up with the changes made meanwhile when started again.
+TEST_F(CollectionWatcherNasTest, SuspendedMonitorsCatchUpWhenResumed) {
+  FixtureCommand("notify queue");
+  StartWatcher();
+  watcher_->SetNasMonitorsSuspendedAsync(true);
+  QCoreApplication::processEvents();
+  ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/background.wav"_s)));
+  FixtureCommand("name first/background.wav");
+  FixtureCommand("event");
+  EXPECT_FALSE(WaitForSong(u"first/background.wav"_s, [](const Song &song) { return song.is_valid(); }, 5000));
+  // State changes which arrive while the monitors are stopping or starting are applied in order.
+  watcher_->SetNasMonitorsSuspendedAsync(false);
+  watcher_->SetNasMonitorsSuspendedAsync(true);
+  watcher_->SetNasMonitorsSuspendedAsync(false);
+  EXPECT_TRUE(WaitForSong(u"first/background.wav"_s, [](const Song &song) { return song.is_valid() && !song.unavailable(); }, 20000));
+}
+
 // A NAS which can't be reached when monitoring is enabled again is reconciled once it can.
 TEST_F(CollectionWatcherNasTest, RestartReconcilesOfflineNas) {
   FixtureCommand("notify queue");

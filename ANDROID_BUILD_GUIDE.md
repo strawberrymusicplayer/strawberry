@@ -200,7 +200,11 @@ The pinned source URL and checksum are in [cmake/Nas.cmake](cmake/Nas.cmake); th
 NAS locations use read-only virtual paths for the existing collection scanner, Qt cover reads, TagLib metadata reads and GStreamer source.
 On Android, credentials and location details are encrypted with an Android Keystore AES-GCM key and saved atomically in the app's no-backup directory, not the regular settings file.
 Removing app data also removes those locations and their key.
-NAS folders are rescanned through collection startup/manual scans; native filesystem change notifications are not available for SMB.
+NAS folders are rescanned through collection startup/manual scans and, while collection monitoring is enabled, through SMB change notifications; native filesystem change notifications are not available for SMB.
+A notification rescans only the folders containing the changed paths; an overflow, a reconnect or a notification without usable paths reconciles the whole NAS folder.
+Nothing is monitored while the app is not in the foreground: Android stops the NAS monitors when the app is hidden or suspended and starts them again when it is active, then they reconcile the changes made meanwhile.
+The monitors are cancelled at once, a running scan continues, and the monitors start again after it finished.
+Monitor stops and starts are logged with the `StrawberryNas` logcat tag.
 The scanner first counts the files, then publishes newly discovered tracks after each completed folder so the collection grows during a large scan.
 Changes to existing tracks, removals/unavailability, folder timestamps, and expiry are deferred until the entire scan succeeds.
 Cancelling a scan or losing the connection keeps new tracks from completed folders; pending changes to existing collection entries are discarded.
@@ -212,7 +216,7 @@ Scan messages no longer appear in the footer, which continues to report other ba
 Counting reports the number of entries found, not a percentage or remaining time: the total is not known yet.
 On a NAS, counting still traverses the folder tree and performs network metadata operations, so it is not necessarily fast for a large collection.
 The SMB client now reuses the type, size and timestamps returned in each directory listing instead of opening a new authenticated connection to inspect every listed entry.
-This metadata is scoped to the active directory iterator and its thread, and is ignored after NAS location settings change.
+This metadata is scoped to the active directory iterator, or the scan of that folder, and its thread, and is ignored after NAS location settings change.
 It is not a persistent or time-based cache: a later listing/scan obtains fresh information, and failed connections still block destructive scan changes.
 The counting pass also reuses Qt's iterator-provided file information.
 In the loopback regression, inspecting 128 files takes two connection negotiations and two QUERY_INFO requests instead of 128 of each.

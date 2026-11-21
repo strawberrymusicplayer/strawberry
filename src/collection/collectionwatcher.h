@@ -85,6 +85,11 @@ class CollectionWatcher : public QObject {
 
   void RescanSongsAsync(const SongList &songs);
 
+#ifdef HAVE_NAS
+  // Stops the NAS monitors while suspended, they reconcile their directories when they are started again.
+  void SetNasMonitorsSuspendedAsync(const bool suspended);
+#endif
+
  Q_SIGNALS:
   void NewOrUpdatedSongs(const SongList &songs);
   void SongsMTimeUpdated(const SongList &songs);
@@ -268,6 +273,14 @@ class CollectionWatcher : public QObject {
   void ScanNasDirectory(const int dir_id);
   // Rescans the known folders containing the changed paths, returns false like ScanDirectoryNow().
   bool ScanNasPathsNow(const CollectionDirectory &dir, const QStringList &changed_paths);
+  // Returns false if the monitors already were in this state.
+  bool SetNasMonitorsSuspended(const bool suspended);
+  // Cancels the running NAS monitors from any thread, they are joined when they are stopped on the watcher's thread, returns how many were cancelled.
+  qsizetype CancelNasMonitors();
+#endif
+#if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
+  // Suspends the NAS monitors while the app is not in the foreground.
+  void FollowApplicationState();
 #endif
 
   // Returns the CUE sheets of a directory by the media files they have songs for, without loading the songs.
@@ -357,6 +370,9 @@ class CollectionWatcher : public QObject {
 #ifdef HAVE_NAS
   int nas_polling_minutes_ = 0;
   QMap<int, std::shared_ptr<NasMonitor>> nas_monitors_;
+  // Guards changing nas_monitors_ on the watcher's thread against CancelNasMonitors() on other threads.
+  std::mutex nas_monitors_mutex_;
+  bool nas_suspended_ = false;
   // NAS directories whose scan was requested while rescanning was paused.
   QSet<int> nas_paused_scans_;
 #endif
