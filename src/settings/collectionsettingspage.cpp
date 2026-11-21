@@ -110,6 +110,7 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog,
   QObject::connect(ui_->remove_directory, &QPushButton::clicked, this, &CollectionSettingsPage::RemoveDirectory);
 #if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
   nas_page_ = new NasPage(this, [this](const Nas::Location &location) {
+    if (!collection_directory_model_->paths().contains(location.path())) collection_backend_->AddDirectoryAsync(location.path());
     if (!collectionsettings_directory_model_->paths().contains(location.path())) collectionsettings_directory_model_->AddDirectory(location.path(), location.label());
     else {
       for (int row = 0; row < collectionsettings_directory_model_->rowCount(); ++row) {

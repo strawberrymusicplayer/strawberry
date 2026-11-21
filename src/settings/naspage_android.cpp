@@ -105,7 +105,7 @@ void NasPage::Edit(const Nas::Location &location) {
   QLineEdit *password = field(tr("Password"), location.password, true);
   QLineEdit *domain = field(tr("Domain (optional)"), location.domain);
   QLabel *error = Label(QString(), layout);
-  Label(tr("Use a NAS account with read-only access. Changes remain pending until Apply or OK in Collection settings."), layout);
+  Label(tr("Use a NAS account with read-only access. The folder is saved and added to the collection when it has been checked."), layout);
   QPushButton *check = Button(tr("Check and use folder"), layout);
   QObject::connect(check, &QPushButton::clicked, content, [this, content, location, server, share, folder, user, password, domain, error, check]() {
     Nas::Location edited = location;
@@ -126,13 +126,19 @@ void NasPage::Edit(const Nas::Location &location) {
       check->setEnabled(true);
       if (!content->isVisible() || !page_->IsActive()) return;
       if (!result.isEmpty()) { error->setText(result); return; }
-      bool replaced = false;
-      for (Nas::Location &item : pending_) {
-        if (item.id == edited.id) { item = edited; replaced = true; break; }
-      }
-      if (!replaced) pending_.append(edited);
+      // A checked folder is saved immediately; only removal stays pending until Apply or OK.
+      QList<Nas::Location> stored = Nas::Locations();
+      const auto upsert = [&edited](QList<Nas::Location> *list) {
+        for (Nas::Location &item : *list) {
+          if (item.id == edited.id) { item = edited; return; }
+        }
+        list->append(edited);
+      };
+      upsert(&stored);
+      QString save_error;
+      if (!Nas::Save(stored, &save_error)) { error->setText(save_error); return; }
+      upsert(&pending_);
       add_path_(edited);
-      page_->set_changed();
       page_->dialog()->CloseAndroidSubpage();
       page_->dialog()->CloseAndroidSubpage();
     });
