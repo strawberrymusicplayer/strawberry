@@ -50,6 +50,7 @@
 #include <QThreadPool>
 #include <QFuture>
 #include <QFutureWatcher>
+#include <QPromise>
 #include <QMutex>
 #include <QMutexLocker>
 #include <QMetaType>
@@ -149,9 +150,16 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       buffer_low_watermark_(BackendSettings::kDefaultBufferLowWatermark),
       buffer_high_watermark_(BackendSettings::kDefaultBufferHighWatermark),
       device_warmup_duration_ms_(BackendSettings::kDefaultDeviceWarmupDuration),
+      device_warmup_reopen_duration_ms_(BackendSettings::kDefaultDeviceWarmupDuration),
       device_warmup_pending_(false),
       device_warmup_generation_(0),
       device_warmup_waiting_(false),
+      device_warmup_elapsed_while_buffering_(false),
+      device_warmup_after_seek_(false),
+      pending_state_from_buffering_(false),
+      seek_generation_(0),
+      queued_seeks_(0),
+      buffering_generation_(0),
       paused_before_playing_(false),
       play_held_(false),
       target_state_(GST_STATE_NULL),
@@ -193,6 +201,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       pending_seek_nanosec_(-1),
       pending_seek_track_changes_(-1),
       pending_seek_ready_previous_state_(GST_STATE_NULL),
+      seek_reset_preroll_pending_(false),
       last_known_position_ns_(0),
       next_uri_set_(false),
       next_uri_need_reset_(false),
@@ -228,7 +237,8 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       finished_(false),
       bus_message_generation_(0),
       set_state_async_in_progress_(0),
-      set_state_request_generation_(0) {
+      set_state_request_generation_(0),
+      pending_seek_ready_state_request_generation_(0) {
 
   guint version_major = 0, version_minor = 0, version_micro = 0;
   gst_plugins_base_version(&version_major, &version_minor, &version_micro, nullptr);
@@ -373,8 +383,9 @@ void GstEnginePipeline::set_buffer_high_watermark(const double value) {
   buffer_high_watermark_ = value;
 }
 
-void GstEnginePipeline::set_device_warmup_duration_ms(const int duration_ms) {
+void GstEnginePipeline::set_device_warmup_duration_ms(const int duration_ms, const int reopen_duration_ms) {
   device_warmup_duration_ms_ = duration_ms;
+  device_warmup_reopen_duration_ms_ = reopen_duration_ms;
 }
 
 void GstEnginePipeline::set_proxy_settings(const QString &address, const bool authentication, const QString &user, const QString &pass) {
@@ -1305,13 +1316,17 @@ void GstEnginePipeline::SourceSetupCallback(GstElement *playbin, GstElement *sou
 #endif
 
   // If the pipeline was buffering we stop that now.
+  // This can run on a streaming thread, so buffering is finished on the pipeline's own thread, like when the message for it is received, so it is not finished between the checks of the audio device warm-up when it elapsed.
+  // Like for the message, a pending seek is applied first, playback is only resumed when it is still requested, and the warm-up is not skipped.
+  // A newer buffering message, which is received before, replaces it, like when buffering finished and started again, otherwise buffering is finished while the queue is not filled.
+  // The generation is taken before checking for buffering, so a buffering message received in between replaces it too, the message changes the generation before buffering.
+  const quint64 buffering_generation = instance->buffering_generation_.load();
   if (instance->buffering_.load()) {
-    qLog(Debug) << "Buffering finished";
-    // Request PLAYING before buffering is finished, so playback is pending and pausing is not missed in between.
-    // This can run on a streaming thread, so whether playback is held when paused while waiting to start is decided in SetStateAsyncSlot() on the pipeline's own thread.
-    instance->SetStateAsync(GST_STATE_PLAYING);
-    instance->buffering_ = false;
-    Q_EMIT instance->BufferingFinished();
+    QMetaObject::invokeMethod(instance, [instance, buffering_generation]() {
+      if (buffering_generation == instance->buffering_generation_.load()) {
+        instance->FinishBuffering();
+      }
+    }, Qt::QueuedConnection);
   }
 
 }
@@ -1417,11 +1432,7 @@ void GstEnginePipeline::PadAddedCallback(GstElement *element, GstPad *pad, gpoin
 
   instance->pipeline_connected_ = true;
   if (instance->pipeline_active_.load()) {
-    int expected_track_changes = -1;
-    const qint64 pending_seek = instance->TakePendingSeek(&expected_track_changes);
-    if (pending_seek != -1) {
-      QMetaObject::invokeMethod(instance, [instance, pending_seek, expected_track_changes]() { instance->Seek(pending_seek, expected_track_changes); }, Qt::QueuedConnection);
-    }
+    instance->QueuePendingSeek();
   }
 
 }
@@ -2124,6 +2135,12 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
   // Cache the pipeline's state so state() can answer without a blocking gst_element_get_state() call.
   current_state_ = new_state;
 
+  // The pipeline prerolled again after a seek reset, or it was stopped.
+  // Not a preroll which was queued before the reset went to READY, the READY handler clears the request to reset first.
+  if ((old_state == GST_STATE_READY && new_state == GST_STATE_PAUSED && !next_uri_need_reset_.load()) || new_state == GST_STATE_NULL) {
+    seek_reset_preroll_pending_ = false;
+  }
+
   const bool pipeline_active = new_state == GST_STATE_PAUSED || new_state == GST_STATE_PLAYING;
   if (pipeline_active != pipeline_active_.load()) {
     pipeline_active_ = pipeline_active;
@@ -2150,7 +2167,21 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
 
   // Warm-up delay for a fresh start without an offset: the pipeline has prerolled (the audio device is now open), so wait before starting playback to let the device (DAC) become ready, then go to PLAYING.
   // (The offset/seek start applies the same delay from Seek() once the seek completes.)
-  if (new_state == GST_STATE_PAUSED && device_warmup_pending_.exchange(false)) {
+  // Not when going down to PAUSED on the way to READY for the reset of the next uri, the pipeline prerolls again after that, otherwise the warm-up elapses before it, and playback is not started.
+  if (new_state == GST_STATE_PAUSED && !next_uri_need_reset_.load() && device_warmup_pending_.exchange(false)) {
+    // A seek requested while prerolling is applied first, otherwise playback starts from the wrong position, Seek() then starts playback after the warm-up.
+    // Also a seek which is taken, but not applied yet, like by the pad callback, which can run on a streaming thread.
+    // When buffering, the seek is applied when buffering finished, otherwise the warm-up can elapse, and playback start, before the seek.
+    if (pending_seek_nanosec_.load() != -1 || queued_seeks_.load() > 0) {
+      // The request to play is from the warm-up now, not from buffering.
+      pending_state_from_buffering_ = false;
+      pending_state_ = GST_STATE_PLAYING;
+      device_warmup_after_seek_ = true;
+      if (!buffering_.load()) {
+        ProcessPendingSeek(new_state);
+      }
+      return;
+    }
     StartPlaybackAfterWarmup();
     return;
   }
@@ -2160,21 +2191,108 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
     next_uri_set_ = false;
     // There is no transition to the next stream now.
     gapless_transition_ = false;
+    // The uri is set without holding the lock for it, setting it can set up the source right away, like when a state change is in progress, and the source setup takes the lock too.
+    QByteArray gst_url;
     {
       QMutexLocker l(&mutex_url_);
-      g_object_set(G_OBJECT(pipeline_), "uri", gst_url_.constData(), nullptr);
+      gst_url = gst_url_;
     }
-    next_uri_need_reset_ = false;
+    g_object_set(G_OBJECT(pipeline_), "uri", gst_url.constData(), nullptr);
+    // The seek still waits for the reset, so the flag for it is set before the flag for requesting it is cleared, otherwise the pad callback can take the seek in between.
     next_uri_reset_ = true;
+    next_uri_need_reset_ = false;
+    // A newer request to play while going to READY is applied after the seek, the pipeline prerolls paused first, otherwise it is replaced by that, and the pipeline stays paused.
+    if (target_state_.load() == GST_STATE_PLAYING) {
+      pending_state_ = GST_STATE_PLAYING;
+    }
     SetStateAsync(GST_STATE_PAUSED);
+    return;
+  }
+
+  // The next stream started before the pipeline went to READY for reverting the next uri, so the stream start already moved on to the next track, and the seek was for the previous track.
+  // The next track is played from the start, in the state the pipeline was in before the seek, otherwise the pipeline stayed in READY.
+  if (!next_uri_set_.load() && next_uri_need_reset_.load() && new_state == GST_STATE_READY) {
+    qLog(Debug) << "Next stream started before the next uri was reverted, playing the next track from the start.";
+    {
+      // Only the seek for the previous track is dropped, a start offset requested with Play() for the next track, like for a CUE section, has no expected track changes, and is applied when the pipeline is prerolled.
+      QMutexLocker l(&mutex_pending_seek_);
+      if (pending_seek_track_changes_ >= 0 && pending_seek_track_changes_ != track_changes_.load()) {
+        pending_seek_track_changes_ = -1;
+        pending_seek_nanosec_ = -1;
+      }
+    }
+    // The uri is not set, the uri of the pipeline is already the uri of the next track, which is the current track since the stream started, and the pipeline can already be prerolling again for a newer state request, where setting the uri queues the track again.
+    next_uri_need_reset_ = false;
+    GstState previous_state = pending_seek_ready_previous_state_.exchange(GST_STATE_NULL);
+    if (previous_state == GST_STATE_NULL) {
+      previous_state = GST_STATE_PLAYING;
+    }
+    bool superseded = false;
+    {
+      QMutexLocker locker(&mutex_set_state_async_);
+      superseded = set_state_request_generation_ != pending_seek_ready_state_request_generation_;
+    }
+    // A newer state was requested while going to READY, like a pause or Play() for the next track, that request is applied after READY, so the state from before the seek is not restored over it.
+    if (superseded) {
+      qLog(Debug) << "Not restoring" << GstStateText(previous_state) << "a newer state was requested.";
+      // The buffering of the previous source is ended, otherwise the source for the next track ends it and starts playback over the newer request, a newer request to play is still applied when the pipeline is prerolled.
+      // The request to resume playback when buffering finished is replaced by the newer request too, also when buffering already finished, the request then waited for the reset.
+      if (pending_state_from_buffering_.exchange(false)) {
+        pending_state_ = GST_STATE_NULL;
+      }
+      if (buffering_.exchange(false)) {
+        Q_EMIT BufferingFinished();
+      }
+      // The newer request was not applied while going to READY, so it is applied now.
+      const GstState target_state = target_state_.load();
+      if (target_state == GST_STATE_PAUSED || target_state == GST_STATE_PLAYING) {
+        SetStateAsync(target_state);
+      }
+      return;
+    }
+    // Going to READY closed the audio device, so it is warmed up again before playing, like for Play(), also when buffering, the source for the next track ends buffering.
+    // A request to play when buffering finished, from buffering which started while playing, is replaced by the warm-up, otherwise it starts playback before the warm-up elapsed.
+    // Also when paused while going to READY, playback is then held when the pipeline is prerolled, and when unpaused before that, the warm-up starts after prerolling.
+    // Also with a seek for the next track, which was requested after the next stream started, so the pipeline is prerolled, and the seek applied before playback starts, also without the warm-up.
+    // Also when that seek is taken, but not applied yet, like by the pad callback, which can run on a streaming thread, and take it right after the flag for the reset was cleared.
+    if (previous_state == GST_STATE_PLAYING && (device_warmup_duration_ms_ > 0 || paused_before_playing_.load() || pending_seek_nanosec_.load() != -1 || queued_seeks_.load() > 0)) {
+      pending_state_ = GST_STATE_NULL;
+      device_warmup_pending_ = true;
+      SetStateAsync(GST_STATE_PAUSED);
+      return;
+    }
+    // Buffering started while going to READY, so the pipeline stays paused, and playback is resumed when buffering finished.
+    if (previous_state == GST_STATE_PLAYING && buffering_.load()) {
+      pending_state_ = GST_STATE_PLAYING;
+      SetStateAsync(GST_STATE_PAUSED);
+      return;
+    }
+    // The track was paused, the source for the next track ends buffering and starts playback when the pipeline is buffering, so the buffering of the previous source is ended here, and the track stays paused.
+    if (previous_state != GST_STATE_PLAYING && buffering_.exchange(false)) {
+      pending_state_ = GST_STATE_NULL;
+      Q_EMIT BufferingFinished();
+    }
+    SetStateAsync(previous_state);
     return;
   }
 
   if (pipeline_active_.load() && !buffering_.load() && !next_uri_need_reset_.load()) {
     if (pending_seek_nanosec_.load() != -1) {
       ProcessPendingSeek(new_state);
+      // The queued seek starts playback, also when it is skipped, like after a section change, otherwise the pipeline stays paused.
+      // Checked after the state to restore after a reset was resolved, which can be a request to play.
+      if (queued_seeks_.load() > 0 && pending_state_.load() == GST_STATE_PLAYING) {
+        device_warmup_after_seek_ = true;
+      }
     }
-    else {
+    // A seek which is taken, but not applied yet, like by the pad callback, which can run on a streaming thread, starts playback when it was applied, also when it is skipped, otherwise playback starts before the seek.
+    else if (queued_seeks_.load() > 0) {
+      if (pending_state_.load() == GST_STATE_PLAYING) {
+        device_warmup_after_seek_ = true;
+      }
+    }
+    // The queued seek starts playback after the warm-up, so the request to play is kept for it.
+    else if (!device_warmup_after_seek_.load()) {
       const GstState requested_state = pending_state_.exchange(GST_STATE_NULL);
       if (requested_state == GST_STATE_PLAYING && paused_before_playing_.load()) {
         play_held_ = true;
@@ -2204,6 +2322,9 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
     return;
   }
 
+  // Buffering finished when the source for a newer state request was set up before this is replaced by this.
+  ++buffering_generation_;
+
   int percent = 0;
   gst_message_parse_buffering(msg, &percent);
 
@@ -2225,33 +2346,75 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
     qLog(Debug) << "Buffering started";
     buffering_ = true;
     Q_EMIT BufferingStarted();
-    if (current_state == GST_STATE_PLAYING) {
-      SetStateAsync(GST_STATE_PAUSED);
+    // The state can still be PLAYING from an older transition when PAUSED was already requested, like by Play() waiting for a seek, the pipeline is then not paused again, otherwise that transition replaces the request to play after the seek or cancels the warm-up.
+    // Also when PLAYING is requested, but not applied yet, like after a seek reset, otherwise playback starts while buffering.
+    // Not when the pipeline was paused before a seek reset, the state can still be PLAYING when the pause was requested right before the seek, otherwise playback is resumed over the pause when buffering finished.
+    const bool paused_before_seek_reset = pending_seek_ready_previous_state_.load() == GST_STATE_PAUSED;
+    if ((current_state == GST_STATE_PLAYING && target_state_.load() != GST_STATE_PAUSED && !paused_before_seek_reset) || target_state_.load() == GST_STATE_PLAYING) {
+      SetStateAsync(GST_STATE_PAUSED, true);
       if (pending_state_.load() == GST_STATE_NULL) {
-        pending_state_ = current_state;
+        pending_state_ = GST_STATE_PLAYING;
+        pending_state_from_buffering_ = true;
       }
     }
   }
   else if (percent == 100 && buffering_.load()) {
-    qLog(Debug) << "Buffering finished";
-    buffering_ = false;
-    Q_EMIT BufferingFinished();
-    if (pending_seek_nanosec_.load() != -1 && !next_uri_need_reset_.load()) {
-      ProcessPendingSeek(state());
-    }
-    else {
-      const GstState pending = pending_state_.exchange(GST_STATE_NULL);
-      // Paused while playback was waiting to start, so hold playback until unpaused.
-      if (pending == GST_STATE_PLAYING && paused_before_playing_.load()) {
-        play_held_ = true;
-      }
-      else if (pending != GST_STATE_NULL) {
-        SetStateAsync(pending);
-      }
-    }
+    FinishBuffering();
   }
   else if (buffering_.load()) {
     Q_EMIT BufferingProgress(percent);
+  }
+
+}
+
+void GstEnginePipeline::FinishBuffering() {
+
+  // Buffering can already be finished, like by the message for it, or after the source for a newer state request was set up.
+  if (!buffering_.load()) return;
+
+  qLog(Debug) << "Buffering finished";
+  // The request to resume playback is still from buffering while it waits for the next uri to be reset, also after the next uri was reverted until the seek is taken, so a newer request superseding the reset replaces it.
+  if (pending_seek_nanosec_.load() == -1 || (!next_uri_need_reset_.load() && !next_uri_reset_.load())) {
+    pending_state_from_buffering_ = false;
+  }
+  // The warm-up elapsed while buffering, so playback is started now, like for other playback waiting for buffering.
+  if (device_warmup_elapsed_while_buffering_.exchange(false)) {
+    pending_state_ = GST_STATE_PLAYING;
+  }
+  buffering_ = false;
+  Q_EMIT BufferingFinished();
+  // The pending state is applied after the pending seek, also when the seek waits for the next uri to be reset, like for Play() from an offset during the reset, otherwise playback starts before the seek and the warm-up.
+  // Also after a seek which is taken, but not applied yet, like the seek to the offset of Play() queued when the pipeline prerolled.
+  if (pending_seek_nanosec_.load() != -1 || queued_seeks_.load() > 0) {
+    if (!next_uri_need_reset_.load()) {
+      // The seek starts playback, also when it is not applied, like after a track change, otherwise the pipeline stays paused.
+      // A pending seek after the next uri was reset is only taken when the pipeline is paused again, until then, going to PAUSED for the reset would replace the request to play.
+      const GstState current_state = state();
+      const bool seek_taken = pending_seek_nanosec_.load() == -1 || !next_uri_reset_.load() || current_state == GST_STATE_PAUSED;
+      if (seek_taken && pending_state_.load() == GST_STATE_PLAYING) {
+        device_warmup_after_seek_ = true;
+      }
+      ProcessPendingSeek(current_state);
+    }
+  }
+  else {
+    const GstState pending = pending_state_.exchange(GST_STATE_NULL);
+    // Paused while playback was waiting to start, so hold playback until unpaused.
+    if (pending == GST_STATE_PLAYING && paused_before_playing_.load()) {
+      play_held_ = true;
+    }
+    // The audio device warm-up starts playback when it elapsed, playing now cancels it.
+    else if (pending == GST_STATE_PLAYING && (device_warmup_pending_.load() || device_warmup_waiting_.load())) {
+      qLog(Debug) << "Buffering finished, playback is started after the audio device warm-up";
+    }
+    // The queued seek starts playback after the warm-up, so the request is kept for it.
+    else if (pending == GST_STATE_PLAYING && device_warmup_after_seek_.load()) {
+      qLog(Debug) << "Buffering finished, playback is started after the seek and the audio device warm-up";
+      pending_state_ = GST_STATE_PLAYING;
+    }
+    else if (pending != GST_STATE_NULL) {
+      SetStateAsync(pending);
+    }
   }
 
 }
@@ -2311,7 +2474,7 @@ bool GstEnginePipeline::StateChangeInProgress() {
 
 }
 
-void GstEnginePipeline::SetStateAsync(const GstState state) {
+void GstEnginePipeline::SetStateAsync(const GstState state, const bool buffering_pause) {
 
   // Count the request as in progress before it is queued (this may run on a GStreamer streaming thread) so it stays visible until SetStateAsyncSlot() hands it off to a pending future.
   // Counting and queueing are done under the mutex so the counter and the queue always agree on the order of the requests, even when they come from different threads.
@@ -2323,11 +2486,11 @@ void GstEnginePipeline::SetStateAsync(const GstState state) {
   target_state_ = state;
 
   // Safe against destruction: ~QObject calls removePostedEvents(this), so this queued call is discarded if the pipeline is destroyed on its own thread before the slot runs.
-  QMetaObject::invokeMethod(this, [this, state, state_request_generation]() { SetStateAsyncSlot(state, state_request_generation); }, Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, [this, state, state_request_generation, buffering_pause]() { SetStateAsyncSlot(state, state_request_generation, buffering_pause); }, Qt::QueuedConnection);
 
 }
 
-void GstEnginePipeline::SetStateAsyncSlot(const GstState state, const quint64 state_request_generation) {
+void GstEnginePipeline::SetStateAsyncSlot(const GstState state, const quint64 state_request_generation, const bool buffering_pause) {
 
   int queued_after = 0;
   bool superseded_by_newer_direct_set_state = false;
@@ -2379,11 +2542,54 @@ void GstEnginePipeline::SetStateAsyncSlot(const GstState state, const quint64 st
   // ApplyState() rather than SetState(), so this request does not bump the generation itself.
   // Bumping here would invalidate requests queued between the check above and the bump (SetStateAsync() can run on a GStreamer streaming thread), even though those are newer than this one and must still be applied.
   // Requests queued before this one need no generation to be dropped: the queued_after check above already takes care of them.
-  ApplyState(state);
+  ApplyState(state, buffering_pause);
 
 }
 
 QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) {
+
+  // Going to READY for the reset of the next uri closes the audio device, so a request to play while it is reset, like unpausing, prerolls paused, and starts playback after the warm-up, otherwise the start of the track is cut off.
+  // Also without the warm-up, otherwise the pipeline goes to PLAYING before the uri is reverted and the seek is applied.
+  // Also after READY, until the pipeline prerolled again, like when the next stream started before the reset, the audio device is closed then too.
+  // A pause after this holds playback, like a pause while waiting for the warm-up.
+  if (state == GST_STATE_PLAYING && (next_uri_need_reset_.load() || next_uri_reset_.load() || seek_reset_preroll_pending_.load())) {
+    qLog(Debug) << "Next uri is reset, playing after the audio device warm-up";
+    QFuture<GstStateChangeReturn> future = SetState(GST_STATE_PAUSED);
+    // Set after the pause, which replaces an older request to play after the warm-up.
+    device_warmup_pending_ = true;
+    return future;
+  }
+
+  // A seek which is queued, but not applied yet, like the seek to the offset of Play() on a prerolled pipeline, or the seek after the next uri was reset, which waits for the seek delay, is applied first, so a request to play while it waits starts playback after the seek and the warm-up, otherwise playback starts before the seek.
+  if (state == GST_STATE_PLAYING && queued_seeks_.load() > 0) {
+    qLog(Debug) << "Seek is waiting, playing after the seek";
+    QFuture<GstStateChangeReturn> future = SetState(GST_STATE_PAUSED);
+    // Set after the transition, which replaces an older request to play after the seek.
+    pending_state_ = GST_STATE_PLAYING;
+    device_warmup_after_seek_ = true;
+    return future;
+  }
+
+  // A pause replaces a request to play after the warm-up, like unpausing while the next uri is reset, otherwise the warm-up starts playback after the pause.
+  // Play() requests the warm-up after this.
+  // It also replaces playing from before the seek reset, otherwise the reset still counts as pending playback, and the pipeline is reported as playing.
+  // It also replaces a request to play after a seek, like for Play() from an offset while the next uri is reset, otherwise the seek starts playback after the pause, the seek is still applied.
+  // Play() and the other requests to play which pause first set the request to play after this.
+  if (state == GST_STATE_PAUSED) {
+    device_warmup_pending_ = false;
+    GstState previous_state = GST_STATE_PLAYING;
+    pending_seek_ready_previous_state_.compare_exchange_strong(previous_state, GST_STATE_PAUSED);
+    GstState pending_state = GST_STATE_PLAYING;
+    if (pending_state_.compare_exchange_strong(pending_state, GST_STATE_NULL)) {
+      pending_state_from_buffering_ = false;
+    }
+  }
+
+  // The request to play after the queued seek is replaced by this request.
+  // Not by an asynchronous request, which applies an older request, like the state restored after the seek reset, or is a pause for buffering, which doesn't request to pause, buffering can finish and leave the request to the seek before it is applied, otherwise the seek doesn't start playback.
+  if (device_warmup_after_seek_.exchange(false)) {
+    pending_state_ = GST_STATE_NULL;
+  }
 
   // Count this as the newest state request, so any async request still sitting in the queue is dropped by SetStateAsyncSlot() instead of being applied on top of this one.
   {
@@ -2396,13 +2602,28 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) 
 
 }
 
-QFuture<GstStateChangeReturn> GstEnginePipeline::ApplyState(const GstState state) {
+QFuture<GstStateChangeReturn> GstEnginePipeline::ApplyState(const GstState state, const bool buffering_pause) {
 
   qLog(Debug) << "Setting pipeline" << id() << "state to" << GstStateText(state);
 
   // Every explicit transition invalidates any warm-up timer waiting to resume playback, so a stale timer cannot override a newer pause/stop/start.
-  ++device_warmup_generation_;
-  device_warmup_waiting_ = false;
+  // Not a pause for buffering, which doesn't request to pause, when the warm-up elapses while buffering, playback is started when buffering finished, otherwise playback is not started.
+  if (!buffering_pause) {
+    ++device_warmup_generation_;
+    device_warmup_waiting_ = false;
+    device_warmup_elapsed_while_buffering_ = false;
+  }
+  // The pipeline is going to READY for the reset of the next uri, and the uri is reverted when READY was handled, so the pipeline doesn't preroll before that, otherwise it prerolls the next uri, and the uri is changed while the state change is in progress.
+  // The READY handler applies the requested state.
+  if (next_uri_need_reset_.load() && (state == GST_STATE_PAUSED || state == GST_STATE_PLAYING)) {
+    qLog(Debug) << "Pipeline" << id() << "is reset, applying state" << GstStateText(state) << "after READY";
+    QPromise<GstStateChangeReturn> promise;
+    QFuture<GstStateChangeReturn> future = promise.future();
+    promise.start();
+    promise.addResult(GST_STATE_CHANGE_ASYNC);
+    promise.finish();
+    return future;
+  }
 
   QFutureWatcher<GstStateChangeReturn> *watcher = new QFutureWatcher<GstStateChangeReturn>(this);
   QObject::connect(watcher, &QFutureWatcher<GstStateChangeReturn>::finished, this, [this, watcher, state]() {
@@ -2471,21 +2692,56 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::Play(const bool pause, const qu
 
   paused_before_playing_ = false;
   play_held_ = false;
+  // Any older request to play is replaced here, like from an older Play() with an offset or with the warm-up, after an older queued seek, or to resume playback when buffering finished.
+  // The transition below doesn't clear the request to play which is set here.
+  device_warmup_pending_ = false;
+  device_warmup_after_seek_ = false;
+  pending_state_from_buffering_ = false;
+  pending_state_ = GST_STATE_NULL;
+  // The seek to ignore after a section change of the same file is the seek to the start of the section, not the seek to the offset requested here.
+  ignore_next_seek_ = false;
 
   if (offset_nanosec != 0) {
     // Preroll paused so we can seek to the offset while the pipeline is prerolling, then transition to the requested state once the seek completes (pending_state_ carries it).
     SetPendingSeek(static_cast<qint64>(offset_nanosec), -1);
+    // The pipeline is already prerolled, so going to PAUSED doesn't change the state, and the seek is applied now instead of when the state changed.
+    const bool prerolled = state() == GST_STATE_PAUSED && pipeline_active_.load() && !buffering_.load() && !next_uri_need_reset_.load() && !next_uri_reset_.load();
+    QFuture<GstStateChangeReturn> future = SetState(GST_STATE_PAUSED);
+    // Set after the pause, which replaces an older request to play, the state changed messages are handled on this thread, so the pipeline is not prerolled before this.
     if (!pause) {
       pending_state_ = GST_STATE_PLAYING;
     }
-    return SetState(GST_STATE_PAUSED);
+    if (prerolled) {
+      // The queued seek starts playback, also when buffering started and finished before it, so it is not started before the warm-up.
+      if (!pause) {
+        device_warmup_after_seek_ = true;
+      }
+      ProcessPendingSeek(GST_STATE_PAUSED);
+    }
+    return future;
   }
 
   if (!pause && device_warmup_duration_ms_ > 0) {
     // Preroll to PAUSED first, then wait device_warmup_duration_ms_ before going to PLAYING (handled in StateChangedMessageReceived once PAUSED is reached).
     // This gives the audio device (DAC) time to become ready after it is opened during preroll, so the start of the track is not cut off while the hardware is still warming up.
-    device_warmup_pending_ = true;
-    return SetState(GST_STATE_PAUSED);
+    // Also when buffering paused the pipeline, playback is then started when the warm-up elapsed and buffering finished.
+    const bool prerolled = state() == GST_STATE_PAUSED && pipeline_active_.load() && !next_uri_need_reset_.load() && !next_uri_reset_.load();
+    QFuture<GstStateChangeReturn> future = SetState(GST_STATE_PAUSED);
+    // The pipeline is already prerolled, so going to PAUSED doesn't change the state, and the warm-up is started now instead of when the state changed.
+    // A seek which is not applied yet, like a delayed seek, starts playback after the warm-up when it was applied instead, otherwise the old position is heard first.
+    if (prerolled) {
+      if (pending_seek_nanosec_.load() != -1 || queued_seeks_.load() > 0) {
+        pending_state_ = GST_STATE_PLAYING;
+        device_warmup_after_seek_ = true;
+      }
+      else {
+        StartPlaybackAfterWarmup();
+      }
+    }
+    else {
+      device_warmup_pending_ = true;
+    }
+    return future;
   }
 
   // No offset and no warm-up: go straight to the requested state.
@@ -2496,10 +2752,20 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::Play(const bool pause, const qu
 
 bool GstEnginePipeline::play_pending() const {
 
-  // The audio device warm-up starts playback when it elapses, also while buffering, so playback is pending while waiting for it, also when buffering.
-  if (device_warmup_pending_.load() || device_warmup_waiting_.load()) return true;
+  // The audio device warm-up starts playback when it elapses, or when buffering finished after it elapsed, so playback is pending while waiting for it, also when buffering.
+  if (device_warmup_pending_.load() || device_warmup_waiting_.load() || device_warmup_elapsed_while_buffering_.load() || device_warmup_after_seek_.load()) return true;
+
+  // A seek reset of the next uri resumes playback when it finished.
+  if ((next_uri_need_reset_.load() || next_uri_reset_.load()) && pending_seek_ready_previous_state_.load() == GST_STATE_PLAYING) return true;
 
   return !buffering_.load() && (pending_state_.load() == GST_STATE_PLAYING || (target_state_.load() == GST_STATE_PLAYING && state() != GST_STATE_PLAYING));
+
+}
+
+bool GstEnginePipeline::paused_during_seek_reset() const {
+
+  // A pause before or during the reset is the newest request, and playback is not pending, otherwise the pipeline is reported as playing.
+  return seek_reset_preroll_pending_.load() && target_state_.load() == GST_STATE_PAUSED && !play_pending();
 
 }
 
@@ -2536,7 +2802,8 @@ void GstEnginePipeline::UnpauseBeforePlaying() {
 void GstEnginePipeline::StartPlaybackAfterWarmup() {
 
   // Nothing to do if the pipeline is already playing.
-  if (state() == GST_STATE_PLAYING) return;
+  // A message of an older transition to PLAYING can be handled after PAUSED was requested, like by Play() from an offset, playback is then still started after the pause, otherwise it stays paused.
+  if (state() == GST_STATE_PLAYING && target_state_.load() == GST_STATE_PLAYING) return;
 
   // Paused while waiting to start, so hold playback until unpaused.
   if (paused_before_playing_.load()) {
@@ -2552,6 +2819,12 @@ void GstEnginePipeline::StartPlaybackAfterWarmup() {
     QTimer::singleShot(device_warmup_duration_ms_, this, [this, device_warmup_generation]() { DeviceWarmupElapsed(device_warmup_generation); });
   }
   else {
+    // Playing while buffering can run out of data, so playback is started when buffering finished, like when the warm-up elapsed while buffering.
+    if (buffering_.load()) {
+      qLog(Debug) << "Buffering, starting playback when buffering finished";
+      device_warmup_elapsed_while_buffering_ = true;
+      return;
+    }
     SetStateAsync(GST_STATE_PLAYING);
   }
 
@@ -2581,31 +2854,69 @@ void GstEnginePipeline::DeviceWarmupElapsed(const quint64 device_warmup_generati
     return;
   }
 
+  // Playing while buffering can run out of data, so playback is started when buffering finished.
+  if (buffering_.load()) {
+    qLog(Debug) << "Warm-up delay elapsed while buffering, starting playback when buffering finished";
+    device_warmup_elapsed_while_buffering_ = true;
+    return;
+  }
+
   SetStateAsync(GST_STATE_PLAYING);
 
 }
 
 bool GstEnginePipeline::Seek(const qint64 nanosec, const int expected_track_changes) {
 
+  // This is the seek which starts playback after the warm-up, or a newer one.
+  const bool device_warmup_after_seek = device_warmup_after_seek_.exchange(false);
+
   // The buffer probe doesn't move on to the next section until the seek is submitted, so the seek can't be applied to the next section.
   QMutexLocker seek_section_locker(&mutex_seek_section_);
   if (expected_track_changes >= 0 && track_changes_.load() != expected_track_changes) {
     qLog(Debug) << "Not seeking to" << nanosec << "the track changed since the seek was requested";
+    seek_section_locker.unlock();
+    // The seek was going to start playback after the warm-up, so playback is still started, otherwise it never starts.
+    if (device_warmup_after_seek) {
+      device_warmup_after_seek_ = true;
+      ApplyPendingStateAfterSkippedSeek();
+    }
     return true;
   }
 
   if (ignore_next_seek_.load()) {
     ignore_next_seek_ = false;
+    seek_section_locker.unlock();
+    if (device_warmup_after_seek) {
+      device_warmup_after_seek_ = true;
+      ApplyPendingStateAfterSkippedSeek();
+    }
     return true;
   }
 
-  if (next_uri_set_.load() || next_uri_reset_.load()) {
+  // Also when the next stream already started, but the pipeline did not go to READY for the reset yet, otherwise the seek is lost when it goes to READY.
+  if (next_uri_set_.load() || next_uri_reset_.load() || next_uri_need_reset_.load()) {
     qLog(Debug) << "Seek to" << nanosec << "requested, but next uri is set, adding to pending seek to revert next uri.";
-    SetPendingSeek(nanosec, expected_track_changes);
-    if (!next_uri_need_reset_.load() && !next_uri_reset_.load()) {
-      next_uri_need_reset_ = true;
-      pending_seek_ready_previous_state_ = state();
+    if (SetPendingSeekForNextUriReset(nanosec, expected_track_changes)) {
+      // Going to READY for the reset closes the audio device, so it is warmed up again before playing, also when the warm-up was skipped for starting playback, and also for a request to play while it is reset.
+      device_warmup_duration_ms_ = device_warmup_reopen_duration_ms_;
+      // Playback is requested, but not started yet, like by a pause for buffering, by Play() waiting for a seek or the audio device warm-up, or by a request to play which is queued.
+      const bool play_requested = target_state_.load() == GST_STATE_PLAYING || pending_state_.load() == GST_STATE_PLAYING || device_warmup_pending_.load() || device_warmup_waiting_.load() || device_warmup_elapsed_while_buffering_.load();
+      // Paused while playback is requested is not a pause, playback is resumed after the reset, a pause while waiting to start is still held then.
+      // Also READY, the state is updated from the state messages, so it can still be READY when the pipeline already prerolled.
+      GstState previous_state = state();
+      if ((previous_state == GST_STATE_PAUSED || previous_state == GST_STATE_READY) && play_requested) {
+        previous_state = GST_STATE_PLAYING;
+      }
+      // A pause which is requested, but not applied yet, is kept, the state is still PLAYING until the pipeline is paused, otherwise playback is resumed after the reset.
+      // Also when the state is still READY, like when the pipeline is prerolling paused, otherwise the pipeline stays in READY after the reset.
+      else if ((previous_state == GST_STATE_PLAYING || previous_state == GST_STATE_READY) && target_state_.load() == GST_STATE_PAUSED && !play_requested) {
+        previous_state = GST_STATE_PAUSED;
+      }
+      pending_seek_ready_previous_state_ = previous_state;
+      seek_reset_preroll_pending_ = true;
       SetState(GST_STATE_READY);
+      QMutexLocker locker(&mutex_set_state_async_);
+      pending_seek_ready_state_request_generation_ = set_state_request_generation_;
     }
     return true;
   }
@@ -2632,6 +2943,14 @@ bool GstEnginePipeline::Seek(const qint64 nanosec, const int expected_track_chan
   }
 
   // The pending state is also applied when the seek failed, like for a stream which is not seekable, so playback started from an offset starts from where the pipeline is instead, otherwise it never starts.
+  ApplyPendingStateAfterSeek();
+
+  return success;
+
+}
+
+void GstEnginePipeline::ApplyPendingStateAfterSeek() {
+
   const GstState state = pending_state_.exchange(GST_STATE_NULL);
   if (state == GST_STATE_PLAYING) {
     // Starting playback from an offset (saved position or CUE-sheet start): the device was opened during preroll, so honour the warm-up delay here too before going to PLAYING.
@@ -2642,21 +2961,47 @@ bool GstEnginePipeline::Seek(const qint64 nanosec, const int expected_track_chan
     SetState(state);
   }
 
-  return success;
+}
+
+void GstEnginePipeline::ApplyPendingStateAfterSkippedSeek() {
+
+  // A seek which was not applied was going to start playback after the warm-up.
+  // Another seek which is pending or taken, like the seek Play() waits for, starts it instead, otherwise playback starts before that seek.
+  // When there is no other seek, playback is started now, otherwise it never starts.
+  if (pending_seek_nanosec_.load() != -1 || queued_seeks_.load() > 0) return;
+  if (device_warmup_after_seek_.exchange(false)) {
+    ApplyPendingStateAfterSeek();
+  }
 
 }
 
-void GstEnginePipeline::SeekAsync(const qint64 nanosec, const int expected_track_changes) {
+void GstEnginePipeline::SeekAsync(const qint64 nanosec, const int expected_track_changes, const int seek_generation) {
 
-  QMetaObject::invokeMethod(this, [this, nanosec, expected_track_changes]() { Seek(nanosec, expected_track_changes); }, Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, [this, nanosec, expected_track_changes, seek_generation]() { SeekIfNotReplaced(nanosec, expected_track_changes, seek_generation); }, Qt::QueuedConnection);
 
 }
 
-void GstEnginePipeline::SeekDelayed(const qint64 nanosec, const int expected_track_changes) {
+void GstEnginePipeline::SeekDelayed(const qint64 nanosec, const int expected_track_changes, const int seek_generation) {
 
-  QMetaObject::invokeMethod(this, [this, nanosec, expected_track_changes]() {
-    QTimer::singleShot(100, this, [this, nanosec, expected_track_changes]() { Seek(nanosec, expected_track_changes); });
+  QMetaObject::invokeMethod(this, [this, nanosec, expected_track_changes, seek_generation]() {
+    QTimer::singleShot(100, this, [this, nanosec, expected_track_changes, seek_generation]() {
+      SeekIfNotReplaced(nanosec, expected_track_changes, seek_generation);
+    });
   }, Qt::QueuedConnection);
+
+}
+
+void GstEnginePipeline::SeekIfNotReplaced(const qint64 nanosec, const int expected_track_changes, const int seek_generation) {
+
+  --queued_seeks_;
+
+  if (seek_generation_.load() != seek_generation) {
+    qLog(Debug) << "Not seeking to" << nanosec << "a newer seek was requested";
+    ApplyPendingStateAfterSkippedSeek();
+    return;
+  }
+
+  Seek(nanosec, expected_track_changes);
 
 }
 
@@ -2665,13 +3010,36 @@ void GstEnginePipeline::SetPendingSeek(const qint64 nanosec, const int expected_
   QMutexLocker l(&mutex_pending_seek_);
   pending_seek_track_changes_ = expected_track_changes;
   pending_seek_nanosec_ = nanosec;
+  // A queued seek is replaced by this request.
+  ++seek_generation_;
 
 }
 
-qint64 GstEnginePipeline::TakePendingSeek(int *expected_track_changes) {
+bool GstEnginePipeline::SetPendingSeekForNextUriReset(const qint64 nanosec, const int expected_track_changes) {
 
+  // The seek and the request to reset the next uri are set together, so the pad callback, which can run on a streaming thread, doesn't take the seek in between, otherwise the reset finds no seek.
   QMutexLocker l(&mutex_pending_seek_);
+  pending_seek_track_changes_ = expected_track_changes;
+  pending_seek_nanosec_ = nanosec;
+  // A queued seek is replaced by this request.
+  ++seek_generation_;
+  if (next_uri_need_reset_.load() || next_uri_reset_.load()) return false;
+  next_uri_need_reset_ = true;
+  return true;
+
+}
+
+qint64 GstEnginePipeline::TakePendingSeek(int *expected_track_changes, int *seek_generation, const bool keep_for_next_uri_reset) {
+
+  // The generation is taken with the seek, so a newer request to seek, which can be made on another thread right after this, replaces this seek.
+  QMutexLocker l(&mutex_pending_seek_);
+  *seek_generation = seek_generation_.load();
   *expected_track_changes = pending_seek_track_changes_;
+  if (pending_seek_nanosec_.load() == -1) return -1;
+  // The reset is checked with the seek, it is requested with the seek, and one of the flags is set until the seek is taken after the reset.
+  if (keep_for_next_uri_reset && (next_uri_need_reset_.load() || next_uri_reset_.load())) return -1;
+  // The taken seek is counted as queued before it is not pending any more, it is queued after this, which can be on another thread, so a replaced seek which is applied in between doesn't start playback before it.
+  ++queued_seeks_;
   pending_seek_track_changes_ = -1;
   return pending_seek_nanosec_.exchange(-1);
 
@@ -2689,23 +3057,49 @@ void GstEnginePipeline::ProcessPendingSeek(const GstState state) {
       pending_seek_ready_previous_state_ = GST_STATE_PLAYING;
     }
     qLog(Debug) << "Next uri is reset, seeking and going back to" << GstStateText(pending_seek_ready_previous_state_.load());
-    if (pending_seek_ready_previous_state_.load() != GST_STATE_PAUSED) {
+    // A newer state requested while the next uri was reset, like a pause, replaces the state from before the seek, the seek is still applied.
+    bool superseded = false;
+    {
+      QMutexLocker locker(&mutex_set_state_async_);
+      superseded = set_state_request_generation_ != pending_seek_ready_state_request_generation_;
+    }
+    if (pending_seek_ready_previous_state_.load() != GST_STATE_PAUSED && !superseded) {
       pending_state_ = pending_seek_ready_previous_state_.load();
+      // The seek starts playback, also when it is skipped, like after the section changed, otherwise the pipeline stays paused.
+      if (pending_state_.load() == GST_STATE_PLAYING) {
+        device_warmup_after_seek_ = true;
+      }
+    }
+    // The request to resume playback when buffering finished is replaced by the newer request too, like a pause, a newer request to play is kept.
+    // The reset is finished, so the request is not from buffering any more.
+    const bool pending_state_from_buffering = pending_state_from_buffering_.exchange(false);
+    if (superseded && pending_state_from_buffering) {
+      pending_state_ = GST_STATE_NULL;
     }
     pending_seek_ready_previous_state_ = GST_STATE_NULL;
-    next_uri_reset_ = false;
     int expected_track_changes = -1;
-    const qint64 pending_seek = TakePendingSeek(&expected_track_changes);
+    int seek_generation = 0;
+    const qint64 pending_seek = TakePendingSeek(&expected_track_changes, &seek_generation);
+    // The flag is cleared after the seek is taken, so the pad callback doesn't take it in between.
+    next_uri_reset_ = false;
     if (pending_seek != -1) {
-      SeekDelayed(pending_seek, expected_track_changes);
+      SeekDelayed(pending_seek, expected_track_changes, seek_generation);
     }
   }
   else {
-    int expected_track_changes = -1;
-    const qint64 pending_seek = TakePendingSeek(&expected_track_changes);
-    if (pending_seek != -1) {
-      SeekAsync(pending_seek, expected_track_changes);
-    }
+    QueuePendingSeek();
+  }
+
+}
+
+void GstEnginePipeline::QueuePendingSeek() {
+
+  // The seek which waits for the next uri to be reset is applied after the reset, like when a pad is added before READY was handled, otherwise the reset finds no seek, and the pipeline stays in READY.
+  int expected_track_changes = -1;
+  int seek_generation = 0;
+  const qint64 pending_seek = TakePendingSeek(&expected_track_changes, &seek_generation, true);
+  if (pending_seek != -1) {
+    SeekAsync(pending_seek, expected_track_changes, seek_generation);
   }
 
 }

@@ -121,7 +121,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   void FadeoutFinished(const int pipeline_id);
   void FadeoutPauseFinished();
   void SeekNow();
-  void PlayDone(const GstStateChangeReturn ret, const bool pause, const int pipeline_id);
+  void PlayDone(const GstStateChangeReturn ret, const bool pause, const int pipeline_id, const bool report_state);
 
   void BufferingStarted();
   void BufferingProgress(int percent);
@@ -203,6 +203,11 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   State delayed_state_;
   bool delayed_state_pause_;
   quint64 delayed_state_offset_nanosec_;
+
+  // Counts the requests to play, so the completion of an older request, which can finish after a newer one, is not reported.
+  int play_request_id_;
+  // Counts the pauses and unpauses, so the completion of an older request to play, which finished after one, doesn't report its state over it.
+  int pause_request_id_;
 };
 
 #endif  // GSTENGINE_H
