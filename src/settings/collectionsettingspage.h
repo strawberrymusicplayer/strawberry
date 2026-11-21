@@ -43,6 +43,10 @@ class Ui_CollectionSettingsPage;
 
 class NasPage;
 class QCheckBox;
+class QButtonGroup;
+namespace AndroidWidgets {
+class ValueButton;
+}
 
 class CollectionSettingsPage : public SettingsPage {
   Q_OBJECT
@@ -72,6 +76,10 @@ class CollectionSettingsPage : public SettingsPage {
 
  private:
   void UpdateIconDiskCacheSize();
+#if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
+  void LoadNasPollingInterval();
+  void SaveNasPollingInterval(const int minutes);
+#endif
 
  private:
   Ui_CollectionSettingsPage *ui_;
@@ -87,6 +95,8 @@ class CollectionSettingsPage : public SettingsPage {
 #endif
 #if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
   NasPage *nas_page_ = nullptr;
+  AndroidWidgets::ValueButton *nas_polling_button_ = nullptr;
+  QButtonGroup *nas_polling_choices_ = nullptr;
 #endif
 };
 

@@ -43,6 +43,11 @@
 #include <QSpinBox>
 #include <QSettings>
 #include <QMessageBox>
+#if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
+#  include <QButtonGroup>
+#  include <QRadioButton>
+#  include <QVBoxLayout>
+#endif
 
 #include "constants/filesystemconstants.h"
 #include "core/iconloader.h"
@@ -53,6 +58,8 @@
 #  ifdef HAVE_NAS
 #    include "naspage_android.h"
 #    include "widgets/actiondialog.h"
+#    include "widgets/androidwidgets.h"
+#    include "collection/collectionwatcher.h"
 #  endif
 #endif
 #include "utilities/strutils.h"
@@ -122,6 +129,37 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog,
   auto *nas_button = new QPushButton(tr("NAS locations"), this);
   ui_->layout_collection_folder_buttons->insertWidget(1, nas_button);
   QObject::connect(nas_button, &QPushButton::clicked, nas_page_, &NasPage::Open);
+
+  const QString nas_polling_title = tr("NAS polling interval");
+  const AndroidWidgets::LabeledValueButton nas_polling = AndroidWidgets::CreateLabeledValueButton(nas_polling_title, this);
+  nas_polling_button_ = nas_polling.button;
+  auto *nas_polling_help = new QLabel(tr("Used only when a NAS does not support change notifications, and only while Strawberry is open."), this);
+  nas_polling_help->setWordWrap(true);
+  const int nas_polling_position = ui_->layout_updating->indexOf(ui_->monitor) + 1;
+  ui_->layout_updating->insertWidget(nas_polling_position, nas_polling.label);
+  ui_->layout_updating->insertWidget(nas_polling_position + 1, nas_polling_button_);
+  ui_->layout_updating->insertWidget(nas_polling_position + 2, nas_polling_help);
+  // The button and its choice rows are already styled for Android.
+  nas_polling_button_->setProperty("androidSettingsAdapted", true);
+
+  auto *nas_polling_page = new QWidget(this);
+  auto *nas_polling_layout = new QVBoxLayout(nas_polling_page);
+  nas_polling_layout->setAlignment(Qt::AlignTop);
+  nas_polling_choices_ = new QButtonGroup(nas_polling_page);
+  for (const int minutes : {5, 10, 15, 30, 60}) {
+    QRadioButton *choice = AndroidWidgets::CreateChoiceRow(tr("%n minute(s)", nullptr, minutes), nas_polling_page);
+    nas_polling_choices_->addButton(choice, minutes);
+    nas_polling_layout->addWidget(choice);
+  }
+  nas_polling_page->hide();
+  QObject::connect(nas_polling_choices_, &QButtonGroup::idClicked, this, [this](const int minutes) {
+    SaveNasPollingInterval(minutes);
+    this->dialog()->CloseAndroidSubpage();
+  });
+  QObject::connect(nas_polling_button_, &QPushButton::clicked, this, [this, nas_polling_page, nas_polling_title]() {
+    LoadNasPollingInterval();
+    this->dialog()->OpenAndroidSubpage(nas_polling_page, nas_polling_title);
+  });
 #endif
 
 #ifdef HAVE_SONGTRACKING
@@ -157,6 +195,7 @@ void CollectionSettingsPage::Load() {
 
 #if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
   nas_page_->Load();
+  LoadNasPollingInterval();
 #endif
   if (!initialized_model_) {
     if (ui_->list->selectionModel()) {
@@ -287,6 +326,43 @@ void CollectionSettingsPage::Save() {
   }
 
 }
+
+#if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
+void CollectionSettingsPage::LoadNasPollingInterval() {
+
+  Settings s;
+  s.beginGroup(kSettingsGroup);
+  bool ok = false;
+  int minutes = s.value(kNasPollingMinutes, kDefaultNasPollingMinutes).toInt(&ok);
+  s.endGroup();
+  if (!ok || minutes < kMinNasPollingMinutes || minutes > kMaxNasPollingMinutes) minutes = kDefaultNasPollingMinutes;
+
+  if (QAbstractButton *choice = nas_polling_choices_->button(minutes)) {
+    choice->setChecked(true);
+  }
+  else if (QAbstractButton *checked = nas_polling_choices_->checkedButton()) {
+    nas_polling_choices_->setExclusive(false);
+    checked->setChecked(false);
+    nas_polling_choices_->setExclusive(true);
+  }
+  nas_polling_button_->SetValue(tr("%n minute(s)", nullptr, minutes));
+
+}
+
+void CollectionSettingsPage::SaveNasPollingInterval(const int minutes) {
+
+  // Saved immediately, like the Android streaming settings, so Cancel does not undo it.
+  Settings s;
+  s.beginGroup(kSettingsGroup);
+  s.setValue(kNasPollingMinutes, minutes);
+  s.endGroup();
+  s.sync();
+
+  collection_->watcher()->ReloadSettingsAsync();
+  LoadNasPollingInterval();
+
+}
+#endif
 
 void CollectionSettingsPage::AddDirectory() {
 
