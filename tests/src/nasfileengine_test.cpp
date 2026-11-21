@@ -112,6 +112,31 @@ TEST(NasFileEngineTest, ChangeWaitStopsWhenCancelledOrUnreachable) {
   EXPECT_FALSE(Nas::ChangeWatcher(offline).Open());
 }
 
+// Connecting to an address which doesn't answer stops promptly when cancelled, instead of waiting for the 8 s timeout.
+TEST(NasFileEngineTest, CancelledConnectReturnsPromptly) {
+  auto unreachable = Location();
+  // TEST-NET-1 is reserved for documentation and is not routed, a connection attempt gets no answer.
+  unreachable.server = QStringLiteral("192.0.2.1");
+  std::atomic_bool cancel = false;
+  auto check = std::async(std::launch::async, [&unreachable, &cancel]() { return Nas::Check(unreachable, &cancel); });
+  if (check.wait_for(std::chrono::milliseconds(500)) == std::future_status::ready) {
+    GTEST_SKIP() << "This environment rejects the test address right away, so connecting can't be cancelled";
+  }
+  QElapsedTimer timer;
+  timer.start();
+  cancel = true;
+  EXPECT_FALSE(check.get().isEmpty());
+  EXPECT_LT(timer.elapsed(), 1000);
+  cancel = false;
+  Nas::ChangeWatcher watcher(unreachable);
+  auto opened = std::async(std::launch::async, [&watcher, &cancel]() { return watcher.Open(&cancel); });
+  ASSERT_EQ(opened.wait_for(std::chrono::milliseconds(500)), std::future_status::timeout);
+  timer.restart();
+  cancel = true;
+  EXPECT_FALSE(opened.get());
+  EXPECT_LT(timer.elapsed(), 1000);
+}
+
 class NasProtocolTest : public ::testing::Test {
  protected:
   void SetUp() override {

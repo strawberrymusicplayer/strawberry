@@ -2179,7 +2179,7 @@ std::shared_ptr<CollectionWatcher::NasMonitor> CollectionWatcher::StartNasMonito
       // Without an open handle, the reconcile is done once a handle is opened again.
       if (reconcile && (polling || watcher)) {
         // Reconcile only once the folder can be listed again, a scan while the NAS can't be reached changes nothing anyway.
-        if (!Nas::Check(*location).isEmpty()) {
+        if (!Nas::Check(*location, &m->cancel).isEmpty()) {
           if (!retry_later()) break;
           continue;
         }

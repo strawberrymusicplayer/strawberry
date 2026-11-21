@@ -30,7 +30,9 @@ quint64 FailureSerial();
 // Maps a libsmb2 connect error to a fixed user message that never contains the library text.
 QString ConnectionError(const QString &detail);
 QString Validate(const Location &location);
-QString Check(const Location &location);
+// Connects and opens the location's folder, returns an empty string on success.
+// Connecting and opening stop within about 100 ms when *cancel becomes true; resolving a server name can't be cancelled.
+QString Check(const Location &location, std::atomic_bool *cancel = nullptr);
 // Watches a location's folder for changes anywhere below it, on its own connection.
 // The folder handle and connection stay open between waits, so the server queues changes made while no request is pending and none are lost between two waits.
 // Overflow and Disconnected mean changes may have been missed and the folder needs a full reconcile; after Disconnected and Unsupported the watcher is closed.
@@ -38,7 +40,7 @@ class ChangeWatcher {
  public:
   explicit ChangeWatcher(const Location &location);
   ~ChangeWatcher();
-  // Connects and opens the folder, returns false if it can't be opened or *cancel becomes true; connection setup keeps the 8 s timeout.
+  // Connects and opens the folder, returns false if it can't be opened or *cancel becomes true, checked every 100 ms; connection setup keeps the 8 s timeout.
   // Changes made before the folder was opened are not reported.
   bool Open(std::atomic_bool *cancel = nullptr);
   bool IsOpen() const;

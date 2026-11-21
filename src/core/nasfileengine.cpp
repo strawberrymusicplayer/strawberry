@@ -57,9 +57,46 @@ struct ContextDeleter {
   void operator()(smb2_context *context) const { smb2_destroy_context(context); }
 };
 
+constexpr int kWatchSliceMs = 100;
+
+// Waits up to slice_ms for the connection, also called without events so that libsmb2 expires timed-out requests.
+bool ServiceWatch(smb2_context *context, const int slice_ms) {
+  pollfd descriptor = {smb2_get_fd(context), static_cast<short>(smb2_which_events(context)), 0};
+  if (poll(&descriptor, 1, slice_ms) < 0 && errno != EINTR) return false;
+  return smb2_service(context, descriptor.revents) >= 0;
+}
+
+struct AsyncResult {
+  bool finished = false;
+  int status = 0;
+  void *data = nullptr;
+};
+
+void AsyncFinished(smb2_context*, int status, void *command_data, void *private_data) {
+  AsyncResult *result = static_cast<AsyncResult*>(private_data);
+  result->finished = true;
+  result->status = status;
+  result->data = command_data;
+}
+
+// Services the connection until the request finished, returns false if *cancel became true, checked every 100 ms, or the connection failed.
+// Like libsmb2's synchronous calls, connecting the socket has the timeout, the requests have their own.
+bool WaitForResult(smb2_context *context, const AsyncResult &result, std::atomic_bool *cancel) {
+  const QDeadlineTimer connect_deadline(kTimeoutSeconds * 1000);
+  while (!result.finished) {
+    if (cancel && *cancel) return false;
+    if (!(smb2_which_events(context) & POLLIN) && connect_deadline.hasExpired()) {
+      smb2_set_error(context, "Timeout expired and no connection exists");
+      return false;
+    }
+    if (!ServiceWatch(context, kWatchSliceMs)) return false;
+  }
+  return true;
+}
+
 class Connection {
  public:
-  explicit Connection(const Nas::Location &location) : context_(smb2_init_context()) {
+  explicit Connection(const Nas::Location &location, std::atomic_bool *cancel = nullptr) : context_(smb2_init_context()) {
     if (!context_) {
       Fail(QObject::tr("Could not allocate NAS connection"));
       return;
@@ -71,7 +108,11 @@ class Connection {
     smb2_set_user(context_.get(), location.user.toUtf8().constData());
     smb2_set_password(context_.get(), location.password.toUtf8().constData());
     smb2_set_domain(context_.get(), location.domain.toUtf8().constData());
-    if (smb2_connect_share(context_.get(), location.server.toUtf8().constData(), location.share.toUtf8().constData(), location.user.toUtf8().constData()) < 0) {
+    if (smb2_connect_share_async(context_.get(), location.server.toUtf8().constData(), location.share.toUtf8().constData(), location.user.toUtf8().constData(), AsyncFinished, &connected_) < 0 || !WaitForResult(context_.get(), connected_, cancel) || connected_.status < 0) {
+      if (cancel && *cancel) {
+        Fail(QObject::tr("Connecting to the NAS was cancelled"));
+        return;
+      }
       // libsmb2 connect errors hold NT status names, strerror text, the server and the share, never the password.
       const QString detail = QString::fromUtf8(smb2_get_error(context_.get()));
       qLog(Error) << "libsmb2:" << detail;
@@ -90,6 +131,8 @@ class Connection {
   }
 
  private:
+  // Declared before the context: destroying the context reports a still pending connect to the callback.
+  AsyncResult connected_;
   std::unique_ptr<smb2_context, ContextDeleter> context_;
   QString error_;
 };
@@ -298,7 +341,6 @@ class Handler : public QAbstractFileEngineHandler {
 };
 
 constexpr quint32 kStatusNotifyEnumDir = 0x0000010C;
-constexpr int kWatchSliceMs = 100;
 constexpr qint64 kWatchEchoMs = 15000;
 
 struct WatchState {
@@ -333,13 +375,6 @@ void WatchEchoed(smb2_context*, int status, void*, void *private_data) {
   WatchState *state = static_cast<WatchState*>(private_data);
   state->echo_pending = false;
   if (status < 0 && !state->result) state->result = Nas::WatchResult::Disconnected;
-}
-
-// Waits up to slice_ms for the connection, also called without events so that libsmb2 expires timed-out requests.
-bool ServiceWatch(smb2_context *context, const int slice_ms) {
-  pollfd descriptor = {smb2_get_fd(context), static_cast<short>(smb2_which_events(context)), 0};
-  if (poll(&descriptor, 1, slice_ms) < 0 && errno != EINTR) return false;
-  return smb2_service(context, descriptor.revents) >= 0;
 }
 
 }  // namespace
@@ -396,14 +431,18 @@ QString Validate(const Location &location) {
   if (location.user.isEmpty() || location.user.contains(u'\0') || location.password.contains(u'\0') || location.domain.contains(u'\0')) return QObject::tr("Enter a NAS account. Anonymous access is not supported.");
   return {};
 }
-QString Check(const Location &location) {
+QString Check(const Location &location, std::atomic_bool *cancel) {
   const QString invalid = Validate(location);
   if (!invalid.isEmpty()) return invalid;
-  Connection connection(location);
+  // Declared before the connection, which reports a still pending request to it when it's destroyed.
+  AsyncResult opened;
+  Connection connection(location, cancel);
   if (!connection.get()) return connection.error();
-  smb2dir *dir = smb2_opendir(connection.get(), location.folder.toUtf8().constData());
-  if (!dir) return QObject::tr("Could not open the NAS folder. Check the folder and read permissions.");
-  smb2_closedir(connection.get(), dir);
+  if (smb2_opendir_async(connection.get(), location.folder.toUtf8().constData(), AsyncFinished, &opened) < 0 || !WaitForResult(connection.get(), opened, cancel) || opened.status < 0) {
+    if (cancel && *cancel) return QObject::tr("Connecting to the NAS was cancelled");
+    return QObject::tr("Could not open the NAS folder. Check the folder and read permissions.");
+  }
+  smb2_closedir(connection.get(), static_cast<smb2dir*>(opened.data));
   return {};
 }
 WatchResult NotifyResult(const quint32 status) {
@@ -439,7 +478,7 @@ bool ChangeWatcher::Open(std::atomic_bool *cancel) {
   const auto cancelled = [cancel]() { return cancel && cancel->load(); };
   Close();
   if (cancelled() || !Validate(d_->location).isEmpty()) return false;
-  d_->connection = std::make_unique<Connection>(d_->location);
+  d_->connection = std::make_unique<Connection>(d_->location, cancel);
   smb2_context *context = d_->connection->get();
   if (cancelled() || !context) {
     Close();
