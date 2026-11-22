@@ -246,7 +246,7 @@ Tools > Alarm clock and Tools > Clock are Android only (roadmap item 28).
 The Qt pages are in `src/alarm/*_android.cpp`; the Java side is in `android/java/nl/dewitweb/strawberryflavor/Alarm*.java`, `ClockActivity.java` and `ClockView.java`.
 
 **Manifest requirements:**
-- Permissions: `POST_NOTIFICATIONS`, `USE_EXACT_ALARM`, `SCHEDULE_EXACT_ALARM` (Android 12 only, `maxSdkVersion` 32), `USE_FULL_SCREEN_INTENT`, `RECEIVE_BOOT_COMPLETED`, `WAKE_LOCK` and the media-playback foreground service permissions.
+- Permissions: `POST_NOTIFICATIONS`, `USE_EXACT_ALARM`, `SCHEDULE_EXACT_ALARM` (Android 12 only, `maxSdkVersion` 32), `USE_FULL_SCREEN_INTENT`, `SYSTEM_ALERT_WINDOW` (only requested as a fallback while notifications are off), `RECEIVE_BOOT_COMPLETED`, `WAKE_LOCK` and the media-playback foreground service permissions.
 - `AlarmReceiver` receives the `AlarmManager` alarms and starts the `mediaPlayback` foreground service `AlarmService`.
 - `AlarmBootReceiver` reschedules on `BOOT_COMPLETED`, `MY_PACKAGE_REPLACED`, `TIME_SET`, `TIMEZONE_CHANGED` and exact alarm permission changes.
 - `AlarmActivity` is the ringing screen, shown over the lock screen with `showWhenLocked` and `turnScreenOn`.
@@ -260,12 +260,14 @@ An alarm's `tracks` list holds either its copies or, with copying off, the origi
 `ctest -R alarmtracks_test` tests the limits and source rules in `src/alarm/alarmtracks_android.cpp`.
 Until the copy job finishes, it stores playable local originals, or the copies made so far, as interim tracks, so a new alarm can ring right away.
 `AlarmFallback.java` chooses the default sound reason shown on the ringing screen and in the notification, and lets a random alarm without songs play other alarms' copies; `ctest -R alarmfallback_java_test` tests it on a desktop JVM.
+`AlarmPermissions.java` decides which permission warnings the overview shows and when the notification permission dialog may appear; `ctest -R alarmpermissions_java_test` tests it.
 
 **Limitations:**
 - `setAlarmClock()` alarms ring in Doze and battery saver, but force stopping the app cancels them until it is opened again.
 - Without the exact alarm permission (Android 12 and 12L), alarms are inexact and ring through a full-screen notification with the default alarm sound; the music starts when the alarm is opened.
 - After a reboot, alarms are rescheduled after the first unlock.
-- Without the notification permission (Android 13+) or the full-screen-intent permission (Android 14+), the ringing screen opens only if the app is visible, since `AlarmService` then starts it directly; the overview shows Allow buttons.
+- Without notifications for the app or its Alarm clock category (Android 13+ permission or the user's switches) or the full-screen-intent permission (Android 14+), the overview shows warnings with buttons to the matching dialog or settings page.
+- Without notifications, the ringing screen opens only while Strawberry is visible, when display over other apps is allowed, or when the user opens Strawberry; otherwise only the automatic stop, if not switched off, ends the alarm, and the volume and power keys do not stop it.
 - While the phone is in use, Android shows a heads-up notification instead of the ringing screen.
 - Radio sources need network access; otherwise the default alarm sound plays.
 - With copying off, NAS songs cannot ring, because the Java side has no SMB client and the Qt app's libsmb2 file engine may not be running; the default alarm sound plays instead.
@@ -282,6 +284,11 @@ adb logcat -s StrawberryAlarm
 adb shell run-as nl.dewitweb.strawberryflavor cat shared_prefs/alarm_clock.xml
 # Turn the screen off before an alarm rings
 adb shell input keyevent 26
+# Test the permission warnings; restore afterwards with pm grant and appops set ... default
+adb shell pm revoke nl.dewitweb.strawberryflavor android.permission.POST_NOTIFICATIONS
+adb shell appops set nl.dewitweb.strawberryflavor SYSTEM_ALERT_WINDOW allow
+# Whether Android let the ringing screen open from the background
+adb logcat -d | grep "START.*AlarmActivity"
 ```
 
 `adb shell am force-stop` cancels the alarms; to test with the app closed, end the process with `adb shell run-as nl.dewitweb.strawberryflavor kill -9 <pid>` instead.

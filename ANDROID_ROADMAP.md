@@ -1230,7 +1230,7 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
 The scope was agreed in a design interview with the user before implementation.
 
 **Implemented scope (2026-11-22):**
-- Tools > Alarm clock lists the alarms with their time, name, days and an on/off switch, plus an Add alarm button, the next alarm and the Stop automatically after setting (off, 10, 30 or 60 minutes; default 30).
+- Tools > Alarm clock lists the alarms with their time, name, days and an on/off switch, plus an Add alarm button with a green plus, the next alarm and the Stop automatically after setting (off, 10, 30 or 60 minutes; default 30).
 - Tapping an alarm opens Tools > Alarm clock > Edit alarm with the time, name, repeat days (once or selected weekdays), music, volume, fade-in, snooze duration and Delete alarm with confirmation.
   The time, days, music source and delete confirmation open as full-page subscreens; Back returns one level.
 - The time page is a round dial like Android's time picker (`TimePicker` and `TimeDial` in `src/widgets/timedial_android.cpp`): tap or drag the hour, then the page switches to the minutes (5-minute labels, any minute by dragging); the hour and minute of the large digital time switch back.
@@ -1263,7 +1263,13 @@ The scope was agreed in a design interview with the user before implementation.
   `USE_EXACT_ALARM` covers Android 13 and later; on Android 12 and 12L, `SCHEDULE_EXACT_ALARM` must be allowed in the system settings, which the overview's Allow button opens.
   Without it the alarm is inexact and may ring late, and Android does not allow starting the ringing service from it.
   `AlarmReceiver` then rings through an insistent full-screen notification with the default alarm sound and Snooze and Stop actions; opening it shows the ringing screen, which starts the alarm's music.
-- Android 13 and later need the notification permission, and Android 14 and later the full-screen-intent permission, to show the ringing screen; the overview shows a warning with an Allow button for each missing permission.
+- Android 13 and later need the notification permission, and Android 14 and later the full-screen-intent permission, to show the ringing screen.
+  Opening the overview, adding an alarm and switching one on show Android's notification permission dialog while Android still allows it (at most twice, once per session).
+  The overview shows a framed warning with a button for each missing permission or setting: notifications off for the app, the Alarm clock notification category switched off, exact alarms and full-screen alarms.
+  The notification warnings say that an alarm may then ring without any way to stop it; their buttons open the permission dialog, the app's notification settings or the category's settings.
+- Without notifications, Android blocks the ringing screen from the background.
+  The overview then also offers "Display over other apps" (`SYSTEM_ALERT_WINDOW`), which Android accepts as a reason to open it anyway, and opening Strawberry while an alarm rings shows the ringing screen.
+  Otherwise only Stop automatically after ends the alarm, unless it is off; the volume and power keys do not stop it.
 - While the phone is unlocked and in use, Android shows a heads-up notification instead of the full-screen activity.
 - Force stopping the app cancels its alarms until the app is opened again.
 - After a reboot, alarms are rescheduled once the user has unlocked the phone for the first time.
@@ -1297,6 +1303,12 @@ The scope was agreed in a design interview with the user before implementation.
   A radio alarm with an unreachable URL, ringing while the app was in the background, showed "Playing the default sound: the music could not be played" in the notification, with Snooze and Stop actions, and on the ringing screen opened from it.
   In the background, Android blocked the direct start, as expected, and showed the heads-up notification.
 - `alarmtracks_test` covers which originals can serve as interim tracks; `alarmfallback_java_test` covers the default sound reason and choosing other alarms' copies.
+
+- Permission round (2026-11-22, emulator): after `pm revoke` of `POST_NOTIFICATIONS`, opening the overview showed Android's permission dialog; after Don't allow, the overview showed the notification and display-over-other-apps warnings, and their buttons opened the dialog again and the overlay settings.
+  With notifications off and display over other apps allowed (`appops set SYSTEM_ALERT_WINDOW allow`), an alarm ringing with Strawberry in the background opened the ringing screen (`BAL_ALLOW_SAW_PERMISSION`), and Stop stopped it.
+  Without that permission the start was blocked (`BAL_BLOCK`), and opening Strawberry showed the ringing screen.
+  Switching off the Alarm clock category showed its warning, whose button opened the category's settings; switching it on again removed all warnings.
+  `alarmpermissions_java_test` covers which warnings appear and when the dialog is shown.
 
 **Still open:**
 - Check on the FP5 with a physical finger, after allowing notifications: the ringing screen over a secure lock screen, the permission prompts, audio volume and fade-in, auto stop, NAS songs and radio without network, and overnight reliability.
