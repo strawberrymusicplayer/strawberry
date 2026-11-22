@@ -436,6 +436,13 @@ bool MainWindow::AndroidBack() {
     return true;
   }
 
+  // An open tool handles Back itself, but it does not get the key when the focus has left it, for example after the focused control was hidden.
+  if (android_current_tool_ && ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(android_tools_pages_)) {
+    QKeyEvent back(QEvent::KeyPress, Qt::Key_Back, Qt::NoModifier);
+    QCoreApplication::sendEvent(android_current_tool_, &back);
+    return true;
+  }
+
   return false;
 
 }

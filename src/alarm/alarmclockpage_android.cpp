@@ -199,6 +199,8 @@ void AlarmClockPage::SetPage(QWidget *page, const QString &title) {
   pages_->addWidget(page);
   pages_->setCurrentWidget(page);
   title_->setText(breadcrumb);
+  // Hiding the focused control would move the focus out of the page, and Back would then quit the app.
+  setFocus(Qt::OtherFocusReason);
 
 }
 
@@ -220,6 +222,7 @@ void AlarmClockPage::Back() {
   title_->setText(parent == overview_ ? tr("Tools > Alarm clock") : parent->property(kBreadcrumbProperty).toString());
   if (parent == overview_) RefreshOverview();
   else if (parent == editor_) RefreshEditor();
+  setFocus(Qt::OtherFocusReason);
 
 }
 
