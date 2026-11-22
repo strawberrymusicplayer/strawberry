@@ -42,6 +42,7 @@ class QHBoxLayout;
 class QLabel;
 class QRadioButton;
 class QScrollArea;
+class QToolButton;
 class QVBoxLayout;
 class QWidget;
 
@@ -136,6 +137,10 @@ QHBoxLayout *CreatePageHeader(QLabel *title, QPushButton *back);
 
 // Styles a full-width navigation button: larger, left-aligned text with a fixed height.
 void StyleNavigationButton(QAbstractButton *button, int minimum_height);
+
+// Shows a single-color SVG resource as the icon of the button, or of its default action, drawn in the button's text color.
+// The icon is redrawn when the palette changes, so that it follows the light or dark theme.
+void SetThemedIcon(QToolButton *button, const QString &resource);
 
 // Fills the scroll area and its viewport with the Base color, matching the main Android pages.
 void SetPageBackground(QScrollArea *area);

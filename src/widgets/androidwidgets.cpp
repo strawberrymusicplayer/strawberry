@@ -19,19 +19,24 @@
 #include "androidwidgets.h"
 
 #include <QAbstractButton>
+#include <QAction>
 #include <QApplication>
 #include <QBoxLayout>
 #include <QButtonGroup>
 #include <QComboBox>
 #include <QCheckBox>
+#include <QColor>
 #include <QCoreApplication>
 #include <QFont>
 #include <QFrame>
 #include <QHBoxLayout>
+#include <QIcon>
 #include <QGroupBox>
 #include <QLabel>
 #include <QPalette>
 #include <QMouseEvent>
+#include <QPainter>
+#include <QPixmap>
 #include <QPushButton>
 #include <QRadioButton>
 #include <QScrollArea>
@@ -40,6 +45,7 @@
 #include <QString>
 #include <QStyleOptionButton>
 #include <QStylePainter>
+#include <QToolButton>
 #include <QVBoxLayout>
 
 #include "core/iconloader.h"
@@ -51,6 +57,38 @@ namespace AndroidWidgets {
 namespace {
 constexpr int kPageTitlePointSize = 18;
 constexpr qreal kNavigationTextScale = 1.15;
+
+class ThemedIcon : public QObject {
+ public:
+  explicit ThemedIcon(QToolButton *button, const QString &resource) : QObject(button), button_(button), source_(resource) {
+    button->installEventFilter(this);
+    Update();
+  }
+
+ protected:
+  bool eventFilter(QObject *object, QEvent *event) override {
+    if (object == button_ && (event->type() == QEvent::PaletteChange || event->type() == QEvent::StyleChange || event->type() == QEvent::DevicePixelRatioChange)) Update();
+    return QObject::eventFilter(object, event);
+  }
+
+ private:
+  void Update() {
+    const qreal ratio = button_->devicePixelRatioF();
+    QPixmap pixmap = source_.pixmap(button_->iconSize(), ratio);
+    {
+      QPainter painter(&pixmap);
+      painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+      painter.fillRect(pixmap.rect(), button_->palette().color(QPalette::ButtonText));
+    }
+    const QIcon icon(pixmap);
+    // The default action would replace an icon set on the button itself.
+    if (QAction *action = button_->defaultAction()) action->setIcon(icon);
+    else button_->setIcon(icon);
+  }
+
+  QToolButton *button_;
+  const QIcon source_;
+};
 
 class CheckBoxPresentation : public QObject {
  public:
@@ -248,6 +286,12 @@ void StyleNavigationButton(QAbstractButton *button, const int minimum_height) {
   button->setStyleSheet(u"text-align: left; padding-left: 24px;"_s);
   button->setMinimumHeight(minimum_height);
   button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+}
+
+void SetThemedIcon(QToolButton *button, const QString &resource) {
+
+  new ThemedIcon(button, resource);
 
 }
 

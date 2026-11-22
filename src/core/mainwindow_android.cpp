@@ -26,6 +26,7 @@
 #include <QEvent>
 #include <QFont>
 #include <QFrame>
+#include <QHash>
 #include <QKeyEvent>
 #include <QLabel>
 #include <QLayout>
@@ -71,6 +72,8 @@
 #include "widgets/playlisttitleheader.h"
 #include "widgets/scantaskcontrols_android.h"
 #include "widgets/scrollarea_android.h"
+
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 
@@ -239,7 +242,9 @@ QWidget *MainWindow::CreateAndroidToolsPage() {
   layout->setSpacing(8);
   page->setWidget(contents);
 
-  const auto add_section = [this, contents, layout](const QString &title, const QList<QAction*> &actions) {
+  // Android-only tools have single-color SVG icons that follow the theme's text color.
+  QHash<const QAction*, QString> themed_icons;
+  const auto add_section = [this, contents, layout, &themed_icons](const QString &title, const QList<QAction*> &actions) {
     QLabel *heading = new QLabel(title, contents);
     QFont heading_font = heading->font();
     heading_font.setBold(true);
@@ -264,6 +269,7 @@ QWidget *MainWindow::CreateAndroidToolsPage() {
       button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
       button->setIconSize(QSize(AndroidWidgets::kNavigationIconSize, AndroidWidgets::kNavigationIconSize));
       AndroidWidgets::StyleNavigationButton(button, kAndroidToolButtonHeight);
+      if (themed_icons.contains(action)) AndroidWidgets::SetThemedIcon(button, themed_icons.value(action));
       layout->addWidget(button);
     }
   };
@@ -272,6 +278,7 @@ QWidget *MainWindow::CreateAndroidToolsPage() {
   android_alarm_clock_ = new AlarmClock(app_->collection_backend(), app_->playlist_backend(), this);
   QAction *alarm_clock_action = new QAction(tr("Alarm clock"), this);
   QObject::connect(alarm_clock_action, &QAction::triggered, this, &MainWindow::ShowAndroidAlarmClock);
+  themed_icons.insert(alarm_clock_action, u":/icons/scalable/alarm-clock.svg"_s);
   QAction *clock_action = new QAction(tr("Clock"), this);
   QObject::connect(clock_action, &QAction::triggered, this, []() { AlarmBridge::OpenClock(); });
   add_section(tr("Tools"), { ui_->action_cover_manager, ui_->action_equalizer, alarm_clock_action, clock_action });
