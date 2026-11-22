@@ -2,6 +2,7 @@
 
 #include "streamingautosave_android.h"
 
+#include <algorithm>
 #include <utility>
 
 #include <QAbstractSpinBox>
@@ -91,6 +92,22 @@ void ConnectSettingsPageAutoSave(QObject *context, SettingsPage *page, const std
       save();
     });
   }
+
+}
+
+QList<QWidget*> SubpageWidgetsOf(const QWidget *ui_widget, const QList<QPair<QWidget*, QWidget*>> &subpages) {
+
+  QList<const QWidget*> roots{ui_widget};
+  QList<QWidget*> widgets;
+  for (const QPair<QWidget*, QWidget*> &subpage : subpages) {
+    QWidget *content = subpage.first;
+    const QWidget *content_parent = subpage.second;
+    if (!content || !content_parent) continue;
+    if (std::none_of(roots.cbegin(), roots.cend(), [content_parent](const QWidget *root) { return root == content_parent || root->isAncestorOf(content_parent); })) continue;
+    roots << content;
+    widgets << content << content->findChildren<QWidget*>();
+  }
+  return widgets;
 
 }
 

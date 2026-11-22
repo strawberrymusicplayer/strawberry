@@ -271,15 +271,14 @@ bool SettingsDialog::IsAndroidPageActive(const SettingsPage *page) const {
 
 QWidgetList SettingsDialog::AndroidSubpageWidgets(const QWidget *ui_widget) const {
 
-  QWidgetList widgets;
+  QList<QPair<QWidget*, QWidget*>> subpages;
   for (const AndroidSubpage &subpage : android_subpages_) {
     QWidget *content = subpage.area->widget();
     // Transient subpages are deleted on close and hold no page settings.
     if (!content || content->property("androidTransientSubpage").toBool()) continue;
-    if (subpage.content_parent != ui_widget && !ui_widget->isAncestorOf(subpage.content_parent)) continue;
-    widgets << content << content->findChildren<QWidget*>();
+    subpages << qMakePair(content, subpage.content_parent);
   }
-  return widgets;
+  return SubpageWidgetsOf(ui_widget, subpages);
 
 }
 

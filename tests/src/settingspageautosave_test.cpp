@@ -12,6 +12,8 @@
 #include <QMap>
 #include <QMetaObject>
 #include <QPushButton>
+#include <QScrollArea>
+#include <QSlider>
 #include <QTimer>
 #include <QVBoxLayout>
 #include <QWidget>
@@ -179,5 +181,35 @@ TEST(SettingsDialogAutoSaveTest, DestroyingAVisibleDialogDoesNotFlushDestroyedPa
   dialog->show();
   delete dialog;
   EXPECT_EQ(1, flushes);
+
+}
+
+TEST(SettingsPageAutoSaveTest, SnapshotIncludesNestedEditorControls) {
+
+  // Like Backend > Audio normalization > Replay Gain: a section inside a section, each moved into its own subpage.
+  QWidget page;
+  auto *outer = new QWidget(&page);
+  auto *outer_check = new QCheckBox(outer);
+  auto *inner_parent = new QWidget(outer);
+  auto *inner = new QWidget(inner_parent);
+  auto *preamp = new QSlider(inner);
+  auto *other = new QWidget;
+  auto *unrelated = new QSlider(other);
+
+  QScrollArea outer_area;
+  outer_area.setWidget(outer);
+  QScrollArea inner_area;
+  inner_area.setWidget(inner);
+  QScrollArea other_area;
+  other_area.setWidget(other);
+
+  const QList<QWidget*> widgets = SubpageWidgetsOf(&page, {qMakePair(outer, &page), qMakePair(inner, inner_parent), qMakePair(other, static_cast<QWidget*>(&other_area))});
+  EXPECT_TRUE(widgets.contains(outer_check));
+  EXPECT_TRUE(widgets.contains(preamp));
+  EXPECT_FALSE(widgets.contains(unrelated));
+
+  // A nested editor of another page is not included either.
+  QWidget other_page;
+  EXPECT_TRUE(SubpageWidgetsOf(&other_page, {qMakePair(outer, &page), qMakePair(inner, inner_parent)}).isEmpty());
 
 }
