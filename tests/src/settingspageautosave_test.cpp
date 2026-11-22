@@ -121,6 +121,13 @@ TEST(SettingsPageAutoSaveTest, ChangesSaveThroughApplyWithoutDialogButtons) {
   // Toggling back is a change compared with the last save.
   page.checkbox->click();
   EXPECT_EQ(5, page.saves);
+  // An Android editor reparents its controls; a change made there still saves.
+  // Keeping them in later snapshots needs the Android-only Init hook, which SnapshotIncludesNestedEditorControls covers through SubpageWidgetsOf().
+  QWidget editor;
+  page.checkbox->setParent(&editor);
+  page.checkbox->click();
+  EXPECT_EQ(6, page.saves);
+  page.checkbox->setParent(&page);
 
 }
 
