@@ -101,6 +101,7 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog,
   collapsible_dividers_->setObjectName(u"collapsible_dividers"_s);
   ui_->layout_display->insertWidget(ui_->layout_display->indexOf(ui_->show_dividers) + 1, collapsible_dividers_);
   QObject::connect(ui_->show_dividers, &QCheckBox::toggled, collapsible_dividers_, &QCheckBox::setEnabled);
+  SetupAndroidRemoveUnavailableSongs();
 #endif
   ui_->list->setItemDelegate(new NativeSeparatorsDelegate(this));
 

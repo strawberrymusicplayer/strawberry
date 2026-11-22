@@ -1546,7 +1546,7 @@ endif()
 
 if(ANDROID)
   list(APPEND SOURCES src/core/androidmediasession.cpp src/core/androidstorage.cpp src/core/mainwindow_android.cpp src/engine/gststartup_android.cpp src/equalizer/equalizer_android.cpp src/playlist/playlistview_android.cpp src/settings/androidsettingspage.cpp src/settings/settingsdialog_android.cpp src/widgets/androidwidgets.cpp src/widgets/listscrolling_android.cpp src/widgets/scrollarea_android.cpp)
-  list(APPEND SOURCES src/settings/streamingautosave_android.cpp src/settings/settingsdialog_streaming_android.cpp src/settings/streamingsettingsreset_android.cpp)
+  list(APPEND SOURCES src/settings/streamingautosave_android.cpp src/settings/settingsdialog_streaming_android.cpp src/settings/streamingsettingsreset_android.cpp src/settings/collectionsettingspage_android.cpp)
   list(APPEND HEADERS src/settings/streamingautosave_android.h)
   list(APPEND SOURCES src/smartplaylists/smartplaylistwizard_android.cpp src/smartplaylists/smartplaylistsviewcontainer_android.cpp)
   list(APPEND SOURCES src/core/androidstoragefileengine.cpp src/engine/gstqfilesrc.cpp src/tagreader/taglibfilestream_android.cpp)

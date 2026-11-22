@@ -1334,3 +1334,8 @@ After a connection interruption, catch up on changes missed while disconnected w
 The NAS monitors stop when the app is hidden or suspended and start again when it is active, then scan the folders whose modification time changed meanwhile, like the update on startup.
 Stopping cancels the monitors and stops a running NAS scan at once, scans already requested are skipped, so the monitors start again within seconds.
 An in-place tag edit made while the app is hidden, which doesn't change its folder's modification time, is found by the next full reconcile, after an overflow, a changed location, a reconnect or a manual full scan.
+
+**Unavailable songs:** A file deleted from the NAS stays in the collection as unavailable, with its play counts and ratings.
+Settings > General > Collection > Automatic updating > Expire unavailable songs after removes such songs when the number of days has passed since they were last seen, unless a playlist contains them; 0 keeps them.
+The expiry runs at the end of an incremental or full scan: the update on startup, the daily periodic update, Update changed collection folders and Do a full collection rescan, not after the scans of notified NAS folders.
+Remove unavailable songs now, below that setting, removes all of them at once after a confirmation which shows how many there are.

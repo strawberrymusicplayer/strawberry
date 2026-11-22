@@ -80,6 +80,10 @@ class CollectionSettingsPage : public SettingsPage {
   void LoadNasPollingInterval();
   void SaveNasPollingInterval(const int minutes);
 #endif
+#ifdef Q_OS_ANDROID
+  void SetupAndroidRemoveUnavailableSongs();
+  void RemoveUnavailableSongs();
+#endif
 
  private:
   Ui_CollectionSettingsPage *ui_;
