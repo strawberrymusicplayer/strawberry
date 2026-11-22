@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Plain http is allowed because radio stations and alarm radio URLs entered by the user are often http only and AlarmService plays them with MediaPlayer, which follows this policy. -->
+<!-- A domain list can't cover arbitrary user URLs. Only the system certificate authorities are trusted for https, as without this file. -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>
