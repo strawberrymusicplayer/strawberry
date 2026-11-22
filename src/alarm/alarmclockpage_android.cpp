@@ -48,6 +48,7 @@
 #include "utilities/strutils.h"
 #include "widgets/androidwidgets.h"
 #include "widgets/scrollarea_android.h"
+#include "widgets/timedial_android.h"
 #include "alarmbridge_android.h"
 #include "alarmclock_android.h"
 #include "alarmclockpage_android.h"
@@ -59,7 +60,6 @@ namespace {
 
 constexpr char kBreadcrumbProperty[] = "strawberry_breadcrumb";
 constexpr int kSaveDelayMsec = 400;
-constexpr int kTimeButtonHeight = 72;
 constexpr int kSongSearchLimit = 50;
 
 const QString kSliderStyle =
@@ -547,51 +547,23 @@ void AlarmClockPage::RefreshEditor() {
 
 void AlarmClockPage::ShowTimePage() {
 
-  const AndroidWidgets::ScrollPage page = CreatePage();
-  QWidget *contents = page.contents;
-  QVBoxLayout *layout = page.layout;
+  // The dial needs every drag itself, so this page does not scroll.
+  QWidget *page = new QWidget;
+  page->setBackgroundRole(QPalette::Base);
+  page->setAutoFillBackground(true);
+  QVBoxLayout *layout = new QVBoxLayout(page);
+  layout->setContentsMargins(0, 8, 0, 0);
 
-  QLabel *time = new QLabel(TimeText(alarm_.hour, alarm_.minute), contents);
-  QFont time_font = time->font();
-  time_font.setPointSizeF(time_font.pointSizeF() * 4.0);
-  time_font.setBold(true);
-  time->setFont(time_font);
-  time->setAlignment(Qt::AlignCenter);
-  layout->addWidget(time);
-
-  const auto change = [this, time](const int minutes) {
-    const int total = ((alarm_.hour * 60 + alarm_.minute + minutes) % (24 * 60) + 24 * 60) % (24 * 60);
-    alarm_.hour = total / 60;
-    alarm_.minute = total % 60;
-    time->setText(TimeText(alarm_.hour, alarm_.minute));
+  TimePicker *picker = new TimePicker(TimePicker::DeviceUses24HourFormat(), page);
+  picker->SetTime(alarm_.hour, alarm_.minute);
+  layout->addWidget(picker);
+  QObject::connect(picker, &TimePicker::TimeChanged, this, [this](const int hour, const int minute) {
+    alarm_.hour = hour;
+    alarm_.minute = minute;
     ScheduleSave();
-  };
-  const auto add_row = [contents, layout, change](const QString &title, const QList<std::pair<QString, int>> &steps) {
-    layout->addWidget(CreateWrappingLabel(title, contents));
-    QHBoxLayout *row = new QHBoxLayout;
-    for (const auto &step : steps) {
-      QPushButton *button = new QPushButton(step.first, contents);
-      button->setMinimumHeight(kTimeButtonHeight);
-      button->setAutoRepeat(true);
-      button->setAccessibleName(title + u' ' + step.first);
-      QFont font = button->font();
-      font.setPointSizeF(font.pointSizeF() * 1.5);
-      button->setFont(font);
-      const int minutes = step.second;
-      QObject::connect(button, &QPushButton::clicked, contents, [change, minutes]() { change(minutes); });
-      row->addWidget(button);
-    }
-    layout->addLayout(row);
-  };
-  add_row(tr("Hour"), {{u"-1"_s, -60}, {u"+1"_s, 60}});
-  add_row(tr("Minute"), {{u"-5"_s, -5}, {u"-1"_s, -1}, {u"+1"_s, 1}, {u"+5"_s, 5}});
-
-  QPushButton *done = CreateButton(tr("Done"), contents);
-  layout->addSpacing(16);
-  layout->addWidget(done);
-  QObject::connect(done, &QPushButton::clicked, this, &AlarmClockPage::Back);
-  layout->addStretch();
-  SetPage(page.area, tr("Time"));
+  });
+  QObject::connect(picker, &TimePicker::Done, this, &AlarmClockPage::Back);
+  SetPage(page, tr("Time"));
 
 }
 
