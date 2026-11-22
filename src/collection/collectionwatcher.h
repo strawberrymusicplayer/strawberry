@@ -259,6 +259,8 @@ class CollectionWatcher : public QObject {
     std::atomic_bool scan_pending = false;
     // Set when changes may have been missed, the monitor reconciles the directory once the NAS can be reached.
     std::atomic_bool catch_up = false;
+    // Set when a partial scan was stopped or couldn't reach the NAS, its changes were put back and the monitor requests it again.
+    std::atomic_bool retry_scan = false;
     // The notified paths relative to the directory, or a full scan when a notification didn't name them.
     std::mutex changes_mutex;
     QSet<QString> changed_paths;

@@ -2249,6 +2249,32 @@ TEST_F(CollectionWatcherNasTest, CancelledScanIsRetried) {
   EXPECT_TRUE(WaitForSong(u"first/new.wav"_s, [](const Song &song) { return song.is_valid() && !song.unavailable(); }, 20000));
 }
 
+// A cancelled rescan of a notified folder is retried as a rescan of that folder, not as a full reconcile.
+TEST_F(CollectionWatcherNasTest, CancelledPartialRescanIsRetriedAsPartialScan) {
+  for (int i = 0; i < 16; ++i) {
+    ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/second/copy-%1.wav"_s.arg(i))));
+  }
+  FixtureCommand("notify queue");
+  StartWatcher(19);
+  int cancelled_task = -1;
+  QObject::connect(watcher_.get(), &CollectionWatcher::ScanStarted, watcher_.get(), [this, &cancelled_task](const int task_id) {
+    if (cancelled_task != -1) return;
+    cancelled_task = task_id;
+    task_manager_->RequestTaskCancellation(task_id);
+  });
+  const int sessions = FixtureSessions();
+  ASSERT_GE(sessions, 0);
+  // Only found by a full reconcile.
+  ChangeInPlace(u"second/track.wav"_s);
+  ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/new.wav"_s)));
+  FixtureCommand("name first/new.wav");
+  FixtureCommand("event");
+  EXPECT_TRUE(WaitForSong(u"first/new.wav"_s, [](const Song &song) { return song.is_valid() && !song.unavailable(); }, 30000));
+  EXPECT_NE(-1, cancelled_task);
+  EXPECT_LT(FixtureSessions() - sessions, 16);
+  EXPECT_EQ(8000, NasSong(u"second/track.wav"_s).samplerate());
+}
+
 // Suspended monitors, like on Android in the background, notice nothing, and catch up with the changes made meanwhile when started again.
 TEST_F(CollectionWatcherNasTest, SuspendedMonitorsCatchUpWhenResumed) {
   FixtureCommand("notify queue");

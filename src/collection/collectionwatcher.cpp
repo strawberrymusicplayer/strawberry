@@ -2157,19 +2157,22 @@ std::shared_ptr<CollectionWatcher::NasMonitor> CollectionWatcher::StartNasMonito
   const QString path = dir.path;
   const std::chrono::milliseconds polling_interval = std::chrono::minutes(nas_polling_minutes_);
   // Only the request crosses to the watcher's thread, the scan runs there, one at a time.
-  const auto request_scan = [this, m, dir_id](const QStringList &changes, const bool changed_folders_only = false) {
+  const auto post_scan = [this, m, dir_id]() {
+    if (!m->scan_pending.exchange(true)) {
+      QMetaObject::invokeMethod(this, [this, dir_id]() { ScanNasDirectory(dir_id); }, Qt::QueuedConnection);
+    }
+  };
+  const auto request_scan = [m, post_scan](const QStringList &changes, const bool changed_folders_only = false) {
     {
       const std::lock_guard<std::mutex> lock(m->changes_mutex);
       if (changes.isEmpty()) (changed_folders_only ? m->changed_folders_scan : m->full_scan) = true;
       for (const QString &change : changes) m->changed_paths.insert(change);
     }
-    if (!m->scan_pending.exchange(true)) {
-      QMetaObject::invokeMethod(this, [this, dir_id]() { ScanNasDirectory(dir_id); }, Qt::QueuedConnection);
-    }
+    post_scan();
   };
 
   // The location is looked up again for each connection, so changed NAS settings are used, the credentials are never logged.
-  m->thread = std::thread([m, path, polling_interval, catch_up_allowed, changed_folders_catch_up, request_scan]() {
+  m->thread = std::thread([m, path, polling_interval, catch_up_allowed, changed_folders_catch_up, post_scan, request_scan]() {
     bool connected_once = false;
     bool reconcile = false;
     bool polling = false;
@@ -2187,6 +2190,11 @@ std::shared_ptr<CollectionWatcher::NasMonitor> CollectionWatcher::StartNasMonito
         // A scan was stopped or couldn't reach the NAS, it's retried with the back-off.
         reconcile = true;
         if (!retry_later()) break;
+      }
+      if (m->retry_scan.exchange(false)) {
+        // A partial scan was stopped or couldn't reach the NAS, its changes were put back and it's requested again with the back-off.
+        if (!retry_later()) break;
+        post_scan();
       }
       const std::optional<Nas::Location> location = NasLocationForPath(path);
       if (!location) {
@@ -2377,9 +2385,18 @@ void CollectionWatcher::ScanNasDirectory(const int dir_id) {
     if (scanned && !changed_paths.isEmpty()) scanned = ScanNasPathsNow(dir, changed_paths);
   }
   nas_scan_running_ = false;
-  if (!scanned) {
+  if (!scanned && full_scan) {
     // The results of a stopped scan or one which couldn't reach the NAS are discarded, the monitor retries it.
     monitor->catch_up = true;
+  }
+  else if (!scanned) {
+    // A partial scan is retried as the same scan, not as a full reconcile.
+    {
+      const std::lock_guard<std::mutex> lock(monitor->changes_mutex);
+      if (changed_folders_scan) monitor->changed_folders_scan = true;
+      for (const QString &changed_path : std::as_const(changed_paths)) monitor->changed_paths.insert(changed_path);
+    }
+    monitor->retry_scan = true;
   }
 
   Q_EMIT CompilationsNeedUpdating();
