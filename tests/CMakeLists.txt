@@ -187,6 +187,8 @@ if(NOT ANDROID)
   target_sources(alarmschedule_test PRIVATE ${CMAKE_SOURCE_DIR}/src/alarm/alarmschedule_android.cpp)
   add_test_file(src/alarmtracks_test.cpp false)
   target_sources(alarmtracks_test PRIVATE ${CMAKE_SOURCE_DIR}/src/alarm/alarmtracks_android.cpp)
+  add_test_file(src/timedialmath_test.cpp false)
+  target_sources(timedialmath_test PRIVATE ${CMAKE_SOURCE_DIR}/src/widgets/timedialmath_android.cpp)
   # The Android alarm scheduling is Java; its test runs on a desktop JVM when a JDK is found.
   find_package(Java COMPONENTS Development)
   if(Java_FOUND)
