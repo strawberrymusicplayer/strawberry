@@ -128,6 +128,10 @@ class SettingsDialog : public QDialog {
   void OpenAndroidSubpage(QWidget *content, const QString &title);
   void CloseAndroidSubpage();
   bool IsAndroidPageActive(const SettingsPage *page) const;
+  // Widgets of ui_widget currently shown in an Android subpage, so page snapshots still include them.
+  QWidgetList AndroidSubpageWidgets(const QWidget *ui_widget) const;
+  // Saves changes that controls report without a signal of their own, such as an inserted variable.
+  void ScheduleAndroidSave();
 #endif
 
  protected:

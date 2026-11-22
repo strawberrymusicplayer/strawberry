@@ -75,10 +75,7 @@ void SettingsDialog::SetupAndroidAutoSave() {
   android_save_timer_->setSingleShot(true);
   android_save_timer_->setInterval(kAndroidSaveDelayMs);
   QObject::connect(android_save_timer_, &QTimer::timeout, this, &SettingsDialog::FlushAndroidSettings);
-  const auto schedule = [this]() {
-    if (loading_settings_ || !android_settings_loaded_) return;
-    android_save_timer_->start();
-  };
+  const auto schedule = [this]() { ScheduleAndroidSave(); };
   for (auto it = pages_.cbegin(); it != pages_.cend(); ++it) {
     // Streaming pages save through SetupAndroidStreamingSettings() or their own page code.
     if (IsAndroidStreamingPage(it.key())) continue;
@@ -90,6 +87,13 @@ void SettingsDialog::SetupAndroidAutoSave() {
   QObject::connect(qApp, &QGuiApplication::applicationStateChanged, this, [this](const Qt::ApplicationState state) {
     if (state != Qt::ApplicationActive) FlushAndroidSettings();
   });
+
+}
+
+void SettingsDialog::ScheduleAndroidSave() {
+
+  if (loading_settings_ || !android_settings_loaded_) return;
+  android_save_timer_->start();
 
 }
 
@@ -262,6 +266,20 @@ bool SettingsDialog::IsAndroidPageActive(const SettingsPage *page) const {
     if (data.page_ == page) return data.item_ == ui_->list->currentItem();
   }
   return false;
+
+}
+
+QWidgetList SettingsDialog::AndroidSubpageWidgets(const QWidget *ui_widget) const {
+
+  QWidgetList widgets;
+  for (const AndroidSubpage &subpage : android_subpages_) {
+    QWidget *content = subpage.area->widget();
+    // Transient subpages are deleted on close and hold no page settings.
+    if (!content || content->property("androidTransientSubpage").toBool()) continue;
+    if (subpage.content_parent != ui_widget && !ui_widget->isAncestorOf(subpage.content_parent)) continue;
+    widgets << content << content->findChildren<QWidget*>();
+  }
+  return widgets;
 
 }
 

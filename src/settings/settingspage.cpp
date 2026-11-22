@@ -65,7 +65,11 @@ void SettingsPage::Init(QWidget *ui_widget) {
   sliders_.clear();
   lineedits_.clear();
 
-  const QList<QWidget*> list = ui_widget_->findChildren<QWidget*>(QString(), Qt::FindChildrenRecursively);
+  QList<QWidget*> list = ui_widget_->findChildren<QWidget*>(QString(), Qt::FindChildrenRecursively);
+#ifdef Q_OS_ANDROID
+  // A section open in an Android subpage is temporarily reparented out of ui_widget_.
+  if (dialog_) list << dialog_->AndroidSubpageWidgets(ui_widget_);
+#endif
   for (QWidget *w : list) {
     if (QCheckBox *checkbox = qobject_cast<QCheckBox*>(w)) {
       checkboxes_ << qMakePair(checkbox, checkbox->checkState());

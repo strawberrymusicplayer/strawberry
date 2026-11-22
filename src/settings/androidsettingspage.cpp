@@ -317,6 +317,8 @@ class MenuPresentation : public QObject {
         action->trigger();
         // QToolButton normally forwards menu actions only while its native popup is open.
         if (!button_action) Q_EMIT button_->triggered(action);
+        // Actions such as Insert variable change a line edit without editingFinished.
+        dialog_->ScheduleAndroidSave();
       });
     }
     if (layout->isEmpty()) AddButtonLabel(layout, SettingsDialog::tr("No options available"));
