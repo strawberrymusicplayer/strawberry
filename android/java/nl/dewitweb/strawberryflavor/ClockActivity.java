@@ -19,19 +19,22 @@
 package nl.dewitweb.strawberryflavor;
 
 import android.app.Activity;
-import android.graphics.Typeface;
+import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
-// The Tools > Clock screen: a large clock that keeps the screen on while it is open, with the next alarm below it. Back returns to Tools.
+// The Tools > Clock screen: a fullscreen clock without system bars that keeps the screen on while it is open, with the next alarm below it.
+// The red X and Back return to Tools.
 public class ClockActivity extends Activity {
 
   private final Handler handler = new Handler(Looper.getMainLooper());
@@ -43,32 +46,69 @@ public class ClockActivity extends Activity {
 
     super.onCreate(savedInstanceState);
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+      getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+    }
 
     clock = new ClockView(this);
+    // Fullscreen: the system bars are hidden, so the clock does not leave room for them.
+    clock.root.setFitsSystemWindows(false);
+    // Without buttons the time takes all free space; the top padding keeps it clear of the close button.
+    clock.bottom.setVisibility(View.GONE);
+    clock.root.setPadding(clock.root.getPaddingLeft(), ClockView.dp(this, 64), clock.root.getPaddingRight(), clock.root.getPaddingBottom());
 
-    final LinearLayout header = new LinearLayout(this);
-    header.setOrientation(LinearLayout.HORIZONTAL);
-    header.setGravity(Gravity.CENTER_VERTICAL);
-    final Button back = new Button(this);
-    back.setText("\u2039");
-    back.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
-    back.setTextColor(ClockView.DETAIL_COLOR);
-    back.setBackground(null);
-    back.setContentDescription(AlarmStore.label(this, "back", "Back"));
-    back.setMinWidth(ClockView.dp(this, 48));
-    back.setMinimumWidth(ClockView.dp(this, 48));
-    back.setMinHeight(ClockView.dp(this, 48));
-    back.setOnClickListener(view -> finish());
-    header.addView(back, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-    final TextView breadcrumb = new TextView(this);
-    breadcrumb.setText(AlarmStore.label(this, "tools", "Tools") + " > " + AlarmStore.label(this, "clock", "Clock"));
-    breadcrumb.setTextColor(ClockView.DETAIL_COLOR);
-    breadcrumb.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-    breadcrumb.setTypeface(Typeface.DEFAULT_BOLD);
-    header.addView(breadcrumb, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0F));
-    clock.root.addView(header, 0, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+    final FrameLayout frame = new FrameLayout(this);
+    frame.addView(clock.root, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    final ImageButton close = new ImageButton(this);
+    close.setImageDrawable(new CloseIcon());
+    close.setBackground(null);
+    close.setScaleType(ImageButton.ScaleType.FIT_CENTER);
+    final int padding = ClockView.dp(this, 8);
+    close.setPadding(padding, padding, padding, padding);
+    close.setContentDescription(AlarmStore.label(this, "close_clock", "Close clock"));
+    close.setOnClickListener(view -> finish());
+    final int size = ClockView.dp(this, 56);
+    final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(size, size, Gravity.TOP | Gravity.END);
+    params.setMargins(0, ClockView.dp(this, 12), ClockView.dp(this, 12), 0);
+    frame.addView(close, params);
 
-    setContentView(clock.root);
+    setContentView(frame);
+    hideSystemBars();
+
+  }
+
+  @Override
+  public void onWindowFocusChanged(final boolean hasFocus) {
+
+    super.onWindowFocusChanged(hasFocus);
+    // For example after the notification shade was pulled down.
+    if (hasFocus) hideSystemBars();
+
+  }
+
+  @Override
+  public void onConfigurationChanged(final Configuration configuration) {
+
+    super.onConfigurationChanged(configuration);
+    hideSystemBars();
+
+  }
+
+  // Hides the status and navigation bars; a swipe from the edge shows them briefly, and they hide again by themselves.
+  // They belong to this window only, so they return when the clock is closed.
+  @SuppressWarnings("deprecation")
+  private void hideSystemBars() {
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+      getWindow().setDecorFitsSystemWindows(false);
+      final WindowInsetsController controller = getWindow().getInsetsController();
+      if (controller == null) return;
+      controller.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+      controller.hide(WindowInsets.Type.statusBars() | WindowInsets.Type.navigationBars());
+    }
+    else {
+      getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+    }
 
   }
 

@@ -1242,7 +1242,8 @@ The scope was agreed in a design interview with the user before implementation.
 - Music sources: a playlist, recently played songs, random songs from the collection, a fixed song, a radio station or stream URL, or the default alarm sound.
 - Every change is saved immediately; there are no Apply, OK or Cancel buttons.
 - Ringing opens a full-screen activity, also over the lock screen, with a big clock, the alarm name and big Snooze and Stop buttons.
-- Tools > Clock shows the same clock style with the next alarm and keeps the screen on while open; Back leaves it.
+- Tools > Clock shows the same clock style fullscreen with the next alarm and keeps the screen on while open.
+  It hides the status and navigation bars (a swipe shows them briefly, then they hide again, also after rotation) and has no breadcrumb; a red X ("Close clock") at the top right and Back both return to Tools with the bars restored, which `dumpsys window` confirmed on the emulator.
 - The C++ side stores alarms through `AlarmBridge` in the Java `AlarmStore` (SharedPreferences JSON), so the receivers can read the schedule while the app process is dead.
   `AlarmSchedule.java` is the only next trigger calculation; the C++ `AlarmSchedule` only converts alarms to and from the shared JSON.
 - `AlarmReceiver` starts the foreground `AlarmService`, which plays with alarm audio attributes on the alarm stream, fades in, snoozes, stops automatically and posts a full-screen-intent notification.
