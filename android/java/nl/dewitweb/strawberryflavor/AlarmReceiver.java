@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.PowerManager;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -42,6 +43,7 @@ public final class AlarmReceiver extends BroadcastReceiver {
   // MediaSessionBridge uses 1, BrowserAuthenticationService 2 and AlarmService 3.
   static final int FALLBACK_NOTIFICATION_ID = 4;
   private static final String FALLBACK_CHANNEL_ID = "alarm_fallback";
+  private static final long WAKE_LOCK_MSEC = 10000;
 
   @Override
   public void onReceive(final Context context, final Intent intent) {
@@ -63,6 +65,9 @@ public final class AlarmReceiver extends BroadcastReceiver {
       return;
     }
     if (!AlarmStore.ACTION_FIRE.equals(action)) return;
+    // AlarmManager only holds a wake lock during onReceive(); this one bridges the gap until AlarmService acquires its own.
+    final PowerManager.WakeLock wakeLock = context.getSystemService(PowerManager.class).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Strawberry:alarmfire");
+    wakeLock.acquire(WAKE_LOCK_MSEC);
     final boolean snoozed = intent.getBooleanExtra(AlarmStore.EXTRA_SNOOZE, false);
     Log.i(AlarmStore.TAG, "Alarm fired" + (snoozed ? " after snoozing" : ""));
     // An alarm clock alarm allows starting a foreground service from the background.
