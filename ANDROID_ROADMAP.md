@@ -1241,7 +1241,7 @@ The scope was agreed in a design interview with the user before implementation.
   It follows the device's 24-hour setting, with an inner ring for 00 and 13 to 23, or shows AM and PM buttons; landscape places the dial to the right.
 - Music sources: a playlist, recently played songs, random songs from the collection, a fixed song, a radio station or stream URL, or the default alarm sound.
 - Every change is saved immediately; there are no Apply, OK or Cancel buttons.
-- Ringing opens a full-screen activity, also over the lock screen, with a big clock, the alarm name and big Snooze and Stop buttons.
+- When an alarm goes off, it opens a full-screen activity, also over the lock screen, with a big clock, the alarm name and big Snooze and Stop buttons.
 - Tools > Clock is a menu with Show clock and Clock settings (Tools > Clock > Clock settings, gear icon): Clock type Digital (default, follows the 12/24 hour setting) or Analog (a painted face with tick marks, hour, minute and thin second hands), which also applies to the alarm screen, and Screen brightness while the clock is shown (System brightness by default, or 5, 10, 25, 50 or 100%), saved immediately (`clockface_java_test`).
 - Show clock shows the chosen clock fullscreen with the next alarm and keeps the screen on while open; the brightness applies only then, and `dumpsys power` showed it reset after Back, the X and going to the home screen.
   It hides the status and navigation bars (a swipe shows them briefly, then they hide again, also after rotation) and has no breadcrumb; a red X ("Close clock") at the top right and Back both return to Tools > Clock with the bars restored, which `dumpsys window` confirmed on the emulator.
@@ -1250,37 +1250,37 @@ The scope was agreed in a design interview with the user before implementation.
 - `AlarmReceiver` starts the foreground `AlarmService`, which plays with alarm audio attributes on the alarm stream, fades in, snoozes, stops automatically and posts a full-screen-intent notification.
   `AlarmReceiver` holds a short wake lock until the service takes over.
   `AlarmBootReceiver` reschedules after a reboot, an app update and time or time zone changes.
-- Collection, playlist, recently played and song sources ring from local copies in the app data directory, refreshed when the source changes and when older than twelve hours.
+- Collection, playlist, recently played and song sources play from local copies in the app data directory, refreshed when the source changes and when older than twelve hours.
   The overview's Copy tracks for offline alarms switch (default on), Tracks per alarm (1, 3, 5 or 10; default 5) and Maximum total size (50, 100, 200 or 500 MB or 1 GB; default 200 MB) control them and save immediately; changed limits apply to the next copy job.
   Delete copied tracks now asks for confirmation, stating the space to be freed.
   Switching copying off deletes the copies and lets the alarms play the original songs: local files and http(s) URLs.
   When the source cannot be played, for example a radio station without network or a missing song, the default alarm sound plays, falling back to a beep.
-  The ringing screen and the notification then say why, for example "Playing the default sound: no song available" or "Playing the default sound: the music could not be played".
-- Copying can take minutes, for example from the NAS, so an alarm that rings soon after it is created or its source changed does not wait for it.
+  The alarm screen and the notification then say why, for example "Playing the default sound: no song available" or "Playing the default sound: the music could not be played".
+- Copying can take minutes, for example from the NAS, so an alarm that goes off soon after it is created or its source changed does not wait for it.
   The copy job first stores the playable local originals (not NAS songs, not online songs) as interim tracks; without those, it stores each copy as soon as it is made.
   The final copies replace the interim tracks, and an interim result never overwrites tracks the user or an earlier job set.
-  A random alarm that still has no playable song when it rings plays a copy of another alarm's songs before falling back to the default sound.
-- The ringing screen keeps Snooze and Stop as a large, high-contrast row at the bottom, measured before the clock so they stay visible in landscape and at large font sizes; the clock shrinks instead.
-  `AlarmService` also opens the ringing screen directly when it starts ringing, which Android allows while the app is visible, so the buttons appear even if the notification is blocked.
+  A random alarm that still has no playable song when it goes off plays a copy of another alarm's songs before falling back to the default sound.
+- The alarm screen keeps Snooze and Stop as a large, high-contrast row at the bottom, measured before the clock so they stay visible in landscape and at large font sizes; the clock shrinks instead.
+  `AlarmService` also opens the alarm screen directly when the alarm starts sounding, which Android allows while the app is visible, so the buttons appear even if the notification is blocked.
   The notification keeps its Snooze and Stop actions.
 
 **Android limitations:**
 - Alarms use `AlarmManager.setAlarmClock()`, which is exempt from Doze and battery saver and shows the alarm icon in the status bar.
   `USE_EXACT_ALARM` covers Android 13 and later; on Android 12 and 12L, `SCHEDULE_EXACT_ALARM` must be allowed in the system settings, which the overview's Allow button opens.
-  Without it the alarm is inexact and may ring late, and Android does not allow starting the ringing service from it.
-  `AlarmReceiver` then rings through an insistent full-screen notification with the default alarm sound and Snooze and Stop actions; opening it shows the ringing screen, which starts the alarm's music.
-- Android 13 and later need the notification permission, and Android 14 and later the full-screen-intent permission, to show the ringing screen.
+  Without it the alarm is inexact and may go off late, and Android does not allow starting the alarm service from it.
+  `AlarmReceiver` then sounds the alarm through an insistent full-screen notification with the default alarm sound and Snooze and Stop actions; opening it shows the alarm screen, which starts the alarm's music.
+- Android 13 and later need the notification permission, and Android 14 and later the full-screen-intent permission, to show the alarm screen.
   Opening the overview, adding an alarm and switching one on show Android's notification permission dialog while Android still allows it (at most twice, once per session).
   The overview shows a framed warning with a button for each missing permission or setting: notifications off for the app, the Alarm clock notification category switched off, exact alarms and full-screen alarms.
-  The notification warnings say that an alarm may then ring without any way to stop it; their buttons open the permission dialog, the app's notification settings or the category's settings.
-- Without notifications, Android blocks the ringing screen from the background.
-  The overview then also offers "Display over other apps" (`SYSTEM_ALERT_WINDOW`), which Android accepts as a reason to open it anyway, and opening Strawberry while an alarm rings shows the ringing screen.
+  The notification warnings say that an alarm may then go off without any way to stop it; their buttons open the permission dialog, the app's notification settings or the category's settings.
+- Without notifications, Android blocks the alarm screen from the background.
+  The overview then also offers "Display over other apps" (`SYSTEM_ALERT_WINDOW`), which Android accepts as a reason to open it anyway, and opening Strawberry while an alarm sounds shows the alarm screen.
   Otherwise only Stop automatically after ends the alarm, unless it is off; the volume and power keys do not stop it.
 - While the phone is unlocked and in use, Android shows a heads-up notification instead of the full-screen activity.
 - Force stopping the app cancels its alarms until the app is opened again.
 - After a reboot, alarms are rescheduled once the user has unlocked the phone for the first time.
 - Radio stations need network access; Qobuz, Tidal and Spotify are not offered as alarm sources.
-- Without copies, NAS songs cannot ring: they are read through the in-process libsmb2 file engine of the Qt app, which may not be running when the alarm rings, and the Java side has no SMB client.
+- Without copies, NAS songs cannot play: they are read through the in-process libsmb2 file engine of the Qt app, which may not be running when the alarm goes off, and the Java side has no SMB client.
   They are left out of the alarm's tracks, and the default alarm sound plays if no other song remains.
   When an online original fails, the remaining online originals are skipped, so a local song or the default sound plays without waiting for each network timeout.
 - `AlarmService` plays radio with the Java `MediaPlayer`, which follows Android's network security policy, so `network_security_config.xml` permits plain http in the base config for user-entered stream URLs, trusting only the system certificate authorities.
@@ -1289,35 +1289,35 @@ The scope was agreed in a design interview with the user before implementation.
 - `alarmschedule_java_test` runs `AlarmSchedule.java` on a desktop JVM through ctest when a JDK is found and covers repeating days, one-off alarms in the past, disabled alarms, clamping and daylight saving time gaps and overlaps, including the America/Santiago midnight gap.
   The native `alarmschedule_test` covers the JSON format.
 - On the API 34 emulator, `dumpsys alarm` showed the alarms as alarm clocks.
-  A default-sound alarm rang with the screen off, turned the screen on, played with `USAGE_ALARM`, snoozed for one minute, rang again and stopped.
-  A daily random-collection alarm rang over the keyguard with the app process killed, playing one of its five local copies, and was rescheduled for the next day.
-- An alarm created in the Qt UI was scheduled and rang; Tools > Clock kept the screen on and showed the next alarm.
+  A default-sound alarm went off with the screen off, turned the screen on, played with `USAGE_ALARM`, snoozed for one minute, went off again and stopped.
+  A daily random-collection alarm went off over the keyguard with the app process killed, playing one of its five local copies, and was rescheduled for the next day.
+- An alarm created in the Qt UI was scheduled and went off; Tools > Clock kept the screen on and showed the next alarm.
 - After a reboot, `AlarmBootReceiver` rescheduled the daily alarm without opening the app.
 - `timedialmath_test` covers the dial's angle to hour and minute conversion, snapping, the 24-hour rings and the 12-hour conversion.
   On the emulator, the 12-hour dial (9 PM, minute 37 by dragging) and the 24-hour dial (18:15, and 21:45 in landscape) were set by tapping and saved; `dumpsys alarm` showed the chosen times.
 - Verification found that Back after Done on the time page quit the app; focus now stays in the page and `MainWindow::AndroidBack()` forwards Back to an open tool.
-- After the review fixes, a one-off alarm again rang with the screen off and the process killed, snoozed from the ringing screen, rang again and stopped from the notification.
+- After the review fixes, a one-off alarm again went off with the screen off and the process killed, snoozed from the alarm screen, went off again and stopped from the notification.
 - `alarmtracks_test` covers the copy limits and which sources can be copied or played as originals.
-  On the emulator, a song alarm was copied to `files/alarms/<id>/`; switching copying off deleted the copy and stored the original path, and the alarm rang from the original file.
+  On the emulator, a song alarm was copied to `files/alarms/<id>/`; switching copying off deleted the copy and stored the original path, and the alarm played the original file.
   Switching copying on copied the song again, and Delete copied tracks now showed the size to be freed, deleted the copies and emptied the alarm's tracks.
 
-- FP5 report (2026-11-22, alarm at 21:00): a random-collection alarm created about 90 seconds earlier rang with the default sound, and there was no way to stop it.
+- FP5 report (2026-11-22, alarm at 21:00): a random-collection alarm created about 90 seconds earlier went off with the default sound, and there was no way to stop it.
   Its log showed "Ringing alarm with source random and 0 playable item(s)": the copy job had not stored any tracks yet.
-  The notification permission was denied (`dumpsys notification` showed importance NONE and no posted notifications), so neither the notification with Snooze and Stop nor its full-screen intent appeared, and the ringing screen never opened; the overview shows the Allow warning for it.
-- After the fixes, on the API 34 emulator, a random alarm stored one interim song six seconds after Add alarm and all five copies within 20 seconds; set to ring a minute later with the app open, it rang with five songs and the ringing screen opened directly.
+  The notification permission was denied (`dumpsys notification` showed importance NONE and no posted notifications), so neither the notification with Snooze and Stop nor its full-screen intent appeared, and the alarm screen never opened; the overview shows the Allow warning for it.
+- After the fixes, on the API 34 emulator, a random alarm stored one interim song six seconds after Add alarm and all five copies within 20 seconds; set to go off a minute later with the app open, it played five songs and the alarm screen opened directly.
   `uiautomator` showed Snooze and Stop at the bottom within the screen in portrait and landscape, also at font scale 2.0; Stop stopped the music (no started player in `dumpsys audio`) and closed the screen.
-  A radio alarm with an unreachable URL, ringing while the app was in the background, showed "Playing the default sound: the music could not be played" in the notification, with Snooze and Stop actions, and on the ringing screen opened from it.
+  A radio alarm with an unreachable URL, going off while the app was in the background, showed "Playing the default sound: the music could not be played" in the notification, with Snooze and Stop actions, and on the alarm screen opened from it.
   In the background, Android blocked the direct start, as expected, and showed the heads-up notification.
 - `alarmtracks_test` covers which originals can serve as interim tracks; `alarmfallback_java_test` covers the default sound reason and choosing other alarms' copies.
 
 - Permission round (2026-11-22, emulator): after `pm revoke` of `POST_NOTIFICATIONS`, opening the overview showed Android's permission dialog; after Don't allow, the overview showed the notification and display-over-other-apps warnings, and their buttons opened the dialog again and the overlay settings.
-  With notifications off and display over other apps allowed (`appops set SYSTEM_ALERT_WINDOW allow`), an alarm ringing with Strawberry in the background opened the ringing screen (`BAL_ALLOW_SAW_PERMISSION`), and Stop stopped it.
-  Without that permission the start was blocked (`BAL_BLOCK`), and opening Strawberry showed the ringing screen.
+  With notifications off and display over other apps allowed (`appops set SYSTEM_ALERT_WINDOW allow`), an alarm going off with Strawberry in the background opened the alarm screen (`BAL_ALLOW_SAW_PERMISSION`), and Stop stopped it.
+  Without that permission the start was blocked (`BAL_BLOCK`), and opening Strawberry showed the alarm screen.
   Switching off the Alarm clock category showed its warning, whose button opened the category's settings; switching it on again removed all warnings.
   `alarmpermissions_java_test` covers which warnings appear and when the dialog is shown.
 
 **Still open:**
-- Check on the FP5 with a physical finger, after allowing notifications: the ringing screen over a secure lock screen, the permission prompts, audio volume and fade-in, auto stop, NAS songs and radio without network, and overnight reliability.
+- Check on the FP5 with a physical finger, after allowing notifications: the alarm screen over a secure lock screen, the permission prompts, audio volume and fade-in, auto stop, NAS songs and radio without network, and overnight reliability.
 - Automatic stopping, the playlist, recently played, song and radio sources were not exercised on the emulator.
 - The notification fallback without exact alarms (Android 12 and 12L only), http radio streams and http originals without copies were not tested.
 

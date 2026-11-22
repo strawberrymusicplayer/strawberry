@@ -249,30 +249,30 @@ The Qt pages are in `src/alarm/*_android.cpp`; the Java side is in `android/java
 - Permissions: `POST_NOTIFICATIONS`, `USE_EXACT_ALARM`, `SCHEDULE_EXACT_ALARM` (Android 12 only, `maxSdkVersion` 32), `USE_FULL_SCREEN_INTENT`, `SYSTEM_ALERT_WINDOW` (only requested as a fallback while notifications are off), `RECEIVE_BOOT_COMPLETED`, `WAKE_LOCK` and the media-playback foreground service permissions.
 - `AlarmReceiver` receives the `AlarmManager` alarms and starts the `mediaPlayback` foreground service `AlarmService`.
 - `AlarmBootReceiver` reschedules on `BOOT_COMPLETED`, `MY_PACKAGE_REPLACED`, `TIME_SET`, `TIMEZONE_CHANGED` and exact alarm permission changes.
-- `AlarmActivity` is the ringing screen, shown over the lock screen with `showWhenLocked` and `turnScreenOn`.
+- `AlarmActivity` is the alarm screen, shown over the lock screen with `showWhenLocked` and `turnScreenOn`.
 - `android:networkSecurityConfig="@xml/network_security_config"` permits plain http for the Java `MediaPlayer` that plays alarm radio streams; Qt and GStreamer networking do not use this policy.
 
 **Persistence:** alarms are JSON in the SharedPreferences file `alarm_clock`, readable by the receivers while the app process is dead.
-`AlarmSchedule.java` calculates when alarms ring; `ctest -R alarmschedule_java_test` tests it on a desktop JVM if CMake finds a JDK with `javac` (set `JAVA_HOME` when configuring).
+`AlarmSchedule.java` calculates when alarms go off; `ctest -R alarmschedule_java_test` tests it on a desktop JVM if CMake finds a JDK with `javac` (set `JAVA_HOME` when configuring).
 Local copies of the alarm songs are in `files/alarms/<id>/` in the app data directory.
 The copy settings are Qt only, in the `AlarmClock` group of `strawberry.conf`: `copy_tracks` (default true), `tracks_per_alarm` (1, 3, 5 or 10; default 5) and `maximum_total_mb` (50, 100, 200, 500 or 1024; default 200).
 An alarm's `tracks` list holds either its copies or, with copying off, the original local paths and http(s) URLs, so the Java side does not read these settings.
 `ctest -R alarmtracks_test` tests the limits and source rules in `src/alarm/alarmtracks_android.cpp`.
-Until the copy job finishes, it stores playable local originals, or the copies made so far, as interim tracks, so a new alarm can ring right away.
-`AlarmFallback.java` chooses the default sound reason shown on the ringing screen and in the notification, and lets a random alarm without songs play other alarms' copies; `ctest -R alarmfallback_java_test` tests it on a desktop JVM.
+Until the copy job finishes, it stores playable local originals, or the copies made so far, as interim tracks, so a new alarm can play them right away.
+`AlarmFallback.java` chooses the default sound reason shown on the alarm screen and in the notification, and lets a random alarm without songs play other alarms' copies; `ctest -R alarmfallback_java_test` tests it on a desktop JVM.
 The Tools > Clock settings are in the same SharedPreferences file: `clock_type` (0 digital, 1 analog; default digital), used by `ClockView` for Show clock and the alarm screen, and `clock_brightness` (percent, 0 for the system brightness), applied as window brightness only while `ClockActivity` is resumed.
 `ctest -R clockface_java_test` tests the hand angles and the brightness mapping in `ClockFace.java`.
 `AlarmPermissions.java` decides which permission warnings the overview shows and when the notification permission dialog may appear; `ctest -R alarmpermissions_java_test` tests it.
 
 **Limitations:**
-- `setAlarmClock()` alarms ring in Doze and battery saver, but force stopping the app cancels them until it is opened again.
-- Without the exact alarm permission (Android 12 and 12L), alarms are inexact and ring through a full-screen notification with the default alarm sound; the music starts when the alarm is opened.
+- `setAlarmClock()` alarms go off in Doze and battery saver, but force stopping the app cancels them until it is opened again.
+- Without the exact alarm permission (Android 12 and 12L), alarms are inexact and sound through a full-screen notification with the default alarm sound; the music starts when the alarm is opened.
 - After a reboot, alarms are rescheduled after the first unlock.
 - Without notifications for the app or its Alarm clock category (Android 13+ permission or the user's switches) or the full-screen-intent permission (Android 14+), the overview shows warnings with buttons to the matching dialog or settings page.
-- Without notifications, the ringing screen opens only while Strawberry is visible, when display over other apps is allowed, or when the user opens Strawberry; otherwise only the automatic stop, if not switched off, ends the alarm, and the volume and power keys do not stop it.
-- While the phone is in use, Android shows a heads-up notification instead of the ringing screen.
+- Without notifications, the alarm screen opens only while Strawberry is visible, when display over other apps is allowed, or when the user opens Strawberry; otherwise only the automatic stop, if not switched off, ends the alarm, and the volume and power keys do not stop it.
+- While the phone is in use, Android shows a heads-up notification instead of the alarm screen.
 - Radio sources need network access; otherwise the default alarm sound plays.
-- With copying off, NAS songs cannot ring, because the Java side has no SMB client and the Qt app's libsmb2 file engine may not be running; the default alarm sound plays instead.
+- With copying off, NAS songs cannot play, because the Java side has no SMB client and the Qt app's libsmb2 file engine may not be running; the default alarm sound plays instead.
 
 **Testing on the emulator** (do not clear app data; it holds NAS credentials):
 
@@ -280,16 +280,16 @@ The Tools > Clock settings are in the same SharedPreferences file: `clock_type` 
 export ANDROID_SERIAL=emulator-5554
 # Scheduled alarms, shown as "Next alarm clock information"
 adb shell dumpsys alarm | grep -A1 "Next alarm clock"
-# Scheduling, song count changes, ringing, default sound reasons, snooze and stop messages
+# Scheduling, song count changes, alarms going off, default sound reasons, snooze and stop messages
 adb logcat -s StrawberryAlarm
 # Stored alarms (debug builds)
 adb shell run-as nl.dewitweb.strawberryflavor cat shared_prefs/alarm_clock.xml
-# Turn the screen off before an alarm rings
+# Turn the screen off before an alarm goes off
 adb shell input keyevent 26
 # Test the permission warnings; restore afterwards with pm grant and appops set ... default
 adb shell pm revoke nl.dewitweb.strawberryflavor android.permission.POST_NOTIFICATIONS
 adb shell appops set nl.dewitweb.strawberryflavor SYSTEM_ALERT_WINDOW allow
-# Whether Android let the ringing screen open from the background
+# Whether Android let the alarm screen open from the background
 adb logcat -d | grep "START.*AlarmActivity"
 ```
 

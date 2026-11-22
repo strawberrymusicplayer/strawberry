@@ -34,25 +34,25 @@ public final class AlarmScheduleTest {
 
   public static void main(final String[] args) {
 
-    // A weekday alarm on Friday after its time rings on Monday, and before its time the same day.
+    // A weekday alarm on Friday after its time goes off on Monday, and before its time the same day.
     expect("repeating alarm skips to the next selected day", trigger(true, WEEKDAYS, 7, 0, local(AMSTERDAM, 2026, 11, 20, 8, 0)), local(AMSTERDAM, 2026, 11, 23, 7, 0));
-    expect("repeating alarm rings later today", trigger(true, WEEKDAYS, 7, 0, local(AMSTERDAM, 2026, 11, 20, 6, 59)), local(AMSTERDAM, 2026, 11, 20, 7, 0));
+    expect("repeating alarm goes off later today", trigger(true, WEEKDAYS, 7, 0, local(AMSTERDAM, 2026, 11, 20, 6, 59)), local(AMSTERDAM, 2026, 11, 20, 7, 0));
     // Sunday only, at the current minute: next week.
     expect("repeating alarm on one day waits a week", trigger(true, 0x40, 9, 30, local(AMSTERDAM, 2026, 11, 22, 9, 30)), local(AMSTERDAM, 2026, 11, 29, 9, 30));
-    expect("one-off alarm in the past rings tomorrow", trigger(true, 0, 6, 45, local(AMSTERDAM, 2026, 11, 22, 15, 40)), local(AMSTERDAM, 2026, 11, 23, 6, 45));
-    expect("one-off alarm later today rings today", trigger(true, 0, 6, 45, local(AMSTERDAM, 2026, 11, 22, 6, 44)), local(AMSTERDAM, 2026, 11, 22, 6, 45));
+    expect("one-off alarm in the past goes off tomorrow", trigger(true, 0, 6, 45, local(AMSTERDAM, 2026, 11, 22, 15, 40)), local(AMSTERDAM, 2026, 11, 23, 6, 45));
+    expect("one-off alarm later today goes off today", trigger(true, 0, 6, 45, local(AMSTERDAM, 2026, 11, 22, 6, 44)), local(AMSTERDAM, 2026, 11, 22, 6, 45));
     expect("one-off alarm crosses the year", trigger(true, 0, 6, 45, local(AMSTERDAM, 2026, 12, 31, 23, 0)), local(AMSTERDAM, 2027, 1, 1, 6, 45));
-    expectEquals("disabled alarm does not ring", AlarmSchedule.nextTrigger(false, 0, 6, 0, local(AMSTERDAM, 2026, 11, 22, 5, 0)), -1);
+    expectEquals("disabled alarm does not go off", AlarmSchedule.nextTrigger(false, 0, 6, 0, local(AMSTERDAM, 2026, 11, 22, 5, 0)), -1);
     expect("out of range time is clamped", trigger(true, 0, 30, -5, local(AMSTERDAM, 2026, 11, 22, 5, 0)), local(AMSTERDAM, 2026, 11, 22, 23, 0));
 
-    // Amsterdam skips 02:00 to 03:00 on 2026-03-29: 02:30 rings at 03:30 CEST, 01:30 UTC.
-    expectEquals("time in a spring forward gap rings after the gap", trigger(true, 0, 2, 30, local(AMSTERDAM, 2026, 3, 28, 23, 0)), utc(2026, 3, 29, 1, 30));
+    // Amsterdam skips 02:00 to 03:00 on 2026-03-29: 02:30 goes off at 03:30 CEST, 01:30 UTC.
+    expectEquals("time in a spring forward gap goes off after the gap", trigger(true, 0, 2, 30, local(AMSTERDAM, 2026, 3, 28, 23, 0)), utc(2026, 3, 29, 1, 30));
     expectEquals("time after the gap is unchanged", trigger(true, 0, 7, 0, local(AMSTERDAM, 2026, 3, 28, 23, 0)), utc(2026, 3, 29, 5, 0));
-    // Amsterdam repeats 02:00 to 03:00 on 2026-10-25: 02:30 rings once, at the first occurrence, 00:30 UTC.
-    expectEquals("time repeated by fall back rings the first time", trigger(true, 0x7f, 2, 30, ZonedDateTime.of(2026, 10, 24, 22, 0, 0, 0, ZoneId.of("UTC")).withZoneSameInstant(AMSTERDAM)), utc(2026, 10, 25, 0, 30));
-    expectEquals("time repeated by fall back does not ring twice", trigger(true, 0x7f, 2, 30, ZonedDateTime.of(2026, 10, 25, 0, 31, 0, 0, ZoneId.of("UTC")).withZoneSameInstant(AMSTERDAM)), utc(2026, 10, 26, 1, 30));
-    // Santiago skips midnight to 01:00 on 2026-09-06: 00:30 rings at 01:30 that day, not on the previous evening.
-    expect("time in a midnight gap rings after the gap", trigger(true, 0, 0, 30, local(SANTIAGO, 2026, 9, 5, 22, 0)), local(SANTIAGO, 2026, 9, 6, 1, 30));
+    // Amsterdam repeats 02:00 to 03:00 on 2026-10-25: 02:30 goes off once, at the first occurrence, 00:30 UTC.
+    expectEquals("time repeated by fall back goes off the first time", trigger(true, 0x7f, 2, 30, ZonedDateTime.of(2026, 10, 24, 22, 0, 0, 0, ZoneId.of("UTC")).withZoneSameInstant(AMSTERDAM)), utc(2026, 10, 25, 0, 30));
+    expectEquals("time repeated by fall back does not go off twice", trigger(true, 0x7f, 2, 30, ZonedDateTime.of(2026, 10, 25, 0, 31, 0, 0, ZoneId.of("UTC")).withZoneSameInstant(AMSTERDAM)), utc(2026, 10, 26, 1, 30));
+    // Santiago skips midnight to 01:00 on 2026-09-06: 00:30 goes off at 01:30 that day, not on the previous evening.
+    expect("time in a midnight gap goes off after the gap", trigger(true, 0, 0, 30, local(SANTIAGO, 2026, 9, 5, 22, 0)), local(SANTIAGO, 2026, 9, 6, 1, 30));
 
     if (failures > 0) {
       System.out.println(failures + " test(s) failed");

@@ -25,7 +25,7 @@ import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
-// A painted red X in a thin red ring, for closing the fullscreen clock; muted, so it does not distract at night.
+// A painted red X in a thin red circle, for closing the fullscreen clock; muted, so it does not distract at night.
 final class CloseIcon extends Drawable {
 
   static final int COLOR = 0xB0E53935;

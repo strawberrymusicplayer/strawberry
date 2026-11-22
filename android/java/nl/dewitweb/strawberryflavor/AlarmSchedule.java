@@ -23,14 +23,14 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 
-// Calculates when an alarm rings; the single implementation used for scheduling, also by the Qt app through AlarmBridge.
+// Calculates when an alarm goes off; the single implementation used for scheduling, also by the Qt app through AlarmBridge.
 // It uses only java.time, so tests/java/AlarmScheduleTest.java can test it on a desktop JVM.
 final class AlarmSchedule {
 
   private AlarmSchedule() {}
 
-  // Returns the next time after now when the alarm rings in milliseconds since the epoch, or -1 if it is disabled.
-  // Days of the week have Monday as bit 0; no days means the alarm rings once, today if its time is still ahead, otherwise tomorrow.
+  // Returns the next time after now when the alarm goes off in milliseconds since the epoch, or -1 if it is disabled.
+  // Days of the week have Monday as bit 0; no days means the alarm goes off once, today if its time is still ahead, otherwise tomorrow.
   static long nextTrigger(final boolean enabled, final int days, final int hour, final int minute, final ZonedDateTime now) {
 
     if (!enabled) return -1;

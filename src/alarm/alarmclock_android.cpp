@@ -87,7 +87,7 @@ void AlarmClock::Start() {
   labels.insert(u"default_failed"_s, tr("Playing the default sound: the music could not be played"));
   AlarmBridge::Init(labels);
 
-  // Without notifications a ringing alarm may have no visible way to stop it, so opening Strawberry shows the ringing screen.
+  // Without notifications an alarm that goes off may have no visible way to stop it, so opening Strawberry shows the alarm screen.
   QObject::connect(qApp, &QGuiApplication::applicationStateChanged, this, [](const Qt::ApplicationState state) {
     if (state == Qt::ApplicationActive) AlarmBridge::ShowRingingScreen();
   });
@@ -205,7 +205,7 @@ void AlarmClock::UpdateTracks(const QString &id) {
     Alarm current = AlarmBridge::FindAlarm(alarm.id);
     // A newer update replaced this one, or the alarm was deleted or got another source while the songs were copied.
     if (generations_.value(alarm.id) != generation || current.id.isEmpty() || current.source != alarm.source || current.source_id != alarm.source_id || current.source_url != alarm.source_url) {
-      // The alarm may still ring with interim copies of this update until the newer update saves its songs.
+      // The alarm may still play interim copies of this update until the newer update saves its songs.
       RemoveCopies(directory, [&prefix, &directory, &current](const QString &file) { return file.startsWith(prefix) && !current.tracks.contains(directory + u'/' + file); });
       return;
     }
@@ -298,18 +298,18 @@ QStringList AlarmClock::CopyTracks(const Alarm &alarm, SharedPtr<CollectionBacke
   };
 
   if (!settings.copy) {
-    // AlarmService.java plays the original songs; it has no SMB client, so NAS songs can't ring without a copy.
+    // AlarmService.java plays the original songs; it has no SMB client, so NAS songs can't play without a copy.
     int nas_tracks = 0;
     const QStringList tracks = AlarmTracks::PlayableOriginals(candidates, settings.tracks_per_alarm, true, is_nas, &nas_tracks);
     if (nas_tracks > 0) qLog(Debug) << "Skipped" << nas_tracks << "NAS song(s) for alarm" << alarm.id << "because copying is off";
     return tracks;
   }
 
-  // Copying takes a while, especially from a NAS, so an alarm that rings soon after it was set rings with the local originals until the copies are made.
+  // Copying takes a while, especially from a NAS, so an alarm that goes off soon after it was set plays the local originals until the copies are made.
   const QStringList originals = AlarmTracks::PlayableOriginals(candidates, settings.tracks_per_alarm, false, is_nas);
   if (!originals.isEmpty()) interim(originals);
 
-  // New copies get new names, so a song that is ringing right now is not overwritten.
+  // New copies get new names, so a song that is playing right now is not overwritten.
   QDir().mkpath(directory);
   QStringList tracks;
   qint64 total_size = 0;
@@ -329,7 +329,7 @@ QStringList AlarmClock::CopyTracks(const Alarm &alarm, SharedPtr<CollectionBacke
     }
     tracks << destination;
     total_size += size;
-    // Without local originals, for example for NAS songs, every copy lets the alarm ring with one more song.
+    // Without local originals, for example for NAS songs, every copy lets the alarm play one more song.
     if (originals.isEmpty()) interim(tracks);
   }
 

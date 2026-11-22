@@ -183,7 +183,7 @@ AlarmClockPage::AlarmClockPage(AlarmClock *alarm_clock, SharedPtr<RadioServices>
     if (isVisible() && pages_->currentWidget() == overview_) RefreshOverview();
   });
 
-  // Permissions may be granted in Android's settings, and alarms may ring or be switched off while the app is in the background.
+  // Permissions may be granted in Android's settings, and alarms may go off or be switched off while the app is in the background.
   QObject::connect(qApp, &QGuiApplication::applicationStateChanged, this, [this](const Qt::ApplicationState state) {
     if (state != Qt::ApplicationActive || !isVisible()) return;
     if (pages_->currentWidget() == overview_) RefreshOverview();
@@ -314,7 +314,7 @@ void AlarmClockPage::RefreshOverview() {
     QHBoxLayout *row_layout = new QHBoxLayout(row);
     QVBoxLayout *texts = new QVBoxLayout;
     row_layout->addLayout(texts, 1);
-    // Line 1: the time, bold and slightly bigger, and how often it rings; line 2: the music; then the name and snooze state if any.
+    // Line 1: the time, bold and slightly bigger, and how often it goes off; line 2: the music; then the name and snooze state if any.
     const QString time = TimeText(alarm.hour, alarm.minute);
     const QString frequency = AlarmText::Frequency(alarm.days);
     QLabel *heading = AndroidWidgets::AddButtonLabel(texts, QString());
@@ -442,7 +442,7 @@ void AlarmClockPage::AddTrackSettings(QVBoxLayout *layout) {
   copy->setChecked(settings.copy);
   AndroidWidgets::AdaptCheckBox(copy);
   layout->addWidget(copy);
-  layout->addWidget(CreateWrappingLabel(settings.copy ? tr("Alarms ring from copies of their songs in the app's storage, also without network or NAS.") : tr("Alarms play the original songs. Songs on the NAS can't ring this way, and online songs need network access; otherwise the default alarm sound plays."), contents));
+  layout->addWidget(CreateWrappingLabel(settings.copy ? tr("Alarms play copies of their songs in the app's storage, also without network or NAS.") : tr("Alarms play the original songs. Songs on the NAS can't play this way, and online songs need network access; otherwise the default alarm sound plays."), contents));
   QObject::connect(copy, &QCheckBox::toggled, this, [this](const bool checked) {
     AlarmTrackSettings changed = AlarmClock::TrackSettings();
     changed.copy = checked;
@@ -491,7 +491,7 @@ void AlarmClockPage::ShowDeleteCopiesPage() {
   const AndroidWidgets::ScrollPage page = CreatePage();
   const qint64 size = AlarmClock::CopiesSize();
   QString text = tr("Delete the copied tracks of all alarms? This frees %1.").arg(Utilities::PrettySize(static_cast<quint64>(size)));
-  if (AlarmClock::TrackSettings().copy) text += u' ' + tr("Until the songs are copied again, the next time Strawberry starts or an alarm's music changes, alarms ring with the default alarm sound.");
+  if (AlarmClock::TrackSettings().copy) text += u' ' + tr("Until the songs are copied again, the next time Strawberry starts or an alarm's music changes, alarms play the default alarm sound.");
   page.layout->addWidget(CreateWrappingLabel(text, page.contents));
   QPushButton *remove = CreateButton(tr("Delete copied tracks"), page.contents);
   page.layout->addWidget(remove);
@@ -510,13 +510,13 @@ void AlarmClockPage::ShowDeleteCopiesPage() {
 void AlarmClockPage::AddPermissionWarnings(QVBoxLayout *layout) {
 
   const int missing = AlarmBridge::MissingPermissions();
-  const QString no_stop = tr("An alarm may then ring without any way to stop it.");
+  const QString no_stop = tr("The alarm may then go off without any way to stop it.");
   const QList<std::pair<int, std::pair<QString, QString>>> permissions = {
-    {AlarmBridge::kPermissionNotifications, {tr("Notifications are off for Strawberry, so a ringing alarm cannot show its Snooze and Stop buttons. %1").arg(no_stop), tr("Allow notifications")}},
-    {AlarmBridge::kPermissionChannel, {tr("Alarm clock notifications are switched off, so a ringing alarm cannot show its Snooze and Stop buttons. %1").arg(no_stop), tr("Turn on alarm notifications")}},
-    {AlarmBridge::kPermissionOverlay, {tr("While notifications are off, allowing Strawberry to display over other apps lets the ringing screen with its Stop button open anyway."), tr("Allow display over other apps")}},
-    {AlarmBridge::kPermissionExactAlarms, {tr("Exact alarms are not allowed, so alarms may ring late and only with the default alarm sound until you open them."), tr("Allow exact alarms")}},
-    {AlarmBridge::kPermissionFullScreen, {tr("Full-screen alarms are not allowed, so a ringing alarm cannot show its alarm screen over the lock screen; stop it from the notification instead."), tr("Allow full-screen alarms")}},
+    {AlarmBridge::kPermissionNotifications, {tr("Notifications are off for Strawberry, so an alarm that goes off cannot show its Snooze and Stop buttons. %1").arg(no_stop), tr("Allow notifications")}},
+    {AlarmBridge::kPermissionChannel, {tr("Alarm clock notifications are switched off, so an alarm that goes off cannot show its Snooze and Stop buttons. %1").arg(no_stop), tr("Turn on alarm notifications")}},
+    {AlarmBridge::kPermissionOverlay, {tr("While notifications are off, allowing Strawberry to display over other apps lets the alarm screen with its Stop button open anyway."), tr("Allow display over other apps")}},
+    {AlarmBridge::kPermissionExactAlarms, {tr("Exact alarms are not allowed, so alarms may go off late and only with the default alarm sound until you open them."), tr("Allow exact alarms")}},
+    {AlarmBridge::kPermissionFullScreen, {tr("Full-screen alarms are not allowed, so an alarm that goes off cannot show its alarm screen over the lock screen; stop it from the notification instead."), tr("Allow full-screen alarms")}},
   };
   for (const auto &permission : permissions) {
     if (!(missing & permission.first)) continue;
@@ -692,7 +692,7 @@ void AlarmClockPage::ShowDaysPage() {
   const AndroidWidgets::ScrollPage page = CreatePage();
   QWidget *contents = page.contents;
   QVBoxLayout *layout = page.layout;
-  layout->addWidget(CreateWrappingLabel(tr("The alarm rings on the selected days. Without a day it rings once."), contents));
+  layout->addWidget(CreateWrappingLabel(tr("The alarm goes off on the selected days. Without a day it goes off once."), contents));
 
   const QLocale locale;
   const int first = static_cast<int>(locale.firstDayOfWeek());
@@ -747,7 +747,7 @@ void AlarmClockPage::ShowSourcePage() {
   layout->addWidget(radio);
 
   layout->addSpacing(16);
-  layout->addWidget(CreateWrappingLabel(tr("Songs are copied to the device, so the alarm also rings without a network connection. Radio needs a network connection. When the music cannot be played, the default alarm sound rings."), contents));
+  layout->addWidget(CreateWrappingLabel(tr("Songs are copied to the device, so the alarm also plays without a network connection. Radio needs a network connection. When the music cannot be played, the default alarm sound plays."), contents));
   layout->addStretch();
   SetPage(page.area, tr("Music"));
 
@@ -988,7 +988,7 @@ void AlarmClockPage::SetSource(const Alarm::Source source, const QString &source
     Save();
     return;
   }
-  // The songs of the previous source must not ring while the new ones are copied.
+  // The songs of the previous source must not play while the new ones are copied.
   alarm_.tracks.clear();
   alarm_.tracks_updated = 0;
   save_timer_->stop();
@@ -1008,7 +1008,7 @@ void AlarmClockPage::Save() {
   const Alarm stored = AlarmBridge::FindAlarm(alarm_.id);
   // The alarm was deleted, for example on another page.
   if (stored.id.isEmpty()) return;
-  // The alarm service switches a one-off alarm off when it rings, so only an explicit change in the editor overrides the stored state.
+  // The alarm service switches a one-off alarm off once it has gone off, so only an explicit change in the editor overrides the stored state.
   if (!enabled_changed_) alarm_.enabled = stored.enabled;
   enabled_changed_ = false;
   // The song copies are updated in the background, keep the latest ones.

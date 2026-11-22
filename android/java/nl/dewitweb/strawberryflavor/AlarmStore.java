@@ -36,7 +36,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-// Keeps the alarm clock's alarms in SharedPreferences and schedules them with AlarmManager, so they ring and survive a reboot while the Qt app is not running.
+// Keeps the alarm clock's alarms in SharedPreferences and schedules them with AlarmManager, so they go off and survive a reboot while the Qt app is not running.
 // The alarms are a JSON array in the format of Alarm::ToJson() in alarmschedule_android.cpp; nextTrigger() must match AlarmSchedule::NextTrigger().
 final class AlarmStore {
 
@@ -90,7 +90,7 @@ final class AlarmStore {
   }
 
   // Adds the alarm or replaces the alarm with the same ID; switching an alarm off also stops snoozing.
-  // A one-off alarm is already off while it snoozes after ringing, so saving it keeps the snooze.
+  // A one-off alarm is already off while it snoozes after going off, so saving it keeps the snooze.
   static void putAlarm(final Context context, final JSONObject alarm) {
 
     synchronized (lock) {
@@ -158,7 +158,7 @@ final class AlarmStore {
 
   }
 
-  // Called when an alarm rings: a snoozed alarm stops snoozing and a one-off alarm is switched off, snoozing it still rings again.
+  // Called when an alarm goes off: a snoozed alarm stops snoozing and a one-off alarm is switched off, snoozing it still goes off again.
   static void consumeAlarm(final Context context, final JSONObject alarm, final boolean snoozed) {
 
     final String id = alarm.optString("id");
@@ -214,7 +214,7 @@ final class AlarmStore {
 
   }
 
-  // Translated texts from the Qt app, kept so the ringing screen and the clock use them while the Qt app is not running.
+  // Translated texts from the Qt app, kept so the alarm screen and the clock use them while the Qt app is not running.
   static void setLabels(final Context context, final String labels) {
     preferences(context).edit().putString(KEY_LABELS, labels).commit();
   }
@@ -231,12 +231,12 @@ final class AlarmStore {
 
   }
 
-  // Returns the next time the alarm rings after now in milliseconds since the epoch, or -1 if it is disabled.
+  // Returns the next time the alarm goes off after now in milliseconds since the epoch, or -1 if it is disabled.
   static long nextTrigger(final JSONObject alarm, final ZonedDateTime now) {
     return AlarmSchedule.nextTrigger(alarm.optBoolean("enabled", true), alarm.optInt("days", 0), alarm.optInt("hour", 7), alarm.optInt("minute", 0), now);
   }
 
-  // Returns the next time any alarm or snoozed alarm rings in milliseconds since the epoch, or -1.
+  // Returns the next time any alarm or snoozed alarm goes off in milliseconds since the epoch, or -1.
   static long nextAlarm(final Context context) {
 
     final ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
@@ -334,13 +334,13 @@ final class AlarmStore {
     final PendingIntent operation = PendingIntent.getBroadcast(context, 0, fireIntent(context, id, snooze), PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
     try {
       if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || manager.canScheduleExactAlarms()) {
-        // An alarm clock alarm rings exactly, also in Doze and battery saver, and shows the alarm icon in the status bar.
+        // An alarm clock alarm goes off exactly, also in Doze and battery saver, and shows the alarm icon in the status bar.
         final Intent launch = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
         final PendingIntent show = launch == null ? operation : PendingIntent.getActivity(context, 0, launch, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
         manager.setAlarmClock(new AlarmManager.AlarmClockInfo(trigger, show), operation);
       }
       else {
-        // setAlarmClock() needs the exact alarm permission too; without it AlarmReceiver can't start AlarmService and rings through a notification instead.
+        // setAlarmClock() needs the exact alarm permission too; without it AlarmReceiver can't start AlarmService and sounds through a notification instead.
         Log.w(TAG, "Exact alarms are not allowed, the alarm may ring late");
         manager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, trigger, operation);
       }

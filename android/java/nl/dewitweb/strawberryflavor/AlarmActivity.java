@@ -32,14 +32,14 @@ import android.widget.TextView;
 
 import org.json.JSONObject;
 
-// The full-screen ringing alarm, also shown over the lock screen, with the clock, the alarm name and big Snooze and Stop buttons.
+// The full-screen alarm screen, also shown over the lock screen, with the clock, the alarm name and big Snooze and Stop buttons.
 // The buttons are measured first at the bottom, so they stay on screen in landscape and with large fonts; the clock shrinks instead.
-// Opened from AlarmReceiver's fallback notification, it starts ringing the alarm itself, which a visible activity is allowed to do.
+// Opened from AlarmReceiver's fallback notification, it starts sounding the alarm itself, which a visible activity is allowed to do.
 public class AlarmActivity extends Activity {
 
   private ClockView clock;
   private TextView status;
-  // The alarm to start ringing when this screen is shown, set when opened from the fallback notification.
+  // The alarm to start sounding when this screen is shown, set when opened from the fallback notification.
   private String startId;
 
   @Override

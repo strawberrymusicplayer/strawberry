@@ -25,7 +25,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-// Decides what a ringing alarm plays when its own songs are missing, without Android classes, so it is tested on a desktop JVM.
+// Decides what an alarm plays when its own songs are missing, without Android classes, so it is tested on a desktop JVM.
 final class AlarmFallback {
 
   // Why the default alarm sound plays instead of the alarm's music.
@@ -36,13 +36,13 @@ final class AlarmFallback {
 
   private AlarmFallback() {}
 
-  // Whether the source rings with songs from the alarm's tracks: copies, or with copying off the original songs.
+  // Whether the source plays songs from the alarm's tracks: copies, or with copying off the original songs.
   static boolean usesTracks(final String source) {
     return !"sound".equals(source) && !"radio".equals(source);
   }
 
   // Returns the songs copied for any alarm in the alarms directory, one subdirectory per alarm, without the ones already chosen.
-  // A random alarm that rings before its own songs are copied still plays a random song from these.
+  // A random alarm that goes off before its own songs are copied still plays a random song from these.
   static List<String> copies(final File root, final List<String> chosen) {
 
     final Set<String> tracks = new LinkedHashSet<>();

@@ -32,7 +32,7 @@ class ValueButton;
 }
 
 // The Tools > Alarm clock page on Android: the list of alarms and their editor.
-// Every change is saved immediately to AlarmStore.java, which rings the alarms.
+// Every change is saved immediately to AlarmStore.java, which sounds the alarms.
 class AlarmClockPage : public QWidget {
   Q_OBJECT
 

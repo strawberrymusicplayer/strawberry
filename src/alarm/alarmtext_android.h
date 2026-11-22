@@ -16,7 +16,7 @@ class AlarmText {
  public:
   // "Once", "Daily", "Weekdays", "Weekends", "Weekly (Mon)" or the short day names, starting on the locale's first day of the week.
   static QString Frequency(const int days, const QLocale &locale = QLocale());
-  // The music the alarm rings with, for example "Random song" or "Playlist: Morning".
+  // The music the alarm plays, for example "Random song" or "Playlist: Morning".
   static QString Kind(const Alarm &alarm);
 
   // Whole minutes until the time, rounded up, so the last minute shows 1 rather than 0; as AlarmCountdown.java.

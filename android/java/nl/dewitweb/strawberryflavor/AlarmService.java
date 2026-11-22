@@ -54,7 +54,7 @@ import java.util.Locale;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-// Rings an alarm: shows the full-screen alarm notification and plays the alarm's music, falling back to the default alarm sound.
+// Sounds an alarm: shows the full-screen alarm notification and plays the alarm's music, falling back to the default alarm sound.
 // It plays copies of the songs that the Qt app saved for the alarm, or a radio stream, so it does not need the Qt app, the NAS or, except for radio, the network.
 public class AlarmService extends Service {
 
@@ -73,10 +73,10 @@ public class AlarmService extends Service {
   // Must match the prefix of NAS paths in nasfileengine.cpp.
   private static final String NAS_PREFIX = "/strawberry-nas/";
 
-  // The ringing alarm, read by AlarmActivity on the main thread.
+  // The alarm that is sounding, read by AlarmActivity on the main thread.
   private static String ringingId;
   private static String ringingName = "";
-  // Why the default sound plays instead of the alarm's music, shown on the ringing screen, or empty.
+  // Why the default sound plays instead of the alarm's music, shown on the alarm screen, or empty.
   private static String status = "";
   private static Runnable finishedListener;
   private static Runnable statusListener;
@@ -142,7 +142,7 @@ public class AlarmService extends Service {
       startForeground(alarm == null ? ringingName : alarm.optString("name"));
       if (alarm == null) {
         Log.w(AlarmStore.TAG, "The alarm that fired no longer exists");
-        // A stale alarm must not silence another alarm that is ringing.
+        // A stale alarm must not silence another alarm that is sounding.
         if (ringingId == null) stopService();
         return START_NOT_STICKY;
       }
@@ -229,7 +229,7 @@ public class AlarmService extends Service {
   }
 
   // Android shows the full-screen notification as a heads-up while the phone is in use, and nothing at all without the notification permission.
-  // Opening the ringing screen directly works at least while Strawberry is visible; otherwise Android ignores it.
+  // Opening the alarm screen directly works at least while Strawberry is visible; otherwise Android ignores it.
   private void showRingingScreen() {
 
     if (ringingId == null) return;
@@ -237,7 +237,7 @@ public class AlarmService extends Service {
       startActivity(new Intent(this, AlarmActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_USER_ACTION));
     }
     catch (RuntimeException e) {
-      Log.w(AlarmStore.TAG, "Could not open the ringing screen", e);
+      Log.w(AlarmStore.TAG, "Could not open the alarm screen", e);
     }
 
   }
@@ -265,7 +265,7 @@ public class AlarmService extends Service {
 
   private void startRinging(final JSONObject alarm, final boolean snoozed, final boolean consumed) {
 
-    // A second alarm at the same time replaces the one that is ringing.
+    // A second alarm at the same time replaces the one that is sounding.
     if (ringingId != null) stopSound();
 
     ringingId = alarm.optString("id");
@@ -294,7 +294,7 @@ public class AlarmService extends Service {
     // A second alarm keeps the focus of the first one instead of requesting it again.
     if (focusRequest == null) {
       focusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT).setAudioAttributes(audioAttributes()).build();
-      // An alarm rings without the focus too, for example during a phone call.
+      // An alarm sounds without the focus too, for example during a phone call.
       if (audioManager.requestAudioFocus(focusRequest) != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
         Log.w(AlarmStore.TAG, "Audio focus was not granted, ringing anyway");
       }
@@ -326,7 +326,7 @@ public class AlarmService extends Service {
         }
       }
       if (sources.isEmpty() && "random".equals(source)) {
-        // The alarm rang before its songs were chosen and copied, so play the songs copied for the other alarms.
+        // The alarm went off before its songs were chosen and copied, so play the songs copied for the other alarms.
         sources.addAll(AlarmFallback.copies(new File(getFilesDir(), "alarms"), sources));
         if (!sources.isEmpty()) Log.i(AlarmStore.TAG, "The alarm has no songs yet, ringing with songs copied for other alarms");
       }

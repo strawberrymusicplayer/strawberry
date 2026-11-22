@@ -33,7 +33,7 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
-// Called from the Qt alarm clock page through JNI. The alarms are stored on the Java side, so they ring and are rescheduled while the Qt app is not running.
+// Called from the Qt alarm clock page through JNI. The alarms are stored on the Java side, so they go off and are rescheduled while the Qt app is not running.
 public final class AlarmBridge {
 
   static final int PERMISSION_NOTIFICATIONS = AlarmPermissions.NOTIFICATIONS;
@@ -181,7 +181,7 @@ public final class AlarmBridge {
 
   }
 
-  // Opens the ringing screen if an alarm is ringing, for example when the user opens Strawberry because no notification appeared.
+  // Opens the alarm screen if an alarm is sounding, for example when the user opens Strawberry because no notification appeared.
   public static void showRingingScreen(final Context context) {
 
     if (!AlarmService.isRinging()) return;
@@ -189,7 +189,7 @@ public final class AlarmBridge {
       start(context, new Intent(context, AlarmActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
     catch (RuntimeException e) {
-      Log.w(AlarmStore.TAG, "Could not open the ringing screen", e);
+      Log.w(AlarmStore.TAG, "Could not open the alarm screen", e);
     }
 
   }
@@ -211,7 +211,7 @@ public final class AlarmBridge {
   private static String blockedAlarmChannel(final Context context) {
 
     final NotificationManager notifications = context.getSystemService(NotificationManager.class);
-    // Created now, so its settings page exists before the first alarm rings.
+    // Created now, so its settings page exists before the first alarm goes off.
     AlarmService.createChannel(context);
     for (final String id : new String[] { AlarmService.CHANNEL_ID, AlarmReceiver.FALLBACK_CHANNEL_ID }) {
       final NotificationChannel channel = notifications.getNotificationChannel(id);

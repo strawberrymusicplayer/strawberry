@@ -18,8 +18,8 @@
 class CollectionBackend;
 class PlaylistBackend;
 
-// Keeps local copies of the songs each alarm plays, so AlarmService.java can ring them without the Qt app, the network or the NAS.
-// When copying is switched off, the alarms refer to the original songs instead, which ring only when AlarmService.java can reach them.
+// Keeps local copies of the songs each alarm plays, so AlarmService.java can play them without the Qt app, the network or the NAS.
+// When copying is switched off, the alarms refer to the original songs instead, which play only when AlarmService.java can reach them.
 class AlarmClock : public QObject {
   Q_OBJECT
 
@@ -55,9 +55,9 @@ class AlarmClock : public QObject {
   void UpdateOutdatedTracks();
   static QString TracksRoot();
   static QString TracksDirectory(const QString &id);
-  // Calls interim from the copying thread with songs the alarm can ring with before all copies are made: the local originals, or else the copies so far.
+  // Calls interim from the copying thread with songs the alarm can play before all copies are made: the local originals, or else the copies so far.
   static QStringList CopyTracks(const Alarm &alarm, SharedPtr<CollectionBackend> collection_backend, SharedPtr<PlaylistBackend> playlist_backend, const QString &directory, const QString &prefix, const AlarmTrackSettings &settings, const std::function<void(const QStringList &tracks)> &interim);
-  // Lets an alarm without songs, or with interim songs, ring with the interim songs of the running update.
+  // Lets an alarm without songs, or with interim songs, play the interim songs of the running update.
   void SaveInterimTracks(const Alarm &alarm, const int generation, const QStringList &tracks);
   // Removes the files in the directory for which remove returns true, and the directory once it is empty.
   static void RemoveCopies(const QString &directory, const std::function<bool(const QString &file)> &remove);

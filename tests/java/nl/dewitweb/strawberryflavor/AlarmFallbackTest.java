@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-// Tests AlarmFallback.java, which chooses what a ringing alarm plays without its own songs, on a desktop JVM without the Android SDK.
+// Tests AlarmFallback.java, which chooses what an alarm plays without its own songs, on a desktop JVM without the Android SDK.
 public final class AlarmFallbackTest {
 
   private static int failures = 0;

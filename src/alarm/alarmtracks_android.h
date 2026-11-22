@@ -11,7 +11,7 @@
 #include <QUrl>
 #include <QtGlobal>
 
-// The user's choices for the songs an alarm rings with: local copies made for offline alarms, or the original songs.
+// The user's choices for the songs an alarm plays: local copies made for offline alarms, or the original songs.
 struct AlarmTrackSettings {
   static constexpr int kDefaultTracksPerAlarm = 5;
   static constexpr int kDefaultMaximumTotalMb = 200;

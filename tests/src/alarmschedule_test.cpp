@@ -6,7 +6,7 @@
 
 #include "alarm/alarmschedule_android.h"
 
-// When alarms ring is calculated by AlarmSchedule.java and tested by tests/java/AlarmScheduleTest.java.
+// When alarms go off is calculated by AlarmSchedule.java and tested by tests/java/AlarmScheduleTest.java.
 
 namespace {
 

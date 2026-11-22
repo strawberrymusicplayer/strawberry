@@ -18,7 +18,7 @@
 
 package nl.dewitweb.strawberryflavor;
 
-// Decides which permissions and settings a ringing alarm is missing, without Android classes, so it can be tested on a desktop JVM.
+// Decides which permissions and settings an alarm that goes off is missing, without Android classes, so it can be tested on a desktop JVM.
 final class AlarmPermissions {
 
   // Must match the kPermission constants in alarmbridge_android.h.
@@ -32,7 +32,7 @@ final class AlarmPermissions {
 
   // notificationsAllowed: the runtime permission (always true before Android 13) and the app's notification switch.
   // channelBlocked: the user switched off the alarm notification category.
-  // overlayAllowed: "Display over other apps", which lets the ringing screen open from the background when notifications cannot.
+  // overlayAllowed: "Display over other apps", which lets the alarm screen open from the background when notifications cannot.
   static int missing(final boolean notificationsAllowed, final boolean channelBlocked, final boolean exactAlarmsAllowed, final boolean fullScreenAllowed, final boolean overlayAllowed) {
 
     int missing = 0;
@@ -41,7 +41,7 @@ final class AlarmPermissions {
     else if (channelBlocked) missing |= CHANNEL;
     if (!exactAlarmsAllowed) missing |= EXACT_ALARMS;
     if (!fullScreenAllowed) missing |= FULL_SCREEN;
-    // Full-screen intents are part of the notification, so without notifications only the overlay permission can open the ringing screen from the background.
+    // Full-screen intents are part of the notification, so without notifications only the overlay permission can open the alarm screen from the background.
     if ((missing & (NOTIFICATIONS | CHANNEL)) != 0 && !overlayAllowed) missing |= OVERLAY;
     return missing;
 

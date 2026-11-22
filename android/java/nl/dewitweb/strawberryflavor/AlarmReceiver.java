@@ -33,9 +33,9 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
-// Receives the scheduled alarms from AlarmManager and starts ringing; not exported, only AlarmStore's pending intents reach it.
+// Receives the scheduled alarms from AlarmManager and sounds the alarm; not exported, only AlarmStore's pending intents reach it.
 // Without the exact alarm permission (Android 12 and 12L), an alarm does not allow starting a foreground service from the background.
-// The alarm then rings through a full-screen notification with the default alarm sound; opening it starts the alarm's music in AlarmActivity.
+// The alarm then sounds through a full-screen notification with the default alarm sound; opening it starts the alarm's music in AlarmActivity.
 public final class AlarmReceiver extends BroadcastReceiver {
 
   static final String ACTION_FALLBACK_SNOOZE = "nl.dewitweb.strawberryflavor.ALARM_FALLBACK_SNOOZE";
