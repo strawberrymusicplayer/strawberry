@@ -12,11 +12,13 @@
 
 #include "includes/shared_ptr.h"
 #include "alarmschedule_android.h"
+#include "alarmtracks_android.h"
 
 class CollectionBackend;
 class PlaylistBackend;
 
 // Keeps local copies of the songs each alarm plays, so AlarmService.java can ring them without the Qt app, the network or the NAS.
+// When copying is switched off, the alarms refer to the original songs instead, which ring only when AlarmService.java can reach them.
 class AlarmClock : public QObject {
   Q_OBJECT
 
@@ -31,6 +33,14 @@ class AlarmClock : public QObject {
   // Removes the song copies of a deleted alarm.
   void RemoveTracks(const QString &id);
 
+  static AlarmTrackSettings TrackSettings();
+  // Saves the settings; switching copying off deletes the copies, and switching it on or off updates the songs of the alarms.
+  void SetTrackSettings(const AlarmTrackSettings &settings);
+  // Returns the total size of the copies of all alarms in bytes.
+  static qint64 CopiesSize();
+  // Deletes the copies of all alarms; while copying is on, they are copied again by the next update, for example when the app starts.
+  void DeleteCopies();
+
   SharedPtr<CollectionBackend> collection_backend() const { return collection_backend_; }
   SharedPtr<PlaylistBackend> playlist_backend() const { return playlist_backend_; }
 
@@ -42,8 +52,9 @@ class AlarmClock : public QObject {
 
  private:
   void UpdateOutdatedTracks();
+  static QString TracksRoot();
   static QString TracksDirectory(const QString &id);
-  static QStringList CopyTracks(const Alarm &alarm, SharedPtr<CollectionBackend> collection_backend, SharedPtr<PlaylistBackend> playlist_backend, const QString &directory, const QString &prefix);
+  static QStringList CopyTracks(const Alarm &alarm, SharedPtr<CollectionBackend> collection_backend, SharedPtr<PlaylistBackend> playlist_backend, const QString &directory, const QString &prefix, const AlarmTrackSettings &settings);
   // Removes the files in the directory for which remove returns true, and the directory once it is empty.
   static void RemoveCopies(const QString &directory, const std::function<bool(const QString &file)> &remove);
 
