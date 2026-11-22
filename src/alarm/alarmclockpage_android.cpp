@@ -10,6 +10,7 @@
 #include <QColor>
 #include <QDateTime>
 #include <QFont>
+#include <QFontInfo>
 #include <QFrame>
 #include <QFutureWatcher>
 #include <QGuiApplication>
@@ -61,6 +62,7 @@
 #include "alarmbridge_android.h"
 #include "alarmclock_android.h"
 #include "alarmclockpage_android.h"
+#include "alarmtext_android.h"
 
 using namespace Qt::Literals::StringLiterals;
 using AndroidWidgets::ValueButton;
@@ -295,22 +297,35 @@ void AlarmClockPage::RefreshOverview() {
   const qint64 now = QDateTime::currentMSecsSinceEpoch();
   for (const Alarm &alarm : std::as_const(alarms)) {
     AndroidWidgets::LayoutButton<QPushButton> *row = new AndroidWidgets::LayoutButton<QPushButton>(contents);
-    row->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    // The height follows the wrapped lines at the row's width, not the label size hints.
+    QSizePolicy row_policy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    row_policy.setHeightForWidth(true);
+    row->setSizePolicy(row_policy);
     QHBoxLayout *row_layout = new QHBoxLayout(row);
     QVBoxLayout *texts = new QVBoxLayout;
     row_layout->addLayout(texts, 1);
-    QLabel *time = AndroidWidgets::AddButtonLabel(texts, TimeText(alarm.hour, alarm.minute));
-    QFont time_font = time->font();
-    time_font.setPointSizeF(time_font.pointSizeF() * 2.0);
-    time->setFont(time_font);
-    QStringList details;
-    if (!alarm.name.isEmpty()) details << alarm.name;
-    details << DaysText(alarm.days);
+    // Line 1: the time, bold and slightly bigger, and how often it rings; line 2: the music; then the name and snooze state if any.
+    const QString time = TimeText(alarm.hour, alarm.minute);
+    const QString frequency = AlarmText::Frequency(alarm.days);
+    QLabel *heading = AndroidWidgets::AddButtonLabel(texts, QString());
+    heading->setTextFormat(Qt::RichText);
+    // Pixels, since the rich text layout may convert points with another resolution than the label and then reserve too much height.
+    heading->setText(u"<span style=\"font-size:%1px; font-weight:bold\">%2</span> | %3"_s.arg(qRound(QFontInfo(heading->font()).pixelSize() * 1.3)).arg(time.toHtmlEscaped(), frequency.toHtmlEscaped()));
+    QStringList lines{AlarmText::Kind(alarm)};
+    if (!alarm.name.isEmpty()) lines << alarm.name;
     const qint64 snooze = AlarmBridge::SnoozeUntilMsec(alarm.id);
-    if (snooze > now) details << tr("Snoozed until %1").arg(QLocale().toString(QDateTime::fromMSecsSinceEpoch(snooze).time(), QLocale::ShortFormat));
-    AndroidWidgets::AddButtonLabel(texts, details.join(", "_L1));
-    AndroidWidgets::AddButtonLabel(texts, SourceText(alarm));
-    row->setAccessibleName(TimeText(alarm.hour, alarm.minute) + u", "_s + details.join(", "_L1));
+    if (snooze > now) lines << tr("Snoozed until %1").arg(QLocale().toString(QDateTime::fromMSecsSinceEpoch(snooze).time(), QLocale::ShortFormat));
+    QList<QLabel*> labels{heading};
+    for (const QString &line : std::as_const(lines)) labels << AndroidWidgets::AddButtonLabel(texts, line);
+    texts->addStretch();
+    // A switched-off alarm stays readable but dimmed: its text color is mixed with the button color.
+    if (!alarm.enabled) {
+      const QColor text = row->palette().color(QPalette::ButtonText);
+      const QColor background = row->palette().color(QPalette::Button);
+      const QColor dimmed = QColor::fromRgbF((text.redF() * 3 + background.redF() * 2) / 5, (text.greenF() * 3 + background.greenF() * 2) / 5, (text.blueF() * 3 + background.blueF() * 2) / 5);
+      for (QLabel *label : std::as_const(labels)) label->setStyleSheet(u"color: %1"_s.arg(dimmed.name()));
+    }
+    row->setAccessibleName(time + u", "_s + frequency + u", "_s + lines.join(", "_L1) + (alarm.enabled ? QString() : u", "_s + tr("Off")));
 
     QCheckBox *enabled = new QCheckBox(row);
     enabled->setChecked(alarm.enabled);
@@ -585,7 +600,7 @@ void AlarmClockPage::RefreshEditor() {
   }
   time_button_->SetValue(TimeText(alarm_.hour, alarm_.minute));
   if (name_->text().trimmed() != alarm_.name) name_->setText(alarm_.name);
-  days_button_->SetValue(DaysText(alarm_.days));
+  days_button_->SetValue(AlarmText::Frequency(alarm_.days));
   source_button_->SetValue(SourceText(alarm_));
   {
     const QSignalBlocker blocker(volume_);
@@ -954,31 +969,6 @@ void AlarmClockPage::Save() {
 
 QString AlarmClockPage::TimeText(const int hour, const int minute) {
   return QLocale().toString(QTime(hour, minute), QLocale::ShortFormat);
-}
-
-QString AlarmClockPage::DaysText(const int days) {
-
-  switch (days & Alarm::kAllDays) {
-    case 0:
-      return tr("Once");
-    case Alarm::kAllDays:
-      return tr("Every day");
-    case Alarm::kWeekdays:
-      return tr("Weekdays");
-    case Alarm::kWeekend:
-      return tr("Weekend");
-    default:
-      break;
-  }
-  const QLocale locale;
-  const int first = static_cast<int>(locale.firstDayOfWeek());
-  QStringList names;
-  for (int i = 0; i < 7; ++i) {
-    const int day = (first - 1 + i) % 7 + 1;
-    if (days & (Alarm::kMonday << (day - 1))) names << locale.standaloneDayName(day, QLocale::ShortFormat);
-  }
-  return names.join(", "_L1);
-
 }
 
 QString AlarmClockPage::SourceText(const Alarm &alarm) {

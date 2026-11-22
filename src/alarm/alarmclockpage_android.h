@@ -75,7 +75,6 @@ class AlarmClockPage : public QWidget {
   void Save();
 
   static QString TimeText(const int hour, const int minute);
-  static QString DaysText(const int days);
   static QString SourceText(const Alarm &alarm);
   static QString MinutesText(const int minutes);
   static QString SizeText(const int megabytes);
