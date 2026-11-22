@@ -61,7 +61,8 @@ public class AlarmService extends Service {
   static final String ACTION_SNOOZE = "nl.dewitweb.strawberryflavor.ALARM_SNOOZE";
   static final String ACTION_STOP = "nl.dewitweb.strawberryflavor.ALARM_STOP";
 
-  private static final int NOTIFICATION_ID = 2;
+  // MediaSessionBridge uses 1 and BrowserAuthenticationService 2.
+  private static final int NOTIFICATION_ID = 3;
   private static final String CHANNEL_ID = "alarm";
   private static final long FADE_STEP_MSEC = 200;
   private static final long PREPARE_TIMEOUT_MSEC = 20000;
