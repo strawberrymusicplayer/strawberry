@@ -66,6 +66,9 @@ class AlarmClockPage : public QWidget {
   void ShowChoicePage(const QString &title, const QList<Choice> &choices, const int current, const std::function<void(int)> &chosen);
   void ShowDeletePage();
   void AddPermissionWarnings(QVBoxLayout *layout);
+  // Adds the settings for the copies of the alarms' songs below the other alarm settings.
+  void AddTrackSettings(QVBoxLayout *layout);
+  void ShowDeleteCopiesPage();
   void SetSource(const Alarm::Source source, const QString &source_id = QString(), const QString &source_name = QString(), const QString &source_url = QString());
   // Saves the edited alarm after a short delay, so repeated taps on the time buttons are saved once.
   void ScheduleSave();
@@ -75,6 +78,7 @@ class AlarmClockPage : public QWidget {
   static QString DaysText(const int days);
   static QString SourceText(const Alarm &alarm);
   static QString MinutesText(const int minutes);
+  static QString SizeText(const int megabytes);
   static QString FadeInText(const int seconds);
 
  private:

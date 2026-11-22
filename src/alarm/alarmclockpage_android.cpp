@@ -45,6 +45,7 @@
 #include "radios/radioservices.h"
 #include "smartplaylists/smartplaylistsearch.h"
 #include "smartplaylists/smartplaylistsearchterm.h"
+#include "utilities/strutils.h"
 #include "widgets/androidwidgets.h"
 #include "widgets/scrollarea_android.h"
 #include "alarmbridge_android.h"
@@ -148,6 +149,12 @@ AlarmClockPage::AlarmClockPage(AlarmClock *alarm_clock, SharedPtr<RadioServices>
     else if (pages_->currentWidget() == editor_) RefreshEditor();
   });
   QObject::connect(alarm_clock_, &AlarmClock::TracksUpdated, this, [this](const QString &id) {
+    // The size of the copied tracks changed, which enables or disables deleting them.
+    if (isVisible() && pages_->currentWidget() == overview_) {
+      QTimer::singleShot(0, this, [this]() {
+        if (isVisible() && pages_->currentWidget() == overview_) RefreshOverview();
+      });
+    }
     if (id != alarm_.id) return;
     const Alarm stored = AlarmBridge::FindAlarm(id);
     alarm_.tracks = stored.tracks;
@@ -312,10 +319,85 @@ void AlarmClockPage::RefreshOverview() {
     ShowChoicePage(tr("Stop automatically after"), {{0, MinutesText(0)}, {10, MinutesText(10)}, {30, MinutesText(30)}, {60, MinutesText(60)}}, auto_stop_minutes, [](const int minutes) { AlarmBridge::SetAutoStopMinutes(minutes); });
   });
 
+  AddTrackSettings(layout);
+
   layout->addStretch();
   area->setWidget(contents);
   overview_contents_ = contents;
   QTimer::singleShot(0, area, [area, scroll_position]() { area->verticalScrollBar()->setValue(scroll_position); });
+
+}
+
+void AlarmClockPage::AddTrackSettings(QVBoxLayout *layout) {
+
+  QWidget *contents = layout->parentWidget();
+  const AlarmTrackSettings settings = AlarmClock::TrackSettings();
+  QCheckBox *copy = new QCheckBox(tr("Copy tracks for offline alarms"), contents);
+  copy->setChecked(settings.copy);
+  AndroidWidgets::AdaptCheckBox(copy);
+  layout->addWidget(copy);
+  layout->addWidget(CreateWrappingLabel(settings.copy ? tr("Alarms ring from copies of their songs in the app's storage, also without network or NAS.") : tr("Alarms play the original songs. Songs on the NAS can't ring this way, and online songs need network access; otherwise the default alarm sound plays."), contents));
+  QObject::connect(copy, &QCheckBox::toggled, this, [this](const bool checked) {
+    AlarmTrackSettings changed = AlarmClock::TrackSettings();
+    changed.copy = checked;
+    alarm_clock_->SetTrackSettings(changed);
+    // Not from within the check box's own signal, since refreshing deletes it.
+    QTimer::singleShot(0, this, [this]() {
+      if (pages_->currentWidget() == overview_) RefreshOverview();
+    });
+  });
+
+  if (settings.copy) {
+    ValueButton *tracks = AddValueButton(layout, tr("Tracks per alarm"));
+    tracks->SetValue(QString::number(settings.tracks_per_alarm));
+    QObject::connect(tracks, &QPushButton::clicked, this, [this, settings]() {
+      QList<Choice> choices;
+      for (const int count : AlarmTracks::TracksPerAlarmChoices()) choices << Choice(count, QString::number(count));
+      ShowChoicePage(tr("Tracks per alarm"), choices, settings.tracks_per_alarm, [this](const int count) {
+        AlarmTrackSettings changed = AlarmClock::TrackSettings();
+        changed.tracks_per_alarm = count;
+        alarm_clock_->SetTrackSettings(changed);
+      });
+    });
+    ValueButton *total = AddValueButton(layout, tr("Maximum total size"));
+    total->SetValue(SizeText(settings.maximum_total_mb));
+    QObject::connect(total, &QPushButton::clicked, this, [this, settings]() {
+      QList<Choice> choices;
+      for (const int megabytes : AlarmTracks::MaximumTotalMbChoices()) choices << Choice(megabytes, SizeText(megabytes));
+      ShowChoicePage(tr("Maximum total size"), choices, settings.maximum_total_mb, [this](const int megabytes) {
+        AlarmTrackSettings changed = AlarmClock::TrackSettings();
+        changed.maximum_total_mb = megabytes;
+        alarm_clock_->SetTrackSettings(changed);
+      });
+    });
+    layout->addWidget(CreateWrappingLabel(tr("Changed limits apply the next time the songs of an alarm are copied."), contents));
+  }
+
+  QPushButton *remove = CreateButton(tr("Delete copied tracks now"), contents);
+  remove->setEnabled(AlarmClock::CopiesSize() > 0);
+  layout->addWidget(remove);
+  QObject::connect(remove, &QPushButton::clicked, this, &AlarmClockPage::ShowDeleteCopiesPage);
+
+}
+
+void AlarmClockPage::ShowDeleteCopiesPage() {
+
+  const AndroidWidgets::ScrollPage page = CreatePage();
+  const qint64 size = AlarmClock::CopiesSize();
+  QString text = tr("Delete the copied tracks of all alarms? This frees %1.").arg(Utilities::PrettySize(static_cast<quint64>(size)));
+  if (AlarmClock::TrackSettings().copy) text += u' ' + tr("Until the songs are copied again, the next time Strawberry starts or an alarm's music changes, alarms ring with the default alarm sound.");
+  page.layout->addWidget(CreateWrappingLabel(text, page.contents));
+  QPushButton *remove = CreateButton(tr("Delete copied tracks"), page.contents);
+  page.layout->addWidget(remove);
+  QPushButton *cancel = CreateButton(tr("Cancel"), page.contents);
+  page.layout->addWidget(cancel);
+  page.layout->addStretch();
+  QObject::connect(cancel, &QPushButton::clicked, this, &AlarmClockPage::Back);
+  QObject::connect(remove, &QPushButton::clicked, this, [this]() {
+    alarm_clock_->DeleteCopies();
+    Back();
+  });
+  SetPage(page.area, tr("Delete copied tracks"));
 
 }
 
@@ -893,6 +975,10 @@ QString AlarmClockPage::SourceText(const Alarm &alarm) {
   }
   return QString();
 
+}
+
+QString AlarmClockPage::SizeText(const int megabytes) {
+  return megabytes >= 1024 && megabytes % 1024 == 0 ? tr("%1 GB").arg(megabytes / 1024) : tr("%1 MB").arg(megabytes);
 }
 
 QString AlarmClockPage::MinutesText(const int minutes) {
