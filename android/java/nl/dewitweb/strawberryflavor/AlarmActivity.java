@@ -22,16 +22,23 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.json.JSONObject;
 
 // The full-screen ringing alarm, also shown over the lock screen, with the clock, the alarm name and big Snooze and Stop buttons.
+// The buttons are measured first at the bottom, so they stay on screen in landscape and with large fonts; the clock shrinks instead.
 // Opened from AlarmReceiver's fallback notification, it starts ringing the alarm itself, which a visible activity is allowed to do.
 public class AlarmActivity extends Activity {
 
   private ClockView clock;
+  private TextView status;
   // The alarm to start ringing when this screen is shown, set when opened from the fallback notification.
   private String startId;
 
@@ -45,16 +52,42 @@ public class AlarmActivity extends Activity {
 
     clock = new ClockView(this);
     clock.detail.setTextColor(ClockView.TIME_COLOR);
-    clock.detail.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 32);
+    clock.detail.setTextSize(TypedValue.COMPLEX_UNIT_SP, 32);
+    ClockView.hide(clock.bottom);
+    // The outer layout keeps the clock and the buttons clear of the status and navigation bars.
+    clock.root.setFitsSystemWindows(false);
+    clock.root.setPadding(0, 0, 0, 0);
 
+    final LinearLayout root = new LinearLayout(this);
+    root.setOrientation(LinearLayout.VERTICAL);
+    root.setBackgroundColor(ClockView.BACKGROUND);
+    root.setFitsSystemWindows(true);
+    final int padding = ClockView.dp(this, 16);
+    root.setPadding(padding, padding, padding, padding);
+    root.addView(clock.root, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1.0F));
+
+    status = new TextView(this);
+    status.setTextColor(ClockView.ACCENT_COLOR);
+    status.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+    status.setGravity(Gravity.CENTER);
+    status.setPadding(0, padding / 2, 0, 0);
+    root.addView(status, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+    final LinearLayout buttons = new LinearLayout(this);
+    buttons.setOrientation(LinearLayout.HORIZONTAL);
     final Button snooze = ClockView.createButton(this, AlarmStore.label(this, "snooze", "Snooze"), 0xFF424242, ClockView.TIME_COLOR);
     snooze.setOnClickListener(view -> send(AlarmService.ACTION_SNOOZE));
-    clock.bottom.addView(snooze, ClockView.buttonLayout(this));
+    buttons.addView(snooze, ClockView.buttonLayout(0));
     final Button stop = ClockView.createButton(this, AlarmStore.label(this, "stop", "Stop"), ClockView.ACCENT_COLOR, ClockView.BACKGROUND);
     stop.setOnClickListener(view -> send(AlarmService.ACTION_STOP));
-    clock.bottom.addView(stop, ClockView.buttonLayout(this));
+    buttons.addView(stop, ClockView.buttonLayout(padding));
+    final LinearLayout.LayoutParams buttonsLayout = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    buttonsLayout.topMargin = padding;
+    root.addView(buttons, buttonsLayout);
 
-    setContentView(clock.root);
+    setContentView(root);
+    AlarmService.setStatusListener(this::showStatus);
+    showStatus();
     AlarmService.setFinishedListener(this::finish);
     handleIntent(getIntent());
 
@@ -66,6 +99,14 @@ public class AlarmActivity extends Activity {
     super.onNewIntent(intent);
     setIntent(intent);
     handleIntent(intent);
+
+  }
+
+  private void showStatus() {
+
+    final String text = AlarmService.status();
+    status.setText(text);
+    status.setVisibility(text.isEmpty() ? android.view.View.GONE : android.view.View.VISIBLE);
 
   }
 
@@ -111,6 +152,7 @@ public class AlarmActivity extends Activity {
   protected void onDestroy() {
 
     AlarmService.setFinishedListener(null);
+    AlarmService.setStatusListener(null);
     super.onDestroy();
 
   }

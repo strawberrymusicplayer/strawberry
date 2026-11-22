@@ -103,7 +103,7 @@ final class ClockView {
 
   }
 
-  // A large rounded button for the bottom area.
+  // A large rounded button for the bottom area; its text wraps rather than being cut off with large fonts.
   static Button createButton(final Activity activity, final String text, final int color, final int textColor) {
 
     final Button button = new Button(activity);
@@ -116,14 +116,16 @@ final class ClockView {
     background.setCornerRadius(dp(activity, 40));
     button.setBackground(background);
     button.setMinHeight(dp(activity, 96));
+    button.setMaxLines(2);
     return button;
 
   }
 
-  static LinearLayout.LayoutParams buttonLayout(final Activity activity) {
+  // Shares a row of buttons equally; every button after the first is separated by startMargin.
+  static LinearLayout.LayoutParams buttonLayout(final int startMargin) {
 
-    final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    params.topMargin = dp(activity, 16);
+    final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0F);
+    params.setMarginStart(startMargin);
     return params;
 
   }

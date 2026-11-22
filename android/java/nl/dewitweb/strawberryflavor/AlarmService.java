@@ -146,6 +146,7 @@ public class AlarmService extends Service {
         return START_NOT_STICKY;
       }
       startRinging(alarm, intent.getBooleanExtra(AlarmStore.EXTRA_SNOOZE, false), intent.getBooleanExtra(EXTRA_CONSUMED, false));
+      showRingingScreen();
     }
     else if (ACTION_SNOOZE.equals(action)) {
       if (ringingId != null) {
@@ -217,6 +218,20 @@ public class AlarmService extends Service {
       .addAction(new Notification.Action.Builder(null, AlarmStore.label(this, "snooze", "Snooze"), serviceIntent(ACTION_SNOOZE, 1)).build())
       .addAction(new Notification.Action.Builder(null, AlarmStore.label(this, "stop", "Stop"), serviceIntent(ACTION_STOP, 2)).build())
       .build();
+
+  }
+
+  // Android shows the full-screen notification as a heads-up while the phone is in use, and nothing at all without the notification permission.
+  // Opening the ringing screen directly works at least while Strawberry is visible; otherwise Android ignores it.
+  private void showRingingScreen() {
+
+    if (ringingId == null) return;
+    try {
+      startActivity(new Intent(this, AlarmActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_USER_ACTION));
+    }
+    catch (RuntimeException e) {
+      Log.w(AlarmStore.TAG, "Could not open the ringing screen", e);
+    }
 
   }
 
