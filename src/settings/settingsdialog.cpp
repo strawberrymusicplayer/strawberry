@@ -247,7 +247,8 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 
 SettingsDialog::~SettingsDialog() {
 #ifdef Q_OS_ANDROID
-  // ~QDialog hides a visible dialog after pages_ is destroyed, so stop flushing on hide first.
+  // Save changes made just before Exit while pages_ still exists; ~QDialog hides a visible dialog after pages_ is destroyed, so stop flushing on hide first.
+  FlushAndroidSettings();
   delete android_hide_filter_;
 #endif
   delete ui_;

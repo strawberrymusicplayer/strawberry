@@ -44,6 +44,7 @@ class AutoSavePage : public SettingsPage {
   }
   void Load() override { Init(this); }
   int saves = 0;
+  int *saved = nullptr;
   QCheckBox *checkbox;
   QComboBox *combo;
   QLineEdit *field;
@@ -52,7 +53,10 @@ class AutoSavePage : public SettingsPage {
   QGroupBox *group;
 
  private:
-  void Save() override { ++saves; }
+  void Save() override {
+    ++saves;
+    if (saved) ++*saved;
+  }
 };
 
 // Mirrors the Android SettingsDialog: changes save after a delay, pending changes flush when the dialog is hidden, and pages_ is destroyed before ~QDialog hides a visible dialog.
@@ -69,7 +73,10 @@ class AutoSaveDialog : public QDialog {
     ConnectSettingsPageAutoSave(this, page_, [this]() { timer_.start(); });
     hide_filter_ = InstallFlushOnHide(this, [this]() { Flush(); });
   }
-  ~AutoSaveDialog() override { delete hide_filter_; }
+  ~AutoSaveDialog() override {
+    Flush();
+    delete hide_filter_;
+  }
   AutoSavePage *page() const { return page_; }
   bool pending() const { return timer_.isActive(); }
 
@@ -158,6 +165,20 @@ TEST(SettingsDialogAutoSaveTest, ClosingFlushesPendingChanges) {
 
 }
 
+TEST(SettingsDialogAutoSaveTest, DestroyingSavesPendingChanges) {
+
+  int flushes = 0;
+  auto *dialog = new AutoSaveDialog(&flushes);
+  dialog->show();
+  int saves = 0;
+  dialog->page()->saved = &saves;
+  dialog->page()->checkbox->click();
+  EXPECT_TRUE(dialog->pending());
+  delete dialog;
+  EXPECT_EQ(1, saves);
+
+}
+
 TEST(SettingsDialogAutoSaveTest, QDialogDestructorHidesAVisibleDialog) {
 
   // Why the hide filter must be removed before the dialog's members are destroyed.
@@ -180,7 +201,8 @@ TEST(SettingsDialogAutoSaveTest, DestroyingAVisibleDialogDoesNotFlushDestroyedPa
   EXPECT_EQ(1, flushes);
   dialog->show();
   delete dialog;
-  EXPECT_EQ(1, flushes);
+  // Only the destructor's own flush runs, not the hide filter after the pages are gone.
+  EXPECT_EQ(2, flushes);
 
 }
 
