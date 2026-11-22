@@ -206,6 +206,17 @@ TEST(SettingsDialogAutoSaveTest, DestroyingAVisibleDialogDoesNotFlushDestroyedPa
 
 }
 
+TEST(SettingsPageAutoSaveTest, ComboChangeBetweenItemsWithTheSameTextSaves) {
+
+  AutoSavePage page;
+  page.combo->addItem(u"First"_s, 2);
+  page.Load();
+  page.combo->setCurrentIndex(2);
+  page.Apply();
+  EXPECT_EQ(1, page.saves);
+
+}
+
 TEST(SettingsPageAutoSaveTest, SnapshotIncludesNestedEditorControls) {
 
   // Like Backend > Audio normalization > Replay Gain: a section inside a section, each moved into its own subpage.

@@ -80,7 +80,7 @@ void SettingsPage::Init(QWidget *ui_widget) {
     else if (QComboBox *combobox = qobject_cast<QComboBox*>(w)) {
       combobox->setFocusPolicy(Qt::StrongFocus);
       combobox->installEventFilter(this);
-      comboboxes_ << qMakePair(combobox, combobox->currentText());
+      comboboxes_ << qMakePair(combobox, qMakePair(combobox->currentIndex(), combobox->currentText()));
     }
     else if (QSpinBox *spinbox = qobject_cast<QSpinBox*>(w)) {
       spinbox->setFocusPolicy(Qt::StrongFocus);
@@ -130,8 +130,8 @@ bool SettingsPage::Apply() {
     changed_ = true;
     qLog(Info) << radiobutton.first->objectName() << "is changed for" << windowTitle() << "settings.";
   }
-  for (const QPair<QComboBox*, QString> &combobox : std::as_const(comboboxes_)) {
-    if (combobox.first->currentText() == combobox.second) continue;
+  for (const QPair<QComboBox*, QPair<int, QString>> &combobox : std::as_const(comboboxes_)) {
+    if (combobox.first->currentIndex() == combobox.second.first && combobox.first->currentText() == combobox.second.second) continue;
     changed_ = true;
     qLog(Info) << combobox.first->objectName() << "is changed for" << windowTitle() << "settings.";
   }

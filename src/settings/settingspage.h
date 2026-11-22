@@ -95,7 +95,7 @@ class SettingsPage : public QWidget {
   bool changed_;
   QList<QPair<QCheckBox*, Qt::CheckState>> checkboxes_;
   QList<QPair<QRadioButton*, bool>> radiobuttons_;
-  QList<QPair<QComboBox*, QString>> comboboxes_;
+  QList<QPair<QComboBox*, QPair<int, QString>>> comboboxes_;
   QList<QPair<QSpinBox*, int>> spinboxes_;
   QList<QPair<QDoubleSpinBox*, double>> double_spinboxes_;
   QList<QPair<QSlider*, int>> sliders_;
