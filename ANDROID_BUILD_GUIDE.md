@@ -229,7 +229,7 @@ Another manual scan can be started afterward.
 Configure a location in Settings > General > Collection > Music folders > NAS locations.
 Enter the server's local name/IP address, share, optional relative folder, and NAS account, then use **Check and use folder**.
 A successful check saves the location and adds it to the collection immediately.
-Remove a location using the normal **Remove folder** control; the removal is saved immediately.
+Remove a location using the normal **Remove folder** control; it asks for confirmation first, and the removal is saved immediately once confirmed.
 After editing an existing location's server/share/folder, run **Full collection scan** to refresh its contents; its virtual identifier and existing playlist URLs remain unchanged.
 Use a read-only NAS account as an additional server-side safeguard; SMB signing is required, but a locally signed SMB connection is not a promise of transport encryption.
 The `(i)` information page explains separately configured VPN access; the app does not set up remote access.

@@ -54,10 +54,11 @@
 #include "core/standardpaths.h"
 #include "core/settings.h"
 #ifdef Q_OS_ANDROID
+#  include <QPersistentModelIndex>
 #  include "core/androidstorage.h"
+#  include "widgets/actiondialog.h"
 #  ifdef HAVE_NAS
 #    include "naspage_android.h"
-#    include "widgets/actiondialog.h"
 #    include "widgets/androidwidgets.h"
 #    include "collection/collectionwatcher.h"
 #  endif
@@ -403,9 +404,23 @@ void CollectionSettingsPage::AddDirectory() {
 
 void CollectionSettingsPage::RemoveDirectory() {
 
+#ifdef Q_OS_ANDROID
+  // Android saves the removal right away, which drops the folder's songs with their play counts and ratings, so ask first.
+  const QPersistentModelIndex idx(ui_->list->currentIndex());
+  if (!idx.isValid()) return;
+  auto *confirmation = ActionDialog::CreateConfirmation(dialog(), tr("Remove folder"), tr("Remove %1 from the collection? Its songs are removed from the collection together with their play counts and ratings, and any saved sign-in details for the folder are erased. This cannot be undone.").arg(idx.data().toString()), tr("Remove folder"));
+  QObject::connect(confirmation, &QDialog::accepted, this, [this, idx]() {
+    if (!idx.isValid()) return;
+    collectionsettings_directory_model_->RemoveDirectory(idx);
+    set_changed();
+    dialog()->ScheduleAndroidSave();
+  });
+  confirmation->Open();
+#else
   collectionsettings_directory_model_->RemoveDirectory(ui_->list->currentIndex());
 
   set_changed();
+#endif
 
 }
 
