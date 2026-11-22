@@ -120,10 +120,11 @@ public class AlarmService extends Service {
       final String id = intent.getStringExtra(AlarmStore.EXTRA_ID);
       final JSONObject alarm = id == null ? null : AlarmStore.alarm(this, id);
       // The service must always enter the foreground after startForegroundService().
-      startForeground(alarm == null ? "" : alarm.optString("name"));
+      startForeground(alarm == null ? ringingName : alarm.optString("name"));
       if (alarm == null) {
         Log.w(AlarmStore.TAG, "The alarm that fired no longer exists");
-        stopService();
+        // A stale alarm must not silence another alarm that is ringing.
+        if (ringingId == null) stopService();
         return START_NOT_STICKY;
       }
       startRinging(alarm, intent.getBooleanExtra(AlarmStore.EXTRA_SNOOZE, false), intent.getBooleanExtra(EXTRA_CONSUMED, false));
