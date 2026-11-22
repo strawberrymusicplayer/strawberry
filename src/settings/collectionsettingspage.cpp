@@ -408,12 +408,13 @@ void CollectionSettingsPage::RemoveDirectory() {
   // Android saves the removal right away, which drops the folder's songs with their play counts and ratings, so ask first.
   const QPersistentModelIndex idx(ui_->list->currentIndex());
   if (!idx.isValid()) return;
-  auto *confirmation = ActionDialog::CreateConfirmation(dialog(), tr("Remove folder"), tr("Remove %1 from the collection? Its songs are removed from the collection together with their play counts and ratings, and any saved sign-in details for the folder are erased. This cannot be undone.").arg(idx.data().toString()), tr("Remove folder"));
+  QWidget *parent = dialog() ? static_cast<QWidget*>(dialog()) : this;
+  auto *confirmation = ActionDialog::CreateConfirmation(parent, tr("Remove folder"), tr("Remove %1 from the collection? Its songs are removed from the collection together with their play counts and ratings, and any saved sign-in details for the folder are erased. This cannot be undone.").arg(idx.data().toString()), tr("Remove folder"));
   QObject::connect(confirmation, &QDialog::accepted, this, [this, idx]() {
     if (!idx.isValid()) return;
     collectionsettings_directory_model_->RemoveDirectory(idx);
     set_changed();
-    dialog()->ScheduleAndroidSave();
+    if (dialog()) dialog()->ScheduleAndroidSave();
   });
   confirmation->Open();
 #else
