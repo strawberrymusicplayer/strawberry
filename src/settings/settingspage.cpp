@@ -109,7 +109,7 @@ void SettingsPage::Reject() {
   changed_ = false;
 }
 
-void SettingsPage::Apply() {
+bool SettingsPage::Apply() {
 
   if (!ui_widget_) {
     qLog(Error) << windowTitle() << "is not initialized!";
@@ -157,7 +157,10 @@ void SettingsPage::Apply() {
     qLog(Info) << "Saving settings for" << windowTitle();
     Save();
     Init(ui_widget_);
+    return true;
   }
+
+  return false;
 
 }
 

@@ -65,7 +65,8 @@ class SettingsPage : public QWidget {
 
   void Accept();
   void Reject();
-  void Apply();
+  // Returns true when the page had changes and saved them.
+  bool Apply();
 
   // The dialog that this page belongs to.
   SettingsDialog *dialog() const { return dialog_; }
