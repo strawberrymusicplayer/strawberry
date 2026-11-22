@@ -250,12 +250,15 @@ The Qt pages are in `src/alarm/*_android.cpp`; the Java side is in `android/java
 - `AlarmReceiver` receives the `AlarmManager` alarms and starts the `mediaPlayback` foreground service `AlarmService`.
 - `AlarmBootReceiver` reschedules on `BOOT_COMPLETED`, `MY_PACKAGE_REPLACED`, `TIME_SET`, `TIMEZONE_CHANGED` and exact alarm permission changes.
 - `AlarmActivity` is the ringing screen, shown over the lock screen with `showWhenLocked` and `turnScreenOn`.
+- `android:networkSecurityConfig="@xml/network_security_config"` permits plain http for the Java `MediaPlayer` that plays alarm radio streams; Qt and GStreamer networking do not use this policy.
 
 **Persistence:** alarms are JSON in the SharedPreferences file `alarm_clock`, readable by the receivers while the app process is dead.
+`AlarmSchedule.java` calculates when alarms ring; `ctest -R alarmschedule_java_test` tests it on a desktop JVM if CMake finds a JDK with `javac` (set `JAVA_HOME` when configuring).
 Local copies of collection and playlist songs are in `files/alarms/<id>/` in the app data directory.
 
 **Limitations:**
 - `setAlarmClock()` alarms ring in Doze and battery saver, but force stopping the app cancels them until it is opened again.
+- Without the exact alarm permission (Android 12 and 12L), alarms are inexact and ring through a full-screen notification with the default alarm sound; the music starts when the alarm is opened.
 - After a reboot, alarms are rescheduled after the first unlock.
 - Without the notification permission (Android 13+) or the full-screen-intent permission (Android 14+), the ringing screen cannot open; the overview shows Allow buttons.
 - While the phone is in use, Android shows a heads-up notification instead of the ringing screen.
@@ -276,6 +279,8 @@ adb shell input keyevent 26
 ```
 
 `adb shell am force-stop` cancels the alarms; to test with the app closed, end the process with `adb shell run-as nl.dewitweb.strawberryflavor kill -9 <pid>` instead.
+Seed `shared_prefs/alarm_clock.xml` only while the app process is not running; a running process keeps its loaded preferences and overwrites the file.
+On the emulator the Qt app did not finish starting while the screen was off, so wake the screen before launching it to reschedule.
 
 ## GStreamer Android SDK Setup
 
