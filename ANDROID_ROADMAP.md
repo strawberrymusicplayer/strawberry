@@ -1242,7 +1242,10 @@ The scope was agreed in a design interview with the user before implementation.
 - `AlarmReceiver` starts the foreground `AlarmService`, which plays with alarm audio attributes on the alarm stream, fades in, snoozes, stops automatically and posts a full-screen-intent notification.
   `AlarmReceiver` holds a short wake lock until the service takes over.
   `AlarmBootReceiver` reschedules after a reboot, an app update and time or time zone changes.
-- Collection, playlist and recently played sources ring from up to five local copies in the app data directory, refreshed when the source changes and when older than twelve hours.
+- Collection, playlist, recently played and song sources ring from local copies in the app data directory, refreshed when the source changes and when older than twelve hours.
+  The overview's Copy tracks for offline alarms switch (default on), Tracks per alarm (1, 3, 5 or 10; default 5) and Maximum total size (50, 100, 200 or 500 MB or 1 GB; default 200 MB) control them and save immediately; changed limits apply to the next copy job.
+  Delete copied tracks now asks for confirmation, stating the space to be freed.
+  Switching copying off deletes the copies and lets the alarms play the original songs: local files and http(s) URLs.
   When the source cannot be played, for example a radio station without network or a missing song, the default alarm sound plays, falling back to a beep.
 
 **Android limitations:**
@@ -1255,6 +1258,9 @@ The scope was agreed in a design interview with the user before implementation.
 - Force stopping the app cancels its alarms until the app is opened again.
 - After a reboot, alarms are rescheduled once the user has unlocked the phone for the first time.
 - Radio stations need network access; Qobuz, Tidal and Spotify are not offered as alarm sources.
+- Without copies, NAS songs cannot ring: they are read through the in-process libsmb2 file engine of the Qt app, which may not be running when the alarm rings, and the Java side has no SMB client.
+  They are left out of the alarm's tracks, and the default alarm sound plays if no other song remains.
+  When an online original fails, the remaining online originals are skipped, so a local song or the default sound plays without waiting for each network timeout.
 - `AlarmService` plays radio with the Java `MediaPlayer`, which follows Android's network security policy, so `network_security_config.xml` permits plain http in the base config for user-entered stream URLs, trusting only the system certificate authorities.
 
 **Verification (2026-11-22):**
@@ -1267,11 +1273,14 @@ The scope was agreed in a design interview with the user before implementation.
 - After a reboot, `AlarmBootReceiver` rescheduled the daily alarm without opening the app.
 - Verification found that Back after Done on the time page quit the app; focus now stays in the page and `MainWindow::AndroidBack()` forwards Back to an open tool.
 - After the review fixes, a one-off alarm again rang with the screen off and the process killed, snoozed from the ringing screen, rang again and stopped from the notification.
+- `alarmtracks_test` covers the copy limits and which sources can be copied or played as originals.
+  On the emulator, a song alarm was copied to `files/alarms/<id>/`; switching copying off deleted the copy and stored the original path, and the alarm rang from the original file.
+  Switching copying on copied the song again, and Delete copied tracks now showed the size to be freed, deleted the copies and emptied the alarm's tracks.
 
 **Still open:**
 - Check on the FP5 with a physical finger: the ringing screen over a secure lock screen, the permission prompts, audio volume and fade-in, auto stop, NAS songs and radio without network, and overnight reliability.
 - Automatic stopping, the playlist, recently played, song and radio sources were not exercised on the emulator.
-- The notification fallback without exact alarms (Android 12 and 12L only) and http radio streams were not tested.
+- The notification fallback without exact alarms (Android 12 and 12L only), http radio streams and http originals without copies were not tested.
 
 ## 29. Investigate network playback to Marantz amplifiers and casting devices
 

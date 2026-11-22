@@ -254,7 +254,10 @@ The Qt pages are in `src/alarm/*_android.cpp`; the Java side is in `android/java
 
 **Persistence:** alarms are JSON in the SharedPreferences file `alarm_clock`, readable by the receivers while the app process is dead.
 `AlarmSchedule.java` calculates when alarms ring; `ctest -R alarmschedule_java_test` tests it on a desktop JVM if CMake finds a JDK with `javac` (set `JAVA_HOME` when configuring).
-Local copies of collection and playlist songs are in `files/alarms/<id>/` in the app data directory.
+Local copies of the alarm songs are in `files/alarms/<id>/` in the app data directory.
+The copy settings are Qt only, in the `AlarmClock` group of `strawberry.conf`: `copy_tracks` (default true), `tracks_per_alarm` (1, 3, 5 or 10; default 5) and `maximum_total_mb` (50, 100, 200, 500 or 1024; default 200).
+An alarm's `tracks` list holds either its copies or, with copying off, the original local paths and http(s) URLs, so the Java side does not read these settings.
+`ctest -R alarmtracks_test` tests the limits and source rules in `src/alarm/alarmtracks_android.cpp`.
 
 **Limitations:**
 - `setAlarmClock()` alarms ring in Doze and battery saver, but force stopping the app cancels them until it is opened again.
@@ -263,6 +266,7 @@ Local copies of collection and playlist songs are in `files/alarms/<id>/` in the
 - Without the notification permission (Android 13+) or the full-screen-intent permission (Android 14+), the ringing screen cannot open; the overview shows Allow buttons.
 - While the phone is in use, Android shows a heads-up notification instead of the ringing screen.
 - Radio sources need network access; otherwise the default alarm sound plays.
+- With copying off, NAS songs cannot ring, because the Java side has no SMB client and the Qt app's libsmb2 file engine may not be running; the default alarm sound plays instead.
 
 **Testing on the emulator** (do not clear app data; it holds NAS credentials):
 
