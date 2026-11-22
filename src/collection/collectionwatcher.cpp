@@ -53,6 +53,7 @@
 #include <QUrl>
 #include <QImage>
 #include <QMutexLocker>
+#include <QScopeGuard>
 #include <QSettings>
 
 #include "core/logging.h"
@@ -715,6 +716,8 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
 #ifdef HAVE_NAS
   // Like in ScanNasDirectory(), suspending stops the update of a NAS directory, the started monitors catch up with the changed folders.
   if (Nas::IsPath(dir.path)) nas_scan_running_ = true;
+  // Also resets it when the scan leaves early through an exception.
+  auto nas_scan_reset = qScopeGuard([this]() { nas_scan_running_ = false; });
 #endif
   CancelStop();
 
@@ -763,6 +766,7 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
     }
   }
 #ifdef HAVE_NAS
+  nas_scan_reset.dismiss();
   nas_scan_running_ = false;
 #endif
 
