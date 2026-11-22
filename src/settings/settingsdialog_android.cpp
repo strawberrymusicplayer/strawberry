@@ -67,20 +67,6 @@ constexpr int kAndroidHelpButtonHeight = 56;
 // Groups slider drags and quick successive taps into one save.
 constexpr int kAndroidSaveDelayMs = 300;
 
-class HideFilter : public QObject {
- public:
-  HideFilter(QObject *parent, std::function<void()> on_hide) : QObject(parent), on_hide_(std::move(on_hide)) {}
-
- protected:
-  bool eventFilter(QObject*, QEvent *event) override {
-    if (event->type() == QEvent::Hide) on_hide_();
-    return false;
-  }
-
- private:
-  std::function<void()> on_hide_;
-};
-
 }  // namespace
 
 void SettingsDialog::SetupAndroidAutoSave() {
@@ -100,7 +86,7 @@ void SettingsDialog::SetupAndroidAutoSave() {
   }
 
   // Leaving the Settings tab or the app flushes pending text edits.
-  installEventFilter(new HideFilter(this, [this]() { FlushAndroidSettings(); }));
+  android_hide_filter_ = InstallFlushOnHide(this, [this]() { FlushAndroidSettings(); });
   QObject::connect(qApp, &QGuiApplication::applicationStateChanged, this, [this](const Qt::ApplicationState state) {
     if (state != Qt::ApplicationActive) FlushAndroidSettings();
   });

@@ -2,10 +2,13 @@
 
 #include "streamingautosave_android.h"
 
+#include <utility>
+
 #include <QAbstractSpinBox>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QDoubleSpinBox>
+#include <QEvent>
 #include <QGroupBox>
 #include <QLineEdit>
 #include <QListWidget>
@@ -18,6 +21,24 @@
 #include <QWidget>
 
 #include "settingspage.h"
+
+namespace {
+
+class HideFilter : public QObject {
+ public:
+  HideFilter(QObject *parent, std::function<void()> on_hide) : QObject(parent), on_hide_(std::move(on_hide)) {}
+
+ protected:
+  bool eventFilter(QObject*, QEvent *event) override {
+    if (event->type() == QEvent::Hide) on_hide_();
+    return false;
+  }
+
+ private:
+  std::function<void()> on_hide_;
+};
+
+}  // namespace
 
 void ConnectStreamingAutoSave(QObject *context, QWidget *page, const std::function<void()> &save) {
 
@@ -72,5 +93,13 @@ void ConnectSettingsPageAutoSave(QObject *context, SettingsPage *page, const std
       save();
     });
   }
+
+}
+
+QObject *InstallFlushOnHide(QWidget *widget, const std::function<void()> &flush) {
+
+  auto *filter = new HideFilter(widget, flush);
+  widget->installEventFilter(filter);
+  return filter;
 
 }

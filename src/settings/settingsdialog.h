@@ -189,6 +189,7 @@ class SettingsDialog : public QDialog {
   QWidget *android_current_category_page_;
   bool android_settings_loaded_;
   QTimer *android_save_timer_;
+  QObject *android_hide_filter_;
   struct AndroidSubpage {
     QScrollArea *area;
     QWidget *content_parent;

@@ -152,7 +152,8 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
       android_categories_layout_(nullptr),
       android_current_category_page_(nullptr),
       android_settings_loaded_(false),
-      android_save_timer_(nullptr)
+      android_save_timer_(nullptr),
+      android_hide_filter_(nullptr)
 #endif
       {
 
@@ -245,6 +246,10 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 }
 
 SettingsDialog::~SettingsDialog() {
+#ifdef Q_OS_ANDROID
+  // ~QDialog hides a visible dialog after pages_ is destroyed, so stop flushing on hide first.
+  delete android_hide_filter_;
+#endif
   delete ui_;
 }
 
