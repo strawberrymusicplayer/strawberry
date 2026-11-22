@@ -21,11 +21,19 @@ package nl.dewitweb.strawberryflavor;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import org.json.JSONObject;
+
 // The full-screen ringing alarm, also shown over the lock screen, with the clock, the alarm name and big Snooze and Stop buttons.
+// Opened from AlarmReceiver's fallback notification, it starts ringing the alarm itself, which a visible activity is allowed to do.
 public class AlarmActivity extends Activity {
+
+  private ClockView clock;
+  // The alarm to start ringing when this screen is shown, set when opened from the fallback notification.
+  private String startId;
 
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
@@ -35,9 +43,7 @@ public class AlarmActivity extends Activity {
     setTurnScreenOn(true);
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-    final ClockView clock = new ClockView(this);
-    final String name = AlarmService.ringingName();
-    clock.detail.setText(name.isEmpty() ? AlarmStore.label(this, "alarm", "Alarm") : name);
+    clock = new ClockView(this);
     clock.detail.setTextColor(ClockView.TIME_COLOR);
     clock.detail.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 32);
 
@@ -50,6 +56,29 @@ public class AlarmActivity extends Activity {
 
     setContentView(clock.root);
     AlarmService.setFinishedListener(this::finish);
+    handleIntent(getIntent());
+
+  }
+
+  @Override
+  protected void onNewIntent(final Intent intent) {
+
+    super.onNewIntent(intent);
+    setIntent(intent);
+    handleIntent(intent);
+
+  }
+
+  private void handleIntent(final Intent intent) {
+
+    final String id = intent.getStringExtra(AlarmStore.EXTRA_ID);
+    startId = id != null && !AlarmService.isRinging() ? id : null;
+    String name = AlarmService.ringingName();
+    if (startId != null) {
+      final JSONObject alarm = AlarmStore.alarm(this, startId);
+      name = alarm == null ? "" : alarm.optString("name");
+    }
+    clock.detail.setText(name.isEmpty() ? AlarmStore.label(this, "alarm", "Alarm") : name);
 
   }
 
@@ -57,6 +86,22 @@ public class AlarmActivity extends Activity {
   protected void onResume() {
 
     super.onResume();
+    if (startId != null) {
+      // AlarmReceiver already switched off a one-off alarm or ended the snooze, so the service only plays it.
+      final Intent ring = new Intent(this, AlarmService.class)
+        .setAction(AlarmService.ACTION_RING)
+        .putExtra(AlarmStore.EXTRA_ID, startId)
+        .putExtra(AlarmService.EXTRA_CONSUMED, true);
+      startId = null;
+      try {
+        startForegroundService(ring);
+        AlarmReceiver.cancelFallback(this);
+      }
+      catch (RuntimeException e) {
+        Log.e(AlarmStore.TAG, "Could not start ringing", e);
+      }
+      return;
+    }
     // The alarm may have been stopped from the notification while this screen was away.
     if (!AlarmService.isRinging()) finish();
 
@@ -78,6 +123,7 @@ public class AlarmActivity extends Activity {
   private void send(final String action) {
 
     startService(new Intent(this, AlarmService.class).setAction(action));
+    AlarmReceiver.cancelFallback(this);
     finish();
 
   }

@@ -153,6 +153,20 @@ final class AlarmStore {
 
   }
 
+  // Called when an alarm rings: a snoozed alarm stops snoozing and a one-off alarm is switched off, snoozing it still rings again.
+  static void consumeAlarm(final Context context, final JSONObject alarm, final boolean snoozed) {
+
+    final String id = alarm.optString("id");
+    if (snoozed) {
+      setSnooze(context, id, 0);
+    }
+    else if ((alarm.optInt("days", 0) & 0x7f) == 0) {
+      disableAlarm(context, id);
+    }
+    reschedule(context);
+
+  }
+
   static int autoStopMinutes(final Context context) {
     return preferences(context).getInt(KEY_AUTO_STOP, DEFAULT_AUTO_STOP_MINUTES);
   }
@@ -287,6 +301,7 @@ final class AlarmStore {
         manager.setAlarmClock(new AlarmManager.AlarmClockInfo(trigger, show), operation);
       }
       else {
+        // setAlarmClock() needs the exact alarm permission too; without it AlarmReceiver can't start AlarmService and rings through a notification instead.
         Log.w(TAG, "Exact alarms are not allowed, the alarm may ring late");
         manager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, trigger, operation);
       }

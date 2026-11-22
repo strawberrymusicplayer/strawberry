@@ -324,7 +324,7 @@ void AlarmClockPage::AddPermissionWarnings(QVBoxLayout *layout) {
   const int missing = AlarmBridge::MissingPermissions();
   const QList<std::pair<int, std::pair<QString, QString>>> permissions = {
     {AlarmBridge::kPermissionNotifications, {tr("Notifications are not allowed, so a ringing alarm cannot show its alarm screen."), tr("Allow notifications")}},
-    {AlarmBridge::kPermissionExactAlarms, {tr("Exact alarms are not allowed, so alarms may ring late."), tr("Allow exact alarms")}},
+    {AlarmBridge::kPermissionExactAlarms, {tr("Exact alarms are not allowed, so alarms may ring late and only with the default alarm sound until you open them."), tr("Allow exact alarms")}},
     {AlarmBridge::kPermissionFullScreen, {tr("Full-screen notifications are not allowed, so a ringing alarm cannot show its alarm screen over the lock screen."), tr("Allow full-screen alarms")}},
   };
   for (const auto &permission : permissions) {

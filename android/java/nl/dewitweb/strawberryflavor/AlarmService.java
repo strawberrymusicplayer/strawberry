@@ -60,6 +60,8 @@ public class AlarmService extends Service {
   static final String ACTION_RING = "nl.dewitweb.strawberryflavor.ALARM_RING";
   static final String ACTION_SNOOZE = "nl.dewitweb.strawberryflavor.ALARM_SNOOZE";
   static final String ACTION_STOP = "nl.dewitweb.strawberryflavor.ALARM_STOP";
+  // Set when AlarmReceiver already switched off the one-off alarm or ended the snooze.
+  static final String EXTRA_CONSUMED = "consumed";
 
   // MediaSessionBridge uses 1 and BrowserAuthenticationService 2.
   private static final int NOTIFICATION_ID = 3;
@@ -124,7 +126,7 @@ public class AlarmService extends Service {
         stopService();
         return START_NOT_STICKY;
       }
-      startRinging(alarm, intent.getBooleanExtra(AlarmStore.EXTRA_SNOOZE, false));
+      startRinging(alarm, intent.getBooleanExtra(AlarmStore.EXTRA_SNOOZE, false), intent.getBooleanExtra(EXTRA_CONSUMED, false));
     }
     else if (ACTION_SNOOZE.equals(action)) {
       if (ringingId != null) {
@@ -195,23 +197,15 @@ public class AlarmService extends Service {
     return PendingIntent.getService(this, requestCode, new Intent(this, AlarmService.class).setAction(action), PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
   }
 
-  private void startRinging(final JSONObject alarm, final boolean snoozed) {
+  private void startRinging(final JSONObject alarm, final boolean snoozed, final boolean consumed) {
 
     // A second alarm at the same time replaces the one that is ringing.
     if (ringingId != null) stopSound();
 
-    final String id = alarm.optString("id");
-    ringingId = id;
+    ringingId = alarm.optString("id");
     ringingName = alarm.optString("name");
     snoozeMinutes = Math.max(1, alarm.optInt("snooze", 10));
-    if (snoozed) {
-      AlarmStore.setSnooze(this, id, 0);
-    }
-    else if ((alarm.optInt("days", 0) & 0x7f) == 0) {
-      // A one-off alarm is switched off when it rings; snoozing it still rings again.
-      AlarmStore.disableAlarm(this, id);
-    }
-    AlarmStore.reschedule(this);
+    if (!consumed) AlarmStore.consumeAlarm(this, alarm, snoozed);
 
     final int autoStopMinutes = AlarmStore.autoStopMinutes(this);
     if (wakeLock == null) {
