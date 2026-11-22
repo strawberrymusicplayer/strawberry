@@ -1224,22 +1224,47 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
 
 ## 28. Design and add an alarm clock under Tools
 
-**Status:** Planned (requirements interview and UI design first)
+**Status:** In progress (implemented and verified on the emulator; physical FP5 check outstanding)
 
-**Goal:** Let users create an alarm clock from Tools on Android.
-The feature set and screen design are not yet agreed.
+**Goal:** Let users create alarms from Tools on Android and show a large clock.
+The scope was agreed in a design interview with the user before implementation.
 
-**Required first phase:**
-- Start with a dedicated chat to ask which features the user wants; do not assume requirements or begin implementation first.
-- Discuss options such as one or multiple alarms, one-off/repeating schedules, music sources, volume/fade-in, snooze, dismiss controls and fallback behavior when music is unavailable.
-  These are interview topics, not committed features.
-- Clarify expected behavior with the screen locked, the app in the background or closed, after a reboot, and without network access.
-- Use the answers to work out the appearance and navigation: Tools entry, alarm overview, create/edit flow and ringing screen, following the shared Android hierarchical navigation rules.
-- Present the proposed feature scope, screen layout and interactions in chat and obtain the user's approval before implementation.
+**Implemented scope (2026-11-22):**
+- Tools > Alarm clock lists the alarms with their time, name, days and an on/off switch, plus an Add alarm button, the next alarm and the Stop automatically after setting (off, 10, 30 or 60 minutes; default 30).
+- Tapping an alarm opens Tools > Alarm clock > Edit alarm with the time, name, repeat days (once or selected weekdays), music, volume, fade-in, snooze duration and Delete alarm with confirmation.
+  The time, days, music source and delete confirmation open as full-page subscreens; Back returns one level.
+- Music sources: a playlist, recently played songs, random songs from the collection, a fixed song, a radio station or stream URL, or the default alarm sound.
+- Every change is saved immediately; there are no Apply, OK or Cancel buttons.
+- Ringing opens a full-screen activity, also over the lock screen, with a big clock, the alarm name and big Snooze and Stop buttons.
+- Tools > Clock shows the same clock style with the next alarm and keeps the screen on while open; Back leaves it.
+- The C++ side stores alarms through `AlarmBridge` in the Java `AlarmStore` (SharedPreferences JSON), so the receivers can read the schedule while the app process is dead.
+  `AlarmSchedule` computes the next trigger in C++ and `AlarmStore` uses the same rules in Java.
+- `AlarmReceiver` starts the foreground `AlarmService`, which plays with alarm audio attributes on the alarm stream, fades in, snoozes, stops automatically and posts a full-screen-intent notification.
+  `AlarmBootReceiver` reschedules after a reboot, an app update and time or time zone changes.
+- Collection, playlist and recently played sources ring from up to five local copies in the app data directory, refreshed when the source changes and when older than twelve hours.
+  When the source cannot be played, for example a radio station without network or a missing song, the default alarm sound plays, falling back to a beep.
 
-**After design approval:**
-- Assess Android alarm scheduling, permissions, background execution and audio-focus requirements against the agreed reliability expectations; explain platform limitations explicitly.
-- Implement and test the approved scope separately, including physical-device checks on the FP5.
+**Android limitations:**
+- Alarms use `AlarmManager.setAlarmClock()`, which is exempt from Doze and battery saver and shows the alarm icon in the status bar.
+  `USE_EXACT_ALARM` covers Android 13 and later; on Android 12, `SCHEDULE_EXACT_ALARM` must be allowed in the system settings, which the overview's Allow button opens.
+- Android 13 and later need the notification permission, and Android 14 and later the full-screen-intent permission, to show the ringing screen; the overview shows a warning with an Allow button for each missing permission.
+- While the phone is unlocked and in use, Android shows a heads-up notification instead of the full-screen activity.
+- Force stopping the app cancels its alarms until the app is opened again.
+- After a reboot, alarms are rescheduled once the user has unlocked the phone for the first time.
+- Radio stations need network access; Qobuz, Tidal and Spotify are not offered as alarm sources.
+
+**Verification (2026-11-22):**
+- Eight native `alarmschedule_test` regressions pass, covering repeating days, one-off alarms in the past, disabled alarms, the earliest next alarm, daylight saving time transitions and the JSON format.
+- On the API 34 emulator, `dumpsys alarm` showed the alarms as alarm clocks.
+  A default-sound alarm rang with the screen off, turned the screen on, played with `USAGE_ALARM`, snoozed for one minute, rang again and stopped.
+  A daily random-collection alarm rang over the keyguard with the app process killed, playing one of its five local copies, and was rescheduled for the next day.
+- An alarm created in the Qt UI was scheduled and rang; Tools > Clock kept the screen on and showed the next alarm.
+- After a reboot, `AlarmBootReceiver` rescheduled the daily alarm without opening the app.
+- Verification found that Back after Done on the time page quit the app; focus now stays in the page and `MainWindow::AndroidBack()` forwards Back to an open tool.
+
+**Still open:**
+- Check on the FP5 with a physical finger: the ringing screen over a secure lock screen, the permission prompts, audio volume and fade-in, auto stop, NAS songs and radio without network, and overnight reliability.
+- Automatic stopping, the playlist, recently played, song and radio sources were not exercised on the emulator.
 
 ## 29. Investigate network playback to Marantz amplifiers and casting devices
 

@@ -240,6 +240,43 @@ It normalizes Impacket's command-specific error bodies to the SMB2 ERROR format 
 Without that interpreter setting, the protocol cases explicitly skip; validation-only cases still run.
 This fixture does not replace the real-NAS/Synology test that remains open under roadmap item 25.
 
+## Android alarm clock
+
+Tools > Alarm clock and Tools > Clock are Android only (roadmap item 28).
+The Qt pages are in `src/alarm/*_android.cpp`; the Java side is in `android/java/nl/dewitweb/strawberryflavor/Alarm*.java`, `ClockActivity.java` and `ClockView.java`.
+
+**Manifest requirements:**
+- Permissions: `POST_NOTIFICATIONS`, `USE_EXACT_ALARM`, `SCHEDULE_EXACT_ALARM` (Android 12 only, `maxSdkVersion` 32), `USE_FULL_SCREEN_INTENT`, `RECEIVE_BOOT_COMPLETED`, `WAKE_LOCK` and the media-playback foreground service permissions.
+- `AlarmReceiver` receives the `AlarmManager` alarms and starts the `mediaPlayback` foreground service `AlarmService`.
+- `AlarmBootReceiver` reschedules on `BOOT_COMPLETED`, `MY_PACKAGE_REPLACED`, `TIME_SET`, `TIMEZONE_CHANGED` and exact alarm permission changes.
+- `AlarmActivity` is the ringing screen, shown over the lock screen with `showWhenLocked` and `turnScreenOn`.
+
+**Persistence:** alarms are JSON in the SharedPreferences file `alarm_clock`, readable by the receivers while the app process is dead.
+Local copies of collection and playlist songs are in `files/alarms/<id>/` in the app data directory.
+
+**Limitations:**
+- `setAlarmClock()` alarms ring in Doze and battery saver, but force stopping the app cancels them until it is opened again.
+- After a reboot, alarms are rescheduled after the first unlock.
+- Without the notification permission (Android 13+) or the full-screen-intent permission (Android 14+), the ringing screen cannot open; the overview shows Allow buttons.
+- While the phone is in use, Android shows a heads-up notification instead of the ringing screen.
+- Radio sources need network access; otherwise the default alarm sound plays.
+
+**Testing on the emulator** (do not clear app data; it holds NAS credentials):
+
+```bash
+export ANDROID_SERIAL=emulator-5554
+# Scheduled alarms, shown as "Next alarm clock information"
+adb shell dumpsys alarm | grep -A1 "Next alarm clock"
+# Scheduling, ringing, snooze and stop messages
+adb logcat -s StrawberryAlarm
+# Stored alarms (debug builds)
+adb shell run-as nl.dewitweb.strawberryflavor cat shared_prefs/alarm_clock.xml
+# Turn the screen off before an alarm rings
+adb shell input keyevent 26
+```
+
+`adb shell am force-stop` cancels the alarms; to test with the app closed, end the process with `adb shell run-as nl.dewitweb.strawberryflavor kill -9 <pid>` instead.
+
 ## GStreamer Android SDK Setup
 
 ### 1. Download GStreamer Android SDK 1.28.8
