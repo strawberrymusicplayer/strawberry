@@ -1318,7 +1318,7 @@ Put compilation artists in an expandable letter group named Various.
 
 ## 34. Monitor NAS collection changes and catch up after reconnecting
 
-**Status:** In progress (SMB change monitoring with polling fallback, reconnect and overflow reconciles, cancellable connecting, rescans of only the notified folders, and stopping monitors in the background implemented and verified with the loopback SMB server and the Android emulator; real-NAS verification is open)
+**Status:** Done (SMB change monitoring with polling fallback, reconnect and overflow reconciles, cancellable connecting, rescans of only the notified folders, and stopping monitors in the background implemented and verified with the loopback SMB server, the Android emulator and a real Synology NAS: an added file appeared and a deleted file became unavailable without restarting the app)
 
 **Goal:** While collection monitoring is enabled, use SMB change notifications to detect changes on configured NAS folders and update the collection.
 After a connection interruption, catch up on changes missed while disconnected without discarding existing entries if the NAS remains unavailable.
