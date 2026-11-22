@@ -6,6 +6,8 @@
 #include <QDir>
 #include <QFile>
 #include <QString>
+#include <QStringList>
+#include <QList>
 #include <QTemporaryDir>
 #include <QUrl>
 
@@ -68,6 +70,33 @@ TEST(AlarmTracksTest, SourcesForCopiesAndOriginals) {
   EXPECT_EQ(AlarmTracks::OriginalSource(content), content.toString(QUrl::FullyEncoded));
   EXPECT_EQ(AlarmTracks::OriginalSource(http), QStringLiteral("http://example.com/stream.mp3"));
   EXPECT_TRUE(AlarmTracks::OriginalSource(tidal).isEmpty());
+
+}
+
+TEST(AlarmTracksTest, PlayableOriginalsSkipsMissingNasAndOnlineSongs) {
+
+  QTemporaryDir directory(QDir::currentPath() + QStringLiteral("/alarmtracks_test-XXXXXX"));
+  ASSERT_TRUE(directory.isValid());
+  const QString existing = directory.filePath(QStringLiteral("a.mp3"));
+  QFile file(existing);
+  ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+  file.write(QByteArray(10, 'a'));
+  file.close();
+
+  const QUrl local = QUrl::fromLocalFile(existing);
+  const QUrl missing = QUrl::fromLocalFile(directory.filePath(QStringLiteral("missing.mp3")));
+  const QUrl nas = QUrl::fromLocalFile(QStringLiteral("/strawberry-nas/home/Music/a.flac"));
+  const QUrl content(QStringLiteral("content://media/external/audio/media/1"));
+  const QUrl http(QStringLiteral("http://example.com/a.mp3"));
+  const QList<QUrl> candidates = {missing, nas, http, local, content};
+  const auto is_nas = [](const QString &source) { return source.startsWith(QStringLiteral("/strawberry-nas/")); };
+
+  int skipped = 0;
+  EXPECT_EQ(AlarmTracks::PlayableOriginals(candidates, 5, false, is_nas, &skipped), QStringList({existing, content.toString(QUrl::FullyEncoded)}));
+  EXPECT_EQ(skipped, 1);
+  EXPECT_EQ(AlarmTracks::PlayableOriginals(candidates, 5, true, is_nas), QStringList({QStringLiteral("http://example.com/a.mp3"), existing, content.toString(QUrl::FullyEncoded)}));
+  EXPECT_EQ(AlarmTracks::PlayableOriginals(candidates, 1, true, is_nas), QStringList({QStringLiteral("http://example.com/a.mp3")}));
+  EXPECT_TRUE(AlarmTracks::PlayableOriginals({nas, missing}, 5, false, is_nas).isEmpty());
 
 }
 

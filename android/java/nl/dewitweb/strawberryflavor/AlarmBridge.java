@@ -60,13 +60,25 @@ public final class AlarmBridge {
   public static boolean saveAlarm(final Context context, final String json) {
 
     try {
-      AlarmStore.putAlarm(context, new JSONObject(json));
+      final JSONObject alarm = new JSONObject(json);
+      final JSONObject stored = AlarmStore.alarm(context, alarm.optString("id"));
+      final int tracks = trackCount(alarm);
+      // Logged, since the Qt app's own log does not reach logcat on Android.
+      if (stored == null || trackCount(stored) != tracks) Log.i(AlarmStore.TAG, "Alarm songs updated: " + tracks + " song(s)");
+      AlarmStore.putAlarm(context, alarm);
       return true;
     }
     catch (Exception e) {
       Log.e(AlarmStore.TAG, "Could not save an alarm", e);
       return false;
     }
+
+  }
+
+  private static int trackCount(final JSONObject alarm) {
+
+    final org.json.JSONArray tracks = alarm.optJSONArray("tracks");
+    return tracks == null ? 0 : tracks.length();
 
   }
 

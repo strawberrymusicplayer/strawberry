@@ -2,9 +2,11 @@
 
 #include <QDir>
 #include <QDirIterator>
+#include <QFile>
 #include <QFileInfo>
 #include <QList>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 
 #include "alarmtracks_android.h"
@@ -49,6 +51,24 @@ QString OriginalSource(const QUrl &url) {
 
   if (url.scheme() == "http"_L1 || url.scheme() == "https"_L1) return url.toString(QUrl::FullyEncoded);
   return CopySource(url);
+
+}
+
+QStringList PlayableOriginals(const QList<QUrl> &candidates, const int count, const bool online, const std::function<bool(const QString &source)> &skip, int *skipped) {
+
+  QStringList tracks;
+  for (const QUrl &url : candidates) {
+    if (tracks.count() >= count) break;
+    const QString source = online ? OriginalSource(url) : CopySource(url);
+    if (source.isEmpty()) continue;
+    if (skip && skip(source)) {
+      if (skipped) ++*skipped;
+      continue;
+    }
+    if (source.startsWith(u'/') && !QFile::exists(source)) continue;
+    tracks << source;
+  }
+  return tracks;
 
 }
 

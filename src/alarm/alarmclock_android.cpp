@@ -11,6 +11,7 @@
 #include <QFutureWatcher>
 #include <QJsonObject>
 #include <QList>
+#include <QMetaObject>
 #include <QStandardPaths>
 #include <QString>
 #include <QStringList>
@@ -196,19 +197,39 @@ void AlarmClock::UpdateTracks(const QString &id) {
     Alarm current = AlarmBridge::FindAlarm(alarm.id);
     // A newer update replaced this one, or the alarm was deleted or got another source while the songs were copied.
     if (generations_.value(alarm.id) != generation || current.id.isEmpty() || current.source != alarm.source || current.source_id != alarm.source_id || current.source_url != alarm.source_url) {
-      RemoveCopies(directory, [&prefix](const QString &file) { return file.startsWith(prefix); });
+      // The alarm may still ring with interim copies of this update until the newer update saves its songs.
+      RemoveCopies(directory, [&prefix, &directory, &current](const QString &file) { return file.startsWith(prefix) && !current.tracks.contains(directory + u'/' + file); });
       return;
     }
     current.tracks = tracks;
     current.tracks_updated = QDateTime::currentSecsSinceEpoch();
     AlarmBridge::SaveAlarm(current);
+    interim_.remove(current.id);
     // Only now that the alarm refers to the new copies, or to the original songs when copying is off, can the old copies go.
     // An older update that is still copying removes its own files when it finishes.
     RemoveCopies(directory, [&directory, &tracks](const QString &file) { return !tracks.contains(directory + u'/' + file); });
-    qLog(Debug) << (settings.copy ? "Copied" : "Using") << current.tracks.count() << "song(s) for alarm" << current.id;
+    qLog(Info) << (settings.copy ? "Copied" : "Using") << current.tracks.count() << "song(s) for alarm" << current.id;
     Q_EMIT TracksUpdated(current.id);
   });
-  watcher->setFuture(QtConcurrent::run(&AlarmClock::CopyTracks, alarm, collection_backend_, playlist_backend_, directory, prefix, settings));
+  const std::function<void(const QStringList &tracks)> interim = [this, alarm, generation](const QStringList &tracks) {
+    QMetaObject::invokeMethod(this, [this, alarm, generation, tracks]() { SaveInterimTracks(alarm, generation, tracks); }, Qt::QueuedConnection);
+  };
+  watcher->setFuture(QtConcurrent::run(&AlarmClock::CopyTracks, alarm, collection_backend_, playlist_backend_, directory, prefix, settings, interim));
+
+}
+
+void AlarmClock::SaveInterimTracks(const Alarm &alarm, const int generation, const QStringList &tracks) {
+
+  if (generations_.value(alarm.id) != generation) return;
+  Alarm current = AlarmBridge::FindAlarm(alarm.id);
+  if (current.id.isEmpty() || current.source != alarm.source || current.source_id != alarm.source_id || current.source_url != alarm.source_url) return;
+  // Songs that were completely copied before are better than interim songs.
+  if (!current.tracks.isEmpty() && !interim_.contains(current.id)) return;
+  current.tracks = tracks;
+  AlarmBridge::SaveAlarm(current);
+  interim_.insert(current.id);
+  qLog(Info) << "Alarm" << current.id << "can ring with" << tracks.count() << "song(s) while its songs are copied";
+  Q_EMIT TracksUpdated(current.id);
 
 }
 
@@ -226,11 +247,12 @@ void AlarmClock::RemoveCopies(const QString &directory, const std::function<bool
 void AlarmClock::RemoveTracks(const QString &id) {
 
   ++generations_[id];
+  interim_.remove(id);
   QDir(TracksDirectory(id)).removeRecursively();
 
 }
 
-QStringList AlarmClock::CopyTracks(const Alarm &alarm, SharedPtr<CollectionBackend> collection_backend, SharedPtr<PlaylistBackend> playlist_backend, const QString &directory, const QString &prefix, const AlarmTrackSettings &settings) {
+QStringList AlarmClock::CopyTracks(const Alarm &alarm, SharedPtr<CollectionBackend> collection_backend, SharedPtr<PlaylistBackend> playlist_backend, const QString &directory, const QString &prefix, const AlarmTrackSettings &settings, const std::function<void(const QStringList &tracks)> &interim) {
 
   QList<QUrl> candidates;
   switch (alarm.source) {
@@ -258,29 +280,30 @@ QStringList AlarmClock::CopyTracks(const Alarm &alarm, SharedPtr<CollectionBacke
       break;
   }
 
-  QStringList tracks;
+  const auto is_nas = [](const QString &source) {
+#ifdef HAVE_NAS
+    return Nas::IsPath(source);
+#else
+    Q_UNUSED(source)
+    return false;
+#endif
+  };
+
   if (!settings.copy) {
     // AlarmService.java plays the original songs; it has no SMB client, so NAS songs can't ring without a copy.
     int nas_tracks = 0;
-    for (const QUrl &url : std::as_const(candidates)) {
-      if (tracks.count() >= settings.tracks_per_alarm) break;
-      const QString source = AlarmTracks::OriginalSource(url);
-      if (source.isEmpty()) continue;
-#ifdef HAVE_NAS
-      if (Nas::IsPath(source)) {
-        ++nas_tracks;
-        continue;
-      }
-#endif
-      if (source.startsWith(u'/') && !QFile::exists(source)) continue;
-      tracks << source;
-    }
+    const QStringList tracks = AlarmTracks::PlayableOriginals(candidates, settings.tracks_per_alarm, true, is_nas, &nas_tracks);
     if (nas_tracks > 0) qLog(Debug) << "Skipped" << nas_tracks << "NAS song(s) for alarm" << alarm.id << "because copying is off";
     return tracks;
   }
 
+  // Copying takes a while, especially from a NAS, so an alarm that rings soon after it was set rings with the local originals until the copies are made.
+  const QStringList originals = AlarmTracks::PlayableOriginals(candidates, settings.tracks_per_alarm, false, is_nas);
+  if (!originals.isEmpty()) interim(originals);
+
   // New copies get new names, so a song that is ringing right now is not overwritten.
   QDir().mkpath(directory);
+  QStringList tracks;
   qint64 total_size = 0;
   for (const QUrl &url : std::as_const(candidates)) {
     if (tracks.count() >= settings.tracks_per_alarm) break;
@@ -298,15 +321,18 @@ QStringList AlarmClock::CopyTracks(const Alarm &alarm, SharedPtr<CollectionBacke
     }
     tracks << destination;
     total_size += size;
+    // Without local originals, for example for NAS songs, every copy lets the alarm ring with one more song.
+    if (originals.isEmpty()) interim(tracks);
   }
 
-  // Keep the previous copies when none of the songs could be copied, for example while the NAS is offline.
+  // Keep the previous copies when none of the songs could be copied, for example while the NAS is offline, or else the local originals.
   if (tracks.isEmpty() && UsesTracks(alarm)) {
     QStringList previous;
     for (const QString &track : alarm.tracks) {
       if (QFile::exists(track)) previous << track;
     }
     if (!previous.isEmpty()) return previous;
+    return originals;
   }
 
   return tracks;

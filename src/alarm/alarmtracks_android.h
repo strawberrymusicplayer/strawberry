@@ -3,8 +3,11 @@
 #ifndef ALARMTRACKS_ANDROID_H
 #define ALARMTRACKS_ANDROID_H
 
+#include <functional>
+
 #include <QList>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 #include <QtGlobal>
 
@@ -32,6 +35,9 @@ QList<int> MaximumTotalMbChoices();
 QString CopySource(const QUrl &url);
 // Returns what AlarmService.java may try to play directly when copying is off: a local path, a content:// URL or an http(s) URL; otherwise empty.
 QString OriginalSource(const QUrl &url);
+// Returns up to count originals of the candidates that AlarmService.java can play directly: local files that exist, content:// URLs and, if online, http(s) URLs.
+// Songs for which skip returns true, such as NAS songs, are left out and counted in skipped.
+QStringList PlayableOriginals(const QList<QUrl> &candidates, const int count, const bool online, const std::function<bool(const QString &source)> &skip, int *skipped = nullptr);
 // Whether a song of the size may be copied after count songs with a total size of total_size were copied.
 bool CopyFits(const qint64 size, const int count, const qint64 total_size, const AlarmTrackSettings &settings);
 // Returns the total size of the files in the directory and its subdirectories.
