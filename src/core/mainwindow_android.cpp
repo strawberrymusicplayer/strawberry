@@ -281,6 +281,7 @@ QWidget *MainWindow::CreateAndroidToolsPage() {
   themed_icons.insert(alarm_clock_action, u":/icons/scalable/alarm-clock.svg"_s);
   QAction *clock_action = new QAction(tr("Clock"), this);
   QObject::connect(clock_action, &QAction::triggered, this, []() { AlarmBridge::OpenClock(); });
+  themed_icons.insert(clock_action, u":/icons/scalable/clock.svg"_s);
   add_section(tr("Tools"), { ui_->action_cover_manager, ui_->action_equalizer, alarm_clock_action, clock_action });
   add_section(tr("Collection"), { ui_->action_update_collection, ui_->action_full_collection_scan, ui_->action_stop_collection_scan });
   layout->addStretch();

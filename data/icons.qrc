@@ -532,5 +532,6 @@
         <file>icons/22x22/musicbrainz.png</file>
         <file>icons/22x22/waveform-config.png</file>
         <file>icons/scalable/alarm-clock.svg</file>
+        <file>icons/scalable/clock.svg</file>
     </qresource>
 </RCC>
