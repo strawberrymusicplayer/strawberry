@@ -1233,6 +1233,8 @@ The scope was agreed in a design interview with the user before implementation.
 - Tools > Alarm clock lists the alarms with their time, name, days and an on/off switch, plus an Add alarm button, the next alarm and the Stop automatically after setting (off, 10, 30 or 60 minutes; default 30).
 - Tapping an alarm opens Tools > Alarm clock > Edit alarm with the time, name, repeat days (once or selected weekdays), music, volume, fade-in, snooze duration and Delete alarm with confirmation.
   The time, days, music source and delete confirmation open as full-page subscreens; Back returns one level.
+- The time page is a round dial like Android's time picker (`TimePicker` and `TimeDial` in `src/widgets/timedial_android.cpp`): tap or drag the hour, then the page switches to the minutes (5-minute labels, any minute by dragging); the hour and minute of the large digital time switch back.
+  It follows the device's 24-hour setting, with an inner ring for 00 and 13 to 23, or shows AM and PM buttons; landscape places the dial to the right.
 - Music sources: a playlist, recently played songs, random songs from the collection, a fixed song, a radio station or stream URL, or the default alarm sound.
 - Every change is saved immediately; there are no Apply, OK or Cancel buttons.
 - Ringing opens a full-screen activity, also over the lock screen, with a big clock, the alarm name and big Snooze and Stop buttons.
@@ -1271,6 +1273,8 @@ The scope was agreed in a design interview with the user before implementation.
   A daily random-collection alarm rang over the keyguard with the app process killed, playing one of its five local copies, and was rescheduled for the next day.
 - An alarm created in the Qt UI was scheduled and rang; Tools > Clock kept the screen on and showed the next alarm.
 - After a reboot, `AlarmBootReceiver` rescheduled the daily alarm without opening the app.
+- `timedialmath_test` covers the dial's angle to hour and minute conversion, snapping, the 24-hour rings and the 12-hour conversion.
+  On the emulator, the 12-hour dial (9 PM, minute 37 by dragging) and the 24-hour dial (18:15, and 21:45 in landscape) were set by tapping and saved; `dumpsys alarm` showed the chosen times.
 - Verification found that Back after Done on the time page quit the app; focus now stays in the page and `MainWindow::AndroidBack()` forwards Back to an open tool.
 - After the review fixes, a one-off alarm again rang with the screen off and the process killed, snoozed from the ringing screen, rang again and stopped from the notification.
 - `alarmtracks_test` covers the copy limits and which sources can be copied or played as originals.
