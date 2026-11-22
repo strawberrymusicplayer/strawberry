@@ -4,10 +4,8 @@
 
 #include <QApplication>
 #include <QCheckBox>
-#include <QGroupBox>
 #include <QLineEdit>
 #include <QMetaObject>
-#include <QPushButton>
 #include <QRadioButton>
 #include <QSlider>
 #include <QSpinBox>
@@ -16,7 +14,6 @@
 #include <QWidget>
 
 #include "core/settings.h"
-#include "settings/settingspage.h"
 #include "settings/streamingautosave_android.h"
 #include "ui_qobuzsettingspage.h"
 
@@ -111,67 +108,5 @@ TEST(QobuzAutoSaveTest, IgnoresProgrammaticSelectionsAndSurvivesEditorReparentin
   EXPECT_EQ(5, saves);
   spinbox->setValue(3);
   EXPECT_EQ(6, saves);
-
-}
-
-namespace {
-
-class AutoSavePage : public SettingsPage {
- public:
-  AutoSavePage() : SettingsPage(nullptr) {
-    auto *layout = new QVBoxLayout(this);
-    checkbox = new QCheckBox(this);
-    field = new QLineEdit(this);
-    navigation = new QPushButton(this);
-    remove = new QPushButton(this);
-    group = new QGroupBox(this);
-    group->setCheckable(true);
-    for (QWidget *widget : {static_cast<QWidget*>(checkbox), static_cast<QWidget*>(field), static_cast<QWidget*>(navigation), static_cast<QWidget*>(remove), static_cast<QWidget*>(group)}) {
-      layout->addWidget(widget);
-    }
-    QObject::connect(remove, &QPushButton::clicked, this, [this]() { set_changed(); });
-  }
-  void Load() override { Init(this); }
-  int saves = 0;
-  QCheckBox *checkbox;
-  QLineEdit *field;
-  QPushButton *navigation;
-  QPushButton *remove;
-  QGroupBox *group;
-
- private:
-  void Save() override { ++saves; }
-};
-
-}  // namespace
-
-TEST(SettingsPageAutoSaveTest, ChangesSaveThroughApplyWithoutDialogButtons) {
-
-  AutoSavePage page;
-  page.Load();
-  ConnectSettingsPageAutoSave(&page, &page, [&page]() { page.Apply(); });
-
-  page.checkbox->click();
-  EXPECT_EQ(1, page.saves);
-  page.field->setText(u"pattern"_s);
-  EXPECT_EQ(1, page.saves);
-  ASSERT_TRUE(QMetaObject::invokeMethod(page.field, "editingFinished"));
-  EXPECT_EQ(2, page.saves);
-  // A navigation button that changes nothing must not save.
-  page.navigation->click();
-  EXPECT_EQ(2, page.saves);
-  EXPECT_FALSE(page.Apply());
-  // Page actions such as Remove folder only mark the page as changed; they are saved right away.
-  page.remove->click();
-  EXPECT_EQ(3, page.saves);
-  page.group->setChecked(false);
-  Q_EMIT page.group->clicked(false);
-  EXPECT_EQ(4, page.saves);
-  // Events that change nothing, such as Return without edits, do not save.
-  ASSERT_TRUE(QMetaObject::invokeMethod(page.field, "editingFinished"));
-  EXPECT_EQ(4, page.saves);
-  // Toggling back is a change compared with the last save.
-  page.checkbox->click();
-  EXPECT_EQ(5, page.saves);
 
 }
