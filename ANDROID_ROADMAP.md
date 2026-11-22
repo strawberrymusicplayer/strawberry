@@ -1249,6 +1249,14 @@ The scope was agreed in a design interview with the user before implementation.
   Delete copied tracks now asks for confirmation, stating the space to be freed.
   Switching copying off deletes the copies and lets the alarms play the original songs: local files and http(s) URLs.
   When the source cannot be played, for example a radio station without network or a missing song, the default alarm sound plays, falling back to a beep.
+  The ringing screen and the notification then say why, for example "Playing the default sound: no song available" or "Playing the default sound: the music could not be played".
+- Copying can take minutes, for example from the NAS, so an alarm that rings soon after it is created or its source changed does not wait for it.
+  The copy job first stores the playable local originals (not NAS songs, not online songs) as interim tracks; without those, it stores each copy as soon as it is made.
+  The final copies replace the interim tracks, and an interim result never overwrites tracks the user or an earlier job set.
+  A random alarm that still has no playable song when it rings plays a copy of another alarm's songs before falling back to the default sound.
+- The ringing screen keeps Snooze and Stop as a large, high-contrast row at the bottom, measured before the clock so they stay visible in landscape and at large font sizes; the clock shrinks instead.
+  `AlarmService` also opens the ringing screen directly when it starts ringing, which Android allows while the app is visible, so the buttons appear even if the notification is blocked.
+  The notification keeps its Snooze and Stop actions.
 
 **Android limitations:**
 - Alarms use `AlarmManager.setAlarmClock()`, which is exempt from Doze and battery saver and shows the alarm icon in the status bar.
@@ -1281,8 +1289,17 @@ The scope was agreed in a design interview with the user before implementation.
   On the emulator, a song alarm was copied to `files/alarms/<id>/`; switching copying off deleted the copy and stored the original path, and the alarm rang from the original file.
   Switching copying on copied the song again, and Delete copied tracks now showed the size to be freed, deleted the copies and emptied the alarm's tracks.
 
+- FP5 report (2026-11-22, alarm at 21:00): a random-collection alarm created about 90 seconds earlier rang with the default sound, and there was no way to stop it.
+  Its log showed "Ringing alarm with source random and 0 playable item(s)": the copy job had not stored any tracks yet.
+  The notification permission was denied (`dumpsys notification` showed importance NONE and no posted notifications), so neither the notification with Snooze and Stop nor its full-screen intent appeared, and the ringing screen never opened; the overview shows the Allow warning for it.
+- After the fixes, on the API 34 emulator, a random alarm stored one interim song six seconds after Add alarm and all five copies within 20 seconds; set to ring a minute later with the app open, it rang with five songs and the ringing screen opened directly.
+  `uiautomator` showed Snooze and Stop at the bottom within the screen in portrait and landscape, also at font scale 2.0; Stop stopped the music (no started player in `dumpsys audio`) and closed the screen.
+  A radio alarm with an unreachable URL, ringing while the app was in the background, showed "Playing the default sound: the music could not be played" in the notification, with Snooze and Stop actions, and on the ringing screen opened from it.
+  In the background, Android blocked the direct start, as expected, and showed the heads-up notification.
+- `alarmtracks_test` covers which originals can serve as interim tracks; `alarmfallback_java_test` covers the default sound reason and choosing other alarms' copies.
+
 **Still open:**
-- Check on the FP5 with a physical finger: the ringing screen over a secure lock screen, the permission prompts, audio volume and fade-in, auto stop, NAS songs and radio without network, and overnight reliability.
+- Check on the FP5 with a physical finger, after allowing notifications: the ringing screen over a secure lock screen, the permission prompts, audio volume and fade-in, auto stop, NAS songs and radio without network, and overnight reliability.
 - Automatic stopping, the playlist, recently played, song and radio sources were not exercised on the emulator.
 - The notification fallback without exact alarms (Android 12 and 12L only), http radio streams and http originals without copies were not tested.
 

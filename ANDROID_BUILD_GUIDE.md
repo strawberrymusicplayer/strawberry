@@ -258,12 +258,14 @@ Local copies of the alarm songs are in `files/alarms/<id>/` in the app data dire
 The copy settings are Qt only, in the `AlarmClock` group of `strawberry.conf`: `copy_tracks` (default true), `tracks_per_alarm` (1, 3, 5 or 10; default 5) and `maximum_total_mb` (50, 100, 200, 500 or 1024; default 200).
 An alarm's `tracks` list holds either its copies or, with copying off, the original local paths and http(s) URLs, so the Java side does not read these settings.
 `ctest -R alarmtracks_test` tests the limits and source rules in `src/alarm/alarmtracks_android.cpp`.
+Until the copy job finishes, it stores playable local originals, or the copies made so far, as interim tracks, so a new alarm can ring right away.
+`AlarmFallback.java` chooses the default sound reason shown on the ringing screen and in the notification, and lets a random alarm without songs play other alarms' copies; `ctest -R alarmfallback_java_test` tests it on a desktop JVM.
 
 **Limitations:**
 - `setAlarmClock()` alarms ring in Doze and battery saver, but force stopping the app cancels them until it is opened again.
 - Without the exact alarm permission (Android 12 and 12L), alarms are inexact and ring through a full-screen notification with the default alarm sound; the music starts when the alarm is opened.
 - After a reboot, alarms are rescheduled after the first unlock.
-- Without the notification permission (Android 13+) or the full-screen-intent permission (Android 14+), the ringing screen cannot open; the overview shows Allow buttons.
+- Without the notification permission (Android 13+) or the full-screen-intent permission (Android 14+), the ringing screen opens only if the app is visible, since `AlarmService` then starts it directly; the overview shows Allow buttons.
 - While the phone is in use, Android shows a heads-up notification instead of the ringing screen.
 - Radio sources need network access; otherwise the default alarm sound plays.
 - With copying off, NAS songs cannot ring, because the Java side has no SMB client and the Qt app's libsmb2 file engine may not be running; the default alarm sound plays instead.
@@ -274,7 +276,7 @@ An alarm's `tracks` list holds either its copies or, with copying off, the origi
 export ANDROID_SERIAL=emulator-5554
 # Scheduled alarms, shown as "Next alarm clock information"
 adb shell dumpsys alarm | grep -A1 "Next alarm clock"
-# Scheduling, ringing, snooze and stop messages
+# Scheduling, song count changes, ringing, default sound reasons, snooze and stop messages
 adb logcat -s StrawberryAlarm
 # Stored alarms (debug builds)
 adb shell run-as nl.dewitweb.strawberryflavor cat shared_prefs/alarm_clock.xml
