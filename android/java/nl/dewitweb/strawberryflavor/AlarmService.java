@@ -69,6 +69,8 @@ public class AlarmService extends Service {
   private static final long FADE_STEP_MSEC = 200;
   private static final long PREPARE_TIMEOUT_MSEC = 20000;
   private static final int CONNECT_TIMEOUT_MSEC = 10000;
+  // Must match the prefix of NAS paths in nasfileengine.cpp.
+  private static final String NAS_PREFIX = "/strawberry-nas/";
 
   // The ringing alarm, read by AlarmActivity on the main thread.
   private static String ringingId;
@@ -84,6 +86,7 @@ public class AlarmService extends Service {
   private final List<String> sources = new ArrayList<>();
   private int sourceIndex = 0;
   private int failures = 0;
+  private String currentSource;
   private boolean radio = false;
   private boolean defaultSound = false;
   private int previousVolume = -1;
@@ -246,10 +249,17 @@ public class AlarmService extends Service {
       if (!url.isEmpty()) sources.add(url);
     }
     else if (!"sound".equals(source)) {
+      // Local copies, or with copying switched off the original songs: local files, content:// or http(s) URLs.
       final JSONArray tracks = alarm.optJSONArray("tracks");
       for (int i = 0; tracks != null && i < tracks.length(); ++i) {
         final String track = tracks.optString(i);
-        if (!track.isEmpty() && new File(track).isFile()) sources.add(track);
+        if (track.startsWith(NAS_PREFIX)) {
+          // Only the Qt app's SMB client can read the NAS.
+          Log.w(AlarmStore.TAG, "Skipping a NAS song, which can only ring from a copy");
+        }
+        else if (track.startsWith("/") ? new File(track).isFile() : isPlayableUrl(track)) {
+          sources.add(track);
+        }
       }
       if ("random".equals(source)) Collections.shuffle(sources);
     }
@@ -265,6 +275,17 @@ public class AlarmService extends Service {
 
   }
 
+  private static boolean isOnlineUrl(final String url) {
+
+    final String lower = url.toLowerCase(Locale.ROOT);
+    return lower.startsWith("http://") || lower.startsWith("https://");
+
+  }
+
+  private static boolean isPlayableUrl(final String url) {
+    return isOnlineUrl(url) || url.toLowerCase(Locale.ROOT).startsWith("content://");
+  }
+
   private static AudioAttributes audioAttributes() {
     return new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
   }
@@ -277,6 +298,7 @@ public class AlarmService extends Service {
       return;
     }
     final String source = sources.get(sourceIndex % sources.size());
+    currentSource = source;
     ++sourceIndex;
     final int playerGeneration = ++generation;
     if (radio && isPlaylistUrl(source)) {
@@ -346,6 +368,17 @@ public class AlarmService extends Service {
     handler.removeCallbacks(prepareTimeout);
     ++failures;
     if (radio) defaultSound = true;
+    else if (currentSource != null && isOnlineUrl(currentSource)) {
+      // An online song that fails most likely means there is no network, so don't wait for the other online songs to fail too.
+      final List<String> local = new ArrayList<>();
+      for (final String item : sources) {
+        if (!isOnlineUrl(item)) local.add(item);
+      }
+      sources.clear();
+      sources.addAll(local);
+      sourceIndex = 0;
+      failures = 0;
+    }
     // Post, so a failing player is not released from its own callback.
     handler.post(() -> {
       if (playerGeneration == generation && ringingId != null) playNext();
