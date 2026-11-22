@@ -65,7 +65,6 @@
 #include "lyrics/lyricsproviders.h"
 #include "lyrics/geniuslyricsprovider.h"
 #include "lyrics/ovhlyricsprovider.h"
-#include "lyrics/musixmatchlyricsprovider.h"
 #include "lyrics/songlyricscomlyricsprovider.h"
 #include "lyrics/azlyricscomlyricsprovider.h"
 #include "lyrics/elyricsnetlyricsprovider.h"
@@ -189,7 +188,6 @@ class ApplicationImpl {
           // Initialize the repository of lyrics providers.
           lyrics_providers->AddProvider(new GeniusLyricsProvider(app->network()));
           lyrics_providers->AddProvider(new OVHLyricsProvider(app->network()));
-          lyrics_providers->AddProvider(new MusixmatchLyricsProvider(app->network()));
           lyrics_providers->AddProvider(new SongLyricsComLyricsProvider(app->network()));
           lyrics_providers->AddProvider(new AzLyricsComLyricsProvider(app->network()));
           lyrics_providers->AddProvider(new ElyricsNetLyricsProvider(app->network()));
