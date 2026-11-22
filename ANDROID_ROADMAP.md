@@ -1232,7 +1232,8 @@ The scope was agreed in a design interview with the user before implementation.
 **Implemented scope (2026-11-22):**
 - Tools > Alarm clock lists the alarms with an on/off switch, plus an Add alarm button with a green plus, the next alarm and an Alarm settings button with an alarm clock and gear icon.
   Alarm settings (Tools > Alarm clock > Alarm settings) holds the settings for all alarms: Stop automatically after (off, 10, 30 or 60 minutes; default 30), Copy tracks for offline alarms, Tracks per alarm, Maximum total size and Delete copied tracks now; its choice pages are one level deeper, and Back returns one level.
-  Each alarm row shows the time in bold and how often it rings ("7:00 AM | Daily"; Once, Daily, Weekdays, Weekends, "Weekly (Wed)" or the day names), then the music ("Random song", "Last played", "Default sound", "Playlist: ...", "Song: ...", "Radio: ..."), then the alarm's name on its own line if it has one; switched-off alarms are dimmed.
+  Each alarm row shows the time in bold and how often it goes off ("7:00 AM | Daily"; Once, Daily, Weekdays, Weekends, "Weekly (Wed)" or the day names), then the music ("Random song", "Last played", "Default sound", "Playlist: ...", "Song: ...", "Radio: ..."), then the alarm's name on its own line if it has one; switched-off alarms are dimmed.
+  A snoozed alarm counts as the next alarm when it goes off first: its row, the overview's next alarm and Tools > Clock show "Snoozed until 10:52 PM, goes off in 7 min", updated at each minute while visible (`alarmtext_test`, `alarmcountdown_java_test`).
   `AlarmText` builds these texts and `alarmtext_test` tests them.
 - Tapping an alarm opens Tools > Alarm clock > Edit alarm with the time, name, repeat days (once or selected weekdays), music, volume, fade-in, snooze duration and Delete alarm with confirmation.
   The time, days, music source and delete confirmation open as full-page subscreens; Back returns one level.

@@ -158,7 +158,8 @@ AlarmClockPage::AlarmClockPage(AlarmClock *alarm_clock, SharedPtr<RadioServices>
       pages_(new QStackedWidget(this)),
       overview_(nullptr),
       overview_contents_(nullptr),
-      save_timer_(new QTimer(this)) {
+      save_timer_(new QTimer(this)),
+      countdown_timer_(new QTimer(this)) {
 
   setWindowTitle(tr("Alarm clock"));
   QVBoxLayout *root = new QVBoxLayout(this);
@@ -177,6 +178,10 @@ AlarmClockPage::AlarmClockPage(AlarmClock *alarm_clock, SharedPtr<RadioServices>
   save_timer_->setSingleShot(true);
   save_timer_->setInterval(kSaveDelayMsec);
   QObject::connect(save_timer_, &QTimer::timeout, this, &AlarmClockPage::Save);
+  countdown_timer_->setSingleShot(true);
+  QObject::connect(countdown_timer_, &QTimer::timeout, this, [this]() {
+    if (isVisible() && pages_->currentWidget() == overview_) RefreshOverview();
+  });
 
   // Permissions may be granted in Android's settings, and alarms may ring or be switched off while the app is in the background.
   QObject::connect(qApp, &QGuiApplication::applicationStateChanged, this, [this](const Qt::ApplicationState state) {
@@ -218,6 +223,7 @@ void AlarmClockPage::showEvent(QShowEvent *event) {
 
 void AlarmClockPage::hideEvent(QHideEvent *event) {
 
+  countdown_timer_->stop();
   if (save_timer_->isActive()) {
     save_timer_->stop();
     Save();
@@ -298,6 +304,7 @@ void AlarmClockPage::RefreshOverview() {
   if (alarms.isEmpty()) layout->addWidget(CreateWrappingLabel(tr("There are no alarms yet."), contents));
 
   const qint64 now = QDateTime::currentMSecsSinceEpoch();
+  qint64 next_snooze = 0;
   for (const Alarm &alarm : std::as_const(alarms)) {
     AndroidWidgets::LayoutButton<QPushButton> *row = new AndroidWidgets::LayoutButton<QPushButton>(contents);
     // The height follows the wrapped lines at the row's width, not the label size hints.
@@ -317,7 +324,10 @@ void AlarmClockPage::RefreshOverview() {
     QStringList lines{AlarmText::Kind(alarm)};
     if (!alarm.name.isEmpty()) lines << alarm.name;
     const qint64 snooze = AlarmBridge::SnoozeUntilMsec(alarm.id);
-    if (snooze > now) lines << tr("Snoozed until %1").arg(QLocale().toString(QDateTime::fromMSecsSinceEpoch(snooze).time(), QLocale::ShortFormat));
+    if (snooze > now) {
+      lines << AlarmText::Snooze(QLocale().toString(QDateTime::fromMSecsSinceEpoch(snooze).time(), QLocale::ShortFormat), AlarmText::MinutesLeft(now, snooze));
+      if (next_snooze <= 0 || snooze < next_snooze) next_snooze = snooze;
+    }
     QList<QLabel*> labels{heading};
     for (const QString &line : std::as_const(lines)) labels << AndroidWidgets::AddButtonLabel(texts, line);
     texts->addStretch();
@@ -365,8 +375,14 @@ void AlarmClockPage::RefreshOverview() {
     ShowEditor(alarm.id);
   });
 
+  // The next alarm includes snoozed alarms; a snoozed alarm that goes off first is shown with its countdown.
   const qint64 next = AlarmBridge::NextAlarmMsec();
-  layout->addWidget(CreateWrappingLabel(next > 0 ? tr("Next alarm: %1").arg(QLocale().toString(QDateTime::fromMSecsSinceEpoch(next), u"ddd "_s + QLocale().timeFormat(QLocale::ShortFormat))) : tr("No alarm set"), contents));
+  const QString next_time = QLocale().toString(QDateTime::fromMSecsSinceEpoch(next), u"ddd "_s + QLocale().timeFormat(QLocale::ShortFormat));
+  if (next_snooze > 0 && next_snooze <= next) layout->addWidget(CreateWrappingLabel(tr("Next alarm: %1").arg(AlarmText::Snooze(next_time, AlarmText::MinutesLeft(now, next_snooze))), contents));
+  else layout->addWidget(CreateWrappingLabel(next > 0 ? tr("Next alarm: %1").arg(next_time) : tr("No alarm set"), contents));
+  // Refreshes the countdown while the overview is open; hiding the page stops the timer.
+  if (next_snooze > 0) countdown_timer_->start(static_cast<int>(AlarmText::RefreshDelayMsec(now, next_snooze) + 50));
+  else countdown_timer_->stop();
 
   QPushButton *settings = CreateButton(tr("Alarm settings"), contents);
   settings->setIconSize(QSize(AndroidWidgets::kMinimumTouchSize * 2 / 3, AndroidWidgets::kMinimumTouchSize * 2 / 3));

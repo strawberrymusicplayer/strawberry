@@ -33,6 +33,7 @@
 #include "smartplaylists/smartplaylistsearchterm.h"
 #include "alarmbridge_android.h"
 #include "alarmclock_android.h"
+#include "alarmtext_android.h"
 #include "alarmtracks_android.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -83,6 +84,7 @@ void AlarmClock::Start() {
   labels.insert(u"clock"_s, tr("Clock"));
   labels.insert(u"next_alarm"_s, tr("Next alarm"));
   labels.insert(u"no_alarm"_s, tr("No alarm set"));
+  labels.insert(u"snoozed_countdown"_s, AlarmText::SnoozeTemplate());
   labels.insert(u"default_no_song"_s, tr("Playing the default sound: no song available"));
   labels.insert(u"default_failed"_s, tr("Playing the default sound: the music could not be played"));
   AlarmBridge::Init(labels);

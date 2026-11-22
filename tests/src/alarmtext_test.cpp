@@ -58,4 +58,19 @@ TEST(AlarmTextTest, KindNamesTheMusic) {
 
 }
 
+TEST(AlarmTextTest, SnoozeCountdownRoundsUpAndRefreshesWhenItChanges) {
+
+  constexpr qint64 kMinute = 60000;
+  // 15 seconds past a minute.
+  constexpr qint64 now = 1000 * kMinute + 15000;
+  EXPECT_EQ(AlarmText::MinutesLeft(now, now + 6 * kMinute + 30000), 7);
+  EXPECT_EQ(AlarmText::MinutesLeft(now, now + 1000), 1);
+  EXPECT_EQ(AlarmText::MinutesLeft(now, now - 1000), 0);
+  EXPECT_EQ(AlarmText::RefreshDelayMsec(now, 0), 45000);
+  EXPECT_EQ(AlarmText::RefreshDelayMsec(now, now + 6 * kMinute + 30000), 30000);
+  EXPECT_EQ(AlarmText::RefreshDelayMsec(now, now + 6 * kMinute + 50000), 45000);
+  EXPECT_EQ(AlarmText::Snooze(u"10:45"_s, 7), u"Snoozed until 10:45, goes off in 7 min"_s);
+
+}
+
 }  // namespace

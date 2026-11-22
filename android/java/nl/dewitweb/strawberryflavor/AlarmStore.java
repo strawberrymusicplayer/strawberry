@@ -235,6 +235,22 @@ final class AlarmStore {
 
   }
 
+  // Returns the earliest end of a snooze after now in milliseconds since the epoch, or -1.
+  static long nextSnooze(final Context context) {
+
+    final long now = System.currentTimeMillis();
+    long next = -1;
+    final JSONArray list = alarms(context);
+    for (int i = 0; i < list.length(); ++i) {
+      final JSONObject alarm = list.optJSONObject(i);
+      if (alarm == null) continue;
+      final long snooze = snoozeUntil(context, alarm.optString("id"));
+      if (snooze > now && (next < 0 || snooze < next)) next = snooze;
+    }
+    return next;
+
+  }
+
   // Schedules every enabled alarm and snooze, and cancels the alarms that were removed or disabled.
   static void reschedule(final Context context) {
 

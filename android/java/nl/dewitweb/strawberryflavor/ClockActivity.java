@@ -34,8 +34,6 @@ import android.widget.TextView;
 // The Tools > Clock screen: a large clock that keeps the screen on while it is open, with the next alarm below it. Back returns to Tools.
 public class ClockActivity extends Activity {
 
-  private static final long REFRESH_MSEC = 30000;
-
   private final Handler handler = new Handler(Looper.getMainLooper());
   private ClockView clock;
   private final Runnable refresh = this::refresh;
@@ -92,10 +90,19 @@ public class ClockActivity extends Activity {
 
   private void refresh() {
 
+    final long now = System.currentTimeMillis();
     final long next = AlarmStore.nextAlarm(this);
-    clock.detail.setText(next > 0 ? AlarmStore.label(this, "next_alarm", "Next alarm") + ": " + ClockView.formatAlarmTime(this, next) : AlarmStore.label(this, "no_alarm", "No alarm set"));
+    final long snooze = AlarmStore.nextSnooze(this);
+    // A snoozed alarm that goes off first is shown with a minute countdown.
+    if (snooze > 0 && snooze <= next) {
+      clock.detail.setText(AlarmCountdown.snoozeText(AlarmStore.label(this, "snoozed_countdown", "Snoozed until %1, goes off in %2 min"), ClockView.formatAlarmTime(this, snooze), AlarmCountdown.minutesLeft(now, snooze)));
+    }
+    else {
+      clock.detail.setText(next > 0 ? AlarmStore.label(this, "next_alarm", "Next alarm") + ": " + ClockView.formatAlarmTime(this, next) : AlarmStore.label(this, "no_alarm", "No alarm set"));
+    }
     handler.removeCallbacks(refresh);
-    handler.postDelayed(refresh, REFRESH_MSEC);
+    // A little after the change, so the countdown has moved on.
+    handler.postDelayed(refresh, AlarmCountdown.refreshDelay(now, snooze) + 50);
 
   }
 

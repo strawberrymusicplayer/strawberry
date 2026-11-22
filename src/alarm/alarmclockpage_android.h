@@ -96,6 +96,8 @@ class AlarmClockPage : public QWidget {
   // Whether the on/off switch in the editor changed since the last save.
   bool enabled_changed_ = false;
   QTimer *save_timer_;
+  // Refreshes the snooze countdown in the overview.
+  QTimer *countdown_timer_;
   QPointer<AndroidWidgets::ValueButton> time_button_;
   QPointer<AndroidWidgets::ValueButton> days_button_;
   QPointer<AndroidWidgets::ValueButton> source_button_;

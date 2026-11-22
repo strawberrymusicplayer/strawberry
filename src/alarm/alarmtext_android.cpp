@@ -6,6 +6,10 @@
 
 using namespace Qt::Literals::StringLiterals;
 
+namespace {
+constexpr qint64 kMinuteMsec = 60000;
+}  // namespace
+
 QString AlarmText::Frequency(const int days, const QLocale &locale) {
 
   switch (days & Alarm::kAllDays) {
@@ -50,4 +54,27 @@ QString AlarmText::Kind(const Alarm &alarm) {
   }
   return QString();
 
+}
+
+qint64 AlarmText::MinutesLeft(const qint64 now_msec, const qint64 until_msec) {
+  return until_msec <= now_msec ? 0 : (until_msec - now_msec + kMinuteMsec - 1) / kMinuteMsec;
+}
+
+qint64 AlarmText::RefreshDelayMsec(const qint64 now_msec, const qint64 until_msec) {
+
+  qint64 delay = kMinuteMsec - ((now_msec % kMinuteMsec) + kMinuteMsec) % kMinuteMsec;
+  if (until_msec > now_msec) {
+    const qint64 change = (until_msec - now_msec) % kMinuteMsec;
+    delay = qMin(delay, change == 0 ? kMinuteMsec : change);
+  }
+  return delay;
+
+}
+
+QString AlarmText::SnoozeTemplate() {
+  return tr("Snoozed until %1, goes off in %2 min");
+}
+
+QString AlarmText::Snooze(const QString &time, const qint64 minutes) {
+  return SnoozeTemplate().arg(time, QString::number(minutes));
 }
