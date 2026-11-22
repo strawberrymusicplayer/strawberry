@@ -1,16 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <QByteArray>
-#include <QDate>
-#include <QDateTime>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QString>
 #include <QStringList>
-#include <QTime>
-#include <QTimeZone>
 
 #include "alarmschedule_android.h"
 
@@ -107,51 +103,6 @@ Alarm Alarm::FromJson(const QJsonObject &object) {
 }
 
 namespace AlarmSchedule {
-
-QDateTime TimeOnDate(const QDate &date, const int hour, const int minute, const QTimeZone &zone) {
-
-  // Resolve the local time explicitly instead of relying on how the Qt version handles times in a daylight saving gap.
-  const QTime time(hour, minute);
-  const QDateTime wall_clock(date, time, QTimeZone::utc());
-  const int offset_before = zone.offsetFromUtc(date.startOfDay(zone));
-  const int offset_after = zone.offsetFromUtc(date.addDays(1).startOfDay(zone).addSecs(-1));
-  for (const int offset : {offset_before, offset_after}) {
-    const QDateTime candidate = wall_clock.addSecs(-offset).toTimeZone(zone);
-    if (candidate.date() == date && candidate.time() == time) return candidate;
-  }
-  return wall_clock.addSecs(-offset_before).toTimeZone(zone);
-
-}
-
-QDateTime NextTrigger(const Alarm &alarm, const QDateTime &now, const QTimeZone &zone) {
-
-  if (!alarm.enabled) return QDateTime();
-
-  const QDate today = now.toTimeZone(zone).date();
-  for (int i = 0; i <= 7; ++i) {
-    const QDate date = today.addDays(i);
-    if (alarm.repeats() && !alarm.RingsOnDay(date.dayOfWeek())) continue;
-    const QDateTime trigger = TimeOnDate(date, alarm.hour, alarm.minute, zone);
-    if (trigger > now) return trigger;
-  }
-  return QDateTime();
-
-}
-
-int NextAlarm(const AlarmList &alarms, const QDateTime &now, const QTimeZone &zone) {
-
-  int next = -1;
-  QDateTime next_trigger;
-  for (int i = 0; i < alarms.count(); ++i) {
-    const QDateTime trigger = NextTrigger(alarms.at(i), now, zone);
-    if (trigger.isValid() && (!next_trigger.isValid() || trigger < next_trigger)) {
-      next = i;
-      next_trigger = trigger;
-    }
-  }
-  return next;
-
-}
 
 AlarmList ListFromJson(const QByteArray &json) {
 

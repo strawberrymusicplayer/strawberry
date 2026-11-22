@@ -4,16 +4,14 @@
 #define ALARMSCHEDULE_ANDROID_H
 
 #include <QByteArray>
-#include <QDateTime>
 #include <QJsonObject>
 #include <QList>
 #include <QString>
 #include <QStringList>
-#include <QTimeZone>
 
 // An alarm of the Android alarm clock.
 // AlarmStore.java keeps the alarms as JSON in the app's SharedPreferences, so it can ring and reschedule them while the Qt app is not running.
-// The JSON keys and the next trigger calculation must match AlarmStore.java.
+// The JSON keys must match AlarmStore.java; AlarmSchedule.java calculates when alarms ring.
 struct Alarm {
   // Saved as the strings of SourceName(), so the order may change.
   enum class Source { Sound, Playlist, LastPlayed, Random, Song, Radio };
@@ -59,17 +57,6 @@ struct Alarm {
 using AlarmList = QList<Alarm>;
 
 namespace AlarmSchedule {
-
-// Returns the moment the alarm's time occurs on the date in the time zone.
-// A time skipped by a daylight saving change rings as much later as the change skipped, a time that occurs twice rings the first time.
-QDateTime TimeOnDate(const QDate &date, int hour, int minute, const QTimeZone &zone);
-
-// Returns the next moment after now when an enabled alarm rings, or an invalid QDateTime for a disabled alarm.
-// A one-off alarm whose time has passed today rings tomorrow.
-QDateTime NextTrigger(const Alarm &alarm, const QDateTime &now, const QTimeZone &zone);
-
-// Returns the index of the enabled alarm that rings first after now, or -1.
-int NextAlarm(const AlarmList &alarms, const QDateTime &now, const QTimeZone &zone);
 
 AlarmList ListFromJson(const QByteArray &json);
 QByteArray ListToJson(const AlarmList &alarms);

@@ -185,6 +185,16 @@ if(NOT ANDROID)
   target_sources(spotifytrust_test PRIVATE ${CMAKE_SOURCE_DIR}/src/engine/spotifytrust_android.cpp)
   add_test_file(src/alarmschedule_test.cpp false)
   target_sources(alarmschedule_test PRIVATE ${CMAKE_SOURCE_DIR}/src/alarm/alarmschedule_android.cpp)
+  # The Android alarm scheduling is Java; its test runs on a desktop JVM when a JDK is found.
+  find_package(Java COMPONENTS Development)
+  if(Java_FOUND)
+    add_test(NAME alarmschedule_java_test COMMAND ${CMAKE_COMMAND}
+      -DJAVAC=${Java_JAVAC_EXECUTABLE} -DJAVA=${Java_JAVA_EXECUTABLE}
+      -DOUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}/alarmschedule_java_test
+      -DTEST_CLASS=nl.dewitweb.strawberryflavor.AlarmScheduleTest
+      "-DSOURCES=${CMAKE_SOURCE_DIR}/android/java/nl/dewitweb/strawberryflavor/AlarmSchedule.java|${CMAKE_CURRENT_SOURCE_DIR}/java/nl/dewitweb/strawberryflavor/AlarmScheduleTest.java"
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/java/run_java_test.cmake)
+  endif()
   add_test_file(src/androidstoragefileengine_test.cpp false)
   target_sources(androidstoragefileengine_test PRIVATE ${CMAKE_SOURCE_DIR}/src/core/androidstoragefileengine.cpp)
   target_link_libraries(androidstoragefileengine_test PRIVATE Qt${QT_VERSION_MAJOR}::CorePrivate)

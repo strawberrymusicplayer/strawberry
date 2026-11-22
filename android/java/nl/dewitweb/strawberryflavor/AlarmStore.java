@@ -27,9 +27,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
@@ -199,21 +196,7 @@ final class AlarmStore {
 
   // Returns the next time the alarm rings after now in milliseconds since the epoch, or -1 if it is disabled.
   static long nextTrigger(final JSONObject alarm, final ZonedDateTime now) {
-
-    if (!alarm.optBoolean("enabled", true)) return -1;
-    final int days = alarm.optInt("days", 0) & 0x7f;
-    final LocalTime time = LocalTime.of(Math.max(0, Math.min(23, alarm.optInt("hour", 7))), Math.max(0, Math.min(59, alarm.optInt("minute", 0))));
-    final LocalDate today = now.toLocalDate();
-    for (int i = 0; i <= 7; ++i) {
-      final LocalDate date = today.plusDays(i);
-      final DayOfWeek day = date.getDayOfWeek();
-      if (days != 0 && (days & (1 << (day.getValue() - 1))) == 0) continue;
-      // ZonedDateTime.of() moves a time in a daylight saving gap later by the length of the gap and uses the earlier of two occurrences.
-      final ZonedDateTime trigger = ZonedDateTime.of(date, time, now.getZone());
-      if (trigger.isAfter(now)) return trigger.toInstant().toEpochMilli();
-    }
-    return -1;
-
+    return AlarmSchedule.nextTrigger(alarm.optBoolean("enabled", true), alarm.optInt("days", 0), alarm.optInt("hour", 7), alarm.optInt("minute", 0), now);
   }
 
   // Returns the next time any alarm or snoozed alarm rings in milliseconds since the epoch, or -1.
