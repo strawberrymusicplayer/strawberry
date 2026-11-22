@@ -198,6 +198,12 @@ if(NOT ANDROID)
       -DTEST_CLASS=nl.dewitweb.strawberryflavor.AlarmScheduleTest
       "-DSOURCES=${CMAKE_SOURCE_DIR}/android/java/nl/dewitweb/strawberryflavor/AlarmSchedule.java|${CMAKE_CURRENT_SOURCE_DIR}/java/nl/dewitweb/strawberryflavor/AlarmScheduleTest.java"
       -P ${CMAKE_CURRENT_SOURCE_DIR}/java/run_java_test.cmake)
+    add_test(NAME alarmfallback_java_test COMMAND ${CMAKE_COMMAND}
+      -DJAVAC=${Java_JAVAC_EXECUTABLE} -DJAVA=${Java_JAVA_EXECUTABLE}
+      -DOUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}/alarmfallback_java_test
+      -DTEST_CLASS=nl.dewitweb.strawberryflavor.AlarmFallbackTest
+      "-DSOURCES=${CMAKE_SOURCE_DIR}/android/java/nl/dewitweb/strawberryflavor/AlarmFallback.java|${CMAKE_CURRENT_SOURCE_DIR}/java/nl/dewitweb/strawberryflavor/AlarmFallbackTest.java"
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/java/run_java_test.cmake)
   endif()
   add_test_file(src/androidstoragefileengine_test.cpp false)
   target_sources(androidstoragefileengine_test PRIVATE ${CMAKE_SOURCE_DIR}/src/core/androidstoragefileengine.cpp)

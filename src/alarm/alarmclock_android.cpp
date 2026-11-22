@@ -82,6 +82,8 @@ void AlarmClock::Start() {
   labels.insert(u"clock"_s, tr("Clock"));
   labels.insert(u"next_alarm"_s, tr("Next alarm"));
   labels.insert(u"no_alarm"_s, tr("No alarm set"));
+  labels.insert(u"default_no_song"_s, tr("Playing the default sound: no song available"));
+  labels.insert(u"default_failed"_s, tr("Playing the default sound: the music could not be played"));
   AlarmBridge::Init(labels);
 
   QTimer::singleShot(kOutdatedTracksDelayMsec, this, &AlarmClock::UpdateOutdatedTracks);

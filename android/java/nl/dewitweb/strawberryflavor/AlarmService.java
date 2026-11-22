@@ -75,7 +75,10 @@ public class AlarmService extends Service {
   // The ringing alarm, read by AlarmActivity on the main thread.
   private static String ringingId;
   private static String ringingName = "";
+  // Why the default sound plays instead of the alarm's music, shown on the ringing screen, or empty.
+  private static String status = "";
   private static Runnable finishedListener;
+  private static Runnable statusListener;
 
   private final Handler handler = new Handler(Looper.getMainLooper());
   private AudioManager audioManager;
@@ -89,6 +92,10 @@ public class AlarmService extends Service {
   private String currentSource;
   private boolean radio = false;
   private boolean defaultSound = false;
+  private String sourceName = "";
+  // Whether the alarm had anything to play before falling back to the default sound.
+  private boolean hadItems = false;
+  private String notificationTitle = "";
   private int previousVolume = -1;
   private long fadeStart = 0;
   private long fadeMsec = 0;
@@ -113,6 +120,14 @@ public class AlarmService extends Service {
 
   static void setFinishedListener(final Runnable listener) {
     finishedListener = listener;
+  }
+
+  static String status() {
+    return status;
+  }
+
+  static void setStatusListener(final Runnable listener) {
+    statusListener = listener;
   }
 
   @Override
@@ -172,28 +187,53 @@ public class AlarmService extends Service {
     channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
     notifications.createNotificationChannel(channel);
 
-    final String title = name.isEmpty() ? AlarmStore.label(this, "alarm", "Alarm") : name;
-    final Intent activity = new Intent(this, AlarmActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_USER_ACTION);
-    final PendingIntent fullScreen = PendingIntent.getActivity(this, 0, activity, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
-    final Notification notification = new Notification.Builder(this, CHANNEL_ID)
-      .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
-      .setContentTitle(title)
-      .setContentText(android.text.format.DateFormat.getTimeFormat(this).format(new java.util.Date()))
-      .setCategory(Notification.CATEGORY_ALARM)
-      .setVisibility(Notification.VISIBILITY_PUBLIC)
-      .setOngoing(true)
-      .setShowWhen(false)
-      .setContentIntent(fullScreen)
-      .setFullScreenIntent(fullScreen, true)
-      .addAction(new Notification.Action.Builder(null, AlarmStore.label(this, "snooze", "Snooze"), serviceIntent(ACTION_SNOOZE, 1)).build())
-      .addAction(new Notification.Action.Builder(null, AlarmStore.label(this, "stop", "Stop"), serviceIntent(ACTION_STOP, 2)).build())
-      .build();
+    notificationTitle = name.isEmpty() ? AlarmStore.label(this, "alarm", "Alarm") : name;
+    final Notification notification = buildNotification();
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
       startForeground(NOTIFICATION_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK);
     }
     else {
       startForeground(NOTIFICATION_ID, notification);
     }
+
+  }
+
+  private Notification buildNotification() {
+
+    final Intent activity = new Intent(this, AlarmActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_USER_ACTION);
+    final PendingIntent fullScreen = PendingIntent.getActivity(this, 0, activity, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+    final String time = android.text.format.DateFormat.getTimeFormat(this).format(new java.util.Date());
+    return new Notification.Builder(this, CHANNEL_ID)
+      .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
+      .setContentTitle(notificationTitle)
+      .setContentText(status.isEmpty() ? time : status)
+      .setCategory(Notification.CATEGORY_ALARM)
+      .setVisibility(Notification.VISIBILITY_PUBLIC)
+      .setOngoing(true)
+      .setOnlyAlertOnce(true)
+      .setShowWhen(false)
+      .setContentIntent(fullScreen)
+      .setFullScreenIntent(fullScreen, true)
+      .addAction(new Notification.Action.Builder(null, AlarmStore.label(this, "snooze", "Snooze"), serviceIntent(ACTION_SNOOZE, 1)).build())
+      .addAction(new Notification.Action.Builder(null, AlarmStore.label(this, "stop", "Stop"), serviceIntent(ACTION_STOP, 2)).build())
+      .build();
+
+  }
+
+  private void setStatus(final String text) {
+
+    if (text.equals(status)) return;
+    status = text;
+    if (ringingId != null) {
+      try {
+        getSystemService(NotificationManager.class).notify(NOTIFICATION_ID, buildNotification());
+      }
+      catch (RuntimeException e) {
+        Log.w(AlarmStore.TAG, "Could not update the alarm notification", e);
+      }
+    }
+    final Runnable listener = statusListener;
+    if (listener != null) listener.run();
 
   }
 
@@ -242,7 +282,9 @@ public class AlarmService extends Service {
     sourceIndex = 0;
     failures = 0;
     defaultSound = false;
+    setStatus("");
     final String source = alarm.optString("source", "random");
+    sourceName = source;
     radio = "radio".equals(source);
     if (radio) {
       final String url = alarm.optString("source_url");
@@ -261,8 +303,14 @@ public class AlarmService extends Service {
           sources.add(track);
         }
       }
+      if (sources.isEmpty() && "random".equals(source)) {
+        // The alarm rang before its songs were chosen and copied, so play the songs copied for the other alarms.
+        sources.addAll(AlarmFallback.copies(new File(getFilesDir(), "alarms"), sources));
+        if (!sources.isEmpty()) Log.i(AlarmStore.TAG, "The alarm has no songs yet, ringing with songs copied for other alarms");
+      }
       if ("random".equals(source)) Collections.shuffle(sources);
     }
+    hadItems = !sources.isEmpty();
     Log.i(AlarmStore.TAG, "Ringing alarm with source " + source + " and " + sources.size() + " playable item(s)");
 
     fadeMsec = Math.max(0, alarm.optInt("fade_in", 30)) * 1000L;
@@ -389,7 +437,10 @@ public class AlarmService extends Service {
   private void playDefaultSound() {
 
     defaultSound = true;
-    Log.i(AlarmStore.TAG, "Playing the default alarm sound");
+    final int reason = AlarmFallback.reason(sourceName, hadItems);
+    Log.i(AlarmStore.TAG, "Playing the default alarm sound" + (reason == AlarmFallback.REASON_NONE ? "" : reason == AlarmFallback.REASON_NO_SONG ? ": no song available" : ": the music could not be played"));
+    if (reason == AlarmFallback.REASON_NO_SONG) setStatus(AlarmStore.label(this, "default_no_song", "Playing the default sound: no song available"));
+    else if (reason == AlarmFallback.REASON_FAILED) setStatus(AlarmStore.label(this, "default_failed", "Playing the default sound: the music could not be played"));
     final int playerGeneration = ++generation;
     for (final int type : new int[] { RingtoneManager.TYPE_ALARM, RingtoneManager.TYPE_RINGTONE, RingtoneManager.TYPE_NOTIFICATION }) {
       final Uri uri = RingtoneManager.getDefaultUri(type);
@@ -554,6 +605,7 @@ public class AlarmService extends Service {
     previousVolume = -1;
     ringingId = null;
     ringingName = "";
+    status = "";
     if (wakeLock != null && wakeLock.isHeld()) wakeLock.release();
     final Runnable listener = finishedListener;
     if (listener != null) listener.run();
