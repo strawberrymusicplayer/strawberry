@@ -1,0 +1,40 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+#ifndef ALARMBRIDGE_ANDROID_H
+#define ALARMBRIDGE_ANDROID_H
+
+#include <QJsonObject>
+#include <QString>
+#include <QtGlobal>
+
+#include "alarmschedule_android.h"
+
+// Calls AlarmBridge.java, which keeps the alarms in the app's SharedPreferences and schedules them with Android's AlarmManager.
+// The alarms are written one at a time, so changes made by the Java side, such as switching off a one-off alarm when it rings, are not overwritten.
+namespace AlarmBridge {
+
+// Must match the PERMISSION_ constants in AlarmBridge.java.
+constexpr int kPermissionNotifications = 1;
+constexpr int kPermissionExactAlarms = 2;
+constexpr int kPermissionFullScreen = 4;
+
+// Stores the translated texts that the Java alarm screens show and schedules the stored alarms.
+void Init(const QJsonObject &labels);
+AlarmList Alarms();
+// Returns the stored alarm with the ID, or an alarm with an empty ID.
+Alarm FindAlarm(const QString &id);
+bool SaveAlarm(const Alarm &alarm);
+void DeleteAlarm(const QString &id);
+int AutoStopMinutes();
+void SetAutoStopMinutes(const int minutes);
+// Returns the next time an alarm rings in milliseconds since the epoch, including snoozed alarms, or -1.
+qint64 NextAlarmMsec();
+// Returns when the snoozed alarm rings again in milliseconds since the epoch, or 0.
+qint64 SnoozeUntilMsec(const QString &id);
+int MissingPermissions();
+void RequestPermission(const int permission);
+void OpenClock();
+
+}  // namespace AlarmBridge
+
+#endif  // ALARMBRIDGE_ANDROID_H

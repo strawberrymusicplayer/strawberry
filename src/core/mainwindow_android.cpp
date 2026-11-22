@@ -63,6 +63,9 @@
 #include "playlist/playlistlistcontainer.h"
 #include "playlist/playlistmanager.h"
 #include "settings/settingsdialog.h"
+#include "alarm/alarmbridge_android.h"
+#include "alarm/alarmclock_android.h"
+#include "alarm/alarmclockpage_android.h"
 #include "widgets/androidwidgets.h"
 #include "widgets/fancytabwidget.h"
 #include "widgets/playlisttitleheader.h"
@@ -122,6 +125,8 @@ void MainWindow::SetupAndroidLayout() {
       if (task.cancellable) app_->task_manager()->RequestTaskCancellation(task.id);
     }
   });
+
+  android_alarm_clock_->Start();
 
   QNativeInterface::QAndroidApplication::runOnAndroidMainThread([]() {
     QJniEnvironment env;
@@ -263,7 +268,13 @@ QWidget *MainWindow::CreateAndroidToolsPage() {
     }
   };
 
-  add_section(tr("Tools"), { ui_->action_cover_manager, ui_->action_equalizer });
+  // The alarm clock is Android-only, so its actions are not in the desktop menus.
+  android_alarm_clock_ = new AlarmClock(app_->collection_backend(), app_->playlist_backend(), this);
+  QAction *alarm_clock_action = new QAction(tr("Alarm clock"), this);
+  QObject::connect(alarm_clock_action, &QAction::triggered, this, &MainWindow::ShowAndroidAlarmClock);
+  QAction *clock_action = new QAction(tr("Clock"), this);
+  QObject::connect(clock_action, &QAction::triggered, this, []() { AlarmBridge::OpenClock(); });
+  add_section(tr("Tools"), { ui_->action_cover_manager, ui_->action_equalizer, alarm_clock_action, clock_action });
   add_section(tr("Collection"), { ui_->action_update_collection, ui_->action_full_collection_scan, ui_->action_stop_collection_scan });
   layout->addStretch();
   AndroidScrollArea::EnableForContents(page);
@@ -318,6 +329,16 @@ void MainWindow::ShowAndroidTool(QWidget *tool, const bool add_header) {
   android_tools_pages_->setCurrentWidget(page);
   tool->show();
   tool->setFocus(Qt::OtherFocusReason);
+
+}
+
+void MainWindow::ShowAndroidAlarmClock() {
+
+  if (!android_alarm_clock_page_) {
+    android_alarm_clock_page_ = new AlarmClockPage(android_alarm_clock_, app_->radio_services(), this);
+  }
+  android_alarm_clock_page_->ShowOverview();
+  ShowAndroidTool(android_alarm_clock_page_, false);
 
 }
 
