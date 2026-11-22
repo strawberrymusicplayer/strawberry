@@ -3,6 +3,8 @@
 #ifndef ALARMCLOCK_ANDROID_H
 #define ALARMCLOCK_ANDROID_H
 
+#include <functional>
+
 #include <QObject>
 #include <QHash>
 #include <QString>
@@ -41,7 +43,9 @@ class AlarmClock : public QObject {
  private:
   void UpdateOutdatedTracks();
   static QString TracksDirectory(const QString &id);
-  static QStringList CopyTracks(const Alarm &alarm, SharedPtr<CollectionBackend> collection_backend, SharedPtr<PlaylistBackend> playlist_backend, const QString &directory);
+  static QStringList CopyTracks(const Alarm &alarm, SharedPtr<CollectionBackend> collection_backend, SharedPtr<PlaylistBackend> playlist_backend, const QString &directory, const QString &prefix);
+  // Removes the files in the directory for which remove returns true, and the directory once it is empty.
+  static void RemoveCopies(const QString &directory, const std::function<bool(const QString &file)> &remove);
 
  private:
   SharedPtr<CollectionBackend> collection_backend_;

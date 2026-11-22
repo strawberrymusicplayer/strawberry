@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <algorithm>
+#include <functional>
 
 #include <QCoreApplication>
 #include <QDateTime>
@@ -120,21 +121,39 @@ void AlarmClock::UpdateTracks(const QString &id) {
   if (alarm.id.isEmpty()) return;
   const int generation = ++generations_[id];
   const QString directory = TracksDirectory(id);
+  // Every update writes new file names, so concurrent updates for the same alarm never overwrite or delete each other's copies.
+  const QString prefix = QString::number(QDateTime::currentMSecsSinceEpoch()) + u'_' + QString::number(generation) + u'_';
 
   QFutureWatcher<QStringList> *watcher = new QFutureWatcher<QStringList>(this);
-  QObject::connect(watcher, &QFutureWatcher<QStringList>::finished, this, [this, watcher, alarm, generation]() {
+  QObject::connect(watcher, &QFutureWatcher<QStringList>::finished, this, [this, watcher, alarm, generation, directory, prefix]() {
     watcher->deleteLater();
-    if (generations_.value(alarm.id) != generation) return;
+    const QStringList tracks = watcher->result();
     Alarm current = AlarmBridge::FindAlarm(alarm.id);
-    // The alarm was deleted or got another source while the songs were copied.
-    if (current.id.isEmpty() || current.source != alarm.source || current.source_id != alarm.source_id || current.source_url != alarm.source_url) return;
-    current.tracks = watcher->result();
+    // A newer update replaced this one, or the alarm was deleted or got another source while the songs were copied.
+    if (generations_.value(alarm.id) != generation || current.id.isEmpty() || current.source != alarm.source || current.source_id != alarm.source_id || current.source_url != alarm.source_url) {
+      RemoveCopies(directory, [&prefix](const QString &file) { return file.startsWith(prefix); });
+      return;
+    }
+    current.tracks = tracks;
     current.tracks_updated = QDateTime::currentSecsSinceEpoch();
     AlarmBridge::SaveAlarm(current);
+    // Only now that the alarm refers to the new copies can the old ones go; an older update that is still copying removes its own files when it finishes.
+    RemoveCopies(directory, [&directory, &tracks](const QString &file) { return !tracks.contains(directory + u'/' + file); });
     qLog(Debug) << "Copied" << current.tracks.count() << "song(s) for alarm" << current.id;
     Q_EMIT TracksUpdated(current.id);
   });
-  watcher->setFuture(QtConcurrent::run(&AlarmClock::CopyTracks, alarm, collection_backend_, playlist_backend_, directory));
+  watcher->setFuture(QtConcurrent::run(&AlarmClock::CopyTracks, alarm, collection_backend_, playlist_backend_, directory, prefix));
+
+}
+
+void AlarmClock::RemoveCopies(const QString &directory, const std::function<bool(const QString &file)> &remove) {
+
+  QDir dir(directory);
+  const QStringList files = dir.entryList(QDir::Files);
+  for (const QString &file : files) {
+    if (remove(file)) dir.remove(file);
+  }
+  if (dir.isEmpty()) dir.removeRecursively();
 
 }
 
@@ -145,7 +164,7 @@ void AlarmClock::RemoveTracks(const QString &id) {
 
 }
 
-QStringList AlarmClock::CopyTracks(const Alarm &alarm, SharedPtr<CollectionBackend> collection_backend, SharedPtr<PlaylistBackend> playlist_backend, const QString &directory) {
+QStringList AlarmClock::CopyTracks(const Alarm &alarm, SharedPtr<CollectionBackend> collection_backend, SharedPtr<PlaylistBackend> playlist_backend, const QString &directory, const QString &prefix) {
 
   QList<QUrl> candidates;
   switch (alarm.source) {
@@ -175,7 +194,6 @@ QStringList AlarmClock::CopyTracks(const Alarm &alarm, SharedPtr<CollectionBacke
 
   // New copies get new names, so a song that is ringing right now is not overwritten.
   QDir().mkpath(directory);
-  const QString prefix = QString::number(QDateTime::currentMSecsSinceEpoch()) + u'_';
   QStringList tracks;
   qint64 total_size = 0;
   for (const QUrl &url : std::as_const(candidates)) {
@@ -205,11 +223,6 @@ QStringList AlarmClock::CopyTracks(const Alarm &alarm, SharedPtr<CollectionBacke
     if (!previous.isEmpty()) return previous;
   }
 
-  const QStringList files = QDir(directory).entryList(QDir::Files);
-  for (const QString &file : files) {
-    const QString path = directory + u'/' + file;
-    if (!tracks.contains(path)) QFile::remove(path);
-  }
   return tracks;
 
 }
