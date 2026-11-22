@@ -9,6 +9,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QFutureWatcher>
+#include <QGuiApplication>
 #include <QJsonObject>
 #include <QList>
 #include <QMetaObject>
@@ -85,6 +86,11 @@ void AlarmClock::Start() {
   labels.insert(u"default_no_song"_s, tr("Playing the default sound: no song available"));
   labels.insert(u"default_failed"_s, tr("Playing the default sound: the music could not be played"));
   AlarmBridge::Init(labels);
+
+  // Without notifications a ringing alarm may have no visible way to stop it, so opening Strawberry shows the ringing screen.
+  QObject::connect(qApp, &QGuiApplication::applicationStateChanged, this, [](const Qt::ApplicationState state) {
+    if (state == Qt::ApplicationActive) AlarmBridge::ShowRingingScreen();
+  });
 
   QTimer::singleShot(kOutdatedTracksDelayMsec, this, &AlarmClock::UpdateOutdatedTracks);
 

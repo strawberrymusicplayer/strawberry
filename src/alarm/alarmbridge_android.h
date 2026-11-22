@@ -17,6 +17,8 @@ namespace AlarmBridge {
 constexpr int kPermissionNotifications = 1;
 constexpr int kPermissionExactAlarms = 2;
 constexpr int kPermissionFullScreen = 4;
+constexpr int kPermissionChannel = 8;
+constexpr int kPermissionOverlay = 16;
 
 // Stores the translated texts that the Java alarm screens show and schedules the stored alarms.
 void Init(const QJsonObject &labels);
@@ -31,8 +33,14 @@ void SetAutoStopMinutes(const int minutes);
 qint64 NextAlarmMsec();
 // Returns when the snoozed alarm rings again in milliseconds since the epoch, or 0.
 qint64 SnoozeUntilMsec(const QString &id);
+// Returns the kPermission bits of the permissions and notification settings that ringing alarms need but that are missing.
 int MissingPermissions();
+// Shows Android's notification permission dialog if it may still be shown; the other permissions need the system settings.
+void RequestRuntimePermissions();
+// Asks for the permission, or opens the system settings page where it can be granted.
 void RequestPermission(const int permission);
+// Opens the ringing screen if an alarm is ringing.
+void ShowRingingScreen();
 void OpenClock();
 
 }  // namespace AlarmBridge

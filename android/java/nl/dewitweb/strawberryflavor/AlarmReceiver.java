@@ -42,7 +42,7 @@ public final class AlarmReceiver extends BroadcastReceiver {
   static final String ACTION_FALLBACK_STOP = "nl.dewitweb.strawberryflavor.ALARM_FALLBACK_STOP";
   // MediaSessionBridge uses 1, BrowserAuthenticationService 2 and AlarmService 3.
   static final int FALLBACK_NOTIFICATION_ID = 4;
-  private static final String FALLBACK_CHANNEL_ID = "alarm_fallback";
+  static final String FALLBACK_CHANNEL_ID = "alarm_fallback";
   private static final long WAKE_LOCK_MSEC = 10000;
 
   @Override

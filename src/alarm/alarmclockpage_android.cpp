@@ -9,6 +9,7 @@
 #include <QCheckBox>
 #include <QDateTime>
 #include <QFont>
+#include <QFrame>
 #include <QFutureWatcher>
 #include <QGuiApplication>
 #include <QHBoxLayout>
@@ -172,6 +173,7 @@ void AlarmClockPage::ShowOverview() {
 void AlarmClockPage::showEvent(QShowEvent *event) {
 
   QWidget::showEvent(event);
+  AlarmBridge::RequestRuntimePermissions();
   if (pages_->currentWidget() == overview_) RefreshOverview();
   else if (pages_->currentWidget() == editor_) RefreshEditor();
 
@@ -289,6 +291,7 @@ void AlarmClockPage::RefreshOverview() {
       if (stored.id.isEmpty()) return;
       stored.enabled = checked;
       AlarmBridge::SaveAlarm(stored);
+      if (checked) AlarmBridge::RequestRuntimePermissions();
       if (checked && AlarmClock::UsesTracks(stored) && stored.tracks.isEmpty()) alarm_clock_->UpdateTracks(id);
       // Not from within the check box's own signal, since refreshing deletes it.
       QTimer::singleShot(0, this, [this]() {
@@ -305,6 +308,7 @@ void AlarmClockPage::RefreshOverview() {
     Alarm alarm;
     alarm.id = QUuid::createUuid().toString(QUuid::WithoutBraces);
     AlarmBridge::SaveAlarm(alarm);
+    AlarmBridge::RequestRuntimePermissions();
     alarm_clock_->UpdateTracks(alarm.id);
     ShowEditor(alarm.id);
   });
@@ -404,20 +408,33 @@ void AlarmClockPage::ShowDeleteCopiesPage() {
 void AlarmClockPage::AddPermissionWarnings(QVBoxLayout *layout) {
 
   const int missing = AlarmBridge::MissingPermissions();
+  const QString no_stop = tr("An alarm may then ring without any way to stop it.");
   const QList<std::pair<int, std::pair<QString, QString>>> permissions = {
-    {AlarmBridge::kPermissionNotifications, {tr("Notifications are not allowed, so a ringing alarm cannot show its alarm screen."), tr("Allow notifications")}},
+    {AlarmBridge::kPermissionNotifications, {tr("Notifications are off for Strawberry, so a ringing alarm cannot show its Snooze and Stop buttons. %1").arg(no_stop), tr("Allow notifications")}},
+    {AlarmBridge::kPermissionChannel, {tr("Alarm clock notifications are switched off, so a ringing alarm cannot show its Snooze and Stop buttons. %1").arg(no_stop), tr("Turn on alarm notifications")}},
+    {AlarmBridge::kPermissionOverlay, {tr("While notifications are off, allowing Strawberry to display over other apps lets the ringing screen with its Stop button open anyway."), tr("Allow display over other apps")}},
     {AlarmBridge::kPermissionExactAlarms, {tr("Exact alarms are not allowed, so alarms may ring late and only with the default alarm sound until you open them."), tr("Allow exact alarms")}},
-    {AlarmBridge::kPermissionFullScreen, {tr("Full-screen notifications are not allowed, so a ringing alarm cannot show its alarm screen over the lock screen."), tr("Allow full-screen alarms")}},
+    {AlarmBridge::kPermissionFullScreen, {tr("Full-screen alarms are not allowed, so a ringing alarm cannot show its alarm screen over the lock screen; stop it from the notification instead."), tr("Allow full-screen alarms")}},
   };
   for (const auto &permission : permissions) {
     if (!(missing & permission.first)) continue;
-    QLabel *warning = CreateWrappingLabel(permission.second.first, layout->parentWidget());
+    // A framed banner, so the warning stands out from the alarm list in light and dark themes.
+    QFrame *banner = new QFrame(layout->parentWidget());
+    banner->setObjectName(u"alarm_permission_warning"_s);
+    banner->setStyleSheet(u"QFrame#alarm_permission_warning { border: 2px solid %1; border-radius: 8px; }"_s.arg(banner->palette().color(QPalette::Link).name()));
+    QVBoxLayout *banner_layout = new QVBoxLayout(banner);
+    banner_layout->setContentsMargins(12, 12, 12, 12);
+    QLabel *warning = CreateWrappingLabel(permission.second.first, banner);
     warning->setForegroundRole(QPalette::Link);
-    layout->addWidget(warning);
-    QPushButton *allow = CreateButton(permission.second.second, layout->parentWidget());
+    QFont font = warning->font();
+    font.setBold(true);
+    warning->setFont(font);
+    banner_layout->addWidget(warning);
+    QPushButton *allow = CreateButton(permission.second.second, banner);
     const int bit = permission.first;
     QObject::connect(allow, &QPushButton::clicked, this, [bit]() { AlarmBridge::RequestPermission(bit); });
-    layout->addWidget(allow);
+    banner_layout->addWidget(allow);
+    layout->addWidget(banner);
   }
 
 }
@@ -441,6 +458,7 @@ void AlarmClockPage::ShowEditor(const QString &id) {
   QObject::connect(enabled_, &QCheckBox::toggled, this, [this](const bool checked) {
     alarm_.enabled = checked;
     enabled_changed_ = true;
+    if (checked) AlarmBridge::RequestRuntimePermissions();
     if (checked && AlarmClock::UsesTracks(alarm_) && alarm_.tracks.isEmpty()) {
       Save();
       alarm_clock_->UpdateTracks(alarm_.id);

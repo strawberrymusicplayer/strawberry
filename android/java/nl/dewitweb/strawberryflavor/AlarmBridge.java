@@ -21,10 +21,10 @@ package nl.dewitweb.strawberryflavor;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -36,13 +36,17 @@ import org.json.JSONObject;
 // Called from the Qt alarm clock page through JNI. The alarms are stored on the Java side, so they ring and are rescheduled while the Qt app is not running.
 public final class AlarmBridge {
 
-  static final int PERMISSION_NOTIFICATIONS = 1;
-  static final int PERMISSION_EXACT_ALARMS = 2;
-  static final int PERMISSION_FULL_SCREEN = 4;
+  static final int PERMISSION_NOTIFICATIONS = AlarmPermissions.NOTIFICATIONS;
+  static final int PERMISSION_EXACT_ALARMS = AlarmPermissions.EXACT_ALARMS;
+  static final int PERMISSION_FULL_SCREEN = AlarmPermissions.FULL_SCREEN;
+  static final int PERMISSION_CHANNEL = AlarmPermissions.CHANNEL;
+  static final int PERMISSION_OVERLAY = AlarmPermissions.OVERLAY;
 
   private static final String PERMISSION_PREFERENCES = "alarm_permissions";
   private static final String KEY_NOTIFICATIONS_ASKED = "notifications_asked";
   private static final int REQUEST_NOTIFICATIONS = 2801;
+
+  private static boolean notificationsAskedThisSession = false;
 
   private AlarmBridge() {}
 
@@ -102,36 +106,48 @@ public final class AlarmBridge {
     return AlarmStore.snoozeUntil(context, id);
   }
 
-  // Returns the PERMISSION_ bits of the permissions that alarms need but that are not granted.
+  // Returns the PERMISSION_ bits of the permissions and settings that alarms need but that are not granted.
   public static int missingPermissions(final Context context) {
 
-    int missing = 0;
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && context.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-      missing |= PERMISSION_NOTIFICATIONS;
+    final NotificationManager notifications = context.getSystemService(NotificationManager.class);
+    final boolean notificationsAllowed = notificationPermission(context) && notifications.areNotificationsEnabled();
+    final boolean exactAlarms = Build.VERSION.SDK_INT < Build.VERSION_CODES.S || context.getSystemService(AlarmManager.class).canScheduleExactAlarms();
+    final boolean fullScreen = Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE || notifications.canUseFullScreenIntent();
+    return AlarmPermissions.missing(notificationsAllowed, blockedAlarmChannel(context) != null, exactAlarms, fullScreen, Settings.canDrawOverlays(context));
+
+  }
+
+  // Asks for the notification permission if Android still shows its dialog; the other settings can only be changed in the system settings.
+  public static void requestRuntimePermissions(final Context context) {
+
+    if (!canRequestNotifications(context)) return;
+    notificationsAskedThisSession = true;
+    context.getSharedPreferences(PERMISSION_PREFERENCES, Context.MODE_PRIVATE).edit().putBoolean(KEY_NOTIFICATIONS_ASKED, true).apply();
+    try {
+      ((Activity) context).requestPermissions(new String[] { Manifest.permission.POST_NOTIFICATIONS }, REQUEST_NOTIFICATIONS);
     }
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !context.getSystemService(AlarmManager.class).canScheduleExactAlarms()) {
-      missing |= PERMISSION_EXACT_ALARMS;
+    catch (RuntimeException e) {
+      Log.e(AlarmStore.TAG, "Could not request the notification permission", e);
     }
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && !context.getSystemService(NotificationManager.class).canUseFullScreenIntent()) {
-      missing |= PERMISSION_FULL_SCREEN;
-    }
-    return missing;
 
   }
 
   public static void requestPermission(final Context context, final int permission) {
 
     try {
-      if (permission == PERMISSION_NOTIFICATIONS && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        final SharedPreferences preferences = context.getSharedPreferences(PERMISSION_PREFERENCES, Context.MODE_PRIVATE);
-        // Android shows the permission dialog only until it is denied, after that only the app settings can grant it.
-        if (context instanceof Activity && !preferences.getBoolean(KEY_NOTIFICATIONS_ASKED, false)) {
-          preferences.edit().putBoolean(KEY_NOTIFICATIONS_ASKED, true).apply();
-          ((Activity) context).requestPermissions(new String[] { Manifest.permission.POST_NOTIFICATIONS }, REQUEST_NOTIFICATIONS);
+      if (permission == PERMISSION_NOTIFICATIONS) {
+        // The button asks again even if the dialog was dismissed in this session.
+        notificationsAskedThisSession = false;
+        if (canRequestNotifications(context)) {
+          requestRuntimePermissions(context);
         }
         else {
           start(context, new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName()));
         }
+      }
+      else if (permission == PERMISSION_CHANNEL) {
+        final String channel = blockedAlarmChannel(context);
+        start(context, new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName()).putExtra(Settings.EXTRA_CHANNEL_ID, channel == null ? AlarmService.CHANNEL_ID : channel));
       }
       else if (permission == PERMISSION_EXACT_ALARMS && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         start(context, new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM, Uri.parse("package:" + context.getPackageName())));
@@ -139,10 +155,53 @@ public final class AlarmBridge {
       else if (permission == PERMISSION_FULL_SCREEN && Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
         start(context, new Intent(Settings.ACTION_MANAGE_APP_USE_FULL_SCREEN_INTENT, Uri.parse("package:" + context.getPackageName())));
       }
+      else if (permission == PERMISSION_OVERLAY) {
+        start(context, new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + context.getPackageName())));
+      }
     }
     catch (Exception e) {
       Log.e(AlarmStore.TAG, "Could not request permission " + permission, e);
     }
+
+  }
+
+  // Opens the ringing screen if an alarm is ringing, for example when the user opens Strawberry because no notification appeared.
+  public static void showRingingScreen(final Context context) {
+
+    if (!AlarmService.isRinging()) return;
+    try {
+      start(context, new Intent(context, AlarmActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+    catch (RuntimeException e) {
+      Log.w(AlarmStore.TAG, "Could not open the ringing screen", e);
+    }
+
+  }
+
+  private static boolean canRequestNotifications(final Context context) {
+
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || !(context instanceof Activity)) return false;
+    final boolean asked = context.getSharedPreferences(PERMISSION_PREFERENCES, Context.MODE_PRIVATE).getBoolean(KEY_NOTIFICATIONS_ASKED, false);
+    final boolean rationale = ((Activity) context).shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS);
+    return AlarmPermissions.shouldRequestNotifications(notificationPermission(context), asked, rationale, notificationsAskedThisSession);
+
+  }
+
+  private static boolean notificationPermission(final Context context) {
+    return Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || context.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
+  }
+
+  // Returns the ID of an alarm notification channel that the user switched off, or null.
+  private static String blockedAlarmChannel(final Context context) {
+
+    final NotificationManager notifications = context.getSystemService(NotificationManager.class);
+    // Created now, so its settings page exists before the first alarm rings.
+    AlarmService.createChannel(context);
+    for (final String id : new String[] { AlarmService.CHANNEL_ID, AlarmReceiver.FALLBACK_CHANNEL_ID }) {
+      final NotificationChannel channel = notifications.getNotificationChannel(id);
+      if (channel != null && channel.getImportance() == NotificationManager.IMPORTANCE_NONE) return id;
+    }
+    return null;
 
   }
 

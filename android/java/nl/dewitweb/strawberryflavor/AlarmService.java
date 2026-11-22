@@ -23,6 +23,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ServiceInfo;
 import android.media.AudioAttributes;
@@ -65,7 +66,7 @@ public class AlarmService extends Service {
 
   // MediaSessionBridge uses 1 and BrowserAuthenticationService 2.
   private static final int NOTIFICATION_ID = 3;
-  private static final String CHANNEL_ID = "alarm";
+  static final String CHANNEL_ID = "alarm";
   private static final long FADE_STEP_MSEC = 200;
   private static final long PREPARE_TIMEOUT_MSEC = 20000;
   private static final int CONNECT_TIMEOUT_MSEC = 10000;
@@ -179,14 +180,20 @@ public class AlarmService extends Service {
 
   }
 
-  private void startForeground(final String name) {
+  // Creating an existing channel only updates its name; the user's settings stay.
+  static void createChannel(final Context context) {
 
-    final NotificationManager notifications = getSystemService(NotificationManager.class);
-    final NotificationChannel channel = new NotificationChannel(CHANNEL_ID, AlarmStore.label(this, "channel", "Alarm clock"), NotificationManager.IMPORTANCE_HIGH);
+    final NotificationChannel channel = new NotificationChannel(CHANNEL_ID, AlarmStore.label(context, "channel", "Alarm clock"), NotificationManager.IMPORTANCE_HIGH);
     // The service plays the alarm itself.
     channel.setSound(null, null);
     channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-    notifications.createNotificationChannel(channel);
+    context.getSystemService(NotificationManager.class).createNotificationChannel(channel);
+
+  }
+
+  private void startForeground(final String name) {
+
+    createChannel(this);
 
     notificationTitle = name.isEmpty() ? AlarmStore.label(this, "alarm", "Alarm") : name;
     final Notification notification = buildNotification();

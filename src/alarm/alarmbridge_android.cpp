@@ -118,6 +118,20 @@ int MissingPermissions() {
 
 }
 
+void RequestRuntimePermissions() {
+
+  QJniObject::callStaticMethod<void>(kBridgeClass, "requestRuntimePermissions", "(Landroid/content/Context;)V", Context().object());
+  CheckException("requestRuntimePermissions");
+
+}
+
+void ShowRingingScreen() {
+
+  QJniObject::callStaticMethod<void>(kBridgeClass, "showRingingScreen", "(Landroid/content/Context;)V", Context().object());
+  CheckException("showRingingScreen");
+
+}
+
 void RequestPermission(const int permission) {
 
   QJniObject::callStaticMethod<void>(kBridgeClass, "requestPermission", "(Landroid/content/Context;I)V", Context().object(), static_cast<jint>(permission));
