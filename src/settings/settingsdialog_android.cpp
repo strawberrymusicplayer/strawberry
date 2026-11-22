@@ -19,10 +19,15 @@
 // Android-only parts of SettingsDialog, kept apart from settingsdialog.cpp to reduce conflicts when merging upstream.
 
 #include <algorithm>
+#include <functional>
+#include <utility>
 
 #include <QAction>
+#include <QApplication>
 #include <QDialogButtonBox>
+#include <QEvent>
 #include <QFrame>
+#include <QGuiApplication>
 #include <QHBoxLayout>
 #include <QKeyEvent>
 #include <QLabel>
@@ -32,6 +37,7 @@
 #include <QPushButton>
 #include <QRadioButton>
 #include <QScrollArea>
+#include <QScopedValueRollback>
 #include <QScrollBar>
 #include <QSize>
 #include <QStackedWidget>
@@ -43,10 +49,14 @@
 #include <QWidget>
 
 #include "core/iconloader.h"
+#include "core/logging.h"
+#include "core/settings.h"
+#include "widgets/actiondialog.h"
 #include "widgets/androidwidgets.h"
 #include "widgets/scrollarea_android.h"
 #include "settingsdialog.h"
 #include "settingspage.h"
+#include "streamingautosave_android.h"
 #include "ui_settingsdialog.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -54,6 +64,70 @@ using namespace Qt::Literals::StringLiterals;
 namespace {
 constexpr int kAndroidCategoryButtonHeight = 64;
 constexpr int kAndroidHelpButtonHeight = 56;
+// Groups slider drags and quick successive taps into one save.
+constexpr int kAndroidSaveDelayMs = 300;
+
+class HideFilter : public QObject {
+ public:
+  HideFilter(QObject *parent, std::function<void()> on_hide) : QObject(parent), on_hide_(std::move(on_hide)) {}
+
+ protected:
+  bool eventFilter(QObject*, QEvent *event) override {
+    if (event->type() == QEvent::Hide) on_hide_();
+    return false;
+  }
+
+ private:
+  std::function<void()> on_hide_;
+};
+
+}  // namespace
+
+void SettingsDialog::SetupAndroidAutoSave() {
+
+  android_save_timer_ = new QTimer(this);
+  android_save_timer_->setSingleShot(true);
+  android_save_timer_->setInterval(kAndroidSaveDelayMs);
+  QObject::connect(android_save_timer_, &QTimer::timeout, this, &SettingsDialog::FlushAndroidSettings);
+  const auto schedule = [this]() {
+    if (loading_settings_ || !android_settings_loaded_) return;
+    android_save_timer_->start();
+  };
+  for (auto it = pages_.cbegin(); it != pages_.cend(); ++it) {
+    // Streaming pages save through SetupAndroidStreamingSettings() or their own page code.
+    if (IsAndroidStreamingPage(it.key())) continue;
+    ConnectSettingsPageAutoSave(this, it->page_, schedule);
+  }
+
+  // Leaving the Settings tab or the app flushes pending text edits.
+  installEventFilter(new HideFilter(this, [this]() { FlushAndroidSettings(); }));
+  QObject::connect(qApp, &QGuiApplication::applicationStateChanged, this, [this](const Qt::ApplicationState state) {
+    if (state != Qt::ApplicationActive) FlushAndroidSettings();
+  });
+
+}
+
+void SettingsDialog::FlushAndroidSettings() {
+
+  android_save_timer_->stop();
+  if (loading_settings_ || !android_settings_loaded_) return;
+  const QScopedValueRollback<bool> saving(loading_settings_, true);
+  bool saved = false;
+  for (const PageData &data : std::as_const(pages_)) {
+    if (data.page_->isEnabled() && data.page_->Apply()) saved = true;
+  }
+  if (!saved) return;
+  Settings settings;
+  settings.sync();
+  if (settings.status() != QSettings::NoError) {
+    const QString message = tr("Could not save settings. Please check storage access and try again.");
+    qLog(Error) << message;
+    auto *notification = new ActionDialog(this, tr("Settings could not be saved"), message, ActionDialog::TitlePosition::Top);
+    notification->AddCancelButton(tr("Close"));
+    notification->Open();
+  }
+  Q_EMIT ReloadSettings();
+
 }
 
 void SettingsDialog::SetupAndroidNavigation() {
@@ -206,11 +280,8 @@ bool SettingsDialog::IsAndroidPageActive(const SettingsPage *page) const {
 }
 
 void SettingsDialog::UpdateAndroidPageButtons() {
-  for (auto it = pages_.cbegin(); it != pages_.cend(); ++it) {
-    if (it->item_ != ui_->list->currentItem()) continue;
-    ui_->buttonBox->setVisible(!IsAndroidStreamingPage(it.key()));
-    return;
-  }
+  // Android settings save as they change, so Apply, OK and Cancel are never shown.
+  ui_->buttonBox->hide();
 }
 
 void SettingsDialog::OpenAndroidSubpage(QWidget *content, const QString &title) {
@@ -245,6 +316,7 @@ void SettingsDialog::OpenAndroidSubpage(QWidget *content, const QString &title) 
 void SettingsDialog::CloseAndroidSubpage() {
 
   if (android_subpages_.isEmpty()) return;
+  FlushAndroidSettings();
   const AndroidSubpage subpage = android_subpages_.takeLast();
   // Move focus before takeWidget() clears QScrollArea's internal widget pointer.
   setFocus(Qt::OtherFocusReason);
@@ -290,6 +362,7 @@ void SettingsDialog::AndroidBack() {
     CloseAndroidSubpage();
   }
   else if (android_navigation_->currentWidget() == ui_->stacked_widget) {
+    FlushAndroidSettings();
     SetAndroidNavigationPage(android_current_category_page_);
     ui_->buttonBox->hide();
     QTreeWidgetItem *item = ui_->list->currentItem();

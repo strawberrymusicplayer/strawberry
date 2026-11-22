@@ -351,7 +351,7 @@ void CollectionSettingsPage::LoadNasPollingInterval() {
 
 void CollectionSettingsPage::SaveNasPollingInterval(const int minutes) {
 
-  // Saved immediately, like the Android streaming settings, so Cancel does not undo it.
+  // Saved immediately, like every Android setting.
   Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue(kNasPollingMinutes, minutes);

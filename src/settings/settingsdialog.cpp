@@ -151,7 +151,8 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
       android_categories_page_(nullptr),
       android_categories_layout_(nullptr),
       android_current_category_page_(nullptr),
-      android_settings_loaded_(false)
+      android_settings_loaded_(false),
+      android_save_timer_(nullptr)
 #endif
       {
 
@@ -220,6 +221,7 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 #ifdef Q_OS_ANDROID
   SetupAndroidNavigation();
   SetupAndroidStreamingSettings(streaming_services);
+  SetupAndroidAutoSave();
 #endif
 
   // List box
@@ -249,7 +251,7 @@ SettingsDialog::~SettingsDialog() {
 void SettingsDialog::showEvent(QShowEvent *e) {
 
 #ifdef Q_OS_ANDROID
-  // Android Settings is shown again on each tab switch; keep pending edits until Apply, OK or Cancel.
+  // Android Settings is shown again on each tab switch and saves each change immediately, so only load it once until it is closed.
   const bool load_settings = !e->spontaneous() && !android_settings_loaded_;
 #else
   const bool load_settings = !e->spontaneous();
@@ -303,19 +305,18 @@ void SettingsDialog::accept() {
 void SettingsDialog::reject() {
 
 #ifdef Q_OS_ANDROID
-  while (!android_subpages_.isEmpty()) CloseAndroidSubpage();
-#endif
+  // Android has no Cancel; closing keeps and flushes the changes like OK does.
+  accept();
+#else
   // Notify each page that user clicks on Cancel
   const QList<PageData> pages = pages_.values();
   for (const PageData &page : pages) {
     page.page_->Reject();
   }
-#ifdef Q_OS_ANDROID
-  android_settings_loaded_ = false;
-#endif
   SaveGeometry();
 
   QDialog::reject();
+#endif
 
 }
 

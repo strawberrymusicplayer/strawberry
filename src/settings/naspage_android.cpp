@@ -140,7 +140,7 @@ void NasPage::Edit(const Nas::Location &location) {
       check->setEnabled(true);
       if (!content->isVisible() || !page_->IsActive()) return;
       if (!result.isEmpty()) { error->setText(result); return; }
-      // A checked folder is saved immediately; only removal stays pending until Apply or OK.
+      // A checked folder is saved immediately, like every Android setting.
       QList<Nas::Location> stored = Nas::Locations();
       const auto upsert = [&edited](QList<Nas::Location> *list) {
         for (Nas::Location &item : *list) {

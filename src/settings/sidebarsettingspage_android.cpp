@@ -45,7 +45,7 @@ AndroidSidebarSettingsPage::AndroidSidebarSettingsPage(SettingsDialog *dialog, F
   editor_->setObjectName(u"sidebar_editor"_s);
   editor_->setMinimumWidth(0);
   auto *editor_layout = new QVBoxLayout(editor_);
-  auto *instructions = new QLabel(tr("Select a tab to move it or change its visibility. Changes take effect only after Apply or OK."), editor_);
+  auto *instructions = new QLabel(tr("Select a tab to move it or change its visibility. Changes are saved immediately."), editor_);
   instructions->setWordWrap(true);
   editor_layout->addWidget(instructions);
   list_ = new QListWidget(editor_);

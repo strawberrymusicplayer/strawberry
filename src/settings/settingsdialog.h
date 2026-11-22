@@ -57,6 +57,7 @@ class SettingsPage;
 class FancyTabWidget;
 #ifdef Q_OS_ANDROID
 class QVBoxLayout;
+class QTimer;
 #endif
 
 class Ui_SettingsDialog;
@@ -174,6 +175,8 @@ class SettingsDialog : public QDialog {
   // Implemented in settingsdialog_android.cpp.
   void SetupAndroidNavigation();
   void SetupAndroidStreamingSettings(const SharedPtr<StreamingServices> streaming_services);
+  void SetupAndroidAutoSave();
+  void FlushAndroidSettings();
   static bool IsAndroidStreamingPage(Page page);
   void SetAndroidNavigationPage(QWidget *page);
   void UpdateAndroidPageButtons();
@@ -185,6 +188,7 @@ class SettingsDialog : public QDialog {
   QMap<Page, QWidget*> android_category_pages_;
   QWidget *android_current_category_page_;
   bool android_settings_loaded_;
+  QTimer *android_save_timer_;
   struct AndroidSubpage {
     QScrollArea *area;
     QWidget *content_parent;
