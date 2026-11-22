@@ -225,8 +225,14 @@ public class AlarmService extends Service {
       Log.w(AlarmStore.TAG, "Could not set the alarm volume", e);
     }
     // Transient focus pauses Strawberry's own playback, which resumes after the alarm.
-    focusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT).setAudioAttributes(audioAttributes()).build();
-    audioManager.requestAudioFocus(focusRequest);
+    // A second alarm keeps the focus of the first one instead of requesting it again.
+    if (focusRequest == null) {
+      focusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT).setAudioAttributes(audioAttributes()).build();
+      // An alarm rings without the focus too, for example during a phone call.
+      if (audioManager.requestAudioFocus(focusRequest) != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+        Log.w(AlarmStore.TAG, "Audio focus was not granted, ringing anyway");
+      }
+    }
 
     sources.clear();
     sourceIndex = 0;
