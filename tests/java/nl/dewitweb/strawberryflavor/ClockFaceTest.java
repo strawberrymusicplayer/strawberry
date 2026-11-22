@@ -34,6 +34,8 @@ public final class ClockFaceTest {
     expect("minute hand", ClockFace.minuteAngle(45, 0) == 270.0F);
     expect("minute hand moves with the seconds", ClockFace.minuteAngle(10, 30) == 63.0F);
     expect("second hand", ClockFace.secondAngle(15) == 90.0F);
+    expect("minute of day", ClockFace.minuteOfDay(13, 5) == 785);
+    expect("same minute in another hour differs", ClockFace.minuteOfDay(7, 30) != ClockFace.minuteOfDay(8, 30));
     expect("digital is the default", ClockFace.clockType(7) == ClockFace.DIGITAL);
     expect("analog", ClockFace.clockType(ClockFace.ANALOG) == ClockFace.ANALOG);
     expect("system brightness", ClockFace.windowBrightness(0) == ClockFace.SYSTEM_BRIGHTNESS);

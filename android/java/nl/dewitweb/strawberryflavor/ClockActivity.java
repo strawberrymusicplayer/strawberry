@@ -24,6 +24,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.DisplayCutout;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,8 +70,26 @@ public class ClockActivity extends Activity {
     close.setOnClickListener(view -> finish());
     final int size = ClockView.dp(this, 56);
     final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(size, size, Gravity.TOP | Gravity.END);
-    params.setMargins(0, ClockView.dp(this, 12), ClockView.dp(this, 12), 0);
+    final int margin = ClockView.dp(this, 12);
+    params.setMargins(0, margin, margin, 0);
     frame.addView(close, params);
+    // The clock is laid out into the cutout area, so the X keeps clear of a camera cutout at the top or right edge.
+    frame.setOnApplyWindowInsetsListener((view, insets) -> {
+      int top = 0;
+      int right = 0;
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        final DisplayCutout cutout = insets.getDisplayCutout();
+        if (cutout != null) {
+          top = cutout.getSafeInsetTop();
+          right = cutout.getSafeInsetRight();
+        }
+      }
+      if (params.topMargin != margin + top || params.rightMargin != margin + right) {
+        params.setMargins(0, margin + top, margin + right, 0);
+        close.setLayoutParams(params);
+      }
+      return insets;
+    });
 
     setContentView(frame);
     hideSystemBars();

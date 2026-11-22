@@ -28,7 +28,8 @@ import android.graphics.drawable.Drawable;
 // A painted red X in a thin red circle, for closing the fullscreen clock; muted, so it does not distract at night.
 final class CloseIcon extends Drawable {
 
-  static final int COLOR = 0xB0E53935;
+  // About 3.1:1 against the black clock background.
+  static final int COLOR = 0xC0E53935;
 
   private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 

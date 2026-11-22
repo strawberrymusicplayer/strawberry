@@ -42,6 +42,10 @@ final class ClockFace {
     return second * 6.0F;
   }
 
+  static int minuteOfDay(final int hour, final int minute) {
+    return hour * 60 + minute;
+  }
+
   static int clockType(final int stored) {
     return stored == ANALOG ? ANALOG : DIGITAL;
   }

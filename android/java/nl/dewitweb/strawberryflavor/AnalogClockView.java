@@ -30,7 +30,7 @@ import java.util.Calendar;
 final class AnalogClockView extends View {
 
   private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-  private int describedMinute = -1;
+  private int describedMinuteOfDay = -1;
 
   AnalogClockView(final Context context) {
 
@@ -76,8 +76,10 @@ final class AnalogClockView extends View {
     paint.setStyle(Paint.Style.FILL);
     canvas.drawCircle(cx, cy, radius * 0.035F, paint);
 
-    if (minute != describedMinute) {
-      describedMinute = minute;
+    // The hour counts too, so the spoken time is not stale after exactly an hour without a redraw.
+    final int minuteOfDay = ClockFace.minuteOfDay(hour, minute);
+    if (minuteOfDay != describedMinuteOfDay) {
+      describedMinuteOfDay = minuteOfDay;
       setContentDescription(DateFormat.getTimeFormat(getContext()).format(now.getTime()));
     }
     // Redraws at the next second while the view is shown.
