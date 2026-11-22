@@ -35,7 +35,7 @@ import android.widget.TextView;
 import java.util.Date;
 import java.util.Locale;
 
-// The clock shared by the Tools > Clock screen and the ringing alarm screen, so both look the same: a large light time with the date below it on a black background.
+// The clock shared by the Tools > Clock screen and the alarm screen, so both look the same: a large light digital time or a painted analog face, chosen in Clock settings, with the date below it on a black background.
 final class ClockView {
 
   static final int BACKGROUND = Color.BLACK;
@@ -56,16 +56,23 @@ final class ClockView {
     root.setPadding(padding, padding, padding, padding);
     root.setFitsSystemWindows(true);
 
-    final TextClock time = new TextClock(activity);
-    time.setFormat24Hour("HH:mm");
-    time.setFormat12Hour("h:mm");
-    time.setTextColor(TIME_COLOR);
-    time.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
-    time.setGravity(Gravity.CENTER);
-    time.setMaxLines(1);
-    time.setIncludeFontPadding(false);
     // The time fills the free space, in portrait and landscape.
-    time.setAutoSizeTextTypeUniformWithConfiguration(24, 400, 2, TypedValue.COMPLEX_UNIT_SP);
+    final View time;
+    if (AlarmStore.clockType(activity) == ClockFace.ANALOG) {
+      time = new AnalogClockView(activity);
+    }
+    else {
+      final TextClock digital = new TextClock(activity);
+      digital.setFormat24Hour("HH:mm");
+      digital.setFormat12Hour("h:mm");
+      digital.setTextColor(TIME_COLOR);
+      digital.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+      digital.setGravity(Gravity.CENTER);
+      digital.setMaxLines(1);
+      digital.setIncludeFontPadding(false);
+      digital.setAutoSizeTextTypeUniformWithConfiguration(24, 400, 2, TypedValue.COMPLEX_UNIT_SP);
+      time = digital;
+    }
     root.addView(time, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 2.0F));
 
     final TextClock date = new TextClock(activity);

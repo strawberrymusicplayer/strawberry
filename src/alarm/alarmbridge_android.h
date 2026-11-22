@@ -29,6 +29,12 @@ bool SaveAlarm(const Alarm &alarm);
 void DeleteAlarm(const QString &id);
 int AutoStopMinutes();
 void SetAutoStopMinutes(const int minutes);
+// The clock type for Tools > Clock and the alarm screen: 0 for digital, 1 for analog.
+int ClockType();
+void SetClockType(const int type);
+// The screen brightness in percent while Tools > Clock is shown, or 0 for the system brightness.
+int ClockBrightness();
+void SetClockBrightness(const int percent);
 // Returns the next time an alarm rings in milliseconds since the epoch, including snoozed alarms, or -1.
 qint64 NextAlarmMsec();
 // Returns when the snoozed alarm rings again in milliseconds since the epoch, or 0.

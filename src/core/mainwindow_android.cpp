@@ -64,9 +64,9 @@
 #include "playlist/playlistlistcontainer.h"
 #include "playlist/playlistmanager.h"
 #include "settings/settingsdialog.h"
-#include "alarm/alarmbridge_android.h"
 #include "alarm/alarmclock_android.h"
 #include "alarm/alarmclockpage_android.h"
+#include "alarm/clockpage_android.h"
 #include "widgets/androidwidgets.h"
 #include "widgets/fancytabwidget.h"
 #include "widgets/playlisttitleheader.h"
@@ -280,7 +280,7 @@ QWidget *MainWindow::CreateAndroidToolsPage() {
   QObject::connect(alarm_clock_action, &QAction::triggered, this, &MainWindow::ShowAndroidAlarmClock);
   themed_icons.insert(alarm_clock_action, u":/icons/scalable/alarm-clock.svg"_s);
   QAction *clock_action = new QAction(tr("Clock"), this);
-  QObject::connect(clock_action, &QAction::triggered, this, []() { AlarmBridge::OpenClock(); });
+  QObject::connect(clock_action, &QAction::triggered, this, &MainWindow::ShowAndroidClock);
   themed_icons.insert(clock_action, u":/icons/scalable/clock.svg"_s);
   add_section(tr("Tools"), { ui_->action_cover_manager, ui_->action_equalizer, alarm_clock_action, clock_action });
   add_section(tr("Collection"), { ui_->action_update_collection, ui_->action_full_collection_scan, ui_->action_stop_collection_scan });
@@ -347,6 +347,14 @@ void MainWindow::ShowAndroidAlarmClock() {
   }
   android_alarm_clock_page_->ShowOverview();
   ShowAndroidTool(android_alarm_clock_page_, false);
+
+}
+
+void MainWindow::ShowAndroidClock() {
+
+  if (!android_clock_page_) android_clock_page_ = new ClockPage(this);
+  android_clock_page_->ShowMenu();
+  ShowAndroidTool(android_clock_page_, false);
 
 }
 

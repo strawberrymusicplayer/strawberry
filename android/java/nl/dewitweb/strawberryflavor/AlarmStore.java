@@ -49,6 +49,8 @@ final class AlarmStore {
   private static final String PREFERENCES = "alarm_clock";
   private static final String KEY_ALARMS = "alarms";
   private static final String KEY_AUTO_STOP = "auto_stop_minutes";
+  private static final String KEY_CLOCK_TYPE = "clock_type";
+  private static final String KEY_CLOCK_BRIGHTNESS = "clock_brightness";
   private static final String KEY_SNOOZE_PREFIX = "snooze_";
   private static final String KEY_SCHEDULED = "scheduled";
   private static final String KEY_LABELS = "labels";
@@ -176,6 +178,24 @@ final class AlarmStore {
 
   static void setAutoStopMinutes(final Context context, final int minutes) {
     preferences(context).edit().putInt(KEY_AUTO_STOP, Math.max(0, minutes)).commit();
+  }
+
+  // ClockFace.DIGITAL or ClockFace.ANALOG, for Tools > Clock and the alarm screen.
+  static int clockType(final Context context) {
+    return ClockFace.clockType(preferences(context).getInt(KEY_CLOCK_TYPE, ClockFace.DIGITAL));
+  }
+
+  static void setClockType(final Context context, final int type) {
+    preferences(context).edit().putInt(KEY_CLOCK_TYPE, ClockFace.clockType(type)).commit();
+  }
+
+  // The screen brightness in percent while Tools > Clock is shown, or 0 for the system brightness.
+  static int clockBrightness(final Context context) {
+    return preferences(context).getInt(KEY_CLOCK_BRIGHTNESS, 0);
+  }
+
+  static void setClockBrightness(final Context context, final int percent) {
+    preferences(context).edit().putInt(KEY_CLOCK_BRIGHTNESS, Math.max(0, Math.min(percent, 100))).commit();
   }
 
   static long snoozeUntil(final Context context, final String id) {

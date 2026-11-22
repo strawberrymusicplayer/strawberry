@@ -98,6 +98,22 @@ public final class AlarmBridge {
     AlarmStore.setAutoStopMinutes(context, minutes);
   }
 
+  public static int getClockType(final Context context) {
+    return AlarmStore.clockType(context);
+  }
+
+  public static void setClockType(final Context context, final int type) {
+    AlarmStore.setClockType(context, type);
+  }
+
+  public static int getClockBrightness(final Context context) {
+    return AlarmStore.clockBrightness(context);
+  }
+
+  public static void setClockBrightness(final Context context, final int percent) {
+    AlarmStore.setClockBrightness(context, percent);
+  }
+
   public static long nextAlarmMillis(final Context context) {
     return AlarmStore.nextAlarm(context);
   }

@@ -100,6 +100,7 @@ class QStackedWidget;
 class QToolButton;
 class AlarmClock;
 class AlarmClockPage;
+class ClockPage;
 #endif
 #ifdef Q_OS_WIN32
 class Windows7ThumbBar;
@@ -319,6 +320,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   // Opens the tool as a subpage of the Tools tab; tools without their own breadcrumb header get one.
   void ShowAndroidTool(QWidget *tool, const bool add_header);
   void ShowAndroidAlarmClock();
+  void ShowAndroidClock();
   QWidget *CreateAndroidSettingsTab();
   void SetupAndroidSettingsTab();
   void EmbedAndroidSettingsDialog(SettingsDialog *settings_dialog);
@@ -355,6 +357,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QPointer<QWidget> android_current_tool_;
   AlarmClock *android_alarm_clock_ = nullptr;
   QPointer<AlarmClockPage> android_alarm_clock_page_;
+  QPointer<ClockPage> android_clock_page_;
   QPointer<QWidget> android_previous_tab_;
   bool android_settings_overview_on_open_ = true;
 #endif

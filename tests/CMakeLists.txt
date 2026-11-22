@@ -218,6 +218,12 @@ if(NOT ANDROID)
       -DTEST_CLASS=nl.dewitweb.strawberryflavor.AlarmCountdownTest
       "-DSOURCES=${CMAKE_SOURCE_DIR}/android/java/nl/dewitweb/strawberryflavor/AlarmCountdown.java|${CMAKE_CURRENT_SOURCE_DIR}/java/nl/dewitweb/strawberryflavor/AlarmCountdownTest.java"
       -P ${CMAKE_CURRENT_SOURCE_DIR}/java/run_java_test.cmake)
+    add_test(NAME clockface_java_test COMMAND ${CMAKE_COMMAND}
+      -DJAVAC=${Java_JAVAC_EXECUTABLE} -DJAVA=${Java_JAVA_EXECUTABLE}
+      -DOUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}/clockface_java_test
+      -DTEST_CLASS=nl.dewitweb.strawberryflavor.ClockFaceTest
+      "-DSOURCES=${CMAKE_SOURCE_DIR}/android/java/nl/dewitweb/strawberryflavor/ClockFace.java|${CMAKE_CURRENT_SOURCE_DIR}/java/nl/dewitweb/strawberryflavor/ClockFaceTest.java"
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/java/run_java_test.cmake)
   endif()
   add_test_file(src/androidstoragefileengine_test.cpp false)
   target_sources(androidstoragefileengine_test PRIVATE ${CMAKE_SOURCE_DIR}/src/core/androidstoragefileengine.cpp)

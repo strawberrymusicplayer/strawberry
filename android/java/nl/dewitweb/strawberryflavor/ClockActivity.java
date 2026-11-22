@@ -33,8 +33,8 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
-// The Tools > Clock screen: a fullscreen clock without system bars that keeps the screen on while it is open, with the next alarm below it.
-// The red X and Back return to Tools.
+// The Tools > Clock > Show clock screen: a fullscreen digital or analog clock without system bars, at the brightness chosen in Clock settings.
+// It keeps the screen on while it is open and shows the next alarm below the clock; the red X and Back return to Tools > Clock.
 public class ClockActivity extends Activity {
 
   private final Handler handler = new Handler(Looper.getMainLooper());
@@ -116,6 +116,7 @@ public class ClockActivity extends Activity {
   protected void onResume() {
 
     super.onResume();
+    setWindowBrightness(ClockFace.windowBrightness(AlarmStore.clockBrightness(this)));
     refresh();
 
   }
@@ -124,7 +125,18 @@ public class ClockActivity extends Activity {
   protected void onPause() {
 
     handler.removeCallbacks(refresh);
+    // The clock's brightness applies only while it is shown.
+    setWindowBrightness(ClockFace.SYSTEM_BRIGHTNESS);
     super.onPause();
+
+  }
+
+  private void setWindowBrightness(final float brightness) {
+
+    final WindowManager.LayoutParams attributes = getWindow().getAttributes();
+    if (attributes.screenBrightness == brightness) return;
+    attributes.screenBrightness = brightness;
+    getWindow().setAttributes(attributes);
 
   }
 

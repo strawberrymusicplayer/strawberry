@@ -534,5 +534,6 @@
         <file>icons/scalable/alarm-clock.svg</file>
         <file>icons/scalable/alarm-settings.svg</file>
         <file>icons/scalable/clock.svg</file>
+        <file>icons/scalable/clock-settings.svg</file>
     </qresource>
 </RCC>

@@ -243,7 +243,7 @@ This fixture does not replace the real-NAS/Synology test that remains open under
 ## Android alarm clock
 
 Tools > Alarm clock and Tools > Clock are Android only (roadmap item 28).
-The Qt pages are in `src/alarm/*_android.cpp`; the Java side is in `android/java/nl/dewitweb/strawberryflavor/Alarm*.java`, `ClockActivity.java` and `ClockView.java`.
+The Qt pages are in `src/alarm/*_android.cpp`; the Java side is in `android/java/nl/dewitweb/strawberryflavor/Alarm*.java`, `ClockActivity.java`, `ClockView.java`, `AnalogClockView.java` and `ClockFace.java`.
 
 **Manifest requirements:**
 - Permissions: `POST_NOTIFICATIONS`, `USE_EXACT_ALARM`, `SCHEDULE_EXACT_ALARM` (Android 12 only, `maxSdkVersion` 32), `USE_FULL_SCREEN_INTENT`, `SYSTEM_ALERT_WINDOW` (only requested as a fallback while notifications are off), `RECEIVE_BOOT_COMPLETED`, `WAKE_LOCK` and the media-playback foreground service permissions.
@@ -260,6 +260,8 @@ An alarm's `tracks` list holds either its copies or, with copying off, the origi
 `ctest -R alarmtracks_test` tests the limits and source rules in `src/alarm/alarmtracks_android.cpp`.
 Until the copy job finishes, it stores playable local originals, or the copies made so far, as interim tracks, so a new alarm can ring right away.
 `AlarmFallback.java` chooses the default sound reason shown on the ringing screen and in the notification, and lets a random alarm without songs play other alarms' copies; `ctest -R alarmfallback_java_test` tests it on a desktop JVM.
+The Tools > Clock settings are in the same SharedPreferences file: `clock_type` (0 digital, 1 analog; default digital), used by `ClockView` for Show clock and the alarm screen, and `clock_brightness` (percent, 0 for the system brightness), applied as window brightness only while `ClockActivity` is resumed.
+`ctest -R clockface_java_test` tests the hand angles and the brightness mapping in `ClockFace.java`.
 `AlarmPermissions.java` decides which permission warnings the overview shows and when the notification permission dialog may appear; `ctest -R alarmpermissions_java_test` tests it.
 
 **Limitations:**

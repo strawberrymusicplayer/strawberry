@@ -94,6 +94,36 @@ void SetAutoStopMinutes(const int minutes) {
 
 }
 
+int ClockType() {
+
+  const int value = QJniObject::callStaticMethod<jint>(kBridgeClass, "getClockType", "(Landroid/content/Context;)I", Context().object());
+  CheckException("getClockType");
+  return value;
+
+}
+
+void SetClockType(const int type) {
+
+  QJniObject::callStaticMethod<void>(kBridgeClass, "setClockType", "(Landroid/content/Context;I)V", Context().object(), static_cast<jint>(type));
+  CheckException("setClockType");
+
+}
+
+int ClockBrightness() {
+
+  const int value = QJniObject::callStaticMethod<jint>(kBridgeClass, "getClockBrightness", "(Landroid/content/Context;)I", Context().object());
+  CheckException("getClockBrightness");
+  return value;
+
+}
+
+void SetClockBrightness(const int percent) {
+
+  QJniObject::callStaticMethod<void>(kBridgeClass, "setClockBrightness", "(Landroid/content/Context;I)V", Context().object(), static_cast<jint>(percent));
+  CheckException("setClockBrightness");
+
+}
+
 qint64 NextAlarmMsec() {
 
   const qint64 next = QJniObject::callStaticMethod<jlong>(kBridgeClass, "nextAlarmMillis", "(Landroid/content/Context;)J", Context().object());
