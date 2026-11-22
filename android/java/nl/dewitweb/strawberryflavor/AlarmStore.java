@@ -1,0 +1,319 @@
+/*
+ * Strawberry Music Player
+ *
+ * Strawberry is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Strawberry is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+package nl.dewitweb.strawberryflavor;
+
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Build;
+import android.util.Log;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+// Keeps the alarm clock's alarms in SharedPreferences and schedules them with AlarmManager, so they ring and survive a reboot while the Qt app is not running.
+// The alarms are a JSON array in the format of Alarm::ToJson() in alarmschedule_android.cpp; nextTrigger() must match AlarmSchedule::NextTrigger().
+final class AlarmStore {
+
+  static final String TAG = "StrawberryAlarm";
+  static final String ACTION_FIRE = "nl.dewitweb.strawberryflavor.ALARM_FIRE";
+  static final String EXTRA_ID = "id";
+  static final String EXTRA_SNOOZE = "snooze";
+  static final int DEFAULT_AUTO_STOP_MINUTES = 30;
+
+  private static final String PREFERENCES = "alarm_clock";
+  private static final String KEY_ALARMS = "alarms";
+  private static final String KEY_AUTO_STOP = "auto_stop_minutes";
+  private static final String KEY_SNOOZE_PREFIX = "snooze_";
+  private static final String KEY_SCHEDULED = "scheduled";
+  private static final String KEY_LABELS = "labels";
+
+  // Alarms are changed from the Qt thread, the receivers and the alarm service.
+  private static final Object lock = new Object();
+
+  private AlarmStore() {}
+
+  private static SharedPreferences preferences(final Context context) {
+    return context.getApplicationContext().getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+  }
+
+  static JSONArray alarms(final Context context) {
+
+    synchronized (lock) {
+      try {
+        return new JSONArray(preferences(context).getString(KEY_ALARMS, "[]"));
+      }
+      catch (JSONException e) {
+        Log.e(TAG, "Could not read the alarms", e);
+        return new JSONArray();
+      }
+    }
+
+  }
+
+  static JSONObject alarm(final Context context, final String id) {
+
+    final JSONArray list = alarms(context);
+    for (int i = 0; i < list.length(); ++i) {
+      final JSONObject alarm = list.optJSONObject(i);
+      if (alarm != null && id.equals(alarm.optString("id"))) return alarm;
+    }
+    return null;
+
+  }
+
+  // Adds the alarm or replaces the alarm with the same ID; a disabled alarm also stops snoozing.
+  static void putAlarm(final Context context, final JSONObject alarm) {
+
+    synchronized (lock) {
+      final String id = alarm.optString("id");
+      if (id.isEmpty()) return;
+      final JSONArray list = alarms(context);
+      final JSONArray updated = new JSONArray();
+      boolean replaced = false;
+      for (int i = 0; i < list.length(); ++i) {
+        final JSONObject existing = list.optJSONObject(i);
+        if (existing == null) continue;
+        if (id.equals(existing.optString("id"))) {
+          updated.put(alarm);
+          replaced = true;
+        }
+        else {
+          updated.put(existing);
+        }
+      }
+      if (!replaced) updated.put(alarm);
+      final SharedPreferences.Editor editor = preferences(context).edit().putString(KEY_ALARMS, updated.toString());
+      if (!alarm.optBoolean("enabled", true)) editor.remove(KEY_SNOOZE_PREFIX + id);
+      editor.commit();
+    }
+    reschedule(context);
+
+  }
+
+  static void removeAlarm(final Context context, final String id) {
+
+    synchronized (lock) {
+      final JSONArray list = alarms(context);
+      final JSONArray updated = new JSONArray();
+      for (int i = 0; i < list.length(); ++i) {
+        final JSONObject existing = list.optJSONObject(i);
+        if (existing != null && !id.equals(existing.optString("id"))) updated.put(existing);
+      }
+      preferences(context).edit().putString(KEY_ALARMS, updated.toString()).remove(KEY_SNOOZE_PREFIX + id).commit();
+    }
+    reschedule(context);
+
+  }
+
+  static void disableAlarm(final Context context, final String id) {
+
+    synchronized (lock) {
+      final JSONObject alarm = alarm(context, id);
+      if (alarm == null) return;
+      try {
+        alarm.put("enabled", false);
+      }
+      catch (JSONException e) {
+        return;
+      }
+      final JSONArray list = alarms(context);
+      final JSONArray updated = new JSONArray();
+      for (int i = 0; i < list.length(); ++i) {
+        final JSONObject existing = list.optJSONObject(i);
+        if (existing != null) updated.put(id.equals(existing.optString("id")) ? alarm : existing);
+      }
+      preferences(context).edit().putString(KEY_ALARMS, updated.toString()).commit();
+    }
+
+  }
+
+  static int autoStopMinutes(final Context context) {
+    return preferences(context).getInt(KEY_AUTO_STOP, DEFAULT_AUTO_STOP_MINUTES);
+  }
+
+  static void setAutoStopMinutes(final Context context, final int minutes) {
+    preferences(context).edit().putInt(KEY_AUTO_STOP, Math.max(0, minutes)).commit();
+  }
+
+  static long snoozeUntil(final Context context, final String id) {
+    return preferences(context).getLong(KEY_SNOOZE_PREFIX + id, 0);
+  }
+
+  static void setSnooze(final Context context, final String id, final long until) {
+
+    synchronized (lock) {
+      final SharedPreferences.Editor editor = preferences(context).edit();
+      if (until > 0) editor.putLong(KEY_SNOOZE_PREFIX + id, until);
+      else editor.remove(KEY_SNOOZE_PREFIX + id);
+      editor.commit();
+    }
+    reschedule(context);
+
+  }
+
+  // Translated texts from the Qt app, kept so the ringing screen and the clock use them while the Qt app is not running.
+  static void setLabels(final Context context, final String labels) {
+    preferences(context).edit().putString(KEY_LABELS, labels).commit();
+  }
+
+  static String label(final Context context, final String key, final String fallback) {
+
+    try {
+      final String value = new JSONObject(preferences(context).getString(KEY_LABELS, "{}")).optString(key);
+      return value.isEmpty() ? fallback : value;
+    }
+    catch (JSONException e) {
+      return fallback;
+    }
+
+  }
+
+  // Returns the next time the alarm rings after now in milliseconds since the epoch, or -1 if it is disabled.
+  static long nextTrigger(final JSONObject alarm, final ZonedDateTime now) {
+
+    if (!alarm.optBoolean("enabled", true)) return -1;
+    final int days = alarm.optInt("days", 0) & 0x7f;
+    final LocalTime time = LocalTime.of(Math.max(0, Math.min(23, alarm.optInt("hour", 7))), Math.max(0, Math.min(59, alarm.optInt("minute", 0))));
+    final LocalDate today = now.toLocalDate();
+    for (int i = 0; i <= 7; ++i) {
+      final LocalDate date = today.plusDays(i);
+      final DayOfWeek day = date.getDayOfWeek();
+      if (days != 0 && (days & (1 << (day.getValue() - 1))) == 0) continue;
+      // ZonedDateTime.of() moves a time in a daylight saving gap later by the length of the gap and uses the earlier of two occurrences.
+      final ZonedDateTime trigger = ZonedDateTime.of(date, time, now.getZone());
+      if (trigger.isAfter(now)) return trigger.toInstant().toEpochMilli();
+    }
+    return -1;
+
+  }
+
+  // Returns the next time any alarm or snoozed alarm rings in milliseconds since the epoch, or -1.
+  static long nextAlarm(final Context context) {
+
+    final ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
+    final long nowMillis = now.toInstant().toEpochMilli();
+    long next = -1;
+    final JSONArray list = alarms(context);
+    for (int i = 0; i < list.length(); ++i) {
+      final JSONObject alarm = list.optJSONObject(i);
+      if (alarm == null) continue;
+      final long trigger = nextTrigger(alarm, now);
+      if (trigger > 0 && (next < 0 || trigger < next)) next = trigger;
+      final long snooze = snoozeUntil(context, alarm.optString("id"));
+      if (snooze > nowMillis && (next < 0 || snooze < next)) next = snooze;
+    }
+    return next;
+
+  }
+
+  // Schedules every enabled alarm and snooze, and cancels the alarms that were removed or disabled.
+  static void reschedule(final Context context) {
+
+    synchronized (lock) {
+      final AlarmManager manager = context.getSystemService(AlarmManager.class);
+      final SharedPreferences preferences = preferences(context);
+      final ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
+      final long nowMillis = now.toInstant().toEpochMilli();
+      final Set<String> scheduled = new HashSet<>();
+      final SharedPreferences.Editor editor = preferences.edit();
+      final JSONArray list = alarms(context);
+      for (int i = 0; i < list.length(); ++i) {
+        final JSONObject alarm = list.optJSONObject(i);
+        if (alarm == null) continue;
+        final String id = alarm.optString("id");
+        if (id.isEmpty()) continue;
+        final long trigger = nextTrigger(alarm, now);
+        if (trigger > 0 && schedule(context, manager, id, false, trigger)) scheduled.add(key(id, false));
+        final long snooze = preferences.getLong(KEY_SNOOZE_PREFIX + id, 0);
+        if (snooze > nowMillis) {
+          if (schedule(context, manager, id, true, snooze)) scheduled.add(key(id, true));
+        }
+        else if (snooze > 0) {
+          // A snooze that ended while the device was off is not rung late.
+          editor.remove(KEY_SNOOZE_PREFIX + id);
+        }
+      }
+      for (final String previous : preferences.getStringSet(KEY_SCHEDULED, new HashSet<>())) {
+        if (scheduled.contains(previous)) continue;
+        final int separator = previous.lastIndexOf('|');
+        if (separator < 0) continue;
+        final PendingIntent intent = PendingIntent.getBroadcast(context, 0, fireIntent(context, previous.substring(0, separator), previous.endsWith("|1")), PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_NO_CREATE);
+        if (intent != null) {
+          manager.cancel(intent);
+          intent.cancel();
+        }
+      }
+      editor.putStringSet(KEY_SCHEDULED, scheduled).commit();
+      Log.i(TAG, "Scheduled " + scheduled.size() + " alarm(s)");
+    }
+
+  }
+
+  private static String key(final String id, final boolean snooze) {
+    return id + (snooze ? "|1" : "|0");
+  }
+
+  static Intent fireIntent(final Context context, final String id, final boolean snooze) {
+
+    // The data makes the intents of different alarms distinct for PendingIntent.
+    return new Intent(context, AlarmReceiver.class)
+      .setAction(ACTION_FIRE)
+      .setData(Uri.parse("strawberry-alarm://" + (snooze ? "snooze" : "alarm") + "/" + Uri.encode(id)))
+      .putExtra(EXTRA_ID, id)
+      .putExtra(EXTRA_SNOOZE, snooze);
+
+  }
+
+  private static boolean schedule(final Context context, final AlarmManager manager, final String id, final boolean snooze, final long trigger) {
+
+    final PendingIntent operation = PendingIntent.getBroadcast(context, 0, fireIntent(context, id, snooze), PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+    try {
+      if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || manager.canScheduleExactAlarms()) {
+        // An alarm clock alarm rings exactly, also in Doze and battery saver, and shows the alarm icon in the status bar.
+        final Intent launch = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+        final PendingIntent show = launch == null ? operation : PendingIntent.getActivity(context, 0, launch, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        manager.setAlarmClock(new AlarmManager.AlarmClockInfo(trigger, show), operation);
+      }
+      else {
+        Log.w(TAG, "Exact alarms are not allowed, the alarm may ring late");
+        manager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, trigger, operation);
+      }
+      return true;
+    }
+    catch (SecurityException e) {
+      Log.e(TAG, "Could not schedule an alarm", e);
+      return false;
+    }
+
+  }
+
+}
