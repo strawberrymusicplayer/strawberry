@@ -343,6 +343,7 @@ void AlarmClockPage::AddPermissionWarnings(QVBoxLayout *layout) {
 void AlarmClockPage::ShowEditor(const QString &id) {
 
   alarm_ = AlarmBridge::FindAlarm(id);
+  enabled_changed_ = false;
   if (alarm_.id.isEmpty()) {
     RefreshOverview();
     return;
@@ -357,6 +358,7 @@ void AlarmClockPage::ShowEditor(const QString &id) {
   layout->addWidget(enabled_);
   QObject::connect(enabled_, &QCheckBox::toggled, this, [this](const bool checked) {
     alarm_.enabled = checked;
+    enabled_changed_ = true;
     if (checked && AlarmClock::UsesTracks(alarm_) && alarm_.tracks.isEmpty()) {
       Save();
       alarm_clock_->UpdateTracks(alarm_.id);
@@ -442,7 +444,7 @@ void AlarmClockPage::RefreshEditor() {
   if (!editor_ || alarm_.id.isEmpty()) return;
   // Only the parts the Java side changes, so edits that are not saved yet are kept.
   const Alarm stored = AlarmBridge::FindAlarm(alarm_.id);
-  if (!stored.id.isEmpty() && !save_timer_->isActive()) alarm_.enabled = stored.enabled;
+  if (!stored.id.isEmpty() && !enabled_changed_) alarm_.enabled = stored.enabled;
   {
     const QSignalBlocker blocker(enabled_);
     enabled_->setChecked(alarm_.enabled);
@@ -832,6 +834,9 @@ void AlarmClockPage::Save() {
   const Alarm stored = AlarmBridge::FindAlarm(alarm_.id);
   // The alarm was deleted, for example on another page.
   if (stored.id.isEmpty()) return;
+  // The alarm service switches a one-off alarm off when it rings, so only an explicit change in the editor overrides the stored state.
+  if (!enabled_changed_) alarm_.enabled = stored.enabled;
+  enabled_changed_ = false;
   // The song copies are updated in the background, keep the latest ones.
   if (stored.source == alarm_.source && stored.source_id == alarm_.source_id && stored.source_url == alarm_.source_url) {
     alarm_.tracks = stored.tracks;

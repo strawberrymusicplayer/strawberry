@@ -86,6 +86,8 @@ class AlarmClockPage : public QWidget {
   QWidget *overview_contents_;
   QPointer<QWidget> editor_;
   Alarm alarm_;
+  // Whether the on/off switch in the editor changed since the last save.
+  bool enabled_changed_ = false;
   QTimer *save_timer_;
   QPointer<AndroidWidgets::ValueButton> time_button_;
   QPointer<AndroidWidgets::ValueButton> days_button_;
