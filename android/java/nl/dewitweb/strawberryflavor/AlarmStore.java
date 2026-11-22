@@ -87,7 +87,8 @@ final class AlarmStore {
 
   }
 
-  // Adds the alarm or replaces the alarm with the same ID; a disabled alarm also stops snoozing.
+  // Adds the alarm or replaces the alarm with the same ID; switching an alarm off also stops snoozing.
+  // A one-off alarm is already off while it snoozes after ringing, so saving it keeps the snooze.
   static void putAlarm(final Context context, final JSONObject alarm) {
 
     synchronized (lock) {
@@ -96,12 +97,14 @@ final class AlarmStore {
       final JSONArray list = alarms(context);
       final JSONArray updated = new JSONArray();
       boolean replaced = false;
+      boolean switchedOff = false;
       for (int i = 0; i < list.length(); ++i) {
         final JSONObject existing = list.optJSONObject(i);
         if (existing == null) continue;
         if (id.equals(existing.optString("id"))) {
           updated.put(alarm);
           replaced = true;
+          switchedOff = existing.optBoolean("enabled", true) && !alarm.optBoolean("enabled", true);
         }
         else {
           updated.put(existing);
@@ -109,7 +112,7 @@ final class AlarmStore {
       }
       if (!replaced) updated.put(alarm);
       final SharedPreferences.Editor editor = preferences(context).edit().putString(KEY_ALARMS, updated.toString());
-      if (!alarm.optBoolean("enabled", true)) editor.remove(KEY_SNOOZE_PREFIX + id);
+      if (switchedOff) editor.remove(KEY_SNOOZE_PREFIX + id);
       editor.commit();
     }
     reschedule(context);
