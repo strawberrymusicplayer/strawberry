@@ -7,6 +7,7 @@
 #include <QAbstractItemModel>
 #include <QApplication>
 #include <QCheckBox>
+#include <QColor>
 #include <QDateTime>
 #include <QFont>
 #include <QFrame>
@@ -14,19 +15,26 @@
 #include <QGuiApplication>
 #include <QHBoxLayout>
 #include <QHideEvent>
+#include <QIcon>
 #include <QKeyEvent>
 #include <QLabel>
 #include <QLineEdit>
 #include <QLocale>
 #include <QMimeData>
 #include <QModelIndex>
+#include <QPainter>
+#include <QPen>
+#include <QPixmap>
+#include <QPointF>
 #include <QPointer>
 #include <QPushButton>
 #include <QRadioButton>
+#include <QRectF>
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QShowEvent>
 #include <QSignalBlocker>
+#include <QSize>
 #include <QSlider>
 #include <QSortFilterProxyModel>
 #include <QStackedWidget>
@@ -82,6 +90,31 @@ QPushButton *CreateButton(const QString &text, QWidget *parent) {
   QPushButton *button = new QPushButton(text, parent);
   button->setMinimumHeight(AndroidWidgets::kMinimumTouchSize);
   return button;
+
+}
+
+// A green circle with a white plus, painted rather than themed, so it stays green and readable in light and dark themes.
+void SetAddIcon(QPushButton *button) {
+
+  const int size = AndroidWidgets::kMinimumTouchSize * 2 / 3;
+  const qreal ratio = button->devicePixelRatioF();
+  QPixmap pixmap(QSize(size, size) * ratio);
+  pixmap.setDevicePixelRatio(ratio);
+  pixmap.fill(Qt::transparent);
+  QPainter painter(&pixmap);
+  painter.setRenderHint(QPainter::Antialiasing);
+  painter.setPen(Qt::NoPen);
+  painter.setBrush(QColor(0x2E, 0x9D, 0x46));
+  painter.drawEllipse(QRectF(0, 0, size, size));
+  const qreal arm = size * 0.28;
+  const qreal center = size / 2.0;
+  QPen pen(Qt::white, size * 0.12, Qt::SolidLine, Qt::RoundCap);
+  painter.setPen(pen);
+  painter.drawLine(QPointF(center - arm, center), QPointF(center + arm, center));
+  painter.drawLine(QPointF(center, center - arm), QPointF(center, center + arm));
+  painter.end();
+  button->setIcon(QIcon(pixmap));
+  button->setIconSize(QSize(size, size));
 
 }
 
@@ -303,6 +336,7 @@ void AlarmClockPage::RefreshOverview() {
   }
 
   QPushButton *add = CreateButton(tr("Add alarm"), contents);
+  SetAddIcon(add);
   layout->addWidget(add);
   QObject::connect(add, &QPushButton::clicked, this, [this]() {
     Alarm alarm;
