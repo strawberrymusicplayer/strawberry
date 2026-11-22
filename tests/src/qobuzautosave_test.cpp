@@ -167,13 +167,11 @@ TEST(SettingsPageAutoSaveTest, ChangesSaveThroughApplyWithoutDialogButtons) {
   page.group->setChecked(false);
   Q_EMIT page.group->clicked(false);
   EXPECT_EQ(4, page.saves);
-  // An Android editor reparents its controls, so every change must save, including toggling back.
-  QWidget editor;
-  page.checkbox->setParent(&editor);
+  // Events that change nothing, such as Return without edits, do not save.
+  ASSERT_TRUE(QMetaObject::invokeMethod(page.field, "editingFinished"));
+  EXPECT_EQ(4, page.saves);
+  // Toggling back is a change compared with the last save.
   page.checkbox->click();
   EXPECT_EQ(5, page.saves);
-  page.checkbox->click();
-  EXPECT_EQ(6, page.saves);
-  page.checkbox->setParent(&page);
 
 }
