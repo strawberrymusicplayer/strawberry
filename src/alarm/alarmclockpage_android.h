@@ -55,6 +55,9 @@ class AlarmClockPage : public QWidget {
   void Back();
   void BackTo(QWidget *page);
   void RefreshOverview();
+  // The settings for all alarms, on their own page below the overview.
+  void ShowSettingsPage();
+  void RefreshSettings();
   void ShowEditor(const QString &id);
   void RefreshEditor();
   void ShowTimePage();
@@ -66,7 +69,7 @@ class AlarmClockPage : public QWidget {
   void ShowChoicePage(const QString &title, const QList<Choice> &choices, const int current, const std::function<void(int)> &chosen);
   void ShowDeletePage();
   void AddPermissionWarnings(QVBoxLayout *layout);
-  // Adds the settings for the copies of the alarms' songs below the other alarm settings.
+  // Adds the settings for the copies of the alarms' songs below the other settings for all alarms.
   void AddTrackSettings(QVBoxLayout *layout);
   void ShowDeleteCopiesPage();
   void SetSource(const Alarm::Source source, const QString &source_id = QString(), const QString &source_name = QString(), const QString &source_url = QString());
@@ -87,6 +90,7 @@ class AlarmClockPage : public QWidget {
   QStackedWidget *pages_;
   QWidget *overview_;
   QWidget *overview_contents_;
+  QPointer<QWidget> settings_;
   QPointer<QWidget> editor_;
   Alarm alarm_;
   // Whether the on/off switch in the editor changed since the last save.

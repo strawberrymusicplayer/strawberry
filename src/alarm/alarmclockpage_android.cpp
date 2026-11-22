@@ -182,13 +182,14 @@ AlarmClockPage::AlarmClockPage(AlarmClock *alarm_clock, SharedPtr<RadioServices>
   QObject::connect(qApp, &QGuiApplication::applicationStateChanged, this, [this](const Qt::ApplicationState state) {
     if (state != Qt::ApplicationActive || !isVisible()) return;
     if (pages_->currentWidget() == overview_) RefreshOverview();
+    else if (pages_->currentWidget() == settings_) RefreshSettings();
     else if (pages_->currentWidget() == editor_) RefreshEditor();
   });
   QObject::connect(alarm_clock_, &AlarmClock::TracksUpdated, this, [this](const QString &id) {
     // The size of the copied tracks changed, which enables or disables deleting them.
-    if (isVisible() && pages_->currentWidget() == overview_) {
+    if (isVisible() && settings_ && pages_->currentWidget() == settings_) {
       QTimer::singleShot(0, this, [this]() {
-        if (isVisible() && pages_->currentWidget() == overview_) RefreshOverview();
+        if (isVisible() && settings_ && pages_->currentWidget() == settings_) RefreshSettings();
       });
     }
     if (id != alarm_.id) return;
@@ -210,6 +211,7 @@ void AlarmClockPage::showEvent(QShowEvent *event) {
   QWidget::showEvent(event);
   AlarmBridge::RequestRuntimePermissions();
   if (pages_->currentWidget() == overview_) RefreshOverview();
+  else if (pages_->currentWidget() == settings_) RefreshSettings();
   else if (pages_->currentWidget() == editor_) RefreshEditor();
 
 }
@@ -265,6 +267,7 @@ void AlarmClockPage::Back() {
   pages_->setCurrentWidget(parent);
   title_->setText(parent == overview_ ? tr("Tools > Alarm clock") : parent->property(kBreadcrumbProperty).toString());
   if (parent == overview_) RefreshOverview();
+  else if (parent == settings_) RefreshSettings();
   else if (parent == editor_) RefreshEditor();
   setFocus(Qt::OtherFocusReason);
 
@@ -365,6 +368,41 @@ void AlarmClockPage::RefreshOverview() {
   const qint64 next = AlarmBridge::NextAlarmMsec();
   layout->addWidget(CreateWrappingLabel(next > 0 ? tr("Next alarm: %1").arg(QLocale().toString(QDateTime::fromMSecsSinceEpoch(next), u"ddd "_s + QLocale().timeFormat(QLocale::ShortFormat))) : tr("No alarm set"), contents));
 
+  QPushButton *settings = CreateButton(tr("Alarm settings"), contents);
+  settings->setIconSize(QSize(AndroidWidgets::kMinimumTouchSize * 2 / 3, AndroidWidgets::kMinimumTouchSize * 2 / 3));
+  AndroidWidgets::SetThemedIcon(settings, u":/icons/scalable/alarm-settings.svg"_s);
+  layout->addWidget(settings);
+  QObject::connect(settings, &QPushButton::clicked, this, &AlarmClockPage::ShowSettingsPage);
+
+  layout->addStretch();
+  area->setWidget(contents);
+  overview_contents_ = contents;
+  QTimer::singleShot(0, area, [area, scroll_position]() { area->verticalScrollBar()->setValue(scroll_position); });
+
+}
+
+void AlarmClockPage::ShowSettingsPage() {
+
+  const AndroidWidgets::ScrollPage page = CreatePage();
+  settings_ = page.area;
+  SetPage(page.area, tr("Alarm settings"));
+  RefreshSettings();
+
+}
+
+void AlarmClockPage::RefreshSettings() {
+
+  QScrollArea *area = qobject_cast<QScrollArea*>(settings_.data());
+  if (!area) return;
+  const int scroll_position = area->verticalScrollBar()->value();
+
+  QWidget *contents = new QWidget;
+  contents->setBackgroundRole(QPalette::Base);
+  contents->setAutoFillBackground(true);
+  QVBoxLayout *layout = new QVBoxLayout(contents);
+  layout->setContentsMargins(0, 0, 0, 0);
+  layout->setSpacing(8);
+
   ValueButton *auto_stop = AddValueButton(layout, tr("Stop automatically after"));
   const int auto_stop_minutes = AlarmBridge::AutoStopMinutes();
   auto_stop->SetValue(MinutesText(auto_stop_minutes));
@@ -376,7 +414,6 @@ void AlarmClockPage::RefreshOverview() {
 
   layout->addStretch();
   area->setWidget(contents);
-  overview_contents_ = contents;
   QTimer::singleShot(0, area, [area, scroll_position]() { area->verticalScrollBar()->setValue(scroll_position); });
 
 }
@@ -396,7 +433,7 @@ void AlarmClockPage::AddTrackSettings(QVBoxLayout *layout) {
     alarm_clock_->SetTrackSettings(changed);
     // Not from within the check box's own signal, since refreshing deletes it.
     QTimer::singleShot(0, this, [this]() {
-      if (pages_->currentWidget() == overview_) RefreshOverview();
+      if (settings_ && pages_->currentWidget() == settings_) RefreshSettings();
     });
   });
 

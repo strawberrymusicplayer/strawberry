@@ -60,7 +60,7 @@ constexpr qreal kNavigationTextScale = 1.15;
 
 class ThemedIcon : public QObject {
  public:
-  explicit ThemedIcon(QToolButton *button, const QString &resource) : QObject(button), button_(button), source_(resource) {
+  explicit ThemedIcon(QAbstractButton *button, const QString &resource) : QObject(button), button_(button), source_(resource) {
     button->installEventFilter(this);
     Update();
   }
@@ -82,11 +82,12 @@ class ThemedIcon : public QObject {
     }
     const QIcon icon(pixmap);
     // The default action would replace an icon set on the button itself.
-    if (QAction *action = button_->defaultAction()) action->setIcon(icon);
+    QToolButton *tool_button = qobject_cast<QToolButton*>(button_);
+    if (QAction *action = tool_button ? tool_button->defaultAction() : nullptr) action->setIcon(icon);
     else button_->setIcon(icon);
   }
 
-  QToolButton *button_;
+  QAbstractButton *button_;
   const QIcon source_;
 };
 
@@ -289,7 +290,7 @@ void StyleNavigationButton(QAbstractButton *button, const int minimum_height) {
 
 }
 
-void SetThemedIcon(QToolButton *button, const QString &resource) {
+void SetThemedIcon(QAbstractButton *button, const QString &resource) {
 
   new ThemedIcon(button, resource);
 
