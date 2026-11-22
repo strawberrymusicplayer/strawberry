@@ -200,7 +200,7 @@ Desktop toolbar behavior is unchanged.
   Opening the choices scrolls the selected preset into view.
   Preset deletion uses a bin icon, and Custom cannot be deleted because it holds live edits.
 - With the user's approval, slider edits are saved automatically in Custom without overwriting named presets.
-  Equalizer edits remain live; they do not use the Settings dialog's Apply/Cancel semantics.
+  Equalizer edits remain live, and Android Settings likewise saves each change immediately without Apply or Cancel.
 - Corrected the preamp gain label to match the engine's existing linear multiplier.
   Its endpoints are mute and approximately +6 dB, not the bands' -24/+12 dB range.
   The engine's actual gain mapping is unchanged.

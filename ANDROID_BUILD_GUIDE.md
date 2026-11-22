@@ -55,7 +55,7 @@ On Android, tapping a letter divider hides or reveals all artists in that group 
 An arrow beside the divider indicates whether the group is open or closed.
 Settings > General > Collection > Display options > Allow collapsing letter groups controls this behavior and defaults to enabled.
 It requires Show dividers; disabling it immediately reveals hidden groups.
-As with other Settings options, Apply or OK saves the change, while Cancel discards unapplied changes.
+As with all Android settings, the change is saved immediately.
 Groups start collapsed after a collection reset or app restart, including letter groups added during scanning.
 Opening a group keeps it open while browsing and reapplying settings; these temporary folds are not saved.
 Desktop Collection behavior is unchanged.
@@ -75,8 +75,7 @@ This option does not enable Tidal, Last.fm, ListenBrainz, Genius or Spotify brow
 
 The test flow uses a separate Android `shortService`, not the playback service, to keep a stopped player's local callback server running.
 On Android, the Qobuz settings page saves changes automatically: choices are saved when changed, text fields when editing finishes, and fetched API credentials immediately.
-Its Apply, OK and Cancel buttons are hidden; Back returns to the parent without discarding those changes.
-Other settings pages retain their existing Apply/OK/Cancel behavior.
+Like every Android settings page, it has no Apply, OK or Cancel buttons; Back returns to the parent without discarding those changes.
 Finish login within two minutes.
 Return to the Qobuz settings page to cancel; success, failure and timeout also stop the service.
 On Android 13 and newer, notification visibility depends on the system's notification settings, so use Recents to return if no notification is shown.
@@ -105,7 +104,7 @@ Repackage the APK using the normal Android build steps. In Settings > General > 
 The flow uses a separate foreground service and a fresh loopback callback path; it does not depend on playback.
 If the build has no bundled Last.fm credentials, follow the link on the page to [register an app with Last.fm](https://www.last.fm/api/account/create).
 Enter its API key as Client ID and its shared secret as Client secret. These identify the app, not the listener.
-Go back one level and tap Apply before starting login; settings retain their Apply/OK/Cancel behavior.
+Settings are saved as they change, and Login saves credential edits that are still being typed, so no Apply step is needed.
 An interrupted process cannot resume its old listener and must start a fresh login.
 Provider login and session persistence were confirmed on the FP5. Denial, delayed return and process recreation during login remain unverified. Enter credentials only in the app or browser, not in chat or test logs.
 Portable Last.fm callback and session regressions can be run with:
@@ -167,7 +166,7 @@ To restore the ordinary Android build, configure with `-DENABLE_ANDROID_SPOTIFY_
 For a local test build, enable `-DENABLE_ANDROID_SPOTIFY=ON` in addition to the plugin probe and its archive. Both options are off by default. To turn the probe off again, also set `-DENABLE_ANDROID_SPOTIFY=OFF`.
 Register a Web API app in the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard), and add an accepted loopback Redirect URI, for example `http://127.0.0.1:8080/`.
 Strawberry binds an available loopback port and includes it in the authorization request; Spotify permits dynamic ports for loopback redirects.
-Use a Premium account authorized for the app in Development Mode. On the phone, enter the app's Client ID in Settings > Streaming > Spotify, tap Apply, then Login. Do not enter a client secret; Android uses PKCE.
+Use a Premium account authorized for the app in Development Mode. On the phone, enter the app's Client ID in Settings > Streaming > Spotify, then tap Login. Do not enter a client secret; Android uses PKCE.
 Complete authorization within two minutes, then switch back to Strawberry. This build is for verifying the callback and playback, not for public distribution.
 
 ### Spotify plugin distribution licensing
@@ -229,8 +228,8 @@ The status shows a stopping message rather than claiming the operation has alrea
 Another manual scan can be started afterward.
 Configure a location in Settings > General > Collection > Music folders > NAS locations.
 Enter the server's local name/IP address, share, optional relative folder, and NAS account, then use **Check and use folder**.
-The successful check only adds a pending location: Apply/OK saves it, and Cancel discards unapplied changes.
-Remove a location using the normal **Remove folder** control.
+A successful check saves the location and adds it to the collection immediately.
+Remove a location using the normal **Remove folder** control; the removal is saved immediately.
 After editing an existing location's server/share/folder, run **Full collection scan** to refresh its contents; its virtual identifier and existing playlist URLs remain unchanged.
 Use a read-only NAS account as an additional server-side safeguard; SMB signing is required, but a locally signed SMB connection is not a promise of transport encryption.
 The `(i)` information page explains separately configured VPN access; the app does not set up remote access.
