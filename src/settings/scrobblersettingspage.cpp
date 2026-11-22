@@ -67,7 +67,7 @@ ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *dialog, const Share
   ui_->button_lastfm_login->hide();
   auto *lastfm_notice = new QLabel(tr("Browser authentication is currently unavailable on Android."), ui_->groupbox_lastfm);
 #else
-  auto *lastfm_credentials_help = new QLabel(tr("Get an API key and shared secret by <a href=\"%1\">registering an app with Last.fm</a>. These identify the app, not your personal login. Enter them as Client ID and Client secret, then go back and tap Apply before logging in.")
+  auto *lastfm_credentials_help = new QLabel(tr("Get an API key and shared secret by <a href=\"%1\">registering an app with Last.fm</a>. These identify the app, not your personal login. Enter them as Client ID and Client secret, then log in.")
                                             .arg(u"https://www.last.fm/api/account/create"_s), ui_->groupbox_lastfm);
   lastfm_credentials_help->setTextFormat(Qt::RichText);
   lastfm_credentials_help->setWordWrap(true);
@@ -276,12 +276,8 @@ void ScrobblerSettingsPage::LastFM_Login() {
       s.value(LastFMSettings::kClientId).toString() != ui_->lineedit_lastfm_client_id->text() ||
       s.value(LastFMSettings::kClientSecret).toString() != ui_->lineedit_lastfm_client_secret->text();
   s.endGroup();
-  if (credentials_changed) {
-    auto *notification = new ActionDialog(dialog()->parentWidget(), tr("Apply settings"), tr("Apply your Last.fm API credential changes before logging in."), ActionDialog::TitlePosition::Top);
-    notification->AddCancelButton(tr("Close"));
-    notification->Open();
-    return;
-  }
+  // Android settings save as they change; save credential edits that have not finished editing yet.
+  if (credentials_changed) Apply();
 #else
   // Persist the currently-edited custom credential selection first and reload it into the scrobbler, so Authenticate() below uses whatever is currently shown in the UI rather than whatever was last saved.
   Settings s;
