@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2020-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +20,8 @@
  */
 
 #include "config.h"
+
+#include <optional>
 
 #include <QIODevice>
 #include <QFile>
@@ -43,6 +46,29 @@
 
 using namespace Qt::Literals::StringLiterals;
 
+namespace {
+
+#ifndef Q_OS_ANDROID
+// Returns the playlist column of the values completed for the field, or nothing when the values of the field aren't completed.
+std::optional<Playlist::Column> TagCompleterColumn(const SmartPlaylistSearchTerm::Field field) {
+
+  switch (field) {
+    case SmartPlaylistSearchTerm::Field::Artist:          return Playlist::Column::Artist;
+    case SmartPlaylistSearchTerm::Field::ArtistSort:      return Playlist::Column::ArtistSort;
+    case SmartPlaylistSearchTerm::Field::Album:           return Playlist::Column::Album;
+    case SmartPlaylistSearchTerm::Field::AlbumSort:       return Playlist::Column::AlbumSort;
+    case SmartPlaylistSearchTerm::Field::AlbumArtist:     return Playlist::Column::AlbumArtist;
+    case SmartPlaylistSearchTerm::Field::AlbumArtistSort: return Playlist::Column::AlbumArtistSort;
+    case SmartPlaylistSearchTerm::Field::ComposerSort:    return Playlist::Column::ComposerSort;
+    case SmartPlaylistSearchTerm::Field::PerformerSort:   return Playlist::Column::PerformerSort;
+    case SmartPlaylistSearchTerm::Field::TitleSort:       return Playlist::Column::TitleSort;
+    default:                                              return std::nullopt;
+  }
+}
+#endif
+
+}  // namespace
+
 SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(SharedPtr<CollectionBackend> collection_backend, QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_SmartPlaylistSearchTermWidget),
@@ -50,7 +76,7 @@ SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(SharedPtr<Collectio
       overlay_(nullptr),
       animation_(new QPropertyAnimation(this, "overlay_opacity", this)),
       active_(true),
-      initialized_(false),
+      setting_term_(false),
       current_field_type_(SmartPlaylistSearchTerm::Type::Invalid) {
 
   ui_->setupUi(this);
@@ -128,72 +154,52 @@ void SmartPlaylistSearchTermWidget::FieldChanged(int index) {
   }
 
   // Show the correct value editor
-  QWidget *page = nullptr;
+  // The operators are kept when changing between fields of the same type, like between two date fields, so the editor depends on the operator too.
   const SmartPlaylistSearchTerm::Operator op = ui_->op->currentData().value<SmartPlaylistSearchTerm::Operator>();
-  switch (type) {
-    case SmartPlaylistSearchTerm::Type::Time:
-      page = ui_->page_time;
-      break;
-    case SmartPlaylistSearchTerm::Type::Number:
-      page = ui_->page_number;
-      break;
-    case SmartPlaylistSearchTerm::Type::Date:
-      page = ui_->page_date;
-      break;
-    case SmartPlaylistSearchTerm::Type::Text:
-      if (op == SmartPlaylistSearchTerm::Operator::Empty || op == SmartPlaylistSearchTerm::Operator::NotEmpty) {
-        page = ui_->page_empty;
-      }
-      else {
-        page = ui_->page_text;
-      }
-      break;
-    case SmartPlaylistSearchTerm::Type::Rating:
-      page = ui_->page_rating;
-      break;
-    case SmartPlaylistSearchTerm::Type::Invalid:
-      page = nullptr;
-      break;
-  }
-  ui_->value_stack->setCurrentWidget(page);
+  ui_->value_stack->setCurrentWidget(ValuePage(type, op));
 
 #ifndef Q_OS_ANDROID
-  // Desktop completion popups cannot be used in the embedded Android editor.
-  switch (field) {
-    case SmartPlaylistSearchTerm::Field::Artist:
-      new TagCompleter(collection_backend_, Playlist::Column::Artist, ui_->value_text);
-      break;
-    case SmartPlaylistSearchTerm::Field::ArtistSort:
-      new TagCompleter(collection_backend_, Playlist::Column::ArtistSort, ui_->value_text);
-      break;
-    case SmartPlaylistSearchTerm::Field::Album:
-      new TagCompleter(collection_backend_, Playlist::Column::Album, ui_->value_text);
-      break;
-    case SmartPlaylistSearchTerm::Field::AlbumSort:
-      new TagCompleter(collection_backend_, Playlist::Column::AlbumSort, ui_->value_text);
-      break;
-    case SmartPlaylistSearchTerm::Field::AlbumArtist:
-      new TagCompleter(collection_backend_, Playlist::Column::AlbumArtist, ui_->value_text);
-      break;
-    case SmartPlaylistSearchTerm::Field::AlbumArtistSort:
-      new TagCompleter(collection_backend_, Playlist::Column::AlbumArtistSort, ui_->value_text);
-      break;
-    case SmartPlaylistSearchTerm::Field::ComposerSort:
-      new TagCompleter(collection_backend_, Playlist::Column::ComposerSort, ui_->value_text);
-      break;
-    case SmartPlaylistSearchTerm::Field::PerformerSort:
-      new TagCompleter(collection_backend_, Playlist::Column::PerformerSort, ui_->value_text);
-      break;
-    case SmartPlaylistSearchTerm::Field::TitleSort:
-      new TagCompleter(collection_backend_, Playlist::Column::TitleSort, ui_->value_text);
-      break;
-    default:
-      ui_->value_text->setCompleter(nullptr);
+  // Maybe set a tag completer
+  // The completer of the previous field is deleted, so the completers don't add up, and the values of the previous field, when they are read last, don't replace the values of this field.
+  delete tag_completer_;
+  const std::optional<Playlist::Column> completer_column = TagCompleterColumn(field);
+  if (completer_column.has_value()) {
+    tag_completer_ = new TagCompleter(collection_backend_, completer_column.value(), ui_->value_text);
   }
 
 #endif
 
   Q_EMIT Changed();
+
+}
+
+QWidget *SmartPlaylistSearchTermWidget::ValuePage(const SmartPlaylistSearchTerm::Type type, const SmartPlaylistSearchTerm::Operator op) const {
+
+  switch (type) {
+    case SmartPlaylistSearchTerm::Type::Time:
+      return ui_->page_time;
+    case SmartPlaylistSearchTerm::Type::Number:
+      return ui_->page_number;
+    case SmartPlaylistSearchTerm::Type::Date:
+      if (op == SmartPlaylistSearchTerm::Operator::NumericDate || op == SmartPlaylistSearchTerm::Operator::NumericDateNot) {
+        return ui_->page_date_numeric;
+      }
+      if (op == SmartPlaylistSearchTerm::Operator::RelativeDate) {
+        return ui_->page_date_relative;
+      }
+      return ui_->page_date;
+    case SmartPlaylistSearchTerm::Type::Text:
+      if (op == SmartPlaylistSearchTerm::Operator::Empty || op == SmartPlaylistSearchTerm::Operator::NotEmpty) {
+        return ui_->page_empty;
+      }
+      return ui_->page_text;
+    case SmartPlaylistSearchTerm::Type::Rating:
+      return ui_->page_rating;
+    case SmartPlaylistSearchTerm::Type::Invalid:
+      break;
+  }
+
+  return nullptr;
 
 }
 
@@ -205,32 +211,9 @@ void SmartPlaylistSearchTermWidget::OpChanged(int idx) {
   // This uses the operatorss index in the combobox to get its enum value
   const SmartPlaylistSearchTerm::Operator op = ui_->op->currentData().value<SmartPlaylistSearchTerm::Operator>();
 
-  // We need to change the page only in the following case
-  if ((ui_->value_stack->currentWidget() == ui_->page_text) || (ui_->value_stack->currentWidget() == ui_->page_empty)) {
-    QWidget *page = nullptr;
-    if (op == SmartPlaylistSearchTerm::Operator::Empty || op == SmartPlaylistSearchTerm::Operator::NotEmpty) {
-      page = ui_->page_empty;
-    }
-    else {
-      page = ui_->page_text;
-    }
-    ui_->value_stack->setCurrentWidget(page);
-  }
-  else if (
-      (ui_->value_stack->currentWidget() == ui_->page_date) ||
-      (ui_->value_stack->currentWidget() == ui_->page_date_numeric) ||
-      (ui_->value_stack->currentWidget() == ui_->page_date_relative)
-      ) {
-    QWidget *page = nullptr;
-    if (op == SmartPlaylistSearchTerm::Operator::NumericDate || op == SmartPlaylistSearchTerm::Operator::NumericDateNot) {
-      page = ui_->page_date_numeric;
-    }
-    else if (op == SmartPlaylistSearchTerm::Operator::RelativeDate) {
-      page = ui_->page_date_relative;
-    }
-    else {
-      page = ui_->page_date;
-    }
+  // The operators are replaced when the field changes to another type, then this is called before current_field_type_ is updated, and FieldChanged() shows the editor afterwards.
+  QWidget *page = ValuePage(current_field_type_, op);
+  if (page) {
     ui_->value_stack->setCurrentWidget(page);
   }
 
@@ -314,6 +297,9 @@ float SmartPlaylistSearchTermWidget::overlay_opacity() const {
 
 void SmartPlaylistSearchTermWidget::SetTerm(const SmartPlaylistSearchTerm &term) {
 
+  // The range values are set one at a time, so they can be out of order in between.
+  setting_term_ = true;
+
   ui_->field->setCurrentIndex(ui_->field->findData(QVariant::fromValue(term.field_)));
   ui_->op->setCurrentIndex(ui_->op->findData(QVariant::fromValue(term.operator_)));
 
@@ -358,6 +344,8 @@ void SmartPlaylistSearchTermWidget::SetTerm(const SmartPlaylistSearchTerm &term)
     case SmartPlaylistSearchTerm::Type::Invalid:
       break;
   }
+
+  setting_term_ = false;
 
 }
 
@@ -406,13 +394,8 @@ SmartPlaylistSearchTerm SmartPlaylistSearchTermWidget::Term() const {
 
 void SmartPlaylistSearchTermWidget::RelativeValueChanged() {
 
-  // Don't check for validity when creating the widget
-  if (!initialized_) {
-    initialized_ = true;
-    return;
-  }
-  // Explain the user why he can't proceed
-  if (ui_->value_date_numeric1->value() >= ui_->value_date_numeric2->value()) {
+  // Explain to the user why they can't proceed, but not while the term is set, the first value is set before the second one.
+  if (!setting_term_ && ui_->value_date_numeric1->value() >= ui_->value_date_numeric2->value()) {
     QMessageBox::warning(this, u"Strawberry"_s, tr("The second value must be greater than the first one!"));
   }
   // Emit the signal in any case, so the Next button will be disabled

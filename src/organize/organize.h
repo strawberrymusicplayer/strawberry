@@ -38,6 +38,7 @@
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
+#include "core/musicstorage.h"
 #include "organizeformat.h"
 
 class QThread;
@@ -149,6 +150,9 @@ class Organize : public QObject {
   Transcoder *transcoder_;
   QTimer *process_files_timer_;
   const SharedPtr<MusicStorage> destination_;
+  // Read when created, they come from the device model, which can't be used from the thread the songs are organized in.
+  const MusicStorage::TranscodeMode transcode_mode_;
+  const Song::FileType transcode_format_;
   QList<Song::FileType> supported_filetypes_;
   // The destination filenames used so far, the extension of transcoded files is only known when they are copied.
   UniqueFilenames unique_filenames_;
@@ -176,6 +180,8 @@ class Organize : public QObject {
 
   QStringList files_with_errors_;
   QStringList log_;
+  // The audio files of the skipped CUE sheet tracks, they are reported once for each file.
+  QSet<QString> cue_files_skipped_;
 };
 
 #endif  // ORGANISE_H

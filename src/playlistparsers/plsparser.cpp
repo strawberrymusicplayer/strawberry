@@ -18,12 +18,13 @@
  *
  */
 
+#include <utility>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QIODevice>
 #include <QDir>
 #include <QMap>
-#include <QSet>
 #include <QByteArray>
 #include <QString>
 #include <QRegularExpression>
@@ -47,9 +48,14 @@ ParserBase::LoadResult PLSParser::Load(QIODevice *device, const QString &playlis
 
   Q_UNUSED(playlist_path);
 
-  QMap<int, Song> songs;
-  // Title and length lines also add an entry, only the entries with a file are songs.
-  QSet<int> entries_with_file;
+  // The keys of an entry can be in any order, so the songs are loaded after all of them are read.
+  struct Entry {
+    QString file;
+    QString title;
+    qint64 length_nanosec = -1;
+    int track = 0;
+  };
+  QMap<int, Entry> entries;
   static const QRegularExpression n_re(u"\\d+$"_s);
 
   QString data = Utilities::TextFromData(device->readAll());
@@ -65,33 +71,30 @@ ParserBase::LoadResult PLSParser::Load(QIODevice *device, const QString &playlis
     int n = re_match.captured(0).toInt();
 
     if (key.startsWith("file"_L1)) {
-      Song song = LoadSong(value, 0, 0, dir, collection_lookup);
-
-      // Use the title and length we've already loaded if any
-      if (!songs[n].title().isEmpty()) song.set_title(songs[n].title());
-      if (songs[n].length_nanosec() != -1) {
-        song.set_length_nanosec(songs[n].length_nanosec());
-      }
-
-      songs[n] = song;
-      entries_with_file << n;
+      entries[n].file = value;
+    }
+    else if (key.startsWith("track"_L1)) {
+      entries[n].track = value.toInt();
     }
     else if (key.startsWith("title"_L1)) {
-      songs[n].set_title(value);
+      entries[n].title = value;
     }
     else if (key.startsWith("length"_L1)) {
       qint64 seconds = value.toLongLong();
       if (seconds > 0) {
-        songs[n].set_length_nanosec(seconds * kNsecPerSec);
+        entries[n].length_nanosec = seconds * kNsecPerSec;
       }
     }
   }
 
   SongList ret;
-  for (QMap<int, Song>::const_iterator it = songs.constBegin(); it != songs.constEnd(); ++it) {
-    if (entries_with_file.contains(it.key())) {
-      ret << it.value();
-    }
+  for (const Entry &entry : std::as_const(entries)) {
+    // Title and length lines also add an entry, only the entries with a file are songs.
+    if (entry.file.isEmpty()) continue;
+    Song song = LoadSong(entry.file, 0, entry.track, dir, collection_lookup);
+    if (!entry.title.isEmpty()) song.set_title(entry.title);
+    if (entry.length_nanosec != -1) song.set_length_nanosec(entry.length_nanosec);
+    ret << song;
   }
 
   return ret;
@@ -109,6 +112,7 @@ void PLSParser::Save(const QString &playlist_name, const SongList &songs, QIODev
 
   int n = 1;
   for (const Song &song : songs) {
+    if (CueTrack(song) > 0) s << "Track" << n << "=" << CueTrack(song) << Qt::endl;
     s << "File" << n << "=" << URLOrFilename(song.url(), dir, path_type) << Qt::endl;
     s << "Title" << n << "=" << song.title() << Qt::endl;
     s << "Length" << n << "=" << song.length_nanosec() / kNsecPerSec << Qt::endl;

@@ -74,7 +74,7 @@ void WplParser::ParseSeq(const QDir &dir, QXmlStreamReader *reader, SongList *so
         if (name == "media"_L1) {
           QString src = reader->attributes().value("src"_L1).toString();
           if (!src.isEmpty()) {
-            Song song = LoadSong(src, 0, 0, dir, collection_lookup);
+            Song song = LoadSong(src, 0, reader->attributes().value("trackNum"_L1).toInt(), dir, collection_lookup);
             if (song.is_valid()) {
               songs->append(song);
             }
@@ -122,6 +122,7 @@ void WplParser::Save(const QString &playlist_name, const SongList &songs, QIODev
       for (const Song &song : songs) {
         writer.writeStartElement("media"_L1);
         writer.writeAttribute("src"_L1, URLOrFilename(song.url(), dir, path_type));
+        if (CueTrack(song) > 0) writer.writeAttribute("trackNum"_L1, QString::number(CueTrack(song)));
         writer.writeEndElement();
       }
     }

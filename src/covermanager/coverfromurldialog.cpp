@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,7 +49,8 @@ using namespace Qt::Literals::StringLiterals;
 CoverFromURLDialog::CoverFromURLDialog(SharedPtr<NetworkAccessManager> network, QWidget *parent)
     : QDialog(parent),
       network_(network),
-      ui_(new Ui_CoverFromURLDialog) {
+      ui_(new Ui_CoverFromURLDialog),
+      reply_(nullptr) {
 
   ui_->setupUi(this);
   ui_->busy->hide();
@@ -57,12 +58,7 @@ CoverFromURLDialog::CoverFromURLDialog(SharedPtr<NetworkAccessManager> network, 
 #ifdef Q_OS_ANDROID
   android_page_ = new CoverDialogPage(this);
   QObject::connect(this, &QDialog::finished, this, [this]() {
-    if (pending_reply_) {
-      pending_reply_->disconnect(this);
-      pending_reply_->abort();
-      pending_reply_->deleteLater();
-      pending_reply_.clear();
-    }
+    AbortReply();
     ui_->busy->hide();
     ui_->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
     last_album_cover_ = result() == QDialog::Accepted ? last_album_cover_ : AlbumCoverImageResult();
@@ -72,7 +68,24 @@ CoverFromURLDialog::CoverFromURLDialog(SharedPtr<NetworkAccessManager> network, 
 }
 
 CoverFromURLDialog::~CoverFromURLDialog() {
+
+  AbortReply();
   delete ui_;
+
+}
+
+void CoverFromURLDialog::AbortReply() {
+
+  if (!reply_) return;
+
+  // The reply is disconnected first, so the aborted reply is not handled as a finished download.
+  QNetworkReply *reply = reply_;
+  reply_ = nullptr;
+  QObject::disconnect(reply, nullptr, this, nullptr);
+  reply->abort();
+  reply->deleteLater();
+  ui_->busy->hide();
+
 }
 
 AlbumCoverImageResult CoverFromURLDialog::Exec() {
@@ -96,35 +109,41 @@ AlbumCoverImageResult CoverFromURLDialog::Exec() {
 void CoverFromURLDialog::accept() {
 
 #ifdef Q_OS_ANDROID
-  if (pending_reply_) return;
+  if (reply_) return;
   ui_->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
   android_page_->ShowError(QString());
 #endif
+  // Only the cover from the last URL is used.
+  AbortReply();
   ui_->busy->show();
 
   QNetworkRequest network_request(QUrl::fromUserInput(ui_->url->text()));
   network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
 
-  QNetworkReply *reply = network_->get(network_request);
-#ifdef Q_OS_ANDROID
-  pending_reply_ = reply;
-#endif
-  QObject::connect(reply, &QNetworkReply::finished, this, &CoverFromURLDialog::LoadCoverFromURLFinished);
+  reply_ = network_->get(network_request);
+  QObject::connect(reply_, &QNetworkReply::finished, this, &CoverFromURLDialog::LoadCoverFromURLFinished);
+
+}
+
+void CoverFromURLDialog::reject() {
+
+  // The dialog is used again, a download finishing later would otherwise accept it with this cover.
+  AbortReply();
+  QDialog::reject();
 
 }
 
 void CoverFromURLDialog::LoadCoverFromURLFinished() {
 
-  ui_->busy->hide();
-
   QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
-  if (!reply) return;
+  if (!reply || reply != reply_) return;
+  reply_ = nullptr;
   reply->deleteLater();
 
 #ifdef Q_OS_ANDROID
-  pending_reply_.clear();
   ui_->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
 #endif
+  ui_->busy->hide();
   if (reply->error() != QNetworkReply::NoError) {
 #ifdef Q_OS_ANDROID
     android_page_->ShowError(tr("The site you requested does not exist!"));

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -127,8 +127,8 @@ void AudioScrobbler::ToggleOffline() {
 
 void AudioScrobbler::UpdateNowPlaying(const Song &song) {
 
-  // The services still need to know that the previous song is no longer playing.
-  if (!settings_->sources().contains(song.source())) {
+  // The services still need to know that the previous song is no longer playing, otherwise love is sent for that song.
+  if (!settings_->sources().contains(song.source()) || !song.is_metadata_good()) {
     ClearPlaying();
     return;
   }

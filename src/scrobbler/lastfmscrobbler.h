@@ -133,6 +133,7 @@ class LastFMScrobbler : public ScrobblerService {
   JsonObjectResult ParseJsonObject(QNetworkReply *reply);
   void RequestSession(const QString &token);
   void AuthError(const QString &error);
+  static bool IsItemRejected(const int api_error);
   void SendSingleScrobble(ScrobblerCacheItemPtr item);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
   static QString ErrorString(const ScrobbleErrorCode error);

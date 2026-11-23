@@ -146,7 +146,8 @@ TEST(PlexRequestTest, SchemaUpdateRemovesTokenFromCoverUrls) {
 
   QFile file(u":/schema/schema-30.sql"_s);
   ASSERT_TRUE(file.open(QIODevice::ReadOnly));
-  database.ExecSchemaCommands(db, QString::fromUtf8(file.readAll()), 29);
+  QString error;
+  ASSERT_TRUE(database.ExecSchemaCommands(db, QString::fromUtf8(file.readAll()), 29, error)) << error.toStdString();
 
   ASSERT_TRUE(q.exec(u"SELECT art_automatic FROM plex_songs ORDER BY ROWID"_s));
   ASSERT_TRUE(q.next());

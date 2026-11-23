@@ -66,7 +66,9 @@ WaveformProxyStyle::WaveformProxyStyle(QSlider *slider, QObject *parent)
 
   QObject::connect(fade_timeline_, &QTimeLine::valueChanged, this, &WaveformProxyStyle::FaderValueChanged);
 
-  // Seed show_ from QSettings and establish the initial size policy, mirroring how MoodbarProxyStyle normalizes the slider through ReloadSettings on creation.
+  // The waveform is not shown until it's enabled, so the slider starts at the size of the normal slider.
+  slider_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
   ReloadSettings();
 
 }
@@ -91,6 +93,10 @@ void WaveformProxyStyle::SetWaveformData(const QByteArray &data) {
 
   data_ = data;
   waveform_pixmap_dirty_ = true;  // Redraw next time
+
+  // The fade target is the waveform of the previous data, when the data changes while fading, like on a quick track change, the fade would continue with the previous waveform, and then jump to the new one.
+  fade_target_ = QPixmap();
+
   NextState();
   slider_->update();
 
@@ -101,6 +107,12 @@ void WaveformProxyStyle::SetShowWaveform(const bool show) {
   if (show == show_) return;
 
   show_ = show;
+
+  // The slider shows the normal slider, or the moodbar which sets the size when it's shown after this.
+  if (!show_) {
+    slider_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    slider_->updateGeometry();
+  }
 
   NextState();
 
@@ -114,8 +126,11 @@ void WaveformProxyStyle::NextState() {
   const bool visible = show_ && !data_.isEmpty();
 
   // While the regular slider should stay at the standard size (Fixed), the waveform should use all available space (MinimumExpanding) so it expands vertically when active (REN-03).
-  slider_->setSizePolicy(QSizePolicy::Expanding, visible ? QSizePolicy::MinimumExpanding : QSizePolicy::Fixed);
-  slider_->updateGeometry();
+  // The moodbar is on the same slider, so only set the size when the waveform is the seekbar mode, otherwise reloading the settings or new waveform data would shrink the moodbar.
+  if (show_) {
+    slider_->setSizePolicy(QSizePolicy::Expanding, visible ? QSizePolicy::MinimumExpanding : QSizePolicy::Fixed);
+    slider_->updateGeometry();
+  }
 
   if ((visible && (state_ == State::WaveformOn || state_ == State::FadingToOn)) || (!visible && (state_ == State::WaveformOff || state_ == State::FadingToOff))) {
     return;
@@ -157,6 +172,17 @@ bool WaveformProxyStyle::eventFilter(QObject *object, QEvent *event) {
       case QEvent::Resize:
         // The widget was resized, we've got to render a new pixmap.
         waveform_pixmap_dirty_ = true;
+        break;
+
+      case QEvent::PaletteChange:
+        // The palette was changed, we've got to render a new pixmap.
+        waveform_pixmap_dirty_ = true;
+        // The pixmaps of a fade are drawn again with the new palette, the normal slider always, the waveform when there's waveform data to draw it.
+        // Without waveform data, the waveform fading out is kept, it can't be drawn again.
+        fade_source_ = QPixmap();
+        if (!data_.isEmpty()) {
+          fade_target_ = QPixmap();
+        }
         break;
 
       default:
@@ -232,7 +258,8 @@ void WaveformProxyStyle::Render(const ComplexControl control, const QStyleOption
       }
 
       if (fade_target_.isNull()) {
-        if (state_ == State::FadingToOn) {
+        // The waveform fading out is drawn again too when there's data for it, like after a palette change.
+        if (!data_.isEmpty()) {
           EnsureWaveformRendered();
         }
         // Fade towards the unplayed bars; the split need not animate during the crossfade (the live composite takes over once the fade completes).

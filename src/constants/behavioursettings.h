@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -57,13 +57,13 @@ enum class PlaylistAddBehaviour {
   Enqueue = 2
 };
 
-constexpr char kKeepRunning[] = "keeprunning";
-constexpr char kShowTrayIcon[] = "showtrayicon";
+constexpr char kKeepRunning[] = "keep_running";
+constexpr char kShowTrayIcon[] = "show_tray_icon";
 constexpr char kTrayIconProgress[] = "trayicon_progress";
 constexpr char kTaskbarProgress[] = "taskbar_progress";
-constexpr char kResumePlayback[] = "resumeplayback";
+constexpr char kResumePlayback[] = "resume_playback";
 constexpr char kPlayingWidget[] = "playing_widget";
-constexpr char kStartupBehaviour[] = "startupbehaviour";
+constexpr char kStartupBehaviour[] = "startup_behaviour";
 constexpr char kLanguage[] = "language";
 constexpr char kMenuPlayMode[] = "menu_playmode";
 constexpr char kMenuPreviousMode[] = "menu_previousmode";
@@ -72,6 +72,7 @@ constexpr char kDoubleClickPlayMode[] = "doubleclick_playmode";
 constexpr char kDoubleClickPlaylistAddMode[] = "doubleclick_playlist_addmode";
 constexpr char kSeekStepSec[] = "seek_step_sec";
 constexpr char kVolumeIncrement[] = "volume_increment";
+constexpr char kInhibitSleep[] = "inhibit_sleep";
 
 constexpr bool kDefaultKeepRunning = false;
 constexpr bool kDefaultShowTrayIcon = true;
@@ -87,6 +88,7 @@ constexpr PlayBehaviour kDefaultDoubleClickPlayMode = PlayBehaviour::Never;
 constexpr PlaylistAddBehaviour kDefaultDoubleClickPlaylistAddMode = PlaylistAddBehaviour::Play;
 constexpr int kDefaultSeekStepSec = 10;
 constexpr uint kDefaultVolumeIncrement = 5;
+constexpr bool kDefaultInhibitSleep = true;
 
 }  // namespace BehaviourSettings
 

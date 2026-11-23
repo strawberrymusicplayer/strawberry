@@ -68,6 +68,11 @@ int main(int argc, char **argv) {
   QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, settings_dir.path());
   QSettings::setPath(QSettings::NativeFormat, QSettings::UserScope, settings_dir.path());
 
+  // StandardPaths uses XDG_CACHE_HOME and XDG_DATA_HOME on Unix, except macOS, also when the test mode of QStandardPaths is enabled, so every test binary used the same cache and data directories.
+  // The tests which remove these directories, like the waveform tests, then failed when the test binaries were run in parallel, so each process uses its own directories in the temporary directory.
+  qputenv("XDG_CACHE_HOME", QString(settings_dir.path() + "/cache"_L1).toLocal8Bit());
+  qputenv("XDG_DATA_HOME", QString(settings_dir.path() + "/data"_L1).toLocal8Bit());
+
   testing::AddGlobalTestEnvironment(new ResourcesEnvironment);
   testing::AddGlobalTestEnvironment(new LoggingEnvironment);
 

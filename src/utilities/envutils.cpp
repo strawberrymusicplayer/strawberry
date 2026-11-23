@@ -34,14 +34,25 @@ using namespace Qt::Literals::StringLiterals;
 namespace Utilities {
 
 QString GetEnv(const QString &key) {
+
+#ifdef Q_OS_WIN32
+  // Read the environment with the wide character API, so characters outside the ANSI code page are kept.
+  return qEnvironmentVariable(key.toLocal8Bit().constData());
+#else
+  // qEnvironmentVariable() normalizes the value on macOS, so it would not return the value as it was set.
   const QByteArray key_data = key.toLocal8Bit();
   return QString::fromLocal8Bit(qgetenv(key_data.constData()));
+#endif
+
 }
 
 void SetEnv(const char *key, const QString &value) {
 
 #ifdef Q_OS_WIN32
-  _putenv(QStringLiteral("%1=%2").arg(QLatin1String(key), value).toLocal8Bit().constData());
+  // Set the environment with the wide character API, since the ANSI code page can't represent all characters, for example in user names in paths.
+  // GLib and GStreamer read the environment with the wide character API.
+  const QString env = QStringLiteral("%1=%2").arg(QLatin1String(key), value);
+  _wputenv(reinterpret_cast<const wchar_t*>(env.utf16()));
 #else
   setenv(key, value.toLocal8Bit().constData(), 1);
 #endif

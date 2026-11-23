@@ -45,4 +45,18 @@ inline bool GstPadIsAudio(GstPad *pad) {
 
 }
 
+// Unlinks the sink pad from the source pad it is linked to.
+// gst_pad_unlink() takes the source pad first, and it takes a reference to the peer, since another thread can unlink it at the same time.
+inline bool GstUnlinkSinkPad(GstPad *sinkpad) {
+
+  GstPad *srcpad = gst_pad_get_peer(sinkpad);
+  if (!srcpad) return false;
+
+  const bool success = gst_pad_unlink(srcpad, sinkpad);
+  gst_object_unref(srcpad);
+
+  return success;
+
+}
+
 #endif  // GSTPADUTILS_H

@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2020-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +25,7 @@
 #include "config.h"
 
 #include <QWidget>
+#include <QPointer>
 #include <QPushButton>
 
 #include "includes/shared_ptr.h"
@@ -36,6 +38,7 @@ class QEnterEvent;
 class QResizeEvent;
 
 class CollectionBackend;
+class TagCompleter;
 class Ui_SmartPlaylistSearchTermWidget;
 class SmartPlaylistSearchTermWidgetOverlay;
 
@@ -76,13 +79,17 @@ class SmartPlaylistSearchTermWidget : public QWidget {
   void Grab();
 
  private:
+  QWidget *ValuePage(const SmartPlaylistSearchTerm::Type type, const SmartPlaylistSearchTerm::Operator op) const;
+
   Ui_SmartPlaylistSearchTermWidget *ui_;
   SharedPtr<CollectionBackend> collection_backend_;
+  // The completer of the value of the current field, it's replaced when the field changes.
+  QPointer<TagCompleter> tag_completer_;
 
   SmartPlaylistSearchTermWidgetOverlay *overlay_;
   QPropertyAnimation *animation_;
   bool active_;
-  bool initialized_;
+  bool setting_term_;
 
   SmartPlaylistSearchTerm::Type current_field_type_;
 };

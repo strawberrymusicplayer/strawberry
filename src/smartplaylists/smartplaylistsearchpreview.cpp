@@ -43,7 +43,8 @@ SmartPlaylistSearchPreview::SmartPlaylistSearchPreview(QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_SmartPlaylistSearchPreview),
       collection_backend_(nullptr),
-      model_(nullptr) {
+      model_(nullptr),
+      search_pending_(false) {
 
   ui_->setupUi(this);
 
@@ -88,14 +89,18 @@ void SmartPlaylistSearchPreview::Init(const SharedPtr<Player> player,
 
 void SmartPlaylistSearchPreview::Update(const SmartPlaylistSearch &search) {
 
-  if (search == last_search_) {
-    // This search was the same as the last one we did
+  if (generator_ || isHidden()) {
+    // It's busy generating something already, or the widget isn't visible.
+    // The search is compared with the results shown when it's run, since the search running now can be changed back to the search shown before it finishes.
+    pending_search_ = search;
+    search_pending_ = true;
     return;
   }
 
-  if (generator_ || isHidden()) {
-    // It's busy generating something already, or the widget isn't visible
-    pending_search_ = search;
+  search_pending_ = false;
+
+  if (search == last_search_) {
+    // This search was the same as the last one we did
     return;
   }
 
@@ -105,9 +110,12 @@ void SmartPlaylistSearchPreview::Update(const SmartPlaylistSearch &search) {
 
 void SmartPlaylistSearchPreview::showEvent(QShowEvent *e) {
 
-  if (pending_search_.is_valid() && !generator_) {
+  if (search_pending_ && !generator_) {
     // There was a search waiting while we were hidden, so run it now
-    RunSearch(pending_search_);
+    search_pending_ = false;
+    if (pending_search_ != last_search_) {
+      RunSearch(pending_search_);
+    }
     pending_search_ = SmartPlaylistSearch();
   }
 
@@ -143,12 +151,16 @@ void SmartPlaylistSearchPreview::SearchFinished() {
   last_search_ = std::dynamic_pointer_cast<PlaylistQueryGenerator>(generator_)->search();
   generator_.reset();
 
-  if (pending_search_.is_valid() && pending_search_ != last_search_) {
-    // There was another search done while we were running
-    // throw away these results and do that one now instead
-    RunSearch(pending_search_);
+  if (search_pending_) {
+    search_pending_ = false;
+    const SmartPlaylistSearch pending_search = pending_search_;
     pending_search_ = SmartPlaylistSearch();
-    return;
+    if (pending_search != last_search_) {
+      // There was another search done while we were running
+      // throw away these results and do that one now instead
+      RunSearch(pending_search);
+      return;
+    }
   }
 
   PlaylistItemPtrList displayed_items = all_items.mid(0, PlaylistGenerator::kDefaultLimit);

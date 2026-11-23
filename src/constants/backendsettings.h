@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,13 +26,9 @@ namespace BackendSettings {
 
 constexpr char kSettingsGroup[] = "Backend";
 
-constexpr char kEngine[] = "engine";
-constexpr char kEngineU[] = "Engine";
-constexpr char kOutputU[] = "Output";
 constexpr char kOutput[] = "output";
-constexpr char kDeviceU[] = "Device";
 constexpr char kDevice[] = "device";
-constexpr char kALSAPlugin[] = "alsaplugin";
+constexpr char kALSAPlugin[] = "alsa_plugin";
 constexpr char kExclusiveMode[] = "exclusive_mode";
 constexpr char kVolumeControl[] = "volume_control";
 constexpr char kVolumeExponential[] = "volume_exponential";
@@ -42,24 +38,24 @@ constexpr char kBS2B[] = "bs2b";
 constexpr char kPlaybin3[] = "playbin3";
 constexpr char kHTTP2[] = "http2";
 constexpr char kStrictSSL[] = "strict_ssl";
-constexpr char kBufferDuration[] = "bufferduration";
-constexpr char kBufferLowWatermark[] = "bufferlowwatermark";
-constexpr char kBufferHighWatermark[] = "bufferhighwatermark";
-constexpr char kDeviceWarmupDuration[] = "devicewarmupduration";
-constexpr char kRgEnabled[] = "rgenabled";
-constexpr char kRgMode[] = "rgmode";
-constexpr char kRgPreamp[] = "rgpreamp";
-constexpr char kRgCompression[] = "rgcompression";
-constexpr char kRgFallbackGain[] = "rgfallbackgain";
+constexpr char kBufferDuration[] = "buffer_duration";
+constexpr char kBufferLowWatermark[] = "buffer_low_watermark";
+constexpr char kBufferHighWatermark[] = "buffer_high_watermark";
+constexpr char kDeviceWarmupDuration[] = "device_warmup_duration";
+constexpr char kRgEnabled[] = "rg_enabled";
+constexpr char kRgMode[] = "rg_mode";
+constexpr char kRgPreamp[] = "rg_preamp";
+constexpr char kRgCompression[] = "rg_compression";
+constexpr char kRgFallbackGain[] = "rg_fallback_gain";
 constexpr char kEBUR128LoudnessNormalization[] = "ebur128_loudness_normalization";
 constexpr char kEBUR128TargetLevelLUFS[] = "ebur128_target_level_lufs";
-constexpr char kFadeoutEnabled[] = "FadeoutEnabled";
-constexpr char kCrossfadeEnabled[] = "CrossfadeEnabled";
-constexpr char kAutoCrossfadeEnabled[] = "AutoCrossfadeEnabled";
-constexpr char kNoCrossfadeSameAlbum[] = "NoCrossfadeSameAlbum";
-constexpr char kFadeoutPauseEnabled[] = "FadeoutPauseEnabled";
-constexpr char kFadeoutDuration[] = "FadeoutDuration";
-constexpr char kFadeoutPauseDuration[] = "FadeoutPauseDuration";
+constexpr char kFadeoutEnabled[] = "fadeout_enabled";
+constexpr char kCrossfadeEnabled[] = "crossfade_enabled";
+constexpr char kAutoCrossfadeEnabled[] = "auto_crossfade_enabled";
+constexpr char kNoCrossfadeSameAlbum[] = "no_crossfade_same_album";
+constexpr char kFadeoutPauseEnabled[] = "fadeout_pause_enabled";
+constexpr char kFadeoutDuration[] = "fadeout_duration";
+constexpr char kFadeoutPauseDuration[] = "fadeout_pause_duration";
 
 constexpr bool kDefaultExclusiveMode = false;
 constexpr bool kDefaultVolumeControl = true;

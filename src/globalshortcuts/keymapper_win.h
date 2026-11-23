@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -123,6 +123,8 @@ static const QMap<Qt::Key, quint32> keymapper_win_ = {
     { Qt::Key_VolumeMute,         VK_VOLUME_MUTE },
     { Qt::Key_VolumeUp,           VK_VOLUME_UP },
     { Qt::Key_MediaPlay,          VK_MEDIA_PLAY_PAUSE },
+    // Qt maps the play/pause key to Key_MediaTogglePlayPause on Windows, so it's the key when the shortcut is recorded.
+    { Qt::Key_MediaTogglePlayPause, VK_MEDIA_PLAY_PAUSE },
     { Qt::Key_MediaStop,          VK_MEDIA_STOP },
     { Qt::Key_MediaPrevious,      VK_MEDIA_PREV_TRACK },
     { Qt::Key_MediaNext,          VK_MEDIA_NEXT_TRACK },

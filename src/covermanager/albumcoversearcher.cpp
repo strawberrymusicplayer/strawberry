@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@
 #include <QStyleOptionViewItem>
 #include <QStandardItem>
 #include <QList>
+#include <QSet>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
@@ -45,12 +46,13 @@
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QKeySequence>
+#include <QAbstractItemView>
+#include <QScrollBar>
 #include <QtEvents>
 
 #include "utilities/strutils.h"
 #include "utilities/mimeutils.h"
 #include "widgets/busyindicator.h"
-#include "widgets/forcescrollperpixel.h"
 #include "widgets/groupediconview.h"
 #include "widgets/searchfield.h"
 #include "albumcoversearcher.h"
@@ -138,7 +140,8 @@ AlbumCoverSearcher::AlbumCoverSearcher(const QIcon &no_cover_icon, const SharedP
   QObject::connect(ui_->search, &QPushButton::clicked, this, &AlbumCoverSearcher::Search);
   QObject::connect(ui_->covers, &GroupedIconView::doubleClicked, this, &AlbumCoverSearcher::CoverDoubleClicked);
 
-  new ForceScrollPerPixel(ui_->covers, this);
+  ui_->covers->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+  ui_->covers->verticalScrollBar()->setSingleStep(20);
 
   ui_->buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(QKeySequence::Close);
 
@@ -186,23 +189,25 @@ AlbumCoverImageResult AlbumCoverSearcher::Exec(const QString &artist, const QStr
   if (exec() == QDialog::Rejected) return AlbumCoverImageResult();
 #endif
 
-  QModelIndex selected = ui_->covers->currentIndex();
-  if (!selected.isValid() || !selected.data(Role_ImageFetchFinished).toBool())
-    return AlbumCoverImageResult();
+  // The result was taken when the dialog was closed.
+  return accepted_result_;
 
-  AlbumCoverImageResult result;
-  result.image_data = selected.data(Role_ImageData).toByteArray();
-  result.image = selected.data(Role_Image).value<QImage>();
-  result.mime_type = Utilities::MimeTypeFromData(result.image_data);
+}
 
-  return result;
+void AlbumCoverSearcher::CancelCoverLoadingTasks() {
+
+  // The loader would otherwise still load the images of the previous results, which are not shown anymore.
+  if (!cover_loading_tasks_.isEmpty()) {
+    albumcover_loader_->CancelTasks(QSet<quint64>(cover_loading_tasks_.keyBegin(), cover_loading_tasks_.keyEnd()));
+    cover_loading_tasks_.clear();
+  }
 
 }
 
 void AlbumCoverSearcher::Search() {
 
+  CancelCoverLoadingTasks();
   model_->clear();
-  cover_loading_tasks_.clear();
 
   if (ui_->album->isEnabled()) {
     id_ = fetcher_->SearchForCovers(ui_->artist->text(), ui_->album->text());
@@ -213,14 +218,51 @@ void AlbumCoverSearcher::Search() {
     ui_->covers->setEnabled(false);
   }
   else {
-    fetcher_->Clear();
-    ui_->search->setText(tr("Search"));
-    ui_->busy->hide();
-    ui_->search->setEnabled(true);
-    ui_->artist->setEnabled(true);
-    ui_->album->setEnabled(true);
-    ui_->covers->setEnabled(true);
+    AbortSearch();
   }
+
+}
+
+void AlbumCoverSearcher::AbortSearch() {
+
+  // Only abort this search, the fetcher is also used for the automatic cover search of the playing song, and for fetching the missing covers in the cover manager.
+  fetcher_->Cancel(id_);
+  id_ = 0;
+  ui_->search->setText(tr("Search"));
+  ui_->busy->hide();
+  ui_->search->setEnabled(true);
+  ui_->artist->setEnabled(true);
+  ui_->album->setEnabled(true);
+  ui_->covers->setEnabled(true);
+
+}
+
+void AlbumCoverSearcher::done(const int r) {
+
+  // The dialog is reused, a search still running when it's closed would be taken as running when it's opened again, so the new search would abort it instead of starting.
+  if (id_ != 0) {
+    AbortSearch();
+  }
+
+  // The chosen cover is taken before the results still loading are removed, removing the current row makes another row current.
+  accepted_result_ = AlbumCoverImageResult();
+  if (r == QDialog::Accepted) {
+    const QModelIndex selected = ui_->covers->currentIndex();
+    if (selected.isValid() && selected.data(Role_ImageFetchFinished).toBool()) {
+      accepted_result_.image_data = selected.data(Role_ImageData).toByteArray();
+      accepted_result_.image = selected.data(Role_Image).value<QImage>();
+      accepted_result_.mime_type = Utilities::MimeTypeFromData(accepted_result_.image_data);
+    }
+  }
+
+  // The images still loading are not used anymore, the results without an image are removed, since they can't be chosen, the dialog can be opened again without a new search.
+  for (QStandardItem *item : std::as_const(cover_loading_tasks_)) {
+    model_->removeRow(item->row());
+  }
+  CancelCoverLoadingTasks();
+  ui_->busy->hide();
+
+  QDialog::done(r);
 
 }
 

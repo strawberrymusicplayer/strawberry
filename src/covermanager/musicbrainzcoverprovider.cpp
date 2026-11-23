@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -66,12 +66,23 @@ bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString 
 
   SearchRequest request(id, artist, album);
   queue_search_requests_ << request;
+  searches_ << id;
 
   if (!timer_flush_requests_->isActive()) {
     timer_flush_requests_->start();
   }
 
   return true;
+
+}
+
+void MusicbrainzCoverProvider::CancelSearch(const int id) {
+
+  searches_.remove(id);
+
+  // The requests are sent one each second, the request for the canceled search would otherwise still be sent before the requests for the next searches.
+  // FlushRequests() stops the timer when the queue is empty.
+  queue_search_requests_.removeIf([id](const SearchRequest &request) { return request.id == id; });
 
 }
 
@@ -153,6 +164,9 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
   replies_.removeAll(reply);
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
+
+  // The search was canceled while the request was sent.
+  if (!searches_.remove(search_id)) return;
 
   CoverProviderSearchResults results;
   const QScopeGuard search_finished = qScopeGuard([this, search_id, &results]() { Q_EMIT SearchFinished(search_id, results); });

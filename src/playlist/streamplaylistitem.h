@@ -41,7 +41,7 @@ class StreamPlaylistItem : public PlaylistItem {
   void SetArtManual(const QUrl &cover_url) override;
 
  protected:
-  QVariant DatabaseValue(const DatabaseColumn column) const override;
+  QVariant DatabaseValue(DatabaseColumn column) const override;
   Song DatabaseSongMetadata() const override { return song_; }
 
  private:

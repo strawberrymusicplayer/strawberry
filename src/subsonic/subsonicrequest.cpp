@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <cmath>
+
 #include <QObject>
 #include <QDir>
 #include <QMimeDatabase>
@@ -73,7 +75,8 @@ SubsonicRequest::SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *u
       album_covers_requests_active_(0),
       album_covers_requested_(0),
       album_covers_received_(0),
-      no_results_(false) {}
+      no_results_(false),
+      album_without_songs_received_(false) {}
 
 SubsonicRequest::~SubsonicRequest() {
 
@@ -116,6 +119,7 @@ void SubsonicRequest::Reset() {
   cover_urls_.clear();
   errors_.clear();
   no_results_ = false;
+  album_without_songs_received_ = false;
   AbortReplies(replies_);
   AbortReplies(album_cover_replies_);
 
@@ -169,7 +173,8 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
   --albums_requests_active_;
 
   int albums_received = 0;
-  const QScopeGuard finish_check = qScopeGuard([this, offset_requested, size_requested, &albums_received]() { AlbumsFinishCheck(offset_requested, size_requested, albums_received); });
+  int albums_added = 0;
+  const QScopeGuard finish_check = qScopeGuard([this, offset_requested, size_requested, &albums_received, &albums_added]() { AlbumsFinishCheck(offset_requested, size_requested, albums_received, albums_added); });
 
   if (finished_) return;
 
@@ -232,8 +237,9 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
     }
     const QJsonObject object_album = value_album.toObject();
 
-    if (!object_album.contains("id"_L1) || !object_album.contains("artist"_L1)) {
-      Error(u"Invalid Json reply, album object in array is missing ID or artist."_s, object_album);
+    // The artist is optional in the Subsonic API.
+    if (!object_album.contains("id"_L1)) {
+      Error(u"Invalid Json reply, album object in array is missing ID."_s, object_album);
       continue;
     }
 
@@ -258,16 +264,18 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
     request.album_id = album_id;
     request.album_artist = artist;
     album_songs_requests_pending_.insert(album_id, request);
+    ++albums_added;
 
   }
 
 }
 
-void SubsonicRequest::AlbumsFinishCheck(const int offset, const int size, const int albums_received) {
+void SubsonicRequest::AlbumsFinishCheck(const int offset, const int size, const int albums_received, const int albums_added) {
 
   if (finished_) return;
 
-  if (albums_received > 0 && albums_received >= size) {
+  // The next page is only requested when the albums received were new, a server which ignores the offset sends the same albums again, and would be asked for the next page forever.
+  if (albums_received > 0 && albums_received >= size && albums_added > 0) {
     int offset_next = offset + albums_received;
     if (offset_next > 0) {
       AddAlbumsRequest(offset_next);
@@ -350,7 +358,7 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
   }
 
   if (!json_object.contains("album"_L1)) {
-    Error(u"Json reply is missing albumList."_s, json_object);
+    Error(u"Json reply is missing album."_s, json_object);
     return;
   }
   const QJsonValue value_album = json_object["album"_L1];
@@ -361,8 +369,9 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
   }
   const QJsonObject object_album = value_album.toObject();
 
+  // Albums without songs have no song array.
   if (!object_album.contains("song"_L1)) {
-    Error(u"Json album object does not contain song array."_s, object_album);
+    album_without_songs_received_ = true;
     return;
   }
   const QJsonValue value_songs = object_album["song"_L1];
@@ -371,6 +380,9 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
     return;
   }
   const QJsonArray array_songs = value_songs.toArray();
+  if (array_songs.isEmpty()) {
+    album_without_songs_received_ = true;
+  }
 
   qint64 created = 0;
   if (object_album.contains("created"_L1)) {
@@ -441,13 +453,9 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_object, c
   Q_UNUSED(artist_id_requested);
   Q_UNUSED(album_id_requested);
 
-  if (!json_object.contains("id"_L1) ||
-      !json_object.contains("title"_L1) ||
-      !json_object.contains("size"_L1) ||
-      !json_object.contains("suffix"_L1) ||
-      !json_object.contains("duration"_L1) ||
-      !json_object.contains("type"_L1)) {
-    Error(u"Invalid Json reply, song is missing one or more values."_s, json_object);
+  // The other values, like the size and duration, are optional in the Subsonic API.
+  if (!json_object.contains("id"_L1) || !json_object.contains("title"_L1)) {
+    Error(u"Invalid Json reply, song is missing ID or title."_s, json_object);
     return QString();
   }
 
@@ -498,13 +506,15 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_object, c
     size = json_object["size"_L1].toInt();
   }
 
-  qint64 duration = 0;
+  // The duration is in seconds, some servers send it with decimals, which toInt() returns as 0.
+  double duration_sec = 0.0;
   if (json_object["duration"_L1].type() == QJsonValue::String) {
-    duration = json_object["duration"_L1].toString().toInt() * kNsecPerSec;
+    duration_sec = json_object["duration"_L1].toString().toDouble();
   }
   else {
-    duration = json_object["duration"_L1].toInt() * kNsecPerSec;
+    duration_sec = json_object["duration"_L1].toDouble();
   }
+  const qint64 duration = static_cast<qint64>(std::llround(duration_sec * static_cast<double>(kNsecPerSec)));
 
   int bitrate = 0;
   if (json_object.contains("bitRate"_L1)) {
@@ -835,7 +845,13 @@ void SubsonicRequest::FinishCheck() {
     }
     else {
       if (songs_.isEmpty() && errors_.isEmpty()) {
-        Q_EMIT Results(songs_, tr("Unknown error"));
+        // Albums without songs are a valid result, it's only unknown why there are no songs when no album was received.
+        if (album_without_songs_received_) {
+          Q_EMIT Results(SongMap(), QString());
+        }
+        else {
+          Q_EMIT Results(songs_, tr("Unknown error"));
+        }
       }
       else {
         Q_EMIT Results(songs_, Utilities::StringListToHTML(errors_));

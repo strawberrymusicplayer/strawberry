@@ -66,7 +66,7 @@ class RadioBrowserSearchView : public QWidget {
   void CountriesLoaded(const QList<QPair<QString, QString>> &countries);
   void AddSelectedToPlaylist();
   void ItemDoubleClicked(const QModelIndex &index);
-  void ShowContextMenu(const QPoint &pos);
+  void ShowContextMenu(const QPoint pos);
 
  private:
   void DoSearch();

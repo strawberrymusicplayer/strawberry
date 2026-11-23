@@ -196,6 +196,12 @@ class Playlist : public QAbstractListModel {
   const QString &ui_path() const { return ui_path_; }
   void set_ui_path(const QString &path) { ui_path_ = path; }
   bool is_favorite() const { return favorite_; }
+  // A closed favorite playlist is kept until it's saved, it's not used while it's closed, also not as the source of a drag.
+  bool is_closed() const { return closed_; }
+  void set_closed(const bool closed) { closed_ = closed; }
+  bool has_pending_save() const;
+  // Incremented every time saving is queued to the playlist backend.
+  quint64 save_generation() const { return save_generation_; }
   void set_favorite(const bool favorite) { favorite_ = favorite; }
 
   int current_row() const;
@@ -294,6 +300,9 @@ class Playlist : public QAbstractListModel {
   Qt::DropActions supportedDropActions() const override;
   QMimeData *mimeData(const QModelIndexList &indexes) const override;
   bool dropMimeData(const QMimeData *data, Qt::DropAction action, const int row, const int column, const QModelIndex &parent_index) override;
+
+  // Returns true if the data are rows dragged from this playlist.
+  bool IsDraggedFromThisPlaylist(const QMimeData *data) const;
   void sort(const int sort_column_number, const Qt::SortOrder sort_order) override;
   bool removeRows(const int row, const int count, const QModelIndex &parent = QModelIndex()) override;
   bool RemoveItemWithSignal(PlaylistItemPtr item);
@@ -310,7 +319,12 @@ class Playlist : public QAbstractListModel {
 
   void set_auto_sort(const bool auto_sort) { auto_sort_ = auto_sort; }
 
-  void ReloadItem(const QPersistentModelIndex &idx, PlaylistItemPtr item, const bool saved = false, const quint64 save_generation = -1, const Song &fallback_metadata = Song());
+  void ReloadItem(const QPersistentModelIndex &idx, PlaylistItemPtr item, const bool saved = false, const quint64 save_generation = -1, const Song &fallback_metadata = Song(), const bool editing_finished = true);
+
+  // Writes the value of the column to the file of the song in the row, like when renumbering tracks.
+  // The other tags are read from the file when writing, so tags changed in the file since the song was added to the playlist are not overwritten.
+  // Returns false when the song is not a local file, or the value can't be set for the column.
+  bool SaveColumnValue(const QModelIndex &idx, const Column column, const QVariant &value);
 
   // Saves the changes waiting for the save timer now, used when exiting, since the timer would fire after the playlist backend exited.
   // Changes made while restoring are saved when the playlist is restored, wait for RestoreDone() when is_restoring() is true.
@@ -347,11 +361,10 @@ class Playlist : public QAbstractListModel {
 
  Q_SIGNALS:
   void NowPlayingReset();
-
+  void PendingInsertsCancelled();
   void RestoreFinished();
   // Emitted when restoring finished or was cancelled.
   void RestoreDone();
-  void PlaylistLoaded();
   void CurrentSongChanged(const Song &metadata);
   void CurrentSongMetadataChanged(const Song &metadata);
   void EditingFinished(const int playlist_id, const QModelIndex idx);
@@ -418,15 +431,17 @@ class Playlist : public QAbstractListModel {
 
   void ClearCollectionItems();
 
-  void SaveItem(const QModelIndex &idx, PlaylistItemPtr item, const Song &song, const Song &pre_edit_metadata);
+  // Shows the edited song, and writes the edited value to the file, see SaveColumnValue().
+  // EditingFinished() is emitted for an edit in the playlist, not when the values are set from elsewhere.
+  void SaveItem(const QModelIndex &idx, PlaylistItemPtr item, const Column column, const QVariant &value, const Song &song, const Song &pre_edit_metadata, const bool editing_finished);
 
  private Q_SLOTS:
   void TracksAboutToBeDequeued(const QModelIndex &idx, const int begin, const int end);
   void TracksDequeued();
   void TracksEnqueued(const QModelIndex &parent_idx, const int begin, const int end);
   void QueueLayoutChanged();
-  void SaveItemComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, PlaylistItemPtr item, const quint64 save_generation, const Song &pre_edit_metadata);
-  void ReloadItemComplete(const QPersistentModelIndex &idx, PlaylistItemPtr item, const Song &new_metadata, const bool saved, const quint64 save_generation, const Song &fallback_metadata);
+  void SaveItemComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, PlaylistItemPtr item, const quint64 save_generation, const Song &pre_edit_metadata, const bool editing_finished = true);
+  void ReloadItemComplete(const QPersistentModelIndex &idx, PlaylistItemPtr item, const Song &new_metadata, const bool saved, const quint64 save_generation, const Song &fallback_metadata, const bool editing_finished = true);
   void ItemsLoaded();
   void ForceScheduleSave();
   void ScheduleSaveItem(const PlaylistItemPtr &item);
@@ -514,6 +529,8 @@ class Playlist : public QAbstractListModel {
   bool is_sorted_;
   Column sort_column_;
   Qt::SortOrder sort_order_;
+  bool closed_;
+  quint64 save_generation_;
 };
 
 #endif  // PLAYLIST_H

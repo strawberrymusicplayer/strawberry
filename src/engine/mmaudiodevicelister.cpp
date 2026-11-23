@@ -75,13 +75,13 @@ EngineDevice GetDevice(IMMDevice *endpoint) {
   }
 
   EngineDevice device;
-  device.value = QString::fromWCharArray(pwszid);
+  device.values << QString::fromWCharArray(pwszid);
   // The friendly name can be missing (VT_EMPTY), in which case pwszVal is not a valid string, fall back to the endpoint ID if it's missing or empty.
   if (var_name.vt == VT_LPWSTR && var_name.pwszVal) {
     device.description = QString::fromWCharArray(var_name.pwszVal);
   }
   if (device.description.isEmpty()) {
-    device.description = device.value.toString();
+    device.description = device.value().toString();
   }
   device.iconname = device.GuessIconName();
 
@@ -140,7 +140,7 @@ EngineDeviceList MMAudioDeviceLister::ListDevices() {
     }
     const QScopeGuard scopeguard_endpoint = qScopeGuard([endpoint]() { endpoint->Release(); });
     const EngineDevice device = GetDevice(endpoint);
-    if (device.value.isValid()) {
+    if (device.value().isValid()) {
       devices.append(device);
     }
   }

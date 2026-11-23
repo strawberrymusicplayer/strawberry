@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include <QObject>
 
 #include "includes/shared_ptr.h"
+#include "core/song.h"
 #include "radiochannel.h"
 
 class QThread;
@@ -37,16 +38,16 @@ class RadioBackend : public QObject {
   void Close();
   void ExitAsync();
 
-  void AddChannelsAsync(const RadioChannelList &channels);
   void GetChannelsAsync();
-  void DeleteChannelsAsync();
+  // Replaces the stored channels of the source, then sends all the stored channels with NewChannels().
+  void ReplaceChannelsAsync(const Song::Source source, const RadioChannelList &channels);
 
  private Q_SLOTS:
-  void AddChannels(const RadioChannelList &channels);
   void GetChannels();
-  void DeleteChannels();
+  void ReplaceChannels(const Song::Source source, const RadioChannelList &channels);
 
  Q_SIGNALS:
+  // All the stored channels.
   void NewChannels(const RadioChannelList &channels);
   void ExitFinished();
 

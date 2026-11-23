@@ -21,6 +21,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include "gtest_include.h"
 #include "gmock_include.h"
@@ -30,6 +31,7 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+#include <QList>
 #include <QString>
 #include <QTemporaryDir>
 #include <QThread>
@@ -97,8 +99,8 @@ TEST_F(M3UParserTest, NestedExpansionLoadsAllChildTracks) {
   // Two real leaf audio files.
   TemporaryResource leaf1(u":/audio/strawberry.mp3"_s);
   TemporaryResource leaf2(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(leaf1.isOpen());
-  ASSERT_TRUE(leaf2.isOpen());
+  ASSERT_TRUE(QFile::exists(leaf1.fileName()));
+  ASSERT_TRUE(QFile::exists(leaf2.fileName()));
 
   // child_a.m3u -> leaf1
   const QString child_a = tmp.filePath(u"child_a.m3u"_s);
@@ -124,8 +126,8 @@ TEST_F(M3UParserTest, MixedAudioAndReferencesPreservesOrder) {
 
   TemporaryResource leaf_direct(u":/audio/strawberry.mp3"_s);
   TemporaryResource leaf_nested(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(leaf_direct.isOpen());
-  ASSERT_TRUE(leaf_nested.isOpen());
+  ASSERT_TRUE(QFile::exists(leaf_direct.fileName()));
+  ASSERT_TRUE(QFile::exists(leaf_nested.fileName()));
 
   // child.m3u -> leaf_nested
   const QString child = tmp.filePath(u"child.m3u"_s);
@@ -189,7 +191,7 @@ TEST_F(M3UParserTest, CycleDetectionTerminates) {
   ASSERT_TRUE(tmp.isValid());
 
   TemporaryResource leaf(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(leaf.isOpen());
+  ASSERT_TRUE(QFile::exists(leaf.fileName()));
 
   // a.m3u -> leaf + b.m3u
   const QString a_path = tmp.filePath(u"a.m3u"_s);
@@ -215,8 +217,8 @@ TEST_F(M3UParserTest, DepthCapStopsRecursion) {
 
   TemporaryResource reachable_leaf(u":/audio/strawberry.mp3"_s);
   TemporaryResource unreachable_leaf(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(reachable_leaf.isOpen());
-  ASSERT_TRUE(unreachable_leaf.isOpen());
+  ASSERT_TRUE(QFile::exists(reachable_leaf.fileName()));
+  ASSERT_TRUE(QFile::exists(unreachable_leaf.fileName()));
 
   // Build a chain root.m3u -> level0.m3u -> ... -> level(cap-1).m3u, entered at depths 0..cap-1.
   // level(cap-1) is the deepest playlist LoadNested is allowed to open, so a direct track it lists still loads.
@@ -255,7 +257,7 @@ TEST_F(M3UParserTest, MissingNestedReferenceIsSkipped) {
   ASSERT_TRUE(tmp.isValid());
 
   TemporaryResource leaf(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(leaf.isOpen());
+  ASSERT_TRUE(QFile::exists(leaf.fileName()));
 
   // parent.m3u: a bad reference followed by a real track.
   const QString parent = tmp.filePath(u"parent.m3u"_s);
@@ -274,7 +276,7 @@ TEST_F(M3UParserTest, RemoteStreamReferenceLoadsAsTrack) {
   ASSERT_TRUE(tmp.isValid());
 
   TemporaryResource leaf(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(leaf.isOpen());
+  ASSERT_TRUE(QFile::exists(leaf.fileName()));
 
   // parent.m3u: a real local track followed by a remote .m3u8 stream URL.
   const QString stream_url = u"http://example.com/stream.m3u8"_s;
@@ -296,7 +298,7 @@ TEST_F(M3UParserTest, RepeatedNonCyclicReferenceExpandsEachTime) {
   ASSERT_TRUE(tmp.isValid());
 
   TemporaryResource leaf(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(leaf.isOpen());
+  ASSERT_TRUE(QFile::exists(leaf.fileName()));
 
   // child.m3u -> one real leaf track.
   const QString child = tmp.filePath(u"child.m3u"_s);
@@ -321,7 +323,7 @@ TEST_F(M3UParserTest, DepthAwareCacheReexpandsShallowReference) {
   ASSERT_TRUE(tmp.isValid());
 
   TemporaryResource leaf(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(leaf.isOpen());
+  ASSERT_TRUE(QFile::exists(leaf.fileName()));
 
   const int cap = M3UParser::kMaxNestingDepth;
 
@@ -356,7 +358,7 @@ TEST_F(M3UParserTest, Windows1251MetadataIsDecoded) {
   ASSERT_TRUE(tmp.isValid());
 
   TemporaryResource leaf(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(leaf.isOpen());
+  ASSERT_TRUE(QFile::exists(leaf.fileName()));
 
   // #EXTINF:180,Гражданская Оборона - Зачем снятся сны
   const QString parent = tmp.filePath(u"parent.m3u"_s);
@@ -378,7 +380,7 @@ TEST_F(M3UParserTest, TitleWithSeparatorIsNotCutOff) {
   ASSERT_TRUE(tmp.isValid());
 
   TemporaryResource leaf(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(leaf.isOpen());
+  ASSERT_TRUE(QFile::exists(leaf.fileName()));
 
   const QString parent = tmp.filePath(u"parent.m3u8"_s);
   ASSERT_TRUE(WriteFile(parent, u"#EXTM3U\n#EXTINF:200,Artist - Song - Remastered 2011\n"_s + leaf.fileName() + u"\n"_s));
@@ -477,7 +479,7 @@ TEST_F(M3UParserTest, LoadM3UPercentEncodedRelativePath) {
   QTemporaryDir tmp;
   ASSERT_TRUE(tmp.isValid());
   TemporaryResource audio(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(audio.isOpen());
+  ASSERT_TRUE(QFile::exists(audio.fileName()));
 
   ASSERT_TRUE(QDir(tmp.path()).mkdir(u"Ελληνικά"_s));
   const QString song_path = tmp.filePath(u"Ελληνικά/track.mp3"_s);
@@ -499,7 +501,7 @@ TEST_F(M3UParserTest, LoadM3UPercentInFileNameIsNotDecoded) {
   QTemporaryDir tmp;
   ASSERT_TRUE(tmp.isValid());
   TemporaryResource audio(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(audio.isOpen());
+  ASSERT_TRUE(QFile::exists(audio.fileName()));
 
   // %41 would decode to "A".
   const QString song_path = tmp.filePath(u"100%41.mp3"_s);
@@ -538,7 +540,7 @@ TEST_F(M3UParserTest, LoadM3UAmbiguousLatin1Path) {
   QTemporaryDir tmp;
   ASSERT_TRUE(tmp.isValid());
   TemporaryResource audio(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(audio.isOpen());
+  ASSERT_TRUE(QFile::exists(audio.fileName()));
 
   const QString song_path = tmp.filePath(u"Ã©.mp3"_s);
   ASSERT_TRUE(QFile::copy(audio.fileName(), song_path));
@@ -585,6 +587,65 @@ QByteArray SaveStreamSong(const M3UParser &parser, const QString &playlist_path,
 
 }
 
+// Regression test: a song without a title or an artist was saved as "Artist - " or " - ", and loaded back with the title "Artist -" or " -".
+TEST_F(M3UParserTest, SavedMetadataIsLoadedUnchanged) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  M3UParser parser = MakeParser();
+
+  const QList<std::pair<QString, QString>> artists_and_titles = {
+    { u"Artist"_s, u"Title"_s },
+    { QString(), QString() },
+    { u"Artist"_s, QString() },
+    { QString(), u"Title"_s },
+    { QString(), u"Title - Remastered"_s },
+    { QString(), u"Title -"_s },
+    { u"Artist"_s, u"Title -"_s },
+  };
+
+  for (const std::pair<QString, QString> &artist_and_title : artists_and_titles) {
+    const QString playlist_path = tmp.filePath(u"playlist.m3u8"_s);
+    SaveStreamSong(parser, playlist_path, artist_and_title.first, artist_and_title.second);
+    const ParserBase::LoadResult result = Load(parser, playlist_path);
+    ASSERT_EQ(result.songs.size(), 1);
+    EXPECT_EQ(result.songs[0].artist(), artist_and_title.first) << artist_and_title.first.toStdString() << " / " << artist_and_title.second.toStdString();
+    EXPECT_EQ(result.songs[0].title(), artist_and_title.second) << artist_and_title.first.toStdString() << " / " << artist_and_title.second.toStdString();
+  }
+
+}
+
+// Without an artist, only the title is saved, so other players don't show a " - " either.
+TEST_F(M3UParserTest, SaveWithoutArtistSavesOnlyTitle) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  const M3UParser parser = MakeParser();
+
+  EXPECT_TRUE(SaveStreamSong(parser, tmp.filePath(u"empty.m3u8"_s), QString(), QString()).contains("#EXTINF:0,\n"));
+  EXPECT_TRUE(SaveStreamSong(parser, tmp.filePath(u"title.m3u8"_s), QString(), u"Title"_s).contains("#EXTINF:0,Title\n"));
+  EXPECT_TRUE(SaveStreamSong(parser, tmp.filePath(u"separator.m3u8"_s), QString(), u"Title - Remastered"_s).contains("#EXTINF:0, - Title - Remastered\n"));
+
+}
+
+// Playlists saved before without a title or an artist are loaded without them.
+TEST_F(M3UParserTest, EmptyMetadataSavedBeforeIsLoadedEmpty) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  M3UParser parser = MakeParser();
+
+  const QString playlist_path = tmp.filePath(u"playlist.m3u8"_s);
+  ASSERT_TRUE(WriteFile(playlist_path, u"#EXTM3U\n#EXTINF:0, - \nhttps://example.com/stream/1\n#EXTINF:0,Artist - \nhttps://example.com/stream/2\n"_s));
+  const ParserBase::LoadResult result = Load(parser, playlist_path);
+  ASSERT_EQ(result.songs.size(), 2);
+  EXPECT_EQ(result.songs[0].artist(), QString());
+  EXPECT_EQ(result.songs[0].title(), QString());
+  EXPECT_EQ(result.songs[1].artist(), u"Artist"_s);
+  EXPECT_EQ(result.songs[1].title(), QString());
+
+}
+
 // An .m3u playlist skips metadata Latin-1 can't represent, since it would replace the song's metadata with an altered one when loading.
 TEST_F(M3UParserTest, SaveM3USkipsNonLatin1Metadata) {
 
@@ -609,7 +670,7 @@ TEST_F(M3UParserTest, SaveM3UEncodedRelativePathCollision) {
   QTemporaryDir tmp;
   ASSERT_TRUE(tmp.isValid());
   TemporaryResource audio(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(audio.isOpen());
+  ASSERT_TRUE(QFile::exists(audio.fileName()));
 
   const QString song_path = tmp.filePath(u"猫.mp3"_s);
   ASSERT_TRUE(QFile::copy(audio.fileName(), song_path));
@@ -624,6 +685,62 @@ TEST_F(M3UParserTest, SaveM3UEncodedRelativePathCollision) {
   const ParserBase::LoadResult result = Load(parser, playlist_path);
   ASSERT_EQ(result.songs.size(), 1);
   EXPECT_EQ(QFileInfo(result.songs[0].url().toLocalFile()).canonicalFilePath(), QFileInfo(song_path).canonicalFilePath());
+
+}
+
+// Regression test: a relative file name starting with # was written as it is, and read back as a comment.
+TEST_F(M3UParserTest, FileNameStartingWithHashIsLoaded) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  TemporaryResource audio(u":/audio/strawberry.mp3"_s);
+  ASSERT_TRUE(QFile::exists(audio.fileName()));
+
+  const QString song_path = tmp.filePath(u"#1 track.mp3"_s);
+  ASSERT_TRUE(QFile::copy(audio.fileName(), song_path));
+
+  M3UParser parser = MakeParser();
+  const QString playlist_path = tmp.filePath(u"playlist.m3u8"_s);
+  const QByteArray data = SaveSingleFile(parser, playlist_path, song_path, PlaylistSettings::PathType::Relative);
+  EXPECT_TRUE(data.contains("\n./#1 track.mp3\n"));
+
+  const ParserBase::LoadResult result = Load(parser, playlist_path);
+  ASSERT_EQ(result.songs.size(), 1);
+  EXPECT_EQ(QFileInfo(result.songs[0].url().toLocalFile()).canonicalFilePath(), QFileInfo(song_path).canonicalFilePath());
+
+}
+
+// In an .m3u playlist, the # of a percent encoded location is encoded too.
+TEST_F(M3UParserTest, EncodedFileNameStartingWithHashIsLoaded) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  TemporaryResource audio(u":/audio/strawberry.mp3"_s);
+  ASSERT_TRUE(QFile::exists(audio.fileName()));
+
+  const QString song_path = tmp.filePath(u"#Ελληνικά.mp3"_s);
+  ASSERT_TRUE(QFile::copy(audio.fileName(), song_path));
+
+  M3UParser parser = MakeParser();
+  const QString playlist_path = tmp.filePath(u"playlist.m3u"_s);
+  SaveSingleFile(parser, playlist_path, song_path, PlaylistSettings::PathType::Relative);
+
+  const ParserBase::LoadResult result = Load(parser, playlist_path);
+  ASSERT_EQ(result.songs.size(), 1);
+  EXPECT_EQ(QFileInfo(result.songs[0].url().toLocalFile()).canonicalFilePath(), QFileInfo(song_path).canonicalFilePath());
+
+}
+
+// Other relative file names are written as they are.
+TEST_F(M3UParserTest, FileNameWithHashInsideIsNotChanged) {
+
+  QTemporaryDir tmp;
+  ASSERT_TRUE(tmp.isValid());
+  const M3UParser parser = MakeParser();
+
+  const QByteArray data = SaveSingleFile(parser, tmp.filePath(u"playlist.m3u8"_s), tmp.filePath(u"track #1.mp3"_s), PlaylistSettings::PathType::Relative);
+
+  EXPECT_TRUE(data.contains("\ntrack #1.mp3\n"));
 
 }
 

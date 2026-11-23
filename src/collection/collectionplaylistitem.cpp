@@ -51,7 +51,7 @@ bool CollectionPlaylistItem::InitFromQuery(const SqlRow &query) {
 
 }
 
-QVariant CollectionPlaylistItem::DatabaseValue(const DatabaseColumn database_column) const {
+QVariant CollectionPlaylistItem::DatabaseValue(DatabaseColumn database_column) const {
 
   switch (database_column) {
     case DatabaseColumn::CollectionId:

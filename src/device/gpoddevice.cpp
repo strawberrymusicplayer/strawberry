@@ -171,22 +171,31 @@ void GPodDevice::LoaderError(const QString &message) {
   Q_EMIT Error(message);
 }
 
-void GPodDevice::Start() {
+void GPodDevice::WaitForDatabase() {
+
+  db_wait_cond_.wait(&db_mutex_);
+
+}
+
+bool GPodDevice::Start() {
 
   {
-    // Wait for the database to be loaded
+    // Wait for the database to be loaded, it stays null when loading it failed or was aborted, there is no loader anymore then.
     QMutexLocker l(&db_mutex_);
-    if (!db_) db_wait_cond_.wait(&db_mutex_);
+    while (!db_ && loader_) WaitForDatabase();
+    if (!db_) return false;
   }
 
   // Ensure only one "organize files" can be active at any one time
   db_busy_.lock();
 
+  return true;
+
 }
 
 bool GPodDevice::StartCopy(QList<Song::FileType> *supported_filetypes) {
 
-  Start();
+  if (!Start()) return false;
 
   if (supported_filetypes) GetSupportedFiletypes(supported_filetypes);
 
@@ -343,7 +352,8 @@ void GPodDevice::Finish(const bool success) {
   files_to_remove_.clear();
   cover_files_.clear();
 
-  db_busy_.unlock();
+  // It's only locked when the database was loaded, the finish functions are also called when starting failed.
+  if (db_) db_busy_.unlock();
 
 }
 
@@ -416,7 +426,8 @@ void GPodDevice::RemoveTrackFromITunesDb(Itdb_Track *track) {
 
 bool GPodDevice::DeleteFromStorage(const DeleteJob &job) {
 
-  Q_ASSERT(db_);
+  // The database couldn't be loaded.
+  if (!db_) return false;
 
   const QString filename = job.metadata_.url().toLocalFile();
 

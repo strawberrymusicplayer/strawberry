@@ -31,16 +31,16 @@
 #include <QMainWindow>
 #include <QAbstractItemModel>
 #include <QtAlgorithms>
-#include <QDir>
-#include <QFileInfo>
 #include <QList>
+#include <QSet>
 #include <QMap>
-#include <QDirIterator>
-#include <QFileDialog>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QSet>
+#include <QDir>
+#include <QFileInfo>
+#include <QDirIterator>
+#include <QFileDialog>
 #include <QIcon>
 #include <QDateTime>
 #include <QComboBox>
@@ -406,7 +406,16 @@ void TranscodeDialog::Import() {
 
 void TranscodeDialog::SetFilenames(const QStringList &filenames) {
 
+  // The transcoder transcodes whole files, so a file is only added once, like the audio file of the tracks of a CUE sheet.
+  QSet<QString> added_filenames;
+  for (int i = 0; i < ui_->files->topLevelItemCount(); ++i) {
+    added_filenames << ui_->files->topLevelItem(i)->data(0, Qt::UserRole).toString();
+  }
+
   for (const QString &filename : filenames) {
+    if (added_filenames.contains(filename)) continue;
+    added_filenames << filename;
+
     QString name = filename.section(u'/', -1, -1);
     QString path = filename.section(u'/', 0, -2);
 
@@ -509,11 +518,10 @@ QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const 
   QString output_filepath;
   if (destination_path.isEmpty()) {
     // Keep the original path.
-    output_filepath = input_filepath.section(u'.', 0, -2) + u'.' + preset.extension_;
+    output_filepath = ReplaceExtension(input_filepath, preset.extension_);
   }
   else {
-    QString filename = TrimPath(input_filepath);
-    filename = filename.section(u'.', 0, -2);
+    const QString filename = ReplaceExtension(TrimPath(input_filepath), preset.extension_);
     // If checkbox for preserving import directory structure is checked validate the path exists
     if (ui_->preserve_dir_structure->isChecked()) {
       const QString path = destination_path + u'/' + input_import_dir;
@@ -521,11 +529,11 @@ QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const 
       if (!dir.exists()) {
         dir.mkpath(u"."_s);
       }
-      output_filepath = path + u'/' + filename + u'.' + preset.extension_;
+      output_filepath = path + u'/' + filename;
     }
     // Otherwise no modifications to the output path
     else {
-      output_filepath = destination_path + u'/' + filename + u'.' + preset.extension_;
+      output_filepath = destination_path + u'/' + filename;
     }
   }
 
@@ -535,13 +543,28 @@ QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const 
 
 }
 
+QString TranscodeDialog::ReplaceExtension(const QString &filepath, const QString &extension) {
+
+  // Only a dot in the file name starts the extension, not a dot in a directory name, and a file name starting with a dot, like a hidden file, has no extension.
+  const qsizetype filename_start = filepath.lastIndexOf(u'/') + 1;
+  const qsizetype extension_start = filepath.lastIndexOf(u'.');
+  const QString filepath_without_extension = extension_start > filename_start ? filepath.left(extension_start) : filepath;
+
+  return filepath_without_extension + u'.' + extension;
+
+}
+
 QString TranscodeDialog::UniqueFilePath(const QString &filepath, UsedFilePaths &used_filepaths) {
 
   // The directory is only resolved once, since all the paths which are tried are in the same directory.
   const QFileInfo fileinfo(filepath);
-  const QString directory = ResolvedDirectory(fileinfo.path());
-  const auto key = [&directory](const QString &filename) { return QString(directory + QLatin1Char('/') + filename).toCaseFolded(); };
-  const auto is_used = [&used_filepaths, &fileinfo, &key](const QString &filename) { return used_filepaths.keys.contains(key(filename)) || QFileInfo::exists(fileinfo.path() + QLatin1Char('/') + filename); };
+  const QString directory = Transcoder::OutputDirectory(filepath);
+  const auto key = [&directory](const QString &filename) { return Transcoder::OutputKey(directory, filename); };
+  // Symbolic links are never used, also dangling links, since they could point to the output file of another file.
+  const auto is_used = [&used_filepaths, &fileinfo, &key](const QString &filename) {
+    const QFileInfo fileinfo_used(fileinfo.path() + QLatin1Char('/') + filename);
+    return used_filepaths.keys.contains(key(filename)) || fileinfo_used.exists() || fileinfo_used.isSymLink();
+  };
 
   QString unique_filepath = filepath;
   QString filename = fileinfo.fileName();
@@ -565,20 +588,8 @@ QString TranscodeDialog::UniqueFilePath(const QString &filepath, UsedFilePaths &
 
 QString TranscodeDialog::FilePathKey(const QString &filepath) {
 
-  const QFileInfo fileinfo(filepath);
-
-  // The paths are compared case-insensitively, since the destination can be on a case-insensitive filesystem.
-  return QString(ResolvedDirectory(fileinfo.path()) + QLatin1Char('/') + fileinfo.fileName()).toCaseFolded();
-
-}
-
-QString TranscodeDialog::ResolvedDirectory(const QString &path) {
-
-  // The directory is resolved, since the input files can be given with redundant "." or ".." components, or through symbolic links, then the output paths are written differently.
-  // The symbolic links are resolved before the ".." components are removed, since ".." after a symbolic link is the parent of the target of the link.
-  // The path is only cleaned when the directory doesn't exist, then it doesn't contain symbolic links which could be resolved either.
-  const QString canonical_path = QFileInfo(path).canonicalFilePath();
-  return canonical_path.isEmpty() ? QDir::cleanPath(path) : canonical_path;
+  // The same keys as the transcoder, so the outputs are compared the same way.
+  return Transcoder::OutputKey(filepath);
 
 }
 

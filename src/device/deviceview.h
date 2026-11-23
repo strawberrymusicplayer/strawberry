@@ -29,6 +29,7 @@
 #include <QStyleOptionViewItem>
 #include <QAbstractItemModel>
 #include <QPersistentModelIndex>
+#include <QList>
 #include <QString>
 #include <QStringList>
 
@@ -53,6 +54,7 @@ class DeviceProperties;
 class CollectionDirectoryModel;
 class MergedProxyModel;
 class OrganizeDialog;
+class MusicStorage;
 
 class DeviceItemDelegate : public CollectionItemDelegate {
   Q_OBJECT
@@ -71,6 +73,15 @@ class DeviceView : public AutoExpandingTreeView {
  public:
   explicit DeviceView(QWidget *parent = nullptr);
   ~DeviceView() override;
+
+  struct StorageSongs {
+    SharedPtr<MusicStorage> storage;
+    SongList songs;
+  };
+  using StorageSongsList = QList<StorageSongs>;
+
+  // Adds the songs to the songs of the storage in the list, there's one entry for each storage.
+  static void AddStorageSongs(StorageSongsList *storage_songs_list, const SharedPtr<MusicStorage> &storage, const SongList &songs);
 
   void Init(const SharedPtr<TaskManager> task_manager,
             const SharedPtr<TagReaderClient> tagreader_client,
@@ -108,6 +119,7 @@ class DeviceView : public AutoExpandingTreeView {
   QModelIndex MapToCollection(const QModelIndex &merged_model_index) const;
   QModelIndex FindParentDevice(const QModelIndex &merged_model_index) const;
   SongList GetSelectedSongs() const;
+  StorageSongsList GetSelectedSongsByStorage() const;
 
  private:
   SharedPtr<TaskManager> task_manager_;

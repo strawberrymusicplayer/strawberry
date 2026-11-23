@@ -1,6 +1,6 @@
 /*
 Copyright (C) 2011 by Mike McQuaid
-Copyright (C) 2018-2024 by Jonas Kvinge <jonas@jkvinge.net>
+Copyright (C) 2018-2026 by Jonas Kvinge <jonas@jkvinge.net>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -39,12 +39,17 @@ THE SOFTWARE.
 
 using namespace Qt::Literals::StringLiterals;
 
+@class SearchFieldDelegate;
+
 class SearchFieldPrivate : public QObject {
 
  public:
 
-  explicit SearchFieldPrivate(SearchField *qSearchField, NSSearchField *nsSearchField)
-    : QObject(qSearchField), qSearchField(qSearchField), nsSearchField(nsSearchField) {}
+  // Takes over the references to the search field and the delegate from alloc.
+  explicit SearchFieldPrivate(SearchField *qSearchField, NSSearchField *nsSearchField, SearchFieldDelegate *delegate)
+    : QObject(qSearchField), qSearchField(qSearchField), nsSearchField(nsSearchField), delegate(delegate) {}
+
+  ~SearchFieldPrivate() override;
 
   void textDidChange(const QString &text) {
 
@@ -92,6 +97,7 @@ class SearchFieldPrivate : public QObject {
 
   QPointer<SearchField> qSearchField;
   NSSearchField *nsSearchField;
+  SearchFieldDelegate *delegate;
 };
 
 @interface SearchFieldDelegate : NSObject<NSTextFieldDelegate> {
@@ -144,6 +150,16 @@ class SearchFieldPrivate : public QObject {
 
 @end
 
+SearchFieldPrivate::~SearchFieldPrivate() {
+
+  // The search field doesn't retain its delegate, so it's removed before the delegate is released, the search field can still call it while it's destroyed.
+  // The window container keeps its own reference to the search field.
+  [nsSearchField setDelegate:nil];
+  [delegate release];
+  [nsSearchField release];
+
+}
+
 @interface QocoaSearchField : NSSearchField
 -(BOOL)performKeyEquivalent:(NSEvent*)event;
 @end
@@ -187,7 +203,7 @@ SearchField::SearchField(QWidget *parent) : QWidget(parent) {
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
   NSSearchField *search = [[QocoaSearchField alloc] init];
   SearchFieldDelegate *delegate = [[SearchFieldDelegate alloc] init];
-  pimpl = delegate->pimpl = new SearchFieldPrivate(this, search);
+  pimpl = delegate->pimpl = new SearchFieldPrivate(this, search, delegate);
   [search setDelegate:static_cast<id<NSSearchFieldDelegate>>(delegate)];
 
   setAttribute(Qt::WA_NativeWindow);
@@ -206,20 +222,27 @@ void SearchField::setIconSize(const int iconsize) {
   Q_UNUSED(iconsize);
 }
 
-void SearchField::setText(const QString &text) {
+void SearchField::setText(const QString &new_text) {
 
   Q_ASSERT(pimpl);
 
   if (!pimpl) return;
 
+  const bool text_changed = new_text != text();
+
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-  [pimpl->nsSearchField setStringValue:fromQString(text)];
-  if (!text.isEmpty()) {
+  [pimpl->nsSearchField setStringValue:fromQString(new_text)];
+  if (!new_text.isEmpty()) {
     [pimpl->nsSearchField selectText:pimpl->nsSearchField];
     [[pimpl->nsSearchField currentEditor] setSelectedRange:NSMakeRange([[pimpl->nsSearchField stringValue] length], 0)];
   }
 
   [pool drain];
+
+  // AppKit only sends controlTextDidChange for changes made by the user, so textChanged is emitted here like QLineEdit does in the Qt implementation, otherwise filters set from code, like "Show in collection", are not applied.
+  if (text_changed) {
+    Q_EMIT textChanged(new_text);
+  }
 
 }
 

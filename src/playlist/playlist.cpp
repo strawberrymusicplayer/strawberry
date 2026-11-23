@@ -80,6 +80,7 @@
 #include "playlistbackend.h"
 #include "playlistfilter.h"
 #include "playlistitemmimedata.h"
+#include "playlistrowsmimedata.h"
 #include "songloaderinserter.h"
 #include "songplaylistitem.h"
 #include "playlistundocommandinsertitems.h"
@@ -136,6 +137,35 @@ QHash<const PlaylistItem*, int> FirstRowsOfItems(const PlaylistItemPtrList &item
 
 }
 
+// Reads the playlist rows dragged from a playlist, the source playlist is only valid when the process ID is the ID of this process.
+// Returns false if the data is incomplete, Playlist::mimeData() always writes the process ID, so data without it could be from another instance, and the source playlist is not valid.
+bool ReadRowsMimeData(const QMimeData *data, Playlist **source_playlist, QList<int> *source_rows, qint64 *pid) {
+
+  QDataStream stream(data->data(QLatin1String(Playlist::kRowsMimetype)));
+  if (stream.readRawData(reinterpret_cast<char*>(source_playlist), sizeof(*source_playlist)) != static_cast<int>(sizeof(*source_playlist))) {
+    return false;
+  }
+  stream >> *source_rows;
+  if (stream.status() != QDataStream::Ok) {
+    return false;
+  }
+
+  if (stream.readRawData(reinterpret_cast<char*>(pid), sizeof(*pid)) != static_cast<int>(sizeof(*pid))) {
+    return false;
+  }
+
+  // The rows can have changed during the drag, use the rows of the dragged items now, and the source playlist only if it's still open.
+  if (*pid == QCoreApplication::applicationPid()) {
+    if (const PlaylistRowsMimeData *rows_mimedata = qobject_cast<const PlaylistRowsMimeData*>(data)) {
+      *source_playlist = rows_mimedata->playlist();
+      *source_rows = rows_mimedata->rows();
+    }
+  }
+
+  return true;
+
+}
+
 }  // namespace
 
 Playlist::Playlist(const SharedPtr<TaskManager> task_manager,
@@ -178,7 +208,9 @@ Playlist::Playlist(const SharedPtr<TaskManager> task_manager,
       auto_sort_(false),
       is_sorted_(false),
       sort_column_(Column::Title),
-      sort_order_(Qt::AscendingOrder) {
+      sort_order_(Qt::AscendingOrder),
+      closed_(false),
+      save_generation_(0) {
 
   undo_stack_->setUndoLimit(kUndoStackSize);
 
@@ -489,7 +521,7 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
   if (!set_column_value(song, static_cast<Column>(idx.column()), value)) return false;
 
   if (song.url().isLocalFile()) {
-    SaveItem(idx, item, song, pre_edit_metadata);
+    SaveItem(idx, item, static_cast<Column>(idx.column()), value, song, pre_edit_metadata, true);
   }
   else if (song.is_stream()) {
     item->SetOriginalMetadata(song);
@@ -502,34 +534,51 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
 
 }
 
-void Playlist::SaveItem(const QModelIndex &idx, PlaylistItemPtr item, const Song &song, const Song &pre_edit_metadata) {
+bool Playlist::SaveColumnValue(const QModelIndex &idx, const Column column, const QVariant &value) {
+
+  const PlaylistItemPtr item = item_at(idx.row());
+  if (!item) return false;
+
+  const Song pre_edit_metadata = item->OriginalMetadata();
+  if (!pre_edit_metadata.url().isLocalFile()) return false;
+
+  Song song = pre_edit_metadata;
+  if (!set_column_value(song, column, value)) return false;
+
+  SaveItem(idx, item, column, value, song, pre_edit_metadata, false);
+
+  return true;
+
+}
+
+void Playlist::SaveItem(const QModelIndex &idx, PlaylistItemPtr item, const Column column, const QVariant &value, const Song &song, const Song &pre_edit_metadata, const bool editing_finished) {
 
   const int row = idx.row();
 
   // Show the edit immediately: otherwise the cell keeps displaying the pre-edit value (the view re-reads it right after the editor closes) until the write-then-reread round trip below completes asynchronously, which can take a perceptible moment and looks like the edit was reverted.
   UpdateItemMetadata(row, item, song, false);
-  Q_EMIT EditingFinished(id_, idx);
+  if (editing_finished) {
+    Q_EMIT EditingFinished(id_, idx);
+  }
 
   // Bump the item's save generation so a still-in-flight completion from an earlier edit to this same item can recognize (once it eventually completes) that it has been superseded, and avoid clobbering this newer edit with its own stale result.
   const quint64 save_generation = item->BumpSaveGeneration();
 
-  TagReaderReplyPtr reply = tagreader_client_->WriteFileAsync(song.url().toLocalFile(), song);
+  // The song of the playlist can be older than the file, like when the tags were changed in the tag editor or another program, so only the edited value is written, the other tags are read from the file when writing.
+  // The edits are written in order, each edit reads the file after the edits before it were written.
+  TagReaderReplyPtr reply = tagreader_client_->UpdateFileAsync(song.url().toLocalFile(), [column, value](Song *file_song) { return set_column_value(*file_song, column, value); });
   QPersistentModelIndex persistent_index = QPersistentModelIndex(idx);
   SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
-  *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, item, save_generation, pre_edit_metadata, connection]() {
-    SaveItemComplete(reply, persistent_index, item, save_generation, pre_edit_metadata);
+  *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, item, save_generation, pre_edit_metadata, editing_finished, connection]() {
+    SaveItemComplete(reply, persistent_index, item, save_generation, pre_edit_metadata, editing_finished);
     QObject::disconnect(*connection);
   }, Qt::QueuedConnection);
 
 }
 
-void Playlist::SaveItemComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, PlaylistItemPtr item, const quint64 save_generation, const Song &pre_edit_metadata) {
+void Playlist::SaveItemComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, PlaylistItemPtr item, const quint64 save_generation, const Song &pre_edit_metadata, const bool editing_finished) {
 
-  if (!idx.isValid()) return;
-
-  // A newer edit has already superseded this write (its own completion, still pending or already applied, is responsible for reconciling the item), so touching the item now would race it and could clobber the newer optimistic value with this stale write's outcome.
-  if (item->save_generation() != save_generation) return;
-
+  // Each write only has the value of its own edit, so a failed write is reported also when the row was removed, or a newer edit superseded it.
   if (!reply->success()) {
     if (reply->error().isEmpty()) {
       Q_EMIT Error(tr("Could not write metadata to %1").arg(reply->filename()));
@@ -537,30 +586,39 @@ void Playlist::SaveItemComplete(TagReaderReplyPtr reply, const QPersistentModelI
     else {
       Q_EMIT Error(tr("Could not write metadata to %1: %2").arg(reply->filename(), reply->error()));
     }
+  }
+
+  if (!idx.isValid()) return;
+
+  // A newer edit has already superseded this write (its own completion, still pending or already applied, is responsible for reconciling the item), so touching the item now would race it and could clobber the newer optimistic value with this stale write's outcome.
+  // The newer edit reloads the song from the file when its write completed, so the value of this edit is not shown then.
+  if (item->save_generation() != save_generation) return;
+
+  if (!reply->success()) {
     // Resync with the actual file contents rather than assuming pre_edit_metadata still matches what's on disk: with consecutive edits to the same item, pre_edit_metadata is whatever the previous (optimistic) edit left in place, which can itself be a value that was never successfully written (e.g. its own write is still in flight, or already failed but was ignored here due to the generation guard above). Reading the file collapses any such chain of unconfirmed edits to the genuine on-disk state. Only if that reload itself fails to read the file do we fall back to pre_edit_metadata as a last resort.
-    ReloadItem(idx, item, true, save_generation, pre_edit_metadata);
+    ReloadItem(idx, item, true, save_generation, pre_edit_metadata, editing_finished);
     return;
   }
 
   // Resync with the actual file contents: this confirms the value already shown optimistically by setData(), picking up any normalization the tag writer applied.
-  ReloadItem(idx, item, true, save_generation, Song());
+  ReloadItem(idx, item, true, save_generation, Song(), editing_finished);
 
 }
 
-void Playlist::ReloadItem(const QPersistentModelIndex &idx, PlaylistItemPtr item, const bool saved, const quint64 save_generation, const Song &fallback_metadata) {
+void Playlist::ReloadItem(const QPersistentModelIndex &idx, PlaylistItemPtr item, const bool saved, const quint64 save_generation, const Song &fallback_metadata, const bool editing_finished) {
 
   // For a plain (non-save-triggered) reload the caller has no meaningful generation to hand in, so snapshot the item's current one here at kick-off time: if some other edit bumps it before this reload completes, ReloadItemComplete's staleness check below will then correctly detect that and discard this now-stale result instead of clobbering the newer edit.
   const quint64 current_save_generation = saved ? save_generation : item->save_generation();
 
   const Song original_song = item->OriginalMetadata();
   if (!original_song.url().isLocalFile()) {
-    ReloadItemComplete(idx, item, Song(), saved, current_save_generation, fallback_metadata);
+    ReloadItemComplete(idx, item, Song(), saved, current_save_generation, fallback_metadata, editing_finished);
     return;
   }
 
   TagReaderReadFileReplyPtr reply = tagreader_client_->ReadFileAsync(original_song.url().toLocalFile(), original_song);
   SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
-  *connection = QObject::connect(&*reply, &TagReaderReadFileReply::Finished, this, [this, reply, idx, item, saved, current_save_generation, fallback_metadata, connection](const QString &filename, const Song &song, const TagReaderResult &result) {
+  *connection = QObject::connect(&*reply, &TagReaderReadFileReply::Finished, this, [this, reply, idx, item, saved, current_save_generation, fallback_metadata, editing_finished, connection](const QString &filename, const Song &song, const TagReaderResult &result) {
     Song new_metadata;
     if (result.success()) {
       new_metadata = song;
@@ -568,13 +626,13 @@ void Playlist::ReloadItem(const QPersistentModelIndex &idx, PlaylistItemPtr item
     else {
       qLog(Error) << "Could not reload file" << filename << result.error_string();
     }
-    ReloadItemComplete(idx, item, new_metadata, saved, current_save_generation, fallback_metadata);
+    ReloadItemComplete(idx, item, new_metadata, saved, current_save_generation, fallback_metadata, editing_finished);
     QObject::disconnect(*connection);
   }, Qt::QueuedConnection);
 
 }
 
-void Playlist::ReloadItemComplete(const QPersistentModelIndex &idx, PlaylistItemPtr item, const Song &new_metadata, const bool saved, const quint64 save_generation, const Song &fallback_metadata) {
+void Playlist::ReloadItemComplete(const QPersistentModelIndex &idx, PlaylistItemPtr item, const Song &new_metadata, const bool saved, const quint64 save_generation, const Song &fallback_metadata, const bool editing_finished) {
 
   if (!idx.isValid()) {
     return;
@@ -593,7 +651,7 @@ void Playlist::ReloadItemComplete(const QPersistentModelIndex &idx, PlaylistItem
     UpdateItemMetadata(idx.row(), item, fallback_metadata, false);
   }
 
-  if (saved) {
+  if (saved && editing_finished) {
     Q_EMIT EditingFinished(id_, idx);
   }
 
@@ -1026,6 +1084,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
 
   if (const MimeData *mime_data = qobject_cast<const MimeData*>(data)) {
     if (mime_data->clear_first_) {
+      // Clear() cancels the URLs still being loaded for the playlist being replaced, they would be inserted together with the new items.
       Clear();
     }
     play_now = mime_data->play_now_;
@@ -1066,25 +1125,23 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
     QList<int> source_rows;
     Playlist *source_playlist = nullptr;
     qint64 pid = 0;
-    qint64 own_pid = QCoreApplication::applicationPid();
-
-    QDataStream stream(data->data(QLatin1String(kRowsMimetype)));
-    stream.readRawData(reinterpret_cast<char*>(&source_playlist), sizeof(&source_playlist));
-    stream >> source_rows;
-    if (!stream.atEnd()) {
-      stream.readRawData(reinterpret_cast<char*>(&pid), sizeof(pid));
-    }
-    else {
-      pid = own_pid;
-    }
+    const qint64 own_pid = QCoreApplication::applicationPid();
+    if (!ReadRowsMimeData(data, &source_playlist, &source_rows, &pid)) return false;
 
     std::stable_sort(source_rows.begin(), source_rows.end());  // Make sure we take them in order
+
+    // The source playlist can have been closed during the drag.
+    if (pid == own_pid && source_playlist) {
+      // Skip rows which don't exist, the data could be from before the playlist changed.
+      source_rows.removeIf([source_playlist](const int source_row) { return !source_playlist->has_item_at(source_row); });
+    }
+    if (source_rows.isEmpty()) return false;
 
     if (source_playlist == this) {
       // Dragged from this playlist - rearrange the items
       undo_stack_->push(new PlaylistUndoCommandMoveItems(this, source_rows, row));
     }
-    else if (pid == own_pid) {
+    else if (pid == own_pid && source_playlist) {
       // Drag from a different playlist
       // Insert copies, so the items are not shared between the playlists.
       PlaylistItemPtrList items;
@@ -1113,6 +1170,19 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
   }
 
   return true;
+
+}
+
+bool Playlist::IsDraggedFromThisPlaylist(const QMimeData *data) const {
+
+  if (!data->hasFormat(QLatin1String(kRowsMimetype))) return false;
+
+  Playlist *source_playlist = nullptr;
+  QList<int> source_rows;
+  qint64 pid = 0;
+  if (!ReadRowsMimeData(data, &source_playlist, &source_rows, &pid)) return false;
+
+  return source_playlist == this && pid == QCoreApplication::applicationPid();
 
 }
 
@@ -1149,6 +1219,8 @@ void Playlist::InsertSmartPlaylist(PlaylistGeneratorPtr generator, const int pos
   else {
     inserter = new PlaylistGeneratorInserter(task_manager_, collection_backend_, this);
     QObject::connect(inserter, &PlaylistGeneratorInserter::Error, this, &Playlist::Error);
+    // The dynamic inserter is cancelled when the dynamic playlist is turned off.
+    QObject::connect(this, &Playlist::PendingInsertsCancelled, inserter, &PlaylistGeneratorInserter::Cancel);
   }
 
   inserter->Load(this, pos, play_now, enqueue, enqueue_next, generator);
@@ -1157,10 +1229,13 @@ void Playlist::InsertSmartPlaylist(PlaylistGeneratorPtr generator, const int pos
 
 void Playlist::ResetDynamicItemsPending() {
 
-  // Items still being generated for the previous dynamic playlist are not part of the future of the new one.
+  // Items still being generated for the previous dynamic playlist are not part of the future of the new one, and are not inserted when the dynamic playlist was cleared, turned off, repopulated or replaced.
   ++dynamic_generation_;
   dynamic_items_pending_ = 0;
   dynamic_items_queued_ = 0;
+  if (dynamic_inserter_) {
+    dynamic_inserter_->Cancel();
+  }
   dynamic_inserter_.clear();
 
 }
@@ -1248,6 +1323,9 @@ void Playlist::MoveItemsWithoutUndo(const QList<int> &source_rows, int pos) {
 
   Q_EMIT layoutChanged();
 
+  // The next and previous songs can be different now.
+  Q_EMIT PlaylistChanged();
+
   ScheduleSave();
 
 }
@@ -1322,6 +1400,9 @@ void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
   }
 
   Q_EMIT layoutChanged();
+
+  // The next and previous songs can be different now.
+  Q_EMIT PlaylistChanged();
 
   ScheduleSave();
 
@@ -1647,11 +1728,13 @@ QMimeData *Playlist::mimeData(const QModelIndexList &indexes) const {
 
   QList<QUrl> urls;
   QList<int> rows;
+  QModelIndexList row_indexes;
   for (const QModelIndex &idx : indexes) {
     if (idx.column() != first_column) continue;
 
     urls << items_[idx.row()]->OriginalUrl();
     rows << idx.row();
+    row_indexes << idx;
   }
 
   QBuffer buffer;
@@ -1668,7 +1751,8 @@ QMimeData *Playlist::mimeData(const QModelIndexList &indexes) const {
   stream.writeRawData(reinterpret_cast<const char*>(&pid), sizeof(pid));
   buffer.close();
 
-  QMimeData *mimedata = new QMimeData;
+  // The rows are also kept as persistent indexes, the rows can change during the drag.
+  QMimeData *mimedata = new PlaylistRowsMimeData(const_cast<Playlist*>(this), row_indexes);
   mimedata->setUrls(urls);
   mimedata->setData(QLatin1String(kRowsMimetype), buffer.data());
 
@@ -1978,6 +2062,12 @@ void Playlist::ScheduleSaveItem(const PlaylistItemPtr &item) {
 
 }
 
+bool Playlist::has_pending_save() const {
+
+  return timer_save_->isActive();
+
+}
+
 void Playlist::SavePending() {
 
   if (!timer_save_->isActive()) return;
@@ -1994,6 +2084,8 @@ void Playlist::Save() {
   // Saving the playlist replaces the saved items, so saving before the saved items are restored would lose them.
   // The changes are kept pending, and saved when the playlist is restored, unless the restored items are not inserted because the playlist was cleared.
   if (restoring_ && !cancel_restore_) return;
+
+  ++save_generation_;
 
   // The items are snapshotted here, on the playlist's own thread, rather than handing the items themselves to the database thread:
   // saving is asynchronous and the model keeps mutating the items (inline tag edits, collection updates, stream metadata) while it runs.
@@ -2037,7 +2129,6 @@ void Playlist::Restore() {
   if (is_now_playing()) {
     QTimer::singleShot(0, this, [this]() {
       Q_EMIT RestoreFinished();
-      Q_EMIT PlaylistLoaded();
       Q_EMIT RestoreDone();
     });
     return;
@@ -2136,8 +2227,6 @@ void Playlist::ItemsLoaded() {
   if (greyout) {
     InvalidateDeletedSongs();
   }
-
-  Q_EMIT PlaylistLoaded();
 
   Q_EMIT RestoreDone();
 
@@ -2396,6 +2485,9 @@ void Playlist::Clear() {
 
   // If loading songs from session restore async, don't insert them
   cancel_restore_ = true;
+
+  // URLs and smart playlists still being loaded are not inserted in the cleared playlist.
+  Q_EMIT PendingInsertsCancelled();
 
   const int count = static_cast<int>(items_.count());
 
@@ -2721,6 +2813,8 @@ void Playlist::TracksEnqueued(const QModelIndex &parent_idx, const int begin, co
     Q_EMIT dataChanged(idx, idx);
   }
 
+  Q_EMIT QueueChanged();
+
 }
 
 void Playlist::QueueLayoutChanged() {
@@ -2729,6 +2823,8 @@ void Playlist::QueueLayoutChanged() {
     const QModelIndex idx = queue_->mapToSource(queue_->index(i, static_cast<int>(Column::Title)));
     Q_EMIT dataChanged(idx, idx);
   }
+
+  Q_EMIT QueueChanged();
 
 }
 

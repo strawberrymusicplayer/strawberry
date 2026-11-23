@@ -26,6 +26,7 @@
 #include <cstdint>
 #include <cstring>
 #include <cmath>
+#include <mutex>
 #include <algorithm>
 #include <limits>
 
@@ -75,6 +76,8 @@
 #include "gstenginepipeline.h"
 #include "gstbusmessageevent.h"
 #include "gstbufferconsumer.h"
+#include "gstpadutils.h"
+#include "streammetadataparser.h"
 
 #ifdef HAVE_SPOTIFY
 #  include "constants/spotifysettings.h"
@@ -174,6 +177,9 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
 #ifdef HAVE_SPOTIFY
       spotify_bitrate_(SpotifySettings::kDefaultBitrate),
 #endif
+      raw_stream_artist_received_(false),
+      raw_stream_album_received_(false),
+      raw_stream_split_title_(false),
       ebur128_loudness_normalizing_gain_db_(0.0),
       segment_start_(0),
       segment_start_received_(false),
@@ -182,6 +188,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       next_beginning_offset_nanosec_(-1),
       next_end_offset_nanosec_(-1),
       ignore_next_seek_(false),
+      track_changes_(0),
       ignore_tags_(false),
       pipeline_connected_(false),
       pipeline_active_(false),
@@ -189,6 +196,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       current_state_(GST_STATE_NULL),
       pending_state_(GST_STATE_NULL),
       pending_seek_nanosec_(-1),
+      pending_seek_track_changes_(-1),
       pending_seek_ready_previous_state_(GST_STATE_NULL),
       last_known_position_ns_(0),
       next_uri_set_(false),
@@ -227,9 +235,10 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       set_state_async_in_progress_(0),
       set_state_request_generation_(0) {
 
-  guint version_major = 0, version_minor = 0;
-  gst_plugins_base_version(&version_major, &version_minor, nullptr, nullptr);
-  playbin3_support_ = QVersionNumber::compare(QVersionNumber(static_cast<int>(version_major), static_cast<int>(version_minor)), QVersionNumber(1, 24)) >= 0;
+  guint version_major = 0, version_minor = 0, version_micro = 0;
+  gst_plugins_base_version(&version_major, &version_minor, &version_micro, nullptr);
+  // The earlier 1.24 releases have races and deadlocks in playbin3, decodebin3, parsebin and urisourcebin, which were fixed up to 1.24.11, playback could stall during preroll.
+  playbin3_support_ = QVersionNumber::compare(QVersionNumber(static_cast<int>(version_major), static_cast<int>(version_minor), static_cast<int>(version_micro)), QVersionNumber(1, 24, 11)) >= 0;
   volume_full_range_support_ = QVersionNumber::compare(QVersionNumber(static_cast<int>(version_major), static_cast<int>(version_minor)), QVersionNumber(1, 24)) >= 0;
 
   // A single thread, so gst_element_set_state() calls for this pipeline are always applied in the order they were requested.
@@ -575,6 +584,8 @@ bool GstEnginePipeline::Finish() {
 }
 
 bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 beginning_offset_nanosec, const qint64 end_offset_nanosec, const double ebur128_loudness_normalizing_gain_db, QString &error) {
+
+  raw_stream_metadata_ = EngineMetadata();
 
   {
     QMutexLocker l(&mutex_url_);
@@ -1427,7 +1438,7 @@ void GstEnginePipeline::PadAddedCallback(GstElement *element, GstPad *pad, gpoin
   // Link playbin's sink pad to audiobin's src pad.
   if (GST_PAD_IS_LINKED(audiopad)) {
     qLog(Warning) << instance->id() << "audiopad is already linked, unlinking old pad";
-    gst_pad_unlink(audiopad, GST_PAD_PEER(audiopad));
+    GstUnlinkSinkPad(audiopad);
   }
 
   gst_pad_link(pad, audiopad);
@@ -1443,9 +1454,10 @@ void GstEnginePipeline::PadAddedCallback(GstElement *element, GstPad *pad, gpoin
 
   instance->pipeline_connected_ = true;
   if (instance->pipeline_active_.load()) {
-    const qint64 pending_seek = instance->pending_seek_nanosec_.exchange(-1);
+    int expected_track_changes = -1;
+    const qint64 pending_seek = instance->TakePendingSeek(&expected_track_changes);
     if (pending_seek != -1) {
-      QMetaObject::invokeMethod(instance, [instance, pending_seek]() { instance->Seek(pending_seek); }, Qt::QueuedConnection);
+      QMetaObject::invokeMethod(instance, [instance, pending_seek, expected_track_changes]() { instance->Seek(pending_seek, expected_track_changes); }, Qt::QueuedConnection);
     }
   }
 
@@ -1693,6 +1705,12 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
   const qint64 end_offset = instance->end_offset_nanosec_.load();
   if (end_offset > 0 && end_time > end_offset) {
     if (instance->HasMatchingNextUrl() && instance->next_beginning_offset_nanosec_.load() == end_offset) {
+      // A seek which is being submitted is for the current section, the next buffer is checked again after it.
+      std::unique_lock<QMutex> seek_section_lock(instance->mutex_seek_section_, std::try_to_lock);
+      if (!seek_section_lock.owns_lock()) {
+        return GST_PAD_PROBE_OK;
+      }
+
       // The "next" song is actually the next segment of this file - so cheat and keep on playing, but just tell the Engine we've moved on.
       // Promote next URL+offset to current under both locks so observers see a consistent (URL, offset) pair.
       {
@@ -1705,6 +1723,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
         instance->next_gst_url_.clear();
         instance->next_beginning_offset_nanosec_.store(0);
         instance->next_end_offset_nanosec_.store(0);
+        ++instance->track_changes_;
       }
 
       // The stream continues, so there is no stream start which ends the transition.
@@ -1871,6 +1890,8 @@ void GstEnginePipeline::StreamStatusMessageReceived(GstMessage *msg) {
 
 void GstEnginePipeline::StreamStartMessageReceived() {
 
+  raw_stream_metadata_ = EngineMetadata();
+
   // Atomically claim the "next URL has started" transition. If two streaming threads observe the same start they'd otherwise both promote next→current.
   bool expected = true;
   if (!next_uri_set_.compare_exchange_strong(expected, false)) {
@@ -1892,6 +1913,7 @@ void GstEnginePipeline::StreamStartMessageReceived() {
     end_offset_nanosec_.store(next_end_offset_nanosec_.load());
     next_beginning_offset_nanosec_.store(0);
     next_end_offset_nanosec_.store(0);
+    ++track_changes_;
   }
 
   // The new track may have a different sample rate, which makes the sink renegotiate in place and can reset the device stream volume/mute (the audio goes silent, or unmutes, while playback continues).
@@ -2022,48 +2044,76 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
   GstTagList *taglist = nullptr;
   gst_message_parse_tag(msg, &taglist);
 
-  EngineMetadata engine_metadata;
+  const bool has_title = gst_tag_list_get_tag_size(taglist, GST_TAG_TITLE) > 0;
+  const bool has_artist = gst_tag_list_get_tag_size(taglist, GST_TAG_ARTIST) > 0;
+  const bool has_album = gst_tag_list_get_tag_size(taglist, GST_TAG_ALBUM) > 0;
+
+  bool title_changed = false;
+  if (has_title) {
+    const QString title = ParseStrTag(taglist, GST_TAG_TITLE);
+    // A new title is a new song, so the artist and album of the previous song are not kept when the message doesn't have them, then the title can be split again.
+    // An artist or album replaced by a message since the last title belongs to the new song, its title just came in a separate message.
+    title_changed = title != raw_stream_metadata_.title;
+    if (title_changed || has_artist || has_album) {
+      // The title of a message without an artist and album can still be split when an artist or album is kept from the messages before it.
+      // A title with an explicit artist or album is never split, also when it's the same title again.
+      raw_stream_split_title_ = !raw_stream_metadata_.title.isEmpty() && !has_artist && !has_album && (raw_stream_artist_received_ || raw_stream_album_received_);
+    }
+    if (!raw_stream_metadata_.title.isEmpty() && title_changed) {
+      if (!has_artist && !raw_stream_artist_received_) raw_stream_metadata_.artist.clear();
+      if (!has_album && !raw_stream_album_received_) raw_stream_metadata_.album.clear();
+    }
+    raw_stream_metadata_.title = title;
+    // The same title again, like with a bitrate update, is not the new song yet.
+    if (title_changed || has_artist) raw_stream_artist_received_ = false;
+    if (title_changed || has_album) raw_stream_album_received_ = false;
+  }
+  if (has_artist) {
+    const QString artist = ParseStrTag(taglist, GST_TAG_ARTIST);
+    // An artist which fills in an empty artist, or which is the artist already parsed from the title, completes the current song, also when it replaces a different artist received before it.
+    if (!has_title) raw_stream_artist_received_ = !parsed_stream_artist_.isEmpty() && artist != parsed_stream_artist_;
+    raw_stream_metadata_.artist = artist;
+  }
+  if (gst_tag_list_get_tag_size(taglist, GST_TAG_COMMENT) > 0) {
+    raw_stream_metadata_.comment = ParseStrTag(taglist, GST_TAG_COMMENT);
+  }
+  if (has_album) {
+    const QString album = ParseStrTag(taglist, GST_TAG_ALBUM);
+    if (!has_title) raw_stream_album_received_ = !parsed_stream_album_.isEmpty() && album != parsed_stream_album_;
+    raw_stream_metadata_.album = album;
+  }
+  if (gst_tag_list_get_tag_size(taglist, GST_TAG_BITRATE) > 0) {
+    raw_stream_metadata_.bitrate = static_cast<int>(ParseUIntTag(taglist, GST_TAG_BITRATE) / 1000);
+  }
+  if (gst_tag_list_get_tag_size(taglist, GST_TAG_LYRICS) > 0) {
+    raw_stream_metadata_.lyrics = ParseStrTag(taglist, GST_TAG_LYRICS);
+  }
+
+  EngineMetadata engine_metadata = raw_stream_metadata_;
+  if (engine_metadata.bitrate < 0) engine_metadata.bitrate = 0;
   engine_metadata.type = EngineMetadata::Type::Current;
   {
     QMutexLocker l(&mutex_url_);
     engine_metadata.media_url = media_url_;
     engine_metadata.stream_url = stream_url_;
   }
-  engine_metadata.title = ParseStrTag(taglist, GST_TAG_TITLE);
-  engine_metadata.artist = ParseStrTag(taglist, GST_TAG_ARTIST);
-  engine_metadata.comment = ParseStrTag(taglist, GST_TAG_COMMENT);
-  engine_metadata.album = ParseStrTag(taglist, GST_TAG_ALBUM);
-  engine_metadata.bitrate = static_cast<int>(ParseUIntTag(taglist, GST_TAG_BITRATE) / 1000);
-  engine_metadata.lyrics = ParseStrTag(taglist, GST_TAG_LYRICS);
 
-  if (!engine_metadata.title.isEmpty() && engine_metadata.artist.isEmpty() && engine_metadata.album.isEmpty()) {
-    QStringList title_splitted;
-    if (engine_metadata.title.contains(" - "_L1)) {
-      title_splitted = engine_metadata.title.split(u" - "_s);
-    }
-    else if (engine_metadata.title.contains(u'~')) {
-      title_splitted = engine_metadata.title.split(u'~');
-    }
-    if (!title_splitted.isEmpty() && title_splitted.count() >= 2) {
-      int i = 0;
-      for (const QString &title_part : std::as_const(title_splitted)) {
-        ++i;
-        switch (i) {
-          case 1:
-            engine_metadata.artist = title_part.trimmed();
-            break;
-          case 2:
-            engine_metadata.title = title_part.trimmed();
-            break;
-          case 3:
-            engine_metadata.album = title_part.trimmed();
-            break;
-          default:
-            break;
-        }
-      }
-    }
+  if (raw_stream_split_title_) {
+    EngineMetadata title_metadata;
+    title_metadata.title = raw_stream_metadata_.title;
+    StreamMetadataParser::Parse(title_metadata);
+    engine_metadata.title = title_metadata.title;
+    if (engine_metadata.artist.isEmpty()) engine_metadata.artist = title_metadata.artist;
+    if (engine_metadata.album.isEmpty()) engine_metadata.album = title_metadata.album;
   }
+  else {
+    // The title is only parsed once, parsing the title from JSON again would split a title containing a separator.
+    StreamMetadataParser::Parse(engine_metadata);
+  }
+
+  // A value received for the next song is not the value of the current song, and it also stops the title from being split, which would lose the other value.
+  if (title_changed || (has_artist && !raw_stream_artist_received_)) parsed_stream_artist_ = engine_metadata.artist;
+  if (title_changed || (has_album && !raw_stream_album_received_)) parsed_stream_album_ = engine_metadata.album;
 
   gst_tag_list_unref(taglist);
 
@@ -2461,7 +2511,7 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::Play(const bool pause, const qu
 
   if (offset_nanosec != 0) {
     // Preroll paused so we can seek to the offset while the pipeline is prerolling, then transition to the requested state once the seek completes (pending_state_ carries it).
-    pending_seek_nanosec_ = static_cast<qint64>(offset_nanosec);
+    SetPendingSeek(static_cast<qint64>(offset_nanosec), -1);
     if (!pause) {
       pending_state_ = GST_STATE_PLAYING;
     }
@@ -2572,7 +2622,14 @@ void GstEnginePipeline::DeviceWarmupElapsed(const quint64 device_warmup_generati
 
 }
 
-bool GstEnginePipeline::Seek(const qint64 nanosec) {
+bool GstEnginePipeline::Seek(const qint64 nanosec, const int expected_track_changes) {
+
+  // The buffer probe doesn't move on to the next section until the seek is submitted, so the seek can't be applied to the next section.
+  QMutexLocker seek_section_locker(&mutex_seek_section_);
+  if (expected_track_changes >= 0 && track_changes_.load() != expected_track_changes) {
+    qLog(Debug) << "Not seeking to" << nanosec << "the track changed since the seek was requested";
+    return true;
+  }
 
   if (ignore_next_seek_.load()) {
     ignore_next_seek_ = false;
@@ -2581,7 +2638,7 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
 
   if (next_uri_set_.load() || next_uri_reset_.load()) {
     qLog(Debug) << "Seek to" << nanosec << "requested, but next uri is set, adding to pending seek to revert next uri.";
-    pending_seek_nanosec_ = nanosec;
+    SetPendingSeek(nanosec, expected_track_changes);
     if (!next_uri_need_reset_.load() && !next_uri_reset_.load()) {
       next_uri_need_reset_ = true;
       pending_seek_ready_previous_state_ = state();
@@ -2592,16 +2649,17 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
 
   if (!pipeline_connected_.load() || !pipeline_active_.load()) {
     qLog(Debug) << "Seek to" << nanosec << "requested, but pipeline is not active, adding to pending seek.";
-    pending_seek_nanosec_ = nanosec;
+    SetPendingSeek(nanosec, expected_track_changes);
     return true;
   }
 
-  pending_seek_nanosec_ = -1;
+  SetPendingSeek(-1, -1);
   last_known_position_ns_.store(nanosec);
 
   qLog(Debug) << "Seeking to" << nanosec;
 
   const bool success = gst_element_seek_simple(pipeline_, GST_FORMAT_TIME, GST_SEEK_FLAG_FLUSH, nanosec);
+  seek_section_locker.unlock();
 
   if (success) {
     qLog(Debug) << "Seek succeeded";
@@ -2625,17 +2683,34 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
 
 }
 
-void GstEnginePipeline::SeekAsync(const qint64 nanosec) {
+void GstEnginePipeline::SeekAsync(const qint64 nanosec, const int expected_track_changes) {
 
-  QMetaObject::invokeMethod(this, [this, nanosec]() { Seek(nanosec); }, Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, [this, nanosec, expected_track_changes]() { Seek(nanosec, expected_track_changes); }, Qt::QueuedConnection);
 
 }
 
-void GstEnginePipeline::SeekDelayed(const qint64 nanosec) {
+void GstEnginePipeline::SeekDelayed(const qint64 nanosec, const int expected_track_changes) {
 
-  QMetaObject::invokeMethod(this, [this, nanosec]() {
-    QTimer::singleShot(100, this, [this, nanosec]() { Seek(nanosec); });
+  QMetaObject::invokeMethod(this, [this, nanosec, expected_track_changes]() {
+    QTimer::singleShot(100, this, [this, nanosec, expected_track_changes]() { Seek(nanosec, expected_track_changes); });
   }, Qt::QueuedConnection);
+
+}
+
+void GstEnginePipeline::SetPendingSeek(const qint64 nanosec, const int expected_track_changes) {
+
+  QMutexLocker l(&mutex_pending_seek_);
+  pending_seek_track_changes_ = expected_track_changes;
+  pending_seek_nanosec_ = nanosec;
+
+}
+
+qint64 GstEnginePipeline::TakePendingSeek(int *expected_track_changes) {
+
+  QMutexLocker l(&mutex_pending_seek_);
+  *expected_track_changes = pending_seek_track_changes_;
+  pending_seek_track_changes_ = -1;
+  return pending_seek_nanosec_.exchange(-1);
 
 }
 
@@ -2656,13 +2731,19 @@ void GstEnginePipeline::ProcessPendingSeek(const GstState state) {
     }
     pending_seek_ready_previous_state_ = GST_STATE_NULL;
     next_uri_reset_ = false;
-    SeekDelayed(pending_seek_nanosec_.load());
+    int expected_track_changes = -1;
+    const qint64 pending_seek = TakePendingSeek(&expected_track_changes);
+    if (pending_seek != -1) {
+      SeekDelayed(pending_seek, expected_track_changes);
+    }
   }
   else {
-    SeekAsync(pending_seek_nanosec_.load());
+    int expected_track_changes = -1;
+    const qint64 pending_seek = TakePendingSeek(&expected_track_changes);
+    if (pending_seek != -1) {
+      SeekAsync(pending_seek, expected_track_changes);
+    }
   }
-
-  pending_seek_nanosec_ = -1;
 
 }
 
@@ -2856,18 +2937,19 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
 
   const qint64 duration_msec = duration_nanosec / kNsecPerMsec;
 
-  // If there's already another fader running then start from the same time that one was already at.
+  // If there's already another fader then start from the same time that one was already at.
+  // That fader can also be one which is not running yet, like the fade-in of a track which is not playing yet when Next is pressed again, its volume is already applied, so starting from the beginning of this fade would make the track audible.
   qint64 start_time = direction == QTimeLine::Direction::Forward ? 0 : duration_msec;
   SharedPtr<QTimeLine> old_fader;
   {
     QMutexLocker l(&mutex_fader_);
     old_fader = fader_;
   }
-  if (old_fader && old_fader->state() == QTimeLine::State::Running) {
+  if (old_fader) {
     if (duration_msec == old_fader->duration()) {
       start_time = old_fader->currentTime();
     }
-    else {
+    else if (old_fader->duration() > 0) {
       // Calculate the position in the new fader with the same value from the old fader, so no volume jumps appear
       qreal time = static_cast<qreal>(duration_msec) * (static_cast<qreal>(old_fader->currentTime()) / static_cast<qreal>(old_fader->duration()));
       start_time = qRound(time);

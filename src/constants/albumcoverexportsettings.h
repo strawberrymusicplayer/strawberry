@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,27 +17,20 @@
  *
  */
 
-#ifndef FORCESCROLLPERPIXEL_H
-#define FORCESCROLLPERPIXEL_H
+#ifndef ALBUMCOVEREXPORTSETTINGS_H
+#define ALBUMCOVEREXPORTSETTINGS_H
 
-#include <QObject>
+namespace AlbumCoverExportSettings {
 
-class QAbstractItemView;
-class QEvent;
+constexpr char kSettingsGroup[] = "AlbumCoverExport";
+constexpr char kFileName[] = "file_name";
+constexpr char kOverwrite[] = "overwrite";
+constexpr char kForceSize[] = "force_size";
+constexpr char kWidth[] = "width";
+constexpr char kHeight[] = "height";
+constexpr char kExportDownloaded[] = "export_downloaded";
+constexpr char kExportEmbedded[] = "export_embedded";
 
-// Some KDE styles override the ScrollMode property of QAbstractItemViews.
-// This helper class forces the mode back to ScrollPerPixel.
-class ForceScrollPerPixel : public QObject {
-  Q_OBJECT
+}  // namespace AlbumCoverExportSettings
 
- public:
-  explicit ForceScrollPerPixel(QAbstractItemView *item_view, QObject *parent = nullptr);
-
- protected:
-  bool eventFilter(QObject *object, QEvent *event) override;
-
- private:
-  QAbstractItemView *item_view_;
-};
-
-#endif  // FORCESCROLLPERPIXEL_H
+#endif  // ALBUMCOVEREXPORTSETTINGS_H

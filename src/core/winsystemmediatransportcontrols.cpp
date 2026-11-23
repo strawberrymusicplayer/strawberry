@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <windows.h>
 #include <winstring.h>
 #include <roapi.h>
@@ -36,8 +38,11 @@
 
 #include <systemmediatransportcontrolsinterop.h>
 
+#include <QCoreApplication>
 #include <QObject>
 #include <QMetaObject>
+#include <QMutex>
+#include <QMutexLocker>
 #include <QString>
 #include <QImage>
 #include <QBuffer>
@@ -54,6 +59,8 @@
 using namespace ABI::Windows::Media;
 using namespace ABI::Windows::Foundation;
 using namespace ABI::Windows::Storage::Streams;
+
+using std::make_shared;
 
 namespace {
 
@@ -78,7 +85,10 @@ WinSystemMediaTransportControls::WinSystemMediaTransportControls(SharedPtr<Playe
       button_pressed_token_(0),
       state_(EngineBase::State::Empty),
       current_duration_nanosec_(0),
-      timeline_timer_(new QTimer(this)) {
+      timeline_timer_(new QTimer(this)),
+      thumbnail_id_(0),
+      thumbnail_gate_(make_shared<ThumbnailGate>()),
+      thumbnail_store_operation_(nullptr) {
 
   timeline_timer_->setInterval(1000);
   QObject::connect(timeline_timer_, &QTimer::timeout, this, &WinSystemMediaTransportControls::UpdateTimeline);
@@ -86,6 +96,15 @@ WinSystemMediaTransportControls::WinSystemMediaTransportControls(SharedPtr<Playe
 }
 
 WinSystemMediaTransportControls::~WinSystemMediaTransportControls() {
+
+  // Thumbnail store completion handlers which run after this must not queue calls to this object.
+  {
+    QMutexLocker locker(&thumbnail_gate_->mutex);
+    thumbnail_gate_->open = false;
+  }
+
+  // Queued thumbnail calls hold a reference to the stream, they are removed here so the stream is released before RoUninitialize().
+  QCoreApplication::removePostedEvents(this);
 
   ISystemMediaTransportControls *smtc = static_cast<ISystemMediaTransportControls*>(smtc_);
 
@@ -98,6 +117,11 @@ WinSystemMediaTransportControls::~WinSystemMediaTransportControls() {
   if (button_handler_) {
     static_cast<IUnknown*>(button_handler_)->Release();
     button_handler_ = nullptr;
+  }
+
+  if (thumbnail_store_operation_) {
+    static_cast<IUnknown*>(thumbnail_store_operation_)->Release();
+    thumbnail_store_operation_ = nullptr;
   }
 
   if (updater_) {
@@ -226,6 +250,9 @@ void WinSystemMediaTransportControls::EngineStateChanged(const EngineBase::State
 }
 
 void WinSystemMediaTransportControls::CurrentSongChanged(const Song &song) {
+
+  // A thumbnail of the previous song which is still being stored must not be shown for this song.
+  ++thumbnail_id_;
 
   current_song_url_ = song.url();
   current_duration_nanosec_ = song.length_nanosec();
@@ -367,7 +394,11 @@ void WinSystemMediaTransportControls::SetThumbnail(const QImage &image) {
 
   if (!updater_) return;
 
-  ISystemMediaTransportControlsDisplayUpdater *updater = static_cast<ISystemMediaTransportControlsDisplayUpdater*>(updater_);
+  const quint64 thumbnail_id = ++thumbnail_id_;
+  if (thumbnail_store_operation_) {
+    static_cast<IUnknown*>(thumbnail_store_operation_)->Release();
+    thumbnail_store_operation_ = nullptr;
+  }
 
   // Encode image to JPEG bytes in memory
   QByteArray jpeg_data;
@@ -441,31 +472,65 @@ void WinSystemMediaTransportControls::SetThumbnail(const QImage &image) {
     // WriteBytes buffers data synchronously into DataWriter's internal buffer
     dw->WriteBytes(static_cast<UINT32>(jpeg_data.size()), reinterpret_cast<BYTE*>(const_cast<char*>(jpeg_data.constData())));
 
-    // StoreAsync flushes to the InMemoryRandomAccessStream.
-    // The completion callback runs on an MTA thread pool thread — no STA marshal, so WaitForSingleObject from the GUI STA thread cannot deadlock here.
+    // StoreAsync flushes to the InMemoryRandomAccessStream, it's not waited for, since that would block the GUI thread.
+    // The completion handler runs on an MTA thread pool thread, the thumbnail is set from the stream on the GUI thread.
     using StoreOp = __FIAsyncOperation_1_UINT32_t;
     using StoreHandler = __FIAsyncOperationCompletedHandler_1_UINT32_t;
     StoreOp *store_op = nullptr;
     dw->StoreAsync(&store_op);
-    if (store_op) {
-      HANDLE ev = CreateEventW(nullptr, FALSE, FALSE, nullptr);
-      if (ev) {
-        auto cb = Microsoft::WRL::Callback<StoreHandler>([ev](StoreOp *, AsyncStatus) -> HRESULT {
-          SetEvent(ev);
-          return S_OK;
-        });
-        store_op->put_Completed(cb.Get());
-        WaitForSingleObject(ev, 5000);
-        CloseHandle(ev);
-      }
-      store_op->Release();
+    if (!store_op) {
+      dw->Release();
+      ra_stream->Release();
+      ClearThumbnail();
+      return;
     }
 
-    IOutputStream *detached = nullptr;
-    dw->DetachStream(&detached);
-    if (detached) detached->Release();
-    dw->Release();
+    // The handler keeps the data writer and the stream until the store has finished.
+    Microsoft::WRL::ComPtr<IDataWriter> data_writer;
+    data_writer.Attach(dw);
+    Microsoft::WRL::ComPtr<IRandomAccessStream> stream;
+    stream.Attach(ra_stream);
+    SharedPtr<ThumbnailGate> thumbnail_gate = thumbnail_gate_;
+    auto handler = Microsoft::WRL::Callback<StoreHandler>([this, thumbnail_gate, data_writer, stream, thumbnail_id](StoreOp *operation, const AsyncStatus status) -> HRESULT {
+      Q_UNUSED(operation);
+      IOutputStream *detached = nullptr;
+      data_writer->DetachStream(&detached);
+      if (detached) detached->Release();
+      const bool success = status == AsyncStatus::Completed;
+      // This object exists while the gate is open, the queued call is discarded if it's destroyed before the call is run.
+      QMutexLocker locker(&thumbnail_gate->mutex);
+      if (!thumbnail_gate->open) return S_OK;
+      QMetaObject::invokeMethod(this, [this, stream, thumbnail_id, success]() {
+        if (success) {
+          SetThumbnailFromStream(thumbnail_id, stream.Get());
+        }
+        else if (thumbnail_id == thumbnail_id_) {
+          qLog(Warning) << "WinSystemMediaTransportControls: Failed to store thumbnail";
+          ClearThumbnail();
+        }
+      }, Qt::QueuedConnection);
+      return S_OK;
+    });
+
+    // The handler is called at once if the store has already finished.
+    const HRESULT hr = handler ? store_op->put_Completed(handler.Get()) : E_OUTOFMEMORY;
+    if (FAILED(hr)) {
+      qLog(Warning) << "WinSystemMediaTransportControls: Failed to set thumbnail store handler" << Qt::hex << static_cast<DWORD>(hr);
+      store_op->Release();
+      ClearThumbnail();
+      return;
+    }
+    thumbnail_store_operation_ = store_op;
   }
+
+}
+
+void WinSystemMediaTransportControls::SetThumbnailFromStream(const quint64 thumbnail_id, void *stream) {
+
+  if (!updater_ || thumbnail_id != thumbnail_id_) return;
+
+  ISystemMediaTransportControlsDisplayUpdater *updater = static_cast<ISystemMediaTransportControlsDisplayUpdater*>(updater_);
+  IRandomAccessStream *ra_stream = static_cast<IRandomAccessStream*>(stream);
 
   // Create a RandomAccessStreamReference from the agile stream
   IRandomAccessStreamReference *stream_ref = nullptr;
@@ -481,7 +546,6 @@ void WinSystemMediaTransportControls::SetThumbnail(const QImage &image) {
       statics->Release();
     }
   }
-  ra_stream->Release();
   if (!stream_ref) {
     ClearThumbnail();
     return;
@@ -496,6 +560,9 @@ void WinSystemMediaTransportControls::SetThumbnail(const QImage &image) {
 void WinSystemMediaTransportControls::ClearThumbnail() {
 
   if (!updater_) return;
+
+  // A thumbnail which is still being stored must not replace the cleared thumbnail.
+  ++thumbnail_id_;
   ISystemMediaTransportControlsDisplayUpdater *updater = static_cast<ISystemMediaTransportControlsDisplayUpdater*>(updater_);
   updater->put_Thumbnail(nullptr);
   updater->Update();

@@ -167,6 +167,14 @@ void DiscogsCoverProvider::CancelSearch(const int id) {
 
   if (requests_search_.contains(id)) requests_search_.remove(id);
 
+  // The requests are sent one at a time, the requests for the canceled search would otherwise still be sent before the requests for the next searches.
+  queue_search_requests_.removeIf([id](const SharedPtr<DiscogsCoverSearchContext> &search) { return search->id == id; });
+  queue_release_requests_.removeIf([id](const DiscogsCoverReleaseContext &release) { return release.search_id == id; });
+
+  if (queue_release_requests_.isEmpty() && queue_search_requests_.isEmpty()) {
+    timer_flush_requests_->stop();
+  }
+
 }
 
 void DiscogsCoverProvider::FlushRequests() {

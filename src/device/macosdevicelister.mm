@@ -123,6 +123,10 @@ MacOsDeviceLister::~MacOsDeviceLister() {
   if (loop_session_) {
     CFRelease(loop_session_);
   }
+  const CFRunLoopRef run_loop = run_loop_.exchange(nullptr);
+  if (run_loop) {
+    CFRelease(run_loop);
+  }
 }
 
 bool MacOsDeviceLister::Init() {
@@ -161,13 +165,16 @@ bool MacOsDeviceLister::Init() {
   }
 #endif  // HAVE_MTP
 
-  run_loop_ = CFRunLoopGetCurrent();
+  // Retained, because ShutDown() can be called from another thread after this thread has finished, when the run loop of the thread is released.
+  const CFRunLoopRef run_loop = CFRunLoopGetCurrent();
+  CFRetain(run_loop);
+  run_loop_ = run_loop;
 
   // Register for disk mounts/unmounts.
   loop_session_ = DASessionCreate(kCFAllocatorDefault);
   DARegisterDiskAppearedCallback(loop_session_, kDADiskDescriptionMatchVolumeMountable, &DiskAddedCallback, reinterpret_cast<void*>(this));
   DARegisterDiskDisappearedCallback(loop_session_, nullptr, &DiskRemovedCallback, reinterpret_cast<void*>(this));
-  DASessionScheduleWithRunLoop(loop_session_, run_loop_, kCFRunLoopDefaultMode);
+  DASessionScheduleWithRunLoop(loop_session_, run_loop, kCFRunLoopDefaultMode);
 
   // Register for USB device connection/disconnection.
   IONotificationPortRef notification_port = IONotificationPortCreate(
@@ -210,9 +217,14 @@ bool MacOsDeviceLister::Init() {
   }
 
   CFRunLoopSourceRef io_source = IONotificationPortGetRunLoopSource(notification_port);
-  CFRunLoopAddSource(run_loop_, io_source, kCFRunLoopDefaultMode);
+  CFRunLoopAddSource(run_loop, io_source, kCFRunLoopDefaultMode);
 
-  CFRunLoopRun();
+  // ShutDown() was called before the run loop was set, so it could not stop it, don't run it.
+  // When ShutDown() is called after the run loop was set, it stops it, also if it's not running yet.
+  if (!shutdown_requested_.load()) {
+    CFRunLoopRun();
+  }
+
   return true;
 
 }
@@ -232,10 +244,14 @@ void MacOsDeviceLister::ExitAsync() {
 
 void MacOsDeviceLister::ShutDown() {
 
-  // Init() may not have run yet (and set run_loop_) if the thread has only just been started, or hasn't started at all.
+  // Init() may not have run yet (and set run_loop_) if the thread has only just been started, or hasn't started at all, Init() checks this flag after setting run_loop_, so it does not run the run loop.
+  shutdown_requested_ = true;
+
   const CFRunLoopRef run_loop = run_loop_.load();
   if (run_loop) {
-    CFRunLoopStop(run_loop);
+    // CFRunLoopStop() does nothing when the run loop is not running yet, the stop is reset when it starts running, so stop it from a block which the run loop runs, also when it starts running later.
+    CFRunLoopPerformBlock(run_loop, kCFRunLoopDefaultMode, ^{ CFRunLoopStop(run_loop); });
+    CFRunLoopWakeUp(run_loop);
   }
 
 }
@@ -426,7 +442,10 @@ void MacOsDeviceLister::DiskAddedCallback(DADiskRef disk, void *context) {
   if (kind && strcmp([kind UTF8String], kIOCDMediaClass) == 0) {
     // CD inserted.
     const QString bsd_name = QString::fromLatin1(DADiskGetBSDName(disk));
-    me->cd_devices_ << bsd_name;
+    {
+      QMutexLocker l(&me->devices_mutex_);
+      me->cd_devices_ << bsd_name;
+    }
     Q_EMIT me->DeviceAdded(bsd_name);
     return;
   }
@@ -449,7 +468,11 @@ void MacOsDeviceLister::DiskAddedCallback(DADiskRef disk, void *context) {
         if ([[dict objectForKey:@"Removable"] intValue] == 1) {
           const QString serial = GetSerialForDevice(device.get());
           if (!serial.isEmpty()) {
-            me->current_devices_[serial] = QString::fromLatin1(DADiskGetBSDName(disk));
+            const QString bsd_name = QString::fromLatin1(DADiskGetBSDName(disk));
+            {
+              QMutexLocker l(&me->devices_mutex_);
+              me->current_devices_[serial] = bsd_name;
+            }
             Q_EMIT me->DeviceAdded(serial);
           }
         }
@@ -465,17 +488,28 @@ void MacOsDeviceLister::DiskRemovedCallback(DADiskRef disk, void *context) {
   // We cannot access the USB tree when the disk is removed but we still get the BSD disk name.
 
   const QString bsd_name = QString::fromLatin1(DADiskGetBSDName(disk));
-  if (me->cd_devices_.remove(bsd_name)) {
-    Q_EMIT me->DeviceRemoved(bsd_name);
-    return;
+
+  bool cd_removed = false;
+  QString removed_serial;
+  {
+    QMutexLocker l(&me->devices_mutex_);
+    cd_removed = me->cd_devices_.remove(bsd_name);
+    if (!cd_removed) {
+      for (QMap<QString, QString>::iterator it = me->current_devices_.begin(); it != me->current_devices_.end(); ++it) {
+        if (it.value() == bsd_name) {
+          removed_serial = it.key();
+          me->current_devices_.erase(it);
+          break;
+        }
+      }
+    }
   }
 
-  for (QMap<QString, QString>::iterator it = me->current_devices_.begin(); it != me->current_devices_.end(); ++it) {
-    if (it.value() == bsd_name) {
-      Q_EMIT me->DeviceRemoved(it.key());
-      me->current_devices_.erase(it);
-      break;
-    }
+  if (cd_removed) {
+    Q_EMIT me->DeviceRemoved(bsd_name);
+  }
+  else if (!removed_serial.isEmpty()) {
+    Q_EMIT me->DeviceRemoved(removed_serial);
   }
 
 }
@@ -705,7 +739,11 @@ void MacOsDeviceLister::USBDeviceRemovedCallback(void *refcon, io_iterator_t it)
 
 void MacOsDeviceLister::RemovedMTPDevice(const QString &serial) {
 
-  int count = mtp_devices_.remove(serial);
+  qsizetype count = 0;
+  {
+    QMutexLocker l(&devices_mutex_);
+    count = mtp_devices_.remove(serial);
+  }
   if (count) {
     qLog(Debug) << "MTP device removed:" << serial;
     Q_EMIT DeviceRemoved(serial);
@@ -717,11 +755,24 @@ void MacOsDeviceLister::FoundMTPDevice(const MTPDevice &device, const QString &s
 
   qLog(Debug) << "New MTP device detected!" << device.bus << device.address;
 
-  mtp_devices_[serial] = device;
+  {
+    QMutexLocker l(&devices_mutex_);
+    mtp_devices_[serial] = device;
+  }
+
+  // The capacity and free space are read without holding devices_mutex_, since libmtp is slow and has its own mutex.
   const QList<QUrl> urls = MakeDeviceUrls(serial);
-  MTPDevice *mtp_device = &mtp_devices_[serial];
-  mtp_device->capacity = GetCapacity(urls[0]);
-  mtp_device->free_space = GetFreeSpace(urls[0]);
+  const quint64 capacity = GetCapacity(urls[0]);
+  const quint64 free_space = GetFreeSpace(urls[0]);
+
+  {
+    QMutexLocker l(&devices_mutex_);
+    QMap<QString, MTPDevice>::iterator it = mtp_devices_.find(serial);
+    if (it != mtp_devices_.end()) {
+      it->capacity = capacity;
+      it->free_space = free_space;
+    }
+  }
 
   Q_EMIT DeviceAdded(serial);
 
@@ -732,14 +783,37 @@ bool IsMTPSerial(const QString &serial) { return serial.startsWith("MTP"_L1); }
 #endif  // HAVE_MTP
 
 bool MacOsDeviceLister::IsCDDevice(const QString &serial) const {
+
+  QMutexLocker l(&devices_mutex_);
   return cd_devices_.contains(serial);
+
 }
+
+// Returns a copy of the BSD name, so DiskArbitration and IOKit can be called without holding devices_mutex_.
+// The serial of a CD is its BSD name, an unknown serial gives an empty name instead of adding it to the map.
+QString MacOsDeviceLister::BSDName(const QString &serial) const {
+
+  QMutexLocker l(&devices_mutex_);
+  if (cd_devices_.contains(serial)) return serial;
+  return current_devices_.value(serial);
+
+}
+
+#ifdef HAVE_MTP
+// Returns a copy of the MTP device, an unknown serial gives an empty device instead of adding it to the map.
+MacOsDeviceLister::MTPDevice MacOsDeviceLister::MTPDeviceForSerial(const QString &serial) const {
+
+  QMutexLocker l(&devices_mutex_);
+  return mtp_devices_.value(serial);
+
+}
+#endif  // HAVE_MTP
 
 QString MacOsDeviceLister::MakeFriendlyName(const QString &serial) {
 
 #ifdef HAVE_MTP
   if (IsMTPSerial(serial)) {
-    const MTPDevice &mtp_device = mtp_devices_[serial];
+    const MTPDevice mtp_device = MTPDeviceForSerial(serial);
     if (mtp_device.vendor.isEmpty()) {
       return mtp_device.product;
     }
@@ -749,7 +823,7 @@ QString MacOsDeviceLister::MakeFriendlyName(const QString &serial) {
   }
 #endif  // HAVE_MTP
 
-  const QString bsd_name = IsCDDevice(serial) ? *cd_devices_.find(serial) : current_devices_[serial];
+  const QString bsd_name = BSDName(serial);
   ScopedCFTypeRef<DASessionRef> session(DASessionCreate(kCFAllocatorDefault));
   ScopedCFTypeRef<DADiskRef> disk(DADiskCreateFromBSDName(kCFAllocatorDefault, session.get(), bsd_name.toLatin1().constData()));
 
@@ -777,7 +851,7 @@ QList<QUrl> MacOsDeviceLister::MakeDeviceUrls(const QString &serial) {
 
 #ifdef HAVE_MTP
   if (IsMTPSerial(serial)) {
-    const MTPDevice &mtp_device = mtp_devices_[serial];
+    const MTPDevice mtp_device = MTPDeviceForSerial(serial);
     const QString str = QString::asprintf("gphoto2://usb-%d-%d/", mtp_device.bus, mtp_device.address);
     QUrlQuery url_query;
     url_query.addQueryItem(u"vendor"_s, mtp_device.vendor);
@@ -795,7 +869,7 @@ QList<QUrl> MacOsDeviceLister::MakeDeviceUrls(const QString &serial) {
     return QList<QUrl>() << QUrl(u"cdda:///dev/r"_s + serial);
   }
 
-  const QString bsd_name = current_devices_[serial];
+  const QString bsd_name = BSDName(serial);
   ScopedCFTypeRef<DASessionRef> session(DASessionCreate(kCFAllocatorDefault));
   ScopedCFTypeRef<DADiskRef> disk(DADiskCreateFromBSDName(kCFAllocatorDefault, session.get(), bsd_name.toLatin1().constData()));
 
@@ -810,6 +884,8 @@ QList<QUrl> MacOsDeviceLister::MakeDeviceUrls(const QString &serial) {
 }
 
 QStringList MacOsDeviceLister::DeviceUniqueIDs() {
+
+  QMutexLocker l(&devices_mutex_);
 
 #ifdef HAVE_MTP
   return current_devices_.keys() + mtp_devices_.keys();
@@ -831,7 +907,7 @@ QVariantList MacOsDeviceLister::DeviceIcons(const QString &serial) {
     return QVariantList() << u"media-optical"_s;
   }
 
-  const QString bsd_name = current_devices_[serial];
+  const QString bsd_name = BSDName(serial);
   ScopedCFTypeRef<DASessionRef> session(DASessionCreate(kCFAllocatorDefault));
   ScopedCFTypeRef<DADiskRef> disk(DADiskCreateFromBSDName(kCFAllocatorDefault, session.get(), bsd_name.toLatin1().constData()));
 
@@ -858,11 +934,11 @@ QString MacOsDeviceLister::DeviceManufacturer(const QString &serial) {
 
 #ifdef HAVE_MTP
   if (IsMTPSerial(serial)) {
-    return mtp_devices_[serial].vendor;
+    return MTPDeviceForSerial(serial).vendor;
   }
 #endif  // HAVE_MTP
 
-  return FindDeviceProperty(current_devices_[serial], CFSTR(kUSBVendorString));
+  return FindDeviceProperty(BSDName(serial), CFSTR(kUSBVendorString));
 
 }
 
@@ -870,11 +946,11 @@ QString MacOsDeviceLister::DeviceModel(const QString &serial) {
 
 #ifdef HAVE_MTP
   if (IsMTPSerial(serial)) {
-    return mtp_devices_[serial].product;
+    return MTPDeviceForSerial(serial).product;
   }
 #endif  // HAVE_MTP
 
-  return FindDeviceProperty(current_devices_[serial], CFSTR(kUSBProductString));
+  return FindDeviceProperty(BSDName(serial), CFSTR(kUSBProductString));
 
 }
 
@@ -882,12 +958,11 @@ quint64 MacOsDeviceLister::DeviceCapacity(const QString &serial) {
 
 #ifdef HAVE_MTP
   if (IsMTPSerial(serial)) {
-    QList<QUrl> urls = MakeDeviceUrls(serial);
-    return mtp_devices_[serial].capacity;
+    return MTPDeviceForSerial(serial).capacity;
   }
 #endif  // HAVE_MTP
 
-  const QString bsd_name = current_devices_[serial];
+  const QString bsd_name = BSDName(serial);
   ScopedCFTypeRef<DASessionRef> session(DASessionCreate(kCFAllocatorDefault));
   ScopedCFTypeRef<DADiskRef> disk(DADiskCreateFromBSDName(kCFAllocatorDefault, session.get(), bsd_name.toLatin1().constData()));
 
@@ -907,12 +982,11 @@ quint64 MacOsDeviceLister::DeviceFreeSpace(const QString &serial) {
 
 #ifdef HAVE_MTP
   if (IsMTPSerial(serial)) {
-    QList<QUrl> urls = MakeDeviceUrls(serial);
-    return mtp_devices_[serial].free_space;
+    return MTPDeviceForSerial(serial).free_space;
   }
 #endif  // HAVE_MTP
 
-  QString bsd_name = current_devices_[serial];
+  const QString bsd_name = BSDName(serial);
   ScopedCFTypeRef<DASessionRef> session(DASessionCreate(kCFAllocatorDefault));
   ScopedCFTypeRef<DADiskRef> disk(DADiskCreateFromBSDName(kCFAllocatorDefault, session.get(), bsd_name.toLatin1().constData()));
 
@@ -937,14 +1011,42 @@ bool MacOsDeviceLister::AskForScan(const QString &serial) const {
   return !IsCDDevice(serial);
 }
 
+void MacOsDeviceLister::UnmountDeviceAsync(const QString &serial) {
+
+  // Init() blocks this object's thread in CFRunLoopRun(), so the base class's queued call to UnmountDevice() is never delivered.
+  // Run it on the CoreFoundation run loop instead, which also delivers the DiskArbitration callbacks for loop_session_.
+  // Init() sets the run loop before it registers for devices, so a device can't be unmounted before it's set.
+  const CFRunLoopRef run_loop = run_loop_.load();
+  if (!run_loop) {
+    qLog(Warning) << "Cannot unmount" << serial << "before the device lister is initialized";
+    return;
+  }
+
+  const QString id = serial;
+  CFRunLoopPerformBlock(run_loop, kCFRunLoopDefaultMode, ^{
+    UnmountDevice(id);
+  });
+  CFRunLoopWakeUp(run_loop);
+
+}
+
 void MacOsDeviceLister::UnmountDevice(const QString &serial) {
 
 #ifdef HAVE_MTP
   if (IsMTPSerial(serial)) return;
 #endif
 
-  const QString bsd_name = current_devices_[serial];
+  const QString bsd_name = BSDName(serial);
+  if (bsd_name.isEmpty()) {
+    qLog(Warning) << "Cannot unmount unknown device" << serial;
+    return;
+  }
+
   ScopedCFTypeRef<DADiskRef> disk(DADiskCreateFromBSDName(kCFAllocatorDefault, loop_session_, bsd_name.toLatin1().constData()));
+  if (!disk) {
+    qLog(Warning) << "Cannot unmount" << serial << bsd_name;
+    return;
+  }
 
   DADiskUnmount(disk, kDADiskUnmountOptionDefault, &DiskUnmountCallback, this);
 
@@ -965,10 +1067,19 @@ void MacOsDeviceLister::UpdateDeviceFreeSpace(const QString &serial) {
 
 #ifdef HAVE_MTP
   if (IsMTPSerial(serial)) {
-    if (mtp_devices_.contains(serial)) {
-      QList<QUrl> urls = MakeDeviceUrls(serial);
-      MTPDevice *mtp_device = &mtp_devices_[serial];
-      mtp_device->free_space = GetFreeSpace(urls[0]);
+    bool known_device = false;
+    {
+      QMutexLocker l(&devices_mutex_);
+      known_device = mtp_devices_.contains(serial);
+    }
+    if (known_device) {
+      const QList<QUrl> urls = MakeDeviceUrls(serial);
+      const quint64 free_space = GetFreeSpace(urls[0]);
+      QMutexLocker l(&devices_mutex_);
+      QMap<QString, MTPDevice>::iterator it = mtp_devices_.find(serial);
+      if (it != mtp_devices_.end()) {
+        it->free_space = free_space;
+      }
     }
   }
 #endif

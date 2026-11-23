@@ -36,6 +36,8 @@ class DiscordPresence;
 class DiscordRPC : public QObject {
   Q_OBJECT
 
+  friend class DiscordRPCTest;
+
  public:
   explicit DiscordRPC(const QString &application_id, QObject *parent = nullptr);
   ~DiscordRPC() override;
@@ -82,6 +84,7 @@ class DiscordRPC : public QObject {
   void ScheduleReconnect();
   QByteArray CreateHandshakeMessage();
   QByteArray CreatePresenceMessage(const DiscordPresence &presence);
+  static QString ActivityText(const QString &text);
 
   QString application_id_;
   QLocalSocket *socket_;

@@ -129,9 +129,10 @@ class OSDPretty : public QWidget {
   void SetOpacity(const qreal opacity);
 #ifdef HAVE_LAYERSHELLQT
   void InitLayerShell();
-  void SetLayerShellPosition(QScreen *screen, const QPoint &pos, const bool right_edge, const bool bottom_edge);
+  void SetLayerShellPosition(QScreen *screen, const QPoint pos, const bool right_edge, const bool bottom_edge);
   void RecreateLayerShellSurface();
-  QPoint LayerShellPopupPos(const QRect &geometry, const QPoint &pos) const;
+  void RecreatePlatformWindow();
+  QPoint LayerShellPopupPos(const QRect geometry, const QPoint pos) const;
 #endif
   QRect PopupGeometry(QScreen *screen) const;
   void Load();

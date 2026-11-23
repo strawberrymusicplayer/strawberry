@@ -60,6 +60,7 @@ class TrackSliderSlider : public QSlider {
 
  private Q_SLOTS:
   void UpdateDeltaTime();
+  void RangeChanged(const int range_minimum, const int range_maximum);
 
  private:
   // Units are eighths of a degree

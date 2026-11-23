@@ -157,6 +157,7 @@ class AlbumCoverManager : public QMainWindow {
   // Cancels loading the thumbnail of the album, a thumbnail which was loaded before the cover was changed would show the old cover.
   void CancelAlbumCoverLoading(AlbumItem *album_item);
 
+  void StartFetching();
   void UpdateStatusText();
   bool ShouldHide(const AlbumItem &album_item, const QString &filter, const HideCovers hide_covers) const;
   void SaveAndSetCover(AlbumItem *album_item, const AlbumCoverImageResult &result);
@@ -168,6 +169,7 @@ class AlbumCoverManager : public QMainWindow {
 
   // Until the thumbnail is loaded, the album is checked for a cover instead of the thumbnail.
   bool ItemHasCover(const AlbumItem &album_item) const;
+  bool SaveEmbeddedCover(const AlbumItem *album_item) const;
 
  Q_SIGNALS:
   void Error(const QString &error);
@@ -205,7 +207,10 @@ class AlbumCoverManager : public QMainWindow {
   void UpdateCoverInList(AlbumItem *album_item, const QUrl &cover);
   void UpdateExportStatus(const int exported, const int skipped, const int max);
 
-  void SaveEmbeddedCoverFinished(TagReaderReplyPtr reply, AlbumItem *album_item, const QUrl &url, bool art_embedded);
+  // Saves the cover in the files of the album, the collection is updated when the cover is saved, also when the album is no longer listed.
+  void SaveEmbeddedCoverToFiles(AlbumItem *album_item, const SaveTagCoverData &save_tag_cover_data, const bool art_embedded);
+  quint64 AddCoverSave(AlbumItem *album_item, const bool art_embedded);
+  void SaveEmbeddedCoverFinished(TagReaderReplyPtr reply, const quint64 id, const QUrl &url);
 
  private:
   Ui_CoverManager *ui_;
@@ -247,8 +252,17 @@ class AlbumCoverManager : public QMainWindow {
   QPushButton *abort_progress_;
   int jobs_;
 
-  QMultiMap<AlbumItem*, QUrl> cover_save_tasks_;
-  QHash<AlbumItem*, bool> cover_save_results_;
+  // A cover being saved in the files of an album.
+  struct CoverSave {
+    // The album item is cleared when the albums are cleared, the song of the album is kept to update the collection.
+    AlbumItem *album_item = nullptr;
+    Song song;
+    bool art_embedded = false;
+    QList<QUrl> pending_urls;
+    QList<QUrl> saved_urls;
+  };
+  QHash<quint64, CoverSave> cover_saves_;
+  quint64 next_cover_save_id_;
 
   QListWidgetItem *all_artists_;
 

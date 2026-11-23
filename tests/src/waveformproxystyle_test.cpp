@@ -32,10 +32,12 @@
 #include <QImage>
 #include <QPainter>
 #include <QColor>
+#include <QPalette>
 #include <QCoreApplication>
 #include <QEventLoop>
 #include <QElapsedTimer>
 #include <QStandardPaths>
+#include <QTimeLine>
 
 #include "test_utils.h"
 #include "core/settings.h"
@@ -333,6 +335,116 @@ TEST(WaveformProxyStyleTest, CustomColorChangesRenderedPixmap) {
     s.beginGroup(WaveformSettings::kSettingsGroup);
     s.remove(WaveformSettings::kColor);
     s.endGroup();
+  }
+
+}
+
+namespace {
+
+// Shows the first waveform, fades it out partly, then sets the next waveform, like a quick track change, and returns the image while fading.
+QImage QuickTrackChange(const QByteArray &first_data, const QByteArray &next_data) {
+
+  QSlider slider(Qt::Horizontal);
+  slider.resize(400, 30);
+  slider.show();
+  WaveformProxyStyle style(&slider);
+  style.SetShowWaveform(true);
+  QTimeLine *timeline = style.findChild<QTimeLine*>();
+  if (!timeline) return QImage();
+
+  // Moves the fade to the given time and keeps it there, the image is grabbed at the same point of the fade for each case.
+  const auto grab_at = [&slider, timeline](const int msec) {
+    if (timeline->state() == QTimeLine::State::Running) timeline->setPaused(true);
+    timeline->setCurrentTime(msec);
+    return slider.grab().toImage();
+  };
+
+  style.SetWaveformData(first_data);
+  // The fade is finished when the waveform is drawn at the end of the fade.
+  grab_at(timeline->duration());
+
+  style.SetWaveformData(QByteArray());
+  grab_at(600);
+
+  style.SetWaveformData(next_data);
+  return grab_at(600);
+
+}
+
+}  // namespace
+
+// Regression test: on a quick track change, the fade continued with the waveform of the previous song, and then jumped to the new one.
+TEST(WaveformProxyStyleTest, QuickTrackChangeFadesToNewWaveform) {
+
+  const QByteArray quiet_data = MakeTestBlob(WaveformBuilder::kWaveformBaseCount, -8, 8);
+  const QByteArray loud_data = MakeTestBlob(WaveformBuilder::kWaveformBaseCount, -120, 120);
+
+  const QImage image = QuickTrackChange(quiet_data, loud_data);
+  ASSERT_FALSE(image.isNull());
+
+  // The same fade, where the previous waveform is the same as the new one.
+  const QImage expected_image = QuickTrackChange(loud_data, loud_data);
+
+  // The other waveform looks different while fading at the same point.
+  const QImage previous_waveform_image = QuickTrackChange(quiet_data, quiet_data);
+  ASSERT_NE(expected_image, previous_waveform_image);
+
+  EXPECT_EQ(expected_image, image);
+
+}
+
+namespace {
+
+// Fades the waveform in or out, and returns the image while fading.
+// The palette is set to the other palette before the fade, or while fading when change_while_fading is true, the waveform is colored with the highlight color of the palette.
+QImage FadeWithPalette(const bool fade_in, const QPalette &other_palette, const bool change_while_fading) {
+
+  QSlider slider(Qt::Horizontal);
+  slider.resize(400, 30);
+  slider.show();
+  WaveformProxyStyle style(&slider);
+  QTimeLine *timeline = style.findChild<QTimeLine*>();
+  if (!timeline) return QImage();
+
+  const auto grab_at = [&slider, timeline](const int msec) {
+    if (timeline->state() == QTimeLine::State::Running) timeline->setPaused(true);
+    timeline->setCurrentTime(msec);
+    return slider.grab().toImage();
+  };
+
+  if (!change_while_fading) slider.setPalette(other_palette);
+  style.SetWaveformData(MakeTestBlob(WaveformBuilder::kWaveformBaseCount, -120, 120));
+  style.SetShowWaveform(true);
+  if (!fade_in) {
+    grab_at(timeline->duration());
+    style.SetShowWaveform(false);
+  }
+
+  grab_at(fade_in ? 300 : 700);
+  if (change_while_fading) slider.setPalette(other_palette);
+  return grab_at(600);
+
+}
+
+}  // namespace
+
+// Regression test: the pixmaps of the fade were kept when the palette changed while fading, so the waveform faded with the colors of the previous palette.
+TEST(WaveformProxyStyleTest, PaletteChangeWhileFadingUsesNewPalette) {
+
+  QPalette other_palette(QColor(0x20, 0x20, 0x40));
+  other_palette.setColor(QPalette::Highlight, Qt::red);
+
+  for (const bool fade_in : {true, false}) {
+    const QImage image = FadeWithPalette(fade_in, other_palette, true);
+    ASSERT_FALSE(image.isNull());
+
+    const QImage expected_image = FadeWithPalette(fade_in, other_palette, false);
+
+    // The fade looks different with the previous palette.
+    const QImage previous_palette_image = FadeWithPalette(fade_in, QSlider().palette(), false);
+    ASSERT_NE(expected_image, previous_palette_image) << "fade_in: " << fade_in;
+
+    EXPECT_EQ(expected_image, image) << "fade_in: " << fade_in;
   }
 
 }

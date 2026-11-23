@@ -273,7 +273,7 @@ void OSDPretty::InitLayerShell() {
 
 }
 
-void OSDPretty::SetLayerShellPosition(QScreen *screen, const QPoint &pos, const bool right_edge, const bool bottom_edge) {
+void OSDPretty::SetLayerShellPosition(QScreen *screen, const QPoint pos, const bool right_edge, const bool bottom_edge) {
 
   layer_shell_pos_ = pos;
 
@@ -326,13 +326,7 @@ void OSDPretty::RecreateLayerShellSurface() {
   QWidget::setVisible(false);
 
   // Also create the platform window again, so it gets a new surface, otherwise the compositor can keep sending mouse positions relative to the surface on the other screen.
-  // The layer shell is only set for the platform window when the layer shell window is created, so create that again too.
-  delete layer_shell_window_;
-  layer_shell_window_ = nullptr;
-  if (windowHandle()) {
-    windowHandle()->destroy();
-  }
-  InitLayerShell();
+  RecreatePlatformWindow();
 
   QWidget::setVisible(true);
   fading_enabled_ = fading_enabled;
@@ -349,7 +343,19 @@ void OSDPretty::RecreateLayerShellSurface() {
 
 }
 
-QPoint OSDPretty::LayerShellPopupPos(const QRect &geometry, const QPoint &pos) const {
+void OSDPretty::RecreatePlatformWindow() {
+
+  // Destroy the platform window and its backing store, and create the window again.
+  // The layer shell is only set for the platform window when the layer shell window is created, so create that again too.
+  // The layer shell window is a child of the window destroyed here, so delete it first.
+  delete layer_shell_window_;
+  layer_shell_window_ = nullptr;
+  destroy();
+  InitLayerShell();
+
+}
+
+QPoint OSDPretty::LayerShellPopupPos(const QRect geometry, const QPoint pos) const {
 
   // -1 means the right or bottom edge, like current_pos(), so the OSD stays at the edge when its size changes.
   return QPoint(pos.x() >= geometry.width() - width() ? -1 : pos.x(), pos.y() >= geometry.height() - height() ? -1 : pos.y());
@@ -616,7 +622,10 @@ void OSDPretty::ShowMessage(const QString &summary, const QString &message, cons
 
   SetMessage(summary, message, image);
 
-  if (isVisible() && mode_ == Mode::Popup) {
+  // The OSD is still visible while it fades out, but it is being hidden, so it is shown again like a hidden OSD.
+  const bool fading_out = fader_->state() == QTimeLine::Running && fader_->direction() == QTimeLine::Backward;
+
+  if (isVisible() && mode_ == Mode::Popup && !fading_out) {
     // The OSD is already visible, toggle or restart the timer
     if (toggle_mode()) {
       set_toggle_mode(false);
@@ -636,8 +645,16 @@ void OSDPretty::ShowMessage(const QString &summary, const QString &message, cons
     if (toggle_mode()) {
       set_toggle_mode(false);
     }
-    // The OSD is not visible, show it
-    show();
+    if (fading_out) {
+      // Fade in again from the current opacity, the timeout is started in FaderFinished.
+      // The timeout of the previous message is still running when the OSD was clicked, it would fade the OSD out again.
+      timeout_->stop();
+      fader_->setDirection(QTimeLine::Forward);
+    }
+    else {
+      // The OSD is not visible, show it
+      show();
+    }
   }
 
 }
@@ -649,7 +666,22 @@ void OSDPretty::setVisible(bool visible) {
     fader_->start();
   }
   else {
+    // Hiding the OSD again while it fades out hides it at once, stop the fade-out so it isn't taken for a visible OSD fading out.
+    if (!visible) {
+      fader_->stop();
+    }
+#ifdef HAVE_LAYERSHELLQT
+    const bool was_visible = isVisible();
+#endif
     QWidget::setVisible(visible);
+#ifdef HAVE_LAYERSHELLQT
+    // KWin keeps the buffers of a hidden layer shell surface until it renders again, which it doesn't while the screen is off.
+    // Qt's Wayland backing store waits without a timeout when all its buffers are in use by the compositor, so showing and fading the OSD several times while the screen is off blocks the main thread until the screen is turned on.
+    // Create the platform window and its backing store again when the OSD is hidden, so it gets new buffers the next time it is shown.
+    if (was_visible && !visible && layer_shell_window_) {
+      RecreatePlatformWindow();
+    }
+#endif
   }
 
 }

@@ -33,8 +33,11 @@
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QSignalSpy>
+#include <QTest>
+#include <QDialog>
 
 #include "includes/shared_ptr.h"
+#include "constants/timeconstants.h"
 #include "core/song.h"
 #include "tagreader/tagreaderclient.h"
 #include "songeditor/trackselectiondialog.h"
@@ -79,6 +82,43 @@ TEST(TrackSelectionDialogTest, ResultsForFileSelectedTwice) {
 
   EXPECT_EQ(dialog.palette().text(), song_list->item(0)->foreground());
   EXPECT_EQ(dialog.palette().text(), song_list->item(2)->foreground());
+
+}
+
+Song SongOfCueSheet(const QString &filename, const QString &title, const qint64 beginning_nanosec) {
+  Song song = SongWithFile(filename, title);
+  song.set_beginning_nanosec(beginning_nanosec);
+  return song;
+}
+
+// Regression test: songs of a CUE sheet have the same file, the results of one song were also shown for the other songs, and only the first song was chosen.
+TEST(TrackSelectionDialogTest, SongsOfCueSheetHaveTheirOwnResults) {
+
+  TrackSelectionDialog dialog(make_shared<TagReaderClient>());
+  QListWidget *song_list = dialog.findChild<QListWidget*>(u"song_list"_s);
+  QStackedWidget *stacked_widget = dialog.findChild<QStackedWidget*>(u"stacked_widget"_s);
+  ASSERT_TRUE(song_list);
+  ASSERT_TRUE(stacked_widget);
+
+  const Song first_song = SongOfCueSheet(u"/music/album.flac"_s, u"First"_s, 0);
+  const Song second_song = SongOfCueSheet(u"/music/album.flac"_s, u"Second"_s, 180 * kNsecPerSec);
+  dialog.Init(SongList() << first_song << second_song);
+
+  dialog.FetchTagFinished(first_song, SongList() << SongOfCueSheet(u"/music/album.flac"_s, u"First guess"_s, 0));
+  song_list->setCurrentRow(0);
+  EXPECT_EQ(u"results_page"_s, stacked_widget->currentWidget()->objectName());
+  song_list->setCurrentRow(1);
+  EXPECT_EQ(u"loading_page"_s, stacked_widget->currentWidget()->objectName());
+
+  dialog.FetchTagFinished(second_song, SongList() << SongOfCueSheet(u"/music/album.flac"_s, u"Second guess"_s, 180 * kNsecPerSec));
+
+  QSignalSpy spy_song_chosen(&dialog, &TrackSelectionDialog::SongChosen);
+  dialog.accept();
+  ASSERT_EQ(2, spy_song_chosen.count());
+  EXPECT_EQ(0, spy_song_chosen.at(0).at(0).value<Song>().beginning_nanosec());
+  EXPECT_EQ(u"First guess"_s, spy_song_chosen.at(0).at(1).value<Song>().title());
+  EXPECT_EQ(180 * kNsecPerSec, spy_song_chosen.at(1).at(0).value<Song>().beginning_nanosec());
+  EXPECT_EQ(u"Second guess"_s, spy_song_chosen.at(1).at(1).value<Song>().title());
 
 }
 
@@ -201,6 +241,63 @@ TEST(TrackSelectionDialogTest, DeletingWhileSavingWritesAllTags) {
     ASSERT_TRUE(tagreader_client->ReadFileBlocking(song.url().toLocalFile(), &saved_song).success());
     EXPECT_EQ(u"Guessed title"_s, saved_song.title());
   }
+
+}
+
+// Starts saving the tags of a song with a guessed result, the file doesn't exist, so saving fails, but the dialog is still accepted when it's done.
+void AcceptWithSaving(TrackSelectionDialog *dialog, const QString &path) {
+
+  const Song song = SongWithFile(path, u"Title"_s);
+  dialog->set_save_on_close(true);
+  dialog->Init(SongList() << song);
+  dialog->FetchTagFinished(song, SongList() << SongWithFile(path, u"Guessed title"_s));
+  dialog->show();
+  dialog->accept();
+
+}
+
+// Regression test: the dialog could be closed while the tags were saved, and it was accepted when they were saved, also when it was opened again for other songs in the meantime, which closed it.
+TEST(TrackSelectionDialogTest, RejectWhileSavingIsIgnored) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  TrackSelectionDialog dialog(make_shared<TagReaderClient>());
+  QSignalSpy spy_accepted(&dialog, &QDialog::accepted);
+  QSignalSpy spy_rejected(&dialog, &QDialog::rejected);
+
+  AcceptWithSaving(&dialog, temp_dir.filePath(u"missing.mp3"_s));
+  ASSERT_TRUE(dialog.saving());
+  dialog.reject();
+  EXPECT_TRUE(dialog.isVisible());
+  EXPECT_EQ(0, spy_rejected.count());
+
+  ASSERT_TRUE(QTest::qWaitFor([&spy_accepted]() { return !spy_accepted.isEmpty(); }, 10000));
+  EXPECT_FALSE(dialog.saving());
+  EXPECT_FALSE(dialog.isVisible());
+  EXPECT_EQ(0, spy_rejected.count());
+
+  // It can be closed again when the tags are saved.
+  dialog.show();
+  dialog.reject();
+  EXPECT_EQ(1, spy_rejected.count());
+
+}
+
+// Regression test: accepting the dialog again while the tags were saved started saving them again, and the dialog was accepted twice.
+TEST(TrackSelectionDialogTest, AcceptWhileSavingIsIgnored) {
+
+  QTemporaryDir temp_dir;
+  ASSERT_TRUE(temp_dir.isValid());
+  TrackSelectionDialog dialog(make_shared<TagReaderClient>());
+  QSignalSpy spy_accepted(&dialog, &QDialog::accepted);
+
+  AcceptWithSaving(&dialog, temp_dir.filePath(u"missing.mp3"_s));
+  dialog.accept();
+
+  ASSERT_TRUE(QTest::qWaitFor([&spy_accepted]() { return !spy_accepted.isEmpty(); }, 10000));
+  ASSERT_TRUE(QThreadPool::globalInstance()->waitForDone(10000));
+  QTest::qWait(100);
+  EXPECT_EQ(1, spy_accepted.count());
 
 }
 

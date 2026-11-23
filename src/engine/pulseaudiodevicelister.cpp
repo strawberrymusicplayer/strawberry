@@ -154,7 +154,7 @@ void PulseAudioDeviceLister::GetSinkInfoCallback(pa_context *c, const pa_sink_in
   if (info) {
     EngineDevice device;
     device.description = QString::fromUtf8(info->description);
-    device.value = QString::fromUtf8(info->name);
+    device.values << QString::fromUtf8(info->name);
     device.iconname = device.GuessIconName();
 
     state->devices.append(device);

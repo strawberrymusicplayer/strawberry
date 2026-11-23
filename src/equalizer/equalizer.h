@@ -33,7 +33,6 @@
 #include <QString>
 
 class QWidget;
-class QCloseEvent;
 class QKeyEvent;
 #ifdef Q_OS_ANDROID
 class QLabel;
@@ -44,6 +43,7 @@ namespace AndroidWidgets {
 class ValueButton;
 }
 #endif
+class QTimer;
 
 class EqualizerSlider;
 class Ui_Equalizer;
@@ -89,9 +89,12 @@ class Equalizer : public QDialog {
   void EqualizerEnabledChanged(const bool enabled);
   void EqualizerParametersChanged(const int preamp, const QList<int> &band_gains);
 
- protected:
-  void closeEvent(QCloseEvent *e) override;
+ public Q_SLOTS:
+  void reject() override;
+  void SavePending();
+
 #ifdef Q_OS_ANDROID
+ protected:
   void keyPressEvent(QKeyEvent *event) override;
 #endif
 
@@ -110,7 +113,11 @@ class Equalizer : public QDialog {
   EqualizerSlider *AddSlider(const QString &label, bool preamp = false);
   void LoadDefaultPresets();
   void AddPreset(const QString &name, const Params &params);
+  void LoadPreset(const QString &name);
   void ReloadSettings();
+  void SetParams(const Params &params);
+  void SaveCurrentParams();
+  void SaveLater();
   QString SaveCurrentPreset();
 #ifdef Q_OS_ANDROID
   // Used by both equalizer.cpp and equalizer_android.cpp, which implements the functions below.
@@ -147,12 +154,18 @@ class Equalizer : public QDialog {
   Ui_Equalizer *ui_;
   bool loading_;
 
+  QTimer *save_timer_;
+  bool save_pending_;
+  bool save_current_params_pending_;
+
   QString last_preset_;
 
   EqualizerSlider *preamp_;
   EqualizerSlider *gain_[kBands]{};
 
   QMap<QString, Params> presets_;
+
+  friend class EqualizerTest;
 };
 Q_DECLARE_METATYPE(Equalizer::Params)
 

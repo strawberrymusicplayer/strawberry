@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,19 @@
 #include "keymapper_win.h"
 
 #include "core/logging.h"
+
+namespace {
+
+// The modifiers (MOD_ALT, MOD_CONTROL, MOD_SHIFT and MOD_WIN) are in the lower 4 bits, and the virtual key codes are below 0xFF, so the modifiers are put above the key code, then each shortcut has its own ID.
+// The IDs were the modifiers XOR the key code, then shortcuts could get the same ID, like Ctrl+A and Alt+B, and unregistering one of them could unregister the other.
+// The IDs are at most 0xFFF, applications must use IDs from 0x0000 to 0xBFFF.
+int HotKeyId(const int native_key, const int native_mods) {
+
+  return ((native_mods & 0x0F) << 8) | (native_key & 0xFF);
+
+}
+
+}  // namespace
 
 int GlobalShortcut::nativeModifiers(const Qt::KeyboardModifiers qt_mods) {
 
@@ -81,13 +94,13 @@ int GlobalShortcut::nativeKeycode2(const Qt::Key qt_keycode) {
 
 bool GlobalShortcut::registerShortcut(const int native_key, const int native_mods) {
 
-  return RegisterHotKey(0, native_mods ^ native_key, static_cast<UINT>(native_mods), static_cast<UINT>(native_key));
+  return RegisterHotKey(0, HotKeyId(native_key, native_mods), static_cast<UINT>(native_mods), static_cast<UINT>(native_key));
 
 }
 
 bool GlobalShortcut::unregisterShortcut(const int native_key, const int native_mods) {
 
-  return UnregisterHotKey(0, native_mods ^ native_key);
+  return UnregisterHotKey(0, HotKeyId(native_key, native_mods));
 
 }
 

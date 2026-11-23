@@ -64,7 +64,7 @@ class MacOsDeviceLister : public DeviceLister {
 
 #ifdef HAVE_MTP
   struct MTPDevice {
-    MTPDevice() : capacity(0), free_space(0) {}
+    MTPDevice() : vendor_id(0), product_id(0), quirks(0), bus(0), address(0), capacity(0), free_space(0) {}
     QString vendor;
     QString product;
     quint16 vendor_id;
@@ -80,6 +80,7 @@ class MacOsDeviceLister : public DeviceLister {
 #endif  // HAVE_MTP
 
   void ExitAsync();
+  void UnmountDeviceAsync(const QString &id);
 
  public Q_SLOTS:
   void UnmountDevice(const QString &id);
@@ -103,10 +104,20 @@ class MacOsDeviceLister : public DeviceLister {
 #endif  // HAVE_MTP
 
   bool IsCDDevice(const QString &serial) const;
+  QString BSDName(const QString &serial) const;
+#ifdef HAVE_MTP
+  MTPDevice MTPDeviceForSerial(const QString &serial) const;
+#endif
 
   DASessionRef loop_session_ = nullptr;
+  // The run loop of this object's thread, retained, it's set by Init() and stopped by ShutDown() from another thread.
   std::atomic<CFRunLoopRef> run_loop_ = nullptr;
+  // Set by ShutDown(), so Init() does not run the run loop when ShutDown() was called before the run loop was set.
+  std::atomic<bool> shutdown_requested_ = false;
 
+  // The devices are added and removed by the DiskArbitration and IOKit callbacks on this object's thread, and read by DeviceManager on the GUI thread.
+  // devices_mutex_ protects them, it's never held while emitting signals, calling into DiskArbitration, IOKit or libmtp, or locking libmtp_mutex_.
+  mutable QMutex devices_mutex_;
   QMap<QString, QString> current_devices_;
 #ifdef HAVE_MTP
   QMap<QString, MTPDevice> mtp_devices_;

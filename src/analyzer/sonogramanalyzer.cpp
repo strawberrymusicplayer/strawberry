@@ -42,6 +42,10 @@ void SonogramAnalyzer::resizeEvent(QResizeEvent *e) {
 
 }
 
+void SonogramAnalyzer::paletteChange() {
+  canvas_.fill(palette().color(QPalette::Window));
+}
+
 void SonogramAnalyzer::analyze(QPainter &p, const Scope &s, const bool new_frame) {
 
   if (!new_frame || engine_->state() == EngineBase::State::Paused) {

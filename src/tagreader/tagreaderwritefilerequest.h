@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,8 @@
 
 #ifndef TAGREADERWRITEFILEREQUEST_H
 #define TAGREADERWRITEFILEREQUEST_H
+
+#include <functional>
 
 #include <QString>
 
@@ -39,6 +41,8 @@ class TagReaderWriteFileRequest : public TagReaderRequest {
 
   SaveTagsOptions save_tags_options;
   Song song;
+  // When set, the song is read from the file and updated with this instead of writing the song above, see TagReaderClient::UpdateFileAsync().
+  std::function<bool(Song *song)> update_song;
   SaveTagCoverData save_tag_cover_data;
   TagID3v2Version tag_id3v2_version;
 };

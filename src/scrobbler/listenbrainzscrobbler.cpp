@@ -84,6 +84,11 @@ bool IsRetryableHttpStatusCode(const int http_status_code) {
   return http_status_code == 429 || http_status_code >= 500;
 }
 
+// The server rejected the authorization of the request.
+bool IsUnauthorized(const HttpBaseRequest::HttpBaseRequestResult &result) {
+  return result.http_status_code == 401 || result.network_error == QNetworkReply::AuthenticationRequiredError;
+}
+
 int RateLimitInterval(const qint64 delay_msec) {
   return static_cast<int>(std::clamp(delay_msec, static_cast<qint64>(0), kMaxRateLimitDelayMsec));
 }
@@ -121,6 +126,7 @@ ListenBrainzScrobbler::ListenBrainzScrobbler(const SharedPtr<ScrobblerSettingsSe
       timer_flush_requests_(new QTimer(this)),
       enabled_(false),
       api_credentials_initialized_(false),
+      user_token_rejected_(false),
       submitted_(false),
       scrobbled_(false),
       timestamp_(0),
@@ -154,7 +160,7 @@ ListenBrainzScrobbler::ListenBrainzScrobbler(const SharedPtr<ScrobblerSettingsSe
 
 bool ListenBrainzScrobbler::authenticated() const {
 
-  return !oauth_->access_token().isEmpty() && !user_token_.isEmpty();
+  return !oauth_->access_token().isEmpty() && !user_token_.isEmpty() && !user_token_rejected_;
 
 }
 
@@ -164,6 +170,8 @@ void ListenBrainzScrobbler::ReloadSettings() {
   s.beginGroup(kSettingsGroup);
   enabled_ = s.value(ScrobblerSettings::kEnabled, ScrobblerSettings::kDefaultEnabled).toBool();
   user_token_ = s.value(ScrobblerSettings::kUserToken).toString();
+  // The user token is tried again, it could have been changed.
+  user_token_rejected_ = false;
   const bool use_custom_api_credentials = !HasCompiledCredentials() || s.value(ListenBrainzSettings::kUseCustomApiCredentials, false).toBool();
   const QString client_id = use_custom_api_credentials ? s.value(ListenBrainzSettings::kClientId).toString() : CompiledClientId();
   const QString client_secret = use_custom_api_credentials ? s.value(ListenBrainzSettings::kClientSecret).toString() : CompiledClientSecret();
@@ -387,8 +395,11 @@ JsonBaseRequest::JsonObjectResult ListenBrainzScrobbler::ParseJsonObject(QNetwor
     }
   }
 
-  if (reply->error() == QNetworkReply::AuthenticationRequiredError) {
-    oauth_->ClearSession();
+  // The requests are authorized with the user token, not with the OAuth access token, so clearing the OAuth session doesn't help, the user token has to be checked.
+  // A request sent with the previous user token can finish after the settings were reloaded with a new one, that says nothing about the new user token.
+  if (IsUnauthorized(result) && reply->request().rawHeader("Authorization") == authorization_header()) {
+    user_token_rejected_ = true;
+    result.error_message = tr("The user token was rejected, check it in the ListenBrainz settings: %1").arg(result.error_message);
   }
 
   return result;
@@ -688,8 +699,16 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, Scrobb
     submit_error_ = false;
   }
   else {
-    submit_error_ = true;
-    if (json_object_result.error_code == ErrorCode::APIError) {
+    // Nothing is sent while the user token is rejected, so the listens are sent without the longer delay after an error when it was fixed.
+    submit_error_ = !IsUnauthorized(json_object_result);
+    if (IsUnauthorized(json_object_result)) {
+      // Keep the listens in the cache, they are sent again when the user token was fixed, or with the new user token when the request was sent with the previous one.
+      if (user_token_rejected_) {
+        Error(json_object_result.error_message);
+      }
+      cache_->ClearSent(cache_items);
+    }
+    else if (json_object_result.error_code == ErrorCode::APIError) {
       if (IsRetryableHttpStatusCode(json_object_result.http_status_code)) {
         // Keep the listens in the cache, they are sent again once the rate limit window has passed or the server has recovered.
         Error(json_object_result.error_message);
@@ -762,6 +781,16 @@ void ListenBrainzScrobbler::LoveRequestFinished(QNetworkReply *reply, LoveReques
 
   const JsonObjectResult json_object_result = ParseJsonObject(reply);
   if (!json_object_result.success()) {
+    // A love rejected because of the user token is kept until the user token was fixed, or sent with the new user token when the request was sent with the previous one.
+    // It doesn't count as a failed attempt, since it didn't say anything about the love.
+    if (IsUnauthorized(json_object_result)) {
+      if (user_token_rejected_) {
+        Error(json_object_result.error_message);
+      }
+      queue_love_.prepend(love_request);
+      ScheduleFlushRequests();
+      return;
+    }
     // Put the love back on the queue when the failure was temporary, it is the users action and there is no other record of it.
     const bool retryable = json_object_result.error_code == ErrorCode::NetworkError || IsRetryableHttpStatusCode(json_object_result.http_status_code);
     if (retryable && love_request.attempts + 1 < kMaxLoveAttempts) {

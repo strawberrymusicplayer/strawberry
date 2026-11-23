@@ -24,6 +24,7 @@
 #include "config.h"
 
 #include <QDateTime>
+#include <QList>
 #include <QVariant>
 #include <QString>
 #include <QTimer>
@@ -64,18 +65,28 @@ class SubsonicScrobbler : public ScrobblerService {
  public Q_SLOTS:
   void WriteCache() override {}
 
+ protected:
+  // Sends the scrobble to the Subsonic server, virtual for the tests.
+  virtual void SendScrobble(const QString &song_id, const QDateTime &time);
+
  private:
   void SendScrobbles();
+
+  // The song and time of a scrobble that is pending, since another song can be playing when the scrobble is sent.
+  struct PendingScrobble {
+    QString song_id;
+    QDateTime time;
+  };
 
   const SharedPtr<SubsonicService> service_;
   bool enabled_;
   bool submitted_;
-  bool scrobble_pending_;
   Song song_playing_;
   QDateTime time_;
-  // The song and time of the scrobble that is pending, since another song can be playing when the scrobble is sent.
-  QString scrobble_song_id_;
-  QDateTime scrobble_time_;
+  // Whether the song playing was added to the pending scrobbles, it's only scrobbled once, also after the pending scrobbles were sent.
+  bool scrobbled_;
+  // The scrobbles waiting for the submit delay, or for scrobbling to be switched on or offline mode to be switched off.
+  QList<PendingScrobble> pending_scrobbles_;
   QTimer timer_send_scrobbles_;
 };
 

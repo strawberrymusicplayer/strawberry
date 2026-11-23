@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@
 #include <QAction>
 #include <QShortcut>
 #include <QKeySequence>
+#include <QKeyCombination>
 
 #include "core/logging.h"
 #include "core/settings.h"
@@ -152,18 +153,61 @@ GlobalShortcutsManager::Shortcut GlobalShortcutsManager::AddShortcut(Settings &s
 
   Shortcut shortcut;
   shortcut.action = new QAction(name, this);
-  QKeySequence key_sequence = QKeySequence::fromString(s.value(id, default_key.toString()).toString());
+  // Shortcuts saved before the play/pause key was normalized are normalized when they are loaded, so the settings find the key when it's used for another action.
+  const QKeySequence key_sequence = NormalizeKeySequence(QKeySequence::fromString(s.value(id, default_key.toString()).toString()));
   shortcut.action->setShortcut(key_sequence);
   shortcut.id = id;
   shortcut.default_key = default_key;
 
   // Create application wide QShortcut to hide keyevents mapped to global shortcuts from widgets.
-  shortcut.shortcut = new QShortcut(key_sequence, this);
+  shortcut.shortcut = new QShortcut(this);
+  shortcut.shortcut->setKeys(ApplicationKeySequences(key_sequence));
   shortcut.shortcut->setContext(Qt::ApplicationShortcut);
 
   shortcuts_[id] = shortcut;
 
   return shortcut;
+
+}
+
+QKeySequence GlobalShortcutsManager::NormalizeKeySequence(const QKeySequence &key_sequence) {
+
+  QList<QKeyCombination> key_combinations;
+  key_combinations.reserve(key_sequence.count());
+  for (int i = 0; i < key_sequence.count(); ++i) {
+    const QKeyCombination key_combination = key_sequence[static_cast<uint>(i)];
+    if (key_combination.key() == Qt::Key_MediaTogglePlayPause) {
+      key_combinations << QKeyCombination(key_combination.keyboardModifiers(), Qt::Key_MediaPlay);
+    }
+    else {
+      key_combinations << key_combination;
+    }
+  }
+
+  switch (key_combinations.count()) {
+    case 1:
+      return QKeySequence(key_combinations[0]);
+    case 2:
+      return QKeySequence(key_combinations[0], key_combinations[1]);
+    case 3:
+      return QKeySequence(key_combinations[0], key_combinations[1], key_combinations[2]);
+    case 4:
+      return QKeySequence(key_combinations[0], key_combinations[1], key_combinations[2], key_combinations[3]);
+    default:
+      return key_sequence;
+  }
+
+}
+
+QList<QKeySequence> GlobalShortcutsManager::ApplicationKeySequences(const QKeySequence &key_sequence) {
+
+  QList<QKeySequence> key_sequences = QList<QKeySequence>() << key_sequence;
+
+  if (key_sequence.count() == 1 && key_sequence[0].key() == Qt::Key_MediaPlay) {
+    key_sequences << QKeySequence(QKeyCombination(key_sequence[0].keyboardModifiers(), Qt::Key_MediaTogglePlayPause));
+  }
+
+  return key_sequences;
 
 }
 

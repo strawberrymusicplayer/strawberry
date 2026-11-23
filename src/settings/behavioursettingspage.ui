@@ -59,6 +59,16 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="checkbox_inhibit_sleep">
+     <property name="text">
+      <string>Prevent the system from sleeping while playing</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QCheckBox" name="checkbox_playingwidget">
      <property name="text">
       <string>Show playing widget</string>
@@ -392,6 +402,7 @@
   <tabstop>checkbox_trayicon_progress</tabstop>
   <tabstop>checkbox_taskbar_progress</tabstop>
   <tabstop>checkbox_resumeplayback</tabstop>
+  <tabstop>checkbox_inhibit_sleep</tabstop>
   <tabstop>checkbox_playingwidget</tabstop>
   <tabstop>radiobutton_remember</tabstop>
   <tabstop>radiobutton_show</tabstop>

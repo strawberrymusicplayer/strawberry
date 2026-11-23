@@ -55,7 +55,8 @@ class AnalyzerContainer : public QWidget {
   void wheelEvent(QWheelEvent *e) override;
 
  private Q_SLOTS:
-  void ChangeAnalyzer(const int id);
+  // Returns false when the analyzer couldn't be created, the current analyzer is kept then.
+  bool ChangeAnalyzer(const int id);
   void ChangeFramerate(int new_framerate);
   void DisableAnalyzer();
   void ShowPopupMenu();
@@ -63,7 +64,7 @@ class AnalyzerContainer : public QWidget {
  private:
   void Load();
   void Save();
-  void SaveFramerate(const int framerate);
+  void SaveFramerate();
   template<typename T>
   void AddAnalyzerType();
   void AddFramerate(const QString &name, const int framerate);
@@ -98,7 +99,11 @@ void AnalyzerContainer::AddAnalyzerType() {
   group_->addAction(action);
   action->setCheckable(true);
   actions_ << action;
-  QObject::connect(action, &QAction::triggered, [this, id]() { ChangeAnalyzer(id); });
+  QObject::connect(action, &QAction::triggered, [this, id]() {
+    if (ChangeAnalyzer(id)) {
+      Save();
+    }
+  });
 }
 
 #endif  // ANALYZERCONTAINER_H

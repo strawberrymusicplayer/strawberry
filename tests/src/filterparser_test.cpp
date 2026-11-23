@@ -118,6 +118,23 @@ TEST(FilterParserTest, HyphenAtStartOfTermNegates) {
   EXPECT_TRUE(Accepts(u"bar OR-foo"_s, SongWithTitle(u"Baz"_s)));
 }
 
+// Regression test: a word with a colon was taken as a column and the value, and when the column was unknown, only the value was searched for, so "12:30" found every song with "30".
+TEST(FilterParserTest, UnknownColumnIsPartOfValue) {
+  EXPECT_TRUE(Accepts(u"12:30"_s, SongWithTitle(u"Live at 12:30"_s)));
+  EXPECT_FALSE(Accepts(u"12:30"_s, SongWithTitle(u"30 Seconds"_s)));
+  EXPECT_TRUE(Accepts(u"re:zero"_s, SongWithTitle(u"Re:Zero Theme"_s)));
+  EXPECT_FALSE(Accepts(u"re:zero"_s, SongWithTitle(u"Zero"_s)));
+  // With a space after the colon, the words are searched for, like other words.
+  EXPECT_TRUE(Accepts(u"re: zero"_s, SongWithTitle(u"Re: Zero"_s)));
+  EXPECT_FALSE(Accepts(u"re: zero"_s, SongWithTitle(u"Zero"_s)));
+  // A word ending with a colon is searched for too.
+  EXPECT_FALSE(Accepts(u"foo:"_s, SongWithTitle(u"Bar"_s)));
+  // Known columns are still columns, also in upper case, and with a space after the colon.
+  EXPECT_TRUE(Accepts(u"TITLE:zero"_s, SongWithTitle(u"Zero"_s)));
+  EXPECT_TRUE(Accepts(u"title: zero"_s, SongWithTitle(u"Zero"_s)));
+  EXPECT_FALSE(Accepts(u"artist:zero"_s, SongWithTitle(u"Zero"_s)));
+}
+
 Song SongWithYears(const int year, const int originalyear) {
   Song song;
   song.set_year(year);

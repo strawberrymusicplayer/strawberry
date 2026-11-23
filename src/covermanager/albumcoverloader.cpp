@@ -19,14 +19,16 @@
 
 #include <memory>
 #include <chrono>
+#include <utility>
 
 #include <QtGlobal>
 #include <QObject>
 #include <QThread>
 #include <QMutex>
 #include <QSet>
+#include <QList>
+#include <QHash>
 #include <QQueue>
-#include <QVariant>
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
@@ -86,8 +88,9 @@ void AlbumCoverLoader::Exit() {
   Q_ASSERT(QThread::currentThread() == thread());
 
   // Don't keep loading remote covers after exiting, the replies are aborted, they're finished then.
-  while (!replies_.isEmpty()) {
-    QNetworkReply *reply = replies_.takeFirst();
+  const QList<QNetworkReply*> replies = replies_.keys();
+  replies_.clear();
+  for (QNetworkReply *reply : replies) {
     QObject::disconnect(reply, nullptr, this, nullptr);
     reply->abort();
     reply->deleteLater();
@@ -100,28 +103,43 @@ void AlbumCoverLoader::Exit() {
 
 void AlbumCoverLoader::CancelTask(const quint64 id) {
 
-  QMutexLocker l(&mutex_load_image_async_);
-  for (QQueue<TaskPtr>::iterator it = tasks_.begin(); it != tasks_.end(); ++it) {
-    TaskPtr task = *it;
-    if (task->id == id) {
-      tasks_.erase(it);
-      break;
-    }
-  }
+  CancelTasks(QSet<quint64>() << id);
 
 }
 
 void AlbumCoverLoader::CancelTasks(const QSet<quint64> &ids) {
 
-  QMutexLocker l(&mutex_load_image_async_);
-  for (QQueue<TaskPtr>::iterator it = tasks_.begin(); it != tasks_.end();) {
-    TaskPtr task = *it;
-    if (ids.contains(task->id)) {
-      it = tasks_.erase(it);
+  {
+    QMutexLocker l(&mutex_load_image_async_);
+    for (QQueue<TaskPtr>::iterator it = tasks_.begin(); it != tasks_.end();) {
+      TaskPtr task = *it;
+      if (ids.contains(task->id)) {
+        it = tasks_.erase(it);
+      }
+      else {
+        ++it;
+      }
     }
-    else {
-      ++it;
+  }
+
+  // The tasks loading a remote cover are not in the queue anymore, the replies belong to the thread of the loader.
+  QMetaObject::invokeMethod(this, [this, ids]() { AbortRemoteImages(ids); }, Qt::AutoConnection);
+
+}
+
+void AlbumCoverLoader::AbortRemoteImages(const QSet<quint64> &ids) {
+
+  QList<QNetworkReply*> replies;
+  for (QHash<QNetworkReply*, TaskPtr>::const_iterator it = replies_.constBegin(); it != replies_.constEnd(); ++it) {
+    if (ids.contains(it.value()->id)) {
+      it.value()->cancelled = true;
+      replies << it.key();
     }
+  }
+
+  // Aborting finishes the reply, which removes it from the replies, the cancelled task is not finished then.
+  for (QNetworkReply *reply : std::as_const(replies)) {
+    reply->abort();
   }
 
 }
@@ -426,8 +444,9 @@ AlbumCoverLoader::LoadImageResult AlbumCoverLoader::LoadRemoteUrlImage(TaskPtr t
 
   QNetworkRequest network_request(cover_url);
   network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  network_request.setMaximumRedirectsAllowed(kMaxRedirects);
   QNetworkReply *reply = network_->get(network_request);
-  replies_ << reply;
+  replies_.insert(reply, task);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, task, result_type, cover_url]() { LoadRemoteImageFinished(reply, task, result_type, cover_url); });
 
   return LoadImageResult(result_type, LoadImageResult::Status::Async);
@@ -436,29 +455,12 @@ AlbumCoverLoader::LoadImageResult AlbumCoverLoader::LoadRemoteUrlImage(TaskPtr t
 
 void AlbumCoverLoader::LoadRemoteImageFinished(QNetworkReply *reply, TaskPtr task, const AlbumCoverLoaderResult::Type result_type, const QUrl &cover_url) {
 
-  replies_.removeAll(reply);
+  replies_.remove(reply);
   reply->deleteLater();
 
-  // Exiting, the receivers can be deleted already, so don't finish the task, or request a redirect.
-  if (stop_requested_) return;
-
-  QVariant redirect = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
-  if (redirect.isValid() && redirect.metaType().id() == QMetaType::QUrl) {
-    if (task->redirects++ >= kMaxRedirects) {
-      ClearImage(task);
-      ProcessTask(task);
-      return;
-    }
-    const QUrl redirect_url = redirect.toUrl();
-    qLog(Debug) << "Loading remote cover from redirected URL" << redirect_url;
-    QNetworkRequest network_request = reply->request();
-    network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-    network_request.setUrl(redirect_url);
-    QNetworkReply *redirected_reply = network_->get(network_request);
-    replies_ << redirected_reply;
-    QObject::connect(redirected_reply, &QNetworkReply::finished, this, [this, redirected_reply, task, result_type, redirect_url]() { LoadRemoteImageFinished(redirected_reply, task, result_type, redirect_url); });
-    return;
-  }
+  // Exiting, the receivers can be deleted already, so don't finish the task.
+  // A cancelled task is not finished either, nor are the other cover types loaded.
+  if (stop_requested_ || task->cancelled) return;
 
   if (reply->error() == QNetworkReply::NoError) {
     task->album_cover.image_data = reply->readAll();

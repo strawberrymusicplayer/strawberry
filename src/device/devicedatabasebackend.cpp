@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@
 #include <QSqlDatabase>
 
 #include "includes/shared_ptr.h"
+#include "core/logging.h"
 #include "core/database.h"
 #include "core/sqlquery.h"
 #include "core/scopedtransaction.h"
@@ -128,7 +129,12 @@ int DeviceDatabaseBackend::AddDevice(const Device &device) {
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
+  // Without a transaction, the device row and its tables would be saved even when a later statement fails.
   ScopedTransaction t(&db);
+  if (!t.started()) {
+    db_->ReportError(tr("Could not add the device %1 to the database, the transaction could not be started: %2").arg(device.friendly_name_, t.error()));
+    return -1;
+  }
 
   // Insert the device into the devices table
   SqlQuery q(db);
@@ -154,9 +160,18 @@ int DeviceDatabaseBackend::AddDevice(const Device &device) {
   QString schema = QString::fromUtf8(schema_file.readAll());
   schema.replace("%deviceid"_L1, QString::number(id));
 
-  db_->ExecSchemaCommands(db, schema, 0, true);
+  // The device row is rolled back with the transaction when its tables can't be created.
+  QString error;
+  if (!db_->ExecSchemaCommands(db, schema, 0, error, true)) {
+    qLog(Error) << "Could not create the tables for device" << device.unique_id_ << error;
+    return -1;
+  }
 
-  t.Commit();
+  // The commit is rolled back when it fails, so the device isn't in the database.
+  if (!t.Commit()) {
+    db_->ReportError(tr("Could not add the device %1 to the database, the changes could not be saved: %2").arg(device.friendly_name_, t.error()));
+    return -1;
+  }
 
   return id;
 

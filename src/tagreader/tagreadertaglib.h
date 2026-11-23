@@ -99,7 +99,8 @@ class TagReaderTagLib : public TagReaderBase {
   void ParseASFTags(TagLib::ASF::Tag *tag, QString *disc, QString *compilation, Song *song) const;
   void ParseASFAttribute(const TagLib::ASF::AttributeListMap &attributes_map, const char *attribute, QString *str) const;
 
-  bool SetID3v2Tag(TagLib::ID3v2::Tag *tag, const Song &song) const;
+  // The previous track number is the track number before Tag::setTrack(), to keep the total.
+  bool SetID3v2Tag(TagLib::ID3v2::Tag *tag, const Song &song, const QString &previous_track) const;
   void SetTextFrame(const char *id, const QString &value, TagLib::ID3v2::Tag *tag) const;
   void SetUserTextFrame(const QString &description, const QString &value, TagLib::ID3v2::Tag *tag) const;
   void SetUnsyncLyricsFrame(const QString &value, TagLib::ID3v2::Tag *tag) const;
@@ -108,12 +109,14 @@ class TagReaderTagLib : public TagReaderBase {
   static bool WriteLyricsToTags(const Song::StorageType storage_type);
   static void SetLyricsFromTag(Song *song, const QString &lyrics);
   static void SetSyncedLyricsFromTag(Song *song, const QString &synced_lyrics);
+  static bool IsSyncedLyrics(const QString &lyrics);
+  static bool HasPlainLyrics(const TagLib::Ogg::XiphComment *vorbis_comment, const char *field);
   static bool IsSupportedSyncLyricsFrame(const TagLib::ID3v2::SynchronizedLyricsFrame *frame);
   static QString SynchedTextToLRC(const TagLib::ID3v2::SynchronizedLyricsFrame::SynchedTextList &synched_text);
   static std::optional<TagLib::ID3v2::SynchronizedLyricsFrame::SynchedTextList> LRCToSynchedText(const QString &lrc);
 
-  void SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment, const Song &song) const;
-  void SetAPETag(TagLib::APE::Tag *tag, const Song &song) const;
+  bool SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment, const Song &song, const QString &previous_track) const;
+  void SetAPETag(TagLib::APE::Tag *tag, const Song &song, const QString &previous_track) const;
   void SetASFTag(TagLib::ASF::Tag *tag, const Song &song) const;
   void SetAsfAttribute(TagLib::ASF::Tag *tag, const char *attribute, const QString &value) const;
   void SetAsfAttribute(TagLib::ASF::Tag *tag, const char *attribute, const int value) const;
@@ -139,12 +142,14 @@ class TagReaderTagLib : public TagReaderBase {
   void SetLyrics(TagLib::APE::Tag *tag, const QString &lyrics) const;
   void SetLyrics(TagLib::MP4::Tag *tag, const QString &lyrics) const;
   void SetLyrics(TagLib::ASF::Tag *tag, const QString &lyrics) const;
-  void SetSyncedLyrics(TagLib::Ogg::XiphComment *vorbis_comment, const QString &synced_lyrics) const;
+  bool SetSyncedLyrics(TagLib::Ogg::XiphComment *vorbis_comment, const QString &synced_lyrics) const;
   void SetSyncedLyrics(TagLib::APE::Tag *tag, const QString &synced_lyrics) const;
   TagReaderResult SaveLyricsToFile(const QString &filename, const QString &lyrics, const bool synced) const;
 
   void SetEmbeddedCover(TagLib::FLAC::File *flac_file, TagLib::Ogg::XiphComment *vorbis_comment, const QByteArray &data, const QString &mimetype) const;
   void SetEmbeddedCover(TagLib::Ogg::XiphComment *vorbis_comment, const QByteArray &data, const QString &mimetype) const;
+  // Removes the old base64 encoded COVERART field and its COVERARTMIME field.
+  static void RemoveLegacyCoverArt(TagLib::Ogg::XiphComment *vorbis_comment);
   void SetEmbeddedCover(TagLib::ID3v2::Tag *tag, const QByteArray &data, const QString &mimetype) const;
   void SetEmbeddedCover(TagLib::MP4::File *aac_file, TagLib::MP4::Tag *tag, const QByteArray &data, const QString &mimetype) const;
 

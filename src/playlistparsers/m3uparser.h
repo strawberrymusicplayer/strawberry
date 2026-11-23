@@ -69,13 +69,16 @@ class M3UParser : public ParserBase {
   };
 
   struct Metadata {
-    Metadata() : length(-1) {}
+    Metadata() : length(-1), track(0) {}
     QString artist;
     QString title;
     qint64 length;
+    int track;
   };
 
   static bool ParseMetadata(const QString &line, Metadata *metadata);
+  // The track info of #EXTINF, which ParseMetadata() reads back as the same artist and title.
+  static QString ExtInfTrackInfo(const QString &artist, const QString &title);
 
   // Returns the percent decoded location if the location was saved percent encoded, because the playlist's encoding can't represent it.
   // A file name can contain a percent sign as well, so it's only decoded when the file is found that way, and not without decoding.

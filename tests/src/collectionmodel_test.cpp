@@ -26,10 +26,19 @@
 
 #include <QMap>
 #include <QString>
+#include <QDateTime>
 #include <QStringList>
 #include <QUrl>
 #include <QThread>
 #include <QSignalSpy>
+#include <QColor>
+#include <QGuiApplication>
+#include <QImage>
+#include <QPixmap>
+#include <QPixmapCache>
+#include <QNetworkDiskCache>
+#include <QNetworkCacheMetaData>
+#include <QScopeGuard>
 #include <QHash>
 #include <QSet>
 #include <QTimer>
@@ -56,6 +65,10 @@
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionfilter.h"
+#include "core/settings.h"
+#include "constants/collectionsettings.h"
+#include "covermanager/albumcoverloader.h"
+#include "tagreader/tagreaderclient.h"
 #include "collection/collectiontreeview.h"
 #include "collection/collectionview.h"
 
@@ -208,6 +221,41 @@ class CollectionModelTest : public ::testing::Test {
       song.set_url(QUrl(u"file:///tmp/"_s + tag + u'_' + num + u".flac"_s));
       song.set_filesize(1);
       songs << song;  // clazy:exclude=reserve-candidates
+    }
+    return songs;
+  }
+
+  static Song MakeSongWithId(const int id, const QString &artist, const QString &album) {
+    Song song;
+    song.Init(u"Title"_s, artist, album, 123);
+    song.set_id(id);
+    song.set_url(QUrl(u"file:///tmp/song"_s + QString::number(id)));
+    return song;
+  }
+
+  static Song MakeSongForDirectory(const QString &title, const QString &artist, const QString &album, const QString &filename) {
+    Song song;
+    song.Init(title, artist, album, 1);
+    song.set_directory_id(1);
+    song.set_mtime(1);
+    song.set_ctime(1);
+    song.set_url(QUrl(u"file:///tmp/"_s + filename));
+    song.set_filesize(1);
+    return song;
+  }
+
+  // The songs shown by the filter.
+  SongList VisibleSongs(const QModelIndex &parent = QModelIndex()) const {
+    SongList songs;
+    for (int row = 0; row < collection_filter_->rowCount(parent); ++row) {
+      const QModelIndex idx = collection_filter_->index(row, 0, parent);
+      const CollectionItem *item = model_->IndexToItem(collection_filter_->mapToSource(idx));
+      if (item->type == CollectionItem::Type::Song) {
+        songs << item->metadata;
+      }
+      else {
+        songs << VisibleSongs(idx);
+      }
     }
     return songs;
   }
@@ -636,35 +684,6 @@ TEST_F(CollectionModelTest, LargeBatchProducesSingleLayoutChange) {
 // folding it in would tear the model down mid-layout-change and leave the begin/end signals of either transaction unbalanced.
 // NOTE: data preservation across the Reset cannot be checked here - the reload runs on a worker thread, which opens its own connection to the :memory: test DB and so sees it empty;
 // against a real file DB that reload restores the full collection, which is why a dropped trailing update is not actually lost in production.
-TEST_F(CollectionModelTest, FilterModeChangedWhileLoadingDoesNotAddOldResults) {
-
-  UseDatabaseFile();
-  AddSong(u"Title 1"_s, u"Artist 1"_s, u"Album 1"_s, 1);
-  AddSong(u"Title 2"_s, u"Artist 2"_s, u"Album 2"_s, 1);
-  Drain();
-  ASSERT_EQ(2, model_->song_nodes().count());
-
-  // Change the filter mode while the songs are loaded for the reset, the songs loaded for the old filter mode should not be added.
-  bool filter_mode_changed = false;
-  QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
-  const QMetaObject::Connection connection = QObject::connect(&*model_, &CollectionModel::modelReset, &*model_, [this, &filter_mode_changed]() {
-    if (filter_mode_changed) return;
-    filter_mode_changed = true;
-    model_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
-  });
-  model_->SetGroupBy(model_->GetGroupBy());
-  // The reload, and the reload for the changed filter mode.
-  EXPECT_TRUE(WaitForResets(&spy_reset, 4));
-  Drain();
-  // The model is reset when it's deleted after the test, when the captured variables are gone.
-  QObject::disconnect(connection);
-
-  ASSERT_TRUE(filter_mode_changed);
-  // None of the songs are duplicates.
-  EXPECT_EQ(0, model_->song_nodes().count());
-
-}
-
 // The songs are loaded in a thread pool, the model can be deleted while they are loaded, the loading must not use the model.
 TEST_F(CollectionModelTest, DeletedWhileLoading) {
 
@@ -978,6 +997,559 @@ TEST_F(CollectionModelTest, BatchMimeDataIncludesDescendantsOnceAndRespectsFilte
   ASSERT_NE(songs, nullptr);
   ASSERT_EQ(songs->songs.count(), 1);
   EXPECT_EQ(songs->songs.first().title(), u"Matching"_s);
+}
+
+// Regression test: changing a filter reloaded the songs, which collapsed the view.
+TEST_F(CollectionModelTest, FilterChangesDoNotResetModel) {
+
+  AddSong(u"Title 1"_s, u"Artist 1"_s, u"Album 1"_s, 1);
+  AddSong(u"Title 2"_s, u"Artist 2"_s, u"Album 2"_s, 1);
+  Drain();
+  QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
+
+  collection_filter_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
+  EXPECT_EQ(0, VisibleSongs().count());
+  collection_filter_->SetFilterMode(CollectionFilterOptions::FilterMode::All);
+  EXPECT_EQ(2, VisibleSongs().count());
+  collection_filter_->SetFilterMinRating(0.5F);
+  EXPECT_EQ(0, VisibleSongs().count());
+  collection_filter_->SetFilterMinRating(-1.0F);
+  EXPECT_EQ(2, VisibleSongs().count());
+  Drain();
+
+  EXPECT_EQ(0, spy_reset.count());
+  EXPECT_EQ(2, model_->song_nodes().count());
+
+}
+
+TEST_F(CollectionModelTest, UntaggedFilterFollowsSongChanges) {
+
+  collection_filter_->SetFilterMode(CollectionFilterOptions::FilterMode::Untagged);
+
+  model_->AddReAddOrUpdate(SongList() << MakeSongWithId(1, u"Artist"_s, u"Album"_s));
+  Drain();
+  EXPECT_EQ(0, VisibleSongs().count());
+
+  model_->AddReAddOrUpdate(SongList() << MakeSongWithId(2, u"Artist"_s, QString()));
+  Drain();
+  EXPECT_EQ(1, VisibleSongs().count());
+
+  // The missing tag is added.
+  model_->AddReAddOrUpdate(SongList() << MakeSongWithId(2, u"Artist"_s, u"Album"_s));
+  Drain();
+  EXPECT_EQ(0, VisibleSongs().count());
+
+  collection_filter_->SetFilterMode(CollectionFilterOptions::FilterMode::All);
+  EXPECT_EQ(2, VisibleSongs().count());
+
+}
+
+TEST_F(CollectionModelTest, MinRatingFilterFollowsRatingChanges) {
+
+  collection_filter_->SetFilterMinRating(0.5F);
+
+  Song song = MakeSongWithId(1, u"Artist"_s, u"Album"_s);
+  song.set_rating(0.8F);
+  model_->AddReAddOrUpdate(SongList() << song);
+  Drain();
+  EXPECT_EQ(1, VisibleSongs().count());
+
+  song.set_rating(0.2F);
+  model_->AddReAddOrUpdate(SongList() << song);
+  Drain();
+  EXPECT_EQ(0, VisibleSongs().count());
+  // The containers of the song are hidden too.
+  EXPECT_EQ(0, collection_filter_->rowCount(QModelIndex()));
+
+  song.set_rating(0.8F);
+  model_->AddReAddOrUpdate(SongList() << song);
+  Drain();
+  EXPECT_EQ(1, VisibleSongs().count());
+
+}
+
+// Updates of more songs are applied with one layout change, instead of a change for each song.
+TEST_F(CollectionModelTest, MinRatingFilterFollowsBulkUpdates) {
+
+  SongList songs = MakeSongs(1200, u"bulk"_s);
+  for (qsizetype i = 0; i < songs.count(); ++i) {
+    songs[i].set_id(static_cast<int>(i) + 1);
+    songs[i].set_rating(0.8F);
+  }
+  collection_filter_->SetFilterMinRating(0.5F);
+  model_->AddReAddOrUpdate(songs);
+  Drain();
+  ASSERT_EQ(1200, VisibleSongs().count());
+
+  for (Song &song : songs) {
+    song.set_rating(0.2F);
+  }
+  model_->AddReAddOrUpdate(songs);
+  Drain();
+
+  EXPECT_EQ(0, VisibleSongs().count());
+
+}
+
+TEST_F(CollectionModelTest, MaxAgeFilter) {
+
+  Song old_song = MakeSongWithId(1, u"Artist"_s, u"Album"_s);
+  old_song.set_ctime(1);
+  Song new_song = MakeSongWithId(2, u"Artist"_s, u"Album"_s);
+  new_song.set_ctime(QDateTime::currentSecsSinceEpoch());
+  model_->AddReAddOrUpdate(SongList() << old_song << new_song);
+  Drain();
+  ASSERT_EQ(2, VisibleSongs().count());
+
+  collection_filter_->SetFilterMaxAge(3600);
+
+  ASSERT_EQ(1, VisibleSongs().count());
+  EXPECT_EQ(2, VisibleSongs().first().id());
+
+}
+
+// Regression test: a song passing the age limit was hidden when filtered again, while its divider stayed since that's only updated with the songs.
+TEST_F(CollectionModelTest, MaxAgeFilterKeepsSongAndDividerInSync) {
+
+  Song song = MakeSongWithId(1, u"Artist"_s, u"Album"_s);
+  song.set_ctime(QDateTime::currentSecsSinceEpoch());
+  model_->AddReAddOrUpdate(SongList() << song);
+  Drain();
+
+  collection_filter_->SetFilterMaxAge(3);
+  ASSERT_EQ(1, VisibleSongs().count());
+  ASSERT_EQ(2, collection_filter_->rowCount(QModelIndex()));
+
+  QThread::sleep(4);
+  collection_filter_->SetFilterString(u"artist"_s);
+  collection_filter_->SetFilterString(QString());
+
+  EXPECT_EQ(1, VisibleSongs().count());
+  EXPECT_EQ(2, collection_filter_->rowCount(QModelIndex()));
+
+}
+
+// Songs are hidden when they become older than the age while the filter is set, not only when the filter is set.
+TEST_F(CollectionModelTest, MaxAgeFilterHidesSongsWhenTheyBecomeOlder) {
+
+  // The artists of the songs have different dividers.
+  constexpr qint64 kCtime = 1000000;
+  Song first_expiring_song = MakeSongWithId(1, u"Beta"_s, u"Album"_s);
+  first_expiring_song.set_ctime(kCtime);
+  Song second_expiring_song = MakeSongWithId(3, u"Charlie"_s, u"Album"_s);
+  second_expiring_song.set_ctime(kCtime + 3);
+  Song new_song = MakeSongWithId(2, u"Artist"_s, u"Album"_s);
+  new_song.set_ctime(QDateTime::currentSecsSinceEpoch() + 3600);
+  model_->AddReAddOrUpdate(SongList() << first_expiring_song << second_expiring_song << new_song);
+  Drain();
+
+  // The age is set from the time after the songs were added, so the songs become older than the age about 2 and 5 seconds after the filter is set, however long adding them took.
+  collection_filter_->SetFilterMaxAge(static_cast<int>(QDateTime::currentSecsSinceEpoch() - kCtime + 2));
+  ASSERT_EQ(3, VisibleSongs().count());
+
+  QElapsedTimer timer;
+  timer.start();
+  while (VisibleSongs().count() == 3 && timer.elapsed() < 10000) {
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 50);
+  }
+  ASSERT_EQ(2, VisibleSongs().count());
+
+  // The timer is started again for the next song.
+  timer.restart();
+  while (VisibleSongs().count() == 2 && timer.elapsed() < 10000) {
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 50);
+  }
+  ASSERT_EQ(1, VisibleSongs().count());
+  EXPECT_EQ(2, VisibleSongs().first().id());
+  // The divider and the artist of the song which is still shown, the dividers of the hidden songs are hidden too.
+  EXPECT_EQ(2, collection_filter_->rowCount(QModelIndex()));
+
+}
+
+// The age filter is checked again while no song is shown, since songs are shown again when the system clock is set back.
+TEST_F(CollectionModelTest, MaxAgeFilterKeepsCheckingWhenNoSongIsShown) {
+
+  Song old_song = MakeSongWithId(1, u"Artist"_s, u"Album"_s);
+  old_song.set_ctime(1);
+  model_->AddReAddOrUpdate(SongList() << old_song);
+  Drain();
+
+  const QList<QTimer*> timers = collection_filter_->findChildren<QTimer*>(QString(), Qt::FindDirectChildrenOnly);
+  ASSERT_EQ(1, timers.count());
+  QTimer *timer_max_age = timers.first();
+  EXPECT_FALSE(timer_max_age->isActive());
+
+  collection_filter_->SetFilterMaxAge(3600);
+  ASSERT_EQ(0, VisibleSongs().count());
+  EXPECT_TRUE(timer_max_age->isActive());
+
+  collection_filter_->SetFilterMaxAge(-1);
+  EXPECT_FALSE(timer_max_age->isActive());
+
+}
+
+// A song added while the filter is set can become older than the age before the songs which were already shown.
+TEST_F(CollectionModelTest, MaxAgeFilterHidesAddedSongsWhenTheyBecomeOlder) {
+
+  Song new_song = MakeSongWithId(2, u"Artist 2"_s, u"Album"_s);
+  new_song.set_ctime(QDateTime::currentSecsSinceEpoch());
+  model_->AddReAddOrUpdate(SongList() << new_song);
+  Drain();
+
+  constexpr int kMaxAge = 60;
+  collection_filter_->SetFilterMaxAge(kMaxAge);
+  ASSERT_EQ(1, VisibleSongs().count());
+
+  // The song becomes older than the age about 5 seconds after it's added, which leaves time for adding it.
+  Song expiring_song = MakeSongWithId(1, u"Artist 1"_s, u"Album"_s);
+  expiring_song.set_ctime(QDateTime::currentSecsSinceEpoch() - kMaxAge + 5);
+  model_->AddReAddOrUpdate(SongList() << expiring_song);
+  Drain();
+  ASSERT_EQ(2, VisibleSongs().count());
+
+  QElapsedTimer timer;
+  timer.start();
+  while (VisibleSongs().count() != 1 && timer.elapsed() < 10000) {
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 50);
+  }
+
+  ASSERT_EQ(1, VisibleSongs().count());
+  EXPECT_EQ(2, VisibleSongs().first().id());
+
+}
+
+// Whether a song is a duplicate depends on the other songs in the collection.
+TEST_F(CollectionModelTest, DuplicatesFilterFollowsCollectionChanges) {
+
+  AddSong(u"Title 1"_s, u"Artist 1"_s, u"Album 1"_s, 1);
+  AddSong(u"Title 2"_s, u"Artist 2"_s, u"Album 2"_s, 1);
+  Drain();
+  collection_filter_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
+  ASSERT_EQ(0, VisibleSongs().count());
+
+  backend_->AddOrUpdateSongs(SongList() << MakeSongForDirectory(u"Unique"_s, u"Artist 3"_s, u"Album 3"_s, u"unique"_s));
+  Drain();
+  EXPECT_EQ(0, VisibleSongs().count());
+
+  backend_->AddOrUpdateSongs(SongList() << MakeSongForDirectory(u"Title 1"_s, u"Artist 1"_s, u"Album 1"_s, u"duplicate"_s));
+  Drain();
+  ASSERT_EQ(2, VisibleSongs().count());
+
+  // Changing a tag can make both songs stop being duplicates.
+  const Song original_song = VisibleSongs().first();
+  Song changed_song = original_song;
+  changed_song.set_title(u"Changed"_s);
+  backend_->AddOrUpdateSongs(SongList() << changed_song);
+  Drain();
+  EXPECT_EQ(0, VisibleSongs().count());
+
+  backend_->AddOrUpdateSongs(SongList() << original_song);
+  Drain();
+  ASSERT_EQ(2, VisibleSongs().count());
+
+  backend_->DeleteSongs(SongList() << VisibleSongs().first());
+  Drain();
+  EXPECT_EQ(0, VisibleSongs().count());
+
+}
+
+TEST_F(CollectionModelTest, DuplicatesFilterIgnoresSongsWithoutTags) {
+
+  model_->AddReAddOrUpdate(SongList() << MakeSongWithId(1, u"Artist"_s, QString()) << MakeSongWithId(2, u"Artist"_s, QString()));
+  Drain();
+
+  collection_filter_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
+
+  EXPECT_EQ(0, VisibleSongs().count());
+
+}
+
+// Regression test: an unavailable song can be added to the model by an update, and made the available song with the same tags a duplicate.
+TEST_F(CollectionModelTest, DuplicatesFilterIgnoresUnavailableSongs) {
+
+  Song available = MakeSongWithId(1, u"Artist"_s, u"Album"_s);
+  Song unavailable = MakeSongWithId(2, u"Artist"_s, u"Album"_s);
+  unavailable.set_unavailable(true);
+  model_->AddReAddOrUpdate(SongList() << available << unavailable);
+  Drain();
+
+  collection_filter_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
+  EXPECT_EQ(0, VisibleSongs().count());
+
+  // The song becomes available, which only updates its metadata.
+  unavailable.set_unavailable(false);
+  model_->AddReAddOrUpdate(SongList() << unavailable);
+  Drain();
+  EXPECT_EQ(2, VisibleSongs().count());
+
+}
+
+// Regression test: the songs restored by the watcher still had the unavailable flag, so they were not counted as duplicates.
+TEST_F(CollectionModelTest, DuplicatesFilterIncludesRestoredSongs) {
+
+  AddSong(u"Title"_s, u"Artist"_s, u"Album"_s, 1);
+  backend_->AddOrUpdateSongs(SongList() << MakeSongForDirectory(u"Title"_s, u"Artist"_s, u"Album"_s, u"duplicate"_s));
+  Drain();
+  collection_filter_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
+  ASSERT_EQ(2, VisibleSongs().count());
+
+  Song song = VisibleSongs().first();
+  backend_->MarkSongsUnavailable(SongList() << song);
+  Drain();
+  ASSERT_EQ(0, VisibleSongs().count());
+
+  song.set_unavailable(true);
+  backend_->MarkSongsUnavailable(SongList() << song, false);
+  Drain();
+
+  EXPECT_EQ(2, VisibleSongs().count());
+
+}
+
+// Statistics aren't used by the filters, the songs shown stay the same when they change.
+TEST_F(CollectionModelTest, DuplicatesFilterKeepsSongsWhenStatisticsChange) {
+
+  Song song1 = MakeSongWithId(1, u"Artist"_s, u"Album"_s);
+  Song song2 = MakeSongWithId(2, u"Artist"_s, u"Album"_s);
+  model_->AddReAddOrUpdate(SongList() << song1 << song2);
+  Drain();
+  collection_filter_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
+  ASSERT_EQ(2, VisibleSongs().count());
+
+  song1.set_playcount(5);
+  model_->AddReAddOrUpdate(SongList() << song1);
+  Drain();
+  EXPECT_EQ(2, VisibleSongs().count());
+
+}
+
+// A duplicate hidden by the minimum rating is shown again when it's rated higher, also when updates of the song are mixed.
+TEST_F(CollectionModelTest, DuplicatesFilterWithMinRatingFollowsRatingChanges) {
+
+  Song song1 = MakeSongForDirectory(u"Title"_s, u"Artist"_s, u"Album"_s, u"one"_s);
+  Song song2 = MakeSongForDirectory(u"Title"_s, u"Artist"_s, u"Album"_s, u"two"_s);
+  song1.set_rating(0.8F);
+  song2.set_rating(0.8F);
+  AddSong(song1);
+  backend_->AddOrUpdateSongs(SongList() << song2);
+  Drain();
+  collection_filter_->SetFilterMode(CollectionFilterOptions::FilterMode::Duplicates);
+  collection_filter_->SetFilterMinRating(0.5F);
+  ASSERT_EQ(2, VisibleSongs().count());
+  const int id = VisibleSongs().first().id();
+
+  backend_->UpdateSongRating(id, 0.2F);
+  Drain();
+  ASSERT_EQ(1, VisibleSongs().count());
+
+  backend_->UpdateSongRating(id, 0.8F);
+  Drain();
+  EXPECT_EQ(2, VisibleSongs().count());
+
+  backend_->UpdateSongRating(id, 0.2F);
+  backend_->IncrementPlayCount(id);
+  backend_->UpdateSongRating(id, 0.8F);
+  Drain();
+  EXPECT_EQ(2, VisibleSongs().count());
+
+}
+
+// Dividers are only shown when there's something shown below them, also when that changes.
+TEST_F(CollectionModelTest, SongFiltersKeepDividers) {
+
+  Song song_a = MakeSongWithId(1, u"Artist"_s, u"Album"_s);
+  Song song_z = MakeSongWithId(2, u"Zed"_s, u"Album"_s);
+  song_a.set_rating(0.8F);
+  song_z.set_rating(0.2F);
+  model_->AddReAddOrUpdate(SongList() << song_a << song_z);
+  Drain();
+
+  const auto top_level_rows = [this]() {
+    QStringList rows;
+    for (int row = 0; row < collection_filter_->rowCount(QModelIndex()); ++row) {
+      rows << collection_filter_->index(row, 0, QModelIndex()).data().toString();
+    }
+    return rows;
+  };
+  ASSERT_EQ(QStringList() << u"A"_s << u"Artist"_s << u"Z"_s << u"Zed"_s, top_level_rows());
+
+  collection_filter_->SetFilterMinRating(0.5F);
+  EXPECT_EQ(QStringList() << u"A"_s << u"Artist"_s, top_level_rows());
+
+  song_a.set_rating(0.2F);
+  song_z.set_rating(0.8F);
+  model_->AddReAddOrUpdate(SongList() << song_a << song_z);
+  Drain();
+  EXPECT_EQ(QStringList() << u"Z"_s << u"Zed"_s, top_level_rows());
+
+  // The search doesn't show dividers.
+  collection_filter_->SetFilterString(u"zed"_s);
+  EXPECT_EQ(QStringList() << u"Zed"_s, top_level_rows());
+
+}
+
+TEST_F(CollectionModelTest, SelectedSongsExcludeSongsHiddenBySongFilter) {
+
+  Song matching = MakeSongWithId(1, u"Artist"_s, u"Album"_s);
+  Song hidden = MakeSongWithId(2, u"Artist"_s, u"Album"_s);
+  matching.set_rating(0.8F);
+  hidden.set_rating(0.2F);
+  model_->AddReAddOrUpdate(SongList() << matching << hidden);
+  Drain();
+
+  TestCollectionTreeView view(&*model_);
+  collection_filter_->SetFilterMinRating(0.5F);
+
+  QModelIndex artist_index;
+  for (int row = 0; row < collection_filter_->rowCount(QModelIndex()); ++row) {
+    const QModelIndex idx = collection_filter_->index(row, 0, QModelIndex());
+    if (idx.data().toString() == u"Artist"_s) artist_index = idx;
+  }
+  ASSERT_TRUE(artist_index.isValid());
+  view.selectionModel()->select(artist_index, QItemSelectionModel::ClearAndSelect);
+
+  const SongList songs = view.GetSelectedSongs();
+  ASSERT_EQ(1, songs.count());
+  EXPECT_EQ(1, songs.first().id());
+
+}
+
+// A reset last in the queue is reused, but updates queued after a reset contain older songs than it loads.
+TEST_F(CollectionModelTest, OnlyQueuedResetsLastInQueueAreCoalesced) {
+
+  UseDatabaseFile();
+  Drain();
+  QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
+
+  model_->AddReAddOrUpdate(SongList() << MakeSongWithId(1, u"Artist"_s, u"Album"_s));
+  model_->Reset();
+  model_->Reset();
+  model_->Reset();
+  // One reload resets the model twice, when it starts and when the songs are loaded.
+  EXPECT_TRUE(WaitForResets(&spy_reset, 2));
+  Drain();
+  EXPECT_EQ(2, spy_reset.count());
+
+  spy_reset.clear();
+  model_->Reset();
+  model_->AddReAddOrUpdate(SongList() << MakeSongWithId(1, u"Artist"_s, u"Album"_s));
+  model_->Reset();
+  EXPECT_TRUE(WaitForResets(&spy_reset, 3));
+  Drain();
+  EXPECT_GE(spy_reset.count(), 3);
+
+}
+
+// Regression test: the thumbnails were always 32 physical pixels, also with a higher device pixel ratio, and the device pixel ratio was not set on a thumbnail from the disk cache.
+TEST_F(CollectionModelTest, AlbumThumbnailKeepsAspectRatioAndUsesDevicePixelRatio) {
+
+  const auto expect_thumbnail = [](const QPixmap &pixmap) {
+    const qreal device_pixel_ratio = qGuiApp->devicePixelRatio();
+    const int size = static_cast<int>(CollectionModel::kPrettyCoverSize * device_pixel_ratio);
+    EXPECT_EQ(QSize(size, size), pixmap.size());
+    EXPECT_DOUBLE_EQ(device_pixel_ratio, pixmap.devicePixelRatio());
+    // The cover is three times as wide as it's high, so it's padded above and below.
+    const QImage image = pixmap.toImage();
+    EXPECT_EQ(0, image.pixelColor(size / 2, 0).alpha());
+    EXPECT_EQ(QColor(Qt::red), image.pixelColor(size / 2, size / 2));
+  };
+
+  ASSERT_TRUE(temp_dir_.isValid());
+  const QString cover_filename = temp_dir_.path() + u"/cover.png"_s;
+  QImage cover(300, 100, QImage::Format_ARGB32);
+  cover.fill(Qt::red);
+  ASSERT_TRUE(cover.save(cover_filename));
+
+  const QString disk_cache_enable_key = QLatin1String(CollectionSettings::kSettingsGroup) + u'/' + QLatin1String(CollectionSettings::kSettingsDiskCacheEnable);
+  const auto remove_disk_cache_enable = qScopeGuard([disk_cache_enable_key]() { Settings().remove(disk_cache_enable_key); });
+  Settings().setValue(disk_cache_enable_key, true);
+  QPixmapCache::clear();
+
+  model_ = make_unique<CollectionModel>(backend_, make_shared<AlbumCoverLoader>(SharedPtr<TagReaderClient>()));
+  collection_filter_ = model_->filter();
+  // The disk cache is in the temporary directory, the cache location is shared by the test processes on Windows and macOS.
+  const QString disk_cache_directory = temp_dir_.filePath(u"pixmapcache"_s);
+  model_->SetIconDiskCacheDirectory(disk_cache_directory);
+  model_->ReloadSettings();
+
+  Song song;
+  song.Init(u"Title"_s, u"Thumbnail artist"_s, u"Thumbnail album"_s, 123);
+  song.set_mtime(0);
+  song.set_ctime(0);
+  song.set_art_manual(QUrl::fromLocalFile(cover_filename));
+  AddSong(song);
+
+  QModelIndex artist_index;
+  for (int i = 0; i < model_->rowCount(QModelIndex()); ++i) {
+    const QModelIndex idx = model_->index(i, 0, QModelIndex());
+    if (!idx.data(CollectionModel::Role_IsDivider).toBool()) artist_index = idx;
+  }
+  ASSERT_TRUE(artist_index.isValid());
+  const QModelIndex album_index = model_->index(0, 0, artist_index);
+  ASSERT_TRUE(album_index.isValid());
+
+  // Thumbnails for another device pixel ratio are not used, they are loaded again and replaced.
+  const QString cache_key = Song::TextForSource(Song::Source::Collection) + u'/' + album_index.data(CollectionModel::Role_ContainerKey).toString();
+  QPixmap other_pixmap(CollectionModel::kPrettyCoverSize, CollectionModel::kPrettyCoverSize);
+  other_pixmap.setDevicePixelRatio(qGuiApp->devicePixelRatio() * 2);
+  QPixmapCache::insert(cache_key, other_pixmap);
+  {
+    QNetworkDiskCache disk_cache;
+    disk_cache.setCacheDirectory(disk_cache_directory);
+    QNetworkCacheMetaData disk_cache_metadata;
+    disk_cache_metadata.setSaveToDisk(true);
+    disk_cache_metadata.setUrl(QUrl(QString::fromLatin1(QUrl::toPercentEncoding(cache_key))));
+    disk_cache_metadata.setRawHeaders(QNetworkCacheMetaData::RawHeaderList() << qMakePair(QByteArray("collection-thumbnail"), cache_key.toUtf8()));
+    QIODevice *device = disk_cache.prepare(disk_cache_metadata);
+    ASSERT_NE(nullptr, device);
+    QImage other_image(CollectionModel::kPrettyCoverSize / 2, CollectionModel::kPrettyCoverSize / 2, QImage::Format_ARGB32);
+    other_image.fill(Qt::green);
+    other_image.save(device, "XPM");
+    disk_cache.insert(device);
+  }
+
+  // The first request starts loading the cover.
+  QSignalSpy spy_data_changed(&*model_, &CollectionModel::dataChanged);
+  album_index.data(Qt::DecorationRole);
+  QElapsedTimer timer;
+  timer.start();
+  while (spy_data_changed.isEmpty() && timer.elapsed() < 10000) spy_data_changed.wait(100);
+  ASSERT_FALSE(spy_data_changed.isEmpty());
+
+  expect_thumbnail(album_index.data(Qt::DecorationRole).value<QPixmap>());
+
+  // The thumbnail replaced the one for the other device pixel ratio in the disk cache in the temporary directory.
+  {
+    QNetworkDiskCache disk_cache;
+    disk_cache.setCacheDirectory(disk_cache_directory);
+    const std::unique_ptr<QIODevice> device(disk_cache.data(QUrl(QString::fromLatin1(QUrl::toPercentEncoding(cache_key)))));
+    ASSERT_TRUE(device);
+    QImage disk_image;
+    ASSERT_TRUE(disk_image.load(&*device, "XPM"));
+    EXPECT_EQ(static_cast<int>(CollectionModel::kPrettyCoverSize * qGuiApp->devicePixelRatio()), disk_image.width());
+  }
+
+  // Without the pixmap cache it comes from the disk cache, where it replaced the thumbnail for the other device pixel ratio.
+  QPixmapCache::clear();
+  expect_thumbnail(album_index.data(Qt::DecorationRole).value<QPixmap>());
+
+}
+
+TEST_F(CollectionModelTest, NoCoverThumbnailUsesDevicePixelRatio) {
+
+  AddSong(u"Title"_s, u"No cover artist"_s, u"No cover album"_s, 123);
+
+  QModelIndex artist_index;
+  for (int i = 0; i < model_->rowCount(QModelIndex()); ++i) {
+    const QModelIndex idx = model_->index(i, 0, QModelIndex());
+    if (!idx.data(CollectionModel::Role_IsDivider).toBool()) artist_index = idx;
+  }
+  ASSERT_TRUE(artist_index.isValid());
+
+  const QPixmap pixmap = model_->index(0, 0, artist_index).data(Qt::DecorationRole).value<QPixmap>();
+  ASSERT_FALSE(pixmap.isNull());
+  EXPECT_DOUBLE_EQ(qGuiApp->devicePixelRatio(), pixmap.devicePixelRatio());
+  EXPECT_EQ(static_cast<int>(CollectionModel::kPrettyCoverSize * qGuiApp->devicePixelRatio()), pixmap.width());
 
 }
 

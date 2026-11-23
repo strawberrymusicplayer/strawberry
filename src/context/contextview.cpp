@@ -37,6 +37,11 @@
 #include <QSizePolicy>
 #include <QMenu>
 #include <QAction>
+#include <QAbstractTextDocumentLayout>
+#include <QApplication>
+#include <QMouseEvent>
+#include <QCursor>
+#include <QScrollBar>
 #include <QFontDatabase>
 #include <QVBoxLayout>
 #include <QGridLayout>
@@ -61,6 +66,7 @@
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "core/player.h"
+#include "playlist/playlistitem.h"
 #include "engine/enginebase.h"
 #include "utilities/strutils.h"
 #include "utilities/timeutils.h"
@@ -127,6 +133,7 @@ ContextView::ContextView(QWidget *parent)
       lyrics_tried_(false),
       lyrics_id_(-1),
       synced_lyrics_enabled_(ContextSettings::kDefaultSyncedLyrics),
+      synced_lyrics_click_to_seek_(ContextSettings::kDefaultSyncedLyricsClickToSeek),
       synced_lyrics_bold_(ContextSettings::kDefaultSyncedLyricsBold),
       synced_lyrics_italic_(ContextSettings::kDefaultSyncedLyricsItalic),
       synced_lyrics_line_(-1),
@@ -224,6 +231,16 @@ ContextView::ContextView(QWidget *parent)
   textedit_play_lyrics_->setContextMenuPolicy(Qt::CustomContextMenu);
   QObject::connect(textedit_play_lyrics_, &QWidget::customContextMenuRequested, this, &ContextView::LyricsContextMenu);
   textedit_play_lyrics_->hide();
+  textedit_play_lyrics_->viewport()->installEventFilter(this);
+  textedit_play_lyrics_->setMouseTracking(true);
+  textedit_play_lyrics_->viewport()->setMouseTracking(true);
+
+  QObject::connect(textedit_play_lyrics_, &QTextEdit::selectionChanged, this, [this]() {
+    if (textedit_play_lyrics_->textCursor().hasSelection()) CancelLyricsClick();
+  });
+  QObject::connect(scrollarea_->verticalScrollBar(), &QScrollBar::valueChanged, this, &ContextView::CancelLyricsClick);
+  QObject::connect(textedit_play_lyrics_->verticalScrollBar(), &QScrollBar::valueChanged, this, &ContextView::CancelLyricsClick);
+  QObject::connect(textedit_play_lyrics_->horizontalScrollBar(), &QScrollBar::valueChanged, this, &ContextView::CancelLyricsClick);
 
 #ifdef Q_OS_ANDROID
   AndroidScrollArea::EnableForContents(scrollarea_);
@@ -341,10 +358,21 @@ void ContextView::contextMenuEvent(QContextMenuEvent *e) {
 
 }
 
-void ContextView::LyricsContextMenu(const QPoint &pos) {
+void ContextView::LyricsContextMenu(const QPoint pos) {
 
   QMenu *menu = textedit_play_lyrics_->createStandardContextMenu(pos);
   menu->setAttribute(Qt::WA_DeleteOnClose);
+
+  // The position is in the coordinates of the viewport, like the mouse events.
+  const std::optional<qsizetype> line = SyncedLyricsLineAt(pos);
+  if (line && SyncedLyricsSeekPosition(*line)) {
+    action_seek_to_line_ = new QAction(IconLoader::Load(u"media-playback-start"_s), tr("Seek to line"), menu);
+    QObject::connect(action_seek_to_line_, &QAction::triggered, this, [this, line]() { SeekToSyncedLyricsLine(*line); });
+    QAction *first_action = menu->actions().value(0);
+    menu->insertAction(first_action, action_seek_to_line_);
+    menu->insertSeparator(first_action);
+  }
+
   if (action_edit_lyrics_ && song_playing_.is_valid() && song_playing_.IsEditable()) {
     menu->addSeparator();
     menu->addAction(action_edit_lyrics_);
@@ -409,6 +437,7 @@ void ContextView::ReloadSettings() {
   action_show_lyrics_->setChecked(s.value(ContextSettings::kSongLyrics, ContextSettings::kDefaultSongLyrics).toBool());
   action_search_lyrics_->setChecked(s.value(ContextSettings::kSearchLyrics, ContextSettings::kDefaultSearchLyrics).toBool());
   synced_lyrics_enabled_ = s.value(ContextSettings::kSyncedLyrics, ContextSettings::kDefaultSyncedLyrics).toBool();
+  synced_lyrics_click_to_seek_ = s.value(ContextSettings::kSyncedLyricsClickToSeek, ContextSettings::kDefaultSyncedLyricsClickToSeek).toBool();
   // Font sizes which are not positive, for example from an edited configuration file, fall back to the defaults.
   qreal font_size_headline = s.value(ContextSettings::kFontSizeHeadline, ContextSettings::kDefaultFontSizeHeadline).toReal();
   if (font_size_headline <= 0) font_size_headline = ContextSettings::kDefaultFontSizeHeadline;
@@ -463,6 +492,9 @@ void ContextView::Paused() {
 
 void ContextView::Stopped() {
 
+  CancelLyricsClick();
+  DisableSeekToLine();
+
   song_playing_ = Song();
   widget_album_->set_song_playing(song_playing_);
   song_prev_ = Song();
@@ -505,6 +537,8 @@ void ContextView::SongChanged(const Song &song) {
     UpdateSong(song);
   }
   else {
+    CancelLyricsClick();
+    DisableSeekToLine();
     song_prev_ = song_playing_;
     song_playing_ = song;
     widget_album_->set_song_playing(song_playing_);
@@ -731,6 +765,7 @@ void ContextView::UpdateLyrics(const quint64 id, const LyricsSearchResult &resul
 void ContextView::SetLyricsText() {
 
   if (!action_show_lyrics_->isChecked()) {
+    DisableSeekToLine();
     synced_lyrics_lines_.clear();
     synced_lyrics_line_ = -1;
     synced_lyrics_shown_.clear();
@@ -778,6 +813,7 @@ void ContextView::SetLyricsText() {
     return;
   }
 
+  DisableSeekToLine();
   synced_lyrics_lines_.clear();
   synced_lyrics_line_ = -1;
   synced_lyrics_shown_.clear();
@@ -819,6 +855,9 @@ const std::optional<Utilities::LRCLines> &ContextView::ParseSyncedLyrics(ParsedS
 
 void ContextView::SetSyncedLyricsText(const QString &provider) {
 
+  CancelLyricsClick();
+  DisableSeekToLine();
+
   // One block per line, so the block number is the line number when marking the active line.
   // Characters which insertText() turns into a new block are replaced, otherwise the block numbers would no longer match the lines.
   textedit_play_lyrics_->Clear();
@@ -840,6 +879,157 @@ void ContextView::SetSyncedLyricsText(const QString &provider) {
   }
 
   textedit_play_lyrics_->updateGeometry();
+  UpdateLyricsCursor(textedit_play_lyrics_->viewport()->mapFromGlobal(QCursor::pos()));
+
+}
+
+std::optional<qsizetype> ContextView::SyncedLyricsLineAt(const QPoint position) const {
+
+  if (synced_lyrics_lines_.isEmpty() || !textedit_play_lyrics_->viewport()->rect().contains(position)) return std::nullopt;
+
+  const QPointF document_position = QPointF(position) + QPointF(textedit_play_lyrics_->horizontalScrollBar()->value(), textedit_play_lyrics_->verticalScrollBar()->value());
+  const int text_position = textedit_play_lyrics_->document()->documentLayout()->hitTest(document_position, Qt::ExactHit);
+  if (text_position < 0) return std::nullopt;
+
+  const QTextBlock block = textedit_play_lyrics_->document()->findBlock(text_position);
+  if (!block.isValid()) return std::nullopt;
+
+  const qsizetype line = block.blockNumber();
+  // Exclude the provider attribution and any blocks outside the synchronized lyrics.
+  if (line < 0 || line >= synced_lyrics_lines_.size()) return std::nullopt;
+
+  return line;
+
+}
+
+std::optional<quint64> ContextView::SyncedLyricsSeekPosition(const qsizetype line) const {
+
+  if (!player_ || line < 0 || line >= synced_lyrics_lines_.size()) return std::nullopt;
+  if (player_->GetState() != EngineBase::State::Playing && player_->GetState() != EngineBase::State::Paused) return std::nullopt;
+  const PlaylistItemPtr item = player_->GetCurrentItem();
+  if (!item || (item->options() & PlaylistItem::Option::SeekDisabled)) return std::nullopt;
+
+  const qint64 length_nanosec = player_->engine()->length_nanosec();
+  const qint64 position_msec = static_cast<qint64>(synced_lyrics_lines_.at(line).time) - synced_lyrics_offset_msec_;
+  // Tagged CUE lyrics can include lines belonging to other tracks in the same media file.
+  if (length_nanosec <= 0 || position_msec < 0 || position_msec > length_nanosec / kNsecPerMsec) return std::nullopt;
+
+  return static_cast<quint64>(position_msec * kNsecPerMsec);
+
+}
+
+void ContextView::UpdateLyricsCursor(const QPoint position) {
+
+  lyrics_cursor_shape_ = Qt::IBeamCursor;
+  // Without seeking by clicking a line, the synchronized lyrics are like other text.
+  if (!synced_lyrics_lines_.isEmpty() && synced_lyrics_click_to_seek_) {
+    const std::optional<qsizetype> line = SyncedLyricsLineAt(position);
+    lyrics_cursor_shape_ = line && SyncedLyricsSeekPosition(*line) ? Qt::PointingHandCursor : Qt::ArrowCursor;
+  }
+  if (textedit_play_lyrics_->viewport()->cursor().shape() != lyrics_cursor_shape_) {
+    textedit_play_lyrics_->viewport()->setCursor(lyrics_cursor_shape_);
+  }
+
+}
+
+void ContextView::SeekToSyncedLyricsLine(const qsizetype line) {
+
+  const std::optional<quint64> position = SyncedLyricsSeekPosition(line);
+  if (!position) return;
+
+  // Return keyboard focus to the view so playback keys reach MainWindow instead of QTextEdit.
+  setFocus(Qt::MouseFocusReason);
+  player_->SeekToNanosec(*position);
+
+}
+
+void ContextView::DisableSeekToLine() {
+
+  // The line number is only valid for the lyrics which were shown, the same line number in the lyrics of the next song would seek in that song.
+  if (action_seek_to_line_) action_seek_to_line_->setEnabled(false);
+
+}
+
+void ContextView::CancelLyricsClick() {
+
+  lyrics_click_.reset();
+
+}
+
+bool ContextView::eventFilter(QObject *watched, QEvent *event) {
+
+  if (watched != textedit_play_lyrics_->viewport()) return QWidget::eventFilter(watched, event);
+  // QTextEdit changes its viewport cursor during mouse handling; retain the lyric hover cursor.
+  if (event->type() == QEvent::CursorChange) {
+    if (synced_lyrics_lines_.isEmpty() || !synced_lyrics_click_to_seek_) lyrics_cursor_shape_ = Qt::IBeamCursor;
+    if (textedit_play_lyrics_->viewport()->cursor().shape() != lyrics_cursor_shape_) {
+      textedit_play_lyrics_->viewport()->setCursor(lyrics_cursor_shape_);
+    }
+    return QWidget::eventFilter(watched, event);
+  }
+  if (synced_lyrics_lines_.isEmpty() || !synced_lyrics_click_to_seek_) {
+    CancelLyricsClick();
+    UpdateLyricsCursor(textedit_play_lyrics_->viewport()->mapFromGlobal(QCursor::pos()));
+    return QWidget::eventFilter(watched, event);
+  }
+
+  switch (event->type()) {
+    case QEvent::MouseButtonPress:{
+      CancelLyricsClick();
+      const QMouseEvent *mouse_event = static_cast<QMouseEvent*>(event);
+      if (mouse_event->button() != Qt::LeftButton || mouse_event->modifiers() != Qt::NoModifier) break;
+
+      const QPoint position = mouse_event->position().toPoint();
+      const std::optional<qsizetype> line = SyncedLyricsLineAt(position);
+      if (line && SyncedLyricsSeekPosition(*line)) lyrics_click_ = LyricsClick{position, *line};
+      break;
+    }
+
+    case QEvent::MouseMove:{
+      const QMouseEvent *mouse_event = static_cast<QMouseEvent*>(event);
+      UpdateLyricsCursor(mouse_event->position().toPoint());
+      if (!lyrics_click_) break;
+      const QPoint distance = mouse_event->position().toPoint() - lyrics_click_->position;
+      if (!mouse_event->buttons().testFlag(Qt::LeftButton) || mouse_event->modifiers() != Qt::NoModifier || distance.manhattanLength() >= QApplication::startDragDistance()) {
+        CancelLyricsClick();
+      }
+      break;
+    }
+
+    case QEvent::MouseButtonRelease:{
+      if (!lyrics_click_) break;
+      const LyricsClick press = *lyrics_click_;
+      CancelLyricsClick();
+      const QMouseEvent *mouse_event = static_cast<QMouseEvent*>(event);
+      if (mouse_event->button() != Qt::LeftButton || mouse_event->modifiers() != Qt::NoModifier || textedit_play_lyrics_->textCursor().hasSelection()) break;
+
+      const QPoint position = mouse_event->position().toPoint();
+      if ((position - press.position).manhattanLength() >= QApplication::startDragDistance()) break;
+      const std::optional<qsizetype> line = SyncedLyricsLineAt(position);
+      if (!line || *line != press.line) break;
+
+      SeekToSyncedLyricsLine(*line);
+      break;
+    }
+
+    case QEvent::Enter:{
+      UpdateLyricsCursor(textedit_play_lyrics_->viewport()->mapFromGlobal(QCursor::pos()));
+      break;
+    }
+
+    case QEvent::Wheel:
+    case QEvent::Hide:
+    case QEvent::Resize:
+    case QEvent::UngrabMouse:{
+      CancelLyricsClick();
+      break;
+    }
+
+    default:
+      break;
+  }
+
+  return QWidget::eventFilter(watched, event);
 
 }
 

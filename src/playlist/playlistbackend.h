@@ -87,6 +87,10 @@ class PlaylistBackend : public QObject {
   void RenamePlaylist(const int id, const QString &new_name);
   void FavoritePlaylist(const int id, bool is_favorite);
   void RemovePlaylist(const int id);
+  // Removes the playlist after queued saves, then emits PlaylistRemoved with the sequence.
+  void RemovePlaylistAsync(const int id, const quint64 sequence);
+  // Emits PlaylistSaved() after the saves which are queued before it are done.
+  void NotifyPlaylistSavedAsync(const int id, const quint64 sequence);
 
  public Q_SLOTS:
   void Exit();
@@ -96,6 +100,8 @@ class PlaylistBackend : public QObject {
 
  Q_SIGNALS:
   void ExitFinished();
+  void PlaylistSaved(const int id, const quint64 sequence);
+  void PlaylistRemoved(const int id, const quint64 sequence);
 
  private:
   struct NewSongFromQueryState {
@@ -104,8 +110,8 @@ class PlaylistBackend : public QObject {
   };
 
   static QString PlaylistItemsQuery();
-  PlaylistItemPtr NewPlaylistItemFromQuery(const SqlRow &row, SharedPtr<NewSongFromQueryState> state);
-  Song NewSongFromQuery(const SqlRow &row, SharedPtr<NewSongFromQueryState> state);
+  static PlaylistItemPtr NewPlaylistItemFromQuery(const SqlRow &row);
+  void RestoreCueData(PlaylistItemPtrList &playlist_items);
   Song ReloadPlaylistItem(PlaylistItemPtr item) const;
   PlaylistItemPtr RestoreCueData(PlaylistItemPtr item, SharedPtr<NewSongFromQueryState> state);
 

@@ -56,6 +56,7 @@
 #include "core/enginemetadata.h"
 #include "constants/timeconstants.h"
 #include "utilities/strutils.h"
+#include "utilities/cddautils.h"
 #include "enginebase.h"
 #include "gsturl.h"
 #include "gstengine.h"
@@ -109,6 +110,8 @@ GstEngine::GstEngine(SharedPtr<TaskManager> task_manager, QObject *parent)
       seek_timer_(new QTimer(this)),
       waiting_to_seek_(false),
       seek_pos_(0),
+      seek_pipeline_id_(-1),
+      seek_track_changes_(0),
       timer_id_(-1),
       has_faded_out_to_pause_(false),
       scope_chunk_(0),
@@ -258,7 +261,7 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine
   current_pipeline_ = pipeline;
 
   if (old_pipeline) {
-    if (crossfade && !old_pipeline->exclusive_mode() && !AnyExclusivePipelineActive() && !fadeout_pipelines_.contains(old_pipeline->id())) {
+    if (crossfade && old_pipeline->fading_enabled() && !old_pipeline->exclusive_mode() && !AnyExclusivePipelineActive() && !fadeout_pipelines_.contains(old_pipeline->id())) {
       StartFadeout(old_pipeline);
     }
     else {
@@ -364,7 +367,7 @@ void GstEngine::Stop(const bool stop_after) {
   }
 
   if (current_pipeline_) {
-    if (fadeout_enabled_ && !stop_after && !AnyExclusivePipelineActive()) {
+    if (fadeout_enabled_ && !stop_after && current_pipeline_->fading_enabled() && !AnyExclusivePipelineActive()) {
       GstEnginePipelinePtr old_pipeline = current_pipeline_;
       current_pipeline_ = GstEnginePipelinePtr();
       StartFadeout(old_pipeline);
@@ -419,7 +422,7 @@ void GstEngine::Pause() {
   }
 
   if (current_pipeline_->state() == GST_STATE_PLAYING) {
-    if (fadeout_pause_enabled_ && !AnyExclusivePipelineActive()) {
+    if (fadeout_pause_enabled_ && current_pipeline_->fading_enabled() && !AnyExclusivePipelineActive()) {
       StartFadeoutPause();
     }
     else {
@@ -475,6 +478,8 @@ void GstEngine::Seek(const quint64 offset_nanosec) {
   if (!current_pipeline_) return;
 
   seek_pos_ = beginning_offset_nanosec_ + offset_nanosec;
+  seek_pipeline_id_ = current_pipeline_->id();
+  seek_track_changes_ = current_pipeline_->track_changes();
   waiting_to_seek_ = true;
 
   if (!seek_timer_->isActive()) {
@@ -820,7 +825,14 @@ void GstEngine::SeekNow() {
 
   if (!current_pipeline_) return;
 
-  if (!current_pipeline_->Seek(static_cast<qint64>(seek_pos_))) {
+  // The seek was for the previous track, when another track was loaded or the pipeline moved on to the next track while the seek was waiting.
+  if (current_pipeline_->id() != seek_pipeline_id_ || current_pipeline_->track_changes() != seek_track_changes_) {
+    qLog(Debug) << "Not seeking, the track changed since the seek was requested";
+    return;
+  }
+
+  // The pipeline checks the track again, it can move on to the next section of a multipart file on the streaming thread.
+  if (!current_pipeline_->Seek(static_cast<qint64>(seek_pos_), seek_track_changes_)) {
     qLog(Warning) << "Seek failed";
   }
 
@@ -900,7 +912,7 @@ GstUrl GstEngine::FixupUrl(const QUrl &url) {
       // We keep the device in mind, and we will set it later using SourceSetupCallback
       QStringList path = url.path().split(u'/');
       str = QStringLiteral("cdda://%1").arg(path.takeLast());
-      gst_url.source_device = path.join(u'/');
+      gst_url.source_device = Utilities::CDDADeviceFromUrlPath(path.join(u'/'));
     }
     gst_url.url = str.toUtf8();
   }

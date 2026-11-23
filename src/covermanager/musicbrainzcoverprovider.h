@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include "config.h"
 
 #include <QQueue>
+#include <QSet>
 #include <QVariant>
 #include <QString>
 
@@ -40,6 +41,7 @@ class MusicbrainzCoverProvider : public JsonCoverProvider {
   explicit MusicbrainzCoverProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
+  void CancelSearch(const int id) override;
 
  private Q_SLOTS:
   void FlushRequests();
@@ -60,6 +62,8 @@ class MusicbrainzCoverProvider : public JsonCoverProvider {
  private:
   QTimer *timer_flush_requests_;
   QQueue<SearchRequest> queue_search_requests_;
+  // The searches which are not finished or canceled.
+  QSet<int> searches_;
 };
 
 #endif  // MUSICBRAINZCOVERPROVIDER_H

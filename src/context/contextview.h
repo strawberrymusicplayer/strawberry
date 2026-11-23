@@ -30,7 +30,9 @@
 #include <QList>
 #include <QString>
 #include <QImage>
+#include <QPointer>
 #include <QColor>
+#include <QPoint>
 #include <QAction>
 
 #include "includes/shared_ptr.h"
@@ -73,6 +75,7 @@ class ContextView : public QWidget {
   bool album_enabled() const { return action_show_album_->isChecked(); }
 
  protected:
+  bool eventFilter(QObject *watched, QEvent *event) override;
   void showEvent(QShowEvent *e) override;
   void hideEvent(QHideEvent *e) override;
   void dragEnterEvent(QDragEnterEvent *e) override;
@@ -101,6 +104,17 @@ class ContextView : public QWidget {
   qsizetype SyncedLyricsLine(const qint64 position_msec) const;
   void UpdateSyncedLyricsLine(const qint64 position_msec);
   void UpdateFonts();
+  struct LyricsClick {
+    QPoint position;
+    qsizetype line;
+  };
+  std::optional<qsizetype> SyncedLyricsLineAt(const QPoint position) const;
+  void CancelLyricsClick();
+  std::optional<quint64> SyncedLyricsSeekPosition(const qsizetype line) const;
+  void UpdateLyricsCursor(const QPoint position);
+  void SeekToSyncedLyricsLine(const qsizetype line);
+  // Disables seeking to a line from the lyrics menu which is open, the line was for the song or the lyrics which were shown when the menu was opened.
+  void DisableSeekToLine();
 
  Q_SIGNALS:
   void AlbumEnabledChanged();
@@ -114,7 +128,7 @@ class ContextView : public QWidget {
   void ActionShowLyrics();
   void ActionSearchLyrics();
   void ActionEditLyrics();
-  void LyricsContextMenu(const QPoint &pos);
+  void LyricsContextMenu(const QPoint pos);
   void UpdateNoSong();
   void FadeStopFinished();
   void UpdateLyrics(const quint64 id, const LyricsSearchResult &result);
@@ -136,6 +150,8 @@ class ContextView : public QWidget {
   SharedPtr<Player> player_;
   LyricsFetcher *lyrics_fetcher_;
   QTimer *timer_synced_lyrics_;
+  std::optional<LyricsClick> lyrics_click_;
+  Qt::CursorShape lyrics_cursor_shape_ = Qt::IBeamCursor;
 
   QMenu *menu_options_;
   QAction *action_show_album_;
@@ -145,6 +161,8 @@ class ContextView : public QWidget {
   // The menu while a song is playing.
   QMenu *menu_playing_;
   QAction *action_edit_lyrics_;
+  // The action of the lyrics menu which is open, it's deleted with the menu.
+  QPointer<QAction> action_seek_to_line_;
 
   QVBoxLayout *layout_container_;
   QWidget *widget_scrollarea_;
@@ -188,6 +206,7 @@ class ContextView : public QWidget {
   QString fetched_lyrics_provider_;
   QString synced_lyrics_shown_;
   bool synced_lyrics_enabled_;
+  bool synced_lyrics_click_to_seek_;
   bool synced_lyrics_bold_;
   bool synced_lyrics_italic_;
   QColor synced_lyrics_color_;

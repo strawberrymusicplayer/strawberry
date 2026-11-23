@@ -36,6 +36,7 @@
 #include <QShowEvent>
 #include <QHideEvent>
 #include <QTimerEvent>
+#include <QEvent>
 
 #include "engine/enginebase.h"
 
@@ -251,6 +252,17 @@ void AnalyzerBase::initSin(Scope &v, const uint size) {
     v.push_back(static_cast<float>(sin(radian)));
     radian += step;
   }
+
+}
+
+void AnalyzerBase::changeEvent(QEvent *e) {
+
+  if (e->type() == QEvent::PaletteChange) {
+    paletteChange();
+    update();
+  }
+
+  QWidget::changeEvent(e);
 
 }
 

@@ -122,6 +122,7 @@ class SubsonicService : public StreamingService {
  private:
   void PingError(const QString &error = QString(), const QVariant &debug = QVariant());
   void PasswordLoadFinished();
+  void StopSongsRequest(const QString &error);
 
   const SharedPtr<NetworkAccessManager> network_;
   const SharedPtr<CredentialsManager> credentials_manager_;

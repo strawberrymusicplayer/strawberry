@@ -275,7 +275,7 @@ class NasProtocolTest : public ::testing::Test {
       QObject::disconnect(started_connection);
       QObject::disconnect(published_connection);
       QObject::disconnect(counting_connection);
-      QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend, &CollectionBackend::AddOrUpdateSongs);
+      QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend, &CollectionBackend::AddOrUpdateScannedSongs);
       watcher.AddDirectory(directory, {});
       EXPECT_EQ(backend->GetAllSongs().size(), 4);
       EXPECT_TRUE(tasks->GetTasks().isEmpty());

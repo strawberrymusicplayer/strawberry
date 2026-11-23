@@ -382,6 +382,7 @@ void SpotifyService::GetArtists() {
     return;
   }
 
+  ResetArtistsRequest();
   artists_request_.reset(new SpotifyRequest(this, network_, SpotifyBaseRequest::Type::FavouriteArtists, this));
   QObject::connect(&*artists_request_, &SpotifyRequest::Results, this, &SpotifyService::ArtistsResultsReceived);
   QObject::connect(&*artists_request_, &SpotifyRequest::UpdateStatus, this, &SpotifyService::ArtistsUpdateStatusReceived);
@@ -394,7 +395,12 @@ void SpotifyService::GetArtists() {
 
 void SpotifyService::ResetArtistsRequest() {
 
-  artists_request_.reset();
+  // The request is deleted later, it's disconnected first, so a reply which finishes before it's deleted can't report its results, and reset the next request.
+  if (artists_request_) {
+    QObject::disconnect(&*artists_request_, nullptr, this, nullptr);
+    QObject::disconnect(this, nullptr, &*artists_request_, nullptr);
+    artists_request_.reset();
+  }
 
 }
 
@@ -429,6 +435,7 @@ void SpotifyService::GetAlbums() {
     return;
   }
 
+  ResetAlbumsRequest();
   albums_request_.reset(new SpotifyRequest(this, network_, SpotifyBaseRequest::Type::FavouriteAlbums, this));
   QObject::connect(&*albums_request_, &SpotifyRequest::Results, this, &SpotifyService::AlbumsResultsReceived);
   QObject::connect(&*albums_request_, &SpotifyRequest::UpdateStatus, this, &SpotifyService::AlbumsUpdateStatusReceived);
@@ -441,7 +448,12 @@ void SpotifyService::GetAlbums() {
 
 void SpotifyService::ResetAlbumsRequest() {
 
-  albums_request_.reset();
+  // The request is deleted later, it's disconnected first, so a reply which finishes before it's deleted can't report its results, and reset the next request.
+  if (albums_request_) {
+    QObject::disconnect(&*albums_request_, nullptr, this, nullptr);
+    QObject::disconnect(this, nullptr, &*albums_request_, nullptr);
+    albums_request_.reset();
+  }
 
 }
 
@@ -476,6 +488,7 @@ void SpotifyService::GetSongs() {
     return;
   }
 
+  ResetSongsRequest();
   songs_request_.reset(new SpotifyRequest(this, network_, SpotifyBaseRequest::Type::FavouriteSongs, this));
   QObject::connect(&*songs_request_, &SpotifyRequest::Results, this, &SpotifyService::SongsResultsReceived);
   QObject::connect(&*songs_request_, &SpotifyRequest::UpdateStatus, this, &SpotifyService::SongsUpdateStatusReceived);
@@ -488,7 +501,12 @@ void SpotifyService::GetSongs() {
 
 void SpotifyService::ResetSongsRequest() {
 
-  songs_request_.reset();
+  // The request is deleted later, it's disconnected first, so a reply which finishes before it's deleted can't report its results, and reset the next request.
+  if (songs_request_) {
+    QObject::disconnect(&*songs_request_, nullptr, this, nullptr);
+    QObject::disconnect(this, nullptr, &*songs_request_, nullptr);
+    songs_request_.reset();
+  }
 
 }
 

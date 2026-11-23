@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -85,8 +85,18 @@ class CDDADevice : public ConnectedDevice {
   void SongLoadingFinished();
 
  private:
+  enum class MediaState {
+    Unknown,
+    NoMedia,
+    MediaReady
+  };
+
+  MediaState GetMediaState() const;
+
+ private:
   CDDASongLoader cdda_song_loader_;
   CdIo_t *cdio_;
+  MediaState media_state_;
   QTimer *timer_disc_changed_;
 };
 

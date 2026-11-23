@@ -531,6 +531,8 @@ class Song {
   static QString DomainForSource(const Source source);
   static QString TextForFiletype(const FileType filetype);
   static QString ExtensionForFiletype(const FileType filetype);
+  // The file extensions which FiletypeByExtension() recognises as the file type.
+  static QStringList ExtensionsForFiletype(const FileType filetype);
   static QIcon IconForFiletype(const FileType filetype);
 
   QString TextForSource() const { return TextForSource(source()); }
@@ -586,6 +588,10 @@ class Song {
   // Copies important statistics from the other song to this one, overwriting any data that already exists.
   // Useful when you want updated tags from disk but you want to keep user stats.
   void MergeUserSetData(const Song &other, const bool merge_playcount, const bool merge_rating);
+
+  // Copies the user set data which was changed in current_song since previous_song from current_song to this one.
+  // Useful when this song was made from previous_song, and the song was changed to current_song in the meantime, so those changes are not reverted.
+  void MergeUserSetDataChangedSince(const Song &previous_song, const Song &current_song);
 
   // Returns the song with the fields which were edited in the edit tag dialog, the other fields are kept, since they can be the metadata of what is playing on a stream now, or changed while the dialog was open.
   static Song SongWithEditedFields(const Song &original_song, const Song &edited_song, Song song);

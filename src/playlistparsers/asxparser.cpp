@@ -111,6 +111,7 @@ ParserBase::LoadResult ASXParser::Load(QIODevice *device, const QString &playlis
 Song ASXParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool collection_lookup) const {
 
   QString title, artist, ref;
+  int track = 0;
 
   while (!reader->atEnd()) {
     QXmlStreamReader::TokenType type = reader->readNext();
@@ -120,6 +121,9 @@ Song ASXParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool
         const QString name = reader->name().toString().toLower();
         if (name == "ref"_L1) {
           ref = reader->attributes().value("href"_L1).toString();
+        }
+        else if (name == "param"_L1 && reader->attributes().value("name"_L1) == "trackNum"_L1) {
+          track = reader->attributes().value("value"_L1).toInt();
         }
         else if (name == "title"_L1) {
           title = reader->readElementText();
@@ -142,7 +146,7 @@ Song ASXParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool
   }
 
 return_song:
-  Song song = LoadSong(ref, 0, 0, dir, collection_lookup);
+  Song song = LoadSong(ref, 0, track, dir, collection_lookup);
 
   // Override metadata with what was in the playlist
   if (song.source() != Song::Source::Collection) {
@@ -176,6 +180,11 @@ void ASXParser::Save(const QString &playlist_name, const SongList &songs, QIODev
       }
       if (!song.artist().isEmpty()) {
         writer.writeTextElement("author"_L1, song.artist());
+      }
+      if (CueTrack(song) > 0) {
+        StreamElement param(u"param"_s, &writer);
+        writer.writeAttribute("name"_L1, "trackNum"_L1);
+        writer.writeAttribute("value"_L1, QString::number(CueTrack(song)));
       }
     }
   }

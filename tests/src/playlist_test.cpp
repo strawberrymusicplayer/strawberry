@@ -53,6 +53,7 @@
 
 #include <QtDebug>
 #include <QMimeData>
+#include <QUrl>
 #include <QByteArray>
 #include <QDataStream>
 #include <QIODevice>
@@ -60,9 +61,11 @@
 #include <QSignalSpy>
 #include <QAction>
 #include <QToolButton>
+#include <QTest>
 #include <QStringList>
 #include <QPersistentModelIndex>
 #include <QTemporaryDir>
+#include <QTemporaryFile>
 #include <QUndoStack>
 #include <QThread>
 #include <QEventLoop>
@@ -91,7 +94,7 @@ class BlockingDynamicGenerator : public PlaylistGenerator {
   int GetDynamicFuture() override { return future_; }
 
   PlaylistItemPtrList Generate() override {
-    if (block_generate_) release_.acquire();
+    if (block_generate_) Acquire();
     return MakeItems(future_ + 1);
   }
 
@@ -100,17 +103,33 @@ class BlockingDynamicGenerator : public PlaylistGenerator {
     const int active = active_.fetchAndAddRelaxed(1) + 1;
     int max_active = max_active_.loadRelaxed();
     while (active > max_active && !max_active_.testAndSetRelaxed(max_active, active, max_active)) {}
-    release_.acquire();
+    Acquire();
     const PlaylistItemPtrList items = generate_more_empty_ ? PlaylistItemPtrList() : MakeItems(count);
     active_.fetchAndSubRelaxed(1);
     return items;
   }
 
   void Release(const int count) { release_.release(count); }
+
+  // Releases the requests still blocked, and doesn't block later ones, so no request is left blocked in a thread of the thread pool when a test returns early.
+  void ReleaseAll() {
+    released_all_.storeRelease(1);
+    const int waiting = waiting_.loadAcquire();
+    if (waiting > 0) release_.release(waiting);
+  }
   int requested() const { return requested_.loadRelaxed(); }
   int max_active() const { return max_active_.loadRelaxed(); }
 
  private:
+  void Acquire() {
+    // Counted as waiting before checking whether all are released, so ReleaseAll() either sees it waiting or it sees ReleaseAll().
+    waiting_.fetchAndAddOrdered(1);
+    if (released_all_.loadAcquire() == 0) {
+      release_.acquire();
+    }
+    waiting_.fetchAndSubOrdered(1);
+  }
+
   PlaylistItemPtrList MakeItems(const int count) {
     PlaylistItemPtrList items;
     for (int i = 0; i < count; ++i) {
@@ -131,6 +150,19 @@ class BlockingDynamicGenerator : public PlaylistGenerator {
   QAtomicInt active_;
   QAtomicInt max_active_;
   QAtomicInt next_;
+  QAtomicInt waiting_;
+  QAtomicInt released_all_;
+};
+
+// Releases all the requests of the generator when the test returns, also when an assertion fails before the test releases them.
+class GeneratorReleaser {
+ public:
+  explicit GeneratorReleaser(SharedPtr<BlockingDynamicGenerator> generator) : generator_(generator) {}
+  ~GeneratorReleaser() { generator_->ReleaseAll(); }
+
+ private:
+  Q_DISABLE_COPY_MOVE(GeneratorReleaser)
+  SharedPtr<BlockingDynamicGenerator> generator_;
 };
 
 // Declared at file scope (rather than inside the anonymous namespace below, where the TEST_F-generated fixture subclasses live) so that Playlist's "friend class PlaylistTest;" resolves to this exact class.
@@ -239,6 +271,15 @@ class PlaylistTest : public ::testing::Test {
       QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
     }
     return true;
+  }
+
+  // Starts a dynamic playlist, and advances it, so one more item is being generated, blocked in the generator.
+  static void StartDynamicPlaylistGeneratingMore(Playlist *playlist, SharedPtr<BlockingDynamicGenerator> generator, const int future) {
+    playlist->InsertSmartPlaylist(generator);
+    ASSERT_TRUE(WaitFor([playlist, future]() { return playlist->rowCount() == future + 1; }));
+    playlist->set_current_row(0);
+    playlist->set_current_row(1);
+    ASSERT_TRUE(WaitFor([&generator]() { return generator->requested() == 1; }));
   }
 
   // Forwards to the private Playlist::RemoveItemsNotInQueue(), which is otherwise only reachable through repopulating a dynamic playlist.
@@ -563,6 +604,7 @@ TEST_F(PlaylistTest, DynamicPlaylistAdvancingWhileGeneratingDoesNotGenerateTooMa
 
   constexpr int kFuture = 3;
   SharedPtr<BlockingDynamicGenerator> generator = std::make_shared<BlockingDynamicGenerator>(kFuture);
+  const GeneratorReleaser generator_releaser(generator);
   playlist.InsertSmartPlaylist(generator);
   ASSERT_TRUE(WaitFor([&playlist]() { return playlist.rowCount() == kFuture + 1; }));
   ASSERT_TRUE(playlist.is_dynamic());
@@ -611,6 +653,7 @@ TEST_F(PlaylistTest, DynamicPlaylistAdvancingWhileInitialGenerationDoesNotGenera
   // Inserting a dynamic playlist generates its future, which blocks in the generator.
   constexpr int kFuture = 3;
   SharedPtr<BlockingDynamicGenerator> generator = std::make_shared<BlockingDynamicGenerator>(kFuture, true);
+  const GeneratorReleaser generator_releaser(generator);
   playlist.InsertSmartPlaylist(generator);
   ASSERT_TRUE(playlist.is_dynamic());
   EXPECT_EQ(kFuture, DynamicItemsPending(playlist));
@@ -635,6 +678,7 @@ TEST_F(PlaylistTest, DynamicPlaylistReplacedWhileGeneratingDoesNotCountOldItems)
 
   constexpr int kFuture = 3;
   SharedPtr<BlockingDynamicGenerator> old_generator = std::make_shared<BlockingDynamicGenerator>(kFuture);
+  const GeneratorReleaser old_generator_releaser(old_generator);
   playlist.InsertSmartPlaylist(old_generator);
   ASSERT_TRUE(WaitFor([&playlist]() { return playlist.rowCount() == kFuture + 1; }));
 
@@ -645,6 +689,7 @@ TEST_F(PlaylistTest, DynamicPlaylistReplacedWhileGeneratingDoesNotCountOldItems)
 
   // Replacing the dynamic playlist does not count the item still being generated for the old one.
   SharedPtr<BlockingDynamicGenerator> new_generator = std::make_shared<BlockingDynamicGenerator>(kFuture);
+  const GeneratorReleaser new_generator_releaser(new_generator);
   playlist.InsertSmartPlaylist(new_generator);
   ASSERT_TRUE(WaitFor([&playlist]() { return playlist.rowCount() == 2 * (kFuture + 1); }));
   EXPECT_EQ(0, DynamicItemsPending(playlist));
@@ -652,15 +697,16 @@ TEST_F(PlaylistTest, DynamicPlaylistReplacedWhileGeneratingDoesNotCountOldItems)
   playlist.ExpandDynamicPlaylist();
   EXPECT_EQ(5, DynamicItemsPending(playlist));
 
-  // Finishing the old request does not change the count for the new dynamic playlist.
+  // Finishing the old request does not change the count for the new dynamic playlist, and its item is not inserted.
   old_generator->Release(1);
-  ASSERT_TRUE(WaitFor([&playlist]() { return playlist.rowCount() == 2 * (kFuture + 1) + 1; }));
+  ASSERT_TRUE(WaitFor([&task_manager]() { return task_manager->GetTasks().count() == 1; }));
   QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
   EXPECT_EQ(5, DynamicItemsPending(playlist));
+  EXPECT_EQ(2 * (kFuture + 1), playlist.rowCount());
 
   new_generator->Release(1);
   ASSERT_TRUE(WaitFor([&playlist]() { return DynamicItemsPending(playlist) == 0; }));
-  EXPECT_EQ(2 * (kFuture + 1) + 1 + 5, playlist.rowCount());
+  EXPECT_EQ(2 * (kFuture + 1) + 5, playlist.rowCount());
 
 }
 
@@ -673,6 +719,7 @@ TEST_F(PlaylistTest, DynamicPlaylistReplacedWhileGeneratingIsNotTurnedOffByOldEm
   // The old dynamic playlist has no more items.
   constexpr int kFuture = 3;
   SharedPtr<BlockingDynamicGenerator> old_generator = std::make_shared<BlockingDynamicGenerator>(kFuture, false, true);
+  const GeneratorReleaser old_generator_releaser(old_generator);
   playlist.InsertSmartPlaylist(old_generator);
   ASSERT_TRUE(WaitFor([&playlist]() { return playlist.rowCount() == kFuture + 1; }));
 
@@ -682,6 +729,7 @@ TEST_F(PlaylistTest, DynamicPlaylistReplacedWhileGeneratingIsNotTurnedOffByOldEm
   EXPECT_TRUE(WaitFor([&old_generator]() { return old_generator->requested() == 1; }));
 
   SharedPtr<BlockingDynamicGenerator> new_generator = std::make_shared<BlockingDynamicGenerator>(kFuture);
+  const GeneratorReleaser new_generator_releaser(new_generator);
   playlist.InsertSmartPlaylist(new_generator);
   ASSERT_TRUE(WaitFor([&playlist]() { return playlist.rowCount() == 2 * (kFuture + 1); }));
 
@@ -690,6 +738,93 @@ TEST_F(PlaylistTest, DynamicPlaylistReplacedWhileGeneratingIsNotTurnedOffByOldEm
   ASSERT_TRUE(WaitFor([&task_manager]() { return task_manager->GetTasks().isEmpty(); }));
   EXPECT_TRUE(playlist.is_dynamic());
   EXPECT_EQ(2 * (kFuture + 1), playlist.rowCount());
+
+}
+
+// Regression test: items still being generated when the playlist was cleared were inserted in the cleared playlist.
+TEST_F(PlaylistTest, DynamicPlaylistClearedWhileGeneratingDoesNotInsertOldItems) {
+
+  SharedPtr<TaskManager> task_manager = std::make_shared<TaskManager>();
+  Playlist playlist(task_manager, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  playlist.set_sequence(&sequence_);
+
+  constexpr int kFuture = 3;
+  SharedPtr<BlockingDynamicGenerator> generator = std::make_shared<BlockingDynamicGenerator>(kFuture);
+  const GeneratorReleaser generator_releaser(generator);
+  StartDynamicPlaylistGeneratingMore(&playlist, generator, kFuture);
+  if (HasFatalFailure()) return;
+
+  playlist.Clear();
+  ASSERT_EQ(0, playlist.rowCount());
+
+  generator->Release(1);
+  ASSERT_TRUE(WaitFor([&task_manager]() { return task_manager->GetTasks().isEmpty(); }));
+  EXPECT_EQ(0, playlist.rowCount());
+  EXPECT_FALSE(playlist.is_dynamic());
+
+}
+
+// Regression test: items still being generated when the dynamic playlist was turned off were inserted in the playlist which was no longer dynamic.
+TEST_F(PlaylistTest, DynamicPlaylistTurnedOffWhileGeneratingDoesNotInsertOldItems) {
+
+  SharedPtr<TaskManager> task_manager = std::make_shared<TaskManager>();
+  Playlist playlist(task_manager, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  playlist.set_sequence(&sequence_);
+
+  constexpr int kFuture = 3;
+  SharedPtr<BlockingDynamicGenerator> generator = std::make_shared<BlockingDynamicGenerator>(kFuture);
+  const GeneratorReleaser generator_releaser(generator);
+  StartDynamicPlaylistGeneratingMore(&playlist, generator, kFuture);
+  if (HasFatalFailure()) return;
+
+  playlist.TurnOffDynamicPlaylist();
+
+  generator->Release(1);
+  ASSERT_TRUE(WaitFor([&task_manager]() { return task_manager->GetTasks().isEmpty(); }));
+  EXPECT_EQ(kFuture + 1, playlist.rowCount());
+
+}
+
+// Regression test: items still being generated when the dynamic playlist was repopulated were inserted after the new items, so the future had more items than set.
+TEST_F(PlaylistTest, DynamicPlaylistRepopulatedWhileGeneratingDoesNotInsertOldItems) {
+
+  SharedPtr<TaskManager> task_manager = std::make_shared<TaskManager>();
+  Playlist playlist(task_manager, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  playlist.set_sequence(&sequence_);
+
+  constexpr int kFuture = 3;
+  SharedPtr<BlockingDynamicGenerator> generator = std::make_shared<BlockingDynamicGenerator>(kFuture);
+  const GeneratorReleaser generator_releaser(generator);
+  StartDynamicPlaylistGeneratingMore(&playlist, generator, kFuture);
+  if (HasFatalFailure()) return;
+
+  // The current item is kept, the new items are added after it.
+  playlist.RepopulateDynamicPlaylist();
+  constexpr int rows_after_repopulate = 1 + kFuture + 1;
+  ASSERT_TRUE(WaitFor([&playlist]() { return playlist.rowCount() == rows_after_repopulate; }));
+
+  generator->Release(1);
+  ASSERT_TRUE(WaitFor([&task_manager]() { return task_manager->GetTasks().isEmpty(); }));
+  EXPECT_EQ(rows_after_repopulate, playlist.rowCount());
+  EXPECT_TRUE(playlist.is_dynamic());
+
+}
+
+// Regression test: the task for loading the smart playlist was not finished when the playlist was deleted while the items were generated, like when closing the playlist, so it stayed in the status bar.
+TEST_F(PlaylistTest, DeletingPlaylistWhileGeneratingFinishesTask) {
+
+  SharedPtr<TaskManager> task_manager = std::make_shared<TaskManager>();
+  std::unique_ptr<Playlist> playlist = std::make_unique<Playlist>(task_manager, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  playlist->set_sequence(&sequence_);
+
+  constexpr int kFuture = 3;
+  SharedPtr<BlockingDynamicGenerator> generator = std::make_shared<BlockingDynamicGenerator>(kFuture, true);
+  const GeneratorReleaser generator_releaser(generator);
+  playlist->InsertSmartPlaylist(generator);
+  ASSERT_EQ(1, task_manager->GetTasks().count());
+
+  playlist.reset();
+  EXPECT_TRUE(task_manager->GetTasks().isEmpty());
 
 }
 
@@ -1459,6 +1594,34 @@ TEST_F(PlaylistTest, MoveNonContiguousRowsToAnotherPlaylist) {
 
 }
 
+// Regression test: moving songs within a playlist didn't send PlaylistChanged, so MPRIS didn't update whether there is a next or previous song.
+TEST_F(PlaylistTest, MoveSendsPlaylistChanged) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s) << MakeMockItemP(u"Three"_s));
+  ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
+
+  // The last song is playing, so there is no next song.
+  playlist_.set_current_row(2);
+  ASSERT_EQ(-1, playlist_.next_row());
+
+  // Drag the playing song to the top, now there is a next song.
+  QSignalSpy spy(&playlist_, &Playlist::PlaylistChanged);
+  ScopedPtr<QMimeData> mimedata(playlist_.mimeData(QModelIndexList() << playlist_.index(2, 0)));
+  ASSERT_TRUE(mimedata);
+  ASSERT_TRUE(playlist_.dropMimeData(mimedata.get(), Qt::MoveAction, 0, 0, QModelIndex()));
+  ASSERT_EQ(u"Three"_s, playlist_.data(playlist_.index(0, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_NE(-1, playlist_.next_row());
+  EXPECT_GE(spy.count(), 1);
+
+  // Undoing the move puts the playing song last again.
+  spy.clear();
+  playlist_.undo_stack()->undo();
+  ASSERT_EQ(u"Three"_s, playlist_.data(playlist_.index(2, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(-1, playlist_.next_row());
+  EXPECT_GE(spy.count(), 1);
+
+}
+
 // Regression test: undoing a move within a playlist must keep persistent indexes on the same items, including unmoved items that end up at one of the restored rows.
 TEST_F(PlaylistTest, UndoMoveKeepsPersistentIndexesOnSameItems) {
 
@@ -2110,7 +2273,10 @@ TEST_F(PlaylistTest, DeleteHandlesOpenClosedAndLastPlaylists) {
     manager.Favorite(open_favorite_id, true);
     manager.Delete(open_favorite_id);
     EXPECT_FALSE(manager.IsPlaylistOpen(open_favorite_id));
-    EXPECT_EQ(-1, backend->GetPlaylist(open_favorite_id).id);
+    manager.SetCurrentOrOpen(open_favorite_id);
+    EXPECT_FALSE(manager.IsPlaylistOpen(open_favorite_id));
+    EXPECT_EQ(first_id, manager.current_id());
+    EXPECT_TRUE(QTest::qWaitFor([&]() { return backend->GetPlaylist(open_favorite_id).id == -1; }));
     ASSERT_EQ(1, deleted.count());
     EXPECT_EQ(open_favorite_id, deleted.at(0).at(0).toInt());
 
@@ -2120,7 +2286,7 @@ TEST_F(PlaylistTest, DeleteHandlesOpenClosedAndLastPlaylists) {
     ASSERT_TRUE(manager.Close(closed_favorite_id));
     EXPECT_FALSE(manager.IsPlaylistOpen(closed_favorite_id));
     manager.Delete(closed_favorite_id);
-    EXPECT_EQ(-1, backend->GetPlaylist(closed_favorite_id).id);
+    EXPECT_TRUE(QTest::qWaitFor([&]() { return backend->GetPlaylist(closed_favorite_id).id == -1; }));
     ASSERT_EQ(2, deleted.count());
     EXPECT_EQ(closed_favorite_id, deleted.at(1).at(0).toInt());
 
@@ -2128,7 +2294,7 @@ TEST_F(PlaylistTest, DeleteHandlesOpenClosedAndLastPlaylists) {
     ASSERT_EQ(1, manager.playlist_ids().count());
     manager.Delete(first_id);
     EXPECT_FALSE(manager.IsPlaylistOpen(first_id));
-    EXPECT_EQ(-1, backend->GetPlaylist(first_id).id);
+    EXPECT_TRUE(QTest::qWaitFor([&]() { return backend->GetPlaylist(first_id).id == -1; }));
     ASSERT_EQ(1, manager.playlist_ids().count());
     EXPECT_NE(first_id, manager.current_id());
     EXPECT_EQ(manager.current_id(), manager.active_id());
@@ -2182,7 +2348,9 @@ TEST_F(PlaylistTest, NowPlayingReusesIdentityWithoutChangingOrdinaryPlaylists) {
     EXPECT_EQ(0, manager.current()->rowCount());
     manager.Delete(session_id);
     manager.SelectNowPlaying();
+    EXPECT_NE(session_id, manager.current_id());
     EXPECT_TRUE(manager.current()->is_now_playing());
+    EXPECT_EQ(0, manager.current()->rowCount());
     EXPECT_EQ(count, manager.playlist_ids().count());
     EXPECT_EQ(u"Keep me"_s, TitleAt(*manager.playlist(ordinary_id), 0));
   }
@@ -2695,6 +2863,543 @@ TEST_F(PlaylistTest, UpdateItemMetadataAfterRowsChanged) {
   EXPECT_FALSE(playlist_.UpdateItemMetadata(item_e, changed_metadata(item_e, u"E2"_s), false));
   // Neither is a null item.
   EXPECT_FALSE(playlist_.UpdateItemMetadata(PlaylistItemPtr(), changed_metadata(item_e, u"E3"_s), false));
+
+}
+
+// The Playlists panel uses this to not drop rows on the playlist they were dragged from, it compared with the playing playlist before, so nothing could be dropped on it.
+TEST_F(PlaylistTest, IsDraggedFromThisPlaylist) {
+
+  Playlist other_playlist(nullptr, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  other_playlist.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"Other"_s));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s));
+
+  ScopedPtr<QMimeData> own_mimedata(playlist_.mimeData(QModelIndexList() << playlist_.index(0, 0)));
+  ASSERT_TRUE(own_mimedata);
+  EXPECT_TRUE(playlist_.IsDraggedFromThisPlaylist(own_mimedata.get()));
+  EXPECT_FALSE(other_playlist.IsDraggedFromThisPlaylist(own_mimedata.get()));
+
+  ScopedPtr<QMimeData> other_mimedata(other_playlist.mimeData(QModelIndexList() << other_playlist.index(0, 0)));
+  ASSERT_TRUE(other_mimedata);
+  EXPECT_FALSE(playlist_.IsDraggedFromThisPlaylist(other_mimedata.get()));
+
+  // Songs or files dragged from elsewhere are not playlist rows.
+  QMimeData url_mimedata;
+  url_mimedata.setUrls(QList<QUrl>() << QUrl::fromLocalFile(u"/tmp/song.flac"_s));
+  EXPECT_FALSE(playlist_.IsDraggedFromThisPlaylist(&url_mimedata));
+
+}
+
+// Reading the dragged rows is shared with checking the source playlist, rows dragged from another playlist are still copied.
+TEST_F(PlaylistTest, CopyRowsFromAnotherPlaylistAfterReadingSource) {
+
+  Playlist other_playlist(nullptr, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  other_playlist.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"Destination"_s));
+
+  ScopedPtr<QMimeData> mimedata(other_playlist.mimeData(QModelIndexList() << other_playlist.index(1, 0)));
+  ASSERT_TRUE(mimedata);
+  ASSERT_FALSE(playlist_.IsDraggedFromThisPlaylist(mimedata.get()));
+  ASSERT_TRUE(playlist_.dropMimeData(mimedata.get(), Qt::CopyAction, -1, 0, QModelIndex()));
+
+  ASSERT_EQ(2, playlist_.rowCount(QModelIndex()));
+  EXPECT_EQ(u"Two"_s, playlist_.data(playlist_.index(1, static_cast<int>(Playlist::Column::Title))));
+  EXPECT_EQ(2, other_playlist.rowCount(QModelIndex()));
+
+}
+
+// Regression test: playlist rows without the process ID were taken as dragged in this process, the pointer to the source playlist could be from another instance, and was used.
+TEST_F(PlaylistTest, DropOfRowsWithoutProcessIdIsRejected) {
+
+  Playlist other_playlist(nullptr, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  other_playlist.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"A"_s));
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s));
+
+  // The pointers are valid here, so the test doesn't crash if the data is used.
+  const auto rows_data_without_pid = [](const Playlist *source_playlist) {
+    QByteArray rows_data;
+    QDataStream stream(&rows_data, QIODevice::WriteOnly);
+    stream.writeRawData(reinterpret_cast<const char*>(&source_playlist), sizeof(&source_playlist));
+    stream << (QList<int>() << 0);
+    return rows_data;
+  };
+
+  QMimeData other_mimedata;
+  other_mimedata.setData(QLatin1String(Playlist::kRowsMimetype), rows_data_without_pid(&other_playlist));
+  EXPECT_FALSE(playlist_.dropMimeData(&other_mimedata, Qt::CopyAction, -1, 0, QModelIndex()));
+  EXPECT_EQ(1, playlist_.rowCount(QModelIndex()));
+
+  QMimeData own_mimedata;
+  own_mimedata.setData(QLatin1String(Playlist::kRowsMimetype), rows_data_without_pid(&playlist_));
+  EXPECT_FALSE(playlist_.IsDraggedFromThisPlaylist(&own_mimedata));
+
+  // Data which ends in the pointer is rejected too.
+  QMimeData truncated_mimedata;
+  truncated_mimedata.setData(QLatin1String(Playlist::kRowsMimetype), rows_data_without_pid(&other_playlist).left(2));
+  EXPECT_FALSE(playlist_.dropMimeData(&truncated_mimedata, Qt::CopyAction, -1, 0, QModelIndex()));
+  EXPECT_EQ(1, playlist_.rowCount(QModelIndex()));
+
+}
+
+// Returns the titles of the playlist, to compare the order.
+QStringList PlaylistTitles(const Playlist &playlist) {
+  QStringList titles;
+  for (int row = 0; row < playlist.rowCount(QModelIndex()); ++row) {
+    titles << playlist.data(playlist.index(row, static_cast<int>(Playlist::Column::Title))).toString();
+  }
+  return titles;
+}
+
+// Regression test: the dragged rows were the rows from when the drag started, a dynamic playlist removes the oldest history row when the track changes, so the song after the dragged song was copied.
+TEST_F(PlaylistTest, DropAfterRowsChangedCopiesDraggedSong) {
+
+  Playlist other_playlist(nullptr, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  other_playlist.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"A"_s) << MakeMockItemP(u"B"_s) << MakeMockItemP(u"C"_s));
+
+  ScopedPtr<QMimeData> mimedata(other_playlist.mimeData(QModelIndexList() << other_playlist.index(1, 0)));
+  ASSERT_TRUE(mimedata);
+  ASSERT_TRUE(other_playlist.removeRows(0, 1, QModelIndex()));
+
+  ASSERT_TRUE(playlist_.dropMimeData(mimedata.get(), Qt::CopyAction, -1, 0, QModelIndex()));
+  EXPECT_EQ(QStringList() << u"B"_s, PlaylistTitles(playlist_));
+
+}
+
+// Moving to another playlist after the rows changed moves the dragged song, and removes it from the source playlist, not the song after it.
+TEST_F(PlaylistTest, MoveToAnotherPlaylistAfterRowsChanged) {
+
+  Playlist other_playlist(nullptr, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  other_playlist.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"A"_s) << MakeMockItemP(u"B"_s) << MakeMockItemP(u"C"_s) << MakeMockItemP(u"D"_s));
+
+  ScopedPtr<QMimeData> mimedata(other_playlist.mimeData(QModelIndexList() << other_playlist.index(1, 0)));
+  ASSERT_TRUE(mimedata);
+  ASSERT_TRUE(other_playlist.removeRows(0, 1, QModelIndex()));
+
+  ASSERT_TRUE(playlist_.dropMimeData(mimedata.get(), Qt::MoveAction, -1, 0, QModelIndex()));
+  EXPECT_EQ(QStringList() << u"B"_s, PlaylistTitles(playlist_));
+  EXPECT_EQ(QStringList() << u"C"_s << u"D"_s, PlaylistTitles(other_playlist));
+
+}
+
+// Moving rows within the playlist after the rows changed moves the dragged song.
+TEST_F(PlaylistTest, MoveWithinPlaylistAfterRowsChanged) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"A"_s) << MakeMockItemP(u"B"_s) << MakeMockItemP(u"C"_s) << MakeMockItemP(u"D"_s) << MakeMockItemP(u"E"_s));
+
+  ScopedPtr<QMimeData> mimedata(playlist_.mimeData(QModelIndexList() << playlist_.index(3, 0)));
+  ASSERT_TRUE(mimedata);
+  ASSERT_TRUE(playlist_.removeRows(0, 1, QModelIndex()));
+
+  ASSERT_TRUE(playlist_.dropMimeData(mimedata.get(), Qt::MoveAction, 0, 0, QModelIndex()));
+  EXPECT_EQ(QStringList() << u"D"_s << u"B"_s << u"C"_s << u"E"_s, PlaylistTitles(playlist_));
+
+}
+
+// Regression test: a dragged row which was removed during the drag was still used, which accessed a row past the end of the playlist.
+TEST_F(PlaylistTest, DropOfRowRemovedDuringDragIsSkipped) {
+
+  Playlist other_playlist(nullptr, nullptr, nullptr, nullptr, tagreader_client_, 2);
+  other_playlist.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"A"_s) << MakeMockItemP(u"B"_s) << MakeMockItemP(u"C"_s));
+
+  ScopedPtr<QMimeData> mimedata(other_playlist.mimeData(QModelIndexList() << other_playlist.index(0, 0) << other_playlist.index(2, 0)));
+  ASSERT_TRUE(mimedata);
+  ASSERT_TRUE(other_playlist.removeRows(2, 1, QModelIndex()));
+
+  ASSERT_TRUE(playlist_.dropMimeData(mimedata.get(), Qt::CopyAction, -1, 0, QModelIndex()));
+  EXPECT_EQ(QStringList() << u"A"_s, PlaylistTitles(playlist_));
+
+  // When all the dragged rows were removed, nothing is dropped.
+  ASSERT_TRUE(other_playlist.removeRows(0, 1, QModelIndex()));
+  EXPECT_FALSE(playlist_.dropMimeData(mimedata.get(), Qt::CopyAction, -1, 0, QModelIndex()));
+  EXPECT_EQ(QStringList() << u"A"_s, PlaylistTitles(playlist_));
+
+}
+
+// Rows dragged from a playlist which was closed during the drag are not dropped.
+TEST_F(PlaylistTest, DropAfterSourcePlaylistClosed) {
+
+  ScopedPtr<Playlist> other_playlist(new Playlist(nullptr, nullptr, nullptr, nullptr, tagreader_client_, 2));
+  other_playlist->InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"A"_s));
+
+  ScopedPtr<QMimeData> mimedata(other_playlist->mimeData(QModelIndexList() << other_playlist->index(0, 0)));
+  ASSERT_TRUE(mimedata);
+  other_playlist.reset();
+
+  EXPECT_FALSE(playlist_.IsDraggedFromThisPlaylist(mimedata.get()));
+  playlist_.dropMimeData(mimedata.get(), Qt::CopyAction, -1, 0, QModelIndex());
+  EXPECT_EQ(0, playlist_.rowCount(QModelIndex()));
+
+}
+
+// The queue also queues the dragged song after the rows changed, not the song which is in its row now.
+TEST_F(PlaylistTest, QueueDropAfterRowsChangedQueuesDraggedSong) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"A"_s) << MakeMockItemP(u"B"_s) << MakeMockItemP(u"C"_s) << MakeMockItemP(u"D"_s));
+
+  ScopedPtr<QMimeData> mimedata(playlist_.mimeData(QModelIndexList() << playlist_.index(2, 0)));
+  ASSERT_TRUE(mimedata);
+  ASSERT_TRUE(playlist_.removeRows(0, 1, QModelIndex()));
+
+  EXPECT_TRUE(playlist_.queue()->dropMimeData(mimedata.get(), Qt::CopyAction, -1, 0, QModelIndex()));
+  ASSERT_EQ(1, playlist_.queue()->rowCount(QModelIndex()));
+  EXPECT_TRUE(playlist_.queue()->ContainsSourceRow(1));
+  EXPECT_FALSE(playlist_.queue()->ContainsSourceRow(2));
+
+}
+
+// Regression test: only removing tracks from the queue was notified, so adding or moving them didn't update the next and previous track for MPRIS.
+TEST_F(PlaylistTest, QueueChangesAreNotified) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"A"_s) << MakeMockItemP(u"B"_s));
+  QSignalSpy spy(&playlist_, &Playlist::QueueChanged);
+
+  playlist_.queue()->ToggleTracks(QModelIndexList() << playlist_.index(0, 0) << playlist_.index(1, 0));
+  EXPECT_GE(spy.count(), 1);
+
+  spy.clear();
+  playlist_.queue()->MoveUp(1);
+  EXPECT_GE(spy.count(), 1);
+
+  spy.clear();
+  playlist_.queue()->Clear();
+  EXPECT_GE(spy.count(), 1);
+
+}
+
+// The source rows of the queue, in the order of the queue.
+QList<int> QueueSourceRows(const Queue *queue) {
+  QList<int> rows;
+  for (int row = 0; row < queue->rowCount(); ++row) {
+    rows << queue->mapToSource(queue->index(row, 0)).row();
+  }
+  return rows;
+}
+
+// Regression test: rows dragged in the queue were the rows when the drag started, so another song was moved when the queue had changed during the drag.
+TEST_F(PlaylistTest, QueueDragMovesDraggedItemWhenQueueChanged) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s) << MakeMockItemP(u"Three"_s));
+  Queue *queue = playlist_.queue();
+  queue->ToggleTracks(QModelIndexList() << playlist_.index(0, 0) << playlist_.index(1, 0) << playlist_.index(2, 0));
+  ASSERT_EQ(QList<int>() << 0 << 1 << 2, QueueSourceRows(queue));
+
+  const std::unique_ptr<QMimeData> mimedata(queue->mimeData(QModelIndexList() << queue->index(0, 0)));
+  queue->Move(QList<int>() << 2, 0);
+  ASSERT_EQ(QList<int>() << 2 << 0 << 1, QueueSourceRows(queue));
+
+  EXPECT_TRUE(queue->dropMimeData(mimedata.get(), Qt::MoveAction, -1, 0, QModelIndex()));
+
+  EXPECT_EQ(QList<int>() << 2 << 1 << 0, QueueSourceRows(queue));
+
+}
+
+TEST_F(PlaylistTest, QueueDragOfRemovedItemDoesNothing) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s) << MakeMockItemP(u"Three"_s));
+  Queue *queue = playlist_.queue();
+  queue->ToggleTracks(QModelIndexList() << playlist_.index(0, 0) << playlist_.index(1, 0) << playlist_.index(2, 0));
+
+  const std::unique_ptr<QMimeData> mimedata(queue->mimeData(QModelIndexList() << queue->index(0, 0)));
+  QList<int> removed_rows = QList<int>() << 0;
+  queue->Remove(removed_rows);
+  ASSERT_EQ(QList<int>() << 1 << 2, QueueSourceRows(queue));
+
+  EXPECT_FALSE(queue->dropMimeData(mimedata.get(), Qt::MoveAction, -1, 0, QModelIndex()));
+
+  EXPECT_EQ(QList<int>() << 1 << 2, QueueSourceRows(queue));
+
+}
+
+TEST_F(PlaylistTest, QueueDropOfRowsFromAnotherQueueIsIgnored) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s));
+  Queue *queue = playlist_.queue();
+  queue->ToggleTracks(QModelIndexList() << playlist_.index(0, 0) << playlist_.index(1, 0));
+
+  Queue other_queue(&playlist_);
+  other_queue.setSourceModel(&playlist_);
+  other_queue.ToggleTracks(QModelIndexList() << playlist_.index(0, 0) << playlist_.index(1, 0));
+  const std::unique_ptr<QMimeData> mimedata(other_queue.mimeData(QModelIndexList() << other_queue.index(1, 0)));
+
+  EXPECT_FALSE(queue->dropMimeData(mimedata.get(), Qt::MoveAction, 0, 0, QModelIndex()));
+
+  EXPECT_EQ(QList<int>() << 0 << 1, QueueSourceRows(queue));
+
+}
+
+// Regression test: rows from another instance were used without checking them, which crashed when they didn't exist here.
+TEST_F(PlaylistTest, QueueDropOfRowsFromAnotherInstanceIsIgnored) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s));
+  Queue *queue = playlist_.queue();
+  queue->ToggleTracks(QModelIndexList() << playlist_.index(0, 0));
+
+  const std::unique_ptr<QMimeData> own_mimedata(queue->mimeData(QModelIndexList() << queue->index(0, 0)));
+  QMimeData other_instance_mimedata;
+  const QString format = queue->mimeTypes().constFirst();
+  ASSERT_TRUE(own_mimedata->hasFormat(format));
+  QByteArray data;
+  {
+    QDataStream stream(&data, QIODevice::WriteOnly);
+    stream << (QList<int>() << 99);
+  }
+  other_instance_mimedata.setData(format, data);
+
+  EXPECT_FALSE(queue->dropMimeData(&other_instance_mimedata, Qt::MoveAction, 0, 0, QModelIndex()));
+
+  EXPECT_EQ(QList<int>() << 0, QueueSourceRows(queue));
+
+}
+
+// Regression test: rows were removed one by one inside a layout change, rows which don't exist made the rows next to them be skipped, and duplicate rows removed another row.
+TEST_F(PlaylistTest, QueueRemove) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"0"_s) << MakeMockItemP(u"1"_s) << MakeMockItemP(u"2"_s) << MakeMockItemP(u"3"_s) << MakeMockItemP(u"4"_s));
+
+  Queue *queue = playlist_.queue();
+  const auto queued_source_rows = [queue]() {
+    QList<int> rows;
+    for (int i = 0; i < queue->rowCount(QModelIndex()); ++i) {
+      rows << queue->mapToSource(queue->index(i, 0)).row();
+    }
+    return rows;
+  };
+  const auto reset_queue = [this, queue]() {
+    queue->Clear();
+    QModelIndexList source_indexes;
+    for (int i = 0; i < playlist_.rowCount(QModelIndex()); ++i) {
+      source_indexes << playlist_.index(i, 0);
+    }
+    queue->ToggleTracks(source_indexes);
+  };
+
+  struct Removal {
+    const char *description;
+    QList<int> rows;
+    QList<int> remaining_rows;
+    // Rows next to each other are removed together.
+    qsizetype removals;
+  };
+  const QList<Removal> removals = {
+    {"Rows not in order", {3, 0, 1}, {2, 4}, 2},
+    {"Duplicate rows", {1, 1, 3}, {0, 2, 4}, 2},
+    {"A row after the last row", {5, 4}, {0, 1, 2, 3}, 1},
+    {"A row before the first row", {0, -1}, {1, 2, 3, 4}, 1},
+    {"Only rows which don't exist", {-1, 5}, {0, 1, 2, 3, 4}, 0},
+  };
+  for (const Removal &removal : removals) {
+    SCOPED_TRACE(removal.description);
+    reset_queue();
+    ASSERT_EQ(QList<int>() << 0 << 1 << 2 << 3 << 4, queued_source_rows());
+    QSignalSpy spy_layout_changed(queue, &Queue::layoutChanged);
+    QSignalSpy spy_rows_removed(queue, &Queue::rowsRemoved);
+    QList<int> rows = removal.rows;
+    queue->Remove(rows);
+    EXPECT_EQ(removal.remaining_rows, queued_source_rows());
+    EXPECT_EQ(0, spy_layout_changed.count());
+    EXPECT_EQ(removal.removals, spy_rows_removed.count());
+    // Each removal signal is for rows which were removed.
+    qsizetype removed_rows = 0;
+    for (const QList<QVariant> &arguments : std::as_const(spy_rows_removed)) {
+      EXPECT_LE(arguments.at(1).toInt(), arguments.at(2).toInt());
+      removed_rows += arguments.at(2).toInt() - arguments.at(1).toInt() + 1;
+    }
+    EXPECT_EQ(5 - removal.remaining_rows.count(), removed_rows);
+  }
+
+}
+
+// Writes the tags to the file, and returns the song read from the file.
+Song WriteAndReadFile(const SharedPtr<TagReaderClient> &tagreader_client, const QString &filename, const Song &song) {
+  if (!tagreader_client->WriteFileBlocking(filename, song).success()) return Song();
+  Song file_song;
+  if (!tagreader_client->ReadFileBlocking(filename, &file_song).success()) return Song();
+  return file_song;
+}
+
+// Regression test: editing a value in the playlist wrote all tags of the song in the playlist to the file, so tags changed in the file since the song was added, like in the tag editor, were written back with the old values.
+// The file is read first now, and only the edited value is written.
+TEST_F(PlaylistTest, EditWritesOnlyEditedValue) {
+
+  TemporaryResource resource(u":/audio/strawberry.mp3"_s);
+  Song song;
+  song.Init(u"Title"_s, u"Artist"_s, u"Album"_s, 123);
+  song.set_url(QUrl::fromLocalFile(resource.fileName()));
+  const Song playlist_song = WriteAndReadFile(tagreader_client_, resource.fileName(), song);
+  ASSERT_EQ(u"Album"_s, playlist_song.album());
+
+  PlaylistItemPtr item = std::make_shared<SongPlaylistItem>(playlist_song, false);
+  playlist_.InsertItems(PlaylistItemPtrList() << item, -1);
+
+  // The album is changed in the file after the song was added to the playlist.
+  Song changed_song = playlist_song;
+  changed_song.set_album(u"Changed album"_s);
+  ASSERT_EQ(u"Changed album"_s, WriteAndReadFile(tagreader_client_, resource.fileName(), changed_song).album());
+
+  ASSERT_TRUE(playlist_.setData(playlist_.index(0, static_cast<int>(Playlist::Column::Artist)), u"Edited artist"_s, Qt::EditRole));
+  // The song is read from the file when the edit was written.
+  ASSERT_TRUE(WaitFor([&item]() { return item->OriginalMetadata().album() == u"Changed album"_s; }));
+
+  Song file_song;
+  ASSERT_TRUE(tagreader_client_->ReadFileBlocking(resource.fileName(), &file_song).success());
+  EXPECT_EQ(u"Edited artist"_s, file_song.artist());
+  EXPECT_EQ(u"Changed album"_s, file_song.album());
+  EXPECT_EQ(u"Edited artist"_s, item->OriginalMetadata().artist());
+
+  // The artist is changed in the file again, a later edit doesn't write the written edit again.
+  Song changed_again_song = file_song;
+  changed_again_song.set_artist(u"Changed artist"_s);
+  ASSERT_EQ(u"Changed artist"_s, WriteAndReadFile(tagreader_client_, resource.fileName(), changed_again_song).artist());
+  ASSERT_TRUE(playlist_.setData(playlist_.index(0, static_cast<int>(Playlist::Column::Title)), u"Edited title"_s, Qt::EditRole));
+  ASSERT_TRUE(WaitFor([&item]() { return item->OriginalMetadata().artist() == u"Changed artist"_s; }));
+  ASSERT_TRUE(tagreader_client_->ReadFileBlocking(resource.fileName(), &file_song).success());
+  EXPECT_EQ(u"Changed artist"_s, file_song.artist());
+  EXPECT_EQ(u"Edited title"_s, file_song.title());
+
+}
+
+// The same when setting a value from elsewhere, like when renumbering the tracks, without finishing an edit in the playlist.
+TEST_F(PlaylistTest, SaveColumnValueWritesOnlyValue) {
+
+  TemporaryResource resource(u":/audio/strawberry.mp3"_s);
+  Song song;
+  song.Init(u"Title"_s, u"Artist"_s, u"Album"_s, 123);
+  song.set_url(QUrl::fromLocalFile(resource.fileName()));
+  song.set_track(1);
+  const Song playlist_song = WriteAndReadFile(tagreader_client_, resource.fileName(), song);
+  ASSERT_EQ(1, playlist_song.track());
+
+  PlaylistItemPtr item = std::make_shared<SongPlaylistItem>(playlist_song, false);
+  playlist_.InsertItems(PlaylistItemPtrList() << item, -1);
+
+  Song changed_song = playlist_song;
+  changed_song.set_title(u"Changed title"_s);
+  ASSERT_EQ(u"Changed title"_s, WriteAndReadFile(tagreader_client_, resource.fileName(), changed_song).title());
+
+  QSignalSpy spy_editing_finished(&playlist_, &Playlist::EditingFinished);
+  ASSERT_TRUE(playlist_.SaveColumnValue(playlist_.index(0, 0), Playlist::Column::Track, 7));
+  EXPECT_EQ(7, item->OriginalMetadata().track());
+  ASSERT_TRUE(WaitFor([&item]() { return item->OriginalMetadata().title() == u"Changed title"_s; }));
+
+  Song file_song;
+  ASSERT_TRUE(tagreader_client_->ReadFileBlocking(resource.fileName(), &file_song).success());
+  EXPECT_EQ(7, file_song.track());
+  EXPECT_EQ(u"Changed title"_s, file_song.title());
+  // Setting all selected songs to the edited value is done when an edit is finished, so it's not finished for these.
+  EXPECT_EQ(0, spy_editing_finished.count());
+
+}
+
+// Two edits right after each other, the file is read for the second edit before the first edit is written, the second write includes the first edit too.
+TEST_F(PlaylistTest, EditsRightAfterEachOtherAreBothWritten) {
+
+  TemporaryResource resource(u":/audio/strawberry.mp3"_s);
+  Song song;
+  song.Init(u"Title"_s, u"Artist"_s, u"Album"_s, 123);
+  song.set_url(QUrl::fromLocalFile(resource.fileName()));
+  const Song playlist_song = WriteAndReadFile(tagreader_client_, resource.fileName(), song);
+  ASSERT_TRUE(playlist_song.is_valid());
+
+  PlaylistItemPtr item = std::make_shared<SongPlaylistItem>(playlist_song, false);
+  playlist_.InsertItems(PlaylistItemPtrList() << item, -1);
+
+  ASSERT_TRUE(playlist_.setData(playlist_.index(0, static_cast<int>(Playlist::Column::Artist)), u"Edited artist"_s, Qt::EditRole));
+  ASSERT_TRUE(playlist_.setData(playlist_.index(0, static_cast<int>(Playlist::Column::Title)), u"Edited title"_s, Qt::EditRole));
+
+  // The edits are written, and the song is read from the file again.
+  ASSERT_TRUE(WaitFor([this, &resource]() {
+    Song file_song;
+    return tagreader_client_->ReadFileBlocking(resource.fileName(), &file_song).success() && file_song.title() == u"Edited title"_s;
+  }));
+  QTest::qWait(200);
+
+  Song file_song;
+  ASSERT_TRUE(tagreader_client_->ReadFileBlocking(resource.fileName(), &file_song).success());
+  EXPECT_EQ(u"Edited artist"_s, file_song.artist());
+  EXPECT_EQ(u"Edited title"_s, file_song.title());
+  EXPECT_EQ(u"Edited artist"_s, item->OriginalMetadata().artist());
+  EXPECT_EQ(u"Edited title"_s, item->OriginalMetadata().title());
+
+}
+
+// Regression test: the file was read with the song of the playlist as the starting point, and the tag reader only sets the optional values which have a tag, so a tag removed from the file since was written back.
+TEST_F(PlaylistTest, EditKeepsTagRemovedFromFile) {
+
+  TemporaryResource resource(u":/audio/strawberry.mp3"_s);
+  Song song;
+  song.Init(u"Title"_s, u"Artist"_s, u"Album"_s, 123);
+  song.set_url(QUrl::fromLocalFile(resource.fileName()));
+  song.set_composer(u"Composer"_s);
+  const Song playlist_song = WriteAndReadFile(tagreader_client_, resource.fileName(), song);
+  ASSERT_EQ(u"Composer"_s, playlist_song.composer());
+
+  PlaylistItemPtr item = std::make_shared<SongPlaylistItem>(playlist_song, false);
+  playlist_.InsertItems(PlaylistItemPtrList() << item, -1);
+
+  // The composer is removed from the file after the song was added to the playlist.
+  Song changed_song = playlist_song;
+  changed_song.set_composer(QString());
+  ASSERT_TRUE(WriteAndReadFile(tagreader_client_, resource.fileName(), changed_song).composer().isEmpty());
+
+  ASSERT_TRUE(playlist_.setData(playlist_.index(0, static_cast<int>(Playlist::Column::Artist)), u"Edited artist"_s, Qt::EditRole));
+  ASSERT_TRUE(WaitFor([this, &resource]() {
+    Song file_song;
+    return tagreader_client_->ReadFileBlocking(resource.fileName(), &file_song).success() && file_song.artist() == u"Edited artist"_s;
+  }));
+
+  Song file_song;
+  ASSERT_TRUE(tagreader_client_->ReadFileBlocking(resource.fileName(), &file_song).success());
+  EXPECT_EQ(u"Edited artist"_s, file_song.artist());
+  EXPECT_TRUE(file_song.composer().isEmpty());
+
+}
+
+// Regression test: when exiting, the tag reader stops reading files, and the file was read before the edited value was written, so an edit made then was not written.
+TEST_F(PlaylistTest, EditWrittenWhenExiting) {
+
+  TemporaryResource resource(u":/audio/strawberry.mp3"_s);
+  Song song;
+  song.Init(u"Title"_s, u"Artist"_s, u"Album"_s, 123);
+  song.set_url(QUrl::fromLocalFile(resource.fileName()));
+  const Song playlist_song = WriteAndReadFile(tagreader_client_, resource.fileName(), song);
+  ASSERT_TRUE(playlist_song.is_valid());
+
+  PlaylistItemPtr item = std::make_shared<SongPlaylistItem>(playlist_song, false);
+  playlist_.InsertItems(PlaylistItemPtrList() << item, -1);
+
+  tagreader_client_->AbortReads();
+  ASSERT_TRUE(playlist_.setData(playlist_.index(0, static_cast<int>(Playlist::Column::Artist)), u"Edited artist"_s, Qt::EditRole));
+
+  EXPECT_TRUE(WaitFor([this, &resource]() {
+    Song file_song;
+    return tagreader_client_->ReadFileBlocking(resource.fileName(), &file_song).success() && file_song.artist() == u"Edited artist"_s;
+  }));
+
+}
+
+// Regression test: a failed write was not reported when a newer edit was made before it completed, each write only has the value of its own edit now, so the failed edit was lost without an error.
+TEST_F(PlaylistTest, FailedSaveReportedWhenNewerEditWasMade) {
+
+  Song song;
+  song.Init(u"Title"_s, u"Artist"_s, u"Album"_s, 123);
+  song.set_url(QUrl::fromLocalFile(u"/tmp/does-not-need-to-exist.mp3"_s));
+  PlaylistItemPtr item = std::make_shared<SongPlaylistItem>(song, false);
+  playlist_.InsertItems(PlaylistItemPtrList() << item, -1);
+  const QPersistentModelIndex idx(playlist_.index(0, static_cast<int>(Playlist::Column::Artist)));
+
+  const quint64 generation_edit_one = item->BumpSaveGeneration();
+  Song metadata_edit_two = item->OriginalMetadata();
+  metadata_edit_two.set_title(u"Edited title"_s);
+  item->BumpSaveGeneration();
+  playlist_.UpdateItemMetadata(0, item, metadata_edit_two, false);
+
+  QSignalSpy spy_error(&playlist_, &Playlist::Error);
+  TagReaderReplyPtr reply(new TagReaderReply(song.url().toLocalFile()));
+  reply->set_result(TagReaderResult(TagReaderResult::ErrorCode::FileSaveError));
+  CallSaveItemComplete(reply, idx, item, generation_edit_one, song);
+
+  EXPECT_EQ(1, spy_error.count());
+  // The newer edit reconciles the song.
+  EXPECT_EQ(u"Edited title"_s, item->OriginalMetadata().title());
 
 }
 

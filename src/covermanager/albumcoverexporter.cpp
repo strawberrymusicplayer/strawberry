@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,6 +38,8 @@ AlbumCoverExporter::AlbumCoverExporter(const SharedPtr<TagReaderClient> tagreade
     : QObject(parent),
       tagreader_client_(tagreader_client),
       thread_pool_(new QThreadPool(this)),
+      export_id_(0),
+      running_(0),
       exported_(0),
       skipped_(0),
       all_(0) {
@@ -59,9 +62,14 @@ void AlbumCoverExporter::AddExportRequest(const Song &song) {
 }
 
 void AlbumCoverExporter::Cancel() {
+
   // The queued runnables haven't been handed to the thread pool yet, so delete them ourselves.
   qDeleteAll(requests_);
   requests_.clear();
+
+  // The covers being exported can't be stopped, they're not counted when they finish, so they don't update the progress after aborting, or count for the next export.
+  ++export_id_;
+
 }
 
 void AlbumCoverExporter::StartExporting() {
@@ -74,29 +82,45 @@ void AlbumCoverExporter::StartExporting() {
 
 void AlbumCoverExporter::AddJobsToPool() {
 
-  while (!requests_.isEmpty() && thread_pool_->activeThreadCount() < thread_pool_->maxThreadCount()) {
+  // The covers being exported are counted here, the thread pool can still count a thread as active when the cover it exported is received, then no more covers would be exported.
+  while (!requests_.isEmpty() && running_ < kMaxConcurrentRequests) {
     CoverExportRunnable *runnable = requests_.dequeue();
 
-    QObject::connect(runnable, &CoverExportRunnable::CoverExported, this, &AlbumCoverExporter::CoverExported);
-    QObject::connect(runnable, &CoverExportRunnable::CoverSkipped, this, &AlbumCoverExporter::CoverSkipped);
+    const int export_id = export_id_;
+    QObject::connect(runnable, &CoverExportRunnable::CoverExported, this, [this, export_id]() { CoverExported(export_id); });
+    QObject::connect(runnable, &CoverExportRunnable::CoverSkipped, this, [this, export_id]() { CoverSkipped(export_id); });
 
+    ++running_;
     thread_pool_->start(runnable);
   }
 
 }
 
-void AlbumCoverExporter::CoverExported() {
+void AlbumCoverExporter::CoverExported(const int export_id) {
 
-  ++exported_;
-  Q_EMIT AlbumCoversExportUpdate(exported_, skipped_, all_);
-  AddJobsToPool();
+  if (export_id == export_id_) {
+    ++exported_;
+    Q_EMIT AlbumCoversExportUpdate(exported_, skipped_, all_);
+  }
+
+  CoverFinished();
 
 }
 
-void AlbumCoverExporter::CoverSkipped() {
+void AlbumCoverExporter::CoverSkipped(const int export_id) {
 
-  ++skipped_;
-  Q_EMIT AlbumCoversExportUpdate(exported_, skipped_, all_);
+  if (export_id == export_id_) {
+    ++skipped_;
+    Q_EMIT AlbumCoversExportUpdate(exported_, skipped_, all_);
+  }
+
+  CoverFinished();
+
+}
+
+void AlbumCoverExporter::CoverFinished() {
+
+  --running_;
   AddJobsToPool();
 
 }

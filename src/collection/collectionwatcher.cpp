@@ -535,14 +535,15 @@ void CollectionWatcher::ScanTransaction::CommitNewOrUpdatedSongs() {
         if (i < nas_published_song_count_ && new_songs.at(i).id() == -1) continue;
         pending_songs << new_songs.at(i);
       }
-      if (!pending_songs.isEmpty()) Q_EMIT watcher_->NewOrUpdatedSongs(pending_songs);
+      if (!pending_songs.isEmpty()) Q_EMIT watcher_->NewOrUpdatedSongs(pending_songs, previous_songs);
     }
     else
 #endif
     {
-      Q_EMIT watcher_->NewOrUpdatedSongs(new_songs);
+      Q_EMIT watcher_->NewOrUpdatedSongs(new_songs, previous_songs);
     }
     new_songs.clear();
+    previous_songs.clear();
 #ifdef HAVE_NAS
     nas_published_song_count_ = 0;
 #endif
@@ -787,7 +788,7 @@ void CollectionWatcher::ScanTransaction::PublishNewNasSongs() {
   }
   // Retain the complete transaction for deletion reconciliation; publish only new tracks early.
   nas_published_song_count_ = new_songs.size();
-  if (!added.isEmpty()) Q_EMIT watcher_->NewOrUpdatedSongs(added);
+  if (!added.isEmpty()) Q_EMIT watcher_->NewOrUpdatedSongs(added, SongList());
 }
 #endif
 
@@ -805,12 +806,19 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   t->MarkPathScanned(path);
 
   const QFileInfo path_info(path);
-  const qint64 path_mtime = path_info.exists() && path_info.lastModified().isValid() ? path_info.lastModified().toSecsSinceEpoch() : 0;
+  // A directory reached through a link to a directory above it was scanned before, also when it's not a link itself, it's handled like a directory which doesn't exist anymore, so the songs and subdirectories found through the link are removed.
+  // The collection directory itself can be a link to a directory above it.
+  const bool inside_link_to_parent_directory = path != dir.path && IsInsideLinkToParentDirectory(dir.path, path);
+  const bool path_exists = path_info.exists() && !inside_link_to_parent_directory;
 #ifdef HAVE_NAS
   if (t->NetworkFailed()) return;
 #endif
+  const qint64 path_mtime = path_exists && path_info.lastModified().isValid() ? path_info.lastModified().toSecsSinceEpoch() : 0;
 
-  if (path_info.isSymLink()) {
+  if (inside_link_to_parent_directory) {
+    qLog(Warning) << "Ignoring" << path << "which is in a symbolic link to a directory above it";
+  }
+  else if (path_info.isSymLink()) {
     const QString real_path = path_info.symLinkTarget();
     const QStorageInfo storage_info(real_path);
     if (kRejectedFileSystems.contains(storage_info.fileSystemType())) {
@@ -860,9 +868,10 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
 
   // If a directory is moved then only its parent gets a changed notification, so we need to look and see if any of our children don't exist anymore.
   // If one has been removed, "rescan" it to get the deleted songs
+  // The same for a child which was replaced by a link to a directory above it, it's ignored now, and the directory iterator skips it since it's known.
   const CollectionSubdirectoryList previous_subdirs = t->GetImmediateSubdirs(path);
   for (const CollectionSubdirectory &prev_subdir : previous_subdirs) {
-    if (!QFile::exists(prev_subdir.path) && prev_subdir.path != path) {
+    if ((!QFile::exists(prev_subdir.path) || inside_link_to_parent_directory || IsInsideLinkToParentDirectory(dir.path, prev_subdir.path)) && prev_subdir.path != path) {
 #ifdef HAVE_NAS
       if (t->NetworkFailed()) return;
 #endif
@@ -875,7 +884,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   const Nas::ListingScope nas_listing;
 #endif
   // First we "quickly" get a list of the files in the directory that we think might be music.  While we're here, we also look for new subdirectories and possible album artwork.
-  if (path_info.exists()) {
+  if (path_exists) {
     QDirIterator it(path, QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
     while (it.hasNext()) {
 
@@ -1281,7 +1290,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   updated_subdir.mtime = path_mtime;
   updated_subdir.path = path;
 
-  if (!path_info.exists() && updated_subdir.path != dir.path) {
+  if (!path_exists && updated_subdir.path != dir.path) {
     t->deleted_subdirs << updated_subdir;
   }
   else if (subdir.directory_id == -1) {
@@ -1300,6 +1309,42 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
     if (stop_or_abort_requested()) return;
     ScanSubdirectory(dir, my_new_subdir.path, my_new_subdir, 0, t, true);
   }
+
+}
+
+bool CollectionWatcher::IsLinkToParentDirectory(const QFileInfo &fileinfo) {
+
+  // Junctions on Windows are links to directories too, but they're not symbolic links.
+  if (!fileinfo.isSymLink() && !fileinfo.isJunction()) return false;
+
+  const QString target_path = fileinfo.absoluteFilePath();
+  if (!QFileInfo(target_path).isDir()) return false;
+
+  // The target is compared with each directory in the path of the link, and the directories above them, so links between directories, which link to each other through the path, are also found.
+  // They are compared as directories on the filesystem, not by their paths, on case-insensitive filesystems the path of the target can have another case than the directories, and the canonical path keeps the case of the target.
+  QString path = QDir::cleanPath(fileinfo.absolutePath());
+  while (true) {
+    if (Utilities::IsSameDirectory(path, target_path) || Utilities::PathIsInsideDirectory(path, target_path)) return true;
+    const QString parent_path = QFileInfo(path).path();
+    if (parent_path == path) break;
+    path = parent_path;
+  }
+
+  return false;
+
+}
+
+bool CollectionWatcher::IsInsideLinkToParentDirectory(const QString &root_path, const QString &path) {
+
+  // Only the links below the collection directory are checked, the collection directory itself can be a link to a directory above it.
+  const QString clean_root_path = QDir::cleanPath(root_path);
+  const QString root_prefix = clean_root_path.endsWith(u'/') ? clean_root_path : clean_root_path + u'/';
+  // The walk stops at the collection directory, also when it's the root directory, which is its own parent.
+  for (QString component_path = QDir::cleanPath(path); component_path != clean_root_path && component_path.startsWith(root_prefix); component_path = QFileInfo(component_path).path()) {
+    if (IsLinkToParentDirectory(QFileInfo(component_path))) return true;
+  }
+
+  return false;
 
 }
 
@@ -1801,6 +1846,7 @@ void CollectionWatcher::AddChangedSong(const Song &matching_song, const Song &ne
 
   if (notify_new) {
     t->new_songs << new_song;
+    t->previous_songs << matching_song;
   }
   else {
     t->touched_songs << new_song;
@@ -1918,7 +1964,11 @@ void CollectionWatcher::AddWatch(const CollectionDirectory &dir, const QString &
 #endif
   if (!QFile::exists(path)) return;
 
-  fs_watcher_->AddPath(path);
+  // A directory in a link to a directory above it is the same directory as one which is watched already, which would get the same watch, then removing it when the directory is removed would also remove the watch of the other directory.
+  // It's still mapped, so it's removed when it's scanned.
+  if (!IsInsideLinkToParentDirectory(dir.path, path)) {
+    fs_watcher_->AddPath(path);
+  }
   subdir_mapping_[path] = dir;
 
 }
@@ -2058,10 +2108,13 @@ void CollectionWatcher::RestoreWatches() {
   // The watches are not removed first, removing them would give an event for each of them, which could overflow the event queue again.
   QStringList existing_paths;
   QStringList removed_paths;
-  const QStringList paths = subdir_mapping_.keys();
-  for (const QString &path : paths) {
+  for (QHash<QString, CollectionDirectory>::const_iterator it = subdir_mapping_.constBegin(); it != subdir_mapping_.constEnd(); ++it) {
+    const QString &path = it.key();
     if (QFile::exists(path)) {
-      existing_paths << path;
+      // Like when adding the watches, a directory in a link to a directory above it is not watched.
+      if (!IsInsideLinkToParentDirectory(it.value().path, path)) {
+        existing_paths << path;
+      }
     }
     else {
       removed_paths << path;
@@ -2651,6 +2704,10 @@ quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &
 #ifdef HAVE_NAS
   if (t->NetworkFailed()) return 0;
 #endif
+  const QString root_path = watched_dirs_.value(t->dir_id()).path;
+  if (path != root_path && IsInsideLinkToParentDirectory(root_path, path)) {
+    return 0;
+  }
   const QFileInfo path_info(path);
   if (path_info.isSymLink()) {
     const QString real_path = path_info.symLinkTarget();
@@ -2698,8 +2755,8 @@ quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &
             break;
           }
         }
-        // A symlink into an already-watched directory would recurse/double-count; skip it.
-        if (points_into_watched_dir) continue;
+        // A symlink into an already-watched directory, or to a directory above it, would recurse/double-count; skip it.
+        if (points_into_watched_dir || IsLinkToParentDirectory(child_fileinfo)) continue;
       }
 
       if (!t->HasSeenSubdir(child_filepath) && !child_fileinfo.isHidden()) {

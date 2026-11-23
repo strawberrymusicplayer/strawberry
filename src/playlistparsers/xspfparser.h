@@ -58,6 +58,10 @@ class XSPFParser : public XMLParser {
 
  private:
   Song ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool collection_lookup) const;
+
+  // Locations are URIs, a URL with a scheme, or a relative path which is percent encoded.
+  static QString EncodeLocation(const QUrl &url, const QDir &dir, const PlaylistSettings::PathType path_type);
+  static QString DecodeLocation(const QString &location, const QDir &dir);
 };
 
 #endif

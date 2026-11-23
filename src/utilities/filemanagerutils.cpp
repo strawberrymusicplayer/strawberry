@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,68 +34,96 @@
 #include <QMessageBox>
 
 #include "filemanagerutils.h"
+#include "core/logging.h"
 
 using namespace Qt::Literals::StringLiterals;
 
 namespace Utilities {
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
-void OpenInFileManager(const QString &path, const QUrl &url);
-void OpenInFileManager(const QString &path, const QUrl &url) {
+namespace {
 
-  if (!url.isLocalFile()) return;
+constexpr int kXdgMimeTimeoutMs = 5000;
+
+struct FileManagerCommand {
+  QString program;
+  QStringList params;
+};
+
+// Returns the program and parameters of the default file manager from its desktop file, or an empty program if it is not found.
+FileManagerCommand DefaultFileManagerCommand() {
 
   QProcess proc;
   proc.startCommand(u"xdg-mime query default inode/directory"_s);
-  proc.waitForFinished();
-  QString desktop_file = QString::fromUtf8(proc.readLine()).simplified();
+  if (!proc.waitForFinished(kXdgMimeTimeoutMs)) {
+    qLog(Error) << "Could not get the default file manager with xdg-mime" << proc.errorString();
+    proc.kill();
+    proc.waitForFinished();
+    return FileManagerCommand();
+  }
+  const QString desktop_file = QString::fromUtf8(proc.readLine()).simplified();
+  if (desktop_file.isEmpty()) return FileManagerCommand();
 
   const QStringList data_dirs = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
-
-  QString command;
-  QStringList command_params;
   for (const QString &data_dir : data_dirs) {
-    QString desktop_file_path = QStringLiteral("%1/applications/%2").arg(data_dir, desktop_file);
+    const QString desktop_file_path = QStringLiteral("%1/applications/%2").arg(data_dir, desktop_file);
     if (!QFile::exists(desktop_file_path)) continue;
     QSettings setting(desktop_file_path, QSettings::IniFormat);
     setting.beginGroup(u"Desktop Entry"_s);
-    if (setting.contains("Exec"_L1)) {
-      QString cmd = setting.value(u"Exec"_s).toString();
-      if (cmd.isEmpty()) break;
-      static const QRegularExpression regex(u"[%][a-zA-Z]*( |$)"_s, QRegularExpression::CaseInsensitiveOption);
-      cmd = cmd.remove(regex);
-      command_params = cmd.split(u' ', Qt::SkipEmptyParts);
-      command = command_params.first();
-      command_params.removeFirst();
-    }
-    setting.endGroup();
-    if (!command.isEmpty()) break;
+    if (!setting.contains("Exec"_L1)) continue;
+    // Field codes such as %U are removed, the file or directory to show is added depending on the file manager.
+    static const QRegularExpression regex(u"[%][a-zA-Z]*( |$)"_s, QRegularExpression::CaseInsensitiveOption);
+    QStringList params = setting.value(u"Exec"_s).toString().remove(regex).split(u' ', Qt::SkipEmptyParts);
+    // An Exec with only field codes or spaces has no program.
+    if (params.isEmpty()) return FileManagerCommand();
+    const QString program = params.takeFirst();
+    return FileManagerCommand{ program, params };
   }
 
-  if (command.startsWith("/usr/bin/"_L1)) {
-    command = command.split(u'/').last();
-  }
+  return FileManagerCommand();
 
-  if (command.isEmpty() || command == "exo-open"_L1) {
-    QDesktopServices::openUrl(QUrl::fromLocalFile(path));
+}
+
+void OpenDirectoryWithDesktopServices(const QString &path) {
+
+  QDesktopServices::openUrl(QUrl::fromLocalFile(path));
+
+}
+
+void OpenInFileManager(const FileManagerCommand &file_manager, const QString &path, const QUrl &url) {
+
+  if (!url.isLocalFile()) return;
+
+  // The file manager is recognized by the file name of the program, so it is also recognized when the program is not in /usr/bin.
+  const QString program_name = QFileInfo(file_manager.program).fileName();
+
+  QStringList arguments = file_manager.params;
+  if (program_name.startsWith("nautilus"_L1) ||
+      program_name.startsWith("dolphin"_L1) ||
+      program_name.startsWith("konqueror"_L1)) {
+    arguments << u"--select"_s << url.toLocalFile();
   }
-  else if (command.startsWith("nautilus"_L1) ||
-           command.startsWith("dolphin"_L1) ||
-           command.startsWith("konqueror"_L1) ||
-           command.startsWith("kfmclient"_L1)) {
-    proc.startDetached(command, QStringList() << command_params << u"--select"_s << url.toLocalFile());
+  else if (program_name.startsWith("caja"_L1)) {
+    arguments << u"--no-desktop"_s << path;
   }
-  else if (command.startsWith("caja"_L1)) {
-    proc.startDetached(command, QStringList() << command_params << u"--no-desktop"_s << path);
-  }
-  else if (command.startsWith("pcmanfm"_L1) || command.startsWith("thunar"_L1) || command.startsWith("spacefm"_L1)) {
-    proc.startDetached(command, QStringList() << command_params << path);
+  else if (program_name.startsWith("pcmanfm"_L1) || program_name.startsWith("thunar"_L1) || program_name.startsWith("spacefm"_L1)) {
+    arguments << path;
   }
   else {
-    proc.startDetached(command, QStringList() << command_params << url.toLocalFile());
+    // Without a file manager, or with a file manager which is not known, like exo-open, open the directory with the default application for directories.
+    // kfmclient also opens the directory this way, since it has no option to select a file, and exits when given an unknown option.
+    OpenDirectoryWithDesktopServices(path);
+    return;
+  }
+
+  if (!QProcess::startDetached(file_manager.program, arguments)) {
+    qLog(Error) << "Could not start file manager" << file_manager.program;
+    OpenDirectoryWithDesktopServices(path);
   }
 
 }
+
+}  // namespace
 #endif
 
 #ifdef Q_OS_MACOS
@@ -147,10 +175,17 @@ void OpenInFileBrowser(const QList<QUrl> &urls) {
     }
   }
 
+  if (dirs.isEmpty()) return;
+
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
+  // The default file manager is the same for all directories, and getting it starts a process, so get it only once.
+  const FileManagerCommand file_manager = DefaultFileManagerCommand();
+#endif
+
   QMap<QString, QUrl>::iterator i;
   for (i = dirs.begin(); i != dirs.end(); ++i) {
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
-    OpenInFileManager(i.key(), i.value());
+    OpenInFileManager(file_manager, i.key(), i.value());
 #elif defined(Q_OS_MACOS)
     // Revealing multiple files in the finder only opens one window, so it also makes sense to reveal at most one per directory
     RevealFileInFinder(i.value().toLocalFile());

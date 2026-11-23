@@ -50,7 +50,6 @@
 #include "covermanager/albumcoverloaderoptions.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "collectionmodelupdate.h"
-#include "collectionfilteroptions.h"
 #include "collectionitem.h"
 
 class QTimer;
@@ -142,7 +141,6 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
     bool sort_skip_articles_for_albums;
     bool use_sort_tags;
     bool separate_albums_by_grouping;
-    CollectionFilterOptions filter_options;
   };
 
   SharedPtr<CollectionBackend> backend() const { return backend_; }
@@ -160,6 +158,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   int total_album_count() const { return total_album_count_; }
 
   quint64 icon_disk_cache_size() { return static_cast<quint64>(icon_disk_cache_->cacheSize()); }
+  void SetIconDiskCacheDirectory(const QString &directory) { icon_disk_cache_->setCacheDirectory(directory); }
 
   const CollectionModel::Grouping GetGroupBy() const { return options_current_.group_by; }
   void SetGroupBy(const CollectionModel::Grouping g, const std::optional<bool> separate_albums_by_grouping = std::optional<bool>());
@@ -218,9 +217,6 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void GroupingChanged(const CollectionModel::Grouping g, const bool separate_albums_by_grouping);
 
  public Q_SLOTS:
-  void SetFilterMode(const CollectionFilterOptions::FilterMode filter_mode);
-  void SetFilterMaxAge(const int filter_max_age);
-  void SetFilterMinRating(const float filter_min_rating);
 
   void AddReAddOrUpdate(const SongList &songs);
   void RemoveSongs(const SongList &songs);
@@ -268,7 +264,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   void LoadSongsFromSqlAsync();
   // Runs in a thread pool, so it doesn't use the model, which can be deleted while the songs are loaded.
-  static SongList LoadSongsFromSql(const SharedPtr<CollectionBackend> backend, const CollectionFilterOptions &filter_options);
+  static SongList LoadSongsFromSql(const SharedPtr<CollectionBackend> backend);
 
   static QString DividerKey(const GroupBy group_by, const Song &song, const QString &sort_text);
   static QString DividerDisplayText(const GroupBy group_by, const QString &key);
@@ -278,6 +274,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   QString AlbumIconPixmapCacheKey(const CollectionItem *item) const;
   static QUrl AlbumIconPixmapDiskCacheKey(const QString &cache_key);
   QVariant AlbumIcon(CollectionItem *item);
+  const QPixmap &NoCoverPixmap();
   void ClearItemPixmapCache(CollectionItem *item);
   static qint64 MaximumCacheSize(Settings *s, const char *size_id, const char *size_unit_id, const qint64 cache_size_default);
 
@@ -301,6 +298,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   QTimer *timer_update_;
 
   QPixmap pixmap_no_cover_;
+  qreal pixmap_no_cover_device_pixel_ratio_;
   QIcon icon_artist_;
 
   Options options_current_;
@@ -315,6 +313,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   bool loading_;
   bool bulk_mode_;
+  bool filter_update_pending_;
 
   QQueue<CollectionModelUpdate> updates_;
 

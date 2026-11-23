@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +33,7 @@
 #include "core/settings.h"
 
 namespace {
-constexpr char kSettingsGroup[] = "Transcoder/ffenc_wmav2";
+constexpr char kSettingsGroup[] = "Transcoder/avenc_wmav2";
 constexpr char kBitrate[] = "bitrate";
 }
 

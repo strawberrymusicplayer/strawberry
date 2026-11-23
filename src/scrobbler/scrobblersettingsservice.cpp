@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -59,25 +59,11 @@ void ScrobblerSettingsService::ReloadSettings() {
   show_error_dialog_ = s.value(ScrobblerSettings::kShowErrorDialog, ScrobblerSettings::kDefaultShowErrorDialog).toBool();
   strip_remastered_ = s.value(ScrobblerSettings::kStripRemastered, ScrobblerSettings::kDefaultStripRemastered).toBool();
   const bool has_sources = s.contains(ScrobblerSettings::kSources);
-  QStringList sources = s.value(ScrobblerSettings::kSources).toStringList();
-  const bool plex_source_migration_done = s.value(ScrobblerSettings::kPlexSourceMigrationDone, false).toBool();
-  const bool jellyfin_source_migration_done = s.value(ScrobblerSettings::kJellyfinSourceMigrationDone, false).toBool();
+  const QStringList sources = s.value(ScrobblerSettings::kSources).toStringList();
 
   sources_.clear();
 
   if (has_sources) {
-    if (!sources.isEmpty()) {
-      const qsizetype sources_count = sources.count();
-      if (!plex_source_migration_done && !sources.contains(Song::TextForSource(Song::Source::Plex))) {
-        sources << Song::TextForSource(Song::Source::Plex);
-      }
-      if (!jellyfin_source_migration_done && !sources.contains(Song::TextForSource(Song::Source::Jellyfin))) {
-        sources << Song::TextForSource(Song::Source::Jellyfin);
-      }
-      if (sources.count() != sources_count) {
-        s.setValue(ScrobblerSettings::kSources, sources);
-      }
-    }
     for (const QString &source : std::as_const(sources)) {
       sources_ << Song::SourceFromText(source);
     }
@@ -99,9 +85,6 @@ void ScrobblerSettingsService::ReloadSettings() {
              << Song::Source::Plex
              << Song::Source::Jellyfin;
   }
-
-  if (!plex_source_migration_done) s.setValue(ScrobblerSettings::kPlexSourceMigrationDone, true);
-  if (!jellyfin_source_migration_done) s.setValue(ScrobblerSettings::kJellyfinSourceMigrationDone, true);
 
   s.endGroup();
 

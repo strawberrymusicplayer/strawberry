@@ -81,6 +81,9 @@ class ParserBase : public QObject {
 
   // If the URL is a file:// URL then returns its path, absolute or relative to the directory depending on the path_type option.
   // Otherwise, returns the URL as is. This function should always be used when saving a playlist.
+  // Songs of a CUE sheet share the media file, so the track number is saved in the playlist too, to find the song in the collection when loading, or 0 for other songs.
+  static int CueTrack(const Song &song) { return song.has_cue() && song.track() > 0 ? song.track() : 0; }
+
   static QString URLOrFilename(const QUrl &url, const QDir &dir, const PlaylistSettings::PathType path_type);
 
  private:

@@ -42,6 +42,7 @@
 #include <QStyleOption>
 #include <QFlags>
 #include <QtEvents>
+#include <QScopedValueRollback>
 
 #include "core/multisortfilterproxy.h"
 #include "groupediconview.h"
@@ -61,7 +62,8 @@ GroupedIconView::GroupedIconView(QWidget *parent)
       header_spacing_(10),
       header_indent_(5),
       item_indent_(10),
-      header_text_(u"%1"_s) {
+      header_text_(u"%1"_s),
+      laying_out_items_(false) {
 
   setFlow(LeftToRight);
   setViewMode(IconMode);
@@ -169,6 +171,15 @@ void GroupedIconView::resizeEvent(QResizeEvent *e) {
   LayoutItems();
 }
 
+void GroupedIconView::doItemsLayout() {
+
+  // The positions of the items and the headers are kept for each row, they are updated after the list view updated the size of the items, like after rows were removed.
+  // While the rows are removed, the list view doesn't have the size of the items.
+  QListView::doItemsLayout();
+  LayoutItems();
+
+}
+
 void GroupedIconView::rowsInserted(const QModelIndex &parent, int start, int end) {
   QListView::rowsInserted(parent, start, end);
   LayoutItems();
@@ -188,6 +199,13 @@ void GroupedIconView::LayoutItems() {
   if (!model()) {
     return;
   }
+
+  // Getting the size of an item updates the layout of the list view when it's pending, which calls this again from doItemsLayout().
+  // The positions are updated here after that with the updated sizes, so they're not added twice.
+  if (laying_out_items_) {
+    return;
+  }
+  const QScopedValueRollback<bool> laying_out_items(laying_out_items_, true);
 
   const int count = model()->rowCount();
 

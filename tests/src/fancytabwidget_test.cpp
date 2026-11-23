@@ -37,7 +37,10 @@
 #include <QTabBar>
 #include <QTest>
 #include <QToolButton>
+#include <QColor>
+#include <QScopeGuard>
 
+#include "core/stylehelper.h"
 #include "widgets/fancytabwidget.h"
 #include "widgets/fancytabbar.h"
 #include "core/settings.h"
@@ -366,5 +369,34 @@ TEST_F(TouchScrollingTest, VerticalDragDirectionDoesNotReverseInRightToLeftLayou
   QTest::mouseRelease(tab_bar_, Qt::LeftButton, Qt::NoModifier, position);
   EXPECT_LT(tab_bar_->tabRect(0).top(), first_top);
   EXPECT_EQ(0, tabs_.currentIndex());
+}
+
+// Regression test: changing the base color must redraw the cached sidebar background.
+TEST(FancyTabWidgetTest, BackgroundDrawnAgainWhenBaseColorChanges) {
+
+  QPixmapCache::clear();
+  const QScopeGuard restore_base_color([requested_base_color = StyleHelper::requestedBaseColor()]() { StyleHelper::setBaseColor(requested_base_color); });
+  StyleHelper::setBaseColor(QColor(0x30, 0x60, 0xC0));
+  FancyTabWidget tabs;
+  QWidget *view = new QWidget;
+  tabs.AddTab(view, u"collection"_s, QIcon(), u"Collection"_s);
+  ASSERT_TRUE(tabs.EnableTab(view));
+  tabs.SetMode(FancyTabWidget::Mode::LargeSidebar);
+  tabs.resize(600, 600);
+  tabs.show();
+  QCoreApplication::processEvents();
+
+  // The border is drawn in the last column of the sidebar, below the tab only the background is drawn.
+  const auto border_color = [&tabs]() {
+    const QImage image = tabs.grab().toImage();
+    const int x = static_cast<int>((tabs.tabBar()->width() - 1) * image.devicePixelRatio());
+    return QColor(image.pixel(x, image.height() - 2));
+  };
+
+  EXPECT_EQ(StyleHelper::borderColor().rgb(), border_color().rgb());
+
+  // The background color of the sidebar is kept, like a custom background color, only the base color changes.
+  StyleHelper::setBaseColor(QColor(0xC0, 0x40, 0x30));
+  EXPECT_EQ(StyleHelper::borderColor().rgb(), border_color().rgb());
 
 }

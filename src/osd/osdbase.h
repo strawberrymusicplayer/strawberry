@@ -84,6 +84,8 @@ class OSDBase : public QObject {
   void ShowPlaying(const Song &song, const QUrl &cover_url, const QImage &image, const bool preview = false);
   void ShowMessage(const QString &summary, const QString &message = QString(), const QString &icon = QStringLiteral("strawberry"), const QImage &image = QImage());
   QString ReplaceMessage(const MessageType type, const QString &message, const Song &song);
+  // Returns the type of notification the next message is shown with, which is used to escape the message for it.
+  OSDSettings::Type ShownType() const;
   virtual void ShowMessageNative(const QString &summary, const QString &message, const QString &icon = QString(), const QImage &image = QImage());
 
  private:

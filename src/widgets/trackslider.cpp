@@ -230,10 +230,12 @@ void TrackSlider::SetSeekbarMode(const SeekbarMode seekbar_mode) {
   seekbar_mode_ = seekbar_mode;
 
   // The seekbar mode is the single source of truth, persisted here so the controllers (which gate generation on it) and the next startup agree on what to show.
-  Settings s;
-  s.beginGroup(SeekbarSettings::kSettingsGroup);
-  s.setValue(QLatin1String(SeekbarSettings::kMode), static_cast<int>(seekbar_mode));
-  s.endGroup();
+  if (seekbar_mode != LoadSeekbarMode()) {
+    Settings s;
+    s.beginGroup(SeekbarSettings::kSettingsGroup);
+    s.setValue(QLatin1String(SeekbarSettings::kMode), static_cast<int>(seekbar_mode));
+    s.endGroup();
+  }
 
   // Both proxy styles drive the slider's vertical size policy in NextState() (MinimumExpanding when shown, Fixed when hidden), and the last writer wins.
   // So disable the inactive proxy first and enable the active one last — otherwise switching to a mode would leave the just-disabled proxy's Fixed policy in force and the visualization would render too small.
@@ -376,8 +378,13 @@ void TrackSlider::SetValue(const int elapsed, const int total) {
 void TrackSlider::UpdateTimes(const int elapsed) {
 
   ui_->elapsed->setText(Utilities::PrettyTime(elapsed));
+  // Streams have no length, the remaining time would be the time elapsed, counting up as a negative time, so no time is shown, like for the length in the playlist.
+  if (ui_->slider->maximum() <= 0) {
+    ui_->remaining->clear();
+    slider_maximum_value_ = 0;
+  }
   // Update normally if showing remaining time
-  if (show_remaining_time_) {
+  else if (show_remaining_time_) {
     ui_->remaining->setText(QLatin1Char('-') + Utilities::PrettyTime(static_cast<int>(ui_->slider->maximum() / kMsecPerSec) - elapsed));
   }
   else {

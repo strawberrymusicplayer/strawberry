@@ -62,6 +62,12 @@ constexpr char kRem[] = "rem";
 constexpr char kGenre[] = "genre";
 constexpr char kDate[] = "date";
 constexpr char kDisc[] = "discnumber";
+
+// The tracks of a data file are ignored.
+bool IsDataFile(const QString &file_type) {
+  return file_type.compare("BINARY"_L1, Qt::CaseInsensitive) == 0 || file_type.compare("MOTOROLA"_L1, Qt::CaseInsensitive) == 0;
+}
+
 }  // namespace
 
 CueParser::CueParser(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
@@ -149,10 +155,15 @@ QList<CueParser::CueEntry> CueParser::ParseEntries(QIODevice *device, const QDir
     }
 
     // If this is a data file, all of its tracks will be ignored
-    bool valid_file = file_type.compare("BINARY"_L1, Qt::CaseInsensitive) != 0 && file_type.compare("MOTOROLA"_L1, Qt::CaseInsensitive) != 0;
+    bool valid_file = !IsDataFile(file_type);
 
     QString track_type;
     QString index;
+    bool index_01 = false;
+    // A FILE line in a track without INDEX 01, the track continues in this file when an INDEX follows, otherwise the track stays in the previous file, and the file is for the next TRACK.
+    bool has_pending_file = false;
+    QString pending_file;
+    QString pending_file_type;
     QString artist;
     QString composer;
     QString title;
@@ -182,6 +193,7 @@ QList<CueParser::CueEntry> CueParser::ParseEntries(QIODevice *device, const QDir
 
         // Clear the state
         track_type = index = artist = composer = title = date = genre = ""_L1;
+        index_01 = false;
 
         if (!line_additional.isEmpty()) {
           track_type = line_additional;
@@ -193,10 +205,25 @@ QList<CueParser::CueEntry> CueParser::ParseEntries(QIODevice *device, const QDir
         // We need the index's position field
         if (!line_additional.isEmpty()) {
 
+          // When the gaps are appended to the previous track, the TRACK line and the pregap with INDEX 00 are in the previous file, and the track starts with INDEX 01 after the FILE line, so the track continues in the new file.
+          // The pregap stays at the end of the previous file, so it's played with the previous track.
+          // Otherwise it's the first INDEX of the next TRACK in the new file.
+          if (has_pending_file) {
+            file = pending_file;
+            file_type = pending_file_type;
+            valid_file = !IsDataFile(file_type);
+            has_pending_file = false;
+            // The indices before are in the previous file.
+            index.clear();
+          }
+
           // If there's none "01" index, we'll just take the first one also, we'll take the "01" index even if it's the last one
           if (line_value == "01"_L1 || index.isEmpty()) {
 
             index = line_additional;
+          }
+          if (line_value == "01"_L1) {
+            index_01 = true;
           }
         }
       }
@@ -225,6 +252,13 @@ QList<CueParser::CueEntry> CueParser::ParseEntries(QIODevice *device, const QDir
         }
       }
       else if (line_name.compare(QLatin1String(kFile), Qt::CaseInsensitive) == 0) {
+        // A track without INDEX 01 can continue in the new file, which is known when an INDEX follows.
+        if (!index_01) {
+          has_pending_file = true;
+          pending_file = QDir::isAbsolutePath(line_value) ? line_value : dir.absoluteFilePath(line_value);
+          pending_file_type = splitted.size() > 2 ? splitted[2] : QString();
+          continue;
+        }
         break;
       }
 
@@ -457,19 +491,29 @@ void CueParser::Save(const QString &playlist_name, const SongList &songs, QIODev
 // Looks for a track starting with one of the .cue's keywords.
 bool CueParser::TryMagic(const QByteArray &data) const {
 
-  QStringList splitted = QString::fromUtf8(data.constData()).split(u'\n');
+  // Only lines with the syntax of a CUE sheet, not just the words, a plain list of files without a header, like an M3U playlist, can have lines starting with them, for example "Tracks/01.flac", "Title Fight - Song.mp3" or "file:///music/song.mp3".
+  // FILE has the file and its type, TRACK the number and one of the track modes, and PERFORMER and TITLE a quoted value.
+  // Real CUE sheets have other file types than the standard ones too, like FLAC, but a file name like "File 01 Introduction" looks like FILE with a file and a type, so an unquoted file is only recognised with one of the standard file types.
+  static const QRegularExpression regex_cue_line(uR"(^(FILE\s+"[^"]*"\s+[a-z0-9]+|FILE\s+\S+\s+(BINARY|MOTOROLA|AIFF|WAVE|MP3)|TRACK\s+\d+\s+(AUDIO|CDG|MODE1/2048|MODE1/2352|MODE1_RAW|MODE2/2048|MODE2/2324|MODE2/2336|MODE2/2352|MODE2_RAW|CDI/2336|CDI/2352)|(PERFORMER|TITLE)\s+"[^"]*")$)"_s, QRegularExpression::CaseInsensitiveOption);
 
-  for (int i = 0; i < splitted.length(); i++) {
-    QString line = splitted.at(i).trimmed();
-    if (line.startsWith(QLatin1String(kPerformer), Qt::CaseInsensitive) ||
-        line.startsWith(QLatin1String(kTitle), Qt::CaseInsensitive) ||
-        line.startsWith(QLatin1String(kFile), Qt::CaseInsensitive) ||
-        line.startsWith(QLatin1String(kTrack), Qt::CaseInsensitive)) {
+  // Only the start of the data is checked, so the last line can be cut off, for example after long REM lines.
+  // A file name in a plain list can be cut off to look like a CUE line too, "File 01 Intro.mp3" to "File 01 Intro", so the last line is only recognised with a quoted value, which can be cut off, as FILE with an unquoted file and one of the file types, or as TRACK with a track mode.
+  static const QRegularExpression regex_last_cue_line(uR"(^((PERFORMER|TITLE)\s+"[^"]*"?|FILE\s+"[^"]*("(\s+[a-z0-9]+)?)?|FILE\s+\S+\s+(BINARY|MOTOROLA|AIFF|WAVE|MP3)|TRACK\s+\d+\s+(AUDIO|CDG|MODE1/2048|MODE1/2352|MODE1_RAW|MODE2/2048|MODE2/2324|MODE2/2336|MODE2/2352|MODE2_RAW|CDI/2336|CDI/2352))$)"_s, QRegularExpression::CaseInsensitiveOption);
+
+  // A CUE sheet is text, audio files can have a CUE sheet in their tags, for example the CUESHEET tag of FLAC files, near the start.
+  if (data.contains('\0')) {
+    return false;
+  }
+
+  // When the data ends with a complete line, the last line is empty.
+  const QStringList lines = QString::fromUtf8(data.constData(), data.size()).split(u'\n');
+  for (qsizetype i = 0; i < lines.size() - 1; ++i) {
+    if (regex_cue_line.match(lines.at(i).trimmed()).hasMatch()) {
       return true;
     }
   }
 
-  return false;
+  return regex_last_cue_line.match(lines.constLast().trimmed()).hasMatch();
 
 }
 

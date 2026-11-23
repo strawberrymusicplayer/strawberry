@@ -43,20 +43,20 @@ enum class BackgroundImagePosition {
 constexpr char kStyle[] = "style";
 constexpr char kSystemThemeIcons[] = "system_icons";
 constexpr char kDarkMode[] = "dark_mode";
-constexpr char kUseCustomColorSet[] = "use-custom-color-set";
+constexpr char kUseCustomColorSet[] = "use_custom_color_set";
 
 // Per-QPalette-role custom colors (the "central roles" from https://doc.qt.io/qt-6/qpalette.html).
-constexpr char kColorWindow[] = "color-window";
-constexpr char kColorWindowText[] = "color-window-text";
-constexpr char kColorBase[] = "color-base";
-constexpr char kColorAlternateBase[] = "color-alternate-base";
-constexpr char kColorToolTipBase[] = "color-tooltip-base";
-constexpr char kColorToolTipText[] = "color-tooltip-text";
-constexpr char kColorText[] = "color-text";
-constexpr char kColorButton[] = "color-button";
-constexpr char kColorButtonText[] = "color-button-text";
-constexpr char kColorBrightText[] = "color-bright-text";
-constexpr char kColorPlaceholderText[] = "color-placeholder-text";
+constexpr char kColorWindow[] = "color_window";
+constexpr char kColorWindowText[] = "color_window_text";
+constexpr char kColorBase[] = "color_base";
+constexpr char kColorAlternateBase[] = "color_alternate_base";
+constexpr char kColorToolTipBase[] = "color_tooltip_base";
+constexpr char kColorToolTipText[] = "color_tooltip_text";
+constexpr char kColorText[] = "color_text";
+constexpr char kColorButton[] = "color_button";
+constexpr char kColorButtonText[] = "color_button_text";
+constexpr char kColorBrightText[] = "color_bright_text";
+constexpr char kColorPlaceholderText[] = "color_placeholder_text";
 
 constexpr char kTabBarSystemColor[] = "tab_system_color";
 constexpr char kTabBarGradient[] = "tab_gradient";

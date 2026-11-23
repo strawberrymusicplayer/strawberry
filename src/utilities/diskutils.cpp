@@ -1,7 +1,7 @@
 /*
  * Strawberry Music Player
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,9 +42,10 @@ namespace Utilities {
 quint64 FileSystemCapacity(const QString &path) {
 
 #if defined(Q_OS_UNIX)
+  // f_blocks and f_bavail are in units of f_frsize, f_bsize is the preferred I/O size, which is larger on macOS and FreeBSD.
   struct statvfs fs_info {};
   if (statvfs(path.toLocal8Bit().constData(), &fs_info) == 0)
-    return static_cast<quint64>(fs_info.f_blocks) * static_cast<quint64>(fs_info.f_bsize);
+    return static_cast<quint64>(fs_info.f_blocks) * static_cast<quint64>(fs_info.f_frsize);
 #elif defined(Q_OS_WIN32)
   _ULARGE_INTEGER ret;
   ScopedWCharArray wchar(QDir::toNativeSeparators(path));
@@ -61,7 +62,7 @@ quint64 FileSystemFreeSpace(const QString &path) {
 #if defined(Q_OS_UNIX)
   struct statvfs fs_info {};
   if (statvfs(path.toLocal8Bit().constData(), &fs_info) == 0)
-    return static_cast<quint64>(fs_info.f_bavail) * static_cast<quint64>(fs_info.f_bsize);
+    return static_cast<quint64>(fs_info.f_bavail) * static_cast<quint64>(fs_info.f_frsize);
 #elif defined(Q_OS_WIN32)
   _ULARGE_INTEGER ret;
   ScopedWCharArray wchar(QDir::toNativeSeparators(path));

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,12 +27,13 @@
 class EngineDevice {
  public:
   explicit EngineDevice();
-  QString GuessIconName() const;
+
   QString description;
-  QVariant value;
+  QVariantList values;
   QString iconname;
-  int card;
-  int device;
+
+  QVariant value() const { return values.value(0); }
+  QString GuessIconName() const;
 };
 using EngineDeviceList = QList<EngineDevice>;
 

@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -94,6 +94,10 @@ void MoodbarProxyStyle::SetMoodbarData(const QByteArray &data) {
 
   data_ = data;
   moodbar_colors_dirty_ = true;  // Redraw next time
+
+  // The fade target is the moodbar of the previous data, when the data changes while fading, like on a quick track change, the fade would continue with the previous moodbar, and then jump to the new one.
+  fade_target_ = QPixmap();
+
   NextState();
 
 }
@@ -103,6 +107,12 @@ void MoodbarProxyStyle::SetShowMoodbar(const bool show) {
   if (show == show_) return;
 
   show_ = show;
+
+  // The slider shows the normal slider, or the waveform which sets the size when it's shown after this.
+  if (!show_) {
+    slider_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    slider_->updateGeometry();
+  }
 
   NextState();
 
@@ -117,8 +127,11 @@ void MoodbarProxyStyle::NextState() {
 
   // While the regular slider should stay at the standard size (Fixed),
   // moodbars should use all available space (MinimumExpanding).
-  slider_->setSizePolicy(QSizePolicy::Expanding, visible ? QSizePolicy::MinimumExpanding : QSizePolicy::Fixed);
-  slider_->updateGeometry();
+  // The waveform is on the same slider, so only set the size when the moodbar is the seekbar mode, otherwise new moodbar data would shrink the waveform.
+  if (show_) {
+    slider_->setSizePolicy(QSizePolicy::Expanding, visible ? QSizePolicy::MinimumExpanding : QSizePolicy::Fixed);
+    slider_->updateGeometry();
+  }
 
   if ((visible && (state_ == State::MoodbarOn || state_ == State::FadingToOn)) || (!visible && (state_ == State::MoodbarOff || state_ == State::FadingToOff))) {
     return;
@@ -160,6 +173,17 @@ bool MoodbarProxyStyle::eventFilter(QObject *object, QEvent *event) {
       case QEvent::Resize:
         // The widget was resized, we've got to render a new pixmap.
         moodbar_pixmap_dirty_ = true;
+        break;
+
+      case QEvent::PaletteChange:
+        // The system palette style and the border use the palette colors.
+        moodbar_colors_dirty_ = true;
+        // The pixmaps of a fade are drawn again with the new palette, the normal slider always, the moodbar when there's moodbar data to draw it.
+        // Without moodbar data, the moodbar fading out is kept, it can't be drawn again.
+        fade_source_ = QPixmap();
+        if (!data_.isEmpty()) {
+          fade_target_ = QPixmap();
+        }
         break;
 
       default:
@@ -213,7 +237,8 @@ void MoodbarProxyStyle::Render(const ComplexControl control, const QStyleOptionS
       }
 
       if (fade_target_.isNull()) {
-        if (state_ == State::FadingToOn) {
+        // The moodbar fading out is drawn again too when there's data for it, like after a palette change.
+        if (!data_.isEmpty()) {
           EnsureMoodbarRendered(option);
         }
         fade_target_ = moodbar_pixmap_;

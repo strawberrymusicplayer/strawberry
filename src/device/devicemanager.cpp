@@ -21,6 +21,7 @@
 
 #include "config.h"
 
+#include <algorithm>
 #include <utility>
 #include <functional>
 #include <memory>
@@ -32,6 +33,8 @@
 #include <QThread>
 #include <QtConcurrentRun>
 #include <QAbstractItemModel>
+#include <QPersistentModelIndex>
+#include <QPointer>
 #include <QDir>
 #include <QList>
 #include <QVariant>
@@ -76,6 +79,9 @@
 #endif
 #ifdef Q_OS_MACOS
 #  include "macosdevicelister.h"
+#endif
+#ifdef Q_OS_WIN32
+#  include "win32devicelister.h"
 #endif
 #ifdef HAVE_GPOD
 #  include "gpoddevice.h"
@@ -131,6 +137,9 @@ DeviceManager::DeviceManager(const SharedPtr<TaskManager> task_manager,
 #ifdef Q_OS_MACOS
   AddLister(new MacOsDeviceLister);
 #endif
+#ifdef Q_OS_WIN32
+  AddLister(new Win32DeviceLister);
+#endif
 
 #ifdef HAVE_AUDIOCD
   AddDeviceClass<CDDADevice>();
@@ -184,6 +193,12 @@ void DeviceManager::CloseDevices() {
     wait_for_exit_ << &*failed_device;
     QObject::connect(&*failed_device, &ConnectedDevice::destroyed, this, &DeviceManager::DeviceDestroyed);
   }
+  // Devices which are unmounted when they are no longer used are already closed, wait until they are deleted, so the listers are closed after the unmount was requested.
+  for (const PendingUnmount &pending_unmount : std::as_const(pending_unmounts_)) {
+    if (!pending_unmount.connected_device || wait_for_exit_.contains(pending_unmount.connected_device.data())) continue;
+    wait_for_exit_ << pending_unmount.connected_device.data();
+    QObject::connect(pending_unmount.connected_device.data(), &ConnectedDevice::destroyed, this, &DeviceManager::DeviceDestroyed);
+  }
   if (wait_for_exit_.isEmpty()) CloseListers();
 
 }
@@ -236,6 +251,9 @@ void DeviceManager::DeviceDestroyed() {
 
   ConnectedDevice *connected_device = static_cast<ConnectedDevice*>(sender());
   if (!wait_for_exit_.contains(connected_device) || !backend_) return;
+
+  // The unmount of a device which was closed to unmount it, after exiting started, is requested before the listers are closed, otherwise it is requested on a lister which was already closed.
+  FinishPendingUnmount(connected_device);
 
   wait_for_exit_.removeAll(connected_device);
   if (wait_for_exit_.isEmpty()) CloseListers();
@@ -352,7 +370,10 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
 
     case MusicStorage::Role_Storage:
       if (!device_info->device_ && device_info->database_id_ != -1) {
-        const_cast<DeviceManager*>(this)->Connect(device_info);
+        // Connect() can show a warning, while the device can be removed from the model, so the device it returns is used.
+        const SharedPtr<ConnectedDevice> connected_device = const_cast<DeviceManager*>(this)->Connect(device_info);
+        if (!connected_device) return QVariant();
+        return QVariant::fromValue<SharedPtr<MusicStorage>>(connected_device);
       }
       if (!device_info->device_) return QVariant();
       return QVariant::fromValue<SharedPtr<MusicStorage>>(device_info->device_);
@@ -360,15 +381,22 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
     case MusicStorage::Role_StorageForceConnect:
       if (!device_info->BestBackend()) return QVariant();
       if (!device_info->device_) {
-        if (device_info->database_id_ == -1 && !device_info->BestBackend()->lister_->DeviceNeedsMount(device_info->BestBackend()->unique_id_)) {
+        // A device which is not attached has no lister, Connect() doesn't connect it.
+        if (device_info->database_id_ == -1 && device_info->BestBackend()->lister_ && !device_info->BestBackend()->lister_->DeviceNeedsMount(device_info->BestBackend()->unique_id_)) {
           if (device_info->BestBackend()->lister_->AskForScan(device_info->BestBackend()->unique_id_)) {
+            // The device can be removed from the model, which deletes it, while the dialog is open.
+            const QPersistentModelIndex persistent_idx(idx);
             ScopedPtr<QMessageBox> dialog(new QMessageBox(QMessageBox::Information, tr("Connect device"), tr("This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time."), QMessageBox::Cancel));
             QPushButton *pushbutton = dialog->addButton(tr("Connect device"), QMessageBox::AcceptRole);
             dialog->exec();
             if (dialog->clickedButton() != pushbutton) return QVariant();
+            if (!persistent_idx.isValid()) return QVariant();
           }
         }
-        const_cast<DeviceManager*>(this)->Connect(device_info);
+        // Connect() can show a warning, while the device can be removed from the model, so the device it returns is used.
+        const SharedPtr<ConnectedDevice> connected_device = const_cast<DeviceManager*>(this)->Connect(device_info);
+        if (!connected_device) return QVariant();
+        return QVariant::fromValue<SharedPtr<MusicStorage>>(connected_device);
       }
       if (!device_info->device_) return QVariant();
       return QVariant::fromValue<SharedPtr<MusicStorage>>(device_info->device_);
@@ -516,6 +544,16 @@ void DeviceManager::PhysicalDeviceRemoved(const QString &id) {
 
   qLog(Info) << "Device removed:" << id;
 
+  // A device which is unmounted when it is no longer used is not attached any more, so when it is attached again, that is not unmounted.
+  for (QHash<ConnectedDevice*, PendingUnmount>::iterator it = pending_unmounts_.begin(); it != pending_unmounts_.end();) {
+    if (it->lister == lister && it->unique_id == id) {
+      it = pending_unmounts_.erase(it);
+    }
+    else {
+      ++it;
+    }
+  }
+
   DeviceInfo *device_info = FindDeviceById(id);
   if (!device_info) return;
 
@@ -548,7 +586,8 @@ void DeviceManager::PhysicalDeviceRemoved(const QString &id) {
       }
     }
 
-    if (device_info->backends_.isEmpty()) {
+    // The other backends can be without a lister, like backends of a device which was forgotten, which were not attached, then the device is not attached any more either.
+    if (std::none_of(device_info->backends_.cbegin(), device_info->backends_.cend(), [](const DeviceInfo::Backend &backend) { return backend.lister_ != nullptr; })) {
       beginRemoveRows(ItemToIndex(root_), idx.row(), idx.row());
       root_->Delete(device_info->row);
       endRemoveRows();
@@ -560,12 +599,22 @@ void DeviceManager::PhysicalDeviceRemoved(const QString &id) {
 void DeviceManager::PhysicalDeviceChanged(const QString &id) {
 
   DeviceLister *lister = qobject_cast<DeviceLister*>(sender());
-  Q_UNUSED(lister);
+  if (!lister) return;
 
   DeviceInfo *device_info = FindDeviceById(id);
   if (!device_info) return;
 
-  // TODO
+  // Refresh the name, capacity and icon if they come from this lister, but keep them for devices saved in the database, the user can change the name and icon of those.
+  const DeviceInfo::Backend *backend = device_info->BestBackend();
+  if (device_info->database_id_ == -1 && backend && backend->lister_ == lister && backend->unique_id_ == id) {
+    device_info->friendly_name_ = lister->MakeFriendlyName(id);
+    device_info->size_ = lister->DeviceCapacity(id);
+    device_info->LoadIcon(lister->DeviceIcons(id), device_info->friendly_name_);
+  }
+
+  // Free space is read from the lister, so this also updates it for saved devices.
+  const QModelIndex idx = ItemToIndex(device_info);
+  if (idx.isValid()) Q_EMIT dataChanged(idx, idx);
 
 }
 
@@ -590,6 +639,11 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
     return device_info->device_;
   }
 
+  if (UnmountPending(device_info)) {  // Still used after it was closed to unmount it
+    qLog(Info) << "Not connecting" << device_info->friendly_name_ << "it is unmounted when it is no longer used";
+    return SharedPtr<ConnectedDevice>();
+  }
+
   if (!device_info->BestBackend() || !device_info->BestBackend()->lister_) {  // Not physically connected
     return SharedPtr<ConnectedDevice>();
   }
@@ -603,11 +657,19 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
   if (first_time) {
     // We haven't stored this device in the database before
     device_info->database_id_ = backend_->AddDevice(device_info->SaveToDb());
+    // Without the database row and the device's tables, the device's songs can't be stored, the error is reported by the database.
+    if (device_info->database_id_ == -1) {
+      return SharedPtr<ConnectedDevice>();
+    }
   }
 
   // Get the device URLs
   const QList<QUrl> urls = device_info->BestBackend()->lister_->MakeDeviceUrls(device_info->BestBackend()->unique_id_);
   if (urls.isEmpty()) return SharedPtr<ConnectedDevice>();
+
+  // The device can be removed from the model, which deletes it, while a warning is shown.
+  const QPersistentModelIndex persistent_idx = ItemToIndex(device_info);
+  bool warning_shown = false;
 
   // Take the first URL that we have a handler for
   QUrl device_url;
@@ -623,6 +685,7 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
     // If we get here it means that this URL scheme wasn't supported.
     // If it was "ipod" or "mtp" then the user compiled out support and the device won't work properly.
     if (url.scheme() == "mtp"_L1 || url.scheme() == "gphoto2"_L1) {
+      warning_shown = true;
       if (QMessageBox::critical(nullptr, tr("This device will not work properly"),
           tr("This is an MTP device, but you compiled Strawberry without libmtp support.") + u"  "_s +
           tr("If you continue, this device will work slowly and songs copied to it may not work."),
@@ -631,6 +694,7 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
     }
 
     if (url.scheme() == "ipod"_L1) {
+      warning_shown = true;
       if (QMessageBox::critical(nullptr, tr("This device will not work properly"),
           tr("This is an iPod, but you compiled Strawberry without libgpod support.") + "  "_L1 +
           tr("If you continue, this device will work slowly and songs copied to it may not work."),
@@ -649,6 +713,15 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
 
     Q_EMIT DeviceError(tr("This type of device is not supported: %1").arg(url_strings.join(", "_L1)));
     return SharedPtr<ConnectedDevice>();
+  }
+
+  if (warning_shown) {
+    if (!persistent_idx.isValid()) return SharedPtr<ConnectedDevice>();
+    // The device can also have been connected or disconnected meanwhile.
+    if (device_info->device_) return device_info->device_;
+    if (!device_info->BestBackend() || !device_info->BestBackend()->lister_) return SharedPtr<ConnectedDevice>();
+    // Or closed to unmount it, while it is still used.
+    if (UnmountPending(device_info)) return SharedPtr<ConnectedDevice>();
   }
 
   QMetaObject meta_object = device_classes_.value(device_url.scheme());
@@ -734,7 +807,8 @@ void DeviceManager::DeviceCloseFinished(const QString &id) {
   DeviceInfo *device_info = FindDeviceById(id);
   if (!device_info) return;
 
-  device_info->device_.reset();
+  // The device can still be used, like for copying or deleting files, it is kept until then.
+  SharedPtr<ConnectedDevice> connected_device = std::move(device_info->device_);
 
   // Unmounting and forgetting only apply to this close, the device info is kept while the device is still attached or remembered, so a later close must not unmount or forget the device again.
   const bool unmount = device_info->unmount_;
@@ -745,15 +819,48 @@ void DeviceManager::DeviceCloseFinished(const QString &id) {
   QModelIndex idx = ItemToIndex(device_info);
   if (!idx.isValid()) return;
 
+  // The unmount is pending before the device is reported as disconnected, otherwise it can be connected again while it is reported, and that is unmounted when the old device is no longer used.
+  if (unmount && device_info->BestBackend() && device_info->BestBackend()->lister_) {
+    DeviceLister *lister = device_info->BestBackend()->lister_;
+    const QString unique_id = device_info->BestBackend()->unique_id_;
+    // Files can still be copied to the device or deleted from it, so it is unmounted when the device was deleted, which is right away when it is not used any more, otherwise it is unmounted in the middle of copying.
+    if (connected_device) {
+      // Until then, the device is not connected again, and removing it again doesn't unmount it right away, otherwise the device is unmounted while it is still used.
+      ConnectedDevice *pending_device = &*connected_device;
+      pending_unmounts_.insert(pending_device, PendingUnmount{connected_device.get(), lister, unique_id});
+      QObject::connect(pending_device, &QObject::destroyed, this, [this, pending_device]() { FinishPendingUnmount(pending_device); });
+    }
+    else {
+      lister->UnmountDeviceAsync(unique_id);
+    }
+  }
+
   Q_EMIT DeviceDisconnected(idx);
   Q_EMIT dataChanged(idx, idx);
 
-  if (unmount && device_info->BestBackend() && device_info->BestBackend()->lister_) {
-    device_info->BestBackend()->lister_->UnmountDeviceAsync(device_info->BestBackend()->unique_id_);
-  }
-
   if (forget) {
     RemoveFromDB(device_info, idx);
+  }
+
+}
+
+bool DeviceManager::UnmountPending(const DeviceInfo *device_info) const {
+
+  return std::any_of(pending_unmounts_.cbegin(), pending_unmounts_.cend(), [device_info](const PendingUnmount &pending_unmount) {
+    return std::any_of(device_info->backends_.cbegin(), device_info->backends_.cend(), [&pending_unmount](const DeviceInfo::Backend &backend) {
+      return backend.unique_id_ == pending_unmount.unique_id;
+    });
+  });
+
+}
+
+void DeviceManager::FinishPendingUnmount(ConnectedDevice *connected_device) {
+
+  // The pointer is only used as a key, the device is deleted.
+  // The device was removed while it was used, then the unmount is not pending any more, and a device attached after that is not unmounted.
+  const PendingUnmount pending_unmount = pending_unmounts_.take(connected_device);
+  if (pending_unmount.lister) {
+    pending_unmount.lister->UnmountDeviceAsync(pending_unmount.unique_id);
   }
 
 }
@@ -942,11 +1049,14 @@ void DeviceManager::Unmount(const QModelIndex &idx) {
   DeviceInfo *device_info = IndexToItem(idx);
   if (!device_info) return;
 
-  if (device_info->database_id_ != -1 && !device_info->device_) return;
-
+  // A saved device which is attached but not connected is unmounted by its lister too.
   if (device_info->device_) {
     device_info->unmount_ = true;
     Disconnect(device_info, idx);
+  }
+  // The device is already unmounted when it is no longer used.
+  else if (UnmountPending(device_info)) {
+    return;
   }
   else if (device_info->BestBackend() && device_info->BestBackend()->lister_) {
     device_info->BestBackend()->lister_->UnmountDeviceAsync(device_info->BestBackend()->unique_id_);

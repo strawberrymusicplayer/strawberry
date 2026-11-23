@@ -17,15 +17,40 @@
  *
  */
 
-#ifndef MUSIXMATCHSETTINGS_H
-#define MUSIXMATCHSETTINGS_H
+#include "config.h"
 
-namespace MusixmatchSettings {
+#include <QList>
+#include <QModelIndexList>
+#include <QPersistentModelIndex>
 
-constexpr char kUseCustomApiCredentials[] = "use_custom_api_credentials";
-constexpr char kClientId[] = "client_id";
-constexpr char kClientSecret[] = "client_secret";
+#include "queue.h"
+#include "queuerowsmimedata.h"
 
-}  // namespace MusixmatchSettings
+QueueRowsMimeData::QueueRowsMimeData(Queue *queue, const QModelIndexList &indexes, QObject *parent)
+    : QMimeData(),
+      queue_(queue) {
 
-#endif  // MUSIXMATCHSETTINGS_H
+  setParent(parent);
+
+  indexes_.reserve(indexes.count());
+  for (const QModelIndex &idx : indexes) {
+    indexes_ << QPersistentModelIndex(idx);
+  }
+
+}
+
+Queue *QueueRowsMimeData::queue() const { return queue_; }
+
+QList<int> QueueRowsMimeData::rows() const {
+
+  QList<int> rows;
+  rows.reserve(indexes_.count());
+  for (const QPersistentModelIndex &idx : indexes_) {
+    if (idx.isValid()) {
+      rows << idx.row();
+    }
+  }
+
+  return rows;
+
+}

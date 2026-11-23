@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,6 +31,8 @@ class PlatformInterface {
   // Called when the application should show itself.
   virtual void Activate() = 0;
   virtual bool LoadUrl(const QString &url) = 0;
+  // Called when the application should shut down and quit, like with the quit action.
+  virtual void Exit() = 0;
 
  private:
   Q_DISABLE_COPY(PlatformInterface)

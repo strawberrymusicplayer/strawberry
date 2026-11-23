@@ -104,7 +104,7 @@ void BlockAnalyzer::resizeEvent(QResizeEvent *e) {
     yscale_[rows_] = 0;
 
     determineStep();
-    paletteChange(palette());
+    paletteChange();
   }
 
   drawBackground();
@@ -342,12 +342,11 @@ QColor ensureContrast(const QColor &bg, const QColor &fg, int amount) {
 
 }
 
-void BlockAnalyzer::paletteChange(const QPalette &_palette) {
+void BlockAnalyzer::paletteChange() {
 
-  Q_UNUSED(_palette)
-
-  const QColor bg = palette().color(QPalette::Window);
-  const QColor fg = ensureContrast(bg, palette().color(QPalette::Highlight));
+  // The pixmaps are kept when the window is activated or deactivated, so the colors of the active window are used.
+  const QColor bg = palette().color(QPalette::Active, QPalette::Window);
+  const QColor fg = ensureContrast(bg, palette().color(QPalette::Active, QPalette::Highlight));
 
   topbarpixmap_.fill(fg);
 
@@ -365,12 +364,12 @@ void BlockAnalyzer::paletteChange(const QPalette &_palette) {
   }
 
   {
-    const QColor bg2 = palette().color(QPalette::Window).darker(112);
+    const QColor bg2 = palette().color(QPalette::Active, QPalette::Window).darker(112);
 
     // make a complimentary fadebar colour
     // TODO dark is not always correct, dumbo!
     int h = 0, s = 0, v = 0;
-    palette().color(QPalette::Window).darker(150).getHsv(&h, &s, &v);
+    palette().color(QPalette::Active, QPalette::Window).darker(150).getHsv(&h, &s, &v);
     const QColor fg2(QColor::fromHsv(h + 120, s, v));
 
     const double dr2 = fg2.red() - bg2.red();
@@ -380,7 +379,7 @@ void BlockAnalyzer::paletteChange(const QPalette &_palette) {
 
     // Precalculate all fade-bar pixmaps
     for (int y = 0; y < kFadeSize; ++y) {
-      fade_bars_[y].fill(palette().color(QPalette::Window));
+      fade_bars_[y].fill(palette().color(QPalette::Active, QPalette::Window));
       QPainter f(&fade_bars_[y]);
       for (int z = 0; z < rows_; ++z) {
         const double Y = 1.0 - (log10(kFadeSize - y) / log10(kFadeSize));

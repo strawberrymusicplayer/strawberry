@@ -20,6 +20,7 @@
  */
 
 #include <memory>
+#include <functional>
 
 #include "gtest_include.h"
 
@@ -28,6 +29,7 @@
 #include <QSignalSpy>
 #include <QUrl>
 #include <QStringList>
+#include <QDateTime>
 #include <QSqlQuery>
 #include <QSqlDatabase>
 #include <QThread>
@@ -67,6 +69,14 @@ class CollectionBackendTest : public ::testing::Test {
     ret.set_ctime(1);
     ret.set_filesize(1);
     return ret;
+  }
+
+  static CollectionSubdirectory Subdir(const int directory_id, const QString &path) {
+    CollectionSubdirectory subdir;
+    subdir.directory_id = directory_id;
+    subdir.path = path;
+    subdir.mtime = 1;
+    return subdir;
   }
 
   SharedPtr<Database> database_;
@@ -117,6 +127,107 @@ TEST_F(CollectionBackendTest, RemoveDirectory) {
   dir = spy[0][0].value<CollectionDirectory>();
   EXPECT_EQ(u"/tmp"_s, dir.path);
   EXPECT_EQ(1, dir.id);
+
+}
+
+// Regression test: a scan finishing after the directory was removed added its subdirectories again, for a directory which doesn't exist.
+TEST_F(CollectionBackendTest, SubdirsForRemovedDirectoryAreNotAdded) {
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::DirectoryAdded);
+  backend_->AddDirectory(u"/music/removed"_s);
+  ASSERT_EQ(1, spy.count());
+  const CollectionDirectory removed_dir = spy.takeFirst().value(0).value<CollectionDirectory>();
+
+  backend_->RemoveDirectory(removed_dir);
+
+  // The scan of the removed directory finishes.
+  backend_->AddOrUpdateSubdirs(CollectionSubdirectoryList() << Subdir(removed_dir.id, u"/music/removed/album"_s));
+  EXPECT_TRUE(backend_->SubdirsInDirectory(removed_dir.id).isEmpty());
+
+  // The next directory gets the same ID, and has no subdirectories.
+  backend_->AddDirectory(u"/music/next"_s);
+  ASSERT_EQ(1, spy.count());
+  const CollectionDirectory next_dir = spy.takeFirst().value(0).value<CollectionDirectory>();
+  EXPECT_EQ(removed_dir.id, next_dir.id);
+  EXPECT_TRUE(backend_->SubdirsInDirectory(next_dir.id).isEmpty());
+
+}
+
+// Regression test: the directory IDs are reused, when another directory was added before the scan of the removed directory finished, the subdirectories were added for that directory.
+TEST_F(CollectionBackendTest, SubdirsForReplacedDirectoryAreNotAdded) {
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::DirectoryAdded);
+  backend_->AddDirectory(u"/music/removed"_s);
+  ASSERT_EQ(1, spy.count());
+  const CollectionDirectory removed_dir = spy.takeFirst().value(0).value<CollectionDirectory>();
+
+  backend_->RemoveDirectory(removed_dir);
+  backend_->AddDirectory(u"/music/next"_s);
+  ASSERT_EQ(1, spy.count());
+  const CollectionDirectory next_dir = spy.takeFirst().value(0).value<CollectionDirectory>();
+  ASSERT_EQ(removed_dir.id, next_dir.id);
+
+  // The scan of the removed directory finishes, its root subdirectory and a subdirectory, and a directory with the same start of the path is not in the directory either.
+  backend_->AddOrUpdateSubdirs(CollectionSubdirectoryList() << Subdir(removed_dir.id, u"/music/removed"_s) << Subdir(removed_dir.id, u"/music/removed/album"_s) << Subdir(removed_dir.id, u"/music/next2/album"_s));
+  EXPECT_TRUE(backend_->SubdirsInDirectory(next_dir.id).isEmpty());
+
+  // The scan of the next directory finishes, its root subdirectory and a subdirectory.
+  backend_->AddOrUpdateSubdirs(CollectionSubdirectoryList() << Subdir(next_dir.id, u"/music/next"_s) << Subdir(next_dir.id, u"/music/next/album"_s));
+  QStringList paths;
+  for (const CollectionSubdirectory &subdir : backend_->SubdirsInDirectory(next_dir.id)) {
+    paths << subdir.path;
+  }
+  paths.sort();
+  EXPECT_EQ(QStringList() << u"/music/next"_s << u"/music/next/album"_s, paths);
+
+}
+
+// A directory which is removed and added again gets the subdirectories of the scan that finishes after, they're in the same path.
+TEST_F(CollectionBackendTest, SubdirsForReaddedDirectoryAreAdded) {
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::DirectoryAdded);
+  backend_->AddDirectory(u"/music"_s);
+  ASSERT_EQ(1, spy.count());
+  const CollectionDirectory dir = spy.takeFirst().value(0).value<CollectionDirectory>();
+
+  backend_->RemoveDirectory(dir);
+  backend_->AddDirectory(u"/music"_s);
+  ASSERT_EQ(1, spy.count());
+  ASSERT_EQ(dir.id, spy.takeFirst().value(0).value<CollectionDirectory>().id);
+
+  backend_->AddOrUpdateSubdirs(CollectionSubdirectoryList() << Subdir(dir.id, u"/music/album"_s));
+  ASSERT_EQ(1, backend_->SubdirsInDirectory(dir.id).count());
+
+}
+
+// The subdirectories are still added for directories which exist, also in the same batch as subdirectories for a removed directory, and in the root directory.
+TEST_F(CollectionBackendTest, SubdirsForExistingDirectoryAreAdded) {
+
+  QSignalSpy spy(&*backend_, &CollectionBackend::DirectoryAdded);
+  backend_->AddDirectory(u"/music/removed"_s);
+  backend_->AddDirectory(u"/music/kept"_s);
+  backend_->AddDirectory(u"/"_s);
+  ASSERT_EQ(3, spy.count());
+  const CollectionDirectory removed_dir = spy.at(0).value(0).value<CollectionDirectory>();
+  const CollectionDirectory kept_dir = spy.at(1).value(0).value<CollectionDirectory>();
+  const CollectionDirectory root_dir = spy.at(2).value(0).value<CollectionDirectory>();
+
+  backend_->RemoveDirectory(removed_dir);
+
+  CollectionSubdirectory kept_subdir = Subdir(kept_dir.id, u"/music/kept/album"_s);
+  backend_->AddOrUpdateSubdirs(CollectionSubdirectoryList() << Subdir(removed_dir.id, u"/music/removed/album"_s) << kept_subdir << Subdir(root_dir.id, u"/album"_s));
+
+  const CollectionSubdirectoryList kept_subdirs = backend_->SubdirsInDirectory(kept_dir.id);
+  ASSERT_EQ(1, kept_subdirs.count());
+  EXPECT_EQ(u"/music/kept/album"_s, kept_subdirs.first().path);
+  EXPECT_TRUE(backend_->SubdirsInDirectory(removed_dir.id).isEmpty());
+  EXPECT_EQ(1, backend_->SubdirsInDirectory(root_dir.id).count());
+
+  // Updating the mtime of an existing subdirectory still works.
+  kept_subdir.mtime = 2;
+  backend_->AddOrUpdateSubdirs(CollectionSubdirectoryList() << kept_subdir);
+  ASSERT_EQ(1, backend_->SubdirsInDirectory(kept_dir.id).count());
+  EXPECT_EQ(2, backend_->SubdirsInDirectory(kept_dir.id).first().mtime);
 
 }
 
@@ -327,6 +438,19 @@ TEST_F(SingleSong, GetSongs) {
   EXPECT_EQ(song_.artist(), songs[0].artist());
   EXPECT_EQ(song_.title(), songs[0].title());
   EXPECT_EQ(1, songs[0].id());
+
+}
+
+// Regression test: the songs of compilations were left out, so the embedded cover of a compilation couldn't be saved.
+TEST_F(SingleSong, GetAlbumSongsIncludesCompilation) {
+
+  song_.set_compilation(true);
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  const SongList songs = backend_->GetAlbumSongs(song_.effective_albumartist(), u"Album"_s);
+  ASSERT_EQ(1, songs.size());
+  EXPECT_TRUE(songs[0].is_compilation());
 
 }
 
@@ -689,6 +813,243 @@ TEST_F(SingleSong, DeleteUnavailableSongsKeepsAvailableSongs) {
   // Nothing is deleted when there are no unavailable songs.
   backend_->DeleteUnavailableSongs();
   EXPECT_EQ(1, deleted_spy.size());
+}
+
+// A song which becomes unavailable is last seen now, so it's expired by when it became unavailable, a song which was already unavailable keeps when it was last seen.
+TEST_F(SingleSong, MarkSongsUnavailableUpdatesLastSeen) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  {
+    QSqlDatabase db(database_->Connect());
+    QSqlQuery q(db);
+    ASSERT_TRUE(q.exec(QStringLiteral("UPDATE %1 SET lastseen = 1").arg(QLatin1String(CollectionManager::kSongsTable))));
+  }
+
+  const qint64 time = QDateTime::currentSecsSinceEpoch();
+  Song song = backend_->GetSongById(1);
+  ASSERT_TRUE(song.is_valid());
+  backend_->MarkSongsUnavailable(SongList() << song);
+  song = backend_->GetSongById(1);
+  EXPECT_TRUE(song.unavailable());
+  EXPECT_GE(song.lastseen(), time);
+
+  // Marking it unavailable again doesn't change when it was last seen.
+  {
+    QSqlDatabase db(database_->Connect());
+    QSqlQuery q(db);
+    ASSERT_TRUE(q.exec(QStringLiteral("UPDATE %1 SET lastseen = 2").arg(QLatin1String(CollectionManager::kSongsTable))));
+  }
+  backend_->MarkSongsUnavailable(SongList() << song);
+  song = backend_->GetSongById(1);
+  EXPECT_TRUE(song.unavailable());
+  EXPECT_EQ(2, song.lastseen());
+
+  // Neither does marking it available, the scan updates it for available songs.
+  backend_->MarkSongsUnavailable(SongList() << song, false);
+  song = backend_->GetSongById(1);
+  EXPECT_FALSE(song.unavailable());
+  EXPECT_EQ(2, song.lastseen());
+
+}
+
+// A scan only updates the songs when it's finished, the user set data changed since the scan read the song, for example by playing the song during the scan, is kept.
+TEST_F(SingleSong, ScannedSongKeepsUserSetDataChangedDuringScan) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  const Song previous_song = backend_->GetSongById(1);
+  ASSERT_TRUE(previous_song.is_valid());
+
+  // Changed while the scan was running.
+  backend_->IncrementPlayCount(1);
+  backend_->UpdateSongRating(1, 0.8F);
+  {
+    QSqlDatabase db(database_->Connect());
+    QSqlQuery q(db);
+    ASSERT_TRUE(q.exec(QStringLiteral("UPDATE %1 SET art_manual = 'file:///cover.jpg', compilation_on = 1, lyrics = 'Lyrics', lyrics_storage_type = %2").arg(QLatin1String(CollectionManager::kSongsTable)).arg(static_cast<int>(Song::StorageType::Database))));
+  }
+
+  // The scan read new tags.
+  Song scanned_song(previous_song);
+  scanned_song.set_title(u"New title"_s);
+
+  QSignalSpy changed_spy(&*backend_, &CollectionBackend::SongsChanged);
+  backend_->AddOrUpdateScannedSongs(SongList() << scanned_song, SongList() << previous_song);
+
+  const Song song = backend_->GetSongById(1);
+  EXPECT_EQ(u"New title"_s, song.title());
+  EXPECT_EQ(1U, song.playcount());
+  EXPECT_GT(song.lastplayed(), 0);
+  EXPECT_FLOAT_EQ(0.8F, song.rating());
+  EXPECT_EQ(QUrl(u"file:///cover.jpg"_s), song.art_manual());
+  EXPECT_TRUE(song.compilation_on());
+  EXPECT_EQ(u"Lyrics"_s, song.lyrics());
+  EXPECT_EQ(Song::StorageType::Database, song.lyrics_storage_type());
+
+  // The models are updated with the kept data too.
+  ASSERT_EQ(1, changed_spy.count());
+  const SongList changed_songs = changed_spy[0][0].value<SongList>();
+  ASSERT_EQ(1, changed_songs.count());
+  EXPECT_EQ(1U, changed_songs[0].playcount());
+  EXPECT_FLOAT_EQ(0.8F, changed_songs[0].rating());
+
+}
+
+// Play statistics which were reset during the scan stay reset.
+TEST_F(SingleSong, ScannedSongKeepsPlayStatisticsResetDuringScan) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  {
+    QSqlDatabase db(database_->Connect());
+    QSqlQuery q(db);
+    ASSERT_TRUE(q.exec(QStringLiteral("UPDATE %1 SET playcount = 3, skipcount = 2, lastplayed = 100").arg(QLatin1String(CollectionManager::kSongsTable))));
+  }
+  const Song previous_song = backend_->GetSongById(1);
+  ASSERT_EQ(3U, previous_song.playcount());
+
+  backend_->ResetPlayStatistics(1);
+
+  Song scanned_song(previous_song);
+  scanned_song.set_title(u"New title"_s);
+  backend_->AddOrUpdateScannedSongs(SongList() << scanned_song, SongList() << previous_song);
+
+  const Song song = backend_->GetSongById(1);
+  EXPECT_EQ(u"New title"_s, song.title());
+  EXPECT_EQ(0U, song.playcount());
+  EXPECT_EQ(0U, song.skipcount());
+  EXPECT_LE(song.lastplayed(), 0);
+
+}
+
+// A skip during the scan only changes the skip count, the play count read from the file, when it's set to overwrite the play count, is kept.
+TEST_F(SingleSong, ScannedSongKeepsPlayCountFromFileWhenSkippedDuringScan) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  {
+    QSqlDatabase db(database_->Connect());
+    QSqlQuery q(db);
+    ASSERT_TRUE(q.exec(QStringLiteral("UPDATE %1 SET playcount = 3").arg(QLatin1String(CollectionManager::kSongsTable))));
+  }
+  const Song previous_song = backend_->GetSongById(1);
+  ASSERT_EQ(3U, previous_song.playcount());
+
+  backend_->IncrementSkipCount(1, 0.1F);
+
+  Song scanned_song(previous_song);
+  scanned_song.set_playcount(5);
+  backend_->AddOrUpdateScannedSongs(SongList() << scanned_song, SongList() << previous_song);
+
+  const Song song = backend_->GetSongById(1);
+  EXPECT_EQ(5U, song.playcount());
+  EXPECT_EQ(1U, song.skipcount());
+
+}
+
+// Play statistics changed during the scan end up like when they were changed before the scan read the song.
+// For example, after the play statistics were reset, the play count is 0, so the scan uses the play count read from the file.
+TEST_F(SingleSong, ScannedSongPlayStatisticsChangedDuringScanLikeBeforeScan) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  const auto set_statistics = [this]() {
+    QSqlDatabase db(database_->Connect());
+    QSqlQuery q(db);
+    return q.exec(QStringLiteral("UPDATE %1 SET playcount = 0, skipcount = 2, lastplayed = 100").arg(QLatin1String(CollectionManager::kSongsTable)));
+  };
+  // The scan reads the play count from the file, like CollectionWatcher does when the play count in the collection is 0, or when it's set to overwrite the play count.
+  const auto scanned_song = [](const Song &song_read) {
+    Song song(song_read);
+    song.set_title(u"New title"_s);
+    song.set_playcount(5);
+    return song;
+  };
+
+  const QList<std::function<void()>> changes = {
+    [this]() { backend_->ResetPlayStatistics(1); },
+    [this]() {
+      backend_->ResetPlayStatistics(1);
+      backend_->IncrementSkipCount(1, 0.1F);
+    },
+  };
+  for (qsizetype i = 0; i < changes.count(); ++i) {
+    SCOPED_TRACE(i);
+
+    // Changed before the scan read the song.
+    ASSERT_TRUE(set_statistics());
+    changes[i]();
+    Song previous_song = backend_->GetSongById(1);
+    backend_->AddOrUpdateScannedSongs(SongList() << scanned_song(previous_song), SongList() << previous_song);
+    const Song song_changed_before = backend_->GetSongById(1);
+    EXPECT_EQ(5U, song_changed_before.playcount());
+    EXPECT_LE(song_changed_before.lastplayed(), 0);
+
+    // Changed while the scan was running.
+    ASSERT_TRUE(set_statistics());
+    previous_song = backend_->GetSongById(1);
+    changes[i]();
+    backend_->AddOrUpdateScannedSongs(SongList() << scanned_song(previous_song), SongList() << previous_song);
+    const Song song_changed_during = backend_->GetSongById(1);
+    EXPECT_EQ(song_changed_before.playcount(), song_changed_during.playcount());
+    EXPECT_EQ(song_changed_before.skipcount(), song_changed_during.skipcount());
+    EXPECT_EQ(song_changed_before.lastplayed(), song_changed_during.lastplayed());
+  }
+
+}
+
+// The user set data which the scan read from the file, when it's set to overwrite the play count and rating, is stored when it wasn't changed during the scan.
+TEST_F(SingleSong, ScannedSongUserSetDataFromFile) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  const Song previous_song = backend_->GetSongById(1);
+  ASSERT_TRUE(previous_song.is_valid());
+
+  Song scanned_song(previous_song);
+  scanned_song.set_playcount(5);
+  scanned_song.set_rating(0.6F);
+  backend_->AddOrUpdateScannedSongs(SongList() << scanned_song, SongList() << previous_song);
+
+  const Song song = backend_->GetSongById(1);
+  EXPECT_EQ(5U, song.playcount());
+  EXPECT_FLOAT_EQ(0.6F, song.rating());
+
+}
+
+// Synchronized lyrics saved to an LRC file during the scan are kept with the LRC file's mtime, so the next scan doesn't see the LRC file as changed.
+TEST_F(SingleSong, ScannedSongKeepsSyncedLyricsSavedDuringScan) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  const Song previous_song = backend_->GetSongById(1);
+  ASSERT_TRUE(previous_song.is_valid());
+
+  // Saved to the LRC file while the scan was running.
+  Song lyrics_song(previous_song);
+  lyrics_song.set_synced_lyrics(u"[00:01.00]Lyrics"_s);
+  lyrics_song.set_synced_lyrics_storage_type(Song::StorageType::File);
+  lyrics_song.set_lrc_mtime(1234);
+  backend_->UpdateSongsLyrics(SongList(), SongList() << lyrics_song);
+  ASSERT_EQ(1234, backend_->GetSongById(1).lrc_mtime());
+
+  Song scanned_song(previous_song);
+  scanned_song.set_title(u"New title"_s);
+  backend_->AddOrUpdateScannedSongs(SongList() << scanned_song, SongList() << previous_song);
+
+  const Song song = backend_->GetSongById(1);
+  EXPECT_EQ(u"New title"_s, song.title());
+  EXPECT_EQ(u"[00:01.00]Lyrics"_s, song.synced_lyrics());
+  EXPECT_EQ(Song::StorageType::File, song.synced_lyrics_storage_type());
+  EXPECT_EQ(1234, song.lrc_mtime());
 
 }
 
@@ -1327,6 +1688,191 @@ TEST_F(CollectionBackendTest, AddOrUpdateSongsInSeveralDirectories) {
 }
 
 // Regression test: CUE sheet songs share the URL of the file, each of them must be marked as a compilation and reported changed once only.
+// Regression test: the cover manager lists compilation albums and albums without an artist without an album artist, and saving their covers updated the songs with an empty album artist, so no songs were updated.
+TEST_F(CollectionBackendTest, AlbumArtOfAlbumsWithoutAlbumArtist) {
+
+  backend_->AddDirectory(u"/tmp"_s);
+
+  SongList songs;
+  const QList<std::pair<QString, bool>> artists = { { u"Artist 1"_s, true }, { u"Artist 2"_s, true }, { u"Artist 3"_s, false }, { QString(), false } };
+  for (qsizetype i = 0; i < artists.count(); ++i) {
+    Song song = MakeDummySong(1);
+    song.set_title(QStringLiteral("Title %1").arg(i));
+    song.set_artist(artists[i].first);
+    song.set_album(artists[i].first.isEmpty() ? u"No Artist"_s : u"Album"_s);
+    song.set_compilation(artists[i].second);
+    song.set_url(QUrl::fromLocalFile(QStringLiteral("/tmp/%1.flac").arg(i)));
+    songs << song;
+  }
+  backend_->AddOrUpdateSongs(songs);
+
+  // The albums are updated with the album artist they are listed with in the cover manager.
+  const CollectionBackend::AlbumList compilation_albums = backend_->GetCompilationAlbums();
+  ASSERT_EQ(1, compilation_albums.count());
+  ASSERT_TRUE(compilation_albums.first().album_artist.isEmpty());
+  ASSERT_EQ(u"Album"_s, compilation_albums.first().album);
+
+  const QUrl cover_url = QUrl::fromLocalFile(u"/tmp/cover.jpg"_s);
+  QSignalSpy changed_spy(&*backend_, &CollectionBackend::SongsChanged);
+  backend_->UpdateManualAlbumArt(QString(), u"Album"_s, cover_url);
+  ASSERT_EQ(1, changed_spy.count());
+  EXPECT_EQ(2, changed_spy.first().first().value<SongList>().count());
+
+  // The songs of the compilation are updated, the album with the same name by another artist is not.
+  EXPECT_EQ(cover_url, backend_->GetSongById(1).art_manual());
+  EXPECT_EQ(cover_url, backend_->GetSongById(2).art_manual());
+  EXPECT_TRUE(backend_->GetSongById(3).art_manual().isEmpty());
+
+  backend_->UpdateEmbeddedAlbumArt(QString(), u"Album"_s, true);
+  EXPECT_TRUE(backend_->GetSongById(1).art_embedded());
+  EXPECT_TRUE(backend_->GetSongById(2).art_embedded());
+  EXPECT_FALSE(backend_->GetSongById(3).art_embedded());
+
+  backend_->UnsetAlbumArt(QString(), u"Album"_s);
+  EXPECT_TRUE(backend_->GetSongById(1).art_unset());
+  EXPECT_TRUE(backend_->GetSongById(2).art_unset());
+  EXPECT_FALSE(backend_->GetSongById(3).art_unset());
+
+  backend_->ClearAlbumArt(QString(), u"Album"_s, false);
+  EXPECT_FALSE(backend_->GetSongById(1).art_unset());
+  EXPECT_FALSE(backend_->GetSongById(2).art_unset());
+
+  // An album without an artist is listed without an album artist too.
+  backend_->UpdateManualAlbumArt(QString(), u"No Artist"_s, cover_url);
+  EXPECT_EQ(cover_url, backend_->GetSongById(4).art_manual());
+  EXPECT_TRUE(backend_->GetSongById(3).art_manual().isEmpty());
+
+}
+
+// Regression test: embedding a cover in one copy of an album in the cover manager also marked the songs of the copy in another file type as having an embedded cover.
+TEST_F(CollectionBackendTest, UpdateEmbeddedAlbumArtByUrlsOnlyUpdatesThoseSongs) {
+
+  backend_->AddDirectory(u"/tmp"_s);
+
+  SongList songs;
+  int i = 0;
+  for (const QString &extension : {u"flac"_s, u"mp3"_s}) {
+    for (const QString &artist : {u"Artist 1"_s, u"Artist 2"_s}) {
+      Song song = MakeDummySong(1);
+      song.set_title(QStringLiteral("Title %1").arg(++i));
+      song.set_artist(artist);
+      song.set_album(u"Album"_s);
+      song.set_compilation(true);
+      song.set_art_unset(true);
+      song.set_url(QUrl::fromLocalFile(QStringLiteral("/tmp/%1.%2").arg(i).arg(extension)));
+      songs << song;
+    }
+  }
+  backend_->AddOrUpdateSongs(songs);
+
+  QSignalSpy changed_spy(&*backend_, &CollectionBackend::SongsChanged);
+  backend_->UpdateEmbeddedAlbumArtByUrls(QList<QUrl>() << QUrl::fromLocalFile(u"/tmp/1.flac"_s) << QUrl::fromLocalFile(u"/tmp/2.flac"_s), true);
+  ASSERT_EQ(1, changed_spy.count());
+  const SongList changed_songs = changed_spy.first().first().value<SongList>();
+  ASSERT_EQ(2, changed_songs.count());
+  for (const Song &song : changed_songs) {
+    EXPECT_TRUE(song.art_embedded());
+    EXPECT_FALSE(song.art_unset());
+  }
+
+  // The FLAC songs have the embedded cover, the MP3 songs of the same album are not changed.
+  EXPECT_TRUE(backend_->GetSongById(1).art_embedded());
+  EXPECT_TRUE(backend_->GetSongById(2).art_embedded());
+  EXPECT_FALSE(backend_->GetSongById(1).art_unset());
+  for (const int id : {3, 4}) {
+    EXPECT_FALSE(backend_->GetSongById(id).art_embedded());
+    EXPECT_TRUE(backend_->GetSongById(id).art_unset());
+  }
+
+  // Removing the embedded cover only changes the songs in that file.
+  backend_->UpdateEmbeddedAlbumArtByUrls(QList<QUrl>() << QUrl::fromLocalFile(u"/tmp/2.flac"_s), false);
+  EXPECT_TRUE(backend_->GetSongById(1).art_embedded());
+  EXPECT_FALSE(backend_->GetSongById(2).art_embedded());
+  EXPECT_FALSE(backend_->GetSongById(1).art_unset());
+  EXPECT_FALSE(backend_->GetSongById(2).art_unset());
+
+  // Removing the embedded cover keeps art_unset.
+  backend_->UnsetAlbumArt(QString(), u"Album"_s);
+  backend_->UpdateEmbeddedAlbumArtByUrls(QList<QUrl>() << QUrl::fromLocalFile(u"/tmp/1.flac"_s), false);
+  EXPECT_FALSE(backend_->GetSongById(1).art_embedded());
+  EXPECT_TRUE(backend_->GetSongById(1).art_unset());
+
+}
+
+// Regression test: songs from a CUE sheet and songs in their own files with the same tags and file type were listed as one album, with the CUE sheet of the first song, so the cover manager embedded the cover in the CUE sheet file, or not in the other files.
+TEST_F(CollectionBackendTest, CueSheetSongsAreListedAsSeparateAlbum) {
+
+  backend_->AddDirectory(u"/tmp"_s);
+
+  SongList songs;
+  for (int i = 1; i <= 4; ++i) {
+    Song song = MakeDummySong(1);
+    song.set_title(QStringLiteral("Title %1").arg(i));
+    song.set_artist(u"Artist"_s);
+    song.set_album(u"Album"_s);
+    song.set_filetype(Song::FileType::FLAC);
+    // The first two songs are in their own files, the last two are from a CUE sheet sharing one file.
+    if (i <= 2) {
+      song.set_url(QUrl::fromLocalFile(QStringLiteral("/tmp/%1.flac").arg(i)));
+    }
+    else {
+      song.set_url(QUrl::fromLocalFile(u"/tmp/cue.flac"_s));
+      song.set_cue_path(u"/tmp/cue.cue"_s);
+      song.set_beginning_nanosec((i - 3) * 60 * kNsecPerSec);
+      song.set_end_nanosec((i - 2) * 60 * kNsecPerSec);
+    }
+    songs << song;
+  }
+  backend_->AddOrUpdateSongs(songs);
+
+  const CollectionBackend::AlbumList albums = backend_->GetAllAlbums();
+  ASSERT_EQ(2, albums.count());
+  for (const CollectionBackend::Album &album : albums) {
+    EXPECT_EQ(u"Artist"_s, album.album_artist);
+    EXPECT_EQ(u"Album"_s, album.album);
+    if (album.cue_path.isEmpty()) {
+      EXPECT_EQ(QList<QUrl>() << QUrl::fromLocalFile(u"/tmp/1.flac"_s) << QUrl::fromLocalFile(u"/tmp/2.flac"_s), album.urls);
+    }
+    else {
+      EXPECT_EQ(QList<QUrl>() << QUrl::fromLocalFile(u"/tmp/cue.flac"_s) << QUrl::fromLocalFile(u"/tmp/cue.flac"_s), album.urls);
+    }
+  }
+
+}
+
+// Regression test: the songs of a CUE sheet were updated once for every song, the album has the URL of the shared file once for every song, and each URL returns all the songs of the file.
+TEST_F(CollectionBackendTest, UpdateEmbeddedAlbumArtByUrlsUpdatesEachSongOnce) {
+
+  backend_->AddDirectory(u"/tmp"_s);
+
+  SongList songs;
+  for (int i = 1; i <= 3; ++i) {
+    Song song = MakeDummySong(1);
+    song.set_title(QStringLiteral("Title %1").arg(i));
+    song.set_artist(u"Artist"_s);
+    song.set_album(u"Album"_s);
+    song.set_url(QUrl::fromLocalFile(u"/tmp/cue.flac"_s));
+    song.set_cue_path(u"/tmp/cue.cue"_s);
+    song.set_beginning_nanosec((i - 1) * 60 * kNsecPerSec);
+    song.set_end_nanosec(i * 60 * kNsecPerSec);
+    song.set_art_embedded(true);
+    songs << song;
+  }
+  backend_->AddOrUpdateSongs(songs);
+  const QUrl url = QUrl::fromLocalFile(u"/tmp/cue.flac"_s);
+  ASSERT_EQ(3, backend_->GetSongsByUrl(url).count());
+
+  QSignalSpy changed_spy(&*backend_, &CollectionBackend::SongsChanged);
+  backend_->UpdateEmbeddedAlbumArtByUrls(QList<QUrl>() << url << url << url, false);
+  ASSERT_EQ(1, changed_spy.count());
+  const SongList changed_songs = changed_spy.first().first().value<SongList>();
+  EXPECT_EQ(3, changed_songs.count());
+  for (const Song &song : changed_songs) {
+    EXPECT_FALSE(song.art_embedded());
+  }
+
+}
+
 TEST_F(CollectionBackendTest, CompilationsNeedUpdatingSharedUrl) {
 
   backend_->AddDirectory(u"/tmp"_s);

@@ -91,8 +91,8 @@ TEST_F(PLSParserTest, LoadsEntriesWithTitleAndLength) {
 
   TemporaryResource leaf1(u":/audio/strawberry.mp3"_s);
   TemporaryResource leaf2(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(leaf1.isOpen());
-  ASSERT_TRUE(leaf2.isOpen());
+  ASSERT_TRUE(QFile::exists(leaf1.fileName()));
+  ASSERT_TRUE(QFile::exists(leaf2.fileName()));
 
   const QString playlist = tmp.filePath(u"playlist.pls"_s);
   ASSERT_TRUE(WriteFile(playlist, u"[playlist]\r\nFile1=%1\r\nTitle1=First\r\nLength1=180\r\nFile2=%2\r\nTitle2=Second\r\nLength2=240\r\nNumberOfEntries=2\r\nVersion=2\r\n"_s.arg(leaf1.fileName(), leaf2.fileName()).toUtf8()));
@@ -114,7 +114,7 @@ TEST_F(PLSParserTest, EntriesWithoutFileAreSkipped) {
   ASSERT_TRUE(tmp.isValid());
 
   TemporaryResource leaf(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(leaf.isOpen());
+  ASSERT_TRUE(QFile::exists(leaf.fileName()));
 
   const QString playlist = tmp.filePath(u"playlist.pls"_s);
   ASSERT_TRUE(WriteFile(playlist, u"[playlist]\r\nFile1=%1\r\nTitle1=First\r\nTitle2=Second\r\nLength2=240\r\nLength3=120\r\nNumberOfEntries=3\r\nVersion=2\r\n"_s.arg(leaf.fileName()).toUtf8()));
@@ -132,7 +132,7 @@ TEST_F(PLSParserTest, Windows1251TitleIsDecoded) {
   ASSERT_TRUE(tmp.isValid());
 
   TemporaryResource leaf(u":/audio/strawberry.mp3"_s);
-  ASSERT_TRUE(leaf.isOpen());
+  ASSERT_TRUE(QFile::exists(leaf.fileName()));
 
   // Title1=Гражданская Оборона - Мы идём
   const QString playlist = tmp.filePath(u"playlist.pls"_s);

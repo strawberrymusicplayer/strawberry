@@ -26,6 +26,8 @@
 #include <QString>
 #include <QUrl>
 #include <QRegularExpression>
+#include <QJsonDocument>
+#include <QJsonArray>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
@@ -39,6 +41,7 @@
 using namespace Qt::Literals::StringLiterals;
 
 namespace {
+
 constexpr char kUrl[] = "https://www.letras.mus.br/";
 constexpr char kStartTag[] = "<div[^>]*>";
 constexpr char kEndTag[] = "<\\/div>";
@@ -124,17 +127,11 @@ void LetrasLyricsProvider::HandleLyricsReply(QNetworkReply *reply, const int id,
   // Letras's slug router ambiguously resolves common titles -- e.g.
   // /pink-floyd/time/ redirects to the Pink Floyd song "Biding My Time" rather than the Dark Side track.
   // The page embeds the resolved identifiers in window.__pageArgs; verify track_name matches what was requested so we don't surface lyrics from a different song.
-  static const QRegularExpression regex_track_name(u"\"track_name\"\\s*:\\s*\"([^\"]*)\""_s);
-  const QRegularExpressionMatch track_match = regex_track_name.match(content);
-  if (track_match.hasMatch()) {
-    const QString resolved_title = track_match.captured(1);
-    // Use prefix match so qualifiers Letras appends to the canonical title
-    // (e.g. " (feat. Stéphane Grappelli)", " (Live)") don't cause a false reject.
-    if (!resolved_title.startsWith(request.title, Qt::CaseInsensitive)) {
-      qLog(Debug) << name_ << "Slug resolved to a different track" << resolved_title << "for requested" << request.title;
-      Q_EMIT SearchFinished(id);
-      return;
-    }
+  const QString resolved_title = PageTrackName(content);
+  if (!resolved_title.isNull() && !TitleMatches(request.title, resolved_title)) {
+    qLog(Debug) << name_ << "Slug resolved to a different track" << resolved_title << "for requested" << request.title;
+    Q_EMIT SearchFinished(id);
+    return;
   }
 
   auto *watcher = new QFutureWatcher<QString>(this);
@@ -144,6 +141,69 @@ void LetrasLyricsProvider::HandleLyricsReply(QNetworkReply *reply, const int id,
   watcher->setFuture(QtConcurrent::run([content, start_re = start_tag_re_, end_re = end_tag_re_, lyrics_re = lyrics_start_re_, multiple = multiple_]() {
     return ParseLyricsFromHTML(content, start_re, end_re, lyrics_re, multiple);
   }));
+
+}
+
+QString LetrasLyricsProvider::PageTrackName(const QString &content) {
+
+  // The value is a JSON string, which can have escapes like \" and \/, so it's decoded as JSON.
+  static const QRegularExpression regex_track_name(u"\"track_name\"\\s*:\\s*\"((?:[^\"\\\\]|\\\\.)*)\""_s);
+  const QRegularExpressionMatch track_match = regex_track_name.match(content);
+  if (!track_match.hasMatch()) return QString();
+
+  const QJsonDocument json_document = QJsonDocument::fromJson("[\"" + track_match.captured(1).toUtf8() + "\"]");
+  if (!json_document.isArray() || json_document.array().count() != 1 || !json_document.array().at(0).isString()) return QString();
+
+  return json_document.array().at(0).toString();
+
+}
+
+namespace {
+
+// Removes the qualifier in brackets at the end of the title, the qualifier can have brackets in it, like " (Live (1974))".
+// Returns false when the title doesn't end with a complete qualifier.
+bool RemoveTrailingQualifier(QString &title) {
+
+  const QString trimmed_title = title.trimmed();
+  if (!trimmed_title.endsWith(u')') && !trimmed_title.endsWith(u']')) return false;
+
+  int depth = 0;
+  for (qsizetype i = trimmed_title.size() - 1; i >= 0; --i) {
+    const QChar c = trimmed_title.at(i);
+    if (c == u')' || c == u']') {
+      ++depth;
+    }
+    else if (c == u'(' || c == u'[') {
+      --depth;
+      if (depth == 0) {
+        title = trimmed_title.left(i).trimmed();
+        return true;
+      }
+    }
+  }
+
+  return false;
+
+}
+
+}  // namespace
+
+bool LetrasLyricsProvider::TitleMatches(const QString &requested_title, const QString &page_title) {
+
+  const QString requested_slug = StringFixup(requested_title);
+  // Without letters or digits in the requested title, there's nothing to compare.
+  if (requested_slug.isEmpty()) return true;
+
+  if (StringFixup(page_title) == requested_slug) return true;
+
+  // Letras appends the qualifiers in brackets, like " (feat. ...)" or " (Live)", they are removed from the end of the title.
+  // Only the qualifiers are removed, so a different title which starts with the same words, like "Love Story" for "Love?", doesn't match.
+  QString title = page_title;
+  while (RemoveTrailingQualifier(title)) {
+    if (StringFixup(title) == requested_slug) return true;
+  }
+
+  return false;
 
 }
 

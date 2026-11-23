@@ -50,6 +50,7 @@
 #include <QChar>
 #include <QRegularExpression>
 #include <QPixmapCache>
+#include <QGuiApplication>
 #include <QNetworkDiskCache>
 #include <QSettings>
 #include <QTimer>
@@ -64,7 +65,6 @@
 #include "core/settings.h"
 #include "core/songmimedata.h"
 #include "core/scopedflag.h"
-#include "collectionfilteroptions.h"
 #include "collectionquery.h"
 #include "collectionbackend.h"
 #include "collectiondirectorymodel.h"
@@ -93,6 +93,7 @@ CollectionModel::CollectionModel(const SharedPtr<CollectionBackend> backend, con
       dir_model_(new CollectionDirectoryModel(backend, this)),
       filter_(new CollectionFilter(this)),
       timer_update_(new QTimer(this)),
+      pixmap_no_cover_device_pixel_ratio_(0),
       icon_artist_(IconLoader::Load(u"folder-sound"_s)),
       use_disk_cache_(false),
       total_song_count_(0),
@@ -100,6 +101,7 @@ CollectionModel::CollectionModel(const SharedPtr<CollectionBackend> backend, con
       total_album_count_(0),
       loading_(false),
       bulk_mode_(false),
+      filter_update_pending_(false),
       icon_disk_cache_(new QNetworkDiskCache(this)) {
 
   setObjectName(backend_->source() == Song::Source::Collection ? QLatin1String(QObject::metaObject()->className()) : QStringLiteral("%1%2").arg(Song::DescriptionForSource(backend_->source()), QLatin1String(QObject::metaObject()->className())));
@@ -112,11 +114,7 @@ CollectionModel::CollectionModel(const SharedPtr<CollectionBackend> backend, con
     QObject::connect(&*albumcover_loader_, &AlbumCoverLoader::AlbumCoverLoaded, this, &CollectionModel::AlbumCoverLoaded);
   }
 
-  const QIcon nocover = IconLoader::Load(u"cdcase"_s);
-  if (!nocover.isNull()) {
-    const QList<QSize> nocover_sizes = nocover.availableSizes();
-    pixmap_no_cover_ = nocover_sizes.isEmpty() ? nocover.pixmap(kPrettyCoverSize, kPrettyCoverSize) : nocover.pixmap(nocover_sizes.last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  }
+  NoCoverPixmap();
 
   icon_disk_cache_->setCacheDirectory(StandardPaths::WritableLocation(StandardPaths::StandardLocation::CacheLocation) + u'/' + QLatin1String(kPixmapDiskCacheDir) + u'-' + Song::TextForSource(backend_->source()));
 
@@ -274,33 +272,6 @@ void CollectionModel::SetGroupBy(const Grouping g, const std::optional<bool> sep
 
 }
 
-void CollectionModel::SetFilterMode(const CollectionFilterOptions::FilterMode filter_mode) {
-
-  if (options_current_.filter_options.filter_mode() != filter_mode) {
-    options_current_.filter_options.set_filter_mode(filter_mode);
-    ScheduleReset();
-  }
-
-}
-
-void CollectionModel::SetFilterMaxAge(const int filter_max_age) {
-
-  if (options_current_.filter_options.max_age() != filter_max_age) {
-    options_current_.filter_options.set_max_age(filter_max_age);
-    ScheduleReset();
-  }
-
-}
-
-void CollectionModel::SetFilterMinRating(const float filter_min_rating) {
-
-  if (options_current_.filter_options.min_rating() != filter_min_rating) {
-    options_current_.filter_options.set_min_rating(filter_min_rating);
-    ScheduleReset();
-  }
-
-}
-
 QVariant CollectionModel::data(const QModelIndex &idx, const int role) const {
 
   return data(IndexToItem(idx), role);
@@ -455,7 +426,8 @@ void CollectionModel::ScheduleUpdate(const CollectionModelUpdate::Type type, con
 
 void CollectionModel::ScheduleReset() {
 
-  if (!updates_.isEmpty() && updates_.constFirst().type == CollectionModelUpdate::Type::Reset) return;
+  // Only a reset last in the queue can be used for this one, updates queued after a reset contain older songs than it loads, and need a new reset after them.
+  if (!updates_.isEmpty() && updates_.constLast().type == CollectionModelUpdate::Type::Reset) return;
 
   ScheduleUpdate(CollectionModelUpdate::Type::Reset);
 
@@ -533,6 +505,11 @@ void CollectionModel::ProcessUpdate() {
 
   if (updates_.isEmpty()) {
     timer_update_->stop();
+    // Most updates are changes of the statistics, which aren't used by the filters, so don't go through all songs for these.
+    if (filter_update_pending_) {
+      filter_update_pending_ = false;
+      filter_->SongsChanged();
+    }
   }
 
 }
@@ -683,13 +660,12 @@ void CollectionModel::AddSongsInternal(const SongList &songs) {
   QList<CollectionItem*> insertion_order;
   for (const Song &song : songs) {
 
-    // Sanity check to make sure we don't add songs that are outside the user's filter
-    if (!options_active_.filter_options.Matches(song)) continue;
-
     if (song_nodes_.contains(song.id())) {
       qLog(Debug) << song.id() << song.title() << "already exists, skipping";
       continue;
     }
+
+    filter_update_pending_ = true;
 
     // Before we can add each song we need to make sure the required container items already exist in the tree.
     // These depend on which "group by" settings the user has on the collection.
@@ -758,6 +734,9 @@ void CollectionModel::UpdateSongsInternal(const SongList &songs) {
     const Song &old_song = item->metadata;
     const bool song_title_data_changed = IsSongTitleDataChanged(old_song, new_song);
     const bool art_changed = !old_song.IsArtEqual(new_song);
+    // The filter decides again if the song is shown when it's informed of the change.
+    const bool filter_data_changed = old_song.rating() != new_song.rating() || old_song.ctime() != new_song.ctime() || old_song.artist() != new_song.artist() || old_song.album() != new_song.album() || old_song.title() != new_song.title() || old_song.unavailable() != new_song.unavailable();
+    if (filter_data_changed) filter_update_pending_ = true;
     SetSongItemData(item, new_song);
     if (art_changed) {
       for (CollectionItem *parent = item->parent; parent != root_; parent = parent->parent) {
@@ -766,7 +745,7 @@ void CollectionModel::UpdateSongsInternal(const SongList &songs) {
         }
       }
     }
-    if (song_title_data_changed) {
+    if (song_title_data_changed || filter_data_changed) {
       qLog(Debug) << "Song metadata and title for" << new_song.id() << new_song.PrettyTitleWithArtist() << "changed, informing model";
       const QModelIndex idx = ItemToIndex(item);
       if (!idx.isValid()) continue;
@@ -799,6 +778,7 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
   QSet<CollectionItem*> parents;
   for (const Song &song : songs) {
     if (!song_nodes_.contains(song.id())) continue;
+    filter_update_pending_ = true;
     CollectionItem *node = song_nodes_.take(song.id());
     nodes_by_parent[node->parent] << node;
     if (node->parent != root_) parents << node->parent;
@@ -1005,21 +985,21 @@ CollectionItem *CollectionModel::CreateCompilationArtistNode(CollectionItem *par
 
 void CollectionModel::LoadSongsFromSqlAsync() {
 
-  QFuture<SongList> future = QtConcurrent::run(&CollectionModel::LoadSongsFromSql, backend_, options_active_.filter_options);
+  QFuture<SongList> future = QtConcurrent::run(&CollectionModel::LoadSongsFromSql, backend_);
   QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>(this);
   QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, &CollectionModel::LoadSongsFromSqlAsyncFinished);
   watcher->setFuture(future);
 
 }
 
-SongList CollectionModel::LoadSongsFromSql(const SharedPtr<CollectionBackend> backend, const CollectionFilterOptions &filter_options) {
+SongList CollectionModel::LoadSongsFromSql(const SharedPtr<CollectionBackend> backend) {
 
   SongList songs;
 
   {
     QMutexLocker l(backend->db()->Mutex());
     QSqlDatabase db(backend->db()->Connect());
-    CollectionQuery q(db, backend->songs_table(), filter_options);
+    CollectionQuery q(db, backend->songs_table());
     q.SetColumnSpec(u"%songs_table.ROWID, "_s + Song::kColumnSpec);
     if (q.Exec()) {
       while (q.Next()) {
@@ -1108,13 +1088,15 @@ void CollectionModel::ClearItemPixmapCache(CollectionItem *item) {
 
 QVariant CollectionModel::AlbumIcon(CollectionItem *item) {
 
-  if (!albumcover_loader_ || !item) return pixmap_no_cover_;
+  if (!albumcover_loader_ || !item) return NoCoverPixmap();
 
   // Check the cache for a pixmap we already loaded.
+  // The thumbnails have the size for the device pixel ratio, a thumbnail for another device pixel ratio is loaded again and replaced, so there is only one thumbnail for each album, which is removed when the cover changes.
   const QString cache_key = AlbumIconPixmapCacheKey(item);
+  const qreal device_pixel_ratio = qGuiApp->devicePixelRatio();
 
   QPixmap cached_pixmap;
-  if (QPixmapCache::find(cache_key, &cached_pixmap)) {
+  if (QPixmapCache::find(cache_key, &cached_pixmap) && qFuzzyCompare(cached_pixmap.devicePixelRatio(), device_pixel_ratio)) {
     return cached_pixmap;
   }
 
@@ -1123,7 +1105,9 @@ QVariant CollectionModel::AlbumIcon(CollectionItem *item) {
     ScopedPtr<QIODevice> disk_cache_img(icon_disk_cache_->data(AlbumIconPixmapDiskCacheKey(cache_key)));
     if (disk_cache_img) {
       QImage cached_image;
-      if (cached_image.load(&*disk_cache_img, "XPM")) {
+      // The device pixel ratio is not saved, so the size is compared.
+      if (cached_image.load(&*disk_cache_img, "XPM") && cached_image.width() == static_cast<int>(kPrettyCoverSize * device_pixel_ratio)) {
+        cached_image.setDevicePixelRatio(device_pixel_ratio);
         QPixmapCache::insert(cache_key, QPixmap::fromImage(cached_image));
         return QPixmap::fromImage(cached_image);
       }
@@ -1132,7 +1116,7 @@ QVariant CollectionModel::AlbumIcon(CollectionItem *item) {
 
   // Maybe we're loading a pixmap already?
   if (pending_cache_keys_.contains(cache_key)) {
-    return pixmap_no_cover_;
+    return NoCoverPixmap();
   }
 
   // No art is cached and we're not loading it already.  Load art for the first song in the album.
@@ -1140,10 +1124,29 @@ QVariant CollectionModel::AlbumIcon(CollectionItem *item) {
   if (!songs.isEmpty()) {
     AlbumCoverLoaderOptions cover_loader_options(AlbumCoverLoaderOptions::Option::ScaledImage | AlbumCoverLoaderOptions::Option::PadScaledImage);
     cover_loader_options.desired_scaled_size = QSize(kPrettyCoverSize, kPrettyCoverSize);
+    cover_loader_options.device_pixel_ratio = device_pixel_ratio;
     cover_loader_options.types = cover_types_;
     const quint64 id = albumcover_loader_->LoadImageAsync(cover_loader_options, songs.first());
     pending_art_[id] = ItemAndCacheKey(item, cache_key);
     pending_cache_keys_.insert(cache_key);
+  }
+
+  return NoCoverPixmap();
+
+}
+
+// The placeholder is created again for another device pixel ratio, since a failed load cached with the placeholder for another device pixel ratio would be loaded again every time.
+const QPixmap &CollectionModel::NoCoverPixmap() {
+
+  const qreal device_pixel_ratio = qGuiApp->devicePixelRatio();
+  if (qFuzzyCompare(pixmap_no_cover_device_pixel_ratio_, device_pixel_ratio)) return pixmap_no_cover_;
+  pixmap_no_cover_device_pixel_ratio_ = device_pixel_ratio;
+
+  const QIcon nocover = IconLoader::Load(u"cdcase"_s);
+  if (!nocover.isNull()) {
+    const QList<QSize> nocover_sizes = nocover.availableSizes();
+    pixmap_no_cover_ = nocover_sizes.isEmpty() ? nocover.pixmap(QSize(kPrettyCoverSize, kPrettyCoverSize), device_pixel_ratio) : nocover.pixmap(nocover_sizes.last()).scaled(QSize(kPrettyCoverSize, kPrettyCoverSize) * device_pixel_ratio, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    pixmap_no_cover_.setDevicePixelRatio(device_pixel_ratio);
   }
 
   return pixmap_no_cover_;
@@ -1165,7 +1168,7 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderR
   // Insert this image in the cache.
   if (!result.success || result.image_scaled.isNull() || result.type == AlbumCoverLoaderResult::Type::Unset) {
     // Set the no_cover image so we don't continually try to load art.
-    QPixmapCache::insert(cache_key, pixmap_no_cover_);
+    QPixmapCache::insert(cache_key, NoCoverPixmap());
   }
   else {
     QPixmap image_pixmap;
@@ -1173,21 +1176,19 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderR
     QPixmapCache::insert(cache_key, image_pixmap);
   }
 
-  // If we have a valid cover not already in the disk cache
+  // Save a valid cover in the disk cache, it replaces a thumbnail for another device pixel ratio.
   if (use_disk_cache_ && icon_disk_cache_ && result.success && !result.image_scaled.isNull()) {
     const QUrl disk_cache_key = AlbumIconPixmapDiskCacheKey(cache_key);
-    ScopedPtr<QIODevice> disk_cache_img(icon_disk_cache_->data(disk_cache_key));
-    if (!disk_cache_img) {
-      QNetworkCacheMetaData disk_cache_metadata;
-      disk_cache_metadata.setSaveToDisk(true);
-      disk_cache_metadata.setUrl(disk_cache_key);
-      // Qt 6 now ignores any entry without headers, so add a fake header.
-      disk_cache_metadata.setRawHeaders(QNetworkCacheMetaData::RawHeaderList() << qMakePair(QByteArray("collection-thumbnail"), cache_key.toUtf8()));
-      QIODevice *device_iconcache = icon_disk_cache_->prepare(disk_cache_metadata);
-      if (device_iconcache) {
-        result.image_scaled.save(device_iconcache, "XPM");
-        icon_disk_cache_->insert(device_iconcache);
-      }
+    icon_disk_cache_->remove(disk_cache_key);
+    QNetworkCacheMetaData disk_cache_metadata;
+    disk_cache_metadata.setSaveToDisk(true);
+    disk_cache_metadata.setUrl(disk_cache_key);
+    // Qt 6 now ignores any entry without headers, so add a fake header.
+    disk_cache_metadata.setRawHeaders(QNetworkCacheMetaData::RawHeaderList() << qMakePair(QByteArray("collection-thumbnail"), cache_key.toUtf8()));
+    QIODevice *device_iconcache = icon_disk_cache_->prepare(disk_cache_metadata);
+    if (device_iconcache) {
+      result.image_scaled.save(device_iconcache, "XPM");
+      icon_disk_cache_->insert(device_iconcache);
     }
   }
 

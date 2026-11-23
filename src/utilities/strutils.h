@@ -60,6 +60,9 @@ QString UrlForLog(const QByteArray &url);
 // Text with the URLs in it without their user info and query, for example an error message from GStreamer.
 QString RedactUrls(const QString &text);
 
+// Text with the given URL in it without its user info and query, also when the query has spaces, for example the error string of a network reply, then also with other URLs redacted.
+QString RedactUrls(const QString &text, const QUrl &url);
+
 }  // namespace Utilities
 
 #endif  // STRUTILS_H

@@ -381,20 +381,23 @@ QWidget *TextItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
   return new QLineEdit(parent);
 }
 
-TagCompletionModel::TagCompletionModel(SharedPtr<CollectionBackend> backend, const Playlist::Column column, QObject *parent) : QStringListModel(parent) {
+QStringList TagCompleter::Values(SharedPtr<CollectionBackend> backend, const Playlist::Column column) {
 
-  QString col = database_column(column);
-  if (!col.isEmpty()) {
-    setStringList(backend->GetAll(col));
+  QStringList values;
+  const QString database_column = DatabaseColumn(column);
+  if (!database_column.isEmpty()) {
+    values = backend->GetAll(database_column);
   }
 
   if (QThread::currentThread() != backend->thread() && QThread::currentThread() != qApp->thread()) {
     backend->Close();
   }
 
+  return values;
+
 }
 
-QString TagCompletionModel::database_column(const Playlist::Column column) {
+QString TagCompleter::DatabaseColumn(const Playlist::Column column) {
 
   switch (column) {
     case Playlist::Column::Artist:          return u"artist"_s;
@@ -417,31 +420,23 @@ QString TagCompletionModel::database_column(const Playlist::Column column) {
 
 }
 
-static TagCompletionModel *InitCompletionModel(SharedPtr<CollectionBackend> backend, Playlist::Column column) {
-
-  return new TagCompletionModel(backend, column);
-
-}
-
 TagCompleter::TagCompleter(SharedPtr<CollectionBackend> backend, const Playlist::Column column, QLineEdit *editor) : QCompleter(editor), editor_(editor) {
 
-  QFuture<TagCompletionModel*> future = QtConcurrent::run(&InitCompletionModel, backend, column);
-  QFutureWatcher<TagCompletionModel*> *watcher = new QFutureWatcher<TagCompletionModel*>(this);
-  QObject::connect(watcher, &QFutureWatcher<TagCompletionModel*>::finished, this, &TagCompleter::ModelReady);
+  // Only the values are read in the other thread, the model is created here, owned by the completer, so it's not lost when the completer is deleted before the values are read, and it's in the thread of the completer.
+  QFuture<QStringList> future = QtConcurrent::run(&TagCompleter::Values, backend, column);
+  QFutureWatcher<QStringList> *watcher = new QFutureWatcher<QStringList>(this);
+  QObject::connect(watcher, &QFutureWatcher<QStringList>::finished, this, [this, watcher]() {
+    const QStringList values = watcher->result();
+    watcher->deleteLater();
+    ValuesReady(values);
+  });
   watcher->setFuture(future);
 
 }
 
-TagCompleter::~TagCompleter() {
-  delete model();
-}
+void TagCompleter::ValuesReady(const QStringList &values) {
 
-void TagCompleter::ModelReady() {
-
-  QFutureWatcher<TagCompletionModel*> *watcher = static_cast<QFutureWatcher<TagCompletionModel*>*>(sender());
-  TagCompletionModel *model = watcher->result();
-  watcher->deleteLater();
-  setModel(model);
+  setModel(new QStringListModel(values, this));
   setCaseSensitivity(Qt::CaseInsensitive);
   editor_->setCompleter(this);
 

@@ -53,6 +53,10 @@ class BoomAnalyzer : public AnalyzerBase {
 
  protected:
   void resizeEvent(QResizeEvent *e) override;
+  void paletteChange() override;
+
+  // Draws the bars and peaks with their current heights on the canvas.
+  virtual void DrawCanvas();
 
   static const int kColumnWidth;
   static const int kMaxBandCount;
@@ -60,7 +64,6 @@ class BoomAnalyzer : public AnalyzerBase {
 
   int bands_;
   Scope scope_;
-  QColor fg_;
 
   double K_barHeight_, F_peakSpeed_, F_;
 

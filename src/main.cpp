@@ -75,6 +75,7 @@
 #include "core/logging.h"
 #include "core/standardpaths.h"
 #include "core/settings.h"
+#include "core/settingsmigration.h"
 
 #include "utilities/envutils.h"
 #include "utilities/styleutils.h"
@@ -109,6 +110,7 @@
 #include "core/networkproxyfactory.h"
 
 #include "core/application.h"
+#include "core/database.h"
 #include "core/metatypes.h"
 #include "core/mainwindow.h"
 #ifdef Q_OS_ANDROID
@@ -268,6 +270,8 @@ int main(int argc, char *argv[]) {
   // Gnome on Ubuntu has menu icons disabled by default.  I think that's a bad idea, and makes some menus in Strawberry look confusing.
   QCoreApplication::setAttribute(Qt::AA_DontShowIconsInMenus, false);
 
+  SettingsMigration::Migrate();
+
   const QString default_style = QApplication::style() ? QApplication::style()->objectName() : QString();
   {
     Settings s;
@@ -394,6 +398,13 @@ int main(int argc, char *argv[]) {
 #endif  // HAVE_TRANSLATIONS
 
   Application app;
+
+  const QString database_error = app.database()->startup_error();
+  if (!database_error.isEmpty()) {
+    QMessageBox::critical(nullptr, u"Strawberry Music Player"_s, database_error);
+    app.database()->Close();
+    return 1;
+  }
 
   // Network proxy
   QNetworkProxyFactory::setApplicationProxyFactory(NetworkProxyFactory::Instance());

@@ -121,6 +121,7 @@ class AlbumCoverFetcher : public QObject {
   quint64 SearchForCovers(const QString &artist, const QString &album, const QString &title = QString());
   quint64 FetchAlbumCover(const QString &artist, const QString &album, const QString &title, const bool batch);
 
+  void Cancel(const quint64 request_id);
   void Clear();
 
  Q_SIGNALS:

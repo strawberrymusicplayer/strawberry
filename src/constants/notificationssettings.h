@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ namespace OSDSettings {
 
 constexpr char kSettingsGroup[] = "OSD";
 
-constexpr char kType[] = "Behaviour";
+constexpr char kType[] = "behaviour";
 
 enum class Type {
   Disabled = 0,
@@ -35,16 +35,16 @@ enum class Type {
   Pretty
 };
 
-constexpr char kTimeout[] = "Timeout";
-constexpr char kShowOnVolumeChange[] = "ShowOnVolumeChange";
-constexpr char kShowOnPlayModeChange[] = "ShowOnPlayModeChange";
-constexpr char kShowOnPausePlayback[] = "ShowOnPausePlayback";
-constexpr char kShowOnResumePlayback[] = "ShowOnResumePlayback";
-constexpr char kShowOnStreamTitleChange[] = "ShowOnStreamTitleChange";
-constexpr char kShowArt[] = "ShowArt";
-constexpr char kCustomTextEnabled[] = "CustomTextEnabled";
-constexpr char kCustomText1[] = "CustomText1";
-constexpr char kCustomText2[] = "CustomText2";
+constexpr char kTimeout[] = "timeout";
+constexpr char kShowOnVolumeChange[] = "show_on_volume_change";
+constexpr char kShowOnPlayModeChange[] = "show_on_play_mode_change";
+constexpr char kShowOnPausePlayback[] = "show_on_pause_playback";
+constexpr char kShowOnResumePlayback[] = "show_on_resume_playback";
+constexpr char kShowOnStreamTitleChange[] = "show_on_stream_title_change";
+constexpr char kShowArt[] = "show_art";
+constexpr char kCustomTextEnabled[] = "custom_text_enabled";
+constexpr char kCustomText1[] = "custom_text1";
+constexpr char kCustomText2[] = "custom_text2";
 
 constexpr Type kDefaultType = Type::Native;
 constexpr int kDefaultTimeout = 5000;
@@ -91,7 +91,7 @@ enum class StatusDisplayType {
 
 constexpr char kSettingsGroup[] = "DiscordRPC";
 constexpr char kEnabled[] = "enabled";
-constexpr char kStatusDisplayType[] = "StatusDisplayType";
+constexpr char kStatusDisplayType[] = "status_display_type";
 
 constexpr bool kDefaultEnabled = false;
 constexpr StatusDisplayType kDefaultStatusDisplayType = StatusDisplayType::App;

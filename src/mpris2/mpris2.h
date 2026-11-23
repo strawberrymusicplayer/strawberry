@@ -92,6 +92,9 @@ class Mpris2 : public QObject {
                   const SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader,
                   QObject *parent = nullptr);
 
+  // Returns the position in nanoseconds to seek to for a seek by the offset in microseconds from a D-Bus client, limited to the start and the end of the song.
+  static quint64 SeekPositionNanosec(const qint64 position_nanosec, const qint64 length_nanosec, const qint64 offset_usec);
+
   // These properties are exposed over D-Bus, where change notification is done through the org.freedesktop.DBus.Properties.PropertiesChanged signal emitted by EmitNotification, so the dynamic properties have no Qt NOTIFY signal.
 
   // org.mpris.MediaPlayer2 MPRIS 2.0 Root interface
@@ -238,10 +241,13 @@ class Mpris2 : public QObject {
   void ShuffleModeChanged();
   void RepeatModeChanged();
   void PlaylistChangedSlot(Playlist *playlist);
+  void PlaylistQueueChanged(Playlist *playlist);
   void PlaylistCollectionChanged();
   void ActivePlaylistChanged(Playlist *playlist);
   void QueueActivePlaylistNotification();
   void EmitActivePlaylistChanged();
+  void QueueCapabilitiesNotification();
+  void EmitQueuedCapabilities();
   void PlaylistItemsAdded(const int playlist_id, const QList<QUuid> &track_ids, const QUuid &after_track_id);
   void PlaylistItemsRemoved(const int playlist_id, const QList<QUuid> &track_ids);
   void PlaylistItemMetadataChanged(const int playlist_id, const QUuid &track_id);
@@ -263,6 +269,8 @@ class Mpris2 : public QObject {
 
   static QUuid GetTrackObjectPathUuid(const QDBusObjectPath &track_object_path);
 
+  void EmitCapabilities();
+
  private:
   const SharedPtr<Player> player_;
   const SharedPtr<PlaylistManager> playlist_manager_;
@@ -273,6 +281,7 @@ class Mpris2 : public QObject {
   // The active playlist last notified, the playlist manager emits ActiveChanged also when the active playlist did not change.
   int active_playlist_id_;
   bool active_playlist_notification_pending_;
+  bool capabilities_notification_pending_;
 };
 
 #endif  // MPRIS2_H

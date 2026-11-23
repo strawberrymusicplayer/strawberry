@@ -514,7 +514,8 @@ void TidalRequest::ArtistsFinishCheck(const int limit, const int offset, const i
 
   if (finished_) return;
 
-  if ((limit == 0 || limit > artists_received) && artists_received_ < artists_total_) {
+  // A page without items doesn't move the offset, so the same page would be requested again, maybe forever, the total can count items which are not returned.
+  if (artists_received > 0 && (limit == 0 || limit > artists_received) && artists_received_ < artists_total_) {
     int offset_next = offset + artists_received;
     if (offset_next > 0 && offset_next < artists_total_) {
       if (query_type_ == Type::FavouriteArtists) AddArtistsRequest(offset_next);
@@ -766,7 +767,8 @@ void TidalRequest::AlbumsFinishCheck(const Artist &artist, const int limit, cons
 
   if (finished_) return;
 
-  if (limit == 0 || limit > albums_received) {
+  // A page without items doesn't move the offset, so the same page would be requested again, maybe forever, the total can count items which are not returned.
+  if (albums_received > 0 && (limit == 0 || limit > albums_received)) {
     int offset_next = offset + albums_received;
     if (offset_next > 0 && offset_next < albums_total) {
       switch (query_type_) {
@@ -974,7 +976,8 @@ void TidalRequest::SongsFinishCheck(const Artist &artist, const Album &album, co
 
   if (finished_) return;
 
-  if (limit == 0 || limit > songs_received) {
+  // A page without items doesn't move the offset, so the same page would be requested again, maybe forever, the total can count items which are not returned.
+  if (songs_received > 0 && (limit == 0 || limit > songs_received)) {
     int offset_next = offset + songs_received;
     if (offset_next > 0 && offset_next < songs_total) {
       switch (query_type_) {

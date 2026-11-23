@@ -46,7 +46,6 @@ BoomAnalyzer::BoomAnalyzer(QWidget *parent)
     : AnalyzerBase(parent, 9),
       bands_(0),
       scope_(kMinBandCount),
-      fg_(palette().color(QPalette::Highlight)),
       K_barHeight_(1.271),
       F_peakSpeed_(1.103),
       F_(1.0),
@@ -96,6 +95,13 @@ void BoomAnalyzer::resizeEvent(QResizeEvent *e) {
 
 }
 
+void BoomAnalyzer::paletteChange() {
+
+  // The bars are drawn again with the new palette, without moving them, so the analyzer keeps showing them while paused.
+  DrawCanvas();
+
+}
+
 void BoomAnalyzer::transform(Scope &s) {
 
   fht_->spectrum(s.data());
@@ -114,14 +120,9 @@ void BoomAnalyzer::analyze(QPainter &p, const Scope &scope, const bool new_frame
 
   const uint MAX_HEIGHT = static_cast<uint>(height() - 1);
 
-  QPainter canvas_painter(&canvas_);
-  canvas_.fill(palette().color(QPalette::Window));
-
   interpolate(scope, scope_);
 
-  int x = 0;
-  int y = 0;
-  for (size_t i = 0; i < static_cast<size_t>(bands_); ++i, x += kColumnWidth + 1) {
+  for (size_t i = 0; i < static_cast<size_t>(bands_); ++i) {
     double h = log10(scope_[i] * 256.0) * F_;
 
     h = std::min(h, static_cast<double>(MAX_HEIGHT));
@@ -153,10 +154,25 @@ void BoomAnalyzer::analyze(QPainter &p, const Scope &scope, const bool new_frame
         peak_height_[i] = std::max(0.0, peak_height_[i]);
       }
     }
+  }
 
-    y = height() - static_cast<int>(bar_height_[i]);
+  DrawCanvas();
+  p.drawPixmap(0, 0, canvas_);
+
+}
+
+void BoomAnalyzer::DrawCanvas() {
+
+  if (canvas_.isNull()) return;
+
+  canvas_.fill(palette().color(QPalette::Window));
+  QPainter canvas_painter(&canvas_);
+
+  int x = 0;
+  for (size_t i = 0; i < static_cast<size_t>(bands_); ++i, x += kColumnWidth + 1) {
+    int y = height() - static_cast<int>(bar_height_[i]);
     canvas_painter.drawPixmap(x + 1, y, barPixmap_, 0, y, -1, -1);
-    canvas_painter.setPen(fg_);
+    canvas_painter.setPen(palette().color(QPalette::Active, QPalette::Highlight));
     if (bar_height_[i] > 0) {
       canvas_painter.drawRect(x, y, kColumnWidth - 1, height() - y - 1);
     }
@@ -165,7 +181,5 @@ void BoomAnalyzer::analyze(QPainter &p, const Scope &scope, const bool new_frame
     canvas_painter.setPen(palette().color(QPalette::Midlight));
     canvas_painter.drawLine(x, y, x + kColumnWidth - 1, y);
   }
-
-  p.drawPixmap(0, 0, canvas_);
 
 }

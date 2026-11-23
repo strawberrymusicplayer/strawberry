@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <functional>
 #include <utility>
 
 #include <QObject>
@@ -39,7 +40,9 @@
 
 #include "utilities/timeutils.h"
 #include "playlist/playlist.h"
+#include "playlist/playlistrowsmimedata.h"
 #include "queue.h"
+#include "queuerowsmimedata.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -349,14 +352,17 @@ Qt::DropActions Queue::supportedDropActions() const {
 
 QMimeData *Queue::mimeData(const QModelIndexList &indexes) const {
 
-  QMimeData *data = new QMimeData;
-
+  QModelIndexList row_indexes;
   QList<int> rows;
   for (const QModelIndex &idx : indexes) {
     if (idx.column() != 0) continue;
 
+    row_indexes << idx;
     rows << idx.row();
   }
+
+  // The rows are also kept as persistent indexes, the rows can change during the drag.
+  QMimeData *data = new QueueRowsMimeData(const_cast<Queue*>(this), row_indexes);
 
   QBuffer buf;
   if (buf.open(QIODevice::WriteOnly)) {
@@ -381,9 +387,17 @@ bool Queue::dropMimeData(const QMimeData *data, Qt::DropAction action, const int
   if (data->hasFormat(QLatin1String(kRowsMimetype))) {
     // Dragged from the queue
 
-    QList<int> proxy_rows;
-    QDataStream stream(data->data(QLatin1String(kRowsMimetype)));
-    stream >> proxy_rows;
+    // Only rows dragged from this queue can be moved, rows from the queue of another playlist or another instance are different songs, or don't exist here.
+    const QueueRowsMimeData *rows_mimedata = qobject_cast<const QueueRowsMimeData*>(data);
+    if (!rows_mimedata || rows_mimedata->queue() != this) {
+      return false;
+    }
+
+    // The rows of the dragged items now, the queue can have changed during the drag.
+    QList<int> proxy_rows = rows_mimedata->rows();
+    if (proxy_rows.isEmpty()) {
+      return false;
+    }
 
     // Make sure we take them in order
     std::stable_sort(proxy_rows.begin(), proxy_rows.end());
@@ -408,7 +422,17 @@ bool Queue::dropMimeData(const QMimeData *data, Qt::DropAction action, const int
 
     // The queue can only contain rows of its own playlist, rows dragged from another playlist or another instance are different songs, or don't exist here.
     // The pointer is only compared, it's not valid in another process.
-    if (pid != QCoreApplication::applicationPid() || playlist != sourceModel()) {
+    if (pid != QCoreApplication::applicationPid()) {
+      return false;
+    }
+
+    // The rows can have changed during the drag, use the rows of the dragged items now.
+    if (const PlaylistRowsMimeData *rows_mimedata = qobject_cast<const PlaylistRowsMimeData*>(data)) {
+      playlist = rows_mimedata->playlist();
+      source_rows = rows_mimedata->rows();
+    }
+
+    if (playlist != sourceModel()) {
       return false;
     }
 
@@ -483,22 +507,26 @@ QVariant Queue::headerData(int section, Qt::Orientation orientation, int role) c
 
 void Queue::Remove(QList<int> &proxy_rows) {
 
-  // Order the rows
-  std::stable_sort(proxy_rows.begin(), proxy_rows.end());
+  // Remove the rows in descending order so the remaining row numbers stay valid, removing contiguous rows together.
+  // The row removal signals update the playlist, so no layout change is emitted.
+  // Rows which don't exist are skipped first, so they don't make the rows next to them be skipped too.
+  const qsizetype row_count = source_indexes_.count();
+  proxy_rows.erase(std::remove_if(proxy_rows.begin(), proxy_rows.end(), [row_count](const int row) { return row < 0 || row >= row_count; }), proxy_rows.end());
+  std::sort(proxy_rows.begin(), proxy_rows.end(), std::greater<int>());
+  proxy_rows.erase(std::unique(proxy_rows.begin(), proxy_rows.end()), proxy_rows.end());
 
-  // Reflects immediately changes in the playlist
-  Q_EMIT layoutAboutToBeChanged();
-
-  int removed_rows = 0;
-  for (int row : proxy_rows) {
-    // After the first row, the row number needs to be updated
-    const int real_row = row - removed_rows;
-    beginRemoveRows(QModelIndex(), real_row, real_row);
-    source_indexes_.removeAt(real_row);
+  qsizetype i = 0;
+  while (i < proxy_rows.count()) {
+    const int last = proxy_rows[i];
+    int first = last;
+    ++i;
+    while (i < proxy_rows.count() && proxy_rows[i] == first - 1) {
+      first = proxy_rows[i];
+      ++i;
+    }
+    beginRemoveRows(QModelIndex(), first, last);
+    source_indexes_.remove(first, last - first + 1);
     endRemoveRows();
-    removed_rows++;
   }
-
-  Q_EMIT layoutChanged();
 
 }

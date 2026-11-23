@@ -35,6 +35,7 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QRect>
+#include <QEvent>
 
 #include "includes/shared_ptr.h"
 #include "core/logging.h"
@@ -62,7 +63,23 @@ MoodbarItemDelegate::MoodbarItemDelegate(const SharedPtr<MoodbarLoader> moodbar_
   QObject::connect(&*moodbar_loader, &MoodbarLoader::SettingsReloaded, this, &MoodbarItemDelegate::ReloadSettings);
   QObject::connect(&*moodbar_loader, &MoodbarLoader::StyleChanged, this, &MoodbarItemDelegate::ReloadSettings);
 
+  playlist_view_->installEventFilter(this);
+
   ReloadSettings();
+
+}
+
+bool MoodbarItemDelegate::eventFilter(QObject *object, QEvent *event) {
+
+  if (object == playlist_view_) {
+    // The system palette style uses the highlight color.
+    if (event->type() == QEvent::PaletteChange && style_ == MoodbarSettings::Style::SystemPalette) {
+      ReloadAllColors();
+    }
+    return false;
+  }
+
+  return QItemDelegate::eventFilter(object, event);
 
 }
 

@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -83,6 +83,9 @@ class AlbumCoverSearcher : public QDialog {
 
   AlbumCoverImageResult Exec(const QString &artist, const QString &album);
 
+ public Q_SLOTS:
+  void done(const int r) override;
+
  protected:
   void keyPressEvent(QKeyEvent *e) override;
 
@@ -94,6 +97,10 @@ class AlbumCoverSearcher : public QDialog {
   void CoverDoubleClicked(const QModelIndex &idx);
 
  private:
+  void AbortSearch();
+  // Cancels loading the images of the results.
+  void CancelCoverLoadingTasks();
+
   Ui_AlbumCoverSearcher *ui_;
 
   const SharedPtr<AlbumCoverLoader> albumcover_loader_;
@@ -107,6 +114,8 @@ class AlbumCoverSearcher : public QDialog {
 #ifdef Q_OS_ANDROID
   CoverDialogPage *android_page_;
 #endif
+  // The cover chosen when the dialog was accepted.
+  AlbumCoverImageResult accepted_result_;
 };
 
 #endif  // ALBUMCOVERSEARCHER_H

@@ -25,6 +25,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cmath>
+#include <optional>
 
 #include <algorithm>
 #include <utility>
@@ -45,6 +46,7 @@
 #include <QFileDialog>
 #include <QFontMetrics>
 #include <QList>
+#include <QPersistentModelIndex>
 #include <QSet>
 #include <QVariant>
 #include <QString>
@@ -63,6 +65,7 @@
 #include <QErrorMessage>
 #include <QColor>
 #include <QFrame>
+#include <QItemSelection>
 #include <QItemSelectionModel>
 #include <QLabel>
 #include <QLayout>
@@ -273,6 +276,18 @@ namespace {
 const int kTrackSliderUpdateTimeMs = 200;
 const int kTrackPositionUpdateTimeMs = 1000;
 
+// Returns the rows of the playlist for the rows of the filter, which stay valid when the filter changes.
+QList<QPersistentModelIndex> SourceIndexes(Playlist *playlist, const QModelIndexList &proxy_indexes) {
+
+  QList<QPersistentModelIndex> source_indexes;
+  source_indexes.reserve(proxy_indexes.count());
+  for (const QModelIndex &proxy_index : proxy_indexes) {
+    source_indexes << QPersistentModelIndex(playlist->filter()->mapToSource(proxy_index));
+  }
+  return source_indexes;
+
+}
+
 // Returns the playlist the index belongs to, which is not necessarily the current playlist when a reply arrives, or nullptr when the row or the playlist was removed.
 Playlist *PlaylistOfIndex(const QPersistentModelIndex &idx) {
   if (!idx.isValid()) return nullptr;
@@ -434,6 +449,7 @@ MainWindow::MainWindow(Application *app,
       playlistitem_actions_separator_(nullptr),
       playlist_rescan_songs_(nullptr),
       playlist_fetch_metadata_(nullptr),
+      playlist_menu_column_(-1),
       track_position_timer_(new QTimer(this)),
       track_slider_timer_(new QTimer(this)),
       metadata_queue_timer_(new QTimer(this)),
@@ -668,7 +684,7 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(ui_->action_auto_complete_tags, &QAction::triggered, this, &MainWindow::AutoCompleteTags);
 #endif
   QObject::connect(ui_->action_settings, &QAction::triggered, this, &MainWindow::OpenSettingsDialog);
-  QObject::connect(ui_->action_toggle_show_sidebar, &QAction::toggled, this, &MainWindow::ToggleSidebar);
+  QObject::connect(ui_->action_toggle_show_sidebar, &QAction::triggered, this, &MainWindow::ToggleSidebar);
   QObject::connect(ui_->action_about_strawberry, &QAction::triggered, this, &MainWindow::ShowAboutDialog);
   QObject::connect(ui_->action_about_qt, &QAction::triggered, qApp, &QApplication::aboutQt);
   QObject::connect(ui_->action_shuffle, &QAction::triggered, &*app_->playlist_manager(), &PlaylistManager::ShuffleCurrent);
@@ -837,7 +853,7 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(album_cover_choice_controller_->delete_cover_action(), &QAction::triggered, this, &MainWindow::DeleteCover);
   QObject::connect(album_cover_choice_controller_->show_cover_action(), &QAction::triggered, this, &MainWindow::ShowCover);
   QObject::connect(album_cover_choice_controller_->search_cover_auto_action(), &QAction::triggered, this, &MainWindow::SearchCoverAutomatically);
-  QObject::connect(album_cover_choice_controller_->search_cover_auto_action(), &QAction::toggled, this, &MainWindow::ToggleSearchCoverAuto);
+  QObject::connect(album_cover_choice_controller_->search_cover_auto_action(), &QAction::triggered, this, &MainWindow::ToggleSearchCoverAuto);
 
   // Devices connections
   QObject::connect(device_view_->view(), &DeviceView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
@@ -925,6 +941,7 @@ MainWindow::MainWindow(Application *app,
 
   QObject::connect(radio_view_, &RadioViewContainer::Refresh, &*app_->radio_services(), &RadioServices::RefreshChannels);
   QObject::connect(radio_view_->view(), &RadioView::GetChannels, &*app_->radio_services(), &RadioServices::GetChannels);
+  QObject::connect(radio_view_->view(), &RadioView::RefreshChannels, &*app_->radio_services(), &RadioServices::RefreshChannels);
   QObject::connect(radio_view_->view(), &RadioView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(radio_view_->search_view(), &RadioBrowserSearchView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
 
@@ -1230,6 +1247,7 @@ MainWindow::MainWindow(Application *app,
 #endif
   ui_->sidebar_layout->setVisible(show_sidebar);
   ui_->action_toggle_show_sidebar->setChecked(show_sidebar);
+  TabSwitched();
 
   QShortcut *close_window_shortcut = new QShortcut(this);
   close_window_shortcut->setKey(Qt::CTRL | Qt::SHIFT | Qt::Key_W);
@@ -1561,6 +1579,7 @@ void MainWindow::SaveSettings() {
   ui_->tabs->SaveSettings(QLatin1String(MainWindowSettings::kSettingsGroup));
   ui_->playlist->view()->SaveSettings();
   app_->scrobbler()->WriteCache();
+  equalizer_->SavePending();
 
   Settings s;
   s.beginGroup(MainWindowSettings::kSettingsGroup);
@@ -1639,7 +1658,17 @@ void MainWindow::CommitData(QSessionManager &session_manager) {
 void MainWindow::ExitFinished() {
 
   exit_ = true;
+
+#ifdef Q_OS_MACOS
+  // When macOS is waiting to log out, restart or shut down, it terminates the application now that the shutdown has finished.
+  if (mac::ReplyToApplicationShouldTerminate()) return;
+
+  // On macOS, QCoreApplication::quit() asks AppKit to terminate the application, which goes through the application delegate, and the delegate starts the shutdown again.
+  // Quit the event loop directly instead, like Qt's application delegate does when the termination is accepted, so the application exits through main().
+  QCoreApplication::exit();
+#else
   QCoreApplication::quit();
+#endif
 
 }
 
@@ -1647,9 +1676,9 @@ void MainWindow::PlaylistsLoaded() {
 
   playlists_loaded_ = true;
 
-  if (options_.has_value()) {
-    CommandlineOptionsReceived(options_.value());
-    options_.reset();
+  const QList<CommandlineOptions> pending_options = std::exchange(pending_options_, QList<CommandlineOptions>());
+  for (const CommandlineOptions &options : pending_options) {
+    CommandlineOptionsReceived(options);
   }
 
   app_->player()->PlaylistsLoaded();
@@ -1754,12 +1783,15 @@ void MainWindow::SendNowPlaying() {
 
   // Send now playing to scrobble services
   Playlist *playlist = app_->playlist_manager()->active();
-  if (app_->scrobbler()->enabled() && playlist && playlist->current_item() && playlist->current_item()->EffectiveMetadata().is_metadata_good()) {
-    app_->scrobbler()->UpdateNowPlaying(playlist->current_item()->EffectiveMetadata());
-    ui_->action_love->setEnabled(true);
-    ui_->button_love->setEnabled(true);
-    systemtrayicon_->LoveStateChanged(true);
+  bool can_love = false;
+  if (app_->scrobbler()->enabled() && playlist && playlist->current_item()) {
+    const Song song = playlist->current_item()->EffectiveMetadata();
+    app_->scrobbler()->UpdateNowPlaying(song);
+    can_love = song.is_metadata_good();
   }
+  ui_->action_love->setEnabled(can_love);
+  ui_->button_love->setEnabled(can_love);
+  systemtrayicon_->LoveStateChanged(can_love);
 
 }
 
@@ -1886,7 +1918,8 @@ void MainWindow::PlayIndex(const QModelIndex &idx, Playlist::AutoScroll autoscro
   }
 
   app_->playlist_manager()->SetActiveToCurrent();
-  app_->player()->PlayAt(row, false, 0, EngineBase::TrackChangeType::Manual, autoscroll, true);
+  // Playing the current song again is a new play, also for the scrobblers, like when double clicking it.
+  app_->player()->PlayAt(row, false, 0, EngineBase::TrackChangeType::Manual, autoscroll, true, true);
 
 }
 
@@ -1982,6 +2015,11 @@ void MainWindow::changeEvent(QEvent *e) {
 
   if (e->type() == QEvent::Show || e->type() == QEvent::WindowStateChange || e->type() == QEvent::WindowActivate) {
     CheckShowErrorDialog();
+  }
+  else if (e->type() == QEvent::PaletteChange) {
+    // The sidebar colors are derived from the highlight color, recalculate them when the palette changes.
+    StyleHelper::setBaseColor(palette().color(QPalette::Active, QPalette::Highlight).darker());
+    ui_->tabs->ReloadSettings();
   }
 
   QMainWindow::changeEvent(e);
@@ -2254,6 +2292,7 @@ void MainWindow::ShowPlaylistContextMenu(const QPoint global_pos, const QModelIn
   }
 
   playlist_menu_index_ = source_index;
+  playlist_menu_column_ = source_index.column();
 
   const bool is_current_row = source_index.isValid() && IsActivePlaylistCurrentRow(source_index.row());
 
@@ -2487,19 +2526,34 @@ bool MainWindow::IsActivePlaylistCurrentRow(const int row) const {
 
 }
 
+QModelIndex MainWindow::PlaylistMenuIndex() const {
+
+  // The row can have been removed while the menu was open, or another playlist can be the current playlist, the index stays valid for its own playlist.
+  if (!playlist_menu_index_.isValid() || playlist_menu_index_.model() != app_->playlist_manager()->current()) return QModelIndex();
+
+  return playlist_menu_index_;
+
+}
+
 void MainWindow::PlaylistPlay() {
 
-  if (playlist_menu_index_.isValid() && IsActivePlaylistCurrentRow(playlist_menu_index_.row())) {
+  const QModelIndex menu_index = PlaylistMenuIndex();
+  if (menu_index.isValid() && IsActivePlaylistCurrentRow(menu_index.row())) {
     app_->player()->PlayPause(0, Playlist::AutoScroll::Never);
   }
   else {
-    PlayIndex(playlist_menu_index_, Playlist::AutoScroll::Never);
+    PlayIndex(menu_index, Playlist::AutoScroll::Never);
   }
 
 }
 
 void MainWindow::PlaylistStopAfter() {
-  app_->playlist_manager()->current()->StopAfter(playlist_menu_index_.row());
+
+  const QModelIndex menu_index = PlaylistMenuIndex();
+  if (!menu_index.isValid()) return;
+
+  app_->playlist_manager()->current()->StopAfter(menu_index.row());
+
 }
 
 void MainWindow::RescanSongs() {
@@ -2713,60 +2767,45 @@ void MainWindow::RenumberTracks() {
     }
   }
 
-  for (const QModelIndex &proxy_index : std::as_const(indexes)) {
-    const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
+  // The edited songs are updated right away, which can remove them from the filter, so the rows are mapped before.
+  Playlist *playlist = app_->playlist_manager()->current();
+  const QList<QPersistentModelIndex> source_indexes = SourceIndexes(playlist, indexes);
+  for (const QPersistentModelIndex &source_index : source_indexes) {
     if (!source_index.isValid()) continue;
-    PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
+    PlaylistItemPtr item = playlist->item_at(source_index.row());
     if (!item) continue;
-    Song song = item->OriginalMetadata();
-    if (song.IsEditable()) {
-      song.set_track(track);
-      TagReaderReplyPtr reply = app_->tagreader_client()->WriteFileAsync(song.url().toLocalFile(), song);
-      QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
-      SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
-      *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, connection]() {
-        SongSaveComplete(reply, persistent_index);
-        QObject::disconnect(*connection);
-      }, Qt::QueuedConnection);
+    // Only the track number is written, the other tags are read from the file, the playlist can have older tags.
+    if (item->OriginalMetadata().IsEditable()) {
+      playlist->SaveColumnValue(source_index, Playlist::Column::Track, track);
     }
     ++track;
   }
 
 }
 
-void MainWindow::SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx) {
-
-  Playlist *playlist = PlaylistOfIndex(idx);
-  if (reply->success() && playlist) {
-    playlist->ReloadItems(QList<int>() << idx.row());
-  }
-
-}
-
 void MainWindow::SelectionSetValue() {
 
-  Playlist::Column column = static_cast<Playlist::Column>(playlist_menu_index_.column());
-  QVariant column_value = app_->playlist_manager()->current()->data(playlist_menu_index_);
+  const QModelIndex menu_index = PlaylistMenuIndex();
+  if (!menu_index.isValid()) return;
 
-  const QModelIndexList proxy_indexes = ui_->playlist->view()->selectionModel()->selectedRows();
-  for (const QModelIndex &proxy_index : proxy_indexes) {
-    const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
+  Playlist::Column column = static_cast<Playlist::Column>(menu_index.column());
+  QVariant column_value = app_->playlist_manager()->current()->data(menu_index);
+
+  // The edited songs are updated right away, which can remove them from the filter, so the rows are mapped before.
+  Playlist *playlist = app_->playlist_manager()->current();
+  const QList<QPersistentModelIndex> source_indexes = SourceIndexes(playlist, ui_->playlist->view()->selectionModel()->selectedRows());
+  for (const QPersistentModelIndex &source_index : source_indexes) {
     if (!source_index.isValid()) continue;
-    PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
+    PlaylistItemPtr item = playlist->item_at(source_index.row());
     if (!item) continue;
-    Song song = item->OriginalMetadata();
+    const Song song = item->OriginalMetadata();
     if (!song.is_valid()) continue;
-    if (song.url().isLocalFile() && Playlist::set_column_value(song, column, column_value)) {
-      TagReaderReplyPtr reply = app_->tagreader_client()->WriteFileAsync(song.url().toLocalFile(), song);
-      QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
-      SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
-      *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, connection]() {
-        SongSaveComplete(reply, persistent_index);
-        QObject::disconnect(*connection);
-      }, Qt::QueuedConnection);
+    if (song.url().isLocalFile()) {
+      // Only the value is written, the other tags are read from the file, the playlist can have older tags.
+      playlist->SaveColumnValue(source_index, column, column_value);
     }
     else if (song.is_stream()) {
-      app_->playlist_manager()->current()->setData(source_index.sibling(source_index.row(), static_cast<int>(column)), column_value, 0);
+      playlist->setData(source_index.sibling(source_index.row(), static_cast<int>(column)), column_value, 0);
     }
   }
 
@@ -2778,7 +2817,7 @@ void MainWindow::EditValue() {
   if (!current.isValid()) return;
 
   // Edit the last column that was right-clicked on.  If nothing's ever been right clicked then look for the first editable column.
-  int column = playlist_menu_index_.column();
+  int column = playlist_menu_column_;
   if (column == -1) {
     for (int i = 0; i < ui_->playlist->view()->model()->columnCount(); ++i) {
       if (ui_->playlist->view()->isColumnHidden(i)) continue;
@@ -2936,7 +2975,7 @@ void MainWindow::PlaylistClearCurrent() {
 
 void MainWindow::PlaylistEditFinished(const int playlist_id, const QModelIndex &idx) {
 
-  if (app_->playlist_manager()->current() && playlist_id == app_->playlist_manager()->current()->id() && idx == playlist_menu_index_) {
+  if (app_->playlist_manager()->current() && playlist_id == app_->playlist_manager()->current()->id() && playlist_menu_index_ == idx) {
     SelectionSetValue();
   }
 
@@ -2961,7 +3000,8 @@ void MainWindow::CommandlineOptionsReceived(const QByteArray &string_options) {
 void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
 
   if (!playlists_loaded_) {
-    options_ = options;
+    // Another instance can send options before the playlists are loaded, keep them all and handle them in the order they were received.
+    pending_options_ << options;
     return;
   }
 
@@ -3072,6 +3112,9 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
         ApplyAddBehaviour(BehaviourSettings::AddBehaviour::OpenInNew, mimedata);
         break;
     }
+
+    // The files are inserted and played asynchronously, after the saved playback would be resumed.
+    if (mimedata->play_now_) app_->player()->SkipResumePlayback();
 
     AddToPlaylist(mimedata);
   }
@@ -3607,7 +3650,7 @@ void MainWindow::PlaylistCurrentChanged(const QModelIndex &proxy_current) {
 
   // If the user moves the current index using the keyboard and then presses
   // F2, we don't want that editing the last column that was right clicked on.
-  if (source_current != playlist_menu_index_) playlist_menu_index_ = QModelIndex();
+  if (playlist_menu_index_ != source_current) playlist_menu_index_ = QPersistentModelIndex();
 
 }
 
@@ -3632,6 +3675,13 @@ bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, qintptr
 void MainWindow::AutoCompleteTags() {
 
 #ifdef HAVE_TAGFETCHER
+
+  // The dialog is accepted when it's done saving the tags of the songs it was opened for, which are reloaded then.
+  if (track_selection_dialog_ && track_selection_dialog_->saving()) {
+    track_selection_dialog_->raise();
+    track_selection_dialog_->activateWindow();
+    return;
+  }
 
   autocomplete_tag_items_.clear();
 
@@ -3777,7 +3827,19 @@ void MainWindow::ClearCover() {
 }
 
 void MainWindow::DeleteCover() {
-  album_cover_choice_controller_->DeleteCover(&song_, true);
+
+  Song song = song_;
+  std::optional<ConfirmedCoverFiles> confirmed_files;
+  Q_FOREVER {
+    confirmed_files = album_cover_choice_controller_->ConfirmDeleteCover(SongList() << song);
+    if (!confirmed_files) return;
+    // The current song can change while the user is asked, then the cover of the song the user was asked about is deleted.
+    // When the cover of the album changed, like when a fetched cover was saved, the user is asked again about the new cover.
+    if (!song_.IsOnSameAlbum(song) || song_.IsArtEqual(song)) break;
+    song = song_;
+  }
+  album_cover_choice_controller_->DeleteCover(&song, true, *confirmed_files);
+
 }
 
 void MainWindow::ShowCover() {
@@ -3881,32 +3943,84 @@ void MainWindow::PlaylistDelete() {
 
   if (!delete_files_) return;
 
+  const int playlist_id = app_->playlist_manager()->current()->id();
   SongList selected_songs;
   QStringList files;
-  bool is_current_item = false;
+  // The selected rows are kept as persistent indexes, they can change while the confirmation is shown, and the selection too, when the playing track is selected.
+  QList<QPersistentModelIndex> selected_source_indexes;
   const QModelIndexList proxy_indexes = ui_->playlist->view()->selectionModel()->selectedRows();
   for (const QModelIndex &proxy_idx : proxy_indexes) {
     QModelIndex source_idx = app_->playlist_manager()->current()->filter()->mapToSource(proxy_idx);
+    if (!source_idx.isValid()) continue;
+    selected_source_indexes << QPersistentModelIndex(source_idx);
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_idx.row());
     if (!item || !item->EffectiveMetadata().url().isLocalFile()) continue;
     QString filename = item->EffectiveMetadata().url().toLocalFile();
     if (files.contains(filename)) continue;
     selected_songs << item->EffectiveMetadata();
     files << filename;
-    if (item == app_->player()->GetCurrentItem()) is_current_item = true;
   }
   if (selected_songs.isEmpty()) return;
 
   if (DeleteConfirmationDialog::warning(files) != QDialogButtonBox::Yes) return;
 
-  if (app_->player()->GetState() == EngineBase::State::Playing && app_->playlist_manager()->current() == app_->playlist_manager()->active() && app_->playlist_manager()->current()->rowCount() == selected_songs.count()) {
-    app_->player()->Stop();
-  }
+  // The confirmed rows which still exist are removed, the song playing can have changed while the confirmation was shown.
+  // The rows are only removed if the playlist is still the current playlist, they are removed from the view.
+  Playlist *playlist = app_->playlist_manager()->playlist(playlist_id);
+  if (playlist && playlist == app_->playlist_manager()->current()) {
+    QList<int> removed_proxy_rows;
+    // Confirmed rows which the filter hides now, like after their metadata was updated, their files are deleted too.
+    QList<QPersistentModelIndex> hidden_source_indexes;
+    bool is_current_item = false;
+    for (const QPersistentModelIndex &source_idx : std::as_const(selected_source_indexes)) {
+      if (!source_idx.isValid()) continue;
+      // The playing row is compared by row, the item of the row can have been replaced while the confirmation was shown, like when the metadata was loaded.
+      // This is checked before the row is skipped when the filter hides it, the file is deleted anyway.
+      if (IsActivePlaylistCurrentRow(source_idx.row())) {
+        is_current_item = true;
+      }
+      const QModelIndex proxy_idx = playlist->filter()->mapFromSource(source_idx);
+      if (proxy_idx.isValid()) {
+        removed_proxy_rows << proxy_idx.row();
+      }
+      else {
+        hidden_source_indexes << source_idx;
+      }
+    }
+    const int removed_count = static_cast<int>(removed_proxy_rows.count() + hidden_source_indexes.count());
 
-  ui_->playlist->view()->RemoveSelected();
+    // Consecutive rows are selected as one range, so they are removed together.
+    std::sort(removed_proxy_rows.begin(), removed_proxy_rows.end());
+    QItemSelection removed_selection;
+    for (qsizetype i = 0; i < removed_proxy_rows.count();) {
+      qsizetype last = i;
+      while (last + 1 < removed_proxy_rows.count() && removed_proxy_rows[last + 1] == removed_proxy_rows[last] + 1) ++last;
+      removed_selection.select(playlist->filter()->index(removed_proxy_rows[i], 0), playlist->filter()->index(removed_proxy_rows[last], 0));
+      i = last + 1;
+    }
 
-  if (app_->player()->GetState() == EngineBase::State::Playing && is_current_item) {
-    app_->player()->Next();
+    if (app_->player()->GetState() == EngineBase::State::Playing && playlist == app_->playlist_manager()->active() && playlist->rowCount() == removed_count) {
+      app_->player()->Stop();
+    }
+
+    if (!removed_selection.isEmpty()) {
+      ui_->playlist->view()->selectionModel()->select(removed_selection, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+      ui_->playlist->view()->RemoveSelected();
+    }
+
+    // The view can only remove the rows it shows, the hidden rows are removed from the playlist, from the last row, so the other rows don't move.
+    QList<int> hidden_source_rows;
+    for (const QPersistentModelIndex &source_idx : std::as_const(hidden_source_indexes)) {
+      if (source_idx.isValid()) hidden_source_rows << source_idx.row();
+    }
+    std::sort(hidden_source_rows.begin(), hidden_source_rows.end(), std::greater<int>());
+    for (const int source_row : std::as_const(hidden_source_rows)) {
+      playlist->removeRows(source_row, 1, QModelIndex());
+    }
+
+    if (app_->player()->GetState() == EngineBase::State::Playing && is_current_item) {
+      app_->player()->Next();
+    }
   }
 
   SharedPtr<MusicStorage> storage = make_shared<FilesystemMusicStorage>(Song::Source::LocalFile, u"/"_s);

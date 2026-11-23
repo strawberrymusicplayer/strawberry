@@ -89,6 +89,7 @@ void LyricsFetcherSearch::Start(SharedPtr<LyricsProviders> lyrics_providers) {
     if (!provider->is_enabled() || (provider->authentication_required() && !provider->authenticated())) continue;
     // Only the providers with synchronized lyrics when searching for synchronized lyrics.
     if (synced_ && !provider->synced_lyrics()) continue;
+    provider_orders_.insert(provider->name(), provider->order());
     QObject::connect(provider, &LyricsProvider::SearchFinished, this, &LyricsFetcherSearch::ProviderSearchFinished);
     const int id = lyrics_providers->NextId();
     const bool success = provider->StartSearchAsync(id, request_);
@@ -112,14 +113,13 @@ void LyricsFetcherSearch::ProviderSearchFinished(const int id, const LyricsSearc
   if (!pending_requests_.contains(id)) return;
   LyricsProvider *provider = pending_requests_.take(id);
 
-  // Only the lyrics with synchronized lyrics when searching for synchronized lyrics, so the highest score is also only for those.
+  // Only the lyrics with synchronized lyrics when searching for synchronized lyrics.
   LyricsSearchResults results_copy;
   for (const LyricsSearchResult &result : results) {
     if (!synced_ || !result.synced_lyrics.isEmpty()) {
       results_copy << result;
     }
   }
-  float higest_score = 0.0;
   for (int i = 0; i < results_copy.size(); ++i) {
     results_copy[i].provider = provider->name();
     results_copy[i].score = 0.0;
@@ -136,16 +136,17 @@ void LyricsFetcherSearch::ProviderSearchFinished(const int id, const LyricsSearc
       results_copy[i].score -= 1.5;
     }
     if (results_copy[i].lyrics.size() > kGoodLyricsLength) results_copy[i].score += 1.0;
-    if (results_copy[i].score > higest_score) higest_score = results_copy[i].score;
   }
 
   results_.append(results_copy);
-  std::stable_sort(results_.begin(), results_.end(), LyricsSearchResultCompareScore);
+  // The best lyrics first, the order of the providers decides between lyrics with the same score, not the order in which the providers replied.
+  std::stable_sort(results_.begin(), results_.end(), [this](const LyricsSearchResult &a, const LyricsSearchResult &b) { return LyricsSearchResultBetter(a, b); });
 
   if (!pending_requests_.isEmpty()) {
     // When searching all providers, wait for all of them.
-    if (!search_ && !results_.isEmpty() && higest_score >= kHighScore) {  // Highest score, no need to wait for other providers.
-      qLog(Debug) << "Got lyrics with high score from" << results_.last().provider << "for" << request_.artist << request_.title << "score" << results_.last().score << "finishing search.";
+    // With the highest score, there's no need to wait for providers after the provider of the best lyrics in the order of the providers, since they can't have better lyrics.
+    if (!search_ && !results_.isEmpty() && results_.first().score >= kHighScore && !ProviderBeforePending(results_.first().provider)) {
+      qLog(Debug) << "Got lyrics with high score from" << results_.first().provider << "for" << request_.artist << request_.title << "score" << results_.first().score << "finishing search.";
       FinishSearch();
     }
     return;
@@ -205,8 +206,8 @@ void LyricsFetcherSearch::FinishSearch() {
     Q_EMIT LyricsFetched(id_);
   }
   else {
-    qLog(Debug) << "Using lyrics from" << results_.last().provider << "for" << request_.artist << request_.title << "with score" << results_.last().score;
-    Q_EMIT LyricsFetched(id_, results_.constLast());
+    qLog(Debug) << "Using lyrics from" << results_.first().provider << "for" << request_.artist << request_.title << "with score" << results_.first().score;
+    Q_EMIT LyricsFetched(id_, results_.constFirst());
   }
 
 }
@@ -225,6 +226,22 @@ bool LyricsFetcherSearch::ProviderCompareOrder(LyricsProvider *a, LyricsProvider
   return a->order() < b->order();
 }
 
-bool LyricsFetcherSearch::LyricsSearchResultCompareScore(const LyricsSearchResult &a, const LyricsSearchResult &b) {
-  return a.score < b.score;
+bool LyricsFetcherSearch::ProviderBeforePending(const QString &provider_name) const {
+
+  // The order of the providers when the search started, the same as for sorting the lyrics, since the order can be changed in the settings during the search.
+  const int order = provider_orders_.value(provider_name);
+  for (LyricsProvider *provider : pending_requests_) {
+    if (provider_orders_.value(provider->name()) < order) return true;
+  }
+
+  return false;
+
+}
+
+bool LyricsFetcherSearch::LyricsSearchResultBetter(const LyricsSearchResult &a, const LyricsSearchResult &b) const {
+
+  if (a.score != b.score) return a.score > b.score;
+
+  return provider_orders_.value(a.provider) < provider_orders_.value(b.provider);
+
 }

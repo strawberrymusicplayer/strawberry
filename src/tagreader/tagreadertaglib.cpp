@@ -136,6 +136,7 @@ constexpr char kID3v2_AlbumArtistSort[] = "TSO2";
 constexpr char kID3v2_AlbumSort[] = "TSOA";
 constexpr char kID3v2_ArtistSort[] = "TSOP";
 constexpr char kID3v2_TitleSort[] = "TSOT";
+constexpr char kID3v2_Track[] = "TRCK";
 constexpr char kID3v2_Disc[] = "TPOS";
 constexpr char kID3v2_Composer[] = "TCOM";
 constexpr char kID3v2_ComposerSort[] = "TSOC";
@@ -182,9 +183,11 @@ constexpr char kVorbisComment_Grouping1[] = "GROUPING";
 constexpr char kVorbisComment_Grouping2[] = "CONTENT GROUP";
 constexpr char kVorbisComment_OriginalYear1[] = "ORIGINALDATE";
 constexpr char kVorbisComment_OriginalYear2[] = "ORIGINALYEAR";
+constexpr char kVorbisComment_Track[] = "TRACKNUMBER";
 constexpr char kVorbisComment_Disc[] = "DISCNUMBER";
 constexpr char kVorbisComment_Compilation[] = "COMPILATION";
 constexpr char kVorbisComment_CoverArt[] = "COVERART";
+constexpr char kVorbisComment_CoverArtMime[] = "COVERARTMIME";
 constexpr char kVorbisComment_MetadataBlockPicture[] = "METADATA_BLOCK_PICTURE";
 constexpr char kVorbisComment_FMPS_Playcount[] = "FMPS_PLAYCOUNT";
 constexpr char kVorbisComment_FMPS_Rating[] = "FMPS_RATING";
@@ -212,6 +215,7 @@ constexpr char kMP4_AlbumArtist[] = "aART";
 constexpr char kMP4_Composer[] = "\251wrt";
 constexpr char kMP4_Grouping[] = "\251grp";
 constexpr char kMP4_Lyrics[] = "\251lyr";
+constexpr char kMP4_Track[] = "trkn";
 constexpr char kMP4_Disc[] = "disk";
 constexpr char kMP4_Compilation[] = "cpil";
 constexpr char kMP4_CoverArt[] = "covr";
@@ -236,6 +240,7 @@ constexpr char kAPE_AlbumArtist[] = "ALBUM ARTIST";
 constexpr char kAPE_Composer[] = "COMPOSER";
 constexpr char kAPE_Performer[] = "PERFORMER";
 constexpr char kAPE_Grouping[] = "GROUPING";
+constexpr char kAPE_Track[] = "TRACK";
 constexpr char kAPE_Disc[] = "DISC";
 constexpr char kAPE_Compilation[] = "COMPILATION";
 constexpr char kAPE_CoverArt[] = "COVER ART (FRONT)";
@@ -277,6 +282,52 @@ constexpr char kASF_MusicBrainz_TrackId[] = "MusicBrainz/Release Track Id";
 constexpr char kASF_MusicBrainz_DiscId[] = "MusicBrainz/Disc Id";
 constexpr char kASF_MusicBrainz_ReleaseGroupId[] = "MusicBrainz/Release Group Id";
 constexpr char kASF_MusicBrainz_WorkId[] = "MusicBrainz/Work Id";
+
+// Returns the total of a track or disc number with a total, like "12" for "3/12", or an empty string when there's no total.
+QString NumberTotal(const QString &value) {
+
+  const qsizetype separator = value.indexOf(u'/');
+  if (separator == -1) return QString();
+
+  return value.mid(separator + 1).trimmed();
+
+}
+
+// Returns the track or disc number with the total of the previous value, since the total is not stored in the song, so saving the tags doesn't remove it.
+QString NumberWithTotal(const int number, const QString &previous_value) {
+
+  if (number <= 0) return QString();
+
+  const QString total = NumberTotal(previous_value);
+  if (total.isEmpty()) return QString::number(number);
+
+  return QString::number(number) + u'/' + total;
+
+}
+
+// The pictures which are used as the cover, the other pictures, like the back cover, are kept when the cover is changed or removed.
+bool IsCoverPicture(const TagLib::FLAC::Picture::Type type) {
+  return type == TagLib::FLAC::Picture::FrontCover || type == TagLib::FLAC::Picture::Other;
+}
+
+// Returns copies of the pictures which are not the cover, to add them again after all pictures are removed.
+// Single pictures are not removed with XiphComment::removePicture(), its picture list already deletes the picture, so it's deleted twice.
+TagLib::List<TagLib::FLAC::Picture*> CopyOtherPictures(const TagLib::List<TagLib::FLAC::Picture*> &pictures) {
+
+  TagLib::List<TagLib::FLAC::Picture*> other_pictures;
+  for (const TagLib::FLAC::Picture *picture : pictures) {
+    if (!IsCoverPicture(picture->type())) {
+      other_pictures.append(new TagLib::FLAC::Picture(picture->render()));
+    }
+  }
+
+  return other_pictures;
+
+}
+
+bool IsCoverPicture(const TagLib::ID3v2::AttachedPictureFrame::Type type) {
+  return type == TagLib::ID3v2::AttachedPictureFrame::FrontCover || type == TagLib::ID3v2::AttachedPictureFrame::Other;
+}
 
 }  // namespace
 
@@ -411,6 +462,20 @@ bool TagReaderTagLib::SaveFile(TagLib::FileRef *fileref, const TagID3v2Version t
     return file_aiff->save(ID3v2VersionToSave(file_aiff->hasID3v2Tag() ? file_aiff->tag() : nullptr, tag_id3v2_version));
   }
 
+#ifdef HAVE_TAGLIB_DSFFILE
+  if (TagLib::DSF::File *file_dsf = dynamic_cast<TagLib::DSF::File*>(fileref->file())) {
+    // The tag of a DSF file is always an ID3v2 tag, a new tag has the header of an ID3v2.4 tag.
+    return file_dsf->save(ID3v2VersionToSave(file_dsf->tag(), tag_id3v2_version));
+  }
+#endif
+
+#ifdef HAVE_TAGLIB_DSDIFFFILE
+  if (TagLib::DSDIFF::File *file_dsdiff = dynamic_cast<TagLib::DSDIFF::File*>(fileref->file())) {
+    return file_dsdiff->save(TagLib::DSDIFF::File::AllTags, TagLib::File::StripOthers, ID3v2VersionToSave(file_dsdiff->hasID3v2Tag() ? file_dsdiff->ID3v2Tag() : nullptr, tag_id3v2_version));
+  }
+#endif
+
+  // TagLib can't save TrueAudio files with ID3v2.3 tags, they are saved with ID3v2.4.
   return fileref->save();
 
 }
@@ -732,7 +797,15 @@ void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QSt
     }
   }
 
-  if (map.contains(kID3v2_CoverArt) && song->url().isLocalFile()) song->set_art_embedded(true);
+  if (map.contains(kID3v2_CoverArt) && song->url().isLocalFile()) {
+    for (TagLib::ID3v2::Frame *frame : std::as_const(map[kID3v2_CoverArt])) {
+      const TagLib::ID3v2::AttachedPictureFrame *picture = dynamic_cast<const TagLib::ID3v2::AttachedPictureFrame*>(frame);
+      if (picture && IsCoverPicture(picture->type()) && !picture->picture().isEmpty()) {
+        song->set_art_embedded(true);
+        break;
+      }
+    }
+  }
 
   if (map.contains(kID3v2_BPM)) song->set_bpm(TagLibStringToQString(map[kID3v2_BPM].front()->toString()).trimmed().toFloat());
   if (map.contains(kID3v2_Mood)) song->set_mood(map[kID3v2_Mood].front()->toString());
@@ -858,9 +931,37 @@ void TagReaderTagLib::ParseVorbisComments(const TagLib::Ogg::FieldListMap &map, 
   }
   if (map.contains(kVorbisComment_FMPS_Rating) && song->rating() <= 0) song->set_rating(TagLibStringToQString(map[kVorbisComment_FMPS_Rating].front()).trimmed().toFloat());
 
-  if (map.contains(kVorbisComment_Lyrics)) SetLyricsFromTag(song, TagLibStringToQString(map[kVorbisComment_Lyrics].front()));
-  else if (map.contains(kVorbisComment_UnsyncedLyrics)) SetLyricsFromTag(song, TagLibStringToQString(map[kVorbisComment_UnsyncedLyrics].front()));
-  if (map.contains(kVorbisComment_SyncedLyrics)) SetSyncedLyricsFromTag(song, TagLibStringToQString(map[kVorbisComment_SyncedLyrics].front()));
+  // When reading into an existing song, lyrics read from the tags before are cleared, since LYRICS can have changed between plain and synchronized lyrics, or the fields can have been removed.
+  if (song->lyrics_storage_type() == Song::StorageType::Tag) {
+    song->set_lyrics(QString());
+    song->set_lyrics_storage_type(Song::StorageType::None);
+  }
+  if (song->synced_lyrics_storage_type() == Song::StorageType::Tag) {
+    song->set_synced_lyrics(QString());
+    song->set_synced_lyrics_storage_type(Song::StorageType::None);
+  }
+
+  // LYRICS can contain either synchronized or plain lyrics, synchronized lyrics in it take precedence over SYNCEDLYRICS and UNSYNCEDLYRICS takes precedence over plain lyrics in it.
+  // SYNCEDLYRICS which is not valid LRC is read as plain lyrics, with the lowest precedence, since it can't be saved back as synchronized lyrics.
+  if (map.contains(kVorbisComment_SyncedLyrics)) {
+    const QString synced_lyrics = TagLibStringToQString(map[kVorbisComment_SyncedLyrics].front());
+    if (IsSyncedLyrics(synced_lyrics)) {
+      SetSyncedLyricsFromTag(song, synced_lyrics);
+    }
+    else {
+      SetLyricsFromTag(song, synced_lyrics);
+    }
+  }
+  if (map.contains(kVorbisComment_Lyrics)) {
+    const QString lyrics = TagLibStringToQString(map[kVorbisComment_Lyrics].front());
+    if (IsSyncedLyrics(lyrics)) {
+      SetSyncedLyricsFromTag(song, lyrics);
+    }
+    else {
+      SetLyricsFromTag(song, lyrics);
+    }
+  }
+  if (map.contains(kVorbisComment_UnsyncedLyrics)) SetLyricsFromTag(song, TagLibStringToQString(map[kVorbisComment_UnsyncedLyrics].front()));
 
   if (map.contains(kVorbisComment_BPM)) song->set_bpm(TagLibStringToQString(map[kVorbisComment_BPM].front()).toFloat());
   if (map.contains(kVorbisComment_Mood)) song->set_mood(map[kVorbisComment_Mood].front());
@@ -1212,9 +1313,16 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     return TagReaderResult::ErrorCode::FileOpenError;
   }
 
+  // The track number with the total, which Tag::setTrack() removes, the total is written again with the track number for the tags which have it.
+  QString previous_track;
   if (save_tags) {
     // FileRef::tag() can return nullptr for files that open but have no tag container.
     if (TagLib::Tag *tag = fileref->tag()) {
+      // The properties of the file, not of the tag, which with TagLib 1 is not format aware for the tag of FileRef and only has the track number without the total.
+      const TagLib::PropertyMap properties = fileref->file()->properties();
+      if (properties.contains("TRACKNUMBER") && !properties["TRACKNUMBER"].isEmpty()) {
+        previous_track = TagLibStringToQString(properties["TRACKNUMBER"].front());
+      }
       tag->setTitle(song.title().isEmpty() ? TagLib::String() : QStringToTagLibString(song.title()));
       tag->setArtist(song.artist().isEmpty() ? TagLib::String() : QStringToTagLibString(song.artist()));
       tag->setAlbum(song.album().isEmpty() ? TagLib::String() : QStringToTagLibString(song.album()));
@@ -1230,8 +1338,8 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     is_flac = true;
     TagLib::Ogg::XiphComment *vorbis_comment = file_flac->xiphComment(true);
     if (vorbis_comment) {
-      if (save_tags) {
-        SetVorbisComments(vorbis_comment, song);
+      if (save_tags && !SetVorbisComments(vorbis_comment, song, previous_track)) {
+        return TagReaderResult(TagReaderResult::ErrorCode::CustomError, QObject::tr("Synchronized lyrics are not valid LRC"));
       }
       if (save_playcount) {
         SetPlaycount(vorbis_comment, song.playcount());
@@ -1249,7 +1357,7 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     TagLib::APE::Tag *tag = file_wavpack->APETag(true);
     if (tag) {
       if (save_tags) {
-        SetAPETag(tag, song);
+        SetAPETag(tag, song, previous_track);
       }
       if (save_playcount) {
         SetPlaycount(tag, song.playcount());
@@ -1264,7 +1372,7 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     TagLib::APE::Tag *tag = file_ape->APETag(true);
     if (tag) {
       if (save_tags) {
-        SetAPETag(tag, song);
+        SetAPETag(tag, song, previous_track);
       }
       if (save_playcount) {
         SetPlaycount(tag, song.playcount());
@@ -1279,7 +1387,7 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     TagLib::APE::Tag *tag = file_mpc->APETag(true);
     if (tag) {
       if (save_tags) {
-        SetAPETag(tag, song);
+        SetAPETag(tag, song, previous_track);
       }
       if (save_playcount) {
         SetPlaycount(tag, song.playcount());
@@ -1293,7 +1401,7 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
   else if (TagLib::MPEG::File *file_mpeg = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
     TagLib::ID3v2::Tag *tag = file_mpeg->ID3v2Tag(true);
     if (tag) {
-      if (save_tags && !SetID3v2Tag(tag, song)) {
+      if (save_tags && !SetID3v2Tag(tag, song, previous_track)) {
         return TagReaderResult(TagReaderResult::ErrorCode::CustomError, QObject::tr("Synchronized lyrics are not valid LRC"));
       }
       if (save_playcount) {
@@ -1312,7 +1420,10 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     TagLib::MP4::Tag *tag = file_mp4->tag();
     if (tag) {
       if (save_tags) {
-        tag->setItem(kMP4_Disc, TagLib::MP4::Item(song.disc() <= 0 ? 0 : song.disc(), 0));
+        if (song.track() > 0) {
+          tag->setItem(kMP4_Track, TagLib::MP4::Item(song.track(), NumberTotal(previous_track).toInt()));
+        }
+        tag->setItem(kMP4_Disc, TagLib::MP4::Item(song.disc() <= 0 ? 0 : song.disc(), song.disc() <= 0 || !tag->item(kMP4_Disc).isValid() ? 0 : tag->item(kMP4_Disc).toIntPair().second));
         tag->setItem(kMP4_Composer, TagLib::StringList(QStringToTagLibString(song.composer())));
         tag->setItem(kMP4_Grouping, TagLib::StringList(QStringToTagLibString(song.grouping())));
         // Lyrics stored elsewhere are not written to the tags.
@@ -1340,7 +1451,7 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
   else if (TagLib::RIFF::WAV::File *file_wav = dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) {
     TagLib::ID3v2::Tag *tag = file_wav->ID3v2Tag();
     if (tag) {
-      if (save_tags && !SetID3v2Tag(tag, song)) {
+      if (save_tags && !SetID3v2Tag(tag, song, previous_track)) {
         return TagReaderResult(TagReaderResult::ErrorCode::CustomError, QObject::tr("Synchronized lyrics are not valid LRC"));
       }
       if (save_playcount) {
@@ -1358,7 +1469,7 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
   else if (TagLib::RIFF::AIFF::File *file_aiff = dynamic_cast<TagLib::RIFF::AIFF::File*>(fileref->file())) {
     TagLib::ID3v2::Tag *tag = file_aiff->tag();
     if (tag) {
-      if (save_tags && !SetID3v2Tag(tag, song)) {
+      if (save_tags && !SetID3v2Tag(tag, song, previous_track)) {
         return TagReaderResult(TagReaderResult::ErrorCode::CustomError, QObject::tr("Synchronized lyrics are not valid LRC"));
       }
       if (save_playcount) {
@@ -1393,8 +1504,8 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
   if (!is_flac) {
     if (TagLib::Ogg::XiphComment *vorbis_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
       if (vorbis_comment) {
-        if (save_tags) {
-          SetVorbisComments(vorbis_comment, song);
+        if (save_tags && !SetVorbisComments(vorbis_comment, song, previous_track)) {
+          return TagReaderResult(TagReaderResult::ErrorCode::CustomError, QObject::tr("Synchronized lyrics are not valid LRC"));
         }
         if (save_playcount) {
           SetPlaycount(vorbis_comment, song.playcount());
@@ -1423,9 +1534,11 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
 
 }
 
-bool TagReaderTagLib::SetID3v2Tag(TagLib::ID3v2::Tag *tag, const Song &song) const {
+bool TagReaderTagLib::SetID3v2Tag(TagLib::ID3v2::Tag *tag, const Song &song, const QString &previous_track) const {
 
-  SetTextFrame(kID3v2_Disc, song.disc() <= 0 ? QString() : QString::number(song.disc()), tag);
+  SetTextFrame(kID3v2_Track, NumberWithTotal(song.track(), previous_track), tag);
+  const TagLib::ID3v2::FrameList disc_frames = tag->frameList(kID3v2_Disc);
+  SetTextFrame(kID3v2_Disc, NumberWithTotal(song.disc(), disc_frames.isEmpty() ? QString() : TagLibStringToQString(disc_frames.front()->toString())), tag);
   SetTextFrame(kID3v2_Composer, song.composer().isEmpty() ? QString() : song.composer(), tag);
   SetTextFrame(kID3v2_ComposerSort, song.composersort().isEmpty() ? QString() : song.composersort(), tag);
   SetTextFrame(kID3v2_Grouping, song.grouping().isEmpty() ? QString() : song.grouping(), tag);
@@ -1609,6 +1722,21 @@ void TagReaderTagLib::SetSyncedLyricsFromTag(Song *song, const QString &synced_l
 
 }
 
+bool TagReaderTagLib::IsSyncedLyrics(const QString &lyrics) {
+
+  const std::optional<Utilities::LRCLines> lrc_lines = Utilities::ParseLRC(lyrics);
+  return lrc_lines.has_value() && !lrc_lines->isEmpty();
+
+}
+
+bool TagReaderTagLib::HasPlainLyrics(const TagLib::Ogg::XiphComment *vorbis_comment, const char *field) {
+
+  const TagLib::Ogg::FieldListMap &map = vorbis_comment->fieldListMap();
+  const TagLib::Ogg::FieldListMap::ConstIterator it = map.find(field);
+  return it != map.end() && !it->second.isEmpty() && !IsSyncedLyrics(TagLibStringToQString(it->second.front()));
+
+}
+
 bool TagReaderTagLib::IsSupportedSyncLyricsFrame(const TagLib::ID3v2::SynchronizedLyricsFrame *frame) {
 
   return frame && frame->timestampFormat() == TagLib::ID3v2::SynchronizedLyricsFrame::AbsoluteMilliseconds && (frame->type() == TagLib::ID3v2::SynchronizedLyricsFrame::Lyrics || frame->type() == TagLib::ID3v2::SynchronizedLyricsFrame::Other);
@@ -1659,14 +1787,18 @@ std::optional<TagLib::ID3v2::SynchronizedLyricsFrame::SynchedTextList> TagReader
 
 }
 
-void TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment, const Song &song) const {
+bool TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment, const Song &song, const QString &previous_track) const {
+
+  const TagLib::Ogg::FieldListMap fields = vorbis_comment->fieldListMap();
+  const QString previous_disc = fields.contains(kVorbisComment_Disc) && !fields[kVorbisComment_Disc].isEmpty() ? TagLibStringToQString(fields[kVorbisComment_Disc].front()) : QString();
 
   vorbis_comment->addField(kVorbisComment_Composer, QStringToTagLibString(song.composer()), true);
   vorbis_comment->addField(kVorbisComment_ComposerSort, QStringToTagLibString(song.composersort()), true);
   vorbis_comment->addField(kVorbisComment_Performer, QStringToTagLibString(song.performer()), true);
   vorbis_comment->addField(kVorbisComment_PerformerSort, QStringToTagLibString(song.performersort()), true);
   vorbis_comment->addField(kVorbisComment_Grouping1, QStringToTagLibString(song.grouping()), true);
-  vorbis_comment->addField(kVorbisComment_Disc, QStringToTagLibString(song.disc() <= 0 ? QString() : QString::number(song.disc())), true);
+  vorbis_comment->addField(kVorbisComment_Track, QStringToTagLibString(NumberWithTotal(song.track(), previous_track)), true);
+  vorbis_comment->addField(kVorbisComment_Disc, QStringToTagLibString(NumberWithTotal(song.disc(), previous_disc)), true);
   vorbis_comment->addField(kVorbisComment_Compilation, QStringToTagLibString(song.compilation() ? u"1"_s : QString()), true);
 
   // Try to be coherent, the two forms are used but the first one is preferred
@@ -1682,19 +1814,25 @@ void TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment
   if (WriteLyricsToTags(song.lyrics_storage_type())) {
     SetLyrics(vorbis_comment, song.lyrics());
   }
-  if (WriteLyricsToTags(song.synced_lyrics_storage_type())) {
-    SetSyncedLyrics(vorbis_comment, song.synced_lyrics());
+  if (WriteLyricsToTags(song.synced_lyrics_storage_type()) && !SetSyncedLyrics(vorbis_comment, song.synced_lyrics())) {
+    return false;
   }
   if (!song.musicbrainz_recording_id().isEmpty()) {
     vorbis_comment->addField(kVorbisComment_MusicBrainz_TackId, QStringToTagLibString(song.musicbrainz_recording_id()), true);
   }
 
+  return true;
+
 }
 
-void TagReaderTagLib::SetAPETag(TagLib::APE::Tag *tag, const Song &song) const {
+void TagReaderTagLib::SetAPETag(TagLib::APE::Tag *tag, const Song &song, const QString &previous_track) const {
+
+  const TagLib::APE::ItemListMap items = tag->itemListMap();
+  const QString previous_disc = items.contains(kAPE_Disc) ? TagLibStringToQString(items[kAPE_Disc].toString()) : QString();
 
   tag->setItem(kAPE_AlbumArtist, TagLib::APE::Item(kAPE_AlbumArtist, TagLib::StringList(QStringToTagLibString(song.albumartist()))));
-  tag->addValue(kAPE_Disc, QStringToTagLibString(song.disc() <= 0 ? QString() : QString::number(song.disc())), true);
+  tag->addValue(kAPE_Track, QStringToTagLibString(NumberWithTotal(song.track(), previous_track)), true);
+  tag->addValue(kAPE_Disc, QStringToTagLibString(NumberWithTotal(song.disc(), previous_disc)), true);
   tag->setItem(kAPE_Composer, TagLib::APE::Item(kAPE_Composer, TagLib::StringList(QStringToTagLibString(song.composer()))));
   tag->setItem(kAPE_Grouping, TagLib::APE::Item(kAPE_Grouping, TagLib::StringList(QStringToTagLibString(song.grouping()))));
   tag->setItem(kAPE_Performer, TagLib::APE::Item(kAPE_Performer, TagLib::StringList(QStringToTagLibString(song.performer()))));
@@ -1913,15 +2051,22 @@ TagReaderResult TagReaderTagLib::LoadEmbeddedCover(const QString &filename, QByt
 
 QByteArray TagReaderTagLib::LoadEmbeddedCover(TagLib::ID3v2::Tag *tag) const {
 
+  // The front cover is preferred, like for FLAC pictures, other pictures, like the back cover, are not the cover.
   const TagLib::ID3v2::FrameList apic_frames = tag->frameListMap()[kID3v2_CoverArt];
-  if (apic_frames.isEmpty()) {
+  const TagLib::ID3v2::AttachedPictureFrame *cover_picture = nullptr;
+  for (TagLib::ID3v2::Frame *frame : apic_frames) {
+    const TagLib::ID3v2::AttachedPictureFrame *picture = dynamic_cast<const TagLib::ID3v2::AttachedPictureFrame*>(frame);
+    if (!picture || picture->picture().isEmpty() || !IsCoverPicture(picture->type())) continue;
+    if (picture->type() == TagLib::ID3v2::AttachedPictureFrame::FrontCover) {
+      cover_picture = picture;
+      break;
+    }
+    if (!cover_picture) cover_picture = picture;
+  }
+  if (!cover_picture) {
     return QByteArray();
   }
-  TagLib::ID3v2::AttachedPictureFrame *picture = dynamic_cast<TagLib::ID3v2::AttachedPictureFrame*>(apic_frames.front());
-  if (!picture) {
-    return QByteArray();
-  }
-  return QByteArray(reinterpret_cast<const char*>(picture->picture().data()), picture->picture().size());
+  return QByteArray(reinterpret_cast<const char*>(cover_picture->picture().data()), cover_picture->picture().size());
 
 }
 
@@ -1942,9 +2087,17 @@ QByteArray TagReaderTagLib::LoadEmbeddedCover(TagLib::APE::Tag *tag) const {
 
 void TagReaderTagLib::SetEmbeddedCover(TagLib::FLAC::File *flac_file, TagLib::Ogg::XiphComment *vorbis_comment, const QByteArray &data, const QString &mimetype) const {
 
-  (void)vorbis_comment;
+  // TagLib reads the cover in the old COVERART field, and in METADATA_BLOCK_PICTURE fields, as pictures of the Vorbis comment, which other players show as the cover too.
+  // Those covers are removed, the cover is saved as a picture of the FLAC file.
+  if (vorbis_comment) {
+    SetEmbeddedCover(vorbis_comment, QByteArray(), QString());
+  }
 
+  const TagLib::List<TagLib::FLAC::Picture*> other_pictures = CopyOtherPictures(flac_file->pictureList());
   flac_file->removePictures();
+  for (TagLib::FLAC::Picture *picture : other_pictures) {
+    flac_file->addPicture(picture);
+  }
 
   if (!data.isEmpty()) {
     TagLib::FLAC::Picture *picture = new TagLib::FLAC::Picture();
@@ -1958,7 +2111,14 @@ void TagReaderTagLib::SetEmbeddedCover(TagLib::FLAC::File *flac_file, TagLib::Og
 
 void TagReaderTagLib::SetEmbeddedCover(TagLib::Ogg::XiphComment *vorbis_comment, const QByteArray &data, const QString &mimetype) const {
 
+  // TagLib reads the cover in the old COVERART field as a picture, which is removed below, the field with its MIME type is removed too.
+  RemoveLegacyCoverArt(vorbis_comment);
+
+  const TagLib::List<TagLib::FLAC::Picture*> other_pictures = CopyOtherPictures(vorbis_comment->pictureList());
   vorbis_comment->removeAllPictures();
+  for (TagLib::FLAC::Picture *picture : other_pictures) {
+    vorbis_comment->addPicture(picture);
+  }
 
   if (!data.isEmpty()) {
     TagLib::FLAC::Picture *picture = new TagLib::FLAC::Picture();
@@ -1970,13 +2130,22 @@ void TagReaderTagLib::SetEmbeddedCover(TagLib::Ogg::XiphComment *vorbis_comment,
 
 }
 
+void TagReaderTagLib::RemoveLegacyCoverArt(TagLib::Ogg::XiphComment *vorbis_comment) {
+
+  vorbis_comment->removeFields(kVorbisComment_CoverArt);
+  vorbis_comment->removeFields(kVorbisComment_CoverArtMime);
+
+}
+
 void TagReaderTagLib::SetEmbeddedCover(TagLib::ID3v2::Tag *tag, const QByteArray &data, const QString &mimetype) const {
 
-  // Remove existing covers
-  TagLib::ID3v2::FrameList apiclist = tag->frameListMap()[kID3v2_CoverArt];
-  for (TagLib::ID3v2::FrameList::ConstIterator it = apiclist.begin(); it != apiclist.end(); ++it) {
-    TagLib::ID3v2::AttachedPictureFrame *frame = dynamic_cast<TagLib::ID3v2::AttachedPictureFrame*>(*it);
-    tag->removeFrame(frame, true);
+  // Remove the existing covers, other pictures, like the back cover, are kept.
+  const TagLib::ID3v2::FrameList apiclist = tag->frameListMap()[kID3v2_CoverArt];
+  for (TagLib::ID3v2::Frame *frame : apiclist) {
+    const TagLib::ID3v2::AttachedPictureFrame *picture = dynamic_cast<const TagLib::ID3v2::AttachedPictureFrame*>(frame);
+    if (!picture || IsCoverPicture(picture->type())) {
+      tag->removeFrame(frame, true);
+    }
   }
 
   if (!data.isEmpty()) {
@@ -2417,8 +2586,15 @@ TagReaderResult TagReaderTagLib::SaveSongRating(const QString &filename, const f
 
 void TagReaderTagLib::SetLyrics(TagLib::Ogg::XiphComment *vorbis_comment, const QString &lyrics) const {
 
-  vorbis_comment->addField(kVorbisComment_Lyrics, QStringToTagLibString(lyrics), true);
-  vorbis_comment->removeFields(kVorbisComment_UnsyncedLyrics);
+  vorbis_comment->addField(kVorbisComment_UnsyncedLyrics, QStringToTagLibString(lyrics), true);
+
+  // Plain lyrics in LYRICS and SYNCEDLYRICS are replaced by UNSYNCEDLYRICS, synchronized lyrics in them are left alone.
+  if (HasPlainLyrics(vorbis_comment, kVorbisComment_Lyrics)) {
+    vorbis_comment->removeFields(kVorbisComment_Lyrics);
+  }
+  if (HasPlainLyrics(vorbis_comment, kVorbisComment_SyncedLyrics)) {
+    vorbis_comment->removeFields(kVorbisComment_SyncedLyrics);
+  }
 
 }
 
@@ -2440,9 +2616,27 @@ void TagReaderTagLib::SetLyrics(TagLib::ASF::Tag *tag, const QString &lyrics) co
 
 }
 
-void TagReaderTagLib::SetSyncedLyrics(TagLib::Ogg::XiphComment *vorbis_comment, const QString &synced_lyrics) const {
+bool TagReaderTagLib::SetSyncedLyrics(TagLib::Ogg::XiphComment *vorbis_comment, const QString &synced_lyrics) const {
 
-  vorbis_comment->addField(kVorbisComment_SyncedLyrics, QStringToTagLibString(synced_lyrics), true);
+  // LYRICS which is not valid LRC is read back as plain lyrics, so do not save it.
+  const std::optional<Utilities::LRCLines> lrc_lines = Utilities::ParseLRC(synced_lyrics);
+  if (!lrc_lines.has_value()) {
+    qLog(Error) << "Synchronized lyrics are not valid LRC, not saving tags";
+    return false;
+  }
+
+  // Synchronized lyrics are written to LYRICS, so move plain lyrics in it to UNSYNCEDLYRICS instead of overwriting them, unless UNSYNCEDLYRICS already has the lyrics which are read.
+  // Plain lyrics in SYNCEDLYRICS, which is removed, are moved the same way, after LYRICS, since plain lyrics in LYRICS are read first.
+  for (const char *field : {kVorbisComment_Lyrics, kVorbisComment_SyncedLyrics}) {
+    if (HasPlainLyrics(vorbis_comment, field) && !vorbis_comment->contains(kVorbisComment_UnsyncedLyrics)) {
+      vorbis_comment->addField(kVorbisComment_UnsyncedLyrics, vorbis_comment->fieldListMap()[field].front(), true);
+    }
+  }
+  vorbis_comment->removeFields(kVorbisComment_SyncedLyrics);
+  // LRC without lines, such as only whitespace, clears the synchronized lyrics.
+  vorbis_comment->addField(kVorbisComment_Lyrics, lrc_lines->isEmpty() ? TagLib::String() : QStringToTagLibString(synced_lyrics), true);
+
+  return true;
 
 }
 
@@ -2499,8 +2693,14 @@ TagReaderResult TagReaderTagLib::SaveLyricsToFile(const QString &filename, const
   TagLib::ID3v2::Tag *id3v2_tag = nullptr;
   if (TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
     if (TagLib::Ogg::XiphComment *vorbis_comment = flac_file->xiphComment(true)) {
-      if (synced) SetSyncedLyrics(vorbis_comment, lyrics);
-      else SetLyrics(vorbis_comment, lyrics);
+      if (synced) {
+        if (!SetSyncedLyrics(vorbis_comment, lyrics)) {
+          return TagReaderResult(TagReaderResult::ErrorCode::CustomError, QObject::tr("Synchronized lyrics are not valid LRC"));
+        }
+      }
+      else {
+        SetLyrics(vorbis_comment, lyrics);
+      }
     }
   }
   else if (TagLib::WavPack::File *wavpack_file = dynamic_cast<TagLib::WavPack::File*>(fileref->file())) {
@@ -2522,8 +2722,14 @@ TagReaderResult TagReaderTagLib::SaveLyricsToFile(const QString &filename, const
     }
   }
   else if (TagLib::Ogg::XiphComment *vorbis_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
-    if (synced) SetSyncedLyrics(vorbis_comment, lyrics);
-    else SetLyrics(vorbis_comment, lyrics);
+    if (synced) {
+      if (!SetSyncedLyrics(vorbis_comment, lyrics)) {
+        return TagReaderResult(TagReaderResult::ErrorCode::CustomError, QObject::tr("Synchronized lyrics are not valid LRC"));
+      }
+    }
+    else {
+      SetLyrics(vorbis_comment, lyrics);
+    }
   }
   else if (TagLib::MPEG::File *mpeg_file = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
     id3v2 = true;

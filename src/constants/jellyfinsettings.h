@@ -30,10 +30,10 @@ constexpr char kHttpUrlAccepted[] = "http_url_accepted";  // The HTTP server URL
 constexpr char kUsername[] = "username";
 constexpr char kCredentialsService[] = "jellyfin";
 constexpr char kHTTP2[] = "http2";
-constexpr char kVerifyCertificate[] = "verifycertificate";
-constexpr char kDownloadAlbumCovers[] = "downloadalbumcovers";
-constexpr char kServerSideScrobbling[] = "serversidescrobbling";
-constexpr char kDeviceId[] = "deviceid";
+constexpr char kVerifyCertificate[] = "verify_certificate";
+constexpr char kDownloadAlbumCovers[] = "download_albumcovers";
+constexpr char kServerSideScrobbling[] = "serverside_scrobbling";
+constexpr char kDeviceId[] = "device_id";
 
 constexpr bool kDefaultEnabled = false;
 constexpr bool kDefaultHTTP2 = false;

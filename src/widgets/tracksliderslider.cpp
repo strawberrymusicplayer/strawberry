@@ -47,6 +47,7 @@ TrackSliderSlider::TrackSliderSlider(QWidget *parent)
 
   popup_->hide();
   QObject::connect(this, &TrackSliderSlider::valueChanged, this, &TrackSliderSlider::UpdateDeltaTime);
+  QObject::connect(this, &TrackSliderSlider::rangeChanged, this, &TrackSliderSlider::RangeChanged);
 
 }
 
@@ -117,6 +118,12 @@ void TrackSliderSlider::mouseMoveEvent(QMouseEvent *e) {
 
   QSlider::mouseMoveEvent(e);
 
+  // Streams have no length, the popup would show 0:00, and the time elapsed as a negative time from there, the song can also change to a stream while hovering.
+  if (maximum() <= minimum()) {
+    if (popup_->isVisible()) popup_->hide();
+    return;
+  }
+
   // Borrowed from QSliderPrivate::pixelPosToRangeValue
   QStyleOptionSlider opt;
   initStyleOption(&opt);
@@ -130,6 +137,12 @@ void TrackSliderSlider::mouseMoveEvent(QMouseEvent *e) {
   mouse_hover_seconds_ = QStyle::sliderValueFromPosition(minimum() / static_cast<int>(kMsecPerSec), maximum() / static_cast<int>(kMsecPerSec), e->pos().x() - slider_length / 2 - slider_min + 1, slider_max - slider_min);
 
   popup_->SetText(Utilities::PrettyTime(mouse_hover_seconds_));
+
+  // The popup is otherwise only shown when the mouse enters, it's hidden while there's no length, and the song can change from a stream while hovering.
+  if (!popup_->isVisible() && isEnabled() && rect().contains(e->position().toPoint())) {
+    popup_->show();
+  }
+
   UpdateDeltaTime();
   popup_->SetPopupPosition(mapTo(window(), QPoint(e->pos().x(), rect().center().y())));
 
@@ -155,7 +168,8 @@ void TrackSliderSlider::enterEvent(QEnterEvent *e) {
 
   QSlider::enterEvent(e);
 
-  if (isEnabled()) {
+  // Streams have no length, so there's no time to show.
+  if (isEnabled() && maximum() > minimum()) {
     popup_->show();
   }
 
@@ -166,6 +180,15 @@ void TrackSliderSlider::leaveEvent(QEvent *e) {
   QSlider::leaveEvent(e);
 
   if (popup_->isVisible()) {
+    popup_->hide();
+  }
+
+}
+
+void TrackSliderSlider::RangeChanged(const int range_minimum, const int range_maximum) {
+
+  // The song can change to a stream while the mouse is still over the slider, the popup would keep showing the time from the previous song.
+  if (range_maximum <= range_minimum && popup_->isVisible()) {
     popup_->hide();
   }
 

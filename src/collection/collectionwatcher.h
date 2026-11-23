@@ -81,6 +81,9 @@ class CollectionWatcher : public QObject {
   void CancelStop();
   void Abort();
 
+  // Returns true when the path is in a link to a directory above it, or is that link, only the links below the collection directory are checked.
+  static bool IsInsideLinkToParentDirectory(const QString &root_path, const QString &path);
+
   void ExitAsync();
 
   void RescanSongsAsync(const SongList &songs);
@@ -91,7 +94,8 @@ class CollectionWatcher : public QObject {
 #endif
 
  Q_SIGNALS:
-  void NewOrUpdatedSongs(const SongList &songs);
+  // previous_songs are the songs in the collection which the updated songs were made from, when the scan started, see CollectionBackend::AddOrUpdateScannedSongs().
+  void NewOrUpdatedSongs(const SongList &songs, const SongList &previous_songs);
   void SongsMTimeUpdated(const SongList &songs);
   void SongsDeleted(const SongList &songs);
   void SongsUnavailable(const SongList &songs, const bool unavailable = true);
@@ -154,6 +158,8 @@ class CollectionWatcher : public QObject {
     SongList deleted_songs;
     SongList readded_songs;
     SongList new_songs;
+    // The songs in the collection which the songs in new_songs that are already in the collection were made from.
+    SongList previous_songs;
     SongList touched_songs;
     // What changed for the songs in new_songs which are already in the collection, by song ID, for logging.
     QHash<int, QStringList> song_changes;
@@ -295,6 +301,9 @@ class CollectionWatcher : public QObject {
   // Loads the songs of the CUE sheet for the media file, the songs of each CUE sheet are only loaded once in a scan, and only when a media file needs them.
   // Returns false when the CUE sheet can't be read.
   bool LoadCueSongs(const QString &file, const QString &cue_file, const QString &path, QHash<QString, QMap<QString, SongList>> *loaded_cue_sheets, QSet<QString> *unreadable_cue_sheets, QHash<QString, QStringList> *directory_entries, SongList *songs) const;
+  // Returns true when the link is to the directory it's in, or a directory above it, which contains the link again, so it would be scanned again and again.
+  // The directories above the link are compared with links resolved, also when the link is reached through other links.
+  static bool IsLinkToParentDirectory(const QFileInfo &fileinfo);
   // Returns the key for the media files and CUE sheets in the maps, files which only differ in Unicode normalization form are different files.
   static QString PathKey(const QString &filename);
   // Returns the filename with the names of the file and its directories on disk, when it exists with another case or Unicode normalization form, otherwise the filename.

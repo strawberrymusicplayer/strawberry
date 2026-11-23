@@ -49,6 +49,9 @@
 #include "core/urlhandlers.h"
 #include "core/urlhandler.h"
 #include "core/enginemetadata.h"
+#if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
+#  include "core/sleepinhibitor.h"
+#endif
 #include "utilities/strutils.h"
 
 #include "engine/enginebase.h"
@@ -85,7 +88,11 @@ Player::Player(const SharedPtr<TaskManager> task_manager, const SharedPtr<UrlHan
       analyzer_(nullptr),
       equalizer_(nullptr),
       timer_save_volume_(new QTimer(this)),
+#if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
+      sleep_inhibitor_(new SleepInhibitor(this)),
+#endif
       playlists_loaded_(false),
+      skip_resume_playback_(false),
       play_requested_(false),
       pause_(false),
       stream_change_type_(EngineBase::TrackChangeType::First),
@@ -162,6 +169,9 @@ void Player::ReloadSettings() {
   menu_previousmode_ = static_cast<BehaviourSettings::PreviousBehaviour>(s.value(BehaviourSettings::kMenuPreviousMode, static_cast<int>(BehaviourSettings::kDefaultMenuPreviousMode)).toInt());
   seek_step_sec_ = s.value(BehaviourSettings::kSeekStepSec, BehaviourSettings::kDefaultSeekStepSec).toInt();
   volume_increment_ = s.value(BehaviourSettings::kVolumeIncrement, BehaviourSettings::kDefaultVolumeIncrement).toUInt();
+#if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
+  sleep_inhibitor_->SetEnabled(s.value(BehaviourSettings::kInhibitSleep, BehaviourSettings::kDefaultInhibitSleep).toBool());
+#endif
   s.endGroup();
 
   engine_->ReloadSettings();
@@ -182,6 +192,7 @@ void Player::LoadVolume() {
   s.endGroup();
 
   SetVolume(volume);
+  timer_save_volume_->stop();
 
 }
 
@@ -248,10 +259,14 @@ void Player::ResumePlayback() {
   const quint64 playback_position = s.value(kPlaybackPosition, 0).toULongLong();
   s.endGroup();
 
-  if (playback_playlist == playlist_manager_->current()->id()) {
-    // Set active to current to resume playback on correct playlist.
+  // A track or files requested at startup, like with --play-playlist, are handled before this and take priority over the saved playback.
+  // The playlist may have been closed since, or not be the one that was shown when exiting.
+  if (!current_item_ && !skip_resume_playback_ && playlist_manager_->IsPlaylistOpen(playback_playlist)) {
+    // Playing uses the current playlist, so make it current and active to resume playback on the correct playlist.
+    playlist_manager_->SetCurrentPlaylist(playback_playlist);
     playlist_manager_->SetActiveToCurrent();
-    if (playback_state == EngineBase::State::Playing) {
+    // A play request at startup resumes the saved track, but shouldn't leave it paused.
+    if (playback_state == EngineBase::State::Playing || play_requested_) {
       Play(playback_position * kNsecPerSec);
     }
     else if (playback_state == EngineBase::State::Paused) {
@@ -272,6 +287,10 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 
   if (loading_async_.contains(result.media_url_)) {
     loading_async_.removeAll(result.media_url_);
+  }
+
+  if (result.media_url_ == current_track_loading_url_) {
+    current_track_loading_url_.clear();
   }
 
   // Might've been an async load, so check we're still on the same item
@@ -404,6 +423,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 
       // We'll get called again later with either NoMoreTracks or TrackAvailable
       loading_async_ << result.media_url_;
+      if (is_current) current_track_loading_url_ = result.media_url_;
       break;
   }
 
@@ -514,6 +534,9 @@ void Player::PlayPlaylistInternal(const EngineBase::TrackChangeFlags change, con
     return;
   }
 
+  // An empty playlist doesn't set the current item, but it's still the requested playlist.
+  SkipResumePlayback();
+
   playlist_manager_->SetActivePlaylist(playlist->id());
   playlist_manager_->SetCurrentPlaylist(playlist->id());
   if (playlist->rowCount() == 0) return;
@@ -546,6 +569,9 @@ bool Player::HandleStopAfter(const Playlist::AutoScroll autoscroll) {
 }
 
 void Player::TrackEnded() {
+
+  // It's the previous track which ended, the current track starts when it's loaded.
+  if (!current_track_loading_url_.isEmpty()) return;
 
   // The track played, so it's not a series of errors.
   nb_errors_received_ = 0;
@@ -641,6 +667,9 @@ void Player::RestartOrPrevious() {
 
 void Player::Stop(const bool stop_after) {
 
+  // A play request waiting for the playlists to be loaded is older than this request.
+  play_requested_ = false;
+
   engine_->Stop(stop_after);
   playlist_manager_->active()->set_current_row(-1);
   playlist_manager_->active()->reset_played_indexes();
@@ -675,7 +704,7 @@ void Player::PreviousItem(const EngineBase::TrackChangeFlags change) {
     QDateTime now = QDateTime::currentDateTime();
     if (last_pressed_previous_.isValid() && last_pressed_previous_.secsTo(now) >= 2) {
       last_pressed_previous_ = now;
-      PlayAt(playlist_manager_->active()->current_row(), false, 0, change, Playlist::AutoScroll::Always, false, true);
+      PlayAt(playlist_manager_->active()->current_row(), false, 0, change | EngineBase::TrackChangeType::Restart, Playlist::AutoScroll::Always, false, true);
       return;
     }
     last_pressed_previous_ = now;
@@ -702,6 +731,10 @@ void Player::EngineStateChanged(const EngineBase::State state) {
   else if (state == EngineBase::State::Empty || state == EngineBase::State::Idle) {
     nb_errors_received_ = 0;
   }
+
+#if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
+  sleep_inhibitor_->SetPlaying(state == EngineBase::State::Playing);
+#endif
 
   switch (state) {
     case EngineBase::State::Paused:
@@ -803,13 +836,14 @@ void Player::PlayAt(const int index, const bool pause, const quint64 offset_nano
   pause_time_ = pause ? QDateTime::currentDateTime() : QDateTime();
   play_offset_nanosec_ = offset_nanosec;
   playing_start_position_ = -1;
+  current_track_loading_url_.clear();
 
   // The user chose to play a track, errors of earlier tracks don't count anymore.
   if (change & EngineBase::TrackChangeType::Manual || change & EngineBase::TrackChangeType::First) {
     nb_errors_received_ = 0;
   }
 
-  if (current_item_ && change & EngineBase::TrackChangeType::Manual && engine_->position_nanosec() != engine_->length_nanosec()) {
+  if (current_item_ && change & EngineBase::TrackChangeType::Manual && !(change & EngineBase::TrackChangeType::Restart) && engine_->position_nanosec() != engine_->length_nanosec()) {
     Q_EMIT TrackSkipped(current_item_);
   }
 
@@ -858,7 +892,10 @@ void Player::PlayAt(const int index, const bool pause, const quint64 offset_nano
     autoscroll_ = autoscroll;
 
     // It's already loading.
-    if (loading_async_.contains(url)) return;
+    if (loading_async_.contains(url)) {
+      current_track_loading_url_ = url;
+      return;
+    }
 
     UrlHandler *url_handler = url_handlers_->GetUrlHandler(url);
     HandleLoadResult(url_handler->StartLoading(url));
@@ -989,7 +1026,14 @@ void Player::SetMuted(const bool mute) {
 
 }
 
-void Player::Pause() { engine_->Pause(); }
+void Player::Pause() {
+
+  // A play request waiting for the playlists to be loaded is older than this request.
+  play_requested_ = false;
+
+  engine_->Pause();
+
+}
 
 void Player::Play(const quint64 offset_nanosec) {
 
@@ -1034,6 +1078,12 @@ void Player::TogglePrettyOSD() {
 }
 
 void Player::TrackAboutToEnd() {
+
+  // It's the previous track which is about to end, the current track starts when it's loaded.
+  if (!current_track_loading_url_.isEmpty()) return;
+
+  // Playback stops when this track ended, so let it play to the end, without crossfading into the next track or preloading it.
+  if (playlist_manager_->active()->stop_after_current()) return;
 
   const bool has_next_row = playlist_manager_->active()->next_row() != -1;
   PlaylistItemPtr next_item;

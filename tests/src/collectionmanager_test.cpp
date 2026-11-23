@@ -30,6 +30,8 @@
 #include <QDir>
 #include <QFile>
 #include <QTemporaryDir>
+#include <QFileInfo>
+#include <QThreadPool>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -188,6 +190,145 @@ TEST_F(CollectionManagerTest, ExitSavesDeferredLyrics) {
   Song saved_song;
   ASSERT_TRUE(TagReaderTagLib().ReadFile(filename, &saved_song).success());
   EXPECT_EQ(u"Deferred lyrics"_s, saved_song.lyrics());
+
+}
+
+// Returns a CUE track of the file, CUE tracks share one media file.
+Song CueTrack(const QString &filename, const int track) {
+
+  Song song(Song::Source::Collection);
+  song.set_url(QUrl::fromLocalFile(filename));
+  song.set_filetype(Song::FileType::MPEG);
+  song.set_cue_path(QFileInfo(filename).absolutePath() + u"/album.cue"_s);
+  song.set_track(track);
+  song.set_beginning_nanosec((track - 1) * 1000000000LL);
+  song.set_playcount(7);
+  song.set_rating(0.8F);
+  return song;
+
+}
+
+// Regression test: the playcount and rating of a CUE track were saved to the media file, which is shared by all the tracks of the CUE sheet.
+TEST_F(CollectionManagerTest, PlaycountAndRatingOfCueTrackAreNotSavedToFile) {
+
+  TemporaryResource r(u":/audio/strawberry.mp3"_s);
+  const Song song = CueTrack(r.fileName(), 2);
+
+  ASSERT_TRUE(QMetaObject::invokeMethod(collection_manager_, "SongsPlaycountChanged", Qt::DirectConnection, Q_ARG(SongList, SongList() << song), Q_ARG(bool, true)));
+  ASSERT_TRUE(QMetaObject::invokeMethod(collection_manager_, "SongsRatingChanged", Qt::DirectConnection, Q_ARG(SongList, SongList() << song), Q_ARG(bool, true)));
+
+  ASSERT_TRUE(Exit());
+
+  Song saved_song;
+  ASSERT_TRUE(TagReaderTagLib().ReadFile(r.fileName(), &saved_song).success());
+  EXPECT_EQ(0U, saved_song.playcount());
+  EXPECT_FLOAT_EQ(-1.0F, saved_song.rating());
+
+}
+
+// The save of the playing CUE track is not deferred either, it's not saved.
+TEST_F(CollectionManagerTest, DeferredPlaycountAndRatingOfCueTrackAreNotSavedToFile) {
+
+  TemporaryResource r(u":/audio/strawberry.mp3"_s);
+  const Song song = CueTrack(r.fileName(), 2);
+
+  collection_manager_->CurrentSongChanged(song);
+  ASSERT_TRUE(QMetaObject::invokeMethod(collection_manager_, "SongsPlaycountChanged", Qt::DirectConnection, Q_ARG(SongList, SongList() << song), Q_ARG(bool, true)));
+  ASSERT_TRUE(QMetaObject::invokeMethod(collection_manager_, "SongsRatingChanged", Qt::DirectConnection, Q_ARG(SongList, SongList() << song), Q_ARG(bool, true)));
+
+  ASSERT_TRUE(Exit());
+
+  Song saved_song;
+  ASSERT_TRUE(TagReaderTagLib().ReadFile(r.fileName(), &saved_song).success());
+  EXPECT_EQ(0U, saved_song.playcount());
+  EXPECT_FLOAT_EQ(-1.0F, saved_song.rating());
+
+}
+
+// Regression test: saving the playcounts and ratings of all songs to the files saved them for the CUE tracks to the shared media file, the last track in the collection overwrote the others.
+TEST_F(CollectionManagerTest, SyncDoesNotSaveCueTracksToFile) {
+
+  SharedPtr<CollectionBackend> backend = collection_manager_->backend();
+  ASSERT_TRUE(QDir().mkpath(temp_dir_.filePath(u"collection"_s)));
+  backend->AddDirectory(temp_dir_.filePath(u"collection"_s));
+  const QString cue_filename = temp_dir_.filePath(u"album.mp3"_s);
+  const QString filename = temp_dir_.filePath(u"song.mp3"_s);
+  for (const QString &file : {cue_filename, filename}) {
+    ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, file));
+    ASSERT_TRUE(QFile::setPermissions(file, QFile::ReadOwner | QFile::WriteOwner));
+  }
+
+  SongList songs;
+  for (int track = 1; track <= 2; ++track) {
+    Song song = CueTrack(cue_filename, track);
+    song.set_title(u"Track %1"_s.arg(track));
+    songs << song;
+  }
+  Song song(Song::Source::Collection);
+  song.set_url(QUrl::fromLocalFile(filename));
+  song.set_filetype(Song::FileType::MPEG);
+  song.set_title(u"Song"_s);
+  song.set_playcount(5);
+  song.set_rating(0.6F);
+  songs << song;
+  for (Song &collection_song : songs) {
+    collection_song.set_directory_id(1);
+    collection_song.set_mtime(1);
+    collection_song.set_ctime(1);
+    collection_song.set_filesize(1);
+  }
+  backend->AddOrUpdateSongs(songs);
+  ASSERT_EQ(3, backend->GetAllSongs().count());
+
+  collection_manager_->SyncPlaycountAndRatingToFilesAsync();
+  QThreadPool::globalInstance()->waitForDone();
+
+  Song saved_cue_song;
+  ASSERT_TRUE(TagReaderTagLib().ReadFile(cue_filename, &saved_cue_song).success());
+  EXPECT_EQ(0U, saved_cue_song.playcount());
+  EXPECT_FLOAT_EQ(-1.0F, saved_cue_song.rating());
+
+  // The other songs are still saved.
+  Song saved_song;
+  ASSERT_TRUE(TagReaderTagLib().ReadFile(filename, &saved_song).success());
+  EXPECT_EQ(5U, saved_song.playcount());
+  EXPECT_FLOAT_EQ(0.6F, saved_song.rating());
+
+}
+
+// The lyrics of a CUE track are only saved to the database, not to the media file, which is shared by all the tracks of the CUE sheet.
+TEST_F(CollectionManagerTest, LyricsOfCueTrackAreNotSavedToFile) {
+
+  SharedPtr<CollectionBackend> backend = collection_manager_->backend();
+  ASSERT_TRUE(QDir().mkpath(temp_dir_.filePath(u"collection"_s)));
+  backend->AddDirectory(temp_dir_.filePath(u"collection"_s));
+  const QString filename = temp_dir_.filePath(u"album.mp3"_s);
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, filename));
+  ASSERT_TRUE(QFile::setPermissions(filename, QFile::ReadOwner | QFile::WriteOwner));
+  Song original_song;
+  ASSERT_TRUE(TagReaderTagLib().ReadFile(filename, &original_song).success());
+
+  Song song = CueTrack(filename, 2);
+  song.set_directory_id(1);
+  song.set_title(u"Track 2"_s);
+  song.set_mtime(1);
+  song.set_ctime(1);
+  song.set_filesize(1);
+  backend->AddOrUpdateSongs(SongList() << song);
+  const SongList songs = backend->GetAllSongs();
+  ASSERT_EQ(1, songs.count());
+  song = songs.first();
+
+  // Like lyrics found automatically, with saving the lyrics to the files enabled.
+  ASSERT_TRUE(QMetaObject::invokeMethod(&*backend, "UpdateSongLyrics", Qt::DirectConnection, Q_ARG(int, song.id()), Q_ARG(bool, false), Q_ARG(QString, u"Lyrics"_s), Q_ARG(int, static_cast<int>(Song::StorageType::Database)), Q_ARG(bool, false), Q_ARG(bool, true)));
+
+  ASSERT_TRUE(Exit());
+
+  Song saved_song;
+  ASSERT_TRUE(TagReaderTagLib().ReadFile(filename, &saved_song).success());
+  EXPECT_EQ(original_song.lyrics(), saved_song.lyrics());
+  // The lyrics are still saved to the database.
+  EXPECT_EQ(u"Lyrics"_s, backend->GetSongById(song.id()).lyrics());
 
 }
 

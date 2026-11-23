@@ -35,11 +35,11 @@ constexpr char kUrl[] = "url";
 constexpr char kUsername[] = "username";
 constexpr char kPassword[] = "password";
 constexpr char kHTTP2[] = "http2";
-constexpr char kVerifyCertificate[] = "verifycertificate";
-constexpr char kDownloadAlbumCovers[] = "downloadalbumcovers";
-constexpr char kUseAlbumIdForAlbumCovers[] = "usealbumidforalbumcovers";
-constexpr char kServerSideScrobbling[] = "serversidescrobbling";
-constexpr char kAuthMethod[] = "authmethod";
+constexpr char kVerifyCertificate[] = "verify_certificate";
+constexpr char kDownloadAlbumCovers[] = "download_albumcovers";
+constexpr char kUseAlbumIdForAlbumCovers[] = "use_album_id_for_albumcovers";
+constexpr char kServerSideScrobbling[] = "serverside_scrobbling";
+constexpr char kAuthMethod[] = "auth_method";
 
 constexpr char kCredentialsService[] = "subsonic";
 

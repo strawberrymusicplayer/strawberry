@@ -83,9 +83,15 @@ PlaylistManager::PlaylistManager(const SharedPtr<TaskManager> task_manager,
       playlist_container_(nullptr),
       current_(-1),
       active_(-1),
-      playlists_loading_(0) {
+      save_sequence_(0),
+      removal_sequence_(0) {
 
   setObjectName(QLatin1String(QObject::metaObject()->className()));
+
+  QObject::connect(&*playlist_backend_, &PlaylistBackend::PlaylistSaved, this, &PlaylistManager::ClosedPlaylistSaved);
+  QObject::connect(&*playlist_backend_, &PlaylistBackend::PlaylistRemoved, this, [this](const int id, const quint64 sequence) {
+    if (playlists_pending_removal_.value(id) == sequence) playlists_pending_removal_.remove(id);
+  });
 
 }
 
@@ -112,25 +118,33 @@ void PlaylistManager::Init(PlaylistSequence *sequence, PlaylistContainer *playli
 
   const PlaylistBackend::PlaylistList playlists = playlist_backend_->GetAllOpenPlaylists();
   for (const PlaylistBackend::Playlist &p : playlists) {
-    ++playlists_loading_;
-    Playlist *ret = AddPlaylist(p.id, p.name, p.special_type, p.ui_path, p.favorite);
-    QObject::connect(ret, &Playlist::PlaylistLoaded, this, &PlaylistManager::PlaylistLoaded);
+    AddPlaylist(p.id, p.name, p.special_type, p.ui_path, p.favorite);
   }
 
   // If no playlist exists then make a new one
   if (playlists_.isEmpty()) New(tr("Playlist"));
 
+  // A restore can be cancelled and a playlist can be deleted while it's restoring, both have to count as loaded, since playback and the command-line options wait for all the playlists.
+  for (const Data &data : std::as_const(playlists_)) {
+    Playlist *playlist = data.p;
+    if (!playlist->is_restoring()) continue;
+    playlists_loading_ << playlist;
+    QObject::connect(playlist, &Playlist::RestoreDone, this, [this, playlist]() { PlaylistLoadingFinished(playlist); }, Qt::SingleShotConnection);
+  }
+
   Q_EMIT PlaylistManagerInitialized();
+
+  if (playlists_loading_.isEmpty()) {
+    Q_EMIT AllPlaylistsLoaded();
+  }
 
 }
 
-void PlaylistManager::PlaylistLoaded() {
+void PlaylistManager::PlaylistLoadingFinished(Playlist *playlist) {
 
-  Playlist *playlist = qobject_cast<Playlist*>(sender());
-  if (!playlist) return;
-  QObject::disconnect(playlist, &Playlist::PlaylistLoaded, this, &PlaylistManager::PlaylistLoaded);
-  --playlists_loading_;
-  if (playlists_loading_ == 0) {
+  if (!playlists_loading_.remove(playlist)) return;
+
+  if (playlists_loading_.isEmpty()) {
     Q_EMIT AllPlaylistsLoaded();
   }
 
@@ -149,6 +163,24 @@ void PlaylistManager::SavePendingPlaylistsAsync() {
       QObject::connect(playlist, &QObject::destroyed, this, [this, playlist]() { PendingPlaylistSaved(playlist); }, Qt::SingleShotConnection);
     }
     else {
+      playlist->SavePending();
+    }
+  }
+
+  // The closed favorite playlists which are restoring save their pending changes when they are restored.
+  for (const ClosedPlaylist &closed_playlist : std::as_const(closed_playlists_)) {
+    Playlist *playlist = closed_playlist.playlist;
+    if (playlist->is_restoring()) {
+      playlists_restoring_ << playlist;
+      // It's usually saved by SaveClosedPlaylist(), saving it here too saves it when it's opened again before it's restored.
+      QObject::connect(playlist, &Playlist::RestoreDone, this, [this, playlist]() {
+        playlist->SavePending();
+        PendingPlaylistSaved(playlist);
+      }, Qt::SingleShotConnection);
+      QObject::connect(playlist, &QObject::destroyed, this, [this, playlist]() { PendingPlaylistSaved(playlist); }, Qt::SingleShotConnection);
+    }
+    else {
+      // It can have changed after it was closed, like when songs which were still loading finished loading.
       playlist->SavePending();
     }
   }
@@ -195,21 +227,30 @@ Playlist *PlaylistManager::AddPlaylist(const int id, const QString &name, const 
   ret->set_sequence(sequence_);
   ret->set_ui_path(ui_path);
 
-  QObject::connect(ret, &Playlist::CurrentSongChanged, this, &PlaylistManager::CurrentSongChanged);
-  QObject::connect(ret, &Playlist::CurrentSongMetadataChanged, this, &PlaylistManager::CurrentSongMetadataChanged);
-  QObject::connect(ret, &Playlist::PlaylistChanged, this, &PlaylistManager::OneOfPlaylistsChanged);
-  QObject::connect(ret, &Playlist::PlaylistChanged, this, &PlaylistManager::UpdateSummaryText);
-  QObject::connect(ret, &Playlist::EditingFinished, this, &PlaylistManager::EditingFinished);
-  QObject::connect(ret, &Playlist::Error, this, &PlaylistManager::Error);
-  QObject::connect(ret, &Playlist::PlayRequested, this, &PlaylistManager::PlayRequested);
-  QObject::connect(ret, &Playlist::Rename, this, &PlaylistManager::Rename);
-  QObject::connect(ret, &Playlist::PlaylistItemsAdded, this, &PlaylistManager::PlaylistItemsAdded);
-  QObject::connect(ret, &Playlist::PlaylistItemsRemoved, this, &PlaylistManager::PlaylistItemsRemoved);
-  QObject::connect(ret, &Playlist::PlaylistItemMetadataChanged, this, &PlaylistManager::PlaylistItemMetadataChanged);
-  QObject::connect(playlist_container_->view(), &PlaylistView::ColumnAlignmentChanged, ret, &Playlist::SetColumnAlignment);
-  QObject::connect(&*current_albumcover_loader_, &CurrentAlbumCoverLoader::AlbumCoverLoaded, ret, &Playlist::AlbumCoverLoaded);
+  RegisterPlaylist(ret, id, name, favorite);
 
-  playlists_[id] = Data(ret, name);
+  return ret;
+
+}
+
+void PlaylistManager::RegisterPlaylist(Playlist *playlist, const int id, const QString &name, const bool favorite) {
+
+  QObject::connect(playlist, &Playlist::CurrentSongChanged, this, &PlaylistManager::CurrentSongChanged);
+  QObject::connect(playlist, &Playlist::CurrentSongMetadataChanged, this, &PlaylistManager::CurrentSongMetadataChanged);
+  QObject::connect(playlist, &Playlist::PlaylistChanged, this, &PlaylistManager::OneOfPlaylistsChanged);
+  QObject::connect(playlist, &Playlist::QueueChanged, this, &PlaylistManager::OneOfPlaylistsQueueChanged);
+  QObject::connect(playlist, &Playlist::PlaylistChanged, this, &PlaylistManager::UpdateSummaryText);
+  QObject::connect(playlist, &Playlist::EditingFinished, this, &PlaylistManager::EditingFinished);
+  QObject::connect(playlist, &Playlist::Error, this, &PlaylistManager::Error);
+  QObject::connect(playlist, &Playlist::PlayRequested, this, &PlaylistManager::PlayRequested);
+  QObject::connect(playlist, &Playlist::Rename, this, &PlaylistManager::Rename);
+  QObject::connect(playlist, &Playlist::PlaylistItemsAdded, this, &PlaylistManager::PlaylistItemsAdded);
+  QObject::connect(playlist, &Playlist::PlaylistItemsRemoved, this, &PlaylistManager::PlaylistItemsRemoved);
+  QObject::connect(playlist, &Playlist::PlaylistItemMetadataChanged, this, &PlaylistManager::PlaylistItemMetadataChanged);
+  QObject::connect(playlist_container_->view(), &PlaylistView::ColumnAlignmentChanged, playlist, &Playlist::SetColumnAlignment);
+  QObject::connect(&*current_albumcover_loader_, &CurrentAlbumCoverLoader::AlbumCoverLoaded, playlist, &Playlist::AlbumCoverLoaded);
+
+  playlists_[id] = Data(playlist, name);
 
   Q_EMIT PlaylistAdded(id, name, favorite);
 
@@ -219,8 +260,6 @@ Playlist *PlaylistManager::AddPlaylist(const int id, const QString &name, const 
   if (active_ == -1) {
     SetActivePlaylist(id);
   }
-
-  return ret;
 
 }
 
@@ -232,6 +271,7 @@ void PlaylistManager::New(const QString &name, const SongList &songs, const QStr
 
   if (id == -1) qFatal("Couldn't create playlist");
 
+  playlists_pending_removal_.remove(id);
   Playlist *playlist = AddPlaylist(id, name, special_type, QString(), false);
   playlist->InsertSongsOrCollectionItems(songs);
 
@@ -254,7 +294,7 @@ void PlaylistManager::SelectNowPlaying() {
   }
   const PlaylistBackend::PlaylistList playlists = playlist_backend_->GetAllPlaylists();
   for (const PlaylistBackend::Playlist &playlist : playlists) {
-    if (playlist.special_type == QLatin1String(Playlist::kNowPlayingType)) {
+    if (playlist.special_type == QLatin1String(Playlist::kNowPlayingType) && !playlists_pending_removal_.contains(playlist.id)) {
       SetCurrentOrOpen(playlist.id);
       return;
     }
@@ -274,6 +314,7 @@ void PlaylistManager::Load(const QString &filename) {
     return;
   }
 
+  playlists_pending_removal_.remove(id);
   Playlist *playlist = AddPlaylist(id, fileinfo.completeBaseName(), QString(), QString(), false);
 
   playlist->InsertUrls(QList<QUrl>() << QUrl::fromLocalFile(filename));
@@ -447,13 +488,21 @@ void PlaylistManager::Favorite(const int id, const bool favorite) {
     Q_ASSERT(!favorite);
     // Otherwise it means user wants to remove this playlist from the left panel,
     // while it's not visible in the playlist tabbar either, because it has been closed: delete it.
-    playlist_backend_->RemovePlaylist(id);
+    // The removal is queued first, deleting the playlist finishes saving the pending changes when exiting.
+    RemovePlaylist(id);
+    DeleteClosedPlaylist(id);
   }
   Q_EMIT PlaylistFavorited(id, favorite);
 
 }
 
 bool PlaylistManager::Close(const int id) {
+
+  return ClosePlaylist(id, false);
+
+}
+
+bool PlaylistManager::ClosePlaylist(const int id, const bool delete_playlist) {
 
   // Won't allow removing the last playlist
   if (playlists_.count() <= 1 || !playlists_.contains(id)) return false;
@@ -474,41 +523,144 @@ bool PlaylistManager::Close(const int id) {
   Data data = playlists_.take(id);
   Q_EMIT PlaylistClosed(id);
 
-  if (!data.p->is_favorite()) {
-    playlist_backend_->RemovePlaylist(id);
+  if (delete_playlist || !data.p->is_favorite()) {
+    // The pending changes are not saved, the playlist is removed.
+    RemovePlaylist(id);
     Q_EMIT PlaylistDeleted(id);
+    PlaylistLoadingFinished(data.p);
+    delete data.p;
   }
-  delete data.p;
+  else if (data.p->is_now_playing()) {
+    PlaylistLoadingFinished(data.p);
+    delete data.p;
+  }
+  else {
+    // A favorite playlist is kept, save the changes waiting for the save timer, the timer is deleted with the playlist.
+    KeepClosedPlaylistUntilSaved(id, data.p);
+  }
 
   return true;
+
+}
+
+void PlaylistManager::UnregisterPlaylist(Playlist *playlist) {
+
+  QObject::disconnect(playlist, &Playlist::CurrentSongChanged, this, &PlaylistManager::CurrentSongChanged);
+  QObject::disconnect(playlist, &Playlist::CurrentSongMetadataChanged, this, &PlaylistManager::CurrentSongMetadataChanged);
+  QObject::disconnect(playlist, &Playlist::PlaylistChanged, this, &PlaylistManager::OneOfPlaylistsChanged);
+  QObject::disconnect(playlist, &Playlist::QueueChanged, this, &PlaylistManager::OneOfPlaylistsQueueChanged);
+  QObject::disconnect(playlist, &Playlist::PlaylistChanged, this, &PlaylistManager::UpdateSummaryText);
+  QObject::disconnect(playlist, &Playlist::EditingFinished, this, &PlaylistManager::EditingFinished);
+  QObject::disconnect(playlist, &Playlist::Error, this, &PlaylistManager::Error);
+  QObject::disconnect(playlist, &Playlist::PlayRequested, this, &PlaylistManager::PlayRequested);
+  QObject::disconnect(playlist, &Playlist::Rename, this, &PlaylistManager::Rename);
+  QObject::disconnect(playlist, &Playlist::PlaylistItemsAdded, this, &PlaylistManager::PlaylistItemsAdded);
+  QObject::disconnect(playlist, &Playlist::PlaylistItemsRemoved, this, &PlaylistManager::PlaylistItemsRemoved);
+  QObject::disconnect(playlist, &Playlist::PlaylistItemMetadataChanged, this, &PlaylistManager::PlaylistItemMetadataChanged);
+  QObject::disconnect(playlist_container_->view(), &PlaylistView::ColumnAlignmentChanged, playlist, &Playlist::SetColumnAlignment);
+  QObject::disconnect(&*current_albumcover_loader_, &CurrentAlbumCoverLoader::AlbumCoverLoaded, playlist, &Playlist::AlbumCoverLoaded);
+
+}
+
+void PlaylistManager::KeepClosedPlaylistUntilSaved(const int id, Playlist *playlist) {
+
+  // The playlist isn't used until it's opened again, also not when its restore finishes.
+  // The connections for saving the pending changes when exiting are kept, the playlist can be closed while waiting for it to be restored.
+  UnregisterPlaylist(playlist);
+  playlist->set_closed(true);
+
+  // It's deleted with the playlist manager when exiting before it's saved.
+  playlist->setParent(this);
+  ClosedPlaylist closed_playlist{ playlist, 0, 0, QMetaObject::Connection() };
+
+  if (!playlist->is_restoring()) {
+    closed_playlists_.insert(id, closed_playlist);
+    SaveClosedPlaylist(id, playlist);
+    return;
+  }
+
+  // Changes made while restoring are only saved when the playlist is restored.
+  closed_playlist.restore_done_connection = QObject::connect(playlist, &Playlist::RestoreDone, this, [this, id, playlist]() { SaveClosedPlaylist(id, playlist); }, Qt::SingleShotConnection);
+  closed_playlists_.insert(id, closed_playlist);
+
+}
+
+void PlaylistManager::SaveClosedPlaylist(const int id, Playlist *playlist) {
+
+  QMap<int, ClosedPlaylist>::iterator it = closed_playlists_.find(id);
+  if (it == closed_playlists_.end() || it->playlist != playlist) return;
+
+  playlist->SavePending();
+
+  // The save is queued to the playlist backend, the playlist is kept until it's done, so it's used when it's opened again before that, rather than restoring it from the database without the changes.
+  it->save_sequence = ++save_sequence_;
+  it->save_generation = playlist->save_generation();
+  playlist_backend_->NotifyPlaylistSavedAsync(id, it->save_sequence);
+
+}
+
+void PlaylistManager::ClosedPlaylistSaved(const int id, const quint64 sequence) {
+
+  // The playlist could have been opened, and closed again, since the notification was queued.
+  QMap<int, ClosedPlaylist>::iterator it = closed_playlists_.find(id);
+  if (it == closed_playlists_.end() || it->save_sequence != sequence) return;
+
+  Playlist *playlist = it->playlist;
+
+  // It can have changed after the save was queued, like when songs which were still loading finished loading.
+  // A newer save can already be queued behind this notification, the database doesn't have those changes yet, so a new notification is queued behind it.
+  if (playlist->has_pending_save() || playlist->save_generation() != it->save_generation) {
+    SaveClosedPlaylist(id, playlist);
+    return;
+  }
+
+  closed_playlists_.erase(it);
+  playlist->deleteLater();
+
+}
+
+void PlaylistManager::DeleteClosedPlaylist(const int id) {
+
+  if (!closed_playlists_.contains(id)) return;
+
+  // The changes are not saved, the playlist is removed, the save which is already queued runs before the removal.
+  // It's deleted now, so a restore which finishes later can't save it, the playlist could have been removed and its ID reused by then.
+  // When exiting, the playlist being deleted counts as saved, so the removal has to be queued before.
+  const ClosedPlaylist closed_playlist = closed_playlists_.take(id);
+  QObject::disconnect(closed_playlist.restore_done_connection);
+  PlaylistLoadingFinished(closed_playlist.playlist);
+  delete closed_playlist.playlist;
+
+}
+
+void PlaylistManager::RemovePlaylist(const int id) {
+
+  if (playlists_pending_removal_.contains(id)) return;
+  const quint64 sequence = ++removal_sequence_;
+  playlists_pending_removal_.insert(id, sequence);
+  playlist_backend_->RemovePlaylistAsync(id, sequence);
 
 }
 
 void PlaylistManager::Delete(const int id) {
 
   if (!playlists_.contains(id)) {
-    playlist_backend_->RemovePlaylist(id);
+    RemovePlaylist(id);
+    DeleteClosedPlaylist(id);
     Q_EMIT PlaylistDeleted(id);
     return;
   }
-  const bool favorite = playlists_.value(id).p->is_favorite();
-  if (playlists_.count() == 1) {
-    New(tr("Playlist"));
-  }
-  if (!Close(id)) {
-    return;
-  }
-
-  // Close already deletes non-favorite playlists.
-  if (favorite) {
-    playlist_backend_->RemovePlaylist(id);
-    Q_EMIT PlaylistDeleted(id);
-  }
+  if (playlists_.count() == 1) New(tr("Playlist"));
+  ClosePlaylist(id, true);
 
 }
 
 void PlaylistManager::OneOfPlaylistsChanged() {
   Q_EMIT PlaylistChanged(qobject_cast<Playlist*>(sender()));
+}
+
+void PlaylistManager::OneOfPlaylistsQueueChanged() {
+  Q_EMIT QueueChanged(qobject_cast<Playlist*>(sender()));
 }
 
 void PlaylistManager::SetCurrentPlaylist(const int id) {
@@ -623,13 +775,19 @@ void PlaylistManager::UpdateCollectionSongs(const SongList &songs) {
 
   // Some songs might've changed in the collection, let's update any playlist items we have that match those songs
 
+  // The closed playlists which are kept until they're saved are updated too, they're used again when they're opened before that.
+  QList<Playlist*> playlists = GetAllPlaylists();
+  for (const ClosedPlaylist &closed_playlist : std::as_const(closed_playlists_)) {
+    playlists << closed_playlist.playlist;
+  }
+
   for (const Song &song : songs) {
-    for (const Data &data : std::as_const(playlists_)) {
-      const PlaylistItemPtrList items = data.p->collection_items(song.source(), song.id());
+    for (Playlist *playlist : std::as_const(playlists)) {
+      const PlaylistItemPtrList items = playlist->collection_items(song.source(), song.id());
       for (int i = 0; i < items.count(); ++i) {
         PlaylistItemPtr item = items.at(i);
         if (item->EffectiveMetadata().directory_id() != song.directory_id()) continue;
-        data.p->UpdateItemMetadata(item, song, false);
+        playlist->UpdateItemMetadata(item, song, false);
       }
     }
   }
@@ -691,8 +849,23 @@ void PlaylistManager::Open(const int id) {
     return;
   }
 
+  if (playlists_pending_removal_.contains(id)) return;
+
   const PlaylistBackend::Playlist &p = playlist_backend_->GetPlaylist(id);
   if (p.id != id) {
+    return;
+  }
+
+  // A closed favorite playlist which isn't saved yet is used again, the database doesn't have its pending changes yet.
+  if (closed_playlists_.contains(id)) {
+    const ClosedPlaylist closed_playlist = closed_playlists_.take(id);
+    // It saves its own pending changes now, also when it's restoring.
+    QObject::disconnect(closed_playlist.restore_done_connection);
+    closed_playlist.playlist->setParent(nullptr);
+    closed_playlist.playlist->set_closed(false);
+    // The playlist could have been moved to another folder while it was closed, that's only stored in the database.
+    closed_playlist.playlist->set_ui_path(p.ui_path);
+    RegisterPlaylist(closed_playlist.playlist, p.id, p.name, p.favorite);
     return;
   }
 
@@ -703,6 +876,10 @@ void PlaylistManager::Open(const int id) {
 void PlaylistManager::SetCurrentOrOpen(const int id) {
 
   Open(id);
+  if (!playlists_.contains(id)) {
+    qLog(Warning) << "Can't select playlist" << id << "because it could not be opened";
+    return;
+  }
   SetCurrentPlaylist(id);
 
 }

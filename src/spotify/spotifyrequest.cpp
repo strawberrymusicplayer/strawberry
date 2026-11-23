@@ -203,11 +203,12 @@ void SpotifyRequest::GetArtists() {
 
 }
 
-void SpotifyRequest::AddArtistsRequest(const int offset, const int limit) {
+void SpotifyRequest::AddArtistsRequest(const int offset, const int limit, const QString &after) {
 
   Request request;
   request.limit = limit;
   request.offset = offset;
+  request.after = after;
   artists_requests_queue_.enqueue(request);
 
   ++artists_requests_total_;
@@ -232,6 +233,9 @@ void SpotifyRequest::FlushArtistsRequests() {
     if (request.offset > 0) {
       parameters << Param(u"offset"_s, QString::number(request.offset));
     }
+    if (!request.after.isEmpty()) {
+      parameters << Param(u"after"_s, request.after);
+    }
     QNetworkReply *reply = nullptr;
     if (type_ == Type::FavouriteArtists) {
       reply = CreateRequest(u"me/following"_s, parameters);
@@ -240,7 +244,7 @@ void SpotifyRequest::FlushArtistsRequests() {
       reply = CreateRequest(u"search"_s, parameters);
     }
     if (!reply) continue;
-    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { ArtistsReplyReceived(reply, request.limit, request.offset); });
+    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { ArtistsReplyReceived(reply, request.limit, request.offset, request.after); });
 
     ++artists_requests_active_;
 
@@ -397,7 +401,7 @@ void SpotifyRequest::AddSongsSearchRequest(const int offset) {
 
 }
 
-void SpotifyRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested) {
+void SpotifyRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested, const QString &after_requested) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
@@ -413,7 +417,11 @@ void SpotifyRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_
 
   int offset = 0;
   int artists_received = 0;
-  const QScopeGuard finish_check = qScopeGuard([this, limit_requested, &offset, &artists_received]() { ArtistsFinishCheck(limit_requested, offset, artists_received); });
+  QString after_next;
+  const QScopeGuard finish_check = qScopeGuard([this, limit_requested, &offset, &artists_received, &after_requested, &after_next]() { ArtistsFinishCheck(limit_requested, offset, artists_received, after_requested, after_next); });
+
+  // The followed artists are paged with a cursor, so the first page is the one requested without a cursor.
+  const bool first_page = offset_requested == 0 && after_requested.isEmpty();
 
   if (!json_object_result.success()) {
     Error(json_object_result.error_message);
@@ -443,7 +451,7 @@ void SpotifyRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_
   }
   const int artists_total = obj_artists["total"_L1].toInt();
 
-  if (offset_requested == 0) {
+  if (first_page) {
     artists_total_ = artists_total;
   }
   else if (artists_total != artists_total_) {
@@ -456,7 +464,11 @@ void SpotifyRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_
     return;
   }
 
-  if (offset_requested == 0) {
+  if (type_ == Type::FavouriteArtists) {
+    after_next = NextArtistsCursor(obj_artists);
+  }
+
+  if (first_page) {
     Q_EMIT UpdateProgress(query_id_, GetProgress(artists_received_, artists_total_));
   }
 
@@ -468,7 +480,7 @@ void SpotifyRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_
 
   const QJsonArray &array_items = json_array_result.json_array;
   if (array_items.isEmpty()) {  // Empty array means no results
-    if (offset_requested == 0) no_results_ = true;
+    if (first_page) no_results_ = true;
     return;
   }
 
@@ -518,19 +530,38 @@ void SpotifyRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_
   }
   artists_received_ += artists_received;
 
-  if (offset_requested != 0) Q_EMIT UpdateProgress(query_id_, GetProgress(artists_received_, artists_total_));
+  if (!first_page) Q_EMIT UpdateProgress(query_id_, GetProgress(artists_received_, artists_total_));
 
 }
 
-void SpotifyRequest::ArtistsFinishCheck(const int limit, const int offset, const int artists_received) {
+QString SpotifyRequest::NextArtistsCursor(const QJsonObject &object_artists) {
+
+  // The next URL is null on the last page.
+  if (!object_artists["next"_L1].isString() || object_artists["next"_L1].toString().isEmpty()) return QString();
+
+  const QJsonValue value_cursors = object_artists["cursors"_L1];
+  if (!value_cursors.isObject()) return QString();
+
+  const QJsonValue value_after = value_cursors.toObject()["after"_L1];
+  return value_after.isString() ? value_after.toString() : QString();
+
+}
+
+void SpotifyRequest::ArtistsFinishCheck(const int limit, const int offset, const int artists_received, const QString &after_requested, const QString &after_next) {
 
   if (finished_) return;
 
-  if (artists_received > 0 && (limit == 0 || limit > artists_received) && artists_received_ < artists_total_) {
+  if (type_ == Type::FavouriteArtists) {
+    // The followed artists don't have an offset, the next page is requested with the cursor from the previous page.
+    // The same cursor is never requested again, so a reply with the same cursor can't request the same page forever.
+    if (artists_received > 0 && !after_next.isEmpty() && after_next != after_requested && artists_received_ < artists_total_) {
+      AddArtistsRequest(0, limit, after_next);
+    }
+  }
+  else if (artists_received > 0 && (limit == 0 || limit > artists_received) && artists_received_ < artists_total_) {
     int offset_next = offset + artists_received;
     if (offset_next > 0 && offset_next < artists_total_) {
-      if (type_ == Type::FavouriteArtists) AddArtistsRequest(offset_next);
-      else if (type_ == Type::SearchArtists) AddArtistsSearchRequest(offset_next);
+      if (type_ == Type::SearchArtists) AddArtistsSearchRequest(offset_next);
     }
   }
 
@@ -724,23 +755,28 @@ void SpotifyRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_a
         }
         QJsonObject obj_artist = value.toObject();
         if (obj_artist.isEmpty() || !obj_artist.contains("id"_L1) || !obj_artist.contains("name"_L1)) continue;
-        if (artist.artist_id.isEmpty() || artist.artist_id == artist_artist.artist_id) {
-          artist.artist_id = obj_artist["id"_L1].toString();
+        const QString artist_id = obj_artist["id"_L1].toString();
+        // The first listed artist is used, unless the requested artist is listed too, so every listed artist is compared with the requested artist.
+        const bool is_requested_artist = !artist_artist.artist_id.isEmpty() && artist_id == artist_artist.artist_id;
+        if (artist.artist_id.isEmpty() || is_requested_artist) {
+          artist.artist_id = artist_id;
           artist.artist = obj_artist["name"_L1].toString();
+          album.genre.clear();
           if (obj_artist.contains("genres"_L1) && obj_artist["genres"_L1].isArray()) {
             const QJsonArray array_genres = obj_artist["genres"_L1].toArray();
             if (!array_genres.isEmpty()) {
               album.genre = array_genres.first().toString();
             }
           }
-          if (artist.artist_id == artist_artist.artist_id) {
-            artist_matches = true;
-            break;
-          }
+        }
+        if (is_requested_artist) {
+          artist_matches = true;
+          break;
         }
       }
+      // Albums by other artists are skipped, but the other albums in the reply are still processed.
       if (!artist_matches && (type_ == Type::FavouriteArtists || type_ == Type::SearchArtists)) {
-        return;
+        continue;
       }
     }
 

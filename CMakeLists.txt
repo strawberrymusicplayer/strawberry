@@ -421,6 +421,15 @@ if(WIN32)
   else()
     message(FATAL_ERROR "Missing getopt")
   endif()
+  # getopt-win can be renamed to getopt_win, for example for MinGW, which has its own getopt.h, otherwise getopt.h is used.
+  get_target_property(GETOPT_INCLUDE_DIRS ${GETOPT_LIBRARIES} INTERFACE_INCLUDE_DIRECTORIES)
+  if(GETOPT_INCLUDE_DIRS)
+    set(CMAKE_REQUIRED_INCLUDES ${GETOPT_INCLUDE_DIRS})
+  endif()
+  # Check again on every configure, the result is cached, and the renamed package can be installed in the same place as the old one.
+  unset(HAVE_GETOPT_WIN CACHE)
+  check_include_files(getopt_win.h HAVE_GETOPT_WIN LANGUAGE CXX)
+  unset(CMAKE_REQUIRED_INCLUDES)
 endif()
 
 if(APPLE OR WIN32)
@@ -687,9 +696,11 @@ set(SOURCES
   src/core/musicstorage.cpp
   src/core/networkaccessmanager.cpp
   src/core/threadsafenetworkdiskcache.cpp
+  src/core/threadsafenetworkdiskcachedevice.cpp
   src/core/networktimeouts.cpp
   src/core/networkproxyfactory.cpp
   src/core/settings.cpp
+  src/core/settingsmigration.cpp
   src/core/settingsprovider.cpp
   src/core/signalchecker.cpp
   src/core/song.cpp
@@ -729,6 +740,7 @@ set(SOURCES
   src/utilities/threadutils.cpp
   src/utilities/timeutils.cpp
   src/utilities/lrcutils.cpp
+  src/utilities/cddautils.cpp
   src/utilities/transliterate.cpp
   src/utilities/xmlutils.cpp
   src/utilities/filemanagerutils.cpp
@@ -746,6 +758,7 @@ set(SOURCES
   src/credentialsmanager/credentialsbackendsettings.cpp
 
   src/tagreader/tagreaderclient.cpp
+  src/tagreader/tagreaderfilelocks.cpp
   src/tagreader/tagreaderresult.cpp
   src/tagreader/tagreaderbase.cpp
   src/tagreader/tagreadertaglib.cpp
@@ -810,6 +823,7 @@ set(SOURCES
   src/engine/audiodevicelister.cpp
   src/engine/gststartup.cpp
   src/engine/gstengine.cpp
+  src/engine/streammetadataparser.cpp
   src/engine/gstenginepipeline.cpp
   src/engine/gstbusmessageevent.cpp
 
@@ -861,6 +875,7 @@ set(SOURCES
   src/playlist/songplaylistitem.cpp
   src/playlist/streamplaylistitem.cpp
   src/playlist/playlistitemmimedata.cpp
+  src/playlist/playlistrowsmimedata.cpp
   src/playlist/playlistlistcontainer.cpp
   src/playlist/playlistlistmodel.cpp
   src/playlist/playlistlistsortfiltermodel.cpp
@@ -883,6 +898,7 @@ set(SOURCES
   src/playlist/playlistundocommandshuffleitems.cpp
 
   src/queue/queue.cpp
+  src/queue/queuerowsmimedata.cpp
   src/queue/queueview.cpp
 
   src/playlistparsers/asxiniparser.cpp
@@ -932,13 +948,13 @@ set(SOURCES
   src/covermanager/coversearchstatisticsdialog.cpp
   src/covermanager/coverexportrunnable.cpp
   src/covermanager/currentalbumcoverloader.cpp
+  src/covermanager/confirmedcoverfiles.cpp
   src/covermanager/coverfromurldialog.cpp
   src/covermanager/jsoncoverprovider.cpp
   src/covermanager/lastfmcoverprovider.cpp
   src/covermanager/musicbrainzcoverprovider.cpp
   src/covermanager/discogscoverprovider.cpp
   src/covermanager/deezercoverprovider.cpp
-  src/covermanager/musixmatchcoverprovider.cpp
   src/covermanager/opentidalcoverprovider.cpp
 
   src/lyrics/lyricsproviders.cpp
@@ -951,7 +967,6 @@ set(SOURCES
   src/lyrics/htmllyricsprovider.cpp
   src/lyrics/ovhlyricsprovider.cpp
   src/lyrics/geniuslyricsprovider.cpp
-  src/lyrics/musixmatchlyricsprovider.cpp
   src/lyrics/songlyricscomlyricsprovider.cpp
   src/lyrics/azlyricscomlyricsprovider.cpp
   src/lyrics/elyricsnetlyricsprovider.cpp
@@ -993,7 +1008,6 @@ set(SOURCES
   src/widgets/fancytabbar.cpp
   src/widgets/fancytabdata.cpp
   src/widgets/favoritewidget.cpp
-  src/widgets/forcescrollperpixel.cpp
   src/widgets/freespacebar.cpp
   src/widgets/gridflowlayout.cpp
   src/widgets/groupediconview.cpp
@@ -1119,6 +1133,7 @@ set(HEADERS
   src/core/multisortfilterproxy.h
   src/core/networkaccessmanager.h
   src/core/threadsafenetworkdiskcache.h
+  src/core/threadsafenetworkdiskcachedevice.h
   src/core/networktimeouts.h
   src/core/settings.h
   src/core/songloader.h
@@ -1199,10 +1214,12 @@ set(HEADERS
   src/playlist/playlistview.h
   src/playlist/playlistproxystyle.h
   src/playlist/playlistitemmimedata.h
+  src/playlist/playlistrowsmimedata.h
   src/playlist/songloaderinserter.h
   src/playlist/dynamicplaylistcontrols.h
 
   src/queue/queue.h
+  src/queue/queuerowsmimedata.h
   src/queue/queueview.h
 
   src/playlistparsers/asxiniparser.h
@@ -1254,7 +1271,6 @@ set(HEADERS
   src/covermanager/musicbrainzcoverprovider.h
   src/covermanager/discogscoverprovider.h
   src/covermanager/deezercoverprovider.h
-  src/covermanager/musixmatchcoverprovider.h
   src/covermanager/opentidalcoverprovider.h
 
   src/lyrics/lyricsproviders.h
@@ -1265,7 +1281,6 @@ set(HEADERS
   src/lyrics/htmllyricsprovider.h
   src/lyrics/ovhlyricsprovider.h
   src/lyrics/geniuslyricsprovider.h
-  src/lyrics/musixmatchlyricsprovider.h
   src/lyrics/songlyricscomlyricsprovider.h
   src/lyrics/azlyricscomlyricsprovider.h
   src/lyrics/elyricsnetlyricsprovider.h
@@ -1328,7 +1343,6 @@ set(HEADERS
   src/widgets/loginstatewidget.h
   src/widgets/searchfield.h
   src/widgets/ratingwidget.h
-  src/widgets/forcescrollperpixel.h
   src/widgets/resizabletextedit.h
 
   src/songeditor/songeditor.h
@@ -1586,9 +1600,11 @@ if(WIN32)
     src/engine/mmaudiodevicelister.cpp
     src/engine/asioaudiodevicelister.cpp
     src/core/windows7thumbbar.cpp
+    src/device/win32devicelister.cpp
   )
   list(APPEND HEADERS
     src/core/windows7thumbbar.h
+    src/device/win32devicelister.h
   )
 endif()
 
@@ -1692,8 +1708,8 @@ if(HAVE_EBUR128)
 endif()
 
 if(HAVE_DBUS)
-  list(APPEND SOURCES src/osd/osddbus.cpp)
-  list(APPEND HEADERS src/osd/osddbus.h)
+  list(APPEND SOURCES src/core/sleepinhibitor.cpp src/osd/osddbus.cpp)
+  list(APPEND HEADERS src/core/sleepinhibitor.h src/osd/osddbus.h)
   qt_add_dbus_interface(SOURCES src/osd/org.freedesktop.Notifications.xml notification)
 endif()
 
@@ -2060,7 +2076,7 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${HAVE_MTP}>:PkgConfig::LIBMTP>
   $<$<BOOL:${HAVE_GPOD}>:PkgConfig::LIBGPOD PkgConfig::GDK_PIXBUF>
   $<$<BOOL:${HAVE_QTSPARKLE}>:qtsparkle-qt${QT_VERSION_MAJOR}::qtsparkle>
-  $<$<BOOL:${WIN32}>:dsound dwmapi advapi32 ${GETOPT_LIBRARIES}>
+  $<$<BOOL:${WIN32}>:dsound dwmapi advapi32 cfgmgr32 ${GETOPT_LIBRARIES}>
   $<$<BOOL:${MSVC}>:WindowsApp>
 )
 

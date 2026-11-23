@@ -47,7 +47,7 @@ class CollectionPlaylistItem : public PlaylistItem {
   void SetArtManual(const QUrl &cover_url) override;
 
  protected:
-  QVariant DatabaseValue(const DatabaseColumn database_column) const override;
+  QVariant DatabaseValue(DatabaseColumn database_column) const override;
   Song DatabaseSongMetadata() const override { return Song(source_); }
 
  protected:

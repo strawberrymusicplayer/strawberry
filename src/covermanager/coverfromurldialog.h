@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,16 +27,15 @@
 #include <QObject>
 #include <QDialog>
 #include <QString>
-#include <QPointer>
 
 #include "includes/shared_ptr.h"
 #include "albumcoverimageresult.h"
 
 class QWidget;
+class QNetworkReply;
 
 class NetworkAccessManager;
 class Ui_CoverFromURLDialog;
-class QNetworkReply;
 class CoverDialogPage;
 
 // Controller for a dialog which fetches covers from the given URL.
@@ -50,17 +49,22 @@ class CoverFromURLDialog : public QDialog {
   // Opens the dialog. This returns an image found at the URL chosen by user or null image if the dialog got rejected.
   AlbumCoverImageResult Exec();
 
+ public Q_SLOTS:
+  void reject() override;
+
  private Q_SLOTS:
   void accept() override;
   void LoadCoverFromURLFinished();
 
  private:
+  void AbortReply();
+
   SharedPtr<NetworkAccessManager> network_;
   Ui_CoverFromURLDialog *ui_;
+  QNetworkReply *reply_;
   AlbumCoverImageResult last_album_cover_;
 #ifdef Q_OS_ANDROID
   CoverDialogPage *android_page_;
-  QPointer<QNetworkReply> pending_reply_;
 #endif
 };
 

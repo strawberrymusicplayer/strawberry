@@ -47,9 +47,14 @@ class UrlHandlers;
 class PlaylistManager;
 class AnalyzerContainer;
 class Equalizer;
+#if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
+class SleepInhibitor;
+#endif
 
 class Player : public PlayerInterface {
   Q_OBJECT
+
+  friend class PlayerTest;
 
  public:
   explicit Player(const SharedPtr<TaskManager> task_manager, const SharedPtr<UrlHandlers> url_handlers, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent = nullptr);
@@ -79,6 +84,8 @@ class Player : public PlayerInterface {
   void SaveVolume() override;
   void SavePlaybackStatus() override;
   void PlaylistsLoaded() override;
+  // Files that are loaded asynchronously will be played, so the saved playback shouldn't be resumed when the playlists are loaded.
+  void SkipResumePlayback() { skip_resume_playback_ = true; }
 
   void PlayAt(const int index, const bool pause, const quint64 offset_nanosec, EngineBase::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform = false) override;
   void PlayPause(const quint64 offset_nanosec = 0, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll::Always) override;
@@ -95,6 +102,7 @@ class Player : public PlayerInterface {
   void VolumeDown() override;
   void SeekTo(const quint64 seconds) override;
   void SeekToMsec(const quint64 milliseconds);
+  void SeekToNanosec(const quint64 nanosec);
   void SeekForward() override;
   void SeekBackward() override;
 
@@ -142,8 +150,6 @@ class Player : public PlayerInterface {
 
   void SetMuted(const bool mute);
 
-  void SeekToNanosec(const quint64 nanosec);
-
  private:
   const SharedPtr<TaskManager> task_manager_;
   const SharedPtr<UrlHandlers> url_handlers_;
@@ -152,8 +158,12 @@ class Player : public PlayerInterface {
   AnalyzerContainer *analyzer_;
   SharedPtr<Equalizer> equalizer_;
   QTimer *timer_save_volume_;
+#if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
+  SleepInhibitor *sleep_inhibitor_;
+#endif
 
   bool playlists_loaded_;
+  bool skip_resume_playback_;
   bool play_requested_;
 
   PlaylistItemPtr current_item_;
@@ -165,6 +175,7 @@ class Player : public PlayerInterface {
   int nb_errors_received_;
 
   QList<QUrl> loading_async_;
+  QUrl current_track_loading_url_;  // The current track is waiting for this URL to load, until then the engine is still playing the previous track.
   uint volume_;
   QDateTime last_pressed_previous_;
 

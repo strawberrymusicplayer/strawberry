@@ -387,6 +387,7 @@ void TidalService::GetArtists() {
     return;
   }
 
+  ResetArtistsRequest();
   artists_request_.reset(new TidalRequest(this, url_handler_, network_, TidalBaseRequest::Type::FavouriteArtists, this));
   QObject::connect(&*artists_request_, &TidalRequest::Results, this, &TidalService::ArtistsResultsReceived);
   QObject::connect(&*artists_request_, &TidalRequest::UpdateStatus, this, &TidalService::ArtistsUpdateStatusReceived);
@@ -399,7 +400,12 @@ void TidalService::GetArtists() {
 
 void TidalService::ResetArtistsRequest() {
 
-  artists_request_.reset();
+  // The request is deleted later, it's disconnected first, so a reply which finishes before it's deleted can't report its results, and reset the next request.
+  if (artists_request_) {
+    QObject::disconnect(&*artists_request_, nullptr, this, nullptr);
+    QObject::disconnect(this, nullptr, &*artists_request_, nullptr);
+    artists_request_.reset();
+  }
 
 }
 
@@ -429,6 +435,7 @@ void TidalService::GetAlbums() {
     return;
   }
 
+  ResetAlbumsRequest();
   albums_request_.reset(new TidalRequest(this, url_handler_, network_, TidalBaseRequest::Type::FavouriteAlbums, this));
   QObject::connect(&*albums_request_, &TidalRequest::Results, this, &TidalService::AlbumsResultsReceived);
   QObject::connect(&*albums_request_, &TidalRequest::UpdateStatus, this, &TidalService::AlbumsUpdateStatusReceived);
@@ -440,7 +447,12 @@ void TidalService::GetAlbums() {
 
 void TidalService::ResetAlbumsRequest() {
 
-  albums_request_.reset();
+  // The request is deleted later, it's disconnected first, so a reply which finishes before it's deleted can't report its results, and reset the next request.
+  if (albums_request_) {
+    QObject::disconnect(&*albums_request_, nullptr, this, nullptr);
+    QObject::disconnect(this, nullptr, &*albums_request_, nullptr);
+    albums_request_.reset();
+  }
 
 }
 
@@ -470,6 +482,7 @@ void TidalService::GetSongs() {
     return;
   }
 
+  ResetSongsRequest();
   songs_request_.reset(new TidalRequest(this, url_handler_, network_, TidalBaseRequest::Type::FavouriteSongs, this));
   QObject::connect(&*songs_request_, &TidalRequest::Results, this, &TidalService::SongsResultsReceived);
   QObject::connect(&*songs_request_, &TidalRequest::UpdateStatus, this, &TidalService::SongsUpdateStatusReceived);
@@ -481,7 +494,12 @@ void TidalService::GetSongs() {
 
 void TidalService::ResetSongsRequest() {
 
-  songs_request_.reset();
+  // The request is deleted later, it's disconnected first, so a reply which finishes before it's deleted can't report its results, and reset the next request.
+  if (songs_request_) {
+    QObject::disconnect(&*songs_request_, nullptr, this, nullptr);
+    QObject::disconnect(this, nullptr, &*songs_request_, nullptr);
+    songs_request_.reset();
+  }
 
 }
 

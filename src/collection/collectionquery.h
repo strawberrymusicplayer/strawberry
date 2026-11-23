@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,11 +31,10 @@
 
 #include "core/sqlquery.h"
 
-#include "collectionfilteroptions.h"
 
 class CollectionQuery : public SqlQuery {
  public:
-  explicit CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const CollectionFilterOptions &filter_options = CollectionFilterOptions());
+  explicit CollectionQuery(const QSqlDatabase &db, const QString &songs_table);
 
   QVariant Value(const int column) const;
   QVariant value(const int column) const { return Value(column); }
@@ -49,9 +48,6 @@ class CollectionQuery : public SqlQuery {
   QString order_by() const { return order_by_; }
   QStringList where_clauses() const { return where_clauses_; }
   QVariantList bound_values() const { return bound_values_; }
-  bool include_unavailable() const { return include_unavailable_; }
-  bool duplicates_only() const { return duplicates_only_; }
-  int limit() const { return limit_; }
 
   // Sets contents of SELECT clause on the query (list of columns to get).
   void SetColumnSpec(const QString &column_spec) { column_spec_ = column_spec; }
@@ -66,13 +62,13 @@ class CollectionQuery : public SqlQuery {
   void AddWhere(const QString &column, const QVariant &value, const QString &op = QStringLiteral("="));
 
   void SetBoundValues(const QVariantList &bound_values) { bound_values_ = bound_values; }
-  void SetDuplicatesOnly(const bool duplicates_only) { duplicates_only_ = duplicates_only; }
-  void SetIncludeUnavailable(const bool include_unavailable) { include_unavailable_ = include_unavailable; }
-  void SetLimit(const int limit) { limit_ = limit; }
   void AddCompilationRequirement(const bool compilation);
+  void AddAlbumRequirement(const QString &effective_albumartist, const QString &album);
+
+  // Matches the songs of albums without an album artist, these are compilations or albums without an artist, they are listed like that by CollectionBackend::GetAlbums().
+  static constexpr char kNoAlbumArtistWhereClause[] = "(compilation_effective = 1 OR effective_albumartist = '')";
 
  private:
-  QString GetInnerQuery() const;
 
   QSqlDatabase db_;
   QString songs_table_;
@@ -82,9 +78,6 @@ class CollectionQuery : public SqlQuery {
   QStringList where_clauses_;
   QVariantList bound_values_;
 
-  bool include_unavailable_;
-  bool duplicates_only_;
-  int limit_;
 };
 
 #endif  // COLLECTIONQUERY_H

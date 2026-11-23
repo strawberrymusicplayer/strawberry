@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,6 +34,15 @@ constexpr char kCbr[] = "cbr";
 constexpr char kEncodingEngineQuality[] = "encoding-engine-quality";
 constexpr char kMono[] = "mono";
 }  // namespace LameMP3Settings
+
+namespace FaacSettings {
+constexpr char kRateControl[] = "rate-control";
+constexpr char kBitrate[] = "bitrate";
+// The values of the faac rate-control property, the bitrate is only used with ABR, and the quality only with VBR.
+constexpr int kRateControlVBR = 1;
+constexpr int kRateControlABR = 2;
+constexpr int kDefaultBitrate = 320000;
+}  // namespace FaacSettings
 
 }  // namespace TranscoderSettings
 

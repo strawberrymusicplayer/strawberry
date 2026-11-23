@@ -21,11 +21,16 @@
 
 #include <algorithm>
 #include <functional>
+#include <utility>
 
+#include <QtGlobal>
+#include <QHash>
 #include <QSet>
 #include <QList>
 #include <QString>
 #include <QUrl>
+#include <QDateTime>
+#include <QTimer>
 
 #include "core/song.h"
 #include "core/songmimedata.h"
@@ -36,17 +41,27 @@
 #include "collectionmodel.h"
 #include "collectionitem.h"
 
-CollectionFilter::CollectionFilter(QObject *parent) : QSortFilterProxyModel(parent) {
+namespace {
+// The age filter is checked again at least this often, since the timer doesn't run while the computer is suspended, and the system clock can be set back.
+constexpr qint64 kMaxAgeUpdateMaxIntervalSecs = 3600;
+}  // namespace
+
+CollectionFilter::CollectionFilter(QObject *parent)
+    : QSortFilterProxyModel(parent),
+      timer_max_age_(new QTimer(this)) {
 
   setSortLocaleAware(true);
   setDynamicSortFilter(true);
   setRecursiveFilteringEnabled(true);
 
+  timer_max_age_->setSingleShot(true);
+  QObject::connect(timer_max_age_, &QTimer::timeout, this, &CollectionFilter::MaxAgeUpdate);
+
 }
 
 bool CollectionFilter::filterAcceptsRow(const int source_row, const QModelIndex &source_parent) const {
 
-  if (filter_string_.isEmpty()) return true;
+  if (filter_string_.isEmpty() && !HasSongFilter()) return true;
 
   CollectionModel *model = qobject_cast<CollectionModel*>(sourceModel());
   if (!model) return false;
@@ -55,11 +70,211 @@ bool CollectionFilter::filterAcceptsRow(const int source_row, const QModelIndex 
   CollectionItem *item = model->IndexToItem(idx);
   if (!item) return false;
 
+  // Containers are shown when one of their songs is, by the recursive filtering.
+  if (item->type == CollectionItem::Type::Divider) {
+    return filter_string_.isEmpty() && visible_divider_keys_.contains(item->container_key);
+  }
   if (item->type != CollectionItem::Type::Song) {
     return item->type == CollectionItem::Type::LoadingIndicator;
   }
 
-  return item->metadata.is_valid() && filter_tree_ && filter_tree_->accept(item->metadata);
+  if (!item->metadata.is_valid() || !AcceptsSong(item->metadata, duplicate_song_ids_)) return false;
+
+  return filter_string_.isEmpty() || (filter_tree_ && filter_tree_->accept(item->metadata));
+
+}
+
+bool CollectionFilter::HasSongFilter() const {
+
+  return filter_options_.filter_mode() != CollectionFilterOptions::FilterMode::All || filter_options_.max_age() != -1 || filter_options_.min_rating() >= 0.0F;
+
+}
+
+bool CollectionFilter::AcceptsSong(const Song &song, const QSet<int> &duplicate_song_ids) const {
+
+  if (filter_options_.filter_mode() == CollectionFilterOptions::FilterMode::Duplicates && !duplicate_song_ids.contains(song.id())) return false;
+
+  return filter_options_.Matches(song);
+
+}
+
+void CollectionFilter::CalculateFilterData(QSet<int> *duplicate_song_ids, QSet<QString> *divider_keys) const {
+
+  duplicate_song_ids->clear();
+  divider_keys->clear();
+
+  CollectionModel *model = qobject_cast<CollectionModel*>(sourceModel());
+  if (!model || !HasSongFilter()) return;
+
+  const QList<CollectionItem*> song_nodes = model->song_nodes();
+
+  // Whether a song is a duplicate depends on the other songs, available songs are duplicates when they have the same artist, album and title, and none of these are empty.
+  if (filter_options_.filter_mode() == CollectionFilterOptions::FilterMode::Duplicates) {
+    QHash<QString, QList<int>> song_ids_by_key;
+    for (const CollectionItem *node : song_nodes) {
+      const Song &song = node->metadata;
+      if (song.unavailable() || song.artist().isEmpty() || song.album().isEmpty() || song.title().isEmpty()) continue;
+      song_ids_by_key[song.artist() + QChar(u'\0') + song.album() + QChar(u'\0') + song.title()] << song.id();
+    }
+    for (const QList<int> &song_ids : std::as_const(song_ids_by_key)) {
+      if (song_ids.count() < 2) continue;
+      for (const int song_id : song_ids) {
+        duplicate_song_ids->insert(song_id);
+      }
+    }
+  }
+
+  // A divider is shown when one of the top level items below it has a song that is shown.
+  for (const CollectionItem *node : song_nodes) {
+    if (!AcceptsSong(node->metadata, *duplicate_song_ids)) continue;
+    const CollectionItem *top_level_item = node;
+    while (top_level_item->parent && top_level_item->parent->parent) {
+      top_level_item = top_level_item->parent;
+    }
+    if (!top_level_item->divider_key.isEmpty()) {
+      divider_keys->insert(top_level_item->divider_key);
+    }
+  }
+
+}
+
+void CollectionFilter::BeginRowsFilterChange() {
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+  beginFilterChange();
+#endif
+
+}
+
+void CollectionFilter::EndRowsFilterChange() {
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+  endFilterChange(QSortFilterProxyModel::Direction::Rows);
+#else
+  invalidateRowsFilter();
+#endif
+
+}
+
+void CollectionFilter::SetFilterMode(const CollectionFilterOptions::FilterMode filter_mode) {
+
+  if (filter_options_.filter_mode() == filter_mode) return;
+
+  BeginRowsFilterChange();
+  filter_options_.set_filter_mode(filter_mode);
+  CalculateFilterData(&duplicate_song_ids_, &visible_divider_keys_);
+  EndRowsFilterChange();
+
+}
+
+void CollectionFilter::SetFilterMaxAge(const int filter_max_age) {
+
+  if (filter_options_.max_age() == filter_max_age) return;
+
+  BeginRowsFilterChange();
+  filter_options_.set_max_age(filter_max_age);
+  CalculateFilterData(&duplicate_song_ids_, &visible_divider_keys_);
+  EndRowsFilterChange();
+
+  ScheduleMaxAgeUpdate();
+
+}
+
+void CollectionFilter::ScheduleMaxAgeUpdate() {
+
+  timer_max_age_->stop();
+
+  if (filter_options_.max_age() == -1) return;
+
+  CollectionModel *model = qobject_cast<CollectionModel*>(sourceModel());
+  if (!model) return;
+
+  // Find the oldest song which is newer than the cutoff, it's the next song to become older than the age.
+  qint64 next_ctime = -1;
+  const QList<CollectionItem*> song_nodes = model->song_nodes();
+  for (const CollectionItem *node : song_nodes) {
+    const qint64 ctime = node->metadata.ctime();
+    if (ctime > filter_options_.max_age_cutoff() && (next_ctime == -1 || ctime < next_ctime)) {
+      next_ctime = ctime;
+    }
+  }
+  // When no shown song becomes older than the age, the timer still runs, so songs are shown again when the system clock was set back.
+  if (next_ctime == -1) {
+    timer_max_age_->start(static_cast<int>(kMaxAgeUpdateMaxIntervalSecs * 1000));
+    return;
+  }
+
+  // The song is hidden when the cutoff reaches its time, one second is added since the timer can fire a little early.
+  const qint64 secs = std::clamp(next_ctime + filter_options_.max_age() - QDateTime::currentSecsSinceEpoch() + 1, static_cast<qint64>(0), kMaxAgeUpdateMaxIntervalSecs);
+  timer_max_age_->start(static_cast<int>(secs * 1000));
+
+}
+
+void CollectionFilter::MaxAgeUpdate() {
+
+  if (filter_options_.max_age() == -1) return;
+
+  CollectionModel *model = qobject_cast<CollectionModel*>(sourceModel());
+  if (!model) return;
+
+  const qint64 old_cutoff = filter_options_.max_age_cutoff();
+  const qint64 new_cutoff = QDateTime::currentSecsSinceEpoch() - filter_options_.max_age();
+
+  // Only filter again when songs are between the old and the new cutoff, the timer also fires when nothing changed after a suspend.
+  // The cutoff moves backward when the system clock is set back, then songs which were hidden are shown again.
+  const qint64 lower_cutoff = std::min(old_cutoff, new_cutoff);
+  const qint64 upper_cutoff = std::max(old_cutoff, new_cutoff);
+  bool songs_changed = false;
+  const QList<CollectionItem*> song_nodes = model->song_nodes();
+  for (const CollectionItem *node : song_nodes) {
+    const qint64 ctime = node->metadata.ctime();
+    if (ctime > lower_cutoff && ctime <= upper_cutoff) {
+      songs_changed = true;
+      break;
+    }
+  }
+
+  if (songs_changed) {
+    BeginRowsFilterChange();
+    filter_options_.set_max_age_cutoff(new_cutoff);
+    CalculateFilterData(&duplicate_song_ids_, &visible_divider_keys_);
+    EndRowsFilterChange();
+  }
+  else {
+    filter_options_.set_max_age_cutoff(new_cutoff);
+  }
+
+  ScheduleMaxAgeUpdate();
+
+}
+
+void CollectionFilter::SetFilterMinRating(const float filter_min_rating) {
+
+  if (filter_options_.min_rating() == filter_min_rating) return;
+
+  BeginRowsFilterChange();
+  filter_options_.set_min_rating(filter_min_rating);
+  CalculateFilterData(&duplicate_song_ids_, &visible_divider_keys_);
+  EndRowsFilterChange();
+
+}
+
+void CollectionFilter::SongsChanged() {
+
+  if (!HasSongFilter()) return;
+
+  // Added or changed songs can become older than the age before the song the timer was started for.
+  ScheduleMaxAgeUpdate();
+
+  QSet<int> duplicate_song_ids;
+  QSet<QString> divider_keys;
+  CalculateFilterData(&duplicate_song_ids, &divider_keys);
+  if (duplicate_song_ids == duplicate_song_ids_ && divider_keys == visible_divider_keys_) return;
+
+  BeginRowsFilterChange();
+  duplicate_song_ids_ = duplicate_song_ids;
+  visible_divider_keys_ = divider_keys;
+  EndRowsFilterChange();
 
 }
 

@@ -121,7 +121,8 @@ Mpris2::Mpris2(const SharedPtr<Player> player,
       playlist_manager_(playlist_manager),
       current_albumcover_loader_(current_albumcover_loader),
       active_playlist_id_(-1),
-      active_playlist_notification_pending_(false) {
+      active_playlist_notification_pending_(false),
+      capabilities_notification_pending_(false) {
 
   new Mpris2Root(this);
   new Mpris2TrackList(this);
@@ -148,6 +149,7 @@ Mpris2::Mpris2(const SharedPtr<Player> player,
   QObject::connect(&*playlist_manager_, &PlaylistManager::AllPlaylistsLoaded, this, &Mpris2::AllPlaylistsLoaded);
   QObject::connect(&*playlist_manager_, &PlaylistManager::CurrentSongChanged, this, &Mpris2::CurrentSongChanged);
   QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistChanged, this, &Mpris2::PlaylistChangedSlot);
+  QObject::connect(&*playlist_manager_, &PlaylistManager::QueueChanged, this, &Mpris2::PlaylistQueueChanged);
   QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistAdded, this, &Mpris2::PlaylistCollectionChanged);
   QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistClosed, this, &Mpris2::PlaylistCollectionChanged);
   QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistDeleted, this, &Mpris2::PlaylistCollectionChanged);
@@ -192,11 +194,7 @@ void Mpris2::AllPlaylistsLoaded() {
 
   qLog(Debug) << "MPRIS2: All playlists loaded, emitting MPRIS2 notifications";
 
-  EmitNotification(u"CanPlay"_s);
-  EmitNotification(u"CanPause"_s);
-  EmitNotification(u"CanGoNext"_s, CanGoNext());
-  EmitNotification(u"CanGoPrevious"_s, CanGoPrevious());
-  EmitNotification(u"CanSeek"_s, CanSeek());
+  EmitCapabilities();
 
   // The active playlist can be set before its songs are restored, and restoring them doesn't notify the added songs, so replace the track list now that they are loaded.
   // Playback is resumed after this, so notify when control returns to the event loop, when the resumed song is selected.
@@ -222,7 +220,14 @@ void Mpris2::VolumeChanged() {
   EmitNotification(u"Volume"_s);
 }
 
-void Mpris2::ShuffleModeChanged() { EmitNotification(u"Shuffle"_s); }
+void Mpris2::ShuffleModeChanged() {
+
+  EmitNotification(u"Shuffle"_s);
+
+  // The next and previous songs depend on the shuffle mode, the playlists are reshuffled by their own connections to the sequence, which can run after this.
+  QueueCapabilitiesNotification();
+
+}
 
 void Mpris2::RepeatModeChanged() {
 
@@ -470,11 +475,7 @@ QDBusObjectPath Mpris2::current_track_id(const QUuid &current_row) const {
 void Mpris2::CurrentSongChanged(const Song &song) {
 
   AlbumCoverLoaded(song);
-  EmitNotification(u"CanPlay"_s);
-  EmitNotification(u"CanPause"_s);
-  EmitNotification(u"CanGoNext"_s, CanGoNext());
-  EmitNotification(u"CanGoPrevious"_s, CanGoPrevious());
-  EmitNotification(u"CanSeek"_s, CanSeek());
+  EmitCapabilities();
 
 }
 
@@ -681,12 +682,23 @@ void Mpris2::Play() {
 
 }
 
+quint64 Mpris2::SeekPositionNanosec(const qint64 position_nanosec, const qint64 length_nanosec, const qint64 offset_usec) {
+
+  // The offset is added in microseconds and limited to the length before it's converted to nanoseconds, since a large offset from a D-Bus client would overflow.
+  // Seeking back before the start of the song seeks to the start.
+  const qint64 position_usec = std::max<qint64>(0, position_nanosec / kNsecPerUsec);
+  const qint64 length_usec = std::max<qint64>(0, length_nanosec / kNsecPerUsec);
+  const qint64 new_position_usec = offset_usec > length_usec - position_usec ? length_usec : std::max<qint64>(0, position_usec + offset_usec);
+
+  return static_cast<quint64>(new_position_usec) * kNsecPerUsec;
+
+}
+
 void Mpris2::Seek(qint64 offset) {
 
   if (CanSeek()) {
-    // The offset comes from a D-Bus client, seeking back before the start of the song seeks to the start, instead of wrapping around in SeekTo().
-    const qint64 seconds = player_->engine()->position_nanosec() / kNsecPerSec + offset / kUsecPerSec;
-    player_->SeekTo(static_cast<quint64>(std::max<qint64>(0, seconds)));
+    // The position is not rounded to seconds, the offset can be a fraction of a second.
+    player_->SeekToNanosec(SeekPositionNanosec(player_->engine()->position_nanosec(), player_->engine()->length_nanosec(), offset));
   }
 
 }
@@ -699,7 +711,7 @@ void Mpris2::SetPosition(const QDBusObjectPath &trackId, qint64 offset) {
   if (CanSeek() && trackId == current_track_id(playlist_item_uuid) && offset >= 0) {
     // Compare in microseconds, converting a large offset from a D-Bus client to nanoseconds would overflow.
     if (offset < player_->GetCurrentItem()->EffectiveMetadata().length_nanosec() / kNsecPerUsec) {
-      player_->SeekTo(static_cast<quint64>(offset / kUsecPerSec));
+      player_->SeekToNanosec(static_cast<quint64>(offset) * kNsecPerUsec);
     }
   }
 
@@ -925,6 +937,21 @@ void Mpris2::PlaylistChangedSlot(Playlist *playlist) {
 
   Q_EMIT PlaylistChanged(mpris_playlist);
 
+  // Songs are added, removed or reordered, so songs can be played, or there can be a next or previous song now.
+  // This is for all changes, the items added and removed signals are only sent for some, and the queue and album shuffle are updated after the songs are added, so notify when control returns to the event loop.
+  if (playlist == playlist_manager_->active()) {
+    QueueCapabilitiesNotification();
+  }
+
+}
+
+void Mpris2::PlaylistQueueChanged(Playlist *playlist) {
+
+  // A queued song is played next, so the queue decides if there is a next or previous song.
+  if (playlist == playlist_manager_->active()) {
+    QueueCapabilitiesNotification();
+  }
+
 }
 
 void Mpris2::PlaylistCollectionChanged() {
@@ -960,5 +987,34 @@ void Mpris2::EmitActivePlaylistChanged() {
 
   // The track list is the one of the active playlist.
   EmitTrackListReplaced();
+
+  // The songs which can be played, and the next and previous songs are those of the active playlist.
+  EmitCapabilities();
+
+}
+
+void Mpris2::QueueCapabilitiesNotification() {
+
+  // Only once when it's queued again before that, like when songs are added in several steps.
+  if (capabilities_notification_pending_) return;
+  capabilities_notification_pending_ = true;
+  QMetaObject::invokeMethod(this, &Mpris2::EmitQueuedCapabilities, Qt::QueuedConnection);
+
+}
+
+void Mpris2::EmitQueuedCapabilities() {
+
+  capabilities_notification_pending_ = false;
+  EmitCapabilities();
+
+}
+
+void Mpris2::EmitCapabilities() {
+
+  EmitNotification(u"CanPlay"_s);
+  EmitNotification(u"CanPause"_s);
+  EmitNotification(u"CanGoNext"_s, CanGoNext());
+  EmitNotification(u"CanGoPrevious"_s, CanGoPrevious());
+  EmitNotification(u"CanSeek"_s, CanSeek());
 
 }

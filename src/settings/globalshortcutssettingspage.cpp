@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -144,6 +144,8 @@ void GlobalShortcutsSettingsPage::Load() {
   for (const Shortcut &shortcut : shortcuts) {
     SetShortcut(shortcut.s.id, shortcut.s.action->shortcut());
   }
+  // The shortcuts changed before the dialog was cancelled are restored.
+  UpdateShortcutOptions();
 
 #ifdef HAVE_KGLOBALACCEL_GLOBALSHORTCUTS
   if (ui_->widget_kglobalaccel->isVisibleTo(this)) {
@@ -181,7 +183,7 @@ void GlobalShortcutsSettingsPage::Save() {
   const QList<Shortcut> shortcuts = shortcuts_.values();
   for (const Shortcut &shortcut : shortcuts) {
     shortcut.s.action->setShortcut(shortcut.key);
-    shortcut.s.shortcut->setKey(shortcut.key);
+    shortcut.s.shortcut->setKeys(GlobalShortcutsManager::ApplicationKeySequences(shortcut.key));
     s.setValue(shortcut.s.id, shortcut.key.toString());
   }
 
@@ -232,11 +234,18 @@ void GlobalShortcutsSettingsPage::ItemClicked(QTreeWidgetItem *item) {
 
   if (!item) return;
   current_id_ = item->data(0, Qt::UserRole).toString();
-  const Shortcut shortcut = shortcuts_.value(current_id_);
 
   // Enable options
   ui_->shortcut_options->setEnabled(true);
-  ui_->shortcut_options->setTitle(tr("Shortcut for %1").arg(shortcut.s.action->text()));
+  ui_->shortcut_options->setTitle(tr("Shortcut for %1").arg(shortcuts_.value(current_id_).s.action->text()));
+
+  UpdateShortcutOptions();
+
+}
+
+void GlobalShortcutsSettingsPage::UpdateShortcutOptions() {
+
+  const Shortcut shortcut = shortcuts_.value(current_id_);
 
   if (shortcut.key == shortcut.s.default_key) {
     ui_->radio_default->setChecked(true);
@@ -270,7 +279,11 @@ void GlobalShortcutsSettingsPage::ChangeClicked() {
   QKeySequence key = grabber_->GetKey(shortcuts_.value(current_id_).s.action->text());
   global_shortcuts_manager_->Register();
 
-  if (key.isEmpty()) return;
+  if (key.isEmpty()) {
+    // The custom radio button is checked when it's clicked, the shortcut isn't changed.
+    UpdateShortcutOptions();
+    return;
+  }
 
   // Check if this key sequence is used by any other actions
   const QStringList ids = shortcuts_.keys();

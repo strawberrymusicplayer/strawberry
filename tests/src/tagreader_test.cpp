@@ -23,8 +23,14 @@
 #include "gmock_include.h"
 
 #include <string>
+#include <functional>
 
 #include <QFile>
+#include <QImage>
+#include <QDir>
+#include <QDataStream>
+#include <QColor>
+#include <QBuffer>
 #include <QPair>
 #include <QList>
 #include <QByteArray>
@@ -48,6 +54,21 @@
 #include <taglib/id3v2tag.h>
 #include <taglib/id3v2header.h>
 #include <taglib/popularimeterframe.h>
+#include <taglib/textidentificationframe.h>
+#include <taglib/flacfile.h>
+#include <taglib/xiphcomment.h>
+#include <taglib/wavpackfile.h>
+#include <taglib/apetag.h>
+#include <taglib/apeitem.h>
+#include <taglib/attachedpictureframe.h>
+#include <taglib/flacpicture.h>
+#include <taglib/vorbisfile.h>
+#ifdef HAVE_TAGLIB_DSFFILE
+#  include <taglib/dsffile.h>
+#endif
+#ifdef HAVE_TAGLIB_DSDIFFFILE
+#  include <taglib/dsdifffile.h>
+#endif
 
 #include "core/logging.h"
 #include "core/song.h"
@@ -92,9 +113,9 @@ class TagReaderTest : public ::testing::Test {
     testing::DefaultValue<TagLib::String>::Set("foobarbaz");
   }
 
-  Song ReadSongFromFile(const QString &filename) const {
+  Song ReadSongFromFile(const QString &filename, const Song &song = Song()) const {
 
-    TagReaderReadFileReplyPtr reply = tagreader_client_->ReadFileAsync(filename);
+    TagReaderReadFileReplyPtr reply = tagreader_client_->ReadFileAsync(filename, song);
 
     QEventLoop loop;
     QObject::connect(&*reply, &TagReaderReadFileReply::Finished, &loop, &QEventLoop::quit);
@@ -2472,6 +2493,347 @@ TEST_F(TagReaderTest, TestFLACAudioFileSyncedLyrics) {
 
 }
 
+namespace {
+
+void SetFLACVorbisCommentField(const QString &filename, const TagLib::String &key, const TagLib::String &value) {
+
+  TagLib::FLAC::File file(TagLibFileName(filename).data());
+  ASSERT_TRUE(file.isValid());
+  file.xiphComment(true)->addField(key, value, true);
+  ASSERT_TRUE(file.save());
+
+}
+
+TagLib::Ogg::FieldListMap FLACVorbisCommentFields(const QString &filename) {
+
+  TagLib::FLAC::File file(TagLibFileName(filename).data());
+  return file.isValid() && file.xiphComment() ? file.xiphComment()->fieldListMap() : TagLib::Ogg::FieldListMap();
+
+}
+
+}  // namespace
+
+TEST_F(TagReaderTest, TestFLACAudioFileLyricsFieldWithSyncedLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "[ar:strawberry artist]\n[00:01.00]Line one\n[00:02.50]Line two");
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"[ar:strawberry artist]\n[00:01.00]Line one\n[00:02.50]Line two"_s, song.synced_lyrics());
+  EXPECT_EQ(Song::StorageType::Tag, song.synced_lyrics_storage_type());
+  EXPECT_TRUE(song.lyrics().isEmpty());
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileLyricsFieldWithPlainLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  // Section headers in brackets are not LRC tags or timestamps.
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "[Chorus]\nLine one\nLine two");
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"[Chorus]\nLine one\nLine two"_s, song.lyrics());
+  EXPECT_EQ(Song::StorageType::Tag, song.lyrics_storage_type());
+  EXPECT_TRUE(song.synced_lyrics().isEmpty());
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFilePlainLyricsFieldWithSyncedLyricsField) {
+
+  // Older versions saved plain lyrics in LYRICS and synchronized lyrics in SYNCEDLYRICS.
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "strawberry lyrics");
+  SetFLACVorbisCommentField(r.fileName(), "SYNCEDLYRICS", "[00:01.00]Line one");
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"strawberry lyrics"_s, song.lyrics());
+  EXPECT_EQ(u"[00:01.00]Line one"_s, song.synced_lyrics());
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileSyncedLyricsFieldTakesPrecedenceOverSyncedLyricsField) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "[00:02.00]New line");
+  SetFLACVorbisCommentField(r.fileName(), "SYNCEDLYRICS", "[00:01.00]Old line");
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"[00:02.00]New line"_s, song.synced_lyrics());
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileUnsyncedLyricsFieldTakesPrecedenceOverPlainLyricsField) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "old lyrics");
+  SetFLACVorbisCommentField(r.fileName(), "UNSYNCEDLYRICS", "new lyrics");
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"new lyrics"_s, song.lyrics());
+  EXPECT_TRUE(song.synced_lyrics().isEmpty());
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileSavingSyncedLyricsKeepsPlainLyricsFromLyricsField) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "strawberry lyrics");
+
+  EXPECT_TRUE(SaveSyncedLyricsToFile(u"[00:01.00]Line one"_s, r.fileName()).success());
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"[00:01.00]Line one"_s, song.synced_lyrics());
+  EXPECT_EQ(u"strawberry lyrics"_s, song.lyrics());
+
+  const TagLib::Ogg::FieldListMap fields = FLACVorbisCommentFields(r.fileName());
+  EXPECT_EQ(TagLib::StringList("[00:01.00]Line one"), fields["LYRICS"]);
+  EXPECT_EQ(TagLib::StringList("strawberry lyrics"), fields["UNSYNCEDLYRICS"]);
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileSavingSyncedLyricsKeepsUnsyncedLyricsField) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "old lyrics");
+  SetFLACVorbisCommentField(r.fileName(), "UNSYNCEDLYRICS", "new lyrics");
+
+  EXPECT_TRUE(SaveSyncedLyricsToFile(u"[00:01.00]Line one"_s, r.fileName()).success());
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"[00:01.00]Line one"_s, song.synced_lyrics());
+  EXPECT_EQ(u"new lyrics"_s, song.lyrics());
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileClearingSyncedLyricsRemovesSyncedLyricsField) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  SetFLACVorbisCommentField(r.fileName(), "SYNCEDLYRICS", "[00:01.00]Line one");
+
+  EXPECT_TRUE(SaveSyncedLyricsToFile(QString(), r.fileName()).success());
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_TRUE(song.synced_lyrics().isEmpty());
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileClearingLyricsRemovesPlainLyricsFromLyricsField) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "strawberry lyrics");
+
+  EXPECT_TRUE(SaveLyricsToFile(QString(), r.fileName()).success());
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_TRUE(song.lyrics().isEmpty());
+  EXPECT_TRUE(song.synced_lyrics().isEmpty());
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileSavingLyricsKeepsSyncedLyricsInLyricsField) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "[00:01.00]Line one");
+
+  EXPECT_TRUE(SaveLyricsToFile(u"strawberry lyrics"_s, r.fileName()).success());
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"strawberry lyrics"_s, song.lyrics());
+  EXPECT_EQ(u"[00:01.00]Line one"_s, song.synced_lyrics());
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileRereadingLyricsFieldChangedToSyncedLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "strawberry lyrics");
+  const Song song = ReadSongFromFile(r.fileName());
+  ASSERT_EQ(u"strawberry lyrics"_s, song.lyrics());
+
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "[00:01.00]Line one");
+  const Song song_reread = ReadSongFromFile(r.fileName(), song);
+  EXPECT_EQ(u"[00:01.00]Line one"_s, song_reread.synced_lyrics());
+  EXPECT_EQ(Song::StorageType::Tag, song_reread.synced_lyrics_storage_type());
+  EXPECT_TRUE(song_reread.lyrics().isEmpty());
+  EXPECT_EQ(Song::StorageType::None, song_reread.lyrics_storage_type());
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileRereadingLyricsFieldChangedToPlainLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "[00:01.00]Line one");
+  const Song song = ReadSongFromFile(r.fileName());
+  ASSERT_EQ(u"[00:01.00]Line one"_s, song.synced_lyrics());
+
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "strawberry lyrics");
+  const Song song_reread = ReadSongFromFile(r.fileName(), song);
+  EXPECT_EQ(u"strawberry lyrics"_s, song_reread.lyrics());
+  EXPECT_TRUE(song_reread.synced_lyrics().isEmpty());
+  EXPECT_EQ(Song::StorageType::None, song_reread.synced_lyrics_storage_type());
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileRereadingKeepsLyricsStoredInDatabase) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "[00:01.00]Line one");
+
+  Song song;
+  song.set_lyrics(u"database lyrics"_s);
+  song.set_lyrics_storage_type(Song::StorageType::Database);
+  song.set_synced_lyrics(u"[00:02.00]Database line"_s);
+  song.set_synced_lyrics_storage_type(Song::StorageType::Database);
+  const Song song_reread = ReadSongFromFile(r.fileName(), song);
+  EXPECT_EQ(u"database lyrics"_s, song_reread.lyrics());
+  EXPECT_EQ(Song::StorageType::Database, song_reread.lyrics_storage_type());
+  EXPECT_EQ(u"[00:02.00]Database line"_s, song_reread.synced_lyrics());
+  EXPECT_EQ(Song::StorageType::Database, song_reread.synced_lyrics_storage_type());
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileInvalidSyncedLyricsAreNotSaved) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "[00:01.00]Line one");
+  const QString sha256sum = SHA256SUM(r.fileName());
+
+  EXPECT_FALSE(WriteSyncedLyricsToFile(u"[00:01.00]Line one\nLine without timestamp"_s, r.fileName()).success());
+  EXPECT_EQ(sha256sum, SHA256SUM(r.fileName()));
+
+  EXPECT_FALSE(SaveSyncedLyricsToFile(u"Just plain lyrics"_s, r.fileName()).success());
+  EXPECT_EQ(sha256sum, SHA256SUM(r.fileName()));
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"[00:01.00]Line one"_s, song.synced_lyrics());
+
+}
+
+TEST_F(TagReaderTest, TestOggVorbisAudioFileInvalidSyncedLyricsAreNotSaved) {
+
+  TemporaryResource r(u":/audio/strawberry.ogg"_s);
+  EXPECT_TRUE(SaveSyncedLyricsToFile(u"[00:01.00]Line one"_s, r.fileName()).success());
+  const QString sha256sum = SHA256SUM(r.fileName());
+
+  EXPECT_FALSE(WriteSyncedLyricsToFile(u"Just plain lyrics"_s, r.fileName()).success());
+  EXPECT_EQ(sha256sum, SHA256SUM(r.fileName()));
+
+  EXPECT_FALSE(SaveSyncedLyricsToFile(u"Just plain lyrics"_s, r.fileName()).success());
+  EXPECT_EQ(sha256sum, SHA256SUM(r.fileName()));
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileSyncedLyricsWithOnlyWhitespaceClearLyricsField) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "[00:01.00]Line one");
+
+  EXPECT_TRUE(SaveSyncedLyricsToFile(u" \n"_s, r.fileName()).success());
+
+  EXPECT_FALSE(FLACVorbisCommentFields(r.fileName()).contains("LYRICS"));
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_TRUE(song.synced_lyrics().isEmpty());
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileSyncedLyricsFieldWithPlainLyrics) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  // The test file has plain lyrics in LYRICS, which take precedence, an empty value removes them.
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "");
+  SetFLACVorbisCommentField(r.fileName(), "SYNCEDLYRICS", "strawberry lyrics");
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"strawberry lyrics"_s, song.lyrics());
+  EXPECT_EQ(Song::StorageType::Tag, song.lyrics_storage_type());
+  EXPECT_TRUE(song.synced_lyrics().isEmpty());
+  EXPECT_EQ(Song::StorageType::None, song.synced_lyrics_storage_type());
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFilePlainLyricsFieldTakesPrecedenceOverPlainSyncedLyricsField) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "new lyrics");
+  SetFLACVorbisCommentField(r.fileName(), "SYNCEDLYRICS", "old lyrics");
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"new lyrics"_s, song.lyrics());
+  EXPECT_TRUE(song.synced_lyrics().isEmpty());
+
+}
+
+// Regression test: SYNCEDLYRICS which is not valid LRC was read as synchronized lyrics, which then made saving any tag fail.
+TEST_F(TagReaderTest, TestFLACAudioFileSavingTagsWithPlainSyncedLyricsField) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  // The test file has plain lyrics in LYRICS, which take precedence, an empty value removes them.
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "");
+  SetFLACVorbisCommentField(r.fileName(), "SYNCEDLYRICS", "strawberry lyrics");
+
+  Song song = ReadSongFromFile(r.fileName());
+  song.set_title(u"new title"_s);
+  EXPECT_TRUE(WriteSongToFile(song, r.fileName()).success());
+
+  const Song song_reread = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"new title"_s, song_reread.title());
+  EXPECT_EQ(u"strawberry lyrics"_s, song_reread.lyrics());
+  EXPECT_TRUE(song_reread.synced_lyrics().isEmpty());
+
+  const TagLib::Ogg::FieldListMap fields = FLACVorbisCommentFields(r.fileName());
+  EXPECT_EQ(TagLib::StringList("strawberry lyrics"), fields["UNSYNCEDLYRICS"]);
+  EXPECT_FALSE(fields.contains("SYNCEDLYRICS"));
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileClearingLyricsRemovesPlainSyncedLyricsField) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  // The test file has plain lyrics in LYRICS, which take precedence, an empty value removes them.
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "");
+  SetFLACVorbisCommentField(r.fileName(), "SYNCEDLYRICS", "strawberry lyrics");
+
+  EXPECT_TRUE(SaveLyricsToFile(QString(), r.fileName()).success());
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_TRUE(song.lyrics().isEmpty());
+  EXPECT_FALSE(FLACVorbisCommentFields(r.fileName()).contains("SYNCEDLYRICS"));
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileSavingSyncedLyricsKeepsPlainLyricsFromSyncedLyricsField) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  // The test file has plain lyrics in LYRICS, which take precedence, an empty value removes them.
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "");
+  SetFLACVorbisCommentField(r.fileName(), "SYNCEDLYRICS", "strawberry lyrics");
+
+  EXPECT_TRUE(SaveSyncedLyricsToFile(u"[00:01.00]Line one"_s, r.fileName()).success());
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"[00:01.00]Line one"_s, song.synced_lyrics());
+  EXPECT_EQ(u"strawberry lyrics"_s, song.lyrics());
+
+  const TagLib::Ogg::FieldListMap fields = FLACVorbisCommentFields(r.fileName());
+  EXPECT_EQ(TagLib::StringList("strawberry lyrics"), fields["UNSYNCEDLYRICS"]);
+  EXPECT_FALSE(fields.contains("SYNCEDLYRICS"));
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileSavingSyncedLyricsKeepsPlainLyricsFromLyricsFieldOverSyncedLyricsField) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  SetFLACVorbisCommentField(r.fileName(), "LYRICS", "new lyrics");
+  SetFLACVorbisCommentField(r.fileName(), "SYNCEDLYRICS", "old lyrics");
+
+  EXPECT_TRUE(SaveSyncedLyricsToFile(u"[00:01.00]Line one"_s, r.fileName()).success());
+
+  const Song song = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"[00:01.00]Line one"_s, song.synced_lyrics());
+  EXPECT_EQ(u"new lyrics"_s, song.lyrics());
+
+}
+
 TEST_F(TagReaderTest, TestWavPackAudioFileSyncedLyrics) {
 
   TemporaryResource r(u":/audio/strawberry.wv"_s);
@@ -2497,7 +2859,7 @@ TEST_F(TagReaderTest, TestFLACAudioFileRating) {
 
   {
     Song song;
-    song.set_rating(0.4);
+    song.set_rating(0.4F);
     WriteSongRatingToFile(song, r.fileName());
   }
 
@@ -2514,7 +2876,7 @@ TEST_F(TagReaderTest, TestWavPackAudioFileRating) {
 
   {
     Song song;
-    song.set_rating(0.4);
+    song.set_rating(0.4F);
     WriteSongRatingToFile(song, r.fileName());
   }
 
@@ -2531,7 +2893,7 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileRating) {
 
   {
     Song song;
-    song.set_rating(0.4);
+    song.set_rating(0.4F);
     WriteSongRatingToFile(song, r.fileName());
   }
 
@@ -2548,7 +2910,7 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileRating) {
 
   {
     Song song;
-    song.set_rating(0.4);
+    song.set_rating(0.4F);
     WriteSongRatingToFile(song, r.fileName());
   }
 
@@ -2565,7 +2927,7 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileRating) {
 
   {
     Song song;
-    song.set_rating(0.4);
+    song.set_rating(0.4F);
     WriteSongRatingToFile(song, r.fileName());
   }
 
@@ -2582,7 +2944,7 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileRating) {
 
   {
     Song song;
-    song.set_rating(0.4);
+    song.set_rating(0.4F);
     WriteSongRatingToFile(song, r.fileName());
   }
 
@@ -2599,7 +2961,7 @@ TEST_F(TagReaderTest, TestASFAudioFileRating) {
 
   {
     Song song;
-    song.set_rating(0.4);
+    song.set_rating(0.4F);
     WriteSongRatingToFile(song, r.fileName());
   }
 
@@ -2817,7 +3179,7 @@ TEST_F(TagReaderTest, TestMP3AudioFileRating) {
 
   {
     Song song;
-    song.set_rating(0.4);
+    song.set_rating(0.4F);
     WriteSongRatingToFile(song, r.fileName());
   }
 
@@ -2866,7 +3228,7 @@ TEST_F(TagReaderTest, TestMP4AudioFileRating) {
 
   {
     Song song;
-    song.set_rating(0.4);
+    song.set_rating(0.4F);
     WriteSongRatingToFile(song, r.fileName());
   }
 
@@ -3077,6 +3439,215 @@ TEST_F(TagReaderTest, TestEmptyCoverRemovesCover) {
   EXPECT_FALSE(ReadCoverFromFile(r.fileName()).isNull());
 
   EXPECT_TRUE(WriteCoverToFile(r.fileName(), SaveTagCoverData()).success());
+  EXPECT_TRUE(ReadCoverFromFile(r.fileName()).isNull());
+
+}
+
+constexpr char kBackCoverData[] = "back cover";
+
+TagLib::FLAC::Picture *CreateBackCoverPicture() {
+
+  TagLib::FLAC::Picture *picture = new TagLib::FLAC::Picture();
+  picture->setType(TagLib::FLAC::Picture::BackCover);
+  picture->setMimeType("image/png");
+  picture->setData(TagLib::ByteVector(kBackCoverData));
+  return picture;
+
+}
+
+int BackCoverCount(const TagLib::List<TagLib::FLAC::Picture*> &pictures) {
+
+  int count = 0;
+  for (const TagLib::FLAC::Picture *picture : pictures) {
+    if (picture->type() == TagLib::FLAC::Picture::BackCover && picture->data() == TagLib::ByteVector(kBackCoverData)) ++count;
+  }
+  return count;
+
+}
+
+int ID3v2BackCoverCount(const QString &filename) {
+
+  TagLib::MPEG::File file(TagLibFileName(filename).data());
+  if (!file.isValid() || !file.ID3v2Tag()) return -1;
+  int count = 0;
+  const TagLib::ID3v2::FrameList frames = file.ID3v2Tag()->frameList("APIC");
+  for (TagLib::ID3v2::Frame *frame : frames) {
+    const TagLib::ID3v2::AttachedPictureFrame *picture = dynamic_cast<const TagLib::ID3v2::AttachedPictureFrame*>(frame);
+    if (picture && picture->type() == TagLib::ID3v2::AttachedPictureFrame::BackCover && picture->picture() == TagLib::ByteVector(kBackCoverData)) ++count;
+  }
+  return count;
+
+}
+
+// Setting and removing the cover only replaces the front cover, the other pictures, like the back cover, are kept.
+TEST_F(TagReaderTest, TestMP3AudioFileCoverKeepsOtherPictures) {
+
+  TemporaryResource r(u":/audio/strawberry.mp3"_s);
+  const QString cover_filename = u":/pictures/strawberry.png"_s;
+  QImage original_image;
+  ASSERT_TRUE(original_image.load(cover_filename));
+
+  {
+    TagLib::MPEG::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    TagLib::ID3v2::AttachedPictureFrame *frame = new TagLib::ID3v2::AttachedPictureFrame();
+    frame->setType(TagLib::ID3v2::AttachedPictureFrame::BackCover);
+    frame->setMimeType("image/png");
+    frame->setPicture(TagLib::ByteVector(kBackCoverData));
+    file.ID3v2Tag(true)->addFrame(frame);
+    ASSERT_TRUE(file.save());
+  }
+
+  // The front cover is read, not the back cover before it.
+  ASSERT_TRUE(WriteCoverToFile(r.fileName(), cover_filename).success());
+  EXPECT_EQ(1, ID3v2BackCoverCount(r.fileName()));
+  EXPECT_EQ(original_image, ReadCoverFromFile(r.fileName()));
+  EXPECT_TRUE(ReadSongFromFile(r.fileName()).art_embedded());
+
+  ASSERT_TRUE(WriteCoverToFile(r.fileName(), SaveTagCoverData()).success());
+  EXPECT_EQ(1, ID3v2BackCoverCount(r.fileName()));
+  EXPECT_TRUE(ReadCoverFromFile(r.fileName()).isNull());
+  EXPECT_FALSE(ReadSongFromFile(r.fileName()).art_embedded());
+
+}
+
+// Returns a small PNG image in one color, to tell pictures apart.
+QByteArray ColorPNGData(const QColor &color) {
+
+  QImage image(8, 8, QImage::Format_RGB32);
+  image.fill(color);
+  QByteArray data;
+  QBuffer buffer(&data);
+  buffer.open(QIODevice::WriteOnly);
+  image.save(&buffer, "PNG");
+  return data;
+
+}
+
+void AddID3v2Picture(TagLib::ID3v2::Tag *tag, const TagLib::ID3v2::AttachedPictureFrame::Type type, const QByteArray &data) {
+
+  TagLib::ID3v2::AttachedPictureFrame *frame = new TagLib::ID3v2::AttachedPictureFrame();
+  frame->setType(type);
+  frame->setMimeType("image/png");
+  frame->setPicture(TagLib::ByteVector(data.constData(), static_cast<uint>(data.size())));
+  tag->addFrame(frame);
+
+}
+
+// The front cover is preferred over a picture of type other before it, a picture of type other is used when there's no front cover.
+TEST_F(TagReaderTest, TestMP3AudioFileCoverPrefersFrontCoverOverOther) {
+
+  TemporaryResource r(u":/audio/strawberry.mp3"_s);
+
+  {
+    TagLib::MPEG::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    AddID3v2Picture(file.ID3v2Tag(true), TagLib::ID3v2::AttachedPictureFrame::Other, ColorPNGData(Qt::red));
+    AddID3v2Picture(file.ID3v2Tag(true), TagLib::ID3v2::AttachedPictureFrame::FrontCover, ColorPNGData(Qt::blue));
+    ASSERT_TRUE(file.save());
+  }
+  QImage image = ReadCoverFromFile(r.fileName());
+  ASSERT_FALSE(image.isNull());
+  EXPECT_EQ(QColor(Qt::blue), image.pixelColor(0, 0));
+
+  {
+    TagLib::MPEG::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    const TagLib::ID3v2::FrameList frames = file.ID3v2Tag()->frameList("APIC");
+    for (TagLib::ID3v2::Frame *frame : frames) {
+      const TagLib::ID3v2::AttachedPictureFrame *picture = dynamic_cast<const TagLib::ID3v2::AttachedPictureFrame*>(frame);
+      if (picture && picture->type() == TagLib::ID3v2::AttachedPictureFrame::FrontCover) file.ID3v2Tag()->removeFrame(frame);
+    }
+    ASSERT_TRUE(file.save());
+  }
+  image = ReadCoverFromFile(r.fileName());
+  ASSERT_FALSE(image.isNull());
+  EXPECT_EQ(QColor(Qt::red), image.pixelColor(0, 0));
+  EXPECT_TRUE(ReadSongFromFile(r.fileName()).art_embedded());
+
+}
+
+// An empty front cover is not embedded art, it can't be loaded.
+TEST_F(TagReaderTest, TestMP3AudioFileEmptyFrontCoverIsNotEmbeddedArt) {
+
+  TemporaryResource r(u":/audio/strawberry.mp3"_s);
+
+  {
+    TagLib::MPEG::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    AddID3v2Picture(file.ID3v2Tag(true), TagLib::ID3v2::AttachedPictureFrame::FrontCover, QByteArray());
+    ASSERT_TRUE(file.save());
+  }
+  {
+    TagLib::MPEG::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    ASSERT_EQ(1U, file.ID3v2Tag()->frameList("APIC").size());
+  }
+
+  EXPECT_FALSE(ReadSongFromFile(r.fileName()).art_embedded());
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileCoverKeepsOtherPictures) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  const QString cover_filename = u":/pictures/strawberry.png"_s;
+  QImage original_image;
+  ASSERT_TRUE(original_image.load(cover_filename));
+
+  {
+    TagLib::FLAC::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    file.addPicture(CreateBackCoverPicture());
+    ASSERT_TRUE(file.save());
+  }
+
+  ASSERT_TRUE(WriteCoverToFile(r.fileName(), cover_filename).success());
+  {
+    TagLib::FLAC::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    EXPECT_EQ(1, BackCoverCount(file.pictureList()));
+  }
+  EXPECT_EQ(original_image, ReadCoverFromFile(r.fileName()));
+
+  ASSERT_TRUE(WriteCoverToFile(r.fileName(), SaveTagCoverData()).success());
+  {
+    TagLib::FLAC::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    EXPECT_EQ(1, BackCoverCount(file.pictureList()));
+  }
+  EXPECT_TRUE(ReadCoverFromFile(r.fileName()).isNull());
+
+}
+
+TEST_F(TagReaderTest, TestOggVorbisAudioFileCoverKeepsOtherPictures) {
+
+  TemporaryResource r(u":/audio/strawberry.ogg"_s);
+  const QString cover_filename = u":/pictures/strawberry.png"_s;
+  QImage original_image;
+  ASSERT_TRUE(original_image.load(cover_filename));
+
+  {
+    TagLib::Ogg::Vorbis::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    file.tag()->addPicture(CreateBackCoverPicture());
+    ASSERT_TRUE(file.save());
+  }
+
+  ASSERT_TRUE(WriteCoverToFile(r.fileName(), cover_filename).success());
+  {
+    TagLib::Ogg::Vorbis::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    EXPECT_EQ(1, BackCoverCount(file.tag()->pictureList()));
+  }
+  EXPECT_EQ(original_image, ReadCoverFromFile(r.fileName()));
+
+  ASSERT_TRUE(WriteCoverToFile(r.fileName(), SaveTagCoverData()).success());
+  {
+    TagLib::Ogg::Vorbis::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    EXPECT_EQ(1, BackCoverCount(file.tag()->pictureList()));
+  }
   EXPECT_TRUE(ReadCoverFromFile(r.fileName()).isNull());
 
 }
@@ -3409,6 +3980,146 @@ TEST_F(TagReaderTest, TestAbortReadsKeepsWrites) {
 
 }
 
+// The track and disc totals are not stored in the song, saving the tags keeps them.
+TEST_F(TagReaderTest, TestMP3AudioFileSaveKeepsTrackAndDiscTotals) {
+
+  TemporaryResource r(u":/audio/strawberry.mp3"_s);
+
+  {
+    TagLib::MPEG::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    TagLib::ID3v2::Tag *tag = file.ID3v2Tag(true);
+    tag->removeFrames("TRCK");
+    tag->removeFrames("TPOS");
+    TagLib::ID3v2::TextIdentificationFrame *track_frame = new TagLib::ID3v2::TextIdentificationFrame("TRCK", TagLib::String::UTF8);
+    track_frame->setText("3/12");
+    tag->addFrame(track_frame);
+    TagLib::ID3v2::TextIdentificationFrame *disc_frame = new TagLib::ID3v2::TextIdentificationFrame("TPOS", TagLib::String::UTF8);
+    disc_frame->setText("1/2");
+    tag->addFrame(disc_frame);
+    ASSERT_TRUE(file.save());
+  }
+
+  Song song;
+  song.set_track(4);
+  song.set_disc(2);
+  ASSERT_TRUE(WriteSongToFile(song, r.fileName()).success());
+
+  {
+    TagLib::MPEG::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    TagLib::ID3v2::Tag *tag = file.ID3v2Tag();
+    ASSERT_TRUE(tag);
+    ASSERT_FALSE(tag->frameList("TRCK").isEmpty());
+    ASSERT_FALSE(tag->frameList("TPOS").isEmpty());
+    EXPECT_EQ(TagLib::String("4/12"), tag->frameList("TRCK").front()->toString());
+    EXPECT_EQ(TagLib::String("2/2"), tag->frameList("TPOS").front()->toString());
+  }
+
+  const Song song_read = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(4, song_read.track());
+  EXPECT_EQ(2, song_read.disc());
+
+}
+
+TEST_F(TagReaderTest, TestFLACAudioFileSaveKeepsTrackAndDiscTotals) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+
+  {
+    TagLib::FLAC::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    TagLib::Ogg::XiphComment *vorbis_comment = file.xiphComment(true);
+    vorbis_comment->addField("TRACKNUMBER", "3/12", true);
+    vorbis_comment->addField("DISCNUMBER", "1/2", true);
+    ASSERT_TRUE(file.save());
+  }
+
+  Song song;
+  song.set_track(4);
+  song.set_disc(2);
+  ASSERT_TRUE(WriteSongToFile(song, r.fileName()).success());
+
+  {
+    TagLib::FLAC::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    const TagLib::Ogg::FieldListMap fields = file.xiphComment()->fieldListMap();
+    EXPECT_EQ(TagLib::StringList("4/12"), fields["TRACKNUMBER"]);
+    EXPECT_EQ(TagLib::StringList("2/2"), fields["DISCNUMBER"]);
+  }
+
+  const Song song_read = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(4, song_read.track());
+  EXPECT_EQ(2, song_read.disc());
+
+}
+
+TEST_F(TagReaderTest, TestWavPackAudioFileSaveKeepsTrackAndDiscTotals) {
+
+  TemporaryResource r(u":/audio/strawberry.wv"_s);
+
+  {
+    TagLib::WavPack::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    TagLib::APE::Tag *tag = file.APETag(true);
+    tag->addValue("TRACK", "3/12", true);
+    tag->addValue("DISC", "1/2", true);
+    ASSERT_TRUE(file.save());
+  }
+
+  Song song;
+  song.set_track(4);
+  song.set_disc(2);
+  ASSERT_TRUE(WriteSongToFile(song, r.fileName()).success());
+
+  {
+    TagLib::WavPack::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    const TagLib::APE::ItemListMap items = file.APETag()->itemListMap();
+    EXPECT_EQ(TagLib::String("4/12"), items["TRACK"].toString());
+    EXPECT_EQ(TagLib::String("2/2"), items["DISC"].toString());
+  }
+
+  const Song song_read = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(4, song_read.track());
+  EXPECT_EQ(2, song_read.disc());
+
+}
+
+TEST_F(TagReaderTest, TestM4AAudioFileSaveKeepsTrackAndDiscTotals) {
+
+  TemporaryResource r(u":/audio/strawberry.m4a"_s);
+
+  {
+    TagLib::MP4::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    file.tag()->setItem("trkn", TagLib::MP4::Item(3, 12));
+    file.tag()->setItem("disk", TagLib::MP4::Item(1, 2));
+    ASSERT_TRUE(file.save());
+  }
+
+  Song song;
+  song.set_track(4);
+  song.set_disc(2);
+  ASSERT_TRUE(WriteSongToFile(song, r.fileName()).success());
+
+  {
+    TagLib::MP4::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    const TagLib::MP4::Item::IntPair track = file.tag()->item("trkn").toIntPair();
+    const TagLib::MP4::Item::IntPair disc = file.tag()->item("disk").toIntPair();
+    EXPECT_EQ(4, track.first);
+    EXPECT_EQ(12, track.second);
+    EXPECT_EQ(2, disc.first);
+    EXPECT_EQ(2, disc.second);
+  }
+
+  const Song song_read = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(4, song_read.track());
+  EXPECT_EQ(2, song_read.disc());
+
+}
+
 TEST_F(TagReaderTest, TestRequestsAfterExit) {
 
   TemporaryResource r(u":/audio/strawberry.flac"_s);
@@ -3432,5 +4143,265 @@ TEST_F(TagReaderTest, TestRequestsAfterExit) {
   EXPECT_EQ(9U, song.playcount());
 
 }
+
+// Updating a file reads the tags from the file, and writes only the changed tags.
+TEST_F(TagReaderTest, TestUpdateFile) {
+
+  TemporaryResource r(u":/audio/strawberry.mp3"_s);
+  Song song;
+  song.set_title(u"Title"_s);
+  song.set_artist(u"Artist"_s);
+  song.set_composer(u"Composer"_s);
+  ASSERT_TRUE(WriteSongToFile(song, r.fileName()).success());
+
+  const auto update_file = [this, &r](const std::function<bool(Song *song)> &update_song) {
+    TagReaderReplyPtr reply = tagreader_client_->UpdateFileAsync(r.fileName(), update_song);
+    QEventLoop loop;
+    QObject::connect(&*reply, &TagReaderReply::Finished, &loop, &QEventLoop::quit);
+    loop.exec();
+    return reply->result();
+  };
+
+  // The update gets the tags of the file.
+  QString composer;
+  EXPECT_TRUE(update_file([&composer](Song *file_song) {
+    composer = file_song->composer();
+    file_song->set_artist(u"Updated artist"_s);
+    return true;
+  }).success());
+  EXPECT_EQ(u"Composer"_s, composer);
+  song = ReadSongFromFile(r.fileName());
+  EXPECT_EQ(u"Updated artist"_s, song.artist());
+  EXPECT_EQ(u"Title"_s, song.title());
+  EXPECT_EQ(u"Composer"_s, song.composer());
+
+  // The file isn't written when the update can't change the tags.
+  EXPECT_FALSE(update_file([](Song *file_song) {
+    file_song->set_title(u"Not written"_s);
+    return false;
+  }).success());
+  EXPECT_EQ(u"Title"_s, ReadSongFromFile(r.fileName()).title());
+
+}
+
+// Adds a cover in the old base64 encoded COVERART field, TagLib reads it as a picture of the Vorbis comment.
+void AddLegacyCoverArt(TagLib::Ogg::XiphComment *vorbis_comment) {
+  QFile cover_file(u":/pictures/strawberry.png"_s);
+  ASSERT_TRUE(cover_file.open(QIODevice::ReadOnly));
+  const QByteArray cover_data = cover_file.readAll().toBase64();
+  vorbis_comment->addField("COVERART", TagLib::String(cover_data.constData()), true);
+  vorbis_comment->addField("COVERARTMIME", "image/png", true);
+}
+
+// Regression test: removing the cover left the COVERARTMIME field of the cover in the old COVERART field.
+TEST_F(TagReaderTest, TestOggLegacyCoverArtRemoved) {
+
+  TemporaryResource r(u":/audio/strawberry.ogg"_s);
+  {
+    TagLib::Ogg::Vorbis::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    AddLegacyCoverArt(file.tag());
+    ASSERT_TRUE(file.save());
+  }
+  ASSERT_FALSE(ReadCoverFromFile(r.fileName()).isNull());
+
+  EXPECT_TRUE(WriteCoverToFile(r.fileName(), SaveTagCoverData()).success());
+  EXPECT_TRUE(ReadCoverFromFile(r.fileName()).isNull());
+  EXPECT_FALSE(ReadSongFromFile(r.fileName()).art_embedded());
+
+  TagLib::Ogg::Vorbis::File file(TagLibFileName(r.fileName()).data());
+  ASSERT_TRUE(file.isValid());
+  EXPECT_TRUE(file.tag()->pictureList().isEmpty());
+  EXPECT_FALSE(file.tag()->contains("COVERART"));
+  EXPECT_FALSE(file.tag()->contains("COVERARTMIME"));
+
+}
+
+// Regression test: the covers in the Vorbis comment of a FLAC file, like the cover in the old COVERART field, were not removed when the cover was removed or replaced, and other players show them.
+TEST_F(TagReaderTest, TestFLACVorbisCommentCoverRemoved) {
+
+  TemporaryResource r(u":/audio/strawberry.flac"_s);
+  {
+    TagLib::FLAC::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    AddLegacyCoverArt(file.xiphComment(true));
+    ASSERT_TRUE(file.save());
+  }
+  {
+    TagLib::FLAC::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    ASSERT_TRUE(file.xiphComment());
+    ASSERT_EQ(1U, file.xiphComment()->pictureList().size());
+  }
+
+  // Replacing the cover saves it as a picture of the FLAC file, the old cover is removed.
+  EXPECT_TRUE(WriteCoverToFile(r.fileName(), u":/pictures/strawberry.png"_s).success());
+  {
+    TagLib::FLAC::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    EXPECT_EQ(1U, file.pictureList().size());
+    EXPECT_TRUE(!file.xiphComment() || file.xiphComment()->pictureList().isEmpty());
+    EXPECT_TRUE(!file.xiphComment() || !file.xiphComment()->contains("COVERARTMIME"));
+  }
+
+  EXPECT_TRUE(WriteCoverToFile(r.fileName(), SaveTagCoverData()).success());
+  {
+    TagLib::FLAC::File file(TagLibFileName(r.fileName()).data());
+    ASSERT_TRUE(file.isValid());
+    EXPECT_TRUE(file.pictureList().isEmpty());
+    EXPECT_TRUE(!file.xiphComment() || file.xiphComment()->pictureList().isEmpty());
+  }
+
+}
+
+#if defined(HAVE_TAGLIB_DSFFILE) || defined(HAVE_TAGLIB_DSDIFFFILE)
+
+// Writes a file with one block of DSD silence, the size of the samples is 1 bit.
+constexpr quint32 kDSDSampleRate = 2822400;
+constexpr quint32 kDSDBlockSize = 4096;
+constexpr char kDSDSilence = 0x69;
+
+// Checks that saving keeps the ID3v2 version of the file, and that an explicit version is used.
+template <typename ID3v2VersionFunc>
+void CheckKeepsID3v2Version(TagReaderClient *tagreader_client, const QString &filename, ID3v2VersionFunc id3v2_version) {
+
+  const auto write_file = [tagreader_client, &filename](const Song &song, const TagID3v2Version tag_id3v2_version) {
+    TagReaderReplyPtr reply = tagreader_client->WriteFileAsync(filename, song, SaveTagsOption::Tags, SaveTagCoverData(), tag_id3v2_version);
+    QEventLoop loop;
+    QObject::connect(&*reply, &TagReaderReply::Finished, &loop, &QEventLoop::quit);
+    loop.exec();
+    return reply->result().success();
+  };
+
+  Song song;
+  song.set_title(u"Strawberry"_s);
+  ASSERT_TRUE(write_file(song, TagID3v2Version::V3));
+  ASSERT_EQ(3, id3v2_version());
+
+  song.set_artist(u"Strawberry Artist"_s);
+  EXPECT_TRUE(write_file(song, TagID3v2Version::Default));
+  EXPECT_EQ(3, id3v2_version());
+
+  EXPECT_TRUE(write_file(song, TagID3v2Version::V4));
+  EXPECT_EQ(4, id3v2_version());
+
+}
+
+#endif
+
+#ifdef HAVE_TAGLIB_DSFFILE
+
+QByteArray DSFFileData() {
+
+  QByteArray data;
+  QDataStream s(&data, QIODevice::WriteOnly);
+  s.setByteOrder(QDataStream::LittleEndian);
+  const quint64 data_chunk_size = 12 + (kDSDBlockSize * 2);
+  const quint64 file_size = 28 + 52 + data_chunk_size;
+  s.writeRawData("DSD ", 4);
+  s << quint64(28) << file_size << quint64(0);
+  s.writeRawData("fmt ", 4);
+  // Version, DSD raw, stereo, 2 channels, sample rate, bits per sample, samples, block size per channel, reserved.
+  s << quint64(52) << quint32(1) << quint32(0) << quint32(2) << quint32(2) << kDSDSampleRate << quint32(1) << quint64(kDSDBlockSize * 8) << kDSDBlockSize << quint32(0);
+  s.writeRawData("data", 4);
+  s << data_chunk_size;
+  data.append(QByteArray(kDSDBlockSize * 2, kDSDSilence));
+  return data;
+
+}
+
+// Regression test: DSF files were saved with ID3v2.4 tags, ID3v2.3 tags were converted.
+TEST_F(TagReaderTest, TestDSFKeepsID3v2VersionWhenSaving) {
+
+  TemporaryDataFile temporary_file(u"dsf"_s, DSFFileData());
+  const QString filename = temporary_file.fileName();
+  {
+    TagLib::DSF::File file(TagLibFileName(filename).data());
+    ASSERT_TRUE(file.isValid());
+  }
+
+  CheckKeepsID3v2Version(tagreader_client_, filename, [&filename]() {
+    TagLib::DSF::File file(TagLibFileName(filename).data());
+    return file.isValid() && file.tag() && !file.tag()->isEmpty() ? static_cast<int>(file.tag()->header()->majorVersion()) : 0;
+  });
+
+}
+
+#endif
+
+#ifdef HAVE_TAGLIB_DSDIFFFILE
+
+// Writes a chunk of a DSDIFF file, the chunks have an even size.
+void WriteDSDIFFChunk(QDataStream &s, const char *id, const QByteArray &chunk_data) {
+  s.writeRawData(id, 4);
+  s << quint64(chunk_data.size());
+  s.writeRawData(chunk_data.constData(), static_cast<int>(chunk_data.size()));
+  if (chunk_data.size() % 2 != 0) s << quint8(0);
+}
+
+QByteArray DSDIFFFileData() {
+
+  QByteArray fver;
+  QDataStream(&fver, QIODevice::WriteOnly) << quint32(0x01050000);
+
+  QByteArray fs;
+  QDataStream(&fs, QIODevice::WriteOnly) << kDSDSampleRate;
+  QByteArray chnl;
+  {
+    QDataStream s(&chnl, QIODevice::WriteOnly);
+    s << quint16(2);
+    s.writeRawData("SLFT", 4);
+    s.writeRawData("SRGT", 4);
+  }
+  QByteArray cmpr;
+  {
+    QDataStream s(&cmpr, QIODevice::WriteOnly);
+    s.writeRawData("DSD ", 4);
+    s << quint8(14);
+    s.writeRawData("not compressed", 14);
+  }
+  QByteArray prop;
+  {
+    QDataStream s(&prop, QIODevice::WriteOnly);
+    s.writeRawData("SND ", 4);
+    WriteDSDIFFChunk(s, "FS  ", fs);
+    WriteDSDIFFChunk(s, "CHNL", chnl);
+    WriteDSDIFFChunk(s, "CMPR", cmpr);
+  }
+
+  QByteArray form;
+  {
+    QDataStream s(&form, QIODevice::WriteOnly);
+    s.writeRawData("DSD ", 4);
+    WriteDSDIFFChunk(s, "FVER", fver);
+    WriteDSDIFFChunk(s, "PROP", prop);
+    WriteDSDIFFChunk(s, "DSD ", QByteArray(kDSDBlockSize * 2, kDSDSilence));
+  }
+
+  QByteArray data;
+  QDataStream s(&data, QIODevice::WriteOnly);
+  WriteDSDIFFChunk(s, "FRM8", form);
+  return data;
+
+}
+
+// Regression test: DSDIFF files were saved with ID3v2.4 tags, ID3v2.3 tags were converted.
+TEST_F(TagReaderTest, TestDSDIFFKeepsID3v2VersionWhenSaving) {
+
+  TemporaryDataFile temporary_file(u"dff"_s, DSDIFFFileData());
+  const QString filename = temporary_file.fileName();
+  {
+    TagLib::DSDIFF::File file(TagLibFileName(filename).data());
+    ASSERT_TRUE(file.isValid());
+  }
+
+  CheckKeepsID3v2Version(tagreader_client_, filename, [&filename]() {
+    TagLib::DSDIFF::File file(TagLibFileName(filename).data());
+    return file.isValid() && file.hasID3v2Tag() ? static_cast<int>(file.ID3v2Tag()->header()->majorVersion()) : 0;
+  });
+
+}
+
+#endif
 
 }  // namespace

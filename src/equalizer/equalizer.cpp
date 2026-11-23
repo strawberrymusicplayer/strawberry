@@ -47,6 +47,8 @@
 #ifdef Q_OS_ANDROID
 #  include <QLabel>
 #endif
+#include <QTimer>
+#include <QCoreApplication>
 
 #include "core/iconloader.h"
 #include "core/settings.h"
@@ -67,15 +69,26 @@ constexpr char kEnabled[] = "enabled";
 constexpr char kEnableStereoBalancer[] = "enable_stereo_balancer";
 constexpr char kStereoBalance[] = "stereo_balance";
 constexpr char kCustom[] = "custom";
+constexpr char kCurrentParams[] = "current_params";
 const char *kGainText[] = { "60", "170", "310", "600", "1k", "3k", "6k", "12k", "14k", "16k" };
+constexpr int kSaveDelayMs = 500;
 }  // namespace
 
 Equalizer::Equalizer(QWidget *parent)
     : QDialog(parent),
       ui_(new Ui_Equalizer),
-      loading_(false) {
+      loading_(false),
+      save_timer_(new QTimer(this)),
+      save_pending_(false),
+      save_current_params_pending_(false) {
 
   ui_->setupUi(this);
+
+  save_timer_->setSingleShot(true);
+  save_timer_->setInterval(kSaveDelayMs);
+  QObject::connect(save_timer_, &QTimer::timeout, this, &Equalizer::SavePending);
+  QObject::connect(qApp, &QCoreApplication::aboutToQuit, this, &Equalizer::SavePending);
+  QObject::connect(this, &QDialog::finished, this, &Equalizer::SavePending);
 
   // Icons
   ui_->preset_del->setIcon(IconLoader::Load(u"edit-delete"_s));
@@ -123,6 +136,7 @@ Equalizer::Equalizer(QWidget *parent)
 }
 
 Equalizer::~Equalizer() {
+  SavePending();
   delete ui_;
 }
 
@@ -175,23 +189,19 @@ void Equalizer::ReloadSettings() {
 #endif
   ui_->stereo_balance_slider->setEnabled(ui_->enable_stereo_balancer->isChecked());
 
-  const int stereo_balance = s.value(kStereoBalance, 0).toInt();
-  ui_->stereo_balance_slider->setValue(stereo_balance);
-  StereoBalanceSliderChanged(stereo_balance);
+  ui_->stereo_balance_slider->setValue(s.value(kStereoBalance, 0).toInt());
 
-  PresetChanged(selected_preset);
+  // The preset which is shown is loaded, also when the selected preset isn't found, like the default selected preset "custom", which is not the name of the "Custom" preset.
+  LoadPreset(ui_->preset->itemData(ui_->preset->currentIndex()).toString());
+
+  // Changes which were not saved to the preset before quitting are still used, without changing the preset.
+  QVariant current_params = s.value(kCurrentParams);
 #ifdef Q_OS_ANDROID
-  if (pending_params.isValid()) {
-    const Params params = pending_params.value<Params>();
-    loading_ = true;
-    preamp_->set_value(params.preamp);
-    for (int i = 0; i < kBands; ++i) gain_[i]->set_value(params.gain[i]);
-    loading_ = false;
-    Q_EMIT EqualizerParametersChanged(preamp_value(), gain_values());
-    UpdateAndroidPreset();
-    Save();
-  }
+  if (pending_params.isValid()) current_params = pending_params;
 #endif
+  if (current_params.isValid()) {
+    SetParams(current_params.value<Equalizer::Params>());
+  }
 
 }
 
@@ -244,20 +254,21 @@ void Equalizer::PresetChanged(const QString &name) {
     }
   }
 #endif
-  last_preset_ = name;
 
-  const Params p = presets_.value(name);
-
-  loading_ = true;
-  preamp_->set_value(p.preamp);
-  for (int i = 0; i < kBands; ++i) gain_[i]->set_value(p.gain[i]);
-  loading_ = false;
-
+  LoadPreset(name);
   EqualizerParametersChangedSlot();
 #ifdef Q_OS_ANDROID
   UpdateAndroidPreset();
 #endif
   Save();
+
+}
+
+void Equalizer::LoadPreset(const QString &name) {
+
+  // Only sets the values of the preset, the values are not saved, and the player is not notified, when loading the settings the player reads the values.
+  last_preset_ = name;
+  SetParams(presets_.value(name));
 
 }
 
@@ -293,6 +304,12 @@ QString Equalizer::SaveCurrentPreset() {
   QString name = QInputDialog::getText(this, tr("Save preset"), tr("Name"), QLineEdit::Normal, tr(qUtf8Printable(last_preset_)));
   if (name.isEmpty()) {
     return QString();
+  }
+
+  // The built-in presets are stored under their untranslated name and shown with the translated name, so a name which is shown for a preset saves that preset.
+  const int index = ui_->preset->findText(name);
+  if (index != -1) {
+    name = ui_->preset->itemData(index).toString();
   }
 
   AddPreset(name, current_params());
@@ -427,7 +444,8 @@ void Equalizer::StereoBalanceSliderChanged(const int value) {
   Q_UNUSED(value)
 
   Q_EMIT StereoBalanceChanged(stereo_balance());
-  Save();
+  save_pending_ = true;
+  SaveLater();
 
 }
 
@@ -449,17 +467,64 @@ void Equalizer::EqualizerParametersChangedSlot() {
   if (loading_) return;
 #ifdef Q_OS_ANDROID
   // Preset loading emits the same parameter signal but must not replace the chosen preset.
-  if (android_pages_ && current_params() != presets_.value(last_preset_)) {
-    AddPreset(QLatin1String(kCustomPreset), current_params());
+  if (android_pages_) {
+    if (current_params() != presets_.value(last_preset_)) {
+      AddPreset(QLatin1String(kCustomPreset), current_params());
+    }
     Save();
     UpdateAndroidPreset();
   }
 #endif
   Q_EMIT EqualizerParametersChanged(preamp_value(), gain_values());
 
+  // The current values are saved also when they are not saved to the preset, since quitting doesn't ask to save the preset.
+  save_current_params_pending_ = true;
+  SaveLater();
+
+}
+
+void Equalizer::SaveLater() {
+
+  save_timer_->start();
+
+}
+
+void Equalizer::SavePending() {
+
+  save_timer_->stop();
+
+  if (save_pending_) {
+    Save();
+  }
+  if (save_current_params_pending_) {
+    SaveCurrentParams();
+  }
+
+}
+
+void Equalizer::SaveCurrentParams() {
+
+  save_current_params_pending_ = false;
+
+  Settings s;
+  s.beginGroup(kSettingsGroup);
+  s.setValue(kCurrentParams, QVariant::fromValue(current_params()));
+  s.endGroup();
+
+}
+
+void Equalizer::SetParams(const Params &params) {
+
+  loading_ = true;
+  preamp_->set_value(params.preamp);
+  for (int i = 0; i < kBands; ++i) gain_[i]->set_value(params.gain[i]);
+  loading_ = false;
+
 }
 
 void Equalizer::Save() {
+
+  save_pending_ = false;
 
   Settings s;
   s.beginGroup(kSettingsGroup);
@@ -483,20 +548,19 @@ void Equalizer::Save() {
 
 }
 
-void Equalizer::closeEvent(QCloseEvent *e) {
-
-  Q_UNUSED(e)
+void Equalizer::reject() {
 
 #ifdef Q_OS_ANDROID
   Save();
 #else
+  // Closing the dialog with Escape, the title bar or the close shortcut asks to save the changes to the preset.
   const QString name = ui_->preset->itemData(ui_->preset->currentIndex()).toString();
-  if (!presets_.contains(name)) return;
+  if (presets_.contains(name) && presets_[name] != current_params()) {
+    SavePreset();
+  }
 
-  if (presets_[name] == current_params()) return;
-
-  SavePreset();
 #endif
+  QDialog::reject();
 
 }
 

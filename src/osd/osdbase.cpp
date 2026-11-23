@@ -186,12 +186,12 @@ void OSDBase::ShowPlaying(const Song &song, const QUrl &cover_url, const QImage 
     if (song.track() > 0) {
       message_parts << tr("track %1").arg(song.track());
     }
-    if (type_ == OSDSettings::Type::Pretty) {
+    if (ShownType() == OSDSettings::Type::Pretty) {
       summary = summary.toHtmlEscaped();
       html_escaped = true;
     }
 #if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
-    else if (type_ == OSDSettings::Type::Native) {
+    else if (ShownType() == OSDSettings::Type::Native) {
       html_escaped = true;
     }
 #endif
@@ -232,7 +232,7 @@ void OSDBase::Paused() {
         summary.prepend(" - "_L1);
         summary.prepend(last_song_.artist());
       }
-      if (type_ == OSDSettings::Type::Pretty) {
+      if (ShownType() == OSDSettings::Type::Pretty) {
         summary = summary.toHtmlEscaped();
       }
     }
@@ -277,7 +277,7 @@ void OSDBase::Stopped() {
       summary.prepend(" - "_L1);
       summary.prepend(last_song_.artist());
     }
-    if (type_ == OSDSettings::Type::Pretty) {
+    if (ShownType() == OSDSettings::Type::Pretty) {
       summary = summary.toHtmlEscaped();
     }
   }
@@ -313,11 +313,11 @@ void OSDBase::VolumeChanged(const uint value) {
   if (!show_on_volume_change_) return;
 
   QString message = tr("Volume %1%").arg(value);
-  if (type_ == OSDSettings::Type::Pretty) {
+  if (ShownType() == OSDSettings::Type::Pretty) {
     message = message.toHtmlEscaped();
   }
 #if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
-  else if (type_ == OSDSettings::Type::Native) {
+  else if (ShownType() == OSDSettings::Type::Native) {
     message = message.toHtmlEscaped();
   }
 #endif
@@ -331,11 +331,11 @@ void OSDBase::MuteChanged(const bool mute) {
   if (!show_on_volume_change_) return;
 
   QString message = mute ? tr("Muted") : tr("Unmuted");
-  if (type_ == OSDSettings::Type::Pretty) {
+  if (ShownType() == OSDSettings::Type::Pretty) {
     message = message.toHtmlEscaped();
   }
 #if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
-  else if (type_ == OSDSettings::Type::Native) {
+  else if (ShownType() == OSDSettings::Type::Native) {
     message = message.toHtmlEscaped();
   }
 #endif
@@ -429,7 +429,7 @@ QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, 
   QString newline = ""_L1;
 
   // We need different strings depending on notification type
-  switch (type_) {
+  switch (ShownType()) {
     case OSDSettings::Type::Native:
 #if defined(Q_OS_MACOS)
       html_escaped = false;
@@ -481,6 +481,17 @@ void OSDBase::ShowPreview(const OSDSettings::Type type, const QString &line1, co
 
   // We want to reload the settings, but we can't do this here because the cover art loading is asynch
   ShowPlaying(song, QUrl(), QImage(), true);
+
+}
+
+OSDSettings::Type OSDBase::ShownType() const {
+
+  // The pretty OSD is shown in toggle mode, and when notifications are disabled and the notification is forced, see ShowMessage().
+  if (pretty_popup_->toggle_mode() || type_ == OSDSettings::Type::Disabled) {
+    return OSDSettings::Type::Pretty;
+  }
+
+  return type_;
 
 }
 

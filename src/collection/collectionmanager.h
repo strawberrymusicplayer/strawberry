@@ -84,6 +84,7 @@ class CollectionManager : public QObject {
   void ExitBackendAndWatcher();
   void CheckExitFinished();
   static bool IsCurrentSongSaveDeferred(const Song &song, const QUrl &current_song_url);
+  static bool CanSaveToFile(const Song &song);
 
  public Q_SLOTS:
   void ReloadSettings();

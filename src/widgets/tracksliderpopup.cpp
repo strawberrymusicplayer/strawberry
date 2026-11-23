@@ -81,6 +81,18 @@ void TrackSliderPopup::paintEvent(QPaintEvent *e) {
   p.drawPixmap(0, 0, pixmap_);
 }
 
+void TrackSliderPopup::changeEvent(QEvent *e) {
+
+  if (e->type() == QEvent::PaletteChange) {
+    // The background is drawn with the highlight color
+    background_cache_ = QPixmap();
+    UpdatePixmap();
+  }
+
+  QWidget::changeEvent(e);
+
+}
+
 void TrackSliderPopup::UpdatePixmap() {
 
   const int text_width = qMax(font_metrics_.horizontalAdvance(text_), small_font_metrics_.horizontalAdvance(small_text_));

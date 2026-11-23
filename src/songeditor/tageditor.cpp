@@ -44,8 +44,12 @@
 #include <QDateTime>
 #include <QList>
 #include <QMap>
+#include <QSet>
+#include <QHash>
+#include <QIODevice>
 #include <QVariant>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 #include <QPixmap>
 #include <QPalette>
@@ -89,6 +93,7 @@
 #include "utilities/strutils.h"
 #include "utilities/timeutils.h"
 #include "utilities/fileutils.h"
+#include "utilities/mimeutils.h"
 #include "utilities/lrcutils.h"
 #include "utilities/imageutils.h"
 #include "utilities/coverutils.h"
@@ -811,7 +816,25 @@ void TagEditor::ClearCover() {
 
 void TagEditor::DeleteCover() {
 
-  UpdateCover(UpdateCoverAction::Delete);
+  // The cover files of the songs when the tag editor was opened are deleted when saving, these can be the user's own images.
+  SongList songs;
+  const QList<int> rows = CoverUpdateRows();
+  for (const int row : rows) {
+    songs << data_.value(row).original_;
+  }
+  const quint64 asked_songs_generation = songs_generation();
+  const std::optional<ConfirmedCoverFiles> confirmed_files = album_cover_choice_controller_->ConfirmDeleteCover(songs);
+  if (!confirmed_files) return;
+
+  // The songs were replaced while the user was asked, the rows are other songs now.
+  if (songs_generation() != asked_songs_generation) return;
+
+  // A file which didn't exist when the user was asked, or which changed since, is not deleted when saving.
+  for (const int row : rows) {
+    data_[row].cover_delete_confirmed_files_ = *confirmed_files;
+  }
+
+  UpdateCover(rows, UpdateCoverAction::Delete);
 
 }
 
@@ -823,83 +846,183 @@ void TagEditor::ShowCover() {
 
 }
 
-void TagEditor::UpdateCover(const UpdateCoverAction cover_action, const AlbumCoverImageResult &cover_result) {
+QList<int> TagEditor::CoverUpdateRows() const {
 
+  QList<int> rows;
   const QModelIndexList indexes = ui_->song_list->selectionModel()->selectedIndexes();
-  if (indexes.isEmpty()) return;
+  if (indexes.isEmpty()) return rows;
 
   QString artist = data_.value(indexes.first().row()).current_.effective_albumartist();
   QString album = data_.value(indexes.first().row()).current_.album();
 
   for (const QModelIndex &idx : indexes) {
-    data_[idx.row()].cover_action_ = cover_action;
-    data_[idx.row()].cover_result_ = cover_result;
-    if (cover_action == UpdateCoverAction::New) {
-      data_[idx.row()].current_.clear_art_manual();
-      data_[idx.row()].current_.set_art_unset(false);
-    }
-    else if (cover_action == UpdateCoverAction::Unset) {
-      data_[idx.row()].current_.set_art_unset(true);
-    }
-    else if (cover_action == UpdateCoverAction::Clear || cover_action == UpdateCoverAction::Delete) {
-      data_[idx.row()].current_.set_art_embedded(false);
-      data_[idx.row()].current_.clear_art_manual();
-      data_[idx.row()].current_.clear_art_automatic();
-      data_[idx.row()].current_.set_art_unset(false);
-    }
-    if (artist != data_[idx.row()].current_.effective_albumartist() || album != data_[idx.row()].current_.album()) {
+    rows << idx.row();
+    if (artist != data_.value(idx.row()).current_.effective_albumartist() || album != data_.value(idx.row()).current_.album()) {
       artist.clear();
       album.clear();
     }
   }
 
   // Now check if we have any other songs cached that share that artist and album (and would therefore be changed as well)
+  // The selected rows are included again, which changes nothing.
   if (!artist.isEmpty() && !album.isEmpty()) {
     for (int i = 0; i < data_.count(); ++i) {
       if (data_[i].current_.effective_albumartist() == artist && data_[i].current_.album() == album) {
-        data_[i].cover_action_ = cover_action;
-        data_[i].cover_result_ = cover_result;
-        if (cover_action == UpdateCoverAction::New) {
-          data_[i].current_.clear_art_manual();
-          data_[i].current_.set_art_unset(false);
-        }
-        else if (cover_action == UpdateCoverAction::Unset) {
-          data_[i].current_.set_art_unset(true);
-        }
-        else if (cover_action == UpdateCoverAction::Clear || cover_action == UpdateCoverAction::Delete) {
-          data_[i].current_.set_art_embedded(false);
-          data_[i].current_.clear_art_manual();
-          data_[i].current_.clear_art_automatic();
-          data_[i].current_.set_art_unset(false);
-        }
+        rows << i;
       }
     }
   }
 
-  UpdateSummaryTab(data_[indexes.first().row()].current_);
+  return rows;
+
+}
+
+void TagEditor::UpdateCover(const UpdateCoverAction cover_action, const AlbumCoverImageResult &cover_result) {
+
+  UpdateCover(CoverUpdateRows(), cover_action, cover_result);
+
+}
+
+void TagEditor::UpdateCover(const QList<int> &rows, const UpdateCoverAction cover_action, const AlbumCoverImageResult &cover_result) {
+
+  if (rows.isEmpty()) return;
+
+  for (const int row : rows) {
+    Data &ref = data_[row];
+    ref.cover_action_ = cover_action;
+    ref.cover_result_ = cover_result;
+    if (cover_action == UpdateCoverAction::New) {
+      ref.current_.clear_art_manual();
+      ref.current_.set_art_unset(false);
+    }
+    else if (cover_action == UpdateCoverAction::Unset) {
+      ref.current_.set_art_unset(true);
+    }
+    else if (cover_action == UpdateCoverAction::Clear || cover_action == UpdateCoverAction::Delete) {
+      ref.current_.set_art_embedded(false);
+      ref.current_.clear_art_manual();
+      ref.current_.clear_art_automatic();
+      ref.current_.set_art_unset(false);
+    }
+  }
+
+  // The first row is the first selected song.
+  UpdateSummaryTab(data_[rows.first()].current_);
   SelectionChanged();
 
 }
 
+void TagEditor::RestoreOriginalCover(Data *tag_data) {
+
+  // UpdateCover() changed the cover when it was chosen, also a cover cleared or unset before choosing the new cover, so all of the cover is restored.
+  tag_data->current_.set_art_embedded(tag_data->original_.art_embedded());
+  tag_data->current_.set_art_automatic(tag_data->original_.art_automatic());
+  // Setting another automatic cover clears its modification time, and the collection watcher handles a changed modification time as a changed cover.
+  tag_data->current_.set_art_automatic_mtime(tag_data->original_.art_automatic_mtime());
+  tag_data->current_.set_art_manual(tag_data->original_.art_manual());
+  tag_data->current_.set_art_unset(tag_data->original_.art_unset());
+  // The cover is not changed, so writing the other tags must not handle it as a new cover either.
+  tag_data->cover_action_ = UpdateCoverAction::None;
+
+}
+
 void TagEditor::Save() {
+
+  // A cover file which changed or was created since the user confirmed deleting the cover is another cover.
+  // Songs can share a cover file, so the covers of all songs are checked before deleting any of them, and none of them are deleted when one of the files changed.
+  QList<std::pair<Song, ConfirmedCoverFiles>> delete_cover_songs;
+  for (const Data &tag_data : std::as_const(data_)) {
+    if (tag_data.cover_action_ == UpdateCoverAction::Delete) {
+      delete_cover_songs << std::make_pair(tag_data.original_, tag_data.cover_delete_confirmed_files_);
+    }
+  }
+  const bool delete_covers = delete_cover_songs.isEmpty() || album_cover_choice_controller_->CanDeleteCovers(delete_cover_songs);
+  QList<bool> cover_delete_restored(data_.count(), false);
+  bool delete_cover_files = false;
+  for (int i = 0; i < data_.count(); ++i) {
+    Data &tag_data = data_[i];
+    if (tag_data.cover_action_ != UpdateCoverAction::Delete) continue;
+    if (!delete_covers) {
+      RestoreOriginalCover(&tag_data);
+      cover_delete_restored[i] = true;
+      continue;
+    }
+    for (const QUrl &url : {tag_data.original_.art_automatic(), tag_data.original_.art_manual()}) {
+      if (url.isValid() && url.isLocalFile()) delete_cover_files = true;
+    }
+  }
+
+  // If embedded album cover is selected, and it isn't saved to the tags, then save it even if no action was done.
+  // A cover which was kept because a cover file changed since the user confirmed deleting it is not changed either.
+  // This is decided before the cover files are deleted, songs of another album can share a cover file which is deleted, the tags are written later.
+  // When cover files are deleted, the images to embed are read before, a shared cover file can also have another path, like through a symbolic link.
+  QList<QString> embedded_cover_from_files(data_.count());
+  QList<QByteArray> embedded_cover_data(data_.count());
+  QHash<QString, QByteArray> cover_files_data;
+  for (int i = 0; i < data_.count(); ++i) {
+    Data &tag_data = data_[i];
+    if (!ui_->checkbox_embedded_cover->isChecked() || cover_delete_restored.value(i) || tag_data.cover_action_ != UpdateCoverAction::None || tag_data.original_.art_embedded() || !tag_data.original_.save_embedded_cover_supported()) continue;
+    if (tag_data.original_.art_manual_is_valid()) {
+      embedded_cover_from_files[i] = tag_data.original_.art_manual().toLocalFile();
+    }
+    else if (tag_data.original_.art_automatic_is_valid()) {
+      embedded_cover_from_files[i] = tag_data.original_.art_automatic().toLocalFile();
+    }
+    else {
+      continue;
+    }
+    const QString &filename = embedded_cover_from_files.at(i);
+    if (delete_cover_files) {
+      if (!cover_files_data.contains(filename)) {
+        QFile file(filename);
+        cover_files_data.insert(filename, file.open(QIODevice::ReadOnly) ? file.readAll() : QByteArray());
+      }
+      embedded_cover_data[i] = cover_files_data.value(filename);
+      if (embedded_cover_data.at(i).isEmpty()) {
+        qLog(Error) << "Could not read cover file" << filename << "to embed it in" << tag_data.original_.url();
+        embedded_cover_from_files[i].clear();
+        continue;
+      }
+    }
+    tag_data.cover_action_ = UpdateCoverAction::New;
+  }
+
+  // The cover files are deleted right after checking them, before any new cover is saved, a new cover can be saved to a file which is deleted, like a cover file in the album directory shared by two albums.
+  // Each file is checked again right before deleting it, it can still change while checking the other files.
+  // A cover file which changed, or which could not be deleted, is kept, and the songs keep it as cover.
+  QSet<QString> cover_files_handled;
+  QSet<QString> cover_files_kept;
+  for (int i = 0; i < data_.count(); ++i) {
+    Data &tag_data = data_[i];
+    if (tag_data.cover_action_ != UpdateCoverAction::Delete) continue;
+    for (const QUrl &url : {tag_data.original_.art_automatic(), tag_data.original_.art_manual()}) {
+      if (!url.isValid() || !url.isLocalFile()) continue;
+      const QString filename = url.toLocalFile();
+      if (cover_files_handled.contains(filename)) continue;
+      cover_files_handled << filename;
+      if (!QFile::exists(filename)) continue;
+      if (!AlbumCoverChoiceController::CanDeleteCoverFile(tag_data.original_.source(), filename, tag_data.cover_delete_confirmed_files_)) {
+        qLog(Warning) << "Not deleting cover file" << filename << "which changed since the user confirmed deleting it";
+        Q_EMIT Error(tr("The cover file %1 was not deleted, it changed since you confirmed deleting it.").arg(filename));
+        cover_files_kept << filename;
+        continue;
+      }
+      QFile file(filename);
+      if (!file.remove()) {
+        qLog(Error) << "Failed to delete cover file" << filename << file.errorString();
+        Q_EMIT Error(tr("Failed to delete cover file %1: %2").arg(filename, file.errorString()));
+        cover_files_kept << filename;
+      }
+    }
+  }
+  const auto cover_file_kept = [&cover_files_kept](const QUrl &url) { return url.isValid() && url.isLocalFile() && cover_files_kept.contains(url.toLocalFile()); };
 
   QMap<QString, QUrl> cover_urls;
 
   for (int i = 0; i < data_.count(); ++i) {
     Data &ref = data_[i];
 
-    QString embedded_cover_from_file;
-    // If embedded album cover is selected, and it isn't saved to the tags, then save it even if no action was done.
-    if (ui_->checkbox_embedded_cover->isChecked() && ref.cover_action_ == UpdateCoverAction::None && !ref.original_.art_embedded() && ref.original_.save_embedded_cover_supported()) {
-      if (ref.original_.art_manual_is_valid()) {
-        ref.cover_action_ = UpdateCoverAction::New;
-        embedded_cover_from_file = ref.original_.art_manual().toLocalFile();
-      }
-      else if (ref.original_.art_automatic_is_valid()) {
-        ref.cover_action_ = UpdateCoverAction::New;
-        embedded_cover_from_file = ref.original_.art_automatic().toLocalFile();
-      }
-    }
+    const QString embedded_cover_from_file = embedded_cover_from_files.value(i);
 
     // Updates the lyrics storage and writes the LRC file.
     bool lyrics_changed = false;
@@ -916,7 +1039,8 @@ void TagEditor::Save() {
     const bool save_tags = !song_without_lyrics.IsMetadataEqual(ref.original_) || save_lyrics_tags || save_synced_lyrics_tags;
     const bool save_rating = !ref.current_.IsRatingEqual(ref.original_);
     const bool save_playcount = ref.current_.playcount() == 0 && ref.current_.skipcount() == 0 && ref.current_.lastplayed() == -1 && !ref.current_.IsPlayStatisticsEqual(ref.original_);
-    const bool save_embedded_cover = ref.cover_action_ != UpdateCoverAction::None && ui_->checkbox_embedded_cover->isChecked() && ref.original_.save_embedded_cover_supported();
+    // The checkbox is from the selected song, deleting the cover also changes the other songs of the album, so the embedded cover of each song is deleted when the song has one.
+    const bool save_embedded_cover = ref.cover_action_ == UpdateCoverAction::Delete ? ref.original_.art_embedded() && ref.original_.save_embedded_cover_supported() : ref.cover_action_ != UpdateCoverAction::None && ui_->checkbox_embedded_cover->isChecked() && ref.original_.save_embedded_cover_supported();
 
     if (ref.cover_action_ != UpdateCoverAction::None) {
       switch (ref.cover_action_) {
@@ -946,11 +1070,8 @@ void TagEditor::Save() {
               ref.current_.set_art_unset(false);
             }
             else {
-              // Saving the cover failed, UpdateCover() already cleared the cover when it was chosen, so restore the existing cover instead of clearing it.
-              ref.current_.set_art_manual(ref.original_.art_manual());
-              ref.current_.set_art_unset(ref.original_.art_unset());
-              // The cover is not changed, so writing the other tags must not handle it as a new cover either.
-              ref.cover_action_ = UpdateCoverAction::None;
+              // Saving the cover failed, so restore the existing cover instead of clearing it.
+              RestoreOriginalCover(&ref);
             }
           }
           break;
@@ -968,23 +1089,19 @@ void TagEditor::Save() {
           ref.current_.set_art_unset(false);
           break;
         case UpdateCoverAction::Delete:{
+          // The cover files were deleted before saving, the songs keep the cover files which were kept.
           ref.current_.set_art_embedded(false);
-          if (!ref.original_.art_automatic().isEmpty()) {
-            if (ref.original_.art_automatic_is_valid()) {
-              const QString art_automatic = ref.original_.art_automatic().toLocalFile();
-              if (QFile::exists(art_automatic)) {
-                QFile::remove(art_automatic);
-              }
-            }
+          if (cover_file_kept(ref.original_.art_automatic())) {
+            ref.current_.set_art_automatic(ref.original_.art_automatic());
+            ref.current_.set_art_automatic_mtime(ref.original_.art_automatic_mtime());
+          }
+          else {
             ref.current_.clear_art_automatic();
           }
-          if (!ref.original_.art_manual().isEmpty()) {
-            if (ref.original_.art_manual_is_valid()) {
-              const QString art_manual = ref.original_.art_manual().toLocalFile();
-              if (QFile::exists(art_manual)) {
-                QFile::remove(art_manual);
-              }
-            }
+          if (cover_file_kept(ref.original_.art_manual())) {
+            ref.current_.set_art_manual(ref.original_.art_manual());
+          }
+          else {
             ref.current_.clear_art_manual();
           }
           ref.current_.set_art_unset(false);
@@ -1008,14 +1125,32 @@ void TagEditor::Save() {
       if (ref.current_.lastplayed() <= 0) { ref.current_.set_lastplayed(-1); }
       ++save_tag_pending_;
       SaveTagCoverData save_tag_cover_data;
+      // The cover is not changed when saving it failed, or a cover file to delete changed.
+      bool write_embedded_cover = save_embedded_cover && ref.cover_action_ != UpdateCoverAction::None;
       if (save_embedded_cover && ref.cover_action_ == UpdateCoverAction::New) {
-        if (!ref.cover_result_.image.isNull()) {
+        if (!ref.cover_result_.image_data.isEmpty()) {
+          save_tag_cover_data.cover_data = ref.cover_result_.image_data;
           save_tag_cover_data.cover_mimetype = ref.cover_result_.mime_type;
+        }
+        else if (!ref.cover_result_.image.isNull()) {
+          // Empty cover data removes the embedded cover, so an image without its data, like an image dropped on the cover, is encoded, otherwise the existing embedded cover would be removed instead.
+          save_tag_cover_data.cover_data = ImageUtils::SaveImageToJpegData(ref.cover_result_.image);
+          save_tag_cover_data.cover_mimetype = u"image/jpeg"_s;
+          if (save_tag_cover_data.cover_data.isEmpty()) {
+            qLog(Error) << "Could not encode the cover image for" << ref.current_.url();
+            // The existing embedded cover is kept, the cover is not changed.
+            write_embedded_cover = false;
+            RestoreOriginalCover(&ref);
+          }
+        }
+        else if (!embedded_cover_data.value(i).isEmpty()) {
+          // The cover file was deleted, the image was read before.
+          save_tag_cover_data.cover_data = embedded_cover_data.value(i);
+          save_tag_cover_data.cover_mimetype = Utilities::MimeTypeFromData(save_tag_cover_data.cover_data);
         }
         else if (!embedded_cover_from_file.isEmpty()) {
           save_tag_cover_data.cover_filename = embedded_cover_from_file;
         }
-        save_tag_cover_data.cover_data = ref.cover_result_.image_data;
       }
 
       // Determine ID3v2 version based on user selection
@@ -1034,7 +1169,7 @@ void TagEditor::Save() {
       if (save_rating) {
         save_tags_options |= TagReaderClient::SaveOption::Rating;
       }
-      if (save_embedded_cover) {
+      if (write_embedded_cover) {
         save_tags_options |= TagReaderClient::SaveOption::Cover;
       }
       // Lyrics saved to the database or an LRC file do not depend on writing the tags, so they are still saved to the collection if writing the tags fails.
@@ -1129,6 +1264,10 @@ void TagEditor::FetchTag() {
     if (!song.is_valid()) {
       continue;
     }
+    // The same song can be in several rows, the result is applied to all of them, so it is only fetched once.
+    if (std::any_of(songs.cbegin(), songs.cend(), [&song](const Song &fetch_song) { return fetch_song.url() == song.url() && fetch_song.beginning_nanosec() == song.beginning_nanosec(); })) {
+      continue;
+    }
     songs << song;
   }
 
@@ -1149,26 +1288,32 @@ void TagEditor::FetchTagSongChosen(const Song &original_song, const Song &new_me
 
   const QUrl url = original_song.url();
 
-  // Find the song with this URL, not the local filename, which is empty for all streams.
-  auto data_it = std::find_if(data_.begin(), data_.end(), [&url](const Data &d) {
-    return d.original_.url() == url;
-  });
-  if (data_it == data_.end()) {
+  // The song is found by its URL, not the local filename, which is empty for all streams, and by where it begins in the file, for songs of a CUE sheet.
+  // The same song can be in several rows, the result is applied to all of them, otherwise saving another row writes the old values back.
+  bool found = false;
+  bool selected = false;
+  const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
+  for (int row = 0; row < data_.count(); ++row) {
+    Data &tag_data = data_[row];
+    if (tag_data.original_.url() != url || tag_data.original_.beginning_nanosec() != original_song.beginning_nanosec()) continue;
+    found = true;
+    tag_data.current_.set_title(new_metadata.title());
+    tag_data.current_.set_artist(new_metadata.artist());
+    tag_data.current_.set_album(new_metadata.album());
+    tag_data.current_.set_track(new_metadata.track());
+    tag_data.current_.set_year(new_metadata.year());
+    if (std::any_of(sel.cbegin(), sel.cend(), [row](const QModelIndex &idx) { return idx.row() == row; })) {
+      selected = true;
+    }
+  }
+
+  if (!found) {
     qLog(Warning) << "Could not find song with URL" << url;
     return;
   }
 
-  // Update song data
-  data_it->current_.set_title(new_metadata.title());
-  data_it->current_.set_artist(new_metadata.artist());
-  data_it->current_.set_album(new_metadata.album());
-  data_it->current_.set_track(new_metadata.track());
-  data_it->current_.set_year(new_metadata.year());
-
-  // Is it currently being displayed in the UI?
-  if (ui_->song_list->currentRow() == std::distance(data_.begin(), data_it)) {
-    // Yes! Additionally, update UI
-    const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
+  // The values shown are updated when one of the rows is selected.
+  if (selected) {
     UpdateUI(sel);
   }
 

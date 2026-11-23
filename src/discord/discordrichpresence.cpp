@@ -117,7 +117,8 @@ void DiscordRichPresence::CurrentSongChanged(const Song &song) {
   activity_.artist = song.artist();
   activity_.album = song.album();
 
-  if (!discord_rpc_) return;
+  // The presence is only shown while playing, the song can also change while paused or stopped, like the title of a stream.
+  if (!discord_rpc_ || player_->engine()->state() != EngineBase::State::Playing) return;
 
   SendPresenceUpdate();
 
@@ -139,11 +140,7 @@ void DiscordRichPresence::SendPresenceUpdate() {
   presence.instance = false;
 
   if (!activity_.artist.isEmpty()) {
-    QString artist = activity_.artist;
-    if (artist.length() < 2) {  // Discord activity 2 char min. fix
-      artist.append(" "_L1);
-    }
-    presence.state = artist;
+    presence.state = activity_.artist;
   }
 
   if (!activity_.album.isEmpty()) {
@@ -154,7 +151,10 @@ void DiscordRichPresence::SendPresenceUpdate() {
 
   const qint64 start_timestamp = activity_.start_timestamp - activity_.seek_secs;
   presence.start_timestamp = start_timestamp;
-  presence.end_timestamp = start_timestamp + activity_.length_secs;
+  // Streams have no length, the end time would be the start time, then Discord shows the stream as ended, without an end time the time elapsed is shown instead.
+  if (activity_.length_secs > 0) {
+    presence.end_timestamp = start_timestamp + activity_.length_secs;
+  }
 
   discord_rpc_->UpdatePresence(presence);
 
@@ -172,6 +172,10 @@ void DiscordRichPresence::Seeked(const qint64 seek_microseconds) {
   if (!discord_rpc_) return;
 
   SetTimestamp(seek_microseconds / 1000000LL);
+
+  // When seeking while paused, the presence is sent with the position when playback is resumed, sending it now would show the song as playing.
+  if (player_->engine()->state() != EngineBase::State::Playing) return;
+
   SendPresenceUpdate();
 
 }

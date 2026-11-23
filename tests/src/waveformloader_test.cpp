@@ -86,7 +86,7 @@ class WaveformLoaderTest : public ::testing::Test {
 TEST_F(WaveformLoaderTest, DedupesInFlightAndReusesCacheOnReplay) {
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl url = QUrl::fromLocalFile(res.fileName());
 
   WaveformLoader loader;
@@ -119,7 +119,7 @@ TEST_F(WaveformLoaderTest, DedupesInFlightAndReusesCacheOnReplay) {
 TEST_F(WaveformLoaderTest, PipelineIsDeletedInWorkerThread) {
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl url = QUrl::fromLocalFile(res.fileName());
 
   // Declared before the loader, so it outlives the pipeline also when the loader deletes it at the end of the test.
@@ -151,7 +151,7 @@ TEST_F(WaveformLoaderTest, PipelineIsDeletedInWorkerThread) {
 TEST_F(WaveformLoaderTest, RegeneratesOnMalformedCacheBlob) {
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl url = QUrl::fromLocalFile(res.fileName());
 
   // Seed the cache with a bad-magic blob.
@@ -171,7 +171,7 @@ TEST_F(WaveformLoaderTest, RegeneratesOnMalformedCacheBlob) {
 TEST_F(WaveformLoaderTest, RegeneratesOnTruncatedCacheBlob) {
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl url = QUrl::fromLocalFile(res.fileName());
 
   // Valid header declaring a full count but with a truncated body.
@@ -199,7 +199,7 @@ TEST_F(WaveformLoaderTest, RegeneratesOnTruncatedCacheBlob) {
 TEST_F(WaveformLoaderTest, RegeneratesOnWrongVersionCacheBlob) {
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl url = QUrl::fromLocalFile(res.fileName());
 
   // Valid magic and consistent length but an unknown (future) version byte.
@@ -244,7 +244,7 @@ static QByteArray MakeMinimalValidBlob(qint8 sentinel_min = -10, qint8 sentinel_
 TEST_F(WaveformLoaderTest, SidecarPreferredOverCache) {
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl url = QUrl::fromLocalFile(res.fileName());
 
   // Build two distinguishable valid blobs.
@@ -279,7 +279,7 @@ TEST_F(WaveformLoaderTest, SidecarPreferredOverCache) {
 TEST_F(WaveformLoaderTest, ReloadSettingsReadsSave) {
 
   TemporaryResource res(u":/audio/strawberry.wav"_s);
-  ASSERT_TRUE(res.open());
+  ASSERT_TRUE(QFile::exists(res.fileName()));
   const QUrl url = QUrl::fromLocalFile(res.fileName());
 
   // WaveformFilenames() is public static — derive the hidden sidecar path directly.

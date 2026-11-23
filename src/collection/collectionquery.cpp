@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,6 @@
 
 #include <QtGlobal>
 #include <QMetaType>
-#include <QDateTime>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
@@ -35,31 +34,12 @@
 #include "core/song.h"
 
 #include "collectionquery.h"
-#include "collectionfilteroptions.h"
 
 using namespace Qt::Literals::StringLiterals;
 
-CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const CollectionFilterOptions &filter_options)
+CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_table)
     : SqlQuery(db),
-      songs_table_(songs_table),
-      include_unavailable_(false),
-      duplicates_only_(false),
-      limit_(-1) {
-
-  if (filter_options.max_age() != -1) {
-    qint64 cutoff = QDateTime::currentSecsSinceEpoch() - filter_options.max_age();
-
-    where_clauses_ << u"ctime > ?"_s;
-    bound_values_ << cutoff;
-  }
-
-  duplicates_only_ = filter_options.filter_mode() == CollectionFilterOptions::FilterMode::Duplicates;
-
-  if (filter_options.filter_mode() == CollectionFilterOptions::FilterMode::Untagged) {
-    where_clauses_ << u"(artist = '' OR album = '' OR title ='')"_s;
-  }
-
-}
+      songs_table_(songs_table) {}
 
 void CollectionQuery::AddWhere(const QString &column, const QVariant &value, const QString &op) {
 
@@ -98,29 +78,28 @@ void CollectionQuery::AddCompilationRequirement(const bool compilation) {
 
 }
 
-QString CollectionQuery::GetInnerQuery() const {
-  return duplicates_only_
-             ? QStringLiteral(" INNER JOIN (select * from duplicated_songs) dsongs        "
-                              "ON (%songs_table.artist = dsongs.dup_artist       "
-                              "AND %songs_table.album = dsongs.dup_album     "
-                              "AND %songs_table.title = dsongs.dup_title)    ")
-             : QString();
+void CollectionQuery::AddAlbumRequirement(const QString &effective_albumartist, const QString &album) {
+
+  if (effective_albumartist.isEmpty()) {
+    where_clauses_ << QLatin1String(kNoAlbumArtistWhereClause);
+  }
+  else {
+    AddWhere(u"effective_albumartist"_s, effective_albumartist);
+  }
+  AddWhere(u"album"_s, album);
+
 }
 
 bool CollectionQuery::Exec() {
 
-  QString sql = QStringLiteral("SELECT %1 FROM %2 %3").arg(column_spec_, songs_table_, GetInnerQuery());
+  QString sql = QStringLiteral("SELECT %1 FROM %2").arg(column_spec_, songs_table_);
 
   QStringList where_clauses(where_clauses_);
-  if (!include_unavailable_) {
-    where_clauses << u"unavailable = 0"_s;
-  }
+  where_clauses << u"unavailable = 0"_s;
 
-  if (!where_clauses.isEmpty()) sql += " WHERE "_L1 + where_clauses.join(" AND "_L1);
+  sql += " WHERE "_L1 + where_clauses.join(" AND "_L1);
 
   if (!order_by_.isEmpty()) sql += " ORDER BY "_L1 + order_by_;
-
-  if (limit_ != -1) sql += " LIMIT "_L1 + QString::number(limit_);
 
   sql.replace("%songs_table"_L1, songs_table_);
 

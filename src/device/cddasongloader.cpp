@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,6 +43,7 @@
 #include "cddasongloader.h"
 #include "includes/shared_ptr.h"
 #include "core/logging.h"
+#include "utilities/cddautils.h"
 #include "core/networkaccessmanager.h"
 #include "constants/timeconstants.h"
 
@@ -101,7 +102,7 @@ void CDDASongLoader::LoadSongsFromCDDA() {
   }
 
   if (!url_.isEmpty()) {
-    g_object_set(cdda, "device", url_.path().toLocal8Bit().constData(), nullptr);
+    g_object_set(cdda, "device", Utilities::CDDADeviceFromUrlPath(url_.path()).toLocal8Bit().constData(), nullptr);
   }
   if (g_object_class_find_property(G_OBJECT_GET_CLASS(cdda), "paranoia-mode")) {
     g_object_set(cdda, "paranoia-mode", 0, nullptr);

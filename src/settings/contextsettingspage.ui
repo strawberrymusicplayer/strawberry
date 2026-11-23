@@ -199,6 +199,16 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="checkbox_synced_lyrics_click_to_seek">
+        <property name="toolTip">
+         <string>Seek to a synchronized lyrics line by clicking it, the right-click menu can always seek to a line</string>
+        </property>
+        <property name="text">
+         <string>Seek by clicking a synchronized lyrics line</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QCheckBox" name="checkbox_search_cover">
         <property name="text">
          <string>Automatically search for album cover</string>
@@ -711,6 +721,7 @@
   <tabstop>checkbox_technical_data</tabstop>
   <tabstop>checkbox_song_lyrics</tabstop>
   <tabstop>checkbox_synced_lyrics</tabstop>
+  <tabstop>checkbox_synced_lyrics_click_to_seek</tabstop>
   <tabstop>checkbox_search_cover</tabstop>
   <tabstop>checkbox_search_lyrics</tabstop>
   <tabstop>font_headline</tabstop>

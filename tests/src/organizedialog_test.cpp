@@ -33,6 +33,7 @@
 #include <QTemporaryDir>
 #include <QThreadPool>
 #include <QElapsedTimer>
+#include <QScopeGuard>
 #include <QCoreApplication>
 #include <QUrl>
 #include <QVariant>
@@ -109,24 +110,37 @@ TEST(OrganizeDialogTest, DeletingWhileReadingWaitsForRead) {
   QTemporaryDir temp_dir;
   ASSERT_TRUE(temp_dir.isValid());
 
+  // The first file is a FIFO which is read while deleting the dialog.
+  // The second file is a FIFO which blocks reading it for a long time, so reading the remaining files after the dialog is deleted makes deleting the dialog take much longer, without depending on how fast the files are read.
   const QString fifo_filename = temp_dir.filePath(u"0.mp3"_s);
+  const QString remaining_fifo_filename = temp_dir.filePath(u"1.mp3"_s);
   ASSERT_EQ(0, ::mkfifo(QFile::encodeName(fifo_filename).constData(), 0600));
-  QStringList filenames = QStringList() << fifo_filename;
-  for (int i = 1; i < 2000; ++i) {
-    const QString filename = temp_dir.filePath(QStringLiteral("%1.mp3").arg(i));
-    ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, filename));
-    filenames << filename;
-  }
+  ASSERT_EQ(0, ::mkfifo(QFile::encodeName(remaining_fifo_filename).constData(), 0600));
+  const QString filename = temp_dir.filePath(u"2.mp3"_s);
+  ASSERT_TRUE(QFile::copy(u":/audio/strawberry.mp3"_s, filename));
+  const QStringList filenames = QStringList() << fifo_filename << remaining_fifo_filename << filename;
+
+  // Unblock reading the second FIFO after a long time, or when the test is done, so the test doesn't wait forever when it is read.
+  static constexpr qint64 kRemainingReadMsec = 5000;
+  std::atomic<bool> done = false;
+  std::thread remaining_fifo_thread([&remaining_fifo_filename, &done]() {
+    QElapsedTimer timer;
+    timer.start();
+    while (!done && timer.elapsed() < kRemainingReadMsec) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+    while (!done) {
+      const int fd = ::open(QFile::encodeName(remaining_fifo_filename).constData(), O_WRONLY | O_NONBLOCK);
+      if (fd != -1) ::close(fd);
+      std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+  });
+  const auto finish_remaining_fifo_thread = qScopeGuard([&remaining_fifo_thread, &done]() {
+    done = true;
+    remaining_fifo_thread.join();
+  });
 
   SharedPtr<TagReaderClient> tagreader_client = make_shared<TagReaderClient>();
-  QElapsedTimer timer_read;
-  timer_read.start();
-  for (int i = 1; i < filenames.count(); ++i) {
-    Song song;
-    ASSERT_TRUE(tagreader_client->ReadFileBlocking(filenames[i], &song).success());
-  }
-  const qint64 read_msec = timer_read.elapsed();
-
   ASSERT_TRUE(QThreadPool::globalInstance()->waitForDone(10000));
   OrganizeDialog *dialog = new OrganizeDialog(make_shared<TaskManager>(), tagreader_client);
   ASSERT_TRUE(dialog->SetFilenames(filenames));
@@ -169,7 +183,8 @@ TEST(OrganizeDialogTest, DeletingWhileReadingWaitsForRead) {
   close_thread.join();
 
   EXPECT_GE(delete_msec, kReadMsec - 50);
-  EXPECT_LT(delete_msec, kReadMsec + (read_msec / 4)) << "Reading the songs took " << read_msec << " ms.";
+  // Reading the second FIFO would make it take at least kReadMsec + kRemainingReadMsec.
+  EXPECT_LT(delete_msec, kReadMsec + (kRemainingReadMsec / 2));
   EXPECT_TRUE(QThreadPool::globalInstance()->waitForDone(10000));
 
 }

@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2020-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -289,12 +289,15 @@ void PlaylistTabBar::CloseSlot() {
     HideEditor();
   }
 
+  const bool closing_current_tab = menu_index_ == currentIndex();
+  const int tab_count = count();
+
   // Close the playlist. If the playlist is not a favorite playlist, it will be deleted, as it will not be visible after being closed.
   // Otherwise, the tab is closed but the playlist still exists and can be resurrected from the "Playlists" tab.
   Q_EMIT Close(playlist_id);
 
-  // Select the nearest tab.
-  if (menu_index_ > 0) {
+  // Select the nearest tab when the current tab was closed, closing another tab keeps the current tab.
+  if (closing_current_tab && count() < tab_count && menu_index_ > 0) {
     setCurrentIndex(menu_index_ - 1);
   }
 
@@ -364,8 +367,20 @@ int PlaylistTabBar::id_of(const int index) const {
 
 }
 
-void PlaylistTabBar::set_icon_by_id(const int id, const QIcon &icon) {
-  setTabIcon(index_of(id), icon);
+void PlaylistTabBar::SetActiveIcon(const int id, const QIcon &icon) {
+
+  // Setting the icon of a tab to or from no icon lays out all the tabs again, so only the tabs with an icon are changed, setting it for every tab made playing and pausing slow with many playlists.
+  const int active_index = icon.isNull() ? -1 : index_of(id);
+  for (int i = 0; i < count(); ++i) {
+    if (i != active_index && !tabIcon(i).isNull()) {
+      setTabIcon(i, QIcon());
+    }
+  }
+
+  if (active_index != -1) {
+    setTabIcon(active_index, icon);
+  }
+
 }
 
 void PlaylistTabBar::RemoveTab(const int id) {

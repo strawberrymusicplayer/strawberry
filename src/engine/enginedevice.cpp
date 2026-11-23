@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-EngineDevice::EngineDevice() : card(0), device(0) {}
+EngineDevice::EngineDevice() = default;
 
 QString EngineDevice::GuessIconName() const {
 

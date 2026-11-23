@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -80,7 +80,12 @@ GlobalShortcutsBackendMacOS::GlobalShortcutsBackendMacOS(GlobalShortcutsManager 
     : GlobalShortcutsBackend(manager, GlobalShortcutsBackend::Type::macOS, parent),
       p_(new GlobalShortcutsBackendMacOSPrivate(this)) {}
 
-GlobalShortcutsBackendMacOS::~GlobalShortcutsBackendMacOS() {}
+GlobalShortcutsBackendMacOS::~GlobalShortcutsBackendMacOS() {
+
+  // The application would otherwise keep the deleted backend for the media keys.
+  mac::SetShortcutHandler(nullptr);
+
+}
 
 bool GlobalShortcutsBackendMacOS::DoRegister() {
 
@@ -98,6 +103,7 @@ bool GlobalShortcutsBackendMacOS::DoRegister() {
 
 void GlobalShortcutsBackendMacOS::DoUnregister() {
 
+  mac::SetShortcutHandler(nullptr);
   p_->Unregister();
   shortcuts_.clear();
 

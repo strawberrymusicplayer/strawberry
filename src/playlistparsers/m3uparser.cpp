@@ -20,6 +20,7 @@
  */
 
 #include <algorithm>
+#include <cstring>
 
 #include <QObject>
 #include <QIODevice>
@@ -50,6 +51,11 @@
 using namespace Qt::Literals::StringLiterals;
 
 class CollectionBackendInterface;
+
+namespace {
+// Players ignore extended tags they don't know.
+constexpr char kCueTrackTag[] = "#EXTSTRAWBERRYTRACK:";
+}  // namespace
 
 M3UParser::M3UParser(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
     : ParserBase(tagreader_client, collection_backend, parent) {}
@@ -126,7 +132,10 @@ void M3UParser::ParsePlaylistData(QIODevice *device, const QDir &dir, QSet<QStri
   Q_FOREVER {
     if (line.startsWith(u'#')) {
       // Extended info or comment.
-      if (type == M3UType::EXTENDED && line.startsWith("#EXT"_L1)) {
+      if (type == M3UType::EXTENDED && line.startsWith(QLatin1String(kCueTrackTag))) {
+        current_metadata.track = line.mid(static_cast<qsizetype>(strlen(kCueTrackTag))).toInt();
+      }
+      else if (type == M3UType::EXTENDED && line.startsWith("#EXT"_L1)) {
         if (!ParseMetadata(line, &current_metadata)) {
           qLog(Warning) << "Failed to parse metadata: " << line;
         }
@@ -141,15 +150,18 @@ void M3UParser::ParsePlaylistData(QIODevice *device, const QDir &dir, QSet<QStri
         LoadNested(location, dir, ancestors, expanded, depth, collection_lookup, ret);
       }
       else {
-        Song song = LoadSong(location, 0, 0, dir, collection_lookup);
-        if (!current_metadata.title.isEmpty()) {
-          song.set_title(current_metadata.title);
-        }
-        if (!current_metadata.artist.isEmpty()) {
-          song.set_artist(current_metadata.artist);
-        }
-        if (current_metadata.length > 0) {
-          song.set_length_nanosec(current_metadata.length);
+        Song song = LoadSong(location, 0, current_metadata.track, dir, collection_lookup);
+        // The collection has the metadata of the song, like with the other playlist formats.
+        if (song.source() != Song::Source::Collection) {
+          if (!current_metadata.title.isEmpty()) {
+            song.set_title(current_metadata.title);
+          }
+          if (!current_metadata.artist.isEmpty()) {
+            song.set_artist(current_metadata.artist);
+          }
+          if (current_metadata.length > 0) {
+            song.set_length_nanosec(current_metadata.length);
+          }
         }
         ret << song;
 
@@ -222,6 +234,21 @@ void M3UParser::LoadNested(const QString &filename, const QDir &dir, QSet<QStrin
 
 }
 
+QString M3UParser::ExtInfTrackInfo(const QString &artist, const QString &title) {
+
+  if (!artist.isEmpty()) {
+    return artist + " - "_L1 + title;
+  }
+
+  // Without an artist, only the title, unless it would be read as an artist and a title.
+  if (title.contains(" - "_L1) || title.endsWith(" -"_L1)) {
+    return " - "_L1 + title;
+  }
+
+  return title;
+
+}
+
 bool M3UParser::ParseMetadata(const QString &line, M3UParser::Metadata *metadata) {
 
   // Extended info, eg.
@@ -238,12 +265,19 @@ bool M3UParser::ParseMetadata(const QString &line, M3UParser::Metadata *metadata
   // Split at the first " - " only, the title can contain " - " too, e.g. "Artist - Title - Remastered".
   const QString track_info = info.section(u',', 1);
   const qsizetype separator = track_info.indexOf(u" - "_s);
-  if (separator < 0) {
-    metadata->title = track_info;
+  if (separator >= 0) {
+    metadata->artist = track_info.left(separator).trimmed();
+    metadata->title = track_info.mid(separator + 3).trimmed();
     return true;
   }
-  metadata->artist = track_info.left(separator).trimmed();
-  metadata->title = track_info.mid(separator + 3).trimmed();
+
+  // The line is trimmed, so "Artist - " without a title is "Artist -", and " - " without an artist and a title is " -".
+  if (track_info.endsWith(" -"_L1)) {
+    metadata->artist = track_info.chopped(2).trimmed();
+    return true;
+  }
+
+  metadata->title = track_info;
   return true;
 
 }
@@ -296,11 +330,16 @@ void M3UParser::Save(const QString &playlist_name, const SongList &songs, QIODev
       continue;
     }
     if (write_metadata || (song.is_stream() && !song.is_radio())) {
-      const QString meta = QStringLiteral("#EXTINF:%1,%2 - %3\n").arg(song.length_nanosec() / kNsecPerSec).arg(song.artist(), song.title());
+      const QString meta = QStringLiteral("#EXTINF:%1,%2\n").arg(song.length_nanosec() / kNsecPerSec).arg(ExtInfTrackInfo(song.artist(), song.title()));
       // The metadata replaces the song's metadata when loading, so skip metadata that would be loaded changed, because Latin-1 can't represent it, or it's read back as UTF-8.
       if (utf8 || (IsLatin1(meta) && !Latin1IsReadAsUtf8(meta))) {
         device->write(encode(meta));
       }
+    }
+    if (CueTrack(song) > 0) {
+      device->write(kCueTrackTag);
+      device->write(QByteArray::number(CueTrack(song)));
+      device->write("\n");
     }
     QString location = URLOrFilename(song.url(), dir, path_type);
     // Latin-1 can't represent every character, and Latin-1 that is also valid UTF-8 is read back as UTF-8, so percent encode those locations, so they can still be found.
@@ -314,6 +353,10 @@ void M3UParser::Save(const QString &playlist_name, const SongList &songs, QIODev
       else {
         location = QString::fromLatin1(song.url().toEncoded());
       }
+    }
+    // A line starting with # is a comment, so a relative file name starting with # needs a path in front of it.
+    if (location.startsWith(u'#')) {
+      location.prepend("./"_L1);
     }
     device->write(encode(location));
     device->write("\n");

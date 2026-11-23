@@ -60,13 +60,11 @@
 #include "covermanager/discogscoverprovider.h"
 #include "covermanager/musicbrainzcoverprovider.h"
 #include "covermanager/deezercoverprovider.h"
-#include "covermanager/musixmatchcoverprovider.h"
 #include "covermanager/opentidalcoverprovider.h"
 
 #include "lyrics/lyricsproviders.h"
 #include "lyrics/geniuslyricsprovider.h"
 #include "lyrics/ovhlyricsprovider.h"
-#include "lyrics/musixmatchlyricsprovider.h"
 #include "lyrics/songlyricscomlyricsprovider.h"
 #include "lyrics/azlyricscomlyricsprovider.h"
 #include "lyrics/elyricsnetlyricsprovider.h"
@@ -139,7 +137,10 @@ class ApplicationImpl {
         database_([app]() {
           Database *database = new Database(app->task_manager());
           app->MoveToNewThread(database);
-          QTimer::singleShot(30s, database, &Database::DoBackup);
+          // Strawberry quits when the database can't be used, it must not be backed up while the error is shown.
+          if (database->startup_error().isEmpty()) {
+            QTimer::singleShot(30s, database, &Database::DoBackup);
+          }
           return database;
         }),
         task_manager_([]() { return new TaskManager(); }),
@@ -163,7 +164,6 @@ class ApplicationImpl {
           cover_providers->AddProvider(new MusicbrainzCoverProvider(app->network()));
           cover_providers->AddProvider(new DiscogsCoverProvider(app->network()));
           cover_providers->AddProvider(new DeezerCoverProvider(app->network()));
-          cover_providers->AddProvider(new MusixmatchCoverProvider(app->network()));
           cover_providers->AddProvider(new OpenTidalCoverProvider(app->network()));
 #ifdef HAVE_TIDAL
           cover_providers->AddProvider(new TidalCoverProvider(app->streaming_services()->Service<TidalService>(), app->network()));
@@ -188,7 +188,6 @@ class ApplicationImpl {
           // Initialize the repository of lyrics providers.
           lyrics_providers->AddProvider(new GeniusLyricsProvider(app->network()));
           lyrics_providers->AddProvider(new OVHLyricsProvider(app->network()));
-          lyrics_providers->AddProvider(new MusixmatchLyricsProvider(app->network()));
           lyrics_providers->AddProvider(new SongLyricsComLyricsProvider(app->network()));
           lyrics_providers->AddProvider(new AzLyricsComLyricsProvider(app->network()));
           lyrics_providers->AddProvider(new ElyricsNetLyricsProvider(app->network()));
@@ -283,6 +282,9 @@ Application::Application(QObject *parent)
   if (mo && strcmp(mo->className(), "QEventDispatcherGlib") != 0 && strcmp(mo->superClass()->className(), "QEventDispatcherGlib") != 0) {
     g_thread_ = g_thread_new(nullptr, Application::GLibMainLoopThreadFunc, nullptr);
   }
+
+  // When the database can't be used, nothing else is started, main() shows the error and quits.
+  if (!database()->startup_error().isEmpty()) return;
 
   audio_device_listers()->Init();
   collection()->Init();

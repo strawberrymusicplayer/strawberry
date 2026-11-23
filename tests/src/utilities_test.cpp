@@ -22,6 +22,8 @@
 #include "config.h"
 #include "gtest_include.h"
 
+#include <glib.h>
+
 #include <QByteArray>
 #include <QString>
 #include <QStringList>
@@ -36,6 +38,7 @@
 #include <QtDebug>
 
 #include "test_utils.h"
+#include "environmentvariablerestorer.h"
 #include "utilities/envutils.h"
 #include "utilities/strutils.h"
 #include "utilities/timeutils.h"
@@ -47,10 +50,17 @@
 #include "utilities/textencodingutils.h"
 #include "utilities/coverutils.h"
 #include "utilities/fileutils.h"
+#include "utilities/cddautils.h"
 #include "core/logging.h"
 #include "core/temporaryfile.h"
 
 using namespace Qt::Literals::StringLiterals;
+
+namespace {
+
+constexpr char kTestEnvironmentVariable[] = "STRAWBERRY_UTILITIES_TEST";
+
+}  // namespace
 
 TEST(UtilitiesTest, PrettyTimeDelta) {
 
@@ -99,6 +109,31 @@ TEST(UtilitiesTest, PrettySize) {
 TEST(UtilitiesTest, ColorToRgba) {
 
   ASSERT_EQ(Utilities::ColorToRgba(QColor(33, 22, 128)), u"rgba(33, 22, 128, 255)"_s);
+
+}
+
+// GLib and GStreamer read the environment with the wide character API on Windows, so characters outside the ANSI code page must be kept, for example in user names in paths.
+TEST(UtilitiesTest, SetEnvKeepsNonAsciiCharacters) {
+
+  const EnvironmentVariableRestorer restorer(kTestEnvironmentVariable);
+  const QString value = u"C:\\Users\\\u0141ukasz \u65E5\u672C\\gstreamer"_s;
+  Utilities::SetEnv(kTestEnvironmentVariable, value);
+  EXPECT_EQ(qEnvironmentVariable(kTestEnvironmentVariable), value);
+  EXPECT_EQ(Utilities::GetEnv(QLatin1String(kTestEnvironmentVariable)), value);
+  // GStreamer reads the environment through GLib.
+  const char *glib_value = g_getenv(kTestEnvironmentVariable);
+  ASSERT_NE(glib_value, nullptr);
+  EXPECT_EQ(QString::fromUtf8(glib_value), value);
+
+}
+
+// GetEnv() returns the value as it was set, qEnvironmentVariable() normalizes decomposed characters on macOS.
+TEST(UtilitiesTest, GetEnvKeepsDecomposedCharacters) {
+
+  const EnvironmentVariableRestorer restorer(kTestEnvironmentVariable);
+  const QString value = u"/Users/Rene\u0301/gstreamer"_s;
+  Utilities::SetEnv(kTestEnvironmentVariable, value);
+  EXPECT_EQ(Utilities::GetEnv(QLatin1String(kTestEnvironmentVariable)), value);
 
 }
 
@@ -343,6 +378,20 @@ TEST(UtilitiesTest, UrlForLog) {
 
 }
 
+// Regression test: the URL in the error string of a network reply is decoded, so a value with a space ended the URL, and the rest of the query was kept.
+TEST(UtilitiesTest, RedactUrlsWithReplyUrl) {
+
+  const QUrl url(u"https://example.com/ws/token.get?app_id=secret_id&model=Pixel%206&signature=secret_signature"_s);
+  const QString error_string = u"Error transferring %1 - server replied: Not Found"_s.arg(url.toDisplayString());
+  EXPECT_EQ(Utilities::RedactUrls(error_string, url), u"Error transferring https://example.com/ws/token.get - server replied: Not Found"_s);
+  // The URL in the error string is without the password.
+  const QUrl url_with_password(u"https://user:password@example.com/rest/ping.view?u=John%20Doe&t=secret_token"_s);
+  EXPECT_EQ(Utilities::RedactUrls(u"Error transferring %1 - server replied: Not Found"_s.arg(url_with_password.toDisplayString()), url_with_password), u"Error transferring https://example.com/rest/ping.view - server replied: Not Found"_s);
+  EXPECT_EQ(Utilities::RedactUrls(u"Host example.com not found, see https://other.example.com/x?t=1"_s, url), u"Host example.com not found, see https://other.example.com/x"_s);
+  EXPECT_EQ(Utilities::RedactUrls(u"https://user:pw@example.com/p?x=1"_s, QUrl()), u"https://example.com/p"_s);
+
+}
+
 TEST(UtilitiesTest, RedactUrls) {
 
   EXPECT_EQ(Utilities::RedactUrls(u"Unauthorized (401), URL: https://example.com/Audio/1/stream?api_key=token, Redirect to: (NULL)"_s), u"Unauthorized (401), URL: https://example.com/Audio/1/stream, Redirect to: (NULL)"_s);
@@ -412,6 +461,28 @@ TEST(UtilitiesTest, ParseLRC) {
     ASSERT_EQ(lrc_lines->at(4).time, 5000U);
     ASSERT_EQ(lrc_lines->at(5).time, 10250U);
     ASSERT_EQ(lrc_lines->at(5).text, u"Chorus"_s);
+  }
+
+  { // Whitespace between the timestamps and the text, and at the end of the text, is not part of the text
+    const std::optional<Utilities::LRCLines> lrc_lines = Utilities::ParseLRC(u"[00:01.00] Line one \n[00:02.00][00:03.00]\tLine two\n[00:04.00] "_s);
+    ASSERT_TRUE(lrc_lines.has_value());
+    ASSERT_EQ(lrc_lines->count(), 4);
+    ASSERT_EQ(lrc_lines->at(0).text, u"Line one"_s);
+    ASSERT_EQ(lrc_lines->at(1).text, u"Line two"_s);
+    ASSERT_EQ(lrc_lines->at(2).text, u"Line two"_s);
+    ASSERT_TRUE(lrc_lines->at(3).text.isEmpty());
+  }
+
+  { // Timestamps separated by whitespace are all parsed, and not kept in the text
+    const std::optional<Utilities::LRCLines> lrc_lines = Utilities::ParseLRC(u"[00:01.00] [00:02.00]\t[00:03.00] Chorus"_s);
+    ASSERT_TRUE(lrc_lines.has_value());
+    ASSERT_EQ(lrc_lines->count(), 3);
+    ASSERT_EQ(lrc_lines->at(0).time, 1000u);
+    ASSERT_EQ(lrc_lines->at(1).time, 2000u);
+    ASSERT_EQ(lrc_lines->at(2).time, 3000u);
+    for (const Utilities::LRCLine &lrc_line : *lrc_lines) {
+      ASSERT_EQ(lrc_line.text, u"Chorus"_s);
+    }
   }
 
   { // Lines ending with only CR (classic Mac OS)
@@ -571,3 +642,44 @@ TEST(UtilitiesTest, RemoveRecursiveDoesNotFollowLinks) {
 
 }
 #endif
+
+TEST(UtilitiesTest, CDDAUrlFromUnixDevice) {
+
+  const QUrl url = Utilities::CDDAUrlFromDevice(u"/dev/sr0"_s);
+  EXPECT_TRUE(url.isValid());
+  EXPECT_EQ(u"cdda:///dev/sr0"_s, url.toString());
+  EXPECT_EQ(u"/dev/sr0"_s, Utilities::CDDADeviceFromUrlPath(url.path()));
+  // Only a path which is a drive is a Windows drive.
+  EXPECT_EQ(u"/D:/cdrom"_s, Utilities::CDDADeviceFromUrlPath(u"/D:/cdrom"_s));
+
+}
+
+// Regression test: the Windows device was the host of the URL, which made the URL invalid, with an empty path, so the default drive was used for all drives.
+TEST(UtilitiesTest, CDDAUrlFromWindowsDevice) {
+
+  const QUrl url_d = Utilities::CDDAUrlFromDevice(u"\\\\.\\D:"_s);
+  EXPECT_TRUE(url_d.isValid());
+  EXPECT_EQ(u"cdda:///D:"_s, url_d.toString());
+  EXPECT_EQ(u"D:"_s, Utilities::CDDADeviceFromUrlPath(url_d.path()));
+
+  const QUrl url_e = Utilities::CDDAUrlFromDevice(u"\\\\.\\E:"_s);
+  EXPECT_NE(url_d, url_e);
+  EXPECT_EQ(u"E:"_s, Utilities::CDDADeviceFromUrlPath(url_e.path()));
+
+  EXPECT_EQ(url_d, Utilities::CDDAUrlFromDevice(u"D:"_s));
+
+}
+
+// The URL of a track is the URL of the device with the track number, the device is the path without it, like GstEngine gets it.
+TEST(UtilitiesTest, CDDADeviceFromTrackUrl) {
+
+  for (const QString &device : {u"/dev/sr0"_s, u"\\\\.\\D:"_s}) {
+    const QUrl device_url = Utilities::CDDAUrlFromDevice(device);
+    const QUrl track_url(u"cdda://%1/%2"_s.arg(device_url.path(), QString::number(3)));
+    ASSERT_TRUE(track_url.isValid()) << device.toStdString();
+    QStringList path = track_url.path().split(u'/');
+    EXPECT_EQ(u"3"_s, path.takeLast());
+    EXPECT_EQ(Utilities::CDDADeviceFromUrlPath(device_url.path()), Utilities::CDDADeviceFromUrlPath(path.join(u'/')));
+  }
+
+}

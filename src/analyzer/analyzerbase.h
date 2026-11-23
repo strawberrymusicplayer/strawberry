@@ -44,6 +44,7 @@ class QHideEvent;
 class QShowEvent;
 class QPaintEvent;
 class QTimerEvent;
+class QEvent;
 
 class AnalyzerBase : public QWidget {
   Q_OBJECT
@@ -58,6 +59,7 @@ class AnalyzerBase : public QWidget {
   void ChangeTimeout(const int timeout);
 
   virtual void framerateChanged() {}
+  virtual void paletteChange() {}
 
  protected:
   using Scope = std::vector<float>;
@@ -67,6 +69,7 @@ class AnalyzerBase : public QWidget {
   void showEvent(QShowEvent *e) override;
   void paintEvent(QPaintEvent *e) override;
   void timerEvent(QTimerEvent *e) override;
+  void changeEvent(QEvent *e) override;
 
   int resizeExponent(int exp);
   int resizeForBands(const int bands);

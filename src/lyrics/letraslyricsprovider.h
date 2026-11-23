@@ -36,6 +36,13 @@ class LetrasLyricsProvider : public HtmlLyricsProvider {
  public:
   explicit LetrasLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
 
+  // Returns the title of the track of the page, which can be a different track than requested, or a null string when the page doesn't have it.
+  static QString PageTrackName(const QString &content);
+
+  // Returns true when the title of the track of the page is the requested title, Letras can append qualifiers in brackets like " (feat. ...)" or " (Live)" to it.
+  // The titles are compared like in the URL, without accents and punctuation, so a title written with different accents or punctuation, or a different Unicode normalization, still matches.
+  static bool TitleMatches(const QString &requested_title, const QString &page_title);
+
  protected:
   QUrl Url(const LyricsSearchRequest &request) override;
 

@@ -338,7 +338,8 @@ void FancyTabWidget::paintEvent(QPaintEvent *pe) {
   QRect backgroundRect = rect();
   backgroundRect.setWidth(tabBar()->width());
 
-  QString key = QString::asprintf("mh_vertical %d %d %d %d %d", backgroundRect.width(), backgroundRect.height(), bg_color_.rgb(), (bg_gradient_ ? 1 : 0), (background_pixmap_.isNull() ? 0 : 1));
+  // The shadow and the border are derived from the base color of StyleHelper, which changes with the palette, also with a custom background color.
+  QString key = QString::asprintf("mh_vertical %d %d %d %d %d %d", backgroundRect.width(), backgroundRect.height(), bg_color_.rgb(), StyleHelper::baseColor().rgb(), (bg_gradient_ ? 1 : 0), (background_pixmap_.isNull() ? 0 : 1));
 
   QPixmap pixmap;
   if (!QPixmapCache::find(key, &pixmap)) {
