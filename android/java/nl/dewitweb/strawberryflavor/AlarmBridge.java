@@ -238,6 +238,10 @@ public final class AlarmBridge {
 
   }
 
+  public static boolean isAlarmSounding() {
+    return AlarmService.isRinging();
+  }
+
   // Opens the alarm screen if an alarm is sounding, for example when the user opens Strawberry because no notification appeared.
   public static void showRingingScreen(final Context context) {
 

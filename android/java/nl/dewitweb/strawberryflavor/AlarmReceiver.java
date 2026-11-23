@@ -80,7 +80,7 @@ public final class AlarmReceiver extends BroadcastReceiver {
     }
     catch (RuntimeException e) {
       Log.w(AlarmStore.TAG, "Could not start ringing, ringing through a notification", e);
-      showFallback(context, id, snoozed);
+      showFallback(context, id, snoozed, true);
     }
 
   }
@@ -89,11 +89,11 @@ public final class AlarmReceiver extends BroadcastReceiver {
     context.getSystemService(NotificationManager.class).cancel(FALLBACK_NOTIFICATION_ID);
   }
 
-  private static void showFallback(final Context context, final String id, final boolean snoozed) {
+  static void showFallback(final Context context, final String id, final boolean snoozed, final boolean consume) {
 
     final JSONObject alarm = AlarmStore.alarm(context, id);
     if (alarm == null) return;
-    AlarmStore.consumeAlarm(context, alarm, snoozed);
+    if (consume) AlarmStore.consumeAlarm(context, alarm, snoozed);
 
     final NotificationManager notifications = context.getSystemService(NotificationManager.class);
     final NotificationChannel channel = new NotificationChannel(FALLBACK_CHANNEL_ID, AlarmStore.label(context, "channel", "Alarm clock"), NotificationManager.IMPORTANCE_HIGH);

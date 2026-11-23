@@ -1271,6 +1271,7 @@ The scope was agreed in a design interview with the user before implementation.
   The protocol uses a token per attempt: the app answers with a claim or a failure, Java stops its own sound only after the claim and starts it again after a later failure, and snooze, stop and the automatic stop stop the app's player.
   `AlarmHandover.java` is the state machine with one owner of the sound at a time (`alarmhandover_java_test`); `AlarmPlaybackSession` and the reachability checks are tested by `alarmplayback_test`.
   Default sound alarms stay with Java.
+  The app, the alarm screen and `AlarmService` share one process: Back at the app's root while an alarm sounds shows the alarm screen instead of closing the app, and if the process ends anyway (a crash, or the app swiped away in recents), `START_REDELIVER_INTENT` makes Android start `AlarmService` again, which sounds the alarm through Java without the app; the alarm volume from before the alarm is stored, so Stop restores it after the restart too.
 
 **Android limitations:**
 - Alarms use `AlarmManager.setAlarmClock()`, which is exempt from Doze and battery saver and shows the alarm icon in the status bar.
@@ -1293,6 +1294,8 @@ The scope was agreed in a design interview with the user before implementation.
 - On a phone locked with a PIN, pattern or password, the app cannot show over the lock screen, so it would cover the alarm screen without finishing its startup, and the 20-second time-out cannot bring the alarm screen back from the background.
   The alarm screen therefore does not start the app while `KeyguardManager.isDeviceLocked()` is true; it stays visible and Java plays the local copy or the default sound.
 - An alarm played by the app replaces the Now playing playlist; volume and mute are restored afterwards.
+- When the process ends while an alarm sounds, the alarm is silent until Android restarts `AlarmService`; Android may schedule that up to about 40 seconds later, unless something else, such as the visible alarm screen, brings the process back first.
+  After the restart the automatic stop counts from the start again, and with the phone in use Android shows the heads-up notification instead of the alarm screen.
 - Force stopping the app cancels its alarms until the app is opened again.
 - After a reboot, alarms are rescheduled once the user has unlocked the phone for the first time.
 - Radio stations need network access; Qobuz, Tidal and Spotify are not offered as alarm sources.
@@ -1342,8 +1345,15 @@ The scope was agreed in a design interview with the user before implementation.
 - Volume keys (2026-11-23, FP5 report: no effect on the loudness while an alarm went off): the alarm screen did not set a volume control stream, so the keys changed the media volume.
   On the emulator, with the app playing the alarm and the alarm screen in front, `input keyevent KEYCODE_VOLUME_DOWN` and `KEYCODE_VOLUME_UP` changed the `STREAM_ALARM` index in `dumpsys audio` from 4 to 3 and 5 while the media volume stayed the same, the alarm kept sounding, and Stop restored the alarm volume.
 
+- Review fixes (2026-11-23, API 34 emulator):
+  Stop from the notification during the app start (process killed, screen off) no longer reopens the alarm screen: the app became ready about 12 seconds later, `AlarmActivity` was not started again, and nothing played; `alarmhandover_java_test` covers it.
+  With a PIN set, the screen off and the process killed, the alarm screen stayed in front over the keyguard, the app was not started, and Java played with `USAGE_ALARM` until Stop.
+  Back at the app's root while the alarm sounded brought the alarm screen forward and the process kept running.
+  With the app playing the alarm, `kill -9` brought it back within a second (the visible alarm screen restarted the process), and removing the app's task (`am stack remove`, like a swipe in recents) ended the process, which Android restarted after about 5 seconds; both times Java sounded the alarm again ("Sounding the alarm again after the process ended"), Stop from the alarm screen or the notification silenced it, and the alarm volume went back to its previous value.
+  Not verified: these cases on the FP5, a recents swipe by hand, and the longer restart delay when nothing brings the process back.
+
 **Still open:**
-- Check the playback chain on the FP5: the app running as a night clock, the app closed, a secure lock screen and NAS songs; also that the volume keys change the alarm volume.
+- Check the playback chain on the FP5: the app running as a night clock, the app closed, a secure lock screen and NAS songs; also that the volume keys change the alarm volume, and that the alarm keeps sounding after swiping the app away in recents.
 - Check on the FP5 with a physical finger, after allowing notifications: the alarm screen over a secure lock screen, the permission prompts, audio volume and fade-in, auto stop, NAS songs and radio without network, and overnight reliability.
 - Automatic stopping, the playlist, recently played, song and radio sources were not exercised on the emulator.
 - The notification fallback without exact alarms (Android 12 and 12L only), http radio streams and http originals without copies were not tested.

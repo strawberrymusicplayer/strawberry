@@ -209,16 +209,34 @@ public class AlarmService extends Service {
     if (ACTION_RING.equals(action)) {
       final String id = intent.getStringExtra(AlarmStore.EXTRA_ID);
       final JSONObject alarm = id == null ? null : AlarmStore.alarm(this, id);
+      // The process ended while the alarm sounded, for example when the app it shares the process with crashed or was closed; Android started this service again.
+      final boolean redelivered = (flags & START_FLAG_REDELIVERY) != 0;
       // The service must always enter the foreground after startForegroundService().
-      startForeground(alarm == null ? ringingName : alarm.optString("name"));
+      try {
+        startForeground(alarm == null ? ringingName : alarm.optString("name"));
+      }
+      catch (RuntimeException e) {
+        if (!redelivered) throw e;
+        // Android may not allow a restarted service in the foreground; the insistent notification still wakes the user.
+        Log.w(AlarmStore.TAG, "Could not sound the alarm again, sounding it through a notification", e);
+        restorePreviousVolume();
+        if (alarm != null) AlarmReceiver.showFallback(this, id, false, false);
+        stopSelf();
+        return START_NOT_STICKY;
+      }
       if (alarm == null) {
         Log.w(AlarmStore.TAG, "The alarm that fired no longer exists");
         // A stale alarm must not silence another alarm that is sounding.
         if (ringingId == null) stopService();
+        if (redelivered) restorePreviousVolume();
         return START_NOT_STICKY;
       }
-      startRinging(alarm, intent.getBooleanExtra(AlarmStore.EXTRA_SNOOZE, false), intent.getBooleanExtra(EXTRA_CONSUMED, false));
+      if (redelivered) Log.i(AlarmStore.TAG, "Sounding the alarm again after the process ended");
+      // A redelivered alarm was already consumed, and it plays without the app, which may have ended the process.
+      startRinging(alarm, intent.getBooleanExtra(AlarmStore.EXTRA_SNOOZE, false), redelivered || intent.getBooleanExtra(EXTRA_CONSUMED, false), !redelivered, redelivered);
       showRingingScreen();
+      // Android starts this service again with the same intent if the process ends before Stop, Snooze or the automatic stop.
+      return START_REDELIVER_INTENT;
     }
     else if (ACTION_SNOOZE.equals(action)) {
       if (ringingId != null) {
@@ -335,7 +353,7 @@ public class AlarmService extends Service {
     return PendingIntent.getService(this, requestCode, new Intent(this, AlarmService.class).setAction(action), PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
   }
 
-  private void startRinging(final JSONObject alarm, final boolean snoozed, final boolean consumed) {
+  private void startRinging(final JSONObject alarm, final boolean snoozed, final boolean consumed, final boolean appAllowed, final boolean redelivered) {
 
     // A second alarm at the same time replaces the one that is sounding.
     if (ringingId != null) stopSound();
@@ -356,7 +374,12 @@ public class AlarmService extends Service {
     final int maximum = audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
     final int volume = Math.max(1, Math.round(maximum * Math.max(0, Math.min(100, alarm.optInt("volume", 80))) / 100.0F));
     try {
-      if (previousVolume < 0) previousVolume = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
+      if (previousVolume < 0) {
+        // After the process ended, the stream still has the alarm's volume; the stored one is from before the alarm.
+        previousVolume = redelivered ? AlarmStore.previousAlarmVolume(this) : -1;
+        if (previousVolume < 0) previousVolume = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
+        AlarmStore.setPreviousAlarmVolume(this, previousVolume);
+      }
       audioManager.setStreamVolume(AudioManager.STREAM_ALARM, volume, 0);
     }
     catch (SecurityException e) {
@@ -414,7 +437,7 @@ public class AlarmService extends Service {
     handler.removeCallbacks(handoverTimeout);
     final String previousToken = handover.token();
     final boolean ready = AlarmBridge.isPlayerReady();
-    final int actions = handover.start(ringingId + ":" + SystemClock.elapsedRealtime(), !"sound".equals(source), ready);
+    final int actions = handover.start(ringingId + ":" + SystemClock.elapsedRealtime(), appAllowed && !"sound".equals(source), ready);
     if (handover.state() == AlarmHandover.WAITING) Log.i(AlarmStore.TAG, ready ? "Asking the running app to play the alarm" : "Starting the app to play the alarm");
     if ((actions & AlarmHandover.STOP_QT) != 0) apply(AlarmHandover.STOP_QT, previousToken);
     apply(actions & ~AlarmHandover.STOP_QT, handover.token());
@@ -737,6 +760,7 @@ public class AlarmService extends Service {
     }
     focusRequest = null;
     previousVolume = -1;
+    AlarmStore.setPreviousAlarmVolume(this, -1);
     ringingId = null;
     ringingName = "";
     status = "";
@@ -744,6 +768,21 @@ public class AlarmService extends Service {
     final Runnable listener = finishedListener;
     if (listener != null) listener.run();
     stopService();
+
+  }
+
+  // Restores the alarm volume from before an alarm whose process ended while it sounded.
+  private void restorePreviousVolume() {
+
+    final int volume = AlarmStore.previousAlarmVolume(this);
+    if (volume < 0) return;
+    try {
+      getSystemService(AudioManager.class).setStreamVolume(AudioManager.STREAM_ALARM, volume, 0);
+    }
+    catch (SecurityException e) {
+      Log.w(AlarmStore.TAG, "Could not restore the alarm volume", e);
+    }
+    AlarmStore.setPreviousAlarmVolume(this, -1);
 
   }
 

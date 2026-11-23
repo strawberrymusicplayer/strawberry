@@ -45,6 +45,8 @@ int MissingPermissions();
 void RequestRuntimePermissions();
 // Asks for the permission, or opens the system settings page where it can be granted.
 void RequestPermission(const int permission);
+// Returns whether an alarm is sounding.
+bool IsAlarmSounding();
 // Opens the alarm screen if an alarm is sounding.
 void ShowRingingScreen();
 void OpenClock();

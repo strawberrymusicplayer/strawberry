@@ -272,6 +272,13 @@ The music, however, preferably plays through the Qt app's player, so NAS songs, 
 3. If the app does not play the alarm within `AlarmHandover.TIMEOUT_MSEC` (20 seconds, restarted once the player is ready), or reports that it cannot, Java keeps playing the local copy or the default sound.
 
 Default sound alarms never go to the app.
+
+**When the process ends:** the app, the alarm screen and `AlarmService` share one process, so the alarm must survive the app ending it.
+- Back at the app's root while an alarm sounds shows the alarm screen instead of closing the app (`MainWindow::AndroidBack()` asks `AlarmBridge.isAlarmSounding()`).
+- If the process still ends, for example after a crash or when the app is swiped away in recents, `AlarmService` returns `START_REDELIVER_INTENT`, so Android starts it again with the same alarm (`START_FLAG_REDELIVERY`).
+  It then sounds the alarm again through Java, without starting the app, and shows the alarm screen, or the heads-up notification with Snooze and Stop while the phone is in use.
+- The alarm volume from before the alarm is kept in `previous_alarm_volume` in `alarm_clock`, so Stop restores it after a restart too; if Android refuses the foreground service after a restart, the volume is restored and the notification fallback with the default sound takes over.
+
 `AlarmHandover.java` is the state machine (IDLE, WAITING, QT, JAVA) that returns which actions to take, so there is one owner of the sound at a time; `ctest -R alarmhandover_java_test` tests it on a desktop JVM.
 
 **Protocol** (`AlarmBridge.java` and `src/alarm/alarmplayer_android.cpp`, JNI in one process):
@@ -298,6 +305,7 @@ Qt startup itself still needs the app in front (Qt queues the window creation wh
 - While the phone is in use, Android shows a heads-up notification instead of the alarm screen; the app is then started only if the user opens the alarm screen, otherwise Java plays.
 - On a phone locked with a PIN, pattern or password, the app cannot show over the lock screen: it would cover the alarm screen without finishing its startup, and the service cannot bring the alarm screen back from the background. The alarm screen therefore does not start the app then; it stays visible and Java plays the local copy or the default sound, so NAS songs without copies are not played.
 - When the app plays an alarm, it replaces the Now playing playlist.
+- When the process ends while an alarm sounds, the alarm is silent until Android restarts `AlarmService`: about 1 to 5 seconds on the emulator, but Android may schedule the restart up to about 40 seconds later when nothing else brings the process back. The automatic stop then starts counting again.
 - Radio sources need network access; otherwise the default alarm sound plays.
 - With copying off, NAS songs play only through the app; if it does not take over, the Java side, which has no SMB client, plays the default alarm sound instead.
 
@@ -331,6 +339,8 @@ adb shell input keyevent KEYCODE_MEDIA_PAUSE
 To test the chain, (a) keep the app running, turn the screen off and let an alarm go off: the app should play it within a few seconds.
 (b) End the process with `run-as ... kill -9`, turn the screen off and let an alarm go off: the alarm screen starts the app, which plays the alarm once ready, or Java keeps playing after the time-out.
 In both cases Snooze and Stop on the alarm screen or in the notification must silence every player.
+(c) While the app plays an alarm, end the process with `kill -9` or remove the app's task (`adb shell dumpsys activity recents` lists it; `adb shell am stack remove <task id>`): the log should show "Sounding the alarm again after the process ended", and Stop should restore the alarm volume.
+(d) With a PIN (`adb shell locksettings set-pin 1234`, afterwards `adb shell locksettings clear --old 1234`), the screen off and the process ended, the alarm screen must stay in front and the log must not show "Starting the app from the alarm screen".
 
 `adb shell am force-stop` cancels the alarms; to test with the app closed, end the process with `adb shell run-as nl.dewitweb.strawberryflavor kill -9 <pid>` instead.
 Seed `shared_prefs/alarm_clock.xml` only while the app process is not running; a running process keeps its loaded preferences and overwrites the file.

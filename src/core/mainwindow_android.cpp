@@ -64,6 +64,7 @@
 #include "playlist/playlistlistcontainer.h"
 #include "playlist/playlistmanager.h"
 #include "settings/settingsdialog.h"
+#include "alarm/alarmbridge_android.h"
 #include "alarm/alarmclock_android.h"
 #include "alarm/alarmplayer_android.h"
 #include "alarm/alarmclockpage_android.h"
@@ -459,6 +460,12 @@ bool MainWindow::AndroidBack() {
   if (android_current_tool_ && ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(android_tools_pages_)) {
     QKeyEvent back(QEvent::KeyPress, Qt::Key_Back, Qt::NoModifier);
     QCoreApplication::sendEvent(android_current_tool_, &back);
+    return true;
+  }
+
+  // The alarm screen may have started the app to play an alarm. Back at the root would end the process, and with it the alarm's sound and the service that snoozes and stops it.
+  if (AlarmBridge::IsAlarmSounding()) {
+    AlarmBridge::ShowRingingScreen();
     return true;
   }
 

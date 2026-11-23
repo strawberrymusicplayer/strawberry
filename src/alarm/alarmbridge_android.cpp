@@ -155,6 +155,14 @@ void RequestRuntimePermissions() {
 
 }
 
+bool IsAlarmSounding() {
+
+  const bool sounding = QJniObject::callStaticMethod<jboolean>(kBridgeClass, "isAlarmSounding", "()Z");
+  CheckException("isAlarmSounding");
+  return sounding;
+
+}
+
 void ShowRingingScreen() {
 
   QJniObject::callStaticMethod<void>(kBridgeClass, "showRingingScreen", "(Landroid/content/Context;)V", Context().object());

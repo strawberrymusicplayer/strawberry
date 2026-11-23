@@ -49,6 +49,7 @@ final class AlarmStore {
   private static final String PREFERENCES = "alarm_clock";
   private static final String KEY_ALARMS = "alarms";
   private static final String KEY_AUTO_STOP = "auto_stop_minutes";
+  private static final String KEY_PREVIOUS_ALARM_VOLUME = "previous_alarm_volume";
   private static final String KEY_CLOCK_TYPE = "clock_type";
   private static final String KEY_CLOCK_BRIGHTNESS = "clock_brightness";
   private static final String KEY_SNOOZE_PREFIX = "snooze_";
@@ -170,6 +171,15 @@ final class AlarmStore {
     }
     reschedule(context);
 
+  }
+
+  // The alarm volume from before a sounding alarm changed it, kept here so it can be restored when the process ended while the alarm sounded; -1 if none.
+  static int previousAlarmVolume(final Context context) {
+    return preferences(context).getInt(KEY_PREVIOUS_ALARM_VOLUME, -1);
+  }
+
+  static void setPreviousAlarmVolume(final Context context, final int volume) {
+    preferences(context).edit().putInt(KEY_PREVIOUS_ALARM_VOLUME, volume).commit();
   }
 
   static int autoStopMinutes(final Context context) {
