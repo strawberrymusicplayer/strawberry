@@ -264,15 +264,41 @@ The Tools > Clock settings are in the same SharedPreferences file: `clock_type` 
 `ctest -R clockface_java_test` tests the hand angles and the brightness mapping in `ClockFace.java`.
 `AlarmPermissions.java` decides which permission warnings the overview shows and when the notification permission dialog may appear; `ctest -R alarmpermissions_java_test` tests it.
 
+**Playback chain:** `AlarmReceiver` and `AlarmService` stay the entry point when an alarm goes off and own the alarm screen, snooze, stop and the automatic stop.
+The music, however, preferably plays through the Qt app's player, so NAS songs, streams and live playlist, last played and random sources work without copies:
+1. If the Qt app's alarm player is ready (the app is running), `AlarmService` asks it to play the alarm and keeps silent for up to `AlarmHandover.GRACE_MSEC` (3 seconds); if the app has not answered by then, the Java sound starts and keeps sounding until the app answers.
+2. If the app is not running, the alarm screen starts it (`AlarmActivity.onResume()`, once per alarm) and Java plays the local copy or the default sound meanwhile.
+   The app stays in front until its player is ready; `AlarmService` then shows the alarm screen again and asks the app to play.
+3. If the app does not play the alarm within `AlarmHandover.TIMEOUT_MSEC` (20 seconds, restarted once the player is ready), or reports that it cannot, Java keeps playing the local copy or the default sound.
+
+Default sound alarms never go to the app.
+`AlarmHandover.java` is the state machine (IDLE, WAITING, QT, JAVA) that returns which actions to take, so there is one owner of the sound at a time; `ctest -R alarmhandover_java_test` tests it on a desktop JVM.
+
+**Protocol** (`AlarmBridge.java` and `src/alarm/alarmplayer_android.cpp`, JNI in one process):
+- The Qt `AlarmPlayer` registers `nativeStartAlarm` and `nativeStopAlarm` and then calls `AlarmBridge.setPlayerReady(true)` once `MainWindow` is set up; the flag lives only in the process, so it is false after the process ends.
+- `AlarmService` calls `startAlarm(token, alarm JSON, fade start, fade duration)` with a new token per attempt.
+- The app checks the source first: it collects up to 50 songs and checks that the first 3 can be reached (`AlarmPlayback::kMaximumSongs` and `kCheckedSongs`; once a NAS file is missing, the remaining NAS files are dropped), or the stream URL.
+  It then replaces the Now playing playlist, saves volume and mute, plays on the alarm stream (`GstEnginePipeline::SetAndroidStreamType("alarm")`, `USAGE_ALARM`) and answers `alarmClaimed(token)` when the engine plays, or `alarmFailed(token, reason)`.
+- Java stops its own sound only after `alarmClaimed`; a later `alarmFailed` (for example the user paused the player) starts the Java sound again.
+- Snooze, Stop and the automatic stop call `stopAlarm(token)`; the app stops the player and restores volume and mute.
+  Answers with an old token are ignored.
+- `AlarmPlaybackSession` (`src/alarm/alarmplayback_android.cpp`) holds the Qt side's states; `ctest -R alarmplayback_test` tests it and the reachability checks.
+
+`QtActivity` has the meta-data `android.app.background_running=true`: without it, Qt stops its event loop while the alarm screen covers the app or the screen is off, so the app could not answer.
+Qt startup itself still needs the app in front (Qt queues the window creation while the app is suspended or hidden), which is why the app stays in front until its player is ready.
+`AlarmService` cannot start the app by itself: Android blocks activity starts from the background (`BAL_BLOCK`), but allows them from the alarm screen while it is visible.
+
 **Limitations:**
 - `setAlarmClock()` alarms go off in Doze and battery saver, but force stopping the app cancels them until it is opened again.
 - Without the exact alarm permission (Android 12 and 12L), alarms are inexact and sound through a full-screen notification with the default alarm sound; the music starts when the alarm is opened.
 - After a reboot, alarms are rescheduled after the first unlock.
 - Without notifications for the app or its Alarm clock category (Android 13+ permission or the user's switches) or the full-screen-intent permission (Android 14+), the overview shows warnings with buttons to the matching dialog or settings page.
 - Without notifications, the alarm screen opens only while Strawberry is visible, when display over other apps is allowed, or when the user opens Strawberry; otherwise only the automatic stop, if not switched off, ends the alarm, and the volume and power keys do not stop it.
-- While the phone is in use, Android shows a heads-up notification instead of the alarm screen.
+- While the phone is in use, Android shows a heads-up notification instead of the alarm screen; the app is then started only if the user opens the alarm screen, otherwise Java plays.
+- On a locked phone with a PIN, pattern or password, the app cannot show over the lock screen, so it probably does not start and Java plays (not tested).
+- When the app plays an alarm, it replaces the Now playing playlist.
 - Radio sources need network access; otherwise the default alarm sound plays.
-- With copying off, NAS songs cannot play, because the Java side has no SMB client and the Qt app's libsmb2 file engine may not be running; the default alarm sound plays instead.
+- With copying off, NAS songs play only through the app; if it does not take over, the Java side, which has no SMB client, plays the default alarm sound instead.
 
 **Testing on the emulator** (do not clear app data; it holds NAS credentials):
 
@@ -291,11 +317,24 @@ adb shell pm revoke nl.dewitweb.strawberryflavor android.permission.POST_NOTIFIC
 adb shell appops set nl.dewitweb.strawberryflavor SYSTEM_ALERT_WINDOW allow
 # Whether Android let the alarm screen open from the background
 adb logcat -d | grep "START.*AlarmActivity"
+# Playback chain: who plays the alarm ("Asking the running app to play the alarm",
+# "Starting the app to play the alarm", "The app plays the alarm",
+# "The app does not play the alarm: <reason>", "The app did not play the alarm in time")
+adb logcat -s StrawberryAlarm
+# Which player sounds: the app's player shows as "OpenSL ES" with USAGE_ALARM
+adb shell dumpsys audio | grep "AudioPlaybackConfiguration piid" | grep -v SoundPool
+# While the app plays, pausing it makes Java take over
+adb shell input keyevent KEYCODE_MEDIA_PAUSE
 ```
+
+To test the chain, (a) keep the app running, turn the screen off and let an alarm go off: the app should play it within a few seconds.
+(b) End the process with `run-as ... kill -9`, turn the screen off and let an alarm go off: the alarm screen starts the app, which plays the alarm once ready, or Java keeps playing after the time-out.
+In both cases Snooze and Stop on the alarm screen or in the notification must silence every player.
 
 `adb shell am force-stop` cancels the alarms; to test with the app closed, end the process with `adb shell run-as nl.dewitweb.strawberryflavor kill -9 <pid>` instead.
 Seed `shared_prefs/alarm_clock.xml` only while the app process is not running; a running process keeps its loaded preferences and overwrites the file.
-On the emulator the Qt app did not finish starting while the screen was off, so wake the screen before launching it to reschedule.
+The Qt app does not finish starting while it is not in front (see the playback chain above), so wake the screen before launching it to reschedule.
+On the emulator the arm64 app runs under translation and takes about 20 seconds to start.
 
 ## GStreamer Android SDK Setup
 

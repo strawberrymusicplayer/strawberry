@@ -1262,7 +1262,15 @@ The scope was agreed in a design interview with the user before implementation.
   A random alarm that still has no playable song when it goes off plays a copy of another alarm's songs before falling back to the default sound.
 - The alarm screen keeps Snooze and Stop as a large, high-contrast row at the bottom, measured before the clock so they stay visible in landscape and at large font sizes; the clock shrinks instead.
   `AlarmService` also opens the alarm screen directly when the alarm starts sounding, which Android allows while the app is visible, so the buttons appear even if the notification is blocked.
-  The notification keeps its Snooze and Stop actions.
+- The notification keeps its Snooze and Stop actions.
+- Playback chain (2026-11-23): the alarm's music preferably plays through the Qt app's player, so NAS songs, streams and live playlist, last played and random sources work without copies.
+  `AlarmReceiver` and `AlarmService` stay the entry point, keep the alarm screen and own snooze, stop and the automatic stop, so the user is always woken.
+  1. App running: `AlarmService` asks the app's player through JNI (`AlarmBridge`); the app checks that the source can be reached (the first 3 songs, or the stream URL) and plays on the alarm stream (`USAGE_ALARM`). If it has not answered within 3 seconds, Java plays meanwhile.
+  2. App not running: the alarm screen starts the app, which stays in front until its player is ready; then the alarm screen returns and the app takes over. Java plays meanwhile.
+  3. If the app does not take over within 20 seconds (restarted once its player is ready) or reports a failure, Java keeps playing the local copy or the default sound.
+  The protocol uses a token per attempt: the app answers with a claim or a failure, Java stops its own sound only after the claim and starts it again after a later failure, and snooze, stop and the automatic stop stop the app's player.
+  `AlarmHandover.java` is the state machine with one owner of the sound at a time (`alarmhandover_java_test`); `AlarmPlaybackSession` and the reachability checks are tested by `alarmplayback_test`.
+  Default sound alarms stay with Java.
 
 **Android limitations:**
 - Alarms use `AlarmManager.setAlarmClock()`, which is exempt from Doze and battery saver and shows the alarm icon in the status bar.
@@ -1277,11 +1285,16 @@ The scope was agreed in a design interview with the user before implementation.
   The overview then also offers "Display over other apps" (`SYSTEM_ALERT_WINDOW`), which Android accepts as a reason to open it anyway, and opening Strawberry while an alarm sounds shows the alarm screen.
   Otherwise only Stop automatically after ends the alarm, unless it is off; the volume and power keys do not stop it.
 - While the phone is unlocked and in use, Android shows a heads-up notification instead of the full-screen activity.
+  The app is then started only if the user opens the alarm screen; otherwise Java plays.
+- Android blocks `AlarmService` from starting the app in the background, and Qt finishes starting only while the app is in front, so the app comes to the front for a moment while it starts.
+  `QtActivity` needs `android.app.background_running` so Qt keeps answering while the alarm screen covers it or the screen is off.
+- On a locked phone with a PIN, pattern or password, the app cannot show over the lock screen, so it probably does not start and Java plays.
+- An alarm played by the app replaces the Now playing playlist; volume and mute are restored afterwards.
 - Force stopping the app cancels its alarms until the app is opened again.
 - After a reboot, alarms are rescheduled once the user has unlocked the phone for the first time.
 - Radio stations need network access; Qobuz, Tidal and Spotify are not offered as alarm sources.
-- Without copies, NAS songs cannot play: they are read through the in-process libsmb2 file engine of the Qt app, which may not be running when the alarm goes off, and the Java side has no SMB client.
-  They are left out of the alarm's tracks, and the default alarm sound plays if no other song remains.
+- Without copies, NAS songs play only when the app takes over: they are read through the in-process libsmb2 file engine of the Qt app, and the Java side has no SMB client.
+  The Java side leaves them out of the alarm's tracks, and plays the default alarm sound if no other song remains.
   When an online original fails, the remaining online originals are skipped, so a local song or the default sound plays without waiting for each network timeout.
 - `AlarmService` plays radio with the Java `MediaPlayer`, which follows Android's network security policy, so `network_security_config.xml` permits plain http in the base config for user-entered stream URLs, trusting only the system certificate authorities.
 
@@ -1316,7 +1329,15 @@ The scope was agreed in a design interview with the user before implementation.
   Switching off the Alarm clock category showed its warning, whose button opened the category's settings; switching it on again removed all warnings.
   `alarmpermissions_java_test` covers which warnings appear and when the dialog is shown.
 
+- Playback chain (2026-11-23, API 34 emulator, random alarm with NAS songs):
+  (a) App running, screen off: the app claimed the alarm about 6 to 8 seconds after it went off (the NAS checks take about 0.7 seconds per file there), Java played from second 3 until the claim, and `dumpsys audio` showed only the app's OpenSL ES player with `USAGE_ALARM`; snooze from the notification and Stop on the alarm screen silenced it.
+  (b) Process killed, screen off: the alarm screen started the app, whose player was ready after about 20 seconds (the arm64 app runs under translation), then the app played the alarm with the alarm screen back on top; Stop silenced everything.
+  Pausing the app's player while it played the alarm made Java take over; snooze from the alarm screen then silenced all sound.
+  With the time-out reached, and with the phone unlocked and the app not running (start blocked, heads-up notification), Java kept playing.
+  Not verified: the FP5, NAS songs on a real device, a secure lock screen, startup times on real hardware, and the playlist, last played, song and radio sources through the app.
+
 **Still open:**
+- Check the playback chain on the FP5: the app running as a night clock, the app closed, a secure lock screen and NAS songs.
 - Check on the FP5 with a physical finger, after allowing notifications: the alarm screen over a secure lock screen, the permission prompts, audio volume and fade-in, auto stop, NAS songs and radio without network, and overnight reliability.
 - Automatic stopping, the playlist, recently played, song and radio sources were not exercised on the emulator.
 - The notification fallback without exact alarms (Android 12 and 12L only), http radio streams and http originals without copies were not tested.
