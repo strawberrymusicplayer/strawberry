@@ -83,6 +83,32 @@ public final class AlarmHandoverTest {
     expect("stop while waiting cancels the request", handover.finish() == AlarmHandover.STOP_QT);
     expect("claim after stop is stopped", handover.claimed("i") == AlarmHandover.STOP_QT);
 
+    // The alarm screen starts the app that is not running yet, once per alarm, and comes back once the player is ready.
+    handover = new AlarmHandover();
+    handover.start("j", true, false);
+    expect("running app is not started", !handover.startAppFromScreen(true));
+    expect("screen starts the app", handover.startAppFromScreen(false));
+    expect("app is started once", !handover.startAppFromScreen(false));
+    expect("screen waits for the player", !handover.takeScreenAfterAppStart(false));
+    handover.qtReady();
+    expect("screen returns when the player is ready", handover.takeScreenAfterAppStart(true));
+    expect("screen returns once", !handover.takeScreenAfterAppStart(true));
+
+    handover = new AlarmHandover();
+    handover.start("k", true, false);
+    handover.startAppFromScreen(false);
+    handover.timeout();
+    expect("screen returns after the time-out", handover.takeScreenAfterAppStart(false));
+
+    // Stop or Snooze while the app starts must not bring the alarm screen back.
+    handover = new AlarmHandover();
+    handover.start("l", true, false);
+    handover.startAppFromScreen(false);
+    handover.finish();
+    expect("no screen after stop", !handover.takeScreenAfterAppStart(false) && !handover.takeScreenAfterAppStart(true));
+    handover.start("m", true, false);
+    expect("next alarm starts the app again", handover.startAppFromScreen(false));
+
     if (failures > 0) {
       System.err.println(failures + " test(s) failed");
       System.exit(1);

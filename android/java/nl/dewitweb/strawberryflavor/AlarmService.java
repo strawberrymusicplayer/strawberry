@@ -110,10 +110,6 @@ public class AlarmService extends Service {
   // Decides whether the Qt app or this service plays the alarm.
   private final AlarmHandover handover = new AlarmHandover();
   private String alarmJson = "";
-  // The alarm for which the alarm screen already started the Qt app.
-  private String appStartedFromScreen;
-  // The alarm screen makes way for the Qt app until its alarm player is ready or the handover ends.
-  private boolean screenAfterAppStart;
   private final Runnable handoverGrace = () -> apply(handover.graceEnded(), handover.token());
   private final Runnable handoverTimeout = () -> {
     if (handover.state() == AlarmHandover.WAITING) Log.i(AlarmStore.TAG, "The app did not play the alarm in time");
@@ -152,10 +148,7 @@ public class AlarmService extends Service {
   // The app must stay in front while it starts: Qt creates its windows on the Android main thread only while the app is active.
   static boolean takeAppStart() {
 
-    if (instance == null || ringingId == null || instance.handover.state() != AlarmHandover.WAITING || AlarmBridge.isPlayerReady()) return false;
-    if (instance.handover.token().equals(instance.appStartedFromScreen)) return false;
-    instance.appStartedFromScreen = instance.handover.token();
-    instance.screenAfterAppStart = true;
+    if (instance == null || ringingId == null || !instance.handover.startAppFromScreen(AlarmBridge.isPlayerReady())) return false;
     Log.i(AlarmStore.TAG, "Starting the app from the alarm screen");
     return true;
 
@@ -469,10 +462,7 @@ public class AlarmService extends Service {
       handler.removeCallbacks(handoverTimeout);
       handler.postDelayed(handoverTimeout, AlarmHandover.TIMEOUT_MSEC);
     }
-    if (screenAfterAppStart && (AlarmBridge.isPlayerReady() || handover.state() != AlarmHandover.WAITING)) {
-      screenAfterAppStart = false;
-      showRingingScreen();
-    }
+    if (handover.takeScreenAfterAppStart(AlarmBridge.isPlayerReady())) showRingingScreen();
 
   }
 

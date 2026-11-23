@@ -50,6 +50,9 @@ final class AlarmHandover {
   private String token;
   private boolean requestSent = false;
   private boolean javaSound = false;
+  // The token of the alarm for which the alarm screen started the app, and whether the alarm screen must come back afterwards.
+  private String appStartToken;
+  private boolean screenAfterAppStart = false;
 
   int state() {
     return state;
@@ -72,6 +75,7 @@ final class AlarmHandover {
     token = newToken;
     requestSent = false;
     javaSound = false;
+    screenAfterAppStart = false;
     if (!qtSupported) {
       state = JAVA;
       javaSound = true;
@@ -95,6 +99,27 @@ final class AlarmHandover {
     if (state != WAITING || requestSent) return 0;
     requestSent = true;
     return SEND_REQUEST | SCHEDULE_TIMEOUT;
+
+  }
+
+  // The alarm screen is shown; returns true once per alarm if it must start the app, which is not running yet.
+  // The app then stays in front while it starts, and takeScreenAfterAppStart() tells when the alarm screen must come back.
+  boolean startAppFromScreen(final boolean playerReady) {
+
+    if (state != WAITING || playerReady || token.equals(appStartToken)) return false;
+    appStartToken = token;
+    screenAfterAppStart = true;
+    return true;
+
+  }
+
+  // Returns true once when the alarm screen must come back after starting the app: the app's player is ready or the app is no longer awaited.
+  // Never after Stop, Snooze or the automatic stop, which end the alarm.
+  boolean takeScreenAfterAppStart(final boolean playerReady) {
+
+    if (!screenAfterAppStart || state == IDLE || (state == WAITING && !playerReady)) return false;
+    screenAfterAppStart = false;
+    return true;
 
   }
 
@@ -149,6 +174,7 @@ final class AlarmHandover {
     state = IDLE;
     requestSent = false;
     javaSound = false;
+    screenAfterAppStart = false;
     return actions;
 
   }
