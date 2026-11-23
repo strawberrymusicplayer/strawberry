@@ -49,8 +49,9 @@
 #include <QVariantList>
 #include <QtConcurrentRun>
 
-#include "core/song.h"
 #include "collection/collectionbackend.h"
+#include "core/iconloader.h"
+#include "core/song.h"
 #include "playlist/playlistbackend.h"
 #include "radios/radioservices.h"
 #include "smartplaylists/smartplaylistsearch.h"
@@ -306,21 +307,19 @@ void AlarmClockPage::RefreshOverview() {
   const qint64 now = QDateTime::currentMSecsSinceEpoch();
   qint64 next_snooze = 0;
   for (const Alarm &alarm : std::as_const(alarms)) {
-    AndroidWidgets::LayoutButton<QPushButton> *row = new AndroidWidgets::LayoutButton<QPushButton>(contents);
-    // The height follows the wrapped lines at the row's width, not the label size hints.
-    QSizePolicy row_policy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    QFrame *row = new QFrame(contents);
+    row->setFrameShape(QFrame::StyledPanel);
+    QSizePolicy row_policy(QSizePolicy::Ignored, QSizePolicy::Fixed);
     row_policy.setHeightForWidth(true);
     row->setSizePolicy(row_policy);
     QHBoxLayout *row_layout = new QHBoxLayout(row);
-    QVBoxLayout *texts = new QVBoxLayout;
-    row_layout->addLayout(texts, 1);
-    // Line 1: the time, bold and slightly bigger, and how often it goes off; line 2: the music; then the name and snooze state if any.
+    row_layout->setContentsMargins(8, 4, 4, 4);
+    row_layout->setSpacing(2);
     const QString time = TimeText(alarm.hour, alarm.minute);
     const QString frequency = AlarmText::Frequency(alarm.days);
-    QLabel *heading = AndroidWidgets::AddButtonLabel(texts, QString());
+    QLabel *heading = CreateWrappingLabel(QString(), row);
+    heading->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
     heading->setTextFormat(Qt::RichText);
-    // Pixels, since the rich text layout may convert points with another resolution than the label and then reserve too much height.
-    heading->setText(u"<span style=\"font-size:%1px; font-weight:bold\">%2</span> | %3"_s.arg(qRound(QFontInfo(heading->font()).pixelSize() * 1.3)).arg(time.toHtmlEscaped(), frequency.toHtmlEscaped()));
     QStringList lines{AlarmText::Kind(alarm)};
     if (!alarm.name.isEmpty()) lines << alarm.name;
     const qint64 snooze = AlarmBridge::SnoozeUntilMsec(alarm.id);
@@ -328,25 +327,52 @@ void AlarmClockPage::RefreshOverview() {
       lines << AlarmText::Snooze(QLocale().toString(QDateTime::fromMSecsSinceEpoch(snooze).time(), QLocale::ShortFormat), AlarmText::MinutesLeft(now, snooze));
       if (next_snooze <= 0 || snooze < next_snooze) next_snooze = snooze;
     }
-    QList<QLabel*> labels{heading};
-    for (const QString &line : std::as_const(lines)) labels << AndroidWidgets::AddButtonLabel(texts, line);
-    texts->addStretch();
-    // A switched-off alarm stays readable but dimmed: its text color is mixed with the button color.
-    if (!alarm.enabled) {
-      const QColor text = row->palette().color(QPalette::ButtonText);
-      const QColor background = row->palette().color(QPalette::Button);
-      const QColor dimmed = QColor::fromRgbF((text.redF() * 3 + background.redF() * 2) / 5, (text.greenF() * 3 + background.greenF() * 2) / 5, (text.blueF() * 3 + background.blueF() * 2) / 5);
-      for (QLabel *label : std::as_const(labels)) label->setStyleSheet(u"color: %1"_s.arg(dimmed.name()));
+    QString label_text = u"<span style=\"font-size:%1px; font-weight:bold\">%2</span> | %3"_s.arg(qRound(QFontInfo(heading->font()).pixelSize() * 1.3)).arg(time.toHtmlEscaped(), frequency.toHtmlEscaped());
+    for (const QString &line : std::as_const(lines)) {
+      label_text += u"<br>"_s + line.toHtmlEscaped();
     }
-    row->setAccessibleName(time + u", "_s + frequency + u", "_s + lines.join(", "_L1) + (alarm.enabled ? QString() : u", "_s + tr("Off")));
+    heading->setText(label_text);
+    row_layout->addWidget(heading, 1);
+    // A switched-off alarm stays readable but dimmed.
+    if (!alarm.enabled) {
+      const QColor text = row->palette().color(QPalette::WindowText);
+      const QColor background = row->palette().color(QPalette::Base);
+      const QColor dimmed = QColor::fromRgbF((text.redF() * 3 + background.redF() * 2) / 5, (text.greenF() * 3 + background.greenF() * 2) / 5, (text.blueF() * 3 + background.blueF() * 2) / 5);
+      heading->setStyleSheet(u"color: %1"_s.arg(dimmed.name()));
+    }
+    const QString description = time + u", "_s + frequency + u", "_s + lines.join(", "_L1);
 
-    QCheckBox *enabled = new QCheckBox(row);
+    QWidget *actions = new QWidget(row);
+    actions->setFixedWidth(AndroidWidgets::kMinimumTouchSize * 3 + 4);
+    QHBoxLayout *actions_layout = new QHBoxLayout(actions);
+    actions_layout->setContentsMargins(0, 0, 0, 0);
+    actions_layout->setSpacing(2);
+    row_layout->addWidget(actions);
+
+    QPushButton *edit = CreateButton(QString(), actions);
+    edit->setFixedWidth(AndroidWidgets::kMinimumTouchSize);
+    edit->setIcon(IconLoader::Load(u"edit-rename"_s));
+    edit->setIconSize(QSize(AndroidWidgets::kNavigationIconSize, AndroidWidgets::kNavigationIconSize));
+    edit->setAccessibleName(tr("Edit alarm") + u": "_s + description);
+    actions_layout->addWidget(edit);
+
+    QPushButton *remove = CreateButton(QString(), actions);
+    remove->setFixedWidth(AndroidWidgets::kMinimumTouchSize);
+    remove->setIcon(IconLoader::Load(u"edit-delete"_s));
+    remove->setIconSize(QSize(AndroidWidgets::kNavigationIconSize, AndroidWidgets::kNavigationIconSize));
+    remove->setAccessibleName(tr("Delete alarm") + u": "_s + description);
+    actions_layout->addWidget(remove);
+
+    QCheckBox *enabled = new QCheckBox(actions);
     enabled->setChecked(alarm.enabled);
-    enabled->setAccessibleName(tr("Alarm on"));
+    enabled->setAccessibleName(tr("Alarm on") + u": "_s + description);
     AndroidWidgets::AdaptCheckBox(enabled);
-    row_layout->addWidget(enabled);
+    enabled->setFixedWidth(AndroidWidgets::kMinimumTouchSize);
+    actions_layout->addWidget(enabled);
 
     const QString id = alarm.id;
+    QObject::connect(edit, &QPushButton::clicked, this, [this, id]() { ShowEditor(id); });
+    QObject::connect(remove, &QPushButton::clicked, this, [this, alarm]() { ShowDeletePage(alarm); });
     QObject::connect(enabled, &QCheckBox::toggled, this, [this, id](const bool checked) {
       Alarm stored = AlarmBridge::FindAlarm(id);
       if (stored.id.isEmpty()) return;
@@ -359,7 +385,6 @@ void AlarmClockPage::RefreshOverview() {
         if (pages_->currentWidget() == overview_) RefreshOverview();
       });
     });
-    QObject::connect(row, &QPushButton::clicked, this, [this, id]() { ShowEditor(id); });
     layout->addWidget(row);
   }
 
@@ -632,7 +657,7 @@ void AlarmClockPage::ShowEditor(const QString &id) {
   QPushButton *remove = CreateButton(tr("Delete alarm"), contents);
   layout->addSpacing(16);
   layout->addWidget(remove);
-  QObject::connect(remove, &QPushButton::clicked, this, &AlarmClockPage::ShowDeletePage);
+  QObject::connect(remove, &QPushButton::clicked, this, [this]() { ShowDeletePage(alarm_); });
   layout->addStretch();
 
   editor_ = page.area;
@@ -954,10 +979,11 @@ void AlarmClockPage::ShowChoicePage(const QString &title, const QList<Choice> &c
 
 }
 
-void AlarmClockPage::ShowDeletePage() {
+void AlarmClockPage::ShowDeletePage(const Alarm &alarm) {
 
   const AndroidWidgets::ScrollPage page = CreatePage();
-  const QString name = alarm_.name.isEmpty() ? TimeText(alarm_.hour, alarm_.minute) : alarm_.name;
+  const QString name = alarm.name.isEmpty() ? TimeText(alarm.hour, alarm.minute) : alarm.name;
+  const QString id = alarm.id;
   page.layout->addWidget(CreateWrappingLabel(tr("Are you sure you want to delete the alarm \"%1\"?").arg(name), page.contents));
   QPushButton *remove = CreateButton(tr("Delete alarm"), page.contents);
   page.layout->addWidget(remove);
@@ -965,10 +991,9 @@ void AlarmClockPage::ShowDeletePage() {
   page.layout->addWidget(cancel);
   page.layout->addStretch();
   QObject::connect(cancel, &QPushButton::clicked, this, &AlarmClockPage::Back);
-  QObject::connect(remove, &QPushButton::clicked, this, [this]() {
+  QObject::connect(remove, &QPushButton::clicked, this, [this, id]() {
     save_timer_->stop();
-    const QString id = alarm_.id;
-    alarm_ = Alarm();
+    if (alarm_.id == id) alarm_ = Alarm();
     AlarmBridge::DeleteAlarm(id);
     alarm_clock_->RemoveTracks(id);
     BackTo(overview_);

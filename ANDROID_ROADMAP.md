@@ -1230,12 +1230,13 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
 The scope was agreed in a design interview with the user before implementation.
 
 **Implemented scope (2026-11-22):**
-- Tools > Alarm clock lists the alarms with an on/off switch, plus an Add alarm button with a green plus, the next alarm and an Alarm settings button with an alarm clock and gear icon.
+- Tools > Alarm clock lists the alarms with Edit and Delete buttons and an active checkbox, plus an Add alarm button with a green plus, the next alarm and an Alarm settings button with an alarm clock and gear icon.
   Alarm settings (Tools > Alarm clock > Alarm settings) holds the settings for all alarms: Stop automatically after (off, 10, 30 or 60 minutes; default 30), Copy tracks for offline alarms, Tracks per alarm, Maximum total size and Delete copied tracks now; its choice pages are one level deeper, and Back returns one level.
   Each alarm row shows the time in bold and how often it goes off ("7:00 AM | Daily"; Once, Daily, Weekdays, Weekends, "Weekly (Wed)" or the day names), then the music ("Random song", "Last played", "Default sound", "Playlist: ...", "Song: ...", "Radio: ..."), then the alarm's name on its own line if it has one; switched-off alarms are dimmed.
   A snoozed alarm counts as the next alarm when it goes off first: its row, the overview's next alarm and Tools > Clock show "Snoozed until 10:52 PM, goes off in 7 min", updated at each minute while visible (`alarmtext_test`, `alarmcountdown_java_test`).
   `AlarmText` builds these texts and `alarmtext_test` tests them.
-- Tapping an alarm opens Tools > Alarm clock > Edit alarm with the time, name, repeat days (once or selected weekdays), music, volume, fade-in, snooze duration and Delete alarm with confirmation.
+- Edit opens Tools > Alarm clock > Edit alarm with the time, name, repeat days (once or selected weekdays), music, volume, fade-in, snooze duration and Delete alarm with confirmation.
+  Delete on the list also opens a confirmation page, with Back returning to the list.
   The time, days, music source and delete confirmation open as full-page subscreens; Back returns one level.
 - The time page is a round dial like Android's time picker (`TimePicker` and `TimeDial` in `src/widgets/timedial_android.cpp`): tap or drag the hour, then the page switches to the minutes (5-minute labels, any minute by dragging); the hour and minute of the large digital time switch back.
   It follows the device's 24-hour setting, with an inner ring for 00 and 13 to 23, or shows AM and PM buttons; landscape places the dial to the right.

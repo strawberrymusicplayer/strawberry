@@ -67,7 +67,7 @@ class AlarmClockPage : public QWidget {
   void ShowSongPage();
   void ShowRadioPage();
   void ShowChoicePage(const QString &title, const QList<Choice> &choices, const int current, const std::function<void(int)> &chosen);
-  void ShowDeletePage();
+  void ShowDeletePage(const Alarm &alarm);
   void AddPermissionWarnings(QVBoxLayout *layout);
   // Adds the settings for the copies of the alarms' songs below the other settings for all alarms.
   void AddTrackSettings(QVBoxLayout *layout);
