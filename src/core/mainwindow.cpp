@@ -113,6 +113,7 @@
 #include "core/appearance.h"
 #ifdef Q_OS_ANDROID
 #  include "core/androidstorage.h"
+#  include "alarm/alarmplayer_android.h"
 #endif
 #include "utilities/envutils.h"
 #include "utilities/filemanagerutils.h"
@@ -1652,6 +1653,11 @@ void MainWindow::PlaylistsLoaded() {
   }
 
   app_->player()->PlaylistsLoaded();
+
+#ifdef Q_OS_ANDROID
+  // An alarm that goes off from now on can play through the player.
+  if (android_alarm_player_) android_alarm_player_->SetReady();
+#endif
 
 }
 

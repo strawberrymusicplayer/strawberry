@@ -65,6 +65,7 @@
 #include "playlist/playlistmanager.h"
 #include "settings/settingsdialog.h"
 #include "alarm/alarmclock_android.h"
+#include "alarm/alarmplayer_android.h"
 #include "alarm/alarmclockpage_android.h"
 #include "alarm/clockpage_android.h"
 #include "widgets/androidwidgets.h"
@@ -276,6 +277,8 @@ QWidget *MainWindow::CreateAndroidToolsPage() {
 
   // The alarm clock is Android-only, so its actions are not in the desktop menus.
   android_alarm_clock_ = new AlarmClock(app_->collection_backend(), app_->playlist_backend(), this);
+  android_alarm_player_ = new AlarmPlayer(app_->player(), app_->playlist_manager(), app_->collection_backend(), app_->playlist_backend(), this);
+  if (playlists_loaded_) android_alarm_player_->SetReady();
   QAction *alarm_clock_action = new QAction(tr("Alarm clock"), this);
   QObject::connect(alarm_clock_action, &QAction::triggered, this, &MainWindow::ShowAndroidAlarmClock);
   themed_icons.insert(alarm_clock_action, u":/icons/scalable/alarm-clock.svg"_s);

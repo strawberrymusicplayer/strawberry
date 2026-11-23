@@ -99,6 +99,7 @@ class SmartPlaylistsViewContainer;
 class QStackedWidget;
 class QToolButton;
 class AlarmClock;
+class AlarmPlayer;
 class AlarmClockPage;
 class ClockPage;
 #endif
@@ -356,6 +357,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QWidget *android_tools_list_ = nullptr;
   QPointer<QWidget> android_current_tool_;
   AlarmClock *android_alarm_clock_ = nullptr;
+  AlarmPlayer *android_alarm_player_ = nullptr;
   QPointer<AlarmClockPage> android_alarm_clock_page_;
   QPointer<ClockPage> android_clock_page_;
   QPointer<QWidget> android_previous_tab_;
