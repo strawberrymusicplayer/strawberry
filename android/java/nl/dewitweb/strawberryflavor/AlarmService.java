@@ -211,6 +211,21 @@ public class AlarmService extends Service {
       final JSONObject alarm = id == null ? null : AlarmStore.alarm(this, id);
       // The process ended while the alarm sounded, for example when the app it shares the process with crashed or was closed; Android started this service again.
       final boolean redelivered = (flags & START_FLAG_REDELIVERY) != 0;
+      final int autoStopMinutes = AlarmStore.autoStopMinutes(this);
+      long autoStopMsec = autoStopMinutes * 60000L;
+      if (redelivered) {
+        // Android may restart the service long after the process ended, even after the alarm should have stopped.
+        final long remaining = AlarmRestart.remainingMsec(id, AlarmStore.soundingId(this), AlarmStore.soundingSince(this), SystemClock.elapsedRealtime(), autoStopMinutes);
+        if (remaining <= 0) {
+          Log.i(AlarmStore.TAG, "Not sounding the alarm again: it was stopped, snoozed or is over");
+          restorePreviousVolume();
+          AlarmStore.setSounding(this, null, 0);
+          stopSelf();
+          return START_NOT_STICKY;
+        }
+        // Without the automatic stop, a restarted alarm still stops at the maximum age.
+        autoStopMsec = remaining;
+      }
       // The service must always enter the foreground after startForegroundService().
       try {
         startForeground(alarm == null ? ringingName : alarm.optString("name"));
@@ -220,6 +235,7 @@ public class AlarmService extends Service {
         // Android may not allow a restarted service in the foreground; the insistent notification still wakes the user.
         Log.w(AlarmStore.TAG, "Could not sound the alarm again, sounding it through a notification", e);
         restorePreviousVolume();
+        AlarmStore.setSounding(this, null, 0);
         if (alarm != null) AlarmReceiver.showFallback(this, id, false, false);
         stopSelf();
         return START_NOT_STICKY;
@@ -228,12 +244,15 @@ public class AlarmService extends Service {
         Log.w(AlarmStore.TAG, "The alarm that fired no longer exists");
         // A stale alarm must not silence another alarm that is sounding.
         if (ringingId == null) stopService();
-        if (redelivered) restorePreviousVolume();
+        if (redelivered) {
+          restorePreviousVolume();
+          AlarmStore.setSounding(this, null, 0);
+        }
         return START_NOT_STICKY;
       }
-      if (redelivered) Log.i(AlarmStore.TAG, "Sounding the alarm again after the process ended");
+      if (redelivered) Log.i(AlarmStore.TAG, "Sounding the alarm again after the process ended, for at most " + autoStopMsec / 1000 + " more second(s)");
       // A redelivered alarm was already consumed, and it plays without the app, which may have ended the process.
-      startRinging(alarm, intent.getBooleanExtra(AlarmStore.EXTRA_SNOOZE, false), redelivered || intent.getBooleanExtra(EXTRA_CONSUMED, false), !redelivered, redelivered);
+      startRinging(alarm, intent.getBooleanExtra(AlarmStore.EXTRA_SNOOZE, false), redelivered || intent.getBooleanExtra(EXTRA_CONSUMED, false), !redelivered, redelivered, autoStopMsec);
       showRingingScreen();
       // Android starts this service again with the same intent if the process ends before Stop, Snooze or the automatic stop.
       return START_REDELIVER_INTENT;
@@ -353,7 +372,7 @@ public class AlarmService extends Service {
     return PendingIntent.getService(this, requestCode, new Intent(this, AlarmService.class).setAction(action), PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
   }
 
-  private void startRinging(final JSONObject alarm, final boolean snoozed, final boolean consumed, final boolean appAllowed, final boolean redelivered) {
+  private void startRinging(final JSONObject alarm, final boolean snoozed, final boolean consumed, final boolean appAllowed, final boolean redelivered, final long autoStopMsec) {
 
     // A second alarm at the same time replaces the one that is sounding.
     if (ringingId != null) stopSound();
@@ -362,13 +381,14 @@ public class AlarmService extends Service {
     ringingName = alarm.optString("name");
     snoozeMinutes = Math.max(1, alarm.optInt("snooze", 10));
     if (!consumed) AlarmStore.consumeAlarm(this, alarm, snoozed);
+    // A restarted alarm keeps the time it first went off, so its automatic stop does not start again.
+    if (!redelivered) AlarmStore.setSounding(this, ringingId, SystemClock.elapsedRealtime());
 
-    final int autoStopMinutes = AlarmStore.autoStopMinutes(this);
     if (wakeLock == null) {
       wakeLock = getSystemService(PowerManager.class).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Strawberry:alarm");
       wakeLock.setReferenceCounted(false);
     }
-    wakeLock.acquire((autoStopMinutes > 0 ? autoStopMinutes + 1 : 120) * 60000L);
+    wakeLock.acquire(autoStopMsec > 0 ? autoStopMsec + 60000L : AlarmRestart.MAXIMUM_AGE_MSEC);
 
     audioManager = getSystemService(AudioManager.class);
     final int maximum = audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
@@ -444,7 +464,7 @@ public class AlarmService extends Service {
     handler.removeCallbacks(fadeStep);
     handler.post(fadeStep);
     handler.removeCallbacks(autoStop);
-    if (autoStopMinutes > 0) handler.postDelayed(autoStop, autoStopMinutes * 60000L);
+    if (autoStopMsec > 0) handler.postDelayed(autoStop, autoStopMsec);
 
   }
 
@@ -761,6 +781,7 @@ public class AlarmService extends Service {
     focusRequest = null;
     previousVolume = -1;
     AlarmStore.setPreviousAlarmVolume(this, -1);
+    AlarmStore.setSounding(this, null, 0);
     ringingId = null;
     ringingName = "";
     status = "";

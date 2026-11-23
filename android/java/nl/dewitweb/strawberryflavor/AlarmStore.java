@@ -50,6 +50,8 @@ final class AlarmStore {
   private static final String KEY_ALARMS = "alarms";
   private static final String KEY_AUTO_STOP = "auto_stop_minutes";
   private static final String KEY_PREVIOUS_ALARM_VOLUME = "previous_alarm_volume";
+  private static final String KEY_SOUNDING_ID = "sounding_id";
+  private static final String KEY_SOUNDING_SINCE = "sounding_since";
   private static final String KEY_CLOCK_TYPE = "clock_type";
   private static final String KEY_CLOCK_BRIGHTNESS = "clock_brightness";
   private static final String KEY_SNOOZE_PREFIX = "snooze_";
@@ -180,6 +182,19 @@ final class AlarmStore {
 
   static void setPreviousAlarmVolume(final Context context, final int volume) {
     preferences(context).edit().putInt(KEY_PREVIOUS_ALARM_VOLUME, volume).commit();
+  }
+
+  // The alarm that sounds and the SystemClock.elapsedRealtime() when it went off, so a restart after the process ended knows whether it may still sound; null and 0 if none.
+  static String soundingId(final Context context) {
+    return preferences(context).getString(KEY_SOUNDING_ID, null);
+  }
+
+  static long soundingSince(final Context context) {
+    return preferences(context).getLong(KEY_SOUNDING_SINCE, 0);
+  }
+
+  static void setSounding(final Context context, final String id, final long since) {
+    preferences(context).edit().putString(KEY_SOUNDING_ID, id).putLong(KEY_SOUNDING_SINCE, since).commit();
   }
 
   static int autoStopMinutes(final Context context) {

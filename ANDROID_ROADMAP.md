@@ -1294,8 +1294,9 @@ The scope was agreed in a design interview with the user before implementation.
 - On a phone locked with a PIN, pattern or password, the app cannot show over the lock screen, so it would cover the alarm screen without finishing its startup, and the 20-second time-out cannot bring the alarm screen back from the background.
   The alarm screen therefore does not start the app while `KeyguardManager.isDeviceLocked()` is true; it stays visible and Java plays the local copy or the default sound.
 - An alarm played by the app replaces the Now playing playlist; volume and mute are restored afterwards.
-- When the process ends while an alarm sounds, the alarm is silent until Android restarts `AlarmService`; Android may schedule that up to about 40 seconds later, unless something else, such as the visible alarm screen, brings the process back first.
-  After the restart the automatic stop counts from the start again, and with the phone in use Android shows the heads-up notification instead of the alarm screen.
+- When the process ends while an alarm sounds, the alarm is silent until Android restarts `AlarmService`, and Android removes its notification meanwhile.
+  Unless something else, such as the visible alarm screen, brings the process back first, Android delays the restart by at least twice the time the alarm had already sounded, on the uptime clock, which stops while the phone sleeps, so it can come many minutes later.
+  The time the alarm went off is stored, so a restart sounds only for the rest of the automatic stop (or within 2 hours with it off) and never after Stop or Snooze (`AlarmRestart.java`, `alarmrestart_java_test`); with the phone in use Android shows the heads-up notification instead of the alarm screen.
 - Force stopping the app cancels its alarms until the app is opened again.
 - After a reboot, alarms are rescheduled once the user has unlocked the phone for the first time.
 - Radio stations need network access; Qobuz, Tidal and Spotify are not offered as alarm sources.
@@ -1351,6 +1352,9 @@ The scope was agreed in a design interview with the user before implementation.
   Back at the app's root while the alarm sounded brought the alarm screen forward and the process kept running.
   With the app playing the alarm, `kill -9` brought it back within a second (the visible alarm screen restarted the process), and removing the app's task (`am stack remove`, like a swipe in recents) ended the process, which Android restarted after about 5 seconds; both times Java sounded the alarm again ("Sounding the alarm again after the process ended"), Stop from the alarm screen or the notification silenced it, and the alarm volume went back to its previous value.
   Not verified: these cases on the FP5, a recents swipe by hand, and the longer restart delay when nothing brings the process back.
+- Restart limits (2026-11-23, API 34 emulator, automatic stop set to 1 minute in the preferences): killed 20 seconds after it went off, the alarm sounded again "for at most 35 more second(s)" and stopped automatically 60 seconds after it went off.
+  With the process paused (`kill -19`) past the automatic stop and then killed, the restarted service logged "Not sounding the alarm again: it was stopped, snoozed or is over", nothing played, no alarm screen or notification remained and the alarm volume was restored.
+  After Snooze and `kill -9`, Android scheduled no restart of `AlarmService`; the snoozed alarm went off again a minute later and stopped from the notification.
 
 **Still open:**
 - Check the playback chain on the FP5: the app running as a night clock, the app closed, a secure lock screen and NAS songs; also that the volume keys change the alarm volume, and that the alarm keeps sounding after swiping the app away in recents.
