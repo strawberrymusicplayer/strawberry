@@ -1284,6 +1284,8 @@ The scope was agreed in a design interview with the user before implementation.
 - Without notifications, Android blocks the alarm screen from the background.
   The overview then also offers "Display over other apps" (`SYSTEM_ALERT_WINDOW`), which Android accepts as a reason to open it anyway, and opening Strawberry while an alarm sounds shows the alarm screen.
   Otherwise only Stop automatically after ends the alarm, unless it is off; the volume and power keys do not stop it.
+- The volume keys change the alarm volume only while the alarm screen is in front (`setVolumeControlStream(STREAM_ALARM)`); with a heads-up notification instead, they change the media volume.
+  They never snooze or stop the alarm.
 - While the phone is unlocked and in use, Android shows a heads-up notification instead of the full-screen activity.
   The app is then started only if the user opens the alarm screen; otherwise Java plays.
 - Android blocks `AlarmService` from starting the app in the background, and Qt finishes starting only while the app is in front, so the app comes to the front for a moment while it starts.
@@ -1336,8 +1338,11 @@ The scope was agreed in a design interview with the user before implementation.
   With the time-out reached, and with the phone unlocked and the app not running (start blocked, heads-up notification), Java kept playing.
   Not verified: the FP5, NAS songs on a real device, a secure lock screen, startup times on real hardware, and the playlist, last played, song and radio sources through the app.
 
+- Volume keys (2026-11-23, FP5 report: no effect on the loudness while an alarm went off): the alarm screen did not set a volume control stream, so the keys changed the media volume.
+  On the emulator, with the app playing the alarm and the alarm screen in front, `input keyevent KEYCODE_VOLUME_DOWN` and `KEYCODE_VOLUME_UP` changed the `STREAM_ALARM` index in `dumpsys audio` from 4 to 3 and 5 while the media volume stayed the same, the alarm kept sounding, and Stop restored the alarm volume.
+
 **Still open:**
-- Check the playback chain on the FP5: the app running as a night clock, the app closed, a secure lock screen and NAS songs.
+- Check the playback chain on the FP5: the app running as a night clock, the app closed, a secure lock screen and NAS songs; also that the volume keys change the alarm volume.
 - Check on the FP5 with a physical finger, after allowing notifications: the alarm screen over a secure lock screen, the permission prompts, audio volume and fade-in, auto stop, NAS songs and radio without network, and overnight reliability.
 - Automatic stopping, the playlist, recently played, song and radio sources were not exercised on the emulator.
 - The notification fallback without exact alarms (Android 12 and 12L only), http radio streams and http originals without copies were not tested.

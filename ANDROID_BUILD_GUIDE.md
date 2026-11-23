@@ -294,6 +294,7 @@ Qt startup itself still needs the app in front (Qt queues the window creation wh
 - After a reboot, alarms are rescheduled after the first unlock.
 - Without notifications for the app or its Alarm clock category (Android 13+ permission or the user's switches) or the full-screen-intent permission (Android 14+), the overview shows warnings with buttons to the matching dialog or settings page.
 - Without notifications, the alarm screen opens only while Strawberry is visible, when display over other apps is allowed, or when the user opens Strawberry; otherwise only the automatic stop, if not switched off, ends the alarm, and the volume and power keys do not stop it.
+- The volume keys change the alarm volume (`STREAM_ALARM`) while the alarm screen is shown, for the Java sound and the app's player alike, and never snooze or stop the alarm; without the alarm screen in front, for example with a heads-up notification, they change the media volume.
 - While the phone is in use, Android shows a heads-up notification instead of the alarm screen; the app is then started only if the user opens the alarm screen, otherwise Java plays.
 - On a locked phone with a PIN, pattern or password, the app cannot show over the lock screen, so it probably does not start and Java plays (not tested).
 - When the app plays an alarm, it replaces the Now playing playlist.

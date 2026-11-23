@@ -20,6 +20,7 @@ package nl.dewitweb.strawberryflavor;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -49,6 +50,9 @@ public class AlarmActivity extends Activity {
     setShowWhenLocked(true);
     setTurnScreenOn(true);
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    // Both the Java sound and the app's player use the alarm stream; without this, the volume keys change the media volume.
+    // The keys are not handled here, so they never snooze or stop the alarm.
+    setVolumeControlStream(AudioManager.STREAM_ALARM);
 
     clock = new ClockView(this);
     clock.detail.setTextColor(ClockView.TIME_COLOR);
