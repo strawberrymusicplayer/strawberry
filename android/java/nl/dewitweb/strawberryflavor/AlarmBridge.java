@@ -28,6 +28,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 
@@ -47,8 +49,63 @@ public final class AlarmBridge {
   private static final int REQUEST_NOTIFICATIONS = 2801;
 
   private static boolean notificationsAskedThisSession = false;
+  // Whether the Qt app's alarm player is ready to play an alarm, see AlarmHandover.java.
+  // Kept in this process only, so it is false again after the app was closed and its process ended.
+  private static volatile boolean playerReady = false;
 
   private AlarmBridge() {}
+
+  // Implemented by the Qt app's alarm player, alarmplayer_android.cpp, which registers them before it reports that it is ready.
+  private static native void nativeStartAlarm(String token, String alarm, long fadeStartMillis, long fadeMsec);
+  private static native void nativeStopAlarm(String token);
+
+  static boolean isPlayerReady() {
+    return playerReady;
+  }
+
+  // Asks the Qt app to play the alarm; it answers with alarmClaimed() or alarmFailed() with the same token.
+  static boolean startAlarm(final String token, final String alarm, final long fadeStartMillis, final long fadeMsec) {
+
+    if (!playerReady) return false;
+    try {
+      nativeStartAlarm(token, alarm, fadeStartMillis, fadeMsec);
+      return true;
+    }
+    catch (Throwable e) {
+      Log.w(AlarmStore.TAG, "Could not ask the app to play the alarm", e);
+      return false;
+    }
+
+  }
+
+  static void stopAlarm(final String token) {
+
+    if (!playerReady) return;
+    try {
+      nativeStopAlarm(token);
+    }
+    catch (Throwable e) {
+      Log.w(AlarmStore.TAG, "Could not ask the app to stop the alarm", e);
+    }
+
+  }
+
+  // Called by the Qt app on its own thread; AlarmService handles the answers on the main thread.
+  public static void setPlayerReady(final boolean ready) {
+
+    playerReady = ready;
+    Log.i(AlarmStore.TAG, ready ? "The app's alarm player is ready" : "The app's alarm player stopped");
+    if (ready) new Handler(Looper.getMainLooper()).post(AlarmService::onPlayerReady);
+
+  }
+
+  public static void alarmClaimed(final String token) {
+    new Handler(Looper.getMainLooper()).post(() -> AlarmService.onAlarmClaimed(token));
+  }
+
+  public static void alarmFailed(final String token, final String reason) {
+    new Handler(Looper.getMainLooper()).post(() -> AlarmService.onAlarmFailed(token, reason));
+  }
 
   public static void init(final Context context, final String labels) {
 

@@ -38,6 +38,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.PowerManager;
+import android.os.SystemClock;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -104,6 +105,21 @@ public class AlarmService extends Service {
   // Increased for every new player, so callbacks of a replaced player are ignored.
   private int generation = 0;
 
+  // The service while it runs, for the answers of the Qt app that arrive through AlarmBridge.
+  private static AlarmService instance;
+  // Decides whether the Qt app or this service plays the alarm.
+  private final AlarmHandover handover = new AlarmHandover();
+  private String alarmJson = "";
+  // The alarm for which the alarm screen already started the Qt app.
+  private String appStartedFromScreen;
+  // The alarm screen makes way for the Qt app until its alarm player is ready or the handover ends.
+  private boolean screenAfterAppStart;
+  private final Runnable handoverGrace = () -> apply(handover.graceEnded(), handover.token());
+  private final Runnable handoverTimeout = () -> {
+    if (handover.state() == AlarmHandover.WAITING) Log.i(AlarmStore.TAG, "The app did not play the alarm in time");
+    apply(handover.timeout(), handover.token());
+  };
+
   private final Runnable fadeStep = this::fadeStep;
   private final Runnable autoStop = () -> {
     Log.i(AlarmStore.TAG, "Stopping the alarm automatically");
@@ -129,6 +145,66 @@ public class AlarmService extends Service {
 
   static void setStatusListener(final Runnable listener) {
     statusListener = listener;
+  }
+
+  // Returns true once per alarm while it waits for a Qt app that does not run yet; the alarm screen then starts the app.
+  // Android blocks starting it from this service while no window of the app is visible, which the alarm screen is.
+  // The app must stay in front while it starts: Qt creates its windows on the Android main thread only while the app is active.
+  static boolean takeAppStart() {
+
+    if (instance == null || ringingId == null || instance.handover.state() != AlarmHandover.WAITING || AlarmBridge.isPlayerReady()) return false;
+    if (instance.handover.token().equals(instance.appStartedFromScreen)) return false;
+    instance.appStartedFromScreen = instance.handover.token();
+    instance.screenAfterAppStart = true;
+    Log.i(AlarmStore.TAG, "Starting the app from the alarm screen");
+    return true;
+
+  }
+
+  static Intent appIntent(final Context context) {
+
+    final Intent launch = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+    if (launch != null) launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_USER_ACTION | Intent.FLAG_ACTIVITY_NO_ANIMATION);
+    return launch;
+
+  }
+
+  // The Qt app's alarm player became ready, for example after this service started the app.
+  static void onPlayerReady() {
+
+    if (instance == null || ringingId == null) return;
+    instance.apply(instance.handover.qtReady(), instance.handover.token());
+
+  }
+
+  static void onAlarmClaimed(final String token) {
+
+    if (instance == null) {
+      // The alarm was stopped meanwhile.
+      AlarmBridge.stopAlarm(token);
+      return;
+    }
+    final boolean waiting = instance.handover.state() == AlarmHandover.WAITING;
+    final int actions = instance.handover.claimed(token);
+    if (waiting && instance.handover.state() == AlarmHandover.QT) Log.i(AlarmStore.TAG, "The app plays the alarm");
+    instance.apply(actions, token);
+
+  }
+
+  static void onAlarmFailed(final String token, final String reason) {
+
+    if (instance == null) return;
+    Log.i(AlarmStore.TAG, "The app does not play the alarm: " + reason);
+    instance.apply(instance.handover.failed(token), token);
+
+  }
+
+  @Override
+  public void onCreate() {
+
+    super.onCreate();
+    instance = this;
+
   }
 
   @Override
@@ -176,6 +252,7 @@ public class AlarmService extends Service {
   public void onDestroy() {
 
     if (ringingId != null) finishRinging();
+    if (instance == this) instance = null;
     super.onDestroy();
 
   }
@@ -337,7 +414,15 @@ public class AlarmService extends Service {
 
     fadeMsec = Math.max(0, alarm.optInt("fade_in", 30)) * 1000L;
     fadeStart = System.currentTimeMillis();
-    playNext();
+    alarmJson = alarm.toString();
+    handler.removeCallbacks(handoverGrace);
+    handler.removeCallbacks(handoverTimeout);
+    final String previousToken = handover.token();
+    final boolean ready = AlarmBridge.isPlayerReady();
+    final int actions = handover.start(ringingId + ":" + SystemClock.elapsedRealtime(), !"sound".equals(source), ready);
+    if (handover.state() == AlarmHandover.WAITING) Log.i(AlarmStore.TAG, ready ? "Asking the running app to play the alarm" : "Starting the app to play the alarm");
+    if ((actions & AlarmHandover.STOP_QT) != 0) apply(AlarmHandover.STOP_QT, previousToken);
+    apply(actions & ~AlarmHandover.STOP_QT, handover.token());
     handler.removeCallbacks(fadeStep);
     handler.post(fadeStep);
     handler.removeCallbacks(autoStop);
@@ -358,6 +443,37 @@ public class AlarmService extends Service {
 
   private static AudioAttributes audioAttributes() {
     return new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
+  }
+
+  // Carries out the actions of AlarmHandover; token is the alarm that a STOP_QT action stops.
+  private void apply(final int actions, final String token) {
+
+    if ((actions & AlarmHandover.STOP_QT) != 0 && token != null) AlarmBridge.stopAlarm(token);
+    // START_APP needs no call here: the alarm screen starts the app once it is shown, see takeAppStart().
+    if ((actions & AlarmHandover.SEND_REQUEST) != 0) {
+      if (!AlarmBridge.startAlarm(handover.token(), alarmJson, fadeStart, fadeMsec)) {
+        apply(handover.failed(handover.token()), handover.token());
+      }
+    }
+    if ((actions & AlarmHandover.START_JAVA_SOUND) != 0 && ringingId != null) {
+      Log.i(AlarmStore.TAG, "Playing the alarm without the app");
+      playNext();
+    }
+    if ((actions & AlarmHandover.STOP_JAVA_SOUND) != 0) {
+      stopSound();
+      // The app plays the alarm's music, so a note about the default sound no longer applies.
+      setStatus("");
+    }
+    if ((actions & AlarmHandover.SCHEDULE_GRACE) != 0) handler.postDelayed(handoverGrace, AlarmHandover.GRACE_MSEC);
+    if ((actions & AlarmHandover.SCHEDULE_TIMEOUT) != 0) {
+      handler.removeCallbacks(handoverTimeout);
+      handler.postDelayed(handoverTimeout, AlarmHandover.TIMEOUT_MSEC);
+    }
+    if (screenAfterAppStart && (AlarmBridge.isPlayerReady() || handover.state() != AlarmHandover.WAITING)) {
+      screenAfterAppStart = false;
+      showRingingScreen();
+    }
+
   }
 
   private void playNext() {
@@ -611,6 +727,10 @@ public class AlarmService extends Service {
 
     handler.removeCallbacks(fadeStep);
     handler.removeCallbacks(autoStop);
+    handler.removeCallbacks(handoverGrace);
+    handler.removeCallbacks(handoverTimeout);
+    final String token = handover.token();
+    apply(handover.finish(), token);
     stopSound();
     if (audioManager != null) {
       if (focusRequest != null) audioManager.abandonAudioFocusRequest(focusRequest);

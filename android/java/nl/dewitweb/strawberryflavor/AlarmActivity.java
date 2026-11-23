@@ -144,7 +144,25 @@ public class AlarmActivity extends Activity {
       return;
     }
     // The alarm may have been stopped from the notification while this screen was away.
-    if (!AlarmService.isRinging()) finish();
+    if (!AlarmService.isRinging()) {
+      finish();
+      return;
+    }
+    if (AlarmService.takeAppStart()) startApp();
+
+  }
+
+  // Starts the Qt app so it can play the alarm; AlarmService brings this screen back once the app is ready.
+  private void startApp() {
+
+    final Intent launch = AlarmService.appIntent(this);
+    if (launch == null) return;
+    try {
+      startActivity(launch);
+    }
+    catch (RuntimeException e) {
+      Log.w(AlarmStore.TAG, "Could not start the app", e);
+    }
 
   }
 

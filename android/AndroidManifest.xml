@@ -57,6 +57,11 @@
           <meta-data
                 android:name="android.app.arguments"
                 android:value="-- %%INSERT_APP_ARGUMENTS%% --" />
+
+          <!-- Keeps the Qt event loop running while another screen covers the app or the screen is off, so an alarm can play through the player. -->
+          <meta-data
+                android:name="android.app.background_running"
+                android:value="true" />
         </activity>
 
         <service
