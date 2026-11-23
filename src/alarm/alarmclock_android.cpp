@@ -52,16 +52,13 @@ constexpr char kCopyTracks[] = "copy_tracks";
 constexpr char kTracksPerAlarm[] = "tracks_per_alarm";
 constexpr char kMaximumTotalMb[] = "maximum_total_mb";
 
-QList<QUrl> SearchUrls(SharedPtr<CollectionBackend> backend, const SmartPlaylistSearch &search) {
+SongList SearchSongs(SharedPtr<CollectionBackend> backend, const SmartPlaylistSearch &search) {
 
   QVariantList bound_values;
   const QString sql = search.ToSql(backend->songs_table(), bound_values);
   const SongList songs = backend->ExecuteQuery(sql, bound_values);
   backend->Close();
-  QList<QUrl> urls;
-  urls.reserve(songs.count());
-  for (const Song &song : songs) urls << song.url();
-  return urls;
+  return songs;
 
 }
 
@@ -260,32 +257,39 @@ void AlarmClock::RemoveTracks(const QString &id) {
 
 }
 
-QStringList AlarmClock::CopyTracks(const Alarm &alarm, SharedPtr<CollectionBackend> collection_backend, SharedPtr<PlaylistBackend> playlist_backend, const QString &directory, const QString &prefix, const AlarmTrackSettings &settings, const std::function<void(const QStringList &tracks)> &interim) {
+SongList AlarmClock::Songs(const Alarm &alarm, SharedPtr<CollectionBackend> collection_backend, SharedPtr<PlaylistBackend> playlist_backend, const int count) {
 
-  QList<QUrl> candidates;
   switch (alarm.source) {
     case Alarm::Source::Random:
-      candidates = SearchUrls(collection_backend, SmartPlaylistSearch(SmartPlaylistSearch::SearchType::All, {}, SmartPlaylistSearch::SortType::Random, SmartPlaylistSearchTerm::Field::Title, kCandidateTracks));
-      break;
+      return SearchSongs(collection_backend, SmartPlaylistSearch(SmartPlaylistSearch::SearchType::All, {}, SmartPlaylistSearch::SortType::Random, SmartPlaylistSearchTerm::Field::Title, count));
     case Alarm::Source::LastPlayed:
-      candidates = SearchUrls(collection_backend, SmartPlaylistSearch(SmartPlaylistSearch::SearchType::And, {SmartPlaylistSearchTerm(SmartPlaylistSearchTerm::Field::PlayCount, SmartPlaylistSearchTerm::Operator::GreaterThan, 0)}, SmartPlaylistSearch::SortType::FieldDesc, SmartPlaylistSearchTerm::Field::LastPlayed, kCandidateTracks));
-      break;
+      return SearchSongs(collection_backend, SmartPlaylistSearch(SmartPlaylistSearch::SearchType::And, {SmartPlaylistSearchTerm(SmartPlaylistSearchTerm::Field::PlayCount, SmartPlaylistSearchTerm::Operator::GreaterThan, 0)}, SmartPlaylistSearch::SortType::FieldDesc, SmartPlaylistSearchTerm::Field::LastPlayed, count));
     case Alarm::Source::Playlist:{
       bool ok = false;
       const int playlist_id = alarm.source_id.toInt(&ok);
-      if (ok) {
-        const SongList songs = playlist_backend->GetPlaylistSongs(playlist_id);
-        playlist_backend->Close();
-        for (const Song &song : songs) candidates << song.url();
-      }
-      break;
+      if (!ok) break;
+      const SongList songs = playlist_backend->GetPlaylistSongs(playlist_id);
+      playlist_backend->Close();
+      return songs;
     }
     case Alarm::Source::Song:
-      candidates << QUrl(alarm.source_url);
-      break;
     case Alarm::Source::Sound:
     case Alarm::Source::Radio:
       break;
+  }
+  return SongList();
+
+}
+
+QStringList AlarmClock::CopyTracks(const Alarm &alarm, SharedPtr<CollectionBackend> collection_backend, SharedPtr<PlaylistBackend> playlist_backend, const QString &directory, const QString &prefix, const AlarmTrackSettings &settings, const std::function<void(const QStringList &tracks)> &interim) {
+
+  QList<QUrl> candidates;
+  if (alarm.source == Alarm::Source::Song) {
+    candidates << QUrl(alarm.source_url);
+  }
+  else {
+    const SongList songs = Songs(alarm, collection_backend, playlist_backend, kCandidateTracks);
+    for (const Song &song : songs) candidates << song.url();
   }
 
   const auto is_nas = [](const QString &source) {

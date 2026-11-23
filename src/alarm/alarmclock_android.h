@@ -12,6 +12,7 @@
 #include <QStringList>
 
 #include "includes/shared_ptr.h"
+#include "core/song.h"
 #include "alarmschedule_android.h"
 #include "alarmtracks_android.h"
 
@@ -33,6 +34,10 @@ class AlarmClock : public QObject {
   void UpdateTracks(const QString &id);
   // Removes the song copies of a deleted alarm.
   void RemoveTracks(const QString &id);
+
+  // Returns the songs of a playlist, recently played or random alarm, the latter two at most count; empty for other sources.
+  // Reads the databases, so it is called on a worker thread.
+  static SongList Songs(const Alarm &alarm, SharedPtr<CollectionBackend> collection_backend, SharedPtr<PlaylistBackend> playlist_backend, const int count);
 
   static AlarmTrackSettings TrackSettings();
   // Saves the settings; switching copying off deletes the copies, and switching it on or off updates the songs of the alarms.
