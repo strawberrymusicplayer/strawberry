@@ -86,9 +86,10 @@ public final class AlarmHandoverTest {
     // The alarm screen starts the app that is not running yet, once per alarm, and comes back once the player is ready.
     handover = new AlarmHandover();
     handover.start("j", true, false);
-    expect("running app is not started", !handover.startAppFromScreen(true));
-    expect("screen starts the app", handover.startAppFromScreen(false));
-    expect("app is started once", !handover.startAppFromScreen(false));
+    expect("running app is not started", !handover.startAppFromScreen(true, false));
+    expect("app is not started behind a secure lock screen", !handover.startAppFromScreen(false, true));
+    expect("screen starts the app", handover.startAppFromScreen(false, false));
+    expect("app is started once", !handover.startAppFromScreen(false, false));
     expect("screen waits for the player", !handover.takeScreenAfterAppStart(false));
     handover.qtReady();
     expect("screen returns when the player is ready", handover.takeScreenAfterAppStart(true));
@@ -96,18 +97,18 @@ public final class AlarmHandoverTest {
 
     handover = new AlarmHandover();
     handover.start("k", true, false);
-    handover.startAppFromScreen(false);
+    handover.startAppFromScreen(false, false);
     handover.timeout();
     expect("screen returns after the time-out", handover.takeScreenAfterAppStart(false));
 
     // Stop or Snooze while the app starts must not bring the alarm screen back.
     handover = new AlarmHandover();
     handover.start("l", true, false);
-    handover.startAppFromScreen(false);
+    handover.startAppFromScreen(false, false);
     handover.finish();
     expect("no screen after stop", !handover.takeScreenAfterAppStart(false) && !handover.takeScreenAfterAppStart(true));
     handover.start("m", true, false);
-    expect("next alarm starts the app again", handover.startAppFromScreen(false));
+    expect("next alarm starts the app again", handover.startAppFromScreen(false, false));
 
     if (failures > 0) {
       System.err.println(failures + " test(s) failed");

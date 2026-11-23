@@ -18,6 +18,7 @@
 
 package nl.dewitweb.strawberryflavor;
 
+import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -146,9 +147,10 @@ public class AlarmService extends Service {
   // Returns true once per alarm while it waits for a Qt app that does not run yet; the alarm screen then starts the app.
   // Android blocks starting it from this service while no window of the app is visible, which the alarm screen is.
   // The app must stay in front while it starts: Qt creates its windows on the Android main thread only while the app is active.
-  static boolean takeAppStart() {
+  static boolean takeAppStart(final Context context) {
 
-    if (instance == null || ringingId == null || !instance.handover.startAppFromScreen(AlarmBridge.isPlayerReady())) return false;
+    final boolean locked = context.getSystemService(KeyguardManager.class).isDeviceLocked();
+    if (instance == null || ringingId == null || !instance.handover.startAppFromScreen(AlarmBridge.isPlayerReady(), locked)) return false;
     Log.i(AlarmStore.TAG, "Starting the app from the alarm screen");
     return true;
 

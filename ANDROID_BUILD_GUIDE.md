@@ -267,7 +267,7 @@ The Tools > Clock settings are in the same SharedPreferences file: `clock_type` 
 **Playback chain:** `AlarmReceiver` and `AlarmService` stay the entry point when an alarm goes off and own the alarm screen, snooze, stop and the automatic stop.
 The music, however, preferably plays through the Qt app's player, so NAS songs, streams and live playlist, last played and random sources work without copies:
 1. If the Qt app's alarm player is ready (the app is running), `AlarmService` asks it to play the alarm and keeps silent for up to `AlarmHandover.GRACE_MSEC` (3 seconds); if the app has not answered by then, the Java sound starts and keeps sounding until the app answers.
-2. If the app is not running, the alarm screen starts it (`AlarmActivity.onResume()`, once per alarm) and Java plays the local copy or the default sound meanwhile.
+2. If the app is not running, the alarm screen starts it (`AlarmActivity.onResume()`, once per alarm, not while `KeyguardManager.isDeviceLocked()`) and Java plays the local copy or the default sound meanwhile.
    The app stays in front until its player is ready; `AlarmService` then shows the alarm screen again and asks the app to play.
 3. If the app does not play the alarm within `AlarmHandover.TIMEOUT_MSEC` (20 seconds, restarted once the player is ready), or reports that it cannot, Java keeps playing the local copy or the default sound.
 
@@ -296,7 +296,7 @@ Qt startup itself still needs the app in front (Qt queues the window creation wh
 - Without notifications, the alarm screen opens only while Strawberry is visible, when display over other apps is allowed, or when the user opens Strawberry; otherwise only the automatic stop, if not switched off, ends the alarm, and the volume and power keys do not stop it.
 - The volume keys change the alarm volume (`STREAM_ALARM`) while the alarm screen is shown, for the Java sound and the app's player alike, and never snooze or stop the alarm; without the alarm screen in front, for example with a heads-up notification, they change the media volume.
 - While the phone is in use, Android shows a heads-up notification instead of the alarm screen; the app is then started only if the user opens the alarm screen, otherwise Java plays.
-- On a locked phone with a PIN, pattern or password, the app cannot show over the lock screen, so it probably does not start and Java plays (not tested).
+- On a phone locked with a PIN, pattern or password, the app cannot show over the lock screen: it would cover the alarm screen without finishing its startup, and the service cannot bring the alarm screen back from the background. The alarm screen therefore does not start the app then; it stays visible and Java plays the local copy or the default sound, so NAS songs without copies are not played.
 - When the app plays an alarm, it replaces the Now playing playlist.
 - Radio sources need network access; otherwise the default alarm sound plays.
 - With copying off, NAS songs play only through the app; if it does not take over, the Java side, which has no SMB client, plays the default alarm sound instead.

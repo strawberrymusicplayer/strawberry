@@ -152,7 +152,7 @@ public class AlarmActivity extends Activity {
       finish();
       return;
     }
-    if (AlarmService.takeAppStart()) startApp();
+    if (AlarmService.takeAppStart(this)) startApp();
 
   }
 

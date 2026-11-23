@@ -1266,7 +1266,7 @@ The scope was agreed in a design interview with the user before implementation.
 - Playback chain (2026-11-23): the alarm's music preferably plays through the Qt app's player, so NAS songs, streams and live playlist, last played and random sources work without copies.
   `AlarmReceiver` and `AlarmService` stay the entry point, keep the alarm screen and own snooze, stop and the automatic stop, so the user is always woken.
   1. App running: `AlarmService` asks the app's player through JNI (`AlarmBridge`); the app checks that the source can be reached (the first 3 songs, or the stream URL) and plays on the alarm stream (`USAGE_ALARM`). If it has not answered within 3 seconds, Java plays meanwhile.
-  2. App not running: the alarm screen starts the app, which stays in front until its player is ready; then the alarm screen returns and the app takes over. Java plays meanwhile.
+  2. App not running: the alarm screen starts the app, which stays in front until its player is ready; then the alarm screen returns and the app takes over. Java plays meanwhile. Behind a PIN, pattern or password the app is not started.
   3. If the app does not take over within 20 seconds (restarted once its player is ready) or reports a failure, Java keeps playing the local copy or the default sound.
   The protocol uses a token per attempt: the app answers with a claim or a failure, Java stops its own sound only after the claim and starts it again after a later failure, and snooze, stop and the automatic stop stop the app's player.
   `AlarmHandover.java` is the state machine with one owner of the sound at a time (`alarmhandover_java_test`); `AlarmPlaybackSession` and the reachability checks are tested by `alarmplayback_test`.
@@ -1290,7 +1290,8 @@ The scope was agreed in a design interview with the user before implementation.
   The app is then started only if the user opens the alarm screen; otherwise Java plays.
 - Android blocks `AlarmService` from starting the app in the background, and Qt finishes starting only while the app is in front, so the app comes to the front for a moment while it starts.
   `QtActivity` needs `android.app.background_running` so Qt keeps answering while the alarm screen covers it or the screen is off.
-- On a locked phone with a PIN, pattern or password, the app cannot show over the lock screen, so it probably does not start and Java plays.
+- On a phone locked with a PIN, pattern or password, the app cannot show over the lock screen, so it would cover the alarm screen without finishing its startup, and the 20-second time-out cannot bring the alarm screen back from the background.
+  The alarm screen therefore does not start the app while `KeyguardManager.isDeviceLocked()` is true; it stays visible and Java plays the local copy or the default sound.
 - An alarm played by the app replaces the Now playing playlist; volume and mute are restored afterwards.
 - Force stopping the app cancels its alarms until the app is opened again.
 - After a reboot, alarms are rescheduled once the user has unlocked the phone for the first time.

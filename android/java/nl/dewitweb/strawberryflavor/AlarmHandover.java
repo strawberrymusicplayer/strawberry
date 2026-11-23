@@ -104,9 +104,10 @@ final class AlarmHandover {
 
   // The alarm screen is shown; returns true once per alarm if it must start the app, which is not running yet.
   // The app then stays in front while it starts, and takeScreenAfterAppStart() tells when the alarm screen must come back.
-  boolean startAppFromScreen(final boolean playerReady) {
+  // Behind a PIN, pattern or password the app cannot show over the lock screen, so it would cover the alarm screen without starting; the alarm screen stays and AlarmService plays.
+  boolean startAppFromScreen(final boolean playerReady, final boolean deviceLocked) {
 
-    if (state != WAITING || playerReady || token.equals(appStartToken)) return false;
+    if (state != WAITING || playerReady || deviceLocked || token.equals(appStartToken)) return false;
     appStartToken = token;
     screenAfterAppStart = true;
     return true;
