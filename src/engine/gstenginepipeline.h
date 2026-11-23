@@ -93,6 +93,11 @@ class GstEnginePipeline : public QObject {
   void set_spotify_bitrate(const SpotifySettings::Bitrate spotify_bitrate);
 #endif
 
+#ifdef Q_OS_ANDROID
+  // The OpenSL ES stream type of pipelines created from now on, for example "alarm" so an alarm follows the alarm volume; empty for the default.
+  static void SetAndroidStreamType(const QByteArray &stream_type);
+#endif
+
   bool Finish();
 
   // Creates the pipeline, returns false on error
@@ -197,6 +202,9 @@ class GstEnginePipeline : public QObject {
   static GstPadProbeReturn PadProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self);
   static void ElementAddedCallback(GstBin *bin, GstBin *sub_bin, GstElement *element, gpointer self);
   static void ElementRemovedCallback(GstBin *bin, GstBin *sub_bin, GstElement *element, gpointer self);
+#ifdef Q_OS_ANDROID
+  static void AndroidStreamTypeElementAddedCallback(GstBin *bin, GstBin *sub_bin, GstElement *element, gpointer self);
+#endif
   static void PadAddedCallback(GstElement *element, GstPad *pad, gpointer self);
   static void SourceSetupCallback(GstElement *playbin, GstElement *source, gpointer self);
   static void NotifyVolumeCallback(GstElement *element, GParamSpec *param_spec, gpointer self);
