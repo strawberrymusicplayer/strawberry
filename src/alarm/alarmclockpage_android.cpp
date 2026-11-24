@@ -351,8 +351,8 @@ void AlarmClockPage::RefreshOverview() {
 
     QPushButton *edit = CreateButton(QString(), actions);
     edit->setFixedWidth(AndroidWidgets::kMinimumTouchSize);
-    edit->setIcon(IconLoader::Load(u"edit-rename"_s));
     edit->setIconSize(QSize(AndroidWidgets::kNavigationIconSize, AndroidWidgets::kNavigationIconSize));
+    AndroidWidgets::SetThemedIcon(edit, u":/icons/scalable/alarm-edit.svg"_s);
     edit->setAccessibleName(tr("Edit alarm") + u": "_s + description);
     actions_layout->addWidget(edit);
 

@@ -1231,6 +1231,7 @@ The scope was agreed in a design interview with the user before implementation.
 
 **Implemented scope (2026-11-22):**
 - Tools > Alarm clock lists the alarms with Edit and Delete buttons and an active checkbox, plus an Add alarm button with a green plus, the next alarm and an Alarm settings button with an alarm clock and gear icon.
+  Edit uses a pencil icon.
   Alarm settings (Tools > Alarm clock > Alarm settings) holds the settings for all alarms: Stop automatically after (off, 10, 30 or 60 minutes; default 30), Copy tracks for offline alarms, Tracks per alarm, Maximum total size and Delete copied tracks now; its choice pages are one level deeper, and Back returns one level.
   Each alarm row shows the time in bold and how often it goes off ("7:00 AM | Daily"; Once, Daily, Weekdays, Weekends, "Weekly (Wed)" or the day names), then the music ("Random song", "Last played", "Default sound", "Playlist: ...", "Song: ...", "Radio: ..."), then the alarm's name on its own line if it has one; switched-off alarms are dimmed.
   A snoozed alarm counts as the next alarm when it goes off first: its row, the overview's next alarm and Tools > Clock show "Snoozed until 10:52 PM, goes off in 7 min", updated at each minute while visible (`alarmtext_test`, `alarmcountdown_java_test`).
@@ -1286,7 +1287,8 @@ The scope was agreed in a design interview with the user before implementation.
 - Without notifications, Android blocks the alarm screen from the background.
   The overview then also offers "Display over other apps" (`SYSTEM_ALERT_WINDOW`), which Android accepts as a reason to open it anyway, and opening Strawberry while an alarm sounds shows the alarm screen.
   Otherwise only Stop automatically after ends the alarm, unless it is off; the volume and power keys do not stop it.
-- The volume keys change the alarm volume only while the alarm screen is in front (`setVolumeControlStream(STREAM_ALARM)`); with a heads-up notification instead, they change the media volume.
+- The volume keys are intended to change the alarm volume while the alarm screen is in front (`setVolumeControlStream(STREAM_ALARM)`); this worked on the emulator, but an FP5 report says they changed the normal volume instead.
+  With a heads-up notification instead, they change the media volume.
   They never snooze or stop the alarm.
 - While the phone is unlocked and in use, Android shows a heads-up notification instead of the full-screen activity.
   The app is then started only if the user opens the alarm screen; otherwise Java plays.
@@ -1307,6 +1309,9 @@ The scope was agreed in a design interview with the user before implementation.
 - `AlarmService` plays radio with the Java `MediaPlayer`, which follows Android's network security policy, so `network_security_config.xml` permits plain http in the base config for user-entered stream URLs, trusting only the system certificate authorities.
 
 **Verification (2026-11-22):**
+- FP5 (2026-11-24): an alarm went off with the app open, and the clock showed the snoozed alarm.
+  On the alarm screen, the hardware volume buttons adjusted the normal volume rather than the alarm volume; this remains to be investigated.
+  Further clock and physical-device verification remains open.
 - `alarmschedule_java_test` runs `AlarmSchedule.java` on a desktop JVM through ctest when a JDK is found and covers repeating days, one-off alarms in the past, disabled alarms, clamping and daylight saving time gaps and overlaps, including the America/Santiago midnight gap.
   The native `alarmschedule_test` covers the JSON format.
 - On the API 34 emulator, `dumpsys alarm` showed the alarms as alarm clocks.
