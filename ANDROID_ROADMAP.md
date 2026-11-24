@@ -1247,6 +1247,8 @@ The scope was agreed in a design interview with the user before implementation.
 - Tools > Clock is a menu with Show clock and Clock settings (Tools > Clock > Clock settings, gear icon): Clock type Digital (default, follows the 12/24 hour setting) or Analog (a painted face with tick marks, hour, minute and thin second hands), which also applies to the alarm screen, and Screen brightness while the clock is shown (System brightness by default, or 5, 10, 25, 50 or 100%), saved immediately (`clockface_java_test`).
 - Show clock shows the chosen clock fullscreen with the next alarm and keeps the screen on while open; the brightness applies only then, and `dumpsys power` showed it reset after Back, the X and going to the home screen.
   It hides the status and navigation bars (a swipe shows them briefly, then they hide again, also after rotation) and has no breadcrumb; a red X ("Close clock") at the top right and Back both return to Tools > Clock with the bars restored, which `dumpsys window` confirmed on the emulator.
+  A light bulb beside the X opens a full-width brightness slider; changes are saved as the clock brightness, and Back hides the slider first.
+  Clock settings still offers System brightness and shows the slider's saved percentage alongside the preset values.
 - The C++ side stores alarms through `AlarmBridge` in the Java `AlarmStore` (SharedPreferences JSON), so the receivers can read the schedule while the app process is dead.
   `AlarmSchedule.java` is the only next trigger calculation; the C++ `AlarmSchedule` only converts alarms to and from the shared JSON.
 - `AlarmReceiver` starts the foreground `AlarmService`, which plays with alarm audio attributes on the alarm stream, fades in, snoozes, stops automatically and posts a full-screen-intent notification.
@@ -1312,6 +1314,8 @@ The scope was agreed in a design interview with the user before implementation.
 - FP5 (2026-11-24): an alarm went off with the app open, and the clock showed the snoozed alarm.
   On the alarm screen, the hardware volume buttons adjusted the normal volume rather than the alarm volume; this remains to be investigated.
   Further clock and physical-device verification remains open.
+- Emulator (2026-11-24): the clock brightness slider reached 39%, applied `sbrt=0.39` to the clock window without changing the system brightness, and retained 39% after closing and reopening the clock.
+  Back hid the slider first; the controls and slider fit in portrait and landscape, and Clock settings displayed 39%.
 - `alarmschedule_java_test` runs `AlarmSchedule.java` on a desktop JVM through ctest when a JDK is found and covers repeating days, one-off alarms in the past, disabled alarms, clamping and daylight saving time gaps and overlaps, including the America/Santiago midnight gap.
   The native `alarmschedule_test` covers the JSON format.
 - On the API 34 emulator, `dumpsys alarm` showed the alarms as alarm clocks.

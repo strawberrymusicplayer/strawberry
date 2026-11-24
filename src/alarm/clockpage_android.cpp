@@ -169,7 +169,15 @@ void ClockPage::RefreshSettings() {
   brightness.button->SetValue(BrightnessText(current_brightness));
   QObject::connect(brightness.button, &QPushButton::clicked, this, [this, current_brightness]() {
     QList<Choice> choices = {{0, BrightnessText(0)}};
-    for (const int percent : kBrightnessLevels) choices << Choice(percent, BrightnessText(percent));
+    bool included = current_brightness <= 0;
+    for (const int percent : kBrightnessLevels) {
+      if (!included && current_brightness < percent) {
+        choices << Choice(current_brightness, BrightnessText(current_brightness));
+        included = true;
+      }
+      choices << Choice(percent, BrightnessText(percent));
+      if (current_brightness == percent) included = true;
+    }
     ShowChoicePage(tr("Screen brightness while the clock is shown"), choices, current_brightness, [](const int value) { AlarmBridge::SetClockBrightness(value); });
   });
 

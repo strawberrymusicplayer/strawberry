@@ -77,6 +77,8 @@ void AlarmClock::Start() {
   labels.insert(u"snooze"_s, tr("Snooze"));
   labels.insert(u"stop"_s, tr("Stop"));
   labels.insert(u"close_clock"_s, tr("Close clock"));
+  labels.insert(u"clock_brightness"_s, tr("Clock brightness"));
+  labels.insert(u"system_brightness"_s, tr("System brightness"));
   labels.insert(u"next_alarm"_s, tr("Next alarm"));
   labels.insert(u"no_alarm"_s, tr("No alarm set"));
   labels.insert(u"snoozed_countdown"_s, AlarmText::SnoozeTemplate());

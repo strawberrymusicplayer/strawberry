@@ -24,6 +24,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.DisplayCutout;
 import android.view.Gravity;
 import android.view.View;
@@ -33,6 +35,9 @@ import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 // The Tools > Clock > Show clock screen: a fullscreen digital or analog clock without system bars, at the brightness chosen in Clock settings.
 // It keeps the screen on while it is open and shows the next alarm below the clock; the red X and Back return to Tools > Clock.
@@ -40,6 +45,9 @@ public class ClockActivity extends Activity {
 
   private final Handler handler = new Handler(Looper.getMainLooper());
   private ClockView clock;
+  private LinearLayout brightnessControls;
+  private SeekBar brightnessSlider;
+  private TextView brightnessValue;
   private final Runnable refresh = this::refresh;
 
   @Override
@@ -54,45 +62,124 @@ public class ClockActivity extends Activity {
     clock = new ClockView(this);
     // Fullscreen: the system bars are hidden, so the clock does not leave room for them.
     clock.root.setFitsSystemWindows(false);
-    // Without buttons the time takes all free space; the top padding keeps it clear of the close button.
+    // Without alarm buttons the time takes all free space.
     clock.bottom.setVisibility(View.GONE);
-    clock.root.setPadding(clock.root.getPaddingLeft(), ClockView.dp(this, 64), clock.root.getPaddingRight(), clock.root.getPaddingBottom());
 
     final FrameLayout frame = new FrameLayout(this);
     frame.addView(clock.root, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    final LinearLayout controls = new LinearLayout(this);
+    controls.setOrientation(LinearLayout.VERTICAL);
+    final LinearLayout buttons = new LinearLayout(this);
+    buttons.setGravity(Gravity.END);
+    controls.addView(buttons, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+    final int size = ClockView.dp(this, 56);
+    final int padding = ClockView.dp(this, 8);
+
+    final ImageButton brightness = new ImageButton(this);
+    brightness.setImageDrawable(new BrightnessIcon());
+    brightness.setBackground(null);
+    brightness.setScaleType(ImageButton.ScaleType.FIT_CENTER);
+    brightness.setPadding(padding, padding, padding, padding);
+    brightness.setContentDescription(AlarmStore.label(this, "clock_brightness", "Clock brightness"));
+    brightness.setOnClickListener(view -> {
+      if (brightnessControls.getVisibility() == View.VISIBLE) brightnessControls.setVisibility(View.GONE);
+      else {
+        updateBrightnessControls();
+        brightnessControls.setVisibility(View.VISIBLE);
+      }
+    });
+    buttons.addView(brightness, new LinearLayout.LayoutParams(size, size));
+
     final ImageButton close = new ImageButton(this);
     close.setImageDrawable(new CloseIcon());
     close.setBackground(null);
     close.setScaleType(ImageButton.ScaleType.FIT_CENTER);
-    final int padding = ClockView.dp(this, 8);
     close.setPadding(padding, padding, padding, padding);
     close.setContentDescription(AlarmStore.label(this, "close_clock", "Close clock"));
     close.setOnClickListener(view -> finish());
-    final int size = ClockView.dp(this, 56);
-    final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(size, size, Gravity.TOP | Gravity.END);
+    buttons.addView(close, new LinearLayout.LayoutParams(size, size));
+
+    brightnessControls = new LinearLayout(this);
+    brightnessControls.setOrientation(LinearLayout.VERTICAL);
+    brightnessControls.setPadding(ClockView.dp(this, 16), 0, ClockView.dp(this, 16), 0);
+    brightnessControls.setVisibility(View.GONE);
+    brightnessValue = new TextView(this);
+    brightnessValue.setTextColor(ClockView.TIME_COLOR);
+    brightnessValue.setGravity(Gravity.CENTER);
+    brightnessControls.addView(brightnessValue);
+    brightnessSlider = new SeekBar(this);
+    brightnessSlider.setMax(99);
+    brightnessSlider.setContentDescription(AlarmStore.label(this, "clock_brightness", "Clock brightness"));
+    brightnessSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+      @Override
+      public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
+        if (!fromUser) return;
+        final int percent = progress + 1;
+        AlarmStore.setClockBrightness(ClockActivity.this, percent);
+        setWindowBrightness(ClockFace.windowBrightness(percent));
+        brightnessValue.setText(percent + "%");
+      }
+
+      @Override
+      public void onStartTrackingTouch(final SeekBar seekBar) {}
+
+      @Override
+      public void onStopTrackingTouch(final SeekBar seekBar) {}
+    });
+    brightnessControls.addView(brightnessSlider, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ClockView.dp(this, 48)));
+    controls.addView(brightnessControls, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+    final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.TOP);
     final int margin = ClockView.dp(this, 12);
-    params.setMargins(0, margin, margin, 0);
-    frame.addView(close, params);
-    // The clock is laid out into the cutout area, so the X keeps clear of a camera cutout at the top or right edge.
+    params.setMargins(margin, margin, margin, 0);
+    frame.addView(controls, params);
+    controls.addOnLayoutChangeListener((view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) ->
+        clock.root.setPadding(clock.root.getPaddingLeft(), bottom, clock.root.getPaddingRight(), clock.root.getPaddingBottom()));
+    // The clock is laid out into the cutout area; keep the controls clear of the camera cutout.
     frame.setOnApplyWindowInsetsListener((view, insets) -> {
       int top = 0;
+      int left = 0;
       int right = 0;
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
         final DisplayCutout cutout = insets.getDisplayCutout();
         if (cutout != null) {
           top = cutout.getSafeInsetTop();
+          left = cutout.getSafeInsetLeft();
           right = cutout.getSafeInsetRight();
         }
       }
-      if (params.topMargin != margin + top || params.rightMargin != margin + right) {
-        params.setMargins(0, margin + top, margin + right, 0);
-        close.setLayoutParams(params);
+      if (params.topMargin != margin + top || params.leftMargin != margin + left || params.rightMargin != margin + right) {
+        params.setMargins(margin + left, margin + top, margin + right, 0);
+        controls.setLayoutParams(params);
       }
       return insets;
     });
 
     setContentView(frame);
     hideSystemBars();
+
+  }
+
+  @Override
+  public void onBackPressed() {
+    if (brightnessControls.getVisibility() == View.VISIBLE) brightnessControls.setVisibility(View.GONE);
+    else super.onBackPressed();
+  }
+
+  private void updateBrightnessControls() {
+
+    final int stored = AlarmStore.clockBrightness(this);
+    int percent = stored;
+    if (stored <= 0) {
+      try {
+        percent = Math.max(1, Math.round(Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS) * 100.0F / 255.0F));
+      }
+      catch (Settings.SettingNotFoundException e) {
+        Log.w(AlarmStore.TAG, "Could not read the system screen brightness", e);
+        percent = 50;
+      }
+    }
+    brightnessSlider.setProgress(Math.max(0, Math.min(99, percent - 1)));
+    brightnessValue.setText(stored <= 0 ? AlarmStore.label(this, "system_brightness", "System brightness") : stored + "%");
 
   }
 
