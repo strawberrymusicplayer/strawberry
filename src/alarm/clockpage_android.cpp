@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+#include <QCoreApplication>
+#include <QJniEnvironment>
 #include <QKeyEvent>
 #include <QLabel>
 #include <QPushButton>
@@ -13,6 +15,7 @@
 #include <QTimer>
 #include <QVBoxLayout>
 
+#include "core/logging.h"
 #include "widgets/androidwidgets.h"
 #include "widgets/scrollarea_android.h"
 #include "alarmbridge_android.h"
@@ -48,11 +51,22 @@ QPushButton *CreateIconButton(const QString &text, const QString &icon, QWidget 
 
 }  // namespace
 
+QPointer<ClockPage> ClockPage::instance_;
+
 ClockPage::ClockPage(QWidget *parent)
     : QWidget(parent),
       title_(new QLabel(this)),
       pages_(new QStackedWidget(this)),
       menu_(nullptr) {
+
+  instance_ = this;
+  const JNINativeMethod methods[] = {
+    {const_cast<char *>("nativeOpenAlarmList"), const_cast<char *>("()Z"), reinterpret_cast<void *>(NativeOpenAlarmList)},
+  };
+  QJniEnvironment env;
+  if (!env.registerNativeMethods("nl/dewitweb/strawberryflavor/ClockActivity", methods, 1)) {
+    qLog(Error) << "Could not register clock navigation";
+  }
 
   setWindowTitle(tr("Clock"));
   QVBoxLayout *root = new QVBoxLayout(this);
@@ -74,6 +88,17 @@ ClockPage::ClockPage(QWidget *parent)
   menu.layout->addWidget(settings);
   menu.layout->addStretch();
   pages_->addWidget(menu_);
+
+}
+
+jboolean ClockPage::NativeOpenAlarmList(JNIEnv *, jclass) {
+
+  QCoreApplication *application = QCoreApplication::instance();
+  if (!application) return JNI_FALSE;
+  return QMetaObject::invokeMethod(application, []() {
+    if (instance_) Q_EMIT instance_->OpenAlarmList();
+    else qLog(Error) << "Could not open the alarm list: clock page is gone";
+  }, Qt::QueuedConnection) ? JNI_TRUE : JNI_FALSE;
 
 }
 

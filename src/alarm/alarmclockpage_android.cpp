@@ -212,6 +212,19 @@ void AlarmClockPage::ShowOverview() {
 
 }
 
+void AlarmClockPage::SetClockParent(const bool from_clock) {
+
+  clock_parent_ = from_clock;
+  if (pages_->currentWidget() == overview_) title_->setText(OverviewTitle());
+
+}
+
+QString AlarmClockPage::OverviewTitle() const {
+
+  return clock_parent_ ? tr("Tools > Clock > Alarm clock") : tr("Tools > Alarm clock");
+
+}
+
 void AlarmClockPage::showEvent(QShowEvent *event) {
 
   QWidget::showEvent(event);
@@ -261,6 +274,7 @@ void AlarmClockPage::Back() {
 
   QWidget *page = pages_->currentWidget();
   if (page == overview_) {
+    Q_EMIT BackFromOverview();
     close();
     return;
   }
@@ -272,7 +286,7 @@ void AlarmClockPage::Back() {
   page->deleteLater();
   QWidget *parent = pages_->widget(pages_->count() - 1);
   pages_->setCurrentWidget(parent);
-  title_->setText(parent == overview_ ? tr("Tools > Alarm clock") : parent->property(kBreadcrumbProperty).toString());
+  title_->setText(parent == overview_ ? OverviewTitle() : parent->property(kBreadcrumbProperty).toString());
   if (parent == overview_) RefreshOverview();
   else if (parent == settings_) RefreshSettings();
   else if (parent == editor_) RefreshEditor();

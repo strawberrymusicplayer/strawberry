@@ -38,6 +38,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 // The Tools > Clock > Show clock screen: a fullscreen digital or analog clock without system bars, at the brightness chosen in Clock settings.
 // It keeps the screen on while it is open and shows the next alarm below the clock; the red X and Back return to Tools > Clock.
@@ -49,6 +50,8 @@ public class ClockActivity extends Activity {
   private SeekBar brightnessSlider;
   private TextView brightnessValue;
   private final Runnable refresh = this::refresh;
+
+  private static native boolean nativeOpenAlarmList();
 
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
@@ -74,6 +77,27 @@ public class ClockActivity extends Activity {
     controls.addView(buttons, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     final int size = ClockView.dp(this, 56);
     final int padding = ClockView.dp(this, 8);
+
+    final ImageButton alarms = new ImageButton(this);
+    alarms.setImageDrawable(new AlarmBellIcon());
+    alarms.setBackground(null);
+    alarms.setScaleType(ImageButton.ScaleType.FIT_CENTER);
+    alarms.setPadding(padding, padding, padding, padding);
+    alarms.setContentDescription(AlarmStore.label(this, "open_alarm_list", "Open alarm list"));
+    alarms.setOnClickListener(view -> {
+      try {
+        if (nativeOpenAlarmList()) {
+          finish();
+          return;
+        }
+      }
+      catch (UnsatisfiedLinkError e) {
+        Log.e(AlarmStore.TAG, "Could not open the alarm list", e);
+      }
+      Log.e(AlarmStore.TAG, "Could not dispatch the alarm list request");
+      Toast.makeText(this, AlarmStore.label(this, "open_alarm_list_failed", "Could not open the alarm list"), Toast.LENGTH_LONG).show();
+    });
+    buttons.addView(alarms, new LinearLayout.LayoutParams(size, size));
 
     final ImageButton brightness = new ImageButton(this);
     brightness.setImageDrawable(new BrightnessIcon());

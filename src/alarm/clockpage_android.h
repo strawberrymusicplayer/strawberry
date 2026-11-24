@@ -5,6 +5,8 @@
 
 #include <functional>
 
+#include <jni.h>
+
 #include <QList>
 #include <QPair>
 #include <QPointer>
@@ -27,6 +29,9 @@ class ClockPage : public QWidget {
   // Returns to the menu, for opening the page from Tools.
   void ShowMenu();
 
+ Q_SIGNALS:
+  void OpenAlarmList();
+
  protected:
   void showEvent(QShowEvent *event) override;
   void keyPressEvent(QKeyEvent *event) override;
@@ -43,8 +48,10 @@ class ClockPage : public QWidget {
 
   static QString ClockTypeText(const int type);
   static QString BrightnessText(const int percent);
+  static jboolean NativeOpenAlarmList(JNIEnv *env, jclass type);
 
  private:
+  static QPointer<ClockPage> instance_;
   QLabel *title_;
   QStackedWidget *pages_;
   QWidget *menu_;

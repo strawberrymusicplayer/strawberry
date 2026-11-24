@@ -1249,6 +1249,7 @@ The scope was agreed in a design interview with the user before implementation.
   It hides the status and navigation bars (a swipe shows them briefly, then they hide again, also after rotation) and has no breadcrumb; a red X ("Close clock") at the top right and Back both return to Tools > Clock with the bars restored, which `dumpsys window` confirmed on the emulator.
   A light bulb beside the X opens a full-width brightness slider; changes are saved as the clock brightness, and Back hides the slider first.
   Clock settings still offers System brightness and shows the slider's saved percentage alongside the preset values.
+  A red alarm bell opens the alarm list; Back from that list returns to the fullscreen clock.
 - The C++ side stores alarms through `AlarmBridge` in the Java `AlarmStore` (SharedPreferences JSON), so the receivers can read the schedule while the app process is dead.
   `AlarmSchedule.java` is the only next trigger calculation; the C++ `AlarmSchedule` only converts alarms to and from the shared JSON.
 - `AlarmReceiver` starts the foreground `AlarmService`, which plays with alarm audio attributes on the alarm stream, fades in, snoozes, stops automatically and posts a full-screen-intent notification.
@@ -1316,6 +1317,7 @@ The scope was agreed in a design interview with the user before implementation.
   Further clock and physical-device verification remains open.
 - Emulator (2026-11-24): the clock brightness slider reached 39%, applied `sbrt=0.39` to the clock window without changing the system brightness, and retained 39% after closing and reopening the clock.
   Back hid the slider first; the controls and slider fit in portrait and landscape, and Clock settings displayed 39%.
+  The alarm bell opened the alarm list with the clock breadcrumb; Back from alarm settings returned to the list, and Back from the list returned to the fullscreen clock.
 - `alarmschedule_java_test` runs `AlarmSchedule.java` on a desktop JVM through ctest when a JDK is found and covers repeating days, one-off alarms in the past, disabled alarms, clamping and daylight saving time gaps and overlaps, including the America/Santiago midnight gap.
   The native `alarmschedule_test` covers the JSON format.
 - On the API 34 emulator, `dumpsys alarm` showed the alarms as alarm clocks.

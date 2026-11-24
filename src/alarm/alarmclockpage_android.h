@@ -41,6 +41,10 @@ class AlarmClockPage : public QWidget {
 
   // Returns to the list of alarms, for opening the page from Tools.
   void ShowOverview();
+  void SetClockParent(bool from_clock);
+
+ Q_SIGNALS:
+  void BackFromOverview();
 
  protected:
   void showEvent(QShowEvent *event) override;
@@ -54,6 +58,7 @@ class AlarmClockPage : public QWidget {
   // Returns one level up, or closes the page from the overview.
   void Back();
   void BackTo(QWidget *page);
+  QString OverviewTitle() const;
   void RefreshOverview();
   // The settings for all alarms, on their own page below the overview.
   void ShowSettingsPage();
@@ -93,6 +98,7 @@ class AlarmClockPage : public QWidget {
   QPointer<QWidget> settings_;
   QPointer<QWidget> editor_;
   Alarm alarm_;
+  bool clock_parent_ = false;
   // Whether the on/off switch in the editor changed since the last save.
   bool enabled_changed_ = false;
   QTimer *save_timer_;

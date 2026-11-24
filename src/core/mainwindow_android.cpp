@@ -332,6 +332,7 @@ void MainWindow::ShowAndroidTool(QWidget *tool, const bool add_header) {
     new AndroidToolPageFilter(page, tool, [this, tool]() {
       if (android_current_tool_ != tool) return;
       android_current_tool_.clear();
+      if (tool == android_alarm_clock_page_) android_alarm_clock_from_clock_ = false;
       android_tools_pages_->setCurrentWidget(android_tools_list_);
     });
   }
@@ -346,19 +347,41 @@ void MainWindow::ShowAndroidTool(QWidget *tool, const bool add_header) {
 
 void MainWindow::ShowAndroidAlarmClock() {
 
+  android_alarm_clock_from_clock_ = false;
   if (!android_alarm_clock_page_) {
     android_alarm_clock_page_ = new AlarmClockPage(android_alarm_clock_, app_->radio_services(), this);
+    QObject::connect(android_alarm_clock_page_, &AlarmClockPage::BackFromOverview, this, [this]() {
+      if (!android_alarm_clock_from_clock_) return;
+      android_alarm_clock_from_clock_ = false;
+      QTimer::singleShot(0, this, [this]() {
+        ShowAndroidClock();
+        AlarmBridge::OpenClock();
+      });
+    });
   }
   android_alarm_clock_page_->ShowOverview();
+  android_alarm_clock_page_->SetClockParent(false);
   ShowAndroidTool(android_alarm_clock_page_, false);
 
 }
 
 void MainWindow::ShowAndroidClock() {
 
-  if (!android_clock_page_) android_clock_page_ = new ClockPage(this);
+  if (!android_clock_page_) {
+    android_clock_page_ = new ClockPage(this);
+    QObject::connect(android_clock_page_, &ClockPage::OpenAlarmList, this, &MainWindow::ShowAndroidAlarmClockFromClock);
+  }
   android_clock_page_->ShowMenu();
   ShowAndroidTool(android_clock_page_, false);
+
+}
+
+void MainWindow::ShowAndroidAlarmClockFromClock() {
+
+  ShowAndroidAlarmClock();
+  if (android_current_tool_ != android_alarm_clock_page_) return;
+  android_alarm_clock_from_clock_ = true;
+  android_alarm_clock_page_->SetClockParent(true);
 
 }
 

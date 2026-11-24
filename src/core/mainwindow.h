@@ -320,6 +320,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void ShowAndroidTool(QWidget *tool, const bool add_header);
   void ShowAndroidAlarmClock();
   void ShowAndroidClock();
+  void ShowAndroidAlarmClockFromClock();
   QWidget *CreateAndroidSettingsTab();
   void SetupAndroidSettingsTab();
   void EmbedAndroidSettingsDialog(SettingsDialog *settings_dialog);
@@ -355,6 +356,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QStackedWidget *android_tools_pages_ = nullptr;
   QWidget *android_tools_list_ = nullptr;
   QPointer<QWidget> android_current_tool_;
+  bool android_alarm_clock_from_clock_ = false;
   AlarmClock *android_alarm_clock_ = nullptr;
   AlarmPlayer *android_alarm_player_ = nullptr;
   QPointer<AlarmClockPage> android_alarm_clock_page_;

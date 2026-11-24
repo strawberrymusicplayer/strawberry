@@ -79,6 +79,8 @@ void AlarmClock::Start() {
   labels.insert(u"close_clock"_s, tr("Close clock"));
   labels.insert(u"clock_brightness"_s, tr("Clock brightness"));
   labels.insert(u"system_brightness"_s, tr("System brightness"));
+  labels.insert(u"open_alarm_list"_s, tr("Open alarm list"));
+  labels.insert(u"open_alarm_list_failed"_s, tr("Could not open the alarm list"));
   labels.insert(u"next_alarm"_s, tr("Next alarm"));
   labels.insert(u"no_alarm"_s, tr("No alarm set"));
   labels.insert(u"snoozed_countdown"_s, AlarmText::SnoozeTemplate());
