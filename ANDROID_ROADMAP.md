@@ -1231,7 +1231,9 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
 - The user also reported Tools > Cover Manager is unusable on Android; that separate layout and interaction issue remains item 33.
 - The Android Smart Playlist wizard's pages and choice lists now use the shared touch-scrolling helper.
   The Android build passed and the user confirmed wizard scrolling on the FP5.
-- Audit follow-up: `MessageDialog` creates a scroll area without the shared touch-scrolling helper; investigate and test it separately.
+- Audit follow-up: Android `MessageDialog` now enables the shared touch-scrolling helper for its message text.
+  A native regression verifies that selectable linked text scrolls on drag and links remain clickable; the Android build passes.
+  Physical-finger verification remains open.
 
 **Still open:**
 - FP5 feedback (2026-11-12): dragging in Collection still frequently selects rows instead of scrolling.

@@ -37,6 +37,9 @@
 
 #include "core/settings.h"
 #include "utilities/screenutils.h"
+#ifdef Q_OS_ANDROID
+#  include "widgets/scrollarea_android.h"
+#endif
 #include "messagedialog.h"
 #include "ui_messagedialog.h"
 
@@ -55,6 +58,7 @@ MessageDialog::MessageDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_Mess
   scroll_area->setFrameShape(QFrame::NoFrame);
   ui_->layout_right->removeWidget(ui_->label_text);
   scroll_area->setWidget(ui_->label_text);
+  AndroidScrollArea::EnableForContents(scroll_area);
   ui_->layout_right->insertWidget(0, scroll_area, 1);
   ui_->verticalLayout->addWidget(ui_->checkbox_do_not_show_message_again);
   ui_->verticalLayout->addWidget(ui_->buttonBox);

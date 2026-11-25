@@ -130,6 +130,31 @@ TEST(AndroidScrollAreaTest, ContentsFollowTheFinger) {
   }
 }
 
+TEST(AndroidScrollAreaTest, SelectableMessageScrollsAndLinksRemainClickable) {
+  QScrollArea area;
+  area.setWidgetResizable(true);
+  QLabel *message = new QLabel(QStringLiteral("<a href=\"https://example.com\">Link</a><br/>") + QStringLiteral("Message<br/>").repeated(80));
+  message->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+  message->setWordWrap(true);
+  message->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
+  area.setWidget(message);
+  AndroidScrollArea::EnableForContents(&area);
+  area.resize(320, 240);
+  area.show();
+  QCoreApplication::processEvents();
+  QSignalSpy activated(message, &QLabel::linkActivated);
+
+  Swipe(message, QPoint(100, 180), QPoint(0, -144));
+  EXPECT_GT(area.verticalScrollBar()->value(), 0);
+  EXPECT_EQ(activated.count(), 0);
+  QScroller::scroller(area.viewport())->stop();
+  area.verticalScrollBar()->setValue(0);
+  QTest::qWait(QApplication::doubleClickInterval() + 50);
+  QTest::mouseClick(message, Qt::LeftButton, Qt::NoModifier, QPoint(5, 5));
+  ASSERT_EQ(activated.count(), 1);
+  EXPECT_EQ(activated.at(0).at(0).toString(), QStringLiteral("https://example.com"));
+}
+
 TEST(AndroidScrollAreaTest, DraggingSliderAdjustsItInsteadOfScrolling) {
   QScrollArea area;
   area.setWidgetResizable(true);
