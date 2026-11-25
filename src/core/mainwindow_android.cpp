@@ -55,12 +55,14 @@
 #include "ui_mainwindow.h"
 
 #include "core/application.h"
+#include "core/iconloader.h"
 #include "core/player.h"
 #include "core/logging.h"
 #include "core/taskmanager.h"
 #include "collection/collectionviewcontainer.h"
 #include "collection/collectionview.h"
 #include "playlist/playlist.h"
+#include "playlist/playlistitem.h"
 #include "playlist/playlistlistcontainer.h"
 #include "playlist/playlistmanager.h"
 #include "settings/settingsdialog.h"
@@ -176,6 +178,11 @@ void MainWindow::SetupAndroidLayout() {
   QObject::connect(ui_->tabs, &QTabWidget::currentChanged, this, [this]() {
     if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(android_playlist_pages_)) android_playlist_pages_->setCurrentWidget(playlist_list_);
   });
+  QObject::connect(ui_->tabs, &QTabWidget::currentChanged, this, &MainWindow::UpdateAndroidPlayPause);
+  QObject::connect(android_playlist_pages_, &QStackedWidget::currentChanged, this, &MainWindow::UpdateAndroidPlayPause);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentChanged, this, &MainWindow::UpdateAndroidPlayPause);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::ActiveChanged, this, &MainWindow::UpdateAndroidPlayPause);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::PlaylistChanged, this, &MainWindow::UpdateAndroidPlayPause);
 
   ui_->tabs->SetMode(FancyTabWidget::Mode::LargeSidebar);
   ui_->tabs->setContextMenuPolicy(Qt::PreventContextMenu);
@@ -466,6 +473,42 @@ void MainWindow::ShowAndroidCurrentPlaylist() {
   // Switching tabs shows the playlist list, so open the current playlist's page afterwards.
   ui_->tabs->setCurrentIndex(ui_->tabs->IndexOfTab(android_playlist_pages_));
   android_playlist_pages_->setCurrentWidget(ui_->playlist_layout);
+
+}
+
+bool MainWindow::AndroidOpenedPlaylistIsDifferent() const {
+
+  const auto manager = app_->playlist_manager();
+  return android_playlist_pages_ &&
+         ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(android_playlist_pages_) &&
+         android_playlist_pages_->currentWidget() == ui_->playlist_layout &&
+         manager->current() && manager->current_id() != manager->active_id();
+
+}
+
+void MainWindow::UpdateAndroidPlayPause() {
+
+  const bool different = AndroidOpenedPlaylistIsDifferent();
+  const bool playing = app_->player()->GetState() == EngineBase::State::Playing;
+  const PlaylistItemPtr item = app_->player()->GetCurrentItem();
+  ui_->action_play_pause->setIcon(IconLoader::Load(different || !playing ? u"media-playback-start"_s : u"media-playback-pause"_s));
+  ui_->action_play_pause->setText(different || !playing ? tr("Play") : tr("Pause"));
+  ui_->action_play_pause->setEnabled(different ? app_->playlist_manager()->current()->rowCount() > 0
+                                               : !playing || (item && !(item->options() & PlaylistItem::Option::PauseDisabled)));
+
+}
+
+void MainWindow::AndroidPlayPause() {
+
+  if (!AndroidOpenedPlaylistIsDifferent()) {
+    app_->player()->PlayPauseHelper();
+    return;
+  }
+  Playlist *playlist = app_->playlist_manager()->current();
+  int row = playlist->current_row();
+  if (row < 0) row = playlist->last_played_row();
+  if (row < 0) row = 0;
+  PlayIndex(playlist->index(row, 0), Playlist::AutoScroll::Always);
 
 }
 

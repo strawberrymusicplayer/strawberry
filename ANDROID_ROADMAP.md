@@ -656,7 +656,7 @@ Arbitrary cloud/document-provider support is not part of this implementation.
 
 ## 16. Verify Smart Playlists on Android
 
-**Status:** Done (all default generators and Open behavior verified on the FP5 after the full collection scan; populated saved playlist preserved; broader device verification remains item 9)
+**Status:** Done (generators and preview/play behavior verified on the FP5; broader device verification remains item 9)
 
 **Goal:** Confirm that Smart Playlists are discoverable and their common workflows are usable on Android.
 
@@ -668,7 +668,8 @@ Arbitrary cloud/document-provider support is not part of this implementation.
   Text fields use the Android keyboard without desktop tag-completion popups.
 - Keep keyboard focus while validation updates the embedded wizard, and dismiss the keyboard before handling Back.
   Remove application-wide event filters and control callbacks before destroying the editor.
-- Add an Open smart playlist toolbar action using the existing activation behavior, including the user's add/play preferences.
+- Tap a smart playlist to open a reusable preview without starting playback; keep an active or favorited preview intact when opening another.
+  Edit and Delete are available through long press, alongside the existing playlist actions.
   Desktop wizard layout and behavior remain unchanged.
 
 **Verification:**
@@ -695,11 +696,11 @@ After installing the updated APK on the FP5, the user confirmed that Edit opens 
 The flat, orientation-aware toolbar has been checked on the emulator, but not yet on the FP5.
 The user also reported that only Newest tracks works; other smart playlists need further investigation.
 
-**Resolution of the Open behavior (2026-11-14):**
+**Earlier Open behavior (2026-11-14; superseded by the preview below):**
 - Cause: on Android, Open used the desktop double-click preferences, which Android hides and which default to Append and never play.
   Every smart playlist silently appended its tracks to the end of whichever playlist was current, without playing or changing the view, so only an already visible playlist appeared to change.
   The selected row was used correctly, and the generated SQL was not at fault: a native regression shows that all defaults except Ever played produce tracks for an unplayed library.
-- As agreed with the user, Open now behaves like double-tapping in Collection or Files: it replaces the Now playing playlist and starts playing it.
+- As agreed at the time, Open behaved like double-tapping in Collection or Files: it replaced the Now playing playlist and started playing it.
   Afterwards it switches to the Playlists tab showing Now playing; Back returns to the playlist list.
   Long-press actions keep their explicit add, queue and create-playlist behavior; desktop behavior is unchanged.
 - Emulator verification: 50 random tracks, Never played and Dynamic random mix each replaced Now playing (50, 20 and 20 tracks) and started playback, Back returned one level, another saved playlist kept its 60 tracks, and no crash occurred.
@@ -714,6 +715,12 @@ The user also reported that only Newest tracks works; other smart playlists need
 - Final FP5 verification (2026-11-15, after the full collection scan): Open started playback for All tracks (3,152), Newest tracks (20), 50 random tracks (50), Ever played (1), Never played (20), Last played (20), Most played (20), Favourite tracks (20), Least favourite tracks (20), and Dynamic random mix (20).
   A temporary saved 50-track playlist retained all 50 tracks after opening the generators; it was removed after the check.
   Now playing was restored to its original single 3:20 track and left stopped.
+
+**Preview update:** Tapping a smart playlist now opens its generated tracks without starting playback.
+Opening another reuses an inactive, non-favorite preview, while preserving the active playlist and favorited previews.
+On an opened playlist, the main Play button starts that playlist even if a different one is playing; normal pause/resume remains available on the active playlist.
+The user confirmed the preview, long-press actions, playback switching, pause/resume and Back on the FP5.
+Native regressions cover preview reuse, preservation and cancellation of superseded generation.
 
 ## 17. Make Android checkboxes touch-friendly
 
@@ -1491,6 +1498,9 @@ Remove unavailable songs now, below that setting, removes all of them at once af
 **Status:** Planned
 
 **Goal:** Select a song in Collection, the current playlist, saved playlists or a streaming service, then start that song with the main player's Play button.
+
+**Partial progress:** The main Play button now starts a different opened playlist on Android, preserving its last played position when available.
+Selecting an individual song to play across these sources remains planned.
 
 **Approach:**
 - Design a clear single-song selection that works with touch scrolling and Collection's existing multi-selection mode.

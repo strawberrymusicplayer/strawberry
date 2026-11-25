@@ -666,7 +666,11 @@ MainWindow::MainWindow(Application *app,
   // Action connections
   QObject::connect(ui_->action_next_track, &QAction::triggered, &*app_->player(), &Player::Next);
   QObject::connect(ui_->action_previous_track, &QAction::triggered, &*app_->player(), &Player::Previous);
+#ifdef Q_OS_ANDROID
+  QObject::connect(ui_->action_play_pause, &QAction::triggered, this, &MainWindow::AndroidPlayPause);
+#else
   QObject::connect(ui_->action_play_pause, &QAction::triggered, &*app_->player(), &Player::PlayPauseHelper);
+#endif
   QObject::connect(ui_->action_stop, &QAction::triggered, &*app_->player(), &Player::Stop);
   QObject::connect(ui_->action_quit, &QAction::triggered, this, &MainWindow::Exit);
   QObject::connect(ui_->action_stop_after_this_track, &QAction::triggered, this, &MainWindow::StopAfterCurrent);
@@ -1136,6 +1140,9 @@ MainWindow::MainWindow(Application *app,
 
   // Smart playlists
   QObject::connect(smartplaylists_view_, &SmartPlaylistsViewContainer::AddToPlaylist, this, &MainWindow::AddToPlaylist);
+#ifdef Q_OS_ANDROID
+  QObject::connect(smartplaylists_view_, &SmartPlaylistsViewContainer::AndroidPreviewOpened, this, &MainWindow::ShowAndroidCurrentPlaylist);
+#endif
 
   ScrobbleButtonVisibilityChanged(app_->scrobbler()->scrobble_button());
   LoveButtonVisibilityChanged(app_->scrobbler()->love_button());
@@ -1727,6 +1734,9 @@ void MainWindow::MediaStopped() {
 
   app_->scrobbler()->ClearPlaying();
 
+#ifdef Q_OS_ANDROID
+  UpdateAndroidPlayPause();
+#endif
 }
 
 void MainWindow::MediaPaused() {
@@ -1747,6 +1757,9 @@ void MainWindow::MediaPaused() {
 
   systemtrayicon_->SetPaused();
 
+#ifdef Q_OS_ANDROID
+  UpdateAndroidPlayPause();
+#endif
 }
 
 void MainWindow::MediaPlaying() {
@@ -1777,6 +1790,9 @@ void MainWindow::MediaPlaying() {
 
   UpdateTrackPosition();
 
+#ifdef Q_OS_ANDROID
+  UpdateAndroidPlayPause();
+#endif
 }
 
 void MainWindow::SendNowPlaying() {

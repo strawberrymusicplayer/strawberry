@@ -116,7 +116,9 @@ SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(const SharedPtr<Player>
   QObject::connect(ui_->restore_, &QToolButton::clicked, this, &SmartPlaylistsViewContainer::RestoreDefaults);
 
   QObject::connect(ui_->view, &SmartPlaylistsView::ItemsSelectedChanged, this, &SmartPlaylistsViewContainer::ItemsSelectedChanged);
+#ifndef Q_OS_ANDROID
   QObject::connect(ui_->view, &SmartPlaylistsView::doubleClicked, this, &SmartPlaylistsViewContainer::ItemDoubleClicked);
+#endif
   QObject::connect(ui_->view, &SmartPlaylistsView::ShowSmartPlaylistContextMenu, this, &SmartPlaylistsViewContainer::ShowSmartPlaylistContextMenu);
 
 #ifdef Q_OS_ANDROID
@@ -131,6 +133,10 @@ SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(const SharedPtr<Player>
         }
         return mimedata;
       });
+  actions->AddAction(tr("Edit smart playlist"), [](const QModelIndex &index) { return index.isValid(); },
+                     [this](const QModelIndex &index) { EditSmartPlaylist(index); });
+  actions->AddAction(tr("Delete smart playlist"), [](const QModelIndex &index) { return index.isValid(); },
+                     [this](const QModelIndex &index) { DeleteSmartPlaylist(index); });
   QObject::connect(actions, &PlaylistActionHandler::AddToPlaylist, this, &SmartPlaylistsViewContainer::AddToPlaylist);
 #endif
 
@@ -166,10 +172,6 @@ void SmartPlaylistsViewContainer::ReloadSettings() {
   ui_->delete_->setIconSize(QSize(iconsize, iconsize));
   ui_->edit_->setIconSize(QSize(iconsize, iconsize));
   ui_->restore_->setIconSize(QSize(iconsize, iconsize));
-#ifdef Q_OS_ANDROID
-  android_open_->setIconSize(QSize(iconsize, iconsize));
-#endif
-
 }
 
 void SmartPlaylistsViewContainer::ItemsSelectedChanged() {

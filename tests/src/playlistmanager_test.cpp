@@ -56,6 +56,7 @@
 #include "playlist/playlistitem.h"
 #include "playlist/playlistmanager.h"
 #include "smartplaylists/playlistgenerator.h"
+#include "smartplaylists/smartplaylistpreview_android.h"
 #include "playlist/playlistsequence.h"
 #include "playlist/playlistfilter.h"
 #include "playlist/playlistview.h"
@@ -760,6 +761,57 @@ TEST_F(PlaylistManagerTest, ClearingPlaylistCancelsSmartPlaylistBeingGenerated) 
   playlist->InsertSmartPlaylist(make_shared<StreamGenerator>());
   ASSERT_TRUE(QTest::qWaitFor([playlist]() { return playlist->rowCount(QModelIndex()) == 1; }, 10000));
 
+}
+
+TEST_F(PlaylistManagerTest, SmartPlaylistPreviewReusesOnlyInactiveNonFavoritePlaylist) {
+  class StreamGenerator : public PlaylistGenerator {
+   public:
+    explicit StreamGenerator(const QString &title) : title_(title) {}
+    Type type() const override { return Type::Query; }
+    void Load(const QByteArray &data) override { Q_UNUSED(data) }
+    QByteArray Save() const override { return QByteArray(); }
+    PlaylistItemPtrList Generate() override { return PlaylistItemPtrList() << MakeStreamItem(title_); }
+
+   private:
+    QString title_;
+  };
+
+  WaitForOpenPlaylistsRestored();
+  const int original = playlist_manager_->active_id();
+  playlist_manager_->active()->InsertItems(PlaylistItemPtrList() << MakeStreamItem(u"Original"_s));
+  AndroidSmartPlaylistPreview::Open(playlist_manager_.get(), make_shared<StreamGenerator>(u"First"_s));
+  Playlist *preview = playlist_manager_->current();
+  const int first = preview->id();
+  EXPECT_NE(first, original);
+  EXPECT_EQ(playlist_manager_->active_id(), original);
+  ASSERT_TRUE(QTest::qWaitFor([preview]() { return preview->rowCount() == 1; }, 10000));
+
+  AndroidSmartPlaylistPreview::Open(playlist_manager_.get(), make_shared<StreamGenerator>(u"Second"_s));
+  EXPECT_EQ(playlist_manager_->current_id(), first);
+  ASSERT_TRUE(QTest::qWaitFor([preview]() { return preview->rowCount() == 1 && preview->item_at(0)->EffectiveMetadata().title() == u"Second"_s; }, 10000));
+
+  AndroidSmartPlaylistPreview::Open(playlist_manager_.get(), make_shared<StreamGenerator>(u"Superseded"_s));
+  AndroidSmartPlaylistPreview::Open(playlist_manager_.get(), make_shared<StreamGenerator>(u"Latest"_s));
+  ASSERT_TRUE(QThreadPool::globalInstance()->waitForDone(10000));
+  ASSERT_TRUE(QTest::qWaitFor([preview]() { return preview->rowCount() == 1 && preview->item_at(0)->EffectiveMetadata().title() == u"Latest"_s; }, 10000));
+  QTest::qWait(200);
+  ASSERT_EQ(preview->rowCount(), 1);
+  EXPECT_EQ(preview->item_at(0)->EffectiveMetadata().title(), u"Latest"_s);
+
+  playlist_manager_->SetActivePlaylist(first);
+  AndroidSmartPlaylistPreview::Open(playlist_manager_.get(), make_shared<StreamGenerator>(u"Third"_s));
+  EXPECT_NE(playlist_manager_->current_id(), first);
+  EXPECT_EQ(playlist_manager_->active_id(), first);
+  EXPECT_EQ(preview->item_at(0)->EffectiveMetadata().title(), u"Latest"_s);
+  EXPECT_EQ(playlist_manager_->playlist(original)->rowCount(), 1);
+  const int second = playlist_manager_->current_id();
+  playlist_manager_->Favorite(second, true);
+  AndroidSmartPlaylistPreview::Open(playlist_manager_.get(), make_shared<StreamGenerator>(u"Fourth"_s));
+  EXPECT_NE(playlist_manager_->current_id(), first);
+  EXPECT_NE(playlist_manager_->current_id(), second);
+  Playlist *last = playlist_manager_->current();
+  ASSERT_TRUE(QTest::qWaitFor([last]() { return last->rowCount() == 1; }, 10000));
+  EXPECT_EQ(last->item_at(0)->EffectiveMetadata().title(), u"Fourth"_s);
 }
 
 // Adding URLs without replacing the playlist doesn't cancel the URLs being loaded.

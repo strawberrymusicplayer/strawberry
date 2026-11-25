@@ -6,9 +6,10 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 
-#include "core/iconloader.h"
+#include "core/logging.h"
 #include "widgets/actiondialog.h"
 #include "widgets/gridflowlayout.h"
+#include "smartplaylistpreview_android.h"
 #include "smartplaylistsviewcontainer.h"
 #include "smartplaylistsmodel.h"
 #include "smartplaylistsview.h"
@@ -39,29 +40,31 @@ void SmartPlaylistsViewContainer::SetupAndroidBrowser() {
   ui_->edit_->setText(tr("Edit"));
   ui_->delete_->setText(tr("Delete"));
   ui_->restore_->setText(tr("Restore defaults"));
-  auto *play = new QToolButton(browser);
-  android_open_ = play;
-  play->setIcon(IconLoader::Load(u"media-playback-start"_s));
-  play->setToolTip(tr("Open smart playlist"));
-  play->setAccessibleName(play->toolTip());
-  play->setText(tr("Open"));
-  play->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-  play->setAutoRaise(true);
-  play->setMinimumSize(48, 64);
-  play->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
-  buttons->addWidget(play);
   if (QScreen *current_screen = screen()) {
     QObject::connect(current_screen, &QScreen::geometryChanged, this, [this]() { UpdateAndroidToolbarOrientation(); });
   }
   UpdateAndroidToolbarOrientation();
   delete ui_->horizontalLayout->takeAt(0);
   ui_->horizontalLayout->addLayout(buttons);
-  QObject::connect(play, &QToolButton::clicked, this, [this]() {
-    if (ui_->view->currentIndex().isValid()) ItemDoubleClicked(ui_->view->currentIndex());
-  });
+  ui_->edit_->hide();
+  ui_->delete_->hide();
+  QObject::connect(ui_->view, &QAbstractItemView::clicked, this, &SmartPlaylistsViewContainer::OpenAndroidPreview);
   ui_->view->setStyleSheet(u"QListView::item { min-height: 48px; }"_s);
   ui_->view->setWordWrap(true);
   ui_->view->setDragEnabled(false);
+
+}
+
+void SmartPlaylistsViewContainer::OpenAndroidPreview(const QModelIndex &index) {
+
+  if (!index.isValid()) return;
+  PlaylistGeneratorPtr generator = model_->CreateGenerator(index);
+  if (!generator) {
+    qLog(Error) << "Cannot open smart playlist preview: invalid generator";
+    return;
+  }
+  AndroidSmartPlaylistPreview::Open(playlist_manager_.get(), generator);
+  Q_EMIT AndroidPreviewOpened();
 
 }
 
@@ -73,7 +76,7 @@ void SmartPlaylistsViewContainer::UpdateAndroidToolbarOrientation() {
   const Qt::ToolButtonStyle style = screen_geometry.width() > screen_geometry.height()
                                         ? Qt::ToolButtonTextUnderIcon
                                         : Qt::ToolButtonIconOnly;
-  for (QToolButton *button : {ui_->new_, ui_->edit_, ui_->delete_, ui_->restore_, android_open_}) {
+  for (QToolButton *button : {ui_->new_, ui_->edit_, ui_->delete_, ui_->restore_}) {
     button->setToolButtonStyle(style);
   }
 
