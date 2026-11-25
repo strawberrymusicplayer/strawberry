@@ -174,6 +174,7 @@ void MainWindow::SetupAndroidLayout() {
   QObject::connect(playlist_list_, &PlaylistListContainer::PlaylistActivated, this, [this]() {
     android_playlist_pages_->setCurrentWidget(ui_->playlist_layout);
   });
+  playlist_list_->SetAndroidNewPlaylistAction(ui_->action_new_playlist);
   QObject::connect(ui_->action_new_playlist, &QAction::triggered, this, &MainWindow::ShowAndroidCurrentPlaylist);
   QObject::connect(ui_->tabs, &QTabWidget::currentChanged, this, [this]() {
     if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(android_playlist_pages_)) android_playlist_pages_->setCurrentWidget(playlist_list_);

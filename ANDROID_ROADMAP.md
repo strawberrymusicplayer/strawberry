@@ -369,8 +369,10 @@ The following items are initial assessments that need further investigation.
 - The Android overview uses 14.4 pt playlist names without playlist icons, with compact rows and gray separators across the full list width; folder icons remain.
 - The Android app target and APK build successfully. Emulator verification confirmed inline rename updates the title and overview, the tab strip and diskette button are absent, and Back returns to the selected playlist in the overview.
 - The New folder action uses a full-page text editor on Android instead of an unresponsive popup.
-  The shared text-entry page's accept and Back behavior passes native tests and the Android app builds; FP5 verification remains open.
+  The shared text-entry page's accept and Back behavior passes native tests; the user confirmed it works on the FP5.
   Android touch scrolling disables desktop drag-and-drop, so moving playlists into folders needs a separate touch-friendly action.
+- The Android Playlists overview has a New playlist button that opens the existing empty-playlist editor.
+  The user confirmed creation and renaming on the FP5.
 
 ## 8. Fix playlist deletion and use bin icons for delete buttons
 

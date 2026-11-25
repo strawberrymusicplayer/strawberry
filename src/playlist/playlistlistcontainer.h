@@ -67,6 +67,10 @@ class PlaylistListContainer : public QWidget {
 
   void ReloadSettings();
 
+#ifdef Q_OS_ANDROID
+  void SetAndroidNewPlaylistAction(QAction *action);
+#endif
+
  Q_SIGNALS:
   void PlaylistActivated();
 

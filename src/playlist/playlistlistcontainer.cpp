@@ -149,6 +149,20 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
 
 PlaylistListContainer::~PlaylistListContainer() { delete ui_; }
 
+#ifdef Q_OS_ANDROID
+void PlaylistListContainer::SetAndroidNewPlaylistAction(QAction *action) {
+
+  auto *button = new QToolButton(this);
+  button->setDefaultAction(action);
+  button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+  button->setAccessibleName(tr("New playlist"));
+  button->setMinimumHeight(48);
+  button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  ui_->verticalLayout->insertWidget(0, button);
+
+}
+#endif
+
 void PlaylistListContainer::Init(const SharedPtr<TaskManager> task_manager,
                                  const SharedPtr<TagReaderClient> tagreader_client,
                                  const SharedPtr<PlaylistManager> playlist_manager,
