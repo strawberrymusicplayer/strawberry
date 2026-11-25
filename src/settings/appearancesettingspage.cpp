@@ -33,7 +33,6 @@
 #include <QString>
 #include <QColor>
 #include <QPalette>
-#include <QColorDialog>
 #include <QFileDialog>
 #include <QLabel>
 #include <QLineEdit>
@@ -526,19 +525,17 @@ void AppearanceSettingsPage::CreateColorSelectors() {
 
 void AppearanceSettingsPage::SelectColor(const QPalette::ColorRole role) {
 
-  const QColor color_selected = QColorDialog::getColor(current_colors_.value(role));
-  if (!color_selected.isValid()) return;
+  ChooseColor(current_colors_.value(role), [this, role](const QColor &color_selected) {
+    current_colors_[role] = color_selected;
 
-  current_colors_[role] = color_selected;
+    const auto it = color_selectors_.constFind(role);
+    if (it != color_selectors_.constEnd() && it.value()) {
+      UpdateColorSelectorColor(it.value(), color_selected);
+    }
 
-  const auto it = color_selectors_.constFind(role);
-  if (it != color_selectors_.constEnd() && it.value()) {
-    UpdateColorSelectorColor(it.value(), color_selected);
-  }
-
-  ApplyCustomColors();
-
-  set_changed();
+    ApplyCustomColors();
+    set_changed();
+  });
 
 }
 
@@ -653,12 +650,11 @@ void AppearanceSettingsPage::TabBarSelectBGColor() {
 
   if (ui_->tabbar_system_color->isChecked()) return;
 
-  QColor color_selected = QColorDialog::getColor(current_tabbar_bg_color_);
-  if (!color_selected.isValid()) return;
-  current_tabbar_bg_color_ = color_selected;
-  UpdateColorSelectorColor(ui_->select_tabbar_color, current_tabbar_bg_color_);
-
-  set_changed();
+  ChooseColor(current_tabbar_bg_color_, [this](const QColor &color_selected) {
+    current_tabbar_bg_color_ = color_selected;
+    UpdateColorSelectorColor(ui_->select_tabbar_color, current_tabbar_bg_color_);
+    set_changed();
+  });
 
 }
 
@@ -677,11 +673,10 @@ void AppearanceSettingsPage::PlaylistPlayingSongSelectColor() {
 
   if (ui_->playlist_playing_song_color_system->isChecked()) return;
 
-  QColor color_selected = QColorDialog::getColor(current_playlist_playing_song_color_);
-  if (!color_selected.isValid()) return;
-  current_playlist_playing_song_color_ = color_selected;
-  UpdateColorSelectorColor(ui_->select_playlist_playing_song_color, current_playlist_playing_song_color_);
-
-  set_changed();
+  ChooseColor(current_playlist_playing_song_color_, [this](const QColor &color_selected) {
+    current_playlist_playing_song_color_ = color_selected;
+    UpdateColorSelectorColor(ui_->select_playlist_playing_song_color, current_playlist_playing_song_color_);
+    set_changed();
+  });
 
 }

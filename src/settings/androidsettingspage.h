@@ -23,10 +23,14 @@
 #include <QtGlobal>
 
 #ifdef Q_OS_ANDROID
+#include <functional>
+
+class QColor;
 class SettingsPage;
 
 namespace AndroidSettingsPage {
 void Adapt(SettingsPage *page);
+void ChooseColor(SettingsPage *page, const QColor &initial_color, const std::function<void(const QColor &)> &on_selected);
 }
 #endif
 

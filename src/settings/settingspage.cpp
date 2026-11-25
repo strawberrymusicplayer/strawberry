@@ -20,6 +20,7 @@
  */
 
 #include <QWidget>
+#include <QColorDialog>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QSpinBox>
@@ -35,6 +36,9 @@
 
 #include "settingsdialog.h"
 #include "settingspage.h"
+#ifdef Q_OS_ANDROID
+#  include "androidsettingspage.h"
+#endif
 
 SettingsPage::SettingsPage(SettingsDialog *dialog, QWidget *parent)
     : QWidget(parent),
@@ -47,6 +51,15 @@ bool SettingsPage::IsActive() const {
   return isVisible() || dialog_->IsAndroidPageActive(this);
 #else
   return isVisible();
+#endif
+}
+
+void SettingsPage::ChooseColor(const QColor &initial_color, const std::function<void(const QColor &)> &on_selected) {
+#ifdef Q_OS_ANDROID
+  AndroidSettingsPage::ChooseColor(this, initial_color, on_selected);
+#else
+  const QColor color = QColorDialog::getColor(initial_color, this);
+  if (color.isValid()) on_selected(color);
 #endif
 }
 

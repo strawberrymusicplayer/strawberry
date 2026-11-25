@@ -30,6 +30,7 @@
 #include <QAction>
 #include <QBoxLayout>
 #include <QCheckBox>
+#include <QColorDialog>
 #include <QComboBox>
 #include <QDoubleSpinBox>
 #include <QEvent>
@@ -603,6 +604,24 @@ void AdaptLayout(QLayout *layout, SettingsPage *page) {
 }
 
 }  // namespace
+
+void AndroidSettingsPage::ChooseColor(SettingsPage *page, const QColor &initial_color, const std::function<void(const QColor &)> &on_selected) {
+  auto *content = new QWidget(page);
+  content->setProperty("androidTransientSubpage", true);
+  auto *layout = new QVBoxLayout(content);
+  layout->setContentsMargins(0, 0, 0, 0);
+
+  auto *color_dialog = new QColorDialog(initial_color, content);
+  color_dialog->setOptions(QColorDialog::DontUseNativeDialog | QColorDialog::NoButtons);
+  color_dialog->setWindowFlags(Qt::Widget);
+  layout->addWidget(color_dialog);
+  QObject::connect(color_dialog, &QColorDialog::currentColorChanged, page, [page, on_selected](const QColor &color) {
+    if (!color.isValid()) return;
+    on_selected(color);
+    page->dialog()->ScheduleAndroidSave();
+  });
+  page->dialog()->OpenAndroidSubpage(content, SettingsDialog::tr("Select color"));
+}
 
 void AndroidSettingsPage::Adapt(SettingsPage *page) {
   if (auto *proxy = page->findChild<QWidget*>(u"proxy_manual_container"_s)) {

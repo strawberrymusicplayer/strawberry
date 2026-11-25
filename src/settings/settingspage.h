@@ -24,6 +24,8 @@
 
 #include "config.h"
 
+#include <functional>
+
 #include <QObject>
 #include <QWidget>
 #include <QPair>
@@ -44,6 +46,7 @@ class QDoubleSpinBox;
 class QSlider;
 class QLineEdit;
 class QShowEvent;
+class QColor;
 
 class SettingsDialog;
 
@@ -84,6 +87,7 @@ class SettingsPage : public QWidget {
   virtual void Cancel() {}
 
  protected:
+  void ChooseColor(const QColor &initial_color, const std::function<void(const QColor &)> &on_selected);
   bool eventFilter(QObject *obj, QEvent *e) override;
 
  Q_SIGNALS:
