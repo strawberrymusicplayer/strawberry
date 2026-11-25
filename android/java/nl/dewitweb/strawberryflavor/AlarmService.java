@@ -56,8 +56,8 @@ import java.util.Locale;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-// Sounds an alarm: shows the full-screen alarm notification and plays the alarm's music, falling back to the default alarm sound.
-// It plays copies of the songs that the Qt app saved for the alarm, or a radio stream, so it does not need the Qt app, the NAS or, except for radio, the network.
+// Sounds an alarm, shows the full-screen alarm notification and coordinates playback with the Qt app.
+// When the app cannot play, the service uses available copies, original songs or radio streams, falling back to the default alarm sound.
 public class AlarmService extends Service {
 
   static final String ACTION_RING = "nl.dewitweb.strawberryflavor.ALARM_RING";
