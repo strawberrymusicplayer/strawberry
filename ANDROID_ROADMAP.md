@@ -1542,3 +1542,21 @@ Selecting an individual song to play across these sources remains planned.
 - Keep existing Smart Playlist definitions discoverable and editable, including long-press actions and the reusable preview behavior from item 16.
 - Preserve existing playlists and playback, follow the Android hierarchy and Back navigation rules, and leave desktop navigation unchanged.
 - Verify creation, editing, previews and navigation on the FP5 and emulator before removing the separate Android sidebar tab.
+
+## 38. Audit remaining desktop-style popups on Android
+
+**Status:** Planned
+
+**Goal:** Identify and replace remaining desktop-style dialogs that are unusable or difficult to operate by touch on Android.
+
+**Candidates found in code; device behavior not yet verified:**
+- Smart Playlist invalid date-range warning.
+- Subsonic, Jellyfin and Plex connection errors, confirmations and test results, including Jellyfin's unencrypted-connection warning.
+- Collection folder errors and the confirmation before writing play counts and ratings to files.
+- The collection rescan notice shown after certain database upgrades.
+
+**Approach:**
+- Audit other reachable dialogs as well, distinguishing desktop-only paths and Android's native file pickers from desktop-style popups.
+- Verify candidates on the emulator and FP5 without changing saved credentials, triggering destructive actions or modifying the collection.
+- Replace problematic Android dialogs with existing touch-friendly pages or confirmations, preserving explicit consent and desktop behavior.
+- Test and review each change separately.
