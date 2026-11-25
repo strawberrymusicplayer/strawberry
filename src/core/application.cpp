@@ -120,6 +120,10 @@
 #  include "waveform/waveformloader.h"
 #endif
 
+#ifdef HAVE_NETWORKREMOTE
+#   include "networkremote/networkremote.h"
+#endif
+
 #include "radios/radioservices.h"
 #include "radios/radiobackend.h"
 
@@ -239,6 +243,11 @@ class ApplicationImpl {
 #endif
           return scrobbler;
         })
+#ifdef HAVE_NETWORKREMOTE
+         ,network_remote_([app]() {
+            NetworkRemote *remote = new NetworkRemote(app->player(), app->playlist_manager(), app);
+            return remote;})
+#endif
   {}
 
   Lazy<TagReaderClient> tagreader_client_;
@@ -268,6 +277,9 @@ class ApplicationImpl {
   Lazy<WaveformController> waveform_controller_;
 #endif
   Lazy<AudioScrobbler> scrobbler_;
+#ifdef HAVE_NETWORKREMOTE
+  Lazy<NetworkRemote> network_remote_;
+#endif
 
 };
 
@@ -289,7 +301,9 @@ Application::Application(QObject *parent)
   audio_device_listers()->Init();
   collection()->Init();
   tagreader_client();
-
+#ifdef HAVE_NETWORKREMOTE
+  network_remote()->Init();
+#endif
 }
 
 Application::~Application() {
@@ -437,3 +451,6 @@ SharedPtr<WaveformController> Application::waveform_controller() const { return 
 SharedPtr<WaveformLoader> Application::waveform_loader() const { return p_->waveform_loader_.ptr(); }
 #endif
 SharedPtr<AudioScrobbler> Application::scrobbler() const { return p_->scrobbler_.ptr(); }
+#ifdef HAVE_NETWORKREMOTE
+SharedPtr<NetworkRemote> Application::network_remote() const { return p_->network_remote_.ptr();}
+#endif
