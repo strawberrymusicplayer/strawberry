@@ -20,6 +20,7 @@
 #include <QWizardPage>
 
 #include "widgets/androidwidgets.h"
+#include "widgets/scrollarea_android.h"
 #include "smartplaylistwizard.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -78,6 +79,7 @@ void SmartPlaylistWizard::SetupAndroid(QStackedWidget *pages) {
     QObject::connect(back, &QPushButton::clicked, this, &SmartPlaylistWizard::AndroidBack);
     layout->addLayout(AndroidWidgets::CreatePageHeader(heading, back));
     const auto scroll = AndroidWidgets::CreateScrollPage(wizard_page);
+    AndroidScrollArea::EnableForContents(scroll.area);
     auto *explanation = new QLabel(description, scroll.contents);
     explanation->setWordWrap(true);
     scroll.layout->addWidget(explanation);
@@ -206,6 +208,7 @@ void SmartPlaylistWizard::OpenAndroidChoices(QComboBox *combo, const QString &ti
   auto *back = AndroidWidgets::CreateBackButton(choices);
   layout->addLayout(AndroidWidgets::CreatePageHeader(heading, back));
   const auto scroll = AndroidWidgets::CreateScrollPage(choices);
+  AndroidScrollArea::EnableForContents(scroll.area);
   layout->addWidget(scroll.area);
   QButtonGroup *group = AndroidWidgets::AddComboChoiceRows(combo, scroll.layout);
   scroll.layout->addStretch();
