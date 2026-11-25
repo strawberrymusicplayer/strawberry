@@ -21,6 +21,9 @@
 #include <QTabWidget>
 
 #include "widgets/actiondialog.h"
+#ifdef Q_OS_ANDROID
+#  include "widgets/androidwidgets.h"
+#endif
 #include "widgets/fancytabwidget.h"
 #include "widgets/scrollarea_android.h"
 
@@ -93,7 +96,11 @@ CoverDialogPage::CoverDialogPage(QDialog *dialog)
   QFont font = title_->font();
   font.setBold(true);
   title_->setFont(font);
+#ifdef Q_OS_ANDROID
+  auto *back = AndroidWidgets::CreateBackButton(dialog);
+#else
   auto *back = new QPushButton(tr("Back"), dialog);
+#endif
   back->setMinimumHeight(kTouchSize);
   back->setAutoDefault(false);
   QObject::connect(back, &QPushButton::clicked, dialog, &QDialog::reject);
