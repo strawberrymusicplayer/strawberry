@@ -1529,3 +1529,15 @@ Selecting an individual song to play across these sources remains planned.
 - Prepare versioned releases and the required app and build metadata, and test the build and APK before submitting to the main repository.
   Evaluate reproducible builds and signing-key/update compatibility before publishing.
 - Consider a separate F-Droid repository if main-repository inclusion is not feasible; discuss the distribution and signing choice before publishing.
+
+## 37. Integrate Smart Playlists into playlist creation
+
+**Status:** Planned
+
+**Goal:** On Android, offer Smart Playlists as part of creating a playlist instead of a separate sidebar tab.
+
+**Approach:**
+- Design a clear choice between creating a regular playlist and using a Smart Playlist generator.
+- Keep existing Smart Playlist definitions discoverable and editable, including long-press actions and the reusable preview behavior from item 16.
+- Preserve existing playlists and playback, follow the Android hierarchy and Back navigation rules, and leave desktop navigation unchanged.
+- Verify creation, editing, previews and navigation on the FP5 and emulator before removing the separate Android sidebar tab.
