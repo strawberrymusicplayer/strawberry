@@ -1538,6 +1538,7 @@ Selecting an individual song to play across these sources remains planned.
 
 **Approach:**
 - Design a clear choice between creating a regular playlist and using a Smart Playlist generator.
+- Consider a Smart Playlist button in the Playlists toolbar, either to the right of Delete or between New playlist and New folder.
 - Keep existing Smart Playlist definitions discoverable and editable, including long-press actions and the reusable preview behavior from item 16.
 - Preserve existing playlists and playback, follow the Android hierarchy and Back navigation rules, and leave desktop navigation unchanged.
 - Verify creation, editing, previews and navigation on the FP5 and emulator before removing the separate Android sidebar tab.
