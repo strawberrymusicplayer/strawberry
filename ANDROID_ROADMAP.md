@@ -10,7 +10,7 @@ Status values: Planned, In progress, Done.
 Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
-1. The remaining open items: 22, 24, 27, 28, 29, 30, 31, 32, 33, 34, 35, and finally 9 (physical-device verification, which needs a device).
+1. The remaining open items: 22, 24, 27, 28, 29, 30, 31, 32, 33, 35, 36, and finally 9 (physical-device verification, which needs a device).
    Item 23 is investigated and blocked on licensing; items 16, 20, 21 and 26 are done.
 
 ## 18. Review the Android changes for coding best practices
@@ -1496,3 +1496,19 @@ Remove unavailable songs now, below that setting, removes all of them at once af
 - Design a clear single-song selection that works with touch scrolling and Collection's existing multi-selection mode.
 - Define how selection interacts with an existing playlist, queue, paused playback and the Play button when no song is selected before implementing it.
 - Preserve desktop behavior and verify each source, navigation, playback and selection on the FP5 and emulator.
+
+## 36. Prepare an F-Droid build
+
+**Status:** Planned
+
+**Goal:** Investigate and prepare Strawberry's Android build for distribution through F-Droid, subject to its review and acceptance.
+
+**Approach:**
+- Check the current [F-Droid inclusion policy](https://f-droid.org/docs/Inclusion_Policy/), including the fork's identity, licenses, source availability, non-free dependencies and any applicable anti-features.
+- Create a command-line build suitable for F-Droid's build environment.
+  Audit the current prebuilt Qt, GStreamer and OpenSSL dependencies and build them from source or establish an allowed alternative; do not assume those prebuilts are accepted.
+- Decide which optional integrations can be distributed, including the Spotify plugin's corresponding-source and license obligations in item 22.
+  Do not publish private API credentials.
+- Prepare versioned releases and the required app and build metadata, and test the build and APK before submitting to the main repository.
+  Evaluate reproducible builds and signing-key/update compatibility before publishing.
+- Consider a separate F-Droid repository if main-repository inclusion is not feasible; discuss the distribution and signing choice before publishing.
