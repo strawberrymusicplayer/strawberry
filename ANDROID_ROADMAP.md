@@ -820,7 +820,7 @@ The user also requested removing these arrows from the navigation/menu bar when 
 
 ## 22. Build and bundle a Spotify GStreamer plugin for Android
 
-**Status:** Investigating (pinned arm64 archive, dependency inventory and source bundle reviewed; plugin registration and Rust TLS trust verified in an opt-in app probe; login and playback await item 24)
+**Status:** Investigating (opt-in Spotify login verified on the FP5; playback failed and its cause remains unconfirmed)
 
 **Problem:** Spotify playback requires a GStreamer plugin that is not included in the Android SDK, so Spotify is currently disabled on Android.
 
@@ -832,8 +832,8 @@ The user also requested removing these arrows from the navigation/menu bar when 
   [Release 0.14.4's manifest](https://github.com/GStreamer/gst-plugins-rs/blob/0.14.4/audio/spotify/Cargo.toml) declares MPL-2.0, Rust 1.85 or newer, librespot 0.8 and static/cargo-c build features.
   This matches the app's minimum plugin version, but does not itself establish that Android cross-compilation or static registration works.
 - [Upstream authentication requirements](https://github.com/GStreamer/gst-plugins-rs/blob/0.14.4/audio/spotify/README.md) include Spotify Premium and an access token with the `streaming` scope.
-- Bundling the plugin alone will not restore Android login: shared `OAuthenticator` currently rejects browser authentication both when starting it and when receiving its callback.
-  Item 24 must also be addressed and verified before enabling usable Spotify login/playback.
+- Bundling the plugin alone did not restore Android login: the shared `OAuthenticator` rejected Android browser authentication.
+  Spotify's opt-in PKCE login was subsequently implemented independently of the provider flows in item 24.
 
 **Cross-build investigation:**
 - Cross-built the upstream 0.14.4 source at commit `95a7172f82d0ec816e4e89111a762c24d5c47b22` with its lockfile, Rust 1.85.0, cargo-c 0.10.13, the Android arm64 target, NDK 27.2 and the GStreamer 1.28.8 Android SDK.
@@ -864,7 +864,8 @@ The user also requested removing these arrows from the navigation/menu bar when 
   As a negative control, pointing `SSL_CERT_FILE` at a file without certificates made librespot's HTTP client setup fail before connecting; the element reported a caught panic and the app stayed running.
   The patch was removed afterwards and the build reconfigured with the probe off.
   This verifies TLS trust in the app process, not a valid login or playback.
-- [dist/scripts/build-android-gst-plugin-spotify.sh](dist/scripts/build-android-gst-plugin-spotify.sh) now reproduces the archive build: SHA-256-pinned 0.14.4 source, Rust 1.85.0, cargo-c 0.10.13 and `--locked` crates, without debug information or local build paths.
+- [dist/scripts/build-android-gst-plugin-spotify.sh](dist/scripts/build-android-gst-plugin-spotify.sh) originally reproduced the 0.14.4 archive build with SHA-256-pinned source, Rust 1.85.0, cargo-c 0.10.13 and `--locked` crates, without debug information or local build paths.
+  It now pins 0.15.4+fixup and requires Rust 1.92.0; see [the build guide](ANDROID_BUILD_GUIDE.md) for the current instructions.
   It also outputs the plugin's MPL-2.0 licence, the linked crates with their declared licences (231 for arm64), and a build manifest with the archive checksum.
   A release arm64 archive from the script (28 MB, versus 204 MB with debug information) registered `spotifyaudiosrc` in the app on the emulator, which stayed running; the probe APK was about 39 MB.
   The build was then restored with the probe off.
@@ -879,11 +880,17 @@ The user also requested removing these arrows from the navigation/menu bar when 
   The `webpki` crate lacks a Cargo license field but its ISC-style license and nested Chromium/BetterTLS notices are now included in the bundle.
   This technical review is not legal clearance; the release source-delivery location and process remain unset.
 
+**FP5 playback test (2026-11-18):**
+- The opt-in Spotify build authenticated successfully and returned to Strawberry.
+  Playback failed with "track is not available", including after updating the plugin from 0.14.4 to 0.15.4; both use librespot 0.8.0.
+- The failure resembles reported Spotify audio-key restrictions affecting some accounts ([librespot issue 1649](https://github.com/librespot-org/librespot/issues/1649) and [discussion 1685](https://github.com/librespot-org/librespot/discussions/1685)).
+  The app's error is generic, so the cause is not confirmed and another track-loading failure is possible.
+
 **Next steps:**
 - Set up a durable release source-delivery location and attach the generated source bundle, manifest and licence inventory to any APK distribution.
 - The project currently configures and packages arm64-v8a only; build and register additional ABI archives only if the Android distribution expands to ship them.
 - Keep Spotify disabled in normal Android builds. The default-off `ENABLE_ANDROID_SPOTIFY` option requires the plugin probe and enables a local test with a Spotify developer app's client ID, PKCE, and a direct loopback redirect. It does not depend on the Last.fm login work.
-- Verify Spotify login, callback, playback, seeking, track transitions, and background playback on Android before marking this item done.
+- Investigate the playback failure and verify playback, seeking, track transitions and background playback on Android before marking this item done; further login lifecycle verification also remains.
 
 ## 23. Investigate Discord Rich Presence support on Android
 
