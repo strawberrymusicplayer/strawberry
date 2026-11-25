@@ -371,7 +371,7 @@ The following items are initial assessments that need further investigation.
 - The New folder action uses a full-page text editor on Android instead of an unresponsive popup.
   The shared text-entry page's accept and Back behavior passes native tests; the user confirmed it works on the FP5.
   Android touch scrolling disables desktop drag-and-drop, so moving playlists into folders needs a separate touch-friendly action.
-- The Android Playlists overview has a New playlist button that opens the existing empty-playlist editor.
+- The Android Playlists overview has a green plus button beside New folder that opens the existing empty-playlist editor.
   The user confirmed creation and renaming on the FP5.
 
 ## 8. Fix playlist deletion and use bin icons for delete buttons

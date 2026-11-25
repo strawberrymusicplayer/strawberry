@@ -152,13 +152,15 @@ PlaylistListContainer::~PlaylistListContainer() { delete ui_; }
 #ifdef Q_OS_ANDROID
 void PlaylistListContainer::SetAndroidNewPlaylistAction(QAction *action) {
 
-  auto *button = new QToolButton(this);
+  auto *button = new QToolButton(ui_->widget);
   button->setDefaultAction(action);
-  button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+  button->setIcon(QIcon(QStringLiteral(":/icons/32x32/list-add.png")));
+  button->setIconSize(ui_->new_folder->iconSize());
+  button->setToolButtonStyle(Qt::ToolButtonIconOnly);
   button->setAccessibleName(tr("New playlist"));
-  button->setMinimumHeight(48);
-  button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-  ui_->verticalLayout->insertWidget(0, button);
+  button->setToolTip(tr("New playlist"));
+  button->setMinimumSize(48, 48);
+  ui_->horizontalLayout->insertWidget(0, button);
 
 }
 #endif
