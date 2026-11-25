@@ -47,11 +47,14 @@ using EngineState = nwr::EngineStateGadget::EngineState;
 // 2 - position/length in ResponseSongMetadata, version field in Message
 // 3 - playlist listing and playlist song rows
 // 4 - playlist mutation (add/remove song) requests
-// 5 - optional token authentication, auth_enabled in ResponseConnect, PlaylistRejectReason
-constexpr quint32 kProtocolVersion = 5;
+// 5 - optional token authentication (auth_enabled in ResponseConnect, token on playlist mutations, RequestValidateToken/ResponseValidateToken, AuthStatusChanged, PlaylistRejectReason)
+//     server-decided playlist window (RequestPlaylistSongs carries only playlist_id), PlaylistInfo.is_current
+//     PlaylistAdvanced and unprompted ResponsePlaylistSongs broadcasts
+// 6 - RequestSeek to move within the current song
+constexpr quint32 kProtocolVersion = 6;
 
 // Oldest client protocol version this server accepts.
-constexpr quint32 kMinSupportedVersion = 5;
+constexpr quint32 kMinSupportedVersion = 6;
 
 // Maximum size (bytes) of a single incoming protobuf message payload, excluding the 4-byte length header. Protects against a peer declaring (or the accumulated buffer implying) an unreasonably large frame.
 constexpr quint32 kMaxMsgLen = 1024 * 1024;  // 1 MiB
@@ -64,11 +67,20 @@ constexpr int kMaxFailedTokenAttempts = 5;
 
 // Returns true if row_index refers to a valid row within a playlist that has row_count rows. Comparing in unsigned space (rather than narrowing row_index to int first) avoids a client-supplied value near quint32::max() wrapping to a small or negative int and passing a naive signed comparison.
 inline bool IsValidRowIndex(quint32 row_index, int row_count) {
-  if (row_count < 0) return false;
-  return row_index < static_cast<quint32>(row_count);
+    if (row_count < 0) return false;
+    return row_index < static_cast<quint32>(row_count);
 }
 
-// Maximum bytes allowed to accumulate in the incoming read buffer before a complete frame has been assembled. 
+// Returns true if position_seconds is a position the server will seek to within a song that is length_seconds long.
+// The valid range is 0 to length_seconds - 1, because seeking to the very end would finish the song.
+// A length of zero or less (nothing loaded) accepts no position.
+// Comparing in unsigned 64-bit space keeps a client-supplied value near quint32::max() from wrapping.
+inline bool IsValidSeekPosition(quint32 position_seconds, qint64 length_seconds) {
+    if (length_seconds <= 0) return false;
+    return static_cast<quint64>(position_seconds) < static_cast<quint64>(length_seconds);
+}
+
+// Maximum bytes allowed to accumulate in the incoming read buffer before a complete frame has been assembled.
 // Enforced in NetworkRemoteMessageFramer::Feed() - a single Feed() call large enough to exceed this on its own is rejected outright, rather than relying on NextFrame() ever getting a chance to reject an oversized frame after the fact
 constexpr quint64 kMaxBufferedBytes = 4ULL + kMaxMsgLen;
 #endif  // NETWORKREMOTEHELPER_H

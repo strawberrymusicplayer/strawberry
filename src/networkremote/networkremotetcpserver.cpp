@@ -24,64 +24,70 @@
 
 NetworkRemoteTcpServer::NetworkRemoteTcpServer(const SharedPtr<Player> player, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent)
     : QObject(parent),
-      player_(player),
-      playlist_manager_(playlist_manager),
-      server_(new QTcpServer(this)),
-      client_mgr_(new NetworkRemoteClientManager(player_, playlist_manager_, this)) {
-  connect(server_, &QTcpServer::newConnection, this, &NetworkRemoteTcpServer::NewTcpConnection);
+    player_(player),
+    playlist_manager_(playlist_manager),
+    server_(new QTcpServer(this)),
+    client_mgr_(new NetworkRemoteClientManager(player_, playlist_manager_, this)) {
+    connect(server_, &QTcpServer::newConnection, this, &NetworkRemoteTcpServer::NewTcpConnection);
 }
 
 void NetworkRemoteTcpServer::StartServer(const QHostAddress &ipAddr, int port, const QNetworkAddressEntry &subnet) {
-  subnet_ = subnet;
-  server_->setProxy(QNetworkProxy::NoProxy);
-  if (server_->isListening()) {
-    server_->close();
-  }
-  if (server_->listen(ipAddr, port)) {
-    qLog(Debug) << "TCP Server Started on --- " << ipAddr.toString() << " and port -- " << port;
-  }
-  else {
-    qLog(Error) << "Failed to start TCP Server on" << ipAddr.toString() << ":" << port << "-" << server_->errorString();
-  }
+    subnet_ = subnet;
+    server_->setProxy(QNetworkProxy::NoProxy);
+    if (server_->isListening()) {
+        server_->close();
+    }
+    if (server_->listen(ipAddr, port)) {
+        qLog(Debug) << "TCP Server Started on --- " << ipAddr.toString() << " and port -- " << port;
+    }
+    else {
+        qLog(Error) << "Failed to start TCP Server on" << ipAddr.toString() << ":" << port << "-" << server_->errorString();
+    }
 }
 
 void NetworkRemoteTcpServer::NewTcpConnection() {
-  while (server_->hasPendingConnections()) {
-    QTcpSocket *socket = server_->nextPendingConnection();
-    if (!socket) {
-      qLog(Warning) << "nextPendingConnection returned nullptr";
-      break;
+    while (server_->hasPendingConnections()) {
+        QTcpSocket *socket = server_->nextPendingConnection();
+        if (!socket) {
+            qLog(Warning) << "nextPendingConnection returned nullptr";
+            break;
+        }
+        const QHostAddress peer = socket->peerAddress();
+        if (!peer.isInSubnet(subnet_.ip(), subnet_.prefixLength())) {
+            qLog(Warning) << "Rejected connection from" << peer.toString() << "- not in local subnet";
+            socket->disconnectFromHost();
+            socket->deleteLater();
+            continue;
+        }
+        client_mgr_->AddClient(socket);
+        qLog(Debug) << "New Socket accepted from" << peer.toString();
     }
-    const QHostAddress peer = socket->peerAddress();
-    if (!peer.isInSubnet(subnet_.ip(), subnet_.prefixLength())) {
-      qLog(Warning) << "Rejected connection from" << peer.toString() << "- not in local subnet";
-      socket->disconnectFromHost();
-      socket->deleteLater();
-      continue;
-    }
-    client_mgr_->AddClient(socket);
-    qLog(Debug) << "New Socket accepted from" << peer.toString();
-  }
 }
 
 void NetworkRemoteTcpServer::StopServer() {
-  if (server_->isListening()) {
-    client_mgr_->DisconnectAll();
-    server_->close();
-    qLog(Debug) << "TCP Server Stopped ----------------------";
-  }
+    if (server_->isListening()) {
+        client_mgr_->DisconnectAll();
+        server_->close();
+        qLog(Debug) << "TCP Server Stopped ----------------------";
+    }
 }
 
 bool NetworkRemoteTcpServer::ServerUp() {
-  return server_->isListening();
+    return server_->isListening();
 }
 
 void NetworkRemoteTcpServer::SetPlaylistView(QPointer<PlaylistView> playlist_view) {
-  client_mgr_->SetPlaylistView(playlist_view);
+    client_mgr_->SetPlaylistView(playlist_view);
 }
 
 void NetworkRemoteTcpServer::BroadcastAuthStatus(bool auth_enabled) {
-  if (client_mgr_) {
-    client_mgr_->BroadcastAuthStatus(auth_enabled);
-  }
+    if (client_mgr_) {
+        client_mgr_->BroadcastAuthStatus(auth_enabled);
+    }
+}
+
+void NetworkRemoteTcpServer::BroadcastVolumeControlStatus(bool volume_control_enabled) {
+    if (client_mgr_) {
+        client_mgr_->BroadcastVolumeControlStatus(volume_control_enabled);
+    }
 }

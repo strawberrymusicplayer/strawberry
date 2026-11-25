@@ -26,83 +26,91 @@ using namespace nwr_types;
 
 NetworkRemoteIncomingMsg::NetworkRemoteIncomingMsg(QObject *parent)
     : QObject(parent),
-      socket_(nullptr) {}
+    socket_(nullptr) {}
 
 NetworkRemoteIncomingMsg::~NetworkRemoteIncomingMsg() = default;
 
 void NetworkRemoteIncomingMsg::Init(QTcpSocket *socket) {
-  socket_ = socket;
-  socket_->setReadBufferSize(kMaxBufferedBytes);
-  QObject::connect(socket_, &QIODevice::readyRead, this, &NetworkRemoteIncomingMsg::ReadyRead);
+    socket_ = socket;
+    socket_->setReadBufferSize(kMaxBufferedBytes);
+    QObject::connect(socket_, &QIODevice::readyRead, this, &NetworkRemoteIncomingMsg::ReadyRead);
 }
 
 void NetworkRemoteIncomingMsg::SetMsgType() {
-  msg_type_ = msg_.type();
+    msg_type_ = msg_.type();
 }
 
 MsgType NetworkRemoteIncomingMsg::GetMsgType() {
-  return msg_type_;
+    return msg_type_;
 }
 
 nwr::RequestPlaylistSongs NetworkRemoteIncomingMsg::GetRequestPlaylistSongs() {
-  return msg_.requestPlaylistSongs();
+    return msg_.requestPlaylistSongs();
 }
 
 nwr::RequestPlaySong NetworkRemoteIncomingMsg::GetRequestPlaySong() {
-  return msg_.requestPlaySong();
+    return msg_.requestPlaySong();
 }
 
 nwr::RequestAddSongToPlaylist NetworkRemoteIncomingMsg::GetRequestAddSongToPlaylist() {
-  return msg_.requestAddSongToPlaylist();
+    return msg_.requestAddSongToPlaylist();
 }
 
 nwr::RequestRemoveSongFromPlaylist NetworkRemoteIncomingMsg::GetRequestRemoveSongFromPlaylist() {
-  return msg_.requestRemoveSongFromPlaylist();
+    return msg_.requestRemoveSongFromPlaylist();
 }
 
 void NetworkRemoteIncomingMsg::ReadyRead() {
-  if (!framer_.Feed(socket_->readAll())) {
-    qLog(Warning) << "Incoming data exceeded" << kMaxBufferedBytes << "bytes; dropping connection";
-    socket_->disconnectFromHost();
-    return;
-  }
-
-  QByteArray payload;
-
-  while (true) {
-    const NetworkRemoteMessageFramer::Status status = framer_.NextFrame(payload);
-
-    if (status == NetworkRemoteMessageFramer::Status::NeedMoreData) {
-      break;
-    }
-    if (status == NetworkRemoteMessageFramer::Status::OversizedFrame) {
-      qLog(Warning) << "Message length exceeds limit; dropping connection";
-      framer_.Clear();
-      socket_->disconnectFromHost();
-      return;
+    if (!framer_.Feed(socket_->readAll())) {
+        qLog(Warning) << "Incoming data exceeded" << kMaxBufferedBytes << "bytes; dropping connection";
+        socket_->disconnectFromHost();
+        return;
     }
 
-    msg_ = nwr::Message();
-    QProtobufSerializer serializer;
-    msg_.deserialize(&serializer, payload);
-    if (serializer.lastError() == QAbstractProtobufSerializer::Error::None) {
-      SetMsgType();
-      Q_EMIT InMsgParsed();
+    QByteArray payload;
+
+    while (true) {
+        const NetworkRemoteMessageFramer::Status status = framer_.NextFrame(payload);
+
+        if (status == NetworkRemoteMessageFramer::Status::NeedMoreData) {
+            break;
+        }
+        if (status == NetworkRemoteMessageFramer::Status::OversizedFrame) {
+            qLog(Warning) << "Message length exceeds limit; dropping connection";
+            framer_.Clear();
+            socket_->disconnectFromHost();
+            return;
+        }
+
+        msg_ = nwr::Message();
+        QProtobufSerializer serializer;
+        msg_.deserialize(&serializer, payload);
+        if (serializer.lastError() == QAbstractProtobufSerializer::Error::None) {
+            SetMsgType();
+            Q_EMIT InMsgParsed();
+        }
+        else {
+            qLog(Warning) << "Failed to deserialize message: (" << qToUnderlying(serializer.lastError()) << ") " << serializer.lastErrorString();
+        }
     }
-    else {
-      qLog(Warning) << "Failed to deserialize message: (" << qToUnderlying(serializer.lastError()) << ") " << serializer.lastErrorString();
-    }
-  }
 }
 
 quint32 NetworkRemoteIncomingMsg::GetMsgVersion() {
-  return msg_.version();
+    return msg_.version();
 }
 
 QString NetworkRemoteIncomingMsg::GetClientName() {
-  return msg_.requestConnect().clientName();
+    return msg_.requestConnect().clientName();
 }
 
 nwr::RequestValidateToken NetworkRemoteIncomingMsg::GetRequestValidateToken() {
-  return msg_.requestValidateToken();
+    return msg_.requestValidateToken();
+}
+
+nwr::RequestSeek NetworkRemoteIncomingMsg::GetRequestSeek() {
+    return msg_.requestSeek();
+}
+
+nwr::RequestSetVolume NetworkRemoteIncomingMsg::GetRequestSetVolume() {
+    return msg_.requestSetVolume();
 }

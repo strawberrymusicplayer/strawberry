@@ -24,38 +24,43 @@
 #include "core/settings.h"
 
 class NetworkRemoteSettings {
- public:
-  static const char *kSettingsGroup;
-  static constexpr int kMinUpcomingRows = 10;   // Determines how many rows of a playlist will be
-  static constexpr int kMaxUpcomingRows = 100;  // sent to the client
-  static constexpr int kMinPort = 8888;
-  static constexpr int kMaxPort = 65535;
-  static constexpr int kDefaultPort = 8888;
+public:
+    static const char *kSettingsGroup;
+    static constexpr int kMinUpcomingRows = 10;   // Determines how many rows of a playlist will be
+    static constexpr int kMaxUpcomingRows = 100;  // sent to the client
+    static constexpr int kMinPort = 8888;
+    static constexpr int kMaxPort = 65535;
+    static constexpr int kDefaultPort = 8888;
 
-  explicit NetworkRemoteSettings();
-  ~NetworkRemoteSettings();
-  void Load();
-  void Save();
-  bool UseRemote() const;
-  int GetPort() const;
-  void SetUseRemote(bool);
-  void SetPort(int);
-  QString GetToken() const;
-  void SetToken(const QString &token);
-  int GetPlaylistSize() const;
-  void SetPlaylistSize(int size);
-  static int CurrentPlaylistSize();
-  static void RefreshCache();
-  static QString CurrentToken();
+    explicit NetworkRemoteSettings();
+    ~NetworkRemoteSettings();
+    void Load();
+    void Save();
+    bool UseRemote() const;
+    int GetPort() const;
+    void SetUseRemote(bool);
+    void SetPort(int);
+    QString GetToken() const;
+    void SetToken(const QString &token);
+    int GetPlaylistSize() const;
+    void SetPlaylistSize(int size);
+    bool GetVolumeControl() const;
+    void SetVolumeControl(bool enabled);
+    static int CurrentPlaylistSize();
+    static void RefreshCache();
+    static QString CurrentToken();
+    static bool CurrentVolumeControl();
 
- private:
-  bool enabled_;
-  int remote_port_;
-  Settings settings_;
-  QString remote_token_;
-  int playlist_size_;
-  static QString cached_token_;
-  static int cached_playlist_size_;
+private:
+    bool enabled_;
+    int remote_port_;
+    Settings settings_;
+    QString remote_token_;
+    int playlist_size_;
+    bool volume_control_;
+    static QString cached_token_;
+    static int cached_playlist_size_;
+    static bool cached_volume_control_;
 };
 
 #endif

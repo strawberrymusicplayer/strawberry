@@ -67,6 +67,18 @@ enum MsgType {
 
     // Handle next song in playlist
     MSG_TYPE_PLAYLIST_ADVANCED = 34;
+
+    // Client initiated seek to a position within the current song
+    MSG_TYPE_REQUEST_SEEK = 35;
+
+    // If the volume control setting changes
+    MSG_TYPE_VOLUME_CONTROL_STATUS_CHANGED = 36;
+
+    // Client initiated change of the volume, ignored by the server unless volume control is enabled
+    MSG_TYPE_REQUEST_SET_VOLUME = 37;
+
+    // Server-initiated broadcast whenever the player volume changes, whoever changed it
+    MSG_TYPE_VOLUME_CHANGED = 38;
 }
 
 enum PlayerState {
@@ -112,6 +124,7 @@ message RequestConnect {
 message ResponseConnect {
     bool accepted = 1;
     bool auth_enabled = 2;
+    bool volume_control_enabled = 3;
 }
 
 message SongMetadata{
@@ -197,6 +210,7 @@ message ResponseInitialInfo {
     ResponseSongMetadata song_info = 1;
     ResponsePlaylists playlists = 2;
     EngineStateChange engine_state = 3;
+    uint32 volume = 4;  // current player volume, 0 to 100
 }
 
 message RequestPlaylistSongs {
@@ -279,6 +293,22 @@ message PlaylistAdvanced {
     PlaylistSongRow trailing_row = 3;
 }
 
+message RequestSeek {
+    uint32 position_seconds = 1;  // whole seconds from the start of the current song, valid range is 0 to length_seconds - 1
+}
+
+message VolumeControlStatusChanged {
+    bool volume_control_enabled = 1;
+}
+
+message RequestSetVolume {
+    uint32 volume = 1;  // in the player's own units, 0 to 100
+}
+
+message VolumeChanged {
+    uint32 volume = 1;  // current player volume, 0 to 100
+}
+
 message Message {
     MsgType type = 1;
     uint32 version = 15;
@@ -314,5 +344,9 @@ message Message {
         ResponseValidateToken response_validate_token = 31;
         AuthStatusChanged auth_status_changed = 32;
         PlaylistAdvanced playlist_advanced = 33;
+        RequestSeek request_seek = 34;
+        VolumeControlStatusChanged volume_control_status_changed = 35;
+        RequestSetVolume request_set_volume = 36;
+        VolumeChanged volume_changed = 37;
     }
 }

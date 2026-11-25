@@ -29,24 +29,25 @@ class Ui_NetworkRemoteSettingsPage;
 class NetworkRemote;
 
 class NetworkRemoteSettingsPage : public SettingsPage {
-  Q_OBJECT
- public:
-  explicit NetworkRemoteSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
-  ~NetworkRemoteSettingsPage() override;
-  void Load() override;
-  void Save() override;
+    Q_OBJECT
+public:
+    explicit NetworkRemoteSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
+    ~NetworkRemoteSettingsPage() override;
+    void Load() override;
+    void Save() override;
 
- private:
-  Ui_NetworkRemoteSettingsPage *ui_;
-  ScopedPtr<NetworkRemoteSettings> settings_;
+private:
+    Ui_NetworkRemoteSettingsPage *ui_;
+    ScopedPtr<NetworkRemoteSettings> settings_;
 
- private Q_SLOTS:
-  void RemoteButtonClicked();
-  void PortChanged();
-  void DisplayIP();
-  void TokenChanged();
-  void ToggleTokenVisibility(bool visible);
-  void PlaylistSizeChanged();
+private Q_SLOTS:
+    void RemoteButtonClicked();
+    void PortChanged();
+    void DisplayIP();
+    void TokenChanged();
+    void ToggleTokenVisibility(bool visible);
+    void PlaylistSizeChanged();
+    void VolumeControlChanged();
 };
 
 #endif  // NETWORKREMOTESETTINGSPAGE_H

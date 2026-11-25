@@ -1809,7 +1809,7 @@ qt_wrap_cpp(SOURCES ${HEADERS})
 qt_wrap_ui(SOURCES ${UI})
 qt_add_resources(SOURCES data/data.qrc data/icons.qrc)
 
-add_library(strawberry_lib STATIC ${SOURCES})
+add_library(strawberry_lib STATIC ${SOURCES} ${HEADERS})
 
 target_sources(strawberry PRIVATE src/main.cpp)
 
