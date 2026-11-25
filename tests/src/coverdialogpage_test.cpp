@@ -4,13 +4,17 @@
 
 #include <memory>
 
+#include <QApplication>
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QLabel>
 #include <QLineEdit>
 #include <QImage>
+#include <QMouseEvent>
 #include <QPointer>
 #include <QPushButton>
+#include <QScrollArea>
+#include <QScrollBar>
 #include <QSignalSpy>
 #include <QTest>
 #include <QTimer>
@@ -221,6 +225,38 @@ TEST_F(CoverDialogPageTest, NestedSearchFitsShortLandscapePage) {
   window_.resize(640, 230);
   QCoreApplication::processEvents();
   ExpectButtonsFit(&dialog);
+  dialog.reject();
+}
+
+TEST_F(CoverDialogPageTest, DraggingEditorContentsScrollsWithoutClicking) {
+  QWidget controller(&window_);
+  QDialog dialog(&controller);
+  auto *layout = new QVBoxLayout(&dialog);
+  auto *button = new QPushButton(QStringLiteral("Action"), &dialog);
+  button->setFixedHeight(400);
+  layout->addWidget(button);
+  layout->addSpacing(500);
+  layout->addWidget(new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &dialog));
+  CoverDialogPage page(&dialog);
+  page.Open();
+  QCoreApplication::processEvents();
+  auto *scroll = dialog.findChild<QScrollArea*>();
+  ASSERT_NE(scroll, nullptr);
+  ASSERT_GT(scroll->verticalScrollBar()->maximum(), 0);
+  QSignalSpy clicked(button, &QPushButton::clicked);
+  const QPoint start = button->mapToGlobal(QPoint(button->width() / 2, 180));
+  QTest::mousePress(button, Qt::LeftButton, Qt::NoModifier, button->mapFromGlobal(start));
+  for (int i = 1; i <= 12; ++i) {
+    QTest::qWait(20);
+    const QPoint global = start + QPoint(0, -120 * i / 12);
+    QMouseEvent move(QEvent::MouseMove, button->mapFromGlobal(global), global, Qt::NoButton, Qt::LeftButton, Qt::NoModifier);
+    QApplication::sendEvent(button, &move);
+  }
+  const QPoint end = start + QPoint(0, -120);
+  QMouseEvent release(QEvent::MouseButtonRelease, button->mapFromGlobal(end), end, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+  QApplication::sendEvent(button, &release);
+  EXPECT_GT(scroll->verticalScrollBar()->value(), 0);
+  EXPECT_EQ(clicked.count(), 0);
   dialog.reject();
 }
 

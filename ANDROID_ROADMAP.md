@@ -1215,17 +1215,21 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
   Focus now returns explicitly to the tree.
   On the final APK, Back from Actions retained the selection in portrait; after rotation, Back exited selection in landscape and left the player controls visible.
   Android reported the keyboard hidden after both Back steps, and no app crash was recorded.
-  Physical-finger verification on the FP5 is still outstanding.
+- FP5 physical-finger check (2026-11-25): the user confirmed Collection scrolling, including slow and diagonal drags and momentum-stop taps, and long-press selection with Back or Done work.
+
+**Cover editor and physical-finger follow-up (2026-11-25):**
+- The Android cover editor's scroll area now uses `AndroidScrollArea::EnableForContents()`.
+  A native regression verifies dragging scrolls its contents without activating a button; the cover dialog test suite and Android build pass.
+- The user confirmed that Context lyrics scrolling, cover long press and the Context cover editor work with a finger on the FP5.
+- The user also reported Tools > Cover Manager is unusable on Android; that separate layout and interaction issue remains item 33.
+- Audit follow-up: the Android Smart Playlist wizard and `MessageDialog` create scroll areas without the shared touch-scrolling helper; investigate and test these separately.
 
 **Still open:**
-- FP5 feedback (2026-11-14): confirm the Context lyrics scrolling and cover long press with a physical finger.
 - FP5 feedback (2026-11-12): dragging in Collection still frequently selects rows instead of scrolling.
-  Treat this as an unresolved physical-device usability issue; emulator swipe checks alone are insufficient.
+  The later physical-finger check above reports that scrolling and selection work; broader gesture and orientation checks remain.
   A native probe confirmed the previous zero-delay list gesture sent a press to the view before the gesture was resolved, which could select a row immediately.
   A trial 150 ms press delay prevented that early selection but delayed the existing album long-press action beyond its tested timing, so it was not adopted as a standalone fix.
-- Verify the new Collection selection mode with a physical finger on the FP5, including slow/short/diagonal drags, momentum-stop taps, long presses, cancellation and Back.
-  The FP5 disconnected before deployment of this change; native regressions alone cannot establish physical-finger usability.
-- Verify physical finger gestures and long-press actions on the FP5; the signed release has now been installed with the user's approval, preserving app data.
+- Verify remaining physical-finger cases on the FP5, including short drags, cancellation, selection actions and both orientations.
 - Extend the audit to general scrollable settings/dialog pages, nested scrolling and embedded controls; this list-specific change does not claim to resolve every scroll area.
 - `AndroidScrollArea::EnableForContents()` makes a scroll area scroll when its contents or buttons are dragged, without activating a button; it is used by Tools, Settings, Context, the menu pages and the Collection options pages.
 

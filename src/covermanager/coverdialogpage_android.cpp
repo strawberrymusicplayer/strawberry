@@ -21,6 +21,7 @@
 
 #include "widgets/actiondialog.h"
 #include "widgets/fancytabwidget.h"
+#include "widgets/scrollarea_android.h"
 
 namespace {
 
@@ -82,6 +83,7 @@ CoverDialogPage::CoverDialogPage(QDialog *dialog)
     scroll->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
     scroll->setWidgetResizable(true);
     scroll->setWidget(body);
+    AndroidScrollArea::EnableForContents(scroll);
     layout->addWidget(scroll, 1);
     layout->addWidget(buttons);
   }

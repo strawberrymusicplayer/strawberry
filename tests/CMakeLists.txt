@@ -188,7 +188,10 @@ if(NOT ANDROID)
     target_sources(nasfileengine_test PRIVATE ${CMAKE_SOURCE_DIR}/src/engine/gstqfilesrc.cpp)
   endif()
   add_test_file(src/coverdialogpage_test.cpp true)
-  target_sources(coverdialogpage_test PRIVATE ${CMAKE_SOURCE_DIR}/src/covermanager/coverdialogpage_android.cpp)
+  target_sources(coverdialogpage_test PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/covermanager/coverdialogpage_android.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/scrollarea_android.cpp
+  )
   add_test_file(src/collectiondialogpages_test.cpp true)
   target_sources(collectiondialogpages_test PRIVATE
     ${CMAKE_SOURCE_DIR}/src/collection/collectiondialogpages_android.cpp
