@@ -10,7 +10,7 @@ Status values: Planned, In progress, Done.
 Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
-1. The remaining open items: 22, 24, 27, 28, 29, 30, 31, 32, 33, 34, and finally 9 (physical-device verification, which needs a device).
+1. The remaining open items: 22, 24, 27, 28, 29, 30, 31, 32, 33, 34, 35, and finally 9 (physical-device verification, which needs a device).
    Item 23 is investigated and blocked on licensing; items 16, 20, 21 and 26 are done.
 
 ## 18. Review the Android changes for coding best practices
@@ -1483,3 +1483,14 @@ An in-place tag edit made while the app is hidden, which doesn't change its fold
 Settings > General > Collection > Automatic updating > Expire unavailable songs after removes such songs when the number of days has passed since they were last seen, unless a playlist contains them; 0 keeps them.
 The expiry runs at the end of an incremental or full scan: the update on startup, the daily periodic update, Update changed collection folders and Do a full collection rescan, not after the scans of notified NAS folders.
 Remove unavailable songs now, below that setting, removes all of them at once after a confirmation which shows how many there are.
+
+## 35. Play a selected song with the main Play button on Android
+
+**Status:** Planned
+
+**Goal:** Select a song in Collection, the current playlist, saved playlists or a streaming service, then start that song with the main player's Play button.
+
+**Approach:**
+- Design a clear single-song selection that works with touch scrolling and Collection's existing multi-selection mode.
+- Define how selection interacts with an existing playlist, queue, paused playback and the Play button when no song is selected before implementing it.
+- Preserve desktop behavior and verify each source, navigation, playback and selection on the FP5 and emulator.
