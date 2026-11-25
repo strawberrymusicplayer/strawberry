@@ -22,6 +22,7 @@ class CoverDialogPage : public QObject {
   void Open();
   void ShowError(const QString &message);
   static void ShowCover(QWidget *parent, const QString &title, const QPixmap &pixmap);
+  static QString GetText(QWidget *parent, const QString &title, const QString &label);
 
  protected:
   bool eventFilter(QObject *object, QEvent *event) override;

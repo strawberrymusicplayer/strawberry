@@ -368,6 +368,9 @@ The following items are initial assessments that need further investigation.
 - Removed the Save playlist diskette from the Android overview toolbar. The export action remains available from the existing context menu; desktop controls are unchanged.
 - The Android overview uses 14.4 pt playlist names without playlist icons, with compact rows and gray separators across the full list width; folder icons remain.
 - The Android app target and APK build successfully. Emulator verification confirmed inline rename updates the title and overview, the tab strip and diskette button are absent, and Back returns to the selected playlist in the overview.
+- The New folder action uses a full-page text editor on Android instead of an unresponsive popup.
+  The shared text-entry page's accept and Back behavior passes native tests and the Android app builds; FP5 verification remains open.
+  Android touch scrolling disables desktop drag-and-drop, so moving playlists into folders needs a separate touch-friendly action.
 
 ## 8. Fix playlist deletion and use bin icons for delete buttons
 

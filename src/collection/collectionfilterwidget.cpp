@@ -60,6 +60,7 @@
 #include "constants/appearancesettings.h"
 #ifdef Q_OS_ANDROID
 #  include "collectiondialogpages_android.h"
+#  include "covermanager/coverdialogpage_android.h"
 #endif
 
 using namespace Qt::Literals::StringLiterals;
@@ -388,7 +389,7 @@ void CollectionFilterWidget::SaveGroupBy() {
   if (!model_) return;
 
 #ifdef Q_OS_ANDROID
-  const QString name = CollectionDialogPages::GetText(this, tr("Grouping Name"), tr("Grouping name:"));
+  const QString name = CoverDialogPage::GetText(this, tr("Grouping Name"), tr("Grouping name:"));
 #else
   const QString name = QInputDialog::getText(this, tr("Grouping Name"), tr("Grouping name:"));
 #endif

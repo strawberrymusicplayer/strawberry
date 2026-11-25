@@ -107,6 +107,32 @@ TEST_F(CoverDialogPageTest, ExecKeepsAcceptedAndRejectedResults) {
   EXPECT_TRUE(content_->isVisible());
 }
 
+TEST_F(CoverDialogPageTest, TextEntryPageAcceptsFolderNameAndRestoresParent) {
+  QTimer::singleShot(0, &window_, [this]() {
+    QDialog *dialog = tabs_->currentWidget()->findChild<QDialog*>();
+    ASSERT_NE(dialog, nullptr);
+    EXPECT_TRUE(dialog->isVisible());
+    EXPECT_FALSE(content_->isVisible());
+    QLineEdit *edit = dialog->findChild<QLineEdit*>();
+    ASSERT_NE(edit, nullptr);
+    EXPECT_GE(edit->height(), 48);
+    edit->setText(QStringLiteral("My folder"));
+    QDialogButtonBox *buttons = dialog->findChild<QDialogButtonBox*>();
+    ASSERT_NE(buttons, nullptr);
+    buttons->button(QDialogButtonBox::Ok)->click();
+  });
+  EXPECT_EQ(CoverDialogPage::GetText(content_, QStringLiteral("New folder"), QStringLiteral("Enter the name of the folder")), QStringLiteral("My folder"));
+  EXPECT_TRUE(content_->isVisible());
+
+  QTimer::singleShot(0, &window_, [this]() {
+    QDialog *dialog = tabs_->currentWidget()->findChild<QDialog*>();
+    ASSERT_NE(dialog, nullptr);
+    QTest::keyClick(dialog, Qt::Key_Back);
+  });
+  EXPECT_TRUE(CoverDialogPage::GetText(content_, QStringLiteral("New folder"), QStringLiteral("Enter the name of the folder")).isEmpty());
+  EXPECT_TRUE(content_->isVisible());
+}
+
 TEST_F(CoverDialogPageTest, BackReturnsToCoverActionsThenContext) {
   auto *actions = new ActionDialog(content_, QStringLiteral("Cover"), QStringLiteral("Context > Album cover"), ActionDialog::TitlePosition::Top);
   QPushButton *action = actions->AddButton(QStringLiteral("Search"));

@@ -18,6 +18,7 @@
 #include "collection/collectiondialogpages_android.h"
 #include "collection/collectionmodel.h"
 #include "collection/groupbydialog.h"
+#include "covermanager/coverdialogpage_android.h"
 #include "widgets/fancytabwidget.h"
 
 namespace {
@@ -180,7 +181,7 @@ TEST_F(CollectionDialogPagesTest, GetTextReturnsEnteredTextOrEmptyWhenCancelled)
       if (buttons->isVisible()) buttons->button(QDialogButtonBox::Ok)->click();
     }
   });
-  EXPECT_EQ(CollectionDialogPages::GetText(owner_, QStringLiteral("Grouping Name"), QStringLiteral("Grouping name:")), QStringLiteral("My grouping"));
+  EXPECT_EQ(CoverDialogPage::GetText(owner_, QStringLiteral("Grouping Name"), QStringLiteral("Grouping name:")), QStringLiteral("My grouping"));
   EXPECT_TRUE(content_->isVisible());
 
   QTimer::singleShot(0, &window_, [this]() {
@@ -191,7 +192,7 @@ TEST_F(CollectionDialogPagesTest, GetTextReturnsEnteredTextOrEmptyWhenCancelled)
       }
     }
   });
-  EXPECT_TRUE(CollectionDialogPages::GetText(owner_, QStringLiteral("Grouping Name"), QStringLiteral("Grouping name:")).isEmpty());
+  EXPECT_TRUE(CoverDialogPage::GetText(owner_, QStringLiteral("Grouping Name"), QStringLiteral("Grouping name:")).isEmpty());
   EXPECT_TRUE(content_->isVisible());
 }
 

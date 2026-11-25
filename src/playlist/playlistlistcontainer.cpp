@@ -63,6 +63,7 @@
 #include "ui_playlistlistcontainer.h"
 #include "organize/organizedialog.h"
 #ifdef Q_OS_ANDROID
+#  include "covermanager/coverdialogpage_android.h"
 #  include "widgets/actiondialog.h"
 #endif
 #include "constants/appearancesettings.h"
@@ -255,7 +256,11 @@ void PlaylistListContainer::RecursivelySetIcons(QStandardItem *parent) const {
 
 void PlaylistListContainer::NewFolderClicked() {
 
+#ifdef Q_OS_ANDROID
+  QString name = CoverDialogPage::GetText(this, tr("New folder"), tr("Enter the name of the folder"));
+#else
   QString name = QInputDialog::getText(this, tr("New folder"), tr("Enter the name of the folder"));
+#endif
   if (name.isEmpty()) {
     return;
   }

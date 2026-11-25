@@ -10,6 +10,7 @@
 #include <QEvent>
 #include <QEventLoop>
 #include <QInputMethod>
+#include <QInputDialog>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPainter>
@@ -232,4 +233,19 @@ void CoverDialogPage::ShowCover(QWidget *parent, const QString &title, const QPi
   layout->addWidget(new CoverImage(pixmap, dialog), 1);
   auto *page = new CoverDialogPage(dialog);
   page->Open();
+}
+
+QString CoverDialogPage::GetText(QWidget *parent, const QString &title, const QString &label) {
+  QInputDialog dialog(parent);
+  dialog.setWindowTitle(title);
+  dialog.setInputMode(QInputDialog::TextInput);
+  dialog.setLabelText(label);
+  // QInputDialog creates its layout on demand.
+  (void)dialog.minimumSizeHint();
+  CoverDialogPage page(&dialog);
+  if (auto *edit = dialog.findChild<QLineEdit*>()) {
+    if (auto *body = qobject_cast<QBoxLayout*>(edit->parentWidget()->layout())) body->addStretch();
+  }
+  if (page.Exec() != QDialog::Accepted) return QString();
+  return dialog.textValue();
 }

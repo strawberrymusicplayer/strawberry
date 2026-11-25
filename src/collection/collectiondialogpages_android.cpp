@@ -6,9 +6,7 @@
 #include <QComboBox>
 #include <QDialog>
 #include <QFormLayout>
-#include <QInputDialog>
 #include <QLabel>
-#include <QLineEdit>
 #include <QPushButton>
 #include <QScrollArea>
 #include <QVBoxLayout>
@@ -75,24 +73,6 @@ void Show(QDialog *dialog) {
     page = new CoverDialogPage(dialog);
   }
   page->Open();
-
-}
-
-QString GetText(QWidget *parent, const QString &title, const QString &label) {
-
-  QInputDialog dialog(parent);
-  dialog.setWindowTitle(title);
-  dialog.setInputMode(QInputDialog::TextInput);
-  dialog.setLabelText(label);
-  // QInputDialog creates its layout on demand.
-  (void)dialog.minimumSizeHint();
-  CoverDialogPage page(&dialog);
-  // Keep the label and the text field together at the top of the page.
-  if (auto *edit = dialog.findChild<QLineEdit*>()) {
-    if (auto *body = qobject_cast<QBoxLayout*>(edit->parentWidget()->layout())) body->addStretch();
-  }
-  if (page.Exec() != QDialog::Accepted) return QString();
-  return dialog.textValue();
 
 }
 
