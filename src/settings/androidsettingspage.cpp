@@ -101,14 +101,14 @@ QString ControlTitle(QWidget *control) {
 
 class ChoicePresentation : public QObject {
  public:
-  ChoicePresentation(QAbstractButton *button, bool radio) : QObject(button), button_(button), radio_(radio) {
+  explicit ChoicePresentation(QRadioButton *button) : QObject(button), button_(button) {
     auto *layout = new QVBoxLayout(button);
-    layout->setContentsMargins(radio ? 8 : 28, 8, 8, 8);
+    layout->setContentsMargins(8, 8, 8, 8);
     label_ = AddButtonLabel(layout, QString(button->text()).remove(u'&'));
     button->setMinimumWidth(0);
     button->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
     button->setMinimumHeight(48);
-    if (radio) AndroidWidgets::StyleChoiceRow(static_cast<QRadioButton*>(button), label_);
+    AndroidWidgets::StyleChoiceRow(button, label_);
     button->installEventFilter(this);
   }
 
@@ -123,11 +123,8 @@ class ChoicePresentation : public QObject {
       QStyleOptionButton option;
       option.initFrom(button_);
       option.state |= button_->isChecked() ? QStyle::State_On : QStyle::State_Off;
-      if (auto *check = qobject_cast<QCheckBox*>(button_)) {
-        if (check->checkState() == Qt::PartiallyChecked) option.state |= QStyle::State_NoChange;
-      }
       QStylePainter painter(button_);
-      painter.drawControl(radio_ ? QStyle::CE_RadioButton : QStyle::CE_CheckBox, option);
+      painter.drawControl(QStyle::CE_RadioButton, option);
       return true;
     }
     else if (event->type() == QEvent::MouseButtonPress) {
@@ -150,9 +147,8 @@ class ChoicePresentation : public QObject {
   }
 
  private:
-  QAbstractButton *button_;
+  QRadioButton *button_;
   QLabel *label_;
-  bool radio_;
 };
 
 class ComboPresentation : public QObject {
@@ -497,7 +493,7 @@ void AdaptWidget(QWidget *widget, SettingsPage *page) {
     new ComboPresentation(combo, page->dialog());
   }
   else if (auto *radio = qobject_cast<QRadioButton*>(widget)) {
-    new ChoicePresentation(radio, true);
+    new ChoicePresentation(radio);
   }
   else if (auto *check = qobject_cast<QCheckBox*>(widget)) {
     AndroidWidgets::AdaptCheckBox(check);
