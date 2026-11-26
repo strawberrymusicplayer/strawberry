@@ -82,7 +82,7 @@ class LastFMScrobbler : public ScrobblerService {
 
  private Q_SLOTS:
   void RedirectArrived();
-  void AuthenticateReplyFinished(QNetworkReply *reply);
+  void AuthenticateReplyFinished(QNetworkReply *reply, const QString &api_key, const QString &api_secret);
   void UpdateNowPlayingRequestFinished(QNetworkReply *reply);
   void ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCacheItemPtrList cache_items);
   void SingleScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCacheItemPtr cache_item);
@@ -132,6 +132,20 @@ class LastFMScrobbler : public ScrobblerService {
   void CheckScrobblePrevSong();
 
  protected:
+  struct Provider {
+    QString name;
+    QString settings_group;
+    QString api_url;
+    QString auth_url;
+    QString cache_file;
+    bool has_compiled_credentials;
+    QString compiled_api_key;
+    QString compiled_api_secret;
+  };
+
+  explicit LastFMScrobbler(const Provider &provider, const SharedPtr<ScrobblerSettingsService> settings, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+
+  const Provider provider_;
   const SharedPtr<NetworkAccessManager> network_;
   ScrobblerCache *cache_;
   LocalRedirectServer *local_redirect_server_;

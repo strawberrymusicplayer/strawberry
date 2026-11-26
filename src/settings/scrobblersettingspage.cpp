@@ -38,6 +38,7 @@
 
 #include "scrobbler/audioscrobbler.h"
 #include "scrobbler/lastfmscrobbler.h"
+#include "scrobbler/sonospherescrobbler.h"
 #include "scrobbler/listenbrainzscrobbler.h"
 #include "constants/scrobblersettings.h"
 #include "constants/lastfmsettings.h"
@@ -51,8 +52,10 @@ ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *dialog, const Share
       ui_(new Ui_ScrobblerSettingsPage),
       scrobbler_(scrobbler),
       lastfmscrobbler_(scrobbler_->Service<LastFMScrobbler>()),
+      sonospherescrobbler_(scrobbler_->Service<SonosphereScrobbler>()),
       listenbrainzscrobbler_(scrobbler_->Service<ListenBrainzScrobbler>()),
       lastfm_waiting_for_auth_(false),
+      sonosphere_waiting_for_auth_(false),
       listenbrainz_waiting_for_auth_(false) {
 
   ui_->setupUi(this);
@@ -68,6 +71,17 @@ ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *dialog, const Share
   QObject::connect(ui_->checkbox_lastfm_use_custom_api_credentials, &QCheckBox::toggled, ui_->lineedit_lastfm_client_secret, &QLineEdit::setEnabled);
   QObject::connect(ui_->checkbox_lastfm_use_custom_api_credentials, &QCheckBox::toggled, ui_->label_lastfm_client_id, &QLabel::setEnabled);
   QObject::connect(ui_->checkbox_lastfm_use_custom_api_credentials, &QCheckBox::toggled, ui_->label_lastfm_client_secret, &QLabel::setEnabled);
+
+  // Sonosphere
+  QObject::connect(&*sonospherescrobbler_, &SonosphereScrobbler::AuthenticationComplete, this, &ScrobblerSettingsPage::Sonosphere_AuthenticationComplete);
+  QObject::connect(ui_->button_sonosphere_login, &QPushButton::clicked, this, &ScrobblerSettingsPage::Sonosphere_Login);
+  QObject::connect(ui_->widget_sonosphere_login_state, &LoginStateWidget::LoginClicked, this, &ScrobblerSettingsPage::Sonosphere_Login);
+  QObject::connect(ui_->widget_sonosphere_login_state, &LoginStateWidget::LogoutClicked, this, &ScrobblerSettingsPage::Sonosphere_Logout);
+  ui_->widget_sonosphere_login_state->AddCredentialGroup(ui_->widget_sonosphere_login);
+  QObject::connect(ui_->checkbox_sonosphere_use_custom_api_credentials, &QCheckBox::toggled, ui_->lineedit_sonosphere_client_id, &QLineEdit::setEnabled);
+  QObject::connect(ui_->checkbox_sonosphere_use_custom_api_credentials, &QCheckBox::toggled, ui_->lineedit_sonosphere_client_secret, &QLineEdit::setEnabled);
+  QObject::connect(ui_->checkbox_sonosphere_use_custom_api_credentials, &QCheckBox::toggled, ui_->label_sonosphere_client_id, &QLabel::setEnabled);
+  QObject::connect(ui_->checkbox_sonosphere_use_custom_api_credentials, &QCheckBox::toggled, ui_->label_sonosphere_client_secret, &QLabel::setEnabled);
 
   // ListenBrainz
   QObject::connect(&*listenbrainzscrobbler_, &ListenBrainzScrobbler::AuthenticationComplete, this, &ScrobblerSettingsPage::ListenBrainz_AuthenticationComplete);
@@ -141,6 +155,29 @@ void ScrobblerSettingsPage::Load() {
   s.endGroup();
   LastFM_RefreshControls(lastfmscrobbler_->authenticated());
 
+  ui_->checkbox_sonosphere_enable->setChecked(sonospherescrobbler_->enabled());
+  s.beginGroup(SonosphereScrobbler::kSettingsGroup);
+  if (SonosphereScrobbler::HasCompiledCredentials()) {
+    ui_->checkbox_sonosphere_use_custom_api_credentials->setVisible(true);
+    const bool sonosphere_use_custom_api_credentials = s.value(LastFMSettings::kUseCustomApiCredentials, false).toBool();
+    ui_->checkbox_sonosphere_use_custom_api_credentials->setChecked(sonosphere_use_custom_api_credentials);
+    ui_->lineedit_sonosphere_client_id->setEnabled(sonosphere_use_custom_api_credentials);
+    ui_->lineedit_sonosphere_client_secret->setEnabled(sonosphere_use_custom_api_credentials);
+    ui_->label_sonosphere_client_id->setEnabled(sonosphere_use_custom_api_credentials);
+    ui_->label_sonosphere_client_secret->setEnabled(sonosphere_use_custom_api_credentials);
+  }
+  else {
+    ui_->checkbox_sonosphere_use_custom_api_credentials->setVisible(false);
+    ui_->lineedit_sonosphere_client_id->setEnabled(true);
+    ui_->lineedit_sonosphere_client_secret->setEnabled(true);
+    ui_->label_sonosphere_client_id->setEnabled(true);
+    ui_->label_sonosphere_client_secret->setEnabled(true);
+  }
+  ui_->lineedit_sonosphere_client_id->setText(s.value(LastFMSettings::kClientId).toString());
+  ui_->lineedit_sonosphere_client_secret->setText(s.value(LastFMSettings::kClientSecret).toString());
+  s.endGroup();
+  Sonosphere_RefreshControls(sonospherescrobbler_->authenticated());
+
   ui_->checkbox_listenbrainz_enable->setChecked(listenbrainzscrobbler_->enabled());
   s.beginGroup(ListenBrainzScrobbler::kSettingsGroup);
   if (ListenBrainzScrobbler::HasCompiledCredentials()) {
@@ -213,6 +250,13 @@ void ScrobblerSettingsPage::Save() {
   s.setValue(LastFMSettings::kClientSecret, ui_->lineedit_lastfm_client_secret->text());
   s.endGroup();
 
+  s.beginGroup(SonosphereScrobbler::kSettingsGroup);
+  s.setValue(kEnabled, ui_->checkbox_sonosphere_enable->isChecked());
+  s.setValue(LastFMSettings::kUseCustomApiCredentials, ui_->checkbox_sonosphere_use_custom_api_credentials->isChecked());
+  s.setValue(LastFMSettings::kClientId, ui_->lineedit_sonosphere_client_id->text());
+  s.setValue(LastFMSettings::kClientSecret, ui_->lineedit_sonosphere_client_secret->text());
+  s.endGroup();
+
   s.beginGroup(ListenBrainzScrobbler::kSettingsGroup);
   s.setValue(kEnabled, ui_->checkbox_listenbrainz_enable->isChecked());
   s.setValue(kUserToken, ui_->lineedit_listenbrainz_user_token->text());
@@ -222,6 +266,10 @@ void ScrobblerSettingsPage::Save() {
   s.endGroup();
 
   scrobbler_->ReloadSettings();
+
+  if (!lastfm_waiting_for_auth_) LastFM_RefreshControls(lastfmscrobbler_->authenticated());
+  if (!sonosphere_waiting_for_auth_) Sonosphere_RefreshControls(sonospherescrobbler_->authenticated());
+  if (!listenbrainz_waiting_for_auth_) ListenBrainz_RefreshControls(listenbrainzscrobbler_->authenticated());
 
 }
 
@@ -254,14 +302,9 @@ void ScrobblerSettingsPage::LastFM_AuthenticationComplete(const bool success, co
   if (!lastfm_waiting_for_auth_) return;
   lastfm_waiting_for_auth_ = false;
 
-  if (success) {
-    Save();
-  }
-  else {
-    if (!error.isEmpty()) QMessageBox::warning(this, u"Authentication failed"_s, error);
-  }
+  if (!success && !error.isEmpty()) QMessageBox::warning(this, u"Authentication failed"_s, error);
 
-  LastFM_RefreshControls(success);
+  LastFM_RefreshControls(lastfmscrobbler_->authenticated());
 
 }
 
@@ -269,11 +312,51 @@ void ScrobblerSettingsPage::LastFM_RefreshControls(const bool authenticated) {
   ui_->widget_lastfm_login_state->SetLoggedIn(authenticated ? LoginStateWidget::State::LoggedIn : LoginStateWidget::State::LoggedOut, lastfmscrobbler_->username());
 }
 
-void ScrobblerSettingsPage::ListenBrainz_Login() {
+void ScrobblerSettingsPage::Sonosphere_Login() {
 
   // Persist the currently-edited custom credential selection first and reload it into the scrobbler, so Authenticate() below uses whatever is currently shown in the UI rather than whatever was last saved.
   Settings s;
+  s.beginGroup(SonosphereScrobbler::kSettingsGroup);
+  s.setValue(LastFMSettings::kUseCustomApiCredentials, ui_->checkbox_sonosphere_use_custom_api_credentials->isChecked());
+  s.setValue(LastFMSettings::kClientId, ui_->lineedit_sonosphere_client_id->text());
+  s.setValue(LastFMSettings::kClientSecret, ui_->lineedit_sonosphere_client_secret->text());
+  s.endGroup();
+  sonospherescrobbler_->ReloadSettings();
+
+  sonosphere_waiting_for_auth_ = true;
+  ui_->widget_sonosphere_login_state->SetLoggedIn(LoginStateWidget::State::LoginInProgress);
+  sonospherescrobbler_->Authenticate();
+
+}
+
+void ScrobblerSettingsPage::Sonosphere_Logout() {
+
+  sonospherescrobbler_->ClearSession();
+  Sonosphere_RefreshControls(false);
+
+}
+
+void ScrobblerSettingsPage::Sonosphere_AuthenticationComplete(const bool success, const QString &error) {
+
+  if (!sonosphere_waiting_for_auth_) return;
+  sonosphere_waiting_for_auth_ = false;
+
+  if (!success && !error.isEmpty()) QMessageBox::warning(this, u"Authentication failed"_s, error);
+
+  Sonosphere_RefreshControls(sonospherescrobbler_->authenticated());
+
+}
+
+void ScrobblerSettingsPage::Sonosphere_RefreshControls(const bool authenticated) {
+  ui_->widget_sonosphere_login_state->SetLoggedIn(authenticated ? LoginStateWidget::State::LoggedIn : LoginStateWidget::State::LoggedOut, sonospherescrobbler_->username());
+}
+
+void ScrobblerSettingsPage::ListenBrainz_Login() {
+
+  // Persist only the credentials submitted by clicking Login.
+  Settings s;
   s.beginGroup(ListenBrainzScrobbler::kSettingsGroup);
+  s.setValue(kUserToken, ui_->lineedit_listenbrainz_user_token->text());
   s.setValue(ListenBrainzSettings::kUseCustomApiCredentials, ui_->checkbox_listenbrainz_use_custom_api_credentials->isChecked());
   s.setValue(ListenBrainzSettings::kClientId, ui_->lineedit_listenbrainz_client_id->text());
   s.setValue(ListenBrainzSettings::kClientSecret, ui_->lineedit_listenbrainz_client_secret->text());
@@ -298,14 +381,9 @@ void ScrobblerSettingsPage::ListenBrainz_AuthenticationComplete(const bool succe
   if (!listenbrainz_waiting_for_auth_) return;
   listenbrainz_waiting_for_auth_ = false;
 
-  if (success) {
-    Save();
-  }
-  else {
-    QMessageBox::warning(this, u"Authentication failed"_s, error);
-  }
+  if (!success) QMessageBox::warning(this, u"Authentication failed"_s, error);
 
-  ListenBrainz_RefreshControls(success);
+  ListenBrainz_RefreshControls(listenbrainzscrobbler_->authenticated());
 
 }
 

@@ -343,6 +343,106 @@
     </widget>
    </item>
    <item>
+    <widget class="QGroupBox" name="groupbox_sonosphere">
+     <property name="title">
+      <string>Sonosphere</string>
+     </property>
+     <layout class="QVBoxLayout" name="layout_sonosphere">
+      <item>
+       <widget class="QCheckBox" name="checkbox_sonosphere_enable">
+        <property name="text">
+         <string>Enable</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkbox_sonosphere_use_custom_api_credentials">
+        <property name="text">
+         <string>Use custom API credentials</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="layout_sonosphere_client_id">
+        <item>
+         <widget class="QLabel" name="label_sonosphere_client_id">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Client ID:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineedit_sonosphere_client_id"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="layout_sonosphere_client_secret">
+        <item>
+         <widget class="QLabel" name="label_sonosphere_client_secret">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Client secret:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineedit_sonosphere_client_secret">
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="LoginStateWidget" name="widget_sonosphere_login_state" native="true"/>
+      </item>
+      <item>
+       <widget class="QWidget" name="widget_sonosphere_login" native="true">
+        <layout class="QVBoxLayout" name="layout_sonosphere_login">
+         <item>
+          <layout class="QHBoxLayout" name="layout_sonosphere_button_login">
+           <item>
+            <widget class="QPushButton" name="button_sonosphere_login">
+             <property name="text">
+              <string>Login</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="spacer_sonosphere_login">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupbox_listenbrainz">
      <property name="title">
       <string>Listenbrainz</string>
@@ -524,6 +624,11 @@
   <tabstop>lineedit_lastfm_client_id</tabstop>
   <tabstop>lineedit_lastfm_client_secret</tabstop>
   <tabstop>button_lastfm_login</tabstop>
+  <tabstop>checkbox_sonosphere_enable</tabstop>
+  <tabstop>checkbox_sonosphere_use_custom_api_credentials</tabstop>
+  <tabstop>lineedit_sonosphere_client_id</tabstop>
+  <tabstop>lineedit_sonosphere_client_secret</tabstop>
+  <tabstop>button_sonosphere_login</tabstop>
   <tabstop>checkbox_listenbrainz_enable</tabstop>
   <tabstop>checkbox_listenbrainz_use_custom_api_credentials</tabstop>
   <tabstop>lineedit_listenbrainz_client_id</tabstop>

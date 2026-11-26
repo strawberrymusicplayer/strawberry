@@ -70,7 +70,7 @@ Supporting open-source developers helps ensure continued maintenance and improve
 - Lyrics from: [Genius](https://genius.com/), [lyrics.ovh](https://lyrics.ovh/), [songlyrics](https://www.songlyrics.com/), [azlyrics](https://www.azlyrics.com/), [elyrics](https://www.elyrics.net/), [letras](https://www.letras.mus.br) and [lrclib.net](https://lrclib.net/)
 - Audio format conversion (transcoding) to MP3, AAC, FLAC, Ogg Vorbis, Opus, Speex, WavPack, and ASF
 - Music transfer to USB, MTP and iPod devices
-- Scrobbling to [Last.fm](https://www.last.fm/), [ListenBrainz](https://listenbrainz.org/), and Subsonic
+- Scrobbling to [Last.fm](https://www.last.fm/), [Sonosphere](https://sonosphere.fm/), [ListenBrainz](https://listenbrainz.org/), and Subsonic
 - Global keyboard shortcuts (Linux, macOS, and Windows)
 - Discord Rich Presence
 - Audio CD playback

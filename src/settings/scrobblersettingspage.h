@@ -33,6 +33,7 @@ class SettingsDialog;
 class Ui_ScrobblerSettingsPage;
 class AudioScrobbler;
 class LastFMScrobbler;
+class SonosphereScrobbler;
 class ListenBrainzScrobbler;
 
 class ScrobblerSettingsPage : public SettingsPage {
@@ -49,6 +50,9 @@ class ScrobblerSettingsPage : public SettingsPage {
   void LastFM_Login();
   void LastFM_Logout();
   void LastFM_AuthenticationComplete(const bool success, const QString &error = QString());
+  void Sonosphere_Login();
+  void Sonosphere_Logout();
+  void Sonosphere_AuthenticationComplete(const bool success, const QString &error = QString());
   void ListenBrainz_Login();
   void ListenBrainz_Logout();
   void ListenBrainz_AuthenticationComplete(const bool success, const QString &error = QString());
@@ -58,12 +62,15 @@ class ScrobblerSettingsPage : public SettingsPage {
 
   const SharedPtr<AudioScrobbler> scrobbler_;
   const SharedPtr<LastFMScrobbler> lastfmscrobbler_;
+  const SharedPtr<SonosphereScrobbler> sonospherescrobbler_;
   const SharedPtr<ListenBrainzScrobbler> listenbrainzscrobbler_;
 
   bool lastfm_waiting_for_auth_;
+  bool sonosphere_waiting_for_auth_;
   bool listenbrainz_waiting_for_auth_;
 
   void LastFM_RefreshControls(const bool authenticated);
+  void Sonosphere_RefreshControls(const bool authenticated);
   void ListenBrainz_RefreshControls(const bool authenticated);
 };
 
