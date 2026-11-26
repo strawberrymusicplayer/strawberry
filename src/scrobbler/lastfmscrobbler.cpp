@@ -105,9 +105,13 @@ bool LastFMScrobbler::HasCompiledCredentials() {
 }
 
 LastFMScrobbler::LastFMScrobbler(const SharedPtr<ScrobblerSettingsService> settings, const SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : ScrobblerService(QLatin1String(kName), network, settings, parent),
+    : LastFMScrobbler(Provider{QLatin1String(kName), QLatin1String(kSettingsGroup), QLatin1String(kApiUrl), QLatin1String(kAuthUrl), QLatin1String(kCacheFile), HasCompiledCredentials(), CompiledApiKey(), CompiledApiSecret()}, settings, network, parent) {}
+
+LastFMScrobbler::LastFMScrobbler(const Provider &provider, const SharedPtr<ScrobblerSettingsService> settings, const SharedPtr<NetworkAccessManager> network, QObject *parent)
+    : ScrobblerService(provider.name, network, settings, parent),
+      provider_(provider),
       network_(network),
-      cache_(new ScrobblerCache(QLatin1String(kCacheFile), this)),
+      cache_(new ScrobblerCache(provider.cache_file, this)),
       local_redirect_server_(nullptr),
       enabled_(false),
       prefer_albumartist_(false),
@@ -141,11 +145,11 @@ void LastFMScrobbler::ReloadSettings() {
 
   Settings s;
 
-  s.beginGroup(kSettingsGroup);
+  s.beginGroup(provider_.settings_group);
   enabled_ = s.value(ScrobblerSettings::kEnabled, ScrobblerSettings::kDefaultEnabled).toBool();
-  const bool use_custom_api_credentials = !HasCompiledCredentials() || s.value(LastFMSettings::kUseCustomApiCredentials, false).toBool();
-  const QString api_key = use_custom_api_credentials ? s.value(LastFMSettings::kClientId).toString() : CompiledApiKey();
-  const QString api_secret = use_custom_api_credentials ? s.value(LastFMSettings::kClientSecret).toString() : CompiledApiSecret();
+  const bool use_custom_api_credentials = !provider_.has_compiled_credentials || s.value(LastFMSettings::kUseCustomApiCredentials, false).toBool();
+  const QString api_key = use_custom_api_credentials ? s.value(LastFMSettings::kClientId).toString() : provider_.compiled_api_key;
+  const QString api_secret = use_custom_api_credentials ? s.value(LastFMSettings::kClientSecret).toString() : provider_.compiled_api_secret;
   s.endGroup();
 
   // A session granted under a since-changed API key/secret pair must not survive, and an empty key or secret can never have a valid session of its own - clear whenever either is now empty or either changed since the last (already-initialized) reload.
@@ -167,7 +171,7 @@ void LastFMScrobbler::ReloadSettings() {
 void LastFMScrobbler::LoadSession() {
 
   Settings s;
-  s.beginGroup(kSettingsGroup);
+  s.beginGroup(provider_.settings_group);
   subscriber_ = s.value(kSubscriber, false).toBool();
   username_ = s.value(kUsername).toString();
   session_key_ = s.value(kSessionKey).toString();
@@ -182,7 +186,7 @@ void LastFMScrobbler::ClearSession() {
   session_key_.clear();
 
   Settings settings;
-  settings.beginGroup(kSettingsGroup);
+  settings.beginGroup(provider_.settings_group);
   settings.remove(kSubscriber);
   settings.remove(kUsername);
   settings.remove(kSessionKey);
@@ -193,7 +197,7 @@ void LastFMScrobbler::ClearSession() {
 void LastFMScrobbler::Authenticate() {
 
   if (api_key_.isEmpty() || api_secret_.isEmpty()) {
-    AuthError(tr("Missing Last.fm API key and/or API secret"));
+    AuthError(tr("Missing %1 API key and/or API secret").arg(name_));
     return;
   }
 
@@ -211,7 +215,7 @@ void LastFMScrobbler::Authenticate() {
   QUrlQuery url_query;
   url_query.addQueryItem(u"api_key"_s, api_key_);
   url_query.addQueryItem(u"cb"_s, local_redirect_server_->url().toString());
-  QUrl url(QString::fromLatin1(kAuthUrl));
+  QUrl url(provider_.auth_url);
   url.setQuery(url_query);
 
   QMessageBox messagebox(QMessageBox::Information, tr("%1 Scrobbler Authentication").arg(name_), tr("Open URL in web browser?") + QStringLiteral("<br /><a href=\"%1\">%1</a><br />").arg(url.toString()) + tr("Press \"Save\" to copy the URL to clipboard and manually open it in a web browser."), QMessageBox::Open|QMessageBox::Save|QMessageBox::Cancel);
@@ -277,7 +281,7 @@ void LastFMScrobbler::RedirectArrived() {
 
 void LastFMScrobbler::RequestSession(const QString &token) {
 
-  QUrl session_url(QString::fromLatin1(kApiUrl));
+  QUrl session_url(provider_.api_url);
   QUrlQuery session_url_query;
   session_url_query.addQueryItem(u"api_key"_s, api_key_);
   session_url_query.addQueryItem(u"method"_s, u"auth.getSession"_s);
@@ -338,7 +342,7 @@ void LastFMScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
   session_key_ = json_object_session["key"_L1].toString();
 
   Settings s;
-  s.beginGroup(kSettingsGroup);
+  s.beginGroup(provider_.settings_group);
   s.setValue(kSubscriber, subscriber_);
   s.setValue(kUsername, username_);
   s.setValue(kSessionKey, session_key_);
@@ -375,7 +379,7 @@ QNetworkReply *LastFMScrobbler::CreateRequest(const ParamList &request_params) {
   url_query.addQueryItem(u"api_sig"_s, QString::fromLatin1(QUrl::toPercentEncoding(signature)));
   url_query.addQueryItem(u"format"_s, u"json"_s);
 
-  QNetworkReply *reply = CreatePostRequest(QUrl(QString::fromLatin1(kApiUrl)), url_query);
+  QNetworkReply *reply = CreatePostRequest(QUrl(provider_.api_url), url_query);
   reply->setProperty(kReplySessionKeyProperty, session_key_);
   return reply;
 

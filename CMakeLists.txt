@@ -902,6 +902,7 @@ set(SOURCES
   src/scrobbler/scrobblercacheitem.cpp
   src/scrobbler/scrobblemetadata.cpp
   src/scrobbler/lastfmscrobbler.cpp
+  src/scrobbler/sonospherescrobbler.cpp
   src/scrobbler/listenbrainzscrobbler.cpp
 
   src/organize/organize.cpp
@@ -1205,6 +1206,7 @@ set(HEADERS
   src/scrobbler/scrobblerservice.h
   src/scrobbler/scrobblercache.h
   src/scrobbler/lastfmscrobbler.h
+  src/scrobbler/sonospherescrobbler.h
   src/scrobbler/listenbrainzscrobbler.h
 
   src/organize/organize.h
