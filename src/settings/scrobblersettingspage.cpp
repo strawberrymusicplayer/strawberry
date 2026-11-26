@@ -349,7 +349,7 @@ void ScrobblerSettingsPage::Sonosphere_AuthenticationComplete(const bool success
     if (!error.isEmpty()) QMessageBox::warning(this, u"Authentication failed"_s, error);
   }
 
-  Sonosphere_RefreshControls(success);
+  Sonosphere_RefreshControls(sonospherescrobbler_->authenticated());
 
 }
 
