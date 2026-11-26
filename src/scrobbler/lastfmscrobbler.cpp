@@ -281,9 +281,11 @@ void LastFMScrobbler::RedirectArrived() {
 
 void LastFMScrobbler::RequestSession(const QString &token) {
 
+  const QString api_key = api_key_;
+  const QString api_secret = api_secret_;
   QUrl session_url(provider_.api_url);
   QUrlQuery session_url_query;
-  session_url_query.addQueryItem(u"api_key"_s, api_key_);
+  session_url_query.addQueryItem(u"api_key"_s, api_key);
   session_url_query.addQueryItem(u"method"_s, u"auth.getSession"_s);
   session_url_query.addQueryItem(u"token"_s, token);
   QString data_to_sign;
@@ -291,7 +293,7 @@ void LastFMScrobbler::RequestSession(const QString &token) {
   for (const Param &param : params) {
     data_to_sign += param.first + param.second;
   }
-  data_to_sign += api_secret_;
+  data_to_sign += api_secret;
   QByteArray const digest = QCryptographicHash::hash(data_to_sign.toUtf8(), QCryptographicHash::Md5);
   const QString signature = QString::fromLatin1(digest.toHex()).rightJustified(32, u'0').toLower();
   session_url_query.addQueryItem(u"api_sig"_s, signature);
@@ -299,16 +301,21 @@ void LastFMScrobbler::RequestSession(const QString &token) {
   session_url.setQuery(session_url_query);
 
   QNetworkReply *reply = CreateGetRequest(session_url);
-  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { AuthenticateReplyFinished(reply); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, api_key, api_secret]() { AuthenticateReplyFinished(reply, api_key, api_secret); });
 
 }
 
-void LastFMScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
+void LastFMScrobbler::AuthenticateReplyFinished(QNetworkReply *reply, const QString &api_key, const QString &api_secret) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
+
+  if (api_key != api_key_ || api_secret != api_secret_) {
+    AuthError(tr("API credentials changed during authentication. Please try again."));
+    return;
+  }
 
   const JsonObjectResult json_object_result = ParseJsonObject(reply);
   if (json_object_result.error_code != ErrorCode::Success) {

@@ -22,20 +22,28 @@
 
 #include "gtest_include.h"
 
+#include <QApplication>
 #include <QByteArray>
+#include <QCheckBox>
 #include <QCoreApplication>
+#include <QDesktopServices>
 #include <QDir>
 #include <QFile>
+#include <QHostAddress>
 #include <QList>
+#include <QMessageBox>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QPointer>
+#include <QPushButton>
 #include <QSignalSpy>
 #include <QStandardPaths>
 #include <QString>
+#include <QTcpSocket>
 #include <QTest>
 #include <QTimer>
 #include <QUrl>
+#include <QUrlQuery>
 #include <QMap>
 #include <QStringList>
 
@@ -46,8 +54,13 @@
 #include "core/standardpaths.h"
 #include "constants/lastfmsettings.h"
 #include "constants/scrobblersettings.h"
+#include "scrobbler/audioscrobbler.h"
+#include "scrobbler/lastfmscrobbler.h"
+#include "scrobbler/listenbrainzscrobbler.h"
 #include "scrobbler/sonospherescrobbler.h"
 #include "scrobbler/scrobblersettingsservice.h"
+#include "settings/scrobblersettingspage.h"
+#include "test_utils.h"
 
 using std::make_shared;
 using namespace Qt::Literals::StringLiterals;
@@ -61,6 +74,7 @@ constexpr char kNowPlayingReply[] = R"({"nowplaying": {}})";
 constexpr char kInvalidParametersReply[] = R"({"error": 6, "message": "Invalid parameters"})";
 constexpr char kInvalidApiKeyReply[] = R"({"error": 10, "message": "Invalid API key"})";
 constexpr char kScrobbleAcceptedReply[] = R"({"scrobbles": {"@attr": {"accepted": 1, "ignored": 0}, "scrobble": {"artist": {"#text": "Artist"}, "album": {"#text": "Album"}, "albumArtist": {"#text": ""}, "track": {"#text": "Title"}, "timestamp": "1", "ignoredMessage": {"code": "0", "#text": ""}}}})";
+constexpr char kSessionReply[] = R"({"session": {"subscriber": false, "name": "authorized_user", "key": "authorized_session"}})";
 
 // A reply which is finished by the test.
 class ControlledNetworkReply : public QNetworkReply {
@@ -186,12 +200,15 @@ class SonosphereScrobblerTest : public ::testing::Test {
 
     settings_ = make_shared<ScrobblerSettingsService>();
     network_ = make_shared<ControlledNetworkAccessManager>();
-    scrobbler_ = std::make_unique<SonosphereScrobbler>(settings_, network_);
+    scrobbler_ = make_shared<SonosphereScrobbler>(settings_, network_);
     ASSERT_TRUE(scrobbler_->authenticated());
+
+    QDesktopServices::setUrlHandler(u"https"_s, &url_handler_, "OpenUrl");
 
   }
 
   void TearDown() override {
+    QDesktopServices::unsetUrlHandler(u"https"_s);
     scrobbler_.reset();
     if (!cache_path_.isEmpty()) {
       QDir(cache_path_).removeRecursively();
@@ -257,11 +274,34 @@ class SonosphereScrobblerTest : public ::testing::Test {
     return session_key;
   }
 
+  static void OpenAuthenticationUrl() {
+    QTimer::singleShot(0, []() {
+      if (QMessageBox *message_box = qobject_cast<QMessageBox*>(QApplication::activeModalWidget())) {
+        message_box->button(QMessageBox::Open)->click();
+      }
+    });
+  }
+
+  void SendAuthenticationRedirect() {
+    const QList<QUrl> urls = url_handler_.urls();
+    ASSERT_EQ(1, urls.size());
+    const QUrl callback(QUrlQuery(urls.first()).queryItemValue(u"cb"_s));
+    ASSERT_GT(callback.port(), 0);
+
+    QTcpSocket browser;
+    browser.connectToHost(QHostAddress::LocalHost, static_cast<quint16>(callback.port()));
+    ASSERT_TRUE(browser.waitForConnected(5000));
+    const QByteArray request("GET /?token=test_token HTTP/1.1\r\nHost: localhost\r\n\r\n");
+    ASSERT_EQ(request.size(), browser.write(request));
+    ASSERT_TRUE(network_->WaitForRequests(1));
+  }
+
   QString organization_name_;
   QString cache_path_;
   SharedPtr<ScrobblerSettingsService> settings_;
   SharedPtr<ControlledNetworkAccessManager> network_;
-  std::unique_ptr<SonosphereScrobbler> scrobbler_;
+  SharedPtr<SonosphereScrobbler> scrobbler_;
+  TestUrlHandler url_handler_;
 };
 
 TEST_F(SonosphereScrobblerTest, UsesSonosphereApiUrl) {
@@ -270,6 +310,66 @@ TEST_F(SonosphereScrobblerTest, UsesSonosphereApiUrl) {
   ASSERT_TRUE(network_->WaitForRequests(1));
 
   EXPECT_EQ(QUrl(u"https://sonosphere.fm/2.0/"_s), network_->request_urls.value(0));
+
+}
+
+TEST_F(SonosphereScrobblerTest, StaleAuthenticationReplyKeepsNewSession) {
+
+  QSignalSpy spy_authentication(&*scrobbler_, &SonosphereScrobbler::AuthenticationComplete);
+  OpenAuthenticationUrl();
+  scrobbler_->Authenticate();
+  SendAuthenticationRedirect();
+  if (HasFatalFailure()) return;
+
+  Settings s;
+  s.beginGroup(SonosphereScrobbler::kSettingsGroup);
+  s.setValue(LastFMSettings::kClientSecret, u"new_api_secret"_s);
+  scrobbler_->ReloadSettings();
+  ASSERT_FALSE(scrobbler_->authenticated());
+  s.setValue("username", u"new_user"_s);
+  s.setValue("session_key", u"new_session_key"_s);
+  s.endGroup();
+  scrobbler_->LoadSession();
+
+  network_->FinishReply(0, 200, QByteArray(kSessionReply));
+
+  ASSERT_EQ(1, spy_authentication.count());
+  EXPECT_FALSE(spy_authentication.first().at(0).toBool());
+  EXPECT_FALSE(spy_authentication.first().at(1).toString().isEmpty());
+  EXPECT_TRUE(scrobbler_->authenticated());
+  EXPECT_EQ(u"new_user"_s, scrobbler_->username());
+  EXPECT_EQ(u"new_session_key"_s, SessionKeyInSettings());
+
+}
+
+TEST_F(SonosphereScrobblerTest, AuthenticationAfterCancelDoesNotSaveSettingsEdits) {
+
+  scrobbler_->ClearSession();
+  const auto audio_scrobbler = make_shared<AudioScrobbler>();
+  audio_scrobbler->AddService(scrobbler_);
+  audio_scrobbler->AddService(make_shared<LastFMScrobbler>(settings_, network_));
+  audio_scrobbler->AddService(make_shared<ListenBrainzScrobbler>(settings_, network_));
+  ScrobblerSettingsPage page(nullptr, audio_scrobbler);
+  page.Load();
+
+  QPushButton *login = page.findChild<QPushButton*>(u"button_sonosphere_login"_s);
+  QCheckBox *offline = page.findChild<QCheckBox*>(u"checkbox_offline"_s);
+  ASSERT_NE(nullptr, login);
+  ASSERT_NE(nullptr, offline);
+  OpenAuthenticationUrl();
+  login->click();
+  SendAuthenticationRedirect();
+  if (HasFatalFailure()) return;
+
+  offline->setChecked(true);
+  page.Reject();
+  network_->FinishReply(0, 200, QByteArray(kSessionReply));
+
+  EXPECT_TRUE(scrobbler_->authenticated());
+  EXPECT_EQ(u"authorized_session"_s, SessionKeyInSettings());
+  Settings s;
+  s.beginGroup(ScrobblerSettings::kSettingsGroup);
+  EXPECT_FALSE(s.value(ScrobblerSettings::kOffline).toBool());
 
 }
 

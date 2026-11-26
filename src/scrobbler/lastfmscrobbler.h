@@ -82,7 +82,7 @@ class LastFMScrobbler : public ScrobblerService {
 
  private Q_SLOTS:
   void RedirectArrived();
-  void AuthenticateReplyFinished(QNetworkReply *reply);
+  void AuthenticateReplyFinished(QNetworkReply *reply, const QString &api_key, const QString &api_secret);
   void UpdateNowPlayingRequestFinished(QNetworkReply *reply);
   void ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCacheItemPtrList cache_items);
   void SingleScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCacheItemPtr cache_item);

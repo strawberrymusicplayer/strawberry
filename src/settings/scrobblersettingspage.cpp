@@ -267,6 +267,10 @@ void ScrobblerSettingsPage::Save() {
 
   scrobbler_->ReloadSettings();
 
+  if (!lastfm_waiting_for_auth_) LastFM_RefreshControls(lastfmscrobbler_->authenticated());
+  if (!sonosphere_waiting_for_auth_) Sonosphere_RefreshControls(sonospherescrobbler_->authenticated());
+  if (!listenbrainz_waiting_for_auth_) ListenBrainz_RefreshControls(listenbrainzscrobbler_->authenticated());
+
 }
 
 void ScrobblerSettingsPage::LastFM_Login() {
@@ -298,14 +302,9 @@ void ScrobblerSettingsPage::LastFM_AuthenticationComplete(const bool success, co
   if (!lastfm_waiting_for_auth_) return;
   lastfm_waiting_for_auth_ = false;
 
-  if (success) {
-    Save();
-  }
-  else {
-    if (!error.isEmpty()) QMessageBox::warning(this, u"Authentication failed"_s, error);
-  }
+  if (!success && !error.isEmpty()) QMessageBox::warning(this, u"Authentication failed"_s, error);
 
-  LastFM_RefreshControls(success);
+  LastFM_RefreshControls(lastfmscrobbler_->authenticated());
 
 }
 
@@ -342,12 +341,7 @@ void ScrobblerSettingsPage::Sonosphere_AuthenticationComplete(const bool success
   if (!sonosphere_waiting_for_auth_) return;
   sonosphere_waiting_for_auth_ = false;
 
-  if (success) {
-    Save();
-  }
-  else {
-    if (!error.isEmpty()) QMessageBox::warning(this, u"Authentication failed"_s, error);
-  }
+  if (!success && !error.isEmpty()) QMessageBox::warning(this, u"Authentication failed"_s, error);
 
   Sonosphere_RefreshControls(sonospherescrobbler_->authenticated());
 
@@ -359,9 +353,10 @@ void ScrobblerSettingsPage::Sonosphere_RefreshControls(const bool authenticated)
 
 void ScrobblerSettingsPage::ListenBrainz_Login() {
 
-  // Persist the currently-edited custom credential selection first and reload it into the scrobbler, so Authenticate() below uses whatever is currently shown in the UI rather than whatever was last saved.
+  // Persist only the credentials submitted by clicking Login.
   Settings s;
   s.beginGroup(ListenBrainzScrobbler::kSettingsGroup);
+  s.setValue(kUserToken, ui_->lineedit_listenbrainz_user_token->text());
   s.setValue(ListenBrainzSettings::kUseCustomApiCredentials, ui_->checkbox_listenbrainz_use_custom_api_credentials->isChecked());
   s.setValue(ListenBrainzSettings::kClientId, ui_->lineedit_listenbrainz_client_id->text());
   s.setValue(ListenBrainzSettings::kClientSecret, ui_->lineedit_listenbrainz_client_secret->text());
@@ -386,14 +381,9 @@ void ScrobblerSettingsPage::ListenBrainz_AuthenticationComplete(const bool succe
   if (!listenbrainz_waiting_for_auth_) return;
   listenbrainz_waiting_for_auth_ = false;
 
-  if (success) {
-    Save();
-  }
-  else {
-    QMessageBox::warning(this, u"Authentication failed"_s, error);
-  }
+  if (!success) QMessageBox::warning(this, u"Authentication failed"_s, error);
 
-  ListenBrainz_RefreshControls(success);
+  ListenBrainz_RefreshControls(listenbrainzscrobbler_->authenticated());
 
 }
 
