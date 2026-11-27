@@ -10,9 +10,9 @@ Status values: Planned, In progress, Done.
 Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
-1. The remaining open items: 24, 28, 29, 30, 31, 32, 33, 35, 36, and finally 9 (physical-device verification, which needs a device).
+1. The remaining open items: 22, 24, 28, 29, 30, 31, 32, 33, 35, 36, and finally 9 (physical-device verification, which needs a device).
    Item 23 is investigated and blocked on licensing; items 16, 20, 21 and 26 are done.
-   Item 22 is deferred at the user's request because the playback failure is attributed to a helper-software bug; the cause remains unconfirmed.
+   Item 22 is under focused investigation; upstream evidence points to Spotify-side, account-specific audio-key restrictions, but the user's exact response has not been captured (see item 22).
 
 ## 18. Review the Android changes for coding best practices
 
@@ -833,7 +833,7 @@ The user also requested removing these arrows from the navigation/menu bar when 
 
 ## 22. Build and bundle a Spotify GStreamer plugin for Android
 
-**Status:** Deferred at the user's request (opt-in Spotify login verified on the FP5; playback failure is attributed to a helper-software bug, but the cause remains unconfirmed)
+**Status:** Investigating (upstream evidence points to Spotify-side, account-specific audio-key refusal; the exact response for the user's account was not captured)
 
 **Problem:** Spotify playback requires a GStreamer plugin that is not included in the Android SDK, so Spotify is currently disabled on Android.
 
@@ -899,11 +899,23 @@ The user also requested removing these arrows from the navigation/menu bar when 
 - The failure resembles reported Spotify audio-key restrictions affecting some accounts ([librespot issue 1649](https://github.com/librespot-org/librespot/issues/1649) and [discussion 1685](https://github.com/librespot-org/librespot/discussions/1685)).
   The app's error is generic, so the cause is not confirmed and another track-loading failure is possible.
 
+**Investigation update (2026-11-27):**
+- Strawberry requests Spotify's `streaming` scope in [`spotifyservice.cpp`](src/spotify/spotifyservice.cpp) and passes the OAuth access token to `spotifyaudiosrc` in [`gstenginepipeline.cpp`](src/engine/gstenginepipeline.cpp).
+  Login and metadata access worked on the FP5, which makes a missing login or token handoff less likely; it does not by itself prove the account is eligible for audio-key access.
+- The tested Android plugin is `gst-plugin-spotify` 0.15.4+fixup, which uses librespot 0.8.0. Upgrading from 0.14.4 to 0.15.4 did not change the failure, so the previously known pre-0.8.0 incompatibility is not a good fit.
+- In the pinned plugin source, `PlayerEvent::Unavailable` is converted to the GStreamer `ResourceError::NotFound` message "track is not available". Librespot emits that event when track loading fails, so this generic message does not identify whether the underlying cause was an audio-key refusal, account eligibility, a missing Premium entitlement, or another load/decode/network error.
+- Librespot [issue 1649](https://github.com/librespot-org/librespot/issues/1649) reports `audio key error 0 1` on librespot 0.8.0. [Issue 1735](https://github.com/librespot-org/librespot/issues/1735) reproduced that error for one Premium account while another Premium account played the same tracks on the same machine and binary; it was closed as a duplicate of 1649.
+- The librespot maintainer describes 1649 in [discussion 1685](https://github.com/librespot-org/librespot/discussions/1685) as account-specific restrictions recently enforced by Spotify and says no client-side fix is known. [PR 1869](https://github.com/librespot-org/librespot/pull/1869) likewise identifies a Spotify access-point audio-key refusal and explicitly says its proposed change only fails faster and more clearly; it does not restore playback.
+- A [reported Spotify support response](https://community.volumio.com/t/2026-spotify-plugin/77605/30) says legacy eSDK v1 playback is being phased out and only accounts that used such a device within the previous year remain eligible. This is a third-party report of a support response, not a published Spotify technical specification.
+- **Assessment:** The evidence strongly favors a Spotify-side account-eligibility restriction surfaced through librespot, rather than a Strawberry OAuth or Android plugin-registration bug. The user's FP5 log captured only the generic "track is not available" message, not `audio key error 0 1`; therefore the account-specific cause is likely, not confirmed for this account.
+- The current local APK contains the Spotify source and librespot 0.8.0, but the FP5 was disconnected during this investigation. The user's Premium status and a detailed log from their failing account remain unverified.
+
 **Next steps:**
 - Set up a durable release source-delivery location and attach the generated source bundle, manifest and licence inventory to any APK distribution.
 - The project currently configures and packages arm64-v8a only; build and register additional ABI archives only if the Android distribution expands to ship them.
 - Keep Spotify disabled in normal Android builds. The default-off `ENABLE_ANDROID_SPOTIFY` option requires the plugin probe and enables a local test with a Spotify developer app's client ID, PKCE, and a direct loopback redirect. It does not depend on the Last.fm login work.
-- Investigate the playback failure and verify playback, seeking, track transitions and background playback on Android before marking this item done; further login lifecycle verification also remains.
+- Next: reconnect the FP5, confirm the account has Premium, and capture a credential-free GStreamer/librespot log for one failing track to check for `audio key error 0 1`; never share access tokens, client IDs or other credentials. Do not repeat plugin-version-only tests: the 0.14.4-to-0.15.4 upgrade already failed to change the result. If Spotify refuses the audio key, wait for a supported upstream/service-side resolution rather than attempting an Android-side workaround.
+- Playback, seeking, track transitions, background playback and further login-lifecycle verification remain untested or incomplete; only resume those checks if audio-key access becomes available.
 
 ## 23. Investigate Discord Rich Presence support on Android
 
