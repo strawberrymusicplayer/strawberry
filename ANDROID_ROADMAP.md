@@ -1201,7 +1201,7 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
 - Final-build follow-up on the FP5: simulated portrait swipes scrolled actual lyrics while a song was playing, and a simulated cover long press opened the Album cover page.
   The portrait Streaming category and Behavior page fit on screen, so those swipes did not establish scrolling on them.
   In landscape, the Settings overview and Streaming category scrolled, Help opened, and Back returned to the overview with its position preserved.
-- ADB-injected landscape swipes on the FP5 (2026-11-27) confirmed that the Tools menu and Collection > Display options page scroll, including a drag across the options controls without activating one. These simulated gestures do not establish physical-finger usability.
+- ADB-injected landscape swipes on the FP5 (2026-11-27) confirmed that the Tools menu and Collection > Display options page scroll, including a drag across the options controls without activating one. The user then confirmed that both pages scroll with a finger on the FP5.
 - Observed once: after scrolling the sidebar to its end, a tap on Tools selected Queue and scrolled the sidebar back.
   On the final-build follow-up, alternating taps between Tools and Settings selected the intended page five times, but did not reproduce the original exact gesture sequence.
   The cause of the earlier observation remains unknown.
