@@ -10,7 +10,7 @@ Status values: Planned, In progress, Done.
 Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
-1. The remaining open items: 22, 24, 27, 28, 29, 30, 31, 32, 33, 35, 36, and finally 9 (physical-device verification, which needs a device).
+1. The remaining open items: 22, 24, 28, 29, 30, 31, 32, 33, 35, 36, and finally 9 (physical-device verification, which needs a device).
    Item 23 is investigated and blocked on licensing; items 16, 20, 21 and 26 are done.
 
 ## 18. Review the Android changes for coding best practices
@@ -1157,7 +1157,7 @@ The streaming views share the filter widget and add their own Configure action.
 
 ## 27. Make Android screens scroll naturally with a finger
 
-**Status:** In progress (lists, Tools, Settings and Context scroll by finger; explicit Collection selection mode implemented; remaining physical-finger edge-case verification is open)
+**Status:** Done (Android scroll areas and item views use touch scrolling; native regressions pass; the user confirmed the remaining FP5 finger checks)
 
 **Problem:** On the FP5, screens show scrollbars but cannot consistently be scrolled by dragging with a finger.
 Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone.
@@ -1202,6 +1202,7 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
   The portrait Streaming category and Behavior page fit on screen, so those swipes did not establish scrolling on them.
   In landscape, the Settings overview and Streaming category scrolled, Help opened, and Back returned to the overview with its position preserved.
 - ADB-injected landscape swipes on the FP5 (2026-11-27) confirmed that the Tools menu and Collection > Display options page scroll, including a drag across the options controls without activating one. The user then confirmed that both pages scroll with a finger on the FP5.
+- The user confirmed that short and cancelled Collection drags in portrait and landscape, and scrolling a message/dialog page, all work as expected without unintended activation (2026-11-27).
 - Source audit (2026-11-27): Android-created scroll areas use `AndroidScrollArea` or `QScroller`, and item views use the shared Android list-scrolling adapter. No missing touch-scrolling setup was found.
 - Observed once: after scrolling the sidebar to its end, a tap on Tools selected Queue and scrolled the sidebar back.
   On the final-build follow-up, alternating taps between Tools and Settings selected the intended page five times, but did not reproduce the original exact gesture sequence.
@@ -1242,12 +1243,11 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
   A native regression verifies that selectable linked text scrolls on drag and links remain clickable; the Android build passes.
   Physical-finger verification remains open.
 
-**Still open:**
-- FP5 feedback (2026-11-12): dragging in Collection still frequently selects rows instead of scrolling.
-  The later physical-finger check above reports that scrolling and selection work; broader gesture and orientation checks remain.
+**Earlier feedback and residual observation:**
+- FP5 feedback (2026-11-12) reported that dragging in Collection selected rows instead of scrolling; subsequent physical-finger checks on 2026-11-25 and 2026-11-27 confirmed scrolling and selection work.
   A native probe confirmed the previous zero-delay list gesture sent a press to the view before the gesture was resolved, which could select a row immediately.
   A trial 150 ms press delay prevented that early selection but delayed the existing album long-press action beyond its tested timing, so it was not adopted as a standalone fix.
-- Verify remaining physical-finger cases on the FP5, especially short drags, cancellation, selection actions, nested scrolling and scrollable dialogs such as `MessageDialog`, in both orientations.
+- One tap on Tools after scrolling the sidebar selected Queue and reset the sidebar; repeated alternating taps on Tools and Settings did not reproduce it. The cause remains unknown, but there is no repeatable failure.
 - `AndroidScrollArea::EnableForContents()` makes a scroll area scroll when its contents or buttons are dragged, without activating a button; it is used by Tools, Settings, Context, the menu pages and the Collection options pages.
 
 ## 28. Design and add an alarm clock under Tools
