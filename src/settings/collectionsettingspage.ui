@@ -525,13 +525,6 @@ If there are no matches then it will use the largest image in the directory.</st
      </layout>
     </widget>
    </item>
-   <item>
-    <widget class="QCheckBox" name="checkbox_delete_files">
-     <property name="text">
-      <string>Enable delete files in the right click context menu</string>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <tabstops>
@@ -564,7 +557,6 @@ If there are no matches then it will use the largest image in the directory.</st
   <tabstop>checkbox_overwrite_playcount</tabstop>
   <tabstop>checkbox_overwrite_rating</tabstop>
   <tabstop>button_save_stats</tabstop>
-  <tabstop>checkbox_delete_files</tabstop>
  </tabstops>
  <resources/>
  <connections/>

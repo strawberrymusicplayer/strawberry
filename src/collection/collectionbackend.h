@@ -251,6 +251,10 @@ class CollectionBackend : public CollectionBackendInterface {
   void DeleteSongsAsync(const SongList &songs);
   void DeleteSongsByUrlsAsync(const QList<QUrl> &url);
 
+  // Songs marked unavailable are kept until they expire, these remove them right away.
+  int UnavailableSongCount();
+  void DeleteUnavailableSongsAsync();
+
  public Q_SLOTS:
   void Exit();
   void GetAllSongs(const int id);
@@ -268,6 +272,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void UpdateMTimesOnly(const SongList &songs);
   void DeleteSongs(const SongList &songs);
   void DeleteSongsByUrls(const QList<QUrl> &url);
+  void DeleteUnavailableSongs();
   void MarkSongsUnavailable(const SongList &songs, const bool unavailable = true);
   void AddOrUpdateSubdirs(const CollectionSubdirectoryList &subdirs);
   void DeleteSubdirs(const CollectionSubdirectoryList &subdirs);

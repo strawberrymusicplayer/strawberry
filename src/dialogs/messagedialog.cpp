@@ -29,9 +29,17 @@
 #include <QKeySequence>
 #include <QCheckBox>
 #include <QSettings>
+#include <QEvent>
+#ifdef Q_OS_ANDROID
+#  include <QScrollArea>
+#  include <QShortcut>
+#endif
 
 #include "core/settings.h"
 #include "utilities/screenutils.h"
+#ifdef Q_OS_ANDROID
+#  include "widgets/scrollarea_android.h"
+#endif
 #include "messagedialog.h"
 #include "ui_messagedialog.h"
 
@@ -39,7 +47,35 @@ MessageDialog::MessageDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_Mess
 
   ui_->setupUi(this);
 
-  setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
+#ifdef Q_OS_ANDROID
+  ui_->horizontalLayout->setDirection(QBoxLayout::TopToBottom);
+  ui_->label_logo->setAlignment(Qt::AlignCenter);
+  ui_->label_text->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+  ui_->label_text->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
+
+  QScrollArea *scroll_area = new QScrollArea(this);
+  scroll_area->setWidgetResizable(true);
+  scroll_area->setFrameShape(QFrame::NoFrame);
+  ui_->layout_right->removeWidget(ui_->label_text);
+  scroll_area->setWidget(ui_->label_text);
+  AndroidScrollArea::EnableForContents(scroll_area);
+  ui_->layout_right->insertWidget(0, scroll_area, 1);
+  ui_->verticalLayout->addWidget(ui_->checkbox_do_not_show_message_again);
+  ui_->verticalLayout->addWidget(ui_->buttonBox);
+
+  // A separate window appears seconds after the main window at startup, so taps meant for the main window would land on it.
+  // As a page covering the parent's window, it appears together with that window instead.
+  if (parent) {
+    setParent(parent->window(), Qt::Widget);
+    setAutoFillBackground(true);
+    parentWidget()->installEventFilter(this);
+  }
+  QShortcut *back = new QShortcut(this);
+  back->setKeys({QKeySequence(Qt::Key_Back), QKeySequence(Qt::Key_Escape)});
+  QObject::connect(back, &QShortcut::activated, this, &QDialog::reject);
+#endif
+
+  if (isWindow()) setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
 
   ui_->buttonBox->button(QDialogButtonBox::Ok)->setShortcut(QKeySequence::Close);
 
@@ -59,6 +95,17 @@ void MessageDialog::ShowMessage(const QString &title, const QString &message, co
   }
 
   ui_->label_text->setText(message);
+#ifdef Q_OS_ANDROID
+  if (isWindow()) {
+    showMaximized();
+  }
+  else {
+    setGeometry(parentWidget()->rect());
+    show();
+    raise();
+    ui_->buttonBox->button(QDialogButtonBox::Ok)->setFocus(Qt::OtherFocusReason);
+  }
+#else
   ui_->label_text->adjustSize();
   adjustSize();
   setMinimumWidth(520);
@@ -68,6 +115,7 @@ void MessageDialog::ShowMessage(const QString &title, const QString &message, co
   }
 
   show();
+#endif
 
 }
 
@@ -79,5 +127,17 @@ void MessageDialog::DoNotShowMessageAgain() {
     s.setValue(do_not_show_message_again_, ui_->checkbox_do_not_show_message_again->isChecked());
     s.endGroup();
   }
+
+}
+
+bool MessageDialog::eventFilter(QObject *object, QEvent *event) {
+
+#ifdef Q_OS_ANDROID
+  if (object == parentWidget() && !isWindow() && event->type() == QEvent::Resize) {
+    setGeometry(parentWidget()->rect());
+  }
+#endif
+
+  return QDialog::eventFilter(object, event);
 
 }

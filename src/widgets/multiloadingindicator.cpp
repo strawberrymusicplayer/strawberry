@@ -77,6 +77,9 @@ void MultiLoadingIndicator::UpdateText() {
   QStringList strings;
   strings.reserve(tasks.count());
   for (const TaskManager::Task &task : tasks) {
+#ifdef Q_OS_ANDROID
+    if (task.cancellable) continue;
+#endif
     QString task_text = task.name;
     if (!task_text.isEmpty()) task_text[0] = task_text[0].toLower();
 
@@ -94,9 +97,9 @@ void MultiLoadingIndicator::UpdateText() {
     text_ += "..."_L1;
   }
 
-  if (task_count_ != tasks.count()) {
-    task_count_ = tasks.count();
-    Q_EMIT TaskCountChange(static_cast<int>(tasks.count()));
+  if (task_count_ != strings.count()) {
+    task_count_ = strings.count();
+    Q_EMIT TaskCountChange(static_cast<int>(strings.count()));
   }
 
   update();

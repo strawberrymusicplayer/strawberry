@@ -1,0 +1,540 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+#include "gtest_include.h"
+#include <QDir>
+#include <QDirIterator>
+#include <QFile>
+#include <QFileInfo>
+#include <QProcess>
+#include <QSignalSpy>
+#include <QSet>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QTemporaryDir>
+#include <QUrl>
+#include <QUuid>
+#include <gst/gst.h>
+#include <gst/pbutils/pbutils.h>
+
+#include "core/nasfileengine.h"
+#include "core/memorydatabase.h"
+#include "core/taskmanager.h"
+#include "collection/collectionbackend.h"
+#include "collection/collectionmanager.h"
+#include "collection/collectionwatcher.h"
+#include "engine/gstqfilesrc.h"
+#include "engine/gststartup.h"
+#include "tagreader/taglibqfilestream.h"
+#include "tagreader/tagreadertaglib.h"
+#include "tagreader/tagreaderclient.h"
+#include <taglib/fileref.h>
+#include <atomic>
+#include <chrono>
+#include <future>
+#include <thread>
+#include <QElapsedTimer>
+
+namespace {
+
+Nas::Location Location() {
+  return {QUuid::createUuid().toString(QUuid::WithoutBraces), QStringLiteral("127.0.0.1"), QStringLiteral("music"), QStringLiteral("album"), QStringLiteral("strawberry-test"), QStringLiteral("fixture-only"), QString()};
+}
+
+TEST(NasFileEngineTest, ValidatesPathsAndKeepsCredentialsOutOfLabels) {
+  auto location = Location();
+  EXPECT_TRUE(Nas::Validate(location).isEmpty());
+  EXPECT_FALSE(location.label().contains(location.password));
+  EXPECT_FALSE(location.label().contains(location.user));
+  location.folder = QStringLiteral("../escape");
+  EXPECT_FALSE(Nas::Validate(location).isEmpty());
+  location = Location();
+  location.server = QStringLiteral("smb://user:password@nas");
+  EXPECT_FALSE(Nas::Validate(location).isEmpty());
+  location = Location();
+  location.share = QStringLiteral("music/other");
+  EXPECT_FALSE(Nas::Validate(location).isEmpty());
+  location = Location();
+  location.user.clear();
+  EXPECT_FALSE(Nas::Validate(location).isEmpty());
+}
+
+TEST(NasFileEngineTest, ConnectionErrorsGiveFixedHintsWithoutLibraryText) {
+  const QString login = Nas::ConnectionError(QStringLiteral("Session setup failed with (0xc000006d) STATUS_LOGON_FAILURE"));
+  const QString share = Nas::ConnectionError(QStringLiteral("Tree Connect failed with (0xc00000cc) STATUS_BAD_NETWORK_NAME. secret-share"));
+  const QString network = Nas::ConnectionError(QStringLiteral("smb2_service: socket error Connection refused(111) while connecting."));
+  const QString signing = Nas::ConnectionError(QStringLiteral("Signing requested but server does not support signing."));
+  const QString unknown = Nas::ConnectionError(QStringLiteral("something unexpected"));
+  EXPECT_EQ(QSet<QString>({login, share, network, signing, unknown}).size(), 5);
+  EXPECT_FALSE(share.contains(QStringLiteral("secret-share")));
+  EXPECT_FALSE(login.contains(QStringLiteral("STATUS_")));
+  EXPECT_FALSE(unknown.contains(QStringLiteral("unexpected")));
+}
+
+TEST(NasFileEngineTest, UnknownLocationsFailRatherThanAccessingLocalFiles) {
+  Nas::Install();
+  Nas::SetLocations({});
+  const quint64 before = Nas::FailureSerial();
+  QFile file(Location().path() + QStringLiteral("/track.wav"));
+  EXPECT_FALSE(file.open(QIODevice::ReadOnly));
+  EXPECT_FALSE(file.errorString().isEmpty());
+  EXPECT_GT(Nas::FailureSerial(), before);
+}
+
+TEST(NasFileEngineTest, NotifyStatusesDistinguishUnsupportedOverflowAndDisconnects) {
+  EXPECT_EQ(Nas::NotifyResult(0x00000000), Nas::WatchResult::Changed);
+  EXPECT_EQ(Nas::NotifyResult(0x0000010C), Nas::WatchResult::Overflow);
+  EXPECT_EQ(Nas::NotifyResult(0xC00000BB), Nas::WatchResult::Unsupported);
+  EXPECT_EQ(Nas::NotifyResult(0xC0000010), Nas::WatchResult::Unsupported);
+  EXPECT_EQ(Nas::NotifyResult(0xC0000002), Nas::WatchResult::Unsupported);
+  EXPECT_EQ(Nas::NotifyResult(0xC00000C9), Nas::WatchResult::Disconnected);
+  EXPECT_EQ(Nas::NotifyResult(0xC0000203), Nas::WatchResult::Disconnected);
+  EXPECT_EQ(Nas::NotifyResult(0xC00000B5), Nas::WatchResult::Disconnected);
+  EXPECT_EQ(Nas::NotifyResult(0xFFFFFFFF), Nas::WatchResult::Disconnected);
+}
+
+TEST(NasFileEngineTest, ChangeWaitStopsWhenCancelledOrUnreachable) {
+  std::atomic_bool cancel = true;
+  QElapsedTimer timer;
+  timer.start();
+  Nas::ChangeWatcher cancelled(Location());
+  EXPECT_FALSE(cancelled.Open(&cancel));
+  EXPECT_EQ(cancelled.Wait(10000, &cancel), Nas::WatchResult::Cancelled);
+  EXPECT_LT(timer.elapsed(), 100);
+  auto offline = Location();
+  offline.server += QStringLiteral(":1");
+  cancel = false;
+  timer.restart();
+  Nas::ChangeWatcher unreachable(offline);
+  EXPECT_FALSE(unreachable.Open(&cancel));
+  EXPECT_EQ(unreachable.Wait(10000, &cancel), Nas::WatchResult::Disconnected);
+  EXPECT_LT(timer.elapsed(), 9000);
+  offline.folder = QStringLiteral("../escape");
+  EXPECT_FALSE(Nas::ChangeWatcher(offline).Open());
+}
+
+// Connecting to an address which doesn't answer stops promptly when cancelled, instead of waiting for the 8 s timeout.
+TEST(NasFileEngineTest, CancelledConnectReturnsPromptly) {
+  auto unreachable = Location();
+  // TEST-NET-1 is reserved for documentation and is not routed, a connection attempt gets no answer.
+  unreachable.server = QStringLiteral("192.0.2.1");
+  std::atomic_bool cancel = false;
+  auto check = std::async(std::launch::async, [&unreachable, &cancel]() { return Nas::Check(unreachable, &cancel); });
+  if (check.wait_for(std::chrono::milliseconds(500)) == std::future_status::ready) {
+    GTEST_SKIP() << "This environment rejects the test address right away, so connecting can't be cancelled";
+  }
+  QElapsedTimer timer;
+  timer.start();
+  cancel = true;
+  EXPECT_FALSE(check.get().isEmpty());
+  EXPECT_LT(timer.elapsed(), 1000);
+  cancel = false;
+  Nas::ChangeWatcher watcher(unreachable);
+  auto opened = std::async(std::launch::async, [&watcher, &cancel]() { return watcher.Open(&cancel); });
+  ASSERT_EQ(opened.wait_for(std::chrono::milliseconds(500)), std::future_status::timeout);
+  timer.restart();
+  cancel = true;
+  EXPECT_FALSE(opened.get());
+  EXPECT_LT(timer.elapsed(), 1000);
+}
+
+class NasProtocolTest : public ::testing::Test {
+ protected:
+  void SetUp() override {
+    const QString python = qEnvironmentVariable("STRAWBERRY_NAS_TEST_PYTHON");
+    if (python.isEmpty()) GTEST_SKIP() << "Set STRAWBERRY_NAS_TEST_PYTHON to an interpreter with impacket for loopback SMB2 integration tests";
+    const QString script = QFileInfo(QString::fromUtf8(__FILE__)).dir().absoluteFilePath(QStringLiteral("../data/nas_server.py"));
+    server_.start(python, {script});
+    ASSERT_TRUE(server_.waitForStarted(5000));
+    ASSERT_TRUE(server_.waitForReadyRead(10000)) << server_.readAllStandardError().constData();
+    bool ok;
+    const int port = server_.readLine().trimmed().toInt(&ok);
+    ASSERT_TRUE(ok);
+    ASSERT_GT(port, 0);
+    location_ = Location();
+    location_.server += u':' + QString::number(port);
+    Nas::Install();
+    Nas::SetLocations({location_});
+  }
+  void TearDown() override {
+    Nas::SetLocations({});
+    server_.closeWriteChannel();
+    if (server_.state() != QProcess::NotRunning && !server_.waitForFinished(3000)) {
+      server_.terminate();
+      if (!server_.waitForFinished(3000)) { server_.kill(); server_.waitForFinished(3000); }
+    }
+  }
+  QProcess server_;
+  Nas::Location location_;
+
+  QByteArray FixtureCommand(const QByteArray &command) {
+    server_.write(command + '\n');
+    if (!server_.waitForReadyRead(5000)) {
+      ADD_FAILURE() << "Fixture command did not respond";
+      return {};
+    }
+    return server_.readLine().trimmed();
+  }
+  QJsonObject CommandCounts() {
+    QJsonParseError error;
+    const QJsonDocument document = QJsonDocument::fromJson(FixtureCommand("stats"), &error);
+    EXPECT_EQ(error.error, QJsonParseError::NoError);
+    EXPECT_TRUE(document.isObject());
+    return document.object();
+  }
+
+  enum class ScanEnd { Complete, Disconnect, Cancel, CancelCounting, CancelDuringCounting };
+  void VerifyFolderPublishing(ScanEnd end) {
+    const auto tasks = std::make_shared<TaskManager>();
+    const auto database = std::make_shared<MemoryDatabase>(nullptr);
+    const auto backend = std::make_shared<CollectionBackend>();
+    backend->Init(database, tasks, Song::Source::Collection, QLatin1String(CollectionManager::kSongsTable), QLatin1String(CollectionManager::kDirsTable), QLatin1String(CollectionManager::kSubdirsTable));
+    backend->AddDirectory(location_.path());
+    Song existing;
+    existing.Init(QStringLiteral("Existing title"), QStringLiteral("Artist"), QStringLiteral("Album"), 1000000000);
+    existing.set_source(Song::Source::Collection);
+    existing.set_directory_id(1);
+    existing.set_url(QUrl::fromLocalFile(location_.path() + QStringLiteral("/track.wav")));
+    existing.set_filetype(Song::FileType::WAV);
+    existing.set_samplerate(16000);
+    Song missing = existing;
+    missing.set_url(QUrl::fromLocalFile(location_.path() + QStringLiteral("/missing.wav")));
+    backend->AddOrUpdateSongs({existing, missing});
+    ASSERT_EQ(backend->GetAllSongs().size(), 2);
+
+    const auto reader = std::make_shared<TagReaderClient>();
+    CollectionWatcher watcher(Song::Source::Collection, tasks, reader, backend);
+    QSignalSpy deleted(&watcher, &CollectionWatcher::SongsDeleted);
+    QSignalSpy unavailable(&watcher, &CollectionWatcher::SongsUnavailable);
+    QSignalSpy expiry(&watcher, &CollectionWatcher::UpdateLastSeen);
+    QSignalSpy subdirs(&watcher, &CollectionWatcher::SubdirsDiscovered);
+    int published = 0;
+    int updated = 0;
+    bool stopped_while_counting = false;
+    const auto counting_connection = QObject::connect(&*tasks, &TaskManager::TasksChanged, &watcher, [&]() {
+      if (end != ScanEnd::CancelDuringCounting || stopped_while_counting) return;
+      const auto active = tasks->GetTasks();
+      if (active.isEmpty() || !active.first().detail.startsWith(QStringLiteral("Counting files:"))) return;
+      stopped_while_counting = true;
+      EXPECT_EQ(active.first().progress_max, 0);
+      tasks->RequestTaskCancellation(active.first().id);
+    });
+    const auto started_connection = QObject::connect(&watcher, &CollectionWatcher::ScanStarted, &watcher, [&](int id) {
+      if (end == ScanEnd::CancelCounting) {
+        const auto active = tasks->GetTasks();
+        ASSERT_EQ(active.size(), 1);
+        EXPECT_EQ(active.first().progress_max, 0);
+        EXPECT_TRUE(active.first().detail.contains(QStringLiteral("Counting")));
+        std::thread request([tasks, id]() { tasks->RequestTaskCancellation(id); });
+        request.join();
+      }
+    });
+    const auto published_connection = QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &watcher, [&](const SongList &songs) {
+      ASSERT_EQ(songs.size(), 1);
+      if (songs.first().id() != -1) {
+        ++updated;
+        EXPECT_EQ(end, ScanEnd::Complete);
+        EXPECT_EQ(published, 2);
+      }
+      else {
+        ++published;
+        // This is a live folder result, not a batch emitted by the transaction destructor.
+        const QList<TaskManager::Task> active = tasks->GetTasks();
+        ASSERT_EQ(active.size(), 1);
+        if (published == 1) EXPECT_LT(active.first().progress, active.first().progress_max);
+        EXPECT_EQ(deleted.count(), 0);
+        EXPECT_EQ(unavailable.count(), 0);
+        EXPECT_EQ(expiry.count(), 0);
+        EXPECT_EQ(subdirs.count(), 0);
+        for (const Song &song : backend->GetAllSongs()) {
+          if (song.url() == existing.url()) EXPECT_EQ(song.samplerate(), 16000);
+        }
+      }
+      backend->AddOrUpdateSongs(songs);
+      EXPECT_EQ(backend->GetAllSongs().size(), 2 + published);
+      if (published == 1 && end == ScanEnd::Disconnect) {
+        server_.terminate();
+        ASSERT_TRUE(server_.waitForFinished(3000));
+      }
+      else if (published == 1 && end == ScanEnd::Cancel) {
+        tasks->RequestTaskCancellation(tasks->GetTasks().first().id);
+      }
+    });
+    CollectionDirectory directory;
+    directory.id = 1;
+    directory.path = location_.path();
+    watcher.AddDirectory(directory, {});
+    EXPECT_TRUE(tasks->GetTasks().isEmpty());
+    const bool stopped_counting = end == ScanEnd::CancelCounting || end == ScanEnd::CancelDuringCounting;
+    EXPECT_EQ(published, end == ScanEnd::Complete ? 2 : (stopped_counting ? 0 : 1));
+    EXPECT_EQ(updated, end == ScanEnd::Complete ? 1 : 0);
+    EXPECT_EQ(deleted.count() + unavailable.count(), end == ScanEnd::Complete ? 1 : 0);
+    EXPECT_EQ(subdirs.count(), end == ScanEnd::Complete ? 1 : 0);
+    EXPECT_EQ(expiry.count(), 0);
+    if (end == ScanEnd::CancelDuringCounting) EXPECT_TRUE(stopped_while_counting);
+    if (end == ScanEnd::Cancel || stopped_counting) {
+      QObject::disconnect(started_connection);
+      QObject::disconnect(published_connection);
+      QObject::disconnect(counting_connection);
+      QObject::connect(&watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend, &CollectionBackend::AddOrUpdateScannedSongs);
+      watcher.AddDirectory(directory, {});
+      EXPECT_EQ(backend->GetAllSongs().size(), 4);
+      EXPECT_TRUE(tasks->GetTasks().isEmpty());
+    }
+  }
+};
+
+TEST_F(NasProtocolTest, ListsReadsSeeksAndRejectsWrites) {
+  ASSERT_TRUE(Nas::Check(location_).isEmpty());
+  EXPECT_TRUE(QFileInfo(location_.path()).isDir());
+  const QStringList entries = QDir(location_.path()).entryList(QDir::Files | QDir::NoDotAndDotDot);
+  EXPECT_TRUE(entries.contains(QStringLiteral("track.wav")));
+  EXPECT_TRUE(entries.contains(QStringLiteral("bytes.bin")));
+  EXPECT_EQ(QDir(location_.path()).entryList({QStringLiteral("*.wav")}, QDir::Files), QStringList{QStringLiteral("track.wav")});
+  QFile file(location_.path() + QStringLiteral("/bytes.bin"));
+  ASSERT_TRUE(file.open(QIODevice::ReadOnly)) << file.errorString().toStdString();
+  EXPECT_EQ(file.size(), 2097152);
+  EXPECT_EQ(file.read(3), QByteArray::fromHex("000102"));
+  ASSERT_TRUE(file.seek(123456));
+  EXPECT_EQ(file.read(3), QByteArray::fromHex("404142"));
+  ASSERT_TRUE(file.seek(0));
+  const QByteArray all = file.readAll();
+  ASSERT_EQ(all.size(), 2097152);
+  EXPECT_EQ(all.mid(65535, 3), QByteArray::fromHex("ff0001"));
+  file.close();
+  EXPECT_FALSE(file.open(QIODevice::WriteOnly | QIODevice::Truncate));
+  EXPECT_FALSE(QFile::remove(file.fileName()));
+  EXPECT_EQ(QFileInfo(file.fileName()).size(), 2097152);
+  const quint64 before = Nas::FailureSerial();
+  EXPECT_FALSE(QFileInfo(location_.path() + QStringLiteral("/missing.wav")).exists());
+  EXPECT_EQ(Nas::FailureSerial(), before);
+  EXPECT_TRUE(Nas::Check(location_).isEmpty());
+  auto root = location_;
+  root.folder.clear();
+  Nas::SetLocations({root});
+  EXPECT_TRUE(QDir(root.path()).entryList(QDir::Files | QDir::NoDotAndDotDot).isEmpty());
+  EXPECT_EQ(QDir(root.path()).entryList(QDir::Dirs | QDir::NoDotAndDotDot), (QStringList{QStringLiteral("album"), QStringLiteral("bulk")}));
+}
+
+TEST_F(NasProtocolTest, TagLibAndGStreamerReadNetworkWav) {
+  const QString path = location_.path() + QStringLiteral("/track.wav");
+  TagReaderTagLib reader;
+  Song song;
+  const TagReaderResult result = reader.ReadFile(path, &song);
+  ASSERT_TRUE(result.success()) << result.error_string().toStdString();
+  EXPECT_EQ(song.samplerate(), 8000);
+  TagLibQFileStream stream(path);
+  ASSERT_TRUE(stream.isOpen());
+  TagLib::FileRef ref(&stream);
+  ASSERT_FALSE(ref.isNull());
+  ASSERT_NE(ref.audioProperties(), nullptr);
+  EXPECT_EQ(ref.audioProperties()->sampleRate(), 8000);
+  GstStartup::Initialize();
+  ASSERT_TRUE(RegisterGstQFileSource());
+  GError *error = nullptr;
+  GstDiscoverer *discoverer = gst_discoverer_new(20 * GST_SECOND, &error);
+  ASSERT_NE(discoverer, nullptr);
+  GstDiscovererInfo *info = gst_discoverer_discover_uri(discoverer, QUrl::fromLocalFile(path).toEncoded().constData(), &error);
+  ASSERT_NE(info, nullptr);
+  EXPECT_EQ(gst_discoverer_info_get_result(info), GST_DISCOVERER_OK);
+  EXPECT_EQ(gst_discoverer_info_get_duration(info), GST_SECOND);
+  gst_discoverer_info_unref(info);
+  gst_object_unref(discoverer);
+  if (error) { ADD_FAILURE() << error->message; g_error_free(error); }
+}
+
+TEST_F(NasProtocolTest, CollectionScannerDiscoversNetworkTracks) {
+  const auto tasks = std::make_shared<TaskManager>();
+  const auto database = std::make_shared<MemoryDatabase>(nullptr);
+  const auto backend = std::make_shared<CollectionBackend>();
+  backend->Init(database, tasks, Song::Source::Collection, QLatin1String(CollectionManager::kSongsTable), QLatin1String(CollectionManager::kDirsTable), QLatin1String(CollectionManager::kSubdirsTable));
+  const auto reader = std::make_shared<TagReaderClient>();
+  CollectionWatcher watcher(Song::Source::Collection, tasks, reader, backend);
+  QSignalSpy discovered(&watcher, &CollectionWatcher::NewOrUpdatedSongs);
+  CollectionDirectory directory;
+  directory.id = 1;
+  directory.path = location_.path();
+  watcher.AddDirectory(directory, {});
+  ASSERT_EQ(discovered.count(), 3);
+  QSet<QUrl> urls;
+  for (const QList<QVariant> &batch : discovered) {
+    const SongList songs = batch.at(0).value<SongList>();
+    ASSERT_EQ(songs.size(), 1);
+    urls.insert(songs.at(0).url());
+    EXPECT_EQ(songs.at(0).samplerate(), 8000);
+  }
+  EXPECT_EQ(urls, (QSet<QUrl>{QUrl::fromLocalFile(location_.path() + QStringLiteral("/track.wav")),
+                            QUrl::fromLocalFile(location_.path() + QStringLiteral("/first/track.wav")),
+                            QUrl::fromLocalFile(location_.path() + QStringLiteral("/second/track.wav"))}));
+}
+
+TEST_F(NasProtocolTest, WrongPasswordAndOfflineServerFailExplicitly) {
+  auto bad = location_;
+  bad.password = QStringLiteral("incorrect-fixture");
+  EXPECT_FALSE(Nas::Check(bad).isEmpty());
+  QFile interrupted(location_.path() + QStringLiteral("/bytes.bin"));
+  ASSERT_TRUE(interrupted.open(QIODevice::ReadOnly));
+  EXPECT_EQ(interrupted.read(3), QByteArray::fromHex("000102"));
+  const quint64 before = Nas::FailureSerial();
+  server_.terminate();
+  ASSERT_TRUE(server_.waitForFinished(3000));
+  interrupted.read(128 * 1024);
+  EXPECT_NE(interrupted.error(), QFile::NoError);
+  EXPECT_GT(Nas::FailureSerial(), before);
+  QFile file(location_.path() + QStringLiteral("/track.wav"));
+  EXPECT_FALSE(file.open(QIODevice::ReadOnly));
+  EXPECT_GT(Nas::FailureSerial(), before);
+}
+
+TEST_F(NasProtocolTest, PublishesEachFolderBeforeFinishingAndDefersExistingChanges) {
+  VerifyFolderPublishing(ScanEnd::Complete);
+}
+
+TEST_F(NasProtocolTest, DisconnectKeepsPublishedFoldersWithoutChangingExistingSongs) {
+  VerifyFolderPublishing(ScanEnd::Disconnect);
+}
+
+TEST_F(NasProtocolTest, CancellationKeepsPublishedFoldersWithoutChangingExistingSongs) {
+  VerifyFolderPublishing(ScanEnd::Cancel);
+}
+
+TEST_F(NasProtocolTest, CanStopBeforeCountingWithoutChangingExistingSongs) {
+  VerifyFolderPublishing(ScanEnd::CancelCounting);
+}
+
+TEST_F(NasProtocolTest, CanStopDuringCountingWithoutChangingExistingSongs) {
+  VerifyFolderPublishing(ScanEnd::CancelDuringCounting);
+}
+
+TEST_F(NasProtocolTest, DirectoryMetadataAvoidsPerEntryQueriesAndExpiresWithIterator) {
+  location_.folder = QStringLiteral("bulk");
+  Nas::SetLocations({location_});
+  const QString negotiate = QStringLiteral("negotiate");
+  const QString query_info = QStringLiteral("query_info");
+  const QJsonObject baseline_before = CommandCounts();
+  for (int i = 0; i < 128; ++i) {
+    EXPECT_EQ(QFileInfo(location_.path() + QStringLiteral("/entry-%1.bin").arg(i, 3, 10, QLatin1Char('0'))).size(), 7);
+  }
+  const QJsonObject baseline_after = CommandCounts();
+  const int baseline_connections = baseline_after.value(negotiate).toInt() - baseline_before.value(negotiate).toInt();
+  const int baseline_queries = baseline_after.value(query_info).toInt() - baseline_before.value(query_info).toInt();
+  EXPECT_EQ(baseline_connections, 128);
+  EXPECT_EQ(baseline_queries, 128);
+  const QJsonObject before = CommandCounts();
+  int found = 0;
+  {
+    QDirIterator entries(location_.path(), QDir::Files | QDir::NoDotAndDotDot);
+    while (entries.hasNext()) {
+      const QString path = entries.next();
+      const QFileInfo info(path);
+      EXPECT_TRUE(info.isFile());
+      EXPECT_TRUE(info.isReadable());
+      EXPECT_EQ(info.size(), 7);
+      EXPECT_TRUE(info.lastModified().isValid());
+      ++found;
+    }
+    EXPECT_EQ(found, 128);
+    const QJsonObject after = CommandCounts();
+    // Root/listing lookups only, not a fresh authenticated session/stat for every file.
+    const int connections = after.value(negotiate).toInt() - before.value(negotiate).toInt();
+    const int queries = after.value(query_info).toInt() - before.value(query_info).toInt();
+    EXPECT_LE(connections, 2);
+    EXPECT_LE(queries, 2);
+    qInfo("128-file metadata check: connections %d -> %d; QUERY_INFO %d -> %d",
+          baseline_connections, connections, baseline_queries, queries);
+  }
+  EXPECT_EQ(FixtureCommand("resize"), QByteArray("resized"));
+  const QJsonObject before_refresh = CommandCounts();
+  EXPECT_EQ(QFileInfo(location_.path() + QStringLiteral("/entry-000.bin")).size(), 24);
+  const QJsonObject after_refresh = CommandCounts();
+  EXPECT_GT(after_refresh.value(query_info).toInt(), before_refresh.value(query_info).toInt());
+  server_.closeWriteChannel();
+  ASSERT_TRUE(server_.waitForFinished(10000));
+  const quint64 failure = Nas::FailureSerial();
+  EXPECT_FALSE(QFileInfo(location_.path() + QStringLiteral("/entry-000.bin")).exists());
+  EXPECT_GT(Nas::FailureSerial(), failure);
+}
+
+TEST_F(NasProtocolTest, DirectoryMetadataDoesNotSurviveLocationChangesOrCrossThreads) {
+  location_.folder = QStringLiteral("bulk");
+  Nas::SetLocations({location_});
+  QDirIterator entries(location_.path(), QDir::Files | QDir::NoDotAndDotDot);
+  ASSERT_TRUE(entries.hasNext());
+  const QString path = entries.next();
+  const QJsonObject before = CommandCounts();
+  std::thread separate_reader([path]() { EXPECT_EQ(QFileInfo(path).size(), 7); });
+  separate_reader.join();
+  const QJsonObject after = CommandCounts();
+  EXPECT_GT(after.value(QStringLiteral("query_info")).toInt(), before.value(QStringLiteral("query_info")).toInt());
+  auto wrong_folder = location_;
+  wrong_folder.folder = QStringLiteral("missing-folder");
+  Nas::SetLocations({wrong_folder});
+  EXPECT_FALSE(QFileInfo(path).exists());
+  Nas::SetLocations({});
+  const quint64 failure = Nas::FailureSerial();
+  EXPECT_FALSE(QFileInfo(path).exists());
+  EXPECT_GT(Nas::FailureSerial(), failure);
+}
+
+TEST_F(NasProtocolTest, ChangeWaitReportsChangesOverflowAndUnsupportedServers) {
+  Nas::ChangeWatcher watcher(location_);
+  ASSERT_TRUE(watcher.Open());
+  EXPECT_EQ(watcher.Wait(5000), Nas::WatchResult::Unsupported);
+  EXPECT_FALSE(watcher.IsOpen());
+  EXPECT_EQ(FixtureCommand("notify change"), QByteArray("notify"));
+  EXPECT_EQ(FixtureCommand("name first/new.wav"), QByteArray("name"));
+  ASSERT_TRUE(watcher.Open());
+  QStringList changes;
+  EXPECT_EQ(watcher.Wait(5000, nullptr, &changes), Nas::WatchResult::Changed);
+  EXPECT_EQ(changes, QStringList{QStringLiteral("first/new.wav")});
+  EXPECT_EQ(FixtureCommand("notify overflow"), QByteArray("notify"));
+  EXPECT_EQ(watcher.Wait(5000), Nas::WatchResult::Overflow);
+  EXPECT_TRUE(watcher.IsOpen());
+  auto missing = location_;
+  missing.folder = QStringLiteral("missing-folder");
+  Nas::ChangeWatcher missing_watcher(missing);
+  EXPECT_FALSE(missing_watcher.Open());
+  EXPECT_EQ(missing_watcher.Wait(5000), Nas::WatchResult::Disconnected);
+}
+
+// A change made after a timeout, or between a reported change and the next wait, is reported on the same handle and connection.
+TEST_F(NasProtocolTest, ChangeWaitKeepsTheHandleBetweenWaits) {
+  EXPECT_EQ(FixtureCommand("notify queue"), QByteArray("notify"));
+  Nas::ChangeWatcher watcher(location_);
+  ASSERT_TRUE(watcher.Open());
+  const QJsonObject opened = CommandCounts();
+  EXPECT_EQ(watcher.Wait(300), Nas::WatchResult::Timeout);
+  EXPECT_EQ(FixtureCommand("event"), QByteArray("event"));
+  EXPECT_EQ(watcher.Wait(5000), Nas::WatchResult::Changed);
+  EXPECT_EQ(FixtureCommand("event"), QByteArray("event"));
+  EXPECT_EQ(watcher.Wait(5000), Nas::WatchResult::Changed);
+  EXPECT_EQ(watcher.Wait(300), Nas::WatchResult::Timeout);
+  const QJsonObject waited = CommandCounts();
+  EXPECT_EQ(waited.value(QStringLiteral("negotiate")), opened.value(QStringLiteral("negotiate")));
+  EXPECT_EQ(waited.value(QStringLiteral("create")), opened.value(QStringLiteral("create")));
+}
+
+TEST_F(NasProtocolTest, ChangeWaitHonoursTimeoutCancellationAndDisconnects) {
+  EXPECT_EQ(FixtureCommand("notify hold"), QByteArray("notify"));
+  QElapsedTimer timer;
+  timer.start();
+  Nas::ChangeWatcher watcher(location_);
+  ASSERT_TRUE(watcher.Open());
+  EXPECT_EQ(watcher.Wait(300), Nas::WatchResult::Timeout);
+  EXPECT_LT(timer.elapsed(), 3000);
+  std::atomic_bool cancel = false;
+  auto cancelled = std::async(std::launch::async, [&watcher, &cancel]() { return watcher.Wait(20000, &cancel); });
+  EXPECT_EQ(cancelled.wait_for(std::chrono::milliseconds(500)), std::future_status::timeout);
+  timer.restart();
+  cancel = true;
+  EXPECT_EQ(cancelled.get(), Nas::WatchResult::Cancelled);
+  EXPECT_LT(timer.elapsed(), 500);
+  auto disconnected = std::async(std::launch::async, [&watcher]() { return watcher.Wait(20000); });
+  EXPECT_EQ(disconnected.wait_for(std::chrono::milliseconds(500)), std::future_status::timeout);
+  timer.restart();
+  server_.terminate();
+  ASSERT_TRUE(server_.waitForFinished(3000));
+  EXPECT_EQ(disconnected.get(), Nas::WatchResult::Disconnected);
+  EXPECT_LT(timer.elapsed(), 5000);
+}
+
+}  // namespace

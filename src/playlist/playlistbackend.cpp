@@ -535,9 +535,12 @@ int PlaylistBackend::CreatePlaylist(const QString &name, const QString &special_
 
 }
 
-void PlaylistBackend::RemovePlaylistAsync(const int id) {
+void PlaylistBackend::RemovePlaylistAsync(const int id, const quint64 sequence) {
 
-  QMetaObject::invokeMethod(this, [this, id]() { RemovePlaylist(id); }, Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, [this, id, sequence]() {
+    RemovePlaylist(id);
+    Q_EMIT PlaylistRemoved(id, sequence);
+  }, Qt::QueuedConnection);
 
 }
 

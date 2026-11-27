@@ -20,11 +20,17 @@
  */
 
 #include "config.h"
+#ifdef HAVE_NAS
+#  include "core/nasfileengine.h"
+#endif
 
 #include <algorithm>
 #include <utility>
 #include <chrono>
 #include <optional>
+#ifdef HAVE_NAS
+#  include <functional>
+#endif
 
 #include <QObject>
 #include <QThread>
@@ -47,6 +53,7 @@
 #include <QUrl>
 #include <QImage>
 #include <QMutexLocker>
+#include <QScopeGuard>
 #include <QSettings>
 
 #include "core/logging.h"
@@ -66,7 +73,7 @@
 #include "constants/collectionsettings.h"
 #include "engine/ebur128measures.h"
 
-#if defined(Q_OS_LINUX)
+#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 #  include "core/filesystemwatcherinotify.h"
 #elif defined(Q_OS_WIN32)
 #  include "core/filesystemwatcherwin.h"
@@ -111,6 +118,47 @@ const QStringList &ValidImageExtensions() {
 
 }
 
+#ifdef HAVE_NAS
+// A timeout keeps the request pending, it only bounds how long the monitor takes to notice a requested catch-up or changed NAS settings.
+constexpr std::chrono::milliseconds kNasWatchTimeout = 5s;
+constexpr std::chrono::milliseconds kNasChangeDelay = 3s;
+constexpr std::chrono::milliseconds kNasMinRetryDelay = 5s;
+constexpr std::chrono::milliseconds kNasMaxRetryDelay = 5min;
+
+// Returns the location of a NAS collection directory, with the folder of the directory, which can be below the folder of the location.
+std::optional<Nas::Location> NasLocationForPath(const QString &path) {
+
+  const QList<Nas::Location> locations = Nas::Locations();
+  for (Nas::Location location : locations) {
+    const QString root = location.path();
+    if (path != root && !path.startsWith(root + u'/')) continue;
+    const QString relative = path.mid(root.size() + 1);
+    if (!relative.isEmpty()) location.folder = location.folder.isEmpty() ? relative : location.folder + u'/' + relative;
+    return location;
+  }
+  return std::nullopt;
+
+}
+
+bool SameNasLocation(const Nas::Location &a, const Nas::Location &b) {
+  return a.server == b.server && a.share == b.share && a.folder == b.folder && a.user == b.user && a.password == b.password && a.domain == b.domain;
+}
+
+// Sleeps for the duration, returns false as soon as the monitor is cancelled.
+bool NasMonitorSleep(const std::atomic_bool &cancel, const std::chrono::milliseconds duration) {
+
+  QElapsedTimer timer;
+  timer.start();
+  while (!cancel) {
+    const qint64 remaining = duration.count() - timer.elapsed();
+    if (remaining <= 0) return true;
+    QThread::msleep(static_cast<unsigned long>(std::min<qint64>(remaining, 100)));
+  }
+  return false;
+
+}
+#endif
+
 }  // namespace
 
 CollectionWatcher::CollectionWatcher(const Song::Source source,
@@ -123,7 +171,7 @@ CollectionWatcher::CollectionWatcher(const Song::Source source,
       task_manager_(task_manager),
       tagreader_client_(tagreader_client),
       backend_(backend),
-#if defined(Q_OS_LINUX)
+#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
       fs_watcher_(new FileSystemWatcherInotify(this)),
 #elif defined(Q_OS_WIN32)
       fs_watcher_(new FileSystemWatcherWin(this)),
@@ -165,11 +213,17 @@ CollectionWatcher::CollectionWatcher(const Song::Source source,
   QObject::connect(fs_watcher_, &FileSystemWatcherInterface::Overflow, this, &CollectionWatcher::FileSystemWatcherOverflow, Qt::UniqueConnection);
   QObject::connect(rescan_timer_, &QTimer::timeout, this, &CollectionWatcher::RescanPathsNow);
   QObject::connect(periodic_scan_timer_, &QTimer::timeout, this, &CollectionWatcher::IncrementalScanCheck);
+#if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
+  FollowApplicationState();
+#endif
 
 }
 
 CollectionWatcher::~CollectionWatcher() {
 
+#ifdef HAVE_NAS
+  StopNasMonitors();
+#endif
   qLog(Debug) << "Collection watcher" << this << "for" << Song::TextForSource(source_) << "deleted.";
 
 }
@@ -182,6 +236,9 @@ void CollectionWatcher::Exit() {
 
   Q_ASSERT(QThread::currentThread() == thread());
 
+#ifdef HAVE_NAS
+  StopNasMonitors();
+#endif
   Abort();
   if (backend_) backend_->Close();
   moveToThread(original_thread_);
@@ -263,6 +320,14 @@ void CollectionWatcher::ReloadSettings() {
   expire_unavailable_songs_days_ = s.value(CollectionSettings::kExpireUnavailableSongs, CollectionSettings::kDefaultExpireUnavailableSongs).toInt();
   overwrite_playcount_ = s.value(CollectionSettings::kOverwritePlaycount, CollectionSettings::kDefaultOverwritePlaycount).toBool();
   overwrite_rating_ = s.value(CollectionSettings::kOverwriteRating, CollectionSettings::kDefaultOverwriteRating).toBool();
+#ifdef HAVE_NAS
+  const int nas_polling_minutes_before = nas_polling_minutes_;
+  bool nas_polling_minutes_ok = false;
+  nas_polling_minutes_ = s.value(CollectionSettings::kNasPollingMinutes, CollectionSettings::kDefaultNasPollingMinutes).toInt(&nas_polling_minutes_ok);
+  if (!nas_polling_minutes_ok || nas_polling_minutes_ < CollectionSettings::kMinNasPollingMinutes || nas_polling_minutes_ > CollectionSettings::kMaxNasPollingMinutes) {
+    nas_polling_minutes_ = CollectionSettings::kDefaultNasPollingMinutes;
+  }
+#endif
   s.endGroup();
 
   best_art_filters_.clear();
@@ -273,6 +338,9 @@ void CollectionWatcher::ReloadSettings() {
 
   if (!monitor_ && was_monitoring_before) {
     fs_watcher_->Clear();
+#ifdef HAVE_NAS
+    StopNasMonitors();
+#endif
   }
   else if (monitor_ && !was_monitoring_before) {
     // Add all directories to all QFileSystemWatchers again
@@ -282,7 +350,15 @@ void CollectionWatcher::ReloadSettings() {
         AddWatch(dir, subdir.path);
       }
     }
+#ifdef HAVE_NAS
+    RestartNasMonitors();
+#endif
   }
+#ifdef HAVE_NAS
+  else if (monitor_ && nas_polling_minutes_ != nas_polling_minutes_before) {
+    RestartNasMonitors();
+  }
+#endif
 
   if (source_ == Song::Source::Collection) {
     if (monitor_ && scan_on_startup_ && mark_songs_unavailable_ && !periodic_scan_timer_->isActive()) {
@@ -309,6 +385,10 @@ CollectionWatcher::ScanTransaction::ScanTransaction(CollectionWatcher *watcher, 
       cached_songs_missing_loudness_characteristics_dirty_(true),
       known_subdirs_dirty_(true) {
 
+#ifdef HAVE_NAS
+  nas_transaction_ = Nas::IsPath(watcher->watched_dirs_.value(dir_id).path);
+  nas_failure_serial_ = Nas::FailureSerial();
+#endif
   QString description;
 
   if (watcher_->device_name_.isEmpty()) {
@@ -319,12 +399,20 @@ CollectionWatcher::ScanTransaction::ScanTransaction(CollectionWatcher *watcher, 
   }
 
   task_id_ = watcher_->task_manager_->StartTask(description);
+  // Stop() is mutex-protected; a queued request would wait behind the running scan.
+  cancellation_connection_ = QObject::connect(&*watcher_->task_manager_, &TaskManager::TaskCancellationRequested, watcher_,
+      [watcher, id = task_id_](int requested_id) {
+        if (requested_id == id) watcher->Stop();
+      }, Qt::DirectConnection);
+  watcher_->task_manager_->SetTaskDetail(task_id_, tr("Counting files..."));
+  watcher_->task_manager_->SetTaskCancellable(task_id_);
   Q_EMIT watcher_->ScanStarted(task_id_);
 
 }
 
 CollectionWatcher::ScanTransaction::~ScanTransaction() {
 
+  QObject::disconnect(cancellation_connection_);
   // If we're stopping then don't commit the transaction
   if (!watcher_->stop_or_abort_requested()) {
     CommitNewOrUpdatedSongs();
@@ -344,8 +432,17 @@ void CollectionWatcher::ScanTransaction::AddToProgress(const quint64 n) {
 void CollectionWatcher::ScanTransaction::AddToProgressMax(const quint64 n) {
 
   progress_max_ += n;
+  watcher_->task_manager_->SetTaskDetail(task_id_, tr("Processing"));
   watcher_->task_manager_->SetTaskProgress(task_id_, progress_, progress_max_);
 
+}
+
+void CollectionWatcher::ScanTransaction::CountEntry() {
+  ++counted_entries_;
+  if (!count_timer_.isValid() || count_timer_.elapsed() >= 250) {
+    watcher_->task_manager_->SetTaskDetail(task_id_, tr("Counting files: %1 entries found").arg(counted_entries_));
+    count_timer_.start();
+  }
 }
 
 void CollectionWatcher::ScanTransaction::LogChanges() const {
@@ -382,6 +479,10 @@ void CollectionWatcher::ScanTransaction::LogChanges() const {
 
 void CollectionWatcher::ScanTransaction::CommitNewOrUpdatedSongs() {
 
+#ifdef HAVE_NAS
+  // A failed network listing must never look like deleted files.
+  if (NetworkFailed()) return;
+#endif
   if (!deleted_subdirs.isEmpty()) {
     Q_EMIT watcher_->SubdirsDeleted(deleted_subdirs);
   }
@@ -427,9 +528,25 @@ void CollectionWatcher::ScanTransaction::CommitNewOrUpdatedSongs() {
   }
 
   if (!new_songs.isEmpty()) {
-    Q_EMIT watcher_->NewOrUpdatedSongs(new_songs, previous_songs);
+#ifdef HAVE_NAS
+    if (nas_published_song_count_ > 0) {
+      SongList pending_songs;
+      for (qsizetype i = 0; i < new_songs.size(); ++i) {
+        if (i < nas_published_song_count_ && new_songs.at(i).id() == -1) continue;
+        pending_songs << new_songs.at(i);
+      }
+      if (!pending_songs.isEmpty()) Q_EMIT watcher_->NewOrUpdatedSongs(pending_songs, previous_songs);
+    }
+    else
+#endif
+    {
+      Q_EMIT watcher_->NewOrUpdatedSongs(new_songs, previous_songs);
+    }
     new_songs.clear();
     previous_songs.clear();
+#ifdef HAVE_NAS
+    nas_published_song_count_ = 0;
+#endif
     song_changes.clear();
   }
 
@@ -597,9 +714,20 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
     }
   }
 
+#ifdef HAVE_NAS
+  // Like in ScanNasDirectory(), suspending stops the update of a NAS directory, the started monitors catch up with the changed folders.
+  if (Nas::IsPath(dir.path)) nas_scan_running_ = true;
+  // Also resets it when the scan leaves early through an exception.
+  auto nas_scan_reset = qScopeGuard([this]() { nas_scan_running_ = false; });
+#endif
   CancelStop();
 
   watched_dirs_[dir.id] = dir;
+
+#ifdef HAVE_NAS
+  // Started before the scan, so changes made while it runs are scanned after it.
+  const std::shared_ptr<NasMonitor> nas_monitor = monitor_ && Nas::IsPath(dir.path) ? StartNasMonitor(dir, subdirs.isEmpty() || scan_on_startup_) : nullptr;
+#endif
 
   if (subdirs.isEmpty()) {
     // This is a new directory that we've never seen before. Scan it fully.
@@ -608,6 +736,9 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
     transaction.SetKnownSubdirs(subdirs);
     transaction.AddToProgressMax(files_count);
     ScanSubdirectory(dir, dir.path, CollectionSubdirectory(), files_count, &transaction);
+#ifdef HAVE_NAS
+    if (nas_monitor && transaction.NetworkFailed()) nas_monitor->catch_up = true;
+#endif
     last_scan_time_ = QDateTime::currentSecsSinceEpoch();
   }
   else {
@@ -627,18 +758,46 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
         if (stop_or_abort_requested()) break;
         ScanSubdirectory(dir, subdir.path, subdir, subdir_files_count[subdir.path], &transaction);
       }
+#ifdef HAVE_NAS
+      if (nas_monitor && transaction.NetworkFailed()) nas_monitor->catch_up = true;
+#endif
       if (!stop_or_abort_requested()) {
         last_scan_time_ = QDateTime::currentSecsSinceEpoch();
       }
     }
   }
+#ifdef HAVE_NAS
+  nas_scan_reset.dismiss();
+  nas_scan_running_ = false;
+#endif
 
   Q_EMIT CompilationsNeedUpdating();
 
 }
 
+#ifdef HAVE_NAS
+bool CollectionWatcher::ScanTransaction::NetworkFailed() const {
+  return nas_transaction_ && Nas::FailureSerial() != nas_failure_serial_;
+}
+
+void CollectionWatcher::ScanTransaction::PublishNewNasSongs() {
+  if (!nas_transaction_ || NetworkFailed() || watcher_->stop_or_abort_requested()) return;
+  SongList added;
+  for (qsizetype i = nas_published_song_count_; i < new_songs.size(); ++i) {
+    if (new_songs.at(i).id() == -1) added << new_songs.at(i);
+  }
+  // Retain the complete transaction for deletion reconciliation; publish only new tracks early.
+  nas_published_song_count_ = new_songs.size();
+  if (!added.isEmpty()) Q_EMIT watcher_->NewOrUpdatedSongs(added, SongList());
+}
+#endif
+
 void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const QString &path, const CollectionSubdirectory &subdir, const quint64 files_count, ScanTransaction *t, const bool force_noincremental) {
 
+  if (stop_or_abort_requested()) return;
+#ifdef HAVE_NAS
+  if (t->NetworkFailed()) return;
+#endif
   // A renamed directory can be reached both from its own queued change notification and from its parent's vanished-child check below, so skip it if it was already scanned in this transaction to avoid deleting/adding its songs twice.
   if (t->HasScannedPath(path)) {
     t->AddToProgress(files_count);
@@ -647,11 +806,13 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   t->MarkPathScanned(path);
 
   const QFileInfo path_info(path);
-
   // A directory reached through a link to a directory above it was scanned before, also when it's not a link itself, it's handled like a directory which doesn't exist anymore, so the songs and subdirectories found through the link are removed.
   // The collection directory itself can be a link to a directory above it.
   const bool inside_link_to_parent_directory = path != dir.path && IsInsideLinkToParentDirectory(dir.path, path);
   const bool path_exists = path_info.exists() && !inside_link_to_parent_directory;
+#ifdef HAVE_NAS
+  if (t->NetworkFailed()) return;
+#endif
   const qint64 path_mtime = path_exists && path_info.lastModified().isValid() ? path_info.lastModified().toSecsSinceEpoch() : 0;
 
   if (inside_link_to_parent_directory) {
@@ -711,10 +872,17 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   const CollectionSubdirectoryList previous_subdirs = t->GetImmediateSubdirs(path);
   for (const CollectionSubdirectory &prev_subdir : previous_subdirs) {
     if ((!QFile::exists(prev_subdir.path) || inside_link_to_parent_directory || IsInsideLinkToParentDirectory(dir.path, prev_subdir.path)) && prev_subdir.path != path) {
+#ifdef HAVE_NAS
+      if (t->NetworkFailed()) return;
+#endif
       ScanSubdirectory(dir, prev_subdir.path, prev_subdir, 0, t, true);
     }
   }
 
+#ifdef HAVE_NAS
+  // The listing's metadata is used for the files below, instead of inspecting each file on a new NAS session.
+  const Nas::ListingScope nas_listing;
+#endif
   // First we "quickly" get a list of the files in the directory that we think might be music.  While we're here, we also look for new subdirectories and possible album artwork.
   if (path_exists) {
     QDirIterator it(path, QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
@@ -936,6 +1104,12 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
       // The LRC file's mtime is stored separately, so an added, changed or deleted LRC file is detected regardless of how its mtime compares to the media file's.
       const bool changed_lrc = matching_song.lrc_mtime() != lrc_mtime;
       bool changed = (matching_song.mtime() != qMax(fileinfo.lastModified().toSecsSinceEpoch(), matching_song_cue_mtime)) || cue_deleted || cue_added || cue_changed || cue_readable_again || cue_songs_unavailable || changed_lrc;
+#ifdef HAVE_NAS
+      // NAS servers can keep the modification time of a file which was changed in place, for example when it was copied with its times preserved.
+      if (t->nas_transaction() && !matching_song.has_cue() && matching_song.filesize() > 0 && matching_song.filesize() != fileinfo.size()) {
+        changed = true;
+      }
+#endif
 
       // Also want to look to see whether the album art has changed, the cover file's mtime is stored separately like for LRC files, so a cover file replaced with the same name is detected too.
       const QUrl art_automatic = ArtForSong(file, album_art);
@@ -1125,6 +1299,10 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   else if (subdir.mtime != updated_subdir.mtime) {
     t->touched_subdirs << updated_subdir;
   }
+
+#ifdef HAVE_NAS
+  t->PublishNewNasSongs();
+#endif
 
   // Recurse into the new subdirs that we found
   for (const CollectionSubdirectory &my_new_subdir : std::as_const(my_new_subdirs)) {
@@ -1781,6 +1959,9 @@ void CollectionWatcher::SetLyricsFromStorage(Song *song, const Song &matching_so
 
 void CollectionWatcher::AddWatch(const CollectionDirectory &dir, const QString &path) {
 
+#ifdef HAVE_NAS
+  if (Nas::IsPath(path)) return;
+#endif
   if (!QFile::exists(path)) return;
 
   // A directory in a link to a directory above it is the same directory as one which is watched already, which would get the same watch, then removing it when the directory is removed would also remove the watch of the other directory.
@@ -1806,6 +1987,10 @@ void CollectionWatcher::RemoveWatch(const CollectionDirectory &dir, const Collec
 
 void CollectionWatcher::RemoveDirectory(const CollectionDirectory &dir) {
 
+#ifdef HAVE_NAS
+  StopNasMonitor(dir.id);
+  nas_paused_scans_.remove(dir.id);
+#endif
   rescan_queue_.remove(dir.id);
   watched_dirs_.remove(dir.id);
 
@@ -1952,6 +2137,9 @@ void CollectionWatcher::RescanPathsNow() {
     // A directory which didn't exist when the file system watcher overflowed could have been created again since then, the scan only adds watches for new directories.
     RestoreWatches();
     for (const CollectionDirectory &dir : std::as_const(watched_dirs_)) {
+#ifdef HAVE_NAS
+      if (Nas::IsPath(dir.path)) continue;
+#endif
       Q_EMIT UpdateLastSeen(dir.id, 0);
     }
   }
@@ -1999,12 +2187,349 @@ void CollectionWatcher::RescanPathsNow() {
     // Songs which were available again were not updated before the scan either.
     if (!overflow_scan_pending_) {
       for (const CollectionDirectory &dir : std::as_const(watched_dirs_)) {
+#ifdef HAVE_NAS
+        if (Nas::IsPath(dir.path)) continue;
+#endif
         Q_EMIT UpdateLastSeen(dir.id, expire_unavailable_songs_days_);
       }
     }
   }
 
 }
+
+#ifdef HAVE_NAS
+std::shared_ptr<CollectionWatcher::NasMonitor> CollectionWatcher::StartNasMonitor(const CollectionDirectory &dir, const bool catch_up_allowed, const bool changed_folders_catch_up) {
+
+  StopNasMonitor(dir.id);
+  if (nas_suspended_) return nullptr;
+
+  const std::shared_ptr<NasMonitor> monitor = std::make_shared<NasMonitor>();
+  {
+    const std::lock_guard<std::mutex> lock(nas_monitors_mutex_);
+    nas_monitors_.insert(dir.id, monitor);
+  }
+
+  NasMonitor *m = monitor.get();
+  const int dir_id = dir.id;
+  const QString path = dir.path;
+  const std::chrono::milliseconds polling_interval = std::chrono::minutes(nas_polling_minutes_);
+  // Only the request crosses to the watcher's thread, the scan runs there, one at a time.
+  const auto post_scan = [this, m, dir_id]() {
+    if (!m->scan_pending.exchange(true)) {
+      QMetaObject::invokeMethod(this, [this, dir_id]() { ScanNasDirectory(dir_id); }, Qt::QueuedConnection);
+    }
+  };
+  const auto request_scan = [m, post_scan](const QStringList &changes, const bool changed_folders_only = false) {
+    {
+      const std::lock_guard<std::mutex> lock(m->changes_mutex);
+      if (changes.isEmpty()) (changed_folders_only ? m->changed_folders_scan : m->full_scan) = true;
+      for (const QString &change : changes) m->changed_paths.insert(change);
+    }
+    post_scan();
+  };
+
+  // The location is looked up again for each connection, so changed NAS settings are used, the credentials are never logged.
+  m->thread = std::thread([m, path, polling_interval, catch_up_allowed, changed_folders_catch_up, post_scan, request_scan]() {
+    bool connected_once = false;
+    bool reconcile = false;
+    bool polling = false;
+    std::chrono::milliseconds retry_delay = kNasMinRetryDelay;
+    std::optional<Nas::Location> last_location;
+    // Kept open between waits, so the server queues the changes made while no request is pending.
+    std::unique_ptr<Nas::ChangeWatcher> watcher;
+    const auto retry_later = [m, &retry_delay]() {
+      const bool not_cancelled = NasMonitorSleep(m->cancel, retry_delay);
+      retry_delay = std::min(retry_delay * 2, kNasMaxRetryDelay);
+      return not_cancelled;
+    };
+    while (!m->cancel) {
+      if (m->catch_up.exchange(false)) {
+        // A scan was stopped or couldn't reach the NAS, it's retried with the back-off.
+        reconcile = true;
+        if (!retry_later()) break;
+      }
+      if (m->retry_scan.exchange(false)) {
+        // A partial scan was stopped or couldn't reach the NAS, its changes were put back and it's requested again with the back-off.
+        if (!retry_later()) break;
+        post_scan();
+      }
+      const std::optional<Nas::Location> location = NasLocationForPath(path);
+      if (!location) {
+        if (!retry_later()) break;
+        continue;
+      }
+      if (last_location && !SameNasLocation(*last_location, *location)) {
+        qLog(Debug) << "NAS location for" << path << "changed";
+        reconcile = true;
+        watcher.reset();
+      }
+      last_location = location;
+      // Without an open handle, the reconcile is done once a handle is opened again.
+      if (reconcile && (polling || watcher)) {
+        // Reconcile only once the folder can be listed again, a scan while the NAS can't be reached changes nothing anyway.
+        if (!Nas::Check(*location, &m->cancel).isEmpty()) {
+          if (!retry_later()) break;
+          continue;
+        }
+        qLog(Debug) << "NAS" << location->label() << "reachable again, reconciling" << path;
+        connected_once = true;
+        reconcile = false;
+        request_scan({});
+      }
+      if (polling) {
+        if (!NasMonitorSleep(m->cancel, polling_interval)) break;
+        request_scan({});
+        continue;
+      }
+      if (!watcher) {
+        std::unique_ptr<Nas::ChangeWatcher> opened = std::make_unique<Nas::ChangeWatcher>(*location);
+        if (!opened->Open(&m->cancel)) {
+          if (m->cancel) break;
+          qLog(Debug) << "NAS" << location->label() << "can't be watched, retrying in" << retry_delay.count() / 1000 << "seconds";
+          if (!retry_later()) break;
+          continue;
+        }
+        watcher = std::move(opened);
+        retry_delay = kNasMinRetryDelay;
+        // Changes made before the handle was opened aren't notified, unless the NAS couldn't be reached since the start and there was no update on startup.
+        if (reconcile || connected_once || catch_up_allowed) {
+          // The first catch-up after resuming only scans the folders whose modification time changed, an in-place change waits for the next full reconcile.
+          const bool changed_folders_only = changed_folders_catch_up && !reconcile && !connected_once;
+          qLog(Debug) << "Watching NAS" << location->label() << "again," << (changed_folders_only ? "scanning changed folders of" : "reconciling") << path;
+          request_scan({}, changed_folders_only);
+        }
+        connected_once = true;
+        reconcile = false;
+      }
+      QStringList changes;
+      const Nas::WatchResult result = watcher->Wait(static_cast<int>(kNasWatchTimeout.count()), &m->cancel, &changes);
+      if (result == Nas::WatchResult::Changed || result == Nas::WatchResult::Overflow) {
+        retry_delay = kNasMinRetryDelay;
+      }
+      switch (result) {
+        case Nas::WatchResult::Changed:
+          // Wait for related changes, they are all found by one scan.
+          if (!NasMonitorSleep(m->cancel, kNasChangeDelay)) return;
+          request_scan(changes);
+          break;
+        case Nas::WatchResult::Overflow:
+          qLog(Debug) << "NAS changes for" << path << "were lost, reconciling";
+          request_scan({});
+          break;
+        case Nas::WatchResult::Unsupported:
+          qLog(Info) << "NAS" << location->label() << "doesn't support change notifications, checking for changes every" << std::chrono::duration_cast<std::chrono::minutes>(polling_interval).count() << "minutes";
+          polling = true;
+          watcher.reset();
+          break;
+        case Nas::WatchResult::Disconnected:
+          // Only a lost connection is reconnected, the new handle reconciles the changes made in between.
+          qLog(Debug) << "NAS" << location->label() << "disconnected, retrying in" << retry_delay.count() / 1000 << "seconds";
+          watcher.reset();
+          if (!retry_later()) return;
+          break;
+        case Nas::WatchResult::Timeout:
+          break;
+        case Nas::WatchResult::Cancelled:
+          return;
+      }
+    }
+  });
+
+  return monitor;
+
+}
+
+void CollectionWatcher::StopNasMonitor(const int dir_id) {
+
+  std::shared_ptr<NasMonitor> monitor;
+  {
+    const std::lock_guard<std::mutex> lock(nas_monitors_mutex_);
+    monitor = nas_monitors_.take(dir_id);
+  }
+  if (!monitor) return;
+  monitor->cancel = true;
+  if (monitor->thread.joinable()) monitor->thread.join();
+
+}
+
+void CollectionWatcher::StopNasMonitors() {
+
+  // All are cancelled first, so they stop at the same time.
+  QList<std::shared_ptr<NasMonitor>> monitors;
+  {
+    const std::lock_guard<std::mutex> lock(nas_monitors_mutex_);
+    monitors = nas_monitors_.values();
+    nas_monitors_.clear();
+  }
+  for (const std::shared_ptr<NasMonitor> &monitor : monitors) {
+    monitor->cancel = true;
+  }
+  for (const std::shared_ptr<NasMonitor> &monitor : monitors) {
+    if (monitor->thread.joinable()) monitor->thread.join();
+  }
+
+}
+
+qsizetype CollectionWatcher::CancelNasMonitors() {
+
+  const std::lock_guard<std::mutex> lock(nas_monitors_mutex_);
+  for (const std::shared_ptr<NasMonitor> &monitor : std::as_const(nas_monitors_)) {
+    monitor->cancel = true;
+  }
+  return nas_monitors_.size();
+
+}
+
+void CollectionWatcher::RestartNasMonitors(const bool changed_folders_catch_up) {
+
+  StopNasMonitors();
+  if (!monitor_ || nas_suspended_) return;
+  for (const CollectionDirectory &dir : std::as_const(watched_dirs_)) {
+    // A NAS which can't be reached now is reconciled once it can, as changes may have been missed while it wasn't monitored.
+    if (Nas::IsPath(dir.path)) StartNasMonitor(dir, true, changed_folders_catch_up);
+  }
+
+}
+
+void CollectionWatcher::ScanNasDirectory(const int dir_id) {
+
+  // The monitor can be stopped after it requested the scan.
+  const std::shared_ptr<NasMonitor> monitor = nas_monitors_.value(dir_id);
+  if (!monitor || !monitor_ || !watched_dirs_.contains(dir_id)) return;
+
+  // The request stays pending while paused, the scan is done when rescanning is resumed.
+  if (rescan_paused_) {
+    nas_paused_scans_.insert(dir_id);
+    return;
+  }
+  // Changes found after this are scanned again after this scan.
+  monitor->scan_pending = false;
+  bool full_scan = false;
+  bool changed_folders_scan = false;
+  QStringList changed_paths;
+  {
+    const std::lock_guard<std::mutex> lock(monitor->changes_mutex);
+    full_scan = monitor->full_scan;
+    changed_folders_scan = monitor->changed_folders_scan;
+    changed_paths = monitor->changed_paths.values();
+    monitor->full_scan = false;
+    monitor->changed_folders_scan = false;
+    monitor->changed_paths.clear();
+  }
+  // Already scanned with an earlier request.
+  if (!full_scan && !changed_folders_scan && changed_paths.isEmpty()) return;
+
+  // Set before CancelStop(), so suspending from another thread either stops this scan or finds its monitor cancelled below.
+  nas_scan_running_ = true;
+  // Like RescanPathsNow(), a stopped scan only stops the scan which was running.
+  CancelStop();
+  // Scans requested before the monitor was cancelled are skipped, the started monitor catches up.
+  if (monitor->cancel) {
+    nas_scan_running_ = false;
+    return;
+  }
+
+  // Not incremental, every folder is entered, since a changed file doesn't necessarily change the modification time of its folder.
+  // The files are only read again when their modification time or size changed, and a NAS which can't be reached changes nothing.
+  const CollectionDirectory dir = watched_dirs_.value(dir_id);
+  qLog(Debug) << "Scanning NAS directory" << dir.path << "for changes" << (full_scan ? QStringList() : changed_paths);
+  bool scanned = true;
+  if (full_scan) {
+    scanned = ScanDirectoryNow(dir, false, false);
+  }
+  else {
+    if (changed_folders_scan) scanned = ScanDirectoryNow(dir, true, false);
+    if (scanned && !changed_paths.isEmpty()) scanned = ScanNasPathsNow(dir, changed_paths);
+  }
+  nas_scan_running_ = false;
+  if (!scanned && full_scan) {
+    // The results of a stopped scan or one which couldn't reach the NAS are discarded, the monitor retries it.
+    monitor->catch_up = true;
+  }
+  else if (!scanned) {
+    // A partial scan is retried as the same scan, not as a full reconcile.
+    {
+      const std::lock_guard<std::mutex> lock(monitor->changes_mutex);
+      if (changed_folders_scan) monitor->changed_folders_scan = true;
+      for (const QString &changed_path : std::as_const(changed_paths)) monitor->changed_paths.insert(changed_path);
+    }
+    monitor->retry_scan = true;
+  }
+
+  Q_EMIT CompilationsNeedUpdating();
+
+}
+
+void CollectionWatcher::SetNasMonitorsSuspendedAsync(const bool suspended) {
+
+  // Suspending cancels the monitors and stops a running NAS scan at once, while the watcher's thread may be busy with it.
+  if (suspended) {
+    CancelNasMonitors();
+    if (nas_scan_running_) Stop();
+  }
+  QMetaObject::invokeMethod(this, [this, suspended]() { SetNasMonitorsSuspended(suspended); }, Qt::QueuedConnection);
+
+}
+
+bool CollectionWatcher::SetNasMonitorsSuspended(const bool suspended) {
+
+  // Runs on the watcher's thread like starting and stopping the monitors elsewhere, so changes requested while monitors stop are applied in order.
+  if (suspended == nas_suspended_) return false;
+  nas_suspended_ = suspended;
+  if (suspended) {
+    StopNasMonitors();
+  }
+  else {
+    // Changes made while suspended aren't notified, so the started monitors scan the folders whose modification time changed, like the update on startup.
+    RestartNasMonitors(true);
+  }
+  return true;
+
+}
+
+bool CollectionWatcher::ScanNasPathsNow(const CollectionDirectory &dir, const QStringList &changed_paths) {
+
+  ScanTransaction transaction(this, dir.id, false, false);
+  QHash<QString, CollectionSubdirectory> known_subdirs;
+  const CollectionSubdirectoryList subdirs = transaction.GetAllSubdirs();
+  for (const CollectionSubdirectory &subdir : subdirs) known_subdirs.insert(subdir.path, subdir);
+
+  // The folder containing a changed path is rescanned, it finds added, removed and changed files and folders in it.
+  // A folder which isn't known yet is found by rescanning the nearest known folder above it.
+  QList<CollectionSubdirectory> scan_subdirs;
+  QSet<QString> scan_paths;
+  for (const QString &changed_path : changed_paths) {
+    QString path = dir.path + u'/' + changed_path;
+    do {
+      path = path.left(path.lastIndexOf(u'/'));
+    } while (path.length() > dir.path.length() && !known_subdirs.contains(path));
+    if (path.length() < dir.path.length()) path = dir.path;
+    if (scan_paths.contains(path)) continue;
+    scan_paths.insert(path);
+    CollectionSubdirectory subdir = known_subdirs.value(path);
+    if (subdir.path.isEmpty()) {
+      subdir.directory_id = dir.id;
+      subdir.path = path;
+      subdir.mtime = 0;
+    }
+    scan_subdirs << subdir;
+  }
+
+  QMap<QString, quint64> subdir_files_count;
+  for (const CollectionSubdirectory &subdir : std::as_const(scan_subdirs)) {
+    subdir_files_count[subdir.path] = FilesCountForPath(&transaction, subdir.path);
+    transaction.AddToProgressMax(subdir_files_count[subdir.path]);
+  }
+
+  for (const CollectionSubdirectory &subdir : std::as_const(scan_subdirs)) {
+    if (stop_or_abort_requested()) break;
+    ScanSubdirectory(dir, subdir.path, subdir, subdir_files_count[subdir.path], &transaction);
+  }
+
+  return !stop_or_abort_requested() && !transaction.NetworkFailed();
+
+}
+#endif
 
 QString CollectionWatcher::PickBestArt(const QStringList &art_automatic_list) {
 
@@ -2087,6 +2612,13 @@ void CollectionWatcher::SetRescanPaused(bool pause) {
 
   rescan_paused_ = pause;
   if (!rescan_paused_ && (!rescan_queue_.isEmpty() || overflow_scan_pending_)) RescanPathsNow();
+#ifdef HAVE_NAS
+  if (!rescan_paused_) {
+    const QList<int> dir_ids = nas_paused_scans_.values();
+    nas_paused_scans_.clear();
+    for (const int dir_id : dir_ids) ScanNasDirectory(dir_id);
+  }
+#endif
 
 }
 
@@ -2124,27 +2656,7 @@ void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mt
 
     if (stop_or_abort_requested()) break;
 
-    ScanTransaction transaction(this, dir.id, incremental, ignore_mtimes);
-    CollectionSubdirectoryList subdirs = transaction.GetAllSubdirs();
-
-    const bool has_collection_root_dir = std::any_of(subdirs.begin(), subdirs.end(), [&dir](const CollectionSubdirectory &subdir) { return subdir.path == dir.path; });
-    if (!has_collection_root_dir) {
-      qLog(Debug) << "Collection directory wasn't in subdir list, re-adding";
-      CollectionSubdirectory subdir;
-      subdir.directory_id = dir.id;
-      subdir.path = dir.path;
-      subdir.mtime = 0;
-      subdirs << subdir;
-    }
-
-    QMap<QString, quint64> subdir_files_count;
-    quint64 files_count = FilesCountForSubdirs(&transaction, subdirs, subdir_files_count);
-    transaction.AddToProgressMax(files_count);
-
-    for (const CollectionSubdirectory &subdir : std::as_const(subdirs)) {
-      if (stop_or_abort_requested()) break;
-      ScanSubdirectory(dir, subdir.path, subdir, subdir_files_count[subdir.path], &transaction);
-    }
+    ScanDirectoryNow(dir, incremental, ignore_mtimes);
 
   }
 
@@ -2154,13 +2666,48 @@ void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mt
 
 }
 
+bool CollectionWatcher::ScanDirectoryNow(const CollectionDirectory &dir, const bool incremental, const bool ignore_mtimes) {
+
+  ScanTransaction transaction(this, dir.id, incremental, ignore_mtimes);
+  CollectionSubdirectoryList subdirs = transaction.GetAllSubdirs();
+
+  const bool has_collection_root_dir = std::any_of(subdirs.begin(), subdirs.end(), [&dir](const CollectionSubdirectory &subdir) { return subdir.path == dir.path; });
+  if (!has_collection_root_dir) {
+    qLog(Debug) << "Collection directory wasn't in subdir list, re-adding";
+    CollectionSubdirectory subdir;
+    subdir.directory_id = dir.id;
+    subdir.path = dir.path;
+    subdir.mtime = 0;
+    subdirs << subdir;
+  }
+
+  QMap<QString, quint64> subdir_files_count;
+  quint64 files_count = FilesCountForSubdirs(&transaction, subdirs, subdir_files_count);
+  transaction.AddToProgressMax(files_count);
+
+  for (const CollectionSubdirectory &subdir : std::as_const(subdirs)) {
+    if (stop_or_abort_requested()) break;
+    ScanSubdirectory(dir, subdir.path, subdir, subdir_files_count[subdir.path], &transaction);
+  }
+
+#ifdef HAVE_NAS
+  return !stop_or_abort_requested() && !transaction.NetworkFailed();
+#else
+  return !stop_or_abort_requested();
+#endif
+
+}
+
 quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &path) {
 
+  if (stop_or_abort_requested()) return 0;
+#ifdef HAVE_NAS
+  if (t->NetworkFailed()) return 0;
+#endif
   const QString root_path = watched_dirs_.value(t->dir_id()).path;
   if (path != root_path && IsInsideLinkToParentDirectory(root_path, path)) {
     return 0;
   }
-
   const QFileInfo path_info(path);
   if (path_info.isSymLink()) {
     const QString real_path = path_info.symLinkTarget();
@@ -2188,7 +2735,8 @@ quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &
     if (stop_or_abort_requested()) break;
 
     const QString child_filepath = it.next();
-    const QFileInfo child_fileinfo(child_filepath);
+    t->CountEntry();
+    const QFileInfo child_fileinfo = it.fileInfo();
 
     if (child_fileinfo.isDir()) {
       if (child_fileinfo.isSymLink()) {

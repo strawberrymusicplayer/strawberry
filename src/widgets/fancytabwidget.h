@@ -28,6 +28,7 @@
 #include <QIcon>
 #include <QPixmap>
 #include <QColor>
+#include <QList>
 
 class QMenu;
 class QActionGroup;
@@ -65,6 +66,17 @@ class FancyTabWidget : public QTabWidget {
   void SaveSettings(const QString &settings_group);
   void ReloadSettings();
 
+  struct SidebarTab {
+    QString name;
+    QString label;
+    bool visible;
+    bool available;
+  };
+  // Implemented separately for Android and native widget tests.
+  QList<SidebarTab> AndroidSidebarTabs(const QString &settings_group) const;
+  void LoadAndroidSidebarSettings(const QString &settings_group);
+  void SaveAndroidSidebarSettings(const QString &settings_group, const QList<SidebarTab> &tabs);
+
   int InsertTab(const int preffered_index, FancyTabData *tab);
   int InsertTab(const int idx, QWidget *page, const QIcon &icon, const QString &label);
 
@@ -74,6 +86,8 @@ class FancyTabWidget : public QTabWidget {
   void AddSpacer();
   void AddBottomWidget(QWidget *widget_view);
   void SetBackgroundPixmap(const QPixmap &pixmap);
+  // Content widgets passed to AddTab() are wrapped in a page, so widget(), currentWidget() and setCurrentWidget() never match them.
+  // Use this to get the tab index of a content widget.
   int IndexOfTab(QWidget *widget);
 
   static QColor DefaultTabbarBgColor();

@@ -30,6 +30,9 @@
 #include "ui_saveplaylistsdialog.h"
 
 #include "core/settings.h"
+#ifdef Q_OS_ANDROID
+#  include "core/androidstorage.h"
+#endif
 #include "constants/playlistsettings.h"
 
 SavePlaylistsDialog::SavePlaylistsDialog(const QStringList &types, const QString &default_extension, QWidget *parent) : QDialog(parent), ui_(new Ui_SavePlaylistsDialog) {
@@ -60,9 +63,18 @@ SavePlaylistsDialog::~SavePlaylistsDialog() {
 
 void SavePlaylistsDialog::SelectPath() {
 
-  const QString path = QFileDialog::getExistingDirectory(nullptr, tr("Select directory for the playlists"), ui_->lineedit_path->text(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-
+#ifdef Q_OS_ANDROID
+  const QUrl selected_url = QFileDialog::getExistingDirectoryUrl(this, tr("Select directory for the playlists"), QUrl::fromLocalFile(ui_->lineedit_path->text()));
+  if (selected_url.isEmpty()) return;
+  QString path = AndroidStorage::LocalPathForUrl(selected_url);
+  if (path.isEmpty()) {
+    QMessageBox::warning(this, tr("Invalid directory"), AndroidStorage::UnresolvedMessage(QStringList() << selected_url.toDisplayString()));
+    return;
+  }
+#else
+  const QString path = QFileDialog::getExistingDirectory(this, tr("Select directory for the playlists"), ui_->lineedit_path->text(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
   if (path.isEmpty()) return;
+#endif
 
   ui_->lineedit_path->setText(path);
 

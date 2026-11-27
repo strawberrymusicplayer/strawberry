@@ -24,6 +24,13 @@
 #include "config.h"
 
 #include <QWizard>
+#ifdef Q_OS_ANDROID
+#  include <QHash>
+#  include <QPointer>
+class QAbstractButton;
+class QComboBox;
+class QStackedWidget;
+#endif
 
 #include "includes/shared_ptr.h"
 
@@ -58,12 +65,27 @@ class SmartPlaylistWizard : public QWizard {
 
   void SetGenerator(PlaylistGeneratorPtr gen);
   PlaylistGeneratorPtr CreateGenerator() const;
+#ifdef Q_OS_ANDROID
+  void SetupAndroid(QStackedWidget *pages);
+  void AdaptAndroidControls(QWidget *content);
+#endif
 
  protected:
   void initializePage(const int id) override;
+#ifdef Q_OS_ANDROID
+  bool eventFilter(QObject *object, QEvent *event) override;
+#endif
 
  private:
   void AddPlugin(SmartPlaylistWizardPlugin *plugin);
+#ifdef Q_OS_ANDROID
+  void AndroidBack();
+  void CleanupAndroid();
+  void OpenAndroidChoices(QComboBox *combo, const QString &title);
+  QStackedWidget *android_pages_ = nullptr;
+  QPointer<QWidget> android_choices_;
+  QHash<QObject*, QPointer<QAbstractButton>> android_value_buttons_;
+#endif
 
  private Q_SLOTS:
   void TypeChanged(const int index);

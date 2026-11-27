@@ -97,6 +97,9 @@ SmartPlaylistWizard::SmartPlaylistWizard(const SharedPtr<Player> player,
 }
 
 SmartPlaylistWizard::~SmartPlaylistWizard() {
+#ifdef Q_OS_ANDROID
+  CleanupAndroid();
+#endif
   qDeleteAll(plugins_);
 }
 

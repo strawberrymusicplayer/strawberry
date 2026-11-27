@@ -34,6 +34,9 @@ class Ui_ScrobblerSettingsPage;
 class AudioScrobbler;
 class LastFMScrobbler;
 class ListenBrainzScrobbler;
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_LASTFM_BROWSER_AUTH)
+class QPushButton;
+#endif
 
 class ScrobblerSettingsPage : public SettingsPage {
   Q_OBJECT
@@ -62,6 +65,9 @@ class ScrobblerSettingsPage : public SettingsPage {
 
   bool lastfm_waiting_for_auth_;
   bool listenbrainz_waiting_for_auth_;
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_LASTFM_BROWSER_AUTH)
+  QPushButton *lastfm_cancel_login_ = nullptr;
+#endif
 
   void LastFM_RefreshControls(const bool authenticated);
   void ListenBrainz_RefreshControls(const bool authenticated);

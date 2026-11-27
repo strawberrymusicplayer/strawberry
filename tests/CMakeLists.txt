@@ -3,6 +3,10 @@ add_custom_target(build_tests WORKING_DIRECTORY ${CURRENT_BINARY_DIR})
 add_dependencies(strawberry_tests build_tests)
 
 add_definitions(-DGTEST_USE_OWN_TR1_TUPLE=1)
+# strawberry_lib is linked privately, its headers have members which depend on this, so the tests need it too.
+if(ENABLE_NAS)
+  add_definitions(-DHAVE_NAS)
+endif()
 
 set(TESTUTILS-SOURCES
   src/environmentvariablerestorer.cpp
@@ -98,13 +102,32 @@ macro(add_test_file test_source gui_required)
 endmacro(add_test_file)
 
 add_test_file(src/utilities_test.cpp false)
+add_test_file(src/smartplaylistsmodel_test.cpp true)
+add_test_file(src/networkproxyfactory_test.cpp false)
+add_test_file(src/localredirectserver_test.cpp true)
+add_test_file(src/oauthenticator_test.cpp true)
+qt_wrap_cpp(OAUTHENTICATOR-TEST-MOC src/oauthenticator_test.h)
+target_sources(oauthenticator_test PRIVATE ${OAUTHENTICATOR-TEST-MOC})
+if(NOT ANDROID)
+  add_test_file(src/lastfmscrobbler_test.cpp true)
+  target_sources(lastfmscrobbler_test PRIVATE ${OAUTHENTICATOR-TEST-MOC})
+endif()
+if(HAVE_QOBUZ AND NOT ANDROID)
+  add_test_file(src/qobuzservice_test.cpp true)
+  qt_wrap_cpp(QOBUZ-TEST-MOC src/qobuzservice_test.h)
+  target_sources(qobuzservice_test PRIVATE ${QOBUZ-TEST-MOC})
+  add_test_file(src/qobuzautosave_test.cpp true)
+  target_sources(qobuzautosave_test PRIVATE ${CMAKE_SOURCE_DIR}/src/settings/streamingautosave_android.cpp)
+  target_include_directories(qobuzautosave_test PRIVATE ${CMAKE_BINARY_DIR})
+endif()
+add_test_file(src/settingspageautosave_test.cpp true)
+target_sources(settingspageautosave_test PRIVATE ${CMAKE_SOURCE_DIR}/src/settings/streamingautosave_android.cpp)
 add_test_file(src/filemanagerutils_test.cpp true)
 add_test_file(src/song_test.cpp false)
 add_test_file(src/diskutils_test.cpp false)
 add_test_file(src/database_test.cpp false)
 add_test_file(src/devicedatabasebackend_test.cpp false)
 add_test_file(src/scopedtransaction_test.cpp false)
-add_test_file(src/networkproxyfactory_test.cpp false)
 add_test_file(src/threadsafenetworkdiskcache_test.cpp false)
 add_test_file(src/networkaccessmanager_test.cpp false)
 add_test_file(src/temporaryfile_test.cpp false)
@@ -122,8 +145,130 @@ add_test_file(src/mergedproxymodel_test.cpp false)
 add_test_file(src/settingsmigration_test.cpp false)
 add_test_file(src/imageutils_test.cpp false)
 add_test_file(src/sqlite_test.cpp false)
-add_test_file(src/gstengine_test.cpp false)
+add_test_file(src/collectionsettingsdirectorymodel_test.cpp true)
 add_test_file(src/gstenginepipeline_test.cpp false)
+if(NOT ANDROID)
+  add_test_file(src/sidebarsettingspage_test.cpp true)
+  qt_wrap_cpp(SIDEBAR-TEST-MOC ${CMAKE_SOURCE_DIR}/src/settings/sidebarsettingspage_android.h)
+  target_sources(sidebarsettingspage_test PRIVATE
+    ${SIDEBAR-TEST-MOC}
+    ${CMAKE_SOURCE_DIR}/src/widgets/fancytabwidget_android.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/androidwidgets.cpp
+    ${CMAKE_SOURCE_DIR}/src/settings/sidebarsettingspage_android.cpp
+  )
+  add_test_file(src/androidwidgets_test.cpp true)
+  target_sources(androidwidgets_test PRIVATE ${CMAKE_SOURCE_DIR}/src/widgets/androidwidgets.cpp)
+  add_test_file(src/collectionlettergroups_test.cpp true)
+  target_sources(collectionlettergroups_test PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/collection/collectionlettergroups_android.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/listscrolling_android.cpp
+  )
+  add_test_file(src/listscrolling_test.cpp true)
+  target_sources(listscrolling_test PRIVATE ${CMAKE_SOURCE_DIR}/src/widgets/listscrolling_android.cpp)
+  add_test_file(src/collectionselection_test.cpp true)
+  qt_wrap_cpp(COLLECTION-SELECTION-TEST-MOC ${CMAKE_SOURCE_DIR}/src/collection/collectionselection_android.h)
+  target_sources(collectionselection_test PRIVATE
+    ${COLLECTION-SELECTION-TEST-MOC}
+    ${CMAKE_SOURCE_DIR}/src/collection/collectionselection_android.cpp
+    ${CMAKE_SOURCE_DIR}/src/collection/collectionlettergroups_android.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/listscrolling_android.cpp
+  )
+  add_test_file(src/menupage_test.cpp true)
+  target_sources(menupage_test PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/widgets/menupage_android.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/androidwidgets.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/scrollarea_android.cpp
+  )
+  add_test_file(src/scrollarea_test.cpp true)
+  target_sources(scrollarea_test PRIVATE ${CMAKE_SOURCE_DIR}/src/widgets/scrollarea_android.cpp)
+  add_test_file(src/scantaskcontrols_test.cpp true)
+  target_sources(scantaskcontrols_test PRIVATE ${CMAKE_SOURCE_DIR}/src/widgets/scantaskcontrols_android.cpp)
+  if(ENABLE_NAS)
+    add_test_file(src/nasfileengine_test.cpp false)
+    target_sources(nasfileengine_test PRIVATE ${CMAKE_SOURCE_DIR}/src/engine/gstqfilesrc.cpp)
+  endif()
+  add_test_file(src/coverdialogpage_test.cpp true)
+  target_sources(coverdialogpage_test PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/covermanager/coverdialogpage_android.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/scrollarea_android.cpp
+  )
+  add_test_file(src/collectiondialogpages_test.cpp true)
+  target_sources(collectiondialogpages_test PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/collection/collectiondialogpages_android.cpp
+    ${CMAKE_SOURCE_DIR}/src/covermanager/coverdialogpage_android.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/androidwidgets.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/scrollarea_android.cpp
+  )
+  add_test_file(src/gstaacdecoder_test.cpp false)
+  target_sources(gstaacdecoder_test PRIVATE ${CMAKE_SOURCE_DIR}/src/engine/gstaacdecoder.cpp)
+  add_test_file(src/spotifytrust_test.cpp false)
+  target_sources(spotifytrust_test PRIVATE ${CMAKE_SOURCE_DIR}/src/engine/spotifytrust_android.cpp)
+  add_test_file(src/alarmschedule_test.cpp false)
+  target_sources(alarmschedule_test PRIVATE ${CMAKE_SOURCE_DIR}/src/alarm/alarmschedule_android.cpp)
+  add_test_file(src/alarmtracks_test.cpp false)
+  target_sources(alarmtracks_test PRIVATE ${CMAKE_SOURCE_DIR}/src/alarm/alarmtracks_android.cpp)
+  add_test_file(src/alarmplayback_test.cpp false)
+  target_sources(alarmplayback_test PRIVATE ${CMAKE_SOURCE_DIR}/src/alarm/alarmplayback_android.cpp)
+  add_test_file(src/alarmtext_test.cpp false)
+  target_sources(alarmtext_test PRIVATE ${CMAKE_SOURCE_DIR}/src/alarm/alarmtext_android.cpp ${CMAKE_SOURCE_DIR}/src/alarm/alarmschedule_android.cpp)
+  add_test_file(src/timedialmath_test.cpp false)
+  target_sources(timedialmath_test PRIVATE ${CMAKE_SOURCE_DIR}/src/widgets/timedialmath_android.cpp)
+  # The Android alarm scheduling is Java; its test runs on a desktop JVM when a JDK is found.
+  find_package(Java COMPONENTS Development)
+  if(Java_FOUND)
+    add_test(NAME alarmschedule_java_test COMMAND ${CMAKE_COMMAND}
+      -DJAVAC=${Java_JAVAC_EXECUTABLE} -DJAVA=${Java_JAVA_EXECUTABLE}
+      -DOUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}/alarmschedule_java_test
+      -DTEST_CLASS=nl.dewitweb.strawberryflavor.AlarmScheduleTest
+      "-DSOURCES=${CMAKE_SOURCE_DIR}/android/java/nl/dewitweb/strawberryflavor/AlarmSchedule.java|${CMAKE_CURRENT_SOURCE_DIR}/java/nl/dewitweb/strawberryflavor/AlarmScheduleTest.java"
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/java/run_java_test.cmake)
+    add_test(NAME alarmfallback_java_test COMMAND ${CMAKE_COMMAND}
+      -DJAVAC=${Java_JAVAC_EXECUTABLE} -DJAVA=${Java_JAVA_EXECUTABLE}
+      -DOUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}/alarmfallback_java_test
+      -DTEST_CLASS=nl.dewitweb.strawberryflavor.AlarmFallbackTest
+      "-DSOURCES=${CMAKE_SOURCE_DIR}/android/java/nl/dewitweb/strawberryflavor/AlarmFallback.java|${CMAKE_CURRENT_SOURCE_DIR}/java/nl/dewitweb/strawberryflavor/AlarmFallbackTest.java"
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/java/run_java_test.cmake)
+    add_test(NAME alarmpermissions_java_test COMMAND ${CMAKE_COMMAND}
+      -DJAVAC=${Java_JAVAC_EXECUTABLE} -DJAVA=${Java_JAVA_EXECUTABLE}
+      -DOUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}/alarmpermissions_java_test
+      -DTEST_CLASS=nl.dewitweb.strawberryflavor.AlarmPermissionsTest
+      "-DSOURCES=${CMAKE_SOURCE_DIR}/android/java/nl/dewitweb/strawberryflavor/AlarmPermissions.java|${CMAKE_CURRENT_SOURCE_DIR}/java/nl/dewitweb/strawberryflavor/AlarmPermissionsTest.java"
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/java/run_java_test.cmake)
+    add_test(NAME alarmcountdown_java_test COMMAND ${CMAKE_COMMAND}
+      -DJAVAC=${Java_JAVAC_EXECUTABLE} -DJAVA=${Java_JAVA_EXECUTABLE}
+      -DOUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}/alarmcountdown_java_test
+      -DTEST_CLASS=nl.dewitweb.strawberryflavor.AlarmCountdownTest
+      "-DSOURCES=${CMAKE_SOURCE_DIR}/android/java/nl/dewitweb/strawberryflavor/AlarmCountdown.java|${CMAKE_CURRENT_SOURCE_DIR}/java/nl/dewitweb/strawberryflavor/AlarmCountdownTest.java"
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/java/run_java_test.cmake)
+    add_test(NAME alarmhandover_java_test COMMAND ${CMAKE_COMMAND}
+      -DJAVAC=${Java_JAVAC_EXECUTABLE} -DJAVA=${Java_JAVA_EXECUTABLE}
+      -DOUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}/alarmhandover_java_test
+      -DTEST_CLASS=nl.dewitweb.strawberryflavor.AlarmHandoverTest
+      "-DSOURCES=${CMAKE_SOURCE_DIR}/android/java/nl/dewitweb/strawberryflavor/AlarmHandover.java|${CMAKE_CURRENT_SOURCE_DIR}/java/nl/dewitweb/strawberryflavor/AlarmHandoverTest.java"
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/java/run_java_test.cmake)
+    add_test(NAME alarmrestart_java_test COMMAND ${CMAKE_COMMAND}
+      -DJAVAC=${Java_JAVAC_EXECUTABLE} -DJAVA=${Java_JAVA_EXECUTABLE}
+      -DOUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}/alarmrestart_java_test
+      -DTEST_CLASS=nl.dewitweb.strawberryflavor.AlarmRestartTest
+      "-DSOURCES=${CMAKE_SOURCE_DIR}/android/java/nl/dewitweb/strawberryflavor/AlarmRestart.java|${CMAKE_CURRENT_SOURCE_DIR}/java/nl/dewitweb/strawberryflavor/AlarmRestartTest.java"
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/java/run_java_test.cmake)
+    add_test(NAME clockface_java_test COMMAND ${CMAKE_COMMAND}
+      -DJAVAC=${Java_JAVAC_EXECUTABLE} -DJAVA=${Java_JAVA_EXECUTABLE}
+      -DOUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}/clockface_java_test
+      -DTEST_CLASS=nl.dewitweb.strawberryflavor.ClockFaceTest
+      "-DSOURCES=${CMAKE_SOURCE_DIR}/android/java/nl/dewitweb/strawberryflavor/ClockFace.java|${CMAKE_CURRENT_SOURCE_DIR}/java/nl/dewitweb/strawberryflavor/ClockFaceTest.java"
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/java/run_java_test.cmake)
+  endif()
+  add_test_file(src/androidstoragefileengine_test.cpp false)
+  target_sources(androidstoragefileengine_test PRIVATE ${CMAKE_SOURCE_DIR}/src/core/androidstoragefileengine.cpp)
+  target_link_libraries(androidstoragefileengine_test PRIVATE Qt${QT_VERSION_MAJOR}::CorePrivate)
+  add_test_file(src/gstqfilesrc_test.cpp false)
+  target_sources(gstqfilesrc_test PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/engine/gstqfilesrc.cpp
+    ${CMAKE_SOURCE_DIR}/src/tagreader/taglibfilestream_android.cpp
+  )
+endif()
+add_test_file(src/gstengine_test.cpp false)
 add_test_file(src/gstpadutils_test.cpp false)
 add_test_file(src/streammetadataparser_test.cpp false)
 add_test_file(src/tagreader_test.cpp false)
@@ -139,6 +284,9 @@ add_test_file(src/equalizer_test.cpp true)
 add_test_file(src/playlist_test.cpp true)
 add_test_file(src/playlistview_test.cpp true)
 add_test_file(src/playlistmanager_test.cpp true)
+if(NOT ANDROID)
+  target_sources(playlistmanager_test PRIVATE ${CMAKE_SOURCE_DIR}/src/smartplaylists/smartplaylistpreview_android.cpp)
+endif()
 add_test_file(src/playlistbackend_test.cpp false)
 add_test_file(src/playlistlistmodel_test.cpp false)
 add_test_file(src/playlisttabbar_test.cpp true)
@@ -165,6 +313,12 @@ add_test_file(src/lyricssearchdialog_test.cpp true)
 add_test_file(src/songeditor_test.cpp true)
 add_test_file(src/resizabletextedit_test.cpp true)
 add_test_file(src/fancytabwidget_test.cpp true)
+add_test_file(src/gridflowlayout_test.cpp true)
+add_test_file(src/playlisttitleheader_test.cpp true)
+add_test_file(src/longpresshandler_test.cpp true)
+add_test_file(src/playlistactionhandler_test.cpp true)
+add_test_file(src/actiondialog_test.cpp true)
+add_test_file(src/equalizerjson_test.cpp false)
 add_test_file(src/boomanalyzer_test.cpp true)
 add_test_file(src/transcodedialog_test.cpp true)
 add_test_file(src/trackslider_test.cpp true)
@@ -186,7 +340,6 @@ add_test_file(src/coverprovidercancel_test.cpp false)
 add_test_file(src/scrobblercache_test.cpp false)
 add_test_file(src/audioscrobbler_test.cpp false)
 add_test_file(src/listenbrainzscrobbler_test.cpp false)
-add_test_file(src/lastfmscrobbler_test.cpp false)
 add_test_file(src/radioservices_test.cpp true)
 add_test_file(src/radioview_test.cpp true)
 add_test_file(src/errordialog_test.cpp true)

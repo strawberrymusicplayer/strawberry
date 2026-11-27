@@ -21,7 +21,6 @@
 
 #include <QCheckBox>
 #include <QColor>
-#include <QColorDialog>
 #include <QPushButton>
 #include <QPalette>
 
@@ -98,13 +97,12 @@ void WaveformSettingsPage::Cancel() {}
 
 void WaveformSettingsPage::WaveformSelectColor() {
 
-  QColor c = QColorDialog::getColor(current_waveform_color_.isValid() ? current_waveform_color_ : palette().color(QPalette::Highlight), this);
-  if (!c.isValid()) return;
-
-  current_waveform_color_ = c;
-  color_is_custom_ = true;
-  UpdateColorButtonStyle(ui_->select_waveform_color, current_waveform_color_);
-  set_changed();
+  ChooseColor(current_waveform_color_.isValid() ? current_waveform_color_ : palette().color(QPalette::Highlight), [this](const QColor &color) {
+    current_waveform_color_ = color;
+    color_is_custom_ = true;
+    UpdateColorButtonStyle(ui_->select_waveform_color, current_waveform_color_);
+    set_changed();
+  });
 
 }
 

@@ -40,6 +40,7 @@ constexpr char kExpireUnavailableSongs[] = "expire_unavailable_songs";
 constexpr char kCoverArtPatterns[] = "cover_art_patterns";
 constexpr char kAutoOpen[] = "auto_open";
 constexpr char kShowDividers[] = "show_dividers";
+constexpr char kCollapsibleDividers[] = "collapsible_dividers";
 constexpr char kPrettyCovers[] = "pretty_covers";
 constexpr char kVariousArtists[] = "various_artists";
 constexpr char kSkipArticlesForArtists[] = "skip_articles_for_artists";
@@ -57,8 +58,8 @@ constexpr char kSaveRatings[] = "save_ratings";
 constexpr char kSaveLyrics[] = "save_lyrics";
 constexpr char kOverwritePlaycount[] = "overwrite_playcount";
 constexpr char kOverwriteRating[] = "overwrite_rating";
-constexpr char kDeleteFiles[] = "delete_files";
 constexpr char kLastPath[] = "last_path";
+constexpr char kNasPollingMinutes[] = "nas_polling_minutes";
 
 constexpr bool kDefaultStartupScan = true;
 constexpr bool kDefaultMonitor = true;
@@ -68,6 +69,7 @@ constexpr bool kDefaultSongENUR128LoudnessAnalysis = false;
 constexpr int kDefaultExpireUnavailableSongs = 60;
 constexpr bool kDefaultAutoOpen = false;
 constexpr bool kDefaultShowDividers = true;
+constexpr bool kDefaultCollapsibleDividers = true;
 constexpr bool kDefaultPrettyCovers = true;
 constexpr bool kDefaultVariousArtists = true;
 constexpr bool kDefaultSkipArticlesForArtists = true;
@@ -81,7 +83,9 @@ constexpr bool kDefaultSaveRatings = false;
 constexpr bool kDefaultSaveLyrics = false;
 constexpr bool kDefaultOverwritePlaycount = false;
 constexpr bool kDefaultOverwriteRating = false;
-constexpr bool kDefaultDeleteFiles = false;
+constexpr int kDefaultNasPollingMinutes = 10;
+constexpr int kMinNasPollingMinutes = 1;
+constexpr int kMaxNasPollingMinutes = 1440;
 
 }  // namespace CollectionSettings
 

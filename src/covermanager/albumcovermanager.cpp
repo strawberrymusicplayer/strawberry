@@ -309,7 +309,8 @@ void AlbumCoverManager::LoadGeometry() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  if (s.contains(kGeometry)) {
+  // Embedded as a page on Android, the parent's layout places it.
+  if (isWindow() && s.contains(kGeometry)) {
     restoreGeometry(s.value(kGeometry).toByteArray());
   }
   if (s.contains(kSplitterState)) {
@@ -322,7 +323,7 @@ void AlbumCoverManager::LoadGeometry() {
   s.endGroup();
 
   // Center the window on the same screen as the mainwindow.
-  Utilities::CenterWidgetOnScreen(Utilities::GetScreen(mainwindow_), this);
+  if (isWindow()) Utilities::CenterWidgetOnScreen(Utilities::GetScreen(mainwindow_), this);
 
 }
 

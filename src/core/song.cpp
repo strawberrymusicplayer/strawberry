@@ -1048,7 +1048,13 @@ QString Song::PrettyRating() const {
 }
 
 bool Song::IsEditable() const {
+#ifdef Q_OS_ANDROID
+  // Android 11+ scoped storage allows reads but not direct writes to media files from a plain local path;
+  // in practice the app has no safe write path for collection files here, so keep local media files non-editable.
+  return d->valid_ && d->url_.isValid() && is_stream();
+#else
   return d->valid_ && d->url_.isValid() && ((d->url_.isLocalFile() && write_tags_supported() && !has_cue()) || is_stream());
+#endif
 }
 
 bool Song::IsFileInfoEqual(const Song &other) const {

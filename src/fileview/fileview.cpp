@@ -38,6 +38,12 @@
 #include <QFileDialog>
 #include <QSpacerItem>
 #include <QtEvents>
+#ifdef Q_OS_ANDROID
+#  include <QFont>
+#  include <QLabel>
+#  include <QPushButton>
+#  include <QVBoxLayout>
+#endif
 
 #include "constants/appearancesettings.h"
 #include "constants/filefilterconstants.h"
@@ -47,6 +53,10 @@
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "core/mimedata.h"
+#ifdef Q_OS_ANDROID
+#  include "core/androidstorage.h"
+#  include "widgets/androidwidgets.h"
+#endif
 #include "dialogs/deleteconfirmationdialog.h"
 #include "fileview.h"
 #include "fileviewlist.h"
@@ -58,6 +68,13 @@
 
 using std::make_unique;
 using namespace Qt::Literals::StringLiterals;
+
+#ifdef Q_OS_ANDROID
+namespace {
+constexpr int kAndroidPickerIconSize = 28;
+constexpr int kAndroidPickerButtonHeight = 56;
+}  // namespace
+#endif
 
 FileView::FileView(QWidget *parent)
     : QWidget(parent),
@@ -122,6 +139,43 @@ FileView::FileView(QWidget *parent)
   filter_list_ << filter.split(u' ');
 
   ReloadSettings();
+
+#ifdef Q_OS_ANDROID
+  auto *android_page = new QWidget(ui_->view_stack);
+  auto *android_layout = new QVBoxLayout(android_page);
+  android_layout->setContentsMargins(24, 24, 24, 24);
+  android_layout->setSpacing(12);
+
+  auto *description = new QLabel(tr("Choose files to replace the 'Now playing' playlist with the selected tracks and start playback. Choose a folder to load its supported music files into the 'Now playing' playlist. Your Collection will not be changed."), android_page);
+  description->setWordWrap(true);
+  description->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+  QFont description_font = description->font();
+  description_font.setPointSizeF(description_font.pointSizeF() * 1.25);
+  description->setFont(description_font);
+  android_layout->addWidget(description);
+
+  auto *select_files = new QPushButton(IconLoader::Load(u"document-new"_s), tr("Choose files"), android_page);
+  select_files->setIconSize(QSize(kAndroidPickerIconSize, kAndroidPickerIconSize));
+  AndroidWidgets::StyleNavigationButton(select_files, kAndroidPickerButtonHeight);
+  QObject::connect(select_files, &QPushButton::clicked, this, &FileView::SelectFiles);
+  android_layout->addWidget(select_files);
+
+  auto *select_folder = new QPushButton(IconLoader::Load(u"folder"_s), tr("Choose folder"), android_page);
+  select_folder->setIconSize(QSize(kAndroidPickerIconSize, kAndroidPickerIconSize));
+  AndroidWidgets::StyleNavigationButton(select_folder, kAndroidPickerButtonHeight);
+  QObject::connect(select_folder, &QPushButton::clicked, this, &FileView::SelectFolder);
+  android_layout->addWidget(select_folder);
+
+  android_layout->addStretch();
+
+  ui_->view_stack->addWidget(android_page);
+  ui_->view_stack->setCurrentWidget(android_page);
+
+  const QList<QWidget *> controls{ui_->back, ui_->forward, ui_->up, ui_->home, ui_->path, ui_->add_tree_root, ui_->remove_tree_root, ui_->toggle_view};
+  for (QWidget *control : controls) {
+    control->hide();
+  }
+#endif
 
 }
 
@@ -273,6 +327,53 @@ void FileView::ItemDoubleClick(const QModelIndex &idx) {
 
 }
 
+#ifdef Q_OS_ANDROID
+void FileView::SelectFiles() {
+
+  const QList<QUrl> selected_urls = QFileDialog::getOpenFileUrls(this, tr("Choose files"), AndroidPickerStartUrl());
+  if (selected_urls.isEmpty()) return;
+  PlayPickerSelection(selected_urls);
+
+}
+
+void FileView::SelectFolder() {
+
+  const QUrl selected_url = QFileDialog::getExistingDirectoryUrl(this, tr("Choose folder"), AndroidPickerStartUrl());
+  if (selected_url.isEmpty()) return;
+  PlayPickerSelection({selected_url});
+
+}
+
+QUrl FileView::AndroidPickerStartUrl() {
+
+  const QString music_path = QStandardPaths::writableLocation(QStandardPaths::MusicLocation);
+  return QUrl::fromLocalFile(music_path.isEmpty() ? QDir::homePath() : music_path);
+
+}
+
+void FileView::PlayPickerSelection(const QList<QUrl> &selected_urls) {
+
+  QStringList unresolved;
+  const QStringList paths = AndroidStorage::LocalPathsForUrls(selected_urls, &unresolved);
+  if (!unresolved.isEmpty()) {
+    QMessageBox::warning(this, tr("Not stored on this device"), AndroidStorage::UnresolvedMessage(unresolved));
+  }
+  if (paths.isEmpty()) return;
+
+  QList<QUrl> urls;
+  urls.reserve(paths.count());
+  for (const QString &path : paths) {
+    urls << QUrl::fromLocalFile(path);
+  }
+
+  auto *mimedata = new MimeData;
+  mimedata->from_doubleclick_ = true;
+  mimedata->setUrls(urls);
+  Q_EMIT AddToPlaylist(mimedata);
+
+}
+#endif
+
 
 FileView::UndoCommand::UndoCommand(FileView *view, const QString &new_path) : view_(view) {
 
@@ -331,6 +432,8 @@ void FileView::showEvent(QShowEvent *e) {
 
   QWidget::showEvent(e);
 
+  // Android uses the system picker instead of the file system models.
+#ifndef Q_OS_ANDROID
   if (model_) return;
 
   model_ = new QFileSystemModel(this);
@@ -354,6 +457,7 @@ void FileView::showEvent(QShowEvent *e) {
   ChangeFilePathWithoutUndo(QDir::homePath());
 
   if (!lazy_set_path_.isEmpty()) ChangeFilePathWithoutUndo(lazy_set_path_);
+#endif
 
 }
 

@@ -32,11 +32,13 @@
 #include "widgets/autoexpandingtreeview.h"
 
 class QPaintEvent;
+class QPainter;
 class QDragEnterEvent;
 class QDragLeaveEvent;
 class QDragMoveEvent;
 class QDropEvent;
 class QTimerEvent;
+class QStyleOptionViewItem;
 
 class PlaylistListView : public AutoExpandingTreeView {
   Q_OBJECT
@@ -53,6 +55,7 @@ class PlaylistListView : public AutoExpandingTreeView {
  protected:
   // QWidget
   void paintEvent(QPaintEvent *event) override;
+  void drawRow(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
   void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) override;
 
   void dragEnterEvent(QDragEnterEvent *e) override;

@@ -53,6 +53,9 @@ class PlaylistParser : public QObject {
 
   static const int kMagicSize;
 
+  // Returns true for an Android document provider URI, which is written in place instead of as a file in a directory.
+  static bool IsDocumentUrl(const QString &filename);
+
   QStringList file_extensions(const Type type) const;
   QString filters(const Type type) const;
 
@@ -71,7 +74,7 @@ class PlaylistParser : public QObject {
 
   SongList LoadFromFile(const QString &filename) const;
   SongList LoadFromDevice(QIODevice *device, const QString &path_hint = QString(), const QDir &dir_hint = QDir()) const;
-  void Save(const QString &playlist_name, const SongList &songs, const QString &filename, const PlaylistSettings::PathType) const;
+  void Save(const QString &playlist_name, const SongList &songs, const QString &filename, const PlaylistSettings::PathType, const QString &extension = QString()) const;
 
  Q_SIGNALS:
   void Error(const QString &error) const;

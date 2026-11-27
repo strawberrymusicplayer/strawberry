@@ -24,6 +24,8 @@
 
 #include "config.h"
 
+#include <functional>
+
 #include <QObject>
 #include <QWidget>
 #include <QPair>
@@ -44,6 +46,7 @@ class QDoubleSpinBox;
 class QSlider;
 class QLineEdit;
 class QShowEvent;
+class QColor;
 
 class SettingsDialog;
 
@@ -59,13 +62,19 @@ class SettingsPage : public QWidget {
   virtual bool IsEnabled() const { return true; }
 
   virtual void Load() = 0;
+#ifdef Q_OS_ANDROID
+  virtual void ResetAndroidSettings() { Load(); }
+#endif
 
   void Accept();
   void Reject();
-  void Apply();
+  // Returns true when the page had changes and saved them.
+  bool Apply();
 
   // The dialog that this page belongs to.
   SettingsDialog *dialog() const { return dialog_; }
+  // Includes Android editors temporarily displayed outside their source page.
+  bool IsActive() const;
 
   void set_changed() { changed_ = true; }
 
@@ -78,6 +87,7 @@ class SettingsPage : public QWidget {
   virtual void Cancel() {}
 
  protected:
+  void ChooseColor(const QColor &initial_color, const std::function<void(const QColor &)> &on_selected);
   bool eventFilter(QObject *obj, QEvent *e) override;
 
  Q_SIGNALS:
@@ -89,7 +99,7 @@ class SettingsPage : public QWidget {
   bool changed_;
   QList<QPair<QCheckBox*, Qt::CheckState>> checkboxes_;
   QList<QPair<QRadioButton*, bool>> radiobuttons_;
-  QList<QPair<QComboBox*, QString>> comboboxes_;
+  QList<QPair<QComboBox*, QPair<int, QString>>> comboboxes_;
   QList<QPair<QSpinBox*, int>> spinboxes_;
   QList<QPair<QDoubleSpinBox*, double>> double_spinboxes_;
   QList<QPair<QSlider*, int>> sliders_;

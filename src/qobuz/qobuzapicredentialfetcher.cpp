@@ -50,6 +50,17 @@ QobuzApiCredentialFetcher::QobuzApiCredentialFetcher(const SharedPtr<NetworkAcce
       login_page_reply_(nullptr),
       bundle_reply_(nullptr) {}
 
+QobuzApiCredentialFetcher::~QobuzApiCredentialFetcher() {
+
+  for (QNetworkReply *reply : {login_page_reply_, bundle_reply_}) {
+    if (!reply) continue;
+    QObject::disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+
+}
+
 void QobuzApiCredentialFetcher::FetchApiCredentials() {
 
   qLog(Debug) << "Qobuz: Fetching API credentials from web player";

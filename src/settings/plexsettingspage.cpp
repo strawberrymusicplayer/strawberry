@@ -222,7 +222,7 @@ void PlexSettingsPage::LoginSuccess() {
 
   login_pending_ = false;
   ui_->button_login->setEnabled(true);
-  if (!isVisible()) return;
+  if (!IsActive()) return;
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedIn);
 
 }
@@ -231,7 +231,7 @@ void PlexSettingsPage::LoginFailure(const QString &failure_reason) {
 
   login_pending_ = false;
   ui_->button_login->setEnabled(true);
-  if (!isVisible()) return;
+  if (!IsActive()) return;
   QMessageBox::warning(this, tr("Authentication failed"), failure_reason);
 
 }
@@ -322,7 +322,7 @@ void PlexSettingsPage::TestSuccess() {
 
   test_pending_ = false;
   ui_->button_test->setEnabled(true);
-  if (!isVisible()) return;
+  if (!IsActive()) return;
 
   QMessageBox::information(this, tr("Test successful!"), tr("Test successful!"));
 
@@ -332,7 +332,7 @@ void PlexSettingsPage::TestFailure(const QString &failure_reason) {
 
   test_pending_ = false;
   ui_->button_test->setEnabled(true);
-  if (!isVisible()) return;
+  if (!IsActive()) return;
 
   QMessageBox::warning(this, tr("Test failed!"), failure_reason);
 

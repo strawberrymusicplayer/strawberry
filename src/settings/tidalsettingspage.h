@@ -24,6 +24,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QMessageBox>
 
 #include "includes/shared_ptr.h"
 #include "settings/settingspage.h"
@@ -33,6 +34,7 @@ class QEvent;
 class TidalService;
 class SettingsDialog;
 class Ui_TidalSettingsPage;
+class QPushButton;
 
 class TidalSettingsPage : public SettingsPage {
   Q_OBJECT
@@ -59,6 +61,8 @@ class TidalSettingsPage : public SettingsPage {
   void LoginFailure(const QString &failure_reason);
 
  private:
+  void ShowAuthenticationMessage(QMessageBox::Icon icon, const QString &title, const QString &message);
+
   Ui_TidalSettingsPage *ui_;
   SharedPtr<TidalService> service_;
 };

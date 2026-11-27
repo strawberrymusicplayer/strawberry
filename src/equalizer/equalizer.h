@@ -33,10 +33,23 @@
 #include <QString>
 
 class QWidget;
+class QKeyEvent;
+#ifdef Q_OS_ANDROID
+class QLabel;
+class QScrollArea;
+class QStackedWidget;
+class QToolButton;
+namespace AndroidWidgets {
+class ValueButton;
+}
+#endif
 class QTimer;
 
 class EqualizerSlider;
 class Ui_Equalizer;
+namespace EqualizerJson {
+struct State;
+}
 
 class Equalizer : public QDialog {
   Q_OBJECT
@@ -65,6 +78,11 @@ class Equalizer : public QDialog {
   Params current_params() const;
   float stereo_balance() const;
 
+  // The presets and settings for exporting to a file.
+  EqualizerJson::State ExportState() const;
+  // Merges the presets, replacing existing ones with the same name, then applies the selected preset, the current curve and the settings, and saves them.
+  void ImportState(const EqualizerJson::State &state);
+
  Q_SIGNALS:
   void StereoBalancerEnabledChanged(const bool enabled);
   void StereoBalanceChanged(const float balance);
@@ -73,8 +91,12 @@ class Equalizer : public QDialog {
 
  public Q_SLOTS:
   void reject() override;
-  // Saves the changes which are saved after a delay now.
   void SavePending();
+
+#ifdef Q_OS_ANDROID
+ protected:
+  void keyPressEvent(QKeyEvent *event) override;
+#endif
 
  private Q_SLOTS:
   void StereoBalancerEnabledChangedSlot(const bool enabled);
@@ -88,7 +110,7 @@ class Equalizer : public QDialog {
   void Save();
 
  private:
-  EqualizerSlider *AddSlider(const QString &label);
+  EqualizerSlider *AddSlider(const QString &label, bool preamp = false);
   void LoadDefaultPresets();
   void AddPreset(const QString &name, const Params &params);
   void LoadPreset(const QString &name);
@@ -97,6 +119,36 @@ class Equalizer : public QDialog {
   void SaveCurrentParams();
   void SaveLater();
   QString SaveCurrentPreset();
+#ifdef Q_OS_ANDROID
+  // Used by both equalizer.cpp and equalizer_android.cpp, which implements the functions below.
+  static constexpr char kAndroidCurrentParams[] = "android_current_params";
+  static constexpr char kCustomPreset[] = QT_TRANSLATE_NOOP("Equalizer", "Custom");
+  // The values are stored in the settings.
+  enum class AndroidFoldoutMode { AllExpanded = 0, AllCollapsed = 1, OneAtATime = 2 };
+  // The values are part of the settings keys for the open sections, in the order the sections are shown.
+  enum class AndroidSection { Preamp = 0, Bass = 1, Midrange = 2, Treble = 3, StereoBalance = 4 };
+  static QString AndroidFoldoutModeName(const AndroidFoldoutMode mode);
+  void SetupAndroidLayout();
+  void ShowAndroidPresets();
+  void ShowAndroidPresetEditor(bool remove);
+  void ShowAndroidImportExport();
+  void ExportAndroidSettings(QLabel *status);
+  void ImportAndroidSettings(QLabel *status);
+  void AndroidBack();
+  void UpdateAndroidPreset();
+  void SetAndroidPage(QWidget *page, const QString &title);
+  void ShowAndroidFoldoutModes();
+  void UpdateAndroidFoldouts();
+  void SaveAndroidFoldouts();
+  QList<QToolButton *> android_sections_;
+  QList<QWidget *> android_section_contents_;
+  AndroidWidgets::ValueButton *android_foldout_mode_ = nullptr;
+  AndroidFoldoutMode android_foldout_mode_value_ = AndroidFoldoutMode::AllCollapsed;
+  QStackedWidget *android_pages_ = nullptr;
+  QScrollArea *android_main_ = nullptr;
+  QLabel *android_title_ = nullptr;
+  AndroidWidgets::ValueButton *android_preset_ = nullptr;
+#endif
 
  private:
   Ui_Equalizer *ui_;

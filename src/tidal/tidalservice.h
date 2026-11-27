@@ -50,6 +50,9 @@ class CollectionBackend;
 class CollectionModel;
 class CollectionFilter;
 class OAuthenticator;
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_TIDAL_BROWSER_AUTH)
+class AndroidBrowserAuthentication;
+#endif
 
 using TidalRequestPtr = QScopedPointer<TidalRequest, QScopedPointerDeleteLater>;
 using TidalStreamURLRequestPtr = QSharedPointer<TidalStreamURLRequest>;
@@ -96,6 +99,9 @@ class TidalService : public StreamingService {
   bool show_search_album_quality() const override { return show_search_album_quality_; }
 
   bool authenticated() const override;
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_TIDAL_BROWSER_AUTH)
+  bool AndroidAuthenticationInProgress() const;
+#endif
   QByteArray authorization_header() const;
   QString country_code() const;
   quint64 user_id() const;
@@ -116,6 +122,7 @@ class TidalService : public StreamingService {
 
  public Q_SLOTS:
   void StartAuthorization(const QString &client_id);
+  void CancelAuthorization();
   void AuthorizationUrlReceived(const QUrl &url);
   void GetArtists() override;
   void GetAlbums() override;
@@ -143,6 +150,11 @@ class TidalService : public StreamingService {
 
  private:
   void SendSearch();
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_TIDAL_BROWSER_AUTH)
+  bool StartAndroidAuthentication(QString &error);
+  void StopAndroidAuthentication();
+  AndroidBrowserAuthentication *android_browser_authentication_ = nullptr;
+#endif
 
  private:
   const SharedPtr<NetworkAccessManager> network_;

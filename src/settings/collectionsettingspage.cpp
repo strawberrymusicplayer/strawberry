@@ -43,11 +43,26 @@
 #include <QSpinBox>
 #include <QSettings>
 #include <QMessageBox>
+#if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
+#  include <QButtonGroup>
+#  include <QRadioButton>
+#  include <QVBoxLayout>
+#endif
 
 #include "constants/filesystemconstants.h"
 #include "core/iconloader.h"
 #include "core/standardpaths.h"
 #include "core/settings.h"
+#ifdef Q_OS_ANDROID
+#  include <QPersistentModelIndex>
+#  include "core/androidstorage.h"
+#  include "widgets/actiondialog.h"
+#  ifdef HAVE_NAS
+#    include "naspage_android.h"
+#    include "widgets/androidwidgets.h"
+#    include "collection/collectionwatcher.h"
+#  endif
+#endif
 #include "utilities/strutils.h"
 #include "collection/collectionmanager.h"
 #include "collection/collectionbackend.h"
@@ -81,6 +96,13 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog,
       initialized_model_(false) {
 
   ui_->setupUi(this);
+#ifdef Q_OS_ANDROID
+  collapsible_dividers_ = new QCheckBox(tr("Allow collapsing letter groups"), this);
+  collapsible_dividers_->setObjectName(u"collapsible_dividers"_s);
+  ui_->layout_display->insertWidget(ui_->layout_display->indexOf(ui_->show_dividers) + 1, collapsible_dividers_);
+  QObject::connect(ui_->show_dividers, &QCheckBox::toggled, collapsible_dividers_, &QCheckBox::setEnabled);
+  SetupAndroidRemoveUnavailableSongs();
+#endif
   ui_->list->setItemDelegate(new NativeSeparatorsDelegate(this));
 
   setWindowIcon(IconLoader::Load(u"library-music"_s, true, 0, 32));
@@ -95,6 +117,52 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog,
 
   QObject::connect(ui_->add_directory, &QPushButton::clicked, this, &CollectionSettingsPage::AddDirectory);
   QObject::connect(ui_->remove_directory, &QPushButton::clicked, this, &CollectionSettingsPage::RemoveDirectory);
+#if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
+  nas_page_ = new NasPage(this, [this](const Nas::Location &location) {
+    if (!collection_directory_model_->paths().contains(location.path())) collection_backend_->AddDirectoryAsync(location.path());
+    if (!collectionsettings_directory_model_->paths().contains(location.path())) collectionsettings_directory_model_->AddDirectory(location.path(), location.label());
+    else {
+      for (int row = 0; row < collectionsettings_directory_model_->rowCount(); ++row) {
+        QStandardItem *item = collectionsettings_directory_model_->item(row);
+        if (item->data(Qt::UserRole).toString() == location.path()) item->setText(location.label());
+      }
+    }
+  });
+  auto *nas_button = new QPushButton(tr("NAS locations"), this);
+  ui_->layout_collection_folder_buttons->insertWidget(1, nas_button);
+  QObject::connect(nas_button, &QPushButton::clicked, nas_page_, &NasPage::Open);
+
+  const QString nas_polling_title = tr("NAS polling interval");
+  const AndroidWidgets::LabeledValueButton nas_polling = AndroidWidgets::CreateLabeledValueButton(nas_polling_title, this);
+  nas_polling_button_ = nas_polling.button;
+  auto *nas_polling_help = new QLabel(tr("Used only when a NAS does not support change notifications, and only while Strawberry is open."), this);
+  nas_polling_help->setWordWrap(true);
+  const int nas_polling_position = ui_->layout_updating->indexOf(ui_->monitor) + 1;
+  ui_->layout_updating->insertWidget(nas_polling_position, nas_polling.label);
+  ui_->layout_updating->insertWidget(nas_polling_position + 1, nas_polling_button_);
+  ui_->layout_updating->insertWidget(nas_polling_position + 2, nas_polling_help);
+  // The button and its choice rows are already styled for Android.
+  nas_polling_button_->setProperty("androidSettingsAdapted", true);
+
+  auto *nas_polling_page = new QWidget(this);
+  auto *nas_polling_layout = new QVBoxLayout(nas_polling_page);
+  nas_polling_layout->setAlignment(Qt::AlignTop);
+  nas_polling_choices_ = new QButtonGroup(nas_polling_page);
+  for (const int minutes : {5, 10, 15, 30, 60}) {
+    QRadioButton *choice = AndroidWidgets::CreateChoiceRow(tr("%n minute(s)", nullptr, minutes), nas_polling_page);
+    nas_polling_choices_->addButton(choice, minutes);
+    nas_polling_layout->addWidget(choice);
+  }
+  nas_polling_page->hide();
+  QObject::connect(nas_polling_choices_, &QButtonGroup::idClicked, this, [this](const int minutes) {
+    SaveNasPollingInterval(minutes);
+    this->dialog()->CloseAndroidSubpage();
+  });
+  QObject::connect(nas_polling_button_, &QPushButton::clicked, this, [this, nas_polling_page, nas_polling_title]() {
+    LoadNasPollingInterval();
+    this->dialog()->OpenAndroidSubpage(nas_polling_page, nas_polling_title);
+  });
+#endif
 
 #ifdef HAVE_SONGTRACKING
   QObject::connect(ui_->song_tracking, &QCheckBox::toggled, this, &CollectionSettingsPage::SongTrackingToggled);
@@ -127,6 +195,10 @@ CollectionSettingsPage::~CollectionSettingsPage() { delete ui_; }
 
 void CollectionSettingsPage::Load() {
 
+#if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
+  nas_page_->Load();
+  LoadNasPollingInterval();
+#endif
   if (!initialized_model_) {
     if (ui_->list->selectionModel()) {
       QObject::disconnect(ui_->list->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &CollectionSettingsPage::CurrentRowChanged);
@@ -160,6 +232,10 @@ void CollectionSettingsPage::Load() {
 
   ui_->auto_open->setChecked(s.value(kAutoOpen, kDefaultAutoOpen).toBool());
   ui_->show_dividers->setChecked(s.value(kShowDividers, kDefaultShowDividers).toBool());
+#ifdef Q_OS_ANDROID
+  collapsible_dividers_->setChecked(s.value(kCollapsibleDividers, kDefaultCollapsibleDividers).toBool());
+  collapsible_dividers_->setEnabled(ui_->show_dividers->isChecked());
+#endif
   ui_->pretty_covers->setChecked(s.value(kPrettyCovers, kDefaultPrettyCovers).toBool());
   ui_->various_artists->setChecked(s.value(kVariousArtists, kDefaultVariousArtists).toBool());
   ui_->checkbox_skip_articles_for_artists->setChecked(s.value(kSkipArticlesForArtists, kDefaultSkipArticlesForArtists).toBool());
@@ -180,8 +256,6 @@ void CollectionSettingsPage::Load() {
   ui_->checkbox_overwrite_playcount->setChecked(s.value(kOverwritePlaycount, kDefaultOverwritePlaycount).toBool());
   ui_->checkbox_overwrite_rating->setChecked(s.value(kOverwriteRating, kDefaultOverwriteRating).toBool());
 
-  ui_->checkbox_delete_files->setChecked(s.value(kDeleteFiles, kDefaultDeleteFiles).toBool());
-
   s.endGroup();
 
   DiskCacheEnable(ui_->checkbox_disk_cache->checkState());
@@ -195,6 +269,15 @@ void CollectionSettingsPage::Load() {
 
 void CollectionSettingsPage::Save() {
 
+#if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
+  QString nas_error;
+  if (!nas_page_->Commit(collectionsettings_directory_model_->paths(), &nas_error)) {
+    auto *message = new ActionDialog(dialog()->parentWidget(), tr("NAS error"), nas_error, ActionDialog::TitlePosition::Top);
+    message->AddCancelButton(tr("Back"));
+    message->Open();
+    return;
+  }
+#endif
   Settings s;
 
   s.beginGroup(kSettingsGroup);
@@ -211,6 +294,9 @@ void CollectionSettingsPage::Save() {
 
   s.setValue(kAutoOpen, ui_->auto_open->isChecked());
   s.setValue(kShowDividers, ui_->show_dividers->isChecked());
+#ifdef Q_OS_ANDROID
+  s.setValue(kCollapsibleDividers, collapsible_dividers_->isChecked());
+#endif
   s.setValue(kPrettyCovers, ui_->pretty_covers->isChecked());
   s.setValue(kVariousArtists, ui_->various_artists->isChecked());
   s.setValue(kSkipArticlesForArtists, ui_->checkbox_skip_articles_for_artists->isChecked());
@@ -229,8 +315,6 @@ void CollectionSettingsPage::Save() {
   s.setValue(kOverwritePlaycount, ui_->checkbox_overwrite_playcount->isChecked());
   s.setValue(kOverwriteRating, ui_->checkbox_overwrite_rating->isChecked());
 
-  s.setValue(kDeleteFiles, ui_->checkbox_delete_files->isChecked());
-
   s.endGroup();
 
   for (const CollectionDirectory &dir : collection_directory_model_->directories()) {
@@ -247,13 +331,63 @@ void CollectionSettingsPage::Save() {
 
 }
 
+#if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
+void CollectionSettingsPage::LoadNasPollingInterval() {
+
+  Settings s;
+  s.beginGroup(kSettingsGroup);
+  bool ok = false;
+  int minutes = s.value(kNasPollingMinutes, kDefaultNasPollingMinutes).toInt(&ok);
+  s.endGroup();
+  if (!ok || minutes < kMinNasPollingMinutes || minutes > kMaxNasPollingMinutes) minutes = kDefaultNasPollingMinutes;
+
+  if (QAbstractButton *choice = nas_polling_choices_->button(minutes)) {
+    choice->setChecked(true);
+  }
+  else if (QAbstractButton *checked = nas_polling_choices_->checkedButton()) {
+    nas_polling_choices_->setExclusive(false);
+    checked->setChecked(false);
+    nas_polling_choices_->setExclusive(true);
+  }
+  nas_polling_button_->SetValue(tr("%n minute(s)", nullptr, minutes));
+
+}
+
+void CollectionSettingsPage::SaveNasPollingInterval(const int minutes) {
+
+  // Saved immediately, like every Android setting.
+  Settings s;
+  s.beginGroup(kSettingsGroup);
+  s.setValue(kNasPollingMinutes, minutes);
+  s.endGroup();
+  s.sync();
+
+  collection_->watcher()->ReloadSettingsAsync();
+  LoadNasPollingInterval();
+
+}
+#endif
+
 void CollectionSettingsPage::AddDirectory() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
 
   QString path = s.value(kLastPath, StandardPaths::WritableLocation(StandardPaths::StandardLocation::MusicLocation)).toString();
+#ifdef Q_OS_ANDROID
+  // The Android file dialog returns a content:// tree URI, the collection scans file system paths.
+  const QUrl selected_url = QFileDialog::getExistingDirectoryUrl(this, tr("Add directory..."), QUrl::fromLocalFile(path));
+  if (selected_url.isEmpty()) return;
+  QStringList unresolved;
+  path = AndroidStorage::LocalPathsForUrls({selected_url}, &unresolved).value(0);
+  if (path.isEmpty()) {
+    QMessageBox messagebox(QMessageBox::Critical, tr("Invalid collection directory"), AndroidStorage::UnresolvedMessage(unresolved));
+    (void)messagebox.exec();
+    return;
+  }
+#else
   path = QDir::cleanPath(QFileDialog::getExistingDirectory(this, tr("Add directory..."), path));
+#endif
 
   if (!path.isEmpty()) {
     const QByteArray filesystemtype = QStorageInfo(QFileInfo(path).canonicalFilePath()).fileSystemType();
@@ -273,9 +407,24 @@ void CollectionSettingsPage::AddDirectory() {
 
 void CollectionSettingsPage::RemoveDirectory() {
 
+#ifdef Q_OS_ANDROID
+  // Android saves the removal right away, which drops the folder's songs with their play counts and ratings, so ask first.
+  const QPersistentModelIndex idx(ui_->list->currentIndex());
+  if (!idx.isValid()) return;
+  QWidget *parent = dialog() ? static_cast<QWidget*>(dialog()) : this;
+  auto *confirmation = ActionDialog::CreateConfirmation(parent, tr("Remove folder"), tr("Remove %1 from the collection? Its songs are removed from the collection together with their play counts and ratings, and any saved sign-in details for the folder are erased. This cannot be undone.").arg(idx.data().toString()), tr("Remove folder"));
+  QObject::connect(confirmation, &QDialog::accepted, this, [this, idx]() {
+    if (!idx.isValid()) return;
+    collectionsettings_directory_model_->RemoveDirectory(idx);
+    set_changed();
+    if (dialog()) dialog()->ScheduleAndroidSave();
+  });
+  confirmation->Open();
+#else
   collectionsettings_directory_model_->RemoveDirectory(ui_->list->currentIndex());
 
   set_changed();
+#endif
 
 }
 

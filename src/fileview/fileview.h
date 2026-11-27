@@ -98,6 +98,12 @@ class FileView : public QWidget {
   void AddRootButtonClicked();
   void RemoveRootButtonClicked();
   void UpdateViewModeUI();
+#ifdef Q_OS_ANDROID
+  void SelectFiles();
+  void SelectFolder();
+  static QUrl AndroidPickerStartUrl();
+  void PlayPickerSelection(const QList<QUrl> &selected_urls);
+#endif
 
  private:
   class UndoCommand : public QUndoCommand {

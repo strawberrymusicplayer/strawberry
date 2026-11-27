@@ -31,6 +31,9 @@
 CollectionViewContainer::CollectionViewContainer(QWidget *parent) : QWidget(parent), ui_(new Ui_CollectionViewContainer) {
 
   ui_->setupUi(this);
+#ifdef Q_OS_ANDROID
+  ui_->verticalLayout->insertWidget(1, view()->CreateAndroidSelectionToolbar(this));
+#endif
   view()->SetFilterWidget(filter_widget());
 
   QObject::connect(filter_widget(), &CollectionFilterWidget::UpPressed, view(), &CollectionView::UpAndFocus);

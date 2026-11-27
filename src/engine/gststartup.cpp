@@ -46,10 +46,19 @@ namespace GstStartup {
 
 void Initialize() {
 
+#ifdef Q_OS_ANDROID
+  InitializeAndroid();
+#endif
+
   SetEnvironment();
 
   gst_init(nullptr, nullptr);
   gst_pb_utils_init();
+
+#ifdef Q_OS_ANDROID
+  RegisterAndroidFileSource();
+  LowerAndroidMediaDecoderRanks();
+#endif
 
 #ifdef HAVE_GSTFASTSPECTRUM
   gst_strawberry_fastspectrum_register_static();

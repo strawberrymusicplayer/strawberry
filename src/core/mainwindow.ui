@@ -63,6 +63,8 @@
           </property>
           <addaction name="action_edit_track"/>
           <addaction name="action_edit_value"/>
+          <addaction name="action_remove_duplicates"/>
+          <addaction name="action_remove_unavailable"/>
          </widget>
         </item>
         <item>

@@ -45,7 +45,7 @@ class LocalRedirectServer : public QTcpServer {
   int port() const { return port_; }
   void set_port(const int port) { port_ = port; }
 
-  bool Listen();
+  bool Listen(const QString &redirect_path = QString());
 
  Q_SIGNALS:
   void Finished();
@@ -62,12 +62,13 @@ class LocalRedirectServer : public QTcpServer {
   void WriteTemplate(QTcpSocket *socket) const;
   static void WriteNotFound(QTcpSocket *socket);
   QUrl ParseUrlFromRequest(const QByteArray &request) const;
-  static bool IsRedirect(const QUrl &url);
+  bool IsRedirect(const QUrl &url) const;
 
  private:
   int port_;
   QUrl url_;
   QUrl request_url_;
+  QString redirect_path_;
   // The request received so far on each connection, a request can arrive in several parts, and other connections than the redirect must not end it.
   QHash<QTcpSocket*, QByteArray> requests_;
   bool success_;

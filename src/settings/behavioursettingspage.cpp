@@ -38,10 +38,24 @@
 #include <QComboBox>
 #include <QGroupBox>
 
+#ifdef Q_OS_ANDROID
+#  include <QBoxLayout>
+#  include <QButtonGroup>
+#  include <QFont>
+#  include <QLabel>
+#  include <QPushButton>
+#  include <QVBoxLayout>
+#  include <QWidget>
+#endif
+
 #include "constants/behavioursettings.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "settings/settingspage.h"
+#ifdef Q_OS_ANDROID
+#  include "settings/settingsdialog.h"
+#  include "widgets/androidwidgets.h"
+#endif
 #include "behavioursettingspage.h"
 #include "ui_behavioursettingspage.h"
 
@@ -53,7 +67,7 @@ class SettingsDialog;
 #ifdef HAVE_TRANSLATIONS
 namespace {
 bool LocaleAwareCompare(const QString &a, const QString &b) {
-  return a.localeAwareCompare(b) < 0;
+  return a.toCaseFolded().localeAwareCompare(b.toCaseFolded()) < 0;
 }
 }  // namespace
 #endif
@@ -71,6 +85,13 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
   ui_->checkbox_showtrayicon->hide();
   ui_->checkbox_trayicon_progress->hide();
   ui_->groupbox_startup->hide();
+#endif
+
+#ifdef Q_OS_ANDROID
+  ui_->checkbox_showtrayicon->hide();
+  ui_->checkbox_keeprunning->hide();
+  ui_->checkbox_trayicon_progress->hide();
+  ui_->checkbox_playingwidget->hide();
 #endif
 
 #if !defined(HAVE_DBUS) || defined(Q_OS_MACOS)
@@ -135,7 +156,104 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
   ui_->combobox_doubleclickplaylistaddmode->setItemData(0, static_cast<int>(PlaylistAddBehaviour::Play));
   ui_->combobox_doubleclickplaylistaddmode->setItemData(1, static_cast<int>(PlaylistAddBehaviour::Enqueue));
 
+#ifdef Q_OS_ANDROID
+  SetupAndroidLayout();
+#endif
+
 }
+
+#ifdef Q_OS_ANDROID
+// This page keeps its own Android layout instead of the shared AndroidSettingsPage adapter, which SettingsDialog::AddPage() skips for it.
+// It is the reference for the Android settings guidelines: each group's choices are on a single subpage, rather than behind another subpage per combo box.
+// Summaries show only the values, the double-tap group is replaced by an explanation of its Android behavior, and desktop-only options are hidden.
+void BehaviourSettingsPage::SetupAndroidLayout() {
+
+  for (QLabel *label : findChildren<QLabel*>()) {
+    label->setWordWrap(true);
+  }
+  for (QComboBox *combo : findChildren<QComboBox*>()) {
+    combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+    combo->setMinimumContentsLength(12);
+  }
+  for (QGroupBox *group : findChildren<QGroupBox*>()) {
+    if (group == ui_->groupbox_doubleclickaddmode) {
+      QLabel *explanation = new QLabel(tr("Double-tapping songs or albums in Collection or files in Files replaces the temporary Now playing playlist and starts playback. Other playlists are unchanged. Now playing starts empty when the app restarts."), this);
+      explanation->setWordWrap(true);
+      delete ui_->layout_behavioursettingspage->replaceWidget(group, explanation);
+      group->hide();
+      continue;
+    }
+    auto *controls_layout = qobject_cast<QBoxLayout*>(group->layout());
+    if (!controls_layout) continue;
+
+    const QString title = group->title();
+    group->setAccessibleName(title);
+    group->setTitle(QString());
+    controls_layout->setDirection(QBoxLayout::TopToBottom);
+    controls_layout->setAlignment(Qt::AlignTop);
+    const AndroidWidgets::LabeledValueButton labeled = AndroidWidgets::CreateLabeledValueButton(title, this);
+    AndroidWidgets::ValueButton *button = labeled.button;
+    const int group_position = ui_->layout_behavioursettingspage->indexOf(group);
+    delete ui_->layout_behavioursettingspage->replaceWidget(group, button);
+    ui_->layout_behavioursettingspage->insertWidget(group_position, labeled.label);
+    group->hide();
+    button->setVisible(group != ui_->groupbox_language || group->isEnabled());
+    const auto combos = group->findChildren<QComboBox*>();
+    const auto radios = group->findChildren<QRadioButton*>();
+    const auto spins = group->findChildren<QSpinBox*>();
+    auto update_summary = [combos, radios, spins, button]() {
+      QStringList values;
+      for (QComboBox *combo : combos) values << combo->currentText();
+      for (QRadioButton *radio : radios) {
+        if (radio->isChecked()) values << QString(radio->text()).remove(u'&');
+      }
+      for (QSpinBox *spin : spins) values << spin->text();
+      button->SetValue(values.join(u"\n"_s));
+    };
+    for (QComboBox *combo : combos) {
+      const int position = controls_layout->indexOf(combo);
+      auto *choices = new QWidget(group);
+      auto *choices_layout = new QVBoxLayout(choices);
+      choices_layout->setContentsMargins(0, 0, 0, 0);
+      if (combos.size() > 1) {
+        auto *heading = new QLabel(combo == ui_->combobox_doubleclickaddmode ? tr("Playlist action") : tr("Playback"), choices);
+        QFont heading_font = heading->font();
+        heading_font.setBold(true);
+        heading->setFont(heading_font);
+        heading->setWordWrap(true);
+        choices_layout->addWidget(heading);
+      }
+      QButtonGroup *choice_group = AndroidWidgets::AddComboChoiceRows(combo, choices_layout);
+      if (combos.size() == 1) {
+        QObject::connect(choice_group, &QButtonGroup::idClicked, this, [this]() { dialog()->CloseAndroidSubpage(); });
+      }
+      combo->hide();
+      controls_layout->insertWidget(position, choices);
+      QObject::connect(combo, &QComboBox::currentIndexChanged, this, update_summary);
+    }
+    if (group == ui_->groupbox_language) {
+      controls_layout->removeWidget(ui_->label_language);
+      controls_layout->insertWidget(0, ui_->label_language);
+    }
+    for (QRadioButton *radio : radios) {
+      AndroidWidgets::StyleChoiceRow(radio, nullptr);
+      QObject::connect(radio, &QRadioButton::toggled, this, update_summary);
+      if (combos.isEmpty()) {
+        radio->setMinimumHeight(AndroidWidgets::kMinimumTouchSize);
+        QObject::connect(radio, &QRadioButton::clicked, this, [this]() { dialog()->CloseAndroidSubpage(); });
+      }
+    }
+    for (QSpinBox *spin : spins) {
+      QObject::connect(spin, &QSpinBox::valueChanged, this, update_summary);
+    }
+    update_summary();
+    QObject::connect(button, &QPushButton::clicked, this, [this, group, title]() {
+      dialog()->OpenAndroidSubpage(group, title);
+    });
+  }
+
+}
+#endif  // Q_OS_ANDROID
 
 BehaviourSettingsPage::~BehaviourSettingsPage() {
   delete ui_;

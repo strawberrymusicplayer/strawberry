@@ -475,7 +475,7 @@ void CoversSettingsPage::AuthenticationSuccess() {
   if (!provider) return;
   DisconnectAuthentication(provider);
 
-  if (!isVisible() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
+  if (!IsActive() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
 
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedIn);
   ui_->button_authenticate->setEnabled(true);
@@ -488,7 +488,7 @@ void CoversSettingsPage::AuthenticationFailure(const QString &error) {
   if (!provider) return;
   DisconnectAuthentication(provider);
 
-  if (!isVisible() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
+  if (!IsActive() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
 
   QMessageBox::warning(this, tr("Authentication failed"), error);
 

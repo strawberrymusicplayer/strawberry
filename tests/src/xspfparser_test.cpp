@@ -26,6 +26,7 @@
 #include <QByteArray>
 #include <QDir>
 #include <QFile>
+#include <QSignalSpy>
 #include <QFileInfo>
 #include <QPointer>
 #include <QString>
@@ -36,6 +37,7 @@
 #include "core/song.h"
 #include "playlistparsers/xspfparser.h"
 #include "playlistparsers/parserbase.h"
+#include "playlistparsers/playlistparser.h"
 #include "tagreader/tagreaderclient.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -43,6 +45,34 @@ using namespace Qt::Literals::StringLiterals;
 // clazy:excludeall=non-pod-global-static
 
 namespace {
+
+TEST(XSPFParserTest, SaveWithExplicitFormatWithoutFilenameExtension) {
+
+  QTemporaryDir directory;
+  ASSERT_TRUE(directory.isValid());
+  PlaylistParser parser(nullptr);
+  QSignalSpy errors(&parser, &PlaylistParser::Error);
+  const QString filename = directory.filePath(u"document-123"_s);
+  parser.Save(u"My Playlist"_s, SongList(), filename, PlaylistSettings::PathType::Absolute, u"xspf"_s);
+  EXPECT_EQ(0, errors.count());
+  QFile file(filename);
+  ASSERT_TRUE(file.open(QIODevice::ReadOnly));
+  EXPECT_TRUE(file.readAll().contains("<title>My Playlist</title>"));
+
+}
+
+TEST(XSPFParserTest, SaveRejectsUnknownExplicitFormat) {
+
+  QTemporaryDir directory;
+  ASSERT_TRUE(directory.isValid());
+  PlaylistParser parser(nullptr);
+  QSignalSpy errors(&parser, &PlaylistParser::Error);
+  const QString filename = directory.filePath(u"playlist.xspf"_s);
+  parser.Save(u"My Playlist"_s, SongList(), filename, PlaylistSettings::PathType::Absolute, u"unsupported"_s);
+  EXPECT_EQ(1, errors.count());
+  EXPECT_FALSE(QFile::exists(filename));
+
+}
 
 ParserBase::LoadResult LoadXSPF(QByteArray data) {
 

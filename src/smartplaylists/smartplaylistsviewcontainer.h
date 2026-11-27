@@ -31,6 +31,10 @@ class QMimeData;
 class QMenu;
 class QAction;
 class QShowEvent;
+#ifdef Q_OS_ANDROID
+class QStackedWidget;
+class SmartPlaylistWizard;
+#endif
 
 class Player;
 class PlaylistManager;
@@ -95,8 +99,17 @@ class SmartPlaylistsViewContainer : public QWidget {
 
  Q_SIGNALS:
   void AddToPlaylist(QMimeData *data);
+  void AndroidPreviewOpened();
 
  private:
+#ifdef Q_OS_ANDROID
+  void SetupAndroidBrowser();
+  void UpdateAndroidToolbarOrientation();
+  void OpenAndroidWizard(SmartPlaylistWizard *wizard);
+  void OpenAndroidPreview(const QModelIndex &index);
+  void ConfirmAndroidRestoreDefaults();
+  QStackedWidget *android_pages_ = nullptr;
+#endif
   Ui_SmartPlaylistsViewContainer *ui_;
 
   const SharedPtr<Player> player_;

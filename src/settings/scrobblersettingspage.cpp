@@ -42,6 +42,10 @@
 #include "constants/scrobblersettings.h"
 #include "constants/lastfmsettings.h"
 #include "constants/listenbrainzsettings.h"
+#ifdef Q_OS_ANDROID
+#include "core/browserauthentication_android.h"
+#include "widgets/actiondialog.h"
+#endif
 
 using namespace Qt::Literals::StringLiterals;
 using namespace ScrobblerSettings;
@@ -57,6 +61,35 @@ ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *dialog, const Share
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(u"scrobble"_s, true, 0, 32));
+
+#ifdef Q_OS_ANDROID
+#ifndef HAVE_ANDROID_LASTFM_BROWSER_AUTH
+  ui_->button_lastfm_login->hide();
+  auto *lastfm_notice = new QLabel(tr("Browser authentication is currently unavailable on Android."), ui_->groupbox_lastfm);
+#else
+  auto *lastfm_credentials_help = new QLabel(tr("Get an API key and shared secret by <a href=\"%1\">registering an app with Last.fm</a>. These identify the app, not your personal login. Enter them as Client ID and Client secret, then log in.")
+                                            .arg(u"https://www.last.fm/api/account/create"_s), ui_->groupbox_lastfm);
+  lastfm_credentials_help->setTextFormat(Qt::RichText);
+  lastfm_credentials_help->setWordWrap(true);
+  lastfm_credentials_help->setTextInteractionFlags(Qt::TextBrowserInteraction);
+  lastfm_credentials_help->setOpenExternalLinks(true);
+  ui_->layout_lastfm->insertWidget(ui_->layout_lastfm->indexOf(ui_->widget_lastfm_login_state), lastfm_credentials_help);
+
+  auto *lastfm_notice = new QLabel(AndroidBrowserAuthentication::WasInterrupted(QStringLiteral("Last.fm"))
+      ? tr("The previous browser login was interrupted. Please try again.")
+      : tr("Finish browser login within two minutes. Return here to cancel or retry."), ui_->groupbox_lastfm);
+  lastfm_cancel_login_ = new QPushButton(tr("Cancel login"), ui_->groupbox_lastfm);
+  lastfm_cancel_login_->hide();
+  ui_->layout_lastfm->addWidget(lastfm_cancel_login_);
+  QObject::connect(lastfm_cancel_login_, &QPushButton::clicked, &*lastfmscrobbler_, &LastFMScrobbler::CancelAndroidAuthentication);
+#endif
+  lastfm_notice->setWordWrap(true);
+  ui_->layout_lastfm->addWidget(lastfm_notice);
+  ui_->button_listenbrainz_login->hide();
+  auto *listenbrainz_notice = new QLabel(tr("Browser authentication is currently unavailable on Android. Enter your user token instead."), ui_->groupbox_listenbrainz);
+  listenbrainz_notice->setWordWrap(true);
+  ui_->layout_listenbrainz->addWidget(listenbrainz_notice);
+#endif
 
   // Last.fm
   QObject::connect(&*lastfmscrobbler_, &LastFMScrobbler::AuthenticationComplete, this, &ScrobblerSettingsPage::LastFM_AuthenticationComplete);
@@ -140,6 +173,13 @@ void ScrobblerSettingsPage::Load() {
   ui_->lineedit_lastfm_client_secret->setText(s.value(LastFMSettings::kClientSecret).toString());
   s.endGroup();
   LastFM_RefreshControls(lastfmscrobbler_->authenticated());
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_LASTFM_BROWSER_AUTH)
+  if (lastfmscrobbler_->AndroidAuthenticationInProgress()) {
+    lastfm_waiting_for_auth_ = true;
+    ui_->widget_lastfm_login_state->SetLoggedIn(LoginStateWidget::State::LoginInProgress);
+    lastfm_cancel_login_->show();
+  }
+#endif
 
   ui_->checkbox_listenbrainz_enable->setChecked(listenbrainzscrobbler_->enabled());
   s.beginGroup(ListenBrainzScrobbler::kSettingsGroup);
@@ -227,6 +267,18 @@ void ScrobblerSettingsPage::Save() {
 
 void ScrobblerSettingsPage::LastFM_Login() {
 
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_LASTFM_BROWSER_AUTH)
+  if (lastfmscrobbler_->AndroidAuthenticationInProgress()) return;
+  Settings s;
+  s.beginGroup(LastFMScrobbler::kSettingsGroup);
+  const bool credentials_changed =
+      s.value(LastFMSettings::kUseCustomApiCredentials, false).toBool() != ui_->checkbox_lastfm_use_custom_api_credentials->isChecked() ||
+      s.value(LastFMSettings::kClientId).toString() != ui_->lineedit_lastfm_client_id->text() ||
+      s.value(LastFMSettings::kClientSecret).toString() != ui_->lineedit_lastfm_client_secret->text();
+  s.endGroup();
+  // Android settings save as they change; save credential edits that have not finished editing yet.
+  if (credentials_changed) Apply();
+#else
   // Persist the currently-edited custom credential selection first and reload it into the scrobbler, so Authenticate() below uses whatever is currently shown in the UI rather than whatever was last saved.
   Settings s;
   s.beginGroup(LastFMScrobbler::kSettingsGroup);
@@ -234,10 +286,14 @@ void ScrobblerSettingsPage::LastFM_Login() {
   s.setValue(LastFMSettings::kClientId, ui_->lineedit_lastfm_client_id->text());
   s.setValue(LastFMSettings::kClientSecret, ui_->lineedit_lastfm_client_secret->text());
   s.endGroup();
+#endif
   lastfmscrobbler_->ReloadSettings();
 
   lastfm_waiting_for_auth_ = true;
   ui_->widget_lastfm_login_state->SetLoggedIn(LoginStateWidget::State::LoginInProgress);
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_LASTFM_BROWSER_AUTH)
+  lastfm_cancel_login_->show();
+#endif
   lastfmscrobbler_->Authenticate();
 
 }
@@ -254,6 +310,15 @@ void ScrobblerSettingsPage::LastFM_AuthenticationComplete(const bool success, co
   if (!lastfm_waiting_for_auth_) return;
   lastfm_waiting_for_auth_ = false;
 
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_LASTFM_BROWSER_AUTH)
+  lastfm_cancel_login_->hide();
+  if (!success && !error.isEmpty() && IsActive()) {
+    auto *notification = new ActionDialog(dialog()->parentWidget(), tr("Authentication failed"), error, ActionDialog::TitlePosition::Top);
+    notification->AddCancelButton(tr("Close"));
+    notification->Open();
+  }
+  LastFM_RefreshControls(lastfmscrobbler_->authenticated());
+#else
   if (success) {
     Save();
   }
@@ -262,6 +327,7 @@ void ScrobblerSettingsPage::LastFM_AuthenticationComplete(const bool success, co
   }
 
   LastFM_RefreshControls(success);
+#endif
 
 }
 

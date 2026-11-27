@@ -24,6 +24,9 @@
 #include <QString>
 
 #include "core/iconloader.h"
+#ifdef HAVE_NAS
+#  include "core/nasfileengine.h"
+#endif
 #include "collectionsettingsdirectorymodel.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -32,9 +35,14 @@ CollectionSettingsDirectoryModel::CollectionSettingsDirectoryModel(QObject *pare
     : QStandardItemModel(parent),
       dir_icon_(IconLoader::Load(u"document-open-folder"_s)) {}
 
-void CollectionSettingsDirectoryModel::AddDirectory(const QString &path) {
+void CollectionSettingsDirectoryModel::AddDirectory(const QString &path, const QString &label) {
 
-  QStandardItem *item = new QStandardItem(path);
+  QString text = label.isEmpty() ? path : label;
+#ifdef HAVE_NAS
+  if (label.isEmpty()) text = Nas::DisplayName(path);
+#endif
+  QStandardItem *item = new QStandardItem(text);
+  item->setData(path, Qt::UserRole);
   item->setIcon(dir_icon_);
   appendRow(item);
 
@@ -54,7 +62,7 @@ void CollectionSettingsDirectoryModel::RemoveDirectory(const QModelIndex &idx) {
 
   if (!idx.isValid()) return;
 
-  const QString path = data(idx).toString();
+  const QString path = data(idx, Qt::UserRole).toString();
 
   removeRow(idx.row());
 

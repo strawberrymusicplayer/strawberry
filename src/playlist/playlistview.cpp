@@ -59,6 +59,10 @@
 #include <QtEvents>
 #include <QDrag>
 #include <QSignalBlocker>
+#include <QUndoStack>
+#ifdef Q_OS_ANDROID
+#  include "widgets/longpresshandler.h"
+#endif
 
 #include "includes/qt_blurimage.h"
 #include "core/song.h"
@@ -182,6 +186,10 @@ PlaylistView::PlaylistView(QWidget *parent)
   QObject::connect(fade_animation_, &QTimeLine::valueChanged, this, &PlaylistView::FadePreviousBackgroundImage);
   fade_animation_->setDirection(QTimeLine::Direction::Backward);  // 1.0 -> 0.0
 
+#ifdef Q_OS_ANDROID
+  SetupAndroidLongPress();
+#endif
+
 }
 
 PlaylistView::~PlaylistView() {
@@ -262,6 +270,9 @@ void PlaylistView::SetItemDelegates() {
 
 void PlaylistView::setModel(QAbstractItemModel *m) {
 
+#ifdef Q_OS_ANDROID
+  DisconnectAndroidSongActions();
+#endif
   if (model()) {
     // Stop hovering the rating while the hovered index of the old model is still valid, the old playlist can be deleted after switching to another one.
     if (rating_delegate_) {
@@ -281,6 +292,9 @@ void PlaylistView::setModel(QAbstractItemModel *m) {
 
   QTreeView::setModel(m);
 
+#ifdef Q_OS_ANDROID
+  ConnectAndroidSongActions();
+#endif
   QObject::connect(model(), &QAbstractItemModel::dataChanged, this, &PlaylistView::InvalidateCachedCurrentPixmap);
   // Stop hovering the rating before the rows change, while the hovered index is still valid, otherwise the hover is painted on the row it moved to, or the cursor is not reset when the row is removed.
   QObject::connect(model(), &QAbstractItemModel::layoutAboutToBeChanged, this, &PlaylistView::RatingHoverOut);
@@ -292,6 +306,9 @@ void PlaylistView::setModel(QAbstractItemModel *m) {
 
 void PlaylistView::SetPlaylist(Playlist *playlist) {
 
+#ifdef Q_OS_ANDROID
+  CancelAndroidSongActions();
+#endif
   if (playlist_) {
     QObject::disconnect(playlist_, &Playlist::RestoreFinished, this, &PlaylistView::JumpToLastPlayedTrack);
     QObject::disconnect(playlist_, &Playlist::MaybeAutoscroll, this, &PlaylistView::MaybeAutoscroll);
@@ -308,7 +325,11 @@ void PlaylistView::SetPlaylist(Playlist *playlist) {
   playlist_ = playlist;
   RestoreHeaderState();
   DynamicModeChanged(playlist->is_dynamic());
+#ifdef Q_OS_ANDROID
+  if (isVisible()) setFocus();
+#else
   setFocus();
+#endif
   JumpToLastPlayedTrack();
   playlist->set_auto_sort(auto_sort_);
 
@@ -361,6 +382,9 @@ void PlaylistView::LoadHeaderState() {
 
 void PlaylistView::SetHeaderState() {
 
+#ifdef Q_OS_ANDROID
+  if (portrait_columns_) return;
+#endif
   if (!header_state_loaded_) return;
   header_state_ = header_->SaveState();
 
@@ -380,11 +404,17 @@ void PlaylistView::ResetHeaderState() {
   set_initial_header_layout_ = true;
   header_state_ = header_->ResetState();
   RestoreHeaderState();
+#ifdef Q_OS_ANDROID
+  UpdatePortraitColumns();
+#endif
 
 }
 
 void PlaylistView::RestoreHeaderState() {
 
+#ifdef Q_OS_ANDROID
+  portrait_columns_ = false;
+#endif
   if (!header_state_loaded_) LoadHeaderState();
 
   if (header_state_.isEmpty() || !header_->RestoreState(header_state_)) {
@@ -473,6 +503,9 @@ void PlaylistView::RestoreHeaderState() {
 
   Q_EMIT ColumnAlignmentChanged(column_alignment_);
 
+#ifdef Q_OS_ANDROID
+  UpdatePortraitColumns();
+#endif
 }
 
 void PlaylistView::HeaderSectionResized(const int logical_index, const int old_size, const int new_size) {
@@ -701,6 +734,9 @@ void PlaylistView::StartGlowing() {
 }
 
 void PlaylistView::hideEvent(QHideEvent *e) {
+#ifdef Q_OS_ANDROID
+  CancelAndroidSongActions();
+#endif
   glow_timer_.stop();
   QTreeView::hideEvent(e);
 }
@@ -714,6 +750,9 @@ void PlaylistView::showEvent(QShowEvent *e) {
   MaybeAutoscroll(Playlist::AutoScroll::Maybe);
 
   QTreeView::showEvent(e);
+#ifdef Q_OS_ANDROID
+  UpdatePortraitColumns();
+#endif
 
 }
 
@@ -789,6 +828,10 @@ void PlaylistView::RemoveSelected() {
     return;
   }
 
+  const int count = static_cast<int>(selectionModel()->selectedRows().count());
+  const bool undoable = playlist_ && count <= Playlist::kUndoItemLimit;
+  if (undoable) playlist_->undo_stack()->beginMacro(tr("remove %n songs", "", count));
+
   // Store the last selected row, which is the last in the list
   int last_row = selection.last().top();
 
@@ -799,6 +842,9 @@ void PlaylistView::RemoveSelected() {
     if (range.top() < last_row) rows_removed += range.height();
     model()->removeRows(range.top(), range.height(), range.parent());
   }
+
+  if (undoable) playlist_->undo_stack()->endMacro();
+  else if (playlist_) playlist_->undo_stack()->clear();
 
   int new_row = last_row - rows_removed;
   // Index of the first column for the row to select
@@ -895,6 +941,12 @@ void PlaylistView::closeEditor(QWidget *editor, const QAbstractItemDelegate::End
 
 void PlaylistView::mouseMoveEvent(QMouseEvent *event) {
 
+#ifdef Q_OS_ANDROID
+  if (long_press_->Move(event->pos())) {
+    event->accept();
+    return;
+  }
+#endif
   // Check whether rating section is locked by user or not
   if (!rating_locked_) {
     QModelIndex idx = indexAt(event->pos());
@@ -924,6 +976,9 @@ void PlaylistView::leaveEvent(QEvent *e) {
 
 void PlaylistView::mousePressEvent(QMouseEvent *event) {
 
+#ifdef Q_OS_ANDROID
+  PressAndroidLongPress(event);
+#endif
   if (editTriggers() & QAbstractItemView::NoEditTriggers) {
     QTreeView::mousePressEvent(event);
     return;
@@ -974,8 +1029,24 @@ void PlaylistView::mousePressEvent(QMouseEvent *event) {
 
 }
 
+void PlaylistView::mouseReleaseEvent(QMouseEvent *event) {
+
+#ifdef Q_OS_ANDROID
+  if (long_press_->Release()) {
+    setState(QAbstractItemView::NoState);
+    event->accept();
+    return;
+  }
+#endif
+  QTreeView::mouseReleaseEvent(event);
+
+}
+
 void PlaylistView::scrollContentsBy(const int dx, const int dy) {
 
+#ifdef Q_OS_ANDROID
+  if (long_press_) long_press_->Cancel();
+#endif
   if (dx != 0) {
     InvalidateCachedCurrentPixmap();
   }
@@ -1371,7 +1442,11 @@ void PlaylistView::SaveSettings() {
   Settings s;
   s.beginGroup(PlaylistSettings::kSettingsGroup);
   s.setValue(PlaylistSettings::kStateVersion, kHeaderStateVersion);
+#ifdef Q_OS_ANDROID
+  s.setValue(PlaylistSettings::kState, portrait_columns_ ? header_state_ : header_->SaveState());
+#else
   s.setValue(PlaylistSettings::kState, header_->SaveState());
+#endif
   s.setValue(PlaylistSettings::kColumnAlignments, QVariant::fromValue<ColumnAlignmentMap>(column_alignment_));
   s.setValue(PlaylistSettings::kRatingLocked, rating_locked_);
   s.endGroup();
@@ -1390,6 +1465,9 @@ void PlaylistView::StretchChanged(const bool stretch) {
 void PlaylistView::resizeEvent(QResizeEvent *e) {
 
   QTreeView::resizeEvent(e);
+#ifdef Q_OS_ANDROID
+  UpdatePortraitColumns();
+#endif
 
   if (dynamic_controls_->isVisible()) {
     RepositionDynamicControls();
@@ -1414,6 +1492,11 @@ void PlaylistView::changeEvent(QEvent *event) {
 
 bool PlaylistView::eventFilter(QObject *object, QEvent *event) {
 
+#ifdef Q_OS_ANDROID
+  if (object == viewport() && (event->type() == QEvent::TouchCancel || event->type() == QEvent::UngrabMouse)) {
+    if (long_press_) long_press_->Cancel();
+  }
+#endif
   if (event->type() == QEvent::Enter && (object == horizontalScrollBar() || object == verticalScrollBar())) {
     return false;  // clazy:exclude=base-class-event
   }

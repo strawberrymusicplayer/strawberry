@@ -26,7 +26,6 @@
 #include <QIODevice>
 #include <QFile>
 #include <QFont>
-#include <QColorDialog>
 #include <QPalette>
 #include <QPushButton>
 #include <QMenu>
@@ -251,12 +250,12 @@ void ContextSettingsPage::NormalFontChanged() {
 
 void ContextSettingsPage::SelectSyncedLyricsColor() {
 
-  const QColor color = QColorDialog::getColor(synced_lyrics_color_.isValid() ? synced_lyrics_color_ : palette().color(QPalette::Text), this);
-  if (!color.isValid()) return;
-  synced_lyrics_color_ = color;
-  UpdateSyncedLyricsColor();
-  UpdateSyncedLyricsNotHighlighted();
-  set_changed();
+  ChooseColor(synced_lyrics_color_.isValid() ? synced_lyrics_color_ : palette().color(QPalette::Text), [this](const QColor &color) {
+    synced_lyrics_color_ = color;
+    UpdateSyncedLyricsColor();
+    UpdateSyncedLyricsNotHighlighted();
+    set_changed();
+  });
 
 }
 

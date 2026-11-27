@@ -98,6 +98,10 @@
 #include "includes/shared_ptr.h"
 #include "core/commandlineoptions.h"
 #include "core/mimedata.h"
+#include "core/songmimedata.h"
+#ifdef Q_OS_ANDROID
+#  include "smartplaylists/playlistgeneratormimedata.h"
+#endif
 #include "core/iconloader.h"
 #include "core/taskmanager.h"
 #include "core/song.h"
@@ -110,6 +114,10 @@
 #include "core/settings.h"
 #include "core/player.h"
 #include "core/appearance.h"
+#ifdef Q_OS_ANDROID
+#  include "core/androidstorage.h"
+#  include "alarm/alarmplayer_android.h"
+#endif
 #include "utilities/envutils.h"
 #include "utilities/filemanagerutils.h"
 #include "utilities/screenutils.h"
@@ -496,11 +504,23 @@ MainWindow::MainWindow(Application *app,
   ui_->tabs->AddTab(context_view_, u"context"_s, IconLoader::Load(u"strawberry"_s, true, 0, 32), tr("Context"));
   ui_->tabs->AddTab(collection_view_, u"collection"_s, IconLoader::Load(u"library-music"_s, true, 0, 32), tr("Collection"));
   ui_->tabs->AddTab(queue_view_, u"queue"_s, IconLoader::Load(u"footsteps"_s, true, 0, 32), tr("Queue"));
+#ifdef Q_OS_ANDROID
+  android_playlist_pages_ = new QStackedWidget(ui_->tabs);
+  android_playlist_pages_->addWidget(playlist_list_);
+  android_playlist_pages_->addWidget(ui_->playlist_layout);
+  ui_->tabs->AddTab(android_playlist_pages_, u"playlists"_s, IconLoader::Load(u"view-media-playlist"_s, true, 0, 32), tr("Playlists"));
+#else
   ui_->tabs->AddTab(playlist_list_, u"playlists"_s, IconLoader::Load(u"view-media-playlist"_s, true, 0, 32), tr("Playlists"));
+#endif
   ui_->tabs->AddTab(smartplaylists_view_, u"smartplaylists"_s, IconLoader::Load(u"view-media-playlist"_s, true, 0, 32), tr("Smart playlists"));
   ui_->tabs->AddTab(file_view_, u"files"_s, IconLoader::Load(u"document-open"_s, true, 0, 32), tr("Files"));
   ui_->tabs->AddTab(radio_view_, u"radios"_s, IconLoader::Load(u"radio"_s, true, 0, 32), tr("Radios"));
+#ifndef Q_OS_ANDROID
   ui_->tabs->AddTab(device_view_, u"devices"_s, IconLoader::Load(u"device"_s, true, 0, 32), tr("Devices"));
+#else
+  ui_->tabs->AddTab(CreateAndroidToolsPage(), u"tools"_s, IconLoader::Load(u"configure"_s, true, 0, 32), tr("Tools"));
+  ui_->tabs->AddTab(CreateAndroidSettingsTab(), u"settings"_s, IconLoader::Load(u"system-run"_s, true, 0, 32), tr("Settings"));
+#endif
 #ifdef HAVE_SUBSONIC
   ui_->tabs->AddTab(subsonic_view_, u"subsonic"_s, IconLoader::Load(u"subsonic"_s, true, 0, 32), tr("Subsonic"));
 #endif
@@ -521,7 +541,9 @@ MainWindow::MainWindow(Application *app,
 #endif
 
   // Add the playing widget to the fancy tab widget
+#ifndef Q_OS_ANDROID
   ui_->tabs->AddBottomWidget(ui_->widget_playing);
+#endif
   ui_->tabs->SetBackgroundPixmap(QPixmap(u":/pictures/sidebar-background.png"_s));
   ui_->tabs->LoadSettings(QLatin1String(MainWindowSettings::kSettingsGroup));
 
@@ -591,7 +613,11 @@ MainWindow::MainWindow(Application *app,
 
   // Playlist
 
+#ifdef Q_OS_ANDROID
+  ui_->action_add_file->setIcon(IconLoader::Load(u"list-add"_s));
+#else
   ui_->action_add_file->setIcon(IconLoader::Load(u"document-open"_s));
+#endif
   ui_->action_add_folder->setIcon(IconLoader::Load(u"document-open-folder"_s));
   ui_->action_add_stream->setIcon(IconLoader::Load(u"document-open-remote"_s));
   ui_->action_shuffle_mode->setIcon(IconLoader::Load(u"media-playlist-shuffle"_s));
@@ -640,7 +666,11 @@ MainWindow::MainWindow(Application *app,
   // Action connections
   QObject::connect(ui_->action_next_track, &QAction::triggered, &*app_->player(), &Player::Next);
   QObject::connect(ui_->action_previous_track, &QAction::triggered, &*app_->player(), &Player::Previous);
+#ifdef Q_OS_ANDROID
+  QObject::connect(ui_->action_play_pause, &QAction::triggered, this, &MainWindow::AndroidPlayPause);
+#else
   QObject::connect(ui_->action_play_pause, &QAction::triggered, &*app_->player(), &Player::PlayPauseHelper);
+#endif
   QObject::connect(ui_->action_stop, &QAction::triggered, &*app_->player(), &Player::Stop);
   QObject::connect(ui_->action_quit, &QAction::triggered, this, &MainWindow::Exit);
   QObject::connect(ui_->action_stop_after_this_track, &QAction::triggered, this, &MainWindow::StopAfterCurrent);
@@ -673,7 +703,9 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(ui_->action_jump, &QAction::triggered, ui_->playlist->view(), &PlaylistView::JumpToCurrentlyPlayingTrack);
   QObject::connect(ui_->action_update_collection, &QAction::triggered, &*app_->collection(), &CollectionManager::IncrementalScan);
   QObject::connect(ui_->action_full_collection_scan, &QAction::triggered, &*app_->collection(), &CollectionManager::FullScan);
+#ifndef Q_OS_ANDROID
   QObject::connect(ui_->action_stop_collection_scan, &QAction::triggered, &*app_->collection(), &CollectionManager::StopScan);
+#endif
   QObject::connect(ui_->action_add_files_to_transcoder, &QAction::triggered, this, &MainWindow::AddFilesToTranscoder);
   ui_->action_add_files_to_transcoder->setIcon(IconLoader::Load(u"tools-wizard"_s));
 
@@ -707,6 +739,7 @@ MainWindow::MainWindow(Application *app,
   playlist_actions.new_playlist = ui_->action_new_playlist;
   playlist_actions.load_playlist = ui_->action_load_playlist;
   playlist_actions.save_playlist = ui_->action_save_playlist;
+  playlist_actions.add_file = ui_->action_add_file;
   playlist_actions.clear_playlist = ui_->action_clear_playlist;
   playlist_actions.next_playlist = ui_->action_next_playlist;
   // These aren't associated to a button but to the main window
@@ -776,6 +809,9 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(ui_->playlist->view(), &PlaylistView::PlayItem, this, &MainWindow::PlayIndex);
   QObject::connect(ui_->playlist->view(), &PlaylistView::PlayPause, &*app_->player(), &Player::PlayPause);
   QObject::connect(ui_->playlist->view(), &PlaylistView::ShowPlaylistContextMenu, this, &MainWindow::ShowPlaylistContextMenu);
+#ifdef Q_OS_ANDROID
+  QObject::connect(ui_->playlist->view(), &PlaylistView::AndroidShowInCollectionRequested, this, &MainWindow::ShowInCollection);
+#endif
   QObject::connect(ui_->playlist->view(), &PlaylistView::SeekForward, &*app_->player(), &Player::SeekForward);
   QObject::connect(ui_->playlist->view(), &PlaylistView::SeekBackward, &*app_->player(), &Player::SeekBackward);
   QObject::connect(ui_->playlist->view(), &PlaylistView::BackgroundPropertyChanged, this, &MainWindow::RefreshStyleSheet);
@@ -967,6 +1003,9 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(&*app_->device_manager(), &DeviceManager::DeviceError, this, &MainWindow::ShowErrorDialog);
   QObject::connect(app_->device_manager()->connected_devices_model(), &DeviceStateFilterModel::IsEmptyChanged, playlist_copy_to_device_, &QAction::setDisabled);
   playlist_copy_to_device_->setDisabled(app_->device_manager()->connected_devices_model()->rowCount() == 0);
+#ifdef Q_OS_ANDROID
+  playlist_copy_to_device_->setVisible(false);
+#endif
 
   QObject::connect(&*app_->scrobbler()->settings(), &ScrobblerSettingsService::ScrobblingEnabledChanged, this, &MainWindow::ScrobblingEnabledChanged);
   QObject::connect(&*app_->scrobbler()->settings(), &ScrobblerSettingsService::ScrobbleButtonVisibilityChanged, this, &MainWindow::ScrobbleButtonVisibilityChanged);
@@ -1101,6 +1140,9 @@ MainWindow::MainWindow(Application *app,
 
   // Smart playlists
   QObject::connect(smartplaylists_view_, &SmartPlaylistsViewContainer::AddToPlaylist, this, &MainWindow::AddToPlaylist);
+#ifdef Q_OS_ANDROID
+  QObject::connect(smartplaylists_view_, &SmartPlaylistsViewContainer::AndroidPreviewOpened, this, &MainWindow::ShowAndroidCurrentPlaylist);
+#endif
 
   ScrobbleButtonVisibilityChanged(app_->scrobbler()->scrobble_button());
   LoveButtonVisibilityChanged(app_->scrobbler()->love_button());
@@ -1127,6 +1169,9 @@ MainWindow::MainWindow(Application *app,
   }
 
   ui_->tabs->setCurrentIndex(settings.value(FancyTabWidget::kCurrentTab, 1).toInt());
+#ifdef Q_OS_ANDROID
+  SetupAndroidSettingsTab();
+#endif
   FancyTabWidget::Mode default_mode = FancyTabWidget::Mode::LargeSidebar;
   FancyTabWidget::Mode tab_mode = static_cast<FancyTabWidget::Mode>(settings.value(FancyTabWidget::kTabMode, static_cast<int>(default_mode)).toInt());
   if (tab_mode == FancyTabWidget::Mode::None) tab_mode = default_mode;
@@ -1141,11 +1186,21 @@ MainWindow::MainWindow(Application *app,
 
   ReloadSettings();
 
+#ifdef Q_OS_ANDROID
+  SetupAndroidLayout();
+  if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(android_settings_tab_)) OpenSettingsDialog();
+#endif
+
   // Reload pretty OSD to avoid issues with fonts
   osd_->ReloadPrettyOSDSettings();
 
   // Reload playlist settings, for BG and glowing
   ui_->playlist->view()->ReloadSettings();
+
+#ifdef Q_OS_ANDROID
+  // On Android, showing the window paints it at once; paint it only when it is complete, so that a startup message is part of the first frame and taps cannot reach the window before it appears.
+  setUpdatesEnabled(false);
+#endif
 
 #ifdef Q_OS_MACOS  // Always show the mainwindow on startup for macOS
   show();
@@ -1191,7 +1246,12 @@ MainWindow::MainWindow(Application *app,
   }
 #endif
 
-  bool show_sidebar = settings.value(MainWindowSettings::kShowSidebar, MainWindowSettings::kDefaultShowSidebar).toBool();
+#ifdef Q_OS_ANDROID
+  const bool show_sidebar = true;
+  ui_->action_toggle_show_sidebar->setEnabled(false);
+#else
+  const bool show_sidebar = settings.value(MainWindowSettings::kShowSidebar, MainWindowSettings::kDefaultShowSidebar).toBool();
+#endif
   ui_->sidebar_layout->setVisible(show_sidebar);
   ui_->action_toggle_show_sidebar->setChecked(show_sidebar);
   TabSwitched();
@@ -1269,12 +1329,20 @@ MainWindow::MainWindow(Application *app,
     }
   }
 
+#ifdef Q_OS_ANDROID
+  setUpdatesEnabled(true);
+#endif
+
   qLog(Debug) << "Started" << QThread::currentThread();
   initialized_ = true;
 
 }
 
 MainWindow::~MainWindow() {
+#ifdef Q_OS_ANDROID
+  // The equalizer is embedded in the Tools tab, but the player shares ownership of it.
+  equalizer_->setParent(nullptr);
+#endif
   delete ui_;
 }
 
@@ -1334,6 +1402,9 @@ void MainWindow::ReloadSettings() {
   s.beginGroup(BackendSettings::kSettingsGroup);
   bool volume_control = s.value(BackendSettings::kVolumeControl, BackendSettings::kDefaultVolumeControl).toBool();
   s.endGroup();
+#ifdef Q_OS_ANDROID
+  ui_->action_mute->setEnabled(volume_control);
+#endif
   if (volume_control != ui_->volume->isEnabled()) {
     ui_->volume->SetEnabled(volume_control);
     if (volume_control) {
@@ -1429,6 +1500,9 @@ void MainWindow::ReloadSettings() {
 #endif
 
   ui_->tabs->ReloadSettings();
+#ifdef Q_OS_ANDROID
+  ui_->tabs->LoadAndroidSidebarSettings(QLatin1String(MainWindowSettings::kSettingsGroup));
+#endif
 
 }
 
@@ -1616,6 +1690,11 @@ void MainWindow::PlaylistsLoaded() {
 
   app_->player()->PlaylistsLoaded();
 
+#ifdef Q_OS_ANDROID
+  // An alarm that goes off from now on can play through the player.
+  if (android_alarm_player_) android_alarm_player_->SetReady();
+#endif
+
 }
 
 void MainWindow::MediaStopped() {
@@ -1655,6 +1734,9 @@ void MainWindow::MediaStopped() {
 
   app_->scrobbler()->ClearPlaying();
 
+#ifdef Q_OS_ANDROID
+  UpdateAndroidPlayPause();
+#endif
 }
 
 void MainWindow::MediaPaused() {
@@ -1675,6 +1757,9 @@ void MainWindow::MediaPaused() {
 
   systemtrayicon_->SetPaused();
 
+#ifdef Q_OS_ANDROID
+  UpdateAndroidPlayPause();
+#endif
 }
 
 void MainWindow::MediaPlaying() {
@@ -1705,6 +1790,9 @@ void MainWindow::MediaPlaying() {
 
   UpdateTrackPosition();
 
+#ifdef Q_OS_ANDROID
+  UpdateAndroidPlayPause();
+#endif
 }
 
 void MainWindow::SendNowPlaying() {
@@ -1726,6 +1814,9 @@ void MainWindow::SendNowPlaying() {
 void MainWindow::MuteChanged(const bool mute) {
 
   ui_->action_mute->setChecked(mute);
+#ifdef Q_OS_ANDROID
+  UpdateAndroidMuteButton(mute);
+#endif
   systemtrayicon_->MuteButtonStateChanged(mute);
   ui_->volume->SetMuted(mute);
 
@@ -1783,12 +1874,16 @@ void MainWindow::TrackSkipped(PlaylistItemPtr item) {
 
 void MainWindow::TabSwitched() {
 
+#ifdef Q_OS_ANDROID
+  ui_->widget_playing->SetDisabled();
+#else
   if (playing_widget_ && ui_->action_toggle_show_sidebar->isChecked() && (ui_->tabs->currentIndex() != ui_->tabs->IndexOfTab(context_view_) || !context_view_->album_enabled())) {
     ui_->widget_playing->SetEnabled();
   }
   else {
     ui_->widget_playing->SetDisabled();
   }
+#endif
 
 }
 
@@ -2112,14 +2207,34 @@ void MainWindow::AddToPlaylist(QMimeData *q_mimedata) {
 
   if (!q_mimedata) return;
 
+#ifdef Q_OS_ANDROID
+  bool show_playlist = false;
+#endif
+
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     // Should we replace the flags with the user's preference?
     if (mimedata->override_user_settings_) {
       // Do nothing
     }
     else if (mimedata->from_doubleclick_) {
-      ApplyAddBehaviour(doubleclick_addmode_, mimedata);
-      ApplyPlayBehaviour(doubleclick_playmode_, mimedata);
+#ifdef Q_OS_ANDROID
+      // Android hides the double-click preferences, so opening songs or a smart playlist replaces Now playing and plays it.
+      const bool smart_playlist = qobject_cast<PlaylistGeneratorMimeData *>(mimedata);
+      if (qobject_cast<SongMimeData *>(mimedata) || mimedata->hasUrls() || smart_playlist) {
+        show_playlist = smart_playlist;
+        app_->playlist_manager()->SelectNowPlaying();
+        mimedata->clear_first_ = true;
+        mimedata->play_now_ = true;
+        mimedata->enqueue_now_ = false;
+        mimedata->enqueue_next_now_ = false;
+        mimedata->open_in_new_playlist_ = false;
+      }
+      else
+#endif
+      {
+        ApplyAddBehaviour(doubleclick_addmode_, mimedata);
+        ApplyPlayBehaviour(doubleclick_playmode_, mimedata);
+      }
     }
     else {
       ApplyPlayBehaviour(menu_playmode_, mimedata);
@@ -2132,6 +2247,10 @@ void MainWindow::AddToPlaylist(QMimeData *q_mimedata) {
   }
   app_->playlist_manager()->current()->dropMimeData(q_mimedata, Qt::CopyAction, -1, 0, QModelIndex());
   delete q_mimedata;
+
+#ifdef Q_OS_ANDROID
+  if (show_playlist) ShowAndroidCurrentPlaylist();
+#endif
 
 }
 
@@ -2735,10 +2854,21 @@ void MainWindow::AddFile() {
   s.beginGroup(MainWindowSettings::kSettingsGroup);
   QString directory = s.value(MainWindowSettings::kAddMediaPath, QDir::currentPath()).toString();
 
-  PlaylistParser parser(app_->tagreader_client(), app_->collection_backend());
-
   // Show dialog
+#ifdef Q_OS_ANDROID
+  // The Android file dialog returns content:// document URIs, which need to be mapped to file paths for the tag reader and the engine.
+  // Qt maps the name filters to MIME types with an incomplete MIME database on Android, which disables the music files in the picker, so no filter is used.
+  const QList<QUrl> selected_urls = QFileDialog::getOpenFileUrls(this, tr("Add file"), QUrl::fromLocalFile(directory));
+  if (selected_urls.isEmpty()) return;
+  QStringList unresolved;
+  const QStringList filenames = AndroidStorage::LocalPathsForUrls(selected_urls, &unresolved);
+  if (!unresolved.isEmpty()) {
+    ShowErrorDialog(AndroidStorage::UnresolvedMessage(unresolved));
+  }
+#else
+  PlaylistParser parser(app_->tagreader_client(), app_->collection_backend());
   const QStringList filenames = QFileDialog::getOpenFileNames(this, tr("Add file"), directory, QStringLiteral("%1 (%2);;%3;;%4").arg(tr("Music"), QLatin1String(kFileFilter), parser.filters(PlaylistParser::Type::Load), tr(kAllFilesFilterSpec)));
+#endif
 
   if (filenames.isEmpty()) return;
 
@@ -2766,8 +2896,19 @@ void MainWindow::AddFolder() {
   QString directory = s.value(MainWindowSettings::kAddFolderPath, QDir::currentPath()).toString();
 
   // Show dialog
+#ifdef Q_OS_ANDROID
+  const QUrl selected_url = QFileDialog::getExistingDirectoryUrl(this, tr("Add folder"), QUrl::fromLocalFile(directory));
+  if (selected_url.isEmpty()) return;
+  QStringList unresolved;
+  directory = AndroidStorage::LocalPathsForUrls({selected_url}, &unresolved).value(0);
+  if (directory.isEmpty()) {
+    ShowErrorDialog(AndroidStorage::UnresolvedMessage(unresolved));
+    return;
+  }
+#else
   directory = QFileDialog::getExistingDirectory(this, tr("Add folder"), directory);
   if (directory.isEmpty()) return;
+#endif
 
   // Save last used directory
   s.setValue(MainWindowSettings::kAddFolderPath, directory);
@@ -3082,32 +3223,32 @@ void MainWindow::AddFilesToTranscoder() {
 }
 
 void MainWindow::OpenCollectionSettingsDialog() {
-  settings_dialog_->OpenAtPage(SettingsDialog::Page::Collection);
+  OpenSettingsDialogAtPage(SettingsDialog::Page::Collection);
 }
 
 void MainWindow::OpenServiceSettingsDialog(const Song::Source source) {
 
   switch (source) {
     case Song::Source::Collection:
-      settings_dialog_->OpenAtPage(SettingsDialog::Page::Collection);
+      OpenSettingsDialogAtPage(SettingsDialog::Page::Collection);
       break;
     case Song::Source::Subsonic:
-      settings_dialog_->OpenAtPage(SettingsDialog::Page::Subsonic);
+      OpenSettingsDialogAtPage(SettingsDialog::Page::Subsonic);
       break;
     case Song::Source::Tidal:
-      settings_dialog_->OpenAtPage(SettingsDialog::Page::Tidal);
+      OpenSettingsDialogAtPage(SettingsDialog::Page::Tidal);
       break;
     case Song::Source::Qobuz:
-      settings_dialog_->OpenAtPage(SettingsDialog::Page::Qobuz);
+      OpenSettingsDialogAtPage(SettingsDialog::Page::Qobuz);
       break;
     case Song::Source::Spotify:
-      settings_dialog_->OpenAtPage(SettingsDialog::Page::Spotify);
+      OpenSettingsDialogAtPage(SettingsDialog::Page::Spotify);
       break;
     case Song::Source::Plex:
-      settings_dialog_->OpenAtPage(SettingsDialog::Page::Plex);
+      OpenSettingsDialogAtPage(SettingsDialog::Page::Plex);
       break;
     case Song::Source::Jellyfin:
-      settings_dialog_->OpenAtPage(SettingsDialog::Page::Jellyfin);
+      OpenSettingsDialogAtPage(SettingsDialog::Page::Jellyfin);
       break;
     default:
       break;
@@ -3128,8 +3269,13 @@ void MainWindow::TaskCountChanged(const int count) {
 
 void MainWindow::PlayingWidgetPositionChanged(const bool above_status_bar) {
 
+#ifdef Q_OS_ANDROID
+  Q_UNUSED(above_status_bar);
+  ui_->status_bar->setParent(ui_->player_controls_container);
+#else
   if (above_status_bar) ui_->status_bar->setParent(ui_->centralWidget);
   else ui_->status_bar->setParent(ui_->player_controls_container);
+#endif
 
   ui_->status_bar->parentWidget()->layout()->addWidget(ui_->status_bar);
   ui_->status_bar->show();
@@ -3341,15 +3487,23 @@ void MainWindow::ChangeCollectionFilterMode(QAction *action) {
 
 void MainWindow::ShowCoverManager() {
 
+#ifdef Q_OS_ANDROID
+  ShowAndroidTool(cover_manager_.get(), true);
+#else
   cover_manager_->show();
   cover_manager_->raise();
+#endif
 
 }
 
 void MainWindow::ShowEqualizer() {
 
+#ifdef Q_OS_ANDROID
+  ShowAndroidTool(&*equalizer_, false);
+#else
   equalizer_->show();
   equalizer_->raise();
+#endif
 
 }
 
@@ -3367,10 +3521,18 @@ SettingsDialog *MainWindow::CreateSettingsDialog() {
                                                        globalshortcuts_manager_,
 #endif
                                                        osd_,
-                                                       this);
+                                                       this
+#ifdef Q_OS_ANDROID
+                                                       , ui_->tabs, android_settings_tab_
+#endif
+                                                       );
 
   // Settings
   QObject::connect(settings_dialog, &SettingsDialog::ReloadSettings, this, &MainWindow::ReloadAllSettings);
+
+#ifdef Q_OS_ANDROID
+  EmbedAndroidSettingsDialog(settings_dialog);
+#endif
 
   // Allows custom notification preview
   QObject::connect(settings_dialog, &SettingsDialog::NotificationPreview, this, &MainWindow::HandleNotificationPreview);
@@ -3381,13 +3543,24 @@ SettingsDialog *MainWindow::CreateSettingsDialog() {
 
 void MainWindow::OpenSettingsDialog() {
 
+#ifdef Q_OS_ANDROID
+  ShowAndroidSettingsDialog();
+#else
   settings_dialog_->show();
   settings_dialog_->raise();
+#endif
 
 }
 
 void MainWindow::OpenSettingsDialogAtPage(const SettingsDialog::Page page) {
+#ifdef Q_OS_ANDROID
+  const int settings_tab_index = ui_->tabs->IndexOfTab(android_settings_tab_);
+  if (ui_->tabs->currentIndex() != settings_tab_index) ui_->tabs->setCurrentIndex(settings_tab_index);
+#endif
   settings_dialog_->OpenAtPage(page);
+#ifdef Q_OS_ANDROID
+  android_settings_overview_on_open_ = false;
+#endif
 }
 
 TagEditor *MainWindow::CreateTagEditor() {
@@ -3427,8 +3600,12 @@ void MainWindow::ShowAboutDialog() {
 
 void MainWindow::ShowTranscodeDialog() {
 
+#ifdef Q_OS_ANDROID
+  ShowAndroidTool(transcode_dialog_.get(), true);
+#else
   transcode_dialog_->show();
   transcode_dialog_->raise();
+#endif
 
 }
 
@@ -3615,6 +3792,13 @@ void MainWindow::ShowConsole() {
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e) {
+
+#ifdef Q_OS_ANDROID
+  if ((e->key() == Qt::Key_Back || e->key() == Qt::Key_Escape) && AndroidBack()) {
+    e->accept();
+    return;
+  }
+#endif
 
   if (e->key() == Qt::Key_Space) {
     app_->player()->PlayPause(0, Playlist::AutoScroll::Never);

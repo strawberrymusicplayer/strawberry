@@ -36,6 +36,7 @@ class QNetworkReply;
 
 class NetworkAccessManager;
 class Ui_CoverFromURLDialog;
+class CoverDialogPage;
 
 // Controller for a dialog which fetches covers from the given URL.
 class CoverFromURLDialog : public QDialog {
@@ -62,6 +63,9 @@ class CoverFromURLDialog : public QDialog {
   Ui_CoverFromURLDialog *ui_;
   QNetworkReply *reply_;
   AlbumCoverImageResult last_album_cover_;
+#ifdef Q_OS_ANDROID
+  CoverDialogPage *android_page_;
+#endif
 };
 
 #endif  // COVERFROMURLDIALOG_H

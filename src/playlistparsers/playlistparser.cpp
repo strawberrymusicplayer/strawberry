@@ -30,6 +30,7 @@
 #include <QByteArray>
 #include <QString>
 #include <QStringList>
+#include <QUrl>
 
 #include "includes/shared_ptr.h"
 #include "constants/playlistsettings.h"
@@ -265,22 +266,49 @@ SongList PlaylistParser::LoadFromDevice(QIODevice *device, const QString &path_h
 
 }
 
-void PlaylistParser::Save(const QString &playlist_name, const SongList &songs, const QString &filename, const PlaylistSettings::PathType path_type) const {
+bool PlaylistParser::IsDocumentUrl(const QString &filename) {
+
+  return QUrl(filename).scheme() == "content"_L1;
+
+}
+
+void PlaylistParser::Save(const QString &playlist_name, const SongList &songs, const QString &filename, const PlaylistSettings::PathType path_type, const QString &extension) const {
 
   QFileInfo fileinfo(filename);
   QDir dir(fileinfo.path());
 
-  if (!dir.exists()) {
+  const bool document = IsDocumentUrl(filename);
+  if (!document && !dir.exists()) {
     qLog(Error) << "Directory" << dir.path() << "does not exist";
     Q_EMIT Error(tr("Directory %1 does not exist.").arg(dir.path()));
     return;
   }
 
   // Find a parser that supports this file extension
-  ParserBase *parser = ParserForExtension(Type::Save, fileinfo.suffix());
+  ParserBase *parser = ParserForExtension(Type::Save, extension.isEmpty() ? fileinfo.suffix() : extension);
   if (!parser) {
     qLog(Error) << "Unknown filetype" << filename;
     Q_EMIT Error(tr("Unknown filetype: %1").arg(filename));
+    return;
+  }
+
+  if (document) {
+    // Android document providers expose a writable URI, not a directory in which a temporary file can be renamed.
+    QFile file(filename);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+      Q_EMIT Error(tr("Failed to open %1 for writing.").arg(filename));
+      return;
+    }
+    parser->Save(playlist_name, songs, &file, QDir(), PlaylistSettings::PathType::Absolute);
+    // Check the writes before closing, because a successful close() clears an earlier error.
+    const bool written = file.flush() && file.error() == QFileDevice::NoError;
+    const QString write_error = file.errorString();
+    file.close();
+    if (!written || file.error() != QFileDevice::NoError) {
+      const QString error = written ? file.errorString() : write_error;
+      qLog(Error) << "Failed to save" << filename << error;
+      Q_EMIT Error(tr("Failed to save %1: %2").arg(filename, error));
+    }
     return;
   }
 

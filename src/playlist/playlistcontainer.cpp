@@ -40,6 +40,8 @@
 #include <QTimeLine>
 #include <QFileDialog>
 #include <QLabel>
+#include <QHBoxLayout>
+#include <QMessageBox>
 #include <QKeySequence>
 #include <QToolButton>
 #include <QUndoStack>
@@ -49,6 +51,9 @@
 #include "includes/shared_ptr.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
+#ifdef Q_OS_ANDROID
+#  include "core/androidstorage.h"
+#endif
 #include "filterparser/filterparser.h"
 #include "playlist.h"
 #include "playlisttabbar.h"
@@ -59,6 +64,9 @@
 #include "playlistparsers/playlistparser.h"
 #include "ui_playlistcontainer.h"
 #include "widgets/searchfield.h"
+#ifdef Q_OS_ANDROID
+#  include "widgets/gridflowlayout.h"
+#endif
 #include "constants/appearancesettings.h"
 #include "constants/playlistsettings.h"
 
@@ -87,6 +95,38 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
 
   ui_->setupUi(this);
 
+#ifdef Q_OS_ANDROID
+  // The desktop menu bar action to jump to the playing track is hidden on Android.
+  android_jump_ = new QToolButton(ui_->toolbar);
+  android_jump_->setIcon(IconLoader::Load(u"go-jump"_s));
+  android_jump_->setToolTip(tr("Jump to the currently playing track"));
+  android_jump_->setAccessibleName(android_jump_->toolTip());
+  android_jump_->setAutoRaise(true);
+  QObject::connect(android_jump_, &QToolButton::clicked, this, [this]() {
+    if (view()->playlist()) view()->JumpToCurrentlyPlayingTrack();
+  });
+
+  GridFlowLayout *android_buttons = new GridFlowLayout;
+  for (QToolButton *button : {ui_->create_new, ui_->load, ui_->save, ui_->add_file, ui_->undo, ui_->redo, android_jump_}) {
+    ui_->horizontalLayout->removeWidget(button);
+    button->setMinimumSize(48, 48);
+    button->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    android_buttons->addWidget(button);
+  }
+  ui_->undo->setEnabled(false);
+  ui_->redo->setEnabled(false);
+  ui_->undo->setAccessibleName(tr("Undo"));
+  ui_->redo->setAccessibleName(tr("Redo"));
+  ui_->clear->hide();
+  ui_->line->hide();
+  ui_->toolbar->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
+  ui_->horizontalLayout->setDirection(QBoxLayout::TopToBottom);
+  ui_->horizontalLayout->insertLayout(0, android_buttons);
+#else
+  // The Android playlist editor has no menu bar, desktop adds files through the menus.
+  ui_->add_file->hide();
+#endif
+
   no_matches_label_ = new QLabel(ui_->playlist);
   no_matches_label_->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
   no_matches_label_->setAttribute(Qt::WA_TransparentForMouseEvents);
@@ -113,8 +153,12 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
   ui_->tab_bar->setExpanding(false);
   ui_->tab_bar->setMovable(true);
 
+#ifdef Q_OS_ANDROID
+  ui_->tab_bar->hide();
+#else
   QObject::connect(tab_bar_animation_, &QTimeLine::frameChanged, this, &PlaylistContainer::SetTabBarHeight);
   ui_->tab_bar->setMaximumHeight(0);
+#endif
 
   // Connections
   QObject::connect(ui_->tab_bar, &PlaylistTabBar::currentChanged, this, &PlaylistContainer::Save);
@@ -145,7 +189,10 @@ void PlaylistContainer::SetActions(const Actions &actions) {
   ui_->create_new->setDefaultAction(actions.new_playlist);
   ui_->load->setDefaultAction(actions.load_playlist);
   ui_->save->setDefaultAction(actions.save_playlist);
+  ui_->add_file->setDefaultAction(actions.add_file);
+#ifndef Q_OS_ANDROID
   ui_->clear->setDefaultAction(actions.clear_playlist);
+#endif
 
   ui_->tab_bar->SetActions(actions.new_playlist, actions.load_playlist);
 
@@ -256,22 +303,30 @@ void PlaylistContainer::ReloadSettings() {
   ui_->create_new->setIconSize(QSize(iconsize, iconsize));
   ui_->load->setIconSize(QSize(iconsize, iconsize));
   ui_->save->setIconSize(QSize(iconsize, iconsize));
+  ui_->add_file->setIconSize(QSize(iconsize, iconsize));
   ui_->clear->setIconSize(QSize(iconsize, iconsize));
   ui_->undo->setIconSize(QSize(iconsize, iconsize));
   ui_->redo->setIconSize(QSize(iconsize, iconsize));
+#ifdef Q_OS_ANDROID
+  android_jump_->setIconSize(QSize(iconsize, iconsize));
+#endif
   ui_->search_field->setIconSize(iconsize);
 
   s.beginGroup(PlaylistSettings::kSettingsGroup);
+#ifndef Q_OS_ANDROID
   const bool playlist_clear = s.value(PlaylistSettings::kPlaylistClear, PlaylistSettings::kDefaultPlaylistClear).toBool();
+#endif
   const bool show_toolbar = s.value(PlaylistSettings::kShowToolbar, PlaylistSettings::kDefaultShowToolbar).toBool();
   s.endGroup();
 
+#ifndef Q_OS_ANDROID
   if (playlist_clear) {
     ui_->clear->show();
   }
   else {
     ui_->clear->hide();
   }
+#endif
 
   ui_->toolbar->setVisible(show_toolbar);
 
@@ -356,9 +411,18 @@ void PlaylistContainer::LoadPlaylist() {
   Settings s;
   s.beginGroup(kSettingsGroup);
   QString filename = s.value(kLastLoadPlaylist).toString();
+#ifdef Q_OS_ANDROID
+  const QUrl selected_url = QFileDialog::getOpenFileUrl(this, tr("Load playlist"), QUrl::fromLocalFile(filename), manager_->parser()->filters(PlaylistParser::Type::Load));
+  if (selected_url.isEmpty()) return;
+  filename = AndroidStorage::LocalPathForUrl(selected_url);
+  if (filename.isEmpty()) {
+    QMessageBox::warning(this, tr("Invalid playlist"), AndroidStorage::UnresolvedMessage(QStringList() << selected_url.toDisplayString()));
+    return;
+  }
+#else
   filename = QFileDialog::getOpenFileName(this, tr("Load playlist"), filename, manager_->parser()->filters(PlaylistParser::Type::Load));
-
   if (filename.isNull()) return;
+#endif
 
   s.setValue(kLastLoadPlaylist, filename);
 
@@ -428,11 +492,16 @@ void PlaylistContainer::Save() {
 
 void PlaylistContainer::SetTabBarVisible(const bool visible) {
 
+#ifdef Q_OS_ANDROID
+  Q_UNUSED(visible);
+  ui_->tab_bar->hide();
+#else
   if (tab_bar_visible_ == visible) return;
   tab_bar_visible_ = visible;
 
   tab_bar_animation_->setDirection(visible ? QTimeLine::Forward : QTimeLine::Backward);
   tab_bar_animation_->start();
+#endif
 
 }
 

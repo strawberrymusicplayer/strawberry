@@ -31,6 +31,8 @@
 #include <QSpinBox>
 #include <QMessageBox>
 #include <QEvent>
+#include <QDesktopServices>
+#include <QUrl>
 
 #include "includes/shared_ptr.h"
 #include "settingsdialog.h"
@@ -41,6 +43,9 @@
 #include "core/settings.h"
 #include "tidal/tidalservice.h"
 #include "widgets/loginstatewidget.h"
+#ifdef Q_OS_ANDROID
+#include "widgets/actiondialog.h"
+#endif
 
 using namespace Qt::Literals::StringLiterals;
 using namespace TidalSettings;
@@ -52,6 +57,23 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, SharedPtr<TidalServ
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(u"tidal"_s, true, 0, 32));
+
+#ifdef Q_OS_ANDROID
+  ui_->button_login->hide();
+  ui_->groupbox_api_credentials->hide();
+  ui_->groupbox_preferences->hide();
+  ui_->login_state->hide();
+  auto *authentication_notice = new QLabel(tr("Tidal support is not implemented yet on Android. If you would like this feature, please request it on GitHub."), this);
+  authentication_notice->setWordWrap(true);
+  ui_->layout_tidalsettingspage->insertWidget(1, authentication_notice);
+  auto *request_support = new QPushButton(tr("Request Tidal support on GitHub"), this);
+  ui_->layout_tidalsettingspage->insertWidget(2, request_support);
+  QObject::connect(request_support, &QPushButton::clicked, this, [this]() {
+    if (!QDesktopServices::openUrl(QUrl(QStringLiteral("https://github.com/dewitweb/strawberryflavor/issues/new?title=Android%3A%20Tidal%20support")))) {
+      ShowAuthenticationMessage(QMessageBox::Warning, tr("Could not open GitHub"), tr("Please visit https://github.com/dewitweb/strawberryflavor/issues to request Tidal support."));
+    }
+  });
+#endif
 
   QObject::connect(ui_->checkbox_use_custom_client_id, &QCheckBox::toggled, ui_->client_id, &QLineEdit::setEnabled);
   QObject::connect(ui_->checkbox_use_custom_client_id, &QCheckBox::toggled, ui_->label_client_id, &QLabel::setEnabled);
@@ -167,18 +189,24 @@ void TidalSettingsPage::LoginClicked() {
   const QString client_id = use_custom_client_id ? ui_->client_id->text() : TidalService::CompiledClientId();
 
   if (client_id.isEmpty()) {
-    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing Tidal client ID."));
+    ShowAuthenticationMessage(QMessageBox::Critical, tr("Configuration incomplete"), tr("Missing Tidal client ID."));
     return;
   }
   Q_EMIT Authorize(client_id);
+#ifndef Q_OS_ANDROID
   ui_->button_login->setEnabled(false);
+#endif
 
 }
 
 bool TidalSettingsPage::eventFilter(QObject *object, QEvent *event) {
 
   if (object == dialog() && event->type() == QEvent::Enter) {
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_TIDAL_BROWSER_AUTH)
+    if (!service_->AndroidAuthenticationInProgress()) ui_->button_login->setEnabled(true);
+#else
     ui_->button_login->setEnabled(true);
+#endif
   }
 
   return SettingsPage::eventFilter(object, event);
@@ -195,7 +223,7 @@ void TidalSettingsPage::LogoutClicked() {
 
 void TidalSettingsPage::LoginSuccess() {
 
-  if (!isVisible()) return;
+  if (!IsActive()) return;
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedIn);
   ui_->button_login->setEnabled(true);
 
@@ -203,8 +231,22 @@ void TidalSettingsPage::LoginSuccess() {
 
 void TidalSettingsPage::LoginFailure(const QString &failure_reason) {
 
-  if (!isVisible()) return;
-  QMessageBox::warning(this, tr("Authentication failed"), failure_reason);
+  if (!IsActive()) return;
+  ShowAuthenticationMessage(QMessageBox::Warning, tr("Authentication failed"), failure_reason);
   ui_->button_login->setEnabled(true);
+
+}
+
+void TidalSettingsPage::ShowAuthenticationMessage(QMessageBox::Icon icon, const QString &title, const QString &message) {
+
+#ifdef Q_OS_ANDROID
+  Q_UNUSED(icon)
+  auto *notification = new ActionDialog(dialog()->parentWidget(), title, message, ActionDialog::TitlePosition::Top);
+  notification->AddCancelButton(tr("Close"));
+  notification->Open();
+#else
+  QMessageBox notification(icon, title, message, QMessageBox::Ok, this);
+  notification.exec();
+#endif
 
 }

@@ -57,6 +57,10 @@
 
 #include "settingsdialog.h"
 #include "settingspage.h"
+#ifdef Q_OS_ANDROID
+#  include "androidsettingspage.h"
+#  include "widgets/androidwidgets.h"
+#endif
 #include "settingsitemdelegate.h"
 #include "behavioursettingspage.h"
 #include "collectionsettingspage.h"
@@ -109,6 +113,10 @@
 
 #include "ui_settingsdialog.h"
 
+#ifdef Q_OS_ANDROID
+#  include "sidebarsettingspage_android.h"
+#endif
+
 using namespace Qt::Literals::StringLiterals;
 
 namespace {
@@ -129,11 +137,24 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 #endif
                                OSDBase *osd,
                                QMainWindow *mainwindow,
+#ifdef Q_OS_ANDROID
+                               FancyTabWidget *sidebar,
+#endif
                                QWidget *parent)
     : QDialog(parent),
       mainwindow_(mainwindow),
       ui_(new Ui_SettingsDialog),
-      loading_settings_(false) {
+      loading_settings_(false)
+#ifdef Q_OS_ANDROID
+      , android_navigation_(nullptr),
+      android_categories_page_(nullptr),
+      android_categories_layout_(nullptr),
+      android_current_category_page_(nullptr),
+      android_settings_loaded_(false),
+      android_save_timer_(nullptr),
+      android_hide_filter_(nullptr)
+#endif
+      {
 
   ui_->setupUi(this);
   ui_->list->setItemDelegate(new SettingsItemDelegate(this));
@@ -149,11 +170,16 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 #ifdef HAVE_TAGFETCHER
   AddPage(Page::Acoustid, new AcoustidSettingsPage(this, this), general);
 #endif
+#ifndef Q_OS_ANDROID
   AddPage(Page::Transcoding, new TranscoderSettingsPage(this, this), general);
+#endif
   AddPage(Page::Proxy, new NetworkProxySettingsPage(this, this), general);
 
   QTreeWidgetItem *iface = AddCategory(tr("User interface"));
   AddPage(Page::Appearance, new AppearanceSettingsPage(this, appearance, this), iface);
+#ifdef Q_OS_ANDROID
+  AddPage(Page::Sidebar, new AndroidSidebarSettingsPage(this, sidebar, this), iface);
+#endif
   AddPage(Page::Context, new ContextSettingsPage(this, this), iface);
   AddPage(Page::Notifications, new NotificationsSettingsPage(this, osd, this), iface);
 
@@ -192,12 +218,25 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 
   AddPage(Page::Radio, new RadioSettingsPage(this, this), streaming);
 
+#ifdef Q_OS_ANDROID
+  SetupAndroidNavigation();
+  SetupAndroidStreamingSettings(streaming_services);
+  SetupAndroidAutoSave();
+#endif
+
   // List box
   QObject::connect(ui_->list, &QTreeWidget::currentItemChanged, this, &SettingsDialog::CurrentItemChanged);
   ui_->list->setCurrentItem(pages_.value(Page::Behaviour).item_);
+#ifdef Q_OS_ANDROID
+  SetAndroidTitle();
+  SetAndroidNavigationPage(android_categories_page_);
+  ui_->buttonBox->hide();
+#endif
 
   // Make sure the list is big enough to show all the items
+#ifndef Q_OS_ANDROID
   ui_->list->setMinimumWidth(qobject_cast<QAbstractItemView*>(ui_->list)->sizeHintForColumn(0));  // clazy:exclude=unneeded-cast
+#endif
 
   ui_->buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(QKeySequence::Close);
 
@@ -206,12 +245,23 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 }
 
 SettingsDialog::~SettingsDialog() {
+#ifdef Q_OS_ANDROID
+  // Save changes made just before Exit while pages_ still exists; ~QDialog hides a visible dialog after pages_ is destroyed, so stop flushing on hide first.
+  FlushAndroidSettings();
+  delete android_hide_filter_;
+#endif
   delete ui_;
 }
 
 void SettingsDialog::showEvent(QShowEvent *e) {
 
-  if (!e->spontaneous()) {
+#ifdef Q_OS_ANDROID
+  // Android Settings is shown again on each tab switch and saves each change immediately, so only load it once until it is closed.
+  const bool load_settings = !e->spontaneous() && !android_settings_loaded_;
+#else
+  const bool load_settings = !e->spontaneous();
+#endif
+  if (load_settings) {
     LoadGeometry();
     // Load settings
     loading_settings_ = true;
@@ -220,6 +270,9 @@ void SettingsDialog::showEvent(QShowEvent *e) {
       page.page_->Load();
     }
     loading_settings_ = false;
+#ifdef Q_OS_ANDROID
+    android_settings_loaded_ = true;
+#endif
   }
 
   QDialog::showEvent(e);
@@ -228,12 +281,18 @@ void SettingsDialog::showEvent(QShowEvent *e) {
 
 void SettingsDialog::accept() {
 
+#ifdef Q_OS_ANDROID
+  while (!android_subpages_.isEmpty()) CloseAndroidSubpage();
+#endif
   const QList<PageData> pages = pages_.values();
   for (const PageData &page : pages) {
     page.page_->Accept();
   }
   Q_EMIT ReloadSettings();
 
+#ifdef Q_OS_ANDROID
+  android_settings_loaded_ = false;
+#endif
   SaveGeometry();
 
   QDialog::accept();
@@ -242,6 +301,10 @@ void SettingsDialog::accept() {
 
 void SettingsDialog::reject() {
 
+#ifdef Q_OS_ANDROID
+  // Android has no Cancel; closing keeps and flushes the changes like OK does.
+  accept();
+#else
   // Notify each page that user clicks on Cancel
   const QList<PageData> pages = pages_.values();
   for (const PageData &page : pages) {
@@ -250,11 +313,17 @@ void SettingsDialog::reject() {
   SaveGeometry();
 
   QDialog::reject();
+#endif
 
 }
 
 void SettingsDialog::LoadGeometry() {
 
+#ifdef Q_OS_ANDROID
+  if (parentWidget() != mainwindow_) return;
+  setGeometry(mainwindow_->geometry());
+  return;
+#else
   Settings s;
   s.beginGroup(QLatin1String(kSettingsGroup));
   if (s.contains(kGeometry)) {
@@ -264,6 +333,7 @@ void SettingsDialog::LoadGeometry() {
 
   // Center the dialog on the same screen as mainwindow.
   Utilities::CenterWidgetOnScreen(Utilities::GetScreen(mainwindow_), this);
+#endif
 
 }
 
@@ -292,6 +362,10 @@ QTreeWidgetItem *SettingsDialog::AddCategory(const QString &name) {
 
 void SettingsDialog::AddPage(const Page id, SettingsPage *page, QTreeWidgetItem *parent) {
 
+#ifdef Q_OS_ANDROID
+  // Behaviour and Sidebar provide their own Android layouts.
+  if (id != Page::Behaviour && id != Page::Sidebar) AndroidSettingsPage::Adapt(page);
+#endif
   if (!parent) parent = ui_->list->invisibleRootItem();
 
   // Connect page's signals to the settings dialog's signals
@@ -311,11 +385,23 @@ void SettingsDialog::AddPage(const Page id, SettingsPage *page, QTreeWidgetItem 
 
   // Create a scroll area containing the page
   QScrollArea *area = new QScrollArea;
+#ifdef Q_OS_ANDROID
+  area->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+  area->setMinimumWidth(0);
+  page->setMinimumWidth(0);
+#else
   area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+#endif
   area->setWidget(page);
   area->setWidgetResizable(true);
   area->setFrameShape(QFrame::NoFrame);
+#ifdef Q_OS_ANDROID
+  AndroidWidgets::SetPageBackground(area);
+  page->setBackgroundRole(QPalette::Base);
+#endif
+#ifndef Q_OS_ANDROID
   area->setMinimumWidth(page->layout()->minimumSize().width());
+#endif
 
   // Add the page to the stack
   ui_->stacked_widget->addWidget(area);
@@ -359,7 +445,17 @@ void SettingsDialog::OpenAtPage(const Page page) {
     return;
   }
 
+#ifdef Q_OS_ANDROID
+  while (!android_subpages_.isEmpty()) CloseAndroidSubpage();
+  android_current_category_page_ = android_category_pages_.value(page, android_categories_page_);
+#endif
   ui_->list->setCurrentItem(pages_.value(page).item_);
+#ifdef Q_OS_ANDROID
+  QTreeWidgetItem *item = pages_.value(page).item_;
+  SetAndroidTitle(item->parent()->text(0), item->text(0));
+  SetAndroidNavigationPage(ui_->stacked_widget);
+  UpdateAndroidPageButtons();
+#endif
   show();
 
 }
@@ -373,7 +469,12 @@ void SettingsDialog::CurrentItemChanged(QTreeWidgetItem *item) {
   }
 
   // Set the title
+#ifdef Q_OS_ANDROID
+  QTreeWidgetItem *category = item->parent();
+  SetAndroidTitle(category ? category->text(0) : QString(), category ? item->text(0) : QString());
+#else
   ui_->title->setText(QStringLiteral("<b>") + item->text(0) + u"</b>"_s);
+#endif
 
   // Display the right page
   const QList<PageData> pages = pages_.values();

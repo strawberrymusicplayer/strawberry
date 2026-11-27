@@ -62,6 +62,10 @@
 #include "albumcoverimageresult.h"
 #include "ui_albumcoversearcher.h"
 
+#ifdef Q_OS_ANDROID
+#  include "coverdialogpage_android.h"
+#endif
+
 using namespace Qt::Literals::StringLiterals;
 
 namespace {
@@ -141,6 +145,21 @@ AlbumCoverSearcher::AlbumCoverSearcher(const QIcon &no_cover_icon, const SharedP
 
   ui_->buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(QKeySequence::Close);
 
+#ifdef Q_OS_ANDROID
+  setWindowTitle(tr("Search for album covers"));
+  android_page_ = new CoverDialogPage(this);
+  QObject::connect(this, &QDialog::finished, this, [this]() {
+    id_ = 0;
+    cover_loading_tasks_.clear();
+    ui_->busy->hide();
+    ui_->search->setText(tr("Search"));
+    ui_->search->setEnabled(true);
+    ui_->artist->setEnabled(true);
+    ui_->album->setEnabled(true);
+    ui_->covers->setEnabled(true);
+  });
+#endif
+
 }
 
 AlbumCoverSearcher::~AlbumCoverSearcher() {
@@ -164,7 +183,11 @@ AlbumCoverImageResult AlbumCoverSearcher::Exec(const QString &artist, const QStr
     Search();
   }
 
+#ifdef Q_OS_ANDROID
+  if (android_page_->Exec() == QDialog::Rejected) return AlbumCoverImageResult();
+#else
   if (exec() == QDialog::Rejected) return AlbumCoverImageResult();
+#endif
 
   // The result was taken when the dialog was closed.
   return accepted_result_;

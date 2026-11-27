@@ -27,6 +27,8 @@
 #cmakedefine HAVE_SPARKLE
 #cmakedefine HAVE_QTSPARKLE
 #cmakedefine HAVE_CHROMAPRINT
+#cmakedefine HAVE_ICU
+#cmakedefine HAVE_UCHARDET
 #cmakedefine HAVE_SONGTRACKING
 #cmakedefine HAVE_TAGFETCHER
 #cmakedefine HAVE_MOODBAR
@@ -42,6 +44,9 @@
 #cmakedefine HAVE_TIDAL
 #cmakedefine HAVE_SPOTIFY
 #cmakedefine HAVE_QOBUZ
+#cmakedefine HAVE_ANDROID_QOBUZ_BROWSER_AUTH
+#cmakedefine HAVE_ANDROID_TIDAL_BROWSER_AUTH
+#cmakedefine HAVE_ANDROID_LASTFM_BROWSER_AUTH
 #cmakedefine HAVE_PLEX
 #cmakedefine HAVE_JELLYFIN
 #cmakedefine HAVE_DISCORD_RPC

@@ -158,6 +158,13 @@ void LyricsSettingsPage::CurrentItemChanged(QListWidgetItem *item_current, QList
         ui_->label_auth_info->setText(QStringLiteral("%1 does not need authentication.").arg(provider->name()));
       }
       UpdateCredentialsUi(provider);
+#ifdef Q_OS_ANDROID
+      if (provider->authentication_required()) {
+        ui_->button_authenticate->hide();
+        ui_->groupbox_api_credentials->hide();
+        ui_->label_auth_info->setText(tr("Browser authentication is currently unavailable on Android."));
+      }
+#endif
       provider_selected_ = true;
     }
   }
@@ -359,7 +366,7 @@ void LyricsSettingsPage::AuthenticationSuccess() {
   if (!provider) return;
   DisconnectAuthentication(provider);
 
-  if (!isVisible() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
+  if (!IsActive() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
 
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedIn);
   ui_->button_authenticate->setEnabled(true);
@@ -372,7 +379,7 @@ void LyricsSettingsPage::AuthenticationFailure(const QString &error) {
   if (!provider) return;
   DisconnectAuthentication(provider);
 
-  if (!isVisible() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
+  if (!IsActive() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
 
   QMessageBox::warning(this, tr("Authentication failed"), error);
 

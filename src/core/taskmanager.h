@@ -30,6 +30,7 @@
 #include <QList>
 #include <QMap>
 #include <QString>
+#include <QElapsedTimer>
 
 class TaskManager : public QObject {
   Q_OBJECT
@@ -44,6 +45,11 @@ class TaskManager : public QObject {
     quint64 progress;
     quint64 progress_max;
     bool blocks_collection_scans;
+    bool cancellable = false;
+    bool cancellation_requested = false;
+    QString detail;
+    QElapsedTimer progress_timer;
+    int EstimatedSecondsRemaining() const;
   };
 
   class ScopedTask {
@@ -70,9 +76,13 @@ class TaskManager : public QObject {
   quint64 GetTaskProgress(const int id);
   // Returns true while a task which blocks collection scans is running.
   bool BlocksCollectionScans();
+  void SetTaskCancellable(int id);
+  void SetTaskDetail(int id, const QString &detail);
+  void RequestTaskCancellation(int id);
 
  Q_SIGNALS:
   void TasksChanged();
+  void TaskCancellationRequested(int id);
 
   // The signals can be emitted from different threads, so they can be received in another order than the tasks were started and finished, use BlocksCollectionScans() for the current state.
   void PauseCollectionWatchers();

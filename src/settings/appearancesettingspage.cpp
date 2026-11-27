@@ -33,7 +33,6 @@
 #include <QString>
 #include <QColor>
 #include <QPalette>
-#include <QColorDialog>
 #include <QFileDialog>
 #include <QLabel>
 #include <QLineEdit>
@@ -47,6 +46,7 @@
 #include <QComboBox>
 #include <QSpinBox>
 #include <QSettings>
+#include <QMessageBox>
 
 #include "appearancesettingspage.h"
 #include "constants/appearancesettings.h"
@@ -55,6 +55,9 @@
 #include "core/iconloader.h"
 #include "core/stylehelper.h"
 #include "core/settings.h"
+#ifdef Q_OS_ANDROID
+#  include "core/androidstorage.h"
+#endif
 #include "core/appearance.h"
 #include "widgets/fancytabwidget.h"
 #include "settingspage.h"
@@ -522,19 +525,17 @@ void AppearanceSettingsPage::CreateColorSelectors() {
 
 void AppearanceSettingsPage::SelectColor(const QPalette::ColorRole role) {
 
-  const QColor color_selected = QColorDialog::getColor(current_colors_.value(role));
-  if (!color_selected.isValid()) return;
+  ChooseColor(current_colors_.value(role), [this, role](const QColor &color_selected) {
+    current_colors_[role] = color_selected;
 
-  current_colors_[role] = color_selected;
+    const auto it = color_selectors_.constFind(role);
+    if (it != color_selectors_.constEnd() && it.value()) {
+      UpdateColorSelectorColor(it.value(), color_selected);
+    }
 
-  const auto it = color_selectors_.constFind(role);
-  if (it != color_selectors_.constEnd() && it.value()) {
-    UpdateColorSelectorColor(it.value(), color_selected);
-  }
-
-  ApplyCustomColors();
-
-  set_changed();
+    ApplyCustomColors();
+    set_changed();
+  });
 
 }
 
@@ -609,8 +610,18 @@ void AppearanceSettingsPage::UpdateColorSelectorColor(QWidget *color_selector, c
 
 void AppearanceSettingsPage::SelectBackgroundImage() {
 
+#ifdef Q_OS_ANDROID
+  const QUrl selected_url = QFileDialog::getOpenFileUrl(this, tr("Select background image"), QUrl::fromLocalFile(background_image_filename_), tr(kLoadImageFileFilter) + u";;"_s + tr(kAllFilesFilterSpec));
+  if (selected_url.isEmpty()) return;
+  QString selected_filename = AndroidStorage::LocalPathForUrl(selected_url);
+  if (selected_filename.isEmpty()) {
+    QMessageBox::warning(this, tr("Invalid image"), AndroidStorage::UnresolvedMessage(QStringList() << selected_url.toDisplayString()));
+    return;
+  }
+#else
   QString selected_filename = QFileDialog::getOpenFileName(this, tr("Select background image"), background_image_filename_, tr(kLoadImageFileFilter) + u";;"_s + tr(kAllFilesFilterSpec));
   if (selected_filename.isEmpty()) return;
+#endif
   background_image_filename_ = selected_filename;
   ui_->background_image_filename->setText(background_image_filename_);
 
@@ -639,12 +650,11 @@ void AppearanceSettingsPage::TabBarSelectBGColor() {
 
   if (ui_->tabbar_system_color->isChecked()) return;
 
-  QColor color_selected = QColorDialog::getColor(current_tabbar_bg_color_);
-  if (!color_selected.isValid()) return;
-  current_tabbar_bg_color_ = color_selected;
-  UpdateColorSelectorColor(ui_->select_tabbar_color, current_tabbar_bg_color_);
-
-  set_changed();
+  ChooseColor(current_tabbar_bg_color_, [this](const QColor &color_selected) {
+    current_tabbar_bg_color_ = color_selected;
+    UpdateColorSelectorColor(ui_->select_tabbar_color, current_tabbar_bg_color_);
+    set_changed();
+  });
 
 }
 
@@ -663,11 +673,10 @@ void AppearanceSettingsPage::PlaylistPlayingSongSelectColor() {
 
   if (ui_->playlist_playing_song_color_system->isChecked()) return;
 
-  QColor color_selected = QColorDialog::getColor(current_playlist_playing_song_color_);
-  if (!color_selected.isValid()) return;
-  current_playlist_playing_song_color_ = color_selected;
-  UpdateColorSelectorColor(ui_->select_playlist_playing_song_color, current_playlist_playing_song_color_);
-
-  set_changed();
+  ChooseColor(current_playlist_playing_song_color_, [this](const QColor &color_selected) {
+    current_playlist_playing_song_color_ = color_selected;
+    UpdateColorSelectorColor(ui_->select_playlist_playing_song_color, current_playlist_playing_song_color_);
+    set_changed();
+  });
 
 }

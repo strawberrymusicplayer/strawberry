@@ -51,6 +51,8 @@ class LyricsProviders;
 class TagEditor;
 class LyricsEditor;
 class OrganizeDialog;
+class CollectionLetterGroups;
+class CollectionSelection;
 
 class CollectionView : public CollectionTreeView {
   Q_OBJECT
@@ -72,6 +74,11 @@ class CollectionView : public CollectionTreeView {
 
   int TotalArtists() const { return total_artist_count_; }
   int TotalAlbums() const { return total_album_count_; }
+
+#ifdef Q_OS_ANDROID
+  QWidget *CreateAndroidSelectionToolbar(QWidget *parent);
+  bool AndroidSelectionBack();
+#endif
 
  public Q_SLOTS:
   void TotalArtistCountUpdated(const int count);
@@ -103,8 +110,6 @@ class CollectionView : public CollectionTreeView {
   void ShowInBrowser() const;
   void ShowInVarious();
   void NoShowInVarious();
-  void Delete();
-  void DeleteFilesFinished(const SongList &songs_with_errors, const QStringList &log);
 
  private:
   void SetShowInVarious(const bool on);
@@ -135,15 +140,16 @@ class CollectionView : public CollectionTreeView {
   QAction *action_show_in_browser_;
   QAction *action_show_in_various_;
   QAction *action_no_show_in_various_;
-  QAction *action_delete_files_;
 
   ScopedPtr<OrganizeDialog> organize_dialog_;
   // Copying to a device has its own dialog without the collection backend, so the paths in the collection are not changed to the device when the original files are deleted.
   ScopedPtr<OrganizeDialog> copy_to_device_dialog_;
   ScopedPtr<TagEditor> tag_editor_;
   ScopedPtr<LyricsEditor> lyrics_editor_;
-
-  bool delete_files_;
+#ifdef Q_OS_ANDROID
+  CollectionLetterGroups *letter_groups_ = nullptr;
+  CollectionSelection *selection_ = nullptr;
+#endif
 };
 
 #endif  // COLLECTIONVIEW_H

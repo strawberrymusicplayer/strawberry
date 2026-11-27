@@ -41,6 +41,8 @@
 #include <QSignalSpy>
 #include <QHash>
 #include <QImage>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QSet>
 #include <QCoreApplication>
 #include <QString>
@@ -65,6 +67,14 @@
 #include "core/filesystemwatcherinterface.h"
 #include "constants/collectionsettings.h"
 #include "core/settings.h"
+#ifdef HAVE_NAS
+#  include <functional>
+#  include <QElapsedTimer>
+#  include <QEventLoop>
+#  include <QProcess>
+#  include <QUuid>
+#  include "core/nasfileengine.h"
+#endif
 
 using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
@@ -2442,6 +2452,374 @@ TEST_F(CollectionWatcherTest, FileSystemWatcherOverflowScanUpdatesLastSeenAndExp
 
 }
 
+#ifdef HAVE_NAS
+TEST_F(CollectionWatcherTest, OfflineNasDoesNotDeleteOrExpireExistingSongs) {
+  Nas::Install();
+  Nas::SetLocations({});
+  const QString path = QStringLiteral("/strawberry-nas/12345678-1234-1234-1234-123456789abc");
+  backend_->AddDirectory(path);
+  Song song;
+  song.Init(u"Existing NAS track"_s, u"Test artist"_s, u"Test album"_s, 1000000000);
+  song.set_source(Song::Source::Collection);
+  song.set_directory_id(1);
+  song.set_url(QUrl::fromLocalFile(path + u"/track.mp3"_s));
+  song.set_filetype(Song::FileType::MPEG);
+  backend_->AddOrUpdateSongs({song});
+  ASSERT_EQ(backend_->GetAllSongs().size(), 1);
+  const ScopedCollectionSetting startup_scan(CollectionSettings::kStartupScan, true);
+  const ScopedCollectionSetting expire_songs(CollectionSettings::kExpireUnavailableSongs, 1);
+  CollectionWatcher watcher(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+  QSignalSpy deleted(&watcher, &CollectionWatcher::SongsDeleted);
+  QSignalSpy unavailable(&watcher, &CollectionWatcher::SongsUnavailable);
+  QSignalSpy last_seen(&watcher, &CollectionWatcher::UpdateLastSeen);
+  const quint64 before = Nas::FailureSerial();
+  CollectionDirectory dir;
+  dir.id = 1;
+  dir.path = path;
+  watcher.AddDirectory(dir, {});
+  EXPECT_GT(Nas::FailureSerial(), before);
+  EXPECT_EQ(deleted.count(), 0);
+  EXPECT_EQ(unavailable.count(), 0);
+  EXPECT_EQ(last_seen.count(), 0);
+  EXPECT_EQ(backend_->GetAllSongs().size(), 1);
+}
+
+// Monitors a NAS folder served by the loopback SMB2 fixture, whose files the tests change directly.
+class CollectionWatcherNasTest : public CollectionWatcherTest {
+ protected:
+  void SetUp() override {
+    python_ = qEnvironmentVariable("STRAWBERRY_NAS_TEST_PYTHON");
+    if (python_.isEmpty()) GTEST_SKIP() << "Set STRAWBERRY_NAS_TEST_PYTHON to an interpreter with impacket for loopback SMB2 integration tests";
+    CollectionWatcherTest::SetUp();
+    ASSERT_TRUE(root_.isValid());
+    location_ = {QUuid::createUuid().toString(QUuid::WithoutBraces), QString(), u"music"_s, u"album"_s, u"strawberry-test"_s, u"fixture-only"_s, QString()};
+    Nas::Install();
+    StartServer();
+    backend_->AddDirectory(location_.path());
+  }
+  void TearDown() override {
+    if (python_.isEmpty()) return;
+    watcher_.reset();
+    StopServer();
+    Nas::SetLocations({});
+    CollectionWatcherTest::TearDown();
+  }
+
+  // A port of 0 starts the server on a new port, which changes the NAS location.
+  void StartServer(const int port = 0) {
+    const QString script = QFileInfo(QString::fromUtf8(__FILE__)).dir().absoluteFilePath(u"../data/nas_server.py"_s);
+    server_.start(python_, {script, root_.path(), QString::number(port)});
+    ASSERT_TRUE(server_.waitForStarted(5000));
+    ASSERT_TRUE(server_.waitForReadyRead(10000)) << server_.readAllStandardError().constData();
+    bool ok = false;
+    port_ = server_.readLine().trimmed().toInt(&ok);
+    ASSERT_TRUE(ok);
+    location_.server = u"127.0.0.1:"_s + QString::number(port_);
+    Nas::SetLocations({location_});
+  }
+  void StopServer() {
+    server_.closeWriteChannel();
+    if (server_.state() != QProcess::NotRunning && !server_.waitForFinished(3000)) {
+      server_.terminate();
+      if (!server_.waitForFinished(3000)) { server_.kill(); server_.waitForFinished(3000); }
+    }
+  }
+  void FixtureCommand(const QByteArray &command) {
+    server_.write(command + '\n');
+    ASSERT_TRUE(server_.waitForReadyRead(5000));
+    server_.readLine();
+  }
+  // The number of sessions the fixture has negotiated.
+  int FixtureSessions() {
+    server_.write("stats\n");
+    if (!server_.waitForReadyRead(5000)) return -1;
+    return QJsonDocument::fromJson(server_.readLine()).object().value(u"negotiate"_s).toInt(-1);
+  }
+
+  // Scans the NAS folder like a new collection directory, with the watcher connected to the collection backend like CollectionManager does.
+  void StartWatcher(const int songs = 3) {
+    watcher_ = std::make_unique<CollectionWatcher>(Song::Source::Collection, task_manager_, tagreader_client_, backend_);
+    CollectionWatcher *watcher = watcher_.get();
+    QObject::connect(watcher, &CollectionWatcher::NewOrUpdatedSongs, &*backend_, &CollectionBackend::AddOrUpdateScannedSongs);
+    QObject::connect(watcher, &CollectionWatcher::SongsMTimeUpdated, &*backend_, &CollectionBackend::UpdateMTimesOnly);
+    QObject::connect(watcher, &CollectionWatcher::SongsDeleted, &*backend_, &CollectionBackend::DeleteSongs);
+    QObject::connect(watcher, &CollectionWatcher::SongsUnavailable, &*backend_, &CollectionBackend::MarkSongsUnavailable);
+    QObject::connect(watcher, &CollectionWatcher::SongsReadded, &*backend_, &CollectionBackend::MarkSongsUnavailable);
+    QObject::connect(watcher, &CollectionWatcher::SubdirsDiscovered, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+    QObject::connect(watcher, &CollectionWatcher::SubdirsMTimeUpdated, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
+    QObject::connect(watcher, &CollectionWatcher::SubdirsDeleted, &*backend_, &CollectionBackend::DeleteSubdirs);
+    CollectionDirectory dir;
+    dir.id = 1;
+    dir.path = location_.path();
+    QSignalSpy scanned(watcher, &CollectionWatcher::CompilationsNeedUpdating);
+    watcher->AddDirectory(dir, {});
+    ASSERT_EQ(songs, backend_->GetAllSongs().count());
+    // The monitor reconciles the folder once its handle is open, the tests change the files after that.
+    ASSERT_TRUE(WaitForScans(scanned, 2, 10000));
+  }
+
+  bool WaitForScans(const QSignalSpy &scanned, const qsizetype count, const int timeout_ms) {
+    QElapsedTimer timer;
+    timer.start();
+    while (scanned.count() < count && timer.elapsed() < timeout_ms) {
+      QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+      QThread::msleep(50);
+    }
+    return scanned.count() >= count;
+  }
+
+  // Returns the song of the file below the NAS folder, or an invalid song.
+  Song NasSong(const QString &relative_path) const {
+    const SongList songs = backend_->GetAllSongs();
+    for (const Song &song : songs) {
+      if (song.url().toLocalFile() == location_.path() + u'/' + relative_path) return song;
+    }
+    return Song();
+  }
+
+  // Waits until the monitor has changed the song, processing the scans it requests.
+  bool WaitForSong(const QString &relative_path, const std::function<bool(const Song &song)> &condition, const int timeout_ms) {
+    QElapsedTimer timer;
+    timer.start();
+    while (timer.elapsed() < timeout_ms) {
+      QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+      if (condition(NasSong(relative_path))) return true;
+      QThread::msleep(50);
+    }
+    return false;
+  }
+
+  // Changes the file in place with a different size, keeping the modification times of the file and its folder.
+  void ChangeInPlace(const QString &relative_path) {
+    const QString filename = root_.filePath(u"album/"_s + relative_path);
+    const QString folder = QFileInfo(filename).path();
+    const QDateTime file_mtime = QFileInfo(filename).lastModified();
+    const QDateTime folder_mtime = QFileInfo(folder).lastModified();
+    WriteWavFile(filename, 7, 1);
+    SetModificationTime(filename, file_mtime);
+    ASSERT_EQ(folder_mtime, QFileInfo(folder).lastModified());
+  }
+
+  QString python_;
+  QTemporaryDir root_{QDir::current().filePath(u"collectionwatcher_test-XXXXXX"_s)};
+  QProcess server_;
+  int port_ = 0;
+  Nas::Location location_;
+  std::unique_ptr<CollectionWatcher> watcher_;
+};
+
+TEST_F(CollectionWatcherNasTest, NotifiedAdditionIsScanned) {
+  FixtureCommand("notify hold");
+  StartWatcher();
+  ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/new.wav"_s)));
+  FixtureCommand("name first/new.wav");
+  FixtureCommand("notify change once");
+  EXPECT_TRUE(WaitForSong(u"first/new.wav"_s, [](const Song &song) { return song.is_valid() && !song.unavailable(); }, 20000));
+  EXPECT_EQ(4, backend_->GetAllSongs().count());
+}
+
+TEST_F(CollectionWatcherNasTest, NotifiedRemovalIsScanned) {
+  FixtureCommand("notify hold");
+  StartWatcher();
+  ASSERT_TRUE(QFile::remove(root_.filePath(u"album/second/track.wav"_s)));
+  FixtureCommand("name second/track.wav");
+  FixtureCommand("notify change once");
+  EXPECT_TRUE(WaitForSong(u"second/track.wav"_s, [](const Song &song) { return !song.is_valid() || song.unavailable(); }, 20000));
+  EXPECT_TRUE(NasSong(u"first/track.wav"_s).is_valid());
+}
+
+// A notification rescans only the notified folder, with the metadata of its listing instead of a session per known file.
+TEST_F(CollectionWatcherNasTest, NotifiedRescanReusesListing) {
+  for (int i = 0; i < 16; ++i) {
+    ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/copy-%1.wav"_s.arg(i))));
+  }
+  FixtureCommand("notify queue");
+  StartWatcher(19);
+  const int sessions = FixtureSessions();
+  ASSERT_GE(sessions, 0);
+  // Not reported, the notification only names the folder "first", so a change here is not scanned.
+  ChangeInPlace(u"second/track.wav"_s);
+  ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/new.wav"_s)));
+  FixtureCommand("name first/new.wav");
+  FixtureCommand("event");
+  EXPECT_TRUE(WaitForSong(u"first/new.wav"_s, [](const Song &song) { return song.is_valid() && !song.unavailable(); }, 20000));
+  EXPECT_LT(FixtureSessions() - sessions, 16);
+  EXPECT_EQ(8000, NasSong(u"second/track.wav"_s).samplerate());
+}
+
+// After lost notifications, all folders are scanned, so an in-place change which only changed the size of a file is found.
+TEST_F(CollectionWatcherNasTest, OverflowReconcilesInPlaceChanges) {
+  FixtureCommand("notify hold");
+  StartWatcher();
+  ASSERT_EQ(8000, NasSong(u"first/track.wav"_s).samplerate());
+  ChangeInPlace(u"first/track.wav"_s);
+  FixtureCommand("notify overflow once");
+  EXPECT_TRUE(WaitForSong(u"first/track.wav"_s, [](const Song &song) { return song.samplerate() == 44100; }, 20000));
+}
+
+// Without change notifications, the folder is scanned at the interval of the setting, at least one minute.
+TEST_F(CollectionWatcherNasTest, UnsupportedNotificationsFallBackToPolling) {
+  const ScopedCollectionSetting polling(CollectionSettings::kNasPollingMinutes, 1);
+  StartWatcher();
+  ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/second/new.wav"_s)));
+  QElapsedTimer timer;
+  timer.start();
+  EXPECT_TRUE(WaitForSong(u"second/new.wav"_s, [](const Song &song) { return song.is_valid(); }, 90000));
+  EXPECT_GE(timer.elapsed(), 50000);
+}
+
+// Changes made while the NAS can't be reached are found after reconnecting, and nothing is deleted while it's away.
+TEST_F(CollectionWatcherNasTest, ReconnectReconcilesWithoutDeletingSongs) {
+  FixtureCommand("notify hold");
+  StartWatcher();
+  QSignalSpy deleted(watcher_.get(), &CollectionWatcher::SongsDeleted);
+  QSignalSpy unavailable(watcher_.get(), &CollectionWatcher::SongsUnavailable);
+  server_.terminate();
+  ASSERT_TRUE(server_.waitForFinished(3000));
+  ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/offline.wav"_s)));
+  ChangeInPlace(u"second/track.wav"_s);
+  // The monitor notices the disconnect, and retries without scanning while the NAS is away.
+  QElapsedTimer timer;
+  timer.start();
+  while (timer.elapsed() < 3000) {
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+    QThread::msleep(50);
+  }
+  EXPECT_EQ(3, backend_->GetAllSongs().count());
+  StartServer();
+  EXPECT_TRUE(WaitForSong(u"first/offline.wav"_s, [](const Song &song) { return song.is_valid(); }, 30000));
+  EXPECT_TRUE(WaitForSong(u"second/track.wav"_s, [](const Song &song) { return song.samplerate() == 44100; }, 5000));
+  EXPECT_EQ(0, deleted.count());
+  EXPECT_EQ(0, unavailable.count());
+  int unavailable_songs = 0;
+  AvailableSongs(&unavailable_songs);
+  EXPECT_EQ(0, unavailable_songs);
+  EXPECT_EQ(4, backend_->GetAllSongs().count());
+}
+
+// A notified scan which is cancelled is retried, its results were discarded.
+TEST_F(CollectionWatcherNasTest, CancelledScanIsRetried) {
+  FixtureCommand("notify queue");
+  StartWatcher();
+  int cancelled_task = -1;
+  QObject::connect(watcher_.get(), &CollectionWatcher::ScanStarted, watcher_.get(), [this, &cancelled_task](const int task_id) {
+    if (cancelled_task != -1) return;
+    cancelled_task = task_id;
+    task_manager_->RequestTaskCancellation(task_id);
+  });
+  QSignalSpy scanned(watcher_.get(), &CollectionWatcher::CompilationsNeedUpdating);
+  ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/new.wav"_s)));
+  FixtureCommand("name first/new.wav");
+  FixtureCommand("event");
+  ASSERT_TRUE(WaitForScans(scanned, 1, 10000));
+  EXPECT_NE(-1, cancelled_task);
+  EXPECT_FALSE(NasSong(u"first/new.wav"_s).is_valid());
+  EXPECT_TRUE(WaitForSong(u"first/new.wav"_s, [](const Song &song) { return song.is_valid() && !song.unavailable(); }, 20000));
+}
+
+// A cancelled rescan of a notified folder is retried as a rescan of that folder, not as a full reconcile.
+TEST_F(CollectionWatcherNasTest, CancelledPartialRescanIsRetriedAsPartialScan) {
+  for (int i = 0; i < 16; ++i) {
+    ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/second/copy-%1.wav"_s.arg(i))));
+  }
+  FixtureCommand("notify queue");
+  StartWatcher(19);
+  int cancelled_task = -1;
+  QObject::connect(watcher_.get(), &CollectionWatcher::ScanStarted, watcher_.get(), [this, &cancelled_task](const int task_id) {
+    if (cancelled_task != -1) return;
+    cancelled_task = task_id;
+    task_manager_->RequestTaskCancellation(task_id);
+  });
+  const int sessions = FixtureSessions();
+  ASSERT_GE(sessions, 0);
+  // Only found by a full reconcile.
+  ChangeInPlace(u"second/track.wav"_s);
+  ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/new.wav"_s)));
+  FixtureCommand("name first/new.wav");
+  FixtureCommand("event");
+  EXPECT_TRUE(WaitForSong(u"first/new.wav"_s, [](const Song &song) { return song.is_valid() && !song.unavailable(); }, 30000));
+  EXPECT_NE(-1, cancelled_task);
+  EXPECT_LT(FixtureSessions() - sessions, 16);
+  EXPECT_EQ(8000, NasSong(u"second/track.wav"_s).samplerate());
+}
+
+// Suspended monitors, like on Android in the background, notice nothing, and catch up with the changes made meanwhile when started again.
+TEST_F(CollectionWatcherNasTest, SuspendedMonitorsCatchUpWhenResumed) {
+  FixtureCommand("notify queue");
+  StartWatcher();
+  watcher_->SetNasMonitorsSuspendedAsync(true);
+  QCoreApplication::processEvents();
+  ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/background.wav"_s)));
+  FixtureCommand("name first/background.wav");
+  FixtureCommand("event");
+  EXPECT_FALSE(WaitForSong(u"first/background.wav"_s, [](const Song &song) { return song.is_valid(); }, 5000));
+  // State changes which arrive while the monitors are stopping or starting are applied in order.
+  watcher_->SetNasMonitorsSuspendedAsync(false);
+  watcher_->SetNasMonitorsSuspendedAsync(true);
+  watcher_->SetNasMonitorsSuspendedAsync(false);
+  EXPECT_TRUE(WaitForSong(u"first/background.wav"_s, [](const Song &song) { return song.is_valid() && !song.unavailable(); }, 20000));
+}
+
+// Suspending while a scan runs stops it, so the monitors start again promptly instead of after the whole scan.
+TEST_F(CollectionWatcherNasTest, SuspendDuringScanResumesPromptly) {
+  FixtureCommand("notify hold");
+  StartWatcher();
+  bool suspended = false;
+  QObject::connect(watcher_.get(), &CollectionWatcher::ScanStarted, watcher_.get(), [this, &suspended](const int) {
+    if (suspended) return;
+    suspended = true;
+    // Like hiding the app and showing it again while the scan runs, the change made meanwhile is found by the catch-up.
+    QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/background.wav"_s));
+    watcher_->SetNasMonitorsSuspendedAsync(true);
+    watcher_->SetNasMonitorsSuspendedAsync(false);
+  });
+  // Only found if the reconcile which is stopped runs to the end.
+  ChangeInPlace(u"second/track.wav"_s);
+  FixtureCommand("notify overflow once");
+  EXPECT_TRUE(WaitForSong(u"first/background.wav"_s, [](const Song &song) { return song.is_valid() && !song.unavailable(); }, 20000));
+  EXPECT_TRUE(suspended);
+  EXPECT_EQ(8000, NasSong(u"second/track.wav"_s).samplerate());
+}
+
+// The catch-up after resuming only scans the folders whose modification time changed, like the update on startup.
+TEST_F(CollectionWatcherNasTest, ResumeCatchUpScansOnlyChangedFolders) {
+  for (int i = 0; i < 16; ++i) {
+    ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/second/copy-%1.wav"_s.arg(i))));
+  }
+  FixtureCommand("notify queue");
+  StartWatcher(19);
+  watcher_->SetNasMonitorsSuspendedAsync(true);
+  QCoreApplication::processEvents();
+  const int sessions = FixtureSessions();
+  ASSERT_GE(sessions, 0);
+  // An in-place change made while suspended waits for the next full reconcile.
+  ChangeInPlace(u"second/track.wav"_s);
+  ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/background.wav"_s)));
+  watcher_->SetNasMonitorsSuspendedAsync(false);
+  EXPECT_TRUE(WaitForSong(u"first/background.wav"_s, [](const Song &song) { return song.is_valid() && !song.unavailable(); }, 20000));
+  EXPECT_LT(FixtureSessions() - sessions, 16);
+  EXPECT_EQ(8000, NasSong(u"second/track.wav"_s).samplerate());
+}
+
+// A NAS which can't be reached when monitoring is enabled again is reconciled once it can.
+TEST_F(CollectionWatcherNasTest, RestartReconcilesOfflineNas) {
+  FixtureCommand("notify queue");
+  StartWatcher();
+  {
+    const ScopedCollectionSetting monitor_disabled(CollectionSettings::kMonitor, false);
+    watcher_->ReloadSettingsAsync();
+    QCoreApplication::processEvents();
+  }
+  StopServer();
+  ASSERT_TRUE(QFile::copy(root_.filePath(u"album/track.wav"_s), root_.filePath(u"album/first/offline.wav"_s)));
+  watcher_->ReloadSettingsAsync();
+  QCoreApplication::processEvents();
+  // The same port, so the location doesn't change and only the restarted monitor can reconcile.
+  QThread::msleep(1000);
+  StartServer(port_);
+  EXPECT_TRUE(WaitForSong(u"first/offline.wav"_s, [](const Song &song) { return song.is_valid(); }, 30000));
+}
+#endif
 #ifdef Q_OS_LINUX
 
 // The tests of case-insensitive filesystems run in a case-insensitive directory given by this environment variable.

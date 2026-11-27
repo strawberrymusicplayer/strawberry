@@ -144,16 +144,25 @@ void CollectionTreeView::paintEvent(QPaintEvent *event) {
     bold_font.setBold(true);
     p.setFont(bold_font);
 
+#ifdef Q_OS_ANDROID
+    const int text_flags = Qt::AlignHCenter | Qt::TextWordWrap;
+    const QRect title_rect = p.fontMetrics().boundingRect(QRect(12, image_rect.bottom() + 20, qMax(1, rect.width() - 24), 0), text_flags, EmptyTitleText());
+#else
     const QFontMetrics metrics(bold_font);
-
+    const int text_flags = Qt::AlignHCenter;
     const QRect title_rect(0, image_rect.bottom() + 20, rect.width(), metrics.height());
-    p.drawText(title_rect, Qt::AlignHCenter, EmptyTitleText());
+#endif
+    p.drawText(title_rect, text_flags, EmptyTitleText());
 
     // Draw the other text
     p.setFont(QFont());
 
+#ifdef Q_OS_ANDROID
+    const QRect text_rect = p.fontMetrics().boundingRect(QRect(12, title_rect.bottom() + 5, qMax(1, rect.width() - 24), 0), text_flags, EmptyText());
+#else
     const QRect text_rect(0, title_rect.bottom() + 5, rect.width(), metrics.height());
-    p.drawText(text_rect, Qt::AlignHCenter, EmptyText());
+#endif
+    p.drawText(text_rect, text_flags, EmptyText());
   }
   else {
     QTreeView::paintEvent(event);

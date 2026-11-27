@@ -94,6 +94,14 @@ class Ui_MainWindow;
 class StreamingLibraryView;
 class StreamingFavoritesView;
 class SmartPlaylistsViewContainer;
+#ifdef Q_OS_ANDROID
+class QStackedWidget;
+class QToolButton;
+class AlarmClock;
+class AlarmPlayer;
+class AlarmClockPage;
+class ClockPage;
+#endif
 #ifdef Q_OS_WIN32
 class Windows7ThumbBar;
 #endif
@@ -304,6 +312,27 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
  private:
   void SaveSettings();
+#ifdef Q_OS_ANDROID
+  // Implemented in mainwindow_android.cpp.
+  void SetupAndroidLayout();
+  QWidget *CreateAndroidToolsPage();
+  // Opens the tool as a subpage of the Tools tab; tools without their own breadcrumb header get one.
+  void ShowAndroidTool(QWidget *tool, const bool add_header);
+  void ShowAndroidAlarmClock();
+  void ShowAndroidClock();
+  void ShowAndroidAlarmClockFromClock();
+  QWidget *CreateAndroidSettingsTab();
+  void SetupAndroidSettingsTab();
+  void EmbedAndroidSettingsDialog(SettingsDialog *settings_dialog);
+  void ShowAndroidSettingsDialog();
+  void UpdateAndroidMuteButton(const bool mute);
+  void ShowAndroidCurrentPlaylist();
+  bool AndroidOpenedPlaylistIsDifferent() const;
+  void UpdateAndroidPlayPause();
+  void AndroidPlayPause();
+  // Handles Back that no page consumed by returning one level within the current tab; returns false at the tab's root.
+  bool AndroidBack();
+#endif
 
   static void ApplyAddBehaviour(const BehaviourSettings::AddBehaviour b, MimeData *mimedata);
   void ApplyPlayBehaviour(const BehaviourSettings::PlayBehaviour b, MimeData *mimedata) const;
@@ -323,6 +352,21 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
  private:
   Ui_MainWindow *ui_;
+#ifdef Q_OS_ANDROID
+  QStackedWidget *android_playlist_pages_ = nullptr;
+  QToolButton *android_mute_button_ = nullptr;
+  QWidget *android_settings_tab_ = nullptr;
+  QStackedWidget *android_tools_pages_ = nullptr;
+  QWidget *android_tools_list_ = nullptr;
+  QPointer<QWidget> android_current_tool_;
+  bool android_alarm_clock_from_clock_ = false;
+  AlarmClock *android_alarm_clock_ = nullptr;
+  AlarmPlayer *android_alarm_player_ = nullptr;
+  QPointer<AlarmClockPage> android_alarm_clock_page_;
+  QPointer<ClockPage> android_clock_page_;
+  QPointer<QWidget> android_previous_tab_;
+  bool android_settings_overview_on_open_ = true;
+#endif
 #ifdef Q_OS_WIN32
   Windows7ThumbBar *thumbbar_;
 #endif

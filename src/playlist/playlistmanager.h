@@ -26,6 +26,7 @@
 
 #include <QtGlobal>
 #include <QObject>
+#include <QHash>
 #include <QItemSelectionModel>
 #include <QList>
 #include <QMap>
@@ -88,6 +89,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   bool IsPlaylistFavorite(const int index) const { return playlists_[index].p->is_favorite(); }
 
   void Init(PlaylistSequence *sequence, PlaylistContainer *playlist_container);
+  void SelectNowPlaying();
 
   SharedPtr<CollectionBackend> collection_backend() const override { return collection_backend_; }
   SharedPtr<PlaylistBackend> playlist_backend() const override { return playlist_backend_; }
@@ -157,11 +159,12 @@ class PlaylistManager : public PlaylistManagerInterface {
   void OneOfPlaylistsQueueChanged();
   void UpdateSummaryText();
   void UpdateCollectionSongs(const SongList &songs);
-  void ItemsLoadedForSavePlaylist(const QString &playlist_name, const SongList &songs, const QString &filename, const PlaylistSettings::PathType path_type);
+  void ItemsLoadedForSavePlaylist(const QString &playlist_name, const SongList &songs, const QString &filename, const PlaylistSettings::PathType path_type, const QString &extension);
   void PlaylistLoadingFinished(Playlist *playlist);
   void ClosedPlaylistSaved(const int id, const quint64 sequence);
 
  private:
+  void SaveWithFormat(const int id, const QString &playlist_name, const QString &filename, const PlaylistSettings::PathType path_type, const QString &extension);
   Playlist *AddPlaylist(const int id, const QString &name, const QString &special_type, const QString &ui_path, const bool favorite);
   // Closes the playlist, and removes it when delete_playlist is true or it's not a favorite, otherwise its pending changes are saved.
   bool ClosePlaylist(const int id, const bool delete_playlist);
@@ -172,6 +175,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   // Keeps a closed favorite playlist until its pending changes are saved, after it's restored when it's still restoring.
   void KeepClosedPlaylistUntilSaved(const int id, Playlist *playlist);
   void SaveClosedPlaylist(const int id, Playlist *playlist);
+  void RemovePlaylist(const int id);
   // Deletes the kept closed playlist without saving it, when it's removed.
   void DeleteClosedPlaylist(const int id);
   // Shows the file dialog for saving a playlist, and returns the file name, or an empty string if it was cancelled.
@@ -220,7 +224,10 @@ class PlaylistManager : public PlaylistManagerInterface {
     QMetaObject::Connection restore_done_connection;
   };
   QMap<int, ClosedPlaylist> closed_playlists_;
+  // Sequence numbers distinguish a pending removal from an older removal of a reused ID.
+  QHash<int, quint64> playlists_pending_removal_;
   quint64 save_sequence_;
+  quint64 removal_sequence_;
 };
 
 #endif  // PLAYLISTMANAGER_H

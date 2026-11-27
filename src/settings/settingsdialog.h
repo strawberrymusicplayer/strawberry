@@ -38,8 +38,10 @@ class QWidget;
 class QTreeWidgetItem;
 class QComboBox;
 class QScrollArea;
+class QStackedWidget;
 class QAbstractButton;
 class QShowEvent;
+class QKeyEvent;
 
 class Player;
 class AudioDeviceListers;
@@ -51,6 +53,11 @@ class StreamingServices;
 class Appearance;
 class GlobalShortcutsManager;
 class SettingsPage;
+class FancyTabWidget;
+#ifdef Q_OS_ANDROID
+class QVBoxLayout;
+class QTimer;
+#endif
 
 class Ui_SettingsDialog;
 
@@ -71,6 +78,9 @@ class SettingsDialog : public QDialog {
 #endif
                           OSDBase *osd,
                           QMainWindow *mainwindow,
+#ifdef Q_OS_ANDROID
+                          FancyTabWidget *sidebar,
+#endif
                           QWidget *parent = nullptr);
   ~SettingsDialog() override;
 
@@ -99,6 +109,9 @@ class SettingsDialog : public QDialog {
     Plex,
     Jellyfin,
     Radio,
+#ifdef Q_OS_ANDROID
+    Sidebar,
+#endif
   };
 
   enum Role {
@@ -108,8 +121,22 @@ class SettingsDialog : public QDialog {
   bool is_loading_settings() const { return loading_settings_; }
 
   void OpenAtPage(const Page page);
+#ifdef Q_OS_ANDROID
+  void OpenOverview();
+  void AddAndroidHelpCategory(const QList<QAction*> &actions);
+  void OpenAndroidSubpage(QWidget *content, const QString &title);
+  void CloseAndroidSubpage();
+  bool IsAndroidPageActive(const SettingsPage *page) const;
+  // Widgets of ui_widget currently shown in an Android subpage, so page snapshots still include them.
+  QWidgetList AndroidSubpageWidgets(const QWidget *ui_widget) const;
+  // Saves changes that controls report without a signal of their own, such as an inserted variable.
+  void ScheduleAndroidSave();
+#endif
 
  protected:
+#ifdef Q_OS_ANDROID
+  void keyPressEvent(QKeyEvent *event) override;
+#endif
   void showEvent(QShowEvent *e) override;
 
  private:
@@ -146,6 +173,34 @@ class SettingsDialog : public QDialog {
   Ui_SettingsDialog *ui_;
   bool loading_settings_;
   QMap<Page, PageData> pages_;
+#ifdef Q_OS_ANDROID
+  // Implemented in settingsdialog_android.cpp.
+  void SetupAndroidNavigation();
+  void SetupAndroidStreamingSettings(const SharedPtr<StreamingServices> streaming_services);
+  void SetupAndroidAutoSave();
+  void FlushAndroidSettings();
+  static bool IsAndroidStreamingPage(Page page);
+  void SetAndroidNavigationPage(QWidget *page);
+  void UpdateAndroidPageButtons();
+  void AndroidBack();
+  void SetAndroidTitle(const QString &category = QString(), const QString &page = QString(), const QString &subpage = QString());
+  QStackedWidget *android_navigation_;
+  QWidget *android_categories_page_;
+  QVBoxLayout *android_categories_layout_;
+  QMap<Page, QWidget*> android_category_pages_;
+  QWidget *android_current_category_page_;
+  bool android_settings_loaded_;
+  QTimer *android_save_timer_;
+  QObject *android_hide_filter_;
+  struct AndroidSubpage {
+    QScrollArea *area;
+    QWidget *content_parent;
+    QScrollArea *parent_area;
+    int parent_scroll_value;
+    QString title;
+  };
+  QList<AndroidSubpage> android_subpages_;
+#endif
 };
 
 #endif  // SETTINGSDIALOG_H

@@ -41,6 +41,13 @@ class CollectionDirectoryModel;
 class CollectionSettingsDirectoryModel;
 class Ui_CollectionSettingsPage;
 
+class NasPage;
+class QCheckBox;
+class QButtonGroup;
+namespace AndroidWidgets {
+class ValueButton;
+}
+
 class CollectionSettingsPage : public SettingsPage {
   Q_OBJECT
 
@@ -69,6 +76,14 @@ class CollectionSettingsPage : public SettingsPage {
 
  private:
   void UpdateIconDiskCacheSize();
+#if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
+  void LoadNasPollingInterval();
+  void SaveNasPollingInterval(const int minutes);
+#endif
+#ifdef Q_OS_ANDROID
+  void SetupAndroidRemoveUnavailableSongs();
+  void RemoveUnavailableSongs();
+#endif
 
  private:
   Ui_CollectionSettingsPage *ui_;
@@ -79,6 +94,14 @@ class CollectionSettingsPage : public SettingsPage {
   CollectionSettingsDirectoryModel *collectionsettings_directory_model_;
   CollectionDirectoryModel *collection_directory_model_;
   bool initialized_model_;
+#ifdef Q_OS_ANDROID
+  QCheckBox *collapsible_dividers_ = nullptr;
+#endif
+#if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
+  NasPage *nas_page_ = nullptr;
+  AndroidWidgets::ValueButton *nas_polling_button_ = nullptr;
+  QButtonGroup *nas_polling_choices_ = nullptr;
+#endif
 };
 
 #endif  // COLLECTIONSETTINGSPAGE_H

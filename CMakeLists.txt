@@ -29,6 +29,23 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
+if(ANDROID)
+  # GStreamer_ROOT_DIR is the variable used by the GStreamer SDK's own CMake modules; ANDROID_GSTREAMER_ROOT is accepted from older build directories.
+  if(NOT GStreamer_ROOT_DIR AND ANDROID_GSTREAMER_ROOT)
+    set(GStreamer_ROOT_DIR "${ANDROID_GSTREAMER_ROOT}" CACHE PATH "Android GStreamer SDK root")
+  elseif(NOT GStreamer_ROOT_DIR AND DEFINED ENV{GSTREAMER_ROOT_ANDROID})
+    set(GStreamer_ROOT_DIR "$ENV{GSTREAMER_ROOT_ANDROID}" CACHE PATH "Android GStreamer SDK root")
+  endif()
+  if(GStreamer_ROOT_DIR)
+    list(APPEND CMAKE_MODULE_PATH "${GStreamer_ROOT_DIR}/share/cmake")
+    set(ENV{PKG_CONFIG_PATH} "${GStreamer_ROOT_DIR}/lib/pkgconfig:${GStreamer_ROOT_DIR}/lib/gstreamer-1.0/pkgconfig")
+    set(ENV{PKG_CONFIG_LIBDIR} "${GStreamer_ROOT_DIR}/lib/pkgconfig:${GStreamer_ROOT_DIR}/lib/gstreamer-1.0/pkgconfig")
+    set(GStreamer_USE_STATIC_LIBS ON)
+    set(GSTREAMER_JAVA_SRC_DIR "${CMAKE_BINARY_DIR}/android-build/src")
+    set(GSTREAMER_ASSETS_DIR "${CMAKE_BINARY_DIR}/android-build/assets")
+  endif()
+endif()
+
 if(CMAKE_BUILD_TYPE MATCHES "Release")
   add_definitions(-DNDEBUG)
   set(ENABLE_DEBUG_OUTPUT_DEFAULT OFF)
@@ -56,6 +73,10 @@ option(USE_INSTALL_PREFIX "Look for data in CMAKE_INSTALL_PREFIX" ON)
 option(INSTALL_TRANSLATIONS "Install translations" OFF)
 option(ENABLE_DEBUG_OUTPUT "Enable debug output" ${ENABLE_DEBUG_OUTPUT_DEFAULT})
 option(USE_BUNDLE "Bundle dependencies" ${USE_BUNDLE_DEFAULT})
+option(ENABLE_NAS "Read-only SMB2/SMB3 collection locations (Android UI)" ${ANDROID})
+if(ENABLE_NAS)
+  include(cmake/Nas.cmake)
+endif()
 
 if(WIN32)
   option(ENABLE_WIN32_CONSOLE "Show the windows console even outside Debug mode" ${ENABLE_WIN32_CONSOLE_DEFAULT})
@@ -158,12 +179,28 @@ find_package(Backtrace)
 if(Backtrace_FOUND)
   set(HAVE_BACKTRACE ON)
 endif()
+if(ANDROID AND GStreamer_ROOT_DIR)
+  if(NOT OPENSSL_ROOT_DIR)
+    set(OPENSSL_ROOT_DIR "${GStreamer_ROOT_DIR}" CACHE PATH "Android OpenSSL root directory")
+  endif()
+  if(NOT OPENSSL_INCLUDE_DIR)
+    set(OPENSSL_INCLUDE_DIR "${GStreamer_ROOT_DIR}/include" CACHE PATH "Android OpenSSL include directory")
+  endif()
+  if(NOT OPENSSL_CRYPTO_LIBRARY)
+    set(OPENSSL_CRYPTO_LIBRARY "${GStreamer_ROOT_DIR}/lib/libcrypto.a" CACHE FILEPATH "Android OpenSSL crypto library")
+  endif()
+endif()
 find_package(OpenSSL COMPONENTS Crypto CONFIG)
 if(NOT OpenSSL_FOUND)
   find_package(OpenSSL COMPONENTS Crypto REQUIRED)
 endif()
-find_package(ICU COMPONENTS uc i18n REQUIRED)
-if(UNIX AND NOT APPLE)
+if(ANDROID)
+  find_package(ICU COMPONENTS uc i18n QUIET)
+else()
+  find_package(ICU COMPONENTS uc i18n REQUIRED)
+endif()
+set(HAVE_ICU ${ICU_FOUND})
+if(UNIX AND NOT APPLE AND NOT ANDROID)
   if(LINUX)
     find_package(ALSA REQUIRED)
   else()
@@ -187,8 +224,13 @@ pkg_check_modules(GSTREAMER_APP REQUIRED IMPORTED_TARGET gstreamer-app-1.0)
 pkg_check_modules(GSTREAMER_TAG REQUIRED IMPORTED_TARGET gstreamer-tag-1.0)
 pkg_check_modules(GSTREAMER_PBUTILS REQUIRED IMPORTED_TARGET gstreamer-pbutils-1.0)
 pkg_check_modules(SQLITE REQUIRED IMPORTED_TARGET sqlite3>=3.9)
-pkg_check_modules(UCHARDET REQUIRED IMPORTED_TARGET uchardet)
-if(UNIX AND NOT APPLE)
+if(ANDROID)
+  pkg_check_modules(UCHARDET IMPORTED_TARGET uchardet)
+else()
+  pkg_check_modules(UCHARDET REQUIRED IMPORTED_TARGET uchardet)
+endif()
+set(HAVE_UCHARDET ${UCHARDET_FOUND})
+if(UNIX AND NOT APPLE AND NOT ANDROID)
   pkg_check_modules(LIBPULSE IMPORTED_TARGET libpulse)
   pkg_check_modules(LIBSECRET IMPORTED_TARGET libsecret-1)
 endif()
@@ -209,6 +251,91 @@ else()
   pkg_check_modules(TAGLIB REQUIRED IMPORTED_TARGET taglib>=1.12)
 endif()
 
+if(ANDROID)
+  # GLib's OpenSSL TLS backend for HTTPS streams in souphttpsrc; ca_certificates bundles the CA certificates it verifies against.
+  set(G_IO_MODULES openssl)
+  find_package(GStreamerMobile REQUIRED COMPONENTS
+    api_base
+    api_audio
+    api_app
+    api_tag
+    api_pbutils
+    api_plugins_base
+    coreelements
+    typefindfunctions
+    playback
+    autodetect
+    audioconvert
+    audioresample
+    volume
+    equalizer
+    audiofx
+    replaygain
+    spectrum
+    app
+    opensles
+    # Android's system codecs, used for formats without a GStreamer decoder in this list, such as AAC.
+    androidmedia
+    # flacdec, mpg123audiodec and wavpackdec only accept framed input from the parsers in audioparsers.
+    audioparsers
+    ogg
+    flac
+    mpg123
+    opus
+    vorbis
+    wavpack
+    wavparse
+    id3demux
+    apetag
+    isomp4
+    matroska
+    # HTTP and HTTPS streams, with ICY stream titles and HLS playlists.
+    soup
+    icydemux
+    hls
+    adaptivedemux2
+    mpegtsdemux
+    ca_certificates
+  )
+  set(GSTREAMER_APP_STATIC_LIBRARY "${GStreamer_ROOT_DIR}/lib/libgstapp-1.0.a")
+  set(GSTREAMER_PBUTILS_STATIC_LIBRARY "${GStreamer_ROOT_DIR}/lib/libgstpbutils-1.0.a")
+  if(NOT EXISTS "${GSTREAMER_APP_STATIC_LIBRARY}" OR NOT EXISTS "${GSTREAMER_PBUTILS_STATIC_LIBRARY}")
+    message(FATAL_ERROR "GStreamer app and pbutils static libraries are required for Android")
+  endif()
+  # Keep API entry points and plugin GTypes in the same shared library.
+  target_link_libraries(GStreamerMobile PRIVATE
+    "-Wl,--whole-archive,${GSTREAMER_APP_STATIC_LIBRARY},${GSTREAMER_PBUTILS_STATIC_LIBRARY},--no-whole-archive"
+  )
+  option(ENABLE_ANDROID_SPOTIFY_PLUGIN_PROBE "Experimentally register a prebuilt Spotify plugin on Android (does not enable Spotify)" OFF)
+  if(ENABLE_ANDROID_SPOTIFY_PLUGIN_PROBE)
+    set(ANDROID_SPOTIFY_PLUGIN_ARCHIVE "" CACHE FILEPATH "Prebuilt gst-plugin-spotify static archive for the target Android ABI")
+    if(NOT EXISTS "${ANDROID_SPOTIFY_PLUGIN_ARCHIVE}" OR IS_DIRECTORY "${ANDROID_SPOTIFY_PLUGIN_ARCHIVE}")
+      message(FATAL_ERROR "ENABLE_ANDROID_SPOTIFY_PLUGIN_PROBE requires ANDROID_SPOTIFY_PLUGIN_ARCHIVE for ${ANDROID_ABI}")
+    endif()
+    get_filename_component(ANDROID_SPOTIFY_PLUGIN_DIR "${ANDROID_SPOTIFY_PLUGIN_ARCHIVE}" DIRECTORY)
+    set(ANDROID_SPOTIFY_PLUGIN_LICENSES "${ANDROID_SPOTIFY_PLUGIN_DIR}/licenses")
+    if(NOT EXISTS "${ANDROID_SPOTIFY_PLUGIN_LICENSES}/gst-plugin-spotify-dependencies.txt")
+      message(FATAL_ERROR "No licences next to ${ANDROID_SPOTIFY_PLUGIN_ARCHIVE}; build it with dist/scripts/build-android-gst-plugin-spotify.sh")
+    endif()
+    file(REMOVE_RECURSE "${CMAKE_BINARY_DIR}/android-build/assets/licenses/gst-plugin-spotify")
+    file(COPY "${ANDROID_SPOTIFY_PLUGIN_LICENSES}/" DESTINATION "${CMAKE_BINARY_DIR}/android-build/assets/licenses/gst-plugin-spotify")
+  else()
+    file(REMOVE_RECURSE "${CMAKE_BINARY_DIR}/android-build/assets/licenses/gst-plugin-spotify")
+  endif()
+  set(STRAWBERRY_GSTREAMER_LINK_TARGETS GStreamer::mobile)
+else()
+  set(STRAWBERRY_GSTREAMER_LINK_TARGETS
+    PkgConfig::GLIB
+    PkgConfig::GOBJECT
+    PkgConfig::GSTREAMER
+    PkgConfig::GSTREAMER_BASE
+    PkgConfig::GSTREAMER_AUDIO
+    PkgConfig::GSTREAMER_APP
+    PkgConfig::GSTREAMER_TAG
+    PkgConfig::GSTREAMER_PBUTILS
+  )
+endif()
+
 find_package(GTest)
 
 pkg_check_modules(LIBSPARSEHASH IMPORTED_TARGET libsparsehash)
@@ -222,7 +349,7 @@ endif()
 set(QT_DEFAULT_MAJOR_VERSION ${QT_VERSION_MAJOR})
 set(QT_COMPONENTS Core Concurrent Gui Widgets Network Sql)
 set(QT_OPTIONAL_COMPONENTS GuiPrivate LinguistTools Test)
-if(UNIX AND NOT APPLE)
+if(UNIX AND NOT APPLE AND NOT ANDROID)
   list(APPEND QT_OPTIONAL_COMPONENTS DBus)
 endif()
 set(QT_NO_PRIVATE_MODULE_WARNING ON)
@@ -254,7 +381,7 @@ if(X11_FOUND)
   unset(CMAKE_REQUIRED_LIBRARIES)
 endif()
 
-if(UNIX AND NOT APPLE)
+if(UNIX AND NOT APPLE AND NOT ANDROID)
   find_package(LayerShellQt 6.0 CONFIG)
   pkg_check_modules(WAYLAND_CLIENT IMPORTED_TARGET wayland-client)
   # Check for QWaylandApplication (Qt 6.5 or newer compiled with Wayland), Qt 6.5 is also needed to use layer shell for only some windows.
@@ -273,7 +400,9 @@ if(UNIX AND NOT APPLE)
   unset(CMAKE_REQUIRED_LIBRARIES)
 endif()
 
-find_package(KDSingleApplication-qt${QT_VERSION_MAJOR} 1.1.0 REQUIRED)
+if(NOT ANDROID)
+  find_package(KDSingleApplication-qt${QT_VERSION_MAJOR} 1.1.0 REQUIRED)
+endif()
 
 if(APPLE)
   find_library(SPARKLE Sparkle)
@@ -310,7 +439,7 @@ if(APPLE OR WIN32)
   endif()
 endif()
 
-if(UNIX AND NOT APPLE)
+if(UNIX AND NOT APPLE AND NOT ANDROID)
   optional_component(ALSA ON "ALSA integration"
     DEPENDS "alsa" ALSA_FOUND
   )
@@ -335,7 +464,7 @@ optional_component(TAGFETCHER ON "Tag fetcher"
   DEPENDS "chromaprint" HAVE_CHROMAPRINT
 )
 
-if(UNIX AND NOT APPLE)
+if(UNIX AND NOT APPLE AND NOT ANDROID)
   optional_component(X11_GLOBALSHORTCUTS ON "X11 global shortcuts"
     DEPENDS "X11" X11_FOUND
     DEPENDS "QX11Application" HAVE_QX11APPLICATION
@@ -362,7 +491,7 @@ if(UNIX AND NOT APPLE)
   )
 endif()
 
-if(NOT APPLE)
+if(NOT APPLE AND NOT ANDROID)
   optional_component(GIO ON "Devices: GIO device backend"
     DEPENDS "libgio" GIO_FOUND
   )
@@ -393,7 +522,26 @@ optional_component(TRANSLATIONS ON "Translations"
 optional_component(SUBSONIC ON "Streaming: Subsonic")
 optional_component(TIDAL ON "Streaming: Tidal")
 optional_component(SPOTIFY ON "Streaming: Spotify")
+
+if(ANDROID)
+  option(ENABLE_ANDROID_SPOTIFY "Enable experimental Spotify login and playback on Android" OFF)
+  if(NOT ENABLE_ANDROID_SPOTIFY)
+    set(HAVE_SPOTIFY OFF)
+  elseif(NOT HAVE_SPOTIFY OR NOT ENABLE_ANDROID_SPOTIFY_PLUGIN_PROBE)
+    message(FATAL_ERROR "ENABLE_ANDROID_SPOTIFY requires ENABLE_SPOTIFY and ENABLE_ANDROID_SPOTIFY_PLUGIN_PROBE")
+  endif()
+endif()
+
 optional_component(QOBUZ ON "Streaming: Qobuz")
+if(ANDROID)
+  optional_component(ANDROID_QOBUZ_BROWSER_AUTH OFF "Experimental Android Qobuz browser authentication"
+    DEPENDS "Qobuz" HAVE_QOBUZ
+  )
+  optional_component(ANDROID_TIDAL_BROWSER_AUTH OFF "Experimental Android Tidal browser authentication"
+    DEPENDS "Tidal" HAVE_TIDAL
+  )
+  optional_component(ANDROID_LASTFM_BROWSER_AUTH OFF "Experimental Android Last.fm browser authentication")
+endif()
 optional_component(PLEX ON "Streaming: Plex")
 optional_component(JELLYFIN ON "Streaming: Jellyfin")
 
@@ -431,6 +579,10 @@ optional_component(STREAMTAGREADER ON "Stream tagreader"
 )
 
 optional_component(DISCORD_RPC ON "Discord Rich Presence")
+
+if(ANDROID)
+  set(HAVE_DISCORD_RPC OFF)
+endif()
 
 if(HAVE_X11_GLOBALSHORTCUTS OR HAVE_KGLOBALACCEL_GLOBALSHORTCUTS OR APPLE OR WIN32)
   set(HAVE_GLOBALSHORTCUTS ON)
@@ -494,7 +646,25 @@ if(NOT CMAKE_CROSSCOMPILING)
   unset(CMAKE_REQUIRED_LIBRARIES)
 endif()
 
-add_executable(strawberry)
+qt_add_executable(strawberry)
+
+if(ANDROID)
+  set_property(TARGET strawberry PROPERTY QT_ANDROID_TARGET_SDK_VERSION 34)
+  set_property(TARGET strawberry PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
+
+  # Qt's TLS backend loads libssl_3.so and libcrypto_3.so at run time, so they have to be bundled for HTTPS to work.
+  # ANDROID_OPENSSL_ROOT is a checkout of https://github.com/KDAB/android_openssl, as recommended by Qt.
+  if(NOT ANDROID_OPENSSL_ROOT AND DEFINED ENV{ANDROID_OPENSSL_ROOT})
+    set(ANDROID_OPENSSL_ROOT "$ENV{ANDROID_OPENSSL_ROOT}")
+  endif()
+  set(ANDROID_OPENSSL_ROOT "${ANDROID_OPENSSL_ROOT}" CACHE PATH "Android OpenSSL libraries (KDAB android_openssl checkout)")
+  set(ANDROID_OPENSSL_LIBRARIES "${ANDROID_OPENSSL_ROOT}/ssl_3/${CMAKE_ANDROID_ARCH_ABI}/libcrypto_3.so" "${ANDROID_OPENSSL_ROOT}/ssl_3/${CMAKE_ANDROID_ARCH_ABI}/libssl_3.so")
+  if(ANDROID_OPENSSL_ROOT AND EXISTS "${ANDROID_OPENSSL_ROOT}/ssl_3/${CMAKE_ANDROID_ARCH_ABI}/libssl_3.so")
+    set_property(TARGET strawberry APPEND PROPERTY QT_ANDROID_EXTRA_LIBS ${ANDROID_OPENSSL_LIBRARIES})
+  else()
+    message(WARNING "OpenSSL libraries for Android not found, HTTPS will not work. Set ANDROID_OPENSSL_ROOT to a checkout of https://github.com/KDAB/android_openssl.")
+  endif()
+endif()
 
 if(APPLE)
   set_target_properties(strawberry PROPERTIES MACOSX_BUNDLE TRUE)
@@ -668,6 +838,7 @@ set(SOURCES
   src/analyzer/rainbowanalyzer.cpp
 
   src/equalizer/equalizer.cpp
+  src/equalizer/equalizerjson.cpp
   src/equalizer/equalizerslider.cpp
 
   src/context/contextview.cpp
@@ -829,6 +1000,7 @@ set(SOURCES
   src/dialogs/messagedialog.cpp
   src/dialogs/saveplaylistsdialog.cpp
 
+  src/widgets/actiondialog.cpp
   src/widgets/autoexpandingtreeview.cpp
   src/widgets/busyindicator.cpp
   src/widgets/clickablelabel.cpp
@@ -837,9 +1009,13 @@ set(SOURCES
   src/widgets/fancytabdata.cpp
   src/widgets/favoritewidget.cpp
   src/widgets/freespacebar.cpp
+  src/widgets/gridflowlayout.cpp
   src/widgets/groupediconview.cpp
   src/widgets/lineedit.cpp
   src/widgets/linetextedit.cpp
+  src/widgets/longpresshandler.cpp
+  src/widgets/playlistactionhandler.cpp
+  src/widgets/playlisttitleheader.cpp
   src/widgets/multiloadingindicator.cpp
   src/widgets/playingwidget.cpp
   src/widgets/renametablineedit.cpp
@@ -1138,6 +1314,7 @@ set(HEADERS
   src/dialogs/messagedialog.h
   src/dialogs/saveplaylistsdialog.h
 
+  src/widgets/actiondialog.h
   src/widgets/autoexpandingtreeview.h
   src/widgets/busyindicator.h
   src/widgets/clickablelabel.h
@@ -1149,6 +1326,9 @@ set(HEADERS
   src/widgets/groupediconview.h
   src/widgets/lineedit.h
   src/widgets/linetextedit.h
+  src/widgets/longpresshandler.h
+  src/widgets/playlistactionhandler.h
+  src/widgets/playlisttitleheader.h
   src/widgets/multiloadingindicator.h
   src/widgets/playingwidget.h
   src/widgets/renametablineedit.h
@@ -1376,6 +1556,40 @@ if(APPLE)
 else()
   list(APPEND SOURCES src/systemtrayicon/qtsystemtrayicon.cpp src/widgets/searchfield_qt.cpp src/widgets/searchfield_qt_private.cpp)
   list(APPEND HEADERS src/systemtrayicon/qtsystemtrayicon.h src/widgets/searchfield_qt_private.h)
+endif()
+
+if(ANDROID)
+  list(APPEND SOURCES src/core/androidmediasession.cpp src/core/androidstorage.cpp src/core/mainwindow_android.cpp src/engine/gststartup_android.cpp src/equalizer/equalizer_android.cpp src/playlist/playlistview_android.cpp src/settings/androidsettingspage.cpp src/settings/settingsdialog_android.cpp src/widgets/androidwidgets.cpp src/widgets/listscrolling_android.cpp src/widgets/scrollarea_android.cpp)
+  list(APPEND SOURCES src/widgets/timedial_android.cpp src/widgets/timedialmath_android.cpp)
+  list(APPEND HEADERS src/widgets/timedial_android.h)
+  list(APPEND SOURCES src/settings/streamingautosave_android.cpp src/settings/settingsdialog_streaming_android.cpp src/settings/streamingsettingsreset_android.cpp src/settings/collectionsettingspage_android.cpp)
+  list(APPEND HEADERS src/settings/streamingautosave_android.h)
+  list(APPEND SOURCES src/smartplaylists/smartplaylistwizard_android.cpp src/smartplaylists/smartplaylistsviewcontainer_android.cpp src/smartplaylists/smartplaylistpreview_android.cpp)
+  list(APPEND SOURCES src/core/androidstoragefileengine.cpp src/engine/gstqfilesrc.cpp src/tagreader/taglibfilestream_android.cpp)
+  list(APPEND SOURCES src/engine/gstaacdecoder.cpp)
+  list(APPEND SOURCES src/covermanager/coverdialogpage_android.cpp)
+  list(APPEND SOURCES src/widgets/scantaskcontrols_android.cpp)
+  list(APPEND SOURCES src/widgets/menupage_android.cpp src/collection/collectionfilterwidget_android.cpp src/collection/collectiondialogpages_android.cpp)
+  list(APPEND SOURCES src/collection/collectionlettergroups_android.cpp)
+  list(APPEND SOURCES src/collection/collectionselection_android.cpp src/collection/collectionview_android.cpp)
+  list(APPEND HEADERS src/collection/collectionselection_android.h)
+  list(APPEND HEADERS src/core/androidmediasession.h src/settings/androidsettingspage.h src/engine/gstaacdecoder.h)
+  list(APPEND SOURCES src/core/browserauthentication_android.cpp)
+  list(APPEND SOURCES src/alarm/alarmschedule_android.cpp src/alarm/alarmtracks_android.cpp src/alarm/alarmtext_android.cpp src/alarm/alarmbridge_android.cpp src/alarm/alarmclock_android.cpp src/alarm/alarmplayback_android.cpp src/alarm/alarmplayer_android.cpp src/alarm/alarmclockpage_android.cpp src/alarm/clockpage_android.cpp)
+  list(APPEND HEADERS src/alarm/alarmclock_android.h src/alarm/alarmplayer_android.h src/alarm/alarmclockpage_android.h src/alarm/clockpage_android.h)
+  list(APPEND HEADERS src/core/browserauthentication_android.h)
+  if(HAVE_QOBUZ)
+    list(APPEND SOURCES src/qobuz/qobuzservice_android.cpp src/settings/qobuzsettingspage_android.cpp)
+  endif()
+  if(HAVE_ANDROID_TIDAL_BROWSER_AUTH)
+    list(APPEND SOURCES src/tidal/tidalservice_android.cpp)
+  endif()
+  if(HAVE_ANDROID_LASTFM_BROWSER_AUTH)
+    list(APPEND SOURCES src/scrobbler/lastfmscrobbler_android.cpp)
+  endif()
+  list(APPEND SOURCES src/widgets/fancytabwidget_android.cpp src/settings/sidebarsettingspage_android.cpp)
+  list(APPEND HEADERS src/settings/sidebarsettingspage_android.h)
+  list(APPEND HEADERS src/covermanager/coverdialogpage_android.h)
 endif()
 
 if(WIN32)
@@ -1692,6 +1906,9 @@ if(HAVE_TIDAL)
 endif()
 
 if(HAVE_SPOTIFY)
+  if(ANDROID)
+    list(APPEND SOURCES src/spotify/spotifyservice_android.cpp)
+  endif()
   list(APPEND SOURCES
     src/spotify/spotifyservice.cpp
     src/spotify/spotifybaserequest.cpp
@@ -1770,6 +1987,19 @@ qt_wrap_ui(SOURCES ${UI})
 qt_add_resources(SOURCES data/data.qrc data/icons.qrc)
 
 add_library(strawberry_lib STATIC ${SOURCES})
+if(ANDROID AND ENABLE_ANDROID_SPOTIFY_PLUGIN_PROBE)
+  set_property(SOURCE src/engine/gststartup_android.cpp APPEND PROPERTY COMPILE_DEFINITIONS ANDROID_SPOTIFY_PLUGIN_PROBE)
+  target_sources(strawberry_lib PRIVATE src/engine/spotifytrust_android.cpp)
+  target_link_libraries(strawberry_lib PUBLIC "${ANDROID_SPOTIFY_PLUGIN_ARCHIVE}")
+endif()
+if(ENABLE_NAS)
+  target_sources(strawberry_lib PRIVATE src/core/nasfileengine.cpp)
+  target_compile_definitions(strawberry_lib PUBLIC HAVE_NAS)
+  target_link_libraries(strawberry_lib PUBLIC smb2 PRIVATE Qt${QT_VERSION_MAJOR}::CorePrivate)
+  if(ANDROID)
+    target_sources(strawberry_lib PRIVATE src/settings/naspage_android.cpp src/collection/collectionwatcher_android.cpp)
+  endif()
+endif()
 
 target_sources(strawberry PRIVATE src/main.cpp)
 
@@ -1812,19 +2042,16 @@ if(SINGLEAPPLICATION_INCLUDE_DIRS)
   target_include_directories(strawberry_lib SYSTEM PUBLIC ${SINGLEAPPLICATION_INCLUDE_DIRS})
 endif()
 
+if(ANDROID AND GStreamer_ROOT_DIR)
+  target_link_directories(strawberry_lib PUBLIC "${GStreamer_ROOT_DIR}/lib")
+endif()
+
 target_link_libraries(strawberry_lib PUBLIC
   ${CMAKE_THREAD_LIBS_INIT}
   $<$<BOOL:${HAVE_BACKTRACE}>:${Backtrace_LIBRARIES}>
   OpenSSL::Crypto
-  PkgConfig::GLIB
-  PkgConfig::GOBJECT
   PkgConfig::SQLITE
-  PkgConfig::GSTREAMER
-  PkgConfig::GSTREAMER_BASE
-  PkgConfig::GSTREAMER_AUDIO
-  PkgConfig::GSTREAMER_APP
-  PkgConfig::GSTREAMER_TAG
-  PkgConfig::GSTREAMER_PBUTILS
+  ${STRAWBERRY_GSTREAMER_LINK_TARGETS}
   ${TAGLIB_LIBRARIES}
   Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Concurrent
@@ -1834,9 +2061,6 @@ target_link_libraries(strawberry_lib PUBLIC
   Qt${QT_VERSION_MAJOR}::Sql
   $<$<BOOL:${HAVE_DBUS}>:Qt${QT_VERSION_MAJOR}::DBus>
   $<$<BOOL:${HAVE_QPA_QPLATFORMNATIVEINTERFACE}>:Qt${QT_VERSION_MAJOR}::GuiPrivate>
-  ICU::uc
-  ICU::i18n
-  PkgConfig::UCHARDET
   $<$<BOOL:${HAVE_STREAMTAGREADER}>:PkgConfig::LIBSPARSEHASH>
   $<$<BOOL:${HAVE_ALSA}>:ALSA::ALSA>
   $<$<BOOL:${HAVE_PULSE}>:PkgConfig::LIBPULSE>
@@ -1854,8 +2078,20 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${HAVE_QTSPARKLE}>:qtsparkle-qt${QT_VERSION_MAJOR}::qtsparkle>
   $<$<BOOL:${WIN32}>:dsound dwmapi advapi32 cfgmgr32 ${GETOPT_LIBRARIES}>
   $<$<BOOL:${MSVC}>:WindowsApp>
-  KDAB::kdsingleapplication
 )
+
+if(NOT ANDROID)
+  target_link_libraries(strawberry_lib PUBLIC KDAB::kdsingleapplication)
+else()
+  target_link_libraries(strawberry_lib PRIVATE Qt${QT_VERSION_MAJOR}::CorePrivate)
+endif()
+
+if(HAVE_ICU)
+  target_link_libraries(strawberry_lib PUBLIC ICU::uc ICU::i18n)
+endif()
+if(HAVE_UCHARDET)
+  target_link_libraries(strawberry_lib PUBLIC PkgConfig::UCHARDET)
+endif()
 
 if(APPLE)
   target_link_libraries(strawberry_lib PUBLIC
@@ -1877,7 +2113,11 @@ endif()
 
 target_link_libraries(strawberry PUBLIC strawberry_lib)
 
-if(NOT APPLE)
+if(ANDROID AND GStreamer_ROOT_DIR)
+  target_link_directories(strawberry PRIVATE "${GStreamer_ROOT_DIR}/lib")
+endif()
+
+if(NOT APPLE AND NOT ANDROID)
   install(TARGETS strawberry RUNTIME DESTINATION bin)
 endif()
 

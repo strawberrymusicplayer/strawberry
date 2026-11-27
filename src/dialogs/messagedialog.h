@@ -24,6 +24,7 @@
 #include <QString>
 #include <QIcon>
 
+class QEvent;
 class Ui_MessageDialog;
 
 class MessageDialog : public QDialog {
@@ -37,6 +38,9 @@ class MessageDialog : public QDialog {
   void set_do_not_show_message_again(const QString &do_not_show_message_again) { do_not_show_message_again_ = do_not_show_message_again; }
 
   void ShowMessage(const QString &title, const QString &message, const QIcon &icon = QIcon());
+
+ protected:
+  bool eventFilter(QObject *object, QEvent *event) override;
 
  private Q_SLOTS:
   void DoNotShowMessageAgain();

@@ -48,6 +48,7 @@ using namespace Qt::Literals::StringLiterals;
 
 namespace {
 
+#ifndef Q_OS_ANDROID
 // Returns the playlist column of the values completed for the field, or nothing when the values of the field aren't completed.
 std::optional<Playlist::Column> TagCompleterColumn(const SmartPlaylistSearchTerm::Field field) {
 
@@ -63,8 +64,8 @@ std::optional<Playlist::Column> TagCompleterColumn(const SmartPlaylistSearchTerm
     case SmartPlaylistSearchTerm::Field::TitleSort:       return Playlist::Column::TitleSort;
     default:                                              return std::nullopt;
   }
-
 }
+#endif
 
 }  // namespace
 
@@ -157,6 +158,7 @@ void SmartPlaylistSearchTermWidget::FieldChanged(int index) {
   const SmartPlaylistSearchTerm::Operator op = ui_->op->currentData().value<SmartPlaylistSearchTerm::Operator>();
   ui_->value_stack->setCurrentWidget(ValuePage(type, op));
 
+#ifndef Q_OS_ANDROID
   // Maybe set a tag completer
   // The completer of the previous field is deleted, so the completers don't add up, and the values of the previous field, when they are read last, don't replace the values of this field.
   delete tag_completer_;
@@ -164,6 +166,8 @@ void SmartPlaylistSearchTermWidget::FieldChanged(int index) {
   if (completer_column.has_value()) {
     tag_completer_ = new TagCompleter(collection_backend_, completer_column.value(), ui_->value_text);
   }
+
+#endif
 
   Q_EMIT Changed();
 

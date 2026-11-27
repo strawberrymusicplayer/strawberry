@@ -110,6 +110,11 @@ constexpr int kEqBandFrequencies[] = { 60, 170, 310, 600, 1000, 3000, 6000, 1200
 // When within this many seconds of track end during gapless playback, ignore buffering messages
 constexpr int kIgnoreBufferingNearEndSeconds = 5;
 
+#ifdef Q_OS_ANDROID
+Q_GLOBAL_STATIC(QMutex, android_stream_type_mutex)
+Q_GLOBAL_STATIC(QByteArray, android_stream_type)
+#endif
+
 }  // namespace
 
 #ifdef __clang__
@@ -651,6 +656,11 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // Audio bin
   audiobin_ = gst_bin_new("audiobin");
   if (!audiobin_) return false;
+
+#ifdef Q_OS_ANDROID
+  // autoaudiosink creates its OpenSL ES sink later; the stream type must be set before the sink opens the audio output.
+  CHECKED_GCONNECT(G_OBJECT(audiobin_), "deep-element-added", &AndroidStreamTypeElementAddedCallback, nullptr);
+#endif
 
   // Create the sink
   audiosink_ = CreateElement(output_, output_, audiobin_, error);
@@ -1201,6 +1211,33 @@ void GstEnginePipeline::ElementAddedCallback(GstBin *bin, GstBin *sub_bin, GstEl
   instance->SetMute(instance->muted_.load());
 
 }
+
+#ifdef Q_OS_ANDROID
+void GstEnginePipeline::SetAndroidStreamType(const QByteArray &stream_type) {
+
+  QMutexLocker l(android_stream_type_mutex());
+  *android_stream_type() = stream_type;
+
+}
+
+void GstEnginePipeline::AndroidStreamTypeElementAddedCallback(GstBin *bin, GstBin *sub_bin, GstElement *element, gpointer self) {
+
+  Q_UNUSED(bin)
+  Q_UNUSED(sub_bin)
+  Q_UNUSED(self)
+
+  if (!g_object_class_find_property(G_OBJECT_GET_CLASS(element), "stream-type")) return;
+  QByteArray stream_type;
+  {
+    QMutexLocker l(android_stream_type_mutex());
+    stream_type = *android_stream_type();
+  }
+  if (stream_type.isEmpty()) return;
+  qLog(Debug) << "Using Android stream type" << stream_type;
+  gst_util_set_object_arg(G_OBJECT(element), "stream-type", stream_type.constData());
+
+}
+#endif
 
 void GstEnginePipeline::ElementRemovedCallback(GstBin *bin, GstBin *sub_bin, GstElement *element, gpointer self) {
 

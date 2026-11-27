@@ -36,6 +36,7 @@ class QAction;
 class QEvent;
 class QKeyEvent;
 class QResizeEvent;
+class QToolButton;
 
 class Playlist;
 class PlaylistManager;
@@ -56,6 +57,7 @@ class PlaylistContainer : public QWidget {
     QAction *new_playlist = nullptr;
     QAction *load_playlist = nullptr;
     QAction *save_playlist = nullptr;
+    QAction *add_file = nullptr;
     QAction *clear_playlist = nullptr;
     QAction *next_playlist = nullptr;
     QAction *previous_playlist = nullptr;
@@ -140,6 +142,10 @@ class PlaylistContainer : public QWidget {
   QLabel *no_matches_label_;
 
   QTimer *filter_timer_;
+
+#ifdef Q_OS_ANDROID
+  QToolButton *android_jump_ = nullptr;
+#endif
 };
 
 #endif  // PLAYLISTCONTAINER_H

@@ -53,7 +53,11 @@ namespace {
 
 constexpr char kOAuthAuthorizeUrl[] = "https://accounts.spotify.com/authorize";
 constexpr char kOAuthAccessTokenUrl[] = "https://accounts.spotify.com/api/token";
+#ifdef Q_OS_ANDROID
+constexpr char kOAuthRedirectUrl[] = "http://127.0.0.1/";
+#else
 constexpr char kOAuthRedirectUrl[] = "https://oauth.strawberrymusicplayer.org/";
+#endif
 constexpr char kOAuthScope[] = "user-follow-read user-follow-modify user-library-read user-library-modify streaming";
 constexpr char kArtistsSongsTable[] = "spotify_artists_songs";
 constexpr char kAlbumsSongsTable[] = "spotify_albums_songs";
@@ -124,7 +128,12 @@ SpotifyService::SpotifyService(const SharedPtr<TaskManager> task_manager,
   oauth_->set_access_token_url(QUrl(QLatin1String(kOAuthAccessTokenUrl)));
   oauth_->set_scope(QLatin1String(kOAuthScope));
   oauth_->set_use_local_redirect_server(true);
+#ifdef Q_OS_ANDROID
+  oauth_->set_android_browser_authentication_enabled(true);
+  oauth_->set_port_type(OAuthenticator::PortType::SetToRedirectURL);
+#else
   oauth_->set_port_type(OAuthenticator::PortType::PassInState);
+#endif
   oauth_->set_use_pkce(true);
 
   QObject::connect(oauth_, &OAuthenticator::AuthenticationFinished, this, &SpotifyService::OAuthFinished);
@@ -260,17 +269,24 @@ void SpotifyService::ReloadSettings() {
 
   enabled_ = s.value(SpotifySettings::kEnabled, SpotifySettings::kDefaultEnabled).toBool();
 
+#ifdef Q_OS_ANDROID
+  const QString client_id = s.value(SpotifySettings::kClientId).toString().trimmed();
+  const QString client_secret;
+  const bool credentials_missing = client_id.isEmpty();
+#else
   const bool use_custom_api_credentials = !HasCompiledCredentials() || s.value(SpotifySettings::kUseCustomApiCredentials, false).toBool();
   const QString client_id = use_custom_api_credentials ? s.value(SpotifySettings::kClientId).toString() : CompiledClientId();
   const QString client_secret = use_custom_api_credentials ? s.value(SpotifySettings::kClientSecret).toString() : CompiledClientSecret();
+  const bool credentials_missing = client_id.isEmpty() || client_secret.isEmpty();
+#endif
   const bool api_credentials_changed = api_credentials_initialized_ && (client_id != client_id_ || client_secret != client_secret_);
   client_id_ = client_id;
   client_secret_ = client_secret;
   oauth_->set_client_id(client_id_);
   oauth_->set_client_secret(client_secret_);
   // A session granted under a since-changed client id must not survive, and an empty client id can never have a valid session of its own - clear unconditionally in that case (including on the very first call from the constructor, before oauth_->LoadSession() below has a chance to read a leftover persisted session back in).
-  if (api_credentials_changed || client_id_.isEmpty() || client_secret_.isEmpty()) {
-    oauth_->ClearSession();
+  if (api_credentials_changed || credentials_missing) {
+    ClearSession();
   }
   api_credentials_initialized_ = true;
 
@@ -290,6 +306,16 @@ void SpotifyService::ReloadSettings() {
 
 void SpotifyService::Authenticate() {
 
+#ifdef Q_OS_ANDROID
+  if (AndroidAuthenticationInProgress() || authenticated()) return;
+  QString error;
+  if (client_id_.isEmpty()) error = tr("Enter your Spotify client ID in Settings before logging in.");
+  else if (StartAndroidAuthentication(error)) {
+    oauth_->Authenticate();
+    return;
+  }
+  OAuthFinished(false, error, false);
+#else
   if (client_id_.isEmpty() || client_secret_.isEmpty()) {
     const QString error = tr("Missing Spotify client ID and/or client secret");
     qLog(Error) << error;
@@ -299,12 +325,20 @@ void SpotifyService::Authenticate() {
   }
 
   oauth_->Authenticate();
+#endif
 
 }
 
 void SpotifyService::ClearSession() {
 
+#ifdef Q_OS_ANDROID
+  const bool was_authenticating = AndroidAuthenticationInProgress();
+  StopAndroidAuthentication();
+#endif
   oauth_->ClearSession();
+#ifdef Q_OS_ANDROID
+  if (was_authenticating) Q_EMIT LoginFinished(false);
+#endif
 
 }
 
@@ -325,6 +359,9 @@ void SpotifyService::OAuthFinished(const bool success, const QString &error, con
 
   Q_UNUSED(invalid_grant);
 
+#ifdef Q_OS_ANDROID
+  StopAndroidAuthentication();
+#endif
   if (success) {
     Q_EMIT LoginSuccess();
     Q_EMIT UpdateSpotifyAccessToken(oauth_->access_token());

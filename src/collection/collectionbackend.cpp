@@ -1047,6 +1047,54 @@ void CollectionBackend::DeleteSongsByUrls(const QList<QUrl> &urls) {
 
 }
 
+int CollectionBackend::UnavailableSongCount() {
+
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  SqlQuery q(db);
+  q.prepare(QStringLiteral("SELECT COUNT(*) FROM %1 WHERE unavailable = 1").arg(songs_table_));
+  if (!q.Exec()) {
+    db_->ReportErrors(q);
+    return -1;
+  }
+  if (!q.next()) {
+    db_->ReportErrors(q);
+    return -1;
+  }
+
+  return q.value(0).toInt();
+
+}
+
+void CollectionBackend::DeleteUnavailableSongsAsync() {
+  QMetaObject::invokeMethod(this, &CollectionBackend::DeleteUnavailableSongs, Qt::QueuedConnection);
+}
+
+void CollectionBackend::DeleteUnavailableSongs() {
+
+  SongList songs;
+  {
+    QMutexLocker l(db_->Mutex());
+    QSqlDatabase db(db_->Connect());
+    SqlQuery q(db);
+    q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE unavailable = 1").arg(Song::JoinSpec(songs_table_), songs_table_));
+    if (!q.Exec()) {
+      db_->ReportErrors(q);
+      return;
+    }
+    while (q.next()) {
+      Song song(source_);
+      song.InitFromQuery(q, true);
+      songs << song;
+    }
+  }
+
+  // Emits SongsDeleted and updates the totals, so the collection model is updated.
+  if (!songs.isEmpty()) DeleteSongs(songs);
+
+}
+
 void CollectionBackend::MarkSongsUnavailable(const SongList &songs, const bool unavailable) {
 
   QMutexLocker l(db_->Mutex());

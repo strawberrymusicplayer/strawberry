@@ -26,9 +26,13 @@
 #include <QMessageBox>
 
 #include "core/iconloader.h"
+#include "core/logging.h"
 #include "core/mimedata.h"
 #include "core/settings.h"
 #include "constants/appearancesettings.h"
+#ifdef Q_OS_ANDROID
+#  include "widgets/playlistactionhandler.h"
+#endif
 
 #include "smartplaylistsviewcontainer.h"
 #include "smartplaylistsmodel.h"
@@ -70,6 +74,10 @@ SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(const SharedPtr<Player>
 
   ui_->setupUi(this);
 
+#ifdef Q_OS_ANDROID
+  SetupAndroidBrowser();
+#endif
+
   model_ = new SmartPlaylistsModel(collection_backend, this);
   ui_->view->setModel(model_);
 
@@ -96,6 +104,9 @@ SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(const SharedPtr<Player>
   context_menu_selected_->addAction(action_restore_defaults_);
 
   ui_->new_->setDefaultAction(action_new_smart_playlist_);
+#ifdef Q_OS_ANDROID
+  ui_->new_->setText(tr("New"));
+#endif
   ui_->edit_->setIcon(IconLoader::Load(u"edit-rename"_s));
   ui_->delete_->setIcon(IconLoader::Load(u"edit-delete"_s));
   ui_->restore_->setIcon(IconLoader::Load(u"view-refresh"_s));
@@ -105,8 +116,29 @@ SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(const SharedPtr<Player>
   QObject::connect(ui_->restore_, &QToolButton::clicked, this, &SmartPlaylistsViewContainer::RestoreDefaults);
 
   QObject::connect(ui_->view, &SmartPlaylistsView::ItemsSelectedChanged, this, &SmartPlaylistsViewContainer::ItemsSelectedChanged);
+#ifndef Q_OS_ANDROID
   QObject::connect(ui_->view, &SmartPlaylistsView::doubleClicked, this, &SmartPlaylistsViewContainer::ItemDoubleClicked);
+#endif
   QObject::connect(ui_->view, &SmartPlaylistsView::ShowSmartPlaylistContextMenu, this, &SmartPlaylistsViewContainer::ShowSmartPlaylistContextMenu);
+
+#ifdef Q_OS_ANDROID
+  auto *actions = new PlaylistActionHandler(ui_->view, tr("Smart playlists"), {tr("Add smart playlist to current playlist"), tr("Queue smart playlist"), tr("Queue smart playlist to play next")},
+      [](const QModelIndex &index) { return index.isValid(); },
+      [this](const QModelIndex &index) {
+        QMimeData *data = ui_->view->model()->mimeData({index});
+        MimeData *mimedata = qobject_cast<MimeData *>(data);
+        if (!mimedata) {
+          qLog(Error) << "Cannot add smart playlist: model returned invalid MIME data";
+          delete data;
+        }
+        return mimedata;
+      });
+  actions->AddAction(tr("Edit smart playlist"), [](const QModelIndex &index) { return index.isValid(); },
+                     [this](const QModelIndex &index) { EditSmartPlaylist(index); });
+  actions->AddAction(tr("Delete smart playlist"), [](const QModelIndex &index) { return index.isValid(); },
+                     [this](const QModelIndex &index) { DeleteSmartPlaylist(index); });
+  QObject::connect(actions, &PlaylistActionHandler::AddToPlaylist, this, &SmartPlaylistsViewContainer::AddToPlaylist);
+#endif
 
   ReloadSettings();
 
@@ -120,6 +152,9 @@ SmartPlaylistsView *SmartPlaylistsViewContainer::view() const { return ui_->view
 
 void SmartPlaylistsViewContainer::showEvent(QShowEvent *e) {
 
+#ifdef Q_OS_ANDROID
+  UpdateAndroidToolbarOrientation();
+#endif
   ItemsSelectedChanged();
 
   QWidget::showEvent(e);
@@ -137,7 +172,6 @@ void SmartPlaylistsViewContainer::ReloadSettings() {
   ui_->delete_->setIconSize(QSize(iconsize, iconsize));
   ui_->edit_->setIconSize(QSize(iconsize, iconsize));
   ui_->restore_->setIconSize(QSize(iconsize, iconsize));
-
 }
 
 void SmartPlaylistsViewContainer::ItemsSelectedChanged() {
@@ -218,7 +252,11 @@ void SmartPlaylistsViewContainer::NewSmartPlaylist() {
   wizard->setAttribute(Qt::WA_DeleteOnClose);
   QObject::connect(wizard, &SmartPlaylistWizard::accepted, this, &SmartPlaylistsViewContainer::NewSmartPlaylistFinished);
 
+#ifdef Q_OS_ANDROID
+  OpenAndroidWizard(wizard);
+#else
   wizard->show();
+#endif
 
 }
 
@@ -244,7 +282,11 @@ void SmartPlaylistsViewContainer::EditSmartPlaylist(const QModelIndex &idx) {
     model_->UpdateGenerator(edit_index, generator);
   });
 
+#ifdef Q_OS_ANDROID
+  OpenAndroidWizard(wizard);
+#else
   wizard->show();
+#endif
   wizard->SetGenerator(model_->CreateGenerator(idx));
 
 }
@@ -316,9 +358,13 @@ void SmartPlaylistsViewContainer::RestoreDefaultsFromContext() {
 
 void SmartPlaylistsViewContainer::RestoreDefaults() {
 
+#ifdef Q_OS_ANDROID
+  ConfirmAndroidRestoreDefaults();
+#else
   const QMessageBox::StandardButton messagebox_answer = QMessageBox::question(this, tr("Restore defaults"), tr("Are you sure you want to restore the default smart playlists? This will remove all custom smart playlists"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
   if (messagebox_answer == QMessageBox::Yes) {
     model_->RestoreDefaults();
   }
+#endif
 
 }

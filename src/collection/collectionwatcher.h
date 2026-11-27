@@ -23,6 +23,13 @@
 #define COLLECTIONWATCHER_H
 
 #include "config.h"
+#include <QElapsedTimer>
+#ifdef HAVE_NAS
+#  include <atomic>
+#  include <memory>
+#  include <mutex>
+#  include <thread>
+#endif
 
 #include <QtGlobal>
 #include <QObject>
@@ -81,6 +88,11 @@ class CollectionWatcher : public QObject {
 
   void RescanSongsAsync(const SongList &songs);
 
+#ifdef HAVE_NAS
+  // Stops the NAS monitors and a running NAS scan while suspended, they catch up with the changed folders when they are started again.
+  void SetNasMonitorsSuspendedAsync(const bool suspended);
+#endif
+
  Q_SIGNALS:
   // previous_songs are the songs in the collection which the updated songs were made from, when the scan started, see CollectionBackend::AddOrUpdateScannedSongs().
   void NewOrUpdatedSongs(const SongList &songs, const SongList &previous_songs);
@@ -107,6 +119,7 @@ class CollectionWatcher : public QObject {
   // Each directory has one or more subdirectories, and any number of subdirectories can be scanned during one transaction.
   // ScanSubdirectory() adds its results to the members of this transaction class,
   // and they are "committed" through calls to the CollectionBackend in the transaction's dtor.
+  // NAS scans publish new tracks after each completed subdirectory, retaining existing-track changes until the final commit.
   // The transaction also caches the list of songs in this directory according to the collection.
   // Multiple calls to FindSongsInSubdirectory during one transaction will only result in one call to CollectionBackend::FindSongsInDirectory.
   class ScanTransaction {
@@ -126,6 +139,7 @@ class CollectionWatcher : public QObject {
 
     void AddToProgress(const quint64 n = 1);
     void AddToProgressMax(const quint64 n);
+    void CountEntry();
 
     // Emits the signals for new & deleted songs etc and clears the lists. This causes the new stuff to be updated on UI.
     void CommitNewOrUpdatedSongs();
@@ -135,6 +149,11 @@ class CollectionWatcher : public QObject {
     int dir_id() const { return dir_id_; }
     bool is_incremental() const { return incremental_; }
     bool ignores_mtime() const { return ignores_mtime_; }
+#ifdef HAVE_NAS
+    bool NetworkFailed() const;
+    void PublishNewNasSongs();
+    bool nas_transaction() const { return nas_transaction_; }
+#endif
 
     SongList deleted_songs;
     SongList readded_songs;
@@ -171,6 +190,9 @@ class CollectionWatcher : public QObject {
     int expire_unavailable_songs_days_;
 
     int task_id_;
+    QMetaObject::Connection cancellation_connection_;
+    quint64 counted_entries_ = 0;
+    QElapsedTimer count_timer_;
 
     quint64 progress_max_;
     quint64 progress_;
@@ -186,6 +208,11 @@ class CollectionWatcher : public QObject {
 
     CollectionSubdirectoryList known_subdirs_;
     bool known_subdirs_dirty_;
+#ifdef HAVE_NAS
+    bool nas_transaction_ = false;
+    quint64 nas_failure_serial_ = 0;
+    qsizetype nas_published_song_count_ = 0;
+#endif
     // Indexes of known_subdirs_, so looking up a subdirectory doesn't go through all of them.
     // known_subdir_paths_ only has the subdirectories with a modification time, known_subdirs_by_parent_ has all of them, keyed by the parent path.
     QSet<QString> known_subdir_paths_;
@@ -228,6 +255,44 @@ class CollectionWatcher : public QObject {
   static QString ReadSyncedLyricsFromLrc(const QString &lrc_file);
   static void SetLyricsFromStorage(Song *song, const Song &matching_song, const QString &lrc_file);
   void PerformScan(const bool incremental, const bool ignore_mtimes);
+  // Returns false if the scan was stopped or couldn't reach the NAS, its results are then incomplete.
+  bool ScanDirectoryNow(const CollectionDirectory &dir, const bool incremental, const bool ignore_mtimes);
+#ifdef HAVE_NAS
+  // Each monitored NAS directory has a thread which waits for SMB change notifications and requests scans on the watcher's thread.
+  struct NasMonitor {
+    std::atomic_bool cancel = false;
+    // Set while a scan is requested and not started yet, so requests don't pile up while a scan runs.
+    std::atomic_bool scan_pending = false;
+    // Set when changes may have been missed, the monitor reconciles the directory once the NAS can be reached.
+    std::atomic_bool catch_up = false;
+    // Set when a partial scan was stopped or couldn't reach the NAS, its changes were put back and the monitor requests it again.
+    std::atomic_bool retry_scan = false;
+    // The notified paths relative to the directory, or a full scan when a notification didn't name them.
+    std::mutex changes_mutex;
+    QSet<QString> changed_paths;
+    bool full_scan = false;
+    // The catch-up after resuming, which like the update on startup only enters the folders whose modification time changed.
+    bool changed_folders_scan = false;
+    std::thread thread;
+  };
+  // catch_up_allowed enables reconciling once the first handle is opened, like the update on startup.
+  // changed_folders_catch_up makes that first catch-up scan only the folders whose modification time changed.
+  std::shared_ptr<NasMonitor> StartNasMonitor(const CollectionDirectory &dir, const bool catch_up_allowed, const bool changed_folders_catch_up = false);
+  void StopNasMonitor(const int dir_id);
+  void StopNasMonitors();
+  void RestartNasMonitors(const bool changed_folders_catch_up = false);
+  void ScanNasDirectory(const int dir_id);
+  // Rescans the known folders containing the changed paths, returns false like ScanDirectoryNow().
+  bool ScanNasPathsNow(const CollectionDirectory &dir, const QStringList &changed_paths);
+  // Returns false if the monitors already were in this state.
+  bool SetNasMonitorsSuspended(const bool suspended);
+  // Cancels the running NAS monitors from any thread, they are joined when they are stopped on the watcher's thread, returns how many were cancelled.
+  qsizetype CancelNasMonitors();
+#endif
+#if defined(Q_OS_ANDROID) && defined(HAVE_NAS)
+  // Suspends the NAS monitors while the app is not in the foreground.
+  void FollowApplicationState();
+#endif
 
   // Returns the CUE sheets of a directory by the media files they have songs for, without loading the songs.
   // A CUE sheet can have songs for several media files, and it's not necessarily named after them.
@@ -315,6 +380,18 @@ class CollectionWatcher : public QObject {
   bool overflow_scan_pending_;
 
   int total_watches_;
+
+#ifdef HAVE_NAS
+  int nas_polling_minutes_ = 0;
+  QMap<int, std::shared_ptr<NasMonitor>> nas_monitors_;
+  // Guards changing nas_monitors_ on the watcher's thread against CancelNasMonitors() on other threads.
+  std::mutex nas_monitors_mutex_;
+  bool nas_suspended_ = false;
+  // Set while a NAS directory is scanned or updated when it is added, so suspending stops the scan from another thread.
+  std::atomic_bool nas_scan_running_ = false;
+  // NAS directories whose scan was requested while rescanning was paused.
+  QSet<int> nas_paused_scans_;
+#endif
 
   CueParser *cue_parser_;
 

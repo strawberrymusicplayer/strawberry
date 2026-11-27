@@ -43,12 +43,17 @@
 #include <QComboBox>
 #include <QBoxLayout>
 #include <QSettings>
+#include <QSignalBlocker>
+#ifdef Q_OS_ANDROID
+#  include <QLabel>
+#endif
 #include <QTimer>
 #include <QCoreApplication>
 
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "equalizer.h"
+#include "equalizerjson.h"
 #include "equalizerslider.h"
 #include "ui_equalizer.h"
 
@@ -86,20 +91,35 @@ Equalizer::Equalizer(QWidget *parent)
   QObject::connect(this, &QDialog::finished, this, &Equalizer::SavePending);
 
   // Icons
-  ui_->preset_del->setIcon(IconLoader::Load(u"list-remove"_s));
+  ui_->preset_del->setIcon(IconLoader::Load(u"edit-delete"_s));
   ui_->preset_save->setIcon(IconLoader::Load(u"document-save"_s));
 
-  preamp_ = AddSlider(tr("Pre-amp"));
+  preamp_ = AddSlider(tr("Pre-amp"), true);
 
+#ifndef Q_OS_ANDROID
   QFrame *line = new QFrame(ui_->slider_container);
   line->setFrameShape(QFrame::VLine);
   line->setFrameShadow(QFrame::Sunken);
   ui_->slider_container->layout()->addWidget(line);
+#endif
 
-  for (int i = 0; i < kBands; ++i) gain_[i] = AddSlider(QString::fromLatin1(kGainText[i]));
+  for (int i = 0; i < kBands; ++i) {
+#ifdef Q_OS_ANDROID
+    const QString frequency = QString::fromLatin1(kGainText[i]);
+    gain_[i] = AddSlider(i < 4 ? tr("%1 Hz").arg(frequency) : tr("%1 kHz").arg(frequency.chopped(1)));
+#else
+    gain_[i] = AddSlider(QString::fromLatin1(kGainText[i]));
+#endif
+  }
+#ifdef Q_OS_ANDROID
+  SetupAndroidLayout();
+#endif
 
   // Must be done before the signals are connected
   ReloadSettings();
+#ifdef Q_OS_ANDROID
+  UpdateAndroidPreset();
+#endif
 
   QObject::connect(ui_->enable_equalizer, &QCheckBox::toggled, this, &Equalizer::EqualizerEnabledChangedSlot);
 
@@ -124,6 +144,9 @@ void Equalizer::ReloadSettings() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
+#ifdef Q_OS_ANDROID
+  const QVariant pending_params = s.value(kAndroidCurrentParams);
+#endif
 
   presets_.clear();
   ui_->preset->clear();
@@ -150,10 +173,20 @@ void Equalizer::ReloadSettings() {
   if (selected_index != -1) ui_->preset->setCurrentIndex(selected_index);
 
   ui_->enable_equalizer->setChecked(s.value(kEnabled, false).toBool());
+#ifdef Q_OS_ANDROID
+  ui_->slider_container->setEnabled(true);
+  preamp_->setEnabled(ui_->enable_equalizer->isChecked());
+  for (EqualizerSlider *band : gain_) band->setEnabled(ui_->enable_equalizer->isChecked());
+#else
   ui_->slider_container->setEnabled(ui_->enable_equalizer->isChecked());
+#endif
 
   ui_->enable_stereo_balancer->setChecked(s.value(kEnableStereoBalancer, false).toBool());
+#ifdef Q_OS_ANDROID
+  for (QLabel *label : {ui_->label_left, ui_->label_balance, ui_->label_right}) label->setEnabled(ui_->enable_stereo_balancer->isChecked());
+#else
   ui_->slider_label_layout->setEnabled(ui_->enable_stereo_balancer->isChecked());
+#endif
   ui_->stereo_balance_slider->setEnabled(ui_->enable_stereo_balancer->isChecked());
 
   ui_->stereo_balance_slider->setValue(s.value(kStereoBalance, 0).toInt());
@@ -162,7 +195,10 @@ void Equalizer::ReloadSettings() {
   LoadPreset(ui_->preset->itemData(ui_->preset->currentIndex()).toString());
 
   // Changes which were not saved to the preset before quitting are still used, without changing the preset.
-  const QVariant current_params = s.value(kCurrentParams);
+  QVariant current_params = s.value(kCurrentParams);
+#ifdef Q_OS_ANDROID
+  if (pending_params.isValid()) current_params = pending_params;
+#endif
   if (current_params.isValid()) {
     SetParams(current_params.value<Equalizer::Params>());
   }
@@ -211,14 +247,19 @@ void Equalizer::PresetChanged(const int index) {
 
 void Equalizer::PresetChanged(const QString &name) {
 
+#ifndef Q_OS_ANDROID
   if (presets_.contains(last_preset_)) {
     if (presets_[last_preset_] != current_params()) {
       SaveCurrentPreset();
     }
   }
+#endif
 
   LoadPreset(name);
   EqualizerParametersChangedSlot();
+#ifdef Q_OS_ANDROID
+  UpdateAndroidPreset();
+#endif
   Save();
 
 }
@@ -233,16 +274,33 @@ void Equalizer::LoadPreset(const QString &name) {
 
 void Equalizer::SavePreset() {
 
+#ifdef Q_OS_ANDROID
+  const QString name = ui_->preset->currentData().toString();
+  AddPreset(name, current_params());
+  UpdateAndroidPreset();
+  Save();
+#else
   QString name = SaveCurrentPreset();
   if (!name.isEmpty()) {
     last_preset_ = name;
     ui_->preset->setCurrentIndex(ui_->preset->findText(tr(qUtf8Printable(name))));
   }
+#endif
 
 }
 
 QString Equalizer::SaveCurrentPreset() {
 
+#ifdef Q_OS_ANDROID
+  const QString name = QLatin1String(kCustomPreset);
+  const QSignalBlocker blocker(ui_->preset);
+  AddPreset(name, current_params());
+  last_preset_ = name;
+  ui_->preset->setCurrentIndex(ui_->preset->findData(name));
+  UpdateAndroidPreset();
+  Save();
+  return name;
+#else
   QString name = QInputDialog::getText(this, tr("Save preset"), tr("Name"), QLineEdit::Normal, tr(qUtf8Printable(last_preset_)));
   if (name.isEmpty()) {
     return QString();
@@ -257,11 +315,15 @@ QString Equalizer::SaveCurrentPreset() {
   AddPreset(name, current_params());
   Save();
   return name;
+#endif
 
 }
 
 void Equalizer::DelPreset() {
 
+#ifdef Q_OS_ANDROID
+  ShowAndroidPresetEditor(true);
+#else
   QString name = ui_->preset->itemData(ui_->preset->currentIndex()).toString();
   QString name_displayed = ui_->preset->currentText();
   if (!presets_.contains(name) || name.isEmpty()) return;
@@ -272,12 +334,13 @@ void Equalizer::DelPreset() {
   presets_.remove(name);
   ui_->preset->removeItem(ui_->preset->currentIndex());
   Save();
+#endif
 
 }
 
-EqualizerSlider *Equalizer::AddSlider(const QString &label) {
+EqualizerSlider *Equalizer::AddSlider(const QString &label, const bool preamp) {
 
-  EqualizerSlider *ret = new EqualizerSlider(label, ui_->slider_container);
+  EqualizerSlider *ret = new EqualizerSlider(label, ui_->slider_container, preamp);
   ui_->slider_container->layout()->addWidget(ret);
   QObject::connect(ret, &EqualizerSlider::ValueChanged, this, &Equalizer::EqualizerParametersChangedSlot);
 
@@ -323,6 +386,44 @@ float Equalizer::stereo_balance() const {
   return qBound(-1.0F, static_cast<float>(ui_->stereo_balance_slider->value()) / 100.0F, 1.0F);
 }
 
+EqualizerJson::State Equalizer::ExportState() const {
+
+  EqualizerJson::State state;
+  state.presets = presets_;
+  state.selected_preset = ui_->preset->currentData().toString();
+  state.current = current_params();
+  state.enabled = is_equalizer_enabled();
+  state.stereo_balancer_enabled = is_stereo_balancer_enabled();
+  state.stereo_balance = ui_->stereo_balance_slider->value();
+  return state;
+
+}
+
+void Equalizer::ImportState(const EqualizerJson::State &state) {
+
+  for (auto it = state.presets.cbegin(); it != state.presets.cend(); ++it) AddPreset(it.key(), it.value());
+  ui_->enable_equalizer->setChecked(state.enabled);
+  ui_->enable_stereo_balancer->setChecked(state.stereo_balancer_enabled);
+  if (state.stereo_balancer_enabled) ui_->stereo_balance_slider->setValue(state.stereo_balance);
+  {
+    // Selecting the preset must not load its curve, which the imported current curve replaces.
+    const QSignalBlocker blocker(ui_->preset);
+    const int index = ui_->preset->findData(state.selected_preset);
+    if (index != -1) ui_->preset->setCurrentIndex(index);
+  }
+  last_preset_ = ui_->preset->currentData().toString();
+  loading_ = true;
+  preamp_->set_value(state.current.preamp);
+  for (int i = 0; i < kBands; ++i) gain_[i]->set_value(state.current.gain[i]);
+  loading_ = false;
+  EqualizerParametersChangedSlot();
+#ifdef Q_OS_ANDROID
+  UpdateAndroidPreset();
+#endif
+  Save();
+
+}
+
 void Equalizer::StereoBalancerEnabledChangedSlot(const bool enabled) {
 
   if (!enabled) {
@@ -330,6 +431,9 @@ void Equalizer::StereoBalancerEnabledChangedSlot(const bool enabled) {
     Q_EMIT StereoBalanceChanged(stereo_balance());
   }
   ui_->stereo_balance_slider->setEnabled(enabled);
+#ifdef Q_OS_ANDROID
+  for (QLabel *label : {ui_->label_left, ui_->label_balance, ui_->label_right}) label->setEnabled(enabled);
+#endif
   Q_EMIT StereoBalancerEnabledChanged(enabled);
   Save();
 
@@ -348,7 +452,12 @@ void Equalizer::StereoBalanceSliderChanged(const int value) {
 void Equalizer::EqualizerEnabledChangedSlot(const bool enabled) {
 
   Q_EMIT EqualizerEnabledChanged(enabled);
+#ifdef Q_OS_ANDROID
+  preamp_->setEnabled(enabled);
+  for (EqualizerSlider *band : gain_) band->setEnabled(enabled);
+#else
   ui_->slider_container->setEnabled(enabled);
+#endif
   Save();
 
 }
@@ -356,6 +465,16 @@ void Equalizer::EqualizerEnabledChangedSlot(const bool enabled) {
 void Equalizer::EqualizerParametersChangedSlot() {
 
   if (loading_) return;
+#ifdef Q_OS_ANDROID
+  // Preset loading emits the same parameter signal but must not replace the chosen preset.
+  if (android_pages_) {
+    if (current_params() != presets_.value(last_preset_)) {
+      AddPreset(QLatin1String(kCustomPreset), current_params());
+    }
+    Save();
+    UpdateAndroidPreset();
+  }
+#endif
   Q_EMIT EqualizerParametersChanged(preamp_value(), gain_values());
 
   // The current values are saved also when they are not saved to the preset, since quitting doesn't ask to save the preset.
@@ -423,17 +542,24 @@ void Equalizer::Save() {
   s.setValue(kEnabled, ui_->enable_equalizer->isChecked());
   s.setValue(kEnableStereoBalancer, ui_->enable_stereo_balancer->isChecked());
   s.setValue(kStereoBalance, ui_->stereo_balance_slider->value());
+#ifdef Q_OS_ANDROID
+  s.setValue(kAndroidCurrentParams, QVariant::fromValue(current_params()));
+#endif
 
 }
 
 void Equalizer::reject() {
 
+#ifdef Q_OS_ANDROID
+  Save();
+#else
   // Closing the dialog with Escape, the title bar or the close shortcut asks to save the changes to the preset.
   const QString name = ui_->preset->itemData(ui_->preset->currentIndex()).toString();
   if (presets_.contains(name) && presets_[name] != current_params()) {
     SavePreset();
   }
 
+#endif
   QDialog::reject();
 
 }

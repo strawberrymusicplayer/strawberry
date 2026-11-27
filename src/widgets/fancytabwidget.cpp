@@ -20,11 +20,13 @@
  */
 
 #include <utility>
+#include <algorithm>
 #include <chrono>
 
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
+#include <QList>
 #include <QTimer>
 #include <QVariant>
 #include <QString>
@@ -73,9 +75,15 @@ FancyTabWidget::FancyTabWidget(QWidget *parent)
   FancyTabBar *tabBar = new FancyTabBar(this);
   setTabBar(tabBar);
   setTabPosition(QTabWidget::West);
+#ifdef Q_OS_ANDROID
+  // On a touch screen, a drag must scroll the sidebar; reordering tabs by dragging is unexpected.
+  setMovable(false);
+  tabBar->SetTouchScrolling(true);
+#else
   setMovable(true);
-  setElideMode(Qt::ElideNone);
   setUsesScrollButtons(true);
+#endif
+  setElideMode(Qt::ElideNone);
 
   QObject::connect(tabBar, &FancyTabBar::currentChanged, this, &FancyTabWidget::CurrentTabChangedSlot);
 
@@ -94,8 +102,11 @@ void FancyTabWidget::LoadSettings(const QString &settings_group) {
 
   Settings s;
   s.beginGroup(settings_group);
+  // Resolve tabs in the order they were added, since tabs_ is a hash and a new tab can request the same index as a saved one.
+  QList<FancyTabData*> tabs_in_order = tabs_.values();
+  std::sort(tabs_in_order.begin(), tabs_in_order.end(), [](const FancyTabData *a, const FancyTabData *b) { return a->index() < b->index(); });
   QMultiMap<int, FancyTabData*> tabs;
-  for (FancyTabData *tab : std::as_const(tabs_)) {
+  for (FancyTabData *tab : std::as_const(tabs_in_order)) {
     int idx = s.value(u"tab_"_s + tab->name(), tab->index()).toInt();
     while (tabs.contains(idx)) { ++idx; }
     tabs.insert(idx, tab);
@@ -118,6 +129,16 @@ void FancyTabWidget::SaveSettings(const QString &settings_group) {
   }
   s.setValue(kCurrentTab, currentIndex());
 
+#ifdef Q_OS_ANDROID
+  // Only the sidebar editor saves tab positions, including slots for disabled services.
+  const QList<SidebarTab> ordered = AndroidSidebarTabs(settings_group);
+  for (FancyTabData *tab : std::as_const(tabs_)) {
+    if (tab->page() != currentWidget()) continue;
+    for (int i = 0; i < ordered.count(); ++i) {
+      if (ordered.at(i).name == tab->name()) s.setValue(kCurrentTab, i);
+    }
+  }
+#else
   for (FancyTabData *tab : std::as_const(tabs_)) {
     QString k = u"tab_"_s + tab->name();
     int idx = QTabWidget::indexOf(tab->page());
@@ -128,6 +149,7 @@ void FancyTabWidget::SaveSettings(const QString &settings_group) {
       s.setValue(k, idx);
     }
   }
+#endif
 
   s.endGroup();
 

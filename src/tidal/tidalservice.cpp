@@ -132,6 +132,9 @@ TidalService::TidalService(const SharedPtr<TaskManager> task_manager,
   oauth_->set_use_local_redirect_server(false);
   oauth_->set_port_type(OAuthenticator::PortType::SetToRedirectURL);
   oauth_->set_use_pkce(true);
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_TIDAL_BROWSER_AUTH)
+  oauth_->set_android_browser_authentication_enabled(true);
+#endif
 
   QObject::connect(oauth_, &OAuthenticator::AuthenticationFinished, this, &TidalService::OAuthFinished);
 
@@ -182,6 +185,10 @@ TidalService::TidalService(const SharedPtr<TaskManager> task_manager,
 }
 
 TidalService::~TidalService() {
+
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_TIDAL_BROWSER_AUTH)
+  StopAndroidAuthentication();
+#endif
 
   while (!stream_url_requests_.isEmpty()) {
     TidalStreamURLRequestPtr stream_url_request = stream_url_requests_.take(stream_url_requests_.firstKey());
@@ -304,13 +311,36 @@ void TidalService::ReloadSettings() {
 void TidalService::StartAuthorization(const QString &client_id) {
 
   oauth_->set_client_id(client_id);
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_TIDAL_BROWSER_AUTH)
+  QString error;
+  if (!StartAndroidAuthentication(error)) {
+    Q_EMIT LoginFailure(error);
+    Q_EMIT LoginFinished(false);
+    return;
+  }
+#endif
   oauth_->Authenticate();
+
+}
+
+void TidalService::CancelAuthorization() {
+
+  oauth_->CancelAuthentication();
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_TIDAL_BROWSER_AUTH)
+  StopAndroidAuthentication();
+#endif
+  Q_EMIT LoginFailure(tr("Authentication cancelled."));
+  Q_EMIT LoginFinished(false);
 
 }
 
 void TidalService::OAuthFinished(const bool success, const QString &error, const bool invalid_grant) {
 
   Q_UNUSED(invalid_grant);
+
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_TIDAL_BROWSER_AUTH)
+  StopAndroidAuthentication();
+#endif
 
   if (success) {
     qLog(Debug) << "Tidal: Login successful" << "user id" << user_id();

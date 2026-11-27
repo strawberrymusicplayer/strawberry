@@ -33,6 +33,12 @@
 #include <QEvent>
 #include <QContextMenuEvent>
 #include <QEnterEvent>
+#ifdef Q_OS_ANDROID
+#include <QApplication>
+#include <QMouseEvent>
+#include <QPushButton>
+#include <QScreen>
+#endif
 
 #include "playlistheader.h"
 #include "playlistview.h"
@@ -40,6 +46,10 @@
 #include "core/settings.h"
 #include "widgets/stretchheaderview.h"
 #include "constants/playlistsettings.h"
+#ifdef Q_OS_ANDROID
+#include "widgets/actiondialog.h"
+#include "widgets/longpresshandler.h"
+#endif
 
 PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, QWidget *parent)
     : StretchHeaderView(orientation, parent),
@@ -101,6 +111,15 @@ PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, 
   action_rating_lock_->setChecked(s.value(PlaylistSettings::kRatingLocked, PlaylistSettings::kDefaultRatingLocked).toBool());
   s.endGroup();
 
+#ifdef Q_OS_ANDROID
+  long_press_ = new LongPressHandler(LongPressHandler::PlatformInterval(), LongPressHandler::PlatformDragDistance(devicePixelRatioF()), this);
+  setContextMenuPolicy(Qt::PreventContextMenu);
+  QObject::connect(long_press_, &LongPressHandler::LongPressed, this, &PlaylistHeader::ShowAndroidActions);
+  QObject::connect(qApp, &QApplication::applicationStateChanged, this, [this](const Qt::ApplicationState state) {
+    if (state != Qt::ApplicationActive) CancelAndroidActions();
+  });
+#endif
+
 }
 
 void PlaylistHeader::contextMenuEvent(QContextMenuEvent *e) {
@@ -144,6 +163,92 @@ void PlaylistHeader::contextMenuEvent(QContextMenuEvent *e) {
   menu_->popup(e->globalPos());
 
 }
+
+#ifdef Q_OS_ANDROID
+void PlaylistHeader::mousePressEvent(QMouseEvent *event) {
+
+  long_press_->Release();
+  if (event->button() == Qt::LeftButton && logicalIndexAt(event->pos()) != -1) {
+    long_press_->Press(event->pos());
+  }
+  StretchHeaderView::mousePressEvent(event);
+
+}
+
+void PlaylistHeader::mouseMoveEvent(QMouseEvent *event) {
+
+  if (long_press_->Move(event->pos())) {
+    event->accept();
+    return;
+  }
+  StretchHeaderView::mouseMoveEvent(event);
+
+}
+
+void PlaylistHeader::mouseReleaseEvent(QMouseEvent *event) {
+
+  if (long_press_->Release()) {
+    event->accept();
+    return;
+  }
+  StretchHeaderView::mouseReleaseEvent(event);
+
+}
+
+void PlaylistHeader::CancelAndroidActions() {
+
+  long_press_->Cancel();
+  if (android_actions_ && android_actions_->isVisible()) android_actions_->reject();
+
+}
+
+void PlaylistHeader::ShowAndroidActions(const QPoint position) {
+
+  const int section = logicalIndexAt(position);
+  if (section == -1 || !isVisible()) return;
+
+  android_actions_ = CreateAndroidActions(this, section);
+  android_actions_->Open();
+
+}
+
+ActionDialog *PlaylistHeader::CreateAndroidActions(QWidget *parent, const int section) {
+
+  menu_section_ = section;
+  const QString title = model()->headerData(section, Qt::Horizontal).toString();
+  ActionDialog *dialog = new ActionDialog(parent, tr("Playlist columns and sorting"), tr("Playlist > %1").arg(title), ActionDialog::TitlePosition::Top);
+  const auto add_action = [dialog](const QString &text, const auto action) {
+    QPushButton *button = dialog->AddButton(text);
+    QObject::connect(button, &QPushButton::clicked, dialog, [dialog, action]() {
+      dialog->accept();
+      action();
+    });
+  };
+
+  add_action(tr("Sort by %1 ascending").arg(title), [this]() { SortAscending(); });
+  add_action(tr("Sort by %1 descending").arg(title), [this]() { SortDescending(); });
+  if (sortIndicatorSection() != -1) {
+    add_action(tr("Clear sorting"), [this]() { ClearSorting(); });
+  }
+
+  int visible_columns = 0;
+  for (int i = 0; i < count(); ++i) {
+    if (!isSectionHidden(i)) ++visible_columns;
+  }
+  if (visible_columns > 1) {
+    add_action(tr("Hide %1").arg(title), [this, section]() { ToggleVisible(section); });
+  }
+
+  const bool portrait = screen() && screen()->geometry().height() > screen()->geometry().width();
+  if (!portrait) {
+    add_action(is_stretch_enabled() ? tr("Stop stretching columns") : tr("Stretch columns to fit"), [this]() { ToggleStretchEnabled(); });
+  }
+  add_action(tr("Reset columns to default"), [this]() { ResetColumns(); });
+  dialog->AddCancelButton(tr("Back"));
+  return dialog;
+
+}
+#endif
 
 void PlaylistHeader::AddColumnAction(const int index) {
 

@@ -20,6 +20,7 @@
  */
 
 #include <QWidget>
+#include <QColorDialog>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QSpinBox>
@@ -35,12 +36,32 @@
 
 #include "settingsdialog.h"
 #include "settingspage.h"
+#ifdef Q_OS_ANDROID
+#  include "androidsettingspage.h"
+#endif
 
 SettingsPage::SettingsPage(SettingsDialog *dialog, QWidget *parent)
     : QWidget(parent),
       dialog_(dialog),
       ui_widget_(nullptr),
       changed_(false) {}
+
+bool SettingsPage::IsActive() const {
+#ifdef Q_OS_ANDROID
+  return isVisible() || dialog_->IsAndroidPageActive(this);
+#else
+  return isVisible();
+#endif
+}
+
+void SettingsPage::ChooseColor(const QColor &initial_color, const std::function<void(const QColor &)> &on_selected) {
+#ifdef Q_OS_ANDROID
+  AndroidSettingsPage::ChooseColor(this, initial_color, on_selected);
+#else
+  const QColor color = QColorDialog::getColor(initial_color, this);
+  if (color.isValid()) on_selected(color);
+#endif
+}
 
 void SettingsPage::Init(QWidget *ui_widget) {
 
@@ -57,7 +78,11 @@ void SettingsPage::Init(QWidget *ui_widget) {
   sliders_.clear();
   lineedits_.clear();
 
-  const QList<QWidget*> list = ui_widget_->findChildren<QWidget*>(QString(), Qt::FindChildrenRecursively);
+  QList<QWidget*> list = ui_widget_->findChildren<QWidget*>(QString(), Qt::FindChildrenRecursively);
+#ifdef Q_OS_ANDROID
+  // A section open in an Android subpage is temporarily reparented out of ui_widget_.
+  if (dialog_) list << dialog_->AndroidSubpageWidgets(ui_widget_);
+#endif
   for (QWidget *w : list) {
     if (QCheckBox *checkbox = qobject_cast<QCheckBox*>(w)) {
       checkboxes_ << qMakePair(checkbox, checkbox->checkState());
@@ -68,7 +93,7 @@ void SettingsPage::Init(QWidget *ui_widget) {
     else if (QComboBox *combobox = qobject_cast<QComboBox*>(w)) {
       combobox->setFocusPolicy(Qt::StrongFocus);
       combobox->installEventFilter(this);
-      comboboxes_ << qMakePair(combobox, combobox->currentText());
+      comboboxes_ << qMakePair(combobox, qMakePair(combobox->currentIndex(), combobox->currentText()));
     }
     else if (QSpinBox *spinbox = qobject_cast<QSpinBox*>(w)) {
       spinbox->setFocusPolicy(Qt::StrongFocus);
@@ -101,7 +126,7 @@ void SettingsPage::Reject() {
   changed_ = false;
 }
 
-void SettingsPage::Apply() {
+bool SettingsPage::Apply() {
 
   if (!ui_widget_) {
     qLog(Error) << windowTitle() << "is not initialized!";
@@ -118,8 +143,8 @@ void SettingsPage::Apply() {
     changed_ = true;
     qLog(Info) << radiobutton.first->objectName() << "is changed for" << windowTitle() << "settings.";
   }
-  for (const QPair<QComboBox*, QString> &combobox : std::as_const(comboboxes_)) {
-    if (combobox.first->currentText() == combobox.second) continue;
+  for (const QPair<QComboBox*, QPair<int, QString>> &combobox : std::as_const(comboboxes_)) {
+    if (combobox.first->currentIndex() == combobox.second.first && combobox.first->currentText() == combobox.second.second) continue;
     changed_ = true;
     qLog(Info) << combobox.first->objectName() << "is changed for" << windowTitle() << "settings.";
   }
@@ -149,7 +174,10 @@ void SettingsPage::Apply() {
     qLog(Info) << "Saving settings for" << windowTitle();
     Save();
     Init(ui_widget_);
+    return true;
   }
+
+  return false;
 
 }
 

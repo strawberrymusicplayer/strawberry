@@ -78,6 +78,9 @@
 #include "lyrics/lyricssearchresult.h"
 #include "constants/contextsettings.h"
 #include "constants/timeconstants.h"
+#ifdef Q_OS_ANDROID
+#  include "widgets/scrollarea_android.h"
+#endif
 
 #include "contextview.h"
 #include "contextalbum.h"
@@ -238,6 +241,11 @@ ContextView::ContextView(QWidget *parent)
   QObject::connect(scrollarea_->verticalScrollBar(), &QScrollBar::valueChanged, this, &ContextView::CancelLyricsClick);
   QObject::connect(textedit_play_lyrics_->verticalScrollBar(), &QScrollBar::valueChanged, this, &ContextView::CancelLyricsClick);
   QObject::connect(textedit_play_lyrics_->horizontalScrollBar(), &QScrollBar::valueChanged, this, &ContextView::CancelLyricsClick);
+
+#ifdef Q_OS_ANDROID
+  AndroidScrollArea::EnableForContents(scrollarea_);
+  scrollarea_->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+#endif
 
   layout_play_->setContentsMargins(0, 0, 0, 0);
   layout_play_->addWidget(widget_play_data_);
@@ -629,6 +637,11 @@ void ContextView::UpdateFonts() {
   for (QTextEdit *e : std::as_const(textedit_play_)) {
     e->setFont(font_normal_);
   }
+#ifdef Q_OS_ANDROID
+  QFont lyrics_font = font_normal_;
+  lyrics_font.setPointSizeF(qMax(20.0, lyrics_font.pointSizeF()));
+  textedit_play_lyrics_->setFont(lyrics_font);
+#endif
 
 }
 

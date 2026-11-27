@@ -49,6 +49,7 @@
 #include <QItemSelectionModel>
 #include <QScrollBar>
 #include <QTreeView>
+#include <QTest>
 #include <QTemporaryDir>
 #include <QThreadPool>
 #include <QRecursiveMutex>
@@ -58,6 +59,7 @@
 #include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/database.h"
+#include "core/songmimedata.h"
 #include "core/memorydatabase.h"
 #include "collection/collectionmanager.h"
 #include "collection/collectionbackend.h"
@@ -68,6 +70,7 @@
 #include "covermanager/albumcoverloader.h"
 #include "tagreader/tagreaderclient.h"
 #include "collection/collectiontreeview.h"
+#include "collection/collectionview.h"
 
 using namespace Qt::Literals::StringLiterals;
 using std::make_unique;
@@ -76,6 +79,34 @@ using std::make_shared;
 // clazy:excludeall=non-pod-global-static,returning-void-expression
 
 namespace {
+
+class EmptyCollectionView : public CollectionView {
+ public:
+  using CollectionView::EmptyText;
+};
+
+TEST(CollectionViewTest, EmptyCollectionOpensSettings) {
+
+  EmptyCollectionView view;
+  view.TotalSongCountUpdated(0);
+  QSignalSpy settings(&view, &CollectionView::ShowSettingsDialog);
+  view.resize(240, 480);
+  view.show();
+  QCoreApplication::processEvents();
+
+#ifdef Q_OS_ANDROID
+  EXPECT_EQ(u"Tap here to open Collection settings and add music"_s, view.EmptyText());
+#else
+  EXPECT_EQ(u"Click here to add some music"_s, view.EmptyText());
+#endif
+  QTest::mouseClick(view.viewport(), Qt::LeftButton, Qt::NoModifier, view.viewport()->rect().center());
+  EXPECT_EQ(1, settings.count());
+
+  view.TotalSongCountUpdated(1);
+  QTest::mouseClick(view.viewport(), Qt::LeftButton, Qt::NoModifier, view.viewport()->rect().center());
+  EXPECT_EQ(1, settings.count());
+
+}
 
 // Makes the collection model of the view settable, it's set by the subclasses of the view.
 class TestCollectionTreeView : public CollectionTreeView {
@@ -305,6 +336,26 @@ TEST_F(CollectionModelTest, CompilationAlbums) {
   EXPECT_EQ(model_->data(album_index).toString(), u"Album"_s);
   EXPECT_TRUE(model_->hasChildren(album_index));
 
+}
+
+TEST_F(CollectionModelTest, DividerKeysMatchTheirArtistsThroughFilter) {
+  AddSong(u"Title"_s, u"Artist"_s, u"Album"_s, 123);
+  AddSong(u"Title"_s, u"Another artist"_s, u"Album"_s, 123);
+  AddSong(u"Title"_s, u"1artist"_s, u"Album"_s, 123);
+  AddSong(u"Title"_s, u"Foo"_s, u"Album"_s, 123);
+
+  QString divider_key;
+  for (int row = 0; row < collection_filter_->rowCount(); ++row) {
+    const QModelIndex index = collection_filter_->index(row, 0);
+    const QString key = index.data(CollectionModel::Role_DividerKey).toString();
+    if (index.data(CollectionModel::Role_IsDivider).toBool()) {
+      divider_key = key;
+      EXPECT_FALSE(key.isEmpty());
+    }
+    else {
+      EXPECT_EQ(key, divider_key);
+    }
+  }
 }
 
 TEST_F(CollectionModelTest, NumericHeaders) {
@@ -912,6 +963,40 @@ TEST_F(CollectionModelTest, SelectedSongsExcludeSongsHiddenByFilter) {
   view.selectionModel()->select(artist_index(), QItemSelectionModel::ClearAndSelect);
   EXPECT_EQ(2, view.GetSelectedSongs().count());
 
+}
+
+TEST_F(CollectionModelTest, BatchMimeDataIncludesDescendantsOnceAndRespectsFilter) {
+
+  AddSong(u"Matching"_s, u"Artist"_s, u"Album"_s, 123);
+  AddSong(u"Hidden"_s, u"Artist"_s, u"Album"_s, 123);
+
+  const auto artist_index = [this]() {
+    for (int row = 0; row < collection_filter_->rowCount(); ++row) {
+      const QModelIndex index = collection_filter_->index(row, 0);
+      if (index.data().toString() == u"Artist"_s) return index;
+    }
+    return QModelIndex();
+  };
+  QModelIndex artist = artist_index();
+  ASSERT_TRUE(artist.isValid());
+  if (collection_filter_->canFetchMore(artist)) collection_filter_->fetchMore(artist);
+  const QModelIndex album = collection_filter_->index(0, 0, artist);
+  ASSERT_TRUE(album.isValid());
+  const QAbstractItemModel *mime_model = collection_filter_;
+  std::unique_ptr<QMimeData> data(mime_model->mimeData({artist, album}));
+  const auto *songs = qobject_cast<SongMimeData*>(data.get());
+  ASSERT_NE(songs, nullptr);
+  ASSERT_EQ(songs->songs.count(), 2);
+  EXPECT_NE(songs->songs.at(0).id(), songs->songs.at(1).id());
+
+  collection_filter_->SetFilterString(u"matching"_s);
+  artist = artist_index();
+  ASSERT_TRUE(artist.isValid());
+  data.reset(mime_model->mimeData({artist}));
+  songs = qobject_cast<SongMimeData*>(data.get());
+  ASSERT_NE(songs, nullptr);
+  ASSERT_EQ(songs->songs.count(), 1);
+  EXPECT_EQ(songs->songs.first().title(), u"Matching"_s);
 }
 
 // Regression test: changing a filter reloaded the songs, which collapsed the view.

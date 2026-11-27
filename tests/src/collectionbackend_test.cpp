@@ -784,6 +784,37 @@ TEST_F(SingleSong, MarkSongsUnavailable) {
 
 }
 
+TEST_F(SingleSong, DeleteUnavailableSongsKeepsAvailableSongs) {
+
+  AddDummySong();
+  if (HasFatalFailure()) return;
+
+  Song available_song = MakeDummySong(1);
+  available_song.set_title(u"Available"_s);
+  available_song.set_url(QUrl::fromLocalFile(u"bar.flac"_s));
+  backend_->AddOrUpdateSongs(SongList() << available_song);
+
+  Song unavailable_song(song_);
+  unavailable_song.set_id(1);
+  backend_->MarkSongsUnavailable(SongList() << unavailable_song);
+  EXPECT_EQ(1, backend_->UnavailableSongCount());
+
+  QSignalSpy deleted_spy(&*backend_, &CollectionBackend::SongsDeleted);
+  backend_->DeleteUnavailableSongs();
+
+  ASSERT_EQ(1, deleted_spy.size());
+  const SongList songs_deleted = *(reinterpret_cast<SongList*>(deleted_spy[0][0].data()));
+  ASSERT_EQ(1, songs_deleted.size());
+  EXPECT_EQ(1, songs_deleted[0].id());
+  EXPECT_FALSE(backend_->GetSongById(1).is_valid());
+  EXPECT_EQ(u"Available"_s, backend_->GetSongById(2).title());
+  EXPECT_EQ(0, backend_->UnavailableSongCount());
+
+  // Nothing is deleted when there are no unavailable songs.
+  backend_->DeleteUnavailableSongs();
+  EXPECT_EQ(1, deleted_spy.size());
+}
+
 // A song which becomes unavailable is last seen now, so it's expired by when it became unavailable, a song which was already unavailable keeps when it was last seen.
 TEST_F(SingleSong, MarkSongsUnavailableUpdatesLastSeen) {
 

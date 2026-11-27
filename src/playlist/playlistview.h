@@ -42,6 +42,7 @@
 #include <QStyleOption>
 #include <QPoint>
 #include <QBasicTimer>
+#include <QPointer>
 
 #include "core/song.h"
 #include "covermanager/albumcoverloaderresult.h"
@@ -74,6 +75,10 @@ class PlaylistHeader;
 class PlaylistProxyStyle;
 class DynamicPlaylistControls;
 class RatingItemDelegate;
+#ifdef Q_OS_ANDROID
+class LongPressHandler;
+class QDialog;
+#endif
 
 #ifdef HAVE_MOODBAR
 class MoodbarLoader;
@@ -121,6 +126,7 @@ class PlaylistView : public QTreeView {
   void PlayItem(const QModelIndex idx, const Playlist::AutoScroll autoscroll);
   void PlayPause(const quint64 offset_nanosec = 0, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll::Never);
   void ShowPlaylistContextMenu(const QPoint global_pos, const QModelIndex idx);
+  void AndroidShowInCollectionRequested();
   void SeekForward();
   void SeekBackward();
   void FocusOnFilterSignal(QKeyEvent *event);
@@ -136,6 +142,7 @@ class PlaylistView : public QTreeView {
   void timerEvent(QTimerEvent *event) override;
   void mouseMoveEvent(QMouseEvent *event) override;
   void mousePressEvent(QMouseEvent *event) override;
+  void mouseReleaseEvent(QMouseEvent *event) override;
   void leaveEvent(QEvent *e) override;
   void paintEvent(QPaintEvent *event) override;
   void dragMoveEvent(QDragMoveEvent *event) override;
@@ -186,6 +193,19 @@ class PlaylistView : public QTreeView {
  private:
   void LoadHeaderState();
   void RestoreHeaderState();
+#ifdef Q_OS_ANDROID
+  // Implemented in playlistview_android.cpp.
+  void SetupAndroidLongPress();
+  void PressAndroidLongPress(const QMouseEvent *event);
+  void DisconnectAndroidSongActions();
+  void ConnectAndroidSongActions();
+  void UpdatePortraitColumns();
+  void ShowAndroidSongActions(const QPoint position);
+  void CancelAndroidSongActions();
+  LongPressHandler *long_press_ = nullptr;
+  QPointer<QDialog> android_song_actions_;
+  bool portrait_columns_ = false;
+#endif
 
   void ReloadBarPixmaps();
   QList<QPixmap> LoadBarPixmap(const QString &filename, const bool keep_aspect_ratio);

@@ -45,6 +45,11 @@
 #include <QShowEvent>
 #include <QContextMenuEvent>
 #include <QMimeData>
+#ifdef Q_OS_ANDROID
+#  include <QFont>
+#  include <QStyle>
+#  include <QDialog>
+#endif
 
 #include "core/iconloader.h"
 #include "core/settings.h"
@@ -57,6 +62,10 @@
 #include "playlistmanager.h"
 #include "ui_playlistlistcontainer.h"
 #include "organize/organizedialog.h"
+#ifdef Q_OS_ANDROID
+#  include "covermanager/coverdialogpage_android.h"
+#  include "widgets/actiondialog.h"
+#endif
 #include "constants/appearancesettings.h"
 #ifndef Q_OS_WIN32
 #  include "device/devicemanager.h"
@@ -65,6 +74,7 @@
 
 using std::make_unique;
 using namespace Qt::Literals::StringLiterals;
+
 
 PlaylistListContainer::PlaylistListContainer(QWidget *parent)
     : QWidget(parent),
@@ -101,6 +111,9 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
   QObject::connect(action_save_playlist_, &QAction::triggered, this, &PlaylistListContainer::SavePlaylist);
 #ifndef Q_OS_WIN32
   QObject::connect(action_copy_to_device_, &QAction::triggered, this, &PlaylistListContainer::CopyToDevice);
+#ifdef Q_OS_ANDROID
+  action_copy_to_device_->setVisible(false);
+#endif
 #endif
   QObject::connect(model_, &PlaylistListModel::PlaylistPathChanged, this, &PlaylistListContainer::PlaylistPathChanged);
 
@@ -110,7 +123,22 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
   ui_->tree->setModel(proxy_);
 
   QObject::connect(ui_->tree, &PlaylistListView::ItemsSelectedChanged, this, &PlaylistListContainer::ItemsSelectedChanged);
+#ifdef Q_OS_ANDROID
+  QFont playlist_font = ui_->tree->font();
+  playlist_font.setPointSizeF(14.4);
+  ui_->tree->setFont(playlist_font);
+  ui_->tree->setStyleSheet(QStringLiteral(
+      "QTreeView::item { min-height: 40px; padding: 4px 12px; }"
+      "QTreeView::item:selected { background: palette(highlight); color: palette(highlighted-text); }"));
+  QObject::connect(ui_->tree, &PlaylistListView::clicked, this, &PlaylistListContainer::ItemDoubleClicked);
+  ui_->tree->setMinimumHeight(48);
+  for (QToolButton *button : {ui_->new_folder, ui_->remove, ui_->save_playlist}) {
+    button->setMinimumSize(48, 48);
+  }
+  ui_->save_playlist->hide();
+#else
   QObject::connect(ui_->tree, &PlaylistListView::doubleClicked, this, &PlaylistListContainer::ItemDoubleClicked);
+#endif
   QObject::connect(ui_->tree, &PlaylistListView::ItemMimeDataDroppedSignal, this, &PlaylistListContainer::ItemMimeDataDropped);
 
   model_->invisibleRootItem()->setData(PlaylistListModel::Type_Folder, PlaylistListModel::Role_Type);
@@ -120,6 +148,22 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
 }
 
 PlaylistListContainer::~PlaylistListContainer() { delete ui_; }
+
+#ifdef Q_OS_ANDROID
+void PlaylistListContainer::SetAndroidNewPlaylistAction(QAction *action) {
+
+  auto *button = new QToolButton(ui_->widget);
+  button->setDefaultAction(action);
+  button->setIcon(QIcon(QStringLiteral(":/icons/32x32/list-add.png")));
+  button->setIconSize(ui_->new_folder->iconSize());
+  button->setToolButtonStyle(Qt::ToolButtonIconOnly);
+  button->setAccessibleName(tr("New playlist"));
+  button->setToolTip(tr("New playlist"));
+  button->setMinimumSize(48, 48);
+  ui_->horizontalLayout->insertWidget(0, button);
+
+}
+#endif
 
 void PlaylistListContainer::Init(const SharedPtr<TaskManager> task_manager,
                                  const SharedPtr<TagReaderClient> tagreader_client,
@@ -140,6 +184,9 @@ void PlaylistListContainer::Init(const SharedPtr<TaskManager> task_manager,
   QObject::connect(&*playlist_manager, &PlaylistManager::PlaylistRenamed, this, &PlaylistListContainer::PlaylistRenamed);
   QObject::connect(&*playlist_manager, &PlaylistManager::CurrentChanged, this, &PlaylistListContainer::CurrentChanged);
   QObject::connect(&*playlist_manager, &PlaylistManager::ActiveChanged, this, &PlaylistListContainer::ActiveChanged);
+#ifdef Q_OS_ANDROID
+  QObject::connect(&*playlist_manager, &PlaylistManager::PlaylistDeleted, this, &PlaylistListContainer::RemovePlaylist);
+#endif
 
   QObject::connect(model_, &PlaylistListModel::PlaylistRenamed, &*playlist_manager, &PlaylistManager::Rename);
 
@@ -173,13 +220,22 @@ void PlaylistListContainer::showEvent(QShowEvent *e) {
     loaded_icons_ = true;
 
     action_new_folder_->setIcon(IconLoader::Load(u"folder-new"_s));
+#ifdef Q_OS_ANDROID
+    action_remove_->setIcon(style()->standardIcon(QStyle::SP_TrashIcon));
+    ui_->remove->setAccessibleName(tr("Delete playlist"));
+#else
     action_remove_->setIcon(IconLoader::Load(u"edit-delete"_s));
+#endif
     action_save_playlist_->setIcon(IconLoader::Load(u"document-save"_s));
 #ifndef Q_OS_WIN32
     action_copy_to_device_->setIcon(IconLoader::Load(u"device"_s));
 #endif
 
+#ifdef Q_OS_ANDROID
+    model_->SetIcons(QIcon(), IconLoader::Load(u"folder"_s));
+#else
     model_->SetIcons(IconLoader::Load(u"view-media-playlist"_s), IconLoader::Load(u"folder"_s));
+#endif
 
     // Apply these icons to items that have already been created.
     RecursivelySetIcons(model_->invisibleRootItem());
@@ -216,7 +272,11 @@ void PlaylistListContainer::RecursivelySetIcons(QStandardItem *parent) const {
 
 void PlaylistListContainer::NewFolderClicked() {
 
+#ifdef Q_OS_ANDROID
+  QString name = CoverDialogPage::GetText(this, tr("New folder"), tr("Enter the name of the folder"));
+#else
   QString name = QInputDialog::getText(this, tr("New folder"), tr("Enter the name of the folder"));
+#endif
   if (name.isEmpty()) {
     return;
   }
@@ -229,9 +289,13 @@ void PlaylistListContainer::NewFolderClicked() {
 
 void PlaylistListContainer::AddPlaylist(const int id, const QString &name, const bool favorite) {
 
+#ifdef Q_OS_ANDROID
+  Q_UNUSED(favorite);
+#else
   if (!favorite) {
     return;
   }
+#endif
 
   if (!playlist_manager_->IsPlaylistOpen(id)) {
     return;
@@ -293,6 +357,9 @@ void PlaylistListContainer::SavePlaylist() {
 
 void PlaylistListContainer::PlaylistFavoriteStateChanged(const int id, const bool favorite) {
 
+#ifdef Q_OS_ANDROID
+  AddPlaylist(id, playlist_manager_->GetPlaylistName(id), favorite);
+#else
   if (favorite) {
     const QString &name = playlist_manager_->GetPlaylistName(id);
     AddPlaylist(id, name, favorite);
@@ -300,6 +367,7 @@ void PlaylistListContainer::PlaylistFavoriteStateChanged(const int id, const boo
   else {
     RemovePlaylist(id);
   }
+#endif
 
 }
 
@@ -361,6 +429,7 @@ void PlaylistListContainer::ItemDoubleClicked(const QModelIndex &proxy_idx) {
   // Is it a playlist?
   if (idx.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist) {
     playlist_manager_->SetCurrentOrOpen(idx.data(PlaylistListModel::Role_PlaylistId).toInt());
+    Q_EMIT PlaylistActivated();
   }
 
 }
@@ -455,6 +524,30 @@ void PlaylistListContainer::Delete() {
     }
   }
 
+#ifdef Q_OS_ANDROID
+  QString question;
+  if (ids.count() == 1) {
+    const QStandardItem *item = model_->PlaylistById(*ids.cbegin());
+    question = tr("Are you sure you want to delete the \"%1\" playlist? Music files will not be deleted.").arg(item ? item->text() : tr("Playlist"));
+  }
+  else if (ids.isEmpty()) {
+    question = tr("Are you sure you want to delete the selected folders? Music files will not be deleted.");
+  }
+  else {
+    question = tr("Are you sure you want to delete %1 playlists? Music files will not be deleted.").arg(ids.count());
+  }
+  ActionDialog *confirmation = ActionDialog::CreateConfirmation(this, tr("Delete playlists"), question, tr("Delete playlist"));
+  QObject::connect(confirmation, &QDialog::accepted, this, [this, ids, folders_to_delete]() {
+    for (const int id : ids) {
+      playlist_manager_->Delete(id);
+    }
+    for (const QPersistentModelIndex &idx : folders_to_delete) {
+      if (idx.isValid()) model_->removeRow(idx.row(), idx.parent());
+    }
+  });
+  confirmation->Open();
+  return;
+#else
   // Make sure the user really wants to unfavorite all these playlists.
   if (ids.count() > 1) {
     const int button = QMessageBox::question(this, tr("Remove playlists"), tr("You are about to remove %1 playlists from your favorites, are you sure?").arg(ids.count()), QMessageBox::Yes, QMessageBox::Cancel);
@@ -468,6 +561,7 @@ void PlaylistListContainer::Delete() {
   for (const int id : std::as_const(ids)) {
     playlist_manager_->Favorite(id, false);
   }
+#endif
 
   // Delete the top-level folders.
   for (const QPersistentModelIndex &idx : std::as_const(folders_to_delete)) {

@@ -83,11 +83,15 @@ PlaylistManager::PlaylistManager(const SharedPtr<TaskManager> task_manager,
       playlist_container_(nullptr),
       current_(-1),
       active_(-1),
-      save_sequence_(0) {
+      save_sequence_(0),
+      removal_sequence_(0) {
 
   setObjectName(QLatin1String(QObject::metaObject()->className()));
 
   QObject::connect(&*playlist_backend_, &PlaylistBackend::PlaylistSaved, this, &PlaylistManager::ClosedPlaylistSaved);
+  QObject::connect(&*playlist_backend_, &PlaylistBackend::PlaylistRemoved, this, [this](const int id, const quint64 sequence) {
+    if (playlists_pending_removal_.value(id) == sequence) playlists_pending_removal_.remove(id);
+  });
 
 }
 
@@ -267,6 +271,7 @@ void PlaylistManager::New(const QString &name, const SongList &songs, const QStr
 
   if (id == -1) qFatal("Couldn't create playlist");
 
+  playlists_pending_removal_.remove(id);
   Playlist *playlist = AddPlaylist(id, name, special_type, QString(), false);
   playlist->InsertSongsOrCollectionItems(songs);
 
@@ -276,6 +281,25 @@ void PlaylistManager::New(const QString &name, const SongList &songs, const QStr
   if (name == tr("Playlist")) {
     Rename(id, QStringLiteral("%1 %2").arg(name, QString::number(id)));
   }
+
+}
+
+void PlaylistManager::SelectNowPlaying() {
+
+  for (auto it = playlists_.cbegin(); it != playlists_.cend(); ++it) {
+    if (it->p->is_now_playing()) {
+      SetCurrentPlaylist(it.key());
+      return;
+    }
+  }
+  const PlaylistBackend::PlaylistList playlists = playlist_backend_->GetAllPlaylists();
+  for (const PlaylistBackend::Playlist &playlist : playlists) {
+    if (playlist.special_type == QLatin1String(Playlist::kNowPlayingType) && !playlists_pending_removal_.contains(playlist.id)) {
+      SetCurrentOrOpen(playlist.id);
+      return;
+    }
+  }
+  New(tr("Now playing"), SongList(), QLatin1String(Playlist::kNowPlayingType));
 
 }
 
@@ -290,6 +314,7 @@ void PlaylistManager::Load(const QString &filename) {
     return;
   }
 
+  playlists_pending_removal_.remove(id);
   Playlist *playlist = AddPlaylist(id, fileinfo.completeBaseName(), QString(), QString(), false);
 
   playlist->InsertUrls(QList<QUrl>() << QUrl::fromLocalFile(filename));
@@ -298,15 +323,21 @@ void PlaylistManager::Load(const QString &filename) {
 
 void PlaylistManager::Save(const int id, const QString &playlist_name, const QString &filename, const PlaylistSettings::PathType path_type) {
 
+  SaveWithFormat(id, playlist_name, filename, path_type, QString());
+
+}
+
+void PlaylistManager::SaveWithFormat(const int id, const QString &playlist_name, const QString &filename, const PlaylistSettings::PathType path_type, const QString &extension) {
+
   if (playlists_.contains(id)) {
-    parser_->Save(playlist_name, playlist(id)->GetAllSongs(), filename, path_type);
+    parser_->Save(playlist_name, playlist(id)->GetAllSongs(), filename, path_type, extension);
   }
   else {
     // Playlist is not in the playlist manager: probably save action was triggered from the left sidebar and the playlist isn't loaded.
     QFuture<SongList> future = QtConcurrent::run(&PlaylistBackend::GetPlaylistSongs, playlist_backend_, id);
     QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>(this);
-    QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [this, watcher, playlist_name, filename, path_type]() {
-      ItemsLoadedForSavePlaylist(playlist_name, watcher->result(), filename, path_type);
+    QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [this, watcher, playlist_name, filename, path_type, extension]() {
+      ItemsLoadedForSavePlaylist(playlist_name, watcher->result(), filename, path_type, extension);
       watcher->deleteLater();
     });
     watcher->setFuture(future);
@@ -314,9 +345,9 @@ void PlaylistManager::Save(const int id, const QString &playlist_name, const QSt
 
 }
 
-void PlaylistManager::ItemsLoadedForSavePlaylist(const QString &playlist_name, const SongList &songs, const QString &filename, const PlaylistSettings::PathType path_type) {
+void PlaylistManager::ItemsLoadedForSavePlaylist(const QString &playlist_name, const SongList &songs, const QString &filename, const PlaylistSettings::PathType path_type, const QString &extension) {
 
-  parser_->Save(playlist_name, songs, filename, path_type);
+  parser_->Save(playlist_name, songs, filename, path_type, extension);
 
 }
 
@@ -340,10 +371,18 @@ void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
   QString filename = last_save_path + QLatin1Char('/') + suggested_filename.remove(u'/').remove(QRegularExpression(QLatin1String(kProblematicCharactersRegex), QRegularExpression::CaseInsensitiveOption)) + QLatin1Char('.') + last_save_extension;
 
   QFileInfo fileinfo;
+  QString document_extension;
   Q_FOREVER {
     filename = GetSaveFileName(filename, filters, &last_save_filter);
     if (filename.isEmpty()) return;
     fileinfo.setFile(filename);
+
+    if (PlaylistParser::IsDocumentUrl(filename)) {
+      document_extension = parser_->save_extension(last_save_filter);
+      if (parser_->ParserForExtension(PlaylistParser::Type::Save, document_extension)) break;
+      Q_EMIT Error(tr("Unknown file extension for playlist."));
+      return;
+    }
 
     // A playlist extension that was entered is kept, without one, add the extension of the selected filter.
     const QString filter_extension = parser()->save_extension(last_save_filter);
@@ -369,6 +408,7 @@ void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
   s.beginGroup(PlaylistSettings::kSettingsGroup);
   PlaylistSettings::PathType path_type = static_cast<PlaylistSettings::PathType>(s.value(PlaylistSettings::kPathType, static_cast<int>(PlaylistSettings::kDefaultPathType)).toInt());
   s.endGroup();
+  if (!document_extension.isEmpty()) path_type = PlaylistSettings::PathType::Absolute;
   if (path_type == PlaylistSettings::PathType::Ask_User) {
     PlaylistSaveOptionsDialog optionsdialog;
     optionsdialog.setModal(true);
@@ -378,11 +418,11 @@ void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
 
   s.beginGroup(PlaylistSettings::kSettingsGroup);
   s.setValue(PlaylistSettings::kLastSaveFilter, last_save_filter);
-  s.setValue(PlaylistSettings::kLastSavePath, fileinfo.path());
-  s.setValue(PlaylistSettings::kLastSaveExtension, fileinfo.suffix());
+  if (document_extension.isEmpty()) s.setValue(PlaylistSettings::kLastSavePath, fileinfo.path());
+  s.setValue(PlaylistSettings::kLastSaveExtension, document_extension.isEmpty() ? fileinfo.suffix() : document_extension);
   s.endGroup();
 
-  Save(id == -1 ? current_id() : id, playlist_name, filename, path_type);
+  SaveWithFormat(id == -1 ? current_id() : id, playlist_name, filename, path_type, document_extension);
 
 }
 
@@ -416,7 +456,7 @@ QString PlaylistManager::GetSaveFileName(const QString &filename, const QString 
 
   if (dialog.exec() != QDialog::Accepted) return QString();
 
-  *selected_filter = dialog.selectedNameFilter();
+  if (!dialog.selectedNameFilter().isEmpty()) *selected_filter = dialog.selectedNameFilter();
 
   return dialog.selectedFiles().value(0);
 
@@ -449,7 +489,7 @@ void PlaylistManager::Favorite(const int id, const bool favorite) {
     // Otherwise it means user wants to remove this playlist from the left panel,
     // while it's not visible in the playlist tabbar either, because it has been closed: delete it.
     // The removal is queued first, deleting the playlist finishes saving the pending changes when exiting.
-    playlist_backend_->RemovePlaylistAsync(id);
+    RemovePlaylist(id);
     DeleteClosedPlaylist(id);
   }
   Q_EMIT PlaylistFavorited(id, favorite);
@@ -485,8 +525,12 @@ bool PlaylistManager::ClosePlaylist(const int id, const bool delete_playlist) {
 
   if (delete_playlist || !data.p->is_favorite()) {
     // The pending changes are not saved, the playlist is removed.
-    playlist_backend_->RemovePlaylistAsync(id);
+    RemovePlaylist(id);
     Q_EMIT PlaylistDeleted(id);
+    PlaylistLoadingFinished(data.p);
+    delete data.p;
+  }
+  else if (data.p->is_now_playing()) {
     PlaylistLoadingFinished(data.p);
     delete data.p;
   }
@@ -589,8 +633,24 @@ void PlaylistManager::DeleteClosedPlaylist(const int id) {
 
 }
 
+void PlaylistManager::RemovePlaylist(const int id) {
+
+  if (playlists_pending_removal_.contains(id)) return;
+  const quint64 sequence = ++removal_sequence_;
+  playlists_pending_removal_.insert(id, sequence);
+  playlist_backend_->RemovePlaylistAsync(id, sequence);
+
+}
+
 void PlaylistManager::Delete(const int id) {
 
+  if (!playlists_.contains(id)) {
+    RemovePlaylist(id);
+    DeleteClosedPlaylist(id);
+    Q_EMIT PlaylistDeleted(id);
+    return;
+  }
+  if (playlists_.count() == 1) New(tr("Playlist"));
   ClosePlaylist(id, true);
 
 }
@@ -789,6 +849,8 @@ void PlaylistManager::Open(const int id) {
     return;
   }
 
+  if (playlists_pending_removal_.contains(id)) return;
+
   const PlaylistBackend::Playlist &p = playlist_backend_->GetPlaylist(id);
   if (p.id != id) {
     return;
@@ -814,6 +876,10 @@ void PlaylistManager::Open(const int id) {
 void PlaylistManager::SetCurrentOrOpen(const int id) {
 
   Open(id);
+  if (!playlists_.contains(id)) {
+    qLog(Warning) << "Can't select playlist" << id << "because it could not be opened";
+    return;
+  }
   SetCurrentPlaylist(id);
 
 }

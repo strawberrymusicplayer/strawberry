@@ -37,26 +37,27 @@
 #include <QMenu>
 #include <QAction>
 #include <QMessageBox>
-#include <QSettings>
 
 #include "core/iconloader.h"
-#include "core/musicstorage.h"
-#include "core/deletefiles.h"
 #include "core/settings.h"
+#include "core/mimedata.h"
+#include "core/logging.h"
 #include "utilities/filemanagerutils.h"
 #include "collectionmanager.h"
 #include "collectionbackend.h"
 #include "collectiondirectorymodel.h"
 #include "collectionmodel.h"
+#include "collectionitem.h"
 #include "collectionview.h"
 #include "device/devicemanager.h"
 #include "device/devicestatefiltermodel.h"
 #include "songeditor/tageditor.h"
 #include "songeditor/lyricseditor.h"
-#include "dialogs/deleteconfirmationdialog.h"
 #include "organize/organizedialog.h"
-#include "organize/organizeerrordialog.h"
 #include "constants/collectionsettings.h"
+#ifdef Q_OS_ANDROID
+#  include "collectionlettergroups_android.h"
+#endif
 
 using std::make_unique;
 using namespace Qt::Literals::StringLiterals;
@@ -73,11 +74,13 @@ CollectionView::CollectionView(QWidget *parent)
       action_rescan_songs_(nullptr),
       action_show_in_browser_(nullptr),
       action_show_in_various_(nullptr),
-      action_no_show_in_various_(nullptr),
-      action_delete_files_(nullptr),
-      delete_files_(false) {
+      action_no_show_in_various_(nullptr) {
 
   setObjectName(QLatin1String(QObject::metaObject()->className()));
+
+#ifdef Q_OS_ANDROID
+  letter_groups_ = new CollectionLetterGroups(this);
+#endif
 
 }
 
@@ -116,7 +119,9 @@ void CollectionView::ReloadSettings() {
   Settings settings;
   settings.beginGroup(CollectionSettings::kSettingsGroup);
   SetAutoOpen(settings.value(CollectionSettings::kAutoOpen, CollectionSettings::kDefaultAutoOpen).toBool());
-  delete_files_ = settings.value(CollectionSettings::kDeleteFiles, CollectionSettings::kDefaultDeleteFiles).toBool();
+#ifdef Q_OS_ANDROID
+  letter_groups_->SetEnabled(settings.value(CollectionSettings::kCollapsibleDividers, CollectionSettings::kDefaultCollapsibleDividers).toBool());
+#endif
   settings.endGroup();
 
 }
@@ -140,7 +145,11 @@ QString CollectionView::EmptyTitleText() const {
 }
 
 QString CollectionView::EmptyText() const {
+#ifdef Q_OS_ANDROID
+  return tr("Tap here to open Collection settings and add music");
+#else
   return tr("Click here to add some music");
+#endif
 }
 
 void CollectionView::EmptyClicked() {
@@ -151,7 +160,6 @@ void CollectionView::AddContextMenuActions(QMenu *menu) {
 
   action_organize_ = menu->addAction(IconLoader::Load(u"edit-copy"_s), tr("Organize files..."), this, &CollectionView::Organize);
   action_copy_to_device_ = menu->addAction(IconLoader::Load(u"device"_s), tr("Copy to device..."), this, &CollectionView::CopyToDevice);
-  action_delete_files_ = menu->addAction(IconLoader::Load(u"edit-delete"_s), tr("Delete from disk..."), this, &CollectionView::Delete);
 
   menu->addSeparator();
   action_edit_track_ = menu->addAction(IconLoader::Load(u"edit-rename"_s), tr("Edit track information..."), this, &CollectionView::EditTracks);
@@ -171,6 +179,9 @@ void CollectionView::AddContextMenuActions(QMenu *menu) {
 
   action_copy_to_device_->setDisabled(device_manager_->connected_devices_model()->rowCount() == 0);
   QObject::connect(device_manager_->connected_devices_model(), &DeviceStateFilterModel::IsEmptyChanged, action_copy_to_device_, &QAction::setDisabled);
+#ifdef Q_OS_ANDROID
+  action_copy_to_device_->setVisible(false);
+#endif
 
 }
 
@@ -206,9 +217,6 @@ void CollectionView::UpdateContextMenuActions(const bool has_selection) {
   action_copy_to_device_->setVisible(regular_elements == regular_editable);
   // Also needs a connected device, IsEmptyChanged keeps it disabled while there is none.
   action_copy_to_device_->setEnabled(regular_elements == regular_editable && device_manager_->connected_devices_model()->rowCount() > 0);
-
-  action_delete_files_->setVisible(delete_files_);
-  action_delete_files_->setEnabled(delete_files_);
 
   action_show_in_various_->setVisible(has_selection);
   action_no_show_in_various_->setVisible(has_selection);
@@ -338,43 +346,5 @@ void CollectionView::ShowInBrowser() const {
   }
 
   Utilities::OpenInFileBrowser(urls);
-
-}
-
-void CollectionView::Delete() {
-
-  if (!delete_files_) return;
-
-  const SongList selected_songs = GetSelectedSongs();
-
-  SongList songs;
-  QStringList files;
-  songs.reserve(selected_songs.count());
-  files.reserve(selected_songs.count());
-  for (const Song &song : selected_songs) {
-    QString filename = song.url().toLocalFile();
-    if (!files.contains(filename)) {
-      songs << song;
-      files << filename;
-    }
-  }
-  if (DeleteConfirmationDialog::warning(files) != QDialogButtonBox::Yes) return;
-
-  // We can cheat and always take the storage of the first directory, since they'll all be FilesystemMusicStorage in a collection and deleting doesn't check the actual directory.
-  SharedPtr<MusicStorage> storage = collection_model()->directory_model()->index(0, 0).data(MusicStorage::Role_Storage).value<SharedPtr<MusicStorage>>();
-
-  DeleteFiles *delete_files = new DeleteFiles(task_manager_, storage, true);
-  QObject::connect(delete_files, &DeleteFiles::Finished, this, &CollectionView::DeleteFilesFinished);
-  delete_files->Start(songs);
-
-}
-
-void CollectionView::DeleteFilesFinished(const SongList &songs_with_errors, const QStringList &log) {
-
-  if (songs_with_errors.isEmpty() && log.isEmpty()) return;
-
-  OrganizeErrorDialog *dialog = new OrganizeErrorDialog(this);
-  dialog->setAttribute(Qt::WA_DeleteOnClose);
-  dialog->Show(OrganizeErrorDialog::OperationType::Delete, songs_with_errors, log);
 
 }

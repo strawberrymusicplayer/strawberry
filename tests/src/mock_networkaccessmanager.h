@@ -51,8 +51,9 @@ class MockNetworkReply : public QNetworkReply {
   // Call this when you are ready for the finished() signal.
   void Done();
 
- protected:
   MOCK_METHOD0(abort, void());  // clazy:exclude=returning-void-expression,function-args-by-value
+
+ protected:
   qint64 readData(char *data, qint64) override;
   qint64 writeData(const char *data, qint64) override;
 

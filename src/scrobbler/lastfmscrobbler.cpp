@@ -48,6 +48,7 @@
 
 #include "includes/shared_ptr.h"
 #include "utilities/cryptutils.h"
+#include "utilities/randutils.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "core/logging.h"
@@ -129,11 +130,7 @@ LastFMScrobbler::LastFMScrobbler(const SharedPtr<ScrobblerSettingsService> setti
 
 LastFMScrobbler::~LastFMScrobbler() {
 
-  if (local_redirect_server_) {
-    QObject::disconnect(local_redirect_server_, nullptr, this, nullptr);
-    if (local_redirect_server_->isListening()) local_redirect_server_->close();
-    local_redirect_server_->deleteLater();
-  }
+  CancelAuthentication();
 
 }
 
@@ -177,6 +174,8 @@ void LastFMScrobbler::LoadSession() {
 
 void LastFMScrobbler::ClearSession() {
 
+  const bool authentication_was_in_progress = local_redirect_server_ || authentication_reply_;
+  CancelAuthentication();
   subscriber_ = false;
   username_.clear();
   session_key_.clear();
@@ -188,18 +187,37 @@ void LastFMScrobbler::ClearSession() {
   settings.remove(kSessionKey);
   settings.endGroup();
 
+  if (authentication_was_in_progress) AuthError(tr("Authentication cancelled."));
+
 }
 
 void LastFMScrobbler::Authenticate() {
+
+#if defined(Q_OS_ANDROID) && !defined(HAVE_ANDROID_LASTFM_BROWSER_AUTH)
+  AuthError(tr("Browser authentication is currently unavailable on Android."));
+  return;
+#endif
 
   if (api_key_.isEmpty() || api_secret_.isEmpty()) {
     AuthError(tr("Missing Last.fm API key and/or API secret"));
     return;
   }
 
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_LASTFM_BROWSER_AUTH)
+  if (AndroidAuthenticationInProgress()) {
+    qLog(Warning) << name_ << "Browser login is already in progress.";
+    return;
+  }
+#endif
+  CancelAuthentication();
   if (!local_redirect_server_) {
     local_redirect_server_ = new LocalRedirectServer(this);
-    if (!local_redirect_server_->Listen()) {
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_LASTFM_BROWSER_AUTH)
+    const bool listening = local_redirect_server_->Listen(u'/' + Utilities::CryptographicRandomString(32));
+#else
+    const bool listening = local_redirect_server_->Listen();
+#endif
+    if (!listening) {
       AuthError(local_redirect_server_->error());
       delete local_redirect_server_;
       local_redirect_server_ = nullptr;
@@ -214,6 +232,14 @@ void LastFMScrobbler::Authenticate() {
   QUrl url(QString::fromLatin1(kAuthUrl));
   url.setQuery(url_query);
 
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_LASTFM_BROWSER_AUTH)
+  QString error;
+  if (!StartAndroidAuthentication(error)) {
+    AuthError(error);
+    return;
+  }
+  if (!QDesktopServices::openUrl(url)) AuthError(tr("Failed to open the web browser."));
+#else
   QMessageBox messagebox(QMessageBox::Information, tr("%1 Scrobbler Authentication").arg(name_), tr("Open URL in web browser?") + QStringLiteral("<br /><a href=\"%1\">%1</a><br />").arg(url.toString()) + tr("Press \"Save\" to copy the URL to clipboard and manually open it in a web browser."), QMessageBox::Open|QMessageBox::Save|QMessageBox::Cancel);
   messagebox.setTextFormat(Qt::RichText);
   int result = messagebox.exec();
@@ -242,19 +268,52 @@ void LastFMScrobbler::Authenticate() {
     default:
       break;
   }
+#endif
+
+}
+
+void LastFMScrobbler::CancelAuthentication() {
+
+  if (local_redirect_server_) {
+    QObject::disconnect(local_redirect_server_, nullptr, this, nullptr);
+    local_redirect_server_->close();
+    local_redirect_server_->deleteLater();
+    local_redirect_server_ = nullptr;
+  }
+  if (authentication_reply_) {
+    QNetworkReply *reply = authentication_reply_;
+    authentication_reply_.clear();
+    replies_.removeAll(reply);
+    QObject::disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_LASTFM_BROWSER_AUTH)
+  StopAndroidAuthentication();
+#endif
 
 }
 
 void LastFMScrobbler::RedirectArrived() {
 
   if (!local_redirect_server_) return;
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_LASTFM_BROWSER_AUTH)
+  if (!CheckAndroidAuthentication()) return;
+#endif
+  LocalRedirectServer *server = local_redirect_server_;
+  local_redirect_server_ = nullptr;
 
-  if (local_redirect_server_->error().isEmpty()) {
-    const QUrl url = local_redirect_server_->request_url();
+  if (server->error().isEmpty()) {
+    const QUrl url = server->request_url();
     if (url.isValid()) {
       QUrlQuery url_query(url);
-      if (url_query.hasQueryItem(u"token"_s)) {
-        QString token = url_query.queryItemValue(u"token"_s);
+      if (url_query.hasQueryItem(u"error_description"_s) || url_query.hasQueryItem(u"error"_s)) {
+        const QString description = url_query.queryItemValue(u"error_description"_s, QUrl::FullyDecoded);
+        const QString error = url_query.queryItemValue(u"error"_s, QUrl::FullyDecoded);
+        AuthError(!description.isEmpty() ? description : !error.isEmpty() ? error : tr("Authorization was denied."));
+      }
+      else if (url_query.hasQueryItem(u"token"_s) && !url_query.queryItemValue(u"token"_s).isEmpty()) {
+        const QString token = url_query.queryItemValue(u"token"_s);
         RequestSession(token);
       }
       else {
@@ -266,12 +325,11 @@ void LastFMScrobbler::RedirectArrived() {
     }
   }
   else {
-    AuthError(local_redirect_server_->error());
+    AuthError(server->error());
   }
 
-  local_redirect_server_->close();
-  local_redirect_server_->deleteLater();
-  local_redirect_server_ = nullptr;
+  server->close();
+  server->deleteLater();
 
 }
 
@@ -295,12 +353,18 @@ void LastFMScrobbler::RequestSession(const QString &token) {
   session_url.setQuery(session_url_query);
 
   QNetworkReply *reply = CreateGetRequest(session_url);
+  authentication_reply_ = reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { AuthenticateReplyFinished(reply); });
 
 }
 
 void LastFMScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
 
+  if (authentication_reply_ != reply) return;
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_LASTFM_BROWSER_AUTH)
+  if (!CheckAndroidAuthentication()) return;
+#endif
+  authentication_reply_.clear();
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
   QObject::disconnect(reply, nullptr, this, nullptr);
@@ -332,6 +396,10 @@ void LastFMScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
     AuthError(u"Json session object is missing values."_s);
     return;
   }
+  if (json_object_session["name"_L1].toString().isEmpty() || json_object_session["key"_L1].toString().isEmpty()) {
+    AuthError(u"Json session object has an empty name or key."_s);
+    return;
+  }
 
   subscriber_ = json_object_session["subscriber"_L1].toBool();
   username_ = json_object_session["name"_L1].toString();
@@ -344,6 +412,9 @@ void LastFMScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
   s.setValue(kSessionKey, session_key_);
   s.endGroup();
 
+#if defined(Q_OS_ANDROID) && defined(HAVE_ANDROID_LASTFM_BROWSER_AUTH)
+  StopAndroidAuthentication();
+#endif
   Q_EMIT AuthenticationComplete(true);
 
   Start();
@@ -987,6 +1058,7 @@ void LastFMScrobbler::LoveRequestFinished(QNetworkReply *reply) {
 
 void LastFMScrobbler::AuthError(const QString &error) {
 
+  CancelAuthentication();
   qLog(Error) << name_ << error;
   Q_EMIT AuthenticationComplete(false, error);
 

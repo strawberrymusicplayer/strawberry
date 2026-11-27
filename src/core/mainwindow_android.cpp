@@ -1,0 +1,541 @@
+/*
+ * Strawberry Music Player
+ *
+ * Strawberry is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Strawberry is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+// Android-only parts of MainWindow, kept apart from mainwindow.cpp to reduce conflicts when merging upstream.
+
+#include <functional>
+
+#include <QAction>
+#include <QDesktopServices>
+#include <QDialog>
+#include <QEvent>
+#include <QFont>
+#include <QFrame>
+#include <QHash>
+#include <QKeyEvent>
+#include <QLabel>
+#include <QLayout>
+#include <QList>
+#include <QObject>
+#include <QPalette>
+#include <QPushButton>
+#include <QScrollArea>
+#include <QScreen>
+#include <QSize>
+#include <QSizePolicy>
+#include <QStackedWidget>
+#include <QString>
+#include <QStyle>
+#include <QTabBar>
+#include <QTabWidget>
+#include <QToolButton>
+#include <QTimer>
+#include <QVBoxLayout>
+#include <QWidget>
+#include <QCoreApplication>
+#include <QJniEnvironment>
+#include <QJniObject>
+
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+
+#include "core/application.h"
+#include "core/iconloader.h"
+#include "core/player.h"
+#include "core/logging.h"
+#include "core/taskmanager.h"
+#include "collection/collectionviewcontainer.h"
+#include "collection/collectionview.h"
+#include "playlist/playlist.h"
+#include "playlist/playlistitem.h"
+#include "playlist/playlistlistcontainer.h"
+#include "playlist/playlistmanager.h"
+#include "settings/settingsdialog.h"
+#include "alarm/alarmbridge_android.h"
+#include "alarm/alarmclock_android.h"
+#include "alarm/alarmplayer_android.h"
+#include "alarm/alarmclockpage_android.h"
+#include "alarm/clockpage_android.h"
+#include "widgets/androidwidgets.h"
+#include "widgets/fancytabwidget.h"
+#include "widgets/playlisttitleheader.h"
+#include "widgets/scantaskcontrols_android.h"
+#include "widgets/scrollarea_android.h"
+
+using namespace Qt::Literals::StringLiterals;
+
+namespace {
+
+constexpr int kAndroidToolButtonHeight = 72;
+
+// Returns to the Tools list when an embedded tool closes, and closes the tool when Back or Escape reaches its page unhandled.
+class AndroidToolPageFilter : public QObject {
+ public:
+  explicit AndroidToolPageFilter(QWidget *page, QWidget *tool, std::function<void()> closed) : QObject(page), page_(page), tool_(tool), closed_(std::move(closed)) {
+    page_->installEventFilter(this);
+    tool_->installEventFilter(this);
+  }
+
+ protected:
+  bool eventFilter(QObject *object, QEvent *event) override {
+    // Unlike Hide, HideToParent is sent only when the tool itself is hidden, not when the Tools tab is.
+    if (object == tool_ && event->type() == QEvent::HideToParent) {
+      closed_();
+    }
+    else if (object == page_ && event->type() == QEvent::KeyPress) {
+      const int key = static_cast<QKeyEvent*>(event)->key();
+      if (key == Qt::Key_Back || key == Qt::Key_Escape) {
+        tool_->close();
+        return true;
+      }
+    }
+    return QObject::eventFilter(object, event);
+  }
+
+ private:
+  QWidget *page_;
+  QWidget *tool_;
+  std::function<void()> closed_;
+};
+
+}  // namespace
+
+void MainWindow::SetupAndroidLayout() {
+
+#ifdef HAVE_TIDAL
+  QDesktopServices::setUrlHandler(QStringLiteral("tidal"), this, "AuthorizationUrlReceived");
+#endif
+
+  // Android's Window color can be black in dark mode; match the list backgrounds using Base instead.
+  ui_->centralWidget->setBackgroundRole(QPalette::Base);
+  ui_->centralWidget->setAutoFillBackground(true);
+  ui_->tabs->setBackgroundRole(QPalette::Base);
+  ui_->tabs->setAutoFillBackground(true);
+
+  QObject::connect(ui_->action_stop_collection_scan, &QAction::triggered, this, [this]() {
+    for (const TaskManager::Task &task : app_->task_manager()->GetTasks()) {
+      if (task.cancellable) app_->task_manager()->RequestTaskCancellation(task.id);
+    }
+  });
+
+  android_alarm_clock_->Start();
+
+  QNativeInterface::QAndroidApplication::runOnAndroidMainThread([]() {
+    QJniEnvironment env;
+    const QJniObject activity = QNativeInterface::QAndroidApplication::context();
+    const QJniObject bar = activity.callObjectMethod("getActionBar", "()Landroid/app/ActionBar;");
+    if (bar.isValid()) bar.callMethod<void>("hide");
+    if (env.checkAndClearExceptions()) qLog(Error) << "Could not hide the Android action bar";
+  });
+  auto *header = new ScanTaskControls(app_->task_manager(), ui_->centralWidget);
+  ui_->layout_centralWidget->insertWidget(0, ui_->tabs, 1);
+  ui_->layout_centralWidget->insertWidget(0, header);
+  QFont collection_font = collection_view_->view()->font();
+  collection_font.setPointSizeF(qMax(20.0, collection_font.pointSizeF()));
+  collection_view_->view()->setFont(collection_font);
+  collection_view_->view()->setStyleSheet(QStringLiteral("QTreeView::item { min-height: 48px; padding-top: 1px; }"));
+  ui_->layout_centralWidget->addWidget(ui_->player_controls_container);
+  ui_->splitter->hide();
+  ui_->line_6->hide();
+  ui_->layout_right->setContentsMargins(0, 0, 0, 0);
+
+  PlaylistTitleHeader *playlist_header = new PlaylistTitleHeader(ui_->playlist_layout);
+  ui_->layout_right->insertWidget(0, playlist_header);
+  QObject::connect(playlist_header, &PlaylistTitleHeader::BackClicked, this, [this]() {
+    android_playlist_pages_->setCurrentWidget(playlist_list_);
+  });
+  QObject::connect(playlist_header, &PlaylistTitleHeader::RenameRequested, &*app_->playlist_manager(), &PlaylistManager::Rename);
+  const auto update_playlist_header = [this, playlist_header]() {
+    Playlist *playlist = app_->playlist_manager()->current();
+    playlist_header->SetPlaylist(playlist ? playlist->id() : -1, playlist ? app_->playlist_manager()->GetPlaylistName(playlist->id()) : QString());
+  };
+  update_playlist_header();
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentChanged, this, update_playlist_header);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::PlaylistRenamed, this, update_playlist_header);
+  // FancyTabWidget wraps android_playlist_pages_ in its own page, so compare tab indexes from IndexOfTab() instead of widgets.
+  QObject::connect(ui_->tabs->tabBar(), &QTabBar::tabBarClicked, this, [this](const int index) {
+    if (index == ui_->tabs->IndexOfTab(android_playlist_pages_)) android_playlist_pages_->setCurrentWidget(playlist_list_);
+  });
+  QObject::connect(playlist_list_, &PlaylistListContainer::PlaylistActivated, this, [this]() {
+    android_playlist_pages_->setCurrentWidget(ui_->playlist_layout);
+  });
+  playlist_list_->SetAndroidNewPlaylistAction(ui_->action_new_playlist);
+  QObject::connect(ui_->action_new_playlist, &QAction::triggered, this, &MainWindow::ShowAndroidCurrentPlaylist);
+  QObject::connect(ui_->tabs, &QTabWidget::currentChanged, this, [this]() {
+    if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(android_playlist_pages_)) android_playlist_pages_->setCurrentWidget(playlist_list_);
+  });
+  QObject::connect(ui_->tabs, &QTabWidget::currentChanged, this, &MainWindow::UpdateAndroidPlayPause);
+  QObject::connect(android_playlist_pages_, &QStackedWidget::currentChanged, this, &MainWindow::UpdateAndroidPlayPause);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentChanged, this, &MainWindow::UpdateAndroidPlayPause);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::ActiveChanged, this, &MainWindow::UpdateAndroidPlayPause);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::PlaylistChanged, this, &MainWindow::UpdateAndroidPlayPause);
+
+  ui_->tabs->SetMode(FancyTabWidget::Mode::LargeSidebar);
+  ui_->tabs->setContextMenuPolicy(Qt::PreventContextMenu);
+  // The tallest tab page's minimum height plus the header and player controls exceeds a landscape phone screen.
+  // Ignore it so the window and player controls stay on screen and overflowing pages scroll instead of being clipped.
+  QSizePolicy tabs_size_policy = ui_->tabs->sizePolicy();
+  tabs_size_policy.setVerticalPolicy(QSizePolicy::Ignored);
+  ui_->tabs->setSizePolicy(tabs_size_policy);
+
+  ui_->analyzer->hide();
+  ui_->volume->hide();
+  ui_->line_volume->hide();
+  ui_->playlist_summary->setMinimumWidth(0);
+  ui_->playlist_summary->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
+  ui_->playlist_summary->setWordWrap(true);
+  ui_->layout_status_bar_internal->removeWidget(ui_->track_slider);
+  ui_->layout_player_controls_container->insertWidget(0, ui_->track_slider);
+  ui_->track_slider->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
+
+  // On Android, rearrange the player controls for mobile layout
+  // Create mute button with proper styling to match other buttons
+  android_mute_button_ = new QToolButton(ui_->player_controls);
+  android_mute_button_->setDefaultAction(ui_->action_mute);
+  android_mute_button_->setIconSize(ui_->pause_play_button->iconSize());
+  android_mute_button_->setAutoRaise(true);
+  ui_->layout_player_controls->addWidget(android_mute_button_);
+  UpdateAndroidMuteButton(app_->player()->is_muted());
+
+  // Move the existing container so the saved Love visibility setting still applies.
+  ui_->layout_player_controls->removeWidget(ui_->widget_love);
+  ui_->layout_player_controls->addWidget(ui_->widget_love);
+  ui_->line_love->hide();
+  ui_->button_love->setIconSize(ui_->pause_play_button->iconSize());
+  ui_->button_love->setAccessibleName(tr("Love"));
+
+  // Menu bar actions are reachable through the Tools and Settings sidebar tabs and the playlist editor on Android.
+  ui_->menuBar->hide();
+  ui_->action_transcoder->setVisible(false);
+  ui_->action_add_files_to_transcoder->setVisible(false);
+
+  for (QToolButton *button : {ui_->back_button, ui_->pause_play_button, ui_->stop_button, ui_->forward_button, ui_->button_love, android_mute_button_}) {
+    button->setMinimumSize(48, 48);
+  }
+
+  // The desktop layout can enlarge the window before the Android controls replace it.
+  QTimer::singleShot(0, this, [this]() {
+    layout()->activate();
+    resize(screen()->availableGeometry().size());
+  });
+
+}
+
+QWidget *MainWindow::CreateAndroidToolsPage() {
+
+  // The Tools tab shows the list of tools, or one tool opened from it as a subpage.
+  android_tools_pages_ = new QStackedWidget(ui_->tabs);
+  QScrollArea *page = new QScrollArea(android_tools_pages_);
+  android_tools_list_ = page;
+  android_tools_pages_->addWidget(page);
+  page->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  page->setWidgetResizable(true);
+  page->setFrameShape(QFrame::NoFrame);
+
+  QWidget *contents = new QWidget(page);
+  auto *layout = new QVBoxLayout(contents);
+  layout->setSpacing(8);
+  page->setWidget(contents);
+
+  // Android-only tools have single-color SVG icons that follow the theme's text color.
+  QHash<const QAction*, QString> themed_icons;
+  const auto add_section = [this, contents, layout, &themed_icons](const QString &title, const QList<QAction*> &actions) {
+    QLabel *heading = new QLabel(title, contents);
+    QFont heading_font = heading->font();
+    heading_font.setBold(true);
+    heading->setFont(heading_font);
+    heading->setWordWrap(true);
+    layout->addWidget(heading);
+    for (QAction *action : actions) {
+      QString button_text = action->text();
+      if (action == ui_->action_update_collection) button_text = tr("Update collection");
+      else if (action == ui_->action_full_collection_scan) button_text = tr("Full collection scan");
+      else if (action == ui_->action_stop_collection_scan) button_text = tr("Stop scan");
+
+      QToolButton *button = new QToolButton(contents);
+      button->setDefaultAction(action);
+      button->setText(button_text);
+      button->setAccessibleName(action->text());
+      if (button_text != action->text()) {
+        QObject::connect(action, &QAction::changed, button, [button, button_text]() {
+          button->setText(button_text);
+        });
+      }
+      button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+      button->setIconSize(QSize(AndroidWidgets::kNavigationIconSize, AndroidWidgets::kNavigationIconSize));
+      AndroidWidgets::StyleNavigationButton(button, kAndroidToolButtonHeight);
+      if (themed_icons.contains(action)) AndroidWidgets::SetThemedIcon(button, themed_icons.value(action));
+      layout->addWidget(button);
+    }
+  };
+
+  // The alarm clock is Android-only, so its actions are not in the desktop menus.
+  android_alarm_clock_ = new AlarmClock(app_->collection_backend(), app_->playlist_backend(), this);
+  android_alarm_player_ = new AlarmPlayer(app_->player(), app_->playlist_manager(), app_->collection_backend(), app_->playlist_backend(), this);
+  if (playlists_loaded_) android_alarm_player_->SetReady();
+  QAction *alarm_clock_action = new QAction(tr("Alarm clock"), this);
+  QObject::connect(alarm_clock_action, &QAction::triggered, this, &MainWindow::ShowAndroidAlarmClock);
+  themed_icons.insert(alarm_clock_action, u":/icons/scalable/alarm-clock.svg"_s);
+  QAction *clock_action = new QAction(tr("Clock"), this);
+  QObject::connect(clock_action, &QAction::triggered, this, &MainWindow::ShowAndroidClock);
+  themed_icons.insert(clock_action, u":/icons/scalable/clock.svg"_s);
+  add_section(tr("Tools"), { ui_->action_cover_manager, ui_->action_equalizer, alarm_clock_action, clock_action });
+  add_section(tr("Collection"), { ui_->action_update_collection, ui_->action_full_collection_scan, ui_->action_stop_collection_scan });
+  layout->addStretch();
+  AndroidScrollArea::EnableForContents(page);
+
+  // Tapping the Tools tab returns to the list, like the Playlists tab.
+  QObject::connect(ui_->tabs->tabBar(), &QTabBar::tabBarClicked, this, [this](const int index) {
+    if (index == ui_->tabs->IndexOfTab(android_tools_pages_) && android_current_tool_) android_current_tool_->close();
+  });
+
+  return android_tools_pages_;
+
+}
+
+void MainWindow::ShowAndroidTool(QWidget *tool, const bool add_header) {
+
+  if (android_current_tool_ && android_current_tool_ != tool) {
+    android_current_tool_->close();
+    // The tool refused to close, for example to keep a running search.
+    if (android_current_tool_) return;
+  }
+
+  // Embed the tool in the Tools tab instead of showing it as a window over the tab bar.
+  QWidget *page = tool->parentWidget();
+  if (!page || android_tools_pages_->indexOf(page) < 0) {
+    page = new QWidget(android_tools_pages_);
+    auto *layout = new QVBoxLayout(page);
+    if (add_header) {
+      QLabel *title = new QLabel(tr("Tools > %1").arg(tool->windowTitle()), page);
+      title->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
+      QPushButton *back = AndroidWidgets::CreateBackButton(page);
+      QObject::connect(back, &QPushButton::clicked, tool, &QWidget::close);
+      layout->addLayout(AndroidWidgets::CreatePageHeader(title, back));
+    }
+    else {
+      layout->setContentsMargins(0, 0, 0, 0);
+    }
+    tool->setParent(page, Qt::Widget);
+    tool->setWindowModality(Qt::NonModal);
+    tool->setMinimumSize(0, 0);
+    tool->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    layout->addWidget(tool);
+    android_tools_pages_->addWidget(page);
+    new AndroidToolPageFilter(page, tool, [this, tool]() {
+      if (android_current_tool_ != tool) return;
+      android_current_tool_.clear();
+      if (tool == android_alarm_clock_page_) android_alarm_clock_from_clock_ = false;
+      android_tools_pages_->setCurrentWidget(android_tools_list_);
+    });
+  }
+
+  android_current_tool_ = tool;
+  ui_->tabs->setCurrentIndex(ui_->tabs->IndexOfTab(android_tools_pages_));
+  android_tools_pages_->setCurrentWidget(page);
+  tool->show();
+  tool->setFocus(Qt::OtherFocusReason);
+
+}
+
+void MainWindow::ShowAndroidAlarmClock() {
+
+  android_alarm_clock_from_clock_ = false;
+  if (!android_alarm_clock_page_) {
+    android_alarm_clock_page_ = new AlarmClockPage(android_alarm_clock_, app_->radio_services(), this);
+    QObject::connect(android_alarm_clock_page_, &AlarmClockPage::BackFromOverview, this, [this]() {
+      if (!android_alarm_clock_from_clock_) return;
+      android_alarm_clock_from_clock_ = false;
+      QTimer::singleShot(0, this, [this]() {
+        ShowAndroidClock();
+        AlarmBridge::OpenClock();
+      });
+    });
+  }
+  android_alarm_clock_page_->ShowOverview();
+  android_alarm_clock_page_->SetClockParent(false);
+  ShowAndroidTool(android_alarm_clock_page_, false);
+
+}
+
+void MainWindow::ShowAndroidClock() {
+
+  if (!android_clock_page_) {
+    android_clock_page_ = new ClockPage(this);
+    QObject::connect(android_clock_page_, &ClockPage::OpenAlarmList, this, &MainWindow::ShowAndroidAlarmClockFromClock);
+  }
+  android_clock_page_->ShowMenu();
+  ShowAndroidTool(android_clock_page_, false);
+
+}
+
+void MainWindow::ShowAndroidAlarmClockFromClock() {
+
+  ShowAndroidAlarmClock();
+  if (android_current_tool_ != android_alarm_clock_page_) return;
+  android_alarm_clock_from_clock_ = true;
+  android_alarm_clock_page_->SetClockParent(true);
+
+}
+
+QWidget *MainWindow::CreateAndroidSettingsTab() {
+
+  android_settings_tab_ = new QWidget(ui_->tabs);
+  auto *settings_layout = new QVBoxLayout(android_settings_tab_);
+  settings_layout->setContentsMargins(0, 0, 0, 0);
+  settings_layout->setSpacing(0);
+  return android_settings_tab_;
+
+}
+
+void MainWindow::SetupAndroidSettingsTab() {
+
+  // Selecting the Settings tab opens the settings dialog in it; closing the dialog returns to the tab that was open before.
+  android_previous_tab_ = ui_->tabs->currentWidget();
+  if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(android_settings_tab_)) android_previous_tab_ = ui_->tabs->widget(ui_->tabs->IndexOfTab(collection_view_));
+  QObject::connect(ui_->tabs, &FancyTabWidget::CurrentTabChanged, this, [this](const int index) {
+    if (index == ui_->tabs->IndexOfTab(android_settings_tab_)) {
+      OpenSettingsDialog();
+    }
+    else {
+      android_previous_tab_ = ui_->tabs->widget(index);
+    }
+  });
+
+}
+
+void MainWindow::EmbedAndroidSettingsDialog(SettingsDialog *settings_dialog) {
+
+  settings_dialog->setWindowFlags(Qt::Widget);
+  settings_dialog->setMinimumSize(0, 0);
+  settings_dialog->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  android_settings_tab_->layout()->addWidget(settings_dialog);
+  QObject::connect(settings_dialog, &QDialog::finished, this, [this]() {
+    android_settings_overview_on_open_ = true;
+    int previous = ui_->tabs->indexOf(android_previous_tab_);
+    if (previous < 0 || !ui_->tabs->isTabVisible(previous)) {
+      previous = -1;
+      for (int i = 0; i < ui_->tabs->count(); ++i) {
+        if (ui_->tabs->isTabVisible(i) && i != ui_->tabs->IndexOfTab(android_settings_tab_)) {
+          previous = i;
+          break;
+        }
+      }
+    }
+    if (previous >= 0) ui_->tabs->setCurrentIndex(previous);
+    else QTimer::singleShot(0, this, [this]() { settings_dialog_->OpenOverview(); });
+  });
+  settings_dialog->AddAndroidHelpCategory({ ui_->action_about_strawberry, ui_->action_about_qt });
+
+}
+
+void MainWindow::ShowAndroidSettingsDialog() {
+
+  const int settings_tab_index = ui_->tabs->IndexOfTab(android_settings_tab_);
+  if (ui_->tabs->currentIndex() != settings_tab_index) {
+    // Selecting the tab calls OpenSettingsDialog() again through SetupAndroidSettingsTab().
+    ui_->tabs->setCurrentIndex(settings_tab_index);
+    return;
+  }
+  if (android_settings_overview_on_open_) settings_dialog_->OpenOverview();
+  else settings_dialog_->show();
+  android_settings_overview_on_open_ = false;
+  settings_dialog_->raise();
+
+}
+
+void MainWindow::UpdateAndroidMuteButton(const bool mute) {
+
+  // The button is created in SetupAndroidLayout(), after the first MuteChanged() call.
+  if (!android_mute_button_) return;
+
+  ui_->action_mute->setIcon(style()->standardIcon(mute ? QStyle::SP_MediaVolumeMuted : QStyle::SP_MediaVolume));
+  android_mute_button_->setAccessibleName(mute ? tr("Unmute") : tr("Mute"));
+
+}
+
+void MainWindow::ShowAndroidCurrentPlaylist() {
+
+  // Switching tabs shows the playlist list, so open the current playlist's page afterwards.
+  ui_->tabs->setCurrentIndex(ui_->tabs->IndexOfTab(android_playlist_pages_));
+  android_playlist_pages_->setCurrentWidget(ui_->playlist_layout);
+
+}
+
+bool MainWindow::AndroidOpenedPlaylistIsDifferent() const {
+
+  const auto manager = app_->playlist_manager();
+  return android_playlist_pages_ &&
+         ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(android_playlist_pages_) &&
+         android_playlist_pages_->currentWidget() == ui_->playlist_layout &&
+         manager->current() && manager->current_id() != manager->active_id();
+
+}
+
+void MainWindow::UpdateAndroidPlayPause() {
+
+  const bool different = AndroidOpenedPlaylistIsDifferent();
+  const bool playing = app_->player()->GetState() == EngineBase::State::Playing;
+  const PlaylistItemPtr item = app_->player()->GetCurrentItem();
+  ui_->action_play_pause->setIcon(IconLoader::Load(different || !playing ? u"media-playback-start"_s : u"media-playback-pause"_s));
+  ui_->action_play_pause->setText(different || !playing ? tr("Play") : tr("Pause"));
+  ui_->action_play_pause->setEnabled(different ? app_->playlist_manager()->current()->rowCount() > 0
+                                               : !playing || (item && !(item->options() & PlaylistItem::Option::PauseDisabled)));
+
+}
+
+void MainWindow::AndroidPlayPause() {
+
+  if (!AndroidOpenedPlaylistIsDifferent()) {
+    app_->player()->PlayPauseHelper();
+    return;
+  }
+  Playlist *playlist = app_->playlist_manager()->current();
+  int row = playlist->current_row();
+  if (row < 0) row = playlist->last_played_row();
+  if (row < 0) row = 0;
+  PlayIndex(playlist->index(row, 0), Playlist::AutoScroll::Always);
+
+}
+
+bool MainWindow::AndroidBack() {
+
+  if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(collection_view_) && collection_view_->view()->AndroidSelectionBack()) return true;
+
+  // Like the header's Back button, return from an open playlist to the playlist list.
+  if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(android_playlist_pages_) && android_playlist_pages_->currentWidget() != playlist_list_) {
+    android_playlist_pages_->setCurrentWidget(playlist_list_);
+    return true;
+  }
+
+  // An open tool handles Back itself, but it does not get the key when the focus has left it, for example after the focused control was hidden.
+  if (android_current_tool_ && ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(android_tools_pages_)) {
+    QKeyEvent back(QEvent::KeyPress, Qt::Key_Back, Qt::NoModifier);
+    QCoreApplication::sendEvent(android_current_tool_, &back);
+    return true;
+  }
+
+  // The alarm screen may have started the app to play an alarm. Back at the root would end the process, and with it the alarm's sound and the service that snoozes and stops it.
+  if (AlarmBridge::IsAlarmSounding()) {
+    AlarmBridge::ShowRingingScreen();
+    return true;
+  }
+
+  return false;
+
+}
