@@ -932,7 +932,9 @@ The user also requested removing these arrows from the navigation/menu bar when 
 
 ## 24. Restore and verify browser authentication on Android
 
-**Status:** In progress (Qobuz first; browser login remains disabled by default)
+**Status:** In progress (Qobuz browser login verified on the FP5; other provider flows remain unverified; browser login remains disabled by default)
+
+The user reports that item 24 worked for the provider(s) available to test, but they do not have accounts for other streaming services to verify those flows. The remaining work is provider-specific validation, not a known failure of the tested login flow.
 
 Android Settings > Streaming shows a small playback-testing status beside each service: Spotify is "Tested but not working"; Subsonic, Tidal, Qobuz, Plex and Jellyfin are "Not tested".
 Radios are tested and working, so their button has no status label.
