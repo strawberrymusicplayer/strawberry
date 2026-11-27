@@ -1201,11 +1201,10 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
 - Final-build follow-up on the FP5: simulated portrait swipes scrolled actual lyrics while a song was playing, and a simulated cover long press opened the Album cover page.
   The portrait Streaming category and Behavior page fit on screen, so those swipes did not establish scrolling on them.
   In landscape, the Settings overview and Streaming category scrolled, Help opened, and Back returned to the overview with its position preserved.
-- Still not checked on the FP5: Collection options and menu pages, which use the same helper.
+- ADB-injected landscape swipes on the FP5 (2026-11-27) confirmed that the Tools menu and Collection > Display options page scroll, including a drag across the options controls without activating one. These simulated gestures do not establish physical-finger usability.
 - Observed once: after scrolling the sidebar to its end, a tap on Tools selected Queue and scrolled the sidebar back.
   On the final-build follow-up, alternating taps between Tools and Settings selected the intended page five times, but did not reproduce the original exact gesture sequence.
   The cause of the earlier observation remains unknown.
-- These FP5 gestures were injected through adb, not performed by a person; physical finger usability remains to be checked.
 
 **Explicit Collection selection mode (2026-11-15):**
 - Android Collection no longer delivers speculative mouse presses to the tree view, so a press cannot select a row before Qt resolves a scrolling gesture.
