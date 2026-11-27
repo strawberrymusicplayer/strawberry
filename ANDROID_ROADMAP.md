@@ -10,8 +10,9 @@ Status values: Planned, In progress, Done.
 Work through these items in this order.
 Each item is completed one point at a time: fix, test, and commit each point separately.
 
-1. The remaining open items: 22, 24, 28, 29, 30, 31, 32, 33, 35, 36, and finally 9 (physical-device verification, which needs a device).
+1. The remaining open items: 24, 28, 29, 30, 31, 32, 33, 35, 36, and finally 9 (physical-device verification, which needs a device).
    Item 23 is investigated and blocked on licensing; items 16, 20, 21 and 26 are done.
+   Item 22 is deferred at the user's request because the playback failure is attributed to a helper-software bug; the cause remains unconfirmed.
 
 ## 18. Review the Android changes for coding best practices
 
@@ -832,7 +833,7 @@ The user also requested removing these arrows from the navigation/menu bar when 
 
 ## 22. Build and bundle a Spotify GStreamer plugin for Android
 
-**Status:** Investigating (opt-in Spotify login verified on the FP5; playback failed and its cause remains unconfirmed)
+**Status:** Deferred at the user's request (opt-in Spotify login verified on the FP5; playback failure is attributed to a helper-software bug, but the cause remains unconfirmed)
 
 **Problem:** Spotify playback requires a GStreamer plugin that is not included in the Android SDK, so Spotify is currently disabled on Android.
 
