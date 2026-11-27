@@ -1241,7 +1241,7 @@ Requiring users to drag a narrow desktop-style scrollbar is confusing on a phone
   The Android build passed and the user confirmed wizard scrolling on the FP5.
 - Audit follow-up: Android `MessageDialog` now enables the shared touch-scrolling helper for its message text.
   A native regression verifies that selectable linked text scrolls on drag and links remain clickable; the Android build passes.
-  Physical-finger verification remains open.
+  The user's physical-finger confirmation for message/dialog scrolling is recorded under item 27 below.
 
 **Earlier feedback and residual observation:**
 - FP5 feedback (2026-11-12) reported that dragging in Collection selected rows instead of scrolling; subsequent physical-finger checks on 2026-11-25 and 2026-11-27 confirmed scrolling and selection work.
